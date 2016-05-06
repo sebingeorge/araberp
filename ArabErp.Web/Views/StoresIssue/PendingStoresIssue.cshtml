@@ -1,0 +1,75 @@
+﻿
+@{
+    ViewBag.Title = "PendingStoresIssue";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="container" style="background-color:#BCBABE">
+    <h4>Pending Stores Issue</h4>
+</div>
+  &nbsp;
+<form method="post" action="@Url.Action("CreateStoresIssue", "StoresIssue")">
+    <div class=" table-responsive">
+        <table class="table table-bordered">
+            <thead>
+                <tr class="grid_heading">
+                    <th>JC No</th>
+                    <th>JC Date</th>
+                    <th>Customer</th>
+                    <th>Vehicle Model</th>
+                    <th>Select</th>
+                </tr>
+            </thead>
+            <tbody class="grid_row">
+                <tr>
+                    <td>1</td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td>2</td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td>3</td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td>4</td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <div class="row">
+
+
+        <div class="col-md-12">
+            <div style="float:left">
+                <button class="button-style">Previous</button>
+            </div>
+            <div style="float:right">
+                <button type="submit" class="button-style">Exit</button>
+            </div>
+            <div style="float:right">
+                <button type="submit" class="button-style">Proceed</button>
+            </div>
+
+        </div>
+
+
+    </div>
+</form>
+

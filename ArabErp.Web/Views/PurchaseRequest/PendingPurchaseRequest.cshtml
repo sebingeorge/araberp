@@ -1,0 +1,61 @@
+﻿
+@{
+    ViewBag.Title = "PendingPurchaseRequest";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<div class="container" style="background-color:#BCBABE">
+    <h4>Pending Purchase Request</h4>
+</div>
+  &nbsp;
+<form method="post" action="@Url.Action("CreatePurchaseRequest", "PurchaseRequest")">
+    <div class=" table-responsive">
+        <table class="table table-bordered">
+            <thead>
+                <tr class="grid_heading">
+                    <th>WR No.</th>
+                    <th>WR Date</th>
+                    <th>Customer</th>
+                    <th>Customer Order Ref.</th>
+                </tr>
+            </thead>
+            <tbody class="grid_row">
+                <tr>
+                    <td>1</td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td>2</td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td>3</td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td>4</td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <div class="row">
+
+        <div class="col-md-12 col-md-4">
+            <div style="float:right" class="alignCenter">
+                <button type="submit" class="button-style">OK</button>
+            </div>
+        </div>
+
+
+    </div>
+</form>
+

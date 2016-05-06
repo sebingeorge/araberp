@@ -1,0 +1,114 @@
+﻿
+@{
+    ViewBag.Title = "CreateStockReturn";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="container" style="background-color:#BCBABE">
+    <h4>Stock Return</h4>
+</div>
+<div class="container ">
+    <form>
+        <div class="row">
+            <div class="col-md-4">
+                <div class="col-md-7 form-group">
+                    <label for="srno">Stock Return No.</label>
+                    <input type="text" id="srno" class="form_input" />
+                </div>
+            </div>
+            <div class="col-md-4 col-md-offset-4 ">
+                <div class="col-md-7 col-md-offset-5 form-group align_left">
+                    <label for="jcdate">Date</label>
+                    <input type="date" id="jcdate" class="form_input" />
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="col-md-7 form-group ">
+                    <label for="jobcard">Job Card</label>
+                    <select id="jobcard" class="form_input">
+                        <option>Select Job Card</option>
+                        <option>JobCard1</option>
+                        <option>JobCard2</option>
+                        <option>JobCard3</option>
+                    </select>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="col-md-7 form-group">
+                    <label for="jcno">JC No.</label>
+                    <input type="text" id="jcno" class="form_input" />
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="col-md-7 col-md-offset-5 form-group align_left">
+                    <label for="cus">Customer</label>
+                    <input type="text" id="cus" class="form_input" />
+                </div>
+            </div>
+            <div class="col-md-12">
+                <div class="col-md-2  form-group">
+                    <label for="prdt">Product</label>
+                    <input type="text" id="prdt" class="form_input" />
+                </div>
+            </div>
+            </div>
+        <div class="container">
+            <div class=" table-responsive">
+                <table class="table table-bordered">
+                    <thead>
+                        <tr class="grid_heading">
+                            <th>Task</th>
+                            <th>Employee</th>
+                            <th>Date</th>
+                            <th>Hrs.</th>
+                        </tr>
+                    </thead>
+                    <tbody class="grid_row">
+                        <tr>
+                            <td>1</td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td>2</td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td>3</td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td>4</td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            </div>
+        <div class="row">
+            <div class="col-md-12">
+                <div class=" col-md-12 form-group">
+                    <label for="SplRemarks1">Spl.Remarks</label>
+                    <textarea id="SplRemarks1" style="min-width: 100%"></textarea>
+                </div>
+            </div>
+            <div class="col-md-12 col-md-4">
+                <div style="float:left" class="alignCenter">
+                    <button type="submit" class="button-style">Exit</button>
+                </div>
+                <div style="float:right" class="alignCenter">
+                    <button type="submit" class="button-style">Save</button>
+                </div>
+            </div>
+
+
+        </div>
+    </form>
+</div>

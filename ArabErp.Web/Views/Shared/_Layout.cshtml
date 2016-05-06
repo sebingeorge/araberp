@@ -1,0 +1,76 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewBag.Title - Arab Application</title>
+
+    @Scripts.Render("~/bundles/jquery")
+    @Styles.Render("~/Content/css")
+    @Scripts.Render("~/bundles/modernizr")
+    @Scripts.Render("~/bundles/jqueryval")
+
+    <link href="~/Content/menu.css" rel="stylesheet" />
+</head>
+<body>
+    <div class="navbar navbar-default navbar-fixed-top">
+        <div class="container">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <div style="float:left;">
+                    <img src="~/Images/logo.png" height="55" width="142" />
+                </div>
+            </div>
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-12 col-md-offset-10 collapse navbar-collapse" id="navbar">
+                        <ul class="nav navbar-nav">
+
+
+                            <li>
+                                <a data-toggle="dropdown" class="dropdown-toggle" href="#"><i class="glyphicon glyphicon-bell"></i></a>
+                                <ul class="dropdown-menu">
+                                    <li><a href="#"><span class="badge pull-right">40</span>Link</a></li>
+                                    <li><a href="#"><span class="badge pull-right">2</span>Link</a></li>
+                                    <li><a href="#"><span class="badge pull-right">0</span>Link</a></li>
+                                    <li><a href="#"><span class="label label-info pull-right">1</span>Link</a></li>
+                                    <li><a href="#"><span class="badge pull-right">13</span>Link</a></li>
+                                </ul>
+                            </li>
+                            <li>
+                                <a data-toggle="dropdown" class="dropdown-toggle" href="#"><i class="glyphicon glyphicon-th-large"></i></a>
+                                <ul class="dropdown-menu">
+                                    <li><a href="@Url.Action("CreateSaleOrder","SaleOrder")"><span class="badge pull-right"></span>Sale Order</a></li>
+                                    <li><a href="@Url.Action("WorkShopRequestPending", "WorkShopRequest")"><span class="badge pull-right"></span>WorkShop Request</a></li>
+                                    <li><a href="@Url.Action("PendingPurchaseRequest", "PurchaseRequest")"><span class="badge pull-right"></span>Purchase Request</a></li>
+                                    <li><a href="@Url.Action("PendingSupplyOrder", "SupplyOrder")"><span class="badge pull-right"></span>Supply Order</a></li>
+                                    <li><a href="@Url.Action("PendingGrnWareHouse", "GrnWareHouse")"><span class="badge pull-right"></span>GRN</a></li>
+                                    <li><a href="@Url.Action("PendingJobCard", "JobCard")"><span class="badge pull-right"></span>Job Card</a></li>
+                                    <li><a href="@Url.Action("PendingStoresIssue", "StoresIssue")"><span class="badge pull-right"></span>Stores Issue</a></li>
+                                    <li><a href="@Url.Action("PendingJobOrderCompletion", "JobOrderCompletion")"><span class="badge pull-right"></span>Job Order Completion</a></li>
+                                    <li><a href="@Url.Action("PendingSalesInvoice", "SalesInvoice")"><span class="badge pull-right"></span>Sales Invoice</a></li>
+                                    <li><a href="@Url.Action("CreateAdditionalWorkShopRequest","AdditionalWorkShopRequest")"><span class="badge pull-right"></span>Additional WorkShop Request</a></li>
+                                    <li><a href="@Url.Action("CreateStockReturn","StockReturn")"><span class="badge pull-right"></span>Stock Return</a></li>
+                                    <li><a href="@Url.Action("CreateStockJournel","StockJournel")"><span class="badge pull-right"></span>Stock Journal</a></li>
+                                </ul>
+                            </li>
+                            <li><a href="#"><i class="glyphicon glyphicon-user"></i></a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+        </div>
+       <div class="container body-content" style="background-color:#ACD1E9" >
+        @RenderBody()
+        <hr />
+    </div>
+    @Scripts.Render("~/bundles/bootstrap")
+    @RenderSection("scripts", required: false)
+</body>
+</html>

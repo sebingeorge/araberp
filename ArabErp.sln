@@ -1,0 +1,34 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 2013
+VisualStudioVersion = 12.0.31101.0
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ArabErp.DAL", "ArabErp.DAL\ArabErp.DAL.csproj", "{065F1942-C10D-4A89-A657-9033D7F33DEA}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ArabErp.Web", "ArabErp.Web\ArabErp.Web.csproj", "{5DBDD763-E9A2-42FD-A7C5-51C0C56843C6}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ArabErp.Domain", "ArabErp.Domain\ArabErp.Domain.csproj", "{2605B8A4-0865-464B-8627-30B9DDBE9DC6}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{065F1942-C10D-4A89-A657-9033D7F33DEA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{065F1942-C10D-4A89-A657-9033D7F33DEA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{065F1942-C10D-4A89-A657-9033D7F33DEA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{065F1942-C10D-4A89-A657-9033D7F33DEA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5DBDD763-E9A2-42FD-A7C5-51C0C56843C6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5DBDD763-E9A2-42FD-A7C5-51C0C56843C6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5DBDD763-E9A2-42FD-A7C5-51C0C56843C6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5DBDD763-E9A2-42FD-A7C5-51C0C56843C6}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2605B8A4-0865-464B-8627-30B9DDBE9DC6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2605B8A4-0865-464B-8627-30B9DDBE9DC6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2605B8A4-0865-464B-8627-30B9DDBE9DC6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2605B8A4-0865-464B-8627-30B9DDBE9DC6}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
