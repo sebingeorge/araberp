@@ -40,9 +40,40 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Bay.cs" />
+    <Compile Include="Box.cs" />
+    <Compile Include="CommissionAgent.cs" />
+    <Compile Include="Customer.cs" />
+    <Compile Include="Employee.cs" />
+    <Compile Include="FreezerUnit.cs" />
+    <Compile Include="GRN.cs" />
+    <Compile Include="GRNItem.cs" />
+    <Compile Include="Item.cs" />
+    <Compile Include="ItemGroup.cs" />
+    <Compile Include="ItemSubGroup.cs" />
     <Compile Include="JobCard.cs" />
     <Compile Include="JobCardTask.cs" />
+    <Compile Include="JobCardTaskEmployee.cs" />
+    <Compile Include="JobCardTaskMaster.cs" />
+    <Compile Include="Organization.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="PurchaseRequest.cs" />
+    <Compile Include="PurchaseRequestItem.cs" />
+    <Compile Include="SaleOrder.cs" />
+    <Compile Include="SaleOrderItem.cs" />
+    <Compile Include="SalesExecutive.cs" />
+    <Compile Include="SalesInvoice.cs" />
+    <Compile Include="SalesInvoiceItem.cs" />
+    <Compile Include="StockReturn.cs" />
+    <Compile Include="StockReturnItem.cs" />
+    <Compile Include="Supplier.cs" />
+    <Compile Include="SupplyOrder.cs" />
+    <Compile Include="SupplyOrderItem.cs" />
+    <Compile Include="VehicleModel.cs" />
+    <Compile Include="WareHouse.cs" />
+    <Compile Include="WorkDescription.cs" />
+    <Compile Include="WorkShopRequest.cs" />
+    <Compile Include="WorkShopRequestItem.cs" />
+    <Compile Include="WorkVsTask.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

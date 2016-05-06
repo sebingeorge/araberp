@@ -1,15 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Web;
+using System.Text;
+using System.Threading.Tasks;
 
 namespace ArabErp.Domain
 {
-    public class Bay
+    public class FreezerUnit
     {
-
-        public int BayId { get; set; }
-        public string BayName { get; set; }
+        public int FreezerUnitId { get; set; }
+        public string FreezerUnitName { get; set; }
         public string CreatedBy { get; set; }
         public DateTime? CreatedDate { get; set; }
         public int OrganizationId { get; set; }
