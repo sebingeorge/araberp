@@ -191,6 +191,7 @@
     <Compile Include="Controllers\StockReturnController.cs" />
     <Compile Include="Controllers\StoresIssueController.cs" />
     <Compile Include="Controllers\SupplyOrderController.cs" />
+    <Compile Include="Controllers\WorkDescriptionController.cs" />
     <Compile Include="Controllers\WorkShopRequestController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -318,6 +319,7 @@
     <Content Include="Views\JobOrderCompletion\PendingJobOrderCompletion.cshtml" />
     <Content Include="Views\SalesInvoice\PendingSalesInvoice.cshtml" />
     <Content Include="Views\Item\CreateItem.cshtml" />
+    <Content Include="Views\WorkDescription\CreateWorkDescription.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
