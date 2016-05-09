@@ -178,6 +178,8 @@
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\AdditionalWorkShopRequestController.cs" />
+    <Compile Include="Controllers\CustomerController.cs" />
+    <Compile Include="Controllers\EmployeeController.cs" />
     <Compile Include="Controllers\GrnWareHouseController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ItemController.cs" />
@@ -190,6 +192,7 @@
     <Compile Include="Controllers\StockJournelController.cs" />
     <Compile Include="Controllers\StockReturnController.cs" />
     <Compile Include="Controllers\StoresIssueController.cs" />
+    <Compile Include="Controllers\SupplierController.cs" />
     <Compile Include="Controllers\SupplyOrderController.cs" />
     <Compile Include="Controllers\WorkDescriptionController.cs" />
     <Compile Include="Controllers\WorkShopRequestController.cs" />
@@ -318,8 +321,11 @@
     <Content Include="Views\StoresIssue\PendingStoresIssue.cshtml" />
     <Content Include="Views\JobOrderCompletion\PendingJobOrderCompletion.cshtml" />
     <Content Include="Views\SalesInvoice\PendingSalesInvoice.cshtml" />
-    <Content Include="Views\Item\CreateItem.cshtml" />
     <Content Include="Views\WorkDescription\CreateWorkDescription.cshtml" />
+    <Content Include="Views\Employee\Create.cshtml" />
+    <Content Include="Views\Item\Create.cshtml" />
+    <Content Include="Views\Supplier\Create.cshtml" />
+    <Content Include="Views\Customer\Create.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

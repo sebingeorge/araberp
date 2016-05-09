@@ -6,9 +6,13 @@ using System.Web.Mvc;
 
 namespace ArabErp.Web.Controllers
 {
-    public class ItemController : Controller
+    public class CustomerController : Controller
     {
-        // GET: Item
+        // GET: Customer
+        public ActionResult Index()
+        {
+            return View();
+        }
         public ActionResult Create()
         {
             return View();

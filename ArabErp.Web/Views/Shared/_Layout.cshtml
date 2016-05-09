@@ -15,6 +15,7 @@
 <body>
     <div class="navbar navbar-default navbar-fixed-top">
         <div class="container">
+          
             <div class="navbar-header">
                 <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false">
                     <span class="sr-only">Toggle navigation</span>
@@ -46,18 +47,22 @@
                                 <a data-toggle="dropdown" class="dropdown-toggle" href="#"><i class="glyphicon glyphicon-th-large"></i></a>
                                 <ul class="dropdown-menu">
                                     <li><a href="@Url.Action("CreateSaleOrder","SaleOrder")"><span class="badge pull-right"></span>Sale Order</a></li>
-                                    <li><a href="@Url.Action("WorkShopRequestPending", "WorkShopRequest")"><span class="badge pull-right"></span>WorkShop Request</a></li>
-                                    <li><a href="@Url.Action("PendingPurchaseRequest", "PurchaseRequest")"><span class="badge pull-right"></span>Purchase Request</a></li>
-                                    <li><a href="@Url.Action("PendingSupplyOrder", "SupplyOrder")"><span class="badge pull-right"></span>Supply Order</a></li>
-                                    <li><a href="@Url.Action("PendingGrnWareHouse", "GrnWareHouse")"><span class="badge pull-right"></span>GRN</a></li>
-                                    <li><a href="@Url.Action("PendingJobCard", "JobCard")"><span class="badge pull-right"></span>Job Card</a></li>
-                                    <li><a href="@Url.Action("PendingStoresIssue", "StoresIssue")"><span class="badge pull-right"></span>Stores Issue</a></li>
-                                    <li><a href="@Url.Action("PendingJobOrderCompletion", "JobOrderCompletion")"><span class="badge pull-right"></span>Job Order Completion</a></li>
-                                    <li><a href="@Url.Action("PendingSalesInvoice", "SalesInvoice")"><span class="badge pull-right"></span>Sales Invoice</a></li>
+                                    <li><a href="@Url.Action("WorkShopRequestPending","WorkShopRequest")"><span class="badge pull-right"></span>WorkShop Request</a></li>
+                                    <li><a href="@Url.Action("PendingPurchaseRequest","PurchaseRequest")"><span class="badge pull-right"></span>Purchase Request</a></li>
+                                    <li><a href="@Url.Action("PendingSupplyOrder","SupplyOrder")"><span class="badge pull-right"></span>Supply Order</a></li>
+                                    <li><a href="@Url.Action("PendingGrnWareHouse","GrnWareHouse")"><span class="badge pull-right"></span>GRN</a></li>
+                                    <li><a href="@Url.Action("PendingJobCard","JobCard")"><span class="badge pull-right"></span>Job Card</a></li>
+                                    <li><a href="@Url.Action("PendingStoresIssue","StoresIssue")"><span class="badge pull-right"></span>Stores Issue</a></li>
+                                    <li><a href="@Url.Action("PendingJobOrderCompletion","JobOrderCompletion")"><span class="badge pull-right"></span>Job Order Completion</a></li>
+                                    <li><a href="@Url.Action("PendingSalesInvoice","SalesInvoice")"><span class="badge pull-right"></span>Sales Invoice</a></li>
                                     <li><a href="@Url.Action("CreateAdditionalWorkShopRequest","AdditionalWorkShopRequest")"><span class="badge pull-right"></span>Additional WorkShop Request</a></li>
                                     <li><a href="@Url.Action("CreateStockReturn","StockReturn")"><span class="badge pull-right"></span>Stock Return</a></li>
                                     <li><a href="@Url.Action("CreateStockJournel","StockJournel")"><span class="badge pull-right"></span>Stock Journal</a></li>
-                                    <li><a href="@Url.Action("CreateWorkDescription", "WorkDescription")"><span class="badge pull-right"></span>Work Description</a></li>
+                                    <li><a href="@Url.Action("CreateWorkDescription","WorkDescription")"><span class="badge pull-right"></span>Work Description</a></li>
+                                    <li><a href="@Url.Action("Create","Item")"><span class="badge pull-right"></span>Item</a></li>
+                                    <li><a href="@Url.Action("Create","Employee")"><span class="badge pull-right"></span>Employee</a></li>
+                                    <li><a href="@Url.Action("Create","Supplier")"><span class="badge pull-right"></span>Supplier</a></li>
+                                    <li><a href="@Url.Action("Create","Customer")"><span class="badge pull-right"></span>Customer</a></li>
                                 </ul>
                             </li>
                             <li><a href="#"><i class="glyphicon glyphicon-user"></i></a></li>

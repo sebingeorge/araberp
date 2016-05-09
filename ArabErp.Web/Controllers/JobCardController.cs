@@ -28,8 +28,8 @@ namespace ArabErp.Web.Controllers
 
 
 
-            var data = new JobCardRepository().SaveJobCard(jc);
-            return Json(data, JsonRequestBehavior.AllowGet);
+            //var data = new JobCardRepository().SaveJobCard(jc);
+            return View();
         }
     }
 }
