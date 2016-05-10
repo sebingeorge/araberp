@@ -21,7 +21,7 @@ namespace ArabErp
 
     public class JobCardRepository : IDisposable
     {
-        public static string ConnectionString => System.Configuration.ConfigurationManager.
+        public static string ConnectionString = System.Configuration.ConfigurationManager.
     ConnectionStrings["arab"].ConnectionString;
 
        
@@ -41,11 +41,14 @@ namespace ArabErp
         //    return conn;
         //}
 
-        private SqlConnection _connection;
+        private SqlConnection connection;
 
-        private SqlConnection connection => _connection ?? (_connection = ConnectionManager.connection);
+     //   private SqlConnection connection => _connection ?? (_connection = ConnectionManager.connection);
 
-
+        public JobCardRepository ()
+        {
+            connection = ConnectionManager.connection;
+        }
  
         public string GetJobNumber(int id)
         {
@@ -93,7 +96,7 @@ namespace ArabErp
 
         public void Dispose()
         {
-            _connection.Dispose();
+            connection.Dispose();
         }
     }
 }

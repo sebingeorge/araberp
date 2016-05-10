@@ -42,7 +42,7 @@ namespace ArabErp.DAL
 {
     public static class ConnectionManager
     {
-        public static string ConnectionString => System.Configuration.ConfigurationManager.
+        public static string ConnectionString = System.Configuration.ConfigurationManager.
     ConnectionStrings["arab"].ConnectionString;
 
 
@@ -64,7 +64,7 @@ namespace ArabErp.DAL
 
         private static SqlConnection _connection;
 
-        public static SqlConnection  connection => _connection ?? (_connection = GetOpenConnection());
+        public static SqlConnection  connection = _connection ?? (_connection = GetOpenConnection());
 
     }
 }
