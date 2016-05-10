@@ -10,7 +10,7 @@
 <div class="container">
     <div class="row">
         <div class="col-md-6 col-md-offset-3">
-            <form role="form">
+            <form role="form" action="@Url.Action("Save")">
                 <div class="row form-group">
                     <div class="col-md-6">
                         <label for="code">Part No</label>
@@ -18,7 +18,7 @@
                     </div>
                     <div class="col-md-6">
                         <label for="name">Item Name</label>
-                        <input type="text" autocomplete="off" id="name" class="form_input" />
+                        <input type="text" autocomplete="off" name="ItemName" id="ItemName" class="form_input" />
                     </div>
                 </div>
                 <div class="row form-group">

@@ -178,6 +178,7 @@
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\AdditionalWorkShopRequestController.cs" />
+    <Compile Include="Controllers\CurrencyController.cs" />
     <Compile Include="Controllers\CustomerController.cs" />
     <Compile Include="Controllers\EmployeeController.cs" />
     <Compile Include="Controllers\GrnWareHouseController.cs" />
@@ -326,6 +327,7 @@
     <Content Include="Views\Item\Create.cshtml" />
     <Content Include="Views\Supplier\Create.cshtml" />
     <Content Include="Views\Customer\Create.cshtml" />
+    <Content Include="Views\Currency\Create.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
