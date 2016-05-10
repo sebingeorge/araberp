@@ -4,50 +4,41 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<div class="container" style="background-color:#BCBABE">
+<div class="h4bgcolor">
     <h4>Sales Invoice</h4>
 </div>
-<div class="container ">
-    <form>
-        <div class="row">
-            <div class="col-md-4">
-                <div class="col-md-7 form-group">
+
+<div class="container">
+    <div class="row">
+        <form role="form">
+            <div class="row form-group">
+                <div class="col-md-2">
                     <label for="invno">Invoice No.</label>
                     <input type="text" id="invno" class="form_input" />
                 </div>
-            </div>
-            <div class="col-md-4 col-md-offset-4 ">
-                <div class="col-md-7 col-md-offset-5 form-group align_left">
-                    <label for="invdate">Date</label>
-                    <input type="date" id="invdate" class="form_input" />
+                <div class="col-md-2 col-md-offset-8">
+                    <label for="inputDate">Date</label>
+                    <input type="date" id="inputDate" class="form_input" autocomplete="off" />
                 </div>
             </div>
-            <div class="col-md-4">
-                <div class="col-md-7 form-group">
+            <div class="row form-group">
+                <div class="col-md-4">
                     <label for="cus">Customer</label>
-                    <input type="text" id="cus" class="form_input" />
+                    <input type="text" id="cus" class="form_input" autocomplete="off" />
                 </div>
-            </div>
-            <div class="col-md-4 col-md-offset-4 ">
-                <div class="col-md-7 col-md-offset-5 form-group align_left">
+                <div class="col-md-2">
                     <label for="cusref">Customer Order Ref.</label>
                     <input type="text" id="cusref" class="form_input" />
                 </div>
-            </div>
-            <div class="col-md-4">
-                <div class="col-md-7 form-group">
+                <div class="col-md-4">
                     <label for="work">Work Description</label>
-                    <input type="text" id="work" class="form_input" />
+                    <input type="text" id="work" class="form_input" autocomplete="off" />
                 </div>
-            </div>
-            <div class="col-md-4 col-md-offset-4 ">
-                <div class="col-md-7 col-md-offset-5 form-group align_left">
+                <div class="col-md-2">
                     <label for="vehregno">Veh Reg No/Chasis No</label>
                     <input type="text" id="vehregno" class="form_input" />
                 </div>
             </div>
-        </div>
-        <div class="container">
             <div class=" table-responsive">
                 <table class="table table-bordered">
                     <thead>
@@ -111,31 +102,27 @@
                     </tbody>
                 </table>
             </div>
-</div>
-        <div class="row">
-            <div class="col-md-12">
-                <div class=" col-md-12 form-group">
+            <div class="row form-group">
+                <div class="col-md-12">
                     <label for="SplRemarks1">Spl.Remarks</label>
-                    <textarea id="SplRemarks1" style="min-width: 100%"></textarea>
+                    <textarea id="SplRemarks1" autocomplete="off" style="min-width: 100%"></textarea>
                 </div>
-                </div>
-            <div class="col-md-12">
-                <div class="col-md-6 form-group">
+            </div>
+            <div class="row form-group">
+                <div class="col-md-6">
                     <label for="payterms">Payment Terms</label>
-                    <input type="text" id="payterms" style="min-width: 100%" class="form_input" />
+                    <input type="text" id="payterms" class="form_input" />
                 </div>
             </div>
-                <div class="col-md-12 col-md-4">
-                    <div style="float:left" class="alignCenter">
-                        <button type="submit" class="button-style">Exit</button>
-                    </div>
-                    <div style="float:right" class="alignCenter">
-                        <button type="submit" class="button-style">Save</button>
-                    </div>
+            <div class="row">
+                <div class="col-md-1">
+                    <button type="submit" class="button-style">Exit</button>
                 </div>
-
-
+                <div class="col-md-offset-11">
+                    <button type="submit" class="button-style">Save</button>
+                </div>
             </div>
-    </form>
+        </form>
+    </div>
 </div>
 

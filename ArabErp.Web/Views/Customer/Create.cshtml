@@ -4,7 +4,7 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<div style="background-color:#BCBABE">
+<div class="h4bgcolor">
     <h4>Customer</h4>
 </div>
 <div class="container">
@@ -138,17 +138,15 @@
                         <input type="text" autocomplete="off" id="stno" class="form_input" />
                     </div>
                 </div>
-                <div class="col-md-12 col-md-4">
-                    <div style="float:left" class="alignCenter">
-                        <button type="submit" class="button-style">Exit</button>
-                    </div>
-                    <div style="float:right" class="alignCenter">
-                        <button type="submit" class="button-style">Save</button>
-                    </div>
+                <div class="row">
+                <div class="col-md-1">
+                    <button type="submit" class="button-style">Exit</button>
                 </div>
-
-
-            </form>
+                <div class="col-md-offset-11">
+                    <button type="submit" class="button-style">Save</button>
+                </div>
+                </div>
+             </form>
        
     </div>
 </div>

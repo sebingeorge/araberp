@@ -5,27 +5,25 @@
 }
 
 
-<div style="background-color:#BCBABE">
+<div class="h4bgcolor">
     <h4>Supply Order</h4>
 </div>
 <div class="container">
-    <form>
-        <div class="row">
-            <div class="col-md-4">
-                <div class="col-md-7 form-group">
+    <div class="row">
+        <form role="form">
+            <div class="row form-group">
+                <div class="col-md-2">
                     <label for="sono">SO.No.</label>
-                    <input type="text" id="sono" class="form_input" />
+                    <input type="text" id="sono" class="form_input" autocomplete="off" />
                 </div>
-            </div>
-            <div class="col-md-4 col-md-offset-4 ">
-                <div class="col-md-7 col-md-offset-5 form-group align_left">
+                <div class="col-md-2 col-md-offset-8">
                     <label for="inputDate">Date</label>
-                    <input type="date" id="inputDate" class="form_input" />
+                    <input type="date" id="inputDate" class="form_input" autocomplete="off" />
                 </div>
             </div>
-            <div class="col-md-4">
-                <div class="col-md-7 form-group">
-                    <label for="supplier">Supplier</label>
+            <div class="row form-group">
+                <div class="col-md-4">
+                    <label for="selectCustomer">Supplier</label>
                     <select id="supplier" class="form_input">
                         <option>Select Supplier</option>
                         <option>Supplier1</option>
@@ -33,116 +31,111 @@
                         <option>Supplier3</option>
                     </select>
                 </div>
-            </div>
-            <div class="col-md-4 col-md-offset-4 ">
-                <div class="col-md-7 col-md-offset-5 form-group align_left">
-                    <label for="qtno">Quotation No & Date</label>
-                    <input type="text" id="qtno" class="form_input" />
+                <div class="col-md-4">
+                    <label for="cusref">Quotation No. & Date</label>
+                    <input type="text" id="cusref" autocomplete="off" class="form_input" />
                 </div>
+                </div>
+            <div class=" table-responsive">
+                <table class="table table-bordered">
+                    <thead>
+                        <tr class="grid_heading">
+                            <th width="5%">Sl.No.</th>
+                            <th width="10%">PRS No & Date</th>
+                            <th width="25%">Product</th>
+                            <th width="25%">Description</th>
+                            <th width="10%">Part No</th>
+                            <th width="5%" class="text-right">Bal Qty</th>
+                            <th width="5%" class="text-right">Ordered Qty</th>
+                            <th width="5%" class="text-right">Rate</th>
+                            <th width="5%" class="text-right">Discount</th>
+                            <th width="5%" class="text-right">Amount</th>
+                        </tr>
+                    </thead>
+                    <tbody class="grid_row">
+                        <tr>
+                            <td>1</td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td>2</td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td>3</td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td>4</td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                        </tr>
+                    </tbody>
+                </table>
             </div>
-        </div>
-        <div class="container">
-            <table class="table table-bordered">
-                <thead>
-                    <tr class="grid_heading">
-                        <th width="5%">Sl.No.</th>
-                        <th width="10%">PRS No & Date</th>
-                        <th width="25%">Product</th>
-                        <th width="25%">Description</th>
-                        <th width="10%">Part No</th>
-                        <th width="5%" class="text-right">Bal Qty</th>
-                        <th width="5%" class="text-right">Ordered Qty</th>
-                        <th width="5%" class="text-right">Rate</th>
-                        <th width="5%" class="text-right">Discount</th>
-                        <th width="5%" class="text-right">Amount</th>
-                     </tr>
-                </thead>
-                <tbody class="grid_row">
-                    <tr>
-                        <td>1</td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                    </tr>
-                    <tr>
-                        <td>2</td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                    </tr>
-                    <tr>
-                        <td>3</td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                    </tr>
-                    <tr>
-                        <td>4</td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                    </tr>
-                </tbody>
-            </table>
-
-        </div>
-        <div class="row">
-            <div class="col-md-12">
-                <div class=" col-md-12 form-group">
+            <div class="row form-group">
+                <div class="col-md-12">
                     <label for="SplRemarks1">Spl.Remarks</label>
-                    <textarea id="SplRemarks1" style="min-width: 100%"></textarea>
+                    <textarea id="SplRemarks1" autocomplete="off" style="min-width: 100%"></textarea>
                 </div>
             </div>
-            <div class="col-md-12">
-                <div class="col-md-6 form-group">
+            <div class="row form-group">
+                <div class="col-md-6">
                     <label for="payterms">Payment Terms</label>
-                    <input type="text" id="payterms" style="min-width: 100%" class="form_input" />
+                    <input type="text" id="payterms" autocomplete="off" class="form_input" />
                 </div>
-                <div class="col-md-6 form-group">
+                <div class="col-md-6">
                     <label for="delterms">Delivery Terms</label>
-                    <input type="text" id="delterms" style="min-width: 100%" class="form_input" />
+                    <input type="text" id="delterms" class="form_input" />
                 </div>
             </div>
-            <div class="col-md-12">
-                <div class="col-md-2 form-group">
+            <div class="row form-group">
+                <div class="col-md-2">
                     <label for="reqdate">Required Date</label>
                     <input type="date" id="reqdate" style="min-width: 100%" class="form_input" />
                 </div>
             </div>
-            <div class="col-md-12 col-md-4">
-                <div style="float:left" class="alignCenter">
+            <div class="row">
+                <div class="col-md-1">
                     <button type="submit" class="button-style">Exit</button>
                 </div>
-                <div style="float:right" class="alignCenter">
+                <div class="col-md-offset-11">
                     <button type="submit" class="button-style">Save</button>
                 </div>
             </div>
-        </div>
-    </form>
+        </form>
+    </div>
 </div>
 
 

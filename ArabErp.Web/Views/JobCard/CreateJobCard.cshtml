@@ -3,82 +3,56 @@
     ViewBag.Title = "CreateJobCard";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
-<div style="background-color:#BCBABE">
+<div class="h4bgcolor">
     <h4>Job Card</h4>
 </div>
-<div class="container " style="background-color:#BCBABE">
-    <form>
-        <div class="row">
-            <div class="col-md-4">
-                <div class="col-md-7 form-group">
+<div class="container">
+    <div class="row">
+        <form role="form">
+            <div class="row form-group">
+                <div class="col-md-2">
                     <label for="jcno">Job Card No.</label>
-                    <input type="text" id="jcno" class="form_input" />
+                    <input type="text" id="jcno" autocomplete="off" class="form_input" />
+                </div>
+                <div class="col-md-2 col-md-offset-8">
+                    <label for="inputDate">Date</label>
+                    <input type="date" id="inputDate" class="form_input" autocomplete="off" />
                 </div>
             </div>
-            <div class="col-md-4 col-md-offset-4 ">
-                <div class="col-md-7 col-md-offset-5 form-group align_left">
-                    <label for="jcdate">Date</label>
-                    <input type="date" id="jcdate" class="form_input" />
-                </div>
-            </div>
-            <div class="col-md-4">
-                <div class="col-md-7 form-group">
+            <div class="row form-group">
+                <div class="col-md-3">
                     <label for="cus">Customer</label>
-                    <input type="text" id="cus" class="form_input" />
+                    <input type="text" id="cus" autocomplete="off" class="form_input" />
                 </div>
-            </div>
-            <div class="col-md-4 col-md-offset-4 ">
-                <div class="col-md-7 col-md-offset-5 form-group align_left">
+                <div class="col-md-3">
                     <label for="cusref">Customer Order Ref.</label>
-                    <input type="text" id="cusref" class="form_input" />
+                    <input type="text" id="cusref" autocomplete="off" class="form_input" />
                 </div>
-            </div>
-            <div class="col-md-4">
-                <div class="col-md-7 form-group">
+                <div class="col-md-3">
                     <label for="vechmodel">Vehicle Model</label>
-                    <input type="text" id="vechmodel" class="form_input" />
+                    <input type="text" id="vechmodel" autocomplete="off" class="form_input" />
                 </div>
-            </div>
-            <div class="col-md-4 col-md-offset-4 ">
-                <div class="col-md-7 col-md-offset-5 form-group align_left">
+                <div class="col-md-3">
                     <label for="chasisno">Chasis No/Reg No.</label>
-                    <input type="text" id="chasisno" class="form_input" />
+                    <input type="text" id="chasisno" autocomplete="off" class="form_input" />
                 </div>
             </div>
-            <div class="col-md-4">
-                <div class="col-md-7 form-group ">
+            <div class="row form-group">
+                <div class="col-md-3">
                     <label for="wrkdes">Work Description</label>
-                    <input type="text" id="wrkdes" class="form_input" />
+                    <input type="text" id="wrkdes" class="form_input" autocomplete="off" />
                 </div>
-            </div>
-            <div class="col-md-4">
-                <div class="col-md-7 form-group">
+                <div class="col-md-3">
                     <label for="wrkreqref">WorkShop Request Ref.</label>
-                    <input type="text" id="wrkreqref" class="form_input" />
+                    <input type="text" id="wrkreqref" class="form_input" autocomplete="off" />
                 </div>
-            </div>
-            <div class="col-md-4">
-                <div class="col-md-7 col-md-offset-5 form-group align_left">
+                <div class="col-md-3">
                     <label for="goodsland">Goods Landed</label>
-                    <input type="text" id="goodsland" class="form_input" />
+                    <input type="text" id="goodsland" class="form_input" autocomplete="off" />
                 </div>
-            </div>
-            <div class="col-md-4">
-                <div class="col-md-7 form-group ">
-                    <label for="freezer">Freezer Unit</label>
-                    <input type="text" id="freezer" class="form_input" />
-                </div>
-            </div>
-            <div class="col-md-4">
-                <div class="col-md-7 form-group">
-                    <label for="box">Box</label>
-                    <input type="text" id="box" class="form_input" />
-                </div>
-            </div>
-            <div class="col-md-4">
-                <div class="col-md-7 col-md-offset-5 form-group align_left ">
+                <div class="col-md-3">
                     <label for="bay">Bay</label>
-                    <select id="bay" class="form_input">
+                    <select id="bay" class="form_input" autocomplete="off">
                         <option>Select Bay</option>
                         <option>Bay 1</option>
                         <option>Bay 2</option>
@@ -86,82 +60,84 @@
                     </select>
                 </div>
             </div>
+            <div class="row form-group">
+                <div class="col-md-3">
+                    <label for="freezer">Freezer Unit</label>
+                    <input type="text" id="freezer" class="form_input" autocomplete="off" />
+                </div>
+                <div class="col-md-3">
+                    <label for="box">Box</label>
+                    <input type="text" id="box" class="form_input" autocomplete="off" />
+                </div>
+            </div>
+                <div class=" table-responsive">
+                    <table class="table table-bordered">
+                        <thead>
+                            <tr class="grid_heading">
+                                <th>Task</th>
+                                <th>Employee</th>
+                                <th>Date</th>
+                                <th>Hrs.</th>
+                            </tr>
+                        </thead>
+                        <tbody class="grid_row">
+                            <tr>
+                                <td>+Task1</td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td>+Task2</td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td>+Task3</td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td>+Task4</td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="row form-group">
+                    <div class="col-md-12">
+                        <label for="SplRemarks1">Spl.Remarks</label>
+                        <textarea id="SplRemarks1" autocomplete="off" style="min-width: 100%"></textarea>
+                    </div>
+                </div>
+                <div class="row form-group">
+                    <div class="col-md-3">
+                        <label for="reqdate">Required Date</label>
+                        <input type="date" id="reqdate" autocomplete="off" style="min-width: 100%" class="form_input" />
+                    </div>
+                    <div class="col-md-3">
+                        <label for="emp">Employee/Supervisor</label>
+                        <select id="bay" class="form_input" autocomplete="off">
+                            <option>Select Employee</option>
+                            <option>Employee 1</option>
+                            <option>Employee 2</option>
+                            <option>Employee 3</option>
+                        </select>
+                    </div>
+                </div>
 
-        </div>
-        <div class="container">
-            <div class=" table-responsive">
-                <table class="table table-bordered">
-                    <thead>
-                        <tr class="grid_heading">
-                            <th>Task</th>
-                            <th>Employee</th>
-                            <th>Date</th>
-                            <th>Hrs.</th>
-                        </tr>
-                    </thead>
-                    <tbody class="grid_row">
-                        <tr>
-                            <td>+Task1</td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                        </tr>
-                        <tr>
-                            <td>+Task2</td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                        </tr>
-                        <tr>
-                            <td>+Task3</td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                        </tr>
-                        <tr>
-                            <td>+Task4</td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-md-12">
-                <div class=" col-md-12 form-group">
-                    <label for="SplRemarks1">Spl.Remarks</label>
-                    <textarea id="SplRemarks1" style="min-width: 100%"></textarea>
-                </div>
-            </div>
-            <div class="col-md-4">
-                <div class="col-md-7 form-group">
-                    <label for="reqdate">Required Date</label>
-                    <input type="date" id="reqdate" style="min-width: 100%" class="form_input" />
-                </div>
-            </div>
-            <div class="col-md-4">
-                <div class="col-md-7 form-group">
-                    <label for="emp">Employee/Supervisor</label>
-                    <select id="bay" class="form_input">
-                        <option>Select Employee</option>
-                        <option>Employee 1</option>
-                        <option>Employee 2</option>
-                        <option>Employee 3</option>
-                    </select>
-                </div>
-            </div>
-            <div class="col-md-12 col-md-4">
-                <div style="float:left" class="alignCenter">
+            <div class="row">
+                <div class="col-md-1">
                     <button type="submit" class="button-style">Exit</button>
                 </div>
-                <div style="float:right" class="alignCenter">
+                <div class="col-md-offset-11">
                     <button type="submit" class="button-style">Save</button>
                 </div>
             </div>
-
-
-        </div>
-    </form>
+</form>
+    </div>
 </div>

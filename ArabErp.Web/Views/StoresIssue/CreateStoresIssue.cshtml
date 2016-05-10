@@ -5,155 +5,138 @@
 }
 
 
-<div class="container" style="background-color:#BCBABE">
+<div class="h4bgcolor">
     <h4>Stores Issue</h4>
 </div>
-<div class="container ">
-    <form>
-        <div class="row">
-            <div class="col-md-4">
-                <div class="col-md-7 form-group">
+
+<div class="container">
+    <div class="row">
+        <form role="form">
+            <div class="row form-group">
+                <div class="col-md-2">
                     <label for="sino">SI No.</label>
-                    <input type="text" id="sino" class="form_input" />
+                    <input type="text" id="sino" class="form_input" autocomplete="off" />
+                </div>
+                <div class="col-md-2 col-md-offset-8">
+                    <label for="inputDate">Date</label>
+                    <input type="date" id="inputDate" class="form_input" autocomplete="off" />
                 </div>
             </div>
-            <div class="col-md-4 col-md-offset-4 ">
-                <div class="col-md-7 col-md-offset-5 form-group align_left">
-                    <label for="jcdate">Date</label>
-                    <input type="date" id="jcdate" class="form_input" />
-                </div>
-            </div>
-            <div class="col-md-4">
-                <div class="col-md-7 form-group">
+            <div class="row form-group">
+                <div class="col-md-2">
                     <label for="jcno">Job Card No.</label>
-                    <input type="text" id="jcno" class="form_input" />
+                    <input type="text" id="jcno" class="form_input" autocomplete="off" />
                 </div>
-            </div>
-            <div class="col-md-4 col-md-offset-4 ">
-                <div class="col-md-7 col-md-offset-5 form-group align_left">
+                <div class="col-md-2">
                     <label for="jcdate">JC Date</label>
-                    <input type="date" id="jcdate" class="form_input" />
+                    <input type="date" id="jcdate" class="form_input" autocomplete="off" />
                 </div>
-            </div>
                 <div class="col-md-4">
-                <div class="col-md-7 form-group ">
                     <label for="wrkdes">Customer</label>
-                    <input type="text" id="wrkdes" class="form_input" />
+                    <input type="text" id="wrkdes" class="form_input" autocomplete="off" />
+                </div>
+                <div class="col-md-2">
+                    <label for="vehicle">Vehicle Model</label>
+                    <input type="text" id="vehicle" class="form_input" autocomplete="off" />
+                </div>
+                <div class="col-md-2">
+                    <label for="wrkreqref">WorkShop Request No.</label>
+                    <input type="text" id="wrkreqref" class="form_input" autocomplete="off"/>
                 </div>
             </div>
-            <div class="col-md-4">
-                <div class="col-md-7 form-group">
-                    <label for="wrkreqref">Vehicle Model</label>
-                    <input type="text" id="wrkreqref" class="form_input" />
+                <div class=" table-responsive">
+                    <table class="table table-bordered">
+                        <thead>
+                            <tr class="grid_heading">
+                                <th>Sl.No.</th>
+                                <th>Part No.</th>
+                                <th>Product</th>
+                                <th class="text-right ">Req Qty.</th>
+                                <th class="text-right ">Pending Qty.</th>
+                                <th class="text-right ">Current Issued Qty</th>
+                                <th>Unit</th>
+                                <th class="text-right ">Rate</th>
+                                <th class="text-right ">Amount</th>
+                            </tr>
+                        </thead>
+                        <tbody class="grid_row">
+                            <tr>
+                                <td>1</td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td>2</td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td>3</td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td>4</td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                            </tr>
+                        </tbody>
+                    </table>
                 </div>
-            </div>
-            <div class="col-md-4">
-                <div class="col-md-7 col-md-offset-5 form-group align_left">
-                    <label for="goodsland">WorkShop Request No.</label>
-                    <input type="text" id="goodsland" class="form_input" />
+                <div class="row form-group">
+                    <div class="col-md-12">
+                        <label for="SplRemarks1">Spl.Remarks</label>
+                        <textarea id="SplRemarks1" autocomplete="off" style="min-width: 100%"></textarea>
+                    </div>
                 </div>
-            </div>
-           </div>
-        <div class="container">
-            <div class=" table-responsive">
-                <table class="table table-bordered">
-                    <thead>
-                        <tr class="grid_heading">
-                            <th>Sl.No.</th>
-                            <th>Part No.</th>
-                            <th>Product</th>
-                            <th class="text-right ">Req Qty.</th>
-                            <th class="text-right ">Pending Qty.</th>
-                            <th class="text-right ">Current Issued Qty</th>
-                            <th>Unit</th>
-                            <th class="text-right ">Rate</th>
-                            <th class="text-right ">Amount</th>
-                        </tr>
-                    </thead>
-                    <tbody class="grid_row">
-                        <tr>
-                            <td>1</td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                        </tr>
-                        <tr>
-                            <td>2</td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                        </tr>
-                        <tr>
-                            <td>3</td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                        </tr>
-                        <tr>
-                            <td>4</td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-md-12">
-                <div class=" col-md-12 form-group">
-                    <label for="SplRemarks1">Spl.Remarks</label>
-                    <textarea id="SplRemarks1" style="min-width: 100%"></textarea>
-                </div>
-            </div>
-            <div class="col-md-4">
-                <div class="col-md-7 form-group">
-                    <label for="reqdate">Required Date</label>
-                    <input type="date" id="reqdate" style="min-width: 100%" class="form_input" />
-                </div>
-            </div>
-            <div class="col-md-4">
-                <div class="col-md-7 form-group">
-                    <label for="emp">Employee/Supervisor</label>
-                    <select id="bay" class="form_input">
-                        <option>Select Employee</option>
-                        <option>Employee 1</option>
-                        <option>Employee 2</option>
-                        <option>Employee 3</option>
-                    </select>
-                </div>
-            </div>
-            <div class="col-md-12 col-md-4">
-                <div style="float:left" class="alignCenter">
+                <div class="row form-group">
+                    <div class="col-md-2">
+                        <label for="reqdate">Required Date</label>
+                        <input type="date" id="reqdate" style="min-width: 100%" class="form_input" />
+                    </div>
+                    <div class="col-md-2">
+                        <label for="emp">Employee/Supervisor</label>
+                        <select id="bay" class="form_input" autocomplete="off">
+                            <option>Select Employee</option>
+                            <option>Employee 1</option>
+                            <option>Employee 2</option>
+                            <option>Employee 3</option>
+                        </select>
+                    </div>
+                    </div>
+            <div class="row">
+                <div class="col-md-1">
                     <button type="submit" class="button-style">Exit</button>
                 </div>
-                <div style="float:right" class="alignCenter">
+                <div class="col-md-offset-11">
                     <button type="submit" class="button-style">Save</button>
                 </div>
             </div>
-
-
-        </div>
-    </form>
+</form>
+    </div>
 </div>
 

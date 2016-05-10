@@ -4,62 +4,52 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<div style="background-color:#BCBABE">
+<div class="h4bgcolor">
     <h4>Purchase Request</h4>
 </div>
-<div class="container ">
-    <form>
-        <div class="row">
-            <div class="col-md-4">
-                <div class="col-md-7 form-group">
-                    <label for="prsno">PRS No.</label>
-                    <input type="text" id="prsno" class="form_input" />
-                </div>
-            </div>
-            <div class="col-md-4 col-md-offset-4 ">
-                <div class="col-md-7 col-md-offset-5 form-group align_left">
-                    <label for="inputDate">Date</label>
-                    <input type="date" id="inputDate" class="form_input" />
-                </div>
-            </div>
-            <div class="col-md-4">
-                <div class="col-md-7 form-group ">
-                    <label for="wrno">WorkShop Request No & Date </label>
-                    <input type="text" id="wrno" class="form_input" />
-                </div>
-            </div>
-            <div class="col-md-4">
-                <div class="col-md-7 form-group align_right ">
-                    <label for="cus">Customer</label>
-                    <input type="text" id="cus" class="form_input" />
-                </div>
-            </div>
-            <div class="col-md-4">
-                <div class=" col-md-7 col-md-offset-5 form-group align_left">
-                    <label for="cusref"> Customer Order Ref. </label>
-                    <input type="text" id="cusref" class="form_input" />
-                </div>
-            </div>
 
-            <div class="col-md-4">
-                <div class="col-md-7 form-group">
-                    <label for="pdt">Product</label>
-                    <select id="pdt" class="form_input">
+<div class="container">
+    <div class="row">
+        <form role="form">
+            <div class="row form-group">
+                <div class="col-md-2">
+                    <label for="prsno">PRS No.</label>
+                    <input type="text" id="prsno" autocomplete="off" class="form_input" />
+                </div>
+                <div class="col-md-2 col-md-offset-8">
+                    <label for="inputDate">Date</label>
+                    <input type="date" id="inputDate" class="form_input" autocomplete="off" />
+                </div>
+            </div>
+            <div class="row form-group">
+                <div class="col-md-3">
+                    <label for="wrno">WorkShop Request No & Date </label>
+                    <input type="text" id="wrno" autocomplete="off" class="form_input" />
+                </div>
+                <div class="col-md-3">
+                    <label for="cus">Customer</label>
+                    <input type="text" id="cus" class="form_input" autocomplete="off" />
+                </div>
+                <div class="col-md-3">
+                    <label for="cusref">Customer Order Ref.</label>
+                    <input type="text" id="cusref" autocomplete="off" class="form_input" />
+                </div>
+            </div>
+            <div class="row form-group">
+                <div class="col-md-3">
+                    <label for="productr">Product Description</label>
+                    <select id="productr" autocomplete="off" class="form_input">
                         <option>Select Product</option>
-                        <option>product1</option>
-                        <option>product2</option>
-                        <option>product3</option>
+                        <option>Product1</option>
+                        <option>Product2</option>
+                        <option>Product3</option>
                     </select>
                 </div>
-            </div>
-            <div class="col-md-4 col-md-offset-4 ">
-                <div class="col-md-7 col-md-offset-5 form-group align_left">
+                <div class="col-md-3">
                     <label for="qty">Qty.</label>
-                    <input type="text" id="qty" class="form_input" />
+                    <input type="text" id="qty" autocomplete="off" class="form_input" />
                 </div>
             </div>
-        </div>
-        <div class="container">
             <div class=" table-responsive">
                 <table class="table table-bordered">
                     <thead>
@@ -107,30 +97,29 @@
                         </tr>
                     </tbody>
                 </table>
+             
             </div>
-            </div>
-        <div class="row">
-            <div class="col-md-12">
-                <div class=" col-md-12 form-group">
+            <div class="row form-group">
+                <div class="col-md-12">
                     <label for="SplRemarks1">Spl.Remarks</label>
-                    <textarea id="SplRemarks1" style="min-width: 100%"></textarea>
+                    <textarea id="SplRemarks1" autocomplete="off" style="min-width: 100%"></textarea>
                 </div>
             </div>
-            <div class="col-md-12">
-                <div class="col-md-2 form-group">
+            <div class="row form-group">
+                <div class="col-md-2">
                     <label for="reqdate">Required Date</label>
                     <input type="date" id="reqdate" style="min-width: 100%" class="form_input" />
                 </div>
             </div>
-            <div class="col-md-12 col-md-4">
-                <div style="float:left" class="alignCenter">
+            <div class="row">
+                <div class="col-md-1">
                     <button type="submit" class="button-style">Exit</button>
                 </div>
-                <div style="float:right" class="alignCenter">
+                <div class="col-md-offset-11">
                     <button type="submit" class="button-style">Save</button>
                 </div>
             </div>
-        </div>
-    </form>
+        </form>
+    </div>
 </div>
 
