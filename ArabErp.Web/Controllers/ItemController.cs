@@ -26,10 +26,10 @@ namespace ArabErp.Web.Controllers
             return View("Create");
         }
 
-        public ActionResult View(int ItemId)
+        public ActionResult View(int Id)
         {
 
-            Item objItem =new JobCardRepository().GetItem(ItemId);
+            Item objItem =new JobCardRepository().GetItem(Id);
 
             return View("Create", objItem);
         }
