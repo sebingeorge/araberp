@@ -7,12 +7,12 @@
     <h4>Job Card</h4>
 </div>
 <div class="container " style="background-color:#BCBABE">
-    <form>
+    <form action="@Url.Action("Save")">
         <div class="row">
             <div class="col-md-4">
                 <div class="col-md-7 form-group">
                     <label for="jcno">Job Card No.</label>
-                    <input type="text" id="jcno" class="form_input" />
+                    <input type="text" name="JobCardNo" class="form_input" />
                 </div>
             </div>
             <div class="col-md-4 col-md-offset-4 ">

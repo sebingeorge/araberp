@@ -9,35 +9,11 @@ using SqliteConnection = System.Data.SQLite.SQLiteConnection;
 
 
 using System.Data.SqlClient;
-
 using Dapper;
-
 using System.Data;
 using ArabErp.Domain;
 using ArabErp.DAL;
-
-#if ENTITY_FRAMEWORK
-using System.Data.Entity.Spatial;
-using Microsoft.SqlServer.Types;
-#endif
-#if SQL_CE
-using System.Data.SqlServerCe;
-#endif
-
-#if POSTGRESQL
-using Npgsql;
-#endif
-#if SQLITE
-#if NET40 || NET45
-using System.Data.SQLite;
-#else
-using Microsoft.Data.Sqlite;
-#endif
-#endif
-#if ASYNC
-using System.Threading.Tasks;
-#endif
-
+using DapperExtensions;
 
 namespace ArabErp
 {
@@ -49,21 +25,21 @@ namespace ArabErp
     ConnectionStrings["arab"].ConnectionString;
 
        
-        public static SqlConnection GetOpenConnection()
-        {
-            var cs = ConnectionString;
+        //public static SqlConnection GetOpenConnection()
+        //{
+        //    var cs = ConnectionString;
            
-            var connection = new SqlConnection(cs);
-            connection.Open();
-            return connection;
-        }
+        //    var connection = new SqlConnection(cs);
+        //    connection.Open();
+        //    return connection;
+        //}
 
-        public static SqlConnection GetClosedConnection()
-        {
-            var conn = new SqlConnection(ConnectionString);
-            if (conn.State != ConnectionState.Closed) throw new InvalidOperationException("should be closed!");
-            return conn;
-        }
+        //public static SqlConnection GetClosedConnection()
+        //{
+        //    var conn = new SqlConnection(ConnectionString);
+        //    if (conn.State != ConnectionState.Closed) throw new InvalidOperationException("should be closed!");
+        //    return conn;
+        //}
 
         private SqlConnection _connection;
 
@@ -100,6 +76,19 @@ namespace ArabErp
             connection.Execute("Insert into JobCard (JobCardNo) Values ('" + jc.JobCardNo + "')");
             var rtn = "Saved " + jc.JobCardNo;
             return rtn;
+        }
+
+        public void SaveItem(Item objItem)
+        {
+           
+            connection.Insert<Item>(objItem);
+        }
+
+        public Item GetItem(int ItemId)
+        {
+
+            Item objItem= connection.Get<Item>(ItemId);
+            return objItem;
         }
 
         public void Dispose()
