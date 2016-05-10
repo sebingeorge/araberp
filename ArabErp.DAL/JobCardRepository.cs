@@ -87,11 +87,36 @@ namespace ArabErp
             connection.Insert<Item>(objItem);
         }
 
+        public void UpdateItem(Item objItem)
+        {
+
+            connection.Update<Item>(objItem);
+        }
+
+        public void DeleteItem(Item objItem)
+        {
+
+            connection.Delete<Item>(objItem);
+        }
         public Item GetItem(int ItemId)
         {
 
             Item objItem= connection.Get<Item>(ItemId);
             return objItem;
+        }
+
+        public IEnumerable<Item> GetAllItems()
+        {
+            IEnumerable<Item> list = connection.GetList<Item>();
+            return list;
+        }
+
+        public IEnumerable<Item> GetGroup1Items()
+        {
+
+            var predicate = Predicates.Field<Item>(i => i.ItemGroupId, Operator.Eq, 4);
+            IEnumerable<Item> list = connection.GetList<Item>(predicate);
+            return list;
         }
 
         public void Dispose()
