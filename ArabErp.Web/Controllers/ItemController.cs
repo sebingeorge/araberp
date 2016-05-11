@@ -22,7 +22,6 @@ namespace ArabErp.Web.Controllers
             oitem.ItemGroupId = 3;
             oitem.ItemSubGroupId = 1;
             new JobCardRepository().SaveItem(oitem);
-
             return View("Create");
         }
 
@@ -30,7 +29,6 @@ namespace ArabErp.Web.Controllers
         {
 
             Item objItem =new JobCardRepository().GetItem(Id);
-
             return View("Create", objItem);
         }
     }
