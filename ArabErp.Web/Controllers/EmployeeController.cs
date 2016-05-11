@@ -1,4 +1,5 @@
-﻿using System;
+﻿using ArabErp.DAL;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -15,7 +16,11 @@ namespace ArabErp.Web.Controllers
         }
         public ActionResult Create()
         {
-            return View();
+
+            var rep = new EmployeeRepository();
+
+
+            return View(rep.NewEmployee());
         }
     }
 }

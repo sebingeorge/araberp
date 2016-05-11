@@ -20,11 +20,9 @@ namespace ArabErp.Domain
         public string CreatedBy { get; set; }
         public DateTime? CreatedDate { get; set; }
         public int OrganizationId { get; set; }
+       
 
-        public System.Collections.IEnumerable Designation { get; set; }
+        public List<Designation> Designations { get; set; }
     }
-   public enum Designation
-   {
-       Supervisior, Worker
-   }
+
 }

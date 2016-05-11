@@ -15,22 +15,7 @@ namespace ArabErp
     {
         
        
-        //public static SqlConnection GetOpenConnection()
-        //{
-        //    var cs = ConnectionString;
-           
-        //    var connection = new SqlConnection(cs);
-        //    connection.Open();
-        //    return connection;
-        //}
-
-        //public static SqlConnection GetClosedConnection()
-        //{
-        //    var conn = new SqlConnection(ConnectionString);
-        //    if (conn.State != ConnectionState.Closed) throw new InvalidOperationException("should be closed!");
-        //    return conn;
-        //}
-
+  
         private SqlConnection connection;
 
      //   private SqlConnection connection => _connection ?? (_connection = ConnectionManager.connection);

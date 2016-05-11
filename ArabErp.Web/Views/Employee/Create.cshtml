@@ -49,10 +49,16 @@
                                 <option>Supervisior</option>
                                 <option>Worker</option>
                             </select>*@
-                            @Html.DropDownList("DesignationId",
-                                      new SelectList(Enum.GetValues(typeof(ArabErp.Domain.Designation))),
-                             "Select Designation", new { @class = "form_input" })
-
+                            <select id="desg" class="form_input" autocomplete="off">
+            <option>Select Designation</option>
+                                @{
+                                    foreach (var de in Model.Designations)
+                                    {
+                                        <option value="@de.DesignationId">@de.DesignationName</option>
+                                    }
+                                }
+      
+        </select>                 
 
                         </div>
                         </div>
