@@ -24,8 +24,8 @@ namespace ArabErp.DAL
         public Employee NewEmployee()
         {
             var emp = new Employee();
+            emp.Designations = connection.Query<Designation>("select DesignationId,DesignationName from Designation").ToList();
 
-            emp.Designations = connection.GetList<Designation>().ToList<Designation>();
             return emp;
         }
 

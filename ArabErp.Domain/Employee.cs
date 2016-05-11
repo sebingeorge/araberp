@@ -12,7 +12,7 @@ namespace ArabErp.Domain
         public string EmployeeRefNo { get; set; }
         public string EmployeeName { get; set; }
         public int GenderId { get; set; }
-        public Designation DesignationId { get; set; }
+        public int DesignationId { get; set; }
         public int CategoryId { get; set; }
         public int LocationId { get; set; }
         public int TaskId { get; set; }
