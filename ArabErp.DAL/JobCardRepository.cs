@@ -1,16 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Configuration.Assemblies;
-
-#if SQLITE && (NET40 || NET45)
-using SqliteConnection = System.Data.SQLite.SQLiteConnection;
-#endif
-
-
 using System.Data.SqlClient;
 using Dapper;
-using System.Data;
 using ArabErp.Domain;
 using ArabErp.DAL;
 using DapperExtensions;
@@ -21,9 +13,7 @@ namespace ArabErp
 
     public class JobCardRepository : IDisposable
     {
-        public static string ConnectionString = System.Configuration.ConfigurationManager.
-    ConnectionStrings["arab"].ConnectionString;
-
+        
        
         //public static SqlConnection GetOpenConnection()
         //{
@@ -47,7 +37,12 @@ namespace ArabErp
 
         public JobCardRepository ()
         {
-            connection = ConnectionManager.connection;
+
+            if (connection==null)
+            {
+                connection = ConnectionManager.connection;
+            }
+                
         }
  
         public string GetJobNumber(int id)
@@ -118,6 +113,31 @@ namespace ArabErp
             IEnumerable<Item> list = connection.GetList<Item>(predicate);
             return list;
         }
+        public IEnumerable<Item> GetGroup1andSubGroup1Items()
+        {
+            var pg = new PredicateGroup { Operator = GroupOperator.And, Predicates = new List<IPredicate>() };
+            pg.Predicates.Add(Predicates.Field<Item>(i => i.ItemGroupId, Operator.Eq, 4));
+            pg.Predicates.Add(Predicates.Field<Item>(i => i.ItemSubGroupId, Operator.Eq, 1));
+
+            IEnumerable<Item> list = connection.GetList<Item>(pg);
+
+            return list;
+        }
+
+        class MyQueryResultValue { public long Value { get; set; } }
+
+        public bool TestMyQueryResultValue()
+        {
+            long Myparam = 12345;
+            var result = connection.Query<MyQueryResultValue>(@" 
+            declare @mytemp table(Value bigint)
+            insert @mytemp  values (@Myparam)
+            select * from @mytemp "
+            , new { Myparam }).Single();
+
+           return result.Value.Equals(Myparam);
+        }
+
 
         public void Dispose()
         {
