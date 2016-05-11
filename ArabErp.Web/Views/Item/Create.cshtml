@@ -1,6 +1,4 @@
 ﻿@model ArabErp.Domain.Item
-
-
 @{
     ViewBag.Title = "Create";
     Layout = "~/Views/Shared/_Layout.cshtml";
@@ -19,9 +17,9 @@
                         <input type="text" id="code" autocomplete="off" class="form_input" />
                     </div>
                     <div class="col-md-6">
-                        <label for="name">Item Name</label>
+                        <label for="ItemName">Item Name</label>
  @*                       <input type="text" autocomplete="off" name="ItemName" id="ItemName" class="form_input" />*@
-                      @Html.TextBoxFor(m => m.ItemName,new { @class = "form_input" })
+                        @Html.TextBoxFor(m => m.ItemName, new { @class = "form_input"})
                     </div>
                 </div>
                 <div class="row form-group">
