@@ -1,4 +1,5 @@
-﻿
+﻿@model ArabErp.Domain.Customer
+
 @{
     ViewBag.Title = "Create";
     Layout = "~/Views/Shared/_Layout.cshtml";
@@ -9,110 +10,113 @@
 </div>
 <div class="container">
     <div class="row">
-       
+        <div class="col-md-12">
             <form role="form">
                 <div class="row form-group">
                     <div class="col-md-3">
                         <label for="code">Code</label>
-                        <input type="text" id="code" autocomplete="off" class="form_input" />
+
+                        @Html.TextBoxFor(m => m.CustomerId, new { @class = "form_input ", autocomplete = "off" })
+
+
                     </div>
                     <div class="col-md-5">
                         <label for="name">Name</label>
-                        <input type="text" autocomplete="off" id="name" class="form_input" />
+                        @Html.TextBoxFor(m => m.CustomerName, new { @class = "form_input ", autocomplete = "off" })
                     </div>
                     <div class="col-md-4">
                         <label for="prntname">Print Name</label>
-                        <input type="text" autocomplete="off" id="prntname" class="form_input" />
+                        @Html.TextBoxFor(m => m.CustomerPrintName, new { @class = "form_input ", autocomplete = "off" })
                     </div>
                     </div>
                 <div class="row form-group">
                    
                     <div class="col-md-3">
                         <label for="categry">Category</label>
-                        <select id="categry" class="form_input" autocomplete="off">
-                            <option>Select Category</option>
-                            <option>Category1</option>
-                            <option>Category2</option>
-                        </select>
+
+                        @Html.DropDownListFor(m => m.CategoryId,
+                                          new SelectList(Enum.GetValues(typeof(ArabErp.Domain.CategoryId))),
+                                                            "Select Category", new { @class = "form_input" })
                     </div>
                     <div class="col-md-3">
                         <label for="leadsource">Lead Source</label>
-                        <select id="leadsource" class="form_input" autocomplete="off">
-                            <option>Select Lead Source</option>
-                            <option>Lead Source1</option>
-                            <option>Lead Source2</option>
-                        </select>
+                        @Html.DropDownListFor(m => m.LeadSourceId,
+                                                   new SelectList(Enum.GetValues(typeof(ArabErp.Domain.LeadSourceId))),
+                                                            "Select Lead Source", new { @class = "form_input" })
                     </div>
                     <div class="col-md-3">
                         <label for="curnc">Currency</label>
-                        <select id="curnc" class="form_input" autocomplete="off">
-                            <option>Select Currency</option>
-                            <option>Currency1</option>
-                            <option>Currency2</option>
-                        </select>
+
+
+                        @Html.DropDownListFor(m => m.CurrencyId,
+                                                   new SelectList(Enum.GetValues(typeof(ArabErp.Domain.CurrencyId))),
+                                                            "Select Currency", new { @class = "form_input" })
                     </div>
                 </div>
+                <div class="row form-group"></div>
                 <div style=" font-weight:bold">Address & Communication</div>
                 <div class="row form-group">
                     <div class="col-md-3">
                         <label for="doorno">Door No.& Building</label>
-                        <input type="text" id="doorno" autocomplete="off" class="form_input" />
+                        @Html.TextBoxFor(m => m.DoorNo, new { @class = "form_input", autocomplete = "off" })
                     </div>
 
                     <div class="col-md-3">
                         <label for="street">Street & City</label>
-                        <input type="text" autocomplete="off" id="street" class="form_input" />
+                        @Html.TextBoxFor(m => m.Street, new { @class = "form_input ", autocomplete = "off" })
                     </div>
                     <div class="col-md-3">
                         <label for="state">State</label>
-                        <input type="text" autocomplete="off" id="state" class="form_input" />
+                        @Html.TextBoxFor(m => m.State, new { @class = "form_input ", autocomplete = "off" })
                     </div>
                     <div class="col-md-3">
                         <label for="country">Country</label>
-                        <select id="country" class="form_input" autocomplete="off">
-                            <option>Select Country</option>
-                            <option>Country1</option>
-                            <option>Country2</option>
-                        </select>
+
+                        @Html.DropDownListFor(m => m.Country,
+                                                            new SelectList(Enum.GetValues(typeof(ArabErp.Domain.Country))),
+                                                            "Select Country", new { @class = "form_input" })
                     </div>
                     
                 </div>
                 <div class="row form-group">
                     <div class="col-md-3">
                         <label for="zip">Zip</label>
-                        <input type="text" autocomplete="off" id="zip" class="form_input" />
+                        @Html.TextBoxFor(m => m.Zip, new { @class = "form_input ", autocomplete = "off" })
                     </div>
                     <div class="col-md-3">
                         <label for="phno">Phone No.</label>
-                        <input type="text" autocomplete="off" id="phno" class="form_input" />
+                        @Html.TextBoxFor(m => m.Phone, new { @class = "form_input ", autocomplete = "off" })
                     </div>
                     <div class="col-md-3">
                         <label for="fax">Fax</label>
-                        <input type="text" id="fax" autocomplete="off" class="form_input" />
+                        @Html.TextBoxFor(m => m.Fax, new { @class = "form_input ", autocomplete = "off" })
                     </div>
                     <div class="col-md-3">
                         <label for="email">E-mail</label>
-                        <input type="text" autocomplete="off" id="email" class="form_input" />
+                        @Html.TextBoxFor(m => m.Email, new { @class = "form_input ", autocomplete = "off" })
                     </div>
                 </div>
                 <div class="row form-group">
                    
                     <div class="col-md-6">
                         <label for="cntperson">Contact Person</label>
-                        <input type="text" autocomplete="off" id="cntperson" class="form_input" />
+                        @Html.TextBoxFor(m => m.ContactPerson, new { @class = "form_input", autocomplete = "off" })
                     </div>
                   
                 </div>
+
                 <div class="row">
+                    <div class="col-md-10">
+                    </div>
                 <div class="col-md-1">
                     <button type="submit" class="button-style">Exit</button>
                 </div>
-                <div class="col-md-offset-11">
+                    <div class="col-md-1">
                     <button type="submit" class="button-style">Save</button>
                 </div>
                 </div>
              </form>
-       
+        </div>
     </div>
 </div>
 

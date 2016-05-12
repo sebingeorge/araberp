@@ -1,10 +1,10 @@
 ﻿@model ArabErp.Domain.EmployeeCategoryDropDown
 
 
-@Html.DropDownList("drp", m => m.Code, new { Controller = "DropDown", Action = "EmployeeCategory" })
 
+@Html.DropDownList("designations",ViewBag.designations as List<SelectListItem>,"Select Designation", new { @class = "form_input" })
 
-@Html.DevExpress().ComboBoxFor(m=>m.pmlpmGrpCode,
+@*@Html.DevExpress().ComboBoxFor(m=>m.pmlpmGrpCode,
 settings =>
 {
     settings.Name = "pmlpmGrpCode1";
@@ -18,5 +18,5 @@ settings =>
     //settings.Properties.ValueType = Type.GetType("int";
     //settings.Properties.ClearButton.DisplayMode = ClearButtonDisplayMode.OnHover;
 }
-).BindList(ViewData["Group"]).GetHtml()*@
+).BindList(ViewData["Group"]).GetHtml()*@*@
 

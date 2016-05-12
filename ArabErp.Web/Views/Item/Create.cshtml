@@ -9,91 +9,96 @@
 </div>
 <div class="container">
     <div class="row">
-        <div class="col-md-6 col-md-offset-3">
+        <div class="col-md-12">
             <form role="form" action="@Url.Action("Save")">
+               
                 <div class="row form-group">
-                    <div class="col-md-6">
+                    <div class="col-md-3">
                         <label for="code">Part No</label>
-                        <input type="text" id="code" autocomplete="off" class="form_input" />
+                        @Html.TextBoxFor(m => m.PartNo, new { @class = "form_input form-control",autocomplete = "off" })
                     </div>
-                    <div class="col-md-6">
-                        <label for="ItemName">Item Name</label>
+                    <div class="col-md-3">
+                        <label for="name">Item Name</label>
  @*                       <input type="text" autocomplete="off" name="ItemName" id="ItemName" class="form_input" />*@
-                        @Html.TextBoxFor(m => m.ItemName, new { @class = "form_input"})
+                      @Html.TextBoxFor(m => m.ItemName, new { @class = "form_input", autocomplete = "off" })
                     </div>
-                </div>
-                <div class="row form-group">
-                    <div class="col-md-6">
+                    <div class="col-md-3">
                         <label for="code">Print Name</label>
-                        <input type="text" id="code" autocomplete="off" class="form_input" />
+                        @Html.TextBoxFor(m => m.ItemPrintName, new { @class = "form_input", autocomplete = "off" })
                     </div>
-                    <div class="col-md-6">
+                    <div class="col-md-3">
                         <label for="name">Short Name</label>
-                        <input type="text" autocomplete="off" id="name" class="form_input" />
+                        @Html.TextBoxFor(m => m.ItemShortName, new { @class = "form_input", autocomplete = "off" })
                     </div>
                 </div>
+               
                 <div class="row form-group">
-                    <div class="col-md-6">
+                    <div class="col-md-3">
                         <label for="code">Item Sub Group</label>
-                        <select id="desg" class="form_input" autocomplete="off">
-                            <option>Select Sub Group</option>
-                            <option>Sub Group1</option>
-                            <option>Sub Group2</option>
-                        </select>
+                      
+
+                        @Html.DropDownListFor(m => m.ItemSubGroupId,
+                                 new SelectList(Enum.GetValues(typeof(ArabErp.Domain.ItemSubGroupId))),
+                                 "Select Sub Group",new { @class = "form_input" })
+                       
+
                     </div>
-                    <div class="col-md-6">
+                    <div class="col-md-3">
                         <label for="name">Commodity Code</label>
-                        <input type="text" autocomplete="off" id="name" class="form_input" />
+                       @Html.TextBoxFor(m => m.CommodityId, new { @class = "form_input", autocomplete = "off" })
                     </div>
-                </div>
-                <div class="row form-group">
-                    <div class="col-md-6">
+                    <div class="col-md-3">
                         <label for="code">Item Group</label>
-                        <input type="text" id="code" autocomplete="off" class="form_input" />
+                        @Html.TextBoxFor(m => m.ItemName, new { @class = "form_input", autocomplete = "off" })
                     </div>
-                    <div class="col-md-6">
+                    <div class="col-md-3">
                         <label for="name">Quality</label>
-                        <select id="desg" class="form_input" autocomplete="off">
-                            <option>Select Quality</option>
-                            <option>Quality1</option>
-                            <option>Quality2</option>
-                        </select>
+                        @Html.DropDownListFor(m => m.ItemQuality,
+                                 new SelectList(Enum.GetValues(typeof(ArabErp.Domain.ItemQuality))),
+                                 "Select Quality", new { @class = "form_input" })
+
+                       
                     </div>
+                    </div>
+                <div class="row form-group">
+                   
                 </div>
                 <div class="row form-group">
-                    <div class="col-md-6">
+                    <div class="col-md-3">
                         <label for="code">Item Category</label>
-                        <input type="text" id="code" autocomplete="off" class="form_input" />
+                        @Html.TextBoxFor(m => m.ItemName, new { @class = "form_input", autocomplete = "off" })
                     </div>
-                    <div class="col-md-6">
+                    <div class="col-md-3">
                         <label for="name">Unit</label>
-                        <select id="desg" class="form_input" autocomplete="off">
-                            <option>Select Unit</option>
-                            <option>Unit1</option>
-                            <option>Unit2</option>
-                        </select>
+                        @Html.DropDownListFor(m => m.itemUnit,
+                                 new SelectList(Enum.GetValues(typeof(ArabErp.Domain.itemUnit))),
+                                 "Select Unit", new { @class = "form_input" })
+                    
                     </div>
                 </div>
                 <div class="row form-group">
-                    <div class="col-md-4">
+                    <div class="col-md-3">
                         <label for="code">Min.Level</label>
-                        <input type="text" id="code" autocomplete="off" class="form_input" />
+                        @Html.TextBoxFor(m => m.MinLevel, new { @class = "form_input", autocomplete = "off" })
                     </div>
-                    <div class="col-md-4">
+                    <div class="col-md-3">
                         <label for="name">ReOrder Level</label>
-                        <input type="text" autocomplete="off" id="name" class="form_input" />
+                        @Html.TextBoxFor(m => m.ReorderLevel, new { @class = "form_input", autocomplete = "off" })
                     </div>
-                    <div class="col-md-4">
+                    <div class="col-md-3">
                         <label for="name">Max.Level</label>
-                        <input type="text" autocomplete="off" id="name" class="form_input" />
+                        @Html.TextBoxFor(m => m.MaxLevel, new { @class = "form_input", autocomplete = "off" })
                     </div>
+                    </div>
+                <div class="row form-group">
+                    <div class="col-md-10">
+
                 </div>
-                <div class="col-md-12 col-md-4">
-                    <div style="float:left" class="alignCenter">
-                        <button type="submit" class="button-style">Exit</button>
+                    <diV class="col-md-1">
+                        <button type="submit" class="form_input">Exit</button>
                     </div>
-                    <div style="float:right" class="alignCenter">
-                        <button type="submit" class="button-style">Save</button>
+                    <div class="col-md-1">
+                        <button type="submit" class="form_input">Save</button>
                     </div>
                 </div>
 
