@@ -1,0 +1,46 @@
+﻿
+@{
+    ViewBag.Title = "create";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<div class="h4bgcolor">
+    <h4>Vehicle Model</h4>
+</div>
+
+<div class=" container ">
+    <div class="row ">
+        <div class="col-md-6 col-md-offset-3 ">
+            <form role="form">
+
+                <div class="row form-group">
+                    <div class="col-md-6">
+                        <label for="VehicleModelRefNo">Code</label>
+                        <input type="text" id="VehicleModelRefNo" autocomplete="off" class="form_input" />
+                    </div>
+                    <div class="col-md-6">
+                        <label for="VehicleModelName">Name</label>
+                        <input type="text" autocomplete="off" id="VehicleModelName" class="form_input" />
+                    </div>
+                </div>
+
+                <div class="row form-group">
+                    <div class="col-md-6">
+                        <label for="VehicleModelDescription">Description</label>
+                        <input type="text" id="VehicleModelDescription" autocomplete="off" class="form_input" />
+                    </div>
+                </div>
+
+                <div class="col-md-12">
+                    <div style="float:right" class="alignCenter">
+                        <button type="submit" class="button-style">Exit</button>
+                    </div>
+                    <div style="float:right" class="alignCenter">
+                        <button type="submit" class="button-style">Save</button>
+                    </div>
+                </div>
+
+
+             </form>
+        </div>
+        </div>
+</div>
