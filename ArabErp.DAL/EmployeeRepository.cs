@@ -29,6 +29,13 @@ namespace ArabErp.DAL
             return emp;
         }
 
+        public IEnumerable<EmployeeCategoryDropDown> CategoryDropdownList()
+        {
+            var list = connection.Query<EmployeeCategoryDropDown>("select EmpCategoryId Code,EmpCategoryName Name from EmpolyeeCategory").ToList();
+            return list;
+        }
+
+
         public void Dispose()
         {
             connection.Dispose();

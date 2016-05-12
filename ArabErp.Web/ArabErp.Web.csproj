@@ -181,6 +181,9 @@
     <Compile Include="Controllers\CurrencyController.cs" />
     <Compile Include="Controllers\CustomerCategoryController.cs" />
     <Compile Include="Controllers\CustomerController.cs" />
+    <Compile Include="Controllers\DropDownController.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="Controllers\EmployeeCategoryController.cs" />
     <Compile Include="Controllers\EmployeeController.cs" />
     <Compile Include="Controllers\GrnWareHouseController.cs" />
@@ -276,7 +279,12 @@
     <Content Include="Scripts\respond.js" />
     <Content Include="Scripts\respond.min.js" />
     <Content Include="Scripts\_references.js" />
-    <Content Include="Web.config" />
+    <Content Include="Views\DropDown\_EmployeeCategory.cshtml">
+      <SubType>Code</SubType>
+    </Content>
+    <Content Include="Web.config">
+      <SubType>Designer</SubType>
+    </Content>
     <Content Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </Content>
