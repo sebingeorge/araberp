@@ -29,6 +29,8 @@ namespace ArabErp.DAL
             return emp;
         }
 
+       
+
         public void Dispose()
         {
             connection.Dispose();
