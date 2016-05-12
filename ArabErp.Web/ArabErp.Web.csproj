@@ -181,6 +181,7 @@
     <Compile Include="Controllers\CurrencyController.cs" />
     <Compile Include="Controllers\CustomerCategoryController.cs" />
     <Compile Include="Controllers\CustomerController.cs" />
+    <Compile Include="Controllers\DesignationController.cs" />
     <Compile Include="Controllers\EmployeeCategoryController.cs" />
     <Compile Include="Controllers\EmployeeController.cs" />
     <Compile Include="Controllers\GrnWareHouseController.cs" />
@@ -202,6 +203,7 @@
     <Compile Include="Controllers\SupplierCategoryController.cs" />
     <Compile Include="Controllers\SupplierController.cs" />
     <Compile Include="Controllers\SupplyOrderController.cs" />
+    <Compile Include="Controllers\TaskController.cs" />
     <Compile Include="Controllers\UnitController.cs" />
     <Compile Include="Controllers\VehicleModelController.cs" />
     <Compile Include="Controllers\WorkDescriptionController.cs" />
@@ -351,6 +353,8 @@
     <Content Include="Views\EmployeeCategory\create.cshtml" />
     <Content Include="Views\StockPoint\create.cshtml" />
     <Content Include="Views\VehicleModel\create.cshtml" />
+    <Content Include="Views\Task\create.cshtml" />
+    <Content Include="Views\Designation\create.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
