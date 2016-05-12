@@ -6,11 +6,12 @@ using System.Threading.Tasks;
 
 namespace ArabErp.Domain
 {
-    public class Designation
+    public class SupplierCategory
     {
-        public int DesignationId { get; set; }
-        public string DesignationRefNo { get; set; }
-        public string DesignationName { get; set; }
+        public int SupCategoryId { get; set; }
+        public string SupCategoryRefNo { get; set; }
+        public string SupCategoryName { get; set; }
+        public string SupCategoryShortName { get; set; }
         public string CreatedBy { get; set; }
         public DateTime? CreatedDate { get; set; }
         public int OrganizationId { get; set; }

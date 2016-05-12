@@ -9,7 +9,9 @@ namespace ArabErp.Domain
    public class ItemGroup
     {
         public int ItemGroupId { get; set; }
+        public string ItemGroupRefNo { get; set; }
         public string ItemGroupName { get; set; }
+        public int ItemCategoryId { get; set; }
         public string CreatedBy { get; set; }
         public DateTime? CreatedDate { get; set; }
         public int OrganizationId { get; set; }
