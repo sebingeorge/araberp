@@ -4,8 +4,7 @@ using System.Linq;
 using System.Data.SqlClient;
 using Dapper;
 using ArabErp.Domain;
-using ArabErp.DAL;
-using DapperExtensions;
+
 
 namespace ArabErp.DAL
 {
