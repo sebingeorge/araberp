@@ -179,11 +179,16 @@
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\AdditionalWorkShopRequestController.cs" />
     <Compile Include="Controllers\CurrencyController.cs" />
+    <Compile Include="Controllers\CustomerCategoryController.cs" />
     <Compile Include="Controllers\CustomerController.cs" />
+    <Compile Include="Controllers\EmployeeCategoryController.cs" />
     <Compile Include="Controllers\EmployeeController.cs" />
     <Compile Include="Controllers\GrnWareHouseController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\ItemCategoryController.cs" />
     <Compile Include="Controllers\ItemController.cs" />
+    <Compile Include="Controllers\ItemGroupController.cs" />
+    <Compile Include="Controllers\ItemSubGroupController.cs" />
     <Compile Include="Controllers\JobCardController.cs" />
     <Compile Include="Controllers\JobOrderCompletionController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
@@ -191,10 +196,14 @@
     <Compile Include="Controllers\SaleOrderController.cs" />
     <Compile Include="Controllers\SalesInvoiceController.cs" />
     <Compile Include="Controllers\StockJournelController.cs" />
+    <Compile Include="Controllers\StockPointController.cs" />
     <Compile Include="Controllers\StockReturnController.cs" />
     <Compile Include="Controllers\StoresIssueController.cs" />
+    <Compile Include="Controllers\SupplierCategoryController.cs" />
     <Compile Include="Controllers\SupplierController.cs" />
     <Compile Include="Controllers\SupplyOrderController.cs" />
+    <Compile Include="Controllers\UnitController.cs" />
+    <Compile Include="Controllers\VehicleModelController.cs" />
     <Compile Include="Controllers\WorkDescriptionController.cs" />
     <Compile Include="Controllers\WorkShopRequestController.cs" />
     <Compile Include="Global.asax.cs">
@@ -328,6 +337,15 @@
     <Content Include="Views\Supplier\Create.cshtml" />
     <Content Include="Views\Customer\Create.cshtml" />
     <Content Include="Views\Currency\Create.cshtml" />
+    <Content Include="Views\ItemCategory\Create.cshtml" />
+    <Content Include="Views\ItemGroup\Create.cshtml" />
+    <Content Include="Views\ItemSubGroup\Create.cshtml" />
+    <Content Include="Views\Unit\Create.cshtml" />
+    <Content Include="Views\CustomerCategory\create.cshtml" />
+    <Content Include="Views\SupplierCategory\create.cshtml" />
+    <Content Include="Views\EmployeeCategory\create.cshtml" />
+    <Content Include="Views\StockPoint\create.cshtml" />
+    <Content Include="Views\VehicleModel\create.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

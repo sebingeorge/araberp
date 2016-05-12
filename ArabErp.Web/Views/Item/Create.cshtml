@@ -1,6 +1,4 @@
 ﻿@model ArabErp.Domain.Item
-
-
 @{
     ViewBag.Title = "Create";
     Layout = "~/Views/Shared/_Layout.cshtml";
@@ -13,6 +11,7 @@
     <div class="row">
         <div class="col-md-12">
             <form role="form" action="@Url.Action("Save")">
+               
                 <div class="row form-group">
                     <div class="col-md-3">
                         <label for="code">Part No</label>
@@ -60,7 +59,7 @@
 
                        
                     </div>
-                </div>
+                    </div>
                 <div class="row form-group">
                    
                 </div>
@@ -90,11 +89,11 @@
                         <label for="name">Max.Level</label>
                         @Html.TextBoxFor(m => m.MaxLevel, new { @class = "form_input", autocomplete = "off" })
                     </div>
-                </div>
+                    </div>
                 <div class="row form-group">
                     <div class="col-md-10">
 
-                    </div>
+                </div>
                     <diV class="col-md-1">
                         <button type="submit" class="form_input">Exit</button>
                     </div>

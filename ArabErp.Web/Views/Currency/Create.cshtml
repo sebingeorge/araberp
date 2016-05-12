@@ -4,9 +4,9 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<div style="background-color:#BCBABE">
-    <h4>Currency</h4>
-</div>
+    <div class="h4bgcolor">
+        <h4>Currency</h4>
+    </div>
 
 <div class="container">
     <div class="row">
@@ -15,34 +15,35 @@
 
                 <div class="row form-group">
                     <div class="col-md-6">
-                        <label for="code">Code</label>
-                        <input type="text" id="code" autocomplete="off" class="form_input "/>
+                        <label for="CurrencyRefNo">Code</label>
+                        <input type="text" id="CurrencyRefNo" autocomplete="off" class="form_input " />
                     </div>
 
                     <div class="col-md-6 ">
-                        <label for="name">Currency</label>
-                        <input type="text" id="name" autocomplete="off" class="form_input " />
+                        <label for="CurrencyName">Name</label>
+                        <input type="text" id="CurrencyName" autocomplete="off" class="form_input " />
                     </div>
+
                 </div>
 
                 <div class="row form-group ">
                   
                         <div class="col-md-6">
-                            <label for="elementary">Elementary</label>
-                            <input type="text" id="elementary" autocomplete="off" class=" form_input" />
+                            <label for="Elementary">Elementary</label>
+                            <input type="text" id="Elementary" autocomplete="off" class=" form_input" />
                         </div>
 
                     <div class="col-md-6">
-                        <label for="exrate">Exchange Rate</label>
-                        <input type="text" id="exrate" autocomplete="off" class="form_input" />
+                        <label for="CurrencyExRate">Exchange Rate</label>
+                        <input type="text" id="CurrencyExRate" autocomplete="off" class="form_input" />
 
                     </div>
                 </div>
 
                 <div class="row form-group ">
                     <div class=" col-md-6">
-                        <label for="symbol">Symbol</label>
-                        <select id="symbol" class=" form_input " autocomplete="off">
+                        <label for="CurrencySymbolId">Symbol</label>
+                        <select id="CurrencySymbolId" class=" form_input " autocomplete="off">
                             <option>Select Symbol</option>
                             <option>$</option>
                             <option>Y</option>
@@ -51,8 +52,8 @@
                     </div>
                 </div>
              
-                <div class="col-md-12 col-md-4">
-                    <div style="float:left" class="alignCenter">
+                <div class="col-md-12">
+                    <div style="float:right" class="alignCenter">
                         <button type="submit" class="button-style">Exit</button>
                     </div>
                     <div style="float:right" class="alignCenter">

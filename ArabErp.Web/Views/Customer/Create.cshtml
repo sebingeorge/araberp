@@ -28,9 +28,9 @@
                         <label for="prntname">Print Name</label>
                         @Html.TextBoxFor(m => m.CustomerPrintName, new { @class = "form_input ", autocomplete = "off" })
                     </div>
-                </div>
+                    </div>
                 <div class="row form-group">
-
+                   
                     <div class="col-md-3">
                         <label for="categry">Category</label>
 
@@ -76,7 +76,7 @@
                                                             new SelectList(Enum.GetValues(typeof(ArabErp.Domain.Country))),
                                                             "Select Country", new { @class = "form_input" })
                     </div>
-
+                    
                 </div>
                 <div class="row form-group">
                     <div class="col-md-3">
@@ -97,26 +97,26 @@
                     </div>
                 </div>
                 <div class="row form-group">
-
+                   
                     <div class="col-md-6">
                         <label for="cntperson">Contact Person</label>
                         @Html.TextBoxFor(m => m.ContactPerson, new { @class = "form_input", autocomplete = "off" })
                     </div>
-
+                  
                 </div>
 
                 <div class="row">
                     <div class="col-md-10">
                     </div>
-                    <div class="col-md-1">
-                        <button type="submit" class="button-style">Exit</button>
-                    </div>
-                    <div class="col-md-1">
-                        <button type="submit" class="button-style">Save</button>
-                    </div>
+                <div class="col-md-1">
+                    <button type="submit" class="button-style">Exit</button>
                 </div>
-            </form>
+                    <div class="col-md-1">
+                    <button type="submit" class="button-style">Save</button>
+                </div>
+                </div>
+             </form>
         </div>
-        </div>
+    </div>
 </div>
 
