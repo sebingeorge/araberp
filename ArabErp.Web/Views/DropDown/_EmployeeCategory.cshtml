@@ -1,0 +1,22 @@
+﻿@model ArabErp.Domain.EmployeeCategoryDropDown
+
+
+@Html.DropDownList("drp", m => m.Code, new { Controller = "DropDown", Action = "EmployeeCategory" })
+
+
+@Html.DevExpress().ComboBoxFor(m=>m.pmlpmGrpCode,
+settings =>
+{
+    settings.Name = "pmlpmGrpCode1";
+    settings.Width = 180;
+    //settings.SelectedIndex = 0;
+    settings.CallbackRouteValues = new { Controller = "PackingMaterial", Action = "GroupDropDown" };
+    settings.Properties.CallbackPageSize = 15;
+    settings.Properties.TextField = "pmGrpName";
+    settings.Properties.ValueField = "pmGrpCode";
+    settings.Properties.DataSource = Model;
+    //settings.Properties.ValueType = Type.GetType("int";
+    //settings.Properties.ClearButton.DisplayMode = ClearButtonDisplayMode.OnHover;
+}
+).BindList(ViewData["Group"]).GetHtml()*@
+

@@ -45,6 +45,7 @@
     <Compile Include="Customer.cs" />
     <Compile Include="Designation.cs" />
     <Compile Include="Employee.cs" />
+    <Compile Include="EmployeeCategoryDropDown.cs" />
     <Compile Include="FreezerUnit.cs" />
     <Compile Include="GRN.cs" />
     <Compile Include="GRNItem.cs" />
@@ -64,6 +65,7 @@
     <Compile Include="SalesExecutive.cs" />
     <Compile Include="SalesInvoice.cs" />
     <Compile Include="SalesInvoiceItem.cs" />
+    <Compile Include="SelectListItem.cs" />
     <Compile Include="StockReturn.cs" />
     <Compile Include="StockReturnItem.cs" />
     <Compile Include="Supplier.cs" />
