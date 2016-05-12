@@ -181,9 +181,6 @@
     <Compile Include="Controllers\CurrencyController.cs" />
     <Compile Include="Controllers\CustomerCategoryController.cs" />
     <Compile Include="Controllers\CustomerController.cs" />
-    <Compile Include="Controllers\DropDownController.cs">
-      <SubType>Code</SubType>
-    </Compile>
     <Compile Include="Controllers\EmployeeCategoryController.cs" />
     <Compile Include="Controllers\EmployeeController.cs" />
     <Compile Include="Controllers\GrnWareHouseController.cs" />

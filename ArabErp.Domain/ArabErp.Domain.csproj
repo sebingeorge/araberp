@@ -45,7 +45,6 @@
     <Compile Include="Customer.cs" />
     <Compile Include="Designation.cs" />
     <Compile Include="Employee.cs" />
-    <Compile Include="EmployeeCategoryDropDown.cs" />
     <Compile Include="FreezerUnit.cs" />
     <Compile Include="GRN.cs" />
     <Compile Include="GRNItem.cs" />
