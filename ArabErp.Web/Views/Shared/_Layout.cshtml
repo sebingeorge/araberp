@@ -29,7 +29,7 @@
             </div>
             <div class="container">
                 <div class="row">
-                    <div class="col-md-12 col-md-offset-10 collapse navbar-collapse" id="navbar">
+                    <div class="col-md-12 col-md-offset-9 collapse navbar-collapse" id="navbar">
                         <ul class="nav navbar-nav">
 
 
@@ -58,7 +58,15 @@
                                     <li><a href="@Url.Action("CreateAdditionalWorkShopRequest","AdditionalWorkShopRequest")"><span class="badge pull-right"></span>Additional WorkShop Request</a></li>
                                     <li><a href="@Url.Action("CreateStockReturn","StockReturn")"><span class="badge pull-right"></span>Stock Return</a></li>
                                     <li><a href="@Url.Action("CreateStockJournel","StockJournel")"><span class="badge pull-right"></span>Stock Journal</a></li>
-                                    <li><a href="@Url.Action("CreateWorkDescription","WorkDescription")"><span class="badge pull-right"></span>Work Description</a></li>
+
+
+                                </ul>
+                            </li>
+
+                            <li>
+                                <a data-toggle="dropdown" class="dropdown-toggle" href="#"><i class="glyphicon glyphicon-th-list"></i></a>
+                                <ul class="dropdown-menu">
+    
                                     <li><a href="@Url.Action("Create","Item")"><span class="badge pull-right"></span>Item</a></li>
                                     <li><a href="@Url.Action("Create","Employee")"><span class="badge pull-right"></span>Employee</a></li>
                                     <li><a href="@Url.Action("Create","Supplier")"><span class="badge pull-right"></span>Supplier</a></li>
@@ -71,10 +79,12 @@
                                     <li><a href="@Url.Action("Create","CustomerCategory")"><span class="badge pull-right"></span>Customer Category</a></li>
                                     <li><a href="@Url.Action("Create","SupplierCategory")"><span class="badge pull-right"></span>Supplier Category</a></li>
                                     <li><a href="@Url.Action("Create","EmpolyeeCategory")"><span class="badge pull-right"></span>Empolyee Category</a></li>
-                                    <li><a href="@Url.Action("Create","EmpolyeeCategory")"><span class="badge pull-right"></span>Empolyee Category</a></li>
+                                    <li><a href="@Url.Action("CreateWorkDescription","WorkDescription")"><span class="badge pull-right"></span>Work Description</a></li>
 
                                 </ul>
                             </li>
+
+
                             <li><a href="#"><i class="glyphicon glyphicon-user"></i></a></li>
                         </ul>
                     </div>
