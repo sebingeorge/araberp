@@ -10,12 +10,9 @@ namespace ArabErp.DAL
     public class UnitRepository : BaseRepository
     {
 
-    
-
         public int InsertUnit(Unit objUnit)
         {
-            string sql = @"
-            INSERT INTO [Unit] (UnitRefNo,UnitName,OrganizationId) VALUES (@UnitRefNo,@UnitName,@OrganizationId);
+            string sql = @"INSERT INTO Unit (UnitRefNo,UnitName,CreatedBy,CreatedDate,OrganizationId) VALUES(@UnitRefNo,@UnitName,@CreatedBy,@CreatedDate,@OrganizationId);
             SELECT CAST(SCOPE_IDENTITY() as int)";
 
 
@@ -23,6 +20,21 @@ namespace ArabErp.DAL
             return id;
         }
 
-     
+
+        public Unit GetUnit(int UnitId)
+        {
+
+            string sql = @"select * from Unit
+                        where UnitId=@UnitId";
+
+            var objUnit= connection.Query<Unit>(sql, new
+            {
+                UnitId = UnitId
+            }).First<Unit>();
+
+            return objUnit;
+        }
+
+
     }
 }
