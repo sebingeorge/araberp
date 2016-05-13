@@ -62,7 +62,7 @@ namespace ArabErp.DAL
 
         public void Dispose()
         {
-            throw new NotImplementedException();
+            connection.Dispose();
         }
     }
 }
