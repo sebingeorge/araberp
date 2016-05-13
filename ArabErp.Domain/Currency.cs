@@ -17,5 +17,12 @@ namespace ArabErp.Domain
         public string CreatedBy { get; set; }
         public DateTime? CreatedDate { get; set; }
         public int OrganizationId { get; set; }
+        public List<Symbol> Symbols { get; set; }
     }
+    
+    public class Symbol
+{
+        public int SymbolId { get; set; }
+        public string SymbolName { get; set; }
+}
 }

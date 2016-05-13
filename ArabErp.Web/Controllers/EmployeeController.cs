@@ -16,9 +16,7 @@ namespace ArabErp.Web.Controllers
         }
         public ActionResult Create()
         {
-
             var rep = new EmployeeRepository();
-
             var emp = rep.NewEmployee();
             ViewBag.designations= new SelectList(emp.Designations, "DesignationId", "DesignationName");
             return View(emp);

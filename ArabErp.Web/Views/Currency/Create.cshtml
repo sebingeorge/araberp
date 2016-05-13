@@ -1,81 +1,56 @@
-﻿
+﻿@model ArabErp.Domain.Currency
 @{
     ViewBag.Title = "Create";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
-
     <div class="h4bgcolor">
         <h4>Currency</h4>
     </div>
-
 <div class="container">
     <div class="row">
-
 <div class="col-md-3">
-
 </div>
         <div class=" col-md-6 ">
-            <form role="form">
-
+            <form role="form" action="@Url.Action("Save")">
                 <div class="row form-group">
                     <div class="col-md-6">
                         <label for="CurrencyRefNo">Code</label>
-                        <input type="text" id="CurrencyRefNo" autocomplete="off" class="form_input " />
+                        @Html.TextBoxFor(m => m.CurrencyRefNo, new { @class = "form_input", autocomplete = "off" })
                     </div>
-
                     <div class="col-md-6 ">
                         <label for="CurrencyName">Name</label>
-                        <input type="text" id="CurrencyName" autocomplete="off" class="form_input " />
+                        @Html.TextBoxFor(m => m.CurrencyName, new { @class = "form_input", autocomplete = "off" })
                     </div>
-
-                </div>
-
-                <div class="row form-group ">
-                  
-                        <div class="col-md-6">
-                            <label for="Elementary">Elementary</label>
-                            <input type="text" id="Elementary" autocomplete="off" class=" form_input" />
-                        </div>
-
+                    </div>
+                  <div class="row form-group ">
+                    <div class="col-md-6">
+                        <label for="Elementary">Elementary</label>
+                        @Html.TextBoxFor(m => m.Elementary, new { @class = "form_input", autocomplete = "off" })
+                    </div>
                     <div class="col-md-6">
                         <label for="CurrencyExRate">Exchange Rate</label>
-                        <input type="text" id="CurrencyExRate" autocomplete="off" class="form_input" />
-
+                        @Html.TextBoxFor(m => m.CurrencyExRate, new { @class = "form_input", autocomplete = "off" })
                     </div>
                 </div>
-
-                <div class="row form-group ">
+                     <div class="row form-group ">
                     <div class=" col-md-6">
                         <label for="CurrencySymbolId">Symbol</label>
-                        <select id="CurrencySymbolId" class=" form_input " autocomplete="off">
-                            <option>Select Symbol</option>
-                            <option>$</option>
-                            <option>Y</option>
-                            <option>R</option>
-                        </select>
+                        @Html.DropDownList("symbols",ViewBag.symbols as List<SelectListItem>, "Select Symbol", new { @class = "form_input" })
                     </div>
                 </div>
-
                 <div class="row form-group ">
                     <div class="col-md-12">
                         <div style=" float :right" class="alignCenter">
                             <button type="submit" class="button-style">Exit</button>
                         </div>
-
                         <div style=" float :right" class="alignCenter">
                             <button type="submit" class="button-style">Save</button>
                         </div>
                     </div>
-                </div>
-
-                             
+               </div>
             </form>
         </div>
-
  <div class=" col-md-3 ">
-
- </div>
-
-    </div>
-           
-        </div>
+</div>
+</div>
+</div>

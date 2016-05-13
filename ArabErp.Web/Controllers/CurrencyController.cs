@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using ArabErp.Domain;
+using ArabErp.DAL;
 
 namespace ArabErp.Web.Controllers
 {
@@ -16,7 +18,24 @@ namespace ArabErp.Web.Controllers
 
         public ActionResult Create()
         {
-            return View();
+            var repo = new CurrencyRepository();
+            var sym = repo.FillSymbol();
+            ViewBag.symbols = new SelectList(sym.Symbols, "SymbolId", "SymbolName");
+            return View(sym);
         }
+        public ActionResult Save(Currency objCurrency)
+        {
+            dropdown();
+            new CurrencyRepository().InsertCurrency(objCurrency);
+            return View("Create");
+        }
+        public void dropdown()
+        {
+            var repo = new CurrencyRepository();
+            var sym = repo.FillSymbol();
+            ViewBag.symbols = new SelectList(sym.Symbols, "SymbolId", "SymbolName");
+        }
+
+
     }
 }

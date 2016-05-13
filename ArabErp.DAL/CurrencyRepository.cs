@@ -38,11 +38,18 @@ namespace ArabErp.DAL
             }).First<Currency>();
             return objCurrency;
         }
+        public Currency FillSymbol()
+        {
+            var sym = new Currency();
+            sym.Symbols = connection.Query<Symbol>("select SymbolId,SymbolName from Symbol").ToList();
+            return sym;
+        }
+
 
         public int InsertCurrency(Currency objCurrency)
         {
             string sql = @"
-            INSERT INTO [Currency] (CurrencyRefNo,CurrencyName,Elementary,CurrencyExRate,CurrencySymbolId,OrganizationId) VALUES (@CurrencyRefNo,@CurrencyName,@Elementary,@CurrencySymbolId,@CurrencyExRate,@OrganizationId);
+            INSERT INTO [Currency] (CurrencyRefNo,CurrencyName,Elementary,CurrencyExRate,CurrencySymbolId,OrganizationId) VALUES (@CurrencyRefNo,@CurrencyName,@Elementary,@CurrencyExRate,@CurrencySymbolId,@OrganizationId);
             SELECT CAST(SCOPE_IDENTITY() as int)";
 
 
