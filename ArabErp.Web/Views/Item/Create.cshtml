@@ -53,7 +53,7 @@
                     </div>
                     <div class="col-md-3">
                         <label for="name">Quality</label>
-                        @Html.DropDownListFor(m => m.ItemQuality,
+                        @Html.DropDownListFor(m => m.ItemQualityId,
                                  new SelectList(Enum.GetValues(typeof(ArabErp.Domain.ItemQuality))),
                                  "Select Quality", new { @class = "form_input" })
 
@@ -70,7 +70,7 @@
                     </div>
                     <div class="col-md-3">
                         <label for="name">Unit</label>
-                        @Html.DropDownListFor(m => m.itemUnit,
+                        @Html.DropDownListFor(m => m.ItemUnitId,
                                  new SelectList(Enum.GetValues(typeof(ArabErp.Domain.itemUnit))),
                                  "Select Unit", new { @class = "form_input" })
                     

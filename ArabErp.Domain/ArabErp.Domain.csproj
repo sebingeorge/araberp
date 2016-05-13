@@ -68,6 +68,7 @@
     <Compile Include="SalesExecutive.cs" />
     <Compile Include="SalesInvoice.cs" />
     <Compile Include="SalesInvoiceItem.cs" />
+    <Compile Include="Stockpoint.cs" />
     <Compile Include="StockReturn.cs" />
     <Compile Include="StockReturnItem.cs" />
     <Compile Include="Supplier.cs" />

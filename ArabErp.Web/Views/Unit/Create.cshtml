@@ -1,4 +1,4 @@
-﻿
+﻿@model ArabErp.Domain.Unit
 @{
     ViewBag.Title = "Create";
     Layout = "~/Views/Shared/_Layout.cshtml";
@@ -6,41 +6,34 @@
 <div class="h4bgcolor">
     <h4>Unit</h4>
 </div>
-
 <div class=" container ">
     <div class="row">
         <div class="col-md-4">
             </div>
             <div class="col-md-4">
-                <form role="form">
-
+                <form role="form" action="@Url.Action("Save")">
                     <div class="row form-group">
                         <div class="col-md-12">
                             <label for="UnitRefNo">Code</label>
-                            <input type="text" id="UnitRefNo" autocomplete="off" class=" form_input " />
-
+                            @Html.TextBoxFor(m => m.UnitRefNo, new { @class = "form_input", autocomplete = "off" })
                         </div>
                     </div>
-
                     <div class="row form-group">
                         <div class="col-md-12">
-                            <label for="Unit">Name</label>
-                            <input type=" text" id="Unit" autocomplete=" off" class="form_input " />
-
+                            <label for="UnitName">Name</label>
+                            @Html.TextBoxFor(m => m.UnitName, new { @class = "form_input", autocomplete = "off" })
                         </div>
                     </div>
-
                     <div class="row form-group">
-                    <div class="col-md-12">
-                        <div style=" float :right" class="alignCenter">
-                            <button type="submit" class="button-style">Exit</button>
+                        <div class="col-md-12">
+                            <div style="float :right" class="alignCenter">
+                                <button type="submit" class="button-style">Exit</button>
+                            </div>
+                            <div style="float :right" class="alignCenter">
+                                <button type="submit" class="button-style">Save</button>
+                            </div>
                         </div>
-                        <div style=" float :right" class="alignCenter">
-                            <button type="submit" class="button-style">Save</button>
-                        </div>
-                    </div>
-                    </div>
-
+                   </div>
                 </form>
             </div>
         </div>

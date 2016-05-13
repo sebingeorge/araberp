@@ -9,6 +9,7 @@ namespace ArabErp.Domain
     public class CommissionAgent
     {
         public int CommissionAgentId { get; set; }
+        public string CommissionAgentRefNo { get; set; }
         public string CommissionAgentName { get; set; }
         public string Address1 { get; set; }
         public string Address2 { get; set; }
