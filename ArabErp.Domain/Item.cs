@@ -13,12 +13,12 @@ namespace ArabErp.Domain
         public string ItemName { get; set; }
         public string ItemPrintName { get; set; }
         public string  ItemShortName { get; set; }
-        public int ItemSubGroupId { get; set; }
-        public int CommodityId { get; set; }
         public int ItemGroupId { get; set; }
-        public int ItemQuality { get; set; }
-        public int ItemCategory { get; set; }
-        public int itemUnit { get; set; }
+        public int ItemSubGroupId { get; set; }
+        public int ItemCategoryId { get; set; }
+        public int ItemUnitId { get; set; }
+        public int ItemQualityId { get; set; }
+        public int CommodityId { get; set; }
         public int MinLevel { get; set; }
         public int ReorderLevel { get; set; }
         public int MaxLevel { get; set; }

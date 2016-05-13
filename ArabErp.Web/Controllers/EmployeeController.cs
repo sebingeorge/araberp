@@ -20,7 +20,7 @@ namespace ArabErp.Web.Controllers
             var rep = new EmployeeRepository();
 
             var emp = rep.NewEmployee();
-            ViewBag.designations= new SelectList(emp.Designations, "DesignationId", "DesignationName");
+            ViewBag.designations = new SelectList(emp.Designations, "DesignationId", "DesignationName");
             return View(emp);
         }
     }
