@@ -35,6 +35,16 @@ namespace ArabErp.DAL
             return objUnit;
         }
 
+        public List<Unit> GetUnits()
+        {
+            string sql = @"select * from Unit
+                        where OrganizationId>0";
+
+            var objUnits = connection.Query<Unit>(sql).ToList<Unit>();
+
+            return objUnits;
+        }
+
 
     }
 }
