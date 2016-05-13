@@ -15,14 +15,8 @@ namespace ArabErp.DAL
         public void TestGetItem()
         {
 
-            var rep = new JobCardRepository();
-            //Item objItem = rep.GetItem(1);
+        
 
-
-            //var l = rep.GetGroup1Items();
-            var l = rep.TestMyQueryResultValue();
-
-            System.Console.Out.WriteLine(l);
 
         }
     }
