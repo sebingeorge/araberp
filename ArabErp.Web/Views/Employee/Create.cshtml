@@ -16,12 +16,12 @@
             <form role="form">
                 <div class="row form-group">
                     <div class="col-md-6">
-                        <label for="code">Code</label>
-                        <input type="text" id="code" autocomplete="off" class="form_input" />
+                        <label for="EmployeeRefNo">Code</label>
+                        <input type="text" id="EmployeeRefNo" autocomplete="off" class="form_input" />
                     </div>
                     <div class="col-md-6">
-                        <label for="name">Employee</label>
-                        <input type="text" autocomplete="off" id="name" class="form_input" />
+                        <label for="EmployeeName">Employee</label>
+                        <input type="text" autocomplete="off" id="EmployeeName" class="form_input" />
                     </div>
                 </div>
                 <div class="form-group">
@@ -39,17 +39,17 @@
                                                            
                             </div>
                         <div class="col-md-6">
-                            <label for="desg">Designation</label>
+                            <label for="DesignationId">Designation</label>
                              @Html.DropDownList("designations",ViewBag.designations as List<SelectListItem>,"Select Designation", new { @class = "form_input" })
                         </div>
                         </div>
                 </div>
                 <div class="row form-group">
                     <div class="col-md-6">
-                        <label for="cat">Category</label>
+                        <label for="CategoryId">Category</label>
                       
                     
-                        <select id="cat" class="form_input" autocomplete="off">
+                        <select id="CategoryId" class="form_input" autocomplete="off">
                             <option>Select Category</option>
                             <option>Category</option>
                             <option>Category2</option>
@@ -58,8 +58,8 @@
                     </div>
 
                     <div class="col-md-6">
-                        <label for="loc">Location</label>
-                        <select id="loc" class="form_input" autocomplete="off">
+                        <label for="LocationId">Location</label>
+                        <select id="LocationId" class="form_input" autocomplete="off">
                             <option>Select Location</option>
                             <option>loc1</option>
                             <option>loc2</option>
@@ -69,8 +69,8 @@
                 </div>
                 <div class="row form-group">
                     <div class="col-md-6">
-                        <label for="task">Task Done</label>
-                        <select id="task" class="form_input" autocomplete="off">
+                        <label for="TaskId">Task Done</label>
+                        <select id="TaskId" class="form_input" autocomplete="off">
                             <option>Select Task Done</option>
                             <option>Task 1</option>
                             <option>Task 2</option>
@@ -79,8 +79,8 @@
                     </div>
 
                     <div class="col-md-6">
-                        <label for="cost">Hourly Cost</label>
-                        <input type="text" id="cost" autocomplete="off" class="form_input" />
+                        <label for="HourlyCost">Hourly Cost</label>
+                        <input type="text" id="HourlyCost" autocomplete="off" class="form_input" />
                     </div>
                 </div>
 
