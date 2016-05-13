@@ -60,12 +60,14 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ArabDALTests.cs" />
+    <Compile Include="BaseRepository.cs" />
     <Compile Include="ConnectionManager.cs" />
     <Compile Include="CurrencyRepository.cs" />
     <Compile Include="EmployeeRepository.cs" />
     <Compile Include="ItemCategoryRepository.cs" />
     <Compile Include="JobCardRepository.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="UnitRepository.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
