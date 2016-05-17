@@ -7,7 +7,7 @@ using ArabErp.Domain;
 
 namespace ArabErp.DAL
 {
-    public class CurrencyRepository : BaseRepository
+    public class CurrencyRepository : BaseRepository 
     {
 
         public Currency GetCurrency(int CurrencyId)
