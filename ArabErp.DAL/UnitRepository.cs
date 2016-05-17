@@ -38,7 +38,7 @@ namespace ArabErp.DAL
         public List<Unit> GetUnits()
         {
             string sql = @"select * from Unit
-                        where OrganizationId>0";
+                        where isActive=1";
 
             var objUnits = connection.Query<Unit>(sql).ToList<Unit>();
 
@@ -54,8 +54,18 @@ namespace ArabErp.DAL
             return id;
         }
 
+        public int DeleteUnit(Unit objUnit)
+        {
+            string sql = @"Delete Unit  OUTPUT DELETED.UnitId WHERE UnitId=@UnitId";
 
 
-
+            var id = connection.Execute(sql, objUnit);
+            return id;
         }
+
+
+
+
+
+    }
 }
