@@ -7,24 +7,8 @@ using ArabErp.Domain;
 
 namespace ArabErp.DAL
 {
-    public class CurrencyRepository : IDisposable
+    public class CurrencyRepository : BaseRepository 
     {
-        private SqlConnection connection;
-
-        public CurrencyRepository()
-        {
-            if (connection == null)
-            {
-                connection = ConnectionManager.connection;
-            }
-        }
-
-
-        public Currency NewCurrency()
-        {
-            var cur = new Currency();
-            return cur;
-        }
 
         public Currency GetCurrency(int CurrencyId)
         {
@@ -42,6 +26,7 @@ namespace ArabErp.DAL
         {
             var sym = new Currency();
             sym.Symbols = connection.Query<Symbol>("select SymbolId,SymbolName from Symbol").ToList();
+            
             return sym;
         }
 

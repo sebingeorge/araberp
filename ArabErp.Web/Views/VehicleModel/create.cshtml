@@ -1,4 +1,4 @@
-﻿
+﻿@model ArabErp.Domain.VehicleModel
 @{
     ViewBag.Title = "create";
     Layout = "~/Views/Shared/_Layout.cshtml";
@@ -14,38 +14,39 @@
 
         </div>
         <div class="col-md-6">
-            <form role="form">
+            <form role="form" action="@Url.Action("Save")">
 
                 <div class="row form-group">
                     <div class="col-md-6">
                         <label for="VehicleModelRefNo">Code</label>
-                        <input type="text" id="VehicleModelRefNo" autocomplete="off" class="form_input" />
+                        @Html.TextBoxFor(m => m.VehicleModelRefNo, new { @class = "form_input", autocomplete = "off" })
                     </div>
+
                     <div class="col-md-6">
                         <label for="VehicleModelName">Name</label>
-                        <input type="text" autocomplete="off" id="VehicleModelName" class="form_input" />
+                        @Html.TextBoxFor(m => m.VehicleModelName, new { @class = "form_input", autocomplete = "off" })
                     </div>
                 </div>
 
                 <div class="row form-group">
                     <div class="col-md-6">
                         <label for="VehicleModelDescription">Description</label>
-                        <input type="text" id="VehicleModelDescription" autocomplete="off" class="form_input" />
+                        @Html.TextBoxFor(m => m.VehicleModelDescription, new { @class = "form_input", autocomplete = "off" })
                     </div>
                 </div>
 
                 <div class="row form-group ">
                     <div class="col-md-12">
                         <div style="float:right" class="alignCenter">
-                            <button type="submit" class="button-style">Exit</button>
+                            <button type="button"  class="button-style">Exit</button>
                         </div>
                         <div style="float:right" class="alignCenter">
-                            <button type="submit" class="button-style">Save</button>
+                            <button type="submit"  class="button-style">Save</button>
                         </div>
                     </div>
                 </div>
 
-             </form>
+            </form>
         </div>
 
         <div class=" col-md-3">
