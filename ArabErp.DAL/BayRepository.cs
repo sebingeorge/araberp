@@ -38,12 +38,13 @@ namespace ArabErp.DAL
         public List<Bay> GetBays()
         {
             string sql = @"select * from Bay
-                        where BayId>0";
+                        where isActive=1";
 
             var objBays = connection.Query<Bay>(sql).ToList<Bay>();
 
             return objBays;
         }
+
 
 
     }
