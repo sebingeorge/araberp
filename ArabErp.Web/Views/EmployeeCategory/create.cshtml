@@ -1,11 +1,11 @@
-﻿
+﻿@model ArabErp.Domain.EmployeeCategory
 @{
     ViewBag.Title = "create";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
 <div class="h4bgcolor ">
-    <h4>Empolyee Category</h4>
+    <h4>Employee Category</h4>
 </div>
 
 <div class="container">
@@ -16,12 +16,12 @@
         </div>
 
         <div class=" col-md-4">
-            <form role="form">
+            <form role="form" action="@Url.Action("Save")">
 
                 <div class=" row form-group">
                     <div class=" col-md-12">
                         <label for="EmpCategoryRefNo">Code</label>
-                        <input type="text" id="EmpCategoryRefNo" autocomplete=" off" class="form_input " />
+                        @Html.TextBoxFor(m => m.EmpCategoryRefNo, new { @class = "form_input", autocomplete = "off" })
                     </div>
 
                 </div>
@@ -29,7 +29,7 @@
                 <div class="row form-group ">
                     <div class="col-md-12">
                         <label for="EmpCategoryName">Category</label>
-                        <input type="text" id="EmpCategoryName" autocomplete="off" class="form_input " />
+                        @Html.TextBoxFor(m => m.EmpCategoryName, new { @class = "form_input", autocomplete = "off" })
                     </div>
                 </div>
 

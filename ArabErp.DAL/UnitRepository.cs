@@ -45,6 +45,17 @@ namespace ArabErp.DAL
             return objUnits;
         }
 
+        public int UpdateUnit(Unit objUnit)
+        {
+            string sql = @"Update Unit Set UnitRefNo=@UnitRefNo,UnitName=@UnitName OUTPUT INSERTED.UnitId WHERE UnitId=@UnitId";
 
-    }
+
+            var id = connection.Execute(sql, objUnit);
+            return id;
+        }
+
+
+
+
+        }
 }
