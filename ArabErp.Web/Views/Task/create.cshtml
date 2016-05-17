@@ -1,4 +1,5 @@
-﻿
+﻿@model ArabErp.Domain.Task
+
 @{
     ViewBag.Title = "create";
     Layout = "~/Views/Shared/_Layout.cshtml";
@@ -16,19 +17,19 @@
         </div>
 
         <div class=" col-md-4">
-            <form role="form" >
+            <form role="form" action="@Url.Action("Save")">
 
                 <div class="row form-group ">
                     <div class="col-md-12">
                         <label for="TaskRefNo">Code</label>
-                        <input type=" text" id="TaskRefNo" autocomplete="off" class="form_input " />
-                     </div>
+                        @Html.TextBoxFor(m => m.TaskRefNo, new { @class = "form_input", autocomplete = "off" })
+                    </div>
                 </div>
 
                 <div class="row form-group">
                     <div class=" col-md-12">
                         <label for="TaskName">Name</label>
-                        <input type="text" id="TaskName" autocomplete="off" class="form_input" />
+                        @Html.TextBoxFor(m => m.TaskName, new { @class = "form_input", autocomplete = "off" })
                     </div>
                 </div>
 
@@ -47,7 +48,7 @@
                 <div class="col-md-4">
 
                 </div>
- 
+
             </form>
 
         </div>
