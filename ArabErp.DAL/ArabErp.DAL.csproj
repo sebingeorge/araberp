@@ -71,6 +71,7 @@
     <Compile Include="EmployeeCategoryRepository.cs" />
     <Compile Include="EmployeeRepository.cs" />
     <Compile Include="ItemCategoryRepository.cs" />
+    <Compile Include="ItemRepository.cs" />
     <Compile Include="JobCardRepository.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SupplierCategoryRepository.cs" />
