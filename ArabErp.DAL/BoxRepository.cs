@@ -38,7 +38,7 @@ namespace ArabErp.DAL
         public List<Box> GetBoxs()
         {
             string sql = @"select * from Box
-                        where OrganizationId>0";
+                        where BoxId>0";
 
             var objBoxs = connection.Query<Box>(sql).ToList<Box>();
 

@@ -38,7 +38,7 @@ namespace ArabErp.DAL
         public List<Bay> GetBays()
         {
             string sql = @"select * from Bay
-                        where OrganizationId>0";
+                        where BayId>0";
 
             var objBays = connection.Query<Bay>(sql).ToList<Bay>();
 

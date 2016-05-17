@@ -38,7 +38,7 @@ namespace ArabErp.DAL
         public List<CommissionAgent> GetCommissionAgents()
         {
             string sql = @"select * from CommissionAgent
-                        where OrganizationId>0";
+                        where CommissionAgentId>0";
 
             var objCommissionAgents = connection.Query<CommissionAgent>(sql).ToList<CommissionAgent>();
 
