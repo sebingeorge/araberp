@@ -1,4 +1,4 @@
-﻿
+﻿@model ArabErp.Domain.SupplierCategory
 @{
     ViewBag.Title = "create";
     Layout = "~/Views/Shared/_Layout.cshtml";
@@ -14,25 +14,25 @@
 
         </div>
         <div class="col-md-6">
-            <form role="form" >
+            <form role="form" action="@Url.Action("Save")">
                 <div class="row form-group ">
 
                     <div class="col-md-6">
                         <label for="SupCategoryRefNo">Code</label>
-                        <input type="text" id="SupCategoryRefNo" autocomplete="off" class="form_input " />
-                    </div>
+                        @Html.TextBoxFor(m => m.SupCategoryRefNo, new { @class = "form_input", autocomplete = "off" })
+                     </div>
 
                     <div class="col-md-6">
                         <label for="SupCategoryName">Category</label>
-                        <input type="text" id="SupCategoryName" autocomplete="off" class=" form_input " />
+                        @Html.TextBoxFor(m => m.SupCategoryName, new { @class = "form_input", autocomplete = "off" })
                     </div>
-               </div>
+                </div>
 
 
                 <div class=" row form-group ">
                     <div class="col-md-6 ">
                         <label for="SupCategoryShortName">Short Name</label>
-                        <input type="text" id="SupCategoryShortName" autocomplete="off" class=" form_input " />
+                        @Html.TextBoxFor(m => m.SupCategoryShortName, new { @class = "form_input", autocomplete = "off" })
                     </div>
                 </div>
 

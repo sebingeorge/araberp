@@ -23,7 +23,7 @@ namespace ArabErp.DAL
 
         public int InsertVehicleModel(VehicleModel objVehicleModel)
         {
-            string sql = @"INSERT INTO VehicleModel(VehicleModelRefNo,VehicleModelName,VehicleModelDescription,CreatedBy,CreatedDate,OrganizationId) VALUES(@VehicleModelRefNo,@VehicleModelName,@VehicleModelDescription,@CreatedBy,@CreatedDate,@OrganizationId);
+            string sql = @"INSERT INTO VehicleModel(VehicleModelRefNo,VehicleModelName,VehicleModelDescription,CreatedBy,CreatedDate,OrganizationId) VALUES(@VehicleModelRefNo,@VehicleModelName,@VehicleModelDescription,@CreatedBy,getDate(),@OrganizationId);
             SELECT CAST(SCOPE_IDENTITY() as int)";
             var id = connection.Query<int>(sql, objVehicleModel).Single();
             return id;
