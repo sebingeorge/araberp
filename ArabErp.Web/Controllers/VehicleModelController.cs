@@ -21,8 +21,8 @@ namespace ArabErp.Web.Controllers
         }
         public ActionResult Save(VehicleModel objVehicleModel)
         {
-           // var repo = new VehicleModelRepository();
-            //new VehicleModelRepository().InsertVehicleModel(objVehicleModel);
+            var repo = new VehicleModelRepository();
+            new VehicleModelRepository().InsertVehicleModel(objVehicleModel);
             return View("Create");
         }
 
