@@ -1,4 +1,4 @@
-﻿
+﻿@model ArabErp.Domain.ItemGroup
 @{
     ViewBag.Title = "Create";
     Layout = "~/Views/Shared/_Layout.cshtml";
@@ -15,31 +15,26 @@
         </div>
 
         <div class="col-md-6">
-            <form role="form">
+            <form role="form" action="@Url.Action("Save")" method="post">
                 <div class="row form-group ">
 
                     <div class="col-md-6">
                         <label for="ItemGroupRefNo">Code</label>
-                        <input type="text" id="ItemGroupRefNo" autocomplete="off" class="form_input " />
+                        @Html.TextBoxFor(m =>m.ItemGroupRefNo, new { @class = "form_input", autocomplete = "off" })
                     </div>
                     <div class="col-md-6 ">
                         <label for="ItemGroupName">Name</label>
-                        <input type="text" id="ItemGroupName" autocomplete="off" class="form_input " />
+                        @Html.TextBoxFor(m => m.ItemGroupName, new { @class = "form_input", autocomplete = "off" })
                     </div>
                 </div>
 
-                    <div class="row form-group ">
-                        <div class="col-md-6 ">
-                            <label for="ItemCategoryId">Category</label>
-                            <select id="ItemCategoryId" class=" form_input " autocomplete="off">
-                                <option>Select Category</option>
-                                <option>Category 1</option>
-                                <option>Category 2</option>
-                                <option>Category 3</option>
-                            </select>
-                        </div>
+                <div class="row form-group ">
+                    <div class="col-md-6 ">
+                        <label for="ItemCategoryId">Category</label>
+                        @Html.DropDownListFor(m => Model.ItemCategoryId, (SelectList)ViewBag.ItemCategory, "Select Item Category", new { @class = "form_input" })
                     </div>
-                    
+                </div>
+
                 <div class="row form-group ">
                     <div class="col-md-12 ">
                         <div style="float:right" class="alignCenter">
@@ -50,7 +45,7 @@
                         </div>
                     </div>
                 </div>
-               
+
             </form>
         </div>
 

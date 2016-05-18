@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 namespace ArabErp.Domain
 {
     public class ItemCategory
+
     {
         public int itmCatId { get; set; }
         public string itmCatRefNo { get; set; }
