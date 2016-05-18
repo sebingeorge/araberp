@@ -1,12 +1,18 @@
 ﻿body {
     padding-top: 50px;
     padding-bottom: 20px;
+    /*background-color:#DDEBF9;*/
+     /*background-color:#66b9bf;*/
+     /*background-color:#99d3df;*/
+    /*background-color:#67aeca;*/
+     background-color:#CAEBF2;
 }
 
 /* Set padding to keep content from hitting the edges */
 .body-content {
-    padding-left: 15px;
-    padding-right: 15px;
+   /* padding-left: 15px;
+    padding-right: 15px;*/
+    margin-top:20px;
 }
 
 /* Override the default bootstrap behavior where horizontal description lists 
@@ -22,3 +28,62 @@ select,
 textarea {
     max-width: 280px;
 }*/
+.main-part 
+{
+    background-color:#ffffff;
+    padding:24px;
+    border-radius:5px;
+    -moz-radius:5px;
+    margin-right:24px;
+    margin-bottom:20px;  
+    border: 1px solid #fff;
+}
+.main-part1
+{
+    
+    /*background-color:#B4B4B4;*/
+    background-color:#6b7a8f;
+    padding:24px;
+    border-radius:5px;
+    -moz-radius:5px;
+    margin-right:24px;
+    min-height:300px;
+    margin-bottom:20px;
+    border: 1px solid #fff;
+    color:#FFFFFF;
+}
+.main-part2 
+{
+    background-color:#ffffff;
+    padding:24px;
+    border-radius:5px;
+    -moz-radius:5px;
+    margin-right:24px;
+    margin-bottom:20px;
+    min-height:300px;
+    border: 1px solid #fff;
+}
+.part
+ {
+    height:50px;
+}
+.form-button 
+{
+    background-color: #00aaff;
+    border: 1px solid #fff;
+    border-radius: 4px;
+    color: #ffffff;
+    height: 33px;
+    width: 92px;
+    margin-right:5px;
+}
+.form-button:hover
+    {
+    background-color:#00D4FF;
+    color:#000;
+    }
+.marg 
+{
+    margin-left: 79%;
+   
+}

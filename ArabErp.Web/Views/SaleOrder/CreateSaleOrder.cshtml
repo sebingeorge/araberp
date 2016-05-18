@@ -3,6 +3,25 @@
     ViewBag.Title = "Create SaleOrder";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
+<script>
+
+    $(document).ready(function () {
+        var i = 1;
+        $("#add_row").click(function () {
+            $('#addr' + i).html("<td>" + (i + 1) + "</td><td><input name='wrkdesc" + i + "' type='text' placeholder='Work Description' class='form_input input-md'/></td><td><input  name='remarks" + i + "' type='text' placeholder='Remarks'  class='form_input input-md'></td><td><input  name='qty" + i + "' type='text' placeholder='Qty'  class='form_input input-md'></td><td><input  name='unit" + i + "' type='text' placeholder='Unit'  class='form_input input-md'></td><td><input  name='rate" + i + "' type='text' placeholder='Discount'  class='form_input input-md'></td><td><input  name='rate" + i + "' type='text' placeholder='Discount'  class='form_input input-md'></td><td><input  name='amt" + i + "' type='text' placeholder='Amount'  class='form_input input-md'></td>");
+
+            $('#tab_logic').append('<tr id="addr' + (i + 1) + '"></tr>');
+            i++;
+        });
+        $("#delete_row").click(function () {
+            if (i > 1) {
+                $("#addr" + (i - 1)).html('');
+                i--;
+            }
+        });
+
+    });
+</script>
 <div class="h4bgcolor">
         <h4>Sale Order</h4>
 </div>
@@ -45,13 +64,15 @@
                         </select>
                     </div>
                 </div>
-                    <div class=" table-responsive">
-                        <table class="table table-bordered">
+            <div class="container">
+               
+                    <div class="table-responsive">
+                        <table class="table table-bordered table-hover" id="tab_logic">
                             <thead>
                                 <tr class="grid_heading">
-                                    <th width="5%">Sl.No.</th>
-                                <th width="25%">Work Description</th>
-                                <th width="25%">Remarks</th>
+                                    <th width="5%" class="text-center">Sl.No.</th>
+                                    <th width="25%" class="text-center">Work Description</th>
+                                    <th width="25%" class="text-center">Remarks</th>
                                     <th width="5%" class="text-right ">Qty</th>
                                     <th width="5%">Unit</th>
                                     <th width="10%" class="text-right ">Rate</th>
@@ -59,50 +80,32 @@
                                     <th width="10%" class="text-right ">Amount</th>
                                 </tr>
                             </thead>
-                            <tbody class="grid_row">
-                                <tr>
+                            <tbody>
+                                <tr id='addr0'>
                                     <td>1</td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
+                                    <td><input type="text" name='ipDisp0' placeholder='Work Description' class="form_input"></td>
+                                    <td><input type="text" name='ipDisp0' placeholder='Remarks' class="form_input"></td>
+                                    <td><input type="text" name='ipDisp0' placeholder='Quantity' class="form_input"></td>
+                                    <td>
+                                        <select id="SelectUnit" autocomplete="off" class="form_input">
+                                            <option>Select Unit</option>
+                                            <option>Unit1</option>
+                                            <option>Unit2</option>
+                                            <option>Unit3</option>
+                                        </select>
+                                    </td>
+                                    <td><input type="text" name='ipDisp0' placeholder='Rate' class="form_input"></td>
+                                    <td><input type="text" name='ipDisp0' placeholder='Discount' class="form_input"></td>
+                                    <td><input type="text" name='ipDisp0' placeholder='Amount' class="form_input"></td>
                                 </tr>
-                                <tr>
-                                    <td>2</td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                </tr>
-                                <tr>
-                                    <td>3</td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                </tr>
-                                <tr>
-                                    <td>4</td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                </tr>
+                                <tr id='addr1'></tr>
                             </tbody>
                         </table>
                     </div>
+               
+                <a id="add_row" class="btn btn-default pull-left">Add Row</a><a id='delete_row' class="pull-right btn btn-default">Delete Row</a>
+            </div>
+                   
                 <div class="row form-group">
                 <div class="col-md-12">
                         <label for="SplRemarks1">Spl.Remarks</label>
