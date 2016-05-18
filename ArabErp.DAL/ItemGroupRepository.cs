@@ -20,6 +20,12 @@ namespace ArabErp.DAL
             return id;
         }
 
+        public IEnumerable<Dropdown> FillCategory()
+        {
+
+
+            return connection.Query<Dropdown>("select itmCatId Id,CategoryName Name from ItemCategory").ToList();
+        }
 
         public ItemGroup GetItemGroup(int ItemGroupId)
         {

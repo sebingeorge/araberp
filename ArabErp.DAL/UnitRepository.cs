@@ -12,7 +12,7 @@ namespace ArabErp.DAL
 
         public int InsertUnit(Unit objUnit)
         {
-            string sql = @"INSERT INTO Unit (UnitRefNo,UnitName,CreatedBy,CreatedDate,OrganizationId) VALUES(@UnitRefNo,@UnitName,@CreatedBy,@CreatedDate,@OrganizationId);
+            string sql = @"INSERT INTO Unit (UnitRefNo,UnitName,CreatedBy,CreatedDate,OrganizationId) VALUES(@UnitRefNo,@UnitName,@CreatedBy,getDate(),@OrganizationId);
             SELECT CAST(SCOPE_IDENTITY() as int)";
 
 
