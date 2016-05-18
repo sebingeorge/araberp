@@ -21,7 +21,10 @@ CreatedBy,CreatedDate,OrganizationId) VALUES(@ItemSubGroupRefNo,@ItemSubGroupNam
             return id;
         }
 
-
+        public IEnumerable<Dropdown> FillGroup()
+        {
+            return connection.Query<Dropdown>("Select ItemGroupId Id,ItemGroupName Name From ItemGroup").ToList();
+        }
         public ItemSubGroup GetItemSubGroup(int ItemSubGroupId)
         {
 

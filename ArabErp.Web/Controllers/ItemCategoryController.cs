@@ -23,8 +23,8 @@ namespace ArabErp.Web.Controllers
       
         public ActionResult Save(ItemCategory objItemCategory)
         {
-            //var repo = new ItemCategoryRepository();
-            //new ItemCategoryRepository().InsertItemCategory(objItemCategory);
+            var repo = new ItemCategoryRepository();
+            new ItemCategoryRepository().InsertItemCategory(objItemCategory);
             return View("Create");
         }
     }
