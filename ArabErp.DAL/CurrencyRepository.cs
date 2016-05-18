@@ -29,6 +29,14 @@ namespace ArabErp.DAL
             
             return sym;
         }
+        public IEnumerable<Currency> FillCurrencyList()
+        {
+            //var sym = new Currency();
+            //sym = connection.Query<Currency>("select SymbolId,SymbolName from Symbol").ToList();
+
+            return connection.Query<Currency>("SELECT CurrencyId,CurrencyRefNo,CurrencyName,Elementary,CurrencyExRate,CurrencySymbolId, SymbolId,SymbolName FROM Currency C LEFT jOIN Symbol S ON  C.CurrencySymbolId=S.SymbolId").ToList();
+        }
+        
 
 
         public int InsertCurrency(Currency objCurrency)

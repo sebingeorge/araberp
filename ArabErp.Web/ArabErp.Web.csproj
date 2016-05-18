@@ -355,6 +355,7 @@
     <Content Include="Views\VehicleModel\create.cshtml" />
     <Content Include="Views\Task\create.cshtml" />
     <Content Include="Views\Designation\create.cshtml" />
+    <Content Include="Views\Currency\_CurrencyListView.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
