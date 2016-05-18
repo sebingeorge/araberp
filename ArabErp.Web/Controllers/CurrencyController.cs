@@ -34,6 +34,7 @@ namespace ArabErp.Web.Controllers
             var repo = new CurrencyRepository();
             var sym = repo.FillSymbol();
             ViewBag.symbols = new SelectList(sym.Symbols, "SymbolId", "SymbolName");
+
         }
 
 
