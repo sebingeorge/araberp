@@ -38,12 +38,33 @@ namespace ArabErp.DAL
         public List<Unit> GetUnits()
         {
             string sql = @"select * from Unit
-                        where OrganizationId>0";
+                        where isActive=1";
 
             var objUnits = connection.Query<Unit>(sql).ToList<Unit>();
 
             return objUnits;
         }
+
+        public int UpdateUnit(Unit objUnit)
+        {
+            string sql = @"Update Unit Set UnitRefNo=@UnitRefNo,UnitName=@UnitName OUTPUT INSERTED.UnitId WHERE UnitId=@UnitId";
+
+
+            var id = connection.Execute(sql, objUnit);
+            return id;
+        }
+
+        public int DeleteUnit(Unit objUnit)
+        {
+            string sql = @"Delete Unit  OUTPUT DELETED.UnitId WHERE UnitId=@UnitId";
+
+
+            var id = connection.Execute(sql, objUnit);
+            return id;
+        }
+
+
+
 
 
     }

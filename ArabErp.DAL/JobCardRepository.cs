@@ -47,11 +47,6 @@ namespace ArabErp
         }
 
 
-        public List<Bay> getAllBays()
-        {
-            List<Bay> bays =connection.Query<Bay>("select BayId,BayName from Bay").ToList();
-            return bays;
-        }
 
         public string SaveJobCard(JobCard jc)
         {

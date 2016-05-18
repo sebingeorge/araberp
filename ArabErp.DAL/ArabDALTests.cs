@@ -15,7 +15,29 @@ namespace ArabErp.DAL
         public void TestGetItem()
         {
 
-        
+
+
+            //var stockpoint = new Stockpoint();
+            //stockpoint.StockPointName = "test1";
+            //stockpoint.StockPointShrtName = "t";
+            //stockpoint.CreatedBy = "sebin";
+            //stockpoint.CreatedDate = System.DateTime.Now;
+            //stockpoint.OrganizationId = 1;
+
+            var rep = new StockpointRepository();
+            //int i = rep.InsertStockpoint(stockpoint);
+
+            //var readstockpoint = rep.GetStockpoint(i);
+
+            //System.Console.Out.WriteLine(readstockpoint.StockPointName);
+
+            // i = rep.UpdateStockpoint(readstockpoint);
+
+            //var sp = rep.GetStockpoints();
+
+       
+
+
 
 
         }
