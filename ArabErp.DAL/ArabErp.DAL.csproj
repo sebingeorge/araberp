@@ -77,11 +77,17 @@
     <Compile Include="ItemSubGroupRepository.cs" />
     <Compile Include="JobCardRepository.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="SaleOrderItemRepository.cs" />
+    <Compile Include="SaleOrderRepository.cs" />
+    <Compile Include="SalesExecutiveRepository.cs" />
     <Compile Include="StockpointRepository.cs" />
     <Compile Include="SupplierCategoryRepository.cs" />
     <Compile Include="TaskRepository.cs" />
     <Compile Include="UnitRepository.cs" />
     <Compile Include="VehicleModelRepository.cs" />
+    <Compile Include="WorkDescriptionRepository.cs" />
+    <Compile Include="WorkShopRequestItemRepository.cs" />
+    <Compile Include="WorkShopRequestRepository.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
