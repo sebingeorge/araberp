@@ -4,105 +4,85 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<div class="h4bgcolor">
-    <h4>Item</h4>
-</div>
 <div class="container">
+    <h4>Item</h4>
     <div class="row">
         <div class="col-md-12">
             <form role="form" action="@Url.Action("Save")">
-               
-                <div class="row form-group">
-                    <div class="col-md-3">
-                        <label for="code">Part No</label>
-                        @Html.TextBoxFor(m => m.PartNo, new { @class = "form_input",autocomplete = "off" })
+                <div class="row form-group main-part">
+                    <div class="col-md-4 ">
+                        <div class="part">
+                            <label for="code">Part No</label>
+                            @Html.TextBoxFor(m => m.PartNo, new { @class = "form_input", autocomplete = "off" })
+                        </div>
+                        <div class="part">
+                            <label for="name">Item Name</label>
+                            @*                       <input type="text" autocomplete="off" name="ItemName" id="ItemName" class="form_input" />*@
+                            @Html.TextBoxFor(m => m.ItemName, new { @class = "form_input", autocomplete = "off" })
+                        </div>
+                        <div class="part">
+                            <label for="code">Print Name</label>
+                            @Html.TextBoxFor(m => m.ItemPrintName, new { @class = "form_input", autocomplete = "off" })
+                        </div>
+                        <div class="part">
+                            <label for="name">Short Name</label>
+                            @Html.TextBoxFor(m => m.ItemShortName, new { @class = "form_input", autocomplete = "off" })
+                        </div>
+                        <div class="part">
+                            <label for="name">Commodity Code</label>
+                            @Html.TextBoxFor(m => m.CommodityId, new { @class = "form_input", autocomplete = "off" })
+                        </div>
                     </div>
-                    <div class="col-md-3">
-                        <label for="name">Item Name</label>
- @*                       <input type="text" autocomplete="off" name="ItemName" id="ItemName" class="form_input" />*@
-                      @Html.TextBoxFor(m => m.ItemName, new { @class = "form_input", autocomplete = "off" })
-                    </div>
-                    <div class="col-md-3">
-                        <label for="code">Print Name</label>
-                        @Html.TextBoxFor(m => m.ItemPrintName, new { @class = "form_input", autocomplete = "off" })
-                    </div>
-                    <div class="col-md-3">
-                        <label for="name">Short Name</label>
-                        @Html.TextBoxFor(m => m.ItemShortName, new { @class = "form_input", autocomplete = "off" })
-                    </div>
-                </div>
-               
-                <div class="row form-group">
-                    <div class="col-md-3">
-                        <label for="code">Item Sub Group</label>
-                      
 
-                        @Html.DropDownListFor(m => m.ItemSubGroupId,
+                    <div class="col-md-4 ">
+                        <div class="part">
+                            <label for="code">Item Sub Group</label>
+
+
+                            @Html.DropDownListFor(m => m.ItemSubGroupId,
                                  new SelectList(Enum.GetValues(typeof(ArabErp.Domain.ItemSubGroupId))),
-                                 "Select Sub Group",new { @class = "form_input" })
-                       
-
-                    </div>
-                    <div class="col-md-3">
-                        <label for="name">Commodity Code</label>
-                       @Html.TextBoxFor(m => m.CommodityId, new { @class = "form_input", autocomplete = "off" })
-                    </div>
-                    <div class="col-md-3">
-                        <label for="code">Item Group</label>
-                        @Html.TextBoxFor(m => m.ItemName, new { @class = "form_input", autocomplete = "off" })
-                    </div>
-                    <div class="col-md-3">
-                        <label for="name">Quality</label>
-                        @Html.DropDownListFor(m => m.ItemQualityId,
-                                 new SelectList(Enum.GetValues(typeof(ArabErp.Domain.ItemQuality))),
-                                 "Select Quality", new { @class = "form_input" })
-
-                       
-                    </div>
-                    </div>
-                <div class="row form-group">
-                   
-                </div>
-                <div class="row form-group">
-                    <div class="col-md-3">
-                        <label for="code">Item Category</label>
-                        @Html.TextBoxFor(m => m.ItemName, new { @class = "form_input", autocomplete = "off" })
-                    </div>
-                    <div class="col-md-3">
-                        <label for="name">Unit</label>
-                        @Html.DropDownListFor(m => m.ItemUnitId,
+                                 "Select Sub Group", new { @class = "form_input" })
+                        </div>
+                        <div class="part">
+                            <label for="code">Item Group</label>
+                            @Html.TextBoxFor(m => m.ItemName, new { @class = "form_input", autocomplete = "off" })
+                        </div>
+                        <div class="part">
+                            <label for="code">Item Category</label>
+                            @Html.TextBoxFor(m => m.ItemName, new { @class = "form_input", autocomplete = "off" })
+                        </div>                 
+                        <div class="part">
+                            <label for="name">Unit</label>
+                            @Html.DropDownListFor(m => m.ItemUnitId,
                                  new SelectList(Enum.GetValues(typeof(ArabErp.Domain.itemUnit))),
                                  "Select Unit", new { @class = "form_input" })
-                    
+                        </div>
+
                     </div>
-                </div>
-                <div class="row form-group">
-                    <div class="col-md-3">
-                        <label for="code">Min.Level</label>
-                        @Html.TextBoxFor(m => m.MinLevel, new { @class = "form_input", autocomplete = "off" })
+
+                    <div class="col-md-3 main-part2">
+                        <div class="part ">
+                            <label for="code">Min.Level</label>
+                            @Html.TextBoxFor(m => m.MinLevel, new { @class = "form_input", autocomplete = "off" })
+                        </div>
+                        <div class="part">
+                            <label for="name">ReOrder Level</label>
+                            @Html.TextBoxFor(m => m.ReorderLevel, new { @class = "form_input", autocomplete = "off" })
+                        </div>
+                        <div class="part">
+                            <label for="name">Max.Level</label>
+                            @Html.TextBoxFor(m => m.MaxLevel, new { @class = "form_input", autocomplete = "off" })
+                        </div>
+
                     </div>
-                    <div class="col-md-3">
-                        <label for="name">ReOrder Level</label>
-                        @Html.TextBoxFor(m => m.ReorderLevel, new { @class = "form_input", autocomplete = "off" })
+
+                    <div class="marg">
+                        <button type="submit" class="form-button">Exit</button>
+
+                        <button type="submit" class="form-button">Save</button>
                     </div>
-                    <div class="col-md-3">
-                        <label for="name">Max.Level</label>
-                        @Html.TextBoxFor(m => m.MaxLevel, new { @class = "form_input", autocomplete = "off" })
-                    </div>
-                    </div>
-                <div class="row form-group">
-                    <div class="col-md-10">
 
                 </div>
-                    <diV class="col-md-1">
-                        <button type="submit" class="form_input">Exit</button>
-                    </div>
-                    <div class="col-md-1">
-                        <button type="submit" class="form_input">Save</button>
-                    </div>
-                </div>
-
-
             </form>
         </div>
     </div>
