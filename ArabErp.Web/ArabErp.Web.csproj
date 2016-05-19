@@ -318,7 +318,7 @@
     <Content Include="Views\Manage\VerifyPhoneNumber.cshtml" />
     <Content Include="Views\Shared\Lockout.cshtml" />
     <Content Include="Views\Shared\_LoginPartial.cshtml" />
-    <Content Include="Views\SaleOrder\CreateSaleOrder.cshtml" />
+    <Content Include="Views\SaleOrder\Create.cshtml" />
     <Content Include="Views\WorkShopRequest\CreateWorkShopRequest.cshtml" />
     <Content Include="Views\PurchaseRequest\CreatePurchaseRequest.cshtml" />
     <Content Include="Views\GrnWareHouse\CreateGrnWareHouse.cshtml" />
@@ -356,6 +356,7 @@
     <Content Include="Views\Task\create.cshtml" />
     <Content Include="Views\Designation\create.cshtml" />
     <Content Include="Views\Currency\_CurrencyListView.cshtml" />
+    <Content Include="Views\SaleOrder\_DisplaySOList.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

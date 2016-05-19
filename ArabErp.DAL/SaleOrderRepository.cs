@@ -34,7 +34,6 @@ namespace ArabErp.DAL
 
             return objSaleOrder;
         }
-
         public List<SaleOrder> GetSaleOrders()
         {
             string sql = @"select * from SaleOrder
@@ -44,7 +43,6 @@ namespace ArabErp.DAL
 
             return objSaleOrders;
         }
-
         public int UpdateSaleOrder(SaleOrder objSaleOrder)
         {
             string sql = @"UPDATE SaleOrder SET SaleOrderDate = @SaleOrderDate ,CustomerId = @CustomerId ,CustomerOrderRef = @CustomerOrderRef ,VehicleModelId = @VehicleModelId,SpecialRemarks = @SpecialRemarks,PaymentTerms = @PaymentTerms,DeliveryTerms = @DeliveryTerms,CommissionAgentId = @CommissionAgentId,CommisionAmount = @CommisionAmount,SalesExecutiveId = @SalesExecutiveId   OUTPUT INSERTED.SaleOrderId  WHERE SaleOrderId = @SaleOrderId";
@@ -53,16 +51,12 @@ namespace ArabErp.DAL
             var id = connection.Execute(sql, objSaleOrder);
             return id;
         }
-
         public int DeleteSaleOrder(Unit objSaleOrder)
         {
             string sql = @"Delete SaleOrder  OUTPUT DELETED.SaleOrderId WHERE SaleOrderId=@SaleOrderId";
-
-
             var id = connection.Execute(sql, objSaleOrder);
             return id;
         }
-
-
+       
     }
 }
