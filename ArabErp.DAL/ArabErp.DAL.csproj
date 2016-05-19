@@ -90,8 +90,10 @@
     <Compile Include="SalesInvoiceItemRepository.cs" />
     <Compile Include="SalesInvoiceRepository.cs" />
     <Compile Include="StockpointRepository.cs" />
+    <Compile Include="StockReturnItemRepository.cs" />
     <Compile Include="StockReturnRepository.cs" />
     <Compile Include="SupplierCategoryRepository.cs" />
+    <Compile Include="SupplierRepository.cs" />
     <Compile Include="SupplyOrderItemRepository.cs" />
     <Compile Include="SupplyOrderRepository.cs" />
     <Compile Include="TaskRepository.cs" />
@@ -100,6 +102,7 @@
     <Compile Include="WorkDescriptionRepository.cs" />
     <Compile Include="WorkShopRequestItemRepository.cs" />
     <Compile Include="WorkShopRequestRepository.cs" />
+    <Compile Include="WorkVsTaskRepository.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
