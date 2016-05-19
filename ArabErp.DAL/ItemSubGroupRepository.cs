@@ -13,7 +13,7 @@ namespace ArabErp.DAL
         public int InsertItemSubGroup(ItemSubGroup objItemSubGroup)
         {
             string sql = @"INSERT INTO ItemSubGroup (ItemSubGroupRefNo,ItemSubGroupName,ItemGroupId,
-CreatedBy,CreatedDate,OrganizationId) VALUES(@ItemSubGroupRefNo,@ItemSubGroupName,@ItemGroupId,@CreatedBy,@CreatedDate,@OrganizationId);
+CreatedBy,CreatedDate,OrganizationId) VALUES(@ItemSubGroupRefNo,@ItemSubGroupName,@ItemGroupId,@CreatedBy,getDate(),@OrganizationId);
             SELECT CAST(SCOPE_IDENTITY() as int)";
 
 
@@ -21,7 +21,10 @@ CreatedBy,CreatedDate,OrganizationId) VALUES(@ItemSubGroupRefNo,@ItemSubGroupNam
             return id;
         }
 
-
+        public IEnumerable<Dropdown> FillGroup()
+        {
+            return connection.Query<Dropdown>("Select ItemGroupId Id,ItemGroupName Name From ItemGroup").ToList();
+        }
         public ItemSubGroup GetItemSubGroup(int ItemSubGroupId)
         {
 

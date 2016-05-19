@@ -18,6 +18,7 @@ namespace ArabErp.Domain
         public string CreatedBy { get; set; }
         public DateTime? CreatedDate { get; set; }
         public int OrganizationId { get; set; }
+        public string CategoryName { get; set; }
         public List<Categories> ItemCategory { get; set; }
     }
    public class Categories

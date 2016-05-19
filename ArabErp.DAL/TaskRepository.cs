@@ -14,7 +14,7 @@ namespace ArabErp.DAL
 
        public int InsertTask(Task objTask)
         {
-            string sql = @"INSERT INTO Task(TaskRefNo,TaskName,CreatedBy,CreatedDate,OrganizationId) VALUES(@TaskRefNo,@TaskName,@CreatedBy,@CreatedDate,@OrganizationId);
+            string sql = @"INSERT INTO Task(TaskRefNo,TaskName,CreatedBy,CreatedDate,OrganizationId) VALUES(@TaskRefNo,@TaskName,@CreatedBy,getDate(),@OrganizationId);
             SELECT CAST(SCOPE_IDENTITY() as int)";
             var id = connection.Query<int>(sql, objTask).Single();
             return id;

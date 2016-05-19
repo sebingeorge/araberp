@@ -11,7 +11,7 @@
         <div class="col-md-4">
             </div>
             <div class="col-md-4">
-                <form role="form" action="@Url.Action("Save")">
+                <form role="form" action="@Url.Action("Save") " method="post">
                     <div class="row form-group">
                         <div class="col-md-12">
                             <label for="UnitRefNo">Code</label>
@@ -27,16 +27,33 @@
                     <div class="row form-group">
                         <div class="col-md-12">
                             <div style="float :right" class="alignCenter">
-                                <button type="submit" class="button-style">Exit</button>
+                                @*<input type="submit" name="actionType" value="Save">Exit</>*@
+                                <button type="submit" class="button-style" value="Save">Exit</button>
                             </div>
                             <div style="float :right" class="alignCenter">
-                                <button type="submit" class="button-style">Save</button>
+                                @*<input type="submit" name="actionType" value="Cancel">*@Save</>
+                                <button type="button" class="button-style" value="Cancel">Save</button>
                             </div>
                         </div>
-                   </div>
+                    </div>
                 </form>
             </div>
+        <div class=" col-md-4 ">
         </div>
-    <div class="col-md-4">
+
+        </div>
+  
+    <div class=" row">
+        <div class="col-md-4">
+        </div>
+
+        <div class="col-md-4">
+             @Html.Action("FillUnitList")
+        </div>
+
+        <div class="col-md-4">
+        </div>
     </div>
+
 </div>
+

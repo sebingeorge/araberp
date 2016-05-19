@@ -25,5 +25,12 @@ namespace ArabErp.Web.Controllers
             new UnitRepository().InsertUnit(objUnit);
             return View("Create");
         }
+        public ActionResult FillUnitList()
+        {
+            //var list = _GradeVsDisplayOrderManager.GetGradeVsDisplayOrderList();
+            var repo = new UnitRepository();
+            var List = repo.FillUnitList();
+            return PartialView("UnitListView", List);
+        }
     }
 }
