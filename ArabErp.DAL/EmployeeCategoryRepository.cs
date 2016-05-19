@@ -12,7 +12,7 @@ namespace ArabErp.DAL
     {
         public int InsertEmployeeCategory(EmployeeCategory objEmployeeCategory)
         {
-            string sql = @"INSERT INTO EmpolyeeCategory(EmpCategoryRefNo,EmpCategoryName,CreatedBy,CreatedDate,OrganizationId) VALUES(@EmpCategoryRefNo,@EmpCategoryName,@CreatedBy,@CreatedDate,@OrganizationId);
+            string sql = @"INSERT INTO EmpolyeeCategory(EmpCategoryRefNo,EmpCategoryName,CreatedBy,CreatedDate,OrganizationId) VALUES(@EmpCategoryRefNo,@EmpCategoryName,@CreatedBy,getDate(),@OrganizationId);
             SELECT CAST(SCOPE_IDENTITY() as int)";
             var id = connection.Query<int>(sql, objEmployeeCategory).Single();
             return id;

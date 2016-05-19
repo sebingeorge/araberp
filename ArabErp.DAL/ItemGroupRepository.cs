@@ -12,7 +12,7 @@ namespace ArabErp.DAL
 
         public int InsertItemGroup(ItemGroup objItemGroup)
         {
-            string sql = @"INSERT INTO ItemGroup (ItemGroupRefNo,ItemGroupName,ItemCategoryId,CreatedBy,CreatedDate,OrganizationId) VALUES(@ItemGroupRefNo,@ItemGroupName,@ItemCategoryId,@CreatedBy,@CreatedDate,@OrganizationId);
+            string sql = @"INSERT INTO ItemGroup (ItemGroupRefNo,ItemGroupName,ItemCategoryId,CreatedBy,CreatedDate,OrganizationId) VALUES(@ItemGroupRefNo,@ItemGroupName,@ItemCategoryId,@CreatedBy,getDate(),@OrganizationId);
             SELECT CAST(SCOPE_IDENTITY() as int)";
 
 
