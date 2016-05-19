@@ -3,6 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.ComponentModel;
+using System.ComponentModel.DataAnnotations;
+using System.Web;
 
 namespace ArabErp.Domain
 {
@@ -15,5 +18,11 @@ namespace ArabErp.Domain
         public string CreatedBy { get; set; }
         public DateTime? CreatedDate { get; set; }
         public int OrganizationId { get; set; }
+        public List<Group> ItemGroup { get; set; }
     }
+  public class Group
+  {
+      public int ItemGroupId { get; set; }
+      public string ItemGroupName { get; set; }
+  }
 }
