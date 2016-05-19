@@ -27,5 +27,14 @@ namespace ArabErp.Web.Controllers
             new ItemCategoryRepository().InsertItemCategory(objItemCategory);
             return View("Create");
         }
+        public ActionResult FillItemCategoryList()
+    {
+          var repo = new ItemCategoryRepository();
+          var List = repo.FillItemCategoryList();
+          return PartialView("ItemCategoryListView", List);
+    }
+       
+        
+
     }
 }

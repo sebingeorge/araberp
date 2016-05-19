@@ -19,6 +19,13 @@ namespace ArabErp.DAL
             return id;
         }
 
+        public IEnumerable<ItemCategory> FillItemCategoryList()
+        {
+
+            return connection.Query<ItemCategory>("SELECT itmCatId,itmCatRefNo,CategoryName FROM ItemCategory").ToList();
+        }
+
+        
         public ItemCategory GetItemCategory(int itmCatId)
         {
 

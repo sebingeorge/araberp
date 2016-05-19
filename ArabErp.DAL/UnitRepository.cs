@@ -12,7 +12,7 @@ namespace ArabErp.DAL
 
         public int InsertUnit(Unit objUnit)
         {
-            string sql = @"INSERT INTO Unit (UnitRefNo,UnitName,CreatedBy,CreatedDate,OrganizationId) VALUES(@UnitRefNo,@UnitName,@CreatedBy,getDate(),@OrganizationId);
+            string sql = @"INSERT INTO Unit (UnitRefNo,UnitName,CreatedBy,CreatedDate,OrganizationId,isActive) VALUES(@UnitRefNo,@UnitName,@CreatedBy,getDate(),@OrganizationId,1);
             SELECT CAST(SCOPE_IDENTITY() as int)";
 
 
@@ -20,6 +20,12 @@ namespace ArabErp.DAL
             return id;
         }
 
+        public IEnumerable<Unit> FillUnitList()
+        {
+
+            return connection.Query<Unit>("SELECT UnitId,UnitRefNo,UnitName FROM Unit").ToList();
+        }
+        
 
         public Unit GetUnit(int UnitId)
         {
@@ -62,10 +68,6 @@ namespace ArabErp.DAL
             var id = connection.Execute(sql, objUnit);
             return id;
         }
-
-
-
-
 
     }
 }
