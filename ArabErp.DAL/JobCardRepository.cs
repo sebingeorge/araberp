@@ -56,6 +56,25 @@ namespace ArabErp
             return rtn;
         }
 
+        public int InsertJobCard(JobCard objJobCard)
+        {
+            string sql = @"insert  into JobCard(JobCardNo,JobCardDate,SaleOrderId,ChasisNoRegNo,WorkDescription,FreezerUnitId,BoxId,BayId,SpecialRemarks,RequiredDate,EmployeeId,CreatedBy,CreatedDate,OrganizationId) Values (@JobCardNo,@JobCardDate,@SaleOrderId,@ChasisNoRegNo,@WorkDescription,@FreezerUnitId,@BoxId,@BayId,@SpecialRemarks,@RequiredDate,@EmployeeId,@CreatedBy,@CreatedDate,@OrganizationId);
+            SELECT CAST(SCOPE_IDENTITY() as int)";
+
+
+            var id = connection.Query<int>(sql, objJobCard).Single();
+            return id;
+        }
+
+        public int UpdateJobCard(JobCard objJobCard)
+        {
+            string sql = @"UPDATE JobCard SET JobCardNo = @JobCardNo ,JobCardDate = @JobCardDate ,SaleOrderId = @SaleOrderId ,ChasisNoRegNo = @ChasisNoRegNo,WorkDescription = @WorkDescription,FreezerUnitId = @FreezerUnitId,BoxId = @BoxId,BayId = @BayId,SpecialRemarks = @SpecialRemarks  OUTPUT INSERTED.JobCardId  WHERE JobCardId = @JobCardId";
+
+
+            var id = connection.Execute(sql, objJobCard);
+            return id;
+        }
+
         public void SaveItem(Item objItem)
         {
            
