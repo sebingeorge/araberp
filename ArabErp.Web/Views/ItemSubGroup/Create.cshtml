@@ -21,11 +21,13 @@
                     <div class="col-md-6">
                         <label for="ItemSubGroupRefNo">Code</label>
                          @Html.TextBoxFor(m => m.ItemSubGroupRefNo, new { @class = "form_input", autocomplete = "off" })
+                        @Html.ValidationMessageFor(model => model.ItemSubGroupRefNo, "", new { @class = "text-danger" })
                     </div>
 
                     <div class="col-md-6 ">
                         <label for="ItemSubGroupName">Item SubGroup</label>
                         @Html.TextBoxFor(m => m.ItemSubGroupName, new { @class = "form_input", autocomplete = "off" })
+                        @Html.ValidationMessageFor(model => model.ItemSubGroupName, "", new { @class = "text-danger" })
                     </div>
                 </div>
 
@@ -61,6 +63,17 @@
 
         </div>
     </div>
+
+    <div class="col-md-3 ">
+    </div>
+
+    <div class="col-md-6">
+        @Html.Action("FillItemSubGroupList")
+    </div>
+
+    <div class="col-md-3">
+    </div>
+
 </div>
 
 

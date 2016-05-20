@@ -34,5 +34,14 @@ namespace ArabErp.Web.Controllers
             var List = repo.FillGroup();
             ViewBag.ItemGroup = new SelectList(List, "Id", "Name");
         }
+
+        public ActionResult FillItemSubGroupList()
+        {
+
+            var repo = new ItemSubGroupRepository();
+            var List = repo.FillItemSubGroupList();
+            return PartialView("ItemSubGroupListView", List);
+        }
+
     }
 }

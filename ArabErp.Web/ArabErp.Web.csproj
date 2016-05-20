@@ -359,6 +359,7 @@
     <Content Include="Views\Designation\create.cshtml" />
     <Content Include="Views\Currency\_CurrencyListView.cshtml" />
     <Content Include="Views\SaleOrder\_DisplaySOList.cshtml" />
+    <Content Include="Views\ItemSubGroup\ItemSubGroupListView.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
