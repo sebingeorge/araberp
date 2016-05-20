@@ -29,6 +29,12 @@ namespace ArabErp.DAL
              return id;
          }
 
+         public IEnumerable<CustomerCategory> FillCustomerCategoryList()
+         {
+
+             return connection.Query<CustomerCategory>("SELECT CusCategoryRefNo,CusCategoryName,CusCategoryShortName  FROM CustomerCategory ").ToList();
+         }
+
          public CustomerCategory GetCustomerCategory(int CustomerCategoryId)
          {
 
