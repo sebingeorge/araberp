@@ -21,10 +21,12 @@
                     <div class="col-md-6">
                         <label for="ItemGroupRefNo">Code</label>
                         @Html.TextBoxFor(m =>m.ItemGroupRefNo, new { @class = "form_input", autocomplete = "off" })
+                        @Html.ValidationMessageFor(model => model.ItemGroupRefNo, "", new { @class = "text-danger" })
                     </div>
                     <div class="col-md-6 ">
                         <label for="ItemGroupName">Name</label>
                         @Html.TextBoxFor(m => m.ItemGroupName, new { @class = "form_input", autocomplete = "off" })
+                        @Html.ValidationMessageFor(model => model.ItemGroupName, "", new { @class = "text-danger" })
                     </div>
                 </div>
 
@@ -32,6 +34,7 @@
                     <div class="col-md-6 ">
                         <label for="ItemCategoryId">Category</label>
                         @Html.DropDownListFor(m => Model.ItemCategoryId, (SelectList)ViewBag.ItemCategory, "Select Item Category", new { @class = "form_input" })
+
                     </div>
                 </div>
 
