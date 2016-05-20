@@ -20,13 +20,11 @@
                     <div class="col-md-6">
                         <label for="SupCategoryRefNo">Code</label>
                         @Html.TextBoxFor(m => m.SupCategoryRefNo, new { @class = "form_input", autocomplete = "off" })
-                        @Html.ValidationMessageFor(model => model.SupCategoryRefNo, "", new { @class = "text-danger" })
                     </div>
 
                     <div class="col-md-6">
-                        <label for="SupCategoryName">Name</label>
+                        <label for="SupCategoryName">Category</label>
                         @Html.TextBoxFor(m => m.SupCategoryName, new { @class = "form_input", autocomplete = "off" })
-                        @Html.ValidationMessageFor(model => model.SupCategoryName, "", new { @class = "text-danger" })
                     </div>
                 </div>
 
@@ -41,7 +39,7 @@
                 <div class="row form-group ">
                     <div class="col-md-12">
                         <div style="float:right" class="alignCenter">
-                            <button type="button" class="button-style">Exit</button>
+                            <button type="submit" class="button-style">Exit</button>
                         </div>
                         <div style="float:right" class="alignCenter">
                             <button type="submit" class="button-style">Save</button>
@@ -56,15 +54,6 @@
 
         </div>
 
-    </div>
-    <div class="col-md-3 ">
-    </div>
-
-    <div class="col-md-6">
-        @Html.Action("FillSupplierCategoryList")
-    </div>
-
-    <div class="col-md-3">
     </div>
 </div>
 

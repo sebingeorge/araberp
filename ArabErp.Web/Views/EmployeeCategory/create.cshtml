@@ -22,23 +22,21 @@
                     <div class=" col-md-12">
                         <label for="EmpCategoryRefNo">Code</label>
                         @Html.TextBoxFor(m => m.EmpCategoryRefNo, new { @class = "form_input", autocomplete = "off" })
-                        @Html.ValidationMessageFor(model => model.EmpCategoryRefNo, "", new { @class = "text-danger" })
                     </div>
 
                 </div>
 
                 <div class="row form-group ">
                     <div class="col-md-12">
-                        <label for="EmpCategoryName">Name</label>
+                        <label for="EmpCategoryName">Category</label>
                         @Html.TextBoxFor(m => m.EmpCategoryName, new { @class = "form_input", autocomplete = "off" })
-                        @Html.ValidationMessageFor(model => model.EmpCategoryName, "", new { @class = "text-danger" })
                     </div>
                 </div>
 
                 <div class="row form-group ">
                     <div class="col-md-12">
                         <div style=" float :right" class="alignCenter">
-                            <button type="button" class="button-style">Exit</button>
+                            <button type="submit" class="button-style">Exit</button>
                         </div>
 
                         <div style=" float :right" class="alignCenter">
@@ -54,14 +52,5 @@
 
         </div>
 
-    </div>
-    <div class=" col-md-4">
-    </div>
-
-    <div class="col-md-4">
-        @Html.Action("FillEmployeeCategoryList")
-    </div>
-
-    <div class="col-md-4">
     </div>
 </div>

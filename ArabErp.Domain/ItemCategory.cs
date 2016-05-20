@@ -14,8 +14,9 @@ namespace ArabErp.Domain
         public int itmCatId { get; set; }
         [Required(ErrorMessage = "Please Enter Code")]
         public string itmCatRefNo { get; set; }
-        [Required(ErrorMessage = "Please Enter Name")]
+        [Required(ErrorMessage = "Please Enter Ref.No")]
         public string CategoryName { get; set; }
+        [Required(ErrorMessage = "Please Enter Name")]
         public string CreatedBy { get; set; }
         public DateTime? CreatedDate { get; set; }
         public int OrganizationId { get; set; }

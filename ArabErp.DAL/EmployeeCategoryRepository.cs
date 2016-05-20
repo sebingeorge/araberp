@@ -18,11 +18,6 @@ namespace ArabErp.DAL
             return id;
         }
 
-        public IEnumerable<EmployeeCategory>FillEmployeeCategoryList()
-        {
-            return connection.Query<EmployeeCategory>("SELECT EmpCategoryRefNo,EmpCategoryName  FROM EmpolyeeCategory").ToList();
-        }
-
         public EmployeeCategory GetEmployeeCategory(int EmpCategoryId)
         {
 

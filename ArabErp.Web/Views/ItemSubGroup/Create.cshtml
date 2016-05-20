@@ -25,7 +25,7 @@
                     </div>
 
                     <div class="col-md-6 ">
-                        <label for="ItemSubGroupName">Name</label>
+                        <label for="ItemSubGroupName">Item SubGroup</label>
                         @Html.TextBoxFor(m => m.ItemSubGroupName, new { @class = "form_input", autocomplete = "off" })
                         @Html.ValidationMessageFor(model => model.ItemSubGroupName, "", new { @class = "text-danger" })
                     </div>
@@ -48,7 +48,7 @@
                 <div class="row form-group ">
                     <div class="col-md-12 ">
                         <div style="float:right" class="alignCenter">
-                            <button type="button" class="button-style">Exit</button>
+                            <button type="submit" class="button-style">Exit</button>
                         </div>
                         <div style="float:right" class="alignCenter">
                             <button type="submit" class="button-style">Save</button>

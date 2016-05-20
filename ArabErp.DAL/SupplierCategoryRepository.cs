@@ -28,11 +28,6 @@ namespace ArabErp.DAL
              var id = connection.Query<int>(sql, objSupplierCategory).Single();
              return id;
          }
-         public IEnumerable<SupplierCategory> FillSupplierCategoryList()
-         {
-
-             return connection.Query<SupplierCategory>("SELECT SupCategoryRefNo,SupCategoryName,SupCategoryShortName FROM SupplierCategory").ToList();
-         }
 
          public SupplierCategory GetSupplierCategory(int SupplierCategoryId)
          {
