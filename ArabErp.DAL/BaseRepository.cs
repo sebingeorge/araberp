@@ -24,3 +24,4 @@ namespace ArabErp.DAL
         }
     }
 }
+ 

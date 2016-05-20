@@ -356,6 +356,9 @@
     <Content Include="Views\Task\create.cshtml" />
     <Content Include="Views\Designation\create.cshtml" />
     <Content Include="Views\Currency\_CurrencyListView.cshtml" />
+    <Content Include="Views\Item\_ItemCategoryDropdown.cshtml" />
+    <Content Include="Views\Item\_ItemGroupDropdown.cshtml" />
+    <Content Include="Views\Item\_ItemSubGroupDropdown.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
