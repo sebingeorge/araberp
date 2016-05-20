@@ -13,12 +13,18 @@ namespace ArabErp.DAL
         public int InsertItemSubGroup(ItemSubGroup objItemSubGroup)
         {
             string sql = @"INSERT INTO ItemSubGroup (ItemSubGroupRefNo,ItemSubGroupName,ItemGroupId,
-CreatedBy,CreatedDate,OrganizationId) VALUES(@ItemSubGroupRefNo,@ItemSubGroupName,@ItemGroupId,@CreatedBy,getDate(),@OrganizationId);
+            CreatedBy,CreatedDate,OrganizationId) VALUES(@ItemSubGroupRefNo,@ItemSubGroupName,@ItemGroupId,@CreatedBy,getDate(),@OrganizationId);
             SELECT CAST(SCOPE_IDENTITY() as int)";
 
 
             var id = connection.Query<int>(sql, objItemSubGroup).Single();
             return id;
+        }
+
+        public IEnumerable<ItemSubGroup> FillItemSubGroupList()
+        {
+
+            return connection.Query<ItemSubGroup>("SELECT ItemSubGroupRefNo,ItemSubGroupName,ItemGroupName FROM ItemSubGroup S INNER JOIN ItemGroup G ON G.ItemGroupId=S.ItemGroupId").ToList();
         }
 
         public IEnumerable<Dropdown> FillGroup()

@@ -1,4 +1,4 @@
-﻿@model IList<ArabErp.Domain.ItemGroup>
+﻿@model IList<ArabErp.Domain.ItemSubGroup>
 
 <style type="text/css">
     .tableData {
@@ -23,7 +23,7 @@
         <tr class=" grid_heading ">
             <td style="width:10%;padding:6px;"><b>Ref No.</b></td>
             <td style="width:20%;padding:6px;"><b>Name</b></td>
-            <td style="width:20%;padding:6px;"><b>Category</b></td>
+            <td style="width:20%;padding:6px;"><b>Group</b></td>
         </tr>
 
         @{
@@ -31,14 +31,14 @@
             {
                 <tr>
                     <td class="tableData">
-                        @Model[i].ItemGroupRefNo
+                        @Model[i].ItemSubGroupRefNo
                     </td>
 
                     <td>
-                        @Model[i].ItemGroupName
+                        @Model[i].ItemSubGroupName
                     </td>
                     <td>
-                        @Model[i].CategoryName
+                        @Model[i].ItemGroupName
                     </td>
                 </tr>
             }

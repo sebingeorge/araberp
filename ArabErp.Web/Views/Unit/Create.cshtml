@@ -16,23 +16,24 @@
                         <div class="col-md-12">
                             <label for="UnitRefNo">Code</label>
                             @Html.TextBoxFor(m => m.UnitRefNo, new { @class = "form_input", autocomplete = "off" })
+                            @Html.ValidationMessageFor(model => model.UnitRefNo, "", new { @class = "text-danger" })
                         </div>
                     </div>
                     <div class="row form-group">
                         <div class="col-md-12">
                             <label for="UnitName">Name</label>
                             @Html.TextBoxFor(m => m.UnitName, new { @class = "form_input", autocomplete = "off" })
+                            @Html.ValidationMessageFor(model => model.UnitName, "", new { @class = "text-danger" })
                         </div>
                     </div>
                     <div class="row form-group">
                         <div class="col-md-12">
                             <div style="float :right" class="alignCenter">
-                                @*<input type="submit" name="actionType" value="Save">Exit</>*@
-                                <button type="submit" class="button-style" value="Save">Exit</button>
+                             <button type="button" class="button-style">Exit</button>
                             </div>
+
                             <div style="float :right" class="alignCenter">
-                                @*<input type="submit" name="actionType" value="Cancel">*@Save</>
-                                <button type="button" class="button-style" value="Cancel">Save</button>
+                                <button type="submit" class="button-style">Save</button>
                             </div>
                         </div>
                     </div>
