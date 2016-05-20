@@ -12,7 +12,7 @@ namespace ArabErp.DAL
 
         public int InsertSaleOrderItem(SaleOrderItem objSaleOrderItem)
         {
-            string sql = @"insert  into SaleOrderItem(SaleOrderId,SlNo,WorkDescriptionId,Remarks,PartNo,Quantity,UnitId,Rate,Discount,Amount,CreatedBy,CreatedDate,OrganizationId) Values (@SaleOrderId,@SlNo,@WorkDescriptionId,@Remarks,@PartNo,@Quantity,@UnitId,@Rate,@Discount,@Amount,@CreatedBy,@CreatedDate,OrganizationId);
+            string sql = @"insert  into SaleOrderItem(SaleOrderId,SlNo,WorkDescriptionId,Remarks,PartNo,Quantity,UnitId,Rate,Discount,Amount,CreatedBy,CreatedDate,OrganizationId) Values (@SaleOrderId,@SlNo,@WorkDescriptionId,@Remarks,@PartNo,@Quantity,@UnitId,@Rate,@Discount,@Amount,@CreatedBy,@CreatedDate,@OrganizationId);
             SELECT CAST(SCOPE_IDENTITY() as int)";
 
 
