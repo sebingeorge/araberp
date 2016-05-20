@@ -63,6 +63,15 @@ namespace ArabErp.DAL
             return id;
         }
 
-
+        public List <Dropdown> FillWorkDesc()
+        {
+            var param = new DynamicParameters();
+            return connection.Query<Dropdown>("select WorkDescriptionId Id ,WorkDescr Name from WorkDescription").ToList();
+        }
+        public List<Dropdown> FillUnit()
+        {
+            var param = new DynamicParameters();
+            return connection.Query<Dropdown>("select UnitId Id,UnitName Name from Unit").ToList();
+        }
     }
 }
