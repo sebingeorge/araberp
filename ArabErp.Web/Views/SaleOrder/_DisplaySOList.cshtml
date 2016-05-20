@@ -1,19 +1,17 @@
 ﻿@model ArabErp.Domain.SaleOrderItem
+
+
+
 <script>
     $(document).ready(function () {
-        var i = 1;
         $("#add_row").click(function () {
-            $('#addr' + i).html("<td>" + (i + 1) + "</td><td><option>Select Work Description</option><option>Work1</option><option>Work2</option><option>Work3</option></select></td><td><input  name='remarks" + i + "' type='text' placeholder='Remarks'  class='form_input input-md'></td><td><input  name='qty" + i + "' type='text' placeholder='Qty'  class='form_input input-md'></td><td><select name='SelectUnit" + i + "' autocomplete='off' class='form_input'><option>Select Unit</option><option>Unit1</option><option>Unit2</option><option>Unit3</option></select></td><td><input  name='rate" + i + "' type='text' placeholder='Rate'  class='form_input input-md'></td><td><input  name='rate" + i + "' type='text' placeholder='Discount'  class='form_input input-md'></td><td><input  name='amt" + i + "' type='text' placeholder='Amount'  class='form_input input-md'></td>");
-
-            $('#tab_logic').append('<tr id="addr' + (i + 1) + '"></tr>');
-            i++;
-        });
-        $("#delete_row").click(function () {
-            if (i > 1) {
-                $("#addr" + (i - 1)).html('');
-                i--;
-            }
-        });
+            var index = (new Date()).getTime(); // unique indexer
+            var clone = $('#0').clone(); // clone the BatchProducts item
+            // Update the index of the clone
+            clone.html($(clone).html().replace(/\[#\]/g, '[' + index + ']'));
+            clone.html($(clone).html().replace(/"%"/g, '"' + index + '"'));
+            $("#tab_logic").append('<tr id="' + index + '">' + clone.html() + '  </tr>');
+         });
     });
 </script>
 <div class="container">
@@ -32,7 +30,8 @@
                 </tr>
             </thead>
             <tbody>
-                <tr id='addr0'>
+
+                <tr id='0'>
                     <td>1</td>
                     <td>
                         @Html.DropDownListFor(m => Model.WorkDescriptionId, (SelectList)ViewBag.workdesclist, "Select Work Description", new { @class = "form_input", autocomplete = "off" })
@@ -46,7 +45,8 @@
                     <td>@Html.TextBoxFor(m => m.Discount, new { @class = "form_input", autocomplete = "off", placeholder = "Discount" })</td>
                     <td>@Html.TextBoxFor(m => m.Amount, new { @class = "form_input", autocomplete = "off", placeholder = "Amount" })</td>
                 </tr>
-                <tr id='addr1'></tr>
+                @*<tr id='addr1'></tr>*@
+
             </tbody>
         </table>
     </div>

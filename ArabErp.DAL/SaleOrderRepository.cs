@@ -57,6 +57,25 @@ namespace ArabErp.DAL
             var id = connection.Execute(sql, objSaleOrder);
             return id;
         }
-       
+        public List<Dropdown> FillCustomer()
+        {
+            var param = new DynamicParameters();
+            return connection.Query<Dropdown>("select CustomerId Id,CustomerName Name from Customer").ToList();
+        }
+        public List<Dropdown> FillVehicle()
+        {
+            var param = new DynamicParameters();
+            return connection.Query<Dropdown>("select VehicleModelId Id,VehicleModelName Name from VehicleModel").ToList();
+        }
+        public List<Dropdown> FillCommissionAgent()
+        {
+            var param = new DynamicParameters();
+            return connection.Query<Dropdown>("select CommissionAgentId Id,CommissionAgentName Name from CommissionAgent").ToList();
+        }
+        public List<Dropdown> FillEmployee()
+        {
+            var param = new DynamicParameters();
+            return connection.Query<Dropdown>("select EmployeeId Id,EmployeeName Name from Employee").ToList();
+        }
     }
 }
