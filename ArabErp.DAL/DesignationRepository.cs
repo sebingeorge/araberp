@@ -11,7 +11,7 @@ namespace ArabErp.DAL
     {
         public int InsertDesignation(Designation objDesignation)
         {
-            string sql = @"INSERT INTO Designation(DesignationRefNo,DesignationName,CreatedBy,CreatedDate,OrganizationId) VALUES(@DesignationRefNo,@DesignationName,@CreatedBy,@CreatedDate,@OrganizationId);
+            string sql = @"INSERT INTO Designation(DesignationRefNo,DesignationName,CreatedBy,CreatedDate,OrganizationId) VALUES(@DesignationRefNo,@DesignationName,@CreatedBy,getDate(),@OrganizationId);
             SELECT CAST(SCOPE_IDENTITY() as int)";
             var id = connection.Query<int>(sql, objDesignation).Single();
             return id;

@@ -3,7 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
-
+using ArabErp.Domain;
+using ArabErp.DAL;
 
 namespace ArabErp.Web.Controllers
 {
@@ -19,5 +20,12 @@ namespace ArabErp.Web.Controllers
         {
             return View();
         }
+        public ActionResult Save(Stockpoint objStockpoint)
+        {
+            var repo = new StockpointRepository();
+            new StockpointRepository().InsertStockpoint(objStockpoint);
+            return View("Create");
+        }
+
     }
 }

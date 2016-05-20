@@ -11,7 +11,7 @@ namespace ArabErp.DAL
     {
         public int InsertItemCategory(ItemCategory objItemCategory)
         {
-            string sql = @"INSERT INTO ItemCategory (itmCatRefNo,CategoryName,CreatedBy,CreatedDate,OrganizationId) VALUES(@itmCatRefNo,@CategoryName,@CreatedBy,@CreatedDate,@OrganizationId);
+            string sql = @"INSERT INTO ItemCategory (itmCatRefNo,CategoryName,CreatedBy,CreatedDate,OrganizationId) VALUES(@itmCatRefNo,@CategoryName,@CreatedBy,getDate(),@OrganizationId);
             SELECT CAST(SCOPE_IDENTITY() as int)";
 
 
@@ -19,6 +19,13 @@ namespace ArabErp.DAL
             return id;
         }
 
+        public IEnumerable<ItemCategory> FillItemCategoryList()
+        {
+
+            return connection.Query<ItemCategory>("SELECT itmCatId,itmCatRefNo,CategoryName FROM ItemCategory").ToList();
+        }
+
+        
         public ItemCategory GetItemCategory(int itmCatId)
         {
 

@@ -1,4 +1,5 @@
-﻿
+﻿@model ArabErp.Domain.Stockpoint
+
 @{
     ViewBag.Title = "create";
     Layout = "~/Views/Shared/_Layout.cshtml";
@@ -14,18 +15,18 @@
         <div class=" col-md-3">
 
         </div>
-        <div class="col-md-6 >
-            <form role="form">
+        <div class="col-md-6 ">
+            <form role="form" action="@Url.Action("Save")" method="post">
 
                 <div class="row form-group ">
                     <div class=" col-md-6 ">
                         <label for="StockPointRefNo">Code</label>
-                        <input type="text" id="StockPointRefNo" autocomplete="off" class=" form_input" />
+                        @Html.TextBoxFor(m => m.StockPointRefNo, new { @class = "form_input", autocomplete = "off" })
                     </div>
 
                     <div class=" col-md-6 ">
                         <label for="StockPointName">Name</label>
-                        <input type="text" id="StockPointName" autocomplete="off" class=" form_input" />
+                        @Html.TextBoxFor(m => m.StockPointName, new { @class = "form_input", autocomplete = "off" })
                     </div>
 
                 </div>
@@ -33,59 +34,59 @@
                 <div class=" row form-group ">
                     <div class=" col-md-6 ">
                         <label for="StockPointShrtName">Short Name</label>
-                        <input type="text" id="StockPointShrtName" autocomplete="off" class="form_input " />
+                        @Html.TextBoxFor(m => m.StockPointShrtName, new { @class = "form_input", autocomplete = "off" })
                     </div>
                 </div>
 
                 <div class="row form-group ">
                     <div class="col-md-6 ">
                         <label for="StockPointDoorNo">Door No & Building</label>
-                        <input type="text" id="StockPointDoorNo" autocomplete="off" class="form_input" />
+                        @Html.TextBoxFor(m => m.StockPointDoorNo, new { @class = "form_input", autocomplete = "off" })
                     </div>
 
                     <div class="col-md-6 ">
                         <label for="StockPointZip">Zip</label>
-                        <input type="text" id="StockPointZip" autocomplete="off" class="form_input" />
+                        @Html.TextBoxFor(m => m.StockPointZip, new { @class = "form_input", autocomplete = "off" })
                     </div>
                 </div>
-  
+
                 <div class="row form-group ">
                     <div class="col-md-6 ">
                         <label for="StockPointArea">Street & Area</label>
-                        <input type="text" id="StockPointArea" autocomplete="off" class="form_input" />
+                        @Html.TextBoxFor(m => m.StockPointArea, new { @class = "form_input", autocomplete = "off" })
                     </div>
 
                     <div class="col-md-6 ">
                         <label for="StockPointPhone">Phone No</label>
-                        <input type="text" id="StockPointPhone" autocomplete="off" class="form_input" />
+                        @Html.TextBoxFor(m => m.StockPointPhone, new { @class = "form_input", autocomplete = "off" })
                     </div>
                 </div>
 
                 <div class="row form-group ">
                     <div class="col-md-6 ">
                         <label for="StockPointCity">City & State</label>
-                        <input type="text" id="StockPointCity" autocomplete="off" class="form_input" />
+                        @Html.TextBoxFor(m => m.StockPointCity, new { @class = "form_input", autocomplete = "off" })
                     </div>
 
                     <div class="col-md-6 ">
                         <label for="StockPointFax">Fax</label>
-                        <input type="text" id="StockPointFax" autocomplete="off" class="form_input" />
+                        @Html.TextBoxFor(m => m.StockPointFax, new { @class = "form_input", autocomplete = "off" })
                     </div>
                 </div>
 
-            <div class=" row form-group ">
-                <div class="col-md-12">
-                    <div style="float:right" class="alignCenter">
-                        <button type="submit" class="button-style">Exit</button>
-                    </div>
-                    <div style="float:right" class="alignCenter">
-                        <button type="submit" class="button-style">Save</button>
+                <div class=" row form-group ">
+                    <div class="col-md-12">
+                        <div style="float:right" class="alignCenter">
+                            <button type="submit" class="button-style">Exit</button>
+                        </div>
+                        <div style="float:right" class="alignCenter">
+                            <button type="submit" class="button-style">Save</button>
+                        </div>
                     </div>
                 </div>
-            </div>
 
-        </form>
-    </div>
+            </form>
+        </div>
 
         <div class=" col-md-3">
 

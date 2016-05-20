@@ -12,7 +12,7 @@ namespace ArabErp.DAL
 
         public int InsertCommissionAgent(CommissionAgent objCommissionAgent)
         {
-            string sql = @"INSERT INTO table_name (CommissionAgentId,CommissionAgentRefNo,CommissionAgentName,Address1,Address2,Address3,Phone,CreatedBy,CreatedDate,OrganizationId) VALUES(@CommissionAgentId,@CommissionAgentRefNo,@CommissionAgentName,@Address1,@Address2,@Address3,@Phone,@CreatedBy,@CreatedDate,@OrganizationId));
+            string sql = @"INSERT INTO CommissionAgent (CommissionAgentRefNo,CommissionAgentName,Address1,Address2,Address3,Phone,CreatedBy,CreatedDate,OrganizationId) VALUES(@CommissionAgentRefNo,@CommissionAgentName,@Address1,@Address2,@Address3,@Phone,@CreatedBy,@CreatedDate,@OrganizationId);
             SELECT CAST(SCOPE_IDENTITY() as int)";
 
 

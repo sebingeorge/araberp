@@ -9,6 +9,7 @@ namespace ArabErp.Domain
    public class SaleOrder
     {
         public int SaleOrderId { get; set; }
+        public string SaleOrderRefNo { get; set; }
         public DateTime SaleOrderDate { get; set; }
         public int CustomerId { get; set; }
         public string CustomerOrderRef { get; set; }

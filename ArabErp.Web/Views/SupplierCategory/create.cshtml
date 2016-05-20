@@ -14,13 +14,13 @@
 
         </div>
         <div class="col-md-6">
-            <form role="form" action="@Url.Action("Save")">
+            <form role="form" action="@Url.Action("Save")" method="post">
                 <div class="row form-group ">
 
                     <div class="col-md-6">
                         <label for="SupCategoryRefNo">Code</label>
                         @Html.TextBoxFor(m => m.SupCategoryRefNo, new { @class = "form_input", autocomplete = "off" })
-                     </div>
+                    </div>
 
                     <div class="col-md-6">
                         <label for="SupCategoryName">Category</label>

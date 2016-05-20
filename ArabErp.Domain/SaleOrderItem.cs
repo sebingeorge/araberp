@@ -15,7 +15,7 @@ namespace ArabErp.Domain
         public string Remarks { get; set; }
         public string PartNo { get; set; }
         public int? Quantity { get; set; }
-        public string Unit { get; set; }
+        public int UnitId { get; set; }
         public decimal? Rate { get; set; }
         public decimal? Discount { get; set; }
         public decimal? Amount { get; set; }
