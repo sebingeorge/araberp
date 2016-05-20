@@ -67,6 +67,7 @@
     <Compile Include="ConnectionManager.cs" />
     <Compile Include="CurrencyRepository.cs" />
     <Compile Include="CustomerCategoryRepository.cs" />
+    <Compile Include="CustomerRepository.cs" />
     <Compile Include="DesignationRepository.cs" />
     <Compile Include="EmployeeCategoryRepository.cs" />
     <Compile Include="EmployeeRepository.cs" />
