@@ -14,9 +14,8 @@ namespace ArabErp.Domain
         public int ItemGroupId { get; set; }
         [Required(ErrorMessage = "Please Enter Code")]
         public string ItemGroupRefNo { get; set; }
-        [Required(ErrorMessage = "Please Enter Ref.No")]
-        public string ItemGroupName { get; set; }
         [Required(ErrorMessage = "Please Enter Name")]
+        public string ItemGroupName { get; set; }
         public int ItemCategoryId { get; set; }
         public string CreatedBy { get; set; }
         public DateTime? CreatedDate { get; set; }
