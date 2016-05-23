@@ -262,6 +262,7 @@
     <Content Include="Content\Site.css" />
     <Content Include="Images\ArabLog.jpg" />
     <Content Include="Images\arablogo.png" />
+    <Content Include="Images\head-back.jpg" />
     <Content Include="Images\logo.png" />
     <Content Include="Images\soheader.jpg" />
     <Content Include="Scripts\bootstrap.js" />
