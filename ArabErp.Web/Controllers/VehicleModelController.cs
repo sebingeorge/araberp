@@ -26,5 +26,12 @@ namespace ArabErp.Web.Controllers
             return View("Create");
         }
 
+        public ActionResult FillVehicleModelList()
+        {
+            var repo = new VehicleModelRepository();
+            var List = repo.FillVehicleModelList();
+            return PartialView("VehicleModelListView",List);
+        }
+
     }
 }

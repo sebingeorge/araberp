@@ -29,6 +29,11 @@ namespace ArabErp.DAL
             return id;
         }
 
+        public IEnumerable<VehicleModel> FillVehicleModelList()
+        {
+            return connection.Query<VehicleModel>("SELECT VehicleModelRefNo,VehicleModelName,VehicleModelDescription  FROM VehicleModel").ToList();
+        }
+
         public VehicleModel GetVehicleModel(int VehicleModelId)
         {
 

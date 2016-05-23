@@ -1,0 +1,51 @@
+﻿@model IList<ArabErp.Domain.VehicleModel>
+
+<style type="text/css">
+    .tableData {
+        font-size: 12px;
+        padding-left: 4px;
+    }
+
+    .list {
+        display: block;
+        height: 320px;
+        overflow-y: scroll;
+    }
+
+        .list tr:hover {
+            background-color: #DFEDF7;
+        }
+</style>
+
+<div class="row" style="width:100%; margin:1px;">
+
+    <table class="list" style="width:100%;" border="1">
+        <tr class=" grid_heading ">
+            <td style="width:10%;padding:6px;"><b>Ref No.</b></td>
+            <td style="width:20%;padding:6px;"><b>Name</b></td>
+            <td style="width:20%;padding:6px;"><b>Description</b></td>
+        </tr>
+
+        @{
+            for (int i = 0; i < Model.Count; i++)
+            {
+                <tr>
+                    <td class="tableData">
+                        @Model[i].VehicleModelRefNo
+                    </td>
+
+                    <td>
+                        @Model[i].VehicleModelName
+                    </td>
+
+                    <td>
+                        @Model[i].VehicleModelDescription
+                    </td>
+                </tr>
+            }
+        }
+    </table>
+</div>
+
+
+
