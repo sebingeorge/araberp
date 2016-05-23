@@ -63,6 +63,10 @@ textarea {
     min-height:300px;
     border: 1px solid #fff;
 }
+.min 
+{
+    min-height:300px;
+}
 .part
  {
     height:50px;
