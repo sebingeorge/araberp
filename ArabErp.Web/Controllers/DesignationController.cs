@@ -25,5 +25,12 @@ namespace ArabErp.Web.Controllers
             new DesignationRepository().InsertDesignation(objDesignation);
             return View("Create");
         }
+        public ActionResult FillDesignationList()
+        {
+            var repo = new DesignationRepository();
+            var List = repo.FillDesignationList();
+            return PartialView("DesignationListView",List);
+        }
+
     }
 }
