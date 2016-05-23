@@ -16,6 +16,11 @@ namespace ArabErp.DAL
             var id = connection.Query<int>(sql, objDesignation).Single();
             return id;
         }
+         
+        public IEnumerable<Designation> FillDesignationList()
+        {
+            return connection.Query<Designation>("SELECT DesignationRefNo,DesignationName FROM Designation").ToList();
+        }
 
         public Designation GetDesignation(int DesignationId)
         {

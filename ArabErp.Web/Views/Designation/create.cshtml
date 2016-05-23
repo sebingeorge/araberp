@@ -22,6 +22,7 @@
                     <div class="col-md-12">
                         <label for="DesignationRefNo">Code</label>
                         @Html.TextBoxFor(m => m.DesignationRefNo, new { @class = "form_input", autocomplete = "off" })
+                        @Html.ValidationMessageFor(model => model.DesignationRefNo, "", new { @class = "text-danger" })
                     </div>
                 </div>
 
@@ -29,13 +30,15 @@
                     <div class="col-md-12">
                         <label for="DesignationName">Name</label>
                         @Html.TextBoxFor(m => m.DesignationName, new { @class = "form_input", autocomplete = "off" })
+                        @Html.ValidationMessageFor(model => model.DesignationName, "", new { @class = "text-danger" })
+
                     </div>
                 </div>
 
                 <div class="row form-group ">
                     <div class="col-md-12">
                         <div style=" float :right" class="alignCenter">
-                            <button type="submit" class="button-style">Exit</button>
+                            <button type="button" class="button-style">Exit</button>
                         </div>
 
                         <div style=" float :right" class="alignCenter">
@@ -50,6 +53,16 @@
         <div class="col-md-4">
 
         </div>
+    </div>
+
+    <div class="col-md-4">
+    </div>
+
+    <div class="col-md-4">
+        @Html.Action("FillDesignationList")
+    </div>
+
+    <div class="col-md-4">
     </div>
 </div>
 
