@@ -360,6 +360,9 @@
     <Content Include="Views\Currency\_CurrencyListView.cshtml" />
     <Content Include="Views\SaleOrder\_DisplaySOList.cshtml" />
     <Content Include="Views\ItemSubGroup\ItemSubGroupListView.cshtml" />
+    <Content Include="Views\Item\_ItemCategoryDropdown.cshtml" />
+    <Content Include="Views\Item\_ItemGroupDropdown.cshtml" />
+    <Content Include="Views\Item\_ItemSubGroupDropdown.cshtml" />
     <Content Include="Views\CustomerCategory\CustomerCategoryListView.cshtml" />
     <Content Include="Views\SupplierCategory\SupplierCategoryListView.cshtml" />
     <Content Include="Views\EmployeeCategory\EmployeeCategoryListView.cshtml" />

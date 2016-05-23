@@ -12,7 +12,7 @@ namespace ArabErp.DAL
 
         public int InsertSaleOrderItem(SaleOrderItem objSaleOrderItem)
         {
-            string sql = @"insert  into SaleOrderItem(SaleOrderId,SlNo,WorkDescriptionId,Remarks,PartNo,Quantity,Unit,Rate,Discount,Amount,CreatedBy,CreatedDate,OrganizationId) Values (@SaleOrderId,@SlNo,@WorkDescriptionId,@Remarks,@PartNo,@Quantity,@Unit,@Rate,@Discount,@Amount,@CreatedBy,@CreatedDate,OrganizationId);
+            string sql = @"insert  into SaleOrderItem(SaleOrderId,SlNo,WorkDescriptionId,Remarks,PartNo,Quantity,UnitId,Rate,Discount,Amount,CreatedBy,CreatedDate,OrganizationId) Values (@SaleOrderId,@SlNo,@WorkDescriptionId,@Remarks,@PartNo,@Quantity,@UnitId,@Rate,@Discount,@Amount,@CreatedBy,@CreatedDate,@OrganizationId);
             SELECT CAST(SCOPE_IDENTITY() as int)";
 
 
@@ -47,7 +47,7 @@ namespace ArabErp.DAL
 
         public int UpdateSaleOrderItem(SaleOrderItem objSaleOrderItem)
         {
-            string sql = @"UPDATE SaleOrderItem SET SlNo = @SlNo ,WorkDescriptionId = @WorkDescriptionId ,Remarks = @Remarks,PartNo = @PartNo,Quantity = @Quantity,Unit = @Unit,Rate = @Rate,Discount = @Discount  OUTPUT INSERTED.SaleOrderItemId  WHERE SaleOrderItemId = @SaleOrderItemId";
+            string sql = @"UPDATE SaleOrderItem SET SlNo = @SlNo ,WorkDescriptionId = @WorkDescriptionId ,Remarks = @Remarks,PartNo = @PartNo,Quantity = @Quantity,UnitId = @UnitId,Rate = @Rate,Discount = @Discount  OUTPUT INSERTED.SaleOrderItemId  WHERE SaleOrderItemId = @SaleOrderItemId";
 
 
             var id = connection.Execute(sql, objSaleOrderItem);

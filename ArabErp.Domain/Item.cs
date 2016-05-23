@@ -22,7 +22,10 @@ namespace ArabErp.Domain
         public int MinLevel { get; set; }
         public int ReorderLevel { get; set; }
         public int MaxLevel { get; set; }
+        public string CreatedBy { get; set; }
+        public DateTime? CreatedDate { get; set; }
         public int OrganizationId { get; set; }
+
 
         
     }

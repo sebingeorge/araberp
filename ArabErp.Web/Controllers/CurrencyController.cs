@@ -43,6 +43,7 @@ namespace ArabErp.Web.Controllers
             var List = repo.FillCurrencyList();
             return PartialView("_CurrencyListView", List);
         }
+       
 
 
     }
