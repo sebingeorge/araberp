@@ -22,8 +22,8 @@ namespace ArabErp.Web.Controllers
         public ActionResult Save(Item oitem)
         {
 
-          
-            new ItemRepository().SaveItem(oitem);
+
+            new ItemRepository().InsertItem(oitem);
             return View("Create");
         }
 
@@ -53,9 +53,9 @@ namespace ArabErp.Web.Controllers
         }
         public void FillUnit()
         {
-            //ItemRepository Repo = new ItemRepository();
-            //var List = Repo.FillUnit();
-            //ViewBag.Unit = new SelectList(List, "Id", "Name");
+            ItemRepository Repo = new ItemRepository();
+            var List = Repo.FillUnit();
+            ViewBag.Unit = new SelectList(List, "Id", "Name");
         }
         public void InitDropdown()
         {
