@@ -374,6 +374,7 @@
     <Content Include="Views\VehicleModel\VehicleModelListView.cshtml" />
     <Content Include="Views\Task\TaskListView.cshtml" />
     <Content Include="Views\Designation\DesignationListView.cshtml" />
+    <Content Include="Views\StockPoint\StockpointListView.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
