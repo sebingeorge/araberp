@@ -22,13 +22,20 @@ namespace ArabErp.Web.Controllers
             FillVehicle();
             FillCommissionAgent();
             FillEmployee();
-            return View();
+
+            SaleOrder saleOrder = new SaleOrder();
+            saleOrder.Items = new List<SaleOrderItem>();
+            saleOrder.Items.Add(new SaleOrderItem());
+            return View(saleOrder);
         }
         public ActionResult DisplaySOList()
         {
             FillWrkDesc();
             FillUnit();
-            return PartialView("_DisplaySOList");
+            SaleOrder saleOrder = new SaleOrder();
+            saleOrder.Items = new List<SaleOrderItem>();
+            saleOrder.Items.Add(new SaleOrderItem());
+            return PartialView("_DisplaySOList", saleOrder);
         }
         public void FillWrkDesc()
         {
@@ -66,7 +73,8 @@ namespace ArabErp.Web.Controllers
             var list = repo.FillUnit();
             ViewBag.unitlist = new SelectList(list, "Id", "Name");
         }
-        public ActionResult Save(SaleOrderItem objSOItem)
+        [HttpPost]
+        public ActionResult Save(SaleOrder model)
         {
             FillWrkDesc();
             FillUnit();
