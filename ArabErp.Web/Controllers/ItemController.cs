@@ -1,4 +1,5 @@
-﻿using ArabErp.Domain;
+﻿using ArabErp.DAL;
+using ArabErp.Domain;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,16 +13,17 @@ namespace ArabErp.Web.Controllers
         // GET: Item
         public ActionResult Create()
         {
+            FillItemCategory();
+            FillUnit();
+            InitDropdown();
             return View();
         }
 
         public ActionResult Save(Item oitem)
         {
 
-            oitem.OrganizationId = 1;
-            oitem.ItemGroupId = 3;
-            oitem.ItemSubGroupId = 1;
-            new JobCardRepository().SaveItem(oitem);
+
+            new ItemRepository().InsertItem(oitem);
             return View("Create");
         }
 
@@ -31,5 +33,51 @@ namespace ArabErp.Web.Controllers
             Item objItem =new JobCardRepository().GetItem(Id);
             return View("Create", objItem);
         }
+        public void FillItemSubGroup(int Id)
+        {
+            ItemRepository Repo = new ItemRepository();
+            var List = Repo.FillItemSubGroup(Id);
+            ViewBag.ItemSubGroupList = new SelectList(List, "Id", "Name");
+        }
+        public void FillItemCategory()
+        {
+            ItemRepository Repo = new ItemRepository();
+            var List = Repo.FillItemCategory();
+            ViewBag.ItemCategoryList = new SelectList(List, "Id", "Name");
+        }
+        public void FillItemGroup(int Id)
+        {
+            ItemRepository Repo = new ItemRepository();
+            var List = Repo.FillItemGroup(Id);
+            ViewBag.ItemGroupList = new SelectList(List, "Id", "Name");
+        }
+        public void FillUnit()
+        {
+            ItemRepository Repo = new ItemRepository();
+            var List = Repo.FillUnit();
+            ViewBag.Unit = new SelectList(List, "Id", "Name");
+        }
+        public void InitDropdown()
+        {
+            var List = "";
+            ViewBag.ItemGroupList = new SelectList(List, "Id", "Name");
+            ViewBag.ItemSubGroupList = new SelectList(List, "Id", "Name");
+        }
+        public ActionResult ItemGroup(int Code)
+        {
+            FillItemGroup(Code);
+            return PartialView("_ItemGroupDropdown");
+        }
+        public ActionResult ItemSubGroup(int Code)
+        {
+            FillItemSubGroup(Code);
+            return PartialView("_ItemSubGroupDropdown");
+        }
+        public ActionResult ItemCategory()
+        {
+            FillItemCategory();
+            return PartialView("_ItemCategoryDropdown");
+        }
+        
     }
 }

@@ -4,6 +4,52 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
+<script type="text/javascript">
+  
+    $(function () {
+        $('#datetimepicker1').datepicker({
+            viewMode: 'years'
+        });
+    });
+
+
+    function FillItemGroup() {
+
+        var Code = $('#ItemCategoryId').val();
+        var Url = '@Url.Action("ItemGroup")';
+        var UrlSubGroup = '@Url.Action("ItemSubGroup")';
+
+        if (Code == '') {
+            $("#DivItemGroup").load(Url, { Code: 0 });
+            $("#DivItemSubGroup").load(UrlSubGroup, { Code: 0 });
+        }
+
+        else {
+            $("#DivItemGroup").load(Url, { Code: Code });
+            $("#DivItemSubGroup").load(UrlSubGroup, { Code: 0 });
+        }
+    }
+
+    function FillItemSubGroup() {
+
+        var Code = $('#ItemGroupId').val();
+        //  alert(Code);
+        var Url = '@Url.Action("ItemSubGroup")';
+        if (Code == '') {
+            $("#DivItemSubGroup").load(Url, { Code: 0 });
+        }
+        else {
+            $("#DivItemSubGroup").load(Url, { Code: Code });
+        }
+    }
+
+    $(function () { // will trigger when the document is ready
+        $('.datepicker').datepicker(); //Initialise any date pickers
+    });
+
+</script>
+
+
 <div class="container">
     <h4>Item</h4>
     <div class="row">
@@ -17,7 +63,6 @@
                         </div>
                         <div class="part">
                             <label for="name">Item Name</label>
-                            @*                       <input type="text" autocomplete="off" name="ItemName" id="ItemName" class="form_input" />*@
                             @Html.TextBoxFor(m => m.ItemName, new { @class = "form_input", autocomplete = "off" })
                         </div>
                         <div class="part">
@@ -36,26 +81,42 @@
 
                     <div class="col-md-4 ">
                         <div class="part">
-                            <label for="code">Item Sub Group</label>
-
-
-                            @Html.DropDownListFor(m => m.ItemSubGroupId,
-                                 new SelectList(Enum.GetValues(typeof(ArabErp.Domain.ItemSubGroupId))),
-                                 "Select Sub Group", new { @class = "form_input" })
+                            <label for="code">Item Category</label>
+                            @*@Html.DropDownListFor(m => Model.ItemCategoryId, (SelectList)ViewBag.ItemCategoryList, "Select Category", new { @class = "form_input", @onchange = "FillItemGroup()" })
+                                @Html.HiddenFor(m => Model.ItemCategoryId)*@
+                            @Html.Action("ItemCategory")
+                            @*@Html.TextBoxFor(m => m.ItemName, new { @class = "form_input", autocomplete = "off" })*@
                         </div>
                         <div class="part">
                             <label for="code">Item Group</label>
-                            @Html.TextBoxFor(m => m.ItemName, new { @class = "form_input", autocomplete = "off" })
+                            <div id="DivItemGroup">
+                                @Html.Action("ItemGroup", "Item", new { Code = 0 })
+                            </div>
+                            @*@Html.Partial("_ItemGroupDropdown")*@
+                            @*@Html.DropDownListFor(m => Model.ItemGroupId, (SelectList)ViewBag.ItemGroupList, "Select Group", new { @class = "form_input" })*@
+                            @*@Html.TextBoxFor(m => m.ItemName, new { @class = "form_input", autocomplete = "off" })*@
                         </div>
                         <div class="part">
-                            <label for="code">Item Category</label>
-                            @Html.TextBoxFor(m => m.ItemName, new { @class = "form_input", autocomplete = "off" })
-                        </div>                 
+                            <label for="code">Item Sub Group</label>
+                            <div id="DivItemSubGroup">
+                                @Html.Action("ItemSubGroup", "Item", new { Code = 0 })
+                            </div>
+                            @*@Html.DropDownListFor(m => Model.ItemSubGroupId, (SelectList)ViewBag.ItemSubGroup, "Select Sub Group", new { @class = "form_input" })*@
+                        </div>
                         <div class="part">
                             <label for="name">Unit</label>
-                            @Html.DropDownListFor(m => m.ItemUnitId,
-                                 new SelectList(Enum.GetValues(typeof(ArabErp.Domain.itemUnit))),
-                                 "Select Unit", new { @class = "form_input" })
+                            @Html.DropDownListFor(m => Model.ItemUnitId, (SelectList)ViewBag.Unit, "Select Unit", new { @class = "form_input" })
+                        </div>
+                        <div class="editor-field">
+                            @*@Html.LabelFor(model => model.ExpiryDate)
+                            @Html.TextBoxFor(model => model.ExpiryDate, new { @class = "form-control datepicker", placeholder = "Enter Drop-off date here..." })
+                            @Html.ValidationMessageFor(model => model.ExpiryDate)
+                            <div class='input-group date' id='datetimepicker1'>
+                                <input type='text' class="form-control" />
+                                <span class="input-group-addon">
+                                    <span class="glyphicon glyphicon-calendar"></span>
+                                </span>
+                            </div>*@
                         </div>
 
                     </div>
@@ -86,6 +147,7 @@
             </form>
         </div>
     </div>
+  
 </div>
 
 

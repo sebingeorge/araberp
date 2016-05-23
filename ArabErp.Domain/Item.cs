@@ -25,6 +25,9 @@ namespace ArabErp.Domain
         public string CreatedBy { get; set; }
         public DateTime? CreatedDate { get; set; }
         public int OrganizationId { get; set; }
+        public DateTime ExpiryDate { get; set; }
+        public Boolean BatchRequired { get; set; }
+        public Boolean StockRequired { get; set; }
 
 
         
