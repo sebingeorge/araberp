@@ -79,7 +79,7 @@
                         </div>
                     </div>
 
-                    <div class="col-md-4 ">
+                    <div class="col-md-4">
                         <div class="part">
                             <label for="code">Item Category</label>
                             @*@Html.DropDownListFor(m => Model.ItemCategoryId, (SelectList)ViewBag.ItemCategoryList, "Select Category", new { @class = "form_input", @onchange = "FillItemGroup()" })
@@ -123,8 +123,8 @@
 
                     </div>
 
-                    <div class="col-md-3 main-part2">
-                        <div class="part ">
+                    <div class="col-md-4">
+                        <div class="part">
                             <label for="code">Min.Level</label>
                             @Html.TextBoxFor(m => m.MinLevel, new { @class = "form_input", autocomplete = "off" })
                         </div>
@@ -138,19 +138,17 @@
                         </div>
                         <div class="part">
                            
-                            <input type="checkbox" name="Batch" />
-                            <label for="name">Batch Required</label>
-                        </div>
-                        <div class="part">
-                            
+                            <input type="checkbox" name="Batch"  />
+                            <label for="name" class="lefto">Batch Required</label>
+
                             <input type="checkbox" name="Batch" />
                             <label for="name">Stock Required</label>
                         </div>
 
-                    </div>
 
+                    </div>
                     <div class="marg">
-                        <button type="submit" class="form-button">Exit</button>
+                        <button type="submit" class="form-button top1">Exit</button>
 
                         <button type="submit" class="form-button">Save</button>
                     </div>
