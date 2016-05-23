@@ -222,6 +222,8 @@
     <Content Include="Content\bootstrap.js" />
     <Content Include="Content\bootstrap.min.css" />
     <Content Include="Content\bootstrap.min.js" />
+    <Content Include="Content\jquery-2.1.4.min.js" />
+    <Content Include="Content\polyfiller.js" />
     <Content Include="Content\Style.css" />
     <Content Include="Content\menu.css" />
     <Content Include="Content\themes\base\accordion.css" />
