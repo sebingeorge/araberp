@@ -39,7 +39,8 @@
   
   }
 .form-head 
-{  background: url(../Images/head-back.jpg) repeat; 
+{  
+    background: url(../Images/head-back.jpg) repeat; 
    /*background-color: #18b2e9;*/
     height: 32px;
     line-height: 32px;
