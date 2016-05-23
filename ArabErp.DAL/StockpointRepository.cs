@@ -20,7 +20,10 @@ namespace ArabErp.DAL
             return id;
         }
 
-
+        public IEnumerable<Stockpoint> FillStockpointList()
+        {
+            return connection.Query<Stockpoint>("SELECT StockPointRefNo,StockPointName,StockPointShrtName FROM Stockpoint").ToList();
+        }
         public Stockpoint GetStockpoint(int StockpointId)
         {
 
