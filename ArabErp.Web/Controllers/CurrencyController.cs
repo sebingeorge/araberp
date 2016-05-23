@@ -18,27 +18,24 @@ namespace ArabErp.Web.Controllers
 
         public ActionResult Create()
         {
-            var repo = new CurrencyRepository();
-            var sym = repo.FillSymbol();
-            ViewBag.symbols = new SelectList(sym.Symbols, "SymbolId", "SymbolName");
-            return View(sym);
+            FillCurrencySymbols();
+            return View();
         }
         public ActionResult Save(Currency objCurrency)
         {
-            dropdown();
+            FillCurrencySymbols();
             new CurrencyRepository().InsertCurrency(objCurrency);
             return View("Create");
         }
-        public void dropdown()
+        public void FillCurrencySymbols()
         {
             var repo = new CurrencyRepository();
             var sym = repo.FillSymbol();
             ViewBag.symbols = new SelectList(sym.Symbols, "SymbolId", "SymbolName");
-
         }
         public ActionResult FillCurrencyList()
         {
-            //var list = _GradeVsDisplayOrderManager.GetGradeVsDisplayOrderList();
+            
             var repo = new CurrencyRepository();
             var List = repo.FillCurrencyList();
             return PartialView("_CurrencyListView", List);

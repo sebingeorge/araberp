@@ -21,5 +21,9 @@ namespace ArabErp.Web.Controllers
             ViewBag.designations = new SelectList(emp.Designations, "DesignationId", "DesignationName");
             return View(emp);
         }
+        public void FillDesignation()
+        {
+            
+        }
     }
 }

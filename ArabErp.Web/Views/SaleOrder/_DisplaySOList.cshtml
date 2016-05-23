@@ -21,9 +21,7 @@
             //clone.html($(clone).html().replace("Items_0__", 'Items_' + i + '__'));
             clone.html($(clone).html().replace(/\Items_0__/g, 'Items_' + i + '__'));
             clone.html($(clone).html().replace(/\Items[0]./g, 'Items[' + i + '].'));
-            console.log(clone.html($(clone).html())[0].innerHTML.replace('name="Items[0]', 'name="Items[' + i + ']'));
-            console.log(clone.html($(clone).html())[0].innerHTML.replace('<td>1</td>', '<td>' + no + '</td>'));
-            //clone.html($(clone).html().replace(/"%"/g, '"' + index + '"'));
+            clone.html($(clone).html().replace(/\[0\]/g, '[' + i + ']'));
             $("#tab_logic").append('<tr id="' + i + '">' + clone.html() + '  </tr>');
          });
     });

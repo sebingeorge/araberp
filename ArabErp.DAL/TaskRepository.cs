@@ -20,6 +20,10 @@ namespace ArabErp.DAL
             return id;
         }
 
+       public IEnumerable <Task> FillTaskList()
+       {
+           return connection.Query<Task>("SELECT TaskRefNo,TaskName FROM Task").ToList();
+       }
        public Task GetTask(int TaskId)
         {
 

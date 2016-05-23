@@ -369,6 +369,8 @@
     <Content Include="Views\CustomerCategory\CustomerCategoryListView.cshtml" />
     <Content Include="Views\SupplierCategory\SupplierCategoryListView.cshtml" />
     <Content Include="Views\EmployeeCategory\EmployeeCategoryListView.cshtml" />
+    <Content Include="Views\VehicleModel\VehicleModelListView.cshtml" />
+    <Content Include="Views\Task\TaskListView.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
