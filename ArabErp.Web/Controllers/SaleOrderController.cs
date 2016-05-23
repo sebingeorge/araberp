@@ -13,7 +13,7 @@ namespace ArabErp.Web.Controllers
         // GET: SaleOrder
         public ActionResult Index()
         {
-           
+      
             return View();
         }
         public ActionResult Create()
@@ -22,7 +22,6 @@ namespace ArabErp.Web.Controllers
             FillVehicle();
             FillCommissionAgent();
             FillEmployee();
-
             SaleOrder saleOrder = new SaleOrder();
             saleOrder.Items = new List<SaleOrderItem>();
             saleOrder.Items.Add(new SaleOrderItem());
@@ -34,6 +33,7 @@ namespace ArabErp.Web.Controllers
             FillUnit();
             SaleOrder saleOrder = new SaleOrder();
             saleOrder.Items = new List<SaleOrderItem>();
+            saleOrder.Items.Add(new SaleOrderItem());
             saleOrder.Items.Add(new SaleOrderItem());
             return PartialView("_DisplaySOList", saleOrder);
         }
@@ -78,7 +78,11 @@ namespace ArabErp.Web.Controllers
         {
             FillWrkDesc();
             FillUnit();
-            return View("Create");
+            FillCustomer();
+            FillVehicle();
+            FillCommissionAgent();
+            FillEmployee();
+            return View("Create", model);
         }
     }
 }
