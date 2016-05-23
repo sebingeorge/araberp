@@ -108,6 +108,7 @@
                             @Html.DropDownListFor(m => Model.ItemUnitId, (SelectList)ViewBag.Unit, "Select Unit", new { @class = "form_input" })
                         </div>
                         <div class="editor-field">
+                            <label for="name">Expiry Date</label>
                             @*@Html.LabelFor(model => model.ExpiryDate)
                             @Html.TextBoxFor(model => model.ExpiryDate, new { @class = "form-control datepicker", placeholder = "Enter Drop-off date here..." })
                             @Html.ValidationMessageFor(model => model.ExpiryDate)
@@ -117,8 +118,7 @@
                                     <span class="glyphicon glyphicon-calendar"></span>
                                 </span>
                             </div>*@
-        
-
+                            <input type="date" id="duedate" class="form_input" />
                         </div>
 
                     </div>
@@ -137,9 +137,16 @@
                             @Html.TextBoxFor(m => m.MaxLevel, new { @class = "form_input", autocomplete = "off" })
                         </div>
                         <div class="part">
-                            <label for="name">Max.Level</label>
-                            @Html.TextBoxFor(m => m.MaxLevel, new { @class = "form_input", autocomplete = "off" })
+                           
+                            <input type="checkbox" name="Batch" />
+                            <label for="name">Batch Required</label>
                         </div>
+                        <div class="part">
+                            
+                            <input type="checkbox" name="Batch" />
+                            <label for="name">Stock Required</label>
+                        </div>
+
                     </div>
                     <div class="marg">
                         <button type="submit" class="form-button">Exit</button>

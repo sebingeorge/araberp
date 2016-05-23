@@ -25,5 +25,11 @@ namespace ArabErp.Web.Controllers
             new SupplierCategoryRepository().InsertSupplierCategory(objSupplierCategory);
             return View("Create");
         }
+        public ActionResult FillSupplierCategoryList()
+        {
+            var repo = new SupplierCategoryRepository();
+            var List = repo.FillSupplierCategoryList();
+            return PartialView("SupplierCategoryListView", List);
+        }
     }
 }

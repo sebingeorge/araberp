@@ -365,6 +365,9 @@
     <Content Include="Views\Item\_ItemCategoryDropdown.cshtml" />
     <Content Include="Views\Item\_ItemGroupDropdown.cshtml" />
     <Content Include="Views\Item\_ItemSubGroupDropdown.cshtml" />
+    <Content Include="Views\CustomerCategory\CustomerCategoryListView.cshtml" />
+    <Content Include="Views\SupplierCategory\SupplierCategoryListView.cshtml" />
+    <Content Include="Views\EmployeeCategory\EmployeeCategoryListView.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
