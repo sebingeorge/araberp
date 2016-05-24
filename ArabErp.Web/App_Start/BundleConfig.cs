@@ -27,10 +27,11 @@ namespace ArabErp
 
             bundles.Add(new StyleBundle("~/Content/css").Include(
                       "~/Content/bootstrap.css",
-                      "~/Content/site.css", 
-                      "~/Content/Style.css",
-                      "~/Content/jquery-ui.css"
-                      ));
+                      "~/Content/themes/base/all.css",
+                      "~/Content/site.css",
+                      "~/Content/Style.css"));
+                    
+                    
         }
     }
 }

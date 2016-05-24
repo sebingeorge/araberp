@@ -72,6 +72,10 @@
             <div class="marg">
                 <button class="form-button">Exit</button>
                 <button type="submit" class="form-button">Save</button>
+                @if (TempData["Success"] != null)
+{
+ <p class="alert alert-success" id="successMessage">@TempData["Success"]</p>
+}
             </div>
         }
     </div>
