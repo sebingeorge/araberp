@@ -10,14 +10,23 @@ namespace ArabErp.DAL
     public class SaleOrderRepository : BaseRepository
     {
 
-        public int InsertSaleOrder(SaleOrder objSaleOrder)
+        public int InsertSaleOrder(SaleOrder model)
         {
-            string sql = @"insert  into SaleOrder(SaleOrderDate,CustomerId,CustomerOrderRef,VehicleModelId,SpecialRemarks,PaymentTerms,DeliveryTerms,CommissionAgentId,CommisionAmount,SalesExecutiveId,CreatedBy,CreatedDate,OrganizationId) Values (@SaleOrderDate,@CustomerId,@CustomerOrderRef,@VehicleModelId,@SpecialRemarks,@PaymentTerms,@DeliveryTerms,@CommissionAgentId,@CommisionAmount,@SalesExecutiveId,@CreatedBy,@CreatedDate,@OrganizationId);
-            SELECT CAST(SCOPE_IDENTITY() as int)";
+                         string sql = @"insert  into SaleOrder(SaleOrderRefNo,SaleOrderDate,CustomerId,CustomerOrderRef,VehicleModelId,SpecialRemarks,PaymentTerms,DeliveryTerms,CommissionAgentId,CommisionAmount,SalesExecutiveId,CreatedBy,CreatedDate,OrganizationId) Values (@SaleOrderRefNo,@SaleOrderDate,@CustomerId,@CustomerOrderRef,@VehicleModelId,@SpecialRemarks,@PaymentTerms,@DeliveryTerms,@CommissionAgentId,@CommisionAmount,@SalesExecutiveId,@CreatedBy,@CreatedDate,@OrganizationId);
+           
+
+                        SELECT CAST(SCOPE_IDENTITY() as int)";
 
 
-            var id = connection.Query<int>(sql, objSaleOrder).Single();
-            return id;
+                        var id = connection.Query<int>(sql, model).Single();
+            var saleorderitemrepo=new SaleOrderItemRepository();
+            foreach (var item in model.Items)
+            {
+                item.SaleOrderId = id;
+                saleorderitemrepo.InsertSaleOrderItem(item);
+            }
+
+                        return id;
         }
 
 
