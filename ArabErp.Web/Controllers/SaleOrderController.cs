@@ -91,7 +91,7 @@ namespace ArabErp.Web.Controllers
             FillVehicle();
             FillCommissionAgent();
             FillEmployee();
-            TempData["Success"] = "Added Successfully!";
+            //TempData["Success"] = "Added Successfully!";
             SaleOrder saleOrder = new SaleOrder();
             saleOrder.SaleOrderDate = System.DateTime.Today;
             saleOrder.Items = new List<SaleOrderItem>();
