@@ -178,6 +178,7 @@
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\AdditionalWorkShopRequestController.cs" />
+    <Compile Include="Controllers\CommissionAgentController.cs" />
     <Compile Include="Controllers\CurrencyController.cs" />
     <Compile Include="Controllers\CustomerCategoryController.cs" />
     <Compile Include="Controllers\CustomerController.cs" />
@@ -381,6 +382,8 @@
     <Content Include="Views\Task\TaskListView.cshtml" />
     <Content Include="Views\Designation\DesignationListView.cshtml" />
     <Content Include="Views\StockPoint\StockpointListView.cshtml" />
+    <Content Include="Views\CommissionAgent\Create.cshtml" />
+    <Content Include="Views\CommissionAgent\CommissionAgentListView.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

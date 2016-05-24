@@ -12,7 +12,7 @@ namespace ArabErp.DAL
 
         public int InsertCommissionAgent(CommissionAgent objCommissionAgent)
         {
-            string sql = @"INSERT INTO CommissionAgent (CommissionAgentRefNo,CommissionAgentName,Address1,Address2,Address3,Phone,CreatedBy,CreatedDate,OrganizationId) VALUES(@CommissionAgentRefNo,@CommissionAgentName,@Address1,@Address2,@Address3,@Phone,@CreatedBy,@CreatedDate,@OrganizationId);
+            string sql = @"INSERT INTO CommissionAgent (CommissionAgentRefNo,CommissionAgentName,Address1,Address2,Address3,Phone,CreatedBy,CreatedDate,OrganizationId) VALUES(@CommissionAgentRefNo,@CommissionAgentName,@Address1,@Address2,@Address3,@Phone,@CreatedBy,getDate(),@OrganizationId);
             SELECT CAST(SCOPE_IDENTITY() as int)";
 
 
@@ -20,6 +20,10 @@ namespace ArabErp.DAL
             return id;
         }
 
+        public IEnumerable<CommissionAgent> FillCommissionAgentList()
+        {
+            return connection.Query<CommissionAgent>("SELECT CommissionAgentRefNo,CommissionAgentName FROM CommissionAgent").ToList();
+        }
 
         public CommissionAgent GetCommissionAgent(int CommissionAgentId)
         {
