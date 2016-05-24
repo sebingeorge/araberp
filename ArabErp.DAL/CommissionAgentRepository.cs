@@ -20,40 +20,44 @@ namespace ArabErp.DAL
             SELECT CAST(SCOPE_IDENTITY() as int)";
 
 
-                var id = connection.Query<int>(sql, objCommissionAgent).Single();
-                return id;
-            }
+            var id = connection.Query<int>(sql, objCommissionAgent).Single();
+            return id;
+        }
         }
 
+        public IEnumerable<CommissionAgent> FillCommissionAgentList()
+        {
+            return connection.Query<CommissionAgent>("SELECT CommissionAgentRefNo,CommissionAgentName FROM CommissionAgent").ToList();
+        }
 
         public CommissionAgent GetCommissionAgent(int CommissionAgentId)
         {
             using (IDbConnection connection = OpenConnection(dataConnection))
             {
 
-                string sql = @"select * from CommissionAgent
+            string sql = @"select * from CommissionAgent
                         where CommissionAgentId=@CommissionAgentId";
 
-                var objCommissionAgent = connection.Query<CommissionAgent>(sql, new
-                {
-                    CommissionAgentId = CommissionAgentId
-                }).First<CommissionAgent>();
+            var objCommissionAgent = connection.Query<CommissionAgent>(sql, new
+            {
+                CommissionAgentId = CommissionAgentId
+            }).First<CommissionAgent>();
 
-                return objCommissionAgent;
-            }
+            return objCommissionAgent;
+        }
         }
 
         public List<CommissionAgent> GetCommissionAgents()
         {
             using (IDbConnection connection = OpenConnection(dataConnection))
             {
-                string sql = @"select * from CommissionAgent
+            string sql = @"select * from CommissionAgent
                         where isActive=1";
 
-                var objCommissionAgents = connection.Query<CommissionAgent>(sql).ToList<CommissionAgent>();
+            var objCommissionAgents = connection.Query<CommissionAgent>(sql).ToList<CommissionAgent>();
 
-                return objCommissionAgents;
-            }
+            return objCommissionAgents;
+        }
         }
 
 

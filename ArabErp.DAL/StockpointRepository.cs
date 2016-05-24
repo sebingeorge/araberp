@@ -20,69 +20,69 @@ namespace ArabErp.DAL
             SELECT CAST(SCOPE_IDENTITY() as int)";
 
 
-                var id = connection.Query<int>(sql, objStockpoint).Single();
-                return id;
-            }
+            var id = connection.Query<int>(sql, objStockpoint).Single();
+            return id;
+        }
         }
 
         public IEnumerable<Stockpoint> FillStockpointList()
         {
             using (IDbConnection connection = OpenConnection(dataConnection))
             {
-                return connection.Query<Stockpoint>("SELECT StockPointRefNo,StockPointName,StockPointShrtName FROM Stockpoint").ToList();
-            }
+            return connection.Query<Stockpoint>("SELECT StockPointRefNo,StockPointName,StockPointShrtName FROM Stockpoint").ToList();
+        }
         }
         public Stockpoint GetStockpoint(int StockpointId)
         {
             using (IDbConnection connection = OpenConnection(dataConnection))
             {
-                string sql = @"select * from Stockpoint
+            string sql = @"select * from Stockpoint
                         where StockpointId=@StockpointId";
 
-                var objStockpoint = connection.Query<Stockpoint>(sql, new
-                {
-                    StockpointId = StockpointId
-                }).First<Stockpoint>();
+            var objStockpoint = connection.Query<Stockpoint>(sql, new
+            {
+                StockpointId = StockpointId
+            }).First<Stockpoint>();
 
-                return objStockpoint;
-            }
+            return objStockpoint;
+        }
         }
 
         public List<Stockpoint> GetStockpoints()
         {
             using (IDbConnection connection = OpenConnection(dataConnection))
             {
-                string sql = @"select * from Stockpoint
+            string sql = @"select * from Stockpoint
                         where isActive=1";
 
-                var objStockpoints = connection.Query<Stockpoint>(sql).ToList<Stockpoint>();
+            var objStockpoints = connection.Query<Stockpoint>(sql).ToList<Stockpoint>();
 
-                return objStockpoints;
-            }
+            return objStockpoints;
+        }
         }
 
         public int UpdateStockpoint(Stockpoint objStockpoint)
         {
             using (IDbConnection connection = OpenConnection(dataConnection))
             {
-                string sql = @"UPDATE StockPoint SET StockPointRefNo = @StockPointRefNo ,StockPointName = @StockPointName ,StockPointShrtName = @StockPointShrtName ,StockPointDoorNo = @StockPointDoorNo,StockPointZip = @StockPointZip,StockPointArea = @StockPointArea,StockPointPhone = @StockPointPhone,StockPointCity = @StockPointCity,StockPointFax = @StockPointFax  OUTPUT INSERTED.StockPointId  WHERE StockPointId = @StockPointId";
+            string sql = @"UPDATE StockPoint SET StockPointRefNo = @StockPointRefNo ,StockPointName = @StockPointName ,StockPointShrtName = @StockPointShrtName ,StockPointDoorNo = @StockPointDoorNo,StockPointZip = @StockPointZip,StockPointArea = @StockPointArea,StockPointPhone = @StockPointPhone,StockPointCity = @StockPointCity,StockPointFax = @StockPointFax  OUTPUT INSERTED.StockPointId  WHERE StockPointId = @StockPointId";
 
 
-                var id = connection.Execute(sql, objStockpoint);
-                return id;
-            }
+            var id = connection.Execute(sql, objStockpoint);
+            return id;
+        }
         }
 
         public int DeleteStockpoint(Unit objStockpoint)
         {
             using (IDbConnection connection = OpenConnection(dataConnection))
             {
-                string sql = @"Delete Stockpoint  OUTPUT DELETED.StockpointId WHERE StockpointId=@StockpointId";
+            string sql = @"Delete Stockpoint  OUTPUT DELETED.StockpointId WHERE StockpointId=@StockpointId";
 
 
-                var id = connection.Execute(sql, objStockpoint);
-                return id;
-            }
+            var id = connection.Execute(sql, objStockpoint);
+            return id;
+        }
         }
 
 

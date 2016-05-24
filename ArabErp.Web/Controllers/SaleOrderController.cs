@@ -85,15 +85,14 @@ namespace ArabErp.Web.Controllers
             model.CreatedDate = System.DateTime.Now;
             model.CreatedBy = Request.ServerVariables["HTTP_X_FORWARDED_FOR"] ?? Request.ServerVariables["REMOTE_ADDR"];   
             new SaleOrderRepository().InsertSaleOrder(model);
-
             FillWrkDesc();
             FillUnit();
             FillCustomer();
             FillVehicle();
             FillCommissionAgent();
             FillEmployee();
+            //TempData["Success"] = "Added Successfully!";
             SaleOrder saleOrder = new SaleOrder();
-
             saleOrder.SaleOrderDate = System.DateTime.Today;
             saleOrder.Items = new List<SaleOrderItem>();
             saleOrder.Items.Add(new SaleOrderItem());
