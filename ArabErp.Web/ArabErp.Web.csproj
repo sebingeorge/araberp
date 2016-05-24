@@ -222,6 +222,10 @@
     <Content Include="Content\bootstrap.js" />
     <Content Include="Content\bootstrap.min.css" />
     <Content Include="Content\bootstrap.min.js" />
+    <Content Include="Content\bootstrapValidator.css" />
+    <Content Include="Content\bootstrapValidator.min.css" />
+    <Content Include="Scripts\bootstrapValidator.js" />
+    <Content Include="Scripts\bootstrapValidator.min.js" />
     <Content Include="Content\jquery-2.1.4.min.js" />
     <Content Include="Content\polyfiller.js" />
     <Content Include="Content\Style.css" />
@@ -380,6 +384,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="bin\" />
     <Folder Include="Images\App_LocalResources\" />
   </ItemGroup>
   <ItemGroup>

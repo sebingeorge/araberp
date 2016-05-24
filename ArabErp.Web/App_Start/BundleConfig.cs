@@ -23,13 +23,16 @@ namespace ArabErp
                       "~/Scripts/bootstrap.js",
                       "~/Scripts/respond.js",
                       "~/Scripts/jquery-1.10.2.js",
-                      "~/Scripts/jquery-ui-1.11.4.js"));
+                      "~/Scripts/jquery-ui-1.11.4.js",
+                      "~/Scripts/bootstrapValidator.js"));
+
+                    
 
             bundles.Add(new StyleBundle("~/Content/css").Include(
                       "~/Content/bootstrap.css",
                       "~/Content/themes/base/all.css",
                       "~/Content/site.css",
-                      "~/Content/Style.css"));
+                      "~/Content/Style.css","~/Content/bootstrapValidator.css"));
                     
                     
         }
