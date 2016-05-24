@@ -26,21 +26,22 @@
                 </div>
                 <div class="form-group">
                     <label>Gender</label>
+                    <div>
+                       
+                    </div>
                     <div class="row">
                         <div class="col-md-6">
-                            <div class="col-md-6">
-                                <input type="radio" name="">
-                                <span class="text">Male</span>
-                            </div>
-                            <div class="col-md-6">
-                                <input type="radio" name="">
-                                <span class="text">Female</span>
+                            <div class="editor-field">
+                                @Html.RadioButton("Gender", true, true) Male
+                                @Html.RadioButton("Gender", false, false) Female
+
                             </div>
                                                            
                             </div>
                         <div class="col-md-6">
                             <label for="DesignationId">Designation</label>
-                             @Html.DropDownList("designations",ViewBag.designations as List<SelectListItem>,"Select Designation", new { @class = "form_input" })
+                             
+                            @Html.DropDownListFor(m => Model.DesignationId, (SelectList)ViewBag.Unit, "Select Unit", new { @class = "form_input" })
                         </div>
                         </div>
                 </div>
@@ -49,33 +50,27 @@
                         <label for="CategoryId">Category</label>
                       
                     
-                        <select id="CategoryId" class="form_input" autocomplete="off">
-                            <option>Select Category</option>
-                            <option>Category</option>
-                            <option>Category2</option>
-                            <option>Category3</option>
-                        </select>
+                      
+                        @Html.DropDownListFor(m => Model.CategoryId, (SelectList)ViewBag.Unit, "Select Unit", new { @class = "form_input" })
+
+
                     </div>
 
                     <div class="col-md-6">
                         <label for="LocationId">Location</label>
-                        <select id="LocationId" class="form_input" autocomplete="off">
-                            <option>Select Location</option>
-                            <option>loc1</option>
-                            <option>loc2</option>
-                            <option>loc3</option>
-                        </select>
+                        
+                        @Html.DropDownListFor(m => Model.LocationId, (SelectList)ViewBag.Unit, "Select Unit", new { @class = "form_input" })
+
+
                     </div>
                 </div>
                 <div class="row form-group">
                     <div class="col-md-6">
                         <label for="TaskId">Task Done</label>
-                        <select id="TaskId" class="form_input" autocomplete="off">
-                            <option>Select Task Done</option>
-                            <option>Task 1</option>
-                            <option>Task 2</option>
-                            <option>Task 3</option>
-                        </select>
+                       
+                        @Html.DropDownListFor(m => Model.TaskId, (SelectList)ViewBag.Unit, "Select Unit", new { @class = "form_input" })
+
+
                     </div>
 
                     <div class="col-md-6">

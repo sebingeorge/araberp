@@ -4,24 +4,43 @@ using System.Linq;
 using System.Data.SqlClient;
 using Dapper;
 using ArabErp.Domain;
+using System.Configuration;
+using System.Data;
 
 namespace ArabErp.DAL
 {
-   public class BaseRepository : IDisposable
+   public class BaseRepository
     {
-        protected SqlConnection connection;
-        public BaseRepository()
+
+        public static string GetConnectionString(string connStrName)
         {
-            if (connection == null)
+            return ConfigurationManager.ConnectionStrings[connStrName].ConnectionString;
+        }
+        public static IDbConnection OpenConnection(string connStrName)
+        {
+            IDbConnection connection = new SqlConnection(connStrName);
+
+            if (connection.State != ConnectionState.Open)
             {
-                connection = ConnectionManager.connection;
+                connection.Open();
             }
+
+            return connection;
         }
 
-        public void Dispose()
-        {
-            connection.Dispose();
-        }
+        //protected SqlConnection connection;
+        //public BaseRepository()
+        //{
+        //    if (connection == null)
+        //    {
+        //        connection = ConnectionManager.connection;
+        //    }
+        //}
+
+        //public void Dispose()
+        //{
+        //    connection.Dispose();
+        //}
     }
 }
  

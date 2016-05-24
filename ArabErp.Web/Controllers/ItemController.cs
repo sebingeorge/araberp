@@ -16,12 +16,31 @@ namespace ArabErp.Web.Controllers
             FillItemCategory();
             FillUnit();
             InitDropdown();
-            return View();
+            Item oItem=new Item();
+            oItem.PartNo = null;
+            oItem.ItemName = null;
+            oItem.ItemPrintName = null;
+            oItem.ItemShortName = null;
+            oItem.CommodityId = null;
+            oItem.ItemCategoryId = null;
+            oItem.ItemGroupId = null;
+            oItem.ItemSubGroupId = null;
+            oItem.ItemUnitId = null;
+            oItem.ExpiryDate = null;
+            oItem.MinLevel = null;
+            oItem.ReorderLevel = null;
+            oItem.MaxLevel = null;
+            oItem.StockRequired=true;
+            oItem.BatchRequired=false;
+           
+            return View("Create", oItem);
         }
 
         public ActionResult Save(Item oitem)
         {
-
+            FillItemCategory();
+            FillUnit();
+            InitDropdown();
 
             new ItemRepository().InsertItem(oitem);
             return View("Create");

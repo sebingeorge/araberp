@@ -9,6 +9,7 @@ namespace ArabErp.Web.Controllers
 {
     public class EmployeeController : Controller
     {
+        EmployeeRepository rep = new EmployeeRepository();
         // GET: Employee
         public ActionResult Index()
         {
@@ -16,14 +17,32 @@ namespace ArabErp.Web.Controllers
         }
         public ActionResult Create()
         {
-            var rep = new EmployeeRepository();
-            var emp = rep.NewEmployee();
-            ViewBag.designations = new SelectList(emp.Designations, "DesignationId", "DesignationName");
-            return View(emp);
+            FillDesignationDropdown();
+            FillCategoryDropdown();
+            FillLocationDropdown();
+            FillTaskDropdown();
+           
+            return View();
         }
-        public void FillDesignation()
+        public void FillDesignationDropdown()
         {
-            
+            var emp = rep.FillDesignationDropdown();
+            ViewBag.EmployeeDesignations = new SelectList(emp ,"Id", "Name");
+        }
+        public void FillCategoryDropdown()
+        {
+            var emp = rep.FillCategoryDropdown();
+            ViewBag.EmployeeCategory = new SelectList(emp, "Id", "Name");
+        }
+        public void FillLocationDropdown()
+        {
+            var emp = rep.FillLocationDropdown();
+            ViewBag.EmployeeLocation = new SelectList(emp, "Id", "Name");
+        }
+        public void FillTaskDropdown()
+        {
+            var emp = rep.FillTaskDropdown();
+            ViewBag.EmployeeTask = new SelectList(emp, "Id", "Name");
         }
     }
 }
