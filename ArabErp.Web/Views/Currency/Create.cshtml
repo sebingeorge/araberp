@@ -4,69 +4,71 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
     <div class="h4bgcolor">
-        <h4>Currency</h4>
-    </div>
-<div class="container">
-    <div class="row">
-<div class="col-md-3">
-</div>
-        <div class=" col-md-6 ">
-            <form role="form" action="@Url.Action("Save")" method="post" >
-                <div class="row form-group">
-                    <div class="col-md-6">
-                        <label for="CurrencyRefNo">Code</label>
-                        @Html.TextBoxFor(m => m.CurrencyRefNo, new { @class = "form_input", autocomplete = "off" })
-                        @Html.ValidationMessageFor(model => model.CurrencyRefNo, "", new { @class = "text-danger" })
-                    </div>
-                    <div class="col-md-6 ">
-                        <label for="CurrencyName">Name</label>
-                        @Html.TextBoxFor(m => m.CurrencyName, new { @class = "form_input", autocomplete = "off" })
-                        @Html.ValidationMessageFor(model => model.CurrencyName, "", new { @class = "text-danger" })
-                    </div>
-                    </div>
-                  <div class="row form-group ">
-                    <div class="col-md-6">
-                        <label for="Elementary">Elementary</label>
-                        @Html.TextBoxFor(m => m.Elementary, new { @class = "form_input", autocomplete = "off" })
-                        @Html.ValidationMessageFor(model => model.Elementary, "", new { @class = "text-danger" })
-                    </div>
-                    <div class="col-md-6">
-                        <label for="CurrencyExRate">Exchange Rate</label>
-                        @Html.TextBoxFor(m => m.CurrencyExRate, new { @class = "form_input", autocomplete = "off" })
-                        @Html.ValidationMessageFor(model => model.CurrencyExRate, "", new { @class = "text-danger" })
-                    </div>
+
+        <div class="container">
+            <div class="row">
+                <div class="form-head">
+                    <h4>Currency</h4>
                 </div>
-                     <div class="row form-group ">
-                    <div class=" col-md-6">
-                        <label for="CurrencySymbolId">Symbol</label>
-                        @Html.DropDownListFor(m => Model.CurrencySymbolId, (SelectList)ViewBag.symbols, "Select Symbol", new { @class = "form_input" })
-                        @*@Html.DropDownListFor(m =>Model.CurrencyId,"symbols",ViewBag.symbols as List<SelectListItem>, "Select Symbol", new { @class = "form_input" })*@
-                    </div>
-                </div>
-                <div class="row form-group ">
-                    <div class="col-md-12">
-                        <div style=" float :right" class="alignCenter">
-                            <button type="submit" class="button-style">Exit</button>
+            </div>
+
+            <div class="col-md-14">
+                <form role="form" action="@Url.Action("Save")" method="post">
+                    <div class="row form-group main-part">
+                        <div class="col-md-6">
+                            <div class="part">
+                                <label for="CurrencyRefNo">Code</label>
+                                @Html.TextBoxFor(m => m.CurrencyRefNo, new { @class = "form_input", autocomplete = "off" })
+                                @Html.ValidationMessageFor(model => model.CurrencyRefNo, "", new { @class = "text-danger" })
+                            </div>
+                            <div class="part">
+                                <label for="Elementary">Elementary</label>
+                                @Html.TextBoxFor(m => m.Elementary, new { @class = "form_input", autocomplete = "off" })
+                                @Html.ValidationMessageFor(model => model.Elementary, "", new { @class = "text-danger" })
+                            </div>
+                            <div class="part">
+                                <label for="CurrencySymbolId">Symbol</label>
+                                @Html.DropDownListFor(m => Model.CurrencySymbolId, (SelectList)ViewBag.symbols, "Select Symbol", new { @class = "form_input" })
+                            </div>
+
                         </div>
-                        <div style=" float :right" class="alignCenter">
-                            <button type="submit" class="button-style">Save</button>
+                        <div class="col-md-6 ">
+                            <div class="part">
+                                <label for="CurrencyName">Name</label>
+                                @Html.TextBoxFor(m => m.CurrencyName, new { @class = "form_input", autocomplete = "off" })
+                                @Html.ValidationMessageFor(model => model.CurrencyName, "", new { @class = "text-danger" })
+                            </div>
+                            <div class="part">
+                                <label for="CurrencyExRate">Exchange Rate</label>
+                                @Html.TextBoxFor(m => m.CurrencyExRate, new { @class = "form_input", autocomplete = "off" })
+                                @Html.ValidationMessageFor(model => model.CurrencyExRate, "", new { @class = "text-danger" })
+                            </div>
+
+                        </div>
+                        <div class="marg">
+                            <button type="submit" class="form-button top1">Exit</button>
+
+
+                            <button type="submit" class="form-button">Save</button>
                         </div>
                     </div>
-               </div>
+
+
+                    
+
+                        
+                    <div class="main-list">
+                            @Html.Action("FillCurrencyList")
+                       
+                    </div>
+                  
+            </div>
+
+
             </form>
         </div>
- <div class=" col-md-3 ">
-</div>
-</div>
-
-
-
-    <div class="row">
-        <div class="col-md-3"></div>
-        <div class="col-md-6">
-           
-            @Html.Action("FillCurrencyList")
+         
         </div>
-        <div class="col-md-3"></div>
-    </div>
-</div>
+
+
+

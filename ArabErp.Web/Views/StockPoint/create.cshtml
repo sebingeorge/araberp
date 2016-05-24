@@ -22,11 +22,13 @@
                     <div class=" col-md-6 ">
                         <label for="StockPointRefNo">Code</label>
                         @Html.TextBoxFor(m => m.StockPointRefNo, new { @class = "form_input", autocomplete = "off" })
+                        @Html.ValidationMessageFor(model => model.StockPointRefNo, "", new { @class = "text-danger" })
                     </div>
 
                     <div class=" col-md-6 ">
                         <label for="StockPointName">Name</label>
                         @Html.TextBoxFor(m => m.StockPointName, new { @class = "form_input", autocomplete = "off" })
+                        @Html.ValidationMessageFor(model => model.StockPointName, "", new { @class = "text-danger" })
                     </div>
 
                 </div>
@@ -35,6 +37,7 @@
                     <div class=" col-md-6 ">
                         <label for="StockPointShrtName">Short Name</label>
                         @Html.TextBoxFor(m => m.StockPointShrtName, new { @class = "form_input", autocomplete = "off" })
+                        @Html.ValidationMessageFor(model => model.StockPointShrtName, "", new { @class = "text-danger" })
                     </div>
                 </div>
 
@@ -42,11 +45,13 @@
                     <div class="col-md-6 ">
                         <label for="StockPointDoorNo">Door No & Building</label>
                         @Html.TextBoxFor(m => m.StockPointDoorNo, new { @class = "form_input", autocomplete = "off" })
+                        @Html.ValidationMessageFor(model => model.StockPointDoorNo, "", new { @class = "text-danger" })
                     </div>
 
                     <div class="col-md-6 ">
                         <label for="StockPointZip">Zip</label>
                         @Html.TextBoxFor(m => m.StockPointZip, new { @class = "form_input", autocomplete = "off" })
+                        @Html.ValidationMessageFor(model => model.StockPointZip, "", new { @class = "text-danger" })
                     </div>
                 </div>
 
@@ -54,11 +59,13 @@
                     <div class="col-md-6 ">
                         <label for="StockPointArea">Street & Area</label>
                         @Html.TextBoxFor(m => m.StockPointArea, new { @class = "form_input", autocomplete = "off" })
+                        @Html.ValidationMessageFor(model => model.StockPointArea, "", new { @class = "text-danger" })
                     </div>
 
                     <div class="col-md-6 ">
                         <label for="StockPointPhone">Phone No</label>
                         @Html.TextBoxFor(m => m.StockPointPhone, new { @class = "form_input", autocomplete = "off" })
+                        @Html.ValidationMessageFor(model => model.StockPointPhone, "", new { @class = "text-danger" })
                     </div>
                 </div>
 
@@ -66,18 +73,20 @@
                     <div class="col-md-6 ">
                         <label for="StockPointCity">City & State</label>
                         @Html.TextBoxFor(m => m.StockPointCity, new { @class = "form_input", autocomplete = "off" })
+                        @Html.ValidationMessageFor(model => model.StockPointCity, "", new { @class = "text-danger" })
                     </div>
 
                     <div class="col-md-6 ">
                         <label for="StockPointFax">Fax</label>
                         @Html.TextBoxFor(m => m.StockPointFax, new { @class = "form_input", autocomplete = "off" })
+                        @Html.ValidationMessageFor(model => model.StockPointFax, "", new { @class = "text-danger" })
                     </div>
                 </div>
 
                 <div class=" row form-group ">
                     <div class="col-md-12">
                         <div style="float:right" class="alignCenter">
-                            <button type="submit" class="button-style">Exit</button>
+                            <button type="button" class="button-style">Exit</button>
                         </div>
                         <div style="float:right" class="alignCenter">
                             <button type="submit" class="button-style">Save</button>
@@ -93,4 +102,15 @@
         </div>
 
     </div>
+
+    <div class="col-md-3">
+    </div>
+
+    <div class="col-md-6">
+        @Html.Action("FillStockpointList")
+    </div>
+
+    <div class="col-md-3">
+    </div>
+
 </div>

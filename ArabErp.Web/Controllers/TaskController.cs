@@ -27,5 +27,12 @@ namespace ArabErp.Web.Controllers
             new TaskRepository().InsertTask(objTask);
             return View("Create");
         }
+
+        public ActionResult FillTaskList()
+        {
+            var repo = new TaskRepository();
+            var List = repo.FillTaskList();
+            return PartialView("TaskListView", List);
+        }
     }
 }
