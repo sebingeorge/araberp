@@ -222,6 +222,7 @@
     <Content Include="Content\bootstrap.js" />
     <Content Include="Content\bootstrap.min.css" />
     <Content Include="Content\bootstrap.min.js" />
+    <Content Include="Content\jquery-ui.css" />
     <Content Include="Content\Style.css" />
     <Content Include="Content\menu.css" />
     <Content Include="Content\themes\base\accordion.css" />

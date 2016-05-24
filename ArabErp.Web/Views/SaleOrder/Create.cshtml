@@ -1,6 +1,11 @@
 ﻿@model  ArabErp.Domain.SaleOrder
 @{ ViewBag.Title = "Create SaleOrder"; Layout = "~/Views/Shared/_Layout.cshtml"; }
 
+<script>
+    $(function () {
+        $("#SaleOrderDate").datepicker({ dateFormat: "dd/MM/yy" });
+    });
+</script>
 <div class="container">
     <h4>Sale Order</h4>
     <div class="row main-part">
@@ -11,9 +16,10 @@
                     <label for="SaleOrderRefNo">SO.No.</label>
                     @Html.TextBoxFor(m => m.SaleOrderRefNo, new { @class = "form_input", autocomplete = "off" })
                 </div>
-                <div class="col-md-2 col-md-offset-8">
+                <div  class="col-md-2 col-md-offset-8 ">
                     <label for="SaleOrderDate">Date</label>
-                    @Html.EditorFor(m => m.SaleOrderDate, new { @class = "form_input", autocomplete = "off",ty })
+                    @Html.TextBoxFor(m => m.SaleOrderDate, new { @class = "form_input ", autocomplete = "off", @readonly = "readonly"  })
+                                   
                 </div>
             </div>
             <div class="row form-group">
