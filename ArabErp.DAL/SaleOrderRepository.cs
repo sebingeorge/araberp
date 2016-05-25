@@ -10,6 +10,7 @@ namespace ArabErp.DAL
 {
     public class SaleOrderRepository : BaseRepository
     {
+        static string dataConnection = GetConnectionString("arab");
         /// <summary>
         /// Insert Sale Order Details
         /// </summary>
