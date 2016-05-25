@@ -9,7 +9,11 @@ namespace ArabErp.DAL
 {
     public class SaleOrderRepository : BaseRepository
     {
-
+        /// <summary>
+        /// Insert Sale Order Details
+        /// </summary>
+        /// <param name="model">Object of class SaleOrder</param>
+        /// <returns>Primary key of current Transaction</returns>
         public int InsertSaleOrder(SaleOrder model)
         {
                          string sql = @"insert  into SaleOrder(SaleOrderRefNo,SaleOrderDate,CustomerId,CustomerOrderRef,VehicleModelId,SpecialRemarks,PaymentTerms,DeliveryTerms,CommissionAgentId,CommisionAmount,SalesExecutiveId,CreatedBy,CreatedDate,OrganizationId) Values (@SaleOrderRefNo,@SaleOrderDate,@CustomerId,@CustomerOrderRef,@VehicleModelId,@SpecialRemarks,@PaymentTerms,@DeliveryTerms,@CommissionAgentId,@CommisionAmount,@SalesExecutiveId,@CreatedBy,@CreatedDate,@OrganizationId);
@@ -28,8 +32,8 @@ namespace ArabErp.DAL
 
                         return id;
         }
-
-
+       
+       
         public SaleOrder GetSaleOrder(int SaleOrderId)
         {
 
