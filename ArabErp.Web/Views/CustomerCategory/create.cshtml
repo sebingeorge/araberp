@@ -1,9 +1,40 @@
 ﻿@model ArabErp.Domain.CustomerCategory
 
-@{
-    ViewBag.Title = "create";
-    Layout = "~/Views/Shared/_Layout.cshtml";
-}
+@{ ViewBag.Title = "create"; Layout = "~/Views/Shared/_Layout.cshtml";}
+
+<script>
+    $(document).ready(function () {
+        $('#CustomerCategory_form').bootstrapValidator({
+            fields: {
+                CusCategoryRefNo: {
+                    validators: {
+                        notEmpty: {
+                            message: 'Please Enter Code'
+                        }
+                    }
+                },
+
+                CusCategoryName: {
+                    validators: {
+                        notEmpty: {
+                            message: 'Please Enter Name'
+                        }
+                    }
+                },
+
+                //CusCategoryShortName: {
+                //    validators: {
+                //        notEmpty: {
+                //            message: 'Please Enter Short Name'
+                //        }
+                //    }
+                //},
+
+            }
+        });
+    })
+
+</script>
 
 <div class="h4bgcolor ">
     <h4>Customer Category</h4>
@@ -16,19 +47,18 @@
 
         </div>
         <div class="col-md-6">
-            <form role="form" action="@Url.Action("Save")" method="post">
+         @using (Html.BeginForm("Save", null, FormMethod.Post, new { @class = "createFrom", @id = "CustomerCategory_form" }))
+                   {
                 <div class="row form-group ">
 
                     <div class="col-md-6">
                         <label for="CusCategoryRefNo">Code</label>
                         @Html.TextBoxFor(m => m.CusCategoryRefNo, new { @class = "form_input", autocomplete = "off" })
-                        @Html.ValidationMessageFor(model => model.CusCategoryRefNo, "", new { @class = "text-danger" })
                     </div>
 
                     <div class="col-md-6 ">
                         <label for="CusCategoryName">Name</label>
                         @Html.TextBoxFor(m => m.CusCategoryName, new { @class = "form_input", autocomplete = "off" })
-                        @Html.ValidationMessageFor(model => model.CusCategoryName, "", new { @class = "text-danger" })
                     </div>
 
                 </div>
@@ -51,7 +81,7 @@
                     </div>
                 </div>
 
-            </form>
+         }
         </div>
 
         <div class="col-md-3">

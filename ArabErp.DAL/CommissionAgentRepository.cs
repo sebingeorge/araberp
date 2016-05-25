@@ -11,12 +11,13 @@ namespace ArabErp.DAL
     public class CommissionAgentRepository : BaseRepository
     {
         static string dataConnection = GetConnectionString("arab");
-
+  
         public int InsertCommissionAgent(CommissionAgent objCommissionAgent)
+
         {
             using (IDbConnection connection = OpenConnection(dataConnection))
             {
-                string sql = @"INSERT INTO CommissionAgent (CommissionAgentRefNo,CommissionAgentName,Address1,Address2,Address3,Phone,CreatedBy,CreatedDate,OrganizationId) VALUES(@CommissionAgentRefNo,@CommissionAgentName,@Address1,@Address2,@Address3,@Phone,@CreatedBy,@CreatedDate,@OrganizationId);
+                string sql = @"INSERT INTO CommissionAgent (CommissionAgentRefNo,CommissionAgentName,Address1,Address2,Address3,Phone,CreatedBy,CreatedDate,OrganizationId) VALUES(@CommissionAgentRefNo,@CommissionAgentName,@Address1,@Address2,@Address3,@Phone,@CreatedBy,getDate(),@OrganizationId);
             SELECT CAST(SCOPE_IDENTITY() as int)";
 
 
