@@ -1,8 +1,31 @@
 ﻿@model ArabErp.Domain.Designation
-@{
-    ViewBag.Title = "create";
-    Layout = "~/Views/Shared/_Layout.cshtml";
-}
+@{ ViewBag.Title = "create"; Layout = "~/Views/Shared/_Layout.cshtml";}
+
+<script>
+    $(document).ready(function () {
+        $('#Designation_form').bootstrapValidator({
+            fields: {
+                DesignationRefNo: {
+                    validators: {
+                        notEmpty: {
+                            message: 'Please Enter Code'
+                        }
+                    }
+                },
+
+                DesignationName: {
+                    validators: {
+                        notEmpty: {
+                            message: 'Please Enter Name'
+                        }
+                    }
+                },
+
+            }
+        });
+    })
+
+</script>
 
 <div class="h4bgcolor">
     <h4>Designation</h4>
@@ -12,17 +35,16 @@
     <div class="row">
 
         <div class=" col-md-4">
-
         </div>
 
         <div class="col-md-4">
-            <form role="form" action="@Url.Action("Save")" method="post">
+            @using (Html.BeginForm("Save", null, FormMethod.Post, new { @class = "createFrom", @id = "Designation_form" }))
+                   {
 
                 <div class="row form-group ">
                     <div class="col-md-12">
                         <label for="DesignationRefNo">Code</label>
                         @Html.TextBoxFor(m => m.DesignationRefNo, new { @class = "form_input", autocomplete = "off" })
-                        @Html.ValidationMessageFor(model => model.DesignationRefNo, "", new { @class = "text-danger" })
                     </div>
                 </div>
 
@@ -30,8 +52,6 @@
                     <div class="col-md-12">
                         <label for="DesignationName">Name</label>
                         @Html.TextBoxFor(m => m.DesignationName, new { @class = "form_input", autocomplete = "off" })
-                        @Html.ValidationMessageFor(model => model.DesignationName, "", new { @class = "text-danger" })
-
                     </div>
                 </div>
 
@@ -47,7 +67,7 @@
                     </div>
                 </div>
 
-            </form>
+            }
         </div>
 
         <div class="col-md-4">

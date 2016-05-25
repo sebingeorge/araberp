@@ -12,9 +12,7 @@ namespace ArabErp.Domain
     public class SupplierCategory
     {
         public int SupCategoryId { get; set; }
-        [Required(ErrorMessage = "Please Enter Code")]
         public string SupCategoryRefNo { get; set; }
-        [Required(ErrorMessage = "Please Enter Name")]
         public string SupCategoryName { get; set; }
         public string SupCategoryShortName { get; set; }
         public string CreatedBy { get; set; }

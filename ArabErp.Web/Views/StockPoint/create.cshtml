@@ -1,9 +1,80 @@
 ﻿@model ArabErp.Domain.Stockpoint
 
-@{
-    ViewBag.Title = "create";
-    Layout = "~/Views/Shared/_Layout.cshtml";
-}
+@{ViewBag.Title = "create";Layout = "~/Views/Shared/_Layout.cshtml";}
+
+<script>
+    $(document).ready(function () {
+        $('#Stockpoint_form').bootstrapValidator({
+            fields: {
+                StockPointRefNo: {
+                    validators: {
+                        notEmpty: {
+                            message: 'Please Enter Code'
+                        }
+                    }
+                },
+
+                StockPointName: {
+                    validators: {
+                        notEmpty: {
+                            message: 'Please Enter Name'
+                        }
+                    }
+                },
+
+                //StockPointDoorNo: {
+                //    validators: {
+                //        notEmpty: {
+                //            message: 'Please Enter Door No & Building'
+                //        }
+                //    }
+                //},
+
+                //StockPointZip: {
+                //    validators: {
+                //        notEmpty: {
+                //            message: 'Please Enter Zip'
+                //        }
+                //    }
+                //},
+
+                //StockPointArea: {
+                //    validators: {
+                //        notEmpty: {
+                //            message: 'Please Enter Area & City'
+                //        }
+                //    }
+                //},
+
+                StockPointPhone: {
+                    validators: {
+                        numeric: {
+                            message: 'Please Enter Phone No'
+                        }
+                    }
+                },
+
+                //StockPointCity: {
+                //    validators: {
+                //        notEmpty: {
+                //            message: 'Please Enter City & State'
+                //        }
+                //    }
+                //},
+
+                //StockPointFax: {
+                //    validators: {
+                //        notEmpty: {
+                //            message: 'Please Enter Fax'
+                //        }
+                //    }
+                //},
+
+            }
+        });
+    })
+
+</script>
 
 <div class="h4bgcolor">
     <h4>StockPoint</h4>
@@ -13,22 +84,21 @@
     <div class="row ">
 
         <div class=" col-md-3">
-
         </div>
+
         <div class="col-md-6 ">
-            <form role="form" action="@Url.Action("Save")" method="post">
+            @using (Html.BeginForm("Save", null, FormMethod.Post, new { @class = "createFrom", @id = "Stockpoint_form" }))
+                   {
 
                 <div class="row form-group ">
                     <div class=" col-md-6 ">
                         <label for="StockPointRefNo">Code</label>
                         @Html.TextBoxFor(m => m.StockPointRefNo, new { @class = "form_input", autocomplete = "off" })
-                        @Html.ValidationMessageFor(model => model.StockPointRefNo, "", new { @class = "text-danger" })
                     </div>
 
                     <div class=" col-md-6 ">
                         <label for="StockPointName">Name</label>
                         @Html.TextBoxFor(m => m.StockPointName, new { @class = "form_input", autocomplete = "off" })
-                        @Html.ValidationMessageFor(model => model.StockPointName, "", new { @class = "text-danger" })
                     </div>
 
                 </div>
@@ -37,7 +107,6 @@
                     <div class=" col-md-6 ">
                         <label for="StockPointShrtName">Short Name</label>
                         @Html.TextBoxFor(m => m.StockPointShrtName, new { @class = "form_input", autocomplete = "off" })
-                        @Html.ValidationMessageFor(model => model.StockPointShrtName, "", new { @class = "text-danger" })
                     </div>
                 </div>
 
@@ -45,13 +114,11 @@
                     <div class="col-md-6 ">
                         <label for="StockPointDoorNo">Door No & Building</label>
                         @Html.TextBoxFor(m => m.StockPointDoorNo, new { @class = "form_input", autocomplete = "off" })
-                        @Html.ValidationMessageFor(model => model.StockPointDoorNo, "", new { @class = "text-danger" })
                     </div>
 
                     <div class="col-md-6 ">
                         <label for="StockPointZip">Zip</label>
                         @Html.TextBoxFor(m => m.StockPointZip, new { @class = "form_input", autocomplete = "off" })
-                        @Html.ValidationMessageFor(model => model.StockPointZip, "", new { @class = "text-danger" })
                     </div>
                 </div>
 
@@ -59,13 +126,11 @@
                     <div class="col-md-6 ">
                         <label for="StockPointArea">Street & Area</label>
                         @Html.TextBoxFor(m => m.StockPointArea, new { @class = "form_input", autocomplete = "off" })
-                        @Html.ValidationMessageFor(model => model.StockPointArea, "", new { @class = "text-danger" })
                     </div>
 
                     <div class="col-md-6 ">
                         <label for="StockPointPhone">Phone No</label>
                         @Html.TextBoxFor(m => m.StockPointPhone, new { @class = "form_input", autocomplete = "off" })
-                        @Html.ValidationMessageFor(model => model.StockPointPhone, "", new { @class = "text-danger" })
                     </div>
                 </div>
 
@@ -73,13 +138,11 @@
                     <div class="col-md-6 ">
                         <label for="StockPointCity">City & State</label>
                         @Html.TextBoxFor(m => m.StockPointCity, new { @class = "form_input", autocomplete = "off" })
-                        @Html.ValidationMessageFor(model => model.StockPointCity, "", new { @class = "text-danger" })
                     </div>
 
                     <div class="col-md-6 ">
                         <label for="StockPointFax">Fax</label>
                         @Html.TextBoxFor(m => m.StockPointFax, new { @class = "form_input", autocomplete = "off" })
-                        @Html.ValidationMessageFor(model => model.StockPointFax, "", new { @class = "text-danger" })
                     </div>
                 </div>
 
@@ -94,11 +157,10 @@
                     </div>
                 </div>
 
-            </form>
+            }
         </div>
 
         <div class=" col-md-3">
-
         </div>
 
     </div>

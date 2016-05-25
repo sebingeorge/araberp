@@ -2,9 +2,8 @@
 @{ ViewBag.Title = "Create SaleOrder"; Layout = "~/Views/Shared/_Layout.cshtml"; }
 
 <script>
-    $(document).ready(function() {
+    $(document).ready(function () {
         $('#saleorder_form').bootstrapValidator({
-           
             fields: {
                 SaleOrderRefNo: {
                     validators: {
@@ -20,13 +19,6 @@
                         }
                     }
                 },
-                CustomerOrderRef: {
-                    validators: {
-                        notEmpty: {
-                            message: 'Please enter customer order ref.'
-                        }
-                    }
-                },
                 VehicleModelId: {
                     validators: {
                         notEmpty: {
@@ -38,13 +30,6 @@
                     validators: {
                         notEmpty: {
                             message: 'Please select commission agent'
-                        }
-                    }
-                },
-                CommisionAmount: {
-                    validators: {
-                        numeric: {
-                            message: 'Please enter a numeric value'
                         }
                     }
                 },
@@ -67,17 +52,13 @@
 </script>
 @Html.HiddenFor(m => m.SaleOrderId)
 <div class="container">
-
-        <div class="row">
-            
-                <div class="form-head1">
     <h4>Sale Order</h4>
                 </div>
                
                 <div class="main-part pad1">
                     @using (Html.BeginForm("Save", null, FormMethod.Post, new { @class = "createFrom", @id = "saleorder_form" }))
         {
-                        <div class="row form-group ">
+            <div class="row form-group  ">
                 <div class="col-md-2">
                     <label for="SaleOrderRefNo">SO.No.</label>
                     @Html.TextBoxFor(m => m.SaleOrderRefNo, new { @class = "form_input", autocomplete = "off" })
@@ -105,12 +86,11 @@
                     @Html.DropDownListFor(m => Model.VehicleModelId, (SelectList)ViewBag.vehiclelist, "Select Vehicle", new { @class = "form_input", autocomplete = "off" })
                 </div>
             </div>
-                   
             @Html.Action("DisplaySOList")
             <div class="row form-group">
                 <div class="col-md-12">
                     <label for="SpecialRemarks">Spl.Remarks</label>
-                    @Html.TextAreaFor(m => m.SpecialRemarks, new { @class = "form-control", autocomplete = "off" })
+                    @Html.TextAreaFor(m => m.SpecialRemarks, new { @class = "form_input", autocomplete = "off" })
                 </div>
             </div>
             <div class="row form-group">
@@ -148,8 +128,6 @@
         }
     </div>
 </div>
-    </div>
-
 
 
 

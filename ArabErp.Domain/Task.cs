@@ -13,9 +13,7 @@ namespace ArabErp.Domain
     {
 
         public int TaskId { get; set; }
-        [Required(ErrorMessage = "Please Enter Code")]
         public string TaskRefNo { get; set; }
-        [Required(ErrorMessage = "Please Enter Name")]
         public string TaskName { get; set; }
         public string CreatedBy { get; set; }
         public DateTime? CreatedDate { get; set; }
