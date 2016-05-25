@@ -12,9 +12,7 @@ namespace ArabErp.Domain
     public class Designation
     {
         public int DesignationId { get; set; }
-        [Required(ErrorMessage = "Please Enter Code")]
         public string DesignationRefNo { get; set; }
-        [Required(ErrorMessage = "Please Enter Name")]
         public string DesignationName { get; set; }
         public string CreatedBy { get; set; }
         public DateTime? CreatedDate { get; set; }

@@ -1,8 +1,39 @@
 ﻿@model ArabErp.Domain.ItemGroup
-@{
-    ViewBag.Title = "Create";
-    Layout = "~/Views/Shared/_Layout.cshtml";
-}
+@{ViewBag.Title = "Create";Layout = "~/Views/Shared/_Layout.cshtml";}
+
+<script>
+    $(document).ready(function () {
+        $('#ItemGroup_form').bootstrapValidator({
+            fields: {
+                ItemGroupRefNo: {
+                    validators: {
+                        notEmpty: {
+                            message: 'Please Enter Code'
+                        }
+                    }
+                },
+
+                ItemGroupName: {
+                    validators: {
+                        notEmpty: {
+                            message: 'Please Enter Name'
+                        }
+                    }
+                },
+
+                ItemCategoryId: {
+                    validators: {
+                        notEmpty: {
+                            message: 'Please Select Category'
+                        }
+                    }
+                },
+
+            }
+        });
+    })
+
+</script>
 
 <div class="h4bgcolor">
     <h4>Item Group</h4>
@@ -11,30 +42,27 @@
 <div class=" container ">
     <div class=" row ">
         <div class="col-md-3 ">
-
         </div>
 
         <div class="col-md-6">
-            <form role="form" action="@Url.Action("Save")" method="post">
+             @using (Html.BeginForm("Save", null, FormMethod.Post, new { @class = "createFrom", @id = "ItemGroup_form" }))
+                   {
                 <div class="row form-group ">
 
                     <div class="col-md-6">
                         <label for="ItemGroupRefNo">Code</label>
                         @Html.TextBoxFor(m =>m.ItemGroupRefNo, new { @class = "form_input", autocomplete = "off" })
-                        @Html.ValidationMessageFor(model => model.ItemGroupRefNo, "", new { @class = "text-danger" })
-                    </div>
+                      </div>
                     <div class="col-md-6 ">
                         <label for="ItemGroupName">Name</label>
                         @Html.TextBoxFor(m => m.ItemGroupName, new { @class = "form_input", autocomplete = "off" })
-                        @Html.ValidationMessageFor(model => model.ItemGroupName, "", new { @class = "text-danger" })
                     </div>
                 </div>
 
                 <div class="row form-group ">
                     <div class="col-md-6 ">
                         <label for="ItemCategoryId">Category</label>
-                        @Html.DropDownListFor(m => Model.ItemCategoryId, (SelectList)ViewBag.ItemCategory, "Select Item Category", new { @class = "form_input" })
-
+                        @Html.DropDownListFor(m => Model.ItemCategoryId, (SelectList)ViewBag.ItemCategory, "Select Item Category", new { @class = "form_input", autocomplete = "off" })
                     </div>
                 </div>
 
@@ -49,7 +77,7 @@
                     </div>
                 </div>
 
-            </form>
+             }
         </div>
 
         <div class="col-md-3">

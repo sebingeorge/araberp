@@ -1,29 +1,56 @@
 ﻿@model ArabErp.Domain.Unit
-@{
-    ViewBag.Title = "Create";
-    Layout = "~/Views/Shared/_Layout.cshtml";
-}
+@{ ViewBag.Title = "Create"; Layout = "~/Views/Shared/_Layout.cshtml"; }
+
+<script>
+    $(document).ready(function () {
+        $('#unit_form').bootstrapValidator({
+            fields: {
+                UnitRefNo: {
+                    validators: {
+                        notEmpty: {
+                            message: 'Please Enter Code'
+                        }
+                    }
+                },
+
+                UnitName: {
+                    validators: {
+                        notEmpty: {
+                            message: 'Please Enter Name'
+                        }
+                    }
+                },
+            }
+        });
+    })
+
+</script>
+
+
 <div class="h4bgcolor">
     <h4>Unit</h4>
 </div>
 <div class=" container ">
     <div class="row">
+
         <div class="col-md-4">
-            </div>
+        </div>
+
             <div class="col-md-4">
-                <form role="form" action="@Url.Action("Save") " method="post">
+                   @using (Html.BeginForm("Save", null, FormMethod.Post, new { @class = "createFrom", @id = "unit_form" }))
+                   { 
                     <div class="row form-group">
                         <div class="col-md-12">
                             <label for="UnitRefNo">Code</label>
                             @Html.TextBoxFor(m => m.UnitRefNo, new { @class = "form_input", autocomplete = "off" })
-                            @Html.ValidationMessageFor(model => model.UnitRefNo, "", new { @class = "text-danger" })
+                       
                         </div>
                     </div>
                     <div class="row form-group">
                         <div class="col-md-12">
                             <label for="UnitName">Name</label>
                             @Html.TextBoxFor(m => m.UnitName, new { @class = "form_input", autocomplete = "off" })
-                            @Html.ValidationMessageFor(model => model.UnitName, "", new { @class = "text-danger" })
+                         
                         </div>
                     </div>
                     <div class="row form-group">
@@ -37,8 +64,9 @@
                             </div>
                         </div>
                     </div>
-                </form>
-            </div>
+                   }
+              </div>
+    
         <div class=" col-md-4 ">
         </div>
 

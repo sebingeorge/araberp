@@ -1,8 +1,42 @@
 ﻿@model ArabErp.Domain.SupplierCategory
-@{
-    ViewBag.Title = "create";
-    Layout = "~/Views/Shared/_Layout.cshtml";
-}
+@{ViewBag.Title = "create";Layout = "~/Views/Shared/_Layout.cshtml";}
+
+
+<script>
+    $(document).ready(function () {
+        $('#SupplierCategory_form').bootstrapValidator({
+            fields: {
+                SupCategoryRefNo: {
+                    validators: {
+                        notEmpty: {
+                            message: 'Please Enter Code'
+                        }
+                    }
+                },
+
+                SupCategoryName: {
+                    validators: {
+                        notEmpty: {
+                            message: 'Please Enter Name'
+                        }
+                    }
+                },
+
+                //SupCategoryShortName: {
+                //    validators: {
+                //        notEmpty: {
+                //            message: 'Please Enter Short Name'
+                //        }
+                //    }
+                //},
+
+            }
+        });
+    })
+
+</script>
+
+
 <div class="h4bgcolor">
     <h4>Supplier Category</h4>
 </div>
@@ -14,19 +48,18 @@
 
         </div>
         <div class="col-md-6">
-            <form role="form" action="@Url.Action("Save")" method="post">
+             @using (Html.BeginForm("Save", null, FormMethod.Post, new { @class = "createFrom", @id = "SupplierCategory_form" }))
+                   {
+    
                 <div class="row form-group ">
-
                     <div class="col-md-6">
                         <label for="SupCategoryRefNo">Code</label>
                         @Html.TextBoxFor(m => m.SupCategoryRefNo, new { @class = "form_input", autocomplete = "off" })
-                        @Html.ValidationMessageFor(model => model.SupCategoryRefNo, "", new { @class = "text-danger" })
                     </div>
 
                     <div class="col-md-6">
                         <label for="SupCategoryName">Name</label>
                         @Html.TextBoxFor(m => m.SupCategoryName, new { @class = "form_input", autocomplete = "off" })
-                        @Html.ValidationMessageFor(model => model.SupCategoryName, "", new { @class = "text-danger" })
                     </div>
                 </div>
 
@@ -48,7 +81,7 @@
                         </div>
                     </div>
                 </div>
-            </form>
+             }
            
         </div>
 

@@ -1,9 +1,64 @@
 ﻿@model ArabErp.Domain.CommissionAgent
 
-@{
-    ViewBag.Title = "Create";
-    Layout = "~/Views/Shared/_Layout.cshtml";
-}
+@{ViewBag.Title = "Create"; Layout = "~/Views/Shared/_Layout.cshtml";}
+
+<script>
+    $(document).ready(function () {
+        $('#CommissionAgent_form').bootstrapValidator({
+            fields: {
+                CommissionAgentRefNo: {
+                    validators: {
+                        notEmpty: {
+                            message: 'Please Enter Code'
+                        }
+                    }
+                },
+
+                CommissionAgentName: {
+                    validators: {
+                        notEmpty: {
+                            message: 'Please Enter Name'
+                        }
+                    }
+                },
+
+                //Address1: {
+                //    validators: {
+                //        notEmpty: {
+                //            message: 'Please Enter Door No'
+                //        }
+                //    }
+                //},
+
+                //Address2: {
+                //    validators: {
+                //        notEmpty: {
+                //            message: 'Please Enter Street'
+                //        }
+                //    }
+                //},
+
+                //Address3: {
+                //    validators: {
+                //        notEmpty: {
+                //            message: 'Please Enter Area & City'
+                //        }
+                //    }
+                //},
+
+                Phone: {
+                    validators: {
+                        numeric: {
+                            message: 'Please Enter Valid Phone No'
+                        }
+                    }
+                },
+
+            }
+        });
+    })
+
+</script>
 
 <div class="h4bgcolor ">
     <h4>Commission Agent</h4>
@@ -17,43 +72,39 @@
         </div>
 
         <div class="col-md-6">
-            <form role="form" action="@Url.Action("Save")" method="post">
+            @using (Html.BeginForm("Save", null, FormMethod.Post, new { @class = "createFrom", @id = "CommissionAgent_form" }))
+                   {
+
                 <div class=" row form-group ">
 
                     <div class="col-md-6">
                         <label for="CommissionAgentRefNo">Code</label>
                         @Html.TextBoxFor(m => m.CommissionAgentRefNo, new { @class = "form_input", autocomplete = "off" })
-                        @Html.ValidationMessageFor(model => model.CommissionAgentRefNo, "", new { @class = "text-danger" })
-                    </div>
+                     </div>
 
                     <div class="col-md-6">
                         <label for="CommissionAgentName">Name</label>
                         @Html.TextBoxFor(m => m.CommissionAgentName, new { @class = "form_input", autocomplete = "off" })
-                        @Html.ValidationMessageFor(model => model.CommissionAgentName, "", new { @class = "text-danger" })
                     </div>
 
                     <div class="col-md-6">
                         <label for="Address1">Door No</label>
                         @Html.TextBoxFor(m => m.Address1, new { @class = "form_input", autocomplete = "off" })
-                        @Html.ValidationMessageFor(model => model.Address1, "", new { @class = "text-danger" })
                     </div>
 
                     <div class="col-md-6">
                         <label for="Address2">Street</label>
                         @Html.TextBoxFor(m => m.Address2, new { @class = "form_input", autocomplete = "off" })
-                        @Html.ValidationMessageFor(model => model.Address2, "", new { @class = "text-danger" })
                     </div>
 
                     <div class="col-md-6">
                         <label for="Address3">Area & City</label>
                         @Html.TextBoxFor(m => m.Address3, new { @class = "form_input", autocomplete = "off" })
-                        @Html.ValidationMessageFor(model => model.Address3, "", new { @class = "text-danger" })
                     </div>
 
                     <div class="col-md-6">
                         <label for="Phone">Phone</label>
                         @Html.TextBoxFor(m => m.Phone, new { @class = "form_input", autocomplete = "off" })
-                        @Html.ValidationMessageFor(model => model.Phone, "", new { @class = "text-danger" })
                     </div>
 
                 </div>
@@ -69,7 +120,7 @@
                     </div>
                 </div>
 
-            </form>
+            }
         </div>
 
         <div class="col-md-3">

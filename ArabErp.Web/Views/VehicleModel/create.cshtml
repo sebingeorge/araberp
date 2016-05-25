@@ -1,8 +1,40 @@
 ﻿@model ArabErp.Domain.VehicleModel
-@{
-    ViewBag.Title = "create";
-    Layout = "~/Views/Shared/_Layout.cshtml";
-}
+@{ViewBag.Title = "create";Layout = "~/Views/Shared/_Layout.cshtml";}
+
+<script>
+    $(document).ready(function () {
+        $('#VehicleModel_form').bootstrapValidator({
+            fields: {
+                VehicleModelRefNo: {
+                    validators: {
+                        notEmpty: {
+                            message: 'Please Enter Code'
+                        }
+                    }
+                },
+
+                VehicleModelName: {
+                    validators: {
+                        notEmpty: {
+                            message: 'Please Enter Name'
+                        }
+                    }
+                },
+
+                //VehicleModelDescription: {
+                //    validators: {
+                //        notEmpty: {
+                //            message: 'Please Enter Description'
+                //        }
+                //    }
+                //},
+
+            }
+        });
+    })
+
+</script>
+
 <div class="h4bgcolor">
     <h4>Vehicle Model</h4>
 </div>
@@ -11,22 +43,20 @@
     <div class="row ">
 
         <div class="col-md-3 ">
-
         </div>
-        <div class="col-md-6">
-            <form role="form" action="@Url.Action("Save")" method="post">
 
+        <div class="col-md-6">
+            @using (Html.BeginForm("Save", null, FormMethod.Post, new { @class = "createFrom", @id = "VehicleModel_form" }))
+                   {
                 <div class="row form-group">
                     <div class="col-md-6">
                         <label for="VehicleModelRefNo">Code</label>
                         @Html.TextBoxFor(m => m.VehicleModelRefNo, new { @class = "form_input", autocomplete = "off" })
-                        @Html.ValidationMessageFor(model => model.VehicleModelRefNo, "", new { @class = "text-danger" })
                     </div>
 
                     <div class="col-md-6">
                         <label for="VehicleModelName">Name</label>
                         @Html.TextBoxFor(m => m.VehicleModelName, new { @class = "form_input", autocomplete = "off" })
-                        @Html.ValidationMessageFor(model => model.VehicleModelName, "", new { @class = "text-danger" })
                     </div>
                 </div>
 
@@ -48,11 +78,10 @@
                     </div>
                 </div>
 
-            </form>
+            }
         </div>
 
         <div class=" col-md-3">
-
         </div>
 
         </div>

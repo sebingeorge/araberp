@@ -1,8 +1,32 @@
 ﻿@model ArabErp.Domain.EmployeeCategory
-@{
-    ViewBag.Title = "create";
-    Layout = "~/Views/Shared/_Layout.cshtml";
-}
+@{ ViewBag.Title = "create";Layout = "~/Views/Shared/_Layout.cshtml";}
+
+<script>
+    $(document).ready(function () {
+        $('#EmployeeCategory_form').bootstrapValidator({
+            fields: {
+                EmpCategoryRefNo: {
+                    validators: {
+                        notEmpty: {
+                            message: 'Please Enter Code'
+                        }
+                    }
+                },
+
+                EmpCategoryName: {
+                    validators: {
+                        notEmpty: {
+                            message: 'Please Enter Name'
+                        }
+                    }
+                },
+
+            }
+        });
+    })
+
+</script>
+
 
 <div class="h4bgcolor ">
     <h4>Employee Category</h4>
@@ -12,17 +36,16 @@
     <div class="row ">
 
         <div class="col-md-4">
-
         </div>
 
         <div class=" col-md-4">
-            <form role="form" action="@Url.Action("Save")" method="post">
+          @using (Html.BeginForm("Save", null, FormMethod.Post, new { @class = "createFrom", @id = "EmployeeCategory_form" }))
+                   {
 
                 <div class=" row form-group">
                     <div class=" col-md-12">
                         <label for="EmpCategoryRefNo">Code</label>
                         @Html.TextBoxFor(m => m.EmpCategoryRefNo, new { @class = "form_input", autocomplete = "off" })
-                        @Html.ValidationMessageFor(model => model.EmpCategoryRefNo, "", new { @class = "text-danger" })
                     </div>
 
                 </div>
@@ -31,7 +54,6 @@
                     <div class="col-md-12">
                         <label for="EmpCategoryName">Name</label>
                         @Html.TextBoxFor(m => m.EmpCategoryName, new { @class = "form_input", autocomplete = "off" })
-                        @Html.ValidationMessageFor(model => model.EmpCategoryName, "", new { @class = "text-danger" })
                     </div>
                 </div>
 
@@ -47,11 +69,10 @@
                     </div>
                 </div>
 
-            </form>
+          }
         </div>
 
         <div class="col-md-4">
-
         </div>
 
     </div>
