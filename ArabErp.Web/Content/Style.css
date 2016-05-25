@@ -30,7 +30,7 @@
   height: 22px;
   font-size: 11px;
   line-height: 1.428571429;
-  color: #333333;
+  color: #00aaff;
   vertical-align: middle;
   border-radius:5px;
   border: 1px solid #ffffff;
@@ -114,6 +114,12 @@
           .top1
      {
          margin-top:111px;
+
+     }
+
+     .top2
+     {
+         margin-top:18px;
 
      }
 
@@ -228,7 +234,7 @@
 }
 .grid_heading h1 
 {
-    font-size:11px;
+    font-size:14px;
     font-weight:bold;
     color:#ffffff;
     padding-left:5px;
@@ -251,5 +257,8 @@
 {
     padding:38px;
 }
-.
+.add-top
+{
+    padding-top:-10px;
+}
 
