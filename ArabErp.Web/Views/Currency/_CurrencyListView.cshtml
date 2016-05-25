@@ -17,45 +17,45 @@
         }
 </style>
 
-<div class="row" style="width:100%;margin:1px;">
+<div class="table-responsive">
 
-        <table class="list" style="width:100%;" border="1">
-            <tr class="grid_headding main-list-head">
-                <td style="width:7%;padding:6px;"><b>Ref No.</b></td>
-                <td style="width:13%;padding:6px;"><b>Name</b></td>
-                <td style="width:13%;padding:6px;"><b>Elementary</b></td>
-                <td style="width:13%;padding:6px;"><b>Exchange Rate</b></td>
-                <td style="width:4%;padding:6px;"><b>Symbol</b></td>
-            </tr>
+    <table class="table table-bordered table-hover" id="tab_logic">
+        <tr class="grid_heading" height="20">
+            <td style="width:7%;padding:6px;"><h2>Ref No.</h2></td>
+            <td style="width:13%;padding:6px;"><h2>Name</h2></td>
+            <td style="width:13%;padding:6px;"><h2>Elementary</h2></td>
+            <td style="width:13%;padding:6px;"><h2>Exchange Rate</h2></td>
+            <td style="width:4%;padding:6px;"><h2>Symbol</h2></td>
+        </tr>
 
-            @{
-        for (int i = 0; i < Model.Count; i++)
-        {
-            <tr>
-                <td class="tableData main-list-inn">
+        @{
+            for (int i = 0; i < Model.Count; i++)
+            {
+                <tr>
+                    <td class="tableData main-list-inn">
 
-                    @*@Html.HiddenFor(m => m[i].grdCode)
-                    @Html.HiddenFor(m => m[i].grdName)*@
-                    @Model[i].CurrencyRefNo
-                </td>
-                <td>
-                    @*@Html.TextBoxFor(m => m[i].CurrencyName, new { @style = "font-size:12px;text-align:right", @class = "numbersOnly" })*@
-                    @Model[i].CurrencyName
-                </td>
-                <td>
-                    @Model[i].Elementary
-                </td>
-                <td style="text-align:right">
-                    @Model[i].CurrencyExRate
-                </td>
-                <td style="text-align:center">
-                    @Model[i].SymbolName
-                </td>
-               
-            </tr>
-        }
+                        @*@Html.HiddenFor(m => m[i].grdCode)
+                            @Html.HiddenFor(m => m[i].grdName)*@
+                        @Model[i].CurrencyRefNo
+                    </td>
+                    <td>
+                        @*@Html.TextBoxFor(m => m[i].CurrencyName, new { @style = "font-size:12px;text-align:right", @class = "numbersOnly" })*@
+                        @Model[i].CurrencyName
+                    </td>
+                    <td>
+                        @Model[i].Elementary
+                    </td>
+                    <td style="text-align:right">
+                        @Model[i].CurrencyExRate
+                    </td>
+                    <td style="text-align:center">
+                        @Model[i].SymbolName
+                    </td>
+
+                </tr>
             }
+        }
 
-        </table>
-       
+    </table>
+
 </div>
