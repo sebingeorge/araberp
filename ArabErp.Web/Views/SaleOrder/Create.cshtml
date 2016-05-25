@@ -2,8 +2,14 @@
 @{ ViewBag.Title = "Create SaleOrder"; Layout = "~/Views/Shared/_Layout.cshtml"; }
 
 <script>
-    $(document).ready(function () {
+    $(document).ready(function() {
         $('#saleorder_form').bootstrapValidator({
+            // To use feedback icons, ensure that you use Bootstrap v3.1.0 or later
+            //feedbackIcons: {
+            //    valid: 'glyphicon glyphicon-ok',
+            //    invalid: 'glyphicon glyphicon-remove',
+            //    validating: 'glyphicon glyphicon-refresh'
+            //},
             fields: {
                 SaleOrderRefNo: {
                     validators: {
@@ -54,6 +60,8 @@
                         }
                     }
                 },
+
+
             }
         });
     })
@@ -64,11 +72,17 @@
 </script>
 @Html.HiddenFor(m => m.SaleOrderId)
 <div class="container">
+
+        <div class="row">
+            
+                <div class="form-head1">
     <h4>Sale Order</h4>
-    <div class="row main-part">
-        @using (Html.BeginForm("Save", null, FormMethod.Post, new { @class = "createFrom", @id = "saleorder_form" }))
+                </div>
+               
+                <div class="main-part pad1">
+                    @using (Html.BeginForm("Save", null, FormMethod.Post, new { @class = "createFrom", onsubmit = "return SaleOrderValidation()", @id = "saleorder_form" }))
         {
-            <div class="row form-group  ">
+                        <div class="row form-group ">
                 <div class="col-md-2">
                     <label for="SaleOrderRefNo">SO.No.</label>
                     @Html.TextBoxFor(m => m.SaleOrderRefNo, new { @class = "form_input", autocomplete = "off" })
@@ -77,7 +91,7 @@
                 <div class="col-md-2 col-md-offset-8 ">
                     <label for="SaleOrderDate">Date</label>
                     @Html.TextBoxFor(m => m.SaleOrderDate, String.Format("{0:dd/MM/yy}", Model.SaleOrderDate), new { @class = "form_input ", autocomplete = "off", @readonly = "readonly" })
-             
+
                 </div>
             </div>
             <div class="row form-group">
@@ -96,6 +110,7 @@
                     @Html.DropDownListFor(m => Model.VehicleModelId, (SelectList)ViewBag.vehiclelist, "Select Vehicle", new { @class = "form_input", autocomplete = "off" })
                 </div>
             </div>
+                      
             @Html.Action("DisplaySOList")
             <div class="row form-group">
                 <div class="col-md-12">
@@ -138,6 +153,8 @@
         }
     </div>
 </div>
+    </div>
+
 
 
 

@@ -30,10 +30,10 @@ namespace ArabErp.Web.Controllers
             oItem.MinLevel = null;
             oItem.ReorderLevel = null;
             oItem.MaxLevel = null;
-            oItem.StockRequired=true;
+            oItem.StockRequired = false;
             oItem.BatchRequired=false;
            
-            return View("Create", oItem);
+            return View("Create");
         }
 
         public ActionResult Save(Item oitem)
@@ -41,9 +41,17 @@ namespace ArabErp.Web.Controllers
             FillItemCategory();
             FillUnit();
             InitDropdown();
-
-            new ItemRepository().InsertItem(oitem);
+            oitem.OrganizationId = 1;
+            oitem.CreatedDate = System.DateTime.Now;
+            oitem.CreatedBy = Request.ServerVariables["HTTP_X_FORWARDED_FOR"] ?? Request.ServerVariables["REMOTE_ADDR"];
+          // int? id=
+               new ItemRepository().InsertItem(oitem);
+            //if(id==null)
+            //return View("Create");
+            //else
+            //    TempData["Message"] = "Successfully Inserted";
             return View("Create");
+            //return RedirectToAction("Create");
         }
 
         public ActionResult View(int Id)

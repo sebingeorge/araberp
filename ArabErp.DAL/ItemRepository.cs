@@ -102,14 +102,15 @@ namespace ArabErp.DAL
         {
             using (IDbConnection connection = OpenConnection(dataConnection))
             {
-                string sql = @"insert  into Item(PartNo,ItemName,ItemPrintName,ItemShortName,ItemGroupId,ItemSubGroupId,ItemCategoryId,ItemUnitId,ItemQualityId,CommodityId,MinLevel,ReorderLevel,MaxLevel,OrganizationId) Values
-                                            (@PartNo,@ItemName,@ItemPrintName,@ItemShortName,@ItemGroupId,@ItemSubGroupId,@ItemCategoryId,@ItemUnitId,@ItemQualityId,@CommodityId,@MinLevel,@ReorderLevel,@MaxLevel,@OrganizationId);
+                string sql = @"insert  into Item(PartNo,ItemName,ItemPrintName,ItemShortName,ItemGroupId,ItemSubGroupId,ItemCategoryId,ItemUnitId,MinLevel,ReorderLevel,MaxLevel,ExpiryDate,BatchRequired,StockRequired,OrganizationId,CreatedBy,CreatedDate) Values
+                                            (@PartNo,@ItemName,@ItemPrintName,@ItemShortName,@ItemGroupId,@ItemSubGroupId,@ItemCategoryId,@ItemUnitId,@MinLevel,@ReorderLevel,@MaxLevel,@ExpiryDate,@BatchRequired,@StockRequired,@OrganizationId,@CreatedBy,@CreatedDate);
             SELECT CAST(SCOPE_IDENTITY() as int)";
+               
                 var id = 0;
                 try
                 {
                     id = connection.Query<int>(sql, objItem).Single();
-                    connection.Dispose();
+                    //connection.Dispose();
                 }
                 catch (Exception ex)
                 {
