@@ -1,4 +1,5 @@
 ﻿using ArabErp.DAL;
+using ArabErp.Domain;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -44,5 +45,18 @@ namespace ArabErp.Web.Controllers
             var emp = rep.FillTaskDropdown();
             ViewBag.EmployeeTask = new SelectList(emp, "Id", "Name");
         }
+        public ActionResult Save(Employee model)
+        {
+            model.OrganizationId = 1;
+            model.CreatedDate = System.DateTime.Now;
+            model.CreatedBy = Request.ServerVariables["HTTP_X_FORWARDED_FOR"] ?? Request.ServerVariables["REMOTE_ADDR"];
+            new EmployeeRepository().Insert(model);
+            FillDesignationDropdown();
+            FillCategoryDropdown();
+            FillLocationDropdown();
+            FillTaskDropdown();
+            return View("Create");
+        }
+
     }
 }
