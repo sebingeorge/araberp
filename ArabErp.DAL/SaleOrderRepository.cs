@@ -4,6 +4,7 @@ using System.Linq;
 using System.Data.SqlClient;
 using Dapper;
 using ArabErp.Domain;
+using System.Data;
 
 namespace ArabErp.DAL
 {
@@ -16,6 +17,8 @@ namespace ArabErp.DAL
         /// <returns>Primary key of current Transaction</returns>
         public int InsertSaleOrder(SaleOrder model)
         {
+            using (IDbConnection connection = OpenConnection(dataConnection))
+            {
                          string sql = @"insert  into SaleOrder(SaleOrderRefNo,SaleOrderDate,CustomerId,CustomerOrderRef,VehicleModelId,SpecialRemarks,PaymentTerms,DeliveryTerms,CommissionAgentId,CommisionAmount,SalesExecutiveId,CreatedBy,CreatedDate,OrganizationId) Values (@SaleOrderRefNo,@SaleOrderDate,@CustomerId,@CustomerOrderRef,@VehicleModelId,@SpecialRemarks,@PaymentTerms,@DeliveryTerms,@CommissionAgentId,@CommisionAmount,@SalesExecutiveId,@CreatedBy,@CreatedDate,@OrganizationId);
            
 
@@ -23,7 +26,7 @@ namespace ArabErp.DAL
 
 
                         var id = connection.Query<int>(sql, model).Single();
-            var saleorderitemrepo=new SaleOrderItemRepository();
+                var saleorderitemrepo = new SaleOrderItemRepository();
             foreach (var item in model.Items)
             {
                 item.SaleOrderId = id;
@@ -32,11 +35,13 @@ namespace ArabErp.DAL
 
                         return id;
         }
-       
-       
+        }
+
+
         public SaleOrder GetSaleOrder(int SaleOrderId)
         {
-
+            using (IDbConnection connection = OpenConnection(dataConnection))
+            {
             string sql = @"select * from SaleOrder
                         where SaleOrderId=@SaleOrderId";
 
@@ -47,8 +52,11 @@ namespace ArabErp.DAL
 
             return objSaleOrder;
         }
+        }
         public List<SaleOrder> GetSaleOrders()
         {
+            using (IDbConnection connection = OpenConnection(dataConnection))
+            {
             string sql = @"select * from SaleOrder
                         where isActive=1";
 
@@ -56,39 +64,58 @@ namespace ArabErp.DAL
 
             return objSaleOrders;
         }
+        }
         public int UpdateSaleOrder(SaleOrder objSaleOrder)
         {
+            using (IDbConnection connection = OpenConnection(dataConnection))
+            {
             string sql = @"UPDATE SaleOrder SET SaleOrderDate = @SaleOrderDate ,CustomerId = @CustomerId ,CustomerOrderRef = @CustomerOrderRef ,VehicleModelId = @VehicleModelId,SpecialRemarks = @SpecialRemarks,PaymentTerms = @PaymentTerms,DeliveryTerms = @DeliveryTerms,CommissionAgentId = @CommissionAgentId,CommisionAmount = @CommisionAmount,SalesExecutiveId = @SalesExecutiveId   OUTPUT INSERTED.SaleOrderId  WHERE SaleOrderId = @SaleOrderId";
 
 
             var id = connection.Execute(sql, objSaleOrder);
             return id;
         }
+        }
         public int DeleteSaleOrder(Unit objSaleOrder)
         {
+            using (IDbConnection connection = OpenConnection(dataConnection))
+            {
             string sql = @"Delete SaleOrder  OUTPUT DELETED.SaleOrderId WHERE SaleOrderId=@SaleOrderId";
             var id = connection.Execute(sql, objSaleOrder);
             return id;
         }
+        }
         public List<Dropdown> FillCustomer()
         {
+            using (IDbConnection connection = OpenConnection(dataConnection))
+            {
             var param = new DynamicParameters();
             return connection.Query<Dropdown>("select CustomerId Id,CustomerName Name from Customer").ToList();
         }
+        }
         public List<Dropdown> FillVehicle()
         {
+            using (IDbConnection connection = OpenConnection(dataConnection))
+            {
             var param = new DynamicParameters();
             return connection.Query<Dropdown>("select VehicleModelId Id,VehicleModelName Name from VehicleModel").ToList();
         }
+        }
         public List<Dropdown> FillCommissionAgent()
         {
+            using (IDbConnection connection = OpenConnection(dataConnection))
+            {
             var param = new DynamicParameters();
             return connection.Query<Dropdown>("select CommissionAgentId Id,CommissionAgentName Name from CommissionAgent").ToList();
         }
+        }
         public List<Dropdown> FillEmployee()
         {
+            using (IDbConnection connection = OpenConnection(dataConnection))
+            {
             var param = new DynamicParameters();
             return connection.Query<Dropdown>("select EmployeeId Id,EmployeeName Name from Employee").ToList();
         }
     }
+}
 }
