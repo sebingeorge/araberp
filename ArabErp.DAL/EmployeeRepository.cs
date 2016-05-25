@@ -4,13 +4,15 @@ using System.Linq;
 using System.Data.SqlClient;
 using Dapper;
 using ArabErp.Domain;
+using System.Data;
 
 
 namespace ArabErp.DAL
 {
-   public class EmployeeRepository : IDisposable
+   public class EmployeeRepository : BaseRepository
     {
         private SqlConnection connection;
+        static string dataConnection = GetConnectionString("arab");
 
         public EmployeeRepository()
         {
@@ -20,13 +22,35 @@ namespace ArabErp.DAL
             }
         }
 
-        public Employee NewEmployee()
+        public IEnumerable<Dropdown> FillDesignationDropdown()
         {
-            var emp = new Employee();
-            emp.Designations = connection.Query<Designation>("select DesignationId,DesignationName from Designation").ToList();
-
-            return emp;
+            using (IDbConnection connection = OpenConnection(dataConnection))
+            {
+                return connection.Query<Dropdown>("select DesignationId Id,DesignationName Name from Designation").ToList();
+            }
         }
+        public IEnumerable<Dropdown> FillCategoryDropdown()
+        {
+            using (IDbConnection connection = OpenConnection(dataConnection))
+            {
+                return connection.Query<Dropdown>("select EmpCategoryId Id ,EmpCategoryName Name from EmpolyeeCategory").ToList();
+            }
+        }
+        public IEnumerable<Dropdown> FillLocationDropdown()
+        {
+            using (IDbConnection connection = OpenConnection(dataConnection))
+            {
+                return connection.Query<Dropdown>("select StockPointId Id, StockPointName Name From Stockpoint").ToList();
+            }
+        }
+        public IEnumerable<Dropdown> FillTaskDropdown()
+        {
+            using (IDbConnection connection = OpenConnection(dataConnection))
+            {
+                return connection.Query<Dropdown>("select TaskId Id,TaskName Name from Task").ToList();
+            }
+        }
+
 
        
 

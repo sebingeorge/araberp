@@ -6,62 +6,74 @@ using System.Data.SqlClient;
 using System.Threading.Tasks;
 using Dapper;
 using ArabErp.Domain;
+using System.Data;
 
 namespace ArabErp.DAL
 {
-    public class VehicleModelRepository : IDisposable
+    public class VehicleModelRepository : BaseRepository
     {
-         private SqlConnection connection;
+         //private SqlConnection connection;
+        static string dataConnection = GetConnectionString("arab");
 
-         public VehicleModelRepository()
-        {
-            if (connection == null)
-            {
-                connection = ConnectionManager.connection;
-            }
-        }
+        // public VehicleModelRepository()
+        //{
+        //    if (connection == null)
+        //    {
+        //        connection = ConnectionManager.connection;
+        //    }
+        //}
 
         public int InsertVehicleModel(VehicleModel objVehicleModel)
         {
-            string sql = @"INSERT INTO VehicleModel(VehicleModelRefNo,VehicleModelName,VehicleModelDescription,CreatedBy,CreatedDate,OrganizationId) VALUES(@VehicleModelRefNo,@VehicleModelName,@VehicleModelDescription,@CreatedBy,getDate(),@OrganizationId);
+            using (IDbConnection connection = OpenConnection(dataConnection))
+            {
+                string sql = @"INSERT INTO VehicleModel(VehicleModelRefNo,VehicleModelName,VehicleModelDescription,CreatedBy,CreatedDate,OrganizationId) VALUES(@VehicleModelRefNo,@VehicleModelName,@VehicleModelDescription,@CreatedBy,getDate(),@OrganizationId);
             SELECT CAST(SCOPE_IDENTITY() as int)";
-            var id = connection.Query<int>(sql, objVehicleModel).Single();
-            return id;
+                var id = connection.Query<int>(sql, objVehicleModel).Single();
+                return id;
+            }
         }
 
         public IEnumerable<VehicleModel> FillVehicleModelList()
         {
-            return connection.Query<VehicleModel>("SELECT VehicleModelRefNo,VehicleModelName,VehicleModelDescription  FROM VehicleModel").ToList();
+            using (IDbConnection connection = OpenConnection(dataConnection))
+            {
+                return connection.Query<VehicleModel>("SELECT VehicleModelRefNo,VehicleModelName,VehicleModelDescription  FROM VehicleModel").ToList();
+            }
         }
-
         public VehicleModel GetVehicleModel(int VehicleModelId)
         {
-
-            string sql = @"select * from VehicleModel
+            using (IDbConnection connection = OpenConnection(dataConnection))
+            {
+                string sql = @"select * from VehicleModel
                                     where VehicleModelId=@VehicleModelId";
 
-            var objVehicleModel = connection.Query<VehicleModel>(sql, new
-{
-             VehicleModelId = VehicleModelId
-                          }).First<VehicleModel>();
+                var objVehicleModel = connection.Query<VehicleModel>(sql, new
+    {
+        VehicleModelId = VehicleModelId
+    }).First<VehicleModel>();
 
-            return objVehicleModel;
+                return objVehicleModel;
+            }
         }
 
         public List<VehicleModel> GetVehicleModel()
         {
-            string sql = @"select * from VehicleModel
+            using (IDbConnection connection = OpenConnection(dataConnection))
+            {
+                string sql = @"select * from VehicleModel
                         where OrganizationId>0";
 
-            var objVehicleModel = connection.Query<VehicleModel>(sql).ToList<VehicleModel>();
+                var objVehicleModel = connection.Query<VehicleModel>(sql).ToList<VehicleModel>();
 
-            return objVehicleModel;
+                return objVehicleModel;
+            }
         }
 
-        public void Dispose()
-        {
-            connection.Dispose();
-        }
+        //public void Dispose()
+        //{
+        //    connection.Dispose();
+        //}
 
     }
    
