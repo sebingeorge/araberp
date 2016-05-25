@@ -50,8 +50,30 @@ namespace ArabErp.DAL
                 return connection.Query<Dropdown>("select TaskId Id,TaskName Name from Task").ToList();
             }
         }
+       /// <summary>
+       /// Fn for Insert Employee
+       /// </summary>
+       /// <param name="model"></param>
+       /// <returns></returns>
+        public int Insert(Employee model)
+        {
+            using (IDbConnection connection = OpenConnection(dataConnection))
+            {
+                string sql = @"insert  into Employee(EmployeeRefNo,EmployeeName,GenderId,DesignationId,CategoryId,LocationId,TaskId,HourlyCost,CreatedBy,CreatedDate,OrganizationId)  Values (@EmployeeRefNo,@EmployeeName,@GenderId,@DesignationId,@CategoryId,@LocationId,@TaskId,@HourlyCost,@CreatedBy,@CreatedDate,@OrganizationId);
+           
 
+                        SELECT CAST(SCOPE_IDENTITY() as int)";
+                int id=0;
 
+                try
+                {
+                     id = connection.Query<int>(sql, model).Single();
+                }
+                catch (Exception e)
+                { }
+                return id;
+            }
+        }
        
 
         public void Dispose()
