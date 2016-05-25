@@ -79,7 +79,7 @@
     <h4>Sale Order</h4>
                 </div>
                
-                <div class="main-part">
+                <div class="main-part pad1">
                     @using (Html.BeginForm("Save", null, FormMethod.Post, new { @class = "createFrom", onsubmit = "return SaleOrderValidation()", @id = "saleorder_form" }))
         {
                         <div class="row form-group ">
@@ -115,7 +115,7 @@
             <div class="row form-group">
                 <div class="col-md-12">
                     <label for="SpecialRemarks">Spl.Remarks</label>
-                    @Html.TextAreaFor(m => m.SpecialRemarks, new { @class = "form_input text-area", autocomplete = "off" })
+                    @Html.TextAreaFor(m => m.SpecialRemarks, new { @class = "form_input", autocomplete = "off" })
                 </div>
             </div>
             <div class="row form-group">
@@ -142,7 +142,7 @@
                     @Html.DropDownListFor(m => Model.SalesExecutiveId, (SelectList)ViewBag.employeelist, "Select Order Taken By", new { @class = "form_input", autocomplete = "off" })
                 </div>
             </div>
-            <div class="marg1">
+            <div class="marg">
                 <button class="form-button">Exit</button>
                 <button type="submit" class="form-button">Save</button>
                 @*@if (TempData["Success"] != null)

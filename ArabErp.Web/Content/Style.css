@@ -6,12 +6,6 @@
     background-color:#9A9EAB;
     grid-row-sizing:5px;
 }
-      .grid_heading:hover
-{
-    color:#070B19;
-    background-color:#cfe4e8;
-
-}
   .grid_row
 {
    
@@ -36,7 +30,7 @@
   height: 22px;
   font-size: 11px;
   line-height: 1.428571429;
-  color: #0c5bab;
+  color: #00aaff;
   vertical-align: middle;
   border-radius:5px;
   border: 1px solid #ffffff;
@@ -268,15 +262,3 @@
     padding-top:-10px;
 }
 
-.grid 
-{
-    font-size:12px;
-}
-.grid td.align 
-{
-    padding:3px;
-}
-.text-area
-{
-    height:50px;
-}
