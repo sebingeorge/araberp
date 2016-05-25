@@ -3,18 +3,8 @@
     ViewBag.Title = "Create";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
-
 <script type="text/javascript">
-
-    $(function () {
-        $('#datetimepicker1').datepicker({
-            viewMode: 'years'
-        });
-    });
-
-
     function FillItemGroup() {
-
         var Code = $('#ItemCategoryId').val();
         var Url = '@Url.Action("ItemGroup")';
         var UrlSubGroup = '@Url.Action("ItemSubGroup")';
@@ -43,34 +33,23 @@
         }
     }
 
-    //$(function () { // will trigger when the document is ready
-    //    $('.datepicker').datepicker(); //Initialise any date pickers
-    //});
-
-    $(function () {
-       
-        $("#ExpiryDate").datepicker({
-            changeMonth: true,
-            changeYear: true
-        });
+    $(document).ready(function () {
+        $('#ExpiryDate')
+            .datepicker({
+                format: 'dd/MM/yyyy'
+            })
     });
+  
     function ShowDiv() {
-        //var $messageDiv = $('#message'); // get the reference of the div
+     
         alert("Show div");
-        //$('#$messageDiv').show(1);
-        //$('#$messageDiv').show(1);
-        //$messageDiv.show(); // show and set the message
-        //setTimeout(function () { $messageDiv.hide().html(''); }, 3000);
-        //bootbox.alert("Hello world!", function () {
-        //    Example.show("Hello world callback");
-        //});
+     
         bootbox.alert("Hello world!");
     }
 </script>
 
 
 <div class="container">
-
     <div class="row">
         <div class="form-head"><h4>Item</h4></div>
         <div class="col-md-12">
@@ -96,10 +75,7 @@
                                 <label for="name" class="label1">Short Name</label>
                                 @Html.TextBoxFor(m => m.ItemShortName, new { @class = "form_input", autocomplete = "off" })
                             </div>
-                            @*<div class="part">
-                                <label for="name" class="label1">Commodity Code</label>
-                                @Html.TextBoxFor(m => m.CommodityId, new { @class = "form_input", autocomplete = "off" })
-                            </div>*@
+                          
                         </div>
 
                         <div class="col-md-4">
@@ -130,35 +106,9 @@
                                 </div>
                                 <div class="editor-field  col-md-6">
                                     <label for="name" class="label1">Expiry Date</label>
-                                    @*<script type="text/javascript" src="http://code.jquery.com/jquery-2.1.4.min.js"></script>
-                <script src="//cdn.jsdelivr.net/webshim/1.14.5/polyfiller.js"></script>
-                <script>
-                webshims.setOptions('forms-ext', {types: 'date'});
-                webshims.polyfill('forms forms-ext');
-                $.webshims.formcfg = {
-                en: {
-                    dFormat: '-',
-                    dateSigns: '-',
-                    patterns: {
-                        d: "yy-mm-dd"
-                    }
-                }
-                };
-                </script>*@
-                                    @*@Html.LabelFor(model => model.ExpiryDate)
-                @Html.TextBoxFor(model => model.ExpiryDate, new { @class = "form-control datepicker", placeholder = "Enter Drop-off date here..." })
-                @Html.ValidationMessageFor(model => model.ExpiryDate)
-                <div class='input-group date' id='datetimepicker1'>
-                    <input type='text' class="form-control" />
-                    <span class="input-group-addon">
-                        <span class="glyphicon glyphicon-calendar"></span>
-                    </span>
-                </div>*@
-                                    @*<input type="date" id="duedate" class="form_input" />*@
-                                    @*@Html.TextBoxFor(model => model.ExpiryDate, new { @class = "form-control datepicker", placeholder = "Enter Drop-off date here..." })
-                @Html.TextBoxFor(model => model.ExpiryDate, new { @class = "datetimepicker form-control" })
-                @Html.Partial("views/shared/editortemplates/date")*@
+                              
                                     @Html.TextBoxFor(model => model.ExpiryDate, new { @class = "form_input", placeholder = "Select Expiry Date" })
+                                  
                                 </div>
                             </div>
 

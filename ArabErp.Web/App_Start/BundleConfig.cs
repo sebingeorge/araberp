@@ -24,6 +24,7 @@ namespace ArabErp
                       "~/Scripts/respond.js",
                       "~/Scripts/jquery-1.10.2.js",
                       "~/Scripts/jquery-ui-1.11.4.js",
+                      "~/Scripts/bootstrap-datepicker.min.js",
                       "~/Scripts/bootstrapValidator.js"));
 
                     
@@ -32,7 +33,11 @@ namespace ArabErp
                       "~/Content/bootstrap.css",
                       "~/Content/themes/base/all.css",
                       "~/Content/site.css",
-                      "~/Content/Style.css", "~/Content/bootstrapValidator.min.css"));
+                      "~/Content/Style.css", 
+                      "~/Content/bootstrapValidator.min.css",
+                       "~/Content/datepicker.min.css",
+                       "~/Content/datepicker3.min.css"
+                      ));
                     
                     
         }
