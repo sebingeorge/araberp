@@ -4,19 +4,121 @@
     ViewBag.Title = "Create";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
+<script>
+    $(document).ready(function () {
+        $('#customer_form').bootstrapValidator({
+            fields: {
+                CustomerRefNo: {
+                    validators: {
+                        notEmpty: {
+                            message: 'Please enter customer no.'
+                        }
+                    }
+                },
+                CustomerName: {
+                    validators: {
+                        notEmpty: {
+                            message: 'Please enter customer name'
+                        }
+                    }
+                },
+                CategoryId: {
+                    validators: {
+                        notEmpty: {
+                            message: 'Please select category'
+                        }
+                    }
+                },
+                LeadSourceId: {
+                    validators: {
+                        notEmpty: {
+                            message: 'Please select lead source'
+                        }
+                    }
+                },
+                CurrencyId: {
+                    validators: {
+                        notEmpty: {
+                            message: 'Please select currency'
+                        }
+                    }
+                },
+                DoorNo: {
+                    validators: {
+                        stringLength: {
+                            min: 8,
+                        },
+                        notEmpty: {
+                            message: 'Please enter door no.& building'
+                        }
+                    }
+                },
+                Street: {
+                    validators: {
+                        stringLength: {
+                            min: 4,
+                        },
+                        notEmpty: {
+                            message: 'Please enter street & city'
+                        }
+                    }
+                },
+                State: {
+                    validators: {
+                        notEmpty: {
+                            message: 'Please enter state'
+                        }
+                    }
+                },
+                Zip: {
+                    validators: {
+                        notEmpty: {
+                            message: 'Please enter  zip code'
+                        },
+                  
+                    }
+                },
+                Phone: {
+                    validators: {
+                        notEmpty: {
+                            message: 'Please enter your phone number'
+                        },
+                        phone: {
+                            country: 'US',
+                            message: 'Please enter a vaild phone number with area code'
+                        }
+                    }
+                },
+                Email: {
+                    validators: {
+                        notEmpty: {
+                            message: 'Please enter email address'
+                        },
+                        emailAddress: {
+                            message: 'Please enter a valid email address'
+                        }
+                    }
+                },
+            }
+        });
+    })
 
+    $(function () {
+        $("#SaleOrderDate").datepicker({ dateFormat: "dd/MM/yy" });
+    });
+</script>
 <div class="h4bgcolor">
     <h4>Customer</h4>
 </div>
 <div class="container">
     <div class="row">
         <div class="col-md-12">
-            <form role="form">
+            <form role="form" action="@Url.Action("Save")" method="post" id="customer_form">
                 <div class="row form-group">
                     <div class="col-md-3">
                         <label for="code">Code</label>
 
-                        @Html.TextBoxFor(m => m.CustomerId, new { @class = "form_input ", autocomplete = "off" })
+                        @Html.TextBoxFor(m => m.CustomerRefNo, new { @class = "form_input ", autocomplete = "off" })
 
 
                     </div>
@@ -28,9 +130,9 @@
                         <label for="prntname">Print Name</label>
                         @Html.TextBoxFor(m => m.CustomerPrintName, new { @class = "form_input ", autocomplete = "off" })
                     </div>
-                    </div>
+                </div>
                 <div class="row form-group">
-                   
+
                     <div class="col-md-3">
                         <label for="categry">Category</label>
 
@@ -76,7 +178,7 @@
                                                             new SelectList(Enum.GetValues(typeof(ArabErp.Domain.Country))),
                                                             "Select Country", new { @class = "form_input" })
                     </div>
-                    
+
                 </div>
                 <div class="row form-group">
                     <div class="col-md-3">
@@ -97,25 +199,25 @@
                     </div>
                 </div>
                 <div class="row form-group">
-                   
+
                     <div class="col-md-6">
                         <label for="cntperson">Contact Person</label>
                         @Html.TextBoxFor(m => m.ContactPerson, new { @class = "form_input", autocomplete = "off" })
                     </div>
-                  
+
                 </div>
 
                 <div class="row">
                     <div class="col-md-10">
                     </div>
-                <div class="col-md-1">
-                    <button type="submit" class="button-style">Exit</button>
-                </div>
                     <div class="col-md-1">
-                    <button type="submit" class="button-style">Save</button>
+                        <button type="submit" class="button-style">Exit</button>
+                    </div>
+                    <div class="col-md-1">
+                        <button type="submit" class="button-style">Save</button>
+                    </div>
                 </div>
-                </div>
-             </form>
+            </form>
         </div>
     </div>
 </div>
