@@ -8,7 +8,6 @@
         var Code = $('#ItemCategoryId').val();
         var Url = '@Url.Action("ItemGroup")';
         var UrlSubGroup = '@Url.Action("ItemSubGroup")';
-
         if (Code == '') {
             $("#DivItemGroup").load(Url, { Code: 0 });
             $("#DivItemSubGroup").load(UrlSubGroup, { Code: 0 });
@@ -19,7 +18,6 @@
             $("#DivItemSubGroup").load(UrlSubGroup, { Code: 0 });
         }
     }
-
     function FillItemSubGroup() {
 
         var Code = $('#ItemGroupId').val();

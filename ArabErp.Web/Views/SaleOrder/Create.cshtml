@@ -4,12 +4,7 @@
 <script>
     $(document).ready(function() {
         $('#saleorder_form').bootstrapValidator({
-            // To use feedback icons, ensure that you use Bootstrap v3.1.0 or later
-            //feedbackIcons: {
-            //    valid: 'glyphicon glyphicon-ok',
-            //    invalid: 'glyphicon glyphicon-remove',
-            //    validating: 'glyphicon glyphicon-refresh'
-            //},
+           
             fields: {
                 SaleOrderRefNo: {
                     validators: {
@@ -80,7 +75,7 @@
                 </div>
                
                 <div class="main-part pad1">
-                    @using (Html.BeginForm("Save", null, FormMethod.Post, new { @class = "createFrom", onsubmit = "return SaleOrderValidation()", @id = "saleorder_form" }))
+                    @using (Html.BeginForm("Save", null, FormMethod.Post, new { @class = "createFrom", @id = "saleorder_form" }))
         {
                         <div class="row form-group ">
                 <div class="col-md-2">
@@ -110,12 +105,12 @@
                     @Html.DropDownListFor(m => Model.VehicleModelId, (SelectList)ViewBag.vehiclelist, "Select Vehicle", new { @class = "form_input", autocomplete = "off" })
                 </div>
             </div>
-                      
+                   
             @Html.Action("DisplaySOList")
             <div class="row form-group">
                 <div class="col-md-12">
                     <label for="SpecialRemarks">Spl.Remarks</label>
-                    @Html.TextAreaFor(m => m.SpecialRemarks, new { @class = "form_input", autocomplete = "off" })
+                    @Html.TextAreaFor(m => m.SpecialRemarks, new { @class = "form-control", autocomplete = "off" })
                 </div>
             </div>
             <div class="row form-group">
@@ -142,7 +137,7 @@
                     @Html.DropDownListFor(m => Model.SalesExecutiveId, (SelectList)ViewBag.employeelist, "Select Order Taken By", new { @class = "form_input", autocomplete = "off" })
                 </div>
             </div>
-            <div class="marg1">
+            <div class="marg">
                 <button class="form-button">Exit</button>
                 <button type="submit" class="form-button">Save</button>
                 @*@if (TempData["Success"] != null)
