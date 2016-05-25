@@ -30,7 +30,7 @@
   height: 22px;
   font-size: 11px;
   line-height: 1.428571429;
-  color: #05a3c4;
+  color: #333333;
   vertical-align: middle;
   border-radius:5px;
   border: 1px solid #ffffff;
@@ -146,20 +146,20 @@
 }
 
 .has-warning .form_input {
-  border-color: #05a3c4;
+  border-color: #dc6c48;
   -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
           box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
 }
 
 .has-warning .form_input:focus {
-  border-color: #86c2ce;
+  border-color: #dc6c48;
   -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075), 0 0 6px #dbc59e;
           box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075), 0 0 6px #dbc59e;
 }
 
 .has-warning .input-group-addon {
   color: #c09853;
-  background-color: #fcf8e3;
+  background-color: #ee315f;
   border-color: #05a3c4;
 }
 
@@ -169,13 +169,13 @@
 }
 
 .has-error .form_input {
-  border-color: #05a3c4;
+  border-color: #dc6c48;
   -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
           box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
 }
 
 .has-error .form_input:focus {
-  border-color: #05a3c4;
+  border-color: #dc6c48;
   -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075), 0 0 6px #92dff8;
           box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075), 0 0 6px #92dff8;
 }
@@ -183,7 +183,7 @@
 .has-error .input-group-addon {
   color: #b94a48;
   background-color: #f2dede;
-  border-color: #05a3c4;
+  border-color: #dc6c48;
 }
 
 .has-success .help-block,
@@ -192,13 +192,13 @@
 }
 
 .has-success .form_input {
-  border-color: #05a3c4;
+  border-color: #dc6c48;
   -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
           box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
 }
 
 .has-success .form_input:focus {
-  border-color: #05a3c4;
+  border-color: #dc6c48;
   -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075), 0 0 6px #7aba7b;
           box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075), 0 0 6px #7aba7b;
 }
@@ -206,7 +206,7 @@
 .has-success .input-group-addon {
   color: #468847;
   background-color: #dff0d8;
-  border-color: #05a3c4;
+  border-color: #dc6c48;
 }
 
 .form-control-static {
@@ -221,7 +221,7 @@
   color: #737373;
 }
 .form_input:focus {
-    border-color: #66afe9;
+    border-color: #dc6c48;
     box-shadow: 0 1px 1px rgba(0, 0, 0, 0.075) inset, 0 0 8px rgba(102, 175, 233, 0.6);
     outline: 0 none;
 }
@@ -247,6 +247,7 @@
 {
     padding:38px;
 }
+.
 
 
 
