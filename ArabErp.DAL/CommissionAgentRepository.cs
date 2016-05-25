@@ -27,7 +27,10 @@ namespace ArabErp.DAL
 
         public IEnumerable<CommissionAgent> FillCommissionAgentList()
         {
-            return connection.Query<CommissionAgent>("SELECT CommissionAgentRefNo,CommissionAgentName FROM CommissionAgent").ToList();
+            using (IDbConnection connection = OpenConnection(dataConnection))
+            {
+                return connection.Query<CommissionAgent>("SELECT CommissionAgentRefNo,CommissionAgentName FROM CommissionAgent").ToList();
+            }
         }
 
         public CommissionAgent GetCommissionAgent(int CommissionAgentId)
