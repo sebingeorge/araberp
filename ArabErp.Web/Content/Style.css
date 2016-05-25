@@ -117,6 +117,12 @@
 
      }
 
+     .top2
+     {
+         margin-top:18px;
+
+     }
+
 #header .span12 {
     background-color:#9A9EAB;
 }
@@ -228,7 +234,7 @@
 }
 .grid_heading h1 
 {
-    font-size:11px;
+    font-size:14px;
     font-weight:bold;
     color:#ffffff;
     padding-left:5px;
@@ -251,7 +257,10 @@
 {
     padding:38px;
 }
-.
+.add-top
+{
+    padding-top:-10px;
+}
 
 
 
