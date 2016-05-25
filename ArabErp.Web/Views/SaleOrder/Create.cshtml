@@ -2,18 +2,12 @@
 @{ ViewBag.Title = "Create SaleOrder"; Layout = "~/Views/Shared/_Layout.cshtml"; }
 
 <script>
-    $(document).ready(function() {
+    $(document).ready(function () {
         $('#saleorder_form').bootstrapValidator({
-            // To use feedback icons, ensure that you use Bootstrap v3.1.0 or later
-            //feedbackIcons: {
-            //    valid: 'glyphicon glyphicon-ok',
-            //    invalid: 'glyphicon glyphicon-remove',
-            //    validating: 'glyphicon glyphicon-refresh'
-            //},
             fields: {
                 SaleOrderRefNo: {
                     validators: {
-                    notEmpty: {
+                        notEmpty: {
                             message: 'Please enter sale order no.'
                         }
                     }
@@ -46,10 +40,8 @@
                         }
                     }
                 },
-
-
             }
-            });
+        });
     })
 
     $(function () {
@@ -60,18 +52,18 @@
 <div class="container">
     <h4>Sale Order</h4>
     <div class="row main-part">
-        @using (Html.BeginForm("Save", null, FormMethod.Post, new { @class = "createFrom", onsubmit = "return SaleOrderValidation()",@id="saleorder_form" }))
+        @using (Html.BeginForm("Save", null, FormMethod.Post, new { @class = "createFrom", onsubmit = "return SaleOrderValidation()", @id = "saleorder_form" }))
         {
             <div class="row form-group  ">
                 <div class="col-md-2">
                     <label for="SaleOrderRefNo">SO.No.</label>
                     @Html.TextBoxFor(m => m.SaleOrderRefNo, new { @class = "form_input", autocomplete = "off" })
-                  
+
                 </div>
-                <div  class="col-md-2 col-md-offset-8 ">
+                <div class="col-md-2 col-md-offset-8 ">
                     <label for="SaleOrderDate">Date</label>
-                    @Html.TextBoxFor(m => m.SaleOrderDate, new { @class = "form_input ", autocomplete = "off", @readonly = "readonly"  })
-                                   
+                    @Html.TextBoxFor(m => m.SaleOrderDate, new { @class = "form_input ", autocomplete = "off", @readonly = "readonly" })
+
                 </div>
             </div>
             <div class="row form-group">
@@ -125,14 +117,13 @@
                 <button class="form-button">Exit</button>
                 <button type="submit" class="form-button">Save</button>
                 @*@if (TempData["Success"] != null)
-{
- <p class="alert alert-success" id="successMessage">@TempData["Success"]</p>
-}*@
+                    {
+                     <p class="alert alert-success" id="successMessage">@TempData["Success"]</p>
+                    }*@
             </div>
         }
     </div>
 </div>
-
 
 
 
