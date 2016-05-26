@@ -35,69 +35,71 @@
 
 </script>
 
-<div class="h4bgcolor">
-    <h4>Item SubGroup</h4>
-</div>
+
 
 <div class="container ">
     <div class="row">
-
-        <div class="col-md-3">
+        <div class="form-head1">
+            <h4>Item SubGroup</h4>
         </div>
 
-        <div class="col-md-6">
-           @using (Html.BeginForm("Save", null, FormMethod.Post, new { @class = "createFrom", @id = "ItemSubGroup_form" }))
-                   {
-                <div class="row form-group">
-
-                    <div class="col-md-6">
-                        <label for="ItemSubGroupRefNo">Code</label>
-                         @Html.TextBoxFor(m => m.ItemSubGroupRefNo, new { @class = "form_input", autocomplete = "off" })
-                     </div>
-
-                    <div class="col-md-6 ">
-                        <label for="ItemSubGroupName">Name</label>
-                        @Html.TextBoxFor(m => m.ItemSubGroupName, new { @class = "form_input", autocomplete = "off" })
-                    </div>
+        <div class="main-part pad1">
+            <div class="row">
+                <div class="col-md-2">
                 </div>
-
-                <div class="row form-group ">
-                    <div class="col-md-6 ">
-                        <label for="ItemGroupId">Group</label>
-                        @Html.DropDownListFor(m => Model.ItemGroupId, (SelectList)ViewBag.ItemGroup, "Select Item Group", new { @class = "form_input",autocomplete="off" })
-                    </div>
-                </div>
-
-
-                <div class="row form-group ">
-                    <div class="col-md-12 ">
-                        <div style="float:right" class="alignCenter">
-                            <button type="button" class="button-style">Exit</button>
+                @using (Html.BeginForm("Save", null, FormMethod.Post, new { @class = "createFrom", @id = "ItemSubGroup_form" }))
+                {
+                    <div class="col-md-4">
+                        <div class="part">
+                            <label for="ItemSubGroupRefNo">Code</label>
+                            @Html.TextBoxFor(m => m.ItemSubGroupRefNo, new { @class = "form_input", autocomplete = "off" })
                         </div>
-                        <div style="float:right" class="alignCenter">
-                            <button type="submit" class="button-style">Save</button>
+                        <div class="part">
+
+                            <label for="ItemGroupId">Group</label>
+                            @Html.DropDownListFor(m => Model.ItemGroupId, (SelectList)ViewBag.ItemGroup, "Select Item Group", new { @class = "form_input", autocomplete = "off" })
                         </div>
+
+
+
                     </div>
+                    <div class="col-md-4">
+
+
+                        <div class="part">
+                            <label for="ItemSubGroupName">Name</label>
+                            @Html.TextBoxFor(m => m.ItemSubGroupName, new { @class = "form_input", autocomplete = "off" })
+                        </div>
+
+                        <div class="marg4">
+                            <button type="button" class="form-button top1">Exit</button>
+
+
+                            <button type="submit" class="form-button">Save</button>
+                        </div>
+
+
+                    </div>
+                }
+                <div class="col-md-2">
                 </div>
-
-           }
+            </div>
         </div>
 
-        <div class="col-md-3">
+
+
+
+
+
+
+
+        <div class="row">
+            <div class="col-md-12">
+                @Html.Action("FillItemSubGroupList")
+            </div>
         </div>
 
     </div>
-
-    <div class="col-md-3 ">
     </div>
-
-    <div class="col-md-6">
-        @Html.Action("FillItemSubGroupList")
-    </div>
-
-    <div class="col-md-3">
-    </div>
-
-</div>
 
 

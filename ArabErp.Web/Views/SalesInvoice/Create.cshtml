@@ -1,0 +1,130 @@
+﻿
+@{
+    ViewBag.Title = "CreateSalesInvoice";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+        <div class="container">
+
+            <div class="row">
+
+                <div class="form-head1">
+                    <h4>Sales Invoice</h4>
+                </div>
+                <div class="main-part pad1">
+                    <form role="form">
+                        <div class="row form-group">
+                            <div class="col-md-2">
+                                <label for="invno">Invoice No.</label>
+                                <input type="text" id="invno" class="form_input" />
+                            </div>
+                            <div class="col-md-2 col-md-offset-8">
+                                <label for="inputDate">Date</label>
+                                <input type="date" id="inputDate" class="form_input" autocomplete="off" />
+                            </div>
+                        </div>
+                        <div class="row form-group">
+                            <div class="col-md-4">
+                                <label for="cus">Customer</label>
+                                <input type="text" id="cus" class="form_input" autocomplete="off" />
+                            </div>
+                            <div class="col-md-2">
+                                <label for="cusref">Customer Order Ref.</label>
+                                <input type="text" id="cusref" class="form_input" />
+                            </div>
+                            <div class="col-md-4">
+                                <label for="work">Work Description</label>
+                                <input type="text" id="work" class="form_input" autocomplete="off" />
+                            </div>
+                            <div class="col-md-2">
+                                <label for="vehregno">Veh Reg No/Chasis No</label>
+                                <input type="text" id="vehregno" class="form_input" />
+                            </div>
+                        </div>
+                        <div class=" table-responsive">
+                            <table class="table table-bordered">
+                                <thead>
+                                    <tr class="grid_heading">
+                                        <th>Sl.No.</th>
+                                        <th>Work</th>
+                                        <th>Product</th>
+                                        <th>Spl Remarks</th>
+                                        <th class="text-right ">Qty.</th>
+                                        <th>Unit</th>
+                                        <th class="text-right ">Rate</th>
+                                        <th class="text-right ">Discount Amt</th>
+                                        <th class="text-right ">Amount</th>
+                                    </tr>
+                                </thead>
+                                <tbody class="grid_row">
+                                    <tr>
+                                        <td>1</td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                    </tr>
+                                    <tr>
+                                        <td>2</td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                    </tr>
+                                    <tr>
+                                        <td>3</td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                    </tr>
+                                    <tr>
+                                        <td>4</td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <div class="row form-group">
+                            <div class="col-md-12">
+                                <label for="SplRemarks1">Spl.Remarks</label>
+                                <textarea id="SplRemarks1" autocomplete="off" style="min-width: 100%"></textarea>
+                            </div>
+                        </div>
+                        <div class="row form-group">
+                            <div class="col-md-6">
+                                <label for="payterms">Payment Terms</label>
+                                <input type="text" id="payterms" class="form_input" />
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-1">
+                                <button type="submit" class="form-button">Exit</button>
+                            </div>
+                            <div class="col-md-offset-11">
+                                <button type="submit" class="form-button">Save</button>
+                            </div>
+                        </div>
+                    </form>
+                    </div>
+                </div>
+        </div>
+

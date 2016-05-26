@@ -1,89 +1,92 @@
-﻿
-@{
+﻿@{
     ViewBag.Title = "PendingSupplyOrder";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
-
-<div class="h4bgcolor">
-    <h4>Pending Supply Order</h4>
-</div>
-  &nbsp;
-<form method="post" action="@Url.Action("CreateSupplyOrder", "SupplyOrder")">
-    <div class=" table-responsive">
-        <table class="table table-bordered">
-            <thead>
-                <tr class="grid_heading">
-                    <th>PRS No.</th>
-                    <th>PRS Date</th>
-                    <th>Product Description</th>
-                    <th class="text-right ">PR Qty.</th>
-                    <th class="text-right ">Pending Qty.</th>
-                    <th class="text-right ">Unit</th>
-                    <th>Required Date</th>
-                    <th>Select</th>
-                </tr>
-            </thead>
-            <tbody class="grid_row">
-                <tr>
-                    <td>1</td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                </tr>
-                <tr>
-                    <td>2</td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                </tr>
-                <tr>
-                    <td>3</td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                </tr>
-                <tr>
-                    <td>4</td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                </tr>
-            </tbody>
-        </table>
-    </div>
-
+<div class="container">
     <div class="row">
-
-
-        <div class="col-md-12">
-            <div style="float:left">
-                <button class="button-style">Previous</button>
-            </div>
-            <div style="float:right">
-                <button type="submit" class="button-style">Exit</button>
-            </div>
-            <div style="float:right">
-                <button type="submit" class="button-style">Proceed</button>
-            </div>
-
+        <div class="form-head1">
+            <h4>Pending Supply Order</h4>
         </div>
+        <div class="main-part pad1">
+            <form method="post" action="@Url.Action("Create", "SupplyOrder")">
+                <div class=" table-responsive">
+                    <table class="table table-bordered">
+                        <thead>
+                            <tr class="grid_heading">
+                                <th>PRS No.</th>
+                                <th>PRS Date</th>
+                                <th>Product Description</th>
+                                <th class="text-right ">PR Qty.</th>
+                                <th class="text-right ">Pending Qty.</th>
+                                <th class="text-right ">Unit</th>
+                                <th>Required Date</th>
+                                <th>Select</th>
+                            </tr>
+                        </thead>
+                        <tbody class="grid_row">
+                            <tr>
+                                <td>1</td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td>2</td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td>3</td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td>4</td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="row">
 
 
+                    <div class="col-md-12">
+                        <div style="float:left">
+                            <button class="button-style">Previous</button>
+                        </div>
+                        <div style="float:right">
+                            <button type="submit" class="button-style">Exit</button>
+                        </div>
+                        <div style="float:right">
+                            <button type="submit" class="button-style">Proceed</button>
+                        </div>
+
+                    </div>
+
+
+                </div>
+            </form>
+        </div>
     </div>
-</form>
+</div>
