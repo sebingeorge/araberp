@@ -402,6 +402,7 @@
     <Content Include="Views\StockPoint\StockpointListView.cshtml" />
     <Content Include="Views\CommissionAgent\Create.cshtml" />
     <Content Include="Views\CommissionAgent\CommissionAgentListView.cshtml" />
+    <Content Include="Views\Employee\EmployeeListView.cshtml" />
     <Content Include="Views\Unit\UnitListView.cshtml" />
     <Content Include="Views\ItemCategory\ItemCategoryListView.cshtml" />
   </ItemGroup>

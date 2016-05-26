@@ -57,6 +57,11 @@ namespace ArabErp.Web.Controllers
             FillTaskDropdown();
             return View("Create");
         }
-
+        public ActionResult FillEmployeeList()
+        {
+            //var repo = new EmployeeRepository();
+            var List = rep.FillEmployeeList();
+            return PartialView("EmployeeListView", List);
+        }
     }
 }
