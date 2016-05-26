@@ -388,6 +388,7 @@
     <Content Include="Views\CommissionAgent\Create.cshtml" />
     <Content Include="Views\CommissionAgent\CommissionAgentListView.cshtml" />
     <Content Include="Views\Unit\UnitListView.cshtml" />
+    <Content Include="Views\ItemCategory\ItemCategoryListView.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
