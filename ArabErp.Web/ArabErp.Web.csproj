@@ -387,6 +387,7 @@
     <Content Include="Views\StockPoint\StockpointListView.cshtml" />
     <Content Include="Views\CommissionAgent\Create.cshtml" />
     <Content Include="Views\CommissionAgent\CommissionAgentListView.cshtml" />
+    <Content Include="Views\Unit\UnitListView.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
