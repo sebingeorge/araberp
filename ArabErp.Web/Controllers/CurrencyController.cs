@@ -19,7 +19,7 @@ namespace ArabErp.Web.Controllers
         public ActionResult Create()
         {
             FillCurrencySymbols();
-            return View("View");
+            return View();
         }
         public ActionResult Save(Currency objCurrency)
         {
