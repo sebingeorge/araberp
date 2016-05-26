@@ -23,17 +23,17 @@
     </div>
 
  
-        @foreach (var item in Model)
+        @for (int i = 0; i < Model.Count(); i++)
         {
+           
             <div  class="row grid_row">
                 <form method="post" action="@Url.Action("CreateWorkShopRequest","WorkShopRequest")">
-                    @Html.HiddenFor(m => m.First().SaleOrderId, item.SaleOrderId)
-                    <div class="col-md-2">@Html.HiddenFor(m => m.First().SaleOrderRefNo,item.SaleOrderRefNo)@item.SaleOrderRefNo</div>
-
-                    <div class="col-md-2">@Html.HiddenFor(m => m.First().SaleOrderDate, item.SaleOrderDate.ToShortDateString())@item.SaleOrderDate</div>
-                    <div class="col-md-2">@Html.HiddenFor(m => m.First().CustomerName, item.CustomerName)@item.CustomerName</div>
-                    <div class="col-md-2">@Html.HiddenFor(m => m.First().CustomerOrderRef, item.CustomerOrderRef)@item.CustomerOrderRef</div>
-                    <div class="col-md-2">@Html.HiddenFor(m => m.First().VehicleModelId, item.VehicleModelId)@item.VehicleModelId</div>
+                    @Html.HiddenFor(m => m.ElementAt(i).SaleOrderId, new { @class = "form_input", autocomplete = "off" })
+                    <div class="col-md-2">@Html.TextBoxFor(m => m.ElementAt(i).SaleOrderRefNo, new { @class = "form_input", autocomplete = "off" })</div>
+                    <div class="col-md-2">@Html.TextBoxFor(m => m.ElementAt(i).SaleOrderId, new { @class = "form_input", autocomplete = "off" }) </div>
+                    <div class="col-md-2">@Html.TextBoxFor(m => m.ElementAt(i).CustomerName, new { @class = "form_input", autocomplete = "off" })</div>
+                    <div class="col-md-2">@Html.TextBoxFor(m => m.ElementAt(i).CustomerOrderRef, new { @class = "form_input", autocomplete = "off" })</div>
+                    <div class="col-md-2">@Html.TextBoxFor(m => m.ElementAt(i).VehicleModelId, new { @class = "form_input", autocomplete = "off" })</div>
                     <div class="col-md-2"><button type="submit" class="button-style">Select</button></div>
                 </form>
             </div>
@@ -41,16 +41,7 @@
 
 
 
-        <div class="row">
-
-            <div class="col-md-12 col-md-4">
-                <div style="float:right" class="alignCenter">
-                    <button type="submit" class="button-style">OK</button>
-                </div>
-            </div>
 
 
-        </div>
-        </form>
 
 

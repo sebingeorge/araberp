@@ -38,10 +38,11 @@ namespace ArabErp.Web.Controllers
 
             var rep = new SaleOrderRepository();
 
-            List<SaleOrder> GetSaleOrders = rep.GetSaleOrders();
+          
+            var slist = rep.GetSaleOrders();
 
             
-            return View(GetSaleOrders);
+            return View(slist);
         }
 
        

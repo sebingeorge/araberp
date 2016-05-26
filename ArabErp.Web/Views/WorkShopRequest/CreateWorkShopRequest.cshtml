@@ -56,11 +56,11 @@
                 </div>
                 <div class="col-md-3">
                     <label for="cus">Customer</label>
-                    <input type="text" id="cus" class="form_input" autocomplete="off" />
+                    @Html.TextBoxFor(m => m.CustomerName, new { @class = "form_input", autocomplete = "off" })
                 </div>
                 <div class="col-md-3">
                     <label for="cusref">Customer Order Ref.</label>
-                    <input type="text" id="cusref" autocomplete="off" class="form_input" />
+                    @Html.TextBoxFor(m => m.CustomerOrderRef, new { @class = "form_input", autocomplete = "off" })
                 </div>
                 </div>
             <div class="row form-group">
