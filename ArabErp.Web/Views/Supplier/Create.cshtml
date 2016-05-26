@@ -1,181 +1,200 @@
-﻿
+﻿@model  ArabErp.Domain.Supplier
 @{
     ViewBag.Title = "Create";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<div class="h4bgcolor">
-    <h4>Supplier</h4>
-</div>
+
 <div class="container">
     <div class="row">
 
-        <form role="form">
-            <div class="row form-group">
-                <div class="col-md-3">
-                    <label for="code">Code</label>
-                    <input type="text" id="code" autocomplete="off" class="form_input" />
-                </div>
-                <div class="col-md-5">
-                    <label for="name">Name</label>
-                    <input type="text" autocomplete="off" id="name" class="form_input" />
-                </div>
-                <div class="col-md-4">
-                    <label for="prntname">Print Name</label>
-                    <input type="text" autocomplete="off" id="prntname" class="form_input" />
-                </div>
-            </div>
-            <div class="row form-group">
+        <div class="form-head">
+            <h4>Supplier</h4>
+        </div>
+        <div class="col-md-12">
+            <form role="form">
+                <div class="row form-group main-part">
+                    <div class="col-md-3">
+                        <div class="part">
+                            <label for="code">Code</label>
+                            @Html.TextBoxFor(m => m.SupplierRefNo, new { @class = "form_input", autocomplete = "off" })
+                        </div>
+                        <div class="part">
+                            <label for="categry">Category</label>
+                            @Html.TextBoxFor(m => m.SupplierRefNo, new { @class = "form_input", autocomplete = "off" })
+                            @*@Html.DropDownListFor(m => Model.CategoryId, (SelectList)ViewBag.test, "Select Symbol", new { @class = "form_input" })*@
+                        </div>
 
-                <div class="col-md-3">
-                    <label for="categry">Category</label>
-                    <select id="categry" class="form_input" autocomplete="off">
-                        <option>Select Category</option>
-                        <option>Category1</option>
-                        <option>Category2</option>
-                    </select>
-                </div>
-                <div class="col-md-3">
-                    <label for="cntrctupto">Contract Upto</label>
-                    <input type="date" autocomplete="off" id="cntrctupto" class="form_input" />
-                </div>
-                <div class="col-md-3">
-                    <label for="purtype">Purchase Type</label>
-                    <select id="purtype" class="form_input" autocomplete="off">
-                        <option>Select Purchase Type</option>
-                        <option>Purchase Type 1</option>
-                        <option>Purchase Type 2</option>
-                    </select>
-                </div>
-                <div class="col-md-3">
-                    <div style="font-size :12px">Active</div>
-                    <input type="radio" name="">
-                    <span class="text" style="font-size :12px">Yes</span>
-                    <input type="radio" name="">
-                    <span class="text  style=" font-size 12px"">No</span>
-                </div>
-            </div>
-            <div style=" font-weight:bold">Address & Communication</div>
-            <div class="row form-group">
-                <div class="col-md-3">
-                    <label for="doorno">Door No.& Building</label>
-                    <input type="text" id="doorno" autocomplete="off" class="form_input" />
+                        <div class="part">
+                            <div style=" font-weight:bold">Address & Communication</div>
+
+                            <label for="doorno">Door No.& Building</label>
+                            @Html.TextBoxFor(m => m.DoorNo, new { @class = "form_input", autocomplete = "off" })
+
+                        </div>
+                        <div class="part">
+
+                            <label for="zip">Zip</label>
+                            @Html.TextBoxFor(m => m.PostBoxNo, new { @class = "form_input", autocomplete = "off" })
+
+                        </div>
+                        <div class="part">
+
+                            <label for="supAccNo">Sup Account Ref.No.</label>
+                            @Html.TextBoxFor(m => m.AccountNo, new { @class = "form_input", autocomplete = "off" })
+
+                        </div>
+
+                        <div class="part">
+                            <div style="font-weight:bold">Bank & Terms</div>
+
+                            <label for="bnkname">Bank Name</label>
+                            @Html.TextBoxFor(m => m.Bank, new { @class = "form_input", autocomplete = "off" })
+                        </div>
+
+                        <div class="part">
+                            <label for="rtgsno">RTGS No.</label>
+                            @Html.TextBoxFor(m => m.RtgsNo, new { @class = "form_input", autocomplete = "off" })
+
+                        </div>
+                        <div class="part">
+                            <label for="curnc">Currency</label>
+                            @Html.TextBoxFor(m => m.SupplierRefNo, new { @class = "form_input", autocomplete = "off" })
+                            @*@Html.DropDownListFor(m => Model.CurrencyId, (SelectList)ViewBag.test, "Select Symbol", new { @class = "form_input" })*@
+
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="part">
+                            <label for="name">Name</label>
+                            @Html.TextBoxFor(m => m.SupplierName, new { @class = "form_input", autocomplete = "off" })
+                        </div>
+                        <div class="part">
+                            <label for="cntrctupto">Contract Upto</label>
+                            @Html.TextBoxFor(m => m.ContractDate, new { @class = "form_input", autocomplete = "off" })
+                        </div>
+                        <div class="part">
+                            <label for="street">Street & City</label>
+                            @Html.TextBoxFor(m => m.City, new { @class = "form_input", autocomplete = "off" })
+                        </div>
+                        <div class="part">
+                            <label for="phno">Phone No.</label>
+                            @Html.TextBoxFor(m => m.Phone, new { @class = "form_input", autocomplete = "off" })
+                        </div>
+                        <div class="part">
+                            <label for="cntperson">Contact Person</label>
+                            @Html.TextBoxFor(m => m.ContactPerson, new { @class = "form_input", autocomplete = "off" })
+                        </div>
+                        <div class="part">
+                            <label for="branchname">Branch Name</label>
+                            @Html.TextBoxFor(m => m.Branch, new { @class = "form_input", autocomplete = "off" })
+                        </div>
+
+                        <div class="part">
+                            <label for="accno">Account No.</label>
+                            @Html.TextBoxFor(m => m.AccountNo, new { @class = "form_input", autocomplete = "off" })
+
+                        </div>
+                        <div class="part">
+                            <label for="panno">PAN No.</label>
+                            @Html.TextBoxFor(m => m.PanNo, new { @class = "form_input", autocomplete = "off" })
+                        </div>
+
+                    </div>
+
+                    <div class="col-md-3">
+                        <div class="part">
+                            <label for="purtype">Purchase Type</label>
+                            @Html.TextBoxFor(m => m.SupplierRefNo, new { @class = "form_input", autocomplete = "off" })
+                            @*@Html.DropDownListFor(m => Model.PurchaseTypeId, (SelectList)ViewBag.test, "Select Symbol", new { @class = "form_input" })*@
+                        </div>
+                        <div class="part">
+                            <div style="font-size :12px">Active</div>
+                            <input type="radio" name="">
+                            <span class="text" style="font-size :12px">Yes</span>
+                            <input type="radio" name="">
+                            <span class="text  style=" font-size 12px"">No</span>
+                        </div>
+                        <div class="part">
+                            <label for="state">State</label>
+                            @Html.TextBoxFor(m => m.State, new { @class = "form_input", autocomplete = "off" })
+                        </div>
+                        <div class="part">
+                            <label for="fax">Fax</label>
+                            @Html.TextBoxFor(m => m.Fax, new { @class = "form_input", autocomplete = "off" })
+                        </div>
+                        <div class="part">
+                            <label for="accdetails">Account Details</label>
+                            @Html.TextBoxFor(m => m.AccountDetails, new { @class = "form_input", autocomplete = "off" })
+                        </div>
+                        <div class="part">
+                            <label for="disterms">Discount Terms</label>
+                            @Html.TextBoxFor(m => m.SupplierRefNo, new { @class = "form_input", autocomplete = "off" })
+                            @*@Html.DropDownListFor(m => Model.DiscountTermsId, (SelectList)ViewBag.test, "Select Symbol", new { @class = "form_input" })*@
+                        </div>
+                        <div class="part">
+                            <label for="tinno">TIN No.</label>
+                            @Html.TextBoxFor(m => m.TinNo, new { @class = "form_input", autocomplete = "off" })
+                        </div>
+
+
+                    </div>
+
+                    <div class="col-md-3">
+                        <div class="part">
+                            <label for="prntname">Print Name</label>
+                            @Html.TextBoxFor(m => m.SupplierPrName, new { @class = "form_input", autocomplete = "off" })
+                        </div>
+                        <div class="part">
+                            <label for="country">Country</label>
+                            @Html.TextBoxFor(m => m.SupplierRefNo, new { @class = "form_input", autocomplete = "off" })
+                            @*@Html.DropDownListFor(m => Model.Country, (SelectList)ViewBag.test, "Select Symbol", new { @class = "form_input" })*@
+                        </div>
+                        <div class="part">
+                            <label for="email">E-mail</label>
+                            @Html.TextBoxFor(m => m.Email, new { @class = "form_input", autocomplete = "off" })
+                        </div>
+                        <div class="part">
+                            <label for="swftcode">Swift Code</label>
+                            @Html.TextBoxFor(m => m.SwiftCode, new { @class = "form_input", autocomplete = "off" })
+                        </div>
+                        <div class="part">
+                            <label for="disrate">Rate of Discount</label>
+                            @Html.TextBoxFor(m => m.DiscountRate, new { @class = "form_input", autocomplete = "off" })
+                        </div>
+
+                        </div>
+                    <div class="marg">
+                        <button type="submit" class="form-button top3">Exit</button>
+
+
+                        <button type="submit" class="form-button">Save</button>
+                    </div>
+
                 </div>
 
-                <div class="col-md-3">
-                    <label for="street">Street & City</label>
-                    <input type="text" autocomplete="off" id="street" class="form_input" />
-                </div>
-                <div class="col-md-3">
-                    <label for="state">State</label>
-                    <input type="text" autocomplete="off" id="state" class="form_input" />
-                </div>
-                <div class="col-md-3">
-                    <label for="country">Country</label>
-                    <select id="country" class="form_input" autocomplete="off">
-                        <option>Select Country</option>
-                        <option>Country1</option>
-                        <option>Country2</option>
-                    </select>
+
+        </div>
+
+                    </div>
+
+
                 </div>
 
-            </div>
-            <div class="row form-group">
-                <div class="col-md-3">
-                    <label for="zip">Zip</label>
-                    <input type="text" autocomplete="off" id="zip" class="form_input" />
-                </div>
-                <div class="col-md-3">
-                    <label for="phno">Phone No.</label>
-                    <input type="text" autocomplete="off" id="phno" class="form_input" />
-                </div>
-                <div class="col-md-3">
-                    <label for="fax">Fax</label>
-                    <input type="text" id="fax" autocomplete="off" class="form_input" />
-                </div>
-                <div class="col-md-3">
-                    <label for="email">E-mail</label>
-                    <input type="text" autocomplete="off" id="email" class="form_input" />
-                </div>
-            </div>
-            <div class="row form-group">
-                <div class="col-md-3">
-                    <label for="supAccNo">Sup Account Ref.No.</label>
-                    <input type="text" autocomplete="off" id="supAccNo" class="form_input" />
-                </div>
-                <div class="col-md-6">
-                    <label for="cntperson">Contact Person</label>
-                    <input type="text" autocomplete="off" id="cntperson" class="form_input" />
-                </div>
+
+
+
+
+
 
             </div>
-            <div style="font-weight:bold">Bank & Terms</div>
-            <div class="row form-group">
-                <div class="col-md-3">
-                    <label for="bnkname">Bank Name</label>
-                    <input type="text" id="bnkname" autocomplete="off" class="form_input" />
-                </div>
-                <div class="col-md-3">
-                    <label for="branchname">Branch Name</label>
-                    <input type="text" autocomplete="off" id="branchname" class="form_input" />
-                </div>
-                <div class="col-md-3">
-                    <label for="accdetails">Account Details</label>
-                    <input type="text" autocomplete="off" id="accdetails" class="form_input" />
-                </div>
-                <div class="col-md-3">
-                    <label for="swftcode">Swift Code</label>
-                    <input type="text" id="swftcode" autocomplete="off" class="form_input" />
-                </div>
-            </div>
-            <div class="row form-group">
-                <div class="col-md-3">
-                    <label for="rtgsno">RTGS No.</label>
-                    <input type="text" id="rtgsno" autocomplete="off" class="form_input" />
-                </div>
-                <div class="col-md-3">
-                    <label for="accno">Account No.</label>
-                    <input type="text" autocomplete="off" id="accno" class="form_input" />
-                </div>
-                <div class="col-md-3">
-                    <label for="disterms">Discount Terms</label>
-                    <select id="disterms" class="form_input" autocomplete="off">
-                        <option>Select Discount Terms</option>
-                        <option>Term1</option>
-                        <option>Term2</option>
-                    </select>
-                </div>
-                <div class="col-md-3">
-                    <label for="disrate">Rate of Discount</label>
-                    <input type="text" id="disrate" autocomplete="off" class="form_input" />
-                </div>
-            </div>
-            <div class=" row form-group ">
-                <div class="col-md-3">
-                    <label for="curnc">Currency</label>
-                    <select id="curnc" class="form_input" autocomplete="off">
-                        <option>Select Currency</option>
-                        <option>Currency1</option>
-                        <option>Currency2</option>
-                    </select>
-                </div>
-                <div class="col-md-3">
-                    <label for="panno">PAN No.</label>
-                    <input type="text" autocomplete="off" id="panno" class="form_input" />
-                </div>
-                <div class="col-md-3">
-                    <label for="tinno">TIN No.</label>
-                    <input type="text" autocomplete="off" id="tinno" class="form_input" />
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-md-1">
-                    <button type="submit" class="button-style">Exit</button>
-                </div>
-                <div class="col-md-offset-11">
-                    <button type="submit" class="button-style">Save</button>
-                </div>
-            </div>
+
+  
+
+
+
+
+
 
 
         </form>

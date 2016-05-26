@@ -10,8 +10,41 @@ namespace ArabErp.DAL
 {
     public class CustomerRepository : BaseRepository
     {
+       
+        private SqlConnection connection;
         static string dataConnection = GetConnectionString("arab");
 
+        public CustomerRepository()
+        {
+            if (connection == null)
+            {
+                connection = ConnectionManager.connection;
+            }
+        }
+
+        public IEnumerable<Dropdown> FillCategoryDropdown()
+        {
+             using (IDbConnection connection = OpenConnection(dataConnection))
+             {
+                 return connection.Query<Dropdown>("SELECT CusCategoryId Id ,CusCategoryName Name FROM CustomerCategory").ToList();
+             }
+        }
+
+        public IEnumerable<Dropdown>FillCountryDropdown()
+        {
+            using (IDbConnection connection=OpenConnection(dataConnection))
+            {
+                return connection.Query<Dropdown>("SELECT CountryId Id,CountryName Name FROM Country").ToList();
+            }
+        }
+
+        public IEnumerable<Dropdown>FillCurrencyDropdown()
+        {
+            using (IDbConnection connection=OpenConnection(dataConnection))
+            {
+                return connection.Query<Dropdown>("SELECT CurrencyId Id,CurrencyName Name FROM Currency").ToList();
+            }
+        }
 
         public int InsertCustomer(Customer objCustomer)
         {

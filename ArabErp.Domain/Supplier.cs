@@ -8,14 +8,38 @@ namespace ArabErp.Domain
 {
    public class Supplier
     {
-        public int SupplierId { get; set; }
+        public int? SupplierId { get; set; }
+        public string SupplierRefNo { get; set; }
         public string SupplierName { get; set; }
-        public string Address1 { get; set; }
-        public string Address2 { get; set; }
-        public string Address3 { get; set; }
+        public string SupplierPrName { get; set; }
+        public int? CategoryId { get; set; }
+        public DateTime ContractDate { get; set; }
+        public int? PurchaseTypeId { get; set; }
+        public int? Active { get; set; }
+        public string DoorNo { get; set; }
+        public string City { get; set; }
+        public string State { get; set; }
+        public int? Country { get; set; }
+        public string PostBoxNo { get; set; }
         public string Phone { get; set; }
+        public string Fax { get; set; }
+        public string Email { get; set; }
+        public string SupRefAccNo { get; set; }
+        public string ContactPerson { get; set; }
+        public string Bank { get; set; }
+        public string Branch { get; set; }
+        public string AccountDetails { get; set; }
+        public string SwiftCode { get; set; }
+        public string RtgsNo { get; set; }
+        public string AccountNo { get; set; }
+        public int? DiscountTermsId { get; set; }
+        public string DiscountRate { get; set; }
+        public int? CurrencyId { get; set; }
+        public string PanNo { get; set; }
+        public string TinNo { get; set; }
+        public string CreatedDate { get; set; }
         public string CreatedBy { get; set; }
-        public DateTime? CreatedDate { get; set; }
-        public int OrganizationId { get; set; }
+        public int? OrganizationId { get; set; }
+        public string isActive { get; set; }  
     }
 }

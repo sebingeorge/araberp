@@ -39,6 +39,9 @@
 .form_input-half {
   width: 50%;
   }
+.form_input-sfive {
+  width: 75%;
+  }
 .form-head 
 {  
     background: url(../Images/head-back.jpg) repeat; 
@@ -124,6 +127,11 @@
      .top2
      {
          margin-top:18px;
+
+     }
+               .top3
+     {
+         margin-top:160px
 
      }
 
@@ -274,5 +282,19 @@
     width:96%;
     font-family:Calibri;
     font-size:12px;
+}
+.table2
+{
+    width:98%;
+    font-family:Calibri;
+    font-size:12px;
+}
+.tick-main 
+{
+    float: left;
+    font-size: 12px;
+    height:35px;
+    padding: 7px;
+    width: 98%;
 }
 

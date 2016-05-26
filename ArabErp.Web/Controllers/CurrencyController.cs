@@ -33,9 +33,10 @@ namespace ArabErp.Web.Controllers
             var sym = repo.FillSymbol();
             ViewBag.symbols = new SelectList(sym.Symbols, "SymbolId", "SymbolName");
         }
-        public ActionResult FillCurrencyList()
+        public ActionResult FillCurrencyList(int? page)
         {
-            
+            int itemsPerPage = 10;
+            int pageNumber = page ?? 1;
             var repo = new CurrencyRepository();
             var List = repo.FillCurrencyList();
             return PartialView("_CurrencyListView", List);

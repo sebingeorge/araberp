@@ -60,90 +60,84 @@
 
 </script>
 
-<div class="h4bgcolor">
-    <h4>Employee</h4>
-</div>
+
 
 <div class="container">
     <div class="row">
-        <div class="col-md-6 col-md-offset-3">
-           @using (Html.BeginForm("Save", null, FormMethod.Post, new { @class = "createFrom", @id = "Employee_form" }))
-                    {
-                <div class="row form-group">
-                    <div class="col-md-6">
-                        <label for="EmployeeRefNo">Code</label>
-                        @Html.TextBoxFor(m => m.EmployeeRefNo, new { @class = "form_input", autocomplete = "off" })
-                       
-                    </div>
-                    <div class="col-md-6">
-                        <label for="EmployeeName">Employee</label>
-                        @Html.TextBoxFor(m => m.EmployeeName, new { @class = "form_input", autocomplete = "off" })
-                       
-                    </div>
+        <div class="form-head1">
+            <h4>Employee</h4>
+        </div>
+        <div class="main-part pad1">
+            <div class="row">
+                <div class="col-md-2">
                 </div>
-                <div class="form-group">
-                    <label>Gender</label>
-                    <div>
-                       
-                    </div>
-                    <div class="row">
-                        <div class="col-md-6">
+                @using (Html.BeginForm("Save", null, FormMethod.Post, new { @class = "createFrom", @id = "Employee_form" }))
+                {
+                    <div class="col-md-4">
+                        <div class="part">
+                            <label for="EmployeeRefNo">Code</label>
+                            @Html.TextBoxFor(m => m.EmployeeRefNo, new { @class = "form_input form_input-half", autocomplete = "off" })
+                        </div>
+                        <div class="part">
+                            <label>Gender</label>
                             <div class="editor-field">
                                 @*@Html.RadioButton("Gender", true, true) Male
-                                @Html.RadioButton("Gender", false, false) Female*@
-                                Male @Html.RadioButtonFor(model => model.GenderId, 1, new { @checked = true })
-                                Female @Html.RadioButtonFor(model => model.GenderId, 2, new { @checked = true })
+                                    @Html.RadioButton("Gender", false, false) Female*@
+                                @Html.RadioButtonFor(model => model.GenderId, 1, new { @checked = true }) Male
+                                 @Html.RadioButtonFor(model => model.GenderId, 2, new { @checked = true }) Female
                             </div>
-                         </div>
-                        <div class="col-md-6">
+                        </div>
+                        <div class="part">
+                            <label for="CategoryId">Category</label>
+                            @Html.DropDownListFor(m => Model.CategoryId, (SelectList)ViewBag.EmployeeCategory, "Select Category", new { @class = "form_input", autocomplete = "off" })
+                        </div>
+                        <div class="part">
+                            <label for="TaskId">Task Done</label>
+                            @Html.DropDownListFor(m => Model.TaskId, (SelectList)ViewBag.EmployeeTask, "Select Task Done", new { @class = "form_input", autocomplete = "off" })
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="part">
+                            <label for="EmployeeName">Employee</label>
+                            @Html.TextBoxFor(m => m.EmployeeName, new { @class = "form_input", autocomplete = "off" })
+                        </div>
+                        <div class="part">
                             <label for="DesignationId">Designation</label>
                             @Html.DropDownListFor(m => Model.DesignationId, (SelectList)ViewBag.EmployeeDesignations, "Select Designation", new { @class = "form_input", autocomplete = "off" })
                         </div>
-                    </div>
-                </div>
-                <div class="row form-group">
-                    <div class="col-md-6">
-                        <label for="CategoryId">Category</label>
-                         @Html.DropDownListFor(m => Model.CategoryId, (SelectList)ViewBag.EmployeeCategory, "Select Category", new { @class = "form_input", autocomplete = "off" })
-                    </div>
+                        <div class="part">
+                            <label for="LocationId">Location</label>
+                            @Html.DropDownListFor(m => Model.LocationId, (SelectList)ViewBag.EmployeeLocation, "Select Location", new { @class = "form_input", autocomplete = "off" })
+                        </div>
+                        <div class="part">
+                            <label for="HourlyCost">Hourly Cost</label>
+                            @Html.TextBoxFor(m => m.Hourlycost, new { @class = "form_input", autocomplete = "off" })
 
-                    <div class="col-md-6">
-                        <label for="LocationId">Location</label>
-                         @Html.DropDownListFor(m => Model.LocationId, (SelectList)ViewBag.EmployeeLocation, "Select Location", new { @class = "form_input", autocomplete = "off" })
-                    </div>
-                </div>
-               
-                <div class="row form-group">
-                    <div class="col-md-6">
-                        <label for="TaskId">Task Done</label>
-                        @Html.DropDownListFor(m => Model.TaskId, (SelectList)ViewBag.EmployeeTask, "Select Task Done", new { @class = "form_input", autocomplete = "off" })
-                    </div>
-
-                    <div class="col-md-6">
-                        <label for="HourlyCost">Hourly Cost</label>
-                        @Html.TextBoxFor(m => m.Hourlycost, new { @class = "form_input", autocomplete = "off" })
-                    </div>
-                </div>
-
-                <div class="row form-group ">
-                     <div class="col-md-12 ">
-                        <div style="float:right" class="alignCenter">
-                             <button type="button" class="button-style">Exit</button>
                         </div>
 
-                        <div style="float:right" class="alignCenter">
-                            <button type="submit" class="button-style">Save</button>
+                        <div class="marg3">
+                            <button type="button" class="form-button">Exit</button>
+                            <button type="submit" class="form-button top1">Save</button>
                         </div>
-                     </div>
+                    </div>
+                }
+                <div class="col-md-2">
                 </div>
+            </div>
+        </div>
 
-                    }
+
+
+
+
+
+
+        <div class="row">
+            <div class="col-md-12">
+                @Html.Action("FillEmployeeList")
+            </div>
         </div>
     </div>
 
-    <div class="col-md-6 col-md-offset-3">
-        @Html.Action("FillEmployeeList")
-    </div>
-
-    </div>
+</div>
 

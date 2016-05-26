@@ -32,43 +32,55 @@
 
 <div class=" container ">
     <div class="row">
-        <div class="col-md-3">
+
+        <div class="form-head form-head1">
+            <h4>Unit</h4>
         </div>
-        <div class="col-md-6">
-            <div class="form-head form-head2">
-                <h4>Unit</h4>
-            </div>
-            <div class="main-part pad1">
+
+        <div class="main-part pad1">
+
+            <div class="row">
+
+                <div class="col-md-4">
+                </div>
+
+                <div class="col-md-4">
 
 
-                @using (Html.BeginForm("Save", null, FormMethod.Post, new { @class = "createFrom", @id = "unit_form" }))
+                    @using (Html.BeginForm("Save", null, FormMethod.Post, new { @class = "createFrom", @id = "unit_form" }))
                     {
 
-                    <div class="part">
-                        <label for="UnitRefNo">Code</label>
-                        @Html.TextBoxFor(m => m.UnitRefNo, new { @class = "form_input", autocomplete = "off" })
+                        <div class="part">
+                            <label for="UnitRefNo">Code</label>
+                            @Html.TextBoxFor(m => m.UnitRefNo, new { @class = "form_input form_input-half", autocomplete = "off" })
 
-                    </div>
-
-
-                    <div class="part">
-                        <label for="UnitName">Name</label>
-                        @Html.TextBoxFor(m => m.UnitName, new { @class = "form_input", autocomplete = "off" })
-
-                    </div>
+                        </div>
 
 
-                    <div class="marg2">
+                        <div class="part">
+                            <label for="UnitName">Name</label>
+                            @Html.TextBoxFor(m => m.UnitName, new { @class = "form_input", autocomplete = "off" })
 
-                        <button type="button" class="form-button top1">Exit</button>
+                        </div>
+
+
+                        <div class="marg3">
+
+                            <button type="button" class="form-button top1">Exit</button>
 
 
 
-                        <button type="submit" class="form-button">Save</button>
+                            <button type="submit" class="form-button">Save</button>
 
-                    </div>
+                        </div>
 
                     }
+                </div>
+
+
+                <div class="col-md-4">
+
+                </div>
 
 
 
@@ -76,24 +88,24 @@
         </div>
 
 
-        <div class="col-md-3">
+
+
+
+
+
+
+
+        <div class="row">
+
+
+            <div class="col-md-12">
+                @Html.Action("FillUnitList")
+            </div>
+
         </div>
 
-
-
-        </div>
-
-    <div class=" row">
-        <div class="col-md-3">
-        </div>
-
-        <div class="col-md-6">
-            @Html.Action("FillUnitList")
-        </div>
-
-        <div class="col-md-3">
-        </div>
     </div>
+
 
 </div>
 
