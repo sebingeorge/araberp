@@ -1,19 +1,21 @@
 ﻿
 @{
-    ViewBag.Title = "CreateGrnWareHouse";
+    ViewBag.Title = "Create";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
+
 <div class="container">
     <div class="row">
+
         <div class="form-head1">
-            <h4>GRN-WareHouse</h4>
+            <h4>Purchase Request</h4>
         </div>
         <div class="main-part pad1">
             <form role="form">
                 <div class="row form-group">
                     <div class="col-md-2">
-                        <label for=" grnno">GRN No. </label>
-                        <input type="text" id="grnno" class="form_input" autocomplete="off" />
+                        <label for="prsno">PRS No.</label>
+                        <input type="text" id="prsno" autocomplete="off" class="form_input" />
                     </div>
                     <div class="col-md-2 col-md-offset-8">
                         <label for="inputDate">Date</label>
@@ -21,32 +23,49 @@
                     </div>
                 </div>
                 <div class="row form-group">
-                    <div class="col-md-4">
-                        <label for="selectCustomer">Supplier</label>
-                        <input type="text" id="supplier" class="form_input" autocomplete="off" />
+                    <div class="col-md-3">
+                        <label for="wrno">WorkShop Request No & Date </label>
+                        <input type="text" id="wrno" autocomplete="off" class="form_input" />
+                    </div>
+                    <div class="col-md-3">
+                        <label for="cus">Customer</label>
+                        <input type="text" id="cus" class="form_input" autocomplete="off" />
+                    </div>
+                    <div class="col-md-3">
+                        <label for="cusref">Customer Order Ref.</label>
+                        <input type="text" id="cusref" autocomplete="off" class="form_input" />
+                    </div>
+                </div>
+                <div class="row form-group">
+                    <div class="col-md-3">
+                        <label for="productr">Product Description</label>
+                        <select id="productr" autocomplete="off" class="form_input">
+                            <option>Select Product</option>
+                            <option>Product1</option>
+                            <option>Product2</option>
+                            <option>Product3</option>
+                        </select>
+                    </div>
+                    <div class="col-md-3">
+                        <label for="qty">Qty.</label>
+                        <input type="text" id="qty" autocomplete="off" class="form_input" />
                     </div>
                 </div>
                 <div class=" table-responsive">
                     <table class="table table-bordered">
                         <thead>
                             <tr class="grid_heading">
-                                <th>Sl.No.</th>
-                                <th>SO No & Date</th>
-                                <th>Product</th>
-                                <th>Description</th>
-                                <th>Part No</th>
-                                <th class="text-right ">Qty</th>
-                                <th class="text-right ">Rate</th>
-                                <th class="text-right ">Discount</th>
-                                <th class="text-right ">Amount</th>
+                                <th width="5%">Sl.No.</th>
+                                <th width="25%">Product</th>
+                                <th width="25%">Description</th>
+                                <th width="10%">Part No</th>
+                                <th width="5%" class="text-right ">Qty</th>
+                                <th width="5%">Unit</th>
                             </tr>
                         </thead>
                         <tbody class="grid_row">
                             <tr>
                                 <td>1</td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
                                 <td></td>
                                 <td></td>
                                 <td></td>
@@ -60,15 +79,9 @@
                                 <td></td>
                                 <td></td>
                                 <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
                             </tr>
                             <tr>
                                 <td>3</td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
                                 <td></td>
                                 <td></td>
                                 <td></td>
@@ -82,12 +95,10 @@
                                 <td></td>
                                 <td></td>
                                 <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
                             </tr>
                         </tbody>
                     </table>
+
                 </div>
                 <div class="row form-group">
                     <div class="col-md-12">
@@ -95,23 +106,12 @@
                         <textarea id="SplRemarks1" autocomplete="off" style="min-width: 100%"></textarea>
                     </div>
                 </div>
-
                 <div class="row form-group">
-                    <div class="col-md-4">
-                        <label for="warehouse">WareHouse/Location</label>
-                        <select id="warehouse" class="form_input" autocomplete="off">
-                            <option>Select WareHouse</option>
-                            <option>WareHouse1</option>
-                            <option>WareHouse2</option>
-                            <option>WareHouse3</option>
-                        </select>
-                    </div>
-                    <div class="col-md-4">
-                        <label for="sdcno">Supplier DC No. & Date</label>
-                        <input type="text" id="sdcno" class="form_input" autocomplete="off" />
+                    <div class="col-md-2">
+                        <label for="reqdate">Required Date</label>
+                        <input type="date" id="reqdate" style="min-width: 100%" class="form_input" />
                     </div>
                 </div>
-
                 <div class="marg">
                     <button class="form-button">Exit</button>
                     <button type="submit" class="form-button">Save</button>
@@ -121,11 +121,4 @@
             </div>
         </div>
 </div>
-
-
-
-
-
-
-
 
