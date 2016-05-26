@@ -1,10 +1,64 @@
 ﻿@model ArabErp .Domain.Employee
           
-@{
-    ViewBag.Title = "Create";
-    Layout = "~/Views/Shared/_Layout.cshtml";
-}
+@{ViewBag.Title = "Create"; Layout = "~/Views/Shared/_Layout.cshtml";}
 
+<script>
+    $(document).ready(function () {
+        $('#Employee_form').bootstrapValidator({
+            fields: {
+                EmployeeRefNo: {
+                    validators: {
+                        notEmpty: {
+                            message: 'Please Enter Code'
+                        }
+                    }
+                },
+
+                EmployeeName: {
+                    validators: {
+                        notEmpty: {
+                            message: 'Please Enter Name'
+                        }
+                    }
+                },
+
+                DesignationId: {
+                    validators: {
+                        notEmpty: {
+                            message: 'Please Select Designation'
+                        }
+                    }
+                },
+
+                CategoryId: {
+                    validators: {
+                        notEmpty: {
+                            message: 'Please Select Category'
+                        }
+                    }
+                },
+
+                LocationId: {
+                    validators: {
+                        notEmpty: {
+                            message: 'Please Select Location'
+                        }
+                    }
+                },
+
+                TaskId: {
+                    validators: {
+                        notEmpty: {
+                            message: 'Please Select Task Done'
+                        }
+                    }
+                },
+
+            }
+        });
+    })
+
+</script>
 
 <div class="h4bgcolor">
     <h4>Employee</h4>
@@ -40,64 +94,56 @@
                                 Male @Html.RadioButtonFor(model => model.GenderId, 1, new { @checked = true })
                                 Female @Html.RadioButtonFor(model => model.GenderId, 2, new { @checked = true })
                             </div>
-                                                           
-                            </div>
+                         </div>
                         <div class="col-md-6">
                             <label for="DesignationId">Designation</label>
-                             
-                            @Html.DropDownListFor(m => Model.DesignationId, (SelectList)ViewBag.EmployeeDesignations, "Select Unit", new { @class = "form_input" })
+                            @Html.DropDownListFor(m => Model.DesignationId, (SelectList)ViewBag.EmployeeDesignations, "Select Designation", new { @class = "form_input", autocomplete = "off" })
                         </div>
-                        </div>
+                    </div>
                 </div>
                 <div class="row form-group">
                     <div class="col-md-6">
                         <label for="CategoryId">Category</label>
-                      
-                    
-                      
-                        @Html.DropDownListFor(m => Model.CategoryId, (SelectList)ViewBag.EmployeeCategory, "Select Unit", new { @class = "form_input" })
-
-
+                         @Html.DropDownListFor(m => Model.CategoryId, (SelectList)ViewBag.EmployeeCategory, "Select Category", new { @class = "form_input", autocomplete = "off" })
                     </div>
 
                     <div class="col-md-6">
                         <label for="LocationId">Location</label>
-                        
-                        @Html.DropDownListFor(m => Model.LocationId, (SelectList)ViewBag.EmployeeLocation, "Select Unit", new { @class = "form_input" })
-
-
+                         @Html.DropDownListFor(m => Model.LocationId, (SelectList)ViewBag.EmployeeLocation, "Select Location", new { @class = "form_input", autocomplete = "off" })
                     </div>
                 </div>
+               
                 <div class="row form-group">
                     <div class="col-md-6">
                         <label for="TaskId">Task Done</label>
-                       
-                        @Html.DropDownListFor(m => Model.TaskId, (SelectList)ViewBag.EmployeeTask, "Select Unit", new { @class = "form_input" })
-
-
+                        @Html.DropDownListFor(m => Model.TaskId, (SelectList)ViewBag.EmployeeTask, "Select Task Done", new { @class = "form_input", autocomplete = "off" })
                     </div>
 
                     <div class="col-md-6">
                         <label for="HourlyCost">Hourly Cost</label>
                         @Html.TextBoxFor(m => m.Hourlycost, new { @class = "form_input", autocomplete = "off" })
-                        
                     </div>
                 </div>
 
-                <div class="row">
-                    <div class="col-md-1">
-                        <button type="submit" class="button-style">Exit</button>
-                    </div>
-                    <div class="col-md-offset-11">
-                        <button type="submit" class="button-style">Save</button>
-                    </div>
+                <div class="row form-group ">
+                     <div class="col-md-12 ">
+                        <div style="float:right" class="alignCenter">
+                             <button type="button" class="button-style">Exit</button>
+                        </div>
+
+                        <div style="float:right" class="alignCenter">
+                            <button type="submit" class="button-style">Save</button>
+                        </div>
+                     </div>
                 </div>
 
-             
-                
-
-           }
+                    }
         </div>
     </div>
-</div>
+
+    <div class="col-md-6 col-md-offset-3">
+        @Html.Action("FillEmployeeList")
+    </div>
+
+    </div>
 
