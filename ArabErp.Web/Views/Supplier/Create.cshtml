@@ -29,7 +29,8 @@
 
                 <div class="col-md-3">
                     <label for="categry">Category</label>
-                    @Html.DropDownListFor(m => Model.CategoryId, (SelectList)ViewBag.symbols, "Select Symbol", new { @class = "form_input" })
+                    @Html.TextBoxFor(m => m.SupplierRefNo, new { @class = "form_input", autocomplete = "off" })
+                    @*@Html.DropDownListFor(m => Model.CategoryId, (SelectList)ViewBag.test, "Select Symbol", new { @class = "form_input" })*@
                 </div>
                 <div class="col-md-3">
                     <label for="cntrctupto">Contract Upto</label>
@@ -37,7 +38,8 @@
                 </div>
                 <div class="col-md-3">
                     <label for="purtype">Purchase Type</label>
-                    @Html.DropDownListFor(m => Model.PurchaseTypeId, (SelectList)ViewBag.symbols, "Select Symbol", new { @class = "form_input" })
+                    @Html.TextBoxFor(m => m.SupplierRefNo, new { @class = "form_input", autocomplete = "off" })
+                    @*@Html.DropDownListFor(m => Model.PurchaseTypeId, (SelectList)ViewBag.test, "Select Symbol", new { @class = "form_input" })*@
                 </div>
                 <div class="col-md-3">
                     <div style="font-size :12px">Active</div>
@@ -64,7 +66,8 @@
                 </div>
                 <div class="col-md-3">
                     <label for="country">Country</label>
-                    @Html.DropDownListFor(m => Model.Country, (SelectList)ViewBag.symbols, "Select Symbol", new { @class = "form_input" })
+                    @Html.TextBoxFor(m => m.SupplierRefNo, new { @class = "form_input", autocomplete = "off" })
+                    @*@Html.DropDownListFor(m => Model.Country, (SelectList)ViewBag.test, "Select Symbol", new { @class = "form_input" })*@
                 </div>
 
             </div>
@@ -127,7 +130,8 @@
                 </div>
                 <div class="col-md-3">
                     <label for="disterms">Discount Terms</label>
-                    @Html.DropDownListFor(m => Model.DiscountTermsId, (SelectList)ViewBag.symbols, "Select Symbol", new { @class = "form_input" })
+                    @Html.TextBoxFor(m => m.SupplierRefNo, new { @class = "form_input", autocomplete = "off" })
+                    @*@Html.DropDownListFor(m => Model.DiscountTermsId, (SelectList)ViewBag.test, "Select Symbol", new { @class = "form_input" })*@
                 </div>
                 <div class="col-md-3">
                     <label for="disrate">Rate of Discount</label>
@@ -137,7 +141,8 @@
             <div class=" row form-group ">
                 <div class="col-md-3">
                     <label for="curnc">Currency</label>
-                    @Html.DropDownListFor(m => Model.CurrencyId, (SelectList)ViewBag.symbols, "Select Symbol", new { @class = "form_input" })
+                    @Html.TextBoxFor(m => m.SupplierRefNo, new { @class = "form_input", autocomplete = "off" })
+                    @*@Html.DropDownListFor(m => Model.CurrencyId, (SelectList)ViewBag.test, "Select Symbol", new { @class = "form_input" })*@
                 </div>
                 <div class="col-md-3">
                     <label for="panno">PAN No.</label>
