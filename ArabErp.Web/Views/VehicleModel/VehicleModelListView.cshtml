@@ -17,35 +17,32 @@
         }
 </style>
 
-<div class="row" style="width:100%; margin:1px;">
+<div class="table-responsive table2">
+    <table class="table table-bordered table-hover" id="tab_logic">
+        <thead>
+            <tr class="grid_heading">
+                <td style="width:10%;"><h1>Ref No.</h1></td>
+                <td style="width:20%;"><h1>Name</h1></td>
+                <td style="width:20%;"><h1>Description</h1></td>
+            </tr>
 
-    <table class="list" style="width:100%;" border="1">
-        <tr class=" grid_heading ">
-            <td style="width:10%;padding:6px;"><b>Ref No.</b></td>
-            <td style="width:20%;padding:6px;"><b>Name</b></td>
-            <td style="width:20%;padding:6px;"><b>Description</b></td>
-        </tr>
+            @{
+                for (int i = 0; i < Model.Count; i++)
+                {
+                    <tr>
+                        <td class="tableData table-back">
+                            @Model[i].VehicleModelRefNo
+                        </td>
 
-        @{
-            for (int i = 0; i < Model.Count; i++)
-            {
-                <tr>
-                    <td class="tableData">
-                        @Model[i].VehicleModelRefNo
-                    </td>
+                        <td class="table-back">
+                            @Model[i].VehicleModelName
+                        </td>
 
-                    <td>
-                        @Model[i].VehicleModelName
-                    </td>
-
-                    <td>
-                        @Model[i].VehicleModelDescription
-                    </td>
-                </tr>
+                        <td class="table-back">
+                            @Model[i].VehicleModelDescription
+                        </td>
+                    </tr>
+                }
             }
-        }
     </table>
 </div>
-
-
-
