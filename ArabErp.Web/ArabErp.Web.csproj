@@ -57,6 +57,12 @@
       <Private>True</Private>
     </Reference>
     <Reference Include="Microsoft.CSharp" />
+    <Reference Include="PagedList">
+      <HintPath>..\packages\PagedList.1.17.0.0\lib\net40\PagedList.dll</HintPath>
+    </Reference>
+    <Reference Include="PagedList.Mvc">
+      <HintPath>..\packages\PagedList.Mvc.4.5.0.0\lib\net40\PagedList.Mvc.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Drawing" />
@@ -219,6 +225,7 @@
     <Compile Include="Startup.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Content\bootbox.min.js" />
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.js" />
     <Content Include="Content\bootstrap.min.css" />
@@ -227,10 +234,20 @@
     <Content Include="Content\bootstrapValidator.min.css" />
     <Content Include="Content\datepicker.min.css" />
     <Content Include="Content\datepicker3.min.css" />
+    <Content Include="Content\jsgrid-theme.css" />
+    <Content Include="Content\jsgrid-theme.min.css" />
+    <Content Include="Content\jsgrid.css" />
+    <Content Include="Content\PagedList.css" />
+    <Content Include="Scripts\jquery-1.8.3.js" />
+    <Content Include="Scripts\jquery-1.8.3.min.js" />
+    <Content Include="Scripts\jquery-2.1.4.min.js" />
+    <Content Include="Scripts\jsgrid.js" />
+    <Content Include="Content\jsgrid.min.css" />
+    <Content Include="Scripts\jsgrid.min.js" />
+    <Content Include="Scripts\bootbox.min.js" />
     <Content Include="Scripts\bootstrap-datepicker.min.js" />
     <Content Include="Scripts\bootstrapValidator.js" />
     <Content Include="Scripts\bootstrapValidator.min.js" />
-    <Content Include="Content\jquery-2.1.4.min.js" />
     <Content Include="Content\polyfiller.js" />
     <Content Include="Content\Style.css" />
     <Content Include="Content\menu.css" />
@@ -338,16 +355,16 @@
     <Content Include="Views\Shared\_LoginPartial.cshtml" />
     <Content Include="Views\SaleOrder\Create.cshtml" />
     <Content Include="Views\WorkShopRequest\CreateWorkShopRequest.cshtml" />
-    <Content Include="Views\PurchaseRequest\CreatePurchaseRequest.cshtml" />
-    <Content Include="Views\GrnWareHouse\CreateGrnWareHouse.cshtml" />
-    <Content Include="Views\SupplyOrder\CreateSupplyOrder.cshtml" />
-    <Content Include="Views\JobCard\CreateJobCard.cshtml" />
+    <Content Include="Views\PurchaseRequest\Create.cshtml" />
+    <Content Include="Views\GrnWareHouse\Create.cshtml" />
+    <Content Include="Views\SupplyOrder\Create.cshtml" />
+    <Content Include="Views\JobCard\Create.cshtml" />
     <Content Include="Views\StoresIssue\CreateStoresIssue.cshtml" />
     <Content Include="Views\JobOrderCompletion\CreateJobOrderCompletion.cshtml" />
     <Content Include="Views\SalesInvoice\CreateSalesInvoice.cshtml" />
-    <Content Include="Views\StockReturn\CreateStockReturn.cshtml" />
+    <Content Include="Views\StockReturn\Create.cshtml" />
     <Content Include="Views\StockJournel\CreateStockJournel.cshtml" />
-    <Content Include="Views\AdditionalWorkShopRequest\CreateAdditionalWorkShopRequest.cshtml" />
+    <Content Include="Views\AdditionalWorkShopRequest\Create.cshtml" />
     <Content Include="Views\WorkShopRequest\WorkShopRequestPending.cshtml" />
     <Content Include="Views\PurchaseRequest\PendingPurchaseRequest.cshtml" />
     <Content Include="Views\SupplyOrder\PendingSupplyOrder.cshtml" />
@@ -387,6 +404,7 @@
     <Content Include="Views\StockPoint\StockpointListView.cshtml" />
     <Content Include="Views\CommissionAgent\Create.cshtml" />
     <Content Include="Views\CommissionAgent\CommissionAgentListView.cshtml" />
+    <Content Include="Views\Employee\EmployeeListView.cshtml" />
     <Content Include="Views\Unit\UnitListView.cshtml" />
     <Content Include="Views\ItemCategory\ItemCategoryListView.cshtml" />
   </ItemGroup>

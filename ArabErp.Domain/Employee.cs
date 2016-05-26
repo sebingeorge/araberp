@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace ArabErp.Domain
 {
-   public class Employee
+    public class Employee
     {
         public int? EmployeeId { get; set; }
         public string EmployeeRefNo { get; set; }
@@ -20,8 +20,9 @@ namespace ArabErp.Domain
         public string CreatedBy { get; set; }
         public DateTime? CreatedDate { get; set; }
         public int? OrganizationId { get; set; }
-       
-
+        public string Gender { get; set; }
+        public string DesignationName { get; set; }
+        
         public List<Designation> Designations { get; set; }
     }
 

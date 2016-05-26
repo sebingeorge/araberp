@@ -1,24 +1,52 @@
-﻿
+﻿@model  ArabErp.Domain.WorkShopRequest
 @{
     ViewBag.Title = "Create WorkShop Request";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
+<script>
+    $(document).ready(function() {
+        $('#saleorder_form').bootstrapValidator({
+            fields: {
+                WorkShopRequestNo: {
+                    validators: {
+                        notEmpty: {
+                            message: 'Please enter WorkShopRequestNo.'
+                        }
+                    }
+                },
+                WorkShopRequestDate: {
+                    validators: {
+                        notEmpty: {
+                            message: 'Please select WorkShopRequestDate'
+                        }
+                    }
+                }
 
+
+            }
+        });
+    })
+
+    $(function () {
+        $("#WorkShopRequestDate").datepicker({ dateFormat: "dd/MM/yy" });
+    });
+</script>
 <div class="h4bgcolor">
     <h4>WorkShop Request</h4>
 </div>
                    
 <div class="container">
     <div class="row">
-        <form role="form">
+        @using (Html.BeginForm("Save", null, FormMethod.Post, new { @class = "createFrom", onsubmit = "return SaleOrderValidation()", @id = "work_form" }))
+        {
             <div class="row form-group">
                 <div class="col-md-2">
                     <label for="reqno">Request No.</label>
-                    <input type="text" id="reqno" autocomplete="off" class="form_input" />
+                    @Html.TextBoxFor(m => m.WorkShopRequestNo, new { @class = "form_input", autocomplete = "off" })
                 </div>
                 <div class="col-md-2 col-md-offset-8">
                     <label for="inputDate">Date</label>
-                    <input type="date" id="inputDate" class="form_input" autocomplete="off" />
+                    @Html.TextBoxFor(m => m.WorkShopRequestDate, String.Format("{0:dd/MM/yy}", Model.WorkShopRequestDate), new { @class = "form_input ", autocomplete = "off", @readonly = "readonly" })
                 </div>
             </div>
             <div class="row form-group">
@@ -118,7 +146,7 @@
                         <button type="submit" class="button-style">Save</button>
                     </div>
                 </div>
-</form>
+        }
     </div>
 </div>
 

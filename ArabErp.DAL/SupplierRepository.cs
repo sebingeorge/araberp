@@ -77,6 +77,27 @@ namespace ArabErp.DAL
                 return id;
             }
         }
+        public IEnumerable<Dropdown> FillCategoryList()
+        {
+            using (IDbConnection connection = OpenConnection(dataConnection))
+            {
+                //var sym = new Currency();
+                //sym = connection.Query<Currency>("select SymbolId,SymbolName from Symbol").ToList();
+
+                return connection.Query<Dropdown>("select SupCategoryId Id,SupCategoryName Name from SupplierCategory").ToList();
+            }
+        }
+        public IEnumerable<Dropdown> FillCdategoryList()
+        {
+            using (IDbConnection connection = OpenConnection(dataConnection))
+            {
+                //var sym = new Currency();
+                //sym = connection.Query<Currency>("select SymbolId,SymbolName from Symbol").ToList();
+
+                return connection.Query<Dropdown>("select SupCategoryId Id,SupCategoryName Name from SupplierCategory").ToList();
+            }
+        }
+
 
 
     }

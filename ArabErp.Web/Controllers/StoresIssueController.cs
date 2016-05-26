@@ -13,7 +13,7 @@ namespace ArabErp.Web.Controllers
         {
             return View();
         }
-        public ActionResult CreateStoresIssue()
+        public ActionResult Create()
         {
             return View();
         }

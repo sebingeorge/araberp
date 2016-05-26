@@ -25,7 +25,12 @@ namespace ArabErp
                       "~/Scripts/jquery-1.10.2.js",
                       "~/Scripts/jquery-ui-1.11.4.js",
                       "~/Scripts/bootstrap-datepicker.min.js",
-                      "~/Scripts/bootstrapValidator.js"));
+                      "~/Scripts/bootstrapValidator.js",
+                      "~/Scripts/jsgrid.js",
+                      "~/Scripts/jsgrid.min.js",
+                      "~/Scripts/jquery-1.8.3.js",
+                      "~/Scripts/jquery-1.8.3.min.js"
+                      ));
 
                     
 
@@ -36,7 +41,11 @@ namespace ArabErp
                       "~/Content/Style.css", 
                       "~/Content/bootstrapValidator.min.css",
                        "~/Content/datepicker.min.css",
-                       "~/Content/datepicker3.min.css"
+                       "~/Content/datepicker3.min.css",
+                       "~/Content/jsgrid-theme.css",
+                       "~/Content/jsgrid-theme.min.css",
+                       "~/Content/jsgrid.css",
+                       "~/Content/jsgrid.min.css"
                       ));
                     
                     
