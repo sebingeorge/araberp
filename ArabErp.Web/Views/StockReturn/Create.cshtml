@@ -1,0 +1,98 @@
+﻿
+@{
+    ViewBag.Title = "Create";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<div class="container">
+    <div class="row">
+        <div class="form-head1">
+            <h4>Stock Return</h4>
+        </div>
+        <div class="main-part pad1">
+            <form role="form">
+                <div class="row form-group">
+                    <div class="col-md-2">
+                        <label for="srno">Stock Return No.</label>
+                        <input type="text" id="srno" class="form_input" autocomplete="off" />
+                    </div>
+                    <div class="col-md-2 col-md-offset-8">
+                        <label for="inputDate">Date</label>
+                        <input type="date" id="inputDate" class="form_input" autocomplete="off" />
+                    </div>
+                </div>
+                <div class="row form-group">
+                    <div class="col-md-3">
+                        <label for="jobcard">Job Card</label>
+                        <select id="jobcard" class="form_input" autocomplete="off">
+                            <option>Select Job Card</option>
+                            <option>JobCard1</option>
+                            <option>JobCard2</option>
+                            <option>JobCard3</option>
+                        </select>
+                    </div>
+                    <div class="col-md-3">
+                        <label for="jcno">JC No.</label>
+                        <input type="text" id="jcno" class="form_input" autocomplete="off" />
+                    </div>
+                    <div class="col-md-3">
+                        <label for="cus">Customer</label>
+                        <input type="text" id="cus" class="form_input" autocomplete="off" />
+                    </div>
+                    <div class="col-md-3">
+                        <label for="prdt">Product</label>
+                        <input type="text" id="prdt" class="form_input" autocomplete="off" />
+                    </div>
+                </div>
+                <div class=" table-responsive">
+                    <table class="table table-bordered">
+                        <thead>
+                            <tr class="grid_heading">
+                                <th>Part No</th>
+                                <th>Product</th>
+                                <th>Qty Return</th>
+                                <th>Remarks</th>
+                            </tr>
+                        </thead>
+                        <tbody class="grid_row">
+                            <tr>
+                                <td>1</td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td>2</td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td>3</td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td>4</td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="row form-group">
+                    <div class="col-md-12">
+                        <label for="SplRemarks1">Spl.Remarks</label>
+                        <textarea id="SplRemarks1" autocomplete="off" style="min-width: 100%"></textarea>
+                    </div>
+                </div>
+              <div class="marg">
+                    <button class="form-button">Exit</button>
+                    <button type="submit" class="form-button">Save</button>
+                  
+                </div>
+            </form>
+        </div>
+        </div>
+</div>

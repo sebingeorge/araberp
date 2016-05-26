@@ -14,7 +14,7 @@ namespace ArabErp.Web.Controllers
         {
             return View();
         }
-        public ActionResult CreateJobCard()
+        public ActionResult Create()
         {
             return View();
         }
