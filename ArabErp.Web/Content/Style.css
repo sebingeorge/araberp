@@ -69,6 +69,10 @@
     border-radius:5px 5px 0 0;
     -moz-radius:5px 5px 0 0;
 }
+.form-head2 
+{
+    width: 95.8%
+}
 .form-head1 h4 
 {
     color: #ffffff;
@@ -260,5 +264,15 @@
 .add-top
 {
     padding-top:-10px;
+}
+.table-back 
+{
+    background-color:#ffffff;
+}
+.table1
+{
+    width:96%;
+    font-family:Calibri;
+    font-size:12px;
 }
 

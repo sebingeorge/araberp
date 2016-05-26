@@ -76,6 +76,14 @@ namespace ArabErp.DAL
         }
        
 
+       public IEnumerable <Employee> FillEmployeeList()
+        {
+           using (IDbConnection connection=OpenConnection (dataConnection))
+           {
+               return connection.Query<Employee>("SELECT EmployeeRefNo,EmployeeName,CASE WHEN GenderId=1 then 'Male' Else 'Female' End AS  Gender,DesignationName FROM Employee E INNER JOIN Designation D ON D.DesignationId=E.DesignationId").ToList();
+           }
+         
+        }
         public void Dispose()
         {
             connection.Dispose();

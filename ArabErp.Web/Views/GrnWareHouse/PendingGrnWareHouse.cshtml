@@ -4,102 +4,104 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<div class="h4bgcolor">
-    <h4>Pending GRN</h4>
-</div>
- 
 <form method="post" action="@Url.Action("CreateGrnWareHouse", "GrnWareHouse")">
     <div class="container">
         <div class="row">
-        <div class="col-md-4 align_right">
-                <div class="col-md-7 form-group">
-                    <label for="supplier">Supplier</label>
-                    <select id="supplier" class="form_input">
-                        <option>Select Supplier</option>
-                        <option>Supplier1</option>
-                        <option>Supplier2</option>
-                        <option>Supplier3</option>
-                    </select>
+            <div class="form-head1">
+                <h4>Pending GRN</h4>
+            </div>
+            <div class="main-part pad1">
+                <div class="col-md-4 align_right">
+                    <div class="col-md-7 form-group">
+                        <label for="supplier">Supplier</label>
+                        <select id="supplier" class="form_input">
+                            <option>Select Supplier</option>
+                            <option>Supplier1</option>
+                            <option>Supplier2</option>
+                            <option>Supplier3</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class=" table-responsive">
+                    <table class="table table-bordered">
+                        <thead>
+                            <tr class="grid_heading">
+                                <th>SO No.</th>
+                                <th>SO Date</th>
+                                <th>PR No. & Date</th>
+                                <th>Supplier</th>
+                                <th>Product Description</th>
+                                <th class="text-right">Pending Qty.</th>
+                                <th>Unit</th>
+                                <th>Select</th>
+
+                            </tr>
+                        </thead>
+                        <tbody class="grid_row">
+                            <tr>
+                                <td>1</td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td>2</td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td>3</td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td>4</td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="row">
+
+                    <div class="col-md-12">
+                        <div style="float:left">
+                            <button class="button-style">Previous</button>
+                        </div>
+                        <div style="float:right">
+                            <button type="submit" class="button-style">Exit</button>
+                        </div>
+                        <div style="float:right">
+                            <button type="submit" class="button-style">Proceed</button>
+                        </div>
+
+                    </div>
+
+
                 </div>
             </div>
         </div>
-        <div class=" table-responsive">
-            <table class="table table-bordered">
-                <thead>
-                    <tr class="grid_heading">
-                        <th>SO No.</th>
-                        <th>SO Date</th>
-                        <th>PR No. & Date</th>
-                        <th>Supplier</th>
-                        <th>Product Description</th>
-                        <th class="text-right">Pending Qty.</th>
-                        <th>Unit</th>
-                        <th>Select</th>
-
-                    </tr>
-                </thead>
-                <tbody class="grid_row">
-                    <tr>
-                        <td>1</td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                    </tr>
-                    <tr>
-                        <td>2</td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                    </tr>
-                    <tr>
-                        <td>3</td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                    </tr>
-                    <tr>
-                        <td>4</td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                    </tr>
-                </tbody>
-            </table>
-        </div>
-
-        <div class="row">
-
-            <div class="col-md-12">
-                <div style="float:left">
-                    <button  class="button-style">Previous</button>
-                </div>
-                <div style="float:right">
-                    <button type="submit" class="button-style">Exit</button>
-                </div>
-                <div style="float:right">
-                    <button type="submit" class="button-style">Proceed</button>
-                </div>
-
-            </div>
-
-
-        </div>
-        </div>
+    </div>
 </form>
 

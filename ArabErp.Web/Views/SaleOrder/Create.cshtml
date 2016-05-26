@@ -142,13 +142,10 @@
                     @Html.DropDownListFor(m => Model.SalesExecutiveId, (SelectList)ViewBag.employeelist, "Select Order Taken By", new { @class = "form_input", autocomplete = "off" })
                 </div>
             </div>
-            <div class="marg1">
+            <div class="marg">
                 <button class="form-button">Exit</button>
                 <button type="submit" class="form-button">Save</button>
-                @*@if (TempData["Success"] != null)
-                    {
-                     <p class="alert alert-success" id="successMessage">@TempData["Success"]</p>
-                    }*@
+            
             </div>
         }
     </div>

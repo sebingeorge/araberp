@@ -1,69 +1,108 @@
 ﻿@model ArabErp.Domain.ItemCategory
-@{
-    ViewBag.Title = "Create";
-    Layout = "~/Views/Shared/_Layout.cshtml";
-}
+@{ ViewBag.Title = "Create";Layout = "~/Views/Shared/_Layout.cshtml";}
 
-<div class="h4bgcolor ">
-    <h4>Item Category</h4>
-</div>
+<script>
+        $(document).ready(function () {
+            $('#ItemCategory_form').bootstrapValidator({
+                fields: {
+                    itmCatRefNo: {
+                        validators: {
+                            notEmpty: {
+                                message: 'Please Enter Code'
+                            }
+                        }
+                    },
+
+                    CategoryName: {
+                        validators: {
+                            notEmpty: {
+                                message: 'Please Enter Name'
+                            }
+                        }
+                    },
+                }
+            });
+        })
+
+    </script>
+
+
+
+
 
 <div class="container ">
     <div class="row">
-
-        <div class="col-md-4">
-
+        <div class="col-md-3">
         </div>
 
-            <div class=" col-md-4">
-                <form role="form" action="@Url.Action("Save") " method="post">
+        <div class="col-md-6">
 
-                    <div class=" row form-group">
-                        <div class="col-md-12">
-                            <label for="itmCatRefNo">Code</label>
-                            @Html.TextBoxFor(m => m.itmCatRefNo, new { @class = "form_input", autocomplete = "off" })
-                            @Html.ValidationMessageFor(model => model.itmCatRefNo, "", new { @class = "text-danger" })
+
+            <div class="form-head form-head2">
+                <h4>Item Category</h4>
+            </div>
+
+            <div class="main-part pad1">
+
+                @using (Html.BeginForm("Save", null, FormMethod.Post, new { @class = "createFrom", @id = "ItemCategory_form" }))
+                {
+                    
+                        <div class="part">
+
+                        <label for="itmCatRefNo">Code</label>
+                        @Html.TextBoxFor(m => m.itmCatRefNo, new { @class = "form_input", autocomplete = "off" })
+
                         </div>
+
+
+
+                        <div class="part">
+                        <label for="CategoryName">Name</label>
+                        @Html.TextBoxFor(m => m.CategoryName, new { @class = "form_input", autocomplete = "off" })
+                        </div>
+
+
+
+
+
+                        <div class="marg2">
+                            <button type="button" class="form-button top1">Exit</button>
+
+
+
+                            <button type="submit" class="form-button">Save</button>
+
+                        </div>
+
+
+
+
+                        }
+
                     </div>
 
-                    <div class="row form-group ">
-                        <div class=" col-md-12 ">
-                            <label for="CategoryName">Name</label>
-                            @Html.TextBoxFor(m => m.CategoryName, new { @class = "form_input", autocomplete = "off" })
-                            @Html.ValidationMessageFor(model => model.CategoryName, "", new { @class = "text-danger" })
-                        </div>
-                    </div>
+            </div>
 
 
-                    <div class="row form-group ">
-                        <div class=" col-md-12">
-                            <div style=" float:right " class="alignCenter">
-                                <button type="button" class="button-style ">Exit</button>
-                            </div>
 
-                            <div style=" float:right " class="alignCenter ">
-                                <button type="submit" class="button-style ">Save</button>
-                            </div>
-                        </div>
-                    </div>
 
-                </form>
+
+            <div class="col-md-3">
+
+            </div>
         </div>
 
-        <div class="col-md-4">
 
-        </div>
-    </div>
 
     <div class="row ">
-        <div class="col-md-4">
+        <div class="col-md-3">
         </div>
 
-        <div class="col-md-4">
+        <div class="col-md-6">
             @Html.Action("FillItemCategoryList")
         </div>
 
-        <div class="col-md-4">
+        <div class="col-md-3">
         </div>
 
     </div>

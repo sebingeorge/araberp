@@ -25,11 +25,12 @@ namespace ArabErp.Web.Controllers
             new CommissionAgentRepository().InsertCommissionAgent(objCommissionAgent);
             return View("Create");
         }
-
+   
         public ActionResult FillCommissionAgentList()
         {
             var repo=new CommissionAgentRepository();
             var List=repo.FillCommissionAgentList();
+
             return PartialView("CommissionAgentListView", List);
         }
     }
