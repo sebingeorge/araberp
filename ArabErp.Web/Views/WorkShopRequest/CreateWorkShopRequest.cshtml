@@ -52,7 +52,7 @@
             <div class="row form-group">
                 <div class="col-md-3">
                     <label for="sono">Sale Order No.</label>
-                    <input type="text" id="sono" class="form_input" autocomplete="off" />
+                    @Html.TextBoxFor(m => m.SaleOrderRefNo, new { @class = "form_input", autocomplete = "off" })
                 </div>
                 <div class="col-md-3">
                     <label for="cus">Customer</label>

@@ -9,36 +9,37 @@
         <h4>Pending WorkShop Request</h4>
     </div>
 
-    &nbsp;
-    <form method="post" action="@Url.Action("CreateWorkShopRequest","WorkShopRequest")">
-        <div class=" table-responsive">
-            <table class="table table-bordered">
-                <thead>
-                    <tr class="grid_heading">
-                        <th>SO No.</th>
-                        <th>SO Date</th>
-                        <th>Customer</th>
-                        <th>Customer Order Ref.</th>
-                        <th>Vehicle Model</th>
-                    </tr>
-                </thead>
-                <tbody class="grid_row">
+    
 
-                    @foreach (var item in Model)
-                    {
-                        <tr>
-                            <td>@item.SaleOrderRefNo</td>
+   
+     <div class="row grid_heading">
+   
+        <div class="col-md-2">SO No.</div>
+        <div class="col-md-2">SO Date</div>
+        <div class="col-md-2">Customer</div>
+        <div class="col-md-2">Customer Order Ref.</div>
+        <div class="col-md-2">Vehicle Model</div>
+        <div class="col-md-2">Select</div>
+    </div>
 
-                            <td>@item.SaleOrderDate</td>
-                            <td>@item.CustomerName</td>
-                            <td>@item.CustomerOrderRef</td>
-                            <td>@item.VehicleModelId</td>
-                        </tr>
-                    }
-       
-                </tbody>
-            </table>
-        </div>
+ 
+        @foreach (var item in Model)
+        {
+            <div  class="row grid_row">
+                <form method="post" action="@Url.Action("CreateWorkShopRequest","WorkShopRequest")">
+                    @Html.HiddenFor(m => m.First().SaleOrderId, item.SaleOrderId)
+                    <div class="col-md-2">@Html.HiddenFor(m => m.First().SaleOrderRefNo,item.SaleOrderRefNo)@item.SaleOrderRefNo</div>
+
+                    <div class="col-md-2">@Html.HiddenFor(m => m.First().SaleOrderDate, item.SaleOrderDate.ToShortDateString())@item.SaleOrderDate</div>
+                    <div class="col-md-2">@Html.HiddenFor(m => m.First().CustomerName, item.CustomerName)@item.CustomerName</div>
+                    <div class="col-md-2">@Html.HiddenFor(m => m.First().CustomerOrderRef, item.CustomerOrderRef)@item.CustomerOrderRef</div>
+                    <div class="col-md-2">@Html.HiddenFor(m => m.First().VehicleModelId, item.VehicleModelId)@item.VehicleModelId</div>
+                    <div class="col-md-2"><button type="submit" class="button-style">Select</button></div>
+                </form>
+            </div>
+        }
+
+
 
         <div class="row">
 
@@ -50,6 +51,6 @@
 
 
         </div>
-    </form>
+        </form>
 
 
