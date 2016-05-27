@@ -1,15 +1,10 @@
 ﻿body {
     padding-top: 50px;
     padding-bottom: 20px;
-    /*background-color:#DDEBF9;*/
-     /*background-color:#66b9bf;*/
-
-     /*background: url(../Images/back.jpg) repeat-x;*/
-
+         /*background: url(../Images/back.jpg) repeat-x;*/
      background-color:#99d3df;
-    /*background-color:#67aeca;*/
-     /*background-color:#CAEBF2;*/
-}
+     /*background-color:#edf7ff;*/
+   }
 
 /* Set padding to keep content from hitting the edges */
 .body-content {
@@ -92,16 +87,53 @@ textarea {
     width: 92px;
     margin-right:5px;
 }
+.form-button1 
+{
+    height:22px;
+}
 .form-button:hover
     {
     background-color:#00D4FF;
     color:#000;
     }
+.margf 
+{
+    float:right;
+}
+.margl 
+{
+    float:left;
+}
 .marg 
 {
-    margin-left: 79%;
+    margin-left: 81%;
    
 }
+.marg1 {
+    height: 33px;
+    margin-left: 82%;
+    width: 198px;
+}
+.marg2
+{
+    margin-left:56%;
+   
+}
+.marg3
+{
+    margin-left: 40%;
+    margin-top: -106px;
+   
+}
+.marg4 {
+    margin-left: 40%;
+    margin-top: -40px;
+      }
+.marg5 {
+    margin-left:70.5%;
+    margin-top: -106px;
+}
+
 .main-list 
 {
     background-color:#ffffff;

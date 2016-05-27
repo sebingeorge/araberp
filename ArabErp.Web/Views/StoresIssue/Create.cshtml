@@ -1,62 +1,64 @@
 ﻿
 @{
-    ViewBag.Title = "CreateStoresIssue";
+    ViewBag.Title = "Create Stores Issue";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
 
-<div class="h4bgcolor">
-    <h4>Stores Issue</h4>
-</div>
+
 
 <div class="container">
     <div class="row">
-        <form role="form">
-            <div class="row form-group">
-                <div class="col-md-2">
-                    <label for="sino">SI No.</label>
-                    <input type="text" id="sino" class="form_input" autocomplete="off" />
+        <div class="form-head1">
+            <h4>Store Issue</h4>
+        </div>
+        <div class="main-part pad1">
+            <form role="form">
+                <div class="row form-group">
+                    <div class="col-md-2">
+                        <label for="sino">SI No.</label>
+                        <input type="text" id="sino" class="form_input" autocomplete="off" />
+                    </div>
+                    <div class="col-md-2 col-md-offset-8">
+                        <label for="inputDate">Date</label>
+                        <input type="date" id="inputDate" class="form_input" autocomplete="off" />
+                    </div>
                 </div>
-                <div class="col-md-2 col-md-offset-8">
-                    <label for="inputDate">Date</label>
-                    <input type="date" id="inputDate" class="form_input" autocomplete="off" />
+                <div class="row form-group">
+                    <div class="col-md-2">
+                        <label for="jcno">Job Card No.</label>
+                        <input type="text" id="jcno" class="form_input" autocomplete="off" />
+                    </div>
+                    <div class="col-md-2">
+                        <label for="jcdate">JC Date</label>
+                        <input type="date" id="jcdate" class="form_input" autocomplete="off" />
+                    </div>
+                    <div class="col-md-4">
+                        <label for="wrkdes">Customer</label>
+                        <input type="text" id="wrkdes" class="form_input" autocomplete="off" />
+                    </div>
+                    <div class="col-md-2">
+                        <label for="vehicle">Vehicle Model</label>
+                        <input type="text" id="vehicle" class="form_input" autocomplete="off" />
+                    </div>
+                    <div class="col-md-2">
+                        <label for="wrkreqref">WorkShop Request No.</label>
+                        <input type="text" id="wrkreqref" class="form_input" autocomplete="off" />
+                    </div>
                 </div>
-            </div>
-            <div class="row form-group">
-                <div class="col-md-2">
-                    <label for="jcno">Job Card No.</label>
-                    <input type="text" id="jcno" class="form_input" autocomplete="off" />
-                </div>
-                <div class="col-md-2">
-                    <label for="jcdate">JC Date</label>
-                    <input type="date" id="jcdate" class="form_input" autocomplete="off" />
-                </div>
-                <div class="col-md-4">
-                    <label for="wrkdes">Customer</label>
-                    <input type="text" id="wrkdes" class="form_input" autocomplete="off" />
-                </div>
-                <div class="col-md-2">
-                    <label for="vehicle">Vehicle Model</label>
-                    <input type="text" id="vehicle" class="form_input" autocomplete="off" />
-                </div>
-                <div class="col-md-2">
-                    <label for="wrkreqref">WorkShop Request No.</label>
-                    <input type="text" id="wrkreqref" class="form_input" autocomplete="off"/>
-                </div>
-            </div>
-                <div class=" table-responsive">
+                <div class="table-responsive">
                     <table class="table table-bordered">
                         <thead>
                             <tr class="grid_heading">
-                                <th>Sl.No.</th>
-                                <th>Part No.</th>
-                                <th>Product</th>
-                                <th class="text-right ">Req Qty.</th>
-                                <th class="text-right ">Pending Qty.</th>
-                                <th class="text-right ">Current Issued Qty</th>
-                                <th>Unit</th>
-                                <th class="text-right ">Rate</th>
-                                <th class="text-right ">Amount</th>
+                                <th><h1>Sl.No.</h1></th>
+                                <th><h1>Part No.</h1></th>
+                                <th><h1>Product</h1></th>
+                                <th class="text-right "><h1>Req Qty.</h1></th>
+                                <th class="text-right "><h1>Pending Qty.</h1></th>
+                                <th class="text-right "><h1>Current Issued Qty</h1></th>
+                                <th><h1>Unit</h1></th>
+                                <th class="text-right "><h1>Rate</h1></th>
+                                <th class="text-right "><h1>Amount</h1></th>
                             </tr>
                         </thead>
                         <tbody class="grid_row">
@@ -110,7 +112,7 @@
                 <div class="row form-group">
                     <div class="col-md-12">
                         <label for="SplRemarks1">Spl.Remarks</label>
-                        <textarea id="SplRemarks1" autocomplete="off" style="min-width: 100%"></textarea>
+                        <textarea id="SplRemarks1" autocomplete="off" class="form_input form_input-h"></textarea>
                     </div>
                 </div>
                 <div class="row form-group">
@@ -127,16 +129,17 @@
                             <option>Employee 3</option>
                         </select>
                     </div>
-                    </div>
-            <div class="row" >
-                <div class="col-md-1">
-                    <button type="submit" class="button-style">Exit</button>
                 </div>
-                <div class="col-md-offset-11">
-                    <button type="submit" class="button-style">Save</button>
+                <div class="marg1">
+                    <button class="form-button">Exit</button>
+                    <button type="submit" class="form-button">Save</button>
+                    @*@if (TempData["Success"] != null)
+            {
+             <p class="alert alert-success" id="successMessage">@TempData["Success"]</p>
+            }*@
                 </div>
+            </form>
             </div>
-</form>
-    </div>
+        </div>
 </div>
 

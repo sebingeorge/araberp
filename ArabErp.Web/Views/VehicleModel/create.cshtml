@@ -1,70 +1,99 @@
 ﻿@model ArabErp.Domain.VehicleModel
-@{
-    ViewBag.Title = "create";
-    Layout = "~/Views/Shared/_Layout.cshtml";
-}
-<div class="h4bgcolor">
-    <h4>Vehicle Model</h4>
-</div>
+@{ViewBag.Title = "create";Layout = "~/Views/Shared/_Layout.cshtml";}
 
-<div class=" container ">
-    <div class="row ">
+<script>
+    $(document).ready(function () {
+        $('#VehicleModel_form').bootstrapValidator({
+            fields: {
+                VehicleModelRefNo: {
+                    validators: {
+                        notEmpty: {
+                            message: 'Please Enter Code'
+                        }
+                    }
+                },
 
-        <div class="col-md-3 ">
+                VehicleModelName: {
+                    validators: {
+                        notEmpty: {
+                            message: 'Please Enter Name'
+                        }
+                    }
+                },
 
+                //VehicleModelDescription: {
+                //    validators: {
+                //        notEmpty: {
+                //            message: 'Please Enter Description'
+                //        }
+                //    }
+                //},
+
+            }
+        });
+    })
+
+</script>
+
+
+
+<div class="container">
+    <div class="row">
+
+        <div class="form-head1">
+            <h4>Vehicle Model</h4>
         </div>
-        <div class="col-md-6">
-            <form role="form" action="@Url.Action("Save")" method="post">
 
-                <div class="row form-group">
-                    <div class="col-md-6">
-                        <label for="VehicleModelRefNo">Code</label>
-                        @Html.TextBoxFor(m => m.VehicleModelRefNo, new { @class = "form_input", autocomplete = "off" })
-                        @Html.ValidationMessageFor(model => model.VehicleModelRefNo, "", new { @class = "text-danger" })
-                    </div>
-
-                    <div class="col-md-6">
-                        <label for="VehicleModelName">Name</label>
-                        @Html.TextBoxFor(m => m.VehicleModelName, new { @class = "form_input", autocomplete = "off" })
-                        @Html.ValidationMessageFor(model => model.VehicleModelName, "", new { @class = "text-danger" })
-                    </div>
+        <div class="main-part pad1">
+            <div class="row">
+                <div class="col-md-4">
                 </div>
-
-                <div class="row form-group">
-                    <div class="col-md-6">
-                        <label for="VehicleModelDescription">Description</label>
-                        @Html.TextBoxFor(m => m.VehicleModelDescription, new { @class = "form_input", autocomplete = "off" })
-                    </div>
-                </div>
-
-                <div class="row form-group ">
-                    <div class="col-md-12">
-                        <div style="float:right" class="alignCenter">
-                            <button type="button" class="button-style">Exit</button>
+                @using (Html.BeginForm("Save", null, FormMethod.Post, new { @class = "createFrom", @id = "VehicleModel_form" }))
+                {
+                    <div class="col-md-4">
+                        <div class="part">
+                            <label for="VehicleModelRefNo">Code</label>
+                            @Html.TextBoxFor(m => m.VehicleModelRefNo, new { @class = "form_input form_input-half", autocomplete = "off" })
                         </div>
-                        <div style="float:right" class="alignCenter">
-                            <button type="submit" class="button-style">Save</button>
+                        <div class="part">
+                            <label for="VehicleModelDescription">Description</label>
+                            @Html.TextBoxFor(m => m.VehicleModelDescription, new { @class = "form_input", autocomplete = "off" })
+                        </div>
+                        <div class="part">
+                            <label for="VehicleModelName">Name</label>
+                            @Html.TextBoxFor(m => m.VehicleModelName, new { @class = "form_input", autocomplete = "off" })
+                        </div>
+
+                        <div class="marg3">
+                            <button type="button" class="form-button top1">Exit</button>
+
+                            <button type="submit" class="form-button">Save</button>
                         </div>
                     </div>
+
+
+                }
+                <div class="col-md-4">
                 </div>
-
-            </form>
+            </div>
         </div>
 
-        <div class=" col-md-3">
 
+
+
+
+
+
+
+
+
+        <div class="row">
+
+            <div class="col-md-12">
+                @Html.Action("FillVehicleModelList")
+            </div>
         </div>
-
-        </div>
-
-    <div class="col-md-3">
     </div>
 
-    <div class="col-md-6">
-        @Html.Action("FillVehicleModelList")
-    </div>
 
-    <div class="col-md-3">
     </div>
-
-</div>

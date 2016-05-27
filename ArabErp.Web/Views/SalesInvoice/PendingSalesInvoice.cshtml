@@ -1,87 +1,92 @@
-﻿
-@{
+﻿@{
     ViewBag.Title = "PendingSalesInvoice";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
-
-<div class="h4bgcolor">
-    <h4>Pending Sales Invoice</h4>
-</div>
-  &nbsp;
-<form method="post" action="@Url.Action("CreateSalesInvoice", "SalesInvoice")">
-    <div class=" table-responsive">
-        <table class="table table-bordered">
-            <thead>
-                <tr class="grid_heading">
-                    <th>SO No.& Date</th>
-                    <th>Customer</th>
-                    <th>Vehicle Model</th>
-                    <th class=" text-right">Qty</th>
-                    <th class=" text-right">Rate</th>
-                    <th class=" text-right">Amount</th>
-                    <th>Select</th>
-                </tr>
-            </thead>
-            <tbody class="grid_row">
-                <tr>
-                    <td>1</td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                   
-                </tr>
-                <tr>
-                    <td>2</td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    
-                </tr>
-                <tr>
-                    <td>3</td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                   
-                </tr>
-                <tr>
-                    <td>4</td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                   
-                </tr>
-            </tbody>
-        </table>
-    </div>
+<div class="container">
 
     <div class="row">
-        <div class="col-md-12">
-            <div style="float:left">
-                <button class="button-style">Previous</button>
-            </div>
-            <div style="float:right">
-                <button type="submit" class="button-style">Exit</button>
-            </div>
-            <div style="float:right">
-                <button type="submit" class="button-style">Proceed</button>
-            </div>
 
+        <div class="form-head1">
+            <h4>Pending Sales Invoice</h4>
         </div>
+        <div class="main-part pad1">
+            <form method="post" action="@Url.Action("Create", "SalesInvoice")">
+                <div class=" table-responsive">
+                    <table class="table table-bordered">
+                        <thead>
+                            <tr class="grid_heading">
+                                <th><h1>SO No.& Date</h1></th>
+                                <th><h1>Customer</h1></th>
+                                <th><h1>Vehicle Model</h1></th>
+                                <th class=" text-right"><h1>Qty</h1></th>
+                                <th class=" text-right"><h1>Rate</h1></th>
+                                <th class=" text-right"><h1>Amount</h1></th>
+                                <th><h1>Select</h1></th>
+                            </tr>
+                        </thead>
+                        <tbody class="grid_row">
+                            <tr>
+                                <td>1</td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+
+                            </tr>
+                            <tr>
+                                <td>2</td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+
+                            </tr>
+                            <tr>
+                                <td>3</td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+
+                            </tr>
+                            <tr>
+                                <td>4</td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-12">
+                        <div style="float:left">
+                            <button class="form-button">Previous</button>
+                        </div>
+                        <div class="margf">
+                            <button type="submit" class="form-button">Exit</button>
+                      
+                        
+                            <button type="submit" class="form-button">Proceed</button>
+                        </div>
+
+                    </div>
 
 
-    </div>
-</form>
+                </div>
+            </form>
+        </div>
+</div></div>
+
 

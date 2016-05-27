@@ -12,9 +12,7 @@ namespace ArabErp.Domain
     public class EmployeeCategory
     {
         public int EmpCategoryId { get; set; }
-        [Required(ErrorMessage = "Please Enter Code")]
         public string EmpCategoryRefNo { get; set; }
-        [Required(ErrorMessage = "Please Enter Name")]
         public string EmpCategoryName { get; set; }
         public string CreatedBy { get; set; }
         public DateTime? CreatedDate { get; set; }

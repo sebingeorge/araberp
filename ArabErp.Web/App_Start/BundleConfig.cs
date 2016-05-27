@@ -21,11 +21,28 @@ namespace ArabErp
 
             bundles.Add(new ScriptBundle("~/bundles/bootstrap").Include(
                       "~/Scripts/bootstrap.js",
-                      "~/Scripts/respond.js"));
+                      "~/Scripts/respond.js",
+                      "~/Scripts/jquery-1.10.2.js",
+                      "~/Scripts/jquery-ui-1.11.4.js",
+                      "~/Scripts/bootstrap-datepicker.min.js",
+                      "~/Scripts/bootstrapValidator.js",
+                      "~/Scripts/jquery-1.8.3.js",
+                      "~/Scripts/jquery-1.8.3.min.js"
+                      ));
+
+                    
 
             bundles.Add(new StyleBundle("~/Content/css").Include(
                       "~/Content/bootstrap.css",
-                      "~/Content/site.css", "~/Content/Style.css"));
+                      "~/Content/themes/base/all.css",
+                      "~/Content/site.css",
+                      "~/Content/Style.css", 
+                      "~/Content/bootstrapValidator.min.css",
+                       "~/Content/datepicker.min.css",
+                       "~/Content/datepicker3.min.css"
+                                           ));
+                    
+                    
         }
     }
 }

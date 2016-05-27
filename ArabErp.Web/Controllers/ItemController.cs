@@ -10,21 +10,56 @@ namespace ArabErp.Web.Controllers
 {
     public class ItemController : Controller
     {
+        public ActionResult Index()
+        {
+            var repo = new ItemRepository();
+            var List = repo.GetItems();
+            return View();
+            //return View();
+        }
+
         // GET: Item
         public ActionResult Create()
         {
             FillItemCategory();
             FillUnit();
             InitDropdown();
-            return View();
+            Item oItem=new Item();
+            oItem.PartNo = null;
+            oItem.ItemName = null;
+            oItem.ItemPrintName = null;
+            oItem.ItemShortName = null;
+            oItem.CommodityId = null;
+            oItem.ItemCategoryId = null;
+            oItem.ItemGroupId = null;
+            oItem.ItemSubGroupId = null;
+            oItem.ItemUnitId = null;
+            oItem.ExpiryDate = null;
+            oItem.MinLevel = null;
+            oItem.ReorderLevel = null;
+            oItem.MaxLevel = null;
+            oItem.StockRequired = false;
+            oItem.BatchRequired=false;
+           
+            return View("Create");
         }
 
         public ActionResult Save(Item oitem)
         {
-
-
-            new ItemRepository().InsertItem(oitem);
+            FillItemCategory();
+            FillUnit();
+            InitDropdown();
+            oitem.OrganizationId = 1;
+            oitem.CreatedDate = System.DateTime.Now;
+            oitem.CreatedBy = Request.ServerVariables["HTTP_X_FORWARDED_FOR"] ?? Request.ServerVariables["REMOTE_ADDR"];
+          // int? id=
+               new ItemRepository().InsertItem(oitem);
+            //if(id==null)
+            //return View("Create");
+            //else
+            //    TempData["Message"] = "Successfully Inserted";
             return View("Create");
+            //return RedirectToAction("Create");
         }
 
         public ActionResult View(int Id)
@@ -77,6 +112,12 @@ namespace ArabErp.Web.Controllers
         {
             FillItemCategory();
             return PartialView("_ItemCategoryDropdown");
+        }
+        public ActionResult ItemList()
+        {
+            var repo = new ItemRepository();
+            var List = repo.GetItems();
+            return PartialView("_ItemListView",List);
         }
         
     }

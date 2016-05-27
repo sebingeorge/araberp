@@ -1,43 +1,22 @@
-﻿
+﻿@using MVCGrid.Web
 @{
     ViewBag.Title = "CreateStockJournel";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
+<div class="panel panel-default">
+    <div class="panel-body">
 
-@{
-    ViewBag.Title = "CreateStockJournel";
-    Layout = "~/Views/Shared/_Layout.cshtml";
-}
+        @Html.Partial("_MVCGridToolbar", new MVCGridToolbarModel()
+        {
+            MVCGridName = "TestGrid",
+            PageSize = true,
+            ColumnVisibility = true,
+            Export = true,
+            GlobalSearch = true
+        })
+        @Html.MVCGrid("TestGrid")
+    </div>
+</div>
 
- @*$("#addrow".click(function() {
-  var index = (new Date()).getTime(); // unique indexer
-  var clone = $('#NewBatchProduct').clone(); // clone the BatchProducts item
-  // Update the index of the clone
-  clone.html($(clone).html().replace(/\[#\]/g, '[' + index + ']'));
-  clone.html($(clone).html().replace(/"%"/g, '"' + index  + '"'));
-  $("table.order-list".append(clone.html());
-});
 
-IList<batchproductviewmodel>
-
-    @using (Html.BeginForm("Save", "ConnectBatchProduct", FormMethod.Post))
-{
- 
-    <table>
-        ....
-        @for(int i = 0; i < Model.BatchProducts.Count; i++)
-    {
-            <tr>
-                <td>@Html.TextBoxFor(m => m.BatchProducts[i].Quantity)</td>
-                <td>@Html.TextBoxFor(m => m.BatchProducts[i].BatchName)</td>
-                <td>
-                    // add the following to allow for dynamically deleting items in the view
-                    <input type="hidden" name="BatchProducts.Index" value="@i" />
-                    <a class="deleteRow"></a>
-                </td>
-            </tr>
-    }
-        ....
-    </table>*@
- 
-@*}*@
+           

@@ -9,6 +9,7 @@
     @Styles.Render("~/Content/css")
     @Scripts.Render("~/bundles/modernizr")
     @Scripts.Render("~/bundles/jqueryval")
+    <script src="~/MVCGridHandler.axd/script.js"></script>
 
     <link href="~/Content/menu.css" rel="stylesheet" />
 </head>
@@ -55,8 +56,8 @@
                                     <li><a href="@Url.Action("PendingStoresIssue","StoresIssue")"><span class="badge pull-right"></span>Stores Issue</a></li>
                                     <li><a href="@Url.Action("PendingJobOrderCompletion","JobOrderCompletion")"><span class="badge pull-right"></span>Job Order Completion</a></li>
                                     <li><a href="@Url.Action("PendingSalesInvoice","SalesInvoice")"><span class="badge pull-right"></span>Sales Invoice</a></li>
-                                    <li><a href="@Url.Action("CreateAdditionalWorkShopRequest","AdditionalWorkShopRequest")"><span class="badge pull-right"></span>Additional WorkShop Request</a></li>
-                                    <li><a href="@Url.Action("CreateStockReturn","StockReturn")"><span class="badge pull-right"></span>Stock Return</a></li>
+                                    <li><a href="@Url.Action("Create","AdditionalWorkShopRequest")"><span class="badge pull-right"></span>Additional WorkShop Request</a></li>
+                                    <li><a href="@Url.Action("Create","StockReturn")"><span class="badge pull-right"></span>Stock Return</a></li>
                                     <li><a href="@Url.Action("CreateStockJournel","StockJournel")"><span class="badge pull-right"></span>Stock Journal</a></li>
 
 
@@ -67,7 +68,7 @@
                                 <a data-toggle="dropdown" class="dropdown-toggle" href="#"><i class="glyphicon glyphicon-th-list"></i></a>
                                 <ul class="dropdown-menu">
 
-                                    <li><a href="@Url.Action("Create","Item")"><span class="badge pull-right"></span>Item</a></li>
+                                    <li><a href="@Url.Action("Index","Item")"><span class="badge pull-right"></span>Item</a></li>
                                     <li><a href="@Url.Action("Create","Employee")"><span class="badge pull-right"></span>Employee</a></li>
                                     <li><a href="@Url.Action("Create","Supplier")"><span class="badge pull-right"></span>Supplier</a></li>
                                     <li><a href="@Url.Action("Create","Customer")"><span class="badge pull-right"></span>Customer</a></li>
@@ -84,7 +85,8 @@
                                     <li><a href="@Url.Action("Create","VehicleModel")"><span class="badge pull-right"></span>Vehicle Model</a></li>
                                     <li><a href="@Url.Action("Create","Task")"><span class="badge pull-right"></span>Task</a></li>
                                     <li><a href="@Url.Action("Create","Designation")"><span class="badge pull-right"></span>Designation</a></li>
-
+                                    <li><a href="@Url.Action("Create", "CommissionAgent")"><span class="badge pull-right"></span>Commission Agent</a></li>
+                                  
                                 </ul>
                             </li>
 

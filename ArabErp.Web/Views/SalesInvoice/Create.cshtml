@@ -1,0 +1,130 @@
+﻿
+@{
+    ViewBag.Title = "CreateSalesInvoice";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+        <div class="container">
+
+            <div class="row">
+
+                <div class="form-head1">
+                    <h4>Sales Invoice</h4>
+                </div>
+                <div class="main-part pad1">
+                    <form role="form">
+                        <div class="row form-group">
+                            <div class="col-md-2">
+                                <label for="invno">Invoice No.</label>
+                                <input type="text" id="invno" class="form_input" />
+                            </div>
+                            <div class="col-md-2 col-md-offset-8">
+                                <label for="inputDate">Date</label>
+                                <input type="date" id="inputDate" class="form_input" autocomplete="off" />
+                            </div>
+                        </div>
+                        <div class="row form-group">
+                            <div class="col-md-4">
+                                <label for="cus">Customer</label>
+                                <input type="text" id="cus" class="form_input" autocomplete="off" />
+                            </div>
+                            <div class="col-md-2">
+                                <label for="cusref">Customer Order Ref.</label>
+                                <input type="text" id="cusref" class="form_input" />
+                            </div>
+                            <div class="col-md-4">
+                                <label for="work">Work Description</label>
+                                <input type="text" id="work" class="form_input" autocomplete="off" />
+                            </div>
+                            <div class="col-md-2">
+                                <label for="vehregno">Veh Reg No/Chasis No</label>
+                                <input type="text" id="vehregno" class="form_input" />
+                            </div>
+                        </div>
+                        <div class=" table-responsive">
+                            <table class="table table-bordered">
+                                <thead>
+                                    <tr class="grid_heading">
+                                        <th><h1>Sl.No.</h1></th>
+                                        <th><h1>Work</h1></th>
+                                        <th><h1>Product</h1></th>
+                                        <th><h1>Spl Remarks</h1></th>
+                                        <th class="text-right "><h1>Qty.</h1></th>
+                                        <th><h1>Unit</th>
+                                        <th class="text-right "><h1>Rate</h1></th>
+                                        <th class="text-right "><h1>Discount Amt</h1></th>
+                                        <th class="text-right "><h1>Amount</h1></th>
+                                    </tr>
+                                </thead>
+                                <tbody class="grid_row">
+                                    <tr>
+                                        <td>1</td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                    </tr>
+                                    <tr>
+                                        <td>2</td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                    </tr>
+                                    <tr>
+                                        <td>3</td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                    </tr>
+                                    <tr>
+                                        <td>4</td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <div class="row form-group">
+                            <div class="col-md-12">
+                                <label for="SplRemarks1">Spl.Remarks</label>
+                                <textarea id="SplRemarks1" autocomplete="off" class="form_input form_input-h"></textarea>
+                            </div>
+                        </div>
+                        <div class="row form-group">
+                            <div class="col-md-6">
+                                <label for="payterms">Payment Terms</label>
+                                <input type="text" id="payterms" class="form_input" />
+                            </div>
+                        </div>
+                        <div class="marg">
+                        
+                                <button type="submit" class="form-button">Exit</button>
+                           
+                           
+                                <button type="submit" class="form-button">Save</button>
+                            
+                        </div>
+                    </form>
+                    </div>
+                </div>
+        </div>
+

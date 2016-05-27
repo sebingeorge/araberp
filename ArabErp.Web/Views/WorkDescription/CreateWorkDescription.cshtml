@@ -4,105 +4,128 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<div class="h4bgcolor">
-    <h4>Work Description</h4>
-</div>
+
 <div class="container ">
     <div class="row">
-        <div class="col-md-6 col-md-offset-3">
-            <form role="form">
-                <div class="row form-group">
-                    <div class="col-md-6">
-                    <label for="code">Code</label>
-                    <input type="text" id="code" autocomplete="off" class="form_input" />
-                    </div>
-                    <div class="col-md-6">
-                        <label for="name">Name</label>
-                        <input type="text" autocomplete="off" id="name" class="form_input" />
-                    </div>
-                </div>
-                    <div class="form-group">
-                   <label>Work Type</label>
-                        <div class="row">
-                            
-                        <div class="col-md-4">
-                            <input type="checkbox" name="">
-                            <span class="text">New Installation</span>
-                        </div>
-                        <div class="col-md-4">
-                            <input type="checkbox" name="">
-                            <span class="text">Repair / Service</span>
-                        </div>
-                        <div class="col-md-4">
-                            <input type="checkbox" name="">
-                            <span class="text">Sub Assembly</span>
-                        </div>
-                    </div>
-                </div>
-                <div class="row form-group">
-                    <div class="col-md-6">
-                        <label for="freezer">Freezer Type</label>
-                        <select id="freezer" class="form_input" autocomplete="off">
-                            <option>Select Freezer Type</option>
-                            <option>free1</option>
-                            <option>free2</option>
-                            <option>free3</option>
-                        </select>
-                    </div>
-                    <div class="col-md-6">
-                        <label for="box">Box Type</label>
-                        <select id="box" class="form_input" autocomplete="off">
-                            <option>Select Box Type</option>
-                            <option>Box1</option>
-                            <option>Box2</option>
-                            <option>Box3</option>
-                        </select>
-                    </div>
-                </div>
-                <div>
-                    <label>Work BreakUp</label>
-                </div>
-                <div class=" table-responsive">
-                    <table class="table table-bordered">
-                        <thead>
-                            <tr class="grid_heading">
-                                <th width="90%">Work BreakUp</th>
-                                <th width="10%">Y/N</th>
-                               
-                            </tr>
-                        </thead>
-                        <tbody class="grid_row">
-                            <tr>
-                                <td>1</td>
-                                <td></td>
-                            </tr>
-                            <tr>
-                                <td>2</td>
-                                <td></td>
-                            </tr>
-                            <tr>
-                                <td>3</td>
-                                <td></td>
-                            </tr>
-                            <tr>
-                                <td>4</td>
-                                <td></td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
-                <div class="col-md-12 col-md-4">
-                    <div style="float:left" class="alignCenter">
-                        <button type="submit" class="button-style">Exit</button>
-                    </div>
-                    <div style="float:right" class="alignCenter">
-                        <button type="submit" class="button-style">Save</button>
-                    </div>
-                </div>
-
-
-            </form>
+        <div class="form-head1">
+            <h4>Work Description</h4>
         </div>
-    </div>
+        <div class="main-part pad1">
+            <div class="row">
+                <div class="col-md-2">
+                </div>
+                <form role="form">
+                    <div class="col-md-4">
+                        <div class="part">
+                            <label for="code">Code</label>
+                            <input type="text" id="code" autocomplete="off" class="form_input form_input-half" />
+                        </div>
+                        <div class="part">
+                            <label for="freezer">Freezer Type</label>
+                            <select id="freezer" class="form_input" autocomplete="off">
+                                <option>Select Freezer Type</option>
+                                <option>free1</option>
+                                <option>free2</option>
+                                <option>free3</option>
+                            </select>
+                            <div class="tick-main">
+                                <input type="checkbox" name="">
+                                <span class="text">New Installation</span>
+
+
+
+                                <input type="checkbox" name="">
+                                <span class="text">Repair / Service</span>
+
+
+
+                                <input type="checkbox" name="">
+                                <span class="text">Sub Assembly</span>
+                               
+                            </div>
+                        </div>
+
+
+
+                        </div>
+                            <div class="col-md-4">
+                                <div class="part">
+                                    <label for="name">Name</label>
+                                    <input type="text" autocomplete="off" id="name" class="form_input" />
+                                 </div>
+                                <div class="part">
+                                    <label for="box">Box Type</label>
+                                    <select id="box" class="form_input" autocomplete="off">
+                                        <option>Select Box Type</option>
+                                        <option>Box1</option>
+                                        <option>Box2</option>
+                                        <option>Box3</option>
+                                    </select>
+                                </div>
+                                </div>
+</form>
+                    <div class="col-md-2">
+                    </div>
+
 </div>
+
+            <div class="row">
+
+                <div class="col-md-2"> 
+                </div>
+                <div class="col-md-8">
+                    <br /><br />
+                    <label><b>Work Type</b></label>
+
+                    <div class="table-responsive table2">
+                        <table class="table table-bordered table-hover" id="tab_logic">
+                            <thead>
+                                <tr class="grid_heading">
+                                    <th width="90%"><h1>Work BreakUp</h1></th>
+                                    <th width="10%"><h1>Y/N</h1></th>
+
+                                </tr>
+                            </thead>
+                            <tbody class="grid_row">
+                                <tr class="table-back">
+                                    <td>1</td>
+                                    <td></td>
+                                </tr>
+                                <tr class="table-back">
+                                    <td>2</td>
+                                    <td></td>
+                                </tr>
+                                <tr class="table-back">
+                                    <td>3</td>
+                                    <td></td>
+                                </tr>
+                                <tr class="table-back">
+                                    <td>4</td>
+                                    <td></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <div class="marg5">
+                        <button type="submit" class="form-button top1">Exit</button>
+
+
+                        <button type="submit" class="form-button">Save</button>
+                    </div>
+
+
+
+                    </div>
+                <div class="col-md-2">
+
+
+                </div>
+
+
+            </div>
+
+        </div>
+                
+        </div>
 

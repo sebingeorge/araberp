@@ -23,6 +23,8 @@ namespace ArabErp.Web.Controllers
             FillCommissionAgent();
             FillEmployee();
             SaleOrder saleOrder = new SaleOrder();
+
+            saleOrder.SaleOrderDate = System.DateTime.Today;
             saleOrder.Items = new List<SaleOrderItem>();
             saleOrder.Items.Add(new SaleOrderItem());
             return View(saleOrder);
@@ -32,9 +34,11 @@ namespace ArabErp.Web.Controllers
             FillWrkDesc();
             FillUnit();
             SaleOrder saleOrder = new SaleOrder();
+         
             saleOrder.Items = new List<SaleOrderItem>();
-            saleOrder.Items.Add(new SaleOrderItem());
-            saleOrder.Items.Add(new SaleOrderItem());
+            var item = new SaleOrderItem();
+            
+            saleOrder.Items.Add(item);
             return PartialView("_DisplaySOList", saleOrder);
         }
         public void FillWrkDesc()
@@ -76,13 +80,23 @@ namespace ArabErp.Web.Controllers
         [HttpPost]
         public ActionResult Save(SaleOrder model)
         {
+          
+            model.OrganizationId = 1;
+            model.CreatedDate = System.DateTime.Now;
+            model.CreatedBy = Request.ServerVariables["HTTP_X_FORWARDED_FOR"] ?? Request.ServerVariables["REMOTE_ADDR"];
+            new SaleOrderRepository().InsertSaleOrder(model);
             FillWrkDesc();
             FillUnit();
             FillCustomer();
             FillVehicle();
             FillCommissionAgent();
             FillEmployee();
-            return View("Create", model);
+            //TempData["Success"] = "Added Successfully!";
+            SaleOrder saleOrder = new SaleOrder();
+            saleOrder.SaleOrderDate = System.DateTime.Today;
+            saleOrder.Items = new List<SaleOrderItem>();
+            saleOrder.Items.Add(new SaleOrderItem());
+            return View("Create",saleOrder);
         }
     }
 }

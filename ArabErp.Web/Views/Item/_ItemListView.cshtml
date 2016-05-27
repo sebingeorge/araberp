@@ -1,0 +1,54 @@
+﻿@model IEnumerable<ArabErp.Domain.Item>
+@{ViewBag.Title = "GetItem"; Layout = "~/Views/Shared/_Layout.cshtml";}
+
+
+<div class="h4bgcolor">
+    <h4>Item List</h4>
+</div>
+
+    &nbsp;
+<form method="post" action="@Url.Action("ItemList", "GetItem")">
+    <div class=" table-responsive">
+        <table class="table table-bordered">
+            <thead>
+                <tr class="grid_heading">
+                    <th>Part No.</th>
+                    <th>Item Name</th>
+                    <th>Item Category</th>
+                    <th>Item Group</th>
+                    <th>Item Sub Group</th>
+                </tr>
+            </thead>
+            <tbody class="grid_row">
+
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td>@item.PartNo</td>
+                        <td>@item.ItemName</td>
+                        <td>@item.ItemCategoryId</td>
+                        <td>@item.ItemGroupId</td>
+                        <td>@item.ItemSubGroupId</td>
+                    </tr>
+                }
+
+            </tbody>
+        </table>
+    </div>
+
+    <div class="row">
+
+        <div class="col-md-12 col-md-4">
+            <div style="float:right" class="alignCenter">
+                <button type="button" class="button-style">Exit</button>
+            </div>
+
+            <div style="float:right" class="alignCenter">
+                <button type="submit" class="button-style">Add Item</button>
+            </div>
+        </div>
+
+    </div>
+</form>
+
+

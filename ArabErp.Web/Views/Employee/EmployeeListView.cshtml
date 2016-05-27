@@ -1,0 +1,53 @@
+﻿@model IList<ArabErp.Domain.Employee>
+
+<style type="text/css">
+    .tableData {
+        font-size: 12px;
+        padding-left: 4px;
+    }
+
+    .list {
+        display: block;
+        height: 320px;
+        overflow-y: scroll;
+    }
+
+        .list tr:hover {
+            background-color: #DFEDF7;
+        }
+</style>
+
+<div class="table-responsive table2">
+    <table class="table table-bordered table-hover" id="tab_logic">
+        <thead>
+            <tr class="grid_heading">
+                <td style="width:10%;"><h1>Ref No.</h1></td>
+                <td style="width:20%;"><h1>Name</h1></td>
+                <td style="width:20%;"><h1>Gender</h1></td>
+                <td style="width:20%;"><h1>Designation</h1></td>
+            </tr>
+
+            @{
+                for (int i = 0; i < Model.Count; i++)
+                {
+                    <tr>
+                        <td class="tableData table-back">
+                            @Model[i].EmployeeRefNo
+                        </td>
+
+                        <td class="table-back">
+                            @Model[i].EmployeeName
+                        </td>
+
+                        <td class="table-back">
+                            @Model[i].Gender
+                        </td>
+
+                        <td class="table-back">
+                            @Model[i].DesignationName
+                        </td>
+                    </tr>
+                }
+            }
+    </table>
+</div>

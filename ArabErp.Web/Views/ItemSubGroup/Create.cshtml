@@ -1,79 +1,101 @@
 ﻿@model ArabErp.Domain.ItemSubGroup
-@{
-    ViewBag.Title = "Create";
-    Layout = "~/Views/Shared/_Layout.cshtml";
-}
+@{ ViewBag.Title = "Create";Layout = "~/Views/Shared/_Layout.cshtml";}
 
-<div class="h4bgcolor">
-    <h4>Item SubGroup</h4>
-</div>
+<script>
+    $(document).ready(function () {
+        $('#ItemSubGroup_form').bootstrapValidator({
+            fields: {
+                ItemSubGroupRefNo: {
+                    validators: {
+                        notEmpty: {
+                            message: 'Please Enter Code'
+                        }
+                    }
+                },
+
+                ItemSubGroupName: {
+                    validators: {
+                        notEmpty: {
+                            message: 'Please Enter Name'
+                        }
+                    }
+                },
+
+                ItemGroupId: {
+                    validators: {
+                        notEmpty: {
+                            message: 'Please Select Group'
+                        }
+                    }
+                },
+
+            }
+        });
+    })
+
+</script>
+
+
 
 <div class="container ">
     <div class="row">
-
-        <div class="col-md-3">
-
+        <div class="form-head1">
+            <h4>Item SubGroup</h4>
         </div>
-        <div class="col-md-6">
-            <form role="form" action="@Url.Action("Save")" method="post">
-                <div class="row form-group">
 
-                    <div class="col-md-6">
-                        <label for="ItemSubGroupRefNo">Code</label>
-                         @Html.TextBoxFor(m => m.ItemSubGroupRefNo, new { @class = "form_input", autocomplete = "off" })
-                        @Html.ValidationMessageFor(model => model.ItemSubGroupRefNo, "", new { @class = "text-danger" })
-                    </div>
-
-                    <div class="col-md-6 ">
-                        <label for="ItemSubGroupName">Name</label>
-                        @Html.TextBoxFor(m => m.ItemSubGroupName, new { @class = "form_input", autocomplete = "off" })
-                        @Html.ValidationMessageFor(model => model.ItemSubGroupName, "", new { @class = "text-danger" })
-                    </div>
+        <div class="main-part pad1">
+            <div class="row">
+                <div class="col-md-4">
                 </div>
-
-                <div class="row form-group ">
-                    <div class="col-md-6 ">
-                        <label for="ItemGroupId">Group</label>
-                        @Html.DropDownListFor(m => Model.ItemGroupId, (SelectList)ViewBag.ItemGroup, "Select Item Group", new { @class = "form_input" })
-                        @*<select id="ItemGroupId" class="form_input" autocomplete="off">
-                            <option>Select Group</option>
-                            <option>Group 1</option>
-                            <option>Group 2</option>
-                            <option>Group 3</option>
-                        </select>*@
-                    </div>
-                </div>
-
-
-                <div class="row form-group ">
-                    <div class="col-md-12 ">
-                        <div style="float:right" class="alignCenter">
-                            <button type="button" class="button-style">Exit</button>
+                @using (Html.BeginForm("Save", null, FormMethod.Post, new { @class = "createFrom", @id = "ItemSubGroup_form" }))
+                {
+                    <div class="col-md-4">
+                        <div class="part">
+                            <label for="ItemSubGroupRefNo">Code</label>
+                            @Html.TextBoxFor(m => m.ItemSubGroupRefNo, new { @class = "form_input form_input-half", auocomplete = "off" })
                         </div>
-                        <div style="float:right" class="alignCenter">
-                            <button type="submit" class="button-style">Save</button>
+                        <div class="part">
+
+                            <label for="ItemGroupId">Group</label>
+                            @Html.DropDownListFor(m => Model.ItemGroupId, (SelectList)ViewBag.ItemGroup, "Select Item Group", new { @class = "form_input", autocomplete = "off" })
                         </div>
+
+                        <div class="part">
+                            <label for="ItemSubGroupName">Name</label>
+                            @Html.TextBoxFor(m => m.ItemSubGroupName, new { @class = "form_input", autocomplete = "off" })
+                        </div>
+
+                        <div class="marg3">
+                            <button type="button" class="form-button top1">Exit</button>
+
+
+                            <button type="submit" class="form-button">Save</button>
+                        </div>
+
+
+
                     </div>
+
+                }
+                <div class="col-md-4">
                 </div>
-
-            </form>
+            </div>
         </div>
 
-        <div class="col-md-3">
 
+
+
+
+
+
+
+        <div class="row">
+            <div class="col-md-12">
+                @Html.Action("FillItemSubGroupList")
+            </div>
         </div>
-    </div>
 
-    <div class="col-md-3 ">
     </div>
-
-    <div class="col-md-6">
-        @Html.Action("FillItemSubGroupList")
     </div>
-
-    <div class="col-md-3">
-    </div>
-
-</div>
 
 

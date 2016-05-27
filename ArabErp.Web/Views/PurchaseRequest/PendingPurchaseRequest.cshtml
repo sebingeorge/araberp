@@ -1,61 +1,66 @@
-﻿
-@{
+﻿@{
     ViewBag.Title = "PendingPurchaseRequest";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
-<div class="h4bgcolor">
-    <h4>Pending Purchase Request</h4>
-</div>
-  &nbsp;
-<form method="post" action="@Url.Action("CreatePurchaseRequest", "PurchaseRequest")">
-    <div class=" table-responsive">
-        <table class="table table-bordered">
-            <thead>
-                <tr class="grid_heading">
-                    <th>WR No.</th>
-                    <th>WR Date</th>
-                    <th>Customer</th>
-                    <th>Customer Order Ref.</th>
-                </tr>
-            </thead>
-            <tbody class="grid_row">
-                <tr>
-                    <td>1</td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                </tr>
-                <tr>
-                    <td>2</td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                </tr>
-                <tr>
-                    <td>3</td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                </tr>
-                <tr>
-                    <td>4</td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                </tr>
-            </tbody>
-        </table>
-    </div>
+
+<div class="container">
 
     <div class="row">
 
-        <div class="col-md-12 col-md-4">
-            <div style="float:right" class="alignCenter">
-                <button type="submit" class="button-style">OK</button>
-            </div>
+        <div class="form-head1">
+            <h4>Pending Purchase Request</h4>
         </div>
 
+        <div class="main-part pad1">
+            <form method="post" action="@Url.Action("Create", "PurchaseRequest")">
 
+                <div class=" table-responsive">
+                    <table class="table table-bordered">
+                        <thead>
+                            <tr class="grid_heading">
+                                <th><h1>WR No.</h1></th>
+                                <th><h1>WR Date</h1></th>
+                                <th><h1>Customer</h1></th>
+                                <th><h1>Customer Order Ref.</h1></th>
+                            </tr>
+                        </thead>
+                        <tbody class="grid_row">
+                            <tr>
+                                <td>1</td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td>2</td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td>3</td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td>4</td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="margf">
+                
+                    <button type="submit" class="form-button">Ok</button>
+
+                </div>
+                <div class="row"></div>
+            </form>
+        </div>
     </div>
-</form>
+</div>
+
 

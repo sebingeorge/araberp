@@ -11,10 +11,8 @@ namespace ArabErp.Domain
         public int CustomerId { get; set; }
         public int CustomerRefNo { get; set; }
         public string CustomerName { get; set; }
-
         public string CustomerPrintName { get; set; }
         public int CategoryId { get; set; }
-
         public int LeadSourceId { get; set; }
         public int CurrencyId { get; set; }
         public string DoorNo { get; set; }
