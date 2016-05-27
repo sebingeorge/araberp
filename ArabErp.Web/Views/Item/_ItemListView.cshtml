@@ -1,54 +1,45 @@
-﻿@model IEnumerable<ArabErp.Domain.Item>
-@{ViewBag.Title = "GetItem"; Layout = "~/Views/Shared/_Layout.cshtml";}
+﻿@model IList<ArabErp.Domain.Item>
+@using GridMvc.Html
+
+<style type="text/css">
+    .tableData {
+        font-size: 12px;
+        padding-left: 4px;
+    }
+
+    .list {
+        display: block;
+        height: 320px;
+        overflow-y: scroll;
+    }
+
+        .list tr:hover {
+            background-color: #DFEDF7;
+        }
+</style>
+
+<div class="table-responsive">
+
+    @Html.Grid(Model).Columns(columns =>
+                        {
+                            columns.Add(m => m.PartNo).Titled("Part No.").SetWidth(110);
+                            columns.Add(m => m.ItemName).Titled("Item Name").SetWidth(110);
+                            columns.Add(m => m.CategoryName).Titled("Item Category").SetWidth(110);
+                            columns.Add(m => m.ItemGroupName).Titled("Item Group").SetWidth(110);
+                            columns.Add(m => m.ItemSubGroupName).Titled("Item Sub Group").SetWidth(110);
+                            columns.Add().Encoded(false).Sanitized(false).SetWidth(30).RenderValueAs(o => @<a href="">Edit</a>);
+                            columns.Add().Encoded(false).Sanitized(false).SetWidth(30).RenderValueAs(o => @<a href="">Delete</a>);
+
+                            //.Format("<a href="\"DeleteRecord?name={CategoryName}\"">{CategoryName}</a>");
+
+                            //columns.Add(m => m.CurrencyName).Sortable(true);
+                        }).WithPaging(10)
 
 
-<div class="h4bgcolor">
-    <h4>Item List</h4>
 </div>
 
-    &nbsp;
-<form method="post" action="@Url.Action("ItemList", "GetItem")">
-    <div class=" table-responsive">
-        <table class="table table-bordered">
-            <thead>
-                <tr class="grid_heading">
-                    <th>Part No.</th>
-                    <th>Item Name</th>
-                    <th>Item Category</th>
-                    <th>Item Group</th>
-                    <th>Item Sub Group</th>
-                </tr>
-            </thead>
-            <tbody class="grid_row">
-
-                @foreach (var item in Model)
-                {
-                    <tr>
-                        <td>@item.PartNo</td>
-                        <td>@item.ItemName</td>
-                        <td>@item.ItemCategoryId</td>
-                        <td>@item.ItemGroupId</td>
-                        <td>@item.ItemSubGroupId</td>
-                    </tr>
-                }
-
-            </tbody>
-        </table>
-    </div>
-
-    <div class="row">
-
-        <div class="col-md-12 col-md-4">
-            <div style="float:right" class="alignCenter">
-                <button type="button" class="button-style">Exit</button>
-            </div>
-
-            <div style="float:right" class="alignCenter">
-                <button type="submit" class="button-style">Add Item</button>
-            </div>
-        </div>
-
-    </div>
-</form>
-
+<div class="marg1">
+    <button type="submit" class="form-button" onclick="open()">Create</button>
+  
+</div>
 
