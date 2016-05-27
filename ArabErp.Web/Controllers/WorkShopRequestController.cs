@@ -25,6 +25,7 @@ namespace ArabErp.Web.Controllers
             objWorkShopRequest.SaleOrderId = model.SaleOrderId;
             objWorkShopRequest.SaleOrderRefNo = model.SaleOrderRefNo;
             objWorkShopRequest.CustomerOrderRef = model.CustomerName;
+            objWorkShopRequest.CustomerId = model.CustomerId;
 
 
 
@@ -52,6 +53,18 @@ namespace ArabErp.Web.Controllers
             };
 
             return View(viewModel);
+        }
+
+        public ActionResult Save(WorkShopRequest model)
+        {
+
+            model.OrganizationId = 1;
+            model.CreatedDate = System.DateTime.Now;
+            model.CreatedBy = Request.ServerVariables["HTTP_X_FORWARDED_FOR"] ?? Request.ServerVariables["REMOTE_ADDR"];
+            new WorkShopRequestRepository().InsertWorkShopRequest(model);
+
+
+           return RedirectToAction("WorkShopRequestPending");
         }
     }
 

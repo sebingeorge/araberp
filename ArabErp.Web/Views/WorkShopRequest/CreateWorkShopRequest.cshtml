@@ -5,12 +5,19 @@
 }
 <script>
     $(document).ready(function() {
-        $('#saleorder_form').bootstrapValidator({
+        $('#work_form').bootstrapValidator({
             fields: {
                 WorkShopRequestNo: {
                     validators: {
                         notEmpty: {
                             message: 'Please enter WorkShopRequestNo.'
+                        }
+                    }
+                },
+                RequiredDate: {
+                    validators: {
+                        notEmpty: {
+                            message: 'Please enter RequiredDate.'
                         }
                     }
                 },
@@ -29,6 +36,7 @@
 
     $(function () {
         $("#WorkShopRequestDate").datepicker({ dateFormat: "dd/MM/yy" });
+        $("#RequiredDate").datepicker({ dateFormat: "dd/MM/yy" });
     });
 </script>
                    
@@ -38,8 +46,9 @@
             <h4>WorkShop Request</h4>
         </div>
         <div class="main-part pad1">
-            @using (Html.BeginForm("Save", null, FormMethod.Post, new { @class = "createFrom", onsubmit = "return SaleOrderValidation()", @id = "work_form" }))
+            @using (Html.BeginForm("Save", null, FormMethod.Post, new { @class = "createFrom", @id = "work_form" }))
             {
+                @Html.HiddenFor(m => m.SaleOrderId, new { @class = "form_input", autocomplete = "off" })
                 <div class="row form-group">
                     <div class="col-md-2">
                         <label for="reqno">Request No.</label>
@@ -130,13 +139,13 @@
                 <div class="row form-group">
                     <div class="col-md-12">
                         <label for="SplRemarks1">Spl.Remarks</label>
-                        <textarea id="SplRemarks1" autocomplete="off" style="min-width: 100%"></textarea>
+                        @Html.TextAreaFor(m => m.SpecialRemarks, new { @class = "form_input", autocomplete = "off" })
                     </div>
                 </div>
                 <div class="row form-group">
                     <div class="col-md-2">
                         <label for="reqdate">Required Date</label>
-                        <input type="date" id="reqdate" style="min-width: 100%" class="form_input" />
+                        @Html.TextBoxFor(m => m.RequiredDate, new { @class = "form_input", autocomplete = "off" })
                     </div>
                 </div>
     <div class="marg3">

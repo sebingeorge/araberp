@@ -36,6 +36,10 @@
   border: 1px solid #ffffff;
   background-color:#e1f4fa;
   }
+.form_input-h 
+{
+    height:50px;
+}
 .form_input-half {
   width: 50%;
   }
@@ -318,4 +322,32 @@ h5
 .back-color 
 {
     background-color:#f9fdfe;
+}
+
+.grid-left 
+{
+    float:left;
+    background-color:#9a9eab;
+    border-right:1px solid #dddddd;
+    height:30px;
+    color: #ffffff;
+    font-size: 14px;
+    font-weight: bold;
+    margin: 0;
+    padding: 0 5px;
+    line-height:30px;
+    margin-bottom:15px;
+}
+.mtop 
+{
+    margin-top:5px;
+}
+.border 
+{
+    border:1px solid #dddddd;
+    padding:10px;
+    padding-top:20px;
+    padding-bottom:20px;
+    border-radius:5px;
+    -moz-border-radius:5px;
 }
