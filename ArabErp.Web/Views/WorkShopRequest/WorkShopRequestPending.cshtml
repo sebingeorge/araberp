@@ -1,74 +1,99 @@
 ﻿@model ArabErp.Web.Models.PagedSaleOrderViewModel
-    @{
-        ViewBag.Title = "WorkShopRequestPending";
-        Layout = "~/Views/Shared/_Layout.cshtml";
-    }
-
-
-    <div class="h4bgcolor">
-        <h4>Pending WorkShop Request</h4>
-    </div>
-
-    
-
-   
-     <div class="row grid_heading">
-   
-        <div class="col-md-2">SO No.</div>
-        <div class="col-md-2">SO Date</div>
-        <div class="col-md-2">Customer</div>
-        <div class="col-md-2">Customer Order Ref.</div>
-        <div class="col-md-2">Vehicle Model</div>
-        <div class="col-md-2">Select</div>
-    </div>
-
- 
-        @for (int i = 0; i < Model.SaleOrders.Count(); i++)
-        {
-           
-           
-                <form method="post" action="@Url.Action("CreateWorkShopRequest","WorkShopRequest")">
-                    @Html.HiddenFor(m => m.SaleOrders.ElementAt(i).SaleOrderId, new { @class = "form_input", autocomplete = "off" })
-                    <div class="col-md-2">@Html.TextBoxFor(m => m.SaleOrders.ElementAt(i).SaleOrderRefNo, new { @class = "form_input", autocomplete = "off" })</div>
-                    <div class="col-md-2">@Html.TextBoxFor(m => m.SaleOrders.ElementAt(i).SaleOrderId, new { @class = "form_input", autocomplete = "off" }) </div>
-                    <div class="col-md-2">@Html.TextBoxFor(m => m.SaleOrders.ElementAt(i).CustomerName, new { @class = "form_input", autocomplete = "off" })</div>
-                    <div class="col-md-2">@Html.TextBoxFor(m => m.SaleOrders.ElementAt(i).CustomerOrderRef, new { @class = "form_input", autocomplete = "off" })</div>
-                    <div class="col-md-2">@Html.TextBoxFor(m => m.SaleOrders.ElementAt(i).VehicleModelId, new { @class = "form_input", autocomplete = "off" })</div>
-                    <div class="col-md-2"><button type="submit" class="form-button">Select</button></div>
-                </form>
-           
-        }
-				<!-- pager -->
-@if (Model.Pager.EndPage > 1)
-{
-    <ul class="pagination">
-        @if (Model.Pager.CurrentPage > 1)
-        {
-            <li>
-                <a href="~/WorkShopRequest/WorkShopRequestPending">First</a>
-            </li>
-                            <li>
-                                <a href="~/WorkShopRequest/WorkShopRequestPending?page=@(Model.Pager.CurrentPage - 1)">Previous</a>
-                            </li>
-        }
-
-        @for (var page = Model.Pager.StartPage; page <= Model.Pager.EndPage; page++)
-        {
-            <li class="@(page == Model.Pager.CurrentPage ? "active" : "")">
-                <a href="~/WorkShopRequest/WorkShopRequestPending?page=@page">@page</a>
-            </li>    }
-
-        @if (Model.Pager.CurrentPage < Model.Pager.TotalPages)
-        {
-            <li>
-                <a href="~/WorkShopRequest/WWorkShopRequestPending?page=@(Model.Pager.CurrentPage + 1)">Next</a>
-            </li>
-                            <li>
-                                <a href="~/WorkShopRequest/WorkShopRequestPending?page=@(Model.Pager.TotalPages)">Last</a>
-                            </li>
-        }
-    </ul>
+@{
+    ViewBag.Title = "WorkShopRequestPending";
+    Layout = "~/Views/Shared/_Layout.cshtml";
 }
+
+
+
+
+<div class="container">
+    <div class="row">
+        <div class="form-head1">
+            <h4>Pending WorkShop Request</h4>
+        </div>
+        <div class="main-part pad1">
+
+            <div class="table-responsive">
+                
+
+                    <div class="row border">
+
+                        <div class="col-md-12">
+
+                            <div class="col-md-2 grid-left">SO No.</div>
+                            <div class="col-md-2 grid-left">SO Date</div>
+                            <div class="col-md-2 grid-left">Customer</div>
+                            <div class="col-md-2 grid-left">Customer Order Ref.</div>
+                            <div class="col-md-2 grid-left">Vehicle Model</div>
+                            <div class="col-md-2 grid-left"><center>Select</center></div>
+
+
+                        </div>
+
+                        @for (int i = 0; i < Model.SaleOrders.Count(); i++)
+                        {
+
+
+                            <form method="post" action="@Url.Action("CreateWorkShopRequest","WorkShopRequest")">
+                                @Html.HiddenFor(m => m.SaleOrders.ElementAt(i).SaleOrderId, new { @class = "form_input", autocomplete = "off" })
+                                <div class="col-md-2 mtop">
+                                    @Html.TextBoxFor(m => m.SaleOrders.ElementAt(i).SaleOrderRefNo, new { @class = "form_input", autocomplete = "off" })
+                                </div>
+                                <div class="col-md-2 mtop">@Html.TextBoxFor(m => m.SaleOrders.ElementAt(i).SaleOrderId, new { @class = "form_input", autocomplete = "off" }) </div>
+                                <div class="col-md-2 mtop">@Html.TextBoxFor(m => m.SaleOrders.ElementAt(i).CustomerName, new { @class = "form_input", autocomplete = "off" })</div>
+                                <div class="col-md-2 mtop">@Html.TextBoxFor(m => m.SaleOrders.ElementAt(i).CustomerOrderRef, new { @class = "form_input", autocomplete = "off" })</div>
+                                <div class="col-md-2 mtop">@Html.TextBoxFor(m => m.SaleOrders.ElementAt(i).VehicleModelId, new { @class = "form_input", autocomplete = "off" })</div>
+                                <div class="col-md-2 mtop"><center><button type="submit" class="form-button form-button1">Select</button></center></div>
+                            </form>
+
+                        }
+
+
+
+                </div>
+
+
+                    <!-- pager -->
+                    @if (Model.Pager.EndPage > 1)
+                    {
+                        <ul class="pagination">
+                            @if (Model.Pager.CurrentPage > 1)
+                            {
+                                <li>
+                                    <a href="~/WorkShopRequest/WorkShopRequestPending">First</a>
+                                </li>
+                                <li>
+                                    <a href="~/WorkShopRequest/WorkShopRequestPending?page=@(Model.Pager.CurrentPage - 1)">Previous</a>
+                                </li>
+                            }
+
+                            @for (var page = Model.Pager.StartPage; page <= Model.Pager.EndPage; page++)
+                            {
+                                <li class="@(page == Model.Pager.CurrentPage ? "active" : "")">
+                                    <a href="~/WorkShopRequest/WorkShopRequestPending?page=@page">@page</a>
+                                </li>    }
+
+                            @if (Model.Pager.CurrentPage < Model.Pager.TotalPages)
+                            {
+                                <li>
+                                    <a href="~/WorkShopRequest/WWorkShopRequestPending?page=@(Model.Pager.CurrentPage + 1)">Next</a>
+                                </li>
+                                <li>
+                                    <a href="~/WorkShopRequest/WorkShopRequestPending?page=@(Model.Pager.TotalPages)">Last</a>
+                                </li>
+                            }
+                        </ul>
+                    }
+
+
+
+            </div>
+        </div>
+</div>
+
+
+
 
 
 
