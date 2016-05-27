@@ -1,4 +1,4 @@
-﻿@model IEnumerable<ArabErp.Domain.SaleOrder>
+﻿@model ArabErp.Web.Models.PagedSaleOrderViewModel
     @{
         ViewBag.Title = "WorkShopRequestPending";
         Layout = "~/Views/Shared/_Layout.cshtml";
@@ -23,22 +23,52 @@
     </div>
 
  
-        @for (int i = 0; i < Model.Count(); i++)
+        @for (int i = 0; i < Model.SaleOrders.Count(); i++)
         {
            
-            <div  class="row grid_row">
+           
                 <form method="post" action="@Url.Action("CreateWorkShopRequest","WorkShopRequest")">
-                    @Html.HiddenFor(m => m.ElementAt(i).SaleOrderId, new { @class = "form_input", autocomplete = "off" })
-                    <div class="col-md-2">@Html.TextBoxFor(m => m.ElementAt(i).SaleOrderRefNo, new { @class = "form_input", autocomplete = "off" })</div>
-                    <div class="col-md-2">@Html.TextBoxFor(m => m.ElementAt(i).SaleOrderId, new { @class = "form_input", autocomplete = "off" }) </div>
-                    <div class="col-md-2">@Html.TextBoxFor(m => m.ElementAt(i).CustomerName, new { @class = "form_input", autocomplete = "off" })</div>
-                    <div class="col-md-2">@Html.TextBoxFor(m => m.ElementAt(i).CustomerOrderRef, new { @class = "form_input", autocomplete = "off" })</div>
-                    <div class="col-md-2">@Html.TextBoxFor(m => m.ElementAt(i).VehicleModelId, new { @class = "form_input", autocomplete = "off" })</div>
-                    <div class="col-md-2"><button type="submit" class="button-style">Select</button></div>
+                    @Html.HiddenFor(m => m.SaleOrders.ElementAt(i).SaleOrderId, new { @class = "form_input", autocomplete = "off" })
+                    <div class="col-md-2">@Html.TextBoxFor(m => m.SaleOrders.ElementAt(i).SaleOrderRefNo, new { @class = "form_input", autocomplete = "off" })</div>
+                    <div class="col-md-2">@Html.TextBoxFor(m => m.SaleOrders.ElementAt(i).SaleOrderId, new { @class = "form_input", autocomplete = "off" }) </div>
+                    <div class="col-md-2">@Html.TextBoxFor(m => m.SaleOrders.ElementAt(i).CustomerName, new { @class = "form_input", autocomplete = "off" })</div>
+                    <div class="col-md-2">@Html.TextBoxFor(m => m.SaleOrders.ElementAt(i).CustomerOrderRef, new { @class = "form_input", autocomplete = "off" })</div>
+                    <div class="col-md-2">@Html.TextBoxFor(m => m.SaleOrders.ElementAt(i).VehicleModelId, new { @class = "form_input", autocomplete = "off" })</div>
+                    <div class="col-md-2"><button type="submit" class="form-button">Select</button></div>
                 </form>
-            </div>
+           
+        }
+				<!-- pager -->
+@if (Model.Pager.EndPage > 1)
+{
+    <ul class="pagination">
+        @if (Model.Pager.CurrentPage > 1)
+        {
+            <li>
+                <a href="~/WorkShopRequest/WorkShopRequestPending">First</a>
+            </li>
+                            <li>
+                                <a href="~/WorkShopRequest/WorkShopRequestPending?page=@(Model.Pager.CurrentPage - 1)">Previous</a>
+                            </li>
         }
 
+        @for (var page = Model.Pager.StartPage; page <= Model.Pager.EndPage; page++)
+        {
+            <li class="@(page == Model.Pager.CurrentPage ? "active" : "")">
+                <a href="~/WorkShopRequest/WorkShopRequestPending?page=@page">@page</a>
+            </li>    }
+
+        @if (Model.Pager.CurrentPage < Model.Pager.TotalPages)
+        {
+            <li>
+                <a href="~/WorkShopRequest/WWorkShopRequestPending?page=@(Model.Pager.CurrentPage + 1)">Next</a>
+            </li>
+                            <li>
+                                <a href="~/WorkShopRequest/WorkShopRequestPending?page=@(Model.Pager.TotalPages)">Last</a>
+                            </li>
+        }
+    </ul>
+}
 
 
 

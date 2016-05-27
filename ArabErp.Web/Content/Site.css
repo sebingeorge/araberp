@@ -68,7 +68,7 @@ textarea {
 }
 .part
  {
-    height:60px;
+    height:50px;
 }
     .label1
      {
@@ -92,6 +92,11 @@ textarea {
     background-color:#00D4FF;
     color:#000;
     }
+.margf 
+{
+    float:right;
+   
+}
 .marg 
 {
     margin-left: 81%;
@@ -109,12 +114,12 @@ textarea {
 }
 .marg3
 {
-    margin-left: 41%;
+    margin-left: 40%;
     margin-top: -106px;
    
 }
 .marg4 {
-    margin-left: 41%;
+    margin-left: 40%;
     margin-top: -40px;
       }
 .marg5 {
