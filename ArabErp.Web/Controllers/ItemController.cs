@@ -10,6 +10,14 @@ namespace ArabErp.Web.Controllers
 {
     public class ItemController : Controller
     {
+        public ActionResult Index()
+        {
+            var repo = new ItemRepository();
+            var List = repo.GetItems();
+            return View();
+            //return View();
+        }
+
         // GET: Item
         public ActionResult Create()
         {
@@ -104,6 +112,12 @@ namespace ArabErp.Web.Controllers
         {
             FillItemCategory();
             return PartialView("_ItemCategoryDropdown");
+        }
+        public ActionResult ItemList()
+        {
+            var repo = new ItemRepository();
+            var List = repo.GetItems();
+            return PartialView("_ItemListView",List);
         }
         
     }

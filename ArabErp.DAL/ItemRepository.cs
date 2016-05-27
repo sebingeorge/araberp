@@ -149,8 +149,8 @@ namespace ArabErp.DAL
         {
             using (IDbConnection connection = OpenConnection(dataConnection))
             {
-                string sql = @"select * from Item
-                        where isActive=1";
+                string sql = @"SELECT PartNo,ItemName,ItemCategoryId,ItemGroupId,ItemSubGroupId FROM Item
+                        WHERE isActive=1";
 
                 var objItems = connection.Query<Item>(sql).ToList<Item>();
 
