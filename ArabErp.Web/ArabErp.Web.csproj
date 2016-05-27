@@ -48,6 +48,10 @@
       <HintPath>..\packages\EntityFramework.6.1.3\lib\net45\EntityFramework.SqlServer.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="GridMvc, Version=2.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>Content\dll\GridMvc.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.AspNet.Identity.Core, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.AspNet.Identity.Core.2.2.1\lib\net45\Microsoft.AspNet.Identity.Core.dll</HintPath>
       <Private>True</Private>
@@ -234,10 +238,15 @@
     <Content Include="Content\bootstrapValidator.min.css" />
     <Content Include="Content\datepicker.min.css" />
     <Content Include="Content\datepicker3.min.css" />
+    <Content Include="Content\dll\GridMvc.dll" />
+    <Content Include="Content\Gridmvc.css" />
     <Content Include="Content\jsgrid-theme.css" />
     <Content Include="Content\jsgrid-theme.min.css" />
     <Content Include="Content\jsgrid.css" />
     <Content Include="Content\PagedList.css" />
+    <Content Include="Scripts\gridmvc.js" />
+    <Content Include="Scripts\gridmvc.lang.ru.js" />
+    <Content Include="Scripts\gridmvc.min.js" />
     <Content Include="Scripts\jquery-1.8.3.js" />
     <Content Include="Scripts\jquery-1.8.3.min.js" />
     <Content Include="Scripts\jquery-2.1.4.min.js" />
@@ -407,6 +416,8 @@
     <Content Include="Views\Employee\EmployeeListView.cshtml" />
     <Content Include="Views\Unit\UnitListView.cshtml" />
     <Content Include="Views\ItemCategory\ItemCategoryListView.cshtml" />
+    <Content Include="Views\Shared\_Grid.cshtml" />
+    <Content Include="Views\Shared\_GridPager.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
