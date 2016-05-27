@@ -23,6 +23,16 @@ namespace ArabErp.DAL
 
 
                 var id = connection.Query<int>(sql, objWorkShopRequest).Single();
+
+
+
+               
+                var workshopitemitemrepo = new WorkShopRequestItemRepository();
+                foreach (var item in objWorkShopRequest.Items)
+                {
+                    item.WorkShopRequestId = id;
+                    workshopitemitemrepo.InsertWorkShopRequestItem(item);
+                }
                 return id;
             }
         }
