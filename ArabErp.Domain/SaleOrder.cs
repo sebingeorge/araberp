@@ -8,10 +8,10 @@ namespace ArabErp.Domain
 {
    public class SaleOrder
     {
-        public int? SaleOrderId { get; set; }
+        public int SaleOrderId { get; set; }
         public string SaleOrderRefNo { get; set; }
         public DateTime SaleOrderDate { get; set; }
-        public int? CustomerId { get; set; }
+        public int CustomerId { get; set; }
         public string CustomerName { get; set; }
         public string CustomerOrderRef { get; set; }
         public int? VehicleModelId { get; set; }
@@ -24,6 +24,7 @@ namespace ArabErp.Domain
         public string CreatedBy { get; set; }
         public DateTime? CreatedDate { get; set; }
         public int? OrganizationId { get; set; }
+        public string VehicleModelName { get; set; }
         public List<SaleOrderItem> Items { get; set; }
     }
 }

@@ -68,6 +68,7 @@
     <Compile Include="PurchaseRequestItem.cs" />
     <Compile Include="SaleOrder.cs" />
     <Compile Include="SaleOrderItem.cs" />
+    <Compile Include="SaleOrderList.cs" />
     <Compile Include="SalesExecutive.cs" />
     <Compile Include="SalesInvoice.cs" />
     <Compile Include="SalesInvoiceItem.cs" />

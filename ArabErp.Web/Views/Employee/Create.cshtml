@@ -83,8 +83,8 @@
                             <div class="editor-field">
                                 @*@Html.RadioButton("Gender", true, true) Male
                                     @Html.RadioButton("Gender", false, false) Female*@
-                                Male @Html.RadioButtonFor(model => model.GenderId, 1, new { @checked = true })
-                                Female @Html.RadioButtonFor(model => model.GenderId, 2, new { @checked = true })
+                                @Html.RadioButtonFor(model => model.GenderId, 1, new { @checked = true }) Male
+                                 @Html.RadioButtonFor(model => model.GenderId, 2, new { @checked = true }) Female
                             </div>
                         </div>
                         <div class="part">

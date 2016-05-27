@@ -1,5 +1,6 @@
 ﻿using ArabErp.DAL;
 using ArabErp.Domain;
+using ArabErp.Web.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -15,26 +16,58 @@ namespace ArabErp.Web.Controllers
         {
             return View();
         }
-        public ActionResult CreateWorkShopRequest()
+
+        [HttpPost]
+        public ActionResult CreateWorkShopRequest(SaleOrder model)
         {
             WorkShopRequest objWorkShopRequest = new WorkShopRequest();
+            objWorkShopRequest.CustomerOrderRef = model.CustomerOrderRef;
+            objWorkShopRequest.SaleOrderId = model.SaleOrderId;
+            objWorkShopRequest.SaleOrderRefNo = model.SaleOrderRefNo;
+            objWorkShopRequest.CustomerOrderRef = model.CustomerName;
+            objWorkShopRequest.CustomerId = model.CustomerId;
+
+
+
+
 
             objWorkShopRequest.WorkShopRequestDate = System.DateTime.Today;
             objWorkShopRequest.Items = new List<WorkShopRequestItem>();
             objWorkShopRequest.Items.Add(new WorkShopRequestItem());
             return View(objWorkShopRequest);
         }
-        public ActionResult WorkShopRequestPending()
+        public ActionResult WorkShopRequestPending(int? page)
         {
 
             var rep = new SaleOrderRepository();
 
-            List<SaleOrder> GetSaleOrders = rep.GetSaleOrders();
 
-            
-            return View(GetSaleOrders);
+            var slist = rep.GetSaleOrders();
+
+            var pager = new Pager(slist.Count(), page);
+
+            var viewModel = new PagedSaleOrderViewModel
+            {
+                SaleOrders = slist.Skip((pager.CurrentPage - 1) * pager.PageSize).Take(pager.PageSize),
+                Pager = pager
+            };
+
+            return View(viewModel);
         }
 
-       
+        public ActionResult Save(WorkShopRequest model)
+        {
+
+            model.OrganizationId = 1;
+            model.CreatedDate = System.DateTime.Now;
+            model.CreatedBy = Request.ServerVariables["HTTP_X_FORWARDED_FOR"] ?? Request.ServerVariables["REMOTE_ADDR"];
+            new WorkShopRequestRepository().InsertWorkShopRequest(model);
+
+
+           return RedirectToAction("WorkShopRequestPending");
+        }
     }
+
+
+
 }

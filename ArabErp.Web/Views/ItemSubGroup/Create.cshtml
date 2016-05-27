@@ -45,14 +45,14 @@
 
         <div class="main-part pad1">
             <div class="row">
-                <div class="col-md-2">
+                <div class="col-md-4">
                 </div>
                 @using (Html.BeginForm("Save", null, FormMethod.Post, new { @class = "createFrom", @id = "ItemSubGroup_form" }))
                 {
                     <div class="col-md-4">
                         <div class="part">
                             <label for="ItemSubGroupRefNo">Code</label>
-                            @Html.TextBoxFor(m => m.ItemSubGroupRefNo, new { @class = "form_input", autocomplete = "off" })
+                            @Html.TextBoxFor(m => m.ItemSubGroupRefNo, new { @class = "form_input form_input-half", auocomplete = "off" })
                         </div>
                         <div class="part">
 
@@ -60,18 +60,12 @@
                             @Html.DropDownListFor(m => Model.ItemGroupId, (SelectList)ViewBag.ItemGroup, "Select Item Group", new { @class = "form_input", autocomplete = "off" })
                         </div>
 
-
-
-                    </div>
-                    <div class="col-md-4">
-
-
                         <div class="part">
                             <label for="ItemSubGroupName">Name</label>
                             @Html.TextBoxFor(m => m.ItemSubGroupName, new { @class = "form_input", autocomplete = "off" })
                         </div>
 
-                        <div class="marg4">
+                        <div class="marg3">
                             <button type="button" class="form-button top1">Exit</button>
 
 
@@ -79,9 +73,11 @@
                         </div>
 
 
+
                     </div>
+
                 }
-                <div class="col-md-2">
+                <div class="col-md-4">
                 </div>
             </div>
         </div>

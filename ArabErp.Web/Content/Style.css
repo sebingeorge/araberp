@@ -36,6 +36,10 @@
   border: 1px solid #ffffff;
   background-color:#e1f4fa;
   }
+.form_input-h 
+{
+    height:50px;
+}
 .form_input-half {
   width: 50%;
   }
@@ -127,6 +131,11 @@
      .top2
      {
          margin-top:18px;
+
+     }
+               .top3
+     {
+         margin-top:160px
 
      }
 
@@ -264,6 +273,15 @@
 {
     padding:38px;
 }
+.pad2 
+{
+    padding-left:10px;
+}
+.pad3 
+{
+    margin-top:-10px;
+    margin-top:-10px;
+}
 .add-top
 {
     padding-top:-10px;
@@ -292,4 +310,44 @@
     padding: 7px;
     width: 98%;
 }
+h5 
+{
+    font-weight:bold;
+    font-size:14px;
+    float:left;
+    width:100%;
+    margin:4px;
 
+}
+.back-color 
+{
+    background-color:#f9fdfe;
+}
+
+.grid-left 
+{
+    float:left;
+    background-color:#9a9eab;
+    border-right:1px solid #dddddd;
+    height:30px;
+    color: #ffffff;
+    font-size: 14px;
+    font-weight: bold;
+    margin: 0;
+    padding: 0 5px;
+    line-height:30px;
+    margin-bottom:15px;
+}
+.mtop 
+{
+    margin-top:5px;
+}
+.border 
+{
+    border:1px solid #dddddd;
+    padding:10px;
+    padding-top:20px;
+    padding-bottom:20px;
+    border-radius:5px;
+    -moz-border-radius:5px;
+}

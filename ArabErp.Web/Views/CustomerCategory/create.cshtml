@@ -45,7 +45,7 @@
         </div>
         <div class="main-part pad1">
             <div class="row">
-                <div class="col-md-2">
+                <div class="col-md-4">
                 </div>
                 @using (Html.BeginForm("Save", null, FormMethod.Post, new { @class = "createFrom", @id = "CustomerCategory_form" }))
                 {
@@ -58,21 +58,22 @@
                             <label for="CusCategoryShortName">Short Name</label>
                             @Html.TextBoxFor(m => m.CusCategoryShortName, new { @class = "form_input", autocomplete = "off" })
                         </div>
-                    </div>
-                    <div class="col-md-4">
                         <div class="part">
                             <label for="CusCategoryName">Name</label>
                             @Html.TextBoxFor(m => m.CusCategoryName, new { @class = "form_input", autocomplete = "off" })
 
                         </div>
 
-                        <div class="marg4">
+                        <div class="marg3">
                             <button type="button" class="form-button top1">Exit</button>
                             <button type="submit" class="form-button">Save</button>
                         </div>
                     </div>
+                    <div class="col-md-4">
+
+                    </div>
                 }
-                <div class="col-md-2">
+                <div class="col-md-4">
                 </div>
             </div>
         </div>
