@@ -52,8 +52,7 @@
                 var index = (new Date()).getTime(); // unique indexer
                 var clone = $('#Row_0').clone(); // clone the BatchProducts item
                 //Update the index of the clone
-                //clone.html($(clone).html().replace("Items_0__", 'Items_' + i + '__'));
-             
+                       
                 clone.html($(clone).html().replace(/\Items_0__/g, 'Items_' + i + '__'));
                 clone.html($(clone).html().replace(/\Items[0]./g, 'Items[' + i + '].'));
                 clone.html($(clone).html().replace(/\[0\]/g, '[' + i + ']'));
@@ -73,9 +72,24 @@
     .datepicker({
         format: 'dd/MM/yyyy'
     });
-
-
     });
+
+    function calculateSummary() {
+        var quantity = parseFloat("0");
+        var amount = parseFloat("0");
+        $('.clQuantity').each(function (i, obj) {
+            var a = parseFloat($("#Items_" + i + "__Quantity").val());
+            console.log(a);
+            if (isNaN(a)) {
+                a = parseFloat("0");
+            }
+
+            quantity = quantity + a;
+        });
+          
+        $("#QtyTotal").text(quantity);
+     
+    }
 </script>
                    
 <div class="container">
@@ -133,11 +147,11 @@
             <thead>
                 <tr class="grid_heading">
                     <th width="5%">Sl.No.</th>
-                    <th width="25%">Product</th>
+                    <th width="20%">Product</th>
                     <th width="25%">Description</th>
                     <th width="10%">Part No</th>
                     <th width="5%" class="text-right ">Qty</th>
-                    <th width="5%">Unit</th>
+                    <th width="10%">Unit</th>
                 </tr>
             </thead>
             <tbody>
@@ -152,7 +166,7 @@
                         <td>@Html.TextBoxFor(m => m.Items[i].ItemDescription, new { @class = "form_input", autocomplete = "off", placeholder = "Description" })</td>
                         <td>@Html.TextBoxFor(m => m.Items[i].PartNo, new { @class = "form_input", autocomplete = "off", placeholder = "PartNo" })</td>
 
-                        <td>@Html.TextBoxFor(m => m.Items[i].Quantity, new { @class = "form_input", @style = "text-align:right", autocomplete = "off", placeholder = "Qty" })</td>
+                        <td>@Html.TextBoxFor(m => m.Items[i].Quantity, new { @class = "form_input clQuantity", @style = "text-align:right", autocomplete = "off", placeholder = "Qty" })</td>
                         <td>
                             @Html.DropDownListFor(m => m.Items[i].UnitId, (SelectList)ViewBag.unitlist, "Select Unit", new { @class = "form_input", autocomplete = "off" })
                         </td>
@@ -162,13 +176,13 @@
             </tbody>
             <tfoot>
                 <tr class="grid_heading">
-                    <th width="5%" class="text-center"><h1></h1></th>
-                    <th width="25%" class="text-center"><h1></h1></th>
-                    <th width="25%" class="text-center"><h1>Total</h1></th>
-                    <th width="5%" class="text-right"><span id="QtyTotal"></span></th>
+                    <th width="5%"></th>
+                    <th width="20%"></th>
+                    <th width="25%"></th>
+                    <th width="10%">Total</th>
+                    <th width="5%" class="text-right "><span id="QtyTotal"></span></th>
                     <th width="10%"></th>
-                    <th width="10%" class="text-right"><h1></h1></th>
-                   
+              
                 </tr>
             </tfoot>
         </table>
