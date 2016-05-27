@@ -19,7 +19,7 @@ namespace ArabErp.DAL
             using (IDbConnection connection = OpenConnection(dataConnection))
             {
 
-                var trn = connection.BeginTransaction();
+              //  var trn = connection.BeginTransaction();
                 int id = 0;
 
                 try
@@ -39,11 +39,11 @@ namespace ArabErp.DAL
                     item.WorkShopRequestId = id;
                     workshopitemitemrepo.InsertWorkShopRequestItem(item);
                 }
-                    trn.Commit();
+                   // trn.Commit();
                 }
                 catch (Exception e)
                 {
-                    trn.Rollback();
+                   // trn.Rollback();
                     throw;
                 }
                 return id;
