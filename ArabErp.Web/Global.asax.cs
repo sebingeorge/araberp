@@ -9,6 +9,7 @@ using System.Web.Optimization;
 using System.Web.Routing;
 
 
+
 namespace ArabErp.Web
 {
     public class MvcApplication : System.Web.HttpApplication
@@ -19,7 +20,7 @@ namespace ArabErp.Web
             FilterConfig.RegisterGlobalFilters(GlobalFilters.Filters);
             RouteConfig.RegisterRoutes(RouteTable.Routes);
             BundleConfig.RegisterBundles(BundleTable.Bundles);
-           
+          
         }
         protected void Application_BeginRequest(Object sender, EventArgs e)
         {
