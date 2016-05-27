@@ -9,47 +9,39 @@
         <h4>Pending WorkShop Request</h4>
     </div>
 
-    &nbsp;
-    <form method="post" action="@Url.Action("CreateWorkShopRequest","WorkShopRequest")">
-        <div class=" table-responsive">
-            <table class="table table-bordered">
-                <thead>
-                    <tr class="grid_heading">
-                        <th>SO No.</th>
-                        <th>SO Date</th>
-                        <th>Customer</th>
-                        <th>Customer Order Ref.</th>
-                        <th>Vehicle Model</th>
-                    </tr>
-                </thead>
-                <tbody class="grid_row">
+    
 
-                    @foreach (var item in Model)
-                    {
-                        <tr>
-                            <td>@item.SaleOrderRefNo</td>
+   
+     <div class="row grid_heading">
+   
+        <div class="col-md-2">SO No.</div>
+        <div class="col-md-2">SO Date</div>
+        <div class="col-md-2">Customer</div>
+        <div class="col-md-2">Customer Order Ref.</div>
+        <div class="col-md-2">Vehicle Model</div>
+        <div class="col-md-2">Select</div>
+    </div>
 
-                            <td>@item.SaleOrderDate</td>
-                            <td>@item.CustomerName</td>
-                            <td>@item.CustomerOrderRef</td>
-                            <td>@item.VehicleModelId</td>
-                        </tr>
-                    }
-       
-                </tbody>
-            </table>
-        </div>
-
-        <div class="row">
-
-            <div class="col-md-12 col-md-4">
-                <div style="float:right" class="alignCenter">
-                    <button type="submit" class="button-style">OK</button>
-                </div>
+ 
+        @for (int i = 0; i < Model.Count(); i++)
+        {
+           
+            <div  class="row grid_row">
+                <form method="post" action="@Url.Action("CreateWorkShopRequest","WorkShopRequest")">
+                    @Html.HiddenFor(m => m.ElementAt(i).SaleOrderId, new { @class = "form_input", autocomplete = "off" })
+                    <div class="col-md-2">@Html.TextBoxFor(m => m.ElementAt(i).SaleOrderRefNo, new { @class = "form_input", autocomplete = "off" })</div>
+                    <div class="col-md-2">@Html.TextBoxFor(m => m.ElementAt(i).SaleOrderId, new { @class = "form_input", autocomplete = "off" }) </div>
+                    <div class="col-md-2">@Html.TextBoxFor(m => m.ElementAt(i).CustomerName, new { @class = "form_input", autocomplete = "off" })</div>
+                    <div class="col-md-2">@Html.TextBoxFor(m => m.ElementAt(i).CustomerOrderRef, new { @class = "form_input", autocomplete = "off" })</div>
+                    <div class="col-md-2">@Html.TextBoxFor(m => m.ElementAt(i).VehicleModelId, new { @class = "form_input", autocomplete = "off" })</div>
+                    <div class="col-md-2"><button type="submit" class="button-style">Select</button></div>
+                </form>
             </div>
+        }
 
 
-        </div>
-    </form>
+
+
+
 
 

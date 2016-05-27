@@ -234,16 +234,10 @@
     <Content Include="Content\bootstrapValidator.min.css" />
     <Content Include="Content\datepicker.min.css" />
     <Content Include="Content\datepicker3.min.css" />
-    <Content Include="Content\jsgrid-theme.css" />
-    <Content Include="Content\jsgrid-theme.min.css" />
-    <Content Include="Content\jsgrid.css" />
     <Content Include="Content\PagedList.css" />
     <Content Include="Scripts\jquery-1.8.3.js" />
     <Content Include="Scripts\jquery-1.8.3.min.js" />
     <Content Include="Scripts\jquery-2.1.4.min.js" />
-    <Content Include="Scripts\jsgrid.js" />
-    <Content Include="Content\jsgrid.min.css" />
-    <Content Include="Scripts\jsgrid.min.js" />
     <Content Include="Scripts\bootbox.min.js" />
     <Content Include="Scripts\bootstrap-datepicker.min.js" />
     <Content Include="Scripts\bootstrapValidator.js" />

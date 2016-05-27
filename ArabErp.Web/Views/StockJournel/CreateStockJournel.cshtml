@@ -3,51 +3,77 @@
     ViewBag.Title = "CreateStockJournel";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
-@*<link type="text/css" rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jsgrid/1.4.1/jsgrid.min.css" />*@
-@*<link type="text/css" rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jsgrid/1.4.1/jsgrid-theme.min.css" />*@
+@*<div class="panel panel-default">
+    <div class="panel-body">
 
-<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jsgrid/1.4.1/jsgrid.min.js"></script>
-@*<link type="text/css" rel="stylesheet" href="jsgrid.min.css" />
-<link type="text/css" rel="stylesheet" href="jsgrid-theme.min.css" />
-
-<script type="text/javascript" src="jsgrid.min.js"></script>*@
-
-<div id="jsGrid"></div>
-
-<script>
-    var clients = [
-        { "Name": "Otto Clay", "Age": 25, "Country": 1, "Address": "Ap #897-1459 Quam Avenue", "Married": false },
-        { "Name": "Connor Johnston", "Age": 45, "Country": 2, "Address": "Ap #370-4647 Dis Av.", "Married": true },
-        { "Name": "Lacey Hess", "Age": 29, "Country": 3, "Address": "Ap #365-8835 Integer St.", "Married": false },
-        { "Name": "Timothy Henson", "Age": 56, "Country": 1, "Address": "911-5143 Luctus Ave", "Married": true },
-        { "Name": "Ramona Benton", "Age": 32, "Country": 3, "Address": "Ap #614-689 Vehicula Street", "Married": false }
-    ];
-
-    var countries = [
-        { Name: "", Id: 0 },
-        { Name: "United States", Id: 1 },
-        { Name: "Canada", Id: 2 },
-        { Name: "United Kingdom", Id: 3 }
-    ];
-
-    $("#jsGrid").jsGrid({
-        width: "100%",
-        height: "400px",
-
-        inserting: true,
-        editing: true,
-        sorting: true,
-        paging: true,
-
-        data: clients,
-
-        fields: [
-            { name: "Name", type: "text", width: 150, validate: "required" },
-            { name: "Age", type: "number", width: 50 },
-            { name: "Address", type: "text", width: 200 },
-            { name: "Country", type: "select", items: countries, valueField: "Id", textField: "Name" },
-            { name: "Married", type: "checkbox", title: "Is Married", sorting: false },
-            { type: "control" }
-        ]
-    });
-</script>
+        @Html.Partial("_MVCGridToolbar", new MVCGridToolbarModel()
+        {
+            MVCGridName = "TestGrid",
+            PageSize = true,
+            ColumnVisibility = true,
+            Export = true,
+            GlobalSearch = true
+        })
+        @Html.MVCGrid("TestGrid")
+    </div>
+</div>*@
+@*<script>
+MVCGridDefinitionTable.Add("TestGrid", new MVCGridBuilder<person>
+    (colDefauls)
+    .WithAuthorizationType(AuthorizationType.AllowAnonymous)
+    .WithSorting(sorting: true, defaultSortColumn: "Id", defaultSortDirection: SortDirection.Dsc)
+    .WithPaging(paging: true, itemsPerPage: 10, allowChangePageSize: true, maxItemsPerPage: 100)
+    .WithAdditionalQueryOptionNames("search")
+    .AddColumns(cols =>
+    {
+    cols.Add("Id").WithValueExpression((p, c) => c.UrlHelper.Action("detail", "demo", new { id = p.Id }))
+    .WithValueTemplate("<a href='{Value}'>{Model.Id}</a>", false)
+    .WithPlainTextValueExpression(p => p.Id.ToString());
+    cols.Add("FirstName").WithHeaderText("First Name")
+    .WithVisibility(true, true)
+    .WithValueExpression(p => p.FirstName);
+    cols.Add("LastName").WithHeaderText("Last Name")
+    .WithVisibility(true, true)
+    .WithValueExpression(p => p.LastName);
+    cols.Add("FullName").WithHeaderText("Full Name")
+    .WithValueTemplate("{Model.FirstName} {Model.LastName}")
+    .WithVisibility(visible: false, allowChangeVisibility: true)
+    .WithSorting(false);
+    cols.Add("StartDate").WithHeaderText("Start Date")
+    .WithVisibility(visible: true, allowChangeVisibility: true)
+    .WithValueExpression(p => p.StartDate.HasValue ? p.StartDate.Value.ToShortDateString() : "");
+    cols.Add("Status")
+    .WithSortColumnData("Active")
+    .WithVisibility(visible: true, allowChangeVisibility: true)
+    .WithHeaderText("Status")
+    .WithValueExpression(p => p.Active ? "Active" : "Inactive")
+    .WithCellCssClassExpression(p => p.Active ? "success" : "danger");
+    cols.Add("Gender").WithValueExpression((p, c) => p.Gender)
+    .WithAllowChangeVisibility(true);
+    cols.Add("Email")
+    .WithVisibility(visible: false, allowChangeVisibility: true)
+    .WithValueExpression(p => p.Email);
+    cols.Add("Url").WithVisibility(false)
+    .WithValueExpression((p, c) => c.UrlHelper.Action("detail", "demo", new { id = p.Id }));
+    })
+    //.WithAdditionalSetting(MVCGrid.Rendering.BootstrapRenderingEngine.SettingNameTableClass, "notreal") // Example of changing table css class
+    .WithRetrieveDataMethod((context) =>
+    {
+    var options = context.QueryOptions;
+    int totalRecords;
+    var repo = DependencyResolver.Current.GetService<ipersonrepository>
+        ();
+        string globalSearch = options.GetAdditionalQueryOptionString("search");
+        string sortColumn = options.GetSortColumnData<string>
+            ();
+            var items = repo.GetData(out totalRecords, globalSearch, options.GetLimitOffset(), options.GetLimitRowcount(),
+            sortColumn, options.SortDirection == SortDirection.Dsc);
+            return new QueryResult<person>
+                ()
+                {
+                Items = items,
+                TotalRecords = totalRecords
+                };
+                })
+                );
+                </script>*@
