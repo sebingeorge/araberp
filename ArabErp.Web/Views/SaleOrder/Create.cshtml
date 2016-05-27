@@ -65,10 +65,16 @@
             }
         });
     })
-
-    $(function () {
-        $("#SaleOrderDate").datepicker({ dateFormat: "dd/MM/yy" });
+    $(document).ready(function () {
+        $('#SaleOrderDate')
+            .datepicker({
+                format: 'dd/MM/yyyy'
+            })
     });
+
+    //$(function () {
+    //    $("#SaleOrderDate").datepicker({ dateFormat: "dd/MM/yy" });
+    //});
 </script>
 @Html.HiddenFor(m => m.SaleOrderId)
 <div class="container">
