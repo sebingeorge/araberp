@@ -92,6 +92,11 @@ textarea {
     background-color:#00D4FF;
     color:#000;
     }
+.margf 
+{
+    float:right;
+   
+}
 .marg 
 {
     margin-left: 81%;
