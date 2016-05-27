@@ -58,7 +58,7 @@ namespace ArabErp.DAL
         {
             using (IDbConnection connection = OpenConnection(dataConnection))
             {
-            string sql = @"select so.*,c.CustomerName from SaleOrder so , Customer c    where so.CustomerId=c.CustomerId and so.isActive=1";
+            string sql = @"select so.*,c.CustomerName, v.VehicleModelName from SaleOrder so , Customer c ,VehicleModel v  where so.CustomerId=c.CustomerId and so.VehicleModelId=v.VehicleModelId and so.isActive=1";
 
             var objSaleOrders = connection.Query<SaleOrder>(sql).ToList<SaleOrder>();
 
