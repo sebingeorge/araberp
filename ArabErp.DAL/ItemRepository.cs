@@ -62,6 +62,13 @@ namespace ArabErp.DAL
                 return connection.Query<Dropdown>("select UnitId Id,UnitName Name from Unit").ToList();
             }
              }
+        public List<Dropdown> FillItem()
+        {
+            using (IDbConnection connection = OpenConnection(dataConnection))
+            {
+                return connection.Query<Dropdown>("select ItemId Id,ItemName Name from Item where isActive=1").ToList();
+            }
+        }
         /// <summary>
         /// 
         /// </summary>
@@ -142,8 +149,11 @@ namespace ArabErp.DAL
         {
             using (IDbConnection connection = OpenConnection(dataConnection))
             {
-                string sql = @"SELECT PartNo,ItemName,ItemCategoryId,ItemGroupId,ItemSubGroupId FROM Item
-                        WHERE isActive=1";
+                string sql = @"SELECT PartNo,ItemName,CategoryName,ItemGroupName,ItemSubGroupName FROM Item I
+                               INNER JOIN ItemCategory ON itmCatId=ItemCategoryId
+                               INNER JOIN ItemGroup G ON I.ItemGroupId=G.ItemGroupId
+                               INNER JOIN ItemSubGroup S ON I.ItemSubGroupId=S.ItemSubGroupId
+                               WHERE I.isActive=1";
 
                 var objItems = connection.Query<Item>(sql).ToList<Item>();
 

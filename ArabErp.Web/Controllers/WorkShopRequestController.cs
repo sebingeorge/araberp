@@ -28,7 +28,8 @@ namespace ArabErp.Web.Controllers
             objWorkShopRequest.CustomerId = model.CustomerId;
 
 
-
+            FillUnit();
+            FillItem();
 
 
             objWorkShopRequest.WorkShopRequestDate = System.DateTime.Today;
@@ -65,6 +66,19 @@ namespace ArabErp.Web.Controllers
 
 
            return RedirectToAction("WorkShopRequestPending");
+        }
+
+        public void FillUnit()
+        {
+            ItemRepository Repo = new ItemRepository();
+            var List = Repo.FillUnit();
+            ViewBag.unitlist = new SelectList(List, "Id", "Name");
+        }
+        public void FillItem()
+        {
+            ItemRepository Repo = new ItemRepository();
+            var List = Repo.FillItem();
+            ViewBag.ItemList = new SelectList(List, "Id", "Name");
         }
     }
 

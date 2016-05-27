@@ -16,15 +16,70 @@
             i++;
 
             var index = (new Date()).getTime(); // unique indexer
-            var clone = $('#0').clone(); // clone the BatchProducts item
+            var clone = $('#Row_0').clone(); // clone the BatchProducts item
             //Update the index of the clone
             //clone.html($(clone).html().replace("Items_0__", 'Items_' + i + '__'));
             clone.html($(clone).html().replace(/\Items_0__/g, 'Items_' + i + '__'));
+            clone.html($(clone).html().replace(/\Items_0__/g, 'Items_' + i + '__'));
             clone.html($(clone).html().replace(/\Items[0]./g, 'Items[' + i + '].'));
             clone.html($(clone).html().replace(/\[0\]/g, '[' + i + ']'));
+            clone.html($(clone).html().replace(/\(0\)/g, '(' + i + ')'));
+            clone.html($(clone).html().replace(/Row_0/, 'Row_' + i + ''));
             $("#tab_logic").append('<tr id="' + i + '">' + clone.html() + '  </tr>');
          });
     });
+
+    function QuantityChanged(row)
+    {
+        var quantity = $("#Items_" + row + "__Quantity").val();
+        var rate = $("#Items_" + row + "__Rate").val();
+        var discount = $("#Items_" + row + "__Discount").val();
+
+        if (quantity == NaN)
+        {
+            quantity = 0;
+        }
+        if (rate == NaN) {
+            rate = 0;
+        }
+        if (discount == NaN) {
+            discount = 0;
+        }
+        var amount = (quantity * rate) - discount;
+        $("#Items_" + row + "__Amount").val(amount);
+        calculateSummary();
+    }
+
+    function calculateSummary()
+    {
+        var quantity = parseFloat("0");
+        var amount = parseFloat("0");
+        $('.clQuantity').each(function (i, obj) {
+            var a = parseFloat($("#Items_" + i + "__Quantity").val());
+           
+            if (isNaN(a))
+            {
+               a = parseFloat("0");
+            }
+            
+            quantity = quantity + a;
+        });
+
+        $('.clAmount').each(function (i, obj) {
+            var a = parseFloat($("#Items_" + i + "__Amount").val());
+            if (isNaN(a))
+            {
+
+                a = parseFloat("0");
+
+            }
+
+            amount = amount + a;
+        });
+
+        $("#QtyTotal").text(quantity);
+        $("#QtyAmount").text(amount);
+    }
 </script>
 
     
@@ -45,24 +100,36 @@
                 <tbody>
                     @for (int i = 0; i < Model.Items.Count; i++)
                     {
-                        <tr id="@i">
-                            <td>1</td>
+                        <tr id="Row_@i">
+                            <td>@i</td>
                             <td>
                                 <input type="hidden" id="Row_@i" />
                                 @Html.DropDownListFor(m => m.Items[i].WorkDescriptionId, (SelectList)ViewBag.workdesclist, "Select Work Description", new { @class = "form_input", autocomplete = "off" })
                             </td>
                             <td>@Html.TextBoxFor(m => m.Items[i].Remarks, new { @class = "form_input", autocomplete = "off", placeholder = "Remarks" })</td>
-                            <td>@Html.TextBoxFor(m => m.Items[i].Quantity, new { @class = "form_input", autocomplete = "off", placeholder = "Qty" })</td>
+                            <td>@Html.TextBoxFor(m => m.Items[i].Quantity, new { @class = "form_input clQuantity", @style = "text-align:right", autocomplete = "off", placeholder = "Qty", @onchange = "QuantityChanged(" + i + ");" })</td>
                             <td>
                                 @Html.DropDownListFor(m => m.Items[i].UnitId, (SelectList)ViewBag.unitlist, "Select Unit", new { @class = "form_input", autocomplete = "off" })
                             </td>
-                            <td>@Html.TextBoxFor(m => m.Items[i].Rate, new { @class = "form_input", autocomplete = "off", placeholder = "Rate" })</td>
-                            <td>@Html.TextBoxFor(m => m.Items[i].Discount, new { @class = "form_input", autocomplete = "off", placeholder = "Discount" })</td>
-                            <td>@Html.TextBoxFor(m => m.Items[i].Amount, new { @class = "form_input", autocomplete = "off", placeholder = "Amount" })</td>
+                            <td>@Html.TextBoxFor(m => m.Items[i].Rate, new { @class = "form_input", autocomplete = "off", @style = "text-align:right", placeholder = "Rate", @onchange = "QuantityChanged(" + i + ");" })</td>
+                            <td>@Html.TextBoxFor(m => m.Items[i].Discount, new { @class = "form_input", autocomplete = "off", @style = "text-align:right", placeholder = "Discount", @onchange = "QuantityChanged(" + i + ");" })</td>
+                            <td>@Html.TextBoxFor(m => m.Items[i].Amount, new { @class = "form_input clAmount", autocomplete = "off", @style = "text-align:right", placeholder = "Amount", @readonly = "readonly" })</td>
                         </tr>
                     }
                     @*<tr id='addr1'></tr>*@
                 </tbody>
+                <tfoot>
+                    <tr class="grid_heading">
+                        <th width="5%" class="text-center"><h1></h1></th>
+                        <th width="25%" class="text-center"><h1></h1></th>
+                        <th width="25%" class="text-center"><h1>Total</h1></th>
+                        <th width="5%" class="text-right"><span id="QtyTotal"></span></th>
+                        <th width="10%"></th>
+                        <th width="10%" class="text-right"><h1></h1></th>
+                        <th width="7%" class="text-right"><h1></h1></th>
+                        <th width="8%" class="text-right"><span id="QtyAmount"></span></th>
+                    </tr>
+                </tfoot>
             </table>
         </div>
         <a id="add_row" class="glyphicon glyphicon-plus"></a><a id='delete_row' style="float:right" class="glyphicon glyphicon-minus"></a>
