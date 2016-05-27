@@ -8,6 +8,9 @@ namespace ArabErp.Web.Controllers
 {
     public class PurchaseRequestController : Controller
     {
+        readonly log4net.ILog logger = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
+
+
         // GET: PurchaseRequest
         public ActionResult Index()
         {
@@ -19,6 +22,8 @@ namespace ArabErp.Web.Controllers
         }
         public ActionResult PendingPurchaseRequest()
         {
+            logger.Error("Happy Logging");
+
             return View();
         }
     }
