@@ -63,5 +63,14 @@ namespace ArabErp.Web.Controllers
             var List = rep.FillEmployeeList();
             return PartialView("EmployeeListView", List);
         }
+
+        public ActionResult EmployeeList(int? page)
+        {
+            int itemsPerPage = 10;
+            int pageNumber = page ?? 1;
+            var rep = new EmployeeRepository();
+            var List = rep.FillEmployeeList();
+            return PartialView("_EmployeeListView", List);
+        }
     }
 }
