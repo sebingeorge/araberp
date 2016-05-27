@@ -418,13 +418,14 @@
     <Content Include="Views\StockPoint\StockpointListView.cshtml" />
     <Content Include="Views\CommissionAgent\Create.cshtml" />
     <Content Include="Views\CommissionAgent\CommissionAgentListView.cshtml" />
-    <Content Include="Views\Employee\EmployeeListView.cshtml" />
+    <Content Include="Views\Employee\_EmployeeListView.cshtml" />
     <Content Include="Views\Unit\UnitListView.cshtml" />
     <Content Include="Views\ItemCategory\ItemCategoryListView.cshtml" />
     <Content Include="Views\Shared\_Grid.cshtml" />
     <Content Include="Views\Shared\_GridPager.cshtml" />
     <Content Include="Views\Item\Index.cshtml" />
     <Content Include="Views\Item\_ItemListView.cshtml" />
+    <Content Include="Views\Employee\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
