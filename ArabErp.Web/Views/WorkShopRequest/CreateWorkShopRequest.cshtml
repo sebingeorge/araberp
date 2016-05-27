@@ -31,53 +31,54 @@
         $("#WorkShopRequestDate").datepicker({ dateFormat: "dd/MM/yy" });
     });
 </script>
-<div class="h4bgcolor">
-    <h4>WorkShop Request</h4>
-</div>
                    
 <div class="container">
     <div class="row">
-        @using (Html.BeginForm("Save", null, FormMethod.Post, new { @class = "createFrom", onsubmit = "return SaleOrderValidation()", @id = "work_form" }))
-        {
-            <div class="row form-group">
-                <div class="col-md-2">
-                    <label for="reqno">Request No.</label>
-                    @Html.TextBoxFor(m => m.WorkShopRequestNo, new { @class = "form_input", autocomplete = "off" })
+        <div class="form-head1">
+            <h4>WorkShop Request</h4>
+        </div>
+        <div class="main-part pad1">
+            @using (Html.BeginForm("Save", null, FormMethod.Post, new { @class = "createFrom", onsubmit = "return SaleOrderValidation()", @id = "work_form" }))
+            {
+                <div class="row form-group">
+                    <div class="col-md-2">
+                        <label for="reqno">Request No.</label>
+                        @Html.TextBoxFor(m => m.WorkShopRequestNo, new { @class = "form_input", autocomplete = "off" })
+                    </div>
+                    <div class="col-md-2 col-md-offset-8">
+                        <label for="inputDate">Date</label>
+                        @Html.TextBoxFor(m => m.WorkShopRequestDate, String.Format("{0:dd/MM/yy}", Model.WorkShopRequestDate), new { @class = "form_input ", autocomplete = "off", @readonly = "readonly" })
+                    </div>
                 </div>
-                <div class="col-md-2 col-md-offset-8">
-                    <label for="inputDate">Date</label>
-                    @Html.TextBoxFor(m => m.WorkShopRequestDate, String.Format("{0:dd/MM/yy}", Model.WorkShopRequestDate), new { @class = "form_input ", autocomplete = "off", @readonly = "readonly" })
+                <div class="row form-group">
+                    <div class="col-md-3">
+                        <label for="sono">Sale Order No.</label>
+                        @Html.TextBoxFor(m => m.SaleOrderRefNo, new { @class = "form_input", autocomplete = "off" })
+                    </div>
+                    <div class="col-md-3">
+                        <label for="cus">Customer</label>
+                        @Html.TextBoxFor(m => m.CustomerName, new { @class = "form_input", autocomplete = "off" })
+                    </div>
+                    <div class="col-md-3">
+                        <label for="cusref">Customer Order Ref.</label>
+                        @Html.TextBoxFor(m => m.CustomerOrderRef, new { @class = "form_input", autocomplete = "off" })
+                    </div>
                 </div>
-            </div>
-            <div class="row form-group">
-                <div class="col-md-3">
-                    <label for="sono">Sale Order No.</label>
-                    @Html.TextBoxFor(m => m.SaleOrderRefNo, new { @class = "form_input", autocomplete = "off" })
+                <div class="row form-group">
+                    <div class="col-md-3">
+                        <label for="productr">Product</label>
+                        <select id="productr" autocomplete="off" class="form_input">
+                            <option>Select Product</option>
+                            <option>Product1</option>
+                            <option>Product2</option>
+                            <option>Product3</option>
+                        </select>
+                    </div>
+                    <div class="col-md-3">
+                        <label for="qty">Qty.</label>
+                        <input type="text" id="qty" autocomplete="off" class="form_input" />
+                    </div>
                 </div>
-                <div class="col-md-3">
-                    <label for="cus">Customer</label>
-                    @Html.TextBoxFor(m => m.CustomerName, new { @class = "form_input", autocomplete = "off" })
-                </div>
-                <div class="col-md-3">
-                    <label for="cusref">Customer Order Ref.</label>
-                    @Html.TextBoxFor(m => m.CustomerOrderRef, new { @class = "form_input", autocomplete = "off" })
-                </div>
-                </div>
-            <div class="row form-group">
-                <div class="col-md-3">
-                    <label for="productr">Product</label>
-                    <select id="productr" autocomplete="off" class="form_input">
-                        <option>Select Product</option>
-                        <option>Product1</option>
-                        <option>Product2</option>
-                        <option>Product3</option>
-                    </select>
-                </div>
-                <div class="col-md-3">
-                    <label for="qty">Qty.</label>
-                    <input type="text" id="qty" autocomplete="off" class="form_input" />
-                </div>
-            </div>
                 <div class=" table-responsive">
                     <table class="table table-bordered">
                         <thead>
@@ -138,16 +139,16 @@
                         <input type="date" id="reqdate" style="min-width: 100%" class="form_input" />
                     </div>
                 </div>
-                <div class="row form-group">
-                    <div class="col-md-1">
-                        <button type="submit" class="button-style">Exit</button>
-                    </div>
-                    <div class=" col-md-offset-11">
-                        <button type="submit" class="button-style">Save</button>
-                    </div>
-                </div>
-        }
+    <div class="marg3">
+        <button type="button" class="form-button top1">Exit</button>
+
+
+        <button type="submit" class="form-button">Save</button>
     </div>
+
+            }
+        </div>
+        </div>
 </div>
 
 
