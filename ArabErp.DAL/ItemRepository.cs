@@ -62,6 +62,13 @@ namespace ArabErp.DAL
                 return connection.Query<Dropdown>("select UnitId Id,UnitName Name from Unit").ToList();
             }
              }
+        public List<Dropdown> FillItem()
+        {
+            using (IDbConnection connection = OpenConnection(dataConnection))
+            {
+                return connection.Query<Dropdown>("select ItemId Id,ItemName Name from Item where isActive=1").ToList();
+            }
+        }
         /// <summary>
         /// 
         /// </summary>
