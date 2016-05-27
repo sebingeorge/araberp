@@ -4,36 +4,28 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 <script>
-    //$(document).ready(function() {
-    //    $('#work_form').bootstrapValidator({
-    //        fields: {
-    //            WorkShopRequestNo: {
-    //                validators: {
-    //                    notEmpty: {
-    //                        message: 'Please enter WorkShopRequestNo.'
-    //                    }
-    //                }
-    //            },
-    //            RequiredDate: {
-    //                validators: {
-    //                    notEmpty: {
-    //                        message: 'Please enter RequiredDate.'
-    //                    }
-    //                }
-    //            },
-    //            WorkShopRequestDate: {
-    //                validators: {
-    //                    notEmpty: {
-    //                        message: 'Please select WorkShopRequestDate'
-    //                    }
-    //                }
-    //            }
+    $(document).ready(function() {
+        $('#work_form').bootstrapValidator({
+            fields: {
+                WorkShopRequestNo: {
+                    validators: {
+                        notEmpty: {
+                            message: 'Please enter request no'
+                        }
+                    }
+                },
+                RequiredDate: {
+                    validators: {
+                        notEmpty: {
+                            message: 'Please enter required date'
+                        }
+                    }
+                }
 
+         }
+        });
 
-    //        }
-    //    });
-
-
+    });
         $(document).ready(function () {
             $("#add_row").click(function () {
                 var i = 0;
@@ -62,18 +54,20 @@
             });
         });
   
+        $(document).ready(function () {
+            $('#WorkShopRequestDate')
+                .datepicker({
+                    format: 'dd/MM/yyyy'
+                });
 
-    $(function () {
-        $('#WorkShopRequestDate')
-    .datepicker({
-        format: 'dd/MM/yyyy'
-    });
-        $('#RequiredDate')
-    .datepicker({
-        format: 'dd/MM/yyyy'
-    });
-    });
+            $('#RequiredDate')
+                .datepicker({
+                    format: 'dd/MM/yyyy'
+                })
 
+        });
+
+   
     function calculateSummary() {
         var quantity = parseFloat("0");
         var amount = parseFloat("0");
@@ -109,21 +103,21 @@
                     </div>
                     <div class="col-md-2 col-md-offset-8">
                         <label for="inputDate">Date</label>
-                        @Html.TextBoxFor(m => m.WorkShopRequestDate, String.Format("{0:dd/MM/yy}", Model.WorkShopRequestDate), new { @class = "form_input ", autocomplete = "off", @readonly = "readonly" })
+                        @Html.TextBoxFor(m => m.WorkShopRequestDate, String.Format("{0:dd/MM/yyyy}", Model.WorkShopRequestDate), new { @class = "form_input ", autocomplete = "off", @readonly = "readonly" })
                     </div>
                 </div>
                 <div class="row form-group">
                     <div class="col-md-3">
                         <label for="sono">Sale Order No.</label>
-                        @Html.TextBoxFor(m => m.SaleOrderRefNo, new { @class = "form_input", autocomplete = "off" })
+                        @Html.TextBoxFor(m => m.SaleOrderRefNo, new { @class = "form_input", autocomplete = "off",@readonly ="readonly" })
                     </div>
                     <div class="col-md-3">
                         <label for="cus">Customer</label>
-                        @Html.TextBoxFor(m => m.CustomerName, new { @class = "form_input", autocomplete = "off" })
+                        @Html.TextBoxFor(m => m.CustomerName, new { @class = "form_input", autocomplete = "off", @readonly = "readonly" })
                     </div>
                     <div class="col-md-3">
                         <label for="cusref">Customer Order Ref.</label>
-                        @Html.TextBoxFor(m => m.CustomerOrderRef, new { @class = "form_input", autocomplete = "off" })
+                        @Html.TextBoxFor(m => m.CustomerOrderRef, new { @class = "form_input", autocomplete = "off", @readonly = "readonly" })
                     </div>
                 </div>
                 <div class="row form-group">
@@ -202,11 +196,10 @@
                         @Html.TextBoxFor(m => m.RequiredDate, new { @class = "form_input", autocomplete = "off" })
                     </div>
                 </div>
-    <div class="marg3">
-        <button type="button" class="form-button top1">Exit</button>
+    <div class="marg">
+        <button class="form-button">Exit</button>
+        <button type="submit" class="form-button">Save</button>
 
-
-        <button  type="submit" class="form-button">Save</button>
     </div>
 
             }

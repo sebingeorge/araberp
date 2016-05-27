@@ -96,7 +96,7 @@
                 </div>
                 <div class="col-md-2 col-md-offset-8 ">
                     <label for="SaleOrderDate">Date</label>
-                    @Html.TextBoxFor(m => m.SaleOrderDate, String.Format("{0:dd/MM/yy}", Model.SaleOrderDate), new { @class = "form_input ", autocomplete = "off", @readonly = "readonly" })
+                    @Html.TextBoxFor(m => m.SaleOrderDate, String.Format("{0:dd/MM/yyyy}", Model.SaleOrderDate), new { @class = "form_input ", autocomplete = "off", @readonly = "readonly" })
 
                 </div>
             </div>
