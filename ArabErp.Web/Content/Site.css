@@ -87,6 +87,10 @@ textarea {
     width: 92px;
     margin-right:5px;
 }
+.form-button1 
+{
+    height:22px;
+}
 .form-button:hover
     {
     background-color:#00D4FF;
@@ -95,7 +99,10 @@ textarea {
 .margf 
 {
     float:right;
-   
+}
+.margl 
+{
+    float:left;
 }
 .marg 
 {
