@@ -6826,14 +6826,22 @@ td.visible-print {
 @media only screen and (min-width:320px) and (max-width: 640px)
  {
   .marg {
-    margin-left:8% !important;
+     margin-left: 0% !important;
   }
     .marg3 {
-        margin-left: 9%;
+        margin-left:  0% !important;
     }
     .form-head1
    {
         width: 92.8% !important;
+    }
+        .form-head
+   {
+        width: 87.7% !important;
+    }
+    .form-button 
+    {
+        width:100% !important;
     }
 
 }
@@ -6841,11 +6849,23 @@ td.visible-print {
 @media only screen and (min-width:768px) and (max-width: 1024px)
  {
   .marg {
-    margin-left:69% !important;
+    margin-left:68% !important;
+  }
+    .marg3 
+   {
+        float:right;
   }
     .form-head1
    {
         width: 96.8% !important;
+    }
+            .form-head
+   {
+        width: 94.8% !important;
+    }
+    .navbar-nav 
+    {
+        float:right !important;
     }
 }
 
