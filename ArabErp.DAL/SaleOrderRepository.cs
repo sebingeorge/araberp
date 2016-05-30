@@ -153,5 +153,18 @@ namespace ArabErp.DAL
                 return connection.Query<Dropdown>("select CurrencyId Id,CurrencyName Name from Currency").ToList();
             }
         }
+        /// <summary>
+        /// Get Currency Id from Customer Table with customer Id
+        /// </summary>
+        /// <param name="cusId">Customer Id</param>
+        /// <returns></returns>
+        public int GetCurrencyIdByCustKey(string cusId)
+        {
+            using (IDbConnection connection = OpenConnection(dataConnection))
+            {
+                var param = new DynamicParameters();
+                return Convert.ToInt32(connection.ExecuteScalar("select CurrencyId from Customer where CustomerId = " + cusId).ToString());
+            }
+        }
     }
 }

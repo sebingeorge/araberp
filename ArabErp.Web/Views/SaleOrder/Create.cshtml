@@ -69,7 +69,27 @@
     $(function () {
         $("#SaleOrderDate").datepicker({ dateFormat: "dd/MM/yy" });
     });
-   
+    function CustomerChanged(cust)
+    {
+        var cusId = cust.value;
+
+        $.ajax({
+            url: "/SaleOrder/GetCurrencyKeyByCustomer/",
+            data: { cusKey: cusId },
+            cache: false,
+            type: "GET",
+            timeout: 10000,
+            dataType: "json",
+            success: function (result) {
+                if (result.Success) { // this sets the value from the response
+                    $('#CurrencyId').val(result.Result);
+                } else {
+                    $('#SomeOtherHtmlTextBox').val("Failed");
+                }
+            }
+        });
+        //$('#CurrencyId').val("2");
+    }
 </script>
 @Html.HiddenFor(m => m.SaleOrderId)
 <div class="container">
@@ -94,7 +114,7 @@
             <div class="row form-group">
                 <div class="col-md-4">
                     <label for="selectCustomer">Customer</label>
-                    @Html.DropDownListFor(m => Model.CustomerId, (SelectList)ViewBag.customerlist, "Select Customer", new { @class = "form_input", autocomplete = "off" })
+                    @Html.DropDownListFor(m => Model.CustomerId, (SelectList)ViewBag.customerlist, "Select Customer", new { @class = "form_input", autocomplete = "off", @onchange="CustomerChanged(this);" })
                 </div>
                 <div class="col-md-4">
                     <label for="CustomerOrderRef">Customer Address</label>

@@ -106,5 +106,10 @@ namespace ArabErp.Web.Controllers
             saleOrder.Items.Add(new SaleOrderItem());
             return View("Create",saleOrder);
         }
+        public JsonResult GetCurrencyKeyByCustomer(string cusKey)
+        {
+            int res = (new SaleOrderRepository()).GetCurrencyIdByCustKey(cusKey);
+            return Json(new { Success = true, Result = res }, JsonRequestBehavior.AllowGet);
+        }
     }
 }
