@@ -147,8 +147,10 @@ textarea {
 .main-list 
 {
     background-color:#ffffff;
-    margin-left:-15px;
+    /*margin-left:-15px;*/
     width:99%;
+    padding:10px;
+    line-height:20px;
         border-radius:5px 5px 0 0;
     -moz-radius:5px 5px 0 0;
 }
