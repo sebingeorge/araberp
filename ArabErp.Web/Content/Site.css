@@ -69,6 +69,7 @@ textarea {
 .part
  {
     height:50px;
+    margin-top:7px;
 }
     .label1
      {
@@ -132,6 +133,9 @@ textarea {
 .marg5 {
     margin-left:70.5%;
     margin-top: -106px;
+}
+.top4 {
+    margin-top: -54px;
 }
 
 .main-list 
