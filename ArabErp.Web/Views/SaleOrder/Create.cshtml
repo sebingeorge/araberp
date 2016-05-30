@@ -78,9 +78,7 @@
 </script>
 @Html.HiddenFor(m => m.SaleOrderId)
 <div class="container">
-
         <div class="row">
-            
                 <div class="form-head1">
     <h4>Sale Order</h4>
                 </div>
@@ -106,21 +104,36 @@
                     @Html.DropDownListFor(m => Model.CustomerId, (SelectList)ViewBag.customerlist, "Select Customer", new { @class = "form_input", autocomplete = "off" })
                 </div>
                 <div class="col-md-4">
+                    <label for="CustomerOrderRef">Customer Address</label>
+                    @Html.TextBoxFor(m => m.CustomerOrderRef, new { @class = "form_input", autocomplete = "off" })
+                </div>
+                <div class="col-md-2">
                     <label for="CustomerOrderRef">Customer Order Ref.</label>
                     @Html.TextBoxFor(m => m.CustomerOrderRef, new { @class = "form_input", autocomplete = "off" })
                 </div>
-                <div class="col-md-4">
-                    <label for="selectvehicle">
-                        Vehicle Model
+                <div class="col-md-2">
+                    <label for="selectcurrency">
+                       Currency
                     </label>
                     @Html.DropDownListFor(m => Model.VehicleModelId, (SelectList)ViewBag.vehiclelist, "Select Vehicle", new { @class = "form_input", autocomplete = "off" })
                 </div>
             </div>
-                      
+    <div class="row form-group">
+             
+       
+        <div class="col-md-4">
+            <label for="selectvehicle">
+                Vehicle Model
+            </label>
+            @Html.DropDownListFor(m => Model.VehicleModelId, (SelectList)ViewBag.vehiclelist, "Select Vehicle", new { @class = "form_input", autocomplete = "off" })
+        </div>
+    </div>
+
+
             @Html.Action("DisplaySOList")
             <div class="row form-group">
                 <div class="col-md-12">
-                    <div class="part">
+                    <div class="part1">
                         <label for="SpecialRemarks">Spl.Remarks</label>
                         @Html.TextAreaFor(m => m.SpecialRemarks, new { @class = "form_input form_input-h", autocomplete = "off" })
                         </div>
@@ -128,29 +141,37 @@
                             <label for="PaymentTerms">Payment Terms</label>
                             @Html.TextBoxFor(m => m.PaymentTerms, new { @class = "form_input", autocomplete = "off" })
                         </div>
+                    <div class="part">
+                        <label for="DeliveryTerms">Delivery Terms</label>
+                        @Html.TextBoxFor(m => m.DeliveryTerms, new { @class = "form_input", autocomplete = "off" })
+                    </div>
+
+                    <div class="row">
+
+                        <div class="part">
+                            <div class="col-md-4">
+                                <label for="cmagent">Commission Agent</label>
+                                @Html.DropDownListFor(m => Model.CommissionAgentId, (SelectList)ViewBag.commissionagentlist, "Select Commission Agent", new { @class = "form_input", autocomplete = "off" })
+                            </div>
+                            <div class="col-md-2">
+                                <label for="CommisionAmount">Commission Amt</label>
+                                @Html.TextBoxFor(m => m.CommisionAmount, new { @class = "form_input form_input-half", autocomplete = "off" })
+                            </div>
+                            <div class="col-md-2">
+                                <label for="CommisionAmount">Commission Pct</label>
+                                @Html.TextBoxFor(m => m.CommisionAmount, new { @class = "form_input form_input-half", autocomplete = "off" })
+                            </div>
+                            <div class="col-md-4">
+                                <label for="selectorder">Order Taken By</label>
+                                @Html.DropDownListFor(m => Model.SalesExecutiveId, (SelectList)ViewBag.employeelist, "Select Order Taken By", new { @class = "form_input", autocomplete = "off" })
+                            </div>
+                        </div>
+                    </div>
+
+
                     </div>
             </div>
-            <div class="row form-group">
 
-                <div class="col-md-6">
-                    <label for="DeliveryTerms">Delivery Terms</label>
-                    @Html.TextBoxFor(m => m.DeliveryTerms, new { @class = "form_input", autocomplete = "off" })
-                </div>
-            </div>
-            <div class="row form-group">
-                <div class="col-md-3">
-                    <label for="cmagent">Commission Agent</label>
-                    @Html.DropDownListFor(m => Model.CommissionAgentId, (SelectList)ViewBag.commissionagentlist, "Select Commission Agent", new { @class = "form_input", autocomplete = "off" })
-                </div>
-                <div class="col-md-3">
-                    <label for="CommisionAmount">Commission Amount</label>
-                    @Html.TextBoxFor(m => m.CommisionAmount, new { @class = "form_input", autocomplete = "off" })
-                </div>
-                <div class="col-md-3">
-                    <label for="selectorder">Order Taken By</label>
-                    @Html.DropDownListFor(m => Model.SalesExecutiveId, (SelectList)ViewBag.employeelist, "Select Order Taken By", new { @class = "form_input", autocomplete = "off" })
-                </div>
-            </div>
             <div class="marg">
                 <button class="form-button">Exit</button>
                 <button type="submit" class="form-button">Save</button>

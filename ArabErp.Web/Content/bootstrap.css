@@ -2403,7 +2403,7 @@ input[type="button"].btn-block {
 
 .glyphicon {
   position: relative;
-  top: 1px;
+  top:-19px;
   display: inline-block;
   font-family: 'Glyphicons Halflings';
   -webkit-font-smoothing: antialiased;
@@ -2411,6 +2411,7 @@ input[type="button"].btn-block {
   font-weight: normal;
   line-height: 1;
 }
+
 
 .glyphicon-asterisk:before {
   content: "\2a";
@@ -6815,3 +6816,31 @@ td.visible-print {
     display: none !important;
   }
 }
+
+
+@media only screen and (min-width:320px) and (max-width: 640px)
+ {
+  .marg {
+    margin-left:8% !important;
+  }
+    .marg3 {
+        margin-left: 9%;
+    }
+    .form-head1
+   {
+        width: 92.8% !important;
+    }
+
+}
+
+@media only screen and (min-width:768px) and (max-width: 1024px)
+ {
+  .marg {
+    margin-left:69% !important;
+  }
+    .form-head1
+   {
+        width: 96.8% !important;
+    }
+}
+
