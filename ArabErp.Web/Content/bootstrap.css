@@ -2403,7 +2403,7 @@ input[type="button"].btn-block {
 
 .glyphicon {
   position: relative;
-  top: 1px;
+  top:-19px;
   display: inline-block;
   font-family: 'Glyphicons Halflings';
   -webkit-font-smoothing: antialiased;
@@ -2411,6 +2411,7 @@ input[type="button"].btn-block {
   font-weight: normal;
   line-height: 1;
 }
+
 
 .glyphicon-asterisk:before {
   content: "\2a";
