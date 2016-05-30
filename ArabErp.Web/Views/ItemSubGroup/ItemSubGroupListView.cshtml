@@ -24,7 +24,7 @@
                         {
                             columns.Add(m => m.ItemSubGroupRefNo).Titled("Part No.").SetWidth(110);
                             columns.Add(m => m.ItemSubGroupName).Titled("Name").SetWidth(110);
-                            columns.Add(m => m.ItemGroupName).Titled("Item SubGroup").SetWidth(110);
+                            columns.Add(m => m.ItemGroupName).Titled("Group").SetWidth(110);
 
                             columns.Add().Encoded(false).Sanitized(false).SetWidth(30).RenderValueAs(o => @<a href="">Edit</a>);
                             columns.Add().Encoded(false).Sanitized(false).SetWidth(30).RenderValueAs(o => @<a href="">Delete</a>);

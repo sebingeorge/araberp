@@ -1,5 +1,6 @@
 ﻿@model IList<ArabErp.Domain.ItemGroup>
 @using GridMvc.Html
+
 <style type="text/css">
     .tableData {
         font-size: 12px;
@@ -17,13 +18,13 @@
         }
 </style>
 
-<div class="table-responsive table2">
+<div class="table-responsive">
 
     @Html.Grid(Model).Columns(columns =>
                         {
                             columns.Add(m => m.ItemGroupRefNo).Titled("Ref No").SetWidth(110);
-                            columns.Add(m => m.ItemGroupName).Titled("Item Group Name").SetWidth(110);
-                            columns.Add(m => m.CategoryName).Titled("Category Name").SetWidth(110);
+                            columns.Add(m => m.ItemGroupName).Titled("Name").SetWidth(110);
+                            columns.Add(m => m.CategoryName).Titled("Category").SetWidth(110);
 
                             columns.Add().Encoded(false).Sanitized(false).SetWidth(30).RenderValueAs(o => @<a href="">Edit</a>);
                             columns.Add().Encoded(false).Sanitized(false).SetWidth(30).RenderValueAs(o => @<a href="">Delete</a>);

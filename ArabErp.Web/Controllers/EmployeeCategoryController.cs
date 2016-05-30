@@ -27,8 +27,10 @@ namespace ArabErp.Web.Controllers
             new EmployeeCategoryRepository().InsertEmployeeCategory(objEmployeeCategory);
             return View("Create");
         }
-        public ActionResult FillEmployeeCategoryList()
+        public ActionResult FillEmployeeCategoryList(int?page)
         {
+            int itemsPerPage = 10;
+            int pageNumber = page ?? 1;
             var repo = new EmployeeCategoryRepository();
             var List = repo.FillEmployeeCategoryList();
             return PartialView("EmployeeCategoryListView", List);

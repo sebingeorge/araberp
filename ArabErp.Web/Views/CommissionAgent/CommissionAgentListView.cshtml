@@ -1,4 +1,5 @@
 ﻿@model IList<ArabErp.Domain.CommissionAgent>
+@using GridMvc.Html
 
 <style type="text/css">
     .tableData {
@@ -17,27 +18,20 @@
         }
 </style>
 
-<div class="table-responsive table2">
-    <table class="table table-bordered table-hover" id="tab_logic">
-        <thead>
-            <tr class="grid_heading">
-                <td style="width:10%;"><h1>Ref No.</h1></td>
-                <td style="width:40%;"><h1>Name</h1></td>
-            </tr>
+<div class="table-responsive">
 
-            @{
-                for (int i = 0; i < Model.Count; i++)
-                {
-                    <tr>
-                        <td class="tableData table-back">
-                            @Model[i].CommissionAgentRefNo
-                        </td>
+    @Html.Grid(Model).Columns(columns =>
+                        {
+                            columns.Add(m => m.CommissionAgentRefNo).Titled("Ref No.").SetWidth(110);
+                            columns.Add(m => m.CommissionAgentName).Titled("Name").SetWidth(110);
+                            columns.Add().Encoded(false).Sanitized(false).SetWidth(30).RenderValueAs(o => @<a href="">Edit</a>);
+                            columns.Add().Encoded(false).Sanitized(false).SetWidth(30).RenderValueAs(o => @<a href="">Delete</a>);
 
-                        <td class="table-back">
-                            @Model[i].CommissionAgentName
-                        </td>
-                    </tr>
-                }
-            }
-    </table>
+                            //.Format("<a href="\"DeleteRecord?name={CategoryName}\"">{CategoryName}</a>");
+
+                            //columns.Add(m => m.CurrencyName).Sortable(true);
+                        }).WithPaging(10)
+
 </div>
+
+

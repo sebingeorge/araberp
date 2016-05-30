@@ -35,9 +35,10 @@ namespace ArabErp.Web.Controllers
             ViewBag.ItemGroup = new SelectList(List, "Id", "Name");
         }
 
-        public ActionResult FillItemSubGroupList()
+        public ActionResult FillItemSubGroupList(int?page)
         {
-
+            int itemsPerPage = 10;
+            int pageNumber = page ?? 1;
             var repo = new ItemSubGroupRepository();
             var List = repo.FillItemSubGroupList();
             return PartialView("ItemSubGroupListView", List);
