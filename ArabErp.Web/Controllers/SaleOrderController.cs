@@ -20,6 +20,7 @@ namespace ArabErp.Web.Controllers
         {
             FillCustomer();
             FillVehicle();
+            FillCurrency();
             FillCommissionAgent();
             FillEmployee();
             SaleOrder saleOrder = new SaleOrder();
@@ -77,6 +78,12 @@ namespace ArabErp.Web.Controllers
             var list = repo.FillUnit();
             ViewBag.unitlist = new SelectList(list, "Id", "Name");
         }
+        public void FillCurrency()
+        {
+            var repo = new SaleOrderRepository();
+            var list = repo.FillCurrency();
+            ViewBag.currlist = new SelectList(list, "Id", "Name");
+        }
         [HttpPost]
         public ActionResult Save(SaleOrder model)
         {
@@ -89,6 +96,7 @@ namespace ArabErp.Web.Controllers
             FillUnit();
             FillCustomer();
             FillVehicle();
+            FillCurrency();
             FillCommissionAgent();
             FillEmployee();
             //TempData["Success"] = "Added Successfully!";

@@ -104,6 +104,7 @@
     <Compile Include="WorkDescriptionRepository.cs" />
     <Compile Include="WorkShopRequestItemRepository.cs" />
     <Compile Include="WorkShopRequestRepository.cs" />
+    <Compile Include="WorkVsItemRepository.cs" />
     <Compile Include="WorkVsTaskRepository.cs" />
   </ItemGroup>
   <ItemGroup>
