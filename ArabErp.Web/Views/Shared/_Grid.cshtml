@@ -9,16 +9,18 @@ else
 {
     <div class="grid-mvc" data-lang="@Model.Language" data-gridname="@Model.RenderOptions.GridName" data-selectable="@Model.RenderOptions.Selectable.ToString().ToLower()" data-multiplefilters ="@Model.RenderOptions.AllowMultipleFilters.ToString().ToLower()">
         <div class="grid-wrap">
-            <table class="table table-striped grid-table" style="border:1px">
-                @* Draw grid header *@
-                <thead>
-                    
-                    @RenderGridHeader()
-                </thead>
-                <tbody>
-                    @RenderGridBody()
-                </tbody>
-            </table>
+            <div>
+                <table class="table table-striped grid-table">
+                    @* Draw grid header *@
+                    <thead>
+
+                        @RenderGridHeader()
+                    </thead>
+                    <tbody>
+                        @RenderGridBody()
+                    </tbody>
+                </table>
+            </div>
             @RenderGridPager()
         </div>
     </div>
@@ -27,7 +29,7 @@ else
 {
     if (!Model.ItemsToDisplay.Any())
     {
-    <tr class="grid-empty-text">
+    <tr class="grid-empty-text" >
         <td colspan="@Model.Columns.Count()">
             @Model.EmptyGridText
         </td>

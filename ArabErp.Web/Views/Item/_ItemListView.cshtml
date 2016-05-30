@@ -16,8 +16,17 @@
         .list tr:hover {
             background-color: #DFEDF7;
         }
+      
 </style>
+    <script type="text/javascript">
+        function open() {
+            alert("ok");
+            @*var url = '@Url.Action("Create")';
+        alert(url);
+        window.location = url;*@
+        }
 
+    </script>
 <div class="table-responsive">
 
     @Html.Grid(Model).Columns(columns =>
@@ -39,7 +48,7 @@
 </div>
 
 <div class="marg1">
-    <button type="submit" class="form-button" onclick="open()">Create</button>
+    <button type="submit" class="form-button" onclick="open()" >Create</button>
   
 </div>
 
