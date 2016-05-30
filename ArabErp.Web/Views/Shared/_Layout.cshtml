@@ -10,8 +10,12 @@
     @Scripts.Render("~/bundles/modernizr")
     @Scripts.Render("~/bundles/jqueryval")
     <script src="~/MVCGridHandler.axd/script.js"></script>
+    @*<script src="~/scripts/mdb.js"></script>
+    <script src="~/scripts/mdb.min.js"></script>*@
 
     <link href="~/Content/menu.css" rel="stylesheet" />
+    @*<link href="~/scripts/mdb.css" rel="stylesheet" />
+    <link href="~/scripts/mdb.min.css" rel="stylesheet" />*@
 </head>
 <body>
     <div class="navbar navbar-default navbar-fixed-top">
@@ -69,7 +73,7 @@
                                 <ul class="dropdown-menu">
 
                                     <li><a href="@Url.Action("Index","Item")"><span class="badge pull-right"></span>Item</a></li>
-                                    <li><a href="@Url.Action("Create","Employee")"><span class="badge pull-right"></span>Employee</a></li>
+                                    <li><a href="@Url.Action("Index", "Employee")"><span class="badge pull-right"></span>Employee</a></li>
                                     <li><a href="@Url.Action("Create","Supplier")"><span class="badge pull-right"></span>Supplier</a></li>
                                     <li><a href="@Url.Action("Create","Customer")"><span class="badge pull-right"></span>Customer</a></li>
                                     <li><a href="@Url.Action("Create","Currency")"><span class="badge pull-right"></span>Currency</a></li>
@@ -98,6 +102,74 @@
             </div>
         </div>
         </div>
+
+
+
+
+
+
+
+
+    @*<!-- Sidebar navigation -->
+    <ul id="slide-out" class="side-nav fixed default-side-nav stylish-side-nav">
+
+
+
+        <!-- Side navigation links -->
+        <ul class="collapsible collapsible-accordion">
+            <li>
+                <a class="collapsible-header waves-effect">Click me</a>
+                <div class="collapsible-body">
+                    <ul>
+                        <li>
+                            <a href="#" class="waves-effect">Link</a>
+                        </li>
+                        <li>
+                            <a href="#" class="waves-effect">Link</a>
+                        </li>
+                    </ul>
+                </div>
+            </li>
+            <li>
+                <a class="collapsible-header waves-effect">Click me</a>
+                <div class="collapsible-body">
+                    <ul>
+                        <li><a href="@Url.Action("Create","StockPoint")"><span class="badge pull-right"></span>StockPoint</a></li>
+                        <li><a href="@Url.Action("Create","VehicleModel")"><span class="badge pull-right"></span>Vehicle Model</a></li>
+                        <li><a href="@Url.Action("Create","Task")"><span class="badge pull-right"></span>Task</a></li>
+                        <li><a href="@Url.Action("Create","Designation")"><span class="badge pull-right"></span>Designation</a></li>
+                        <li><a href="@Url.Action("Create", "CommissionAgent")"><span class="badge pull-right"></span>Commission Agent</a></li>
+
+                    </ul>
+                </div>
+            </li>
+            <li>
+                <a class="collapsible-header waves-effect">Click me</a>
+                <div class="collapsible-body">
+                    <ul>
+                        <li>
+                            <a href="#" class="waves-effect">Link</a>
+                        </li>
+                        <li>
+                            <a href="#" class="waves-effect">Link</a>
+                        </li>
+                    </ul>
+                </div>
+            </li>
+        </ul>
+        <!--/. Side navigation links -->
+
+    </ul>
+    <!--/. Sidebar navigation -->*@
+
+
+
+
+
+
+
+
+
     <div class="container-fluid body-content">
       
         @RenderBody()

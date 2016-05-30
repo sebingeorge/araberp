@@ -28,6 +28,8 @@ namespace ArabErp
                       "~/Scripts/bootstrapValidator.js",
                       "~/Scripts/jquery-1.8.3.js",
                       "~/Scripts/jquery-1.8.3.min.js"
+
+
                       ));
 
                     
@@ -40,6 +42,7 @@ namespace ArabErp
                       "~/Content/bootstrapValidator.min.css",
                        "~/Content/datepicker.min.css",
                        "~/Content/datepicker3.min.css"
+                       
                                            ));
                     
                     

@@ -43,7 +43,7 @@ namespace ArabErp.Web.Controllers
             var rep = new SaleOrderRepository();
 
 
-            var slist = rep.GetSaleOrders();
+            var slist = rep.GetSaleOrdersPendingWorkshopRequest();
 
             var pager = new Pager(slist.Count(), page);
 
