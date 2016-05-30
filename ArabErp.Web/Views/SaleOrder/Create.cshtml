@@ -106,17 +106,32 @@
                     @Html.DropDownListFor(m => Model.CustomerId, (SelectList)ViewBag.customerlist, "Select Customer", new { @class = "form_input", autocomplete = "off" })
                 </div>
                 <div class="col-md-4">
+                    <label for="CustomerOrderRef">Customer Address</label>
+                    @Html.TextBoxFor(m => m.CustomerOrderRef, new { @class = "form_input", autocomplete = "off" })
+                </div>
+                <div class="col-md-2">
                     <label for="CustomerOrderRef">Customer Order Ref.</label>
                     @Html.TextBoxFor(m => m.CustomerOrderRef, new { @class = "form_input", autocomplete = "off" })
                 </div>
-                <div class="col-md-4">
-                    <label for="selectvehicle">
-                        Vehicle Model
+                <div class="col-md-2">
+                    <label for="selectcurrency">
+                       Currency
                     </label>
                     @Html.DropDownListFor(m => Model.VehicleModelId, (SelectList)ViewBag.vehiclelist, "Select Vehicle", new { @class = "form_input", autocomplete = "off" })
                 </div>
             </div>
-                      
+    <div class="row form-group">
+             
+       
+        <div class="col-md-4">
+            <label for="selectvehicle">
+                Vehicle Model
+            </label>
+            @Html.DropDownListFor(m => Model.VehicleModelId, (SelectList)ViewBag.vehiclelist, "Select Vehicle", new { @class = "form_input", autocomplete = "off" })
+        </div>
+    </div>
+
+
             @Html.Action("DisplaySOList")
             <div class="row form-group">
                 <div class="col-md-12">
@@ -142,8 +157,12 @@
                     <label for="cmagent">Commission Agent</label>
                     @Html.DropDownListFor(m => Model.CommissionAgentId, (SelectList)ViewBag.commissionagentlist, "Select Commission Agent", new { @class = "form_input", autocomplete = "off" })
                 </div>
-                <div class="col-md-3">
+                <div class="col-md-2">
                     <label for="CommisionAmount">Commission Amount</label>
+                    @Html.TextBoxFor(m => m.CommisionAmount, new { @class = "form_input", autocomplete = "off" })
+                </div>
+                <div class="col-md-2">
+                    <label for="CommisionAmount">Commission Percentage</label>
                     @Html.TextBoxFor(m => m.CommisionAmount, new { @class = "form_input", autocomplete = "off" })
                 </div>
                 <div class="col-md-3">
