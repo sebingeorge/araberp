@@ -25,11 +25,12 @@ namespace ArabErp.Web.Controllers
             new UnitRepository().InsertUnit(objUnit);
             return View("Create");
         }
-        public ActionResult FillUnitList()
+        public ActionResult FillUnitList(int? page)
         {
-            //var list = _GradeVsDisplayOrderManager.GetGradeVsDisplayOrderList();
-            var repo = new UnitRepository();
-            var List = repo.FillUnitList();
+            int itemsPerPage = 10;
+            int pageNumber = page ?? 1;
+            var rep = new UnitRepository();
+            var List = rep.FillUnitList();
             return PartialView("UnitListView", List);
         }
     }
