@@ -4,8 +4,17 @@
 }
 
 
+<script type="text/javascript">
+    function openPop() {
+      
+        var url = '@Url.Action("Create")';
+       
+        window.location = url;
+    }
 
-<div class=" container ">
+</script>
+
+<div class=" container">
     <div class="row">
 
         <div class="form-head form-head1">
@@ -17,16 +26,16 @@
             <div class="row">
 
                 @Html.Action("ItemList")
-
+                <div class="marg">
+                    <button type="button" onclick="openPop();" class="form-button top1">Create</button>
+                </div>
 
             </div>
-
-
-
         </div>
-    </div>
 
     </div>
+
+</div>
 
 
 
