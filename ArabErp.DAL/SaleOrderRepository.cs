@@ -21,11 +21,11 @@ namespace ArabErp.DAL
             using (IDbConnection connection = OpenConnection(dataConnection))
             {
 
-                var trn =connection.BeginTransaction();
+                //var trn =connection.BeginTransaction();
                 int id = 0;
                 try
                 {
-                    string sql = @"insert  into SaleOrder(SaleOrderRefNo,SaleOrderDate,CustomerId,CustomerOrderRef,VehicleModelId,SpecialRemarks,PaymentTerms,DeliveryTerms,CommissionAgentId,CommisionAmount,SalesExecutiveId,CreatedBy,CreatedDate,OrganizationId) Values (@SaleOrderRefNo,@SaleOrderDate,@CustomerId,@CustomerOrderRef,@VehicleModelId,@SpecialRemarks,@PaymentTerms,@DeliveryTerms,@CommissionAgentId,@CommisionAmount,@SalesExecutiveId,@CreatedBy,@CreatedDate,@OrganizationId);
+                    string sql = @"insert  into SaleOrder(SaleOrderRefNo,SaleOrderDate,CustomerId,CustomerOrderRef,CurrencyId,VehicleModelId,SpecialRemarks,PaymentTerms,DeliveryTerms,CommissionAgentId,CommisionAmount,SalesExecutiveId,CreatedBy,CreatedDate,OrganizationId) Values (@SaleOrderRefNo,@SaleOrderDate,@CustomerId,@CustomerOrderRef,@CurrencyId,@VehicleModelId,@SpecialRemarks,@PaymentTerms,@DeliveryTerms,@CommissionAgentId,@CommisionAmount,@SalesExecutiveId,@CreatedBy,@CreatedDate,@OrganizationId);
            
 
                         SELECT CAST(SCOPE_IDENTITY() as int)";
@@ -39,11 +39,11 @@ namespace ArabErp.DAL
                         saleorderitemrepo.InsertSaleOrderItem(item);
                     }
 
-                    trn.Commit();
+                    //trn.Commit();
                 }
-                catch (Exception e)
+                catch (Exception)
                 {
-                    trn.Rollback();
+                    //trn.Rollback();
                     throw;
                 }
 
@@ -143,6 +143,14 @@ namespace ArabErp.DAL
             {
                 var param = new DynamicParameters();
                 return connection.Query<Dropdown>("select EmployeeId Id,EmployeeName Name from Employee").ToList();
+            }
+        }
+        public List<Dropdown> FillCurrency()
+        {
+            using (IDbConnection connection = OpenConnection(dataConnection))
+            {
+                var param = new DynamicParameters();
+                return connection.Query<Dropdown>("select CurrencyId Id,CurrencyName Name from Currency").ToList();
             }
         }
     }
