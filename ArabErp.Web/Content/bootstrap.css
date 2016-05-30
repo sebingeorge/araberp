@@ -6828,6 +6828,12 @@ td.visible-print {
   .marg {
      margin-left: 0% !important;
   }
+    .marg1
+     {
+        margin-left: 0% !important;
+        width: 100% !important;
+        height:auto !important;
+    }
     .marg3 {
         margin-left:  0% !important;
     }
@@ -6846,6 +6852,14 @@ td.visible-print {
    {
         width: 92.8% !important;
     }
+            .form-head h4 
+        {
+            font-size:18px !important;
+        }
+        .form-head1 h4 
+        {
+            font-size:18px !important;
+        }
         .form-head
    {
         width: 87.7% !important;
@@ -6853,6 +6867,14 @@ td.visible-print {
     .form-button 
     {
         width:100% !important;
+    }
+    .left
+    {
+    float:none !important;
+    }
+     .margl
+    {
+    float:none !important;
     }
 
 }
@@ -6862,6 +6884,10 @@ td.visible-print {
   .marg {
     margin-left:68% !important;
   }
+    .marg1 
+    {
+        margin-left:70% !important;
+    }
   .marg3 {
     margin-left: 68% !important;
 }
