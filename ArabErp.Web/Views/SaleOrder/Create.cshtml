@@ -65,16 +65,11 @@
             }
         });
     })
-    $(document).ready(function () {
-        $('#SaleOrderDate')
-            .datepicker({
-                format: 'dd/MM/yyyy'
-            })
+   
+    $(function () {
+        $("#SaleOrderDate").datepicker({ dateFormat: "dd/MM/yy" });
     });
-
-    //$(function () {
-    //    $("#SaleOrderDate").datepicker({ dateFormat: "dd/MM/yy" });
-    //});
+   
 </script>
 @Html.HiddenFor(m => m.SaleOrderId)
 <div class="container">
@@ -84,19 +79,17 @@
                 </div>
                
                 <div class="main-part pad1">
-                    @using (Html.BeginForm("Save", null, FormMethod.Post, new { @class = "createFrom", onsubmit = "return SaleOrderValidation()", @id = "saleorder_form" }))
+                    @using (Html.BeginForm("Save", null, FormMethod.Post, new { @class = "createFrom", @id = "saleorder_form" }))
         {
                         <div class="row form-group ">
                 <div class="col-md-2">
                     <label for="SaleOrderRefNo">SO.No.</label>
                     @Html.TextBoxFor(m => m.SaleOrderRefNo, new { @class = "form_input", autocomplete = "off" })
-
                 </div>
-                <div class="col-md-2">
-                    <label for="SaleOrderDate">Date</label>
-                    @Html.TextBoxFor(m => m.SaleOrderDate, String.Format("{0:dd/MM/yyyy}", Model.SaleOrderDate), new { @class = "form_input ", autocomplete = "off", @readonly = "readonly" })
-
-                </div>
+                            <div class="col-md-2">
+                                <label for="SaleOrderDate">Date</label>
+                                @Html.TextBoxFor(m => m.SaleOrderDate, String.Format("{0:dd/MM/yyyy}", Model.SaleOrderDate), new { @class = "form_input ", autocomplete = "off", @readonly = "readonly" })
+                            </div>
             </div>
             <div class="row form-group">
                 <div class="col-md-4">
@@ -112,10 +105,10 @@
                     @Html.TextBoxFor(m => m.CustomerOrderRef, new { @class = "form_input", autocomplete = "off" })
                 </div>
                 <div class="col-md-2">
-                    <label for="selectcurrency">
-                       Currency
+                    <label for="CurrencyId">
+                        Currency
                     </label>
-                    @Html.DropDownListFor(m => Model.VehicleModelId, (SelectList)ViewBag.vehiclelist, "Select Vehicle", new { @class = "form_input", autocomplete = "off" })
+                    @Html.DropDownListFor(m => Model.CurrencyId, (SelectList)ViewBag.currlist, "Select Currency", new { @class = "form_input", autocomplete = "off" })
                 </div>
             </div>
     <div class="row form-group">
@@ -128,8 +121,6 @@
             @Html.DropDownListFor(m => Model.VehicleModelId, (SelectList)ViewBag.vehiclelist, "Select Vehicle", new { @class = "form_input", autocomplete = "off" })
         </div>
     </div>
-
-
             @Html.Action("DisplaySOList")
             <div class="row form-group">
                 <div class="col-md-12">

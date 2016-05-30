@@ -14,6 +14,7 @@ namespace ArabErp.Domain
         public int CustomerId { get; set; }
         public string CustomerName { get; set; }
         public string CustomerOrderRef { get; set; }
+        public int? CurrencyId { get; set; }
         public int? VehicleModelId { get; set; }
         public string SpecialRemarks { get; set; }
         public string PaymentTerms { get; set; }
