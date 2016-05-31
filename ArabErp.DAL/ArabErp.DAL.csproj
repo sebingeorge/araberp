@@ -79,7 +79,6 @@
     <Compile Include="ItemGroupRepository.cs" />
     <Compile Include="ItemSubGroupRepository.cs" />
     <Compile Include="JobCardRepository.cs" />
-    <Compile Include="JobCardTaskEmployeeRepository.cs" />
     <Compile Include="JobCardTaskMasterRepository.cs" />
     <Compile Include="JobCardTaskRepository.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

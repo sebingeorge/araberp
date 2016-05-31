@@ -60,7 +60,6 @@
     <Compile Include="ItemSubGroup.cs" />
     <Compile Include="JobCard.cs" />
     <Compile Include="JobCardTask.cs" />
-    <Compile Include="JobCardTaskEmployee.cs" />
     <Compile Include="JobCardTaskMaster.cs" />
     <Compile Include="Organization.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

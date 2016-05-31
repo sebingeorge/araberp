@@ -21,12 +21,27 @@ namespace ArabErp.Web.Controllers
             FillVehicle();
             FillBox();
             FillFreezerUnit();
+            FillItem();
+            FillJobCardTaskMaster();
             WorkDescription workdescription = new WorkDescription();
 
 
             workdescription.WorkVsItems.Add(new WorkVsItem());
             workdescription.WorkVsTasks.Add(new WorkVsTask());
             return View(workdescription);
+        }
+        public void FillItem()
+        {
+            ItemRepository Repo = new ItemRepository();
+            var List = Repo.FillItem();
+            ViewBag.ItemList = new SelectList(List, "Id", "Name");
+        }
+
+        public void FillJobCardTaskMaster()
+        {
+            JobCardTaskMasterRepository Repo = new JobCardTaskMasterRepository();
+            var List = Repo.FillJobCardTaskMaster();
+            ViewBag.JobCardTaskMasterList = new SelectList(List, "Id", "Name");
         }
         public void FillVehicle()
         {
@@ -59,6 +74,8 @@ namespace ArabErp.Web.Controllers
             FillVehicle();
             FillBox();
             FillFreezerUnit();
+            FillItem();
+            FillJobCardTaskMaster();
             WorkDescription workdescription = new WorkDescription();
 
 

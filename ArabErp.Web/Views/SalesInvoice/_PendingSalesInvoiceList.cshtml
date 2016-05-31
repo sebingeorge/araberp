@@ -16,13 +16,11 @@
         .list tr:hover {
             background-color: #DFEDF7;
         }
-      
 </style>
     <
 <div class="table-responsive">
-    <div class="main-grid">
 
-        @Html.Grid(Model).Columns(columns =>
+    @Html.Grid(Model).Columns(columns =>
                         {
                             columns.Add(m => m.PartNo).Titled("Part No.").SetWidth(110);
                             columns.Add(m => m.ItemName).Titled("Item Name").SetWidth(110);
@@ -36,7 +34,7 @@
 
                             //columns.Add(m => m.CurrencyName).Sortable(true);
                         }).WithPaging(10)
-        </div>
 
-    </div>
+</div>
+
 

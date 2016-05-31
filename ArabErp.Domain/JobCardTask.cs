@@ -9,8 +9,13 @@ namespace ArabErp.Domain
     {
         public int JobCardTaskId { get; set; }
         public int JobCardId { get; set; }
-        public string Task { get; set; }
-        public string Employee { get; set; }
+        public int EmployeeId { get; set; }
+        public DateTime TaskDate { get; set; }
+        public decimal Hours { get; set; }
+        public decimal? ActualHours { get; set; }
+        public string CreatedBy { get; set; }
+        public DateTime? CreatedDate { get; set; }
+        public int OrganizationId { get; set; }
 
 
     }
