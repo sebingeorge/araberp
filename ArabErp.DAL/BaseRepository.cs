@@ -24,7 +24,6 @@ namespace ArabErp.DAL
             {
                 connection.Open();
             }
-
             return connection;
         }
 
