@@ -48,14 +48,15 @@
                         $("#customer").val(data.split('|')[0]);
                         $("#work").val(data.split('|')[1]);
                     });
-                var url = '@Url.Action("StockReturnList")';
-                url += "?jobCardID=" + id;
-                $("#stock-return-list").load(url);
             }
             else {
                 $("#customer").val('');
                 $("#work").val('');
+                id = 0;
             }
+            var url = '@Url.Action("StockReturnList")';
+            url += "?jobCardID=" + id;
+            $("#stock-return-list").load(url);
         });
     });
 
