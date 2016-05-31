@@ -152,6 +152,10 @@ background-color: #ffffff;
     padding: 10px;
     width: 98%;
 }
+.main-list1 
+{
+    width:97%;
+}
 .main-list-head 
 {  
     background: url(../Images/head-back.jpg) repeat; 
@@ -197,6 +201,10 @@ background-color: #ffffff;
  border-left:1px solid #d6d8de;  
  border-bottom:1px solid #d6d8de;   
 }
+    .main-grid .grid-cell 
+    {
+        padding-left:4px;
+    }
 .main-grid .table-striped > tbody > tr:nth-child(2n+1) > td, .table-striped > tbody > tr:nth-child(2n+1) > th
 {
     padding:4px !important;
@@ -209,3 +217,12 @@ background-color: #ffffff;
     {
         border-bottom:0;
     }
+
+.grid-pager 
+{
+    padding-left:10px;
+    border:1px solid #d6d8de;
+    border-bottom:0;
+    border-left:0;
+
+}

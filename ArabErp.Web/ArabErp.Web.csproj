@@ -435,6 +435,9 @@
     <Content Include="Views\Item\_ItemListView.cshtml" />
     <Content Include="Views\ItemGroup\ItemGroupListView.cshtml" />
     <Content Include="Views\Employee\_EmployeeListView.cshtml" />
+    <Content Include="Views\SalesInvoice\Create.cshtml" />
+    <Content Include="Views\SalesInvoice\_PendingSalesInvoiceList.cshtml" />
+    <Content Include="Views\SalesInvoice\_pendingSalesCustomerList.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

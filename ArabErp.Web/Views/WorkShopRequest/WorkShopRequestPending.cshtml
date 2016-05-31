@@ -17,10 +17,12 @@
 
                         <div class="col-md-12">
 
-                            <div class="col-md-3 grid-left">SO No & Date</div>
-                            <div class="col-md-3 grid-left">Customer</div>
+                          
+                            <div class="col-md-2 grid-left">Customer</div>
                             <div class="col-md-2 grid-left">Customer Order Ref.</div>
-                            <div class="col-md-2 grid-left">Vehicle Model</div>
+                            <div class="col-md-2 grid-left">SO No & Date</div>
+                            <div class="col-md-2 grid-left">EDA</div>
+                            <div class="col-md-2 grid-left">EDD</div>
                             <div class="col-md-2 grid-left"><center>Select</center></div>
 
 
@@ -34,10 +36,12 @@
                                 @Html.HiddenFor(m => m.SaleOrders.ElementAt(i).SaleOrderId, new { @class = "form_input", autocomplete = "off" })
                                  @Html.HiddenFor(m => m.SaleOrders.ElementAt(i).CustomerId, new { @class = "form_input", autocomplete = "off" })
                               
-                                <div class="col-md-3 mtop">@Html.TextBoxFor(m => m.SaleOrders.ElementAt(i).SoNoWithDate , new { @class = "form_input", autocomplete = "off", @readonly = "readonly" }) </div>
-                                <div class="col-md-3 mtop">@Html.TextBoxFor(m => m.SaleOrders.ElementAt(i).CustomerName, new { @class = "form_input", autocomplete = "off", @readonly = "readonly" })</div>
+                               
+                                <div class="col-md-2 mtop">@Html.TextBoxFor(m => m.SaleOrders.ElementAt(i).CustomerName, new { @class = "form_input", autocomplete = "off", @readonly = "readonly" })</div>
                                 <div class="col-md-2 mtop">@Html.TextBoxFor(m => m.SaleOrders.ElementAt(i).CustomerOrderRef, new { @class = "form_input", autocomplete = "off", @readonly = "readonly" })</div>
-                                <div class="col-md-2 mtop">@Html.TextBoxFor(m => m.SaleOrders.ElementAt(i).VehicleModelName, new { @class = "form_input", autocomplete = "off", @readonly = "readonly" })</div>
+                                <div class="col-md-2 mtop">@Html.TextBoxFor(m => m.SaleOrders.ElementAt(i).SoNoWithDate, new { @class = "form_input", autocomplete = "off", @readonly = "readonly" }) </div>
+                                <div class="col-md-2 mtop">@Html.TextBoxFor(m => m.SaleOrders.ElementAt(i).EDateArrival, String.Format("{0:dd/MM/yyyy}", Model.SaleOrders.ElementAt(i).EDateArrival), new { @class = "form_input", autocomplete = "off", @readonly = "readonly" })</div>
+                                <div class="col-md-2 mtop">@Html.TextBoxFor(m => m.SaleOrders.ElementAt(i).EDateDelivery, String.Format("{0:dd/MM/yyyy}", Model.SaleOrders.ElementAt(i).EDateDelivery), new { @class = "form_input", autocomplete = "off", @readonly = "readonly" })</div>
                                 <div class="col-md-2 mtop"><center><button type="submit" class="form-button form-button1">Select</button></center></div>
                             </form>
 

@@ -44,6 +44,15 @@ namespace ArabErp.DAL
             }
         }
 
+        public List<Dropdown> FillJobCardTaskMaster()
+        {
+            using (IDbConnection connection = OpenConnection(dataConnection))
+            {
+                var param = new DynamicParameters();
+                return connection.Query<Dropdown>("select JobCardTaskMasterId Id,JobCardTaskName Name from JobCardTaskMaster").ToList();
+            }
+        }
+
         public List<JobCardTaskMaster> GetJobCardTaskMasters()
         {
             using (IDbConnection connection = OpenConnection(dataConnection))
