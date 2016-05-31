@@ -2401,9 +2401,14 @@ input[type="button"].btn-block {
   src: url('../fonts/glyphicons-halflings-regular.eot?#iefix') format('embedded-opentype'), url('../fonts/glyphicons-halflings-regular.woff') format('woff'), url('../fonts/glyphicons-halflings-regular.ttf') format('truetype'), url('../fonts/glyphicons-halflings-regular.svg#glyphicons-halflingsregular') format('svg');
 }
 
+.main-part .glyphicon
+{
+    top:-19px;
+}
+
 .glyphicon {
   position: relative;
-  top: 1px;
+  top:1px;
   display: inline-block;
   font-family: 'Glyphicons Halflings';
   -webkit-font-smoothing: antialiased;
@@ -2411,6 +2416,7 @@ input[type="button"].btn-block {
   font-weight: normal;
   line-height: 1;
 }
+
 
 .glyphicon-asterisk:before {
   content: "\2a";
@@ -4694,8 +4700,8 @@ textarea.input-group-sm > .input-group-btn > .btn {
   z-index: 2;
   color: #ffffff;
   cursor: default;
-  background-color: #428bca;
-  border-color: #428bca;
+  background-color: #2db4e3;
+  border-color: #2db4e3;
 }
 
 .pagination > .disabled > span,
@@ -6815,3 +6821,95 @@ td.visible-print {
     display: none !important;
   }
 }
+
+
+@media only screen and (min-width:320px) and (max-width: 640px)
+ {
+  .marg {
+     margin-left: 0% !important;
+  }
+    .marg1
+     {
+        margin-left: 0% !important;
+        width: 100% !important;
+        height:auto !important;
+    }
+    .marg3 {
+        margin-left:  0% !important;
+    }
+    .marg4 {
+        margin-left:  0% !important;
+        margin-top: -108px !important;
+    }
+    .marg5 {
+        margin-left:  0% !important;
+    }
+    .margf 
+    {
+      Float:none !important;
+    }
+    .form-head1
+   {
+        width: 92.8% !important;
+    }
+            .form-head h4 
+        {
+            font-size:18px !important;
+        }
+        .form-head1 h4 
+        {
+            font-size:18px !important;
+        }
+        .form-head
+   {
+        width: 87.7% !important;
+    }
+    .form-button 
+    {
+        width:100% !important;
+    }
+    .left
+    {
+    float:none !important;
+    }
+     .margl
+    {
+    float:none !important;
+    }
+
+}
+
+@media only screen and (min-width:768px) and (max-width: 1024px)
+ {
+  .marg {
+    margin-left:68% !important;
+  }
+    .marg1 
+    {
+        margin-left:70% !important;
+    }
+  .marg3 {
+    margin-left: 68% !important;
+}
+  .marg4 {
+    margin-left: 68% !important;
+    margin-top: -94px !important;
+}
+  .marg5 {
+    margin-left: 68.5% !important;
+}
+
+    .form-head1
+   {
+        width: 96.8% !important;
+    }
+            .form-head
+   {
+        width: 94.8% !important;
+    }
+    .navbar-nav 
+    {
+        float:right !important;
+    }
+}
+

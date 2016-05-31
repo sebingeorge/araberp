@@ -1,9 +1,85 @@
 ﻿@model  ArabErp.Domain.Supplier
-@{
-    ViewBag.Title = "Create";
-    Layout = "~/Views/Shared/_Layout.cshtml";
-}
+@{ViewBag.Title = "Create";Layout = "~/Views/Shared/_Layout.cshtml";}
 
+<script>
+    $(document).ready(function () {
+        $('#Supplier_form').bootstrapValidator({
+          
+            fields: {
+                SupplierRefNo: {
+                    validators: {
+                        notEmpty: {
+                            message: 'Please Enter Code'
+                        }
+                    }
+                },
+                SupplierName: {
+                    validators: {
+                        notEmpty: {
+                            message: 'Please Enter Name'
+                        }
+                    }
+                },
+                PurchaseTypeId: {
+                    validators: {
+                        notEmpty: {
+                            message: 'Please Enter Purchase Type'
+                        }
+                    }
+                },
+                CategoryId: {
+                    validators: {
+                        notEmpty: {
+                            message: 'Please Select Category'
+                        }
+                    }
+                },
+                ContractDate: {
+                    validators: {
+                        notEmpty: {
+                            message: 'Please Select Contract Date'
+                        }
+                    }
+                },
+                State: {
+                    validators: {
+                        numeric: {
+                            message: 'Please Enter State '
+                        }
+                    }
+                },
+                Country: {
+                    validators: {
+                        notEmpty: {
+                            message: 'Please Select Country'
+                        }
+                    }
+                },
+
+                Bank: {
+                    validators: {
+                        notEmpty: {
+                            message: 'Please Enter Bank'
+                        }
+                    }
+                },
+                CurrencyId: {
+                    validators: {
+                        notEmpty: {
+                            message: 'Please Select Currency'
+                        }
+                    }
+                },
+
+            }
+        });
+    })
+
+
+    $(function () {
+        $("#ContractDate").datepicker({ dateFormat: "dd/MM/yy" });
+    });
+</script>
 
 <div class="container">
     <div class="row">
@@ -12,11 +88,9 @@
             <h4>Supplier</h4>
         </div>
         <div class="col-md-12">
-            <form role="form">
+          @using (Html.BeginForm("Save", null, FormMethod.Post, new { @class = "createFrom", @id ="Supplier_form"}))
+          {
                 <div class="row form-group main-part pad1">
-                 
-                   
-
                     <div class="row form-group pad3">
                         <div class="col-md-3">
                             <div class="part">
@@ -24,43 +98,34 @@
                                 @Html.TextBoxFor(m => m.SupplierRefNo, new { @class = "form_input", autocomplete = "off" })
                             </div>
                             <div class="part">
-                                <label for="categry">Category</label>
-                                @Html.TextBoxFor(m => m.SupplierRefNo, new { @class = "form_input", autocomplete = "off" })
-                                @*@Html.DropDownListFor(m => Model.CategoryId, (SelectList)ViewBag.test, "Select Symbol", new { @class = "form_input" })*@
+                                <label for="CategoryId">Category</label>
+                                @Html.DropDownListFor(m => Model.CategoryId, (SelectList)ViewBag.SupplierCategory, "Select Category", new { @class = "form_input", autocomplete = "off" })
                             </div>
-
                         </div>
+
                         <div class="col-md-3">
                             <div class="part">
                                 <label for="name">Name</label>
                                 @Html.TextBoxFor(m => m.SupplierName, new { @class = "form_input", autocomplete = "off" })
                             </div>
                             <div class="part">
-                                <label for="cntrctupto">Contract Upto</label>
-                                @Html.TextBoxFor(m => m.ContractDate, new { @class = "form_input", autocomplete = "off" })
+                                <label for="ContractDate">Contract Upto</label>
+                                @Html.TextBoxFor(m => m.ContractDate, String.Format("{0:dd/MM/yyyy}", Model.ContractDate), new { @class = "form_input ", autocomplete = "off", @readonly = "readonly" })
                             </div>
-
-
-
                         </div>
 
                         <div class="col-md-3">
                             <div class="part">
                                 <label for="purtype">Purchase Type</label>
-                                @Html.TextBoxFor(m => m.SupplierRefNo, new { @class = "form_input", autocomplete = "off" })
-                                @*@Html.DropDownListFor(m => Model.PurchaseTypeId, (SelectList)ViewBag.test, "Select Symbol", new { @class = "form_input" })*@
+                                @Html.TextBoxFor(m => m.PurchaseTypeId, new { @class = "form_input", autocomplete = "off" })
                             </div>
 
                             <div class="part">
                                 <label for="cntperson">Contact Person</label>
                                 @Html.TextBoxFor(m => m.ContactPerson, new { @class = "form_input", autocomplete = "off" })
                             </div>
-
-
-
-
-
                         </div>
+
 
                         <div class="col-md-3">
                             <div class="part">
@@ -70,36 +135,29 @@
 
                             <div class="part">
                                 <div style="font-size :12px">Active</div>
-                                <input type="radio" name="">
-                                <span class="text" style="font-size :12px">Yes</span>
-                                <input type="radio" name="">
-                                <span class="text  style=" font-size 12px"">No</span>
+                                @Html.RadioButtonFor(model => model.Active, 1, new { @checked = true }) Yes
+                                @Html.RadioButtonFor(model => model.Active, 2, new { @checked = true }) No
                             </div>
-
-
                         </div>
 
 
                     </div>
-              
+
 
                     <div class="row form-group back-color pad3">
                         <h5 class="pad2">Address & Communication</h5>
                         <div class="col-md-3">
                             <div class="part">
-
                                 <label for="doorno">Door No.& Building</label>
                                 @Html.TextBoxFor(m => m.DoorNo, new { @class = "form_input", autocomplete = "off" })
-
                             </div>
                             <div class="part">
-
                                 <label for="zip">Post Box No.</label>
                                 @Html.TextBoxFor(m => m.PostBoxNo, new { @class = "form_input", autocomplete = "off" })
-
                             </div>
 
                         </div>
+
                         <div class="col-md-3">
                             <div class="part">
                                 <label for="street">Street & City</label>
@@ -109,9 +167,6 @@
                                 <label for="phno">Phone No.</label>
                                 @Html.TextBoxFor(m => m.Phone, new { @class = "form_input", autocomplete = "off" })
                             </div>
-
-
-
                         </div>
 
                         <div class="col-md-3">
@@ -123,25 +178,17 @@
                                 <label for="fax">Fax</label>
                                 @Html.TextBoxFor(m => m.Fax, new { @class = "form_input", autocomplete = "off" })
                             </div>
-
-
-
-
-
                         </div>
 
                         <div class="col-md-3">
                             <div class="part">
                                 <label for="country">Country</label>
-                                @Html.TextBoxFor(m => m.SupplierRefNo, new { @class = "form_input", autocomplete = "off" })
-                                @*@Html.DropDownListFor(m => Model.Country, (SelectList)ViewBag.test, "Select Symbol", new { @class = "form_input" })*@
+                                @Html.DropDownListFor(m => Model.Country, (SelectList)ViewBag.SupplierCountry, "Select Country", new { @class = "form_input", autocomplete = "off" })
                             </div>
                             <div class="part">
                                 <label for="email">E-mail</label>
                                 @Html.TextBoxFor(m => m.Email, new { @class = "form_input", autocomplete = "off" })
                             </div>
-
-
                         </div>
 
 
@@ -152,7 +199,6 @@
                         <h5 class="pad2">Bank & Terms</h5>
                         <div class="col-md-3">
                             <div class="part">
-
                                 <label for="bnkname">Bank Name</label>
                                 @Html.TextBoxFor(m => m.Bank, new { @class = "form_input", autocomplete = "off" })
                             </div>
@@ -160,16 +206,15 @@
                             <div class="part">
                                 <label for="rtgsno">RTGS No.</label>
                                 @Html.TextBoxFor(m => m.RtgsNo, new { @class = "form_input", autocomplete = "off" })
-
                             </div>
+
                             <div class="part">
                                 <label for="curnc">Currency</label>
-                                @Html.TextBoxFor(m => m.SupplierRefNo, new { @class = "form_input", autocomplete = "off" })
-                                @*@Html.DropDownListFor(m => Model.CurrencyId, (SelectList)ViewBag.test, "Select Symbol", new { @class = "form_input" })*@
-
+                                @Html.DropDownListFor(m => Model.CurrencyId, (SelectList)ViewBag.SupplierCurrency, "Select Currency", new { @class = "form_input", autocomplete = "off" })
                             </div>
 
                         </div>
+
                         <div class="col-md-3">
                             <div class="part">
                                 <label for="branchname">Branch Name</label>
@@ -179,18 +224,12 @@
                             <div class="part">
                                 <label for="accno">Account No.</label>
                                 @Html.TextBoxFor(m => m.AccountNo, new { @class = "form_input", autocomplete = "off" })
-
                             </div>
 
                             <div class="part">
-
                                 <label for="supAccNo">Sup Account Ref.No.</label>
-                                @Html.TextBoxFor(m => m.AccountNo, new { @class = "form_input", autocomplete = "off" })
-
+                                @Html.TextBoxFor(m => m.SupRefAccNo, new { @class = "form_input", autocomplete = "off" })
                             </div>
-
-
-
                         </div>
 
                         <div class="col-md-3">
@@ -200,20 +239,13 @@
                             </div>
                             <div class="part">
                                 <label for="disterms">Discount Terms</label>
-                                @Html.TextBoxFor(m => m.SupplierRefNo, new { @class = "form_input", autocomplete = "off" })
+                                @Html.TextBoxFor(m => m.DiscountTermsId, new { @class = "form_input", autocomplete = "off" })
                                 @*@Html.DropDownListFor(m => Model.DiscountTermsId, (SelectList)ViewBag.test, "Select Symbol", new { @class = "form_input" })*@
                             </div>
-
                             <div class="part">
                                 <label for="panno">PAN No.</label>
                                 @Html.TextBoxFor(m => m.PanNo, new { @class = "form_input", autocomplete = "off" })
                             </div>
-
-
-
-
-
-
                         </div>
 
                         <div class="col-md-3">
@@ -229,68 +261,20 @@
                                 <label for="tinno">TIN No.</label>
                                 @Html.TextBoxFor(m => m.TinNo, new { @class = "form_input", autocomplete = "off" })
                             </div>
-
                         </div>
-
-
 
                     </div>
                     <div class="marg">
-                        <button type="submit" class="form-button top">Exit</button>
-
-
+                        <button type="button" class="form-button top">Exit</button>
                         <button type="submit" class="form-button">Save</button>
                     </div>
 
-
-
-
                 </div>
 
+          }
+         </div>
 
+       </div>
+   </div>
 
-
-
-
-
-
-
-                </div>
-
-
-
-
-
-
-
-
-
-
-        </div>
-
-                    </div>
-
-
-                </div>
-
-
-
-
-
-
-
-            </div>
-
-  
-
-
-
-
-
-
-
-        </form>
-
-    </div>
-</div>
 

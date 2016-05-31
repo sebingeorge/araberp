@@ -25,9 +25,11 @@ namespace ArabErp.Web.Controllers
             objWorkShopRequest.SaleOrderId = model.SaleOrderId;
             objWorkShopRequest.SaleOrderRefNo = model.SaleOrderRefNo;
             objWorkShopRequest.CustomerOrderRef = model.CustomerName;
+            objWorkShopRequest.CustomerId = model.CustomerId;
 
 
-
+            FillUnit();
+            FillItem();
 
 
             objWorkShopRequest.WorkShopRequestDate = System.DateTime.Today;
@@ -41,7 +43,7 @@ namespace ArabErp.Web.Controllers
             var rep = new SaleOrderRepository();
 
 
-            var slist = rep.GetSaleOrders();
+            var slist = rep.GetSaleOrdersPendingWorkshopRequest();
 
             var pager = new Pager(slist.Count(), page);
 
@@ -52,6 +54,31 @@ namespace ArabErp.Web.Controllers
             };
 
             return View(viewModel);
+        }
+
+        public ActionResult Save(WorkShopRequest model)
+        {
+
+            model.OrganizationId = 1;
+            model.CreatedDate = System.DateTime.Now;
+            model.CreatedBy = Request.ServerVariables["HTTP_X_FORWARDED_FOR"] ?? Request.ServerVariables["REMOTE_ADDR"];
+            new WorkShopRequestRepository().InsertWorkShopRequest(model);
+
+
+           return RedirectToAction("WorkShopRequestPending");
+        }
+
+        public void FillUnit()
+        {
+            ItemRepository Repo = new ItemRepository();
+            var List = Repo.FillUnit();
+            ViewBag.unitlist = new SelectList(List, "Id", "Name");
+        }
+        public void FillItem()
+        {
+            ItemRepository Repo = new ItemRepository();
+            var List = Repo.FillItem();
+            ViewBag.ItemList = new SelectList(List, "Id", "Name");
         }
     }
 

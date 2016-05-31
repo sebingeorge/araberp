@@ -1,8 +1,64 @@
 ﻿@model ArabErp.Domain.Item
-@{
-    ViewBag.Title = "Create";
-    Layout = "~/Views/Shared/_Layout.cshtml";
-}
+@{ViewBag.Title = "Create";Layout = "~/Views/Shared/_Layout.cshtml";}
+
+<script>
+    $(document).ready(function () {
+        $('#Item_form').bootstrapValidator({
+            fields: {
+                PartNo: {
+                    validators: {
+                        notEmpty: {
+                            message: 'Please Enter Part No'
+                        }
+                    }
+                },
+
+                ItemName: {
+                    validators: {
+                        notEmpty: {
+                            message: 'Please Enter Item Name'
+                        }
+                    }
+                },
+
+                ItemCategoryId: {
+                    validators: {
+                        notEmpty: {
+                            message: 'Please Select Category'
+                        }
+                    }
+                },
+
+                ItemGroupId: {
+                    validators: {
+                        notEmpty: {
+                            message: 'Please Select Group'
+                        }
+                    }
+                },
+
+                ItemSubGroupId: {
+                    validators: {
+                        notEmpty: {
+                            message: 'Please Select Sub Group'
+                        }
+                    }
+                },
+
+                ItemUnitId: {
+                    validators: {
+                        notEmpty: {
+                            message: 'Please Select Unit'
+                        }
+                    }
+                },
+
+            }
+        });
+    })
+
+</script>
+
 <script type="text/javascript">
     function FillItemGroup() {
         var Code = $('#ItemCategoryId').val();
@@ -51,8 +107,9 @@
     <div class="row">
         <div class="form-head"><h4>Item</h4></div>
         <div class="col-md-12">
-            <form role="form" action="@Url.Action("Save")">
-               
+          @using (Html.BeginForm("Save", null, FormMethod.Post, new { @class = "createFrom", @id = "Item_form" }))
+                {
+
                     <div class="row form-group main-part">
                         
                         <div class="col-md-4 ">
@@ -79,7 +136,6 @@
                         <div class="col-md-4">
                             <div class="part">
                                 <label for="code" class="label1">Item Category</label>
-
                                 @Html.Action("ItemCategory")
 
                             </div>
@@ -104,10 +160,8 @@
                                 </div>
                                 <div class="editor-field  col-md-6">
                                     <label for="name" class="label1">Expiry Date</label>
-                              
-                                    @Html.TextBoxFor(model => model.ExpiryDate, new { @class = "form_input", placeholder = "Select Expiry Date" })
-                                  
-                                </div>
+                                       @Html.TextBoxFor(model => model.ExpiryDate, new { @class = "form_input", placeholder = "Select Expiry Date" })
+                               </div>
                             </div>
 
                         </div>
@@ -141,14 +195,14 @@
 
                             </div>
                         <div class="marg">
-                            <button type="submit" class="form-button top1">Exit</button>
+                            <button type="button" class="form-button top1">Exit</button>
 
                             <button type="submit" class="form-button">Save</button>
                             
                         </div>
 
                     </div>
-</form>
+          }
         </div>
     </div>
 

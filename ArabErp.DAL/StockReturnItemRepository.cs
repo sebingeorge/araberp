@@ -23,14 +23,14 @@ namespace ArabErp.DAL
             try
             {
                 string sql = @"insert  into StockReturnItem(StockReturnId,SlNo,ItemId,Quantity,Remarks) Values (@StockReturnId,@SlNo,@ItemId,@Quantity,@Remarks);
-                            SELECT CAST(SCOPE_IDENTITY() as int)";
+            SELECT CAST(SCOPE_IDENTITY() as int)";
                 var id = connection.Query<int>(sql, objStockReturnItem, txn).Single();
                 return id;
             }
             catch (Exception)
             {
                 throw;
-            }
+        }
         }
 
 

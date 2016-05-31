@@ -26,8 +26,10 @@ namespace ArabErp.Web.Controllers
             new StockpointRepository().InsertStockpoint(objStockpoint);
             return View("Create");
         }
-        public ActionResult FillStockpointList()
+        public ActionResult FillStockpointList(int? page)
         {
+            int itemsPerPage = 10;
+            int pageNumber = page ?? 1;
             var repo=new StockpointRepository ();
             var List=repo.FillStockpointList();
             return PartialView("StockpointListView",List);

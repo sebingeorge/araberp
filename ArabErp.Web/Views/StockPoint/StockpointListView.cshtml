@@ -1,4 +1,5 @@
 ﻿@model IList<ArabErp.Domain.Stockpoint>
+@using GridMvc.Html
 
 <style type="text/css">
     .tableData {
@@ -17,32 +18,23 @@
         }
 </style>
 
-<div class="table-responsive table2">
-    <table class="table table-bordered table-hover" id="tab_logic">
-        <thead>
-            <tr class="grid_heading">
-                <td style="width:10%;"><h1>Ref No.</h1></td>
-                <td style="width:20%;"><h1>Name</h1></td>
-                <td style="width:20%;"><h1>Short Name</h1></td>
-            </tr>
+<div class="table-responsive">
+    <div class="main-grid">
+        @Html.Grid(Model).Columns(columns =>
+                        {
+                            columns.Add(m => m.StockPointRefNo).Titled("Ref No.").SetWidth(20);
+                            columns.Add(m => m.StockPointName).Titled("Name").SetWidth(110);
+                            columns.Add(m => m.StockPointShrtName).Titled("Short Name").SetWidth(110);
 
-            @{
-                for (int i = 0; i < Model.Count; i++)
-                {
-                    <tr>
-                        <td class="tableData table-back">
-                            @Model[i].StockPointRefNo
-                        </td>
+                            columns.Add().Encoded(false).Sanitized(false).SetWidth(30).Css("cent").RenderValueAs(o => @<a href="">Edit</a>);
+                            columns.Add().Encoded(false).Sanitized(false).SetWidth(39).Css("cent").RenderValueAs(o => @<a href="">Delete</a>);
 
-                        <td class="table-back">
-                            @Model[i].StockPointName
-                        </td>
+                            //.Format("<a href="\"DeleteRecord?name={CategoryName}\"">{CategoryName}</a>");
 
-                        <td class="table-back">
-                            @Model[i].StockPointShrtName
-                        </td>
-                    </tr>
-                }
-            }
-    </table>
+                            //columns.Add(m => m.CurrencyName).Sortable(true);
+                        }).WithPaging(10)
+    </div>
 </div>
+
+
+

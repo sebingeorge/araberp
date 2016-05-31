@@ -17,11 +17,32 @@ namespace ArabErp.DAL
         {
             using (IDbConnection connection = OpenConnection(dataConnection))
             {
-                string sql = @"insert  into WorkDescription(WorkDescr,CreatedBy,CreatedDate,OrganizationId) Values (@WorkDescr,@CreatedBy,@CreatedDate,@OrganizationId);
+                string sql = @"insert  into WorkDescription(VehicleModelId,FreezerUnitId,BoxId,WorkDescr,isNewInstallation,isRepair,isSubAssembly,CreatedBy,CreatedDate,OrganizationId) Values (@VehicleModelId,@FreezerUnitId,@BoxId,@WorkDescr,@isNewInstallation,@isRepair,@isSubAssembly,@CreatedBy,@CreatedDate,@OrganizationId);
             SELECT CAST(SCOPE_IDENTITY() as int)";
 
 
                 var id = connection.Query<int>(sql, objWorkDescription).Single();
+
+                var worksitemrepo = new WorkVsItemRepository();
+                foreach (var item in objWorkDescription.WorkVsItems)
+                {
+                    item.WorkDescriptionId = id;
+                    item.CreatedBy = objWorkDescription.CreatedBy;
+                    item.CreatedDate = objWorkDescription.CreatedDate;
+                    worksitemrepo.InsertWorkVsItem(item);
+                }
+
+
+                var workstaskepo = new WorkVsTaskRepository();
+
+                foreach (var item in objWorkDescription.WorkVsTasks)
+                {
+                    item.WorkDescriptionId = id;
+                    item.CreatedBy = objWorkDescription.CreatedBy;
+                    item.CreatedDate = objWorkDescription.CreatedDate;
+                    workstaskepo.InsertWorkVsTask(item);
+                }
+
                 return id;
             }
         }
@@ -60,7 +81,7 @@ namespace ArabErp.DAL
         {
             using (IDbConnection connection = OpenConnection(dataConnection))
             {
-                string sql = @"UPDATE WorkDescription SET WorkDescr = @WorkDescr ,CreatedBy = @CreatedBy ,CreatedDate = @CreatedDate   OUTPUT INSERTED.WorkDescriptionId  WHERE WorkDescriptionId = @WorkDescriptionId";
+                string sql = @"UPDATE WorkDescription SET VehicleModelId = @VehicleModelId ,FreezerUnitId = @FreezerUnitId ,BoxId = @BoxId ,WorkDescr = @WorkDescr,CreatedBy = @CreatedBy,CreatedDate = @CreatedDate  OUTPUT INSERTED.WorkDescriptionId  WHERE WorkDescriptionId = @WorkDescriptionId";
 
 
                 var id = connection.Execute(sql, objWorkDescription);

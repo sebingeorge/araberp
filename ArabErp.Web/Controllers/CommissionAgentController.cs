@@ -26,11 +26,12 @@ namespace ArabErp.Web.Controllers
             return View("Create");
         }
    
-        public ActionResult FillCommissionAgentList()
+        public ActionResult FillCommissionAgentList(int?page)
         {
+            int itemsPerPage = 10;
+            int pageNumber = page ?? 1;
             var repo=new CommissionAgentRepository();
             var List=repo.FillCommissionAgentList();
-
             return PartialView("CommissionAgentListView", List);
         }
     }

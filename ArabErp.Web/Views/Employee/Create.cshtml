@@ -1,5 +1,5 @@
-﻿@model ArabErp .Domain.Employee
-          
+﻿@model ArabErp.Domain.Employee
+
 @{ViewBag.Title = "Create"; Layout = "~/Views/Shared/_Layout.cshtml";}
 
 <script>
@@ -84,7 +84,7 @@
                                 @*@Html.RadioButton("Gender", true, true) Male
                                     @Html.RadioButton("Gender", false, false) Female*@
                                 @Html.RadioButtonFor(model => model.GenderId, 1, new { @checked = true }) Male
-                                 @Html.RadioButtonFor(model => model.GenderId, 2, new { @checked = true }) Female
+                                @Html.RadioButtonFor(model => model.GenderId, 2, new { @checked = true }) Female
                             </div>
                         </div>
                         <div class="part">
@@ -126,17 +126,15 @@
             </div>
         </div>
 
+        <div class="main-list">
+            @Html.Action("FillEmployeeList")
 
-
-
-
-
-
-        <div class="row">
-            <div class="col-md-12">
-                @Html.Action("FillEmployeeList")
-            </div>
         </div>
+        @*<div class="row">
+                <div class="col-md-12">
+                    @Html.Action("FillEmployeeList")
+                </div>
+            </div>*@
     </div>
 
 </div>

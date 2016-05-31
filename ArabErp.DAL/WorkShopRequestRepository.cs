@@ -18,11 +18,34 @@ namespace ArabErp.DAL
 
             using (IDbConnection connection = OpenConnection(dataConnection))
             {
-                string sql = @"insert  into WorkShopRequest(WorkShopRequestNo,WorkShopRequestDate,SaleOrderId,CustomerId,CustomerOrderRef,SpecialRemarks,RequiredDate,CreatedBy,CreatedDate,OrganizationId) Values (@WorkShopRequestNo,@WorkShopRequestDate,@SaleOrderId,@CustomerId,@CustomerOrderRef,@SpecialRemarks,@RequiredDate,@CreatedBy,@CreatedDate,@OrganizationId);
+
+              //  var trn = connection.BeginTransaction();
+                int id = 0;
+
+                try
+                {
+                    string sql = @"insert  into WorkShopRequest(WorkShopRequestNo,WorkShopRequestDate,SaleOrderId,CustomerId,CustomerOrderRef,SpecialRemarks,RequiredDate,CreatedBy,CreatedDate,OrganizationId) Values (@WorkShopRequestNo,@WorkShopRequestDate,@SaleOrderId,@CustomerId,@CustomerOrderRef,@SpecialRemarks,@RequiredDate,@CreatedBy,@CreatedDate,@OrganizationId);
             SELECT CAST(SCOPE_IDENTITY() as int)";
 
 
-                var id = connection.Query<int>(sql, objWorkShopRequest).Single();
+                 id = connection.Query<int>(sql, objWorkShopRequest).Single();
+
+
+
+               
+                var workshopitemitemrepo = new WorkShopRequestItemRepository();
+                foreach (var item in objWorkShopRequest.Items)
+                {
+                    item.WorkShopRequestId = id;
+                    workshopitemitemrepo.InsertWorkShopRequestItem(item);
+                }
+                   // trn.Commit();
+                }
+                catch (Exception e)
+                {
+                   // trn.Rollback();
+                    throw;
+                }
                 return id;
             }
         }

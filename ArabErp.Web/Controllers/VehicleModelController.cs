@@ -26,8 +26,10 @@ namespace ArabErp.Web.Controllers
             return View("Create");
         }
 
-        public ActionResult FillVehicleModelList()
+        public ActionResult FillVehicleModelList(int?page)
         {
+            int itemsPerPage = 10;
+            int pageNumber = page ?? 1;
             var repo = new VehicleModelRepository();
             var List = repo.FillVehicleModelList();
             return PartialView("VehicleModelListView",List);

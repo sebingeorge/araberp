@@ -25,8 +25,10 @@ namespace ArabErp.Web.Controllers
             new CustomerCategoryRepository().InsertCustomerCategory(objCustomerCategory);
             return View("Create");
         }
-        public ActionResult FillCustomerCategoryList()
+        public ActionResult FillCustomerCategoryList(int?page)
         {
+            int itemsPerPage = 10;
+            int pageNumber = page ?? 1;
             var repo = new CustomerCategoryRepository();
             var List = repo.FillCustomerCategoryList();
             return PartialView("CustomerCategoryListView", List);

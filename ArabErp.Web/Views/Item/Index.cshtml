@@ -1,0 +1,41 @@
+﻿@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+<script type="text/javascript">
+    function openPop() {
+      
+        var url = '@Url.Action("Create")';
+       
+        window.location = url;
+    }
+
+</script>
+
+<div class=" container">
+    <div class="row">
+
+        <div class="form-head form-head1">
+            <h4>Item List</h4>
+        </div>
+
+        <div class="main-part pad1">
+
+            <div class="row">
+
+                @Html.Action("ItemList")
+                <div class="marg">
+                    <button type="button" onclick="openPop();" class="form-button top1">Create</button>
+                </div>
+
+            </div>
+        </div>
+
+    </div>
+
+</div>
+
+
+

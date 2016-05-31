@@ -46,6 +46,15 @@ namespace ArabErp.DAL
             }
         }
 
+        public List<Dropdown> FillFreezerUnit()
+        {
+            using (IDbConnection connection = OpenConnection(dataConnection))
+            {
+                var param = new DynamicParameters();
+                return connection.Query<Dropdown>("select FreezerUnitId Id,FreezerUnitName Name from FreezerUnit").ToList();
+            }
+        }
+
         public List<FreezerUnit> GetFreezerUnits()
         {
 
