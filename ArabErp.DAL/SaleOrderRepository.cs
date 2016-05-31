@@ -165,7 +165,7 @@ namespace ArabErp.DAL
             using (IDbConnection connection = OpenConnection(dataConnection))
             {
                 var param = new DynamicParameters();
-                Customer customer = connection.Query<Customer>("select * from Customer where CustomerId = 8").FirstOrDefault();
+                Customer customer = connection.Query<Customer>("select * from Customer where CustomerId = " + cusId).FirstOrDefault();
 
                 string address = "";
                 if(customer != null)
