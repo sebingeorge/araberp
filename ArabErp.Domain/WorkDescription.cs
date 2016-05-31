@@ -8,6 +8,12 @@ namespace ArabErp.Domain
 {
    public class WorkDescription
     {
+
+        public WorkDescription()
+        {
+            WorkVsItems = new List<WorkVsItem>();
+            WorkVsTasks = new List<WorkVsTask>();
+    }
         public int WorkDescriptionId { get; set; }
         public int VehicleModelId { get; set; }
         public int FreezerUnitId { get; set; }
@@ -17,5 +23,8 @@ namespace ArabErp.Domain
         public DateTime? CreatedDate { get; set; }
         public int OrganizationId { get; set; }
         public bool isActive { get; set; }
+
+        public List<WorkVsItem> WorkVsItems { get; set; }
+        public List<WorkVsTask> WorkVsTasks { get; set; }
     }
 }

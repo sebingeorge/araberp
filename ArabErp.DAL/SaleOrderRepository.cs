@@ -50,8 +50,6 @@ namespace ArabErp.DAL
                 return id;
             }
         }
-
-
         public SaleOrder GetSaleOrder(int SaleOrderId)
         {
             using (IDbConnection connection = OpenConnection(dataConnection))
