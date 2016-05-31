@@ -1,5 +1,4 @@
 ﻿@model IList< ArabErp.Domain.Currency>
-@using GridMvc.Html
 
 <style type="text/css">
     .tableData {
@@ -20,17 +19,43 @@
 
 <div class="table-responsive">
 
-    @Html.Grid(Model).Columns(columns =>
-                        {
-                            columns.Add(m => m.CurrencyId).Titled("ID").SetWidth(110);
-                            columns.Add(m => m.CurrencyRefNo).Titled("Ref No.").SetWidth(110);
-                            columns.Add(m => m.CurrencyName).Titled("Currency").SetWidth(110);
-                            columns.Add(m => m.Elementary).Titled("Elementary").SetWidth(110);
-                            columns.Add(m => m.CurrencyExRate).Titled("Exchange Rate").SetWidth(110);
-                            columns.Add(m => m.CurrencySymbolId).Titled("Symbol Id").SetWidth(110);
-                            columns.Add(m => m.SymbolName).Titled("Symbol").SetWidth(110);
-                            //columns.Add(m => m.CurrencyName).Sortable(true);
-                        }).WithPaging(20)
+    <table class="table table-bordered table-hover" id="tab_logic">
+        <tr class="grid_heading">
+            <td style="width:2%;"><h1>Ref No.</h1></td>
+            <td style="width:13%;"><h1>Name</h1></td>
+            <td style="width:13%;"><h1>Elementary</h1></td>
+            <td style="width:13%;"><h1>Exchange Rate</h1></td>
+            <td style="width:2%;"><h1>Symbol</h1></td>
+        </tr>
 
+        @{
+            for (int i = 0; i < Model.Count; i++)
+            {
+                <tr class="grid">
+                    <td class="tableData main-list-inn">
+
+                        @*@Html.HiddenFor(m => m[i].grdCode)
+                            @Html.HiddenFor(m => m[i].grdName)*@
+                        @Model[i].CurrencyRefNo
+                    </td>
+                    <td>
+                        @*@Html.TextBoxFor(m => m[i].CurrencyName, new { @style = "", @class = "numbersOnly" })*@
+                        @Model[i].CurrencyName
+                    </td>
+                    <td class="align">
+                        @Model[i].Elementary
+                    </td>
+                    <td style="text-align:right" class="align">
+                        @Model[i].CurrencyExRate
+                    </td>
+                    <td style="text-align:center" class="align">
+                        @Model[i].SymbolName
+                    </td>
+
+                </tr>
+            }
+        }
+
+    </table>
 
 </div>
