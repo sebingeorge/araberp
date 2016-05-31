@@ -9,5 +9,7 @@ namespace ArabErp.Web.Models
     {
         public IEnumerable<ArabErp.Domain.SaleOrder> SaleOrders { get; set; }
         public Pager Pager { get; set; }
+     
+      
     }
 }

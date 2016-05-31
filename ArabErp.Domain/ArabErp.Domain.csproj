@@ -63,6 +63,7 @@
     <Compile Include="JobCardTaskMaster.cs" />
     <Compile Include="OpeningStock.cs" />
     <Compile Include="Organization.cs" />
+    <Compile Include="PendingSO.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="PurchaseRequest.cs" />
     <Compile Include="PurchaseRequestItem.cs" />
