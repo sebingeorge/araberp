@@ -81,6 +81,7 @@
     <Compile Include="JobCardRepository.cs" />
     <Compile Include="JobCardTaskMasterRepository.cs" />
     <Compile Include="JobCardTaskRepository.cs" />
+    <Compile Include="OpeningStockRepository.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="PurchaseRequestItemRepository.cs" />
     <Compile Include="PurchaseRequestRepository.cs" />
