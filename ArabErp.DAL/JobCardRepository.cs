@@ -7,6 +7,7 @@ using ArabErp.Domain;
 using ArabErp.DAL;
 using DapperExtensions;
 using System.Data;
+using System.Collections;
 
 namespace ArabErp
 {
@@ -31,6 +32,18 @@ namespace ArabErp
         //    }
                 
         //}
+        public IEnumerable<PendingSO> GetPendingSO()
+        {
+            using (IDbConnection connection = OpenConnection(dataConnection))
+            {
+                string query = "select SI.SaleOrderItemId,SaleOrderRefNo, SaleOrderDate, C.CustomerName, S.CustomerOrderRef, V.VehicleModelName";
+                query += " from SaleOrder S inner join Customer C on S.CustomerId = C.CustomerId";
+                query += " inner join SaleOrderItem SI on SI.SaleOrderId = S.SaleOrderId";
+                query += " inner join VehicleModel V on V.VehicleModelId = SI.VehicleModelId";
+
+                return connection.Query<PendingSO>(query);
+            }
+        }
 
         public string GetJobNumber(int id)
         {

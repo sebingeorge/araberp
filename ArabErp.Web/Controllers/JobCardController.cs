@@ -1,5 +1,6 @@
 ﻿using ArabErp.Domain;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -9,6 +10,11 @@ namespace ArabErp.Web.Controllers
 {
     public class JobCardController : Controller
     {
+        JobCardRepository repo;
+        public JobCardController()
+        {
+            repo = new JobCardRepository();
+        }
         // GET: JobCard
         public ActionResult Index()
         {
@@ -20,7 +26,8 @@ namespace ArabErp.Web.Controllers
         }
         public ActionResult PendingJobCard()
         {
-            return View();
+            IEnumerable<PendingSO> pendingSo = repo.GetPendingSO();
+            return View(pendingSo);            
         }
 
         public ActionResult Save(JobCard jc)
