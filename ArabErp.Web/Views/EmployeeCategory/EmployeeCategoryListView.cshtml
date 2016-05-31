@@ -23,10 +23,10 @@
 
         @Html.Grid(Model).Columns(columns =>
                         {
-                            columns.Add(m => m.EmpCategoryRefNo).Titled("Ref No.").SetWidth(110);
-                            columns.Add(m => m.EmpCategoryName).Titled("Name").SetWidth(110);
-                            columns.Add().Encoded(false).Sanitized(false).SetWidth(30).RenderValueAs(o => @<a href="">Edit</a>);
-                            columns.Add().Encoded(false).Sanitized(false).SetWidth(30).RenderValueAs(o => @<a href="">Delete</a>);
+                            columns.Add(m => m.EmpCategoryRefNo).Titled("Ref No.").SetWidth(30);
+                            columns.Add(m => m.EmpCategoryName).Titled("Name").SetWidth(210);
+                            columns.Add().Encoded(false).Sanitized(false).SetWidth(30).Css("cent").RenderValueAs(o => @<a href="">Edit</a>);
+                            columns.Add().Encoded(false).Sanitized(false).SetWidth(30).Css("cent").RenderValueAs(o => @<a href="">Delete</a>);
 
                             //.Format("<a href="\"DeleteRecord?name={CategoryName}\"">{CategoryName}</a>");
 

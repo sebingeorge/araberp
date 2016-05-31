@@ -176,7 +176,7 @@ background-color: #ffffff;
   }
 .grid-header 
 {
-    background-color: #9a9eab;
+    background-color: #2db4e3;
     border-right: 1px solid #fff;
     color: #fff;
 }
@@ -192,6 +192,7 @@ background-color: #ffffff;
         marging-left:5px;
 
 }
+
 .main-grid tr
  {
     border:0;
@@ -225,4 +226,12 @@ background-color: #ffffff;
     border-bottom:0;
     border-left:0;
 
+}
+.cent 
+{
+    text-align:center;
+}
+.editor-field 
+{
+    font-size:12px;
 }
