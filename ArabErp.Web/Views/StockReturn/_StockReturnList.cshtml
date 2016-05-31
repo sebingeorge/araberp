@@ -28,7 +28,6 @@
             clone.html($(clone).html().replace(/slno1/, 'slno' + (i + 1) + ''));
             clone.html($(clone).html().replace(/unit0/, 'unit' + i + ''));
             clone.html($(clone).html().replace(/this,0/, 'this,' + i + ''));
-            alert(clone.html());
             $("#table-stock-return-list").append('<tr id="' + i + '">' + clone.html() + '  </tr>');
             $("#slno" + (i + 1)).html((i + 1));
             $("#Items_" + i + "__SlNo").val((i + 1));
