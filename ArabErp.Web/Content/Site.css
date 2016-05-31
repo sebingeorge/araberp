@@ -140,6 +140,10 @@ textarea {
     margin-left:70.5%;
     margin-top: -106px;
 }
+.marg6 {
+    margin-left: 93%;
+    padding-top: 20px;
+}
 .top4 {
     margin-top: -54px;
 }
@@ -219,13 +223,13 @@ background-color: #ffffff;
         border-bottom:0;
     }
 
+
 .grid-pager 
 {
     padding-left:10px;
     border:1px solid #d6d8de;
     border-bottom:0;
     border-left:0;
-
 }
 .cent 
 {
