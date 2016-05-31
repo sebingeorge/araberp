@@ -10,14 +10,63 @@ namespace ArabErp.DAL
 {
     public class SupplierRepository : BaseRepository
     {
+        private SqlConnection connection;
         static string dataConnection = GetConnectionString("arab");
+
+        public SupplierRepository()
+        {
+            if (connection == null)
+            {
+                connection = ConnectionManager.connection;
+            }
+        }
+
+        public IEnumerable<Dropdown> FillCategoryDropdown()
+        {
+            using (IDbConnection connection = OpenConnection(dataConnection))
+            {
+                return connection.Query<Dropdown>("SELECT SupCategoryId Id ,SupCategoryName Name FROM SupplierCategory").ToList();
+            }
+        }
+
+        public IEnumerable<Dropdown> FillCountryDropdown()
+        {
+            using (IDbConnection connection = OpenConnection(dataConnection))
+            {
+                return connection.Query<Dropdown>("SELECT CountryId Id,CountryName Name FROM Country").ToList();
+            }
+        }
+
+        public IEnumerable<Dropdown> FillCurrencyDropdown()
+        {
+            using (IDbConnection connection = OpenConnection(dataConnection))
+            {
+                return connection.Query<Dropdown>("SELECT CurrencyId Id,CurrencyName Name FROM Currency").ToList();
+            }
+        }
+
 
         public int InsertSupplier(Supplier objSupplier)
         {
             using (IDbConnection connection = OpenConnection(dataConnection))
             {
-                string sql = @"insert  into Supplier(SupplierName,Address1,Address2,Address3,Phone,CreatedBy,CreatedDate,OrganizationId) Values (@SupplierName,@Address1,@Address2,@Address3,@Phone,@CreatedBy,@CreatedDate,@OrganizationId);
-            SELECT CAST(SCOPE_IDENTITY() as int)";
+                string sql = @"insert  into Supplier(SupplierRefNo,SupplierName,PurchaseTypeId,SupplierPrintName,
+                                                    SupCategoryId,ContractDate,ContactPerson,Active,
+                                                    DoorNo,City,State,CountryId,
+                                                    PostBoxNo,Phone,Fax,Email,
+                                                    Bank,Branch,AccountDetails,SwiftCode,
+                                                    RtgsNo,AccountNo,DiscountTermsId,DiscountRate,
+                                                    CurrencyId,SupRefAccNo,PanNo,TinNo,
+                                                    CreatedBy,CreatedDate,OrganizationId) 
+                                             Values (@SupplierRefNo,@SupplierName,@PurchaseTypeId,@SupplierPrName,
+                                                    @CategoryId,@ContractDate,@ContactPerson,@Active,
+                                                    @DoorNo,@City,@State,@CurrencyId,
+                                                    @PostBoxNo,@Phone,@Fax,@Email,
+                                                    @Bank,@Branch,@AccountDetails,@SwiftCode,
+                                                    @RtgsNo,@AccountNo,@DiscountTermsId,@DiscountRate,
+                                                    @CurrencyId,@SupRefAccNo,@PanNo,@TinNo,
+                                                    @CreatedBy,@CreatedDate,0);
+                                                    SELECT CAST(SCOPE_IDENTITY() as int)";
 
 
                 var id = connection.Query<int>(sql, objSupplier).Single();
