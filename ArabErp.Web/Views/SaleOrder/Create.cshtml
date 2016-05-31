@@ -65,16 +65,34 @@
             }
         });
     })
-    $(document).ready(function () {
-        $('#SaleOrderDate')
-            .datepicker({
-                format: 'dd/MM/yyyy'
-            })
+   
+    $(function () {
+        $("#SaleOrderDate").datepicker({ dateFormat: "dd/MM/yy" });
+        $("#EDateArrival").datepicker({ dateFormat: "dd/MM/yy" });
+        $("#EDateDelivery").datepicker({ dateFormat: "dd/MM/yy" });
     });
+    function CustomerChanged(cust)
+    {
+        var cusId = cust.value;
 
-    //$(function () {
-    //    $("#SaleOrderDate").datepicker({ dateFormat: "dd/MM/yy" });
-    //});
+        $.ajax({
+            url: "/SaleOrder/GetCustomerDetailsByKey/",
+            data: { cusKey: cusId },
+            cache: false,
+            type: "GET",
+            timeout: 10000,
+            dataType: "json",
+            success: function (result) {
+                if (result.Success) { // this sets the value from the response
+                    $('#CurrencyId').val(result.Result);
+                    $("#CustomerAddress").val(result.Address);
+                } else {
+                    $('#SomeOtherHtmlTextBox').val("Failed");
+                }
+            }
+        });
+        //$('#CurrencyId').val("2");
+    }
 </script>
 @Html.HiddenFor(m => m.SaleOrderId)
 <div class="container">
@@ -84,52 +102,42 @@
                 </div>
                
                 <div class="main-part pad1">
-                    @using (Html.BeginForm("Save", null, FormMethod.Post, new { @class = "createFrom", onsubmit = "return SaleOrderValidation()", @id = "saleorder_form" }))
+                    @using (Html.BeginForm("Save", null, FormMethod.Post, new { @class = "createFrom", @id = "saleorder_form" }))
         {
                         <div class="row form-group ">
                 <div class="col-md-2">
                     <label for="SaleOrderRefNo">SO.No.</label>
                     @Html.TextBoxFor(m => m.SaleOrderRefNo, new { @class = "form_input", autocomplete = "off" })
-
                 </div>
-                <div class="col-md-2">
-                    <label for="SaleOrderDate">Date</label>
-                    @Html.TextBoxFor(m => m.SaleOrderDate, String.Format("{0:dd/MM/yyyy}", Model.SaleOrderDate), new { @class = "form_input ", autocomplete = "off", @readonly = "readonly" })
-
-                </div>
+                            <div class="col-md-2">
+                                <label for="SaleOrderDate">Date</label>
+                                @Html.TextBoxFor(m => m.SaleOrderDate, String.Format("{0:dd/MM/yyyy}", Model.SaleOrderDate), new { @class = "form_input ", autocomplete = "off", @readonly = "readonly" })
+                            </div>
             </div>
             <div class="row form-group">
                 <div class="col-md-4">
                     <label for="selectCustomer">Customer</label>
-                    @Html.DropDownListFor(m => Model.CustomerId, (SelectList)ViewBag.customerlist, "Select Customer", new { @class = "form_input", autocomplete = "off" })
+                    @Html.DropDownListFor(m => Model.CustomerId, (SelectList)ViewBag.customerlist, "Select Customer", new { @class = "form_input", autocomplete = "off", @onchange="CustomerChanged(this);" })
                 </div>
                 <div class="col-md-4">
                     <label for="CustomerOrderRef">Customer Address</label>
-                    @Html.TextBoxFor(m => m.CustomerOrderRef, new { @class = "form_input", autocomplete = "off" })
+                    @*@Html.TextBoxFor(m => m.CustomerOrderRef, new { @class = "form_input", autocomplete = "off" })*@
+                    <input type="text" id="CustomerAddress" class="form_input" autocomplete="off" />
                 </div>
                 <div class="col-md-2">
                     <label for="CustomerOrderRef">Customer Order Ref.</label>
                     @Html.TextBoxFor(m => m.CustomerOrderRef, new { @class = "form_input", autocomplete = "off" })
                 </div>
                 <div class="col-md-2">
-                    <label for="selectcurrency">
-                       Currency
+                    <label for="CurrencyId">
+                        Currency
                     </label>
-                    @Html.DropDownListFor(m => Model.VehicleModelId, (SelectList)ViewBag.vehiclelist, "Select Vehicle", new { @class = "form_input", autocomplete = "off" })
+                    @Html.DropDownListFor(m => Model.CurrencyId, (SelectList)ViewBag.currlist, "Select Currency", new { @class = "form_input", autocomplete = "off" })
                 </div>
             </div>
     <div class="row form-group">
-             
-       
-        <div class="col-md-4">
-            <label for="selectvehicle">
-                Vehicle Model
-            </label>
-            @Html.DropDownListFor(m => Model.VehicleModelId, (SelectList)ViewBag.vehiclelist, "Select Vehicle", new { @class = "form_input", autocomplete = "off" })
-        </div>
+      
     </div>
-
-
             @Html.Action("DisplaySOList")
             <div class="row form-group">
                 <div class="col-md-12">
@@ -154,17 +162,29 @@
                                 @Html.DropDownListFor(m => Model.CommissionAgentId, (SelectList)ViewBag.commissionagentlist, "Select Commission Agent", new { @class = "form_input", autocomplete = "off" })
                             </div>
                             <div class="col-md-2">
-                                <label for="CommisionAmount">Commission Amt</label>
-                                @Html.TextBoxFor(m => m.CommisionAmount, new { @class = "form_input form_input-half", autocomplete = "off" })
+                                <label for="CommissionAmount">Commission Amt.</label>
+                                @Html.TextBoxFor(m => m.CommissionAmount, new { @class = "form_input form_input-half", autocomplete = "off" })
                             </div>
                             <div class="col-md-2">
-                                <label for="CommisionAmount">Commission Pct</label>
-                                @Html.TextBoxFor(m => m.CommisionAmount, new { @class = "form_input form_input-half", autocomplete = "off" })
+                                <label for="CommissionPerc">Commission %</label>
+                                @Html.TextBoxFor(m => m.CommissionPerc, new { @class = "form_input form_input-half", autocomplete = "off" })
                             </div>
                             <div class="col-md-4">
                                 <label for="selectorder">Order Taken By</label>
                                 @Html.DropDownListFor(m => Model.SalesExecutiveId, (SelectList)ViewBag.employeelist, "Select Order Taken By", new { @class = "form_input", autocomplete = "off" })
                             </div>
+                        </div>
+
+                        <div class="part">
+                            <div class="col-md-2">
+                                <label for="EDateArrival">EDA</label>
+                                @Html.TextBoxFor(m => m.EDateArrival, String.Format("{0:dd/MM/yyyy}", Model.EDateArrival), new { @class = "form_input ", autocomplete = "off", @readonly = "readonly" })
+                            </div>
+                            <div class="col-md-2">
+                                <label for="EDateDelivery">EDD</label>
+                                @Html.TextBoxFor(m => m.EDateDelivery, String.Format("{0:dd/MM/yyyy}", Model.EDateDelivery), new { @class = "form_input ", autocomplete = "off", @readonly = "readonly" })
+                            </div>
+                            
                         </div>
                     </div>
 

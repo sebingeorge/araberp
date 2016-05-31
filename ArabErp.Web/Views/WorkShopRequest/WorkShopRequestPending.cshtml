@@ -3,10 +3,6 @@
     ViewBag.Title = "WorkShopRequestPending";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
-
-
-
-
 <div class="container">
     <div class="row">
         <div class="form-head1">
@@ -21,9 +17,8 @@
 
                         <div class="col-md-12">
 
-                            <div class="col-md-2 grid-left">SO No</div>
-                            <div class="col-md-2 grid-left">SO Date</div>
-                            <div class="col-md-2 grid-left">Customer</div>
+                            <div class="col-md-3 grid-left">SO No & Date</div>
+                            <div class="col-md-3 grid-left">Customer</div>
                             <div class="col-md-2 grid-left">Customer Order Ref.</div>
                             <div class="col-md-2 grid-left">Vehicle Model</div>
                             <div class="col-md-2 grid-left"><center>Select</center></div>
@@ -37,12 +32,10 @@
 
                             <form method="post" action="@Url.Action("CreateWorkShopRequest","WorkShopRequest")">
                                 @Html.HiddenFor(m => m.SaleOrders.ElementAt(i).SaleOrderId, new { @class = "form_input", autocomplete = "off" })
-                                @Html.HiddenFor(m => m.SaleOrders.ElementAt(i).CustomerId, new { @class = "form_input", autocomplete = "off" })
-                                <div class="col-md-2 mtop">
-                                    @Html.TextBoxFor(m => m.SaleOrders.ElementAt(i).SaleOrderRefNo, new { @class = "form_input", autocomplete = "off", @readonly = "readonly" })
-                                </div>
-                                <div class="col-md-2 mtop">@Html.TextBoxFor(m => m.SaleOrders.ElementAt(i).SaleOrderId, new { @class = "form_input", autocomplete = "off", @readonly = "readonly" }) </div>
-                                <div class="col-md-2 mtop">@Html.TextBoxFor(m => m.SaleOrders.ElementAt(i).CustomerName, new { @class = "form_input", autocomplete = "off", @readonly = "readonly" })</div>
+                                 @Html.HiddenFor(m => m.SaleOrders.ElementAt(i).CustomerId, new { @class = "form_input", autocomplete = "off" })
+                              
+                                <div class="col-md-3 mtop">@Html.TextBoxFor(m => m.SaleOrders.ElementAt(i).SoNoWithDate , new { @class = "form_input", autocomplete = "off", @readonly = "readonly" }) </div>
+                                <div class="col-md-3 mtop">@Html.TextBoxFor(m => m.SaleOrders.ElementAt(i).CustomerName, new { @class = "form_input", autocomplete = "off", @readonly = "readonly" })</div>
                                 <div class="col-md-2 mtop">@Html.TextBoxFor(m => m.SaleOrders.ElementAt(i).CustomerOrderRef, new { @class = "form_input", autocomplete = "off", @readonly = "readonly" })</div>
                                 <div class="col-md-2 mtop">@Html.TextBoxFor(m => m.SaleOrders.ElementAt(i).VehicleModelName, new { @class = "form_input", autocomplete = "off", @readonly = "readonly" })</div>
                                 <div class="col-md-2 mtop"><center><button type="submit" class="form-button form-button1">Select</button></center></div>
@@ -92,7 +85,7 @@
             </div>
         </div>
 </div>
-
+</div>
 
 
 

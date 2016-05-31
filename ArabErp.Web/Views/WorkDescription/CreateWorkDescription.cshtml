@@ -1,4 +1,4 @@
-﻿
+﻿@model  ArabErp.Domain.WorkDescription
 @{
     ViewBag.Title = "CreateWorkDescription";
     Layout = "~/Views/Shared/_Layout.cshtml";
@@ -10,24 +10,22 @@
         <div class="form-head1">
             <h4>Work Description</h4>
         </div>
+
         <div class="main-part pad1">
+@using (Html.BeginForm("Save", null, FormMethod.Post, new { @class = "createFrom", @id = "wrk_form" }))
+{
             <div class="row">
                 <div class="col-md-2">
                 </div>
-                <form role="form">
+
+
                     <div class="col-md-4">
                         <div class="part">
-                            <label for="code">Code</label>
-                            <input type="text" id="code" autocomplete="off" class="form_input form_input-half" />
-                        </div>
-                        <div class="part">
                             <label for="freezer">Freezer Type</label>
-                            <select id="freezer" class="form_input" autocomplete="off">
-                                <option>Select Freezer Type</option>
-                                <option>free1</option>
-                                <option>free2</option>
-                                <option>free3</option>
-                            </select>
+
+                            @Html.DropDownListFor(m => Model.FreezerUnitId, (SelectList)ViewBag.FreezerUnitlist, "Select FreezerUnit", new { @class = "form_input", autocomplete = "off" })
+
+
                             <div class="tick-main">
                                 <input type="checkbox" name="">
                                 <span class="text">New Installation</span>
@@ -51,19 +49,22 @@
                             <div class="col-md-4">
                                 <div class="part">
                                     <label for="name">Name</label>
-                                    <input type="text" autocomplete="off" id="name" class="form_input" />
+                                    @Html.TextBoxFor(m => m.WorkDescr, new { @class = "form_input", autocomplete = "off" })
                                  </div>
                                 <div class="part">
                                     <label for="box">Box Type</label>
-                                    <select id="box" class="form_input" autocomplete="off">
-                                        <option>Select Box Type</option>
-                                        <option>Box1</option>
-                                        <option>Box2</option>
-                                        <option>Box3</option>
-                                    </select>
+                                    @Html.DropDownListFor(m => Model.BoxId, (SelectList)ViewBag.Boxlist, "Select Box", new { @class = "form_input", autocomplete = "off" })
+
+
+                                </div>
+                                <div class="part">
+                                    <label for="VehicleModelId">
+                                        Vehicle Model
+                                    </label>
+                                    @Html.DropDownListFor(m => Model.VehicleModelId, (SelectList)ViewBag.vehiclelist, "Select Vehicle", new { @class = "form_input", autocomplete = "off" })
                                 </div>
                                 </div>
-</form>
+
                     <div class="col-md-2">
                     </div>
 
@@ -124,7 +125,7 @@
 
 
             </div>
-
+}
         </div>
                 
         </div>

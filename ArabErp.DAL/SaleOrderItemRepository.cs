@@ -13,17 +13,24 @@ namespace ArabErp.DAL
 
         static string dataConnection = GetConnectionString("arab");
 
-        public int InsertSaleOrderItem(SaleOrderItem objSaleOrderItem)
+        public int InsertSaleOrderItem(SaleOrderItem objSaleOrderItem, IDbConnection connection, IDbTransaction trn)
         {
-            using (IDbConnection connection = OpenConnection(dataConnection))
+            try
             {
-                string sql = @"insert  into SaleOrderItem(SaleOrderId,SlNo,WorkDescriptionId,Remarks,PartNo,Quantity,UnitId,Rate,Discount,Amount) Values (@SaleOrderId,@SlNo,@WorkDescriptionId,@Remarks,@PartNo,@Quantity,@UnitId,@Rate,@Discount,@Amount);
-            SELECT CAST(SCOPE_IDENTITY() as int)";
+
+                string sql = @"insert  into SaleOrderItem(SaleOrderId,SlNo,WorkDescriptionId,VehicleModelId,Remarks,PartNo,Quantity,UnitId,Rate,Discount,Amount) Values (@SaleOrderId,@SlNo,@WorkDescriptionId,@VehicleModelId,@Remarks,@PartNo,@Quantity,@UnitId,@Rate,@Discount,@Amount);
+                       
+                SELECT CAST(SCOPE_IDENTITY() as int)";
 
 
-                var id = connection.Query<int>(sql, objSaleOrderItem).Single();
+                var id = connection.Query<int>(sql, objSaleOrderItem, trn).Single();
                 return id;
             }
+            catch (Exception)
+            {
+                throw;
+            }
+            
         }
 
 
@@ -94,6 +101,14 @@ namespace ArabErp.DAL
             {
                 var param = new DynamicParameters();
                 return connection.Query<Dropdown>("select UnitId Id,UnitName Name from Unit").ToList();
+            }
+        }
+        public List<Dropdown> FillVehicle()
+        {
+            using (IDbConnection connection = OpenConnection(dataConnection))
+            {
+                var param = new DynamicParameters();
+                return connection.Query<Dropdown>("select VehicleModelId Id,VehicleModelName Name from VehicleModel").ToList();
             }
         }
     }

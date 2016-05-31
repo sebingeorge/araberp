@@ -28,8 +28,10 @@ namespace ArabErp.Web.Controllers
             return View("Create");
         }
 
-        public ActionResult FillTaskList()
+        public ActionResult FillTaskList(int?page)
         {
+            int itemsPerPage = 10;
+            int pageNumber = page ?? 1;
             var repo = new TaskRepository();
             var List = repo.FillTaskList();
             return PartialView("TaskListView", List);

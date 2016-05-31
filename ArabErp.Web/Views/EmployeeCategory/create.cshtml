@@ -33,7 +33,7 @@
 <div class="container">
     <div class="row ">
 
-        <div class="form-head form-head1">
+        <div class="form-head1">
             <h4>Employee Category</h4>
         </div>
 
@@ -86,27 +86,19 @@
         </div>
 
 
-
-
-
         <div class="col-md-3">
-
-
         </div>
 
+        <div class="main-list">
+            @Html.Action("FillEmployeeCategoryList")
+        </div>
 
-
-
-
-        <div class="row">
-
-
-            <div class="col-md-12">
+          @*<div class="row">
+             <div class="col-md-12">
                 @Html.Action("FillEmployeeCategoryList")
             </div>
+        </div>*@
 
-
-        </div>
     </div>
 
     </div>

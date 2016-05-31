@@ -214,6 +214,7 @@
     <Compile Include="Controllers\JobCardController.cs" />
     <Compile Include="Controllers\JobOrderCompletionController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
+    <Compile Include="Controllers\MisReportController.cs" />
     <Compile Include="Controllers\PurchaseRequestController.cs" />
     <Compile Include="Controllers\SaleOrderController.cs" />
     <Compile Include="Controllers\SalesInvoiceController.cs" />
@@ -442,6 +443,7 @@
     <Folder Include="App_Data\" />
     <Folder Include="bin\" />
     <Folder Include="Images\App_LocalResources\" />
+    <Folder Include="Views\MisReport\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff" />

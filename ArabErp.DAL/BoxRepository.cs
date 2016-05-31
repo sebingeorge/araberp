@@ -53,6 +53,14 @@ namespace ArabErp.DAL
                 return objBoxs;
             }
         }
+        public List<Dropdown> FillBox()
+        {
+            using (IDbConnection connection = OpenConnection(dataConnection))
+            {
+                var param = new DynamicParameters();
+                return connection.Query<Dropdown>("select BoxId Id,BoxName Name from Box").ToList();
+            }
+        }
 
 
     }

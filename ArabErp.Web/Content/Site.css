@@ -146,11 +146,15 @@ textarea {
 
 .main-list 
 {
-    background-color:#ffffff;
-    margin-left:-15px;
-    width:99%;
-        border-radius:5px 5px 0 0;
-    -moz-radius:5px 5px 0 0;
+background-color: #ffffff;
+    border-radius: 5px;
+    line-height: 9px;
+    padding: 10px;
+    width: 98%;
+}
+.main-list1 
+{
+    width:97%;
 }
 .main-list-head 
 {  
@@ -170,3 +174,51 @@ textarea {
   color: #18b2e9;
   background-color:#e1f4fa;
   }
+.grid-header 
+{
+    background-color: #9a9eab;
+    border-right: 1px solid #fff;
+    color: #fff;
+}
+.grid-header-title 
+{
+    padding-left:5px;
+    font-size:12px;
+}
+.grid-cell 
+{
+        border-right: 1px solid #d6d8de;
+        font-size:12px;
+        marging-left:5px;
+
+}
+.main-grid tr
+ {
+    border:0;
+}
+.main-grid
+{
+ border-left:1px solid #d6d8de;  
+ border-bottom:1px solid #d6d8de;   
+}
+.main-grid .table-striped > tbody > tr:nth-child(2n+1) > td, .table-striped > tbody > tr:nth-child(2n+1) > th
+{
+    padding:4px !important;
+}
+ .main-grid .table 
+ {
+    margin-bottom:0;
+}
+    .main-grid .table thead > tr > th 
+    {
+        border-bottom:0;
+    }
+
+.grid-pager 
+{
+    padding-left:10px;
+    border:1px solid #d6d8de;
+    border-bottom:0;
+    border-left:0;
+
+}

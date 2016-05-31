@@ -17,7 +17,7 @@ namespace ArabErp.DAL
         {
             using (IDbConnection connection = OpenConnection(dataConnection))
             {
-                string sql = @"insert  into WorkDescription(WorkDescr,CreatedBy,CreatedDate,OrganizationId) Values (@WorkDescr,@CreatedBy,@CreatedDate,@OrganizationId);
+                string sql = @"insert  into WorkDescription(VehicleModelId,FreezerUnitId,BoxId,WorkDescr,CreatedBy,CreatedDate,OrganizationId) Values (@VehicleModelId,@FreezerUnitId,@BoxId,@WorkDescr,@CreatedBy,@CreatedDate,@OrganizationId);
             SELECT CAST(SCOPE_IDENTITY() as int)";
 
 
@@ -60,7 +60,7 @@ namespace ArabErp.DAL
         {
             using (IDbConnection connection = OpenConnection(dataConnection))
             {
-                string sql = @"UPDATE WorkDescription SET WorkDescr = @WorkDescr ,CreatedBy = @CreatedBy ,CreatedDate = @CreatedDate   OUTPUT INSERTED.WorkDescriptionId  WHERE WorkDescriptionId = @WorkDescriptionId";
+                string sql = @"UPDATE WorkDescription SET VehicleModelId = @VehicleModelId ,FreezerUnitId = @FreezerUnitId ,BoxId = @BoxId ,WorkDescr = @WorkDescr,CreatedBy = @CreatedBy,CreatedDate = @CreatedDate  OUTPUT INSERTED.WorkDescriptionId  WHERE WorkDescriptionId = @WorkDescriptionId";
 
 
                 var id = connection.Execute(sql, objWorkDescription);
