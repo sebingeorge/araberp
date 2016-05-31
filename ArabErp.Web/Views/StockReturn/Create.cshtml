@@ -1,98 +1,116 @@
-﻿
+﻿@model ArabErp.Domain.StockReturn
+
 @{
     ViewBag.Title = "Create";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        //$('#stock_return_form').bootstrapValidator({
+        //    // To use feedback icons, ensure that you use Bootstrap v3.1.0 or later
+        //    //feedbackIcons: {
+        //    //    valid: 'glyphicon glyphicon-ok',
+        //    //    invalid: 'glyphicon glyphicon-remove',
+        //    //    validating: 'glyphicon glyphicon-refresh'
+        //    //},
+        //    fields: {
+        //        StockReturnId: {
+        //            validators: {
+        //                notEmpty: {
+        //                    message: 'Please enter stock return no.'
+        //                }
+        //            }
+        //        },
+        //        StockReturnDate: {
+        //            validators: {
+        //                notEmpty: {
+        //                    message: 'Please select a date'
+        //                }
+        //            }
+        //        },
+        //        JobCardId: {
+        //            validators: {
+        //                notEmpty: {
+        //                    message: 'Please select a job card'
+        //                }
+        //            }
+        //        }
+        //    }
+        //});
+
+        $("#JobCardId").change(function () {
+            var id = $(this).val();
+            if (id != '') {
+                var url = '@Url.Action("GetJobCardDetails")';
+                $.getJSON(url, { id: id },
+                    function (data) {
+                        $("#customer").val(data.split('|')[0]);
+                        $("#work").val(data.split('|')[1]);
+                    });
+                var url = '@Url.Action("StockReturnList")';
+                url += "?jobCardID=" + id;
+                $("#stock-return-list").load(url);
+            }
+            else {
+                $("#customer").val('');
+                $("#work").val('');
+            }
+        });
+    });
+
+    function formValidation() {
+        return confirm("Are you sure to Save?");
+    }
+</script>
 <div class="container">
     <div class="row">
         <div class="form-head1">
             <h4>Stock Return</h4>
         </div>
         <div class="main-part pad1">
-            <form role="form">
+            @using (Html.BeginForm("Create", null, FormMethod.Post, new { @class = "createFrom", onsubmit = "return formValidation()", @id = "stock_return_form" }))
+            {
                 <div class="row form-group">
                     <div class="col-md-2">
-                        <label for="srno">Stock Return No.</label>
-                        <input type="text" id="srno" class="form_input" autocomplete="off" />
+                        <label for="StockReturnId">Stock Return No.</label>
+                        @Html.TextBoxFor(m => m.StockReturnRefNo, new { @class = "form_input", autocomplete = "off" })
                     </div>
-                    <div class="col-md-2 col-md-offset-8">
-                        <label for="inputDate">Date</label>
-                        <input type="date" id="inputDate" class="form_input" autocomplete="off" />
+                    <div class="col-md-2 col-md-offset-1">
+                        <label for="StockReturnDate">Date</label>
+                        @Html.TextBoxFor(m => m.StockReturnDate, new { @type="date", @class = "form_input", autocomplete = "off" })
                     </div>
                 </div>
                 <div class="row form-group">
                     <div class="col-md-3">
-                        <label for="jobcard">Job Card</label>
-                        <select id="jobcard" class="form_input" autocomplete="off">
-                            <option>Select Job Card</option>
-                            <option>JobCard1</option>
-                            <option>JobCard2</option>
-                            <option>JobCard3</option>
-                        </select>
+                        <label for="JobCardId">Job Card</label>
+                        @Html.DropDownListFor(m => m.JobCardId, (SelectList)ViewBag.jobcardList, "Select Job Card", new { @class = "form_input", autocomplete = "off" })
                     </div>
                     <div class="col-md-3">
-                        <label for="jcno">JC No.</label>
-                        <input type="text" id="jcno" class="form_input" autocomplete="off" />
+                        <label for="customer">Customer</label>
+                        <input type="text" id="customer" class="form_input" autocomplete="off" disabled />
                     </div>
                     <div class="col-md-3">
-                        <label for="cus">Customer</label>
-                        <input type="text" id="cus" class="form_input" autocomplete="off" />
-                    </div>
-                    <div class="col-md-3">
-                        <label for="prdt">Product</label>
-                        <input type="text" id="prdt" class="form_input" autocomplete="off" />
+                        <label for="work">Work Description</label>
+                        <input type="text" id="work" class="form_input" autocomplete="off" disabled />
                     </div>
                 </div>
-                <div class=" table-responsive">
-                    <table class="table table-bordered">
-                        <thead>
-                            <tr class="grid_heading">
-                                <th>Part No</th>
-                                <th>Product</th>
-                                <th>Qty Return</th>
-                                <th>Remarks</th>
-                            </tr>
-                        </thead>
-                        <tbody class="grid_row">
-                            <tr>
-                                <td>1</td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                            </tr>
-                            <tr>
-                                <td>2</td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                            </tr>
-                            <tr>
-                                <td>3</td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                            </tr>
-                            <tr>
-                                <td>4</td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                            </tr>
-                        </tbody>
-                    </table>
+                <div id="stock-return-list" class="table-responsive">
+
+                    @Html.Action("StockReturnList", new { jobCardId = 0 })
+
                 </div>
                 <div class="row form-group">
                     <div class="col-md-12">
                         <label for="SplRemarks1">Spl.Remarks</label>
-                        <textarea id="SplRemarks1" autocomplete="off" style="min-width: 100%"></textarea>
+                        @Html.TextAreaFor(m => m.SpecialRemarks, new { @class = "form_input", autocomplete = "off" })
                     </div>
                 </div>
-              <div class="marg">
+                <div class="marg">
                     <button class="form-button">Exit</button>
                     <button type="submit" class="form-button">Save</button>
-                  
                 </div>
-            </form>
+            }
         </div>
-        </div>
+    </div>
 </div>

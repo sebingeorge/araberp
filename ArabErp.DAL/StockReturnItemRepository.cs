@@ -11,18 +11,25 @@ namespace ArabErp.DAL
     public class StockReturnItemRepository : BaseRepository
     {
         static string dataConnection = GetConnectionString("arab");
-
-        public int InsertStockReturnItem(StockReturnItem objStockReturnItem)
+        /// <summary>
+        /// Insert stock return into details table (StockReturnItem table)
+        /// </summary>
+        /// <param name="objStockReturnItem"></param>
+        /// <param name="connection"></param>
+        /// <param name="txn"></param>
+        /// <returns></returns>
+        public int InsertStockReturnItem(StockReturnItem objStockReturnItem, IDbConnection connection, IDbTransaction txn)
         {
-
-            using (IDbConnection connection = OpenConnection(dataConnection))
+            try
             {
-                string sql = @"insert  into StockReturnItem(StockReturnId,SlNo,ItemId,ItemDescription,PartNo,Quantity,Unit,CreatedBy,CreatedDate,OrganizationId,CreatedDate,OrganizationId) Values (@StockReturnId,@SlNo,@ItemId,@ItemDescription,@PartNo,@Quantity,@Unit,@CreatedBy,@CreatedDate,@OrganizationId,@CreatedDate,@OrganizationId);
-            SELECT CAST(SCOPE_IDENTITY() as int)";
-
-
-                var id = connection.Query<int>(sql, objStockReturnItem).Single();
+                string sql = @"insert  into StockReturnItem(StockReturnId,SlNo,ItemId,Quantity,Remarks) Values (@StockReturnId,@SlNo,@ItemId,@Quantity,@Remarks);
+                            SELECT CAST(SCOPE_IDENTITY() as int)";
+                var id = connection.Query<int>(sql, objStockReturnItem, txn).Single();
                 return id;
+            }
+            catch (Exception)
+            {
+                throw;
             }
         }
 
@@ -81,7 +88,19 @@ namespace ArabErp.DAL
                 return id;
             }
         }
-
-
+        /// <summary>
+        /// Get the unit of a given item
+        /// </summary>
+        /// <param name="itemId"></param>
+        /// <returns></returns>
+        public string GetItemUnit(int itemId)
+        {
+            using (IDbConnection connection = OpenConnection(dataConnection))
+            {
+                string query = "SELECT U.UnitName FROM Item I INNER JOIN Unit U ON I.ItemUnitId = U.UnitId AND I.ItemId = @ItemId";
+                return connection.Query<string>(query,
+                    new { ItemId = itemId }).First<string>();
+            }
+        }
     }
 }
