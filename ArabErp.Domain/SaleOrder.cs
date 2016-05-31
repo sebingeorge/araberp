@@ -27,5 +27,18 @@ namespace ArabErp.Domain
         public int? OrganizationId { get; set; }
         public string VehicleModelName { get; set; }
         public List<SaleOrderItem> Items { get; set; }
-    }
+
+        public string SoNoWithDate
+        {
+            get
+         {
+             return string.Format("{0},{1}", SaleOrderRefNo, SaleOrderDate.ToShortDateString());
+         }
+         set
+         {
+             
+         }
 }
+        }
+    }
+

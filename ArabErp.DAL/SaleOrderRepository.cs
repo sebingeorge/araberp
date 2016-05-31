@@ -50,8 +50,6 @@ namespace ArabErp.DAL
                 return id;
             }
         }
-
-
         public SaleOrder GetSaleOrder(int SaleOrderId)
         {
             using (IDbConnection connection = OpenConnection(dataConnection))
@@ -164,6 +162,22 @@ namespace ArabErp.DAL
             {
                 var param = new DynamicParameters();
                 return Convert.ToInt32(connection.ExecuteScalar("select CurrencyId from Customer where CustomerId = " + cusId).ToString());
+            }
+        }
+
+        public string GetCusomerAddressByKey(string cusId)
+        {
+            using (IDbConnection connection = OpenConnection(dataConnection))
+            {
+                var param = new DynamicParameters();
+                Customer customer = connection.Query<Customer>("select * from Customer where CustomerId = 8").FirstOrDefault();
+
+                string address = "";
+                if(customer != null)
+                {
+                    address = customer.DoorNo + ", " + customer.Street + ", " + customer.State;                    
+                }
+                return address;
             }
         }
     }
