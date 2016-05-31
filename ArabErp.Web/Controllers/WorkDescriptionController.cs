@@ -30,7 +30,7 @@ namespace ArabErp.Web.Controllers
         }
         public void FillVehicle()
         {
-            var repo = new SaleOrderRepository();
+            var repo = new SaleOrderItemRepository();
             var list = repo.FillVehicle();
             ViewBag.vehiclelist = new SelectList(list, "Id", "Name");
         }

@@ -89,7 +89,7 @@
                     <tr class="grid_heading">
                         <th width="5%" class="text-center"><h1>Sl.No.</h1></th>
                         <th width="25%" class="text-center"><h1>Work Description</h1></th>
-                        <th width="25%" class="text-center"><h1>Remarks</h1></th>
+                        <th width="25%" class="text-center"><h1>Vehicle Model</h1></th>
                         <th width="5%" class="text-right"><h1>Qty</h1></th>
                         <th width="10%"><h1>UoM</h1></th>
                         <th width="10%" class="text-right"><h1>Rate</h1></th>
@@ -104,9 +104,9 @@
                             <td>@i</td>
                             <td>
                                 <input type="hidden" id="Row_@i" />
-                                @Html.DropDownListFor(m => m.Items[i].WorkDescriptionId, (SelectList)ViewBag.workdesclist, "Select Work Description", new { @class = "form_input", autocomplete = "off" })
+                                @Html.DropDownListFor(m => m.Items[i].WorkDescriptionId, (SelectList)ViewBag.workdesclist, "select work description", new { @class = "form_input", autocomplete = "off" })
                             </td>
-                            <td>@Html.TextBoxFor(m => m.Items[i].Remarks, new { @class = "form_input", autocomplete = "off", placeholder = "Remarks" })</td>
+                            <td>@Html.DropDownListFor(m => m.Items[i].VehicleModelId, (SelectList)ViewBag.vehiclelist, "select vehicle", new { @class = "form_input", autocomplete = "off" })</td>
                             <td>@Html.TextBoxFor(m => m.Items[i].Quantity, new { @class = "form_input clQuantity", @style = "text-align:right", autocomplete = "off", placeholder = "Qty", @onchange = "QuantityChanged(" + i + ");" })</td>
                             <td>
                                 @Html.DropDownListFor(m => m.Items[i].UnitId, (SelectList)ViewBag.unitlist, "Select Unit", new { @class = "form_input", autocomplete = "off" })

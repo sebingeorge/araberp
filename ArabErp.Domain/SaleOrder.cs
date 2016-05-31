@@ -15,13 +15,15 @@ namespace ArabErp.Domain
         public string CustomerName { get; set; }
         public string CustomerOrderRef { get; set; }
         public int? CurrencyId { get; set; }
-        public int? VehicleModelId { get; set; }
         public string SpecialRemarks { get; set; }
         public string PaymentTerms { get; set; }
         public string DeliveryTerms { get; set; }
         public int? CommissionAgentId { get; set; }
-        public decimal? CommisionAmount { get; set; }
+        public decimal? CommissionAmount { get; set; }
+        public float? CommissionPerc { get; set; }
         public int? SalesExecutiveId { get; set; }
+        public DateTime EDateArrival { get; set; }
+        public DateTime EDateDelivery { get; set; }
         public string CreatedBy { get; set; }
         public DateTime? CreatedDate { get; set; }
         public int? OrganizationId { get; set; }
