@@ -1,4 +1,4 @@
-﻿@model IList<ArabErp.Domain.Task>
+﻿@model IList<ArabErp.Domain.Item>
 @using GridMvc.Html
 
 <style type="text/css">
@@ -17,15 +17,16 @@
             background-color: #DFEDF7;
         }
 </style>
-
+    <
 <div class="table-responsive">
 
-    <div class="main-grid">
-
-        @Html.Grid(Model).Columns(columns =>
+    @Html.Grid(Model).Columns(columns =>
                         {
-                            columns.Add(m => m.TaskRefNo).Titled("Ref No.").SetWidth(110);
-                            columns.Add(m => m.TaskName).Titled("Name").SetWidth(110);
+                            columns.Add(m => m.PartNo).Titled("Part No.").SetWidth(110);
+                            columns.Add(m => m.ItemName).Titled("Item Name").SetWidth(110);
+                            columns.Add(m => m.CategoryName).Titled("Item Category").SetWidth(110);
+                            columns.Add(m => m.ItemGroupName).Titled("Item Group").SetWidth(110);
+                            columns.Add(m => m.ItemSubGroupName).Titled("Item Sub Group").SetWidth(110);
                             columns.Add().Encoded(false).Sanitized(false).SetWidth(30).RenderValueAs(o => @<a href="">Edit</a>);
                             columns.Add().Encoded(false).Sanitized(false).SetWidth(30).RenderValueAs(o => @<a href="">Delete</a>);
 
@@ -33,8 +34,7 @@
 
                             //columns.Add(m => m.CurrencyName).Sortable(true);
                         }).WithPaging(10)
-        </div>
 
-    </div>
+</div>
 
 
