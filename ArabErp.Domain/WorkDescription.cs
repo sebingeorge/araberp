@@ -20,10 +20,12 @@ namespace ArabErp.Domain
         public int BoxId { get; set; }
         public string WorkDescr { get; set; }
         public string CreatedBy { get; set; }
-        public DateTime? CreatedDate { get; set; }
+        public DateTime CreatedDate { get; set; }
         public int OrganizationId { get; set; }
         public bool isActive { get; set; }
-
+        public bool isNewInstallation { get; set; }
+        public bool isRepair { get; set; }
+        public bool isSubAssembly { get; set; }
         public List<WorkVsItem> WorkVsItems { get; set; }
         public List<WorkVsTask> WorkVsTasks { get; set; }
     }
