@@ -13,13 +13,12 @@ namespace ArabErp.Web.Controllers
         // GET: SaleOrder
         public ActionResult Index()
         {
-      
+
             return View();
         }
         public ActionResult Create()
         {
             FillCustomer();
-            FillVehicle();
             FillCurrency();
             FillCommissionAgent();
             FillEmployee();
@@ -33,12 +32,13 @@ namespace ArabErp.Web.Controllers
         public ActionResult DisplaySOList()
         {
             FillWrkDesc();
+            FillVehicle();
             FillUnit();
             SaleOrder saleOrder = new SaleOrder();
-         
+
             saleOrder.Items = new List<SaleOrderItem>();
             var item = new SaleOrderItem();
-            
+
             saleOrder.Items.Add(item);
             return PartialView("_DisplaySOList", saleOrder);
         }
@@ -56,7 +56,7 @@ namespace ArabErp.Web.Controllers
         }
         public void FillVehicle()
         {
-            var repo = new SaleOrderRepository();
+            var repo = new SaleOrderItemRepository();
             var list = repo.FillVehicle();
             ViewBag.vehiclelist = new SelectList(list, "Id", "Name");
         }
@@ -87,7 +87,7 @@ namespace ArabErp.Web.Controllers
         [HttpPost]
         public ActionResult Save(SaleOrder model)
         {
-          
+
             model.OrganizationId = 1;
             model.CreatedDate = System.DateTime.Now;
             model.CreatedBy = Request.ServerVariables["HTTP_X_FORWARDED_FOR"] ?? Request.ServerVariables["REMOTE_ADDR"];
@@ -104,7 +104,7 @@ namespace ArabErp.Web.Controllers
             saleOrder.SaleOrderDate = System.DateTime.Today;
             saleOrder.Items = new List<SaleOrderItem>();
             saleOrder.Items.Add(new SaleOrderItem());
-            return View("Create",saleOrder);
+            return View("Create", saleOrder);
         }
         public JsonResult GetCustomerDetailsByKey(string cusKey)
         {

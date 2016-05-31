@@ -21,33 +21,35 @@ namespace ArabErp.DAL
             using (IDbConnection connection = OpenConnection(dataConnection))
             {
 
-                //var trn =connection.BeginTransaction();
-                int id = 0;
+                IDbTransaction trn = connection.BeginTransaction();
                 try
-                {
-                    string sql = @"insert  into SaleOrder(SaleOrderRefNo,SaleOrderDate,CustomerId,CustomerOrderRef,CurrencyId,VehicleModelId,SpecialRemarks,PaymentTerms,DeliveryTerms,CommissionAgentId,CommisionAmount,SalesExecutiveId,CreatedBy,CreatedDate,OrganizationId) Values (@SaleOrderRefNo,@SaleOrderDate,@CustomerId,@CustomerOrderRef,@CurrencyId,@VehicleModelId,@SpecialRemarks,@PaymentTerms,@DeliveryTerms,@CommissionAgentId,@CommisionAmount,@SalesExecutiveId,@CreatedBy,@CreatedDate,@OrganizationId);
+                { 
+                int id = 0;
+                
+                    string sql = @"insert  into SaleOrder(SaleOrderRefNo,SaleOrderDate,CustomerId,CustomerOrderRef,CurrencyId,SpecialRemarks,PaymentTerms,DeliveryTerms,CommissionAgentId,CommissionAmount,CommissionPerc,SalesExecutiveId,EDateArrival,EDateDelivery,CreatedBy,CreatedDate,OrganizationId) Values (@SaleOrderRefNo,@SaleOrderDate,@CustomerId,@CustomerOrderRef,@CurrencyId,@SpecialRemarks,@PaymentTerms,@DeliveryTerms,@CommissionAgentId,@CommissionAmount,@CommissionPerc,@SalesExecutiveId,@EDateArrival,@EDateDelivery,@CreatedBy,@CreatedDate,@OrganizationId);
            
 
                         SELECT CAST(SCOPE_IDENTITY() as int)";
 
 
-                     id = connection.Query<int>(sql, model).Single();
+                     id = connection.Query<int>(sql, model,trn).Single();
                     var saleorderitemrepo = new SaleOrderItemRepository();
                     foreach (var item in model.Items)
                     {
                         item.SaleOrderId = id;
-                        saleorderitemrepo.InsertSaleOrderItem(item);
+                        saleorderitemrepo.InsertSaleOrderItem(item, connection,trn);
                     }
 
-                    //trn.Commit();
+                    trn.Commit();
+                    return id;
                 }
                 catch (Exception)
                 {
-                    //trn.Rollback();
-                    throw;
+                    trn.Rollback();
+                    return 0;
                 }
 
-                return id;
+                
             }
         }
         public SaleOrder GetSaleOrder(int SaleOrderId)
@@ -119,14 +121,7 @@ namespace ArabErp.DAL
                 return connection.Query<Dropdown>("select CustomerId Id,CustomerName Name from Customer").ToList();
             }
         }
-        public List<Dropdown> FillVehicle()
-        {
-            using (IDbConnection connection = OpenConnection(dataConnection))
-            {
-                var param = new DynamicParameters();
-                return connection.Query<Dropdown>("select VehicleModelId Id,VehicleModelName Name from VehicleModel").ToList();
-            }
-        }
+      
         public List<Dropdown> FillCommissionAgent()
         {
             using (IDbConnection connection = OpenConnection(dataConnection))
