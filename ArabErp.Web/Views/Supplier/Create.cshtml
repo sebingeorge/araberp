@@ -2,6 +2,80 @@
 @{ViewBag.Title = "Create";Layout = "~/Views/Shared/_Layout.cshtml";}
 
 <script>
+    $(document).ready(function () {
+        $('#Supplier_form').bootstrapValidator({
+          
+            fields: {
+                SupplierRefNo: {
+                    validators: {
+                        notEmpty: {
+                            message: 'Please Enter Code'
+                        }
+                    }
+                },
+                SupplierName: {
+                    validators: {
+                        notEmpty: {
+                            message: 'Please Enter Name'
+                        }
+                    }
+                },
+                PurchaseTypeId: {
+                    validators: {
+                        notEmpty: {
+                            message: 'Please Enter Purchase Type'
+                        }
+                    }
+                },
+                CategoryId: {
+                    validators: {
+                        notEmpty: {
+                            message: 'Please Select Category'
+                        }
+                    }
+                },
+                ContractDate: {
+                    validators: {
+                        notEmpty: {
+                            message: 'Please Select Contract Date'
+                        }
+                    }
+                },
+                State: {
+                    validators: {
+                        numeric: {
+                            message: 'Please Enter State '
+                        }
+                    }
+                },
+                Country: {
+                    validators: {
+                        notEmpty: {
+                            message: 'Please Select Country'
+                        }
+                    }
+                },
+
+                Bank: {
+                    validators: {
+                        notEmpty: {
+                            message: 'Please Enter Bank'
+                        }
+                    }
+                },
+                CurrencyId: {
+                    validators: {
+                        notEmpty: {
+                            message: 'Please Select Currency'
+                        }
+                    }
+                },
+
+            }
+        });
+    })
+
+
     $(function () {
         $("#ContractDate").datepicker({ dateFormat: "dd/MM/yy" });
     });
@@ -14,12 +88,9 @@
             <h4>Supplier</h4>
         </div>
         <div class="col-md-12">
-          @using (Html.BeginForm("Save", null, FormMethod.Post, new { @class = "createFrom", @id ="Customer_form"}))
+          @using (Html.BeginForm("Save", null, FormMethod.Post, new { @class = "createFrom", @id ="Supplier_form"}))
           {
                 <div class="row form-group main-part pad1">
-
-
-
                     <div class="row form-group pad3">
                         <div class="col-md-3">
                             <div class="part">
@@ -28,7 +99,7 @@
                             </div>
                             <div class="part">
                                 <label for="CategoryId">Category</label>
-                                @Html.DropDownListFor(m => Model.CategoryId, (SelectList)ViewBag.SupplierCategory, "Select Category", new { @class = "form_input" })
+                                @Html.DropDownListFor(m => Model.CategoryId, (SelectList)ViewBag.SupplierCategory, "Select Category", new { @class = "form_input", autocomplete = "off" })
                             </div>
                         </div>
 
@@ -112,7 +183,7 @@
                         <div class="col-md-3">
                             <div class="part">
                                 <label for="country">Country</label>
-                                @Html.DropDownListFor(m => Model.Country, (SelectList)ViewBag.SupplierCountry, "Select Country", new { @class = "form_input" })
+                                @Html.DropDownListFor(m => Model.Country, (SelectList)ViewBag.SupplierCountry, "Select Country", new { @class = "form_input", autocomplete = "off" })
                             </div>
                             <div class="part">
                                 <label for="email">E-mail</label>
@@ -139,7 +210,7 @@
 
                             <div class="part">
                                 <label for="curnc">Currency</label>
-                                @Html.DropDownListFor(m => Model.CurrencyId, (SelectList)ViewBag.SupplierCurrency, "Select Currency", new { @class = "form_input" })
+                                @Html.DropDownListFor(m => Model.CurrencyId, (SelectList)ViewBag.SupplierCurrency, "Select Currency", new { @class = "form_input", autocomplete = "off" })
                             </div>
 
                         </div>

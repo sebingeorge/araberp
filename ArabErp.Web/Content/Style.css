@@ -88,7 +88,10 @@
     padding-top: 5px;
     /*text-transform: uppercase;*/
 }
-
+.form-head3
+{
+    width:98%
+}
 
 .form_header{
         background-color:#90AFC5;
