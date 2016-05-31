@@ -20,7 +20,9 @@
 
 <div class="table-responsive">
 
-    @Html.Grid(Model).Columns(columns =>
+    <div class="main-grid">
+
+        @Html.Grid(Model).Columns(columns =>
                         {
                             columns.Add(m => m.TaskRefNo).Titled("Ref No.").SetWidth(110);
                             columns.Add(m => m.TaskName).Titled("Name").SetWidth(110);
@@ -31,7 +33,8 @@
 
                             //columns.Add(m => m.CurrencyName).Sortable(true);
                         }).WithPaging(10)
+        </div>
 
-</div>
+    </div>
 
 
