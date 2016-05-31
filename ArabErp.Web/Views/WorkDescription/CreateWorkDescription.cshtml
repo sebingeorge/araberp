@@ -3,7 +3,102 @@
     ViewBag.Title = "CreateWorkDescription";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
+<script>
+    $(document).ready(function () {
+        $('#wrkdescr_form').bootstrapValidator({
+            fields: {
+                FreezerUnitId: {
+                    validators: {
+                        notEmpty: {
+                            message: 'Please enter FreezerUnit'
+                        }
+                    }
+                },
+                BoxId: {
+                    validators: {
+                        notEmpty: {
+                            message: 'Please enter Box'
+                        }
+                    }
+                },
+                VehicleModelId: {
+                    validators: {
+                        notEmpty: {
+                            message: 'Please enter VehicleModel'
+                        }
+                    }
+                },
+                WorkDescr: {
+                    validators: {
+                        notEmpty: {
+                            message: 'Please enter Work Description'
+                        }
+                    }
+                }
 
+            }
+        });
+
+    });
+    $(document).ready(function () {
+        $("#add_task_row").click(function () {
+            var i = 0;
+            var no = 1;
+            $('input[id^="Row_task_"]').each(function () {
+                var id = this.id;
+                no++;
+                var row = Number(id.replace("Row_task_", ""));
+                if (row > i) {
+                    i = row;
+                }
+            });
+            i++;
+
+            var index = (new Date()).getTime(); // unique indexer
+            var clone = $('#Row_task_0').clone(); // clone the BatchProducts item
+            //Update the index of the clone
+
+            clone.html($(clone).html().replace(/\WorkVsTasks_0__/g, 'WorkVsTasks_' + i + '__'));
+            clone.html($(clone).html().replace(/\WorkVsTasks[0]./g, 'WorkVsTasks[' + i + '].'));
+            clone.html($(clone).html().replace(/\[0\]/g, '[' + i + ']'));
+            clone.html($(clone).html().replace(/\(0\)/g, '(' + i + ')'));
+            clone.html($(clone).html().replace(/Row_task_0/, 'Row_task_' + i + ''));
+            $("#tab_task").append('<tr id="' + i + '">' + clone.html() + '  </tr>');
+        });
+
+        $("#add_item_row").click(function () {
+            var i = 0;
+            var no = 1;
+            $('input[id^="Row_item_"]').each(function () {
+                var id = this.id;
+                no++;
+                var row = Number(id.replace("Row_item_", ""));
+                if (row > i) {
+                    i = row;
+                }
+            });
+            i++;
+
+            var index = (new Date()).getTime(); // unique indexer
+            var clone = $('#Row_item_0').clone(); // clone the BatchProducts item
+            //Update the index of the clone
+
+            clone.html($(clone).html().replace(/\WorkVsItems_0__/g, 'WorkVsItems_' + i + '__'));
+            clone.html($(clone).html().replace(/\WorkVsItems[0]./g, 'WorkVsItems[' + i + '].'));
+            clone.html($(clone).html().replace(/\[0\]/g, '[' + i + ']'));
+            clone.html($(clone).html().replace(/\(0\)/g, '(' + i + ')'));
+            clone.html($(clone).html().replace(/Row_item_0/, 'Row_item_' + i + ''));
+            $("#tab_item").append('<tr id="' + i + '">' + clone.html() + '  </tr>');
+        });
+
+    });
+
+
+
+
+
+
+</script>
 
 <div class="container ">
     <div class="row">
@@ -12,121 +107,195 @@
         </div>
 
         <div class="main-part pad1">
-@using (Html.BeginForm("Save", null, FormMethod.Post, new { @class = "createFrom", @id = "wrk_form" }))
-{
-            <div class="row">
-                <div class="col-md-2">
-                </div>
+            @using (Html.BeginForm("Save", null, FormMethod.Post, new { @class = "createFrom", @id = "wrkdescr_form" }))
+            {
+                <div class="row">
+                    <div class="col-md-2">
+                    </div>
 
 
-                    <div class="col-md-4">
-                        <div class="part">
+
+                    <div class="col-md-8">
+                        <div class="tick-main">
+                            @Html.CheckBoxFor(m => m.isNewInstallation, new {  autocomplete = "off" })
+
+
+                            <span class="text">New Installation</span>
+
+
+
+                            @Html.CheckBoxFor(m => m.isRepair, new { autocomplete = "off" })
+                            <span class="text">Repair / Service</span>
+
+
+
+                            @Html.CheckBoxFor(m => m.isSubAssembly, new { autocomplete = "off" })
+                            <span class="text">Sub Assembly</span>
+
+                        </div>
+                    </div>
+
+                        <div class="col-md-4">
                             <label for="freezer">Freezer Type</label>
-
                             @Html.DropDownListFor(m => Model.FreezerUnitId, (SelectList)ViewBag.FreezerUnitlist, "Select FreezerUnit", new { @class = "form_input", autocomplete = "off" })
-
-
-                            <div class="tick-main">
-                                <input type="checkbox" name="">
-                                <span class="text">New Installation</span>
-
-
-
-                                <input type="checkbox" name="">
-                                <span class="text">Repair / Service</span>
-
-
-
-                                <input type="checkbox" name="">
-                                <span class="text">Sub Assembly</span>
-                               
-                            </div>
                         </div>
 
+                        <div class="col-md-4">
+                            <label for="box">Box Type</label>
+                            @Html.DropDownListFor(m => Model.BoxId, (SelectList)ViewBag.Boxlist, "Select Box", new { @class = "form_input", autocomplete = "off" })
 
 
                         </div>
-                            <div class="col-md-4">
-                                <div class="part">
-                                    <label for="name">Name</label>
-                                    @Html.TextBoxFor(m => m.WorkDescr, new { @class = "form_input", autocomplete = "off" })
-                                 </div>
-                                <div class="part">
-                                    <label for="box">Box Type</label>
-                                    @Html.DropDownListFor(m => Model.BoxId, (SelectList)ViewBag.Boxlist, "Select Box", new { @class = "form_input", autocomplete = "off" })
+                        <div class="col-md-4">
+                            <label for="VehicleModelId">
+                                Vehicle Model
+                            </label>
+                            @Html.DropDownListFor(m => Model.VehicleModelId, (SelectList)ViewBag.vehiclelist, "Select Vehicle", new { @class = "form_input", autocomplete = "off" })
+                        </div>
 
+                    <div class="col-md-8">
+                        <div class="part">
+                            <label for="name">Name</label>
+                            @Html.TextBoxFor(m => m.WorkDescr, new { @class = "form_input", autocomplete = "off" })
+                        </div>
 
-                                </div>
-                                <div class="part">
-                                    <label for="VehicleModelId">
-                                        Vehicle Model
-                                    </label>
-                                    @Html.DropDownListFor(m => Model.VehicleModelId, (SelectList)ViewBag.vehiclelist, "Select Vehicle", new { @class = "form_input", autocomplete = "off" })
-                                </div>
-                                </div>
+                    </div>
 
                     <div class="col-md-2">
                     </div>
 
+                </div>
+
+
+                <div class="row">
+                    <div class="col-md-2">
+                    </div>
+                    <div class="col-md-8">
+                        <div class="table-responsive">
+                            <table class="table table-bordered table-hover" id="tab_item">
+                                <thead>
+                                    <tr class="grid_heading">
+                                        <th>Items needed for work</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @for (int i = 0; i < Model.WorkVsItems.Count; i++)
+                                    {
+                                        <tr id="Row_item_@i">
+
+                                            <td>
+                                               
+                                                @Html.DropDownListFor(m => m.WorkVsItems[i].ItemId, (SelectList)ViewBag.ItemList, "Select Item", new { @class = "form_input", autocomplete = "off" })
+                                            </td>
+
+                                        </tr>
+                                    }
+                                    @*<tr id='addr1'></tr>*@
+                                </tbody>
+
+                            </table>
+                        </div>
+                    </div>
+
+
+
+                    <div class="col-md-4"> </div> <div class="col-md-8">
+                        <a id="add_item_row" class="glyphicon glyphicon-plus"></a><a id='delete_item_row' style="float:right" class="glyphicon glyphicon-minus"></a>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-2">
+                    </div>
+                    <div class="col-md-8">
+                        <div class="table-responsive">
+                            <table class="table table-bordered table-hover" id="tab_task">
+                                <thead>
+                                    <tr class="grid_heading">
+                                        <th>Tasks executed for Work</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @for (int i = 0; i < Model.WorkVsTasks.Count; i++)
+                                    {
+                                        <tr id="Row_task_@i">
+
+                                            <td>
+                                              
+                                                @Html.DropDownListFor(m => m.WorkVsTasks[i].JobCardTaskMasterId, (SelectList)ViewBag.JobCardTaskMasterList, "Select Task", new { @class = "form_input", autocomplete = "off" })
+                                            </td>
+
+                                        </tr>
+                                    }
+
+                                </tbody>
+
+                            </table>
+                        </div>
+                    </div>
+
+
+
+                    <div class="col-md-2"> </div> <div class="col-md-8">
+                        <a id="add_task_row" class="glyphicon glyphicon-plus"></a><a id='delete_task_row' style="float:right" class="glyphicon glyphicon-minus"></a>
+                    </div>
+                </div>
+                <div class="row">
+
+                    <div class="col-md-2">
+                    </div>
+                    <div class="col-md-8">
+                        <br /><br />
+                        <label><b>Work Type</b></label>
+
+                        <div class="table-responsive table2">
+                            <table class="table table-bordered table-hover" id="tab_logic">
+                                <thead>
+                                    <tr class="grid_heading">
+                                        <th width="90%"><h1>Work BreakUp</h1></th>
+                                        <th width="10%"><h1>Y/N</h1></th>
+
+                                    </tr>
+                                </thead>
+                                <tbody class="grid_row">
+                                    <tr class="table-back">
+                                        <td>1</td>
+                                        <td></td>
+                                    </tr>
+                                    <tr class="table-back">
+                                        <td>2</td>
+                                        <td></td>
+                                    </tr>
+                                    <tr class="table-back">
+                                        <td>3</td>
+                                        <td></td>
+                                    </tr>
+                                    <tr class="table-back">
+                                        <td>4</td>
+                                        <td></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+
+                        <div class="marg5">
+                            <button type="submit" class="form-button top1">Exit</button>
+
+
+                            <button type="submit" class="form-button">Save</button>
+                        </div>
+
+
+
+                    </div>
+                    <div class="col-md-2">
+
+
+                    </div>
+
+
+                </div>
+            }
+        </div>
+
+    </div>
 </div>
-
-            <div class="row">
-
-                <div class="col-md-2"> 
-                </div>
-                <div class="col-md-8">
-                    <br /><br />
-                    <label><b>Work Type</b></label>
-
-                    <div class="table-responsive table2">
-                        <table class="table table-bordered table-hover" id="tab_logic">
-                            <thead>
-                                <tr class="grid_heading">
-                                    <th width="90%"><h1>Work BreakUp</h1></th>
-                                    <th width="10%"><h1>Y/N</h1></th>
-
-                                </tr>
-                            </thead>
-                            <tbody class="grid_row">
-                                <tr class="table-back">
-                                    <td>1</td>
-                                    <td></td>
-                                </tr>
-                                <tr class="table-back">
-                                    <td>2</td>
-                                    <td></td>
-                                </tr>
-                                <tr class="table-back">
-                                    <td>3</td>
-                                    <td></td>
-                                </tr>
-                                <tr class="table-back">
-                                    <td>4</td>
-                                    <td></td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-
-                    <div class="marg5">
-                        <button type="submit" class="form-button top1">Exit</button>
-
-
-                        <button type="submit" class="form-button">Save</button>
-                    </div>
-
-
-
-                    </div>
-                <div class="col-md-2">
-
-
-                </div>
-
-
-            </div>
-}
-        </div>
-                
-        </div>
-
