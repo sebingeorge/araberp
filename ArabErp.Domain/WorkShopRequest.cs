@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace ArabErp.Domain
 {
-   public class WorkShopRequest
+    public class WorkShopRequest
     {
         public int WorkShopRequestId { get; set; }
         public string WorkShopRequestNo { get; set; }
@@ -24,7 +24,8 @@ namespace ArabErp.Domain
         public string SaleOrderRefNo { get; set; }
         public string CustomerName { get; set; }
 
-
+        public bool isAdditionalRequest { get; set; }
+        public int JobCardId { get; set; }
 
         public List<WorkShopRequestItem> Items { get; set; }
     }

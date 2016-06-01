@@ -79,6 +79,38 @@ namespace ArabErp.DAL
                 return id;
             }
         }
+        /// <summary>
+        /// Insert additional items in workshop request item details table (WorkShopRequestItem table)
+        /// </summary>
+        /// <param name="model"></param>
+        /// <returns></returns>
+        public int InsertAdditionalWorkshopRequestItem(WorkShopRequestItem model, IDbConnection connection, IDbTransaction txn)
+        {
+            try
+            {
+                string query = @"INSERT INTO WorkShopRequestItem(
+                                WorkShopRequestId,
+                                Slno,
+                                ItemId,
+                                Remarks,
+                                Quantity,
+                                isActive) 
+                            VALUES(
+                                @WorkShopRequestId,
+                                @Slno,
+                                @ItemId,
+                                @Remarks,
+                                @Quantity,
+                                1);
 
+                            SELECT CAST(SCOPE_IDENTITY() AS INT)";
+
+                return connection.Query<int>(query, model, txn).First();
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
     }
 }

@@ -103,6 +103,75 @@ namespace ArabErp.DAL
                 return id;
             }
         }
+        /// <summary>
+        /// Return details of a job card such as Sale Order No., Customer Name, Customer Order Ref. No.
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        public WorkShopRequest GetJobCardDetails(int jobCardId)
+        {
+            using (IDbConnection connection = OpenConnection(dataConnection))
+            {
+                string query = "SELECT SO.SaleOrderId, SO.SaleOrderRefNo, C.CustomerName, C.CustomerId, SO.CustomerOrderRef FROM JobCard JC INNER JOIN SaleOrder SO ON JC.SaleOrderId = SO.SaleOrderId INNER JOIN Customer C ON C.CustomerId = SO.CustomerId WHERE JC.JobCardId = @JobCardId";
+                return connection.Query<WorkShopRequest>(query,
+                    new { JobCardId = jobCardId }).Single();
+            }
+        }
+        /// <summary>
+        /// Returns the part number of a given item
+        /// </summary>
+        /// <param name="itemId"></param>
+        /// <returns></returns>
+        public string GetItemPartNo(int itemId)
+        {
+            using (IDbConnection connection = OpenConnection(dataConnection))
+            {
+                return connection.Query<string>("SELECT PartNo FROM Item WHERE ItemId = @ItemId",
+                    new { ItemId = itemId }).First<string>();
+            }
+        }
+        /// <summary>
+        /// Insert additional workshop request head table (WorkShopRequest table)
+        /// </summary>
+        /// <param name="model"></param>
+        /// <returns></returns>
+        public int InsertAdditionalWorkshopRequest(WorkShopRequest model)
+        {
+            using (IDbConnection connection = OpenConnection(dataConnection))
+            {
+                IDbTransaction txn = connection.BeginTransaction();
+                try
+                {
+                    string query = @"INSERT INTO WorkShopRequest(
+                                    WorkShopRequestNo, 
+                                    WorkShopRequestDate, 
+                                    SaleOrderId, 
+                                    CustomerId, 
+                                    CustomerOrderRef, 
+                                    SpecialRemarks, 
+                                    RequiredDate, 
+                                    CreatedBy, 
+                                    CreatedDate, 
+                                    OrganizationId, 
+                                    isActive, 
+                                    isAdditionalRequest, 
+                                    JobCardId)
+                                VALUES(
+                                    @WorkShopRequestNo,
+                                    @WorkShopRequestDate, 
+                                    @SaleOrderId, 
+                                    @CustomerId, 
+                                    @CustomerOrderRef, 
+                                    @SpecialRemarks, 
+                                    @RequiredDate, 
+                                    @CreatedBy, 
+                                    @CreatedDate, 
+                                    @OrganizationId, 
+                                    1, 
+                                    1, 
+                                    @JobCardId);
+
+                                SELECT CAST(SCOPE_IDENTITY() as int)";
         public List<WorkShopRequest> GetWorkShopRequestPending()
         {
             using (IDbConnection connection = OpenConnection(dataConnection))
@@ -116,5 +185,21 @@ namespace ArabErp.DAL
         }
         
 
+                    int id = connection.Query<int>(query, model, txn).First();
+                    foreach (var item in model.Items)
+                    {
+                        item.WorkShopRequestId = id;
+                        new WorkShopRequestItemRepository().InsertAdditionalWorkshopRequestItem(item, connection, txn);
+                    }
+                    txn.Commit();
+                    return id;
+                }
+                catch (Exception)
+                {
+                    txn.Rollback();
+                    return 0;
+                }
+            }
+        }
     }
 }

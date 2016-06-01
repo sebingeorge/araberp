@@ -392,3 +392,23 @@ h5
 {
     padding-left:3px;
 }
+
+.hrpart 
+{
+    border-top: 1px solid #dddddd;
+    /*background: url(../Images/button-part.jpg) repeat-x;*/ 
+    height:40px;
+    margin-top: 10px;
+    padding-top: 8px;
+    float:left;
+}
+.hrpart .right 
+    {
+    float:right;
+    margin-left:10px;
+    }
+.hrpart .left 
+    {
+    float:left;
+    margin-left:10px;
+    }
