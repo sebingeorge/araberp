@@ -215,6 +215,7 @@
     <Compile Include="Controllers\JobOrderCompletionController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
     <Compile Include="Controllers\MisReportController.cs" />
+    <Compile Include="Controllers\OpeningStockController.cs" />
     <Compile Include="Controllers\PurchaseRequestController.cs" />
     <Compile Include="Controllers\SaleOrderController.cs" />
     <Compile Include="Controllers\SalesInvoiceController.cs" />
@@ -438,6 +439,8 @@
     <Content Include="Views\SalesInvoice\Create.cshtml" />
     <Content Include="Views\SalesInvoice\_PendingSalesInvoiceList.cshtml" />
     <Content Include="Views\SalesInvoice\_pendingSalesCustomerList.cshtml" />
+    <Content Include="Views\OpeningStock\Create.cshtml" />
+    <Content Include="Views\OpeningStock\OpeningStockList.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
