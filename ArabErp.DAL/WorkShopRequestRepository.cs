@@ -130,6 +130,17 @@ namespace ArabErp.DAL
                     new { ItemId = itemId }).First<string>();
             }
         }
+        public List<WorkShopRequest> GetWorkShopRequestPending()
+        {
+            using (IDbConnection connection = OpenConnection(dataConnection))
+            {
+                string sql = @"select * from WorkShopRequest";
+
+                var objWrkOrders = connection.Query<WorkShopRequest>(sql).ToList<WorkShopRequest>();
+
+                return objWrkOrders;
+            }
+        }
         /// <summary>
         /// Insert additional workshop request head table (WorkShopRequest table)
         /// </summary>
@@ -172,18 +183,7 @@ namespace ArabErp.DAL
                                     @JobCardId);
 
                                 SELECT CAST(SCOPE_IDENTITY() as int)";
-        public List<WorkShopRequest> GetWorkShopRequestPending()
-        {
-            using (IDbConnection connection = OpenConnection(dataConnection))
-            {
-                string sql = @"select * from WorkShopRequest";
-
-                var objWrkOrders = connection.Query<WorkShopRequest>(sql).ToList<WorkShopRequest>();
-
-                return objWrkOrders;
-            }
-        }
-        
+             
 
                     int id = connection.Query<int>(query, model, txn).First();
                     foreach (var item in model.Items)
