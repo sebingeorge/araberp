@@ -1,0 +1,68 @@
+﻿@model ArabErp.Domain.OpeningStock
+
+<script>
+    $(document).ready(function () {
+        $("#add_row").click(function () {
+            var i = 0;
+            var no = 1;
+            $('input[id^="Row_"]').each(function () {
+                var id = this.id;
+                no++;
+                var row = Number(id.replace("Row_", ""));
+                if (row > i) {
+                    i = row;
+                }
+            });
+            i++;
+
+            var index = (new Date()).getTime(); // unique indexer
+            var clone = $('#Row_0').clone(); // clone the BatchProducts item
+            //Update the index of the clone
+            //clone.html($(clone).html().replace("Items_0__", 'Items_' + i + '__'));
+            clone.html($(clone).html().replace(/\Items_0__/g, 'Items_' + i + '__'));
+            clone.html($(clone).html().replace(/\Items_0__/g, 'Items_' + i + '__'));
+            clone.html($(clone).html().replace(/\Items[0]./g, 'Items[' + i + '].'));
+            clone.html($(clone).html().replace(/\[0\]/g, '[' + i + ']'));
+            clone.html($(clone).html().replace(/\(0\)/g, '(' + i + ')'));
+            clone.html($(clone).html().replace(/Row_0/, 'Row_' + i + ''));
+            $("#tab_logic").append('<tr id="' + i + '">' + clone.html() + '  </tr>');
+        });
+    });
+
+   
+</script>
+
+
+<div class="table-responsive">
+    <table class="table table-bordered table-hover" id="tab_logic">
+        <thead>
+            <tr class="grid_heading">
+                @*<th width="5%" class="text-center"><h1>Sl.No.</h1></th>*@
+                <th width="85%" class="text-left"><h1>Product</h1></th>
+                <th width="10%" class="text-center"><h1>Qty</h1></th>
+            </tr>
+        </thead>
+
+        <tbody>
+            @for (int i = 0; i < Model.OpeningStockItem.Count; i++)
+            {
+                <tr id="Row_@i">
+                    @*<td>@i</td>*@
+                    <td>
+                       <input type="hidden" id="Row_@i" />
+                        @Html.DropDownListFor(m => m.OpeningStockItem[i].ItemId, (SelectList)ViewBag.Itemlist, "select Item", new { @class = "form_input", autocomplete = "off" })
+                    </td>
+
+                    <td>
+                        @Html.TextBoxFor(m => m.OpeningStockItem[i].Quantity, new { @class = "form_input", autocomplete = "off", @style = "text-align:right" })
+                    </td>
+
+                </tr>
+            }
+            @*<tr id='addr1'></tr>*@
+        </tbody>
+
+    </table>
+</div>
+<a id="add_row" class="glyphicon glyphicon-plus"></a><a id='delete_row' style="float:right" class="glyphicon glyphicon-minus"></a>
+
