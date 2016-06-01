@@ -6836,6 +6836,7 @@ td.visible-print {
     }
     .marg3 {
         margin-left:  0% !important;
+        margin-top:0 !important;
     }
     .marg4 {
         margin-left:  0% !important;
@@ -6891,6 +6892,10 @@ td.visible-print {
     {
     margin-top: 0!important;
     }
+        .main-list 
+    {
+        width:100% !important;
+    }
 
 }
 
@@ -6904,7 +6909,8 @@ td.visible-print {
         margin-left:70% !important;
     }
   .marg3 {
-    margin-left: 68% !important;
+    margin-left: 72.5% !important;
+    margin-top:0 !important;
 }
   .marg4 {
     margin-left: 68% !important;
@@ -6944,6 +6950,10 @@ td.visible-print {
    .top1 
     {
     margin-top: 0!important;
+    }
+    .main-list 
+    {
+        width:97% !important;
     }
 }
 
