@@ -6984,5 +6984,9 @@ td.visible-print {
     margin-right:-15px !important;
 
 }
+    .dropdown-menu
+     {
+        left:-102px !important;
+    }
 }
 
