@@ -59,6 +59,8 @@
     <Compile Include="ItemGroup.cs" />
     <Compile Include="ItemSubGroup.cs" />
     <Compile Include="JobCard.cs" />
+    <Compile Include="JobCardQC.cs" />
+    <Compile Include="JobCardQCParam.cs" />
     <Compile Include="JobCardTask.cs" />
     <Compile Include="JobCardTaskMaster.cs" />
     <Compile Include="OpeningStock.cs" />
@@ -76,6 +78,8 @@
     <Compile Include="Stockpoint.cs" />
     <Compile Include="StockReturn.cs" />
     <Compile Include="StockReturnItem.cs" />
+    <Compile Include="StoreIssue.cs" />
+    <Compile Include="StoreIssueItem.cs" />
     <Compile Include="Supplier.cs" />
     <Compile Include="SupplierCategory.cs" />
     <Compile Include="SupplyOrder.cs" />
