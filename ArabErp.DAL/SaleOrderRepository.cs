@@ -80,12 +80,16 @@ namespace ArabErp.DAL
                 return objSaleOrders;
             }
         }
-
+        /// <summary>
+        /// WorkShop Request Pending List
+        /// </summary>
+        /// <param name="model">Object of class SaleOrder</param>
+        /// <returns>SaleOrders not in WorkshopRequest table</returns>
         public List<SaleOrder> GetSaleOrdersPendingWorkshopRequest()
         {
             using (IDbConnection connection = OpenConnection(dataConnection))
             {
-                string sql = @"select so.*,c.CustomerName from SaleOrder so left join WorkShopRequest wr on so.SaleOrderId=wr.SaleOrderId , Customer c   where so.CustomerId=c.CustomerId  and wr.SaleOrderId is null and so.isActive=1";
+                string sql = @"select so.*,c.CustomerName,0 [Select] from SaleOrder so left join WorkShopRequest wr on so.SaleOrderId=wr.SaleOrderId , Customer c   where so.CustomerId=c.CustomerId  and wr.SaleOrderId is null and so.isActive=1";
 
                 var objSaleOrders = connection.Query<SaleOrder>(sql).ToList<SaleOrder>();
 
@@ -173,6 +177,28 @@ namespace ArabErp.DAL
                     address = customer.DoorNo + ", " + customer.Street + ", " + customer.State;                    
                 }
                 return address;
+            }
+        }
+        /// <summary>
+        /// To Show SaleOrder Details in WorkshopRequest Transaction 
+        /// </summary>
+        /// <returns></returns>
+        public List<SaleOrder> GetSaleOrderData()
+        {
+            using (IDbConnection connection = OpenConnection(dataConnection))
+            {
+                string sql = @"SELECT SO.SaleOrderRefNo,t.SaleOrderId,so.CustomerOrderRef,C.CustomerName,STUFF((SELECT ', ' + CAST(W.WorkDescr AS VARCHAR(10)) [text()]
+                             FROM SaleOrderItem SI inner join WorkDescription W on W.WorkDescriptionId=SI.WorkDescriptionId
+                             WHERE SI.SaleOrderId = t.SaleOrderId
+                             FOR XML PATH(''), TYPE)
+                            .value('.','NVARCHAR(MAX)'),1,2,' ') WorkDescription
+                             FROM SaleOrderItem t INNER JOIN SaleOrder SO on t.SaleOrderId=SO.SaleOrderId INNER JOIN Customer C ON SO.CustomerId =C.CustomerId
+                             left join WorkShopRequest WR on SO.SaleOrderId=WR.SaleOrderId WHERE WR.SaleOrderId is null and SO.isActive=1
+                             GROUP BY t.SaleOrderId,SO.CustomerOrderRef,C.CustomerName,SO.SaleOrderRefNo";
+
+                var objSaleOrderData = connection.Query<SaleOrder>(sql).ToList<SaleOrder>();
+   
+                return objSaleOrderData;
             }
         }
     }

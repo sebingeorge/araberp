@@ -150,6 +150,10 @@
       <Private>True</Private>
       <HintPath>..\packages\Antlr.3.4.1.9004\lib\Antlr3.Runtime.dll</HintPath>
     </Reference>
+    <Reference Include="WebGrease, Version=1.5.2.14234, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\Others\WebGrease.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Reference Include="Newtonsoft.Json">
@@ -441,6 +445,8 @@
     <Content Include="Views\SalesInvoice\_pendingSalesCustomerList.cshtml" />
     <Content Include="Views\OpeningStock\Create.cshtml" />
     <Content Include="Views\OpeningStock\OpeningStockList.cshtml" />
+    <Content Include="Views\StockReturn\_StockReturnList.cshtml" />
+    <Content Include="Views\WorkShopRequest\_SaleorderData.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

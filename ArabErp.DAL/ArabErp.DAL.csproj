@@ -69,6 +69,7 @@
     <Compile Include="CustomerCategoryRepository.cs" />
     <Compile Include="CustomerRepository.cs" />
     <Compile Include="DesignationRepository.cs" />
+    <Compile Include="DropdownRepository.cs" />
     <Compile Include="EmployeeCategoryRepository.cs" />
     <Compile Include="EmployeeRepository.cs" />
     <Compile Include="FreezerUnitRepository.cs" />
@@ -78,6 +79,8 @@
     <Compile Include="ItemRepository.cs" />
     <Compile Include="ItemGroupRepository.cs" />
     <Compile Include="ItemSubGroupRepository.cs" />
+    <Compile Include="JobCardQCParamRepository.cs" />
+    <Compile Include="JobCardQCRepository.cs" />
     <Compile Include="JobCardRepository.cs" />
     <Compile Include="JobCardTaskMasterRepository.cs" />
     <Compile Include="JobCardTaskRepository.cs" />
@@ -93,6 +96,8 @@
     <Compile Include="StockpointRepository.cs" />
     <Compile Include="StockReturnItemRepository.cs" />
     <Compile Include="StockReturnRepository.cs" />
+    <Compile Include="StoreIssueItemRepository.cs" />
+    <Compile Include="StoreIssueRepository.cs" />
     <Compile Include="SupplierCategoryRepository.cs" />
     <Compile Include="SupplierRepository.cs" />
     <Compile Include="SupplyOrderItemRepository.cs" />

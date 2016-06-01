@@ -6836,6 +6836,7 @@ td.visible-print {
     }
     .marg3 {
         margin-left:  0% !important;
+        margin-top:0 !important;
     }
     .marg4 {
         margin-left:  0% !important;
@@ -6843,6 +6844,9 @@ td.visible-print {
     }
     .marg5 {
         margin-left:  0% !important;
+    }
+    .marg6 {
+    margin-left: 0% !important;
     }
     .margf 
     {
@@ -6862,7 +6866,11 @@ td.visible-print {
         }
         .form-head
    {
-        width: 87.7% !important;
+        width: 87.5% !important;
+    }
+   .form-head3
+   {
+        width:92.6% !important;
     }
     .form-button 
     {
@@ -6876,20 +6884,48 @@ td.visible-print {
     {
     float:none !important;
     }
+    .main-grid 
+    {
+        margin:0 !important;
+    }
+    .top1 
+    {
+    margin-top: 0!important;
+    }
+    .top4
+    {
+    margin-top: 0!important;
+    }
+        .main-list 
+    {
+        width:93% !important;
+    }
+
+     .rowl
+{
+    margin-left:-15px !important;
+
+}
+    .rowr
+{
+    margin-right:-15px !important;
+
+}
 
 }
 
 @media only screen and (min-width:768px) and (max-width: 1024px)
  {
   .marg {
-    margin-left:68% !important;
+    margin-left:72.5% !important;
   }
     .marg1 
     {
         margin-left:70% !important;
     }
   .marg3 {
-    margin-left: 68% !important;
+    margin-left: 72.5% !important;
+    margin-top:0 !important;
 }
   .marg4 {
     margin-left: 68% !important;
@@ -6898,6 +6934,8 @@ td.visible-print {
   .marg5 {
     margin-left: 68.5% !important;
 }
+
+
 
     .form-head1
    {
@@ -6910,6 +6948,49 @@ td.visible-print {
     .navbar-nav 
     {
         float:right !important;
+    }
+
+       .form-head3
+   {
+        width:96.6% !important;
+    }
+       
+     .marg6 {
+    margin-left:86% !important;
+        }
+         .main-grid 
+    {
+        margin:0 !important;
+    }
+   .top1 
+    {
+    margin-top: 0!important;
+    }
+    .top4
+    {
+    margin-top: 0!important;
+    }
+    .main-list 
+    {
+     width:97% !important;
+    }
+       .main-list1 
+    {
+        width:95% !important;
+    }
+         .rowl
+{
+    margin-left:-15px !important;
+
+}
+    .rowr
+{
+    margin-right:-15px !important;
+
+}
+    .dropdown-menu
+     {
+        left:-102px !important;
     }
 }
 
