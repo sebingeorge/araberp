@@ -175,7 +175,8 @@
                             <table class="table table-bordered table-hover" id="tab_item">
                                 <thead>
                                     <tr class="grid_heading">
-                                        <th>Items needed for work</th>
+                                        <th>Items</th>
+                                        <th>Quantity</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -188,6 +189,10 @@
                                                 @Html.DropDownListFor(m => m.WorkVsItems[i].ItemId, (SelectList)ViewBag.ItemList, "Select Item", new { @class = "form_input", autocomplete = "off" })
                                             </td>
 
+                                            <td>
+
+                                                @Html.TextBoxFor(m => m.WorkVsItems[i].Quantity, new { @class = "form_input", autocomplete = "off" })                                            </td>
+
                                         </tr>
                                     }
                                     @*<tr id='addr1'></tr>*@
@@ -199,7 +204,7 @@
 
 
 
-                    <div class="col-md-4"> </div> <div class="col-md-8">
+                    <div class="col-md-2"> </div> <div class="col-md-8">
                         <a id="add_item_row" class="glyphicon glyphicon-plus"></a><a id='delete_item_row' style="float:right" class="glyphicon glyphicon-minus"></a>
                     </div>
                 </div>
@@ -212,7 +217,9 @@
                                 <thead>
                                     <tr class="grid_heading">
                                         <th>Tasks executed for Work</th>
+                                        <th>Hours</th>
                                     </tr>
+
                                 </thead>
                                 <tbody>
                                     @for (int i = 0; i < Model.WorkVsTasks.Count; i++)
@@ -222,6 +229,10 @@
                                             <td>
                                               
                                                 @Html.DropDownListFor(m => m.WorkVsTasks[i].JobCardTaskMasterId, (SelectList)ViewBag.JobCardTaskMasterList, "Select Task", new { @class = "form_input", autocomplete = "off" })
+                                            </td>
+                                            <td>
+
+                                                @Html.TextBoxFor(m => m.WorkVsTasks[i].Hours, new { @class = "form_input", autocomplete = "off" })
                                             </td>
 
                                         </tr>
@@ -233,9 +244,7 @@
                         </div>
                     </div>
 
-
-
-                    <div class="col-md-2"> </div> <div class="col-md-8">
+                    <div class="col-md-8">
                         <a id="add_task_row" class="glyphicon glyphicon-plus"></a><a id='delete_task_row' style="float:right" class="glyphicon glyphicon-minus"></a>
                     </div>
                 </div>
