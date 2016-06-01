@@ -17,7 +17,7 @@ namespace ArabErp.Web.Controllers
         }
         public ActionResult CreateWorkDescription()
         {
-           
+
             FillVehicle();
             FillBox();
             FillFreezerUnit();
@@ -81,9 +81,9 @@ namespace ArabErp.Web.Controllers
 
             workdescription.WorkVsItems.Add(new WorkVsItem());
             workdescription.WorkVsTasks.Add(new WorkVsTask());
-           
+
 
             return View("CreateWorkDescription", workdescription);
         }
-        }
+    }
 }

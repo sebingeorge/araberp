@@ -79,6 +79,8 @@
     <Compile Include="ItemRepository.cs" />
     <Compile Include="ItemGroupRepository.cs" />
     <Compile Include="ItemSubGroupRepository.cs" />
+    <Compile Include="JobCardQCParamRepository.cs" />
+    <Compile Include="JobCardQCRepository.cs" />
     <Compile Include="JobCardRepository.cs" />
     <Compile Include="JobCardTaskMasterRepository.cs" />
     <Compile Include="JobCardTaskRepository.cs" />
@@ -94,13 +96,17 @@
     <Compile Include="StockpointRepository.cs" />
     <Compile Include="StockReturnItemRepository.cs" />
     <Compile Include="StockReturnRepository.cs" />
+    <Compile Include="StoreIssueItemRepository.cs" />
+    <Compile Include="StoreIssueRepository.cs" />
     <Compile Include="SupplierCategoryRepository.cs" />
     <Compile Include="SupplierRepository.cs" />
     <Compile Include="SupplyOrderItemRepository.cs" />
     <Compile Include="SupplyOrderRepository.cs" />
     <Compile Include="TaskRepository.cs" />
     <Compile Include="UnitRepository.cs" />
+    <Compile Include="VehicleInPassRepository.cs" />
     <Compile Include="VehicleModelRepository.cs" />
+    <Compile Include="VehicleOutPassRepository.cs" />
     <Compile Include="WareHouseRepository.cs" />
     <Compile Include="WorkDescriptionRepository.cs" />
     <Compile Include="WorkShopRequestItemRepository.cs" />
