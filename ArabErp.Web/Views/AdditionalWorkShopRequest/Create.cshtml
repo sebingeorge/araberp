@@ -1,115 +1,109 @@
-﻿
+﻿@model ArabErp.Domain.WorkShopRequest
+
 @{
     ViewBag.Title = "Create";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        $("#JobCardId").change(function () {
+            var id = $(this).val();
+            if (id != '') {
+                var url = '@Url.Action("GetJobCardDetails")';
+                $.getJSON(url, { jobCardId: id },
+                    function (data) {
+                        $("#SaleOrderId").val(data.SaleOrderId);
+                        $("#SaleOrderRefNo").val(data.SaleOrderNo);
+                        $("#CustomerName").val(data.Customer);
+                        $("#CustomerId").val(data.CustomerId);
+                        $("#CustomerOrderRef").val(data.CustomerOrderRef);
+                        $("#CustomerOrderRefNo").val(data.CustomerOrderRef);
+                    });
+            }
+            else {
+                $("#SaleOrderId").val('');
+                $("#SaleOrderRefNo").val('');
+                $("#CustomerName").val('');
+                $("#CustomerOrderRef").val('');
+                $("#CustomerOrderRefNo").val('');
+                $("#CustomerId").val('');
+            }
+        });
+    });
+
+    function formValidation() {
+        return confirm("Are you sure to Save?");
+    }
+</script>
 <div class="container">
     <div class="row">
         <div class="form-head1">
             <h4>Additional WorkShop Request</h4>
         </div>
         <div class="main-part pad1">
-            <form role="form">
+            @using (Html.BeginForm("Create", null, FormMethod.Post, new { @class = "createFrom", onsubmit = "return formValidation()", @id = "stock_return_form" }))
+            {
                 <div class="row form-group">
                     <div class="col-md-2">
-                        <label for="reqno">Request No.</label>
-                        <input type="text" id="reqno" autocomplete="off" class="form_input" />
+                        <label for="WorkShopRequestNo">Request No.</label>
+                        @Html.TextBoxFor(m => m.WorkShopRequestNo, new { @class = "form_input", autocomplete = "off" })
+                        @*<input type="text" id="reqno" autocomplete="off" class="form_input" />*@
                     </div>
-                    <div class="col-md-2 col-md-offset-8">
-                        <label for="inputDate">Date</label>
-                        <input type="date" id="inputDate" class="form_input" autocomplete="off" />
+                    <div class="col-md-2">
+                        <label for="WorkShopRequestDate">Date</label>
+                        @Html.TextBoxFor(m => m.WorkShopRequestDate, new { @class = "form_input", @type = "date", autocomplete = "off" })
+                        @*<input type="date" id="inputDate" class="form_input" autocomplete="off" />*@
                     </div>
                 </div>
                 <div class="row form-group">
+                    <div class="col-md-2">
+                        <label for="JobCardId">Job Card</label>
+                        @Html.HiddenFor(m => m.SaleOrderId)
+                        @Html.HiddenFor(m => m.CustomerId)
+                        @Html.HiddenFor(m => m.CustomerOrderRef)
+                        @Html.DropDownListFor(m => m.JobCardId, (SelectList)ViewBag.JobCardList, "Select Job Card", new { @class = "form_input", autocomplete = "off" })
+                    </div>
                     <div class="col-md-3">
-                        <label for="sono">Sale Order No.</label>
-                        <input type="text" id="sono" class="form_input" autocomplete="off" />
+                        <label for="SaleOrderRefNo">Sale Order No.</label>
+                        @Html.TextBoxFor(m => m.SaleOrderRefNo, new { @class = "form_input", autocomplete = "off", @disabled = true })
+                        @*<input type="text" id="sono" class="form_input" autocomplete="off" />*@
                     </div>
                     <div class="col-md-4">
-                        <label for="cus">Customer</label>
-                        <input type="text" id="cus" class="form_input" autocomplete="off" />
+                        <label for="CustomerName">Customer</label>
+                        @Html.TextBoxFor(m => m.CustomerName, new { @class = "form_input", autocomplete = "off", @disabled = true })
+                        @*<input type="text" id="cus" class="form_input" autocomplete="off" />*@
                     </div>
                     <div class="col-md-3">
-                        <label for="cusref">Customer Order Ref.</label>
-                        <input type="text" id="cusref" autocomplete="off" class="form_input" />
-                    </div>
-                    <div class="col-md-2">
-                        <label for="jobcard">Job Card</label>
-                        <select id="jobcard" class="form_input">
-                            <option>Select Job Card</option>
-                            <option>JobCard1</option>
-                            <option>JobCard2</option>
-                            <option>JobCard3</option>
-                        </select>
+                        <label for="CustomerOrderRef">Customer Order Ref.</label>
+                        @Html.TextBox("CustomerOrderRefNo", "", new { @class = "form_input", autocomplete = "off", @disabled = true })
+                        @*<input type="text" id="cusref" autocomplete="off" class="form_input" />*@
                     </div>
                 </div>
+
                 <div class=" table-responsive">
-                    <table class="table table-bordered">
-                        <thead>
-                            <tr class="grid_heading">
-                                <th><h1>Sl.No.</h1></th>
-                                <th><h1>Part No.</h1></th>
-                                <th><h1>Product</h1></th>
-                                <th><h1>Spl Remarks</h1></th>
-                                <th class="text-right "><h1>Qty.</h1></th>
-                                <th><h1>Unit</h1></th>
-                            </tr>
-                        </thead>
-                        <tbody class="grid_row">
-                            <tr>
-                                <td>1</td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                            </tr>
-                            <tr>
-                                <td>2</td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                            </tr>
-                            <tr>
-                                <td>3</td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                            </tr>
-                            <tr>
-                                <td>4</td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                            </tr>
-                        </tbody>
-                    </table>
+                    @Html.Action("AdditionalItemsList")
                 </div>
+
                 <div class="row form-group">
                     <div class="col-md-12">
-                        <label for="SplRemarks1">Spl.Remarks</label>
-                        <textarea id="SplRemarks1" autocomplete="off" class="form_input form_input-h"></textarea>
+                        <label for="SpecialRemarks">Spl.Remarks</label>
+                        @Html.TextAreaFor(m => m.SpecialRemarks, new { @class = "form_input", autocomplete = "off" })
+                        @*<textarea id="SplRemarks1" autocomplete="off" class="form_input form_input-h"></textarea>*@
                     </div>
                 </div>
                 <div class="row form-group">
                     <div class="col-md-2">
-                        <label for="duedate">Due Date</label>
-                        <input type="date" id="duedate" class="form_input" />
+                        <label for="RequiredDate">Due Date</label>
+                        @Html.TextBoxFor(m => m.RequiredDate, new { @class = "form_input", @type = "date", autocomplete = "off" })
+                        @*<input type="date" id="duedate" class="form_input" />*@
                     </div>
                 </div>
                 <div class="marg">
-                    <button class="form-button">Exit</button>
-                    <button type="submit" class="form-button">Save</button>
-
+                    <input type="button" class="form-button" value="Exit">
+                    <input type="submit" class="form-button" value="Save">
                 </div>
-            </form>
-            </div>
+            }
         </div>
+    </div>
 </div>
-
