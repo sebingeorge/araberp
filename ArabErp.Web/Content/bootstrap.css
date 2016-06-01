@@ -6892,10 +6892,25 @@ td.visible-print {
     {
     margin-top: 0!important;
     }
+    .top4
+    {
+    margin-top: 0!important;
+    }
         .main-list 
     {
         width:100% !important;
     }
+
+     .rowl
+{
+    margin-left:-15px !important;
+
+}
+    .rowr
+{
+    margin-right:-15px !important;
+
+}
 
 }
 
@@ -6951,9 +6966,23 @@ td.visible-print {
     {
     margin-top: 0!important;
     }
+    .top4
+    {
+    margin-top: 0!important;
+    }
     .main-list 
     {
         width:97% !important;
     }
+         .rowl
+{
+    margin-left:-15px !important;
+
+}
+    .rowr
+{
+    margin-right:-15px !important;
+
+}
 }
 
