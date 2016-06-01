@@ -17,7 +17,7 @@ namespace ArabErp.DAL
         {
             using (IDbConnection connection = OpenConnection(dataConnection))
             {
-                string sql = @"insert  into StockReturnItem(JobCardId,JobCardTaskMasterId,SlNo,EmployeeId,TaskDate,Hours,ActualHours,CreatedBy,CreatedDate,OrganizationId) Values (@JobCardId,@JobCardTaskMasterId,@SlNo,@EmployeeId,@TaskDate,@Hours,@ActualHours,@CreatedBy,@CreatedDate,@OrganizationId);
+                string sql = @"insert  into StockReturnItem(JobCardId,JobCardTaskMasterId,SlNo,EmployeeId,TaskDate,Hours,ActualHours,CreatedBy,CreatedDate,OrganizationId,IsInsertedOnCompletion) Values (@JobCardId,@JobCardTaskMasterId,@SlNo,@EmployeeId,@TaskDate,@Hours,@ActualHours,@CreatedBy,@CreatedDate,@OrganizationId,@IsInsertedOnCompletion);
             SELECT CAST(SCOPE_IDENTITY() as int)";
 
 
