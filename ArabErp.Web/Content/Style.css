@@ -64,7 +64,6 @@
    /*background-color: #18b2e9;*/
     height: 32px;
     line-height: 32px;
-    padding-left: 2px;
     width: 96.7%;
     border-radius:5px 5px 0 0;
     -moz-radius:5px 5px 0 0;
@@ -73,7 +72,7 @@
 {
     color: #ffffff;
     font-size: 19px;
-    padding-left: 14px;
+    padding-left: 15px;
     padding-top: 5px;
     text-transform: uppercase;
 }
@@ -96,7 +95,7 @@
 {
     color: #ffffff;
     font-size: 19px;
-    padding-left:14px;
+    padding-left:15px;
     padding-top: 5px;
     /*text-transform: uppercase;*/
 }
