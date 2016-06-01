@@ -21,11 +21,11 @@ namespace ArabErp.Web.Controllers
         public ActionResult CreateWorkShopRequest(SaleOrder model)
         {
             WorkShopRequest objWorkShopRequest = new WorkShopRequest();
-            objWorkShopRequest.CustomerOrderRef = model.CustomerOrderRef;
-            objWorkShopRequest.SaleOrderId = model.SaleOrderId;
-            objWorkShopRequest.SaleOrderRefNo = model.SaleOrderRefNo;
-            objWorkShopRequest.CustomerOrderRef = model.CustomerName;
-            objWorkShopRequest.CustomerId = model.CustomerId;
+            //objWorkShopRequest.CustomerOrderRef = model.CustomerOrderRef;
+            //objWorkShopRequest.SaleOrderId = model.SaleOrderId;
+            //objWorkShopRequest.SaleOrderRefNo = model.SaleOrderRefNo;
+            //objWorkShopRequest.CustomerOrderRef = model.CustomerName;
+            //objWorkShopRequest.CustomerId = model.CustomerId;
 
 
             FillUnit();
@@ -79,6 +79,12 @@ namespace ArabErp.Web.Controllers
             ItemRepository Repo = new ItemRepository();
             var List = Repo.FillItem();
             ViewBag.ItemList = new SelectList(List, "Id", "Name");
+        }
+        public ActionResult SaleorderData(SaleOrder model)
+        {
+            var repo = new SaleOrderRepository();
+            var SoList = repo.GetSaleOrderData();
+            return PartialView("_SaleorderData", SoList);
         }
     }
 
