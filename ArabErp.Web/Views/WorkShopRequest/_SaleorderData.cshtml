@@ -1,0 +1,35 @@
+﻿@model IList<ArabErp.Domain.SaleOrder>
+    @using GridMvc.Html
+
+<style type="text/css">
+    .tableData {
+        font-size: 12px;
+        padding-left: 4px;
+    }
+
+    .list {
+        display: block;
+        height: 320px;
+        overflow-y: scroll;
+    }
+
+        .list tr:hover {
+            background-color: #DFEDF7;
+        }
+</style>
+
+<div class="table-responsive">
+    <div class="main-grid">
+
+        @Html.Grid(Model).Columns(columns =>
+                        {
+                            columns.Add(m => m.SaleOrderRefNo).Titled("SaleOrder No.").SetWidth(30);
+                            columns.Add(m => m.CustomerName).Titled("Customer").SetWidth(110);
+                            columns.Add(m => m.CustomerOrderRef).Titled("Customer Order Ref.").SetWidth(110);
+                            columns.Add(m => m.WorkDescription).Titled("WorkDescription").SetWidth(110);
+                           
+                                                    
+                        }).WithPaging(10)
+    </div>
+
+</div>
