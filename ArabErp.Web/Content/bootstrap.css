@@ -6883,6 +6883,14 @@ td.visible-print {
     {
     float:none !important;
     }
+    .main-grid 
+    {
+        margin:0 !important;
+    }
+    .top1 
+    {
+    margin-top: 0!important;
+    }
 
 }
 
@@ -6927,7 +6935,15 @@ td.visible-print {
     }
        
      .marg6 {
-    margin-left:88% !important;
+    margin-left:86% !important;
         }
+         .main-grid 
+    {
+        margin:0 !important;
+    }
+   .top1 
+    {
+    margin-top: 0!important;
+    }
 }
 
