@@ -3,8 +3,10 @@
    .grid_heading
 {
     color:#070B19;
-    background-color:#9A9EAB;
+    background-color:#ccced3;
     grid-row-sizing:5px;
+    height:20px;
+
 }
   .grid_row
 {
@@ -40,9 +42,19 @@
 {
     height:34px;
 }
-.form_input-half {
+.form_input-half
+ {
   width: 50%;
   }
+.form_input-half1
+ {
+  width: 54%;
+  }
+.form_input-half2
+ {
+  width: 62%;
+  }
+
 .form_input-sfive {
   width: 75%;
   }
@@ -61,7 +73,7 @@
 {
     color: #ffffff;
     font-size: 19px;
-    padding-left: 36px;
+    padding-left: 14px;
     padding-top: 5px;
     text-transform: uppercase;
 }
@@ -84,7 +96,7 @@
 {
     color: #ffffff;
     font-size: 19px;
-    padding-left: 36px;
+    padding-left:14px;
     padding-top: 5px;
     /*text-transform: uppercase;*/
 }
@@ -253,9 +265,9 @@
 }
 .grid_heading h1 
 {
-    font-size:14px;
+    font-size:13px;
     font-weight:bold;
-    color:#ffffff;
+    color:#4a4a4a;
     padding-left:5px;
     padding-right:5px;
     padding-top:0;
@@ -274,7 +286,7 @@
 }
 .pad1 
 {
-    padding:38px;
+    padding:15px;
 }
 .pad2 
 {
