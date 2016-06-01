@@ -13,6 +13,7 @@ namespace ArabErp.Domain
         public DateTime SaleOrderDate { get; set; }
         public int CustomerId { get; set; }
         public string CustomerName { get; set; }
+        public string WorkDescription { get; set; }
         public string CustomerOrderRef { get; set; }
         public int? CurrencyId { get; set; }
         public string SpecialRemarks { get; set; }

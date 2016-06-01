@@ -443,6 +443,7 @@
     <Content Include="Views\SalesInvoice\_PendingSalesInvoiceList.cshtml" />
     <Content Include="Views\SalesInvoice\_pendingSalesCustomerList.cshtml" />
     <Content Include="Views\StockReturn\_StockReturnList.cshtml" />
+    <Content Include="Views\WorkShopRequest\_SaleorderData.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
