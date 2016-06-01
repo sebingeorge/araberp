@@ -448,6 +448,7 @@
     <Content Include="Views\OpeningStock\OpeningStockList.cshtml" />
     <Content Include="Views\StockReturn\_StockReturnList.cshtml" />
     <Content Include="Views\WorkShopRequest\_SaleorderData.cshtml" />
+    <Content Include="Views\AdditionalWorkShopRequest\_AdditionalItemsList.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
