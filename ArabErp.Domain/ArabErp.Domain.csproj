@@ -66,6 +66,7 @@
     <Compile Include="OpeningStock.cs" />
     <Compile Include="Organization.cs" />
     <Compile Include="PendingSO.cs" />
+    <Compile Include="PendingWorkShopRequest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="PurchaseRequest.cs" />
     <Compile Include="PurchaseRequestItem.cs" />
@@ -91,6 +92,8 @@
     <Compile Include="WorkDescription.cs" />
     <Compile Include="WorkShopRequest.cs" />
     <Compile Include="WorkShopRequestItem.cs" />
+    <Compile Include="WorkShopRequestSaleOrder.cs" />
+    <Compile Include="WorkShopRequestSaleOrderItem.cs" />
     <Compile Include="WorkVsItem.cs" />
     <Compile Include="WorkVsTask.cs" />
   </ItemGroup>
