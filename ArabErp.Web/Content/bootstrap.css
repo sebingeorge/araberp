@@ -6866,7 +6866,7 @@ td.visible-print {
         }
         .form-head
    {
-        width: 87.7% !important;
+        width: 87.5% !important;
     }
    .form-head3
    {
@@ -6898,7 +6898,7 @@ td.visible-print {
     }
         .main-list 
     {
-        width:100% !important;
+        width:93% !important;
     }
 
      .rowl
@@ -6972,7 +6972,11 @@ td.visible-print {
     }
     .main-list 
     {
-        width:97% !important;
+     width:97% !important;
+    }
+       .main-list1 
+    {
+        width:95% !important;
     }
          .rowl
 {
