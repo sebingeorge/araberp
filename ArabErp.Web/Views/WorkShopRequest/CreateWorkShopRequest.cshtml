@@ -168,7 +168,7 @@
                             <input type="hidden" id="Row_@i" />
                             @Html.DropDownListFor(m => m.Items[i].ItemId, (SelectList)ViewBag.ItemList, "Select Material/Spares", new { @class = "form_input", autocomplete = "off" })
                         </td>
-                        <td>@Html.TextBoxFor(m => m.Items[i].ItemDescription, new { @class = "form_input", autocomplete = "off", placeholder = "Remarks" })</td>
+                        <td>@Html.TextBoxFor(m => m.Items[i].Remarks, new { @class = "form_input", autocomplete = "off", placeholder = "Remarks" })</td>
                       
 
                         <td>@Html.TextBoxFor(m => m.Items[i].Quantity, new { @class = "form_input clQuantity", @style = "text-align:right", autocomplete = "off", placeholder = "Qty" })</td>
