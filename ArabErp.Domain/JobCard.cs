@@ -20,8 +20,11 @@ namespace ArabErp.Domain
         public DateTime? RequiredDate { get; set; }
         public int EmployeeId { get; set; }
         public string CreatedBy { get; set; }
-        public DateTime? CreatedDate { get; set; }
+        public DateTime CreatedDate { get; set; }
         public int OrganizationId { get; set; }
+        public int JodCardCompleteStatus { get; set; }
+        public DateTime JodCardCompletedDate { get; set; }
         public List<JobCardTask> JobCardTasks { get; set; }
+
     }
 }
