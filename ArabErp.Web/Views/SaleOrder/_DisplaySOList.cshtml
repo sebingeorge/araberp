@@ -1,6 +1,7 @@
 ﻿@model ArabErp.Domain.SaleOrder
 <script>
     $(document).ready(function () {
+        $("#Items_0__SlNo").val('1');
         $("#add_row").click(function () {
             var i = 0;
             var no = 1;
@@ -16,7 +17,7 @@
             i++;
 
             var index = (new Date()).getTime(); // unique indexer
-            var clone = $('#Row_0').clone(); // clone the BatchProducts item
+            var clone = $('#0').clone(); // clone the BatchProducts item
             //Update the index of the clone
             //clone.html($(clone).html().replace("Items_0__", 'Items_' + i + '__'));
             clone.html($(clone).html().replace(/\Items_0__/g, 'Items_' + i + '__'));
@@ -25,7 +26,11 @@
             clone.html($(clone).html().replace(/\[0\]/g, '[' + i + ']'));
             clone.html($(clone).html().replace(/\(0\)/g, '(' + i + ')'));
             clone.html($(clone).html().replace(/Row_0/, 'Row_' + i + ''));
+            clone.html($(clone).html().replace(/slno1/, 'slno' + (i + 1) + ''));
+            clone.html($(clone).html().replace(/this,0/, 'this,' + i + ''));
             $("#tab_logic").append('<tr id="' + i + '">' + clone.html() + '  </tr>');
+            $("#slno" + (i + 1)).html((i + 1));
+            $("#Items_" + i + "__SlNo").val((i + 1));
          });
     });
 
@@ -77,7 +82,7 @@
             amount = amount + a;
         });
 
-        $("#QtyTotal").text(quantity);
+        //$("#QtyTotal").text(quantity);
         $("#QtyAmount").text(amount);
     }
 </script>
@@ -100,8 +105,11 @@
                 <tbody>
                     @for (int i = 0; i < Model.Items.Count; i++)
                     {
-                        <tr id="Row_@i">
-                            <td>@i</td>
+                        <tr id="@i">
+                            <td>
+                                <span id="slno@(i+1)">@(i + 1)</span>
+                                @Html.HiddenFor(m => m.Items[i].SlNo)
+                            </td>
                             <td>
                                 <input type="hidden" id="Row_@i" />
                                 @Html.DropDownListFor(m => m.Items[i].WorkDescriptionId, (SelectList)ViewBag.workdesclist, "select work description", new { @class = "form_input", autocomplete = "off" })

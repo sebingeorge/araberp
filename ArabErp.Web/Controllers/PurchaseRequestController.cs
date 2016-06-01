@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using ArabErp.DAL;
+using ArabErp.Domain;
 
 namespace ArabErp.Web.Controllers
 {
@@ -22,9 +24,12 @@ namespace ArabErp.Web.Controllers
         }
         public ActionResult PendingPurchaseRequest()
         {
-            logger.Error("Happy Logging");
+            var repo = new WorkShopRequestRepository();
+            var list = repo.GetWorkShopRequestPending();
 
-            return View();
+            //logger.Error("Happy Logging");
+
+            return View(list);
         }
     }
 }

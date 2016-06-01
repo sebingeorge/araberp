@@ -1,4 +1,6 @@
-﻿@{
+﻿@model IList<ArabErp.Domain.WorkShopRequest>
+@using GridMvc.Html
+@{
     ViewBag.Title = "PendingPurchaseRequest";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
@@ -14,7 +16,7 @@
         <div class="main-part pad1">
             <form method="post" action="@Url.Action("Create", "PurchaseRequest")">
 
-                <div class=" table-responsive">
+                @*<div class=" table-responsive">
                     <table class="table table-bordered">
                         <thead>
                             <tr class="grid_heading">
@@ -51,7 +53,24 @@
                             </tr>
                         </tbody>
                     </table>
+                </div>*@
+
+                <div class="table-responsive">
+                    <div class="main-grid">
+
+                        @Html.Grid(Model).Columns(columns =>
+                        {
+                            columns.Add(m => m.WorkShopRequestNo).Titled("WorkShopRequest No.").SetWidth(30);
+                            columns.Add(m => m.RequiredDate).Titled("Delivery Date").SetWidth(110);
+                            //columns.Add(m => m.CustomerOrderRef).Titled("Customer Order Ref.").SetWidth(110);
+                            //columns.Add(m => m.WorkDescription).Titled("WorkDescription").SetWidth(110);
+
+
+                        }).WithPaging(10)
+                    </div>
+
                 </div>
+
                 <div class="margf">
                 
                     <button type="submit" class="form-button">Ok</button>

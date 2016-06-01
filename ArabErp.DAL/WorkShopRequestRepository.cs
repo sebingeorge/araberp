@@ -103,6 +103,18 @@ namespace ArabErp.DAL
                 return id;
             }
         }
+        public List<WorkShopRequest> GetWorkShopRequestPending()
+        {
+            using (IDbConnection connection = OpenConnection(dataConnection))
+            {
+                string sql = @"select * from WorkShopRequest";
+
+                var objWrkOrders = connection.Query<WorkShopRequest>(sql).ToList<WorkShopRequest>();
+
+                return objWrkOrders;
+            }
+        }
+        
 
     }
 }
