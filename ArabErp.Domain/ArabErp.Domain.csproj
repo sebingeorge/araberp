@@ -87,7 +87,9 @@
     <Compile Include="SupplyOrderItem.cs" />
     <Compile Include="Task.cs" />
     <Compile Include="Unit.cs" />
+    <Compile Include="VehicleInPass.cs" />
     <Compile Include="VehicleModel.cs" />
+    <Compile Include="VehicleOutPass.cs" />
     <Compile Include="WareHouse.cs" />
     <Compile Include="WorkDescription.cs" />
     <Compile Include="WorkShopRequest.cs" />

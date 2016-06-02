@@ -1,22 +1,22 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Web;
+using System.Text;
+using System.Threading.Tasks;
 
 namespace ArabErp.Domain
 {
-    public class JobCardTask
+   public class VehicleOutPass
     {
-        public int JobCardTaskId { get; set; }
+        public int VehicleOutPassId { get; set; }
         public int JobCardId { get; set; }
+        public string RegistrationNo { get; set; }
+        public DateTime? VehicleInPassDate { get; set; }
         public int EmployeeId { get; set; }
-        public DateTime TaskDate { get; set; }
-        public decimal Hours { get; set; }
-        public decimal? ActualHours { get; set; }
+        public string Remarks { get; set; }
         public string CreatedBy { get; set; }
         public DateTime? CreatedDate { get; set; }
         public int OrganizationId { get; set; }
-        public int SlNo { get; set; }
-
+        public bool isActive { get; set; }
     }
 }

@@ -104,7 +104,9 @@
     <Compile Include="SupplyOrderRepository.cs" />
     <Compile Include="TaskRepository.cs" />
     <Compile Include="UnitRepository.cs" />
+    <Compile Include="VehicleInPassRepository.cs" />
     <Compile Include="VehicleModelRepository.cs" />
+    <Compile Include="VehicleOutPassRepository.cs" />
     <Compile Include="WareHouseRepository.cs" />
     <Compile Include="WorkDescriptionRepository.cs" />
     <Compile Include="WorkShopRequestItemRepository.cs" />
