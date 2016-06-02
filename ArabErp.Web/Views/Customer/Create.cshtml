@@ -106,7 +106,7 @@
 </script>
 
 
-    <div class="container">
+    <div class="container body-content">
         <div class="row">
             <div class="form-head">
                 <h4>Customer</h4>
@@ -114,94 +114,110 @@
             <div class="col-md-12">
                @using (Html.BeginForm("Save", null, FormMethod.Post, new { @class = "createFrom", @id ="Customer_form"}))
                     {
-                    <div class="row form-group  main-part">
+                    <div class="row form-group  main-part pad1">
                         <div class="col-md-4">
-                            <span>&nbsp;</span><br />
-                            <div class="part">
-                                <label for="code">Code</label>
-                                @Html.TextBoxFor(m => m.CustomerRefNo, new { @class = "form_input  form_input-half ", autocomplete = "off" })
-                            </div>
+                            <div class="row rowr">
+                                <span>&nbsp;</span><br />
+                                <div class="part">
+                                    <label for="code">Code</label>
+                                    @Html.TextBoxFor(m => m.CustomerRefNo, new { @class = "form_input  form_input-half ", autocomplete = "off" })
+                                </div>
 
-                            <div class="part">
-                                <label for="name">Name</label>
-                                @Html.TextBoxFor(m => m.CustomerName, new { @class = "form_input ", autocomplete = "off" })
-                            </div>
+                                <div class="part">
+                                    <label for="name">Name</label>
+                                    @Html.TextBoxFor(m => m.CustomerName, new { @class = "form_input ", autocomplete = "off" })
+                                </div>
 
-                            <div class="part">
-                                <label for="prntname">Print Name</label>
-                                @Html.TextBoxFor(m => m.CustomerPrintName, new { @class = "form_input ", autocomplete = "off" })
-                            </div>
+                                <div class="part">
+                                    <label for="prntname">Print Name</label>
+                                    @Html.TextBoxFor(m => m.CustomerPrintName, new { @class = "form_input ", autocomplete = "off" })
+                                </div>
 
-                            <div class="part">
-                                <label for="CategoryId">Category</label>
-                                @Html.DropDownListFor(m => m.CategoryId, (SelectList)ViewBag.CustomerCategory, "Select Category", new { @class = "form_input", autocomplete = "off" })
-                            </div>
+                                <div class="part">
+                                    <label for="CategoryId">Category</label>
+                                    @Html.DropDownListFor(m => m.CategoryId, (SelectList)ViewBag.CustomerCategory, "Select Category", new { @class = "form_input", autocomplete = "off" })
+                                </div>
 
-                            <div class="part">
-                                <label for="CurrencyId">Currency</label>
-                                @Html.DropDownListFor(m => m.CurrencyId, (SelectList)ViewBag.CustomerCurrency, "Select Currency", new { @class = "form_input", autocomplete = "off" })
-                            </div>
-
+                                <div class="part">
+                                    <label for="CurrencyId">Currency</label>
+                                    @Html.DropDownListFor(m => m.CurrencyId, (SelectList)ViewBag.CustomerCurrency, "Select Currency", new { @class = "form_input", autocomplete = "off" })
+                                </div>
+                              </div>
                             </div>
 
 
                         <div class="col-md-4">
-                             <span><b>Address & Communication</b></span><br />
-                             <div class="part">
-                                <label for="doorno">Door No.& Building </label>
-                                 @Html.TextBoxFor(m => m.DoorNo, new { @class = "form_input", autocomplete = "off" })
+                            <div class="row rowl rowr">
+                                <span><b>Address & Communication</b></span><br />
+                                <div class="part">
+                                    <label for="doorno">Door No.& Building </label>
+                                    @Html.TextBoxFor(m => m.DoorNo, new { @class = "form_input", autocomplete = "off" })
+                                </div>
+
+                                <div class="part">
+                                    <label for="street">Street & City</label>
+                                    @Html.TextBoxFor(m => m.Street, new { @class = "form_input ", autocomplete = "off" })
+                                </div>
+
+                                <div class="part">
+                                    <label for="state">State</label>
+                                    @Html.TextBoxFor(m => m.State, new { @class = "form_input ", autocomplete = "off" })
+                                </div>
+
+                                <div class="part">
+                                    <label for="Country">Country</label>
+                                    @Html.DropDownListFor(m => m.Country, (SelectList)ViewBag.CustomerCountry, "Select Country", new { @class = "form_input",autocomplete="off"})
+                                </div>
+
+                                <div class="part">
+                                    <label for="zip">Post Box No</label>
+                                    @Html.TextBoxFor(m => m.Zip, new { @class = "form_input ", autocomplete = "off" })
+                                </div>
                              </div>
-
-                            <div class="part">
-                                <label for="street">Street & City</label>
-                                @Html.TextBoxFor(m => m.Street, new { @class = "form_input ", autocomplete = "off" })
                             </div>
-
-                            <div class="part">
-                                <label for="state">State</label>
-                                @Html.TextBoxFor(m => m.State, new { @class = "form_input ", autocomplete = "off" })
-                            </div>
-
-                            <div class="part">
-                                <label for="Country">Country</label>
-                                @Html.DropDownListFor(m => m.Country, (SelectList)ViewBag.CustomerCountry, "Select Country", new { @class = "form_input",autocomplete="off"})
-                            </div>
-
-                            <div class="part">
-                                <label for="zip">Post Box No</label>
-                                @Html.TextBoxFor(m => m.Zip, new { @class = "form_input ", autocomplete = "off" })
-                            </div>
-
-                        </div>
 
                         <div class="col-md-4">
+                            <div class="row rowl">
 
-                            <span>&nbsp;</span><br />
-                            <div class="part">
-                                <label for="phno">Phone No.</label>
-                                @Html.TextBoxFor(m => m.Phone, new { @class = "form_input ", autocomplete = "off" })
+                                <span>&nbsp;</span><br />
+                                <div class="part">
+                                    <label for="phno">Phone No.</label>
+                                    @Html.TextBoxFor(m => m.Phone, new { @class = "form_input ", autocomplete = "off" })
+                                </div>
+
+                                <div class="part">
+                                    <label for="fax">Fax</label>
+                                    @Html.TextBoxFor(m => m.Fax, new { @class = "form_input ", autocomplete = "off" })
+                                </div>
+
+                                <div class="part">
+                                    <label for="email">E-mail</label>
+                                    @Html.TextBoxFor(m => m.Email, new { @class = "form_input ", autocomplete = "off" })
+                                </div>
+
+                                <div class="part">
+                                    <label for="cntperson">Contact Person</label>
+                                    @Html.TextBoxFor(m => m.ContactPerson, new { @class = "form_input", autocomplete = "off" })
+                                </div>
+
+
+
+
+
+
                             </div>
 
-                            <div class="part">
-                                <label for="fax">Fax</label>
-                                @Html.TextBoxFor(m => m.Fax, new { @class = "form_input ", autocomplete = "off" })
+
+
                             </div>
 
-                            <div class="part">
-                                <label for="email">E-mail</label>
-                                @Html.TextBoxFor(m => m.Email, new { @class = "form_input ", autocomplete = "off" })
+                        <div class="row">
+
+                            <div class="col-md-12 hrpart">
+                                <button type="button" class="form-button right">Exit</button>
+                                <button type="submit" class="form-button right">Save</button>
                             </div>
 
-                            <div class="part">
-                                <label for="cntperson">Contact Person</label>
-                                @Html.TextBoxFor(m => m.ContactPerson, new { @class = "form_input", autocomplete = "off" })
-                            </div>
-
-                        </div>
-
-                        <div class="marg">
-                            <button type="button" class="form-button top1">Exit</button>
-                            <button type="submit" class="form-button">Save</button>
                         </div>
 
                     </div>

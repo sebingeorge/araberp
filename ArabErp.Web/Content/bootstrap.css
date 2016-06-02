@@ -6836,6 +6836,7 @@ td.visible-print {
     }
     .marg3 {
         margin-left:  0% !important;
+        margin-top:0 !important;
     }
     .marg4 {
         margin-left:  0% !important;
@@ -6865,7 +6866,7 @@ td.visible-print {
         }
         .form-head
    {
-        width: 87.7% !important;
+        width: 87.5% !important;
     }
    .form-head3
    {
@@ -6883,20 +6884,80 @@ td.visible-print {
     {
     float:none !important;
     }
+    .main-grid 
+    {
+        margin:0 !important;
+    }
+    .top1 
+    {
+    margin-top: 0!important;
+    }
+    .top4
+    {
+    margin-top: 0!important;
+    }
+        .main-list 
+    {
+        width:93% !important;
+    }
+
+     .rowl
+{
+    margin-left:-15px !important;
+
+}
+    .rowr
+{
+    margin-right:-15px !important;
+
+}
+    .hrpart 
+    {
+        float:none !important;
+    }
+
+    .lefto {
+    margin-right: 139px !important;
+}
+
+.body-content 
+{
+    margin-left: 10px !important;
+    width: 100% !important;
+}
+.body-content1 
+{
+    margin-left: -20px !important;
+    margin-top: 24px !important;
+}
+
+
+
+    .navbar-collapse
+    {
+
+     padding-left:47px;
+    }
+
+    .navbar-nav .open .dropdown-menu > li > a, .navbar-nav .open .dropdown-menu .dropdown-header 
+    {
+        padding-left:40px !important;
+    }
 
 }
 
 @media only screen and (min-width:768px) and (max-width: 1024px)
  {
   .marg {
-    margin-left:68% !important;
+    margin-left:72.5% !important;
   }
     .marg1 
     {
         margin-left:70% !important;
     }
   .marg3 {
-    margin-left: 68% !important;
+    margin-left: 72.5% !important;
+    margin-top:0 !important;
 }
   .marg4 {
     margin-left: 68% !important;
@@ -6927,7 +6988,57 @@ td.visible-print {
     }
        
      .marg6 {
-    margin-left:88% !important;
+    margin-left:86% !important;
         }
+         .main-grid 
+    {
+        margin:0 !important;
+    }
+   .top1 
+    {
+    margin-top: 0!important;
+    }
+    .top4
+    {
+    margin-top: 0!important;
+    }
+    .main-list 
+    {
+     width:97% !important;
+    }
+       .main-list1 
+    {
+        width:95% !important;
+    }
+         .rowl
+{
+    margin-left:-15px !important;
+
+}
+    .rowr
+{
+    margin-right:-15px !important;
+
+}
+    .dropdown-menu
+     {
+        left:-102px !important;
+    }
+
+        .hrpart 
+    {
+        float:none !important;
+    }
+
+        .body-content 
+{
+    margin-left: 15px !important;
+    width: 100% !important;
+}
+        
+.body-content1 
+{
+    margin-left: -4px !important;
+}
 }
 

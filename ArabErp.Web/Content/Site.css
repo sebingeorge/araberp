@@ -75,7 +75,7 @@ textarea {
 .part1
  {
     height:60px;
-    margin-top:7px;
+    margin-top: -9px
 }
     .label1
      {
@@ -92,7 +92,7 @@ textarea {
     color: #ffffff;
     height: 33px;
     width: 92px;
-    margin-right:5px;
+    margin-right:0;
 }
 .form-button1 
 {
@@ -113,7 +113,7 @@ textarea {
 }
 .marg 
 {
-    margin-left: 81%;
+    margin-left: 83%;
    
 }
 .marg1 {
@@ -128,7 +128,7 @@ textarea {
 }
 .marg3
 {
-    margin-left: 40%;
+    margin-left: 46%;
     margin-top: -106px;
    
 }
@@ -141,8 +141,8 @@ textarea {
     margin-top: -106px;
 }
 .marg6 {
-    margin-left: 93%;
-    padding-top: 20px;
+    margin-left: 92%;
+    padding-top:0;
 }
 .top4 {
     margin-top: -54px;
@@ -153,7 +153,7 @@ textarea {
 background-color: #ffffff;
     border-radius: 5px;
     line-height: 9px;
-    padding: 10px;
+    padding: 1px;
     width: 98%;
 }
 .main-list1 
@@ -197,6 +197,7 @@ background-color: #ffffff;
 
 }
 
+
 .main-grid tr
  {
     border:0;
@@ -204,7 +205,8 @@ background-color: #ffffff;
 .main-grid
 {
  border-left:1px solid #d6d8de;  
- border-bottom:1px solid #d6d8de;   
+ border-bottom:1px solid #d6d8de;
+ margin:15px;   
 }
     .main-grid .grid-cell 
     {
@@ -222,6 +224,11 @@ background-color: #ffffff;
     {
         border-bottom:0;
     }
+
+    .main-grid-top
+{
+margin-top:0px;
+}
 
 
 .grid-pager 

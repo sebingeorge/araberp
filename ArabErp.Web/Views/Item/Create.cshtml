@@ -110,30 +110,31 @@
           @using (Html.BeginForm("Save", null, FormMethod.Post, new { @class = "createFrom", @id = "Item_form" }))
                 {
 
-                    <div class="row form-group main-part">
+                    <div class="row form-group main-part pad1">
                         
                         <div class="col-md-4 ">
-
-                            <div class="part">
-                                <label for="code" class="label1">Part No</label>
-                                @Html.TextBoxFor(m => m.PartNo, new { @class = "form_input form_input-half", autocomplete = "off" })
+                            <div class="row">
+                                <div class="part">
+                                    <label for="code" class="label1">Part No</label>
+                                    @Html.TextBoxFor(m => m.PartNo, new { @class = "form_input form_input-half", autocomplete = "off" })
+                                </div>
+                                <div class="part">
+                                    <label for="name" class="label1">Item Name</label>
+                                    @Html.TextBoxFor(m => m.ItemName, new { @class = "form_input", autocomplete = "off" })
+                                </div>
+                                <div class="part">
+                                    <label for="code" class="label1">Print Name</label>
+                                    @Html.TextBoxFor(m => m.ItemPrintName, new { @class = "form_input", autocomplete = "off" })
+                                </div>
+                                <div class="part">
+                                    <label for="name" class="label1">Short Name</label>
+                                    @Html.TextBoxFor(m => m.ItemShortName, new { @class = "form_input", autocomplete = "off" })
+                                </div>
                             </div>
-                            <div class="part">
-                                <label for="name" class="label1">Item Name</label>
-                                @Html.TextBoxFor(m => m.ItemName, new { @class = "form_input", autocomplete = "off" })
-                            </div>
-                            <div class="part">
-                                <label for="code" class="label1">Print Name</label>
-                                @Html.TextBoxFor(m => m.ItemPrintName, new { @class = "form_input", autocomplete = "off" })
-                            </div>
-                            <div class="part">
-                                <label for="name" class="label1">Short Name</label>
-                                @Html.TextBoxFor(m => m.ItemShortName, new { @class = "form_input", autocomplete = "off" })
-                            </div>
-                          
                         </div>
 
                         <div class="col-md-4">
+
                             <div class="part">
                                 <label for="code" class="label1">Item Category</label>
                                 @Html.Action("ItemCategory")
@@ -158,7 +159,7 @@
                                     <label for="name" class="label1">Unit</label>
                                     @Html.DropDownListFor(m => Model.ItemUnitId, (SelectList)ViewBag.Unit, "Select Unit", new { @class = "form_input" })
                                 </div>
-                                <div class="editor-field  col-md-6">
+                                <div class="part editor-field  col-md-6">
                                     <label for="name" class="label1">Expiry Date</label>
                                        @Html.TextBoxFor(model => model.ExpiryDate, new { @class = "form_input", placeholder = "Select Expiry Date" })
                                </div>
@@ -168,18 +169,19 @@
 
                         <div class="col-md-4">
                             <div class="row">
-                                <div class="part col-md-4">
-                                    <label for="code" class="label1">Min.Level</label>
-                                    @Html.TextBoxFor(m => m.MinLevel, new { @class = "form_input", autocomplete = "off" })
-                                </div>
-                                <div class="part col-md-4">
-                                    <label for="name" class="label1">ReOrder Level</label>
-                                    @Html.TextBoxFor(m => m.ReorderLevel, new { @class = "form_input", autocomplete = "off" })
-                                </div>
-                                <div class="part col-md-4">
-                                    <label for="name" class="label1">Max.Level</label>
-                                    @Html.TextBoxFor(m => m.MaxLevel, new { @class = "form_input", autocomplete = "off" })
-                                </div>
+                                <div class="row">
+                                    <div class="part col-md-4">
+                                        <label for="code" class="label1">Min.Level</label>
+                                        @Html.TextBoxFor(m => m.MinLevel, new { @class = "form_input", autocomplete = "off" })
+                                    </div>
+                                    <div class="part col-md-4">
+                                        <label for="name" class="label1">ReOrder Level</label>
+                                        @Html.TextBoxFor(m => m.ReorderLevel, new { @class = "form_input", autocomplete = "off" })
+                                    </div>
+                                    <div class="part col-md-4">
+                                        <label for="name" class="label1">Max.Level</label>
+                                        @Html.TextBoxFor(m => m.MaxLevel, new { @class = "form_input", autocomplete = "off" })
+                                    </div>
                                 </div>
                                 <div class="part">
 
@@ -194,16 +196,27 @@
 
 
                             </div>
-                        <div class="marg">
-                            <button type="button" class="form-button top1">Exit</button>
 
-                            <button type="submit" class="form-button">Save</button>
-                            
+                            </div>
+
+
+
+                        <div class="row">
+                         
+                            <div class="col-md-12 hrpart">
+                                <button type="button" class="form-button right">Exit</button>
+                                <button type="submit" class="form-button right">Save</button>
+                            </div>
+                           
                         </div>
 
                     </div>
           }
+
+
         </div>
+
+
     </div>
 
 </div>

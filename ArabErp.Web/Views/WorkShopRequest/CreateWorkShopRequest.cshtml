@@ -27,7 +27,8 @@
 
     });
    
-        $(document).ready(function () {
+    $(document).ready(function () {
+        $("#Items_0__SlNo").val('1');
             $("#add_row").click(function () {
                 var i = 0;
                 var no = 1;
@@ -51,6 +52,7 @@
                 clone.html($(clone).html().replace(/\[0\]/g, '[' + i + ']'));
                 clone.html($(clone).html().replace(/\(0\)/g, '(' + i + ')'));
                 clone.html($(clone).html().replace(/Row_0/, 'Row_' + i + ''));
+                clone.html($(clone).html().replace(/slno1/, 'slno' + (i + 1) + ''));
                 $("#tab_logic").append('<tr id="' + i + '">' + clone.html() + '  </tr>');
             });
         });
@@ -71,22 +73,22 @@
         });
 
    
-    function calculateSummary() {
-        var quantity = parseFloat("0");
-        var amount = parseFloat("0");
-        $('.clQuantity').each(function (i, obj) {
-            var a = parseFloat($("#Items_" + i + "__Quantity").val());
-            console.log(a);
-            if (isNaN(a)) {
-                a = parseFloat("0");
-            }
+    //function calculateSummary() {
+    //    var quantity = parseFloat("0");
+    //    var amount = parseFloat("0");
+    //    $('.clQuantity').each(function (i, obj) {
+    //        var a = parseFloat($("#Items_" + i + "__Quantity").val());
+    //        console.log(a);
+    //        if (isNaN(a)) {
+    //            a = parseFloat("0");
+    //        }
 
-            quantity = quantity + a;
-        });
+    //        quantity = quantity + a;
+    //    });
           
-        $("#QtyTotal").text(quantity);
+    //    $("#QtyTotal").text(quantity);
      
-    }
+    //}
 </script>
                    
 <div class="container">
@@ -94,6 +96,7 @@
         <div class="form-head1">
             <h4>WorkShop Request</h4>
         </div>
+     
         <div class="main-part pad1">
             @using (Html.BeginForm("Save", null, FormMethod.Post, new { @class = "createFrom", @id = "work_form" }))
             {
@@ -109,7 +112,8 @@
                         @Html.TextBoxFor(m => m.WorkShopRequestDate, String.Format("{0:dd/MM/yyyy}", Model.WorkShopRequestDate), new { @class = "form_input ", autocomplete = "off", @readonly = "readonly" })
                     </div>
                 </div>
-                <div class="row form-group">
+    @Html.Action("SaleorderData")
+                @*<div class="row form-group">
                     <div class="col-md-3">
                         <label for="sono">Sale Order No.</label>
                         @Html.TextBoxFor(m => m.SaleOrderRefNo, new { @class = "form_input", autocomplete = "off",@readonly ="readonly" })
@@ -137,16 +141,16 @@
                         <label for="qty">Qty.</label>
                         <input type="text" id="qty" autocomplete="off" class="form_input" />
                     </div>
-                </div>
+                </div>*@
    
     <div class="table-responsive">
         <table class="table table-bordered table-hover" id="tab_logic">
             <thead>
                 <tr class="grid_heading">
-                    <th width="5%">Sl.No.</th>
+                    <th width="5%">#</th>
+                    <th width="10%">Part No</th>
                     <th width="20%">Material/Spares</th>
                     <th width="25%">Remarks</th>
-                    <th width="10%">Part No</th>
                     <th width="5%" class="text-right ">Qty</th>
                     <th width="10%">Unit</th>
                 </tr>
@@ -155,13 +159,17 @@
                 @for (int i = 0; i < Model.Items.Count; i++)
                 {
                     <tr id="Row_@i">
-                        <td>@i</td>
+                        <td>
+                            <span id="slno@(i+1)">@(i + 1)</span>
+                          
+                        </td>
+                        <td>@Html.TextBoxFor(m => m.Items[i].PartNo, new { @class = "form_input", autocomplete = "off", placeholder = "PartNo" })</td>
                         <td>
                             <input type="hidden" id="Row_@i" />
-                            @Html.DropDownListFor(m => m.Items[i].ItemId, (SelectList)ViewBag.ItemList, "Select Item", new { @class = "form_input", autocomplete = "off" })
+                            @Html.DropDownListFor(m => m.Items[i].ItemId, (SelectList)ViewBag.ItemList, "Select Material/Spares", new { @class = "form_input", autocomplete = "off" })
                         </td>
-                        <td>@Html.TextBoxFor(m => m.Items[i].ItemDescription, new { @class = "form_input", autocomplete = "off", placeholder = "Description" })</td>
-                        <td>@Html.TextBoxFor(m => m.Items[i].PartNo, new { @class = "form_input", autocomplete = "off", placeholder = "PartNo" })</td>
+                        <td>@Html.TextBoxFor(m => m.Items[i].Remarks, new { @class = "form_input", autocomplete = "off", placeholder = "Remarks" })</td>
+                      
 
                         <td>@Html.TextBoxFor(m => m.Items[i].Quantity, new { @class = "form_input clQuantity", @style = "text-align:right", autocomplete = "off", placeholder = "Qty" })</td>
                         <td>
@@ -176,8 +184,8 @@
                     <th width="5%"></th>
                     <th width="20%"></th>
                     <th width="25%"></th>
-                    <th width="10%">Total</th>
-                    <th width="5%" class="text-right "><span id="QtyTotal"></span></th>
+                    <th width="10%"></th>
+                    <th width="5%" class="text-right "></th>
                     <th width="10%"></th>
               
                 </tr>

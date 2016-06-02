@@ -1,5 +1,7 @@
-﻿@{
-    ViewBag.Title = "PendingPurchaseRequest";
+﻿@model IList<ArabErp.Domain.WorkShopRequest>
+@using GridMvc.Html
+@{
+    ViewBag.Title = "Pending WorkShopRequest";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
@@ -8,59 +10,102 @@
     <div class="row">
 
         <div class="form-head1">
-            <h4>Pending Purchase Request</h4>
+            <h4>Pending WorkShop Requests</h4>
         </div>
 
         <div class="main-part pad1">
-            <form method="post" action="@Url.Action("Create", "PurchaseRequest")">
+           
 
-                <div class=" table-responsive">
-                    <table class="table table-bordered">
-                        <thead>
-                            <tr class="grid_heading">
-                                <th><h1>WR No.</h1></th>
-                                <th><h1>WR Date</h1></th>
-                                <th><h1>Customer</h1></th>
-                                <th><h1>Customer Order Ref.</h1></th>
-                            </tr>
-                        </thead>
-                        <tbody class="grid_row">
-                            <tr>
-                                <td>1</td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                            </tr>
-                            <tr>
-                                <td>2</td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                            </tr>
-                            <tr>
-                                <td>3</td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                            </tr>
-                            <tr>
-                                <td>4</td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
-                <div class="margf">
-                
-                    <button type="submit" class="form-button">Ok</button>
+                @*<div class=" table-responsive">
+                        <table class="table table-bordered">
+                            <thead>
+                                <tr class="grid_heading">
+                                    <th><h1>WR No.</h1></th>
+                                    <th><h1>WR Date</h1></th>
+                                    <th><h1>Customer</h1></th>
+                                    <th><h1>Customer Order Ref.</h1></th>
+                                </tr>
+                            </thead>
+                            <tbody class="grid_row">
+                                <tr>
+                                    <td>1</td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                </tr>
+                                <tr>
+                                    <td>2</td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                </tr>
+                                <tr>
+                                    <td>3</td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                </tr>
+                                <tr>
+                                    <td>4</td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>*@
 
-                </div>
+                @*<div class="table-responsive">
+                        <div class="main-grid">
+
+                            @Html.Grid(Model).Columns(columns =>
+                       {
+                           columns.Add(m => m.WorkShopRequestNo).Titled("WorkShopRequest No.").SetWidth(30);
+                           columns.Add(m => m.RequiredDate).Titled("Delivery Date").SetWidth(110);
+                           columns.Add(m => m.CustomerOrderRef).Titled("Customer Order Ref.").SetWidth(110);
+                           //columns.Add(m => m.WorkDescription).Titled("WorkDescription").SetWidth(110);
+
+
+                       }).WithPaging(10)
+                        </div>
+
+                    </div>*@
+
+                @*<div class="margf">
+
+                        <button type="submit" class="form-button">Ok</button>
+
+                    </div>*@
+        
+                <div class="col-md-3 grid_heading">WorkShopRequestNo</div>
+                <div class="col-md-3 grid_heading">RequiredDate</div>
+                <div class="col-md-3 grid_heading">CustomerOrderRef</div>
+                <div class="col-md-3 grid_heading">Select</div>
+
+                @for (int i = 0; i < Model.Count(); i++)
+                {
+
+
+                    @*<form method="post" action="@Url.Action("Create", "PurchaseRequest")">*@
+                        <div class="col-md-3 grid_row">
+                            @Html.HiddenFor(m => m[i].WorkShopRequestId)
+                            @Model[i].WorkShopRequestNo
+                        </div>
+                        <div class="col-md-3 grid_row">
+                            @Model[i].RequiredDate
+                        </div>
+                        <div class="col-md-3 grid_row">
+                            @Model[i].CustomerOrderRef
+                        </div>
+                        <div class="col-md-3 grid_row">
+                        @Html.ActionLink("Select", "Create", "PurchaseRequest", new { WorkShopRequestId = @Model[i].WorkShopRequestId }, null);                        </div>
+                    @*</form>*@
+
+                }
+
+
                 <div class="row"></div>
-            </form>
+  
         </div>
     </div>
 </div>
-
-

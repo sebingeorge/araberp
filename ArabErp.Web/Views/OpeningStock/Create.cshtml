@@ -1,0 +1,65 @@
+﻿@model  ArabErp.Domain.OpeningStock
+
+@{ ViewBag.Title = "Create";Layout = "~/Views/Shared/_Layout.cshtml";}
+
+<script>
+        $(document).ready(function () {
+            $('#openingstock_form').bootstrapValidator({
+                fields: {
+                    stockpointId: {
+                        validators: {
+                            notEmpty: {
+                                message: 'Please Select StockPoint'
+                            }
+                        }
+                    },
+                }
+            });
+        })
+
+</script>
+
+<div class=" container">
+    <div class="row">
+        <div class= "form-head1">
+            <h4>Opening Stock</h4>
+        </div>
+      
+        <div class=" main-part pad1 ">
+             @using (Html.BeginForm("Save", null, FormMethod.Post, new { @class = "createFrom", @id = "openingstock_form" })) 
+             {
+                 <div class="row">
+                     <div class="col-md-12">
+                     </div>
+
+                     <div class="col-md-4">
+                         <label for="stockpoint">StockPoint</label>
+                         @Html.DropDownListFor(m => Model.stockpointId, (SelectList)ViewBag.Stockpointlist, "Select StockPoint", new { @class = "form_input", autocomplete = "off" })
+                     </div>
+                 </div>
+
+                <div class="row form-group">
+                </div>
+                 
+                    @Html.Action("OpeningStockList")
+
+    <div class="row">
+
+        <div class="col-md-12 hrpart">
+            <button type="button" class="form-button right">Exit</button>
+            <button type="submit" class="form-button right">Save</button>
+        </div>
+
+    </div>
+
+
+                 
+             }
+
+                          
+
+        </div>
+    </div>
+</div>
+
+
