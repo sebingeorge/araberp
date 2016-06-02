@@ -6931,6 +6931,17 @@ td.visible-print {
     margin-top: 24px !important;
 }
 
+    .navbar-collapse
+    {
+
+     padding-left:47px;
+    }
+
+    .navbar-nav .open .dropdown-menu > li > a, .navbar-nav .open .dropdown-menu .dropdown-header 
+    {
+        padding-left:40px !important;
+    }
+
 }
 
 @media only screen and (min-width:768px) and (max-width: 1024px)

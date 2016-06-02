@@ -197,6 +197,7 @@ background-color: #ffffff;
 
 }
 
+
 .main-grid tr
  {
     border:0;
@@ -223,6 +224,11 @@ background-color: #ffffff;
     {
         border-bottom:0;
     }
+
+    .main-grid-top
+{
+margin-top:0px;
+}
 
 
 .grid-pager 
