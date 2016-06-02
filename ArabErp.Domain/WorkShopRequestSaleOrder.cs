@@ -18,6 +18,7 @@ namespace ArabErp.Domain
         public string CustomerOrderRef { get; set; }
         public int OrganizationId { get; set; }
         public bool isActive { get; set; }
+
         public List<WorkShopRequestSaleOrderItem> WorkShopRequestSaleOrderItems { get; set; }
     }
 }
