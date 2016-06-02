@@ -11,8 +11,16 @@ namespace ArabErp.Domain
         public string JobCardNo { get; set; }
         public DateTime? JobCardDate { get; set; }
         public int SaleOrderId { get; set; }
+        public int SaleOrderItemId { get; set; }
+        public int CustomerId { get; set; }
+        public string CustomerName { get; set; }
+        public string CustomerOrderRef { get; set; }
+        public string VehicleModelName { get; set; }
         public string ChasisNoRegNo { get; set; }
+        public int WorkDescriptionId { get; set; }
         public string WorkDescription { get; set; }
+        public string WorkShopRequestRef { get; set; }
+        public int GoodsLanded { get; set; }
         public int FreezerUnitId { get; set; }
         public int BoxId { get; set; }
         public int BayId { get; set; }
