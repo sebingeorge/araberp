@@ -13,18 +13,37 @@ namespace ArabErp.DAL
         static string dataConnection = GetConnectionString("arab");
 
 
-        public int InsertWorkShopRequestItem(WorkShopRequestItem objWorkShopRequestItem)
+//        public int InsertWorkShopRequestItem(WorkShopRequestItem objWorkShopRequestItem)
+//        {
+//            using (IDbConnection connection = OpenConnection(dataConnection))
+//            {
+//                string sql = @"INSERT INTO WorkShopRequestItem   (WorkShopRequestId ,ItemId  ,ItemDescription,PartNo,Quantity ,UnitId,OrganizationId) VALUES( @WorkShopRequestId ,@ItemId,@ItemDescription,@PartNo,@Quantity,@UnitId,@OrganizationId);
+//            SELECT CAST(SCOPE_IDENTITY() as int)";
+
+
+//                var id = connection.Query<int>(sql, objWorkShopRequestItem).Single();
+//                return id;
+//            }
+//        }
+
+        public int InsertWorkShopRequestItem(WorkShopRequestItem model, IDbConnection connection, IDbTransaction trn)
         {
-            using (IDbConnection connection = OpenConnection(dataConnection))
+            try
             {
-                string sql = @"INSERT INTO WorkShopRequestItem   (WorkShopRequestId ,ItemId  ,ItemDescription,PartNo,Quantity ,UnitId,OrganizationId) VALUES( @WorkShopRequestId ,@ItemId,@ItemDescription,@PartNo,@Quantity,@UnitId,@OrganizationId);
+
+                string sql = @"INSERT INTO WorkShopRequestItem   (WorkShopRequestId,ItemId,Remarks,Quantity,isActive) VALUES( @WorkShopRequestId ,@ItemId,@Remarks,@Quantity,1);
             SELECT CAST(SCOPE_IDENTITY() as int)";
 
-
-                var id = connection.Query<int>(sql, objWorkShopRequestItem).Single();
+                var id = connection.Query<int>(sql, model, trn).Single();
                 return id;
             }
+            catch (Exception)
+            {
+                throw;
+            }
+
         }
+
 
         public WorkShopRequestItem GetWorkShopRequestItem(int WorkShopRequestItemId)
         {
