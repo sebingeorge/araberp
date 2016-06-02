@@ -18,11 +18,11 @@ namespace ArabErp.Web.Controllers
         {
             return View();
         }
-        public ActionResult Create(WorkShopRequest wrmodel)
+        public ActionResult Create(int WorkShopRequestId)
         {
 
             PurchaseRequest prmodel = new PurchaseRequest();
-            prmodel.WorkShopRequestId = wrmodel.WorkShopRequestId;
+            prmodel.WorkShopRequestId = WorkShopRequestId;
             return View(prmodel);
         }
         public ActionResult PendingPurchaseRequest()

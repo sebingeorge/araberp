@@ -86,7 +86,7 @@
                 {
 
 
-                    <form method="post" action="@Url.Action("Create", "PurchaseRequest")">
+                    @*<form method="post" action="@Url.Action("Create", "PurchaseRequest")">*@
                         <div class="col-md-3 grid_row">
                             @Html.HiddenFor(m => m[i].WorkShopRequestId)
                             @Model[i].WorkShopRequestNo
@@ -98,9 +98,8 @@
                             @Model[i].CustomerOrderRef
                         </div>
                         <div class="col-md-3 grid_row">
-                            <input type="submit" value="Select " class="btn btn-default" />
-                        </div>
-                    </form>
+                        @Html.ActionLink("Select", "Create", "PurchaseRequest", new { WorkShopRequestId = @Model[i].WorkShopRequestId }, null);                        </div>
+                    @*</form>*@
 
                 }
 
