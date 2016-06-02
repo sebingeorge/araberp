@@ -6911,6 +6911,14 @@ td.visible-print {
     margin-right:-15px !important;
 
 }
+    .hrpart 
+    {
+        float:none !important;
+    }
+
+    .lefto {
+    margin-right: 139px !important;
+}
 
 }
 
@@ -6991,6 +6999,11 @@ td.visible-print {
     .dropdown-menu
      {
         left:-102px !important;
+    }
+
+        .hrpart 
+    {
+        float:none !important;
     }
 }
 
