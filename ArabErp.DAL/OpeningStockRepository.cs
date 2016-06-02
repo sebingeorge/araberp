@@ -37,6 +37,17 @@ namespace ArabErp.DAL
             }
         }
 
+
+        public int DeleteOpeningStock(OpeningStock objOpeningStock)
+        {
+            using (IDbConnection connection = OpenConnection(dataConnection))
+            {
+                string sql = @"Delete OpeningStock  OUTPUT DELETED.StockPointId WHERE StockPointId=@StockPointId";
+                var id = connection.Execute(sql, objOpeningStock);
+                return id;
+            }
+        }
+
         public int InsertOpeningStock(OpeningStock objOpeningStock)
         {
             using (IDbConnection connection = OpenConnection(dataConnection))
@@ -68,8 +79,27 @@ namespace ArabErp.DAL
             }
         }
 
+        public IEnumerable< OpeningStockItem> GetItem(int? StockPointId)
+        {
+            using (IDbConnection connection = OpenConnection(dataConnection))
+            {
+                string sql = @"SELECT ItemId,Quantity  FROM OpeningStock WHERE StockPointId=@StockPointId";
 
- 
+                //var objItem = connection.Query<OpeningStock>(sql, new
+                //{
+                //    StockPointId = StockPointId
+                //}).OpeningStockItem();
+
+                return connection.Query<OpeningStockItem>(sql, new
+                {
+                    StockPointId = StockPointId
+                }).ToList();
+            }
+        }
+
+
+
+
 
     }
 }
