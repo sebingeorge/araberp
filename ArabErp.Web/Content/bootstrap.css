@@ -6920,6 +6920,12 @@ td.visible-print {
     margin-right: 139px !important;
 }
 
+.body-content 
+{
+    margin-left: 10px !important;
+    width: 100% !important;
+}
+
 }
 
 @media only screen and (min-width:768px) and (max-width: 1024px)
@@ -7005,5 +7011,11 @@ td.visible-print {
     {
         float:none !important;
     }
+
+        .body-content 
+{
+    margin-left: 10px !important;
+    width: 100% !important;
+}
 }
 
