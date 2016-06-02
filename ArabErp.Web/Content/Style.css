@@ -2,8 +2,8 @@
 
    .grid_heading
 {
-    color:#070B19;
-    background-color:#ccced3;
+    color:#fff;
+    background-color:#6d5749;
     grid-row-sizing:5px;
     height:20px;
 
@@ -32,11 +32,11 @@
   height: 22px;
   font-size: 11px;
   line-height: 1.428571429;
-  color: #00aaff;
+  color: #000;
   vertical-align: middle;
   border-radius:5px;
   border: 1px solid #ffffff;
-  background-color:#e1f4fa;
+  background-color:#fff;
   }
 .form_input-h 
 {
@@ -270,7 +270,7 @@
 {
     font-size:13px;
     font-weight:bold;
-    color:#4a4a4a;
+    color:#fff;
     padding-left:5px;
     padding-right:5px;
     padding-top:0;

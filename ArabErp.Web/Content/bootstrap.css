@@ -1656,6 +1656,8 @@ label {
   display: inline-block;
   margin-bottom: 5px;
    font-size: 12px;
+   font-weight:bold;
+   color:#000;
 }
 
 input[type="search"] {
