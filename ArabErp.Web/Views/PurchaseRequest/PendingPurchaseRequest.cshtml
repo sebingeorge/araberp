@@ -59,14 +59,14 @@
                     <div class="main-grid">
 
                         @Html.Grid(Model).Columns(columns =>
-                        {
-                            columns.Add(m => m.WorkShopRequestNo).Titled("WorkShopRequest No.").SetWidth(30);
-                            columns.Add(m => m.RequiredDate).Titled("Delivery Date").SetWidth(110);
-                            //columns.Add(m => m.CustomerOrderRef).Titled("Customer Order Ref.").SetWidth(110);
-                            //columns.Add(m => m.WorkDescription).Titled("WorkDescription").SetWidth(110);
+                   {
+                       columns.Add(m => m.WorkShopRequestNo).Titled("WorkShopRequest No.").SetWidth(30);
+                       columns.Add(m => m.RequiredDate).Titled("Delivery Date").SetWidth(110);
+                       columns.Add(m => m.CustomerOrderRef).Titled("Customer Order Ref.").SetWidth(110);
+                       //columns.Add(m => m.WorkDescription).Titled("WorkDescription").SetWidth(110);
 
 
-                        }).WithPaging(10)
+                   }).WithPaging(10)
                     </div>
 
                 </div>
