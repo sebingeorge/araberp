@@ -13,43 +13,12 @@ namespace ArabErp.DAL
         static string dataConnection = GetConnectionString("arab");
 
 
-//        public int InsertWorkShopRequest(WorkShopRequest objWorkShopRequest)
-//        {
 
-//            using (IDbConnection connection = OpenConnection(dataConnection))
-//            {
-
-//              //  var trn = connection.BeginTransaction();
-//                int id = 0;
-
-//                try
-//                {
-//                    string sql = @"insert  into WorkShopRequest(WorkShopRequestNo,WorkShopRequestDate,SaleOrderId,CustomerId,CustomerOrderRef,SpecialRemarks,RequiredDate,CreatedBy,CreatedDate,OrganizationId) Values (@WorkShopRequestNo,@WorkShopRequestDate,@SaleOrderId,@CustomerId,@CustomerOrderRef,@SpecialRemarks,@RequiredDate,@CreatedBy,@CreatedDate,@OrganizationId);
-//            SELECT CAST(SCOPE_IDENTITY() as int)";
-
-
-//                 id = connection.Query<int>(sql, objWorkShopRequest).Single();
-
-
-
-               
-//                var workshopitemitemrepo = new WorkShopRequestItemRepository();
-//                foreach (var item in objWorkShopRequest.Items)
-//                {
-//                    item.WorkShopRequestId = id;
-//                    workshopitemitemrepo.InsertWorkShopRequestItem(item);
-//                }
-//                   // trn.Commit();
-//                }
-//                catch (Exception e)
-//                {
-//                   // trn.Rollback();
-//                    throw;
-//                }
-//                return id;
-//            }
-//        }
-
+        /// <summary>
+        /// Insert WorkShopRequest
+        /// </summary>
+        /// <param name="model"></param>
+        /// <returns>primary key of WorkShopRequest </returns>
         public int InsertWorkShopRequest(WorkShopRequest model)
         {
             using (IDbConnection connection = OpenConnection(dataConnection))
@@ -177,14 +146,14 @@ namespace ArabErp.DAL
             using (IDbConnection connection = OpenConnection(dataConnection))
             {
                 return connection.Query<string>("SELECT PartNo FROM Item WHERE ItemId = @ItemId",
-                    new { ItemId = itemId }).First<string>();
+                new { ItemId = itemId }).First<string>();
             }
         }
         public List<WorkShopRequest> GetWorkShopRequestPending()
         {
             using (IDbConnection connection = OpenConnection(dataConnection))
             {
-                string sql = @"select * from WorkShopRequest";
+                string sql = @"select *,CustomerName from WorkShopRequest WR inner join Customer C on C.CustomerId=WR.CustomerId";
 
                 var objWrkOrders = connection.Query<WorkShopRequest>(sql).ToList<WorkShopRequest>();
 

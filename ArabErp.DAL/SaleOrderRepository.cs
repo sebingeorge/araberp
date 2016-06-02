@@ -81,7 +81,7 @@ namespace ArabErp.DAL
             }
         }
         /// <summary>
-        /// WorkShop Request Pending List
+        /// Saleorder Pending List
         /// </summary>
         /// <param name="model">Object of class SaleOrder</param>
         /// <returns>SaleOrders not in WorkshopRequest table</returns>
