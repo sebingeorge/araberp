@@ -22,7 +22,7 @@ namespace ArabErp.Web.Controllers
         {
             return View();
         }
-        public ActionResult PendingPurchaseRequest()
+        public ActionResult PendingWorkShopRequest()
         {
             var repo = new WorkShopRequestRepository();
             var list = repo.GetWorkShopRequestPending();
