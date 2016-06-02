@@ -7,7 +7,6 @@ using System.Web;
 using System.Web.Mvc;
 
 namespace ArabErp.Web.Controllers
-
 {
     public class OpeningStockController : Controller
     {
@@ -16,6 +15,7 @@ namespace ArabErp.Web.Controllers
         {
             return View();
         }
+
         public ActionResult Create()
         {
             FillStockpoint();
@@ -26,15 +26,23 @@ namespace ArabErp.Web.Controllers
 
             return View(OpeningStock);
         }
-        public ActionResult OpeningStockList()
+
+        public ActionResult OpeningStockList(int? stockpointId)
         {
             FillItem();
 
             OpeningStock OpeningStock = new OpeningStock();
-
             OpeningStock.OpeningStockItem = new List<OpeningStockItem>();
-            var OpeningStockItem = new OpeningStockItem();
-            OpeningStock.OpeningStockItem.Add(OpeningStockItem);
+            if (stockpointId == null || stockpointId == 0)
+            {
+                var OpeningStockItem = new OpeningStockItem();
+                OpeningStock.OpeningStockItem.Add(OpeningStockItem);
+            }
+            else
+            {
+                var repo = new OpeningStockRepository();
+                OpeningStock.OpeningStockItem = repo.GetItem(stockpointId).ToList();
+            }
 
             return PartialView("OpeningStockList", OpeningStock);
         }
@@ -53,22 +61,26 @@ namespace ArabErp.Web.Controllers
             ViewBag.Itemlist = new SelectList(list, "Id", "Name");
         }
 
-        public ActionResult Save(OpeningStock model)
-        {
+        
 
-            model.OrganizationId = 1;
-            model.CreatedDate = System.DateTime.Now;
-            model.CreatedBy = Request.ServerVariables["HTTP_X_FORWARDED_FOR"] ?? Request.ServerVariables["REMOTE_ADDR"];
-            new OpeningStockRepository().InsertOpeningStock(model);
+              public ActionResult Save(OpeningStock model)
+              {
+
+                model.OrganizationId = 1;
+                model.CreatedDate = System.DateTime.Now;
+                model.CreatedBy = Request.ServerVariables["HTTP_X_FORWARDED_FOR"] ?? Request.ServerVariables["REMOTE_ADDR"];
+                new OpeningStockRepository().DeleteOpeningStock(model);
+                new OpeningStockRepository().InsertOpeningStock(model);
             
-            FillStockpoint();
-            FillItem();
+                FillStockpoint();
+                FillItem();
 
-            //TempData["Success"] = "Added Successfully!";
-            OpeningStock OpeningStock = new OpeningStock();
-            OpeningStock.OpeningStockItem = new List<OpeningStockItem>();
-            OpeningStock.OpeningStockItem.Add(new OpeningStockItem());
-            return View("Create", OpeningStock);
+                //TempData["Success"] = "Added Successfully!";
+                OpeningStock OpeningStock = new OpeningStock();
+                OpeningStock.OpeningStockItem = new List<OpeningStockItem>();
+                OpeningStock.OpeningStockItem.Add(new OpeningStockItem());
+                return View("Create");
+             }
+
         }
     }
-}

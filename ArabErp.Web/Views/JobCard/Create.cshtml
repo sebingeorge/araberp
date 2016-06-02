@@ -1,140 +1,191 @@
-﻿
+﻿@model ArabErp.Domain.JobCard
 @{
     ViewBag.Title = "Create";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
+<script>
+    $(function () {
+        $("#JobCardDate").datepicker({ dateFormat: "dd/MM/yy" }); 
+        $("#RequiredDate").datepicker({ dateFormat: "dd/MM/yy" });
+        assignTaskDate();
+    });
+    
+    function assignTaskDate()
+    {
+        $('.taskdate').each(function (i, obj) {
+            //console.log(obj.id);
+            $("#" + obj.id).removeClass("hasDatepicker");
+            $("#" + obj.id).datepicker({ dateFormat: "dd/MM/yy" });
+        });
+    }
+
+    function AddRowBelow(rNo)
+    {
+        var i = 0;
+        var no = 0;
+        $('.TaskRow').each(function (j, obj) {
+            var row = Number(obj.id.replace("Row_", ""));
+            console.log(j);
+            i = j;
+        });
+        i++;
+        //$('input[id^="Row_"]').each(function () {
+        //    var id = this.id;
+        //    console.log(id);
+        //    //no++;
+        //    //var row = Number(id.replace("Row_", ""));
+        //    //if(row>i)
+        //    //{
+        //    //    i = row;
+        //    //}
+        //});
+        //i++;
+        console.log(i);
+
+        var clone = $('#Row_0').clone();
+        clone.html($(clone).html().replace(/\JobCardTasks_0__/g, 'JobCardTasks_' + i + '__'));
+        clone.html($(clone).html().replace(/\JobCardTasks_0__/g, 'JobCardTasks_' + i + '__'));
+        clone.html($(clone).html().replace(/\JobCardTasks[0]./g, 'JobCardTasks[' + i + '].'));
+        clone.html($(clone).html().replace(/\[0\]/g, '[' + i + ']'));
+        clone.html($(clone).html().replace(/\(0\)/g, '(' + i + ')'));
+        clone.html($(clone).html().replace(/\Row_0/g, 'Row_' + i + ''));
+        //clone.html($(clone).html().replace(/Row_/, 'Row_' + i + ''));
+
+        
+        $("#tab_logic").append('<tr id="Row_' + i + '" class="TaskRow">' + clone.html() + '  </tr>');
+        $('#Row_' + i).find('.taskdate').datepicker({ dateFormat: "dd/MM/yy" });
+        assignTaskDate();
+    }
+</script>
 <div class="container">
         <div class="row">
-            <div class="form-head1">
-                <h4>Job Card</h4>
-            </div>
-            <div class="main-part pad1">
-                <form role="form">
-                    <div class="row form-group">
-                        <div class="col-md-2">
-                            <label for="jcno">Job Card No.</label>
-                            <input type="text" id="jcno" class="form_input" />
-                        </div>
-                        <div class="col-md-2 col-md-offset-8">
-                            <label for="inputDate">Date</label>
-                            <input type="date" id="inputDate" class="form_input" autocomplete="off" />
-                        </div>
-                    </div>
-                    <div class="row form-group">
-                        <div class="col-md-3">
-                            <label for="cus">Customer</label>
-                            <input type="text" id="cus" autocomplete="off" class="form_input" />
-                        </div>
-                        <div class="col-md-3">
-                            <label for="cusref">Customer Order Ref.</label>
-                            <input type="text" id="cusref" autocomplete="off" class="form_input" />
-                        </div>
-                        <div class="col-md-3">
-                            <label for="vechmodel">Vehicle Model</label>
-                            <input type="text" id="vechmodel" autocomplete="off" class="form_input" />
-                        </div>
-                        <div class="col-md-3">
-                            <label for="chasisno">Chasis No/Reg No.</label>
-                            <input type="text" id="chasisno" autocomplete="off" class="form_input" />
-                        </div>
-                    </div>
-                    <div class="row form-group">
-                        <div class="col-md-3">
-                            <label for="wrkdes">Work Description</label>
-                            <input type="text" id="wrkdes" class="form_input" autocomplete="off" />
-                        </div>
-                        <div class="col-md-3">
-                            <label for="wrkreqref">WorkShop Request Ref.</label>
-                            <input type="text" id="wrkreqref" class="form_input" autocomplete="off" />
-                        </div>
-                        <div class="col-md-3">
-                            <label for="goodsland">Goods Landed</label>
-                            <input type="text" id="goodsland" class="form_input" autocomplete="off" />
-                        </div>
-                        <div class="col-md-3">
-                            <label for="bay">Bay</label>
-                            <select id="bay" class="form_input" autocomplete="off">
-                                <option>Select Bay</option>
-                                <option>Bay 1</option>
-                                <option>Bay 2</option>
-                                <option>Bay 3</option>
-                            </select>
-                        </div>
-                    </div>
-                    <div class="row form-group">
-                        <div class="col-md-3">
-                            <label for="freezer">Freezer Unit</label>
-                            <input type="text" id="freezer" class="form_input" autocomplete="off" />
-                        </div>
-                        <div class="col-md-3">
-                            <label for="box">Box</label>
-                            <input type="text" id="box" class="form_input" autocomplete="off" />
-                        </div>
-                    </div>
-                    <div class=" table-responsive">
-                        <table class="table table-bordered">
-                            <thead>
-                                <tr class="grid_heading">
-                                    <th><h1>Task</h1></th>
-                                    <th><h1>Employee</h1></th>
-                                    <th><h1>Date</h1></th>
-                                    <th><h1>Hrs.</h1></th>
-                                </tr>
-                            </thead>
-                            <tbody class="grid_row">
-                                <tr>
-                                    <td>+Task1</td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                </tr>
-                                <tr>
-                                    <td>+Task2</td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                </tr>
-                                <tr>
-                                    <td>+Task3</td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                </tr>
-                                <tr>
-                                    <td>+Task4</td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                    <div class="row form-group">
-                        <div class="col-md-12">
-                            <label for="SplRemarks1">Spl.Remarks</label>
-                            <textarea id="SplRemarks1" autocomplete="off" class="form_input form_input-h"></textarea>
-                        </div>
-                    </div>
-                    <div class="row form-group">
-                        <div class="col-md-3">
-                            <label for="reqdate">Required Date</label>
-                            <input type="date" id="reqdate" autocomplete="off" style="min-width: 100%" class="form_input" />
-                        </div>
-                        <div class="col-md-3">
-                            <label for="emp">Employee/Supervisor</label>
-                            <select id="bay" class="form_input" autocomplete="off">
-                                <option>Select Employee</option>
-                                <option>Employee 1</option>
-                                <option>Employee 2</option>
-                                <option>Employee 3</option>
-                            </select>
-                        </div>
-                    </div>
-                    <div class="marg">
-                        <button class="form-button">Exit</button>
-                        <button type="submit" class="form-button">Save</button>
-                    </div>
-                </form>
+@using (Html.BeginForm("Save", null, FormMethod.Post, new { @class = "createFrom", @id = "saleorder_form" }))
+{
+    <div class="form-head1">
+        <h4>Job Card</h4>
+    </div>
+    <div class="main-part pad1">
+        <form role="form">
+            <div class="row form-group">
+                <div class="col-md-2">
+                    <label for="jcno">Job Card No.</label>
+                    @Html.TextBoxFor(m => m.JobCardNo, new { @class = "form_input", autocomplete = "off" })
+                    @Html.HiddenFor(m=>m.SaleOrderId)
+                    @Html.HiddenFor(m=>m.SaleOrderItemId)
                 </div>
+                <div class="col-md-2 col-md-offset-8">
+                    <label for="inputDate">Date</label>
+                    @Html.TextBoxFor(m => m.JobCardDate, String.Format("{0:dd/MM/yyyy}", Model.JobCardDate), new { @class = "form_input ", autocomplete = "off", @readonly = "readonly" })
+                </div>
+            </div>
+            <div class="row form-group">
+                <div class="col-md-3">
+                    <label for="cus">Customer</label>
+                    @Html.TextBoxFor(m => m.CustomerName, new { @class = "form_input", autocomplete = "off" })
+                    @Html.HiddenFor(m => m.CustomerId, new { @class = "form_input", autocomplete = "off" })
+                </div>
+                <div class="col-md-3">
+                    <label for="cusref">Customer Order Ref.</label>
+                    @Html.TextBoxFor(m => m.CustomerOrderRef, new { @class = "form_input", autocomplete = "off" })
+                </div>
+                <div class="col-md-3">
+                    <label for="vechmodel">Vehicle Model</label>
+                    @Html.TextBoxFor(m => m.VehicleModelName, new { @class = "form_input", autocomplete = "off" })
+                </div>
+                <div class="col-md-3">
+                    <label for="chasisno">Chasis No/Reg No.</label>
+                    @Html.TextBoxFor(m => m.ChasisNoRegNo, new { @class = "form_input", autocomplete = "off" })
+                </div>
+            </div>
+            <div class="row form-group">
+                <div class="col-md-3">
+                    <label for="wrkdes">Work Description</label>
+                    @Html.TextBoxFor(m => m.WorkDescription, new { @class = "form_input", autocomplete = "off" })
+                    @Html.HiddenFor(m => m.WorkDescriptionId, new { @class = "form_input", autocomplete = "off" })
+                </div>
+                <div class="col-md-3">
+                    <label for="wrkreqref">WorkShop Request Ref.</label>
+                    @Html.TextBoxFor(m => m.WorkShopRequestRef, new { @class = "form_input", autocomplete = "off" })
+                </div>
+                <div class="col-md-3">
+                    <label for="goodsland">Goods Landed</label>
+                    @Html.TextBoxFor(m => m.GoodsLanded, new { @class = "form_input", autocomplete = "off" })
+                </div>
+                <div class="col-md-3">
+                    <label for="bay">Bay</label>
+                    @Html.DropDownListFor(m => Model.BayId, (SelectList)ViewBag.BayList, "Select Bay", new { @class = "form_input", autocomplete = "off" })
+                </div>
+            </div>
+            <div class="row form-group">
+                <div class="col-md-3">
+                    <label for="freezer">Freezer Unit</label>
+                    @Html.DropDownListFor(m => Model.FreezerUnitId, (SelectList)ViewBag.FreezerUnits, "Select Freezer Unit", new { @class = "form_input", autocomplete = "off" })
+                </div>
+                <div class="col-md-3">
+                    <label for="box">Box</label>
+                    @Html.DropDownListFor(m => Model.BoxId, (SelectList)ViewBag.Boxes, "Select Box", new { @class = "form_input", autocomplete = "off" })
+                </div>
+            </div>
+            <div class=" table-responsive">
+                <table class="table table-bordered" id="tab_logic">
+                    <thead>
+                        <tr class="grid_heading">
+                            <td><h1>+</h1></td>
+                            <th><h1>Task</h1></th>
+                            <th><h1>Employee</h1></th>
+                            <th><h1>Date</h1></th>
+                            <th><h1>Hrs.</h1></th>
+                        </tr>
+                    </thead>
+                    <tbody class="grid_row">
+                        @{ int row = 0;}
+                        @foreach (var item in Model.JobCardTasks)
+                        {
+                            <tr id="Row_@row" class="TaskRow">
+                                <td>
+                                    <button id="add_@row" type="button" value="Add" onclick="AddRowBelow(@row);">+</button>
+                                </td>
+                                <td>
+                                    @Html.DropDownListFor(m => Model.JobCardTasks[row].JobCardTaskId, (SelectList)ViewBag.TaskList, "Select Task", new { @class = "form_input", autocomplete = "off" })
+                                </td>
+                                <td>
+                                    @Html.DropDownListFor(m => Model.JobCardTasks[row].EmployeeId, (SelectList)ViewBag.EmployeeList, "Select Employee", new { @class = "form_input", autocomplete = "off" })
+                                </td>
+                                <td>
+                                    @Html.TextBoxFor(m => m.JobCardTasks[row].TaskDate, String.Format("{0:dd/MM/yyyy}", Model.JobCardTasks[row].TaskDate), new { @class = "taskdate form_input", autocomplete = "off", @readonly = "readonly" })
+                                </td>
+                                <td>
+                                    @Html.TextBoxFor(m => m.JobCardTasks[row].Hours, new { @class = "form_input", autocomplete = "off" })
+                                </td>
+                            </tr>
+                            row++;
+                        }
+                    </tbody>
+                </table>
+            </div>
+            <div class="row form-group">
+                <div class="col-md-12">
+                    <label for="SplRemarks1">Spl.Remarks</label>
+                    <textarea id="SplRemarks1" autocomplete="off" class="form_input form_input-h"></textarea>
+                </div>
+            </div>
+            <div class="row form-group">
+                <div class="col-md-3">
+                    <label for="reqdate">Required Date</label>
+                    @Html.TextBoxFor(m => m.RequiredDate, String.Format("{0:dd/MM/yyyy}", Model.RequiredDate), new { @class = "form_input ", autocomplete = "off", @readonly = "readonly" })
+                </div>
+                <div class="col-md-3">
+                    <label for="emp">Employee/Supervisor</label>
+                    @Html.DropDownListFor(m => Model.EmployeeId, (SelectList)ViewBag.EmployeeList, "Select Employee", new { @class = "form_input", autocomplete = "off" })
+                </div>
+            </div>
+            <div class="marg">
+                <button class="form-button">Exit</button>
+                <button type="submit" class="form-button">Save</button>
+            </div>
+        </form>
+    </div>
+}
+            
             </div>
 </div>

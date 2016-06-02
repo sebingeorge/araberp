@@ -2,22 +2,24 @@
 
 @{ ViewBag.Title = "Create";Layout = "~/Views/Shared/_Layout.cshtml";}
 
-<script>
-        $(document).ready(function () {
-            $('#openingstock_form').bootstrapValidator({
-                fields: {
-                    stockpointId: {
-                        validators: {
-                            notEmpty: {
-                                message: 'Please Select StockPoint'
-                            }
-                        }
-                    },
-                }
-            });
-        })
+<script type="text/javascript">
+    $(document).ready(function () {
+        $("#stockpointId").change(function () {
+            var id = $(this).val();
+
+            if (id != '') {
+            }
+
+            var url = '@Url.Action("OpeningStockList")';
+            url += "?stockpointId=" + id;
+            $("#opening-stock-list").load(url);
+
+            //$("#[0].ItemId").val('@*@Model.OpeningStockItem[0].ItemId*@');
+        });
+    });
 
 </script>
+
 
 <div class=" container">
     <div class="row">
@@ -38,10 +40,14 @@
                      </div>
                  </div>
 
-                <div class="row form-group">
-                </div>
-                 
-                    @Html.Action("OpeningStockList")
+                @*@*<div class="row form-group">
+                </div>*@
+
+                    <div id="opening-stock-list" class="table-responsive">
+                        @Html.Action("OpeningStockList", new { stockpointId = 0 })
+                    </div>
+
+                    @*@Html.Action("OpeningStockList")*@
 
     <div class="row">
 
