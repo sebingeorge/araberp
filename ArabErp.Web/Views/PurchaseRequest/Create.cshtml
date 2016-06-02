@@ -1,4 +1,4 @@
-﻿
+﻿@model ArabErp.Domain.PurchaseRequest
 @{
     ViewBag.Title = "Create";
     Layout = "~/Views/Shared/_Layout.cshtml";
@@ -25,7 +25,8 @@
                 <div class="row form-group">
                     <div class="col-md-3">
                         <label for="wrno">WorkShop Request No & Date </label>
-                        <input type="text" id="wrno" autocomplete="off" class="form_input" />
+                       @* <input type="text" id="wrno" autocomplete="off" class="form_input" />*@
+                        @Html.TextBoxFor(m => m.WorkShopRequestId, new { @class = "form_input", autocomplete = "off" })
                     </div>
                     <div class="col-md-3">
                         <label for="cus">Customer</label>
@@ -42,9 +43,9 @@
                         <thead>
                             <tr class="grid_heading">
                                 <th width="5%"><h1>Sl.No.</h1></th>
+                                <th width="10%"><h1>Part No</h1></th>
                                 <th width="25%"><h1>Material</h1></th>
                                 <th width="25%"><h1>Remarks</h1></th>
-                                <th width="10%"><h1>Part No</h1></th>
                                 <th width="5%" class="text-right "><h1>Qty</h1></th>
                                 <th width="5%"><h1>Unit</h1></th>
                             </tr>
