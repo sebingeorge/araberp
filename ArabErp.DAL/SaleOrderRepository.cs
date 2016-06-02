@@ -103,6 +103,19 @@ namespace ArabErp.DAL
             }
         }
 
+        public SaleOrder GetSaleOrderForWorkshopRequest(int SaleOrderId)
+        {
+            using (IDbConnection connection = OpenConnection(dataConnection))
+            {
+                //string sql = @"select so.*,c.CustomerName from SaleOrder so left join WorkShopRequest wr on so.SaleOrderId=wr.SaleOrderId , Customer c   where so.CustomerId=c.CustomerId  and wr.SaleOrderId is null and so.isActive=1";
+                string sql = @"SELECT  SO.SaleOrderId,SO.CustomerOrderRef,SO.SaleOrderRefNo,SO.EDateArrival,SO.EDateDelivery,SO.CustomerId,C.CustomerName
+  FROM  SaleOrder SO  INNER JOIN Customer C 
+  ON SO.CustomerId =C.CustomerId  WHERE SO.SaleOrderId =@SaleOrderId";
+                var objSaleOrders = connection.Query<SaleOrder>(sql, new { SaleOrderId = SaleOrderId } ).Single<SaleOrder>();
+
+                return objSaleOrders;
+            }
+        }
         public int UpdateSaleOrder(SaleOrder objSaleOrder)
         {
             using (IDbConnection connection = OpenConnection(dataConnection))

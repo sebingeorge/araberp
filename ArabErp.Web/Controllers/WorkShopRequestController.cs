@@ -22,13 +22,14 @@ namespace ArabErp.Web.Controllers
         {
             SaleOrderRepository rep = new SaleOrderRepository();
 
-            SaleOrder model = rep.GetSaleOrder(SaleOrderId);
+            SaleOrder model = rep.GetSaleOrderForWorkshopRequest(SaleOrderId);
 
             WorkShopRequest objWorkShopRequest = new WorkShopRequest();
             objWorkShopRequest.CustomerOrderRef = model.CustomerOrderRef;
             objWorkShopRequest.SaleOrderId = model.SaleOrderId;
             objWorkShopRequest.SaleOrderRefNo = model.SoNoWithDate;
-            objWorkShopRequest.CustomerOrderRef = model.CustomerName;
+            objWorkShopRequest.CustomerOrderRef = model.CustomerOrderRef;
+            objWorkShopRequest.CustomerName= model.CustomerName;
             objWorkShopRequest.CustomerId = model.CustomerId;
             objWorkShopRequest.WorkDescription = model.WorkDescription;
             objWorkShopRequest.WorkShopRequestDate = System.DateTime.Today;
