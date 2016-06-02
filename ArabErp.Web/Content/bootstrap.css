@@ -6911,6 +6911,38 @@ td.visible-print {
     margin-right:-15px !important;
 
 }
+    .hrpart 
+    {
+        float:none !important;
+    }
+
+    .lefto {
+    margin-right: 139px !important;
+}
+
+.body-content 
+{
+    margin-left: 10px !important;
+    width: 100% !important;
+}
+.body-content1 
+{
+    margin-left: -20px !important;
+    margin-top: 24px !important;
+}
+
+
+
+    .navbar-collapse
+    {
+
+     padding-left:47px;
+    }
+
+    .navbar-nav .open .dropdown-menu > li > a, .navbar-nav .open .dropdown-menu .dropdown-header 
+    {
+        padding-left:40px !important;
+    }
 
 }
 
@@ -6992,5 +7024,21 @@ td.visible-print {
      {
         left:-102px !important;
     }
+
+        .hrpart 
+    {
+        float:none !important;
+    }
+
+        .body-content 
+{
+    margin-left: 15px !important;
+    width: 100% !important;
+}
+        
+.body-content1 
+{
+    margin-left: -4px !important;
+}
 }
 

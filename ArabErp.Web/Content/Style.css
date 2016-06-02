@@ -397,7 +397,7 @@ h5
 {
     border-top: 1px solid #dddddd;
     /*background: url(../Images/button-part.jpg) repeat-x;*/ 
-    height:40px;
+    height:36px;
     margin-top: 10px;
     padding-top: 8px;
     float:left;
@@ -412,3 +412,7 @@ h5
     float:left;
     margin-left:10px;
     }
+.body-content1
+ {
+    margin-top:40px;
+}
