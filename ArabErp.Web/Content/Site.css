@@ -107,6 +107,26 @@ textarea {
 {
     height:22px;
 }
+.form-button2 a 
+{   float:left;
+    background-color: #5c5a5a;
+    border: 1px solid #fff;
+    border-radius: 4px;
+    color: #ffffff;
+    height: 22px;
+    width: 92px;
+    line-height:22px;
+    margin-right:0;
+}
+.form-button a 
+{
+    height:22px;
+}
+.form-button a:hover
+    {
+    background-color:#434141;
+    color:#e6e0db;
+    }
 .form-button:hover
     {
     background-color:#434141;

@@ -36,9 +36,9 @@
 
 
                         @*<form method="post" action="@Url.Action("CreateWorkShopRequest","WorkShopRequest")">*@
-                            @Html.HiddenFor(m => m.SaleOrders.ElementAt(i).SaleOrderId, new { @class = "form_input", autocomplete = "off" })
+                            @*@Html.HiddenFor(m => m.SaleOrders.ElementAt(i).SaleOrderId, new { @class = "form_input", autocomplete = "off" })
                             @Html.HiddenFor(m => m.SaleOrders.ElementAt(i).CustomerId, new { @class = "form_input", autocomplete = "off" })
-                            @Html.HiddenFor(m => m.SaleOrders.ElementAt(i).WorkDescription, new { @class = "form_input", autocomplete = "off" })
+                            @Html.HiddenFor(m => m.SaleOrders.ElementAt(i).WorkDescription, new { @class = "form_input", autocomplete = "off" })*@
 
                             <div class="col-md-2 mtop">@Html.TextBoxFor(m => m.SaleOrders.ElementAt(i).CustomerName, new { @class = "form_input", autocomplete = "off", @readonly = "readonly" })</div>
                             <div class="col-md-2 mtop">@Html.TextBoxFor(m => m.SaleOrders.ElementAt(i).CustomerOrderRef, new { @class = "form_input", autocomplete = "off", @readonly = "readonly" })</div>
@@ -46,7 +46,7 @@
                             <div class="col-md-2 mtop">@Html.TextBoxFor(m => m.SaleOrders.ElementAt(i).EDateArrival, new { @class = "form_input", autocomplete = "off", @readonly = "readonly" })</div>
                             <div class="col-md-2 mtop">@Html.TextBoxFor(m => m.SaleOrders.ElementAt(i).EDateDelivery, new { @class = "form_input", autocomplete = "off", @readonly = "readonly" })</div>
                             @*  <div class="col-md-2 mtop"><center><button type="submit" class="form-button form-button1">Select</button></center></div>*@
-                            <div class="col-md-2 mtop"><center>@Html.ActionLink("Select", "CreateWorkShopRequest", "WorkShopRequest", new { SaleOrderId = Model.SaleOrders.ElementAt(i).SaleOrderId }, new { @class = "form-button form-button1" });</center></div>
+    <div class="col-md-2 mtop form-button2 form-button1"><center>@Html.ActionLink("Select", "CreateWorkShopRequest", "WorkShopRequest", new { SaleOrderId = Model.SaleOrders.ElementAt(i).SaleOrderId })</center></div>
                             @*<div class="col-md-2 mtop">@Html.TextBoxFor(m => m.SaleOrders.ElementAt(i).EDateDelivery, String.Format("{0:dd/MM/yyyy}", Model.SaleOrders.ElementAt(i).EDateDelivery), new { @class = "form_input", autocomplete = "off", @readonly = "readonly" })</div>*@
                            
 
