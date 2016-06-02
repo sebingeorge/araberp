@@ -71,6 +71,9 @@ namespace ArabErp.Web.Controllers
                 model.CreatedBy = Request.ServerVariables["HTTP_X_FORWARDED_FOR"] ?? Request.ServerVariables["REMOTE_ADDR"];
                 new OpeningStockRepository().DeleteOpeningStock(model);
                 new OpeningStockRepository().InsertOpeningStock(model);
+                new OpeningStockRepository().DeleteStockUpdate(model);
+                new OpeningStockRepository().InsertStockUpdate(model);
+                  
             
                 FillStockpoint();
                 FillItem();

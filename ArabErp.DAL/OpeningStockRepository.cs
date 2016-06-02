@@ -72,12 +72,56 @@ namespace ArabErp.DAL
                     }).Single();
 
                 }
-//            
+       
 
                 return id;
               
             }
         }
+
+        public int DeleteStockUpdate(OpeningStock objOpeningStock)
+        {
+            using (IDbConnection connection = OpenConnection(dataConnection))
+            {
+                string sql = @"Delete StockUpdate  OUTPUT DELETED.StockPointId WHERE StockPointId=@StockPointId";
+                var id = connection.Execute(sql, objOpeningStock);
+                return id;
+            }
+        }
+
+        public int InsertStockUpdate(OpeningStock objOpeningStock)
+        {
+            using (IDbConnection connection = OpenConnection(dataConnection))
+            {
+                int id = 0;
+                foreach (var item in objOpeningStock.OpeningStockItem)
+                {
+                    string sql = @"insert  into StockUpdate(StockPointId,ItemId,Quantity,
+                                 StockPointType,StockPointInOut,CreatedBy,CreatedDate,OrganizationId) 
+                                 Values (@stockpointId,@ItemId,@Quantity,'OpeningStock','IN',
+                                 @CreatedBy,@CreatedDate,@OrganizationId);
+                                 SELECT CAST(SCOPE_IDENTITY() as int)";
+
+                    //id = connection.Query<int>(sql, objOpeningStock).Single();
+
+                    id = connection.Query<int>(sql, new
+                    {
+                        stockpointId = objOpeningStock.stockpointId,
+                        ItemId = item.ItemId,
+                        Quantity = item.Quantity,
+                        CreatedBy = objOpeningStock.CreatedBy,
+                        CreatedDate = objOpeningStock.CreatedDate,
+                        OrganizationId = objOpeningStock.OrganizationId
+                    }).Single();
+
+                }
+
+
+                return id;
+
+            }
+        }
+
 
         public IEnumerable< OpeningStockItem> GetItem(int? StockPointId)
         {
