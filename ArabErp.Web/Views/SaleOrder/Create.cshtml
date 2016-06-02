@@ -139,17 +139,31 @@
             @Html.Action("DisplaySOList")
             <div class="row">
                 <div class="col-md-12">
-                    <div class="part1">
-                        <label for="SpecialRemarks">Spl.Remarks</label>
-                        @Html.TextAreaFor(m => m.SpecialRemarks, new { @class = "form_input form_input-h", autocomplete = "off" })
+                    <div class="part3">
+                        <div class="row">
+                            <div class="col-md-2"><label for="SpecialRemarks" class="line">Spl.Remarks</label></div>
+
+                            <div class="col-md-10">
+                                @Html.TextAreaFor(m => m.SpecialRemarks, new { @class = "form_input form_input-h", autocomplete = "off" })
+                            </div>
                         </div>
-                        <div class="part">
-                            <label for="PaymentTerms">Payment Terms</label>
-                            @Html.TextBoxFor(m => m.PaymentTerms, new { @class = "form_input", autocomplete = "off" })
+                    </div>
+                        <div class="part2">
+
+                            <div class="row">
+                                <div class="col-md-2"><label for="PaymentTerms">Payment Terms</label></div>
+                                <div class="col-md-10">@Html.TextBoxFor(m => m.PaymentTerms, new { @class = "form_input", autocomplete = "off" })</div>
+                            </div>
+                            
+                            
                         </div>
-                    <div class="part">
-                        <label for="DeliveryTerms">Delivery Terms</label>
-                        @Html.TextBoxFor(m => m.DeliveryTerms, new { @class = "form_input", autocomplete = "off" })
+                    <div class="part2">
+                        <div class="row">
+                            <div class="col-md-2"><label for="DeliveryTerms">Delivery Terms</label></div>
+                            <div class="col-md-10">@Html.TextBoxFor(m => m.DeliveryTerms, new { @class = "form_input", autocomplete = "off" })</div>
+                        </div>
+                        
+                        
                     </div>
 
                     <div class="row">

@@ -77,6 +77,15 @@ textarea {
     height:60px;
     margin-top: -9px
 }
+.part2
+ {
+    height:30px;
+    margin-top:7px;
+}
+.part3
+ {
+    height:50px;
+}
     .label1
      {
     
@@ -100,8 +109,8 @@ textarea {
 }
 .form-button:hover
     {
-    background-color:#00D4FF;
-    color:#000;
+    background-color:#434141;
+    color:#e6e0db;
     }
 .margf 
 {
@@ -180,7 +189,7 @@ background-color: #ffffff;
   }
 .grid-header 
 {
-    background-color: #2db4e3;
+    background-color: #6d5749;
     border-right: 1px solid #fff;
     color: #fff;
 }
@@ -246,3 +255,10 @@ margin-top:0px;
 {
     font-size:12px;
 }
+
+.scroll 
+{
+    height: 293px;
+    overflow: scroll;
+}
+

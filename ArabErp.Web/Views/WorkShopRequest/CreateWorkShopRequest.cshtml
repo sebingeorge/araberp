@@ -108,18 +108,18 @@
                         <label for="reqno">Request No.</label>
                         @Html.TextBoxFor(m => m.WorkShopRequestNo, new { @class = "form_input", autocomplete = "off" })
                     </div>
-                    <div class="col-md-2 col-md-offset-8">
+                    <div class="col-md-2">
                         <label for="inputDate">Date</label>
                         @Html.TextBoxFor(m => m.WorkShopRequestDate, String.Format("{0:dd/MM/yyyy}", Model.WorkShopRequestDate), new { @class = "form_input ", autocomplete = "off", @readonly = "readonly" })
                     </div>
                 </div>
  
                 <div class="row form-group">
-                    <div class="col-md-3">
+                    <div class="col-md-2">
                         <label for="SoNoWithDate">SO No.& Date</label>
                         @Html.TextBoxFor(m => m.SoNoWithDate, new { @class = "form_input", autocomplete = "off", @readonly = "readonly" })
                     </div>
-                    <div class="col-md-3">
+                    <div class="col-md-4">
                         <label for="CustomerName">Customer</label>
                         @Html.TextBoxFor(m => m.CustomerName, new { @class = "form_input", autocomplete = "off", @readonly = "readonly" })
                     </div>
@@ -129,7 +129,7 @@
                     </div>
                 </div>
                 <div class="row form-group">
-                    <div class="col-md-3">
+                    <div class="col-md-12">
                         <label for="WorkDescription">Work Description</label>
                         @Html.TextBoxFor(m => m.WorkDescription, new { @class = "form_input", autocomplete = "off", @readonly = "readonly" })
 
@@ -143,7 +143,7 @@
                 <div class="row form-group">
                     <div class="col-md-12">
                         <label for="SplRemarks1">Spl.Remarks</label>
-                        @Html.TextAreaFor(m => m.SpecialRemarks, new { @class = "form_input", autocomplete = "off" })
+                        @Html.TextAreaFor(m => m.SpecialRemarks, new { @class = "form_input form_input-h", autocomplete = "off" })
                     </div>
                 </div>
                 <div class="row form-group">

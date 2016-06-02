@@ -37,6 +37,8 @@
   border-radius:5px;
   border: 1px solid #ffffff;
   background-color:#fff;
+  padding-left:5px;
+  padding-right:5px;
   }
 .form_input-h 
 {
@@ -345,7 +347,7 @@ h5
 .grid-left 
 {
     float:left;
-    background-color:#9a9eab;
+    background-color:#6d5749;
     border-right:1px solid #dddddd;
     height:30px;
     color: #ffffff;
@@ -415,4 +417,8 @@ h5
 .body-content1
  {
     margin-top:40px;
+}
+.line 
+{
+    line-height:50px;
 }
