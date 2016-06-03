@@ -140,6 +140,25 @@ textarea {
     background-color:#434141;
     color:#e6e0db;
     }
+.form-button3 a 
+{   float:left;
+    background-color: #5c5a5a;
+    border: 1px solid #fff;
+    border-radius: 4px;
+    color: #ffffff;
+    height: 22px;
+    width:85px;
+    line-height:22px;
+    margin-right:0;
+    margin-left:-6px;
+    text-align:center;
+}
+.form-button3 a:hover
+    {
+    background-color:#434141;
+    color:#faeaea;
+    text-decoration:none;
+    }
 .margf 
 {
     float:right;
@@ -217,7 +236,7 @@ background-color: #ffffff;
   }
 .grid-header 
 {
-    background-color: #6d5749;
+    background-color: #676464;
     border-right: 1px solid #fff;
     color: #fff;
 }
@@ -298,6 +317,26 @@ margin-top:0px;
 .white 
 {
     background-color:#fff;
+}
+.grid_row_pr
+ {
+background-color: #fff;
+    border: 1px solid #ffffff;
+    border-radius: 5px;
+    color: #000;
+    font-size: 11px;
+    height: 22px;
+    line-height: 22px;
+    margin-left: 19px;
+    padding-left: 5px;
+    padding-right: 5px;
+    width: 164px;
+    float:left;
+  
+}
+.grid_row_pr1 
+{
+    width:260px;
 }
 
 

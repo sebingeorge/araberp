@@ -3,7 +3,7 @@
    .grid_heading
 {
     color:#fff;
-    background-color:#6d5749;
+    background-color:#676464;
     grid-row-sizing:5px;
     height:20px;
 
@@ -348,7 +348,7 @@ h5
 .grid-left 
 {
     float:left;
-    background-color:#6d5749;
+    background-color:#676464;
     border-right:1px solid #dddddd;
     height:30px;
     color: #ffffff;

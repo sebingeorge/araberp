@@ -14,33 +14,34 @@
         </div>
 
         <div class="main-part pad1">
-            <div class="table-responsive">
+            <div class="table-responsive  border">
 
 
-                <div class="row border">
+                <div class="row">
 
                     <div class="col-md-12">
 
-                        <div class="col-md-2 grid-left">Customer</div>
+                        <div class="col-md-3 grid-left">Customer</div>
                         <div class="col-md-2 grid-left">Customer Order Ref.</div>
                         <div class="col-md-2 grid-left">SO No & Date</div>
                         <div class="col-md-2 grid-left">WR No & Date</div>
                         <div class="col-md-2 grid-left">Delivery Date</div>
-                        <div class="col-md-2 grid-left">Select</div>
+                        <div class="col-md-1 grid-left"><center>Select</center></div>
 
-                        </div>
-                      @foreach (var item in Model)
-                      {
-                        <div class="col-md-2 grid_row">@item.CustomerName</div>
-                        <div class="col-md-2 grid_row">@item.CustomerOrderRef</div>
-                        <div class="col-md-2 grid_row">@item.SaleOrderRefNo &amp; @item.SaleOrderDate.ToString("dd/MMM/yyyy")</div>
-                        <div class="col-md-2 grid_row">@item.WorkShopRequestNo &amp; @item.WorkShopRequestDate.ToString("dd/MMM/yyyy")</div>
-                        <div class="col-md-2 grid_row">@item.RequiredDate.ToString("dd/MMM/yyyy")</div>
-                        <div class="col-md-2 mtop form-button2 form-button1">@Html.ActionLink("Select", "Create", "PurchaseRequest", new { WorkShopRequestId =@item.WorkShopRequestId }, null) </div>
-                        }
+                    </div>
+                    @foreach (var item in Model)
+                    {
+                        <div class="col-md-2  grid_row_pr grid_row_pr1">@item.CustomerName</div>
+                        <div class="col-md-2  mtop grid_row_pr">@item.CustomerOrderRef</div>
+                        <div class="col-md-2  mtop grid_row_pr">@item.SaleOrderRefNo &amp; @item.SaleOrderDate.ToString("dd/MMM/yyyy")</div>
+                        <div class="col-md-2  mtop grid_row_pr">@item.WorkShopRequestNo &amp; @item.WorkShopRequestDate.ToString("dd/MMM/yyyy")</div>
+                        <div class="col-md-2  mtop grid_row_pr">@item.RequiredDate.ToString("dd/MMM/yyyy")</div>
+                        <div class="col-md-1 mtop form-button3">@Html.ActionLink("Select", "Create", "PurchaseRequest", new { WorkShopRequestId = @item.WorkShopRequestId }, null) </div>
+                    }
                 </div>
-                      
-                </div>
+
+            </div>
+
                     </div>
                 </div>
             </div>
