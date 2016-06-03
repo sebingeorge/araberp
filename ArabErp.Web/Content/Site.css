@@ -286,8 +286,8 @@ margin-top:0px;
 
 .scroll 
 {
-    height: 293px;
-    overflow: scroll;
+    max-height: 293px;
+    overflow:auto;
 }
 
 
