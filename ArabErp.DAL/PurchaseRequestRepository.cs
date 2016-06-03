@@ -77,7 +77,20 @@ namespace ArabErp.DAL
                 return id;
             }
         }
+        /// <summary>
+        /// Pending Workshop Request For Purchase Request
+        /// </summary>
+        /// <returns></returns>
+        public IEnumerable<PendingWorkShopRequest> GetWorkShopRequestPending()
+        {
+            using (IDbConnection connection = OpenConnection(dataConnection))
+            {
+                string qry = @"Select WR.WorkShopRequestId,WR.WorkShopRequestNo,WR.WorkShopRequestDate,WR.RequiredDate,C.CustomerName,WR.CustomerOrderRef,SO.SaleOrderRefNo,SO.SaleOrderDate from WorkShopRequest WR INNER JOIN Customer C on C.CustomerId=WR.CustomerId ";
+                       qry += " INNER JOIN SaleOrder SO on WR.SaleOrderId=SO.SaleOrderId";
 
+                return connection.Query<PendingWorkShopRequest>(qry);
+            }
+        }
 
     }
 }

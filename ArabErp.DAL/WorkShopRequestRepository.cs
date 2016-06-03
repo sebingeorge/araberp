@@ -149,17 +149,7 @@ namespace ArabErp.DAL
                 new { ItemId = itemId }).First<string>();
             }
         }
-        public List<WorkShopRequest> GetWorkShopRequestPending()
-        {
-            using (IDbConnection connection = OpenConnection(dataConnection))
-            {
-                string sql = @"select *,CustomerName from WorkShopRequest WR inner join Customer C on C.CustomerId=WR.CustomerId";
-
-                var objWrkOrders = connection.Query<WorkShopRequest>(sql).ToList<WorkShopRequest>();
-
-                return objWrkOrders;
-            }
-        }
+      
         /// <summary>
         /// Insert additional workshop request head table (WorkShopRequest table)
         /// </summary>
