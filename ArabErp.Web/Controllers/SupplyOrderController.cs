@@ -15,11 +15,18 @@ namespace ArabErp.Web.Controllers
         {
             return View();
         }
-        public ActionResult Create(IList<PendingPurchaseRequest> model)
+        public ActionResult Create(IList<PendingPurchaseRequest> PendingPurchaseRequestItemsSelected)
         {
             SupplyOrder supplyorder = new SupplyOrder();
-            var item1 = new SupplyOrderItem();
-            supplyorder.SupplyOrderItems.Add(item1);
+  
+
+
+            SupplyOrderRepository rep = new SupplyOrderRepository();
+
+            List<int> selectedpurchaserequests = (from PendingPurchaseRequest p in PendingPurchaseRequestItemsSelected where p.Select select p.PurchaseRequestId).ToList<int>();
+
+            supplyorder.SupplyOrderItems = rep.GetPurchaseRequestItems(selectedpurchaserequests);
+
             return View(supplyorder);
         }
         public ActionResult PendingSupplyOrder()

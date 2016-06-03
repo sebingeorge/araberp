@@ -25,6 +25,19 @@ namespace ArabErp.DAL
             }
         }
 
+        public List<SupplyOrderItem> GetPurchaseRequestItems(List<int> selectedpurchaserequests)
+        {
+            using (IDbConnection connection = OpenConnection(dataConnection))
+            {
+                string sql = @"select * from PurchaseRequestItem
+                        where PurchaseRequestId in @selectedpurchaserequests";
+
+                var objPendingPurchaseRequests = connection.Query<SupplyOrderItem>(sql, new { selectedpurchaserequests = selectedpurchaserequests }).ToList<SupplyOrderItem>();
+
+                return objPendingPurchaseRequests;
+            }
+        }
+
         public IEnumerable<PendingPurchaseRequest> GetPendingPurchaseRequest()
         {
             using (IDbConnection connection = OpenConnection(dataConnection))
@@ -87,6 +100,19 @@ namespace ArabErp.DAL
 
                 var id = connection.Execute(sql, objSupplyOrder);
                 return id;
+            }
+        }
+
+        public List<SupplyOrder> GetSupplyOrdersPendingWorkshopRequest()
+        {
+            using (IDbConnection connection = OpenConnection(dataConnection))
+            {
+                string sql = @"SELECT S.SupplierId,S.SupplierName,CONCAT(SupplyOrderId,'/',CONVERT(VARCHAR(15),SupplyOrderDate,104))SoNoWithDate,QuotaionNoAndDate 
+                               FROM SupplyOrder SO
+                               INNER JOIN Supplier S ON S.SupplierId=SO.SupplierId
+                               WHERE SO.isActive=1 ";
+                var objSupplyOrders = connection.Query<SupplyOrder>(sql).ToList<SupplyOrder>();
+                return objSupplyOrders;
             }
         }
 
