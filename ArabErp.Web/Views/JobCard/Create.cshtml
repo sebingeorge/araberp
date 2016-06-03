@@ -73,7 +73,7 @@
                     @Html.HiddenFor(m=>m.SaleOrderId)
                     @Html.HiddenFor(m=>m.SaleOrderItemId)
                 </div>
-                <div class="col-md-2 col-md-offset-8">
+                <div class="col-md-2">
                     <label for="inputDate">Date</label>
                     @Html.TextBoxFor(m => m.JobCardDate, String.Format("{0:dd/MM/yyyy}", Model.JobCardDate), new { @class = "form_input ", autocomplete = "off", @readonly = "readonly" })
                 </div>
@@ -165,8 +165,11 @@
             </div>
             <div class="row form-group">
                 <div class="col-md-12">
-                    <label for="SplRemarks1">Spl.Remarks</label>
-                    <textarea id="SplRemarks1" autocomplete="off" class="form_input form_input-h"></textarea>
+                    <div class="row">
+                        <div class="col-md-1"><label for="SplRemarks1">Spl.Remarks</label></div>
+                        <div class="col-md-11">
+                            <textarea id="SplRemarks1" autocomplete="off" class="form_input form_input-h"></textarea></div>
+                        </div>
                 </div>
             </div>
             <div class="row form-group">
