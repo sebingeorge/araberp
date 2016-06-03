@@ -1,15 +1,17 @@
-﻿@{
+﻿@using ArabErp.Domain
+@model IList<PendingPurchaseRequest>
+@{
     ViewBag.Title = "PendingSupplyOrder";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 <div class="container">
     <div class="row">
         <div class="form-head1">
-            <h4>Pending GRN</h4>
+            <h4>Pending Supply Order</h4>
         </div>
         <div class="main-part pad1">
             <form method="post" action="@Url.Action("Create", "SupplyOrder")">
-                <div class=" table-responsive">
+                @*<div class=" table-responsive">
                     <table class="table table-bordered">
                         <thead>
                             <tr class="grid_heading">
@@ -24,68 +26,56 @@
                             </tr>
                         </thead>
                         <tbody class="grid_row">
-                            <tr>
-                                <td>1</td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                            </tr>
-                            <tr>
-                                <td>2</td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                            </tr>
-                            <tr>
-                                <td>3</td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                            </tr>
-                            <tr>
-                                <td>4</td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                            </tr>
-                        </tbody>
+
                     </table>
-                </div>
+                </div>*@
+                <div class="main-part pad1">
+                    <div class="table-responsive  border">
 
-                <div class="row">
+
+                        <div class="row">
 
 
-                    <div class="col-md-12">
-                        <div class="margl">
-                            <button class="form-button">Previous</button>
-                        </div>
-                        <div class="margf">
-                            <button type="submit" class="form-button">Exit</button>
-                       
-                   
-                            <button type="submit" class="form-button">Proceed</button>
+
+
+                            <div class="col-md-4 grid-left">PRS No. and Date</div>
+                            <div class="col-md-4 grid-left">Required Date</div>
+                            <div class="col-md-4 grid-left"></div>
+
+
+                            @for (int i = 0; i < Model.Count(); i++)
+                            {
+
+                                <div class="col-md-4 grid-new"> @Model[i].PurchaseRequestNo  @Model[i].RequiredDate.ToString("dd/MMM/yyyy")  </div>
+                                <div class="col-md-4  grid-new">@Model[i].RequiredDate.ToString("dd/MMM/yyyy") </div>
+                                @*<div class="col-md-2 mtop form-button2 form-button1">@Html.ActionLink("Select", "Create", "SupplyOrder", new { WorkShopRequestId = @item.PurchaseRequestId }, null) </div>*@
+                                <div class="col-md-4 text-center">@Html.CheckBoxFor(m => m[i].Select)</div>
+                            }
                         </div>
 
                     </div>
 
+                    <div class="row">
+
+
+                        <div class="col-md-12">
+                            <div class="margl">
+                                <button class="form-button">Previous</button>
+                            </div>
+                            <div class="margf">
+                                <button type="submit" class="form-button">Exit</button>
+
+
+                                <button type="submit" class="form-button">Proceed</button>
+                            </div>
+
+                        </div>
+
+
+                    </div>
 
                 </div>
+
             </form>
         </div>
     </div>

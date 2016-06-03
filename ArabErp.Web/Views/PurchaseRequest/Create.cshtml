@@ -22,7 +22,7 @@
                         <label for="PurchaseRequestNo">PRS No.</label>
                         @Html.TextBoxFor(m => m.PurchaseRequestNo, new { @class = "form_input", autocomplete = "off" })
                     </div>
-                    <div class="col-md-2 col-md-offset-8">
+                    <div class="col-md-2">
                         <label for="PurchaseRequestDate">Date</label>
                         @Html.TextBoxFor(m => m.PurchaseRequestDate, String.Format("{0:dd/MM/yyyy}", Model.PurchaseRequestDate), new { @class = "form_input", autocomplete = "off" })
                     </div>
@@ -32,7 +32,7 @@
                         <label for="WorkShopRequestNo">WorkShop Request No & Date </label>
                         @Html.TextBoxFor(m => m.WorkShopRequestNo, new { @class = "form_input", autocomplete = "off", @readonly = "readonly" })
                     </div>
-                    <div class="col-md-3">
+                    <div class="col-md-4">
                         <label for="CustomerName">Customer</label>
                         @Html.TextBoxFor(m => m.CustomerName, new { @class = "form_input", autocomplete = "off", @readonly = "readonly" })
                     </div>
@@ -54,7 +54,7 @@
                             <th width="5%" class="text-right ">Tot.Required</th>
                             <th width="5%" class="text-right ">Curr Stock</th>
                             <th width="5%" class="text-right ">PI.Qty</th>
-                            <th width="5%">Unit</th>
+                            <th width="5%">UoM</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -89,14 +89,20 @@
                             <th width="5%"></th>
                             <th width="5%"></th>
                             <th width="5%"></th>
-                            <th width="5%"></th>
+                           
                     </tr>
                     </tfoot>
                 </table>
                 <div class="row form-group">
                     <div class="col-md-12">
+                        <div class="row">
+                            <div class="col-md-1">
                         <label for="SplRemarks1">Spl.Remarks</label>
+                            </div>
+                            <div class="col-md-11">
                         <textarea id="SplRemarks1" autocomplete="off" class="form_input form_input-h"></textarea>
+                    </div>
+                </div>
                     </div>
                 </div>
                 <div class="row form-group">
