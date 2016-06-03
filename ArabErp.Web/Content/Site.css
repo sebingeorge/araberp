@@ -2,7 +2,7 @@
     padding-top: 50px;
     padding-bottom: 20px;
          /*background: url(../Images/back.jpg) repeat-x;*/
-     background-color:#796456;
+     background-color:/*#796456;*/#a8a6a6;
      /*background-color:#edf7ff;*/
    }
 
@@ -28,7 +28,7 @@ textarea {
 }*/
 .main-part 
 {
-    background-color:#c8bdb4;
+    background-color:/*#c8bdb4;*/#d6d5d5;
     padding:24px;
     border-radius:0 0 5px 5px;
     -moz-radius:0 0 5px 5px;
@@ -120,10 +120,10 @@ textarea {
     border-radius: 4px;
     color: #ffffff;
     height: 22px;
-    width: 92px;
+    width:85px;
     line-height:22px;
     margin-right:0;
-    margin-left:20px;
+    margin-left:-26px;
 }
 .form-button a 
 {

@@ -423,3 +423,23 @@ h5
 {
     line-height:35px;
 }
+
+.grid-left1 
+{
+    width:100%;
+    float:left;
+    background-color:#6d5749;
+    border-right:1px solid #dddddd;
+    height:30px;
+    color: #ffffff;
+    font-size: 14px;
+    font-weight: bold;
+    margin: 0;
+    padding: 0 5px;
+    line-height:30px;
+    margin-bottom:15px;
+}
+.mtop 
+{
+    margin-top:5px;
+}
