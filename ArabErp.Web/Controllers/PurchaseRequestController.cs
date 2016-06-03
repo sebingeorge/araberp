@@ -21,6 +21,7 @@ namespace ArabErp.Web.Controllers
         public ActionResult Create(int? WorkShopRequestId)
         {
             PurchaseRequestRepository repo = new PurchaseRequestRepository();
+           
             PurchaseRequest model = repo.GetPurchaseRequestDetails(WorkShopRequestId ?? 0);
 
             var PRList = repo.GetPurchaseRequestItem(WorkShopRequestId ?? 0);

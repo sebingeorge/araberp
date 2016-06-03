@@ -11,21 +11,13 @@ namespace ArabErp.DAL
     public class WorkShopRequestItemRepository : BaseRepository
     {
         static string dataConnection = GetConnectionString("arab");
-
-
-//        public int InsertWorkShopRequestItem(WorkShopRequestItem objWorkShopRequestItem)
-//        {
-//            using (IDbConnection connection = OpenConnection(dataConnection))
-//            {
-//                string sql = @"INSERT INTO WorkShopRequestItem   (WorkShopRequestId ,ItemId  ,ItemDescription,PartNo,Quantity ,UnitId,OrganizationId) VALUES( @WorkShopRequestId ,@ItemId,@ItemDescription,@PartNo,@Quantity,@UnitId,@OrganizationId);
-//            SELECT CAST(SCOPE_IDENTITY() as int)";
-
-
-//                var id = connection.Query<int>(sql, objWorkShopRequestItem).Single();
-//                return id;
-//            }
-//        }
-
+        /// <summary>
+        /// Insert WorkShopRequestItem
+        /// </summary>
+        /// <param name="model"></param>
+        /// <param name="connection"></param>
+        /// <param name="trn"></param>
+        /// <returns></returns>
         public int InsertWorkShopRequestItem(WorkShopRequestItem model, IDbConnection connection, IDbTransaction trn)
         {
             try
@@ -41,7 +33,6 @@ namespace ArabErp.DAL
             {
                 throw;
             }
-
         }
 
 
