@@ -59,18 +59,18 @@ namespace ArabErp.Web.Controllers
       
 
                public ActionResult WorkShopRequestData(SaleOrder model)
-        {
+             {
 
-            var repo = new WorkShopRequestRepository();
-            var WSList = repo.GetWorkShopRequestData(model.SaleOrderId);
-            model.Items = new List<SaleOrderItem>();
-            foreach (var item in WSList)
-            {
-                model.Items.Add(new SaleOrderItem { PartNo = item.PartNo, ItemName = item.ItemName, Quantity = item.Quantity, UnitName = item.UnitName,ItemId=item.ItemId });
+                var repo = new WorkShopRequestRepository();
+                var WSList = repo.GetWorkShopRequestData(model.SaleOrderId);
+                model.Items = new List<SaleOrderItem>();
+                foreach (var item in WSList)
+                {
+                    model.Items.Add(new SaleOrderItem { PartNo = item.PartNo, ItemName = item.ItemName, Quantity = item.Quantity, UnitName = item.UnitName,ItemId=item.ItemId });
 
-            }
-            return PartialView("_DisplayWorkShopRequestData", model);
-        }
+                }
+                return PartialView("_DisplayWorkShopRequestData", model);
+           }
                [HttpPost]
                public ActionResult Save(WorkShopRequest model)
                {
