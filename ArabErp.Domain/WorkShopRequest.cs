@@ -25,6 +25,7 @@ namespace ArabErp.Domain
         public string SaleOrderRefNo { get; set; }
         public string CustomerName { get; set; }
 
+
         public bool isAdditionalRequest { get; set; }
         public int JobCardId { get; set; }
         public string SoNoWithDate { get; set; }

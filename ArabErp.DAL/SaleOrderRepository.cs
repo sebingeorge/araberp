@@ -81,7 +81,7 @@ namespace ArabErp.DAL
             }
         }
         /// <summary>
-        /// WorkShop Request Pending List
+        /// Saleorder Pending List
         /// </summary>
         /// <param name="model">Object of class SaleOrder</param>
         /// <returns>SaleOrders not in WorkshopRequest table</returns>
@@ -103,6 +103,36 @@ namespace ArabErp.DAL
             }
         }
 
+        public SaleOrder GetSaleOrderForWorkshopRequest(int SaleOrderId)
+        {
+            using (IDbConnection connection = OpenConnection(dataConnection))
+            {
+                //string sql = @"select so.*,c.CustomerName from SaleOrder so left join WorkShopRequest wr on so.SaleOrderId=wr.SaleOrderId , Customer c   where so.CustomerId=c.CustomerId  and wr.SaleOrderId is null and so.isActive=1";
+                string sql = @"SELECT  SO.SaleOrderId,SO.CustomerOrderRef,SO.SaleOrderRefNo,SO.EDateArrival,SO.EDateDelivery,SO.CustomerId,C.CustomerName
+                              FROM  SaleOrder SO  INNER JOIN Customer C 
+                              ON SO.CustomerId =C.CustomerId  WHERE SO.SaleOrderId =@SaleOrderId";
+                var objSaleOrders = connection.Query<SaleOrder>(sql, new { SaleOrderId = SaleOrderId } ).Single<SaleOrder>();
+
+                return objSaleOrders;
+            }
+        }
+
+        public SaleOrder GetCombinedWorkDescriptionSaleOrderForWorkshopRequest(int SaleOrderId)
+        {
+            using (IDbConnection connection = OpenConnection(dataConnection))
+            {
+                //string sql = @"select so.*,c.CustomerName from SaleOrder so left join WorkShopRequest wr on so.SaleOrderId=wr.SaleOrderId , Customer c   where so.CustomerId=c.CustomerId  and wr.SaleOrderId is null and so.isActive=1";
+                string sql = @"SELECT t.SaleOrderId,STUFF((SELECT ', ' + CAST(W.WorkDescr AS VARCHAR(10)) [text()]
+                             FROM SaleOrderItem SI inner join WorkDescription W on W.WorkDescriptionId=SI.WorkDescriptionId
+                             WHERE SI.SaleOrderId = t.SaleOrderId
+                             FOR XML PATH(''), TYPE).value('.','NVARCHAR(MAX)'),1,2,' ') WorkDescription
+                             FROM SaleOrderItem t INNER JOIN SaleOrder SO on t.SaleOrderId=SO.SaleOrderId  WHERE SO.SaleOrderId =@SaleOrderId
+                             group by t.SaleOrderId";
+                var objSaleOrders = connection.Query<SaleOrder>(sql, new { SaleOrderId = SaleOrderId } ).Single<SaleOrder>();
+
+                return objSaleOrders;
+            }
+        }
         public int UpdateSaleOrder(SaleOrder objSaleOrder)
         {
             using (IDbConnection connection = OpenConnection(dataConnection))

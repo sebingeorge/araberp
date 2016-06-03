@@ -35,8 +35,10 @@
                      </div>
 
                      <div class="col-md-4">
-                         <label for="stockpoint">StockPoint</label>
-                         @Html.DropDownListFor(m => Model.stockpointId, (SelectList)ViewBag.Stockpointlist, "Select StockPoint", new { @class = "form_input", autocomplete = "off" })
+                         <div class="part4">
+                             <label for="stockpoint">StockPoint</label>
+                             @Html.DropDownListFor(m => Model.stockpointId, (SelectList)ViewBag.Stockpointlist, "Select StockPoint", new { @class = "form_input", autocomplete = "off" })
+                         </div>
                      </div>
                  </div>
 

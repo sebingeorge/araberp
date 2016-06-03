@@ -17,16 +17,21 @@ namespace ArabErp.Web.Controllers
             return View();
         }
 
-        [HttpPost]
-        public ActionResult CreateWorkShopRequest(SaleOrder model)
+        [HttpGet]
+        public ActionResult CreateWorkShopRequest(int SaleOrderId)
         {
+            SaleOrderRepository rep = new SaleOrderRepository();
+
+            SaleOrder model = rep.GetSaleOrderForWorkshopRequest(SaleOrderId);
+
             WorkShopRequest objWorkShopRequest = new WorkShopRequest();
             objWorkShopRequest.CustomerOrderRef = model.CustomerOrderRef;
             objWorkShopRequest.SaleOrderId = model.SaleOrderId;
-            objWorkShopRequest.SaleOrderRefNo = model.SoNoWithDate;
-            objWorkShopRequest.CustomerOrderRef = model.CustomerName;
+            objWorkShopRequest.SoNoWithDate = model.SoNoWithDate;
+            objWorkShopRequest.CustomerOrderRef = model.CustomerOrderRef;
+            objWorkShopRequest.CustomerName= model.CustomerName;
             objWorkShopRequest.CustomerId = model.CustomerId;
-            objWorkShopRequest.WorkDescription = model.WorkDescription;
+            objWorkShopRequest.WorkDescription = rep.GetCombinedWorkDescriptionSaleOrderForWorkshopRequest(SaleOrderId).WorkDescription;
             objWorkShopRequest.WorkShopRequestDate = System.DateTime.Today;
             objWorkShopRequest.Items = new List<WorkShopRequestItem>();
             objWorkShopRequest.Items.Add(new WorkShopRequestItem());

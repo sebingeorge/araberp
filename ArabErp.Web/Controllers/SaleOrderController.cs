@@ -31,6 +31,7 @@ namespace ArabErp.Web.Controllers
         }
         public ActionResult DisplaySOList()
         {
+            FillCurrency();
             FillWrkDesc();
             FillVehicle();
             FillUnit();

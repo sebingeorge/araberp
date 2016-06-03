@@ -1,4 +1,5 @@
-﻿
+﻿@using ArabErp.Domain
+@model SupplyOrder
 @{
     ViewBag.Title = "Create";
     Layout = "~/Views/Shared/_Layout.cshtml";
@@ -36,13 +37,13 @@
                         <input type="text" id="cusref" autocomplete="off" class="form_input" />
                     </div>
                 </div>
-                <div class=" table-responsive">
+                <div class="table-responsive">
                     <table class="table table-bordered">
                         <thead>
                             <tr class="grid_heading">
                                 <th width="5%"><h1>Sl.No.</h1></th>
                                 <th width="20%"><h1>PRS No & Date</h1></th>
-                                <th width="25%"><h1>Product</h1></th>
+                                <th width="25%"><h1>Material</h1></th>
                                 <th width="10%"><h1>Part No</h1></th>
                                 <th width="10%" class="text-right"><h1>Bal Qty</h1></th>
                                 <th width="15%" class="text-right"><h1>Ordered Qty</h1></th>
@@ -52,45 +53,11 @@
                             </tr>
                         </thead>
                         <tbody class="grid_row">
+@for (int i = 0; i < Model.SupplyOrderItems.Count(); i++)
+{
                             <tr>
                                 <td>1</td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                              
-                            </tr>
-                            <tr>
-                                <td>2</td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                               
-                            </tr>
-                            <tr>
-                                <td>3</td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                               
-                            </tr>
-                            <tr>
-                                <td>4</td>
-                                <td></td>
+                                <td>@Model.SupplyOrderItems[i].PurchaseRequestItemId</td>
                                 <td></td>
                                 <td></td>
                                 <td></td>
@@ -100,6 +67,7 @@
                                 <td></td>
                               
                             </tr>
+}
                         </tbody>
                     </table>
                 </div>

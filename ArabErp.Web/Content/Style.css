@@ -3,7 +3,7 @@
    .grid_heading
 {
     color:#fff;
-    background-color:#6d5749;
+    background-color:#676464;
     grid-row-sizing:5px;
     height:20px;
 
@@ -37,6 +37,8 @@
   border-radius:5px;
   border: 1px solid #ffffff;
   background-color:#fff;
+  padding-left:5px;
+  padding-right:5px;
   }
 .form_input-h 
 {
@@ -335,17 +337,18 @@ h5
     float:left;
     width:100%;
     margin:4px;
+    color:#fff;
 
 }
 .back-color 
 {
-    background-color:#f9fdfe;
+    background-color:#c0afa5;
 }
 
 .grid-left 
 {
     float:left;
-    background-color:#9a9eab;
+    background-color:#676464;
     border-right:1px solid #dddddd;
     height:30px;
     color: #ffffff;
@@ -395,7 +398,7 @@ h5
 
 .hrpart 
 {
-    border-top: 1px solid #dddddd;
+    border-top: 1px solid /*#dddddd*/#fff;
     /*background: url(../Images/button-part.jpg) repeat-x;*/ 
     height:36px;
     margin-top: 10px;
@@ -415,4 +418,28 @@ h5
 .body-content1
  {
     margin-top:40px;
+}
+.line 
+{
+    line-height:35px;
+}
+
+.grid-left1 
+{
+    width:100%;
+    float:left;
+    background-color:#6d5749;
+    border-right:1px solid #dddddd;
+    height:30px;
+    color: #ffffff;
+    font-size: 14px;
+    font-weight: bold;
+    margin: 0;
+    padding: 0 5px;
+    line-height:30px;
+    margin-bottom:15px;
+}
+.mtop 
+{
+    margin-top:5px;
 }

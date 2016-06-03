@@ -8,6 +8,10 @@ namespace ArabErp.Domain
 {
    public class SupplyOrder
     {
+        public SupplyOrder()
+        {
+            SupplyOrderItems = new List<SupplyOrderItem>();
+        }
         public int SupplyOrderId { get; set; }
         public DateTime SupplyOrderDate { get; set; }
         public int SupplierId { get; set; }

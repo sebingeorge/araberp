@@ -96,12 +96,13 @@
     <Compile Include="StockpointRepository.cs" />
     <Compile Include="StockReturnItemRepository.cs" />
     <Compile Include="StockReturnRepository.cs" />
+    <Compile Include="StockUpdateRepository.cs" />
     <Compile Include="StoreIssueItemRepository.cs" />
     <Compile Include="StoreIssueRepository.cs" />
     <Compile Include="SupplierCategoryRepository.cs" />
     <Compile Include="SupplierRepository.cs" />
     <Compile Include="SupplyOrderItemRepository.cs" />
-    <Compile Include="SupplyOrderRepository.cs" />
+    <Compile Include=".cs" />
     <Compile Include="TaskRepository.cs" />
     <Compile Include="UnitRepository.cs" />
     <Compile Include="VehicleInPassRepository.cs" />

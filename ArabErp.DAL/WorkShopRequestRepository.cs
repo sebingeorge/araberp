@@ -13,43 +13,12 @@ namespace ArabErp.DAL
         static string dataConnection = GetConnectionString("arab");
 
 
-//        public int InsertWorkShopRequest(WorkShopRequest objWorkShopRequest)
-//        {
 
-//            using (IDbConnection connection = OpenConnection(dataConnection))
-//            {
-
-//              //  var trn = connection.BeginTransaction();
-//                int id = 0;
-
-//                try
-//                {
-//                    string sql = @"insert  into WorkShopRequest(WorkShopRequestNo,WorkShopRequestDate,SaleOrderId,CustomerId,CustomerOrderRef,SpecialRemarks,RequiredDate,CreatedBy,CreatedDate,OrganizationId) Values (@WorkShopRequestNo,@WorkShopRequestDate,@SaleOrderId,@CustomerId,@CustomerOrderRef,@SpecialRemarks,@RequiredDate,@CreatedBy,@CreatedDate,@OrganizationId);
-//            SELECT CAST(SCOPE_IDENTITY() as int)";
-
-
-//                 id = connection.Query<int>(sql, objWorkShopRequest).Single();
-
-
-
-               
-//                var workshopitemitemrepo = new WorkShopRequestItemRepository();
-//                foreach (var item in objWorkShopRequest.Items)
-//                {
-//                    item.WorkShopRequestId = id;
-//                    workshopitemitemrepo.InsertWorkShopRequestItem(item);
-//                }
-//                   // trn.Commit();
-//                }
-//                catch (Exception e)
-//                {
-//                   // trn.Rollback();
-//                    throw;
-//                }
-//                return id;
-//            }
-//        }
-
+        /// <summary>
+        /// Insert WorkShopRequest
+        /// </summary>
+        /// <param name="model"></param>
+        /// <returns>primary key of WorkShopRequest </returns>
         public int InsertWorkShopRequest(WorkShopRequest model)
         {
             using (IDbConnection connection = OpenConnection(dataConnection))
@@ -177,20 +146,10 @@ namespace ArabErp.DAL
             using (IDbConnection connection = OpenConnection(dataConnection))
             {
                 return connection.Query<string>("SELECT PartNo FROM Item WHERE ItemId = @ItemId",
-                    new { ItemId = itemId }).First<string>();
+                new { ItemId = itemId }).First<string>();
             }
         }
-        public List<WorkShopRequest> GetWorkShopRequestPending()
-        {
-            using (IDbConnection connection = OpenConnection(dataConnection))
-            {
-                string sql = @"select * from WorkShopRequest";
-
-                var objWrkOrders = connection.Query<WorkShopRequest>(sql).ToList<WorkShopRequest>();
-
-                return objWrkOrders;
-            }
-        }
+      
         /// <summary>
         /// Insert additional workshop request head table (WorkShopRequest table)
         /// </summary>
@@ -249,6 +208,23 @@ namespace ArabErp.DAL
                     txn.Rollback();
                     return 0;
                 }
+            }
+        }
+        /// <summary>
+        /// Returns all pending workshop requests
+        /// </summary>
+        /// <returns></returns>
+        public IEnumerable<WorkShopRequest> PendingWorkshopRequests()
+        {
+            using (IDbConnection connection = OpenConnection(dataConnection))
+            {
+                return connection.Query<WorkShopRequest>(@"SELECT WorkShopRequestId, SUM(Quantity) Quantity INTO #WORK FROM WorkShopRequestItem GROUP BY WorkShopRequestId;
+                SELECT WorkShopRequestId, SUM(IssuedQuantity) IssuedQuantity INTO #ISSUE FROM StoreIssueItem SII INNER JOIN StoreIssue SI ON  SII.StoreIssueId = SI.StoreIssueId GROUP BY WorkShopRequestId;
+                SELECT CustomerId, CustomerName INTO #CUSTOMER FROM Customer;
+                SELECT W.WorkShopRequestId, ISNULL(WR.WorkShopRequestNo, '-') WorkShopRequestNo, ISNULL(CONVERT(DATETIME, WR.WorkShopRequestDate, 106), WR.WorkShopRequestDate) WorkShopRequestDate, ISNULL(CONVERT(DATETIME, WR.RequiredDate, 106), WR.RequiredDate) RequiredDate, C.CustomerName FROM #WORK W LEFT JOIN #ISSUE I ON W.WorkShopRequestId = I.WorkShopRequestId INNER JOIN WorkShopRequest WR ON W.WorkShopRequestId = WR.WorkShopRequestId INNER JOIN #CUSTOMER C ON WR.CustomerId = C.CustomerId WHERE ISNULL(IssuedQuantity,0) < Quantity;
+                DROP TABLE #ISSUE;
+                DROP TABLE #WORK;
+                DROP TABLE #CUSTOMER;").ToList();
             }
         }
     }

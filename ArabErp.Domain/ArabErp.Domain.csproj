@@ -65,6 +65,7 @@
     <Compile Include="JobCardTaskMaster.cs" />
     <Compile Include="OpeningStock.cs" />
     <Compile Include="Organization.cs" />
+    <Compile Include="PendingPurchaseRequest.cs" />
     <Compile Include="PendingSO.cs" />
     <Compile Include="PendingWorkShopRequest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -79,6 +80,7 @@
     <Compile Include="Stockpoint.cs" />
     <Compile Include="StockReturn.cs" />
     <Compile Include="StockReturnItem.cs" />
+    <Compile Include="StockUpdate.cs" />
     <Compile Include="StoreIssue.cs" />
     <Compile Include="StoreIssueItem.cs" />
     <Compile Include="Supplier.cs" />

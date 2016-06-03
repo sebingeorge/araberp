@@ -2,7 +2,7 @@
     padding-top: 50px;
     padding-bottom: 20px;
          /*background: url(../Images/back.jpg) repeat-x;*/
-     background-color:#796456;
+     background-color:/*#796456;*/#a8a6a6;
      /*background-color:#edf7ff;*/
    }
 
@@ -28,7 +28,7 @@ textarea {
 }*/
 .main-part 
 {
-    background-color:#c8bdb4;
+    background-color:/*#c8bdb4;*/#d6d5d5;
     padding:24px;
     border-radius:0 0 5px 5px;
     -moz-radius:0 0 5px 5px;
@@ -68,14 +68,29 @@ textarea {
 }
 .part
  {
-    height:50px;
-    margin-top:7px;
+    height:30px;
+    margin-top:9px;
 }
 
 .part1
  {
-    height:60px;
-    margin-top: -9px
+    height:44px;
+    margin-top: -9px;
+     margin-bottom:7px;
+}
+.part2
+ {
+    height:30px;
+    margin-top:9px;
+}
+.part3
+ {
+    height:50px;
+}
+.part4
+ {
+    height:50px;
+    margin-top:9px;
 }
     .label1
      {
@@ -98,11 +113,62 @@ textarea {
 {
     height:22px;
 }
+.form-button2 a 
+{   float:left;
+    background-color: #5c5a5a;
+    border: 1px solid #fff;
+    border-radius: 4px;
+    color: #ffffff;
+    height: 22px;
+    width:85px;
+    line-height:22px;
+    margin-right:0;
+    margin-left:-26px;
+}
+.form-button a 
+{
+    height:22px;
+}
+.form-button2 a:hover
+    {
+    background-color:#434141;
+    color:#faeaea;
+    text-decoration:none;
+    }
 .form-button:hover
     {
-    background-color:#00D4FF;
-    color:#000;
+    background-color:#434141;
+    color:#e6e0db;
     }
+.form-button3 a 
+{   float:left;
+    background-color: #5c5a5a;
+    border: 1px solid #fff;
+    border-radius: 4px;
+    color: #ffffff;
+    height: 22px;
+    width:85px;
+    line-height:22px;
+    margin-right:0;
+    margin-left:-12px;
+    text-align:center;
+}
+.form-button3 a:hover
+    {
+    background-color:#434141;
+    color:#faeaea;
+    text-decoration:none;
+    }
+.form-button4 
+{
+    background-color: #5c5a5a;
+    border: 1px solid #fff;
+    border-radius: 4px;
+    color: #ffffff;
+    height: 22px;
+    width: 92px;
+    margin-right:0;
+}
 .margf 
 {
     float:right;
@@ -180,7 +246,7 @@ background-color: #ffffff;
   }
 .grid-header 
 {
-    background-color: #2db4e3;
+    background-color: #676464;
     border-right: 1px solid #fff;
     color: #fff;
 }
@@ -237,6 +303,7 @@ margin-top:0px;
     border:1px solid #d6d8de;
     border-bottom:0;
     border-left:0;
+    background-color:#fff;
 }
 .cent 
 {
@@ -246,3 +313,63 @@ margin-top:0px;
 {
     font-size:12px;
 }
+
+.scroll 
+{
+    max-height: 293px;
+    overflow:auto;
+}
+.scroll1 
+{
+    max-height: 350px;
+    overflow:auto;
+}
+.maintd
+{
+    float:left;
+
+}
+.white 
+{
+    background-color:#fff;
+}
+.grid_row_pr
+ {
+background-color: #fff;
+    border: 1px solid #ffffff;
+    border-radius: 5px;
+    color: #000;
+    font-size: 11px;
+    height: 22px;
+    line-height: 22px;
+    padding-left: 5px;
+    padding-right: 5px;
+  
+}
+
+
+.grid_row_pr2
+ {
+background-color: #fff;
+    border: 1px solid #ffffff;
+    border-radius: 5px;
+    color: #000;
+    font-size: 11px;
+    height: 22px;
+    line-height: 22px;
+    margin-left: 19px;
+    padding-left: 5px;
+    padding-right: 5px;
+    width:auto;
+    float:left;
+  
+}
+
+.grid-new
+{
+    background-color:#ebebeb;
+    border:1px solid #b8b7b7;
+    margin-top:3px;
+}
+
+
