@@ -12,19 +12,45 @@ namespace ArabErp.DAL
     {
         static string dataConnection = GetConnectionString("arab");
 
-        public int InsertPurchaseRequest(PurchaseRequest objPurchaseRequest)
+      /// <summary>
+        /// Insert PurchaseRequest
+      /// </summary>
+      /// <param name="model"></param>
+      /// <returns></returns>
+        public int InsertPurchaseRequest(PurchaseRequest model)
         {
             using (IDbConnection connection = OpenConnection(dataConnection))
             {
-                string sql = @"insert  into PurchaseRequest(PurchaseRequestNo,PurchaseRequestDate,WorkShopRequestId,SpecialRemarks,RequiredDate,CreatedBy,CreatedDate,OrganizationId) Values (@PurchaseRequestNo,@PurchaseRequestDate,@WorkShopRequestId,@SpecialRemarks,@RequiredDate,@CreatedBy,@CreatedDate,@OrganizationId);
-                SELECT CAST(SCOPE_IDENTITY() as int)";
+
+                IDbTransaction trn = connection.BeginTransaction();
+                try
+                {
+                    int id = 0;
+
+                    string sql = @"insert  into PurchaseRequest(PurchaseRequestNo,PurchaseRequestDate,WorkShopRequestId,SpecialRemarks,RequiredDate,CreatedBy,CreatedDate,OrganizationId) Values (@PurchaseRequestNo,@PurchaseRequestDate,@WorkShopRequestId,@SpecialRemarks,@RequiredDate,@CreatedBy,@CreatedDate,@OrganizationId);
+                    SELECT CAST(SCOPE_IDENTITY() as int)";
+
+                    id = connection.Query<int>(sql, model, trn).Single();
+                    var saleorderitemrepo = new PurchaseRequestItemRepository();
+                    foreach (var item in model.items)
+                    {
+                        item.PurchaseRequestId = id;
+                        new PurchaseRequestItemRepository().InsertPurchaseRequestItem(item, connection, trn);
+
+                    }
+
+                    trn.Commit();
+                    return id;
+                }
+                catch (Exception)
+                {
+                    trn.Rollback();
+                    return 0;
+                }
 
 
-                var id = connection.Query<int>(sql, objPurchaseRequest).Single();
-                return id;
             }
         }
-
 
         public PurchaseRequest GetPurchaseRequest(int PurchaseRequestId)
         {
@@ -96,7 +122,7 @@ namespace ArabErp.DAL
         {
             using (IDbConnection connection = OpenConnection(dataConnection))
             {
-                string qry = "Select WR.CustomerOrderRef, C.CustomerName,";
+                string qry = "Select WR.WorkShopRequestId ,WR.CustomerOrderRef, C.CustomerName,";
                 qry += " GETDATE() PurchaseRequestDate,WR.WorkShopRequestNo +','+ Replace(Convert(varchar,WorkShopRequestDate,106),' ','/') WorkShopRequestNo";
                 qry += " from WorkShopRequest WR inner join Customer C on WR.CustomerId = C.CustomerId";
                 qry += " where WR.WorkShopRequestId = " + WorkShopRequestId.ToString();
