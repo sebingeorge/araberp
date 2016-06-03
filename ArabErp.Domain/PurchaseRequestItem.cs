@@ -11,11 +11,15 @@ namespace ArabErp.Domain
         public int PurchaseRequestItemId { get; set; }
         public int PurchaseRequestId { get; set; }
         public int? SlNo { get; set; }
+        public string ItemName { get; set; }
         public int? ItemId { get; set; }
-        public string ItemDescription { get; set; }
+        public int? WRRequestQty { get; set; }
+        public int? MinLevel { get; set; }
+        public decimal? CurrentStock { get; set; }
+        public string Remarks { get; set; }
         public string PartNo { get; set; }
-        public int? Quantity { get; set; }
-        public string Unit { get; set; }
+        public decimal? Quantity { get; set; }
+        public string UnitName { get; set; }
         public string CreatedBy { get; set; }
         public DateTime? CreatedDate { get; set; }
         public int OrganizationId { get; set; }

@@ -101,7 +101,7 @@
     <Compile Include="SupplierCategoryRepository.cs" />
     <Compile Include="SupplierRepository.cs" />
     <Compile Include="SupplyOrderItemRepository.cs" />
-    <Compile Include="SupplyOrderRepository.cs" />
+    <Compile Include=".cs" />
     <Compile Include="TaskRepository.cs" />
     <Compile Include="UnitRepository.cs" />
     <Compile Include="VehicleInPassRepository.cs" />
