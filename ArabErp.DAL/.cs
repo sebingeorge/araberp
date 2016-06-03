@@ -25,6 +25,19 @@ namespace ArabErp.DAL
             }
         }
 
+        public List<SupplyOrderItem> GetPurchaseRequestItems(List<int> selectedpurchaserequests)
+        {
+            using (IDbConnection connection = OpenConnection(dataConnection))
+            {
+                string sql = @"select * from PurchaseRequestItem
+                        where PurchaseRequestId in @selectedpurchaserequests";
+
+                var objPendingPurchaseRequests = connection.Query<SupplyOrderItem>(sql, new { selectedpurchaserequests = selectedpurchaserequests }).ToList<SupplyOrderItem>();
+
+                return objPendingPurchaseRequests;
+            }
+        }
+
         public IEnumerable<PendingPurchaseRequest> GetPendingPurchaseRequest()
         {
             using (IDbConnection connection = OpenConnection(dataConnection))
