@@ -27,11 +27,11 @@ namespace ArabErp.Web.Controllers
             WorkShopRequest objWorkShopRequest = new WorkShopRequest();
             objWorkShopRequest.CustomerOrderRef = model.CustomerOrderRef;
             objWorkShopRequest.SaleOrderId = model.SaleOrderId;
-            objWorkShopRequest.SaleOrderRefNo = model.SoNoWithDate;
+            objWorkShopRequest.SoNoWithDate = model.SoNoWithDate;
             objWorkShopRequest.CustomerOrderRef = model.CustomerOrderRef;
             objWorkShopRequest.CustomerName= model.CustomerName;
             objWorkShopRequest.CustomerId = model.CustomerId;
-            objWorkShopRequest.WorkDescription = model.WorkDescription;
+            objWorkShopRequest.WorkDescription = rep.GetCombinedWorkDescriptionSaleOrderForWorkshopRequest(SaleOrderId).WorkDescription;
             objWorkShopRequest.WorkShopRequestDate = System.DateTime.Today;
             objWorkShopRequest.Items = new List<WorkShopRequestItem>();
             objWorkShopRequest.Items.Add(new WorkShopRequestItem());
