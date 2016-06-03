@@ -34,5 +34,27 @@ namespace ArabErp.DAL
                 return connection.Query<Dropdown>("SELECT ItemId Id, ItemName Name FROM Item WHERE ISNULL(isActive, 1) = 1").ToList();
             }
         }
+        /// <summary>
+        /// Return all employees
+        /// </summary>
+        /// <returns></returns>
+        public List<Dropdown> EmployeeDropdown()
+        {
+            using (IDbConnection connection = OpenConnection(dataConnection))
+            {
+                return connection.Query<Dropdown>("SELECT EmployeeId Id, EmployeeName Name FROM Employee WHERE ISNULL(isActive, 1) = 1").ToList();
+            }
+        }
+        /// <summary>
+        /// Return all stockpoints
+        /// </summary>
+        /// <returns></returns>
+        public List<Dropdown> StockpointDropdown()
+        {
+            using (IDbConnection connection = OpenConnection(dataConnection))
+            {
+                return connection.Query<Dropdown>("SELECT StockPointId Id, StockPointName Name FROM Stockpoint WHERE ISNULL(isActive, 1) = 1").ToList();
+            }
+        }
     }
 }

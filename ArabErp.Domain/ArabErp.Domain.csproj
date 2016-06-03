@@ -79,6 +79,7 @@
     <Compile Include="Stockpoint.cs" />
     <Compile Include="StockReturn.cs" />
     <Compile Include="StockReturnItem.cs" />
+    <Compile Include="StockUpdate.cs" />
     <Compile Include="StoreIssue.cs" />
     <Compile Include="StoreIssueItem.cs" />
     <Compile Include="Supplier.cs" />

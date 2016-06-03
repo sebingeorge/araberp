@@ -388,7 +388,6 @@
     <Content Include="Views\GrnWareHouse\Create.cshtml" />
     <Content Include="Views\SupplyOrder\Create.cshtml" />
     <Content Include="Views\JobCard\Create.cshtml" />
-    <Content Include="Views\StoresIssue\CreateStoresIssue.cshtml" />
     <Content Include="Views\JobOrderCompletion\CreateJobOrderCompletion.cshtml" />
     <Content Include="Views\SalesInvoice\CreateSalesInvoice.cshtml" />
     <Content Include="Views\StockReturn\Create.cshtml" />
@@ -399,7 +398,7 @@
     <Content Include="Views\SupplyOrder\PendingSupplyOrder.cshtml" />
     <Content Include="Views\GrnWareHouse\PendingGrnWareHouse.cshtml" />
     <Content Include="Views\JobCard\PendingJobCard.cshtml" />
-    <Content Include="Views\StoresIssue\PendingStoresIssue.cshtml" />
+    <Content Include="Views\StoresIssue\Pending.cshtml" />
     <Content Include="Views\JobOrderCompletion\PendingJobOrderCompletion.cshtml" />
     <Content Include="Views\SalesInvoice\PendingSalesInvoice.cshtml" />
     <Content Include="Views\WorkDescription\CreateWorkDescription.cshtml" />
@@ -449,6 +448,9 @@
     <Content Include="Views\StockReturn\_StockReturnList.cshtml" />
     <Content Include="Views\WorkShopRequest\_SaleorderData.cshtml" />
     <Content Include="Views\AdditionalWorkShopRequest\_AdditionalItemsList.cshtml" />
+    <Content Include="Views\StoresIssue\Issuance.cshtml" />
+    <Content Include="Views\StoresIssue\_PendingWorkshopRequests.cshtml" />
+    <Content Include="Views\StoresIssue\_IssuanceItems.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
