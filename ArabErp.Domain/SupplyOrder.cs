@@ -8,10 +8,10 @@ namespace ArabErp.Domain
 {
    public class SupplyOrder
     {
-        public SupplyOrder()
-        {
-            SupplyOrderItems = new List<SupplyOrderItem>();
-        }
+       public SupplyOrder()
+       {
+           SupplyOrderItems = new List<SupplyOrderItem>();
+       }
         public int SupplyOrderId { get; set; }
         public DateTime SupplyOrderDate { get; set; }
         public int SupplierId { get; set; }
@@ -25,7 +25,7 @@ namespace ArabErp.Domain
         public int OrganizationId { get; set; }
         public string SupplierName { get; set; }
         public string SoNoWithDate { get; set; }
-        public List<SupplyOrderItem> Items { get; set; }
+        public List<SupplyOrderItem> SupplyOrderItems { get; set; }
        // public string SoNoWithDate
        // {
        //     get

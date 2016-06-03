@@ -66,7 +66,7 @@ namespace ArabErp.Web.Controllers
 
             var repo = new GRNRepository();
             var GRNList = repo.GetGRNData(model.SupplyOrderId);
-            model.Items = new List<SupplyOrderItem>();
+            //model.Items = new List<SupplyOrderItem>();
             foreach (var item in GRNList)
             {
                 //model.Items.Add(new SupplyOrderItem { PurchaseRequestItemId = item.ItemId,ItemName = item.ItemName,PartNo = item.PartNo,PendingQuantity = item.Quantity,
