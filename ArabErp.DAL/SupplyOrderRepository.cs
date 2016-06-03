@@ -14,16 +14,41 @@ namespace ArabErp.DAL
 
         public int InsertSupplyOrder(SupplyOrder objSupplyOrder)
         {
+
+            int id = 0;
             using (IDbConnection connection = OpenConnection(dataConnection))
             {
-                string sql = @"insert  into SupplyOrder(SupplyOrderNo,SupplyOrderDate,SupplierId,QuotaionNoAndDate,SpecialRemarks,PaymentTerms,DeliveryTerms,RequiredDate,CreatedBy,CreatedDate,OrganizationId,CreatedDate,OrganizationId) Values (@SupplyOrderNo,@SupplyOrderDate,@SupplierId,@QuotaionNoAndDate,@SpecialRemarks,@PaymentTerms,@DeliveryTerms,@RequiredDate,@CreatedBy,@CreatedDate,@OrganizationId);
+
+                    IDbTransaction trn = connection.BeginTransaction();
+    try
+            { 
+                    string sql = @"insert  into SupplyOrder(SupplyOrderNo,SupplyOrderDate,SupplierId,QuotaionNoAndDate,SpecialRemarks,PaymentTerms,DeliveryTerms,RequiredDate,CreatedBy,CreatedDate,OrganizationId) Values (@SupplyOrderNo,@SupplyOrderDate,@SupplierId,@QuotaionNoAndDate,@SpecialRemarks,@PaymentTerms,@DeliveryTerms,@RequiredDate,@CreatedBy,@CreatedDate,@OrganizationId);
             SELECT CAST(SCOPE_IDENTITY() as int)";
 
 
-                var id = connection.Query<int>(sql, objSupplyOrder).Single();
+                 id = connection.Query<int>(sql, objSupplyOrder, trn).Single<int>();
+
+                var supplyorderitemrepo = new SupplyOrderItemRepository();
+                foreach (var item in objSupplyOrder.SupplyOrderItems)
+                {
+                    item.SupplyOrderId= id;
+                    supplyorderitemrepo.InsertSupplyOrderItem(item, connection, trn);
+                }
+
+                trn.Commit();
+                }
+                catch (Exception)
+                {
+                    trn.Rollback();
+                    return 0;
+                }
                 return id;
+           
             }
-        }
+
+
+          
+            }
 
         public List<SupplyOrderItem> GetPurchaseRequestItems(List<int> selectedpurchaserequests)
         {
