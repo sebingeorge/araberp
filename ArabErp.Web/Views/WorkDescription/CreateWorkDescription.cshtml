@@ -138,21 +138,21 @@
                        
 
                         <div class="col-md-3">
-                            <div class="part">
+                            <div class="part4">
                                 <label for="freezer">Freezer Type</label>
                                 @Html.DropDownListFor(m => Model.FreezerUnitId, (SelectList)ViewBag.FreezerUnitlist, "Select FreezerUnit", new { @class = "form_input", autocomplete = "off" })
                             </div>
                             </div>
 
                         <div class="col-md-3">
-                            <div class="part">
+                            <div class="part4">
                                 <label for="box">Box Type</label>
                                 @Html.DropDownListFor(m => Model.BoxId, (SelectList)ViewBag.Boxlist, "Select Box", new { @class = "form_input", autocomplete = "off" })
 
                               </div>
                             </div>
                         <div class="col-md-3">
-                            <div class="part">
+                            <div class="part4">
                                 <label for="VehicleModelId">
                                     Vehicle Model
                                 </label>
@@ -161,7 +161,7 @@
                           </div>
 
                         <div class="col-md-3">
-                            <div class="part">
+                            <div class="part4">
                                 <label for="name">Name</label>
                                 @Html.TextBoxFor(m => m.WorkDescr, new { @class = "form_input", autocomplete = "off" })
                             </div>

@@ -118,27 +118,27 @@
                         <div class="col-md-4">
                             <div class="row rowr">
                                 <span>&nbsp;</span><br />
-                                <div class="part">
+                                <div class="part4">
                                     <label for="code">Code</label>
                                     @Html.TextBoxFor(m => m.CustomerRefNo, new { @class = "form_input  form_input-half ", autocomplete = "off" })
                                 </div>
 
-                                <div class="part">
+                                <div class="part4">
                                     <label for="name">Name</label>
                                     @Html.TextBoxFor(m => m.CustomerName, new { @class = "form_input ", autocomplete = "off" })
                                 </div>
 
-                                <div class="part">
+                                <div class="part4">
                                     <label for="prntname">Print Name</label>
                                     @Html.TextBoxFor(m => m.CustomerPrintName, new { @class = "form_input ", autocomplete = "off" })
                                 </div>
 
-                                <div class="part">
+                                <div class="part4">
                                     <label for="CategoryId">Category</label>
                                     @Html.DropDownListFor(m => m.CategoryId, (SelectList)ViewBag.CustomerCategory, "Select Category", new { @class = "form_input", autocomplete = "off" })
                                 </div>
 
-                                <div class="part">
+                                <div class="part4">
                                     <label for="CurrencyId">Currency</label>
                                     @Html.DropDownListFor(m => m.CurrencyId, (SelectList)ViewBag.CustomerCurrency, "Select Currency", new { @class = "form_input", autocomplete = "off" })
                                 </div>
@@ -148,28 +148,28 @@
 
                         <div class="col-md-4">
                             <div class="row rowl rowr">
-                                <span><b>Address & Communication</b></span><br />
-                                <div class="part">
+                                <span><h5>Address & Communication</h5></span><br />
+                                <div class="part4">
                                     <label for="doorno">Door No.& Building </label>
                                     @Html.TextBoxFor(m => m.DoorNo, new { @class = "form_input", autocomplete = "off" })
                                 </div>
 
-                                <div class="part">
+                                <div class="part4">
                                     <label for="street">Street & City</label>
                                     @Html.TextBoxFor(m => m.Street, new { @class = "form_input ", autocomplete = "off" })
                                 </div>
 
-                                <div class="part">
+                                <div class="part4">
                                     <label for="state">State</label>
                                     @Html.TextBoxFor(m => m.State, new { @class = "form_input ", autocomplete = "off" })
                                 </div>
 
-                                <div class="part">
+                                <div class="part4">
                                     <label for="Country">Country</label>
                                     @Html.DropDownListFor(m => m.Country, (SelectList)ViewBag.CustomerCountry, "Select Country", new { @class = "form_input",autocomplete="off"})
                                 </div>
 
-                                <div class="part">
+                                <div class="part4">
                                     <label for="zip">Post Box No</label>
                                     @Html.TextBoxFor(m => m.Zip, new { @class = "form_input ", autocomplete = "off" })
                                 </div>
@@ -180,22 +180,22 @@
                             <div class="row rowl">
 
                                 <span>&nbsp;</span><br />
-                                <div class="part">
+                                <div class="part4">
                                     <label for="phno">Phone No.</label>
                                     @Html.TextBoxFor(m => m.Phone, new { @class = "form_input ", autocomplete = "off" })
                                 </div>
 
-                                <div class="part">
+                                <div class="part4">
                                     <label for="fax">Fax</label>
                                     @Html.TextBoxFor(m => m.Fax, new { @class = "form_input ", autocomplete = "off" })
                                 </div>
 
-                                <div class="part">
+                                <div class="part4">
                                     <label for="email">E-mail</label>
                                     @Html.TextBoxFor(m => m.Email, new { @class = "form_input ", autocomplete = "off" })
                                 </div>
 
-                                <div class="part">
+                                <div class="part4">
                                     <label for="cntperson">Contact Person</label>
                                     @Html.TextBoxFor(m => m.ContactPerson, new { @class = "form_input", autocomplete = "off" })
                                 </div>

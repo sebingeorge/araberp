@@ -134,8 +134,8 @@
                         <th width="5%" class="text-right"><span id="QtyTotal"></span></th>
                         <th width="10%"></th>
                         <th width="10%" class="text-right"><h1>Total</h1></th>
-                        <th width="7%" class="text-right"><h1></h1></th>
-                        <th width="8%" class="text-right"><span id="QtyAmount"><h1></h1></span></th>
+                        <th width="7%" class="text-right"><h1>@Html.DropDownListFor(m => Model.CurrencyId, (SelectList)ViewBag.currlist, "Select Currency", new { @class = "form_input", autocomplete = "off", @readonly = "readonly" })</h1></th>
+                        <th width="8%" class="text-right"><span id="QtyAmount"></span></th>
                     </tr>
                 </tfoot>
             </table>

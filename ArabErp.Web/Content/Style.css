@@ -337,11 +337,12 @@ h5
     float:left;
     width:100%;
     margin:4px;
+    color:#fff;
 
 }
 .back-color 
 {
-    background-color:#f9fdfe;
+    background-color:#c0afa5;
 }
 
 .grid-left 
@@ -397,7 +398,7 @@ h5
 
 .hrpart 
 {
-    border-top: 1px solid #dddddd;
+    border-top: 1px solid /*#dddddd*/#fff;
     /*background: url(../Images/button-part.jpg) repeat-x;*/ 
     height:36px;
     margin-top: 10px;
@@ -420,5 +421,25 @@ h5
 }
 .line 
 {
-    line-height:50px;
+    line-height:35px;
+}
+
+.grid-left1 
+{
+    width:100%;
+    float:left;
+    background-color:#6d5749;
+    border-right:1px solid #dddddd;
+    height:30px;
+    color: #ffffff;
+    font-size: 14px;
+    font-weight: bold;
+    margin: 0;
+    padding: 0 5px;
+    line-height:30px;
+    margin-bottom:15px;
+}
+.mtop 
+{
+    margin-top:5px;
 }
