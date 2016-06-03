@@ -27,12 +27,9 @@ namespace ArabErp.Web.Controllers
         }
         public ActionResult PendingPurchaseRequest()
         {
-            var repo = new WorkShopRequestRepository();
-            var list = repo.GetWorkShopRequestPending();
-
-            //logger.Error("Happy Logging");
-
-            return View(list);
-        }
+            var repo = new PurchaseRequestRepository();
+            IEnumerable<PendingWorkShopRequest> pendingWR = repo.GetWorkShopRequestPending();
+            return View(pendingWR);      
+         }
     }
 }

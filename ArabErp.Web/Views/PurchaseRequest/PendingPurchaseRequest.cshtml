@@ -1,5 +1,5 @@
-﻿@model IList<ArabErp.Domain.WorkShopRequest>
-@using GridMvc.Html
+﻿@using ArabErp.Domain
+@model IEnumerable<PendingWorkShopRequest>
 @{
     ViewBag.Title = "Pending WorkShopRequest";
     Layout = "~/Views/Shared/_Layout.cshtml";
@@ -29,25 +29,17 @@
                         <div class="col-md-2 grid-left">Select</div>
 
                         </div>
-                        @for (int i = 0; i < Model.Count(); i++)
-                        {
-                            <div class="col-md-2 mtop">@Model[i].CustomerName</div>
-                            <div class="col-md-2 mtop"></div>
-                            <div class="col-md-2 mtop"></div>
-                            <div class="col-md-2 mtop"></div>
-                            <div class="col-md-2 mtop"></div>
-                            <div class="col-md-2 mtop"></div>
-                            @*<div class="col-md-2 grid_row">@Model[i].CustomerName</div>
-                            <div class="col-md-2 grid_row">@Model[i].CustomerOrderRef</div>
-                            <div class="col-md-2 grid_row">@Html.HiddenFor(m => m[i].WorkShopRequestId) @Model[i].WorkShopRequestNo & " - " @Model[i].WorkShopRequestDate</div>
-
-
-                            <div class="col-md-2 grid_row"></div>
-                            <div class="col-md-2 grid_row">@Model[i].CustomerName </div>
-                            <div class="col-md-2 grid_row">@Html.ActionLink("Select", "Create", "PurchaseRequest", new { WorkShopRequestId = @Model[i].WorkShopRequestId }, null); </div>*@
+                      @foreach (var item in Model)
+                      {
+                        <div class="col-md-2 grid_row">@item.CustomerName</div>
+                        <div class="col-md-2 grid_row">@item.CustomerOrderRef</div>
+                        <div class="col-md-2 grid_row">@item.SaleOrderRefNo &amp; @item.SaleOrderDate.ToString("dd/MMM/yyyy")</div>
+                        <div class="col-md-2 grid_row">@item.WorkShopRequestNo &amp; @item.WorkShopRequestDate.ToString("dd/MMM/yyyy")</div>
+                        <div class="col-md-2 grid_row">@item.RequiredDate.ToString("dd/MMM/yyyy")</div>
+                        <div class="col-md-2 mtop form-button2 form-button1">@Html.ActionLink("Select", "Create", "PurchaseRequest", new { WorkShopRequestId =@item.WorkShopRequestId }, null) </div>
                         }
-                    </div>
-                        @*<div class="row"></div>*@
+                </div>
+                      
                 </div>
                     </div>
                 </div>
