@@ -58,19 +58,11 @@
         });
 
       
-  
-        $(document).ready(function () {
-            $('#WorkShopRequestDate')
-                .datepicker({
-                    format: 'dd/MM/yyyy'
-                });
-
-            $('#RequiredDate')
-                .datepicker({
-                    format: 'dd/MM/yyyy'
-                })
-
-        });
+    $(function () {
+        $("#WorkShopRequestDate").datepicker({ dateFormat: "dd/MM/yy" });
+        $("#RequiredDate").datepicker({ dateFormat: "dd/MM/yy" });
+    });
+       
 
    
     //function calculateSummary() {
