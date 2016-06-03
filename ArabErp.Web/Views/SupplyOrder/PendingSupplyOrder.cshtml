@@ -1,5 +1,5 @@
 ﻿@using ArabErp.Domain
-@model IEnumerable<PendingPurchaseRequest>
+@model IList<PendingPurchaseRequest>
 @{
     ViewBag.Title = "PendingSupplyOrder";
     Layout = "~/Views/Shared/_Layout.cshtml";
@@ -37,16 +37,18 @@
 
                             <div class="col-md-12">
 
-                                <div class="col-md-3 grid-left">PRS No. and Date</div>
-                                <div class="col-md-3 grid-left">Required Date</div>
-                                <div class="col-md-3 grid-left">Select</div>
+                                <div class="col-md-4 grid-left">PRS No. and Date</div>
+                                <div class="col-md-4 grid-left">Required Date</div>
+                                <div class="col-md-4 grid-left">Select</div>
 
                             </div>
-                            @foreach (var item in Model)
-                            {
-                                <div class="col-md-2 grid_row"> @item.PurchaseRequestNo  @item.RequiredDate.ToString("dd/MMM/yyyy")  </div>
-                                <div class="col-md-2 grid_row">@item.RequiredDate.ToString("dd/MMM/yyyy") </div>
-                                <div class="col-md-2 mtop form-button2 form-button1">@Html.ActionLink("Select", "Create", "SupplyOrder", new { WorkShopRequestId = @item.PurchaseRequestId }, null) </div>
+                           @for (int i = 0; i < Model.Count(); i++)
+                           {
+                               
+                                <div class="col-md-4 grid_row"> @Model[i].PurchaseRequestNo  @Model[i].RequiredDate.ToString("dd/MMM/yyyy")  </div>
+                                <div class="col-md-4 grid_row">@Model[i].RequiredDate.ToString("dd/MMM/yyyy") </div>
+                                @*<div class="col-md-2 mtop form-button2 form-button1">@Html.ActionLink("Select", "Create", "SupplyOrder", new { WorkShopRequestId = @item.PurchaseRequestId }, null) </div>*@
+                                <div class="col-md-4 grid_row">@Html.CheckBoxFor( m => m[i].Select )</div>
                             }
                         </div>
 

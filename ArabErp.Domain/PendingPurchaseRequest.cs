@@ -12,5 +12,6 @@ namespace ArabErp.Domain
         public string PurchaseRequestNo { get; set; }
         public DateTime PurchaseRequestDate { get; set; }
         public DateTime RequiredDate { get; set; }
+        public bool Select { get; set; }
     }
 }
