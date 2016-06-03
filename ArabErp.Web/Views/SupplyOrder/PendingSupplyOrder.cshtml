@@ -7,7 +7,7 @@
 <div class="container">
     <div class="row">
         <div class="form-head1">
-            <h4>Pending GRN</h4>
+            <h4>Pending Supply Order</h4>
         </div>
         <div class="main-part pad1">
             <form method="post" action="@Url.Action("Create", "SupplyOrder")">
@@ -30,48 +30,52 @@
                     </table>
                 </div>*@
                 <div class="main-part pad1">
-                    <div class="table-responsive">
+                    <div class="table-responsive  border">
 
 
-                        <div class="row border">
+                        <div class="row">
 
-                            <div class="col-md-12">
 
-                                <div class="col-md-4 grid-left">PRS No. and Date</div>
-                                <div class="col-md-4 grid-left">Required Date</div>
-                                <div class="col-md-4 grid-left">Select</div>
 
-                            </div>
-                           @for (int i = 0; i < Model.Count(); i++)
-                           {
-                               
-                                <div class="col-md-4 grid_row"> @Model[i].PurchaseRequestNo  @Model[i].RequiredDate.ToString("dd/MMM/yyyy")  </div>
-                                <div class="col-md-4 grid_row">@Model[i].RequiredDate.ToString("dd/MMM/yyyy") </div>
+
+                            <div class="col-md-4 grid-left">PRS No. and Date</div>
+                            <div class="col-md-4 grid-left">Required Date</div>
+                            <div class="col-md-4 grid-left"></div>
+
+
+                            @for (int i = 0; i < Model.Count(); i++)
+                            {
+
+                                <div class="col-md-4 grid-new"> @Model[i].PurchaseRequestNo  @Model[i].RequiredDate.ToString("dd/MMM/yyyy")  </div>
+                                <div class="col-md-4  grid-new">@Model[i].RequiredDate.ToString("dd/MMM/yyyy") </div>
                                 @*<div class="col-md-2 mtop form-button2 form-button1">@Html.ActionLink("Select", "Create", "SupplyOrder", new { WorkShopRequestId = @item.PurchaseRequestId }, null) </div>*@
-                                <div class="col-md-4 grid_row">@Html.CheckBoxFor( m => m[i].Select )</div>
+                                <div class="col-md-4 text-center">@Html.CheckBoxFor(m => m[i].Select)</div>
                             }
                         </div>
 
                     </div>
-                </div>
-                <div class="row">
+
+                    <div class="row">
 
 
-                    <div class="col-md-12">
-                        <div class="margl">
-                            <button class="form-button">Previous</button>
+                        <div class="col-md-12">
+                            <div class="margl">
+                                <button class="form-button">Previous</button>
+                            </div>
+                            <div class="margf">
+                                <button type="submit" class="form-button">Exit</button>
+
+
+                                <button type="submit" class="form-button">Proceed</button>
+                            </div>
+
                         </div>
-                        <div class="margf">
-                            <button type="submit" class="form-button">Exit</button>
-                       
-                   
-                            <button type="submit" class="form-button">Proceed</button>
-                        </div>
+
 
                     </div>
 
-
                 </div>
+
             </form>
         </div>
     </div>

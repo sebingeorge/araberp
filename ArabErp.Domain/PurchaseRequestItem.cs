@@ -18,6 +18,8 @@ namespace ArabErp.Domain
         public decimal? CurrentStock { get; set; }
         public string Remarks { get; set; }
         public string PartNo { get; set; }
+        public decimal? WRIssueQty { get; set; }
+        public decimal? TotalQty { get; set; }
         public decimal? Quantity { get; set; }
         public string UnitName { get; set; }
         public string CreatedBy { get; set; }
