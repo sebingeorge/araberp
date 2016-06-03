@@ -29,6 +29,8 @@ namespace ArabErp.Web.Controllers
 
             supplyorder.SupplyOrderItems = rep.GetPurchaseRequestItems(selectedpurchaserequests);
 
+            FillSupplier();
+
             return View(supplyorder);
         }
         public ActionResult PendingSupplyOrder()
@@ -40,5 +42,24 @@ namespace ArabErp.Web.Controllers
 
             return View(model);
         }
+
+        public void FillSupplier()
+        {
+            var repo = new SupplierRepository();
+            List<Dropdown> list = repo.FillSupplier();
+            ViewBag.SupplierList = new SelectList(list, "Id", "Name");
+        }
+
+        [HttpPost]
+        public ActionResult Save(SupplyOrder model)
+        {
+
+            model.OrganizationId = 1;
+            model.CreatedDate = System.DateTime.Now;
+            model.CreatedBy = Request.ServerVariables["HTTP_X_FORWARDED_FOR"] ?? Request.ServerVariables["REMOTE_ADDR"];
+            new SupplyOrderRepository().InsertSupplyOrder(model);
+            return RedirectToAction("PendingSupplyOrder");
+        }
+
     }
 }
