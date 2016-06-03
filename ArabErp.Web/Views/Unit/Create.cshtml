@@ -47,24 +47,30 @@
                     @using (Html.BeginForm("Save", null, FormMethod.Post, new { @class = "createFrom", @id = "unit_form" }))
                     {
 
-                        <div class="part">
+                        <div class="part4">
                             <label for="UnitRefNo">Code</label>
                             @Html.TextBoxFor(m => m.UnitRefNo, new { @class = "form_input form_input-half", autocomplete = "off" })
 
                         </div>
 
 
-                        <div class="part">
+                        <div class="part4">
                             <label for="UnitName">Name</label>
                             @Html.TextBoxFor(m => m.UnitName, new { @class = "form_input", autocomplete = "off" })
 
                         </div>
 
+    <div class="row">
+     
+        <div class="col-md-12 hrpart">
+            <button type="button" class="form-button right">Exit</button>
+            <button type="submit" class="form-button right">Save</button>
+        </div>
+       
+    </div>
 
-                        <div class="marg3">
-                            <button type="button" class="form-button top1">Exit</button>
-                            <button type="submit" class="form-button">Save</button>
-                        </div>
+
+
 
                     }
                 </div>

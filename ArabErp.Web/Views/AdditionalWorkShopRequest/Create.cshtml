@@ -87,9 +87,15 @@
 
                 <div class="row form-group">
                     <div class="col-md-12">
-                        <label for="SpecialRemarks">Spl.Remarks</label>
-                        @Html.TextAreaFor(m => m.SpecialRemarks, new { @class = "form_input", autocomplete = "off" })
-                        @*<textarea id="SplRemarks1" autocomplete="off" class="form_input form_input-h"></textarea>*@
+                        <div class="row">
+                            <div class="col-md-1">
+                                <label for="SpecialRemarks">Spl.Remarks</label>
+                              </div>
+                            <div class="col-md-11">
+                                @Html.TextAreaFor(m => m.SpecialRemarks, new { @class = "form_input form_input-h", autocomplete = "off" })
+                                @*<textarea id="SplRemarks1" autocomplete="off" class="form_input form_input-h"></textarea>*@
+                            </div>
+                            </div>
                     </div>
                 </div>
                 <div class="row form-group">
@@ -99,10 +105,16 @@
                         @*<input type="date" id="duedate" class="form_input" />*@
                     </div>
                 </div>
-                <div class="marg">
-                    <input type="button" class="form-button" value="Exit">
-                    <input type="submit" class="form-button" value="Save">
-                </div>
+
+    <div class="row">
+
+        <div class="col-md-12 hrpart">
+            <input type="button" class="form-button right" value="Exit">
+            <input type="submit" class="form-button right" value="Save">
+        </div>
+
+    </div>
+
             }
         </div>
     </div>

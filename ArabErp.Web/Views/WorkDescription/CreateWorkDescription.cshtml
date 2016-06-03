@@ -138,21 +138,21 @@
                        
 
                         <div class="col-md-3">
-                            <div class="part">
+                            <div class="part4">
                                 <label for="freezer">Freezer Type</label>
                                 @Html.DropDownListFor(m => Model.FreezerUnitId, (SelectList)ViewBag.FreezerUnitlist, "Select FreezerUnit", new { @class = "form_input", autocomplete = "off" })
                             </div>
                             </div>
 
                         <div class="col-md-3">
-                            <div class="part">
+                            <div class="part4">
                                 <label for="box">Box Type</label>
                                 @Html.DropDownListFor(m => Model.BoxId, (SelectList)ViewBag.Boxlist, "Select Box", new { @class = "form_input", autocomplete = "off" })
 
                               </div>
                             </div>
                         <div class="col-md-3">
-                            <div class="part">
+                            <div class="part4">
                                 <label for="VehicleModelId">
                                     Vehicle Model
                                 </label>
@@ -161,7 +161,7 @@
                           </div>
 
                         <div class="col-md-3">
-                            <div class="part">
+                            <div class="part4">
                                 <label for="name">Name</label>
                                 @Html.TextBoxFor(m => m.WorkDescr, new { @class = "form_input", autocomplete = "off" })
                             </div>
@@ -254,12 +254,18 @@
                         <div class="col-md-12">
                             <a id="add_task_row" class="glyphicon glyphicon-plus"></a><a id='delete_task_row' style="float:right" class="glyphicon glyphicon-minus"></a>
                         </div>
-                        <div class="margf">
-                            <button type="submit" class="form-button">Exit</button>
 
 
-                            <button type="submit" class="form-button">Save</button>
+                        <div class="row">
+
+                            <div class="col-md-12 hrpart">
+                                <button type="button" class="form-button right">Exit</button>
+                                <button type="submit" class="form-button right">Save</button>
+                            </div>
+
                         </div>
+
+
                     </div>
 
  

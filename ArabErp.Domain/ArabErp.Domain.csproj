@@ -65,6 +65,7 @@
     <Compile Include="JobCardTaskMaster.cs" />
     <Compile Include="OpeningStock.cs" />
     <Compile Include="Organization.cs" />
+    <Compile Include="PendingPurchaseRequest.cs" />
     <Compile Include="PendingSO.cs" />
     <Compile Include="PendingWorkShopRequest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

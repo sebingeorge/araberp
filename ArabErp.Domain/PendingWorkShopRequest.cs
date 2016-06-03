@@ -10,9 +10,13 @@ namespace ArabErp.Domain
     {
         public int WorkShopRequestId { get; set; }
         public string WorkShopRequestNo { get; set; }
-        public DateTime? WorkShopRequestDate { get; set; }
+        public DateTime WorkShopRequestDate { get; set; }
+        public string SaleOrderRefNo { get; set; }
+        public DateTime SaleOrderDate { get; set; }
         public int CustomerId { get; set; }
         public string CustomerOrderRef { get; set; }
         public string CustomerName { get; set; }
+        public DateTime RequiredDate { get; set; }
+       
     }
 }

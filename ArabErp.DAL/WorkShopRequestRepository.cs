@@ -13,40 +13,59 @@ namespace ArabErp.DAL
         static string dataConnection = GetConnectionString("arab");
 
 
-        public int InsertWorkShopRequest(WorkShopRequest objWorkShopRequest)
-        {
 
+        /// <summary>
+        /// Insert WorkShopRequest
+        /// </summary>
+        /// <param name="model"></param>
+        /// <returns>primary key of WorkShopRequest </returns>
+        public int InsertWorkShopRequest(WorkShopRequest model)
+        {
             using (IDbConnection connection = OpenConnection(dataConnection))
             {
 
-              //  var trn = connection.BeginTransaction();
-                int id = 0;
-
+                IDbTransaction trn = connection.BeginTransaction();
                 try
                 {
+                    int id = 0;
+
                     string sql = @"insert  into WorkShopRequest(WorkShopRequestNo,WorkShopRequestDate,SaleOrderId,CustomerId,CustomerOrderRef,SpecialRemarks,RequiredDate,CreatedBy,CreatedDate,OrganizationId) Values (@WorkShopRequestNo,@WorkShopRequestDate,@SaleOrderId,@CustomerId,@CustomerOrderRef,@SpecialRemarks,@RequiredDate,@CreatedBy,@CreatedDate,@OrganizationId);
-            SELECT CAST(SCOPE_IDENTITY() as int)";
+                                 SELECT CAST(SCOPE_IDENTITY() as int)";
 
 
-                 id = connection.Query<int>(sql, objWorkShopRequest).Single();
+                    id = connection.Query<int>(sql, model, trn).Single();
+                    var saleorderitemrepo = new WorkShopRequestItemRepository();
+                    foreach (var item in model.Items)
+                    {
+                        item.WorkShopRequestId = id;
+                        new WorkShopRequestItemRepository().InsertWorkShopRequestItem(item, connection, trn);
+                      
+                    }
+
+                    trn.Commit();
+                    return id;
+                }
+                catch (Exception)
+                {
+                    trn.Rollback();
+                    return 0;
+                }
 
 
+            }
+        }
+
+        public List<WorkShopRequestItem> GetWorkShopRequestData(int SaleOrderId)
+        {
+            using (IDbConnection connection = OpenConnection(dataConnection))
+            {
+
+                string query = "SELECT I.ItemName,I.ItemId,I.PartNo,WI.Quantity,W.WorkDescriptionId,UnitName from WorkDescription W INNER JOIN  WorkVsItem WI on W.WorkDescriptionId=WI.WorkDescriptionId INNER JOIN Item I ON WI.ItemId=I.ItemId INNER JOIN Unit U on U.UnitId =I.ItemUnitId  INNER JOIN SaleOrderItem SI ON SI.WorkDescriptionId = W.WorkDescriptionId  WHERE SI.SaleOrderId=@SaleOrderId";
+
+                return connection.Query<WorkShopRequestItem>(query,
+                new { SaleOrderId = SaleOrderId }).ToList();
 
                
-                var workshopitemitemrepo = new WorkShopRequestItemRepository();
-                foreach (var item in objWorkShopRequest.Items)
-                {
-                    item.WorkShopRequestId = id;
-                    workshopitemitemrepo.InsertWorkShopRequestItem(item);
-                }
-                   // trn.Commit();
-                }
-                catch (Exception e)
-                {
-                   // trn.Rollback();
-                    throw;
-                }
-                return id;
             }
         }
 
@@ -127,9 +146,10 @@ namespace ArabErp.DAL
             using (IDbConnection connection = OpenConnection(dataConnection))
             {
                 return connection.Query<string>("SELECT PartNo FROM Item WHERE ItemId = @ItemId",
-                    new { ItemId = itemId }).First<string>();
+                new { ItemId = itemId }).First<string>();
             }
         }
+      
         /// <summary>
         /// Insert additional workshop request head table (WorkShopRequest table)
         /// </summary>
@@ -172,6 +192,7 @@ namespace ArabErp.DAL
                                     @JobCardId);
 
                                 SELECT CAST(SCOPE_IDENTITY() as int)";
+             
 
                     int id = connection.Query<int>(query, model, txn).First();
                     foreach (var item in model.Items)

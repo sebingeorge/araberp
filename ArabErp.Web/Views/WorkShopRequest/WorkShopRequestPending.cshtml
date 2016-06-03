@@ -7,18 +7,20 @@
 <div class="container">
     <div class="row">
         <div class="form-head1">
-            <h4>Pending WorkShop Request</h4>
+            <h4>Pending Sale Order</h4>
         </div>
         <div class="main-part pad1">
 
-            <div class="table-responsive">
-                
+            <div class="table-responsive border">
 
-                    <div class="row border">
 
-                        <div class="col-md-12">
+                <div class="row">
 
-                          
+                    <div class="col-md-12">
+                        
+                       
+
+
                             <div class="col-md-3 grid-left">Customer</div>
                             <div class="col-md-2 grid-left">Customer Order Ref.</div>
                             <div class="col-md-2 grid-left">SO No & Date</div>
@@ -29,37 +31,37 @@
 
                         </div>
 
-                        <form method="post" action="@Url.Action("CreateWorkShopRequest","WorkShopRequest")">
-
-                            @for (int i = 0; i < Model.SaleOrders.Count(); i++)
-                            {
 
 
-                               
-                                @Html.HiddenFor(m => m.SaleOrders.ElementAt(i).SaleOrderId, new { @class = "form_input", autocomplete = "off" })
-                                @Html.HiddenFor(m => m.SaleOrders.ElementAt(i).CustomerId, new { @class = "form_input", autocomplete = "off" })
+                    @for (int i = 0; i < Model.SaleOrders.Count(); i++)
+                    {
 
 
-                                <div class="col-md-3 mtop">@Html.TextBoxFor(m => m.SaleOrders.ElementAt(i).CustomerName, new { @class = "form_input", autocomplete = "off", @readonly = "readonly" })</div>
-                                <div class="col-md-2 mtop">@Html.TextBoxFor(m => m.SaleOrders.ElementAt(i).CustomerOrderRef, new { @class = "form_input", autocomplete = "off", @readonly = "readonly" })</div>
-                                <div class="col-md-2 mtop">@Html.TextBoxFor(m => m.SaleOrders.ElementAt(i).SoNoWithDate, new { @class = "form_input", autocomplete = "off", @readonly = "readonly" }) </div>
-                                <div class="col-md-2 mtop">@Html.TextBoxFor(m => m.SaleOrders.ElementAt(i).EDateArrival, new { @class = "form_input", autocomplete = "off", @readonly = "readonly" })</div>
-                                <div class="col-md-2 mtop">@Html.TextBoxFor(m => m.SaleOrders.ElementAt(i).EDateDelivery, new { @class = "form_input", autocomplete = "off", @readonly = "readonly" })</div>
-                                @*<div class="col-md-2 mtop">@Html.TextBoxFor(m => m.SaleOrders.ElementAt(i).EDateDelivery, String.Format("{0:dd/MM/yyyy}", Model.SaleOrders.ElementAt(i).EDateDelivery), new { @class = "form_input", autocomplete = "off", @readonly = "readonly" })</div>*@
-                               
-                                <div class="col-md-1 mtop">@Html.CheckBoxFor(m => m.SaleOrders.ElementAt(i).Select, new { @class = "form_input" }) </div>
+                        @*<form method="post" action="@Url.Action("CreateWorkShopRequest","WorkShopRequest")">*@
+                            @*@Html.HiddenFor(m => m.SaleOrders.ElementAt(i).SaleOrderId, new { @class = "form_input", autocomplete = "off" })
+                            @Html.HiddenFor(m => m.SaleOrders.ElementAt(i).CustomerId, new { @class = "form_input", autocomplete = "off" })
+                            @Html.HiddenFor(m => m.SaleOrders.ElementAt(i).WorkDescription, new { @class = "form_input", autocomplete = "off" })*@
 
-                              
+                            <div class="col-md-3 mtop">@Html.TextBoxFor(m => m.SaleOrders.ElementAt(i).CustomerName, new { @class = "form_input", autocomplete = "off", @readonly = "readonly" })</div>
+                            <div class="col-md-2 mtop">@Html.TextBoxFor(m => m.SaleOrders.ElementAt(i).CustomerOrderRef, new { @class = "form_input", autocomplete = "off", @readonly = "readonly" })</div>
+                            <div class="col-md-2 mtop">@Html.TextBoxFor(m => m.SaleOrders.ElementAt(i).SoNoWithDate, new { @class = "form_input", autocomplete = "off", @readonly = "readonly" }) </div>
+                            <div class="col-md-2 mtop">@Html.TextBoxFor(m => m.SaleOrders.ElementAt(i).EDateArrival, new { @class = "form_input", autocomplete = "off", @readonly = "readonly" })</div>
+                            <div class="col-md-2 mtop">@Html.TextBoxFor(m => m.SaleOrders.ElementAt(i).EDateDelivery, new { @class = "form_input", autocomplete = "off", @readonly = "readonly" })</div>
+                            @*  <div class="col-md-2 mtop"><center><button type="submit" class="form-button form-button1">Select</button></center></div>*@
+    <div class="col-md-1 mtop form-button2"><center>@Html.ActionLink("Select", "CreateWorkShopRequest", "WorkShopRequest", new { SaleOrderId = Model.SaleOrders.ElementAt(i).SaleOrderId },null)</center></div>
+                            @*<div class="col-md-2 mtop">@Html.TextBoxFor(m => m.SaleOrders.ElementAt(i).EDateDelivery, String.Format("{0:dd/MM/yyyy}", Model.SaleOrders.ElementAt(i).EDateDelivery), new { @class = "form_input", autocomplete = "off", @readonly = "readonly" })</div>*@
+                           
 
-                            }
-                            <div class="margf">
+                                @*</form>*@
 
-                                <button type="submit" class="form-button">Ok</button>
 
-                            </div>
 
-                        </form>
-                    </div>
+                    }
+
+
+
+                </div>
+
                
                         <!-- pager -->
                         @if (Model.Pager.EndPage > 1)

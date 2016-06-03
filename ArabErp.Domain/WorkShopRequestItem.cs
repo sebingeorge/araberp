@@ -15,10 +15,13 @@ namespace ArabErp.Domain
         public string Remarks { get; set; }
         public string PartNo { get; set; }
         public int Quantity { get; set; }
-        public int UnitId { get; set; }
+        public string UnitName { get; set; }
         public string CreatedBy { get; set; }
         public DateTime? CreatedDate { get; set; }
         public int OrganizationId { get; set; }
         public int SlNo { get; set; }
+        //public string WorkDescr { get; set; }
+        public string ItemName { get; set; }
+      
     }
 }

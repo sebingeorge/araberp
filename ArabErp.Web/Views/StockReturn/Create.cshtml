@@ -103,14 +103,26 @@
                 </div>
                 <div class="row form-group">
                     <div class="col-md-12">
-                        <label for="SplRemarks1">Spl.Remarks</label>
-                        @Html.TextAreaFor(m => m.SpecialRemarks, new { @class = "form_input", autocomplete = "off" })
+                        <div class="row">
+                            <div class="col-md-1">
+                                <label for="SplRemarks1">Spl.Remarks</label>
+                            </div>
+                            <div class="col-md-11">
+                                @Html.TextAreaFor(m => m.SpecialRemarks, new { @class = "form_input form_input-h", autocomplete = "off" })
+                            </div>
+                            </div>
                     </div>
                 </div>
-              <div class="marg">
-                  <input type="button" class="form-button" value="Exit">
-                    <button type="submit" class="form-button">Save</button>
-                </div>
+
+    <div class="row">
+
+        <div class="col-md-12 hrpart">
+            <input type="button" class="form-button right" value="Exit">
+            <button type="submit" class="form-button right">Save</button>
+        </div>
+
+    </div>
+
             }
         </div>
         </div>

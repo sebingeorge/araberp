@@ -10,6 +10,7 @@ namespace ArabErp.Domain
     {
         public int WorkShopRequestId { get; set; }
         public string WorkShopRequestNo { get; set; }
+        public string WorkDescription { get; set; }
         public DateTime? WorkShopRequestDate { get; set; }
         public int SaleOrderId { get; set; }
         public int CustomerId { get; set; }
@@ -24,9 +25,11 @@ namespace ArabErp.Domain
         public string SaleOrderRefNo { get; set; }
         public string CustomerName { get; set; }
 
+
         public bool isAdditionalRequest { get; set; }
         public int JobCardId { get; set; }
-
+        public string SoNoWithDate { get; set; }
+      
         public List<WorkShopRequestItem> Items { get; set; }
     }
 }

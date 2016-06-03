@@ -1656,6 +1656,8 @@ label {
   display: inline-block;
   margin-bottom: 5px;
    font-size: 12px;
+   font-weight:bold;
+   color:#000;
 }
 
 input[type="search"] {
@@ -4700,8 +4702,8 @@ textarea.input-group-sm > .input-group-btn > .btn {
   z-index: 2;
   color: #ffffff;
   cursor: default;
-  background-color: #2db4e3;
-  border-color: #2db4e3;
+  background-color: #6d5749;
+  border-color: #6d5749;
 }
 
 .pagination > .disabled > span,
@@ -6911,6 +6913,58 @@ td.visible-print {
     margin-right:-15px !important;
 
 }
+    .hrpart 
+    {
+        float:none !important;
+    }
+
+    .lefto {
+    margin-right: 139px !important;
+}
+
+.body-content 
+{
+    margin-left: 10px !important;
+    width: 100% !important;
+}
+.body-content1 
+{
+    margin-left: -20px !important;
+    margin-top: 24px !important;
+}
+
+
+
+    .navbar-collapse
+    {
+
+     padding-left:47px;
+    }
+
+    .navbar-nav .open .dropdown-menu > li > a, .navbar-nav .open .dropdown-menu .dropdown-header 
+    {
+        padding-left:40px !important;
+    }
+
+
+    .form_input-half1 
+    {
+        width:100% !important;
+    }
+    .form_input-half2
+    {
+        width:100% !important;
+    }
+     .grid-left
+     {
+      float:none !important;
+     }
+    .form-button2 a 
+    {
+        width:100% !important;
+        margin-left:0 !important;
+        margin-bottom:10px !important;
+    }
 
 }
 
@@ -6992,5 +7046,22 @@ td.visible-print {
      {
         left:-102px !important;
     }
+
+        .hrpart 
+    {
+        float:none !important;
+    }
+
+        .body-content 
+{
+    margin-left: 15px !important;
+    width: 100% !important;
+}
+        
+.body-content1 
+{
+    margin-left: -4px !important;
+}
+
 }
 

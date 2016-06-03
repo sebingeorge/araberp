@@ -262,6 +262,7 @@
     <Content Include="Content\jsgrid-theme.min.css" />
     <Content Include="Content\jsgrid.css" />
     <Content Include="Content\PagedList.css" />
+    <Content Include="Images\banner.png" />
     <Content Include="Images\button-part.jpg" />
     <Content Include="Scripts\gridmvc.js" />
     <Content Include="Scripts\gridmvc.lang.ru.js" />
@@ -446,8 +447,8 @@
     <Content Include="Views\OpeningStock\Create.cshtml" />
     <Content Include="Views\OpeningStock\OpeningStockList.cshtml" />
     <Content Include="Views\StockReturn\_StockReturnList.cshtml" />
-    <Content Include="Views\WorkShopRequest\_SaleorderData.cshtml" />
     <Content Include="Views\AdditionalWorkShopRequest\_AdditionalItemsList.cshtml" />
+    <Content Include="Views\WorkShopRequest\_DisplayWorkShopRequestData.cshtml" />
     <Content Include="Views\StoresIssue\Issuance.cshtml" />
     <Content Include="Views\StoresIssue\_PendingWorkshopRequests.cshtml" />
     <Content Include="Views\StoresIssue\_IssuanceItems.cshtml" />
