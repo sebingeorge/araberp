@@ -159,6 +159,16 @@ textarea {
     color:#faeaea;
     text-decoration:none;
     }
+.form-button4 
+{
+    background-color: #5c5a5a;
+    border: 1px solid #fff;
+    border-radius: 4px;
+    color: #ffffff;
+    height: 22px;
+    width: 92px;
+    margin-right:0;
+}
 .margf 
 {
     float:right;
@@ -307,6 +317,11 @@ margin-top:0px;
 .scroll 
 {
     max-height: 293px;
+    overflow:auto;
+}
+.scroll1 
+{
+    max-height: 350px;
     overflow:auto;
 }
 .maintd
