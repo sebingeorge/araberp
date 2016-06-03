@@ -27,7 +27,8 @@ namespace ArabErp.Web.Controllers
             model.items = new List<PurchaseRequestItem>();
             foreach (var item in PRList)
             {
-                model.items.Add(new PurchaseRequestItem { PartNo = item.PartNo, ItemName = item.ItemName, Quantity = item.Quantity, UnitName = item.UnitName, ItemId = item.ItemId ,MinLevel=item.MinLevel,WRRequestQty=item.WRRequestQty});
+                var pritem = new PurchaseRequestItem { PartNo = item.PartNo, ItemName = item.ItemName, Quantity = item.Quantity, UnitName = item.UnitName, ItemId = item.ItemId, MinLevel = item.MinLevel, WRRequestQty = item.WRRequestQty, CurrentStock = item.CurrentStock, WRIssueQty = item.WRIssueQty, TotalQty = item.TotalQty };
+                model.items.Add(pritem);
 
             }
             return View(model);
@@ -38,5 +39,14 @@ namespace ArabErp.Web.Controllers
             IEnumerable<PendingWorkShopRequest> pendingWR = repo.GetWorkShopRequestPending();
             return View(pendingWR);      
          }
+        [HttpPost]
+        public ActionResult Save(PurchaseRequest model)
+        {
+            model.OrganizationId = 1;
+            model.CreatedDate = System.DateTime.Now;
+            model.CreatedBy = Request.ServerVariables["HTTP_X_FORWARDED_FOR"] ?? Request.ServerVariables["REMOTE_ADDR"];
+            new PurchaseRequestRepository().InsertPurchaseRequest(model);
+            return RedirectToAction("PendingPurchaseRequest");
+        }
     }
 }
