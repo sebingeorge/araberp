@@ -23,7 +23,9 @@ namespace ArabErp.Web.Controllers
 
             SupplyOrderRepository rep = new SupplyOrderRepository();
 
-            List<int> selectedpurchaserequests = (from PendingPurchaseRequest p in PendingPurchaseRequestItemsSelected where p.Select select p.PurchaseRequestId).ToList<int>();
+            List<int> selectedpurchaserequests = (from PendingPurchaseRequest p in PendingPurchaseRequestItemsSelected
+                                                  where p.Select
+                                                  select p.PurchaseRequestId).ToList<int>();
 
             supplyorder.SupplyOrderItems = rep.GetPurchaseRequestItems(selectedpurchaserequests);
 

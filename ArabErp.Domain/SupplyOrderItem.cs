@@ -11,6 +11,8 @@ namespace ArabErp.Domain
         public int SupplyOrderItemId { get; set; }
         public int SupplyOrderId { get; set; }
         public int PurchaseRequestItemId { get; set; }
+        public string ItemName { get; set; }
+        public string PartNo { get; set; }
         public int? SlNo { get; set; }
         public decimal BalQty { get; set; }
         public decimal OrderedQty { get; set; }

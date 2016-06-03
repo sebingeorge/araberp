@@ -29,8 +29,8 @@ namespace ArabErp.DAL
         {
             using (IDbConnection connection = OpenConnection(dataConnection))
             {
-                string sql = @"select * from PurchaseRequestItem
-                        where PurchaseRequestId in @selectedpurchaserequests";
+                string sql = @"select PurchaseRequestItemId,i.ItemName,i.PartNo,p.Quantity as BalQty from PurchaseRequestItem p join Item i on p.ItemId=i.ItemId
+                        where p.PurchaseRequestId in @selectedpurchaserequests";
 
                 var objPendingPurchaseRequests = connection.Query<SupplyOrderItem>(sql, new { selectedpurchaserequests = selectedpurchaserequests }).ToList<SupplyOrderItem>();
 
