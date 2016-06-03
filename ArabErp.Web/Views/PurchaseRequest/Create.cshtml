@@ -28,17 +28,17 @@
                     </div>
                 </div>
                 <div class="row form-group">
-                    <div class="col-md-2">
-                        <label for="WorkShopRequestNo">WorkShop Reqst No & Date </label>
-                        @Html.TextBoxFor(m => m.WorkShopRequestNo, new { @class = "form_input", autocomplete = "off" })
+                    <div class="col-md-3">
+                        <label for="WorkShopRequestNo">WorkShop Request No & Date </label>
+                        @Html.TextBoxFor(m => m.WorkShopRequestNo, new { @class = "form_input", autocomplete = "off", @readonly = "readonly" })
                     </div>
                     <div class="col-md-4">
                         <label for="CustomerName">Customer</label>
-                        @Html.TextBoxFor(m => m.CustomerName, new { @class = "form_input", autocomplete = "off" })
+                        @Html.TextBoxFor(m => m.CustomerName, new { @class = "form_input", autocomplete = "off", @readonly = "readonly" })
                     </div>
                     <div class="col-md-3">
                         <label for="CustomerOrderRef">CustomerOrderRef Order Ref.</label>
-                        @Html.TextBoxFor(m => m.CustomerOrderRef, new { @class = "form_input", autocomplete = "off" })
+                        @Html.TextBoxFor(m => m.CustomerOrderRef, new { @class = "form_input", autocomplete = "off", @readonly = "readonly" })
                     </div>
                 </div>
                     <table class="table table-bordered table-hover" id="tab_logic">
@@ -66,9 +66,9 @@
                                 <td>@Html.TextBoxFor(m => m.items[i].ItemName, new { @class = "form_input", autocomplete = "off", placeholder = "Material/Spares", @readonly = "readonly" }) </td>
                                 <td>@Html.TextBoxFor(m => m.items[i].Remarks, new { @class = "form_input", autocomplete = "off", placeholder = "Remarks" })</td>
                                 <td>@Html.TextBoxFor(m => m.items[i].WRRequestQty, new { @class = "form_input", @style = "text-align:right", autocomplete = "off", placeholder = "Qty", @readonly = "readonly" })</td>
-                                <td>@Html.TextBoxFor(m => m.items[i].MinLevel, new { @class = "form_input ", @style = "text-align:right", autocomplete = "off", placeholder = "Qty" })</td>
-                                <td>@Html.TextBoxFor(m => m.items[i].Quantity, new { @class = "form_input ", @style = "text-align:right", autocomplete = "off", placeholder = "Qty" })</td>
-                                <td>@Html.TextBoxFor(m => m.items[i].Quantity, new { @class = "form_input ", @style = "text-align:right", autocomplete = "off", placeholder = "Qty" })</td>
+                                <td>@Html.TextBoxFor(m => m.items[i].WRIssueQty, new { @class = "form_input ", @style = "text-align:right", autocomplete = "off", placeholder = "Qty" })</td>
+                                <td>@Html.TextBoxFor(m => m.items[i].MinLevel, new { @class = "form_input ", @style = "text-align:right", autocomplete = "off", @readonly = "readonly" })</td>
+                                <td>@Html.TextBoxFor(m => m.items[i].TotalQty, new { @class = "form_input ", @style = "text-align:right", autocomplete = "off", placeholder = "Qty" })</td>
                                 <td>@Html.TextBoxFor(m => m.items[i].CurrentStock, new { @class = "form_input ", @style = "text-align:right", autocomplete = "off", placeholder = "Qty" })</td>
                                 <td>@Html.TextBoxFor(m => m.items[i].Quantity, new { @class = "form_input clQuantity", @style = "text-align:right", autocomplete = "off", placeholder = "Qty" })</td>
                                 <td>@Html.TextBoxFor(m => m.items[i].UnitName, new { @class = "form_input", @style = "text-align:right", autocomplete = "off", @readonly = "readonly" })</td>
@@ -97,12 +97,12 @@
                     <div class="col-md-12">
                         <div class="row">
                             <div class="col-md-1">
-                                <label for="SplRemarks1">Spl.Remarks</label>
+                        <label for="SplRemarks1">Spl.Remarks</label>
                             </div>
                             <div class="col-md-11">
-                                <textarea id="SplRemarks1" autocomplete="off" class="form_input form_input-h"></textarea>
-                            </div>
-                            </div>
+                        <textarea id="SplRemarks1" autocomplete="off" class="form_input form_input-h"></textarea>
+                    </div>
+                </div>
                     </div>
                 </div>
                 <div class="row form-group">
