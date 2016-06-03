@@ -6955,6 +6955,16 @@ td.visible-print {
     {
         width:100% !important;
     }
+     .grid-left
+     {
+      float:none !important;
+     }
+    .form-button2 a 
+    {
+        width:100% !important;
+        margin-left:0 !important;
+        margin-bottom:10px !important;
+    }
 
 }
 

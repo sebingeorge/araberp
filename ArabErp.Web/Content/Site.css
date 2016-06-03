@@ -274,6 +274,7 @@ margin-top:0px;
     border:1px solid #d6d8de;
     border-bottom:0;
     border-left:0;
+    background-color:#fff;
 }
 .cent 
 {
@@ -288,6 +289,11 @@ margin-top:0px;
 {
     max-height: 293px;
     overflow:auto;
+}
+.maintd
+{
+    float:left;
+
 }
 
 
