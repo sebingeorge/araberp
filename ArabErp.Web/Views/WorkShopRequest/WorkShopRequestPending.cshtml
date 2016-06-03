@@ -11,10 +11,10 @@
         </div>
         <div class="main-part pad1">
 
-            <div class="table-responsive">
+            <div class="table-responsive border">
 
 
-                <div class="row border">
+                <div class="row">
 
                     <div class="col-md-12">
 
@@ -46,7 +46,7 @@
                             <div class="col-md-2 mtop">@Html.TextBoxFor(m => m.SaleOrders.ElementAt(i).EDateArrival, new { @class = "form_input", autocomplete = "off", @readonly = "readonly" })</div>
                             <div class="col-md-2 mtop">@Html.TextBoxFor(m => m.SaleOrders.ElementAt(i).EDateDelivery, new { @class = "form_input", autocomplete = "off", @readonly = "readonly" })</div>
                             @*  <div class="col-md-2 mtop"><center><button type="submit" class="form-button form-button1">Select</button></center></div>*@
-    <div class="col-md-2 mtop form-button2 form-button1"><center>@Html.ActionLink("Select", "CreateWorkShopRequest", "WorkShopRequest", new { SaleOrderId = Model.SaleOrders.ElementAt(i).SaleOrderId },null)</center></div>
+    <div class="col-md-2 mtop form-button2"><center>@Html.ActionLink("Select", "CreateWorkShopRequest", "WorkShopRequest", new { SaleOrderId = Model.SaleOrders.ElementAt(i).SaleOrderId },null)</center></div>
                             @*<div class="col-md-2 mtop">@Html.TextBoxFor(m => m.SaleOrders.ElementAt(i).EDateDelivery, String.Format("{0:dd/MM/yyyy}", Model.SaleOrders.ElementAt(i).EDateDelivery), new { @class = "form_input", autocomplete = "off", @readonly = "readonly" })</div>*@
                            
 

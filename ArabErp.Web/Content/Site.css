@@ -68,23 +68,29 @@ textarea {
 }
 .part
  {
-    height:50px;
-    margin-top:7px;
+    height:30px;
+    margin-top:9px;
 }
 
 .part1
  {
-    height:60px;
-    margin-top: -9px
+    height:44px;
+    margin-top: -9px;
+     margin-bottom:7px;
 }
 .part2
  {
     height:30px;
-    margin-top:7px;
+    margin-top:9px;
 }
 .part3
  {
     height:50px;
+}
+.part4
+ {
+    height:50px;
+    margin-top:9px;
 }
     .label1
      {
@@ -117,15 +123,17 @@ textarea {
     width: 92px;
     line-height:22px;
     margin-right:0;
+    margin-left:20px;
 }
 .form-button a 
 {
     height:22px;
 }
-.form-button a:hover
+.form-button2 a:hover
     {
     background-color:#434141;
-    color:#e6e0db;
+    color:#faeaea;
+    text-decoration:none;
     }
 .form-button:hover
     {
@@ -281,4 +289,5 @@ margin-top:0px;
     height: 293px;
     overflow: scroll;
 }
+
 

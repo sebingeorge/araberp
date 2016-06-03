@@ -6946,6 +6946,16 @@ td.visible-print {
         padding-left:40px !important;
     }
 
+
+    .form_input-half1 
+    {
+        width:100% !important;
+    }
+    .form_input-half2
+    {
+        width:100% !important;
+    }
+
 }
 
 @media only screen and (min-width:768px) and (max-width: 1024px)
@@ -7042,5 +7052,6 @@ td.visible-print {
 {
     margin-left: -4px !important;
 }
+
 }
 
