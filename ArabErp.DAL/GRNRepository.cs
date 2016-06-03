@@ -4,7 +4,10 @@ using System.Linq;
 using System.Data.SqlClient;
 using Dapper;
 using ArabErp.Domain;
+using ArabErp.DAL;
+using DapperExtensions;
 using System.Data;
+using System.Collections;
 
 namespace ArabErp.DAL
 {
@@ -79,6 +82,27 @@ namespace ArabErp.DAL
             }
         }
 
+        public IEnumerable<Stockpoint> GetWarehouseList()
+        {
+            using (IDbConnection connection = OpenConnection(dataConnection))
+            {
+                return connection.Query<Stockpoint>("select * from Stockpoint");
+            }
+        }
+
+        public List<GRNItem> GetGRNData(int SupplyOrderId)
+        {
+            using (IDbConnection connection = OpenConnection(dataConnection))
+            {
+
+                string query = "SELECT SELECT I.ItemName,I.ItemId,I.PartNo,OrderedQty,UnitName,Rate,Discount,Amount FROM SupplyOrderItem INNER JOIN Item I ON PurchaseRequestItemId=I.ItemId INNER JOIN Unit ON UnitId =I.ItemUnitId WHERE SupplyOrderId @SupplyOrderId";
+
+                return connection.Query<GRNItem>(query,
+                new { SupplyOrderId = SupplyOrderId }).ToList();
+
+
+            }
+        }
 
     }
 }

@@ -78,6 +78,19 @@ namespace ArabErp.DAL
             }
         }
 
+        public List<SupplyOrder> GetSupplyOrdersPendingWorkshopRequest()
+        {
+            using (IDbConnection connection = OpenConnection(dataConnection))
+            {
+                string sql = @"SELECT S.SupplierId,S.SupplierName,CONCAT(SupplyOrderId,'/',CONVERT(VARCHAR(15),SupplyOrderDate,104))SoNoWithDate,QuotaionNoAndDate 
+                               FROM SupplyOrder SO
+                               INNER JOIN Supplier S ON S.SupplierId=SO.SupplierId
+                               WHERE SO.isActive=1 ";
+                var objSupplyOrders = connection.Query<SupplyOrder>(sql).ToList<SupplyOrder>();
+                return objSupplyOrders;
+            }
+        }
+
 
     }
 }

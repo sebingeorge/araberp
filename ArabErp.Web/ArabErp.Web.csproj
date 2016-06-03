@@ -242,6 +242,7 @@
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
     <Compile Include="Models\PagedSaleOrderViewModel.cs" />
+    <Compile Include="Models\PagedSupplyOrderViewModel.cs" />
     <Compile Include="Pager.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Startup.cs" />
@@ -450,6 +451,7 @@
     <Content Include="Views\StockReturn\_StockReturnList.cshtml" />
     <Content Include="Views\AdditionalWorkShopRequest\_AdditionalItemsList.cshtml" />
     <Content Include="Views\WorkShopRequest\_DisplayWorkShopRequestData.cshtml" />
+    <Content Include="Views\GrnWareHouse\_DisplayGRNData.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
