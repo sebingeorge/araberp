@@ -54,6 +54,8 @@
                         <tr class="grid_heading">
 
                         
+                            
+                           
                             <th width="20%">Material/Spares</th>
                             <th width="10%">PartNo</th>
                             <th width="25%">Remarks</th>
@@ -72,13 +74,10 @@
                         {
                             <tr>
                                
-                                <td>
-                                    @Html.HiddenFor(m => m.items[i].ItemId)
-                                </td>
-                                                              
+                                                 
                                
                                 <td>@Html.TextBoxFor(m => m.items[i].ItemName, new { @class = "form_input", autocomplete = "off", placeholder = "Material/Spares", @readonly = "readonly" }) </td>
-                                <td>@Html.TextBoxFor(m => m.items[i].PartNo, new { @class = "form_input", autocomplete = "off", placeholder = "Part No.", @readonly = "readonly" })</td>
+                                <td> @Html.HiddenFor(m => m.items[i].ItemId) @Html.TextBoxFor(m => m.items[i].PartNo, new { @class = "form_input", autocomplete = "off", placeholder = "Part No.", @readonly = "readonly" })</td>
                                 <td>@Html.TextBoxFor(m => m.items[i].Remarks, new { @class = "form_input", autocomplete = "off", placeholder = "Remarks" })</td>
                                 <td>@Html.TextBoxFor(m => m.items[i].WRRequestQty, new { @class = "form_input", @style = "text-align:right", autocomplete = "off", placeholder = "Qty", @readonly = "readonly" })</td>
                                 <td>@Html.TextBoxFor(m => m.items[i].WRIssueQty, new { @class = "form_input ", @style = "text-align:right", autocomplete = "off", placeholder = "Qty" })</td>
