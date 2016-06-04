@@ -1,7 +1,78 @@
-﻿@{
+﻿@model IList<ArabErp.Domain.SalesInvoice>
+@using GridMvc.Html
+@{
     ViewBag.Title = "PendingSalesInvoice";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
+
+
+<style type="text/css">
+    .tableData {
+        font-size: 12px;
+        padding-left: 4px;
+    }
+
+    .list {
+        display: block;
+        height: 320px;
+        overflow-y: scroll;
+    }
+
+        .list tr:hover {
+            background-color: #DFEDF7;
+        }
+
+    .wrap {
+        width: 100%;
+    }
+
+        .wrap table {
+            width: 100%;
+            table-layout: fixed;
+        }
+
+    table tr td {
+        padding: 5px;
+        border: 1px solid #eee;
+        word-wrap: break-word;
+    }
+
+    table.head tr td {
+        background: #eee;
+    }
+
+    .inner_table {
+        height: 50%;
+        overflow-y: auto;
+    }
+
+    td.focus {
+        background-color: Blue;
+    }
+</style>
+<script>
+    function OpenCustomerInvoice(key) {
+        alert("Called");
+        var Url = '@Url.Action("PendingSalesInvoiceDt")';
+        $("#SalesInvoiceListDiv").load(Url, { SalesOrderId: key });
+    }
+
+
+    @*function FillItemSubGroup() {
+
+        var Code = $('#ItemGroupId').val();
+        //  alert(Code);
+        var Url = '@Url.Action("ItemSubGroup")';
+        if (Code == '') {
+            $("#DivItemSubGroup").load(Url, { Code: 0 });
+        }
+        else {
+            $("#DivItemSubGroup").load(Url, { Code: Code });
+        }
+    }*@
+
+</script>
+
 <div class="container">
 
     <div class="row">
@@ -10,140 +81,52 @@
             <h4>Pending Sales Invoice</h4>
         </div>
         <div class="main-part pad1">
-            <form method="post" action="@Url.Action("Create", "SalesInvoice")">
-                <div class=" table-responsive">
-                    <table class="table table-bordered">
-                        <thead>
-                            <tr class="grid_heading">
-                                <th><h1>SO No.& Date</h1></th>
-                                <th><h1>Customer</h1></th>
-                                <th><h1>Vehicle Model</h1></th>
-                                <th class=" text-right"><h1>Qty</h1></th>
-                                <th class=" text-right"><h1>Rate</h1></th>
-                                <th class=" text-right"><h1>Amount</h1></th>
-                                <th><h1>Select</h1></th>
-                            </tr>
-                        </thead>
-                        <tbody class="grid_row">
-                            <tr>
-                                <td>1</td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
+            @*<form>*@
+                <div class="wrap">
+                    <div class="table-responsive">
+                        <div class="wrap">
+                            <table>
+                                <tr>
+                                    <th>Customer</th>
+                                    <th>Sale Order Number</th>
 
-                            </tr>
-                            <tr>
-                                <td>2</td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
+                                    <th>Select</th>
 
-                            </tr>
-                            <tr>
-                                <td>3</td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
+                                </tr>
+                            </table>
+                            <div class="inner_table">
+                                <table id="PendingCustomerInvoiceTable">
+                                    @for (int i = 0; i < Model.Count(); i++)
+                                    {
+                                        <tr id="@i">
 
-                            </tr>
-                            <tr>
-                                <td>4</td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
+                                            <td>@Model[i].Customer</td>
+                                            <td>@Model[i].SaleOrderRefNoWithDate</td>
+                                            <td><a onclick="OpenCustomerInvoice('@Model[i].SaleOrderId');">Select</a></td>
+                                        </tr>
+                                    }
+                                </table>
+                            </div>
+                        </div>
 
-                            </tr>
-                        </tbody>
-                    </table>
+                    </div>
                 </div>
-                <div class=" table-responsive">
-                    <table class="table table-bordered">
-                        <thead>
-                            <tr class="grid_heading">
-                                <th><h1>SO No.& Date</h1></th>
-                                <th><h1>Customer</h1></th>
-                                <th><h1>Vehicle Model</h1></th>
-                                <th class=" text-right"><h1>Qty</h1></th>
-                                <th class=" text-right"><h1>Rate</h1></th>
-                                <th class=" text-right"><h1>Amount</h1></th>
-                                <th><h1>Select</h1></th>
-                            </tr>
-                        </thead>
-                        <tbody class="grid_row">
-                            <tr>
-                                <td>1</td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
+                <div id="SalesInvoiceListDiv">
 
-                            </tr>
-                            <tr>
-                                <td>2</td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
+                    @Html.Action("PendingSalesInvoiceDt", new { SalesOrderId = 0 })
 
-                            </tr>
-                            <tr>
-                                <td>3</td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
 
-                            </tr>
-                            <tr>
-                                <td>4</td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-
-                            </tr>
-                        </tbody>
-                    </table>
                 </div>
 
                 <div class="row">
-                    <div class="col-md-12">
-                        <div class="left">
-                            <button class="form-button">Previous</button>
-                        </div>
-                        <div class="margf">
-                            <button type="submit" class="form-button">Exit</button>
-                      
-                        
-                            <button type="submit" class="form-button">Proceed</button>
-                        </div>
-
+                    
                     </div>
 
 
                 </div>
-            </form>
+            @*</form>*@
         </div>
-</div></div>
+    </div>
+</div>
 
 

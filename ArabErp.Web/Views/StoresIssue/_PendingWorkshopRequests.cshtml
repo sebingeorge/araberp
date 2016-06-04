@@ -13,16 +13,13 @@
     {
         <tr id="@i">
             <td>
-                <span>@(i + 1)</span>
+                @Html.TextBoxFor(m => m[i].CustomerName, new { @class = "form_input", @disabled = "true" })
             </td>
             <td>
                 @Html.TextBoxFor(m => m[i].WorkShopRequestNo, new { @class = "form_input", @disabled = "true" })
             </td>
-            <td>@Html.TextBoxFor(m => m[i].WorkShopRequestDate, new { @class = "form_input", @disabled = "true" })</td>
+            @*<td>@Html.TextBoxFor(m => m[i].WorkShopRequestDate, new { @class = "form_input", @disabled = "true" })</td>*@
             <td>@Html.TextBoxFor(m => m[i].RequiredDate, new { @class = "form_input", @disabled = "true" })</td>
-            <td>
-                @Html.TextBoxFor(m => m[i].CustomerName, new { @class = "form_input", @disabled = "true" })
-            </td>
             <td align="center">
                 <button class="btn btn-xs btn-primary" onclick="Open('@Model[i].WorkShopRequestId')"><span class="glyphicon glyphicon-edit" style="top:2px"></span></button>
             </td>

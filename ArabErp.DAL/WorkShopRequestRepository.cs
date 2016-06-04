@@ -59,8 +59,10 @@ namespace ArabErp.DAL
         {
             using (IDbConnection connection = OpenConnection(dataConnection))
             {
-
-                string query = "SELECT I.ItemName,I.ItemId,I.PartNo,WI.Quantity,W.WorkDescriptionId,UnitName from WorkDescription W INNER JOIN  WorkVsItem WI on W.WorkDescriptionId=WI.WorkDescriptionId INNER JOIN Item I ON WI.ItemId=I.ItemId INNER JOIN Unit U on U.UnitId =I.ItemUnitId  INNER JOIN SaleOrderItem SI ON SI.WorkDescriptionId = W.WorkDescriptionId  WHERE SI.SaleOrderId=@SaleOrderId";
+                 
+                string query = "SELECT I.ItemName,I.ItemId,I.PartNo,SUM(WI.Quantity)Quantity,UnitName from WorkDescription W INNER JOIN  WorkVsItem WI on W.WorkDescriptionId=WI.WorkDescriptionId";
+                       query += " INNER JOIN Item I ON WI.ItemId=I.ItemId INNER JOIN Unit U on U.UnitId =I.ItemUnitId  INNER JOIN SaleOrderItem SI ON SI.WorkDescriptionId = W.WorkDescriptionId";
+                       query += " WHERE SI.SaleOrderId=@SaleOrderId GROUP BY I.ItemName,I.ItemId,I.PartNo,UnitName ";
 
                 return connection.Query<WorkShopRequestItem>(query,
                 new { SaleOrderId = SaleOrderId }).ToList();
@@ -221,7 +223,7 @@ namespace ArabErp.DAL
                 return connection.Query<WorkShopRequest>(@"SELECT WorkShopRequestId, SUM(Quantity) Quantity INTO #WORK FROM WorkShopRequestItem GROUP BY WorkShopRequestId;
                 SELECT WorkShopRequestId, SUM(IssuedQuantity) IssuedQuantity INTO #ISSUE FROM StoreIssueItem SII INNER JOIN StoreIssue SI ON  SII.StoreIssueId = SI.StoreIssueId GROUP BY WorkShopRequestId;
                 SELECT CustomerId, CustomerName INTO #CUSTOMER FROM Customer;
-                SELECT W.WorkShopRequestId, ISNULL(WR.WorkShopRequestNo, '-') WorkShopRequestNo, ISNULL(CONVERT(DATETIME, WR.WorkShopRequestDate, 106), WR.WorkShopRequestDate) WorkShopRequestDate, ISNULL(CONVERT(DATETIME, WR.RequiredDate, 106), WR.RequiredDate) RequiredDate, C.CustomerName FROM #WORK W LEFT JOIN #ISSUE I ON W.WorkShopRequestId = I.WorkShopRequestId INNER JOIN WorkShopRequest WR ON W.WorkShopRequestId = WR.WorkShopRequestId INNER JOIN #CUSTOMER C ON WR.CustomerId = C.CustomerId WHERE ISNULL(IssuedQuantity,0) < Quantity;
+                SELECT W.WorkShopRequestId, ISNULL(WR.WorkShopRequestNo, '-')+', '+CAST(CONVERT(DATETIME, WR.WorkShopRequestDate, 106) AS VARCHAR) WorkShopRequestNo, ISNULL(CONVERT(DATETIME, WR.RequiredDate, 106), WR.RequiredDate) RequiredDate, C.CustomerName FROM #WORK W LEFT JOIN #ISSUE I ON W.WorkShopRequestId = I.WorkShopRequestId INNER JOIN WorkShopRequest WR ON W.WorkShopRequestId = WR.WorkShopRequestId INNER JOIN #CUSTOMER C ON WR.CustomerId = C.CustomerId WHERE ISNULL(IssuedQuantity,0) < Quantity;
                 DROP TABLE #ISSUE;
                 DROP TABLE #WORK;
                 DROP TABLE #CUSTOMER;").ToList();
