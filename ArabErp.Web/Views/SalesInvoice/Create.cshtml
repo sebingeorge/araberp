@@ -1,8 +1,78 @@
-﻿
+﻿@model  ArabErp.Domain.SalesInvoice
 @{
     ViewBag.Title = "CreateSalesInvoice";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
+
+
+@{
+    var totalQuantity = Model.SaleInvoiceItems.Sum(a => a.QuantityTxt);
+    var totalDiscount = Model.SaleInvoiceItems.Sum(a => a.Discount);
+    var totalAmount = Model.SaleInvoiceItems.Sum(a => a.Amount);
+
+}
+
+
+<script>
+
+    $(document).ready(function () {
+        $("#Addition").keyup(function () {
+            
+            var TotalAmt = '@Model.SaleInvoiceItems.Sum(a => a.Amount)';
+            var Total = parseFloat("0");
+          
+            Total = parseFloat(TotalAmt)
+            if (isNaN(Total)) {
+                Total = parseFloat("0");
+            }
+            var AdditonAmt = parseFloat("0");
+            AdditonAmt = $("#Addition").val();
+           
+            AdditonAmt = parseFloat(AdditonAmt);
+            if (isNaN(AdditonAmt)) {
+                AdditonAmt = parseFloat("0");
+            }
+                var DeductionAmt = parseFloat("0");
+                DeductionAmt = $("#Deduction").val();
+                
+                DeductionAmt = parseFloat(DeductionAmt);
+                if (isNaN(DeductionAmt)) {
+                    DeductionAmt = parseFloat("0");
+                }
+                Tot = Total + AdditonAmt - DeductionAmt;
+                $("#TotalAmount").text(Tot);
+        });
+
+        $("#Deduction").keyup(function () {
+
+            var TotalAmt = '@Model.SaleInvoiceItems.Sum(a => a.Amount)';
+            var Total = parseFloat("0");
+
+            Total = parseFloat(TotalAmt)
+            if (isNaN(Total)) {
+                Total = parseFloat("0");
+            }
+            var AdditonAmt = parseFloat("0");
+            AdditonAmt = $("#Addition").val();
+
+            AdditonAmt = parseFloat(AdditonAmt);
+            if (isNaN(AdditonAmt)) {
+                AdditonAmt = parseFloat("0");
+            }
+            var DeductionAmt = parseFloat("0");
+            DeductionAmt = $("#Deduction").val();
+
+            DeductionAmt = parseFloat(DeductionAmt);
+            if (isNaN(DeductionAmt)) {
+                DeductionAmt = parseFloat("0");
+            }
+            Tot = Total + AdditonAmt - DeductionAmt;
+            $("#TotalAmount").text(Tot);
+        });
+    });
+   
+
+</script>
         <div class="container">
 
             <div class="row">
@@ -11,124 +81,145 @@
                     <h4>Sales Invoice</h4>
                 </div>
                 <div class="main-part pad1">
-                    <form role="form">
-                        <div class="row form-group">
+                    @using (Html.BeginForm("Save", null, FormMethod.Post, new { @class = "createFrom", @id = "saleorder_form" }))
+                    {
+                        <div class="row form-group ">
                             <div class="col-md-2">
-                                <label for="invno">Invoice No.</label>
-                                <input type="text" id="invno" class="form_input" />
+                                <label for="SaleOrderRefNo">SO.No.</label>
+                                @Html.HiddenFor(m => Model.SaleOrderId)
+                                @Html.TextBoxFor(m=>m.SaleOrderRefNo, new { @class = "form_input", autocomplete = "off" })
                             </div>
-                            <div class="col-md-2 col-md-offset-8">
-                                <label for="inputDate">Date</label>
-                                <input type="date" id="inputDate" class="form_input" autocomplete="off" />
+                            <div class="col-md-2">
+                                <label for="SaleOrderDate">Date</label>
+                                @Html.TextBoxFor(m => m.CurrentDate, String.Format("{0:dd/MM/yyyy}", Model.CurrentDate), new { @class = "form_input ", autocomplete = "off", @readonly = "readonly" })
                             </div>
                         </div>
                         <div class="row form-group">
                             <div class="col-md-4">
-                                <label for="cus">Customer</label>
-                                <input type="text" id="cus" class="form_input" autocomplete="off" />
+                                <label for="selectCustomer">Customer</label>
+                                @*@Html.DropDownListFor(m => Model.Customer, (SelectList)ViewBag.customerlist, "Select Customer", new { @class = "form_input", autocomplete = "off", @onchange = "CustomerChanged(this);" })*@
+                                @Html.TextBoxFor(m => Model.Customer, new { @class = "form_input", autocomplete = "off" })
                             </div>
-                            <div class="col-md-2">
-                                <label for="cusref">Customer Order Ref.</label>
-                                <input type="text" id="cusref" class="form_input" />
-                            </div>
+
                             <div class="col-md-4">
-                                <label for="work">Work Description</label>
-                                <input type="text" id="work" class="form_input" autocomplete="off" />
+                                <label for="CustomerOrderRef">Customer Address</label>
+                                @Html.TextBoxFor(m => m.CustomerAddress, new { @class = "form_input", autocomplete = "off" })
+                                @*<input type="text" id="CustomerAddress" class="form_input" autocomplete="off" />*@
                             </div>
                             <div class="col-md-2">
-                                <label for="vehregno">Veh Reg No/Chasis No</label>
-                                <input type="text" id="vehregno" class="form_input" />
+                                <label for="CustomerOrderRef">Customer Order Ref.</label>
+                                @Html.TextBoxFor(m => m.CustomerOrderRef, new { @class = "form_input", autocomplete = "off" })
                             </div>
-                        </div>
-                        <div class=" table-responsive">
-                            <table class="table table-bordered">
-                                <thead>
-                                    <tr class="grid_heading">
-                                        <th><h1>Sl.No.</h1></th>
-                                        <th><h1>Work</h1></th>
-                                        <th><h1>Product</h1></th>
-                                        <th><h1>Spl Remarks</h1></th>
-                                        <th class="text-right "><h1>Qty.</h1></th>
-                                        <th><h1>Unit</th>
-                                        <th class="text-right "><h1>Rate</h1></th>
-                                        <th class="text-right "><h1>Discount Amt</h1></th>
-                                        <th class="text-right "><h1>Amount</h1></th>
-                                    </tr>
-                                </thead>
-                                <tbody class="grid_row">
-                                    <tr>
-                                        <td>1</td>
-                                        <td></td>
-                                        <td></td>
-                                        <td></td>
-                                        <td></td>
-                                        <td></td>
-                                        <td></td>
-                                        <td></td>
-                                        <td></td>
-                                    </tr>
-                                    <tr>
-                                        <td>2</td>
-                                        <td></td>
-                                        <td></td>
-                                        <td></td>
-                                        <td></td>
-                                        <td></td>
-                                        <td></td>
-                                        <td></td>
-                                        <td></td>
-                                    </tr>
-                                    <tr>
-                                        <td>3</td>
-                                        <td></td>
-                                        <td></td>
-                                        <td></td>
-                                        <td></td>
-                                        <td></td>
-                                        <td></td>
-                                        <td></td>
-                                        <td></td>
-                                    </tr>
-                                    <tr>
-                                        <td>4</td>
-                                        <td></td>
-                                        <td></td>
-                                        <td></td>
-                                        <td></td>
-                                        <td></td>
-                                        <td></td>
-                                        <td></td>
-                                        <td></td>
-                                    </tr>
-                                </tbody>
-                            </table>
-                        </div>
-                        <div class="row form-group">
-                            <div class="col-md-12">
-                                <label for="SplRemarks1">Spl.Remarks</label>
-                                <textarea id="SplRemarks1" autocomplete="off" class="form_input form_input-h"></textarea>
-                            </div>
-                        </div>
-                        <div class="row form-group">
-                            <div class="col-md-6">
-                                <label for="payterms">Payment Terms</label>
-                                <input type="text" id="payterms" class="form_input" />
-                            </div>
-                        </div>
-
-
-                      
-
-                        <div class="marg">
-                        
-                                <button type="submit" class="form-button">Exit</button>
-                           
-                           
-                                <button type="submit" class="form-button">Save</button>
                             
                         </div>
-                    </form>
-                    </div>
+                        <div class="row form-group">
+
+                        </div>
+
+    <div class="table-responsive">
+        <table class="table table-bordered table-hover" id="tab_logic">
+            <thead>
+                <tr class="grid_heading">
+                    <th width="2%" class="text-center"><h1>#</h1></th>
+                    <th width="25%" class="text-center"><h1>Work Description</h1></th>
+                    <th width="25%" class="text-center"><h1>Vehicle Model</h1></th>
+                    <th width="5%" class="text-right"><h1>Qty</h1></th>
+                    <th width="10%"><h1>UoM</h1></th>
+                    <th width="10%" class="text-right"><h1>Rate</h1></th>
+                    <th width="10%" class="text-right"><h1>Discount</h1></th>
+                    <th width="8%" class="text-right"><h1>Amount</h1></th>
+                </tr>
+            </thead>
+            <tbody>
+                @for (int i = 0; i < Model.SaleInvoiceItems.Count; i++)
+                {
+                    <tr id="Row_@i">
+                        <td>@(i+1) </td>
+                        @Html.HiddenFor(m=>Model.SaleInvoiceItems[i].SaleOrderItemId)
+                        @Html.HiddenFor(m => Model.SaleInvoiceItems[i].SaleOrderId)
+                        <td>@Html.TextBoxFor(m => Model.SaleInvoiceItems[i].WorkDescription, new { @class = "form_input", autocomplete = "off", @style = "text-align:right", placeholder = "Rate", @onchange = "QuantityChanged(" + i + ");" })</td>
+                        <td>@Html.TextBoxFor(m => Model.SaleInvoiceItems[i].VehicleModelName, new { @class = "form_input", autocomplete = "off", @style = "text-align:right", placeholder = "Rate", @onchange = "QuantityChanged(" + i + ");" })</td>
+                        <td>@Html.TextBoxFor(m => Model.SaleInvoiceItems[i].QuantityTxt, new { @class = "form_input", autocomplete = "off", @style = "text-align:right", placeholder = "Rate", @onchange = "QuantityChanged(" + i + ");" })</td>
+                        <td>@Html.TextBoxFor(m => Model.SaleInvoiceItems[i].Unit, new { @class = "form_input", autocomplete = "off", @style = "text-align:right", placeholder = "Rate", @onchange = "QuantityChanged(" + i + ");" })</td>
+                        <td>@Html.TextBoxFor(m => Model.SaleInvoiceItems[i].Rate, new { @class = "form_input", autocomplete = "off", @style = "text-align:right", placeholder = "Discount", @onchange = "QuantityChanged(" + i + ");" })</td>
+                        <td>@Html.TextBoxFor(m => Model.SaleInvoiceItems[i].Discount, new { @class = "form_input clAmount", autocomplete = "off", @style = "text-align:right", placeholder = "Amount", @readonly = "readonly" })</td>
+                        <td>@Html.TextBoxFor(m => Model.SaleInvoiceItems[i].Amount, new { @class = "form_input clAmount", autocomplete = "off", @style = "text-align:right", placeholder = "Amount", @readonly = "readonly" })</td>
+                    </tr>
+                }
+                @*<tr id='addr1'></tr>*@
+            </tbody>
+            <tfoot>
+                <tr class="grid_heading">
+                    <th width="5%" class="text-center"><h1></h1></th>
+                    <th width="25%" class="text-center"><h1></h1></th>
+                    <th width="25%" class="text-center"><h1>Total</h1></th>
+                    <th width="5%" class="text-right">@totalQuantity</th>
+                    <th width="10%"></th>
+                    <th width="10%" class="text-right"><h1></h1></th>
+                    <th width="7%" class="text-right">@totalDiscount</th>
+                    <th width="8%" class="text-right">@totalAmount</th>
+                </tr>
+            </tfoot>
+        </table>
+    </div>
+                        
+                        <div class="row form-group">
+                            <div class="col-md-12">
+                                <div class="part1">
+                                    @*@Html.TextBoxFor(m=>m.CurrencySymbol)*@
+                                    <label for="SpecialRemarks"><b>@(Model.CurrencySymbol)<span id="TotalAmount">@totalAmount </span></b></label>
+                                    
+                                    
+                                </div>
+                               
+                            </div>
+                        </div>
+
+
+
+                        <div class="row form-group">
+                            <div class="col-md-12">
+                                <div class="part1">
+                                    <label for="SpecialRemarks">Spl.Remarks</label>
+                                    @Html.TextAreaFor(m => m.SpecialRemarks, new { @class = "form_input form_input-h", autocomplete = "off" })
+                                </div>
+                                <div class="part">
+                                    <label for="PaymentTerms">Payment Terms</label>
+                                    @Html.TextBoxFor(m => m.PaymentTerms, new { @class = "form_input", autocomplete = "off" })
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="row form-group">
+                            <div class="part ">
+                                <div class="col-md-3">
+                                    <label for="PaymentTerms">Additional</label>
+                                    @Html.TextBoxFor(m => m.Addition, new { @Value = "0.00", @class = "form_input", autocomplete = "off" })
+                                </div>
+                                <div class="col-md-9">
+                                    <label for="PaymentTerms">Remarks</label>
+                                    @Html.TextBoxFor(m => m.AdditionRemarks, new { @class = "form_input", autocomplete = "off" })
+                                </div>
+                                </div>
+                            <div class="part ">
+                                <div class="col-md-3">
+                                    <label for="PaymentTerms">Deduction</label>
+                                    @Html.TextBoxFor(m => m.Deduction, new { @Value = "0.00", @class = "form_input", autocomplete = "off" })
+                                </div>
+                                <div class="col-md-9">
+                                    <label for="PaymentTerms">Remarks</label>
+                                    @Html.TextBoxFor(m => m.DeductionRemarks, new { @class = "form_input", autocomplete = "off" })
+                                </div>
+                            </div>
+                            </div>
+
+                        <div class="marg">
+                            <button class="form-button">Exit</button>
+                            <button type="submit" class="form-button">Save</button>
+
+                        </div>
+                    }
+                </div>
                 </div>
         </div>
 
