@@ -59,10 +59,12 @@
     <Compile Include="ItemGroup.cs" />
     <Compile Include="ItemSubGroup.cs" />
     <Compile Include="JobCard.cs" />
+    <Compile Include="JobCardCompletion.cs" />
     <Compile Include="JobCardQC.cs" />
     <Compile Include="JobCardQCParam.cs" />
     <Compile Include="JobCardTask.cs" />
     <Compile Include="JobCardTaskMaster.cs" />
+    <Compile Include="JobOrderPending.cs" />
     <Compile Include="OpeningStock.cs" />
     <Compile Include="Organization.cs" />
     <Compile Include="PendingSO.cs" />
