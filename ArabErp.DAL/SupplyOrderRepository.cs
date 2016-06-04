@@ -11,6 +11,8 @@ namespace ArabErp.DAL
     public class SupplyOrderRepository : BaseRepository
     {
         static string dataConnection = GetConnectionString("arab");
+        readonly log4net.ILog logger = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
+
 
         public int InsertSupplyOrder(SupplyOrder objSupplyOrder)
         {
@@ -37,10 +39,13 @@ namespace ArabErp.DAL
 
                 trn.Commit();
                 }
-                catch (Exception)
+                catch (Exception ex)
                 {
+                    logger.Error(ex.Message);
+
                     trn.Rollback();
-                    return 0;
+                    
+                    throw;
                 }
                 return id;
            
@@ -128,18 +133,7 @@ namespace ArabErp.DAL
             }
         }
 
-        public List<SupplyOrder> GetSupplyOrdersPendingWorkshopRequest()
-        {
-            using (IDbConnection connection = OpenConnection(dataConnection))
-            {
-                string sql = @"SELECT S.SupplierId,S.SupplierName,CONCAT(SupplyOrderId,'/',CONVERT(VARCHAR(15),SupplyOrderDate,104))SoNoWithDate,QuotaionNoAndDate 
-                               FROM SupplyOrder SO
-                               INNER JOIN Supplier S ON S.SupplierId=SO.SupplierId
-                               WHERE SO.isActive=1 ";
-                var objSupplyOrders = connection.Query<SupplyOrder>(sql).ToList<SupplyOrder>();
-                return objSupplyOrders;
-            }
-        }
+    
 
 
     }

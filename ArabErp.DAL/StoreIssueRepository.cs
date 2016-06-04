@@ -117,7 +117,7 @@ namespace ArabErp.DAL
         /// </summary>
         /// <param name="workshopRequestId"></param>
         /// <returns></returns>
-        public IEnumerable<StoreIssueItem> PendingWorkshopRequestDetails(int workshopRequestId)
+        public IEnumerable<StoreIssueItem> PendingWorkshopRequestItems(int workshopRequestId)
         {
             using (IDbConnection connection = OpenConnection(dataConnection))
             {
@@ -125,11 +125,31 @@ namespace ArabErp.DAL
                 SELECT SI.WorkShopRequestId, SII.WorkShopRequestItemId, WRI.ItemId, SUM(IssuedQuantity) IssuedQuantity INTO #ISSUE FROM StoreIssueItem SII INNER JOIN StoreIssue SI ON  SII.StoreIssueId = SI.StoreIssueId INNER JOIN WorkShopRequestItem WRI ON SII.WorkShopRequestItemId = WRI.WorkShopRequestItemId GROUP BY WRI.ItemId, SI.WorkShopRequestId, SII.WorkShopRequestItemId;
                 SELECT ItemId, ItemName, ItemUnitId INTO #ITEM FROM Item;
 				SELECT UnitId, UnitName INTO #UNIT FROM Unit;
-                SELECT /*W.WorkShopRequestId,*/ W.WorkShopRequestItemId, ITEM.ItemId, ITEM.ItemName, UNIT.UnitName, W.RequiredQuantity, ISNULL(I.IssuedQuantity, 0) IssuedQuantity, ISNULL((W.RequiredQuantity-ISNULL(I.IssuedQuantity, 0)), 0) PendingQuantity FROM #WORK W LEFT JOIN #ISSUE I ON W.WorkShopRequestId = I.WorkShopRequestId AND W.WorkShopRequestItemId = I.WorkShopRequestItemId INNER JOIN #ITEM ITEM ON W.ItemId = ITEM.ItemId INNER JOIN #UNIT UNIT ON ITEM.ItemUnitId = UNIT.UnitId WHERE W.WorkShopRequestId = 9 AND W.RequiredQuantity > ISNULL(I.IssuedQuantity, 0);
+				SELECT ItemId, SUM(ISNULL(Quantity, 0)) StockQuantity INTO #STOCK FROM StockUpdate GROUP BY ItemId;
+                SELECT /*W.WorkShopRequestId,*/ W.WorkShopRequestItemId, ITEM.ItemId, ITEM.ItemName, UNIT.UnitName, W.RequiredQuantity, ISNULL(I.IssuedQuantity, 0) IssuedQuantity, ISNULL((W.RequiredQuantity-ISNULL(I.IssuedQuantity, 0)), 0) PendingQuantity, ISNULL(STOCK.StockQuantity, 0) StockQuantity FROM #WORK W LEFT JOIN #ISSUE I ON W.WorkShopRequestId = I.WorkShopRequestId AND W.WorkShopRequestItemId = I.WorkShopRequestItemId INNER JOIN #ITEM ITEM ON W.ItemId = ITEM.ItemId INNER JOIN #UNIT UNIT ON ITEM.ItemUnitId = UNIT.UnitId INNER JOIN #STOCK STOCK ON ITEM.ItemId = STOCK.ItemId WHERE W.WorkShopRequestId = @WorkShopRequestId AND W.RequiredQuantity > ISNULL(I.IssuedQuantity, 0);
                 DROP TABLE #ISSUE;
                 DROP TABLE #WORK;
                 DROP TABLE #ITEM;
-                DROP TABLE #UNIT;", new { WorkShopRequestId = workshopRequestId }).ToList();
+                DROP TABLE #UNIT;
+                DROP TABLE #STOCK;", new { WorkShopRequestId = workshopRequestId }).ToList();
+            }
+        }
+        /// <summary>
+        /// Return head data of a workshop request like customer, workrequest number, sale order number, required date
+        /// </summary>
+        /// <param name="workshopRequestId"></param>
+        /// <returns></returns>
+        public string WorkshopRequestHeadDetails(int workshopRequestId)
+        {
+            using (IDbConnection connection = OpenConnection(dataConnection))
+            {
+                return connection.Query<string>(@"SELECT WorkShopRequestNo+', '+CONVERT(VARCHAR, WorkShopRequestDate, 106) WorkShopRequestNo, SaleOrderId, CustomerId, CONVERT(VARCHAR, RequiredDate, 106) RequiredDate INTO #WORK FROM WorkShopRequest WHERE WorkShopRequestId = @WorkShopRequestId;
+                    SELECT SaleOrderId, SaleOrderRefNo+', '+CONVERT(VARCHAR, SaleOrderDate, 106) SaleOrderRefNo INTO #SALE FROM SaleOrder;
+                    SELECT CustomerId, CustomerName INTO #CUS FROM Customer;
+                    SELECT W.WorkShopRequestNo+'|'+C.CustomerName+'|'+S.SaleOrderRefNo+'|'+W.RequiredDate FROM #WORK W INNER JOIN #CUS C ON W.CustomerId = C.CustomerId INNER JOIN #SALE S ON W.SaleOrderId = S.SaleOrderId
+                    DROP TABLE #CUS;
+                    DROP TABLE #SALE;
+                    DROP TABLE #WORK;", new { WorkShopRequestId = workshopRequestId }).First();
             }
         }
     }

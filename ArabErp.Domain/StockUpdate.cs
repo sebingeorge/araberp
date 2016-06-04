@@ -11,7 +11,7 @@ namespace ArabErp.Domain
         public int StockUpdateId { get; set; }
         public int StockPointId { get; set; }
         public int ItemId { get; set; }
-        public decimal Quantity { get; set; }
+        public decimal? Quantity { get; set; }
         public string StockPointType { get; set; }
         public string StockPointInOut { get; set; }
         public string CreatedBy { get; set; }

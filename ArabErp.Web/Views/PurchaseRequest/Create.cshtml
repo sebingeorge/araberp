@@ -20,6 +20,7 @@
         <div class="form-head1">
             <h4>Purchase Request</h4>
         </div>
+
         <div class="main-part pad1">
          @using (Html.BeginForm("Save", null, FormMethod.Post, new { @class = "createFrom" }))
          {
@@ -49,6 +50,7 @@
                         @Html.TextBoxFor(m => m.CustomerOrderRef, new { @class = "form_input", autocomplete = "off", @readonly = "readonly" })
                     </div>
                 </div>
+
                     <table class="table table-bordered table-hover" id="tab_logic">
                     <thead>
                         <tr class="grid_heading">
@@ -62,9 +64,9 @@
                             <th width="5%" class="text-right ">WR Req.Qty</th>
                             <th width="5%" class="text-right ">WRPending Issue.Qty</th>
                             <th width="5%" class="text-right ">Min.Stock</th>
-                            <th width="5%" class="text-right ">Tot.Required</th>
+                            <th width="5%" class="text-right ">Tot.Req.</th>
                             <th width="5%" class="text-right ">Curr Stock</th>
-                            <th width="5%" class="text-right ">PI.Qty</th>
+                            <th width="5%" class="text-right ">PR.Qty</th>
                             <th width="5%">UoM</th>
                         </tr>
                     </thead>

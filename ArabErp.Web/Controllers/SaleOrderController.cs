@@ -113,6 +113,11 @@ namespace ArabErp.Web.Controllers
             string address = (new SaleOrderRepository()).GetCusomerAddressByKey(cusKey);
             return Json(new { Success = true, Result = res, Address = address }, JsonRequestBehavior.AllowGet);
         }
+        public JsonResult GetVehicleModel(int WorkDescriptionId)
+        {
+            string str = new SaleOrderRepository().GetVehicleModel(WorkDescriptionId);
+            return Json(str, JsonRequestBehavior.AllowGet);
+        }
 
     }
 }
