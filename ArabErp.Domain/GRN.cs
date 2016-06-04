@@ -15,8 +15,9 @@ namespace ArabErp.Domain
         public int SupplierId { get; set; }
         public string SONODATE { get; set; }
         public int SupplyId { get; set; }
-        public int WareHouseId { get; set; }
+        public int StockPointId { get; set; }
         public string SupplierDCNoAndDate { get; set; }
+        public string QuotaionNoAndDate { get; set; }
         public string SpecialRemarks { get; set; }
         public string CreatedBy { get; set; }
         public DateTime? CreatedDate { get; set; }
