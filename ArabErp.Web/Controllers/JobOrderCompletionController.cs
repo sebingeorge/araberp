@@ -21,6 +21,8 @@ namespace ArabErp.Web.Controllers
             var jobcard = repo.GetJobCardCompletion(Id);
             FillEmployee();
             FillTaks(jobcard.WorkDescriptionId ?? 0);
+
+            jobcard.JobCardDate = DateTime.Now;
             return View(jobcard);
         }
         public ActionResult PendingJobOrderCompletion()
