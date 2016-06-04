@@ -85,6 +85,21 @@
         //$("#QtyTotal").text(quantity);
         $("#QtyAmount").text(amount);
     }
+
+    function OnWorkChange(sender, index) {
+        
+        var id = $(sender).val();
+        if (id != '') {
+            var url = '@Url.Action("GetVehicleModel")';
+            $.getJSON(url, { WorkDescriptionId: id },
+                function (data) {
+                $("#Items_"+index+"__VehicleModelId").val(data);
+                });
+        }
+        else {
+          
+        }
+    }
 </script>
 
     
@@ -112,7 +127,7 @@
                             </td>
                             <td>
                                 <input type="hidden" id="Row_@i" />
-                                @Html.DropDownListFor(m => m.Items[i].WorkDescriptionId, (SelectList)ViewBag.workdesclist, "select work description", new { @class = "form_input", autocomplete = "off" })
+                                @Html.DropDownListFor(m => m.Items[i].WorkDescriptionId, (SelectList)ViewBag.workdesclist, "select work description", new { @class = "form_input", autocomplete = "off",@onchange = "OnWorkChange(this," + i + ")" })
                             </td>
                             <td>@Html.DropDownListFor(m => m.Items[i].VehicleModelId, (SelectList)ViewBag.vehiclelist, "select vehicle", new { @class = "form_input", autocomplete = "off" })</td>
                             <td>@Html.TextBoxFor(m => m.Items[i].Quantity, new { @class = "form_input clQuantity", @style = "text-align:right", autocomplete = "off", placeholder = "Qty", @onchange = "QuantityChanged(" + i + ");" })</td>
