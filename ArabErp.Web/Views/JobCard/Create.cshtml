@@ -4,6 +4,33 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 <script>
+    $(document).ready(function() {
+        $('#saleorder_form').bootstrapValidator({
+            fields: {
+                JobCardNo: {
+                    validators: {
+                        notEmpty: {
+                            message: 'Please enter jobcard no.'
+                        }
+                    }
+                },
+                JobCardDate: {
+                    validators: {
+                        notEmpty: {
+                            message: 'Please select JobCard Date'
+                        }
+                    }
+                },
+                CustomerName: {
+                    validators: {
+                        notEmpty: {
+                            message: 'Please select customer'
+                        }
+                    }
+                }
+            }
+        });
+    });
     $(function () {
         $("#JobCardDate").datepicker({ dateFormat: "dd/MM/yy" }); 
         $("#RequiredDate").datepicker({ dateFormat: "dd/MM/yy" });
@@ -59,7 +86,7 @@
 </script>
 <div class="container">
         <div class="row">
-@using (Html.BeginForm("Save", null, FormMethod.Post, new { @class = "createFrom", @id = "saleorder_form" }))
+@using (Html.BeginForm("Save", null, FormMethod.Post, new { @class = "createFrom", @id = "jobcard_form" }))
 {
     <div class="form-head1">
         <h4>Job Card</h4>

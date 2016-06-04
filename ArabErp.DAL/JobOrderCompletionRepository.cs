@@ -65,7 +65,7 @@ namespace ArabErp.DAL
             int id = 0;
             using (IDbConnection connection = OpenConnection(dataConnection))
             {
-                string query = "update JobCard set JodCardCompletionStatus = 1, JodCardCompletedDate="+ jobcard.JobCardCompletedDate.ToString("dd-MMM-yyyy") +" where jobCardId=" + jobcard.JobCardId.ToString();
+                string query = "update JobCard set JodCardCompleteStatus = 1, JodCardCompletedDate='" + jobcard.JobCardCompletedDate.ToString("dd-MMM-yyyy") + "', WarrentyPeriod = '"+ jobcard.WarrentyPeriod.ToString("dd/MMM/yyyy") +"' where jobCardId=" + jobcard.JobCardId.ToString();
                 connection.Query(query);
                 int i = 0;
                 foreach (var item in jobcard.JobCardTask)
