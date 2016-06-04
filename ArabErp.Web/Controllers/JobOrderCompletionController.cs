@@ -45,7 +45,7 @@ namespace ArabErp.Web.Controllers
         {
             JobOrderCompletionRepository repo = new JobOrderCompletionRepository();
             repo.UpdateJobCardCompletion(model);
-            return View("PendingJobOrderCompletion");
+            return RedirectToAction("PendingJobOrderCompletion");
         }
     }
 }
