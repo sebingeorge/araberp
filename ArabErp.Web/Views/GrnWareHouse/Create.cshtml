@@ -2,74 +2,11 @@
 @{ViewBag.Title = "Create";Layout = "~/Views/Shared/_Layout.cshtml";}
 
 <script>
-    $(document).ready(function() {
-        $('#work_form').bootstrapValidator({
-            fields: {
-                grnno: {
-                    validators: {
-                        notEmpty: {
-                            message: 'Please Enter GRN No.'
-                        }
-                    }
-                },
-                inputDate: {
-                    validators: {
-                        notEmpty: {
-                            message: 'Please Select Date'
-                        }
-                    }
-                },
-                warehouse: {
-                    validators: {
-                        notEmpty: {
-                            message: 'Please Select Warehouse'
-                        }
-                    }
-                }
-
-         }
-        });
-
-    });
-
-    $(document).ready(function () {
-        $("#Items_0__SlNo").val('1');
-            $("#add_row").click(function () {
-                var i = 0;
-                var no = 1;
-                $('input[id^="Row_"]').each(function () {
-                    var id = this.id;
-                    no++;
-                    var row = Number(id.replace("Row_", ""));
-                    if(row>i)
-                    {
-                        i = row;
-                    }
-                });
-                i++;
-
-                var index = (new Date()).getTime(); // unique indexer
-                var clone = $('#Row_0').clone(); // clone the BatchProducts item
-                //Update the index of the clone
-
-                clone.html($(clone).html().replace(/\Items_0__/g, 'Items_' + i + '__'));
-                clone.html($(clone).html().replace(/\Items[0]./g, 'Items[' + i + '].'));
-                clone.html($(clone).html().replace(/\[0\]/g, '[' + i + ']'));
-                clone.html($(clone).html().replace(/\(0\)/g, '(' + i + ')'));
-                clone.html($(clone).html().replace(/Row_0/, 'Row_' + i + ''));
-                clone.html($(clone).html().replace(/slno1/, 'slno' + (i + 1) + ''));
-                $("#tab_logic").append('<tr id="' + i + '">' + clone.html() + '  </tr>');
-            });
-        });
-
-
-
-        $(document).ready(function () {
-            $('#inputDate')
-                .datepicker({
-                    format: 'dd/MM/yyyy'
-                })
-
+    function Exit() {
+        location.href = '@Url.Action("PendingGrnWareHouse")';
+    }
+    $(function () {
+        $("#GRNDate").datepicker({ dateFormat: "dd/MM/yy" });
         });
 
 </script>
@@ -79,10 +16,12 @@
         <div class="form-head1">
             <h4>GRN</h4> 
         </div>
+
         <div class="main-part pad1">
 
               @using (Html.BeginForm("Save", null, FormMethod.Post, new { @class = "createFrom" }))
               {
+                   @Html.HiddenFor(m => m.SupplierId, new { @class = "form_input", autocomplete = "off" })
                 <div class="row form-group">
                     <div class="col-md-2">
                         <label for=" GRNNo">GRN No. </label>
@@ -105,72 +44,59 @@
                     </div>
 
                 </div>
-                  
-                      @*@Html.Action("GRNData")*@
-                  
-                @*<div class=" table-responsive">
-                    <table class="table table-bordered">
-                        <thead>
-                            <tr class="grid_heading">
-                                <th><h1>Sl.No.</h1></th>
-                                <th><h1>Product</h1></th>
-                                <th><h1>Description</h1></th>
-                                <th><h1>Part No</h1></th>
-                                <th class="text-right "><h1>Qty</h1></th>
-                                <th class="text-right "><h1>Rate</h1></th>
-                                <th class="text-right "><h1>Discount</h1></th>
-                                <th class="text-right "><h1>Amount</h1></th>
-                            </tr>
-                        </thead>
-                        <tbody class="grid_row">
-                            <tr>
-                                <td>1</td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                            </tr>
-                            <tr>
-                                <td>2</td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                            </tr>
-                            <tr>
-                                <td>3</td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                            </tr>
-                            <tr>
-                                <td>4</td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>*@
-                  
+
+    <table class="table table-bordered table-hover" id="tab_logic">
+        <thead>
+            <tr class="grid_heading">
+                <th width="20%">Material/Spares</th>
+                <th width="10%">PartNo</th>
+                <th width="25%">Remarks</th>
+                <th width="5%" class="text-right ">Pending Qty</th>
+                <th width="5%" class="text-right ">Received Qty</th>
+                <th width="5%" class="text-right ">Unit</th>
+                <th width="5%" class="text-right ">Rate</th>
+                <th width="5%" class="text-right ">Discount</th>
+                <th width="5%" class="text-right ">Amount</th>
+            </tr>
+        </thead>
+        <tbody>
+            @for (int i = 0; i < Model.Items.Count; i++)
+            {
+                <tr>
+
+
+
+                    <td>@Html.TextBoxFor(m => m.Items[i].ItemName, new { @class = "form_input", autocomplete = "off", placeholder = "Material/Spares", @readonly = "readonly" }) </td>
+                    <td>@Html.HiddenFor(m => m.Items[i].ItemId) @Html.TextBoxFor(m => m.Items[i].PartNo, new { @class = "form_input", autocomplete = "off", placeholder = "Part No.", @readonly = "readonly" })</td>
+                    <td>@Html.TextBoxFor(m => m.Items[i].Remarks, new { @class = "form_input", autocomplete = "off", placeholder = "Remarks" })</td>
+                    <td>@Html.TextBoxFor(m => m.Items[i].Quantity, new { @class = "form_input", @style = "text-align:right", autocomplete = "off", placeholder = "Pending Qty", @readonly = "readonly" })</td>
+                    <td>@Html.TextBoxFor(m => m.Items[i].Quantity, new { @class = "form_input ", @style = "text-align:right", autocomplete = "off", placeholder = "Received Qty" })</td>
+                    <td>@Html.TextBoxFor(m => m.Items[i].Unit, new { @class = "form_input ", @style = "text-align:right", autocomplete = "off", @readonly = "Unit" })</td>
+                    <td>@Html.TextBoxFor(m => m.Items[i].Rate, new { @class = "form_input ", @style = "text-align:right", autocomplete = "off", placeholder = "Rate" })</td>
+                    <td>@Html.TextBoxFor(m => m.Items[i].Discount, new { @class = "form_input ", @style = "text-align:right", autocomplete = "off", placeholder = "Discount" })</td>
+                    <td>@Html.TextBoxFor(m => m.Items[i].Amount, new { @class = "form_input clQuantity", @style = "text-align:right", autocomplete = "off", placeholder = "Amount" })</td>
+                   
+                </tr>
+            }
+
+        </tbody>
+        <tfoot>
+            <tr class="grid_heading">
+
+                <th width="20%"></th>
+                <th width="10%"></th>
+                <th width="25%"></th>
+                <th width="5%"></th>
+                <th width="5%"></th>
+                <th width="5%"></th>
+                <th width="5%"></th>
+                <th width="5%"></th>
+                <th width="5%"></th>
+           </tr>
+        </tfoot>
+    </table>
+
+
                 <div class="row form-group">
                     <div class="col-md-12">
                         <label for="SplRemarks1">Spl.Remarks</label>
@@ -180,8 +106,8 @@
 
                 <div class="row form-group">
                     <div class="col-md-4">
-                        <label for="warehouse">WareHouse/Location</label>
-                        @Html.DropDownListFor(m => Model.WareHouseId, (SelectList)ViewBag.WarehouseList, "Select WareHouse", new { @class = "form_input", autocomplete = "off" })
+                        <label for="StockPointId">WareHouse/Location</label>
+                        @Html.DropDownListFor(m => Model.StockPointId, (SelectList)ViewBag.WarehouseList, "Select WareHouse", new { @class = "form_input", autocomplete = "off" })
                     </div>
                     <div class="col-md-4">
                         <label for="sdcno">Supplier DC No. & Date</label>
