@@ -35,7 +35,7 @@
             <form role="form" method="post" onsubmit="return formValidation()">
                 <div class="row form-group">
                     <div class="col-md-2">
-                        <label for="StoreIssueRefNo">SI No.</label>
+                        <label for="StoreIssueRefNo">SI.No.</label>
                         @Html.HiddenFor(m => m.WorkShopRequestId)
                         @Html.TextBoxFor(m => m.StoreIssueRefNo, new { @class = "form_input" })
                         @*<input type="text" id="sino" class="form_input" autocomplete="off" />*@
@@ -75,7 +75,7 @@
                                 <th class="text-right "><h1>Pending Qty.</h1></th>
                                 <th class="text-right "><h1>Stock Qty.</h1></th>
                                 <th class="text-right "><h1>Current Issued Qty</h1></th>
-                                <th><h1>Unit</h1></th>
+                                <th><h1>UoM</h1></th>
                             </tr>
                         </thead>
                         
