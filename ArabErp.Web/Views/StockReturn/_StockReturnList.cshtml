@@ -62,9 +62,9 @@
     <table class="table table-bordered table-hover" id="table-stock-return-list">
         <thead>
             <tr class="grid_heading">
-                <th width="1%"><h1>Sl.No.</h1></th>
-                <th width="25%"><h1>Material Spares</h1></th>
-                <th class="text-right" width="8%"><h1>Qty. Return</h1></th>
+                <th width="1%"><h1>#</h1></th>
+                <th width="25%"><h1>Material/Spares</h1></th>
+                <th class="text-right" width="6%"><h1>Qty. Return</h1></th>
                 <th width="5%"><h1>UoM</h1></th>
                 <th width="25%"><h1>Remarks</h1></th>
             </tr>
@@ -79,10 +79,10 @@
                     </td>
                     <td>
                         <input type="hidden" id="Row_@i" />
-                        @Html.DropDownListFor(m => m.Items[i].ItemId, (SelectList)ViewBag.productList, "Select Material", new { @class = "form_input", autocomplete = "off", @onchange = "OnItemChange(this," + i + ")" })
+                        @Html.DropDownListFor(m => m.Items[i].ItemId, (SelectList)ViewBag.productList, "Select Material/Spares", new { @class = "form_input", autocomplete = "off", @onchange = "OnItemChange(this," + i + ")" })
                     </td>
                     <td>@Html.TextBoxFor(m => m.Items[i].Quantity, new { @class = "form_input numbers-only text-right", autocomplete = "off", placeholder = "Qty" })</td>
-                    <td id="unit0" class="qreturn"></td>
+                    <td id="unit0" class="qreturn" style="vertical-align:middle"></td>
                     <td>@Html.TextBoxFor(m => m.Items[i].Remarks, new { @class = "form_input", autocomplete = "off", placeholder = "Remarks" })</td>
                 </tr>
             }

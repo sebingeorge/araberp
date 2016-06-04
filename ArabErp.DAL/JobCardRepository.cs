@@ -44,7 +44,24 @@ namespace ArabErp
                 return connection.Query<PendingSO>(query);
             }
         }
+        public JobCard GetJobCardDetails(int SoItemId)
+        {
+            using (IDbConnection connection = OpenConnection(dataConnection))
+            {
+                string query = "select S.SaleOrderId, SI.SaleOrderItemId,";
+                query += " GETDATE() JobCardDate, C.CustomerId, C.CustomerName, S.CustomerOrderRef, V.VehicleModelName,";
+                query += " ''ChasisNoRegNo, W.WorkDescriptionId, W.WorkDescr as WorkDescription, '' WorkShopRequestRef, ";
+                query += " 0 GoodsLanded, 0 BayId, 0 FreezerUnitId, 0 BoxId";
+                query += " from SaleOrder S inner join Customer C on S.CustomerId = C.CustomerId";
+                query += " inner join SaleOrderItem SI on SI.SaleOrderId = S.SaleOrderId";
+                query += " inner join VehicleModel V on V.VehicleModelId = SI.VehicleModelId";
+                query += " inner join WorkDescription W on W.WorkDescriptionId = SI.WorkDescriptionId";
+                query += " where SI.SaleOrderItemId = " + SoItemId.ToString();
 
+                JobCard jobcard = connection.Query<JobCard>(query).FirstOrDefault();
+                return jobcard;
+            }
+        }
         public string GetJobNumber(int id)
         {
             using (IDbConnection connection = OpenConnection(dataConnection))
@@ -65,14 +82,12 @@ namespace ArabErp
 
 
 
-        public string SaveJobCard(JobCard jc)
+        public int SaveJobCard(JobCard jc)
         {
             using (IDbConnection connection = OpenConnection(dataConnection))
             {
-
-                connection.Execute("Insert into JobCard (JobCardNo) Values ('" + jc.JobCardNo + "')");
-                var rtn = "Saved " + jc.JobCardNo;
-                return rtn;
+                var id = InsertJobCard(jc);
+                return id;
             }
         }
 
@@ -80,12 +95,33 @@ namespace ArabErp
         {
             using (IDbConnection connection = OpenConnection(dataConnection))
             {
-                string sql = @"insert  into JobCard(JobCardNo,JobCardDate,SaleOrderId,ChasisNoRegNo,WorkDescription,FreezerUnitId,BoxId,BayId,SpecialRemarks,RequiredDate,EmployeeId,CreatedBy,CreatedDate,OrganizationId) Values (@JobCardNo,@JobCardDate,@SaleOrderId,@ChasisNoRegNo,@WorkDescription,@FreezerUnitId,@BoxId,@BayId,@SpecialRemarks,@RequiredDate,@EmployeeId,@CreatedBy,@CreatedDate,@OrganizationId);
-            SELECT CAST(SCOPE_IDENTITY() as int)";
+                IDbTransaction trn = connection.BeginTransaction();
+                try
+                {
+                    int id = 0;
+                    string sql = @"insert  into JobCard(JobCardNo,JobCardDate,SaleOrderId,ChasisNoRegNo,WorkDescription,FreezerUnitId,BoxId,BayId,SpecialRemarks,RequiredDate,EmployeeId,CreatedBy,CreatedDate,OrganizationId) Values (@JobCardNo,@JobCardDate,@SaleOrderId,@ChasisNoRegNo,@WorkDescription,@FreezerUnitId,@BoxId,@BayId,@SpecialRemarks,@RequiredDate,@EmployeeId,@CreatedBy,@CreatedDate,@OrganizationId);
+                    SELECT CAST(SCOPE_IDENTITY() as int)";
 
+                    id = connection.Query<int>(sql, objJobCard,trn).Single();
 
-                var id = connection.Query<int>(sql, objJobCard).Single();
-                return id;
+                    int i = 0; ;
+                    foreach (var item in objJobCard.JobCardTasks)
+                    {
+                        item.JobCardId = id;
+                        item.SlNo = i;
+                        JobCardTaskRepository repo = new JobCardTaskRepository();
+                        var taskid = repo.InsertJobCardTask(item,connection,trn);
+                        i++;
+                    }
+                    trn.Commit();
+                    return id;
+                }
+                catch(Exception ex)
+                {
+                    trn.Rollback();
+                    return 0;
+                }
+                
             }
         }
 
@@ -185,6 +221,42 @@ namespace ArabErp
             }
         }
 
+        public IEnumerable<Bay> GetBayList()
+        {
+            using (IDbConnection connection = OpenConnection(dataConnection))
+            {
+                return connection.Query<Bay>("select BayId, BayName from Bay");
+            }
+        }
+
+        public IEnumerable<Employee> GetEmployeeList()
+        {
+            using (IDbConnection connection = OpenConnection(dataConnection))
+            {
+                return connection.Query<Employee>("select * from Employee");
+            }
+        }
+        public IEnumerable<Task> GetWorkVsTask(int workId)
+        {
+            using (IDbConnection connection = OpenConnection(dataConnection))
+            {
+                return connection.Query<Task>("select * from Task inner join WorkVsTask on TaskId = JobCardTaskMasterId where WorkDescriptionId = " + workId.ToString());
+            }
+        }
+        public IEnumerable<FreezerUnit> GetFreezerUnits()
+        {
+            using (IDbConnection connection = OpenConnection(dataConnection))
+            {
+                return connection.Query<FreezerUnit>("select * from FreezerUnit");
+            }
+        }
+        public IEnumerable<Box> GetBoxes()
+        {
+            using (IDbConnection connection = OpenConnection(dataConnection))
+            {
+                return connection.Query<Box>("select * from Box");
+            }
+        }
 
         //public void Dispose()
         //{

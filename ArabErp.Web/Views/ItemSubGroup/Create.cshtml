@@ -50,27 +50,32 @@
                 @using (Html.BeginForm("Save", null, FormMethod.Post, new { @class = "createFrom", @id = "ItemSubGroup_form" }))
                 {
                     <div class="col-md-4">
-                        <div class="part">
+                        <div class="part4">
                             <label for="ItemSubGroupRefNo">Code</label>
                             @Html.TextBoxFor(m => m.ItemSubGroupRefNo, new { @class = "form_input form_input-half", auocomplete = "off" })
                         </div>
-                        <div class="part">
+                        <div class="part4">
 
                             <label for="ItemGroupId">Group</label>
                             @Html.DropDownListFor(m => Model.ItemGroupId, (SelectList)ViewBag.ItemGroup, "Select Item Group", new { @class = "form_input", autocomplete = "off" })
                         </div>
 
-                        <div class="part">
+                        <div class="part4">
                             <label for="ItemSubGroupName">Name</label>
                             @Html.TextBoxFor(m => m.ItemSubGroupName, new { @class = "form_input", autocomplete = "off" })
                         </div>
 
-                        <div class="marg3">
-                            <button type="button" class="form-button top1">Exit</button>
 
+                        <div class="row">
 
-                            <button type="submit" class="form-button">Save</button>
+                            <div class="col-md-12 hrpart">
+                                <button type="button" class="form-button right">Exit</button>
+                                <button type="submit" class="form-button right">Save</button>
+                            </div>
+
                         </div>
+
+
 
 
 

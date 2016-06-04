@@ -1,0 +1,51 @@
+﻿@model IList<ArabErp.Domain.WorkShopRequest>
+
+@{
+    ViewBag.Title = "Pending Stores Issue";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+<div class="container">
+
+    <div class="row">
+
+        <div class="form-head1">
+            <h4>Pending Stores Issue</h4>
+        </div>
+
+        <div class="main-part pad1">
+                <div class=" table-responsive">
+                    <table class="table table-bordered">
+                        <thead>
+                            <tr class="grid_heading">
+                                <th><h1>Sl. No.</h1></th>
+                                <th><h1>Workshop Request No.</h1></th>
+                                <th><h1>Workshop Request Date</h1></th>
+                                <th><h1>Required Date</h1></th>
+                                <th><h1>Customer</h1></th>
+                                <th></th>
+                            </tr>
+                        </thead>
+
+                        @Html.Action("PendingWorkshopRequests")
+
+                    </table>
+                </div>
+
+                <!--<div class="row">
+                    <div class="col-md-12">
+                        <div class="margl">
+                            @*<button class="form-button">Previous</button>*@
+                        </div>
+                        <div class="margf">
+                            @*<button type="submit" class="form-button">Exit</button>*@
+                            @*<button type="submit" class="form-button">Proceed</button>*@
+                        </div>
+                    </div>
+
+                </div>-->
+        </div>
+    </div>
+</div>
+

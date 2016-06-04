@@ -20,9 +20,19 @@ namespace ArabErp.Web.Controllers
         {
             return View();
         }
-        public ActionResult Create()
+        public ActionResult Create(int? Id)
         {
-            return View();
+            JobCardRepository repo = new JobCardRepository();
+            JobCard model = repo.GetJobCardDetails(Id ?? 0);
+            model.JobCardTasks = new List<JobCardTask>();
+            model.JobCardTasks.Add(new JobCardTask());
+            model.JobCardDate = DateTime.Now;
+            FillBay();
+            FillEmployee();
+            FillTaks(model.WorkDescriptionId);
+            FillFreezerUnit();
+            FillBox();
+            return View(model);
         }
         public ActionResult PendingJobCard()
         {
@@ -32,12 +42,40 @@ namespace ArabErp.Web.Controllers
 
         public ActionResult Save(JobCard jc)
         {
-
-
-
             var data = new JobCardRepository().SaveJobCard(jc);
-            return Json(data);
+            return RedirectToAction("PendingJobCard");
            // return View();
+        }
+
+        public void FillBay()
+        {
+            JobCardRepository repo = new JobCardRepository();
+            var result = repo.GetBayList();
+            ViewBag.BayList = new SelectList(result, "BayId", "BayName");
+        }
+        public void FillEmployee()
+        {
+            JobCardRepository repo = new JobCardRepository();
+            var result = repo.GetEmployeeList();
+            ViewBag.EmployeeList = new SelectList(result, "EmployeeId", "EmployeeName");
+        }
+        public void FillTaks(int workId)
+        {
+            JobCardRepository repo = new JobCardRepository();
+            var result = repo.GetWorkVsTask(workId);
+            ViewBag.TaskList = new SelectList(result, "TaskId", "TaskName");
+        }
+        public void FillFreezerUnit()
+        {
+            JobCardRepository repo = new JobCardRepository();
+            var result = repo.GetFreezerUnits();
+            ViewBag.FreezerUnits = new SelectList(result, "FreezerUnitId", "FreezerUnitName");
+        }
+        public void FillBox()
+        {
+            JobCardRepository repo = new JobCardRepository();
+            var result = repo.GetBoxes();
+            ViewBag.Boxes = new SelectList(result, "BoxId", "BoxName");
         }
     }
 }

@@ -1,8 +1,18 @@
-﻿@{
+﻿@model IEnumerable<ArabErp.Domain.JobOrderPending>
+@{
     ViewBag.Title = "PendingJobOrderCompletion";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
+<script>
+    function GotoJobcardCompletion(id)
+    {
+        var url = '@Url.Action("Create")';
+        url = url + "?Id=" + id;
+        console.log(url);
+        window.location.href = url;
+    }
+</script>
 <div class="container">
 
     <div class="row">
@@ -11,70 +21,49 @@
             <h4>Pending Job Order Completion</h4>
         </div>
         <div class="main-part pad1">
-            <form method="post" action="@Url.Action("Create", "JobOrderCompletion")">
-                <div class=" table-responsive">
-                    <table class="table table-bordered">
-                        <thead>
-                            <tr class="grid_heading">
-                                <th><h1>JC No</h1></th>
-                                <th><h1>JC Date</h1></th>
-                                <th><h1>Customer</h1></th>
-                                <th><h1>Vehicle Model</h1></th>
-                                <th><h1>Select</h1></th>
-                            </tr>
-                        </thead>
-                        <tbody class="grid_row">
+            <div class=" table-responsive">
+                <table class="table table-bordered">
+                    <thead>
+                        <tr class="grid_heading">
+                            <th><h1>JC No</h1></th>
+                            <th><h1>JC Date</h1></th>
+                            <th><h1>Customer</h1></th>
+                            <th><h1>Vehicle Model</h1></th>
+                            <th><h1>Select</h1></th>
+                        </tr>
+                    </thead>
+                    <tbody class="grid_row">
+                        @foreach (var item in Model)
+                        {
                             <tr>
-                                <td>1</td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
+                                <td>@item.JobCardNo</td>
+                                <td>@item.JobCardDate.ToString("dd/MMM/yyyy")</td>
+                                <td>@item.CustomerName</td>
+                                <td>@item.VehicleModelName</td>
+                                <td><button class="form-button" onclick="GotoJobcardCompletion(@item.JobCardId)">Select</button></td>
                             </tr>
-                            <tr>
-                                <td>2</td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                            </tr>
-                            <tr>
-                                <td>3</td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                            </tr>
-                            <tr>
-                                <td>4</td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
-
-                <div class="row">
+                        }
+                    </tbody>
+                </table>
+            </div>
+            <div class="row">
 
 
-                    <div class="col-md-12">
-                        <div class="left">
-                            <button class="form-button">Previous</button>
-                        </div>
-                        <div class="margf">
-                            <button type="submit" class="form-button">Exit</button>
+                <div class="col-md-12">
+                    <div class="left">
+                        <button class="form-button">Previous</button>
+                    </div>
+                    <div class="margf">
+                        <button type="submit" class="form-button">Exit</button>
                         
                         
-                            <button type="submit" class="form-button">Proceed</button>
-                        </div>
-
+                        <button type="submit" class="form-button">Proceed</button>
                     </div>
 
-
                 </div>
-            </form>
+
+
+            </div>
         </div>
 </div></div>
 

@@ -13,16 +13,21 @@ namespace ArabErp.DAL
         static string dataConnection = GetConnectionString("arab");
 
 
-        public int InsertJobCardTask(JobCardTask objJobCardTask)
+        public int InsertJobCardTask(JobCardTask objJobCardTask, IDbConnection connection, IDbTransaction trn)
         {
-            using (IDbConnection connection = OpenConnection(dataConnection))
+            try
             {
-                string sql = @"insert  into StockReturnItem(JobCardId,JobCardTaskMasterId,SlNo,EmployeeId,TaskDate,Hours,ActualHours,CreatedBy,CreatedDate,OrganizationId) Values (@JobCardId,@JobCardTaskMasterId,@SlNo,@EmployeeId,@TaskDate,@Hours,@ActualHours,@CreatedBy,@CreatedDate,@OrganizationId);
-            SELECT CAST(SCOPE_IDENTITY() as int)";
+                string sql = @"insert  into JobCardTask(JobCardId,JobCardTaskMasterId,SlNo,EmployeeId,TaskDate,Hours,ActualHours,CreatedBy,CreatedDate,OrganizationId) Values 
+                (@JobCardId,@JobCardTaskId,@SlNo,@EmployeeId,@TaskDate,@Hours,@ActualHours,@CreatedBy,@CreatedDate,@OrganizationId);
+                SELECT CAST(SCOPE_IDENTITY() as int)";
 
 
-                var id = connection.Query<int>(sql, objJobCardTask).Single();
+                var id = connection.Query<int>(sql, objJobCardTask,trn).Single();
                 return id;
+            }
+            catch(Exception ex)
+            {
+                return 0;
             }
         }
 

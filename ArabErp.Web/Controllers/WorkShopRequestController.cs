@@ -17,21 +17,21 @@ namespace ArabErp.Web.Controllers
             return View();
         }
 
-        [HttpPost]
-        public ActionResult CreateWorkShopRequest(SaleOrder model)
+        [HttpGet]
+        public ActionResult CreateWorkShopRequest(int SaleOrderId)
         {
+            SaleOrderRepository rep = new SaleOrderRepository();
+
+            SaleOrder model = rep.GetSaleOrderForWorkshopRequest(SaleOrderId);
+
             WorkShopRequest objWorkShopRequest = new WorkShopRequest();
             objWorkShopRequest.CustomerOrderRef = model.CustomerOrderRef;
             objWorkShopRequest.SaleOrderId = model.SaleOrderId;
-            objWorkShopRequest.SaleOrderRefNo = model.SaleOrderRefNo;
-            objWorkShopRequest.CustomerOrderRef = model.CustomerName;
+            objWorkShopRequest.SoNoWithDate = model.SoNoWithDate;
+            objWorkShopRequest.CustomerOrderRef = model.CustomerOrderRef;
+            objWorkShopRequest.CustomerName= model.CustomerName;
             objWorkShopRequest.CustomerId = model.CustomerId;
-
-
-            FillUnit();
-            FillItem();
-
-
+            objWorkShopRequest.WorkDescription = rep.GetCombinedWorkDescriptionSaleOrderForWorkshopRequest(SaleOrderId).WorkDescription;
             objWorkShopRequest.WorkShopRequestDate = System.DateTime.Today;
             objWorkShopRequest.Items = new List<WorkShopRequestItem>();
             objWorkShopRequest.Items.Add(new WorkShopRequestItem());
@@ -56,32 +56,31 @@ namespace ArabErp.Web.Controllers
             return View(viewModel);
         }
 
-        public ActionResult Save(WorkShopRequest model)
-        {
+      
 
-            model.OrganizationId = 1;
-            model.CreatedDate = System.DateTime.Now;
-            model.CreatedBy = Request.ServerVariables["HTTP_X_FORWARDED_FOR"] ?? Request.ServerVariables["REMOTE_ADDR"];
-            new WorkShopRequestRepository().InsertWorkShopRequest(model);
+               public ActionResult WorkShopRequestData(SaleOrder model)
+             {
 
+                var repo = new WorkShopRequestRepository();
+                var WSList = repo.GetWorkShopRequestData(model.SaleOrderId);
+                model.Items = new List<SaleOrderItem>();
+                foreach (var item in WSList)
+                {
+                    model.Items.Add(new SaleOrderItem { PartNo = item.PartNo, ItemName = item.ItemName, Quantity = item.Quantity, UnitName = item.UnitName,ItemId=item.ItemId });
 
-           return RedirectToAction("WorkShopRequestPending");
-        }
+                }
+                return PartialView("_DisplayWorkShopRequestData", model);
+           }
+               [HttpPost]
+               public ActionResult Save(WorkShopRequest model)
+               {
 
-        public void FillUnit()
-        {
-            ItemRepository Repo = new ItemRepository();
-            var List = Repo.FillUnit();
-            ViewBag.unitlist = new SelectList(List, "Id", "Name");
-        }
-        public void FillItem()
-        {
-            ItemRepository Repo = new ItemRepository();
-            var List = Repo.FillItem();
-            ViewBag.ItemList = new SelectList(List, "Id", "Name");
-        }
+                   model.OrganizationId = 1;
+                   model.CreatedDate = System.DateTime.Now;
+                   model.CreatedBy = Request.ServerVariables["HTTP_X_FORWARDED_FOR"] ?? Request.ServerVariables["REMOTE_ADDR"];
+                   new WorkShopRequestRepository().InsertWorkShopRequest(model);
+                  return RedirectToAction("WorkShopRequestPending");
+               }
     }
-
-
 
 }

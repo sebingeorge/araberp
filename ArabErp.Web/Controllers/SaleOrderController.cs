@@ -31,14 +31,15 @@ namespace ArabErp.Web.Controllers
         }
         public ActionResult DisplaySOList()
         {
+            FillCurrency();
             FillWrkDesc();
             FillVehicle();
             FillUnit();
             SaleOrder saleOrder = new SaleOrder();
-
+         
             saleOrder.Items = new List<SaleOrderItem>();
             var item = new SaleOrderItem();
-
+           
             saleOrder.Items.Add(item);
             return PartialView("_DisplaySOList", saleOrder);
         }

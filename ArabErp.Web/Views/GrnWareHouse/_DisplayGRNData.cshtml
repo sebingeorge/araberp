@@ -1,0 +1,55 @@
+﻿@model  ArabErp.Domain.SupplyOrder
+
+<div class="table-responsive">
+    <table class="table table-bordered table-hover" id="tab_logic">
+        <thead>
+            <tr class="grid_heading">
+                <th width="20%">Material/Spares</th>
+                <th width="10%">Part No</th>
+                <th width="25%">Remarks</th>
+                <th width="5%" class="text-right ">Pending Qty</th>
+                <th width="5%" class="text-right ">Received Qty</th>
+                <th width="10%">Unit</th>
+                <th width="10%">Rate</th>
+                <th width="10%">Discount</th>
+                <th width="10%">Amount</th>
+            </tr>
+        </thead>
+        <tbody>
+            @for (int i = 0; i < Model.Items.Count; i++)
+            {
+                <tr>
+
+                    <td>
+                        @Html.HiddenFor(m => m.Items[i].PurchaseRequestItemId)
+                        @Html.TextBoxFor(m => m.Items[i].ItemName, new { @class = "form_input", autocomplete = "off", placeholder = "Material/Spares", @readonly = "readonly" })
+                    </td>
+                    <td>@Html.TextBoxFor(m => m.Items[i].PartNo, new { @class = "form_input", autocomplete = "off", placeholder = "Part No.", @readonly = "readonly" })</td>
+                    <td>@Html.TextBoxFor(m => m.Items[i].Remarks, new { @class = "form_input", autocomplete = "off", placeholder = "Remarks" })</td>
+
+                    <td>@Html.TextBoxFor(m => m.Items[i].PendingQuantity, new { @class = "form_input clQuantity", @style = "text-align:right", autocomplete = "off", placeholder = "Pending Qty", @readonly = "readonly" })</td>
+                    <td>@Html.TextBoxFor(m => m.Items[i].ReceivedQuantity, new { @class = "form_input clQuantity", @style = "text-align:right", autocomplete = "off", placeholder = "Received Qty" })</td>
+                    <td>@Html.TextBoxFor(m => m.Items[i].Unit, new { @class = "form_input", @style = "text-align:left", autocomplete = "off", placeholder = "Unit", @readonly = "readonly" })</td>
+                    <td>@Html.TextBoxFor(m => m.Items[i].Rate, new { @class = "form_input", @style = "text-align:right", autocomplete = "off", placeholder = "Rate", @readonly = "readonly" })</td>
+                    <td>@Html.TextBoxFor(m => m.Items[i].Discount, new { @class = "form_input", @style = "text-align:right", autocomplete = "off", placeholder = "Discount", @readonly = "readonly" })</td>
+                    <td>@Html.TextBoxFor(m => m.Items[i].Amount, new { @class = "form_input clQuantity", @style = "text-align:right", autocomplete = "off", placeholder = "Amount", @readonly = "readonly" })</td>
+                </tr>
+            }
+
+        </tbody>
+        <tfoot>
+            <tr class="grid_heading">
+
+                <th width="20%"></th>
+
+                <th width="10%"></th>
+                <th width="25%"></th>
+                <th width="5%" class="text-right "></th>
+                <th width="10%"></th>
+
+            </tr>
+        </tfoot>
+    </table>
+</div>
+
+

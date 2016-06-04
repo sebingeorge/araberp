@@ -14,17 +14,67 @@ namespace ArabErp.DAL
 
         public int InsertSupplyOrder(SupplyOrder objSupplyOrder)
         {
+
+            int id = 0;
             using (IDbConnection connection = OpenConnection(dataConnection))
             {
-                string sql = @"insert  into SupplyOrder(SupplyOrderDate,SupplierId,QuotaionNoAndDate,SpecialRemarks,PaymentTerms,DeliveryTerms,RequiredDate,CreatedBy,CreatedDate,OrganizationId,CreatedDate,OrganizationId) Values (@SupplyOrderDate,@SupplierId,@QuotaionNoAndDate,@SpecialRemarks,@PaymentTerms,@DeliveryTerms,@RequiredDate,@CreatedBy,@CreatedDate,@OrganizationId,@CreatedDate,@OrganizationId);
+
+                    IDbTransaction trn = connection.BeginTransaction();
+    try
+            { 
+                    string sql = @"insert  into SupplyOrder(SupplyOrderNo,SupplyOrderDate,SupplierId,QuotaionNoAndDate,SpecialRemarks,PaymentTerms,DeliveryTerms,RequiredDate,CreatedBy,CreatedDate,OrganizationId) Values (@SupplyOrderNo,@SupplyOrderDate,@SupplierId,@QuotaionNoAndDate,@SpecialRemarks,@PaymentTerms,@DeliveryTerms,@RequiredDate,@CreatedBy,@CreatedDate,@OrganizationId);
             SELECT CAST(SCOPE_IDENTITY() as int)";
 
 
-                var id = connection.Query<int>(sql, objSupplyOrder).Single();
+                 id = connection.Query<int>(sql, objSupplyOrder, trn).Single<int>();
+
+                var supplyorderitemrepo = new SupplyOrderItemRepository();
+                foreach (var item in objSupplyOrder.SupplyOrderItems)
+                {
+                    item.SupplyOrderId= id;
+                    supplyorderitemrepo.InsertSupplyOrderItem(item, connection, trn);
+                }
+
+                trn.Commit();
+                }
+                catch (Exception)
+                {
+                    trn.Rollback();
+                    return 0;
+                }
                 return id;
+           
+            }
+
+
+          
+            }
+
+        public List<SupplyOrderItem> GetPurchaseRequestItems(List<int> selectedpurchaserequests)
+        {
+            using (IDbConnection connection = OpenConnection(dataConnection))
+            {
+                string sql = @"select PurchaseRequestItemId,i.ItemName,i.PartNo,p.Quantity as BalQty from PurchaseRequestItem p join Item i on p.ItemId=i.ItemId
+                        where p.PurchaseRequestId in @selectedpurchaserequests";
+
+                var objPendingPurchaseRequests = connection.Query<SupplyOrderItem>(sql, new { selectedpurchaserequests = selectedpurchaserequests }).ToList<SupplyOrderItem>();
+
+                return objPendingPurchaseRequests;
             }
         }
 
+        public IEnumerable<PendingPurchaseRequest> GetPendingPurchaseRequest()
+        {
+            using (IDbConnection connection = OpenConnection(dataConnection))
+            {
+                string sql = @"select * from PurchaseRequest
+                        where isActive=1";
+
+                var objPendingPurchaseRequests = connection.Query<PendingPurchaseRequest>(sql).ToList<PendingPurchaseRequest>();
+
+                return objPendingPurchaseRequests;
+            }
+        }
 
         public SupplyOrder GetSupplyOrder(int SupplyOrderId)
         {
@@ -75,6 +125,19 @@ namespace ArabErp.DAL
 
                 var id = connection.Execute(sql, objSupplyOrder);
                 return id;
+            }
+        }
+
+        public List<SupplyOrder> GetSupplyOrdersPendingWorkshopRequest()
+        {
+            using (IDbConnection connection = OpenConnection(dataConnection))
+            {
+                string sql = @"SELECT S.SupplierId,S.SupplierName,CONCAT(SupplyOrderId,'/',CONVERT(VARCHAR(15),SupplyOrderDate,104))SoNoWithDate,QuotaionNoAndDate 
+                               FROM SupplyOrder SO
+                               INNER JOIN Supplier S ON S.SupplierId=SO.SupplierId
+                               WHERE SO.isActive=1 ";
+                var objSupplyOrders = connection.Query<SupplyOrder>(sql).ToList<SupplyOrder>();
+                return objSupplyOrders;
             }
         }
 

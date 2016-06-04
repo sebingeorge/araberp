@@ -110,14 +110,9 @@
             @using (Html.BeginForm("Save", null, FormMethod.Post, new { @class = "createFrom", @id = "wrkdescr_form" }))
             {
                 <div class="row">
-                    <div class="col-md-2">
-                    </div>
-
-
-
-                    <div class="col-md-8">
+                    <div class="col-md-4">
                         <div class="tick-main">
-                            @Html.CheckBoxFor(m => m.isNewInstallation, new {  autocomplete = "off" })
+                            @Html.CheckBoxFor(m => m.isNewInstallation, new { autocomplete = "off" })
 
 
                             <span class="text">New Installation</span>
@@ -135,47 +130,65 @@
                         </div>
                     </div>
 
-                        <div class="col-md-4">
-                            <label for="freezer">Freezer Type</label>
-                            @Html.DropDownListFor(m => Model.FreezerUnitId, (SelectList)ViewBag.FreezerUnitlist, "Select FreezerUnit", new { @class = "form_input", autocomplete = "off" })
-                        </div>
+                </div>
 
-                        <div class="col-md-4">
-                            <label for="box">Box Type</label>
-                            @Html.DropDownListFor(m => Model.BoxId, (SelectList)ViewBag.Boxlist, "Select Box", new { @class = "form_input", autocomplete = "off" })
+                    <div class="row">
 
 
-                        </div>
-                        <div class="col-md-4">
-                            <label for="VehicleModelId">
-                                Vehicle Model
-                            </label>
-                            @Html.DropDownListFor(m => Model.VehicleModelId, (SelectList)ViewBag.vehiclelist, "Select Vehicle", new { @class = "form_input", autocomplete = "off" })
+                       
+
+                        <div class="col-md-3">
+                            <div class="part4">
+                                <label for="freezer">Freezer Type</label>
+                                @Html.DropDownListFor(m => Model.FreezerUnitId, (SelectList)ViewBag.FreezerUnitlist, "Select FreezerUnit", new { @class = "form_input", autocomplete = "off" })
+                            </div>
+                            </div>
+
+                        <div class="col-md-3">
+                            <div class="part4">
+                                <label for="box">Box Type</label>
+                                @Html.DropDownListFor(m => Model.BoxId, (SelectList)ViewBag.Boxlist, "Select Box", new { @class = "form_input", autocomplete = "off" })
+
+                              </div>
+                            </div>
+                        <div class="col-md-3">
+                            <div class="part4">
+                                <label for="VehicleModelId">
+                                    Vehicle Model
+                                </label>
+                                @Html.DropDownListFor(m => Model.VehicleModelId, (SelectList)ViewBag.vehiclelist, "Select Vehicle", new { @class = "form_input", autocomplete = "off" })
+                            </div>
+                          </div>
+
+                        <div class="col-md-3">
+                            <div class="part4">
+                                <label for="name">Name</label>
+                                @Html.TextBoxFor(m => m.WorkDescr, new { @class = "form_input", autocomplete = "off" })
+                            </div>
+
                         </div>
 
-                    <div class="col-md-8">
-                        <div class="part">
-                            <label for="name">Name</label>
-                            @Html.TextBoxFor(m => m.WorkDescr, new { @class = "form_input", autocomplete = "off" })
-                        </div>
+
 
                     </div>
-
-                    <div class="col-md-2">
-                    </div>
-
+                
+                <div class="row">
+                    <div class="col-md-12">&nbsp;</div>
                 </div>
 
 
+
                 <div class="row">
-                    <div class="col-md-2">
-                    </div>
-                    <div class="col-md-8">
+
+
+                    <div class="col-md-12">
                         <div class="table-responsive">
                             <table class="table table-bordered table-hover" id="tab_item">
                                 <thead>
                                     <tr class="grid_heading">
-                                        <th>Items needed for work</th>
+                                        <th width="70%"><h1>Items</h1></th>
+                                        <th width="30%"><h1>Quantity</h1></th>
+
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -184,8 +197,13 @@
                                         <tr id="Row_item_@i">
 
                                             <td>
-                                               
+
                                                 @Html.DropDownListFor(m => m.WorkVsItems[i].ItemId, (SelectList)ViewBag.ItemList, "Select Item", new { @class = "form_input", autocomplete = "off" })
+                                            </td>
+
+                                            <td>
+
+                                                @Html.TextBoxFor(m => m.WorkVsItems[i].Quantity, new { @class = "form_input", autocomplete = "off" })
                                             </td>
 
                                         </tr>
@@ -195,24 +213,20 @@
 
                             </table>
                         </div>
+                        <div class="col-md-12">
+                            <a id="add_item_row" class="glyphicon glyphicon-plus"></a><a id='delete_item_row' style="float:right" class="glyphicon glyphicon-minus"></a>
+                        </div>
                     </div>
-
-
-
-                    <div class="col-md-4"> </div> <div class="col-md-8">
-                        <a id="add_item_row" class="glyphicon glyphicon-plus"></a><a id='delete_item_row' style="float:right" class="glyphicon glyphicon-minus"></a>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-md-2">
-                    </div>
-                    <div class="col-md-8">
+                    <div class="col-md-12">
                         <div class="table-responsive">
                             <table class="table table-bordered table-hover" id="tab_task">
                                 <thead>
                                     <tr class="grid_heading">
-                                        <th>Tasks executed for Work</th>
+                                        <th width="70%"><h1>Tasks executed for Work</h1></th>
+                                        <th width="30%"><h1>Hours</h1></th>
+                                        
                                     </tr>
+
                                 </thead>
                                 <tbody>
                                     @for (int i = 0; i < Model.WorkVsTasks.Count; i++)
@@ -223,6 +237,10 @@
                                               
                                                 @Html.DropDownListFor(m => m.WorkVsTasks[i].JobCardTaskMasterId, (SelectList)ViewBag.JobCardTaskMasterList, "Select Task", new { @class = "form_input", autocomplete = "off" })
                                             </td>
+                                            <td>
+
+                                                @Html.TextBoxFor(m => m.WorkVsTasks[i].Hours, new { @class = "form_input", autocomplete = "off" })
+                                            </td>
 
                                         </tr>
                                     }
@@ -230,42 +248,46 @@
                                 </tbody>
 
                             </table>
+
+
                         </div>
-                    </div>
-
-
-
-                    <div class="col-md-2"> </div> <div class="col-md-8">
-                        <a id="add_task_row" class="glyphicon glyphicon-plus"></a><a id='delete_task_row' style="float:right" class="glyphicon glyphicon-minus"></a>
-                    </div>
-                </div>
-                <div class="row">
-
-                    <div class="col-md-2">
-                    </div>
-                    <div class="col-md-8">
-                        <br /><br />
-
-
-
-
-                        <div class="marg5">
-                            <button type="submit" class="form-button top1">Exit</button>
-
-
-                            <button type="submit" class="form-button">Save</button>
+                        <div class="col-md-12">
+                            <a id="add_task_row" class="glyphicon glyphicon-plus"></a><a id='delete_task_row' style="float:right" class="glyphicon glyphicon-minus"></a>
                         </div>
 
 
+                        <div class="row">
+
+                            <div class="col-md-12 hrpart">
+                                <button type="button" class="form-button right">Exit</button>
+                                <button type="submit" class="form-button right">Save</button>
+                            </div>
+
+                        </div>
+
 
                     </div>
-                    <div class="col-md-2">
 
+ 
 
-                    </div>
 
 
                 </div>
+        
+
+
+
+
+
+
+
+
+
+
+                  
+
+
+
             }
         </div>
 

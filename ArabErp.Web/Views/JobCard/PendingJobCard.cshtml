@@ -1,16 +1,25 @@
 ﻿@using ArabErp.Domain
+@model IEnumerable<PendingSO>
 @{
     ViewBag.Title = "PendingJobCard";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
+<script>
+    function GotoJobcard(id)
+    {
+        var url = '@Url.Action("Create")';
+        url = url + "?Id=" + id;
+        console.log(url);
+        window.location.href = url;
+    }
+</script>
 <div class="container">
     <div class="row">
         <div class="form-head1">
             <h4>Pending Job Card</h4>
         </div>
-        <div class="main-part pad1">
-            <form method="post" action="@Url.Action("Create", "JobCard")">
-
+        <div class="main-part pad1 white">
+            <div class="main-grid main-grid-top scroll1">
                 <div class=" table-responsive">
                     <table class="table table-bordered">
                         <thead>
@@ -22,56 +31,39 @@
                                 <th><h1>Select</h1></th>
                             </tr>
                         </thead>
-                        <tbody class="grid_row">
-                            <tr>
-                                <td>1</td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                            </tr>
-                            <tr>
-                                <td>2</td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                            </tr>
-                            <tr>
-                                <td>3</td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                            </tr>
-                            <tr>
-                                <td>4</td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                            </tr>
-                        </tbody>
+                        @foreach (var item in Model)
+                        {
+                            <tbody class="grid_row">
+                                <tr>
+                                    <td class="grid-cell">@item.SaleOrderRefNo &amp; @item.SaleOrderDate.ToString("dd/MMM/yyyy")</td>
+                                    <td class="grid-cell">@item.CustomerName</td>
+                                    <td class="grid-cell">@item.CustomerOrderRef</td>
+                                    <td class="grid-cell">@item.VehicleModelName</td>
+                                    <td><center><button class="form-button4" onclick="GotoJobcard(@item.SaleOrderItemId)">Select</button></center></td>
+                                </tr>
+                            </tbody>
+                        }
                     </table>
                 </div>
+
+
+            </div>
+
+
+            <div class="col-md-12">
                 <div class="row">
-
-
-                    <div class="col-md-12">
-                        <div class="margl">
-                            <button class="form-button">Previous</button>
-                        </div>
-                        <div class="margf">
-                            <button type="submit" class="form-button">Exit</button>
-
-                            <button type="submit" class="form-button">Proceed</button>
-                        </div>
-
+                    <div class="margl">
+                        <button class="form-button">Previous</button>
                     </div>
+                    <div class="margf">
+                        <button type="submit" class="form-button">Exit</button>
 
-
+                        <button type="submit" class="form-button">Proceed</button>
+                    </div>
                 </div>
-            </form>
+
+            </div>
+
         </div>
     </div>
     </div>
