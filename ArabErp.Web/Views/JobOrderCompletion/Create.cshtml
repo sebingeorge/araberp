@@ -5,6 +5,8 @@
 }
 <script>
     $(function () {
+        $("#JobCardCompletedDate").val('@DateTime.Now.ToString("dd/MMM/yyyy")');
+        $("#WarrentyPeriod").val('@DateTime.Now.ToString("dd/MMM/yyyy")')
         $("#JobCardCompletedDate").datepicker({ dateFormat: "dd/MM/yy" });
         $("#WarrentyPeriod").datepicker({ dateFormat: "dd/MM/yy" });
         assignTaskDate();
@@ -49,7 +51,7 @@
         var template = clone.html();
         template.replace(/\JobCardTask_1__Existing/g, "JobCardTask_2__Existing")
         console.log(template);
-        
+
         $("#tab_logic").append('<tr id="Row_' + i + '" class="TaskRow">' + template + '  </tr>');
         $('#Row_' + i).find('.taskdate').datepicker({ dateFormat: "dd/MM/yy" });
         assignTaskDate();

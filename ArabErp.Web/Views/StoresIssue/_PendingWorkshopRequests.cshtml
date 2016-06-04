@@ -13,15 +13,17 @@
     {
         <tr id="@i">
             <td>
-                <span>@(i + 1)</span>
+                @Html.TextBoxFor(m => m[i].CustomerName, new { @class = "form_input", @disabled = "true" })
             </td>
             <td>
+                @* Workshop request number and date is received from db as a single string into 'WorkShopRequestNo' *@
                 @Html.TextBoxFor(m => m[i].WorkShopRequestNo, new { @class = "form_input", @disabled = "true" })
             </td>
-            <td>@Html.TextBoxFor(m => m[i].WorkShopRequestDate, new { @class = "form_input", @disabled = "true" })</td>
-            <td>@Html.TextBoxFor(m => m[i].RequiredDate, new { @class = "form_input", @disabled = "true" })</td>
             <td>
-                @Html.TextBoxFor(m => m[i].CustomerName, new { @class = "form_input", @disabled = "true" })
+                <input class="form_input" type="text" value="@Model[i].SoNoWithDate" disabled />
+            </td>
+            <td>
+                <input class="form_input" type="text" value="@Model[i].RequiredDate.Value.ToString("dd/MMM/yyyy")" disabled />
             </td>
             <td align="center">
                 <button class="btn btn-xs btn-primary" onclick="Open('@Model[i].WorkShopRequestId')"><span class="glyphicon glyphicon-edit" style="top:2px"></span></button>

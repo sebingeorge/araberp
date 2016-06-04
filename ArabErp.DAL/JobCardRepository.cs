@@ -40,7 +40,8 @@ namespace ArabErp
                 query += " from SaleOrder S inner join Customer C on S.CustomerId = C.CustomerId";
                 query += " inner join SaleOrderItem SI on SI.SaleOrderId = S.SaleOrderId";
                 query += " inner join VehicleModel V on V.VehicleModelId = SI.VehicleModelId";
-
+                query += " left join JobCard J on J.SaleOrderId = S.SaleOrderId";
+                query += " where J.SaleOrderId is null";
                 return connection.Query<PendingSO>(query);
             }
         }
@@ -95,6 +96,7 @@ namespace ArabErp
         {
             using (IDbConnection connection = OpenConnection(dataConnection))
             {
+                objJobCard.CreatedDate = DateTime.Now;
                 IDbTransaction trn = connection.BeginTransaction();
                 try
                 {

@@ -1,4 +1,4 @@
-﻿@model IList<ArabErp.Domain.Item>
+﻿@model IList<ArabErp.Domain.SalesInvoiceItem>
 @using GridMvc.Html
 
 <style type="text/css">
@@ -16,25 +16,84 @@
         .list tr:hover {
             background-color: #DFEDF7;
         }
+        
+    .wrap {
+        width: 100%;
+    }
+
+        .wrap table {
+            width: 100%;
+            table-layout: fixed;
+        }
+
+    table tr td {
+        padding: 5px;
+        border: 1px solid #eee;
+        
+        word-wrap: break-word;
+    }
+
+    table.head tr td {
+        background: #eee;
+    }
+
+    .inner_table {
+        height: 50%;
+        overflow-y: auto;
+    }
 </style>
-    <
+   @using (Html.BeginForm("Create", null, FormMethod.Post, new { @class = "createFrom", @id = "Item_form" }))
+                {
 <div class="table-responsive">
 
-    @Html.Grid(Model).Columns(columns =>
-                        {
-                            columns.Add(m => m.PartNo).Titled("Part No.").SetWidth(110);
-                            columns.Add(m => m.ItemName).Titled("Item Name").SetWidth(110);
-                            columns.Add(m => m.CategoryName).Titled("Item Category").SetWidth(110);
-                            columns.Add(m => m.ItemGroupName).Titled("Item Group").SetWidth(110);
-                            columns.Add(m => m.ItemSubGroupName).Titled("Item Sub Group").SetWidth(110);
-                            columns.Add().Encoded(false).Sanitized(false).SetWidth(30).RenderValueAs(o => @<a href="">Edit</a>);
-                            columns.Add().Encoded(false).Sanitized(false).SetWidth(30).RenderValueAs(o => @<a href="">Delete</a>);
+    <div class="wrap">
+        <table>
+            <tr>
+                <th>Vehicle Model</th>
+                <th>Quantity</th>
 
-                            //.Format("<a href="\"DeleteRecord?name={CategoryName}\"">{CategoryName}</a>");
+                <th>Rate</th>
+                <th>Amount</th>
 
-                            //columns.Add(m => m.CurrencyName).Sortable(true);
-                        }).WithPaging(10)
+            </tr>
+        </table>
+        <div class="inner_table">
+            <table id="PendingCustomerInvoiceTable">
+
+
+                @for (int i = 0; i < Model.Count(); i++)
+                {
+                    <tr>
+                        <td>@Model[i].VehicleModelName</td>
+                        <td>@Model[i].Quantity</td>
+                        <td>@Model[i].Rate</td>
+                        <td>@Model[i].Amount</td>
+                        <td>@Html.CheckBoxFor(model => Model[i].SelectStatus)</td>
+                        @Html.HiddenFor(model => Model[i].SaleOrderId)
+                        @Html.HiddenFor(model => Model[i].SaleOrderItemId)
+
+                     
+                       @* <td><a href="" onclick="OpenCustomerInvoice('@Model[i].SaleOrderId');">Select</a></td>*@
+                    </tr>
+                }
+
+            </table>
+            <div class="col-md-12">
+                        <div class="left">
+                            <button class="form-button">Previous</button>
+                        </div>
+                        <div class="margf">
+                            <button type="submit" class="form-button">Exit</button>
+
+
+                            <button type="submit" class="form-button">Proceed</button>
+                        </div>
+
+        </div>
+    </div>
 
 </div>
+    </div>
+                }
 
 

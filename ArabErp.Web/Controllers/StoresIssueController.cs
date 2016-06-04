@@ -41,7 +41,7 @@ namespace ArabErp.Web.Controllers
         }
         public PartialViewResult PendingWorkshopRequestDetails()
         {
-            StoreIssue _model = new StoreIssue{ Items=new StoreIssueRepository().PendingWorkshopRequestDetails(Convert.ToInt32(Request.QueryString["id"])).ToList()};
+            StoreIssue _model = new StoreIssue{ Items=new StoreIssueRepository().PendingWorkshopRequestItems(Convert.ToInt32(Request.QueryString["id"])).ToList()};
             return PartialView("_IssuanceItems", _model);
         }
         public void EmployeeDropdown()
@@ -51,6 +51,11 @@ namespace ArabErp.Web.Controllers
         public void StockpointDropdown()
         {
             ViewBag.stockpointList = new SelectList(new DropdownRepository().StockpointDropdown(), "Id", "Name");
+        }
+        public JsonResult WorkshopRequestHeadDetails(int workshopRequestId)
+        {
+            string data = new StoreIssueRepository().WorkshopRequestHeadDetails(workshopRequestId);
+            return Json(data, JsonRequestBehavior.AllowGet);
         }
     }
 }

@@ -28,6 +28,8 @@ namespace ArabErp.Web.Controllers
                                                   select p.PurchaseRequestId).ToList<int>();
 
             supplyorder.SupplyOrderItems = rep.GetPurchaseRequestItems(selectedpurchaserequests);
+            supplyorder.SupplyOrderDate = System.DateTime.Today;
+           
 
             FillSupplier();
 
