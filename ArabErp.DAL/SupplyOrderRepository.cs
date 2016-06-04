@@ -11,6 +11,8 @@ namespace ArabErp.DAL
     public class SupplyOrderRepository : BaseRepository
     {
         static string dataConnection = GetConnectionString("arab");
+        readonly log4net.ILog logger = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
+
 
         public int InsertSupplyOrder(SupplyOrder objSupplyOrder)
         {
@@ -37,10 +39,13 @@ namespace ArabErp.DAL
 
                 trn.Commit();
                 }
-                catch (Exception)
+                catch (Exception ex)
                 {
+                    logger.Error(ex.Message);
+
                     trn.Rollback();
-                    return 0;
+                    
+                    throw;
                 }
                 return id;
            

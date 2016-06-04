@@ -23,6 +23,14 @@
                         }
                     }
                 },
+
+                SupplierId: {
+                    validators: {
+                        notEmpty: {
+                            message: 'Please enter SupplyOrderDate'
+                        }
+                    }
+                },
                 RequiredDate: {
                     validators: {
                         notEmpty: {
@@ -60,7 +68,7 @@
                     </div>
                     <div class="col-md-2 col-md-offset-8">
                         <label for="inputDate">Date</label>
-                        @Html.TextBoxFor(m => m.SupplyOrderDate, new { @class = "form_input" })
+                        @Html.TextBoxFor(m => m.SupplyOrderDate, String.Format("{0:dd/MM/yyyy}", new { @class = "form_input" })
                     </div>
                 </div>
                 <div class="row form-group">
@@ -127,7 +135,7 @@
                 <div class="row form-group">
                     <div class="col-md-2">
                         <label for="reqdate">Required Date</label>
-                        @Html.TextBoxFor(m => m.RequiredDate, new { @class = "form_input" })
+                        @Html.TextBoxFor(m => m.RequiredDate, String.Format("{0:dd/MM/yyyy}", new { @class = "form_input" })
                     </div>
                 </div>
                 <div class="marg">
