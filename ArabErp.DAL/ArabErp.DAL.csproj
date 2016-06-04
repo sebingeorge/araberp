@@ -84,6 +84,7 @@
     <Compile Include="JobCardRepository.cs" />
     <Compile Include="JobCardTaskMasterRepository.cs" />
     <Compile Include="JobCardTaskRepository.cs" />
+    <Compile Include="JobOrderCompletionRepository.cs" />
     <Compile Include="OpeningStockRepository.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="PurchaseRequestItemRepository.cs" />
@@ -102,7 +103,7 @@
     <Compile Include="SupplierCategoryRepository.cs" />
     <Compile Include="SupplierRepository.cs" />
     <Compile Include="SupplyOrderItemRepository.cs" />
-    <Compile Include=".cs" />
+    <Compile Include="SupplyOrderRepository.cs" />
     <Compile Include="TaskRepository.cs" />
     <Compile Include="UnitRepository.cs" />
     <Compile Include="VehicleInPassRepository.cs" />

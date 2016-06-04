@@ -18,7 +18,8 @@
         <div class="form-head1">
             <h4>Pending Job Card</h4>
         </div>
-        <div class="main-part pad1">
+        <div class="main-part pad1 white">
+            <div class="main-grid main-grid-top scroll1">
                 <div class=" table-responsive">
                     <table class="table table-bordered">
                         <thead>
@@ -34,33 +35,35 @@
                         {
                             <tbody class="grid_row">
                                 <tr>
-                                    <td>@item.SaleOrderRefNo &amp; @item.SaleOrderDate.ToString("dd/MMM/yyyy")</td>
-                                    <td>@item.CustomerName</td>
-                                    <td>@item.CustomerOrderRef</td>
-                                    <td>@item.VehicleModelName</td>
-                                    <td><button class="form-button" onclick="GotoJobcard(@item.SaleOrderItemId)">Select</button></td>
+                                    <td class="grid-cell">@item.SaleOrderRefNo &amp; @item.SaleOrderDate.ToString("dd/MMM/yyyy")</td>
+                                    <td class="grid-cell">@item.CustomerName</td>
+                                    <td class="grid-cell">@item.CustomerOrderRef</td>
+                                    <td class="grid-cell">@item.VehicleModelName</td>
+                                    <td><center><button class="form-button4" onclick="GotoJobcard(@item.SaleOrderItemId)">Select</button></center></td>
                                 </tr>
                             </tbody>
-                        }                        
+                        }
                     </table>
                 </div>
+
+
+            </div>
+
+
+            <div class="col-md-12">
                 <div class="row">
-
-
-                    <div class="col-md-12">
-                        <div class="margl">
-                            <button class="form-button">Previous</button>
-                        </div>
-                        <div class="margf">
-                            <button type="submit" class="form-button">Exit</button>
-
-                            <button type="submit" class="form-button">Proceed</button>
-                        </div>
-
+                    <div class="margl">
+                        <button class="form-button">Previous</button>
                     </div>
+                    <div class="margf">
+                        <button type="submit" class="form-button">Exit</button>
 
-
+                        <button type="submit" class="form-button">Proceed</button>
+                    </div>
                 </div>
+
+            </div>
+
         </div>
     </div>
     </div>

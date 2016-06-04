@@ -15,11 +15,22 @@ namespace ArabErp.Web.Controllers
         {
             return View();
         }
-        public ActionResult Create(IList<PendingPurchaseRequest> model)
+        public ActionResult Create(IList<PendingPurchaseRequest> PendingPurchaseRequestItemsSelected)
         {
             SupplyOrder supplyorder = new SupplyOrder();
-            var item1 = new SupplyOrderItem();
-            supplyorder.SupplyOrderItems.Add(item1);
+  
+
+
+            SupplyOrderRepository rep = new SupplyOrderRepository();
+
+            List<int> selectedpurchaserequests = (from PendingPurchaseRequest p in PendingPurchaseRequestItemsSelected
+                                                  where p.Select
+                                                  select p.PurchaseRequestId).ToList<int>();
+
+            supplyorder.SupplyOrderItems = rep.GetPurchaseRequestItems(selectedpurchaserequests);
+
+            FillSupplier();
+
             return View(supplyorder);
         }
         public ActionResult PendingSupplyOrder()
@@ -31,5 +42,24 @@ namespace ArabErp.Web.Controllers
 
             return View(model);
         }
+
+        public void FillSupplier()
+        {
+            var repo = new SupplierRepository();
+            List<Dropdown> list = repo.FillSupplier();
+            ViewBag.SupplierList = new SelectList(list, "Id", "Name");
+        }
+
+        [HttpPost]
+        public ActionResult Save(SupplyOrder model)
+        {
+
+            model.OrganizationId = 1;
+            model.CreatedDate = System.DateTime.Now;
+            model.CreatedBy = Request.ServerVariables["HTTP_X_FORWARDED_FOR"] ?? Request.ServerVariables["REMOTE_ADDR"];
+            new SupplyOrderRepository().InsertSupplyOrder(model);
+            return RedirectToAction("PendingSupplyOrder");
+        }
+
     }
 }

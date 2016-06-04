@@ -59,8 +59,10 @@ namespace ArabErp.DAL
         {
             using (IDbConnection connection = OpenConnection(dataConnection))
             {
-
-                string query = "SELECT I.ItemName,I.ItemId,I.PartNo,WI.Quantity,W.WorkDescriptionId,UnitName from WorkDescription W INNER JOIN  WorkVsItem WI on W.WorkDescriptionId=WI.WorkDescriptionId INNER JOIN Item I ON WI.ItemId=I.ItemId INNER JOIN Unit U on U.UnitId =I.ItemUnitId  INNER JOIN SaleOrderItem SI ON SI.WorkDescriptionId = W.WorkDescriptionId  WHERE SI.SaleOrderId=@SaleOrderId";
+                 
+                string query = "SELECT I.ItemName,I.ItemId,I.PartNo,SUM(WI.Quantity)Quantity,UnitName from WorkDescription W INNER JOIN  WorkVsItem WI on W.WorkDescriptionId=WI.WorkDescriptionId";
+                       query += " INNER JOIN Item I ON WI.ItemId=I.ItemId INNER JOIN Unit U on U.UnitId =I.ItemUnitId  INNER JOIN SaleOrderItem SI ON SI.WorkDescriptionId = W.WorkDescriptionId";
+                       query += " WHERE SI.SaleOrderId=@SaleOrderId GROUP BY I.ItemName,I.ItemId,I.PartNo,UnitName ";
 
                 return connection.Query<WorkShopRequestItem>(query,
                 new { SaleOrderId = SaleOrderId }).ToList();

@@ -1,37 +1,118 @@
-﻿
-@{
-    ViewBag.Title = "Create";
-    Layout = "~/Views/Shared/_Layout.cshtml";
-}
+﻿@model  ArabErp.Domain.GRN
+@{ViewBag.Title = "Create";Layout = "~/Views/Shared/_Layout.cshtml";}
+
+<script>
+    $(document).ready(function() {
+        $('#work_form').bootstrapValidator({
+            fields: {
+                grnno: {
+                    validators: {
+                        notEmpty: {
+                            message: 'Please Enter GRN No.'
+                        }
+                    }
+                },
+                inputDate: {
+                    validators: {
+                        notEmpty: {
+                            message: 'Please Select Date'
+                        }
+                    }
+                },
+                warehouse: {
+                    validators: {
+                        notEmpty: {
+                            message: 'Please Select Warehouse'
+                        }
+                    }
+                }
+
+         }
+        });
+
+    });
+
+    $(document).ready(function () {
+        $("#Items_0__SlNo").val('1');
+            $("#add_row").click(function () {
+                var i = 0;
+                var no = 1;
+                $('input[id^="Row_"]').each(function () {
+                    var id = this.id;
+                    no++;
+                    var row = Number(id.replace("Row_", ""));
+                    if(row>i)
+                    {
+                        i = row;
+                    }
+                });
+                i++;
+
+                var index = (new Date()).getTime(); // unique indexer
+                var clone = $('#Row_0').clone(); // clone the BatchProducts item
+                //Update the index of the clone
+
+                clone.html($(clone).html().replace(/\Items_0__/g, 'Items_' + i + '__'));
+                clone.html($(clone).html().replace(/\Items[0]./g, 'Items[' + i + '].'));
+                clone.html($(clone).html().replace(/\[0\]/g, '[' + i + ']'));
+                clone.html($(clone).html().replace(/\(0\)/g, '(' + i + ')'));
+                clone.html($(clone).html().replace(/Row_0/, 'Row_' + i + ''));
+                clone.html($(clone).html().replace(/slno1/, 'slno' + (i + 1) + ''));
+                $("#tab_logic").append('<tr id="' + i + '">' + clone.html() + '  </tr>');
+            });
+        });
+
+
+
+        $(document).ready(function () {
+            $('#inputDate')
+                .datepicker({
+                    format: 'dd/MM/yyyy'
+                })
+
+        });
+
+</script>
+
 <div class="container">
     <div class="row">
         <div class="form-head1">
-            <h4>GRN-WareHouse</h4>
+            <h4>GRN</h4> 
         </div>
         <div class="main-part pad1">
-            <form role="form">
+
+              @using (Html.BeginForm("Save", null, FormMethod.Post, new { @class = "createFrom" }))
+              {
                 <div class="row form-group">
                     <div class="col-md-2">
-                        <label for=" grnno">GRN No. </label>
-                        <input type="text" id="grnno" class="form_input" autocomplete="off" />
+                        <label for=" GRNNo">GRN No. </label>
+                        @Html.TextBoxFor(m => m.GRNNo, new { @class = "form_input", autocomplete = "off" })
                     </div>
                     <div class="col-md-2 col-md-offset-8">
-                        <label for="inputDate">Date</label>
-                        <input type="date" id="inputDate" class="form_input" autocomplete="off" />
+                        <label for="GRNDate">Date</label>
+                        @Html.TextBoxFor(m => m.GRNDate, String.Format("{0:dd/MM/yyyy}", Model.GRNDate), new { @class = "form_input ", autocomplete = "off", @readonly = "readonly" })
                     </div>
                 </div>
                 <div class="row form-group">
                     <div class="col-md-4">
-                        <label for="selectCustomer">Supplier</label>
-                        <input type="text" id="supplier" class="form_input" autocomplete="off" />
+                        <label for="SupplierId">Supplier</label>
+                        @Html.TextBoxFor(m => m.Supplier, new { @class = "form_input", autocomplete = "off", @readonly = "readonly" })
                     </div>
+
+                    <div class="col-md-4">
+                        <label for="SONODATE">SO No. & Date</label>
+                         @Html.TextBoxFor(m => m.SONODATE, new { @class = "form_input", autocomplete = "off", @readonly = "readonly" })
+                    </div>
+
                 </div>
-                <div class=" table-responsive">
+                  
+                      @*@Html.Action("GRNData")*@
+                  
+                @*<div class=" table-responsive">
                     <table class="table table-bordered">
                         <thead>
                             <tr class="grid_heading">
                                 <th><h1>Sl.No.</h1></th>
-                                <th><h1>SO No & Date</h1></th>
                                 <th><h1>Product</h1></th>
                                 <th><h1>Description</h1></th>
                                 <th><h1>Part No</h1></th>
@@ -88,27 +169,23 @@
                             </tr>
                         </tbody>
                     </table>
-                </div>
+                </div>*@
+                  
                 <div class="row form-group">
                     <div class="col-md-12">
                         <label for="SplRemarks1">Spl.Remarks</label>
-                        <textarea id="SplRemarks1" autocomplete="off" class="form_input form_input-h"></textarea>
+                        @Html.TextAreaFor(m => m.SpecialRemarks, new { @class = "form_input", autocomplete = "off" })
                     </div>
                 </div>
 
                 <div class="row form-group">
                     <div class="col-md-4">
                         <label for="warehouse">WareHouse/Location</label>
-                        <select id="warehouse" class="form_input" autocomplete="off">
-                            <option>Select WareHouse</option>
-                            <option>WareHouse1</option>
-                            <option>WareHouse2</option>
-                            <option>WareHouse3</option>
-                        </select>
+                        @Html.DropDownListFor(m => Model.WareHouseId, (SelectList)ViewBag.WarehouseList, "Select WareHouse", new { @class = "form_input", autocomplete = "off" })
                     </div>
                     <div class="col-md-4">
                         <label for="sdcno">Supplier DC No. & Date</label>
-                        <input type="text" id="sdcno" class="form_input" autocomplete="off" />
+                        @Html.TextAreaFor(m => m.SupplierDCNoAndDate, new { @class = "form_input", autocomplete = "off" })
                     </div>
                 </div>
 
@@ -117,7 +194,7 @@
                     <button type="submit" class="form-button">Save</button>
                   
                 </div>
-            </form>
+              }
             </div>
         </div>
 </div>

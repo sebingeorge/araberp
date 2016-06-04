@@ -4,6 +4,11 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 <script>
+
+    function Exit()
+    {
+        location.href = '@Url.Action("PendingPurchaseRequest")';
+    }
     $(function () {
         $("#PurchaseRequestDate").datepicker({ dateFormat: "dd/MM/yy" });
         $("#RequiredDate").datepicker({ dateFormat: "dd/MM/yy" });
@@ -16,6 +21,9 @@
             <h4>Purchase Request</h4>
         </div>
         <div class="main-part pad1">
+         @using (Html.BeginForm("Save", null, FormMethod.Post, new { @class = "createFrom" }))
+         {
+            @Html.HiddenFor(m => m.WorkShopRequestId, new { @class = "form_input", autocomplete = "off" })
             <form role="form">
                 <div class="row form-group">
                     <div class="col-md-2">
@@ -24,7 +32,7 @@
                     </div>
                     <div class="col-md-2">
                         <label for="PurchaseRequestDate">Date</label>
-                        @Html.TextBoxFor(m => m.PurchaseRequestDate, String.Format("{0:dd/MM/yyyy}", Model.PurchaseRequestDate), new { @class = "form_input", autocomplete = "off" })
+                        @Html.TextBoxFor(m => m.PurchaseRequestDate, String.Format("{0:dd/MM/yyyy}", Model.PurchaseRequestDate), new { @class = "form_input", autocomplete = "off", @readonly = "readonly" })
                     </div>
                 </div>
                 <div class="row form-group">
@@ -45,8 +53,11 @@
                     <thead>
                         <tr class="grid_heading">
 
-                            <th width="10%">PartNo</th>
+                        
+                            
+                           
                             <th width="20%">Material/Spares</th>
+                            <th width="10%">PartNo</th>
                             <th width="25%">Remarks</th>
                             <th width="5%" class="text-right ">WR Req.Qty</th>
                             <th width="5%" class="text-right ">WRPending Issue.Qty</th>
@@ -62,8 +73,11 @@
                    
                         {
                             <tr>
-                                <td>@Html.TextBoxFor(m => m.items[i].PartNo, new { @class = "form_input", autocomplete = "off", placeholder = "Part No.", @readonly = "readonly" })</td>
+                               
+                                                 
+                               
                                 <td>@Html.TextBoxFor(m => m.items[i].ItemName, new { @class = "form_input", autocomplete = "off", placeholder = "Material/Spares", @readonly = "readonly" }) </td>
+                                <td> @Html.HiddenFor(m => m.items[i].ItemId) @Html.TextBoxFor(m => m.items[i].PartNo, new { @class = "form_input", autocomplete = "off", placeholder = "Part No.", @readonly = "readonly" })</td>
                                 <td>@Html.TextBoxFor(m => m.items[i].Remarks, new { @class = "form_input", autocomplete = "off", placeholder = "Remarks" })</td>
                                 <td>@Html.TextBoxFor(m => m.items[i].WRRequestQty, new { @class = "form_input", @style = "text-align:right", autocomplete = "off", placeholder = "Qty", @readonly = "readonly" })</td>
                                 <td>@Html.TextBoxFor(m => m.items[i].WRIssueQty, new { @class = "form_input ", @style = "text-align:right", autocomplete = "off", placeholder = "Qty" })</td>
@@ -97,10 +111,10 @@
                     <div class="col-md-12">
                         <div class="row">
                             <div class="col-md-1">
-                        <label for="SplRemarks1">Spl.Remarks</label>
+                                <label for="SpecialRemarks">Spl.Remarks</label>
                             </div>
                             <div class="col-md-11">
-                        <textarea id="SplRemarks1" autocomplete="off" class="form_input form_input-h"></textarea>
+                                @Html.TextBoxFor(m => m.SpecialRemarks, new { @class = "form_input", autocomplete = "off" })
                     </div>
                 </div>
                     </div>
@@ -108,15 +122,16 @@
                 <div class="row form-group">
                     <div class="col-md-2">
                         <label for="RequiredDate">Required Date</label>
-                        @Html.TextBoxFor(m => m.RequiredDate, new { @class = "form_input", autocomplete = "off" })
+                        @Html.TextBoxFor(m => m.RequiredDate, new { @class = "form_input", autocomplete = "off", @readonly = "readonly" })
                     </div>
                 </div>
                 <div class="marg">
-                    <button class="form-button">Exit</button>
+                    <button type="button" class="form-button right" onclick="Exit()">Exit</button>
                     <button type="submit" class="form-button">Save</button>
                   
                 </div>
             </form>
+}
             </div>
         </div>
 </div>

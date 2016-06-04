@@ -43,7 +43,7 @@ namespace ArabErp.Web.Controllers
         public ActionResult Save(JobCard jc)
         {
             var data = new JobCardRepository().SaveJobCard(jc);
-            return View("PendingJobCard");
+            return RedirectToAction("PendingJobCard");
            // return View();
         }
 

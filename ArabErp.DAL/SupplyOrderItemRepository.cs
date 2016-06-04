@@ -12,17 +12,16 @@ namespace ArabErp.DAL
     {
         static string dataConnection = GetConnectionString("arab");
 
-        public int InsertSupplyOrderItem(SupplyOrderItem objSupplyOrderItem)
+        public int InsertSupplyOrderItem(SupplyOrderItem objSupplyOrderItem, IDbConnection connection, IDbTransaction trn)
         {
-            using (IDbConnection connection = OpenConnection(dataConnection))
-            {
+           
                 string sql = @"insert  into SupplyOrderItem(SupplyOrderId,PurchaseRequestItemId,SlNo,BalQty,OrderedQty,Rate,Discount,Amount,CreatedBy,CreatedDate,OrganizationId,isActive,CreatedDate,OrganizationId) Values (@SupplyOrderId,@PurchaseRequestItemId,@SlNo,@BalQty,@OrderedQty,@Rate,@Discount,@Amount,@CreatedBy,@CreatedDate,@OrganizationId,@isActive,@CreatedDate,@OrganizationId);
             SELECT CAST(SCOPE_IDENTITY() as int)";
 
 
-                var id = connection.Query<int>(sql, objSupplyOrderItem).Single();
+                var id = connection.Query<int>(sql, objSupplyOrderItem,trn).Single();
                 return id;
-            }
+            
         }
 
 
