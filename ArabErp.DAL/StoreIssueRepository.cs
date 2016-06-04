@@ -143,10 +143,10 @@ namespace ArabErp.DAL
         {
             using (IDbConnection connection = OpenConnection(dataConnection))
             {
-                return connection.Query<string>(@"SELECT WorkShopRequestNo, SaleOrderId, CustomerId, CONVERT(VARCHAR, RequiredDate, 106) RequiredDate INTO #WORK FROM WorkShopRequest WHERE WorkShopRequestId = @WorkShopRequestId;
-                    SELECT SaleOrderId, SaleOrderRefNo INTO #SALE FROM SaleOrder;
+                return connection.Query<string>(@"SELECT WorkShopRequestNo+', '+CONVERT(VARCHAR, WorkShopRequestDate, 106) WorkShopRequestNo, SaleOrderId, CustomerId, CONVERT(VARCHAR, RequiredDate, 106) RequiredDate INTO #WORK FROM WorkShopRequest WHERE WorkShopRequestId = @WorkShopRequestId;
+                    SELECT SaleOrderId, SaleOrderRefNo+', '+CONVERT(VARCHAR, SaleOrderDate, 106) SaleOrderRefNo INTO #SALE FROM SaleOrder;
                     SELECT CustomerId, CustomerName INTO #CUS FROM Customer;
-                    SELECT W.WorkShopRequestNo+','+C.CustomerName+','+S.SaleOrderRefNo+','+W.RequiredDate FROM #WORK W INNER JOIN #CUS C ON W.CustomerId = C.CustomerId INNER JOIN #SALE S ON W.SaleOrderId = S.SaleOrderId
+                    SELECT W.WorkShopRequestNo+'|'+C.CustomerName+'|'+S.SaleOrderRefNo+'|'+W.RequiredDate FROM #WORK W INNER JOIN #CUS C ON W.CustomerId = C.CustomerId INNER JOIN #SALE S ON W.SaleOrderId = S.SaleOrderId
                     DROP TABLE #CUS;
                     DROP TABLE #SALE;
                     DROP TABLE #WORK;", new { WorkShopRequestId = workshopRequestId }).First();
