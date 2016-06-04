@@ -49,13 +49,24 @@
     td.focus {
         background-color: Blue;
     }
+    .highlight { background-color: red; }
 </style>
 <script>
+    $(document).ready(function () {
+        $("#data tr").click(function () {
+            $(this).toggleClass("highlight");
+        });
+    });
+    $("#data tr").click(function () {
+        $(this).toggleClass("highlight");
+    });
     function OpenCustomerInvoice(key) {
-        alert("Called");
         var Url = '@Url.Action("PendingSalesInvoiceDt")';
         $("#SalesInvoiceListDiv").load(Url, { SalesOrderId: key });
+     
     }
+   
+
 
 
     @*function FillItemSubGroup() {
@@ -85,8 +96,8 @@
                 <div class="wrap">
                     <div class="table-responsive">
                         <div class="wrap">
-                            <table>
-                                <tr>
+                            <table class="table table-bordered table-hover">
+                                <tr class="grid_heading">
                                     <th>Customer</th>
                                     <th>Sale Order Number</th>
 
@@ -95,14 +106,16 @@
                                 </tr>
                             </table>
                             <div class="inner_table">
-                                <table id="PendingCustomerInvoiceTable">
+                                <table id="PendingCustomerInvoiceTable" class="table table-bordered table-hover">
                                     @for (int i = 0; i < Model.Count(); i++)
                                     {
-                                        <tr id="@i">
-
-                                            <td>@Model[i].Customer</td>
-                                            <td>@Model[i].SaleOrderRefNoWithDate</td>
-                                            <td><a onclick="OpenCustomerInvoice('@Model[i].SaleOrderId');">Select</a></td>
+                                        <tr id="Table_row_id">
+                                            <td>@Html.TextBoxFor(m => Model[i].Customer, new { @class = "form_input ", autocomplete = "off", @readonly = "readonly" })</td>
+                                            <td>@Html.TextBoxFor(m => Model[i].SaleOrderRefNoWithDate, new { @class = "form_input", autocomplete = "off", @readonly = "readonly" })</td>
+                                            <td><a onclick="OpenCustomerInvoice('@Model[i].SaleOrderId');">View</a></td>
+                                            @*<td align="center">
+                                                <button class="btn btn-xs btn-primary" onclick="Open('@Model[i].SaleOrderId')"><span class="glyphicon glyphicon-edit" style="top:2px"></span></button>
+                                            </td>*@    
                                         </tr>
                                     }
                                 </table>
