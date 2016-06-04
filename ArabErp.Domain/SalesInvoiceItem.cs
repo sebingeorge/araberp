@@ -16,6 +16,7 @@ namespace ArabErp.Domain
         public string ItemDescription { get; set; }
         public string PartNo { get; set; }
         public int? Quantity { get; set; }
+        public int? QuantityTxt { get; set; }
         public string Unit { get; set; }
         public decimal? Rate { get; set; }
         public decimal? Discount { get; set; }
@@ -23,5 +24,17 @@ namespace ArabErp.Domain
         public string CreatedBy { get; set; }
         public DateTime? CreatedDate { get; set; }
         public int OrganizationId { get; set; }
+        public int SaleOrderId { get; set; }
+        public string VehicleModelName { get; set; }
+        public bool SelectStatus { get; set; }
+        public int SaleOrderItemId { get; set; }
+      
+      
+       
+       
+
+       
+
+        
     }
 }
