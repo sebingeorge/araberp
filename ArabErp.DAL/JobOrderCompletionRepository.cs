@@ -23,7 +23,7 @@ namespace ArabErp.DAL
                 query += " inner join SaleOrderItem SI on SI.SaleOrderId = S.SaleOrderId";
                 query += " inner join Customer C on S.CustomerId = C.CustomerId";
                 query += " inner join VehicleModel V on V.VehicleModelId = SI.VehicleModelId";
-
+                query += " where ISNULL(J.JodCardCompleteStatus,0) <> 1";
                 return connection.Query<JobOrderPending>(query);
             }
         }
@@ -39,12 +39,12 @@ namespace ArabErp.DAL
                 query += " inner join Customer C on S.CustomerId = C.CustomerId";
                 query += " inner join VehicleModel V on V.VehicleModelId = SI.VehicleModelId";
                 query += " inner join WorkDescription W on SI.WorkDescriptionId = W.WorkDescriptionId";
-                query += " where J.JodCardCompletionStatus <> 1 and J.JobCardId = " + JobCardId.ToString();
+                query += " where J.JobCardId = " + JobCardId.ToString();
                 var jobcard = connection.Query<JobCardCompletion>(query).FirstOrDefault();
 
                 query = string.Empty;
                 query = "select J.SlNo, T.TaskId, T.TaskName, E.EmployeeId, E.EmployeeName, J.TaskDate, 0 ActualHours, 0 Existing";
-                query += " from JobCardTask J inner join Task T on J.JobCardTaskId = T.TaskId";
+                query += " from JobCardTask J inner join Task T on J.JobCardTaskMasterId = T.TaskId";
                 query += " inner join Employee E on E.EmployeeId = J.EmployeeId";
                 query += " where J.JobCardId = " + JobCardId.ToString();
 
