@@ -13,17 +13,29 @@ namespace ArabErp.DAL
         static string dataConnection = GetConnectionString("arab");
 
 
-        public int InsertPurchaseRequestItem(PurchaseRequestItem objPurchaseRequestItem)
+       
+        /// <summary>
+        /// Insert PurchaseRequestItem
+        /// </summary>
+        /// <param name="PurchaseRequestItemId"></param>
+        /// <returns></returns>
+        public int InsertPurchaseRequestItem(PurchaseRequestItem model, IDbConnection connection, IDbTransaction trn)
         {
-            using (IDbConnection connection = OpenConnection(dataConnection))
+            try
             {
-                string sql = @"insert  into PurchaseRequestItem(PurchaseRequestId,SlNo,ItemId,ItemDescription,PartNo,Quantity,Unit,CreatedBy,CreatedDate,OrganizationId,CreatedDate,OrganizationId) Values (@PurchaseRequestId,@SlNo,@ItemId,@ItemDescription,@PartNo,@Quantity,@Unit,@CreatedBy,@CreatedDate,@OrganizationId,@CreatedDate,@OrganizationId);
-            SELECT CAST(SCOPE_IDENTITY() as int)";
+
+                string sql = @"insert  into PurchaseRequestItem(PurchaseRequestId,SlNo,ItemId,Remarks,Quantity,isActive) Values (@PurchaseRequestId,@SlNo,@ItemId,@Remarks,@Quantity,1);
+                SELECT CAST(SCOPE_IDENTITY() as int)";
 
 
-                var id = connection.Query<int>(sql, objPurchaseRequestItem).Single();
+                var id = connection.Query<int>(sql, model, trn).Single();
                 return id;
             }
+            catch (Exception)
+            {
+                throw;
+            }
+
         }
 
 

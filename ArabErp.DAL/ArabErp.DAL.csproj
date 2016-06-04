@@ -97,6 +97,7 @@
     <Compile Include="StockpointRepository.cs" />
     <Compile Include="StockReturnItemRepository.cs" />
     <Compile Include="StockReturnRepository.cs" />
+    <Compile Include="StockUpdateRepository.cs" />
     <Compile Include="StoreIssueItemRepository.cs" />
     <Compile Include="StoreIssueRepository.cs" />
     <Compile Include="SupplierCategoryRepository.cs" />

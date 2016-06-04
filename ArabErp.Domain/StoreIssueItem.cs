@@ -12,7 +12,12 @@ namespace ArabErp.Domain
         public int WorkShopRequestItemId { get; set; }
         public int StoreIssueId { get; set; }
         public decimal? IssuedQuantity { get; set; }
-        public int OrganizationId { get; set; }
         public bool isActive { get; set; }
+        public string ItemName { get; set; }
+        public int ItemId { get; set; }
+        public string UnitName { get; set; }
+        public decimal RequiredQuantity { get; set; }
+        public decimal CurrentIssuedQuantity { get; set; }
+        public decimal PendingQuantity { get; set; }
     }
 }

@@ -8,9 +8,14 @@ namespace ArabErp.Domain
 {
    public class SupplyOrder
     {
+       public SupplyOrder()
+       {
+           SupplyOrderItems = new List<SupplyOrderItem>();
+       }
         public int SupplyOrderId { get; set; }
-        public DateTime? SupplyOrderDate { get; set; }
+        public DateTime SupplyOrderDate { get; set; }
         public int SupplierId { get; set; }
+        public string SupplyOrderNo { get; set; }
         public string QuotaionNoAndDate { get; set; }
         public string SpecialRemarks { get; set; }
         public string PaymentTerms { get; set; }
@@ -19,5 +24,20 @@ namespace ArabErp.Domain
         public string CreatedBy { get; set; }
         public DateTime? CreatedDate { get; set; }
         public int OrganizationId { get; set; }
+        public string SupplierName { get; set; }
+        public string SoNoWithDate { get; set; }
+        public List<SupplyOrderItem> SupplyOrderItems { get; set; }
+       // public string SoNoWithDate
+       // {
+       //     get
+       //     {
+       //         return string.Format("{0},{1}", SupplyOrderId, SupplyOrderDate.ToShortDateString());
+       //     }
+       //     set
+       //     {
+
+       //     }
+       //}
+
     }
 }

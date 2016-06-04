@@ -23,21 +23,21 @@ namespace ArabErp.DAL
 
                 IDbTransaction trn = connection.BeginTransaction();
                 try
-                { 
-                int id = 0;
-                
+                {
+                    int id = 0;
+
                     string sql = @"insert  into SaleOrder(SaleOrderRefNo,SaleOrderDate,CustomerId,CustomerOrderRef,CurrencyId,SpecialRemarks,PaymentTerms,DeliveryTerms,CommissionAgentId,CommissionAmount,CommissionPerc,SalesExecutiveId,EDateArrival,EDateDelivery,CreatedBy,CreatedDate,OrganizationId) Values (@SaleOrderRefNo,@SaleOrderDate,@CustomerId,@CustomerOrderRef,@CurrencyId,@SpecialRemarks,@PaymentTerms,@DeliveryTerms,@CommissionAgentId,@CommissionAmount,@CommissionPerc,@SalesExecutiveId,@EDateArrival,@EDateDelivery,@CreatedBy,@CreatedDate,@OrganizationId);
            
 
                         SELECT CAST(SCOPE_IDENTITY() as int)";
 
 
-                     id = connection.Query<int>(sql, model,trn).Single();
+                    id = connection.Query<int>(sql, model, trn).Single();
                     var saleorderitemrepo = new SaleOrderItemRepository();
                     foreach (var item in model.Items)
                     {
                         item.SaleOrderId = id;
-                        saleorderitemrepo.InsertSaleOrderItem(item, connection,trn);
+                        saleorderitemrepo.InsertSaleOrderItem(item, connection, trn);
                     }
 
                     trn.Commit();
@@ -49,7 +49,7 @@ namespace ArabErp.DAL
                     return 0;
                 }
 
-                
+
             }
         }
         public SaleOrder GetSaleOrder(int SaleOrderId)
@@ -81,7 +81,7 @@ namespace ArabErp.DAL
             }
         }
         /// <summary>
-        /// WorkShop Request Pending List
+        /// Saleorder Pending List
         /// </summary>
         /// <param name="model">Object of class SaleOrder</param>
         /// <returns>SaleOrders not in WorkshopRequest table</returns>
@@ -89,14 +89,50 @@ namespace ArabErp.DAL
         {
             using (IDbConnection connection = OpenConnection(dataConnection))
             {
-                string sql = @"select so.*,c.CustomerName,0 [Select] from SaleOrder so left join WorkShopRequest wr on so.SaleOrderId=wr.SaleOrderId , Customer c   where so.CustomerId=c.CustomerId  and wr.SaleOrderId is null and so.isActive=1";
-
+                //string sql = @"select so.*,c.CustomerName from SaleOrder so left join WorkShopRequest wr on so.SaleOrderId=wr.SaleOrderId , Customer c   where so.CustomerId=c.CustomerId  and wr.SaleOrderId is null and so.isActive=1";
+                string sql = @"SELECT  t.SaleOrderId,SO.CustomerOrderRef,SO.SaleOrderRefNo,SO.EDateArrival,SO.EDateDelivery,SO.CustomerId,C.CustomerName,STUFF((SELECT ', ' + CAST(W.WorkDescr AS VARCHAR(10)) [text()]
+                             FROM SaleOrderItem SI inner join WorkDescription W on W.WorkDescriptionId=SI.WorkDescriptionId
+                             WHERE SI.SaleOrderId = t.SaleOrderId
+                             FOR XML PATH(''), TYPE).value('.','NVARCHAR(MAX)'),1,2,' ') WorkDescription
+                             FROM SaleOrderItem t INNER JOIN SaleOrder SO on t.SaleOrderId=SO.SaleOrderId INNER JOIN Customer C ON SO.CustomerId =C.CustomerId
+                             left join WorkShopRequest WR on SO.SaleOrderId=WR.SaleOrderId WHERE WR.SaleOrderId is null and SO.isActive=1
+                             GROUP BY t.SaleOrderId,SO.CustomerOrderRef,C.CustomerName,SO.SaleOrderRefNo,SO.EDateArrival,SO.EDateDelivery,SO.CustomerId";
                 var objSaleOrders = connection.Query<SaleOrder>(sql).ToList<SaleOrder>();
 
                 return objSaleOrders;
             }
         }
 
+        public SaleOrder GetSaleOrderForWorkshopRequest(int SaleOrderId)
+        {
+            using (IDbConnection connection = OpenConnection(dataConnection))
+            {
+                //string sql = @"select so.*,c.CustomerName from SaleOrder so left join WorkShopRequest wr on so.SaleOrderId=wr.SaleOrderId , Customer c   where so.CustomerId=c.CustomerId  and wr.SaleOrderId is null and so.isActive=1";
+                string sql = @"SELECT  SO.SaleOrderId,SO.CustomerOrderRef,SO.SaleOrderRefNo,SO.EDateArrival,SO.EDateDelivery,SO.CustomerId,C.CustomerName
+                              FROM  SaleOrder SO  INNER JOIN Customer C 
+                              ON SO.CustomerId =C.CustomerId  WHERE SO.SaleOrderId =@SaleOrderId";
+                var objSaleOrders = connection.Query<SaleOrder>(sql, new { SaleOrderId = SaleOrderId } ).Single<SaleOrder>();
+
+                return objSaleOrders;
+            }
+        }
+
+        public SaleOrder GetCombinedWorkDescriptionSaleOrderForWorkshopRequest(int SaleOrderId)
+        {
+            using (IDbConnection connection = OpenConnection(dataConnection))
+            {
+                //string sql = @"select so.*,c.CustomerName from SaleOrder so left join WorkShopRequest wr on so.SaleOrderId=wr.SaleOrderId , Customer c   where so.CustomerId=c.CustomerId  and wr.SaleOrderId is null and so.isActive=1";
+                string sql = @"SELECT t.SaleOrderId,STUFF((SELECT ', ' + CAST(W.WorkDescr AS VARCHAR(10)) [text()]
+                             FROM SaleOrderItem SI inner join WorkDescription W on W.WorkDescriptionId=SI.WorkDescriptionId
+                             WHERE SI.SaleOrderId = t.SaleOrderId
+                             FOR XML PATH(''), TYPE).value('.','NVARCHAR(MAX)'),1,2,' ') WorkDescription
+                             FROM SaleOrderItem t INNER JOIN SaleOrder SO on t.SaleOrderId=SO.SaleOrderId  WHERE SO.SaleOrderId =@SaleOrderId
+                             group by t.SaleOrderId";
+                var objSaleOrders = connection.Query<SaleOrder>(sql, new { SaleOrderId = SaleOrderId } ).Single<SaleOrder>();
+
+                return objSaleOrders;
+            }
+        }
         public int UpdateSaleOrder(SaleOrder objSaleOrder)
         {
             using (IDbConnection connection = OpenConnection(dataConnection))
@@ -125,7 +161,7 @@ namespace ArabErp.DAL
                 return connection.Query<Dropdown>("select CustomerId Id,CustomerName Name from Customer").ToList();
             }
         }
-      
+
         public List<Dropdown> FillCommissionAgent()
         {
             using (IDbConnection connection = OpenConnection(dataConnection))
@@ -172,9 +208,9 @@ namespace ArabErp.DAL
                 Customer customer = connection.Query<Customer>("select * from Customer where CustomerId = " + cusId).FirstOrDefault();
 
                 string address = "";
-                if(customer != null)
+                if (customer != null)
                 {
-                    address = customer.DoorNo + ", " + customer.Street + ", " + customer.State;                    
+                    address = customer.DoorNo + ", " + customer.Street + ", " + customer.State;
                 }
                 return address;
             }
@@ -187,7 +223,7 @@ namespace ArabErp.DAL
         {
             using (IDbConnection connection = OpenConnection(dataConnection))
             {
-                string sql = @"SELECT SO.SaleOrderRefNo,t.SaleOrderId,so.CustomerOrderRef,C.CustomerName,STUFF((SELECT ', ' + CAST(W.WorkDescr AS VARCHAR(10)) [text()]
+                string sql = @"SELECT  SO.*,t.SaleOrderId,C.CustomerName,STUFF((SELECT ', ' + CAST(W.WorkDescr AS VARCHAR(10)) [text()]
                              FROM SaleOrderItem SI inner join WorkDescription W on W.WorkDescriptionId=SI.WorkDescriptionId
                              WHERE SI.SaleOrderId = t.SaleOrderId
                              FOR XML PATH(''), TYPE)
@@ -197,7 +233,7 @@ namespace ArabErp.DAL
                              GROUP BY t.SaleOrderId,SO.CustomerOrderRef,C.CustomerName,SO.SaleOrderRefNo";
 
                 var objSaleOrderData = connection.Query<SaleOrder>(sql).ToList<SaleOrder>();
-   
+
                 return objSaleOrderData;
             }
         }

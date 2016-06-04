@@ -1,11 +1,14 @@
-﻿
+﻿@model ArabErp.Domain.StoreIssue
 @{
     ViewBag.Title = "Create Stores Issue";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-
-
+<script type="text/javascript">
+    function Back() {
+        location.href = '@Url.Action("Pending")';
+    }
+</script>
 
 <div class="container">
     <div class="row">
@@ -13,21 +16,25 @@
             <h4>Store Issue</h4>
         </div>
         <div class="main-part pad1">
-            <form role="form">
+            <form role="form" method="post">
                 <div class="row form-group">
                     <div class="col-md-2">
                         <label for="sino">SI No.</label>
-                        <input type="text" id="sino" class="form_input" autocomplete="off" />
+                        @Html.HiddenFor(m => m.WorkShopRequestId)
+                        @Html.TextBoxFor(m => m.StoreIssueRefNo, new { @class = "form_input" })
+                        @*<input type="text" id="sino" class="form_input" autocomplete="off" />*@
                     </div>
                     <div class="col-md-2 col-md-offset-8">
                         <label for="inputDate">Date</label>
-                        <input type="date" id="inputDate" class="form_input" autocomplete="off" />
+                        @Html.TextBoxFor(m => m.StoreIssueDate, new { @type = "date", @class = "form_input" })
+                        @*<input type="date" id="inputDate" class="form_input" autocomplete="off" />*@
                     </div>
                 </div>
                 <div class="row form-group">
                     <div class="col-md-2">
-                        <label for="jcno">Job Card No.</label>
-                        <input type="text" id="jcno" class="form_input" autocomplete="off" />
+                        <label for="jcno">Stockpoint</label>
+                        @Html.DropDownListFor(m => m.StockpointId, (SelectList)ViewBag.stockpointList, "Select Stockpoint", new { @class = "form_input", autocomplete = "off" })
+                        @*<input type="text" id="jcno" class="form_input" autocomplete="off" />*@
                     </div>
                     <div class="col-md-2">
                         <label for="jcdate">JC Date</label>
@@ -51,68 +58,24 @@
                         <thead>
                             <tr class="grid_heading">
                                 <th><h1>Sl.No.</h1></th>
-                                <th><h1>Part No.</h1></th>
                                 <th><h1>Product</h1></th>
                                 <th class="text-right "><h1>Req Qty.</h1></th>
+                                <th class="text-right "><h1>Prev. Issued Qty.</h1></th>
                                 <th class="text-right "><h1>Pending Qty.</h1></th>
                                 <th class="text-right "><h1>Current Issued Qty</h1></th>
                                 <th><h1>Unit</h1></th>
-                                <th class="text-right "><h1>Rate</h1></th>
-                                <th class="text-right "><h1>Amount</h1></th>
                             </tr>
                         </thead>
-                        <tbody class="grid_row">
-                            <tr>
-                                <td>1</td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                            </tr>
-                            <tr>
-                                <td>2</td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                            </tr>
-                            <tr>
-                                <td>3</td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                            </tr>
-                            <tr>
-                                <td>4</td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                            </tr>
-                        </tbody>
+                        
+                        @Html.Action("PendingWorkshopRequestDetails")
+
                     </table>
                 </div>
                 <div class="row form-group">
                     <div class="col-md-12">
-                        <label for="SplRemarks1">Spl.Remarks</label>
-                        <textarea id="SplRemarks1" autocomplete="off" class="form_input form_input-h"></textarea>
+                        <label for="SplRemarks1">Spl. Remarks</label>
+                        @Html.TextAreaFor(m => m.Remarks, new { @class = "form_input form_input-h" })
+                        @*<textarea id="SplRemarks1" autocomplete="off" class="form_input form_input-h"></textarea>*@
                     </div>
                 </div>
                 <div class="row form-group">
@@ -122,17 +85,18 @@
                     </div>
                     <div class="col-md-2">
                         <label for="emp">Employee/Supervisor</label>
-                        <select id="bay" class="form_input" autocomplete="off">
+                        @Html.DropDownListFor(m => m.EmployeeId, (SelectList)ViewBag.employeeList, "Select Employee", new { @class = "form_input", autocomplete = "off" })
+                        @*<select id="bay" class="form_input" autocomplete="off">
                             <option>Select Employee</option>
                             <option>Employee 1</option>
                             <option>Employee 2</option>
                             <option>Employee 3</option>
-                        </select>
+                        </select>*@
                     </div>
                 </div>
                 <div class="marg1">
-                    <button class="form-button">Exit</button>
-                    <button type="submit" class="form-button">Save</button>
+                    <input type="button" class="form-button" value="Back" onclick="Back()">
+                    <input type="submit" class="form-button" value="Save">
                     @*@if (TempData["Success"] != null)
             {
              <p class="alert alert-success" id="successMessage">@TempData["Success"]</p>

@@ -1,48 +1,85 @@
-﻿
+﻿@using ArabErp.Domain
+@model SupplyOrder
 @{
     ViewBag.Title = "Create";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
+<script>
+    $(document).ready(function() {
+        $('#supplyorder_form').bootstrapValidator({
+            fields: {
+                SupplyOrderNo: {
+                    validators: {
+                        notEmpty: {
+                            message: 'Please enter SupplyOrderNo'
+                        }
+                    }
+                },
+                SupplyOrderDate: {
+                    validators: {
+                        notEmpty: {
+                            message: 'Please enter SupplyOrderDate'
+                        }
+                    }
+                },
+                RequiredDate: {
+                    validators: {
+                        notEmpty: {
+                            message: 'Please enter required date'
+                        }
+                    }
+                }
+
+         }
+        });
+
+    });
+
+
+    $(function () {
+        $("#SupplyOrderDate").datepicker({ dateFormat: "dd/MM/yy" });
+        $("#RequiredDate").datepicker({ dateFormat: "dd/MM/yy" });
+    });
+
+
+
+</script>
 <div class="container">
     <div class="row">
         <div class="form-head1">
             <h4>Supply Order</h4>
         </div>
         <div class="main-part pad1">
-            <form role="form">
+           @using (Html.BeginForm("Save", null, FormMethod.Post, new { @class = "createFrom", @id = "supplyorder_form" }))
+           {
                 <div class="row form-group">
                     <div class="col-md-2">
                         <label for="sono">SO.No.</label>
-                        <input type="text" id="sono" class="form_input" autocomplete="off" />
+                        @Html.TextBoxFor(m => m.SupplyOrderNo, new { @class = "form_input" })
                     </div>
                     <div class="col-md-2 col-md-offset-8">
                         <label for="inputDate">Date</label>
-                        <input type="date" id="inputDate" class="form_input" autocomplete="off" />
+                        @Html.TextBoxFor(m => m.SupplyOrderDate, new { @class = "form_input" })
                     </div>
                 </div>
                 <div class="row form-group">
                     <div class="col-md-4">
-                        <label for="selectCustomer">Supplier</label>
-                        <select id="supplier" class="form_input">
-                            <option>Select Supplier</option>
-                            <option>Supplier1</option>
-                            <option>Supplier2</option>
-                            <option>Supplier3</option>
-                        </select>
+                        <label for="SupplierId">Supplier</label>
+                        @Html.DropDownListFor(m => Model.SupplierId, (SelectList)ViewBag.SupplierList, "Select Supplier", new { @class = "form_input", autocomplete = "off" })
                     </div>
                     <div class="col-md-4">
                         <label for="cusref">Quotation No. & Date</label>
-                        <input type="text" id="cusref" autocomplete="off" class="form_input" />
+                        @Html.TextBoxFor(m => m.QuotaionNoAndDate, new { @class = "form_input" })
                     </div>
                 </div>
-                <div class=" table-responsive">
+                <div class="table-responsive">
                     <table class="table table-bordered">
                         <thead>
                             <tr class="grid_heading">
                                 <th width="5%"><h1>Sl.No.</h1></th>
                                 <th width="20%"><h1>PRS No & Date</h1></th>
-                                <th width="25%"><h1>Product</h1></th>
+                                <th width="25%"><h1>Material</h1></th>
                                 <th width="10%"><h1>Part No</h1></th>
                                 <th width="10%" class="text-right"><h1>Bal Qty</h1></th>
                                 <th width="15%" class="text-right"><h1>Ordered Qty</h1></th>
@@ -52,77 +89,45 @@
                             </tr>
                         </thead>
                         <tbody class="grid_row">
+@for (int i = 0; i < Model.SupplyOrderItems.Count(); i++)
+{
                             <tr>
-                                <td>1</td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
+
+                                <td>@(i +1) @Html.HiddenFor(m => m.SupplyOrderItems[i].PurchaseRequestItemId)</td>
+                                <td>@Html.TextBoxFor(m => m.SupplyOrderItems[i].PurchaseRequestItemId, new { @class = "form_input", @disabled = "true" })</td>                               
+                                <td>@Html.TextBoxFor(m => m.SupplyOrderItems[i].ItemName, new { @class = "form_input", @disabled = "true" })</td>
+                                <td>@Html.TextBoxFor(m => m.SupplyOrderItems[i].PartNo, new { @class = "form_input", @disabled = "true" })</td>
+                                <td>@Html.TextBoxFor(m => m.SupplyOrderItems[i].BalQty, new { @class = "form_input", @disabled = "true" })</td>
+                                <td>@Html.TextBoxFor(m => m.SupplyOrderItems[i].OrderedQty, new { @class = "form_input" })</td>
+                                <td>@Html.TextBoxFor(m => m.SupplyOrderItems[i].Rate, new { @class = "form_input" })</td>
+                                <td>@Html.TextBoxFor(m => m.SupplyOrderItems[i].Discount, new { @class = "form_input" })</td>
+                                <td>@Html.TextBoxFor(m => m.SupplyOrderItems[i].Amount , new { @class = "form_input" })</td>
                               
                             </tr>
-                            <tr>
-                                <td>2</td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                               
-                            </tr>
-                            <tr>
-                                <td>3</td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                               
-                            </tr>
-                            <tr>
-                                <td>4</td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                              
-                            </tr>
+}
                         </tbody>
                     </table>
                 </div>
                 <div class="row form-group">
                     <div class="col-md-12">
                         <label for="SplRemarks1">Spl.Remarks</label>
-                        <textarea id="SplRemarks1" autocomplete="off" class="form_input form_input-h"></textarea>
+                        @Html.TextAreaFor(m => m.SpecialRemarks, new { @class = "form_input" })
                     </div>
                 </div>
                 <div class="row form-group">
                     <div class="col-md-6">
                         <label for="payterms">Payment Terms</label>
-                        <input type="text" id="payterms" autocomplete="off" class="form_input" />
+                        @Html.TextBoxFor(m => m.PaymentTerms, new { @class = "form_input" })
                     </div>
                     <div class="col-md-6">
                         <label for="delterms">Delivery Terms</label>
-                        <input type="text" id="delterms" class="form_input" />
+                        @Html.TextBoxFor(m => m.DeliveryTerms, new { @class = "form_input" })
                     </div>
                 </div>
                 <div class="row form-group">
                     <div class="col-md-2">
                         <label for="reqdate">Required Date</label>
-                        <input type="date" id="reqdate" style="min-width: 100%" class="form_input" />
+                        @Html.TextBoxFor(m => m.RequiredDate, new { @class = "form_input" })
                     </div>
                 </div>
                 <div class="marg">
@@ -130,7 +135,7 @@
                     <button type="submit" class="form-button">Save</button>
                 
                 </div>
-            </form>
+            }
         </div>
         </div>
 </div>

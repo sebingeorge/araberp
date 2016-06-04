@@ -1,5 +1,5 @@
-﻿@model IList<ArabErp.Domain.WorkShopRequest>
-@using GridMvc.Html
+﻿@using ArabErp.Domain
+@model IEnumerable<PendingWorkShopRequest>
 @{
     ViewBag.Title = "Pending WorkShopRequest";
     Layout = "~/Views/Shared/_Layout.cshtml";
@@ -14,98 +14,40 @@
         </div>
 
         <div class="main-part pad1">
-           
-
-                @*<div class=" table-responsive">
-                        <table class="table table-bordered">
-                            <thead>
-                                <tr class="grid_heading">
-                                    <th><h1>WR No.</h1></th>
-                                    <th><h1>WR Date</h1></th>
-                                    <th><h1>Customer</h1></th>
-                                    <th><h1>Customer Order Ref.</h1></th>
-                                </tr>
-                            </thead>
-                            <tbody class="grid_row">
-                                <tr>
-                                    <td>1</td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                </tr>
-                                <tr>
-                                    <td>2</td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                </tr>
-                                <tr>
-                                    <td>3</td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                </tr>
-                                <tr>
-                                    <td>4</td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>*@
-
-                @*<div class="table-responsive">
-                        <div class="main-grid">
-
-                            @Html.Grid(Model).Columns(columns =>
-                       {
-                           columns.Add(m => m.WorkShopRequestNo).Titled("WorkShopRequest No.").SetWidth(30);
-                           columns.Add(m => m.RequiredDate).Titled("Delivery Date").SetWidth(110);
-                           columns.Add(m => m.CustomerOrderRef).Titled("Customer Order Ref.").SetWidth(110);
-                           //columns.Add(m => m.WorkDescription).Titled("WorkDescription").SetWidth(110);
+            <div class="table-responsive  border">
 
 
-                       }).WithPaging(10)
-                        </div>
+                <div class="row">
 
-                    </div>*@
+                    <div class="col-md-12">
+                      
+                            <div class="col-md-3 grid-left">Customer</div>
+                            <div class="col-md-2 grid-left">Customer Order Ref.</div>
+                            <div class="col-md-2 grid-left">SO No & Date</div>
+                            <div class="col-md-2 grid-left">WR No & Date</div>
+                            <div class="col-md-2 grid-left">Delivery Date</div>
+                            <div class="col-md-1 grid-left"><center>Select</center></div>
+                      
+                    </div>
 
-                @*<div class="margf">
+                    <div class="col-md-12">
 
-                        <button type="submit" class="form-button">Ok</button>
+                        @foreach (var item in Model)
+                        {
+                            <div class="col-md-3"><div class="mtop grid_row_pr grid_row_pr">@item.CustomerName</div></div>
+                            <div class="col-md-2"><div class="mtop grid_row_pr">@item.CustomerOrderRef</div></div>
+                            <div class="col-md-2"><div class="mtop grid_row_pr">@item.SaleOrderRefNo &amp; @item.SaleOrderDate.ToString("dd/MMM/yyyy")</div></div>
+                            <div class="col-md-2"><div class="mtop grid_row_pr">@item.WorkShopRequestNo &amp; @item.WorkShopRequestDate.ToString("dd/MMM/yyyy")</div></div>
+                            <div class="col-md-2"><div class="mtop grid_row_pr">@item.RequiredDate.ToString("dd/MMM/yyyy")</div></div>
+                           <div class="col-md-1"><div class="mtop form-button3">@Html.ActionLink("Select", "Create", "PurchaseRequest", new { WorkShopRequestId = @item.WorkShopRequestId }, null) </div></div>
+        }
 
-                    </div>*@
-        
-                <div class="col-md-3 grid_heading">WorkShopRequestNo</div>
-                <div class="col-md-3 grid_heading">RequiredDate</div>
-                <div class="col-md-3 grid_heading">CustomerOrderRef</div>
-                <div class="col-md-3 grid_heading">Select</div>
-
-                @for (int i = 0; i < Model.Count(); i++)
-                {
-
-
-                    @*<form method="post" action="@Url.Action("Create", "PurchaseRequest")">*@
-                        <div class="col-md-3 grid_row">
-                            @Html.HiddenFor(m => m[i].WorkShopRequestId)
-                            @Model[i].WorkShopRequestNo
-                        </div>
-                        <div class="col-md-3 grid_row">
-                            @Model[i].RequiredDate
-                        </div>
-                        <div class="col-md-3 grid_row">
-                            @Model[i].CustomerOrderRef
-                        </div>
-                        <div class="col-md-3 grid_row">
-                        @Html.ActionLink("Select", "Create", "PurchaseRequest", new { WorkShopRequestId = @Model[i].WorkShopRequestId }, null);                        </div>
-                    @*</form>*@
-
-                }
-
-
-                <div class="row"></div>
-  
-        </div>
     </div>
-</div>
+
+                    </div>
+
+            </div>
+
+                    </div>
+                </div>
+            </div>
