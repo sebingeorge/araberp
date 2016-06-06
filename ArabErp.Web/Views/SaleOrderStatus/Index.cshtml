@@ -1,0 +1,40 @@
+﻿@model IEnumerable<ArabErp.Domain.SaleOrderStatus>
+@{
+    ViewBag.Title = "Sale Order Status Report";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="container">
+    <div class="row">
+        <div class="form-head1">
+            <h4>Sale Order Status Report</h4>
+        </div>
+        <div class="main-part pad1">
+            <table class="table table-bordered table-hover">
+                <tr class="grid_heading">
+                    <td>Customer</td>
+                    <td>Sale Order Ref. No.</td>
+                    <td>Sale Order Date</td>
+                    <td>EDD</td>
+                    <td>Purchase Request</td>
+                    <td>Workshop Request</td>
+                    <td>Job Card</td>
+                    <td>Job Card Completed</td>
+                </tr>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td>@item.CustomerName</td>
+                        <td>@item.SaleOrderRefNo</td>
+                        <td>@item.SaleOrderDate.ToString("dd/MMM/yyyy")</td>
+                        <td>@item.EDateDelivery.ToString("dd/MMM/yyyy")</td>
+                        <td><img src="~/Content/images/@(item.PurchaseRequest == "Yes" ? "yes.png" : "no.png")" height="15" width="15" /></td>
+                        <td><img src="~/Content/images/@(item.WorkShopRequest == "Yes" ? "yes.png" : "no.png")" height="15" width="15" /></td>
+                        <td><img src="~/Content/images/@(item.JobCard == "Yes" ? "yes.png" : "no.png")" height="15" width="15"/></td>
+                        <td><img src="~/Content/images/@(item.JobCardComplete == "Yes" ? "yes.png" : "no.png")" height="15" width="15" /></td>
+                    </tr>
+                }
+            </table>
+        </div>
+    </div>
+</div>

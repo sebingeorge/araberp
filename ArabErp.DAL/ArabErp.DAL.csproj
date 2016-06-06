@@ -95,6 +95,7 @@
     <Compile Include="PurchaseRequestRepository.cs" />
     <Compile Include="SaleOrderItemRepository.cs" />
     <Compile Include="SaleOrderRepository.cs" />
+    <Compile Include="SaleOrderStatusRepository.cs" />
     <Compile Include="SalesExecutiveRepository.cs" />
     <Compile Include="SalesInvoiceItemRepository.cs" />
     <Compile Include="SalesInvoiceRepository.cs" />

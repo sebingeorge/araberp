@@ -222,6 +222,7 @@
     <Compile Include="Controllers\OpeningStockController.cs" />
     <Compile Include="Controllers\PurchaseRequestController.cs" />
     <Compile Include="Controllers\SaleOrderController.cs" />
+    <Compile Include="Controllers\SaleOrderStatusController.cs" />
     <Compile Include="Controllers\SalesInvoiceController.cs" />
     <Compile Include="Controllers\StockJournelController.cs" />
     <Compile Include="Controllers\StockPointController.cs" />
@@ -259,6 +260,8 @@
     <Content Include="Content\datepicker3.min.css" />
     <Content Include="Content\dll\GridMvc.dll" />
     <Content Include="Content\Gridmvc.css" />
+    <Content Include="Content\images\no.png" />
+    <Content Include="Content\images\yes.png" />
     <Content Include="Content\jsgrid-theme.css" />
     <Content Include="Content\jsgrid-theme.min.css" />
     <Content Include="Content\jsgrid.css" />
@@ -454,6 +457,7 @@
     <Content Include="Views\StoresIssue\_PendingWorkshopRequests.cshtml" />
     <Content Include="Views\StoresIssue\_IssuanceItems.cshtml" />
     <Content Include="Views\JobOrderCompletion\Create.cshtml" />
+    <Content Include="Views\SaleOrderStatus\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

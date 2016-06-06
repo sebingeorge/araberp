@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.ComponentModel.DataAnnotations;
 
 namespace ArabErp.Domain
 {
@@ -14,6 +15,9 @@ namespace ArabErp.Domain
        
         public string CurrentDate { get; set; }
         public string SalesInvoiceNo { get; set; }
+        [Required]
+        public string SalesInvoiceRefNo { get; set; }
+       
         public DateTime? SalesInvoiceDate { get; set; }
         public string Customer { get; set; }
         public string CustomerAddress { get; set; }

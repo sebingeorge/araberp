@@ -11,48 +11,56 @@ namespace ArabErp.Web.Controllers
 {
     public class GrnWareHouseController : Controller
     {
+        readonly log4net.ILog logger = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
         // GET: GrnWareHouse
         public ActionResult Index()
         {
             return View();
         }
 
-        public ActionResult PendingGrnWareHouse(int? page)
+        public ActionResult PendingGrnWareHouse()
         {
+            var repo = new GRNRepository();
 
-            var rep = new SupplyOrderRepository();
-
-
-            var slist = rep.GetSupplyOrdersPendingWorkshopRequest();
-
-            var pager = new Pager(slist.Count(), page);
-
-            var viewModel = new PagedSupplyOrderViewModel
-            {
-                SupplyOrders = slist.Skip((pager.CurrentPage - 1) * pager.PageSize).Take(pager.PageSize),
-                Pager = pager
-            };
-
-            return View(viewModel);
+            IEnumerable<PendingSupplyOrder> pendingSO = repo.GetGRNPendingList();
+            return View(pendingSO);
         }
 
-        [HttpPost]
-        public ActionResult Create(SupplyOrder model)
-        {
-            GRN objGRN = new GRN();
 
-            objGRN.Supplier = model.SupplierName;
-            objGRN.SupplierId = model.SupplierId;
-            objGRN.SONODATE = model.SoNoWithDate;
-            objGRN.SupplyId = model.SupplyOrderId;
-            objGRN.GRNDate = System.DateTime.Today;
+
+
+        public ActionResult Create(int? SupplyOrderId)
+        {
+            GRNRepository repo = new GRNRepository();
             FillWarehouse();
-            objGRN.Items = new List<GRNItem>();
-            objGRN.Items.Add(new GRNItem());
-            return View(objGRN);
+
+            GRN model = repo.GetGRNDetails(SupplyOrderId ?? 0);
+
+
+            var GRNList = repo.GetGRNItem(SupplyOrderId ?? 0);
+
+            model.Items = new List<GRNItem>();
+            foreach (var item in GRNList)
+            {
+                var grnitem = new GRNItem
+                {
+                    ItemName = item.ItemName,
+                    ItemId = item.ItemId,
+                    PartNo = item.PartNo,
+                    Remarks = item.Remarks,
+                    Quantity = item.Quantity,
+                    Unit = item.Unit,
+                    Rate = item.Rate,
+                    Discount = item.Discount,
+                    Amount = item.Amount
+                };
+                model.Items.Add(grnitem);
+
+            }
+            return View(model);
         }
 
-
+      
         public void FillWarehouse()
         {
             GRNRepository repo = new GRNRepository();
@@ -60,23 +68,13 @@ namespace ArabErp.Web.Controllers
             ViewBag.WarehouseList = new SelectList(result, "StockPointId", "StockPointName");
         }
 
-
-        public ActionResult GRNData(SupplyOrder model)
+        public ActionResult Save(GRN model)
         {
-
-            var repo = new GRNRepository();
-            var GRNList = repo.GetGRNData(model.SupplyOrderId);
-            //model.Items = new List<SupplyOrderItem>();
-            foreach (var item in GRNList)
-            {
-                //model.Items.Add(new SupplyOrderItem { PurchaseRequestItemId = item.ItemId,ItemName = item.ItemName,PartNo = item.PartNo,PendingQuantity = item.Quantity,
-                //ReceivedQuantity=item.Quantity,Unit = item.UnitName,Rate=item.Rate,Discount =item.Discount,Amount=item.Amount});
-
-            }
-            return PartialView("_DisplayGRNData", model);
-
-
-
+            model.OrganizationId = 1;
+            model.CreatedDate = System.DateTime.Now;
+            model.CreatedBy = Request.ServerVariables["HTTP_X_FORWARDED_FOR"] ?? Request.ServerVariables["REMOTE_ADDR"];
+            new GRNRepository().InsertGRN(model);
+            return RedirectToAction("PendingGrnWareHouse");
         }
     }
 }

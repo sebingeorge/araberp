@@ -1,98 +1,49 @@
-﻿@model ArabErp.Web.Models.PagedSupplyOrderViewModel
+﻿@using ArabErp.Domain
+@model IEnumerable<PendingSupplyOrder>
 
-@{ViewBag.Title = "PendingGrnWareHouse";Layout = "~/Views/Shared/_Layout.cshtml";}
-
-
-
-    <div class="container">
-        <div class="row">
-            <div class="form-head1">
-                <h4>Pending GRN</h4>
-            </div>
-            <div class="main-part pad1">
-
-               
-                <div class="table-responsive">
-
-                    <div class="row border">
-
-                        @*<div class="col-md-4 align_right">
-                            <div class="col-md-7 form-group">
-                                <label for="supplier">Supplier</label>
-                                @*Html.DropDownListFor(m => Model., (SelectList)ViewBag.ItemCategory, "Select Supplier", new { @class = "form_input", autocomplete = "off" })
-                            </div>
-                        </div>*@
-
-
-                        <div class="col-md-12">
-                            <div class="col-md-4 grid-left">Supplier</div>
-                            <div class="col-md-3 grid-left">SO No & Date</div>
-                            <div class="col-md-3 grid-left">PR No & Date</div>
-                            <div class="col-md-2 grid-left"><center>Select</center></div>
-                        </div>
+@{ViewBag.Title = "PendingGrnWareHouse"; Layout = "~/Views/Shared/_Layout.cshtml";}
 
 
 
-                        @for (int i = 0; i < Model.SupplyOrders.Count(); i++)
+<div class="container">
+    <div class="row">
+        <div class="form-head1">
+            <h4>Pending GRN</h4>
+        </div>
+        <div class="main-part pad1">
+
+            <div class="table-responsive">
+
+                <div class="row border">
+
+                    <div class="col-md-12">
+                        <div class="col-md-5 grid-left">Supplier</div>
+                        <div class="col-md-3 grid-left">SO No & Date</div>
+                        <div class="col-md-3 grid-left">PR No & Date</div>
+                        <div class="col-md-1 grid-left"><center>Select</center></div>
+                    </div>
+
+
+                    <div class="col-md-12">
+
+                        @foreach (var item in Model)
                         {
-
-                               <form method="post" action="@Url.Action("Create", "GrnWareHouse")">
-
-                                @Html.HiddenFor(m => m.SupplyOrders.ElementAt(i).SupplyOrderId, new { @class = "form_input", autocomplete = "off" })
-                                @Html.HiddenFor(m => m.SupplyOrders.ElementAt(i).SupplierId, new { @class = "form_input", autocomplete = "off" })
-
-                                <div class="col-md-4 mtop">@Html.TextBoxFor(m => m.SupplyOrders.ElementAt(i).SupplierName, new { @class = "form_input", autocomplete = "off", @readonly = "readonly" })</div>
-                                <div class="col-md-3 mtop">@Html.TextBoxFor(m => m.SupplyOrders.ElementAt(i).SoNoWithDate, new { @class = "form_input", autocomplete = "off", @readonly = "readonly" }) </div>
-                                <div class="col-md-3 mtop">@Html.TextBoxFor(m => m.SupplyOrders.ElementAt(i).QuotaionNoAndDate, new { @class = "form_input", autocomplete = "off", @readonly = "readonly" })</div>
-                                <div class="col-md-2 mtop"><center><button type="submit" class="form-button form-button1">Select</button></center></div>
-                                @*<div class="col-md-2 mtop">@Html.TextBoxFor(m => m.SaleOrders.ElementAt(i).EDateDelivery, String.Format("{0:dd/MM/yyyy}", Model.SaleOrders.ElementAt(i).EDateDelivery), new { @class = "form_input", autocomplete = "off", @readonly = "readonly" })</div>*@
-
-                            </form>
-
+                            <div class="col-md-5"><div class="mtop grid_row_pr grid_row_pr">@item.SupplierName</div></div>
+                            <div class="col-md-3"><div class="mtop grid_row_pr">@item.SoNoWithDate</div></div>
+                            <div class="col-md-3"><div class="mtop grid_row_pr">@item.QuotaionNoAndDate.</div></div>
+                            <div class="col-md-1"><div class="mtop form-button3">@Html.ActionLink("Select", "Create", "GrnWareHouse", new { SupplyOrderId = @item.SupplyOrderId }, null) </div></div>
                         }
-
 
                     </div>
 
-                    <!-- pager -->
-                    @if (Model.Pager.EndPage > 1)
-                    {
-                        <ul class="pagination">
-                            @if (Model.Pager.CurrentPage > 1)
-                            {
-                                <li>
-                                    <a href="~/GrnWareHouse/PendingGrnWareHouse">First</a>
-                                </li>
-                                <li>
-                                    <a href="~/GrnWareHouse/PendingGrnWareHouse?page=@(Model.Pager.CurrentPage - 1)">Previous</a>
-                                </li>
-                            }
-
-                            @for (var page = Model.Pager.StartPage; page <= Model.Pager.EndPage; page++)
-                            {
-                                <li class="@(page == Model.Pager.CurrentPage ? "active" : "")">
-                                    <a href="~/GrnWareHouse/PendingGrnWareHouse?page=@page">@page</a>
-                                </li>    }
-
-                            @if (Model.Pager.CurrentPage < Model.Pager.TotalPages)
-                            {
-                                <li>
-                                    <a href="~/GrnWareHouse/PendingGrnWareHouse?page=@(Model.Pager.CurrentPage + 1)">Next</a>
-                                </li>
-                                <li>
-                                    <a href="~/GrnWareHouse/PendingGrnWareHouse?page=@(Model.Pager.TotalPages)">Last</a>
-                                </li>
-                            }
-                        </ul>
-                    }
-
-
-
                 </div>
 
-
             </div>
+
         </div>
     </div>
+</div>
+
+
 
 

@@ -42,38 +42,120 @@
         overflow-y: auto;
     }
 </style>
+<script>
+
+    $(document).ready(function () {
+        $("#checkAll").change(function () {
+            $("input:checkbox").prop('checked', $(this).prop("checked"));
+            if ($("#checkAll").is(':checked')) {
+                var count = parseInt('@Model.Count');
+                document.getElementById('HiddenForCheckBox').value = parseInt(count);
+               
+                document.getElementById("BtnSubmit").disabled = false;
+               
+        }
+        else
+            {
+                document.getElementById('HiddenForCheckBox').value = parseInt(0);
+                document.getElementById("BtnSubmit").disabled = true;
+               
+            }
+        });
+    });
+
+    function Checked(s)
+    {
+        
+        if ($(s).is(':checked')){
+            document.getElementById('HiddenForCheckBox').value = parseInt( document.getElementById('HiddenForCheckBox').value) + 1;
+            // something when checked
+          
+            var Allcount = parseInt('@Model.Count');
+            var HiddenCount = parseInt(document.getElementById('HiddenForCheckBox').value);
+          
+           
+            //alert(Allcount+HiddenCount);
+            if (Allcount == HiddenCount )
+            {
+              
+                $('#checkAll').attr('checked', true);
+                $('#checkAll').prop('checked', true);
+            }
+
+        }
+        else
+        {
+            // something else when not
+            document.getElementById('HiddenForCheckBox').value = parseInt( document.getElementById('HiddenForCheckBox').value) - 1;
+           
+            $('#checkAll').attr('checked', false);
+        }
+        //if (document.getElementById('HiddenForCheckBox').value = 0) {
+        //    document.getElementById("BtnSubmit").disabled = true;
+
+        //    alert(document.getElementById('HiddenForCheckBox').value);
+        //}
+   //    else
+        if (document.getElementById('HiddenForCheckBox').value > 0) {
+            document.getElementById("BtnSubmit").disabled = false;
+            
+        }
+        else if (document.getElementById('HiddenForCheckBox').value <= 0) {
+            document.getElementById("BtnSubmit").disabled = true;
+           
+        }
+    }
+
+</script>
+
    @using (Html.BeginForm("Create", null, FormMethod.Post, new { @class = "createFrom", @id = "Item_form" }))
                 {
 <div class="table-responsive">
 
     <div class="wrap">
-        <table>
-            <tr>
+        <input type="hidden" id="HiddenForCheckBox" value="0" />
+        <table class="table table-bordered table-hover">
+            <tr class="grid_heading">
+                <th>Work Description</th>
+                <th>Job Card No.</th>
                 <th>Vehicle Model</th>
                 <th>Quantity</th>
 
                 <th>Rate</th>
                 <th>Amount</th>
-
+                <th><input id="checkAll" type="checkbox" value="Select All" /><label for="checkAll">Select All</label></th>
             </tr>
         </table>
         <div class="inner_table">
-            <table id="PendingCustomerInvoiceTable">
+            <table id="PendingCustomerInvoiceTable" class="table table-bordered table-hover">
 
+                @if (Model.Count > 0)
+                {
+                    for (int i = 0; i < Model.Count(); i++)
+                    {
+                        <tr>
+                            <td>@Html.TextBoxFor(m => Model[i].WorkDescription, new { @class = "form_input", autocomplete = "off", @readonly = "readonly" })</td>
+                            <td>@Html.TextBoxFor(m => Model[i].JobCardNo, new { @class = "form_input", autocomplete = "off", @readonly = "readonly" })</td>
+                            <td>@Html.TextBoxFor(m => Model[i].VehicleModelName, new { @class = "form_input", autocomplete = "off", @readonly = "readonly" })</td>
+                            <td>@Html.TextBoxFor(m => Model[i].Quantity, new { @class = "form_input", autocomplete = "off", @readonly = "readonly" })</td>
+                            <td>@Html.TextBoxFor(m => Model[i].Rate, new { @class = "form_input", autocomplete = "off", @readonly = "readonly" })</td>
+                            <td>@Html.TextBoxFor(m => Model[i].Amount, new { @class = "form_input", autocomplete = "off", @readonly = "readonly" })</td>
+                            <td>@Html.CheckBoxFor(model => Model[i].SelectStatus, new { @class = "check_box", @onclick = "Checked(this)" })</td>
+                            @Html.HiddenFor(model => Model[i].SaleOrderId)
+                            @Html.HiddenFor(model => Model[i].SaleOrderItemId)
 
-                @for (int i = 0; i < Model.Count(); i++)
+                            @* <td><a href="" onclick="OpenCustomerInvoice('@Model[i].SaleOrderId');">Select</a></td>*@
+                        </tr>
+                    }
+                }
+                else
                 {
                     <tr>
-                        <td>@Model[i].VehicleModelName</td>
-                        <td>@Model[i].Quantity</td>
-                        <td>@Model[i].Rate</td>
-                        <td>@Model[i].Amount</td>
-                        <td>@Html.CheckBoxFor(model => Model[i].SelectStatus)</td>
-                        @Html.HiddenFor(model => Model[i].SaleOrderId)
-                        @Html.HiddenFor(model => Model[i].SaleOrderItemId)
-
-                     
-                       @* <td><a href="" onclick="OpenCustomerInvoice('@Model[i].SaleOrderId');">Select</a></td>*@
+                        <td>&nbsp;</td>
+                        <td>&nbsp;</td>
+                        <td>&nbsp;</td>
+                        <td>&nbsp;</td>
+                        <td>&nbsp;</td>
                     </tr>
                 }
 
@@ -86,7 +168,7 @@
                             <button type="submit" class="form-button">Exit</button>
 
 
-                            <button type="submit" class="form-button">Proceed</button>
+                            <button type="submit" class="form-button" id="BtnSubmit" disabled>Proceed</button>
                         </div>
 
         </div>

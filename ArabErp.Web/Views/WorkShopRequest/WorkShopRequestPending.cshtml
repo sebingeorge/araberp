@@ -30,14 +30,27 @@
 
                     @for (int i = 0; i < Model.SaleOrders.Count(); i++)
                     {
-                        
-                            <div class="col-md-3 mtop">@Html.TextBoxFor(m => m.SaleOrders.ElementAt(i).CustomerName, new { @class = "form_input", autocomplete = "off", @readonly = "readonly" })</div>
-                            <div class="col-md-2 mtop">@Html.TextBoxFor(m => m.SaleOrders.ElementAt(i).CustomerOrderRef, new { @class = "form_input", autocomplete = "off", @readonly = "readonly" })</div>
-                            <div class="col-md-2 mtop">@Html.TextBoxFor(m => m.SaleOrders.ElementAt(i).SoNoWithDate, new { @class = "form_input", autocomplete = "off", @readonly = "readonly" }) </div>
-                            <div class="col-md-2 mtop">@Html.TextBoxFor(m => m.SaleOrders.ElementAt(i).EDateArrival, new { @class = "form_input", autocomplete = "off", @readonly = "readonly" })</div>
-                            <div class="col-md-2 mtop">@Html.TextBoxFor(m => m.SaleOrders.ElementAt(i).EDateDelivery, new { @class = "form_input", autocomplete = "off", @readonly = "readonly" })</div>
-                            <div class="col-md-1 mtop form-button2"><center>@Html.ActionLink("Select", "CreateWorkShopRequest", "WorkShopRequest", new { SaleOrderId = Model.SaleOrders.ElementAt(i).SaleOrderId },null)</center></div>
-                    
+                        <div class="col-md-3 mtop">
+                            <input type="text" class="form_input" value="@Model.SaleOrders.ElementAt(i).CustomerName" />
+                            @*@Html.TextBoxFor(m => m.SaleOrders.ElementAt(i).CustomerName, new { @class = "form_input", autocomplete = "off", @readonly = "readonly" })*@
+                        </div>
+                        <div class="col-md-2 mtop">
+                            <input type="text" class="form_input" value="@Model.SaleOrders.ElementAt(i).CustomerOrderRef" />
+                            @*@Html.TextBoxFor(m => m.SaleOrders.ElementAt(i).CustomerOrderRef, new { @class = "form_input", autocomplete = "off", @readonly = "readonly" })*@
+                        </div>
+                        <div class="col-md-2 mtop">
+                            <input type="text" class="form_input" value="@Model.SaleOrders.ElementAt(i).SoNoWithDate" />
+                            @*@Html.TextBoxFor(m => m.SaleOrders.ElementAt(i).SoNoWithDate, new { @class = "form_input", autocomplete = "off", @readonly = "readonly" })*@
+                        </div>
+                        <div class="col-md-2 mtop">
+                            <input type="text" class="form_input" value="@Model.SaleOrders.ElementAt(i).EDateArrival.Value.ToString("dd/MMM/yyyy")" />
+                            @*@Html.TextBoxFor(m => m.SaleOrders.ElementAt(i).EDateArrival, new { @class = "form_input", autocomplete = "off", @readonly = "readonly" })*@
+                        </div>
+                        <div class="col-md-2 mtop">
+                            <input type="text" class="form_input" value="@Model.SaleOrders.ElementAt(i).EDateDelivery.Value.ToString("dd/MMM/yyyy")" />
+                            @*@Html.TextBoxFor(m => m.SaleOrders.ElementAt(i).EDateDelivery, new { @class = "form_input", autocomplete = "off", @readonly = "readonly" })*@
+                        </div>
+                        <div class="col-md-1 mtop form-button2"><center>@Html.ActionLink("Select", "CreateWorkShopRequest", "WorkShopRequest", new { SaleOrderId = Model.SaleOrders.ElementAt(i).SaleOrderId }, null)</center></div>
                     }
 
                 </div>

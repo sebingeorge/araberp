@@ -12,21 +12,26 @@ namespace ArabErp.DAL
     {
         static string dataConnection = GetConnectionString("arab");
 
-        public int InsertGRNItem(GRNItem objGRNItem)
+        public int InsertGRNItem(GRNItem model, IDbConnection connection, IDbTransaction trn)
         {
-
-            using (IDbConnection connection = OpenConnection(dataConnection))
+            try
             {
-                string sql = @"insert  into GRNItem(GRNId,SONoAndDate,SlNo,ItemId,ItemDescription,PartNo,Quantity,Unit,Rate,Discount,Amount,CreatedBy,CreatedDate,OrganizationId) Values (@GRNId,@SONoAndDate,@SlNo,@ItemId,@ItemDescription,@PartNo,@Quantity,@Unit,@Rate,@Discount,@Amount,@CreatedBy,@CreatedDate,@OrganizationId);
+
+            string sql = @"insert  into GRNItem(GRNId,SONoAndDate,SlNo,ItemId,ItemDescription,PartNo,Quantity,Unit,Rate,Discount,Amount) Values (@GRNId,@SONoAndDate,@SlNo,@ItemId,@ItemDescription,@PartNo,@Quantity,@Unit,@Rate,@Discount,@Amount);
             SELECT CAST(SCOPE_IDENTITY() as int)";
 
 
-                var id = connection.Query<int>(sql, objGRNItem).Single();
+                var id = connection.Query<int>(sql, model, trn).Single();
                 return id;
             }
+            catch (Exception)
+            {
+                throw;
+            }
+
         }
 
-
+      
         public GRNItem GetGRNItem(int GRNItemId)
         {
 
