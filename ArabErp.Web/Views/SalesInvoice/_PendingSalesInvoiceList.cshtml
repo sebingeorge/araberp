@@ -16,7 +16,7 @@
         .list tr:hover {
             background-color: #DFEDF7;
         }
-        
+
     .wrap {
         width: 100%;
     }
@@ -29,7 +29,6 @@
     table tr td {
         padding: 5px;
         border: 1px solid #eee;
-        
         word-wrap: break-word;
     }
 
@@ -50,44 +49,40 @@
             if ($("#checkAll").is(':checked')) {
                 var count = parseInt('@Model.Count');
                 document.getElementById('HiddenForCheckBox').value = parseInt(count);
-               
+
                 document.getElementById("BtnSubmit").disabled = false;
-               
-        }
-        else
-            {
+
+            }
+            else {
                 document.getElementById('HiddenForCheckBox').value = parseInt(0);
                 document.getElementById("BtnSubmit").disabled = true;
-               
+
             }
         });
     });
 
-    function Checked(s)
-    {
-        
-        if ($(s).is(':checked')){
-            document.getElementById('HiddenForCheckBox').value = parseInt( document.getElementById('HiddenForCheckBox').value) + 1;
+    function Checked(s) {
+
+        if ($(s).is(':checked')) {
+            document.getElementById('HiddenForCheckBox').value = parseInt(document.getElementById('HiddenForCheckBox').value) + 1;
             // something when checked
-          
+
             var Allcount = parseInt('@Model.Count');
             var HiddenCount = parseInt(document.getElementById('HiddenForCheckBox').value);
-          
-           
+
+
             //alert(Allcount+HiddenCount);
-            if (Allcount == HiddenCount )
-            {
-              
+            if (Allcount == HiddenCount) {
+
                 $('#checkAll').attr('checked', true);
                 $('#checkAll').prop('checked', true);
             }
 
         }
-        else
-        {
+        else {
             // something else when not
-            document.getElementById('HiddenForCheckBox').value = parseInt( document.getElementById('HiddenForCheckBox').value) - 1;
-           
+            document.getElementById('HiddenForCheckBox').value = parseInt(document.getElementById('HiddenForCheckBox').value) - 1;
+
             $('#checkAll').attr('checked', false);
         }
         //if (document.getElementById('HiddenForCheckBox').value = 0) {
@@ -95,87 +90,107 @@
 
         //    alert(document.getElementById('HiddenForCheckBox').value);
         //}
-   //    else
+        //    else
         if (document.getElementById('HiddenForCheckBox').value > 0) {
             document.getElementById("BtnSubmit").disabled = false;
-            
+
         }
         else if (document.getElementById('HiddenForCheckBox').value <= 0) {
             document.getElementById("BtnSubmit").disabled = true;
-           
+
         }
     }
 
 </script>
 
-   @using (Html.BeginForm("Create", null, FormMethod.Post, new { @class = "createFrom", @id = "Item_form" }))
-                {
-<div class="table-responsive">
+@using (Html.BeginForm("Create", null, FormMethod.Post, new { @class = "createFrom", @id = "Item_form" }))
+{
+    <div class="table-responsive">
+        <h5>Sales Invoice Details</h5>
+        <div class="wrap">
+            <input type="hidden" id="HiddenForCheckBox" value="0" />
+            <table class="table table-bordered table-hover">
+                @*<tr class="grid_heading">
+                        <th>Work Description</th>
+                        <th>Job Card No.</th>
+                        <th>Vehicle Model</th>
+                        <th>Quantity</th>
 
-    <div class="wrap">
-        <input type="hidden" id="HiddenForCheckBox" value="0" />
-        <table class="table table-bordered table-hover">
-            <tr class="grid_heading">
-                <th>Work Description</th>
-                <th>Job Card No.</th>
-                <th>Vehicle Model</th>
-                <th>Quantity</th>
+                        <th>Rate</th>
+                        <th>Amount</th>
+                        <th><input id="checkAll" type="checkbox" value="Select All" /><label for="checkAll">Select All</label></th>
+                    </tr>*@
+            </table>
+            <div class="inner_table">
+                <table id="PendingCustomerInvoiceTable" class="table table-bordered table-hover">
 
-                <th>Rate</th>
-                <th>Amount</th>
-                <th><input id="checkAll" type="checkbox" value="Select All" /><label for="checkAll">Select All</label></th>
-            </tr>
-        </table>
-        <div class="inner_table">
-            <table id="PendingCustomerInvoiceTable" class="table table-bordered table-hover">
-
-                @if (Model.Count > 0)
-                {
-                    for (int i = 0; i < Model.Count(); i++)
+                    @if (Model.Count > 0)
                     {
-                        <tr>
-                            <td>@Html.TextBoxFor(m => Model[i].WorkDescription, new { @class = "form_input", autocomplete = "off", @readonly = "readonly" })</td>
-                            <td>@Html.TextBoxFor(m => Model[i].JobCardNo, new { @class = "form_input", autocomplete = "off", @readonly = "readonly" })</td>
-                            <td>@Html.TextBoxFor(m => Model[i].VehicleModelName, new { @class = "form_input", autocomplete = "off", @readonly = "readonly" })</td>
-                            <td>@Html.TextBoxFor(m => Model[i].Quantity, new { @class = "form_input", autocomplete = "off", @readonly = "readonly" })</td>
-                            <td>@Html.TextBoxFor(m => Model[i].Rate, new { @class = "form_input", autocomplete = "off", @readonly = "readonly" })</td>
-                            <td>@Html.TextBoxFor(m => Model[i].Amount, new { @class = "form_input", autocomplete = "off", @readonly = "readonly" })</td>
-                            <td>@Html.CheckBoxFor(model => Model[i].SelectStatus, new { @class = "check_box", @onclick = "Checked(this)" })</td>
-                            @Html.HiddenFor(model => Model[i].SaleOrderId)
-                            @Html.HiddenFor(model => Model[i].SaleOrderItemId)
+                        <tr class="grid_heading">
+                            <th>Work Description</th>
+                            <th>Job Card No.</th>
+                            <th>Vehicle Model</th>
+                            <th>Quantity</th>
 
-                            @* <td><a href="" onclick="OpenCustomerInvoice('@Model[i].SaleOrderId');">Select</a></td>*@
+                            <th>Rate</th>
+                            <th>Amount</th>
+                            <th><input id="checkAll" type="checkbox" value="Select All" /><label for="checkAll">Select All</label></th>
+                        </tr>
+                        for (int i = 0; i < Model.Count(); i++)
+                        {
+                            <tr>
+                                <td>@Html.TextBoxFor(m => Model[i].WorkDescription, new { @class = "form_input", autocomplete = "off", @readonly = "readonly" })</td>
+                                <td>@Html.TextBoxFor(m => Model[i].JobCardNo, new { @class = "form_input", autocomplete = "off", @readonly = "readonly" })</td>
+                                <td>@Html.TextBoxFor(m => Model[i].VehicleModelName, new { @class = "form_input", autocomplete = "off", @readonly = "readonly" })</td>
+                                <td>@Html.TextBoxFor(m => Model[i].Quantity, new { @class = "form_input clAmount", @style = "text-align:right", autocomplete = "off", @readonly = "readonly" })</td>
+                                <td>@Html.TextBoxFor(m => Model[i].Rate, new { @class = "form_input clAmount", @style = "text-align:right", autocomplete = "off", @readonly = "readonly" })</td>
+                                <td>@Html.TextBoxFor(m => Model[i].Amount, new { @class = "form_input clAmount", @style = "text-align:right", autocomplete = "off", @readonly = "readonly" })</td>
+                                <td>@Html.CheckBoxFor(model => Model[i].SelectStatus, new { @class = "check_box", @onclick = "Checked(this)" })</td>
+                                @Html.HiddenFor(model => Model[i].SaleOrderId)
+                                @Html.HiddenFor(model => Model[i].SaleOrderItemId)
+
+                                @* <td><a href="" onclick="OpenCustomerInvoice('@Model[i].SaleOrderId');">Select</a></td>*@
+                            </tr>
+                        }
+                    }
+                    else
+                    {
+                        <tr class="grid_heading">
+                            <th>Work Description</th>
+                            <th>Job Card No.</th>
+                            <th>Vehicle Model</th>
+                            <th>Quantity</th>
+
+                            <th>Rate</th>
+                            <th>Amount</th>
+                            <th><label for="checkAll">Select All</label></th>
+                        </tr>
+                        <tr>
+                            <td>&nbsp;</td>
+                            <td>&nbsp;</td>
+                            <td>&nbsp;</td>
+                            <td>&nbsp;</td>
+                            <td>&nbsp;</td>
                         </tr>
                     }
-                }
-                else
-                {
-                    <tr>
-                        <td>&nbsp;</td>
-                        <td>&nbsp;</td>
-                        <td>&nbsp;</td>
-                        <td>&nbsp;</td>
-                        <td>&nbsp;</td>
-                    </tr>
-                }
 
-            </table>
-            <div class="col-md-12">
-                        <div class="left">
-                            <button class="form-button">Previous</button>
-                        </div>
-                        <div class="margf">
-                            <button type="submit" class="form-button">Exit</button>
+                </table>
+                <div class="col-md-12">
+                    <div class="left">
+                        @*<button class="form-button">Previous</button>*@
+                    </div>
+                    <div class="margf">
+                        @*<button type="submit" class="form-button">Exit</button>*@
 
 
-                            <button type="submit" class="form-button" id="BtnSubmit" disabled>Proceed</button>
-                        </div>
+                        <button type="submit" class="form-button" id="BtnSubmit" disabled>Proceed</button>
+                    </div>
+
+                </div>
+            </div>
 
         </div>
     </div>
-
-</div>
-    </div>
-                }
+}
 
 
