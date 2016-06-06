@@ -17,6 +17,7 @@ namespace ArabErp.DAL
             using (IDbConnection connection = OpenConnection(dataConnection))
             {
                 string sql = @"INSERT INTO VehicleInPass(
+                            VehicleInPassNo,
                             SaleOrderItemId,
                             SaleOrderId,
                             RegistrationNo,
@@ -28,6 +29,7 @@ namespace ArabErp.DAL
                             OrganizationId,
                             isActive)
                          VALUES(
+                            @VehicleInPassNo,
                             @SaleOrderItemId,
                             (SELECT SaleOrderId FROM SaleOrderItem WHERE SaleOrderItemId = @SaleOrderItemId),
                             @RegistrationNo,

@@ -34,7 +34,8 @@ namespace ArabErp.DAL
                 foreach (var item in objSupplyOrder.SupplyOrderItems)
                 {
                     item.SupplyOrderId= id;
-                    supplyorderitemrepo.InsertSupplyOrderItem(item, connection, trn);
+                        item.OrganizationId = objSupplyOrder.OrganizationId;
+                        supplyorderitemrepo.InsertSupplyOrderItem(item, connection, trn);
                 }
 
                 trn.Commit();

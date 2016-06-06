@@ -26,7 +26,11 @@
             @using (Html.BeginForm("Save", null, FormMethod.Post, new { @class = "createFrom", onsubmit = "return formValidation()", @id = "vehicle-inpass-form" }))
             {
                 <div class="row form-group">
-                    <div class="col-md-2 col-md-offset-2">
+                    <div class="col-md-2 col-md-offset-1">
+                        <label>Vehicle In-Pass No.</label>
+                        @Html.TextBoxFor(m => m.VehicleInPassNo, new { @class = "form_input" })
+                    </div>
+                    <div class="col-md-2">
                         <label>Registration No.</label>
                         @Html.HiddenFor(m => m.SaleOrderItemId)
                         @Html.TextBoxFor(m => m.RegistrationNo, new { @class = "form_input" })
@@ -42,14 +46,14 @@
                 </div>
 
                 <div class="row form-group">
-                    <div class="col-md-7 col-md-offset-2">
+                    <div class="col-md-9 col-md-offset-1">
                         <label>Remarks</label>
                         @Html.TextAreaFor(m => m.Remarks, new { @class = "form_input form_input-h" })
                     </div>
                 </div>
 
                 <div class="row form-group">
-                    <div class="col-md-7 col-md-offset-2 hrpart">
+                    <div class="col-md-9 col-md-offset-1 hrpart">
                         <input class="form-button right" type="submit" value="Save" />
                         <input class="form-button right" type="button" value="Back" onclick="Back()" />
                     </div>
