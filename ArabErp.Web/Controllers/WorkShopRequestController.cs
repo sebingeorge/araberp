@@ -23,7 +23,6 @@ namespace ArabErp.Web.Controllers
             SaleOrderRepository rep = new SaleOrderRepository();
 
             SaleOrder model = rep.GetSaleOrderForWorkshopRequest(SaleOrderId);
-
             WorkShopRequest objWorkShopRequest = new WorkShopRequest();
             objWorkShopRequest.CustomerOrderRef = model.CustomerOrderRef;
             objWorkShopRequest.SaleOrderId = model.SaleOrderId;
