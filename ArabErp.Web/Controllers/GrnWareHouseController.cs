@@ -33,10 +33,9 @@ namespace ArabErp.Web.Controllers
         {
             GRNRepository repo = new GRNRepository();
             FillWarehouse();
+            FillCurrency();
 
             GRN model = repo.GetGRNDetails(SupplyOrderId ?? 0);
-
-
             var GRNList = repo.GetGRNItem(SupplyOrderId ?? 0);
 
             model.Items = new List<GRNItem>();
@@ -44,10 +43,12 @@ namespace ArabErp.Web.Controllers
             {
                 var grnitem = new GRNItem
                 {
+                    SupplyOrderItemId=item.SupplyOrderItemId,
                     ItemName = item.ItemName,
                     ItemId = item.ItemId,
                     PartNo = item.PartNo,
                     Remarks = item.Remarks,
+                    PendingQuantity=item.PendingQuantity,
                     Quantity = item.Quantity,
                     Unit = item.Unit,
                     Rate = item.Rate,
@@ -66,6 +67,13 @@ namespace ArabErp.Web.Controllers
             GRNRepository repo = new GRNRepository();
             var result = repo.GetWarehouseList();
             ViewBag.WarehouseList = new SelectList(result, "StockPointId", "StockPointName");
+        }
+
+        public void FillCurrency()
+        {
+            var repo = new GRNRepository();
+            var list = repo.FillCurrency();
+            ViewBag.currlist = new SelectList(list, "Id", "Name");
         }
 
         public ActionResult Save(GRN model)

@@ -22,14 +22,24 @@ namespace ArabErp.Web.Controllers
 
 
             SupplyOrderRepository rep = new SupplyOrderRepository();
+            if (PendingPurchaseRequestItemsSelected!=null)
+            {
+                if (PendingPurchaseRequestItemsSelected.Count > 0)
+                {
+                    List<int> selectedpurchaserequests = (from PendingPurchaseRequest p in PendingPurchaseRequestItemsSelected
+                                                          where p.Select
+                                                          select p.PurchaseRequestId).ToList<int>();
+                    supplyorder.SupplyOrderItems = rep.GetPurchaseRequestItems(selectedpurchaserequests);
+                }
 
-            List<int> selectedpurchaserequests = (from PendingPurchaseRequest p in PendingPurchaseRequestItemsSelected
-                                                  where p.Select
-                                                  select p.PurchaseRequestId).ToList<int>();
 
-            supplyorder.SupplyOrderItems = rep.GetPurchaseRequestItems(selectedpurchaserequests);
+            }
+
+
             supplyorder.SupplyOrderDate = System.DateTime.Today;
-           
+            supplyorder.RequiredDate= System.DateTime.Today;
+
+
 
             FillSupplier();
 
