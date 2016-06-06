@@ -267,6 +267,7 @@
     <Content Include="Content\jsgrid-theme.min.css" />
     <Content Include="Content\jsgrid.css" />
     <Content Include="Content\PagedList.css" />
+    <Content Include="Images\101.png" />
     <Content Include="Images\banner.png" />
     <Content Include="Images\button-part.jpg" />
     <Content Include="Scripts\gridmvc.js" />
