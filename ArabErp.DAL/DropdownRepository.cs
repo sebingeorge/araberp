@@ -35,7 +35,7 @@ namespace ArabErp.DAL
             }
         }
         /// <summary>
-        /// Return all employees
+        /// Return all active employees
         /// </summary>
         /// <returns></returns>
         public List<Dropdown> EmployeeDropdown()
@@ -54,6 +54,57 @@ namespace ArabErp.DAL
             using (IDbConnection connection = OpenConnection(dataConnection))
             {
                 return connection.Query<Dropdown>("SELECT StockPointId Id, StockPointName Name FROM Stockpoint WHERE ISNULL(isActive, 1) = 1").ToList();
+            }
+        }
+        /// <summary>
+        /// Return all incomplete sale orders for vehicle in-pass (orders that are not entered in vehicle in-pass)
+        /// </summary>
+        /// <param name="customerId"></param>
+        /// <returns></returns>
+        public List<Dropdown> SaleOrderDropdown()
+        {
+            using (IDbConnection connection = OpenConnection(dataConnection))
+            {
+                return connection.Query<Dropdown>(@"SELECT SaleOrderId, SaleOrderRefNo, CustomerId, SaleOrderDate INTO #SALE FROM SaleOrder WHERE ISNULL(isActive, 1) = 1 AND ISNULL(SaleOrderApproveStatus, 0) = 1;
+                    SELECT SaleOrderId, SaleOrderItemId, VehicleModelId INTO #SALE_ITEM FROM SaleOrderItem WHERE ISNULL(isActive, 1) = 1;
+                    SELECT SaleOrderItemId INTO #VEHICLE_INPASS FROM VehicleInPass WHERE ISNULL(isActive, 1) = 1;
+                    SELECT CustomerId, CustomerName INTO #CUS FROM Customer WHERE ISNULL(isActive, 1) = 1;
+
+                    SELECT DISTINCT(SO.SaleOrderId) Id, SO.SaleOrderRefNo + ' - ' + CONVERT(VARCHAR, SO.SaleOrderDate, 106) + ' - ' + C.CustomerName Name FROM #SALE SO 
+                    LEFT JOIN #SALE_ITEM SOI ON SO.SaleOrderId = SOI.SaleOrderId
+                    LEFT JOIN #VEHICLE_INPASS VI ON SOI.SaleOrderItemId = VI.SaleOrderItemId
+                    LEFT JOIN #CUS C ON SO.CustomerId = C.CustomerId
+                    WHERE VI.SaleOrderItemId IS NULL;
+
+                    DROP TABLE #SALE;
+                    DROP TABLE #SALE_ITEM;
+                    DROP TABLE #VEHICLE_INPASS;
+                    DROP TABLE #CUS;").ToList();
+            }
+        }
+        /// <summary>
+        /// Return all customers who have incomplete sale order
+        /// </summary>
+        /// <returns></returns>
+        public List<Dropdown> CustomerDropdown()
+        {
+            using (IDbConnection connection = OpenConnection(dataConnection))
+            {
+                return connection.Query<Dropdown>(@"SELECT SaleOrderId, CustomerId INTO #SALE FROM SaleOrder WHERE ISNULL(isActive, 1) = 1 AND ISNULL(SaleOrderApproveStatus, 0) = 1;
+                    SELECT SaleOrderId, SaleOrderItemId, VehicleModelId INTO #SALE_ITEM FROM SaleOrderItem WHERE ISNULL(isActive, 1) = 1;
+                    SELECT SaleOrderItemId INTO #VEHICLE_INPASS FROM VehicleInPass WHERE ISNULL(isActive, 1) = 1;
+                    SELECT CustomerId, CustomerName INTO #CUS FROM Customer WHERE ISNULL(isActive, 1) = 1;
+
+                    SELECT DISTINCT(SO.CustomerId) Id, C.CustomerName Name FROM #SALE SO 
+                    LEFT JOIN #SALE_ITEM SOI ON SO.SaleOrderId = SOI.SaleOrderId
+                    LEFT JOIN #VEHICLE_INPASS VI ON SOI.SaleOrderItemId = VI.SaleOrderItemId
+                    LEFT JOIN #CUS C ON SO.CustomerId = C.CustomerId
+                    WHERE VI.SaleOrderItemId IS NULL;
+
+                    DROP TABLE #SALE;
+                    DROP TABLE #SALE_ITEM;
+                    DROP TABLE #VEHICLE_INPASS;
+                    DROP TABLE #CUS;").ToList();
             }
         }
     }

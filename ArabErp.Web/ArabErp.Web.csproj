@@ -233,6 +233,7 @@
     <Compile Include="Controllers\SupplyOrderController.cs" />
     <Compile Include="Controllers\TaskController.cs" />
     <Compile Include="Controllers\UnitController.cs" />
+    <Compile Include="Controllers\VehicleInPassController.cs" />
     <Compile Include="Controllers\VehicleModelController.cs" />
     <Compile Include="Controllers\WorkDescriptionController.cs" />
     <Compile Include="Controllers\WorkShopRequestController.cs" />
@@ -458,6 +459,9 @@
     <Content Include="Views\StoresIssue\_IssuanceItems.cshtml" />
     <Content Include="Views\JobOrderCompletion\Create.cshtml" />
     <Content Include="Views\SaleOrderStatus\Index.cshtml" />
+    <Content Include="Views\VehicleInPass\Index.cshtml" />
+    <Content Include="Views\VehicleInPass\_PendingVehicleInPass.cshtml" />
+    <Content Include="Views\VehicleInPass\Save.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
