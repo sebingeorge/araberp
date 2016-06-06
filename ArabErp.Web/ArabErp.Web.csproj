@@ -234,6 +234,7 @@
     <Compile Include="Controllers\SupplyOrderController.cs" />
     <Compile Include="Controllers\TaskController.cs" />
     <Compile Include="Controllers\UnitController.cs" />
+    <Compile Include="Controllers\VehicleInPassController.cs" />
     <Compile Include="Controllers\VehicleModelController.cs" />
     <Compile Include="Controllers\WorkDescriptionController.cs" />
     <Compile Include="Controllers\WorkShopRequestController.cs" />
@@ -267,6 +268,7 @@
     <Content Include="Content\jsgrid-theme.min.css" />
     <Content Include="Content\jsgrid.css" />
     <Content Include="Content\PagedList.css" />
+    <Content Include="Images\101.png" />
     <Content Include="Images\banner.png" />
     <Content Include="Images\button-part.jpg" />
     <Content Include="Scripts\gridmvc.js" />
@@ -459,6 +461,9 @@
     <Content Include="Views\StoresIssue\_IssuanceItems.cshtml" />
     <Content Include="Views\JobOrderCompletion\Create.cshtml" />
     <Content Include="Views\SaleOrderStatus\Index.cshtml" />
+    <Content Include="Views\VehicleInPass\Index.cshtml" />
+    <Content Include="Views\VehicleInPass\_PendingVehicleInPass.cshtml" />
+    <Content Include="Views\VehicleInPass\Save.cshtml" />
     <Content Include="Views\JobCardQC\Create.cshtml" />
   </ItemGroup>
   <ItemGroup>

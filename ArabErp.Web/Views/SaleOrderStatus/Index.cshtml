@@ -9,7 +9,9 @@
         <div class="form-head1">
             <h4>Sale Order Status Report</h4>
         </div>
-        <div class="main-part pad1">
+       
+        <div class="main-part white pad1">
+            <div class="main-list scroll4">
             <table class="table table-bordered table-hover">
                 <tr class="grid_heading">
                     <td>Customer</td>
@@ -23,6 +25,7 @@
                     <td>GRN</td>
                     <td>Job Card</td>
                     <td>Job Card Completed</td>
+                    <td>Sales Invoice</td>
                 </tr>
                 @foreach (var item in Model)
                 {
@@ -38,9 +41,11 @@
                         <td><img src="~/Content/images/@(item.GRN == "Yes" ? "yes.png" : "no.png")" height="15" width="15" /></td>
                         <td><img src="~/Content/images/@(item.JobCard == "Yes" ? "yes.png" : "no.png")" height="15" width="15"/></td>
                         <td><img src="~/Content/images/@(item.JobCardComplete == "Yes" ? "yes.png" : "no.png")" height="15" width="15" /></td>
+                        <td><img src="~/Content/images/@(item.SalesInvoice == "Yes" ? "yes.png" : "no.png")" height="15" width="15" /></td>
                     </tr>
                 }
             </table>
         </div>
+       </div>
     </div>
 </div>

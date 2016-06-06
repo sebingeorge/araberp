@@ -9,6 +9,7 @@ namespace ArabErp.Domain
     public class VehicleInPass
     {
         public int VehicleInPassId { get; set; }
+        public string VehicleInPassNo { get; set; }
         public int SaleOrderId { get; set; }
         public string RegistrationNo { get; set; }
         public DateTime? VehicleInPassDate { get; set; }
@@ -18,5 +19,6 @@ namespace ArabErp.Domain
         public DateTime? CreatedDate { get; set; }
         public int OrganizationId { get; set; }
         public bool isActive { get; set; }
+        public int SaleOrderItemId { get; set; }
     }
 }

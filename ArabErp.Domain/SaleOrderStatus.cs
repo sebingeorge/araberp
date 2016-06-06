@@ -20,5 +20,6 @@ namespace ArabErp.Domain
         public string PurchaseRequest { get; set; }
         public string SuppyOrder { get; set; }
         public string GRN { get; set; }
+        public string SalesInvoice { get; set; }
     }
 }
