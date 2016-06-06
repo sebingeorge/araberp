@@ -27,7 +27,7 @@
                 SupplierId: {
                     validators: {
                         notEmpty: {
-                            message: 'Please enter SupplyOrderDate'
+                            message: 'Please select Supplier'
                         }
                     }
                 },
@@ -68,7 +68,7 @@
                     </div>
                     <div class="col-md-2 col-md-offset-8">
                         <label for="inputDate">Date</label>
-                        @Html.TextBoxFor(m => m.SupplyOrderDate, String.Format("{0:dd/MM/yyyy}", new { @class = "form_input" }))
+                        @Html.TextBoxFor(m => m.SupplyOrderDate, String.Format("{0:dd/MM/yyyy}", Model.SupplyOrderDate), new { @class = "form_input ", autocomplete = "off" })
                     </div>
                 </div>
                 <div class="row form-group">
@@ -135,7 +135,7 @@
                 <div class="row form-group">
                     <div class="col-md-2">
                         <label for="reqdate">Required Date</label>
-                        @Html.TextBoxFor(m => m.RequiredDate, String.Format("{0:dd/MM/yyyy}", new { @class = "form_input" }))
+                        @Html.TextBoxFor(m => m.RequiredDate, String.Format("{0:dd/MM/yyyy}", Model.RequiredDate), new { @class = "form_input ", autocomplete = "off"})
                     </div>
                 </div>
                 <div class="marg">
