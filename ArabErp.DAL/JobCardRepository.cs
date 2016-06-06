@@ -40,8 +40,7 @@ namespace ArabErp
                 query += " from SaleOrder S inner join Customer C on S.CustomerId = C.CustomerId";
                 query += " inner join SaleOrderItem SI on SI.SaleOrderId = S.SaleOrderId";
                 query += " inner join VehicleModel V on V.VehicleModelId = SI.VehicleModelId";
-                query += " left join JobCard J on J.SaleOrderId = S.SaleOrderId";
-                query += " where J.SaleOrderId is null";
+                query += " left join JobCard J on J.SaleOrderItemId = SI.SaleOrderItemId where J.SaleOrderItemId is null";
                 return connection.Query<PendingSO>(query);
             }
         }
@@ -101,7 +100,7 @@ namespace ArabErp
                 try
                 {
                     int id = 0;
-                    string sql = @"insert  into JobCard(JobCardNo,JobCardDate,SaleOrderId,ChasisNoRegNo,WorkDescription,FreezerUnitId,BoxId,BayId,SpecialRemarks,RequiredDate,EmployeeId,CreatedBy,CreatedDate,OrganizationId) Values (@JobCardNo,@JobCardDate,@SaleOrderId,@ChasisNoRegNo,@WorkDescription,@FreezerUnitId,@BoxId,@BayId,@SpecialRemarks,@RequiredDate,@EmployeeId,@CreatedBy,@CreatedDate,@OrganizationId);
+                    string sql = @"insert  into JobCard(JobCardNo,JobCardDate,SaleOrderId,ChasisNoRegNo,WorkDescription,FreezerUnitId,BoxId,BayId,SpecialRemarks,RequiredDate,EmployeeId,CreatedBy,CreatedDate,OrganizationId, SaleOrderItemId) Values (@JobCardNo,@JobCardDate,@SaleOrderId,@ChasisNoRegNo,@WorkDescription,@FreezerUnitId,@BoxId,@BayId,@SpecialRemarks,@RequiredDate,@EmployeeId,@CreatedBy,@CreatedDate,@OrganizationId,@SaleOrderItemId);
                     SELECT CAST(SCOPE_IDENTITY() as int)";
 
                     id = connection.Query<int>(sql, objJobCard,trn).Single();
