@@ -15,9 +15,12 @@
                     <td>Customer</td>
                     <td>Sale Order Ref. No.</td>
                     <td>Sale Order Date</td>
-                    <td>EDD</td>
-                    <td>Purchase Request</td>
+                    <td>EDD</td>  
+                    <td>Sale Order Approval</td>                    
                     <td>Workshop Request</td>
+                    <td>Purchase Request</td>
+                    <td>Supply Order</td>
+                    <td>GRN</td>
                     <td>Job Card</td>
                     <td>Job Card Completed</td>
                 </tr>
@@ -27,9 +30,12 @@
                         <td>@item.CustomerName</td>
                         <td>@item.SaleOrderRefNo</td>
                         <td>@item.SaleOrderDate.ToString("dd/MMM/yyyy")</td>
-                        <td>@item.EDateDelivery.ToString("dd/MMM/yyyy")</td>
-                        <td><img src="~/Content/images/@(item.PurchaseRequest == "Yes" ? "yes.png" : "no.png")" height="15" width="15" /></td>
+                        <td>@item.EDateDelivery.ToString("dd/MMM/yyyy")</td>                        
+                        <td><img src="~/Content/images/no.png")" height="15" width="15" /></td>
                         <td><img src="~/Content/images/@(item.WorkShopRequest == "Yes" ? "yes.png" : "no.png")" height="15" width="15" /></td>
+                        <td><img src="~/Content/images/@(item.PurchaseRequest == "Yes" ? "yes.png" : "no.png")" height="15" width="15" /></td>
+                        <td><img src="~/Content/images/@(item.SuppyOrder == "Yes" ? "yes.png" : "no.png")" height="15" width="15" /></td>
+                        <td><img src="~/Content/images/@(item.GRN == "Yes" ? "yes.png" : "no.png")" height="15" width="15" /></td>
                         <td><img src="~/Content/images/@(item.JobCard == "Yes" ? "yes.png" : "no.png")" height="15" width="15"/></td>
                         <td><img src="~/Content/images/@(item.JobCardComplete == "Yes" ? "yes.png" : "no.png")" height="15" width="15" /></td>
                     </tr>
