@@ -14,7 +14,9 @@
 
 
 <script>
-
+    function Back() {
+        location.href = '@Url.Action("PendingSalesInvoice")';
+    }
     $(document).ready(function () {
         $("#Addition").keyup(function () {
             
@@ -197,17 +199,17 @@
                             <div class="part ">
                                 <div class="col-md-3">
                                     <label for="PaymentTerms">Additional</label>
-                                    @Html.TextBoxFor(m => m.Addition, new { @class = "form_input numbers-only", autocomplete = "off", @Value = "0.00" })
+                                    @Html.TextBoxFor(m => m.Addition, new { @class = "form_input numbers-only", @style = "text-align:right", autocomplete = "off", @Value = "0.00" })
                                 </div>
                                 <div class="col-md-9">
                                     <label for="PaymentTerms">Remarks</label>
-                                    @Html.TextBoxFor(m => m.AdditionRemarks, new { @class = "form_input", autocomplete = "off" })
+                                    @Html.TextBoxFor(m => m.AdditionRemarks, new { @class = "form_input clAmount", autocomplete = "off" })
                                 </div>
                                 </div>
                             <div class="part ">
                                 <div class="col-md-3">
                                     <label for="PaymentTerms">Deduction</label>
-                                    @Html.TextBoxFor(m => m.Deduction, new { @class = "form_input numbers-only", autocomplete = "off", @Value = "0.00" })
+                                    @Html.TextBoxFor(m => m.Deduction, new { @class = "form_input numbers-only clAmount", @style = "text-align:right", autocomplete = "off", @Value = "0.00" })
                                 </div>
                                 <div class="col-md-9">
                                     <label for="PaymentTerms">Remarks</label>
@@ -217,7 +219,7 @@
                             </div>
 
                         <div class="marg">
-                            <button class="form-button">Exit</button>
+                            <button class="form-button" onclick="Back()">Exit</button>
                             <button type="submit" class="form-button">Save</button>
 
                         </div>
