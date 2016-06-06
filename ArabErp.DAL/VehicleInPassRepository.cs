@@ -16,9 +16,32 @@ namespace ArabErp.DAL
 
             using (IDbConnection connection = OpenConnection(dataConnection))
             {
-                string sql = @"insert  into VehicleInPass(SaleOrderId,RegistrationNo,VehicleInPassDate,EmployeeId,Remarks,CreatedBy,CreatedDate,OrganizationId) Values (@SaleOrderId,@RegistrationNo,@VehicleInPassDate,@EmployeeId,@Remarks,@CreatedBy,@CreatedDate,@OrganizationId);
-            SELECT CAST(SCOPE_IDENTITY() as int)";
-
+                string sql = @"INSERT INTO VehicleInPass(
+                            VehicleInPassNo,
+                            SaleOrderItemId,
+                            SaleOrderId,
+                            RegistrationNo,
+                            VehicleInPassDate,
+                            EmployeeId,
+                            Remarks,
+                            CreatedBy,
+                            CreatedDate,
+                            OrganizationId,
+                            isActive)
+                         VALUES(
+                            @VehicleInPassNo,
+                            @SaleOrderItemId,
+                            (SELECT SaleOrderId FROM SaleOrderItem WHERE SaleOrderItemId = @SaleOrderItemId),
+                            @RegistrationNo,
+                            @VehicleInPassDate,
+                            @EmployeeId,
+                            @Remarks,
+                            @CreatedBy,
+                            @CreatedDate,
+                            @OrganizationId,
+                            1
+                        );
+                        SELECT CAST(SCOPE_IDENTITY() AS INT)";
 
                 var id = connection.Query<int>(sql, objVehicleInPass).Single();
                 return id;
@@ -70,6 +93,29 @@ namespace ArabErp.DAL
             }
         }
 
+        public IEnumerable<PendingSO> PendingVehicleInpass(int customerId)
+        {
+            using (IDbConnection connection = OpenConnection(dataConnection))
+            {
+                return connection.Query<PendingSO>(@"SELECT SaleOrderId, SaleOrderRefNo, CustomerId, SaleOrderDate INTO #SALE FROM SaleOrder WHERE CustomerId = @customerId AND ISNULL(isActive, 1) = 1 AND ISNULL(SaleOrderApproveStatus, 0) = 1
+                    SELECT SaleOrderId, SaleOrderItemId, WorkDescriptionId, VehicleModelId INTO #SALE_ITEM FROM SaleOrderItem WHERE ISNULL(isActive, 1) = 1;
+                    SELECT SaleOrderItemId INTO #VEHICLE_INPASS FROM VehicleInPass WHERE ISNULL(isActive, 1) = 1;
+                    SELECT WorkDescriptionId, WorkDescr INTO #WORK FROM WorkDescription WHERE ISNULL(isActive, 1) = 1;
+                    SELECT VehicleModelId, VehicleModelName, VehicleModelDescription INTO #MODEL FROM VehicleModel WHERE ISNULL(isActive, 1) = 1;
 
+                    SELECT SO.SaleOrderId, SO.SaleOrderRefNo + ' - ' + CONVERT(VARCHAR, SaleOrderDate, 106) SaleOrderRefNo, SOI.SaleOrderItemId, WorkDescr, VehicleModelName+' - '+VehicleModelDescription VehicleModelName FROM #SALE SO
+                    LEFT JOIN #SALE_ITEM SOI ON SO.SaleOrderId = SOI.SaleOrderId
+                    LEFT JOIN #VEHICLE_INPASS VI ON SOI.SaleOrderItemId = VI.SaleOrderItemId
+                    LEFT JOIN #WORK W ON SOI.WorkDescriptionId = W.WorkDescriptionId
+                    LEFT JOIN #MODEL M ON SOI.VehicleModelId = M.VehicleModelId
+                    WHERE VI.SaleOrderItemId IS NULL;
+
+                    DROP TABLE #SALE_ITEM;
+                    DROP TABLE #VEHICLE_INPASS;
+                    DROP TABLE #MODEL;
+                    DROP TABLE #WORK;
+                    DROP TABLE #SALE;", new { customerId = customerId }).ToList();
+            }
+        }
     }
 }
