@@ -17,8 +17,8 @@ namespace ArabErp.DAL
             try
             {
 
-                string sql = @"insert into GRNItem(GRNId,SlNo,ItemId,ItemDescription,PartNo,Remarks,Quantity,Unit,Rate,Discount,Amount) 
-                            Values (@GRNId,@SlNo,@ItemId,@ItemDescription,@PartNo,@Remarks,@Quantity,@Unit,@Rate,@Discount,@Amount);
+                string sql = @"insert into GRNItem(GRNId,SupplyOrderItemId,SlNo,ItemId,ItemDescription,PartNo,Remarks,Quantity,Unit,Rate,Discount,Amount) 
+                            Values (@GRNId,@SupplyOrderItemId,@SlNo,@ItemId,@ItemDescription,@PartNo,@Remarks,@Quantity,@Unit,@Rate,@Discount,@Amount);
                             SELECT CAST(SCOPE_IDENTITY() as int)";
 
 

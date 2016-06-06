@@ -10,13 +10,14 @@ namespace ArabErp.Domain
     {
         public int GRNItemId { get; set; }
         public int GRNId { get; set; }
-        public string SONoAndDate { get; set; }
+        public int? SupplyOrderItemId { get; set; }
         public int? SlNo { get; set; }
         public string ItemName { get; set; }
         public int? ItemId { get; set; }
         public string ItemDescription { get; set; }
         public string Remarks { get; set; }
         public string PartNo { get; set; }
+        public decimal? PendingQuantity { get; set; }
         public decimal? Quantity { get; set; }
         public string Unit { get; set; }
         public decimal? Rate { get; set; }
