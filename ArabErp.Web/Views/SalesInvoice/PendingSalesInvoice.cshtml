@@ -93,53 +93,82 @@
         </div>
         <div class="main-part pad1">
             @*<form>*@
-                <div class="wrap">
-                    <div class="table-responsive">
-                        <h5>Sale Invoice List</h5>
-                        <div class="wrap">
-                            <table class="table table-bordered table-hover">
-                                <tr class="grid_heading">
-                                    <th>Customer</th>
-                                    <th>Sale Order Number</th>
+            
+            <div class="table-responsive border">
+                <h5><center>Sale Invoice List</center></h5>
 
-                                    <th>Select</th>
+                <div class="col-md-12">
 
-                                </tr>
-                            </table>
-                            <div class="inner_table">
-                                <table id="PendingCustomerInvoiceTable" class="table table-bordered table-hover">
-                                    @for (int i = 0; i < Model.Count(); i++)
-                                    {
-                                        <tr id="Table_row_id">
-                                            <td>@Html.TextBoxFor(m => Model[i].Customer, new { @class = "form_input ", autocomplete = "off", @readonly = "readonly" })</td>
-                                            <td>@Html.TextBoxFor(m => Model[i].SaleOrderRefNoWithDate, new { @class = "form_input", autocomplete = "off", @readonly = "readonly" })</td>
-                                            <td><a onclick="OpenCustomerInvoice('@Model[i].SaleOrderId');">View</a></td>
-                                            @*<td align="center">
-                                                <button class="btn btn-xs btn-primary" onclick="Open('@Model[i].SaleOrderId')"><span class="glyphicon glyphicon-edit" style="top:2px"></span></button>
-                                            </td>*@    
-                                        </tr>
-                                    }
-                                </table>
+                    <div class="row">
+
+                        <div class="col-md-12 scroll2">
+                            <div class="col-md-12">
+                                <div class="row">
+                                    <div class="col-md-4 col-sm-2 grid-left">Customer</div>
+                                    <div class="col-md-4 col-sm-3 grid-left">Sale Order Number</div>
+                                    <div class="col-md-4 col-sm-1 grid-left"><center>Select</center></div>
+
+                                </div>
                             </div>
+
+
+                            @for (int i = 0; i < Model.Count(); i++)
+                            {
+                                <div class="col-md-12">
+                                    <div class="row">
+                                        <div class="col-md-4 col-sm-2 mtop">
+                                            @Html.TextBoxFor(m => Model[i].Customer, new { @class = "form_input ", autocomplete = "off", @readonly = "readonly" })
+                                        </div>
+                                        <div class="col-md-4 col-sm-3 mtop">
+                                            @Html.TextBoxFor(m => Model[i].SaleOrderRefNoWithDate, new { @class = "form_input", autocomplete = "off", @readonly = "readonly" })
+                                        </div>
+                                        <div class="col-md-4 col-sm-2 mtop form-button3">
+                                            <a class="mleft"onclick="OpenCustomerInvoice('@Model[i].SaleOrderId');">View</a>
+                                        </div>
+
+                                    </div>
+
+                                    @*<td align="center">
+                            <button class="btn btn-xs btn-primary" onclick="Open('@Model[i].SaleOrderId')"><span class="glyphicon glyphicon-edit" style="top:2px"></span></button>
+                        </td>*@
+                                </div>
+
+                            }
+
                         </div>
 
-                    </div>
-                </div>
-                <div id="SalesInvoiceListDiv">
-
-                    @Html.Action("PendingSalesInvoiceDt", new { SalesOrderId = 0 })
 
 
-                </div>
-
-                <div class="row">
-                    
                     </div>
 
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
                 </div>
-            @*</form>*@
+    
         </div>
+
+
+    <div id="SalesInvoiceListDiv">
+
+        @Html.Action("PendingSalesInvoiceDt", new { SalesOrderId = 0 })
+
+
+    </div>
     </div>
 </div>
 
