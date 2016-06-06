@@ -324,6 +324,16 @@ margin-top:0px;
     max-height: 350px;
     overflow:auto;
 }
+.scroll2 
+{
+    max-height: 210px;
+    overflow:auto;
+}
+.scroll3 
+{
+    max-height:350px;
+    overflow:auto;
+}
 .maintd
 {
     float:left;
@@ -371,5 +381,8 @@ background-color: #fff;
     border:1px solid #b8b7b7;
     margin-top:3px;
 }
-
+.mleft
+{
+ margin-left:50px !important;
+}
 
