@@ -46,7 +46,9 @@ namespace ArabErp.DAL
                 catch (Exception)
                 {
                     trn.Rollback();
+                    throw;
                     return 0;
+
                 }
 
 

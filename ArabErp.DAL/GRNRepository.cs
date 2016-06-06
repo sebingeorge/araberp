@@ -25,8 +25,9 @@ namespace ArabErp.DAL
                 {
                     int id = 0;
 
-                    string sql = @"insert  into GRN(GRNNo,GRNDate,SupplierId,WareHouseId,SupplierDCNoAndDate,SpecialRemarks,CreatedBy,CreatedDate,OrganizationId) Values (@GRNNo,@GRNDate,@SupplierId,@StockPointId,@SONODATE,@SpecialRemarks,@CreatedBy,@CreatedDate,@OrganizationId);
-                                   SELECT CAST(SCOPE_IDENTITY() as int)";
+                    string sql = @"insert  into GRN(GRNNo,GRNDate,SupplierId,SONoAndDate,WareHouseId,SupplierDCNoAndDate,SpecialRemarks,CreatedBy,CreatedDate,OrganizationId) 
+                                            Values (@GRNNo,@GRNDate,@SupplierId,@SONODATE,@StockPointId,@SupplierDCNoAndDate,@SpecialRemarks,@CreatedBy,@CreatedDate,@OrganizationId);
+                                            SELECT CAST(SCOPE_IDENTITY() as int)";
 
                     id = connection.Query<int>(sql, model, trn).Single();
                     var saleorderitemrepo = new GRNItemRepository();
