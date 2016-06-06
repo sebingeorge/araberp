@@ -23,7 +23,8 @@ namespace ArabErp.DAL
                 sql += " WorkShopRequest = case when W.WorkShopRequestId is null then 'No' else 'Yes' end,";
                 sql += " PurchaseRequest = case when P.PurchaseRequestId is null then 'No' else 'Yes' end,";
                 sql += " SuppyOrder = case when SupplyOrderItemId is null then 'No' else 'Yes' end,";
-                sql += " GRN = case when G.GRNId is null then 'No' else 'Yes' end";
+                sql += " GRN = case when G.GRNId is null then 'No' else 'Yes' end,";
+                sql += " SalesInvoice = case when SLI.SalesInvoiceId is null then 'No' else 'Yes' end";
                 sql += " from SaleOrderItem SI";
                 sql += " inner join SaleOrder S on S.SaleOrderId = SI.SaleOrderId";
                 sql += " inner join Customer C on C.CustomerId = S.CustomerId";
@@ -35,6 +36,7 @@ namespace ArabErp.DAL
                 sql += " left join SupplyOrderItem SUI on SUI.PurchaseRequestItemId = PRI.PurchaseRequestItemId";
                 sql += " left join SupplyOrder SO on SO.SupplyOrderId = SUI.SupplyOrderId";
                 sql += " left join GRN G on G.SupplyOrderId = SO.SupplyOrderId";
+                sql += " left join SalesInvoiceItem SLI on SLI.SaleOrderItemId = SI.SaleOrderItemId";
                 sql += " order by S.SaleOrderDate, S.SaleOrderId";
                 return connection.Query<SaleOrderStatus>(sql);
             }
