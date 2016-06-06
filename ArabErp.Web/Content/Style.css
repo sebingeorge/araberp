@@ -443,3 +443,11 @@ h5
 {
     margin-top:5px;
 }
+.classYes{
+    background-image:url(images/yes.png);
+    background-size: 15px 15px;
+}
+.classNo{
+    background-image:url(images/no.png);
+    background-size:15px 15px;
+}

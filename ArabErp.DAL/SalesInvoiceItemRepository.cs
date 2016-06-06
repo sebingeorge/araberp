@@ -90,6 +90,7 @@ namespace ArabErp.DAL
 
                 StringBuilder InvoiceItemsHD = new StringBuilder("<InvoiceItemsHD_DATA>");
                 InvoiceItemsHD.AppendFormat("<InvoiceItemsHD_Rows SaleOrderId={0}{1}{0}", (char)34, objSalesInvoiceItem.SaleOrderId);
+                InvoiceItemsHD.AppendFormat(" SalesInvoiceRefNo={0}{1}{0}", (char)34, objSalesInvoiceItem.SalesInvoiceRefNo);
                 InvoiceItemsHD.AppendFormat(" Addition={0}{1}{0}", (char)34, objSalesInvoiceItem.Addition);
                 InvoiceItemsHD.AppendFormat(" AdditionRemarks={0}{1}{0}", (char)34, objSalesInvoiceItem.AdditionRemarks);
                 InvoiceItemsHD.AppendFormat(" Deduction={0}{1}{0}", (char)34, objSalesInvoiceItem.Deduction);
