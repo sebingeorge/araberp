@@ -326,12 +326,13 @@ margin-top:0px;
 }
 .scroll2 
 {
-    max-height: 210px;
+    max-height: 99px;
     overflow:auto;
 }
 .scroll3 
 {
-    max-height:350px;
+    min-height:115px;
+    max-height:115px;
     overflow:auto;
 }
 .maintd
@@ -383,6 +384,10 @@ background-color: #fff;
 }
 .mleft
 {
- margin-left:50px !important;
+ margin-left:125px !important;
+}
+.wid
+{
+width:100%;
 }
 

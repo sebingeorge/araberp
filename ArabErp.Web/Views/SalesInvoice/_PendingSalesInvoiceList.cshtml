@@ -113,88 +113,85 @@
 
             <div class="col-md-12"><h5>Sales Invoice Details</h5></div>
             <div class="main-grid">
-
-                <div class="table-responsive">
-
-
-                    <input type="hidden" id="HiddenForCheckBox" value="0" />
+                <div>
+                    <div class="table-responsive">
 
 
+                        <input type="hidden" id="HiddenForCheckBox" value="0" />
 
-                    <table id="PendingCustomerInvoiceTable" class="table table-bordered">
 
-                        @if (Model.Count > 0)
+
+                        <table id="PendingCustomerInvoiceTable" class="table table-bordered">
+
+                            @if (Model.Count > 0)
                         {
-                            <tr class="grid_heading">
-                                <th width="20%">Work Description</th>
-                                <th width="20%">Job Card No.</th>
-                                <th width="15%">Vehicle Model</th>
-                                <th width="5%">Quantity</th>
+                        <tr class="grid_heading">
+                            <th width="20%">Work Description</th>
+                            <th width="20%">Job Card No.</th>
+                            <th width="15%">Vehicle Model</th>
+                            <th width="5%">Quantity</th>
 
-                                <th width="5%">Rate</th>
-                                <th width="5%">Amount</th>
-                                <th width="10%"><input id="checkAll" type="checkbox" value="Select All" /><label for="checkAll">Select All</label></th>
-                            </tr>
+                            <th width="5%">Rate</th>
+                            <th width="5%">Amount</th>
+                            <th width="10%"><input id="checkAll" type="checkbox" value="Select All" /><label for="checkAll">Select All</label></th>
+                        </tr>
                             for (int i = 0; i < Model.Count(); i++)
                             {
-                                <tr>
-                                    <td>@Html.TextBoxFor(m => Model[i].WorkDescription, new { @class = "form_input", autocomplete = "off", @readonly = "readonly" })</td>
-                                    <td>@Html.TextBoxFor(m => Model[i].JobCardNo, new { @class = "form_input", autocomplete = "off", @readonly = "readonly" })</td>
-                                    <td>@Html.TextBoxFor(m => Model[i].VehicleModelName, new { @class = "form_input", autocomplete = "off", @readonly = "readonly" })</td>
-                                    <td>@Html.TextBoxFor(m => Model[i].Quantity, new { @class = "form_input clAmount", @style = "text-align:right", autocomplete = "off", @readonly = "readonly" })</td>
-                                    <td>@Html.TextBoxFor(m => Model[i].Rate, new { @class = "form_input clAmount", @style = "text-align:right", autocomplete = "off", @readonly = "readonly" })</td>
-                                    <td>@Html.TextBoxFor(m => Model[i].Amount, new { @class = "form_input clAmount", @style = "text-align:right", autocomplete = "off", @readonly = "readonly" })</td>
-                                    <td><center>@Html.CheckBoxFor(model => Model[i].SelectStatus, new { @class = "check_box", @onclick = "Checked(this)" })</center></td>
-                                    @Html.HiddenFor(model => Model[i].SaleOrderId)
-                                    @Html.HiddenFor(model => Model[i].SaleOrderItemId)
+                        <tr>
+                            <td>@Html.TextBoxFor(m => Model[i].WorkDescription, new { @class = "form_input", autocomplete = "off", @readonly = "readonly" })</td>
+                            <td>@Html.TextBoxFor(m => Model[i].JobCardNo, new { @class = "form_input", autocomplete = "off", @readonly = "readonly" })</td>
+                            <td>@Html.TextBoxFor(m => Model[i].VehicleModelName, new { @class = "form_input", autocomplete = "off", @readonly = "readonly" })</td>
+                            <td>@Html.TextBoxFor(m => Model[i].Quantity, new { @class = "form_input clAmount", @style = "text-align:right", autocomplete = "off", @readonly = "readonly" })</td>
+                            <td>@Html.TextBoxFor(m => Model[i].Rate, new { @class = "form_input clAmount", @style = "text-align:right", autocomplete = "off", @readonly = "readonly" })</td>
+                            <td>@Html.TextBoxFor(m => Model[i].Amount, new { @class = "form_input clAmount", @style = "text-align:right", autocomplete = "off", @readonly = "readonly" })</td>
+                            <td><center>@Html.CheckBoxFor(model => Model[i].SelectStatus, new { @class = "check_box", @onclick = "Checked(this)" })</center></td>
+                            @Html.HiddenFor(model => Model[i].SaleOrderId)
+                            @Html.HiddenFor(model => Model[i].SaleOrderItemId)
 
-                                    @* <td><a href="" onclick="OpenCustomerInvoice('@Model[i].SaleOrderId');">Select</a></td>*@
-                                </tr>
+                            @* <td><a href="" onclick="OpenCustomerInvoice('@Model[i].SaleOrderId');">Select</a></td>*@
+                        </tr>
                             }
                         }
                         else
                         {
-                            <tr class="grid_heading">
-                                <th>Work Description</th>
-                                <th>Job Card No.</th>
-                                <th>Vehicle Model</th>
-                                <th>Quantity</th>
+                        <tr class="grid_heading">
+                            <th>Work Description</th>
+                            <th>Job Card No.</th>
+                            <th>Vehicle Model</th>
+                            <th>Quantity</th>
 
-                                <th>Rate</th>
-                                <th>Amount</th>
-                                <th><label for="checkAll">Select All</label></th>
-                            </tr>
-                            <tr>
-                                <td>&nbsp;</td>
-                                <td>&nbsp;</td>
-                                <td>&nbsp;</td>
-                                <td>&nbsp;</td>
-                                <td>&nbsp;</td>
-                            </tr>
+                            <th>Rate</th>
+                            <th>Amount</th>
+                            <th><label for="checkAll">Select All</label></th>
+                        </tr>
+                        <tr>
+                            <td>&nbsp;</td>
+                            <td>&nbsp;</td>
+                            <td>&nbsp;</td>
+                            <td>&nbsp;</td>
+                            <td>&nbsp;</td>
+                        </tr>
                         }
 
 
-                    </table>
+                        </table>
 
 
 
-                    <div class="col-md-12 hrpart">
-                        <div class="row">
-                            <div class="margf">
-                                @*<button type="submit" class="form-button">Exit</button>*@
+
+                                <div class="margf">
+                                    @*<button type="submit" class="form-button">Exit</button>*@
 
 
-                                <button type="submit" class="form-button" id="BtnSubmit" disabled>Proceed</button>
-                            </div>
-                         </div>
+                                    <button type="submit" class="form-button" id="BtnSubmit" disabled>Proceed</button>
+                                </div>
 
-                        </div>
 
 
 
                     </div>
 
-
+                </div>
 
 
 
