@@ -216,6 +216,7 @@
     <Compile Include="Controllers\ItemGroupController.cs" />
     <Compile Include="Controllers\ItemSubGroupController.cs" />
     <Compile Include="Controllers\JobCardController.cs" />
+    <Compile Include="Controllers\JobCardQCController.cs" />
     <Compile Include="Controllers\JobOrderCompletionController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
     <Compile Include="Controllers\MisReportController.cs" />
@@ -458,6 +459,7 @@
     <Content Include="Views\StoresIssue\_IssuanceItems.cshtml" />
     <Content Include="Views\JobOrderCompletion\Create.cshtml" />
     <Content Include="Views\SaleOrderStatus\Index.cshtml" />
+    <Content Include="Views\JobCardQC\Create.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

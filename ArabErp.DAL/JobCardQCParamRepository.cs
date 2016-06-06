@@ -11,20 +11,25 @@ namespace ArabErp.DAL
     public class JobCardQCParamRepository : BaseRepository
     {
         static string dataConnection = GetConnectionString("arab");
-        public int InsertJobCardQCParam(JobCardQCParam objJobCardQCParam)
+        public int InsertSaleOrderItem(JobCardQCParam objJobCardQCParam, IDbConnection connection, IDbTransaction trn)
         {
-
-            using (IDbConnection connection = OpenConnection(dataConnection))
+            try
             {
-                string sql = @"insert  into JobCardQCParam(QCParamId,JobCardQCId,QCParamValue,OrganizationId,isActive) Values (@QCParamId,@JobCardQCId,@QCParamValue,@OrganizationId,@isActive);
-            SELECT CAST(SCOPE_IDENTITY() as int)";
+
+                string sql = @"INSERT INTO JobCardQCParam(QCParamId,JobCardQCId,QCParamValue,OrganizationId) VALUES(@QCParamId,@JobCardQCId,@QCParamValue,@OrganizationId);
+                       
+                SELECT CAST(SCOPE_IDENTITY() as int)";
 
 
-                var id = connection.Query<int>(sql, objJobCardQCParam).Single();
+                var id = connection.Query<int>(sql, objJobCardQCParam, trn).Single();
                 return id;
             }
-        }
+            catch (Exception)
+            {
+                throw;
+            }
 
+        }
 
         public JobCardQCParam GetJobCardQCParam(int JobCardQCParamId)
         {
@@ -67,6 +72,17 @@ namespace ArabErp.DAL
 
                 var id = connection.Execute(sql, objJobCardQCParam);
                 return id;
+            }
+        }
+        public List<JobCardQCParam> GetJobCardQCParamList()
+        {
+            using (IDbConnection connection = OpenConnection(dataConnection))
+            {
+                string sql = @"select QCParamId,QCParamName from QCParam";
+
+                var objSalesInvoices = connection.Query<JobCardQCParam>(sql).ToList<JobCardQCParam>();
+
+                return objSalesInvoices;
             }
         }
 
