@@ -202,6 +202,7 @@
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\AdditionalWorkShopRequestController.cs" />
+    <Compile Include="Controllers\BayStatusController.cs" />
     <Compile Include="Controllers\CommissionAgentController.cs" />
     <Compile Include="Controllers\CurrencyController.cs" />
     <Compile Include="Controllers\CustomerCategoryController.cs" />
@@ -467,6 +468,8 @@
     <Content Include="Views\VehicleInPass\_PendingVehicleInPass.cshtml" />
     <Content Include="Views\VehicleInPass\Save.cshtml" />
     <Content Include="Views\JobCardQC\Create.cshtml" />
+    <Content Include="Views\BayStatus\Index.cshtml" />
+    <Content Include="Views\BayStatus\_BayPartial.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

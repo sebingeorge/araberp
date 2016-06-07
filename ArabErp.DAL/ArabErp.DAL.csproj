@@ -66,6 +66,7 @@
     <Compile Include="ArabDALTests.cs" />
     <Compile Include="BaseRepository.cs" />
     <Compile Include="BayRepository.cs" />
+    <Compile Include="BayStatusReportRepository.cs" />
     <Compile Include="BoxRepository.cs" />
     <Compile Include="CommissionAgentRepository.cs" />
     <Compile Include="ConnectionManager.cs" />

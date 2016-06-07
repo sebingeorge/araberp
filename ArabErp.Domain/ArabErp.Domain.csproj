@@ -42,6 +42,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Bay.cs" />
+    <Compile Include="BayStatus.cs" />
     <Compile Include="Box.cs" />
     <Compile Include="CommissionAgent.cs" />
     <Compile Include="Currency.cs" />
