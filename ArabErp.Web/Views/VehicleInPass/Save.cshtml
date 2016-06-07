@@ -6,6 +6,16 @@
 }
 
 <script type="text/javascript">
+    $(document).ready(function () {
+        $.getJSON('@Url.Action("GetSaleOrderItemDetails")', { id: '@Model.SaleOrderItemId' },
+            function (data) {
+                $("#txtSONoDate").val(data.SaleOrderRefNo);
+                $("#txtWork").val(data.WorkDescr);
+                $("#txtVehicleModel").val(data.VehicleModelName);
+                $("#txtCustomer").val(data.CustomerName);
+            });
+    });
+
     function formValidation() {
         return confirm("Are you sure to Save?");
     }
@@ -22,44 +32,68 @@
             <h4>Vehicle In-Pass</h4>
         </div>
         <div class="main-part pad1">
+            <div class="col-md-12">
+                <div class="row">
+                    @using (Html.BeginForm("Save", null, FormMethod.Post, new { @class = "createFrom", onsubmit = "return formValidation()", @id = "vehicle-inpass-form" }))
+                    {
+                        <div class="row form-group">
+                            <div class="col-md-4">
+                                <label>Customer</label>
+                                <input type="text" class="form_input" id="txtCustomer" disabled />
+                            </div>
+                            <div class="col-md-3">
+                                <label>SO No. &amp; Date</label>
+                                <input type="text" class="form_input" id="txtSONoDate" disabled />
+                            </div>
+                        </div>
 
-            @using (Html.BeginForm("Save", null, FormMethod.Post, new { @class = "createFrom", onsubmit = "return formValidation()", @id = "vehicle-inpass-form" }))
-            {
-                <div class="row form-group">
-                    <div class="col-md-2 col-md-offset-1">
-                        <label>Vehicle In-Pass No.</label>
-                        @Html.TextBoxFor(m => m.VehicleInPassNo, new { @class = "form_input" })
-                    </div>
-                    <div class="col-md-2">
-                        <label>Registration No.</label>
-                        @Html.HiddenFor(m => m.SaleOrderItemId)
-                        @Html.TextBoxFor(m => m.RegistrationNo, new { @class = "form_input" })
-                    </div>
-                    <div class="col-md-2">
-                        <label>In-Pass Date</label>
-                        @Html.TextBoxFor(m => m.VehicleInPassDate, new { @class = "form_input", @type = "date" })
-                    </div>
-                    <div class="col-md-3">
-                        <label>Employee</label>
-                        @Html.DropDownListFor(m => m.EmployeeId, (SelectList)ViewBag.employeeList, "Select Employee", new { @class = "form_input" })
-                    </div>
+                        <div class="row form-group">
+                            <div class="col-md-3">
+                                <label>Vehicle Model</label>
+                                <input type="text" class="form_input" id="txtVehicleModel" disabled />
+                            </div>
+                            <div class="col-md-9">
+                                <label>Work Description</label>
+                                <input type="text" class="form_input" id="txtWork" disabled />
+                            </div>
+                        </div>
+
+                        <div class="row form-group">
+                            <div class="col-md-3">
+                                <label>Vehicle In-Pass No.</label>
+                                @Html.TextBoxFor(m => m.VehicleInPassNo, new { @class = "form_input" })
+                            </div>
+                            <div class="col-md-3">
+                                <label>Registration No.</label>
+                                @Html.HiddenFor(m => m.SaleOrderItemId)
+                                @Html.TextBoxFor(m => m.RegistrationNo, new { @class = "form_input" })
+                            </div>
+                            <div class="col-md-3">
+                                <label>In-Pass Date</label>
+                                @Html.TextBoxFor(m => m.VehicleInPassDate, new { @class = "form_input", @type = "date" })
+                            </div>
+                            <div class="col-md-3">
+                                <label>Employee</label>
+                                @Html.DropDownListFor(m => m.EmployeeId, (SelectList)ViewBag.employeeList, "Select Employee", new { @class = "form_input" })
+                            </div>
+                        </div>
+
+                        <div class="row form-group">
+                            <div class="col-md-12">
+                                <label>Remarks</label>
+                                @Html.TextAreaFor(m => m.Remarks, new { @class = "form_input form_input-h" })
+                            </div>
+                        </div>
+
+                        <div class="row form-group">
+                            <div class="col-md-12 hrpart">
+                                <input class="form-button right" type="submit" value="Save" />
+                                <input class="form-button right" type="button" value="Back" onclick="Back()" />
+                            </div>
+                        </div>
+                    }
                 </div>
-
-                <div class="row form-group">
-                    <div class="col-md-9 col-md-offset-1">
-                        <label>Remarks</label>
-                        @Html.TextAreaFor(m => m.Remarks, new { @class = "form_input form_input-h" })
-                    </div>
-                </div>
-
-                <div class="row form-group">
-                    <div class="col-md-9 col-md-offset-1 hrpart">
-                        <input class="form-button right" type="submit" value="Save" />
-                        <input class="form-button right" type="button" value="Back" onclick="Back()" />
-                    </div>
-                </div>
-            }
-
+            </div>
         </div>
     </div>
 </div>

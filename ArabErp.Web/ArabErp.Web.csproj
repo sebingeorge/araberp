@@ -202,6 +202,7 @@
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\AdditionalWorkShopRequestController.cs" />
+    <Compile Include="Controllers\BayStatusController.cs" />
     <Compile Include="Controllers\CommissionAgentController.cs" />
     <Compile Include="Controllers\CurrencyController.cs" />
     <Compile Include="Controllers\CustomerCategoryController.cs" />
@@ -236,6 +237,7 @@
     <Compile Include="Controllers\UnitController.cs" />
     <Compile Include="Controllers\VehicleInPassController.cs" />
     <Compile Include="Controllers\VehicleModelController.cs" />
+    <Compile Include="Controllers\VehicleOutPassController.cs" />
     <Compile Include="Controllers\WorkDescriptionController.cs" />
     <Compile Include="Controllers\WorkShopRequestController.cs" />
     <Compile Include="Global.asax.cs">
@@ -271,6 +273,7 @@
     <Content Include="Images\101.png" />
     <Content Include="Images\banner.png" />
     <Content Include="Images\button-part.jpg" />
+    <Content Include="Images\tick.png" />
     <Content Include="Images\x.png" />
     <Content Include="Scripts\gridmvc.js" />
     <Content Include="Scripts\gridmvc.lang.ru.js" />
@@ -466,6 +469,11 @@
     <Content Include="Views\VehicleInPass\_PendingVehicleInPass.cshtml" />
     <Content Include="Views\VehicleInPass\Save.cshtml" />
     <Content Include="Views\JobCardQC\Create.cshtml" />
+    <Content Include="Views\BayStatus\Index.cshtml" />
+    <Content Include="Views\BayStatus\_BayPartial.cshtml" />
+    <Content Include="Views\VehicleOutPass\Index.cshtml" />
+    <Content Include="Views\VehicleOutPass\_PendingVehicleOutPass.cshtml" />
+    <Content Include="Views\VehicleOutPass\Save.cshtml" />
     <Content Include="Views\JobCardQC\PendingJobCardQC.cshtml" />
   </ItemGroup>
   <ItemGroup>

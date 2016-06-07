@@ -1,7 +1,6 @@
-﻿@model IList<ArabErp.Domain.PendingSO>
-
+﻿
 @{
-    ViewBag.Title = "Vehicle In Pass";
+    ViewBag.Title = "Vehicle Out Pass";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
@@ -14,11 +13,11 @@
         if ($(s).val() != null && $(s).val() != '') id = $(s).val();
         else id = 0;
 
-        var url = '@Url.Action("PendingVehicleInPass")';
+        var url = '@Url.Action("PendingVehicleOutPass")';
         url += "?customerId=" + id;
         $("#table-body").load(url);
 
-        var url = '@Url.Action("GetCustomerAddress", "VehicleOutPass")';
+        var url = '@Url.Action("GetCustomerAddress")';
         $.getJSON(url, { id: id }, function (data) {
             $("#txtAddress").val(data);
         });
@@ -33,7 +32,7 @@
 <div class="container">
     <div class="row">
         <div class="form-head1">
-            <h4>Pending Vehicle In-Pass</h4>
+            <h4>Pending Vehicle Out-Pass</h4>
         </div>
         <div class="main-part pad1">
 
@@ -44,20 +43,22 @@
                 </div>
                 <div class="col-md-8">
                     <label>Address</label>
-                    <input type="text" class="form_input" id="txtAddress" disabled />
+                    <input type="text" class="form_input" id="txtAddress" disabled/>
                 </div>
             </div>
             <table class="table table-bordered">
                 <thead>
                     <tr class="grid_heading">
                         <th><h1>SO No. &amp; Date</h1></th>
+                        <th><h1>JC No. &amp; Date</h1></th>
                         <th><h1>Work Description</h1></th>
                         <th><h1>Vehicle Model</h1></th>
+                        <th><h1>RegistrationNo</h1></th>
                         <th></th>
                     </tr>
                 </thead>
                 <tbody id="table-body" class="grid_row">
-                    @Html.Action("PendingVehicleInPass", new { customerId = 0 })
+                    @Html.Action("PendingVehicleOutPass", new { customerId = 0 })
                 </tbody>
             </table>
 

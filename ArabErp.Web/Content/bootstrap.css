@@ -6965,6 +6965,36 @@ td.visible-print {
         margin-left:0 !important;
         margin-bottom:10px !important;
     }
+    .form-button3
+     {
+
+      margin-bottom:10px !important;
+    }
+    .form-button3 a 
+    {
+    width:100% !important;
+    margin-left:0 !important;
+    }
+
+    .form_input 
+    {
+        margin-bottom:6px;
+    }
+
+    .main-grid-bay
+    {
+        overflow:auto !important;
+       
+    }
+    .pagination
+    {
+       margin-left:15px !important
+    }
+
+    .tab_logic 
+    {
+         overflow:auto !important;
+    }
 
 }
 
