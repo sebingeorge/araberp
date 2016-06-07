@@ -52,5 +52,16 @@ namespace ArabErp.Web.Controllers
         {
             ViewBag.employeeList = new SelectList(new DropdownRepository().EmployeeDropdown(), "Id", "Name");
         }
+        public JsonResult GetSaleOrderItemDetails(int id = 0)
+        {
+            var data = new VehicleInPassRepository().GetSaleOrderItemDetails(id);
+            return Json(new
+            {
+                SaleOrderRefNo = data.SaleOrderRefNo,
+                WorkDescr = data.WorkDescr,
+                VehicleModelName = data.VehicleModelName,
+                CustomerName = data.CustomerName
+            }, JsonRequestBehavior.AllowGet);
+        }
     }
 }

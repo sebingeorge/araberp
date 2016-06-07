@@ -92,7 +92,11 @@ namespace ArabErp.DAL
                 return id;
             }
         }
-
+        /// <summary>
+        /// Return all sale order items that are not in vehicle in-pass
+        /// </summary>
+        /// <param name="customerId"></param>
+        /// <returns></returns>
         public IEnumerable<PendingSO> PendingVehicleInpass(int customerId)
         {
             using (IDbConnection connection = OpenConnection(dataConnection))
@@ -115,6 +119,28 @@ namespace ArabErp.DAL
                     DROP TABLE #MODEL;
                     DROP TABLE #WORK;
                     DROP TABLE #SALE;", new { customerId = customerId }).ToList();
+            }
+        }
+        public PendingSO GetSaleOrderItemDetails(int saleOrderItemId)
+        {
+            using (IDbConnection connection = OpenConnection(dataConnection))
+            {
+                return connection.Query<PendingSO>(@"SELECT SaleOrderId, SaleOrderRefNo, CustomerId, SaleOrderDate INTO #SALE FROM SaleOrder WHERE ISNULL(isActive, 1) = 1 AND ISNULL(SaleOrderApproveStatus, 0) = 1
+                    SELECT SaleOrderId, SaleOrderItemId, WorkDescriptionId, VehicleModelId INTO #SALE_ITEM FROM SaleOrderItem WHERE ISNULL(isActive, 1) = 1;
+                    SELECT WorkDescriptionId, WorkDescr INTO #WORK FROM WorkDescription WHERE ISNULL(isActive, 1) = 1;
+                    SELECT VehicleModelId, VehicleModelName, VehicleModelDescription INTO #MODEL FROM VehicleModel WHERE ISNULL(isActive, 1) = 1;
+
+                    SELECT SO.SaleOrderId, SO.SaleOrderRefNo + ' - ' + CONVERT(VARCHAR, SaleOrderDate, 106) SaleOrderRefNo, SOI.SaleOrderItemId, WorkDescr, VehicleModelName+' - '+VehicleModelDescription VehicleModelName, C.CustomerName FROM #SALE SO
+                    LEFT JOIN #SALE_ITEM SOI ON SO.SaleOrderId = SOI.SaleOrderId
+                    LEFT JOIN #WORK W ON SOI.WorkDescriptionId = W.WorkDescriptionId
+                    LEFT JOIN #MODEL M ON SOI.VehicleModelId = M.VehicleModelId
+					LEFT JOIN Customer C ON SO.CustomerId = C.CustomerId
+                    WHERE SOI.SaleOrderItemId = @saleOrderItemId;
+
+                    DROP TABLE #SALE_ITEM;
+                    DROP TABLE #MODEL;
+                    DROP TABLE #WORK;
+                    DROP TABLE #SALE;", new { saleOrderItemId = saleOrderItemId }).Single();
             }
         }
     }

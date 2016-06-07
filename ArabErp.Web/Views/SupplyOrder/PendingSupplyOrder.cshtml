@@ -29,7 +29,7 @@
 
                     </table>
                 </div>*@
-                <div class="main-part pad1">
+                <div class="main-part wid pad1">
                     <div class="table-responsive">
 
 
@@ -38,23 +38,26 @@
                             <div class="col-md-12">
 
 
-                                <div class="col-md-4 grid-left">PRS No. and Date</div>
-                                <div class="col-md-4 grid-left">Required Date</div>
-                                <div class="col-md-4 grid-left"></div>
+                                <div class="col-md-4 col-sm-4 grid-left">PRS No. and Date</div>
+                                <div class="col-md-4 col-sm-4 grid-left">Required Date</div>
+                                <div class="col-md-4 col-sm-4 grid-left"></div>
 
 
                                 @for (int i = 0; i < Model.Count(); i++)
                                 {
                                     @Html.HiddenFor(m => m[i].PurchaseRequestId)
-                                    <div class="col-md-4"><div class="form_input"> @Model[i].PurchaseRequestNo  -  @Model[i].RequiredDate.ToString("dd/MMM/yyyy")  </div></div>
-                                    <div class="col-md-4"><div class="form_input">@Model[i].RequiredDate.ToString("dd/MMM/yyyy") </div></div>
-                                    <div class="col-md-4"><div class="checkbox1"><center>@Html.CheckBoxFor(m => m[i].Select)</center></div></div>
-                                    
+                                    <div class="col-md-4 col-sm-4"><div class="form_input"> @Model[i].PurchaseRequestNo  -  @Model[i].RequiredDate.ToString("dd/MMM/yyyy")  </div></div>
+                                    <div class="col-md-4 col-sm-4"><div class="form_input">@Model[i].RequiredDate.ToString("dd/MMM/yyyy") </div></div>
+                                    <div class="col-md-4 col-sm-4"><div class="checkbox1"><center>@Html.CheckBoxFor(m => m[i].Select)</center></div></div>
                                 }
                             </div>
                         </div>
 
+                        </div>
+
+
                     </div>
+
 
                     <div class="row">
 
@@ -72,8 +75,6 @@
 
                         </div>
 
-
-                    </div>
 
                 </div>
 
