@@ -326,20 +326,29 @@ margin-top:0px;
 }
 .scroll2 
 {
-    max-height:166px;
-    overflow:auto;
+    max-height:150px;
+    overflow-y:auto;
+    overflow-x:hidden;
 }
 .scroll3 
 {
 
-    max-height:250px;
-    overflow:auto;
+    max-height:300px;
+    overflow-y:auto;
+    overflow-x:hidden;
 }
 .scroll4 
 {
 
     max-height:450px;
     overflow:auto;
+}
+.scroll5 
+{
+
+    max-height:70vh;
+    overflow-y:auto;
+    overflow-x:hidden;
 }
 .maintd
 {
