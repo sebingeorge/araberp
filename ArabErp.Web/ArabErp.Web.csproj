@@ -217,6 +217,7 @@
     <Compile Include="Controllers\ItemGroupController.cs" />
     <Compile Include="Controllers\ItemSubGroupController.cs" />
     <Compile Include="Controllers\JobCardController.cs" />
+    <Compile Include="Controllers\JobCardQCController.cs" />
     <Compile Include="Controllers\JobOrderCompletionController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
     <Compile Include="Controllers\MisReportController.cs" />
@@ -234,6 +235,7 @@
     <Compile Include="Controllers\SupplyOrderController.cs" />
     <Compile Include="Controllers\TaskController.cs" />
     <Compile Include="Controllers\UnitController.cs" />
+    <Compile Include="Controllers\VehicleInPassController.cs" />
     <Compile Include="Controllers\VehicleModelController.cs" />
     <Compile Include="Controllers\WorkDescriptionController.cs" />
     <Compile Include="Controllers\WorkShopRequestController.cs" />
@@ -267,8 +269,11 @@
     <Content Include="Content\jsgrid-theme.min.css" />
     <Content Include="Content\jsgrid.css" />
     <Content Include="Content\PagedList.css" />
+    <Content Include="Images\101.png" />
     <Content Include="Images\banner.png" />
     <Content Include="Images\button-part.jpg" />
+    <Content Include="Images\tick.png" />
+    <Content Include="Images\x.png" />
     <Content Include="Scripts\gridmvc.js" />
     <Content Include="Scripts\gridmvc.lang.ru.js" />
     <Content Include="Scripts\gridmvc.min.js" />
@@ -459,6 +464,10 @@
     <Content Include="Views\StoresIssue\_IssuanceItems.cshtml" />
     <Content Include="Views\JobOrderCompletion\Create.cshtml" />
     <Content Include="Views\SaleOrderStatus\Index.cshtml" />
+    <Content Include="Views\VehicleInPass\Index.cshtml" />
+    <Content Include="Views\VehicleInPass\_PendingVehicleInPass.cshtml" />
+    <Content Include="Views\VehicleInPass\Save.cshtml" />
+    <Content Include="Views\JobCardQC\Create.cshtml" />
     <Content Include="Views\BayStatus\Index.cshtml" />
     <Content Include="Views\BayStatus\_BayPartial.cshtml" />
   </ItemGroup>

@@ -78,7 +78,7 @@
                         @Html.TextBoxFor(m => m.JobCardNo, new { @class = "form_input", autocomplete = "off" })
                         @Html.HiddenFor(m => m.JobCardId)
                     </div>
-                    <div class="col-md-2 col-md-offset-8">
+                    <div class="col-md-2">
                         <label for="inputDate">Date</label>
                         @Html.TextBoxFor(m => m.JobCardCompletedDate, new { @class = "form_input", autocomplete = "off" })
                     </div>
@@ -143,19 +143,29 @@
                 </div>
                 <div class="row form-group">
                     <div class="col-md-12">
+                        <div class="row">
+                            <div class="col-md-1">
                         <label for="SplRemarks1">Spl.Remarks</label>
-                        @Html.TextAreaFor(m => m.SpecialRemarks, new { @class = "form_input form_input-h", autocomplete = "off" })
+                            </div>
+                            <div class="col-md-11">
+                                @Html.TextAreaFor(m => m.SpecialRemarks, new { @class = "form_input form_input-h", autocomplete = "off" })
+                            </div>
+                        </div>
                     </div>
 
                 </div>
 
-                <div class="margf">
-                    <button type="submit" class="form-button">Exit</button>
-                    <button type="submit" class="form-button">Save</button>
-                </div>
-                <div class="row">
 
-                </div>
+
+    <div class="row">
+     
+        <div class="col-md-12 hrpart">
+            <button type="button" class="form-button right">Exit</button>
+            <button type="submit" class="form-button right">Save</button>
+        </div>
+      
+    </div>
+      
             }                
         </div>
 </div>

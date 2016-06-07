@@ -1,0 +1,65 @@
+﻿@model ArabErp.Domain.VehicleInPass
+
+@{
+    ViewBag.Title = "Vehicle In Pass";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<script type="text/javascript">
+    function formValidation() {
+        return confirm("Are you sure to Save?");
+    }
+
+    function Back() {
+        var url = '@Url.Action("Index")';
+        window.location = url;
+    }
+</script>
+
+<div class="container">
+    <div class="row">
+        <div class="form-head1">
+            <h4>Vehicle In-Pass</h4>
+        </div>
+        <div class="main-part pad1">
+
+            @using (Html.BeginForm("Save", null, FormMethod.Post, new { @class = "createFrom", onsubmit = "return formValidation()", @id = "vehicle-inpass-form" }))
+            {
+                <div class="row form-group">
+                    <div class="col-md-2 col-md-offset-1">
+                        <label>Vehicle In-Pass No.</label>
+                        @Html.TextBoxFor(m => m.VehicleInPassNo, new { @class = "form_input" })
+                    </div>
+                    <div class="col-md-2">
+                        <label>Registration No.</label>
+                        @Html.HiddenFor(m => m.SaleOrderItemId)
+                        @Html.TextBoxFor(m => m.RegistrationNo, new { @class = "form_input" })
+                    </div>
+                    <div class="col-md-2">
+                        <label>In-Pass Date</label>
+                        @Html.TextBoxFor(m => m.VehicleInPassDate, new { @class = "form_input", @type = "date" })
+                    </div>
+                    <div class="col-md-3">
+                        <label>Employee</label>
+                        @Html.DropDownListFor(m => m.EmployeeId, (SelectList)ViewBag.employeeList, "Select Employee", new { @class = "form_input" })
+                    </div>
+                </div>
+
+                <div class="row form-group">
+                    <div class="col-md-9 col-md-offset-1">
+                        <label>Remarks</label>
+                        @Html.TextAreaFor(m => m.Remarks, new { @class = "form_input form_input-h" })
+                    </div>
+                </div>
+
+                <div class="row form-group">
+                    <div class="col-md-9 col-md-offset-1 hrpart">
+                        <input class="form-button right" type="submit" value="Save" />
+                        <input class="form-button right" type="button" value="Back" onclick="Back()" />
+                    </div>
+                </div>
+            }
+
+        </div>
+    </div>
+</div>

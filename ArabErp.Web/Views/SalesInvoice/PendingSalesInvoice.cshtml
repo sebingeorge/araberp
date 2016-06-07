@@ -49,7 +49,10 @@
     td.focus {
         background-color: Blue;
     }
-    .highlight { background-color: red; }
+
+    .highlight {
+        background-color: red;
+    }
 </style>
 <script>
     $(document).ready(function () {
@@ -63,9 +66,9 @@
     function OpenCustomerInvoice(key) {
         var Url = '@Url.Action("PendingSalesInvoiceDt")';
         $("#SalesInvoiceListDiv").load(Url, { SalesOrderId: key });
-     
+
     }
-   
+
 
 
 
@@ -92,53 +95,90 @@
             <h4>Pending Sales Invoice</h4>
         </div>
         <div class="main-part pad1">
-            @*<form>*@
-                <div class="wrap">
-                    <div class="table-responsive">
-                        <h5>Sale Invoice List</h5>
-                        <div class="wrap">
-                            <table class="table table-bordered table-hover">
-                                <tr class="grid_heading">
-                                    <th>Customer</th>
-                                    <th>Sale Order Number</th>
 
-                                    <th>Select</th>
 
-                                </tr>
-                            </table>
-                            <div class="inner_table">
-                                <table id="PendingCustomerInvoiceTable" class="table table-bordered table-hover">
+
+
+
+
+
+
+
+            <div class="main-list wid">
+
+
+                <div class="main-grid">
+                  
+                    <div>
+                        <div class="table-responsive scroll2">
+                          
+                            <h5>Invoice List</h5>
+                                <table id="PendingCustomerInvoiceTable" class="table table-bordered">
+
+
+
+                                    <tr class="grid_heading">
+                                        <th width="20%">Customer</th>
+                                        <th width="20%">Sale Order Number</th>
+                                        <th width="15%"><center>Select</center></th>
+
+                                    </tr>
+
                                     @for (int i = 0; i < Model.Count(); i++)
                                     {
-                                        <tr id="Table_row_id">
+                                        <tr>
                                             <td>@Html.TextBoxFor(m => Model[i].Customer, new { @class = "form_input ", autocomplete = "off", @readonly = "readonly" })</td>
                                             <td>@Html.TextBoxFor(m => Model[i].SaleOrderRefNoWithDate, new { @class = "form_input", autocomplete = "off", @readonly = "readonly" })</td>
-                                            <td><a onclick="OpenCustomerInvoice('@Model[i].SaleOrderId');">View</a></td>
-                                            @*<td align="center">
-                                                <button class="btn btn-xs btn-primary" onclick="Open('@Model[i].SaleOrderId')"><span class="glyphicon glyphicon-edit" style="top:2px"></span></button>
-                                            </td>*@    
+                                            <td><center><div class="form-button3 mleft"><a onclick="OpenCustomerInvoice('@Model[i].SaleOrderId');">View</a></div></center></td>
+
+
                                         </tr>
                                     }
-                                </table>
-                            </div>
+                       
+
+                            </table>
+
+
+
+
+
+
+
                         </div>
 
                     </div>
-                </div>
-                <div id="SalesInvoiceListDiv">
 
-                    @Html.Action("PendingSalesInvoiceDt", new { SalesOrderId = 0 })
+
 
 
                 </div>
 
-                <div class="row">
-                    
-                    </div>
 
 
-                </div>
-            @*</form>*@
+            </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        </div>
+
+
+        <div id="SalesInvoiceListDiv">
+
+            @Html.Action("PendingSalesInvoiceDt", new { SalesOrderId = 0 })
+
+
         </div>
     </div>
 </div>
