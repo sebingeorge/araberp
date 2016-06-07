@@ -6991,6 +6991,11 @@ td.visible-print {
        margin-left:15px !important
     }
 
+    .tab_logic 
+    {
+         overflow:auto !important;
+    }
+
 }
 
 @media only screen and (min-width:768px) and (max-width: 1024px)

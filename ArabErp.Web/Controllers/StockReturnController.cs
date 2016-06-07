@@ -18,6 +18,7 @@ namespace ArabErp.Web.Controllers
         public ActionResult Create()
         {
             FillJobCard();
+            StockPointDropdown();
             return View();
         }
         [HttpPost]
@@ -55,6 +56,10 @@ namespace ArabErp.Web.Controllers
         {
             string str = new StockReturnItemRepository().GetItemUnit(itemId);
             return Json(str, JsonRequestBehavior.AllowGet);
+        }
+        public void StockPointDropdown()
+        {
+            ViewBag.stockPointList = new SelectList(new DropdownRepository().StockpointDropdown(), "Id", "Name");
         }
     }
 }

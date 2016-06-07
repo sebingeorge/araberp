@@ -9,9 +9,10 @@ namespace ArabErp.Domain
    public class VehicleOutPass
     {
         public int VehicleOutPassId { get; set; }
+        public string VehicleOutPassNo { get; set; }
         public int JobCardId { get; set; }
         public string RegistrationNo { get; set; }
-        public DateTime? VehicleInPassDate { get; set; }
+        public DateTime? VehicleOutPassDate { get; set; }
         public int EmployeeId { get; set; }
         public string Remarks { get; set; }
         public string CreatedBy { get; set; }
