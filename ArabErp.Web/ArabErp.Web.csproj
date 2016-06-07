@@ -239,6 +239,7 @@
     <Compile Include="Controllers\VehicleModelController.cs" />
     <Compile Include="Controllers\VehicleOutPassController.cs" />
     <Compile Include="Controllers\WorkDescriptionController.cs" />
+    <Compile Include="Controllers\WorkShopGRNController.cs" />
     <Compile Include="Controllers\WorkShopRequestController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -475,6 +476,12 @@
     <Content Include="Views\VehicleOutPass\_PendingVehicleOutPass.cshtml" />
     <Content Include="Views\VehicleOutPass\Save.cshtml" />
     <Content Include="Views\JobCardQC\PendingJobCardQC.cshtml" />
+    <Content Include="Views\WorkShopGRN\CreateWorkShopGRN.cshtml" />
+    <Content Include="Views\BayStatus\Index.cshtml" />
+    <Content Include="Views\BayStatus\_BayPartial.cshtml" />
+    <Content Include="Views\VehicleOutPass\Index.cshtml" />
+    <Content Include="Views\VehicleOutPass\_PendingVehicleOutPass.cshtml" />
+    <Content Include="Views\VehicleOutPass\Save.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
