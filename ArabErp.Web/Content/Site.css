@@ -396,4 +396,15 @@ background-color: #fff;
 {
 width:100%;
 }
+.checkbox1
+{
+    Display: block;
+    margin-bottom: 10px;
+    margin-top: 0;
+    min-height: 20px;
+    padding-left: 20px;
+    vertical-align: middle;
+
+}
+
 
