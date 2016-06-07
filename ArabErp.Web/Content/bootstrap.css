@@ -6986,6 +6986,10 @@ td.visible-print {
         overflow:auto !important;
        
     }
+    .pagination
+    {
+       margin-left:15px !important
+    }
 
 }
 
