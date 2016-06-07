@@ -466,6 +466,7 @@
     <Content Include="Views\VehicleInPass\_PendingVehicleInPass.cshtml" />
     <Content Include="Views\VehicleInPass\Save.cshtml" />
     <Content Include="Views\JobCardQC\Create.cshtml" />
+    <Content Include="Views\JobCardQC\PendingJobCardQC.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
