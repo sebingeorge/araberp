@@ -99,6 +99,8 @@
     <Compile Include="VehicleOutPass.cs" />
     <Compile Include="WareHouse.cs" />
     <Compile Include="WorkDescription.cs" />
+    <Compile Include="WorkShopGRN.cs" />
+    <Compile Include="WorkShopGRNItem.cs" />
     <Compile Include="WorkShopRequest.cs" />
     <Compile Include="WorkShopRequestItem.cs" />
     <Compile Include="WorkShopRequestSaleOrder.cs" />
