@@ -1,5 +1,7 @@
 ﻿
-
+p {
+    line-height:18px;
+}
    .grid_heading
 {
     color:#fff;
@@ -342,7 +344,7 @@ h5
 }
 .back-color 
 {
-    background-color:#c0afa5;
+    background-color:#bebbbb;
 }
 
 .grid-left 

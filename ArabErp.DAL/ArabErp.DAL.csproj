@@ -66,6 +66,7 @@
     <Compile Include="ArabDALTests.cs" />
     <Compile Include="BaseRepository.cs" />
     <Compile Include="BayRepository.cs" />
+    <Compile Include="BayStatusReportRepository.cs" />
     <Compile Include="BoxRepository.cs" />
     <Compile Include="CommissionAgentRepository.cs" />
     <Compile Include="ConnectionManager.cs" />
@@ -116,6 +117,8 @@
     <Compile Include="VehicleOutPassRepository.cs" />
     <Compile Include="WareHouseRepository.cs" />
     <Compile Include="WorkDescriptionRepository.cs" />
+    <Compile Include="WorkShopGRNItemRepository.cs" />
+    <Compile Include="WorkShopGRNRepository.cs" />
     <Compile Include="WorkShopRequestItemRepository.cs" />
     <Compile Include="WorkShopRequestRepository.cs" />
     <Compile Include="WorkVsItemRepository.cs" />
