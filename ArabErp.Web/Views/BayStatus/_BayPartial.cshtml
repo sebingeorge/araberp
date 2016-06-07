@@ -6,36 +6,42 @@
         color = "#f29e81";
     }
 }
-<div style="float:left;">
-    <table style="width:500px;margin:5px;background-color:@color;" border="1">
-        <tr>
-            <td rowspan="5">@Model.BayName</td>
-            <td>Date of Arrival</td>
-            <td>@Model.EDateArrival.ToString("dd-MMM-yyyy")</td>
-            <td>Job Card No</td>
-            <td>Exp. Delivery Date</td>
-        </tr>
-        <tr>
-            <td>Vehicle Reg. No.</td>
-            <td>@Model.ChasisNoRegNo</td>
-            <td>@Model.JobCardNo</td>
-            <td>@Model.EDateDelivery.ToString("dd-MMM-yyyy")</td>
-        </tr>
-        <tr>
-            <td>Customer Details</td>
-            <td>@Model.CustomerName</td>
-            <td></td>
-            <td>Status</td>
-        </tr>
-        <tr>
-            <td>Vehicle Type</td>
-            <td>@Model.VehicleModelName</td>
-            <td rowspan="2">@Model.WorkDescription</td>
-            <td rowspan="2"></td>
-        </tr>
-        <tr>
-            <td>Unit Type</td>
-            <td>@Model.UnitName</td>
-        </tr>
-    </table>
-</div>
+<div class="col-md-12">
+
+    <div class="col-md-6">
+        <div class="row">
+
+        <table style="margin:5px;background-color:@color;" border="1">
+            <tr>
+                <td rowspan="5">@Model.BayName</td>
+                <td>Date of Arrival</td>
+                <td>@Model.EDateArrival.ToString("dd-MMM-yyyy")</td>
+                <td>Job Card No</td>
+                <td>Exp. Delivery Date</td>
+            </tr>
+            <tr>
+                <td>Vehicle Reg. No.</td>
+                <td>@Model.ChasisNoRegNo</td>
+                <td>@Model.JobCardNo</td>
+                <td>@Model.EDateDelivery.ToString("dd-MMM-yyyy")</td>
+            </tr>
+            <tr>
+                <td>Customer Details</td>
+                <td>@Model.CustomerName</td>
+                <td></td>
+                <td>Status</td>
+            </tr>
+            <tr>
+                <td>Vehicle Type</td>
+                <td>@Model.VehicleModelName</td>
+                <td rowspan="2">@Model.WorkDescription</td>
+                <td rowspan="2"></td>
+            </tr>
+            <tr>
+                <td>Unit Type</td>
+                <td>@Model.UnitName</td>
+            </tr>
+        </table>
+            </div>
+        </div>
+    </div>
