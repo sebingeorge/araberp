@@ -112,7 +112,18 @@ namespace ArabErp.DAL
                 return id;
             }
         }
-
-
+        /// <summary>
+        /// Get the door, street, state, country address of a given customer
+        /// </summary>
+        /// <param name="customerId"></param>
+        /// <returns></returns>
+        public string GetCustomerAddress(int customerId)
+        {
+            using (IDbConnection connection = OpenConnection(dataConnection))
+            {
+                return connection.Query<string>(@"SELECT DoorNo+', '+Street+', '+[State]+', '+CountryName FROM Customer LEFT JOIN Country ON Country = CountryId WHERE CustomerId = @customerId",
+                    new { customerId = customerId }).First();
+            }
+        }
     }
 }

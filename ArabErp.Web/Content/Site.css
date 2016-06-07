@@ -151,7 +151,7 @@ textarea {
     line-height:22px;
     margin-right:0;
     margin-left:-12px;
-    text-align:center;
+
 }
 .form-button3 a:hover
     {
@@ -409,6 +409,24 @@ width:100%;
 .pad-t
  {
     padding-top:5px;
+}
+.grey 
+{
+    background-color:#676464;
+}
+.bays 
+{
+ 
+    border-radius: 5px;
+    margin: 6px;
+    padding: 14px 1px 1px;
+    border:1px solid  #adadad;
+}
+.bold
+{
+    font-weight:bold;
+    color:#0d7aa0;
+
 }
 
 

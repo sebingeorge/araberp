@@ -68,6 +68,7 @@
     <Compile Include="JobOrderPending.cs" />
     <Compile Include="OpeningStock.cs" />
     <Compile Include="Organization.cs" />
+    <Compile Include="PendingJC.cs" />
     <Compile Include="PendingPurchaseRequest.cs" />
     <Compile Include="PendingSO.cs" />
     <Compile Include="PendingSupplyOrder.cs" />
@@ -99,6 +100,8 @@
     <Compile Include="VehicleOutPass.cs" />
     <Compile Include="WareHouse.cs" />
     <Compile Include="WorkDescription.cs" />
+    <Compile Include="WorkShopGRN.cs" />
+    <Compile Include="WorkShopGRNItem.cs" />
     <Compile Include="WorkShopRequest.cs" />
     <Compile Include="WorkShopRequestItem.cs" />
     <Compile Include="WorkShopRequestSaleOrder.cs" />

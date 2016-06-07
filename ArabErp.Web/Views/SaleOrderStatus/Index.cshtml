@@ -12,41 +12,41 @@
        
         <div class="main-part white pad1">
 
-            <div class="main-list wid">
-            <table class="table table-bordered  scroll4">
-                <tr class="grid_heading">
-                    <td width="20%">Customer</td>
-                    <td>Sale Order Ref. No.</td>
-                    <td>Sale Order Date</td>
-                    <td>EDD</td>  
-                    <td>Sale Ord. App.</td>                    
-                    <td>Work. Req.</td>
-                    <td>Pur. Request.</td>
-                    <td>Sup. Ord.</td>
-                    <td>GRN</td>
-                    <td>Job Card</td>
-                    <td>Job Card Comp.</td>
-                    <td>Sales Inv.</td>
-                </tr>
-                @foreach (var item in Model)
-                {
-                    <tr class="grid-row">
-                        <td class="grid-cell">@item.CustomerName</td>
-                        <td class="grid-cell">@item.SaleOrderRefNo</td>
-                        <td class="grid-cell">@item.SaleOrderDate.ToString("dd/MMM/yyyy")</td>
-                        <td class="grid-cell">@item.EDateDelivery.ToString("dd/MMM/yyyy")</td>
-                        <td class="grid-cell"><img src="~/Images/x.png" )" height="10" width="10" /></td>
-                        <td class="grid-cell"><img src="~/Images/@(item.WorkShopRequest == "Yes" ? "tick.png" : "x.png")" height="10" width="10" /></td>
-                        <td class="grid-cell"><img src="~/Images/@(item.PurchaseRequest == "Yes" ? "tick.png" : "x.png")" height="10" width="10" /></td>
-                        <td class="grid-cell"><img src="~/Images/@(item.SuppyOrder == "Yes" ? "tick.png" : "x.png")" height="10" width="10" /></td>
-                        <td class="grid-cell"><img src="~/Images/@(item.GRN == "Yes" ? "tick.png" : "x.png")" height="10" width="10" /></td>
-                        <td class="grid-cell"><img src="~/Images/@(item.JobCard == "Yes" ? "tick.png" : "x.png")" height="10" width="10" /></td>
-                        <td class="grid-cell"><img src="~/Images/@(item.JobCardComplete == "Yes" ? "tick.png" : "x.png")" height="10" width="10" /></td>
-                        <td class="grid-cell"><img src="~/Images/@(item.SalesInvoice == "Yes" ? "tick.png" : "x.png")" height="10" width="10" /></td>
+            <div class="main-list wid  scroll4">
+                <table class="table table-bordered">
+                    <tr class="grid_heading">
+                        <td width="20%">Customer</td>
+                        <td>Sale Order Ref. No.</td>
+                        <td>Sale Order Date</td>
+                        <td>EDD</td>
+                        <td>Sale Ord. App.</td>
+                        <td>Work. Req.</td>
+                        <td>Pur. Request.</td>
+                        <td>Sup. Ord.</td>
+                        <td>GRN</td>
+                        <td>Job Card</td>
+                        <td>Job Card Comp.</td>
+                        <td>Sales Inv.</td>
                     </tr>
-                }
-            </table>
+                    @foreach (var item in Model)
+                    {
+                        <tr class="grid-row">
+                            <td class="grid-cell">@item.CustomerName</td>
+                            <td class="grid-cell">@item.SaleOrderRefNo</td>
+                            <td class="grid-cell">@item.SaleOrderDate.ToString("dd/MMM/yyyy")</td>
+                            <td class="grid-cell">@item.EDateDelivery.ToString("dd/MMM/yyyy")</td>
+                            <td class="grid-cell"><img src="~/Images/x.png" )" height="10" width="10" /></td>
+                            <td class="grid-cell"><img src="~/Images/@(item.WorkShopRequest == "Yes" ? "tick.png" : "x.png")" height="10" width="10" /></td>
+                            <td class="grid-cell"><img src="~/Images/@(item.PurchaseRequest == "Yes" ? "tick.png" : "x.png")" height="10" width="10" /></td>
+                            <td class="grid-cell"><img src="~/Images/@(item.SuppyOrder == "Yes" ? "tick.png" : "x.png")" height="10" width="10" /></td>
+                            <td class="grid-cell"><img src="~/Images/@(item.GRN == "Yes" ? "tick.png" : "x.png")" height="10" width="10" /></td>
+                            <td class="grid-cell"><img src="~/Images/@(item.JobCard == "Yes" ? "tick.png" : "x.png")" height="10" width="10" /></td>
+                            <td class="grid-cell"><img src="~/Images/@(item.JobCardComplete == "Yes" ? "tick.png" : "x.png")" height="10" width="10" /></td>
+                            <td class="grid-cell"><img src="~/Images/@(item.SalesInvoice == "Yes" ? "tick.png" : "x.png")" height="10" width="10" /></td>
+                        </tr>
+                    }
+                </table>
+            </div>
         </div>
-    </div>
 </div>
 </div>
