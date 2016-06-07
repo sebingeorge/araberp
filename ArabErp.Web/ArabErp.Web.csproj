@@ -238,6 +238,7 @@
     <Compile Include="Controllers\VehicleInPassController.cs" />
     <Compile Include="Controllers\VehicleModelController.cs" />
     <Compile Include="Controllers\WorkDescriptionController.cs" />
+    <Compile Include="Controllers\WorkShopGRNController.cs" />
     <Compile Include="Controllers\WorkShopRequestController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -470,6 +471,7 @@
     <Content Include="Views\JobCardQC\Create.cshtml" />
     <Content Include="Views\BayStatus\Index.cshtml" />
     <Content Include="Views\BayStatus\_BayPartial.cshtml" />
+    <Content Include="Views\WorkShopGRN\CreateWorkShopGRN.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
