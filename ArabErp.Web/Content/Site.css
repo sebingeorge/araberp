@@ -442,4 +442,8 @@ width:100%;
     background-color:#b7b6b6;
 }
 
+input[type="text"]:disabled {
+    background-color: transparent;
+}
+
 
