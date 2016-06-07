@@ -98,7 +98,7 @@
                         <label for=" GRNNo">GRN No. </label>
                         @Html.TextBoxFor(m => m.GRNNo, new { @class = "form_input", autocomplete = "off" })
                     </div>
-                    <div class="col-md-2 col-md-offset-8">
+                    <div class="col-md-2">
                         <label for="GRNDate">Date</label>
                         @Html.TextBoxFor(m => m.GRNDate, String.Format("{0:dd/MM/yyyy}", Model.GRNDate), new { @class = "form_input ", autocomplete = "off", @readonly = "readonly" })
                     </div>
@@ -117,64 +117,76 @@
 
                 </div>
 
-    <table class="table table-bordered table-hover" id="tab_logic">
-        <thead>
-            <tr class="grid_heading">
-                <th width="20%">Material/Spares</th>
-                <th width="10%">PartNo</th>
-                <th width="25%">Remarks</th>
-                <th width="5%" class="text-right ">Pending Qty</th>
-                <th width="5%" class="text-right ">Received Qty</th>
-                <th width="5%" class="text-right ">Unit</th>
-                <th width="5%" class="text-right ">Rate</th>
-                <th width="5%" class="text-right ">Discount</th>
-                <th width="5%" class="text-right ">Amount</th>
-            </tr>
-        </thead>
-        <tbody>
-            @for (int i = 0; i < Model.Items.Count; i++)
-            {
-                <tr>
+    <div class="tab_logic">
 
-
-
-                    <td>@Html.HiddenFor(m => m.Items[i].SupplyOrderItemId)
-                    @Html.TextBoxFor(m => m.Items[i].ItemName, new { @class = "form_input", autocomplete = "off", placeholder = "Material/Spares", @readonly = "readonly" }) </td>
-                    <td>@Html.HiddenFor(m => m.Items[i].ItemId) 
-                    @Html.TextBoxFor(m => m.Items[i].PartNo, new { @class = "form_input", autocomplete = "off", placeholder = "Part No.", @readonly = "readonly" })</td>
-                    <td>@Html.TextBoxFor(m => m.Items[i].Remarks, new { @class = "form_input", autocomplete = "off", placeholder = "Remarks" })</td>
-                    <td>@Html.TextBoxFor(m => m.Items[i].PendingQuantity, new { @class = "form_input", @style = "text-align:right", autocomplete = "off", placeholder = "Pending Qty", @readonly = "readonly" })</td>
-                    <td>@Html.TextBoxFor(m => m.Items[i].Quantity, new { @class = "form_input clQuantity", @style = "text-align:right", autocomplete = "off", placeholder = "Received Qty", @onchange = "QuantityChanged(" + i + ");" })</td>
-                    <td>@Html.TextBoxFor(m => m.Items[i].Unit, new { @class = "form_input ", @style = "text-align:right", autocomplete = "off", @readonly = "Unit" })</td>
-                    <td>@Html.TextBoxFor(m => m.Items[i].Rate, new { @class = "form_input ", @style = "text-align:right", autocomplete = "off", placeholder = "Rate",@readonly = "readonly"  })</td>
-                    <td>@Html.TextBoxFor(m => m.Items[i].Discount, new { @class = "form_input ", @style = "text-align:right", autocomplete = "off", placeholder = "Discount", @readonly = "readonly" })</td>
-                    <td>@Html.TextBoxFor(m => m.Items[i].Amount, new { @class = "form_input clAmount", @style = "text-align:right", autocomplete = "off", placeholder = "Amount", @readonly = "readonly" })</td>
-                   
+        <table class="table table-bordered table-hover" id="tab_logic">
+            <thead>
+                <tr class="grid_heading">
+                    <th width="20%">Material/Spares</th>
+                    <th width="10%">PartNo</th>
+                    <th width="25%">Remarks</th>
+                    <th width="5%" class="text-right ">Pending Qty</th>
+                    <th width="5%" class="text-right ">Received Qty</th>
+                    <th width="5%" class="text-right ">Unit</th>
+                    <th width="5%" class="text-right ">Rate</th>
+                    <th width="5%" class="text-right ">Discount</th>
+                    <th width="5%" class="text-right ">Amount</th>
                 </tr>
+            </thead>
+            <tbody>
+                @for (int i = 0; i < Model.Items.Count; i++)
+            {
+            <tr>
+
+
+
+                <td>
+                    @Html.HiddenFor(m => m.Items[i].SupplyOrderItemId)
+                    @Html.TextBoxFor(m => m.Items[i].ItemName, new { @class = "form_input", autocomplete = "off", placeholder = "Material/Spares", @readonly = "readonly" })
+                </td>
+                <td>
+                    @Html.HiddenFor(m => m.Items[i].ItemId)
+                    @Html.TextBoxFor(m => m.Items[i].PartNo, new { @class = "form_input", autocomplete = "off", placeholder = "Part No.", @readonly = "readonly" })
+                </td>
+                <td>@Html.TextBoxFor(m => m.Items[i].Remarks, new { @class = "form_input", autocomplete = "off", placeholder = "Remarks" })</td>
+                <td>@Html.TextBoxFor(m => m.Items[i].PendingQuantity, new { @class = "form_input", @style = "text-align:right", autocomplete = "off", placeholder = "Pending Qty", @readonly = "readonly" })</td>
+                <td>@Html.TextBoxFor(m => m.Items[i].Quantity, new { @class = "form_input clQuantity", @style = "text-align:right", autocomplete = "off", placeholder = "Received Qty", @onchange = "QuantityChanged(" + i + ");" })</td>
+                <td>@Html.TextBoxFor(m => m.Items[i].Unit, new { @class = "form_input ", @style = "text-align:right", autocomplete = "off", @readonly = "Unit" })</td>
+                <td>@Html.TextBoxFor(m => m.Items[i].Rate, new { @class = "form_input ", @style = "text-align:right", autocomplete = "off", placeholder = "Rate", @readonly = "readonly" })</td>
+                <td>@Html.TextBoxFor(m => m.Items[i].Discount, new { @class = "form_input ", @style = "text-align:right", autocomplete = "off", placeholder = "Discount", @readonly = "readonly" })</td>
+                <td>@Html.TextBoxFor(m => m.Items[i].Amount, new { @class = "form_input clAmount", @style = "text-align:right", autocomplete = "off", placeholder = "Amount", @readonly = "readonly" })</td>
+
+            </tr>
             }
 
-        </tbody>
-        <tfoot>
-            <tr class="grid_heading">
+            </tbody>
+            <tfoot>
+                <tr class="grid_heading">
 
-                <th width="20%" class="text-center"><h1></h1></th>
-                <th width="10%" class="text-center"><h1></h1></th>
-                <th width="25%" class="text-center"><h1></h1></th>
-                <th width="5%" class="text-center"><h1></h1></th>
-                <th width="5%" class="text-center"><h1></h1></th>
-                <th width="5%" class="text-center"><h1></h1></th>
-                <th width="5%" class="text-right"><h1>Total</h1></th>
-                <th width="5%" class="text-right"><h1>@Html.DropDownListFor(m => Model.CurrencyId, (SelectList)ViewBag.currlist, "Select Currency", new { @class = "form_input", autocomplete = "off", @readonly = "readonly" })</h1></th>
-                <th width="5%" class="text-right"><span id="QtyAmount"></span></th>
-           </tr>
-        </tfoot>
-    </table>
-
+                    <th width="20%" class="text-center"><h1></h1></th>
+                    <th width="10%" class="text-center"><h1></h1></th>
+                    <th width="25%" class="text-center"><h1></h1></th>
+                    <th width="5%" class="text-center"><h1></h1></th>
+                    <th width="5%" class="text-center"><h1></h1></th>
+                    <th width="5%" class="text-center"><h1></h1></th>
+                    <th width="5%" class="text-right"><h1>Total</h1></th>
+                    <th width="5%" class="text-right"><h1>@Html.DropDownListFor(m => Model.CurrencyId, (SelectList)ViewBag.currlist, "Select Currency", new { @class = "form_input", autocomplete = "off", @readonly = "readonly" })</h1></th>
+                    <th width="5%" class="text-right"><span id="QtyAmount"></span></th>
+                </tr>
+            </tfoot>
+        </table>
+    </div>
 
                 <div class="row form-group">
                     <div class="col-md-12">
-                        <label for="SplRemarks1">Spl.Remarks</label>
-                        @Html.TextAreaFor(m => m.SpecialRemarks, new { @class = "form_input", autocomplete = "off" })
+                        <div class="row">
+                        <div class="part">
+                            <div class="col-md-1"><label for="SplRemarks1">Spl.Remarks</label></div>
+                            <div class="col-md-11">
+                                @Html.TextAreaFor(m => m.SpecialRemarks, new { @class = "form_input form_input-h", autocomplete = "off" })
+                            </div>
+                        </div>
+                            </div>
                     </div>
                 </div>
 
@@ -211,11 +223,16 @@
                      </div>
                  </div>
                  
-                <div class="marg">
-                    <button class="form-button">Exit</button>
-                    <button type="submit" class="form-button">Save</button>
-                  
-                </div>
+                    <div class="row">
+
+                        <div class="col-md-12 hrpart">
+                            <button type="button" class="form-button right">Exit</button>
+                            <button type="submit" class="form-button right">Save</button>
+                        </div>
+
+                    </div>
+                 
+  
               }
             </div>
         </div>
