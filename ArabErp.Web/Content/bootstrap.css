@@ -6981,6 +6981,12 @@ td.visible-print {
         margin-bottom:6px;
     }
 
+    .main-grid-bay
+    {
+        overflow:auto !important;
+       
+    }
+
 }
 
 @media only screen and (min-width:768px) and (max-width: 1024px)

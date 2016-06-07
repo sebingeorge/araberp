@@ -1,47 +1,52 @@
 ﻿@model ArabErp.Domain.BayStatus
 @{
-    string color = "#b8f281";
+    string color = "#dafce2";
     if(Model.Occupied == "No")
     {
-        color = "#f29e81";
+        color = "#f1bcb2";
     }
 }
-<div class="col-md-12">
+
 
     <div class="col-md-6">
         <div class="row">
+            <div class="bays">
+                <div class="main-grid main-grid-bay main-grid-top" style="background-color:@color;">
 
-        <table style="margin:5px;background-color:@color;" border="1">
-            <tr>
-                <td rowspan="5">@Model.BayName</td>
-                <td>Date of Arrival</td>
-                <td>@Model.EDateArrival.ToString("dd-MMM-yyyy")</td>
-                <td>Job Card No</td>
-                <td>Exp. Delivery Date</td>
-            </tr>
-            <tr>
-                <td>Vehicle Reg. No.</td>
-                <td>@Model.ChasisNoRegNo</td>
-                <td>@Model.JobCardNo</td>
-                <td>@Model.EDateDelivery.ToString("dd-MMM-yyyy")</td>
-            </tr>
-            <tr>
-                <td>Customer Details</td>
-                <td>@Model.CustomerName</td>
-                <td></td>
-                <td>Status</td>
-            </tr>
-            <tr>
-                <td>Vehicle Type</td>
-                <td>@Model.VehicleModelName</td>
-                <td rowspan="2">@Model.WorkDescription</td>
-                <td rowspan="2"></td>
-            </tr>
-            <tr>
-                <td>Unit Type</td>
-                <td>@Model.UnitName</td>
-            </tr>
-        </table>
+
+                    <table class="table table-bordered">
+                        <tr class="grid-row">
+                            <td rowspan="5" class="grid-cell bold">@Model.BayName</td>
+                            <td class="grid-cell">Date of Arrival</td>
+                            <td class="grid-cell">@Model.EDateArrival.ToString("dd-MMM-yyyy")</td>
+                            <td class="grid-cell">Job Card No</td>
+                            <td class="grid-cell">Exp. Delivery Date</td>
+                        </tr>
+                        <tr>
+                            <td>Vehicle Reg. No.</td>
+                            <td>@Model.ChasisNoRegNo</td>
+                            <td>@Model.JobCardNo</td>
+                            <td>@Model.EDateDelivery.ToString("dd-MMM-yyyy")</td>
+                        </tr>
+                        <tr>
+                            <td>Customer Details</td>
+                            <td>@Model.CustomerName</td>
+                            <td></td>
+                            <td>Status</td>
+                        </tr>
+                        <tr>
+                            <td>Vehicle Type</td>
+                            <td>@Model.VehicleModelName</td>
+                            <td rowspan="2">@Model.WorkDescription</td>
+                            <td rowspan="2"></td>
+                        </tr>
+                        <tr>
+                            <td>Unit Type</td>
+                            <td>@Model.UnitName</td>
+                        </tr>
+                    </table>
+                </div>
+
+            </div>
             </div>
         </div>
-    </div>
