@@ -271,6 +271,7 @@
     <Content Include="Images\101.png" />
     <Content Include="Images\banner.png" />
     <Content Include="Images\button-part.jpg" />
+    <Content Include="Images\tick.png" />
     <Content Include="Images\x.png" />
     <Content Include="Scripts\gridmvc.js" />
     <Content Include="Scripts\gridmvc.lang.ru.js" />
