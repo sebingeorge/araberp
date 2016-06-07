@@ -15,9 +15,8 @@ namespace ArabErp.DAL
         public int InsertSupplyOrderItem(SupplyOrderItem objSupplyOrderItem, IDbConnection connection, IDbTransaction trn)
         {
            
-                string sql = @"insert  into SupplyOrderItem(SupplyOrderId,PurchaseRequestItemId,SlNo,BalQty,OrderedQty,Rate,Discount,Amount,CreatedBy,CreatedDate,OrganizationId,isActive,CreatedDate,OrganizationId) Values (@SupplyOrderId,@PurchaseRequestItemId,@SlNo,@BalQty,@OrderedQty,@Rate,@Discount,@Amount,@CreatedBy,@CreatedDate,@OrganizationId,@isActive,@CreatedDate,@OrganizationId);
-            SELECT CAST(SCOPE_IDENTITY() as int)";
-
+                string sql = @"insert  into SupplyOrderItem(SupplyOrderId,PurchaseRequestItemId,SlNo,BalQty,OrderedQty,Rate,Discount,Amount,OrganizationId) Values (@SupplyOrderId,@PurchaseRequestItemId,@SlNo,@BalQty,@OrderedQty,@Rate,@Discount,@Amount,@OrganizationId);
+                SELECT CAST(SCOPE_IDENTITY() as int)";
 
                 var id = connection.Query<int>(sql, objSupplyOrderItem,trn).Single();
                 return id;

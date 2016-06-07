@@ -1,0 +1,66 @@
+﻿@model IList<ArabErp.Domain.PendingSO>
+
+@{
+    ViewBag.Title = "Vehicle In Pass";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<script type="text/javascript">
+    function formValidation() {
+        return confirm("Are you sure to Save?");
+    }
+    function OnCustomerChange(s) {
+        var id;
+        if ($(s).val() != null && $(s).val() != '') id = $(s).val();
+        else id = 0;
+
+        var url = '@Url.Action("PendingVehicleInPass")';
+        url += "?customerId=" + id;
+        $("#table-body").load(url);
+
+        var url = '@Url.Action("GetCustomerAddress", "VehicleOutPass")';
+        $.getJSON(url, { id: id }, function (data) {
+            $("#txtAddress").val(data);
+        });
+    }
+    function Open(id) {
+        var url = '@Url.Action("Save")';
+        url += "?id=" + id;
+        window.location = url;
+    }
+</script>
+
+<div class="container">
+    <div class="row">
+        <div class="form-head1">
+            <h4>Pending Vehicle In-Pass</h4>
+        </div>
+        <div class="main-part pad1">
+
+            <div class="row form-group">
+                <div class="col-md-4">
+                    <label>Customer</label>
+                    @Html.DropDownList("cboCustomer", (SelectList)ViewBag.customerList, "Select Customer", new { @class = "form_input", @onchange = "OnCustomerChange(this)" })
+                </div>
+                <div class="col-md-8">
+                    <label>Address</label>
+                    <input type="text" class="form_input" id="txtAddress" disabled />
+                </div>
+            </div>
+            <table class="table table-bordered">
+                <thead>
+                    <tr class="grid_heading">
+                        <th><h1>SO No. &amp; Date</h1></th>
+                        <th><h1>Work Description</h1></th>
+                        <th><h1>Vehicle Model</h1></th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody id="table-body" class="grid_row">
+                    @Html.Action("PendingVehicleInPass", new { customerId = 0 })
+                </tbody>
+            </table>
+
+        </div>
+    </div>
+</div>

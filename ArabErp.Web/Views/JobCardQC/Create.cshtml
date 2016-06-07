@@ -1,0 +1,100 @@
+﻿@model  ArabErp.Domain.JobCardQC
+@{
+    ViewBag.Title = "Create";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<style>
+
+
+</style>
+<script>
+    function Back() {
+        location.href = '@Url.Action("PendingJobCardQC")';
+    }
+    
+
+</script>
+<div class="container">
+
+    <div class="row">
+
+        <div class="form-head1">
+            <h4>Quality control </h4>
+        </div>
+        @using (Html.BeginForm("Save", null, FormMethod.Post, new { @class = "createFrom", @id = "saleorder_form" }))
+        {
+            <div class="main-part pad1">
+                <div class="row form-group ">
+                    <div class="col-md-2">
+                        <label for="name" class="label1">Job Card No.</label>
+                        @Html.TextBoxFor(m => Model.JobCardNo, new { @class = "form_input", autocomplete = "off", @readonly = "readonly" })
+                        @Html.HiddenFor(m => Model.JobCardId)
+                    </div>
+                    <div class="col-md-2">
+                        <label for="name" class="label1">Job Card Date</label>
+                        @Html.TextBoxFor(m => Model.JcDate, new { @class = "form_input", autocomplete = "off", @readonly = "readonly" })
+                    </div>
+                    <div class="col-md-2">
+                        <label for="name" class="label1">Customer</label>
+                        @Html.TextBoxFor(m => Model.Customer, new { @class = "form_input", autocomplete = "off", @readonly = "readonly" })
+                    </div>
+                    <div class="col-md-2">
+                        <label for="name" class="label1">Vehicle Model</label>
+                        @Html.TextBoxFor(m => Model.VehicleModel, new { @class = "form_input", autocomplete = "off", @readonly = "readonly" })
+                    </div>
+                    <div class="col-md-2">
+                        <label for="name" class="label1">Employee</label>
+                        @Html.DropDownListFor(m => Model.EmployeeId, (SelectList)ViewBag.EmployeeList, "Select Employee", new { @class = "form_input" })
+                    </div>
+                    <div class="col-md-2">
+                        <label for="name" class="label1">QC Date</label>
+                        @Html.TextBoxFor(m => Model.CurrentDate, new { @Value = @DateTime.Now.ToShortDateString(), @class = "form_input", autocomplete = "off", @readonly = "readonly" })
+                    </div>
+                </div>
+                <div class="wrap">
+                    <div class="table-responsive">
+                        
+                        <div class="wrap">
+                            <table class="table table-bordered table-hover">
+                                <tr class="grid_heading">
+                                    <th>Sl .No</th>
+                                    <th> Parameters</th>
+                                    <th>Value</th>
+                                </tr>
+                                @for (int i = 0; i < Model.JobCardQCParams.Count(); i++)
+                            {
+                            <tr>
+                                <td width="6%">@Html.TextBoxFor(model => Model.JobCardQCParams[i].QCParamId, new { @class = "form_input" , autocomplete = "off", @readonly = "readonly"})</td>
+                                <td width="60%">@Html.TextBoxFor(model => model.JobCardQCParams[i].QCParamName, new { @class = "form_input", autocomplete = "off", @readonly = "readonly" })</td>
+                                <td>@Html.TextBoxFor(model => model.JobCardQCParams[i].QCParamValue, new { @class = "form_input", autocomplete = "off" })</td>
+                            </tr>
+                            }
+                            </table>
+
+
+                        </div>
+
+                    </div>
+                </div>
+                <div class="row form-group">
+                    <div class="col-md-10"></div>
+                    <div class="col-md-2" style="vertical-align:middle">
+                       
+                        @Html.CheckBoxFor(model => Model.IsQCPassed, new { @class = "check_box", @onclick = "Checked(this)" })
+                        <label for="@Html.NameFor(x => x.IsQCPassed)">QC Passed</label>
+                    </div>
+                    </div>
+
+                    <div class="row form-group">
+
+                        <div class="marg">
+                            <button class="form-button" onclick="Back()">Exit</button>
+                            <button type="submit" class="form-button right">Save</button>
+                        </div>
+                        </div>
+                </div>
+        }
+        @*</form>*@
+    </div>
+</div>
+

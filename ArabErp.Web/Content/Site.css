@@ -151,7 +151,7 @@ textarea {
     line-height:22px;
     margin-right:0;
     margin-left:-12px;
-    text-align:center;
+
 }
 .form-button3 a:hover
     {
@@ -324,6 +324,32 @@ margin-top:0px;
     max-height: 350px;
     overflow:auto;
 }
+.scroll2 
+{
+    max-height:150px;
+    overflow-y:auto;
+    overflow-x:hidden;
+}
+.scroll3 
+{
+
+    max-height:300px;
+    overflow-y:auto;
+    overflow-x:hidden;
+}
+.scroll4 
+{
+
+    max-height:450px;
+    overflow:auto;
+}
+.scroll5 
+{
+
+    max-height:70vh;
+    overflow-y:auto;
+    overflow-x:hidden;
+}
 .maintd
 {
     float:left;
@@ -370,6 +396,54 @@ background-color: #fff;
     background-color:#ebebeb;
     border:1px solid #b8b7b7;
     margin-top:3px;
+}
+.mleft
+{
+ margin-left:125px !important;
+}
+.wid
+{
+width:100%;
+}
+.checkbox1
+{
+    Display: block;
+    margin-bottom: 10px;
+    margin-top: 0;
+    min-height: 20px;
+    padding-left: 20px;
+    vertical-align: middle;
+
+}
+.pad-t
+ {
+    padding-top:5px;
+}
+.grey 
+{
+    background-color:#676464;
+}
+.bays 
+{
+ 
+    border-radius: 5px;
+    margin: 6px;
+    padding: 14px 1px 1px;
+    border:1px solid  #adadad;
+}
+.bold
+{
+    font-weight:bold;
+    color:#0d7aa0;
+
+}
+.dis
+{
+    background-color:#b7b6b6;
+}
+
+input[type="text"]:disabled {
+    background-color: transparent;
 }
 
 

@@ -14,6 +14,7 @@ namespace ArabErp.Domain
        }
         public int SupplyOrderId { get; set; }
         public DateTime SupplyOrderDate { get; set; }
+        public int PurchaseRequestId { get; set; }
         public int SupplierId { get; set; }
         public string SupplyOrderNo { get; set; }
         public string QuotaionNoAndDate { get; set; }
