@@ -60,8 +60,12 @@ namespace ArabErp.DAL
         {
             using (IDbConnection connection = OpenConnection(dataConnection))
             {
-                string sql = @"select PurchaseRequestItemId,i.ItemName,i.PartNo,p.Quantity as BalQty from PurchaseRequestItem p join Item i on p.ItemId=i.ItemId
-                        where p.PurchaseRequestId in @selectedpurchaserequests";
+                string sql = @"SELECT  CONCAT(PurchaseRequestNo,'/',CONVERT (VARCHAR(15),PurchaseRequestDate,104)) PRNODATE,
+                        PurchaseRequestItemId,i.ItemName,i.PartNo,PI.Quantity as BalQty 
+                        FROM PurchaseRequest P 
+                        INNER JOIN PurchaseRequestItem PI ON P.PurchaseRequestId=PI.PurchaseRequestId
+                        INNER JOIN Item i ON PI.ItemId=i.ItemId
+                        WHERE P.PurchaseRequestId in @selectedpurchaserequests";
 
                 var objPendingPurchaseRequests = connection.Query<SupplyOrderItem>(sql, new { selectedpurchaserequests = selectedpurchaserequests }).ToList<SupplyOrderItem>();
 
@@ -73,8 +77,8 @@ namespace ArabErp.DAL
         {
             using (IDbConnection connection = OpenConnection(dataConnection))
             {
-                string sql = @"select * from PurchaseRequest
-                        where isActive=1";
+                string sql = @"select * from PurchaseRequest P
+                              WHERE P.isActive=1";
 
                 var objPendingPurchaseRequests = connection.Query<PendingPurchaseRequest>(sql).ToList<PendingPurchaseRequest>();
 
