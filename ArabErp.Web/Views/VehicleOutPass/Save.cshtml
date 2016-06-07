@@ -57,34 +57,34 @@
                 </div>
 
                 <div class="row form-group">
-                    <div class="col-md-3">
+                    <div class="col-md-4">
                         <label>Vehicle Model</label>
                         <input type="text" class="form_input" id="txtVehicleModel" disabled />
                     </div>
-                    <div class="col-md-7">
+                    <div class="col-md-8">
                         <label>Work Description</label>
                         <input type="text" class="form_input" id="txtWork" disabled />
                     </div>
                 </div>
 
                 <div class="row form-group">
-                    <div class="col-md-2 col-md">
-                        <label>Vehicle In-Pass No.</label>
+                    <div class="col-md-3">
+                        <label>Vehicle Out-Pass No.</label>
                         @Html.HiddenFor(m => m.JobCardId)
                         @Html.TextBoxFor(m => m.VehicleOutPassNo, new { @class = "form_input" })
                     </div>
-                    <div class="col-md-2">
-                        <label>In-Pass Date</label>
+                    <div class="col-md-3">
+                        <label>Out-Pass Date</label>
                         @Html.TextBoxFor(m => m.VehicleOutPassDate, new { @class = "form_input", @type = "date" })
                     </div>
-                    <div class="col-md-3">
+                    <div class="col-md-4">
                         <label>Employee</label>
                         @Html.DropDownListFor(m => m.EmployeeId, (SelectList)ViewBag.employeeList, "Select Employee", new { @class = "form_input" })
                     </div>
                 </div>
 
                 <div class="row form-group">
-                    <div class="col-md-7 col-md">
+                    <div class="col-md-12 col-md">
                         <label>Remarks</label>
                         @Html.TextAreaFor(m => m.Remarks, new { @class = "form_input form_input-h" })
                     </div>
