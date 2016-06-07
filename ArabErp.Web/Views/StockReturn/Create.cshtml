@@ -81,6 +81,11 @@
                         <label for="StockReturnDate">Date</label>
                         @Html.TextBoxFor(m => m.StockReturnDate, new { @type="date", @class = "form_input", autocomplete = "off" })
                     </div>
+                    <div class="col-md-2">
+                        <label>Stock Point</label>
+                        @* this dropdown is not bound. this should be bound to stock point *@
+                        @Html.DropDownList("cboStockPoint", (SelectList)ViewBag.stockPointList, "Select Stock Point", new { @class = "form_input", autocomplete = "off" })
+                    </div>
                 </div>
                 <div class="row form-group">
                     <div class="col-md-3">
