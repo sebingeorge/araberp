@@ -458,6 +458,10 @@
     <Content Include="Views\StoresIssue\_IssuanceItems.cshtml" />
     <Content Include="Views\JobOrderCompletion\Create.cshtml" />
     <Content Include="Views\SaleOrderStatus\Index.cshtml" />
+    <Content Include="Views\SaleOrder\SaleOrderApproval.cshtml" />
+    <Content Include="Views\SaleOrder\_SaleOrderHead.cshtml" />
+    <Content Include="Views\SaleOrder\_SaleOrderFooter.cshtml" />
+    <Content Include="Views\SaleOrder\Approval.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
