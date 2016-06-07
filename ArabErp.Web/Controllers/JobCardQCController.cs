@@ -17,11 +17,19 @@ namespace ArabErp.Web.Controllers
         {
             return View();
         }
-        public ActionResult Create()
+        public ActionResult Create(int Id, string No, string JcDate, string Customer, string VehicleModel)
         {
-            FillJobCard();
+          //  FillJobCard();
             FillEmployee();
             JobCardQC objJCQC = new JobCardQC();
+            objJCQC.JobCardNo = No;
+            objJCQC.JobCardId = Id;
+
+            objJCQC.JcDate = JcDate;
+            objJCQC.Customer = Customer;
+            objJCQC.VehicleModel = VehicleModel;
+
+
             objJCQC.JobCardQCParams = JobCardQCParamRepo.GetJobCardQCParamList();
 
 
@@ -31,12 +39,12 @@ namespace ArabErp.Web.Controllers
         {
 
             var List = JobCardQCRepo.FillJobCard();
-            ViewBag.FillJobCardList = new SelectList(List, "Id", "Name");
+            ViewBag.JobCardList = new SelectList(List, "Id", "Name");
         }
         public void FillEmployee()
         {
             var List = JobCardQCRepo.FillEmployee();
-            ViewBag.FillEmployeeList = new SelectList(List, "Id", "Name");
+            ViewBag.EmployeeList = new SelectList(List, "Id", "Name");
         }
         public ActionResult Save(JobCardQC jc)
         {
@@ -44,7 +52,13 @@ namespace ArabErp.Web.Controllers
             jc.CreatedDate = System.DateTime.Now;
             jc.CreatedBy = Request.ServerVariables["HTTP_X_FORWARDED_FOR"] ?? Request.ServerVariables["REMOTE_ADDR"];
             new JobCardQCRepository().InsertJobCardQC(jc);
-            return RedirectToAction("Create");
+            return RedirectToAction("PendingJobCardQC");
+        }
+        public ActionResult PendingJobCardQC()
+        {
+            JobCardQCRepository repo = new JobCardQCRepository();
+            var result = repo.GetPendingJobCardQC();
+            return View("PendingJobCardQC",result);
         }
     }
 }
