@@ -16,7 +16,7 @@ namespace ArabErp.DAL
 
             using (IDbConnection connection = OpenConnection(dataConnection))
             {
-                string sql = @"INSERT INTO WorkShopGRNItem (WorkShopGRNItemRefNo,WorkShopGRNItemName,CreatedBy,CreatedDate,OrganizationId) VALUES(@WorkShopGRNItemRefNo,@WorkShopGRNItemName,@CreatedBy,@CreatedDate,@OrganizationId);
+                string sql = @"INSERT INTO WorkShopGRNItem (insert  into WorkShopGRN(WorkShopGRNId,SlNo,ItemId,ItemDescription,PartNo,Quantity,Unit,Rate,Discount,Amount,Remarks) Values (@WorkShopGRNId,@SlNo,@ItemId,@ItemDescription,@PartNo,@Quantity,@Unit,@Rate,@Discount,@Amount,@Remarks);
             SELECT CAST(SCOPE_IDENTITY() as int)";
 
 

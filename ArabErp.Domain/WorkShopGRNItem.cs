@@ -9,7 +9,7 @@ namespace ArabErp.Domain
   public  class WorkShopGRNItem
     {
         public int WorkShopGRNItemId { get; set; }
-        public int GRNId { get; set; }
+        public int WorkShopGRNId { get; set; }
         public int? SlNo { get; set; }
         public int ItemId { get; set; }
         public string ItemDescription { get; set; }
