@@ -34,9 +34,9 @@
         <div class="main-part pad1">
             <div class="col-md-12">
                 <div class="row">
-                    @using (Html.BeginForm("Save", null, FormMethod.Post, new { @class = "createFrom", onsubmit = "return formValidation()", @id = "vehicle-inpass-form" }))
-                    {
-                        <div class="row form-group">
+            @using (Html.BeginForm("Save", null, FormMethod.Post, new { @class = "createFrom", onsubmit = "return formValidation()", @id = "vehicle-inpass-form" }))
+            {
+                <div class="row form-group">
                             <div class="col-md-4">
                                 <label>Customer</label>
                                 <input type="text" class="form_input" id="txtCustomer" disabled />
@@ -60,38 +60,38 @@
 
                         <div class="row form-group">
                             <div class="col-md-3">
-                                <label>Vehicle In-Pass No.</label>
-                                @Html.TextBoxFor(m => m.VehicleInPassNo, new { @class = "form_input" })
-                            </div>
+                        <label>Vehicle In-Pass No.</label>
+                        @Html.TextBoxFor(m => m.VehicleInPassNo, new { @class = "form_input" })
+                    </div>
                             <div class="col-md-3">
-                                <label>Registration No.</label>
-                                @Html.HiddenFor(m => m.SaleOrderItemId)
-                                @Html.TextBoxFor(m => m.RegistrationNo, new { @class = "form_input" })
-                            </div>
+                        <label>Registration No.</label>
+                        @Html.HiddenFor(m => m.SaleOrderItemId)
+                        @Html.TextBoxFor(m => m.RegistrationNo, new { @class = "form_input" })
+                    </div>
                             <div class="col-md-3">
-                                <label>In-Pass Date</label>
-                                @Html.TextBoxFor(m => m.VehicleInPassDate, new { @class = "form_input", @type = "date" })
-                            </div>
-                            <div class="col-md-3">
-                                <label>Employee</label>
-                                @Html.DropDownListFor(m => m.EmployeeId, (SelectList)ViewBag.employeeList, "Select Employee", new { @class = "form_input" })
-                            </div>
-                        </div>
+                        <label>In-Pass Date</label>
+                        @Html.TextBoxFor(m => m.VehicleInPassDate, new { @class = "form_input", @type = "date" })
+                    </div>
+                    <div class="col-md-3">
+                        <label>Employee</label>
+                        @Html.DropDownListFor(m => m.EmployeeId, (SelectList)ViewBag.employeeList, "Select Employee", new { @class = "form_input" })
+                    </div>
+                </div>
 
-                        <div class="row form-group">
+                <div class="row form-group">
                             <div class="col-md-12">
-                                <label>Remarks</label>
-                                @Html.TextAreaFor(m => m.Remarks, new { @class = "form_input form_input-h" })
-                            </div>
-                        </div>
+                        <label>Remarks</label>
+                        @Html.TextAreaFor(m => m.Remarks, new { @class = "form_input form_input-h" })
+                    </div>
+                </div>
 
-                        <div class="row form-group">
+                <div class="row form-group">
                             <div class="col-md-12 hrpart">
-                                <input class="form-button right" type="submit" value="Save" />
-                                <input class="form-button right" type="button" value="Back" onclick="Back()" />
-                            </div>
-                        </div>
-                    }
+                        <input class="form-button right" type="submit" value="Save" />
+                        <input class="form-button right" type="button" value="Back" onclick="Back()" />
+                    </div>
+                </div>
+            }
                 </div>
             </div>
         </div>
