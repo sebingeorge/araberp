@@ -4,7 +4,41 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 <script>
+    $(document).ready(function () {
+        $('#purchasereq_form').bootstrapValidator({
+            // To use feedback icons, ensure that you use Bootstrap v3.1.0 or later
+            //feedbackIcons: {
+            //    valid: 'glyphicon glyphicon-ok',
+            //    invalid: 'glyphicon glyphicon-remove',
+            //    validating: 'glyphicon glyphicon-refresh'
+            //},
+            fields: {
+                PurchaseRequestNo: {
+                    validators: {
+                        notEmpty: {
+                            message: 'Please enter PurchaseRequest No.'
+                        }
+                    }
+                },
+                PurchaseRequestDate: {
+                    validators: {
+                        notEmpty: {
+                            message: 'Please select PurchaseRequest Date'
+                        }
+                    }
+                },
+                RequiredDate: {
+                    validators: {
+                        notEmpty: {
+                            message: 'Please enter Required Date.'
+                        }
+                    }
+                }
 
+
+            }
+        });
+    })
     function Exit()
     {
         location.href = '@Url.Action("PendingPurchaseRequest")';
@@ -22,7 +56,7 @@
         </div>
 
         <div class="main-part pad1">
-         @using (Html.BeginForm("Save", null, FormMethod.Post, new { @class = "createFrom" }))
+         @using (Html.BeginForm("Save", null, FormMethod.Post, new { @class = "createFrom", @id = "purchasereq_form" }))
          {
             @Html.HiddenFor(m => m.WorkShopRequestId, new { @class = "form_input", autocomplete = "off" })
             <form role="form">
