@@ -40,31 +40,28 @@
                                 <td>@item.JobCardDate.ToString("dd/MMM/yyyy")</td>
                                 <td>@item.CustomerName</td>
                                 <td>@item.VehicleModelName</td>
-                                <td><center><button class="form-button3" onclick="GotoJobcardCompletion(@item.JobCardId)">Select</button></center></td>
+                                <td><center><button class="form-button form-button1" onclick="GotoJobcardCompletion(@item.JobCardId)">Select</button></center></td>
                             </tr>
                             
                         }
                     </tbody>
                 </table>
             </div>
+
+
+
             <div class="row">
 
-
-                <div class="col-md-12">
-                    <div class="left">
+                <div class="col-md-12 hrpart">
+                 
                         <button class="form-button">Previous</button>
-                    </div>
-                    <div class="margf">
-                        <button type="submit" class="form-button">Exit</button>
-                        
-                        
-                        <button type="submit" class="form-button">Proceed</button>
-                    </div>
-
+                
+                    <button type="button" class="form-button right">Exit</button>
+                    <button type="submit" class="form-button right">Save</button>
                 </div>
 
-
             </div>
+            
         </div>
 </div></div>
 
