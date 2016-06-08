@@ -107,6 +107,7 @@
           
         }
     }
+  
 </script>
 
     
@@ -153,11 +154,11 @@
                             <td>
                             @if (ViewData["action"].ToString() == "Approval")
                             {
-                            @Html.TextBoxFor(m => m.Items[i].Quantity, new { @class = "form_input clQuantity", @style = "text-align:right", autocomplete = "off", placeholder = "Qty", @onchange = "QuantityChanged(" + i + ");", @disabled = "true" })
+                            @Html.TextBoxFor(m => m.Items[i].Quantity, new { @class = "form_input clQuantity ", @style = "text-align:right", autocomplete = "off", placeholder = "Qty", @onchange = "QuantityChanged(" + i + ");", @disabled = "true" })
                             }
                              else
                             {
-                                @Html.TextBoxFor(m => m.Items[i].Quantity, new { @class = "form_input clQuantity", @style = "text-align:right", autocomplete = "off", placeholder = "Qty", @onchange = "QuantityChanged(" + i + ");" })
+                                @Html.TextBoxFor(m => m.Items[i].Quantity, new { @class = "form_input clQuantity numbers-only", @style = "text-align:right", autocomplete = "off", placeholder = "Qty", @onchange = "QuantityChanged(" + i + ");" })
                             }
                             </td>
                             <td>
@@ -177,7 +178,7 @@
                             }
                              else
                             {
-                                @Html.TextBoxFor(m => m.Items[i].Rate, new { @class = "form_input", autocomplete = "off", @style = "text-align:right", placeholder = "Rate", @onchange = "QuantityChanged(" + i + ");" })
+                                @Html.TextBoxFor(m => m.Items[i].Rate, new { @class = "form_input numbers-only", autocomplete = "off", @style = "text-align:right", placeholder = "Rate", @onchange = "QuantityChanged(" + i + ");" })
                             }
                            </td>
                             <td>
@@ -187,7 +188,7 @@
                                 }
                                 else
                                 {
-                                    @Html.TextBoxFor(m => m.Items[i].Discount, new { @class = "form_input", autocomplete = "off", @style = "text-align:right", placeholder = "Discount", @onchange = "QuantityChanged(" + i + ");" })
+                                    @Html.TextBoxFor(m => m.Items[i].Discount, new { @class = "form_input numbers-only", autocomplete = "off", @style = "text-align:right", placeholder = "Discount", @onchange = "QuantityChanged(" + i + ");" })
                                 }
                             </td>
                             <td>@Html.TextBoxFor(m => m.Items[i].Amount, new { @class = "form_input clAmount", autocomplete = "off", @style = "text-align:right", placeholder = "Amount", @disabled = "true" })</td>
