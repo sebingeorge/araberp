@@ -58,9 +58,8 @@ namespace ArabErp.DAL
         {
             using (IDbConnection connection = OpenConnection(dataConnection))
             {
-                string sql = @"select * from SaleOrder
-                        where SaleOrderId=@SaleOrderId";
-
+                string sql = @"select *,DoorNo +','+ Street+','+State CustomerAddress from SaleOrder S inner join Customer C on S.CustomerId=C.CustomerId  where SaleOrderId=@SaleOrderId";
+                   
                 var objSaleOrder = connection.Query<SaleOrder>(sql, new
                 {
                     SaleOrderId = SaleOrderId
@@ -251,6 +250,37 @@ namespace ArabErp.DAL
 
                 string query = "SELECT V.VehicleModelId FROM WorkDescription W INNER JOIN VehicleModel V ON W.VehicleModelId = V.VehicleModelId AND W.WorkDescriptionId = @WorkDescriptionId";
                 return connection.Query<string>(query, new { WorkDescriptionId = WorkDescriptionId }).First<string>();
+            }
+        }
+        /// <summary>
+        /// Data from sale order table which is not Approved
+        /// </summary>
+        /// <returns></returns>
+        public IEnumerable<PendingSO> GetSaleOrderPending()
+        {
+            using (IDbConnection connection = OpenConnection(dataConnection))
+            {
+                string query = "Select S.SaleOrderId,SaleOrderRefNo, SaleOrderDate, C.CustomerName, S.CustomerOrderRef";
+                query += " from SaleOrder S inner join Customer C on S.CustomerId = C.CustomerId where isnull(SaleOrderApproveStatus,0)=0";
+                return connection.Query<PendingSO>(query);
+            }
+        }
+
+        public List<SaleOrderItem> GetSaleOrderItem(int SaleOrderId)
+        {
+            using (IDbConnection connection = OpenConnection(dataConnection))
+            {
+                string sql = @"select * from SaleOrderItem where SaleOrderId=@SaleOrderId";
+                return connection.Query<SaleOrderItem>(sql, new { SaleOrderId = SaleOrderId }).ToList();
+            }
+        }
+        public int UpdateSOApproval(int SaleOrderId)
+        {
+            using (IDbConnection connection = OpenConnection(dataConnection))
+            {
+                string sql = @"Update SaleOrder set SaleOrderApproveStatus=1 WHERE SaleOrderId=@SaleOrderId";
+                return  connection.Execute(sql, new { SaleOrderId = SaleOrderId });
+               
             }
         }
     }
