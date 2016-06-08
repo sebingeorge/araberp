@@ -100,7 +100,7 @@ namespace ArabErp
                 try
                 {
                     int id = 0;
-                    string sql = @"insert  into JobCard(JobCardNo,JobCardDate,SaleOrderId,ChasisNoRegNo,WorkDescription,FreezerUnitId,BoxId,BayId,SpecialRemarks,RequiredDate,EmployeeId,CreatedBy,CreatedDate,OrganizationId, SaleOrderItemId) Values (@JobCardNo,@JobCardDate,@SaleOrderId,@ChasisNoRegNo,@WorkDescription,@FreezerUnitId,@BoxId,@BayId,@SpecialRemarks,@RequiredDate,@EmployeeId,@CreatedBy,@CreatedDate,@OrganizationId,@SaleOrderItemId);
+                    string sql = @"insert  into JobCard(JobCardNo,JobCardDate,SaleOrderId,InPassId,WorkDescriptionId,FreezerUnitId,BoxId,BayId,SpecialRemarks,RequiredDate,EmployeeId,CreatedBy,CreatedDate,OrganizationId, SaleOrderItemId) Values (@JobCardNo,@JobCardDate,@SaleOrderId,@InPassId,@WorkDescriptionId,@FreezerUnitId,@BoxId,@BayId,@SpecialRemarks,@RequiredDate,@EmployeeId,@CreatedBy,@CreatedDate,@OrganizationId,@SaleOrderItemId);
                     SELECT CAST(SCOPE_IDENTITY() as int)";
 
                     id = connection.Query<int>(sql, objJobCard,trn).Single();
