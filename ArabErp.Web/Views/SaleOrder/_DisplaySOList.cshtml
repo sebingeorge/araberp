@@ -125,6 +125,7 @@
                                 <span id="slno@(i+1)">@(i + 1)</span>
                                 @Html.HiddenFor(m => m.Items[i].SlNo)
                             </td>
+
                             <td>
                                 <input type="hidden" id="Row_@i" />
                                 @Html.DropDownListFor(m => m.Items[i].WorkDescriptionId, (SelectList)ViewBag.workdesclist, "select work description", new { @class = "form_input", autocomplete = "off",@onchange = "OnWorkChange(this," + i + ")" })

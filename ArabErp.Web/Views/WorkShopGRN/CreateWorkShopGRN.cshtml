@@ -1,8 +1,125 @@
-﻿
-@{
-    ViewBag.Title = "CreateWorkShopGRN";
-    Layout = "~/Views/Shared/_Layout.cshtml";
-}
+﻿@model  ArabErp.Domain.WorkShopGRN
+@{ViewBag.Title = "CreateWorkShopGRN";Layout = "~/Views/Shared/_Layout.cshtml";}
 
-<h2>WorkShop GRN</h2>
 
+<script>
+    $(document).ready(function () {
+        $('#wgrn_form').bootstrapValidator({
+            fields: {
+                GRNNo: {
+                    validators: {
+                        notEmpty: {
+                            message: 'Please Enter GRN No.'
+                        }
+                    }
+                },
+                SupplierId: {
+                    validators: {
+                        notEmpty: {
+                            message: 'Please Select Supplier'
+                        }
+                    }
+                }
+            }
+        });
+    });
+
+
+    function Exit() {
+        location.href = '@Url.Action("CreateWorkShopGRN")';
+    }
+    $(function () {
+        $("#GRNDate").datepicker({ dateFormat: "dd/MM/yy" });
+        });
+
+</script>
+
+<div class="container">
+    <div class="row">
+        <div class="form-head1">
+            <h4>WrokShop GRN</h4>
+        </div>
+
+        <div class="main-part pad1">
+
+            @using (Html.BeginForm("Save", null, FormMethod.Post, new { @class = "createFrom", @id = "wgrn_form" }))
+            {
+                @*@Html.HiddenFor(m => m.SupplyOrderId, new { @class = "form_input", autocomplete = "off" })*@
+
+                <div class="row form-group">
+                    <div class="col-md-2">
+                        <label for=" GRNNo">GRN No. </label>
+                        @Html.TextBoxFor(m => m.GRNNo, new { @class = "form_input", autocomplete = "off" })
+                    </div>
+                    <div class="col-md-2">
+                        <label for="GRNDate">Date</label>
+                        @Html.TextBoxFor(m => m.GRNDate, String.Format("{0:dd/MM/yyyy}", Model.GRNDate), new { @class = "form_input ", autocomplete = "off", @readonly = "readonly" })
+                    </div>
+                </div>
+                <div class="row form-group">
+                    <div class="col-md-4">
+                        <label for="SupplierId">Supplier</label>
+                        @Html.DropDownListFor(m => m.SupplierId, (SelectList)ViewBag.SupplierList, "Select Supplier", new { @class = "form_input", autocomplete = "off" })
+                        @*@Html.TextBoxFor(m => m.SupplierId, new { @class = "form_input", autocomplete = "off", @readonly = "readonly" })*@
+                    </div>
+
+                    <div class="col-md-4">
+                        <label for="SONODATE">SO No. & Date</label>
+                        @Html.TextBoxFor(m => m.SONoAndDate, new { @class = "form_input", autocomplete = "off" })
+                    </div>
+
+                </div>
+                
+                 @Html.Action("DisplayWGRNList")
+                
+    
+                 <div class="row form-group">
+                     <div class="col-md-12">
+                         <label for="SplRemarks1">Spl.Remarks</label>
+                        @Html.TextAreaFor(m => m.SpecialRemarks, new { @class = "form_input", autocomplete = "off" })
+                    </div>
+                </div>
+                
+                <div class="row form-group">
+                     <div class="col-md-4">
+                        <label for="sdcno">Supplier DC No. & Date</label>
+                        @Html.TextBoxFor(m => m.SupplierDCNoAndDate, new { @class = "form_input", autocomplete = "off" })
+                    </div>
+                </div>
+
+                <div class="row form-group">
+                    <div class="col-md-4">
+                        <label for="Addition">Addition</label>
+                        @Html.TextBoxFor(m => m.Addition, new { @class = "form_input", @style = "text-align:right", autocomplete = "off", @Value = "0.00" })
+                    </div>
+                    <div class="col-md-8">
+                        <label for="AdditionRemarks">Remarks</label>
+                        @Html.TextBoxFor(m => m.AdditionRemarks, new { @class = "form_input", autocomplete = "off" })
+                    </div>
+                </div>
+
+                <div class="row form-group">
+                    <div class="col-md-4">
+                        <label for="Deduction">Deduction</label>
+                        @Html.TextBoxFor(m => m.Deduction, new { @class = "form_input", @style = "text-align:right", autocomplete = "off", @Value = "0.00" })
+                    </div>
+                    <div class="col-md-8">
+                        <label for="DeductionRemarks">Remarks</label>
+                        @Html.TextBoxFor(m => m.DeductionRemarks, new { @class = "form_input", autocomplete = "off" })
+                    </div>
+                </div>
+
+                <div class="row">
+
+                    <div class="col-md-12 hrpart">
+                        <button type="button" class="form-button right">Exit</button>
+                        <button type="submit" class="form-button right">Save</button>
+                    </div>
+
+                </div>
+
+
+            }
+        </div>
+    </div>
+</div>
