@@ -1,0 +1,29 @@
+﻿@model  ArabErp.Domain.SaleOrder
+@{ string actionName = ViewContext.RouteData.GetRequiredString("action");
+ ViewData["action"] = actionName;}
+<div class="container">
+    <div class="row">
+        <div class="form-head1">
+            <h4>Sale Order Approval</h4>
+        </div>
+
+        <div class="main-part pad1">
+          
+                @Html.Partial("_SaleOrderHead",Model)
+                @Html.Partial("_DisplaySOList", Model)
+                
+                @Html.Partial("_SaleOrderFooter", Model)
+@using (Html.BeginForm("UpdateApprovalStatus", null, FormMethod.Post, new { @class = "createFrom", @id = "saleorder_form" }))
+{
+    @Html.HiddenFor(m => m.SaleOrderId)
+        
+         <div class="row">
+                   <div class="col-md-12 hrpart">
+                        <button type="button" class="form-button right">Exit</button>
+                        <button type="submit" class="form-button right">Approve</button>
+                    </div>
+          </div>
+}
+        </div>
+    </div>
+</div>

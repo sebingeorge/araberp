@@ -122,7 +122,7 @@ namespace ArabErp.DAL
         {
             using (IDbConnection connection = OpenConnection(dataConnection))
             {
-                return connection.Query<string>(@"SELECT DoorNo+', '+Street+', '+[State]+', '+CountryName FROM Customer LEFT JOIN Country ON Country = CountryId WHERE CustomerId = @customerId",
+                return connection.Query<string>(@"SELECT DoorNo+', '+Street+', '+[State]+', '+ISNULL(CountryName, '') FROM Customer LEFT JOIN Country ON Country = CountryId WHERE CustomerId = @customerId",
                     new { customerId = customerId }).First();
             }
         }

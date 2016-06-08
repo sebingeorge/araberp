@@ -8,6 +8,7 @@ namespace ArabErp.Domain
 {
     public class PendingSO
     {
+        public int? SaleOrderId { get; set; }
         public int? SaleOrderItemId { get; set; }
         public string SaleOrderRefNo { get; set; }
         public DateTime SaleOrderDate { get; set; }
