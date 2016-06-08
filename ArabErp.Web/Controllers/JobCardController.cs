@@ -1,4 +1,5 @@
-﻿using ArabErp.Domain;
+﻿using ArabErp.DAL;
+using ArabErp.Domain;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -32,6 +33,7 @@ namespace ArabErp.Web.Controllers
             FillTaks(model.WorkDescriptionId);
             FillFreezerUnit();
             FillBox();
+            FillVehicleRegNo();
             return View(model);
         }
         public ActionResult PendingJobCard()
@@ -76,6 +78,10 @@ namespace ArabErp.Web.Controllers
             JobCardRepository repo = new JobCardRepository();
             var result = repo.GetBoxes();
             ViewBag.Boxes = new SelectList(result, "BoxId", "BoxName");
+        }
+        public void FillVehicleRegNo()
+        {
+            ViewBag.inpassList = new SelectList(new DropdownRepository().VehicleInPassDropdown(), "Id", "Name");
         }
     }
 }
