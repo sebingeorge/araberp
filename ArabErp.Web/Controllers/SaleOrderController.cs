@@ -21,9 +21,11 @@ namespace ArabErp.Web.Controllers
             FillCustomer();
             FillCurrency();
             FillCommissionAgent();
+            FillWrkDesc();
+            FillVehicle();
+            FillUnit();
             FillEmployee();
             SaleOrder saleOrder = new SaleOrder();
-
             saleOrder.SaleOrderDate = System.DateTime.Today;
             saleOrder.Items = new List<SaleOrderItem>();
             saleOrder.Items.Add(new SaleOrderItem());
@@ -117,6 +119,42 @@ namespace ArabErp.Web.Controllers
         {
             string str = new SaleOrderRepository().GetVehicleModel(WorkDescriptionId);
             return Json(str, JsonRequestBehavior.AllowGet);
+        }
+        public ActionResult SaleOrderApproval()
+        {
+            var repo = new SaleOrderRepository();
+            IEnumerable<PendingSO> pendingSO = repo.GetSaleOrderPending();
+            return View(pendingSO);  
+        }
+        public ActionResult Approval(int? SaleOrderId)
+        {
+            FillCustomer();
+            FillCurrency();
+            FillCommissionAgent();
+           
+            FillUnit();
+            FillEmployee();
+                FillWrkDesc();
+                FillVehicle();
+                var repo = new SaleOrderRepository();
+                SaleOrder model = repo.GetSaleOrder(SaleOrderId ?? 0);
+                var SOList = repo.GetSaleOrderItem(SaleOrderId ?? 0);
+                model.Items = new List<SaleOrderItem>();
+                foreach (var item in SOList)
+                {
+                    var soitem = new SaleOrderItem { WorkDescriptionId = item.WorkDescriptionId, VehicleModelId = item.VehicleModelId, Quantity = item.Quantity, UnitId = item.UnitId, Rate = item.Rate,Amount=item.Amount,Discount=item.Discount };
+                    model.Items.Add(soitem);
+
+                }
+           
+                return View(model);
+            }
+                [HttpPost]
+        public ActionResult UpdateApprovalStatus(int? SaleOrderId)
+        {
+
+            new SaleOrderRepository().UpdateSOApproval(SaleOrderId ?? 0);
+            return RedirectToAction("SaleOrderApproval");
         }
 
     }

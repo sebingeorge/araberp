@@ -1,0 +1,48 @@
+﻿@model ArabErp.Domain.SaleOrder
+
+
+<div class="row form-group ">
+    <div class="col-md-2">
+        <label for="SaleOrderRefNo">SO.No.</label>
+        @if (ViewData["action"].ToString() == "Approval")
+        {
+        @Html.TextBoxFor(m => m.SaleOrderRefNo, new { @class = "form_input", autocomplete = "off", @readonly = "readonly"})
+        }
+        else
+        {
+        @Html.TextBoxFor(m => m.SaleOrderRefNo, new { @class = "form_input", autocomplete = "off" })
+        }
+    </div>
+    <div class="col-md-2">
+        <label for="SaleOrderDate">Date</label>
+        @Html.TextBoxFor(m => m.SaleOrderDate, String.Format("{0:dd/MM/yyyy}", Model.SaleOrderDate), new { @class = "form_input ", autocomplete = "off", @readonly = "readonly" })
+    </div>
+</div>
+<div class="row form-group">
+    <div class="col-md-4">
+        <label for="selectCustomer">Customer</label>
+        @if (ViewData["action"].ToString() == "Approval")
+        {
+        @Html.DropDownListFor(m => Model.CustomerId, (SelectList)ViewBag.customerlist, "Select Customer", new { @class = "form_input", autocomplete = "off", @onchange = "CustomerChanged(this);", @disabled = "true" })
+        }
+        else
+        {
+        @Html.DropDownListFor(m => Model.CustomerId, (SelectList)ViewBag.customerlist, "Select Customer", new { @class = "form_input", autocomplete = "off", @onchange = "CustomerChanged(this);" })
+        }
+     </div>
+    <div class="col-md-4">
+        <label for="CustomerOrderRef">Customer Address</label>
+        @Html.TextBoxFor(m => m.CustomerAddress, new { @class = "form_input", autocomplete = "off", @readonly = "readonly" })
+    </div>
+    <div class="col-md-2">
+        <label for="CustomerOrderRef">Customer Order Ref.</label>
+        @if (ViewData["action"].ToString() == "Approval")
+        {
+        @Html.TextBoxFor(m => m.CustomerOrderRef, new { @class = "form_input", autocomplete = "off", @readonly = "readonly" })
+        }
+        else
+        {
+        @Html.TextBoxFor(m => m.CustomerOrderRef, new { @class = "form_input", autocomplete = "off" })
+        }
+    </div>
+   </div>
