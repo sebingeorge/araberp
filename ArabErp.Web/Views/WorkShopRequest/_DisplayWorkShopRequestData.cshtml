@@ -1,5 +1,12 @@
 ﻿@model  ArabErp.Domain.SaleOrder
-
+<script>
+    $(document).ready(function () {
+        //bind keypress event for new row inputs.
+        $(".numbers-only").keypress(function (e) {
+            if (e.which == 8 || (e.which == 46 && $(this).val().indexOf('.') == -1) || (e.which > 47 && e.which < 58)) { } else { return false; }
+        });
+    });
+</script>
 <div class="table-responsive scroll">
     <table class="table table-bordered table-hover" id="tab_logic">
         <thead>
@@ -24,8 +31,8 @@
                     </td>
                     <td>@Html.TextBoxFor(m => m.Items[i].PartNo, new { @class = "form_input", autocomplete = "off", placeholder = "Part No.", @readonly = "readonly" })</td>
                     <td>@Html.TextBoxFor(m => m.Items[i].Remarks, new { @class = "form_input", autocomplete = "off", placeholder = "Remarks" })</td>
-                    <td>@Html.TextBoxFor(m => m.Items[i].Quantity, new { @class = "form_input clQuantity", @style = "text-align:right", autocomplete = "off", placeholder = "Qty" })</td>
-                    <td>@Html.TextBoxFor(m => m.Items[i].UnitName, new { @class = "form_input clQuantity", autocomplete = "off", placeholder = "Qty", @readonly = "readonly" })</td>
+                    <td>@Html.TextBoxFor(m => m.Items[i].Quantity, new { @class = "form_input clQuantity numbers-only", @style = "text-align:right", autocomplete = "off", placeholder = "Qty" })</td>
+                    <td>@Html.TextBoxFor(m => m.Items[i].UnitName, new { @class = "form_input", autocomplete = "off", @readonly = "readonly" })</td>
                 </tr>
             }
         

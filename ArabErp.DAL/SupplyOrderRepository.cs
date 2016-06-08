@@ -21,40 +21,40 @@ namespace ArabErp.DAL
             using (IDbConnection connection = OpenConnection(dataConnection))
             {
 
-                    IDbTransaction trn = connection.BeginTransaction();
-    try
-            { 
+                IDbTransaction trn = connection.BeginTransaction();
+                try
+                {
                     string sql = @"insert  into SupplyOrder(SupplyOrderNo,SupplyOrderDate,SupplierId,QuotaionNoAndDate,SpecialRemarks,PaymentTerms,DeliveryTerms,RequiredDate,CreatedBy,CreatedDate,OrganizationId) Values (@SupplyOrderNo,@SupplyOrderDate,@SupplierId,@QuotaionNoAndDate,@SpecialRemarks,@PaymentTerms,@DeliveryTerms,@RequiredDate,@CreatedBy,@CreatedDate,@OrganizationId);
             SELECT CAST(SCOPE_IDENTITY() as int)";
 
 
-                 id = connection.Query<int>(sql, objSupplyOrder, trn).Single<int>();
+                    id = connection.Query<int>(sql, objSupplyOrder, trn).Single<int>();
 
-                var supplyorderitemrepo = new SupplyOrderItemRepository();
-                foreach (var item in objSupplyOrder.SupplyOrderItems)
-                {
-                    item.SupplyOrderId= id;
+                    var supplyorderitemrepo = new SupplyOrderItemRepository();
+                    foreach (var item in objSupplyOrder.SupplyOrderItems)
+                    {
+                        item.SupplyOrderId = id;
                         item.OrganizationId = objSupplyOrder.OrganizationId;
                         supplyorderitemrepo.InsertSupplyOrderItem(item, connection, trn);
-                }
+                    }
 
-                trn.Commit();
+                    trn.Commit();
                 }
                 catch (Exception ex)
                 {
                     logger.Error(ex.Message);
 
                     trn.Rollback();
-                    
+
                     throw;
                 }
                 return id;
-           
+
             }
 
 
-          
-            }
+
+        }
 
         public List<SupplyOrderItem> GetPurchaseRequestItems(List<int> selectedpurchaserequests)
         {
@@ -78,7 +78,9 @@ namespace ArabErp.DAL
             using (IDbConnection connection = OpenConnection(dataConnection))
             {
                 string sql = @"select * from PurchaseRequest P
-                              WHERE P.isActive=1";
+WHERE P.isActive=1 and P.PurchaseRequestId not in (
+select distinct PR.PurchaseRequestId from [dbo].[SupplyOrderItem] SI join [dbo].[PurchaseRequestItem] 
+PRI on SI.PurchaseRequestItemId=PRI.PurchaseRequestItemId join [dbo].[PurchaseRequest] PR on PRI.PurchaseRequestId=PR.PurchaseRequestId)";
 
                 var objPendingPurchaseRequests = connection.Query<PendingPurchaseRequest>(sql).ToList<PendingPurchaseRequest>();
 
@@ -138,7 +140,7 @@ namespace ArabErp.DAL
             }
         }
 
-    
+
 
 
     }
