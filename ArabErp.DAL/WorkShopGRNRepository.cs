@@ -14,6 +14,14 @@ namespace ArabErp.DAL
     public class WorkShopGRNRepository : BaseRepository
     {
         static string dataConnection = GetConnectionString("arab");
+
+        /// <summary>
+        /// Insert WorkShop GRN
+        /// </summary>
+        /// <param name="model"></param>
+        /// <returns></returns>
+        /// 
+
         public int InsertWorkShopGRN(WorkShopGRN model)
         {
 

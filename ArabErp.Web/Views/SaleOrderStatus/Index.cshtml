@@ -15,18 +15,20 @@
             <div class="main-list wid  scroll4">
                 <table class="table table-bordered">
                     <tr class="grid_heading">
-                        <td width="20%">Customer</td>
-                        <td>Sale Order Ref. No.</td>
-                        <td>Sale Order Date</td>
-                        <td>EDD</td>
-                        <td>Sale Ord. App.</td>
-                        <td>Work. Req.</td>
-                        <td>Pur. Request.</td>
-                        <td>Sup. Ord.</td>
-                        <td>GRN</td>
-                        <td>Job Card</td>
-                        <td>Job Card Comp.</td>
-                        <td>Sales Inv.</td>
+                        <td>Customer</td>
+                        <td width="15%">Sale Order Ref. No.</td>
+                        <td style="width:10%;">Sale Order Date</td>
+                        <td style="width:10%;">EDD</td>
+                        <td style="width:3%;">Age</td>
+                        <td style="width:3%;">ODD.</td>
+                        <td style="width:3%;">Sale Ord. App.</td>
+                        <td style="width:3%;">Work. Req.</td>
+                        <td style="width:3%;">Pur. Req.</td>
+                        <td style="width:3%;">Sup. Ord.</td>
+                        <td style="width:3%;">GRN</td>
+                        <td style="width:3%;">Job Card</td>
+                        <td style="width:3%;">Job Card Comp.</td>
+                        <td style="width:3%;">Sales Inv.</td>
                     </tr>
                     @foreach (var item in Model)
                     {
@@ -35,6 +37,8 @@
                             <td class="grid-cell">@item.SaleOrderRefNo</td>
                             <td class="grid-cell">@item.SaleOrderDate.ToString("dd/MMM/yyyy")</td>
                             <td class="grid-cell">@item.EDateDelivery.ToString("dd/MMM/yyyy")</td>
+                            <td class="grid-cell">@((DateTime.Now - item.SaleOrderDate).Days)</td>
+                            <td class="grid-cell">@((DateTime.Now - item.EDateDelivery).Days)</td>
                             <td class="grid-cell"><img src="~/Images/x.png" )" height="10" width="10" /></td>
                             <td class="grid-cell"><img src="~/Images/@(item.WorkShopRequest == "Yes" ? "tick.png" : "x.png")" height="10" width="10" /></td>
                             <td class="grid-cell"><img src="~/Images/@(item.PurchaseRequest == "Yes" ? "tick.png" : "x.png")" height="10" width="10" /></td>

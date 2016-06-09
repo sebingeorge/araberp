@@ -9,6 +9,11 @@ using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
 using ArabErp.Web.Models;
+using ArabErp.Domain;
+using ArabErp.DAL;
+using System.Configuration;
+using System.Security.Cryptography;
+using System.Web.Security;
 
 namespace ArabErp.Web.Controllers
 {
@@ -147,27 +152,22 @@ namespace ArabErp.Web.Controllers
         [HttpPost]
         [AllowAnonymous]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Register(RegisterViewModel model)
+        public async Task<ActionResult> Register(User model)
         {
             if (ModelState.IsValid)
             {
-                var user = new ApplicationUser { UserName = model.Email, Email = model.Email };
-                var result = await UserManager.CreateAsync(user, model.Password);
-                if (result.Succeeded)
+                string salt = ConfigurationManager.AppSettings["salt"].ToString();
+                string saltpassword = String.Concat(salt, model.UserPassword);
+                string hashedPassword = FormsAuthentication.HashPasswordForStoringInConfigFile(saltpassword, "sha1");
+
+                model.UserPassword = model.ConfirmPassword = hashedPassword;
+                model.UserSalt = salt;
+                int res = (new UserRepository()).InsertUser(model);
+                if(res > 0)
                 {
-                    await SignInManager.SignInAsync(user, isPersistent:false, rememberBrowser:false);
-                    
-                    // For more information on how to enable account confirmation and password reset please visit http://go.microsoft.com/fwlink/?LinkID=320771
-                    // Send an email with this link
-                    // string code = await UserManager.GenerateEmailConfirmationTokenAsync(user.Id);
-                    // var callbackUrl = Url.Action("ConfirmEmail", "Account", new { userId = user.Id, code = code }, protocol: Request.Url.Scheme);
-                    // await UserManager.SendEmailAsync(user.Id, "Confirm your account", "Please confirm your account by clicking <a href=\"" + callbackUrl + "\">here</a>");
-
-                    return RedirectToAction("Index", "Home");
+                    return RedirectToAction("Register");
                 }
-                AddErrors(result);
             }
-
             // If we got this far, something failed, redisplay form
             return View(model);
         }

@@ -142,10 +142,10 @@
                         <td>@(i+1) </td>
                         @Html.HiddenFor(m=>Model.SaleInvoiceItems[i].SaleOrderItemId)
                         @Html.HiddenFor(m => Model.SaleInvoiceItems[i].SaleOrderId)
-                        <td>@Html.TextBoxFor(m => Model.SaleInvoiceItems[i].WorkDescription, new { @class = "form_input", autocomplete = "off", @style = "text-align:right", placeholder = "Rate", @readonly = "readonly" })</td>
-                        <td>@Html.TextBoxFor(m => Model.SaleInvoiceItems[i].VehicleModelName, new { @class = "form_input", autocomplete = "off", @style = "text-align:right", placeholder = "Rate", @readonly = "readonly" })</td>
+                        <td>@Html.TextBoxFor(m => Model.SaleInvoiceItems[i].WorkDescription, new { @class = "form_input", autocomplete = "off", @style = "text-align:left", placeholder = "Rate", @readonly = "readonly" })</td>
+                        <td>@Html.TextBoxFor(m => Model.SaleInvoiceItems[i].VehicleModelName, new { @class = "form_input", autocomplete = "off", @style = "text-align:left", placeholder = "Rate", @readonly = "readonly" })</td>
                         <td>@Html.TextBoxFor(m => Model.SaleInvoiceItems[i].QuantityTxt, new { @class = "form_input", autocomplete = "off", @style = "text-align:right", placeholder = "Rate", @readonly = "readonly" })</td>
-                        <td>@Html.TextBoxFor(m => Model.SaleInvoiceItems[i].Unit, new { @class = "form_input", autocomplete = "off", @style = "text-align:right", placeholder = "Rate", @readonly = "readonly" })</td>
+                        <td>@Html.TextBoxFor(m => Model.SaleInvoiceItems[i].Unit, new { @class = "form_input", autocomplete = "off", @style = "text-align:left", placeholder = "Rate", @readonly = "readonly" })</td>
                         <td>@Html.TextBoxFor(m => Model.SaleInvoiceItems[i].Rate, new { @class = "form_input", autocomplete = "off", @style = "text-align:right", placeholder = "Discount", @readonly = "readonly" })</td>
                         <td>@Html.TextBoxFor(m => Model.SaleInvoiceItems[i].Discount, new { @class = "form_input clAmount", autocomplete = "off", @style = "text-align:right", placeholder = "Amount", @readonly = "readonly" })</td>
                         <td>@Html.TextBoxFor(m => Model.SaleInvoiceItems[i].Amount, new { @class = "form_input clAmount", autocomplete = "off", @style = "text-align:right", placeholder = "Amount", @readonly = "readonly" })</td>
@@ -171,9 +171,11 @@
                         <div class="row form-group">
                             <div class="col-md-12">
                                 <div class="part1">
-                                    @*@Html.TextBoxFor(m=>m.CurrencySymbol)*@
-                                    <label for="SpecialRemarks"><b>@(Model.CurrencySymbol)<span id="TotalAmount">@totalAmount </span></b></label>
-                                    
+                                    <div class="col-md-11"></div>
+                                    <div class="col-md-1">
+                                        @*@Html.TextBoxFor(m=>m.CurrencySymbol)*@
+                                        <label for="SpecialRemarks" style="font-size:30px"><b>@(Model.CurrencySymbol)<span id="TotalAmount">@totalAmount </span></b></label>
+                                    </div>
                                     
                                 </div>
                                
