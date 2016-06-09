@@ -14,6 +14,11 @@
                 $("#customer").val(arr[1]);
                 $("#saleorderno").val(arr[2]);
                 $("#reqdate").val(arr[3]);
+            });
+        $("#StoreIssueDate").datepicker({
+            changeMonth: true,
+            changeYear: false,
+            dateFormat: "d/MM/y"
         });
     });
 
@@ -22,6 +27,19 @@
     }
 
     function formValidation() {
+        ///////////////////////
+        //var count = 0;
+        //$(".validateqty").each(function (i, obj) {
+
+        //    var qty = $("#Items_" + i + "__Quantity".val());
+        //    var rate = $("#Items_" + i + "__Rate".val());
+        //    if (qty == "") {
+        //        alert("Please enter quantity");
+        //        $("#Items_" + i + "__Quantity".focus());
+        //        count = 1;
+        //    }
+        //});
+        ///////////////////////
         return confirm("Are you sure to Save?");
     }
 </script>
@@ -42,11 +60,11 @@
                     </div>
                     <div class="col-md-2">
                         <label for="StoreIssueDate">Date</label>
-                        @Html.TextBoxFor(m => m.StoreIssueDate, new { @type = "date", @class = "form_input" })
+                        @Html.TextBoxFor(m => m.StoreIssueDate, new { @class = "form_input" })
                         @*<input type="date" id="inputDate" class="form_input" autocomplete="off" />*@
                     </div>
                 </div>
-                <div class="row form-group"> 
+                <div class="row form-group">
                     <div class="col-md-4">
                         <label for="wrkdes">Customer</label>
                         <input type="text" id="customer" class="form_input" autocomplete="off" disabled />
@@ -57,7 +75,7 @@
                     </div>
                     <div class="col-md-2">
                         <label for="jcdate">SO No. &amp; Date</label>
-                        <input type="text" id="saleorderno" class="form_input" autocomplete="off" disabled/>
+                        <input type="text" id="saleorderno" class="form_input" autocomplete="off" disabled />
                     </div>
                     <div class="col-md-2">
                         <label for="reqdate">Required Date</label>
@@ -78,7 +96,7 @@
                                 <th><h1>UoM</h1></th>
                             </tr>
                         </thead>
-                        
+
                         @Html.Action("PendingWorkshopRequestDetails")
 
                     </table>
@@ -95,28 +113,28 @@
                         <label for="StockpointId">Stockpoint</label>
                         @Html.DropDownListFor(m => m.StockpointId, (SelectList)ViewBag.stockpointList, "Select Stockpoint", new { @class = "form_input", autocomplete = "off" })
                         @*<input type="text" id="jcno" class="form_input" autocomplete="off" />*@
-                    </div> 
+                    </div>
                     <div class="col-md-2">
                         <label for="EmployeeId">Employee/Supervisor</label>
                         @Html.DropDownListFor(m => m.EmployeeId, (SelectList)ViewBag.employeeList, "Select Employee", new { @class = "form_input", autocomplete = "off" })
                         @*<select id="bay" class="form_input" autocomplete="off">
-                            <option>Select Employee</option>
-                            <option>Employee 1</option>
-                            <option>Employee 2</option>
-                            <option>Employee 3</option>
-                        </select>*@
+                                <option>Select Employee</option>
+                                <option>Employee 1</option>
+                                <option>Employee 2</option>
+                                <option>Employee 3</option>
+                            </select>*@
                     </div>
                 </div>
                 <div class="marg1">
                     <input type="button" class="form-button" value="Back" onclick="Back()">
                     <input type="submit" class="form-button" value="Save">
                     @*@if (TempData["Success"] != null)
-            {
-             <p class="alert alert-success" id="successMessage">@TempData["Success"]</p>
-            }*@
+                        {
+                         <p class="alert alert-success" id="successMessage">@TempData["Success"]</p>
+                        }*@
                 </div>
             </form>
-            </div>
         </div>
+    </div>
 </div>
 

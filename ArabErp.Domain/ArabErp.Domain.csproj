@@ -66,6 +66,10 @@
     <Compile Include="JobCardTask.cs" />
     <Compile Include="JobCardTaskMaster.cs" />
     <Compile Include="JobOrderPending.cs" />
+    <Compile Include="LocalPurchaseGRN.cs" />
+    <Compile Include="LocalPurchaseGRNItem.cs" />
+    <Compile Include="LocalPurchaseRequest.cs" />
+    <Compile Include="LocalPurchaseRequestItem.cs" />
     <Compile Include="OpeningStock.cs" />
     <Compile Include="Organization.cs" />
     <Compile Include="PendingJC.cs" />
