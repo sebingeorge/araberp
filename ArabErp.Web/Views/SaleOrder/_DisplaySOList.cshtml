@@ -107,7 +107,51 @@
           
         }
     }
+
   
+    
+    function Validation()
+    {
+        var count = 0;
+        //var con = confirm("Do you want to Save?");
+
+        //if(con)
+        //{
+        $(".clqty").each(function (i, obj) {
+
+            var qty=$("#Items_" + i + "__Quantity").val();
+
+            if (qty  == "")
+              {
+                  alert("Please enter Quantity");
+                  $("#Items_" + i + "__Quantity").focus();
+                  count = 1;
+              }
+            else {
+                return (confirm("Are you sure to Save?")) ? true : false;
+            }
+              //  if (!$(this).val()) {
+              //      //$(this).addClass('');
+              //    $(this).addClass('warning');
+              //    alert("Please enter Quantity");
+              //    $(this).focus();
+              //    return rtn;
+            //}
+           
+
+        });
+        if (count==1)
+        {
+            alert("hi");
+            return false;
+        }
+        
+           
+      
+   
+    }
+       
+    
 </script>
 
     
@@ -125,7 +169,7 @@
                         <th width="8%" class="text-right"><h1>Amount</h1></th>
                     </tr>
                 </thead>
-                <tbody>
+                <tbody id="table_validation">
                     @for (int i = 0; i < Model.Items.Count; i++)
                     {
                         <tr id="@i">
@@ -154,11 +198,11 @@
                             <td>
                             @if (ViewData["action"].ToString() == "Approval")
                             {
-                            @Html.TextBoxFor(m => m.Items[i].Quantity, new { @class = "form_input clQuantity ", @style = "text-align:right", autocomplete = "off", placeholder = "Qty", @onchange = "QuantityChanged(" + i + ");", @disabled = "true" })
+                            @Html.TextBoxFor(m => m.Items[i].Quantity, new { @class = "form_input clQuantity  ", @style = "text-align:right", autocomplete = "off", placeholder = "Qty", @onchange = "QuantityChanged(" + i + ");", @disabled = "true" })
                             }
                              else
                             {
-                                @Html.TextBoxFor(m => m.Items[i].Quantity, new { @class = "form_input clQuantity numbers-only", @style = "text-align:right", autocomplete = "off", placeholder = "Qty", @onchange = "QuantityChanged(" + i + ");" })
+                                @Html.TextBoxFor(m => m.Items[i].Quantity, new { @class = "form_input clQuantity clqty", @style = "text-align:right", autocomplete = "off", placeholder = "Qty", @onchange = "QuantityChanged(" + i + ");" })
                             }
                             </td>
                             <td>
@@ -178,7 +222,7 @@
                             }
                              else
                             {
-                                @Html.TextBoxFor(m => m.Items[i].Rate, new { @class = "form_input numbers-only", autocomplete = "off", @style = "text-align:right", placeholder = "Rate", @onchange = "QuantityChanged(" + i + ");" })
+                                @Html.TextBoxFor(m => m.Items[i].Rate, new { @class = "form_input numbers-only clrate", autocomplete = "off", @style = "text-align:right", placeholder = "Rate", @onchange = "QuantityChanged(" + i + ");" })
                             }
                            </td>
                             <td>
