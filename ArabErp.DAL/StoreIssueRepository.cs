@@ -43,19 +43,22 @@ namespace ArabErp.DAL
                     var id = connection.Query<int>(sql, objStoreIssue, txn).Single();
                     foreach (var item in objStoreIssue.Items)
                     {
-                        item.StoreIssueId = id;
-                        new StoreIssueItemRepository().InsertStoreIssueItem(item, connection, txn);
-                        new StockUpdateRepository().InsertStockUpdate(new StockUpdate
+                        if (item.CurrentIssuedQuantity != 0)
                         {
-                            OrganizationId = objStoreIssue.OrganizationId,
-                            CreatedBy = objStoreIssue.CreatedBy,
-                            CreatedDate = objStoreIssue.CreatedDate,
-                            StockPointId = objStoreIssue.StockpointId,
-                            StockPointType = "StoreIssue",
-                            StockPointInOut = "OUT",
-                            ItemId = item.ItemId,
-                            Quantity = item.CurrentIssuedQuantity
-                        }, connection, txn);
+                            item.StoreIssueId = id;
+                            new StoreIssueItemRepository().InsertStoreIssueItem(item, connection, txn);
+                            new StockUpdateRepository().InsertStockUpdate(new StockUpdate
+                            {
+                                OrganizationId = objStoreIssue.OrganizationId,
+                                CreatedBy = objStoreIssue.CreatedBy,
+                                CreatedDate = objStoreIssue.CreatedDate,
+                                StockPointId = objStoreIssue.StockpointId,
+                                StockPointType = "StoreIssue",
+                                StockPointInOut = "OUT",
+                                ItemId = item.ItemId,
+                                Quantity = item.CurrentIssuedQuantity
+                            }, connection, txn);
+                        }
                     }
                     txn.Commit();
                     return id;

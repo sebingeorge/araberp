@@ -6,7 +6,7 @@
             var i = 0;
             var no = 1;
             $('input[id^="Row_"]').each(function () {
-                var id = this.id;
+                var id = this.id; 
                 no++;
                 var row = Number(id.replace("Row_", ""));
                 if(row>i)
@@ -20,8 +20,9 @@
             var clone = $('#0').clone(); // clone the BatchProducts item
             //Update the index of the clone
             //clone.html($(clone).html().replace("Items_0__", 'Items_' + i + '__'));
-            clone.html($(clone).html().replace(/\WorkShopGRNItems_0__/g, 'WorkShopGRNItems_' + i + '__'));
-            clone.html($(clone).html().replace(/\WorkShopGRNItems_0__/g, 'WorkShopGRNItems_' + i + '__'));
+            //clone.html($(clone).html().replace(/\_0__/g, '_' + i + '__'));
+
+            clone.html($(clone).html().replace(/WorkShopGRNItems_0__/g, 'WorkShopGRNItems_' + i + '__'));
             clone.html($(clone).html().replace(/\WorkShopGRNItems[0]./g, 'WorkShopGRNItems[' + i + '].'));
             clone.html($(clone).html().replace(/\[0\]/g, '[' + i + ']'));
             clone.html($(clone).html().replace(/\(0\)/g, '(' + i + ')'));
@@ -96,11 +97,12 @@
             var url = '@Url.Action("GetPartNo")';
             $.getJSON(url, { ItemId: id },
  
-
+               
             function (data) {
+                //alert(id, index);
                 var arr = data.split('|');
-                $("#WorkShopGRNItems_"+index+"__PartNo").val(arr[0]);
-                $("#WorkShopGRNItems_"+index+"__Unit").val(arr[1]);
+                $("#WorkShopGRNItems_" + index + "__PartNo").val(arr[0]);
+                $("#WorkShopGRNItems_" + index + "__Unit").val(arr[1]);
             });
         }
         else {
@@ -139,7 +141,9 @@
                             </td>
 
                     <td><input type="hidden" id="Row_@i" />
-                     @Html.DropDownListFor(m => m.WorkShopGRNItems[i].ItemId, (SelectList)ViewBag.itemlist, "select Item", new { @class = "form_input", autocomplete = "off", @onchange = "OnItemChange(this," + i + ")" })</td>
+                    @Html.DropDownListFor(x => Model.WorkShopGRNItems[i].ItemId, new SelectList(ViewBag.itemlist, "Value", "Text", Model.WorkShopGRNItems[i].ItemId), "Select Item", new { @class = "form_input", autocomplete = "off", @onchange = "OnItemChange(this," + i + ")" })
+
+                     @*@Html.DropDownListFor(m => m.WorkShopGRNItems[i].ItemId, (SelectList)ViewBag.itemlist, "select Item", new { @class = "form_input", autocomplete = "off", @onchange = "OnItemChange(this," + i + ")" })</td>*@
                     <td>@Html.TextBoxFor(m => m.WorkShopGRNItems[i].PartNo, new { @class = "form_input", autocomplete = "off", placeholder = "Part No.", @readonly = "readonly" })</td>
                     <td>@Html.TextBoxFor(m => m.WorkShopGRNItems[i].Remarks, new { @class = "form_input", autocomplete = "off", placeholder = "Remarks" })</td>
                     <td>@Html.TextBoxFor(m => m.WorkShopGRNItems[i].Quantity, new { @class = "form_input clQuantity", @style = "text-align:right", autocomplete = "off", placeholder = "Received Qty", @onchange = "QuantityChanged(" + i + ");" })</td>

@@ -43,7 +43,7 @@ namespace ArabErp.DAL
                     {
                         item.GRNId = id;
                         new GRNItemRepository().InsertGRNItem(item, connection, trn);
-
+                        //new GRNItemRepository().InsertStockUpdate(item, connection, trn);
                     }
 
                     trn.Commit();
@@ -59,7 +59,48 @@ namespace ArabErp.DAL
             }
         }
 
+        public int InsertStockUpdate(GRN model)
+        {
+            using (IDbConnection connection = OpenConnection(dataConnection))
+            {
+                int id = 0;
 
+                foreach (var item in model.Items)
+                {
+                    //item.GRNId = id;
+
+                    string sql = @"insert  into StockUpdate(StockPointId,StocktrnId,StockUserId,stocktrnDate,
+                                 ItemId,Quantity,StockType,StockInOut,StockDescription,
+                                 CreatedBy,CreatedDate,OrganizationId) 
+
+                                Values (@stockpointId,@GRNId,@GRNNo,@GRNDate,
+                                @ItemId,@Quantity,'GRN','IN',@Supplier,
+                                @CreatedBy,@CreatedDate,@OrganizationId);
+                                SELECT CAST(SCOPE_IDENTITY() as int)";
+
+                    //id = connection.Query<int>(sql, objOpeningStock).Single();
+
+                    id = connection.Query<int>(sql, new
+                    {
+                        stockpointId = model.StockPointId,
+                        GRNId = item.GRNId,
+                        GRNNo = model.GRNNo,
+                        GRNDate = model.GRNDate,
+                        ItemId = item.ItemId,
+                        Quantity = item.Quantity,
+                        Supplier = model.Supplier,
+                        CreatedBy = model.CreatedBy,
+                        CreatedDate = model.CreatedDate,
+                        OrganizationId = model.OrganizationId
+                    }).Single();
+
+                }
+
+
+                return id;
+
+            }
+        }
 
         public GRN GetGRN(int GRNId)
         {
