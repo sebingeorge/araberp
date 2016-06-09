@@ -134,6 +134,7 @@ namespace ArabErp.DAL
                 return objSaleOrders;
             }
         }
+   
         public int UpdateSaleOrder(SaleOrder objSaleOrder)
         {
             using (IDbConnection connection = OpenConnection(dataConnection))

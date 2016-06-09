@@ -7,45 +7,100 @@
                 <div class="col-md-1"><label for="SpecialRemarks">Spl.Remarks</label></div>
 
                 <div class="col-md-11">
+                    @if (ViewData["action"].ToString() == "Approval")
+                    {
+                    @Html.TextAreaFor(m => m.SpecialRemarks, new { @class = "form_input form_input-h", autocomplete = "off", @readonly = "readonly" })
+                    }
+                    else
+                    {
                     @Html.TextAreaFor(m => m.SpecialRemarks, new { @class = "form_input form_input-h", autocomplete = "off" })
+                    }
                 </div>
             </div>
         </div>
         <div class="row">
             <div class="part">
                 <div class="col-md-1"><label for="PaymentTerms">Pay.Terms</label></div>
-                <div class="col-md-11">@Html.TextBoxFor(m => m.PaymentTerms, new { @class = "form_input", autocomplete = "off" })</div>
+                <div class="col-md-11">
+                @if (ViewData["action"].ToString() == "Approval")
+                    {
+                @Html.TextBoxFor(m => m.PaymentTerms, new { @class = "form_input", autocomplete = "off", @readonly = "readonly" })
+                    }
+                else
+                {
+                @Html.TextBoxFor(m => m.PaymentTerms, new { @class = "form_input", autocomplete = "off" })
+                }
+                </div>
             </div>
         </div>
         <div class="row">
             <div class="part">
                 <div class="col-md-1"><label for="DeliveryTerms">Del.Terms</label></div>
-                <div class="col-md-11">@Html.TextBoxFor(m => m.DeliveryTerms, new { @class = "form_input", autocomplete = "off" })</div>
+                <div class="col-md-11">
+                @if (ViewData["action"].ToString() == "Approval")
+                    {
+                @Html.TextBoxFor(m => m.DeliveryTerms, new { @class = "form_input", autocomplete = "off", @readonly = "readonly" })
+                    }
+                else
+                {
+                    @Html.TextBoxFor(m => m.DeliveryTerms, new { @class = "form_input", autocomplete = "off" })
+
+                }
+
+                </div>
             </div>
         </div>
                 <div class="row">
             <div class="col-md-2">
                 <div class="part4">
                     <label for="cmagent">Commission Agent</label>
+                    @if (ViewData["action"].ToString() == "Approval")
+                    {
+                    @Html.DropDownListFor(m => Model.CommissionAgentId, (SelectList)ViewBag.commissionagentlist, "Select Commission Agent", new { @class = "form_input", autocomplete = "off", @disabled = "true" })
+                    }
+                    else
+                    {
                     @Html.DropDownListFor(m => Model.CommissionAgentId, (SelectList)ViewBag.commissionagentlist, "Select Commission Agent", new { @class = "form_input", autocomplete = "off" })
-                </div>
+                    }
+                        </div>
             </div>
             <div class="col-md-2">
                 <div class="part4">
                     <label for="CommissionPerc">Commission %</label>
-                    @Html.TextBoxFor(m => m.CommissionPerc, new { @class = "form_input form_input-half1 text-right", autocomplete = "off" })
+                    @if (ViewData["action"].ToString() == "Approval")
+                    {
+                    @Html.TextBoxFor(m => m.CommissionPerc, new { @class = "form_input form_input-half1 text-right", autocomplete = "off", @readonly = "readonly" })
+                    }
+                    else
+                    {
+                    @Html.TextBoxFor(m => m.CommissionPerc, new { @class = "form_input form_input-half1 text-right numbers-only", autocomplete = "off" })
+                    }
                 </div>
             </div>
             <div class="col-md-2">
             <div class="part4">
                     <label for="CommissionAmount">Commission Amt.</label>
-                    @Html.TextBoxFor(m => m.CommissionAmount, new { @class = "form_input form_input-half2  text-right", autocomplete = "off" })
+                    @if (ViewData["action"].ToString() == "Approval")
+                    {
+                    @Html.TextBoxFor(m => m.CommissionAmount, new { @class = "form_input form_input-half2  text-right ", autocomplete = "off", @readonly = "readonly" })
+                    }
+                    else
+                    {
+                    @Html.TextBoxFor(m => m.CommissionAmount, new { @class = "form_input form_input-half2  text-right numbers-only", autocomplete = "off" })
+                    }
                 </div>
             </div>
             <div class="col-md-2">
                 <div class="part4">
                     <label for="selectorder">Order Taken By</label>
+                    @if (ViewData["action"].ToString() == "Approval")
+                    {
+                    @Html.DropDownListFor(m => Model.SalesExecutiveId, (SelectList)ViewBag.employeelist, "Select Order Taken By", new { @class = "form_input", autocomplete = "off", @disabled = "true" })
+                    }
+                    else
+                    {
                     @Html.DropDownListFor(m => Model.SalesExecutiveId, (SelectList)ViewBag.employeelist, "Select Order Taken By", new { @class = "form_input", autocomplete = "off" })
+                    }
                 </div>
             </div>
             <div class="col-md-2">

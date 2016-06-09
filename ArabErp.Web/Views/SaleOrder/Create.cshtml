@@ -3,69 +3,69 @@
 @{ string actionName = ViewContext.RouteData.GetRequiredString("action");
    ViewData["action"] = actionName;}
 <script>
-    $(document).ready(function() {
-        $('#saleorder_form').bootstrapValidator({
-            // To use feedback icons, ensure that you use Bootstrap v3.1.0 or later
-            //feedbackIcons: {
-            //    valid: 'glyphicon glyphicon-ok',
-            //    invalid: 'glyphicon glyphicon-remove',
-            //    validating: 'glyphicon glyphicon-refresh'
-            //},
-            fields: {
-                SaleOrderRefNo: {
-                    validators: {
-                        notEmpty: {
-                            message: 'Please enter sale order no.'
-                        }
-                    }
-                },
-                CustomerId: {
-                    validators: {
-                        notEmpty: {
-                            message: 'Please select customer'
-                        }
-                    }
-                },
-                CustomerOrderRef: {
-                    validators: {
-                        notEmpty: {
-                            message: 'Please enter customer order ref.'
-                        }
-                    }
-                },
-                VehicleModelId: {
-                    validators: {
-                        notEmpty: {
-                            message: 'Please select vehicle'
-                        }
-                    }
-                },
-                CommissionAgentId: {
-                    validators: {
-                        notEmpty: {
-                            message: 'Please select commission agent'
-                        }
-                    }
-                },
-                CommisionAmount: {
-                    validators: {
-                        numeric: {
-                            message: 'Please enter a numeric value'
-                        }
-                    }
-                },
-                SalesExecutiveId: {
-                    validators: {
-                        notEmpty: {
-                            message: 'Please select Order Taken By'
-                        }
-                    }
-                },
+    //$(document).ready(function() {
+    //    $('#saleorder_form').bootstrapValidator({
+    //        // To use feedback icons, ensure that you use Bootstrap v3.1.0 or later
+    //        //feedbackIcons: {
+    //        //    valid: 'glyphicon glyphicon-ok',
+    //        //    invalid: 'glyphicon glyphicon-remove',
+    //        //    validating: 'glyphicon glyphicon-refresh'
+    //        //},
+    //        fields: {
+    //            SaleOrderRefNo: {
+    //                validators: {
+    //                    notEmpty: {
+    //                        message: 'Please enter sale order no.'
+    //                    }
+    //                }
+    //            },
+    //            CustomerId: {
+    //                validators: {
+    //                    notEmpty: {
+    //                        message: 'Please select customer'
+    //                    }
+    //                }
+    //            },
+    //            CustomerOrderRef: {
+    //                validators: {
+    //                    notEmpty: {
+    //                        message: 'Please enter customer order ref.'
+    //                    }
+    //                }
+    //            },
+    //            VehicleModelId: {
+    //                validators: {
+    //                    notEmpty: {
+    //                        message: 'Please select vehicle'
+    //                    }
+    //                }
+    //            },
+    //            CommissionAgentId: {
+    //                validators: {
+    //                    notEmpty: {
+    //                        message: 'Please select commission agent'
+    //                    }
+    //                }
+    //            },
+    //            CommisionAmount: {
+    //                validators: {
+    //                    numeric: {
+    //                        message: 'Please enter a numeric value'
+    //                    }
+    //                }
+    //            },
+    //            SalesExecutiveId: {
+    //                validators: {
+    //                    notEmpty: {
+    //                        message: 'Please select Order Taken By'
+    //                    }
+    //                }
+    //            },
 
 
-            }
-        });
-    })
+    //        }
+    //    });
+    //})
    
     $(function () {
         $("#SaleOrderDate").datepicker({ dateFormat: "dd/MM/yy" });
@@ -94,6 +94,12 @@
         });
         //$('#CurrencyId').val("2");
     }
+    $(document).ready(function () {
+        //bind keypress event for new row inputs.
+        $(".numbers-only").keypress(function (e) {
+            if (e.which == 8 || (e.which == 46 && $(this).val().indexOf('.') == -1) || (e.which > 47 && e.which < 58)) { } else { return false; }
+        });
+    });
 </script>
 @Html.HiddenFor(m => m.SaleOrderId)
 <div class="container">
@@ -103,17 +109,13 @@
                 </div>
               
                 <div class="main-part pad1">
-                    @using (Html.BeginForm("Save", null, FormMethod.Post, new { @class = "createFrom", @id = "saleorder_form" }))
+                    @using (Html.BeginForm("Save", null, FormMethod.Post, new { @class = "createFrom", @id = "saleorder_form", onsubmit = "return Validation()" }))
         {
-                      
+                     
 @Html.Partial("_SaleOrderHead")
 @Html.Partial("_DisplaySOList")
 @Html.Partial("_SaleOrderFooter")
-
-
-
                 <div class="row">
-
         <div class="col-md-12 hrpart">
             <button type="button" class="form-button right">Exit</button>
             <button type="submit" class="form-button right">Save</button>

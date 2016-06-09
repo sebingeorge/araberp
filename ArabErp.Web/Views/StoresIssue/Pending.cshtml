@@ -15,36 +15,36 @@
         </div>
 
         <div class="main-part pad1">
-                <div class="table-responsive scroll4">
-                    <table class="table table-bordered">
-                        <thead>
-                            <tr class="grid_heading">
-                                <th><h1>Customer</h1></th>
-                                <th><h1>WR No. &amp; Date</h1></th>
-                                @*<th><h1>Workshop Request Date</h1></th>*@
-                                <th><h1>SO No. &amp; Date</h1></th>
-                                <th><h1>Required Date</h1></th>
-                                <th></th>
-                            </tr>
-                        </thead>
+            <div class="table-responsive scroll4">
+                <table class="table table-bordered">
+                    <thead>
+                        <tr class="grid_heading">
+                            <th><h1>Customer</h1></th>
+                            <th><h1>WR No. &amp; Date</h1></th>
+                            @*<th><h1>Workshop Request Date</h1></th>*@
+                            <th><h1>SO No. &amp; Date</h1></th>
+                            <th><h1>Required Date</h1></th>
+                            <th></th>
+                        </tr>
+                    </thead>
 
-                        @Html.Action("PendingWorkshopRequests")
+                    @Html.Action("PendingWorkshopRequests")
 
-                    </table>
+                </table>
+            </div>
+
+            <div class="row">
+                <div class="col-md-12">
+                    @*<button class="btn btn-default">
+                        <span class="glyphicon glyphicon-list" style="top:1.5px;right:5px"></span>Issued List    
+                    </button>*@
+                    @*<div class="margf">
+                            <button type="submit" class="form-button">Exit</button>
+                            <button type="submit" class="form-button">Proceed</button>
+                        </div>*@
                 </div>
 
-                <!--<div class="row">
-                    <div class="col-md-12">
-                        <div class="margl">
-                            @*<button class="form-button">Previous</button>*@
-                        </div>
-                        <div class="margf">
-                            @*<button type="submit" class="form-button">Exit</button>*@
-                            @*<button type="submit" class="form-button">Proceed</button>*@
-                        </div>
-                    </div>
-
-                </div>-->
+            </div>
         </div>
     </div>
 </div>

@@ -65,6 +65,45 @@
             $("#partno" + index).html('');
         }
     }
+
+    function Delete(index) {
+
+        var i = 0;
+        var no = 1;
+        $('input[id^="Row_"]').each(function () {
+            var id = this.id;
+            no++;
+            var row = Number(id.replace("Row_", ""));
+            if (row > i) {
+                i = row;
+            }
+        });
+        i++;
+        //$("#" + index).html('');
+        if (i > 1) {
+            $("#" + index).remove();
+            for (var j = index + 1; j < i; j++) {
+                var item = $("#Items_" + j + "__ItemId").val();
+                var remarks = $("#Items_" + j + "__Remarks").val();
+                var qty = $("#Items_" + j + "__Quantity").val();
+                var clone = $("#" + j).clone(true, true);
+                clone.html($(clone).html().replace(new RegExp("Items_" + j + "__", "g"), 'Items_' + (j - 1) + '__'));
+                clone.html($(clone).html().replace(new RegExp("\\[" + j + "].", "g"), "[" + (j - 1) + "]."));
+                clone.html($(clone).html().replace(new RegExp('slno' + (j + 1) + '">' + (j + 1), "g"), 'slno' + (j) + '">' + (j)));
+                clone.html($(clone).html().replace("Delete(" + j, "Delete(" + (j - 1)));
+                clone.html($(clone).html().replace("Row_" + j, "Row_" + (j - 1)));
+                clone.html($(clone).html().replace("unit" + j, "unit" + (j - 1)));
+                clone.html($(clone).html().replace("partno" + j, "partno" + (j - 1)));
+                clone.html($(clone).html().replace("this," + j, "this," + (j - 1)));
+                $("#" + j).html(clone.html());
+                $("#Items_" + (j - 1) + "__SlNo").val(j);
+                $("#" + (j)).attr('id', (j - 1));
+                $("#Items_" + (j - 1) + "__ItemId").val(item);
+                $("#Items_" + (j - 1) + "__Remarks").val(remarks);
+                $("#Items_" + (j - 1) + "__Quantity").val(qty);
+            }
+        }
+    }
 </script>
 
 <table class="table table-bordered" id="table-additional-items-list">
@@ -76,6 +115,7 @@
             <th><h1>Remarks</h1></th>
             <th width="5%" class="text-right "><h1>Qty</h1></th>
             <th width="10%"><h1>UoM</h1></th>
+            <th>&nbsp;</th>
         </tr>
     </thead>
     <tbody class="grid_row">
@@ -94,6 +134,7 @@
                 <td>@Html.TextBoxFor(m => m.Items[i].Remarks, new { @class = "form_input", autocomplete = "off", placeholder = "Remarks" })</td>
                 <td>@Html.TextBoxFor(m => m.Items[i].Quantity, new { @class = "form_input numbers-only text-right", autocomplete = "off", placeholder = "Qty" })</td>
                 <td id="unit0" class="qreturn" style="vertical-align:middle"></td>
+                <td style="vertical-align:middle"><a class="glyphicon glyphicon-minus" style="top:0px" onclick="Delete(@i)"></a></td>
             </tr>
         }
     </tbody>

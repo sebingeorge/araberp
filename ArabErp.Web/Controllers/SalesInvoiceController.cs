@@ -29,8 +29,10 @@ namespace ArabErp.Web.Controllers
             return View("PendingSalesInvoice",List);
          
         }
-        public ActionResult PendingSalesInvoiceDt(int SalesOrderId)
+        public ActionResult PendingSalesInvoiceDt(int SalesOrderId, string Customer, string SaleOrderRefNoWithDate)
         {
+            ViewBag.CustomerName = Customer;
+            ViewBag.SaleOrderRefNoWithDate = SaleOrderRefNoWithDate;
             var List = Repo.GetPendingSalesInvoiceList(SalesOrderId);
             return PartialView("_PendingSalesInvoiceList",List);
 

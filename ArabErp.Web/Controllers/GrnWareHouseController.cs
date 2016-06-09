@@ -82,6 +82,7 @@ namespace ArabErp.Web.Controllers
             model.CreatedDate = System.DateTime.Now;
             model.CreatedBy = Request.ServerVariables["HTTP_X_FORWARDED_FOR"] ?? Request.ServerVariables["REMOTE_ADDR"];
             new GRNRepository().InsertGRN(model);
+            new GRNRepository().InsertStockUpdate(model);
             return RedirectToAction("PendingGrnWareHouse");
         }
     }
