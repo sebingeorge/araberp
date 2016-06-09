@@ -118,14 +118,8 @@
   
     
            <div class="container" style="margin-bottom:2px;">
-
         <div class="row">
-
-
-
             <div class="main-list wid col-md-12" id="PendingCustomerInvoiceDiv" style="height:25px">
-              
-
                         <div class="col-md-1" style="padding-top:5px;padding-left:40px">
 
                             @*@Html.Label("Customer", new { @class = "form_input", autocomplete = "off", @readonly = "readonly" })*@
@@ -145,24 +139,12 @@
                         </div>
                         <div class="col-md-3">
 
-                        </div>
-
-
-
-                   
+                        </div>      
             </div>
-
-
         </div>
-    </div>
-       
-
-       
+    </div> 
     <div class="container">
         <div class="row">
-
-
-
             <div class="main-list wid">
                 <div class="main-grid">
                     <div>
@@ -184,9 +166,6 @@
                                             <input id="checkAll" type="checkbox" value="Select All" /><label for="checkAll">Select All</label>
                                             <input type="hidden" value="0" id="HiddenForCheckBox" />
                                         </th>
-                                     
-                                     
-
                                     </tr>
                                 </thead>
                                      <tbody >
@@ -202,7 +181,6 @@
                                             <td width="10%"><center>@Html.CheckBoxFor(model => Model[i].SelectStatus, new { @class = "check_box", @onclick = "Checked(this)" })</center></td>
                                             @Html.HiddenFor(model => Model[i].SaleOrderId)
                                             @Html.HiddenFor(model => Model[i].SaleOrderItemId)
-
                                             @* <td><a href="" onclick="OpenCustomerInvoice('@Model[i].SaleOrderId');">Select</a></td>*@
                                         </tr>
                                     }
@@ -228,13 +206,8 @@
                                         <td>&nbsp;</td>
                                     </tr>
                                 }
-
-
                             </table>
                             <div class="margf">
-                               
-
-
                                 <button type="submit" class="form-button" id="BtnSubmit" disabled>Proceed</button>
                             </div>
                         </div>
