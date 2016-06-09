@@ -177,6 +177,7 @@
                                 <span id="slno@(i+1)">@(i + 1)</span>
                                 @Html.HiddenFor(m => m.Items[i].SlNo)
                             </td>
+
                             <td>
                                 <input type="hidden" id="Row_@i" />
                                 @if (ViewData["action"].ToString() == "Approval")
