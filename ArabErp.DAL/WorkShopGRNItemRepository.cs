@@ -11,18 +11,27 @@ namespace ArabErp.DAL
     public class WorkShopGRNItemRepository : BaseRepository
     {
         static string dataConnection = GetConnectionString("arab");
-        public int InsertWorkShopGRNItem(WorkShopGRNItem objWorkShopGRNItem)
+
+        public int InsertWGRNItem(WorkShopGRNItem model, IDbConnection connection, IDbTransaction trn)
+             //public int InsertGRNItem(GRNItem model, IDbConnection connection, IDbTransaction trn)
+
         {
-
-            using (IDbConnection connection = OpenConnection(dataConnection))
+            try
             {
-                string sql = @"INSERT INTO WorkShopGRNItem (insert  into WorkShopGRN(WorkShopGRNId,SlNo,ItemId,ItemDescription,PartNo,Quantity,Unit,Rate,Discount,Amount,Remarks) Values (@WorkShopGRNId,@SlNo,@ItemId,@ItemDescription,@PartNo,@Quantity,@Unit,@Rate,@Discount,@Amount,@Remarks);
-            SELECT CAST(SCOPE_IDENTITY() as int)";
 
+                string sql = @"insert  into WorkShopGRNItem
+                            (WorkShopGRNId,SlNo,ItemId,ItemDescription,PartNo,Quantity,Unit,Rate,Discount,Amount,Remarks)
+                            Values (@WorkShopGRNId,@SlNo,@ItemId,@ItemDescription,@PartNo,@Quantity,@Unit,@Rate,@Discount,@Amount,@Remarks);
+                            SELECT CAST(SCOPE_IDENTITY() as int)";
 
-                var id = connection.Query<int>(sql, objWorkShopGRNItem).Single();
+                var id = connection.Query<int>(sql, model , trn).Single();
                 return id;
             }
+            catch (Exception)
+            {
+                throw;
+            }
+
         }
 
 

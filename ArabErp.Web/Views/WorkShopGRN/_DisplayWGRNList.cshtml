@@ -1,0 +1,177 @@
+﻿@model ArabErp.Domain.WorkShopGRN
+<script>
+    $(document).ready(function () {
+        $("#WorkShopGRNItems_0__SlNo").val('1');
+        $("#add_row").click(function () {
+            var i = 0;
+            var no = 1;
+            $('input[id^="Row_"]').each(function () {
+                var id = this.id; 
+                no++;
+                var row = Number(id.replace("Row_", ""));
+                if(row>i)
+                {
+                    i = row;
+                }
+            });
+            i++;
+
+            var index = (new Date()).getTime(); // unique indexer
+            var clone = $('#0').clone(); // clone the BatchProducts item
+            //Update the index of the clone
+            //clone.html($(clone).html().replace("Items_0__", 'Items_' + i + '__'));
+            //clone.html($(clone).html().replace(/\_0__/g, '_' + i + '__'));
+
+            clone.html($(clone).html().replace(/WorkShopGRNItems_0__/g, 'WorkShopGRNItems_' + i + '__'));
+            clone.html($(clone).html().replace(/\WorkShopGRNItems[0]./g, 'WorkShopGRNItems[' + i + '].'));
+            clone.html($(clone).html().replace(/\[0\]/g, '[' + i + ']'));
+            clone.html($(clone).html().replace(/\(0\)/g, '(' + i + ')'));
+            clone.html($(clone).html().replace(/Row_0/, 'Row_' + i + ''));
+            clone.html($(clone).html().replace(/slno1/, 'slno' + (i + 1) + ''));
+            clone.html($(clone).html().replace(/this,0/, 'this,' + i + ''));
+            $("#tab_logic").append('<tr id="' + i + '">' + clone.html() + '  </tr>');
+            $("#slno" + (i + 1)).html((i + 1));
+            $("#WorkShopGRNItems_" + i + "__SlNo").val((i + 1));
+         });
+    });
+
+    function QuantityChanged(row)
+    {
+        var quantity = $("#WorkShopGRNItems_" + row + "__Quantity").val();
+        var rate = $("#WorkShopGRNItems_" + row + "__Rate").val();
+        var discount = $("#WorkShopGRNItems_" + row + "__Discount").val();
+
+        if (quantity == NaN)
+        {
+            quantity = 0;
+        }
+        if (rate == NaN) {
+            rate = 0;
+        }
+        if (discount == NaN) {
+            discount = 0;
+        }
+        var amount = (quantity * rate) - discount;
+        $("#WorkShopGRNItems_" + row + "__Amount").val(amount);
+        calculateSummary();
+    }
+
+    function calculateSummary()
+    {
+        var quantity = parseFloat("0");
+        var amount = parseFloat("0");
+        $('.clQuantity').each(function (i, obj) {
+            var a = parseFloat($("#WorkShopGRNItems_" + i + "__Quantity").val());
+
+            if (isNaN(a))
+            {
+               a = parseFloat("0");
+            }
+
+            quantity = quantity + a;
+        });
+
+        $('.clAmount').each(function (i, obj) {
+            var a = parseFloat($("#WorkShopGRNItems_" + i + "__Amount").val());
+            if (isNaN(a))
+            {
+
+                a = parseFloat("0");
+
+            }
+
+            amount = amount + a;
+        });
+
+        //$("#QtyTotal").text(quantity);
+        //$("#GRNTotalAmount").text(amount);
+        $("#GRNTotalAmount").val(amount);
+     
+    }
+
+
+    function OnItemChange(sender,index) {
+
+        var id = $(sender).val();
+        if (id != '') {
+            var url = '@Url.Action("GetPartNo")';
+            $.getJSON(url, { ItemId: id },
+ 
+               
+            function (data) {
+                //alert(id, index);
+                var arr = data.split('|');
+                $("#WorkShopGRNItems_" + index + "__PartNo").val(arr[0]);
+                $("#WorkShopGRNItems_" + index + "__Unit").val(arr[1]);
+            });
+        }
+        else {
+
+        }
+
+    }
+
+  
+</script>
+
+
+<div class="table-responsive">
+    <table class="table table-bordered table-hover" id="tab_logic">
+        <thead>
+            <tr class="grid_heading">
+                <th width="2%" class="text-center"><h1>#</h1></th>
+                <th width="20%">Material/Spares</th>
+                <th width="10%">PartNo</th>
+                <th width="25%">Remarks</th>
+                <th width="5%" class="text-right ">Qty</th>
+                <th width="5%" class="text-right ">Unit</th>
+                <th width="5%" class="text-right ">Rate</th>
+                <th width="5%" class="text-right ">Discount</th>
+                <th width="5%" class="text-right ">Amount</th>
+            </tr>
+        </thead>
+        <tbody>
+            @for (int i = 0; i < Model.WorkShopGRNItems.Count; i++)
+            {
+
+                 <tr id="@i">
+                            <td>
+                                <span id="slno@(i+1)">@(i + 1)</span>
+                                @Html.HiddenFor(m => m.WorkShopGRNItems[i].SlNo)
+                            </td>
+
+                    <td><input type="hidden" id="Row_@i" />
+                    @Html.DropDownListFor(x => Model.WorkShopGRNItems[i].ItemId, new SelectList(ViewBag.itemlist, "Value", "Text", Model.WorkShopGRNItems[i].ItemId), "Select Item", new { @class = "form_input", autocomplete = "off", @onchange = "OnItemChange(this," + i + ")" })
+
+                     @*@Html.DropDownListFor(m => m.WorkShopGRNItems[i].ItemId, (SelectList)ViewBag.itemlist, "select Item", new { @class = "form_input", autocomplete = "off", @onchange = "OnItemChange(this," + i + ")" })</td>*@
+                    <td>@Html.TextBoxFor(m => m.WorkShopGRNItems[i].PartNo, new { @class = "form_input", autocomplete = "off", placeholder = "Part No.", @readonly = "readonly" })</td>
+                    <td>@Html.TextBoxFor(m => m.WorkShopGRNItems[i].Remarks, new { @class = "form_input", autocomplete = "off", placeholder = "Remarks" })</td>
+                    <td>@Html.TextBoxFor(m => m.WorkShopGRNItems[i].Quantity, new { @class = "form_input clQuantity", @style = "text-align:right", autocomplete = "off", placeholder = "Received Qty", @onchange = "QuantityChanged(" + i + ");" })</td>
+                    <td>@Html.TextBoxFor(m => m.WorkShopGRNItems[i].Unit, new { @class = "form_input ", @style = "text-align:right", autocomplete = "off", @readonly = "Unit" })</td>
+                    <td>@Html.TextBoxFor(m => m.WorkShopGRNItems[i].Rate, new { @class = "form_input ", @style = "text-align:right", autocomplete = "off", placeholder = "Rate", @onchange = "QuantityChanged(" + i + ");" })</td>
+                    <td>@Html.TextBoxFor(m => m.WorkShopGRNItems[i].Discount, new { @class = "form_input ", @style = "text-align:right", autocomplete = "off", placeholder = "Discount", @onchange = "QuantityChanged(" + i + ");" })</td>
+                    <td>@Html.TextBoxFor(m => m.WorkShopGRNItems[i].Amount, new { @class = "form_input clAmount", @style = "text-align:right", autocomplete = "off", placeholder = "Amount", @readonly = "readonly" })</td>
+
+                </tr>
+            }
+            @*<tr id='addr1'></tr>*@
+        </tbody>
+        <tfoot>
+            <tr class="grid_heading">
+                <th width="2%" class="text-center"><h1></h1></th>
+                <th width="20%" class="text-center"><h1></h1></th>
+                <th width="10%" class="text-center"><h1></h1></th>
+                <th width="25%" class="text-center"><h1></h1></th>
+                 <th width="5%" class="text-center"><h1></h1></th>
+                <th width="5%" class="text-center"><h1></h1></th>
+                <th width="5%" class="text-right"><h1>Total</h1></th>
+                <th width="5%" class="text-right"><h1>@Html.DropDownListFor(m => Model.CurrencyId, (SelectList)ViewBag.currlist, "Select Currency", new { @class = "form_input", autocomplete = "off", @readonly = "readonly" })</h1></th>
+                @*<th width="5%" class="text-right"><span id="GRNTotalAmount"></span></th>*@
+                <th width="5%" class="text-right">@Html.TextBoxFor(m => m.GRNTotalAmount, new { @class = "form_input", autocomplete = "off" })</th>
+            </tr>
+        </tfoot>
+    </table>
+</div>
+<a id="add_row" class="glyphicon glyphicon-plus"></a><a id='delete_row' style="float:right" class="glyphicon glyphicon-minus"></a>
+
+

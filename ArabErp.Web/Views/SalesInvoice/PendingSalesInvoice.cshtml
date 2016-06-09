@@ -6,54 +6,7 @@
 }
 
 
-<style type="text/css">
-    .tableData {
-        font-size: 12px;
-        padding-left: 4px;
-    }
 
-    .list {
-        display: block;
-        height: 320px;
-        overflow-y: scroll;
-    }
-
-        .list tr:hover {
-            background-color: #DFEDF7;
-        }
-
-    .wrap {
-        width: 100%;
-    }
-
-        .wrap table {
-            width: 100%;
-            table-layout: fixed;
-        }
-
-    table tr td {
-        padding: 5px;
-        border: 1px solid #eee;
-        word-wrap: break-word;
-    }
-
-    table.head tr td {
-        background: #eee;
-    }
-
-    .inner_table {
-        height: 50%;
-        overflow-y: auto;
-    }
-
-    td.focus {
-        background-color: Blue;
-    }
-
-    .highlight {
-        background-color: red;
-    }
-</style>
 <script>
     $(document).ready(function () {
         $("#data tr").click(function () {
@@ -63,9 +16,15 @@
     $("#data tr").click(function () {
         $(this).toggleClass("highlight");
     });
-    function OpenCustomerInvoice(key) {
+    function OpenCustomerInvoice(key, Customer, SaleOrderRefNoWithDate) {
+      
+        
         var Url = '@Url.Action("PendingSalesInvoiceDt")';
-        $("#SalesInvoiceListDiv").load(Url, { SalesOrderId: key });
+        $("#SalesInvoiceListDiv").load(Url, { SalesOrderId: key, Customer: Customer, SaleOrderRefNoWithDate: SaleOrderRefNoWithDate });
+
+      
+    
+
 
     }
 
@@ -86,7 +45,12 @@
     }*@
 
 </script>
+<style>
 
+/*td:nth-child(1), th:nth-child(1) { min-width: 400px; }
+td:nth-child(2), th:nth-child(2) { min-width:400px; }
+td:nth-child(3), th:nth-child(3) { min-width: 280px; }*/
+</style>
 <div class="container">
 
     <div class="row">
@@ -94,59 +58,46 @@
         <div class="form-head1">
             <h4>Pending Sales Invoice</h4>
         </div>
-        <div class="main-part pad1" >
-            <div class="main-list wid" style="margin-bottom:10px">
-                <div class="main-grid">              
+        <div class="main-part pad1">
+            <div class="main-list wid" style="margin-bottom:10px" id="PendingCustomerInvoiceDiv">
+                <div class="main-grid">
                     <div>
-                        <div class="table-responsive scroll2">                         
+                        <div class="table-responsive">
                             <h5>Invoice List</h5>
-                                <table id="PendingCustomerInvoiceTable" class="table table-bordered">
-                                   <tr class="grid_heading">
-                                        <th width="20%">Customer</th>
-                                        <th width="20%">Sale Order Number</th>
-                                        <th width="15%"><center>Select</center></th>
+                            <table id="PendingCustomerInvoiceTable" class="table table-bordered">
+                                <thead style="position:relative;display:block">
+                                    <tr class="grid_heading">
+                                        <th style="min-width: 400px">Customer</th>
+                                        <th style="min-width:400px">Sale Order Number</th>
+                                        <th style="min-width:270px"><center>Select</center></th>
                                     </tr>
+                                </thead>
+                                <tbody style="display:  block;overflow:scroll;height:100px">
                                     @for (int i = 0; i < Model.Count(); i++)
                                     {
                                         <tr>
-                                            <td>@Html.TextBoxFor(m => Model[i].Customer, new { @class = "form_input ", autocomplete = "off", @readonly = "readonly" })</td>
-                                            <td>@Html.TextBoxFor(m => Model[i].SaleOrderRefNoWithDate, new { @class = "form_input", autocomplete = "off", @readonly = "readonly" })</td>
-                                            <td><center><div class="form-button3 mleft"><a onclick="OpenCustomerInvoice('@Model[i].SaleOrderId');">View</a></div></center></td>
+                                            <td style="min-width: 400px">@Html.TextBoxFor(m => Model[i].Customer, new { @class = "form_input ", autocomplete = "off", @readonly = "readonly" })</td>
+                                            <td style="min-width: 400px">@Html.TextBoxFor(m => Model[i].SaleOrderRefNoWithDate, new { @class = "form_input", autocomplete = "off", @readonly = "readonly" })</td>
+                                            <td style="min-width:270px"><div class="form-button3 mleft"><center><a onclick="OpenCustomerInvoice('@Model[i].SaleOrderId','@Model[i].Customer','@Model[i].SaleOrderRefNoWithDate');">View</a></center></div></td>
                                         </tr>
                                     }
-                       
-
+                                </tbody>
                             </table>
-
-
-
-
-
-
-
                         </div>
-
                     </div>
-
-
-
-
                 </div>
-
-
-
             </div>
+          
+            
+          
+
+
             <div id="SalesInvoiceListDiv">
-
-                @Html.Action("PendingSalesInvoiceDt", new { SalesOrderId = 0 })
-
-
-            </div>  
+                @Html.Action("PendingSalesInvoiceDt", new { SalesOrderId = 0, Customer = "Select Any Invoice", SaleOrderRefNoWithDate = "Select Any Invoice" })
+            </div>
+                </div>
+            </div>
         </div>
 
-
-       
-    </div>
-</div>
 
 

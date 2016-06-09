@@ -5,6 +5,7 @@
 }
 
 <script type="text/javascript">
+
     $(document).ready(function () {
         var url = '@Url.Action("WorkshopRequestHeadDetails")';
         $.getJSON(url, { workshopRequestId: '@Model.WorkShopRequestId' },
@@ -21,6 +22,7 @@
             dateFormat: "d/MM/y"
         });
     });
+
 
     function Back() {
         location.href = '@Url.Action("Pending")';

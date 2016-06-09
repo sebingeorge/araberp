@@ -83,7 +83,7 @@ namespace ArabErp.DAL
         {
             using (IDbConnection connection = OpenConnection(dataConnection))
             {
-                string sql = @"Delete StockUpdate  OUTPUT DELETED.StockPointId WHERE StockPointId=@StockPointId AND StockPointType='OpeningStock'";
+                string sql = @"Delete StockUpdate  OUTPUT DELETED.StockPointId WHERE StockPointId=@StockPointId AND StockType='OpeningStock'";
                 var id = connection.Execute(sql, objOpeningStock);
                 return id;
             }
@@ -96,9 +96,9 @@ namespace ArabErp.DAL
                 int id = 0;
                 foreach (var item in objOpeningStock.OpeningStockItem)
                 {
-                    string sql = @"insert  into StockUpdate(StockPointId,ItemId,Quantity,
-                                 StockPointType,StockPointInOut,CreatedBy,CreatedDate,OrganizationId) 
-                                 Values (@stockpointId,@ItemId,@Quantity,'OpeningStock','IN',
+                    string sql = @"insert  into StockUpdate(StockPointId,stocktrnDate,ItemId,Quantity,
+                                 StockType,StockInOut,CreatedBy,CreatedDate,OrganizationId) 
+                                 Values (@stockpointId,@CreatedDate,@ItemId,@Quantity,'OpeningStock','IN',
                                  @CreatedBy,@CreatedDate,@OrganizationId);
                                  SELECT CAST(SCOPE_IDENTITY() as int)";
 

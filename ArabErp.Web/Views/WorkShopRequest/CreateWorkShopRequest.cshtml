@@ -14,19 +14,12 @@
                         }
                     }
                 },
-                RequiredDate: {
-                    validators: {
-                        notEmpty: {
-                            message: 'Please enter required date'
-                        }
-                    }
-                }
-
+                
          }
         });
 
     });
-   
+ 
     $(document).ready(function () {
         $("#Items_0__SlNo").val('1');
             $("#add_row").click(function () {
@@ -91,13 +84,13 @@
      
         <div class="main-part pad1">
 
-            @using (Html.BeginForm("Save", null, FormMethod.Post, new { @class = "createFrom" }))
+            @using (Html.BeginForm("Save", null, FormMethod.Post, new { @class = "createFrom", @id= "work_form" }))
             {
                 @Html.HiddenFor(m => m.SaleOrderId, new { @class = "form_input", autocomplete = "off" })
                 @Html.HiddenFor(m => m.CustomerId, new { @class = "form_input", autocomplete = "off" })
                 <div class="row form-group">
                     <div class="col-md-2">
-                        <label for="reqno">Request No.</label>
+                        <label for="WorkShopRequestNo">Request No.</label>
                         @Html.TextBoxFor(m => m.WorkShopRequestNo, new { @class = "form_input", autocomplete = "off" })
                     </div>
                     <div class="col-md-2">
@@ -147,7 +140,7 @@
                 <div class="row form-group">
                     <div class="col-md-2">
                         <label for="reqdate">Delivery Date</label>
-                        @Html.TextBoxFor(m => m.RequiredDate, String.Format("{0:dd/MM/yyyy}", Model.WorkShopRequestDate), new { @class = "form_input", autocomplete = "off", @readonly = "readonly" })
+                        @Html.TextBoxFor(m => m.RequiredDate, String.Format("{0:dd/MM/yyyy}", Model.RequiredDate), new { @class = "form_input", autocomplete = "off", @readonly = "readonly" })
                     </div>
                 </div>
     <div class="marg">

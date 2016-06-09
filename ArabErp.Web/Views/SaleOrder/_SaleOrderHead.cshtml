@@ -1,17 +1,21 @@
 ﻿@model ArabErp.Domain.SaleOrder
+@{
+    object displayMode = null;
+    if (ViewData["action"].ToString() == "Create")
+    {
+        displayMode = new { @class = "form_input", autocomplete = "off" };
+    }
+    else
+    { displayMode = new { @class = "form_input", autocomplete = "off", @readonly = "readonly" }; }
 
+
+}
 
 <div class="row form-group ">
     <div class="col-md-2">
         <label for="SaleOrderRefNo">SO.No.</label>
-        @if (ViewData["action"].ToString() == "Approval")
-        {
-        @Html.TextBoxFor(m => m.SaleOrderRefNo, new { @class = "form_input", autocomplete = "off", @readonly = "readonly"})
-        }
-        else
-        {
-        @Html.TextBoxFor(m => m.SaleOrderRefNo, new { @class = "form_input", autocomplete = "off" })
-        }
+        @Html.TextBoxFor(m => m.SaleOrderRefNo, displayMode)
+      
     </div>
     <div class="col-md-2">
         <label for="SaleOrderDate">Date</label>
