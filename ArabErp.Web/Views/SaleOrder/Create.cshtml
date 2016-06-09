@@ -111,15 +111,11 @@
                 <div class="main-part pad1">
                     @using (Html.BeginForm("Save", null, FormMethod.Post, new { @class = "createFrom", @id = "saleorder_form", onsubmit = "return Validation()" }))
         {
-                      
+                     
 @Html.Partial("_SaleOrderHead")
 @Html.Partial("_DisplaySOList")
 @Html.Partial("_SaleOrderFooter")
-
-
-
                 <div class="row">
-
         <div class="col-md-12 hrpart">
             <button type="button" class="form-button right">Exit</button>
             <button type="submit" class="form-button right">Save</button>
