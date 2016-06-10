@@ -268,18 +268,11 @@
     <Content Include="Content\Gridmvc.css" />
     <Content Include="Content\images\no.png" />
     <Content Include="Content\images\yes.png" />
-    <Content Include="Content\jsgrid-theme.css" />
-    <Content Include="Content\jsgrid-theme.min.css" />
-    <Content Include="Content\jsgrid.css" />
     <Content Include="Content\PagedList.css" />
-    <Content Include="Images\101.png" />
     <Content Include="Images\banner.png" />
     <Content Include="Images\button-part.jpg" />
     <Content Include="Images\tick.png" />
     <Content Include="Images\x.png" />
-    <Content Include="Scripts\gridmvc.js" />
-    <Content Include="Scripts\gridmvc.lang.ru.js" />
-    <Content Include="Scripts\gridmvc.min.js" />
     <Content Include="Scripts\jquery-1.8.3.js" />
     <Content Include="Scripts\jquery-1.8.3.min.js" />
     <Content Include="Scripts\jquery-2.1.4.min.js" />
@@ -335,6 +328,7 @@
     <Content Include="Images\white-pattern.jpg" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
+    <None Include="Properties\PublishProfiles\Arab.pubxml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />
     <Content Include="Scripts\jquery-1.10.2.min.js" />

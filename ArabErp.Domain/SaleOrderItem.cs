@@ -16,9 +16,10 @@ namespace ArabErp.Domain
         public int? VehicleModelId { get; set; }
         public string Remarks { get; set; }
         public string PartNo { get; set; }
-        public int? ItemId { get; set; }
+        public int ItemId { get; set; }
         public string ItemName { get; set; }
         public string UnitName { get; set; }
+      
         public int? Quantity { get; set; }
         public int? UnitId { get; set; }
         public decimal? Rate { get; set; }
