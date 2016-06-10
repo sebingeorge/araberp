@@ -1,10 +1,28 @@
 ﻿@model  ArabErp.Domain.SaleOrder
 @{ string actionName = ViewContext.RouteData.GetRequiredString("action");
- ViewData["action"] = actionName;}
+ ViewData["action"] = actionName;
+}
+<script>
+    function SaleOrderHold() {
+        var id = $("#SaleOrderId").val();
+        var url = '@Url.Action("UpdateHoldStatus")';
+        url = url + "?Id=" + id;
+        console.log(url);
+        window.location.href = url;
+    }
+</script>
 <div class="container">
     <div class="row">
         <div class="form-head1">
-            <h4>Sale Order Approval</h4>
+@if (ViewData["action"].ToString() == "Approval")
+{
+    <h4>Sale Order Approval</h4>
+}
+else
+{
+    <h4>Sale Order Hold</h4>
+}        
+
         </div>
 
         <div class="main-part pad1">
@@ -20,7 +38,14 @@
          <div class="row">
                    <div class="col-md-12 hrpart">
                         <button type="button" class="form-button right">Exit</button>
+                    @if (ViewData["action"].ToString() == "Approval")
+                            {
                         <button type="submit" class="form-button right">Approve</button>
+                            }
+                    else
+                    {
+                        <button type="button" class="form-button right" onclick="SaleOrderHold()">Hold</button>
+                    }
                     </div>
           </div>
 }

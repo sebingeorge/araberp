@@ -25,13 +25,14 @@
 <div class="row form-group">
     <div class="col-md-4">
         <label for="selectCustomer">Customer</label>
-        @if (ViewData["action"].ToString() == "Approval")
+        @if (ViewData["action"].ToString() == "Create")
         {
-        @Html.DropDownListFor(m => Model.CustomerId, (SelectList)ViewBag.customerlist, "Select Customer", new { @class = "form_input", autocomplete = "off", @onchange = "CustomerChanged(this);", @disabled = "true" })
+            @Html.DropDownListFor(m => Model.CustomerId, (SelectList)ViewBag.customerlist, "Select Customer", new { @class = "form_input", autocomplete = "off", @onchange = "CustomerChanged(this);" })
+
         }
         else
         {
-        @Html.DropDownListFor(m => Model.CustomerId, (SelectList)ViewBag.customerlist, "Select Customer", new { @class = "form_input", autocomplete = "off", @onchange = "CustomerChanged(this);" })
+            @Html.DropDownListFor(m => Model.CustomerId, (SelectList)ViewBag.customerlist, "Select Customer", new { @class = "form_input", autocomplete = "off", @onchange = "CustomerChanged(this);", @disabled = "true" })
         }
      </div>
     <div class="col-md-4">
@@ -40,13 +41,14 @@
     </div>
     <div class="col-md-2">
         <label for="CustomerOrderRef">Customer Order Ref.</label>
-        @if (ViewData["action"].ToString() == "Approval")
+        @if (ViewData["action"].ToString() == "Create")
         {
-        @Html.TextBoxFor(m => m.CustomerOrderRef, new { @class = "form_input", autocomplete = "off", @readonly = "readonly" })
+            @Html.TextBoxFor(m => m.CustomerOrderRef, new { @class = "form_input", autocomplete = "off" })
         }
         else
         {
-        @Html.TextBoxFor(m => m.CustomerOrderRef, new { @class = "form_input", autocomplete = "off" })
+            @Html.TextBoxFor(m => m.CustomerOrderRef, new { @class = "form_input", autocomplete = "off", @readonly = "readonly" })
+      
         }
     </div>
    </div>

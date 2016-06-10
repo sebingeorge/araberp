@@ -50,7 +50,7 @@
                                 <input type="text" class="form_input" value="@Model.SaleOrders.ElementAt(i).EDateDelivery.Value.ToString("dd/MMM/yyyy")" />
                               
                             </div>
-                            <div class="col-md-3"><div class="mtop form-button3">@Html.ActionLink("Select", "Approval", "SaleOrder", new { SaleOrderId = @Model.SaleOrders.ElementAt(i).SaleOrderId }, null) </div></div>
+                            <div class="col-md-1"><div class="mtop form-button3">@Html.ActionLink("Select", "Hold", "SaleOrder", new { SaleOrderId = @Model.SaleOrders.ElementAt(i).SaleOrderId }, null) </div></div>
                         }
 
                     </div>
