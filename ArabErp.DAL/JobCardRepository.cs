@@ -36,11 +36,15 @@ namespace ArabErp
         {
             using (IDbConnection connection = OpenConnection(dataConnection))
             {
-                string query = "select SI.SaleOrderItemId,SaleOrderRefNo, SaleOrderDate, C.CustomerName, S.CustomerOrderRef, V.VehicleModelName";
-                query += " from SaleOrder S inner join Customer C on S.CustomerId = C.CustomerId";
-                query += " inner join SaleOrderItem SI on SI.SaleOrderId = S.SaleOrderId";
-                query += " inner join VehicleModel V on V.VehicleModelId = SI.VehicleModelId";
-                query += " left join JobCard J on J.SaleOrderItemId = SI.SaleOrderItemId where J.SaleOrderItemId is null";
+                string query = string.Empty;
+                query += " select SI.SaleOrderItemId,SaleOrderRefNo, SaleOrderDate, C.CustomerName, S.CustomerOrderRef, V.VehicleModelName";
+                query += " from SaleOrder S inner join Customer C on S.CustomerId = C.CustomerId ";
+                query += " inner join SaleOrderItem SI on SI.SaleOrderId = S.SaleOrderId ";
+                query += " inner join WorkDescription W on W.WorkDescriptionId = SI.WorkDescriptionId";
+                query += " left join VehicleModel V on V.VehicleModelId = W.VehicleModelId ";
+                query += " left join JobCard J on J.SaleOrderItemId = SI.SaleOrderItemId ";
+                query += " where J.SaleOrderItemId is null and S.SaleOrderApproveStatus = 1";
+                query += " ";
                 return connection.Query<PendingSO>(query);
             }
         }
@@ -54,8 +58,8 @@ namespace ArabErp
                 query += " 0 GoodsLanded, 0 BayId, 0 FreezerUnitId, 0 BoxId";
                 query += " from SaleOrder S inner join Customer C on S.CustomerId = C.CustomerId";
                 query += " inner join SaleOrderItem SI on SI.SaleOrderId = S.SaleOrderId";
-                query += " inner join VehicleModel V on V.VehicleModelId = SI.VehicleModelId";
                 query += " inner join WorkDescription W on W.WorkDescriptionId = SI.WorkDescriptionId";
+                query += " inner join VehicleModel V on V.VehicleModelId = W.VehicleModelId";
                 query += " where SI.SaleOrderItemId = " + SoItemId.ToString();
 
                 JobCard jobcard = connection.Query<JobCard>(query).FirstOrDefault();
