@@ -290,7 +290,7 @@ namespace ArabErp.DAL
             }
         }
         /// <summary>
-        /// Sale Order Hold-Update SaleOrderApproveStatus=1 in saleorder table
+        /// Sale Order Hold-Update SaleOrderHoldStatus=H in saleorder table
         /// </summary>
         /// <param name="SaleOrderId"></param>
         /// <returns></returns>
@@ -299,6 +299,28 @@ namespace ArabErp.DAL
             using (IDbConnection connection = OpenConnection(dataConnection))
             {
                 string sql = @"Update SaleOrder set SaleOrderHoldStatus='H' WHERE SaleOrderId=@SaleOrderId";
+                return connection.Execute(sql, new { SaleOrderId = SaleOrderId });
+
+            }
+        }
+        /// <summary>
+        /// Holded sale order to Release
+        /// </summary>
+        /// <returns></returns>
+        public IEnumerable<PendingSO> GetSaleOrderHolded()
+        {
+            using (IDbConnection connection = OpenConnection(dataConnection))
+            {
+                string query = "Select S.SaleOrderId,SaleOrderRefNo, SaleOrderDate, C.CustomerName, S.CustomerOrderRef";
+                query += " from SaleOrder S inner join Customer C on S.CustomerId = C.CustomerId where S.SaleOrderHoldStatus ='H'";
+                return connection.Query<PendingSO>(query);
+            }
+        }
+        public int UpdateSORelease(int SaleOrderId)
+        {
+            using (IDbConnection connection = OpenConnection(dataConnection))
+            {
+                string sql = @"Update SaleOrder set SaleOrderHoldStatus = null WHERE SaleOrderId=@SaleOrderId";
                 return connection.Execute(sql, new { SaleOrderId = SaleOrderId });
 
             }

@@ -10,6 +10,13 @@
         console.log(url);
         window.location.href = url;
     }
+    function SaleOrderRelease() {
+        var id = $("#SaleOrderId").val();
+        var url = '@Url.Action("UpdateReleaseStatus")';
+        url = url + "?Id=" + id;
+        console.log(url);
+        window.location.href = url;
+    }
 </script>
 <div class="container">
     <div class="row">
@@ -18,9 +25,13 @@
 {
     <h4>Sale Order Approval</h4>
 }
-else
+else if (ViewData["action"].ToString() == "Hold")
 {
     <h4>Sale Order Hold</h4>
+}
+else
+{
+    <h4>Sale Order Release</h4>
 }        
 
         </div>
@@ -42,9 +53,13 @@ else
                             {
                         <button type="submit" class="form-button right">Approve</button>
                             }
-                    else
+                    else if (ViewData["action"].ToString() == "Hold")
                     {
                         <button type="button" class="form-button right" onclick="SaleOrderHold()">Hold</button>
+                    }
+                    else
+                    {
+                        <button type="button" class="form-button right" onclick="SaleOrderRelease()">Release</button>
                     }
                     </div>
           </div>

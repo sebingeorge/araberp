@@ -485,6 +485,7 @@
     <Content Include="Views\WorkShopGRN\_DisplayWGRNList.cshtml" />
     <Content Include="Views\LocalPurchase\Request.cshtml" />
     <Content Include="Views\SaleOrder\PendingSaleOrderHold.cshtml" />
+    <Content Include="Views\SaleOrder\PendingSaleOrderRelease.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
