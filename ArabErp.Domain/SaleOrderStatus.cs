@@ -23,5 +23,6 @@ namespace ArabErp.Domain
         public string SalesInvoice { get; set; }
         public string RegistrationNo { get; set; }
         public string VehicleModelName { get; set; }
+        public string VehicleInpass { get; set; }
     }
 }
