@@ -147,7 +147,7 @@
                     </td>
 
                     <td>
-                        @Html.DropDownListFor(x => Model.Items[i].VehicleModelId, new SelectList(ViewBag.vehiclelist, "Value", "Text", Model.Items[i].VehicleModelId), "select Vehicle", new { @class = "form_input", autocomplete = "off", @disabled = "true" })
+                        @Html.DropDownListFor(x => Model.Items[i].VehicleModelId, new SelectList(ViewBag.vehiclelist, "Value", "Text", Model.Items[i].VehicleModelId), "select Vehicle", new { @class = "form_input", autocomplete = "off", @readonly = "readonly" })
 
                     </td>
 

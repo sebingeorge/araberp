@@ -484,6 +484,7 @@
     <Content Include="Views\SalesInvoice\_CustomerDetails.cshtml" />
     <Content Include="Views\WorkShopGRN\_DisplayWGRNList.cshtml" />
     <Content Include="Views\LocalPurchase\Request.cshtml" />
+    <Content Include="Views\SaleOrder\Hold.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
