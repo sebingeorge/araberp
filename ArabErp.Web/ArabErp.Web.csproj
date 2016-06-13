@@ -486,6 +486,7 @@
     <Content Include="Views\LocalPurchase\Request.cshtml" />
     <Content Include="Views\SaleOrder\PendingSaleOrderHold.cshtml" />
     <Content Include="Views\SaleOrder\PendingSaleOrderRelease.cshtml" />
+    <Content Include="Views\GrnWareHouse\PreviousList.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

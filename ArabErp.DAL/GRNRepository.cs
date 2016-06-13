@@ -72,7 +72,6 @@ namespace ArabErp.DAL
                     string sql = @"insert  into StockUpdate(StockPointId,StocktrnId,StockUserId,stocktrnDate,
                                  ItemId,Quantity,StockType,StockInOut,StockDescription,
                                  CreatedBy,CreatedDate,OrganizationId) 
-
                                 Values (@stockpointId,@GRNId,@GRNNo,@GRNDate,
                                 @ItemId,@Quantity,'GRN','IN',@Supplier,
                                 @CreatedBy,@CreatedDate,@OrganizationId);
@@ -115,6 +114,16 @@ namespace ArabErp.DAL
                 }).First<GRN>();
 
                 return objGRN;
+            }
+        }
+         
+        public IEnumerable<GRN> GetGRNPreviousList()
+        {
+            using (IDbConnection connection = OpenConnection(dataConnection))
+            {
+                string query = "SELECT GRNId,GRNNo,GRNDate,S.SupplierName Supplier,SupplierDCNoAndDate";
+                query += " FROM GRN G INNER JOIN Supplier S ON S.SupplierId=G.SupplierId";
+                return connection.Query<GRN>(query);
             }
         }
 
@@ -214,6 +223,8 @@ namespace ArabErp.DAL
             }
         }
 
+     
+
         /// <summary>
         /// Returns all pending GRNs against Supply Order
         /// </summary>
@@ -242,6 +253,43 @@ namespace ArabErp.DAL
             }
         }
 
-       
+
+        public GRN GetGRNDISPLAYDetails(int GRNId)
+        {
+            using (IDbConnection connection = OpenConnection(dataConnection))
+            {
+
+                string qry = " SELECT GRNId,GRNNo,GRNDate,S.SupplierName Supplier,SONoAndDate SONODATE,";
+                qry += " SpecialRemarks,WareHouseId StockPointId,StockPointName,SupplierDCNoAndDate,";
+                qry += " SupplyOrderId SupplierId,AdditionRemarks,Addition Addition,";
+                qry += " DeductionRemarks,Deduction Deduction,G.CurrencyId CurrencyId,C.CurrencyName";
+                qry += " FROM GRN G";
+                qry += " INNER JOIN Supplier S ON S.SupplierId=G.SupplierId";
+                qry += " INNER JOIN Stockpoint SP On SP.StockPointId=G.WareHouseId";
+                qry += " INNER JOIN Currency C On C.CurrencyId=G.CurrencyId";
+                qry += " WHERE G.GRNId = " + GRNId.ToString();
+
+                GRN workshoprequest = connection.Query<GRN>(qry).FirstOrDefault();
+                return workshoprequest;
+            }
+        }
+
+
+        public List<GRNItem> GetGRNDISPLAYItem(int GRNId)
+        {
+            using (IDbConnection connection = OpenConnection(dataConnection))
+            {
+
+                string query = " SELECT GRNId,SupplyOrderItemId,I.ItemId,I.ItemName,G.PartNo,Quantity,Quantity PendingQuantity,Unit,Rate,Discount,Amount,Remarks";
+                query += " FROM GRNItem G";
+                query += " INNER JOIN Item I ON I.ItemId=G.ItemId";
+                query += " WHERE G.GRNId = " + GRNId.ToString();
+
+                return connection.Query<GRNItem>(query, new { GRNId = GRNId }).ToList();
+
+
+            }
+        }
+
       }
 }
