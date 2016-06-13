@@ -1,11 +1,4 @@
 ﻿@model ArabErp.Domain.SaleOrder
-@{
-    string disabledStatus = "false";
-    if (ViewData["action"].ToString() == "Approval")
-    {
-        disabledStatus = "true";
-    }
-}
 <script>
     $(document).ready(function () {
         $("#Items_0__SlNo").val('1');
@@ -16,8 +9,7 @@
                 var id = this.id;
                 no++;
                 var row = Number(id.replace("Row_", ""));
-                if(row>i)
-                {
+                if (row > i) {
                     i = row;
                 }
             });
@@ -38,17 +30,15 @@
             $("#tab_logic").append('<tr id="' + i + '">' + clone.html() + '  </tr>');
             $("#slno" + (i + 1)).html((i + 1));
             $("#Items_" + i + "__SlNo").val((i + 1));
-         });
+        });
     });
 
-    function QuantityChanged(row)
-    {
+    function QuantityChanged(row) {
         var quantity = $("#Items_" + row + "__Quantity").val();
         var rate = $("#Items_" + row + "__Rate").val();
         var discount = $("#Items_" + row + "__Discount").val();
 
-        if (quantity == NaN)
-        {
+        if (quantity == NaN) {
             quantity = 0;
         }
         if (rate == NaN) {
@@ -62,25 +52,22 @@
         calculateSummary();
     }
 
-    function calculateSummary()
-    {
+    function calculateSummary() {
         var quantity = parseFloat("0");
         var amount = parseFloat("0");
         $('.clQuantity').each(function (i, obj) {
             var a = parseFloat($("#Items_" + i + "__Quantity").val());
-           
-            if (isNaN(a))
-            {
-               a = parseFloat("0");
+
+            if (isNaN(a)) {
+                a = parseFloat("0");
             }
-            
+
             quantity = quantity + a;
         });
 
         $('.clAmount').each(function (i, obj) {
             var a = parseFloat($("#Items_" + i + "__Amount").val());
-            if (isNaN(a))
-            {
+            if (isNaN(a)) {
 
                 a = parseFloat("0");
 
@@ -94,177 +81,145 @@
     }
 
     function OnWorkChange(sender, index) {
-        
+
         var id = $(sender).val();
         if (id != '') {
             var url = '@Url.Action("GetVehicleModel")';
             $.getJSON(url, { WorkDescriptionId: id },
                 function (data) {
-                $("#Items_"+index+"__VehicleModelId").val(data);
+                    $("#Items_" + index + "__VehicleModelId").val(data);
                 });
         }
         else {
-          
+
         }
     }
+
+
 
   
-    
-    function Validation()
-    {
-        var count = 0;
-        //var con = confirm("Do you want to Save?");
 
-        //if(con)
-        //{
-        $(".clqty").each(function (i, obj) {
 
-            var qty=$("#Items_" + i + "__Quantity").val();
-
-            if (qty  == "")
-              {
-                  alert("Please enter Quantity");
-                  $("#Items_" + i + "__Quantity").focus();
-                  count = 1;
-              }
-            else {
-                return (confirm("Are you sure to Save?")) ? true : false;
-            }
-              //  if (!$(this).val()) {
-              //      //$(this).addClass('');
-              //    $(this).addClass('warning');
-              //    alert("Please enter Quantity");
-              //    $(this).focus();
-              //    return rtn;
-            //}
-           
-
-        });
-        if (count==1)
-        {
-            alert("hi");
-            return false;
-        }
-        
-           
-      
-   
-    }
-       
-    
 </script>
 
-    
-        <div class="table-responsive">
-            <table class="table table-bordered table-hover" id="tab_logic">
-                <thead>
-                    <tr class="grid_heading">
-                        <th width="2%" class="text-center"><h1>#</h1></th>
-                        <th width="25%" class="text-center"><h1>Work Description</h1></th>
-                        <th width="25%" class="text-center"><h1>Vehicle Model</h1></th>
-                        <th width="5%" class="text-right"><h1>Qty</h1></th>
-                        <th width="10%"><h1>UoM</h1></th>
-                        <th width="10%" class="text-right"><h1>Rate</h1></th>
-                        <th width="10%" class="text-right"><h1>Discount</h1></th>
-                        <th width="8%" class="text-right"><h1>Amount</h1></th>
-                    </tr>
-                </thead>
-                <tbody id="table_validation">
-                    @for (int i = 0; i < Model.Items.Count; i++)
-                    {
-                        <tr id="@i">
-                            <td>
-                                <span id="slno@(i+1)">@(i + 1)</span>
-                                @Html.HiddenFor(m => m.Items[i].SlNo)
-                            </td>
 
-                            <td>
-                                <input type="hidden" id="Row_@i" />
-                                @if (ViewData["action"].ToString() == "Approval")
-                                {
-                                    @Html.DropDownListFor(x => Model.Items[i].WorkDescriptionId, new SelectList(ViewBag.workdesclist, "Value", "Text", Model.Items[i].WorkDescriptionId), "select work description", new { @class = "form_input", autocomplete = "off", @disabled = "true" })
-                                }
-                                else
-                                {
-                                    @Html.DropDownListFor(x => Model.Items[i].WorkDescriptionId, new SelectList(ViewBag.workdesclist, "Value", "Text", Model.Items[i].WorkDescriptionId), "select work description", new { @class = "form_input", autocomplete = "off",@onchange = "OnWorkChange(this," + i + ")"})
-                                }
-                                
-                            </td>
-                                                       
-                            <td>
-                             @Html.DropDownListFor(x => Model.Items[i].VehicleModelId, new SelectList(ViewBag.vehiclelist, "Value", "Text", Model.Items[i].VehicleModelId), "select Vehicle", new { @class = "form_input", autocomplete = "off", @disabled = "true"})
-                                                   
-                            </td>
+<div class="table-responsive">
+    <table class="table table-bordered table-hover" id="tab_logic">
+        <thead>
+            <tr class="grid_heading">
+                <th width="2%" class="text-center"><h1>#</h1></th>
+                <th width="25%" class="text-center"><h1>Work Description</h1></th>
+                <th width="25%" class="text-center"><h1>Vehicle Model</h1></th>
+                <th width="5%" class="text-right"><h1>Qty</h1></th>
+                <th width="10%"><h1>UoM</h1></th>
+                <th width="10%" class="text-right"><h1>Rate</h1></th>
+                <th width="10%" class="text-right"><h1>Discount</h1></th>
+                <th width="8%" class="text-right"><h1>Amount</h1></th>
+            </tr>
+        </thead>
+        <tbody id="table_validation">
+            @for (int i = 0; i < Model.Items.Count; i++)
+            {
+                <tr id="@i">
+                    <td>
+                        <span id="slno@(i+1)">@(i + 1)</span>
+                        @Html.HiddenFor(m => m.Items[i].SlNo)
+                    </td>
 
-                            <td>
-                            @if (ViewData["action"].ToString() == "Approval")
-                            {
+                    <td>
+                        <input type="hidden" id="Row_@i" />
+                        @if (ViewData["action"].ToString() == "Create")
+                        {
+                            @Html.DropDownListFor(x => Model.Items[i].WorkDescriptionId, new SelectList(ViewBag.workdesclist, "Value", "Text", Model.Items[i].WorkDescriptionId), "select work description", new { @class = "form_input", autocomplete = "off", @onchange = "OnWorkChange(this," + i + ")" })
+
+                        }
+                        else
+                        {
+                            @Html.DropDownListFor(x => Model.Items[i].WorkDescriptionId, new SelectList(ViewBag.workdesclist, "Value", "Text", Model.Items[i].WorkDescriptionId), "select work description", new { @class = "form_input", autocomplete = "off", @disabled = "true" })
+                        }
+
+                    </td>
+
+                    <td>
+                        @Html.DropDownListFor(x => Model.Items[i].VehicleModelId, new SelectList(ViewBag.vehiclelist, "Value", "Text", Model.Items[i].VehicleModelId), "select Vehicle", new { @class = "form_input", autocomplete = "off", @readonly = "readonly" })
+
+                    </td>
+
+                    <td>
+                        @if (ViewData["action"].ToString() == "Create")
+                        {
+                            @Html.TextBoxFor(m => m.Items[i].Quantity, new { @class = "form_input clQuantity validateqty", @style = "text-align:right", autocomplete = "off", placeholder = "Qty", @onchange = "QuantityChanged(" + i + ");" })
+
+                        }
+                        else
+                        {
                             @Html.TextBoxFor(m => m.Items[i].Quantity, new { @class = "form_input clQuantity  ", @style = "text-align:right", autocomplete = "off", placeholder = "Qty", @onchange = "QuantityChanged(" + i + ");", @disabled = "true" })
-                            }
-                             else
-                            {
-                                @Html.TextBoxFor(m => m.Items[i].Quantity, new { @class = "form_input clQuantity clqty", @style = "text-align:right", autocomplete = "off", placeholder = "Qty", @onchange = "QuantityChanged(" + i + ");" })
-                            }
-                            </td>
-                            <td>
-                            @if (ViewData["action"].ToString() == "Approval")
-                            {
-                                @Html.DropDownListFor(x => Model.Items[i].UnitId, new SelectList(ViewBag.unitlist, "Value", "Text", Model.Items[i].UnitId), "Select Unit", new { @class = "form_input", autocomplete = "off", @disabled = "true" })
-                            }
-                             else
-                            {
-                                @Html.DropDownListFor(x => Model.Items[i].UnitId, new SelectList(ViewBag.unitlist, "Value", "Text", Model.Items[i].UnitId), "Select Unit", new { @class = "form_input", autocomplete = "off" })
-                            }
-                            </td>
-                            <td>
-                            @if (ViewData["action"].ToString() == "Approval")
-                            {
+                        }
+                    </td>
+                    <td>
+                        @if (ViewData["action"].ToString() == "Create")
+                        {
+                            @Html.DropDownListFor(x => Model.Items[i].UnitId, new SelectList(ViewBag.unitlist, "Value", "Text", Model.Items[i].UnitId), "Select Unit", new { @class = "form_input", autocomplete = "off" })
+                        }
+                        else
+                        {
+                            @Html.DropDownListFor(x => Model.Items[i].UnitId, new SelectList(ViewBag.unitlist, "Value", "Text", Model.Items[i].UnitId), "Select Unit", new { @class = "form_input", autocomplete = "off", @disabled = "true" })
+                         
+                        }
+                    </td>
+                    <td>
+                        @if (ViewData["action"].ToString() == "Create")
+                        {
+                            @Html.TextBoxFor(m => m.Items[i].Rate, new { @class = "form_input numbers-only clrate validateqty", autocomplete = "off", @style = "text-align:right", placeholder = "Rate", @onchange = "QuantityChanged(" + i + ");" })
+
+                        }
+                        else
+                        {
                             @Html.TextBoxFor(m => m.Items[i].Rate, new { @class = "form_input", autocomplete = "off", @style = "text-align:right", placeholder = "Rate", @onchange = "QuantityChanged(" + i + ");", @disabled = "true" })
-                            }
-                             else
-                            {
-                                @Html.TextBoxFor(m => m.Items[i].Rate, new { @class = "form_input numbers-only clrate", autocomplete = "off", @style = "text-align:right", placeholder = "Rate", @onchange = "QuantityChanged(" + i + ");" })
-                            }
-                           </td>
-                            <td>
-                                @if (ViewData["action"].ToString() == "Approval")
-                                {
-                                    @Html.TextBoxFor(m => m.Items[i].Discount, new { @class = "form_input", autocomplete = "off", @style = "text-align:right", placeholder = "Discount", @onchange = "QuantityChanged(" + i + ");", @disabled = "true" })
-                                }
-                                else
-                                {
-                                    @Html.TextBoxFor(m => m.Items[i].Discount, new { @class = "form_input numbers-only", autocomplete = "off", @style = "text-align:right", placeholder = "Discount", @onchange = "QuantityChanged(" + i + ");" })
-                                }
-                            </td>
-                            <td>@Html.TextBoxFor(m => m.Items[i].Amount, new { @class = "form_input clAmount", autocomplete = "off", @style = "text-align:right", placeholder = "Amount", @disabled = "true" })</td>
-                        </tr>
-                    }
-                    @*<tr id='addr1'></tr>*@
-                </tbody>
-                <tfoot>
-                    <tr class="grid_heading">
-                        <th width="5%" class="text-center"><h1></h1></th>
-                        <th width="25%" class="text-center"><h1></h1></th>
-                        <th width="25%" class="text-center"><h1></h1></th>
-                        <th width="5%" class="text-right"><span id="QtyTotal"></span></th>
-                        <th width="10%"></th>
-                        <th width="10%" class="text-right"><h1>Total</h1></th>
-                        <th width="7%" class="text-right">
-                        <h1>
-                            @if (ViewData["action"].ToString() == "Approval")
-                                {
-                            @Html.DropDownListFor(m => Model.CurrencyId, (SelectList)ViewBag.currlist, "Select Currency", new { @class = "form_input", autocomplete = "off", @disabled = "true"  })
-                                }
-                            else
-                            {
+                        }
+                    </td>
+                    <td>
+                        @if (ViewData["action"].ToString() == "Create")
+                        {
+                            @Html.TextBoxFor(m => m.Items[i].Discount, new { @class = "form_input numbers-only", autocomplete = "off", @style = "text-align:right", placeholder = "Discount", @onchange = "QuantityChanged(" + i + ");" })
+                            
+                        }
+                        else
+                        {
+                           @Html.TextBoxFor(m => m.Items[i].Discount, new { @class = "form_input", autocomplete = "off", @style = "text-align:right", placeholder = "Discount", @onchange = "QuantityChanged(" + i + ");", @disabled = "true" })
+                        }
+                    </td>
+                    <td>@Html.TextBoxFor(m => m.Items[i].Amount, new { @class = "form_input clAmount", autocomplete = "off", @style = "text-align:right", placeholder = "Amount", @disabled = "true" })</td>
+                </tr>
+            }
+            @*<tr id='addr1'></tr>*@
+        </tbody>
+        <tfoot>
+            <tr class="grid_heading">
+                <th width="5%" class="text-center"><h1></h1></th>
+                <th width="25%" class="text-center"><h1></h1></th>
+                <th width="25%" class="text-center"><h1></h1></th>
+                <th width="5%" class="text-right"><span id="QtyTotal"></span></th>
+                <th width="10%"></th>
+                <th width="10%" class="text-right"><h1>Total</h1></th>
+                <th width="7%" class="text-right">
+                    <h1>
+                        @if (ViewData["action"].ToString() == "Create")
+                        {
                             @Html.DropDownListFor(m => Model.CurrencyId, (SelectList)ViewBag.currlist, "Select Currency", new { @class = "form_input", autocomplete = "off" })
-                            }
-                        </h1></th>
-                        <th width="8%" class="text-right"><span id="QtyAmount"></span></th>
-                    </tr>
-                </tfoot>
-            </table>
-        </div>
-        <a id="add_row" class="glyphicon glyphicon-plus"></a><a id='delete_row' style="float:right" class="glyphicon glyphicon-minus"></a>
+                        }
+                        else
+                        {
+                            @Html.DropDownListFor(m => Model.CurrencyId, (SelectList)ViewBag.currlist, "Select Currency", new { @class = "form_input", autocomplete = "off", @disabled = "true" })
+                        
+                        }
+                    </h1>
+                </th>
+                <th width="8%" class="text-right"><span id="QtyAmount"></span></th>
+            </tr>
+        </tfoot>
+    </table>
+</div>
+<a id="add_row" class="glyphicon glyphicon-plus"></a><a id='delete_row' style="float:right" class="glyphicon glyphicon-minus"></a>
    
 

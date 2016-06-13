@@ -3,7 +3,11 @@
     ViewBag.Title = "Bay Allocation";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
-
+@{
+    int totalBays = Model.Count();
+    int freeBays = (from a in Model where a.Occupied == "No" select a).Count();
+    int occupiedBays = totalBays - freeBays;
+}
 <div class="container">
     <div class="row">
         <div class="form-head1">
@@ -13,7 +17,10 @@
         <div class="main-part white pad1">
             <div class="col-md-12">
                 <div class="row">
-                    <center><h4>Refrigerated Transport Vehicles Service Bay Allocation and Status Report on @DateTime.Now.ToString("dd MMM yyyy")</h4></center>
+                    <center><h4>Bay Allocation and Status Report on @DateTime.Now.ToString("dd MMM yyyy")</h4></center>
+                </div>
+                <div class="row">
+                    <h5>Total Bays @totalBays, Free Bays @freeBays, Occupied Bays @occupiedBays</h5>
                 </div>
             </div> 
                 <div class="col-md-12">
