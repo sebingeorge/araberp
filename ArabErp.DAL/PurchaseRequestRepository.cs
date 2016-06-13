@@ -56,8 +56,8 @@ namespace ArabErp.DAL
         {
             using (IDbConnection connection = OpenConnection(dataConnection))
             {
-                string sql = @"select * from PurchaseRequest
-                        where PurchaseRequestId=@PurchaseRequestId";
+                string sql = @"select * from PurchaseRequest  where PurchaseRequestId=@PurchaseRequestId";
+                       
 
                 var objPurchaseRequest = connection.Query<PurchaseRequest>(sql, new
                 {
@@ -145,9 +145,6 @@ namespace ArabErp.DAL
                 query += " INNER JOIN WorkShopRequestItem WI ON W.WorkShopRequestId=WI.WorkShopRequestId  INNER JOIN";
                 query += " Item I ON WI.ItemId=I.ItemId  INNER JOIN Unit U on U.UnitId =I.ItemUnitId WHERE W.WorkShopRequestId=@WorkShopRequestId";
                 return connection.Query<PurchaseRequestItem>(query, new { WorkShopRequestId = WorkShopRequestId }).ToList();
-             
-
-
             }
         }
 
