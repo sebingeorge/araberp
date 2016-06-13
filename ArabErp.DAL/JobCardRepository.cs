@@ -37,13 +37,14 @@ namespace ArabErp
             using (IDbConnection connection = OpenConnection(dataConnection))
             {
                 string query = string.Empty;
-                query += " select SI.SaleOrderItemId,SaleOrderRefNo, SaleOrderDate, C.CustomerName, S.CustomerOrderRef, V.VehicleModelName";
+                query += " select SI.SaleOrderItemId,SaleOrderRefNo, SaleOrderDate, C.CustomerName, S.CustomerOrderRef, V.VehicleModelName, W.WorkDescr";
                 query += " from SaleOrder S inner join Customer C on S.CustomerId = C.CustomerId ";
                 query += " inner join SaleOrderItem SI on SI.SaleOrderId = S.SaleOrderId ";
                 query += " inner join WorkDescription W on W.WorkDescriptionId = SI.WorkDescriptionId";
                 query += " left join VehicleModel V on V.VehicleModelId = W.VehicleModelId ";
                 query += " left join JobCard J on J.SaleOrderItemId = SI.SaleOrderItemId ";
-                query += " where J.SaleOrderItemId is null and S.SaleOrderApproveStatus = 1";
+                query += " where J.SaleOrderItemId is null and S.SaleOrderApproveStatus = 1 ";
+                query += " and S.isActive=1 and S.SaleOrderApproveStatus=1 and S.SaleOrderHoldStatus IS NULL ";
                 query += " ";
                 return connection.Query<PendingSO>(query);
             }

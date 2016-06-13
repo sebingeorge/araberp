@@ -1,0 +1,22 @@
+﻿@model ArabErp.Domain.SupplyOrder
+
+<div class="row form-group">
+    <div class="col-md-2">
+        <label for="sono">SO.No.</label>
+        @Html.TextBoxFor(m => m.SupplyOrderNo, new { @class = "form_input" })
+    </div>
+    <div class="col-md-2">
+        <label for="inputDate">Date</label>
+        @Html.TextBoxFor(m => m.SupplyOrderDate, String.Format("{0:dd/MM/yyyy}", Model.SupplyOrderDate), new { @class = "form_input ", autocomplete = "off" })
+    </div>
+</div>
+<div class="row form-group">
+    <div class="col-md-4">
+        <label for="SupplierId">Supplier</label>
+        @Html.DropDownListFor(m => Model.SupplierId, (SelectList)ViewBag.SupplierList, "Select Supplier", new { @class = "form_input", autocomplete = "off" })
+    </div>
+    <div class="col-md-4">
+        <label for="cusref">Quotation No. & Date</label>
+        @Html.TextBoxFor(m => m.QuotaionNoAndDate, new { @class = "form_input" })
+    </div>
+</div>

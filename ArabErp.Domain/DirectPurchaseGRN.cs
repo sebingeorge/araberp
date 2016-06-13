@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace ArabErp.Domain
 {
-    public class LocalPurchaseGRN
+    public class DirectPurchaseGRN
     {
         public int LocalPurchaseGRNId { get; set; }
         public string GRNNo { get; set; }
@@ -24,6 +24,6 @@ namespace ArabErp.Domain
         public string CreatedBy { get; set; }
         public DateTime? CreatedDate { get; set; }
         public int OrganizationId { get; set; }
-        public List<LocalPurchaseGRNItem> Items { get; set; }
+        public List<DirectPurchaseGRNItem> Items { get; set; }
     }
 }

@@ -27,6 +27,12 @@ namespace ArabErp.Web.Controllers
         }
 
 
+        public ActionResult PreviousList()
+        {
+            var repo = new GRNRepository();
+            IEnumerable<GRN> GRNList = repo.GetGRNPreviousList();
+            return View("PreviousList", GRNList);
+        }
 
 
         public ActionResult Create(int? SupplyOrderId)
@@ -85,5 +91,18 @@ namespace ArabErp.Web.Controllers
             new GRNRepository().InsertStockUpdate(model);
             return RedirectToAction("PendingGrnWareHouse");
         }
+
+        public ActionResult Modify(int? GRNId)
+        {
+            GRNRepository repo = new GRNRepository();
+            FillWarehouse();
+            FillCurrency();
+
+            GRN model = repo.GetGRNDISPLAYDetails(GRNId ?? 0);
+            model.Items = repo.GetGRNDISPLAYItem(GRNId ?? 0);
+
+            return View("Create",model);
+        }
+
     }
 }
