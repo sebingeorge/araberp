@@ -219,7 +219,6 @@
     <Compile Include="Controllers\JobCardController.cs" />
     <Compile Include="Controllers\JobCardQCController.cs" />
     <Compile Include="Controllers\JobOrderCompletionController.cs" />
-    <Compile Include="Controllers\DirectPurchaseController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
     <Compile Include="Controllers\MisReportController.cs" />
     <Compile Include="Controllers\OpeningStockController.cs" />
