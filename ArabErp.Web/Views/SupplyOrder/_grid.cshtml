@@ -1,0 +1,54 @@
+﻿@model ArabErp.Domain.SupplyOrder
+
+<table class="table table-bordered">
+    <thead>
+        <tr class="grid_heading">
+            <th width="5%"><h1>Sl.No.</h1></th>
+            <th width="20%"><h1>PRS No & Date</h1></th>
+            <th width="25%"><h1>Material</h1></th>
+            <th width="10%"><h1>Part No</h1></th>
+            <th width="5%" class="text-right"><h1>Bal Qty</h1></th>
+            <th width="5%" class="text-right"><h1>Ordered Qty</h1></th>
+            <th width="5%" class="text-right"><h1>Rate</h1></th>
+            <th width="5%" class="text-right"><h1>Discount</h1></th>
+            <th width="5%" class="text-right"><h1>Amount</h1></th>
+        </tr>
+    </thead>
+    <tbody class="grid_row">
+        @for (int i = 0; i < Model.SupplyOrderItems.Count(); i++)
+        {
+            <tr>
+
+                <td>@(i + 1) @Html.HiddenFor(m => m.SupplyOrderItems[i].PurchaseRequestItemId)</td>
+                <td>@Html.TextBoxFor(m => m.SupplyOrderItems[i].PRNODATE, new { @class = "form_input", @disabled = "true" }) </td>
+                <td>
+                    @Html.HiddenFor(m => m.SupplyOrderItems[i].PurchaseRequestItemId)
+                @Html.TextBoxFor(m => m.SupplyOrderItems[i].ItemName, new { @class = "form_input", @disabled = "true" })
+            </td>
+            <td>@Html.TextBoxFor(m => m.SupplyOrderItems[i].PartNo, new { @class = "form_input", @disabled = "true" })</td>
+            <td>@Html.TextBoxFor(m => m.SupplyOrderItems[i].BalQty, new { @class = "form_input", @style = "text-align:right", @disabled = "true" })</td>
+            <td>@Html.TextBoxFor(m => m.SupplyOrderItems[i].OrderedQty, new { @class = "form_input clQuantity", @style = "text-align:right", @onchange = "QuantityChanged(" + i + ");" })</td>
+            <td>@Html.TextBoxFor(m => m.SupplyOrderItems[i].Rate, new { @class = "form_input", @style = "text-align:right", @onchange = "QuantityChanged(" + i + ");" })</td>
+            <td>@Html.TextBoxFor(m => m.SupplyOrderItems[i].Discount, new { @class = "form_input", @style = "text-align:right", @onchange = "QuantityChanged(" + i + ");" })</td>
+            <td>@Html.TextBoxFor(m => m.SupplyOrderItems[i].Amount, new { @class = "form_input clAmount", @style = "text-align:right", @readonly = "readonly" })</td>
+
+        </tr>
+        }
+    </tbody>
+
+    <tfoot>
+        <tr class="grid_heading">
+            <th width="5%" class="text-center"><h1></h1></th>
+            <th width="20%" class="text-center"><h1></h1></th>
+            <th width="25%" class="text-center"><h1></h1></th>
+            <th width="10%" class="text-center"><h1></h1></th>
+            <th width="5%" class="text-center"><h1></h1></th>
+            <th width="5%" class="text-center"><h1></h1></th>
+            <th width="5%" class="text-right"><h1></h1></th>
+            <th width="5%" class="text-right"><h1>Total</h1></th>
+            <th width="5%" class="text-right"><span id="QtyAmount"></span></th>
+        </tr>
+    </tfoot>
+
+</table>
+

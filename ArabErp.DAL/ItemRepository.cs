@@ -185,5 +185,13 @@ namespace ArabErp.DAL
             }
         }
 
+        public string GetPartNoUnit(int itemId)
+        {
+            using (IDbConnection connection = OpenConnection(dataConnection))
+            {
+                return connection.Query<string>("SELECT ISNULL(PartNo,'')+'|'+ISNULL(UnitName,'') FROM Item I INNER JOIN Unit U ON I.ItemUnitId = U.UnitId WHERE ItemId = @itemId",
+                new { itemId = itemId }).First<string>();
+            }
+        }
     }
 }

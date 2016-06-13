@@ -1,0 +1,135 @@
+﻿@model ArabErp.Domain.DirectPurchaseRequest
+@{
+    ViewBag.Title = "Create Direct Purchase Request";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+<script>
+    $(document).ready(function () {
+        var toast = '@Model.toast'.toString();
+        if (toast.startsWith("success")) {
+            toastr.options = {
+                "closeButton": false,
+                "positionClass": "toast-top-center",
+                "preventDuplicates": false,
+                "onclick": null,
+                "showDuration": "300",
+                "hideDuration": "1000",
+                "timeOut": "5000",
+                "extendedTimeOut": "1000",
+                "showEasing": "swing",
+                "hideEasing": "linear",
+                "showMethod": "fadeIn",
+                "hideMethod": "fadeOut"
+            }
+            toastr.success(toast.split('|')[1]);
+        }
+
+        $('#purchasereq_form').bootstrapValidator({
+            // To use feedback icons, ensure that you use Bootstrap v3.1.0 or later
+            //feedbackIcons: {
+            //    valid: 'glyphicon glyphicon-ok',
+            //    invalid: 'glyphicon glyphicon-remove',
+            //    validating: 'glyphicon glyphicon-refresh'
+            //},
+            fields: {
+                PurchaseRequestNo: {
+                    validators: {
+                        notEmpty: {
+                            message: 'Please enter PurchaseRequest No.'
+                        }
+                    }
+                },
+                PurchaseRequestDate: {
+                    validators: {
+                        notEmpty: {
+                            message: 'Please select PurchaseRequest Date'
+                        }
+                    }
+                },
+                RequiredDate: {
+                    validators: {
+                        notEmpty: {
+                            message: 'Please enter Required Date.'
+                        }
+                    }
+                }
+
+
+            }
+        });
+    })
+    function Exit() {
+        location.href = '@Url.Action("PendingPurchaseRequest")';
+    }
+    $(function () {
+        $("#PurchaseRequestDate").datepicker({
+            changeMonth: true,
+            changeYear: true,
+            dateFormat: "d/MM/y"
+        });
+        $("#RequiredDate").datepicker({
+            changeMonth: true,
+            changeYear: true,
+            dateFormat: "d/MM/y"
+        });
+    });
+
+</script>
+<div class="container">
+    <div class="row">
+
+        <div class="form-head1">
+            <h4>Direct Purchase Request</h4>
+        </div>
+
+        <div class="main-part pad1">
+            @using (Html.BeginForm(null, null, FormMethod.Post, new { @class = "createFrom", @id = "purchasereq_form" }))
+            {
+                @*@Html.HiddenFor(m => m.WorkShopRequestId, new { @class = "form_input", autocomplete = "off" })*@
+                <form role="form">
+                    <div class="row form-group">
+                        <div class="col-md-2">
+                            <label for="PurchaseRequestNo">PR No.</label>
+                            @Html.TextBoxFor(m => m.PurchaseRequestNo, new { @class = "form_input", autocomplete = "off" })
+                        </div>
+                        <div class="col-md-2">
+                            <label for="PurchaseRequestDate">Date</label>
+                            @Html.TextBoxFor(m => m.PurchaseRequestDate, String.Format("{0:dd/MM/yyyy}", Model.PurchaseRequestDate), new { @class = "form_input", autocomplete = "off" })
+                        </div>
+                        <div class="col-md-2">
+                            <label for="RequiredDate">Required Date</label>
+                            @Html.TextBoxFor(m => m.RequiredDate, new { @class = "form_input", autocomplete = "off" })
+                        </div>
+                    </div>
+                    <div class="row form-group">
+                        <div class="col-md-12">
+                            <em>Direct Purchase limit w.e.f. <strong>1 Jan 2016</strong> is <strong>Rs. 5000/-</strong></em>
+                        </div>
+                    </div>
+
+                    @Html.Partial("_grid")
+
+                    <div class="row form-group">
+                        <div class="col-md-12">
+                            <div class="row">
+                                <div class="col-md-1">
+                                    <label for="SpecialRemarks">Spl.Remarks</label>
+                                </div>
+                                <div class="col-md-11">
+                                    @Html.TextBoxFor(m => m.SpecialRemarks, new { @class = "form_input", autocomplete = "off" })
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="marg">
+                        <input type="button" value="Exit" onclick="Toast()" />
+                        <button type="submit" class="form-button">Save</button>
+                    </div>
+                </form>
+            }
+        </div>
+    </div>
+</div>

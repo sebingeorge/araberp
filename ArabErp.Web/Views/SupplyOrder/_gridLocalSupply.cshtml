@@ -1,4 +1,4 @@
-﻿@model ArabErp.Domain.WorkShopRequest
+﻿@model ArabErp.Domain.SupplyOrder
 
 <script type="text/javascript">
     $(document).ready(function () {
@@ -46,26 +46,6 @@
         });
     });
 
-    function OnItemChange(sender, index) {
-        var id = $(sender).val();
-        if (id != '') {
-            var url = '@Url.Action("GetItemUnit")';//get unit of selected item
-            $.getJSON(url, { itemId: id },
-                function (data) {
-                    $("#unit" + index).html(data);
-                });
-            url = '@Url.Action("GetItemPartNo")';//get part number of selected item
-            $.getJSON(url, { itemId: id },
-                function (data) {
-                    $("#partno" + index).html(data);
-                });
-        }
-        else {
-            $("#unit" + index).html('');
-            $("#partno" + index).html('');
-        }
-    }
-
     function Delete(index) {
 
         var i = 0;
@@ -106,38 +86,56 @@
     }
 </script>
 
-<table class="table table-bordered" id="table-additional-items-list">
+<table class="table table-bordered">
     <thead>
         <tr class="grid_heading">
-            <th width="5%"><h1>Sl.No.</h1></th>
-            <th><h1>Material Spares</h1></th>
-            <th width="10%"><h1>Part No.</h1></th>
-            <th><h1>Remarks</h1></th>
-            <th width="5%" class="text-right "><h1>Qty</h1></th>
-            <th width="10%"><h1>UoM</h1></th>
-            <th>&nbsp;</th>
+            <th width="5%"><h1>#</h1></th>
+            @*<th width="20%"><h1>PRS No & Date</h1></th>*@
+            <th width="25%"><h1>Material</h1></th>
+            <th width="10%"><h1>Part No</h1></th>
+            @*<th width="5%" class="text-right"><h1>Bal Qty</h1></th>*@
+            <th width="5%" class="text-right"><h1>Ordered Qty</h1></th>
+            <th width="5%" class="text-right"><h1>Rate</h1></th>
+            <th width="5%" class="text-right"><h1>Discount</h1></th>
+            <th width="5%" class="text-right"><h1>Amount</h1></th>
         </tr>
     </thead>
     <tbody class="grid_row">
-        @for (int i = 0; i < Model.Items.Count; i++)
+        @for (int i = 0; i < Model.SupplyOrderItems.Count(); i++)
         {
-            <tr id="@i">
+            <tr>
+
                 <td>
                     <span id="slno@(i+1)">@(i + 1)</span>
-                    @Html.HiddenFor(m => m.Items[i].SlNo)
                 </td>
+                @*<td>@Html.TextBoxFor(m => m.SupplyOrderItems[i].PRNODATE, new { @class = "form_input", @disabled = "true" }) </td>*@
                 <td>
-                    <input type="hidden" id="Row_@i" />
-                    @Html.DropDownListFor(m => m.Items[i].ItemId, (SelectList)ViewBag.itemList, "Select Material", new { @class = "form_input", autocomplete = "off", @onchange = "OnItemChange(this," + i + ")" })
+                    @*@Html.HiddenFor(m => m.SupplyOrderItems[i].PurchaseRequestItemId)*@
+                    @Html.DropDownListFor(m => m.SupplyOrderItems[i].ItemName, (SelectList)ViewBag.materialList, "Select Material/Spare", new { @class = "form_input" })
+                    @*@Html.TextBoxFor(m => m.SupplyOrderItems[i].ItemName, new { @class = "form_input", @disabled = "true" })*@
                 </td>
-                <td id="partno0" class="qreturn" style="vertical-align:middle"></td>
-                <td>@Html.TextBoxFor(m => m.Items[i].Remarks, new { @class = "form_input", autocomplete = "off", placeholder = "Remarks" })</td>
-                <td>@Html.TextBoxFor(m => m.Items[i].Quantity, new { @class = "form_input numbers-only text-right", autocomplete = "off", placeholder = "Qty" })</td>
-                <td id="unit0" class="qreturn" style="vertical-align:middle"></td>
-                <td style="vertical-align:middle"><a class="glyphicon glyphicon-minus" style="top:0px" onclick="Delete(@i)"></a></td>
+                <td>@Html.TextBoxFor(m => m.SupplyOrderItems[i].PartNo, new { @class = "form_input", @disabled = "true" })</td>
+                @*<td>@Html.TextBoxFor(m => m.SupplyOrderItems[i].BalQty, new { @class = "form_input", @style = "text-align:right", @disabled = "true" })</td>*@
+                <td>@Html.TextBoxFor(m => m.SupplyOrderItems[i].OrderedQty, new { @class = "form_input clQuantity", @style = "text-align:right", @onchange = "QuantityChanged(" + i + ");" })</td>
+                <td>@Html.TextBoxFor(m => m.SupplyOrderItems[i].Rate, new { @class = "form_input", @style = "text-align:right", @onchange = "QuantityChanged(" + i + ");" })</td>
+                <td>@Html.TextBoxFor(m => m.SupplyOrderItems[i].Discount, new { @class = "form_input", @style = "text-align:right", @onchange = "QuantityChanged(" + i + ");" })</td>
+                <td>@Html.TextBoxFor(m => m.SupplyOrderItems[i].Amount, new { @class = "form_input clAmount", @style = "text-align:right", @readonly = "readonly" })</td>
+
             </tr>
         }
     </tbody>
+
+    <tfoot>
+        <tr class="grid_heading">
+            <th class="text-center"><h1></h1></th>
+            @*<th width="20%" class="text-center"><h1></h1></th>*@
+            <th class="text-center"><h1></h1></th>
+            <th class="text-center"><h1></h1></th>
+            @*<th width="5%" class="text-center"><h1></h1></th>*@
+            <th class="text-center"><h1></h1></th>
+            <th class="text-right"><h1></h1></th>
+            <th class="text-right"><h1>Total</h1></th>
+            <th class="text-right"><span id="QtyAmount"></span></th>
+        </tr>
+    </tfoot>
 </table>
-<a id="add_row" class="glyphicon glyphicon-plus"></a>
-@*<a id='delete_row' style="float:right" class="glyphicon glyphicon-minus"></a>*@

@@ -6,10 +6,10 @@ using System.Threading.Tasks;
 
 namespace ArabErp.Domain
 {
-    public class LocalPurchaseRequestItem
+    public class DirectPurchaseRequestItem
     {
-        public int PurchaseRequestItemId { get; set; }
-        public int PurchaseRequestId { get; set; }
+        public int DirectPurchaseRequestItemId { get; set; }
+        public int DirectPurchaseRequestId { get; set; }
         public int? SlNo { get; set; }
         public string ItemName { get; set; }
         public int? ItemId { get; set; }

@@ -74,6 +74,8 @@
     <Compile Include="CustomerCategoryRepository.cs" />
     <Compile Include="CustomerRepository.cs" />
     <Compile Include="DesignationRepository.cs" />
+    <Compile Include="DirectPurchaseItemRepository.cs" />
+    <Compile Include="DirectPurchaseRepository.cs" />
     <Compile Include="DropdownRepository.cs" />
     <Compile Include="EmployeeCategoryRepository.cs" />
     <Compile Include="EmployeeRepository.cs" />

@@ -1,12 +1,12 @@
 ﻿@using ArabErp.Domain
 @model SupplyOrder
 @{
-    ViewBag.Title = "Create";
+    ViewBag.Title = "Create Local Supply Order";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
 <script>
-    $(document).ready(function() {
+    $(document).ready(function () {
         $('#supplyorder_form').bootstrapValidator({
             fields: {
                 SupplyOrderNo: {
@@ -39,7 +39,7 @@
                     }
                 }
 
-         }
+            }
         });
 
     });
@@ -113,31 +113,30 @@
 <div class="container">
     <div class="row">
         <div class="form-head1">
-            <h4>Supply Order</h4>
+            <h4>Local Supply Order</h4>
         </div>
         <div class="main-part pad1">
-           @using (Html.BeginForm("Save", null, FormMethod.Post, new { @class = "createFrom", @id = "supplyorder_form" }))
-           {
+            @using (Html.BeginForm("LocalSupplyOrder", null, FormMethod.Post, new { @class = "createFrom", @id = "supplyorder_form" }))
+            {
                 @Html.Partial("_formHeader")
-               
+
                 <div class="table-responsive">
-                    @Html.Partial("_grid")
+                    @Html.Partial("_gridLocalSupply")
                 </div>
-               
+
                 @Html.Partial("_formFooter")
 
-    <div class="row">
+                <div class="row">
 
-        <div class="col-md-12 hrpart">
-            <button type="button" class="form-button right">Exit</button>
-            <button type="submit" class="form-button right">Save</button>
+                    <div class="col-md-12 hrpart">
+                        <button type="button" class="form-button right">Exit</button>
+                        <button type="submit" class="form-button right">Save</button>
+                    </div>
+
+                </div>
+
+            }
         </div>
-
     </div>
-
-           }
-        </div>
-        </div>
 </div>
-
 
