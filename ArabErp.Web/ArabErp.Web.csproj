@@ -208,6 +208,7 @@
     <Compile Include="Controllers\CustomerCategoryController.cs" />
     <Compile Include="Controllers\CustomerController.cs" />
     <Compile Include="Controllers\DesignationController.cs" />
+    <Compile Include="Controllers\DirectPurchaseController.cs" />
     <Compile Include="Controllers\EmployeeCategoryController.cs" />
     <Compile Include="Controllers\EmployeeController.cs" />
     <Compile Include="Controllers\GrnWareHouseController.cs" />
@@ -222,6 +223,7 @@
     <Compile Include="Controllers\ManageController.cs" />
     <Compile Include="Controllers\MisReportController.cs" />
     <Compile Include="Controllers\OpeningStockController.cs" />
+    <Compile Include="Controllers\PurchaseBillController.cs" />
     <Compile Include="Controllers\PurchaseRequestController.cs" />
     <Compile Include="Controllers\SaleOrderController.cs" />
     <Compile Include="Controllers\SaleOrderStatusController.cs" />
@@ -573,6 +575,7 @@
     <Folder Include="bin\" />
     <Folder Include="Images\App_LocalResources\" />
     <Folder Include="Views\MisReport\" />
+    <Folder Include="Views\PurchaseBill\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff" />
