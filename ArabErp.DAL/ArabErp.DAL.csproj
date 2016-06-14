@@ -94,6 +94,8 @@
     <Compile Include="JobOrderCompletionRepository.cs" />
     <Compile Include="OpeningStockRepository.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="PurchaseBillItemRepository.cs" />
+    <Compile Include="PurchaseBillRepository.cs" />
     <Compile Include="PurchaseRequestItemRepository.cs" />
     <Compile Include="PurchaseRequestRepository.cs" />
     <Compile Include="SaleOrderItemRepository.cs" />
