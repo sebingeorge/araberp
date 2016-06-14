@@ -98,8 +98,8 @@ namespace ArabErp.DAL
                              WHERE S.SupplierId=@supplierId
                              GROUP BY G.GRNId,G.GRNNo,G.GRNDate,SO.SupplyOrderDate,SO.SupplyOrderNo,S.SupplierName";
                              return connection.Query<PendingGRN>(qry, new { SupplierId = supplierId }).ToList();
-                            
-            }
-        }
+
+    }
+} 
     }
 } 
