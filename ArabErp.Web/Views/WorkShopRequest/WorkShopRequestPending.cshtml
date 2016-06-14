@@ -9,7 +9,7 @@
         <div class="form-head1">
             <h4>Pending Sale Order</h4>
         </div>
-        <div class="main-part pad1">
+        @*<div class="main-part pad1">
 
             <div class="table-responsive border">
 
@@ -32,23 +32,23 @@
                     {
                             <div class="col-md-3 col-sm-2 mtop">
                             <input type="text" class="form_input" value="@Model.SaleOrders.ElementAt(i).CustomerName" />
-                            @*@Html.TextBoxFor(m => m.SaleOrders.ElementAt(i).CustomerName, new { @class = "form_input", autocomplete = "off", @readonly = "readonly" })*@
+                        
                         </div>
                             <div class="col-md-2 col-sm-3 mtop">
                             <input type="text" class="form_input" value="@Model.SaleOrders.ElementAt(i).CustomerOrderRef" />
-                            @*@Html.TextBoxFor(m => m.SaleOrders.ElementAt(i).CustomerOrderRef, new { @class = "form_input", autocomplete = "off", @readonly = "readonly" })*@
+                         
                         </div>
                             <div class="col-md-2 col-sm-2 mtop">
                             <input type="text" class="form_input" value="@Model.SaleOrders.ElementAt(i).SoNoWithDate" />
-                            @*@Html.TextBoxFor(m => m.SaleOrders.ElementAt(i).SoNoWithDate, new { @class = "form_input", autocomplete = "off", @readonly = "readonly" })*@
+                         
                         </div>
                             <div class="col-md-2 col-sm-2 mtop">
                             <input type="text" class="form_input" value="@Model.SaleOrders.ElementAt(i).EDateArrival.Value.ToString("dd/MMM/yyyy")" />
-                            @*@Html.TextBoxFor(m => m.SaleOrders.ElementAt(i).EDateArrival, new { @class = "form_input", autocomplete = "off", @readonly = "readonly" })*@
+                          
                         </div>
                             <div class="col-md-2 col-sm-2 mtop">
                             <input type="text" class="form_input" value="@Model.SaleOrders.ElementAt(i).EDateDelivery.Value.ToString("dd/MMM/yyyy")" />
-                            @*@Html.TextBoxFor(m => m.SaleOrders.ElementAt(i).EDateDelivery, new { @class = "form_input", autocomplete = "off", @readonly = "readonly" })*@
+                            
                         </div>
                             <div class="col-md-1 col-sm-1 mtop form-button2"><center>@Html.ActionLink("Select", "CreateWorkShopRequest", "WorkShopRequest", new { SaleOrderId = Model.SaleOrders.ElementAt(i).SaleOrderId }, null)</center></div>
                     }
@@ -57,7 +57,7 @@
                     </div>
 
 
-                <!-- pager -->
+                 pager 
                 @if (Model.Pager.EndPage > 1)
                 {
                     <ul class="pagination">
@@ -93,7 +93,75 @@
 
             </div>
 
+        </div>*@
+        <div class="main-part pad1 white">
+            <div class="main-grid main-grid-top scroll1">
+                <div class=" table-responsive">
+                    <table class="table table-bordered">
+                        <thead>
+                            <tr class="grid_heading">
+                                <th><h1>Customer</h1></th>
+                                <th><h1>Customer Order Ref.</h1></th>
+                                <th><h1>SO No & Date</h1></th>
+                                <th><h1>EDA</h1></th>
+                                <th><h1>EDD</h1></th>
+                                <th><h1 center>Select</h1></th>
+                            </tr>
+                        </thead>
+                       @for (int i = 0; i < Model.SaleOrders.Count(); i++)
+                       {
+                            <tbody class="grid_row">
+                                <tr>
+                                    <td class="grid-cell"><input type="text" class="form_input" value="@Model.SaleOrders.ElementAt(i).CustomerName" /></td>
+                                    <td class="grid-cell"><input type="text" class="form_input" value="@Model.SaleOrders.ElementAt(i).CustomerOrderRef" /></td>
+                                    <td class="grid-cell"><input type="text" class="form_input" value="@Model.SaleOrders.ElementAt(i).SoNoWithDate" /></td>
+                                    <td class="grid-cell"><input type="text" class="form_input" value="@Model.SaleOrders.ElementAt(i).EDateArrival.Value.ToString("dd/MMM/yyyy")" /></td>
+                                    <td class="grid-cell"><input type="text" class="form_input" value="@Model.SaleOrders.ElementAt(i).EDateDelivery.Value.ToString("dd/MMM/yyyy")" /></td>
+                                    <td><center><button class="form-button4"><center>@Html.ActionLink("Select", "CreateWorkShopRequest", "WorkShopRequest", new { SaleOrderId = Model.SaleOrders.ElementAt(i).SaleOrderId }, null)</center></button></center></td>
+
+                                </tr>
+                            </tbody>
+                        }
+                    </table>
+                </div>
+
+              
+                @if (Model.Pager.EndPage > 1)
+                {
+                    <ul class="pagination">
+                        @if (Model.Pager.CurrentPage > 1)
+                        {
+                            <li>
+                                <a href="~/WorkShopRequest/WorkShopRequestPending">First</a>
+                            </li>
+                            <li>
+                                <a href="~/WorkShopRequest/WorkShopRequestPending?page=@(Model.Pager.CurrentPage - 1)">Previous</a>
+                            </li>
+                        }
+
+                        @for (var page = Model.Pager.StartPage; page <= Model.Pager.EndPage; page++)
+                        {
+                            <li class="@(page == Model.Pager.CurrentPage ? "active" : "")">
+                                <a href="~/WorkShopRequest/WorkShopRequestPending?page=@page">@page</a>
+                            </li>    }
+
+                        @if (Model.Pager.CurrentPage < Model.Pager.TotalPages)
+                        {
+                            <li>
+                                <a href="~/WorkShopRequest/WWorkShopRequestPending?page=@(Model.Pager.CurrentPage + 1)">Next</a>
+                            </li>
+                            <li>
+                                <a href="~/WorkShopRequest/WorkShopRequestPending?page=@(Model.Pager.TotalPages)">Last</a>
+                            </li>
+                        }
+                    </ul>
+                }
+
+            </div>
+
+
         </div>
+
     </div>
 </div>
 

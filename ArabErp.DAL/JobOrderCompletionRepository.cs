@@ -18,11 +18,14 @@ namespace ArabErp.DAL
         {
             using (IDbConnection connection = OpenConnection(dataConnection))
             {
-                string query = "select distinct J.JobCardId, J.JobCardNo, J.JobCardDate, C.CustomerName, V.VehicleModelName";
-                query += " from JobCard J inner join SaleOrder S on S.SaleOrderId = J.SaleOrderId";
-                query += " inner join SaleOrderItem SI on SI.SaleOrderId = S.SaleOrderId";
-                query += " inner join Customer C on S.CustomerId = C.CustomerId";
-                query += " inner join VehicleModel V on V.VehicleModelId = SI.VehicleModelId";
+                string query = string.Empty;
+                query += " select distinct J.JobCardId, J.JobCardNo, J.JobCardDate, C.CustomerName, V.VehicleModelName";
+                query += " from JobCard J";
+                query += " inner join SaleOrderItem SI on SI.SaleOrderItemId = J.SaleOrderItemId";
+                query += " inner join SaleOrder S on S.SaleOrderId = SI.SaleOrderId";
+                query += " inner join Customer C on S.CustomerId = C.CustomerId ";
+                query += " inner join WorkDescription W on W.WorkDescriptionId = SI.WorkDescriptionId";
+                query += " inner join VehicleModel V on V.VehicleModelId = W.VehicleModelId ";
                 query += " where ISNULL(J.JodCardCompleteStatus,0) <> 1";
                 return connection.Query<JobOrderPending>(query);
             }
@@ -37,8 +40,8 @@ namespace ArabErp.DAL
                 query += " from JobCard J inner join SaleOrder S on S.SaleOrderId = J.SaleOrderId";
                 query += " inner join SaleOrderItem SI on SI.SaleOrderId = S.SaleOrderId";
                 query += " inner join Customer C on S.CustomerId = C.CustomerId";
-                query += " inner join VehicleModel V on V.VehicleModelId = SI.VehicleModelId";
-                query += " inner join WorkDescription W on SI.WorkDescriptionId = W.WorkDescriptionId";
+                query += " inner join WorkDescription W on W.WorkDescriptionId = SI.WorkDescriptionId";
+                query += " inner join VehicleModel V on V.VehicleModelId = W.VehicleModelId";
                 query += " where J.JobCardId = " + JobCardId.ToString();
                 var jobcard = connection.Query<JobCardCompletion>(query).FirstOrDefault();
 

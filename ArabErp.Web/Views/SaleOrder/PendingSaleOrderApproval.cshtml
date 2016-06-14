@@ -1,0 +1,51 @@
+﻿
+@using ArabErp.Domain
+@model IEnumerable<PendingSO>
+@{
+    ViewBag.Title = "Pending SaleOrder Approval";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="container">
+
+    <div class="row">
+
+        <div class="form-head1">
+            <h4>Pending SaleOrder Approval</h4>
+        </div>
+
+       
+        <div class="main-part pad1 white">
+            <div class="main-grid main-grid-top scroll1">
+                <div class=" table-responsive">
+                    <table class="table table-bordered">
+                        <thead>
+                            <tr class="grid_heading">
+                                <th><h1>SO No & Date</h1></th>
+                                <th><h1>Customer</h1></th>
+                                <th><h1>Customer Order Ref.</h1></th>
+                                <th><h1>Select</h1></th>
+                            </tr>
+                        </thead>
+                        @foreach (var item in Model)
+                        {
+                            <tbody class="grid_row">
+                                <tr>
+                                    <td class="grid-cell">@item.SaleOrderRefNo &amp; @item.SaleOrderDate.ToString("dd/MMM/yyyy")</td>
+                                    <td class="grid-cell">@item.CustomerName</td>
+                                    <td class="grid-cell">@item.CustomerOrderRef</td>
+                                    <td><center><button class="form-button4">@Html.ActionLink("Select", "Approval", "SaleOrder", new { SaleOrderId = @item.SaleOrderId }, null)</button></center></td>
+                                   
+                                </tr>
+                            </tbody>
+                        }
+                    </table>
+                </div>
+
+
+            </div>
+
+
+        </div>
+    </div>
+</div>

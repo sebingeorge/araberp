@@ -53,8 +53,9 @@ namespace ArabErp.DAL
                                 CreatedBy = objStoreIssue.CreatedBy,
                                 CreatedDate = objStoreIssue.CreatedDate,
                                 StockPointId = objStoreIssue.StockpointId,
-                                StockPointType = "StoreIssue",
-                                StockPointInOut = "OUT",
+                                StockType = "StoreIssue",
+                                StockInOut = "OUT",
+                                stocktrnDate=System.DateTime.Today,
                                 ItemId = item.ItemId,
                                 Quantity = item.CurrentIssuedQuantity
                             }, connection, txn);

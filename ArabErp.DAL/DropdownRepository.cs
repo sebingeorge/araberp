@@ -46,6 +46,17 @@ namespace ArabErp.DAL
             }
         }
         /// <summary>
+        /// Return all active Suppliers
+        /// </summary>
+        /// <returns></returns>
+        public List<Dropdown> SupplierDropdown()
+        {
+            using (IDbConnection connection = OpenConnection(dataConnection))
+            {
+                return connection.Query<Dropdown>("SELECT SupplierId Id,SupplierName Name FROM Supplier WHERE ISNULL(isActive, 1) = 1").ToList();
+            }
+        }
+        /// <summary>
         /// Return all stockpoints
         /// </summary>
         /// <returns></returns>

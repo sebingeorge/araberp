@@ -18,11 +18,11 @@ namespace ArabErp.Web.Controllers
         public ActionResult Create(IList<PendingPurchaseRequest> PendingPurchaseRequestItemsSelected)
         {
             SupplyOrder supplyorder = new SupplyOrder();
-  
+
 
 
             SupplyOrderRepository rep = new SupplyOrderRepository();
-            if (PendingPurchaseRequestItemsSelected!=null)
+            if (PendingPurchaseRequestItemsSelected != null)
             {
                 if (PendingPurchaseRequestItemsSelected.Count > 0)
                 {
@@ -37,7 +37,7 @@ namespace ArabErp.Web.Controllers
 
 
             supplyorder.SupplyOrderDate = System.DateTime.Today;
-            supplyorder.RequiredDate= System.DateTime.Today;
+            supplyorder.RequiredDate = System.DateTime.Today;
 
 
 
@@ -73,5 +73,23 @@ namespace ArabErp.Web.Controllers
             return RedirectToAction("PendingSupplyOrder");
         }
 
+        public ActionResult LocalSupplyOrder()
+        {
+            FillSupplier();
+            GetMaterialDropdown();
+            List<SupplyOrderItem> list = new List<SupplyOrderItem>();
+            list.Add(new SupplyOrderItem());
+            return View("CreateLocalSupplyOrder", new SupplyOrder { SupplyOrderItems = list, SupplyOrderDate = DateTime.Now, RequiredDate = DateTime.Now });
+        }
+        [HttpPost]
+        public ActionResult LocalSupplyOrder(SupplyOrder model)
+        {
+            return View("LocalSupplyOrder");
+        }
+
+        private void GetMaterialDropdown()
+        {
+            ViewBag.materialList = new SelectList(new DropdownRepository().ItemDropdown(), "Id", "Name");
+        }
     }
 }

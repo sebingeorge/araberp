@@ -82,7 +82,7 @@ namespace ArabErp.DAL
             }
         }
         /// <summary>
-        /// Saleorder Pending List
+        /// Saleorder Pending List for workshop request and hold stock
         /// </summary>
         /// <param name="model">Object of class SaleOrder</param>
         /// <returns>SaleOrders not in WorkshopRequest table</returns>
@@ -96,7 +96,7 @@ namespace ArabErp.DAL
                              WHERE SI.SaleOrderId = t.SaleOrderId
                              FOR XML PATH(''), TYPE).value('.','NVARCHAR(MAX)'),1,2,' ') WorkDescription
                              FROM SaleOrderItem t INNER JOIN SaleOrder SO on t.SaleOrderId=SO.SaleOrderId INNER JOIN Customer C ON SO.CustomerId =C.CustomerId
-                             left join WorkShopRequest WR on SO.SaleOrderId=WR.SaleOrderId WHERE WR.SaleOrderId is null and SO.isActive=1
+                             left join WorkShopRequest WR on SO.SaleOrderId=WR.SaleOrderId WHERE WR.SaleOrderId is null and SO.isActive=1 and SO.SaleOrderApproveStatus=1 and SO.SaleOrderHoldStatus IS NULL
                              GROUP BY t.SaleOrderId,SO.CustomerOrderRef,C.CustomerName,SO.SaleOrderRefNo,SO.EDateArrival,SO.EDateDelivery,SO.CustomerId,SO.SaleOrderDate";
                 var objSaleOrders = connection.Query<SaleOrder>(sql).ToList<SaleOrder>();
 
@@ -275,6 +275,11 @@ namespace ArabErp.DAL
                 return connection.Query<SaleOrderItem>(sql, new { SaleOrderId = SaleOrderId }).ToList();
             }
         }
+        /// <summary>
+        /// Sale Order Approval-Update SaleOrderApproveStatus=1 in saleorder table
+        /// </summary>
+        /// <param name="SaleOrderId"></param>
+        /// <returns></returns>
         public int UpdateSOApproval(int SaleOrderId)
         {
             using (IDbConnection connection = OpenConnection(dataConnection))
@@ -282,6 +287,42 @@ namespace ArabErp.DAL
                 string sql = @"Update SaleOrder set SaleOrderApproveStatus=1 WHERE SaleOrderId=@SaleOrderId";
                 return  connection.Execute(sql, new { SaleOrderId = SaleOrderId });
                
+            }
+        }
+        /// <summary>
+        /// Sale Order Hold-Update SaleOrderHoldStatus=H in saleorder table
+        /// </summary>
+        /// <param name="SaleOrderId"></param>
+        /// <returns></returns>
+        public int UpdateSOHold(int SaleOrderId, string hreason)
+        {
+            using (IDbConnection connection = OpenConnection(dataConnection))
+            {
+                string sql = @"Update SaleOrder set SaleOrderHoldStatus='H',SaleOrderHoldReason=@hreason  WHERE SaleOrderId=@SaleOrderId";
+                return connection.Execute(sql, new { SaleOrderId = SaleOrderId,hreason = hreason });
+
+            }
+        }
+        /// <summary>
+        /// Holded sale order to Release
+        /// </summary>
+        /// <returns></returns>
+        public IEnumerable<PendingSO> GetSaleOrderHolded()
+        {
+            using (IDbConnection connection = OpenConnection(dataConnection))
+            {
+                string query = "Select S.SaleOrderId,SaleOrderRefNo, SaleOrderDate, C.CustomerName, S.CustomerOrderRef";
+                query += " from SaleOrder S inner join Customer C on S.CustomerId = C.CustomerId where S.SaleOrderHoldStatus ='H'";
+                return connection.Query<PendingSO>(query);
+            }
+        }
+        public int UpdateSORelease(int SaleOrderId)
+        {
+            using (IDbConnection connection = OpenConnection(dataConnection))
+            {
+                string sql = @"Update SaleOrder set SaleOrderHoldStatus = null WHERE SaleOrderId=@SaleOrderId";
+                return connection.Execute(sql, new { SaleOrderId = SaleOrderId });
+
             }
         }
     }

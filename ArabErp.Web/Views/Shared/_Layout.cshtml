@@ -13,6 +13,9 @@
     @*<script src="~/scripts/mdb.js"></script>
     <script src="~/scripts/mdb.min.js"></script>*@
 
+    <link href="~/Content/toastr/build/toastr.min.css" rel="stylesheet" />
+    <script src="~/Content/toastr/build/toastr.min.js"></script>
+
     <link href="~/Content/menu.css" rel="stylesheet" />
     @*<link href="~/scripts/mdb.css" rel="stylesheet" />
     <link href="~/scripts/mdb.min.css" rel="stylesheet" />*@
@@ -52,11 +55,14 @@
                                 <a data-toggle="dropdown" class="dropdown-toggle" href="#"><i class="glyphicon glyphicon-th-large"></i></a>
                                 <ul class="dropdown-menu">
                                     <li><a href="@Url.Action("Create","SaleOrder")"><span class="badge pull-right"></span>Sale Order</a></li>
-                                    <li><a href="@Url.Action("SaleOrderApproval", "SaleOrder")"><span class="badge pull-right"></span>Sale Order Approval</a></li>
+                                    <li><a href="@Url.Action("PendingSaleOrderApproval", "SaleOrder")"><span class="badge pull-right"></span>Sale Order Approval</a></li>
+                                    <li><a href="@Url.Action("PendingSaleOrderHold", "SaleOrder")"><span class="badge pull-right"></span>Sale Order Hold</a></li>
+                                    <li><a href="@Url.Action("PendingSaleOrderRelease", "SaleOrder")"><span class="badge pull-right"></span>Sale Order Release</a></li>
                                     <li><a href="@Url.Action("WorkShopRequestPending","WorkShopRequest")"><span class="badge pull-right"></span>WorkShop Request</a></li>
                                     <li><a href="@Url.Action("PendingPurchaseRequest","PurchaseRequest")"><span class="badge pull-right"></span>Purchase Request</a></li>
                                     <li><a href="@Url.Action("PendingSupplyOrder","SupplyOrder")"><span class="badge pull-right"></span>Supply Order</a></li>
                                     <li><a href="@Url.Action("PendingGrnWareHouse","GrnWareHouse")"><span class="badge pull-right"></span>GRN</a></li>
+                                    <li><a href="@Url.Action("Index", "PurchaseBill")"><span class="badge pull-right"></span>Purchase Bill</a></li>
                                     <li><a href="@Url.Action("Index","VehicleInPass")"><span class="badge pull-right"></span>Vehicle Inpass</a></li>
                                     <li><a href="@Url.Action("PendingJobCard","JobCard")"><span class="badge pull-right"></span>Job Card</a></li>
                                     <li><a href="@Url.Action("PendingJobCardQC", "JobCardQC")"><span class="badge pull-right"></span>Quality Control</a></li>
@@ -70,8 +76,6 @@
                                     <li><a href="@Url.Action("CreateWorkShopGRN", "WorkShopGRN")"><span class="badge pull-right"></span>WorkShop GRN</a></li>
                                     <li><a href="@Url.Action("Index","SaleOrderStatus")"><span class="badge pull-right"></span>Sale Order Status</a></li>
                                     <li><a href="@Url.Action("Index","BayStatus")"><span class="badge pull-right"></span>Bay Allocation Report</a></li>
-                                    <li><a href="@Url.Action("Index","BayStatus")"><span class="badge pull-right"></span>Sale Order Status</a></li>
-                                
                                 </ul>
                             </li>
 

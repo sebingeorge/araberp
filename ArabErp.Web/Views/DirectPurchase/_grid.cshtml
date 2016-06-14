@@ -1,0 +1,212 @@
+﻿@model ArabErp.Domain.DirectPurchaseRequest
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        $("#items_0__SlNo").val('1');
+        $("#add_row").click(function () {
+            if (validateGrid()) {
+                var i = 0;
+                var no = 1;
+                $('input[id^="Row_"]').each(function () {
+                    var id = this.id;
+                    no++;
+                    var row = Number(id.replace("Row_", ""));
+                    if (row > i) {
+                        i = row;
+                    }
+                });
+                i++;
+                var index = (new Date()).getTime(); // unique indexer
+                var clone = $('#0').clone(); // clone the BatchProducts item
+                //Update the index of the clone
+                //clone.html($(clone).html().replace("Items_0__", 'Items_' + i + '__'));
+                clone.html($(clone).html().replace(/items_0__/g, 'items_' + i + '__'));
+                clone.html($(clone).html().replace(/\items[0]./g, 'items[' + i + '].'));
+                clone.html($(clone).html().replace(/\[0\]/g, '[' + i + ']'));
+                clone.html($(clone).html().replace(/\(0\)/g, '(' + i + ')'));
+                clone.html($(clone).html().replace(/Row_0/, 'Row_' + i + ''));
+                clone.html($(clone).html().replace(/slno1/, 'slno' + (i + 1) + ''));
+                clone.html($(clone).html().replace(/txtUoM0/, 'txtUoM' + i + ''));
+                clone.html($(clone).html().replace(/txtPartNo0/, 'txtPartNo' + i + ''));
+                clone.html($(clone).html().replace(/this, 0/g, 'this, ' + i + ''));
+                $("#table-grid").append('<tr id="' + i + '">' + clone.html() + '  </tr>');
+                $("#slno" + (i + 1)).html((i + 1));
+                $("#items_" + i + "__SlNo").val((i + 1));
+                $("#txtUoM" + i).html('');
+                $("#txtPartNo" + i).html('');
+
+                //bind keypress event for new row inputs.
+                $(".numbers-only").keypress(function (e) {
+                    if (e.which == 8 || (e.which == 46 && $(this).val().indexOf('.') == -1) || (e.which > 47 && e.which < 58)) { } else { return false; }
+                });
+            }
+            else{
+                toastr.info("You have to fill all existing item details before adding a new item");
+            }
+        });
+
+        $(".numbers-only").keypress(function (e) {
+            if (e.which == 8 || (e.which == 46 && $(this).val().indexOf('.') == -1) || (e.which > 47 && e.which < 58)) { } else { return false; }
+        });
+    });
+
+    function validateGrid(){
+        var status = true;
+        $("select[id$='__ItemId'").each(function(){
+            if(this.value=='') status = false;
+        });
+        return status;
+    }
+
+    function Delete(index) {
+
+        var i = 0;
+        var no = 1;
+        $('input[id^="Row_"]').each(function () {
+            var id = this.id;
+            no++;
+            var row = Number(id.replace("Row_", ""));
+            if (row > i) {
+                i = row;
+            }
+        });
+        i++;
+        //$("#" + index).html('');
+        if (i > 1) {
+            $("#" + index).remove();
+            for (var j = index + 1; j < i; j++) {
+                var item = $("#items_" + j + "__ItemId").val();
+                var remarks = $("#items_" + j + "__Remarks").val();
+                var partno = $("#txtPartNo" + j).val();
+                var uom = $("#txtUoM" + j).val();
+                var qty = $("#items_" + j + "__Quantity").val();
+                var rate = $("#items_" + j + "__Rate").val();
+                var amount = $("#items_" + j + "__Amount").val();
+                var clone = $("#" + j).clone(true, true);
+                clone.html($(clone).html().replace(new RegExp("items_" + j + "__", "g"), 'items_' + (j - 1) + '__'));
+                clone.html($(clone).html().replace(new RegExp("\\[" + j + "].", "g"), "[" + (j - 1) + "]."));
+                clone.html($(clone).html().replace(new RegExp('slno' + (j + 1) + '">' + (j + 1), "g"), 'slno' + (j) + '">' + (j)));
+                clone.html($(clone).html().replace("Delete(" + j, "Delete(" + (j - 1)));
+                clone.html($(clone).html().replace("Row_" + j, "Row_" + (j - 1)));
+                clone.html($(clone).html().replace("txtUoM" + j, "txtUoM" + (j - 1)));
+                clone.html($(clone).html().replace("txtPartNo" + j, "txtPartNo" + (j - 1)));
+                clone.html($(clone).html().replace(new RegExp("this, " + j, "g"), "this, " + (j - 1)));
+                $("#" + j).html(clone.html());
+                $("#items_" + (j - 1) + "__SlNo").val(j);
+                $("#" + (j)).attr('id', (j - 1));
+                $("#items_" + (j - 1) + "__ItemId").val(item);
+                $("#items_" + (j - 1) + "__Remarks").val(remarks);
+                $("#txtPartNo" + (j - 1)).val(partno);
+                $("#txtUoM" + (j - 1)).val(uom);
+                $("#items_" + (j - 1) + "__Quantity").val(qty);
+                $("#items_" + (j - 1) + "__Rate").val(rate);
+                $("#items_" + (j - 1) + "__Amount").val(amount);
+            }
+        }
+    }
+
+    function OnMaterialChange(sender, index) {
+        var id = $(sender).val();
+        var url = '@Url.Action("GetPartNoUnit")';
+        $.getJSON(url, { itemId: id },
+            function (data) {
+                var arr = data.split('|');
+                $("#txtPartNo" + index).val(arr[0]);
+                $("#txtUoM" + index).val(arr[1]);
+            });
+    }
+
+    function OnQtyChange(sender, index){
+        var qty = Number($(sender).val());
+        var rate = Number($("#items_"+index+"__Rate").val());
+        $("#items_"+index+"__Amount").val(qty*rate);
+        calculateTotal();
+    }
+
+    function calculateTotal() {
+        var total = 0;
+        $("input[id$='__Amount']").each(function () {
+            total += Number(this.value);
+        });
+        $("#total").html(total);
+    }
+
+    function OnRateChange(sender, index){
+        var rate = Number($(sender).val());
+        var qty = Number($("#items_"+index+"__Quantity").val());
+        $("#items_"+index+"__Amount").val(qty*rate);
+        calculateTotal();
+    }
+</script>
+
+<table class="table table-bordered" id="table-grid">
+    <thead>
+        <tr class="grid_heading">
+            <th width="1%">#</th>
+            <th width="20%">Material/Spares</th>
+            <th width="10%">PartNo</th>
+            <th width="5%">UoM</th>
+            <th width="25%">Remarks</th>
+            <th width="5%" class="text-right ">Qty</th>
+            <th width="5%" class="text-right ">Rate</th>
+            <th width="7%" class="text-right ">Amount</th>
+            <th width="1%">&nbsp;</th>
+        </tr>
+    </thead>
+    <tbody>
+        @for (int i = 0; i < Model.items.Count; i++)
+        {
+            <tr id="@i">
+                <td>
+                    <span id="slno@(i+1)">@(i + 1)</span>
+                </td>
+                <td>
+                    @Html.HiddenFor(m => m.items[i].SlNo)
+                    <input type="hidden" id="Row_@i" />
+                    @Html.DropDownListFor(m => m.items[i].ItemId, (SelectList)ViewBag.materialList, "Select Material/Spare", new { @class = "form_input", @onchange = "OnMaterialChange(this, " + i + ")" })
+                </td>
+                <td>
+                    <input type="text" class="form_input" id="txtPartNo@(i)" disabled />
+                </td>
+                <td>
+                    <input type="text" id="txtUoM@(i)" class="form_input" disabled />
+                </td>
+                <td>
+                    @Html.TextBoxFor(m => m.items[i].Remarks, new { @class = "form_input", autocomplete = "off", placeholder = "Remarks" })
+                </td>
+                <td>
+                    @Html.TextBoxFor(m => m.items[i].Quantity, new { @class = "form_input numbers-only", @style = "text-align:right", autocomplete = "off", placeholder = "Qty", @onkeyup = "OnQtyChange(this, " + i + ")" })
+                </td>
+                <td>
+                    @Html.TextBoxFor(m => m.items[i].Rate, new { @class = "form_input numbers-only", @style = "text-align:right", autocomplete = "off", placeholder = "Rate", @onkeyup = "OnRateChange(this, " + i + ")" })
+                </td>
+                <td>
+                    @Html.TextBoxFor(m => m.items[i].Amount, new { @class = "form_input numbers-only", @style = "text-align:right", autocomplete = "off", @disabled = "true" })
+                </td>
+                <td style="vertical-align:middle"><a class="glyphicon glyphicon-minus" style="top:0px" onclick="Delete(@i)"></a></td>
+            </tr>
+        }
+
+    </tbody>
+    <tfoot>
+        <tr class="grid_heading">
+
+            <th></th>
+            <th></th>
+            <th></th>
+            <th></th>
+            <th></th>
+            <th></th>
+            <th class="text-right">Total</th>
+            <th class="text-right">
+                <strong>
+                    <span id="total">
+
+                    </span>
+                </strong>
+            </th>
+            <th></th>
+        </tr>
+    </tfoot>
+</table>
+<a id="add_row" class="glyphicon glyphicon-plus"></a>
