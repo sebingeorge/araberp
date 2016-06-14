@@ -249,6 +249,7 @@
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
+    <Compile Include="Models\PagedPendingGRNViewModel.cs" />
     <Compile Include="Models\PagedSaleOrderViewModel.cs" />
     <Compile Include="Models\PagedSupplyOrderViewModel.cs" />
     <Compile Include="Pager.cs" />

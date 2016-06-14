@@ -70,6 +70,17 @@ namespace ArabErp.DAL
             }
         }
 
+        public IEnumerable<GRN> PurchaseBillPendingList()
+        {
+            using (IDbConnection connection = OpenConnection(dataConnection))
+            {
+                string query = "SELECT GRNId,GRNNo,GRNDate,S.SupplierName Supplier,SupplierDCNoAndDate";
+                query += " FROM GRN G INNER JOIN Supplier S ON S.SupplierId=G.SupplierId";
+                return connection.Query<GRN>(query);
+            }
+        }
+
+
 
     }
 } 

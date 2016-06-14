@@ -1,8 +1,92 @@
-﻿
+﻿@model ArabErp.Web.Models.PagedPendingGRNViewModel
 @{
     ViewBag.Title = "PurchaseBillPendingList";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h2>PurchaseBillPendingList</h2>
+
+
+<div class="container">
+    <div class="row">
+        <div class="form-head1">
+            <h4>Pending GRN for Purchase Bill</h4>
+        </div>
+       
+        <div class="main-part pad1 white">
+            <div class="main-grid main-grid-top scroll1">
+                <div class=" table-responsive">
+                    <table class="table table-bordered">
+                        <thead>
+                            <tr class="grid_heading">
+                                <th><h1>GRN No</h1></th>
+                                <th><h1>Supplier</h1></th>
+                                <th><h1>GRN Date</h1></th>
+                                @*<th><h1>EDA</h1></th>
+                                <th><h1>EDD</h1></th>
+                                <th><h1 center>Select</h1></th>*@
+                            </tr>
+                        </thead>
+                        @for (int i = 0; i < Model.GRNs.Count(); i++)
+                        {
+                            <tbody class="grid_row">
+                                <tr>
+                                    <td class="grid-cell"><input type="text" class="form_input" value="@Model.GRNs.ElementAt(i).GRNNo" /></td>
+                                    <td class="grid-cell"><input type="text" class="form_input" value="@Model.GRNs.ElementAt(i).Supplier" /></td>
+                                    <td class="grid-cell"><input type="text" class="form_input" value="@Model.GRNs.ElementAt(i).GRNDate" /></td>
+                                    @*<td class="grid-cell"><input type="text" class="form_input" value="@Model.GRNs.ElementAt(i).GRNDate.Value.ToString("dd/MMM/yyyy")" /></td>
+                                    <td class="grid-cell"><input type="text" class="form_input" value="@Model.GRNs.ElementAt(i).EDateDelivery.Value.ToString("dd/MMM/yyyy")" /></td>*@
+                                    @*<td><center><button class="form-button4"><center>@Html.ActionLink("Select", "CreatePurchaseBill", "PurchaseBill", new { GRNlId = Model.GRNs.ElementAt(i).GRNId}, null)</center></button></center></td>*@
+
+                                </tr>
+                            </tbody>
+                        }
+                    </table>
+                </div>
+
+
+                @if (Model.Pager.EndPage > 1)
+                {
+                    <ul class="pagination">
+                        @if (Model.Pager.CurrentPage > 1)
+                        {
+                            <li>
+                                <a href="~/PurchaseBill/PurchaseBillPendingList">First</a>
+                            </li>
+                            <li>
+                                <a href="~/PurchaseBill/PurchaseBillPendingList?page=@(Model.Pager.CurrentPage - 1)">Previous</a>
+                            </li>
+                        }
+
+                        @for (var page = Model.Pager.StartPage; page <= Model.Pager.EndPage; page++)
+                        {
+                            <li class="@(page == Model.Pager.CurrentPage ? "active" : "")">
+                                <a href="~/PurchaseBill/PurchaseBillPendingList?page=@page">@page</a>
+                            </li>    }
+
+                        @if (Model.Pager.CurrentPage < Model.Pager.TotalPages)
+                        {
+                            <li>
+                                <a href="~/PurchaseBill/PurchaseBillPendingList?page=@(Model.Pager.CurrentPage + 1)">Next</a>
+                            </li>
+                            <li>
+                                <a href="~/PurchaseBill/PurchaseBillPendingList?page=@(Model.Pager.TotalPages)">Last</a>
+                            </li>
+                        }
+                    </ul>
+                }
+
+            </div>
+
+
+        </div>
+
+    </div>
+</div>
+
+
+
+
+
+
+
 

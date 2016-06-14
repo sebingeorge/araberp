@@ -19,16 +19,16 @@ namespace ArabErp.Web.Controllers
         public ActionResult PurchaseBillPendingList(int? page)
         {
 
-            var rep = new SaleOrderRepository();
+            var rep = new PurchaseBillRepository();
 
 
-            var slist = rep.GetSaleOrdersPendingWorkshopRequest();
+            var slist = rep.PurchaseBillPendingList();
 
             var pager = new Pager(slist.Count(), page);
 
-            var viewModel = new PagedSaleOrderViewModel
+            var viewModel = new PagedPendingGRNViewModel
             {
-                SaleOrders = slist.Skip((pager.CurrentPage - 1) * pager.PageSize).Take(pager.PageSize),
+                GRNs = slist.Skip((pager.CurrentPage - 1) * pager.PageSize).Take(pager.PageSize),
                 Pager = pager
             };
 
