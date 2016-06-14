@@ -19,8 +19,9 @@ namespace ArabErp.DAL
                                 StockPointId, 
                                 ItemId, 
                                 Quantity,
-                                StockPointType,
-                                StockPointInOut, 
+                                StockType,
+                                StockInOut,
+                                stocktrnDate,
                                 CreatedBy, 
                                 CreatedDate,
                                 OrganizationId)
@@ -28,8 +29,9 @@ namespace ArabErp.DAL
                                 @StockPointId, 
                                 @ItemId, 
                                 (@Quantity*(-1)),
-                                @StockPointType,
-                                @StockPointInOut, 
+                                @StockType,
+                                @StockInOut, 
+                                @stocktrnDate,
                                 @CreatedBy, 
                                 @CreatedDate,
                                 @OrganizationId);

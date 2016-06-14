@@ -1,0 +1,142 @@
+﻿@using ArabErp.Domain
+@model SupplyOrder
+@{
+    ViewBag.Title = "Create Local Supply Order";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<script>
+    $(document).ready(function () {
+        $('#supplyorder_form').bootstrapValidator({
+            fields: {
+                SupplyOrderNo: {
+                    validators: {
+                        notEmpty: {
+                            message: 'Please enter SupplyOrderNo'
+                        }
+                    }
+                },
+                SupplyOrderDate: {
+                    validators: {
+                        notEmpty: {
+                            message: 'Please enter SupplyOrderDate'
+                        }
+                    }
+                },
+
+                SupplierId: {
+                    validators: {
+                        notEmpty: {
+                            message: 'Please select Supplier'
+                        }
+                    }
+                },
+                RequiredDate: {
+                    validators: {
+                        notEmpty: {
+                            message: 'Please enter required date'
+                        }
+                    }
+                }
+
+            }
+        });
+
+    });
+
+
+    function QuantityChanged(row) {
+        var quantity = $("#SupplyOrderItems_" + row + "__OrderedQty").val();
+        var rate = $("#SupplyOrderItems_" + row + "__Rate").val();
+        var discount = $("#SupplyOrderItems_" + row + "__Discount").val();
+
+        if (quantity == NaN) {
+            quantity = 0;
+        }
+        if (rate == NaN) {
+            rate = 0;
+        }
+        if (discount == NaN) {
+            discount = 0;
+        }
+        var amount = (quantity * rate) - discount;
+        $("#SupplyOrderItems_" + row + "__Amount").val(amount);
+        calculateSummary();
+    }
+
+    function calculateSummary() {
+        var quantity = parseFloat("0");
+        var amount = parseFloat("0");
+        $('.clQuantity').each(function (i, obj) {
+            var a = parseFloat($("#SupplyOrderItems_" + i + "__OrderedQty").val());
+
+            if (isNaN(a)) {
+                a = parseFloat("0");
+            }
+
+            quantity = quantity + a;
+        });
+
+        $('.clAmount').each(function (i, obj) {
+            var a = parseFloat($("#SupplyOrderItems_" + i + "__Amount").val());
+            if (isNaN(a)) {
+
+                a = parseFloat("0");
+
+            }
+
+            amount = amount + a;
+        });
+
+        //$("#QtyTotal").text(quantity);
+        $("#QtyAmount").text(amount);
+    }
+
+
+
+    $(function () {
+        $("#SupplyOrderDate").datepicker({
+            changeMonth: true,
+            changeYear: true,
+            dateFormat: "d/MM/y"
+        });
+        $("#RequiredDate").datepicker({
+            changeMonth: true,
+            changeYear: true,
+            dateFormat: "d/MM/y"
+        });
+    });
+
+
+
+</script>
+<div class="container">
+    <div class="row">
+        <div class="form-head1">
+            <h4>Local Supply Order</h4>
+        </div>
+        <div class="main-part pad1">
+            @using (Html.BeginForm("LocalSupplyOrder", null, FormMethod.Post, new { @class = "createFrom", @id = "supplyorder_form" }))
+            {
+                @Html.Partial("_formHeader")
+
+                <div class="table-responsive">
+                    @Html.Partial("_gridLocalSupply")
+                </div>
+
+                @Html.Partial("_formFooter")
+
+                <div class="row">
+
+                    <div class="col-md-12 hrpart">
+                        <button type="button" class="form-button right">Exit</button>
+                        <button type="submit" class="form-button right">Save</button>
+                    </div>
+
+                </div>
+
+            }
+        </div>
+    </div>
+</div>
+
