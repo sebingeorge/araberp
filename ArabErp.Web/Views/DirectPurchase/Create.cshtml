@@ -7,24 +7,28 @@
 
 <script>
     $(document).ready(function () {
-        var toast = '@Model.toast'.toString();
-        if (toast.startsWith("success")) {
-            toastr.options = {
-                "closeButton": false,
-                "positionClass": "toast-top-center",
-                "preventDuplicates": false,
-                "onclick": null,
-                "showDuration": "300",
-                "hideDuration": "1000",
-                "timeOut": "5000",
-                "extendedTimeOut": "1000",
-                "showEasing": "swing",
-                "hideEasing": "linear",
-                "showMethod": "fadeIn",
-                "hideMethod": "fadeOut"
-            }
-            toastr.success(toast.split('|')[1]);
+        toastr.options = {
+            "closeButton": true,
+            "positionClass": "toast-bottom-full-width",
+            "preventDuplicates": false,
+            "onclick": null,
+            "showDuration": "300",
+            "hideDuration": "1000",
+            "timeOut": "0",
+            "extendedTimeOut": "1000",
+            "showEasing": "swing",
+            "hideEasing": "linear",
+            "showMethod": "fadeIn",
+            "hideMethod": "fadeOut"
         }
+        if ('@TempData["success"]' != "") {
+            toastr.success('@TempData["success"]');
+        }
+        else if ('@TempData["error"]' != "") {
+            toastr.error('@TempData["error"]');
+        }
+
+        getPurchaseLimit();
 
         $('#purchasereq_form').bootstrapValidator({
             // To use feedback icons, ensure that you use Bootstrap v3.1.0 or later
@@ -55,10 +59,8 @@
                         }
                     }
                 }
-
-
             }
-        });
+        });        
     })
     function Exit() {
         location.href = '@Url.Action("PendingPurchaseRequest")';
@@ -74,7 +76,70 @@
             changeYear: true,
             dateFormat: "d/MM/y"
         });
+        //$("#PurchaseRequestDate").change(function (s, e) {
+        //    getPurchaseLimit($(this).val());
+        //});
     });
+
+    function Toast() {
+        toastr.options = {
+            "closeButton": true,
+            "debug": false,
+            "newestOnTop": false,
+            "progressBar": false,
+            "positionClass": "toast-bottom-full-width",
+            "preventDuplicates": true,
+            "onclick": null,
+            "showDuration": "300",
+            "hideDuration": "1000",
+            "timeOut": "0",
+            "extendedTimeOut": "1000",
+            "showEasing": "swing",
+            "hideEasing": "linear",
+            "showMethod": "fadeIn",
+            "hideMethod": "fadeOut"
+        }
+        toastr.success("This is a sample toast message");
+    }
+
+    function getPurchaseLimit(date) {
+        var url = '@Url.Action("GetPurchaseLimit")';
+        $.getJSON(url, { date: date }, function (data) {
+            if (data == "error") {
+                toastr.error("Some error occured while fetching the purchase limit. Please reload the page and try again.");
+            }
+            else {
+                $("#purchaseLimitDiv").html("<em>Direct Purchase limit w.e.f. <strong>" + data.split('|')[0] + "</strong> is <strong>" + data.split('|')[1] + "</strong></em>");
+                $("#purchaseLimit").val(data.split('|')[1]);
+            }
+        });
+    }
+
+    function formValidation() {
+        var status;
+        var url = '@Url.Action("ValidateForm")';
+        var requestNo = $("#PurchaseRequestNo").val();
+        var total = $("#total").text();
+        $.ajax({
+            url: url,
+            async: false,
+            dataType: 'json',
+            data: { requestNo: requestNo, total: total },
+            success: function (data) {
+                if (data.status == false) {
+                    var msg = '';
+                    var arr = data.message.split('|');
+                    for (var i = 0; i < arr.length; i++) {
+                        if (arr[i] != '')
+                            msg += '<span class="glyphicon glyphicon-minus"></span>&nbsp;' + arr[i] + '<br>';
+                    }
+                    toastr.error(msg);
+                }
+                status = data.status;
+            }
+        });
+        return status;
+    }
 
 </script>
 <div class="container">
@@ -85,51 +150,49 @@
         </div>
 
         <div class="main-part pad1">
-            @using (Html.BeginForm(null, null, FormMethod.Post, new { @class = "createFrom", @id = "purchasereq_form" }))
-            {
-                @*@Html.HiddenFor(m => m.WorkShopRequestId, new { @class = "form_input", autocomplete = "off" })*@
-                <form role="form">
-                    <div class="row form-group">
-                        <div class="col-md-2">
-                            <label for="PurchaseRequestNo">PR No.</label>
-                            @Html.TextBoxFor(m => m.PurchaseRequestNo, new { @class = "form_input", autocomplete = "off" })
-                        </div>
-                        <div class="col-md-2">
-                            <label for="PurchaseRequestDate">Date</label>
-                            @Html.TextBoxFor(m => m.PurchaseRequestDate, String.Format("{0:dd/MM/yyyy}", Model.PurchaseRequestDate), new { @class = "form_input", autocomplete = "off" })
-                        </div>
-                        <div class="col-md-2">
-                            <label for="RequiredDate">Required Date</label>
-                            @Html.TextBoxFor(m => m.RequiredDate, new { @class = "form_input", autocomplete = "off" })
-                        </div>
+            @*@using (Html.BeginForm(null, null, FormMethod.Post, new { @class = "createFrom", @id = "purchasereq_form", @onsubmit = "return formValidation()" }))
+                {*@
+            <form method="post" role="form" onsubmit="return formValidation()">
+                <div class="row form-group">
+                    <div class="col-md-2">
+                        <label for="PurchaseRequestNo">PR No.</label>
+                        @Html.TextBoxFor(m => m.PurchaseRequestNo, new { @class = "form_input", autocomplete = "off", @onchange = "OnRequestDateChanged(this)", @required="true" })
                     </div>
-                    <div class="row form-group">
-                        <div class="col-md-12">
-                            <em>Direct Purchase limit w.e.f. <strong>1 Jan 2016</strong> is <strong>Rs. 5000/-</strong></em>
-                        </div>
+                    <div class="col-md-2">
+                        <label for="PurchaseRequestDate">Date</label>
+                        @Html.TextBoxFor(m => m.PurchaseRequestDate, String.Format("{0:dd/MM/yyyy}", Model.PurchaseRequestDate), new { @class = "form_input", autocomplete = "off" })
                     </div>
+                    <div class="col-md-2">
+                        <label for="RequiredDate">Required Date</label>
+                        @Html.TextBoxFor(m => m.RequiredDate, new { @class = "form_input", autocomplete = "off" })
+                    </div>
+                </div>
+                <div class="row form-group">
+                    <div class="col-md-12" id="purchaseLimitDiv">
 
-                    @Html.Partial("_grid")
+                    </div>
+                </div>
 
-                    <div class="row form-group">
-                        <div class="col-md-12">
-                            <div class="row">
-                                <div class="col-md-1">
-                                    <label for="SpecialRemarks">Spl.Remarks</label>
-                                </div>
-                                <div class="col-md-11">
-                                    @Html.TextBoxFor(m => m.SpecialRemarks, new { @class = "form_input", autocomplete = "off" })
-                                </div>
+                @Html.Partial("_grid")
+
+                <div class="row form-group">
+                    <div class="col-md-12">
+                        <div class="row">
+                            <div class="col-md-1">
+                                <label for="SpecialRemarks">Spl.Remarks</label>
+                            </div>
+                            <div class="col-md-11">
+                                @Html.TextBoxFor(m => m.SpecialRemarks, new { @class = "form_input", autocomplete = "off" })
                             </div>
                         </div>
                     </div>
+                </div>
 
-                    <div class="marg">
-                        <input type="button" value="Exit" onclick="Toast()" />
-                        <button type="submit" class="form-button">Save</button>
-                    </div>
-                </form>
-            }
+                <div class="marg">
+                    <input type="submit" class="form-button" value="Save" />
+                </div>
+                @*}*@
+            </form>
         </div>
     </div>
 </div>

@@ -64,5 +64,49 @@ namespace ArabErp.DAL
                 }
             }
         }
+        /// <summary>
+        /// Returns the purchase limit based on organization Id
+        /// </summary>
+        /// <param name="organizationId"></param>
+        /// <returns></returns>
+        public string GetPurchaseLimit(int organizationId)
+        {
+            try
+            {
+                using (IDbConnection connection = OpenConnection(dataConnection))
+                {
+                    return connection.Query<string>(@"SELECT S.SymbolName INTO #SYM FROM Organization O INNER JOIN Currency C ON O.CurrencyId = C.CurrencyId INNER JOIN Symbol S ON C.CurrencySymbolId = S.SymbolId WHERE O.OrganizationId = @organizationId;
+                        SELECT TOP 1 CONVERT(VARCHAR, EffectiveDate, 106)+'|'+ISNULL((SELECT SymbolName FROM #SYM), '')+' '+CAST(Limit AS VARCHAR) FROM DirectPurchaseRequestLimit WHERE EffectiveDate <= GETDATE() AND OrganizationId = @organizationId ORDER BY EffectiveDate DESC;
+                        DROP TABLE #SYM;", 
+                        new { organizationId = organizationId }).First();
+                }
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
+        /// <summary>
+        /// Checks if request no exists
+        /// </summary>
+        /// <param name="requestNo"></param>
+        /// <returns></returns>
+        public int isNotExist(string requestNo)
+        {
+            using (IDbConnection connection = OpenConnection(dataConnection))
+            {
+                return connection.Query<int>(@"IF NOT EXISTS(SELECT PurchaseRequestNo FROM DirectPurchaseRequest WHERE PurchaseRequestNo = @requestNo AND ISNULL(isActive, 1) = 1) SELECT 1; ELSE SELECT 0;",
+                    new { requestNo = requestNo }).First();
+            }
+        }
+
+        public int validateTotal(int total)
+        {
+            using (IDbConnection connection = OpenConnection(dataConnection))
+            {
+                return connection.Query<int>(@"IF((SELECT TOP 1 Limit FROM DirectPurchaseRequestLimit WHERE EffectiveDate <= GETDATE() AND OrganizationId = 1 ORDER BY EffectiveDate DESC) >= @total) SELECT 1;ELSE SELECT 0;",
+                    new { total = total }).First();
+            }
+        }
     }
 }
