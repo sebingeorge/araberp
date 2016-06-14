@@ -8,6 +8,11 @@ namespace ArabErp.Domain
 {
    public class PurchaseBill
     {
+        public PurchaseBill()
+        {
+            PurchaseBillItems = new List<PurchaseBillItem>();
+        }
+
         public int PurchaseBillId { get; set; }
         public int SupplierId { get; set; }
         public DateTime PurchaseBillDate { get; set; }
@@ -23,5 +28,7 @@ namespace ArabErp.Domain
         public DateTime? CreatedDate { get; set; }
         public int OrganizationId { get; set; }
         public bool isActive { get; set; }
+
+        public List<PurchaseBillItem> PurchaseBillItems { get; set; }
     }
 }
