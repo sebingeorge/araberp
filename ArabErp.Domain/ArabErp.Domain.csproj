@@ -79,6 +79,8 @@
     <Compile Include="PendingSupplyOrder.cs" />
     <Compile Include="PendingWorkShopRequest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="PurchaseBill.cs" />
+    <Compile Include="PurchaseBillItem.cs" />
     <Compile Include="PurchaseRequest.cs" />
     <Compile Include="PurchaseRequestItem.cs" />
     <Compile Include="SaleOrder.cs" />

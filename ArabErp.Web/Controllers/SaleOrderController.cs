@@ -193,10 +193,10 @@ namespace ArabErp.Web.Controllers
 
             return View("Approval", model);
         }
-        public ActionResult UpdateHoldStatus(int? Id)
+        public ActionResult UpdateHoldStatus(int? Id, string hreason)
         {
 
-            new SaleOrderRepository().UpdateSOHold( Id ?? 0);
+            new SaleOrderRepository().UpdateSOHold(Id ?? 0, hreason);
             return RedirectToAction("PendingSaleOrderHold");
         }
         public ActionResult PendingSaleOrderRelease()

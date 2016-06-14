@@ -37,6 +37,9 @@ namespace ArabErp.Domain
         public DateTime? CreatedDate { get; set; }
         public int? OrganizationId { get; set; }
         public string VehicleModelName { get; set; }
+        [Required]
+
+        public string SaleOrderHoldReason { get; set; }
         public List<SaleOrderItem> Items { get; set; }
         public bool Select { get; set; }
      

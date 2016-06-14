@@ -13,34 +13,38 @@
         <div class="form-head1">
             <h4>Pending SaleOrder Release</h4>
         </div>
-
-        <div class="main-part pad1">
-            <div class="table-responsive">
-                <div class="row border ">
-
-                    <div class="col-md-12">
-                        <div class="col-md-3 grid-left">SO No & Date</div>
-                        <div class="col-md-3 grid-left">Customer</div>
-                        <div class="col-md-3 grid-left">Customer Order Ref.</div>
-                        <div class="col-md-3 grid-left">Select</div>
-                    </div>
-
-                    <div class="col-md-12">
-
+        <div class="main-part pad1 white">
+            <div class="main-grid main-grid-top scroll1">
+                <div class=" table-responsive">
+                    <table class="table table-bordered">
+                        <thead>
+                            <tr class="grid_heading">
+                                <th><h1>SO No & Date</h1></th>
+                                <th><h1>Customer</h1></th>
+                                <th><h1>Customer Order Ref.</h1></th>
+                                <th><h1>Select</h1></th>
+                            </tr>
+                        </thead>
                         @foreach (var item in Model)
                         {
-                            <div class="col-md-3"><div class="mtop grid_row_pr">@item.SaleOrderRefNo &amp; @item.SaleOrderDate.ToString("dd/MMM/yyyy")</div></div>
-                            <div class="col-md-3"><div class="mtop grid_row_pr grid_row_pr">@item.CustomerName</div></div>
-                            <div class="col-md-3"><div class="mtop grid_row_pr">@item.CustomerOrderRef</div></div>
-                            <div class="col-md-3"><div class="mtop form-button3">@Html.ActionLink("Select", "Release", "SaleOrder", new { SaleOrderId = @item.SaleOrderId }, null) </div></div>
+                            <tbody class="grid_row">
+                                <tr>
+                                    <td class="grid-cell">@item.SaleOrderRefNo &amp; @item.SaleOrderDate.ToString("dd/MMM/yyyy")</td>
+                                    <td class="grid-cell">@item.CustomerName</td>
+                                    <td class="grid-cell">@item.CustomerOrderRef</td>
+                                    <td><center><button class="form-button4">@Html.ActionLink("Select", "Release", "SaleOrder", new { SaleOrderId = @item.SaleOrderId }, null)</button></center></td>
+                                </tr>
+                            </tbody>
                         }
-
-                    </div>
-
+                    </table>
                 </div>
+
 
             </div>
 
+
         </div>
+
+       
     </div>
 </div>

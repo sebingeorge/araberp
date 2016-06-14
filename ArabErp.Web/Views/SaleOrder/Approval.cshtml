@@ -5,8 +5,9 @@
 <script>
     function SaleOrderHold() {
         var id = $("#SaleOrderId").val();
+        var hreason = $("#SaleOrderHoldReason").val();
         var url = '@Url.Action("UpdateHoldStatus")';
-        url = url + "?Id=" + id;
+        url = url + "?Id=" + id + "&hreason=" + hreason;
         console.log(url);
         window.location.href = url;
     }
@@ -33,9 +34,7 @@ else
 {
     <h4>Sale Order Release</h4>
 }        
-
         </div>
-
         <div class="main-part pad1">
           
                 @Html.Partial("_SaleOrderHead",Model)
