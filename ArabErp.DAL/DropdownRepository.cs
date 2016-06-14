@@ -123,5 +123,17 @@ namespace ArabErp.DAL
                         DROP TABLE #OUT_PASS;").ToList();
             }
         }
+        /// <summary>
+        /// Fill dropdown of item with with StockPointId Param
+        /// </summary>
+        /// <returns></returns>
+        public List<Dropdown> StockJournelItemsDropdown(int? StockPointId)
+        {
+            using (IDbConnection connection = OpenConnection(dataConnection))
+            {
+                return connection.Query<Dropdown>(@"select ItemId Id,ItemName Name from item where ItemId in(select DISTINCT ItemId from StockUpdate where StockPointId=@StockPointId)", new { StockPointId = StockPointId }).ToList();
+            }
+        }
+       
     }
 }

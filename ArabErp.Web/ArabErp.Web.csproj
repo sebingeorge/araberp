@@ -227,7 +227,7 @@
     <Compile Include="Controllers\SaleOrderController.cs" />
     <Compile Include="Controllers\SaleOrderStatusController.cs" />
     <Compile Include="Controllers\SalesInvoiceController.cs" />
-    <Compile Include="Controllers\StockJournelController.cs" />
+    <Compile Include="Controllers\StockJournalController.cs" />
     <Compile Include="Controllers\StockPointController.cs" />
     <Compile Include="Controllers\StockReturnController.cs" />
     <Compile Include="Controllers\StoresIssueController.cs" />
@@ -405,7 +405,7 @@
     <Content Include="Views\JobOrderCompletion\CreateJobOrderCompletion.cshtml" />
     <Content Include="Views\SalesInvoice\CreateSalesInvoice.cshtml" />
     <Content Include="Views\StockReturn\Create.cshtml" />
-    <Content Include="Views\StockJournel\CreateStockJournel.cshtml" />
+    <Content Include="Views\StockJournal\Create.cshtml" />
     <Content Include="Views\AdditionalWorkShopRequest\Create.cshtml" />
     <Content Include="Views\WorkShopRequest\WorkShopRequestPending.cshtml" />
     <Content Include="Views\PurchaseRequest\PendingPurchaseRequest.cshtml" />
@@ -490,6 +490,7 @@
     <Content Include="Views\SalesInvoice\_CustomerDetails.cshtml" />
     <Content Include="Views\WorkShopGRN\_DisplayWGRNList.cshtml" />
     <Content Include="Views\LocalPurchase\Request.cshtml" />
+    <Content Include="Views\StockJournal\_StockJournalList.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
