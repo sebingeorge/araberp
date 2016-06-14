@@ -9,55 +9,44 @@
         <div class="form-head1">
             <h4>Pending Sale Order for Hold</h4>
         </div>
-        <div class="main-part pad1">
-
-            <div class="table-responsive border">
-
-
-                <div class="row">
-
-                    <div class="col-md-12">
-
-                        <div class="col-md-3 col-sm-2 grid-left">Customer</div>
-                        <div class="col-md-2 col-sm-3 grid-left">Customer Order Ref.</div>
-                        <div class="col-md-2 col-sm-2 grid-left">SO No & Date</div>
-                        <div class="col-md-2 col-sm-2 grid-left">EDA</div>
-                        <div class="col-md-2 col-sm-2 grid-left">EDD</div>
-                        <div class="col-md-1 col-sm-1 grid-left"><center>Select</center></div>
-
-                    </div>
-
-                    <div class="col-md-12">
-                        @for (int i = 0; i < Model.SaleOrders.Count(); i++)
-                        {
-                            <div class="col-md-3 col-sm-2 mtop">
-                                <input type="text" class="form_input" value="@Model.SaleOrders.ElementAt(i).CustomerName" />
-                              
-                            </div>
-                            <div class="col-md-2 col-sm-3 mtop">
-                                <input type="text" class="form_input" value="@Model.SaleOrders.ElementAt(i).CustomerOrderRef" />
-                             
-                            </div>
-                            <div class="col-md-2 col-sm-2 mtop">
-                                <input type="text" class="form_input" value="@Model.SaleOrders.ElementAt(i).SoNoWithDate" />
-                               
-                            </div>
-                            <div class="col-md-2 col-sm-2 mtop">
-                                <input type="text" class="form_input" value="@Model.SaleOrders.ElementAt(i).EDateArrival.Value.ToString("dd/MMM/yyyy")" />
-                             
-                            </div>
-                            <div class="col-md-2 col-sm-2 mtop">
-                                <input type="text" class="form_input" value="@Model.SaleOrders.ElementAt(i).EDateDelivery.Value.ToString("dd/MMM/yyyy")" />
-                              
-                            </div>
-                            <div class="col-md-1"><div class="mtop form-button3">@Html.ActionLink("Select", "Hold", "SaleOrder", new { SaleOrderId = @Model.SaleOrders.ElementAt(i).SaleOrderId }, null) </div></div>
+        <div class="main-part pad1 white">
+            <div class="main-grid main-grid-top scroll1">
+                <div class=" table-responsive">
+                    <table class="table table-bordered">
+                        <thead>
+                            <tr class="grid_heading">
+                                <th><h1>Customer</h1></th>
+                                <th><h1>Customer Order Ref.</h1></th>
+                                <th><h1>SO No & Date</h1></th>
+                                <th><h1>EDA</h1></th>
+                                <th><h1>EDD</h1></th>
+                                <th><h1>Select</h1></th>
+                            </tr>
+                        </thead>
+                       @for (int i = 0; i < Model.SaleOrders.Count(); i++)
+                       {
+                            <tbody class="grid_row">
+                                <tr>
+                                    <td class="grid-cell"><input type="text" class="form_input" value="@Model.SaleOrders.ElementAt(i).CustomerName" /></td>
+                                    <td class="grid-cell"><input type="text" class="form_input" value="@Model.SaleOrders.ElementAt(i).CustomerOrderRef" /></td>
+                                    <td class="grid-cell"><input type="text" class="form_input" value="@Model.SaleOrders.ElementAt(i).SoNoWithDate" /></td>
+                                    <td class="grid-cell"><input type="text" class="form_input" value="@Model.SaleOrders.ElementAt(i).EDateArrival.Value.ToString("dd/MMM/yyyy")" /></td>
+                                    <td class="grid-cell"><input type="text" class="form_input" value="@Model.SaleOrders.ElementAt(i).EDateDelivery.Value.ToString("dd/MMM/yyyy")" /></td>
+                                    <td><center><button class="form-button4">@Html.ActionLink("Select", "Hold", "SaleOrder", new { SaleOrderId = @Model.SaleOrders.ElementAt(i).SaleOrderId }, null)</button></center></td>
+                                </tr>
+                            </tbody>
                         }
-
-                    </div>
+                    </table>
                 </div>
 
 
-                <!-- pager -->
+            </div>
+
+
+        </div>
+       
+
+        <!-- pager -->
                 @if (Model.Pager.EndPage > 1)
                 {
                     <ul class="pagination">
@@ -91,8 +80,8 @@
 
 
 
-            </div>
 
-        </div>
+
+
     </div>
 </div>

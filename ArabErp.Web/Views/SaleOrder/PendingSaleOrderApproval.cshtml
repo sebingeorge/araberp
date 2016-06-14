@@ -34,8 +34,7 @@
                                     <td class="grid-cell">@item.SaleOrderRefNo &amp; @item.SaleOrderDate.ToString("dd/MMM/yyyy")</td>
                                     <td class="grid-cell">@item.CustomerName</td>
                                     <td class="grid-cell">@item.CustomerOrderRef</td>
-                                    <td class="grid-cell">@Html.ActionLink("Select", "Approval", "SaleOrder", new { SaleOrderId = @item.SaleOrderId }, null) </td>
-
+                                    <td><center><button class="form-button4">@Html.ActionLink("Select", "Approval", "SaleOrder", new { SaleOrderId = @item.SaleOrderId }, null)</button></center></td>
                                    
                                 </tr>
                             </tbody>

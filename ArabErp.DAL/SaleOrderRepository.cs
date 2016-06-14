@@ -294,12 +294,12 @@ namespace ArabErp.DAL
         /// </summary>
         /// <param name="SaleOrderId"></param>
         /// <returns></returns>
-        public int UpdateSOHold(int SaleOrderId)
+        public int UpdateSOHold(int SaleOrderId, string hreason)
         {
             using (IDbConnection connection = OpenConnection(dataConnection))
             {
-                string sql = @"Update SaleOrder set SaleOrderHoldStatus='H' WHERE SaleOrderId=@SaleOrderId";
-                return connection.Execute(sql, new { SaleOrderId = SaleOrderId });
+                string sql = @"Update SaleOrder set SaleOrderHoldStatus='H',SaleOrderHoldReason=@hreason  WHERE SaleOrderId=@SaleOrderId";
+                return connection.Execute(sql, new { SaleOrderId = SaleOrderId,hreason = hreason });
 
             }
         }
