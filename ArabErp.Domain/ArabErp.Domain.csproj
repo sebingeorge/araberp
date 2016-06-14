@@ -74,6 +74,7 @@
     <Compile Include="Organization.cs" />
     <Compile Include="PendingJC.cs" />
     <Compile Include="PendingJobCardQC.cs" />
+    <Compile Include="PendingGRN.cs" />
     <Compile Include="PendingPurchaseRequest.cs" />
     <Compile Include="PendingSO.cs" />
     <Compile Include="PendingSupplyOrder.cs" />

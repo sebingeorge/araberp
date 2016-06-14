@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using ArabErp.Domain;
 
 namespace ArabErp.Web.Controllers
 {
@@ -13,26 +14,39 @@ namespace ArabErp.Web.Controllers
         // GET: PurchaseBill
         public ActionResult Index()
         {
-            return View();
-        }
+            SupplierDropdown();
 
-        public ActionResult PurchaseBillPendingList(int? page)
+            var repo = new PurchaseBillRepository();
+            IEnumerable<PendingGRN> pendingGRN = repo.GetGRNPending();
+            return View(pendingGRN);
+        }
+        public void SupplierDropdown()
         {
-
-            var rep = new SaleOrderRepository();
-
-
-            var slist = rep.GetSaleOrdersPendingWorkshopRequest();
-
-            var pager = new Pager(slist.Count(), page);
-
-            var viewModel = new PagedSaleOrderViewModel
-            {
-                SaleOrders = slist.Skip((pager.CurrentPage - 1) * pager.PageSize).Take(pager.PageSize),
-                Pager = pager
-            };
-
-            return View(viewModel);
+            ViewBag.supplierList = new SelectList(new DropdownRepository().SupplierDropdown(), "Id", "Name");
         }
+        //public ActionResult PendingGRN(int supplierId)
+        //{
+        //    var repo = new PurchaseBillRepository();
+        //    IEnumerable<PendingGRN> pendingGRNwithid = repo.GetGRNPendingwithfilter(supplierId);
+        //    return View(pendingGRNwithid);
+        //}
+        //public ActionResult Index(int? page)
+        //{
+
+        //    var rep = new SaleOrderRepository();
+
+
+        //    var slist = rep.GetSaleOrdersPendingWorkshopRequest();
+
+        //    var pager = new Pager(slist.Count(), page);
+
+        //    var viewModel = new PagedSaleOrderViewModel
+        //    {
+        //        SaleOrders = slist.Skip((pager.CurrentPage - 1) * pager.PageSize).Take(pager.PageSize),
+        //        Pager = pager
+        //    };
+
+        //    return View(viewModel);
+        //}
     }
 }
