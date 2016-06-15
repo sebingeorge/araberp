@@ -26,7 +26,7 @@ namespace ArabErp.DAL
 
                 return connection.Query<int>(query, model, txn).First();
             }
-            catch (Exception)
+            catch (Exception) 
             {
                 throw;
             }

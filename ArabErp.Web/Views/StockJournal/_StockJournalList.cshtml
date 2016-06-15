@@ -35,10 +35,15 @@
             $("#StockJournelItems_" + i + "__SlNo").val((i + 1));
             //$("#unit" + i).html('');
             //$("#partno" + i).html('');
-
             //bind keypress event for new row inputs.
-            $(".numbers-only").keypress(function (e) {
-                if (e.which == 8 || (e.which == 46 && $(this).val().indexOf('.') == -1) || (e.which > 47 && e.which < 58)) { } else { return false; }
+            $(".numbers-only").keypress(function (e) {         
+                if (e.which == 8 || (e.which == 45 && $(this).val().indexOf('-') == -1) || (e.which == 46 && $(this).val().indexOf('.') == -1) || (e.which > 47 && e.which < 58))
+                {
+                }
+                else
+                {
+                    return false;
+                }
             });
         });
 
@@ -49,7 +54,6 @@
             }
             else
             {
-               
                 return false;
             }
         });
@@ -143,11 +147,11 @@
         <thead>
             <tr class="grid_heading">
                 <th width="5%"><h1>Sl.No.</h1></th>
-                <th><h1>Part No.</h1></th>
-                <th width="10%"><h1>Item Description</h1></th>
-                <th><h1>Stock</h1></th>
-                <th width="5%" class="text-right "><h1>Qty</h1></th>
-                <th width="10%"><h1>UoM</h1></th>
+                <th width="13%"><h1>Part No.</h1></th>
+                <th><h1>Item Description</h1></th>
+                <th width="10%"><h1>Stock</h1></th>
+                <th width="10%" class="text-right "><h1>Qty(+/-)</h1></th>
+                <th width="5%"><h1>UoM</h1></th>
                 <th>&nbsp;</th>
             </tr>
         </thead>
@@ -164,7 +168,7 @@
                         <input type="hidden" id="Row_@i" />
                         @Html.DropDownListFor(m => m.StockJournelItems[i].ItemId, (SelectList)ViewBag.StockJournalItems, "Select Material", new { @class = "form_input", autocomplete = "off", @onchange = "OnItemChange(this," + i + ")" })
                     </td>
-                    <td><input type="text" id="Stock_@i" class="form_input" /></td>
+                    <td><input type="text" id="Stock_@i" class="form_input text-right" /></td>
 
                     <td>@Html.TextBoxFor(m => m.StockJournelItems[i].Quantity, new { @class = "form_input numbers-only text-right", autocomplete = "off", placeholder = "Qty" })</td>
                 
