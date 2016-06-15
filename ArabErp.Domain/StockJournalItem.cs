@@ -15,6 +15,8 @@ namespace ArabErp.Domain
          [Required]
        public int? ItemId { get; set; }
        public string PartNo { get; set; }
+       public string Stock { get; set; }
+       public string UoM { get; set; }
          [Required]
        public float? Quantity { get; set; }
        public string StockJournalRefno { get; set; }
