@@ -14,39 +14,33 @@ namespace ArabErp.Web.Controllers
         // GET: PurchaseBill
         public ActionResult Index()
         {
-            SupplierDropdown();
-
-            var repo = new PurchaseBillRepository();
-            IEnumerable<PendingGRN> pendingGRN = repo.GetGRNPending();
-            return View(pendingGRN);
+            GrnSupplierDropdown();
+            return View();
+            
         }
-        public void SupplierDropdown()
+        public ActionResult pendingGRN(int supplierId)
         {
-            ViewBag.supplierList = new SelectList(new DropdownRepository().SupplierDropdown(), "Id", "Name");
+
+            if (supplierId == 0)
+            {
+                List<PendingGRN> list = new List<PendingGRN>();
+                return PartialView("_pendingGRN", list);
+            }
+            return PartialView("_pendingGRN", new PurchaseBillRepository().GetGRNPending(supplierId));
+
+            
         }
-        //public ActionResult PendingGRN(int supplierId)
-        //{
-        //    var repo = new PurchaseBillRepository();
-        //    IEnumerable<PendingGRN> pendingGRNwithid = repo.GetGRNPendingwithfilter(supplierId);
-        //    return View(pendingGRNwithid);
-        //}
-        //public ActionResult Index(int? page)
-        //{
+        public void GrnSupplierDropdown()
+        {
+            ViewBag.supplierList = new SelectList(new DropdownRepository().GrnSupplierDropdown(), "Id", "Name");
+        }
 
-        //    var rep = new SaleOrderRepository();
+        public ActionResult Create()
+        {
+            PurchaseBill purchasebill = new PurchaseBill();
+            purchasebill.PurchaseBillDate = System.DateTime.Today;
+            return View(purchasebill);
 
-
-        //    var slist = rep.GetSaleOrdersPendingWorkshopRequest();
-
-        //    var pager = new Pager(slist.Count(), page);
-
-        //    var viewModel = new PagedSaleOrderViewModel
-        //    {
-        //        SaleOrders = slist.Skip((pager.CurrentPage - 1) * pager.PageSize).Take(pager.PageSize),
-        //        Pager = pager
-        //    };
-
-        //    return View(viewModel);
-        //}
+        }
     }
 }

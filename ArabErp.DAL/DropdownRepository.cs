@@ -57,6 +57,17 @@ namespace ArabErp.DAL
             }
         }
         /// <summary>
+        /// Return all active Suppliers which in grn
+        /// </summary>
+        /// <returns></returns>
+        public List<Dropdown> GrnSupplierDropdown()
+        {
+            using (IDbConnection connection = OpenConnection(dataConnection))
+            {
+                return connection.Query<Dropdown>("SELECT distinct S.SupplierId Id,SupplierName Name FROM Supplier S INNER JOIN GRN G ON G.SupplierId=S.SupplierId WHERE ISNULL(S.isActive, 1) = 1").ToList();
+            }
+        }
+        /// <summary>
         /// Return all stockpoints
         /// </summary>
         /// <returns></returns>

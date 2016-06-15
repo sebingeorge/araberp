@@ -571,6 +571,11 @@
     <Content Include="Views\DirectPurchase\_grid.cshtml" />
     <Content Include="Views\DirectPurchase\Create.cshtml" />
     <Content Include="Views\PurchaseBill\Index.cshtml" />
+    <Content Include="Views\PurchaseBill\_pendingGRN.cshtml" />
+    <Content Include="Views\PurchaseBill\Create.cshtml" />
+    <Content Include="Views\PurchaseBill\_PurchaseBillHead.cshtml" />
+    <Content Include="Views\PurchaseBill\_PurchaseBillFooter.cshtml" />
+    <Content Include="Views\PurchaseBill\_PurchaseBillTable.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

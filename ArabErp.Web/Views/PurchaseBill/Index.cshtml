@@ -1,81 +1,63 @@
-﻿@using ArabErp.Domain
-@model IList<PendingGRN>
+﻿
 
 @{
     ViewBag.Title = "Index";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
-@*<script>
+<script>
     function OnSupplierChange(supplierId) {
       
         var id;
         if ($(supplierId).val() != null && $(supplierId).val() != '') id = $(supplierId).val();
         else id = 0;
-        var url = '@Url.Action("PendingGRN")';
+        var url = '@Url.Action("pendingGRN")';
         url += "?supplierId=" + id;
-        console.log(url);
-        window.location.href = url;
+        $("#table-body").load(url);
     }
-</script>*@
+</script>
 <div class="container">
     <div class="row">
         <div class="form-head1">
             <h4>Pending Purchase Bill</h4>
         </div>
         <div class="main-part pad1">
-
-            <div class="row form-group">
-                <div class="col-md-4">
-                    <label>Supplier</label>
-                    @Html.DropDownList("cboSupplier", (SelectList)ViewBag.supplierList, "Select Supplier", new { @class = "form_input", @onchange = "OnSupplierChange(this)" })
+            <form method="post" action="@Url.Action("Create","PurchaseBill")">
+                <div class="row form-group">
+                    <div class="col-md-4">
+                        <label>Supplier</label>
+                        @Html.DropDownListFor(x => TempData["supplierId"], new SelectList(ViewBag.supplierList, "Value", "Text", TempData["supplierId"]), "select supplier", new { @class = "form_input", autocomplete = "off", @onchange = "OnSupplierChange(this)" })
+                    </div>
                 </div>
-               
-            </div>
-            <div class="scroll1">
-                <table class="table table-bordered">
-                    <thead>
-                        <tr class="grid_heading">
-                            <th width="20% "><h1>SO No & Date</h1></th>
-                            <th width="40% "><h1>Supplier</h1></th>
-                            <th width ="20% "><h1>GRN No & Date</h1></th>
-                            <th width="10% "><h1>Ageing</h1></th>
-                            <th width="10%" class="text-center "><h1>Select</h1></th>
-                          
-                        </tr>
-                    </thead>
-                    @foreach (var item in Model)
-                    {
-                        <tbody class="grid_row">
-                            <tr>
-                                <td class="grid-cell">@item.SupplyOrderNo &amp; @item.SupplyOrderDate.ToString("dd/MMM/yyyy")</td>   
-                                <td class="grid-cell">@item.SupplierName</td>
-                                <td class="grid-cell">@item.GRNNo  &amp; @item.GRNDate.ToString("dd/MMM/yyyy")</td>  
-                                <td class="grid-cell">@item.Ageing </td>  
-                           
-                                <td><center>@Html.CheckBoxFor(m => @item.Select, new { @class = "CheckBoxClass" })</center></td>
-
+                <div class="scroll1">
+                    <table class="table table-bordered">
+                        <thead>
+                            <tr class="grid_heading">
+                                <th width="20% "><h1>SO No & Date</h1></th>
+                                <th width="40% "><h1>Supplier</h1></th>
+                                <th width="20% "><h1>GRN No & Date</h1></th>
+                                <th width="10% "><h1>Ageing</h1></th>
+                                <th width="10%" class="text-center "><h1>Select</h1></th>
                             </tr>
+                        </thead>
+                        <tbody id="table-body" class="grid_row">
+                            @Html.Action("pendingGRN", new { supplierId = 0 })
                         </tbody>
-                    }
-                </table>
-            </div>
-            <div class="row">
-
-
-                <div class="col-md-12">
-                    <div class="margl">
-                        <button class="form-button">Previous</button>
+                    </table>
+                </div>
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="margl">
+                            <button class="form-button">Previous</button>
+                        </div>
+                        <div class="margf">
+                            <button type="submit" class="form-button">Exit</button>
+                            <button type="submit" class="form-button">Proceed</button>
+                        </div>
                     </div>
-                    <div class="margf">
-                        <button type="submit" class="form-button">Exit</button>
-                        <button type="submit" class="form-button">Proceed</button>
-                    </div>
-
                 </div>
 
-
-            </div>
-        </div>
+            </form>
+</div>
     </div>
 </div>
 
