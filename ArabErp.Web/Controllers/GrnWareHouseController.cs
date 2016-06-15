@@ -20,6 +20,7 @@ namespace ArabErp.Web.Controllers
 
         public ActionResult PendingGrnWareHouse()
         {
+            GetSupplierDropdown();
             var repo = new GRNRepository();
 
             IEnumerable<PendingSupplyOrder> pendingSO = repo.GetGRNPendingList();
@@ -49,12 +50,12 @@ namespace ArabErp.Web.Controllers
             {
                 var grnitem = new GRNItem
                 {
-                    SupplyOrderItemId=item.SupplyOrderItemId,
+                    SupplyOrderItemId = item.SupplyOrderItemId,
                     ItemName = item.ItemName,
                     ItemId = item.ItemId,
                     PartNo = item.PartNo,
                     Remarks = item.Remarks,
-                    PendingQuantity=item.PendingQuantity,
+                    PendingQuantity = item.PendingQuantity,
                     Quantity = item.Quantity,
                     Unit = item.Unit,
                     Rate = item.Rate,
@@ -67,7 +68,7 @@ namespace ArabErp.Web.Controllers
             return View(model);
         }
 
-      
+
         public void FillWarehouse()
         {
             GRNRepository repo = new GRNRepository();
@@ -101,12 +102,17 @@ namespace ArabErp.Web.Controllers
             GRN model = repo.GetGRNDISPLAYDetails(GRNId ?? 0);
             model.Items = repo.GetGRNDISPLAYItem(GRNId ?? 0);
 
-            return View("Create",model);
+            return View("Create", model);
         }
 
         public ActionResult PendingDirectPurchaseRequests()
         {
             return View();
+        }
+
+        public void GetSupplierDropdown()
+        {
+            ViewBag.supplierList = new SelectList(new DropdownRepository().SupplierDropdown(), "Id", "Name");
         }
     }
 }
