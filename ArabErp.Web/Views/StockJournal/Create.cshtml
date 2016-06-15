@@ -4,7 +4,28 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 <script type="text/javascript">
-
+    $(document).ready(function () {
+        toastr.options = {
+            "closeButton": true,
+            "positionClass": "toast-bottom-full-width",
+            "preventDuplicates": false,
+            "onclick": null,
+            "showDuration": "300",
+            "hideDuration": "1000",
+            "timeOut": "0",
+            "extendedTimeOut": "1000",
+            "showEasing": "swing",
+            "hideEasing": "linear",
+            "showMethod": "fadeIn",
+            "hideMethod": "fadeOut"
+        }
+        if ('@TempData["success"]' != "") {
+            toastr.success('@TempData["success"]');
+        }
+        else if ('@TempData["error"]' != "") {
+            toastr.error('@TempData["error"]');
+        }
+    });
     function onStockChanged() {
         var Code = $('#StockPointId').val();
         var Url = '@Url.Action("StockJournelList")';
@@ -26,7 +47,7 @@
             <h4>Stock Journel</h4>
         </div>
         <div class="main-part pad1">
-            @using (Html.BeginForm("Create", null, FormMethod.Post, new { @class = "createFrom", onsubmit = "return formValidation()", @id = "stock_return_form" }))
+            @using (Html.BeginForm("Create", null, FormMethod.Post, new { @class = "createFrom", onsubmit = "return validateGrid()", @id = "stock_return_form" }))
             {
                 <div class="row form-group">
                     <div class="col-md-2">

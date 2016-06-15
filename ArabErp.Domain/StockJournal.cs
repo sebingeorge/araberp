@@ -12,8 +12,10 @@ namespace ArabErp.Domain
          public int?  StockJournalId {get;set;}
             [Required]
          public string  StockJournalRefno {get;set;}
+          [Required]
          public int? StockPointId  {get;set;}
          public DateTime?  StockJournalDate {get;set;}
+          [Required]
          public int? IssuedBy { get; set; }
          public string Remarks { get; set; }
          public string CreatedBy  {get;set;}

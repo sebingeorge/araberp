@@ -28,9 +28,20 @@ namespace ArabErp.Web.Controllers
             model.CreatedDate = System.DateTime.Now;
             model.CreatedBy = Request.ServerVariables["HTTP_X_FORWARDED_FOR"] ?? Request.ServerVariables["REMOTE_ADDR"];
 
-            new StockJournalRepository().InsertStockJournal(model);
+            if (new StockJournalRepository().InsertStockJournal(model) > 0)
+            {
+                TempData["success"] = "Saved successfully";
+                TempData["error"] = "";
+                return RedirectToAction("Create");
+            }
+            else
+            {
+                TempData["success"] = "";
+                TempData["error"] = "Some error occured. Please try again.";
+                return RedirectToAction("Create");
+            }
 
-            return RedirectToAction("Create");
+            
         }
         public PartialViewResult StockJournelList(int? StockPointId)
         {

@@ -1,9 +1,10 @@
 ﻿@model ArabErp.Domain.StockJournal
 
-<script type="text/javascript">
+<script>
     $(document).ready(function () {
         $("#StockJournelItems_0__SlNo").val('1');
         $("#add_row").click(function () {
+            if (validateGrid()) {
             var i = 0;
             var no = 1;
             $('input[id^="Row_"]').each(function () {
@@ -45,7 +46,9 @@
                     return false;
                 }
             });
-        });
+        }
+        }
+        );
 
         $(".numbers-only").keypress(function (e) {         
          
@@ -105,11 +108,9 @@
             }
         }
     }
-    function OnItemChange(sender, index) {
-      
+    function OnItemChange(sender, index)
+    {
         var id = $(sender).val();
-        
-
         if (id != '') {
             var url = '@Url.Action("GetItemDetails")';//get unit of selected item
             $.getJSON(url, { itemId: id },
@@ -123,24 +124,64 @@
                     $("#Stock_" + index).val(res[2]);
                     $("#UoM_" + index).val(res[3]);
                 });
-
-
-            @*var url = '@Url.Action("GetItemUnit")';//get unit of selected item
-            $.getJSON(url, { itemId: id },
-                function (data) {
-                    $("#unit" + index).html(data);
-                });
-            url = '@Url.Action("GetItemPartNo")';//get part number of selected item
-            $.getJSON(url, { itemId: id },
-                function (data) {
-                    $("#partno" + index).html(data);
-                });*@
         }
         else {
             //$("#unit" + index).html('');
             //$("#partno" + index).html('');
         }
     }
+    function validateGrid() {
+        var status = true;
+        var ErrorId = 0;
+        $("select[id$='__ItemId'").each(function () {
+            if (this.value == '') {
+                status = false;
+                ErrorId = 1;
+            }
+        });
+        $("input[id$='__Quantity'").each(function () {
+            if (this.value == '' || this.value == 0 || this.value == '-') {
+                status = false;
+                ErrorId = 2;
+            }
+        });
+            switch (ErrorId) {
+                case 1:
+                    toastr.info("Please select a Item");
+                    break;
+                case 2:
+                    toastr.info("Please enter a valid quantity(+/-) ");
+                    break;
+            }
+        return status;
+    }
+     function validateGrid() {
+        var status = true;
+        var ErrorId = 0;
+        $("select[id$='__ItemId'").each(function () {
+            if (this.value == '') {
+                status = false;
+                ErrorId = 1;
+            }
+        });
+        $("input[id$='__Quantity'").each(function () {
+            if (this.value == '' || this.value == 0 || this.value == '-') {
+                status = false;
+                ErrorId = 2;
+            }
+        });
+            switch (ErrorId) {
+                case 1:
+                    toastr.info("Please select a Item");
+                    break;
+                case 2:
+                    toastr.info("Please enter a valid quantity(+/-) ");
+                    break;
+            }
+        return status;
+     }
+    
+
 </script>
 
     <table class="table table-bordered" id="table-additional-items-list">
