@@ -571,6 +571,7 @@
     <Content Include="Views\DirectPurchase\_grid.cshtml" />
     <Content Include="Views\DirectPurchase\Create.cshtml" />
     <Content Include="Views\PurchaseBill\PurchaseBillPendingList.cshtml" />
+    <Content Include="Views\GrnWareHouse\_DisplayGRNData.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
