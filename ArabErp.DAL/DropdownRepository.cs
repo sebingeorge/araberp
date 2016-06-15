@@ -46,6 +46,17 @@ namespace ArabErp.DAL
             }
         }
         /// <summary>
+        /// Return all active Suppliers
+        /// </summary>
+        /// <returns></returns>
+        public List<Dropdown> SupplierDropdown()
+        {
+            using (IDbConnection connection = OpenConnection(dataConnection))
+            {
+                return connection.Query<Dropdown>("SELECT SupplierId Id,SupplierName Name FROM Supplier WHERE ISNULL(isActive, 1) = 1").ToList();
+            }
+        }
+        /// <summary>
         /// Return all stockpoints
         /// </summary>
         /// <returns></returns>
@@ -123,5 +134,17 @@ namespace ArabErp.DAL
                         DROP TABLE #OUT_PASS;").ToList();
             }
         }
+        /// <summary>
+        /// Fill dropdown of item with with StockPointId Param
+        /// </summary>
+        /// <returns></returns>
+        public List<Dropdown> StockJournelItemsDropdown(int? StockPointId)
+        {
+            using (IDbConnection connection = OpenConnection(dataConnection))
+            {
+                return connection.Query<Dropdown>(@"select ItemId Id,ItemName Name from item where ItemId in(select DISTINCT ItemId from StockUpdate where StockPointId=@StockPointId)", new { StockPointId = StockPointId }).ToList();
+            }
+        }
+       
     }
 }
