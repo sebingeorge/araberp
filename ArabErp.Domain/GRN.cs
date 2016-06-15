@@ -27,6 +27,7 @@ namespace ArabErp.Domain
         public string CreatedBy { get; set; }
         public DateTime? CreatedDate { get; set; }
         public int OrganizationId { get; set; }
+        public bool isDirectPurchaseGRN { get; set; }
         public List<GRNItem> Items { get; set; }
     }
 }
