@@ -190,15 +190,14 @@ namespace ArabErp.DAL
         {
             using (IDbConnection connection = OpenConnection(dataConnection))
             {
-                string qry = @" SELECT SO.SupplyOrderId,S.SupplierId,S.SupplierName,CONCAT(SO.SupplyOrderId,'/',CONVERT(VARCHAR(15),SupplyOrderDate,104))SoNoWithDate,QuotaionNoAndDate";
-                 qry += " FROM SupplyOrder SO ";
-                 //qry += " INNER JOIN SupplyOrderItem SOT ON SO.SupplyOrderId=SOT.SupplyOrderId";
-                 qry += " INNER JOIN Supplier S ON S.SupplierId=SO.SupplierId ";
-                 qry += " LEFT JOIN GRN G ON G.SupplyOrderId=SO.SupplyOrderId";
-                 //qry += " LEFT JOIN GRNItem GI ON G.GRNId=GI.GRNId and GI.SupplyOrderItemId=SOT.SupplyOrderItemId";
-                 qry += " WHERE SO.isActive=1 and G.SupplyOrderId is null";
-                 //qry += " GROUP BY SOT.OrderedQty,SO.SupplyOrderId,S.SupplierId,S.SupplierName,SupplyOrderDate,QuotaionNoAndDate";
-                 //qry += " HAVING SOT.OrderedQty-isnull(sum(GI.Quantity),0)>0";
+                string qry = @"SELECT
+	                            SO.SupplyOrderId,
+                            CONCAT(SO.SupplyOrderId,' - ',CONVERT(VARCHAR(15),SupplyOrderDate,106))SoNoWithDate,
+                            QuotaionNoAndDate
+                            FROM SupplyOrder SO 
+	                            INNER JOIN Supplier S ON S.SupplierId=SO.SupplierId AND SO.SupplierId = 3
+	                            LEFT JOIN GRN G ON G.SupplyOrderId=SO.SupplyOrderId
+                            WHERE SO.isActive=1 and G.SupplyOrderId is null";
 
                 return connection.Query<PendingSupplyOrder>(qry);
             }
