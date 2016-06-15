@@ -10,9 +10,14 @@
         <div class="form-head1">
             <h4>Pending Sales Orders</h4>
         </div>
+        <div class="row">
+            <div class="col-md-5">
+                @Html.DropDownList("cboSupplier", (SelectList)ViewBag.supplierList, "Select Supplier", new { @class = "form_input" })
+            </div>
+        </div>
         <div class="main-part pad1">
 
-            <div class="table-responsive border">
+            <div class="table-responsive">
 
                 <div class="row">
 

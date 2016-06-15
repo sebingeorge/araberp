@@ -104,5 +104,9 @@ namespace ArabErp.Web.Controllers
             return View("Create",model);
         }
 
+        public ActionResult PendingDirectPurchaseRequests()
+        {
+            return View();
+        }
     }
 }
