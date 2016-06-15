@@ -104,6 +104,8 @@
     <Compile Include="SalesExecutiveRepository.cs" />
     <Compile Include="SalesInvoiceItemRepository.cs" />
     <Compile Include="SalesInvoiceRepository.cs" />
+    <Compile Include="SalesQuotationItemRepository.cs" />
+    <Compile Include="SalesQuotationRepository.cs" />
     <Compile Include="StockJournalItemsRepository.cs" />
     <Compile Include="StockJournalRepository.cs" />
     <Compile Include="StockpointRepository.cs" />
