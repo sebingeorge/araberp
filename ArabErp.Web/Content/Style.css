@@ -453,3 +453,9 @@ h5
     background-image:url(images/no.png);
     background-size:15px 15px;
 }
+.CheckBoxClass
+{
+    width:20px;
+    height:18px;
+}
+

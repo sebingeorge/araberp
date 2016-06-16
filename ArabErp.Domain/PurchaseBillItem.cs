@@ -10,9 +10,15 @@ namespace ArabErp.Domain
     {
         public int PurchaseBillItemId { get; set; }
         public int PurchaseBillId { get; set; }
+        public string  GRNNo { get; set; }
+        public DateTime  GRNDate { get; set; }
         public int GRNItemId { get; set; }
+        public decimal Quantity { get; set; }
+        public string Unit { get; set; }
         public decimal Rate { get; set; }
         public decimal Discount { get; set; }
+        public decimal taxperc { get; set; }
+        public decimal tax { get; set; }
         public decimal Amount { get; set; }
         public bool isActive { get; set; }
         public int OrganizationId { get; set; }

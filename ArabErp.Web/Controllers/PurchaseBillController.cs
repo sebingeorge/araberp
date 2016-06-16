@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using ArabErp.Domain;
 
 namespace ArabErp.Web.Controllers
 {
@@ -13,26 +14,33 @@ namespace ArabErp.Web.Controllers
         // GET: PurchaseBill
         public ActionResult Index()
         {
+            GrnSupplierDropdown();
             return View();
+            
         }
-
-        public ActionResult PurchaseBillPendingList(int? page)
+        public ActionResult pendingGRN(int supplierId)
         {
 
-            var rep = new PurchaseBillRepository();
-
-
-            var slist = rep.PurchaseBillPendingList();
-
-            var pager = new Pager(slist.Count(), page);
-
-            var viewModel = new PagedPendingGRNViewModel
+            if (supplierId == 0)
             {
-                GRNs = slist.Skip((pager.CurrentPage - 1) * pager.PageSize).Take(pager.PageSize),
-                Pager = pager
-            };
+                List<PendingGRN> list = new List<PendingGRN>();
+                return PartialView("_pendingGRN", list);
+            }
+            return PartialView("_pendingGRN", new PurchaseBillRepository().GetGRNPending(supplierId));
 
-            return View(viewModel);
+            
+        }
+        public void GrnSupplierDropdown()
+        {
+            ViewBag.supplierList = new SelectList(new DropdownRepository().GrnSupplierDropdown(), "Id", "Name");
+        }
+
+        public ActionResult Create()
+        {
+            PurchaseBill purchasebill = new PurchaseBill();
+            purchasebill.PurchaseBillDate = System.DateTime.Today;
+            return View(purchasebill);
+
         }
     }
 }

@@ -69,18 +69,24 @@ namespace ArabErp.DAL
                 return id;
             }
         }
-
-        public IEnumerable<GRN> PurchaseBillPendingList()
+        /// <summary>
+        /// Pending GRN For Purchase Bill
+        /// </summary>
+        /// <returns></returns>
+        public IEnumerable<PendingGRN> GetGRNPending(int supplierId)
         {
             using (IDbConnection connection = OpenConnection(dataConnection))
             {
-                string query = "SELECT GRNId,GRNNo,GRNDate,S.SupplierName Supplier,SupplierDCNoAndDate";
-                query += " FROM GRN G INNER JOIN Supplier S ON S.SupplierId=G.SupplierId";
-                return connection.Query<GRN>(query);
+                string qry = @"Select G.GRNId,G.GRNNo,G.GRNDate,SO.SupplyOrderDate,SO.SupplyOrderNo,S.SupplierName,DATEDIFF(dd,G.GRNDate,GETDATE ()) Ageing from GRN G 
+                             INNER JOIN GRNItem GI ON G.GRNId=GI.GRNId
+                             INNER JOIN  SupplyOrderItem SI ON SI.SupplyOrderItemId=GI.SupplyOrderItemId
+                             INNER JOIN SupplyOrder SO ON SO.SupplyOrderId=SI.SupplyOrderId
+                             INNER JOIN Supplier S ON G.SupplierId=S.SupplierId
+                             WHERE S.SupplierId=@supplierId
+                             GROUP BY G.GRNId,G.GRNNo,G.GRNDate,SO.SupplyOrderDate,SO.SupplyOrderNo,S.SupplierName";
+                return connection.Query<PendingGRN>(qry, new { SupplierId = supplierId }).ToList();
             }
         }
-
-
 
     }
 } 
