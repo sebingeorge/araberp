@@ -118,8 +118,9 @@ namespace ArabErp.Web.Controllers
         }
         public JsonResult GetVehicleModel(int WorkDescriptionId)
         {
-            string str = new SaleOrderRepository().GetVehicleModel(WorkDescriptionId);
-            return Json(str, JsonRequestBehavior.AllowGet);
+            SaleOrderItem List = new SaleOrderRepository().GetVehicleModel(WorkDescriptionId);
+            var Result=new {VehicleId=List.VehicleModelId ,VehicleName=List.VehicleModelName};
+            return Json(Result, JsonRequestBehavior.AllowGet);
         }
         public ActionResult PendingSaleOrderApproval()
         {

@@ -14,6 +14,7 @@ namespace ArabErp.Domain
         public int? WorkDescriptionId { get; set; }
        
         public int? VehicleModelId { get; set; }
+        public string VehicleModelName { get; set; }
         public string Remarks { get; set; }
         public string PartNo { get; set; }
         public int ItemId { get; set; }
