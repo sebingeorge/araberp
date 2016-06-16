@@ -51,21 +51,21 @@
             {
                 <div class="row form-group">
                     <div class="col-md-2">
-                        <label for="StockJournalRefno">Ref No.</label>
+                        <label for="StockJournalRefno">SJ.No.</label>
                         @Html.TextBoxFor(m => m.StockJournalRefno, new { @class = "form_input", autocomplete = "off" })
                         @*<input type="date" id="duedate" class="form_input" />*@
                     </div>
                     <div class="col-md-2">
                         <label for="WorkShopRequestNo">Stock Point</label>
                         @*@Html.TextBoxFor(m => m.StockPointId, new { @class = "form_input", autocomplete = "off" })*@
-                        @Html.DropDownListFor(m => m.StockPointId, (SelectList)ViewBag.StockPointList, "Select Material", new { @class = "form_input", autocomplete = "off", @onchange = "onStockChanged()" })
+                        @Html.DropDownListFor(m => m.StockPointId, (SelectList)ViewBag.StockPointList, "Select Stock Point", new { @class = "form_input", autocomplete = "off", @onchange = "onStockChanged()" })
                         @*<input type="text" />*@
                         @*<input type="text" id="reqno" autocomplete="off" class="form_input" />*@
                     </div>
                     <div class="col-md-2">
                         <label for="WorkShopRequestDate">Date</label>
                         @*@Html.TextBoxFor(m => m.StockJournalDate, new { @class = "form_input", autocomplete = "off", @Value = @DateTime.Now.ToShortDateString() })*@
-                        @Html.TextBoxFor(m => m.StockJournalDate, new { @class = "form_input", @Value = @DateTime.Now.ToShortDateString() })
+                        @Html.TextBoxFor(m => m.StockJournalDate, new { @class = "form_input", @Value = @DateTime.Now.ToShortDateString(), @readonly = "readonly" })
                         @*<input type="date" id="inputDate" class="form_input" autocomplete="off" />*@
                         @*<input type="text" />*@
                     </div>

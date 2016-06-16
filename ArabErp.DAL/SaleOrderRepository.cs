@@ -244,13 +244,13 @@ namespace ArabErp.DAL
         /// </summary>
         /// <param name="itemId"></param>
         /// <returns></returns>
-        public string GetVehicleModel(int WorkDescriptionId)
+        public SaleOrderItem GetVehicleModel(int WorkDescriptionId)
         {
             using (IDbConnection connection = OpenConnection(dataConnection))
             {
 
-                string query = "SELECT V.VehicleModelId FROM WorkDescription W INNER JOIN VehicleModel V ON W.VehicleModelId = V.VehicleModelId AND W.WorkDescriptionId = @WorkDescriptionId";
-                return connection.Query<string>(query, new { WorkDescriptionId = WorkDescriptionId }).First<string>();
+                string query = "SELECT V.VehicleModelId,VehicleModelName FROM WorkDescription W INNER JOIN VehicleModel V ON W.VehicleModelId = V.VehicleModelId AND W.WorkDescriptionId = @WorkDescriptionId";
+                return connection.Query<SaleOrderItem>(query, new { WorkDescriptionId = WorkDescriptionId }).First<SaleOrderItem>();
             }
         }
         /// <summary>

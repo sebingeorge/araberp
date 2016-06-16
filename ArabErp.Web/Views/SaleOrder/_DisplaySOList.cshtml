@@ -19,8 +19,8 @@
             var clone = $('#0').clone(); // clone the BatchProducts item
             //Update the index of the clone
             //clone.html($(clone).html().replace("Items_0__", 'Items_' + i + '__'));
-            clone.html($(clone).html().replace(/\Items_0__/g, 'Items_' + i + '__'));
-            clone.html($(clone).html().replace(/\Items_0__/g, 'Items_' + i + '__'));
+            clone.html($(clone).html().replace(/Items_0__/g, 'Items_' + i + '__'));
+            clone.html($(clone).html().replace(/Items_0__/g, 'Items_' + i + '__'));
             clone.html($(clone).html().replace(/\Items[0]./g, 'Items[' + i + '].'));
             clone.html($(clone).html().replace(/\[0\]/g, '[' + i + ']'));
             clone.html($(clone).html().replace(/\(0\)/g, '(' + i + ')'));
@@ -32,6 +32,57 @@
             $("#Items_" + i + "__SlNo").val((i + 1));
         });
     });
+    function Delete(index) {
+
+        var i = 0;
+        var no = 1;
+        $('input[id^="Row_"]').each(function () {
+            var id = this.id;
+            no++;
+            var row = Number(id.replace("Row_", ""));
+            if (row > i) {
+                i = row;
+            }
+        });
+        i++;
+        //$("#" + index).html('');
+        if (i > 1) {
+            $("#" + index).remove();
+            for (var j = index + 1; j < i; j++) {
+                var WorkDescriptionId = $("#Items_" + j + "__WorkDescriptionId").val();
+                var VehicleModelId = $("#Items_" + j + "__VehicleModelId").val();
+                var Quantity = $("#Items_" + j + "__Quantity").val();
+                var UnitId = $("#Items_" + j + "__UnitId").val();
+                var Rate = $("#Items_" + j + "__Rate").val();
+                var Discount = $("#Items_" + j + "__Discount").val();
+                var Amount = $("#Items_" + j + "__Amount").val();
+                alert(WorkDescriptionId + ',' + VehicleModelId + ',' + Quantity + ',' + UnitId + ',' + Rate + ',' + Discount + ',' + Amount);
+
+                var clone = $("#" + j).clone(true, true);
+                clone.html($(clone).html().replace(new RegExp("Items_" + j + "__", "g"), 'Items_' + (j - 1) + '__'));
+                clone.html($(clone).html().replace(new RegExp("\\[" + j + "].", "g"), "[" + (j - 1) + "]."));
+                clone.html($(clone).html().replace(new RegExp('slno' + (j + 1) + '">' + (j + 1), "g"), 'slno' + (j) + '">' + (j)));
+                clone.html($(clone).html().replace("Delete(" + j, "Delete(" + (j - 1)));
+                clone.html($(clone).html().replace("Row_" + j, "Row_" + (j - 1)));
+
+            
+
+
+                clone.html($(clone).html().replace("this," + j, "this," + (j - 1)));
+                $("#" + j).html(clone.html());
+                $("#Items_" + (j - 1) + "__SlNo").val(j);
+                $("#" + (j)).attr('id', (j - 1));
+                alert(j);
+                $("#Items_" + (j - 1) + "__WorkDescriptionId").val(WorkDescriptionId);
+                $("#Items_" + (j - 1) + "__VehicleModelId").val(VehicleModelId);
+                $("#Items_" + (j - 1) + "__Quantity").val(Quantity);
+                $("#Items_" + (j - 1) + "__UnitId").val(UnitId);
+                $("#Items_" + (j - 1) + "__Rate").val(Rate);
+                $("#Items_" + (j - 1) + "__Discount").val(Discount);
+                $("#Items_" + (j - 1) + "__Amount").val(Amount);
+            }
+        }
+    }
 
     function QuantityChanged(row) {
         var quantity = $("#Items_" + row + "__Quantity").val();
@@ -87,7 +138,8 @@
             var url = '@Url.Action("GetVehicleModel")';
             $.getJSON(url, { WorkDescriptionId: id },
                 function (data) {
-                    $("#Items_" + index + "__VehicleModelId").val(data);
+                    $("#Items_" + index + "__VehicleModelId").val(data.VehicleId);
+                    $("#Items_" + index + "__VehicleModelName").val(data.VehicleName);
                 });
         }
         else {
@@ -115,6 +167,7 @@
                 <th width="10%" class="text-right"><h1>Rate</h1></th>
                 <th width="10%" class="text-right"><h1>Discount</h1></th>
                 <th width="8%" class="text-right"><h1>Amount</h1></th>
+                <th>&nbsp;</th>
             </tr>
         </thead>
         <tbody id="table_validation">
@@ -143,7 +196,10 @@
                     <td>
                         @if (ViewData["action"].ToString() == "Create")
                         {
-                        @Html.DropDownListFor(x => Model.Items[i].VehicleModelId, new SelectList(ViewBag.vehiclelist, "Value", "Text", Model.Items[i].VehicleModelId), "select Vehicle", new { @class = "form_input", autocomplete = "off"})
+                        @Html.TextBoxFor(m => m.Items[i].VehicleModelName, new { @class = "form_input ", @style = "text-align:left", autocomplete = "off" })
+                             @Html.HiddenFor(m => m.Items[i].VehicleModelId)
+
+                        @*@Html.DropDownListFor(x => Model.Items[i].VehicleModelId, new SelectList(ViewBag.vehiclelist, "Value", "Text", Model.Items[i].VehicleModelId), "select Vehicle", new { @class = "form_input", autocomplete = "off", @disabled = "true"})*@
                         }
                         else
                         {
@@ -196,6 +252,7 @@
                         }
                     </td>
                     <td>@Html.TextBoxFor(m => m.Items[i].Amount, new { @class = "form_input clAmount", autocomplete = "off", @style = "text-align:right", placeholder = "Amount", @disabled = "true" })</td>
+                    <td style="vertical-align:middle"><a class="glyphicon glyphicon-minus" style="top:0px" onclick="Delete(@i)"></a></td>
                 </tr>
             }
             @*<tr id='addr1'></tr>*@
@@ -226,6 +283,7 @@
         </tfoot>
     </table>
 </div>
-<a id="add_row" class="glyphicon glyphicon-plus"></a><a id='delete_row' style="float:right" class="glyphicon glyphicon-minus"></a>
+<a id="add_row" class="glyphicon glyphicon-plus"></a>
+<a id='delete_row' style="float:right" class="glyphicon glyphicon-minus"></a>
    
 
