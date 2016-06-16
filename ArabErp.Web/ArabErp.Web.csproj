@@ -573,6 +573,11 @@
     <Content Include="Views\PurchaseBill\PurchaseBillPendingList.cshtml" />
     <Content Include="Views\GrnWareHouse\_DisplayGRNData.cshtml" />
     <Content Include="Views\PurchaseBill\Index.cshtml" />
+    <Content Include="Views\PurchaseBill\_pendingGRN.cshtml" />
+    <Content Include="Views\PurchaseBill\Create.cshtml" />
+    <Content Include="Views\PurchaseBill\_PurchaseBillHead.cshtml" />
+    <Content Include="Views\PurchaseBill\_PurchaseBillFooter.cshtml" />
+    <Content Include="Views\PurchaseBill\_PurchaseBillTable.cshtml" />
     <Content Include="Views\StockJournal\_StockJournalList.cshtml" />
   </ItemGroup>
   <ItemGroup>

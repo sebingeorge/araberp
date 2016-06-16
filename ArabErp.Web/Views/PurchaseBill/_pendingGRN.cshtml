@@ -1,0 +1,30 @@
+﻿
+@using ArabErp.Domain
+@model IList<PendingGRN>
+@if (Model.Count != 0)
+{
+   foreach (var item in Model)
+{
+
+    <tr>
+        <td class="grid-cell">@item.SupplyOrderNo &amp; @item.SupplyOrderDate.ToString("dd/MMM/yyyy")</td>
+        <td class="grid-cell">@item.SupplierName</td>
+        <td class="grid-cell">@item.GRNNo  &amp; @item.GRNDate.ToString("dd/MMM/yyyy")</td>
+        <td class="grid-cell">@item.Ageing </td>
+
+        <td><center>@Html.CheckBoxFor(m => @item.Select, new { @class = "CheckBoxClass" })</center></td>
+
+    </tr>
+
+}
+
+}
+else
+{
+    <tr>
+        <td colspan="5" align="center" valign="middle">
+            <em>please select a supplier to continue</em>
+        </td>
+    </tr>
+
+}

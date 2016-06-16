@@ -1,0 +1,47 @@
+﻿@model  ArabErp.Domain.PurchaseBill 
+@{
+    ViewBag.Title = "Create";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<script>
+    $(function () {
+       
+        $("#PurchaseBillDate").datepicker({ dateFormat: "dd/MM/yy" });
+    });
+</script>
+<div class="container">
+    <div class="row">
+        <div class="form-head1">
+            <h4>Purchase Bill</h4>
+        </div>
+
+        <div class="main-part pad1">
+
+            @using (Html.BeginForm("Save", null, FormMethod.Post, new { @class = "createFrom", @id = "grn_form" }))
+            {
+                @*@Html.HiddenFor(m => m.SupplyOrderId, new { @class = "form_input", autocomplete = "off" })*@
+                @Html.Partial("_PurchaseBillHead")
+                @Html.Partial("_PurchaseBillTable")
+                @Html.Partial("_PurchaseBillFooter")
+
+
+
+
+
+
+                <div class="row">
+
+                    <div class="col-md-12 hrpart">
+                        <button type="button" class="form-button right">Exit</button>
+                        <button type="submit" class="form-button right">Save</button>
+
+                    </div>
+
+                </div>
+
+
+            }
+        </div>
+    </div>
+</div>
+
