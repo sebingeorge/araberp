@@ -31,7 +31,7 @@ namespace ArabErp.Web.Controllers
             model.CreatedDate = System.DateTime.Now;
             model.CreatedBy = Request.ServerVariables["HTTP_X_FORWARDED_FOR"] ?? Request.ServerVariables["REMOTE_ADDR"];
 
-            if (new StockJournalRepository().InsertStockJournal(model) < 0)
+            if (new StockJournalRepository().InsertStockJournal(model) > 0)
             {
                 TempData["success"] = "Saved successfully";
                 TempData["error"] = "";
