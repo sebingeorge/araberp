@@ -1,17 +1,20 @@
 ﻿@model ArabErp.Domain.PurchaseBill
 
 <script>
-    $('.clAmount').each(function (i, obj) {
-        var a = parseFloat($("#Items_" + i + "__Amount").val());
-        if (isNaN(a)) {
-           
-            a = parseFloat("0");
+    $(document).ready(function () {
+        var amount = parseFloat("0");
+        $('.clAmount').each(function (i, obj) {
+            var a = parseFloat($("#Items_" + i + "__Amount").val());
+            amount = amount + a;
+            
+        });
+    
+        $("#TotalAmount").text(amount);
 
-        }
 
-        amount = amount + a;
+     
+
     });
-    $("#TotalAmount").text(amount);
 </script>
 <div class="tab_logic">
 
