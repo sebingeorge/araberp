@@ -1,4 +1,4 @@
-﻿
+﻿@model ArabErp.Domain.PurchaseBill
 @{
     ViewBag.Title = "Index";
     Layout = "~/Views/Shared/_Layout.cshtml";
@@ -13,20 +13,44 @@
             url += "?supplierId=" + id;
             $("#table-body").load(url);
         }
+
+    function Validation() {
+        var count = 0;
+        if ($('#SupplierId').val() == '') {
+            alert("Select Supplier.");
+            $('#SupplierId').focus();
+            return false;
+        }
+        $(".clcheck").each(function (i, obj) {
+          
+
+            if ($(obj).is(':checked')){
+
+                count = count + 1;
+               
+            }
+           
+        });
+        if (count == 0) {
+            alert("Select Atleast One Record...");
+            return false;
+        }
+    }
     </script>
+
 <div class="container">
     <div class="row">
         <div class="form-head1">
             <h4>Pending Purchase Bill</h4>
         </div>
         <div class="main-part pad1">
-            <form method="post" action="@Url.Action("Create", "PurchaseBill")">
+            <form method="post" onsubmit="return Validation()" action="@Url.Action("Create", "PurchaseBill")">
                 <div class="row form-group">
                     <div class="col-md-4">
                         <label>Supplier</label>
-                      
-                        @Html.DropDownList("cboSupplier", (SelectList)ViewBag.supplierList, "Select supplier", new { @class = "form_input", autocomplete = "off", @onchange = "OnSupplierChange(this)"})
-                     
+
+                        @*@Html.DropDownList("cboSupplier", (SelectList)ViewBag.supplierList, "Select supplier", new { @class = "form_input", autocomplete = "off", @onchange = "OnSupplierChange(this)"})*@
+                        @Html.DropDownListFor(m =>Model.SupplierId, (SelectList)ViewBag.supplierList, "Select Supplier", new { @class = "form_input", autocomplete = "off", @onchange = "OnSupplierChange(this);" })
                     </div>
                 </div>
                 <div class="scroll1">
