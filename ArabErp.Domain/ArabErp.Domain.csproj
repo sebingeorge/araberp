@@ -41,6 +41,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AdditionOrDeduction.cs" />
     <Compile Include="Bay.cs" />
     <Compile Include="BayStatus.cs" />
     <Compile Include="Box.cs" />
@@ -52,6 +53,7 @@
     <Compile Include="Dropdown.cs" />
     <Compile Include="Employee.cs" />
     <Compile Include="EmployeeCategory.cs" />
+    <Compile Include="ExpenseBill.cs" />
     <Compile Include="FreezerUnit.cs" />
     <Compile Include="GRN.cs" />
     <Compile Include="GRNItem.cs" />
