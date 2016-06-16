@@ -229,6 +229,7 @@
     <Compile Include="Controllers\SaleOrderController.cs" />
     <Compile Include="Controllers\SaleOrderStatusController.cs" />
     <Compile Include="Controllers\SalesInvoiceController.cs" />
+    <Compile Include="Controllers\SalesQuotationController.cs" />
     <Compile Include="Controllers\StockJournalController.cs" />
     <Compile Include="Controllers\StockPointController.cs" />
     <Compile Include="Controllers\StockReturnController.cs" />
@@ -581,6 +582,7 @@
     <Content Include="Views\StockJournal\_StockJournalList.cshtml" />
     <Content Include="Views\AdditionOrDeduction\Index.cshtml" />
     <Content Include="Views\AdditionOrDeduction\Create.cshtml" />
+    <Content Include="Views\SalesQuotation\Create.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
