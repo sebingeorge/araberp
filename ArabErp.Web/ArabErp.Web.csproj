@@ -202,6 +202,7 @@
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\AdditionalWorkShopRequestController.cs" />
+    <Compile Include="Controllers\AdditionOrDeductionController.cs" />
     <Compile Include="Controllers\BayStatusController.cs" />
     <Compile Include="Controllers\CommissionAgentController.cs" />
     <Compile Include="Controllers\CurrencyController.cs" />
@@ -578,6 +579,8 @@
     <Content Include="Views\PurchaseBill\_PurchaseBillFooter.cshtml" />
     <Content Include="Views\PurchaseBill\_PurchaseBillTable.cshtml" />
     <Content Include="Views\StockJournal\_StockJournalList.cshtml" />
+    <Content Include="Views\AdditionOrDeduction\Index.cshtml" />
+    <Content Include="Views\AdditionOrDeduction\Create.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

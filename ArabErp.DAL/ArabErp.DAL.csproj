@@ -63,6 +63,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AdditionOrDeductionRepository.cs" />
     <Compile Include="ArabDALTests.cs" />
     <Compile Include="BaseRepository.cs" />
     <Compile Include="BayRepository.cs" />
