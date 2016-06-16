@@ -14,39 +14,49 @@ namespace ArabErp.Web.Controllers
         // GET: PurchaseBill
         public ActionResult Index()
         {
-            SupplierDropdown();
-
-            var repo = new PurchaseBillRepository();
-            IEnumerable<PendingGRN> pendingGRN = repo.GetGRNPending();
-            return View(pendingGRN);
+            GrnSupplierDropdown();
+            return View();
+            
         }
-        public void SupplierDropdown()
+        public ActionResult pendingGRN(int supplierId)
         {
-            ViewBag.supplierList = new SelectList(new DropdownRepository().SupplierDropdown(), "Id", "Name");
+
+            if (supplierId == 0)
+            {
+                List<PendingGRN> list = new List<PendingGRN>();
+                return PartialView("_pendingGRN", list);
+            }
+            return PartialView("_pendingGRN", new PurchaseBillRepository().GetGRNPending(supplierId));
+
+            
         }
-        //public ActionResult PendingGRN(int supplierId)
-        //{
-        //    var repo = new PurchaseBillRepository();
-        //    IEnumerable<PendingGRN> pendingGRNwithid = repo.GetGRNPendingwithfilter(supplierId);
-        //    return View(pendingGRNwithid);
-        //}
-        //public ActionResult Index(int? page)
-        //{
+        public void GrnSupplierDropdown()
+        {
+            ViewBag.supplierList = new SelectList(new DropdownRepository().GrnSupplierDropdown(), "Id", "Name");
+        }
 
-        //    var rep = new SaleOrderRepository();
+        public ActionResult Create(IList<PendingGRN> PendingGRNSelected)
+
+        {
+
+            PurchaseBill purchasebill = new PurchaseBill();
+            PurchaseBillRepository rep = new PurchaseBillRepository();
+            if (PendingGRNSelected != null)
+            {
+                if (PendingGRNSelected.Count > 0)
+                {
+                    List<int> selectedgrn = (from PendingGRN p in PendingGRNSelected
+                                                          where p.Select
+                                                          select p.GRNId).ToList<int>();
+                    purchasebill.Items = rep.GetGRNItems(selectedgrn);
+                }
 
 
-        //    var slist = rep.GetSaleOrdersPendingWorkshopRequest();
+            }
+            purchasebill.Supplier = PendingGRNSelected[0].SupplierName;
+            purchasebill.PurchaseBillDate = System.DateTime.Today;
+            return View(purchasebill);
 
-        //    var pager = new Pager(slist.Count(), page);
-
-        //    var viewModel = new PagedSaleOrderViewModel
-        //    {
-        //        SaleOrders = slist.Skip((pager.CurrentPage - 1) * pager.PageSize).Take(pager.PageSize),
-        //        Pager = pager
-        //    };
-
-        //    return View(viewModel);
-        //}
+        }
     }
 }
