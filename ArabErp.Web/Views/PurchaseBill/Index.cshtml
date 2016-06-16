@@ -1,31 +1,32 @@
 ﻿
-
 @{
     ViewBag.Title = "Index";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 <script>
-    function OnSupplierChange(supplierId) {
-      
-        var id;
-        if ($(supplierId).val() != null && $(supplierId).val() != '') id = $(supplierId).val();
-        else id = 0;
-        var url = '@Url.Action("pendingGRN")';
-        url += "?supplierId=" + id;
-        $("#table-body").load(url);
-    }
-</script>
+        function OnSupplierChange(supplierId) {
+
+            var id;
+            if ($(supplierId).val() != null && $(supplierId).val() != '') id = $(supplierId).val();
+            else id = 0;
+            var url = '@Url.Action("pendingGRN")';
+            url += "?supplierId=" + id;
+            $("#table-body").load(url);
+        }
+    </script>
 <div class="container">
     <div class="row">
         <div class="form-head1">
             <h4>Pending Purchase Bill</h4>
         </div>
         <div class="main-part pad1">
-            <form method="post" action="@Url.Action("Create","PurchaseBill")">
+            <form method="post" action="@Url.Action("Create", "PurchaseBill")">
                 <div class="row form-group">
                     <div class="col-md-4">
                         <label>Supplier</label>
-                        @Html.DropDownListFor(x => TempData["supplierId"], new SelectList(ViewBag.supplierList, "Value", "Text", TempData["supplierId"]), "select supplier", new { @class = "form_input", autocomplete = "off", @onchange = "OnSupplierChange(this)" })
+                      
+                        @Html.DropDownList("cboSupplier", (SelectList)ViewBag.supplierList, "Select supplier", new { @class = "form_input", autocomplete = "off", @onchange = "OnSupplierChange(this)"})
+                     
                     </div>
                 </div>
                 <div class="scroll1">

@@ -35,9 +35,25 @@ namespace ArabErp.Web.Controllers
             ViewBag.supplierList = new SelectList(new DropdownRepository().GrnSupplierDropdown(), "Id", "Name");
         }
 
-        public ActionResult Create()
+        public ActionResult Create(IList<PendingGRN> PendingGRNSelected)
+
         {
+
             PurchaseBill purchasebill = new PurchaseBill();
+            PurchaseBillRepository rep = new PurchaseBillRepository();
+            if (PendingGRNSelected != null)
+            {
+                if (PendingGRNSelected.Count > 0)
+                {
+                    List<int> selectedgrn = (from PendingGRN p in PendingGRNSelected
+                                                          where p.Select
+                                                          select p.GRNId).ToList<int>();
+                    purchasebill.Items = rep.GetGRNItems(selectedgrn);
+                }
+
+
+            }
+            purchasebill.Supplier = PendingGRNSelected[0].SupplierName;
             purchasebill.PurchaseBillDate = System.DateTime.Today;
             return View(purchasebill);
 

@@ -10,8 +10,8 @@ namespace ArabErp.Domain
     {
         public int PurchaseBillItemId { get; set; }
         public int PurchaseBillId { get; set; }
-        public string  GRNNo { get; set; }
-        public DateTime  GRNDate { get; set; }
+        public string ItemName { get; set; }
+        public string GRNNoDate { get; set; }
         public int GRNItemId { get; set; }
         public decimal Quantity { get; set; }
         public string Unit { get; set; }

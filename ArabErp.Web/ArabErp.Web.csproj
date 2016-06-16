@@ -570,7 +570,6 @@
     <Content Include="Views\SupplyOrder\_gridLocalSupply.cshtml" />
     <Content Include="Views\DirectPurchase\_grid.cshtml" />
     <Content Include="Views\DirectPurchase\Create.cshtml" />
-    <Content Include="Views\PurchaseBill\PurchaseBillPendingList.cshtml" />
     <Content Include="Views\GrnWareHouse\_DisplayGRNData.cshtml" />
     <Content Include="Views\PurchaseBill\Index.cshtml" />
     <Content Include="Views\PurchaseBill\_pendingGRN.cshtml" />

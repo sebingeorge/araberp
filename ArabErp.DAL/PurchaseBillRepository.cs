@@ -11,6 +11,29 @@ namespace ArabErp.DAL
     public class PurchaseBillRepository : BaseRepository
     {
         static string dataConnection = GetConnectionString("arab");
+
+
+        public List<PurchaseBillItem> GetGRNItems(List<int> selectedgrn)
+        {
+            using (IDbConnection connection = OpenConnection(dataConnection))
+            {
+                string sql = @"SELECT  CONCAT(GRNNo,'/',CONVERT (VARCHAR(15),GRNDate,104))
+                               GRNNoDate,ItemName,GI.Quantity,GI.Unit,GI.Discount,GI.Rate,0 taxperc,0 tax,GI.Amount FROM GRN G 
+                               INNER JOIN GRNItem GI ON G.GRNId=GI.GRNId
+                               INNER JOIN Item I ON I.ItemId=GI.ItemId
+                               WHERE G .GRNId in @selectedgrn";
+
+                var objPendingGRN = connection.Query<PurchaseBillItem>(sql, new { selectedgrn = selectedgrn }).ToList<PurchaseBillItem>();
+
+                return objPendingGRN;
+            }
+        }
+
+
+
+
+
+
         public int InsertPurchaseBill(PurchaseBill objPurchaseBill)
         {
 
