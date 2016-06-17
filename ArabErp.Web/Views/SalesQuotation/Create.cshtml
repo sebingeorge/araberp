@@ -574,11 +574,11 @@
                 
                         @if (ViewBag.Title.ToString() == "Create")
                         {
-                            @Html.DropDownListFor(m => Model.SalesQuotationRejectReasonId, (SelectList)ViewBag.SalesQuotationRejectReasonlist, "Select Order Taken By", new { @class = "form_input", autocomplete = "off" })
+                            @Html.DropDownListFor(m => Model.SalesQuotationRejectReasonId, (SelectList)ViewBag.SalesQuotationRejectReasonlist, "Select Status", new { @class = "form_input", autocomplete = "off" })
                         }
                         else
                         {
-                            @Html.DropDownListFor(m => Model.SalesQuotationRejectReasonId, (SelectList)ViewBag.SalesQuotationRejectReasonlist, "Select Order Taken By", new { @class = "form_input", autocomplete = "off", @disabled = "true" })
+                            @Html.DropDownListFor(m => Model.SalesQuotationRejectReasonId, (SelectList)ViewBag.SalesQuotationRejectReasonlist, "Select Status", new { @class = "form_input", autocomplete = "off", @disabled = "true" })
 
                         }
                     </div>
