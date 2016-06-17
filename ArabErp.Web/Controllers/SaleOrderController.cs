@@ -27,7 +27,6 @@ namespace ArabErp.Web.Controllers
             FillUnit();
             FillEmployee();
             SaleOrder saleOrder = new SaleOrder();
-            saleOrder.SaleOrderDate = System.DateTime.Today;
             saleOrder.Items = new List<SaleOrderItem>();
             saleOrder.Items.Add(new SaleOrderItem());
             return View(saleOrder);
