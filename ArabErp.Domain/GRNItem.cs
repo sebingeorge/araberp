@@ -6,11 +6,12 @@ using System.Threading.Tasks;
 
 namespace ArabErp.Domain
 {
-   public class GRNItem
+    public class GRNItem
     {
         public int GRNItemId { get; set; }
         public int GRNId { get; set; }
         public int? SupplyOrderItemId { get; set; }
+        public int? DirectPurchaseRequestItemId { get; set; }
         public int? SlNo { get; set; }
         public string ItemName { get; set; }
         public int? ItemId { get; set; }
@@ -19,6 +20,7 @@ namespace ArabErp.Domain
         public string PartNo { get; set; }
         public decimal? PendingQuantity { get; set; }
         public decimal? Quantity { get; set; }
+        public decimal? RejectedQuantity { get; set; }
         public string Unit { get; set; }
         public decimal? Rate { get; set; }
         public decimal? Discount { get; set; }

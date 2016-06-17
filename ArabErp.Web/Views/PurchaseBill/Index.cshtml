@@ -49,7 +49,7 @@
                     <div class="col-md-4">
                         <label>Supplier</label>
 
-                        @*@Html.DropDownList("cboSupplier", (SelectList)ViewBag.supplierList, "Select supplier", new { @class = "form_input", autocomplete = "off", @onchange = "OnSupplierChange(this)"})*@
+                     
                         @Html.DropDownListFor(m =>Model.SupplierId, (SelectList)ViewBag.supplierList, "Select Supplier", new { @class = "form_input", autocomplete = "off", @onchange = "OnSupplierChange(this);" })
                     </div>
                 </div>
@@ -57,9 +57,9 @@
                     <table class="table table-bordered">
                         <thead>
                             <tr class="grid_heading">
-                                <th width="20% "><h1>SO No & Date</h1></th>
-                                <th width="40% "><h1>Supplier</h1></th>
+                              
                                 <th width="20% "><h1>GRN No & Date</h1></th>
+                                <th width="40% "><h1>Supplier</h1></th>
                                 <th width="10% "><h1>Ageing</h1></th>
                                 <th width="10%" class="text-center "><h1>Select</h1></th>
                             </tr>

@@ -16,11 +16,9 @@ namespace ArabErp.DAL
         {
             try
             {
-
-                string sql = @"insert into GRNItem(GRNId,SupplyOrderItemId,SlNo,ItemId,ItemDescription,PartNo,Remarks,Quantity,Unit,Rate,Discount,Amount) 
-                            Values (@GRNId,@SupplyOrderItemId,@SlNo,@ItemId,@ItemDescription,@PartNo,@Remarks,@Quantity,@Unit,@Rate,@Discount,@Amount);
-                            SELECT CAST(SCOPE_IDENTITY() as int)";
-
+                string sql = @"INSERT INTO GRNItem(GRNId,SupplyOrderItemId,SlNo,ItemId,Remarks,Quantity,Unit,Rate,Discount,Amount,isActive,DirectPurchaseRequestItemId) 
+                            VALUES (@GRNId,@SupplyOrderItemId,@SlNo,@ItemId,@Remarks,@Quantity,@Unit,@Rate,@Discount,@Amount, 1, @DirectPurchaseRequestItemId);
+                            SELECT CAST(SCOPE_IDENTITY() AS INT)";
 
                 var id = connection.Query<int>(sql, model, trn).Single();
                 return id;
@@ -29,10 +27,8 @@ namespace ArabErp.DAL
             {
                 throw;
             }
-
         }
 
-      
         public GRNItem GetGRNItem(int GRNItemId)
         {
 

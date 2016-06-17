@@ -8,10 +8,16 @@ namespace ArabErp.Domain
 {
     public class SalesQuotation
     {
+        public SalesQuotation()
+        {
+            SalesQuotationItems = new List<SalesQuotationItem>();
+        }
+
         public int SalesQuotationId { get; set; }
         public string QuotationRefNo { get; set; }
         public DateTime QuotationDate { get; set; }
         public int CustomerId { get; set; }
+        public string CustomerAddress { get; set; }
         public string ContactPerson { get; set; }
         public int? SalesExecutiveId { get; set; }
         public DateTime PredictedClosingDate { get; set; }
@@ -27,9 +33,11 @@ namespace ArabErp.Domain
         public string Competitors { get; set; }
         public string PaymentTerms { get; set; }
         public string DiscountRemarks { get; set; }
+        public int? CurrencyId { get; set; }
         public string CreatedBy { get; set; }
         public DateTime? CreatedDate { get; set; }
         public int OrganizationId { get; set; }
         public bool isActive { get; set; }
+        public List<SalesQuotationItem> SalesQuotationItems { get; set; } 
     }
 }

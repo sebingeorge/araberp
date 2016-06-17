@@ -10,7 +10,7 @@ namespace ArabErp.Domain
     {
         public int StockUpdateId { get; set; }
         public int StockPointId { get; set; }
-        public int ItemId { get; set; }
+        public int? ItemId { get; set; }
         public decimal? Quantity { get; set; }
         public string StockType { get; set; }
         public string StockInOut { get; set; }
@@ -18,5 +18,7 @@ namespace ArabErp.Domain
         public string CreatedBy { get; set; }
         public DateTime? CreatedDate { get; set; }
         public int OrganizationId { get; set; }
+        public int StocktrnId { get; set; }
+        public string StockUserId { get; set; }
     }
 }

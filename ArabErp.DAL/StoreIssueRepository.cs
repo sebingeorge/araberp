@@ -57,7 +57,9 @@ namespace ArabErp.DAL
                                 StockInOut = "OUT",
                                 stocktrnDate=System.DateTime.Today,
                                 ItemId = item.ItemId,
-                                Quantity = item.CurrentIssuedQuantity
+                                Quantity = item.CurrentIssuedQuantity*(-1),
+                                StocktrnId = id,
+                                StockUserId = objStoreIssue.StoreIssueRefNo
                             }, connection, txn);
                         }
                     }
