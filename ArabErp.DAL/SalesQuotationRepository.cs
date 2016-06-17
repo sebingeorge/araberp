@@ -14,15 +14,38 @@ namespace ArabErp.DAL
         public int InsertSalesQuotation(SalesQuotation objSalesQuotation)
         {
 
-            using (IDbConnection connection = OpenConnection(dataConnection))
-            {
-                string sql = @"insert  into SalesQuotation(QuotationRefNo,QuotationDate,CustomerId,ContactPerson,SalesExecutiveId,PredictedClosingDate,QuotationValidToDate,ExpectedDeliveryDate,IsQuotationApproved,ApprovedBy,Amount,QuotationStatus,Remarks,SalesQuotationRejectReasonId,QuotationRejectReason,Competitors,PaymentTerms,DiscountRemarks,CreatedBy,CreatedDate,OrganizationId) Values (@QuotationRefNo,@QuotationDate,@CustomerId,@ContactPerson,@SalesExecutiveId,@PredictedClosingDate,@QuotationValidToDate,@ExpectedDeliveryDate,@IsQuotationApproved,@ApprovedBy,@Amount,@QuotationStatus,@Remarks,@SalesQuotationRejectReasonId,@QuotationRejectReason,@Competitors,@PaymentTerms,@DiscountRemarks,@CreatedBy,@CreatedDate,@OrganizationId);
+   
+                using (IDbConnection connection = OpenConnection(dataConnection))
+                {
+                    IDbTransaction trn = connection.BeginTransaction();
+                    try
+                    {
+                        string sql = @"insert  into SalesQuotation(QuotationRefNo,QuotationDate,CustomerId,ContactPerson,SalesExecutiveId,PredictedClosingDate,QuotationValidToDate,ExpectedDeliveryDate,IsQuotationApproved,ApprovedBy,Amount,QuotationStatus,Remarks,SalesQuotationRejectReasonId,QuotationRejectReason,Competitors,PaymentTerms,DiscountRemarks,CreatedBy,CreatedDate,OrganizationId) Values (@QuotationRefNo,@QuotationDate,@CustomerId,@ContactPerson,@SalesExecutiveId,@PredictedClosingDate,@QuotationValidToDate,@ExpectedDeliveryDate,@IsQuotationApproved,@ApprovedBy,@Amount,@QuotationStatus,@Remarks,@SalesQuotationRejectReasonId,@QuotationRejectReason,@Competitors,@PaymentTerms,@DiscountRemarks,@CreatedBy,@CreatedDate,@OrganizationId);
             SELECT CAST(SCOPE_IDENTITY() as int)";
 
 
-                var id = connection.Query<int>(sql, objSalesQuotation).Single();
-                return id;
-            }
+                        var id = connection.Query<int>(sql, objSalesQuotation, trn).Single();
+
+                        var saleorderitemrepo = new SalesQuotationItemRepository();
+                        foreach (var item in objSalesQuotation.SalesQuotationItems)
+                        {
+                            item.SalesQuotationId = id;
+                            saleorderitemrepo.InsertSalesQuotationItem(item, connection, trn);
+                        }
+
+                        trn.Commit();
+                        return id;
+                    }
+                    catch (Exception)
+                    {
+                        trn.Rollback();
+                        throw;
+                        return 0;
+
+                    }
+                }
+            
+        
         }
 
 

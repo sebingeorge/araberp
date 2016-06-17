@@ -33,6 +33,7 @@ namespace ArabErp.Domain
         public string Competitors { get; set; }
         public string PaymentTerms { get; set; }
         public string DiscountRemarks { get; set; }
+        public int? CurrencyId { get; set; }
         public string CreatedBy { get; set; }
         public DateTime? CreatedDate { get; set; }
         public int OrganizationId { get; set; }
