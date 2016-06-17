@@ -18,9 +18,10 @@ namespace ArabErp.DAL
             using (IDbConnection connection = OpenConnection(dataConnection))
             {
                 string sql = @"SELECT  CONCAT(GRNNo,'/',CONVERT (VARCHAR(15),GRNDate,104))
-                               GRNNoDate,ItemName,GI.Quantity,GI.Unit,GI.Discount,GI.Rate,0 taxperc,0 tax,GI.Amount FROM GRN G 
+                               GRNNoDate,ItemName,GI.Quantity,U.UnitName,GI.Discount,GI.Rate,0 taxperc,0 tax,GI.Amount,GI.Amount TotAmount FROM GRN G 
                                INNER JOIN GRNItem GI ON G.GRNId=GI.GRNId
                                INNER JOIN Item I ON I.ItemId=GI.ItemId
+                               INNER JOIN Unit U ON  U.UnitId=I.ItemUnitId
                                WHERE G .GRNId in @selectedgrn";
 
                 var objPendingGRN = connection.Query<PurchaseBillItem>(sql, new { selectedgrn = selectedgrn }).ToList<PurchaseBillItem>();
@@ -100,13 +101,12 @@ namespace ArabErp.DAL
         {
             using (IDbConnection connection = OpenConnection(dataConnection))
             {
-                string qry = @"Select G.GRNId,G.GRNNo,G.GRNDate,SO.SupplyOrderDate,SO.SupplyOrderNo,S.SupplierName,DATEDIFF(dd,G.GRNDate,GETDATE ()) Ageing from GRN G 
-                             INNER JOIN GRNItem GI ON G.GRNId=GI.GRNId
-                             INNER JOIN  SupplyOrderItem SI ON SI.SupplyOrderItemId=GI.SupplyOrderItemId
-                             INNER JOIN SupplyOrder SO ON SO.SupplyOrderId=SI.SupplyOrderId
-                             INNER JOIN Supplier S ON G.SupplierId=S.SupplierId
-                             WHERE S.SupplierId=@supplierId
-                             GROUP BY G.GRNId,G.GRNNo,G.GRNDate,SO.SupplyOrderDate,SO.SupplyOrderNo,S.SupplierName";
+                string qry = @"Select G.GRNId,G.GRNNo,G.GRNDate,S.SupplierName,DATEDIFF(dd,G.GRNDate,GETDATE ()) Ageing 
+                               from GRN G 
+                               INNER JOIN GRNItem GI ON G.GRNId=GI.GRNId
+                               INNER JOIN Supplier S ON G.SupplierId=S.SupplierId
+                               WHERE S.SupplierId=@supplierId
+                               GROUP BY G.GRNId,G.GRNNo,G.GRNDate,S.SupplierName";
                 return connection.Query<PendingGRN>(qry, new { SupplierId = supplierId }).ToList();
             }
         }

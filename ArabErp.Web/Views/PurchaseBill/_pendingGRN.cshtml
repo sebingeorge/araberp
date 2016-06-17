@@ -9,9 +9,9 @@
     <tr>
         @Html.HiddenFor(m => m[i].GRNId)
         @Html.HiddenFor(m => m[0].SupplierName)
-        <td class="grid-cell">@Model[i].SupplyOrderNo &amp; @Model[i].SupplyOrderDate.ToString("dd/MMM/yyyy")</td>
-        <td class="grid-cell">@Model[i].SupplierName</td>
+
         <td class="grid-cell">@Model[i].GRNNo  &amp; @Model[i].GRNDate.ToString("dd/MMM/yyyy")</td>
+        <td class="grid-cell">@Model[i].SupplierName</td>
         <td class="grid-cell">@Model[i].Ageing </td>
 
         <td><center>@Html.CheckBoxFor(m => @Model[i].Select, new { @class = "CheckBoxClass clcheck" })</center></td>
