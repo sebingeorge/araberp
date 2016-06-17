@@ -43,12 +43,8 @@
 
     function Validation() {
         var count = 0;
-        if ($('#SaleOrderRefNo').val() == '') {
-            alert("please enter sono.");
-            $('#SaleOrderRefNo').focus();
-            return false;
-        }
-        else if ($('#CustomerId').val() == '') {
+       
+         if ($('#CustomerId').val() == '') {
             alert("select one customer...");
             $('#CustomerId').focus();
             return false;
