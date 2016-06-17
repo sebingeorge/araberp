@@ -17,8 +17,8 @@ namespace ArabErp.Domain
         public string UnitName { get; set; }
         public decimal Rate { get; set; }
         public decimal Discount { get; set; }
-        public decimal Taxperc { get; set; }
-        public decimal Tax { get; set; }
+        public decimal TaxPercentage { get; set; }
+        public decimal TaxAmount { get; set; }
         public decimal Amount { get; set; }
         public decimal TotAmount { get; set; }
         public bool isActive { get; set; }

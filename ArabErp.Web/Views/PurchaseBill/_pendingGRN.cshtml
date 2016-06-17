@@ -9,7 +9,7 @@
     <tr>
         @Html.HiddenFor(m => m[i].GRNId)
         @Html.HiddenFor(m => m[0].SupplierName)
-
+        @Html.HiddenFor(m => m[0].SupplierId)
         <td class="grid-cell">@Model[i].GRNNo  &amp; @Model[i].GRNDate.ToString("dd/MMM/yyyy")</td>
         <td class="grid-cell">@Model[i].SupplierName</td>
         <td class="grid-cell">@Model[i].Ageing </td>

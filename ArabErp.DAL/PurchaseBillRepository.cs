@@ -18,7 +18,7 @@ namespace ArabErp.DAL
             using (IDbConnection connection = OpenConnection(dataConnection))
             {
                 string sql = @"SELECT  CONCAT(GRNNo,'/',CONVERT (VARCHAR(15),GRNDate,104))
-                               GRNNoDate,ItemName,GI.Quantity,U.UnitName,GI.Discount,GI.Rate,0 taxperc,0 tax,GI.Amount,GI.Amount TotAmount FROM GRN G 
+                               GRNNoDate,GI.GRNItemId,ItemName,GI.Quantity,U.UnitName,GI.Discount,GI.Rate,0 taxperc,0 tax,GI.Amount,GI.Amount TotAmount FROM GRN G 
                                INNER JOIN GRNItem GI ON G.GRNId=GI.GRNId
                                INNER JOIN Item I ON I.ItemId=GI.ItemId
                                INNER JOIN Unit U ON  U.UnitId=I.ItemUnitId
@@ -30,26 +30,48 @@ namespace ArabErp.DAL
             }
         }
 
-
-
-
-
-
-        public int InsertPurchaseBill(PurchaseBill objPurchaseBill)
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="model"></param>
+        /// <returns></returns>
+        public int InsertPurchaseBill(PurchaseBill model)
         {
-
             using (IDbConnection connection = OpenConnection(dataConnection))
             {
-                string sql = @"insert  into PurchaseBill(SupplierId,PurchaseBillDate,Remarks,EmployeeId,PurchaseBillAmount,AdditionRemarks,DeductionRemarks,Deduction,Addition,CurrencyId,CreatedBy,CreatedDate,OrganizationId) Values (@SupplierId,@PurchaseBillDate,@Remarks,@EmployeeId,@PurchaseBillAmount,@AdditionRemarks,@DeductionRemarks,@Deduction,@Addition,@CurrencyId,@CreatedBy,@CreatedDate,@OrganizationId);
-            SELECT CAST(SCOPE_IDENTITY() as int)";
+
+                IDbTransaction trn = connection.BeginTransaction();
+                try
+                {
+                    int id = 0;
+
+                    string sql = @"insert  into PurchaseBill(PurchaseBillRefNo,SupplierId,PurchaseBillDate,EmployeeId,Remarks,PurchaseBillAmount
+                             ,AdditionRemarks,DeductionRemarks,Deduction,Addition,CurrencyId,CreatedBy,CreatedDate,OrganizationId)
+                              Values (@PurchaseBillRefNo,@SupplierId,@PurchaseBillDate,0,@Remarks,0
+                             ,@AdditionRemarks,@DeductionRemarks,@Deduction,@Addition,@CurrencyId,@CreatedBy,@CreatedDate,@OrganizationId);
+                             SELECT CAST(SCOPE_IDENTITY() as int)";
+
+                    id = connection.Query<int>(sql, model, trn).Single();
+                    var purchasebillitemrepo = new PurchaseBillItemRepository();
+                    foreach (var item in model.Items)
+                    {
+                        item.PurchaseBillId = id;
+                        new PurchaseBillItemRepository().InsertPurchaseBillItem(item, connection, trn);
+
+                    }
+
+                    trn.Commit();
+                    return id;
+                }
+                catch (Exception)
+                {
+                    trn.Rollback();
+                    return 0;
+                }
 
 
-                var id = connection.Query<int>(sql, objPurchaseBill).Single();
-                return id;
             }
         }
-
-
         public PurchaseBill GetPurchaseBill(int PurchaseBillId)
         {
 
@@ -101,12 +123,12 @@ namespace ArabErp.DAL
         {
             using (IDbConnection connection = OpenConnection(dataConnection))
             {
-                string qry = @"Select G.GRNId,G.GRNNo,G.GRNDate,S.SupplierName,DATEDIFF(dd,G.GRNDate,GETDATE ()) Ageing 
+                string qry = @"Select G.GRNId,G.GRNNo,G.GRNDate,S.SupplierName,S.SupplierId,DATEDIFF(dd,G.GRNDate,GETDATE ()) Ageing 
                                from GRN G 
                                INNER JOIN GRNItem GI ON G.GRNId=GI.GRNId
                                INNER JOIN Supplier S ON G.SupplierId=S.SupplierId
                                WHERE S.SupplierId=@supplierId
-                               GROUP BY G.GRNId,G.GRNNo,G.GRNDate,S.SupplierName";
+                               GROUP BY G.GRNId,G.GRNNo,G.GRNDate,S.SupplierName,S.SupplierId";
                 return connection.Query<PendingGRN>(qry, new { SupplierId = supplierId }).ToList();
             }
         }

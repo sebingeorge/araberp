@@ -54,9 +54,22 @@ namespace ArabErp.Web.Controllers
 
             }
             purchasebill.Supplier = PendingGRNSelected[0].SupplierName;
+            purchasebill.SupplierId = PendingGRNSelected[0].SupplierId;
             purchasebill.PurchaseBillDate = System.DateTime.Today;
             return View(purchasebill);
 
         }
+        public ActionResult Save(PurchaseBill model)
+        {
+
+            model.OrganizationId = 1;
+            model.CreatedDate = System.DateTime.Now;
+            model.CreatedBy = Request.ServerVariables["HTTP_X_FORWARDED_FOR"] ?? Request.ServerVariables["REMOTE_ADDR"];
+            new PurchaseBillRepository().InsertPurchaseBill(model);
+            return RedirectToAction("Index");
+           
+
+        }
+
     }
 }
