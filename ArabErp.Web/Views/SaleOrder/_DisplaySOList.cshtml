@@ -269,7 +269,8 @@
                     <h1>
                         @if (ViewData["action"].ToString() == "Create")
                         {
-                            @Html.DropDownListFor(m => Model.CurrencyId, (SelectList)ViewBag.currlist, "Select Currency", new { @class = "form_input", autocomplete = "off" })
+                            @Html.TextBoxFor(m => m.CurrencyName, new { @class = "form_input", autocomplete = "off", @style = "text-align:right;color:white", @disabled = "true" })
+                            @Html.HiddenFor(m => m.CurrencyId)
                         }
                         else
                         {

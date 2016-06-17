@@ -24,7 +24,8 @@
             dataType: "json",
             success: function (result) {
                 if (result.Success) { // this sets the value from the response
-                    $('#CurrencyId').val(result.Result);
+                    $('#CurrencyId').val(result.CurrencyId);
+                    $('#CurrencyName').val(result.CurrencyName);
                     $("#CustomerAddress").val(result.Address);
                 } else {
                     $('#SomeOtherHtmlTextBox').val("Failed");
@@ -74,6 +75,11 @@
         }
         else if ($('#EDateDelivery').val() == '') {
             alert("select EDD");
+            $('#EDateDelivery').focus();
+            return false;
+        }
+        else if ($('#EDateDelivery').val() < $('#EDateArrival').val()) {
+            alert("Please select a valid Delivery Date, Delivery Date must be greater than Arraval Date");
             $('#EDateDelivery').focus();
             return false;
         }

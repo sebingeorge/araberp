@@ -16,41 +16,48 @@ namespace ArabErp.DAL
         /// </summary>
         /// <param name="model">Object of class SaleOrder</param>
         /// <returns>Primary key of current Transaction</returns>
-        public int InsertSaleOrder(SaleOrder model)
+        public SaleOrder InsertSaleOrder(SaleOrder model)
         {
             using (IDbConnection connection = OpenConnection(dataConnection))
             {
-
+                var result = new SaleOrder();
                 IDbTransaction trn = connection.BeginTransaction();
                 try
                 {
-                    int id = 0;
+                   
 
-                    string sql = @"insert  into SaleOrder(SaleOrderRefNo,SaleOrderDate,CustomerId,CustomerOrderRef,CurrencyId,SpecialRemarks,PaymentTerms,DeliveryTerms,CommissionAgentId,CommissionAmount,CommissionPerc,SalesExecutiveId,EDateArrival,EDateDelivery,CreatedBy,CreatedDate,OrganizationId) Values (@SaleOrderRefNo,@SaleOrderDate,@CustomerId,@CustomerOrderRef,@CurrencyId,@SpecialRemarks,@PaymentTerms,@DeliveryTerms,@CommissionAgentId,@CommissionAmount,@CommissionPerc,@SalesExecutiveId,@EDateArrival,@EDateDelivery,@CreatedBy,@CreatedDate,@OrganizationId);
-           
+                    string sql = @"DECLARE	@return_value int,
+	            	@INTERNALID bigint,
+	            	@ERRORCODE nvarchar(100)
+                    EXEC	@return_value = [dbo].[GET_NEXT_SYSTEM_INTERNALID]
+	            	@UNIQUEID = N'0',
+		            @DOCUMENTTYPEID = N'SALE ORDER',
+	            	@DOUPDATE = 1,
+	              	@INTERNALID = @INTERNALID OUTPUT,
+	            	@ERRORCODE = @ERRORCODE OUTPUT
+                    insert  into SaleOrder(SaleOrderRefNo,SaleOrderDate,CustomerId,CustomerOrderRef,CurrencyId,SpecialRemarks,PaymentTerms,DeliveryTerms,CommissionAgentId,CommissionAmount,CommissionPerc,SalesExecutiveId,EDateArrival,EDateDelivery,CreatedBy,CreatedDate,OrganizationId)
+                    Values (CONCAT('SO/',@INTERNALID),@SaleOrderDate,@CustomerId,@CustomerOrderRef,@CurrencyId,@SpecialRemarks,@PaymentTerms,@DeliveryTerms,@CommissionAgentId,@CommissionAmount,@CommissionPerc,@SalesExecutiveId,@EDateArrival,@EDateDelivery,@CreatedBy,@CreatedDate,@OrganizationId);
+                    SELECT CAST(SCOPE_IDENTITY() as int) SaleOrderId,CONCAT('SO/',@INTERNALID) SaleOrderRefNo";
+                    
+                     result = connection.Query<SaleOrder>(sql, model, trn).First<SaleOrder>();
 
-                        SELECT CAST(SCOPE_IDENTITY() as int)";
-
-
-                    id = connection.Query<int>(sql, model, trn).Single();
                     var saleorderitemrepo = new SaleOrderItemRepository();
                     foreach (var item in model.Items)
                     {
-                        item.SaleOrderId = id;
+                        item.SaleOrderId = result.SaleOrderId;
                         saleorderitemrepo.InsertSaleOrderItem(item, connection, trn);
                     }
-
                     trn.Commit();
-                    return id;
+                    
                 }
                 catch (Exception)
                 {
                     trn.Rollback();
-                    throw;
-                    return 0;
-
+                    result.SaleOrderId = 0;
+                    result.SaleOrderRefNo = null;
+                    
                 }
-
+                return result;
 
             }
         }
@@ -59,7 +66,7 @@ namespace ArabErp.DAL
             using (IDbConnection connection = OpenConnection(dataConnection))
             {
                 string sql = @"select *,DoorNo +','+ Street+','+State CustomerAddress from SaleOrder S inner join Customer C on S.CustomerId=C.CustomerId  where SaleOrderId=@SaleOrderId";
-                   
+
                 var objSaleOrder = connection.Query<SaleOrder>(sql, new
                 {
                     SaleOrderId = SaleOrderId
@@ -112,7 +119,7 @@ namespace ArabErp.DAL
                 string sql = @"SELECT  SO.SaleOrderId,SO.CustomerOrderRef,SO.SaleOrderRefNo,SO.EDateArrival,SO.EDateDelivery,SO.CustomerId,C.CustomerName,SO.SaleOrderDate SaleOrderDate
                                 FROM  SaleOrder SO  INNER JOIN Customer C  ON SO.CustomerId =C.CustomerId
                                 WHERE SO.SaleOrderId =@SaleOrderId";
-                var objSaleOrders = connection.Query<SaleOrder>(sql, new { SaleOrderId = SaleOrderId } ).Single<SaleOrder>();
+                var objSaleOrders = connection.Query<SaleOrder>(sql, new { SaleOrderId = SaleOrderId }).Single<SaleOrder>();
 
                 return objSaleOrders;
             }
@@ -129,12 +136,12 @@ namespace ArabErp.DAL
                              FOR XML PATH(''), TYPE).value('.','NVARCHAR(MAX)'),1,2,' ') WorkDescription
                              FROM SaleOrderItem t INNER JOIN SaleOrder SO on t.SaleOrderId=SO.SaleOrderId  WHERE SO.SaleOrderId =@SaleOrderId
                              group by t.SaleOrderId";
-                var objSaleOrders = connection.Query<SaleOrder>(sql, new { SaleOrderId = SaleOrderId } ).Single<SaleOrder>();
+                var objSaleOrders = connection.Query<SaleOrder>(sql, new { SaleOrderId = SaleOrderId }).Single<SaleOrder>();
 
                 return objSaleOrders;
             }
         }
-   
+
         public int UpdateSaleOrder(SaleOrder objSaleOrder)
         {
             using (IDbConnection connection = OpenConnection(dataConnection))
@@ -193,16 +200,16 @@ namespace ArabErp.DAL
         /// </summary>
         /// <param name="cusId">Customer Id</param>
         /// <returns></returns>
-        public int GetCurrencyIdByCustKey(string cusId)
+        public Dropdown GetCurrencyIdByCustKey(int cusId)
         {
             using (IDbConnection connection = OpenConnection(dataConnection))
             {
-                var param = new DynamicParameters();
-                return Convert.ToInt32(connection.ExecuteScalar("select CurrencyId from Customer where CustomerId = " + cusId).ToString());
+                  string query = "select CurrencyId Id,CurrencyName Name from Currency where CurrencyId=(select CurrencyId from Customer where CustomerId = @cusId)";
+                  return connection.Query<Dropdown>(query, new { cusId = cusId }).First<Dropdown>();
             }
         }
 
-        public string GetCusomerAddressByKey(string cusId)
+        public string GetCusomerAddressByKey(int cusId)
         {
             using (IDbConnection connection = OpenConnection(dataConnection))
             {
@@ -285,8 +292,8 @@ namespace ArabErp.DAL
             using (IDbConnection connection = OpenConnection(dataConnection))
             {
                 string sql = @"Update SaleOrder set SaleOrderApproveStatus=1 WHERE SaleOrderId=@SaleOrderId";
-                return  connection.Execute(sql, new { SaleOrderId = SaleOrderId });
-               
+                return connection.Execute(sql, new { SaleOrderId = SaleOrderId });
+
             }
         }
         /// <summary>
@@ -299,7 +306,7 @@ namespace ArabErp.DAL
             using (IDbConnection connection = OpenConnection(dataConnection))
             {
                 string sql = @"Update SaleOrder set SaleOrderHoldStatus='H',SaleOrderHoldReason=@hreason  WHERE SaleOrderId=@SaleOrderId";
-                return connection.Execute(sql, new { SaleOrderId = SaleOrderId,hreason = hreason });
+                return connection.Execute(sql, new { SaleOrderId = SaleOrderId, hreason = hreason });
 
             }
         }

@@ -95,7 +95,7 @@ namespace ArabErp.Web.Controllers
             model.OrganizationId = 1;
             model.CreatedDate = System.DateTime.Now;
             model.CreatedBy = Request.ServerVariables["HTTP_X_FORWARDED_FOR"] ?? Request.ServerVariables["REMOTE_ADDR"];
-            new SaleOrderRepository().InsertSaleOrder(model);
+            var Result= new SaleOrderRepository().InsertSaleOrder(model);
             FillWrkDesc();
             FillUnit();
             FillCustomer();
@@ -103,18 +103,29 @@ namespace ArabErp.Web.Controllers
             FillCurrency();
             FillCommissionAgent();
             FillEmployee();
-            //TempData["Success"] = "Added Successfully!";
-            SaleOrder saleOrder = new SaleOrder();
-            saleOrder.SaleOrderDate = System.DateTime.Today;
-            saleOrder.Items = new List<SaleOrderItem>();
-            saleOrder.Items.Add(new SaleOrderItem());
-            return View("Create", saleOrder);
+            if (Result.SaleOrderId > 0)
+            {
+                TempData["Success"] = "Added Successfully!";
+                TempData["SaleOrderRefNo"] = Result.SaleOrderRefNo;
+                return RedirectToAction("Create");
+            }
+            else 
+            {
+                TempData["error"] = "Oops!!..Something Went Wrong!!";
+                TempData["SaleOrderRefNo"] = null ;
+                SaleOrder saleOrder = new SaleOrder();
+                saleOrder.SaleOrderDate = System.DateTime.Today;
+                saleOrder.Items = new List<SaleOrderItem>();
+                saleOrder.Items.Add(new SaleOrderItem());
+                return View("Create", saleOrder);
+            }
+           
         }
-        public JsonResult GetCustomerDetailsByKey(string cusKey)
+        public JsonResult GetCustomerDetailsByKey(int cusKey)
         {
-            int res = (new SaleOrderRepository()).GetCurrencyIdByCustKey(cusKey);
+            var res = (new SaleOrderRepository()).GetCurrencyIdByCustKey(cusKey);
             string address = (new SaleOrderRepository()).GetCusomerAddressByKey(cusKey);
-            return Json(new { Success = true, Result = res, Address = address }, JsonRequestBehavior.AllowGet);
+            return Json(new { Success = true, CurrencyName = res.Name,CurrencyId=res.Id, Address = address }, JsonRequestBehavior.AllowGet);
         }
         public JsonResult GetVehicleModel(int WorkDescriptionId)
         {
