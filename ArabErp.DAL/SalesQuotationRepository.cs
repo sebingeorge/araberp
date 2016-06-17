@@ -66,6 +66,35 @@ namespace ArabErp.DAL
             }
         }
 
+        public void ApproveSalesQuotation(SalesQuotation objSalesQuotation)
+        {
+            using (IDbConnection connection = OpenConnection(dataConnection))
+            {
+                string sql = @"Update SalesQuotation  SET ApprovedBy=@ApprovedBy WHERE SalesQuotationId=@SalesQuotationId";
+
+
+                var id = connection.Execute(sql, new { ApprovedBy = objSalesQuotation.ApprovedBy , SalesQuotationId = objSalesQuotation.SalesQuotationId });
+                
+            }
+        }
+
+        public List<SalesQuotationItem> GetSalesQuotationItems(int SalesQuotationId)
+        {
+
+            using (IDbConnection connection = OpenConnection(dataConnection))
+            {
+                string sql = @"select * from SalesQuotationItem
+                        where SalesQuotationId=@SalesQuotationId";
+
+                var SalesQuotationItems = connection.Query<SalesQuotationItem>(sql, new
+                {
+                    SalesQuotationId = SalesQuotationId
+                }).ToList<SalesQuotationItem>();
+
+                return SalesQuotationItems;
+            }
+        }
+
         public List<SalesQuotation> GetSalesQuotations()
         {
             using (IDbConnection connection = OpenConnection(dataConnection))
@@ -78,7 +107,20 @@ namespace ArabErp.DAL
                 return objSalesQuotations;
             }
         }
+        public List<SalesQuotation> GetSalesQuotationApproveList()
+        {
+            using (IDbConnection connection = OpenConnection(dataConnection))
+            {
+                string sql = @"select E.EmployeeName ,SQ.*,C.DoorNo +','+ C.Street+','+C.State CustomerAddress from SalesQuotation SQ 
+                            inner join Customer C on SQ.CustomerId=C.CustomerId inner join Employee E
+                            on  E.Employee =SQ.SalesExectiveId
+                        where   isActive=1";
 
+                var objSalesQuotations = connection.Query<SalesQuotation>(sql).ToList<SalesQuotation>();
+
+                return objSalesQuotations;
+            }
+        }
 
 
         public int DeleteSalesQuotation(Unit objSalesQuotation)
