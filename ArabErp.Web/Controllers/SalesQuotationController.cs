@@ -34,11 +34,12 @@ namespace ArabErp.Web.Controllers
 
             salesquotation.SalesQuotationItems = new List<SalesQuotationItem>();
             salesquotation.SalesQuotationItems.Add(new SalesQuotationItem());
+            ViewBag.SubmitAction = "Save";
             return View(salesquotation);
         }
 
-
-        public ActionResult View(int SalesQuotationId)
+        [HttpGet]
+        public ActionResult Approve(int SalesQuotationId)
         {
             FillCustomer();
             FillCurrency();
@@ -57,7 +58,19 @@ namespace ArabErp.Web.Controllers
             salesquotation.ExpectedDeliveryDate = System.DateTime.Today;
 
             salesquotation.SalesQuotationItems = repo.GetSalesQuotationItems(SalesQuotationId);
+            ViewBag.SubmitAction = "Approve";
             return View("Create",salesquotation);
+        }
+
+        public ActionResult Approve(SalesQuotation model)
+        {
+
+            var repo = new SalesQuotationRepository();
+
+            repo.ApproveSalesQuotation(model);
+
+            
+            return RedirectToAction("ListSalesQuotations");
         }
 
         public ActionResult ListSalesQuotations()
@@ -121,7 +134,7 @@ namespace ArabErp.Web.Controllers
         }
 
         [HttpPost]
-        public ActionResult Save(SalesQuotation model)
+        public ActionResult Create(SalesQuotation model)
         {
 
             model.OrganizationId = 1;

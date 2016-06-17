@@ -66,6 +66,18 @@ namespace ArabErp.DAL
             }
         }
 
+        public void ApproveSalesQuotation(SalesQuotation objSalesQuotation)
+        {
+            using (IDbConnection connection = OpenConnection(dataConnection))
+            {
+                string sql = @"Update SalesQuotation  SET ApprovedBy=@ApprovedBy WHERE SalesQuotationId=@SalesQuotationId";
+
+
+                var id = connection.Execute(sql, new { ApprovedBy = objSalesQuotation.ApprovedBy , SalesQuotationId = objSalesQuotation.SalesQuotationId });
+                
+            }
+        }
+
         public List<SalesQuotationItem> GetSalesQuotationItems(int SalesQuotationId)
         {
 
