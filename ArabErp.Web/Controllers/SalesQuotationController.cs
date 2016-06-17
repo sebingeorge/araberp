@@ -36,6 +36,40 @@ namespace ArabErp.Web.Controllers
             salesquotation.SalesQuotationItems.Add(new SalesQuotationItem());
             return View(salesquotation);
         }
+
+
+        public ActionResult View(int SalesQuotationId)
+        {
+            FillCustomer();
+            FillCurrency();
+            FillCommissionAgent();
+            FillWrkDesc();
+            FillVehicle();
+            FillUnit();
+            FillEmployee();
+            FillSalesQuotationRejectReason();
+            var repo = new SalesQuotationRepository();
+
+            SalesQuotation salesquotation = repo.GetSalesQuotation(SalesQuotationId);
+            salesquotation.QuotationDate = System.DateTime.Today;
+            salesquotation.PredictedClosingDate = System.DateTime.Today;
+            salesquotation.QuotationValidToDate = System.DateTime.Today;
+            salesquotation.ExpectedDeliveryDate = System.DateTime.Today;
+
+            salesquotation.SalesQuotationItems = repo.GetSalesQuotationItems(SalesQuotationId);
+            return View("Create",salesquotation);
+        }
+
+        public ActionResult ListSalesQuotations()
+        {
+        
+            var repo = new SalesQuotationRepository();
+
+            List<SalesQuotation> salesquotations = repo.GetSalesQuotations();
+      
+            return View(salesquotations);
+        }
+
         public void FillWrkDesc()
         {
             var repo = new SaleOrderItemRepository();
