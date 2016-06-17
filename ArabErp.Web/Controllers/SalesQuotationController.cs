@@ -78,7 +78,7 @@ namespace ArabErp.Web.Controllers
         
             var repo = new SalesQuotationRepository();
 
-            List<SalesQuotation> salesquotations = repo.GetSalesQuotations();
+            List<SalesQuotation> salesquotations = repo.GetSalesQuotationApproveList();
       
             return View(salesquotations);
         }

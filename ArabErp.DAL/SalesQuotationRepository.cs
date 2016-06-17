@@ -111,10 +111,10 @@ namespace ArabErp.DAL
         {
             using (IDbConnection connection = OpenConnection(dataConnection))
             {
-                string sql = @"select E.EmployeeName ,SQ.*,C.DoorNo +','+ C.Street+','+C.State CustomerAddress from SalesQuotation SQ 
+                string sql = @"select E.EmployeeName SalesExecutiveName ,C.CustomerName,SQ.*,C.DoorNo +','+ C.Street+','+C.State CustomerAddress from SalesQuotation SQ 
                             inner join Customer C on SQ.CustomerId=C.CustomerId inner join Employee E
-                            on  E.Employee =SQ.SalesExectiveId
-                        where   isActive=1";
+                            on  E.EmployeeId =SQ.SalesExecutiveId
+                        where SQ.ApprovedBy is null and  SQ.isActive=1";
 
                 var objSalesQuotations = connection.Query<SalesQuotation>(sql).ToList<SalesQuotation>();
 
