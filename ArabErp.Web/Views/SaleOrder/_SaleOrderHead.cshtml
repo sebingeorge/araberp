@@ -11,7 +11,15 @@
 
 <script>
     $(document).ready(function () {
-       
+        var d = new Date();
+        locale = "en-us",
+          month = d.toLocaleString(locale, { month: "long" });
+        var DateString = d.getDate()+'/'+month+'/'+d.getFullYear();
+        //var strDate = d.toLocaleDateString("DD/MMMM/YYYY");
+        //alert(strDate);
+        //d.getFullYear() + "/" + (d. + 1) + "/" + d.getDate();
+        $('#SaleOrderDate').val(DateString);
+        
         toastr.options = {
             "closeButton": true,
             "positionClass": "toast-bottom-full-width",

@@ -196,7 +196,7 @@
                     <td>
                         @if (ViewData["action"].ToString() == "Create")
                         {
-                        @Html.TextBoxFor(m => m.Items[i].VehicleModelName, new { @class = "form_input ", @style = "text-align:left", autocomplete = "off" })
+                        @Html.TextBoxFor(m => m.Items[i].VehicleModelName, new { @class = "form_input ", @style = "text-align:left", autocomplete = "off", @readonly = "readonly" })
                              @Html.HiddenFor(m => m.Items[i].VehicleModelId)
 
                         @*@Html.DropDownListFor(x => Model.Items[i].VehicleModelId, new SelectList(ViewBag.vehiclelist, "Value", "Text", Model.Items[i].VehicleModelId), "select Vehicle", new { @class = "form_input", autocomplete = "off", @disabled = "true"})*@
@@ -210,7 +210,7 @@
                     <td>
                         @if (ViewData["action"].ToString() == "Create")
                         {
-                            @Html.TextBoxFor(m => m.Items[i].Quantity, new { @class = "form_input clQuantity validateqty", @style = "text-align:right", autocomplete = "off", placeholder = "Qty", @onchange = "QuantityChanged(" + i + ");" })
+                            @Html.TextBoxFor(m => m.Items[i].Quantity, new { @class = "form_input clQuantity validateqty numbers-only", @style = "text-align:right", autocomplete = "off", placeholder = "Qty", @onchange = "QuantityChanged(" + i + ");" })
 
                         }
                         else
