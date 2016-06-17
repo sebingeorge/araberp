@@ -3,6 +3,7 @@ using ArabErp.Domain;
 using ArabErp.Web.Models;
 using System;
 using System.Collections.Generic;
+using System.Data.SqlClient;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
@@ -21,10 +22,11 @@ namespace ArabErp.Web.Controllers
         public ActionResult PendingGrnWareHouse()
         {
             GetSupplierDropdown();
-            var repo = new GRNRepository();
+            //var repo = new GRNRepository();
 
-            IEnumerable<PendingSupplyOrder> pendingSO = repo.GetGRNPendingList();
-            return View(pendingSO);
+            //IEnumerable<PendingSupplyOrder> pendingSO = repo.GetGRNPendingList();
+            //return View(pendingSO);
+            return View();
         }
 
 
@@ -36,38 +38,98 @@ namespace ArabErp.Web.Controllers
         }
 
 
-        public ActionResult Create(int? SupplyOrderId)
+        public ActionResult Create(IList<PendingForGRN> list)
         {
-            GRNRepository repo = new GRNRepository();
-            FillWarehouse();
-            FillCurrency();
-
-            GRN model = repo.GetGRNDetails(SupplyOrderId ?? 0);
-            var GRNList = repo.GetGRNItem(SupplyOrderId ?? 0);
-
-            model.Items = new List<GRNItem>();
-            foreach (var item in GRNList)
+            try
             {
-                var grnitem = new GRNItem
+                GRN model = new GRN();
+                if (list.Count > 0)
                 {
-                    SupplyOrderItemId = item.SupplyOrderItemId,
-                    ItemName = item.ItemName,
-                    ItemId = item.ItemId,
-                    PartNo = item.PartNo,
-                    Remarks = item.Remarks,
-                    PendingQuantity = item.PendingQuantity,
-                    Quantity = item.Quantity,
-                    Unit = item.Unit,
-                    Rate = item.Rate,
-                    Discount = item.Discount,
-                    Amount = item.Amount
-                };
-                model.Items.Add(grnitem);
+                    List<int?> id;
 
+                    if (list[0].isDirectPurchase)
+                    {
+                        id = (from PendingForGRN p in list
+                              where p.isChecked
+                              select p.DirectPurchaseRequestId).ToList();
+                        if (id.Count > 0)
+                        {
+                            model.isDirectPurchaseGRN = true;
+                            model.Items = new GRNRepository().GetDirectGRNItems(id);
+                            model.GRNDate = DateTime.Today;
+                            SupplierDropdown();
+                        }
+                        else
+                        {
+                            throw new NullReferenceException("1No purchase requests were selected. Please select atleast one purchase request and try again.");
+                        }
+                    }
+                    else
+                    {
+                        id = (from PendingForGRN p in list
+                              where p.isChecked
+                              select p.SupplyOrderId).ToList();
+                        if (id.Count > 0)
+                        {
+                            model = new GRNRepository().GetGRNDetails(list[0].SupplierId);
+                            model.GRNDate = DateTime.Today;
+                            model.Items = new GRNRepository().GetGRNItem(id);
+                        }
+                        else
+                        {
+                            throw new NullReferenceException("1No supply orders were selected. Please select atleast one supply order and try again.");
+                        }
+                    }
+                }
+
+                //GRNRepository repo = new GRNRepository();
+                FillWarehouse();
+                FillCurrency();
+
+                //GRN model = repo.GetGRNDetails(SupplyOrderId ?? 0);
+                //var GRNList = repo.GetGRNItem(SupplyOrderId ?? 0);
+                //model.Items = new List<GRNItem>();
+                //foreach (var item in GRNList)
+                //{
+                //    var grnitem = new GRNItem
+                //    {
+                //        SupplyOrderItemId = item.SupplyOrderItemId,
+                //        ItemName = item.ItemName,
+                //        ItemId = item.ItemId,
+                //        PartNo = item.PartNo,
+                //        Remarks = item.Remarks,
+                //        PendingQuantity = item.PendingQuantity,
+                //        Quantity = item.Quantity,
+                //        Unit = item.Unit,
+                //        Rate = item.Rate,
+                //        Discount = item.Discount,
+                //        Amount = item.Amount
+                //    };
+                //    model.Items.Add(grnitem);
+
+                //}
+                return View(model);
             }
-            return View(model);
-        }
+            catch (NullReferenceException nx)
+            {
+                if (nx.Message.StartsWith("1"))
+                    TempData["error"] = nx.Message.Substring(1);
+                else TempData["error"] = "Some required data was missing. Please try again.|" + nx.Message;
+            }
+            catch (SqlException sx)
+            {
+                TempData["error"] = "Some error occured while connecting to database. Please check your network connection and try again.|" + sx.Message;
+            }
+            catch (Exception ex)
+            {
+                TempData["error"] = "Some error occured. Please try again.|" + ex.Message;
+            }
+            TempData["success"] = "";
 
+            if (list[0].isDirectPurchase)
+                return RedirectToAction("PendingDirectPurchase");
+            return RedirectToAction("PendingGrnWareHouse");
+        }
 
         public void FillWarehouse()
         {
@@ -85,12 +147,33 @@ namespace ArabErp.Web.Controllers
 
         public ActionResult Save(GRN model)
         {
-            model.OrganizationId = 1;
-            model.CreatedDate = System.DateTime.Now;
-            model.CreatedBy = Request.ServerVariables["HTTP_X_FORWARDED_FOR"] ?? Request.ServerVariables["REMOTE_ADDR"];
-            new GRNRepository().InsertGRN(model);
-            new GRNRepository().InsertStockUpdate(model);
-            return RedirectToAction("PendingGrnWareHouse");
+            try
+            {
+                model.OrganizationId = 1;
+                model.CreatedDate = System.DateTime.Now;
+                model.CreatedBy = Request.ServerVariables["HTTP_X_FORWARDED_FOR"] ?? Request.ServerVariables["REMOTE_ADDR"];
+                if (new GRNRepository().InsertGRN(model) > 0)
+                {
+                    TempData["success"] = "Saved succesfully";
+                    TempData["error"] = "";
+                    if (model.isDirectPurchaseGRN)
+                        return RedirectToAction("PendingDirectPurchase");
+                    return RedirectToAction("PendingGrnWareHouse");
+                }
+            }
+            catch (NullReferenceException nx)
+            {
+                TempData["success"] = "";
+                if (nx.Message.StartsWith("1"))
+                    TempData["error"] = nx.Message;
+                else TempData["error"] = "Some error occured. Please try again." + nx.Message;
+            }
+            catch (Exception ex)
+            {
+                TempData["success"] = "";
+                TempData["error"] = "Some error occured. Please try again." + ex.Message;
+            }
+            return View("Create", model);
         }
 
         public ActionResult Modify(int? GRNId)
@@ -105,12 +188,40 @@ namespace ArabErp.Web.Controllers
             return View("Create", model);
         }
 
-        public ActionResult PendingDirectPurchaseRequests()
+        public ActionResult PendingDirectPurchase()
         {
             return View();
         }
 
         public void GetSupplierDropdown()
+        {
+            ViewBag.supplierList = new SelectList(new DropdownRepository().SupplierDropdown(), "Id", "Name");
+        }
+        public PartialViewResult PendingGrid(int supplierId = 0)
+        {
+            try
+            {
+                return PartialView("_PendingGrid", new GRNRepository().GetGRNPendingList(supplierId));
+            }
+            catch (Exception)
+            {
+                return PartialView("_PendingGrid", new List<PendingForGRN>());
+            }
+        }
+
+        public ActionResult PendingDirectPurchaseGrid()
+        {
+            try
+            {
+                return PartialView("_PendingDirectPurchase", new GRNRepository().GetPendingDirectPurchase());
+            }
+            catch (Exception)
+            {
+                return PartialView("_PendingDirectPurchase", new List<PendingForGRN>());
+            }
+        }
+
+        public void SupplierDropdown()
         {
             ViewBag.supplierList = new SelectList(new DropdownRepository().SupplierDropdown(), "Id", "Name");
         }
