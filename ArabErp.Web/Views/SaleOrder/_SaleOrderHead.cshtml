@@ -11,6 +11,7 @@
 
 <script>
     $(document).ready(function () {
+       
         toastr.options = {
             "closeButton": true,
             "positionClass": "toast-bottom-full-width",
@@ -37,12 +38,13 @@
 <div class="row form-group ">
     <div class="col-md-2">
         <label for="SaleOrderRefNo">SO.No.</label>
-        @Html.TextBoxFor(m => m.SaleOrderRefNo, new { @class = "form_input ", autocomplete = "off", @readonly = "readonly" })
+        @Html.TextBoxFor(m => m.SaleOrderRefNo, new { @class = "form_input ", autocomplete = "off", @readonly = "readonly", placeholder = "will be generated " })
       
     </div>
     <div class="col-md-2">
         <label for="SaleOrderDate">Date</label>
-        @Html.TextBoxFor(m => m.SaleOrderDate, String.Format("{0:dd-MM-yyyy}", Model.SaleOrderDate), new { @class = "form_input ", autocomplete = "off", @readonly = "readonly" })
+        @*@Html.TextBoxFor(m => m.SaleOrderDate, new { @class = "form_input ", autocomplete = "off", @readonly = "readonly" })*@
+        @Html.TextBoxFor(m => m.SaleOrderDate, new { @class = "form_input ", autocomplete = "off", @readonly = "readonly"})
     </div>
 </div>
 <div class="row form-group">
