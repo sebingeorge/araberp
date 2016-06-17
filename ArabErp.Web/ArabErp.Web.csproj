@@ -202,6 +202,7 @@
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\AdditionalWorkShopRequestController.cs" />
+    <Compile Include="Controllers\AdditionOrDeductionController.cs" />
     <Compile Include="Controllers\BayStatusController.cs" />
     <Compile Include="Controllers\CommissionAgentController.cs" />
     <Compile Include="Controllers\CurrencyController.cs" />
@@ -228,6 +229,7 @@
     <Compile Include="Controllers\SaleOrderController.cs" />
     <Compile Include="Controllers\SaleOrderStatusController.cs" />
     <Compile Include="Controllers\SalesInvoiceController.cs" />
+    <Compile Include="Controllers\SalesQuotationController.cs" />
     <Compile Include="Controllers\StockJournalController.cs" />
     <Compile Include="Controllers\StockPointController.cs" />
     <Compile Include="Controllers\StockReturnController.cs" />
@@ -570,10 +572,17 @@
     <Content Include="Views\SupplyOrder\_gridLocalSupply.cshtml" />
     <Content Include="Views\DirectPurchase\_grid.cshtml" />
     <Content Include="Views\DirectPurchase\Create.cshtml" />
-    <Content Include="Views\PurchaseBill\PurchaseBillPendingList.cshtml" />
     <Content Include="Views\GrnWareHouse\_DisplayGRNData.cshtml" />
     <Content Include="Views\PurchaseBill\Index.cshtml" />
+    <Content Include="Views\PurchaseBill\_pendingGRN.cshtml" />
+    <Content Include="Views\PurchaseBill\Create.cshtml" />
+    <Content Include="Views\PurchaseBill\_PurchaseBillHead.cshtml" />
+    <Content Include="Views\PurchaseBill\_PurchaseBillFooter.cshtml" />
+    <Content Include="Views\PurchaseBill\_PurchaseBillTable.cshtml" />
     <Content Include="Views\StockJournal\_StockJournalList.cshtml" />
+    <Content Include="Views\AdditionOrDeduction\Index.cshtml" />
+    <Content Include="Views\AdditionOrDeduction\Create.cshtml" />
+    <Content Include="Views\SalesQuotation\Create.cshtml" />
     <Content Include="Views\GrnWareHouse\_PendingGrid.cshtml" />
     <Content Include="Views\GrnWareHouse\PendingDirectPurchase.cshtml" />
     <Content Include="Views\GrnWareHouse\_PendingDirectPurchase.cshtml" />

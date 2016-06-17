@@ -54,6 +54,7 @@
                             <li>
                                 <a data-toggle="dropdown" class="dropdown-toggle" href="#"><i class="glyphicon glyphicon-th-large"></i></a>
                                 <ul class="dropdown-menu">
+                                    <li><a href="@Url.Action("Create","SalesQuotation")"><span class="badge pull-right"></span>Sales Quotation</a></li>
                                     <li><a href="@Url.Action("Create","SaleOrder")"><span class="badge pull-right"></span>Sale Order</a></li>
                                     <li><a href="@Url.Action("PendingSaleOrderApproval", "SaleOrder")"><span class="badge pull-right"></span>Sale Order Approval</a></li>
                                     <li><a href="@Url.Action("PendingSaleOrderHold", "SaleOrder")"><span class="badge pull-right"></span>Sale Order Hold</a></li>
@@ -64,6 +65,7 @@
                                     <li><a href="@Url.Action("PendingGrnWareHouse","GrnWareHouse")"><span class="badge pull-right"></span>GRN</a></li>
                                     <li><a href="@Url.Action("PendingDirectPurchase","GrnWareHouse")"><span class="badge pull-right"></span>Direct GRN</a></li>
                                     <li><a href="@Url.Action("Index", "PurchaseBill")"><span class="badge pull-right"></span>Purchase Bill</a></li>
+                                    <li><a href="@Url.Action("CreateRequest","DirectPurchase")"><span class="badge pull-right"></span>Direct Purchase</a></li>
                                     <li><a href="@Url.Action("Index","VehicleInPass")"><span class="badge pull-right"></span>Vehicle Inpass</a></li>
                                     <li><a href="@Url.Action("PendingJobCard","JobCard")"><span class="badge pull-right"></span>Job Card</a></li>
                                     <li><a href="@Url.Action("PendingJobCardQC", "JobCardQC")"><span class="badge pull-right"></span>Quality Control</a></li>
@@ -75,11 +77,15 @@
                                     <li><a href="@Url.Action("Create","StockReturn")"><span class="badge pull-right"></span>Stock Return</a></li>
                                     <li><a href="@Url.Action("Create", "StockJournal")"><span class="badge pull-right"></span>Stock Journal</a></li>
                                     <li><a href="@Url.Action("CreateWorkShopGRN", "WorkShopGRN")"><span class="badge pull-right"></span>WorkShop GRN</a></li>
+                                </ul>
+                            </li>
+                            <li>
+                                <a data-toggle="dropdown" class="dropdown-toggle" href="#"><i class="glyphicon glyphicon-tags"></i></a>
+                                <ul class="dropdown-menu">
                                     <li><a href="@Url.Action("Index","SaleOrderStatus")"><span class="badge pull-right"></span>Sale Order Status</a></li>
                                     <li><a href="@Url.Action("Index","BayStatus")"><span class="badge pull-right"></span>Bay Allocation Report</a></li>
                                 </ul>
                             </li>
-
                             <li>
                                 <a data-toggle="dropdown" class="dropdown-toggle" href="#"><i class="glyphicon glyphicon-th-list"></i></a>
                                 <ul class="dropdown-menu">
@@ -103,6 +109,7 @@
                                     <li><a href="@Url.Action("Create","Designation")"><span class="badge pull-right"></span>Designation</a></li>
                                     <li><a href="@Url.Action("Create", "CommissionAgent")"><span class="badge pull-right"></span>Commission Agent</a></li>
                                     <li><a href="@Url.Action("Create", "OpeningStock")"><span class="badge pull-right"></span>Opening Stock</a></li>
+                                    <li><a href="@Url.Action("Create", "AdditionOrDeduction")"><span class="badge pull-right"></span>Addition/Deduction</a></li>
                                 </ul>
                             </li>
 

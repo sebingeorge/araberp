@@ -1,59 +1,58 @@
 ﻿@model ArabErp.Domain.StockJournal
 
-<script type="text/javascript">
+<script>
     $(document).ready(function () {
         $("#StockJournelItems_0__SlNo").val('1');
         $("#add_row").click(function () {
-            var i = 0;
-            var no = 1;
-            $('input[id^="Row_"]').each(function () {
-                var id = this.id;
-                no++;
-                var row = Number(id.replace("Row_", ""));
-                if (row > i) {
-                    i = row;
-                }
-            });
-            i++;
+            if (validateGrid()) {
+                var i = 0;
+                var no = 1;
+                $('input[id^="Row_"]').each(function () {
+                    var id = this.id;
+                    no++;
+                    var row = Number(id.replace("Row_", ""));
+                    if (row > i) {
+                        i = row;
+                    }
+                });
+                i++;
 
-            var index = (new Date()).getTime(); // unique indexer
-            var clone = $('#0').clone(); // clone the BatchProducts item
-            //Update the index of the clone
-            //clone.html($(clone).html().replace("Items_0__", 'Items_' + i + '__'));
-            clone.html($(clone).html().replace(/\StockJournelItems_0__/g, 'StockJournelItems_' + i + '__'));
-            clone.html($(clone).html().replace(/\StockJournelItems[0]./g, 'StockJournelItems[' + i + '].'));
-            clone.html($(clone).html().replace(/\[0\]/g, '[' + i + ']'));
-            clone.html($(clone).html().replace(/\(0\)/g, '(' + i + ')'));
-            clone.html($(clone).html().replace(/Row_0/, 'Row_' + i));
-            clone.html($(clone).html().replace(/slno1/, 'slno' + (i + 1) + ''));
-            clone.html($(clone).html().replace(/PartNo_0/, 'PartNo_' + i + ''));
-            clone.html($(clone).html().replace(/Stock_0/, 'Stock_' + i + ''));
-            clone.html($(clone).html().replace(/UoM_0/, 'UoM_' + i + ''));
-            clone.html($(clone).html().replace(/this,0/, 'this,' + i + ''));
-            $("#table-additional-items-list").append('<tr id="' + i + '">' + clone.html() + '  </tr>');
-            $("#slno" + (i + 1)).html((i + 1));
-            $("#StockJournelItems_" + i + "__SlNo").val((i + 1));
-            //$("#unit" + i).html('');
-            //$("#partno" + i).html('');
-            //bind keypress event for new row inputs.
-            $(".numbers-only").keypress(function (e) {         
-                if (e.which == 8 || (e.which == 45 && $(this).val().indexOf('-') == -1) || (e.which == 46 && $(this).val().indexOf('.') == -1) || (e.which > 47 && e.which < 58))
-                {
-                }
-                else
-                {
-                    return false;
-                }
-            });
-        });
-
-        $(".numbers-only").keypress(function (e) {         
-         
-            if (e.which == 8 || (e.which == 45 && $(this).val().indexOf('-') == -1) || (e.which == 46 && $(this).val().indexOf('.') == -1) || (e.which > 47 && e.which < 58))
-            {
+                var index = (new Date()).getTime(); // unique indexer
+                var clone = $('#0').clone(); // clone the BatchProducts item
+                //Update the index of the clone
+                //clone.html($(clone).html().replace("Items_0__", 'Items_' + i + '__'));
+                clone.html($(clone).html().replace(/\StockJournelItems_0__/g, 'StockJournelItems_' + i + '__'));
+                clone.html($(clone).html().replace(/\StockJournelItems[0]./g, 'StockJournelItems[' + i + '].'));
+                clone.html($(clone).html().replace(/\[0\]/g, '[' + i + ']'));
+                clone.html($(clone).html().replace(/\(0\)/g, '(' + i + ')'));
+                clone.html($(clone).html().replace(/Row_0/, 'Row_' + i));
+                clone.html($(clone).html().replace(/slno1/, 'slno' + (i + 1) + ''));
+                clone.html($(clone).html().replace(/PartNo_0/, 'PartNo_' + i + ''));
+                clone.html($(clone).html().replace(/Stock_0/, 'Stock_' + i + ''));
+                clone.html($(clone).html().replace(/UoM_0/, 'UoM_' + i + ''));
+                clone.html($(clone).html().replace(/this,0/, 'this,' + i + ''));
+                $("#table-additional-items-list").append('<tr id="' + i + '">' + clone.html() + '  </tr>');
+                $("#slno" + (i + 1)).html((i + 1));
+                $("#StockJournelItems_" + i + "__SlNo").val((i + 1));
+                //$("#unit" + i).html('');
+                //$("#partno" + i).html('');
+                //bind keypress event for new row inputs.
+                $(".numbers-only").keypress(function (e) {
+                    if (e.which == 8 || (e.which == 45 && $(this).val().indexOf('-') == -1) || (e.which == 46 && $(this).val().indexOf('.') == -1) || (e.which > 47 && e.which < 58)) {
+                    }
+                    else {
+                        return false;
+                    }
+                });
             }
-            else
-            {
+        }
+        );
+
+        $(".numbers-only").keypress(function (e) {
+
+            if (e.which == 8 || (e.which == 45 && $(this).val().indexOf('-') == -1) || (e.which == 46 && $(this).val().indexOf('.') == -1) || (e.which > 47 && e.which < 58)) {
+            }
+            else {
                 return false;
             }
         });
@@ -80,9 +79,10 @@
                 var item = $("#StockJournelItems_" + j + "__ItemId").val();
                 //var remarks = $("#StockJournelItems_" + j + "__Remarks").val();
                 var qty = $("#StockJournelItems_" + j + "__Quantity").val();
-                var stock = $("#Stock_" + j ).val();
-                var partno = $("#PartNo_" + j).val();
-                
+                var stock = $("#StockJournelItems_" + j + "__Stock").val();
+                var partno = $("#StockJournelItems_" + j + "__PartNo").val();
+                var UoM = $("#StockJournelItems_" + j + "__UoM").val();
+
 
                 var clone = $("#" + j).clone(true, true);
                 clone.html($(clone).html().replace(new RegExp("StockJournelItems_" + j + "__", "g"), 'StockJournelItems_' + (j - 1) + '__'));
@@ -97,86 +97,154 @@
                 $("#" + j).html(clone.html());
                 $("#StockJournelItems_" + (j - 1) + "__SlNo").val(j);
                 $("#" + (j)).attr('id', (j - 1));
-                $("#StockJournelItems_" + (j - 1) + "__ItemId").val(item);
-                //$("#StockJournelItems_" + (j - 1) + "__Remarks").val(remarks);
+               
+
+                $("#StockJournelItems_" + (j-1) + "__ItemId").val(item);
+                //var remarks = $("#StockJournelItems_" + j + "__Remarks").val();
                 $("#StockJournelItems_" + (j - 1) + "__Quantity").val(qty);
-                $("#PartNo_" + (j - 1)).val(partno);
-                $("#Stock_" + (j - 1)).val(stock);
+                $("#StockJournelItems_" + (j - 1) + "__Stock").val(stock);
+                $("#StockJournelItems_" + (j - 1) + "__PartNo").val(partno);
+                $("#StockJournelItems_" + (j - 1) + "__UoM").val(UoM);
             }
         }
     }
     function OnItemChange(sender, index) {
-      
         var id = $(sender).val();
-        
-
-        if (id != '') {
-            var url = '@Url.Action("GetItemDetails")';//get unit of selected item
-            $.getJSON(url, { itemId: id },
-                function (data) {
-                    //$("#unit" + index).html(data);
-
-                  
-                    var res = data.split("|");
-                   
-                    $("#PartNo_" + index).val(res[1]);
-                    $("#Stock_" + index).val(res[2]);
-                    $("#UoM_" + index).val(res[3]);
-                });
+        if (CheckItemAlredySelected(id)) {
+            if (id != '') {
+                var url = '@Url.Action("GetItemDetails")';//get unit of selected item
+                $.getJSON(url, { itemId: id },
+                    function (data) {
+                        //$("#unit" + index).html(data);
 
 
-            @*var url = '@Url.Action("GetItemUnit")';//get unit of selected item
-            $.getJSON(url, { itemId: id },
-                function (data) {
-                    $("#unit" + index).html(data);
-                });
-            url = '@Url.Action("GetItemPartNo")';//get part number of selected item
-            $.getJSON(url, { itemId: id },
-                function (data) {
-                    $("#partno" + index).html(data);
-                });*@
+                        var res = data.split("|");
+
+                        $("#StockJournelItems_" + index + "__PartNo").val(res[1]);
+                        $("#StockJournelItems_" + index + "__Stock").val(res[2]);
+                        $("#StockJournelItems_" + index + "__UoM").val(res[3]);
+
+                    });
+            }
+            else {
+                //$("#unit" + index).html('');
+                //$("#partno" + index).html('');
+            }
         }
-        else {
-            //$("#unit" + index).html('');
-            //$("#partno" + index).html('');
+        else
+        {
+            
+            $("#StockJournelItems_" + index + "__ItemId").val('');
         }
     }
+    function CheckItemAlredySelected(id)
+    {
+        
+        var status = true;
+        var ErrorId = 0;
+        Count = 0;
+        $("select[id$='__ItemId'").each(function () {
+            if (this.value == id) {
+                Count = Count+ 1;
+            }
+        });
+        if (Count > 1)
+        {
+            status = false;
+            toastr.error('You Already Selected This Item');
+        }
+        return status;
+    }
+    function validateGrid() {
+        var status = true;
+        var ErrorId = 0;
+        $("select[id$='__ItemId'").each(function () {
+            if (this.value == '') {
+                status = false;
+                ErrorId = 1;
+            }
+        });
+        $("input[id$='__Quantity'").each(function () {
+            if (this.value == '' || this.value == 0 || this.value == '-') {
+                status = false;
+                ErrorId = 2;
+            }
+        });
+        switch (ErrorId) {
+            case 1:
+                toastr.info("Please select a Item");
+                break;
+            case 2:
+                toastr.info("Please enter a valid quantity(+/-) ");
+                break;
+        }
+        return status;
+    }
+    function validateGrid() {
+        var status = true;
+        var ErrorId = 0;
+        $("select[id$='__ItemId'").each(function () {
+            if (this.value == '') {
+                status = false;
+                ErrorId = 1;
+            }
+        });
+        $("input[id$='__Quantity'").each(function () {
+            if (this.value == '' || this.value == 0 || this.value == '-') {
+                status = false;
+                ErrorId = 2;
+            }
+        });
+        switch (ErrorId) {
+            case 1:
+                toastr.info("Please select a Item");
+                break;
+            case 2:
+                toastr.info("Please enter a valid quantity(+/-) ");
+                break;
+        }
+        return status;
+    }
+
+
 </script>
 
-    <table class="table table-bordered" id="table-additional-items-list">
-        <thead>
-            <tr class="grid_heading">
-                <th width="5%"><h1>Sl.No.</h1></th>
-                <th width="13%"><h1>Part No.</h1></th>
-                <th><h1>Item Description</h1></th>
-                <th width="10%"><h1>Stock</h1></th>
-                <th width="10%" class="text-right "><h1>Qty(+/-)</h1></th>
-                <th width="5%"><h1>UoM</h1></th>
-                <th>&nbsp;</th>
-            </tr>
-        </thead>
-        <tbody class="grid_row">
-            @for (int i = 0; i < Model.StockJournelItems.Count(); i++)
+<table class="table table-bordered" id="table-additional-items-list">
+    <thead>
+        <tr class="grid_heading">
+            <th width="5%"><h1>#</h1></th>
+            <th width="13%"><h1>Part No.</h1></th>
+            <th width ="60%"><h1>Material and Spares</h1></th>
+            <th width="10%" style="text-align:right"><h1>Stock</h1></th>
+            <th width="10%" class="text-right "><h1>Qty(+/-)</h1></th>
+            <th width="2%"><h1>UoM</h1></th>
+            <th>&nbsp;</th>
+        </tr>
+    </thead>
+    <tbody class="grid_row">
+        @for (int i = 0; i < Model.StockJournelItems.Count(); i++)
         {
             <tr id="@i">
-                    <td>
-                        <span id="slno@(i+1)">@(i + 1)</span>
-                        @Html.HiddenFor(m => m.StockJournelItems[i].SlNo)
-                    </td>
-                    <td><input type="text" id="PartNo_@i" class="form_input" /></td>
-                    <td>
-                        <input type="hidden" id="Row_@i" />
-                        @Html.DropDownListFor(m => m.StockJournelItems[i].ItemId, (SelectList)ViewBag.StockJournalItems, "Select Material", new { @class = "form_input", autocomplete = "off", @onchange = "OnItemChange(this," + i + ")" })
-                    </td>
-                    <td><input type="text" id="Stock_@i" class="form_input text-right" /></td>
+                <td>
+                    <span id="slno@(i+1)">@(i + 1)</span>
+                    @Html.HiddenFor(m => m.StockJournelItems[i].SlNo)
+                </td>
+                <td>@Html.TextBoxFor(m => m.StockJournelItems[i].PartNo, new { @class = "form_input numbers-only text-left", autocomplete = "off", @readonly = "readonly" })</td>
 
-                    <td>@Html.TextBoxFor(m => m.StockJournelItems[i].Quantity, new { @class = "form_input numbers-only text-right", autocomplete = "off", placeholder = "Qty" })</td>
-                
-                    <td><input type="text" id="UoM_@i" class="form_input" /></td>
-                    <td style="vertical-align:middle"><a class="glyphicon glyphicon-minus" style="top:0px" onclick="Delete(@i)"></a></td>
-                </tr>
+                <td>
+                    <input type="hidden" id="Row_@i" />
+                    @Html.DropDownListFor(m => m.StockJournelItems[i].ItemId, (SelectList)ViewBag.StockJournalItems, "Select Material", new { @class = "form_input", autocomplete = "off", @onchange = "OnItemChange(this," + i + ")" })
+                </td>
+                <td>@Html.TextBoxFor(m => m.StockJournelItems[i].Stock, new { @class = "form_input numbers-only text-right", autocomplete = "off", @readonly = "readonly" })</td>
+
+
+                <td>@Html.TextBoxFor(m => m.StockJournelItems[i].Quantity, new { @class = "form_input numbers-only text-right", autocomplete = "off", placeholder = "Qty" })</td>
+                <td>@Html.TextBoxFor(m => m.StockJournelItems[i].UoM, new { @class = "form_input numbers-only text-left", autocomplete = "off", @readonly = "readonly" })</td>
+
+                <td style="vertical-align:middle"><a class="glyphicon glyphicon-minus" style="top:0px" onclick="Delete(@i)"></a></td>
+            </tr>
         }
-        </tbody>
-    </table>
-    <a id="add_row" class="glyphicon glyphicon-plus"></a>
-    <a id='delete_row' style="float:right" class="glyphicon glyphicon-minus"></a>
+    </tbody>
+</table>
+<a id="add_row" class="glyphicon glyphicon-plus"></a>
+@*<a id='delete_row' style="float:right" class="glyphicon glyphicon-minus"></a>*@

@@ -8,14 +8,17 @@ namespace ArabErp.Domain
 {
    public class PurchaseBill
     {
-        public PurchaseBill()
-        {
-            PurchaseBillItems = new List<PurchaseBillItem>();
-        }
+        //public PurchaseBill()
+        //{
+        //    PurchaseBillItems = new List<PurchaseBillItem>();
+        //}
 
         public int PurchaseBillId { get; set; }
+        public string PurchaseBillRefNo { get; set; }
         public int SupplierId { get; set; }
-        public DateTime PurchaseBillDate { get; set; }
+        public string Supplier { get; set; }
+        public DateTime? PurchaseBillDate { get; set; }
+        public string BillNoDate { get; set; }
         public string Remarks { get; set; }
         public int EmployeeId { get; set; }
         public decimal PurchaseBillAmount { get; set; }
@@ -28,7 +31,6 @@ namespace ArabErp.Domain
         public DateTime? CreatedDate { get; set; }
         public int OrganizationId { get; set; }
         public bool isActive { get; set; }
-
-        public List<PurchaseBillItem> PurchaseBillItems { get; set; }
+        public List<PurchaseBillItem> Items { get; set; }
     }
 }
