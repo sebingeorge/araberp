@@ -1,8 +1,377 @@
-﻿
+﻿@model ArabErp.Domain.SalesQuotation
 @{
-    ViewBag.Title = "Create";
+    ViewBag.Title = "Sales Quotation";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
+@{ string actionName = ViewContext.RouteData.GetRequiredString("action");
+    ViewBag.Title = actionName;}
+@{
+    object displayMode = null;
+    if (ViewBag.Title.ToString() == "Create")
+    {
+        displayMode = new { @class = "form_input", autocomplete = "off" };
+    }
+    else
+    { displayMode = new { @class = "form_input", autocomplete = "off", @readonly = "readonly" }; }
 
-<h2>Create</h2>
 
+}
+
+<script>
+
+
+    $(function () {
+        $("#QuotationDate").datepicker({ dateFormat: "dd/MM/yy" });
+        $("#ExpectedDeliveryDate").datepicker({ dateFormat: "dd/MM/yy" });
+        $("#PredictedClosingDate").datepicker({ dateFormat: "dd/MM/yy" });
+        $("#QuotationValidToDate").datepicker({ dateFormat: "dd/MM/yy" });
+    });
+    function CustomerChanged(cust)
+    {
+        var cusId = cust.value;
+
+        $.ajax({
+            url: "/SaleOrder/GetCustomerDetailsByKey/",
+            data: { cusKey: cusId },
+            cache: false,
+            type: "GET",
+            timeout: 10000,
+            dataType: "json",
+            success: function (result) {
+                if (result.Success) { // this sets the value from the response
+                    $('#CurrencyId').val(result.Result);
+                    $("#CustomerAddress").val(result.Address);
+                } else {
+                    $('#SomeOtherHtmlTextBox').val("Failed");
+                }
+            }
+        });
+        //$('#CurrencyId').val("2");
+    }
+    $(document).ready(function () {
+        //bind keypress event for new row inputs.
+        $(".numbers-only").keypress(function (e) {
+            if (e.which == 8 || (e.which == 46 && $(this).val().indexOf('.') == -1) || (e.which > 47 && e.which < 58)) { } else { return false; }
+        });
+    });
+
+    function Validation() {
+        var count = 0;
+        if ($('#SaleOrderRefNo').val() == '') {
+            alert("please enter sono.");
+            $('#SaleOrderRefNo').focus();
+            return false;
+        }
+        else if ($('#CustomerId').val() == '') {
+            alert("select one customer...");
+            $('#CustomerId').focus();
+            return false;
+        }
+        else if ($('#CustomerOrderRef').val() == '') {
+            alert("please enter customer order ref.");
+            $('#CustomerOrderRef').focus();
+            return false;
+        }
+        else if ($('#CommissionAgentId').val() == '') {
+            alert("select commission agent");
+            $('#CommissionAgentId').focus();
+            return false;
+        }
+        else if ($('#SalesExecutiveId').val() == '') {
+            alert("select order taken by");
+            $('#SalesExecutiveId').focus();
+            return false;
+        }
+        else if ($('#EDateArrival').val() == '') {
+            alert("select EDA");
+            $('#EDateArrival').focus();
+            return false;
+        }
+        else if ($('#EDateDelivery').val() == '') {
+            alert("select EDD");
+            $('#EDateDelivery').focus();
+            return false;
+        }
+
+
+        $(".validateqty").each(function (i, obj) {
+
+            var qty = $("#Items_" + i + "__Quantity").val();
+            var rate = $("#Items_" + i + "__Rate").val();
+            var wrk = $("#Items_" + i + "__WorkDescriptionId").val();
+            var unit = $("#Items_" + i + "__UnitId").val();
+            if (wrk == "") {
+
+                alert("select work description");
+                $("#Items_" + i + "__WorkDescriptionId").focus();
+                count = 1;
+            }
+           else if (qty == "") {
+
+                alert("Please enter qty.");
+                $("#Items_" + i + "__Quantity").focus();
+                count = 1;
+           }
+           else if (unit == "") {
+
+               alert("select unit.");
+               $("#Items_" + i + "__UnitId").focus();
+               count = 1;
+           }
+            else if (rate == "") {
+
+                alert("Please enter rate");
+                $("#Items_" + i + "__Rate").focus();
+                count = 1;
+            }
+
+            //  if (!$(this).val()) {
+            //      //$(this).addClass('');
+            //    $(this).addClass('warning');
+            //    alert("Please enter Quantity");
+            //    $(this).focus();
+            //    return rtn;
+            //}
+
+
+        });
+
+
+        if (count == 1) {
+
+            return false;
+        }
+
+
+        return (confirm("Are you sure to save?")) ? true : false;
+
+
+
+    }
+</script>
+
+<div class="container">
+    <div class="row">
+        <div class="form-head1">
+            <h4>Sales Quotation</h4>
+        </div>
+
+        <div class="main-part pad1">
+            @using (Html.BeginForm("Save", null, FormMethod.Post, new { @class = "createFrom", @id = "work_form" }))
+            {
+
+                @Html.HiddenFor(m => m.SalesQuotationId)
+                <div class="row form-group ">
+                    <div class="col-md-6">
+                        <label for="QuotationRefNo">QuotationRefNo</label>
+                        @if (ViewBag.Title.ToString() == "Create")
+                        {
+                            @Html.TextBoxFor(m => m.QuotationRefNo, new { @class = "form_input", autocomplete = "off" })
+                        }
+                        else
+                        {
+                            @Html.TextBoxFor(m => m.QuotationRefNo, new { @class = "form_input", autocomplete = "off", @readonly = "readonly" })
+                        }
+                    </div>
+
+                    <div class="col-md-6">
+                        <label for="QuotationDate">Quotation Date</label>
+                        @if (ViewBag.Title.ToString() == "Create")
+                        {
+                            @Html.TextBoxFor(m => m.QuotationDate, String.Format("{0:dd-MM-yyyy}", Model.QuotationDate), new { @class = "form_input", autocomplete = "off" })
+                        }
+                        else
+                        {
+                            @Html.TextBoxFor(m => m.QuotationDate, String.Format("{0:dd-MM-yyyy}", Model.QuotationDate),new { @class = "form_input", autocomplete = "off", @readonly = "readonly" })
+                        }
+                    </div>
+                </div>
+                <div class="row form-group ">
+                    <div class="col-md-6">
+                        <label for="CustomerId">Customer</label>
+                        @if (ViewBag.Title.ToString() == "Create")
+                        {
+                            @Html.DropDownListFor(m => Model.CustomerId, (SelectList)ViewBag.customerlist, "Select Customer", new { @class = "form_input", autocomplete = "off", @onchange = "CustomerChanged(this);" })
+
+                        }
+                        else
+                        {
+                            @Html.DropDownListFor(m => Model.CustomerId, (SelectList)ViewBag.customerlist, "Select Customer", new { @class = "form_input", autocomplete = "off", @onchange = "CustomerChanged(this);", @disabled = "true" })
+                        }
+                    </div>
+                    <div class="col-md-4">
+                        <label for="CustomerAddress">Customer Address</label>
+                        @Html.TextAreaFor(m => m.CustomerAddress, new { @class = "form_input", autocomplete = "off", @readonly = "readonly" })
+                    </div>
+                    </div>
+
+                <div class="row form-group ">
+                    <div class="col-md-6">
+                        <label for="ContactPerson">Contact Person</label>
+                        @if (ViewBag.Title.ToString() == "Create")
+                        {
+                            @Html.TextBoxFor(m => m.ContactPerson, new { @class = "form_input", autocomplete = "off" })
+                        }
+                        else
+                        {
+                            @Html.TextBoxFor(m => m.ContactPerson, new { @class = "form_input", autocomplete = "off", @readonly = "readonly" })
+                        }
+                    </div>
+
+                    <div class="col-md-6">
+                        <label for="SalesExecutiveId">Sales Executive </label>
+                        @if (ViewBag.Title.ToString() == "Create")
+                        {
+                            @Html.DropDownListFor(m => Model.SalesExecutiveId, (SelectList)ViewBag.employeelist, "Select Order Taken By", new { @class = "form_input", autocomplete = "off" })
+                        }
+                        else
+                        {
+                            @Html.DropDownListFor(m => Model.SalesExecutiveId, (SelectList)ViewBag.employeelist, "Select Order Taken By", new { @class = "form_input", autocomplete = "off", @disabled = "true" })
+
+                        }
+                    </div>
+                </div>
+                <div class="row form-group ">
+                    <div class="col-md-6">
+                        <label for="PredictedClosingDate">Predicted Closing Date</label>
+                        @if (ViewBag.Title.ToString() == "Create")
+                        {
+                            @Html.TextBoxFor(m => m.PredictedClosingDate, String.Format("{0:dd-MM-yyyy}", Model.PredictedClosingDate), new { @class = "form_input", autocomplete = "off" })
+                        }
+                        else
+                        {
+                            @Html.TextBoxFor(m => m.PredictedClosingDate, String.Format("{0:dd-MM-yyyy}", Model.PredictedClosingDate), new { @class = "form_input", autocomplete = "off", @readonly = "readonly" })
+                        }
+                    </div>
+                    <div class="col-md-6">
+                        <label for="QuotationValidToDate">Quotation Valid To Date</label>
+                        @if (ViewBag.Title.ToString() == "Create")
+                        {
+                            @Html.TextBoxFor(m => m.QuotationValidToDate, new { @class = "form_input", autocomplete = "off" })
+                        }
+                        else
+                        {
+                            @Html.TextBoxFor(m => m.QuotationValidToDate, new { @class = "form_input", autocomplete = "off", @readonly = "readonly" })
+                        }
+                    </div>
+                </div>
+                <div class="row form-group ">
+                    <div class="col-md-6">
+                        <label for="ExpectedDeliveryDate">Expected Delivery Date</label>
+                        @if (ViewBag.Title.ToString() == "Create")
+                        {
+                            @Html.TextBoxFor(m => m.ExpectedDeliveryDate, new { @class = "form_input", autocomplete = "off" })
+                        }
+                        else
+                        {
+                            @Html.TextBoxFor(m => m.ExpectedDeliveryDate, new { @class = "form_input", autocomplete = "off", @readonly = "readonly" })
+                        }
+                    </div>
+                    <div class="col-md-6">
+                        <label for="ApprovedBy">Approved By</label>
+                      
+                            @Html.TextBoxFor(m => m.ApprovedBy, new { @class = "form_input", autocomplete = "off", @readonly = "readonly" })
+
+                    </div>
+                </div>
+                <div class="row form-group ">
+                    <div class="col-md-6">
+                        <label for="Amount">Amount</label>
+                        @if (ViewBag.Title.ToString() == "Create")
+                        {
+                            @Html.TextBoxFor(m => m.Amount, new { @class = "form_input", autocomplete = "off" })
+                        }
+                        else
+                        {
+                            @Html.TextBoxFor(m => m.Amount, new { @class = "form_input", autocomplete = "off", @readonly = "readonly" })
+                        }
+                    </div>
+                </div>
+
+                <div class="row form-group ">
+                    <div class="col-md-6">
+                        <label for="Remarks">Remarks</label>
+                        @if (ViewBag.Title.ToString() == "Create")
+                        {
+                            @Html.TextAreaFor(m => m.Remarks, new { @class = "form_input", autocomplete = "off" })
+                        }
+                        else
+                        {
+                            @Html.TextAreaFor(m => m.Remarks, new { @class = "form_input", autocomplete = "off", @readonly = "readonly" })
+                        }
+                    </div>
+                    <div class="col-md-6">
+                        <label for="SalesQuotationRejectReasonId">SalesQuotation Reject Reason</label>
+                
+                        @if (ViewBag.Title.ToString() == "Create")
+                        {
+                            @Html.DropDownListFor(m => Model.SalesQuotationRejectReasonId, (SelectList)ViewBag.SalesQuotationRejectReasonlist, "Select Order Taken By", new { @class = "form_input", autocomplete = "off" })
+                        }
+                        else
+                        {
+                            @Html.DropDownListFor(m => Model.SalesQuotationRejectReasonId, (SelectList)ViewBag.SalesQuotationRejectReasonlist, "Select Order Taken By", new { @class = "form_input", autocomplete = "off", @disabled = "true" })
+
+                        }
+                    </div>
+                </div>
+                <div class="row form-group ">
+                    <div class="col-md-6">
+                        <label for="QuotationRejectReason">QuotationRejectReason</label>
+                        @if (ViewBag.Title.ToString() == "Create")
+                        {
+                            @Html.TextBoxFor(m => m.QuotationRejectReason, new { @class = "form_input", autocomplete = "off" })
+                        }
+                        else
+                        {
+                            @Html.TextBoxFor(m => m.QuotationRejectReason, new { @class = "form_input", autocomplete = "off", @readonly = "readonly" })
+                        }
+                    </div>
+
+                    <div class="col-md-6">
+                        <label for="Competitors">Competitors</label>
+                        @if (ViewBag.Title.ToString() == "Create")
+                        {
+                            @Html.TextBoxFor(m => m.Competitors, new { @class = "form_input", autocomplete = "off" })
+                        }
+                        else
+                        {
+                            @Html.TextBoxFor(m => m.Competitors, new { @class = "form_input", autocomplete = "off", @readonly = "readonly" })
+                        }
+                    </div>
+                </div>
+                <div class="row form-group ">
+                    <div class="col-md-6">
+                        <label for="PaymentTerms">Payment Terms</label>
+                        @if (ViewBag.Title.ToString() == "Create")
+                        {
+                            @Html.TextBoxFor(m => m.PaymentTerms, new { @class = "form_input", autocomplete = "off" })
+                        }
+                        else
+                        {
+                            @Html.TextBoxFor(m => m.PaymentTerms, new { @class = "form_input", autocomplete = "off", @readonly = "readonly" })
+                        }
+                    </div>
+                    <div class="col-md-6">
+                        <label for="DiscountRemarks">Discount Remarks</label>
+                        @if (ViewBag.Title.ToString() == "Create")
+                        {
+                            @Html.TextBoxFor(m => m.DiscountRemarks, new { @class = "form_input", autocomplete = "off" })
+                        }
+                        else
+                        {
+                            @Html.TextBoxFor(m => m.DiscountRemarks, new { @class = "form_input", autocomplete = "off", @readonly = "readonly" })
+                        }
+                    </div>
+                </div>
+
+
+                <div class="marg">
+                    <button class="form-button">Exit</button>
+                    <button type="submit" class="form-button">Save</button>
+
+                </div>
+
+            }
+        </div>
+    </div>
+</div>
