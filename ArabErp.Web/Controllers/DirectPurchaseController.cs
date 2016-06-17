@@ -2,6 +2,7 @@
 using ArabErp.Domain;
 using System;
 using System.Collections.Generic;
+using System.Data.SqlClient;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
@@ -28,7 +29,7 @@ namespace ArabErp.Web.Controllers
             model.OrganizationId = 1;
             model.CreatedDate = System.DateTime.Now;
             model.CreatedBy = Request.ServerVariables["HTTP_X_FORWARDED_FOR"] ?? Request.ServerVariables["REMOTE_ADDR"];
-            if (new DirectPurchaseRepository().InsertDirectPurchaseRequest(model) < 0)
+            if (new DirectPurchaseRepository().InsertDirectPurchaseRequest(model) > 0)
             {
                 TempData["success"] = "Saved successfully";
                 TempData["error"] = "";
@@ -68,14 +69,34 @@ namespace ArabErp.Web.Controllers
         {
             int val1 = new DirectPurchaseRepository().isNotExist(requestNo);
             int val2 = new DirectPurchaseRepository().validateTotal(total);
-            string str="";
+            string str = "";
             if (val1 != 1)
                 str += "Purchase request number already exists";
             if (val2 != 1)
                 str += "|Total amount should not exceed the purchase limit";
-            if(str.Length == 0)
+            if (str.Length == 0)
                 return Json(new { status = true }, JsonRequestBehavior.AllowGet);
             return Json(new { status = false, message = str }, JsonRequestBehavior.AllowGet);
+        }
+        public ActionResult Approval()
+        {
+            return View(new DirectPurchaseRepository().GetUnApprovedRequests());
+        }
+        public JsonResult Approve(int id)
+        {
+            try
+            {
+                new DirectPurchaseRepository().ApproveRequest(id);
+                return Json("success", JsonRequestBehavior.AllowGet);
+            }
+            catch (SqlException)
+            {
+                return Json("error|Some error occured while connecting to database. Please check your network connection and try again.", JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception ex)
+            {
+                return Json("error|" + ex.Message, JsonRequestBehavior.AllowGet);
+            }
         }
     }
 }

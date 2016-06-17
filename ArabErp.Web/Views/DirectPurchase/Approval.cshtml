@@ -1,0 +1,101 @@
+﻿@model IList<ArabErp.Domain.DirectPurchaseRequest>
+
+@{
+    ViewBag.Title = "Create Direct Purchase Request";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<script type="text/javascript">
+
+    $(document).ready(function(){
+        toastr.options = {
+            "closeButton": true,
+            "positionClass": "toast-bottom-full-width",
+            "preventDuplicates": false,
+            "onclick": null,
+            "showDuration": "300",
+            "hideDuration": "1000",
+            "timeOut": "0",
+            "extendedTimeOut": "1000",
+            "showEasing": "swing",
+            "hideEasing": "linear",
+            "showMethod": "fadeIn",
+            "hideMethod": "fadeOut"
+        }
+    })
+
+    function Approve(id) {
+        var url = '@Url.Action("Approve")';
+        $.post(url, { id: id }, function (data) {
+            if (data.startsWith('success')) {
+                window.location = '@Url.Action("Approval")';
+            }
+            else if(data.startsWith('error'))
+                toastr.success(data.split('|')[1]);
+        });
+    }
+
+</script>
+
+<div class="container">
+
+    <div class="row">
+
+        <div class="form-head1">
+            <h4>Pending Stores Issue</h4>
+        </div>
+        <div class="main-part pad1">
+            <div class="table-responsive scroll4">
+                <table class="table table-bordered">
+                    <thead>
+                        <tr class="grid_heading">
+                            <th><h1>PR No. &amp; Date</h1></th>
+                            <th><h1>Special Remarks</h1></th>
+                            <th><h1>Total Amount</h1></th>
+                            <th></th>
+                        </tr>
+                    </thead>
+
+                    <tbody class="grid_row">
+                        @{
+                            for (int i = 0; i < Model.Count; i++)
+                            {
+                                <tr>
+                                    <td>
+                                        <input type="text" class="form_input" value="@Model[i].PurchaseRequestNo" />
+                                    </td>
+                                    <td>
+                                        <input type="text" class="form_input" value="@Model[i].SpecialRemarks" />
+                                    </td>
+                                    <td>
+                                        <input type="text" class="form_input" value="@Model[i].TotalAmount" />
+                                    </td>
+                                    <td>
+                                        <button class="btn btn-xs btn-primary" onclick="Approve('@Model[i].DirectPurchaseRequestId')">
+                                            <span class="glyphicon glyphicon-edit" style="top:2px">
+                                            </span>
+                                        </button>
+                                    </td>
+                                </tr>
+                            }
+                        }
+                    </tbody>
+
+                </table>
+            </div>
+
+            <div class="row">
+                <div class="col-md-12">
+                    @*<button class="btn btn-default">
+                            <span class="glyphicon glyphicon-list" style="top:1.5px;right:5px"></span>Issued List
+                        </button>*@
+                    @*<div class="margf">
+                            <button type="submit" class="form-button">Exit</button>
+                            <button type="submit" class="form-button">Proceed</button>
+                        </div>*@
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
