@@ -34,8 +34,55 @@ namespace ArabErp.Web.Controllers
 
             salesquotation.SalesQuotationItems = new List<SalesQuotationItem>();
             salesquotation.SalesQuotationItems.Add(new SalesQuotationItem());
+            ViewBag.SubmitAction = "Save";
             return View(salesquotation);
         }
+
+        [HttpGet]
+        public ActionResult Approve(int SalesQuotationId)
+        {
+            FillCustomer();
+            FillCurrency();
+            FillCommissionAgent();
+            FillWrkDesc();
+            FillVehicle();
+            FillUnit();
+            FillEmployee();
+            FillSalesQuotationRejectReason();
+            var repo = new SalesQuotationRepository();
+
+            SalesQuotation salesquotation = repo.GetSalesQuotation(SalesQuotationId);
+            salesquotation.QuotationDate = System.DateTime.Today;
+            salesquotation.PredictedClosingDate = System.DateTime.Today;
+            salesquotation.QuotationValidToDate = System.DateTime.Today;
+            salesquotation.ExpectedDeliveryDate = System.DateTime.Today;
+
+            salesquotation.SalesQuotationItems = repo.GetSalesQuotationItems(SalesQuotationId);
+            ViewBag.SubmitAction = "Approve";
+            return View("Create",salesquotation);
+        }
+
+        public ActionResult Approve(SalesQuotation model)
+        {
+
+            var repo = new SalesQuotationRepository();
+
+            repo.ApproveSalesQuotation(model);
+
+            
+            return RedirectToAction("ListSalesQuotations");
+        }
+
+        public ActionResult ListSalesQuotations()
+        {
+        
+            var repo = new SalesQuotationRepository();
+
+            List<SalesQuotation> salesquotations = repo.GetSalesQuotations();
+      
+            return View(salesquotations);
+        }
+
         public void FillWrkDesc()
         {
             var repo = new SaleOrderItemRepository();
@@ -87,7 +134,7 @@ namespace ArabErp.Web.Controllers
         }
 
         [HttpPost]
-        public ActionResult Save(SalesQuotation model)
+        public ActionResult Create(SalesQuotation model)
         {
 
             model.OrganizationId = 1;

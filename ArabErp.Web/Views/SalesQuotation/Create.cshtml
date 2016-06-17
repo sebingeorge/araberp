@@ -1,15 +1,16 @@
-﻿@model ArabErp.Domain.SalesQuotation
+﻿
+@model ArabErp.Domain.SalesQuotation
 @{
     ViewBag.Title = "Sales Quotation";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 @{ string actionName = ViewContext.RouteData.GetRequiredString("action");
-    ViewBag.Title = actionName;
+    ViewBag.actionName = actionName;
 
     }
 @{
     object displayMode = null;
-    if (ViewBag.Title.ToString() == "Create")
+    if (ViewBag.actionName.ToString() == "Create")
     {
         displayMode = new { @class = "form_input", autocomplete = "off" };
     }
@@ -159,14 +160,14 @@
         </div>
 
         <div class="main-part pad1">
-            @using (Html.BeginForm("Save", null, FormMethod.Post, new { @class = "createFrom", @id = "work_form" }))
+            @using (Html.BeginForm(ViewContext.RouteData.GetRequiredString("action"), null, FormMethod.Post, new { @class = "createFrom", @id = "work_form" }))
             {
 
                 @Html.HiddenFor(m => m.SalesQuotationId)
                 <div class="row form-group ">
                     <div class="col-md-6">
                         <label for="QuotationRefNo">QuotationRefNo</label>
-                        @if (ViewBag.Title.ToString() == "Create")
+                        @if (ViewBag.actionName.ToString() == "Create")
                         {
                             @Html.TextBoxFor(m => m.QuotationRefNo, new { @class = "form_input", autocomplete = "off" })
                         }
@@ -178,7 +179,7 @@
 
                     <div class="col-md-6">
                         <label for="QuotationDate">Quotation Date</label>
-                        @if (ViewBag.Title.ToString() == "Create")
+                        @if (ViewBag.actionName.ToString() == "Create")
                         {
                             @Html.TextBoxFor(m => m.QuotationDate, String.Format("{0:dd-MM-yyyy}", Model.QuotationDate), new { @class = "form_input", autocomplete = "off" })
                         }
@@ -191,7 +192,7 @@
                 <div class="row form-group ">
                     <div class="col-md-6">
                         <label for="CustomerId">Customer</label>
-                        @if (ViewBag.Title.ToString() == "Create")
+                        @if (ViewBag.actionName.ToString() == "Create")
                         {
                             @Html.DropDownListFor(m => Model.CustomerId, (SelectList)ViewBag.customerlist, "Select Customer", new { @class = "form_input", autocomplete = "off", @onchange = "CustomerChanged(this);" })
 
@@ -210,7 +211,7 @@
                 <div class="row form-group ">
                     <div class="col-md-6">
                         <label for="ContactPerson">Contact Person</label>
-                        @if (ViewBag.Title.ToString() == "Create")
+                        @if (ViewBag.actionName.ToString() == "Create")
                         {
                             @Html.TextBoxFor(m => m.ContactPerson, new { @class = "form_input", autocomplete = "off" })
                         }
@@ -222,7 +223,7 @@
 
                     <div class="col-md-6">
                         <label for="SalesExecutiveId">Sales Executive </label>
-                        @if (ViewBag.Title.ToString() == "Create")
+                        @if (ViewBag.actionName.ToString() == "Create")
                         {
                             @Html.DropDownListFor(m => Model.SalesExecutiveId, (SelectList)ViewBag.employeelist, "Select Order Taken By", new { @class = "form_input", autocomplete = "off" })
                         }
@@ -236,7 +237,7 @@
                 <div class="row form-group ">
                     <div class="col-md-6">
                         <label for="PredictedClosingDate">Predicted Closing Date</label>
-                        @if (ViewBag.Title.ToString() == "Create")
+                        @if (ViewBag.actionName.ToString() == "Create")
                         {
                             @Html.TextBoxFor(m => m.PredictedClosingDate, String.Format("{0:dd-MM-yyyy}", Model.PredictedClosingDate), new { @class = "form_input", autocomplete = "off" })
                         }
@@ -247,7 +248,7 @@
                     </div>
                     <div class="col-md-6">
                         <label for="QuotationValidToDate">Quotation Valid To Date</label>
-                        @if (ViewBag.Title.ToString() == "Create")
+                        @if (ViewBag.actionName.ToString() == "Create")
                         {
                             @Html.TextBoxFor(m => m.QuotationValidToDate, new { @class = "form_input", autocomplete = "off" })
                         }
@@ -260,7 +261,7 @@
                 <div class="row form-group ">
                     <div class="col-md-6">
                         <label for="ExpectedDeliveryDate">Expected Delivery Date</label>
-                        @if (ViewBag.Title.ToString() == "Create")
+                        @if (ViewBag.actionName.ToString() == "Create")
                         {
                             @Html.TextBoxFor(m => m.ExpectedDeliveryDate, new { @class = "form_input", autocomplete = "off" })
                         }
@@ -272,8 +273,19 @@
                     <div class="col-md-6">
                         <label for="ApprovedBy">Approved By</label>
                       
-                            @Html.TextBoxFor(m => m.ApprovedBy, new { @class = "form_input", autocomplete = "off", @readonly = "readonly" })
+                        @if (ViewBag.actionName.ToString() == "Approve")
+                        {
+                            @Html.DropDownListFor(m => Model.ApprovedBy, (SelectList)ViewBag.employeelist, "Select Approver", new { @class = "form_input", autocomplete = "off" })
+                        }
+                            @if (ViewBag.actionName.ToString() == "View")
+                            {
+                                @Html.TextBoxFor(m => m.ApprovedBy, new { @class = "form_input", autocomplete = "off", @readonly = "readonly" })
+                            }
+                        @*else
+                        {
+                            @Html.DropDownListFor(m => Model.ApprovedBy, (SelectList)ViewBag.employeelist, "Select Approver", new { @class = "form_input", autocomplete = "off", @disabled = "true" })
 
+                        }*@
                     </div>
                 </div>
 
@@ -459,7 +471,7 @@
 
                                     <td>
                                         <input type="hidden" id="Row_@i" />
-                                        @if (ViewBag.Title.ToString() == "Create")
+                                        @if (ViewBag.actionName.ToString() == "Create")
                                         {
                                             @Html.DropDownListFor(x => Model.SalesQuotationItems[i].WorkDescriptionId, new SelectList(ViewBag.workdesclist, "Value", "Text", Model.SalesQuotationItems[i].WorkDescriptionId), "select work description", new { @class = "form_input", autocomplete = "off", @onchange = "OnWorkChange(this," + i + ")" })
 
@@ -473,7 +485,7 @@
 
 
                                     <td>
-                                        @if (ViewBag.Title.ToString() == "Create")
+                                        @if (ViewBag.actionName.ToString() == "Create")
                                         {
                                             @Html.TextBoxFor(m => m.SalesQuotationItems[i].Quantity, new { @class = "form_input clQuantity validateqty", @style = "text-align:right", autocomplete = "off", placeholder = "Qty", @onchange = "QuantityChanged(" + i + ");" })
 
@@ -484,7 +496,7 @@
                                         }
                                     </td>
                                     <td>
-                                        @if (ViewBag.Title.ToString() == "Create")
+                                        @if (ViewBag.actionName.ToString() == "Create")
                                         {
                                             @Html.DropDownListFor(x => Model.SalesQuotationItems[i].UnitId, new SelectList(ViewBag.unitlist, "Value", "Text", Model.SalesQuotationItems[i].UnitId), "Select Unit", new { @class = "form_input", autocomplete = "off" })
                                         }
@@ -495,7 +507,7 @@
                                         }
                                     </td>
                                     <td>
-                                        @if (ViewBag.Title.ToString() == "Create")
+                                        @if (ViewBag.actionName.ToString() == "Create")
                                         {
                                             @Html.TextBoxFor(m => m.SalesQuotationItems[i].Rate, new { @class = "form_input numbers-only clrate validateqty", autocomplete = "off", @style = "text-align:right", placeholder = "Rate", @onchange = "QuantityChanged(" + i + ");" })
 
@@ -506,7 +518,7 @@
                                         }
                                     </td>
                                     <td>
-                                        @if (ViewBag.Title.ToString() == "Create")
+                                        @if (ViewBag.actionName.ToString() == "Create")
                                         {
                                             @Html.TextBoxFor(m => m.SalesQuotationItems[i].Discount, new { @class = "form_input numbers-only", autocomplete = "off", @style = "text-align:right", placeholder = "Discount", @onchange = "QuantityChanged(" + i + ");" })
 
@@ -532,7 +544,7 @@
                                 <th width="10%" class="text-right"><h1>Total</h1></th>
                                 <th width="7%" class="text-right">
                                     <h1>
-                                        @if (ViewBag.Title.ToString() == "Create")
+                                        @if (ViewBag.actionName.ToString() == "Create")
                                         {
                                             @Html.DropDownListFor(m => Model.CurrencyId, (SelectList)ViewBag.currlist, "Select Currency", new { @class = "form_input", autocomplete = "off" })
                                         }
@@ -560,7 +572,7 @@
                     <div class="col-md-6">
                         @Html.HiddenFor(m => m.Amount, new { @class = "form_input", autocomplete = "off" })
                         <label for="Remarks">Remarks</label>
-                        @if (ViewBag.Title.ToString() == "Create")
+                        @if (ViewBag.actionName.ToString() == "Create")
                         {
                             @Html.TextAreaFor(m => m.Remarks, new { @class = "form_input", autocomplete = "off" })
                         }
@@ -572,7 +584,7 @@
                     <div class="col-md-6">
                         <label for="SalesQuotationRejectReasonId">Sales Quotation Status</label>
                 
-                        @if (ViewBag.Title.ToString() == "Create")
+                        @if (ViewBag.actionName.ToString() == "Create")
                         {
                             @Html.DropDownListFor(m => Model.SalesQuotationRejectReasonId, (SelectList)ViewBag.SalesQuotationRejectReasonlist, "Select Status", new { @class = "form_input", autocomplete = "off" })
                         }
@@ -586,7 +598,7 @@
                 <div class="row form-group ">
                     <div class="col-md-6">
                         <label for="QuotationRejectReason">Quotation Stage</label>
-                        @if (ViewBag.Title.ToString() == "Create")
+                        @if (ViewBag.actionName.ToString() == "Create")
                         {
                             @Html.TextBoxFor(m => m.QuotationRejectReason, new { @class = "form_input", autocomplete = "off" })
                         }
@@ -598,7 +610,7 @@
 
                     <div class="col-md-6">
                         <label for="Competitors">Competitors</label>
-                        @if (ViewBag.Title.ToString() == "Create")
+                        @if (ViewBag.actionName.ToString() == "Create")
                         {
                             @Html.TextBoxFor(m => m.Competitors, new { @class = "form_input", autocomplete = "off" })
                         }
@@ -611,7 +623,7 @@
                 <div class="row form-group ">
                     <div class="col-md-6">
                         <label for="PaymentTerms">Payment Terms</label>
-                        @if (ViewBag.Title.ToString() == "Create")
+                        @if (ViewBag.actionName.ToString() == "Create")
                         {
                             @Html.TextBoxFor(m => m.PaymentTerms, new { @class = "form_input", autocomplete = "off" })
                         }
@@ -622,7 +634,7 @@
                     </div>
                     <div class="col-md-6">
                         <label for="DiscountRemarks">Discount Remarks</label>
-                        @if (ViewBag.Title.ToString() == "Create")
+                        @if (ViewBag.actionName.ToString() == "Create")
                         {
                             @Html.TextBoxFor(m => m.DiscountRemarks, new { @class = "form_input", autocomplete = "off" })
                         }
@@ -635,8 +647,14 @@
 
 
                 <div class="marg">
-                    <button class="form-button">Exit</button>
-                    <button type="submit" class="form-button">Save</button>
+                    @if (ViewBag.actionName.ToString() == "Create")
+                    {
+                        <button type="submit" class="form-button">Save</button>
+                    }
+                    else if (ViewBag.actionName.ToString() == "Approve")
+                    {
+                        <button type="submit" class="form-button">Approve</button>                    }
+
 
                 </div>
 

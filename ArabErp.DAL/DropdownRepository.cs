@@ -156,6 +156,20 @@ namespace ArabErp.DAL
                 return connection.Query<Dropdown>(@"select ItemId Id,ItemName Name from item where ItemId in(select DISTINCT ItemId from StockUpdate where StockPointId=@StockPointId)", new { StockPointId = StockPointId }).ToList();
             }
         }
-       
+        /// <summary>
+        /// Returns all suppliers who have pending sale order(s)
+        /// </summary>
+        /// <returns></returns>
+        public List<Dropdown> SupplierDropdown1()
+        {
+            using (IDbConnection connection = OpenConnection(dataConnection))
+            {
+                return connection.Query<Dropdown>(@"SELECT DISTINCT S.SupplierId Id, S.SupplierName Name FROM SupplyOrderItem SOI
+                                                    INNER JOIN SupplyOrder SO ON SOI.SupplyOrderId = SO.SupplyOrderId
+                                                    INNER JOIN Supplier S ON SO.SupplierId = S.SupplierId
+                                                    LEFT JOIN GRNItem GI ON SOI.SupplyOrderItemId = GI.SupplyOrderItemId
+                                                    WHERE GI.SupplyOrderItemId IS NULL").ToList();
+            }
+        }
     }
 }

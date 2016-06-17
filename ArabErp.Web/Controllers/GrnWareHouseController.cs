@@ -21,7 +21,7 @@ namespace ArabErp.Web.Controllers
 
         public ActionResult PendingGrnWareHouse()
         {
-            GetSupplierDropdown();
+            SupplierDropdown1();
             //var repo = new GRNRepository();
 
             //IEnumerable<PendingSupplyOrder> pendingSO = repo.GetGRNPendingList();
@@ -173,6 +173,7 @@ namespace ArabErp.Web.Controllers
                 TempData["success"] = "";
                 TempData["error"] = "Some error occured. Please try again." + ex.Message;
             }
+            FillCurrency();
             return View("Create", model);
         }
 
@@ -191,11 +192,6 @@ namespace ArabErp.Web.Controllers
         public ActionResult PendingDirectPurchase()
         {
             return View();
-        }
-
-        public void GetSupplierDropdown()
-        {
-            ViewBag.supplierList = new SelectList(new DropdownRepository().SupplierDropdown(), "Id", "Name");
         }
         public PartialViewResult PendingGrid(int supplierId = 0)
         {
@@ -220,10 +216,19 @@ namespace ArabErp.Web.Controllers
                 return PartialView("_PendingDirectPurchase", new List<PendingForGRN>());
             }
         }
-
+        /// <summary>
+        /// All active suppliers
+        /// </summary>
         public void SupplierDropdown()
         {
             ViewBag.supplierList = new SelectList(new DropdownRepository().SupplierDropdown(), "Id", "Name");
+        }
+        /// <summary>
+        /// Suppliers who have pending sale orders
+        /// </summary>
+        public void SupplierDropdown1()
+        {
+            ViewBag.supplierList = new SelectList(new DropdownRepository().SupplierDropdown1(), "Id", "Name");
         }
     }
 }

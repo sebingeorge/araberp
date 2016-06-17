@@ -16,8 +16,8 @@ namespace ArabErp.DAL
         {
             try
             {
-                string sql = @"INSERT INTO GRNItem(GRNId,SupplyOrderItemId,SlNo,ItemId,Remarks,Quantity,Unit,Rate,Discount,Amount,isActive,DirectPurchaseRequestItemId) 
-                            VALUES (@GRNId,@SupplyOrderItemId,@SlNo,@ItemId,@Remarks,@Quantity,@Unit,@Rate,@Discount,@Amount, 1, @DirectPurchaseRequestItemId);
+                string sql = @"INSERT INTO GRNItem(GRNId,SupplyOrderItemId,SlNo,ItemId,Remarks,Quantity,Rate,Discount,Amount,isActive,DirectPurchaseRequestItemId) 
+                            VALUES (@GRNId,@SupplyOrderItemId,@SlNo,@ItemId,@Remarks,@Quantity,@Rate,@Discount,@Amount, 1, @DirectPurchaseRequestItemId);
                             SELECT CAST(SCOPE_IDENTITY() AS INT)";
 
                 var id = connection.Query<int>(sql, model, trn).Single();

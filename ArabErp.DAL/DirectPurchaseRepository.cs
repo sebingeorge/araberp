@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using Dapper;
 using System.Data;
 using ArabErp.Domain;
+using System.Data.SqlClient;
 
 namespace ArabErp.DAL
 {
@@ -77,7 +78,7 @@ namespace ArabErp.DAL
                 {
                     return connection.Query<string>(@"SELECT S.SymbolName INTO #SYM FROM Organization O INNER JOIN Currency C ON O.CurrencyId = C.CurrencyId INNER JOIN Symbol S ON C.CurrencySymbolId = S.SymbolId WHERE O.OrganizationId = @organizationId;
                         SELECT TOP 1 CONVERT(VARCHAR, EffectiveDate, 106)+'|'+ISNULL((SELECT SymbolName FROM #SYM), '')+' '+CAST(Limit AS VARCHAR) FROM DirectPurchaseRequestLimit WHERE EffectiveDate <= GETDATE() AND OrganizationId = @organizationId ORDER BY EffectiveDate DESC;
-                        DROP TABLE #SYM;", 
+                        DROP TABLE #SYM;",
                         new { organizationId = organizationId }).First();
                 }
             }
@@ -106,6 +107,45 @@ namespace ArabErp.DAL
             {
                 return connection.Query<int>(@"IF((SELECT TOP 1 Limit FROM DirectPurchaseRequestLimit WHERE EffectiveDate <= GETDATE() AND OrganizationId = 1 ORDER BY EffectiveDate DESC) >= @total) SELECT 1;ELSE SELECT 0;",
                     new { total = total }).First();
+            }
+        }
+        /// <summary>
+        /// Return all un-approved direct purchase requests
+        /// </summary>
+        /// <returns></returns>
+        public List<DirectPurchaseRequest> GetUnApprovedRequests()
+        {
+            using (IDbConnection connection = OpenConnection(dataConnection))
+            {
+                return connection.Query<DirectPurchaseRequest>(@"SELECT
+                                                DirectPurchaseRequestId,
+	                                            ISNULL(PurchaseRequestNo, '') + ' - ' + CONVERT(VARCHAR, PurchaseRequestDate, 106) PurchaseRequestNo,
+	                                            SpecialRemarks,
+	                                            TotalAmount
+                                            FROM DirectPurchaseRequest D
+                                            WHERE ISNULL(D.isActive, 1) = 1
+                                            AND ISNULL(isApproved, 0) = 0;").ToList();
+            }
+        }
+
+        public int ApproveRequest(int id)
+        {
+            try
+            {
+                using (IDbConnection connection = OpenConnection(dataConnection))
+                {
+                    connection.Execute(@"UPDATE DirectPurchaseRequest SET isApproved = 1 WHERE DirectPurchaseRequestId = @id",
+                        new { id = id });
+                    return 1;
+                }
+            }
+            catch (SqlException)
+            {
+                throw;
+            }
+            catch (Exception)
+            {
+                throw;
             }
         }
     }
