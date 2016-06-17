@@ -23,40 +23,56 @@ namespace ArabErp.DAL
         /// 
         public int InsertGRN(GRN model)
         {
-            using (IDbConnection connection = OpenConnection(dataConnection))
+            model.Items = model.Items.Where(m => m.Quantity > 0).ToList<GRNItem>();
+            if (model.Items != null && model.Items.Count > 0)
             {
-
-                IDbTransaction trn = connection.BeginTransaction();
-                try
+                using (IDbConnection connection = OpenConnection(dataConnection))
                 {
-                    int id = 0;
-
-                    string sql = @"insert  into GRN(GRNNo,GRNDate,SupplyOrderId,SupplierId,SONoAndDate,CurrencyId,WareHouseId,SupplierDCNoAndDate,SpecialRemarks,
-                                                   Addition,AdditionRemarks,Deduction,DeductionRemarks,CreatedBy,CreatedDate,OrganizationId) 
-                                            Values (@GRNNo,@GRNDate,@SupplyOrderId,@SupplierId,@SONODATE,@CurrencyId,@StockPointId,@SupplierDCNoAndDate,@SpecialRemarks,
-                                                   @Addition,@AdditionRemarks,@Deduction,@DeductionRemarks,@CreatedBy,@CreatedDate,@OrganizationId);
-                                            SELECT CAST(SCOPE_IDENTITY() as int)";
-
-                    id = connection.Query<int>(sql, model, trn).Single();
-                    var saleorderitemrepo = new GRNItemRepository();
-                    foreach (var item in model.Items)
+                    IDbTransaction trn = connection.BeginTransaction();
+                    try
                     {
-                        item.GRNId = id;
-                        new GRNItemRepository().InsertGRNItem(item, connection, trn);
-                        //new GRNItemRepository().InsertStockUpdate(item, connection, trn);
+                        int id = 0;
+
+                        string sql = @"INSERT INTO GRN(GRNNo,GRNDate,SupplierId,CurrencyId,WareHouseId,SupplierDCNoAndDate,SpecialRemarks,
+                                                   Addition,AdditionRemarks,Deduction,DeductionRemarks,CreatedBy,CreatedDate,OrganizationId,isDirectPurchaseGRN) 
+                                            VALUES (@GRNNo,@GRNDate,@SupplierId,@CurrencyId,@StockPointId,@SupplierDCNoAndDate,@SpecialRemarks,
+                                                   @Addition,@AdditionRemarks,@Deduction,@DeductionRemarks,@CreatedBy,@CreatedDate,@OrganizationId,@isDirectPurchaseGRN);
+                                            SELECT CAST(SCOPE_IDENTITY() AS INT)";
+
+                        id = connection.Query<int>(sql, model, trn).Single();
+                        foreach (var item in model.Items)
+                        {
+                            item.GRNId = id;
+                            new GRNItemRepository().InsertGRNItem(item, connection, trn);
+                            new StockUpdateRepository().InsertStockUpdate(
+                                new StockUpdate
+                                {
+                                    CreatedBy = model.CreatedBy,
+                                    CreatedDate = model.CreatedDate,
+                                    OrganizationId = model.OrganizationId,
+                                    ItemId = item.ItemId,
+                                    Quantity = item.Quantity,
+                                    StockInOut = "IN",
+                                    StockPointId = model.StockPointId,
+                                    StockType = model.isDirectPurchaseGRN ? "DirectGRN" : "GRN",
+                                    StocktrnId = id,
+                                    StockUserId = model.GRNNo,
+                                    stocktrnDate = model.GRNDate
+                                }, connection, trn);
+                        }
+
+                        trn.Commit();
+                        return id;
                     }
-
-                    trn.Commit();
-                    return id;
+                    catch (Exception)
+                    {
+                        trn.Rollback();
+                        return 0;
+                    }
                 }
-                catch (Exception)
-                {
-                    trn.Rollback();
-                    return 0;
-                }
-
-
             }
+            else
+                throw new NullReferenceException("1You have to fill the quantity of atleast one material");
         }
 
         public int InsertStockUpdate(GRN model)
@@ -116,7 +132,7 @@ namespace ArabErp.DAL
                 return objGRN;
             }
         }
-         
+
         public IEnumerable<GRN> GetGRNPreviousList()
         {
             using (IDbConnection connection = OpenConnection(dataConnection))
@@ -186,69 +202,114 @@ namespace ArabErp.DAL
         /// </summary>
         /// <returns></returns>
         /// 
-        public IEnumerable<PendingSupplyOrder> GetGRNPendingList()
+        public IEnumerable<PendingForGRN> GetGRNPendingList(int supplierId)
         {
-            using (IDbConnection connection = OpenConnection(dataConnection))
+            try
             {
-                string qry = @"SELECT
-	                            SO.SupplyOrderId,
-                            CONCAT(SO.SupplyOrderId,' - ',CONVERT(VARCHAR(15),SupplyOrderDate,106))SoNoWithDate,
-                            QuotaionNoAndDate
-                            FROM SupplyOrder SO 
-	                            INNER JOIN Supplier S ON S.SupplierId=SO.SupplierId AND SO.SupplierId = 3
-	                            LEFT JOIN GRN G ON G.SupplyOrderId=SO.SupplyOrderId
-                            WHERE SO.isActive=1 and G.SupplyOrderId is null";
+                using (IDbConnection connection = OpenConnection(dataConnection))
+                {
+//                    string qry = @"SELECT
+//	                            SO.SupplyOrderId,
+//                            CONCAT(SO.SupplyOrderId,' - ',CONVERT(VARCHAR(15),SupplyOrderDate,106))SoNoWithDate,
+//                            QuotaionNoAndDate
+//                            FROM SupplyOrder SO 
+//	                            INNER JOIN Supplier S ON S.SupplierId=SO.SupplierId AND SO.SupplierId = @supplierId
+//	                            LEFT JOIN GRN G ON G.SupplyOrderId=SO.SupplyOrderId
+//                            WHERE SO.isActive=1 and G.SupplyOrderId is null";
 
-                return connection.Query<PendingSupplyOrder>(qry);
+                    string qry = @"SELECT
+	                                DISTINCT SO.SupplyOrderId,
+	                                CONCAT(SO.SupplyOrderNo,' - ',CONVERT(VARCHAR(15),SupplyOrderDate,106))SoNoWithDate,
+	                                QuotaionNoAndDate
+                                FROM SupplyOrder SO 
+	                                INNER JOIN SupplyOrderItem SOI ON SO.SupplyOrderId = SOI.SupplyOrderId
+	                                INNER JOIN Supplier S ON S.SupplierId=SO.SupplierId AND SO.SupplierId = @supplierId
+	                                LEFT JOIN GRNItem GI ON SOI.SupplyOrderItemId = GI.SupplyOrderItemId
+                                WHERE SO.isActive=1 and GI.SupplyOrderItemId IS NULL
+";
+
+                    return connection.Query<PendingForGRN>(qry, new { supplierId = supplierId });
+                }
+            }
+            catch (SqlException)
+            {
+                throw;
+            }
+            catch (Exception)
+            {
+                throw;
             }
         }
 
         /// <summary>
-        /// Return details of a GRN such as Supplier Id, Supplier Name, Quotaion No And Date
+        /// Return details of a GRN such as Supplier Id
         /// </summary>
         /// <returns></returns>
 
-        public GRN GetGRNDetails(int SupplyOrderId)
+        public GRN GetGRNDetails(int? supplierId)
         {
-            using (IDbConnection connection = OpenConnection(dataConnection))
+            try
             {
-                string qry = "SELECT SO.SupplyOrderId,S.SupplierId,S.SupplierName Supplier,CONCAT(SupplyOrderId,'/',CONVERT(VARCHAR(15),SupplyOrderDate,104))SONODATE,QuotaionNoAndDate,GETDATE() GRNDate";
-                qry += " FROM SupplyOrder SO";
-                qry += " INNER JOIN Supplier S ON S.SupplierId=SO.SupplierId";
-                qry += " where SO.SupplyOrderId = " + SupplyOrderId.ToString();
-
-                GRN workshoprequest = connection.Query<GRN>(qry).FirstOrDefault();
-                return workshoprequest;
+                using (IDbConnection connection = OpenConnection(dataConnection))
+                {
+                    return connection.Query<GRN>(@"SELECT Supplierid, SupplierName Supplier FROM Supplier WHERE SupplierId = @supplierId",
+                        new { supplierId = supplierId }
+                        ).FirstOrDefault();
+                }
+            }
+            catch (SqlException)
+            {
+                throw;
+            }
+            catch (Exception)
+            {
+                return null;
             }
         }
 
-     
-
         /// <summary>
-        /// Returns all pending GRNs against Supply Order
+        /// Returns all supply order items against multiple Supply Order ids
         /// </summary>
         /// <returns></returns>
         /// 
-        public List<GRNItem> GetGRNItem(int SupplyOrderId)
+        public List<GRNItem> GetGRNItem(List<int?> id)
         {
             using (IDbConnection connection = OpenConnection(dataConnection))
             {
-
-                string query = "SELECT SO.SupplyOrderItemId,I.ItemName,I.ItemId,I.PartNo,So.OrderedQty-isnull(sum(GI.Quantity),0) Quantity,";
-                query += " So.OrderedQty-isnull(sum(GI.Quantity),0) PendingQuantity,UnitName Unit,SO.Rate,SO.Discount,SO.Amount";
-                query += " FROM SupplyOrderItem SO";
-                query += " INNER JOIN PurchaseRequestItem PR ON PR.PurchaseRequestItemId=SO.PurchaseRequestItemId";
-                query += " INNER JOIN Item I ON I.ItemId=PR.ItemId";
-                query += " INNER JOIN Unit ON UnitId =I.ItemUnitId";
-                query += " LEFT JOIN GRN G ON G.SupplyOrderId=SO.SupplyOrderId";
-                query += " LEFT JOIN GRNItem GI ON G.GRNId=GI.GRNId and GI.SupplyOrderItemId=SO.SupplyOrderItemId";
-                query += " WHERE SO.SupplyOrderId=@SupplyOrderId";
-                query += " GROUP BY SO.SupplyOrderItemId,I.ItemName,I.ItemId,I.PartNo,SO.SupplyOrderItemId,I.ItemName,I.ItemId,I.PartNo,So.OrderedQty,UnitName,SO.Rate,SO.Discount,SO.Amount ";
+                //string query = "SELECT SO.SupplyOrderItemId,I.ItemName,I.ItemId,I.PartNo,So.OrderedQty-isnull(sum(GI.Quantity),0) Quantity,";
+                //query += " So.OrderedQty-isnull(sum(GI.Quantity),0) PendingQuantity,UnitName Unit,SO.Rate,SO.Discount,SO.Amount";
+                //query += " FROM SupplyOrderItem SO";
+                //query += " INNER JOIN PurchaseRequestItem PR ON PR.PurchaseRequestItemId=SO.PurchaseRequestItemId";
+                //query += " INNER JOIN Item I ON I.ItemId=PR.ItemId";
+                //query += " INNER JOIN Unit ON UnitId =I.ItemUnitId";
+                //query += " LEFT JOIN GRN G ON G.SupplyOrderId=SO.SupplyOrderId";
+                //query += " LEFT JOIN GRNItem GI ON G.GRNId=GI.GRNId and GI.SupplyOrderItemId=SO.SupplyOrderItemId";
+                //query += " WHERE SO.SupplyOrderId=@SupplyOrderId";
+                //query += " GROUP BY SO.SupplyOrderItemId,I.ItemName,I.ItemId,I.PartNo,SO.SupplyOrderItemId,I.ItemName,I.ItemId,I.PartNo,So.OrderedQty,UnitName,SO.Rate,SO.Discount,SO.Amount ";
                 //query += " HAVING So.OrderedQty-isnull(sum(GI.Quantity),0)>0";
 
-                return connection.Query<GRNItem>(query, new { SupplyOrderId = SupplyOrderId }).ToList();
+                string query = @"SELECT
+                                    ROW_NUMBER() OVER(ORDER BY SOI.SupplyOrderItemId) AS SlNo,
+	                                SOI.SupplyOrderItemId, 
+	                                I.ItemId,
+	                                I.ItemName,
+	                                I.PartNo,
+	                                U.UnitName Unit,
+	                                SOI.OrderedQty PendingQuantity,
+	                                SOI.OrderedQty Quantity,
+                                    0 AS RejectedQuantity,
+	                                ISNULL(SOI.Rate, 0.00) Rate,
+	                                ISNULL(SOI.Discount, 0.00) Discount,
+	                                ISNULL(SOI.Amount, 0.00) Amount
+                                FROM SupplyOrderItem SOI
+                                INNER JOIN SupplyOrder SO ON SOI.SupplyOrderId = SO.SupplyOrderId
+                                INNER JOIN PurchaseRequestItem PR ON SOI.PurchaseRequestItemId = PR.PurchaseRequestItemId
+                                INNER JOIN Item I ON PR.ItemId = I.ItemId
+                                INNER JOIN Unit U ON I.ItemUnitId = U.UnitId
+                                WHERE SO.SupplyOrderId IN @id
+                                AND ISNULL(SOI.isActive, 1) = 1 AND ISNULL(PR.isActive, 1) = 1";
 
-
+                return connection.Query<GRNItem>(query, new { id = id }).ToList();
             }
         }
 
@@ -290,5 +351,57 @@ namespace ArabErp.DAL
             }
         }
 
-      }
+        /// <summary>
+        /// Return all pending direct purchase requests (requests that are not in GRN)
+        /// </summary>
+        /// <returns></returns>
+        public List<PendingForGRN> GetPendingDirectPurchase()
+        {
+            using (IDbConnection connection = OpenConnection(dataConnection))
+            {
+                string query = @"SELECT
+	                                DISTINCT DP.DirectPurchaseRequestId,
+	                                ISNULL(DP.PurchaseRequestNo, '') +' - '+ CONVERT(VARCHAR, ISNULL(DP.PurchaseRequestDate, ''), 106) RequestNoAndDate,
+                                    ISNULL(DP.SpecialRemarks, '-') SpecialRemarks,
+	                                ISNULL(DP.TotalAmount, 0.00) TotalAmount,
+                                    DATEDIFF(day, DP.PurchaseRequestDate, GETDATE()) Age,
+                                    1 AS isDirectPurchase
+                                FROM DirectPurchaseRequestItem DPI
+                                INNER JOIN DirectPurchaseRequest DP ON DPI.DirectPurchaseRequestId = DP.DirectPurchaseRequestId
+                                LEFT JOIN GRNItem GRN ON DPI.DirectPurchaseRequestItemId = GRN.DirectPurchaseRequestItemId
+                                WHERE GRN.DirectPurchaseRequestItemId IS NULL
+                                AND ISNULL(DP.isActive, 1) = 1 AND ISNULL(DPI.isActive, 1) = 1 AND ISNULL(GRN.isActive, 1) = 1";
+
+                return connection.Query<PendingForGRN>(query).ToList();
+            }
+        }
+
+        public List<GRNItem> GetDirectGRNItems(List<int?> id)
+        {
+            using (IDbConnection connection = OpenConnection(dataConnection))
+            {
+                string query = @"SELECT
+	                                DPI.DirectPurchaseRequestItemId,
+	                                DPI.ItemId,
+	                                I.ItemName,
+	                                I.PartNo,
+	                                U.UnitName Unit,
+	                                ROW_NUMBER() OVER(ORDER BY DPI.DirectPurchaseRequestItemId) AS SlNo,
+	                                ISNULL(DPI.Remarks, '') Remarks,
+	                                ISNULL(DPI.Quantity, 0.00) PendingQuantity,
+	                                ISNULL(DPI.Quantity, 0.00) Quantity,
+	                                0.00 RejectedQuantity,
+	                                0.00 AS Discount,
+	                                ISNULL(DPI.Rate, 0.00) Rate,
+	                                CAST(ISNULL(DPI.Quantity, 0.00)*ISNULL(DPI.Rate, 0.00) AS DECIMAL(18, 2)) Amount
+                                FROM DirectPurchaseRequestItem DPI
+                                INNER JOIN Item I ON DPI.ItemId = I.ItemId
+                                INNER JOIN Unit U ON I.ItemUnitId = U.UnitId
+                                WHERE DPI.DirectPurchaseRequestId IN @id
+                                AND ISNULL(DPI.isActive, 1) = 1";
+
+                return connection.Query<GRNItem>(query, new { id = id }).ToList();
+            }
+        }
+    }
 }

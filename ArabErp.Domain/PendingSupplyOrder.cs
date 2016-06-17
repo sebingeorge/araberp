@@ -13,5 +13,6 @@ namespace ArabErp.Domain
         public string SupplierName { get; set; }
         public string SoNoWithDate { get; set; }
         public string QuotaionNoAndDate { get; set; }
+        public bool isChecked { get; set; }
     }
 }

@@ -22,16 +22,20 @@ namespace ArabErp.DAL
                                 StockType,
                                 StockInOut,
                                 stocktrnDate,
+                                StocktrnId,
+                                StockUserId,
                                 CreatedBy, 
                                 CreatedDate,
                                 OrganizationId)
                             VALUES(
                                 @StockPointId, 
                                 @ItemId, 
-                                (@Quantity*(-1)),
+                                (@Quantity),
                                 @StockType,
                                 @StockInOut, 
                                 @stocktrnDate,
+                                @StocktrnId,
+                                @StockUserId,
                                 @CreatedBy, 
                                 @CreatedDate,
                                 @OrganizationId);

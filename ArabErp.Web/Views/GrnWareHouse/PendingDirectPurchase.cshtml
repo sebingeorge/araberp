@@ -1,7 +1,9 @@
-﻿@using ArabErp.Domain
-@model IList<PendingForGRN>
+﻿@model IList<ArabErp.Domain.PendingForGRN>
 
-@{ViewBag.Title = "PendingGrnWareHouse"; Layout = "~/Views/Shared/_Layout.cshtml";}
+@{
+    ViewBag.Title = "Pending Direct Purchase Requests"; 
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
 
 <script type="text/javascript">
 
@@ -31,27 +33,7 @@
         @{TempData["success"] = TempData["error"] = "";}
     });
 
-    function OnSupplierChanged(sender) {
-        var id = $(sender).val();
-        var url = '@Url.Action("PendingGrid")';
-        $("#pending-grid").load(url, { supplierId: id });
-    }
-
     function formValidation() {
-        if ($("#cboSupplier").val() == '') {
-            toastr.info("You have to select a supplier first");
-        }
-        else {
-            var flag = false;
-            $("input[type='checkbox']").each(function (i, obj) {
-                if ($(obj).is(':checked'))
-                    flag = true;
-            });
-            if (!flag) {
-                toastr.info("You have to select atleast one supply order to continue.");
-                return false;
-            }
-        }
         return true;
     }
 </script>
@@ -59,24 +41,17 @@
 <div class="container">
     <div class="row">
         <div class="form-head1">
-            <h4>Pending Supply Orders</h4>
+            <h4>Pending Direct Purchase Requests</h4>
         </div>
         <div class="main-part pad1">
             <form role="form" method="post" action="Create" onsubmit="return formValidation()">
-                <div class="row">
-                    <div class="col-md-3">
-                        <label for="cboSupplier">Supplier</label>
-                        @Html.DropDownListFor(m => Model[0].SupplierId, (SelectList)ViewBag.supplierList, "Select Supplier", new { @id = "cboSupplier", @class = "form_input", @onchange = "OnSupplierChanged(this)", @required = "true" })
-                    </div>
+
+                <div class="table-responsive scroll4">
+
+                    @Html.Action("PendingDirectPurchaseGrid")
+
                 </div>
                 <br />
-
-                <div class="table-responsive scroll4" id="pending-grid">
-
-                    @Html.Action("PendingGrid")
-
-                </div>
-
                 <div class="row">
                     <div class="col-md-1">
                         <button type="submit" class="form-button left">@Html.ActionLink("Previous", "PreviousList", "GrnWareHouse") </button>
@@ -85,11 +60,8 @@
                         <input type="submit" class="form-button" value="Proceed" id="btnProceed" />
                     </div>
                 </div>
+
             </form>
         </div>
     </div>
 </div>
-
-
-
-

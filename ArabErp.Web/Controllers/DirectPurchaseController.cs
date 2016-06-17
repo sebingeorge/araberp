@@ -28,7 +28,7 @@ namespace ArabErp.Web.Controllers
             model.OrganizationId = 1;
             model.CreatedDate = System.DateTime.Now;
             model.CreatedBy = Request.ServerVariables["HTTP_X_FORWARDED_FOR"] ?? Request.ServerVariables["REMOTE_ADDR"];
-            if (new DirectPurchaseRepository().InsertDirectPurchaseRequest(model) > 0)
+            if (new DirectPurchaseRepository().InsertDirectPurchaseRequest(model) < 0)
             {
                 TempData["success"] = "Saved successfully";
                 TempData["error"] = "";
@@ -36,9 +36,10 @@ namespace ArabErp.Web.Controllers
             }
             else
             {
+                GetMaterials();
                 TempData["success"] = "";
                 TempData["error"] = "Some error occured. Please try again.";
-                return RedirectToAction("CreateRequest");
+                return View("Create", model);
             }
         }
         public void GetMaterials()

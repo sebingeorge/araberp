@@ -74,6 +74,7 @@
     <Compile Include="DirectPurchaseRequestItem.cs" />
     <Compile Include="OpeningStock.cs" />
     <Compile Include="Organization.cs" />
+    <Compile Include="PendingForGRN.cs" />
     <Compile Include="PendingJC.cs" />
     <Compile Include="PendingJobCardQC.cs" />
     <Compile Include="PendingGRN.cs" />
