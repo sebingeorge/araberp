@@ -126,9 +126,16 @@ namespace ArabErp.Web.Controllers
             }
             TempData["success"] = "";
 
-            if (list[0].isDirectPurchase)
-                return RedirectToAction("PendingDirectPurchase");
-            return RedirectToAction("PendingGrnWareHouse");
+            try
+            {
+                if (list[0].isDirectPurchase)
+                    return RedirectToAction("PendingDirectPurchase");
+                return RedirectToAction("PendingGrnWareHouse");
+            }
+            catch (Exception)
+            {
+                return RedirectToAction("Index", "Home");
+            }
         }
 
         public void FillWarehouse()

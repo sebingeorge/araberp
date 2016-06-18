@@ -4,60 +4,67 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 <script>
-    $(document).ready(function() {
-        $('#work_form').bootstrapValidator({
-            fields: {
-                WorkShopRequestNo: {
-                    validators: {
-                        notEmpty: {
-                            message: 'Please enter request no'
-                        }
-                    }
-                },
-                
-         }
-        });
+    $(document).ready(function () {
+        //$('#work_form').bootstrapValidator({
+        //    fields: {
+        //        WorkShopRequestNo: {
+        //            validators: {
+        //                notEmpty: {
+        //                    message: 'Please enter request no'
+        //                }
+        //            }
+        //        },
+
+        // }
+        //});
 
     });
- 
+
     $(document).ready(function () {
         $("#Items_0__SlNo").val('1');
-            $("#add_row").click(function () {
-                var i = 0;
-                var no = 1;
-                $('input[id^="Row_"]').each(function () {
-                    var id = this.id;
-                    no++;
-                    var row = Number(id.replace("Row_", ""));
-                    if(row>i)
-                    {
-                        i = row;
-                    }
-                });
-                i++;
-
-                var index = (new Date()).getTime(); // unique indexer
-                var clone = $('#Row_0').clone(); // clone the BatchProducts item
-                //Update the index of the clone
-                       
-                clone.html($(clone).html().replace(/\Items_0__/g, 'Items_' + i + '__'));
-                clone.html($(clone).html().replace(/\Items[0]./g, 'Items[' + i + '].'));
-                clone.html($(clone).html().replace(/\[0\]/g, '[' + i + ']'));
-                clone.html($(clone).html().replace(/\(0\)/g, '(' + i + ')'));
-                clone.html($(clone).html().replace(/Row_0/, 'Row_' + i + ''));
-                clone.html($(clone).html().replace(/slno1/, 'slno' + (i + 1) + ''));
-                $("#tab_logic").append('<tr id="' + i + '">' + clone.html() + '  </tr>');
+        $("#add_row").click(function () {
+            var i = 0;
+            var no = 1;
+            $('input[id^="Row_"]').each(function () {
+                var id = this.id;
+                no++;
+                var row = Number(id.replace("Row_", ""));
+                if (row > i) {
+                    i = row;
+                }
             });
+            i++;
+
+            var index = (new Date()).getTime(); // unique indexer
+            var clone = $('#Row_0').clone(); // clone the BatchProducts item
+            //Update the index of the clone
+
+            clone.html($(clone).html().replace(/\Items_0__/g, 'Items_' + i + '__'));
+            clone.html($(clone).html().replace(/\Items[0]./g, 'Items[' + i + '].'));
+            clone.html($(clone).html().replace(/\[0\]/g, '[' + i + ']'));
+            clone.html($(clone).html().replace(/\(0\)/g, '(' + i + ')'));
+            clone.html($(clone).html().replace(/Row_0/, 'Row_' + i + ''));
+            clone.html($(clone).html().replace(/slno1/, 'slno' + (i + 1) + ''));
+            $("#tab_logic").append('<tr id="' + i + '">' + clone.html() + '  </tr>');
         });
-
-      
-    $(function () {
-        $("#WorkShopRequestDate").datepicker({ dateFormat: "dd/MM/yy" });
-        $("#RequiredDate").datepicker({ dateFormat: "dd/MM/yy" });
     });
-       
 
-   
+
+    $(function () {
+        $("#WorkShopRequestDate").datepicker({
+            changeMonth: true,
+            changeYear: true,
+            dateFormat: "dd-MM-yy"
+        });
+        $("#RequiredDate").datepicker({
+            changeMonth: true,
+            changeYear: true,
+            dateFormat: "dd-MM-yy"
+        });
+    });
+
+
+
     //function calculateSummary() {
     //    var quantity = parseFloat("0");
     //    var amount = parseFloat("0");
@@ -70,35 +77,35 @@
 
     //        quantity = quantity + a;
     //    });
-          
+
     //    $("#QtyTotal").text(quantity);
-     
+
     //}
 </script>
-                   
+
 <div class="container">
     <div class="row">
         <div class="form-head1">
             <h4>WorkShop Request</h4>
         </div>
-     
+
         <div class="main-part pad1">
 
-            @using (Html.BeginForm("Save", null, FormMethod.Post, new { @class = "createFrom", @id= "work_form" }))
+            @using (Html.BeginForm("Save", null, FormMethod.Post, new { @class = "createFrom", @id = "work_form" }))
             {
                 @Html.HiddenFor(m => m.SaleOrderId, new { @class = "form_input", autocomplete = "off" })
                 @Html.HiddenFor(m => m.CustomerId, new { @class = "form_input", autocomplete = "off" })
                 <div class="row form-group">
                     <div class="col-md-2">
                         <label for="WorkShopRequestNo">Request No.</label>
-                        @Html.TextBoxFor(m => m.WorkShopRequestNo, new { @class = "form_input", autocomplete = "off" })
+                        @Html.TextBoxFor(m => m.WorkShopRequestNo, new { @class = "form_input", autocomplete = "off", @required = "true" })
                     </div>
                     <div class="col-md-2">
                         <label for="inputDate">Date</label>
-                        @Html.TextBoxFor(m => m.WorkShopRequestDate, String.Format("{0:dd/MM/yyyy}", Model.WorkShopRequestDate), new { @class = "form_input ", autocomplete = "off", @readonly = "readonly" })
+                        @Html.TextBoxFor(m => m.WorkShopRequestDate, Model.WorkShopRequestDate.ToString("dd/MMMM/yyyy"), new { @class = "form_input ", autocomplete = "off", @readonly = "readonly", @required = "true" })
                     </div>
                 </div>
- 
+
                 <div class="row form-group">
                     <div class="col-md-2">
                         <label for="SoNoWithDate">SO No.& Date</label>
@@ -119,11 +126,11 @@
                         @Html.TextBoxFor(m => m.WorkDescription, new { @class = "form_input", autocomplete = "off", @readonly = "readonly" })
 
                     </div>
-               
+
                 </div>
-   
-    
-    @Html.Action("WorkShopRequestData")
+
+
+                @Html.Action("WorkShopRequestData")
 
                 <div class="row form-group">
                     <div class="col-md-12">
@@ -134,24 +141,24 @@
                             <div class="col-md-11">
                                 @Html.TextAreaFor(m => m.SpecialRemarks, new { @class = "form_input form_input-h", autocomplete = "off" })
                             </div>
-                            </div>
+                        </div>
                     </div>
                 </div>
                 <div class="row form-group">
                     <div class="col-md-2">
                         <label for="reqdate">Delivery Date</label>
-                        @Html.TextBoxFor(m => m.RequiredDate, String.Format("{0:dd/MM/yyyy}", Model.RequiredDate), new { @class = "form_input", autocomplete = "off", @readonly = "readonly" })
+                        @Html.TextBoxFor(m => m.RequiredDate, Model.RequiredDate.ToString("dd/MMMM/yyyy"), new { @class = "form_input", autocomplete = "off", @readonly = "readonly", @required = "true" })
                     </div>
                 </div>
-    <div class="marg">
-        <button class="form-button">Exit</button>
-        <button type="submit" class="form-button">Save</button>
+                <div class="marg">
+                    <button class="form-button">Exit</button>
+                    <button type="submit" class="form-button">Save</button>
 
-    </div>
+                </div>
 
             }
         </div>
-        </div>
+    </div>
 </div>
 
 

@@ -1,5 +1,8 @@
 ﻿@model  ArabErp.Domain.GRN
-@{ViewBag.Title = "Create"; Layout = "~/Views/Shared/_Layout.cshtml";}
+@{
+    ViewBag.Title = "Create"; 
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
 
 <style type="text/css">
     .grid_heading th {
@@ -10,7 +13,11 @@
 <script>
     $(document).ready(function () {
 
-        $("#GRNDate").datepicker({ dateFormat: "dd/MM/yy" });
+        $("#GRNDate").datepicker({
+            changeMonth: true,
+            changeYear: true,
+            dateFormat: "dd-MM-yy"
+        });
         calculateSummary();
         //$('#grn_form').bootstrapValidator({
         //    fields: {
@@ -101,7 +108,7 @@
                     </div>
                     <div class="col-md-2">
                         <label for="GRNDate">Date</label>
-                        @Html.TextBoxFor(m => m.GRNDate, String.Format("{0:dd/MM/yyyy}", Model.GRNDate), new { @class = "form_input ", autocomplete = "off" })
+                        @Html.TextBoxFor(m => m.GRNDate, Model.GRNDate.ToString("dd/MMMM/yyyy"), new { @class = "form_input ", autocomplete = "off" })
                     </div>
                 </div>
                 <div class="row form-group">
