@@ -200,11 +200,11 @@
                         <label for="QuotationDate">Quotation Date</label>
                         @if (ViewBag.actionName.ToString() == "Create")
                         {
-                            @Html.TextBoxFor(m => m.QuotationDate, String.Format("{0:dd-MM-yyyy}", Model.QuotationDate), new { @class = "form_input", autocomplete = "off" })
+                            @Html.TextBoxFor(m => m.QuotationDate, Model.QuotationDate.ToString("dd/MMMM/yyyy"), new { @class = "form_input ", autocomplete = "off"})
                         }
                         else
                         {
-                            @Html.TextBoxFor(m => m.QuotationDate, String.Format("{0:dd-MM-yyyy}", Model.QuotationDate),new { @class = "form_input", autocomplete = "off", @readonly = "readonly" })
+                            @Html.TextBoxFor(m => m.QuotationDate, Model.QuotationDate.ToString("dd/MMMM/yyyy"), new { @class = "form_input ", autocomplete = "off", @readonly = "readonly" })
                         }
                     </div>
                 </div>
@@ -258,22 +258,23 @@
                         <label for="PredictedClosingDate">Predicted Closing Date</label>
                         @if (ViewBag.actionName.ToString() == "Create")
                         {
-                            @Html.TextBoxFor(m => m.PredictedClosingDate, String.Format("{0:dd-MM-yyyy}", Model.PredictedClosingDate), new { @class = "form_input", autocomplete = "off" })
+                            @Html.TextBoxFor(m => m.PredictedClosingDate, Model.PredictedClosingDate.ToString("dd/MMMM/yyyy"), new { @class = "form_input ", autocomplete = "off"})
                         }
                         else
                         {
-                            @Html.TextBoxFor(m => m.PredictedClosingDate, String.Format("{0:dd-MM-yyyy}", Model.PredictedClosingDate), new { @class = "form_input", autocomplete = "off", @readonly = "readonly" })
+                            @Html.TextBoxFor(m => m.PredictedClosingDate, Model.PredictedClosingDate.ToString("dd/MMMM/yyyy"), new { @class = "form_input ", autocomplete = "off", @readonly = "readonly" })
+
                         }
                     </div>
                     <div class="col-md-6">
                         <label for="QuotationValidToDate">Quotation Valid To Date</label>
                         @if (ViewBag.actionName.ToString() == "Create")
                         {
-                            @Html.TextBoxFor(m => m.QuotationValidToDate, new { @class = "form_input", autocomplete = "off" })
+                            @Html.TextBoxFor(m => m.QuotationValidToDate, Model.QuotationValidToDate.ToString("dd/MMMM/yyyy"), new { @class = "form_input ", autocomplete = "off" })
                         }
                         else
                         {
-                            @Html.TextBoxFor(m => m.QuotationValidToDate, new { @class = "form_input", autocomplete = "off", @readonly = "readonly" })
+                            @Html.TextBoxFor(m => m.QuotationValidToDate, Model.QuotationValidToDate.ToString("dd/MMMM/yyyy"), new { @class = "form_input ", autocomplete = "off", @readonly = "readonly" })
                         }
                     </div>
                 </div>
@@ -286,7 +287,8 @@
                         }
                         else
                         {
-                            @Html.TextBoxFor(m => m.ExpectedDeliveryDate, new { @class = "form_input", autocomplete = "off", @readonly = "readonly" })
+                            @Html.TextBoxFor(m => m.ExpectedDeliveryDate, Model.ExpectedDeliveryDate.ToString("dd/MMMM/yyyy"), new { @class = "form_input ", autocomplete = "off", @readonly = "readonly" })
+
                         }
                     </div>
                     <div class="col-md-6">
