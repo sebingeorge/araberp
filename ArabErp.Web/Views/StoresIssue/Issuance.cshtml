@@ -19,7 +19,7 @@
         $("#StoreIssueDate").datepicker({
             changeMonth: true,
             changeYear: true,
-            dateFormat: "d/MM/y"
+            dateFormat: "dd-MM-yy"
         });
     });
 
@@ -42,7 +42,7 @@
         //    }
         //});
         ///////////////////////
-        return confirm("Are you sure to Save?");
+        return true;
     }
 </script>
 
@@ -57,12 +57,12 @@
                     <div class="col-md-2">
                         <label for="StoreIssueRefNo">SI.No.</label>
                         @Html.HiddenFor(m => m.WorkShopRequestId)
-                        @Html.TextBoxFor(m => m.StoreIssueRefNo, new { @class = "form_input" })
+                        @Html.TextBoxFor(m => m.StoreIssueRefNo, new { @class = "form_input", @required = "true", autocomplete = "off" })
                         @*<input type="text" id="sino" class="form_input" autocomplete="off" />*@
                     </div>
                     <div class="col-md-2">
                         <label for="StoreIssueDate">Date</label>
-                        @Html.TextBoxFor(m => m.StoreIssueDate, new { @class = "form_input" })
+                        @Html.TextBoxFor(m => m.StoreIssueDate, Model.StoreIssueDate.ToString("dd/MMMM/yyyy"), new { @class = "form_input", @required = "true" })
                         @*<input type="date" id="inputDate" class="form_input" autocomplete="off" />*@
                     </div>
                 </div>
@@ -113,12 +113,12 @@
                 <div class="row form-group">
                     <div class="col-md-2">
                         <label for="StockpointId">Stockpoint</label>
-                        @Html.DropDownListFor(m => m.StockpointId, (SelectList)ViewBag.stockpointList, "Select Stockpoint", new { @class = "form_input", autocomplete = "off" })
+                        @Html.DropDownListFor(m => m.StockpointId, (SelectList)ViewBag.stockpointList, "Select Stockpoint", new { @class = "form_input", autocomplete = "off", @required = "true" })
                         @*<input type="text" id="jcno" class="form_input" autocomplete="off" />*@
                     </div>
                     <div class="col-md-2">
                         <label for="EmployeeId">Employee/Supervisor</label>
-                        @Html.DropDownListFor(m => m.EmployeeId, (SelectList)ViewBag.employeeList, "Select Employee", new { @class = "form_input", autocomplete = "off" })
+                        @Html.DropDownListFor(m => m.EmployeeId, (SelectList)ViewBag.employeeList, "Select Employee", new { @class = "form_input", autocomplete = "off", @required = "true" })
                         @*<select id="bay" class="form_input" autocomplete="off">
                                 <option>Select Employee</option>
                                 <option>Employee 1</option>
