@@ -29,6 +29,7 @@ namespace ArabErp.Web.Controllers
             SaleOrder saleOrder = new SaleOrder();
             saleOrder.Items = new List<SaleOrderItem>();
             saleOrder.Items.Add(new SaleOrderItem());
+            saleOrder.SaleOrderDate = DateTime.Now;
             return View(saleOrder);
         }
         public ActionResult DisplaySOList()

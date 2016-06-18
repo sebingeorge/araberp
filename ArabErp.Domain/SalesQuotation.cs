@@ -21,16 +21,16 @@ namespace ArabErp.Domain
         public string SalesExecutiveName { get; set; }
         public string CustomerAddress { get; set; }
         public string ContactPerson { get; set; }
-        public int? SalesExecutiveId { get; set; }
+        public int SalesExecutiveId { get; set; }
         public DateTime PredictedClosingDate { get; set; }
         public DateTime QuotationValidToDate { get; set; }
         public DateTime ExpectedDeliveryDate { get; set; }
         public bool? IsQuotationApproved { get; set; }
-        public int ApprovedBy { get; set; }
+        public int? ApprovedBy { get; set; }
         public decimal? Amount { get; set; }
         public int? QuotationStatus { get; set; }
         public string Remarks { get; set; }
-        public int SalesQuotationRejectReasonId { get; set; }
+        public int? SalesQuotationRejectReasonId { get; set; }
         public string QuotationRejectReason { get; set; }
         public string Competitors { get; set; }
         public string PaymentTerms { get; set; }

@@ -11,21 +11,24 @@ namespace ArabErp.DAL
     public class PurchaseBillItemRepository : BaseRepository
     {
         static string dataConnection = GetConnectionString("arab");
-        public int InsertPurchaseBillItem(PurchaseBillItem objPurchaseBillItem)
+    
+
+        public int InsertPurchaseBillItem(PurchaseBillItem model, IDbConnection connection, IDbTransaction trn)
         {
-
-            using (IDbConnection connection = OpenConnection(dataConnection))
+            try
             {
-                string sql = @"insert  into PurchaseBillItem(PurchaseBillId,GRNItemId,Rate,Discount,Amount,OrganizationId) Values (@PurchaseBillId,@GRNItemId,@Rate,@Discount,@Amount,@OrganizationId);
-            SELECT CAST(SCOPE_IDENTITY() as int)";
 
+                string sql = @"insert  into PurchaseBillItem(PurchaseBillId,GRNItemId,Rate,TaxPercentage,TaxAmount,Discount,Amount) Values (@PurchaseBillId,@GRNItemId,@Rate,@TaxPercentage,@TaxAmount,@Discount,@Amount);
+                SELECT CAST(SCOPE_IDENTITY() as int)";
 
-                var id = connection.Query<int>(sql, objPurchaseBillItem).Single();
+                var id = connection.Query<int>(sql, model, trn).Single();
                 return id;
             }
+            catch (Exception)
+            {
+                throw;
+            }
         }
-
-
         public PurchaseBillItem GetPurchaseBillItem(int PurchaseBillItemId)
         {
 
