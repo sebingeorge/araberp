@@ -140,8 +140,37 @@ namespace ArabErp.Web.Controllers
             model.OrganizationId = 1;
             model.CreatedDate = System.DateTime.Now;
             model.CreatedBy = Request.ServerVariables["HTTP_X_FORWARDED_FOR"] ?? Request.ServerVariables["REMOTE_ADDR"];
-            new SalesQuotationRepository().InsertSalesQuotation(model);
-            return RedirectToAction("Create");
+            SalesQuotation result= new SalesQuotationRepository().InsertSalesQuotation(model);
+            if (result.SalesQuotationId > 0)
+            {
+                TempData["Success"] = "Added Successfully!";
+                TempData["QuotationRefNo"] = result.QuotationRefNo;
+                return RedirectToAction("Create");
+            }
+            else
+            {
+                TempData["error"] = "Oops!!..Something Went Wrong!!";
+                TempData["SaleOrderRefNo"] = null;
+                FillCustomer();
+                FillCurrency();
+                FillCommissionAgent();
+                FillWrkDesc();
+                FillVehicle();
+                FillUnit();
+                FillEmployee();
+                FillSalesQuotationRejectReason();
+                //SalesQuotation salesquotation = new SalesQuotation();
+                //salesquotation.QuotationDate = System.DateTime.Today;
+                //salesquotation.PredictedClosingDate = System.DateTime.Today;
+                //salesquotation.QuotationValidToDate = System.DateTime.Today;
+                //salesquotation.ExpectedDeliveryDate = System.DateTime.Today;
+                //SaleOrder saleOrder = new SaleOrder();
+                //saleOrder.SaleOrderDate = System.DateTime.Today;
+                //saleOrder.Items = new List<SaleOrderItem>();
+                //saleOrder.Items.Add(new SaleOrderItem());
+                return View("Create", model);
+            }
+          
         }
     }
 }
