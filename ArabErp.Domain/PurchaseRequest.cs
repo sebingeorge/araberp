@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.ComponentModel.DataAnnotations;
 
 namespace ArabErp.Domain
 {
@@ -10,7 +11,8 @@ namespace ArabErp.Domain
     {
         public int PurchaseRequestId { get; set; }
         public string PurchaseRequestNo { get; set; }
-        public DateTime? PurchaseRequestDate { get; set; }
+        public DateTime PurchaseRequestDate { get; set; }
+        [Required]
         public int WorkShopRequestId { get; set; }
         public string WorkShopRequestNo { get; set; }
         public string SaleOrderRefNo { get; set; }
