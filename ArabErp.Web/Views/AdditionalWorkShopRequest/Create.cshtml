@@ -99,11 +99,12 @@
                     </div>
                 </div>
                 <div class="row form-group">
-                    <div class="col-md-2">
-                        <label for="RequiredDate">Due Date</label>
-                        @Html.TextBoxFor(m => m.RequiredDate, new { @class = "form_input", @type = "date", autocomplete = "off" })
-                        @*<input type="date" id="duedate" class="form_input" />*@
-                    </div>
+                        <div class="col-md-1"><label for="RequiredDate">Due Date</label></div>
+                        <div class="col-md-2">@Html.TextBoxFor(m => m.RequiredDate, new { @class = "form_input", @type = "date", autocomplete = "off" })
+                        @*<input type="date" id="duedate" class="form_input" />*@</div>
+                        
+
+
                 </div>
 
     <div class="row">

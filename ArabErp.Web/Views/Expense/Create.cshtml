@@ -1,0 +1,175 @@
+﻿@model ArabErp.Domain.ExpenseBill
+@{
+    ViewBag.Title = "Create";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<script>
+    $(function () {
+        $("#ExpenseDate").datepicker({ dateFormat: "dd/MM/yy" });
+        $("#ExpenseBillDate").datepicker({ dateFormat: "dd/MM/yy" });
+        $("#ExpenseBillDueDate").datepicker({ dateFormat: "dd/MM/yy" });
+    });
+    function AddAdditionRow()
+    {
+        var i = 0;
+        var no = 0;
+        $('.TaskRow').each(function (j, obj) {
+            var row = Number(obj.id.replace("Row_", ""));
+            console.log(j);
+            i = j;
+        });
+        i++;
+
+        var clone = $('#Row_0').clone();
+        clone.html($(clone).html().replace(/\ExpenseBillItem_0__/g, 'ExpenseBillItem_' + i + '__'));
+        clone.html($(clone).html().replace(/\ExpenseBillItem_0__/g, 'ExpenseBillItem_' + i + '__'));
+        clone.html($(clone).html().replace(/\ExpenseBillItem[0]./g, 'ExpenseBillItem[' + i + '].'));
+        clone.html($(clone).html().replace(/\[0\]/g, '[' + i + ']'));
+        clone.html($(clone).html().replace(/\(0\)/g, '(' + i + ')'));
+        clone.html($(clone).html().replace(/\Row_0/g, 'Row_' + i + ''));
+        //clone.html($(clone).html().replace(/Row_/, 'Row_' + i + ''));
+
+        $("#tab_logic").append('<tr id="Row_' + i + '" class="TaskRow">' + clone.html() + '  </tr>'); var i = 0;
+        
+    }
+    function AddDeductionRow()
+    {
+        var i = 0;
+        var no = 0;
+        $('.TaskRow_Ded').each(function (j, obj) {
+            var row = Number(obj.id.replace("Row_Ded_", ""));
+            console.log(j);
+            i = j;
+        });
+        i++;
+
+        var clone = $('#Row_Ded_0').clone();
+        clone.html($(clone).html().replace(/\deductions_0__/g, 'deductions_' + i + '__'));
+        clone.html($(clone).html().replace(/\deductions_0__/g, 'deductions_' + i + '__'));
+        clone.html($(clone).html().replace(/\deductions[0]./g, 'deductions[' + i + '].'));
+        clone.html($(clone).html().replace(/\[0\]/g, '[' + i + ']'));
+        clone.html($(clone).html().replace(/\(0\)/g, '(' + i + ')'));
+        clone.html($(clone).html().replace(/\Row_Ded_0/g, 'Row_Ded_' + i + ''));
+        //clone.html($(clone).html().replace(/Row_/, 'Row_' + i + ''));
+
+        $("#tab_logic_deduction").append('<tr id="Row_Ded_' + i + '" class="TaskRow_Ded">' + clone.html() + '  </tr>'); var i = 0;
+
+        
+    }
+</script>
+<div class="container">
+    <div class="row">
+        @using (Html.BeginForm("Save", null, FormMethod.Post, new { @class = "createFrom", @id = "expensebill_form" }))
+        {
+            <div class="form-head1">
+                <h4>Expense Bill</h4>
+            </div>
+            <div class="main-part pad1">
+                <form role="form">
+                    <div class="row form-group">
+                        <div class="col-md-2">
+                            <label for="jcno">Expense Bill No.</label>
+                            @Html.TextBoxFor(m => m.ExpenseNo, new { @class = "form_input", autocomplete = "off" })
+                            @Html.HiddenFor(m => m.ExpenseId)
+                        </div>
+                        <div class="col-md-2">
+                            <label for="inputDate">Date</label>
+                            @Html.TextBoxFor(m => m.ExpenseDate, String.Format("{0:dd/MM/yyyy}", Model.ExpenseDate), new { @class = "form_input ", autocomplete = "off", @readonly = "readonly" })
+                        </div>
+                        
+                    </div>
+                    <div class="row form-group">
+                        <div class="col-md-3">
+                            <label for="cus">Supplier</label>
+                            @Html.DropDownListFor(m => Model.SupplierId, (SelectList)ViewBag.SupplierList, "Select Supplier", new { @class = "form_input", autocomplete = "off" })
+                        </div>
+                        <div class="col-md-2">
+                            <label for="inputDate">Bill Ref.</label>
+                            @Html.TextBoxFor(m => m.ExpenseBillRef, new { @class = "form_input", autocomplete = "off" })
+                        </div>
+                        <div class="col-md-2">
+                            <label for="inputDate">Bill Date</label>
+                            @Html.TextBoxFor(m => m.ExpenseBillDate, String.Format("{0:dd/MM/yyyy}", Model.ExpenseBillDate), new { @class = "form_input ", autocomplete = "off", @readonly = "readonly" })
+                        </div>
+                        <div class="col-md-2">
+                            <label for="inputDate">Bill Due Date</label>
+                            @Html.TextBoxFor(m => m.ExpenseBillDueDate, String.Format("{0:dd/MM/yyyy}", Model.ExpenseBillDueDate), new { @class = "form_input ", autocomplete = "off", @readonly = "readonly" })
+                        </div>
+                    </div>
+                    <div class="table-responsive">
+                        <table class="table table-bordered" id="tab_logic">
+                            <thead>
+                                <tr class="grid_heading">
+                                    <td style="width:50%;"><h1>Expense Head</h1></td>
+                                    <td><h1>Quantity</h1></td>
+                                    <td><h1>Rate</h1></td>
+                                    <td><h1>Amount</h1></td>
+                                </tr>
+                            </thead>
+                            <tbody class="grid_row">
+                                @{ int row = 0;}
+                                @foreach (var item in Model.ExpenseBillItem)
+                                {
+                                    <tr id="Row_@row" class="TaskRow">
+                                        <td>
+                                            @Html.DropDownListFor(m => Model.ExpenseBillItem[row].AddDedId, (SelectList)ViewBag.Additions, "Select Addition", new { @class = "form_input", autocomplete = "off" })
+                                        </td>
+                                        <td>
+                                            @Html.TextBoxFor(m => m.ExpenseBillItem[row].ExpenseItemQty, new { @class = "form_input", autocomplete = "off" })
+                                        </td>
+                                        <td>
+                                            @Html.TextBoxFor(m => m.ExpenseBillItem[row].ExpenseItemRate, new { @class = "form_input", autocomplete = "off" })
+                                        </td>
+                                        <td>
+                                            @Html.TextBoxFor(m => m.ExpenseBillItem[row].ExpenseItemAmount, new { @class = "form_input", autocomplete = "off" })
+                                        </td>
+                                    </tr>
+                                    row++;
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                    <a id="add_row" class="glyphicon glyphicon-plus" onclick="AddAdditionRow()"></a>
+                    <div class="table-responsive">
+                        <table class="table table-bordered" id="tab_logic_deduction">
+                            <thead>
+                                <tr class="grid_heading">
+                                    <td style="width:50%;"><h1>Deduction Head</h1></td>
+                                    <td><h1>Amount</h1></td>
+                                </tr>
+                            </thead>
+                            <tbody class="grid_row">
+                                @{ int dedrow = 0;}
+                                @foreach (var item in Model.deductions)
+                                {
+                                    <tr id="Row_Ded_@dedrow" class="TaskRow_Ded">
+                                        <td>
+                                            @Html.DropDownListFor(m => Model.deductions[dedrow].AddDedId, (SelectList)ViewBag.Deductions, "Select Deduction", new { @class = "form_input", autocomplete = "off" })
+                                        </td>
+                                        <td>
+                                            @Html.TextBoxFor(m => m.deductions[dedrow].ExpenseItemAmount, new { @class = "form_input", autocomplete = "off" })
+                                        </td>
+                                    </tr>
+                                    dedrow++;
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                    <a id="add_row" class="glyphicon glyphicon-plus" onclick="AddDeductionRow()"></a>
+                    <div class="row form-group">
+                        <div class="col-md-12">
+                            <label for="inputDate">Remarks</label>
+                            @Html.TextAreaFor(m => m.ExpenseRemarks, new { @class = "form_input form_input-h", autocomplete = "off" })
+                        </div>
+                    </div>  
+                    <div class="marg">
+                        <button class="form-button">Exit</button>
+                        <button type="submit" class="form-button">Save</button>
+                    </div>
+                </form>
+                
+            </div>
+            
+        }
+    </div>
+</div>

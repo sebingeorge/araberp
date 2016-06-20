@@ -193,10 +193,11 @@
                     <div class="row form-group">
                         <div class="col-md-12">
                             <div class="row">
-                                <div class="col-md-12">
-                                    <label for="SplRemarks1">Spl. Remarks</label>
-                                    @Html.TextAreaFor(m => m.SpecialRemarks, new { @class = "form_input form_input-h", autocomplete = "off" })
-                                </div>
+                                <div class="col-md-1"><label for="SplRemarks1">Spl. Remarks</label></div>
+                                <div class="col-md-11">@Html.TextAreaFor(m => m.SpecialRemarks, new { @class = "form_input form_input-h", autocomplete = "off" })</div>
+                                    
+                                   
+                                
                             </div>
                         </div>
                     </div>
@@ -210,10 +211,17 @@
                             @Html.DropDownListFor(m => Model.EmployeeId, (SelectList)ViewBag.EmployeeList, "Select Employee", new { @class = "form_input", autocomplete = "off" })
                         </div>
                     </div>
-                    <div class="marg">
-                        <button class="form-button">Exit</button>
-                        <button type="submit" class="form-button">Save</button>
+
+
+                    <div class="row">
+
+                        <div class="col-md-12 hrpart">
+                            <button class="form-button right">Exit</button>
+                            <button type="submit" class="form-button right">Save</button>
+                        </div>
+
                     </div>
+
                 </form>
             </div>
         }

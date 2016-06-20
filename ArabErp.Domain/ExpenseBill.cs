@@ -16,5 +16,17 @@ namespace ArabErp.Domain
         public DateTime ExpenseBillDueDate { get; set; }
         public int? SupplierId { get; set; }
         public string ExpenseRemarks { get; set; }
+        public List<ExpenseBillItem> ExpenseBillItem{get; set;}
+        public List<ExpenseBillItem> deductions { get; set; }
+    }
+    public class ExpenseBillItem
+    {
+        public int? ExpenseRowId { get; set; }
+        public int? ExpenseId { get; set; }
+        public int? AddDedId { get; set; }
+        public decimal ExpenseItemRate { get;set;}
+        public decimal ExpenseItemQty { get; set; }
+        public decimal ExpenseItemAmount { get; set; }
+        public int ExpenseItemAddDed { get; set; }
     }
 }
