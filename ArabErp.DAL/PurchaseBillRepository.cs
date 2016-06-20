@@ -45,10 +45,10 @@ namespace ArabErp.DAL
                 {
                     int id = 0;
 
-                    string sql = @"insert  into PurchaseBill(PurchaseBillRefNo,SupplierId,PurchaseBillDate,EmployeeId,Remarks,PurchaseBillAmount
-                             ,AdditionRemarks,DeductionRemarks,Deduction,Addition,CurrencyId,CreatedBy,CreatedDate,OrganizationId)
-                              Values (@PurchaseBillRefNo,@SupplierId,@PurchaseBillDate,0,@Remarks,0
-                             ,@AdditionRemarks,@DeductionRemarks,@Deduction,@Addition,@CurrencyId,@CreatedBy,@CreatedDate,@OrganizationId);
+                    string sql = @"insert  into PurchaseBill(PurchaseBillRefNo,SupplierId,PurchaseBillDate,Remarks,PurchaseBillAmount
+                             ,AdditionRemarks,DeductionRemarks,Deduction,Addition,CreatedBy,CreatedDate,OrganizationId)
+                              Values (@PurchaseBillRefNo,@SupplierId,@PurchaseBillDate,@Remarks,@PurchaseBillAmount
+                             ,@AdditionRemarks,@DeductionRemarks,@Deduction,@Addition,@CreatedBy,@CreatedDate,@OrganizationId);
                              SELECT CAST(SCOPE_IDENTITY() as int)";
 
                     id = connection.Query<int>(sql, model, trn).Single();
@@ -127,7 +127,8 @@ namespace ArabErp.DAL
                                from GRN G 
                                INNER JOIN GRNItem GI ON G.GRNId=GI.GRNId
                                INNER JOIN Supplier S ON G.SupplierId=S.SupplierId
-                               WHERE S.SupplierId=@supplierId
+                               LEFT JOIN PurchaseBillItem P ON P.GRNItemId=GI.GRNItemId 
+                               WHERE P.PurchaseBillId is null AND S.SupplierId=@supplierId 
                                GROUP BY G.GRNId,G.GRNNo,G.GRNDate,S.SupplierName,S.SupplierId";
                 return connection.Query<PendingGRN>(qry, new { SupplierId = supplierId }).ToList();
             }
