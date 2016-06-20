@@ -104,11 +104,12 @@
                     </table>
                 </div>
                 <div class="row form-group">
-                    <div class="col-md-12">
-                        <label for="Remarks">Spl. Remarks</label>
-                        @Html.TextAreaFor(m => m.Remarks, new { @class = "form_input form_input-h" })
-                        @*<textarea id="SplRemarks1" autocomplete="off" class="form_input form_input-h"></textarea>*@
-                    </div>
+                    <div class="col-md-1"><label for="Remarks">Spl. Remarks</label></div>
+                    <div class="col-md-11">@Html.TextAreaFor(m => m.Remarks, new { @class = "form_input form_input-h" })
+                    @*<textarea id="SplRemarks1" autocomplete="off" class="form_input form_input-h"></textarea>*@</div>
+                        
+
+
                 </div>
                 <div class="row form-group">
                     <div class="col-md-2">
@@ -127,14 +128,21 @@
                             </select>*@
                     </div>
                 </div>
-                <div class="marg1">
-                    <input type="button" class="form-button" value="Back" onclick="Back()">
-                    <input type="submit" class="form-button" value="Save">
-                    @*@if (TempData["Success"] != null)
-                        {
-                         <p class="alert alert-success" id="successMessage">@TempData["Success"]</p>
-                        }*@
+
+
+                <div class="row">
+
+                    <div class="col-md-12 hrpart">
+                        <input type="button" class="form-button right" value="Back" onclick="Back()">
+                        <input type="submit" class="form-button right" value="Save">
+                        @*@if (TempData["Success"] != null)
+        {
+         <p class="alert alert-success" id="successMessage">@TempData["Success"]</p>
+        }*@
+                    </div>
+
                 </div>
+
             </form>
         </div>
     </div>
