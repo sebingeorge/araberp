@@ -4,9 +4,9 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 <style>
-    tr:hover {
+    /*tr:hover {
           background-color: lightblue;
-        }
+        }*/
 table {
     width: 100%;
     border-spacing: 0;
@@ -14,14 +14,14 @@ table {
 
 thead, tbody, tr, th, td { display: block; }
 
-thead tr {
+/*thead tr {
     /* fallback */
     width: 100%;
   
     width: -webkit-calc(100% - 16px);
     width:    -moz-calc(100% - 16px);
     width:         calc(100% - 16px);
-}
+}*/
 
 tr:after {  /* clearing float */
     content: ' ';
@@ -31,7 +31,7 @@ tr:after {  /* clearing float */
 }
 
 tbody {
-    height: 70vh;
+    /*height: 70vh;*/
     overflow-y: auto;
     overflow-x: hidden;
 }
@@ -78,7 +78,7 @@ tbody td, thead th {
         <div class="form-head1">
             <h4>Pending Job Card QC</h4>
         </div>
-        <div class="main-part pad1">
+        <div class="main-part pad1 white">
             <div class=" table-responsive">
                 <table class="table table-bordered">
                     <thead>
@@ -87,7 +87,7 @@ tbody td, thead th {
                             <th><h1>JC Date</h1></th>
                             <th><h1>Customer</h1></th>
                             <th><h1>Vehicle Model</h1></th>
-                            <th><h1>Select</h1></th>
+                            <th><center><h1>Select</h1></center></th>
                         </tr>
                     </thead>
                     <tbody class="grid_row" style="overflow-y:auto">
