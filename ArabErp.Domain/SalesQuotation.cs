@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -23,11 +24,14 @@ namespace ArabErp.Domain
         public string ContactPerson { get; set; }
         public int SalesExecutiveId { get; set; }
         public DateTime PredictedClosingDate { get; set; }
+        [Required]
         public DateTime QuotationValidToDate { get; set; }
+        [Required]
         public DateTime ExpectedDeliveryDate { get; set; }
+        [Required]
         public bool? IsQuotationApproved { get; set; }
         public int? ApprovedBy { get; set; }
-        public decimal? Amount { get; set; }
+        public decimal Amount { get; set; }
         public int? QuotationStatus { get; set; }
         public string Remarks { get; set; }
         public int? SalesQuotationRejectReasonId { get; set; }
