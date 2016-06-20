@@ -188,6 +188,7 @@
             {
 
                 @Html.HiddenFor(m => m.SalesQuotationId)
+                @Html.HiddenFor(m => m.Amount)
                 <div class="row form-group ">
                     <div class="col-md-4">
                         <label for="QuotationRefNo">QuotationRefNo</label>
@@ -558,7 +559,7 @@
                                             @Html.TextBoxFor(m => m.SalesQuotationItems[i].Discount, new { @class = "form_input", autocomplete = "off", @style = "text-align:right", placeholder = "Discount", @onchange = "QuantityChanged(" + i + ");", @disabled = "true" })
                                         }
                                     </td>
-                                    <td>@Html.TextBoxFor(m => m.SalesQuotationItems[i].Amount, new { @class = "form_input clAmount", autocomplete = "off", @style = "text-align:right", placeholder = "Amount", @disabled = "true" })</td>
+                                    <td>@Html.TextBoxFor(m => m.SalesQuotationItems[i].Amount, new { @class = "form_input clAmount", autocomplete = "off", @style = "text-align:right", placeholder = "Amount", @readonly = "true" })</td>
                                     <td style="vertical-align:middle"><a class="glyphicon glyphicon-minus" style="top:0px" onclick="Delete(@i)"></a></td>
                                 </tr>
                             }
@@ -593,16 +594,16 @@
                 <a id="add_row" class="glyphicon glyphicon-plus"></a>
 
 
-   
-                   
-   
+
+
+
 
 
                 <div class="row form-group ">
                     <div class="part1">
                         <div class="col-md-1">
 
-                            @Html.HiddenFor(m => m.Amount, new { @class = "form_input", autocomplete = "off" })
+                         
                             <label for="Remarks">Spl.Remarks</label>
 
                         </div>
