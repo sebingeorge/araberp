@@ -1,6 +1,6 @@
 ﻿@model  ArabErp.Domain.GRN
 @{
-    ViewBag.Title = "Create"; 
+    ViewBag.Title = "Create";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
@@ -13,9 +13,11 @@
 <script>
     $(document).ready(function () {
 
+        $(".numbers-only").keypress(function (e) {
+            if (e.which == 8 || (e.which == 46 && $(this).val().indexOf('.') == -1) || (e.which > 47 && e.which < 58)) { } else { return false; }
+        });
+
         $("#GRNDate").datepicker({
-            changeMonth: true,
-            changeYear: true,
             dateFormat: "dd-MM-yy"
         });
         calculateSummary();
@@ -39,51 +41,63 @@
         //});
     });
 
-
-    function QuantityChanged(row) {
+    function ValueChanged(row) {
         var quantity = $("#Items_" + row + "__Quantity").val();
         var rate = $("#Items_" + row + "__Rate").val();
         var discount = $("#Items_" + row + "__Discount").val();
 
-        if (quantity == NaN) {
-            quantity = 0;
-        }
-        if (rate == NaN) {
-            rate = 0;
-        }
-        if (discount == NaN) {
-            discount = 0;
-        }
+        if (quantity == NaN) quantity = 0;
+        if (rate == NaN) rate = 0;
+        if (discount == NaN) discount = 0;
+
         var amount = ((quantity * rate) - discount).toFixed(2);
         $("#Items_" + row + "__Amount").val(amount);
         calculateSummary();
+
+        var pending = Number($("#Items_" + row + "__PendingQuantity").val());
+        var received = Number($("#Items_" + row + "__Quantity").val());
+        if (isNaN(pending)) pending = 0;
+        if (isNaN(received)) received = 0;
+        var rejected = pending - received;
+        $("#Items_" + row + "__RejectedQuantity").val(rejected.toFixed(2));
     }
 
     function calculateSummary() {
-        var quantity = parseFloat("0");
-        var amount = parseFloat("0");
-        $('.clQuantity').each(function (i, obj) {
-            var a = parseFloat($("#Items_" + i + "__Quantity").val());
+        //var quantity = parseFloat("0.00");
+        var amount = parseFloat("0.00");
+        //$('.clQuantity').each(function (i, obj) {
+        //    var a = parseFloat($("#Items_" + i + "__Quantity").val()).toFixed(2);
 
-            if (isNaN(a)) {
-                a = parseFloat("0");
-            }
+        //    if (isNaN(a)) {
+        //        a = parseFloat("0.00");
+        //    }
 
-            quantity = quantity + a;
-        });
+        //    quantity = quantity + a;
+        //});
 
         $('.clAmount').each(function (i, obj) {
             var a = parseFloat($("#Items_" + i + "__Amount").val());
             if (isNaN(a)) {
-                a = parseFloat("0");
+                a = Number("0.00");
             }
-            amount = amount + a;
+            amount = (amount + a).toFixed(2);
         });
         $("#QtyAmount").text(amount);
+
+        amount = Number(amount) + Number($("#Addition").val()) - Number($("#Deduction").val());
+        $("#grandTotal").val(amount.toFixed(2));
     }
 
     function Exit() {
         location.href = '@Url.Action("PendingGrnWareHouse")';
+    }
+
+    function formValidation() {
+        //$("input[id$='__RejectedQuantity']").each(function (i, obj) {
+        //    if(Number($(this).val()) < 0)
+        //        toastr.info("Recieved quantity cannot be greater than pending quantity")
+        //});
+        return true;
     }
 
 </script>
@@ -96,19 +110,19 @@
 
         <div class="main-part pad1">
 
-            @using (Html.BeginForm("Save", null, FormMethod.Post, new { @class = "createFrom", @id = "grn_form" }))
+            @using (Html.BeginForm("Save", null, FormMethod.Post, new { @class = "createFrom", @id = "grn_form", @onsubmit = "return formValidation()" }))
             {
                 @Html.HiddenFor(m => m.isDirectPurchaseGRN)
                 @Html.HiddenFor(m => m.SupplyOrderId, new { @class = "form_input", autocomplete = "off" })
 
                 <div class="row form-group">
                     <div class="col-md-2">
-                        <label for=" GRNNo">GRN No. </label>
-                        @Html.TextBoxFor(m => m.GRNNo, new { @class = "form_input", autocomplete = "off" })
+                        <label for="GRNNo">GRN No. </label>
+                        @Html.TextBoxFor(m => m.GRNNo, new { @class = "form_input", autocomplete = "off", @required = "true" })
                     </div>
                     <div class="col-md-2">
                         <label for="GRNDate">Date</label>
-                        @Html.TextBoxFor(m => m.GRNDate, Model.GRNDate.ToString("dd/MMMM/yyyy"), new { @class = "form_input ", autocomplete = "off" })
+                        @Html.TextBoxFor(m => m.GRNDate, Model.GRNDate.ToString("dd/MMMM/yyyy"), new { @class = "form_input ", autocomplete = "off", @required = "true" })
                     </div>
                 </div>
                 <div class="row form-group">
@@ -117,12 +131,12 @@
                         @{
                 if (Model.isDirectPurchaseGRN)
                 {
-                    @Html.DropDownListFor(m => m.SupplierId, (SelectList)ViewBag.supplierList, "Select Supplier", new { @class = "form_input ", autocomplete = "off" })
+                    @Html.DropDownListFor(m => m.SupplierId, (SelectList)ViewBag.supplierList, "Select Supplier", new { @class = "form_input ", autocomplete = "off", @required = "true" })
                 }
                 else
                 {
                     @Html.TextBoxFor(m => m.Supplier, new { @class = "form_input", autocomplete = "off", @readonly = "readonly" })
-                            @Html.HiddenFor(m => m.SupplierId, new { @class = "form_input", autocomplete = "off" })
+                            @Html.HiddenFor(m => m.SupplierId, new { @class = "form_input", autocomplete = "off", @required = "true" })
                 }
                         }
 
@@ -177,12 +191,12 @@
                                     </td>
                                     <td>@Html.TextBoxFor(m => m.Items[i].Remarks, new { @class = "form_input", autocomplete = "off", placeholder = "Remarks" })</td>
                                     <td>@Html.TextBoxFor(m => m.Items[i].PendingQuantity, new { @class = "form_input", @style = "text-align:right", autocomplete = "off", @disabled = "true" })</td>
-                                    <td>@Html.TextBoxFor(m => m.Items[i].Quantity, new { @class = "form_input clQuantity", @style = "text-align:right", autocomplete = "off", placeholder = "Qty", @onkeyup = "QuantityChanged(" + i + ");" })</td>
+                                    <td>@Html.TextBoxFor(m => m.Items[i].Quantity, new { @class = "form_input clQuantity numbers-only", @style = "text-align:right", autocomplete = "off", placeholder = "Qty", @onkeyup = "ValueChanged(" + i + ");", @required = "true" })</td>
                                     <td>@Html.TextBoxFor(m => m.Items[i].RejectedQuantity, new { @class = "form_input", @style = "text-align:right", autocomplete = "off", @disabled = "true" })</td>
                                     <td>@Html.TextBoxFor(m => m.Items[i].Unit, new { @class = "form_input ", @style = "text-align:right", autocomplete = "off", @disabled = "true" })</td>
-                                    <td>@Html.TextBoxFor(m => m.Items[i].Rate, new { @class = "form_input ", @style = "text-align:right", autocomplete = "off" })</td>
-                                    <td>@Html.TextBoxFor(m => m.Items[i].Discount, new { @class = "form_input ", @style = "text-align:right", autocomplete = "off" })</td>
-                                    <td>@Html.TextBoxFor(m => m.Items[i].Amount, new { @class = "form_input clAmount", @style = "text-align:right", autocomplete = "off" })</td>
+                                    <td>@Html.TextBoxFor(m => m.Items[i].Rate, new { @class = "form_input numbers-only", @style = "text-align:right", autocomplete = "off", @onkeyup = "ValueChanged(" + i + ");", @required = "true" })</td>
+                                    <td>@Html.TextBoxFor(m => m.Items[i].Discount, new { @class = "form_input numbers-only", @style = "text-align:right", autocomplete = "off", @onkeyup = "ValueChanged(" + i + ");", @required = "true" })</td>
+                                    <td>@Html.TextBoxFor(m => m.Items[i].Amount, new { @class = "form_input clAmount", @style = "text-align:right", autocomplete = "off", @disabled = "true" })</td>
                                 </tr>
                             }
 
@@ -217,7 +231,7 @@
                     <div class="col-md-12">
                         <div class="row">
                             <div class="part">
-                                <div class="col-md-1"><label for="SplRemarks1">Spl.Remarks</label></div>
+                                <div class="col-md-1"><label for="SpecialRemarks">Spl.Remarks</label></div>
                                 <div class="col-md-11">
                                     @Html.TextAreaFor(m => m.SpecialRemarks, new { @class = "form_input form_input-h", autocomplete = "off" })
                                 </div>
@@ -229,33 +243,42 @@
                 <div class="row form-group">
                     <div class="col-md-4">
                         <label for="StockPointId">WareHouse/Location</label>
-                        @Html.DropDownListFor(m => Model.StockPointId, (SelectList)ViewBag.WarehouseList, "Select WareHouse", new { @class = "form_input", autocomplete = "off" })
+                        @Html.DropDownListFor(m => Model.StockPointId, (SelectList)ViewBag.WarehouseList, "Select WareHouse", new { @class = "form_input", autocomplete = "off", @required = "true" })
                     </div>
                     <div class="col-md-4">
-                        <label for="sdcno">Supplier DC No. & Date</label>
-                        @Html.TextAreaFor(m => m.SupplierDCNoAndDate, new { @class = "form_input", autocomplete = "off" })
+                        <label for="SupplierDCNoAndDate">Supplier DC No. & Date</label>
+                        @Html.TextBoxFor(m => m.SupplierDCNoAndDate, new { @class = "form_input", autocomplete = "off" })
                     </div>
                 </div>
 
                 <div class="row form-group">
-                    <div class="col-md-4">
-                        <label for="Addition">Addition</label>
-                        @Html.TextBoxFor(m => m.Addition, new { @class = "form_input", @style = "text-align:right", autocomplete = "off", @Value = "0.00" })
-                    </div>
                     <div class="col-md-8">
-                        <label for="AdditionRemarks">Remarks</label>
+                        <label for="AdditionRemarks">Addition Remarks</label>
                         @Html.TextBoxFor(m => m.AdditionRemarks, new { @class = "form_input", autocomplete = "off" })
                     </div>
+                    <div class="col-md-4">
+                        <label for="Addition">Addition</label>
+                        @Html.TextBoxFor(m => m.Addition, new { @class = "form_input numbers-only", @style = "text-align:right", autocomplete = "off", @Value = "0.00", @onkeyup = "calculateSummary()" })
+                    </div>
                 </div>
 
                 <div class="row form-group">
+                    <div class="col-md-8">
+                        <label for="DeductionRemarks">Deduction Remarks</label>
+                        @Html.TextBoxFor(m => m.DeductionRemarks, new { @class = "form_input", autocomplete = "off" })
+                    </div>
                     <div class="col-md-4">
                         <label for="Deduction">Deduction</label>
-                        @Html.TextBoxFor(m => m.Deduction, new { @class = "form_input", @style = "text-align:right", autocomplete = "off", @Value = "0.00" })
+                        @Html.TextBoxFor(m => m.Deduction, new { @class = "form_input numbers-only", @style = "text-align:right", autocomplete = "off", @Value = "0.00", @onkeyup = "calculateSummary()" })
                     </div>
-                    <div class="col-md-8">
-                        <label for="DeductionRemarks">Remarks</label>
-                        @Html.TextBoxFor(m => m.DeductionRemarks, new { @class = "form_input", autocomplete = "off" })
+                </div>
+
+                <div class="row form-group">
+                    <div class="col-md-offset-9 col-md-1 text-right">
+                        <label>Grand Total</label>
+                    </div>
+                    <div class="col-md-2">
+                        <input type="text" id="grandTotal" class="form_input text-right bold" style="font-size:16px;padding:10px" disabled />
                     </div>
                 </div>
 

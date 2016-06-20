@@ -80,6 +80,7 @@
     <Compile Include="DropdownRepository.cs" />
     <Compile Include="EmployeeCategoryRepository.cs" />
     <Compile Include="EmployeeRepository.cs" />
+    <Compile Include="ExpenseRepository.cs" />
     <Compile Include="FreezerUnitRepository.cs" />
     <Compile Include="GRNItemRepository.cs" />
     <Compile Include="GRNRepository.cs" />
