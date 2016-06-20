@@ -104,14 +104,19 @@
             $('#SalesExecutiveId').focus();
             return false;
         }
-        else if ($('#EDateArrival').val() == '') {
-            alert("select EDA");
-            $('#EDateArrival').focus();
+        else if ($('#PredictedClosingDate').val() == '') {
+            alert("select Predicted Closing Date");
+            $('#PredictedClosingDate').focus();
             return false;
         }
-        else if ($('#EDateDelivery').val() == '') {
-            alert("select EDD");
-            $('#EDateDelivery').focus();
+        else if ($('#QuotationValidToDate').val() == '') {
+            alert("select QuotationValidToDate");
+            $('#QuotationValidToDate').focus();
+            return false;
+        }
+        else if ($('#ExpectedDeliveryDate').val() == '') {
+            alert("select ExpectedDeliveryDate");
+            $('#ExpectedDeliveryDate').focus();
             return false;
         }
 
@@ -183,12 +188,13 @@
             {
 
                 @Html.HiddenFor(m => m.SalesQuotationId)
+                @Html.HiddenFor(m => m.Amount)
                 <div class="row form-group ">
                     <div class="col-md-4">
                         <label for="QuotationRefNo">QuotationRefNo</label>
                         @if (ViewBag.actionName.ToString() == "Create")
                         {
-                            @Html.TextBoxFor(m => m.QuotationRefNo, new { @class = "form_input", autocomplete = "off" })
+                            @Html.TextBoxFor(m => m.QuotationRefNo, new { @class = "form_input", autocomplete = "off", @readonly = "readonly" })
                         }
                         else
                         {
@@ -371,7 +377,6 @@
                                 var Rate = $("#SalesQuotationItems_" + j + "__Rate").val();
                                 var Discount = $("#SalesQuotationItems_" + j + "__Discount").val();
                                 var Amount = $("#SalesQuotationItems_" + j + "__Amount").val();
-                                alert(WorkDescriptionId + ',' + VehicleModelId + ',' + Quantity + ',' + UnitId + ',' + Rate + ',' + Discount + ',' + Amount);
 
                                 var clone = $("#" + j).clone(true, true);
                                 clone.html($(clone).html().replace(new RegExp("SalesQuotationItems_" + j + "__", "g"), 'SalesQuotationItems_' + (j - 1) + '__'));
@@ -414,6 +419,7 @@
                             discount = 0;
                         }
                         var amount = (quantity * rate) - discount;
+                        amount = parseFloat(amount);
                         $("#SalesQuotationItems_" + row + "__Amount").val(amount);
                         calculateSummary();
                     }
@@ -443,8 +449,8 @@
                         });
 
                         //$("#QtyTotal").text(quantity);
-                        $("#QtyAmount").text(amount);
-                        $("#Amount").text(amount);
+                        $("#QtyAmount").text(parseFloat(amount));
+                        $("#Amount").text(parseFloat(amount));
                     }
 
                     @*function OnWorkChange(sender, index) {
@@ -498,7 +504,7 @@
                                         <input type="hidden" id="Row_@i" />
                                         @if (ViewBag.actionName.ToString() == "Create")
                                         {
-                                            @Html.DropDownListFor(x => Model.SalesQuotationItems[i].WorkDescriptionId, new SelectList(ViewBag.workdesclist, "Value", "Text", Model.SalesQuotationItems[i].WorkDescriptionId), "select work description", new { @class = "form_input", autocomplete = "off", @onchange = "OnWorkChange(this," + i + ")" })
+                                            @Html.DropDownListFor(x => Model.SalesQuotationItems[i].WorkDescriptionId, new SelectList(ViewBag.workdesclist, "Value", "Text", Model.SalesQuotationItems[i].WorkDescriptionId), "select work description", new { @class = "form_input", autocomplete = "off" })
 
                                         }
                                         else
@@ -553,7 +559,7 @@
                                             @Html.TextBoxFor(m => m.SalesQuotationItems[i].Discount, new { @class = "form_input", autocomplete = "off", @style = "text-align:right", placeholder = "Discount", @onchange = "QuantityChanged(" + i + ");", @disabled = "true" })
                                         }
                                     </td>
-                                    <td>@Html.TextBoxFor(m => m.SalesQuotationItems[i].Amount, new { @class = "form_input clAmount", autocomplete = "off", @style = "text-align:right", placeholder = "Amount", @disabled = "true" })</td>
+                                    <td>@Html.TextBoxFor(m => m.SalesQuotationItems[i].Amount, new { @class = "form_input clAmount", autocomplete = "off", @style = "text-align:right", placeholder = "Amount", @readonly = "true" })</td>
                                     <td style="vertical-align:middle"><a class="glyphicon glyphicon-minus" style="top:0px" onclick="Delete(@i)"></a></td>
                                 </tr>
                             }
@@ -588,16 +594,16 @@
                 <a id="add_row" class="glyphicon glyphicon-plus"></a>
 
 
-   
-                   
-   
+
+
+
 
 
                 <div class="row form-group ">
                     <div class="part1">
                         <div class="col-md-1">
 
-                            @Html.HiddenFor(m => m.Amount, new { @class = "form_input", autocomplete = "off" })
+                         
                             <label for="Remarks">Spl.Remarks</label>
 
                         </div>
