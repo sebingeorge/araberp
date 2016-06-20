@@ -92,20 +92,12 @@
         $("#QtyAmount").text(amount);
     }
 
-
-
     $(function () {
-        $("#SupplyOrderDate").datepicker({
-            changeMonth: true,
-            changeYear: true,
-            dateFormat: "d/MM/y"
-        });
-        $("#RequiredDate").datepicker({
-            changeMonth: true,
-            changeYear: true,
-            dateFormat: "d/MM/y"
-        });
+        $("#SupplyOrderDate").datepicker({ dateFormat: "dd-MM-yy" });
+        $("#RequiredDate").datepicker({ dateFormat: "dd-MM-yy" });
+      
     });
+
 
 
 
