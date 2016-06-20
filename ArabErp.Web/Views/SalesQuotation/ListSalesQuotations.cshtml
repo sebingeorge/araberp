@@ -34,7 +34,7 @@
                                     <td class="grid-cell">@item.CustomerName</td>
                                     <td class="grid-cell">@item.SalesExecutiveName</td>
                                     <td class="grid-cell">@item.QuotationRefNo &amp; @item.QuotationDate.ToString("dd/MMM/yyyy")</td>
-                                    <td><center><button class="form-button4"><center>@Html.ActionLink("Select", "Approve", "SalesQuotation", new { SalesQuotationId = @item.SalesQuotationId  }, null)</center></button></center></td>
+                                    <td><center><button class="form-button4">@Html.ActionLink("Select", "Approve", "SalesQuotation", new { SalesQuotationId = @item.SalesQuotationId  }, null)</button></center></td>
                                 </tr>
                             </tbody>
                         }

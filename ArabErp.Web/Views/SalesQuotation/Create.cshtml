@@ -221,7 +221,7 @@
                             @Html.DropDownListFor(m => Model.CustomerId, (SelectList)ViewBag.customerlist, "Select Customer", new { @class = "form_input", autocomplete = "off", @onchange = "CustomerChanged(this);", @disabled = "true" })
                         }
                     </div>
-                    <div class="col-md-4">
+                    <div class="col-md-6">
                         <label for="CustomerAddress">Customer Address</label>
                         @Html.TextAreaFor(m => m.CustomerAddress, new { @class = "form_input", autocomplete = "off", @readonly = "readonly" })
                     </div>
@@ -559,7 +559,7 @@
                             <tr class="grid_heading">
                                 <th width="5%" class="text-center"><h1></h1></th>
                                 <th width="25%" class="text-center"><h1></h1></th>
-                                <th width="25%" class="text-center"><h1></h1></th>
+                                <th width="5%" class="text-center"><h1></h1></th>
                                 <th width="5%" class="text-right"><span id="QtyTotal"></span></th>
                                 <th width="10%"></th>
                                 <th width="10%" class="text-right"><h1>Total</h1></th>
@@ -665,19 +665,24 @@
                         }
                     </div>
                 </div>
+                
+                
+                
+                
+                  <div class="row">
+        <div class="col-md-12 hrpart">
+            @if (ViewBag.actionName.ToString() == "Create")
+            {
+                <button type="submit" class="form-button right">Save</button>
+            }
+            else if (ViewBag.actionName.ToString() == "Approve")
+            {
+                <button type="submit" class="form-button right">Approve</button>                    }
+        </div>
+
+               </div> 
 
 
-                <div class="marg">
-                    @if (ViewBag.actionName.ToString() == "Create")
-                    {
-                        <button type="submit" class="form-button">Save</button>
-                    }
-                    else if (ViewBag.actionName.ToString() == "Approve")
-                    {
-                        <button type="submit" class="form-button">Approve</button>                    }
-
-
-                </div>
 
             }
         </div>
