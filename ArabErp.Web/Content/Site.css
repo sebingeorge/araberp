@@ -169,6 +169,14 @@ textarea {
     width: 92px;
     margin-right:0;
 }
+ .form-button4 a 
+ {
+     color:#ffffff;
+ }
+  .form-button4 a:hover
+ {
+     color:#f9f0f0;
+ }
 .margf 
 {
     float:right;

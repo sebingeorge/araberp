@@ -11,38 +11,52 @@ namespace ArabErp.DAL
     public class SalesQuotationRepository : BaseRepository
     {
         static string dataConnection = GetConnectionString("arab");
-        public int InsertSalesQuotation(SalesQuotation objSalesQuotation)
+        public SalesQuotation InsertSalesQuotation(SalesQuotation objSalesQuotation)
         {
 
    
                 using (IDbConnection connection = OpenConnection(dataConnection))
                 {
+                    var result = new SalesQuotation();
                     IDbTransaction trn = connection.BeginTransaction();
                     try
                     {
-                        string sql = @"insert  into SalesQuotation(QuotationRefNo,QuotationDate,CustomerId,ContactPerson,SalesExecutiveId,PredictedClosingDate,QuotationValidToDate,ExpectedDeliveryDate,IsQuotationApproved,ApprovedBy,Amount,QuotationStatus,Remarks,SalesQuotationRejectReasonId,QuotationRejectReason,Competitors,PaymentTerms,DiscountRemarks,CreatedBy,CreatedDate,OrganizationId) Values (@QuotationRefNo,@QuotationDate,@CustomerId,@ContactPerson,@SalesExecutiveId,@PredictedClosingDate,@QuotationValidToDate,@ExpectedDeliveryDate,@IsQuotationApproved,@ApprovedBy,@Amount,@QuotationStatus,@Remarks,@SalesQuotationRejectReasonId,@QuotationRejectReason,@Competitors,@PaymentTerms,@DiscountRemarks,@CreatedBy,@CreatedDate,@OrganizationId);
-            SELECT CAST(SCOPE_IDENTITY() as int)";
+                        string sql = @"DECLARE	@return_value int,
+                                        @INTERNALID bigint,
+                                        @ERRORCODE nvarchar(100)
+                                        EXEC	@return_value = [dbo].[GET_NEXT_SYSTEM_INTERNALID]
+                                        @UNIQUEID = N'0',
+                                        @DOCUMENTTYPEID = N'SALES QUOTATION',
+                                        @DOUPDATE = 1,
+                                        @INTERNALID = @INTERNALID OUTPUT,
+                                        @ERRORCODE = @ERRORCODE OUTPUT;
+                                        insert  into SalesQuotation(QuotationRefNo,QuotationDate,CustomerId,ContactPerson,SalesExecutiveId,PredictedClosingDate,QuotationValidToDate,ExpectedDeliveryDate,IsQuotationApproved,ApprovedBy,Amount,QuotationStatus,Remarks,SalesQuotationRejectReasonId,QuotationRejectReason,Competitors,PaymentTerms,DiscountRemarks,CreatedBy,CreatedDate,OrganizationId)
+                                        Values (CONCAT('SQ/',@INTERNALID),@QuotationDate,@CustomerId,@ContactPerson,@SalesExecutiveId,@PredictedClosingDate,@QuotationValidToDate,@ExpectedDeliveryDate,@IsQuotationApproved,@ApprovedBy,@Amount,@QuotationStatus,@Remarks,@SalesQuotationRejectReasonId,@QuotationRejectReason,@Competitors,@PaymentTerms,@DiscountRemarks,@CreatedBy,@CreatedDate,@OrganizationId);
+                                        SELECT CAST(SCOPE_IDENTITY() as int) SalesQuotationId,CONCAT('SQ/',@INTERNALID) QuotationRefNo";
 
-
-                        var id = connection.Query<int>(sql, objSalesQuotation, trn).Single();
+                         result = connection.Query<SalesQuotation>(sql, objSalesQuotation, trn).First<SalesQuotation>();
 
                         var saleorderitemrepo = new SalesQuotationItemRepository();
                         foreach (var item in objSalesQuotation.SalesQuotationItems)
                         {
-                            item.SalesQuotationId = id;
+                            item.SalesQuotationId = result.SalesQuotationId;
                             saleorderitemrepo.InsertSalesQuotationItem(item, connection, trn);
                         }
 
                         trn.Commit();
-                        return id;
+
+                      
                     }
                     catch (Exception)
                     {
                         trn.Rollback();
+                        result.SalesQuotationId = 0;
+                        result.QuotationRefNo = null;
                         throw;
-                        return 0;
+                      
 
                     }
+                    return result;
                 }
             
         
@@ -111,10 +125,10 @@ namespace ArabErp.DAL
         {
             using (IDbConnection connection = OpenConnection(dataConnection))
             {
-                string sql = @"select E.EmployeeName ,SQ.*,C.DoorNo +','+ C.Street+','+C.State CustomerAddress from SalesQuotation SQ 
+                string sql = @"select E.EmployeeName SalesExecutiveName ,C.CustomerName,SQ.*,C.DoorNo +','+ C.Street+','+C.State CustomerAddress from SalesQuotation SQ 
                             inner join Customer C on SQ.CustomerId=C.CustomerId inner join Employee E
-                            on  E.Employee =SQ.SalesExectiveId
-                        where   isActive=1";
+                            on  E.EmployeeId =SQ.SalesExecutiveId
+                        where SQ.ApprovedBy is null and  SQ.isActive=1";
 
                 var objSalesQuotations = connection.Query<SalesQuotation>(sql).ToList<SalesQuotation>();
 
