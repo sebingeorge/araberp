@@ -10,7 +10,7 @@ namespace ArabErp.Domain
     {
         public int StoreIssueId { get; set; }
         public string StoreIssueRefNo { get; set; }
-        public DateTime? StoreIssueDate { get; set; }
+        public DateTime StoreIssueDate { get; set; }
         public int WorkShopRequestId { get; set; }
         public int EmployeeId { get; set; }
         public string CreatedBy { get; set; }

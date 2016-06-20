@@ -1,5 +1,37 @@
 ﻿@model IList<ArabErp.Domain.PendingForGRN>
 
+<script type="text/javascript">
+    $(document).ready(function () {
+        $("#checkAll").change(function () {
+            $("input:checkbox").prop('checked', $(this).prop("checked"));
+
+            if ($(this).is(":checked"))
+                $("#hidden-check").val('@Model.Count');
+            else $("#hidden-check").val(0);
+        });
+
+        $(".chk").change(function () {
+            var count = '@Model.Count';
+            if ($(this).is(":checked")) {
+                $("#hidden-check").val(Number($("#hidden-check").val()) + 1);
+                
+                if (Number($("#hidden-check").val()) == count) {
+                    $("#checkAll").prop({
+                        checked: true
+                    });
+                }
+            }
+            else {
+                $("#hidden-check").val(Number($("#hidden-check").val()) - 1);
+                $("#checkAll").prop({
+                    checked: false
+                });
+            }
+        });
+    })
+</script>
+
+<input type="hidden" id="hidden-check" value="0" />
 <table class="table table-bordered">
     <thead>
         <tr class="grid_heading">
@@ -9,7 +41,7 @@
             <th width="1%" class="text-right" nowrap><h1>Total Amount</h1></th>
             <th width="1%" style="vertical-align:middle" nowrap>
                 <h1>
-                    <input type="checkbox"> Select all
+                    <input id="checkAll" type="checkbox"> Select all
                 </h1>
             </th>
         </tr>
@@ -36,7 +68,7 @@
                             <input type="text" class="form_input text-right" value="@Model[i].TotalAmount" disabled />
                         </td>
                         <td align="center">
-                            @Html.CheckBoxFor(m => m[i].isChecked)
+                            @Html.CheckBoxFor(m => m[i].isChecked, new { @class = "chk" })
                         </td>
                     </tr>
                 }
@@ -44,7 +76,7 @@
             else
             {
                 <tr>
-                    <td colspan="3" align="center" valign="middle"><em>Please select a supplier to continue...</em></td>
+                    <td colspan="5" align="center" valign="middle"><em>There are no pending direct purchase requests</em></td>
                 </tr>
             }
         }

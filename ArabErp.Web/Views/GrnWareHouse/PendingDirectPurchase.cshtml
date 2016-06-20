@@ -34,7 +34,15 @@
     });
 
     function formValidation() {
-        return true;
+        var flag = false;
+        $("input[type='checkbox']").each(function (i, obj) {
+            if ($(obj).is(':checked'))
+                flag = true;
+        });
+        if (!flag) {
+            toastr.info("You have to select atleast one purchase request to continue.");
+        }
+        return flag;
     }
 </script>
 

@@ -116,13 +116,13 @@
             <div class="col-md-2">
                 <div class="part4">
                     <label for="EDateArrival">EDA</label>
-                    @Html.TextBoxFor(m => m.EDateArrival, String.Format("{0:dd/MM/yyyy}", Model.EDateArrival), new { @class = "form_input ", autocomplete = "off", @readonly = "readonly"})
+                    @Html.TextBoxFor(m => m.EDateArrival, Model.EDateArrival.ToString("dd/MMMM/yyyy"), new { @class = "form_input ", autocomplete = "off", @readonly = "readonly"})
                 </div>
             </div>
             <div class="col-md-2">
                 <div class="part4">
                     <label for="EDateDelivery">EDD</label>
-                    @Html.TextBoxFor(m => m.EDateDelivery, String.Format("{0:dd/MM/yyyy}", Model.EDateDelivery), new { @class = "form_input ", autocomplete = "off", @readonly = "readonly" })
+                    @Html.TextBoxFor(m => m.EDateDelivery, Model.EDateDelivery.ToString("dd/MMMM/yyyy"), new { @class = "form_input ", autocomplete = "off", @readonly = "readonly" })
                 </div>
             </div>
         </div>

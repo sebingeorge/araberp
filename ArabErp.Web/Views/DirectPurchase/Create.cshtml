@@ -182,15 +182,21 @@
                                 <label for="SpecialRemarks">Spl.Remarks</label>
                             </div>
                             <div class="col-md-11">
-                                @Html.TextBoxFor(m => m.SpecialRemarks, new { @class = "form_input", autocomplete = "off" })
+                                @Html.TextBoxFor(m => m.SpecialRemarks, new { @class = "form_input form_input-h", autocomplete = "off" })
                             </div>
                         </div>
                     </div>
                 </div>
 
-                <div class="marg">
-                    <input type="submit" class="form-button" value="Save" />
+                <div class="row">
+
+                    <div class="col-md-12 hrpart">
+                        <input type="submit" class="form-button right" value="Save" />
+                    </div>
+
                 </div>
+
+
                 @*}*@
             </form>
         </div>

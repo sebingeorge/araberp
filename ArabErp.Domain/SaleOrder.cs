@@ -33,8 +33,10 @@ namespace ArabErp.Domain
         public float? CommissionPerc { get; set; }
         [Required]
         public int SalesExecutiveId { get; set; }
-        public DateTime? EDateArrival { get; set; }
-        public DateTime? EDateDelivery { get; set; }
+        public DateTime EDateArrival { get; set; }
+         [Required]
+        public DateTime EDateDelivery { get; set; }
+         [Required]
         public string CreatedBy { get; set; }
         public DateTime? CreatedDate { get; set; }
         public int? OrganizationId { get; set; }
