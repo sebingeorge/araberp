@@ -291,7 +291,6 @@
     <Content Include="Content\toastr\tests\unit\x.js" />
     <Content Include="Content\toastr\toastr-icon.png" />
     <Content Include="Content\toastr\toastr.js" />
-    <Content Include="Images\101.png" />
     <Content Include="Images\banner.png" />
     <Content Include="Images\button-part.jpg" />
     <Content Include="Images\tick.png" />
@@ -474,8 +473,6 @@
     <Content Include="Views\GrnWareHouse\Create.cshtml" />
     <Content Include="Views\SupplyOrder\Create.cshtml" />
     <Content Include="Views\JobCard\Create.cshtml" />
-    <Content Include="Views\JobOrderCompletion\CreateJobOrderCompletion.cshtml" />
-    <Content Include="Views\SalesInvoice\CreateSalesInvoice.cshtml" />
     <Content Include="Views\StockReturn\Create.cshtml" />
     <Content Include="Views\StockJournal\Create.cshtml" />
     <Content Include="Views\AdditionalWorkShopRequest\Create.cshtml" />

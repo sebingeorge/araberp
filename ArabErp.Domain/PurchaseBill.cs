@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-
+using System.ComponentModel.DataAnnotations;
 namespace ArabErp.Domain
 {
    public class PurchaseBill
@@ -17,7 +17,8 @@ namespace ArabErp.Domain
         public string PurchaseBillRefNo { get; set; }
         public int SupplierId { get; set; }
         public string Supplier { get; set; }
-        public DateTime? PurchaseBillDate { get; set; }
+        public DateTime PurchaseBillDate { get; set; }
+       [Required]
         public string BillNoDate { get; set; }
         public string Remarks { get; set; }
         public decimal PurchaseBillAmount { get; set; }
