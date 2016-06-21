@@ -11,35 +11,29 @@ namespace ArabErp.DAL
     public class SalesQuotationRepository : BaseRepository
     {
         static string dataConnection = GetConnectionString("arab");
-        public SalesQuotation InsertSalesQuotation(SalesQuotation objSalesQuotation)
+        public SalesQuotation InsertSalesQuotation(SalesQuotation model)
         {
 
    
                 using (IDbConnection connection = OpenConnection(dataConnection))
                 {
-                    var result = new SalesQuotation();
+                   
                     IDbTransaction trn = connection.BeginTransaction();
                     try
                     {
-                        string sql = @"DECLARE	@return_value int,
-                                        @INTERNALID bigint,
-                                        @ERRORCODE nvarchar(100)
-                                        EXEC	@return_value = [dbo].[GET_NEXT_SYSTEM_INTERNALID]
-                                        @UNIQUEID = N'0',
-                                        @DOCUMENTTYPEID = N'SALES QUOTATION',
-                                        @DOUPDATE = 1,
-                                        @INTERNALID = @INTERNALID OUTPUT,
-                                        @ERRORCODE = @ERRORCODE OUTPUT;
+                        int internalid = DatabaseCommonRepository.GetInternalIDFromDatabase(connection, trn, typeof(SalesQuotation).Name, "0");
+                        model.QuotationRefNo = "SQ/" + internalid;
+                        string sql = @"
                                         insert  into SalesQuotation(QuotationRefNo,QuotationDate,CustomerId,ContactPerson,SalesExecutiveId,PredictedClosingDate,QuotationValidToDate,ExpectedDeliveryDate,IsQuotationApproved,ApprovedBy,Amount,QuotationStatus,Remarks,SalesQuotationRejectReasonId,QuotationRejectReason,Competitors,PaymentTerms,DiscountRemarks,CreatedBy,CreatedDate,OrganizationId)
-                                        Values (CONCAT('SQ/',@INTERNALID),@QuotationDate,@CustomerId,@ContactPerson,@SalesExecutiveId,@PredictedClosingDate,@QuotationValidToDate,@ExpectedDeliveryDate,@IsQuotationApproved,@ApprovedBy,@Amount,@QuotationStatus,@Remarks,@SalesQuotationRejectReasonId,@QuotationRejectReason,@Competitors,@PaymentTerms,@DiscountRemarks,@CreatedBy,@CreatedDate,@OrganizationId);
-                                        SELECT CAST(SCOPE_IDENTITY() as int) SalesQuotationId,CONCAT('SQ/',@INTERNALID) QuotationRefNo";
+                                        Values (@QuotationRefNo,@QuotationDate,@CustomerId,@ContactPerson,@SalesExecutiveId,@PredictedClosingDate,@QuotationValidToDate,@ExpectedDeliveryDate,@IsQuotationApproved,@ApprovedBy,@Amount,@QuotationStatus,@Remarks,@SalesQuotationRejectReasonId,@QuotationRejectReason,@Competitors,@PaymentTerms,@DiscountRemarks,@CreatedBy,@CreatedDate,@OrganizationId);
+                                        SELECT CAST(SCOPE_IDENTITY() as int) SalesQuotationId";
 
-                         result = connection.Query<SalesQuotation>(sql, objSalesQuotation, trn).First<SalesQuotation>();
+                        model.SalesQuotationId = connection.Query<int>(sql, model, trn).First<int>();
 
                         var saleorderitemrepo = new SalesQuotationItemRepository();
-                        foreach (var item in objSalesQuotation.SalesQuotationItems)
+                        foreach (var item in model.SalesQuotationItems)
                         {
-                            item.SalesQuotationId = result.SalesQuotationId;
+                            item.SalesQuotationId = model.SalesQuotationId;
                             saleorderitemrepo.InsertSalesQuotationItem(item, connection, trn);
                         }
 
@@ -50,13 +44,13 @@ namespace ArabErp.DAL
                     catch (Exception)
                     {
                         trn.Rollback();
-                        result.SalesQuotationId = 0;
-                        result.QuotationRefNo = null;
+                        model.SalesQuotationId = 0;
+                        model.QuotationRefNo = null;
                         throw;
                       
 
                     }
-                    return result;
+                    return model;
                 }
             
         
