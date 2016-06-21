@@ -23,6 +23,8 @@ namespace ArabErp.Web.Controllers
             FillTaks(jobcard.WorkDescriptionId ?? 0);
 
             jobcard.JobCardDate = DateTime.Now;
+            jobcard.JobCardCompletedDate = DateTime.Now;
+            jobcard.WarrentyPeriod = DateTime.Now;
             return View(jobcard);
         }
         public ActionResult PendingJobOrderCompletion()
