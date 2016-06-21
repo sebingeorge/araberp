@@ -14,7 +14,6 @@
             var count = '@Model.Count';
             if ($(this).is(":checked")) {
                 $("#hidden-check").val(Number($("#hidden-check").val()) + 1);
-
                 if (Number($("#hidden-check").val()) == count) {
                     $("#checkAll").prop({
                         checked: true
@@ -39,7 +38,7 @@
             <th><h1>PR No. &amp; Date</h1></th>
             <th width="10%" style="vertical-align:middle">
                 <h1>
-                    <input id="#checkAll" type="checkbox"> Select all
+                    <input id="checkAll" type="checkbox"> Select all
                 </h1>
             </th>
         </tr>
