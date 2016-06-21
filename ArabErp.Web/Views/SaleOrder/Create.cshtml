@@ -67,8 +67,8 @@
             $('#EDateDelivery').focus();
             return false;
         }
-        else if ($('#EDateDelivery').val() < $('#EDateArrival').val()) {
-            alert("Please select a valid Delivery Date, Delivery Date must be greater than Arraval Date");
+        else if ($('#EDateDelivery').val() <= $('#EDateArrival').val()) {
+            alert("Please select a valid Delivery Date, Delivery Date should be greater than Arrival Date");
             $('#EDateDelivery').focus();
             return false;
         }

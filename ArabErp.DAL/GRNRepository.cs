@@ -43,6 +43,7 @@ namespace ArabErp.DAL
                         foreach (var item in model.Items)
                         {
                             item.GRNId = id;
+                            item.Amount = item.Quantity * item.Rate;
                             new GRNItemRepository().InsertGRNItem(item, connection, trn);
                             new StockUpdateRepository().InsertStockUpdate(
                                 new StockUpdate
@@ -362,6 +363,7 @@ namespace ArabErp.DAL
                 string query = @"SELECT
 	                                DISTINCT DP.DirectPurchaseRequestId,
 	                                ISNULL(DP.PurchaseRequestNo, '') +' - '+ CONVERT(VARCHAR, ISNULL(DP.PurchaseRequestDate, ''), 106) RequestNoAndDate,
+                                    DP.PurchaseRequestDate,
                                     ISNULL(DP.SpecialRemarks, '-') SpecialRemarks,
 	                                ISNULL(DP.TotalAmount, 0.00) TotalAmount,
                                     DATEDIFF(day, DP.PurchaseRequestDate, GETDATE()) Age,
@@ -370,7 +372,8 @@ namespace ArabErp.DAL
                                 INNER JOIN DirectPurchaseRequest DP ON DPI.DirectPurchaseRequestId = DP.DirectPurchaseRequestId
                                 LEFT JOIN GRNItem GRN ON DPI.DirectPurchaseRequestItemId = GRN.DirectPurchaseRequestItemId
                                 WHERE GRN.DirectPurchaseRequestItemId IS NULL
-                                AND ISNULL(DP.isActive, 1) = 1 AND ISNULL(DPI.isActive, 1) = 1 AND ISNULL(GRN.isActive, 1) = 1";
+                                AND ISNULL(DP.isActive, 1) = 1 AND ISNULL(DPI.isActive, 1) = 1 AND ISNULL(GRN.isActive, 1) = 1
+                                ORDER BY DP.PurchaseRequestDate DESC";
 
                 return connection.Query<PendingForGRN>(query).ToList();
             }

@@ -59,7 +59,7 @@
                             <input type="text" class="form_input" value="@Model[i].QuotaionNoAndDate" disabled />
                         </td>
                         <td align="center">
-                            @Html.CheckBoxFor(m => m[i].isChecked)
+                            @Html.CheckBoxFor(m => m[i].isChecked, new { @class = "chk" })
                         </td>
                     </tr>
                 }

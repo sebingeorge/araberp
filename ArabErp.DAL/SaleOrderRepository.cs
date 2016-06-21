@@ -24,40 +24,61 @@ namespace ArabErp.DAL
                 IDbTransaction trn = connection.BeginTransaction();
                 try
                 {
-                   
 
-                    string sql = @"DECLARE	@return_value int,
-	            	@INTERNALID bigint,
-	            	@ERRORCODE nvarchar(100)
-                    EXEC	@return_value = [dbo].[GET_NEXT_SYSTEM_INTERNALID]
-	            	@UNIQUEID = N'0',
-		            @DOCUMENTTYPEID = N'SALE ORDER',
-	            	@DOUPDATE = 1,
-	              	@INTERNALID = @INTERNALID OUTPUT,
-	            	@ERRORCODE = @ERRORCODE OUTPUT
+
+
+                    string SQLNo = @"BEGIN  
+  
+	SET NOCOUNT ON  
+	
+
+
+	/* No of id's to reserve, is used to reserve more than 1 internal no.
+	    The procedure returns the first internal number, but reserves as many as required.
+                  The ids are then incremented in the API and used in a loop
+	*/
+    
+	/* Update the internal ID when this flag is set to true otherwise it doesnot update */  
+
+		UPDATE	MST_SYSTEM_DOCUMENT_SERIALNO
+		SET		MST_LASTSERIALNO = MST_LASTSERIALNO + 1
+		WHERE	MST_DOCUMENTID = @DOCUMENTTYPEID AND
+				MST_UNIQUEID = @UNIQUEID;
+	SELECT	 MST_LASTSERIALNO
+		FROM		MST_SYSTEM_DOCUMENT_SERIALNO  
+		WHERE	MST_DOCUMENTID = @DOCUMENTTYPEID AND  
+			  	MST_UNIQUEID = @UNIQUEID;  
+END
+";
+
+int internalid = connection.Query<int>(SQLNo, new { DOCUMENTTYPEID = "SALE ORDER", UNIQUEID=0 }, trn).First<int>();
+
+                    model.SaleOrderRefNo = "SO/" + internalid;
+                    string sql = @"
                     insert  into SaleOrder(SaleOrderRefNo,SaleOrderDate,CustomerId,CustomerOrderRef,CurrencyId,SpecialRemarks,PaymentTerms,DeliveryTerms,CommissionAgentId,CommissionAmount,CommissionPerc,SalesExecutiveId,EDateArrival,EDateDelivery,CreatedBy,CreatedDate,OrganizationId)
-                    Values (CONCAT('SO/',@INTERNALID),@SaleOrderDate,@CustomerId,@CustomerOrderRef,@CurrencyId,@SpecialRemarks,@PaymentTerms,@DeliveryTerms,@CommissionAgentId,@CommissionAmount,@CommissionPerc,@SalesExecutiveId,@EDateArrival,@EDateDelivery,@CreatedBy,@CreatedDate,@OrganizationId);
-                    SELECT CAST(SCOPE_IDENTITY() as int) SaleOrderId,CONCAT('SO/',@INTERNALID) SaleOrderRefNo";
-                    
-                     result = connection.Query<SaleOrder>(sql, model, trn).First<SaleOrder>();
+                    Values (@SaleOrderRefNo,@SaleOrderDate,@CustomerId,@CustomerOrderRef,@CurrencyId,@SpecialRemarks,@PaymentTerms,@DeliveryTerms,@CommissionAgentId,@CommissionAmount,@CommissionPerc,@SalesExecutiveId,@EDateArrival,@EDateDelivery,@CreatedBy,@CreatedDate,@OrganizationId);
+                    SELECT CAST(SCOPE_IDENTITY() as int) SaleOrderId";
+
+                    model.SaleOrderId = connection.Query<int>(sql, model, trn).First<int>();
 
                     var saleorderitemrepo = new SaleOrderItemRepository();
                     foreach (var item in model.Items)
                     {
-                        item.SaleOrderId = result.SaleOrderId;
+                        item.SaleOrderId = model.SaleOrderId;
                         saleorderitemrepo.InsertSaleOrderItem(item, connection, trn);
                     }
                     trn.Commit();
                     
                 }
-                catch (Exception)
+                catch (Exception ex)
                 {
                     trn.Rollback();
-                    result.SaleOrderId = 0;
-                    result.SaleOrderRefNo = null;
+                    model.SaleOrderId = 0;
+                    model.SaleOrderRefNo = null;
+                    throw ex;
                     
                 }
-                return result;
+                return model;
 
             }
         }

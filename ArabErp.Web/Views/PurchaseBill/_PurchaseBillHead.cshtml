@@ -12,12 +12,12 @@
     </div>
 </div>
 <div class="row form-group">
-    <div class="col-md-4">
+    <div class="col-md-6">
         <label for="SupplierId">Supplier</label>
         @Html.TextBoxFor(m => m.Supplier, new { @class = "form_input", autocomplete = "off", @readonly = "readonly" })
         @Html.HiddenFor(m => m.SupplierId, new { @class = "form_input", autocomplete = "off" })
     </div>
-        <div class="col-md-4">
+        <div class="col-md-6">
             <label for="BillNoDate">Bill No. & Date</label>
         @Html.TextBoxFor(m => m.BillNoDate, new { @class = "form_input", autocomplete = "off"})
       
