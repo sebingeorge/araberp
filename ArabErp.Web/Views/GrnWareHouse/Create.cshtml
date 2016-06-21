@@ -172,14 +172,14 @@
                                 <tr>
                                     <td>
                                         @{
-                                if (Model.isDirectPurchaseGRN)
-                                {
-                                    @Html.HiddenFor(m => m.Items[i].DirectPurchaseRequestItemId)
-                                }
-                                else
-                                {
-                                    @Html.HiddenFor(m => m.Items[i].SupplyOrderItemId)
-                                }
+                                            if (Model.isDirectPurchaseGRN)
+                                            {
+                                                @Html.HiddenFor(m => m.Items[i].DirectPurchaseRequestItemId)
+                                            }
+                                            else
+                                            {
+                                                @Html.HiddenFor(m => m.Items[i].SupplyOrderItemId)
+                                            }
                                         }
 
                                         @Html.HiddenFor(m => m.Items[i].SlNo)
