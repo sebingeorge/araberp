@@ -124,7 +124,7 @@ namespace ArabErp.DAL
             }
         }
         /// <summary>
-        /// Returns all materials that were requested for a particular job card
+        /// Returns all materials that were requested for a particular job card (contains items in additional request also)
         /// </summary>
         /// <param name="jobCardId"></param>
         /// <returns></returns>
@@ -132,7 +132,19 @@ namespace ArabErp.DAL
         {
             using (IDbConnection connection = OpenConnection(dataConnection))
             {
-                string query = "SELECT I.ItemId Id, I.ItemName Name FROM WorkVsItem WI INNER JOIN WorkDescription WD ON WI.WorkVsItemId = WD.WorkDescriptionId INNER JOIN SaleOrderItem SOI ON WD.WorkDescriptionId = SOI.WorkDescriptionId INNER JOIN JobCard JC ON JC.SaleOrderId = SOI.SaleOrderId INNER JOIN Item I ON I.ItemId = WI.ItemId WHERE JC.JobCardId = @JobCardId";
+                string query = @"SELECT ItemId Id, ItemName Name
+                                FROM Item WHERE ItemId IN(
+                                SELECT 
+	                                DISTINCT ItemId 
+                                FROM WorkVsItem WI 
+                                INNER JOIN JobCard J ON WI.WorkDescriptionId = J.WorkDescriptionId 
+                                WHERE J.JobCardId = @jobCardId
+                                UNION
+                                SELECT WRI.ItemId
+                                FROM WorkShopRequestItem WRI
+                                INNER JOIN WorkShopRequest WR ON WRI.WorkShopRequestId = WR.WorkShopRequestId
+                                WHERE JobCardId = @jobCardId
+                                )";
                 return connection.Query<Dropdown>(query, 
                     new { JobCardId = jobCardId }).ToList();
             }
@@ -146,7 +158,11 @@ namespace ArabErp.DAL
         {
             using (IDbConnection connection = OpenConnection(dataConnection))
             {
-                string query = "SELECT C.CustomerName+'|'+J.WorkDescription FROM JobCard J INNER JOIN SaleOrder S ON J.SaleOrderId = S.SaleOrderId INNER JOIN Customer C ON S.CustomerId = C.CustomerId WHERE J.JobCardId = @JobCardId";
+                string query = @"SELECT C.CustomerName+'|'+W.WorkDescr FROM JobCard J 
+                                INNER JOIN SaleOrder S ON J.SaleOrderId = S.SaleOrderId 
+                                INNER JOIN Customer C ON S.CustomerId = C.CustomerId 
+                                INNER JOIN WorkDescription W ON J.WorkDescriptionId = W.WorkDescriptionId
+                                WHERE J.JobCardId = @JobCardId";
                 return connection.Query<string>(query, 
                     new { JobCardId = id }).First<string>();
             }
