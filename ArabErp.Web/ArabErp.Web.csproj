@@ -598,7 +598,9 @@
     <Folder Include="bin\" />
     <Folder Include="Images\App_LocalResources\" />
     <Folder Include="Views\FreezerUnit\" />
+    <Folder Include="Views\LocalPurchase\" />
     <Folder Include="Views\MisReport\" />
+    <Folder Include="Views\StockJournel\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff" />

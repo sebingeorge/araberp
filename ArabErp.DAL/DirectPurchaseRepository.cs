@@ -20,6 +20,14 @@ namespace ArabErp.DAL
             {
                 IDbTransaction txn = connection.BeginTransaction(); try
                 {
+                    if (model.SoOrJc == "JC")
+                    {
+                        model.SaleOrderId = null;
+                    }
+                    else
+                    {
+                        model.JobCardId = null;
+                    }
                     model.TotalAmount = model.items.Sum(m => (m.Quantity * m.Rate));
                     string sql = @"INSERT INTO DirectPurchaseRequest
                                 (
@@ -32,7 +40,9 @@ namespace ArabErp.DAL
 	                                [CreatedDate],
 	                                [OrganizationId],
 	                                [isActive],
-	                                [isApproved]
+	                                [isApproved],
+                                    [SaleOrderId],
+                                    [JobCardId]
                                 )
                                 VALUES
                                 (
@@ -45,7 +55,9 @@ namespace ArabErp.DAL
                                     @CreatedDate,
                                     @OrganizationId,
                                     1,
-                                    0
+                                    0,
+                                    @SaleOrderId,
+                                    @JobCardId
                                 )
                             SELECT CAST(SCOPE_IDENTITY() AS INT)";
                     var id = connection.Query<int>(sql, model, txn).Single();

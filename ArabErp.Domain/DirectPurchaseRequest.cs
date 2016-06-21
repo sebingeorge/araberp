@@ -18,6 +18,9 @@ namespace ArabErp.Domain
         public int OrganizationId { get; set; }
         public decimal? TotalAmount { get; set; }
         public string toast { get; set; }
+        public string SoOrJc { get; set; }
+        public int? SaleOrderId { get; set; }
+        public int? JobCardId { get; set; }
         public List<DirectPurchaseRequestItem> items { get; set; }
     }
 }
