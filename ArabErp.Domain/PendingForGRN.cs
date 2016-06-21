@@ -15,10 +15,12 @@ namespace ArabErp.Domain
         public string QuotaionNoAndDate { get; set; }
         public int? DirectPurchaseRequestId { get; set; }
         public string RequestNoAndDate { get; set; }
+        public string RequiredDate { get; set; }
         public string SpecialRemarks { get; set; }
         public int? Age { get; set; }
         public int? TotalAmount { get; set; }
         public bool isChecked { get; set; }
         public bool isDirectPurchase { get; set; }
+        public string Approved { get; set; }
     }
 }

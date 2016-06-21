@@ -39,14 +39,14 @@ namespace ArabErp.Web.Controllers
         public ActionResult PendingJobCard()
         {
             IEnumerable<PendingSO> pendingSo = repo.GetPendingSO();
-            return View(pendingSo);            
+            return View(pendingSo);
         }
 
         public ActionResult Save(JobCard jc)
         {
             var data = new JobCardRepository().SaveJobCard(jc);
             return RedirectToAction("PendingJobCard");
-           // return View();
+            // return View();
         }
 
         public void FillBay()
@@ -65,7 +65,7 @@ namespace ArabErp.Web.Controllers
         {
             JobCardRepository repo = new JobCardRepository();
             var result = repo.GetWorkVsTask(workId);
-            ViewBag.TaskList = new SelectList(result, "TaskId", "TaskName");
+            ViewBag.TaskList = new SelectList(result, "JobCardTaskMasterId", "JobCardTaskName");
         }
         public void FillFreezerUnit()
         {

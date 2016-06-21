@@ -119,12 +119,15 @@ namespace ArabErp.DAL
             {
                 return connection.Query<DirectPurchaseRequest>(@"SELECT
                                                 DirectPurchaseRequestId,
+												PurchaseRequestDate,
+												CreatedDate,
 	                                            ISNULL(PurchaseRequestNo, '') + ' - ' + CONVERT(VARCHAR, PurchaseRequestDate, 106) PurchaseRequestNo,
-	                                            SpecialRemarks,
+	                                            ISNULL(SpecialRemarks, '-')SpecialRemarks,
 	                                            TotalAmount
                                             FROM DirectPurchaseRequest D
                                             WHERE ISNULL(D.isActive, 1) = 1
-                                            AND ISNULL(isApproved, 0) = 0;").ToList();
+                                            AND ISNULL(isApproved, 0) = 0
+											ORDER BY PurchaseRequestDate DESC, CreatedDate DESC;").ToList();
             }
         }
 

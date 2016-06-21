@@ -19,16 +19,37 @@ namespace ArabErp.Web.Controllers
         {
             FillJobCard();
             StockPointDropdown();
-            return View();
+            return View(new StockReturn { StockReturnDate = DateTime.Today });
         }
         [HttpPost]
         public ActionResult Create(StockReturn model)
         {
-            model.OrganizationId = 1;
-            model.CreatedDate = System.DateTime.Now;
-            model.CreatedBy = Request.ServerVariables["HTTP_X_FORWARDED_FOR"] ?? Request.ServerVariables["REMOTE_ADDR"];
-            new StockReturnRepository().InsertStockReturn(model);
-            return RedirectToAction("Create");
+            try
+            {
+                model.OrganizationId = 1;
+                model.CreatedDate = System.DateTime.Now;
+                model.CreatedBy = Request.ServerVariables["HTTP_X_FORWARDED_FOR"] ?? Request.ServerVariables["REMOTE_ADDR"];
+                if (new StockReturnRepository().InsertStockReturn(model) > 0)
+                {
+                    TempData["error"] = "";
+                    TempData["success"] = "Saved successfully";
+                    return RedirectToAction("Create");
+                }
+            }
+            catch (NullReferenceException nx)
+            {
+                TempData["success"] = "";
+                TempData["error"] = "Some required data was missing. Please try again.|" + nx.Message;
+            }
+            catch (Exception ex)
+            {
+                TempData["success"] = "";
+                TempData["error"] = "Some error occured. Please try again.|" + ex.Message;
+            }
+
+            FillJobCard();
+            StockPointDropdown();
+            return View("Create", model);
         }
         public PartialViewResult StockReturnList(int jobCardId)
         {

@@ -1,0 +1,59 @@
+﻿@model IEnumerable<ArabErp.Domain.StockSummaryDrillDown>
+@{
+    ViewBag.Title = "DrillDown";
+    Layout = "~/Views/Shared/_LayoutPopup.cshtml";
+}
+@{
+    string itemName = "";
+    foreach (var item in Model)
+    {
+        itemName = item.ItemName;
+        break;
+    }
+}
+<div class="container">
+    <div class="row">
+        <div class="form-head1">
+            <h4>Stock Summary - @itemName</h4>
+        </div>
+
+        <div class="main-part white pad1">
+
+            <div class="main-list wid  scroll4">
+                <table class="table table-bordered">
+                    <tr class="grid_heading">
+                        <td style="width:10%;">Trn. Type</td>
+                        <td>Trn. No & Date</td>
+                        <td style="width:10%;">IN</td>
+                        <td style="width:10%;">OUT</td>
+                    </tr>
+                    @{
+                        decimal IN = 0;
+                        decimal OUT = 0;
+                    }
+                    @foreach (var item in Model)
+                    {
+                        <tr class="grid-row">
+                            <td class="grid-cell">
+                                @item.StockType
+                            </td>
+                            <td class="grid-cell">
+                                @item.TrnNo
+                            </td>
+                            <td class="grid-cell">@item.INQty</td>
+                            <td class="grid-cell">@item.OUTQty</td>
+                        </tr>
+                        IN = IN + item.INQty;
+                        OUT = OUT + item.OUTQty;
+                    }
+                    <tr class="grid_heading">
+                        <td></td>
+                        <td>Total</td>
+                        <td>@IN</td>
+                        <td>@OUT</td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>

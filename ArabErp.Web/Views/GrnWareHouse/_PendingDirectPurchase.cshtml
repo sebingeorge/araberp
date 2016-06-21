@@ -37,6 +37,7 @@
         <tr class="grid_heading">
             <th width="10%" nowrap><h1>Request No. &amp; Date</h1></th>
             <th width="20%" nowrap><h1>Special Remarks</h1></th>
+            <th width="20%" nowrap><h1>Required Date</h1></th>
             <th width="1%" class="text-right" nowrap><h1>Age (in days)</h1></th>
             <th width="1%" class="text-right" nowrap><h1>Total Amount</h1></th>
             <th width="1%" style="vertical-align:middle" nowrap>
@@ -62,6 +63,9 @@
                             <input type="text" class="form_input" value="@Model[i].SpecialRemarks" disabled />
                         </td>
                         <td>
+                            <input type="text" class="form_input" value="@Model[i].RequiredDate" disabled />
+                        </td>
+                        <td>
                             <input type="text" class="form_input text-right" value="@Model[i].Age" disabled />
                         </td>
                         <td>
@@ -76,7 +80,7 @@
             else
             {
                 <tr>
-                    <td colspan="5" align="center" valign="middle"><em>There are no pending direct purchase requests</em></td>
+                    <td colspan="7" align="center" valign="middle"><em>There are no (approved) pending direct purchase requests</em></td>
                 </tr>
             }
         }

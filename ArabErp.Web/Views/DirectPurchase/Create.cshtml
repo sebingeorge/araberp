@@ -141,13 +141,13 @@
     function formValidation() {
         var status = true;
 
-        $("select[id$='__ItemId']").each(function (i, obj) {
-            if ($(obj).val == '') {
-                status = false;
-            }
-        });
+        //$("select[id$='__ItemId']").each(function (i, obj) {
+        //    if ($(obj).val == '') {
+        //        status = false;
+        //    }
+        //});
 
-        //status = isAlreadyExist(status);
+        status = isAlreadyExist(status);
         return status;
     }
 
