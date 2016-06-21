@@ -50,12 +50,14 @@ namespace ArabErp.Web.Controllers
             model.OrganizationId = 1;
             model.CreatedDate = System.DateTime.Now;
             model.CreatedBy = Request.ServerVariables["HTTP_X_FORWARDED_FOR"] ?? Request.ServerVariables["REMOTE_ADDR"];
-            new EmployeeRepository().Insert(model);
+            if(new EmployeeRepository().Insert(model)>0)
+                return RedirectToAction("Create");
+
             FillDesignationDropdown();
             FillCategoryDropdown();
             FillLocationDropdown();
             FillTaskDropdown();
-            return View("Create");
+            return View("Create", model);
         }
         //public ActionResult FillEmployeeList()
         //{

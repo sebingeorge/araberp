@@ -3,7 +3,19 @@
     ViewBag.Title = "Create";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
+<style>
+    .divHidden{
+        visibility:hidden;
+    }
+    .divShow{
+        visibility:visible;
+    }
+</style>
 <script>
+    function expenseBillValidate()
+    {
+        return confirm("Do you want to Save?");
+    }
     $(function () {
         $("#ExpenseDate").datepicker({ dateFormat: "dd/MM/yy" });
         $("#ExpenseBillDate").datepicker({ dateFormat: "dd/MM/yy" });
@@ -52,14 +64,62 @@
         clone.html($(clone).html().replace(/\Row_Ded_0/g, 'Row_Ded_' + i + ''));
         //clone.html($(clone).html().replace(/Row_/, 'Row_' + i + ''));
 
-        $("#tab_logic_deduction").append('<tr id="Row_Ded_' + i + '" class="TaskRow_Ded">' + clone.html() + '  </tr>'); var i = 0;
+        $("#tab_logic_deduction").append('<tr id="Row_Ded_' + i + '" class="TaskRow_Ded">' + clone.html() + '  </tr>'); var i = 0;        
+    }
 
-        
+    function AdditionAmtChanged(row)
+    {
+        var qty = $("#ExpenseBillItem_"+ row +"__ExpenseItemQty").val();
+        var amt = $("#ExpenseBillItem_" + row + "__ExpenseItemRate").val();
+        var total = qty * amt;
+        $("#ExpenseBillItem_" + row + "__ExpenseItemAmount").val(total);
+        DeductionAmtChanged();
+    }
+    function DeductionAmtChanged()
+    {
+        var add = 0;
+        $('.addition').each(function (i, obj) {
+            console.log(obj);
+            add = add + eval(obj.value);
+        });
+        $("#TotalAddition").val(add);
+        var ded = 0;
+        $('.deduction').each(function (i, obj) {
+            console.log(obj);
+            ded = ded + eval(obj.value);
+        });
+        $("#TotalDeduction").val(ded);
+        $("#TotalAmount").val(add - ded);
+    }
+    function OptionChanged()
+    {
+        var opt = $("#JcOrSo").val();
+        $("#SoOrJc").val(opt);
+        if(opt == "JC")
+        {
+            $("#againstId").text("Job Card");
+            $("#SaleOrderId").removeClass("divHidden");
+            $("#JobCardId").removeClass("divHidden");
+            $("#SaleOrderId").removeClass("divShow");
+            $("#JobCardId").removeClass("divShow");
+            $("#SaleOrderId").addClass("divHidden");
+            $("#JobCardId").addClass("divShow");
+        }
+        if(opt == "SO")
+        {
+            $("#againstId").text("Sale Order");
+            $("#SaleOrderId").removeClass("divHidden");
+            $("#JobCardId").removeClass("divHidden");
+            $("#SaleOrderId").removeClass("divShow");
+            $("#JobCardId").removeClass("divShow");
+            $("#SaleOrderId").addClass("divShow");
+            $("#JobCardId").addClass("divHidden");
+        }
     }
 </script>
 <div class="container">
     <div class="row">
-        @using (Html.BeginForm("Save", null, FormMethod.Post, new { @class = "createFrom", @id = "expensebill_form" }))
+        @using (Html.BeginForm(null, null, FormMethod.Post, new { @class = "createFrom", @id = "expensebill_form", onsubmit = "expenseBillValidate()" }))
         {
             <div class="form-head1">
                 <h4>Expense Bill</h4>
@@ -74,9 +134,22 @@
                         </div>
                         <div class="col-md-2">
                             <label for="inputDate">Date</label>
-                            @Html.TextBoxFor(m => m.ExpenseDate, String.Format("{0:dd/MM/yyyy}", Model.ExpenseDate), new { @class = "form_input ", autocomplete = "off", @readonly = "readonly" })
+                            @Html.TextBoxFor(m => m.ExpenseDate, String.Format("{0:dd/MMMM/yyyy}", Model.ExpenseDate), new { @class = "form_input ", autocomplete = "off", @readonly = "readonly" })
                         </div>
-                        
+                        <div class="col-md-2">
+                            <label>Against Sale Ord. / Job Card</label>
+                            @Html.HiddenFor(m=>m.SoOrJc)
+                            <select class="form_input" id="JcOrSo" onchange="OptionChanged()">
+                                <option>Select</option>
+                                <option value="JC">Job Card</option>
+                                <option value="SO">Sale Order</option>
+                            </select>
+                        </div>
+                        <div class="col-md-2">
+                            <label id="againstId"></label>
+                            @Html.DropDownListFor(m => Model.SaleOrderId, (SelectList)ViewBag.SO, "Select S.O", new { @class = "form_input divHidden", autocomplete = "off" })
+                            @Html.DropDownListFor(m => Model.JobCardId, (SelectList)ViewBag.JC, "Select J.C", new { @class = "form_input divHidden", autocomplete = "off" })
+                        </div>
                     </div>
                     <div class="row form-group">
                         <div class="col-md-3">
@@ -89,11 +162,11 @@
                         </div>
                         <div class="col-md-2">
                             <label for="inputDate">Bill Date</label>
-                            @Html.TextBoxFor(m => m.ExpenseBillDate, String.Format("{0:dd/MM/yyyy}", Model.ExpenseBillDate), new { @class = "form_input ", autocomplete = "off", @readonly = "readonly" })
+                            @Html.TextBoxFor(m => m.ExpenseBillDate, String.Format("{0:dd/MMMM/yyyy}", Model.ExpenseBillDate), new { @class = "form_input ", autocomplete = "off", @readonly = "readonly" })
                         </div>
                         <div class="col-md-2">
                             <label for="inputDate">Bill Due Date</label>
-                            @Html.TextBoxFor(m => m.ExpenseBillDueDate, String.Format("{0:dd/MM/yyyy}", Model.ExpenseBillDueDate), new { @class = "form_input ", autocomplete = "off", @readonly = "readonly" })
+                            @Html.TextBoxFor(m => m.ExpenseBillDueDate, String.Format("{0:dd/MMMM/yyyy}", Model.ExpenseBillDueDate), new { @class = "form_input ", autocomplete = "off", @readonly = "readonly" })
                         </div>
                     </div>
                     <div class="table-responsive">
@@ -115,13 +188,13 @@
                                             @Html.DropDownListFor(m => Model.ExpenseBillItem[row].AddDedId, (SelectList)ViewBag.Additions, "Select Addition", new { @class = "form_input", autocomplete = "off" })
                                         </td>
                                         <td>
-                                            @Html.TextBoxFor(m => m.ExpenseBillItem[row].ExpenseItemQty, new { @class = "form_input", autocomplete = "off" })
+                                            @Html.TextBoxFor(m => m.ExpenseBillItem[row].ExpenseItemQty, new { @class = "form_input", autocomplete = "off", @onchange = "AdditionAmtChanged("+ row +")" })
                                         </td>
                                         <td>
-                                            @Html.TextBoxFor(m => m.ExpenseBillItem[row].ExpenseItemRate, new { @class = "form_input", autocomplete = "off" })
+                                            @Html.TextBoxFor(m => m.ExpenseBillItem[row].ExpenseItemRate, new { @class = "form_input", autocomplete = "off", @onchange = "AdditionAmtChanged(" + row + ")" })
                                         </td>
                                         <td>
-                                            @Html.TextBoxFor(m => m.ExpenseBillItem[row].ExpenseItemAmount, new { @class = "form_input", autocomplete = "off" })
+                                            @Html.TextBoxFor(m => m.ExpenseBillItem[row].ExpenseItemAmount, new { @class = "form_input addition", autocomplete = "off",@readonly="readonly" })
                                         </td>
                                     </tr>
                                     row++;
@@ -147,7 +220,7 @@
                                             @Html.DropDownListFor(m => Model.deductions[dedrow].AddDedId, (SelectList)ViewBag.Deductions, "Select Deduction", new { @class = "form_input", autocomplete = "off" })
                                         </td>
                                         <td>
-                                            @Html.TextBoxFor(m => m.deductions[dedrow].ExpenseItemAmount, new { @class = "form_input", autocomplete = "off" })
+                                            @Html.TextBoxFor(m => m.deductions[dedrow].ExpenseItemAmount, new { @class = "form_input deduction", autocomplete = "off", @onchange = "DeductionAmtChanged()" })
                                         </td>
                                     </tr>
                                     dedrow++;
@@ -156,6 +229,20 @@
                         </table>
                     </div>
                     <a id="add_row" class="glyphicon glyphicon-plus" onclick="AddDeductionRow()"></a>
+                    <div class="row form-group">
+                        <div class="col-md-2">
+                            <label for="inputDate">Addition</label>
+                            @Html.TextBoxFor(m => m.TotalAddition, new { @class = "form_input form_input-h", autocomplete = "off", @readonly = "readonly" })
+                        </div>
+                        <div class="col-md-2">
+                            <label for="inputDate">Dedution</label>
+                            @Html.TextBoxFor(m => m.TotalDeduction, new { @class = "form_input form_input-h", autocomplete = "off", @readonly = "readonly" })
+                        </div>
+                        <div class="col-md-2">
+                            <label for="inputDate">Total</label>
+                            @Html.TextBoxFor(m => m.TotalAmount, new { @class = "form_input form_input-h", autocomplete = "off", @readonly = "readonly" })
+                        </div>
+                    </div>
                     <div class="row form-group">
                         <div class="col-md-12">
                             <label for="inputDate">Remarks</label>

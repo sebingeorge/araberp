@@ -33,7 +33,90 @@ namespace ArabErp.DAL
             using (IDbConnection connection = OpenConnection(dataConnection))
             {
                 var param = new DynamicParameters();
-                return connection.Query<Dropdown>("select AddDedId Id, AddDedName Name from AdditionDeduction where AddDedType = 0 order by AddDedName").ToList();
+                return connection.Query<Dropdown>("select AddDedId Id, AddDedName Name from AdditionDeduction where AddDedType = 2 order by AddDedName").ToList();
+            }
+        }
+        public List<Dropdown> FillSO()
+        {
+            using (IDbConnection connection = OpenConnection(dataConnection))
+            {
+                var param = new DynamicParameters();
+                return connection.Query<Dropdown>("select SaleOrderId Id, SaleOrderRefNo Name from SaleOrder").ToList();
+            }
+        }
+        public List<Dropdown> FillJC()
+        {
+            using (IDbConnection connection = OpenConnection(dataConnection))
+            {
+                var param = new DynamicParameters();
+                return connection.Query<Dropdown>("select JobCardId Id, JobCardNo Name from JobCard").ToList();
+            }
+        }
+        public int Insert(ExpenseBill expenseBill)
+        {
+            int id = 0;
+            using (IDbConnection connection = OpenConnection(dataConnection))
+            {
+                IDbTransaction trn = connection.BeginTransaction();
+                try
+                {
+                    if(expenseBill.SoOrJc == "JC")
+                    {
+                        expenseBill.SaleOrderId = null;
+                    }
+                    else
+                    {
+                        expenseBill.JobCardId = null;
+                    }
+                    string sql = string.Empty;
+                    sql += "insert into ExpenseBill(ExpenseNo, ExpenseDate, ExpenseBillRef, ExpenseBillDate, ExpenseBillDueDate, SupplierId, ExpenseRemarks, TotalAddition, TotalDeduction, TotalAmount, SaleOrderId, JobCardId)";
+                    sql += " values(@ExpenseNo, @ExpenseDate, @ExpenseBillRef, @ExpenseBillDate, @ExpenseBillDueDate, @SupplierId, @ExpenseRemarks, @TotalAddition, @TotalDeduction, @TotalAmount, @SaleOrderId, @JobCardId);";
+                    sql += " SELECT CAST(SCOPE_IDENTITY() as int);";
+
+                    id = connection.Query<int>(sql, expenseBill, trn).Single();
+
+                    foreach (var item in expenseBill.ExpenseBillItem)
+                    {
+                        sql = string.Empty;
+                        sql += "insert into ExpenseBillItem(ExpenseId, AddDedId, ExpenseItemRate, ExpenseItemQty, ExpenseItemAmount, ExpenseItemAddDed)";
+                        sql += " values(@ExpenseId, @AddDedId, @ExpenseItemRate, @ExpenseItemQty, @ExpenseItemAmount, @ExpenseItemAddDed)";
+
+                        item.ExpenseId = id;
+                        item.ExpenseItemAddDed = 1;
+
+                        connection.Query(sql, item, trn);
+                    }
+                    foreach (var item in expenseBill.deductions)
+                    {
+                        sql = string.Empty;
+                        sql += "insert into ExpenseBillItem(ExpenseId, AddDedId, ExpenseItemRate, ExpenseItemQty, ExpenseItemAmount, ExpenseItemAddDed)";
+                        sql += " values(@ExpenseId, @AddDedId, @ExpenseItemRate, @ExpenseItemQty, @ExpenseItemAmount, @ExpenseItemAddDed)";
+
+                        item.ExpenseId = id;
+                        item.ExpenseItemAddDed = 2;
+
+                        connection.Query(sql, item, trn);
+                    }
+                    trn.Commit();
+                }
+                catch(Exception ex)
+                {
+                    trn.Rollback();
+                }
+                
+            }
+            return id;
+        }
+        public IEnumerable<ExpenseBillListViewModel> GetList()
+        {
+            using (IDbConnection connection = OpenConnection(dataConnection))
+            {
+                string sql = string.Empty;
+                sql += " select E.ExpenseId, E.ExpenseNo, E.ExpenseDate, S.SupplierName, E.ExpenseBillRef, E.TotalAmount";
+                sql += " from ExpenseBill E";
+                sql += " inner join Supplier S on E.SupplierId = S.SupplierId";
+
+                return connection.Query<ExpenseBillListViewModel>(sql);
             }
         }
     }
