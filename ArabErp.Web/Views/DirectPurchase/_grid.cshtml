@@ -119,7 +119,7 @@
     function OnQtyChange(sender, index){
         var qty = Number($(sender).val());
         var rate = Number($("#items_"+index+"__Rate").val());
-        $("#items_"+index+"__Amount").val(qty*rate);
+        $("#items_"+index+"__Amount").val((qty*rate).toFixed(2));
         calculateTotal();
     }
 
@@ -128,13 +128,13 @@
         $("input[id$='__Amount']").each(function () {
             total += Number(this.value);
         });
-        $("#total").html(total);
+        $("#total").html(total.toFixed(2));
     }
 
     function OnRateChange(sender, index){
         var rate = Number($(sender).val());
         var qty = Number($("#items_"+index+"__Quantity").val());
-        $("#items_"+index+"__Amount").val(qty*rate);
+        $("#items_"+index+"__Amount").val((qty*rate).toFixed(2));
         calculateTotal();
     }
 </script>
@@ -163,7 +163,7 @@
                 <td>
                     @Html.HiddenFor(m => m.items[i].SlNo)
                     <input type="hidden" id="Row_@i" />
-                    @Html.DropDownListFor(m => m.items[i].ItemId, (SelectList)ViewBag.materialList, "Select Material/Spare", new { @class = "form_input", @onchange = "OnMaterialChange(this, " + i + ")" })
+                    @Html.DropDownListFor(m => m.items[i].ItemId, (SelectList)ViewBag.materialList, "Select Material/Spare", new { @class = "form_input", @onchange = "OnMaterialChange(this, " + i + ")", @required = "true" })
                 </td>
                 <td>
                     <input type="text" class="form_input" id="txtPartNo@(i)" disabled />
@@ -175,10 +175,10 @@
                     @Html.TextBoxFor(m => m.items[i].Remarks, new { @class = "form_input", autocomplete = "off", placeholder = "Remarks" })
                 </td>
                 <td>
-                    @Html.TextBoxFor(m => m.items[i].Quantity, new { @class = "form_input numbers-only", @style = "text-align:right", autocomplete = "off", placeholder = "Qty", @onkeyup = "OnQtyChange(this, " + i + ")" })
+                    @Html.TextBoxFor(m => m.items[i].Quantity, new { @class = "form_input numbers-only", @style = "text-align:right", autocomplete = "off", placeholder = "Qty", @onkeyup = "OnQtyChange(this, " + i + ")", @required = "true" })
                 </td>
                 <td>
-                    @Html.TextBoxFor(m => m.items[i].Rate, new { @class = "form_input numbers-only", @style = "text-align:right", autocomplete = "off", placeholder = "Rate", @onkeyup = "OnRateChange(this, " + i + ")" })
+                    @Html.TextBoxFor(m => m.items[i].Rate, new { @class = "form_input numbers-only", @style = "text-align:right", autocomplete = "off", placeholder = "Rate", @onkeyup = "OnRateChange(this, " + i + ")", @required = "true" })
                 </td>
                 <td>
                     @Html.TextBoxFor(m => m.items[i].Amount, new { @class = "form_input numbers-only", @style = "text-align:right", autocomplete = "off", @disabled = "true" })
