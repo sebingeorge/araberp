@@ -46,88 +46,40 @@ namespace ArabErp.DAL
             }
         }
 
-        public SalesInvoice GetSalesInvoiceItems(List<SalesInvoiceItem> objSalesInvoiceItem)
+        public List<SalesInvoiceItem> GetSelectedSalesInvoiceDT(List<int> salesorderitemid,int saleorderid)
         {
             using (IDbConnection connection = OpenConnection(dataConnection))
             {
+                string sql = @"SELECT * INTO #SaleOrderItem FROM SaleOrderItem WHERE SaleOrderId=@SaleOrderId AND SaleOrderItemId IN(@SaleOrderItemIdList)
+                               SELECT s.SaleOrderId SaleOrderId,S.SaleOrderItemId SaleOrderItemId, W.WorkDescr WorkDescription,CONCAT(V.VehicleModelName,' ',v.VehicleModelDescription) VehicleModelName,S.Quantity QuantityTxt,U.UnitName Unit,S.Rate Rate,S.Discount Discount,S.Amount Amount,j.JobCardId JobCardId
+                               FROM #SaleOrderItem S LEFT JOIN Unit U on S.UnitId=U.UnitId
+                               LEFT JOIN WorkDescription W on S.WorkDescriptionId=W.WorkDescriptionId
+                               Left JOIN VehicleModel V on S.VehicleModelId=V.VehicleModelId
+							   left join JobCard J on J.SaleOrderItemId=S.SaleOrderItemId
+                               DROP TABLE #SaleOrderItem";
 
-                StringBuilder sb = new StringBuilder("<DATA>");
+                var objSalesInvoiceDT = connection.Query<SalesInvoiceItem>(sql, new { SaleOrderItemIdList = salesorderitemid, SaleOrderId = saleorderid }).ToList<SalesInvoiceItem>();
 
-                foreach (var items in objSalesInvoiceItem)
-                {
-                    sb.AppendFormat("<Rows SaleOrderId={0}{1}{0}", (char)34, items.SaleOrderId);
-                    sb.AppendFormat(" SaleOrderItemId={0}{1}{0}", (char)34, items.SaleOrderItemId);
-                    sb.AppendFormat(" SelectStatus={0}{1}{0}></Rows>", (char)34, Convert.ToInt32(items.SelectStatus));
-                }
-                sb.Append("</DATA>");
-
-                string x = sb.ToString();
-                var param = new DynamicParameters();
-                param.Add("@XML_DATA", sb.ToString(), dbType: DbType.Xml);
-               SalesInvoice Sales_invoice=new SalesInvoice();
-
-                Sales_invoice.SaleInvoiceItems=new List<SalesInvoiceItem>();
-
-                Sales_invoice = connection.Query<SalesInvoice>("dbo.USP_GET_PENDING_INVOICE_HD", param, commandType: CommandType.StoredProcedure).Single();
-                Sales_invoice.SaleInvoiceItems = connection.Query<SalesInvoiceItem>("dbo.[USP_GET_PENDING_INVOICE_DT]", param, commandType: CommandType.StoredProcedure).ToList();
-               return Sales_invoice;
+                return objSalesInvoiceDT;
             }
         }
-        public ArrayList SalesInvoice(SalesInvoice objSalesInvoiceItem)
+        public int InsertSalesInvoiceItem(SalesInvoiceItem objSalesInvoiceItem, IDbConnection connection, IDbTransaction trn)
         {
-            using (IDbConnection connection = OpenConnection(dataConnection))
+            try
             {
 
-                StringBuilder InvoiceItemsDT = new StringBuilder("<InvoiceItemsDT_DATA>");
-
-                foreach (var items in objSalesInvoiceItem.SaleInvoiceItems)
-                {
-                    InvoiceItemsDT.AppendFormat("<InvoiceItemsDT_Rows SaleOrderId={0}{1}{0}", (char)34, items.SaleOrderId);
-                    InvoiceItemsDT.AppendFormat(" SaleOrderItemId={0}{1}{0}></InvoiceItemsDT_Rows>", (char)34, items.SaleOrderItemId);
-                  
-                }
-                InvoiceItemsDT.Append("</InvoiceItemsDT_DATA>");
-
-                StringBuilder InvoiceItemsHD = new StringBuilder("<InvoiceItemsHD_DATA>");
-                InvoiceItemsHD.AppendFormat("<InvoiceItemsHD_Rows SaleOrderId={0}{1}{0}", (char)34, objSalesInvoiceItem.SaleOrderId);
-                InvoiceItemsHD.AppendFormat(" SalesInvoiceRefNo={0}{1}{0}", (char)34, objSalesInvoiceItem.SalesInvoiceRefNo);
-                InvoiceItemsHD.AppendFormat(" Addition={0}{1}{0}", (char)34, objSalesInvoiceItem.Addition);
-                InvoiceItemsHD.AppendFormat(" AdditionRemarks={0}{1}{0}", (char)34, objSalesInvoiceItem.AdditionRemarks);
-                InvoiceItemsHD.AppendFormat(" Deduction={0}{1}{0}", (char)34, objSalesInvoiceItem.Deduction);
-                InvoiceItemsHD.AppendFormat(" DeductionRemarks={0}{1}{0}></InvoiceItemsHD_Rows>", (char)34, objSalesInvoiceItem.DeductionRemarks);
-                InvoiceItemsHD.Append("</InvoiceItemsHD_DATA>");
+                string sql = @"INSERT INTO SalesInvoiceItem(SalesInvoiceId,SaleOrderItemId,JobCardId) VALUES (@SalesInvoiceId,@SaleOrderItemId,@JobCardId);
+                                    SELECT CAST(SCOPE_IDENTITY() as int) ";
 
 
-
-                int i = 1;
-
-
-                string x = InvoiceItemsHD.ToString();
-                string y = InvoiceItemsDT.ToString();
-                var param = new DynamicParameters();
-                param.Add("@XML_DATA_InvoiceItemsHD", InvoiceItemsHD.ToString(), dbType: DbType.Xml);
-                param.Add("@XML_DATA_InvoiceItemsDT", InvoiceItemsDT.ToString(), dbType: DbType.Xml);
-                param.Add("@RESULT", dbType: DbType.String, direction: ParameterDirection.Output, size: 50);
-                param.Add("@RID", dbType: DbType.Int32, direction: ParameterDirection.Output);
-
-                connection.Query<int?>("dbo.[USP_SAVE_PENDING_INVOICE]", param, commandType: CommandType.StoredProcedure);
-
-                int? rid = param.Get<int?>("@RID");
-                string res = param.Get<string>("@RESULT");
-
-                ArrayList resList = new ArrayList();
-                resList.Add(rid);
-                resList.Add(res);
-                return resList;
-
-                //SalesInvoice Sales_invoice = new SalesInvoice();
-
-                //Sales_invoice.SaleInvoiceItems = new List<SalesInvoiceItem>();
-
-                //Sales_invoice = connection.Query<SalesInvoice>("dbo.USP_GET_PENDING_INVOICE_HD", param, commandType: CommandType.StoredProcedure).Single();
-                //Sales_invoice.SaleInvoiceItems = connection.Query<SalesInvoiceItem>("dbo.[USP_GET_PENDING_INVOICE_DT]", param, commandType: CommandType.StoredProcedure).ToList();
-               // return i ;
+                var id = connection.Query<int>(sql, objSalesInvoiceItem, trn).Single();
+                return id;
             }
+            catch (Exception)
+            {
+                throw;
+            }
+
         }
 
         public int UpdateSalesInvoiceItem(SalesInvoiceItem objSalesInvoiceItem)

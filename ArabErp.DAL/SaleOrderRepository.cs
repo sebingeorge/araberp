@@ -24,34 +24,7 @@ namespace ArabErp.DAL
                 IDbTransaction trn = connection.BeginTransaction();
                 try
                 {
-
-
-
-                    string SQLNo = @"BEGIN  
-  
-	SET NOCOUNT ON  
-	
-
-
-	/* No of id's to reserve, is used to reserve more than 1 internal no.
-	    The procedure returns the first internal number, but reserves as many as required.
-                  The ids are then incremented in the API and used in a loop
-	*/
-    
-	/* Update the internal ID when this flag is set to true otherwise it doesnot update */  
-
-		UPDATE	MST_SYSTEM_DOCUMENT_SERIALNO
-		SET		MST_LASTSERIALNO = MST_LASTSERIALNO + 1
-		WHERE	MST_DOCUMENTID = @DOCUMENTTYPEID AND
-				MST_UNIQUEID = @UNIQUEID;
-	SELECT	 MST_LASTSERIALNO
-		FROM		MST_SYSTEM_DOCUMENT_SERIALNO  
-		WHERE	MST_DOCUMENTID = @DOCUMENTTYPEID AND  
-			  	MST_UNIQUEID = @UNIQUEID;  
-END
-";
-
-int internalid = connection.Query<int>(SQLNo, new { DOCUMENTTYPEID = "SALE ORDER", UNIQUEID=0 }, trn).First<int>();
+                    int internalid = DatabaseCommonRepository.GetInternalIDFromDatabase(connection, trn,typeof(SaleOrder).Name, "0");
 
                     model.SaleOrderRefNo = "SO/" + internalid;
                     string sql = @"
@@ -68,7 +41,7 @@ int internalid = connection.Query<int>(SQLNo, new { DOCUMENTTYPEID = "SALE ORDER
                         saleorderitemrepo.InsertSaleOrderItem(item, connection, trn);
                     }
                     trn.Commit();
-                    
+
                 }
                 catch (Exception ex)
                 {
@@ -82,6 +55,9 @@ int internalid = connection.Query<int>(SQLNo, new { DOCUMENTTYPEID = "SALE ORDER
 
             }
         }
+
+
+
         public SaleOrder GetSaleOrder(int SaleOrderId)
         {
             using (IDbConnection connection = OpenConnection(dataConnection))
