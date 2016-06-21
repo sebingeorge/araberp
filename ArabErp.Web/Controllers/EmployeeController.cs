@@ -21,7 +21,7 @@ namespace ArabErp.Web.Controllers
             FillDesignationDropdown();
             FillCategoryDropdown();
             FillLocationDropdown();
-            FillTaskDropdown();
+
            
             return View();
         }
@@ -40,11 +40,7 @@ namespace ArabErp.Web.Controllers
             var emp = rep.FillLocationDropdown();
             ViewBag.EmployeeLocation = new SelectList(emp, "Id", "Name");
         }
-        public void FillTaskDropdown()
-        {
-            var emp = rep.FillTaskDropdown();
-            ViewBag.EmployeeTask = new SelectList(emp, "Id", "Name");
-        }
+
         public ActionResult Save(Employee model)
         {
             model.OrganizationId = 1;
@@ -56,7 +52,7 @@ namespace ArabErp.Web.Controllers
             FillDesignationDropdown();
             FillCategoryDropdown();
             FillLocationDropdown();
-            FillTaskDropdown();
+
             return View("Create", model);
         }
         //public ActionResult FillEmployeeList()

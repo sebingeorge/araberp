@@ -21,7 +21,7 @@ namespace ArabErp.Web.Controllers
             return View();
         }
 
-        public ActionResult Save(Task objTask)
+        public ActionResult Save(JobCardTaskMaster objTask)
         {
             var repo = new TaskRepository();
             new TaskRepository().InsertTask(objTask);
