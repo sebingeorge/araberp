@@ -7,6 +7,34 @@
 
 <script type="text/javascript">
     $(document).ready(function () {
+
+        toastr.options = {
+            "closeButton": true,
+            "positionClass": "toast-bottom-full-width",
+            "preventDuplicates": false,
+            "onclick": null,
+            "showDuration": "300",
+            "hideDuration": "1000",
+            "timeOut": "0",
+            "extendedTimeOut": "1000",
+            "showEasing": "swing",
+            "hideEasing": "linear",
+            "showMethod": "fadeIn",
+            "hideMethod": "fadeOut"
+        }
+        if ('@TempData["success"]' != '') {
+            toastr.success('@TempData["success"]');
+
+        }
+        else if ('@TempData["error"]' != '') {
+            toastr.error('@TempData["error"]'.split('|')[0]);
+            console.log('@TempData["error"]'.split('|')[1]);
+        }
+        @{TempData["success"] = TempData["error"] = "";}
+
+        $("#StockReturnDate").datepicker({
+            dateFormat: "dd-MM-yy"
+        });
         //$('#stock_return_form').bootstrapValidator({
         //    // To use feedback icons, ensure that you use Bootstrap v3.1.0 or later
         //    //feedbackIcons: {
@@ -61,7 +89,7 @@
     });
 
     function formValidation() {
-        return confirm("Are you sure to Save?");
+        return true;
     }
 </script>
 <div class="container">
@@ -75,22 +103,22 @@
                 <div class="row form-group">
                     <div class="col-md-2">
                         <label for="StockReturnId">Stock Return No.</label>
-                        @Html.TextBoxFor(m => m.StockReturnRefNo, new { @class = "form_input", autocomplete = "off" })
+                        @Html.TextBoxFor(m => m.StockReturnRefNo, new { @class = "form_input", autocomplete = "off", @required = "true" })
                     </div>
                     <div class="col-md-2">
                         <label for="StockReturnDate">Date</label>
-                        @Html.TextBoxFor(m => m.StockReturnDate, new { @type="date", @class = "form_input", autocomplete = "off" })
+                        @Html.TextBoxFor(m => m.StockReturnDate, Model.StockReturnDate.ToString("dd/MMMM/yyyy"), new { @class = "form_input", autocomplete = "off", @required = "true" })
                     </div>
                     <div class="col-md-2">
                         <label>Stock Point</label>
                         @* this dropdown is not bound. this should be bound to stock point *@
-                        @Html.DropDownList("cboStockPoint", (SelectList)ViewBag.stockPointList, "Select Stock Point", new { @class = "form_input", autocomplete = "off" })
+                        @Html.DropDownList("cboStockPoint", (SelectList)ViewBag.stockPointList, "Select Stock Point", new { @class = "form_input", autocomplete = "off", @required = "true" })
                     </div>
                 </div>
                 <div class="row form-group">
                     <div class="col-md-3">
                         <label for="JobCardId">Job Card</label>
-                        @Html.DropDownListFor(m => m.JobCardId, (SelectList)ViewBag.jobcardList, "Select Job Card", new { @class = "form_input", autocomplete = "off" })
+                        @Html.DropDownListFor(m => m.JobCardId, (SelectList)ViewBag.jobcardList, "Select Job Card", new { @class = "form_input", autocomplete = "off", @required = "true" })
                     </div>
                     <div class="col-md-4">
                         <label for="customer">Customer</label>
@@ -115,20 +143,20 @@
                             <div class="col-md-11">
                                 @Html.TextAreaFor(m => m.SpecialRemarks, new { @class = "form_input form_input-h", autocomplete = "off" })
                             </div>
-                            </div>
+                        </div>
                     </div>
                 </div>
 
-    <div class="row">
+                <div class="row">
 
-        <div class="col-md-12 hrpart">
-            <input type="button" class="form-button right" value="Exit">
-            <button type="submit" class="form-button right">Save</button>
-        </div>
+                    <div class="col-md-12 hrpart">
+                        <input type="button" class="form-button right" value="Exit">
+                        <button type="submit" class="form-button right">Save</button>
+                    </div>
 
-    </div>
+                </div>
 
             }
         </div>
-        </div>
+    </div>
 </div>

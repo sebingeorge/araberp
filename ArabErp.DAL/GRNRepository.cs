@@ -220,13 +220,19 @@ namespace ArabErp.DAL
 
                     string qry = @"SELECT
 	                                DISTINCT SO.SupplyOrderId,
-	                                CONCAT(SO.SupplyOrderNo,' - ',CONVERT(VARCHAR(15),SupplyOrderDate,106))SoNoWithDate,
-	                                QuotaionNoAndDate
+									SO.SupplyOrderDate,
+									SO.CreatedDate,
+	                                CONCAT(SO.SupplyOrderNo,' - ',ISNULL(CONVERT(VARCHAR(15),SupplyOrderDate,106), ''))SoNoWithDate,
+	                                ISNULL(QuotaionNoAndDate, '-')QuotaionNoAndDate,
+									DATEDIFF(day, SupplyOrderDate, GETDATE()) Age,
+									ISNULL(SpecialRemarks, '-') SpecialRemarks,
+									ISNULL(CONVERT(VARCHAR(15),RequiredDate,106), '-') RequiredDate
                                 FROM SupplyOrder SO 
 	                                INNER JOIN SupplyOrderItem SOI ON SO.SupplyOrderId = SOI.SupplyOrderId
 	                                INNER JOIN Supplier S ON S.SupplierId=SO.SupplierId AND SO.SupplierId = @supplierId
 	                                LEFT JOIN GRNItem GI ON SOI.SupplyOrderItemId = GI.SupplyOrderItemId
                                 WHERE SO.isActive=1 and GI.SupplyOrderItemId IS NULL
+								ORDER BY SO.SupplyOrderDate DESC, CreatedDate DESC
 ";
 
                     return connection.Query<PendingForGRN>(qry, new { supplierId = supplierId });
@@ -363,17 +369,19 @@ namespace ArabErp.DAL
                 string query = @"SELECT
 	                                DISTINCT DP.DirectPurchaseRequestId,
 	                                ISNULL(DP.PurchaseRequestNo, '') +' - '+ CONVERT(VARCHAR, ISNULL(DP.PurchaseRequestDate, ''), 106) RequestNoAndDate,
+									DP.CreatedDate,
                                     DP.PurchaseRequestDate,
                                     ISNULL(DP.SpecialRemarks, '-') SpecialRemarks,
 	                                ISNULL(DP.TotalAmount, 0.00) TotalAmount,
                                     DATEDIFF(day, DP.PurchaseRequestDate, GETDATE()) Age,
+									ISNULL(CONVERT(VARCHAR, RequiredDate, 106), '-')RequiredDate,
                                     1 AS isDirectPurchase
                                 FROM DirectPurchaseRequestItem DPI
                                 INNER JOIN DirectPurchaseRequest DP ON DPI.DirectPurchaseRequestId = DP.DirectPurchaseRequestId
                                 LEFT JOIN GRNItem GRN ON DPI.DirectPurchaseRequestItemId = GRN.DirectPurchaseRequestItemId
-                                WHERE GRN.DirectPurchaseRequestItemId IS NULL
+                                WHERE GRN.DirectPurchaseRequestItemId IS NULL AND ISNULL(DP.isApproved, 0) = 1
                                 AND ISNULL(DP.isActive, 1) = 1 AND ISNULL(DPI.isActive, 1) = 1 AND ISNULL(GRN.isActive, 1) = 1
-                                ORDER BY DP.PurchaseRequestDate DESC";
+                                ORDER BY DP.PurchaseRequestDate DESC, DP.CreatedDate DESC";
 
                 return connection.Query<PendingForGRN>(query).ToList();
             }
