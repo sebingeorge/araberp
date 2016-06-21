@@ -442,13 +442,17 @@ width:100%;
 .bold
 {
     font-weight:bold;
-    color:#0d7aa0;
+    color:#ffffff;
     font-size:16px;
 
 }
 .dis
 {
     background-color:#b7b6b6;
+}
+.dis1
+{
+    background-color:#a8a6a6;
 }
 
 input[type="text"]:disabled {
