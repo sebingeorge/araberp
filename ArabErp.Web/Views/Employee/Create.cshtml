@@ -44,15 +44,8 @@
                             message: 'Please Select Location'
                         }
                     }
-                },
+                }
 
-                TaskId: {
-                    validators: {
-                        notEmpty: {
-                            message: 'Please Select Task Done'
-                        }
-                    }
-                },
 
             }
         });
@@ -90,10 +83,6 @@
                         <div class="part4">
                             <label for="CategoryId">Category</label>
                             @Html.DropDownListFor(m => Model.CategoryId, (SelectList)ViewBag.EmployeeCategory, "Select Category", new { @class = "form_input", autocomplete = "off" })
-                        </div>
-                        <div class="part4">
-                            <label for="TaskId">Task Done</label>
-                            @Html.DropDownListFor(m => Model.TaskId, (SelectList)ViewBag.EmployeeTask, "Select Task Done", new { @class = "form_input", autocomplete = "off" })
                         </div>
                     </div>
                     <div class="col-md-4">
