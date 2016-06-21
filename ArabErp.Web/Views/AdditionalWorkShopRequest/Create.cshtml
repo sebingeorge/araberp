@@ -7,6 +7,38 @@
 
 <script type="text/javascript">
     $(document).ready(function () {
+
+        toastr.options = {
+            "closeButton": true,
+            "positionClass": "toast-bottom-full-width",
+            "preventDuplicates": false,
+            "onclick": null,
+            "showDuration": "300",
+            "hideDuration": "1000",
+            "timeOut": "0",
+            "extendedTimeOut": "1000",
+            "showEasing": "swing",
+            "hideEasing": "linear",
+            "showMethod": "fadeIn",
+            "hideMethod": "fadeOut"
+        }
+        if ('@TempData["success"]' != '') {
+            toastr.success('@TempData["success"]');
+
+        }
+        else if ('@TempData["error"]' != '') {
+            toastr.error('@TempData["error"]'.split('|')[0]);
+            console.log('@TempData["error"]'.split('|')[1]);
+        }
+        @{TempData["success"] = TempData["error"] = "";}
+
+        $("#WorkShopRequestDate").datepicker({
+            dateFormat: "dd-MM-yy"
+        });
+        $("#RequiredDate").datepicker({
+            dateFormat: "dd-MM-yy"
+        });
+
         $("#JobCardId").change(function () {
             var id = $(this).val();
             if (id != '') {
@@ -33,7 +65,7 @@
     });
 
     function formValidation() {
-        return confirm("Are you sure to Save?");
+        return true;
     }
 </script>
 <div class="container">
@@ -47,12 +79,12 @@
                 <div class="row form-group">
                     <div class="col-md-2">
                         <label for="WorkShopRequestNo">Request No.</label>
-                        @Html.TextBoxFor(m => m.WorkShopRequestNo, new { @class = "form_input", autocomplete = "off" })
+                        @Html.TextBoxFor(m => m.WorkShopRequestNo, new { @class = "form_input", autocomplete = "off", @required = "true" })
                         @*<input type="text" id="reqno" autocomplete="off" class="form_input" />*@
                     </div>
                     <div class="col-md-2">
                         <label for="WorkShopRequestDate">Date</label>
-                        @Html.TextBoxFor(m => m.WorkShopRequestDate, new { @class = "form_input", @type = "date", autocomplete = "off" })
+                        @Html.TextBoxFor(m => m.WorkShopRequestDate, Model.WorkShopRequestDate.ToString("dd/MMMM/yyyy"), new { @class = "form_input", autocomplete = "off", @required = "true" })
                         @*<input type="date" id="inputDate" class="form_input" autocomplete="off" />*@
                     </div>
                 </div>
@@ -62,7 +94,7 @@
                         @Html.HiddenFor(m => m.SaleOrderId)
                         @Html.HiddenFor(m => m.CustomerId)
                         @Html.HiddenFor(m => m.CustomerOrderRef)
-                        @Html.DropDownListFor(m => m.JobCardId, (SelectList)ViewBag.JobCardList, "Select Job Card", new { @class = "form_input", autocomplete = "off" })
+                        @Html.DropDownListFor(m => m.JobCardId, (SelectList)ViewBag.JobCardList, "Select Job Card", new { @class = "form_input", autocomplete = "off", @required = "true" })
                     </div>
                     <div class="col-md-3">
                         <label for="SaleOrderRefNo">Sale Order No.</label>
@@ -100,7 +132,7 @@
                 </div>
                 <div class="row form-group">
                         <div class="col-md-1"><label for="RequiredDate">Due Date</label></div>
-                        <div class="col-md-2">@Html.TextBoxFor(m => m.RequiredDate, new { @class = "form_input", @type = "date", autocomplete = "off" })
+                        <div class="col-md-2">@Html.TextBoxFor(m => m.RequiredDate, Model.RequiredDate.ToString("dd/MMMM/yyyy"), new { @class = "form_input", autocomplete = "off", @required = "true" })
                         @*<input type="date" id="duedate" class="form_input" />*@</div>
                         
 
