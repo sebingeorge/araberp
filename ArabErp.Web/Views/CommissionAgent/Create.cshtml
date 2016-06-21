@@ -71,12 +71,13 @@
 
 
         <div class="main-part pad1">
-            <div class="row">
+            @using (Html.BeginForm("Save", null, FormMethod.Post, new { @class = "createFrom", @id = "CommissionAgent_form" }))
+            {
+                <div class="row">
 
-                <div class="col-md-2">
-                </div>
-                @using (Html.BeginForm("Save", null, FormMethod.Post, new { @class = "createFrom", @id = "CommissionAgent_form" }))
-                {
+                    <div class="col-md-2">
+                    </div>
+
                     <div class="col-md-4">
 
                         <div class="part4">
@@ -106,41 +107,27 @@
                             @Html.TextBoxFor(m => m.Phone, new { @class = "form_input", autocomplete = "off" })
                         </div>
 
-
-
-
-
-
-
-
                     </div>
-                }
-                <div class="col-md-2">
+
+                    <div class="col-md-2">
+                    </div>
+
                 </div>
 
-            </div>
-
-            <div class="row">
-                <div class="col-md-2"></div>
-                <div class="col-md-8 hrpart">
-                    <button type="button" class="form-button right">Exit</button>
-                    <button type="submit" class="form-button right">Save</button>
+                <div class="row">
+                    <div class="col-md-2"></div>
+                    <div class="col-md-8 hrpart">
+                        <button type="button" class="form-button right">Exit</button>
+                        <button type="submit" class="form-button right">Save</button>
+                    </div>
+                    <div class="col-md-2"></div>
                 </div>
-                <div class="col-md-2"></div>
-            </div>
-
+            }
         </div>
 
         <div class="main-list">
             @Html.Action("FillCommissionAgentList")
         </div>
-
-        @*<div class="row">
-            <div class="col-md-12">
-                @Html.Action("FillCommissionAgentList")
-            </div>
-        </div>*@
-
 
     </div>
 </div>
