@@ -27,33 +27,33 @@
 
                 <table class="table table-bordered">
                     <tr class="grid-row">
-                        <td rowspan="5" class="grid-cell bold">@Model.BayName</td>
-                        <td class="grid-cell">Date of Arrival</td>
+                        <td rowspan="5" class="grid-cell dis1 bold">@Model.BayName</td>
+                        <td class="grid-cell"><b>Date of Arrival</b></td>
                         <td class="grid-cell">@EDateOfDelivery</td>
-                        <td class="grid-cell">Job Card No</td>
-                        <td class="grid-cell">Exp. Delivery Date</td>
+                        <td class="grid-cell"><b>Job Card No</b></td>
+                        <td class="grid-cell"><b>Exp. Delivery Date</b></td>
                     </tr>
                     <tr>
-                        <td>Vehicle Reg. No.</td>
-                        <td>@Model.ChasisNoRegNo</td>
-                        <td>@Model.JobCardNo</td>
-                        <td>@EDateOfArrival</td>
+                        <td class="grid-cell"><b>Vehicle Reg. No.</b></td>
+                        <td class="grid-cell">@Model.ChasisNoRegNo</td>
+                        <td class="grid-cell">@Model.JobCardNo</td>
+                        <td class="grid-cell">@EDateOfArrival</td>
                     </tr>
                     <tr>
-                        <td>Customer Details</td>
-                        <td>@Model.CustomerName</td>
-                        <td></td>
-                        <td>Status</td>
+                        <td class="grid-cell"><b>Customer Details</b></td>
+                        <td class="grid-cell">@Model.CustomerName</td>
+                        <td class="grid-cell"></td>
+                        <td class="grid-cell"><b>Status</b></td>
                     </tr>
                     <tr>
-                        <td>Vehicle Type</td>
-                        <td>@Model.VehicleModelName</td>
-                        <td rowspan="2">@Model.WorkDescription</td>
-                        <td rowspan="2"></td>
+                        <td class="grid-cell"><b>Vehicle Type</b></td>
+                        <td class="grid-cell">@Model.VehicleModelName</td>
+                        <td rowspan="2" class="grid-cell">@Model.WorkDescription</td>
+                        <td rowspan="2" class="grid-cell"></td>
                     </tr>
                     <tr>
-                        <td>Unit Type</td>
-                        <td>@Model.UnitName</td>
+                        <td class="grid-cell"><b>Unit Type</b></td>
+                        <td class="grid-cell">@Model.UnitName</td>
                     </tr>
                 </table>
             </div>

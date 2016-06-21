@@ -50,7 +50,10 @@ namespace ArabErp.DAL
         {
             using (IDbConnection connection = OpenConnection(dataConnection))
             {
-                string sql = @"SELECT * INTO #SaleOrderItem FROM SaleOrderItem WHERE SaleOrderId=@SaleOrderId AND SaleOrderItemId IN(@SaleOrderItemIdList)
+                var objSalesInvoiceDT = new List<SalesInvoiceItem>();
+                try
+                {
+                    string sql = @"SELECT * INTO #SaleOrderItem FROM SaleOrderItem WHERE SaleOrderId=@SaleOrderId AND SaleOrderItemId IN @SaleOrderItemIdList
                                SELECT s.SaleOrderId SaleOrderId,S.SaleOrderItemId SaleOrderItemId, W.WorkDescr WorkDescription,CONCAT(V.VehicleModelName,' ',v.VehicleModelDescription) VehicleModelName,S.Quantity QuantityTxt,U.UnitName Unit,S.Rate Rate,S.Discount Discount,S.Amount Amount,j.JobCardId JobCardId
                                FROM #SaleOrderItem S LEFT JOIN Unit U on S.UnitId=U.UnitId
                                LEFT JOIN WorkDescription W on S.WorkDescriptionId=W.WorkDescriptionId
@@ -58,7 +61,12 @@ namespace ArabErp.DAL
 							   left join JobCard J on J.SaleOrderItemId=S.SaleOrderItemId
                                DROP TABLE #SaleOrderItem";
 
-                var objSalesInvoiceDT = connection.Query<SalesInvoiceItem>(sql, new { SaleOrderItemIdList = salesorderitemid, SaleOrderId = saleorderid }).ToList<SalesInvoiceItem>();
+                     objSalesInvoiceDT = connection.Query<SalesInvoiceItem>(sql, new { SaleOrderItemIdList = salesorderitemid, SaleOrderId = saleorderid }).ToList<SalesInvoiceItem>();
+                }
+                catch (Exception ex)
+                    {
+
+                    }
 
                 return objSalesInvoiceDT;
             }
