@@ -4,7 +4,13 @@
     ViewBag.Title = "Index";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
-
+<script>
+    function GotoCreate()
+    {
+        var url = '@Url.Action("Create")';
+        location.href = url;
+    }
+</script>
 <div class="container">
     <div class="form-head1">
         <h4>Addition/Deuction</h4>
@@ -27,7 +33,9 @@
 
             </div>
         </div>
-
+        <div class="marg">
+            <button class="form-button" onclick="GotoCreate()">Add</button>
+        </div>
     </div>
 </div>
 

@@ -126,9 +126,16 @@ namespace ArabErp.Web.Controllers
             }
             TempData["success"] = "";
 
-            if (list[0].isDirectPurchase)
-                return RedirectToAction("PendingDirectPurchase");
-            return RedirectToAction("PendingGrnWareHouse");
+            try
+            {
+                if (list[0].isDirectPurchase)
+                    return RedirectToAction("PendingDirectPurchase");
+                return RedirectToAction("PendingGrnWareHouse");
+            }
+            catch (Exception)
+            {
+                return RedirectToAction("Index", "Home");
+            }
         }
 
         public void FillWarehouse()
@@ -166,14 +173,15 @@ namespace ArabErp.Web.Controllers
                 TempData["success"] = "";
                 if (nx.Message.StartsWith("1"))
                     TempData["error"] = nx.Message;
-                else TempData["error"] = "Some error occured. Please try again." + nx.Message;
+                else TempData["error"] = "Some required value was missing. Please try again.|" + nx.Message;
             }
             catch (Exception ex)
             {
                 TempData["success"] = "";
-                TempData["error"] = "Some error occured. Please try again." + ex.Message;
+                TempData["error"] = "Some error occured. Please try again.|" + ex.Message;
             }
             FillCurrency();
+            SupplierDropdown();
             return View("Create", model);
         }
 

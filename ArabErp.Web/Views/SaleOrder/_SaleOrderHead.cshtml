@@ -71,7 +71,7 @@
             @Html.DropDownListFor(m => Model.CustomerId, (SelectList)ViewBag.customerlist, "Select Customer", new { @class = "form_input", autocomplete = "off", @onchange = "CustomerChanged(this);", @disabled = "true" })
         }
      </div>
-    <div class="col-md-4">
+    <div class="col-md-6">
         <label for="CustomerOrderRef">Customer Address</label>
         @Html.TextBoxFor(m => m.CustomerAddress, new { @class = "form_input", autocomplete = "off", @readonly = "readonly" })
     </div>

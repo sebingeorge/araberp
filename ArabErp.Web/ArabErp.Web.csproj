@@ -212,6 +212,7 @@
     <Compile Include="Controllers\DirectPurchaseController.cs" />
     <Compile Include="Controllers\EmployeeCategoryController.cs" />
     <Compile Include="Controllers\EmployeeController.cs" />
+    <Compile Include="Controllers\ExpenseController.cs" />
     <Compile Include="Controllers\GrnWareHouseController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ItemCategoryController.cs" />
@@ -245,6 +246,7 @@
     <Compile Include="Controllers\WorkDescriptionController.cs" />
     <Compile Include="Controllers\WorkShopGRNController.cs" />
     <Compile Include="Controllers\WorkShopRequestController.cs" />
+    <Compile Include="DecimalModelBinder.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -291,7 +293,6 @@
     <Content Include="Content\toastr\tests\unit\x.js" />
     <Content Include="Content\toastr\toastr-icon.png" />
     <Content Include="Content\toastr\toastr.js" />
-    <Content Include="Images\101.png" />
     <Content Include="Images\banner.png" />
     <Content Include="Images\button-part.jpg" />
     <Content Include="Images\tick.png" />
@@ -474,8 +475,6 @@
     <Content Include="Views\GrnWareHouse\Create.cshtml" />
     <Content Include="Views\SupplyOrder\Create.cshtml" />
     <Content Include="Views\JobCard\Create.cshtml" />
-    <Content Include="Views\JobOrderCompletion\CreateJobOrderCompletion.cshtml" />
-    <Content Include="Views\SalesInvoice\CreateSalesInvoice.cshtml" />
     <Content Include="Views\StockReturn\Create.cshtml" />
     <Content Include="Views\StockJournal\Create.cshtml" />
     <Content Include="Views\AdditionalWorkShopRequest\Create.cshtml" />
@@ -559,9 +558,7 @@
     <Content Include="Views\VehicleOutPass\Index.cshtml" />
     <Content Include="Views\VehicleOutPass\_PendingVehicleOutPass.cshtml" />
     <Content Include="Views\VehicleOutPass\Save.cshtml" />
-    <Content Include="Views\SalesInvoice\_CustomerDetails.cshtml" />
     <Content Include="Views\WorkShopGRN\_DisplayWGRNList.cshtml" />
-    <Content Include="Views\LocalPurchase\Request.cshtml" />
     <Content Include="Views\SaleOrder\PendingSaleOrderHold.cshtml" />
     <Content Include="Views\SaleOrder\PendingSaleOrderRelease.cshtml" />
     <Content Include="Views\GrnWareHouse\PreviousList.cshtml" />
@@ -588,6 +585,8 @@
     <Content Include="Views\GrnWareHouse\_PendingDirectPurchase.cshtml" />
     <Content Include="Views\SalesQuotation\ListSalesQuotations.cshtml" />
     <Content Include="Views\DirectPurchase\Approval.cshtml" />
+    <Content Include="Views\Expense\Create.cshtml" />
+    <Content Include="Views\Expense\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

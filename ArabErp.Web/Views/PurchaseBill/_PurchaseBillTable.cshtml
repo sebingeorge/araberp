@@ -22,11 +22,11 @@
 
             $("#TotalAmount").text(TotAmt);
             $("#TotalAssAmount").text(TotAssAmt);
+         
         });
-   
-
-
-     
+      
+        $("#PurchaseBillAmount").val(TotAmt)
+              
 
     });
     function TextChanged(row) {
@@ -132,11 +132,11 @@
                         </td>
                         <td>@Html.TextBoxFor(m => m.Items[i].Quantity, new { @class = "form_input", autocomplete = "off", @style ="text-align:right",@readonly = "readonly" })</td>
                         <td>@Html.TextBoxFor(m => m.Items[i].UnitName, new { @class = "form_input", @style = "text-align:left", autocomplete = "off", @readonly = "readonly" })</td>
-                        <td>@Html.TextBoxFor(m => m.Items[i].Rate, new { @class = "form_input ", @style = "text-align:right", autocomplete = "off", @onchange = "TextChanged(" + i + ");" })</td>
-                        <td>@Html.TextBoxFor(m => m.Items[i].Discount, new { @class = "form_input ", @style = "text-align:right", autocomplete = "off", @onchange = "TextChanged(" + i + ");" })</td>
+                        <td>@Html.TextBoxFor(m => m.Items[i].Rate, new { @class = "form_input numbers-only", @style = "text-align:right", autocomplete = "off", @onchange = "TextChanged(" + i + ");" })</td>
+                        <td>@Html.TextBoxFor(m => m.Items[i].Discount, new { @class = "form_input numbers-only", @style = "text-align:right", autocomplete = "off", @onchange = "TextChanged(" + i + ");" })</td>
                         <td>@Html.TextBoxFor(m => m.Items[i].Amount, new { @class = "form_input clAmount", @style = "text-align:right", autocomplete = "off", @readonly = "readonly" })</td>
-                        <td>@Html.TextBoxFor(m => m.Items[i].TaxPercentage, new { @class = "form_input ", @style = "text-align:right", autocomplete = "off", @onchange = "TextChanged(" + i + ");" })</td>
-                        <td>@Html.TextBoxFor(m => m.Items[i].TaxAmount, new { @class = "form_input ", @style = "text-align:right", autocomplete = "off" })</td>
+                        <td>@Html.TextBoxFor(m => m.Items[i].TaxPercentage, new { @class = "form_input numbers-only", @style = "text-align:right", autocomplete = "off", @onchange = "TextChanged(" + i + ");" })</td>
+                        <td>@Html.TextBoxFor(m => m.Items[i].TaxAmount, new { @class = "form_input", @style = "text-align:right", autocomplete = "off", @readonly = "readonly" })</td>
                         <td>@Html.TextBoxFor(m => m.Items[i].TotAmount, new { @class = "form_input clAmount", @style = "text-align:right", autocomplete = "off", @readonly = "readonly" })</td>
 
                     </tr>

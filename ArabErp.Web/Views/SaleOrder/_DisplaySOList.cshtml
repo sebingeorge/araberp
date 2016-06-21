@@ -56,7 +56,7 @@
                 var Rate = $("#Items_" + j + "__Rate").val();
                 var Discount = $("#Items_" + j + "__Discount").val();
                 var Amount = $("#Items_" + j + "__Amount").val();
-                alert(WorkDescriptionId + ',' + VehicleModelId + ',' + Quantity + ',' + UnitId + ',' + Rate + ',' + Discount + ',' + Amount);
+                //alert(WorkDescriptionId + ',' + VehicleModelId + ',' + Quantity + ',' + UnitId + ',' + Rate + ',' + Discount + ',' + Amount);
 
                 var clone = $("#" + j).clone(true, true);
                 clone.html($(clone).html().replace(new RegExp("Items_" + j + "__", "g"), 'Items_' + (j - 1) + '__'));
@@ -72,7 +72,7 @@
                 $("#" + j).html(clone.html());
                 $("#Items_" + (j - 1) + "__SlNo").val(j);
                 $("#" + (j)).attr('id', (j - 1));
-                alert(j);
+                //alert(j);
                 $("#Items_" + (j - 1) + "__WorkDescriptionId").val(WorkDescriptionId);
                 $("#Items_" + (j - 1) + "__VehicleModelId").val(VehicleModelId);
                 $("#Items_" + (j - 1) + "__Quantity").val(Quantity);
@@ -156,7 +156,7 @@
 
 
 <div class="table-responsive">
-    <table class="table table-bordered table-hover" id="tab_logic">
+    <table class="table table-bordered" id="tab_logic">
         <thead>
             <tr class="grid_heading">
                 <th width="2%" class="text-center"><h1>#</h1></th>
@@ -170,7 +170,7 @@
                 <th>&nbsp;</th>
             </tr>
         </thead>
-        <tbody id="table_validation">
+        <tbody class="grid_row" id="table_validation">
             @for (int i = 0; i < Model.Items.Count; i++)
             {
                 <tr id="@i">
@@ -196,10 +196,10 @@
                     <td>
                         @if (ViewData["action"].ToString() == "Create")
                         {
-                        @Html.TextBoxFor(m => m.Items[i].VehicleModelName, new { @class = "form_input ", @style = "text-align:left", autocomplete = "off", @readonly = "readonly" })
-                             @Html.HiddenFor(m => m.Items[i].VehicleModelId)
+                            @Html.TextBoxFor(m => m.Items[i].VehicleModelName, new { @class = "form_input ", @style = "text-align:left", autocomplete = "off", @readonly = "readonly" })
+                            @Html.HiddenFor(m => m.Items[i].VehicleModelId)
 
-                        @*@Html.DropDownListFor(x => Model.Items[i].VehicleModelId, new SelectList(ViewBag.vehiclelist, "Value", "Text", Model.Items[i].VehicleModelId), "select Vehicle", new { @class = "form_input", autocomplete = "off", @disabled = "true"})*@
+                            @*@Html.DropDownListFor(x => Model.Items[i].VehicleModelId, new SelectList(ViewBag.vehiclelist, "Value", "Text", Model.Items[i].VehicleModelId), "select Vehicle", new { @class = "form_input", autocomplete = "off", @disabled = "true"})*@
                         }
                         else
                         {
@@ -226,7 +226,7 @@
                         else
                         {
                             @Html.DropDownListFor(x => Model.Items[i].UnitId, new SelectList(ViewBag.unitlist, "Value", "Text", Model.Items[i].UnitId), "Select Unit", new { @class = "form_input", autocomplete = "off", @disabled = "true" })
-                         
+
                         }
                     </td>
                     <td>
@@ -244,14 +244,14 @@
                         @if (ViewData["action"].ToString() == "Create")
                         {
                             @Html.TextBoxFor(m => m.Items[i].Discount, new { @class = "form_input numbers-only", autocomplete = "off", @style = "text-align:right", placeholder = "Discount", @onchange = "QuantityChanged(" + i + ");" })
-                            
+
                         }
                         else
                         {
-                           @Html.TextBoxFor(m => m.Items[i].Discount, new { @class = "form_input", autocomplete = "off", @style = "text-align:right", placeholder = "Discount", @onchange = "QuantityChanged(" + i + ");", @disabled = "true" })
+                            @Html.TextBoxFor(m => m.Items[i].Discount, new { @class = "form_input", autocomplete = "off", @style = "text-align:right", placeholder = "Discount", @onchange = "QuantityChanged(" + i + ");", @disabled = "true" })
                         }
                     </td>
-                    <td>@Html.TextBoxFor(m => m.Items[i].Amount, new { @class = "form_input clAmount", autocomplete = "off", @style = "text-align:right", placeholder = "Amount", @disabled = "true" })</td>
+                    <td>@Html.TextBoxFor(m => m.Items[i].Amount, new { @class = "form_input clAmount", autocomplete = "off", @style = "text-align:right", placeholder = "Amount", @readonly = "readonly" })</td>
                     <td style="vertical-align:middle"><a class="glyphicon glyphicon-minus" style="top:0px" onclick="Delete(@i)"></a></td>
                 </tr>
             }
@@ -280,11 +280,15 @@
                     </h1>
                 </th>
                 <th width="8%" class="text-right"><span id="QtyAmount"></span></th>
+                <th>&nbsp;</th>
             </tr>
         </tfoot>
     </table>
 </div>
-<a id="add_row" class="glyphicon glyphicon-plus"></a>
-@*<a id='delete_row' style="float:right" class="glyphicon glyphicon-minus"></a>*@
+@if (ViewData["action"].ToString() == "Create")
+{
+<a id="add_row" class="glyphicon glyphicon-plus" onclick="AddAdditionRow()"></a>
+
+}
    
 

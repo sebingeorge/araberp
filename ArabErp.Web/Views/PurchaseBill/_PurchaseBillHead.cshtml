@@ -8,16 +8,16 @@
     <div class="col-md-2">
         <label for="PurchaseBillDate">Date</label>
           
-        @Html.TextBoxFor(m => m.PurchaseBillDate, String.Format("{0:dd/MM/yyyy}", Model.PurchaseBillDate), new { @class = "form_input ", autocomplete = "off", @readonly = "readonly" })
+        @Html.TextBoxFor(m => m.PurchaseBillDate, Model.PurchaseBillDate.ToString("dd/MMMM/yyyy"), new { @class = "form_input ", autocomplete = "off", @readonly = "readonly" })
     </div>
 </div>
 <div class="row form-group">
-    <div class="col-md-4">
+    <div class="col-md-6">
         <label for="SupplierId">Supplier</label>
         @Html.TextBoxFor(m => m.Supplier, new { @class = "form_input", autocomplete = "off", @readonly = "readonly" })
         @Html.HiddenFor(m => m.SupplierId, new { @class = "form_input", autocomplete = "off" })
     </div>
-        <div class="col-md-4">
+        <div class="col-md-6">
             <label for="BillNoDate">Bill No. & Date</label>
         @Html.TextBoxFor(m => m.BillNoDate, new { @class = "form_input", autocomplete = "off"})
       

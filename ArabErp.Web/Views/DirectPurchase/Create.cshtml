@@ -60,21 +60,17 @@
                     }
                 }
             }
-        });        
+        });
     })
     function Exit() {
         location.href = '@Url.Action("PendingPurchaseRequest")';
     }
     $(function () {
         $("#PurchaseRequestDate").datepicker({
-            changeMonth: true,
-            changeYear: true,
-            dateFormat: "d/MM/y"
+            dateFormat: "d-MM-yy"
         });
         $("#RequiredDate").datepicker({
-            changeMonth: true,
-            changeYear: true,
-            dateFormat: "d/MM/y"
+            dateFormat: "d-MM-yy"
         });
         //$("#PurchaseRequestDate").change(function (s, e) {
         //    getPurchaseLimit($(this).val());
@@ -115,29 +111,43 @@
         });
     }
 
-    function formValidation() {
-        var status;
-        var url = '@Url.Action("ValidateForm")';
-        var requestNo = $("#PurchaseRequestNo").val();
-        var total = $("#total").text();
-        $.ajax({
-            url: url,
-            async: false,
-            dataType: 'json',
-            data: { requestNo: requestNo, total: total },
-            success: function (data) {
-                if (data.status == false) {
-                    var msg = '';
-                    var arr = data.message.split('|');
-                    for (var i = 0; i < arr.length; i++) {
-                        if (arr[i] != '')
-                            msg += '<span class="glyphicon glyphicon-minus"></span>&nbsp;' + arr[i] + '<br>';
+    function isAlreadyExist(status){
+        if (status == true) {
+            var url = '@Url.Action("ValidateForm")';
+            var requestNo = $("#PurchaseRequestNo").val();
+            var total = $("#total").text();
+            $.ajax({
+                url: url,
+                async: false,
+                dataType: 'json',
+                data: { requestNo: requestNo, total: total },
+                success: function (data) {
+                    if (data.status == false) {
+                        var msg = '';
+                        var arr = data.message.split('|');
+                        for (var i = 0; i < arr.length; i++) {
+                            if (arr[i] != '')
+                                msg += '<span class="glyphicon glyphicon-minus"></span>&nbsp;' + arr[i] + '<br>';
+                        }
+                        toastr.error(msg);
                     }
-                    toastr.error(msg);
+                    status = data.status;
                 }
-                status = data.status;
+            });
+        }
+        return status;
+    }
+
+    function formValidation() {
+        var status = true;
+
+        $("select[id$='__ItemId']").each(function (i, obj) {
+            if ($(obj).val == '') {
+                status = false;
             }
         });
+
+        //status = isAlreadyExist(status);
         return status;
     }
 
@@ -160,11 +170,11 @@
                     </div>
                     <div class="col-md-2">
                         <label for="PurchaseRequestDate">Date</label>
-                        @Html.TextBoxFor(m => m.PurchaseRequestDate, String.Format("{0:dd/MM/yyyy}", Model.PurchaseRequestDate), new { @class = "form_input", autocomplete = "off" })
+                        @Html.TextBoxFor(m => m.PurchaseRequestDate, Model.PurchaseRequestDate.Value.ToString("dd/MMMM/yyyy"), new { @class = "form_input", autocomplete = "off", @required = "true" })
                     </div>
                     <div class="col-md-2">
                         <label for="RequiredDate">Required Date</label>
-                        @Html.TextBoxFor(m => m.RequiredDate, new { @class = "form_input", autocomplete = "off" })
+                        @Html.TextBoxFor(m => m.RequiredDate, Model.RequiredDate.Value.ToString("dd/MMMM/yyyy"), new { @class = "form_input", autocomplete = "off" })
                     </div>
                 </div>
                 <div class="row form-group">
@@ -182,15 +192,21 @@
                                 <label for="SpecialRemarks">Spl.Remarks</label>
                             </div>
                             <div class="col-md-11">
-                                @Html.TextBoxFor(m => m.SpecialRemarks, new { @class = "form_input", autocomplete = "off" })
+                                @Html.TextAreaFor(m => m.SpecialRemarks, new { @class = "form_input form_input-h", autocomplete = "off" })
                             </div>
                         </div>
                     </div>
                 </div>
 
-                <div class="marg">
-                    <input type="submit" class="form-button" value="Save" />
+                <div class="row">
+
+                    <div class="col-md-12 hrpart">
+                        <input type="submit" class="form-button right" value="Save" />
+                    </div>
+
                 </div>
+
+
                 @*}*@
             </form>
         </div>

@@ -1,4 +1,74 @@
 ﻿@model ArabErp.Domain.PurchaseBill
+<script>
+    $(document).ready(function () {
+    
+        $("#Addition").keyup(function () {
+          
+            var Total = parseFloat("0");
+            var AdditonAmt = parseFloat("0");
+            var DeductionAmt = parseFloat("0");
+
+            var NetAmt = '@Model.Items.Sum(a => a.TotAmount)';
+            var TotNetAmt = parseFloat("0");
+
+            TotNetAmt = parseFloat(NetAmt)
+            if (isNaN(TotNetAmt)) {
+                TotNetAmt = parseFloat("0");
+
+            }
+          
+        AdditonAmt = parseFloat($("#Addition").val());
+    
+       if (isNaN(AdditonAmt)) {
+           AdditonAmt = parseFloat("0");
+       }
+        var DeductionAmt = parseFloat($("#Deduction").val());
+        if (isNaN(DeductionAmt)) {
+            DeductionAmt = parseFloat("0");
+        }
+
+        Total = TotNetAmt + AdditonAmt - DeductionAmt;
+      
+        $("#PurchaseBillAmount").val(Total)
+        });
+
+        $("#Deduction").keyup(function () {
+
+            var Total = parseFloat("0");
+            var AdditonAmt = parseFloat("0");
+            var DeductionAmt = parseFloat("0");
+
+            var NetAmt = '@Model.Items.Sum(a => a.TotAmount)';
+            var TotNetAmt = parseFloat("0");
+
+            TotNetAmt = parseFloat(NetAmt)
+            if (isNaN(TotNetAmt)) {
+                TotNetAmt = parseFloat("0");
+
+            }
+          
+            AdditonAmt = parseFloat($("#Addition").val());
+    
+            if (isNaN(AdditonAmt)) {
+                AdditonAmt = parseFloat("0");
+            }
+            var DeductionAmt = parseFloat($("#Deduction").val());
+            if (isNaN(DeductionAmt)) {
+                DeductionAmt = parseFloat("0");
+            }
+
+            Total = TotNetAmt + AdditonAmt - DeductionAmt;
+         
+            $("#PurchaseBillAmount").val(Total)
+        });
+           
+
+        });
+
+
+        
+ 
+</script>
 <div class="row form-group">
     <div class="col-md-12">
         <div class="row">
@@ -14,23 +84,27 @@
 
 
 <div class="row form-group">
-    <div class="col-md-4">
-        <label for="Addition">Addition</label>
-        @Html.TextBoxFor(m => m.Addition, new { @class = "form_input", @style = "text-align:right", autocomplete = "off", @Value = "0.00" })
+    <div class="col-md-2">
+        <label for="Addition">Additional Amount</label>
+        @Html.TextBoxFor(m => m.Addition, new { @class = "form_input numbers-only", @style = "text-align:right", autocomplete = "off", @Value = "0.00" })
     </div>
     <div class="col-md-8">
-        <label for="AdditionRemarks">Remarks</label>
+        <label for="AdditionRemarks">Addition Remarks</label>
         @Html.TextBoxFor(m => m.AdditionRemarks, new { @class = "form_input", autocomplete = "off" })
     </div>
 </div>
 
 <div class="row form-group">
-    <div class="col-md-4">
-        <label for="Deduction">Deduction</label>
-        @Html.TextBoxFor(m => m.Deduction, new { @class = "form_input", @style = "text-align:right", autocomplete = "off", @Value = "0.00" })
+    <div class="col-md-2">
+        <label for="Deduction">Deduction Amount</label>
+        @Html.TextBoxFor(m => m.Deduction, new { @class = "form_input numbers-only", @style = "text-align:right", autocomplete = "off", @Value = "0.00" })
     </div>
     <div class="col-md-8">
-        <label for="DeductionRemarks">Remarks</label>
+        <label for="DeductionRemarks">Deduction Remarks</label>
         @Html.TextBoxFor(m => m.DeductionRemarks, new { @class = "form_input", autocomplete = "off" })
+    </div>
+    <div class="col-md-2">
+        <label for="PurchaseBillAmount">Net Amount</label>
+        @Html.TextBoxFor(m => m.PurchaseBillAmount, new { @class = "form_input ", @style = "text-align:right", autocomplete = "off",@readonly="readyonly" })
     </div>
 </div>

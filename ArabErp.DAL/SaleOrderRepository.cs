@@ -24,43 +24,40 @@ namespace ArabErp.DAL
                 IDbTransaction trn = connection.BeginTransaction();
                 try
                 {
-                   
+                    int internalid = DatabaseCommonRepository.GetInternalIDFromDatabase(connection, trn,typeof(SaleOrder).Name, "0");
 
-                    string sql = @"DECLARE	@return_value int,
-	            	@INTERNALID bigint,
-	            	@ERRORCODE nvarchar(100)
-                    EXEC	@return_value = [dbo].[GET_NEXT_SYSTEM_INTERNALID]
-	            	@UNIQUEID = N'0',
-		            @DOCUMENTTYPEID = N'SALE ORDER',
-	            	@DOUPDATE = 1,
-	              	@INTERNALID = @INTERNALID OUTPUT,
-	            	@ERRORCODE = @ERRORCODE OUTPUT
+                    model.SaleOrderRefNo = "SO/" + internalid;
+                    string sql = @"
                     insert  into SaleOrder(SaleOrderRefNo,SaleOrderDate,CustomerId,CustomerOrderRef,CurrencyId,SpecialRemarks,PaymentTerms,DeliveryTerms,CommissionAgentId,CommissionAmount,CommissionPerc,SalesExecutiveId,EDateArrival,EDateDelivery,CreatedBy,CreatedDate,OrganizationId)
-                    Values (CONCAT('SO/',@INTERNALID),@SaleOrderDate,@CustomerId,@CustomerOrderRef,@CurrencyId,@SpecialRemarks,@PaymentTerms,@DeliveryTerms,@CommissionAgentId,@CommissionAmount,@CommissionPerc,@SalesExecutiveId,@EDateArrival,@EDateDelivery,@CreatedBy,@CreatedDate,@OrganizationId);
-                    SELECT CAST(SCOPE_IDENTITY() as int) SaleOrderId,CONCAT('SO/',@INTERNALID) SaleOrderRefNo";
-                    
-                     result = connection.Query<SaleOrder>(sql, model, trn).First<SaleOrder>();
+                    Values (@SaleOrderRefNo,@SaleOrderDate,@CustomerId,@CustomerOrderRef,@CurrencyId,@SpecialRemarks,@PaymentTerms,@DeliveryTerms,@CommissionAgentId,@CommissionAmount,@CommissionPerc,@SalesExecutiveId,@EDateArrival,@EDateDelivery,@CreatedBy,@CreatedDate,@OrganizationId);
+                    SELECT CAST(SCOPE_IDENTITY() as int) SaleOrderId";
+
+                    model.SaleOrderId = connection.Query<int>(sql, model, trn).First<int>();
 
                     var saleorderitemrepo = new SaleOrderItemRepository();
                     foreach (var item in model.Items)
                     {
-                        item.SaleOrderId = result.SaleOrderId;
+                        item.SaleOrderId = model.SaleOrderId;
                         saleorderitemrepo.InsertSaleOrderItem(item, connection, trn);
                     }
                     trn.Commit();
-                    
+
                 }
-                catch (Exception)
+                catch (Exception ex)
                 {
                     trn.Rollback();
-                    result.SaleOrderId = 0;
-                    result.SaleOrderRefNo = null;
+                    model.SaleOrderId = 0;
+                    model.SaleOrderRefNo = null;
+                    throw ex;
                     
                 }
-                return result;
+                return model;
 
             }
         }
+
+
+
         public SaleOrder GetSaleOrder(int SaleOrderId)
         {
             using (IDbConnection connection = OpenConnection(dataConnection))

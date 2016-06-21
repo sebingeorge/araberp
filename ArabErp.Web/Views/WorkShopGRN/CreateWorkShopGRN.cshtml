@@ -68,24 +68,26 @@
                         @Html.TextBoxFor(m => m.SONoAndDate, new { @class = "form_input", autocomplete = "off" })
                     </div>
 
+                    <div class="col-md-4">
+                        <label for="sdcno">Supplier DC No. & Date</label>
+                        @Html.TextBoxFor(m => m.SupplierDCNoAndDate, new { @class = "form_input", autocomplete = "off" })
+                    </div>
+
                 </div>
                 
                  @Html.Action("DisplayWGRNList")
                 
     
                  <div class="row form-group">
-                     <div class="col-md-12">
-                         <label for="SplRemarks1">Spl.Remarks</label>
-                        @Html.TextAreaFor(m => m.SpecialRemarks, new { @class = "form_input", autocomplete = "off" })
-                    </div>
+
+                         <div class="part1">
+                             <div class="col-md-1"><label for="SplRemarks1">Spl.Remarks</label></div>
+                             <div class="col-md-11">@Html.TextAreaFor(m => m.SpecialRemarks, new { @class = "form_input form_input-h", autocomplete = "off" })</div>
+                         </div>  
+
                 </div>
                 
-                <div class="row form-group">
-                     <div class="col-md-4">
-                        <label for="sdcno">Supplier DC No. & Date</label>
-                        @Html.TextBoxFor(m => m.SupplierDCNoAndDate, new { @class = "form_input", autocomplete = "off" })
-                    </div>
-                </div>
+
 
                 <div class="row form-group">
                     <div class="col-md-4">

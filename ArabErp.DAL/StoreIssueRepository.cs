@@ -13,12 +13,14 @@ namespace ArabErp.DAL
         static string dataConnection = GetConnectionString("arab");
         public int InsertStoreIssue(StoreIssue objStoreIssue)
         {
-            using (IDbConnection connection = OpenConnection(dataConnection))
+            try
             {
-                IDbTransaction txn = connection.BeginTransaction();
-                try
+                using (IDbConnection connection = OpenConnection(dataConnection))
                 {
-                    string sql = @"INSERT INTO StoreIssue(
+                    IDbTransaction txn = connection.BeginTransaction();
+                    try
+                    {
+                        string sql = @"INSERT INTO StoreIssue(
                                 StoreIssueRefNo, 
                                 StoreIssueDate, 
                                 WorkShopRequestId, 
@@ -40,37 +42,46 @@ namespace ArabErp.DAL
                                 1);
                             SELECT CAST(SCOPE_IDENTITY() AS INT)";
 
-                    var id = connection.Query<int>(sql, objStoreIssue, txn).Single();
-                    foreach (var item in objStoreIssue.Items)
-                    {
-                        if (item.CurrentIssuedQuantity != 0)
+                        var id = connection.Query<int>(sql, objStoreIssue, txn).Single();
+                        foreach (var item in objStoreIssue.Items)
                         {
-                            item.StoreIssueId = id;
-                            new StoreIssueItemRepository().InsertStoreIssueItem(item, connection, txn);
-                            new StockUpdateRepository().InsertStockUpdate(new StockUpdate
+                            if (item.CurrentIssuedQuantity != 0)
                             {
-                                OrganizationId = objStoreIssue.OrganizationId,
-                                CreatedBy = objStoreIssue.CreatedBy,
-                                CreatedDate = objStoreIssue.CreatedDate,
-                                StockPointId = objStoreIssue.StockpointId,
-                                StockType = "StoreIssue",
-                                StockInOut = "OUT",
-                                stocktrnDate=System.DateTime.Today,
-                                ItemId = item.ItemId,
-                                Quantity = item.CurrentIssuedQuantity*(-1),
-                                StocktrnId = id,
-                                StockUserId = objStoreIssue.StoreIssueRefNo
-                            }, connection, txn);
+                                item.StoreIssueId = id;
+                                new StoreIssueItemRepository().InsertStoreIssueItem(item, connection, txn);
+                                new StockUpdateRepository().InsertStockUpdate(new StockUpdate
+                                {
+                                    OrganizationId = objStoreIssue.OrganizationId,
+                                    CreatedBy = objStoreIssue.CreatedBy,
+                                    CreatedDate = objStoreIssue.CreatedDate,
+                                    StockPointId = objStoreIssue.StockpointId,
+                                    StockType = "StoreIssue",
+                                    StockInOut = "OUT",
+                                    stocktrnDate = System.DateTime.Today,
+                                    ItemId = item.ItemId,
+                                    Quantity = item.CurrentIssuedQuantity * (-1),
+                                    StocktrnId = id,
+                                    StockUserId = objStoreIssue.StoreIssueRefNo
+                                }, connection, txn);
+                            }
                         }
+                        txn.Commit();
+                        return id;
                     }
-                    txn.Commit();
-                    return id;
+                    catch (Exception)
+                    {
+                        txn.Rollback();
+                        return 0;
+                    }
                 }
-                catch (Exception)
-                {
-                    txn.Rollback();
-                    return 0;
-                }
+            }
+            catch (SqlException)
+            {
+                throw;
+            }
+            catch (Exception)
+            {
+                throw;
             }
         }
 
@@ -152,7 +163,7 @@ namespace ArabErp.DAL
                 return connection.Query<string>(@"SELECT WorkShopRequestNo+', '+CONVERT(VARCHAR, WorkShopRequestDate, 106) WorkShopRequestNo, SaleOrderId, CustomerId, CONVERT(VARCHAR, RequiredDate, 106) RequiredDate INTO #WORK FROM WorkShopRequest WHERE WorkShopRequestId = @WorkShopRequestId;
                     SELECT SaleOrderId, SaleOrderRefNo+', '+CONVERT(VARCHAR, SaleOrderDate, 106) SaleOrderRefNo INTO #SALE FROM SaleOrder;
                     SELECT CustomerId, CustomerName INTO #CUS FROM Customer;
-                    SELECT W.WorkShopRequestNo+'|'+C.CustomerName+'|'+S.SaleOrderRefNo+'|'+W.RequiredDate FROM #WORK W INNER JOIN #CUS C ON W.CustomerId = C.CustomerId INNER JOIN #SALE S ON W.SaleOrderId = S.SaleOrderId
+                    SELECT ISNULL(W.WorkShopRequestNo, ' ')+'|'+ISNULL(C.CustomerName, ' ')+'|'+ISNULL(S.SaleOrderRefNo, ' ')+'|'+ISNULL(W.RequiredDate, ' ') FROM #WORK W INNER JOIN #CUS C ON W.CustomerId = C.CustomerId INNER JOIN #SALE S ON W.SaleOrderId = S.SaleOrderId
                     DROP TABLE #CUS;
                     DROP TABLE #SALE;
                     DROP TABLE #WORK;", new { WorkShopRequestId = workshopRequestId }).First();

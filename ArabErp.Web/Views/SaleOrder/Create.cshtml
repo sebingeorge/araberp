@@ -34,14 +34,7 @@
         });
         //$('#CurrencyId').val("2");
     }
-    $(document).ready(function () {
-        //bind keypress event for new row inputs.
-        $(".numbers-only").keypress(function (e) {
-            if (e.which == 8 || (e.which == 46 && $(this).val().indexOf('.') == -1) || (e.which > 47 && e.which < 58)) { } else { return false; }
-        });
-    });
-
-    function Validation() {
+     function Validation() {
         var count = 0;
        
          if ($('#CustomerId').val() == '') {
@@ -74,8 +67,8 @@
             $('#EDateDelivery').focus();
             return false;
         }
-        else if ($('#EDateDelivery').val() < $('#EDateArrival').val()) {
-            alert("Please select a valid Delivery Date, Delivery Date must be greater than Arraval Date");
+        else if ($('#EDateDelivery').val() <= $('#EDateArrival').val()) {
+            alert("Please select a valid Delivery Date, Delivery Date should be greater than Arrival Date");
             $('#EDateDelivery').focus();
             return false;
         }
@@ -134,7 +127,13 @@
 
 
 
-    }
+     }
+     $(document).ready(function () {
+         //bind keypress event for new row inputs.
+         $(".numbers-only").keypress(function (e) {
+             if (e.which == 8 || (e.which == 46 && $(this).val().indexOf('.') == -1) || (e.which > 47 && e.which < 58)) { } else { return false; }
+         });
+     });
 </script>
 @Html.HiddenFor(m => m.SaleOrderId)
 <div class="container">
