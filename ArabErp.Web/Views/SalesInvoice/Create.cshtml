@@ -194,11 +194,11 @@
                         <div class="row form-group">
                             <div class="col-md-12">
                                 <div class="part1">
-                                    <div class="col-md-11"></div>
-                                    <div class="col-md-1">
+                             
+                                
                                         @*@Html.TextBoxFor(m=>m.CurrencySymbol)*@
-                                        <label for="SpecialRemarks" style="font-size:30px"><b>@(Model.CurrencySymbol)<span id="TotalAmount">@totalAmount </span></b></label>
-                                    </div>
+                                    <label for="SpecialRemarks" class="tamount"><b>@(Model.CurrencySymbol)<span id="TotalAmount">@totalAmount </span></b></label>
+                              
                                     
                                 </div>
                                
@@ -208,20 +208,23 @@
 
 
                         <div class="row form-group">
-                            <div class="col-md-12">
+
                                 <div class="part1">
-                                    <label for="SpecialRemarks">Spl.Remarks</label>
-                                    @Html.TextAreaFor(m => m.SpecialRemarks, new { @class = "form_input form_input-h", autocomplete = "off" })
-                                </div>
+                                    <div class="col-md-1"><label for="SpecialRemarks">Spl.Remarks</label></div>
+                                    <div class="col-md-11"> @Html.TextAreaFor(m => m.SpecialRemarks, new { @class = "form_input form_input-h", autocomplete = "off" })</div>
+                                      
+                                    </div>
                                 <div class="part">
-                                    <label for="PaymentTerms">Payment Terms</label>
-                                    @Html.TextBoxFor(m => m.PaymentTerms, new { @class = "form_input", autocomplete = "off" })
-                                </div>
-                            </div>
+                                    <div class="col-md-1"><label for="PaymentTerms">Pay.Terms</label></div>
+                                    <div class="col-md-11">@Html.TextBoxFor(m => m.PaymentTerms, new { @class = "form_input", autocomplete = "off" })</div>
+                                        
+
+                                    </div>
+
                         </div>
                         
                         <div class="row form-group">
-                            <div class="part ">
+                         
                                 <div class="col-md-3">
                                     <label for="PaymentTerms">Additional</label>
                                     @Html.TextBoxFor(m => m.Addition, new { @class = "form_input numbers-only", @style = "text-align:right", autocomplete = "off", @Value = "0.00" })
@@ -230,8 +233,10 @@
                                     <label for="PaymentTerms">Remarks</label>
                                     @Html.TextBoxFor(m => m.AdditionRemarks, new { @class = "form_input clAmount", autocomplete = "off" })
                                 </div>
-                                </div>
-                            <div class="part ">
+                        
+                            </div>
+                          <div class="row form-group">
+                        
                                 <div class="col-md-3">
                                     <label for="PaymentTerms">Deduction</label>
                                     @Html.TextBoxFor(m => m.Deduction, new { @class = "form_input numbers-only clAmount", @style = "text-align:right", autocomplete = "off", @Value = "0.00" })
@@ -240,14 +245,17 @@
                                     <label for="PaymentTerms">Remarks</label>
                                     @Html.TextBoxFor(m => m.DeductionRemarks, new { @class = "form_input", autocomplete = "off" })
                                 </div>
+                         
                             </div>
-                            </div>
+                        
+       <div class="row">
+        <div class="col-md-12 hrpart">
+            <button class="form-button right" onclick="Back()">Exit</button>
+            <button type="submit" class="form-button right">Save</button>
+        </div>
 
-                        <div class="marg">
-                            <button class="form-button" onclick="Back()">Exit</button>
-                            <button type="submit" class="form-button">Save</button>
+    </div>
 
-                        </div>
                     }
                 </div>
                 </div>

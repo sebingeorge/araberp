@@ -151,6 +151,7 @@ textarea {
     line-height:22px;
     margin-right:0;
     margin-left:-12px;
+    cursor:pointer;
 
 }
 .form-button3 a:hover
