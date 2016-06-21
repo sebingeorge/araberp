@@ -248,5 +248,9 @@ namespace ArabErp.Web.Controllers
             new SaleOrderRepository().UpdateSORelease(Id ?? 0);
             return RedirectToAction("PendingSaleOrderRelease");
         }
+        public ActionResult Closing()
+        {
+            return View();
+        }
     }
 }

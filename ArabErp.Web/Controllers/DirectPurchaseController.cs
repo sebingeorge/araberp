@@ -18,6 +18,8 @@ namespace ArabErp.Web.Controllers
         }
         public ActionResult CreateRequest()
         {
+            FillSO();
+            FillJC();
             GetMaterials();
             List<DirectPurchaseRequestItem> list = new List<DirectPurchaseRequestItem>();
             list.Add(new DirectPurchaseRequestItem());
@@ -26,6 +28,8 @@ namespace ArabErp.Web.Controllers
         [HttpPost]
         public ActionResult CreateRequest(DirectPurchaseRequest model)
         {
+            FillSO();
+            FillJC();
             model.OrganizationId = 1;
             model.CreatedDate = System.DateTime.Now;
             model.CreatedBy = Request.ServerVariables["HTTP_X_FORWARDED_FOR"] ?? Request.ServerVariables["REMOTE_ADDR"];
@@ -97,6 +101,18 @@ namespace ArabErp.Web.Controllers
             {
                 return Json("error|" + ex.Message, JsonRequestBehavior.AllowGet);
             }
+        }
+        public void FillSO()
+        {
+            ExpenseRepository repo = new ExpenseRepository();
+            List<Dropdown> list = repo.FillSO();
+            ViewBag.SO = new SelectList(list, "Id", "Name");
+        }
+        public void FillJC()
+        {
+            ExpenseRepository repo = new ExpenseRepository();
+            List<Dropdown> list = repo.FillJC();
+            ViewBag.JC = new SelectList(list, "Id", "Name");
         }
     }
 }

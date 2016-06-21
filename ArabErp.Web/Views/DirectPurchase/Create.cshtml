@@ -4,7 +4,15 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
+<style>
+    .divHidden {
+        visibility: hidden;
+    }
 
+    .divShow {
+        visibility: visible;
+    }
+</style>
 <script>
     $(document).ready(function () {
         toastr.options = {
@@ -150,7 +158,28 @@
         status = isAlreadyExist(status);
         return status;
     }
-
+    function OptionChanged() {
+        var opt = $("#JcOrSo").val();
+        $("#SoOrJc").val(opt);
+        if (opt == "JC") {
+            $("#againstId").text("Job Card");
+            $("#SaleOrderId").removeClass("divHidden");
+            $("#JobCardId").removeClass("divHidden");
+            $("#SaleOrderId").removeClass("divShow");
+            $("#JobCardId").removeClass("divShow");
+            $("#SaleOrderId").addClass("divHidden");
+            $("#JobCardId").addClass("divShow");
+        }
+        if (opt == "SO") {
+            $("#againstId").text("Sale Order");
+            $("#SaleOrderId").removeClass("divHidden");
+            $("#JobCardId").removeClass("divHidden");
+            $("#SaleOrderId").removeClass("divShow");
+            $("#JobCardId").removeClass("divShow");
+            $("#SaleOrderId").addClass("divShow");
+            $("#JobCardId").addClass("divHidden");
+        }
+    }
 </script>
 <div class="container">
     <div class="row">
@@ -175,6 +204,20 @@
                     <div class="col-md-2">
                         <label for="RequiredDate">Required Date</label>
                         @Html.TextBoxFor(m => m.RequiredDate, Model.RequiredDate.Value.ToString("dd/MMMM/yyyy"), new { @class = "form_input", autocomplete = "off" })
+                    </div>
+                    <div class="col-md-2">
+                        <label>Against Sale Ord. / Job Card</label>
+                        @Html.HiddenFor(m => m.SoOrJc)
+                        <select class="form_input" id="JcOrSo" onchange="OptionChanged()">
+                            <option>Select</option>
+                            <option value="JC">Job Card</option>
+                            <option value="SO">Sale Order</option>
+                        </select>
+                    </div>
+                    <div class="col-md-2">
+                        <label id="againstId"></label>
+                        @Html.DropDownListFor(m => Model.SaleOrderId, (SelectList)ViewBag.SO, "Select S.O", new { @class = "form_input divHidden", autocomplete = "off" })
+                        @Html.DropDownListFor(m => Model.JobCardId, (SelectList)ViewBag.JC, "Select J.C", new { @class = "form_input divHidden", autocomplete = "off" })
                     </div>
                 </div>
                 <div class="row form-group">
