@@ -99,6 +99,7 @@
     <Compile Include="StockJournal.cs" />
     <Compile Include="StockJournalItem.cs" />
     <Compile Include="Stockpoint.cs" />
+    <Compile Include="StockReportSummary.cs" />
     <Compile Include="StockReturn.cs" />
     <Compile Include="StockReturnItem.cs" />
     <Compile Include="StockUpdate.cs" />
