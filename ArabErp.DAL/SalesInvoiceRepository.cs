@@ -13,18 +13,18 @@ namespace ArabErp.DAL
         static string dataConnection = GetConnectionString("arab");
 
 
-        public int InsertSalesInvoice(SalesInvoice objSalesInvoice)
-        {
-            using (IDbConnection connection = OpenConnection(dataConnection))
-            {
-                string sql = @"insert  into SalesInvoice(SalesInvoiceDate,JobCardId,SpecialRemarks,PaymentTerms,CreatedBy,CreatedDate) Values (@SalesInvoiceDate,@JobCardId,@SpecialRemarks,@PaymentTerms,@CreatedBy,@CreatedDate);
-            SELECT CAST(SCOPE_IDENTITY() as int)";
+//        public int InsertSalesInvoice(SalesInvoice objSalesInvoice)
+//        {
+//            using (IDbConnection connection = OpenConnection(dataConnection))
+//            {
+//                string sql = @"insert  into SalesInvoice(SalesInvoiceDate,JobCardId,SpecialRemarks,PaymentTerms,CreatedBy,CreatedDate) Values (@SalesInvoiceDate,@JobCardId,@SpecialRemarks,@PaymentTerms,@CreatedBy,@CreatedDate);
+//            SELECT CAST(SCOPE_IDENTITY() as int)";
 
 
-                var id = connection.Query<int>(sql, objSalesInvoice).Single();
-                return id;
-            }
-        }
+//                var id = connection.Query<int>(sql, objSalesInvoice).Single();
+//                return id;
+//            }
+//        }
 
         public SalesInvoice GetSalesInvoice(int SalesInvoiceId)
         {
@@ -126,6 +126,89 @@ namespace ArabErp.DAL
                             DROP TABLE #TEMP_ORDER;";
                 return connection.Query<SalesInvoiceItem>(sql, new { SaleOrderId = SaleOrderId }).ToList();
             }
+        }
+        public SalesInvoice GetSelectedSalesInvoiceHD(int salesinvoiceid)
+        {
+             using (IDbConnection connection = OpenConnection(dataConnection))
+           {
+                string sql = @" SELECT * INTO #SaleOrder FROM SaleOrder WHERE SaleOrderId=@SaleOrderId
+                                select Distinct 
+                                C.CustomerName Customer,
+                                SO.SaleOrderId SaleOrderId,
+                                S.SymbolName CurrencySymbol,
+                                Convert(varchar(15),Getdate(),106) CurrentDate,
+                                SO.SaleOrderRefNo SaleOrderRefNo ,
+                                Concat(C.DoorNo,',',C.Street,',',C.State,',',C.Country,',',C.Zip)
+                                CustomerAddress,
+                                SO.CustomerOrderRef CustomerOrderRef,
+                                SO.SpecialRemarks SpecialRemarks,
+                                SO.PaymentTerms PaymentTerms from #SaleOrder SO 
+                                left join SaleOrderItem SOI on SO.SaleOrderId=SOI.SaleOrderId
+                                Left join JobCard JC on SO.SaleOrderId=JC.SaleOrderId
+                                Left join Customer C on SO.CustomerId=C.CustomerId
+                                LEFT JOIN Currency CU ON CU.CurrencyId=C.CurrencyId
+                                LEFT JOIN Symbol S ON S.SymbolId=CU.CurrencySymbolId 
+                                Left Join WorkDescription WD on SOI.WorkDescriptionId=WD.WorkDescriptionId
+                                where JC.JodCardCompleteStatus=1 AND SO.isActive=1 AND SOI.isActive=1 AND JC.isActive=1
+                                DROP TABLE #SaleOrder";
+                var objSalesInvoiceHD = connection.Query<SalesInvoice>(sql, new { SaleOrderId = salesinvoiceid }).First();
+
+                return objSalesInvoiceHD;
+            }
+        }
+        public SalesInvoice InsertSalesInvoice(SalesInvoice model)
+        {
+
+            using (IDbConnection connection = OpenConnection(dataConnection))
+            {
+                var result = new SalesInvoice();
+                IDbTransaction trn = connection.BeginTransaction();
+                try
+                {
+//                    string sql = @"DECLARE	@return_value int,
+//                                   @INTERNALID bigint,
+//                                   @ERRORCODE nvarchar(100)
+//                                   EXEC	@return_value = [dbo].[GET_NEXT_SYSTEM_INTERNALID]
+//                                   @UNIQUEID = N'0',
+//                                   @DOCUMENTTYPEID = N'SALES INVOICE',
+//                                   @DOUPDATE = 1,
+//                                   @INTERNALID = @INTERNALID OUTPUT,
+//                                   @ERRORCODE = @ERRORCODE OUTPUT;
+//                                   INSERT INTO SalesInvoice(SalesInvoiceRefNo,SalesInvoiceDate,SaleOrderId,Addition,Deduction,AdditionRemarks,DeductionRemarks)
+//                                   VALUES(      CONCAT('SI/',@INTERNALID),GETDATE(),@SaleOrderId,@Addition,@Deduction,@AdditionRemarks,@DeductionRemarks);
+//                                   SELECT CAST(SCOPE_IDENTITY() as int) SalesInvoiceId,CONCAT('SI/',@INTERNALID) SalesInvoiceRefNo";
+                    string sql = @" INSERT INTO SalesInvoice(SalesInvoiceRefNo,SalesInvoiceDate,SaleOrderId,Addition,Deduction,AdditionRemarks,DeductionRemarks)
+                                   VALUES(      @SalesInvoiceRefNo,GETDATE(),@SaleOrderId,@Addition,@Deduction,@AdditionRemarks,@DeductionRemarks);
+                                   SELECT CAST(SCOPE_IDENTITY() as int) SalesInvoiceId";
+
+
+                    result = connection.Query<SalesInvoice>(sql, model, trn).Single<SalesInvoice>();
+
+                    var SalesInvoiceItemRepo = new SalesInvoiceItemRepository();
+                    foreach (var item in model.SaleInvoiceItems)
+                    {
+                        item.SalesInvoiceId = result.SalesInvoiceId;
+                        item.OrganizationId = model.OrganizationId;
+                        SalesInvoiceItemRepo.InsertSalesInvoiceItem(item, connection, trn);
+                    }
+                    
+                    trn.Commit();
+                }
+                catch (Exception ex)
+                {
+                    result.SalesInvoiceId = 0;
+                    result.SalesInvoiceRefNo = null;
+                    
+                    trn.Rollback();
+
+                    throw;
+                }
+                return result;
+
+            }
+
+
+
         }
 
 
