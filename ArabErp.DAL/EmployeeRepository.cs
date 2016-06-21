@@ -43,13 +43,7 @@ namespace ArabErp.DAL
                 return connection.Query<Dropdown>("select StockPointId Id, StockPointName Name From Stockpoint").ToList();
             }
         }
-        public IEnumerable<Dropdown> FillTaskDropdown()
-        {
-            using (IDbConnection connection = OpenConnection(dataConnection))
-            {
-                return connection.Query<Dropdown>("select TaskId Id,TaskName Name from Task").ToList();
-            }
-        }
+
        /// <summary>
        /// Fn for Insert Employee
        /// </summary>
@@ -59,9 +53,7 @@ namespace ArabErp.DAL
         {
             using (IDbConnection connection = OpenConnection(dataConnection))
             {
-                string sql = @"insert  into Employee(EmployeeRefNo,EmployeeName,GenderId,DesignationId,CategoryId,LocationId,TaskId,HourlyCost,CreatedBy,CreatedDate,OrganizationId)  Values (@EmployeeRefNo,@EmployeeName,@GenderId,@DesignationId,@CategoryId,@LocationId,@TaskId,@HourlyCost,@CreatedBy,@CreatedDate,@OrganizationId);
-           
-
+                string sql = @"insert  into Employee(EmployeeRefNo,EmployeeName,GenderId,DesignationId,CategoryId,LocationId,HourlyCost,CreatedBy,CreatedDate,OrganizationId)  Values (@EmployeeRefNo,@EmployeeName,@GenderId,@DesignationId,@CategoryId,@LocationId,@HourlyCost,@CreatedBy,@CreatedDate,@OrganizationId);          
                         SELECT CAST(SCOPE_IDENTITY() as int)";
                 int id=0;
 

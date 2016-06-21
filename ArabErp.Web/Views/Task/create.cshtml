@@ -1,4 +1,4 @@
-﻿@model ArabErp.Domain.Task
+﻿@model ArabErp.Domain.JobCardTaskMaster
 
 @{ViewBag.Title = "create"; Layout = "~/Views/Shared/_Layout.cshtml";}
 
@@ -6,7 +6,7 @@
     $(document).ready(function () {
         $('#Task_form').bootstrapValidator({
             fields: {
-                TaskRefNo: {
+                JobCardTaskRefNo: {
                     validators: {
                         notEmpty: {
                             message: 'Please Enter Code'
@@ -14,7 +14,7 @@
                     }
                 },
 
-                TaskName: {
+                JobCardTaskName: {
                     validators: {
                         notEmpty: {
                             message: 'Please Enter Name'
@@ -46,14 +46,14 @@
                     {
 
                         <div class="part4">
-                            <label for="TaskRefNo">Code</label>
-                            @Html.TextBoxFor(m => m.TaskRefNo, new { @class = "form_input form_input-half", autocomplete = "off" })
+                            <label for="JobCardTaskRefNo">Code</label>
+                            @Html.TextBoxFor(m => m.JobCardTaskRefNo, new { @class = "form_input form_input-half", autocomplete = "off" })
                         </div>
 
 
                         <div class="part4">
-                            <label for="TaskName">Name</label>
-                            @Html.TextBoxFor(m => m.TaskName, new { @class = "form_input", autocomplete = "off" })
+                            <label for="JobCardTaskName">Name</label>
+                            @Html.TextBoxFor(m => m.JobCardTaskName , new { @class = "form_input", autocomplete = "off" })
                         </div>
 
 
