@@ -24,6 +24,9 @@ namespace ArabErp.Web
 
             log4net.Config.XmlConfigurator.Configure(new FileInfo(Server.MapPath("~/Web.config")));
 
+            ModelBinders.Binders.Add(typeof(decimal), new DecimalModelBinder());
+
+
         }
         protected void Application_BeginRequest(Object sender, EventArgs e)
         {

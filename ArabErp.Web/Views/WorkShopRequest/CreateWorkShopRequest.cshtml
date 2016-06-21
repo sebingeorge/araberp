@@ -63,7 +63,9 @@
         });
     });
 
-
+    function Exit() {
+        location.href = '@Url.Action("WorkShopRequestPending")';
+    }
 
     //function calculateSummary() {
     //    var quantity = parseFloat("0");
@@ -151,7 +153,7 @@
                     </div>
                 </div>
                 <div class="marg">
-                    <button class="form-button">Exit</button>
+                    <button type="button" class="form-button" onclick="Exit()">Exit</button>
                     <button type="submit" class="form-button">Save</button>
 
                 </div>

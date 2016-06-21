@@ -51,11 +51,12 @@ namespace ArabErp.Web.Controllers
             FillSalesQuotationRejectReason();
             var repo = new SalesQuotationRepository();
 
+            var sorepo = new SaleOrderRepository();
+
+
             SalesQuotation salesquotation = repo.GetSalesQuotation(SalesQuotationId);
-            salesquotation.QuotationDate = System.DateTime.Today;
-            salesquotation.PredictedClosingDate = System.DateTime.Today;
-            salesquotation.QuotationValidToDate = System.DateTime.Today;
-            salesquotation.ExpectedDeliveryDate = System.DateTime.Today;
+            salesquotation.CustomerAddress= sorepo.GetCusomerAddressByKey(salesquotation.CustomerId);
+
 
             salesquotation.SalesQuotationItems = repo.GetSalesQuotationItems(SalesQuotationId);
             ViewBag.SubmitAction = "Approve";

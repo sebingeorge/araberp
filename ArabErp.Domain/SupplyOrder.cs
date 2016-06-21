@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.ComponentModel.DataAnnotations;
 
 namespace ArabErp.Domain
 {
@@ -14,6 +15,7 @@ namespace ArabErp.Domain
        }
         public int SupplyOrderId { get; set; }
         public DateTime SupplyOrderDate { get; set; }
+        [Required]
         public int PurchaseRequestId { get; set; }
         public int SupplierId { get; set; }
         public string SupplyOrderNo { get; set; }
@@ -23,7 +25,8 @@ namespace ArabErp.Domain
         public string DeliveryTerms { get; set; }
         public DateTime RequiredDate { get; set; }
         public string CreatedBy { get; set; }
-        public DateTime? CreatedDate { get; set; }
+        public DateTime CreatedDate { get; set; }
+        [Required]
         public int OrganizationId { get; set; }
         public string SupplierName { get; set; }
         public string SoNoWithDate { get; set; }
