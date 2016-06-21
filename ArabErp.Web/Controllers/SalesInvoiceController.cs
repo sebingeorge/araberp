@@ -19,9 +19,27 @@ namespace ArabErp.Web.Controllers
         }
         public ActionResult Create(List<SalesInvoiceItem> ObjSaleInvoiceItem)
         {
-            SalesInvoiceItemRepository SalesInvoiceItemRepo = new SalesInvoiceItemRepository();
-            var List=SalesInvoiceItemRepo.GetSalesInvoiceItems(ObjSaleInvoiceItem);
-            return View("Create", List);
+                SalesInvoice saleinvoice = new SalesInvoice();
+                SalesInvoiceRepository  SalesInvoiceRepo=new SalesInvoiceRepository();
+                SalesInvoiceItemRepository SalesInvoiceItemRepo =new SalesInvoiceItemRepository();
+            if(ObjSaleInvoiceItem.Count>0)
+            {
+                
+                saleinvoice = SalesInvoiceRepo.GetSelectedSalesInvoiceHD(ObjSaleInvoiceItem[0].SaleOrderId);
+               
+                
+                List<int> SelectedSaleOrderItemId = (from SalesInvoiceItem s in ObjSaleInvoiceItem
+                                                     where s.SelectStatus
+                                                     select s.SaleOrderItemId).ToList<int>();
+
+                saleinvoice.SaleInvoiceItems = SalesInvoiceItemRepo.GetSelectedSalesInvoiceDT(SelectedSaleOrderItemId, ObjSaleInvoiceItem[0].SaleOrderId);
+                //SalesInvoiceRepository SalesInvoiceRepo = new SalesInvoiceRepository();
+                //SalesInvoice saleinvoice = SalesInvoiceRepo.GetSelectedSalesInvoiceHD(SelectedSaleOrderItemId);
+
+               
+
+            }
+            return View("Create", saleinvoice);
         }
         public ActionResult PendingSalesInvoice()
         {
@@ -37,16 +55,32 @@ namespace ArabErp.Web.Controllers
             return PartialView("_PendingSalesInvoiceList",List);
 
         }
-        public ActionResult Save(SalesInvoice ObjSaleInvoiceItem)
+        public ActionResult Save(SalesInvoice model)
         {
             //var List = Repo.GetPendingSalesInvoiceList(SalesOrderId);
-            SalesInvoiceItemRepository SalesInvoiceItemRepo=new SalesInvoiceItemRepository();
-            ArrayList Result=  SalesInvoiceItemRepo.SalesInvoice(ObjSaleInvoiceItem);
-            if (Result[0].ToString() == "0")
+            model.OrganizationId = 1;
+            model.CreatedDate = System.DateTime.Now;
+            model.CreatedBy = Request.ServerVariables["HTTP_X_FORWARDED_FOR"] ?? Request.ServerVariables["REMOTE_ADDR"];
+
+            SalesInvoiceRepository SalesInvoiceRepo=new SalesInvoiceRepository();
+
+            SalesInvoice Result = SalesInvoiceRepo.InsertSalesInvoice(model);
+
+
+            if (Result.SalesInvoiceId > 0)
+            {
+                TempData["success"] = "Saved successfully";
+                TempData["error"] = null ;
+              
+                TempData["SalesInvoiceRefNo"] = null;
                 return RedirectToAction("PendingSalesInvoice");
+            }
             else
-                return RedirectToAction("SalesOrderId", ObjSaleInvoiceItem.SaleOrderId);
-            
+            {
+                TempData["success"] = null;
+                TempData["error"] = "Some error occured. Please try again.";
+                return View("Create", model);
+            }
             
 
         }
