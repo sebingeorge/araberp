@@ -46,8 +46,8 @@ namespace ArabErp.DAL
                 var jobcard = connection.Query<JobCardCompletion>(query).FirstOrDefault();
 
                 query = string.Empty;
-                query = "select J.SlNo, T.TaskId, T.TaskName, E.EmployeeId, E.EmployeeName, J.TaskDate, 0 ActualHours, 0 Existing";
-                query += " from JobCardTask J inner join Task T on J.JobCardTaskMasterId = T.TaskId";
+                query = "select J.SlNo, JT.JobCardTaskMasterId, JT.JobCardTaskName, E.EmployeeId, E.EmployeeName, J.TaskDate, 0 ActualHours, 0 Existing";
+                query += " from JobCardTask J inner join JobCardTaskMaster JT on J.JobCardTaskMasterId = JT.JobCardTaskMasterId";
                 query += " inner join Employee E on E.EmployeeId = J.EmployeeId";
                 query += " where J.JobCardId = " + JobCardId.ToString();
 
@@ -77,7 +77,7 @@ namespace ArabErp.DAL
                     {
                         query = string.Empty;
                         query = @"insert  into JobCardTask(JobCardId,JobCardTaskMasterId,SlNo,EmployeeId,TaskDate,Hours,ActualHours,CreatedBy,CreatedDate,OrganizationId) Values 
-                        (" + jobcard.JobCardId.ToString() + "," + item.TaskId + "," + i.ToString() + "," + item.EmployeeId.ToString() + "," + item.TaskDate.ToString("dd/MMM/yyyy") + "," + item.ActualHours + "," + item.ActualHours + ",NULL,GETDATE(),NULL); SELECT CAST(SCOPE_IDENTITY() as int)";
+                        (" + jobcard.JobCardId.ToString() + "," + item.JobCardTaskMasterId + "," + i.ToString() + "," + item.EmployeeId.ToString() + "," + item.TaskDate.ToString("dd/MMM/yyyy") + "," + item.ActualHours + "," + item.ActualHours + ",NULL,GETDATE(),NULL); SELECT CAST(SCOPE_IDENTITY() as int)";
                         connection.Query(query);
                         i++;
                     }

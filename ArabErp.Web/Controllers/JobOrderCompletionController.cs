@@ -41,7 +41,7 @@ namespace ArabErp.Web.Controllers
         {
             JobCardRepository repo = new JobCardRepository();
             var result = repo.GetWorkVsTask(workId);
-            ViewBag.TaskList = new SelectList(result, "TaskId", "TaskName");
+            ViewBag.TaskList = new SelectList(result, "JobCardTaskMasterId", "JobCardTaskName");
         }
         public ActionResult Save(JobCardCompletion model)
         {
