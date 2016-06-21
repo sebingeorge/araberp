@@ -242,11 +242,11 @@ namespace ArabErp
                 return connection.Query<Employee>("select * from Employee");
             }
         }
-        public IEnumerable<Task> GetWorkVsTask(int workId)
+        public IEnumerable<JobCardTaskMaster> GetWorkVsTask(int workId)
         {
             using (IDbConnection connection = OpenConnection(dataConnection))
             {
-                return connection.Query<Task>("select * from Task inner join WorkVsTask on TaskId = JobCardTaskMasterId where WorkDescriptionId = " + workId.ToString());
+                return connection.Query<JobCardTaskMaster>("select * from JobCardTaskMaster J inner join WorkVsTask W on J.JobCardTaskMasterId = W.JobCardTaskMasterId where WorkDescriptionId = " + workId.ToString());
             }
         }
         public IEnumerable<FreezerUnit> GetFreezerUnits()

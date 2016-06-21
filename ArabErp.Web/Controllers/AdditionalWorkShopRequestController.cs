@@ -18,18 +18,36 @@ namespace ArabErp.Web.Controllers
         public ActionResult Create()
         {
             JobCardDropdown();
-            return View();
+            return View(new WorkShopRequest { WorkShopRequestDate = DateTime.Today, RequiredDate = DateTime.Today });
         }
         [HttpPost]
         public ActionResult Create(WorkShopRequest model)
         {
-            model.OrganizationId = 1;
-            model.CreatedDate = System.DateTime.Now;
-            model.CreatedBy = Request.ServerVariables["HTTP_X_FORWARDED_FOR"] ?? Request.ServerVariables["REMOTE_ADDR"];
+            try
+            {
+                model.OrganizationId = 1;
+                model.CreatedDate = System.DateTime.Now;
+                model.CreatedBy = Request.ServerVariables["HTTP_X_FORWARDED_FOR"] ?? Request.ServerVariables["REMOTE_ADDR"];
 
-            new WorkShopRequestRepository().InsertAdditionalWorkshopRequest(model);
-
-            return RedirectToAction("Create");
+                if (new WorkShopRequestRepository().InsertAdditionalWorkshopRequest(model) > 0)
+                {
+                    TempData["success"] = "Saved succesfully";
+                    TempData["error"] = "";
+                    return RedirectToAction("Create");
+                }
+            }
+            catch (NullReferenceException nx)
+            {
+                TempData["success"] = "";
+                TempData["error"] = "Some required value was missing. Please try again.|" + nx.Message;
+            }
+            catch (Exception ex)
+            {
+                TempData["success"] = "";
+                TempData["error"] = "Some error occured. Please try again.|" + ex.Message;
+            }
+            JobCardDropdown();
+            return View("Create", model);
         }
         public void JobCardDropdown()
         {

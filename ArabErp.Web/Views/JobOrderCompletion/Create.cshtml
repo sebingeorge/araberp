@@ -124,7 +124,7 @@
                                         <button id="add_@row" type="button" value="Add" onclick="AddRowBelow(@row);">+</button>
                                     </td>
                                     <td>
-                                        @Html.DropDownListFor(m => Model.JobCardTask[row].TaskId, (SelectList)ViewBag.TaskList, Model.JobCardTask[row].TaskName, new { @class = "form_input", autocomplete = "off" })
+                                        @Html.DropDownListFor(m => Model.JobCardTask[row].JobCardTaskMasterId, (SelectList)ViewBag.TaskList, Model.JobCardTask[row].JobCardTaskName, new { @class = "form_input", autocomplete = "off" })
                                     </td>
                                     <td>
                                         @Html.DropDownListFor(m => Model.JobCardTask[row].EmployeeId, (SelectList)ViewBag.EmployeeList, Model.JobCardTask[row].EmployeeName, new { @class = "form_input", autocomplete = "off" })

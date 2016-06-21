@@ -25,8 +25,8 @@ namespace ArabErp.Domain
     public class JobCardCompletionTask
     {
         public int? SlNo { get; set; }
-        public int? TaskId { get; set; }
-        public string TaskName { get; set; }
+        public int? JobCardTaskMasterId { get; set; }
+        public string JobCardTaskName { get; set; }
         public int EmployeeId { get; set; }
         public string EmployeeName { get; set; }
         public DateTime TaskDate { get; set; }
