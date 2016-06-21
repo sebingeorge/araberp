@@ -31,6 +31,23 @@ namespace ArabErp.DAL
   
 	SET NOCOUNT ON  
 	
+	declare @reccount int ;
+set @reccount=(SELECT	 Count(*)
+		FROM		MST_SYSTEM_DOCUMENT_SERIALNO  
+		WHERE	MST_DOCUMENTID = @DOCUMENTTYPEID AND  
+			  	MST_UNIQUEID = @UNIQUEID);
+
+if @reccount=0
+
+INSERT INTO [dbo].[MST_SYSTEM_DOCUMENT_SERIALNO]
+           ([MST_UNIQUEID]
+           ,[MST_DOCUMENTID]
+           ,[MST_LASTSERIALNO])
+     VALUES
+           (@UNIQUEID
+           ,@DOCUMENTTYPEID 
+           ,0);
+
 
 
 	/* No of id's to reserve, is used to reserve more than 1 internal no.
