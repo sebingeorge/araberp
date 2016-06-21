@@ -10,7 +10,7 @@ namespace ArabErp.Domain
     {
         public int StockReturnId { get; set; }
         public string StockReturnRefNo { get; set; }
-        public DateTime? StockReturnDate { get; set; }
+        public DateTime StockReturnDate { get; set; }
         public int JobCardId { get; set; }
         public string SpecialRemarks { get; set; }
         public string CreatedBy { get; set; }

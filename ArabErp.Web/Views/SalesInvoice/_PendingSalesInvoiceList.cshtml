@@ -118,8 +118,9 @@
   
     
            <div class="container" style="margin-bottom:2px;">
-        <div class="row">
-            <div class="main-list wid col-md-12" id="PendingCustomerInvoiceDiv" style="height:25px">
+            <div class="row">
+                <div class="main-list white col-md-12 wid left">
+                    <div id="PendingCustomerInvoiceDiv">
                         <div class="col-md-1" style="padding-top:5px;padding-left:40px">
 
                             @*@Html.Label("Customer", new { @class = "form_input", autocomplete = "off", @readonly = "readonly" })*@
@@ -135,56 +136,58 @@
                         </div>
                         <div class="col-md-2">
 
-                            @Html.TextBox("txtTitle", (string)ViewBag.SaleOrderRefNoWithDate, new { @class = "form_input backgroundcolortransparent",Style = "background:#D6D5D5", autocomplete = "off", @readonly = "readonly" })
+                            @Html.TextBox("txtTitle", (string)ViewBag.SaleOrderRefNoWithDate, new { @class = "form_input backgroundcolortransparent", Style = "background:#D6D5D5", autocomplete = "off", @readonly = "readonly" })
                         </div>
                         <div class="col-md-3">
 
-                        </div>      
+                        </div>
+                    </div>
+                </div>
             </div>
-        </div>
     </div> 
     <div class="container">
         <div class="row">
-            <div class="main-list wid">
-                <div class="main-grid">
+            <div class="main-list col-md-12 wid">
+                <div class="main-grid scroll3" style="overflow-y:scroll">
                     <div>
-                        <div class="table-responsive scroll3" style="overflow-y:scroll">
+                        <div class="table-responsive">
                             <h5>Sales Invoice Details</h5>
-                            <table id="PendingCustomerInvoiceTable" class="table table-bordered" >
+                            <table id="PendingCustomerInvoiceTable" class="table table-bordered">
 
                                 @if (Model.Count > 0)
-                                {  <thead >
+                                {
+                                <thead>
                                     <tr class="grid_heading">
-                                        <th width="20%">Work Description</th>
-                                        <th width="20%">Job Card No.</th>
-                                        <th width="15%">Vehicle Model</th>
-                                        <th width="5%">Quantity</th>
+                                        <th width="20%"><h1>Work Description</h1></th>
+                                        <th width="20%"><h1>Job Card No.</h1></th>
+                                        <th width="15%"><h1>Vehicle Model</h1></th>
+                                        <th width="5%"><h1>Quantity</h1></th>
 
-                                        <th width="5%">Rate</th>
-                                        <th width="5%">Amount</th>
+                                        <th width="5%"><h1>Rate</h1></th>
+                                        <th width="5%"><h1>Amount</h1></th>
                                         <th width="10%">
-                                            <input id="checkAll" type="checkbox" value="Select All" /><label for="checkAll">Select All</label>
+                                            <input id="checkAll" type="checkbox" value="Select All" /><label for="checkAll"><h1>Select All</h1></label>
                                             <input type="hidden" value="0" id="HiddenForCheckBox" />
                                         </th>
                                     </tr>
                                 </thead>
-                                     <tbody >
-                                    @for (int i = 0; i < Model.Count(); i++)
-                                    {
-                                        <tr style="width:80%">
-                                            <td width="20%">@Html.TextBoxFor(m => Model[i].WorkDescription, new { @class = "form_input", autocomplete = "off", @readonly = "readonly" })</td>
-                                            <td width="20%">@Html.TextBoxFor(m => Model[i].JobCardNo, new { @class = "form_input", autocomplete = "off", @readonly = "readonly" })</td>
-                                            <td width="15%">@Html.TextBoxFor(m => Model[i].VehicleModelName, new { @class = "form_input", autocomplete = "off", @readonly = "readonly" })</td>
-                                            <td width="5%">@Html.TextBoxFor(m => Model[i].Quantity, new { @class = "form_input clAmount", @style = "text-align:right", autocomplete = "off", @readonly = "readonly" })</td>
-                                            <td width="5%">@Html.TextBoxFor(m => Model[i].Rate, new { @class = "form_input clAmount", @style = "text-align:right", autocomplete = "off", @readonly = "readonly" })</td>
-                                            <td width="5%">@Html.TextBoxFor(m => Model[i].Amount, new { @class = "form_input clAmount", @style = "text-align:right", autocomplete = "off", @readonly = "readonly" })</td>
-                                            <td width="10%"><center>@Html.CheckBoxFor(model => Model[i].SelectStatus, new { @class = "check_box", @onclick = "Checked(this)" })</center></td>
-                                            @Html.HiddenFor(model => Model[i].SaleOrderId)
-                                            @Html.HiddenFor(model => Model[i].SaleOrderItemId)
-                                            @* <td><a href="" onclick="OpenCustomerInvoice('@Model[i].SaleOrderId');">Select</a></td>*@
-                                        </tr>
-                                    }
-                                         </tbody>
+                                    <tbody>
+                                        @for (int i = 0; i < Model.Count(); i++)
+                                        {
+                                            <tr style="width:80%">
+                                                <td width="20%">@Html.TextBoxFor(m => Model[i].WorkDescription, new { @class = "form_input", autocomplete = "off", @readonly = "readonly" })</td>
+                                                <td width="20%">@Html.TextBoxFor(m => Model[i].JobCardNo, new { @class = "form_input", autocomplete = "off", @readonly = "readonly" })</td>
+                                                <td width="15%">@Html.TextBoxFor(m => Model[i].VehicleModelName, new { @class = "form_input", autocomplete = "off", @readonly = "readonly" })</td>
+                                                <td width="5%">@Html.TextBoxFor(m => Model[i].Quantity, new { @class = "form_input clAmount", @style = "text-align:right", autocomplete = "off", @readonly = "readonly" })</td>
+                                                <td width="5%">@Html.TextBoxFor(m => Model[i].Rate, new { @class = "form_input clAmount", @style = "text-align:right", autocomplete = "off", @readonly = "readonly" })</td>
+                                                <td width="5%">@Html.TextBoxFor(m => Model[i].Amount, new { @class = "form_input clAmount", @style = "text-align:right", autocomplete = "off", @readonly = "readonly" })</td>
+                                                <td width="10%"><center>@Html.CheckBoxFor(model => Model[i].SelectStatus, new { @class = "check_box", @onclick = "Checked(this)" })</center></td>
+                                                @Html.HiddenFor(model => Model[i].SaleOrderId)
+                                                @Html.HiddenFor(model => Model[i].SaleOrderItemId)
+                                                @* <td><a href="" onclick="OpenCustomerInvoice('@Model[i].SaleOrderId');">Select</a></td>*@
+                                            </tr>
+                                        }
+                                    </tbody>
                                 }
                                 else
                                 {
