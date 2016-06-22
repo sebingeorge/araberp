@@ -173,10 +173,10 @@
                         <table class="table table-bordered" id="tab_logic">
                             <thead>
                                 <tr class="grid_heading">
-                                    <td style="width:50%;"><h1>Expense Head</h1></td>
-                                    <td><h1>Quantity</h1></td>
-                                    <td><h1>Rate</h1></td>
-                                    <td><h1>Amount</h1></td>
+                                    <td><h1>Expense Head</h1></td>
+                                    <td width="10%"><h1>Quantity</h1></td>
+                                    <td width="10%"><h1>Rate</h1></td>
+                                    <td width="10%"><h1>Amount</h1></td>
                                 </tr>
                             </thead>
                             <tbody class="grid_row">
@@ -207,7 +207,7 @@
                         <table class="table table-bordered" id="tab_logic_deduction">
                             <thead>
                                 <tr class="grid_heading">
-                                    <td style="width:50%;"><h1>Deduction Head</h1></td>
+                                    <td width="70%"><h1>Deduction Head</h1></td>
                                     <td><h1>Amount</h1></td>
                                 </tr>
                             </thead>
@@ -232,27 +232,34 @@
                     <div class="row form-group">
                         <div class="col-md-2">
                             <label for="inputDate">Addition</label>
-                            @Html.TextBoxFor(m => m.TotalAddition, new { @class = "form_input form_input-h", autocomplete = "off", @readonly = "readonly" })
+                            @Html.TextBoxFor(m => m.TotalAddition, new { @class = "form_input", autocomplete = "off", @readonly = "readonly" })
                         </div>
                         <div class="col-md-2">
                             <label for="inputDate">Dedution</label>
-                            @Html.TextBoxFor(m => m.TotalDeduction, new { @class = "form_input form_input-h", autocomplete = "off", @readonly = "readonly" })
+                            @Html.TextBoxFor(m => m.TotalDeduction, new { @class = "form_input", autocomplete = "off", @readonly = "readonly" })
                         </div>
                         <div class="col-md-2">
                             <label for="inputDate">Total</label>
-                            @Html.TextBoxFor(m => m.TotalAmount, new { @class = "form_input form_input-h", autocomplete = "off", @readonly = "readonly" })
+                            @Html.TextBoxFor(m => m.TotalAmount, new { @class = "form_input", autocomplete = "off", @readonly = "readonly" })
                         </div>
                     </div>
                     <div class="row form-group">
-                        <div class="col-md-12">
-                            <label for="inputDate">Remarks</label>
+                        <div class="col-md-1"><label for="inputDate">Spl.Remarks</label></div>
+                        <div class="col-md-11">
+
                             @Html.TextAreaFor(m => m.ExpenseRemarks, new { @class = "form_input form_input-h", autocomplete = "off" })
                         </div>
-                    </div>  
-                    <div class="marg">
-                        <button class="form-button">Exit</button>
-                        <button type="submit" class="form-button">Save</button>
-                    </div>
+                    </div> 
+                    
+                    <div class="row">
+                     
+                        <div class="col-md-12 hrpart">
+                            <button class="form-button right">Exit</button>
+                            <button type="submit" class="form-button right">Save</button>
+                        </div>
+                     
+                    </div> 
+
                 </form>
                 
             </div>
