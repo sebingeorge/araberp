@@ -1,0 +1,46 @@
+﻿@model  ArabErp.Domain.SaleOrder
+@{ string actionName = ViewContext.RouteData.GetRequiredString("action");
+ ViewData["action"] = actionName;
+}
+<script>
+    function SaleOrderHold() {
+        var id = $("#SaleOrderId").val();
+        var hreason = $("#SaleOrderHoldReason").val();
+        var url = '@Url.Action("UpdateHoldStatus")';
+        url = url + "?Id=" + id + "&hreason=" + hreason;
+        console.log(url);
+        window.location.href = url;
+    }
+    function SaleOrderRelease() {
+        var id = $("#SaleOrderId").val();
+        var url = '@Url.Action("UpdateReleaseStatus")';
+        url = url + "?Id=" + id;
+        console.log(url);
+        window.location.href = url;
+    }
+</script>
+<div class="container">
+    <div class="row">
+        <div class="form-head1">
+            <h4>Sale Order Close</h4>
+        </div>
+        <div class="main-part pad1">
+
+            @Html.Partial("_SaleOrderHead", Model)
+            @Html.Partial("_DisplaySOList", Model)
+
+            @Html.Partial("_SaleOrderFooter", Model)
+            @using (Html.BeginForm(null, null, FormMethod.Post, new { @class = "createFrom", @id = "saleorder_form" }))
+            {
+                @Html.HiddenFor(m => m.SaleOrderId)
+
+                <div class="row">
+                    <div class="col-md-12 hrpart">
+                        <button type="button" class="form-button right">Exit</button>
+                        <button type="submit" class="form-button right">Close S.O</button>
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+</div>

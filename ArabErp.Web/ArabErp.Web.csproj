@@ -593,6 +593,7 @@
     <Content Include="Views\StockReport\DrillDown.cshtml" />
     <Content Include="Views\Shared\_LayoutPopup.cshtml" />
     <Content Include="Views\SaleOrder\Closing.cshtml" />
+    <Content Include="Views\SaleOrder\Close.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
