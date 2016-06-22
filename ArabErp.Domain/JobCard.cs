@@ -9,7 +9,7 @@ namespace ArabErp.Domain
     {
         public int JobCardId { get; set; }
         public string JobCardNo { get; set; }
-        public DateTime? JobCardDate { get; set; }
+        public DateTime JobCardDate { get; set; }
         public int SaleOrderId { get; set; }
         public int SaleOrderItemId { get; set; }
         public int CustomerId { get; set; }
@@ -25,7 +25,7 @@ namespace ArabErp.Domain
         public int BoxId { get; set; }
         public int BayId { get; set; }
         public string SpecialRemarks { get; set; }
-        public DateTime? RequiredDate { get; set; }
+        public DateTime RequiredDate { get; set; }
         public int EmployeeId { get; set; }
         public string CreatedBy { get; set; }
         public DateTime CreatedDate { get; set; }
