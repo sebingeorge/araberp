@@ -279,6 +279,8 @@ namespace ArabErp.Web.Controllers
         [HttpPost]
         public ActionResult Close(SaleOrder model)
         {
+            SaleOrderRepository repo = new SaleOrderRepository();
+            repo.CloseSaleOrder(model.SaleOrderId);
             return RedirectToAction("Closing");
         }
     }
