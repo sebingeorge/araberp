@@ -32,8 +32,8 @@
         });
     });
     $(function () {
-        $("#JobCardDate").datepicker({ dateFormat: "dd/MM/yy" });
-        $("#RequiredDate").datepicker({ dateFormat: "dd/MM/yy" });
+        $("#JobCardDate").datepicker({ dateFormat: "dd-MM-yy" });
+        $("#RequiredDate").datepicker({ dateFormat: "dd-MM-yy" });
         assignTaskDate();
     });
 
@@ -42,7 +42,7 @@
         $('.taskdate').each(function (i, obj) {
             //console.log(obj.id);
             $("#" + obj.id).removeClass("hasDatepicker");
-            $("#" + obj.id).datepicker({ dateFormat: "dd/MM/yy" });
+            $("#" + obj.id).datepicker({ dateFormat: "dd-MM-yy" });
         });
     }
 
@@ -80,7 +80,7 @@
 
 
         $("#tab_logic").append('<tr id="Row_' + i + '" class="TaskRow">' + clone.html() + '  </tr>');
-        $('#Row_' + i).find('.taskdate').datepicker({ dateFormat: "dd/MM/yy" });
+        $('#Row_' + i).find('.taskdate').datepicker({ dateFormat: "dd-MM-yy" });
         assignTaskDate();
     }
 </script>
@@ -102,7 +102,8 @@
                         </div>
                         <div class="col-md-2">
                             <label for="inputDate">Date</label>
-                            @Html.TextBoxFor(m => m.JobCardDate, String.Format("{0:dd/MM/yyyy}", Model.JobCardDate), new { @class = "form_input ", autocomplete = "off", @readonly = "readonly" })
+                         
+                            @Html.TextBoxFor(m => m.JobCardDate, Model.JobCardDate.ToString("dd/MMMM/yyyy"), new { @class = "form_input ", autocomplete = "off", @readonly = "readonly" })
                         </div>
                     </div>
                     <div class="row form-group">
@@ -179,7 +180,7 @@
                                             @Html.DropDownListFor(m => Model.JobCardTasks[row].EmployeeId, (SelectList)ViewBag.EmployeeList, "Select Employee", new { @class = "form_input", autocomplete = "off" })
                                         </td>
                                         <td>
-                                            @Html.TextBoxFor(m => m.JobCardTasks[row].TaskDate, String.Format("{0:dd/MM/yyyy}", Model.JobCardTasks[row].TaskDate), new { @class = "taskdate form_input", autocomplete = "off", @readonly = "readonly" })
+                                            @Html.TextBoxFor(m => m.JobCardTasks[row].TaskDate, Model.JobCardTasks[row].TaskDate.ToString("dd/MMMM/yyyy"), new { @class = "taskdate form_input", autocomplete = "off", @readonly = "readonly" })
                                         </td>
                                         <td>
                                             @Html.TextBoxFor(m => m.JobCardTasks[row].Hours, new { @class = "form_input", autocomplete = "off" })
@@ -204,7 +205,7 @@
                     <div class="row form-group">
                         <div class="col-md-3">
                             <label for="reqdate">Required Date</label>
-                            @Html.TextBoxFor(m => m.RequiredDate, String.Format("{0:dd/MM/yyyy}", Model.RequiredDate), new { @class = "form_input ", autocomplete = "off", @readonly = "readonly" })
+                            @Html.TextBoxFor(m => m.RequiredDate,Model.RequiredDate.ToString("dd/MMMM/yyyy"), new { @class = "form_input ", autocomplete = "off", @readonly = "readonly" })
                         </div>
                         <div class="col-md-3">
                             <label for="emp">Employee/Supervisor</label>
