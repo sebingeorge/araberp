@@ -253,5 +253,35 @@ namespace ArabErp.Web.Controllers
             SaleOrderRepository repo = new SaleOrderRepository();
             return View(repo.GetSaleOrdersForClosing());
         }
+        public ActionResult Close(int? SaleOrderId)
+        {
+            FillCustomer();
+            FillCurrency();
+            FillCommissionAgent();
+
+            FillUnit();
+            FillEmployee();
+            FillWrkDesc();
+            FillVehicle();
+            var repo = new SaleOrderRepository();
+            SaleOrder model = repo.GetSaleOrder(SaleOrderId ?? 0);
+            var SOList = repo.GetSaleOrderItem(SaleOrderId ?? 0);
+            model.Items = new List<SaleOrderItem>();
+            foreach (var item in SOList)
+            {
+                var soitem = new SaleOrderItem { WorkDescriptionId = item.WorkDescriptionId, VehicleModelId = item.VehicleModelId, Quantity = item.Quantity, UnitId = item.UnitId, Rate = item.Rate, Amount = item.Amount, Discount = item.Discount };
+                model.Items.Add(soitem);
+
+            }
+
+            return View(model);
+        }
+        [HttpPost]
+        public ActionResult Close(SaleOrder model)
+        {
+            SaleOrderRepository repo = new SaleOrderRepository();
+            repo.CloseSaleOrder(model.SaleOrderId);
+            return RedirectToAction("Closing");
+        }
     }
 }

@@ -343,5 +343,13 @@ namespace ArabErp.DAL
                 return connection.Query<SaleOrder>(sql);
             }
         }
+        public void CloseSaleOrder(int Id)
+        {
+            using (IDbConnection connection = OpenConnection(dataConnection))
+            {
+                string sql = "exec SaleOrderClosing " + Id.ToString();
+                connection.Query(sql);
+            }
+        }
     }
 }

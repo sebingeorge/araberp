@@ -11,7 +11,9 @@
     }
     function OpenEdit(Id)
     {
-
+        var url = '@Url.Action("Close")';
+        url = url + "?SaleOrderId=" + Id;
+        location.href = url;
     }
 </script>
 
