@@ -250,7 +250,8 @@ namespace ArabErp.Web.Controllers
         }
         public ActionResult Closing()
         {
-            return View();
+            SaleOrderRepository repo = new SaleOrderRepository();
+            return View(repo.GetSaleOrdersForClosing());
         }
     }
 }
