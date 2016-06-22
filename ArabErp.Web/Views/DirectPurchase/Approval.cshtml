@@ -21,7 +21,17 @@
             "hideEasing": "linear",
             "showMethod": "fadeIn",
             "hideMethod": "fadeOut"
+        };
+
+        if ('@TempData["success"]' != '') {
+            toastr.success('@TempData["success"]');
+
         }
+        else if ('@TempData["error"]' != '') {
+            toastr.error('@TempData["error"]'.split('|')[0]);
+            console.log('@TempData["error"]'.split('|')[1]);
+        }
+        @{TempData["success"] = TempData["error"] = "";}
     })
 
     function Approve(id) {
@@ -29,7 +39,8 @@
         $.post(url, { id: id }, function (data) {
             if (data.startsWith('success')) {
                 toastr.success("Approved succesfully");
-                $("#view").load('@Url.Action("Approval")');
+                window.location.href = '@Url.Action("Approval")';
+                @*$("#view").load('@Url.Action("Approval")');*@
             }
             else if (data.startsWith('error'))
                 toastr.error(data.split('|')[1]);
@@ -44,7 +55,7 @@
         <div class="row">
 
             <div class="form-head1">
-                <h4>Pending Stores Issue</h4>
+                <h4>Direct Purchase Approval</h4>
             </div>
             <div class="main-part pad1">
                 <div class="table-responsive scroll4">
@@ -64,13 +75,13 @@
                                 {
                                     <tr>
                                         <td>
-                                            <input type="text" class="form_input" value="@Model[i].PurchaseRequestNo" />
+                                            <input type="text" class="form_input" value="@Model[i].PurchaseRequestNo" disabled/>
                                         </td>
                                         <td>
-                                            <input type="text" class="form_input" value="@Model[i].SpecialRemarks" />
+                                            <input type="text" class="form_input" value="@Model[i].SpecialRemarks" disabled />
                                         </td>
                                         <td>
-                                            <input type="text" class="form_input" value="@Model[i].TotalAmount" />
+                                            <input type="text" class="form_input" value="@Model[i].TotalAmount" disabled />
                                         </td>
                                         <td>
                                             <button class="btn btn-xs btn-primary" onclick="Approve('@Model[i].DirectPurchaseRequestId')">
