@@ -113,6 +113,7 @@
     <Compile Include="SupplierCategory.cs" />
     <Compile Include="SupplyOrder.cs" />
     <Compile Include="SupplyOrderItem.cs" />
+    <Compile Include="TransactionHistory.cs" />
     <Compile Include="Unit.cs" />
     <Compile Include="User.cs" />
     <Compile Include="VehicleInPass.cs" />

@@ -126,6 +126,7 @@
     <Compile Include="SupplyOrderItemRepository.cs" />
     <Compile Include="SupplyOrderRepository.cs" />
     <Compile Include="TaskRepository.cs" />
+    <Compile Include="TransactionHistoryRepository.cs" />
     <Compile Include="UnitRepository.cs" />
     <Compile Include="UserRepository.cs" />
     <Compile Include="VehicleInPassRepository.cs" />
