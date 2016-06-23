@@ -105,25 +105,36 @@ namespace ArabErp.DAL
                 return result;
             }
         }
-        public int InsertItem(Item objItem)
+        public Item InsertItem(Item objItem)
         {
             using (IDbConnection connection = OpenConnection(dataConnection))
             {
-                string sql = @"insert  into Item(PartNo,ItemName,ItemPrintName,ItemShortName,ItemGroupId,ItemSubGroupId,ItemCategoryId,ItemUnitId,MinLevel,ReorderLevel,MaxLevel,ExpiryDate,BatchRequired,StockRequired,OrganizationId,CreatedBy,CreatedDate) Values
-                                            (@PartNo,@ItemName,@ItemPrintName,@ItemShortName,@ItemGroupId,@ItemSubGroupId,@ItemCategoryId,@ItemUnitId,@MinLevel,@ReorderLevel,@MaxLevel,@ExpiryDate,@BatchRequired,@StockRequired,@OrganizationId,@CreatedBy,@CreatedDate);
+                var result = new Item();
+                IDbTransaction trn = connection.BeginTransaction();
+              
+                string sql = @"insert  into Item(ItemRefNo,PartNo,ItemName,ItemPrintName,ItemShortName,ItemGroupId,ItemSubGroupId,ItemCategoryId,ItemUnitId,MinLevel,ReorderLevel,MaxLevel,ExpiryDate,BatchRequired,StockRequired,OrganizationId,CreatedBy,CreatedDate) Values
+                                            (@ItemRefNo,@PartNo,@ItemName,@ItemPrintName,@ItemShortName,@ItemGroupId,@ItemSubGroupId,@ItemCategoryId,@ItemUnitId,@MinLevel,@ReorderLevel,@MaxLevel,@ExpiryDate,@BatchRequired,@StockRequired,@OrganizationId,@CreatedBy,@CreatedDate);
             SELECT CAST(SCOPE_IDENTITY() as int)";
                
-                var id = 0;
+                
                 try
                 {
-                    id = connection.Query<int>(sql, objItem).Single();
+                    int internalid = DatabaseCommonRepository.GetInternalIDFromDatabase(connection, trn, typeof(Item).Name, "0", 1);
+                    objItem.ItemRefNo = "ITM/"+internalid;
+                    
+                    int id = connection.Query<int>(sql, objItem,trn).Single();
+                    objItem.ItemId = id;
                     //connection.Dispose();
+                    trn.Commit();
                 }
                 catch (Exception ex)
                 {
-
+                    trn.Rollback();
+                    objItem.ItemId = 0;
+                    objItem.ItemRefNo = null;
+                    throw ex;
                 }
-                return id;
+                return objItem;
             }
         }
 

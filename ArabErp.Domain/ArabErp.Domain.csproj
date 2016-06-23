@@ -74,6 +74,7 @@
     <Compile Include="DirectPurchaseGRNItem.cs" />
     <Compile Include="DirectPurchaseRequest.cs" />
     <Compile Include="DirectPurchaseRequestItem.cs" />
+    <Compile Include="LoginViewModel.cs" />
     <Compile Include="OpeningStock.cs" />
     <Compile Include="Organization.cs" />
     <Compile Include="PaymentTerms.cs" />
