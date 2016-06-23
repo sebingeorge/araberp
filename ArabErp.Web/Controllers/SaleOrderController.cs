@@ -115,7 +115,7 @@ namespace ArabErp.Web.Controllers
             if (Result.SaleOrderId > 0)
             {
                 TempData["Success"] = "Added Successfully!";
-                TempData["SaleOrderRefNo"] = Result.SaleOrderRefNo;
+                //TempData["SaleOrderRefNo"] = Result.SaleOrderRefNo;
                 return RedirectToAction("Create");
             }
             else 

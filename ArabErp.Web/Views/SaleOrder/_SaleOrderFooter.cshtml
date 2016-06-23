@@ -7,9 +7,9 @@
     <div class="col-md-12">
      <div class="row">
             <div class="part1">
-                <div class="col-md-1"><label for="SpecialRemarks">Spl.Remarks</label></div>
+                <div class="col-md-2"><label for="SpecialRemarks">Special Remarks</label></div>
 
-                <div class="col-md-11">
+                <div class="col-md-10">
                     @if (ViewData["action"].ToString() == "Create")
                     {
                         @Html.TextAreaFor(m => m.SpecialRemarks, new { @class = "form_input form_input-h", autocomplete = "off" })
@@ -24,7 +24,7 @@
         </div>
         <div class="row">
             <div class="part">
-                <div class="col-md-1" ><label for="PaymentTerms">Pay.Terms</label></div>
+                <div class="col-md-2" ><label for="PaymentTerms">Payment Terms</label></div>
                 <div class="col-md-2">
                    
                         @if (ViewData["action"].ToString() == "Create")
@@ -39,7 +39,7 @@
                    
                 </div>
                 <div class="col-md-2"><label for="PaymentTermsRemarks">Payment Terms Remarks</label></div>
-                <div class="col-md-7">
+                <div class="col-md-6">
                     @if (ViewData["action"].ToString() == "Create")
                     {
                         @Html.TextBoxFor(m => m.PaymentTermsRemarks, new { @class = "form_input", autocomplete = "off" })
@@ -55,8 +55,8 @@
         </div>
         <div class="row">
             <div class="part">
-                <div class="col-md-1"><label for="DeliveryTerms">Del.Terms</label></div>
-                <div class="col-md-11">
+                <div class="col-md-2"><label for="DeliveryTerms">Delivery Terms</label></div>
+                <div class="col-md-10">
                 @if (ViewData["action"].ToString() == "Create")
                 {
                       @Html.TextBoxFor(m => m.DeliveryTerms, new { @class = "form_input", autocomplete = "off" })
