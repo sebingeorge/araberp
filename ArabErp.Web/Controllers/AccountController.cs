@@ -14,6 +14,7 @@ using ArabErp.DAL;
 using System.Configuration;
 using System.Security.Cryptography;
 using System.Web.Security;
+using System.Text;
 
 namespace ArabErp.Web.Controllers
 {
@@ -80,22 +81,54 @@ namespace ArabErp.Web.Controllers
 
             // This doesn't count login failures towards account lockout
             // To enable password failures to trigger account lockout, change to shouldLockout: true
-            var result = await SignInManager.PasswordSignInAsync(model.Email, model.Password, model.RememberMe, shouldLockout: false);
-            switch (result)
+            //var result = await SignInManager.PasswordSignInAsync(model.Email, model.Password, model.RememberMe, shouldLockout: false);
+            string salt = ConfigurationManager.AppSettings["salt"].ToString();
+            string saltpassword = String.Concat(salt, model.Password);
+            string hashedPassword = FormsAuthentication.HashPasswordForStoringInConfigFile(saltpassword, "sha1");
+
+            var user = (new UserRepository()).GetUserByUserNameAndPassword(model.Username, hashedPassword);
+
+            if(user == null)
             {
-                case SignInStatus.Success:
-                    return RedirectToLocal(returnUrl);
-                case SignInStatus.LockedOut:
-                    return View("Lockout");
-                case SignInStatus.RequiresVerification:
-                    return RedirectToAction("SendCode", new { ReturnUrl = returnUrl, RememberMe = model.RememberMe });
-                case SignInStatus.Failure:
-                default:
-                    ModelState.AddModelError("", "Invalid login attempt.");
-                    return View(model);
+                ModelState.AddModelError("", "Invalid login attempt.");
+                return View(model);
+            }
+            else
+            {
+                SignIn(user, model.RememberMe, HttpContext.Response.Cookies);
+                return RedirectToLocal(returnUrl);
             }
         }
+        private void SignIn(User user, bool isPersistent, HttpCookieCollection cookiecollection)
+        {
+            var userData = String.Format("{0}|{1}|{2}|{3}|{4}",
+                user.UserId, user.UserName, user.UserPassword, user.UserEmail, user.UserRole);
+            var ticket = new FormsAuthenticationTicket(1, userData, DateTime.UtcNow, DateTime.UtcNow.AddMinutes(30), isPersistent, userData, FormsAuthentication.FormsCookiePath);
+            var encryptedTicket = FormsAuthentication.Encrypt(ticket);
+            var authCookie = new HttpCookie(FormsAuthentication.FormsCookieName, encryptedTicket) { HttpOnly = true };
+            cookiecollection.Add(authCookie);
 
+            HttpCookie userCookie = new HttpCookie("userCookie") { HttpOnly = true };
+            userCookie.Values.Add("UserId", user.UserId.ToString());
+            userCookie.Values.Add("UserName", user.UserName.ToString());
+            userCookie.Values.Add("publicKey", ConvertPasswordToPublicKey(user.UserPassword));
+            userCookie.Values.Add("UserEmail", user.UserEmail.ToString());
+            userCookie.Values.Add("UserRole", user.UserRole.ToString());
+            cookiecollection.Add(userCookie);
+            Session.Add("user", userCookie);
+            //return userCookie;
+        }
+        public string ConvertPasswordToPublicKey(string encrytedpwd)
+        {
+            return GetMD5CryptoString(encrytedpwd);
+        }
+        protected string GetMD5CryptoString(string original)
+        {
+            MD5 md5 = new MD5CryptoServiceProvider();
+            Byte[] originalBytes = ASCIIEncoding.Default.GetBytes(original);
+            Byte[] encodedBytes = md5.ComputeHash(originalBytes);
+            return BitConverter.ToString(encodedBytes);
+        }
         //
         // GET: /Account/VerifyCode
         [AllowAnonymous]

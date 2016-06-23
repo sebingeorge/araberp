@@ -203,6 +203,7 @@
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\AdditionalWorkShopRequestController.cs" />
     <Compile Include="Controllers\AdditionOrDeductionController.cs" />
+    <Compile Include="Controllers\BaseController.cs" />
     <Compile Include="Controllers\BayStatusController.cs" />
     <Compile Include="Controllers\CommissionAgentController.cs" />
     <Compile Include="Controllers\CurrencyController.cs" />
@@ -252,6 +253,7 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Helpers\AuthorizeUser.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
@@ -597,11 +599,14 @@
     <Content Include="Views\Shared\_LayoutPopup.cshtml" />
     <Content Include="Views\SaleOrder\Closing.cshtml" />
     <Content Include="Views\SaleOrder\Close.cshtml" />
+    <Content Include="Views\Consumption\Create.cshtml" />
+    <Content Include="Views\Consumption\_ConsumptionGrid.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="bin\" />
     <Folder Include="Images\App_LocalResources\" />
+    <Folder Include="Views\Base\" />
     <Folder Include="Views\FreezerUnit\" />
     <Folder Include="Views\LocalPurchase\" />
     <Folder Include="Views\MisReport\" />

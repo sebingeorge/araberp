@@ -110,8 +110,8 @@ namespace ArabErp.Web.Controllers
         }
         public void FillEmployee()
         {
-            var repo = new SaleOrderRepository();
-            var list = repo.FillEmployee();
+            var repo = new DropdownRepository();
+            var list = repo.EmployeeDropdown();
             ViewBag.employeelist = new SelectList(list, "Id", "Name");
         }
         public void FillUnit()

@@ -1,0 +1,135 @@
+﻿@model ArabErp.Domain.Consumption
+
+<script type="text/javascript">
+    $(document).ready(function () {
+
+        $("#add_row").click(function () {
+            var i = 0;
+            var no = 1;
+            $('input[id^="Row_"]').each(function () {
+                var id = this.id;
+                no++;
+                var row = Number(id.replace("Row_", ""));
+                if (row > i) {
+                    i = row;
+                }
+            });
+            i++;
+
+            var index = (new Date()).getTime(); // unique indexer
+            var clone = $('#0').clone(); // clone the BatchProducts item
+            //Update the index of the clone
+            //clone.html($(clone).html().replace("Items_0__", 'Items_' + i + '__'));
+            clone.html($(clone).html().replace(/\Items_0__/g, 'Items_' + i + '__'));
+            clone.html($(clone).html().replace(/\Items[0]./g, 'Items[' + i + '].'));
+            clone.html($(clone).html().replace(/\[0\]/g, '[' + i + ']'));
+            clone.html($(clone).html().replace(/\(0\)/g, '(' + i + ')'));
+            clone.html($(clone).html().replace(/Row_0/, 'Row_' + i));
+            $("#consumption-table").append('<tr id="' + i + '">' + clone.html() + '  </tr>');
+
+            //bind keypress event for new row inputs.
+            $(".numbers-only").keypress(function (e) {
+                if (e.which == 8 || (e.which == 46 && $(this).val().indexOf('.') == -1) || (e.which > 47 && e.which < 58)) { } else { return false; }
+            });
+        });
+
+        $(".numbers-only").keypress(function (e) {
+            if (e.which == 8 || (e.which == 46 && $(this).val().indexOf('.') == -1) || (e.which > 47 && e.which < 58)) { } else { return false; }
+        });
+    });
+
+    function Delete(index) {
+
+        var i = 0;
+        var no = 1;
+        $('input[id^="Row_"]').each(function () {
+            var id = this.id;
+            no++;
+            var row = Number(id.replace("Row_", ""));
+            if (row > i) {
+                i = row;
+            }
+        });
+        i++;
+        //$("#" + index).html('');
+        if (i > 1) {
+            $("#" + index).remove();
+            for (var j = index + 1; j < i; j++) {
+                var item = $("#Items_" + j + "__ItemId").val();
+                var remarks = $("#Items_" + j + "__Remarks").val();
+                var qty = $("#Items_" + j + "__Quantity").val();
+                var clone = $("#" + j).clone(true, true);
+                clone.html($(clone).html().replace(new RegExp("Items_" + j + "__", "g"), 'Items_' + (j - 1) + '__'));
+                clone.html($(clone).html().replace(new RegExp("\\[" + j + "].", "g"), "[" + (j - 1) + "]."));
+                clone.html($(clone).html().replace(new RegExp("\\(" + j + ").", "g"), "(" + (j - 1) + ")."));
+                clone.html($(clone).html().replace(new RegExp('slno' + (j + 1) + '">' + (j + 1), "g"), 'slno' + (j) + '">' + (j)));
+                clone.html($(clone).html().replace("Delete(" + j, "Delete(" + (j - 1)));
+                clone.html($(clone).html().replace("Row_" + j, "Row_" + (j - 1)));
+                $("#" + j).html(clone.html());
+                $("#Items_" + (j - 1) + "__SlNo").val(j);
+                $("#" + (j)).attr('id', (j - 1));
+                $("#Items_" + (j - 1) + "__ItemId").val(item);
+                $("#Items_" + (j - 1) + "__Remarks").val(remarks);
+                $("#Items_" + (j - 1) + "__Quantity").val(qty);
+            }
+        }
+    }
+</script>
+
+<table class="table table-bordered" id="consumption-table">
+    <thead>
+        <tr class="grid_heading">
+            <th width="1%" align="center">#</th>
+            <th width="20%" style="vertical-align:middle"><h1>Material/Spare</h1></th>
+            <th width="10%" style="vertical-align:middle"><h1>Part No.</h1></th>
+            <th width="25%" style="vertical-align:middle"><h1>Remarks</h1></th>
+            <th width="5%" class="text-right" style="vertical-align:middle"><h1>Amount</h1></th>
+            <th width="1%"></th>
+        </tr>
+    </thead>
+    <tbody class="grid_row">
+        @for (int i = 0; i < Model.Items.Count; i++)
+        {
+            <tr id="@i">
+                <td style="vertical-align:middle" align="center">
+                    @*@if (i == Model.Items.Count - 1)
+                    {
+                        <a class="glyphicon glyphicon-plus" id="add_row" style="top:0px"></a>
+                    }*@
+                </td>
+                <td>
+                    <input type="hidden" id="Row_@i" />
+                    @Html.HiddenFor(m => m.Items[i].ConsumptionItemId)
+                    @Html.DropDownListFor(m => m.Items[i].ItemId, (SelectList)ViewBag.itemList, "Select Material/Spare", new { @class = "form_input" })
+                </td>
+                <td>
+                    @Html.TextBoxFor(m => m.Items[i].PartNo, new { @class = "form_input", @readonly = "true" })
+                </td>
+                <td>
+                    @Html.TextBoxFor(m => m.Items[i].Remarks, new { @class = "form_input", @placeholder = "Remarks" })
+                </td>
+                <td>
+                    @Html.TextBoxFor(m => m.Items[i].Amount, new { @class = "form_input text-right numbers-only" })
+                </td>
+                <td style="vertical-align:middle" align="center">
+                    <a class="glyphicon glyphicon-minus" style="top:0px" onclick="Delete(@i)"></a>
+                </td>
+            </tr>
+        }
+
+    </tbody>
+    <tfoot>
+        <tr class="grid_heading">
+            <th width="1%" align="center"><a class="glyphicon glyphicon-plus" id="add_row" style="top:0px"></a></th>
+            <th class="text-center"><h1></h1></th>
+            <th class="text-center"><h1></h1></th>
+            <th class="text-right" style="vertical-align:middle">
+                <h1>
+                    Total
+                </h1>
+            </th>
+            <th width="5%" class="text-right"><span id="total"></span></th>
+            <th></th>
+        </tr>
+    </tfoot>
+</table>

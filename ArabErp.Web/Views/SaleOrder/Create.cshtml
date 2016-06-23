@@ -16,7 +16,7 @@
         var cusId = cust.value;
 
         $.ajax({
-            url: "/SaleOrder/GetCustomerDetailsByKey/",
+            url:  "@Url.Action("GetCustomerDetailsByKey", "SaleOrder")",
             data: { cusKey: cusId },
             cache: false,
             type: "GET",

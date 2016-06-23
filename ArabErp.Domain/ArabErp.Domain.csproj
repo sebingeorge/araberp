@@ -46,6 +46,8 @@
     <Compile Include="BayStatus.cs" />
     <Compile Include="Box.cs" />
     <Compile Include="CommissionAgent.cs" />
+    <Compile Include="Consumption.cs" />
+    <Compile Include="ConsumptionItem.cs" />
     <Compile Include="Currency.cs" />
     <Compile Include="Customer.cs" />
     <Compile Include="CustomerCategory.cs" />
@@ -72,6 +74,7 @@
     <Compile Include="DirectPurchaseGRNItem.cs" />
     <Compile Include="DirectPurchaseRequest.cs" />
     <Compile Include="DirectPurchaseRequestItem.cs" />
+    <Compile Include="LoginViewModel.cs" />
     <Compile Include="OpeningStock.cs" />
     <Compile Include="Organization.cs" />
     <Compile Include="PendingForGRN.cs" />
