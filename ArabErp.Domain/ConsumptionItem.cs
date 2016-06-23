@@ -8,7 +8,7 @@ namespace ArabErp.Domain
 {
     public class ConsumptionItem
     {
-        public int? ConsumptionItemId { get; set; }
+        public int ConsumptionItemId { get; set; }
         public int ConsumptionId { get; set; }
         public int ItemId { get; set; }
         public string PartNo { get; set; }

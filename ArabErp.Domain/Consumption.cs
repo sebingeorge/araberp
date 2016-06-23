@@ -8,15 +8,15 @@ namespace ArabErp.Domain
 {
     public class Consumption
     {
-        public int? ConsumptionId { get; set; }
+        public int ConsumptionId { get; set; }
         public string ConsumptionNo { get; set; }
-        public DateTime Date { get; set; }
+        public DateTime ConsumptionDate { get; set; }
         public int JobCardId { get; set; }
         public string SpecialRemarks { get; set; }
         public string CreatedBy { get; set; }
         public DateTime? CreatedDate { get; set; }
         public int OrganizationId { get; set; }
         public bool isActive { get; set; }
-        public List<ConsumptionItem> Items { get; set; }
+        public List<ConsumptionItem> ConsumptionItems { get; set; }
     }
 }
