@@ -109,6 +109,14 @@ textarea {
     width: 92px;
     margin-right:0;
 }
+.form-button a 
+{
+    color:#ffffff;
+}
+.form-button a:hover
+ {
+     color:#f9f0f0;
+ }
 .form-button1 
 {
     height:22px;
