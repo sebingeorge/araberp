@@ -34,21 +34,21 @@
         var cusId = cust.value;
 
         $.ajax({
-            url: "/SaleOrder/GetCustomerDetailsByKey/",
+            url:  "@Url.Action("GetCustomerDetailsByKey", "SaleOrder")",
             data: { cusKey: cusId },
             cache: false,
             type: "GET",
             timeout: 10000,
             dataType: "json",
             success: function (result) {
-                if (result.Success) { // this sets the value from the response
+                    if (result.Success) { // this sets the value from the response
                     $('#CurrencyId').val(result.Result);
                     $("#CustomerAddress").val(result.Address);
-                } else {
+                    } else {
                     $('#SomeOtherHtmlTextBox').val("Failed");
+                    }
                 }
-            }
-        });
+            });
         //$('#CurrencyId').val("2");
     }
     $(document).ready(function () {

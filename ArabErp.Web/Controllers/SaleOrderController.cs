@@ -130,6 +130,7 @@ namespace ArabErp.Web.Controllers
             }
            
         }
+        [HttpGet]
         public JsonResult GetCustomerDetailsByKey(int cusKey)
         {
             var res = (new SaleOrderRepository()).GetCurrencyIdByCustKey(cusKey);
