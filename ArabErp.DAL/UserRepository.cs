@@ -30,5 +30,12 @@ namespace ArabErp.DAL
                 }                
             }
         }
+        public User GetUserByUserNameAndPassword(string username, string password)
+        {
+            using (IDbConnection connection = OpenConnection(dataConnection))
+            {
+                return connection.Query<User>("select * from [User] where UserName='"+ username +"' and UserPassword='"+ password +"'").Single();
+            }
+        }
     }
 }
