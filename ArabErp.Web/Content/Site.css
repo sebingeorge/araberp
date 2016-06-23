@@ -470,5 +470,12 @@ input[type="text"]:disabled {
 .backgroundcolortransparent {
 background-color: #D6D5D5;
 }
+.masterd 
+{
+    border:1px solid #fff;
+    min-height:180px;
+    background-color:#bdbcbc;
+    padding-bottom:14px;
+}
 
 
