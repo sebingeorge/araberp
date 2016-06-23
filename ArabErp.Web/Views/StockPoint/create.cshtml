@@ -88,8 +88,7 @@
 
         <div class="main-part pad1">
             <div class="row">
-                <div class="col-md-2">
-                </div>
+
                 @using (Html.BeginForm("Save", null, FormMethod.Post, new { @class = "createFrom", @id = "Stockpoint_form" }))
                 {
 
@@ -106,6 +105,14 @@
                             <label for="StockPointDoorNo">Door No & Building</label>
                             @Html.TextBoxFor(m => m.StockPointDoorNo, new { @class = "form_input", autocomplete = "off" })
                         </div>
+
+                    </div>
+                    <div class="col-md-4">
+                        <div class="part4">
+                            <label for="StockPointName">Name</label>
+                            @Html.TextBoxFor(m => m.StockPointName, new { @class = "form_input", autocomplete = "off" })
+                        </div>
+
                         <div class="part4">
                             <label for="StockPointArea">Street & Area</label>
                             @Html.TextBoxFor(m => m.StockPointArea, new { @class = "form_input", autocomplete = "off" })
@@ -114,27 +121,6 @@
                             <label for="StockPointCity">City & State</label>
                             @Html.TextBoxFor(m => m.StockPointCity, new { @class = "form_input", autocomplete = "off" })
                         </div>
-                    </div>
-                    <div class="col-md-4">
-                        <div class="part4">
-                            <label for="StockPointName">Name</label>
-                            @Html.TextBoxFor(m => m.StockPointName, new { @class = "form_input", autocomplete = "off" })
-                        </div>
-                        <div class="part4">
-                            <label for="StockPointZip">Post Box No.</label>
-                            @Html.TextBoxFor(m => m.StockPointZip, new { @class = "form_input", autocomplete = "off" })
-                        </div>
-                        <div class="part4">
-                            <label for="StockPointPhone">Phone No</label>
-                            @Html.TextBoxFor(m => m.StockPointPhone, new { @class = "form_input", autocomplete = "off" })
-                        </div>
-                        <div class="part4">
-                            <label for="StockPointFax">Fax</label>
-                            @Html.TextBoxFor(m => m.StockPointFax, new { @class = "form_input", autocomplete = "off" })
-                        </div>
-
-
-
 
 
 
@@ -144,19 +130,33 @@
 
 
                 }
-                <div class="col-md-2">
-                </div>
-            </div>
 
-            <div class="row">
-                <div class="col-md-2"></div>
-                <div class="col-md-8 hrpart">
+                <div class="col-md-4">
+                    <div class="part4">
+                        <label for="StockPointZip">Post Box No.</label>
+                        @Html.TextBoxFor(m => m.StockPointZip, new { @class = "form_input", autocomplete = "off" })
+                    </div>
+                    <div class="part4">
+                        <label for="StockPointPhone">Phone No</label>
+                        @Html.TextBoxFor(m => m.StockPointPhone, new { @class = "form_input", autocomplete = "off" })
+                    </div>
+                    <div class="part4">
+                        <label for="StockPointFax">Fax</label>
+                        @Html.TextBoxFor(m => m.StockPointFax, new { @class = "form_input", autocomplete = "off" })
+                    </div>
+                </div>
+                <div class="col-md-12 hrpart">
                     <button type="button" class="form-button right">Exit</button>
                     <button type="submit" class="form-button right">Save</button>
                 </div>
-                <div class="col-md-2"></div>
-
             </div>
+
+
+
+
+       
+
+
 
 
         </div>
