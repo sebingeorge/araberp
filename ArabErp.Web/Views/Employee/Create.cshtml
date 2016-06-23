@@ -62,8 +62,7 @@
         </div>
         <div class="main-part pad1">
             <div class="row">
-                <div class="col-md-2">
-                </div>
+
                 @using (Html.BeginForm("Save", null, FormMethod.Post, new { @class = "createFrom", @id = "Employee_form" }))
                 {
                     <div class="col-md-4">
@@ -72,18 +71,11 @@
                             @Html.TextBoxFor(m => m.EmployeeRefNo, new { @class = "form_input form_input-half", autocomplete = "off" })
                         </div>
                         <div class="part4">
-                            <label>Gender</label>
-                            <div class="editor-field">
-                                @*@Html.RadioButton("Gender", true, true) Male
-                                    @Html.RadioButton("Gender", false, false) Female*@
-                                @Html.RadioButtonFor(model => model.GenderId, 1, new { @checked = true }) Male
-                                @Html.RadioButtonFor(model => model.GenderId, 2, new { @checked = true }) Female
-                            </div>
-                        </div>
-                        <div class="part4">
                             <label for="CategoryId">Category</label>
                             @Html.DropDownListFor(m => Model.CategoryId, (SelectList)ViewBag.EmployeeCategory, "Select Category", new { @class = "form_input", autocomplete = "off" })
                         </div>
+
+
                     </div>
                     <div class="col-md-4">
                         <div class="part4">
@@ -94,30 +86,44 @@
                             <label for="DesignationId">Designation</label>
                             @Html.DropDownListFor(m => Model.DesignationId, (SelectList)ViewBag.EmployeeDesignations, "Select Designation", new { @class = "form_input", autocomplete = "off" })
                         </div>
-                        <div class="part4">
-                            <label for="LocationId">Location</label>
-                            @Html.DropDownListFor(m => Model.LocationId, (SelectList)ViewBag.EmployeeLocation, "Select Location", new { @class = "form_input", autocomplete = "off" })
-                        </div>
-                        <div class="part4">
-                            <label for="HourlyCost">Hourly Cost</label>
-                            @Html.TextBoxFor(m => m.Hourlycost, new { @class = "form_input", autocomplete = "off" })
 
+
+                    </div>
+
+              
+                <div class="col-md-4">
+                    <div class="part4 col-md-6">
+                        <label>Gender</label>
+                        <div class="editor-field">
+                            @*@Html.RadioButton("Gender", true, true) Male
+                @Html.RadioButton("Gender", false, false) Female*@
+                            @Html.RadioButtonFor(model => model.GenderId, 1, new { @checked = true }) Male
+                            @Html.RadioButtonFor(model => model.GenderId, 2, new { @checked = true }) Female
                         </div>
                     </div>
-                    <div class="row">
-                        <div class="col-md-2"></div>
-                        <div class="col-md-8 hrpart">
-                            <button type="button" class="form-button right">Exit</button>
-                            <button type="submit" class="form-button right">Save</button>
-                        </div>
-                        <div class="col-md-2"></div>
+                    <div class="part4 col-md-6">
+                        <label for="HourlyCost">Hourly Cost</label>
+                        @Html.TextBoxFor(m => m.Hourlycost, new { @class = "form_input", autocomplete = "off" })
+
                     </div>
-                }
-                <div class="col-md-2">
+
+                    <div class="part4 col-md-12">
+                        <label for="LocationId">Location</label>
+                        @Html.DropDownListFor(m => Model.LocationId, (SelectList)ViewBag.EmployeeLocation, "Select Location", new { @class = "form_input", autocomplete = "off" })
+                    </div>
                 </div>
+                }
             </div>
+                    
 
-
+            <div class="row">
+               
+                <div class="col-md-12 hrpart">
+                    <button type="button" class="form-button right">Exit</button>
+                    <button type="submit" class="form-button right">Save</button>
+                </div>
+                
+            </div>
 
         </div>
 

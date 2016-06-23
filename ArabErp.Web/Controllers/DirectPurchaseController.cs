@@ -90,15 +90,21 @@ namespace ArabErp.Web.Controllers
         {
             try
             {
+                TempData["success"] = "Approved successfully";
+                TempData["error"] = "";
                 new DirectPurchaseRepository().ApproveRequest(id);
                 return Json("success", JsonRequestBehavior.AllowGet);
             }
             catch (SqlException)
             {
+                TempData["success"] = "";
+                TempData["error"] = "Some error occured while connecting to database. Please check your network connection and try again.";
                 return Json("error|Some error occured while connecting to database. Please check your network connection and try again.", JsonRequestBehavior.AllowGet);
             }
             catch (Exception ex)
             {
+                TempData["success"] = "";
+                TempData["error"] = "Some error occured. Please try again.";
                 return Json("error|" + ex.Message, JsonRequestBehavior.AllowGet);
             }
         }

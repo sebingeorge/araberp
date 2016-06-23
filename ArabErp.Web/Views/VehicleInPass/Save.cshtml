@@ -64,7 +64,7 @@
                                 @Html.TextBoxFor(m => m.VehicleInPassNo, new { @class = "form_input" })
                             </div>
                             <div class="col-md-3">
-                                <label>Registration No.</label>
+                                <label>Chasis No/Reg No.</label>
                                 @Html.HiddenFor(m => m.SaleOrderItemId)
                                 @Html.TextBoxFor(m => m.RegistrationNo, new { @class = "form_input" })
                             </div>
@@ -95,8 +95,9 @@
 
                         <div class="row form-group">
                             <div class="col-md-12 hrpart">
+                                <input class="form-button right" type="button" value="Exit" onclick="Back()" />
                                 <input class="form-button right" type="submit" value="Save" />
-                                <input class="form-button right" type="button" value="Back" onclick="Back()" />
+                                
                             </div>
                         </div>
                     }

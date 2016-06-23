@@ -109,6 +109,14 @@ textarea {
     width: 92px;
     margin-right:0;
 }
+.form-button a 
+{
+    color:#ffffff;
+}
+.form-button a:hover
+ {
+     color:#f9f0f0;
+ }
 .form-button1 
 {
     height:22px;
@@ -461,6 +469,13 @@ input[type="text"]:disabled {
 }
 .backgroundcolortransparent {
 background-color: #D6D5D5;
+}
+.masterd 
+{
+    border:1px solid #fff;
+    min-height:180px;
+    background-color:#bdbcbc;
+    padding-bottom:14px;
 }
 
 

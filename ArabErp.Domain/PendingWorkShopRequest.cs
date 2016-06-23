@@ -17,6 +17,7 @@ namespace ArabErp.Domain
         public string CustomerOrderRef { get; set; }
         public string CustomerName { get; set; }
         public DateTime RequiredDate { get; set; }
+        public int Ageing { get; set; }
        
     }
 }

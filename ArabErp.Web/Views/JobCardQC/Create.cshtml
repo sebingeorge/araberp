@@ -19,7 +19,7 @@
     <div class="row">
 
         <div class="form-head1">
-            <h4>Quality control </h4>
+            <h4>Quality Control </h4>
         </div>
         @using (Html.BeginForm("Save", null, FormMethod.Post, new { @class = "createFrom", @id = "saleorder_form" }))
         {
@@ -55,9 +55,9 @@
                     <div class="table-responsive">
                         
                         <div class="wrap">
-                            <table class="table table-bordered table-hover">
+                            <table class="table table-bordered ">
                                 <tr class="grid_heading">
-                                    <th>Sl .No</th>
+                                    <th>#</th>
                                     <th> Parameters</th>
                                     <th>Value</th>
                                 </tr>
@@ -88,8 +88,9 @@
                     <div class="row form-group">
 
                         <div class="marg">
-                            <button class="form-button" onclick="Back()">Exit</button>
+                          
                             <button type="submit" class="form-button right">Save</button>
+                            <button class="form-button" onclick="Back()">Exit</button>
                         </div>
                         </div>
                 </div>

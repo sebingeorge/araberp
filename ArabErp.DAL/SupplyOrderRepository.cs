@@ -77,7 +77,7 @@ namespace ArabErp.DAL
         {
             using (IDbConnection connection = OpenConnection(dataConnection))
             {
-                string sql = @"select * from PurchaseRequest P
+                string sql = @"select *,DATEDIFF(dd,P.PurchaseRequestDate,GETDATE ()) Ageing from PurchaseRequest P
 WHERE P.isActive=1 and P.PurchaseRequestId not in (
 select distinct PR.PurchaseRequestId from [dbo].[SupplyOrderItem] SI join [dbo].[PurchaseRequestItem] 
 PRI on SI.PurchaseRequestItemId=PRI.PurchaseRequestItemId join [dbo].[PurchaseRequest] PR on PRI.PurchaseRequestId=PR.PurchaseRequestId)";

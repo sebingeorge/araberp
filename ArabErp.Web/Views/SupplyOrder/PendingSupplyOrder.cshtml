@@ -37,6 +37,7 @@
                                 <thead>
                                     <tr class="grid_heading">
                                         <th><h1>PRS No. and Date</h1></th>
+                                        <th><h1>Ageing</h1></th>
                                         <th><h1>Required Date</h1></th>
                                         <th><center><h1>Select</h1></center></th>
                                     </tr>
@@ -47,6 +48,7 @@
                                 <tbody class="grid_row">
                                     <tr>
                                         <td class="grid-cell">@Model[i].PurchaseRequestNo  -  @Model[i].RequiredDate.ToString("dd/MMM/yyyy") </td>
+                                        <td class="grid-cell">@Model[i].Ageing </td>
                                         <td class="grid-cell">@Model[i].RequiredDate.ToString("dd/MMM/yyyy")</td>
                                         <td><center>@Html.CheckBoxFor(m => m[i].Select)</center></td>
 
