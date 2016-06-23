@@ -191,7 +191,7 @@
                 @Html.HiddenFor(m => m.Amount)
                 <div class="row form-group ">
                     <div class="col-md-4">
-                        <label for="QuotationRefNo">QuotationRefNo</label>
+                        <label for="QuotationRefNo">Quotation.No</label>
                         @if (ViewBag.actionName.ToString() == "Create")
                         {
                             @Html.TextBoxFor(m => m.QuotationRefNo, new { @class = "form_input", autocomplete = "off", @readonly = "readonly" })
@@ -484,7 +484,7 @@
                         <thead>
                             <tr class="grid_heading">
                                 <th width="2%" class="text-center"><h1>#</h1></th>
-                                <th width="25%" class="text-center"><h1>Work Description</h1></th>
+                                <th width="25%" class="text-left"><h1>Work Description</h1></th>
                                 <th width="5%" class="text-right"><h1>Qty</h1></th>
                                 <th width="10%"><h1>UoM</h1></th>
                                 <th width="10%" class="text-right"><h1>Rate</h1></th>
@@ -497,7 +497,7 @@
                             @for (int i = 0; i < Model.SalesQuotationItems.Count; i++)
                             {
                                 <tr id="@i">
-                                    <td>
+                                    <td align="center">
                                         <span id="slno@(i+1)">@(i + 1)</span>
                                         @Html.HiddenFor(m => m.SalesQuotationItems[i].SlNo)
                                     </td>
