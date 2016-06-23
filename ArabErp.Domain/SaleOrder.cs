@@ -48,7 +48,7 @@ namespace ArabErp.Domain
         public string SaleOrderHoldReason { get; set; }
         public List<SaleOrderItem> Items { get; set; }
         public bool Select { get; set; }
-     
+        public int? Ageing { get; set; }
         public string SoNoWithDate
         {
             get
