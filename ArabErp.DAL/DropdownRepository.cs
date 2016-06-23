@@ -171,5 +171,16 @@ namespace ArabErp.DAL
                                                     WHERE GI.SupplyOrderItemId IS NULL").ToList();
             }
         }
+        /// <summary>
+        /// Return all active Payment Terms
+        /// </summary>
+        /// <returns></returns>
+        public List<Dropdown> PaymentTermsDropdown()
+        {
+            using (IDbConnection connection = OpenConnection(dataConnection))
+            {
+                return connection.Query<Dropdown>("SELECT PaymentTermsId Id, PaymentTermsName Name FROM PaymentTerms WHERE ISNULL(isActive, 1) = 1").ToList();
+            }
+        }
     }
 }

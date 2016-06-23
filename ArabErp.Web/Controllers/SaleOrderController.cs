@@ -26,6 +26,7 @@ namespace ArabErp.Web.Controllers
             FillVehicle();
             FillUnit();
             FillEmployee();
+            FillPaymentTerms();
             SaleOrder saleOrder = new SaleOrder();
             saleOrder.Items = new List<SaleOrderItem>();
             saleOrder.Items.Add(new SaleOrderItem());
@@ -74,8 +75,8 @@ namespace ArabErp.Web.Controllers
         }
         public void FillEmployee()
         {
-            var repo = new SaleOrderRepository();
-            var list = repo.FillEmployee();
+            var repo = new DropdownRepository();
+            var list = repo.EmployeeDropdown();
             ViewBag.employeelist = new SelectList(list, "Id", "Name");
         }
         public void FillUnit()
@@ -89,6 +90,12 @@ namespace ArabErp.Web.Controllers
             var repo = new SaleOrderRepository();
             var list = repo.FillCurrency();
             ViewBag.currlist = new SelectList(list, "Id", "Name");
+        }
+        public void FillPaymentTerms()
+        {
+            var repo = new DropdownRepository();
+            var list = repo.PaymentTermsDropdown();
+            ViewBag.PayTermslist = new SelectList(list, "Id", "Name");
         }
         [HttpPost]
         public ActionResult Save(SaleOrder model)
