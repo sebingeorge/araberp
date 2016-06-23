@@ -227,6 +227,7 @@
     <Compile Include="Controllers\ManageController.cs" />
     <Compile Include="Controllers\MisReportController.cs" />
     <Compile Include="Controllers\OpeningStockController.cs" />
+    <Compile Include="Controllers\PaymentTermsController.cs" />
     <Compile Include="Controllers\PurchaseBillController.cs" />
     <Compile Include="Controllers\PurchaseRequestController.cs" />
     <Compile Include="Controllers\SaleOrderController.cs" />
@@ -597,6 +598,8 @@
     <Content Include="Views\SaleOrder\Close.cshtml" />
     <Content Include="Views\Consumption\Create.cshtml" />
     <Content Include="Views\Consumption\_ConsumptionGrid.cshtml" />
+    <Content Include="Views\PaymentTerms\Create.cshtml" />
+    <Content Include="Views\PaymentTerms\PaymentTermsListView.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
