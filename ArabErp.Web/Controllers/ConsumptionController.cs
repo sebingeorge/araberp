@@ -22,7 +22,7 @@ namespace ArabErp.Web.Controllers
             ItemDropdown();
             List<ConsumptionItem> Items = new List<ConsumptionItem>();
             Items.Add(new ConsumptionItem());
-            return View(new Consumption { Items = Items, Date = DateTime.Today });
+            return View(new Consumption { ConsumptionItems = Items, ConsumptionDate = DateTime.Today });
         }
 
         //public ActionResult ConsumptionGrid()
