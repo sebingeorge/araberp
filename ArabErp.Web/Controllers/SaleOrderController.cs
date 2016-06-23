@@ -108,6 +108,7 @@ namespace ArabErp.Web.Controllers
             FillWrkDesc();
             FillUnit();
             FillCustomer();
+            FillPaymentTerms();
             FillVehicle();
             FillCurrency();
             FillCommissionAgent();
@@ -154,7 +155,7 @@ namespace ArabErp.Web.Controllers
             FillCustomer();
             FillCurrency();
             FillCommissionAgent();
-           
+            FillPaymentTerms();
             FillUnit();
             FillEmployee();
                 FillWrkDesc();
@@ -197,7 +198,7 @@ namespace ArabErp.Web.Controllers
             FillCustomer();
             FillCurrency();
             FillCommissionAgent();
-
+            FillPaymentTerms();
             FillUnit();
             FillEmployee();
             FillWrkDesc();
@@ -232,7 +233,7 @@ namespace ArabErp.Web.Controllers
             FillCustomer();
             FillCurrency();
             FillCommissionAgent();
-
+            FillPaymentTerms();
             FillUnit();
             FillEmployee();
             FillWrkDesc();
@@ -266,7 +267,7 @@ namespace ArabErp.Web.Controllers
             FillCustomer();
             FillCurrency();
             FillCommissionAgent();
-
+            FillPaymentTerms();
             FillUnit();
             FillEmployee();
             FillWrkDesc();
