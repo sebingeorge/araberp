@@ -102,7 +102,8 @@
                             <tr class="grid_heading">
                                 <th><h1>Customer</h1></th>
                                 <th><h1>Customer Order Ref.</h1></th>
-                                <th><h1>SO No & Date</h1></th>
+                                <th><h1>SO No. & Date</h1></th>
+                                <th><h1>Ageing</h1></th>
                                 <th><h1>EDA</h1></th>
                                 <th><h1>EDD</h1></th>
                                 <th><center><h1>Select</h1></center></th>
@@ -112,11 +113,12 @@
                        {
                             <tbody class="grid_row">
                                 <tr>
-                                    <td class="grid-cell"><input type="text" class="form_input" value="@Model.SaleOrders.ElementAt(i).CustomerName" /></td>
-                                    <td class="grid-cell"><input type="text" class="form_input" value="@Model.SaleOrders.ElementAt(i).CustomerOrderRef" /></td>
-                                    <td class="grid-cell"><input type="text" class="form_input" value="@Model.SaleOrders.ElementAt(i).SoNoWithDate" /></td>
-                                    <td class="grid-cell"><input type="text" class="form_input" value="@Model.SaleOrders.ElementAt(i).EDateArrival.ToString("dd/MMM/yyyy")" /></td>
-                                    <td class="grid-cell"><input type="text" class="form_input" value="@Model.SaleOrders.ElementAt(i).EDateDelivery.ToString("dd/MMM/yyyy")" /></td>
+                                    <td class="grid-cell"><input type="text" disabled="disabled" class="form_input" value="@Model.SaleOrders.ElementAt(i).CustomerName" /></td>
+                                    <td class="grid-cell"><input type="text" disabled="disabled" class="form_input" value="@Model.SaleOrders.ElementAt(i).CustomerOrderRef" /></td>
+                                    <td class="grid-cell"><input type="text" disabled="disabled" class="form_input" value="@Model.SaleOrders.ElementAt(i).SoNoWithDate" /></td>
+                                    <td class="grid-cell"><input type="text" disabled="disabled" class="form_input" value="@Model.SaleOrders.ElementAt(i).Ageing" /></td>
+                                    <td class="grid-cell"><input type="text" disabled="disabled" class="form_input" value="@Model.SaleOrders.ElementAt(i).EDateArrival.ToString("dd/MMM/yyyy")" /></td>
+                                    <td class="grid-cell"><input type="text" disabled="disabled" class="form_input" value="@Model.SaleOrders.ElementAt(i).EDateDelivery.ToString("dd/MMM/yyyy")" /></td>
                                     <td><center><button class="form-button4"><center>@Html.ActionLink("Select", "CreateWorkShopRequest", "WorkShopRequest", new { SaleOrderId = Model.SaleOrders.ElementAt(i).SaleOrderId }, null)</center></button></center></td>
 
                                 </tr>

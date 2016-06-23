@@ -48,7 +48,7 @@
                     flag = true;
             });
             if (!flag) {
-                toastr.info("You have to select atleast one supply order to continue.");
+                toastr.info("You have to select atleast one LPO to continue.");
                 return false;
             }
         }
@@ -59,7 +59,7 @@
 <div class="container">
     <div class="row">
         <div class="form-head1">
-            <h4>Pending Supply Orders</h4>
+            <h4>Pending Supply Orders / LPO</h4>
         </div>
         <div class="main-part pad1">
             <form role="form" method="post" action="Create" onsubmit="return formValidation()">

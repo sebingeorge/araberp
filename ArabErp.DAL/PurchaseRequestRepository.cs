@@ -107,7 +107,7 @@ namespace ArabErp.DAL
         {
             using (IDbConnection connection = OpenConnection(dataConnection))
             {
-                string qry = @"Select WR.WorkShopRequestId,WR.WorkShopRequestNo,WR.WorkShopRequestDate,WR.RequiredDate,C.CustomerName,WR.CustomerOrderRef,SO.SaleOrderRefNo,SO.SaleOrderDate from WorkShopRequest WR INNER JOIN Customer C on C.CustomerId=WR.CustomerId ";
+                string qry = @"Select WR.WorkShopRequestId,WR.WorkShopRequestNo,WR.WorkShopRequestDate,WR.RequiredDate,C.CustomerName,WR.CustomerOrderRef,SO.SaleOrderRefNo,SO.SaleOrderDate,DATEDIFF(dd,WR.WorkShopRequestDate,GETDATE ()) Ageing from WorkShopRequest WR INNER JOIN Customer C on C.CustomerId=WR.CustomerId ";
                 qry += " INNER JOIN SaleOrder SO on WR.SaleOrderId=SO.SaleOrderId  LEFT JOIN PurchaseRequest PR ON PR.WorkShopRequestId=WR.WorkShopRequestId WHERE PR.PurchaseRequestId is null ";
 
                 return connection.Query<PendingWorkShopRequest>(qry);
