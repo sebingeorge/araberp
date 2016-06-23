@@ -46,8 +46,7 @@
 
         <div class="main-part pad1">
             <div class="row">
-                <div class="col-md-4">
-                </div>
+
                 @using (Html.BeginForm("Save", null, FormMethod.Post, new { @class = "createFrom", @id = "VehicleModel_form" }))
                 {
                     <div class="col-md-4">
@@ -64,14 +63,10 @@
                             @Html.TextBoxFor(m => m.VehicleModelName, new { @class = "form_input", autocomplete = "off" })
                         </div>
 
-                        <div class="row">
 
-                            <div class="col-md-12 hrpart">
-                                <button type="button" class="form-button right">Exit</button>
-                                <button type="submit" class="form-button right">Save</button>
-                            </div>
 
-                        </div>
+
+
 
 
                     </div>
@@ -79,6 +74,12 @@
 
                 }
                 <div class="col-md-4">
+                </div>
+                <div class="col-md-4">
+                </div>
+                <div class="col-md-12 hrpart">
+                    <button type="button" class="form-button right">Exit</button>
+                    <button type="submit" class="form-button right">Save</button>
                 </div>
             </div>
         </div>
