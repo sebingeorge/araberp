@@ -111,6 +111,7 @@
     <Compile Include="StoreIssueItem.cs" />
     <Compile Include="Supplier.cs" />
     <Compile Include="SupplierCategory.cs" />
+    <Compile Include="SupplierItemRate.cs" />
     <Compile Include="SupplyOrder.cs" />
     <Compile Include="SupplyOrderItem.cs" />
     <Compile Include="TransactionHistory.cs" />
