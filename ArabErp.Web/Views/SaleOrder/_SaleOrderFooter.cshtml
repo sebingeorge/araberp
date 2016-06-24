@@ -105,7 +105,7 @@
                     <label for="CommissionAmount">Commission Amt.</label>
                     @if (ViewData["action"].ToString() == "Create")
                     {
-                        @Html.TextBoxFor(m => m.CommissionAmount, new { @class = "form_input form_input-half2  text-right numbers-only", autocomplete = "off" })
+                        @Html.TextBoxFor(m => m.CommissionAmount, new { @class = "form_input form_input-half2  text-right numbers-only", autocomplete = "off", @readonly = "readonly" })
 
                     }
                     else
