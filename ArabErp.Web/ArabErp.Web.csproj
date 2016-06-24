@@ -227,6 +227,7 @@
     <Compile Include="Controllers\ManageController.cs" />
     <Compile Include="Controllers\MisReportController.cs" />
     <Compile Include="Controllers\OpeningStockController.cs" />
+    <Compile Include="Controllers\PaymentTermsController.cs" />
     <Compile Include="Controllers\PurchaseBillController.cs" />
     <Compile Include="Controllers\PurchaseRequestController.cs" />
     <Compile Include="Controllers\SaleOrderController.cs" />
@@ -278,7 +279,9 @@
     <Content Include="Content\Gridmvc.css" />
     <Content Include="Content\images\no.png" />
     <Content Include="Content\images\yes.png" />
+    <Content Include="Content\jquery-1.12.4.min.js" />
     <Content Include="Content\PagedList.css" />
+    <Content Include="Content\script.js" />
     <Content Include="Content\toastr\build\toastr.css" />
     <Content Include="Content\toastr\build\toastr.min.css" />
     <Content Include="Content\toastr\build\toastr.min.js" />
@@ -299,6 +302,7 @@
     <Content Include="Content\toastr\toastr.js" />
     <Content Include="Images\banner.png" />
     <Content Include="Images\button-part.jpg" />
+    <Content Include="Images\icon_nav.png" />
     <Content Include="Images\tick.png" />
     <Content Include="Images\x.png" />
     <Content Include="Scripts\jquery-1.8.3.js" />
@@ -598,6 +602,8 @@
     <Content Include="Views\SaleOrder\Close.cshtml" />
     <Content Include="Views\Consumption\Create.cshtml" />
     <Content Include="Views\Consumption\_ConsumptionGrid.cshtml" />
+    <Content Include="Views\PaymentTerms\Create.cshtml" />
+    <Content Include="Views\PaymentTerms\PaymentTermsListView.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
