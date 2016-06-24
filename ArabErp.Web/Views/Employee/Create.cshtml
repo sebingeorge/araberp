@@ -3,53 +3,53 @@
 @{ViewBag.Title = "Create"; Layout = "~/Views/Shared/_Layout.cshtml";}
 
 <script>
-    //$(document).ready(function () {
-    //    $('#Employee_form').bootstrapValidator({
-    //        fields: {
-    //            EmployeeRefNo: {
-    //                validators: {
-    //                    notEmpty: {
-    //                        message: 'Please Enter Code'
-    //                    }
-    //                }
-    //            },
+    $(document).ready(function () {
+        $('#Employee_form').bootstrapValidator({
+            fields: {
+                EmployeeRefNo: {
+                    validators: {
+                        notEmpty: {
+                            message: 'Please Enter Code'
+                        }
+                    }
+                },
 
-    //            EmployeeName: {
-    //                validators: {
-    //                    notEmpty: {
-    //                        message: 'Please Enter Name'
-    //                    }
-    //                }
-    //            },
+                EmployeeName: {
+                    validators: {
+                        notEmpty: {
+                            message: 'Please Enter Name'
+                        }
+                    }
+                },
 
-    //            DesignationId: {
-    //                validators: {
-    //                    notEmpty: {
-    //                        message: 'Please Select Designation'
-    //                    }
-    //                }
-    //            },
+                DesignationId: {
+                    validators: {
+                        notEmpty: {
+                            message: 'Please Select Designation'
+                        }
+                    }
+                },
 
-    //            CategoryId: {
-    //                validators: {
-    //                    notEmpty: {
-    //                        message: 'Please Select Category'
-    //                    }
-    //                }
-    //            },
+                CategoryId: {
+                    validators: {
+                        notEmpty: {
+                            message: 'Please Select Category'
+                        }
+                    }
+                },
 
-    //            LocationId: {
-    //                validators: {
-    //                    notEmpty: {
-    //                        message: 'Please Select Location'
-    //                    }
-    //                }
-    //            }
+                LocationId: {
+                    validators: {
+                        notEmpty: {
+                            message: 'Please Select Location'
+                        }
+                    }
+                }
 
 
-    //        }
-    //    });
-    //})
+            }
+        });
+    })
 
 </script>
 
@@ -89,23 +89,21 @@
 
 
                     </div>
-    @Html.TextBoxFor(m => m.EmployeeName)
 
-
+              
                 <div class="col-md-4">
                     <div class="part4 col-md-6">
                         <label>Gender</label>
-                     @*   <div class="editor-field">*@
-                            @*@Html.RadioButton("Gender", true, true) Male
-                @Html.RadioButton("Gender", false, false) Female*@
-                          @*  @Html.RadioButtonFor(model => model.GenderId, 1, new { @checked = true }) Male*@
-                           @* @Html.RadioButtonFor(model => model.GenderId, 2, new { @checked = true }) Female*@
-                      @*</div>*@
+                        <div class="editor-field">
+                          
+                            @Html.RadioButtonFor(model => model.GenderId, 1, new { @checked = true }) Male
+                            @Html.RadioButtonFor(model => model.GenderId, 2, new { @checked = true }) Female
+                        </div>
                     </div>
                     <div class="part4 col-md-6">
-                        @*<label for="HourlyCost">Hourly Cost</label>*@
-                        @*@Html.TextBoxFor(m => m.Hourlycost, new { @class = "form_input", autocomplete = "off" })*@
-                       
+                        <label for="HourlyCost">Hourly Cost</label>
+                        @Html.TextBoxFor(m => m.Hourlycost, new { @class = "form_input", autocomplete = "off" })
+
                     </div>
 
                     <div class="part4 col-md-12">
