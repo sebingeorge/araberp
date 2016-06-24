@@ -54,6 +54,15 @@ namespace ArabErp.DAL
             }
         }
 
+        public List<Dropdown> FillPurchaseType()
+        {
+            using (IDbConnection connection = OpenConnection(dataConnection))
+            {
+                var param = new DynamicParameters();
+                return connection.Query<Dropdown>("select PurchaseTypeId Id,PurchaseTypeName Name from PurchaseType").ToList();
+            }
+        }
+
        
         public int InsertSupplier(Supplier objSupplier)
         {
