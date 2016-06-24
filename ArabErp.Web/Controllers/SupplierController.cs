@@ -8,7 +8,7 @@ using ArabErp.DAL;
 
 namespace ArabErp.Web.Controllers
 {
-    public class SupplierController : Controller
+    public class SupplierController : BaseController
     {
         SupplierRepository rep = new SupplierRepository();
         // GET: Supplier

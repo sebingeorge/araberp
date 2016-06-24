@@ -9,7 +9,7 @@ using ArabErp.DAL;
 
 namespace ArabErp.Web.Controllers
 {
-    public class PaymentTermsController : Controller
+    public class PaymentTermsController : BaseController
     {
         // GET: PaymentTerms
         public ActionResult Index()
