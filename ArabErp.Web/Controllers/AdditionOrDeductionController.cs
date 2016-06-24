@@ -8,7 +8,7 @@ using System.Web.Mvc;
 
 namespace ArabErp.Web.Controllers
 {
-    public class AdditionOrDeductionController : Controller
+    public class AdditionOrDeductionController : BaseController
     {
         // GET: AdditionOrDeduction
         public ActionResult Index()

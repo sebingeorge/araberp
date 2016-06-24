@@ -8,7 +8,7 @@ using ArabErp.Domain;
 
 namespace ArabErp.Web.Controllers
 {
-    public class SupplyOrderController : Controller
+    public class SupplyOrderController : BaseController
     {
         // GET: SupplyOrder
         public ActionResult Index()

@@ -10,7 +10,7 @@ using System.Web.Mvc;
 
 namespace ArabErp.Web.Controllers
 {
-    public class GrnWareHouseController : Controller
+    public class GrnWareHouseController : BaseController
     {
         readonly log4net.ILog logger = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
         // GET: GrnWareHouse

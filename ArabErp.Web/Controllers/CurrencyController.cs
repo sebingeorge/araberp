@@ -8,7 +8,7 @@ using ArabErp.DAL;
 
 namespace ArabErp.Web.Controllers
 {
-    public class CurrencyController : Controller
+    public class CurrencyController : BaseController
     {
         // GET: Currency
         public ActionResult Index()

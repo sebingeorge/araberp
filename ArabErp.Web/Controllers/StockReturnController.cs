@@ -8,7 +8,7 @@ using System.Web.Mvc;
 
 namespace ArabErp.Web.Controllers
 {
-    public class StockReturnController : Controller
+    public class StockReturnController : BaseController
     {
         // GET: StockReturn
         public ActionResult Index()

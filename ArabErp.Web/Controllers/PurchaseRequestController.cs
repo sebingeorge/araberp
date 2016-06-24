@@ -8,7 +8,7 @@ using ArabErp.Domain;
 
 namespace ArabErp.Web.Controllers
 {
-    public class PurchaseRequestController : Controller
+    public class PurchaseRequestController : BaseController
     {
         readonly log4net.ILog logger = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
 

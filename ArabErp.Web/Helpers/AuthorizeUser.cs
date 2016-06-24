@@ -1,4 +1,5 @@
-﻿using System;
+﻿using ArabErp.DAL;
+using System;
 using System.Collections.Generic;
 using System.Diagnostics.Contracts;
 using System.Linq;
@@ -21,6 +22,21 @@ namespace ArabErp.Web.Helpers
                 if (!validUser)
                 {
                     filterContext.Result = new HttpUnauthorizedResult();
+                }
+                else
+                {
+                    var authCookie = filterContext.HttpContext.Request.Cookies[FormsAuthentication.FormsCookieName];
+                    var ticketInfo = FormsAuthentication.Decrypt(authCookie.Value);
+                    var _userdata = ticketInfo.UserData.Split('|');
+
+                    var _userId = _userdata[0];
+                    var _username = _userdata[1];
+                    string _action = filterContext.ActionDescriptor.ActionName;
+                    string _controller = filterContext.ActionDescriptor.ControllerDescriptor.ControllerName;
+
+                    UserRepository repo = new UserRepository();
+
+                    bool res = repo.IsValidUser(Convert.ToInt32(_userId.ToString()), _username.ToString(), _controller, _action);
                 }
             }
         }

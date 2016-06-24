@@ -8,7 +8,7 @@ using ArabErp.DAL;
 
 namespace ArabErp.Web.Controllers
 {
-    public class SupplierController : Controller
+    public class SupplierController : BaseController
     {
         SupplierRepository rep = new SupplierRepository();
         // GET: Supplier
@@ -22,6 +22,7 @@ namespace ArabErp.Web.Controllers
             FillCategoryDropdown();
             FillCountryDropdown();
             FillCurrencyDropdown();
+            FillPurchaseType();
             Supplier Supplier = new Supplier();
             Supplier.ContractDate = System.DateTime.Today;
             return View(Supplier);
@@ -45,6 +46,12 @@ namespace ArabErp.Web.Controllers
             ViewBag.SupplierCurrency = new SelectList(sup, "Id", "Name");
         }
 
+        public void FillPurchaseType()
+        {
+            var sup = rep.FillPurchaseType();
+            ViewBag.SupplierPurchaseType = new SelectList(sup, "Id", "Name");
+        }
+
         public ActionResult Save(Supplier objSupplier)
         {
             var repo = new SupplierRepository();
@@ -52,6 +59,7 @@ namespace ArabErp.Web.Controllers
             FillCategoryDropdown();
             FillCountryDropdown();
             FillCurrencyDropdown();
+            FillPurchaseType();
             Supplier Supplier = new Supplier();
             Supplier.ContractDate = System.DateTime.Today;
             return View("Create", objSupplier);

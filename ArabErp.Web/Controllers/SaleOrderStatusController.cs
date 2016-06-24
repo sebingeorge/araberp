@@ -7,7 +7,7 @@ using System.Web.Mvc;
 
 namespace ArabErp.Web.Controllers
 {
-    public class SaleOrderStatusController : Controller
+    public class SaleOrderStatusController : BaseController
     {
         // GET: SaleOrderStatus
         public ActionResult Index()
