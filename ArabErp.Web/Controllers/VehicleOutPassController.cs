@@ -8,7 +8,7 @@ using System.Web.Mvc;
 
 namespace ArabErp.Web.Controllers
 {
-    public class VehicleOutPassController : Controller
+    public class VehicleOutPassController : BaseController
     {
         // GET: VehicleOutPass
         public ActionResult Index()

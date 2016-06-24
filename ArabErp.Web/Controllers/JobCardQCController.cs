@@ -8,7 +8,7 @@ using System.Web.Mvc;
 
 namespace ArabErp.Web.Controllers
 {
-    public class JobCardQCController : Controller
+    public class JobCardQCController : BaseController
     {
         JobCardQCRepository JobCardQCRepo = new JobCardQCRepository();
         JobCardQCParamRepository JobCardQCParamRepo = new JobCardQCParamRepository();

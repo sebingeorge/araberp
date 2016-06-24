@@ -206,6 +206,7 @@
     <Compile Include="Controllers\BaseController.cs" />
     <Compile Include="Controllers\BayStatusController.cs" />
     <Compile Include="Controllers\CommissionAgentController.cs" />
+    <Compile Include="Controllers\ConsumptionController.cs" />
     <Compile Include="Controllers\CurrencyController.cs" />
     <Compile Include="Controllers\CustomerCategoryController.cs" />
     <Compile Include="Controllers\CustomerController.cs" />

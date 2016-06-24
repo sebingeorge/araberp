@@ -8,7 +8,7 @@ using System.Web.Mvc;
 
 namespace ArabErp.Web.Controllers
 {
-    public class JobOrderCompletionController : Controller
+    public class JobOrderCompletionController : BaseController
     {
         // GET: JobOrderCompletion
         public ActionResult Index()

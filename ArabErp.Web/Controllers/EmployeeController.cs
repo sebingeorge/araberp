@@ -8,7 +8,7 @@ using System.Web.Mvc;
 
 namespace ArabErp.Web.Controllers
 {
-    public class EmployeeController : Controller
+    public class EmployeeController : BaseController
     {
         EmployeeRepository rep = new EmployeeRepository();
         // GET: Employee

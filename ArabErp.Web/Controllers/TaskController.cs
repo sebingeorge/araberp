@@ -8,7 +8,7 @@ using ArabErp.DAL;
 
 namespace ArabErp.Web.Controllers
 {
-    public class TaskController : Controller
+    public class TaskController : BaseController
     {
         // GET: Task
         public ActionResult Index()

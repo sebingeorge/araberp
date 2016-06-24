@@ -8,7 +8,7 @@ using System.Web.Mvc;
 
 namespace ArabErp.Web.Controllers
 {
-    public class ConsumptionController : Controller
+    public class ConsumptionController : BaseController
     {
         // GET: Consumption
         public ActionResult Index()
