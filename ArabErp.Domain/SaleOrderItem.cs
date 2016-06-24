@@ -20,12 +20,11 @@ namespace ArabErp.Domain
         public int ItemId { get; set; }
         public string ItemName { get; set; }
         public string UnitName { get; set; }
-      
         public int? Quantity { get; set; }
         public int? UnitId { get; set; }
         public decimal? Rate { get; set; }
         public decimal? Discount { get; set; }
-        public decimal? Amount { get; set; }
+        public decimal Amount { get; set; }
         public string CreatedBy { get; set; }
         public DateTime? CreatedDate { get; set; }
         public int? OrganizationId { get; set; }

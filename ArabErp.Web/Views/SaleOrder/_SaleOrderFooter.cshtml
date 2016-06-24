@@ -1,7 +1,31 @@
 ﻿@model ArabErp.Domain.SaleOrder
 
 <script>
+    $(document).ready(function () {
+        $("#CommissionPerc").keyup(function () {
+           
+        var Total = parseFloat("0");
+        var CommPercentage = parseFloat("0");
+       
 
+        var TotalAmt ='@Model.Items.Sum(a => a.Amount)';
+        var CommAmt = parseFloat("0");
+        alert(TotalAmt);
+      
+
+        CommPercentage = parseFloat($("#CommissionPerc").val());
+
+        if (isNaN(CommPercentage)) {
+            CommPercentage = parseFloat("0");
+        }
+     
+        alert(CommPercentage);
+        alert(TotalAmt);
+        Total = TotalAmt * (CommPercentage / 100);
+        alert(Total);
+        $("#CommissionAmount").val(Total)
+    });
+    });
 </script>
 <div class="row">
     <div class="col-md-12">
@@ -91,7 +115,7 @@
                     <label for="CommissionPerc">Commission %</label>
                     @if (ViewData["action"].ToString() == "Create")
                     {
-                        @Html.TextBoxFor(m => m.CommissionPerc, new { @class = "form_input form_input-half1 text-right numbers-only", autocomplete = "off" })
+                        @Html.TextBoxFor(m => m.CommissionPerc, new { @class = "form_input form_input-half1 text-right numbers-only", autocomplete = "off"})
 
                     }
                     else
