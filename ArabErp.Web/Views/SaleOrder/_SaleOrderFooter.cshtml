@@ -4,26 +4,21 @@
     $(document).ready(function () {
         $("#CommissionPerc").keyup(function () {
            
-        var Total = parseFloat("0");
-        var CommPercentage = parseFloat("0");
-       
-
-        var TotalAmt ='@Model.Items.Sum(a => a.Amount)';
-        var CommAmt = parseFloat("0");
-        alert(TotalAmt);
       
+        var CommPercentage = parseFloat("0");
+        var CommAmt = parseFloat("0");
 
+        var TotalAmt = $("#TotalAmount").val();
+      
         CommPercentage = parseFloat($("#CommissionPerc").val());
 
         if (isNaN(CommPercentage)) {
             CommPercentage = parseFloat("0");
         }
      
-        alert(CommPercentage);
-        alert(TotalAmt);
-        Total = TotalAmt * (CommPercentage / 100);
-        alert(Total);
-        $("#CommissionAmount").val(Total)
+        CommAmt = TotalAmt * (CommPercentage / 100);
+        
+        $("#CommissionAmount").val(CommAmt);
     });
     });
 </script>

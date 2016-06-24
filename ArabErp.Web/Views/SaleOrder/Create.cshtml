@@ -47,6 +47,11 @@
             $('#CustomerOrderRef').focus();
             return false;
         }
+        else if ($('#PaymentTermsId').val() == '') {
+            alert("select payment terms");
+            $('#PaymentTermsId').focus();
+            return false;
+        }
         else if ($('#CommissionAgentId').val() == '') {
             alert("select commission agent");
             $('#CommissionAgentId').focus();

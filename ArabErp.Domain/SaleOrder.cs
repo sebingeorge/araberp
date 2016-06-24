@@ -25,7 +25,7 @@ namespace ArabErp.Domain
 
         public string CurrencyName { get; set; }
         public string SpecialRemarks { get; set; }
-        public int? PaymentTermsId { get; set; }
+        public int PaymentTermsId { get; set; }
         public string PaymentTermsRemarks { get; set; }
         public string DeliveryTerms { get; set; }
         [Required]

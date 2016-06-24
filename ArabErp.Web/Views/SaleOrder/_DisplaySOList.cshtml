@@ -139,8 +139,10 @@
         });
 
         //$("#QtyTotal").text(quantity);
-        $("#QtyAmount").text(amount);
+        $("#TotalAmount").val(amount);
+
         $("#QtyDiscount").text(discount);
+
     }
 
     function OnWorkChange(sender, index) {
@@ -294,10 +296,9 @@
                 <th width="7%" class="text-right">
                     <span id="QtyDiscount"></span>
                 </th>
-                <th width="8%" class="text-right">
-                <span id="QtyAmount"></span>
-                 
-                </th>
+               
+                <th width="8%" class="text-right">@Html.TextBoxFor(m => m.TotalAmount, new { @class = "form_input", @style = "text-align:right",autocomplete = "off", @readonly = "readonly" })</th>
+               
                 <th width="5%"></th>
 
             </tr>
