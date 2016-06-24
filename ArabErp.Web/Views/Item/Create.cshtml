@@ -3,58 +3,78 @@
 
 <script>
     $(document).ready(function () {
-        $('#Item_form').bootstrapValidator({
-            fields: {
-                PartNo: {
-                    validators: {
-                        notEmpty: {
-                            message: 'Please Enter Part No'
-                        }
-                    }
-                },
 
-                ItemName: {
-                    validators: {
-                        notEmpty: {
-                            message: 'Please Enter Item Name'
-                        }
-                    }
-                },
+        toastr.options = {
+            "closeButton": true,
+            "positionClass": "toast-bottom-full-width",
+            "preventDuplicates": false,
+            "onclick": null,
 
-                ItemCategoryId: {
-                    validators: {
-                        notEmpty: {
-                            message: 'Please Select Category'
-                        }
-                    }
-                },
+            "timeOut": "0",
+            "extendedTimeOut": "1000",
+            "showEasing": "swing",
+            "hideEasing": "linear",
+            "showMethod": "fadeIn",
+            "hideMethod": "fadeOut"
+        }
+        if ('@TempData["success"]' != "" && '@TempData["ItemRefNo"]' != "") {
+            toastr.success('@TempData["success"]' + '  Item Ref No. is : ' + '@TempData["ItemRefNo"]');
+        }
+        else if ('@TempData["error"]' != "") {
+            toastr.error('@TempData["error"]');
+        }
+        //$('#Item_form').bootstrapValidator({
+        //    fields: {
+        //        PartNo: {
+        //            validators: {
+        //                notEmpty: {
+        //                    message: 'Please Enter Part No'
+        //                }
+        //            }
+        //        },
 
-                ItemGroupId: {
-                    validators: {
-                        notEmpty: {
-                            message: 'Please Select Group'
-                        }
-                    }
-                },
+        //        ItemName: {
+        //            validators: {
+        //                notEmpty: {
+        //                    message: 'Please Enter Item Name'
+        //                }
+        //            }
+        //        },
 
-                ItemSubGroupId: {
-                    validators: {
-                        notEmpty: {
-                            message: 'Please Select Sub Group'
-                        }
-                    }
-                },
+        //        ItemCategoryId: {
+        //            validators: {
+        //                notEmpty: {
+        //                    message: 'Please Select Category'
+        //                }
+        //            }
+        //        },
 
-                ItemUnitId: {
-                    validators: {
-                        notEmpty: {
-                            message: 'Please Select Unit'
-                        }
-                    }
-                },
+        //        ItemGroupId: {
+        //            validators: {
+        //                notEmpty: {
+        //                    message: 'Please Select Group'
+        //                }
+        //            }
+        //        },
 
-            }
-        });
+        //        ItemSubGroupId: {
+        //            validators: {
+        //                notEmpty: {
+        //                    message: 'Please Select Sub Group'
+        //                }
+        //            }
+        //        },
+
+        //        ItemUnitId: {
+        //            validators: {
+        //                notEmpty: {
+        //                    message: 'Please Select Unit'
+        //                }
+        //            }
+        //        },
+
+        //    }
+        //});
     })
 
 </script>

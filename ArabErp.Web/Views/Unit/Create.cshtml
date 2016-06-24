@@ -36,13 +36,14 @@
 
         <div class="main-part pad1">
 
+        @using (Html.BeginForm("Save", null, FormMethod.Post, new { @class = "createFrom", @id = "unit_form" }))
+                    {
             <div class="row">
 
                 <div class="col-md-4">
 
 
-                    @using (Html.BeginForm("Save", null, FormMethod.Post, new { @class = "createFrom", @id = "unit_form" }))
-                    {
+                   
 
                         <div class="part4">
                             <label for="UnitRefNo">Code</label>
@@ -61,7 +62,7 @@
 
 
 
-                    }
+                
                 </div>
 
                 <div class="col-md-4">
@@ -81,9 +82,10 @@
                         <button type="submit" class="form-button right">Save</button>
                     </div>
 
-              
+                  
 
             </div>
+        }
         </div>
 
         <div class="main-list">

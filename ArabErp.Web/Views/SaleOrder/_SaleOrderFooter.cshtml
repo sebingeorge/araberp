@@ -7,9 +7,9 @@
     <div class="col-md-12">
      <div class="row">
             <div class="part1">
-                <div class="col-md-1"><label for="SpecialRemarks">Spl.Remarks</label></div>
+                <div class="col-md-2"><label for="SpecialRemarks">Special Remarks</label></div>
 
-                <div class="col-md-11">
+                <div class="col-md-10">
                     @if (ViewData["action"].ToString() == "Create")
                     {
                         @Html.TextAreaFor(m => m.SpecialRemarks, new { @class = "form_input form_input-h", autocomplete = "off" })
@@ -24,24 +24,39 @@
         </div>
         <div class="row">
             <div class="part">
-                <div class="col-md-1"><label for="PaymentTerms">Pay.Terms</label></div>
-                <div class="col-md-11">
-                @if (ViewData["action"].ToString() == "Create")
-                {
-                    @Html.TextBoxFor(m => m.PaymentTerms, new { @class = "form_input", autocomplete = "off" })
-                }
-                else
-                {
-                    @Html.TextBoxFor(m => m.PaymentTerms, new { @class = "form_input", autocomplete = "off", @readonly = "readonly" })
-               
-                }
+                <div class="col-md-2" ><label for="PaymentTerms">Payment Terms</label></div>
+                <div class="col-md-2">
+                   
+                        @if (ViewData["action"].ToString() == "Create")
+                        {
+                            @Html.DropDownListFor(m => Model.PaymentTermsId, (SelectList)ViewBag.PayTermslist, "Select Payment Terms", new { @class = "form_input", autocomplete = "off" })
+
+                        }
+                        else
+                        {
+                            @Html.DropDownListFor(m => Model.PaymentTermsId, (SelectList)ViewBag.PayTermslist, "Select Payment Terms", new { @class = "form_input", autocomplete = "off", @disabled = "true" })
+                        }
+                   
                 </div>
+                <div class="col-md-2"><label for="PaymentTermsRemarks">Payment Terms Remarks</label></div>
+                <div class="col-md-6">
+                    @if (ViewData["action"].ToString() == "Create")
+                    {
+                        @Html.TextBoxFor(m => m.PaymentTermsRemarks, new { @class = "form_input", autocomplete = "off" })
+                    }
+                    else
+                    {
+                        @Html.TextBoxFor(m => m.PaymentTermsRemarks, new { @class = "form_input", autocomplete = "off", @readonly = "readonly" })
+
+                    }
+                </div>
+
             </div>
         </div>
         <div class="row">
             <div class="part">
-                <div class="col-md-1"><label for="DeliveryTerms">Del.Terms</label></div>
-                <div class="col-md-11">
+                <div class="col-md-2"><label for="DeliveryTerms">Delivery Terms</label></div>
+                <div class="col-md-10">
                 @if (ViewData["action"].ToString() == "Create")
                 {
                       @Html.TextBoxFor(m => m.DeliveryTerms, new { @class = "form_input", autocomplete = "off" })

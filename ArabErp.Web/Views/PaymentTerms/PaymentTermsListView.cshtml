@@ -1,0 +1,41 @@
+﻿@model IList<ArabErp.Domain.PaymentTerms>
+@using GridMvc.Html
+
+<style type="text/css">
+    .tableData {
+        font-size: 12px;
+        padding-left: 4px;
+    }
+
+    .list {
+        display: block;
+        height: 320px;
+        overflow-y: scroll;
+    }
+
+        .list tr:hover {
+            background-color: #DFEDF7;
+        }
+</style>
+
+<div class="table-responsive">
+
+    <div class="main-grid">
+
+        @Html.Grid(Model).Columns(columns =>
+                        {
+                            //columns.Add(m => m.UnitRefNo).Titled("ID").SetWidth(110);
+                            columns.Add(m => m.PaymentTermsRefNo).Titled("Ref No.").SetWidth(20);
+                            columns.Add(m => m.PaymentTermsName).Titled("Name").SetWidth(200);
+                            columns.Add().Encoded(false).Sanitized(false).SetWidth(20).RenderValueAs(o => @<a href="">Edit</a>);
+                            columns.Add().Encoded(false).Sanitized(false).SetWidth(20).RenderValueAs(o => @<a href="">Delete</a>);
+
+                            //.Format("<a href="\"DeleteRecord?name={CategoryName}\"">{CategoryName}</a>");
+
+                            //columns.Add(m => m.CurrencyName).Sortable(true);
+                        }).WithPaging(10)
+
+    </div>
+
+</div>
+
