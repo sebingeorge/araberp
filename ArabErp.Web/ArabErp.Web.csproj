@@ -300,9 +300,11 @@
     <Content Include="Content\toastr\tests\unit\x.js" />
     <Content Include="Content\toastr\toastr-icon.png" />
     <Content Include="Content\toastr\toastr.js" />
+    <Content Include="Images\admin.png" />
     <Content Include="Images\banner.png" />
     <Content Include="Images\button-part.jpg" />
     <Content Include="Images\icon_nav.png" />
+    <Content Include="Images\menu-b.jpg" />
     <Content Include="Images\tick.png" />
     <Content Include="Images\x.png" />
     <Content Include="Scripts\jquery-1.8.3.js" />

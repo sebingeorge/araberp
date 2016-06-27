@@ -182,6 +182,7 @@ p {
 .logo 
 {  
     float:left;
+    margin-left:84px;
 }
 .logo img 
 {

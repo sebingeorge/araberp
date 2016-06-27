@@ -186,6 +186,22 @@ textarea {
  {
      color:#f9f0f0;
  }
+  .form-button5 
+{
+    background-color: #5c5a5a;
+    border: 1px solid #fff;
+    border-radius: 4px;
+    color: #ffffff;
+    height: 22px;
+    width: 92px;
+    margin-left:20px;
+    float:left;
+}
+    .form-button5:hover 
+    {
+        color:#a49e9e;
+        text-decoration:none;
+    }
 .margf 
 {
     float:right;
@@ -483,10 +499,10 @@ background-color: #D6D5D5;
 .pushmenu { /*this is the nav*/
   background: #444;
   height: 100%;
-  top: 0;
+  top:35px;
   z-index: 1000;
   position: fixed;
-  width:auto;
+  /*width:50px;*/
 }
 
 .pushmenu h3 {
@@ -510,21 +526,26 @@ background-color: #D6D5D5;
  /*margin-top: 30px;*/
 
 }
-.links li .dropdown-menu
+.links li ul li
 {
-    width:250px;
-    height:20px;
+    width:200px;
     border-bottom:1px solid #ffffff;
+    background-color:#444444;
 
-} 
-.links ul .dropdown-menu li a
-     {
-
+}
+    .links li ul li a 
+    {
+        font-size:13px;
     }
+
     .links li .glyphicon 
     {
-        font-size:16px;
+    font-size: 16px;
+    padding-left: 25px;
+    padding-top: 25px;
     }
+
+
 
 .links li a {
   position: relative;
@@ -533,7 +554,7 @@ background-color: #D6D5D5;
   font-size:13px;
   font-weight: 400;
   text-decoration: none;
-  padding: 7px;
+  padding: 4px;
 }
 
 .links li a:after {
@@ -575,20 +596,22 @@ background-color: #D6D5D5;
 }
 
 #nav_list {
-  background: url(../Images/icon_nav.png) no-repeat left top;
-  cursor: pointer;
-  height: 27px;
-  width: 33px;
-  text-indent: -99999em;
-  position: absolute;
-  z-index:999;
-  top:70px;
-  left:140px;
+    background: rgba(0, 0, 0, 0) url("../Images/icon_nav.png") no-repeat scroll left top;
+    cursor: pointer;
+    height: 34px;
+    left: 6px;
+    position: absolute;
+    text-indent: -99999em;
+    top: 22px;
+    width: 44px;
+    z-index: 9999;
 
 
 }
 
 nav-list.active { background-position: -331px top; }
+
+
 
 /*.buttonset {
   background: #00A287;
@@ -600,6 +623,17 @@ section.content {
   padding: 10px 20px;
 }
 
+.menu 
+    {
+    background: url(../Images/menu-b.jpg) repeat-x; 
+    border-bottom: 1px solid #fff;
+    font-size: 14px !;
+    font-weight: bold !important;
+    height: 40px;
+    line-height: 32px;
+    width:201px;
+    margin-left:-10px;
+    }
 
 
 
