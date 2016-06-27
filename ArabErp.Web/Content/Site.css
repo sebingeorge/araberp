@@ -518,7 +518,7 @@ background-color: #D6D5D5;
 .links {
   list-style-type: none;
   padding: 0;
-  margin: 0 0 0 5%;
+  margin:3% 0 0 5%;
   width: 4%;
 }
 
@@ -529,13 +529,16 @@ background-color: #D6D5D5;
 .links li ul li
 {
     width:200px;
-    border-bottom:1px solid #ffffff;
-    background-color:#444444;
+    border-bottom:1px solid #444444;
+    background-color:#ffffff;
+    height:25px;
 
 }
+
     .links li ul li a 
     {
         font-size:13px;
+        color:#444444;
     }
 
     .links li .glyphicon 
@@ -629,8 +632,8 @@ section.content {
     border-bottom: 1px solid #fff;
     font-size: 14px !;
     font-weight: bold !important;
-    height: 40px;
-    line-height: 32px;
+    height: 35px;
+    line-height: 24px;
     width:201px;
     margin-left:-10px;
     }
