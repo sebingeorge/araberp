@@ -3252,7 +3252,7 @@ input[type="button"].btn-block {
   min-width: 160px;
   /*padding: 5px 0 0 0;*/
   padding:0 0 0 0;
-  margin: 2px 0 0;
+  margin:-1px 0 0;
   font-size: 14px;
   list-style: none;
   background-color: #ffffff;
@@ -7009,12 +7009,17 @@ td.visible-print {
    top: 33px !important;
     }
 
+
     .links li ul li
 {
     width:150% !important;
-
-
 }
+    .menu 
+    {
+   height: 30px !important;
+   line-height: 19px !important;
+   width: 310px !important;
+    }
 
 }
 
