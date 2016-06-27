@@ -8,9 +8,10 @@ using System.Threading.Tasks;
 
 namespace ArabErp.DAL
 {
-   public static class DatabaseCommonRepository
+    public static class DatabaseCommonRepository
     {
-        public static int GetInternalIDFromDatabase(IDbConnection connection, IDbTransaction trn,string DOCUMENTTYPEID, string UNIQUEID,int DOUPDATE)
+        static string dataConnection = BaseRepository.GetConnectionString("arab");
+        public static int GetInternalIDFromDatabase(IDbConnection connection, IDbTransaction trn, string DOCUMENTTYPEID, string UNIQUEID, int DOUPDATE)
         {
             string SQLNo = @"BEGIN  
                              SET NOCOUNT ON  
@@ -47,6 +48,26 @@ namespace ArabErp.DAL
 
             int internalid = connection.Query<int>(SQLNo, new { DOCUMENTTYPEID = DOCUMENTTYPEID, UNIQUEID = UNIQUEID, DOUPDATE = DOUPDATE }, trn).First<int>();
             return internalid;
+        }
+
+        public static string GetNextReferenceNo(string DocumentType)
+        {
+            try
+            {
+                using (IDbConnection connection = BaseRepository.OpenConnection(dataConnection))
+                {
+                    string query = @"SELECT CAST(MST_UNIQUEID AS VARCHAR)+ '/' + CAST(MST_LASTSERIALNO + 1 AS VARCHAR) FROM MST_SYSTEM_DOCUMENT_SERIALNO WHERE MST_DOCUMENTID = @DocumentType";
+                    return connection.Query<string>(query, new { DocumentType = DocumentType }, null).First();
+                }
+            }
+            catch (InvalidOperationException)
+            {
+                return "1";
+            }
+            catch(Exception)
+            {
+                throw;
+            }
         }
     }
 }

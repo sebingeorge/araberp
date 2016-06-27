@@ -18,10 +18,10 @@ namespace ArabErp
 
         static string dataConnection = GetConnectionString("arab");
 
-  
+
         //private SqlConnection connection;
 
-     //   private SqlConnection connection => _connection ?? (_connection = ConnectionManager.connection);
+        //   private SqlConnection connection => _connection ?? (_connection = ConnectionManager.connection);
 
         //public JobCardRepository ()
         //{
@@ -30,7 +30,7 @@ namespace ArabErp
         //    {
         //        connection = ConnectionManager.connection;
         //    }
-                
+
         //}
         public IEnumerable<PendingSO> GetPendingSO()
         {
@@ -108,7 +108,7 @@ namespace ArabErp
                     string sql = @"insert  into JobCard(JobCardNo,JobCardDate,SaleOrderId,InPassId,WorkDescriptionId,FreezerUnitId,BoxId,BayId,SpecialRemarks,RequiredDate,EmployeeId,CreatedBy,CreatedDate,OrganizationId, SaleOrderItemId) Values (@JobCardNo,@JobCardDate,@SaleOrderId,@InPassId,@WorkDescriptionId,@FreezerUnitId,@BoxId,@BayId,@SpecialRemarks,@RequiredDate,@EmployeeId,@CreatedBy,@CreatedDate,@OrganizationId,@SaleOrderItemId);
                     SELECT CAST(SCOPE_IDENTITY() as int)";
 
-                    id = connection.Query<int>(sql, objJobCard,trn).Single();
+                    id = connection.Query<int>(sql, objJobCard, trn).Single();
 
                     int i = 0; ;
                     foreach (var item in objJobCard.JobCardTasks)
@@ -116,18 +116,18 @@ namespace ArabErp
                         item.JobCardId = id;
                         item.SlNo = i;
                         JobCardTaskRepository repo = new JobCardTaskRepository();
-                        var taskid = repo.InsertJobCardTask(item,connection,trn);
+                        var taskid = repo.InsertJobCardTask(item, connection, trn);
                         i++;
                     }
                     trn.Commit();
                     return id;
                 }
-                catch(Exception ex)
+                catch (Exception ex)
                 {
                     trn.Rollback();
                     return 0;
                 }
-                
+
             }
         }
 
@@ -172,7 +172,6 @@ namespace ArabErp
         {
             using (IDbConnection connection = OpenConnection(dataConnection))
             {
-
                 Item objItem = connection.Get<Item>(ItemId);
                 return objItem;
             }
@@ -261,6 +260,30 @@ namespace ArabErp
             using (IDbConnection connection = OpenConnection(dataConnection))
             {
                 return connection.Query<Box>("select * from Box");
+            }
+        }
+
+        /// <summary>
+        /// Return details of a jobcard such as date, sale order no and date, box name, freezer name
+        /// </summary>
+        /// <param name="jobCardId"></param>
+        /// <returns></returns>
+        public Consumption GetJobCardDetails1(int jobCardId)
+        {
+            using (IDbConnection connection = OpenConnection(dataConnection))
+            {
+                string query = @"SELECT 
+									J.JobCardId,
+	                                CONVERT(VARCHAR, J.JobCardDate, 106) JobCardDate,
+	                                ISNULL(SO.SaleOrderRefNo, '') + ' - ' + CONVERT(VARCHAR, SO.SaleOrderDate, 106) SONoDate,
+	                                ISNULL(F.FreezerUnitName, '') FreezerUnitName,
+	                                ISNULL(B.BoxName, '') BoxName
+                                FROM JobCard J
+                                INNER JOIN SaleOrder SO ON J.SaleOrderId = SO.SaleOrderId
+                                INNER JOIN FreezerUnit F ON J.FreezerUnitId = F.FreezerUnitId
+                                INNER JOIN Box B ON J.BoxId = B.BoxId
+                                WHERE JobCardId = @jobCardId";
+                return connection.Query<Consumption>(query, new { jobCardId = jobCardId }).Single();
             }
         }
 
