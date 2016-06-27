@@ -182,16 +182,9 @@ namespace ArabErp.Web.Controllers
         }
         public ActionResult PendingSaleOrderHold(int? page)
         {
-            var rep = new SaleOrderRepository();
-            var slist = rep.GetSaleOrdersPendingWorkshopRequest();
-            var pager = new Pager(slist.Count(), page);
-
-            var viewModel = new PagedSaleOrderViewModel
-            {
-                SaleOrders = slist.Skip((pager.CurrentPage - 1) * pager.PageSize).Take(pager.PageSize),
-                Pager = pager
-            };
-            return View(viewModel);
+            var repo = new SaleOrderRepository();
+            IEnumerable<PendingSO> pendingSO = repo.GetSaleOrdersForHold();
+            return View(pendingSO);
         }
         public ActionResult Hold(int? SaleOrderId)
         {
@@ -253,10 +246,10 @@ namespace ArabErp.Web.Controllers
 
             return View("Approval", model);
         }
-        public ActionResult UpdateReleaseStatus(int? Id)
+        public ActionResult UpdateReleaseStatus(int? Id, string ReleaseDate)
         {
 
-            new SaleOrderRepository().UpdateSORelease(Id ?? 0);
+            new SaleOrderRepository().UpdateSORelease(Id ?? 0, ReleaseDate);
             return RedirectToAction("PendingSaleOrderRelease");
         }
         public ActionResult Closing()

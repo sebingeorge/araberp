@@ -18,5 +18,8 @@ namespace ArabErp.Domain
         public string WorkDescr { get; set; }
         public string SaleOrderHoldReason { get; set; }
         public DateTime SaleOrderHoldDate { get; set; }
+        public DateTime EDateArrival { get; set; }
+        public DateTime EDateDelivery { get; set; }
+        
     }
 }

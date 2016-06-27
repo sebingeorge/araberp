@@ -6,7 +6,7 @@
     $(function () {
        
         $("#SaleOrderHoldDate").datepicker({ dateFormat: "dd-MM-yy" });
-
+        $("#SaleOrderReleaseDate").datepicker({ dateFormat: "dd-MM-yy" });
     });
     function SaleOrderHold() {
         var id = $("#SaleOrderId").val();
@@ -19,8 +19,9 @@
     }
     function SaleOrderRelease() {
         var id = $("#SaleOrderId").val();
+        var ReleaseDate = $("#SaleOrderReleaseDate").val();
         var url = '@Url.Action("UpdateReleaseStatus")';
-        url = url + "?Id=" + id;
+        url = url + "?Id=" + id + "&ReleaseDate=" + ReleaseDate;
         console.log(url);
         window.location.href = url;
     }
