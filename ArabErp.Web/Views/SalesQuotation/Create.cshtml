@@ -13,12 +13,17 @@
     if (ViewBag.actionName.ToString() == "Create")
     {
         displayMode = new { @class = "form_input", autocomplete = "off" };
+        ViewBag.Title = "Sales Quotation";
     }
     else
-    { displayMode = new { @class = "form_input", autocomplete = "off", @readonly = "readonly" }; }
+    { displayMode = new { @class = "form_input", autocomplete = "off", @readonly = "readonly" };
+        ViewBag.Title = "Pending Sales Quotation";
+    }
 
 
 }
+
+
 
 <script>
 
@@ -180,8 +185,20 @@
 <div class="container">
     <div class="row">
         <div class="form-head1">
-            <h4>Quotation Request</h4>
-        </div>
+            @{
+                if (ViewBag.actionName.ToString() == "Create")
+                {
+
+                    <h4>Sales Quotation Request</h4>
+                }
+                else
+                {
+
+                    <h4> Pending Sales Quotation Request Approve</h4>
+                }
+            }
+
+</div>
 
         <div class="main-part pad1">
             @using (Html.BeginForm(ViewContext.RouteData.GetRequiredString("action"), null, FormMethod.Post, new { @class = "createFrom", @id = "work_form" }))
@@ -287,11 +304,11 @@
                         <label for="SalesExecutiveId">Sales Executive </label>
                         @if (ViewBag.actionName.ToString() == "Create")
                         {
-                            @Html.DropDownListFor(m => Model.SalesExecutiveId, (SelectList)ViewBag.employeelist, "Select Order Taken By", new { @class = "form_input", autocomplete = "off" })
+                            @Html.DropDownListFor(m => Model.SalesExecutiveId, (SelectList)ViewBag.employeelist, "Select Sales Executive", new { @class = "form_input", autocomplete = "off" })
                         }
                         else
                         {
-                            @Html.DropDownListFor(m => Model.SalesExecutiveId, (SelectList)ViewBag.employeelist, "Select Order Taken By", new { @class = "form_input", autocomplete = "off", @disabled = "true" })
+                            @Html.DropDownListFor(m => Model.SalesExecutiveId, (SelectList)ViewBag.employeelist, "Select Sales Executive", new { @class = "form_input", autocomplete = "off", @disabled = "true" })
 
                         }
                     </div>
