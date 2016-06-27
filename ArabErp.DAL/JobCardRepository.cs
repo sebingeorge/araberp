@@ -172,7 +172,6 @@ namespace ArabErp
         {
             using (IDbConnection connection = OpenConnection(dataConnection))
             {
-
                 Item objItem = connection.Get<Item>(ItemId);
                 return objItem;
             }

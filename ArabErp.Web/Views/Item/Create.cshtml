@@ -1,83 +1,8 @@
 ﻿@model ArabErp.Domain.Item
 @{ViewBag.Title = "Create";Layout = "~/Views/Shared/_Layout.cshtml";}
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+<script src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.10.2/jquery-ui.min.js"></script>
 
-<script>
-    $(document).ready(function () {
-
-        toastr.options = {
-            "closeButton": true,
-            "positionClass": "toast-bottom-full-width",
-            "preventDuplicates": false,
-            "onclick": null,
-
-            "timeOut": "0",
-            "extendedTimeOut": "1000",
-            "showEasing": "swing",
-            "hideEasing": "linear",
-            "showMethod": "fadeIn",
-            "hideMethod": "fadeOut"
-        }
-        if ('@TempData["success"]' != "" && '@TempData["ItemRefNo"]' != "") {
-            toastr.success('@TempData["success"]' + '  Item Ref No. is : ' + '@TempData["ItemRefNo"]');
-        }
-        else if ('@TempData["error"]' != "") {
-            toastr.error('@TempData["error"]');
-        }
-        //$('#Item_form').bootstrapValidator({
-        //    fields: {
-        //        PartNo: {
-        //            validators: {
-        //                notEmpty: {
-        //                    message: 'Please Enter Part No'
-        //                }
-        //            }
-        //        },
-
-        //        ItemName: {
-        //            validators: {
-        //                notEmpty: {
-        //                    message: 'Please Enter Item Name'
-        //                }
-        //            }
-        //        },
-
-        //        ItemCategoryId: {
-        //            validators: {
-        //                notEmpty: {
-        //                    message: 'Please Select Category'
-        //                }
-        //            }
-        //        },
-
-        //        ItemGroupId: {
-        //            validators: {
-        //                notEmpty: {
-        //                    message: 'Please Select Group'
-        //                }
-        //            }
-        //        },
-
-        //        ItemSubGroupId: {
-        //            validators: {
-        //                notEmpty: {
-        //                    message: 'Please Select Sub Group'
-        //                }
-        //            }
-        //        },
-
-        //        ItemUnitId: {
-        //            validators: {
-        //                notEmpty: {
-        //                    message: 'Please Select Unit'
-        //                }
-        //            }
-        //        },
-
-        //    }
-        //});
-    })
-
-</script>
 
 <script type="text/javascript">
     function FillItemGroup() {
@@ -108,6 +33,27 @@
     }
 
     $(document).ready(function () {
+       
+        toastr.options = {
+            "closeButton": true,
+            "positionClass": "toast-bottom-full-width",
+            "preventDuplicates": false,
+            "onclick": null,
+
+            "timeOut": "0",
+            "extendedTimeOut": "1000",
+
+            "showEasing": "swing",
+            "hideEasing": "linear",
+            "showMethod": "fadeIn",
+            "hideMethod": "fadeOut"
+        }
+        if ('@TempData["success"]' != "" && '@TempData["ItemRefNo"]' != "") {
+            toastr.success('@TempData["success"]' + '  Item Ref No. is : ' + '@TempData["ItemRefNo"]');
+        }
+        else if ('@TempData["error"]' != "") {
+            toastr.error('@TempData["error"]');
+        }
         $('#ExpiryDate')
             .datepicker({
                 format: 'dd/MM/yyyy'
@@ -122,12 +68,11 @@
     }
 </script>
 
-
 <div class="container">
     <div class="row">
         <div class="form-head"><h4>Item</h4></div>
         <div class="col-md-12">
-          @using (Html.BeginForm("Save", null, FormMethod.Post, new { @class = "createFrom", @id = "Item_form" }))
+          @using (Html.BeginForm(null, null, FormMethod.Post, new { @class = "createFrom", @id = "Item_form" }))
                 {
 
                     <div class="row form-group main-part pad1">
