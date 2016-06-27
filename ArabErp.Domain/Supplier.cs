@@ -40,6 +40,9 @@ namespace ArabErp.Domain
         public string CreatedDate { get; set; }
         public string CreatedBy { get; set; }
         public int? OrganizationId { get; set; }
-        public string isActive { get; set; }  
+        public string isActive { get; set; }
+        public string SupCategoryName { get; set; }
+        public string PurchaseTypeName { get; set; }  
+              
     }
 }

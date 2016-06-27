@@ -84,8 +84,6 @@ namespace ArabErp.Web.Controllers
             return View("Create", objItem);
         }
 
-
-
         public void FillItemSubGroup(int Id)
         {
             ItemRepository Repo = new ItemRepository();

@@ -65,5 +65,26 @@ namespace ArabErp.Web.Controllers
             return View("Create", objSupplier);
         }
 
+
+        //public ActionResult Create(int Id)
+        //{
+        //    FillCategoryDropdown();
+        //    FillCountryDropdown();
+        //    FillCurrencyDropdown();
+        //    FillPurchaseType();
+        //    Supplier objSupplier = new SupplierRepository().GetSupplier(Id);
+        //    return View("Create", objSupplier);
+        //}
+
+        public ActionResult SupplierList(int? page)
+        {
+            int itemsPerPage = 10;
+            int pageNumber = page ?? 1;
+            var repo = new SupplierRepository();
+            var List = repo.GetSuppliers();
+            return PartialView("_SupplierListView", List);
+        }
+
+   
     }
 }
