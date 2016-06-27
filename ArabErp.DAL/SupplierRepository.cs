@@ -78,7 +78,7 @@ namespace ArabErp.DAL
                                                     CreatedBy,CreatedDate,OrganizationId) 
                                              Values (@SupplierRefNo,@SupplierName,@PurchaseTypeId,@SupplierPrName,
                                                     @CategoryId,@ContractDate,@ContactPerson,@Active,
-                                                    @DoorNo,@City,@State,@CountryId,
+                                                    @DoorNo,@City,@State,@Country,
                                                     @PostBoxNo,@Phone,@Fax,@Email,
                                                     @Bank,@Branch,@AccountDetails,@SwiftCode,
                                                     @RtgsNo,@AccountNo,@DiscountTermsId,@DiscountRate,
