@@ -9,7 +9,7 @@ using System.Web.Mvc;
 
 namespace ArabErp.Web.Controllers
 {
-    public class JobCardController : Controller
+    public class JobCardController : BaseController
     {
         JobCardRepository repo;
         public JobCardController()

@@ -8,7 +8,7 @@ using ArabErp.DAL;
 
 namespace ArabErp.Web.Controllers
 {
-    public class ItemSubGroupController : Controller
+    public class ItemSubGroupController : BaseController
     {
         // GET: ItemSubGroup
         public ActionResult Index()

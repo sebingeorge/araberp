@@ -1,7 +1,26 @@
 ﻿@model ArabErp.Domain.SaleOrder
 
 <script>
+    $(document).ready(function () {
+        $("#CommissionPerc").keyup(function () {
+           
+      
+        var CommPercentage = parseFloat("0");
+        var CommAmt = parseFloat("0");
 
+        var TotalAmt = $("#TotalAmount").val();
+      
+        CommPercentage = parseFloat($("#CommissionPerc").val());
+
+        if (isNaN(CommPercentage)) {
+            CommPercentage = parseFloat("0");
+        }
+     
+        CommAmt = TotalAmt * (CommPercentage / 100);
+        
+        $("#CommissionAmount").val(CommAmt);
+    });
+    });
 </script>
 <div class="row">
     <div class="col-md-12">
@@ -91,7 +110,7 @@
                     <label for="CommissionPerc">Commission %</label>
                     @if (ViewData["action"].ToString() == "Create")
                     {
-                        @Html.TextBoxFor(m => m.CommissionPerc, new { @class = "form_input form_input-half1 text-right numbers-only", autocomplete = "off" })
+                        @Html.TextBoxFor(m => m.CommissionPerc, new { @class = "form_input form_input-half1 text-right numbers-only", autocomplete = "off"})
 
                     }
                     else
@@ -105,7 +124,7 @@
                     <label for="CommissionAmount">Commission Amt.</label>
                     @if (ViewData["action"].ToString() == "Create")
                     {
-                        @Html.TextBoxFor(m => m.CommissionAmount, new { @class = "form_input form_input-half2  text-right numbers-only", autocomplete = "off" })
+                        @Html.TextBoxFor(m => m.CommissionAmount, new { @class = "form_input form_input-half2  text-right numbers-only", autocomplete = "off", @readonly = "readonly" })
 
                     }
                     else

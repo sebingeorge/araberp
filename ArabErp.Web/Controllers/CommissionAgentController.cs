@@ -8,7 +8,7 @@ using ArabErp.DAL;
 
 namespace ArabErp.Web.Controllers
 {
-    public class CommissionAgentController : Controller
+    public class CommissionAgentController : BaseController
     {
         // GET: CommissionAgent
         public ActionResult Index()

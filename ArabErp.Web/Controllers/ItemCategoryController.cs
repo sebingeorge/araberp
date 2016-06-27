@@ -9,7 +9,7 @@ using ArabErp.DAL;
 
 namespace ArabErp.Web.Controllers
 {
-    public class ItemCategoryController : Controller
+    public class ItemCategoryController : BaseController
     {
         // GET: ItemCategory
         public ActionResult Index()

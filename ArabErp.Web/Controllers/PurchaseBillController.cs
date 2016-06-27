@@ -9,7 +9,7 @@ using ArabErp.Domain;
 
 namespace ArabErp.Web.Controllers
 {
-    public class PurchaseBillController : Controller
+    public class PurchaseBillController : BaseController
     {
         // GET: PurchaseBill
         public ActionResult Index()

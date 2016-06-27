@@ -8,7 +8,7 @@ using ArabErp.DAL;
 
 namespace ArabErp.Web.Controllers
 {
-    public class StockPointController : Controller
+    public class StockPointController : BaseController
     {
         // GET: StockPoint
         public ActionResult Index()

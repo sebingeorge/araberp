@@ -9,7 +9,7 @@ using System.Web.Mvc;
 
 namespace ArabErp.Web.Controllers
 {
-    public class DirectPurchaseController : Controller
+    public class DirectPurchaseController : BaseController
     {
         // GET: LocalPurchase
         public ActionResult Index()
