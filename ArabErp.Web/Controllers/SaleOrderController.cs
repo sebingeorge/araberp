@@ -205,8 +205,10 @@ namespace ArabErp.Web.Controllers
             FillVehicle();
             var repo = new SaleOrderRepository();
             SaleOrder model = repo.GetSaleOrder(SaleOrderId ?? 0);
+            model.SaleOrderHoldDate = DateTime.Now;
             var SOList = repo.GetSaleOrderItem(SaleOrderId ?? 0);
             model.Items = new List<SaleOrderItem>();
+           
             foreach (var item in SOList)
             {
                 var soitem = new SaleOrderItem { WorkDescriptionId = item.WorkDescriptionId, VehicleModelId = item.VehicleModelId, Quantity = item.Quantity, UnitId = item.UnitId, Rate = item.Rate, Amount = item.Amount, Discount = item.Discount };
@@ -216,10 +218,10 @@ namespace ArabErp.Web.Controllers
 
             return View("Approval", model);
         }
-        public ActionResult UpdateHoldStatus(int? Id, string hreason)
+        public ActionResult UpdateHoldStatus(int? Id, string hreason, string  HoldDate)
         {
 
-            new SaleOrderRepository().UpdateSOHold(Id ?? 0, hreason);
+            new SaleOrderRepository().UpdateSOHold(Id ?? 0, hreason, HoldDate);
             return RedirectToAction("PendingSaleOrderHold");
         }
         public ActionResult PendingSaleOrderRelease()

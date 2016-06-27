@@ -11,7 +11,7 @@
     <div class="row">
 
         <div class="form-head1">
-            <h4>Pending SaleOrder Release</h4>
+            <h4>Pending Sale Order Release</h4>
         </div>
         <div class="main-part pad1 white">
             <div class="main-grid main-grid-top scroll1">
@@ -19,9 +19,11 @@
                     <table class="table table-bordered">
                         <thead>
                             <tr class="grid_heading">
-                                <th><h1>SO No & Date</h1></th>
                                 <th><h1>Customer</h1></th>
                                 <th><h1>Customer Order Ref.</h1></th>
+                                <th><h1>SO No & Date</h1></th>
+                                <th><h1>Hold Date</h1></th>
+                                <th><h1>Hold Reason</h1></th>
                                 <th><center><h1>Select</h1></center></th>
                             </tr>
                         </thead>
@@ -29,11 +31,13 @@
                         {
                             <tbody class="grid_row">
                                 <tr>
-                                    <td class="grid-cell">@item.SaleOrderRefNo &amp; @item.SaleOrderDate.ToString("dd/MMM/yyyy")</td>
                                     <td class="grid-cell">@item.CustomerName</td>
                                     <td class="grid-cell">@item.CustomerOrderRef</td>
-                                    <td><center><button class="form-button4">@Html.ActionLink("Select", "Release", "SaleOrder", new { SaleOrderId = @item.SaleOrderId }, null)</button></center></td>
-                                </tr>
+                                    <td class="grid-cell">@item.SaleOrderRefNo &amp; @item.SaleOrderDate.ToString("dd/MMM/yyyy")</td>
+                                    <td class="grid-cell">@item.SaleOrderHoldDate.ToString("dd/MMM/yyyy")</td>
+                                    <td class="grid-cell">@item.SaleOrderHoldReason</td>
+                                    <td><center>@Html.ActionLink("Select", "Release", "SaleOrder", new { SaleOrderId = @item.SaleOrderId }, new { @class = "form-button5" })</center></td>
+                               </tr>
                             </tbody>
                         }
                     </table>

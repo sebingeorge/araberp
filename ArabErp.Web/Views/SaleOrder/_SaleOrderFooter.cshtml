@@ -163,17 +163,22 @@
         @if (ViewData["action"].ToString() == "Hold")
         {
         <div class="row">
-        <div class="part">
-            <div class="col-md-1"><label for="SaleOrderHoldReason">Hold Reason</label></div>
+            <div class="col-md-10">
+                <div class="part4">
+                    <label for="SaleOrderHoldReason">Hold Reason</label>
 
-            <div class="col-md-11">
-              
                     @Html.TextAreaFor(m => m.SaleOrderHoldReason, new { @class = "form_input form_input-h", autocomplete = "off" })
                     @Html.HiddenFor(m => m.SaleOrderHoldReason)
-               
+                </div>
             </div>
-        </div>
-    </div>
+            <div class="col-md-2">
+                <div class="part4">
+                    <label for="SaleOrderHoldDate">Hold Date</label>
+                @Html.TextBoxFor(m => m.SaleOrderHoldDate, Model.SaleOrderHoldDate.ToString("dd/MMMM/yyyy"), new { @class = "form_input ", autocomplete = "off" })
+                @Html.HiddenFor(m => m.SaleOrderHoldDate)
+            </div>
+            </div>
+           </div>
         }
             </div>
 </div>

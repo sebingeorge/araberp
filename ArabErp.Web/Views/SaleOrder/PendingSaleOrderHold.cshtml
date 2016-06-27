@@ -17,7 +17,7 @@
                             <tr class="grid_heading">
                                 <th><h1>Customer</h1></th>
                                 <th><h1>Customer Order Ref.</h1></th>
-                                <th><h1>SO No & Date</h1></th>
+                                <th><h1>SO.No. & Date</h1></th>
                                 <th><h1>EDA</h1></th>
                                 <th><h1>EDD</h1></th>
                                 <th><h1>Select</h1></th>
@@ -32,8 +32,8 @@
                                     <td class="grid-cell"><input type="text" class="form_input" value="@Model.SaleOrders.ElementAt(i).SoNoWithDate" /></td>
                                     <td class="grid-cell"><input type="text" class="form_input" value="@Model.SaleOrders.ElementAt(i).EDateArrival.ToString("dd/MMM/yyyy")" /></td>
                                     <td class="grid-cell"><input type="text" class="form_input" value="@Model.SaleOrders.ElementAt(i).EDateDelivery.ToString("dd/MMM/yyyy")" /></td>
-                                    <td><center><button class="form-button4">@Html.ActionLink("Select", "Hold", "SaleOrder", new { SaleOrderId = @Model.SaleOrders.ElementAt(i).SaleOrderId }, null)</button></center></td>
-                                </tr>
+                                    <td><center>@Html.ActionLink("Select", "Hold", "SaleOrder", new { SaleOrderId = @Model.SaleOrders.ElementAt(i).SaleOrderId }, new { @class = "form-button5" })</center></td>
+                               </tr>
                             </tbody>
                         }
                     </table>
