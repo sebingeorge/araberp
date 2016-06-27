@@ -20,23 +20,50 @@
             var clone = $('#0').clone(); // clone the BatchProducts item
             //Update the index of the clone
             //clone.html($(clone).html().replace("Items_0__", 'Items_' + i + '__'));
-            clone.html($(clone).html().replace(/\Items_0__/g, 'Items_' + i + '__'));
-            clone.html($(clone).html().replace(/\Items[0]./g, 'Items[' + i + '].'));
+            clone.html($(clone).html().replace(/\ConsumptionItems_0__/g, 'ConsumptionItems_' + i + '__'));
+            clone.html($(clone).html().replace(/\ConsumptionItems[0]./g, 'ConsumptionItems[' + i + '].'));
             clone.html($(clone).html().replace(/\[0\]/g, '[' + i + ']'));
             clone.html($(clone).html().replace(/\(0\)/g, '(' + i + ')'));
             clone.html($(clone).html().replace(/Row_0/, 'Row_' + i));
+            clone.html($(clone).html().replace(/\(this,0\)/, '(this,' + i + ')'));
             $("#consumption-table").append('<tr id="' + i + '">' + clone.html() + '  </tr>');
+            $("#ConsumptionItems_" + i + "__SlNo").val(i + 1);
 
             //bind keypress event for new row inputs.
             $(".numbers-only").keypress(function (e) {
                 if (e.which == 8 || (e.which == 46 && $(this).val().indexOf('.') == -1) || (e.which > 47 && e.which < 58)) { } else { return false; }
             });
+
+            Amount_BindKeyUp();
         });
+
+        Amount_BindKeyUp();
 
         $(".numbers-only").keypress(function (e) {
             if (e.which == 8 || (e.which == 46 && $(this).val().indexOf('.') == -1) || (e.which > 47 && e.which < 58)) { } else { return false; }
         });
     });
+
+    function Amount_BindKeyUp(){
+        $("input[id$='__Amount']").keyup(function(){
+            CalculateSummary();
+        });
+    }
+
+    function CalculateSummary(){
+        var total = 0;
+        $("input[id$='__Amount']").each(function(i, obj){
+            total += Number($(obj).val());
+            $("#total").html(total);
+        });
+    }
+
+    function OnMaterialChanged(sender, index) {
+        var url = '@Url.Action("GetItemPartNo", "Consumption")';
+        $.getJSON(url, { itemId: $(sender).val() }, function (data) {
+            $("#ConsumptionItems_"+index+"__PartNo").val(data.split('|')[0]);
+        });
+    }
 
     function Delete(index) {
 
@@ -55,24 +82,27 @@
         if (i > 1) {
             $("#" + index).remove();
             for (var j = index + 1; j < i; j++) {
-                var item = $("#Items_" + j + "__ItemId").val();
-                var remarks = $("#Items_" + j + "__Remarks").val();
-                var qty = $("#Items_" + j + "__Quantity").val();
+                var item = $("#ConsumptionItems_" + j + "__ItemId").val();
+                var partno = $("#ConsumptionItems_" + j + "__PartNo").val();
+                var remarks = $("#ConsumptionItems_" + j + "__Remarks").val();
+                var amount = $("#ConsumptionItems_" + j + "__Amount").val();
                 var clone = $("#" + j).clone(true, true);
-                clone.html($(clone).html().replace(new RegExp("Items_" + j + "__", "g"), 'Items_' + (j - 1) + '__'));
+                clone.html($(clone).html().replace(new RegExp("ConsumptionItems_" + j + "__", "g"), 'ConsumptionItems_' + (j - 1) + '__'));
                 clone.html($(clone).html().replace(new RegExp("\\[" + j + "].", "g"), "[" + (j - 1) + "]."));
-                clone.html($(clone).html().replace(new RegExp("\\(" + j + ").", "g"), "(" + (j - 1) + ")."));
-                clone.html($(clone).html().replace(new RegExp('slno' + (j + 1) + '">' + (j + 1), "g"), 'slno' + (j) + '">' + (j)));
+                clone.html($(clone).html().replace(new RegExp('this,' + j, 'g'), 'this,' + (j - 1)));
+                //clone.html($(clone).html().replace(new RegExp("\\(" + j + ")", "g"), "(" + (j - 1) + ")"));
                 clone.html($(clone).html().replace("Delete(" + j, "Delete(" + (j - 1)));
                 clone.html($(clone).html().replace("Row_" + j, "Row_" + (j - 1)));
                 $("#" + j).html(clone.html());
-                $("#Items_" + (j - 1) + "__SlNo").val(j);
+                $("#ConsumptionItems_" + (j - 1) + "__SlNo").val(j);
                 $("#" + (j)).attr('id', (j - 1));
-                $("#Items_" + (j - 1) + "__ItemId").val(item);
-                $("#Items_" + (j - 1) + "__Remarks").val(remarks);
-                $("#Items_" + (j - 1) + "__Quantity").val(qty);
+                $("#ConsumptionItems_" + (j - 1) + "__ItemId").val(item);
+                $("#ConsumptionItems_" + (j - 1) + "__PartNo").val(partno);
+                $("#ConsumptionItems_" + (j - 1) + "__Remarks").val(remarks);
+                $("#ConsumptionItems_" + (j - 1) + "__Amount").val(amount);
             }
         }
+        CalculateSummary();
     }
 </script>
 
@@ -88,28 +118,25 @@
         </tr>
     </thead>
     <tbody class="grid_row">
-        @for (int i = 0; i < Model.Items.Count; i++)
+        @for (int i = 0; i < Model.ConsumptionItems.Count; i++)
         {
             <tr id="@i">
                 <td style="vertical-align:middle" align="center">
-                    @*@if (i == Model.Items.Count - 1)
-                    {
-                        <a class="glyphicon glyphicon-plus" id="add_row" style="top:0px"></a>
-                    }*@
+                    @Html.TextBoxFor(m => m.ConsumptionItems[i].SlNo, new { @class = "form_input", @readonly = "true", @style = "width:20px;padding:0px" })
                 </td>
                 <td>
                     <input type="hidden" id="Row_@i" />
-                    @Html.HiddenFor(m => m.Items[i].ConsumptionItemId)
-                    @Html.DropDownListFor(m => m.Items[i].ItemId, (SelectList)ViewBag.itemList, "Select Material/Spare", new { @class = "form_input" })
+                    @Html.HiddenFor(m => m.ConsumptionItems[i].ConsumptionItemId)
+                    @Html.DropDownListFor(m => m.ConsumptionItems[i].ItemId, (SelectList)ViewBag.itemList, "Select Material/Spare", new { @class = "form_input", @required = "true", @onchange = "OnMaterialChanged(this," + i + ")" })
                 </td>
                 <td>
-                    @Html.TextBoxFor(m => m.Items[i].PartNo, new { @class = "form_input", @readonly = "true" })
+                    @Html.TextBoxFor(m => m.ConsumptionItems[i].PartNo, new { @class = "form_input", @readonly = "true" })
                 </td>
                 <td>
-                    @Html.TextBoxFor(m => m.Items[i].Remarks, new { @class = "form_input", @placeholder = "Remarks" })
+                    @Html.TextBoxFor(m => m.ConsumptionItems[i].Remarks, new { @class = "form_input", @placeholder = "Remarks" })
                 </td>
                 <td>
-                    @Html.TextBoxFor(m => m.Items[i].Amount, new { @class = "form_input text-right numbers-only" })
+                    @Html.TextBoxFor(m => m.ConsumptionItems[i].Amount, new { @class = "form_input text-right numbers-only", @required = "true", @placeholder = "Amount" })
                 </td>
                 <td style="vertical-align:middle" align="center">
                     <a class="glyphicon glyphicon-minus" style="top:0px" onclick="Delete(@i)"></a>
@@ -129,7 +156,9 @@
                 </h1>
             </th>
             <th width="5%" class="text-right"><span id="total"></span></th>
-            <th></th>
+            <th>
+                <span id="total"></span>
+            </th>
         </tr>
     </tfoot>
 </table>
