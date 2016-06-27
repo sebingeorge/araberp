@@ -18,6 +18,18 @@
         console.log(url);
         window.location.href = url;
     }
+    function Exit() {
+       
+        //if (ViewData["action"].ToString() == "Hold")
+        //{
+         location.href = '@Url.Action("PendingSaleOrderHold", "SaleOrder")';
+    //    }
+    //else if (ViewData["action"].ToString() == "Release")
+    //{
+        @*location.href = '@Url.Action("PendingSaleOrderRelease", "SaleOrder")';
+    }*@
+    }
+   
 </script>
 <div class="container">
     <div class="row">
@@ -47,7 +59,7 @@ else
         
          <div class="row">
                    <div class="col-md-12 hrpart">
-                        <button type="button" class="form-button right">Exit</button>
+                       <button type="button" class="form-button right" onclick="Exit()">Exit</button>
                     @if (ViewData["action"].ToString() == "Approval")
                             {
                         <button type="submit" class="form-button right">Approve</button>

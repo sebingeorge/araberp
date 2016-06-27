@@ -6,7 +6,7 @@ using System.Web.Mvc;
 
 namespace ArabErp.Web.Controllers
 {
-    public class FreezerUnitController : Controller
+    public class FreezerUnitController : BaseController
     {
         // GET: FreezerUnit
         public ActionResult Index()

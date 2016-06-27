@@ -162,7 +162,7 @@
                 {
                     <tr id="Row_@i">
                         <td>@(i+1) </td>
-                        @Html.HiddenFor(m=>Model.SaleInvoiceItems[i].SaleOrderItemId)
+                        @Html.HiddenFor(m=> Model.SaleInvoiceItems[i].SaleOrderItemId)
                         @Html.HiddenFor(m => Model.SaleInvoiceItems[i].SaleOrderId)
                         @Html.HiddenFor(m => Model.SaleInvoiceItems[i].JobCardId)
                         <td>@Html.TextBoxFor(m => Model.SaleInvoiceItems[i].WorkDescription, new { @class = "form_input", autocomplete = "off", @style = "text-align:left", placeholder = "Rate", @readonly = "readonly" })</td>

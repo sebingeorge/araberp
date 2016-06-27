@@ -1,7 +1,8 @@
-﻿@using ArabErp.Web.Models
+﻿@using ArabErp.Domain
 @model LoginViewModel
 @{
     ViewBag.Title = "Log in";
+    Layout = "~/Views/Shared/_LayoutLogin.cshtml";
 }
 
 <div class="container">
@@ -18,21 +19,19 @@
                             @using (Html.BeginForm("Login", "Account", new { ReturnUrl = ViewBag.ReturnUrl }, FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
                             {
                                 @Html.AntiForgeryToken()
-                                <h4>Use a local account to log in.</h4>
-                                <hr />
                                 @Html.ValidationSummary(true, "", new { @class = "text-danger" })
                                 <div class="form-group">
-                                    @Html.LabelFor(m => m.Email, new { @class = "col-md-2 control-label" })
-                                    <div class="col-md-10">
+                                    @Html.LabelFor(m => m.Username, new { @class = "col-md-5 control-label" })
+                                    <div class="col-md-7">
                                         <div class="part">
-                                            @Html.TextBoxFor(m => m.Email, new { @class = "form_input" })
-                                            @Html.ValidationMessageFor(m => m.Email, "", new { @class = "text-danger" })
+                                            @Html.TextBoxFor(m => m.Username, new { @class = "form_input" })
+                                            @Html.ValidationMessageFor(m => m.Username, "", new { @class = "text-danger" })
                                         </div>
                                     </div>
                                 </div>
                                 <div class="form-group">
-                                    @Html.LabelFor(m => m.Password, new { @class = "col-md-2 control-label" })
-                                    <div class="col-md-10">
+                                    @Html.LabelFor(m => m.Password, new { @class = "col-md-5 control-label" })
+                                    <div class="col-md-7">
                                         <div class="part">
                                             @Html.PasswordFor(m => m.Password, new { @class = "form_input" })
                                             @Html.ValidationMessageFor(m => m.Password, "", new { @class = "text-danger" })
@@ -40,7 +39,7 @@
                                         </div>
                                 </div>
                                 <div class="form-group">
-                                    <div class="col-md-offset-2 col-md-10">
+                                    <div class="col-md-offset-5 col-md-7">
                                         <div class="part">
                                             <div class="checkbox">
                                                 @Html.CheckBoxFor(m => m.RememberMe)
@@ -48,11 +47,6 @@
                                             </div>
                                             </div>
                                             <div class="margf"><input type="submit" value="Log in" class="form-button" /></div>
-                                       
-
-                                            <span class="pad-t">
-                                                @Html.ActionLink("Register as a new user", "Register")
-                                            </span>
                                         </div>
                                 </div>
 
@@ -62,11 +56,6 @@
                             @Html.ActionLink("Forgot your password?", "ForgotPassword")
                         </p>*@
                             }
-                        </section>
-                    </div>
-                    <div class="col-md-5">
-                        <section id="socialLoginForm">
-                            @Html.Partial("_ExternalLoginsListPartial", new ExternalLoginListViewModel { ReturnUrl = ViewBag.ReturnUrl })
                         </section>
                     </div>
                 <div class="col-md-1"></div>

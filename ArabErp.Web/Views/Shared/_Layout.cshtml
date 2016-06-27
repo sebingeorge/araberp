@@ -11,26 +11,184 @@
     @Scripts.Render("~/bundles/jqueryval")
     <script src="~/MVCGridHandler.axd/script.js"></script>
     @*<script src="~/scripts/mdb.js"></script>
-    <script src="~/scripts/mdb.min.js"></script>*@
+        <script src="~/scripts/mdb.min.js"></script>*@
 
     <link href="~/Content/toastr/build/toastr.min.css" rel="stylesheet" />
     <script src="~/Content/toastr/build/toastr.min.js"></script>
+    <script src="~/Content/jquery-1.12.4.min.js"></script>
 
     <link href="~/Content/menu.css" rel="stylesheet" />
     @*<link href="~/scripts/mdb.css" rel="stylesheet" />
-    <link href="~/scripts/mdb.min.css" rel="stylesheet" />*@
+        <link href="~/scripts/mdb.min.css" rel="stylesheet" />*@
 </head>
 <body>
+    <div class="pushmenu-push"></div>
+
+    <nav class="pushmenu pushmenu-left">
+        <h3>Logo</h3>
+        <ul class="links">
+
+
+            <li>
+                <a data-toggle="dropdown" class="dropdown-toggle menu" href="#">@*<i class="glyphicon glyphicon-th-list"></i>*@ Admin</a>
+                <ul class="dropdown-menu">
+
+                    <li><a href="@Url.Action("Index","Item")"><span class="badge pull-right"></span>Item</a></li>
+                    <li><a href="@Url.Action("Create", "Employee")"><span class="badge pull-right"></span>Employee</a></li>
+                    <li><a href="@Url.Action("Create","Supplier")"><span class="badge pull-right"></span>Supplier</a></li>
+                    <li><a href="@Url.Action("Create","Customer")"><span class="badge pull-right"></span>Customer</a></li>
+                    <li><a href="@Url.Action("Create","Currency")"><span class="badge pull-right"></span>Currency</a></li>
+                    <li><a href="@Url.Action("Create","Unit")"><span class="badge pull-right"></span>Unit</a></li>
+                    <li><a href="@Url.Action("Create","ItemCategory")"><span class="badge pull-right"></span>Item Category</a></li>
+                    <li><a href="@Url.Action("Create","ItemGroup")"><span class="badge pull-right"></span>Item Group</a></li>
+                    <li><a href="@Url.Action("Create","ItemSubGroup")"><span class="badge pull-right"></span>Item SubGroup</a></li>
+                    <li><a href="@Url.Action("Create","CustomerCategory")"><span class="badge pull-right"></span>Customer Category</a></li>
+                    <li><a href="@Url.Action("Create","SupplierCategory")"><span class="badge pull-right"></span>Supplier Category</a></li>
+                    <li><a href="@Url.Action("Create","EmployeeCategory")"><span class="badge pull-right"></span>Employee Category</a></li>
+                    <li><a href="@Url.Action("CreateWorkDescription","WorkDescription")"><span class="badge pull-right"></span>Work Description</a></li>
+                    <li><a href="@Url.Action("Create","StockPoint")"><span class="badge pull-right"></span>StockPoint</a></li>
+                    <li><a href="@Url.Action("Create","VehicleModel")"><span class="badge pull-right"></span>Vehicle Model</a></li>
+                    <li><a href="@Url.Action("Create","Task")"><span class="badge pull-right"></span>Task</a></li>
+                    <li><a href="@Url.Action("Create","Designation")"><span class="badge pull-right"></span>Designation</a></li>
+                    <li><a href="@Url.Action("Create", "CommissionAgent")"><span class="badge pull-right"></span>Commission Agent</a></li>
+                    <li><a href="@Url.Action("Create", "OpeningStock")"><span class="badge pull-right"></span>Opening Stock</a></li>
+                    <li><a href="@Url.Action("Create", "AdditionOrDeduction")"><span class="badge pull-right"></span>Addition/Deduction</a></li>
+                </ul>
+            </li>
+
+            <li>
+                <a data-toggle="dropdown" class="dropdown-toggle menu" href="#">@*<i class="glyphicon glyphicon-th-large"></i>*@Quotation</a>
+                <ul class="dropdown-menu">
+                    <li><a href="@Url.Action("Create","SalesQuotation")"><span class="badge pull-right"></span>Quotation Request</a></li>
+                    <li><a href="@Url.Action("ListSalesQuotations","SalesQuotation")"><span class="badge pull-right"></span>Quotation Request Approval</a></li>
+                </ul>
+            </li>
+
+            <li>
+                <a data-toggle="dropdown" class="dropdown-toggle menu" href="#">@*<i class="glyphicon glyphicon-th-large"></i>*@GRN</a>
+                <ul class="dropdown-menu">
+                    <li><a href="@Url.Action("PendingGrnWareHouse","GrnWareHouse")"><span class="badge pull-right"></span>GRN</a></li>
+                    <li><a href="@Url.Action("PendingDirectPurchase","GrnWareHouse")"><span class="badge pull-right"></span>Direct GRN</a></li>
+                    <li><a href="@Url.Action("CreateWorkShopGRN", "WorkShopGRN")"><span class="badge pull-right"></span>WorkShop GRN</a></li>
+
+
+                </ul>
+            </li>
+
+            <li>
+                <a data-toggle="dropdown" class="dropdown-toggle menu" href="#">@*<i class="glyphicon glyphicon-th-large"></i>*@Job</a>
+                <ul class="dropdown-menu">
+
+                    <li><a href="@Url.Action("Index","VehicleInPass")"><span class="badge pull-right"></span>Vehicle Inpass</a></li>
+                    <li><a href="@Url.Action("PendingJobCard","JobCard")"><span class="badge pull-right"></span>Job Card</a></li>
+                    <li><a href="@Url.Action("PendingJobCardQC", "JobCardQC")"><span class="badge pull-right"></span>Quality Control</a></li>
+                    <li><a href="@Url.Action("PendingJobOrderCompletion","JobOrderCompletion")"><span class="badge pull-right"></span>Job Order Completion</a></li>
+                    <li><a href="@Url.Action("Index","VehicleOutPass")"><span class="badge pull-right"></span>Delivery Challan</a></li>
+
+                </ul>
+            </li>
+
+            <li>
+                <a data-toggle="dropdown" class="dropdown-toggle menu" href="#">@*<i class="glyphicon glyphicon-tags"></i>*@Sale Order</a>
+                <ul class="dropdown-menu">
+                    <li><a href="@Url.Action("Create","SaleOrder")"><span class="badge pull-right"></span>Sale Order</a></li>
+                    <li><a href="@Url.Action("PendingSaleOrderApproval", "SaleOrder")"><span class="badge pull-right"></span>Sale Order Approval</a></li>
+                    <li><a href="@Url.Action("PendingSaleOrderHold", "SaleOrder")"><span class="badge pull-right"></span>Sale Order Hold</a></li>
+                    <li><a href="@Url.Action("PendingSaleOrderRelease", "SaleOrder")"><span class="badge pull-right"></span>Sale Order Release</a></li>
+                    <li><a href="@Url.Action("PendingSalesInvoice", "SalesInvoice")"><span class="badge pull-right"></span>Sales Invoice</a></li>
+                    <li><a href="@Url.Action("Create", "Expense")"><span class="badge pull-right"></span>Expense Bill</a></li>
+                    <li><a href="@Url.Action("Closing", "SaleOrder")"><span class="badge pull-right"></span>Sale Order Close</a></li>
+                </ul>
+            </li>
+
+            <li>
+                <a data-toggle="dropdown" class="dropdown-toggle menu" href="#">@*<i class="glyphicon glyphicon-tags"></i>*@WorkShop Request</a>
+                <ul class="dropdown-menu">
+                    <li><a href="@Url.Action("WorkShopRequestPending","WorkShopRequest")"><span class="badge pull-right"></span>WorkShop Request</a></li>
+                    <li><a href="@Url.Action("Create","AdditionalWorkShopRequest")"><span class="badge pull-right"></span>Additional WorkShop Request</a></li>
+                    <li><a href="@Url.Action("Create","StockReturn")"><span class="badge pull-right"></span>Stock Return</a></li>
+                    <li><a href="@Url.Action("Create", "StockJournal")"><span class="badge pull-right"></span>Stock Journal</a></li>
+
+                </ul>
+            </li>
+
+            <li>
+                <a data-toggle="dropdown" class="dropdown-toggle menu" href="#">@*<i class="glyphicon glyphicon-tags"></i>*@Purchase Request</a>
+                <ul class="dropdown-menu">
+                    <li><a href="@Url.Action("PendingPurchaseRequest","PurchaseRequest")"><span class="badge pull-right"></span>Purchase Request</a></li>
+                    <li><a href="@Url.Action("PendingSupplyOrder","SupplyOrder")"><span class="badge pull-right"></span>Supply Order / LPO</a></li>
+                    <li><a href="@Url.Action("CreateRequest","DirectPurchase")"><span class="badge pull-right"></span>Direct Purchase Request</a></li>
+                    <li><a href="@Url.Action("Approval","DirectPurchase")"><span class="badge pull-right"></span>Direct Purchase Approval</a></li>
+                    <li><a href="@Url.Action("Index", "PurchaseBill")"><span class="badge pull-right"></span>Purchase Bill</a></li>
+                </ul>
+            </li>
+
+            <li>
+                <a data-toggle="dropdown" class="dropdown-toggle menu" href="#">@*<i class="glyphicon glyphicon-tags"></i>*@Stores Issue</a>
+                <ul class="dropdown-menu">
+                    <li><a href="@Url.Action("Pending","StoresIssue")"><span class="badge pull-right"></span>Stores Issue</a></li>
+                </ul>
+            </li>
+
+
+            <li>
+                <a data-toggle="dropdown" class="dropdown-toggle menu" href="#">@*<i class="glyphicon glyphicon-tags"></i>*@Status</a>
+                <ul class="dropdown-menu">
+                    <li><a href="@Url.Action("Index","SaleOrderStatus")"><span class="badge pull-right"></span>Sale Order Status</a></li>
+                    <li><a href="@Url.Action("Index","BayStatus")"><span class="badge pull-right"></span>Bay Allocation Report</a></li>
+                    <li><a href="@Url.Action("Index", "StockReport")"><span class="badge pull-right"></span>Stock Report</a></li>
+                </ul>
+            </li>
+
+
+            
+        </ul>
+    </nav>
+
+    <div class="container">
+        <div class="main">
+            <section class="buttonset">
+                <div id="nav_list">MENU</div>
+            </section>
+
+
+
+            <div class="container-fluid body-content">
+
+                @RenderBody()
+
+            </div>
+            @Scripts.Render("~/bundles/bootstrap")
+            @RenderSection("scripts", required: false)
+
+        </div><!-- End Main -->
+    </div><!-- End Container -->
+
+    <script type="text/javascript" src="~/Content/script.js"></script>
+    <script type="text/javascript">
+
+        var _gaq = _gaq || [];
+        _gaq.push(['_setAccount', 'UA-36251023-1']);
+        _gaq.push(['_setDomainName', 'jqueryscript.net']);
+        _gaq.push(['_trackPageview']);
+
+        (function () {
+            var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+            ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+            var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+        })();
+
+    </script>
     <div class="navbar navbar-default navbar-fixed-top">
         <div class="container-fluid">
 
-            <div class="navbar-header">
+            @*<div class="navbar-header">
                 <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false">
                     <span class="sr-only">Toggle navigation</span>
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
-                </button>
+                </button>*@
                 <div class="logo">
                     <img src="~/Images/logo.png" height="68" />
                 </div>
@@ -41,7 +199,7 @@
                         <ul class="nav navbar-nav">
 
 
-                            <li>
+                            @*<li>
                                 <a data-toggle="dropdown" class="dropdown-toggle" href="#"><i class="glyphicon glyphicon-bell"></i></a>
                                 <ul class="dropdown-menu">
                                     <li><a href="#"><span class="badge pull-right">40</span>Link</a></li>
@@ -116,16 +274,30 @@
                                     <li><a href="@Url.Action("Create", "OpeningStock")"><span class="badge pull-right"></span>Opening Stock</a></li>
                                     <li><a href="@Url.Action("Create", "AdditionOrDeduction")"><span class="badge pull-right"></span>Addition/Deduction</a></li>
                                 </ul>
+                            </li>*@
+
+                            <li>
+                                <a data-toggle="dropdown" class="dropdown-toggle" href="#"><i class="glyphicon glyphicon-bell"></i></a>
+                                <ul class="dropdown-menu">
+                                    <li><a href="#"><span class="badge pull-right">40</span>Link</a></li>
+                                    <li><a href="#"><span class="badge pull-right">2</span>Link</a></li>
+                                    <li><a href="#"><span class="badge pull-right">0</span>Link</a></li>
+                                    <li><a href="#"><span class="label label-info pull-right">1</span>Link</a></li>
+                                    <li><a href="#"><span class="badge pull-right">13</span>Link</a></li>
+                                </ul>
                             </li>
 
 
                             <li><a href="#"><i class="glyphicon glyphicon-user"></i></a></li>
+                            <li><a href="#">User Name</a></li>
+                            <li><a href="#"><i class="glyphicon glyphicon-off"></i></a></li>
+                            
                         </ul>
                     </div>
                 </div>
             </div>
         </div>
-        </div>
+    </div>
 
 
 
@@ -135,56 +307,56 @@
 
 
     @*<!-- Sidebar navigation -->
-    <ul id="slide-out" class="side-nav fixed default-side-nav stylish-side-nav">
+        <ul id="slide-out" class="side-nav fixed default-side-nav stylish-side-nav">
 
 
 
-        <!-- Side navigation links -->
-        <ul class="collapsible collapsible-accordion">
-            <li>
-                <a class="collapsible-header waves-effect">Click me</a>
-                <div class="collapsible-body">
-                    <ul>
-                        <li>
-                            <a href="#" class="waves-effect">Link</a>
-                        </li>
-                        <li>
-                            <a href="#" class="waves-effect">Link</a>
-                        </li>
-                    </ul>
-                </div>
-            </li>
-            <li>
-                <a class="collapsible-header waves-effect">Click me</a>
-                <div class="collapsible-body">
-                    <ul>
-                        <li><a href="@Url.Action("Create","StockPoint")"><span class="badge pull-right"></span>StockPoint</a></li>
-                        <li><a href="@Url.Action("Create","VehicleModel")"><span class="badge pull-right"></span>Vehicle Model</a></li>
-                        <li><a href="@Url.Action("Create","Task")"><span class="badge pull-right"></span>Task</a></li>
-                        <li><a href="@Url.Action("Create","Designation")"><span class="badge pull-right"></span>Designation</a></li>
-                        <li><a href="@Url.Action("Create", "CommissionAgent")"><span class="badge pull-right"></span>Commission Agent</a></li>
+            <!-- Side navigation links -->
+            <ul class="collapsible collapsible-accordion">
+                <li>
+                    <a class="collapsible-header waves-effect">Click me</a>
+                    <div class="collapsible-body">
+                        <ul>
+                            <li>
+                                <a href="#" class="waves-effect">Link</a>
+                            </li>
+                            <li>
+                                <a href="#" class="waves-effect">Link</a>
+                            </li>
+                        </ul>
+                    </div>
+                </li>
+                <li>
+                    <a class="collapsible-header waves-effect">Click me</a>
+                    <div class="collapsible-body">
+                        <ul>
+                            <li><a href="@Url.Action("Create","StockPoint")"><span class="badge pull-right"></span>StockPoint</a></li>
+                            <li><a href="@Url.Action("Create","VehicleModel")"><span class="badge pull-right"></span>Vehicle Model</a></li>
+                            <li><a href="@Url.Action("Create","Task")"><span class="badge pull-right"></span>Task</a></li>
+                            <li><a href="@Url.Action("Create","Designation")"><span class="badge pull-right"></span>Designation</a></li>
+                            <li><a href="@Url.Action("Create", "CommissionAgent")"><span class="badge pull-right"></span>Commission Agent</a></li>
 
-                    </ul>
-                </div>
-            </li>
-            <li>
-                <a class="collapsible-header waves-effect">Click me</a>
-                <div class="collapsible-body">
-                    <ul>
-                        <li>
-                            <a href="#" class="waves-effect">Link</a>
-                        </li>
-                        <li>
-                            <a href="#" class="waves-effect">Link</a>
-                        </li>
-                    </ul>
-                </div>
-            </li>
+                        </ul>
+                    </div>
+                </li>
+                <li>
+                    <a class="collapsible-header waves-effect">Click me</a>
+                    <div class="collapsible-body">
+                        <ul>
+                            <li>
+                                <a href="#" class="waves-effect">Link</a>
+                            </li>
+                            <li>
+                                <a href="#" class="waves-effect">Link</a>
+                            </li>
+                        </ul>
+                    </div>
+                </li>
+            </ul>
+            <!--/. Side navigation links -->
+
         </ul>
-        <!--/. Side navigation links -->
-
-    </ul>
-    <!--/. Sidebar navigation -->*@
+        <!--/. Sidebar navigation -->*@
 
 
 
@@ -194,12 +366,6 @@
 
 
 
-    <div class="container-fluid body-content">
-      
-        @RenderBody()
-     
-    </div>
-    @Scripts.Render("~/bundles/bootstrap")
-    @RenderSection("scripts", required: false)
+
 </body>
 </html>

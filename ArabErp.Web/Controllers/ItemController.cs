@@ -8,7 +8,7 @@ using System.Web.Mvc;
 
 namespace ArabErp.Web.Controllers
 {
-    public class ItemController : Controller
+    public class ItemController : BaseController
     {
         public ActionResult Index()
         {
@@ -49,14 +49,26 @@ namespace ArabErp.Web.Controllers
             oitem.OrganizationId = 1;
             oitem.CreatedDate = System.DateTime.Now;
             oitem.CreatedBy = Request.ServerVariables["HTTP_X_FORWARDED_FOR"] ?? Request.ServerVariables["REMOTE_ADDR"];
-          // int? id=
-               new ItemRepository().InsertItem(oitem);
-            //if(id==null)
-            //return View("Create");
-            //else
-            //    TempData["Message"] = "Successfully Inserted";
-            return View("Create");
-            //return RedirectToAction("Create");
+            var result = new ItemRepository().InsertItem(oitem);
+
+
+            if (result.ItemId > 0)
+            {
+                TempData["Success"] = "Added Successfully!";
+                TempData["ItemRefNo"] = result.ItemRefNo;
+                return RedirectToAction("Index");
+            }
+            else
+            {
+                TempData["error"] = "Oops!!..Something Went Wrong!!";
+                TempData["ItemRefNo"] = null;
+                SaleOrder saleOrder = new SaleOrder();
+                saleOrder.SaleOrderDate = System.DateTime.Today;
+                saleOrder.Items = new List<SaleOrderItem>();
+                saleOrder.Items.Add(new SaleOrderItem());
+                return View("Create", oitem);
+            }
+          
         }
 
         public ActionResult View(int Id)
@@ -65,6 +77,15 @@ namespace ArabErp.Web.Controllers
             Item objItem =new JobCardRepository().GetItem(Id);
             return View("Create", objItem);
         }
+        public ActionResult Edit(int Id)
+        {
+
+            Item objItem = new JobCardRepository().GetItem(Id);
+            return View("Create", objItem);
+        }
+
+
+
         public void FillItemSubGroup(int Id)
         {
             ItemRepository Repo = new ItemRepository();
@@ -118,6 +139,9 @@ namespace ArabErp.Web.Controllers
             var List = repo.GetItems();
             return PartialView("_ItemListView",List);
         }
+
+
+
         
     }
 }

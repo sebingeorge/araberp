@@ -84,7 +84,7 @@
         }
     }
 
-    function QuantityChanged(row) {
+    function ValueChanged(row) {
         var quantity = $("#Items_" + row + "__Quantity").val();
         var rate = $("#Items_" + row + "__Rate").val();
         var discount = $("#Items_" + row + "__Discount").val();
@@ -106,6 +106,8 @@
     function calculateSummary() {
         var quantity = parseFloat("0");
         var amount = parseFloat("0");
+        var discount = parseFloat("0");
+
         $('.clQuantity').each(function (i, obj) {
             var a = parseFloat($("#Items_" + i + "__Quantity").val());
 
@@ -114,6 +116,15 @@
             }
 
             quantity = quantity + a;
+        });
+        $('.cldiscount').each(function (i, obj) {
+            var a = parseFloat($("#Items_" + i + "__Discount").val());
+
+            if (isNaN(a)) {
+                a = parseFloat("0");
+            }
+
+            discount = discount + a;
         });
 
         $('.clAmount').each(function (i, obj) {
@@ -128,7 +139,10 @@
         });
 
         //$("#QtyTotal").text(quantity);
-        $("#QtyAmount").text(amount);
+        $("#TotalAmount").val(amount);
+
+        $("#QtyDiscount").text(discount);
+
     }
 
     function OnWorkChange(sender, index) {
@@ -167,7 +181,7 @@
                 <th width="10%" class="text-right"><h1>Rate</h1></th>
                 <th width="10%" class="text-right"><h1>Discount</h1></th>
                 <th width="8%" class="text-right"><h1>Amount</h1></th>
-                <th>&nbsp;</th>
+                <th width="5%" class="text-right"></th>
             </tr>
         </thead>
         <tbody class="grid_row" id="table_validation">
@@ -210,12 +224,12 @@
                     <td>
                         @if (ViewData["action"].ToString() == "Create")
                         {
-                            @Html.TextBoxFor(m => m.Items[i].Quantity, new { @class = "form_input clQuantity validateqty numbers-only", @style = "text-align:right", autocomplete = "off", placeholder = "Qty", @onchange = "QuantityChanged(" + i + ");" })
+                            @Html.TextBoxFor(m => m.Items[i].Quantity, new { @class = "form_input clQuantity validateqty numbers-only", @style = "text-align:right", autocomplete = "off", placeholder = "Qty" , @onkeyup = "ValueChanged(" + i + ");"})
 
                         }
                         else
                         {
-                            @Html.TextBoxFor(m => m.Items[i].Quantity, new { @class = "form_input clQuantity  ", @style = "text-align:right", autocomplete = "off", placeholder = "Qty", @onchange = "QuantityChanged(" + i + ");", @disabled = "true" })
+                            @Html.TextBoxFor(m => m.Items[i].Quantity, new { @class = "form_input clQuantity  ", @style = "text-align:right", autocomplete = "off", placeholder = "Qty", @disabled = "true" })
                         }
                     </td>
                     <td>
@@ -232,23 +246,23 @@
                     <td>
                         @if (ViewData["action"].ToString() == "Create")
                         {
-                            @Html.TextBoxFor(m => m.Items[i].Rate, new { @class = "form_input numbers-only clrate validateqty", autocomplete = "off", @style = "text-align:right", placeholder = "Rate", @onchange = "QuantityChanged(" + i + ");" })
+                            @Html.TextBoxFor(m => m.Items[i].Rate, new { @class = "form_input numbers-only clrate validateqty", autocomplete = "off", @style = "text-align:right", placeholder = "Rate", @onkeyup = "ValueChanged(" + i + ");" })
 
                         }
                         else
                         {
-                            @Html.TextBoxFor(m => m.Items[i].Rate, new { @class = "form_input", autocomplete = "off", @style = "text-align:right", placeholder = "Rate", @onchange = "QuantityChanged(" + i + ");", @disabled = "true" })
+                            @Html.TextBoxFor(m => m.Items[i].Rate, new { @class = "form_input", autocomplete = "off", @style = "text-align:right", placeholder = "Rate",@onkeyup = "ValueChanged(" + i + ");", @disabled = "true" })
                         }
                     </td>
                     <td>
                         @if (ViewData["action"].ToString() == "Create")
                         {
-                            @Html.TextBoxFor(m => m.Items[i].Discount, new { @class = "form_input numbers-only", autocomplete = "off", @style = "text-align:right", placeholder = "Discount", @onchange = "QuantityChanged(" + i + ");" })
+                            @Html.TextBoxFor(m => m.Items[i].Discount, new { @class = "form_input numbers-only cldiscount", autocomplete = "off", @style = "text-align:right", placeholder = "Discount", @onkeyup = "ValueChanged(" + i + ");" })
 
                         }
                         else
                         {
-                            @Html.TextBoxFor(m => m.Items[i].Discount, new { @class = "form_input", autocomplete = "off", @style = "text-align:right", placeholder = "Discount", @onchange = "QuantityChanged(" + i + ");", @disabled = "true" })
+                            @Html.TextBoxFor(m => m.Items[i].Discount, new { @class = "form_input ", autocomplete = "off", @style = "text-align:right", placeholder = "Discount", @disabled = "true" })
                         }
                     </td>
                     <td>@Html.TextBoxFor(m => m.Items[i].Amount, new { @class = "form_input clAmount", autocomplete = "off", @style = "text-align:right", placeholder = "Amount", @readonly = "readonly" })</td>
@@ -261,26 +275,32 @@
             <tr class="grid_heading">
                 <th width="5%" class="text-center"><h1></h1></th>
                 <th width="25%" class="text-center"><h1></h1></th>
-                <th width="25%" class="text-center"><h1></h1></th>
+                <th width="25%" class="text-center"></th>
                 <th width="5%" class="text-right"><span id="QtyTotal"></span></th>
-                <th width="10%"></th>
-                <th width="10%" class="text-right"><h1>Total</h1></th>
-                <th width="7%" class="text-right">
+                <th width="10%">
                     <h1>
                         @if (ViewData["action"].ToString() == "Create")
                         {
-                            @Html.TextBoxFor(m => m.CurrencyName, new { @class = "form_input", autocomplete = "off", @style = "text-align:right;color:white", @disabled = "true" })
-                            @Html.HiddenFor(m => m.CurrencyId)
+                            @*@Html.TextBoxFor(m => m.CurrencyName, new { @class = "form_input", autocomplete = "off", @style = "text-align:right;color:white", @disabled = "true" })
+                @Html.HiddenFor(m => m.CurrencyId)*@
+                            @Html.DropDownListFor(m => Model.CurrencyId, (SelectList)ViewBag.currlist, "Select Currency", new { @class = "form_input", autocomplete = "off" })
                         }
                         else
                         {
                             @Html.DropDownListFor(m => Model.CurrencyId, (SelectList)ViewBag.currlist, "Select Currency", new { @class = "form_input", autocomplete = "off", @disabled = "true" })
-                        
+
                         }
                     </h1>
                 </th>
-                <th width="8%" class="text-right"><span id="QtyAmount"></span></th>
-                <th>&nbsp;</th>
+                <th width="10%" class="text-right"><h1>Total</h1></th>
+                <th width="7%" class="text-right">
+                    <span id="QtyDiscount"></span>
+                </th>
+               
+                <th width="8%" class="text-right">@Html.TextBoxFor(m => m.TotalAmount, new { @class = "form_input", @style = "text-align:right",autocomplete = "off", @readonly = "readonly" })</th>
+               
+                <th width="5%"></th>
+
             </tr>
         </tfoot>
     </table>

@@ -3245,14 +3245,14 @@ input[type="button"].btn-block {
 
 .dropdown-menu {
   position: absolute;
-  top: 100%;
   left: 0;
   z-index: 1000;
   display: none;
   float: left;
   min-width: 160px;
-  padding: 5px 0;
-  margin: 2px 0 0;
+  /*padding: 5px 0 0 0;*/
+  padding:0 0 0 0;
+  margin:-1px 0 0;
   font-size: 14px;
   list-style: none;
   background-color: #ffffff;
@@ -3281,7 +3281,6 @@ input[type="button"].btn-block {
   padding: 3px 20px;
   clear: both;
   font-weight: normal;
-  line-height: 1.428571429;
   color: #333333;
   white-space: nowrap;
 }
@@ -3834,8 +3833,8 @@ textarea.input-group-sm > .input-group-btn > .btn {
 
 .nav > li > a:hover,
 .nav > li > a:focus {
-  text-decoration: none;
-  background-color: #eeeeee;
+  /*text-decoration: none;
+  background-color: #eeeeee;*/
 }
 
 .nav > li.disabled > a {
@@ -3853,8 +3852,8 @@ textarea.input-group-sm > .input-group-btn > .btn {
 .nav .open > a,
 .nav .open > a:hover,
 .nav .open > a:focus {
-  background-color: #eeeeee;
-  border-color: #428bca;
+  /*background-color: #eeeeee;
+  border-color: #428bca;*/
 }
 
 .nav .nav-divider {
@@ -4900,7 +4899,7 @@ textarea.input-group-sm > .input-group-btn > .btn {
 .badge {
   display: inline-block;
   min-width: 10px;
-  padding: 3px 7px;
+  padding: 0px 4px;
   font-size: 12px;
   font-weight: bold;
   line-height: 1;
@@ -6998,6 +6997,30 @@ td.visible-print {
          overflow:auto !important;
     }
 
+.dropdown-menu {
+
+  margin: -83px 0 0 !important;
+  padding: 0 !important;
+
+}
+    .pushmenu
+     
+    {
+   top: 33px !important;
+    }
+
+
+    .links li ul li
+{
+    width:150% !important;
+}
+    .menu 
+    {
+   height: 30px !important;
+   line-height: 19px !important;
+   width: 310px !important;
+    }
+
 }
 
 @media only screen and (min-width:768px) and (max-width: 1024px)
@@ -7100,6 +7123,28 @@ td.visible-print {
     width:56px !important;
     font-size:13px !important;
 }
+
+
+.dropdown-menu {
+
+  margin: 37px 199px 0 !important;
+  padding: 0 !important;
+
+}
+    .pushmenu
+     
+    {
+   top: 33px !important;
+    }
+
+    .links li ul li
+{
+    width:150% !important;
+
+
+}
+
+
 
 
 }

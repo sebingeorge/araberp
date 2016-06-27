@@ -8,7 +8,8 @@ namespace ArabErp.Domain
 {
     public class Item
     {
-        public int? ItemId { get; set; }
+        public int ItemId { get; set; }
+        public string ItemRefNo { get; set; }
         public string PartNo { get; set; }
         public string ItemName { get; set; }
         public string ItemPrintName { get; set; }

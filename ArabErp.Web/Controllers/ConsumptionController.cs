@@ -9,7 +9,7 @@ using System.Web.Mvc;
 
 namespace ArabErp.Web.Controllers
 {
-    public class ConsumptionController : Controller
+    public class ConsumptionController : BaseController
     {
         // GET: Consumption
         public ActionResult Index()
@@ -23,8 +23,8 @@ namespace ArabErp.Web.Controllers
             try
             {
                 internalId = DatabaseCommonRepository.GetNextReferenceNo(typeof(Consumption).Name);
-                JobCardDropdown();
-                ItemDropdown();
+            JobCardDropdown();
+            ItemDropdown();
             }
             catch (NullReferenceException nx)
             {

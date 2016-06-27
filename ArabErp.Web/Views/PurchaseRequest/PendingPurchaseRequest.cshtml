@@ -39,7 +39,8 @@
                                     <td class="grid-cell">@item.WorkShopRequestNo &amp; @item.WorkShopRequestDate.ToString("dd/MMM/yyyy")</td>
                                     <td class="grid-cell">@item.Ageing</td>
                                     <td class="grid-cell">@item.RequiredDate.ToString("dd/MMM/yyyy")</td>
-                                    <td><center><button class="form-button4"><center>@Html.ActionLink("Select", "Create", "PurchaseRequest", new { WorkShopRequestId = @item.WorkShopRequestId }, null)</center></button></center></td>
+                                    <td><center>@Html.ActionLink("Select", "Create", "PurchaseRequest", new { WorkShopRequestId = @item.WorkShopRequestId }, new { @class = "form-button5" })</center></td>
+                                    
                                 </tr>
                             </tbody>
                         }

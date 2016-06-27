@@ -74,8 +74,10 @@
     <Compile Include="DirectPurchaseGRNItem.cs" />
     <Compile Include="DirectPurchaseRequest.cs" />
     <Compile Include="DirectPurchaseRequestItem.cs" />
+    <Compile Include="LoginViewModel.cs" />
     <Compile Include="OpeningStock.cs" />
     <Compile Include="Organization.cs" />
+    <Compile Include="PaymentTerms.cs" />
     <Compile Include="PendingForGRN.cs" />
     <Compile Include="PendingJC.cs" />
     <Compile Include="PendingJobCardQC.cs" />
@@ -109,8 +111,10 @@
     <Compile Include="StoreIssueItem.cs" />
     <Compile Include="Supplier.cs" />
     <Compile Include="SupplierCategory.cs" />
+    <Compile Include="SupplierItemRate.cs" />
     <Compile Include="SupplyOrder.cs" />
     <Compile Include="SupplyOrderItem.cs" />
+    <Compile Include="TransactionHistory.cs" />
     <Compile Include="Unit.cs" />
     <Compile Include="User.cs" />
     <Compile Include="VehicleInPass.cs" />
