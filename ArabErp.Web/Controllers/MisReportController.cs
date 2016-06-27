@@ -6,7 +6,7 @@ using System.Web.Mvc;
 
 namespace ArabErp.Web.Controllers
 {
-    public class MisReportController : Controller
+    public class MisReportController : BaseController
     {
         // GET: MisReport
         public ActionResult Index()

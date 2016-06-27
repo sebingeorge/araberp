@@ -5,44 +5,60 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-@*<script type="text/javascript">
+<script type="text/javascript">
 
-        $(document).ready(function () {
+    $(document).ready(function () {
 
-            $("#Date").datepicker({
-                dateFormat: "dd-MM-yy"
-            });
+        CalculateSummary();
 
-            toastr.options = {
-                "closeButton": true,
-                "positionClass": "toast-bottom-full-width",
-                "preventDuplicates": false,
-                "onclick": null,
-                "showDuration": "300",
-                "hideDuration": "1000",
-                "timeOut": "0",
-                "extendedTimeOut": "1000",
-                "showEasing": "swing",
-                "hideEasing": "linear",
-                "showMethod": "fadeIn",
-                "hideMethod": "fadeOut"
-            }
-            if ('@TempData["success"]' != '') {
-                toastr.success('@TempData["success"]');
-
-            }
-            else if ('@TempData["error"]' != '') {
-                toastr.error('@TempData["error"]'.split('|')[0]);
-                console.log('@TempData["error"]'.split('|')[1]);
-            }
-            @{ TempData["success"] = TempData["error"] = ""; }
+        $("#ConsumptionDate").datepicker({
+            dateFormat: "dd-MM-yy"
         });
 
-        function formValidation() {
-            return true;
+        toastr.options = {
+            "closeButton": true,
+            "positionClass": "toast-bottom-full-width",
+            "preventDuplicates": false,
+            "onclick": null,
+            "showDuration": "300",
+            "hideDuration": "1000",
+            "timeOut": "0",
+            "extendedTimeOut": "0",
+            "showEasing": "swing",
+            "hideEasing": "linear",
+            "showMethod": "fadeIn",
+            "hideMethod": "fadeOut"
         }
+        if ('@TempData["success"]' != '') {
+            toastr.success('@TempData["success"]');
+        }
+        else if ('@TempData["error"]' != '') {
+            toastr.error('@TempData["error"]'.split('|')[0]);
+            console.log('@TempData["error"]'.split('|')[1]);
+        }
+        @{ TempData["success"] = TempData["error"] = ""; }
+    });
 
-    </script>*@
+    function OnJobCardChanged(sender) {
+        var id = $(sender).val();
+        var url = '@Url.Action("JobCardDetails")';
+        $.getJSON(url, { jobCardId: id }, function (data) {
+            $("#JobCardDate").val(data.JobCardDate);
+            $("#SONoDate").val(data.SONoDate);
+            $("#FreezerUnitName").val(data.FreezerUnitName);
+            $("#BoxName").val(data.BoxName);
+        });
+    }
+
+    function formValidation() {
+        if (Number($("#total").text()) == 0) {
+            toastr.info("Total amount cannot be zero");
+            return false;
+        }
+        else return true;
+    }
+
+</script>
 
 <div class="container">
     <div class="row">
@@ -57,19 +73,35 @@
                 @Html.HiddenFor(m => m.ConsumptionId)
                 <div class="row form-group">
                     <div class="col-md-2">
-                        <label for="ConsumptionNo">Consumption No.</label>
-                        @Html.TextBoxFor(m => m.ConsumptionNo, new { @class = "form_input" })
+                        <label for="ConsumptionNo">Consumption Ref. No.</label>
+                        @Html.TextBoxFor(m => m.ConsumptionNo, new { @class = "form_input", @readonly = "true", @title = "Consumption No. may change after saving" })
                     </div>
                     <div class="col-md-2">
-                        <label for="Date">Date</label>
-                        @Html.TextBoxFor(m => m.Date, Model.Date.ToString("dd/MMMM/yyyy"), new { @class = "form_input" })
+                        <label for="ConsumptionDate">Date</label>
+                        @Html.TextBoxFor(m => m.ConsumptionDate, Model.ConsumptionDate.ToString("dd/MMMM/yyyy"), new { @class = "form_input", @required = "true" })
                     </div>
                 </div>
 
                 <div class="row form-group">
                     <div class="col-md-4">
                         <label for="JobCardId">Job Card</label>
-                        @Html.DropDownListFor(m => m.JobCardId, (SelectList)ViewBag.jobcardList, new { @class = "form_input" })
+                        @Html.DropDownListFor(m => m.JobCardId, (SelectList)ViewBag.jobcardList, "Select Job Card", new { @class = "form_input", @required = "true", @onchange = "OnJobCardChanged(this)" })
+                    </div>
+                    <div class="col-md-2">
+                        <label for="JobCardDate">JobCard Date</label>
+                        @Html.TextBoxFor(m => m.JobCardDate, new { @class = "form_input", @readonly = "true" })
+                    </div>
+                    <div class="col-md-2">
+                        <label for="SONoDate">SO No. &amp; Date</label>
+                        @Html.TextBoxFor(m => m.SONoDate, new { @class = "form_input", @readonly = "true" })
+                    </div>
+                    <div class="col-md-2">
+                        <label for="FreezerUnitName">Freezer Unit</label>
+                        @Html.TextBoxFor(m => m.FreezerUnitName, new { @class = "form_input", @readonly = "true" })
+                    </div>
+                    <div class="col-md-2">
+                        <label for="BoxName">Box</label>
+                        @Html.TextBoxFor(m => m.BoxName, new { @class = "form_input", @readonly = "true" })
                     </div>
                 </div>
 
@@ -78,10 +110,10 @@
                 </div>
 
                 <div class="row form-group">
-                    <div class="col-md-1">
-                        <label for="Remarks">Remarks</label>
-                    </div>
+                    @*<div class="col-md-2">*@
+                    @*</div>*@
                     <div class="col-md-12">
+                        <label for="SpecialRemarks">Special Remarks</label>
                         @Html.TextAreaFor(m => m.SpecialRemarks, new { @class = "form_input form_input-h" })
                     </div>
                 </div>

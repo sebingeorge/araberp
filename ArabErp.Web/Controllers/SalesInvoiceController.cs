@@ -9,7 +9,7 @@ using System.Collections;
 
 namespace ArabErp.Web.Controllers
 {
-    public class SalesInvoiceController : Controller
+    public class SalesInvoiceController : BaseController
     {
         SalesInvoiceRepository Repo = new SalesInvoiceRepository();
         // GET: SalesInvoice

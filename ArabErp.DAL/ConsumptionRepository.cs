@@ -11,17 +11,39 @@ namespace ArabErp.DAL
     public class ConsumptionRepository : BaseRepository
     {
         static string dataConnection = GetConnectionString("arab");
-        public int InsertConsumption(Consumption objConsumption)
+        public string InsertConsumption(Consumption objConsumption)
         {
-
             using (IDbConnection connection = OpenConnection(dataConnection))
             {
-                string sql = @"insert  into Consumption(ConsumptionNo,ConsumptionDate,JobCardId,SpecialRemarks,CreatedBy,CreatedDate,OrganizationId) Values (@ConsumptionNo,@ConsumptionDate,@JobCardId,@SpecialRemarks,@CreatedBy,@CreatedDate,@OrganizationId);
-            SELECT CAST(SCOPE_IDENTITY() as int)";
+                IDbTransaction txn = connection.BeginTransaction();
+                try
+                {
+                    int internalId = DatabaseCommonRepository.GetInternalIDFromDatabase(connection, txn, typeof(Consumption).Name, "0", 1);
 
+                    objConsumption.ConsumptionNo = "CON/" + internalId;
 
-                var id = connection.Query<int>(sql, objConsumption).Single();
-                return id;
+                    objConsumption.TotalAmount = objConsumption.ConsumptionItems.Sum(m => m.Amount);
+
+                    string sql = @"insert into Consumption(ConsumptionNo,ConsumptionDate,JobCardId,TotalAmount,SpecialRemarks,CreatedBy,CreatedDate,OrganizationId) Values (@ConsumptionNo,@ConsumptionDate,@JobCardId,@TotalAmount,@SpecialRemarks,@CreatedBy,@CreatedDate,@OrganizationId);
+                        SELECT CAST(SCOPE_IDENTITY() as int)";
+
+                    var id = connection.Query<int>(sql, objConsumption, txn).Single();
+
+                    foreach (ConsumptionItem item in objConsumption.ConsumptionItems)
+                    {
+                        item.ConsumptionId = id;
+                        new ConsumptionItemRepository().InsertConsumptionItem(item, connection, txn);
+                    }
+
+                    txn.Commit();
+
+                    return id + "|CON/" + internalId;
+                }
+                catch (Exception)
+                {
+                    txn.Rollback();
+                    return "0";
+                }
             }
         }
 

@@ -1,0 +1,83 @@
+﻿@model ArabErp.Domain.PaymentTerms
+
+@{ViewBag.Title = "Create";Layout = "~/Views/Shared/_Layout.cshtml";}
+
+<script>
+    $(document).ready(function () {
+        $('#PaymentTerms_form').bootstrapValidator({
+            fields: {
+                
+                PaymentTermsRefNo: {
+                    validators: {
+                        notEmpty: {
+                            message: 'Please Enter Code'
+                        }
+                    }
+                },
+
+                PaymentTermsName: {
+                    validators: {
+                        notEmpty: {
+                            message: 'Please Enter Name'
+                        }
+                    }
+                },
+
+            }
+        });
+    })
+
+</script>
+
+<div class=" container ">
+    <div class="row">
+
+        <div class=" form-head1">
+            <h4>Payment Terms</h4>
+        </div>
+
+        
+
+                    @using (Html.BeginForm("Save", null, FormMethod.Post, new { @class = "createFrom", @id = "PaymentTerms_form" }))
+                    {
+                        <div class=" main-part pad1">
+                        <div class="row">
+                        <div class="col-md-4">
+
+                        <div class="part4">
+                            <label for="PaymentTermsRefNo">Code</label>
+                            @Html.TextBoxFor(m => m.PaymentTermsRefNo, new { @class = "form_input form_input-half", autocomplete = "off" })
+                        </div>
+                        
+                         <div class="part4">
+                             <label for="PaymentTermsName">Name</label>
+                             @Html.TextBoxFor(m => m.PaymentTermsName, new { @class = "form_input", autocomplete = "off" })
+                         </div>
+
+
+                </div>
+
+                <div class="col-md-4">
+                </div>
+
+                <div class="col-md-4">
+                </div>
+
+                <div class="col-md-12 hrpart">
+                    <button type="button" class="form-button right">Exit</button>
+                    <button type="submit" class="form-button right">Save</button>
+                </div>
+
+             </div>
+             </div>
+
+
+         }
+
+
+        <div class="main-list">
+            @Html.Action("FillPaymentTermsList")
+        </div>
+        
+    </div>
+</div>

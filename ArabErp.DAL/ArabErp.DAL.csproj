@@ -98,6 +98,7 @@
     <Compile Include="JobCardTaskRepository.cs" />
     <Compile Include="JobOrderCompletionRepository.cs" />
     <Compile Include="OpeningStockRepository.cs" />
+    <Compile Include="PaymentTermsRepository.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="PurchaseBillItemRepository.cs" />
     <Compile Include="PurchaseBillRepository.cs" />
@@ -121,10 +122,12 @@
     <Compile Include="StoreIssueItemRepository.cs" />
     <Compile Include="StoreIssueRepository.cs" />
     <Compile Include="SupplierCategoryRepository.cs" />
+    <Compile Include="SupplierItemRateRepository.cs" />
     <Compile Include="SupplierRepository.cs" />
     <Compile Include="SupplyOrderItemRepository.cs" />
     <Compile Include="SupplyOrderRepository.cs" />
     <Compile Include="TaskRepository.cs" />
+    <Compile Include="TransactionHistoryRepository.cs" />
     <Compile Include="UnitRepository.cs" />
     <Compile Include="UserRepository.cs" />
     <Compile Include="VehicleInPassRepository.cs" />

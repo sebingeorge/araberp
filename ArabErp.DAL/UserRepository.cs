@@ -37,5 +37,9 @@ namespace ArabErp.DAL
                 return connection.Query<User>("select * from [User] where UserName='"+ username +"' and UserPassword='"+ password +"'").Single();
             }
         }
+        public bool IsValidUser(int UserId, string Username, string ControllName, string ActionName)
+        {
+            return true;
+        }
     }
 }

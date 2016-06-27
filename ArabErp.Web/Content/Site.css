@@ -186,6 +186,22 @@ textarea {
  {
      color:#f9f0f0;
  }
+  .form-button5 
+{
+    background-color: #5c5a5a;
+    border: 1px solid #fff;
+    border-radius: 4px;
+    color: #ffffff;
+    height: 22px;
+    width: 92px;
+    margin-left:20px;
+    float:left;
+}
+    .form-button5:hover 
+    {
+        color:#a49e9e;
+        text-decoration:none;
+    }
 .margf 
 {
     float:right;
@@ -477,5 +493,152 @@ background-color: #D6D5D5;
     background-color:#bdbcbc;
     padding-bottom:14px;
 }
+
+
+
+.pushmenu { /*this is the nav*/
+  background: #444;
+  height: 100%;
+  top:35px;
+  z-index: 1000;
+  position: fixed;
+  border-right:3px solid #fff;
+  /*width:50px;*/
+}
+
+.pushmenu h3 {
+  color: #f1f1f1;
+  font-size: 1.3em;
+  font-weight: 400;
+  padding: 15px 25px;
+  margin: 0;
+  background: #333;
+  height: 16px;
+}
+
+.links {
+  list-style-type: none;
+  padding: 0;
+  margin:3% 0 0 5%;
+  width: 4%;
+}
+
+.links li {
+ /*margin-top: 30px;*/
+
+}
+.links li ul li
+{
+    width:200px;
+    border-bottom:1px solid #444444;
+    background-color:#ffffff;
+    height:25px;
+
+}
+
+    .links li ul li a 
+    {
+        font-size:13px;
+        color:#444444;
+    }
+
+    .links li .glyphicon 
+    {
+    font-size: 16px;
+    padding-left: 25px;
+    padding-top: 25px;
+    }
+
+
+
+.links li a {
+  position: relative;
+  display: block; /* drops the nav vertically*/
+  color: #f1f1f1;
+  font-size:13px;
+  font-weight: 400;
+  text-decoration: none;
+  padding: 4px;
+}
+
+.links li a:after {
+  content: '';
+  display: block;
+  position: absolute;
+  left: 20px;
+  bottom: -5px;
+  width: 0;
+  height: 4px;
+  /*background-color: #f1f1f1;*/
+  -webkit-transition: width 0.3s ease;
+  -moz-transition: width 0.3s ease;
+  transition: width 0.3s ease;
+}
+
+.links li a:hover:after { width: 70%; }
+
+.links li a:active { color: #dbdbdb; }
+
+.pushmenu-left { left: -300px; }
+
+.pushmenu-left.pushmenu-open { left: 0; }
+
+.pushmenu-push {
+  overflow-x: hidden;
+  position: relative;
+  left: 0;
+}
+
+.pushmenu-push-toright { left: 300px; }
+
+/*Transition*/
+
+.pushmenu, .pushmenu-push {
+  -webkit-transition: all 0.5s ease;
+  -moz-transition: all 0.5s ease;
+  transition: all 0.5s ease;
+}
+
+#nav_list {
+    background: rgba(0, 0, 0, 0) url("../Images/icon_nav.png") no-repeat scroll left top;
+    cursor: pointer;
+    height: 34px;
+    left: 6px;
+    position: absolute;
+    text-indent: -99999em;
+    top: 22px;
+    width: 44px;
+    z-index: 9999;
+
+
+}
+
+nav-list.active { background-position: -331px top; }
+
+
+
+/*.buttonset {
+  background: #00A287;
+  height: 16px;
+  padding: 10px 20px 20px;
+}*/
+
+section.content {
+  padding: 10px 20px;
+}
+
+.menu 
+    {
+    background: url(../Images/menu-b.jpg) repeat-x; 
+    border-bottom: 1px solid #fff;
+    font-size: 14px !;
+    font-weight: bold !important;
+    height: 35px;
+    line-height: 24px;
+    width:201px;
+    margin-left:-10px;
+    }
+
+
 
 

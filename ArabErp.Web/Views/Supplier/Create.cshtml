@@ -23,7 +23,7 @@
                 PurchaseTypeId: {
                     validators: {
                         notEmpty: {
-                            message: 'Please Enter Purchase Type'
+                            message: 'Please Select Purchase Type'
                         }
                     }
                 },
@@ -43,7 +43,7 @@
                 },
                 State: {
                     validators: {
-                        numeric: {
+                        notEmpty: {
                             message: 'Please Enter State '
                         }
                     }
@@ -63,6 +63,7 @@
                         }
                     }
                 },
+
                 CurrencyId: {
                     validators: {
                         notEmpty: {
@@ -70,6 +71,15 @@
                         }
                     }
                 },
+
+                DiscountTermsId: {
+                    validators: {
+                        notEmpty: {
+                            message: 'Please Select Discount Terms'
+                        }
+                    }
+                },
+
 
             }
         });
@@ -117,7 +127,8 @@
                         <div class="col-md-3">
                             <div class="part4">
                                 <label for="purtype">Purchase Type</label>
-                                @Html.TextBoxFor(m => m.PurchaseTypeId, new { @class = "form_input", autocomplete = "off" })
+                                @Html.DropDownListFor(m => Model.PurchaseTypeId, (SelectList)ViewBag.SupplierPurchaseType, "Select Purchase Type", new { @class = "form_input", autocomplete = "off" })
+                                @*@Html.TextBoxFor(m => m.PurchaseTypeId, new { @class = "form_input", autocomplete = "off" })*@
                             </div>
 
                             <div class="part4">

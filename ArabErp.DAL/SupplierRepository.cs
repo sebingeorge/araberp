@@ -54,6 +54,15 @@ namespace ArabErp.DAL
             }
         }
 
+        public List<Dropdown> FillPurchaseType()
+        {
+            using (IDbConnection connection = OpenConnection(dataConnection))
+            {
+                var param = new DynamicParameters();
+                return connection.Query<Dropdown>("select PurchaseTypeId Id,PurchaseTypeName Name from PurchaseType").ToList();
+            }
+        }
+
        
         public int InsertSupplier(Supplier objSupplier)
         {
@@ -69,7 +78,7 @@ namespace ArabErp.DAL
                                                     CreatedBy,CreatedDate,OrganizationId) 
                                              Values (@SupplierRefNo,@SupplierName,@PurchaseTypeId,@SupplierPrName,
                                                     @CategoryId,@ContractDate,@ContactPerson,@Active,
-                                                    @DoorNo,@City,@State,@CurrencyId,
+                                                    @DoorNo,@City,@State,@Country,
                                                     @PostBoxNo,@Phone,@Fax,@Email,
                                                     @Bank,@Branch,@AccountDetails,@SwiftCode,
                                                     @RtgsNo,@AccountNo,@DiscountTermsId,@DiscountRate,

@@ -9,7 +9,7 @@ using ArabErp.Web.Models;
 
 namespace ArabErp.Web.Controllers
 {
-    public class SaleOrderController : Controller
+    public class SaleOrderController : BaseController
     {
         // GET: SaleOrder
         public ActionResult Index()
@@ -108,6 +108,7 @@ namespace ArabErp.Web.Controllers
             FillWrkDesc();
             FillUnit();
             FillCustomer();
+            FillPaymentTerms();
             FillVehicle();
             FillCurrency();
             FillCommissionAgent();
@@ -115,7 +116,7 @@ namespace ArabErp.Web.Controllers
             if (Result.SaleOrderId > 0)
             {
                 TempData["Success"] = "Added Successfully!";
-                TempData["SaleOrderRefNo"] = Result.SaleOrderRefNo;
+                //TempData["SaleOrderRefNo"] = Result.SaleOrderRefNo;
                 return RedirectToAction("Create");
             }
             else 
@@ -154,7 +155,7 @@ namespace ArabErp.Web.Controllers
             FillCustomer();
             FillCurrency();
             FillCommissionAgent();
-           
+            FillPaymentTerms();
             FillUnit();
             FillEmployee();
                 FillWrkDesc();
@@ -197,7 +198,7 @@ namespace ArabErp.Web.Controllers
             FillCustomer();
             FillCurrency();
             FillCommissionAgent();
-
+            FillPaymentTerms();
             FillUnit();
             FillEmployee();
             FillWrkDesc();
@@ -232,7 +233,7 @@ namespace ArabErp.Web.Controllers
             FillCustomer();
             FillCurrency();
             FillCommissionAgent();
-
+            FillPaymentTerms();
             FillUnit();
             FillEmployee();
             FillWrkDesc();
@@ -266,7 +267,7 @@ namespace ArabErp.Web.Controllers
             FillCustomer();
             FillCurrency();
             FillCommissionAgent();
-
+            FillPaymentTerms();
             FillUnit();
             FillEmployee();
             FillWrkDesc();
