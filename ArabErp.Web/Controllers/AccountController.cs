@@ -420,14 +420,37 @@ namespace ArabErp.Web.Controllers
 
         //
         // POST: /Account/LogOff
-        [HttpPost]
-        [ValidateAntiForgeryToken]
         public ActionResult LogOff()
         {
-            AuthenticationManager.SignOut();
-            return RedirectToAction("Index", "Home");
+            //AuthenticationManager.SignOut();
+            SignOff();
+            return RedirectToAction("Login", "Account");
         }
 
+       private void SignOff()
+        {
+            Session.Abandon();
+            UnsetAuthorizationCookie(HttpContext.Response, HttpContext.Request.Cookies);
+        }
+       private void UnsetAuthorizationCookie(HttpResponseBase httpresponsebase, HttpCookieCollection cookiecollection)
+       {
+           HttpCookie authCookie = cookiecollection[FormsAuthentication.FormsCookieName];
+           if (authCookie != null)
+           {
+               cookiecollection.Remove(FormsAuthentication.FormsCookieName);
+               authCookie.Expires = DateTime.Now.AddDays(-10);
+               authCookie.Value = null;
+               httpresponsebase.SetCookie(authCookie);
+           }
+           HttpCookie userCookie = cookiecollection["userCookie"];
+           if (userCookie != null)
+           {
+               cookiecollection.Remove("userCookie");
+               userCookie.Expires = DateTime.Now.AddDays(-10);
+               userCookie.Value = null;
+               httpresponsebase.SetCookie(userCookie);
+           }
+       }
         //
         // GET: /Account/ExternalLoginFailure
         [AllowAnonymous]
