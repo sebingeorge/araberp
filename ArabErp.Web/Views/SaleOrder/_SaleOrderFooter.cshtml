@@ -180,5 +180,32 @@
             </div>
            </div>
         }
+        @if (ViewData["action"].ToString() == "Release")
+        {
+            <div class="row">
+                <div class="col-md-8">
+                    <div class="part4">
+                        <label for="SaleOrderHoldReason">Hold Reason</label>
+
+                        @Html.TextAreaFor(m => m.SaleOrderHoldReason, new { @class = "form_input form_input-h", autocomplete = "off" , @readonly = "readonly"})
+                        @Html.HiddenFor(m => m.SaleOrderHoldReason)
+                    </div>
+                </div>
+                <div class="col-md-2">
+                    <div class="part4">
+                        <label for="SaleOrderHoldDate">Hold Date</label>
+                        @Html.TextBoxFor(m => m.SaleOrderHoldDate, Model.SaleOrderHoldDate.ToString("dd/MMMM/yyyy"), new { @class = "form_input ", autocomplete = "off", @disabled = "true" })
+                        @Html.HiddenFor(m => m.SaleOrderHoldDate)
+                    </div>
+                </div>
+                <div class="col-md-2">
+                    <div class="part4">
+                        <label for="SaleOrderHoldDate">Release Date</label>
+                        @Html.TextBoxFor(m => m.SaleOrderReleaseDate, Model.SaleOrderReleaseDate.ToString("dd/MMMM/yyyy"), new { @class = "form_input ", autocomplete = "off" })
+                        @Html.HiddenFor(m => m.SaleOrderReleaseDate)
+                    </div>
+                </div>
+            </div>
+        }
             </div>
 </div>
