@@ -11,17 +11,19 @@ namespace ArabErp.DAL
     public class ConsumptionItemRepository : BaseRepository
     {
         static string dataConnection = GetConnectionString("arab");
-        public int InsertConsumptionItem(ConsumptionItem objConsumptionItem)
+        public int InsertConsumptionItem(ConsumptionItem objConsumptionItem, IDbConnection connection, IDbTransaction txn)
         {
-
-            using (IDbConnection connection = OpenConnection(dataConnection))
+            try
             {
-                string sql = @"insert  into ConsumptionItem(ConsumptionId,ItemId,Remarks,Amount) Values (@ConsumptionId,@ItemId,@Remarks,@Amount);
+                string sql = @"insert into ConsumptionItem(ConsumptionId,ItemId,Remarks,Amount) Values (@ConsumptionId,@ItemId,@Remarks,@Amount);
             SELECT CAST(SCOPE_IDENTITY() as int)";
 
-
-                var id = connection.Query<int>(sql, objConsumptionItem).Single();
+                var id = connection.Query<int>(sql, objConsumptionItem, txn).Single();
                 return id;
+            }
+            catch (Exception)
+            {
+                throw;
             }
         }
 

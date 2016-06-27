@@ -15,5 +15,7 @@ namespace ArabErp.Domain
         public string Remarks { get; set; }
         public decimal Amount { get; set; }
         public bool isActive { get; set; }
+
+        public int? SlNo { get; set; }
     }
 }

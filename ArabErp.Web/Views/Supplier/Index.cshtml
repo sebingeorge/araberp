@@ -1,36 +1,23 @@
-﻿@{
-    ViewBag.Title = "Index";
-    Layout = "~/Views/Shared/_Layout.cshtml";
-}
+﻿
+@{ ViewBag.Title = "Index"; Layout = "~/Views/Shared/_Layout.cshtml";}
 
 
 <script type="text/javascript">
-    
-    @*function openPop() {
-      
+    function openPop() {
+
         var url = '@Url.Action("Create")';
-     
+
         window.location = url;
-    }*@
+    }
     $(document).ready(function () {
-        //var d = new Date();
-        //locale = "en-us",
-        //  month = d.toLocaleString(locale, { month: "long" });
-        //var DateString = d.getDate()+'/'+month+'/'+d.getFullYear();
-        ////var strDate = d.toLocaleDateString("DD/MMMM/YYYY");
-        ////alert(strDate);
-        ////d.getFullYear() + "/" + (d. + 1) + "/" + d.getDate();
-        //$('#SaleOrderDate').val(DateString);
-        //var date = $('#SaleOrderDate').val();
-        //alert(date);
-        //var x=FormatDate(date);
-        
+      
+
         toastr.options = {
             "closeButton": true,
             "positionClass": "toast-bottom-full-width",
             "preventDuplicates": false,
             "onclick": null,
-          
+
             "timeOut": "0",
             "extendedTimeOut": "1000",
             "showEasing": "swing",
@@ -38,9 +25,9 @@
             "showMethod": "fadeIn",
             "hideMethod": "fadeOut"
         }
-        if ('@TempData["success"]' != "" && '@TempData["ItemRefNo"]' != "" )
+        if ('@TempData["success"]' != "" && '@TempData["SupplierRefNo"]' != "" )
         {
-            toastr.success('@TempData["success"]' + '  Item Ref No. is : ' + '@TempData["ItemRefNo"]');
+            toastr.success('@TempData["success"]' + '  Supplier Ref No. is : ' + '@TempData["SupplierRefNo"]');
         }
         else if ('@TempData["error"]' != "") {
             toastr.error('@TempData["error"]');
@@ -53,14 +40,14 @@
     <div class="row">
 
         <div class="form-head form-head3">
-            <h4>Item List</h4>
+            <h4>Supplier List</h4>
         </div>
 
         <div class="main-part white pad1">
 
             <div class="row">
 
-                @Html.Action("ItemList")
+                @Html.Action("SupplierList")
 
 
 
@@ -75,6 +62,3 @@
     </div>
 
 </div>
-
-
-

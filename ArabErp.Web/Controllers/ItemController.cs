@@ -77,14 +77,25 @@ namespace ArabErp.Web.Controllers
             Item objItem =new JobCardRepository().GetItem(Id);
             return View("Create", objItem);
         }
+
         public ActionResult Edit(int Id)
         {
-
-            Item objItem = new JobCardRepository().GetItem(Id);
-            return View("Create", objItem);
+            //int Id = 0;
+            FillItemCategory();
+            FillUnit();
+            ViewBag.Title = "Edit";
+            Item objItem = new ItemRepository().GetItem(Id);
+             return View("Create", objItem);
+                
+            
         }
-
-
+       [HttpPost]
+        public ActionResult Edit(Item model)
+        {
+            //ViewBag.Title = "Edit";
+            //Item objItem = new JobCardRepository().GetItem(Id);
+            return View("Create", model);
+        }
 
         public void FillItemSubGroup(int Id)
         {

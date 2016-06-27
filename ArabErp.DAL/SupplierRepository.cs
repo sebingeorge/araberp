@@ -78,7 +78,7 @@ namespace ArabErp.DAL
                                                     CreatedBy,CreatedDate,OrganizationId) 
                                              Values (@SupplierRefNo,@SupplierName,@PurchaseTypeId,@SupplierPrName,
                                                     @CategoryId,@ContractDate,@ContactPerson,@Active,
-                                                    @DoorNo,@City,@State,@CountryId,
+                                                    @DoorNo,@City,@State,@Country,
                                                     @PostBoxNo,@Phone,@Fax,@Email,
                                                     @Bank,@Branch,@AccountDetails,@SwiftCode,
                                                     @RtgsNo,@AccountNo,@DiscountTermsId,@DiscountRate,
@@ -112,8 +112,11 @@ namespace ArabErp.DAL
         {
             using (IDbConnection connection = OpenConnection(dataConnection))
             {
-                string sql = @"select * from Supplier
-                        where isActive=1";
+             
+                string sql = @" SELECT SupplierId,SupplierRefNo,SupplierName,SupCategoryName,PurchaseTypeName FROM Supplier S
+                                INNER JOIN SupplierCategory SC ON SC.SupCategoryId=S.SupCategoryId
+                                INNER JOIN PurchaseType P ON P.PurchaseTypeId=S.PurchaseTypeId
+                                WHERE S.isActive=1";
 
                 var objSuppliers = connection.Query<Supplier>(sql).ToList<Supplier>();
 
