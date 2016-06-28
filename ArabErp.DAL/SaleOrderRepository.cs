@@ -16,45 +16,46 @@ namespace ArabErp.DAL
         /// </summary>
         /// <param name="model">Object of class SaleOrder</param>
         /// <returns>Primary key of current Transaction</returns>
-        public SaleOrder InsertSaleOrder(SaleOrder model)
+        public string InsertSaleOrder(SaleOrder objSaleOrder)
         {
             using (IDbConnection connection = OpenConnection(dataConnection))
             {
-                var result = new SaleOrder();
-                IDbTransaction trn = connection.BeginTransaction();
+                IDbTransaction txn = connection.BeginTransaction();
                 try
                 {
-                    int internalid = DatabaseCommonRepository.GetInternalIDFromDatabase(connection, trn,typeof(SaleOrder).Name, "0",1);
+                    int internalId = DatabaseCommonRepository.GetInternalIDFromDatabase(connection, txn, typeof(SaleOrder).Name, "0", 1);
 
-                    model.SaleOrderRefNo = "SO/" + internalid;
+                    objSaleOrder.SaleOrderRefNo = "SAL/" + internalId;
+                    objSaleOrder.TotalAmount = objSaleOrder.Items.Sum(m => m.Amount);
+                    objSaleOrder.TotalDiscount = objSaleOrder.Items.Sum(m => m.Discount);
                     string sql = @"
-                    insert  into SaleOrder(SaleOrderRefNo,SaleOrderDate,CustomerId,CustomerOrderRef,CurrencyId,SpecialRemarks,PaymentTermsId,PaymentTermsRemarks,DeliveryTerms,CommissionAgentId,CommissionAmount,CommissionPerc,SalesExecutiveId,EDateArrival,EDateDelivery,CreatedBy,CreatedDate,OrganizationId,SaleOrderApproveStatus)
-                    Values (@SaleOrderRefNo,@SaleOrderDate,@CustomerId,@CustomerOrderRef,@CurrencyId,@SpecialRemarks,@PaymentTermsId,@PaymentTermsRemarks,@DeliveryTerms,@CommissionAgentId,@CommissionAmount,@CommissionPerc,@SalesExecutiveId,@EDateArrival,@EDateDelivery,@CreatedBy,@CreatedDate,@OrganizationId,1);
+                    insert  into SaleOrder(SaleOrderRefNo,SaleOrderDate,CustomerId,CustomerOrderRef,CurrencyId,SpecialRemarks,PaymentTerms,DeliveryTerms,CommissionAgentId,CommissionAmount,CommissionPerc,TotalAmount,TotalDiscount,SalesExecutiveId,EDateArrival,EDateDelivery,CreatedBy,CreatedDate,OrganizationId,SaleOrderApproveStatus)
+                    Values (@SaleOrderRefNo,@SaleOrderDate,@CustomerId,@CustomerOrderRef,@CurrencyId,@SpecialRemarks,@PaymentTerms,@DeliveryTerms,@CommissionAgentId,@CommissionAmount,@CommissionPerc,@TotalAmount,@TotalDiscount,@SalesExecutiveId,@EDateArrival,@EDateDelivery,@CreatedBy,@CreatedDate,@OrganizationId,1);
                     SELECT CAST(SCOPE_IDENTITY() as int) SaleOrderId";
 
-                    model.SaleOrderId = connection.Query<int>(sql, model, trn).First<int>();
 
-                    var saleorderitemrepo = new SaleOrderItemRepository();
-                    foreach (var item in model.Items)
+
+                    var id = connection.Query<int>(sql, objSaleOrder, txn).Single();
+
+                    foreach (SaleOrderItem item in objSaleOrder.Items)
                     {
-                        item.SaleOrderId = model.SaleOrderId;
-                        saleorderitemrepo.InsertSaleOrderItem(item, connection, trn);
+                        item.SaleOrderId = id;
+                        new SaleOrderItemRepository().InsertSaleOrderItem(item, connection, txn);
                     }
-                    trn.Commit();
 
+                    txn.Commit();
+
+                    return id + "|SAL/" + internalId;
                 }
-                catch (Exception ex)
+                catch (Exception)
                 {
-                    trn.Rollback();
-                    model.SaleOrderId = 0;
-                    model.SaleOrderRefNo = null;
-                    throw ex;
-                    
+                    txn.Rollback();
+                    return "0";
                 }
-                return model;
-
             }
         }
+
+
 
 
 

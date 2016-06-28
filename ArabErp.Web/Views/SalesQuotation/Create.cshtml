@@ -180,6 +180,13 @@
 
 
     }
+    function showPaymentTerms()
+    {
+        var url = '@Url.Action("PaymentTermsPopup","PaymentTerms")';
+        var popup = window.open(url, "PaymentTermPopup", "width=900,height=400");
+        popup.focus();
+        return false;
+    }
 </script>
 
 <div class="container">
@@ -647,11 +654,12 @@
                             <label for="PaymentTerms">Pay.Terms</label>
 
                         </div>
-                        <div class="col-md-11">
+                        <div class="col-md-11" style="display:inline-block;position:relative;">
 
                             @if (ViewBag.actionName.ToString() == "Create")
                             {
                                 @Html.TextBoxFor(m => m.PaymentTerms, new { @class = "form_input", autocomplete = "off" })
+                                <button type="button" id="pymtTerms" onclick="showPaymentTerms()">...</button>
                             }
                             else
                             {

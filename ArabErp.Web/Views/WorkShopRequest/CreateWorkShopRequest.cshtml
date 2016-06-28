@@ -109,10 +109,7 @@
                 </div>
 
                 <div class="row form-group">
-                    <div class="col-md-2">
-                        <label for="SoNoWithDate">SO No.& Date</label>
-                        @Html.TextBoxFor(m => m.SoNoWithDate, new { @class = "form_input", autocomplete = "off", @readonly = "readonly" })
-                    </div>
+                   
                     <div class="col-md-4">
                         <label for="CustomerName">Customer</label>
                         @Html.TextBoxFor(m => m.CustomerName, new { @class = "form_input", autocomplete = "off", @readonly = "readonly" })
@@ -120,6 +117,10 @@
                     <div class="col-md-3">
                         <label for="CustomerOrderRef">Customer Order Ref.</label>
                         @Html.TextBoxFor(m => m.CustomerOrderRef, new { @class = "form_input", autocomplete = "off", @readonly = "readonly" })
+                    </div>
+                    <div class="col-md-2">
+                        <label for="SoNoWithDate">SO No.& Date</label>
+                        @Html.TextBoxFor(m => m.SoNoWithDate, new { @class = "form_input", autocomplete = "off", @readonly = "readonly" })
                     </div>
                 </div>
                 <div class="row form-group">
@@ -152,13 +153,15 @@
                         @Html.TextBoxFor(m => m.RequiredDate, Model.RequiredDate.ToString("dd/MMMM/yyyy"), new { @class = "form_input", autocomplete = "off", @readonly = "readonly", @required = "true" })
                     </div>
                 </div>
-                <div class="marg">
-                    <button type="submit" class="form-button">Save</button>
-                    <button type="button" class="form-button" onclick="Exit()">Exit</button>
-                
+    <div class="row">
+        <div class="col-md-12 hrpart">
+           
+            <button type="button" class="form-button right" onclick="Exit()">Exit</button>
+            <button type="submit" class="form-button right">Save</button>
+        </div>
 
-                </div>
-
+    </div>
+               
             }
         </div>
     </div>
