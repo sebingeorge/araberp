@@ -3,33 +3,41 @@
  ViewData["action"] = actionName;
 }
 <script>
+    $(function () {
+       
+        $("#SaleOrderHoldDate").datepicker({ dateFormat: "dd-MM-yy" });
+        $("#SaleOrderReleaseDate").datepicker({ dateFormat: "dd-MM-yy" });
+    });
     function SaleOrderHold() {
         var id = $("#SaleOrderId").val();
         var hreason = $("#SaleOrderHoldReason").val();
+        var HoldDate = $("#SaleOrderHoldDate").val();
         var url = '@Url.Action("UpdateHoldStatus")';
-        url = url + "?Id=" + id + "&hreason=" + hreason;
+        url = url + "?Id=" + id + "&hreason=" + hreason+ "&HoldDate=" + HoldDate;
         console.log(url);
         window.location.href = url;
     }
     function SaleOrderRelease() {
         var id = $("#SaleOrderId").val();
+        var ReleaseDate = $("#SaleOrderReleaseDate").val();
         var url = '@Url.Action("UpdateReleaseStatus")';
-        url = url + "?Id=" + id;
+        url = url + "?Id=" + id + "&ReleaseDate=" + ReleaseDate;
         console.log(url);
         window.location.href = url;
     }
     function Exit() {
-       
-        //if (ViewData["action"].ToString() == "Hold")
-        //{
+         
+        if ('@ViewData["action"].ToString()' == "Hold")
+        {
+           
          location.href = '@Url.Action("PendingSaleOrderHold", "SaleOrder")';
-    //    }
-    //else if (ViewData["action"].ToString() == "Release")
-    //{
-        @*location.href = '@Url.Action("PendingSaleOrderRelease", "SaleOrder")';
-    }*@
+        }
+    else if ('@ViewData["action"].ToString()' == "Release")
+    {
+        location.href = '@Url.Action("PendingSaleOrderRelease", "SaleOrder")';
     }
-   
+    }
+    
 </script>
 <div class="container">
     <div class="row">

@@ -48,6 +48,10 @@ namespace ArabErp.Domain
         [Required]
 
         public string SaleOrderHoldReason { get; set; }
+        public DateTime SaleOrderHoldDate { get; set; }
+        [Required]
+        public DateTime SaleOrderReleaseDate { get; set; }
+        [Required]
         public List<SaleOrderItem> Items { get; set; }
         public bool Select { get; set; }
         public int? Ageing { get; set; }

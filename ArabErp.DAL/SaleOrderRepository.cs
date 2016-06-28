@@ -28,8 +28,8 @@ namespace ArabErp.DAL
 
                     model.SaleOrderRefNo = "SO/" + internalid;
                     string sql = @"
-                    insert  into SaleOrder(SaleOrderRefNo,SaleOrderDate,CustomerId,CustomerOrderRef,CurrencyId,SpecialRemarks,PaymentTermsId,PaymentTermsRemarks,DeliveryTerms,CommissionAgentId,CommissionAmount,CommissionPerc,SalesExecutiveId,EDateArrival,EDateDelivery,CreatedBy,CreatedDate,OrganizationId)
-                    Values (@SaleOrderRefNo,@SaleOrderDate,@CustomerId,@CustomerOrderRef,@CurrencyId,@SpecialRemarks,@PaymentTermsId,@PaymentTermsRemarks,@DeliveryTerms,@CommissionAgentId,@CommissionAmount,@CommissionPerc,@SalesExecutiveId,@EDateArrival,@EDateDelivery,@CreatedBy,@CreatedDate,@OrganizationId);
+                    insert  into SaleOrder(SaleOrderRefNo,SaleOrderDate,CustomerId,CustomerOrderRef,CurrencyId,SpecialRemarks,PaymentTermsId,PaymentTermsRemarks,DeliveryTerms,CommissionAgentId,CommissionAmount,CommissionPerc,SalesExecutiveId,EDateArrival,EDateDelivery,CreatedBy,CreatedDate,OrganizationId,SaleOrderApproveStatus)
+                    Values (@SaleOrderRefNo,@SaleOrderDate,@CustomerId,@CustomerOrderRef,@CurrencyId,@SpecialRemarks,@PaymentTermsId,@PaymentTermsRemarks,@DeliveryTerms,@CommissionAgentId,@CommissionAmount,@CommissionPerc,@SalesExecutiveId,@EDateArrival,@EDateDelivery,@CreatedBy,@CreatedDate,@OrganizationId,1);
                     SELECT CAST(SCOPE_IDENTITY() as int) SaleOrderId";
 
                     model.SaleOrderId = connection.Query<int>(sql, model, trn).First<int>();
@@ -86,7 +86,7 @@ namespace ArabErp.DAL
             }
         }
         /// <summary>
-        /// Saleorder Pending List for workshop request and hold stock
+        /// Saleorder Pending List for workshop request 
         /// </summary>
         /// <param name="model">Object of class SaleOrder</param>
         /// <returns>SaleOrders not in WorkshopRequest table</returns>
@@ -107,7 +107,24 @@ namespace ArabErp.DAL
                 return objSaleOrders;
             }
         }
-
+        /// <summary>
+        ///  Saleorder Pending List for  hold stock
+        /// </summary>
+        /// <returns></returns>
+        public IEnumerable<PendingSO> GetSaleOrdersForHold()
+        {
+            using (IDbConnection connection = OpenConnection(dataConnection))
+            {
+                string query = @"SELECT  t.SaleOrderId,SO.CustomerOrderRef,SO.SaleOrderRefNo,SO.SaleOrderDate,SO.EDateArrival,SO.EDateDelivery,SO.CustomerId,C.CustomerName,STUFF((SELECT ', ' + CAST(W.WorkDescr AS VARCHAR(10)) [text()]
+                             FROM SaleOrderItem SI inner join WorkDescription W on W.WorkDescriptionId=SI.WorkDescriptionId
+                             WHERE SI.SaleOrderId = t.SaleOrderId
+                             FOR XML PATH(''), TYPE).value('.','NVARCHAR(MAX)'),1,2,' ') WorkDescription,DATEDIFF(dd,SO.SaleOrderDate,GETDATE ()) Ageing 
+                             FROM SaleOrderItem t INNER JOIN SaleOrder SO on t.SaleOrderId=SO.SaleOrderId INNER JOIN Customer C ON SO.CustomerId =C.CustomerId
+                             left join WorkShopRequest WR on SO.SaleOrderId=WR.SaleOrderId WHERE WR.SaleOrderId is null and SO.isActive=1 and SO.SaleOrderApproveStatus=1 and SO.SaleOrderHoldStatus IS NULL
+                             GROUP BY t.SaleOrderId,SO.CustomerOrderRef,C.CustomerName,SO.SaleOrderRefNo,SO.EDateArrival,SO.EDateDelivery,SO.CustomerId,SO.SaleOrderDate";
+                return connection.Query<PendingSO>(query);
+            }
+        }
         public SaleOrder GetSaleOrderForWorkshopRequest(int SaleOrderId)
         {
             using (IDbConnection connection = OpenConnection(dataConnection))
@@ -291,12 +308,12 @@ namespace ArabErp.DAL
         /// </summary>
         /// <param name="SaleOrderId"></param>
         /// <returns></returns>
-        public int UpdateSOHold(int SaleOrderId, string hreason)
+        public int UpdateSOHold(int SaleOrderId, string hreason, string HoldDate)
         {
             using (IDbConnection connection = OpenConnection(dataConnection))
             {
-                string sql = @"Update SaleOrder set SaleOrderHoldStatus='H',SaleOrderHoldReason=@hreason  WHERE SaleOrderId=@SaleOrderId";
-                return connection.Execute(sql, new { SaleOrderId = SaleOrderId, hreason = hreason });
+                string sql = @"Update SaleOrder set SaleOrderHoldStatus='H',SaleOrderHoldReason=@hreason,SaleOrderHoldDate=@HoldDate  WHERE SaleOrderId=@SaleOrderId";
+                return connection.Execute(sql, new { SaleOrderId = SaleOrderId, hreason = hreason, HoldDate = HoldDate });
 
             }
         }
@@ -308,17 +325,17 @@ namespace ArabErp.DAL
         {
             using (IDbConnection connection = OpenConnection(dataConnection))
             {
-                string query = "Select S.SaleOrderId,SaleOrderRefNo, SaleOrderDate, C.CustomerName, S.CustomerOrderRef";
+                string query = "Select S.SaleOrderId,SaleOrderRefNo, SaleOrderDate, C.CustomerName, S.CustomerOrderRef,S.SaleOrderHoldDate,S.SaleOrderHoldReason";
                 query += " from SaleOrder S inner join Customer C on S.CustomerId = C.CustomerId where S.SaleOrderHoldStatus ='H'";
                 return connection.Query<PendingSO>(query);
             }
         }
-        public int UpdateSORelease(int SaleOrderId)
+        public int UpdateSORelease(int SaleOrderId,string ReleaseDate)
         {
             using (IDbConnection connection = OpenConnection(dataConnection))
             {
-                string sql = @"Update SaleOrder set SaleOrderHoldStatus = null WHERE SaleOrderId=@SaleOrderId";
-                return connection.Execute(sql, new { SaleOrderId = SaleOrderId });
+                string sql = @"Update SaleOrder set SaleOrderHoldStatus = null,SaleOrderReleaseDate=@ReleaseDate WHERE SaleOrderId=@SaleOrderId";
+                return connection.Execute(sql, new { SaleOrderId = SaleOrderId, ReleaseDate = ReleaseDate });
 
             }
         }

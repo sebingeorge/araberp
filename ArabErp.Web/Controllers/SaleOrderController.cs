@@ -182,16 +182,9 @@ namespace ArabErp.Web.Controllers
         }
         public ActionResult PendingSaleOrderHold(int? page)
         {
-            var rep = new SaleOrderRepository();
-            var slist = rep.GetSaleOrdersPendingWorkshopRequest();
-            var pager = new Pager(slist.Count(), page);
-
-            var viewModel = new PagedSaleOrderViewModel
-            {
-                SaleOrders = slist.Skip((pager.CurrentPage - 1) * pager.PageSize).Take(pager.PageSize),
-                Pager = pager
-            };
-            return View(viewModel);
+            var repo = new SaleOrderRepository();
+            IEnumerable<PendingSO> pendingSO = repo.GetSaleOrdersForHold();
+            return View(pendingSO);
         }
         public ActionResult Hold(int? SaleOrderId)
         {
@@ -205,8 +198,10 @@ namespace ArabErp.Web.Controllers
             FillVehicle();
             var repo = new SaleOrderRepository();
             SaleOrder model = repo.GetSaleOrder(SaleOrderId ?? 0);
+            model.SaleOrderHoldDate = DateTime.Now;
             var SOList = repo.GetSaleOrderItem(SaleOrderId ?? 0);
             model.Items = new List<SaleOrderItem>();
+           
             foreach (var item in SOList)
             {
                 var soitem = new SaleOrderItem { WorkDescriptionId = item.WorkDescriptionId, VehicleModelId = item.VehicleModelId, Quantity = item.Quantity, UnitId = item.UnitId, Rate = item.Rate, Amount = item.Amount, Discount = item.Discount };
@@ -216,10 +211,10 @@ namespace ArabErp.Web.Controllers
 
             return View("Approval", model);
         }
-        public ActionResult UpdateHoldStatus(int? Id, string hreason)
+        public ActionResult UpdateHoldStatus(int? Id, string hreason, string  HoldDate)
         {
 
-            new SaleOrderRepository().UpdateSOHold(Id ?? 0, hreason);
+            new SaleOrderRepository().UpdateSOHold(Id ?? 0, hreason, HoldDate);
             return RedirectToAction("PendingSaleOrderHold");
         }
         public ActionResult PendingSaleOrderRelease()
@@ -251,10 +246,10 @@ namespace ArabErp.Web.Controllers
 
             return View("Approval", model);
         }
-        public ActionResult UpdateReleaseStatus(int? Id)
+        public ActionResult UpdateReleaseStatus(int? Id, string ReleaseDate)
         {
 
-            new SaleOrderRepository().UpdateSORelease(Id ?? 0);
+            new SaleOrderRepository().UpdateSORelease(Id ?? 0, ReleaseDate);
             return RedirectToAction("PendingSaleOrderRelease");
         }
         public ActionResult Closing()
