@@ -9,6 +9,12 @@
         $("#SaleOrderReleaseDate").datepicker({ dateFormat: "dd-MM-yy" });
     });
     function SaleOrderHold() {
+
+        if ($('#SaleOrderHoldReason').val() == '') {
+            alert("please enter hold reason");
+            $('#SaleOrderHoldReason').focus();
+            return false;
+        }
         var id = $("#SaleOrderId").val();
         var hreason = $("#SaleOrderHoldReason").val();
         var HoldDate = $("#SaleOrderHoldDate").val();
@@ -37,7 +43,15 @@
         location.href = '@Url.Action("PendingSaleOrderRelease", "SaleOrder")';
     }
     }
-    
+    $(document).ready(function () {
+        if ('@ViewData["action"].ToString()' == "Hold") {
+            $("#SaleOrderHoldReason").focus();
+        }
+        else if ('@ViewData["action"].ToString()' == "Release") {
+            $("#SaleOrderReleaseDate").focus();
+        }
+    })
+   
 </script>
 <div class="container">
     <div class="row">

@@ -25,11 +25,11 @@ namespace ArabErp.Domain
 
         public string CurrencyName { get; set; }
         public string SpecialRemarks { get; set; }
-        public int PaymentTermsId { get; set; }
-        public string PaymentTermsRemarks { get; set; }
+        public string PaymentTerms { get; set; }
         public string DeliveryTerms { get; set; }
         [Required]
         public decimal? TotalAmount { get; set; }
+        public decimal? TotalDiscount { get; set; }
         public int CommissionAgentId { get; set; }
         public decimal? CommissionAmount { get; set; }
         public float? CommissionPerc { get; set; }
