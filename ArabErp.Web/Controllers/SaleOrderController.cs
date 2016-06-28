@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data.SqlClient;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
@@ -19,17 +20,34 @@ namespace ArabErp.Web.Controllers
         }
         public ActionResult Create()
         {
-            FillCustomer();
-            FillCurrency();
-            FillCommissionAgent();
-            FillWrkDesc();
-            FillVehicle();
-            FillUnit();
-            FillEmployee();
-            FillPaymentTerms();
+           
+            string internalId = "";
+            try
+            {
+                internalId = DatabaseCommonRepository.GetNextReferenceNo(typeof(SaleOrder).Name);
+                FillCustomer();
+                FillCurrency();
+                FillCommissionAgent();
+                FillWrkDesc();
+                FillVehicle();
+                FillUnit();
+                FillEmployee();
+                FillPaymentTerms();
+            }
+            catch (NullReferenceException nx)
+            {
+                TempData["success"] = "";
+                TempData["error"] = "Some required data was missing. Please try again.|" + nx.Message;
+            }
+            catch (Exception ex)
+            {
+                TempData["success"] = "";
+                TempData["error"] = "Some error occurred. Please try again.|" + ex.Message;
+            }
             SaleOrder saleOrder = new SaleOrder();
             saleOrder.Items = new List<SaleOrderItem>();
             saleOrder.Items.Add(new SaleOrderItem());
+            saleOrder.SaleOrderRefNo = "SAL/" + internalId; 
             saleOrder.SaleOrderDate = DateTime.Now;
             saleOrder.EDateArrival = DateTime.Now;
             saleOrder.EDateDelivery = DateTime.Now;
@@ -100,11 +118,36 @@ namespace ArabErp.Web.Controllers
         [HttpPost]
         public ActionResult Save(SaleOrder model)
         {
-
+            try
+            {
             model.OrganizationId = 1;
             model.CreatedDate = System.DateTime.Now;
             model.CreatedBy = Request.ServerVariables["HTTP_X_FORWARDED_FOR"] ?? Request.ServerVariables["REMOTE_ADDR"];
-            var Result= new SaleOrderRepository().InsertSaleOrder(model);
+            string id = new SaleOrderRepository().InsertSaleOrder(model);
+             if (id.Split('|')[0] != "0")
+                {
+                    TempData["success"] = "Saved successfully. Sale Order Reference No. is " + id.Split('|')[1];
+                    TempData["error"] = "";
+                    return RedirectToAction("Create");
+                }
+                else
+                {
+                    throw new Exception();
+                }
+            }
+            catch (SqlException sx)
+            {
+                TempData["error"] = "Some error occured while connecting to database. Please check your network connection and try again.|" + sx.Message;
+            }
+            catch (NullReferenceException nx)
+            {
+                TempData["error"] = "Some required data was missing. Please try again.|" + nx.Message;
+            }
+            catch (Exception ex)
+            {
+                TempData["error"] = "Some error occured. Please try again.|" + ex.Message;
+            }
+            TempData["success"] = "";
             FillWrkDesc();
             FillUnit();
             FillCustomer();
@@ -113,23 +156,8 @@ namespace ArabErp.Web.Controllers
             FillCurrency();
             FillCommissionAgent();
             FillEmployee();
-            if (Result.SaleOrderId > 0)
-            {
-                TempData["Success"] = "Added Successfully!";
-                //TempData["SaleOrderRefNo"] = Result.SaleOrderRefNo;
-                return RedirectToAction("Create");
-            }
-            else 
-            {
-                TempData["error"] = "Oops!!..Something Went Wrong!!";
-                TempData["SaleOrderRefNo"] = null ;
-                SaleOrder saleOrder = new SaleOrder();
-                saleOrder.SaleOrderDate = System.DateTime.Today;
-                saleOrder.Items = new List<SaleOrderItem>();
-                saleOrder.Items.Add(new SaleOrderItem());
-                return View("Create", saleOrder);
-            }
-           
+
+            return View(model);
         }
         [HttpGet]
         public JsonResult GetCustomerDetailsByKey(int cusKey)

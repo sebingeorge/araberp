@@ -30,6 +30,7 @@ namespace ArabErp.Domain
         public string DeliveryTerms { get; set; }
         [Required]
         public decimal? TotalAmount { get; set; }
+        public decimal? TotalDiscount { get; set; }
         public int CommissionAgentId { get; set; }
         public decimal? CommissionAmount { get; set; }
         public float? CommissionPerc { get; set; }

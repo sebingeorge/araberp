@@ -80,7 +80,7 @@
             return false;
         }
         else if ($('#EDateDelivery').val() < $('#EDateArrival').val()) {
-            alert("Please select a valid Delivery Date, Delivery Date should be greater than Arrival Date");
+            alert("please select a valid Delivery Date, Delivery Date should be greater than Arrival Date");
             $('#EDateDelivery').focus();
             return false;
         }
@@ -102,7 +102,7 @@
             }
            else if (qty == "") {
 
-                alert("Please enter qty.");
+                alert("please enter qty.");
                 $("#Items_" + i + "__Quantity").focus();
                 count = 1;
            }
@@ -114,14 +114,15 @@
            }
             else if (rate == "") {
 
-                alert("Please enter rate");
+                alert("please enter rate");
                 $("#Items_" + i + "__Rate").focus();
                 count = 1;
             }
 
-            else if (discount > amount) {
-
-                alert("Please enter valid discount.");
+            else if (eval(discount) > eval(amount)) {
+                alert(discount);
+                alert(amount);
+                alert("please enter valid discount.");
                 $("#Items_" + i + "__Discount").focus();
                 count = 1;
             }
@@ -147,6 +148,28 @@
          $(".numbers-only").keypress(function (e) {
              if (e.which == 8 || (e.which == 46 && $(this).val().indexOf('.') == -1) || (e.which > 47 && e.which < 58)) { } else { return false; }
          });
+         toastr.options = {
+             "closeButton": true,
+             "positionClass": "toast-bottom-full-width",
+             "preventDuplicates": false,
+             "onclick": null,
+             "showDuration": "300",
+             "hideDuration": "1000",
+             "timeOut": "0",
+             "extendedTimeOut": "0",
+             "showEasing": "swing",
+             "hideEasing": "linear",
+             "showMethod": "fadeIn",
+             "hideMethod": "fadeOut"
+         }
+         if ('@TempData["success"]' != '') {
+             toastr.success('@TempData["success"]');
+         }
+         else if ('@TempData["error"]' != '') {
+             toastr.error('@TempData["error"]'.split('|')[0]);
+             console.log('@TempData["error"]'.split('|')[1]);
+         }
+        @{ TempData["success"] = TempData["error"] = ""; }
      });
 
      function Exit() {

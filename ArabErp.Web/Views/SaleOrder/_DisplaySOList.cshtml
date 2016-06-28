@@ -107,6 +107,7 @@
     }
 
     function calculateSummary() {
+        
         var quantity = parseFloat("0");
         var amount = parseFloat("0");
         var discount = parseFloat("0");
@@ -139,12 +140,26 @@
             }
 
             amount = amount + a;
+            
         });
 
         //$("#QtyTotal").text(quantity);
         $("#TotalAmount").val(amount);
 
-        $("#QtyDiscount").text(discount);
+        $("#TotalDiscount").val(discount);
+
+        var TotalAmt = $("#TotalAmount").val();
+
+        CommPercentage = parseFloat($("#CommissionPerc").val());
+
+        if (isNaN(CommPercentage)) {
+            CommPercentage = parseFloat("0");
+        }
+
+        CommAmt = TotalAmt * (CommPercentage / 100);
+
+        $("#CommissionAmount").val(CommAmt);
+       
 
     }
 
@@ -164,10 +179,7 @@
         }
     }
 
-    
-
-
-
+  
 </script>
 
 
@@ -296,10 +308,11 @@
                 </th>
                 <th width="10%" class="text-right"><h1>Total</h1></th>
                 <th width="7%" class="text-right">
-                    <span id="QtyDiscount"></span>
+                    @Html.TextBoxFor(m => m.TotalDiscount, new { @class = "form_input", @style = "text-align:right", autocomplete = "off", @readonly = "readonly" })
+                    @*<span id="QtyDiscount"></span>*@
                 </th>
                
-                <th width="8%" class="text-right">@Html.TextBoxFor(m => m.TotalAmount, new { @class = "form_input", @style = "text-align:right",autocomplete = "off", @readonly = "readonly" })</th>
+                <th width="8%" class="text-right">@Html.TextBoxFor(m => m.TotalAmount, new { @class = "form_input", @style = "text-align:right", autocomplete = "off", @readonly = "readonly" })</th>
                
                 <th width="5%"></th>
 
