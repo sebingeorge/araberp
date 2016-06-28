@@ -48,6 +48,7 @@
                         <div class="part4 col-md-6">
                             <div class="row">
                                 <label for="code" class="label1"> Item Ref. No</label>
+                                @Html.HiddenFor(m => m.ItemRefNo)
                                 @Html.HiddenFor(m => m.ItemId)
                                 @Html.TextBoxFor(m => m.ItemRefNo, new { @class = "form_input ", autocomplete = "off", @readonly = "readonly" })
                                 </div>
