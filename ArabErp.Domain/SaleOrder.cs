@@ -18,7 +18,7 @@ namespace ArabErp.Domain
         public int CustomerId { get; set; }
         public string CustomerName { get; set; }
         public string CustomerAddress { get; set; }
-        public string WorkDescription { get; set; }
+      
          [Required]
         public string CustomerOrderRef { get; set; }
         public int? CurrencyId { get; set; }
@@ -55,17 +55,7 @@ namespace ArabErp.Domain
         public List<SaleOrderItem> Items { get; set; }
         public bool Select { get; set; }
         public int? Ageing { get; set; }
-        public string SoNoWithDate
-        {
-            get
-         {
-             return string.Format("{0},{1}", SaleOrderRefNo, SaleOrderDate.ToShortDateString());
-         }
-         set
-         {
-             
-         }
-}
+     
         }
     }
 

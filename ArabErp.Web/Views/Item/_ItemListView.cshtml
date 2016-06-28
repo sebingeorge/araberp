@@ -2,12 +2,7 @@
 @using GridMvc.Html
 
 <script>
-    function OpenEdit(id) {
-       alert("open");
-        @*var url = '@Url.Action("Edit")';
-        url += "?Id=" + id;
-        location.href = '@Url.Action("Edit", "Item")';*@
-
+    @*function OpenEdit(id) {
         var url = '@Url.Action("Edit")';
         //url += "?Id=" + id;
         Location.href = url;
@@ -15,8 +10,11 @@
      
     }
     function OpenDelete(id) {
-
-    }
+        var url = '@Url.Action("Delete")';
+        //url += "?Id=" + id;
+        Location.href = url;
+        return false;
+    }*@
 </script>
 
 <style type="text/css">
@@ -50,7 +48,7 @@
                             @*columns.Add().Encoded(false).Sanitized(false).SetWidth(30).Css("cent").RenderValueAs(o => @<button class="edit-book display-mode" onclick="Edit(this.)">Edit</button>);
                             columns.Add().Encoded(false).Sanitized(false).SetWidth(30).Css("cent").RenderValueAs(o => @<a href="">Delete</a>);*@
                             columns.Add().Encoded(false).Sanitized(false).SetWidth(30).Css("cent").RenderValueAs(o => @<a href="@Url.Action("Edit", new { Id = o.ItemId})">Edit</a>);
-                            columns.Add().Encoded(false).Sanitized(false).SetWidth(30).Css("cent").RenderValueAs(o => @<a href="" onclick="OpenDelete(@o.ItemId)">Delete</a>);
+                            columns.Add().Encoded(false).Sanitized(false).SetWidth(30).Css("cent").RenderValueAs(o => @<a href="@Url.Action("Delete", new { Id = o.ItemId})">Delete</a>);
                             //columns.Add().Encoded(false).Sanitized(false).SetWidth(30).RenderValueAs(o => Html.ActionLink("Edit",1));
                             //columns.Add(m => m.ItemId).Titled("Vip customer").SetWidth(150).RenderValueAs(o => Html.ActionLink);
                             //columns.Add(m => m.ItemId).RenderValueAs(m => m.ItemId ? Html.ActionLink("Edit", "Edit") : m.ItemId.ToString());
