@@ -63,6 +63,10 @@ namespace ArabErp.Web.Controllers
         [AllowAnonymous]
         public ActionResult Login(string returnUrl)
         {
+            //Account/LogOff
+            string[] url = returnUrl.Split('/');
+            if (url[url.Length - 1] == "LogOff")
+                returnUrl = "/";
             ViewBag.ReturnUrl = returnUrl;
             return View();
         }

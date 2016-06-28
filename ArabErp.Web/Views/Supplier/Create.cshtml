@@ -1,5 +1,8 @@
 ﻿@model  ArabErp.Domain.Supplier
-@{ViewBag.Title = "Create";Layout = "~/Views/Shared/_Layout.cshtml";}
+@{Layout = "~/Views/Shared/_Layout.cshtml";}
+
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+<script src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.10.2/jquery-ui.min.js"></script>
 
 <script>
     $(document).ready(function () {
@@ -98,18 +101,21 @@
             <h4>Supplier</h4>
         </div>
         <div class="col-md-12">
-          @using (Html.BeginForm("Save", null, FormMethod.Post, new { @class = "createFrom", @id ="Supplier_form"}))
+          @using (Html.BeginForm(null, null, FormMethod.Post, new { @class = "createFrom", @id ="Supplier_form"}))
           {
                 <div class="row form-group main-part pad1">
                     <div class="row form-group pad3">
                         <div class="col-md-3">
                             <div class="part4">
+                                
+                                @Html.HiddenFor(m => m.SupplierId, new { @class = "form_input", autocomplete = "off" })
+
                                 <label for="code">Code</label>
                                 @Html.TextBoxFor(m => m.SupplierRefNo, new { @class = "form_input", autocomplete = "off" })
                             </div>
                             <div class="part4">
                                 <label for="CategoryId">Category</label>
-                                @Html.DropDownListFor(m => Model.CategoryId, (SelectList)ViewBag.SupplierCategory, "Select Category", new { @class = "form_input", autocomplete = "off" })
+                                @Html.DropDownListFor(m => Model.SupCategoryId, (SelectList)ViewBag.SupplierCategory, "Select Category", new { @class = "form_input", autocomplete = "off" })
                             </div>
                         </div>
 
@@ -141,7 +147,7 @@
                         <div class="col-md-3">
                             <div class="part4">
                                 <label for="prntname">Print Name</label>
-                                @Html.TextBoxFor(m => m.SupplierPrName, new { @class = "form_input", autocomplete = "off" })
+                                @Html.TextBoxFor(m => m.SupplierPrintName, new { @class = "form_input", autocomplete = "off" })
                             </div>
 
                             <div class="part4">
@@ -194,7 +200,7 @@
                         <div class="col-md-3">
                             <div class="part4">
                                 <label for="country">Country</label>
-                                @Html.DropDownListFor(m => Model.Country, (SelectList)ViewBag.SupplierCountry, "Select Country", new { @class = "form_input", autocomplete = "off" })
+                                @Html.DropDownListFor(m => Model.CountryId, (SelectList)ViewBag.SupplierCountry, "Select Country", new { @class = "form_input", autocomplete = "off" })
                             </div>
                             <div class="part4">
                                 <label for="email">E-mail</label>
@@ -282,7 +288,21 @@
                         
                         <div class="col-md-12 hrpart">
                             <button type="button" class="form-button right">Exit</button>
-                            <button type="submit" class="form-button right">Save</button>
+
+                            @if(@ViewBag.Title == "Edit")
+                            {
+                                 <button type="submit" class="form-button right">Update</button>
+                            }
+                              @if (@ViewBag.Title == "Delete")
+                            {
+                                  <button type="submit" class="form-button right">Delete</button>
+                            }
+                                 @if (@ViewBag.Title == "Create")
+                              {
+                                 <button type="submit" class="form-button right">Save</button>  
+                              }                       
+                           
+                          
                         </div>
                        
                     </div>
