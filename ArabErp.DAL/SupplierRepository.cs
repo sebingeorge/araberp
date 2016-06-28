@@ -76,14 +76,14 @@ namespace ArabErp.DAL
                                                     RtgsNo,AccountNo,DiscountTermsId,DiscountRate,
                                                     CurrencyId,SupRefAccNo,PanNo,TinNo,
                                                     CreatedBy,CreatedDate,OrganizationId) 
-                                             Values (@SupplierRefNo,@SupplierName,@PurchaseTypeId,@SupplierPrName,
-                                                    @CategoryId,@ContractDate,@ContactPerson,@Active,
-                                                    @DoorNo,@City,@State,@Country,
+                                             Values (@SupplierRefNo,@SupplierName,@PurchaseTypeId,@SupplierPrintName,
+                                                    @SupCategoryId,@ContractDate,@ContactPerson,@Active,
+                                                    @DoorNo,@City,@State,@CountryId,
                                                     @PostBoxNo,@Phone,@Fax,@Email,
                                                     @Bank,@Branch,@AccountDetails,@SwiftCode,
                                                     @RtgsNo,@AccountNo,@DiscountTermsId,@DiscountRate,
                                                     @CurrencyId,@SupRefAccNo,@PanNo,@TinNo,
-                                                    @CreatedBy,@CreatedDate,0);
+                                                    @CreatedBy,@CreatedDate,@OrganizationId);
                                                     SELECT CAST(SCOPE_IDENTITY() as int)";
 
 
@@ -112,8 +112,11 @@ namespace ArabErp.DAL
         {
             using (IDbConnection connection = OpenConnection(dataConnection))
             {
-                string sql = @"select * from Supplier
-                        where isActive=1";
+             
+                string sql = @" SELECT SupplierId,SupplierRefNo,SupplierName,SupCategoryName,PurchaseTypeName FROM Supplier S
+                                INNER JOIN SupplierCategory SC ON SC.SupCategoryId=S.SupCategoryId
+                                INNER JOIN PurchaseType P ON P.PurchaseTypeId=S.PurchaseTypeId
+                                WHERE S.isActive=1";
 
                 var objSuppliers = connection.Query<Supplier>(sql).ToList<Supplier>();
 
@@ -125,7 +128,13 @@ namespace ArabErp.DAL
         {
             using (IDbConnection connection = OpenConnection(dataConnection))
             {
-                string sql = @"UPDATE Supplier SET SupplierName = @SupplierName ,Address1 = @Address1 ,Address2 = @Address2 ,Address3 = @Address3,Phone = @Phone,CreatedBy = @CreatedBy,CreatedDate = @CreatedDate  OUTPUT INSERTED.SupplierId  WHERE SupplierId = @SupplierId";
+                string sql = @" UPDATE Supplier SET SupplierRefNo = @SupplierRefNo ,SupplierName=@SupplierName,PurchaseTypeId=@PurchaseTypeId,
+                                SupplierPrintName=@SupplierPrintName,SupCategoryId=@SupCategoryId,ContractDate=@ContractDate,ContactPerson=@ContactPerson,
+                                Active=@Active,DoorNo=@DoorNo,City=@City,State=@State,CountryId=@CountryId,PostBoxNo=@PostBoxNo,Phone=@Phone,Fax=@Fax,
+                                Email=@Email,Bank=@Bank,Branch=@Branch,AccountDetails=@AccountDetails,SwiftCode=@SwiftCode,RtgsNo=@RtgsNo,AccountNo=@AccountNo,
+                                DiscountTermsId=@DiscountTermsId,DiscountRate=@DiscountRate,CurrencyId=@CurrencyId,SupRefAccNo=@SupRefAccNo,PanNo=@PanNo,
+                                TinNo=@TinNo,CreatedBy = @CreatedBy,CreatedDate = @CreatedDate,OrganizationId = @OrganizationId
+                                WHERE SupplierId = @SupplierId";
 
 
                 var id = connection.Execute(sql, objSupplier);
@@ -133,7 +142,7 @@ namespace ArabErp.DAL
             }
         }
 
-        public int DeleteSupplier(Unit objSupplier)
+        public int DeleteSupplier(Supplier objSupplier)
         {
             using (IDbConnection connection = OpenConnection(dataConnection))
             {

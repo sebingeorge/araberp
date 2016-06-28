@@ -36,6 +36,12 @@ namespace ArabErp.Web.Controllers
             var List = rep.FillPaymentTermsList();
             return PartialView("PaymentTermsListView", List);
         }
+        public ActionResult PaymentTermsPopup()
+        {
+            var rep = new PaymentTermsRepository();
+            var List = rep.FillPaymentTermsList();
+            return View(List);
+        }
 
     }
 }

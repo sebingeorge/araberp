@@ -10,6 +10,8 @@
         $("#SaleOrderDate").datepicker({ dateFormat: "dd-MM-yy" });
         $("#EDateArrival").datepicker({ dateFormat: "dd-MM-yy" });
         $("#EDateDelivery").datepicker({ dateFormat: "dd-MM-yy" });
+     
+        
     });
     function CustomerChanged(cust)
     {
@@ -57,6 +59,11 @@
             $('#CommissionAgentId').focus();
             return false;
         }
+        else if ($('#CommissionPerc').val() == '') {
+            alert("please enter commission percentage.");
+            $('#CommissionPerc').focus();
+            return false;
+        }
         else if ($('#SalesExecutiveId').val() == '') {
             alert("select order taken by");
             $('#SalesExecutiveId').focus();
@@ -72,8 +79,8 @@
             $('#EDateDelivery').focus();
             return false;
         }
-        else if ($('#EDateDelivery').val() <= $('#EDateArrival').val()) {
-            alert("Please select a valid Delivery Date, Delivery Date should be greater than Arrival Date");
+        else if ($('#EDateDelivery').val() < $('#EDateArrival').val()) {
+            alert("please select a valid Delivery Date, Delivery Date should be greater than Arrival Date");
             $('#EDateDelivery').focus();
             return false;
         }
@@ -85,6 +92,8 @@
             var rate = $("#Items_" + i + "__Rate").val();
             var wrk = $("#Items_" + i + "__WorkDescriptionId").val();
             var unit = $("#Items_" + i + "__UnitId").val();
+            var discount = $("#Items_" + i + "__Discount").val();
+            var amount = $("#Items_" + i + "__Amount").val();
             if (wrk == "") {
 
                 alert("select work description");
@@ -93,7 +102,7 @@
             }
            else if (qty == "") {
 
-                alert("Please enter qty.");
+                alert("please enter qty.");
                 $("#Items_" + i + "__Quantity").focus();
                 count = 1;
            }
@@ -105,18 +114,17 @@
            }
             else if (rate == "") {
 
-                alert("Please enter rate");
+                alert("please enter rate");
                 $("#Items_" + i + "__Rate").focus();
                 count = 1;
             }
 
-            //  if (!$(this).val()) {
-            //      //$(this).addClass('');
-            //    $(this).addClass('warning');
-            //    alert("Please enter Quantity");
-            //    $(this).focus();
-            //    return rtn;
-            //}
+            else if (eval(discount) > eval(amount)) {
+                alert("please enter valid discount.");
+                $("#Items_" + i + "__Discount").focus();
+                count = 1;
+            }
+
 
 
         });
@@ -138,6 +146,28 @@
          $(".numbers-only").keypress(function (e) {
              if (e.which == 8 || (e.which == 46 && $(this).val().indexOf('.') == -1) || (e.which > 47 && e.which < 58)) { } else { return false; }
          });
+         toastr.options = {
+             "closeButton": true,
+             "positionClass": "toast-bottom-full-width",
+             "preventDuplicates": false,
+             "onclick": null,
+             "showDuration": "300",
+             "hideDuration": "1000",
+             "timeOut": "5000",
+             "extendedTimeOut": "0",
+             "showEasing": "swing",
+             "hideEasing": "linear",
+             "showMethod": "fadeIn",
+             "hideMethod": "fadeOut"
+         }
+         if ('@TempData["success"]' != '') {
+             toastr.success('@TempData["success"]');
+         }
+         else if ('@TempData["error"]' != '') {
+             toastr.error('@TempData["error"]'.split('|')[0]);
+             console.log('@TempData["error"]'.split('|')[1]);
+         }
+        @{ TempData["success"] = TempData["error"] = ""; }
      });
 
      function Exit() {

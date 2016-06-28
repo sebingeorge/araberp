@@ -19,42 +19,41 @@ namespace ArabErp.DAL
         /// </summary>
         /// <param name="model"></param>
         /// <returns>primary key of WorkShopRequest </returns>
-        public int InsertWorkShopRequest(WorkShopRequest model)
+
+        public string InsertWorkShopRequest(WorkShopRequest objWorkShopRequest)
         {
             using (IDbConnection connection = OpenConnection(dataConnection))
             {
-
                 IDbTransaction trn = connection.BeginTransaction();
                 try
                 {
-                    int id = 0;
+                    int internalId = DatabaseCommonRepository.GetInternalIDFromDatabase(connection, trn, typeof(WorkShopRequest).Name, "0", 1);
 
-                    string sql = @"insert  into WorkShopRequest(WorkShopRequestNo,WorkShopRequestDate,SaleOrderId,CustomerId,CustomerOrderRef,SpecialRemarks,RequiredDate,CreatedBy,CreatedDate,OrganizationId) Values (@WorkShopRequestNo,@WorkShopRequestDate,@SaleOrderId,@CustomerId,@CustomerOrderRef,@SpecialRemarks,@RequiredDate,@CreatedBy,@CreatedDate,@OrganizationId);
-                                 SELECT CAST(SCOPE_IDENTITY() as int)";
+                    objWorkShopRequest.WorkShopRequestRefNo = "WOR/" + internalId;
+
+                    string sql = @"insert  into WorkShopRequest(WorkShopRequestRefNo,WorkShopRequestDate,SaleOrderId,CustomerId,CustomerOrderRef,SpecialRemarks,RequiredDate,CreatedBy,CreatedDate,OrganizationId) Values (@WorkShopRequestRefNo,@WorkShopRequestDate,@SaleOrderId,@CustomerId,@CustomerOrderRef,@SpecialRemarks,@RequiredDate,@CreatedBy,@CreatedDate,@OrganizationId);
+                               SELECT CAST(SCOPE_IDENTITY() as int)";
 
 
-                    id = connection.Query<int>(sql, model, trn).Single();
-                    var saleorderitemrepo = new WorkShopRequestItemRepository();
-                    foreach (var item in model.Items)
+                    var id = connection.Query<int>(sql, objWorkShopRequest, trn).Single();
+
+                    foreach (WorkShopRequestItem item in objWorkShopRequest.Items)
                     {
                         item.WorkShopRequestId = id;
                         new WorkShopRequestItemRepository().InsertWorkShopRequestItem(item, connection, trn);
-                      
                     }
 
                     trn.Commit();
-                    return id;
+
+                    return id + "|WOR/" + internalId;
                 }
                 catch (Exception)
                 {
                     trn.Rollback();
-                    return 0;
+                    return "0";
                 }
-
-
             }
         }
-
         public List<WorkShopRequestItem> GetWorkShopRequestData(int SaleOrderId)
         {
             using (IDbConnection connection = OpenConnection(dataConnection))
@@ -70,7 +69,46 @@ namespace ArabErp.DAL
                
             }
         }
+        /// <summary>
+        /// Sale order data for workshop request transaction
+        /// </summary>
+        /// <param name="SaleOrderId"></param>
+        /// <returns></returns>
+        public WorkShopRequest GetSaleOrderForWorkshopRequest(int SaleOrderId)
+        {
+            using (IDbConnection connection = OpenConnection(dataConnection))
+            {
 
+                string sql = @"SELECT  SO.SaleOrderId,SO.CustomerOrderRef,SO.SaleOrderRefNo,SO.EDateArrival,SO.EDateDelivery,SO.CustomerId,C.CustomerName,SO.SaleOrderDate SaleOrderDate,
+                                SO.SaleOrderRefNo +','+ Replace(Convert(varchar,SaleOrderDate,106),' ','/') SaleOrderRefNo
+                                FROM  SaleOrder SO  INNER JOIN Customer C  ON SO.CustomerId =C.CustomerId
+                                WHERE SO.SaleOrderId =@SaleOrderId";
+                var objSaleOrders = connection.Query<WorkShopRequest>(sql, new { SaleOrderId = SaleOrderId }).Single<WorkShopRequest>();
+
+                return objSaleOrders;
+            }
+        }
+        /// <summary>
+        ///  select workshop description in workshop request transaction
+        /// </summary>
+        /// <param name="SaleOrderId"></param>
+        /// <returns></returns>
+        public WorkShopRequest GetCombinedWorkDescriptionSaleOrderForWorkshopRequest(int SaleOrderId)
+        {
+            using (IDbConnection connection = OpenConnection(dataConnection))
+            {
+               
+                string sql = @"SELECT t.SaleOrderId,STUFF((SELECT ', ' + CAST(W.WorkDescr AS VARCHAR(10)) [text()]
+                             FROM SaleOrderItem SI inner join WorkDescription W on W.WorkDescriptionId=SI.WorkDescriptionId
+                             WHERE SI.SaleOrderId = t.SaleOrderId
+                             FOR XML PATH(''), TYPE).value('.','NVARCHAR(MAX)'),1,2,' ') WorkDescription
+                             FROM SaleOrderItem t INNER JOIN SaleOrder SO on t.SaleOrderId=SO.SaleOrderId  WHERE SO.SaleOrderId =@SaleOrderId
+                             group by t.SaleOrderId";
+                var objWorks = connection.Query<WorkShopRequest>(sql, new { SaleOrderId = SaleOrderId }).Single<WorkShopRequest>();
+
+                return objWorks;
+            }
+        }
         public WorkShopRequest GetWorkShopRequest(int WorkShopRequestId)
         {
             using (IDbConnection connection = OpenConnection(dataConnection))
@@ -104,7 +142,7 @@ namespace ArabErp.DAL
         {
             using (IDbConnection connection = OpenConnection(dataConnection))
             {
-                string sql = @"UPDATE WorkShopRequest SET WorkShopRequestNo = @WorkShopRequestNo ,WorkShopRequestDate = @WorkShopRequestDate ,SaleOrderId = @SaleOrderId ,CustomerId = @CustomerId,CustomerOrderRef = @CustomerOrderRef,SpecialRemarks = @SpecialRemarks,RequiredDate = @RequiredDate,CreatedBy = @CreatedBy,CreatedDate = @CreatedDate  OUTPUT INSERTED.WorkShopRequestId  WHERE WorkShopRequestId = @WorkShopRequestId";
+                string sql = @"UPDATE WorkShopRequest SET WorkShopRequestRefNo = @WorkShopRequestRefNo ,WorkShopRequestDate = @WorkShopRequestDate ,SaleOrderId = @SaleOrderId ,CustomerId = @CustomerId,CustomerOrderRef = @CustomerOrderRef,SpecialRemarks = @SpecialRemarks,RequiredDate = @RequiredDate,CreatedBy = @CreatedBy,CreatedDate = @CreatedDate  OUTPUT INSERTED.WorkShopRequestId  WHERE WorkShopRequestId = @WorkShopRequestId";
 
 
                 var id = connection.Execute(sql, objWorkShopRequest);
@@ -165,7 +203,7 @@ namespace ArabErp.DAL
                 try
                 {
                     string query = @"INSERT INTO WorkShopRequest(
-                                    WorkShopRequestNo, 
+                                    WorkShopRequestRefNo, 
                                     WorkShopRequestDate, 
                                     SaleOrderId, 
                                     CustomerId, 
@@ -179,7 +217,7 @@ namespace ArabErp.DAL
                                     isAdditionalRequest, 
                                     JobCardId)
                                 VALUES(
-                                    @WorkShopRequestNo,
+                                    @WorkShopRequestRefNo,
                                     @WorkShopRequestDate, 
                                     @SaleOrderId, 
                                     @CustomerId, 
@@ -224,7 +262,7 @@ namespace ArabErp.DAL
                 SELECT WorkShopRequestId, SUM(IssuedQuantity) IssuedQuantity INTO #ISSUE FROM StoreIssueItem SII INNER JOIN StoreIssue SI ON  SII.StoreIssueId = SI.StoreIssueId GROUP BY WorkShopRequestId;
                 SELECT CustomerId, CustomerName INTO #CUSTOMER FROM Customer;
 				SELECT SaleOrderId, SaleOrderRefNo+', '+CONVERT(VARCHAR, SaleOrderDate, 106) SoNoWithDate INTO #SALE FROM SaleOrder;
-                SELECT W.WorkShopRequestId, ISNULL(WR.WorkShopRequestNo, '-')+', '+CAST(CONVERT(VARCHAR, WR.WorkShopRequestDate, 106) AS VARCHAR) WorkShopRequestNo, ISNULL(CONVERT(DATETIME, WR.RequiredDate, 106), '01 Jan 1900') RequiredDate, C.CustomerName, S.SoNoWithDate FROM #WORK W LEFT JOIN #ISSUE I ON W.WorkShopRequestId = I.WorkShopRequestId INNER JOIN WorkShopRequest WR ON W.WorkShopRequestId = WR.WorkShopRequestId INNER JOIN #CUSTOMER C ON WR.CustomerId = C.CustomerId INNER JOIN #SALE S ON WR.SaleOrderId = S.SaleOrderId WHERE ISNULL(IssuedQuantity,0) < Quantity;
+                SELECT W.WorkShopRequestId, ISNULL(WR.WorkShopRequestRefNo, '-')+', '+CAST(CONVERT(VARCHAR, WR.WorkShopRequestDate, 106) AS VARCHAR) WorkShopRequestRefNo, ISNULL(CONVERT(DATETIME, WR.RequiredDate, 106), '01 Jan 1900') RequiredDate, C.CustomerName, S.SoNoWithDate FROM #WORK W LEFT JOIN #ISSUE I ON W.WorkShopRequestId = I.WorkShopRequestId INNER JOIN WorkShopRequest WR ON W.WorkShopRequestId = WR.WorkShopRequestId INNER JOIN #CUSTOMER C ON WR.CustomerId = C.CustomerId INNER JOIN #SALE S ON WR.SaleOrderId = S.SaleOrderId WHERE ISNULL(IssuedQuantity,0) < Quantity;
                 DROP TABLE #ISSUE;
                 DROP TABLE #WORK;
                 DROP TABLE #CUSTOMER;

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data.SqlClient;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
@@ -19,17 +20,34 @@ namespace ArabErp.Web.Controllers
         }
         public ActionResult Create()
         {
-            FillCustomer();
-            FillCurrency();
-            FillCommissionAgent();
-            FillWrkDesc();
-            FillVehicle();
-            FillUnit();
-            FillEmployee();
-            FillPaymentTerms();
+           
+            string internalId = "";
+            try
+            {
+                internalId = DatabaseCommonRepository.GetNextReferenceNo(typeof(SaleOrder).Name);
+                FillCustomer();
+                FillCurrency();
+                FillCommissionAgent();
+                FillWrkDesc();
+                FillVehicle();
+                FillUnit();
+                FillEmployee();
+                //FillPaymentTerms();
+            }
+            catch (NullReferenceException nx)
+            {
+                TempData["success"] = "";
+                TempData["error"] = "Some required data was missing. Please try again.|" + nx.Message;
+            }
+            catch (Exception ex)
+            {
+                TempData["success"] = "";
+                TempData["error"] = "Some error occurred. Please try again.|" + ex.Message;
+            }
             SaleOrder saleOrder = new SaleOrder();
             saleOrder.Items = new List<SaleOrderItem>();
             saleOrder.Items.Add(new SaleOrderItem());
+            saleOrder.SaleOrderRefNo = "SAL/" + internalId;
             saleOrder.SaleOrderDate = DateTime.Now;
             saleOrder.EDateArrival = DateTime.Now;
             saleOrder.EDateDelivery = DateTime.Now;
@@ -91,45 +109,55 @@ namespace ArabErp.Web.Controllers
             var list = repo.FillCurrency();
             ViewBag.currlist = new SelectList(list, "Id", "Name");
         }
-        public void FillPaymentTerms()
-        {
-            var repo = new DropdownRepository();
-            var list = repo.PaymentTermsDropdown();
-            ViewBag.PayTermslist = new SelectList(list, "Id", "Name");
-        }
+        //public void FillPaymentTerms()
+        //{
+        //    var repo = new DropdownRepository();
+        //    var list = repo.PaymentTermsDropdown();
+        //    ViewBag.PayTermslist = new SelectList(list, "Id", "Name");
+        //}
         [HttpPost]
         public ActionResult Save(SaleOrder model)
         {
-
+            try
+            {
             model.OrganizationId = 1;
             model.CreatedDate = System.DateTime.Now;
             model.CreatedBy = Request.ServerVariables["HTTP_X_FORWARDED_FOR"] ?? Request.ServerVariables["REMOTE_ADDR"];
-            var Result= new SaleOrderRepository().InsertSaleOrder(model);
+            string id = new SaleOrderRepository().InsertSaleOrder(model);
+             if (id.Split('|')[0] != "0")
+                {
+                    TempData["success"] = "Saved successfully. Sale Order Reference No. is " + id.Split('|')[1];
+                    TempData["error"] = "";
+                    return RedirectToAction("Create");
+                }
+                else
+                {
+                    throw new Exception();
+                }
+            }
+            catch (SqlException sx)
+            {
+                TempData["error"] = "Some error occured while connecting to database. Please check your network connection and try again.|" + sx.Message;
+            }
+            catch (NullReferenceException nx)
+            {
+                TempData["error"] = "Some required data was missing. Please try again.|" + nx.Message;
+            }
+            catch (Exception ex)
+            {
+                TempData["error"] = "Some error occured. Please try again.|" + ex.Message;
+            }
+            TempData["success"] = "";
             FillWrkDesc();
             FillUnit();
             FillCustomer();
-            FillPaymentTerms();
+            //FillPaymentTerms();
             FillVehicle();
             FillCurrency();
             FillCommissionAgent();
             FillEmployee();
-            if (Result.SaleOrderId > 0)
-            {
-                TempData["Success"] = "Added Successfully!";
-                //TempData["SaleOrderRefNo"] = Result.SaleOrderRefNo;
-                return RedirectToAction("Create");
-            }
-            else 
-            {
-                TempData["error"] = "Oops!!..Something Went Wrong!!";
-                TempData["SaleOrderRefNo"] = null ;
-                SaleOrder saleOrder = new SaleOrder();
-                saleOrder.SaleOrderDate = System.DateTime.Today;
-                saleOrder.Items = new List<SaleOrderItem>();
-                saleOrder.Items.Add(new SaleOrderItem());
-                return View("Create", saleOrder);
-            }
-           
+
+            return View(model);
         }
         [HttpGet]
         public JsonResult GetCustomerDetailsByKey(int cusKey)
@@ -155,7 +183,7 @@ namespace ArabErp.Web.Controllers
             FillCustomer();
             FillCurrency();
             FillCommissionAgent();
-            FillPaymentTerms();
+            //FillPaymentTerms();
             FillUnit();
             FillEmployee();
                 FillWrkDesc();
@@ -182,31 +210,26 @@ namespace ArabErp.Web.Controllers
         }
         public ActionResult PendingSaleOrderHold(int? page)
         {
-            var rep = new SaleOrderRepository();
-            var slist = rep.GetSaleOrdersPendingWorkshopRequest();
-            var pager = new Pager(slist.Count(), page);
-
-            var viewModel = new PagedSaleOrderViewModel
-            {
-                SaleOrders = slist.Skip((pager.CurrentPage - 1) * pager.PageSize).Take(pager.PageSize),
-                Pager = pager
-            };
-            return View(viewModel);
+            var repo = new SaleOrderRepository();
+            IEnumerable<PendingSO> pendingSO = repo.GetSaleOrdersForHold();
+            return View(pendingSO);
         }
         public ActionResult Hold(int? SaleOrderId)
         {
             FillCustomer();
             FillCurrency();
             FillCommissionAgent();
-            FillPaymentTerms();
+            //FillPaymentTerms();
             FillUnit();
             FillEmployee();
             FillWrkDesc();
             FillVehicle();
             var repo = new SaleOrderRepository();
             SaleOrder model = repo.GetSaleOrder(SaleOrderId ?? 0);
+            model.SaleOrderHoldDate = DateTime.Now;
             var SOList = repo.GetSaleOrderItem(SaleOrderId ?? 0);
             model.Items = new List<SaleOrderItem>();
+           
             foreach (var item in SOList)
             {
                 var soitem = new SaleOrderItem { WorkDescriptionId = item.WorkDescriptionId, VehicleModelId = item.VehicleModelId, Quantity = item.Quantity, UnitId = item.UnitId, Rate = item.Rate, Amount = item.Amount, Discount = item.Discount };
@@ -216,10 +239,10 @@ namespace ArabErp.Web.Controllers
 
             return View("Approval", model);
         }
-        public ActionResult UpdateHoldStatus(int? Id, string hreason)
+        public ActionResult UpdateHoldStatus(int? Id, string hreason, string  HoldDate)
         {
 
-            new SaleOrderRepository().UpdateSOHold(Id ?? 0, hreason);
+            new SaleOrderRepository().UpdateSOHold(Id ?? 0, hreason, HoldDate);
             return RedirectToAction("PendingSaleOrderHold");
         }
         public ActionResult PendingSaleOrderRelease()
@@ -233,13 +256,14 @@ namespace ArabErp.Web.Controllers
             FillCustomer();
             FillCurrency();
             FillCommissionAgent();
-            FillPaymentTerms();
+            //FillPaymentTerms();
             FillUnit();
             FillEmployee();
             FillWrkDesc();
             FillVehicle();
             var repo = new SaleOrderRepository();
             SaleOrder model = repo.GetSaleOrder(SaleOrderId ?? 0);
+            model.SaleOrderReleaseDate = DateTime.Now;
             var SOList = repo.GetSaleOrderItem(SaleOrderId ?? 0);
             model.Items = new List<SaleOrderItem>();
             foreach (var item in SOList)
@@ -251,10 +275,10 @@ namespace ArabErp.Web.Controllers
 
             return View("Approval", model);
         }
-        public ActionResult UpdateReleaseStatus(int? Id)
+        public ActionResult UpdateReleaseStatus(int? Id, string ReleaseDate)
         {
 
-            new SaleOrderRepository().UpdateSORelease(Id ?? 0);
+            new SaleOrderRepository().UpdateSORelease(Id ?? 0, ReleaseDate);
             return RedirectToAction("PendingSaleOrderRelease");
         }
         public ActionResult Closing()
@@ -267,7 +291,7 @@ namespace ArabErp.Web.Controllers
             FillCustomer();
             FillCurrency();
             FillCommissionAgent();
-            FillPaymentTerms();
+            //FillPaymentTerms();
             FillUnit();
             FillEmployee();
             FillWrkDesc();

@@ -63,6 +63,10 @@ namespace ArabErp.Web.Controllers
         [AllowAnonymous]
         public ActionResult Login(string returnUrl)
         {
+            //Account/LogOff
+            string[] url = returnUrl.Split('/');
+            if (url[url.Length - 1] == "LogOff")
+                returnUrl = "/";
             ViewBag.ReturnUrl = returnUrl;
             return View();
         }
@@ -116,6 +120,10 @@ namespace ArabErp.Web.Controllers
             userCookie.Values.Add("UserRole", user.UserRole.ToString());
             cookiecollection.Add(userCookie);
             Session.Add("user", userCookie);
+
+            UserRepository repo = new UserRepository();
+            string ip = Request.ServerVariables["HTTP_X_FORWARDED_FOR"] ?? Request.ServerVariables["REMOTE_ADDR"];
+            repo.InsertLoginHistory(user, Session.SessionID.ToString(), ip);
             //return userCookie;
         }
         public string ConvertPasswordToPublicKey(string encrytedpwd)
@@ -420,14 +428,41 @@ namespace ArabErp.Web.Controllers
 
         //
         // POST: /Account/LogOff
-        [HttpPost]
-        [ValidateAntiForgeryToken]
         public ActionResult LogOff()
         {
-            AuthenticationManager.SignOut();
-            return RedirectToAction("Index", "Home");
+            //AuthenticationManager.SignOut();
+            SignOff();
+            return RedirectToAction("Login", "Account");
         }
 
+       private void SignOff()
+        {
+            UserRepository repo = new UserRepository();
+            string sessionid = Session.SessionID;
+            repo.UpdateLoginHistory(sessionid);
+
+            Session.Abandon();
+            UnsetAuthorizationCookie(HttpContext.Response, HttpContext.Request.Cookies);
+        }
+       private void UnsetAuthorizationCookie(HttpResponseBase httpresponsebase, HttpCookieCollection cookiecollection)
+       {
+           HttpCookie authCookie = cookiecollection[FormsAuthentication.FormsCookieName];
+           if (authCookie != null)
+           {
+               cookiecollection.Remove(FormsAuthentication.FormsCookieName);
+               authCookie.Expires = DateTime.Now.AddDays(-10);
+               authCookie.Value = null;
+               httpresponsebase.SetCookie(authCookie);
+           }
+           HttpCookie userCookie = cookiecollection["userCookie"];
+           if (userCookie != null)
+           {
+               cookiecollection.Remove("userCookie");
+               userCookie.Expires = DateTime.Now.AddDays(-10);
+               userCookie.Value = null;
+               httpresponsebase.SetCookie(userCookie);
+           }
+       }
         //
         // GET: /Account/ExternalLoginFailure
         [AllowAnonymous]

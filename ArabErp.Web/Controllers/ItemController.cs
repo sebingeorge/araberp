@@ -37,7 +37,7 @@ namespace ArabErp.Web.Controllers
             oItem.MaxLevel = null;
             oItem.StockRequired = false;
             oItem.BatchRequired=false;
-        
+           
             return View("Create", oItem);
         }
         [HttpPost]
@@ -118,15 +118,15 @@ namespace ArabErp.Web.Controllers
        public ActionResult Delete(int Id)
        {
 
-           Item objItem = new ItemRepository().GetItem(Id);
+            Item objItem = new ItemRepository().GetItem(Id);
 
            FillUnit();
 
 
            return View(objItem);
-
-
-       }
+                
+            
+        }
        [HttpPost]
        public ActionResult Delete(Item model)
        {
@@ -148,14 +148,14 @@ namespace ArabErp.Web.Controllers
                    TempData["ItemRefNo"] = null;
                }
                else
-               {
+        {
                    TempData["error"] = "Oops!!..Something Went Wrong!!";
                    TempData["ItemRefNo"] = null;
                }
                return RedirectToAction("Index");
            }
 
-       }
+        }
 
 
 

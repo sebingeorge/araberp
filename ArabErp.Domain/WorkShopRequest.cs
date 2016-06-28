@@ -9,7 +9,7 @@ namespace ArabErp.Domain
     public class WorkShopRequest
     {
         public int WorkShopRequestId { get; set; }
-        public string WorkShopRequestNo { get; set; }
+        public string WorkShopRequestRefNo { get; set; }
         public string WorkDescription { get; set; }
         public DateTime WorkShopRequestDate { get; set; }
         public int SaleOrderId { get; set; }

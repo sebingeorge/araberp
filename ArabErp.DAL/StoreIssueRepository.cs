@@ -160,10 +160,10 @@ namespace ArabErp.DAL
         {
             using (IDbConnection connection = OpenConnection(dataConnection))
             {
-                return connection.Query<string>(@"SELECT WorkShopRequestNo+', '+CONVERT(VARCHAR, WorkShopRequestDate, 106) WorkShopRequestNo, SaleOrderId, CustomerId, CONVERT(VARCHAR, RequiredDate, 106) RequiredDate INTO #WORK FROM WorkShopRequest WHERE WorkShopRequestId = @WorkShopRequestId;
+                return connection.Query<string>(@"SELECT WorkShopRequestRefNo+', '+CONVERT(VARCHAR, WorkShopRequestDate, 106) WorkShopRequestRefNo, SaleOrderId, CustomerId, CONVERT(VARCHAR, RequiredDate, 106) RequiredDate INTO #WORK FROM WorkShopRequest WHERE WorkShopRequestId = @WorkShopRequestId;
                     SELECT SaleOrderId, SaleOrderRefNo+', '+CONVERT(VARCHAR, SaleOrderDate, 106) SaleOrderRefNo INTO #SALE FROM SaleOrder;
                     SELECT CustomerId, CustomerName INTO #CUS FROM Customer;
-                    SELECT ISNULL(W.WorkShopRequestNo, ' ')+'|'+ISNULL(C.CustomerName, ' ')+'|'+ISNULL(S.SaleOrderRefNo, ' ')+'|'+ISNULL(W.RequiredDate, ' ') FROM #WORK W INNER JOIN #CUS C ON W.CustomerId = C.CustomerId INNER JOIN #SALE S ON W.SaleOrderId = S.SaleOrderId
+                    SELECT ISNULL(W.WorkShopRequestRefNo, ' ')+'|'+ISNULL(C.CustomerName, ' ')+'|'+ISNULL(S.SaleOrderRefNo, ' ')+'|'+ISNULL(W.RequiredDate, ' ') FROM #WORK W INNER JOIN #CUS C ON W.CustomerId = C.CustomerId INNER JOIN #SALE S ON W.SaleOrderId = S.SaleOrderId
                     DROP TABLE #CUS;
                     DROP TABLE #SALE;
                     DROP TABLE #WORK;", new { WorkShopRequestId = workshopRequestId }).First();

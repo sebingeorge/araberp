@@ -1,0 +1,45 @@
+﻿@model IList<ArabErp.Domain.PaymentTerms>
+@using GridMvc.Html
+@{
+    ViewBag.Title = "Payment Terms";
+    Layout = "~/Views/Shared/_LayoutPopup.cshtml";
+}
+<style type="text/css">
+    .tableData {
+        font-size: 12px;
+        padding-left: 4px;
+    }
+
+    .list {
+        display: block;
+        height: 320px;
+        overflow-y: scroll;
+    }
+
+        .list tr:hover {
+            background-color: #DFEDF7;
+        }
+</style>
+
+<div class="table-responsive">
+
+    <div class="main-grid">
+
+        @Html.Grid(Model).Columns(columns =>
+                {
+                    columns.Add(m => m.PaymentTermsRefNo).Titled("Ref No.").SetWidth(20);
+                    columns.Add(m => m.PaymentTermsName).Titled("Name").SetWidth(120);
+                    columns.Add().Encoded(false).Sanitized(false).SetWidth(20).RenderValueAs(o => @<a href="javascript:void(0);" onclick="SetPaymentTerm('@o.PaymentTermsName')">Select</a>);
+                }).WithPaging(10)
+
+    </div>
+
+</div>
+<script>
+    function SetPaymentTerm(term)
+    {
+        window.opener.$("#PaymentTerms").val(term);
+        window.close();
+        return false;
+    }
+</script>
