@@ -76,9 +76,9 @@ namespace ArabErp.DAL
                                                     RtgsNo,AccountNo,DiscountTermsId,DiscountRate,
                                                     CurrencyId,SupRefAccNo,PanNo,TinNo,
                                                     CreatedBy,CreatedDate,OrganizationId) 
-                                             Values (@SupplierRefNo,@SupplierName,@PurchaseTypeId,@SupplierPrName,
-                                                    @CategoryId,@ContractDate,@ContactPerson,@Active,
-                                                    @DoorNo,@City,@State,@Country,
+                                             Values (@SupplierRefNo,@SupplierName,@PurchaseTypeId,@SupplierPrintName,
+                                                    @SupCategoryId,@ContractDate,@ContactPerson,@Active,
+                                                    @DoorNo,@City,@State,@CountryId,
                                                     @PostBoxNo,@Phone,@Fax,@Email,
                                                     @Bank,@Branch,@AccountDetails,@SwiftCode,
                                                     @RtgsNo,@AccountNo,@DiscountTermsId,@DiscountRate,
@@ -128,7 +128,13 @@ namespace ArabErp.DAL
         {
             using (IDbConnection connection = OpenConnection(dataConnection))
             {
-                string sql = @"UPDATE Supplier SET SupplierName = @SupplierName ,Address1 = @Address1 ,Address2 = @Address2 ,Address3 = @Address3,Phone = @Phone,CreatedBy = @CreatedBy,CreatedDate = @CreatedDate  OUTPUT INSERTED.SupplierId  WHERE SupplierId = @SupplierId";
+                string sql = @" UPDATE Supplier SET SupplierRefNo = @SupplierRefNo ,SupplierName=@SupplierName,PurchaseTypeId=@PurchaseTypeId,
+                                SupplierPrintName=@SupplierPrintName,SupCategoryId=@SupCategoryId,ContractDate=@ContractDate,ContactPerson=@ContactPerson,
+                                Active=@Active,DoorNo=@DoorNo,City=@City,State=@State,CountryId=@CountryId,PostBoxNo=@PostBoxNo,Phone=@Phone,Fax=@Fax,
+                                Email=@Email,Bank=@Bank,Branch=@Branch,AccountDetails=@AccountDetails,SwiftCode=@SwiftCode,RtgsNo=@RtgsNo,AccountNo=@AccountNo,
+                                DiscountTermsId=@DiscountTermsId,DiscountRate=@DiscountRate,CurrencyId=@CurrencyId,SupRefAccNo=@SupRefAccNo,PanNo=@PanNo,
+                                TinNo=@TinNo,CreatedBy = @CreatedBy,CreatedDate = @CreatedDate,OrganizationId=0
+                                WHERE SupplierId = @SupplierId";
 
 
                 var id = connection.Execute(sql, objSupplier);
@@ -136,7 +142,7 @@ namespace ArabErp.DAL
             }
         }
 
-        public int DeleteSupplier(Unit objSupplier)
+        public int DeleteSupplier(Supplier objSupplier)
         {
             using (IDbConnection connection = OpenConnection(dataConnection))
             {

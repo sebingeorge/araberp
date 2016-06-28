@@ -11,15 +11,15 @@ namespace ArabErp.Domain
         public int? SupplierId { get; set; }
         public string SupplierRefNo { get; set; }
         public string SupplierName { get; set; }
-        public string SupplierPrName { get; set; }
-        public int? CategoryId { get; set; }
+        public string SupplierPrintName { get; set; }
+        public int? SupCategoryId { get; set; }
         public DateTime ContractDate { get; set; }
         public int? PurchaseTypeId { get; set; }
         public int? Active { get; set; }
         public string DoorNo { get; set; }
         public string City { get; set; }
         public string State { get; set; }
-        public int? Country { get; set; }
+        public int? CountryId { get; set; }
         public string PostBoxNo { get; set; }
         public string Phone { get; set; }
         public string Fax { get; set; }
