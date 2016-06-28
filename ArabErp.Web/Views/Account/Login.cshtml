@@ -1,66 +1,87 @@
 ﻿@using ArabErp.Domain
 @model LoginViewModel
 @{
-    ViewBag.Title = "Log in";
+    ViewBag.Title = "Login";
     Layout = "~/Views/Shared/_LayoutLogin.cshtml";
 }
 
 <div class="container">
 
     <div class="row">
-        <div class="form-head1">
-            <h4>@ViewBag.Title.</h4>
-        </div>
-        <div class="main-part pad1">
-            <div class="row">
-                <div class="col-md-1"></div>
-                    <div class="col-md-5">
-                        <section id="loginForm">
-                            @using (Html.BeginForm("Login", "Account", new { ReturnUrl = ViewBag.ReturnUrl }, FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
-                            {
-                                @Html.AntiForgeryToken()
-                                @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-                                <div class="form-group">
-                                    @Html.LabelFor(m => m.Username, new { @class = "col-md-5 control-label" })
-                                    <div class="col-md-7">
-                                        <div class="part">
-                                            @Html.TextBoxFor(m => m.Username, new { @class = "form_input" })
-                                            @Html.ValidationMessageFor(m => m.Username, "", new { @class = "text-danger" })
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="form-group">
-                                    @Html.LabelFor(m => m.Password, new { @class = "col-md-5 control-label" })
-                                    <div class="col-md-7">
-                                        <div class="part">
-                                            @Html.PasswordFor(m => m.Password, new { @class = "form_input" })
-                                            @Html.ValidationMessageFor(m => m.Password, "", new { @class = "text-danger" })
-                                        </div>
-                                        </div>
-                                </div>
-                                <div class="form-group">
-                                    <div class="col-md-offset-5 col-md-7">
-                                        <div class="part">
-                                            <div class="checkbox">
-                                                @Html.CheckBoxFor(m => m.RememberMe)
-                                                @Html.LabelFor(m => m.RememberMe)
-                                            </div>
-                                            </div>
-                                            <div class="margf"><input type="submit" value="Log in" class="form-button" /></div>
-                                        </div>
-                                </div>
+
+        <div class="row">
 
 
-                                @* Enable this once you have account confirmation enabled for password reset functionality
-                        <p>
-                            @Html.ActionLink("Forgot your password?", "ForgotPassword")
-                        </p>*@
-                            }
-                        </section>
-                    </div>
-                <div class="col-md-1"></div>
-                </div>
+            <div class="col-md-3"></div>
+            <div class="col-md-6 col-xs-10 col-sm-11 outer-login">
+                <h4>@ViewBag.Title.</h4>
+                <section id="loginForm">
+                    @using (Html.BeginForm("Login", "Account", new { ReturnUrl = ViewBag.ReturnUrl }, FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
+                    {
+                        @Html.AntiForgeryToken()
+                        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+
+                        <div class="row main-login-user">
+                            <div class="login-user-left"></div>
+                            @Html.LabelFor(m => m.Username, new { @class = "control-label login-user" })
+                            <div class="login-user-right"></div>
+
+
+                            @Html.TextBoxFor(m => m.Username, new { @class = "login-text" })
+                            @Html.ValidationMessageFor(m => m.Username, "", new { @class = "text-danger" })
+
+                            <div class="login-text-right"></div>
+
+
+                        </div>
+                        <div class="row main-login-user">
+                            <div class="login-user-left"></div>
+                            @Html.LabelFor(m => m.Password, new { @class = "control-label login-user" })
+                            <div class="login-user-right"></div>
+                            @Html.PasswordFor(m => m.Password, new { @class = "login-text" })
+                            @Html.ValidationMessageFor(m => m.Password, "", new { @class = "text-danger" })
+                            <div class="login-text-right"></div>
+
+                        </div>
+
+    <div class="checkbox rem">
+        @Html.CheckBoxFor(m => m.RememberMe)
+        @Html.LabelFor(m => m.RememberMe)
+    </div>
+                        
+       <div class="rem">
+           Best Supported in Chrome
+    </div>
+                        
+                        
+                        
+
+
+    
+                        <div class="row">
+                          
+
+                             
+                            <input type="submit" value="Login" class="log-button" />
+                            
+                      
+                        </div>
+
+
+                        @* Enable this once you have account confirmation enabled for password reset functionality
+                    <p>
+                        @Html.ActionLink("Forgot your password?", "ForgotPassword")
+                    </p>*@
+                    }
+                </section>
             </div>
+            
+
+                <div class="col-md-3"></div>
+
+        </div>
+
         </div>
     </div>
 

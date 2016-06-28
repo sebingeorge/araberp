@@ -638,6 +638,117 @@ section.content {
     width:201px;
     margin-left:-10px;
     }
+.outer-login 
+{
+    background: url(../Images/log-b.jpg) repeat-x #fff; 
+    height:auto;
+    border-radius:5px;
+    -moz-border-radius:5px;
+    border-bottom-left-radius: 8px;
+    border-bottom-right-radius: 8px;
+    -moz-border-bottom-left-radius: 8px;
+    -moz-border-bottom-right-radius: 8px;
+    box-shadow: 10px 10px 5px #858383;
+    margin-top:40px;
+}
+
+.outer-login h4 
+    {
+    font-size:24px;
+    color:#888484;
+    }
+.main-login-user 
+{
+    position:relative;
+    margin-bottom:15px;
+}
+.login-user-left 
+{
+        background: url(../Images/user-left.png) no-repeat;
+        float:left;
+        width:16px;
+        height:55px;
+        margin-left: -16px;
+        margin-top: -2px;  
+}
+.login-user 
+{
+        background: url(../Images/user-middle.png) repeat-x;
+        height:41px;
+        line-height:26px; 
+        float:left;
+        font-size:15px;
+        color:#fff;
+        font-weight:normal;
+        padding-left:16px;
+        padding-right:16px;
+        width: 17.6%;
+
+
+}
+.login-user-right 
+{
+        background: url(../Images/user-right.png) no-repeat;
+        float:left;
+        width:13px;
+        height:41px; 
+}
+.login-text 
+{
+        background: url(../Images/user-text-b.png) repeat-x;
+        float:left;
+        height:41px;
+        color: #000;
+        display: block;
+       font-size: 11px;
+       line-height:41px;
+       padding-left: 5px;
+       padding-right: 5px;
+       vertical-align: middle;
+       width:80%;
+       border:0; 
+} 
+.login-text-right 
+{
+        background: url(../Images/user-text-right.png) no-repeat;
+        float:right;
+        width:10px;
+        height:48px;
+        margin-right: -8.9px;
+        margin-top: 0; 
+}
+.log-button
+{
+    background:url(../Images/log-button.png) repeat-x; 
+    border-bottom-left-radius: 8px;
+    border-bottom-right-radius: 8px;
+    -moz-border-bottom-left-radius: 8px;
+    -moz-border-bottom-right-radius: 8px;
+    color: #ffffff;
+    font-size:32px;
+    height:60px;
+    width:100%;
+    border:0;
+}
+
+.log-button:hover
+{
+    background:url(../Images/log-button-h.png) repeat-x; 
+    color: #6ed2f6;
+    border:0;
+}
+.rem 
+{
+    margin-left:10px;
+    color:#858586;
+    margin-bottom:20px !important;
+}
+.rem label
+{
+   color:#858586;
+}
+
+}
 
 
 
