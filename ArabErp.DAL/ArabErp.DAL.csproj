@@ -97,6 +97,7 @@
     <Compile Include="JobCardTaskMasterRepository.cs" />
     <Compile Include="JobCardTaskRepository.cs" />
     <Compile Include="JobOrderCompletionRepository.cs" />
+    <Compile Include="LoginHistoryRepository.cs" />
     <Compile Include="OpeningStockRepository.cs" />
     <Compile Include="PaymentTermsRepository.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
