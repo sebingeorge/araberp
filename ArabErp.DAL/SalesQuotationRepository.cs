@@ -78,10 +78,10 @@ namespace ArabErp.DAL
         {
             using (IDbConnection connection = OpenConnection(dataConnection))
             {
-                string sql = @"Update SalesQuotation  SET ApprovedBy=@ApprovedBy WHERE SalesQuotationId=@SalesQuotationId";
+                string sql = @"Update SalesQuotation  SET ApprovedBy=@ApprovedBy  OUTPUT INSERTED.SalesQuotationId WHERE SalesQuotationId=@SalesQuotationId";
 
 
-                var id = connection.Execute(sql, new { ApprovedBy = objSalesQuotation.ApprovedBy , SalesQuotationId = objSalesQuotation.SalesQuotationId });
+                var id = connection.Query(sql, new { ApprovedBy = objSalesQuotation.ApprovedBy , SalesQuotationId = objSalesQuotation.SalesQuotationId });
                 
             }
         }
