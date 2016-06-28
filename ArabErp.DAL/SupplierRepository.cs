@@ -83,7 +83,7 @@ namespace ArabErp.DAL
                                                     @Bank,@Branch,@AccountDetails,@SwiftCode,
                                                     @RtgsNo,@AccountNo,@DiscountTermsId,@DiscountRate,
                                                     @CurrencyId,@SupRefAccNo,@PanNo,@TinNo,
-                                                    @CreatedBy,@CreatedDate,0);
+                                                    @CreatedBy,@CreatedDate,@OrganizationId);
                                                     SELECT CAST(SCOPE_IDENTITY() as int)";
 
 
@@ -133,7 +133,7 @@ namespace ArabErp.DAL
                                 Active=@Active,DoorNo=@DoorNo,City=@City,State=@State,CountryId=@CountryId,PostBoxNo=@PostBoxNo,Phone=@Phone,Fax=@Fax,
                                 Email=@Email,Bank=@Bank,Branch=@Branch,AccountDetails=@AccountDetails,SwiftCode=@SwiftCode,RtgsNo=@RtgsNo,AccountNo=@AccountNo,
                                 DiscountTermsId=@DiscountTermsId,DiscountRate=@DiscountRate,CurrencyId=@CurrencyId,SupRefAccNo=@SupRefAccNo,PanNo=@PanNo,
-                                TinNo=@TinNo,CreatedBy = @CreatedBy,CreatedDate = @CreatedDate,OrganizationId=0
+                                TinNo=@TinNo,CreatedBy = @CreatedBy,CreatedDate = @CreatedDate,OrganizationId = @OrganizationId
                                 WHERE SupplierId = @SupplierId";
 
 

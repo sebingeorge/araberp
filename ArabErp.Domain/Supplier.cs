@@ -37,7 +37,7 @@ namespace ArabErp.Domain
         public int? CurrencyId { get; set; }
         public string PanNo { get; set; }
         public string TinNo { get; set; }
-        public string CreatedDate { get; set; }
+        public DateTime? CreatedDate { get; set; }
         public string CreatedBy { get; set; }
         public int? OrganizationId { get; set; }
         public string isActive { get; set; }

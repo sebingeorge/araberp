@@ -17,14 +17,16 @@ namespace ArabErp.Web.Controllers
             return View();
         }
 
-        public ActionResult Create()
+        public ActionResult CustomerList(int?page)
         {
-            FillCategoryDropdown();
-            FillCountryDropdown();
-            FillCurrencyDropdown();
-            return View();
+            int itemsPerPage = 10;
+            int pageNumber = page ?? 1;
+            var repo = new CustomerRepository();
+            var List = repo.GetCustomers();
+            return PartialView("_CustomerListView",List);
         }
 
+     
         public void FillCategoryDropdown()
         {
             var cus = rep.FillCategoryDropdown();
@@ -43,14 +45,108 @@ namespace ArabErp.Web.Controllers
             ViewBag.CustomerCurrency=new SelectList (cus,"Id","Name");
         }
 
-        public ActionResult Save(Customer objCustomer)
+        public ActionResult Create()
         {
-            var repo = new CustomerRepository();
-            new CustomerRepository().InsertCustomer(objCustomer);
             FillCategoryDropdown();
             FillCountryDropdown();
             FillCurrencyDropdown();
-            return View("Create");
+            ViewBag.Title = "Create";
+            return View();
         }
+
+        [HttpPost]
+        public ActionResult Create(Customer model)
+        {
+            //if (ModelState.IsValid)
+            //{
+                model.OrganizationId = 1;
+                model.CreatedDate = System.DateTime.Now;
+                model.CreatedBy = Request.ServerVariables["HTTP_X_FORWARDED_FOR"] ?? Request.ServerVariables["REMOTE_ADDR"];
+
+                var repo = new CustomerRepository();
+                new CustomerRepository().InsertCustomer(model);
+                return RedirectToAction("Create");
+            //}
+            //else
+            //{
+            //    FillCategoryDropdown();
+            //    FillCountryDropdown();
+            //    FillCurrencyDropdown();
+            //    return View(model);
+            //}
+        }
+
+
+         public ActionResult Edit(int Id)
+        {
+            //int Id = 0;
+            FillCategoryDropdown();
+            FillCountryDropdown();
+            FillCurrencyDropdown();
+            ViewBag.Title = "Edit";
+            Customer objCustomer = new CustomerRepository().GetCustomer(Id);
+            return View("Create", objCustomer);
+
+
+        }
+
+        [HttpPost]
+        public ActionResult Edit(Customer model)
+        {
+
+            if (ModelState.IsValid)
+            {
+                model.OrganizationId = 1;
+                model.CreatedDate = System.DateTime.Now;
+                model.CreatedBy = Request.ServerVariables["HTTP_X_FORWARDED_FOR"] ?? Request.ServerVariables["REMOTE_ADDR"];
+
+                var repo = new CustomerRepository();
+                new CustomerRepository().UpdateCustomer(model);
+                return RedirectToAction("Create");
+            }
+            else
+            {
+                FillCategoryDropdown();
+                FillCountryDropdown();
+                FillCurrencyDropdown();
+                return View(model);
+            }
+
+        }
+
+        public ActionResult Delete(int Id)
+        {
+            //int Id = 0;
+            FillCategoryDropdown();
+            FillCountryDropdown();
+            FillCurrencyDropdown();
+            ViewBag.Title = "Delete";
+            Customer objCustomer = new CustomerRepository().GetCustomer(Id);
+            return View("Create", objCustomer);
+
+
+        }
+
+        [HttpPost]
+        public ActionResult Delete(Customer model)
+        {
+
+            if (ModelState.IsValid)
+            {
+                var repo = new CustomerRepository();
+                new CustomerRepository().DeleteCustomer(model);
+                return RedirectToAction("Create");
+            }
+            else
+            {
+                FillCategoryDropdown();
+                FillCountryDropdown();
+                FillCurrencyDropdown();
+                return View(model);
+            }
+
+        }
+
+
     }
 }
