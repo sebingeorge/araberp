@@ -1,0 +1,178 @@
+﻿@model ArabErp.Domain.Item
+@{string actionName = HttpContext.Current.Request.RequestContext.RouteData.Values["action"].ToString(); }
+<script>
+        function Exit() {
+            location.href = '@Url.Action("Index")';
+        }
+    $(document).ready(function () {
+        $("#ExpiryDate").datepicker({
+            dateFormat: "dd-MM-yy"
+        });
+    });
+    function FillItemGroup() {
+        var Code = $('#ItemCategoryId').val();
+        var Url = '@Url.Action("ItemGroup")';
+        var UrlSubGroup = '@Url.Action("ItemSubGroup")';
+        if (Code == '') {
+            $("#DivItemGroup").load(Url, { Code: 0 });
+            $("#DivItemSubGroup").load(UrlSubGroup, { Code: 0 });
+        }
+        else {
+            $("#DivItemGroup").load(Url, { Code: Code });
+            $("#DivItemSubGroup").load(UrlSubGroup, { Code: 0 });
+        }
+    }
+    function FillItemSubGroup() {
+        var Code = $('#ItemGroupId').val();
+        var Url = '@Url.Action("ItemSubGroup")';
+        if (Code == '') {
+            $("#DivItemSubGroup").load(Url, { Code: 0 });
+        }
+        else {
+            $("#DivItemSubGroup").load(Url, { Code: Code });
+        }
+    }
+
+</script>
+<div class="row">
+    <div class="form-head"><h4>Item</h4></div>
+    <div class="col-md-12">
+        @using (Html.BeginForm(null, null, FormMethod.Post, new { @class = "createFrom", @id = "Item_form" }))
+        {
+
+            <div class="row form-group main-part pad1">
+               
+
+                <div class="col-md-4 ">
+                    <div class="row">
+                        <div class="part4 col-md-6">
+                            <div class="row">
+                                <label for="code" class="label1"> Item Ref. No</label>
+                                @Html.HiddenFor(m => m.ItemId)
+                                @Html.TextBoxFor(m => m.ItemRefNo, new { @class = "form_input ", autocomplete = "off", @readonly = "readonly" })
+                                </div>
+
+                            </div>
+                        <div class="part4   col-md-6">
+                            <div class="row">
+                                <label for="code" class="label1">Part No</label>
+                                @Html.TextBoxFor(m => m.PartNo, new { @class = "form_input ", autocomplete = "off" })
+                                </div>
+                            </div>
+                    </div>
+
+                    <div class="row">
+                       
+                           
+                               
+                        <div class="part4">
+                            <label for="name" class="label1">Item Name</label>
+                            @Html.TextBoxFor(m => m.ItemName, new { @class = "form_input", autocomplete = "off" })
+                        </div>
+                        <div class="part4">
+                            <label for="code" class="label1">Print Name</label>
+                            @Html.TextBoxFor(m => m.ItemPrintName, new { @class = "form_input", autocomplete = "off" })
+                        </div>
+                        <div class="part4">
+                            <label for="name" class="label1">Short Name</label>
+                            @Html.TextBoxFor(m => m.ItemShortName, new { @class = "form_input", autocomplete = "off" })
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-4">
+
+                    <div class="part4">
+                        <label for="code" class="label1">Item Category</label>
+
+                        @Html.Action("ItemCategory")
+
+                    </div>
+                    <div class="part4">
+                        <label for="code" class="label1">Item Group</label>
+                        <div id="DivItemGroup">
+                            
+                            @Html.Action("ItemGroup", "Item", new { Code = Model.ItemCategoryId })
+                        </div>
+
+                    </div>
+                    <div class="part4">
+                        <label for="code" class="label1">Item Sub Group</label>
+                        <div id="DivItemSubGroup">
+                            @Html.Action("ItemSubGroup", "Item", new { Code = Model.ItemGroupId })
+                        </div>
+
+                    </div>
+                    <div class="row">
+                        <div class="part4 col-md-6">
+                            <label for="name" class="label1">Unit</label>
+                            @Html.DropDownListFor(m => Model.ItemUnitId, (SelectList)ViewBag.Unit, "Select Unit", new { @class = "form_input" })
+                        </div>
+                        <div class="part4 editor-field  col-md-6">
+                            <label for="name" class="label1">Expiry Date</label>
+                            @Html.TextBoxFor(model => model.ExpiryDate, Model.ExpiryDate.ToString("dd/MMMM/yyyy"),new { @class = "form_input", placeholder = "Select Expiry Date" })
+                        </div>
+                    </div>
+
+                </div>
+
+                <div class="col-md-4">
+                    <div class="row">
+                        <div class="row">
+                            <div class="part4 col-md-4">
+                                <label for="code" class="label1">Min.Level</label>
+                                @Html.TextBoxFor(m => m.MinLevel, new { @class = "form_input", autocomplete = "off" })
+                            </div>
+                            <div class="part4 col-md-4">
+                                <label for="name" class="label1">ReOrder Level</label>
+                                @Html.TextBoxFor(m => m.ReorderLevel, new { @class = "form_input", autocomplete = "off" })
+                            </div>
+                            <div class="part4 col-md-4">
+                                <label for="name" class="label1">Max.Level</label>
+                                @Html.TextBoxFor(m => m.MaxLevel, new { @class = "form_input", autocomplete = "off" })
+                            </div>
+                        </div>
+                        <div class="part4">
+
+
+                            @Html.CheckBoxFor(model => model.BatchRequired)
+                            <label for="name" class="lefto">Batch Required</label>
+
+
+                            @Html.CheckBoxFor(model => model.StockRequired)
+                            <label for="name">Stock Required</label>
+                        </div>
+
+
+                    </div>
+
+                </div>
+
+
+
+                <div class="row">
+
+                    <div class="col-md-12 hrpart">
+                        <button type="button" class="form-button right" onclick="Exit();">Exit</button>
+                       
+                        @if (actionName == "Create")
+                        {  <button type="submit" class="form-button right">Save</button>}
+                        else if (actionName == "Edit")
+                        {  <button type="submit" class="form-button right">Update</button>}
+                        else if (actionName == "Delete")
+                        { <button type="submit" class="form-button right">Delete</button> }
+                     
+                       
+                    </div>
+
+                </div>
+
+            </div>
+        }
+
+
+    </div>
+
+
+</div>
+

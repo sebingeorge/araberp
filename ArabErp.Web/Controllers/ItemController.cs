@@ -27,21 +27,21 @@ namespace ArabErp.Web.Controllers
             oItem.ItemPrintName = null;
             oItem.ItemShortName = null;
             oItem.CommodityId = null;
-            oItem.ItemCategoryId = null;
-            oItem.ItemGroupId = null;
-            oItem.ItemSubGroupId = null;
+            oItem.ItemCategoryId = 0;
+            oItem.ItemGroupId = 0;
+            oItem.ItemSubGroupId = 0;
             oItem.ItemUnitId = null;
-            oItem.ExpiryDate = null;
+            oItem.ExpiryDate = DateTime.Now;
             oItem.MinLevel = null;
             oItem.ReorderLevel = null;
             oItem.MaxLevel = null;
             oItem.StockRequired = false;
             oItem.BatchRequired=false;
-           
-            return View("Create");
+        
+            return View("Create", oItem);
         }
-
-        public ActionResult Save(Item oitem)
+        [HttpPost]
+        public ActionResult Create(Item oitem)
         {
             FillItemCategory();
             FillUnit();
@@ -62,10 +62,6 @@ namespace ArabErp.Web.Controllers
             {
                 TempData["error"] = "Oops!!..Something Went Wrong!!";
                 TempData["ItemRefNo"] = null;
-                SaleOrder saleOrder = new SaleOrder();
-                saleOrder.SaleOrderDate = System.DateTime.Today;
-                saleOrder.Items = new List<SaleOrderItem>();
-                saleOrder.Items.Add(new SaleOrderItem());
                 return View("Create", oitem);
             }
           
@@ -80,22 +76,87 @@ namespace ArabErp.Web.Controllers
 
         public ActionResult Edit(int Id)
         {
-            //int Id = 0;
-            FillItemCategory();
-            FillUnit();
-            ViewBag.Title = "Edit";
+            
             Item objItem = new ItemRepository().GetItem(Id);
-             return View("Create", objItem);
+          
+            FillUnit();
+          
+            
+             return View(objItem);
                 
             
         }
        [HttpPost]
         public ActionResult Edit(Item model)
         {
-            //ViewBag.Title = "Edit";
-            //Item objItem = new JobCardRepository().GetItem(Id);
-            return View("Create", model);
+            model.OrganizationId = 1;
+            model.CreatedDate = System.DateTime.Now;
+            model.CreatedBy = Request.ServerVariables["HTTP_X_FORWARDED_FOR"] ?? Request.ServerVariables["REMOTE_ADDR"];
+            var result = new ItemRepository().UpdateItem(model);
+
+
+            if (result.ItemId > 0)
+            {
+                TempData["Success"] = "Updated Successfully!";
+                TempData["ItemRefNo"] = result.ItemRefNo;
+                return RedirectToAction("Index");
+            }
+            else
+            {
+                TempData["error"] = "Oops!!..Something Went Wrong!!";
+                TempData["ItemRefNo"] = null;
+                SaleOrder saleOrder = new SaleOrder();
+                saleOrder.SaleOrderDate = System.DateTime.Today;
+                saleOrder.Items = new List<SaleOrderItem>();
+                saleOrder.Items.Add(new SaleOrderItem());
+                return View("Edit", model);
+            }
+           
         }
+
+
+       public ActionResult Delete(int Id)
+       {
+
+           Item objItem = new ItemRepository().GetItem(Id);
+
+           FillUnit();
+
+
+           return View(objItem);
+
+
+       }
+       [HttpPost]
+       public ActionResult Delete(Item model)
+       {
+           
+           int result = new ItemRepository().DeleteItem(model);
+
+
+           if (result == 0)
+           {
+               TempData["Success"] = "Deleted Successfully!";
+               TempData["ItemRefNo"] = model.ItemRefNo;
+               return RedirectToAction("Index");
+           }
+           else
+           {
+               if (result == 1)
+               {
+                   TempData["error"] = "Sorry!! You Cannot Delete This Item. It Is Already In Use";
+                   TempData["ItemRefNo"] = null;
+               }
+               else
+               {
+                   TempData["error"] = "Oops!!..Something Went Wrong!!";
+                   TempData["ItemRefNo"] = null;
+               }
+               return RedirectToAction("Index");
+           }
+
+       }
+
 
 
 
