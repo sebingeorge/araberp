@@ -225,6 +225,7 @@
     <Compile Include="Controllers\JobCardController.cs" />
     <Compile Include="Controllers\JobCardQCController.cs" />
     <Compile Include="Controllers\JobOrderCompletionController.cs" />
+    <Compile Include="Controllers\LoginHistoryController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
     <Compile Include="Controllers\MisReportController.cs" />
     <Compile Include="Controllers\OpeningStockController.cs" />
@@ -305,8 +306,16 @@
     <Content Include="Images\banner.png" />
     <Content Include="Images\button-part.jpg" />
     <Content Include="Images\icon_nav.png" />
+    <Content Include="Images\log-b.jpg" />
+    <Content Include="Images\log-button-h.png" />
+    <Content Include="Images\log-button.png" />
     <Content Include="Images\menu-b.jpg" />
     <Content Include="Images\tick.png" />
+    <Content Include="Images\user-left.png" />
+    <Content Include="Images\user-middle.png" />
+    <Content Include="Images\user-right.png" />
+    <Content Include="Images\user-text-b.png" />
+    <Content Include="Images\user-text-right.png" />
     <Content Include="Images\x.png" />
     <Content Include="Scripts\jquery-1.8.3.js" />
     <Content Include="Scripts\jquery-1.8.3.min.js" />
@@ -610,7 +619,10 @@
     <Content Include="Views\Shared\_LayoutLogin.cshtml" />
     <Content Include="Views\Supplier\Index.cshtml" />
     <Content Include="Views\Supplier\_SupplierListView.cshtml" />
+    <Content Include="Views\Customer\Index.cshtml" />
+    <Content Include="Views\Customer\_CustomerListView.cshtml" />
     <Content Include="Views\PaymentTerms\PaymentTermsPopup.cshtml" />
+    <Content Include="Views\LoginHistory\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

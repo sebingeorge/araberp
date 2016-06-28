@@ -17,17 +17,7 @@ namespace ArabErp.Web.Controllers
             return View();
 
         }
-        public ActionResult Create()
-        {
-            FillCategoryDropdown();
-            FillCountryDropdown();
-            FillCurrencyDropdown();
-            FillPurchaseType();
-            ViewBag.Title = "Create";
-            Supplier Supplier = new Supplier();
-            Supplier.ContractDate = System.DateTime.Today;
-            return View(Supplier);
-        }
+      
 
         public void FillCategoryDropdown()
         {
@@ -62,11 +52,28 @@ namespace ArabErp.Web.Controllers
             var List = repo.GetSuppliers();
             return PartialView("_SupplierListView", List);
         }
+
+        public ActionResult Create()
+        {
+            FillCategoryDropdown();
+            FillCountryDropdown();
+            FillCurrencyDropdown();
+            FillPurchaseType();
+            ViewBag.Title = "Create";
+            Supplier Supplier = new Supplier();
+            Supplier.ContractDate = System.DateTime.Today;
+            return View(Supplier);
+        }
+
         [HttpPost]
         public ActionResult Create(Supplier model)
         {
             if (ModelState.IsValid)
             {
+                model.OrganizationId = 1;
+                model.CreatedDate = System.DateTime.Now;
+                model.CreatedBy = Request.ServerVariables["HTTP_X_FORWARDED_FOR"] ?? Request.ServerVariables["REMOTE_ADDR"];
+
                 var repo = new SupplierRepository();
                 new SupplierRepository().InsertSupplier(model);
                 return RedirectToAction("Create");
@@ -80,8 +87,7 @@ namespace ArabErp.Web.Controllers
                 return View(model);
             }
         }
-
-
+        
         public ActionResult Edit(int Id)
         {
             //int Id = 0;
@@ -102,6 +108,10 @@ namespace ArabErp.Web.Controllers
 
             if (ModelState.IsValid)
             {
+                model.OrganizationId = 1;
+                model.CreatedDate = System.DateTime.Now;
+                model.CreatedBy = Request.ServerVariables["HTTP_X_FORWARDED_FOR"] ?? Request.ServerVariables["REMOTE_ADDR"];
+
                 var repo = new SupplierRepository();
                 new SupplierRepository().UpdateSupplier(model);
                 return RedirectToAction("Create");

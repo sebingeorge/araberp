@@ -41,5 +41,21 @@ namespace ArabErp.DAL
         {
             return true;
         }
+        public void InsertLoginHistory(User user, string sessionId, string ipAddress)
+        {
+            using (IDbConnection connection = OpenConnection(dataConnection))
+            {
+                string sql = "Insert into LoginHistory(UserId, LogIn, SessionID, IpAddress)";
+                sql += " values('"+ user.UserId.ToString() +"', GetDate(), '"+ sessionId +"','"+ ipAddress +"')";
+                connection.Query(sql);
+            }
+        }
+        public void UpdateLoginHistory(string sessionId)
+        {
+            using (IDbConnection connection = OpenConnection(dataConnection))
+            {
+                string sql = "update LoginHistory set LogoutTime = Getdate() where SessionID = " + sessionId;
+            }
+        }
     }
 }
