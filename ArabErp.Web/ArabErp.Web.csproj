@@ -481,7 +481,7 @@
     <Content Include="Views\Shared\Lockout.cshtml" />
     <Content Include="Views\Shared\_LoginPartial.cshtml" />
     <Content Include="Views\SaleOrder\Create.cshtml" />
-    <Content Include="Views\WorkShopRequest\CreateWorkShopRequest.cshtml" />
+    <Content Include="Views\WorkShopRequest\Create.cshtml" />
     <Content Include="Views\PurchaseRequest\Create.cshtml" />
     <Content Include="Views\GrnWareHouse\Create.cshtml" />
     <Content Include="Views\SupplyOrder\Create.cshtml" />

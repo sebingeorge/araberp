@@ -16,8 +16,8 @@
                 @Html.TextBoxFor(m => m[i].CustomerName, new { @class = "form_input", @disabled = "true" })
             </td>
             <td>
-                @* Workshop request number and date is received from db as a single string into 'WorkShopRequestNo' *@
-                @Html.TextBoxFor(m => m[i].WorkShopRequestNo, new { @class = "form_input", @disabled = "true" })
+                @* Workshop request number and date is received from db as a single string into 'WorkShopRequestRefNo' *@
+                @Html.TextBoxFor(m => m[i].WorkShopRequestRefNo, new { @class = "form_input", @disabled = "true" })
             </td>
             <td>
                 <input class="form_input" type="text" value="@Model[i].SoNoWithDate" disabled />

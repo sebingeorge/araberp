@@ -7,7 +7,7 @@
     $(document).ready(function () {
         //$('#work_form').bootstrapValidator({
         //    fields: {
-        //        WorkShopRequestNo: {
+        //        WorkShopRequestRefNo: {
         //            validators: {
         //                notEmpty: {
         //                    message: 'Please enter request no'
@@ -47,6 +47,8 @@
             clone.html($(clone).html().replace(/slno1/, 'slno' + (i + 1) + ''));
             $("#tab_logic").append('<tr id="' + i + '">' + clone.html() + '  </tr>');
         });
+
+        
     });
 
 
@@ -99,8 +101,8 @@
                 @Html.HiddenFor(m => m.CustomerId, new { @class = "form_input", autocomplete = "off" })
                 <div class="row form-group">
                     <div class="col-md-2">
-                        <label for="WorkShopRequestNo">Request No.</label>
-                        @Html.TextBoxFor(m => m.WorkShopRequestNo, new { @class = "form_input", autocomplete = "off", @required = "true" })
+                        <label for="WorkShopRequestRefNo">Request No.</label>
+                        @Html.TextBoxFor(m => m.WorkShopRequestRefNo, new { @class = "form_input", autocomplete = "off", @required = "true", @readonly = "readonly" })
                     </div>
                     <div class="col-md-2">
                         <label for="inputDate">Date</label>
@@ -119,8 +121,8 @@
                         @Html.TextBoxFor(m => m.CustomerOrderRef, new { @class = "form_input", autocomplete = "off", @readonly = "readonly" })
                     </div>
                     <div class="col-md-2">
-                        <label for="SoNoWithDate">SO No.& Date</label>
-                        @Html.TextBoxFor(m => m.SoNoWithDate, new { @class = "form_input", autocomplete = "off", @readonly = "readonly" })
+                        <label for="SaleOrderRefNo">SO No.& Date</label>
+                        @Html.TextBoxFor(m => m.SaleOrderRefNo, new { @class = "form_input", autocomplete = "off", @readonly = "readonly" })
                     </div>
                 </div>
                 <div class="row form-group">
