@@ -214,7 +214,7 @@
                 @Html.HiddenFor(m => m.SalesQuotationId)
                 @Html.HiddenFor(m => m.Amount)
                 <div class="row form-group ">
-                    <div class="col-md-4">
+                    <div class="col-md-2">
                         <label for="QuotationRefNo">Quotation.No</label>
                         @if (ViewBag.actionName.ToString() == "Create")
                         {
@@ -593,26 +593,26 @@
                         </tbody>
                         <tfoot>
                             <tr class="grid_heading">
-                                <th width="5%" class="text-center"><h1></h1></th>
+                                <th width="5%" class="text-center"><h1>Grand Total</h1></th>
                                 <th width="25%" class="text-center"><h1></h1></th>
                                 <th width="5%" class="text-center"><h1></h1></th>
                                 <th width="5%" class="text-right"><span id="QtyTotal"></span></th>
                                 <th width="10%"></th>
-                                <th width="10%" class="text-right"><h1>Total</h1></th>
-                                <th width="7%" class="text-right">
-                                    <h1>
-                                        @if (ViewBag.actionName.ToString() == "Create")
-                                        {
-                                            @Html.DropDownListFor(m => Model.CurrencyId, (SelectList)ViewBag.currlist, "Select Currency", new { @class = "form_input", autocomplete = "off" })
-                                        }
-                                        else
-                                        {
-                                            @Html.DropDownListFor(m => Model.CurrencyId, (SelectList)ViewBag.currlist, "Select Currency", new { @class = "form_input", autocomplete = "off", @disabled = "true" })
+                                <th width="10%" class="text-right"><h1>
+    @if (ViewBag.actionName.ToString() == "Create")
+    {
+        @Html.DropDownListFor(m => Model.CurrencyId, (SelectList)ViewBag.currlist, "Select Currency", new { @class = "form_input", autocomplete = "off" })
+    }
+    else
+    {
+        @Html.DropDownListFor(m => Model.CurrencyId, (SelectList)ViewBag.currlist, "Select Currency", new { @class = "form_input", autocomplete = "off", @disabled = "true" })
 
-                                        }
-                                    </h1>
+    }
+</h1></th>
+                                <th width="7%" class="text-right">
+                                    <span id="QtyAmount"></span>
                                 </th>
-                                <th width="8%" class="text-right"><span id="QtyAmount"></span></th>
+                                <th width="8%" class="text-right"></th>
                             </tr>
                         </tfoot>
                     </table>
@@ -630,7 +630,7 @@
                         <div class="col-md-1">
 
                          
-                            <label for="Remarks">Spl.Remarks</label>
+                            <label for="Remarks">Special Remarks</label>
 
                         </div>
                         <div class="col-md-11">
@@ -651,7 +651,7 @@
                     <div class="part">
                         <div class="col-md-1">
 
-                            <label for="PaymentTerms">Pay.Terms</label>
+                            <label for="PaymentTerms">Payment Terms</label>
 
                         </div>
                         <div class="col-md-11" style="display:inline-block;position:relative;">
