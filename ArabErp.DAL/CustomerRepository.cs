@@ -114,7 +114,7 @@ namespace ArabErp.DAL
         {
             using (IDbConnection connection = OpenConnection(dataConnection))
             {
-                string sql = @"Delete Customer  OUTPUT DELETED.CustomerId WHERE CustomerId=@CustomerId";
+                string sql = @" UPDATE Customer SET isActive=0  WHERE CustomerId=@CustomerId";
 
 
                 var id = connection.Execute(sql, objCustomer);

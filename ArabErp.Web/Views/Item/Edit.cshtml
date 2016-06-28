@@ -4,10 +4,14 @@
 
 
 <script type="text/javascript">
+  
     $(document).ready(function () {
-        @*$("#ItemCategoryId").val('@Model.ItemCategoryId');
+            @*var catId = '@Model.ItemCategoryId';
+            var groupId = '@Model.ItemGroupId';
+            var subgroupId = '@Model.ItemSubGroupId';*@
+        $("#ItemCategoryId").val('@Model.ItemCategoryId');
         $("#ItemGroupId").val('@Model.ItemGroupId');
-        $("#ItemSubGroupId").val('@Model.ItemSubGroupId');*@
+        $("#ItemSubGroupId").val('@Model.ItemSubGroupId');
 
         toastr.options = {
             "closeButton": true,
@@ -29,11 +33,12 @@
         else if ('@TempData["error"]' != "") {
             toastr.error('@TempData["error"]');
         }
-        
+    
     });
 </script>
 
 <div class="container">
+   
     @Html.Partial("_Form")
 </div>
 
