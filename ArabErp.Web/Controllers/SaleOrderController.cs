@@ -32,7 +32,7 @@ namespace ArabErp.Web.Controllers
                 FillVehicle();
                 FillUnit();
                 FillEmployee();
-                FillPaymentTerms();
+                //FillPaymentTerms();
             }
             catch (NullReferenceException nx)
             {
@@ -47,7 +47,7 @@ namespace ArabErp.Web.Controllers
             SaleOrder saleOrder = new SaleOrder();
             saleOrder.Items = new List<SaleOrderItem>();
             saleOrder.Items.Add(new SaleOrderItem());
-            saleOrder.SaleOrderRefNo = "SAL/" + internalId; 
+            saleOrder.SaleOrderRefNo = "SAL/" + internalId;
             saleOrder.SaleOrderDate = DateTime.Now;
             saleOrder.EDateArrival = DateTime.Now;
             saleOrder.EDateDelivery = DateTime.Now;
@@ -109,12 +109,12 @@ namespace ArabErp.Web.Controllers
             var list = repo.FillCurrency();
             ViewBag.currlist = new SelectList(list, "Id", "Name");
         }
-        public void FillPaymentTerms()
-        {
-            var repo = new DropdownRepository();
-            var list = repo.PaymentTermsDropdown();
-            ViewBag.PayTermslist = new SelectList(list, "Id", "Name");
-        }
+        //public void FillPaymentTerms()
+        //{
+        //    var repo = new DropdownRepository();
+        //    var list = repo.PaymentTermsDropdown();
+        //    ViewBag.PayTermslist = new SelectList(list, "Id", "Name");
+        //}
         [HttpPost]
         public ActionResult Save(SaleOrder model)
         {
@@ -151,7 +151,7 @@ namespace ArabErp.Web.Controllers
             FillWrkDesc();
             FillUnit();
             FillCustomer();
-            FillPaymentTerms();
+            //FillPaymentTerms();
             FillVehicle();
             FillCurrency();
             FillCommissionAgent();
@@ -183,7 +183,7 @@ namespace ArabErp.Web.Controllers
             FillCustomer();
             FillCurrency();
             FillCommissionAgent();
-            FillPaymentTerms();
+            //FillPaymentTerms();
             FillUnit();
             FillEmployee();
                 FillWrkDesc();
@@ -219,7 +219,7 @@ namespace ArabErp.Web.Controllers
             FillCustomer();
             FillCurrency();
             FillCommissionAgent();
-            FillPaymentTerms();
+            //FillPaymentTerms();
             FillUnit();
             FillEmployee();
             FillWrkDesc();
@@ -256,7 +256,7 @@ namespace ArabErp.Web.Controllers
             FillCustomer();
             FillCurrency();
             FillCommissionAgent();
-            FillPaymentTerms();
+            //FillPaymentTerms();
             FillUnit();
             FillEmployee();
             FillWrkDesc();
@@ -290,7 +290,7 @@ namespace ArabErp.Web.Controllers
             FillCustomer();
             FillCurrency();
             FillCommissionAgent();
-            FillPaymentTerms();
+            //FillPaymentTerms();
             FillUnit();
             FillEmployee();
             FillWrkDesc();
