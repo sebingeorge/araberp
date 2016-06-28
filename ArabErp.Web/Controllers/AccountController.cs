@@ -120,6 +120,10 @@ namespace ArabErp.Web.Controllers
             userCookie.Values.Add("UserRole", user.UserRole.ToString());
             cookiecollection.Add(userCookie);
             Session.Add("user", userCookie);
+
+            UserRepository repo = new UserRepository();
+            string ip = Request.ServerVariables["HTTP_X_FORWARDED_FOR"] ?? Request.ServerVariables["REMOTE_ADDR"];
+            repo.InsertLoginHistory(user, Session.SessionID.ToString(), ip);
             //return userCookie;
         }
         public string ConvertPasswordToPublicKey(string encrytedpwd)
@@ -433,6 +437,10 @@ namespace ArabErp.Web.Controllers
 
        private void SignOff()
         {
+            UserRepository repo = new UserRepository();
+            string sessionid = Session.SessionID;
+            repo.UpdateLoginHistory(sessionid);
+
             Session.Abandon();
             UnsetAuthorizationCookie(HttpContext.Response, HttpContext.Request.Cookies);
         }
