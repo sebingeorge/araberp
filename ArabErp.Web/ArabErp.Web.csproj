@@ -623,6 +623,8 @@
     <Content Include="Views\Customer\_CustomerListView.cshtml" />
     <Content Include="Views\PaymentTerms\PaymentTermsPopup.cshtml" />
     <Content Include="Views\LoginHistory\Index.cshtml" />
+    <Content Include="Views\SalesQuotation\Index.cshtml" />
+    <Content Include="Views\SalesQuotation\Revise.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

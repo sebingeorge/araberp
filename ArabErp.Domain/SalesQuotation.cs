@@ -44,6 +44,10 @@ namespace ArabErp.Domain
         public DateTime? CreatedDate { get; set; }
         public int OrganizationId { get; set; }
         public bool isActive { get; set; }
+        public string RevisionReason { get; set; }
+        public int ParentId { get; set; }
+        public int RevisionNo { get; set; }
+        public int GrantParentId { get; set; }
         public List<SalesQuotationItem> SalesQuotationItems { get; set; } 
     }
 }

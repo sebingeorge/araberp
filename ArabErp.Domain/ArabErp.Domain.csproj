@@ -101,6 +101,7 @@
     <Compile Include="SalesInvoiceItem.cs" />
     <Compile Include="SalesQuotation.cs" />
     <Compile Include="SalesQuotationItem.cs" />
+    <Compile Include="SalesQuotationList.cs" />
     <Compile Include="StockJournal.cs" />
     <Compile Include="StockJournalItem.cs" />
     <Compile Include="Stockpoint.cs" />

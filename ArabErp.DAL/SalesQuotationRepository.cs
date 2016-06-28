@@ -11,6 +11,21 @@ namespace ArabErp.DAL
     public class SalesQuotationRepository : BaseRepository
     {
         static string dataConnection = GetConnectionString("arab");
+        public IEnumerable<SalesQuotationList> GetSalesQuotaationList()
+        {
+            using (IDbConnection connection = OpenConnection(dataConnection))
+            {
+                string sql = string.Empty;
+                sql += " select Q.SalesQuotationId, Q.QuotationRefNo, Q.QuotationDate, C.CustomerName, E.EmployeeName,";
+                sql += " Q.Amount";
+                sql += " from SalesQuotation Q ";
+                sql += " inner join Customer C on C.CustomerId = Q.CustomerId";
+                sql += " inner join Employee E on E.EmployeeId = Q.SalesExecutiveId";
+                sql += " where Q.isActive = 1";
+
+                return connection.Query<SalesQuotationList>(sql);
+            }
+        }
         public SalesQuotation InsertSalesQuotation(SalesQuotation model)
         {
 
@@ -55,7 +70,61 @@ namespace ArabErp.DAL
             
         
         }
+        public SalesQuotation ReviseSalesQuotation(SalesQuotation model)
+        {
+            using (IDbConnection connection = OpenConnection(dataConnection))
+            {
+                string sql = string.Empty;
+                IDbTransaction trn = connection.BeginTransaction();
+                try
+                {
+                    sql = "update SalesQuotation set isActive = 0 where SalesQuotationId = " + model.ParentId.ToString() + ";";
+                    sql = "update SalesQuotation set isActive = 0 where SalesQuotationId = " + model.GrantParentId.ToString() + ";";
+                    sql = "update SalesQuotation set isActive = 0 where SalesQuotationId = " + model.SalesQuotationId.ToString() + ";";
 
+                    connection.Query(sql, null, trn);
+
+                    sql = string.Empty;
+                    sql = "select count(*)+1 from SalesQuotation where SalesQuotationId = " + model.GrantParentId.ToString() + ";";
+
+                    int RevisionId = connection.Query<int>(sql).Single();
+
+                    model.RevisionNo = RevisionId;
+
+                    int internalid = DatabaseCommonRepository.GetInternalIDFromDatabase(connection, trn, typeof(SalesQuotation).Name, "0", 1);
+                    model.QuotationRefNo = "SQ/" + internalid;
+                    sql = @"
+                            insert  into SalesQuotation(QuotationRefNo,QuotationDate,CustomerId,ContactPerson,SalesExecutiveId,PredictedClosingDate,QuotationValidToDate,ExpectedDeliveryDate,IsQuotationApproved,ApprovedBy,Amount,QuotationStatus,Remarks,SalesQuotationRejectReasonId,QuotationRejectReason,Competitors,PaymentTerms,DiscountRemarks,CreatedBy,CreatedDate,OrganizationId,ParentId,GrantParentId,RevisionNo)
+                            Values (@QuotationRefNo,@QuotationDate,@CustomerId,@ContactPerson,@SalesExecutiveId,@PredictedClosingDate,@QuotationValidToDate,@ExpectedDeliveryDate,@IsQuotationApproved,@ApprovedBy,@Amount,@QuotationStatus,@Remarks,@SalesQuotationRejectReasonId,@QuotationRejectReason,@Competitors,@PaymentTerms,@DiscountRemarks,@CreatedBy,@CreatedDate,@OrganizationId,@ParentId,@GrantParentId,@RevisionNo);
+                            SELECT CAST(SCOPE_IDENTITY() as int) SalesQuotationId";
+
+                    model.SalesQuotationId = connection.Query<int>(sql, model, trn).First<int>();
+
+                    var saleorderitemrepo = new SalesQuotationItemRepository();
+                    foreach (var item in model.SalesQuotationItems)
+                    {
+                        item.SalesQuotationId = model.SalesQuotationId;
+                        saleorderitemrepo.InsertSalesQuotationItem(item, connection, trn);
+                    }
+
+                    trn.Commit();
+
+
+                }
+                catch (Exception)
+                {
+                    trn.Rollback();
+                    model.SalesQuotationId = 0;
+                    model.QuotationRefNo = null;
+                    throw;
+
+
+                }
+                return model;
+            }
+
+
+        }
 
         public SalesQuotation GetSalesQuotation(int SalesQuotationId)
         {

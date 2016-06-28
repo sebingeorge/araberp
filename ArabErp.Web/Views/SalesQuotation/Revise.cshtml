@@ -5,9 +5,9 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 @{ string actionName = ViewContext.RouteData.GetRequiredString("action");
-    ViewBag.actionName = actionName;
+ ViewBag.actionName = actionName;
 
-    }
+}
 @{
     object displayMode = null;
     if (ViewBag.actionName.ToString() == "Create")
@@ -16,7 +16,8 @@
         ViewBag.Title = "Sales Quotation";
     }
     else
-    { displayMode = new { @class = "form_input", autocomplete = "off", @readonly = "readonly" };
+    {
+        displayMode = new { @class = "form_input", autocomplete = "off", @readonly = "readonly" };
         ViewBag.Title = "Pending Sales Quotation";
     }
 }
@@ -190,27 +191,15 @@
 </script>
 <div class="container">
     <div class="row">
-        <div class="form-head1">
-            @{
-                if (ViewBag.actionName.ToString() == "Create")
-                {
-
-                    <h4>Sales Quotation Request</h4>
-                }
-                else
-                {
-
-                    <h4> Pending Sales Quotation Request Approve</h4>
-                }
-            }
-
-</div>
+        <div class="form-head1"><h4>Sales Quotation - Revise</h4></div>
 
         <div class="main-part pad1">
-            @using (Html.BeginForm(ViewContext.RouteData.GetRequiredString("action"), null, FormMethod.Post, new { @class = "createFrom", @id = "work_form" }))
+            @using (Html.BeginForm(null, null, FormMethod.Post, new { @class = "createFrom", @id = "work_form" }))
             {
 
                 @Html.HiddenFor(m => m.SalesQuotationId)
+                @Html.HiddenFor(m => m.ParentId)
+                @Html.HiddenFor(m => m.GrantParentId)
                 @Html.HiddenFor(m => m.Amount)
                 <div class="row form-group ">
                     <div class="col-md-4">
@@ -229,7 +218,7 @@
                         <label for="QuotationDate">Quotation Date</label>
                         @if (ViewBag.actionName.ToString() == "Create")
                         {
-                            @Html.TextBoxFor(m => m.QuotationDate, Model.QuotationDate.ToString("dd/MMMM/yyyy"), new { @class = "form_input ", autocomplete = "off"})
+                            @Html.TextBoxFor(m => m.QuotationDate, Model.QuotationDate.ToString("dd/MMMM/yyyy"), new { @class = "form_input ", autocomplete = "off" })
                         }
                         else
                         {
@@ -291,7 +280,7 @@
                         <label for="CustomerAddress">Customer Address</label>
                         @Html.TextAreaFor(m => m.CustomerAddress, new { @class = "form_input", autocomplete = "off", @readonly = "readonly" })
                     </div>
-                    </div>
+                </div>
 
                 <div class="row form-group ">
                     <div class="col-md-6">
@@ -323,23 +312,23 @@
                 <div class="row form-group ">
 
                     <div class="col-md-6">
-                      
-                      
+
+
                         @if (ViewBag.actionName.ToString() == "Approve")
                         {
-                             <label for="ApprovedBy">Approved By</label>
-                             @Html.DropDownListFor(m => Model.ApprovedBy, (SelectList)ViewBag.employeelist, "Select Approver", new { @class = "form_input", autocomplete = "off" })
+                            <label for="ApprovedBy">Approved By</label>
+                            @Html.DropDownListFor(m => Model.ApprovedBy, (SelectList)ViewBag.employeelist, "Select Approver", new { @class = "form_input", autocomplete = "off" })
                         }
-                            @if (ViewBag.actionName.ToString() == "View")
-                            {                             <label for="ApprovedBy">Approved By</label>
-                                
-                                @Html.TextBoxFor(m => m.ApprovedBy, new { @class = "form_input", autocomplete = "off", @readonly = "readonly" })
-                            }
-                        @*else
-                        {
-                            @Html.DropDownListFor(m => Model.ApprovedBy, (SelectList)ViewBag.employeelist, "Select Approver", new { @class = "form_input", autocomplete = "off", @disabled = "true" })
+                        @if (ViewBag.actionName.ToString() == "View")
+                        {                             <label for="ApprovedBy">Approved By</label>
 
-                        }*@
+                            @Html.TextBoxFor(m => m.ApprovedBy, new { @class = "form_input", autocomplete = "off", @readonly = "readonly" })
+                        }
+                        @*else
+                            {
+                                @Html.DropDownListFor(m => Model.ApprovedBy, (SelectList)ViewBag.employeelist, "Select Approver", new { @class = "form_input", autocomplete = "off", @disabled = "true" })
+
+                            }*@
                     </div>
                 </div>
 
@@ -628,7 +617,7 @@
                     <div class="part1">
                         <div class="col-md-1">
 
-                         
+
                             <label for="Remarks">Spl.Remarks</label>
 
                         </div>
@@ -649,28 +638,23 @@
 
                     <div class="part">
                         <div class="col-md-1">
-
                             <label for="PaymentTerms">Pay.Terms</label>
 
                         </div>
                         <div class="col-md-11" style="display:inline-block;position:relative;">
-
-                            @if (ViewBag.actionName.ToString() == "Create")
-                            {
-                                @Html.TextBoxFor(m => m.PaymentTerms, new { @class = "form_input", autocomplete = "off" })
-                                <button type="button" id="pymtTerms" onclick="showPaymentTerms()">...</button>
-                            }
-                            else
-                            {
-                                @Html.TextBoxFor(m => m.PaymentTerms, new { @class = "form_input", autocomplete = "off", @readonly = "readonly" })
-                            }
+                            @Html.TextBoxFor(m => m.PaymentTerms, new { @class = "form_input", autocomplete = "off" })
+                            <button type="button" id="pymtTerms" onclick="showPaymentTerms()">...</button>
+                        </div>
+                    </div>
+                    <div class="part">
+                        <div class="col-md-1">
+                            <label for="PaymentTerms">Revision Reason</label>
 
                         </div>
-
+                        <div class="col-md-11" style="display:inline-block;position:relative;">
+                            @Html.TextBoxFor(m => m.RevisionReason, new { @class = "form_input", autocomplete = "off" })
+                        </div>
                     </div>
-
-
-               
                 </div>
 
 
@@ -729,19 +713,12 @@
                         }
                     </div>
                 </div>
-                  <div class="row">
+                <div class="row">
                     <div class="col-md-12 hrpart">
-                        @if (ViewBag.actionName.ToString() == "Create")
-                        {
-                            <button type="button" class="form-button right" onclick="GotoIndex()">Exit</button>
-                            <button type="submit" class="form-button right">Save</button>
-                        }
-                        else if (ViewBag.actionName.ToString() == "Approve")
-                        {
-                            <button type="submit" class="form-button right">Approve</button>                    
-                        }
+                        <button type="button" class="form-button right" onclick="GotoIndex()">Exit</button>
+                        <button type="submit" class="form-button right">Revise</button>
                     </div>
-               </div> 
+                </div>
             }
         </div>
     </div>
