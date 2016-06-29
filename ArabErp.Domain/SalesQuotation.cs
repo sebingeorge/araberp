@@ -34,7 +34,8 @@ namespace ArabErp.Domain
         public decimal Amount { get; set; }
         public int? QuotationStatus { get; set; }
         public string Remarks { get; set; }
-        public int? SalesQuotationRejectReasonId { get; set; }
+        [Required]
+        public int SalesQuotationRejectReasonId { get; set; }
         public string QuotationRejectReason { get; set; }
         public string Competitors { get; set; }
         public string PaymentTerms { get; set; }

@@ -2,6 +2,12 @@
     ViewBag.Title = "Home Page";
 }
 
+<script type="text/javascript">
+    $(document).ready(function () {
+        @{TempData["success"] = TempData["error"] = "";}
+    })
+</script>
+
 <div class="container body-content1"><center><img src="~/Images/banner.png" width="100%" /></center></div>
 
 @*<div class="jumbotron">

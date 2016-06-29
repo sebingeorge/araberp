@@ -21,9 +21,10 @@ namespace ArabErp.DAL
         /// <param name="model"></param>
         /// <returns></returns>
         /// 
-        public int InsertGRN(GRN model)
+        public string InsertGRN(GRN model)
         {
-            model.Items = model.Items.Where(m => m.Quantity > 0).ToList<GRNItem>();
+
+            model.Items = model.Items.Where(m => m.AcceptedQuantity > 0).ToList<GRNItem>();
             if (model.Items != null && model.Items.Count > 0)
             {
                 using (IDbConnection connection = OpenConnection(dataConnection))
@@ -31,19 +32,23 @@ namespace ArabErp.DAL
                     IDbTransaction trn = connection.BeginTransaction();
                     try
                     {
+                        int internalId = DatabaseCommonRepository.GetInternalIDFromDatabase(connection, trn, typeof(GRN).Name, "0", 1);
+                        model.GRNNo = "GRN/0/" + internalId;
+                        model.GrandTotal = model.Items.Sum(m => ((m.AcceptedQuantity * m.Rate) - m.Discount)) + model.Addition - model.Deduction;
+
                         int id = 0;
 
                         string sql = @"INSERT INTO GRN(GRNNo,GRNDate,SupplierId,CurrencyId,WareHouseId,SupplierDCNoAndDate,SpecialRemarks,
-                                                   Addition,AdditionRemarks,Deduction,DeductionRemarks,CreatedBy,CreatedDate,OrganizationId,isDirectPurchaseGRN) 
+                                                   Addition,AdditionId,Deduction,DeductionId,CreatedBy,CreatedDate,OrganizationId,isDirectPurchaseGRN, GrandTotal, VehicleNo, GatePassNo, ReceivedBy) 
                                             VALUES (@GRNNo,@GRNDate,@SupplierId,@CurrencyId,@StockPointId,@SupplierDCNoAndDate,@SpecialRemarks,
-                                                   @Addition,@AdditionRemarks,@Deduction,@DeductionRemarks,@CreatedBy,@CreatedDate,@OrganizationId,@isDirectPurchaseGRN);
+                                                   @Addition,@AdditionId,@Deduction,@DeductionId,@CreatedBy,@CreatedDate,@OrganizationId,@isDirectPurchaseGRN, @GrandTotal, @VehicleNo, @GatePassNo, @ReceivedBy);
                                             SELECT CAST(SCOPE_IDENTITY() AS INT)";
 
                         id = connection.Query<int>(sql, model, trn).Single();
                         foreach (var item in model.Items)
                         {
                             item.GRNId = id;
-                            item.Amount = item.Quantity * item.Rate;
+                            item.Amount = item.AcceptedQuantity * item.Rate;
                             new GRNItemRepository().InsertGRNItem(item, connection, trn);
                             new StockUpdateRepository().InsertStockUpdate(
                                 new StockUpdate
@@ -52,7 +57,7 @@ namespace ArabErp.DAL
                                     CreatedDate = model.CreatedDate,
                                     OrganizationId = model.OrganizationId,
                                     ItemId = item.ItemId,
-                                    Quantity = item.Quantity,
+                                    Quantity = item.AcceptedQuantity,
                                     StockInOut = "IN",
                                     StockPointId = model.StockPointId,
                                     StockType = model.isDirectPurchaseGRN ? "DirectGRN" : "GRN",
@@ -63,12 +68,12 @@ namespace ArabErp.DAL
                         }
 
                         trn.Commit();
-                        return id;
+                        return model.GRNNo;
                     }
-                    catch (Exception)
+                    catch (Exception ex)
                     {
                         trn.Rollback();
-                        return 0;
+                        throw ex;
                     }
                 }
             }
@@ -103,7 +108,7 @@ namespace ArabErp.DAL
                         GRNNo = model.GRNNo,
                         GRNDate = model.GRNDate,
                         ItemId = item.ItemId,
-                        Quantity = item.Quantity,
+                        Quantity = item.AcceptedQuantity,
                         Supplier = model.Supplier,
                         CreatedBy = model.CreatedBy,
                         CreatedDate = model.CreatedDate,
@@ -209,14 +214,14 @@ namespace ArabErp.DAL
             {
                 using (IDbConnection connection = OpenConnection(dataConnection))
                 {
-//                    string qry = @"SELECT
-//	                            SO.SupplyOrderId,
-//                            CONCAT(SO.SupplyOrderId,' - ',CONVERT(VARCHAR(15),SupplyOrderDate,106))SoNoWithDate,
-//                            QuotaionNoAndDate
-//                            FROM SupplyOrder SO 
-//	                            INNER JOIN Supplier S ON S.SupplierId=SO.SupplierId AND SO.SupplierId = @supplierId
-//	                            LEFT JOIN GRN G ON G.SupplyOrderId=SO.SupplyOrderId
-//                            WHERE SO.isActive=1 and G.SupplyOrderId is null";
+                    //                    string qry = @"SELECT
+                    //	                            SO.SupplyOrderId,
+                    //                            CONCAT(SO.SupplyOrderId,' - ',CONVERT(VARCHAR(15),SupplyOrderDate,106))SoNoWithDate,
+                    //                            QuotaionNoAndDate
+                    //                            FROM SupplyOrder SO 
+                    //	                            INNER JOIN Supplier S ON S.SupplierId=SO.SupplierId AND SO.SupplierId = @supplierId
+                    //	                            LEFT JOIN GRN G ON G.SupplyOrderId=SO.SupplyOrderId
+                    //                            WHERE SO.isActive=1 and G.SupplyOrderId is null";
 
                     string qry = @"SELECT
 	                                DISTINCT SO.SupplyOrderId,
@@ -297,13 +302,15 @@ namespace ArabErp.DAL
 
                 string query = @"SELECT
                                     ROW_NUMBER() OVER(ORDER BY SOI.SupplyOrderItemId) AS SlNo,
-	                                SOI.SupplyOrderItemId, 
+	                                SOI.SupplyOrderId,
+	                                SOI.SupplyOrderItemId,
 	                                I.ItemId,
 	                                I.ItemName,
 	                                I.PartNo,
 	                                U.UnitName Unit,
 	                                SOI.OrderedQty PendingQuantity,
-	                                SOI.OrderedQty Quantity,
+	                                SOI.OrderedQty RecievedQuantity,
+	                                SOI.OrderedQty AcceptedQuantity,
                                     0 AS RejectedQuantity,
 	                                ISNULL(SOI.Rate, 0.00) Rate,
 	                                ISNULL(SOI.Discount, 0.00) Discount,
@@ -392,6 +399,7 @@ namespace ArabErp.DAL
             using (IDbConnection connection = OpenConnection(dataConnection))
             {
                 string query = @"SELECT
+                                    DPI.DirectPurchaseRequestId,
 	                                DPI.DirectPurchaseRequestItemId,
 	                                DPI.ItemId,
 	                                I.ItemName,
@@ -399,9 +407,10 @@ namespace ArabErp.DAL
 	                                U.UnitName Unit,
 	                                ROW_NUMBER() OVER(ORDER BY DPI.DirectPurchaseRequestItemId) AS SlNo,
 	                                ISNULL(DPI.Remarks, '') Remarks,
-	                                ISNULL(DPI.Quantity, 0.00) PendingQuantity,
-	                                ISNULL(DPI.Quantity, 0.00) Quantity,
-	                                0.00 RejectedQuantity,
+	                                ISNULL(DPI.Quantity, 0) PendingQuantity,
+	                                ISNULL(DPI.Quantity, 0) ReceivedQuantity,
+	                                ISNULL(DPI.Quantity, 0) AcceptedQuantity,
+	                                0 RejectedQuantity,
 	                                0.00 AS Discount,
 	                                ISNULL(DPI.Rate, 0.00) Rate,
 	                                CAST(ISNULL(DPI.Quantity, 0.00)*ISNULL(DPI.Rate, 0.00) AS DECIMAL(18, 2)) Amount

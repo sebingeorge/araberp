@@ -18,6 +18,8 @@ namespace ArabErp.Web.Controllers
 
         public ActionResult Create()
         {
+            var internalid = DatabaseCommonRepository.GetNextReferenceNo(typeof(SalesQuotation).Name);
+
             FillCustomer();
             FillCurrency();
             FillCommissionAgent();
@@ -28,6 +30,7 @@ namespace ArabErp.Web.Controllers
             FillSalesQuotationRejectReason();
             SalesQuotation salesquotation = new SalesQuotation();
             salesquotation.QuotationDate = System.DateTime.Today;
+            salesquotation.QuotationRefNo = "SQ/" + internalid; 
             salesquotation.PredictedClosingDate = System.DateTime.Today;
             salesquotation.QuotationValidToDate = System.DateTime.Today;
             salesquotation.ExpectedDeliveryDate = System.DateTime.Today;
