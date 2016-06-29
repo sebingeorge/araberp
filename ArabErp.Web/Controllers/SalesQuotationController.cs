@@ -13,7 +13,7 @@ namespace ArabErp.Web.Controllers
         // GET: SalesQuotation
         public ActionResult Index()
         {
-            return View();
+            return View((new SalesQuotationRepository()).GetSalesQuotaationList());
         }
 
         public ActionResult Create()
@@ -66,6 +66,62 @@ namespace ArabErp.Web.Controllers
             return View("Create",salesquotation);
         }
 
+        [HttpGet]
+        public ActionResult Revise(int Id)
+        {
+            FillCustomer();
+            FillCurrency();
+            FillCommissionAgent();
+            FillWrkDesc();
+            FillVehicle();
+            FillUnit();
+            FillEmployee();
+            FillSalesQuotationRejectReason();
+            var repo = new SalesQuotationRepository();
+
+            var sorepo = new SaleOrderRepository();
+
+
+            SalesQuotation salesquotation = repo.GetSalesQuotation(Id);
+            salesquotation.CustomerAddress = sorepo.GetCusomerAddressByKey(salesquotation.CustomerId);
+            salesquotation.ParentId = salesquotation.SalesQuotationId;
+            salesquotation.IsQuotationApproved = false;
+            if (salesquotation.GrantParentId == null || salesquotation.GrantParentId == 0)
+            {
+                salesquotation.GrantParentId = salesquotation.ParentId;
+            }
+
+            salesquotation.SalesQuotationItems = repo.GetSalesQuotationItems(Id);
+            ViewBag.SubmitAction = "Revise";
+            return View(salesquotation);
+        }
+        [HttpPost]
+        public ActionResult Revise(SalesQuotation model)
+        {
+            if(!ModelState.IsValid)
+            {
+                //To Debug Errors
+                var errors = ModelState
+                    .Where(x => x.Value.Errors.Count > 0)
+                    .Select(x => new { x.Key, x.Value.Errors })
+                    .ToArray();
+                //End
+                FillCustomer();
+                FillCurrency();
+                FillCommissionAgent();
+                FillWrkDesc();
+                FillVehicle();
+                FillUnit();
+                FillEmployee();
+                FillSalesQuotationRejectReason();
+                return View(model);
+            }
+            else
+            {
+                SalesQuotation result = new SalesQuotationRepository().ReviseSalesQuotation(model);
+                return RedirectToAction("Index");
+            }
+        }
         public ActionResult Approve(SalesQuotation model)
         {
 

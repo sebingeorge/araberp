@@ -61,6 +61,7 @@ namespace ArabErp.Web.Controllers
             FillPurchaseType();
             ViewBag.Title = "Create";
             Supplier Supplier = new Supplier();
+            Supplier.SupplierRefNo = new SupplierRepository().GetRefNo(Supplier);
             Supplier.ContractDate = System.DateTime.Today;
             return View(Supplier);
         }
@@ -68,25 +69,27 @@ namespace ArabErp.Web.Controllers
         [HttpPost]
         public ActionResult Create(Supplier model)
         {
-            if (ModelState.IsValid)
-            {
+       
                 model.OrganizationId = 1;
                 model.CreatedDate = System.DateTime.Now;
                 model.CreatedBy = Request.ServerVariables["HTTP_X_FORWARDED_FOR"] ?? Request.ServerVariables["REMOTE_ADDR"];
-
-                var repo = new SupplierRepository();
-                new SupplierRepository().InsertSupplier(model);
-                return RedirectToAction("Create");
+                var result = new SupplierRepository().InsertSupplier(model);
+                
+            if (result.SupplierId> 0)
+            {
+                TempData["Success"] = "Added Successfully!";
+                TempData["SupplierRefNo"] = result.SupplierRefNo;
+                return RedirectToAction("Index");
             }
             else
             {
-                FillCategoryDropdown();
-                FillCountryDropdown();
-                FillCurrencyDropdown();
-                FillPurchaseType();
-                return View(model);
+                TempData["error"] = "Oops!!..Something Went Wrong!!";
+                TempData["SupplierRefNo"] = null;
+                return View("Create", model);
             }
+          
         }
+                           
         
         public ActionResult Edit(int Id)
         {
@@ -105,27 +108,27 @@ namespace ArabErp.Web.Controllers
         [HttpPost]
         public ActionResult Edit(Supplier model)
         {
-
-            if (ModelState.IsValid)
-            {
                 model.OrganizationId = 1;
                 model.CreatedDate = System.DateTime.Now;
                 model.CreatedBy = Request.ServerVariables["HTTP_X_FORWARDED_FOR"] ?? Request.ServerVariables["REMOTE_ADDR"];
 
-                var repo = new SupplierRepository();
-                new SupplierRepository().UpdateSupplier(model);
-                return RedirectToAction("Create");
-            }
-            else
-            {
-                FillCategoryDropdown();
-                FillCountryDropdown();
-                FillCurrencyDropdown();
-                FillPurchaseType();
-                return View(model);
+                var result = new SupplierRepository().UpdateSupplier(model);
+
+                if (result.SupplierId > 0)
+                {
+                    TempData["Success"] = "Updated Successfully!";
+                    TempData["SupplierRefNo"] = result.SupplierRefNo;
+                    return RedirectToAction("Index");
+                }
+                else
+                {
+                    TempData["error"] = "Oops!!..Something Went Wrong!!";
+                    TempData["SupplierRefNo"] = null;
+                    return View("Edit", model);
+                }
+
             }
 
-      }
 
         public ActionResult Delete(int Id)
         {
@@ -137,28 +140,33 @@ namespace ArabErp.Web.Controllers
             ViewBag.Title = "Delete";
             Supplier objSupplier = new SupplierRepository().GetSupplier(Id);
             return View("Create", objSupplier);
-
-
         }
 
         [HttpPost]
         public ActionResult Delete(Supplier model)
         {
-
-            if (ModelState.IsValid)
-            {
-                var repo = new SupplierRepository();
-                new SupplierRepository().DeleteSupplier(model);
-                return RedirectToAction("Create");
-            }
-            else
-            {
-                FillCategoryDropdown();
-                FillCountryDropdown();
-                FillCurrencyDropdown();
-                FillPurchaseType();
-                return View(model);
-            }
+             int result = new SupplierRepository().DeleteSupplier(model);
+    
+             if (result == 0)
+           {
+               TempData["Success"] = "Deleted Successfully!";
+               TempData["SupplierRefNo"] = model.SupplierRefNo;
+               return RedirectToAction("Index");
+           }
+           else
+           {
+               if (result == 1)
+               {
+                   TempData["error"] = "Sorry!! You Cannot Delete This Supplier. It Is Already In Use";
+                   TempData["SupplierRefNo"] = null;
+               }
+               else
+        {
+                   TempData["error"] = "Oops!!..Something Went Wrong!!";
+                   TempData["SupplierRefNo"] = null;
+               }
+               return RedirectToAction("Index");
+           }
 
         }
 

@@ -4,21 +4,7 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 <script>
-    $(document).ready(function () {
-        //$('#work_form').bootstrapValidator({
-        //    fields: {
-        //        WorkShopRequestRefNo: {
-        //            validators: {
-        //                notEmpty: {
-        //                    message: 'Please enter request no'
-        //                }
-        //            }
-        //        },
-
-        // }
-        //});
-
-    });
+   
 
     $(document).ready(function () {
         $("#Items_0__SlNo").val('1');
@@ -69,22 +55,7 @@
         location.href = '@Url.Action("WorkShopRequestPending")';
     }
 
-    //function calculateSummary() {
-    //    var quantity = parseFloat("0");
-    //    var amount = parseFloat("0");
-    //    $('.clQuantity').each(function (i, obj) {
-    //        var a = parseFloat($("#Items_" + i + "__Quantity").val());
-    //        console.log(a);
-    //        if (isNaN(a)) {
-    //            a = parseFloat("0");
-    //        }
-
-    //        quantity = quantity + a;
-    //    });
-
-    //    $("#QtyTotal").text(quantity);
-
-    //}
+    
 </script>
 
 <div class="container">

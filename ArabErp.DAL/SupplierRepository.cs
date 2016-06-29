@@ -63,11 +63,15 @@ namespace ArabErp.DAL
             }
         }
 
-       
-        public int InsertSupplier(Supplier objSupplier)
+
+        public Supplier InsertSupplier(Supplier objSupplier)
         {
             using (IDbConnection connection = OpenConnection(dataConnection))
             {
+                var result = new Supplier();
+
+                IDbTransaction trn = connection.BeginTransaction();
+
                 string sql = @"insert  into Supplier(SupplierRefNo,SupplierName,PurchaseTypeId,SupplierPrintName,
                                                     SupCategoryId,ContractDate,ContactPerson,Active,
                                                     DoorNo,City,State,CountryId,
@@ -86,11 +90,27 @@ namespace ArabErp.DAL
                                                     @CreatedBy,@CreatedDate,@OrganizationId);
                                                     SELECT CAST(SCOPE_IDENTITY() as int)";
 
+                try
+                {
+                    int internalid = DatabaseCommonRepository.GetInternalIDFromDatabase(connection, trn, typeof(Supplier).Name, "0", 1);
+                    objSupplier.SupplierRefNo = "SUP/" + internalid;
 
-                var id = connection.Query<int>(sql, objSupplier).Single();
-                return id;
+                    int id = connection.Query<int>(sql, objSupplier, trn).Single();
+                    objSupplier.SupplierId = id;
+                    //connection.Dispose();
+                    trn.Commit();
+                }
+                catch (Exception ex)
+                {
+                    trn.Rollback();
+                    objSupplier.SupplierId = 0;
+                    objSupplier.SupplierRefNo = null;
+
+                }
+                return objSupplier;
             }
         }
+
 
         public Supplier GetSupplier(int SupplierId)
         {
@@ -124,7 +144,7 @@ namespace ArabErp.DAL
             }
         }
 
-        public int UpdateSupplier(Supplier objSupplier)
+        public Supplier UpdateSupplier(Supplier objSupplier)
         {
             using (IDbConnection connection = OpenConnection(dataConnection))
             {
@@ -138,42 +158,87 @@ namespace ArabErp.DAL
 
 
                 var id = connection.Execute(sql, objSupplier);
-                return id;
+                return objSupplier;
             }
         }
 
         public int DeleteSupplier(Supplier objSupplier)
         {
+            int result = 0;
             using (IDbConnection connection = OpenConnection(dataConnection))
             {
                 string sql = @" UPDATE Supplier SET isActive=0 WHERE SupplierId=@SupplierId";
+                try
+                {
 
+                    var id = connection.Execute(sql, objSupplier);
+                    objSupplier.SupplierId = id;
+                    result = 0;
 
-                var id = connection.Execute(sql, objSupplier);
-                return id;
+                }
+                catch (SqlException ex)
+                {
+                    int err = ex.Errors.Count;
+                    if (ex.Errors.Count > 0) // Assume the interesting stuff is in the first error
+                    {
+                        switch (ex.Errors[0].Number)
+                        {
+                            case 547: // Foreign Key violation
+                                result = 1;
+                                break;
+
+                            default:
+                                result = 2;
+                                break;
+                        }
+                    }
+
+                }
+
+                return result;
             }
         }
+
+       
         public IEnumerable<Dropdown> FillCategoryList()
         {
             using (IDbConnection connection = OpenConnection(dataConnection))
             {
-                //var sym = new Currency();
-                //sym = connection.Query<Currency>("select SymbolId,SymbolName from Symbol").ToList();
-
-                return connection.Query<Dropdown>("select SupCategoryId Id,SupCategoryName Name from SupplierCategory ").ToList();
+               return connection.Query<Dropdown>("select SupCategoryId Id,SupCategoryName Name from SupplierCategory ").ToList();
             }
         }
         public IEnumerable<Dropdown> FillCdategoryList()
         {
             using (IDbConnection connection = OpenConnection(dataConnection))
             {
-                //var sym = new Currency();
-                //sym = connection.Query<Currency>("select SymbolId,SymbolName from Symbol").ToList();
-
-                return connection.Query<Dropdown>("select SupCategoryId Id,SupCategoryName Name from SupplierCategory").ToList();
+              return connection.Query<Dropdown>("select SupCategoryId Id,SupCategoryName Name from SupplierCategory").ToList();
             }
         }
 
+
+        public string GetRefNo(Supplier objSupplier)
+        {
+            
+            using (IDbConnection connection = OpenConnection(dataConnection))
+            {
+                string RefNo="";
+                var result = new Supplier();
+               
+                IDbTransaction trn = connection.BeginTransaction();
+                              
+                try
+                {
+                    int internalid = DatabaseCommonRepository.GetInternalIDFromDatabase(connection, trn, typeof(Supplier).Name, "0", 0);
+                    RefNo = "SUP/" + internalid;
+                    trn.Commit();
+                }
+                catch (Exception ex)
+                {
+                    trn.Rollback();
+                }
+                return RefNo;
+            }
+        }
 
 
     }
