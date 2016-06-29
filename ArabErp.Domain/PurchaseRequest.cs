@@ -14,7 +14,7 @@ namespace ArabErp.Domain
         public DateTime PurchaseRequestDate { get; set; }
         [Required]
         public int WorkShopRequestId { get; set; }
-        public string WorkShopRequestNo { get; set; }
+        public string WorkShopRequestRefNo { get; set; }
         public string SaleOrderRefNo { get; set; }
         public string CustomerOrderRef { get; set; }
         public string CustomerName { get; set; }

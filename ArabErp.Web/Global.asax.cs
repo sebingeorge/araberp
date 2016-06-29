@@ -1,4 +1,5 @@
-﻿using System;
+﻿using ArabErp.DAL;
+using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
@@ -34,6 +35,19 @@ namespace ArabErp.Web
             newCulture.DateTimeFormat.ShortDatePattern = "dd-MMM-yyyy";
             newCulture.DateTimeFormat.DateSeparator = "-";
             Thread.CurrentThread.CurrentCulture = newCulture;
+        }
+        protected void Session_End(object sender, EventArgs e)
+        {
+            try
+            {
+                UserRepository repo = new UserRepository();
+                string sessionid = Session.SessionID;
+                repo.UpdateLoginHistory(sessionid);
+            }
+            catch
+            {
+
+            }
         }
     }
 }

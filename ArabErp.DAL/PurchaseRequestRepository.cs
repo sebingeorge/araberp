@@ -107,7 +107,7 @@ namespace ArabErp.DAL
         {
             using (IDbConnection connection = OpenConnection(dataConnection))
             {
-                string qry = @"Select WR.WorkShopRequestId,WR.WorkShopRequestNo,WR.WorkShopRequestDate,WR.RequiredDate,C.CustomerName,WR.CustomerOrderRef,SO.SaleOrderRefNo,SO.SaleOrderDate,DATEDIFF(dd,WR.WorkShopRequestDate,GETDATE ()) Ageing from WorkShopRequest WR INNER JOIN Customer C on C.CustomerId=WR.CustomerId ";
+                string qry = @"Select WR.WorkShopRequestId,WR.WorkShopRequestRefNo,WR.WorkShopRequestDate,WR.RequiredDate,C.CustomerName,WR.CustomerOrderRef,SO.SaleOrderRefNo,SO.SaleOrderDate,DATEDIFF(dd,WR.WorkShopRequestDate,GETDATE ()) Ageing from WorkShopRequest WR INNER JOIN Customer C on C.CustomerId=WR.CustomerId ";
                 qry += " INNER JOIN SaleOrder SO on WR.SaleOrderId=SO.SaleOrderId  LEFT JOIN PurchaseRequest PR ON PR.WorkShopRequestId=WR.WorkShopRequestId WHERE PR.PurchaseRequestId is null ";
 
                 return connection.Query<PendingWorkShopRequest>(qry);
@@ -123,7 +123,7 @@ namespace ArabErp.DAL
             using (IDbConnection connection = OpenConnection(dataConnection))
             {
                 string qry = "Select WR.WorkShopRequestId ,WR.CustomerOrderRef, C.CustomerName,";
-                qry += " GETDATE() PurchaseRequestDate,WR.WorkShopRequestNo +','+ Replace(Convert(varchar,WorkShopRequestDate,106),' ','/') WorkShopRequestNo";
+                qry += " GETDATE() PurchaseRequestDate,WR.WorkShopRequestRefNo +','+ Replace(Convert(varchar,WorkShopRequestDate,106),' ','/') WorkShopRequestRefNo";
                 qry += " from WorkShopRequest WR inner join Customer C on WR.CustomerId = C.CustomerId";
                 qry += " where WR.WorkShopRequestId = " + WorkShopRequestId.ToString();
 

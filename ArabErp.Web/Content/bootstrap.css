@@ -6999,7 +6999,7 @@ td.visible-print {
 
 .dropdown-menu {
 
-  margin: -83px 0 0 !important;
+  margin:-1px 0 0 !important;
   padding: 0 !important;
 
 }
@@ -7010,15 +7010,20 @@ td.visible-print {
     }
 
 
-    .links li ul li
-{
-    width:150% !important;
-}
     .menu 
     {
    height: 30px !important;
    line-height: 19px !important;
    width: 310px !important;
+   margin-left: -16px !important;
+    }
+
+
+    .links li ul li 
+    {
+   height: 18px !important;
+   width: 308px !important;
+   border:none !important;
     }
 
 }
@@ -7097,10 +7102,7 @@ td.visible-print {
     margin-right:-15px !important;
 
 }
-    .dropdown-menu
-     {
-        left:-102px !important;
-    }
+
 
         .hrpart 
     {
@@ -7127,8 +7129,10 @@ td.visible-print {
 
 .dropdown-menu {
 
-  margin: 37px 199px 0 !important;
+  margin:-1px 102px 0 !important;
   padding: 0 !important;
+  left:-102px !important;
+  min-width: 137px !important;
 
 }
     .pushmenu
@@ -7137,13 +7141,43 @@ td.visible-print {
    top: 33px !important;
     }
 
-    .links li ul li
-{
-    width:150% !important;
 
 
 }
 
+@media only screen and (min-width:320px) and (max-width: 640px) {
+
+        .outer-login
+    {
+        margin-left:15px !important;
+    }
+    .login-user
+     {
+        width:100.7% !important;
+    }
+    .login-text 
+    {
+        width:99.6% !important
+    }
+    .login-user-right 
+    {
+        display:none !important;
+    }
+
+}
+
+
+@media only screen and (min-width:768px) and (max-width: 1024px) {
+
+ .outer-login
+    {
+        margin-left:18px !important;
+    }
+
+     .login-text 
+    {
+        width:80.4% !important
+    }
 
 
 

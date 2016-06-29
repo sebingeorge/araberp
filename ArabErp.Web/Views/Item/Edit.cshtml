@@ -1,0 +1,45 @@
+﻿@model ArabErp.Domain.Item
+@{Layout = "~/Views/Shared/_Layout.cshtml";}
+
+
+
+<script type="text/javascript">
+  
+    $(document).ready(function () {
+            @*var catId = '@Model.ItemCategoryId';
+            var groupId = '@Model.ItemGroupId';
+            var subgroupId = '@Model.ItemSubGroupId';*@
+        $("#ItemCategoryId").val('@Model.ItemCategoryId');
+        $("#ItemGroupId").val('@Model.ItemGroupId');
+        $("#ItemSubGroupId").val('@Model.ItemSubGroupId');
+
+        toastr.options = {
+            "closeButton": true,
+            "positionClass": "toast-bottom-full-width",
+            "preventDuplicates": false,
+            "onclick": null,
+
+            "timeOut": "0",
+            "extendedTimeOut": "1000",
+
+            "showEasing": "swing",
+            "hideEasing": "linear",
+            "showMethod": "fadeIn",
+            "hideMethod": "fadeOut"
+        }
+        if ('@TempData["success"]' != "" && '@TempData["ItemRefNo"]' != "") {
+            toastr.success('@TempData["success"]' + '  Item Ref No. is : ' + '@TempData["ItemRefNo"]');
+        }
+        else if ('@TempData["error"]' != "") {
+            toastr.error('@TempData["error"]');
+        }
+    
+    });
+</script>
+
+<div class="container">
+   
+    @Html.Partial("_Form")
+</div>
+
+

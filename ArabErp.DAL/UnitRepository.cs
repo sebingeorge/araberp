@@ -30,7 +30,7 @@ namespace ArabErp.DAL
             using (IDbConnection connection = OpenConnection(dataConnection))
             {
 
-                return connection.Query<Unit>("SELECT UnitId,UnitRefNo,UnitName FROM Unit").ToList();
+                return connection.Query<Unit>("SELECT UnitId,UnitRefNo,UnitName FROM Unit WHERE isActive=1").ToList();
             }
         }
 
@@ -80,7 +80,7 @@ namespace ArabErp.DAL
         {
             using (IDbConnection connection = OpenConnection(dataConnection))
             {
-                string sql = @"Delete Unit  OUTPUT DELETED.UnitId WHERE UnitId=@UnitId";
+                string sql = @" Update Unit Set isActive=0 WHERE UnitId=@UnitId";
 
 
                 var id = connection.Execute(sql, objUnit);

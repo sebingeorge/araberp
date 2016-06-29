@@ -1,6 +1,6 @@
 ﻿@model ArabErp.Domain.Customer
 
-@{ViewBag.Title = "Create";Layout = "~/Views/Shared/_Layout.cshtml";}
+@{Layout = "~/Views/Shared/_Layout.cshtml";}
 
 <script>
     $(document).ready(function () {
@@ -9,45 +9,45 @@
                 CustomerRefNo: {
                     validators: {
                         notEmpty: {
-                            message: 'Please enter customer no.'
+                            message: 'Please Enter Customer No.'
                         }
                     }
                 },
                 CustomerName: {
                     validators: {
                         notEmpty: {
-                            message: 'Please enter customer name'
+                            message: 'Please Enter Customer Name'
                         }
                     }
                 },
                 CategoryId: {
                     validators: {
                         notEmpty: {
-                            message: 'Please select category'
+                            message: 'Please Select Category'
                         }
                     }
                 },
                 LeadSourceId: {
                     validators: {
                         notEmpty: {
-                            message: 'Please select lead source'
+                            message: 'Please Select lead source'
                         }
                     }
                 },
                 CurrencyId: {
                     validators: {
                         notEmpty: {
-                            message: 'Please select currency'
+                            message: 'Please Select Currency'
                         }
                     }
                 },
                 DoorNo: {
                     validators: {
-                        stringLength: {
-                            min: 8,
-                        },
+                        //stringLength: {
+                        //    min: 8,
+                        //},
                         notEmpty: {
-                            message: 'Please enter door no.& building'
+                            message: 'Please Enter Door No.& Building'
                         }
                     }
                 },
@@ -57,21 +57,21 @@
                             min: 4,
                         },
                         notEmpty: {
-                            message: 'Please enter street & city'
+                            message: 'Please Enter Street & City'
                         }
                     }
                 },
                 State: {
                     validators: {
                         notEmpty: {
-                            message: 'Please enter state'
+                            message: 'Please Enter State'
                         }
                     }
                 },
                 Zip: {
                     validators: {
                         notEmpty: {
-                            message: 'Please enter  zip code'
+                            message: 'Please Enter  Post Box No.'
                         },
                   
                     }
@@ -80,11 +80,11 @@
                 Phone: {
                     validators: {
                         notEmpty: {
-                            message: 'Please enter your phone number'
+                            message: 'Please Enter Phone No.'
                         },
                         phone: {
                             country: 'US',
-                            message: 'Please enter a vaild phone number with area code'
+                            message: 'Please Enter a vaild phone number with area code'
                         }
                     }
                 },
@@ -92,10 +92,10 @@
                 Email: {
                     validators: {
                         notEmpty: {
-                            message: 'Please enter email address'
+                            message: 'Please Enter E-mail'
                         },
                         emailAddress: {
-                            message: 'Please enter a valid email address'
+                            message: 'Please Enter Valid E-mail'
                         }
                     }
                 },
@@ -103,6 +103,9 @@
         });
     })
 
+    function Exit() {
+        location.href = '@Url.Action("Index")';
+    }
 </script>
 
 
@@ -112,13 +115,16 @@
                 <h4>Customer</h4>
             </div>
             <div class="col-md-12">
-               @using (Html.BeginForm("Save", null, FormMethod.Post, new { @class = "createFrom", @id ="Customer_form"}))
+               @using (Html.BeginForm(null, null, FormMethod.Post, new { @class = "createFrom", @id = "Customer_form" }))
                     {
                     <div class="row form-group  main-part pad1">
                         <div class="col-md-4">
                             <div class="row rowr">
                                 <span>&nbsp;</span><br />
                                 <div class="part4">
+
+                                    @Html.HiddenFor(m => m.CustomerId, new { @class = "form_input  form_input-half ", autocomplete = "off" })
+
                                     <label for="code">Code</label>
                                     @Html.TextBoxFor(m => m.CustomerRefNo, new { @class = "form_input  form_input-half ", autocomplete = "off" })
                                 </div>
@@ -199,12 +205,7 @@
                                     <label for="cntperson">Contact Person</label>
                                     @Html.TextBoxFor(m => m.ContactPerson, new { @class = "form_input", autocomplete = "off" })
                                 </div>
-
-
-
-
-
-
+                                
                             </div>
 
 
@@ -214,8 +215,24 @@
                         <div class="row">
 
                             <div class="col-md-12 hrpart">
-                                <button type="button" class="form-button right">Exit</button>
-                                <button type="submit" class="form-button right">Save</button>
+
+                                <button type="button" class="form-button right" onclick="Exit()">Exit</button>
+
+                                @if (@ViewBag.Title == "Create")
+                                {
+                                 <button type="submit" class="form-button right">Save</button>
+                                }
+                                
+                                @if(@ViewBag.Title == "Edit")
+                                {
+                                 <button type="submit" class="form-button right">Update</button>
+                                }
+                                
+                                @if (@ViewBag.Title == "Delete")
+                                {
+                                 <button type="submit" class="form-button right">Delete</button>
+                                }
+                                
                             </div>
 
                         </div>

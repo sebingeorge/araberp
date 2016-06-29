@@ -50,9 +50,13 @@ namespace ArabErp.DAL
         {
             using (IDbConnection connection = OpenConnection(dataConnection))
             {
-                string sql = @"insert  into Customer(CustomerRefNo,CustomerName,CustomerPrintName,CategoryId,LeadSourceId,CurrencyId,DoorNo,Street,State,Country,Zip,Phone,Fax,Email,ContactPerson,CreatedBy,CreatedDate,OrganizationId) Values (@CustomerRefNo,@CustomerName,@CustomerPrintName,@CategoryId,@LeadSourceId,@CurrencyId,@DoorNo,@Street,@State,@Country,@Zip,@Phone,@Fax,@Email,@ContactPerson,@CreatedBy,@CreatedDate,@OrganizationId);
-            SELECT CAST(SCOPE_IDENTITY() as int)";
-
+                string sql = @"insert  into Customer(CustomerRefNo,CustomerName,CustomerPrintName,CategoryId,LeadSourceId,
+                                                     CurrencyId,DoorNo,Street,State,Country,Zip,Phone,Fax,Email,ContactPerson,
+                                                     CreatedBy,CreatedDate,OrganizationId) 
+                                                     Values (@CustomerRefNo,@CustomerName,@CustomerPrintName,@CategoryId,@LeadSourceId,
+                                                     @CurrencyId,@DoorNo,@Street,@State,@Country,@Zip,@Phone,@Fax,@Email,@ContactPerson,
+                                                     @CreatedBy,@CreatedDate,@OrganizationId);
+                                                     SELECT CAST(SCOPE_IDENTITY() as int)";
 
                 var id = connection.Query<int>(sql, objCustomer).Single();
                 return id;
@@ -80,8 +84,10 @@ namespace ArabErp.DAL
         {
             using (IDbConnection connection = OpenConnection(dataConnection))
             {
-                string sql = @"select * from Customer
-                        where isActive=1";
+                string sql = @" SELECT CustomerId,CustomerRefNo,CustomerName,CusCategoryName,CountryName FROM Customer C
+                                INNER JOIN CustomerCategory ON CusCategoryId=C.CategoryId
+                                INNER JOIN Country ON CountryId=C.Country
+                                WHERE C.isActive=1";
 
                 var objCustomers = connection.Query<Customer>(sql).ToList<Customer>();
 
@@ -93,19 +99,22 @@ namespace ArabErp.DAL
         {
             using (IDbConnection connection = OpenConnection(dataConnection))
             {
-                string sql = @"UPDATE Customer SET CustomerRefNo = @CustomerRefNo ,CustomerName = @CustomerName ,CustomerPrintName = @CustomerPrintName ,CategoryId = @CategoryId,LeadSourceId = @LeadSourceId,CurrencyId = @CurrencyId,DoorNo = @DoorNo,Street = @Street,State = @State,Country = @Country,Zip = @Zip,Phone = @Phone,Fax = @Fax,Email = @Email,ContactPerson = @ContactPerson,CreatedBy = @CreatedBy,CreatedDate = @CreatedDate  OUTPUT INSERTED.CustomerId  WHERE CustomerId = @CustomerId";
-
+                string sql = @" UPDATE Customer SET CustomerRefNo = @CustomerRefNo ,CustomerName=@CustomerName,CustomerPrintName=@CustomerPrintName,
+                                CategoryId=@CategoryId,LeadSourceId=@LeadSourceId,CurrencyId=@CurrencyId,DoorNo=@DoorNo,
+                                Street=@Street,State=@State,Country=@Country,Zip=@Zip,Phone=@Phone,Fax=@Fax,Email=@Email,
+                                ContactPerson=@ContactPerson,CreatedBy = @CreatedBy,CreatedDate = @CreatedDate,OrganizationId=@OrganizationId
+                                WHERE CustomerId = @CustomerId";
 
                 var id = connection.Execute(sql, objCustomer);
                 return id;
             }
         }
 
-        public int DeleteCustomer(Unit objCustomer)
+        public int DeleteCustomer(Customer objCustomer)
         {
             using (IDbConnection connection = OpenConnection(dataConnection))
             {
-                string sql = @"Delete Customer  OUTPUT DELETED.CustomerId WHERE CustomerId=@CustomerId";
+                string sql = @" UPDATE Customer SET isActive=0  WHERE CustomerId=@CustomerId";
 
 
                 var id = connection.Execute(sql, objCustomer);

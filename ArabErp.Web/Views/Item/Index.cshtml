@@ -5,31 +5,18 @@
 
 
 <script type="text/javascript">
-    function openPop() {
-      
-        var url = '@Url.Action("Create")';
-       
-        window.location = url;
+
+    function Create() {
+            location.href = '@Url.Action("Create")';  
     }
     $(document).ready(function () {
-        //var d = new Date();
-        //locale = "en-us",
-        //  month = d.toLocaleString(locale, { month: "long" });
-        //var DateString = d.getDate()+'/'+month+'/'+d.getFullYear();
-        ////var strDate = d.toLocaleDateString("DD/MMMM/YYYY");
-        ////alert(strDate);
-        ////d.getFullYear() + "/" + (d. + 1) + "/" + d.getDate();
-        //$('#SaleOrderDate').val(DateString);
-        //var date = $('#SaleOrderDate').val();
-        //alert(date);
-        //var x=FormatDate(date);
-        
+      
         toastr.options = {
             "closeButton": true,
             "positionClass": "toast-bottom-full-width",
             "preventDuplicates": false,
             "onclick": null,
-          
+
             "timeOut": "0",
             "extendedTimeOut": "1000",
             "showEasing": "swing",
@@ -37,8 +24,7 @@
             "showMethod": "fadeIn",
             "hideMethod": "fadeOut"
         }
-        if ('@TempData["success"]' != "" && '@TempData["ItemRefNo"]' != "" )
-        {
+        if ('@TempData["success"]' != "") {
             toastr.success('@TempData["success"]' + '  Item Ref No. is : ' + '@TempData["ItemRefNo"]');
         }
         else if ('@TempData["error"]' != "") {
@@ -66,7 +52,7 @@
 
             </div>
             <div class="marg6">
-                <button type="button" onclick="openPop();" class="form-button top5">Create</button>
+                <button type="button" onclick="Create();" class="form-button top5">Create</button>
             </div>
 
         </div>

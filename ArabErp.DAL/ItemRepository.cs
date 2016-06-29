@@ -132,7 +132,7 @@ namespace ArabErp.DAL
                     trn.Rollback();
                     objItem.ItemId = 0;
                     objItem.ItemRefNo = null;
-                    throw ex;
+                   
                 }
                 return objItem;
             }
@@ -160,7 +160,7 @@ namespace ArabErp.DAL
         {
             using (IDbConnection connection = OpenConnection(dataConnection))
             {
-                string sql = @"SELECT PartNo,ItemName,CategoryName,ItemGroupName,ItemSubGroupName FROM Item I
+                string sql = @"SELECT ItemId,PartNo,ItemName,CategoryName,ItemGroupName,ItemSubGroupName FROM Item I
                                INNER JOIN ItemCategory ON itmCatId=ItemCategoryId
                                INNER JOIN ItemGroup G ON I.ItemGroupId=G.ItemGroupId
                                INNER JOIN ItemSubGroup S ON I.ItemSubGroupId=S.ItemSubGroupId
@@ -172,27 +172,61 @@ namespace ArabErp.DAL
             }
         }
 
-        public int UpdateItem(Item objItem)
+        public Item UpdateItem(Item objItem)
         {
             using (IDbConnection connection = OpenConnection(dataConnection))
             {
-                string sql = @"UPDATE Item SET PartNo = @PartNo ,ItemName = @ItemName ,ItemPrintName = @ItemPrintName ,ItemShortName = @ItemShortName,ItemGroupId = @ItemGroupId,ItemSubGroupId = @ItemSubGroupId,ItemCategoryId = @ItemCategoryId,ItemUnitId = @ItemUnitId,ItemQualityId = @ItemQualityId  OUTPUT INSERTED.ItemId  WHERE ItemId = @ItemId";
+                string sql = @"UPDATE Item SET PartNo = @PartNo ,ItemName = @ItemName ,ItemPrintName = @ItemPrintName ,ItemShortName = @ItemShortName,ItemGroupId = @ItemGroupId,ItemSubGroupId = @ItemSubGroupId,ItemCategoryId = @ItemCategoryId,ItemUnitId = @ItemUnitId ,ExpiryDate = @ExpiryDate ,MinLevel = @MinLevel,MaxLevel = @MaxLevel,ReorderLevel = @ReorderLevel,BatchRequired = @BatchRequired ,StockRequired = @StockRequired OUTPUT INSERTED.ItemId  WHERE ItemId = @ItemId";
 
-
-                var id = connection.Execute(sql, objItem);
-                return id;
+                try
+                {
+                    var id = connection.Execute(sql, objItem);
+                    objItem.ItemId = id;
+                }
+                catch (Exception ex)
+                {
+                   
+                    objItem.ItemId = 0;
+                    throw ex;
+                }
+                return objItem;
             }
         }
 
-        public int DeleteItem(Unit objItem)
+        public int DeleteItem(Item objItem)
         {
+            int result=0;
             using (IDbConnection connection = OpenConnection(dataConnection))
             {
-                string sql = @"Delete Item  OUTPUT DELETED.ItemId WHERE ItemId=@ItemId";
+                string sql = @"UPDATE Item SET isActive = 0  OUTPUT INSERTED.ItemId  WHERE ItemId = @ItemId";
+                try
+                {
 
+                    var id = connection.Execute(sql, objItem);
+                    objItem.ItemId = id;
+                    result = 0;
 
-                var id = connection.Execute(sql, objItem);
-                return id;
+                }
+                catch (SqlException ex)
+                {
+                    int err = ex.Errors.Count;
+                    if (ex.Errors.Count >0) // Assume the interesting stuff is in the first error
+                    {
+                        switch (ex.Errors[0].Number)
+                        {
+                            case 547: // Foreign Key violation
+                                result = 1;
+                                break;
+                          
+                            default:
+                                result = 2;
+                                break;
+                        }
+                    }
+                    
+                }
+                
+                return result;
             }
         }
 

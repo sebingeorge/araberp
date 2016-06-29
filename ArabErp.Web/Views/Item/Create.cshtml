@@ -1,8 +1,13 @@
 ﻿@model ArabErp.Domain.Item
-@{ViewBag.Title = "Create";Layout = "~/Views/Shared/_Layout.cshtml";}
+@{Layout = "~/Views/Shared/_Layout.cshtml";}
 
-<script>
+
+
+<script type="text/javascript">
     $(document).ready(function () {
+        @*$("#ItemCategoryId").val('@Model.ItemCategoryId');
+        $("#ItemGroupId").val('@Model.ItemGroupId');
+        $("#ItemSubGroupId").val('@Model.ItemSubGroupId');*@
 
         toastr.options = {
             "closeButton": true,
@@ -12,6 +17,7 @@
 
             "timeOut": "0",
             "extendedTimeOut": "1000",
+
             "showEasing": "swing",
             "hideEasing": "linear",
             "showMethod": "fadeIn",
@@ -23,222 +29,12 @@
         else if ('@TempData["error"]' != "") {
             toastr.error('@TempData["error"]');
         }
-        //$('#Item_form').bootstrapValidator({
-        //    fields: {
-        //        PartNo: {
-        //            validators: {
-        //                notEmpty: {
-        //                    message: 'Please Enter Part No'
-        //                }
-        //            }
-        //        },
-
-        //        ItemName: {
-        //            validators: {
-        //                notEmpty: {
-        //                    message: 'Please Enter Item Name'
-        //                }
-        //            }
-        //        },
-
-        //        ItemCategoryId: {
-        //            validators: {
-        //                notEmpty: {
-        //                    message: 'Please Select Category'
-        //                }
-        //            }
-        //        },
-
-        //        ItemGroupId: {
-        //            validators: {
-        //                notEmpty: {
-        //                    message: 'Please Select Group'
-        //                }
-        //            }
-        //        },
-
-        //        ItemSubGroupId: {
-        //            validators: {
-        //                notEmpty: {
-        //                    message: 'Please Select Sub Group'
-        //                }
-        //            }
-        //        },
-
-        //        ItemUnitId: {
-        //            validators: {
-        //                notEmpty: {
-        //                    message: 'Please Select Unit'
-        //                }
-        //            }
-        //        },
-
-        //    }
-        //});
-    })
-
-</script>
-
-<script type="text/javascript">
-    function FillItemGroup() {
-        var Code = $('#ItemCategoryId').val();
-        var Url = '@Url.Action("ItemGroup")';
-        var UrlSubGroup = '@Url.Action("ItemSubGroup")';
-        if (Code == '') {
-            $("#DivItemGroup").load(Url, { Code: 0 });
-            $("#DivItemSubGroup").load(UrlSubGroup, { Code: 0 });
-        }
-
-        else {
-            $("#DivItemGroup").load(Url, { Code: Code });
-            $("#DivItemSubGroup").load(UrlSubGroup, { Code: 0 });
-        }
-    }
-    function FillItemSubGroup() {
-
-        var Code = $('#ItemGroupId').val();
-        //  alert(Code);
-        var Url = '@Url.Action("ItemSubGroup")';
-        if (Code == '') {
-            $("#DivItemSubGroup").load(Url, { Code: 0 });
-        }
-        else {
-            $("#DivItemSubGroup").load(Url, { Code: Code });
-        }
-    }
-
-    $(document).ready(function () {
-        $('#ExpiryDate')
-            .datepicker({
-                format: 'dd/MM/yyyy'
-            })
+        
     });
-  
-    function ShowDiv() {
-     
-        alert("Show div");
-     
-        bootbox.alert("Hello world!");
-    }
 </script>
-
 
 <div class="container">
-    <div class="row">
-        <div class="form-head"><h4>Item</h4></div>
-        <div class="col-md-12">
-          @using (Html.BeginForm("Save", null, FormMethod.Post, new { @class = "createFrom", @id = "Item_form" }))
-                {
-
-                    <div class="row form-group main-part pad1">
-                        
-                        <div class="col-md-4 ">
-                            <div class="row">
-                                <div class="part4">
-                                    <label for="code" class="label1">Part No</label>
-                                    @Html.TextBoxFor(m => m.PartNo, new { @class = "form_input form_input-half", autocomplete = "off" })
-                                </div>
-                                <div class="part4">
-                                    <label for="name" class="label1">Item Name</label>
-                                    @Html.TextBoxFor(m => m.ItemName, new { @class = "form_input", autocomplete = "off" })
-                                </div>
-                                <div class="part4">
-                                    <label for="code" class="label1">Print Name</label>
-                                    @Html.TextBoxFor(m => m.ItemPrintName, new { @class = "form_input", autocomplete = "off" })
-                                </div>
-                                <div class="part4">
-                                    <label for="name" class="label1">Short Name</label>
-                                    @Html.TextBoxFor(m => m.ItemShortName, new { @class = "form_input", autocomplete = "off" })
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="col-md-4">
-
-                            <div class="part4">
-                                <label for="code" class="label1">Item Category</label>
-                                @Html.Action("ItemCategory")
-
-                            </div>
-                            <div class="part4">
-                                <label for="code" class="label1">Item Group</label>
-                                <div id="DivItemGroup">
-                                    @Html.Action("ItemGroup", "Item", new { Code = 0 })
-                                </div>
-
-                            </div>
-                            <div class="part4">
-                                <label for="code" class="label1">Item Sub Group</label>
-                                <div id="DivItemSubGroup">
-                                    @Html.Action("ItemSubGroup", "Item", new { Code = 0 })
-                                </div>
-
-                            </div>
-                            <div class="row">
-                                <div class="part4 col-md-6">
-                                    <label for="name" class="label1">Unit</label>
-                                    @Html.DropDownListFor(m => Model.ItemUnitId, (SelectList)ViewBag.Unit, "Select Unit", new { @class = "form_input" })
-                                </div>
-                                <div class="part4 editor-field  col-md-6">
-                                    <label for="name" class="label1">Expiry Date</label>
-                                       @Html.TextBoxFor(model => model.ExpiryDate, new { @class = "form_input", placeholder = "Select Expiry Date" })
-                               </div>
-                            </div>
-
-                        </div>
-
-                        <div class="col-md-4">
-                            <div class="row">
-                                <div class="row">
-                                    <div class="part4 col-md-4">
-                                        <label for="code" class="label1">Min.Level</label>
-                                        @Html.TextBoxFor(m => m.MinLevel, new { @class = "form_input", autocomplete = "off" })
-                                    </div>
-                                    <div class="part4 col-md-4">
-                                        <label for="name" class="label1">ReOrder Level</label>
-                                        @Html.TextBoxFor(m => m.ReorderLevel, new { @class = "form_input", autocomplete = "off" })
-                                    </div>
-                                    <div class="part4 col-md-4">
-                                        <label for="name" class="label1">Max.Level</label>
-                                        @Html.TextBoxFor(m => m.MaxLevel, new { @class = "form_input", autocomplete = "off" })
-                                    </div>
-                                </div>
-                                <div class="part4">
-
-
-                                    @Html.CheckBoxFor(model => model.BatchRequired)
-                                    <label for="name" class="lefto">Batch Required</label>
-
-
-                                    @Html.CheckBoxFor(model => model.StockRequired)
-                                    <label for="name">Stock Required</label>
-                                </div>
-
-
-                            </div>
-
-                            </div>
-
-
-
-                        <div class="row">
-                         
-                            <div class="col-md-12 hrpart">
-                                <button type="button" class="form-button right">Exit</button>
-                                <button type="submit" class="form-button right">Save</button>
-                            </div>
-                           
-                        </div>
-
-                    </div>
-          }
-
-
-        </div>
-
-
-    </div>
-
+    @Html.Partial("_Form")
 </div>
 
 

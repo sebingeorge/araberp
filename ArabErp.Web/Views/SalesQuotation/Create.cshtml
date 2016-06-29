@@ -13,12 +13,17 @@
     if (ViewBag.actionName.ToString() == "Create")
     {
         displayMode = new { @class = "form_input", autocomplete = "off" };
+        ViewBag.Title = "Sales Quotation";
     }
     else
-    { displayMode = new { @class = "form_input", autocomplete = "off", @readonly = "readonly" }; }
+    { displayMode = new { @class = "form_input", autocomplete = "off", @readonly = "readonly" };
+        ViewBag.Title = "Pending Sales Quotation";
+    }
 
 
 }
+
+
 
 <script>
 
@@ -175,13 +180,32 @@
 
 
     }
+    function showPaymentTerms()
+    {
+        var url = '@Url.Action("PaymentTermsPopup","PaymentTerms")';
+        var popup = window.open(url, "PaymentTermPopup", "width=900,height=400");
+        popup.focus();
+        return false;
+    }
 </script>
 
 <div class="container">
     <div class="row">
         <div class="form-head1">
-            <h4>Quotation Request</h4>
-        </div>
+            @{
+                if (ViewBag.actionName.ToString() == "Create")
+                {
+
+                    <h4>Sales Quotation Request</h4>
+                }
+                else
+                {
+
+                    <h4> Pending Sales Quotation Request Approve</h4>
+                }
+            }
+
+</div>
 
         <div class="main-part pad1">
             @using (Html.BeginForm(ViewContext.RouteData.GetRequiredString("action"), null, FormMethod.Post, new { @class = "createFrom", @id = "work_form" }))
@@ -190,7 +214,7 @@
                 @Html.HiddenFor(m => m.SalesQuotationId)
                 @Html.HiddenFor(m => m.Amount)
                 <div class="row form-group ">
-                    <div class="col-md-4">
+                    <div class="col-md-2">
                         <label for="QuotationRefNo">Quotation.No</label>
                         @if (ViewBag.actionName.ToString() == "Create")
                         {
@@ -241,7 +265,7 @@
                         <label for="ExpectedDeliveryDate">Expected Delivery Date</label>
                         @if (ViewBag.actionName.ToString() == "Create")
                         {
-                            @Html.TextBoxFor(m => m.ExpectedDeliveryDate, new { @class = "form_input", autocomplete = "off" })
+                            @Html.TextBoxFor(m => m.ExpectedDeliveryDate, Model.ExpectedDeliveryDate.ToString("dd/MMMM/yyyy"), new { @class = "form_input", autocomplete = "off" })
                         }
                         else
                         {
@@ -287,11 +311,11 @@
                         <label for="SalesExecutiveId">Sales Executive </label>
                         @if (ViewBag.actionName.ToString() == "Create")
                         {
-                            @Html.DropDownListFor(m => Model.SalesExecutiveId, (SelectList)ViewBag.employeelist, "Select Order Taken By", new { @class = "form_input", autocomplete = "off" })
+                            @Html.DropDownListFor(m => Model.SalesExecutiveId, (SelectList)ViewBag.employeelist, "Select Sales Executive", new { @class = "form_input", autocomplete = "off" })
                         }
                         else
                         {
-                            @Html.DropDownListFor(m => Model.SalesExecutiveId, (SelectList)ViewBag.employeelist, "Select Order Taken By", new { @class = "form_input", autocomplete = "off", @disabled = "true" })
+                            @Html.DropDownListFor(m => Model.SalesExecutiveId, (SelectList)ViewBag.employeelist, "Select Sales Executive", new { @class = "form_input", autocomplete = "off", @disabled = "true" })
 
                         }
                     </div>
@@ -569,26 +593,26 @@
                         </tbody>
                         <tfoot>
                             <tr class="grid_heading">
-                                <th width="5%" class="text-center"><h1></h1></th>
+                                <th width="5%" class="text-center"><h1>Grand Total</h1></th>
                                 <th width="25%" class="text-center"><h1></h1></th>
                                 <th width="5%" class="text-center"><h1></h1></th>
                                 <th width="5%" class="text-right"><span id="QtyTotal"></span></th>
                                 <th width="10%"></th>
-                                <th width="10%" class="text-right"><h1>Total</h1></th>
-                                <th width="7%" class="text-right">
-                                    <h1>
-                                        @if (ViewBag.actionName.ToString() == "Create")
-                                        {
-                                            @Html.DropDownListFor(m => Model.CurrencyId, (SelectList)ViewBag.currlist, "Select Currency", new { @class = "form_input", autocomplete = "off" })
-                                        }
-                                        else
-                                        {
-                                            @Html.DropDownListFor(m => Model.CurrencyId, (SelectList)ViewBag.currlist, "Select Currency", new { @class = "form_input", autocomplete = "off", @disabled = "true" })
+                                <th width="10%" class="text-right"><h1>
+    @if (ViewBag.actionName.ToString() == "Create")
+    {
+        @Html.DropDownListFor(m => Model.CurrencyId, (SelectList)ViewBag.currlist, "Select Currency", new { @class = "form_input", autocomplete = "off" })
+    }
+    else
+    {
+        @Html.DropDownListFor(m => Model.CurrencyId, (SelectList)ViewBag.currlist, "Select Currency", new { @class = "form_input", autocomplete = "off", @disabled = "true" })
 
-                                        }
-                                    </h1>
+    }
+</h1></th>
+                                <th width="7%" class="text-right">
+                                    <span id="QtyAmount"></span>
                                 </th>
-                                <th width="8%" class="text-right"><span id="QtyAmount"></span></th>
+                                <th width="8%" class="text-right"></th>
                             </tr>
                         </tfoot>
                     </table>
@@ -606,7 +630,7 @@
                         <div class="col-md-1">
 
                          
-                            <label for="Remarks">Spl.Remarks</label>
+                            <label for="Remarks">Special Remarks</label>
 
                         </div>
                         <div class="col-md-11">
@@ -627,14 +651,15 @@
                     <div class="part">
                         <div class="col-md-1">
 
-                            <label for="PaymentTerms">Pay.Terms</label>
+                            <label for="PaymentTerms">Payment Terms</label>
 
                         </div>
-                        <div class="col-md-11">
+                        <div class="col-md-11" style="display:inline-block;position:relative;">
 
                             @if (ViewBag.actionName.ToString() == "Create")
                             {
                                 @Html.TextBoxFor(m => m.PaymentTerms, new { @class = "form_input", autocomplete = "off" })
+                                <button type="button" id="pymtTerms" onclick="showPaymentTerms()">...</button>
                             }
                             else
                             {
