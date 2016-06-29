@@ -4,10 +4,10 @@
     <div class="col-md-12">
         <div class="row">
             <div class="part1">
-                <div class="col-md-1">
-                    <label for="SplRemarks1">Spl.Remarks</label>
+                <div class="col-md-2">
+                    <label for="SplRemarks1">Special Remarks</label>
                 </div>
-                <div class="col-md-11">
+                <div class="col-md-10">
                     @Html.TextAreaFor(m => m.SpecialRemarks, new { @class = "form_input form_input-h" })
                 </div>
             </div>
@@ -15,10 +15,10 @@
 
         <div class="row">
             <div class="part">
-                <div class="col-md-1">
+                <div class="col-md-2">
                     <label for="payterms">Payment Terms</label>
                 </div>
-                <div class="col-md-11">
+                <div class="col-md-10">
                     @Html.TextBoxFor(m => m.PaymentTerms, new { @class = "form_input" })
                 </div>
             </div>
@@ -26,10 +26,10 @@
 
         <div class="row">
             <div class="part">
-                <div class="col-md-1">
+                <div class="col-md-2">
                     <label for="delterms">Delivery Terms</label>
                 </div>
-                <div class="col-md-11">
+                <div class="col-md-10">
                     @Html.TextBoxFor(m => m.DeliveryTerms, new { @class = "form_input" })
                 </div>
             </div>

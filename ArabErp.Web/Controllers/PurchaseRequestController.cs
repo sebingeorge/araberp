@@ -5,6 +5,7 @@ using System.Web;
 using System.Web.Mvc;
 using ArabErp.DAL;
 using ArabErp.Domain;
+using System.Data.SqlClient;
 
 namespace ArabErp.Web.Controllers
 {
@@ -32,6 +33,28 @@ namespace ArabErp.Web.Controllers
                 model.items.Add(pritem);
 
             }
+            string internalId = "";
+            try
+            {
+                internalId = DatabaseCommonRepository.GetNextReferenceNo(typeof(PurchaseRequest).Name);
+
+            }
+            catch (NullReferenceException nx)
+            {
+                TempData["success"] = "";
+                TempData["error"] = "Some required data was missing. Please try again.|" + nx.Message;
+            }
+            catch (Exception ex)
+            {
+                TempData["success"] = "";
+                TempData["error"] = "Some error occurred. Please try again.|" + ex.Message;
+            }
+
+            model.PurchaseRequestNo = "PUR/" + internalId;
+            model.PurchaseRequestDate = System.DateTime.Today;
+            model.RequiredDate = System.DateTime.Today;
+
+
             return View(model);
         }
         public ActionResult PendingPurchaseRequest()
@@ -43,10 +66,35 @@ namespace ArabErp.Web.Controllers
         [HttpPost]
         public ActionResult Save(PurchaseRequest model)
         {
+            try
+            {
             model.OrganizationId = 1;
             model.CreatedDate = System.DateTime.Now;
             model.CreatedBy = Request.ServerVariables["HTTP_X_FORWARDED_FOR"] ?? Request.ServerVariables["REMOTE_ADDR"];
-            new PurchaseRequestRepository().InsertPurchaseRequest(model);
+            string id = new PurchaseRequestRepository().InsertPurchaseRequest(model);
+                   if (id.Split('|')[0] != "0")
+                   {
+                       TempData["success"] = "Saved successfully. Purchase Request Reference No. is " + id.Split('|')[1];
+                       TempData["error"] = "";
+                       return RedirectToAction("PendingPurchaseRequest");
+                   }
+                   else
+                   {
+                       throw new Exception();
+                   }
+                   }
+                   catch (SqlException sx)
+                   {
+                       TempData["error"] = "Some error occured while connecting to database. Please check your network connection and try again.|" + sx.Message;
+                   }
+                   catch (NullReferenceException nx)
+                   {
+                       TempData["error"] = "Some required data was missing. Please try again.|" + nx.Message;
+                   }
+                   catch (Exception ex)
+                   {
+                       TempData["error"] = "Some error occured. Please try again.|" + ex.Message;
+                   }
             return RedirectToAction("PendingPurchaseRequest");
         }
     }

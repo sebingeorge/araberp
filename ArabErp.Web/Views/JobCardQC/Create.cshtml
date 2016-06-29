@@ -57,9 +57,9 @@
                         <div class="wrap">
                             <table class="table table-bordered ">
                                 <tr class="grid_heading">
-                                    <th>#</th>
-                                    <th> Parameters</th>
-                                    <th>Value</th>
+                                    <th><h1>#</h1></th>
+                                    <th><h1>Parameters</h1></th>
+                                    <th><h1>Value</h1></th>
                                 </tr>
                                 @for (int i = 0; i < Model.JobCardQCParams.Count(); i++)
                             {
@@ -85,14 +85,17 @@
                     </div>
                     </div>
 
-                    <div class="row form-group">
 
-                        <div class="marg">
-                          
-                            <button type="submit" class="form-button right">Save</button>
-                            <button class="form-button" onclick="Back()">Exit</button>
-                        </div>
-                        </div>
+                <div class="row">
+
+                    <div class="col-md-12 hrpart">
+                        <button type="submit" class="form-button right">Save</button>
+                        <button class="form-button right" onclick="Back()">Exit</button>
+                    </div>
+
+                </div>
+
+
                 </div>
         }
         @*</form>*@

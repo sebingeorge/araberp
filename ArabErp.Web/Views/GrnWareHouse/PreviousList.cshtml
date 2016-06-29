@@ -1,44 +1,79 @@
-﻿
-@using ArabErp.Domain
-@model IEnumerable<GRN>
+﻿@using ArabErp.Domain
+@model IList<GRN>
 
-@{ViewBag.Title = "_PreviousList";Layout = "~/Views/Shared/_Layout.cshtml";}
+@{
+    ViewBag.Title = "GRN List";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
 
 <div class="container">
 
     <div class="row">
 
         <div class="form-head1">
-            <h4>GRN Previous List</h4>
+            <h4>GRN List</h4>
         </div>
-
         <div class="main-part pad1">
-            <div class="table-responsive">
-                <div class="row border ">
-
-                    <div class="col-md-12">
-                        <div class="col-md-3 grid-left">GRN No & Date</div>
-                        <div class="col-md-3 grid-left">Supplier</div>
-                        <div class="col-md-3 grid-left">Supplier DC No And Date</div>
-                        <div class="col-md-3 grid-left">Select</div>
-                    </div>
-
-                    <div class="col-md-12">
-
-                        @foreach (var item in Model)
-                        {
-                            <div class="col-md-3"><div class="mtop grid_row_pr">@item.GRNNo &amp; @item.GRNDate.ToString("dd/MMM/yyyy")</div></div>
-                            <div class="col-md-3"><div class="mtop grid_row_pr grid_row_pr">@item.Supplier</div></div>
-                            <div class="col-md-3"><div class="mtop grid_row_pr">@item.SupplierDCNoAndDate</div></div>
-                            <div class="col-md-3"><div class="mtop form-button3">@Html.ActionLink("Select", "Modify", "GrnWareHouse", new { GRNId = @item.GRNId }, null) </div></div>
+            <div class="table-responsive scroll4">
+                <table class="table table-bordered">
+                    <thead>
+                        <tr class="grid_heading">
+                            <th width="15%" nowrap><h1>GRN No. &amp; Date</h1></th>
+                            <th width="15%" nowrap><h1>Supplier</h1></th>
+                            <th width="15%" nowrap><h1>Supplier DC No &amp; Date</h1></th>
+                            <th width="15%" nowrap><h1>Received By</h1></th>
+                            <th width="15%" nowrap><h1>Warehouse/Stockpoint</h1></th>
+                            <th width="1%" class="text-right" nowrap><h1>Grand Total</h1></th>
+                            <th width="10%" class="text-right" nowrap><h1>Type</h1></th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody class="grid_row">
+                        @{
+                            if (Model.Count > 0)
+                            {
+                                for (int i = 0; i < Model.Count; i++)
+                                {
+                                    <tr>
+                                        <td>
+                                            @Html.HiddenFor(m => m[i].GRNId)
+                                            <input type="text" class="form_input" value="@Model[i].GRNNo" disabled />
+                                        </td>
+                                        <td>
+                                            <input type="text" class="form_input" value="@Model[i].Supplier" disabled />
+                                        </td>
+                                        <td>
+                                            <input type="text" class="form_input" value="@Model[i].SupplierDCNoAndDate" disabled />
+                                        </td>
+                                        <td>
+                                            <input type="text" class="form_input" value="@Model[i].ReceivedByName" disabled />
+                                        </td>
+                                        <td>
+                                            <input type="text" class="form_input" value="@Model[i].StockPointName" disabled />
+                                        </td>
+                                        <td>
+                                            <input type="text" class="form_input text-right" value="@Model[i].GrandTotal" disabled />
+                                        </td>
+                                        <td>
+                                            <input type="text" class="form_input" @(Model[i].isDirectPurchaseGRN ? "value = " + "DIRECT-GRN" : "value=GRN") disabled />
+                                        </td>
+                                        <td>
+                                            <input type="button" class="mtop form-button3" value="Edit" title="Click here to edit this entry" onclick="Edit(@Model[i].GRNId)" />
+                                        </td>
+                                    </tr>
+                                }
+                            }
+                            else
+                            {
+                                <tr>
+                                    <td colspan="8" align="center"><em>There are no accepted GRNs. Accept any pending GRN and it will show up here!</em></td>
+                                </tr>
+                            }
                         }
-
-                    </div>
-
-                </div>
-
+                    </tbody>
+                </table>
             </div>
-
         </div>
     </div>
+
 </div>

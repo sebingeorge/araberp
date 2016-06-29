@@ -17,40 +17,40 @@ namespace ArabErp.DAL
       /// </summary>
       /// <param name="model"></param>
       /// <returns></returns>
-        public int InsertPurchaseRequest(PurchaseRequest model)
+        public string InsertPurchaseRequest(PurchaseRequest objPurchaseRequest)
         {
             using (IDbConnection connection = OpenConnection(dataConnection))
             {
-
                 IDbTransaction trn = connection.BeginTransaction();
                 try
                 {
-                    int id = 0;
+                    int internalId = DatabaseCommonRepository.GetInternalIDFromDatabase(connection, trn, typeof(PurchaseRequest).Name, "0", 1);
+
+                    objPurchaseRequest.PurchaseRequestNo  = "PUR/" + internalId;
 
                     string sql = @"insert  into PurchaseRequest(PurchaseRequestNo,PurchaseRequestDate,WorkShopRequestId,SpecialRemarks,RequiredDate,CreatedBy,CreatedDate,OrganizationId) Values (@PurchaseRequestNo,@PurchaseRequestDate,@WorkShopRequestId,@SpecialRemarks,@RequiredDate,@CreatedBy,@CreatedDate,@OrganizationId);
                     SELECT CAST(SCOPE_IDENTITY() as int)";
 
-                    id = connection.Query<int>(sql, model, trn).Single();
-                    var saleorderitemrepo = new PurchaseRequestItemRepository();
-                    foreach (var item in model.items)
+                    var id = connection.Query<int>(sql, objPurchaseRequest, trn).Single();
+
+                    foreach (PurchaseRequestItem item in objPurchaseRequest.items)
                     {
                         item.PurchaseRequestId = id;
                         new PurchaseRequestItemRepository().InsertPurchaseRequestItem(item, connection, trn);
-
                     }
 
                     trn.Commit();
-                    return id;
+
+                    return id + "|PUR/" + internalId;
                 }
                 catch (Exception)
                 {
                     trn.Rollback();
-                    return 0;
+                    return "0";
                 }
-
-
             }
         }
+
 
         public PurchaseRequest GetPurchaseRequest(int PurchaseRequestId)
         {

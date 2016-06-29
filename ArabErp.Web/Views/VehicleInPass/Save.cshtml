@@ -41,38 +41,38 @@
                                 <label>Customer</label>
                                 <input type="text" class="form_input" id="txtCustomer" disabled />
                             </div>
-                            <div class="col-md-3">
+                            <div class="col-md-2">
                                 <label>SO No. &amp; Date</label>
                                 <input type="text" class="form_input" id="txtSONoDate" disabled />
                             </div>
                         </div>
 
                         <div class="row form-group">
-                            <div class="col-md-3">
+                            <div class="col-md-4">
                                 <label>Vehicle Model</label>
                                 <input type="text" class="form_input" id="txtVehicleModel" disabled />
                             </div>
-                            <div class="col-md-9">
+                            <div class="col-md-8">
                                 <label>Work Description</label>
                                 <input type="text" class="form_input" id="txtWork" disabled />
                             </div>
                         </div>
 
                         <div class="row form-group">
-                            <div class="col-md-3">
+                            <div class="col-md-2">
                                 <label>Vehicle In-Pass No.</label>
                                 @Html.TextBoxFor(m => m.VehicleInPassNo, new { @class = "form_input" })
                             </div>
-                            <div class="col-md-3">
+                            <div class="col-md-2">
                                 <label>Chasis No/Reg No.</label>
                                 @Html.HiddenFor(m => m.SaleOrderItemId)
                                 @Html.TextBoxFor(m => m.RegistrationNo, new { @class = "form_input" })
                             </div>
-                            <div class="col-md-3">
+                            <div class="col-md-2">
                                 <label>In-Pass Date</label>
                                 @Html.TextBoxFor(m => m.VehicleInPassDate, new { @class = "form_input", @type = "date" })
                             </div>
-                            <div class="col-md-3">
+                            <div class="col-md-6">
                                 <label>Employee</label>
                                 @Html.DropDownListFor(m => m.EmployeeId, (SelectList)ViewBag.employeeList, "Select Employee", new { @class = "form_input" })
                             </div>
@@ -80,15 +80,16 @@
 
                         <div class="row form-group">
                             <div class="col-md-12">
-                                <div class="part">
+                                
                                     <div class="row">
-                                        <div class="col-md-1">
-                                <label>Spl.Remarks</label>
+                                        <div class="part4">
+                                            <div class="col-md-2">
+                                                <label>Special Remarks</label>
+                                            </div>
+                                            <div class="col-md-10">
+                                                @Html.TextAreaFor(m => m.Remarks, new { @class = "form_input form_input-h" })
+                                            </div>
                                         </div>
-                                        <div class="col-md-11">
-                                @Html.TextAreaFor(m => m.Remarks, new { @class = "form_input form_input-h" })
-                            </div>
-                        </div>
                                 </div>
                             </div>
                         </div>

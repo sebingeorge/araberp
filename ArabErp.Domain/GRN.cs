@@ -16,6 +16,7 @@ namespace ArabErp.Domain
         public string SONODATE { get; set; }
         public int SupplyOrderId { get; set; }
         public int StockPointId { get; set; }
+        public string StockPointName { get; set; }
         public string SupplierDCNoAndDate { get; set; }
         public string QuotaionNoAndDate { get; set; }
         public string VehicleNo { get; set; }
@@ -31,6 +32,7 @@ namespace ArabErp.Domain
         public DateTime? CreatedDate { get; set; }
         public int OrganizationId { get; set; }
         public int ReceivedBy { get; set; }
+        public string ReceivedByName { get; set; }
         public bool isDirectPurchaseGRN { get; set; }
         public List<GRNItem> Items { get; set; }
     }
