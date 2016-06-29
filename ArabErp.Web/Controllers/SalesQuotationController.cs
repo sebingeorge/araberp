@@ -29,6 +29,7 @@ namespace ArabErp.Web.Controllers
             FillEmployee();
             FillSalesQuotationRejectReason();
             SalesQuotation salesquotation = new SalesQuotation();
+            salesquotation.isProjectBased = 0;
             salesquotation.QuotationDate = System.DateTime.Today;
             salesquotation.QuotationRefNo = "SQ/" + internalid; 
             salesquotation.PredictedClosingDate = System.DateTime.Today;
@@ -40,7 +41,69 @@ namespace ArabErp.Web.Controllers
             ViewBag.SubmitAction = "Save";
             return View(salesquotation);
         }
+        public ActionResult CreateProject()
+        {
+            var internalid = DatabaseCommonRepository.GetNextReferenceNo(typeof(SalesQuotation).Name);
 
+            FillCustomer();
+            FillCurrency();
+            FillCommissionAgent();
+            FillWrkDescForProject();
+            FillVehicle();
+            FillUnit();
+            FillEmployee();
+            FillSalesQuotationRejectReason();
+            SalesQuotation salesquotation = new SalesQuotation();
+            salesquotation.isProjectBased = 1;
+            salesquotation.QuotationDate = System.DateTime.Today;
+            salesquotation.QuotationRefNo = "SQ/" + internalid;
+            salesquotation.PredictedClosingDate = System.DateTime.Today;
+            salesquotation.QuotationValidToDate = System.DateTime.Today;
+            salesquotation.ExpectedDeliveryDate = System.DateTime.Today;
+
+            salesquotation.SalesQuotationItems = new List<SalesQuotationItem>();
+            salesquotation.SalesQuotationItems.Add(new SalesQuotationItem());
+            ViewBag.SubmitAction = "Save";
+            return View("Create",salesquotation);
+        }
+        [HttpPost]
+        public ActionResult CreateProject(SalesQuotation model)
+        {
+            model.OrganizationId = 1;
+            model.CreatedDate = System.DateTime.Now;
+            model.CreatedBy = Request.ServerVariables["HTTP_X_FORWARDED_FOR"] ?? Request.ServerVariables["REMOTE_ADDR"];
+            SalesQuotation result = new SalesQuotationRepository().InsertSalesQuotation(model);
+            if (result.SalesQuotationId > 0)
+            {
+                TempData["Success"] = "Added Successfully!";
+                TempData["QuotationRefNo"] = result.QuotationRefNo;
+                return RedirectToAction("CreateProject");
+            }
+            else
+            {
+                TempData["error"] = "Oops!!..Something Went Wrong!!";
+                TempData["SaleOrderRefNo"] = null;
+                FillCustomer();
+                FillCurrency();
+                FillCommissionAgent();
+                FillWrkDescForProject();
+                FillVehicle();
+                FillUnit();
+                FillEmployee();
+                FillSalesQuotationRejectReason();
+                //SalesQuotation salesquotation = new SalesQuotation();
+                //salesquotation.QuotationDate = System.DateTime.Today;
+                //salesquotation.PredictedClosingDate = System.DateTime.Today;
+                //salesquotation.QuotationValidToDate = System.DateTime.Today;
+                //salesquotation.ExpectedDeliveryDate = System.DateTime.Today;
+                //SaleOrder saleOrder = new SaleOrder();
+                //saleOrder.SaleOrderDate = System.DateTime.Today;
+                //saleOrder.Items = new List<SaleOrderItem>();
+                //saleOrder.Items.Add(new SaleOrderItem());
+                return View("Create", model);
+            }
+
+        }
         [HttpGet]
         public ActionResult Approve(int SalesQuotationId)
         {
@@ -128,9 +191,15 @@ namespace ArabErp.Web.Controllers
             var repo = new SalesQuotationRepository();
 
             repo.ApproveSalesQuotation(model);
-
+            if(model.isProjectBased == 0)
+            {
+                return RedirectToAction("ListSalesQuotations");
+            }
+            else
+            {
+                return RedirectToAction("ListSalesQuotationsProject");
+            }           
             
-            return RedirectToAction("ListSalesQuotations");
         }
 
         public ActionResult ListSalesQuotations()
@@ -138,15 +207,29 @@ namespace ArabErp.Web.Controllers
         
             var repo = new SalesQuotationRepository();
 
-            List<SalesQuotation> salesquotations = repo.GetSalesQuotationApproveList();
+            List<SalesQuotation> salesquotations = repo.GetSalesQuotationApproveList(0);
       
             return View(salesquotations);
+        }
+        public ActionResult ListSalesQuotationsProject()
+        {
+            var repo = new SalesQuotationRepository();
+
+            List<SalesQuotation> salesquotations = repo.GetSalesQuotationApproveList(1);
+
+            return View("ListSalesQuotations",salesquotations);
         }
 
         public void FillWrkDesc()
         {
             var repo = new SaleOrderItemRepository();
             var list = repo.FillWorkDesc();
+            ViewBag.workdesclist = new SelectList(list, "Id", "Name");
+        }
+        public void FillWrkDescForProject()
+        {
+            var repo = new SaleOrderItemRepository();
+            var list = repo.FillWorkDescForProject();
             ViewBag.workdesclist = new SelectList(list, "Id", "Name");
         }
         public void FillCustomer()

@@ -80,10 +80,19 @@
                     <li><a href="@Url.Action("Create", "PaymentTerms")"><span class="badge pull-right"></span>Payment Terms</a></li>
                 </ul>
             </li>
-
-   
-
-
+            <li>
+                <a data-toggle="dropdown" class="dropdown-toggle menu" href="#">Projects</a>
+                <ul class="dropdown-menu">
+                    <li><a href="@Url.Action("CreateProject", "SalesQuotation")"><span class="badge pull-right"></span>Quotation Request</a></li>
+                    <li><a href="@Url.Action("ListSalesQuotationsProject","SalesQuotation")"><span class="badge pull-right"></span>Quotation Request Approval</a></li>
+                    @*<li><a href="@Url.Action("Create","SaleOrder")"><span class="badge pull-right"></span>Sale Order</a></li>
+    <li><a href="@Url.Action("PendingSaleOrderHold", "SaleOrder")"><span class="badge pull-right"></span>Sale Order Hold</a></li>
+    <li><a href="@Url.Action("PendingSaleOrderRelease", "SaleOrder")"><span class="badge pull-right"></span>Sale Order Release</a></li>
+    <li><a href="@Url.Action("PendingSalesInvoice", "SalesInvoice")"><span class="badge pull-right"></span>Sales Invoice</a></li>
+    <li><a href="@Url.Action("Create", "Expense")"><span class="badge pull-right"></span>Expense Bill</a></li>
+    <li><a href="@Url.Action("Closing", "SaleOrder")"><span class="badge pull-right"></span>Sale Order Close</a></li>*@
+                </ul>
+            </li>
             <li>
                 <a data-toggle="dropdown" class="dropdown-toggle menu" href="#">@*<i class="glyphicon glyphicon-tags"></i>*@Sales</a>
                 <ul class="dropdown-menu">
