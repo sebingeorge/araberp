@@ -62,7 +62,7 @@ namespace ArabErp.DAL
             }
             catch (InvalidOperationException)
             {
-                return "1";
+                return "0/1";
             }
             catch(Exception)
             {
