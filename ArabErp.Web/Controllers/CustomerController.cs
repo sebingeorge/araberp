@@ -51,29 +51,33 @@ namespace ArabErp.Web.Controllers
             FillCountryDropdown();
             FillCurrencyDropdown();
             ViewBag.Title = "Create";
-            return View();
+            Customer Customer = new Customer();
+            Customer.CustomerRefNo = new CustomerRepository().GetRefNo(Customer);
+            return View(Customer);
         }
 
         [HttpPost]
         public ActionResult Create(Customer model)
         {
-            //if (ModelState.IsValid)
-            //{
+            
                 model.OrganizationId = 1;
                 model.CreatedDate = System.DateTime.Now;
                 model.CreatedBy = Request.ServerVariables["HTTP_X_FORWARDED_FOR"] ?? Request.ServerVariables["REMOTE_ADDR"];
-
-                var repo = new CustomerRepository();
-                new CustomerRepository().InsertCustomer(model);
-                return RedirectToAction("Create");
-            //}
-            //else
-            //{
-            //    FillCategoryDropdown();
-            //    FillCountryDropdown();
-            //    FillCurrencyDropdown();
-            //    return View(model);
-            //}
+                var result = new CustomerRepository().InsertCustomer(model);
+             
+               if (result.CustomerId > 0)
+            {
+                TempData["Success"] = "Added Successfully!";
+                TempData["CustomerRefNo"] = result.CustomerRefNo;
+                return RedirectToAction("Index");
+            }
+            else
+            {
+                TempData["error"] = "Oops!!..Something Went Wrong!!";
+                TempData["CustomerRefNo"] = null;
+                return View("Create", model);
+            }
+          
         }
 
 
@@ -93,26 +97,27 @@ namespace ArabErp.Web.Controllers
         [HttpPost]
         public ActionResult Edit(Customer model)
         {
-
-            if (ModelState.IsValid)
-            {
                 model.OrganizationId = 1;
                 model.CreatedDate = System.DateTime.Now;
                 model.CreatedBy = Request.ServerVariables["HTTP_X_FORWARDED_FOR"] ?? Request.ServerVariables["REMOTE_ADDR"];
+                var result = new CustomerRepository().UpdateCustomer(model);
 
-                var repo = new CustomerRepository();
-                new CustomerRepository().UpdateCustomer(model);
-                return RedirectToAction("Create");
-            }
-            else
-            {
-                FillCategoryDropdown();
-                FillCountryDropdown();
-                FillCurrencyDropdown();
-                return View(model);
-            }
+                if (result.CustomerId > 0)
+                {
+                    TempData["Success"] = "Updated Successfully!";
+                    TempData["CustomerRefNo"] = result.CustomerRefNo;
+                    return RedirectToAction("Index");
+                }
+                else
+                {
+                    TempData["error"] = "Oops!!..Something Went Wrong!!";
+                    TempData["CustomerRefNo"] = null;
+                    return View("Edit", model);
+                }
 
         }
+           
+     
 
         public ActionResult Delete(int Id)
         {
@@ -128,25 +133,35 @@ namespace ArabErp.Web.Controllers
         }
 
         [HttpPost]
+
         public ActionResult Delete(Customer model)
         {
+            int result = new CustomerRepository().DeleteCustomer(model);
 
-            if (ModelState.IsValid)
+            if (result == 0)
             {
-                var repo = new CustomerRepository();
-                new CustomerRepository().DeleteCustomer(model);
-                return RedirectToAction("Create");
+                TempData["Success"] = "Deleted Successfully!";
+                TempData["CustomerRefNo"] = model.CustomerRefNo;
+                return RedirectToAction("Index");
             }
             else
             {
-                FillCategoryDropdown();
-                FillCountryDropdown();
-                FillCurrencyDropdown();
-                return View(model);
+                if (result == 1)
+                {
+                    TempData["error"] = "Sorry!! You Cannot Delete This Customer. It Is Already In Use";
+                    TempData["CustomerRefNo"] = null;
+                }
+                else
+                {
+                    TempData["error"] = "Oops!!..Something Went Wrong!!";
+                    TempData["CustomerRefNo"] = null;
+                }
+                return RedirectToAction("Index");
             }
 
         }
 
+    
 
     }
 }
