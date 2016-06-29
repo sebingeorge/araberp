@@ -205,6 +205,7 @@ namespace ArabErp.DAL
             }
         }
 
+
         public string GetCusomerAddressByKey(int cusId)
         {
             using (IDbConnection connection = OpenConnection(dataConnection))
@@ -220,7 +221,41 @@ namespace ArabErp.DAL
                 return address;
             }
         }
-  
+
+        public string GetCustomerAddressQuotKey(int quoId)
+        {
+            using (IDbConnection connection = OpenConnection(dataConnection))
+            {
+                var param = new DynamicParameters();
+                Customer customer = connection.Query<Customer>("select * from Customer C inner join SalesQuotation S on C.CustomerId=S.CustomerId  where SalesQuotationId = " + quoId).FirstOrDefault();
+
+                string address = "";
+                if (customer != null)
+                {
+                    address = customer.DoorNo + ", " + customer.Street + ", " + customer.State;
+                }
+                return address;
+            }
+        }
+        public Dropdown GetCustomerIdByQuotKey(int quoId)
+        {
+            using (IDbConnection connection = OpenConnection(dataConnection))
+            {
+                string query = "select CustomerId Id,CustomerName Name from Customer where CustomerId=(select CustomerId from SalesQuotation where SalesQuotationId = @quoId)";
+                return connection.Query<Dropdown>(query, new { quoId = quoId }).First<Dropdown>();
+            }
+        }
+
+
+        public SaleOrder GetTermsByQuotKey(int quoId)
+        {
+            using (IDbConnection connection = OpenConnection(dataConnection))
+            {
+
+                string query = "SELECT PaymentTerms,Remarks SpecialRemarks FROM SalesQuotation where SalesQuotationId = @quoId";
+                return connection.Query<SaleOrder>(query, new { quoId = quoId }).First<SaleOrder>();
+            }
+        }
         /// <summary>
         /// Get VehicleModel Id from WorkDescription Table with WorkDescription Id
         /// </summary>

@@ -283,7 +283,10 @@
                         }
                     </td>
                     <td>@Html.TextBoxFor(m => m.Items[i].Amount, new { @class = "form_input clAmount", autocomplete = "off", @style = "text-align:right", placeholder = "Amount", @readonly = "readonly" })</td>
+                    @if (ViewData["action"].ToString() == "Create")
+                        {
                     <td style="vertical-align:middle"><a id="add_row"  class="glyphicon glyphicon-plus" style="top:0px" onclick="AddAdditionRow()"></a></td>
+}
                 </tr>
             }
             @*<tr id='addr1'></tr>*@
