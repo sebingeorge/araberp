@@ -13,9 +13,12 @@ namespace ArabErp.Web.Controllers
         // GET: SalesQuotation
         public ActionResult Index()
         {
-            return View((new SalesQuotationRepository()).GetSalesQuotaationList());
+            return View((new SalesQuotationRepository()).GetSalesQuotaationList(0));
         }
-
+        public ActionResult ProjectIndex()
+        {
+            return View("Index",(new SalesQuotationRepository()).GetSalesQuotaationList(1));
+        }
         public ActionResult Create()
         {
             var internalid = DatabaseCommonRepository.GetNextReferenceNo(typeof(SalesQuotation).Name);
@@ -161,6 +164,7 @@ namespace ArabErp.Web.Controllers
         [HttpPost]
         public ActionResult Revise(SalesQuotation model)
         {
+            int isProjectBased = model.isProjectBased;
             if(!ModelState.IsValid)
             {
                 //To Debug Errors
@@ -182,7 +186,15 @@ namespace ArabErp.Web.Controllers
             else
             {
                 SalesQuotation result = new SalesQuotationRepository().ReviseSalesQuotation(model);
-                return RedirectToAction("Index");
+                if (isProjectBased == 0)
+                {
+                    return RedirectToAction("Index");
+                }
+                else
+                {
+                    return RedirectToAction("ProjectIndex");
+                }
+                
             }
         }
         public ActionResult Approve(SalesQuotation model)
