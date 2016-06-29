@@ -143,8 +143,20 @@ namespace ArabErp.DAL
         {
             using (IDbConnection connection = OpenConnection(dataConnection))
             {
-                string query = "SELECT GRNId,GRNNo,GRNDate,S.SupplierName Supplier,SupplierDCNoAndDate";
-                query += " FROM GRN G INNER JOIN Supplier S ON S.SupplierId=G.SupplierId";
+                string query = @"SELECT 
+	                                GRNId,
+	                                GRNNo+' - '+CONVERT(VARCHAR, GRNDate, 106) GRNNo,
+	                                ISNULL(S.SupplierName, '-') Supplier,
+	                                ISNULL(SupplierDCNoAndDate, '-') SupplierDCNoAndDate,
+	                                EMP.EmployeeName ReceivedByName,
+	                                ST.StockPointName,
+	                                ISNULL(G.GrandTotal, 0.00) GrandTotal,
+	                                G.isDirectPurchaseGRN
+                                FROM GRN G INNER JOIN Supplier S ON S.SupplierId=G.SupplierId
+                                INNER JOIN Employee EMP ON G.ReceivedBy = EMP.EmployeeId
+                                INNER JOIN Stockpoint ST ON G.WareHouseId = ST.StockPointId
+                                WHERE ISNULL(G.isActive, 1) = 1
+                                ORDER BY GRNDate DESC, G.CreatedDate DESC;";
                 return connection.Query<GRN>(query);
             }
         }
