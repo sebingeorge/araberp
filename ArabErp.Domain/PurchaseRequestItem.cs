@@ -15,7 +15,7 @@ namespace ArabErp.Domain
         public int? ItemId { get; set; }
         public int? WRRequestQty { get; set; }
         public int? MinLevel { get; set; }
-        public decimal? CurrentStock { get; set; }
+        public int? CurrentStock { get; set; }
         public string Remarks { get; set; }
         public string PartNo { get; set; }
         public decimal? WRIssueQty { get; set; }

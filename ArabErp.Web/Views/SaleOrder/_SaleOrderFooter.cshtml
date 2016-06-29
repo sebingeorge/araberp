@@ -56,7 +56,7 @@
             @if (ViewData["action"].ToString() == "Create")
             {
                 @Html.TextBoxFor(m => m.PaymentTerms, new { @class = "form_input", autocomplete = "off" })
-                <button class="terms" type="button" id="pymtTerms" onclick="showPaymentTerms()">Click Me</button>
+                <button class="terms" type="button" id="pymtTerms" onclick="showPaymentTerms()">...</button>
             }
             else
             {
@@ -141,13 +141,13 @@
     </div>
     <div class="col-md-2">
         <div class="part4">
-            <label for="EDateArrival">EDA</label>
+            <label for="EDateArrival">Expected Date of Arrival</label>
             @Html.TextBoxFor(m => m.EDateArrival, Model.EDateArrival.ToString("dd/MMMM/yyyy"), new { @class = "form_input ", autocomplete = "off", @readonly = "readonly" })
         </div>
     </div>
     <div class="col-md-2">
         <div class="part4">
-            <label for="EDateDelivery">EDD</label>
+            <label for="EDateDelivery">Expected Date of Delivery</label>
             @Html.TextBoxFor(m => m.EDateDelivery, Model.EDateDelivery.ToString("dd/MMMM/yyyy"), new { @class = "form_input ", autocomplete = "off", @readonly = "readonly" })
         </div>
     </div>

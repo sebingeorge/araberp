@@ -148,7 +148,7 @@ namespace ArabErp.DAL
         {
             using (IDbConnection connection = OpenConnection(dataConnection))
             {
-                string sql = @"Update SalesQuotation  SET ApprovedBy=@ApprovedBy  OUTPUT INSERTED.SalesQuotationId WHERE SalesQuotationId=@SalesQuotationId";
+                string sql = @"Update SalesQuotation  SET IsQuotationApproved=1, ApprovedBy=@ApprovedBy  OUTPUT INSERTED.SalesQuotationId WHERE SalesQuotationId=@SalesQuotationId";
 
 
                 var id = connection.Query(sql, new { ApprovedBy = objSalesQuotation.ApprovedBy , SalesQuotationId = objSalesQuotation.SalesQuotationId });
@@ -192,7 +192,7 @@ namespace ArabErp.DAL
                 string sql = @"select E.EmployeeName SalesExecutiveName ,C.CustomerName,SQ.*,C.DoorNo +','+ C.Street+','+C.State CustomerAddress from SalesQuotation SQ 
                             inner join Customer C on SQ.CustomerId=C.CustomerId inner join Employee E
                             on  E.EmployeeId =SQ.SalesExecutiveId
-                        where SQ.ApprovedBy is null and  SQ.isActive=1";
+                        where SQ.ApprovedBy is null and  SQ.isActive=1 and isnull(SQ.IsQuotationApproved,0)=0";
 
                 var objSalesQuotations = connection.Query<SalesQuotation>(sql).ToList<SalesQuotation>();
 

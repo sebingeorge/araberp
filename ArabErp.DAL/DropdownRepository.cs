@@ -204,5 +204,17 @@ namespace ArabErp.DAL
                 return connection.Query<Dropdown>("SELECT AddDedId Id, AddDedName Name FROM AdditionDeduction WHERE AddDedType = 2").ToList();
             }
         }
+        /// <summary>
+        /// Return all Active and Approved QuotationNo
+        /// </summary>
+        /// <returns></returns>
+        public List<Dropdown> QuotationNoDropdown()
+        {
+            using (IDbConnection connection = OpenConnection(dataConnection))
+            {
+                return connection.Query<Dropdown>("SELECT SalesQuotationId Id, QuotationRefNo Name FROM SalesQuotation WHERE ISNULL(isActive, 1) = 1 AND ISNULL(IsQuotationApproved,0)=1").ToList();
+            }
+        }
+
     }
 }
