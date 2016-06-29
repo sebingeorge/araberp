@@ -34,7 +34,8 @@ namespace ArabErp.Domain
         public decimal Amount { get; set; }
         public int? QuotationStatus { get; set; }
         public string Remarks { get; set; }
-        public int? SalesQuotationRejectReasonId { get; set; }
+        [Required]
+        public int SalesQuotationRejectReasonId { get; set; }
         public string QuotationRejectReason { get; set; }
         public string Competitors { get; set; }
         public string PaymentTerms { get; set; }
@@ -44,6 +45,10 @@ namespace ArabErp.Domain
         public DateTime? CreatedDate { get; set; }
         public int OrganizationId { get; set; }
         public bool isActive { get; set; }
+        public string RevisionReason { get; set; }
+        public int ParentId { get; set; }
+        public int RevisionNo { get; set; }
+        public int GrantParentId { get; set; }
         public List<SalesQuotationItem> SalesQuotationItems { get; set; } 
     }
 }

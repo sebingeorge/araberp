@@ -29,14 +29,12 @@ namespace ArabErp.Web.Controllers
             return View();
         }
 
-
         public ActionResult PreviousList()
         {
             var repo = new GRNRepository();
             IEnumerable<GRN> GRNList = repo.GetGRNPreviousList();
             return View("PreviousList", GRNList);
         }
-
 
         public ActionResult Create(IList<PendingForGRN> list)
         {
@@ -47,7 +45,7 @@ namespace ArabErp.Web.Controllers
                 {
                     List<int?> id;
 
-                    if (list[0].isDirectPurchase)
+                    if (list[0].isDirectPurchase) //if direct purchase
                     {
                         id = (from PendingForGRN p in list
                               where p.isChecked
@@ -64,7 +62,7 @@ namespace ArabErp.Web.Controllers
                             throw new NullReferenceException("1No purchase requests were selected. Please select atleast one purchase request and try again.");
                         }
                     }
-                    else
+                    else //if not direct purchase
                     {
                         id = (from PendingForGRN p in list
                               where p.isChecked
@@ -81,33 +79,13 @@ namespace ArabErp.Web.Controllers
                         }
                     }
                 }
-
-                //GRNRepository repo = new GRNRepository();
                 FillWarehouse();
                 FillCurrency();
+                FillAdditionDeduction();
+                FillEmployee();
 
-                //GRN model = repo.GetGRNDetails(SupplyOrderId ?? 0);
-                //var GRNList = repo.GetGRNItem(SupplyOrderId ?? 0);
-                //model.Items = new List<GRNItem>();
-                //foreach (var item in GRNList)
-                //{
-                //    var grnitem = new GRNItem
-                //    {
-                //        SupplyOrderItemId = item.SupplyOrderItemId,
-                //        ItemName = item.ItemName,
-                //        ItemId = item.ItemId,
-                //        PartNo = item.PartNo,
-                //        Remarks = item.Remarks,
-                //        PendingQuantity = item.PendingQuantity,
-                //        Quantity = item.Quantity,
-                //        Unit = item.Unit,
-                //        Rate = item.Rate,
-                //        Discount = item.Discount,
-                //        Amount = item.Amount
-                //    };
-                //    model.Items.Add(grnitem);
+                model.GRNNo = "GRN/" + DatabaseCommonRepository.GetNextReferenceNo(typeof(GRN).Name);
 
-                //}
                 return View(model);
             }
             catch (NullReferenceException nx)
@@ -156,23 +134,27 @@ namespace ArabErp.Web.Controllers
         {
             try
             {
+                if (model == null || model.Items == null || model.Items.Count == 0) throw new NullReferenceException();
                 model.OrganizationId = 1;
                 model.CreatedDate = System.DateTime.Now;
                 model.CreatedBy = Request.ServerVariables["HTTP_X_FORWARDED_FOR"] ?? Request.ServerVariables["REMOTE_ADDR"];
-                if (new GRNRepository().InsertGRN(model) > 0)
+                string result = new GRNRepository().InsertGRN(model);
+                if (result != "")
                 {
-                    TempData["success"] = "Saved succesfully";
+                    TempData["success"] = "Saved succesfully. The GRN Reference No. is " + result;
                     TempData["error"] = "";
                     if (model.isDirectPurchaseGRN)
                         return RedirectToAction("PendingDirectPurchase");
                     return RedirectToAction("PendingGrnWareHouse");
                 }
+                else
+                    throw new Exception();
             }
             catch (NullReferenceException nx)
             {
                 TempData["success"] = "";
                 if (nx.Message.StartsWith("1"))
-                    TempData["error"] = nx.Message;
+                    TempData["error"] = nx.Message.Substring(1);
                 else TempData["error"] = "Some required value was missing. Please try again.|" + nx.Message;
             }
             catch (Exception ex)
@@ -180,8 +162,19 @@ namespace ArabErp.Web.Controllers
                 TempData["success"] = "";
                 TempData["error"] = "Some error occured. Please try again.|" + ex.Message;
             }
+            FillWarehouse();
             FillCurrency();
             SupplierDropdown();
+            FillAdditionDeduction();
+
+            PendingForGRN pending = new PendingForGRN();
+            if(model.isDirectPurchaseGRN)
+               foreach(var item in model.Items)
+                   pending.DirectPurchaseRequestId = item.DirectPurchaseRequestId;
+            else 
+                foreach(var item in model.Items)
+                    pending.SupplyOrderId = item.SupplyOrderId;
+
             return View("Create", model);
         }
 
@@ -201,6 +194,7 @@ namespace ArabErp.Web.Controllers
         {
             return View();
         }
+
         public PartialViewResult PendingGrid(int supplierId = 0)
         {
             try
@@ -224,6 +218,7 @@ namespace ArabErp.Web.Controllers
                 return PartialView("_PendingDirectPurchase", new List<PendingForGRN>());
             }
         }
+
         /// <summary>
         /// All active suppliers
         /// </summary>
@@ -231,12 +226,24 @@ namespace ArabErp.Web.Controllers
         {
             ViewBag.supplierList = new SelectList(new DropdownRepository().SupplierDropdown(), "Id", "Name");
         }
+
         /// <summary>
         /// Suppliers who have pending sale orders
         /// </summary>
         public void SupplierDropdown1()
         {
             ViewBag.supplierList = new SelectList(new DropdownRepository().SupplierDropdown1(), "Id", "Name");
+        }
+
+        public void FillAdditionDeduction()
+        {
+            ViewBag.additionList = new SelectList(new DropdownRepository().AdditionDropdown(), "Id", "Name");
+            ViewBag.deductionList = new SelectList(new DropdownRepository().DeductionDropdown(), "Id", "Name");
+        }
+
+        public void FillEmployee()
+        {
+            ViewBag.employeeList = new SelectList(new DropdownRepository().EmployeeDropdown(), "Id", "Name");
         }
     }
 }

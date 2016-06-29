@@ -10,7 +10,9 @@ namespace ArabErp.Domain
     {
         public int GRNItemId { get; set; }
         public int GRNId { get; set; }
+        public int? SupplyOrderId { get; set; }
         public int? SupplyOrderItemId { get; set; }
+        public int? DirectPurchaseRequestId { get; set; }
         public int? DirectPurchaseRequestItemId { get; set; }
         public int? SlNo { get; set; }
         public string ItemName { get; set; }
@@ -18,9 +20,10 @@ namespace ArabErp.Domain
         public string ItemDescription { get; set; }
         public string Remarks { get; set; }
         public string PartNo { get; set; }
-        public decimal? PendingQuantity { get; set; }
-        public decimal? Quantity { get; set; }
-        public decimal? RejectedQuantity { get; set; }
+        public int? PendingQuantity { get; set; }
+        public int? ReceivedQuantity { get; set; }
+        public int? AcceptedQuantity { get; set; }
+        public int? RejectedQuantity { get; set; }
         public string Unit { get; set; }
         public decimal? Rate { get; set; }
         public decimal? Discount { get; set; }
