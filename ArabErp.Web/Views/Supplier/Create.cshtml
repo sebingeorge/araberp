@@ -114,7 +114,7 @@
                                 @Html.HiddenFor(m => m.SupplierId, new { @class = "form_input", autocomplete = "off" })
 
                                 <label for="code">Code</label>
-                                @Html.TextBoxFor(m => m.SupplierRefNo, new { @class = "form_input", autocomplete = "off" })
+                                @Html.TextBoxFor(m => m.SupplierRefNo, new { @class = "form_input", autocomplete = "off", @readonly = "readonly" })
                             </div>
                             <div class="part4">
                                 <label for="CategoryId">Category</label>
