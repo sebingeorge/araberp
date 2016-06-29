@@ -11,7 +11,7 @@
     <div class="row">
 
         <div class="form-head1">
-            <h4>Quotation Request Approval</h4>
+            <h4>Pending Quotation Request Approval</h4>
         </div>
 
         <div class="main-part pad1 white">
@@ -20,10 +20,10 @@
                     <table class="table table-bordered">
                         <thead>
                             <tr class="grid_heading">
-                                <th><h1>Customer</h1></th>
-                                <th><h1>Sales Executive</h1></th>
-                                <th><h1>Quotation Ref No & Date</h1></th>
-                                <th><center><h1>Select</h1></center></th>
+                                <th width="40%"><h1>Customer</h1></th>
+                                <th width="30%"><h1>Sales Executive</h1></th>
+                                <th width ="25%"><h1>Quotation Ref.No. & Date</h1></th>
+                                <th width="5%"><center><h1>Select</h1></center></th>
 
                             </tr>
                         </thead>
@@ -34,7 +34,7 @@
                                     <td class="grid-cell">@item.CustomerName</td>
                                     <td class="grid-cell">@item.SalesExecutiveName</td>
                                     <td class="grid-cell">@item.QuotationRefNo &amp; @item.QuotationDate.ToString("dd/MMM/yyyy")</td>
-                                    <td><center><button class="form-button4">@Html.ActionLink("Select", "Approve", "SalesQuotation", new { SalesQuotationId = @item.SalesQuotationId  }, null)</button></center></td>
+                                    <td><center>@Html.ActionLink("Select", "Approve", "SalesQuotation", new { SalesQuotationId = @item.SalesQuotationId }, new { @class = "form-button5", @style = "text-align:center" })</center></td>
                                 </tr>
                             </tbody>
                         }
