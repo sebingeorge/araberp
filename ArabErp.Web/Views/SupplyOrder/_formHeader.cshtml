@@ -13,14 +13,15 @@
         <label for="reqdate">Required Date</label>
         @Html.TextBoxFor(m => m.RequiredDate, Model.RequiredDate.ToString("dd/MMMM/yyyy"), new { @class = "form_input ", autocomplete = "off" })
     </div>
-</div>
-<div class="row form-group">
     <div class="col-md-4">
         <label for="SupplierId">Supplier</label>
         @Html.DropDownListFor(m => Model.SupplierId, (SelectList)ViewBag.SupplierList, "Select Supplier", new { @class = "form_input", autocomplete = "off" })
     </div>
-    <div class="col-md-4">
+    <div class="col-md-2">
         <label for="cusref">Quotation No. & Date</label>
         @Html.TextBoxFor(m => m.QuotaionNoAndDate, new { @class = "form_input" })
     </div>
+</div>
+<div class="row form-group">
+
 </div>
