@@ -5,7 +5,15 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 @{ string actionName = ViewContext.RouteData.GetRequiredString("action");
-    ViewBag.actionName = actionName;
+       if(actionName == "Create" || actionName == "CreateProject")
+       {
+           ViewBag.actionName = "Create";
+       }
+       else
+       {
+           ViewBag.actionName = actionName;
+       }
+    
 
     }
 @{
@@ -207,11 +215,12 @@
 </div>
 
         <div class="main-part pad1">
-            @using (Html.BeginForm(ViewContext.RouteData.GetRequiredString("action"), null, FormMethod.Post, new { @class = "createFrom", @id = "work_form" }))
+            @using (Html.BeginForm(null, null, FormMethod.Post, new { @class = "createFrom", @id = "work_form" }))
             {
 
                 @Html.HiddenFor(m => m.SalesQuotationId)
                 @Html.HiddenFor(m => m.Amount)
+                @Html.HiddenFor(m => m.isProjectBased)
                 <div class="row form-group ">
                     <div class="col-md-2">
                         <label for="QuotationRefNo">Quotation.No</label>
