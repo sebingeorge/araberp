@@ -11,26 +11,47 @@ namespace ArabErp.DAL
     public class ItemGroupRepository : BaseRepository
     {
         static string dataConnection = GetConnectionString("arab");
-        public int InsertItemGroup(ItemGroup objItemGroup)
+        public ItemGroup InsertItemGroup(ItemGroup objItemGroup)
         {
-
             using (IDbConnection connection = OpenConnection(dataConnection))
             {
-                string sql = @"INSERT INTO ItemGroup (ItemGroupRefNo,ItemGroupName,ItemCategoryId,CreatedBy,CreatedDate,OrganizationId) VALUES(@ItemGroupRefNo,@ItemGroupName,@ItemCategoryId,@CreatedBy,getDate(),@OrganizationId);
-            SELECT CAST(SCOPE_IDENTITY() as int)";
+                var result = new ItemGroup();
+
+                IDbTransaction trn = connection.BeginTransaction();
+
+                string sql = @"INSERT INTO ItemGroup (ItemGroupRefNo,ItemGroupName,ItemCategoryId,CreatedBy,CreatedDate,OrganizationId) 
+                               VALUES(@ItemGroupRefNo,@ItemGroupName,@ItemCategoryId,@CreatedBy,getDate(),@OrganizationId);
+                               SELECT CAST(SCOPE_IDENTITY() as int)";
 
 
-                var id = connection.Query<int>(sql, objItemGroup).Single();
-                return id;
+                try
+                {
+                    int internalid = DatabaseCommonRepository.GetInternalIDFromDatabase(connection, trn, typeof(ItemGroup).Name, "0", 1);
+                    objItemGroup.ItemGroupRefNo = "ITMGRP/" + internalid;
+
+                    int id = connection.Query<int>(sql, objItemGroup, trn).Single();
+                    objItemGroup.ItemGroupId = id;
+                    //connection.Dispose();
+                    trn.Commit();
+                }
+                catch (Exception ex)
+                {
+                    trn.Rollback();
+                    objItemGroup.ItemGroupId = 0;
+                    objItemGroup.ItemGroupRefNo = null;
+
+                }
+                return objItemGroup;
             }
         }
+
 
         public IEnumerable<ItemGroup> FillItemGroupList()
         {
 
             using (IDbConnection connection = OpenConnection(dataConnection))
             {
-                return connection.Query<ItemGroup>("SELECT ItemGroupRefNo,ItemGroupName,CategoryName FROM itemGroup INNER JOIN ItemCategory ON ItemCategoryId=itmCatId").ToList();
+                return connection.Query<ItemGroup>("SELECT ItemGroupId,ItemGroupRefNo,ItemGroupName,CategoryName FROM itemGroup IG INNER JOIN ItemCategory ON ItemCategoryId=itmCatId  where IG.isActive=1").ToList();
             }
         }
 
@@ -74,7 +95,7 @@ namespace ArabErp.DAL
             }
         }
 
-        public int UpdateItemGroup(ItemGroup objItemGroup)
+        public ItemGroup UpdateItemGroup(ItemGroup objItemGroup)
         {
             using (IDbConnection connection = OpenConnection(dataConnection))
             {
@@ -82,19 +103,68 @@ namespace ArabErp.DAL
 
 
                 var id = connection.Execute(sql, objItemGroup);
-                return id;
+                return objItemGroup;
             }
         }
 
-        public int DeleteItemGroup(Unit objItemGroup)
+        public int DeleteItemGroup(ItemGroup objItemGroup)
         {
+            int result = 0;
             using (IDbConnection connection = OpenConnection(dataConnection))
             {
-                string sql = @"Delete ItemGroup  OUTPUT DELETED.ItemGroupId WHERE ItemGroupId=@ItemGroupId";
+                string sql = @" Update ItemGroup Set isActive=0 WHERE ItemGroupId=@ItemGroupId";
+                try
+                {
 
+                    var id = connection.Execute(sql, objItemGroup);
+                    objItemGroup.ItemGroupId = id;
+                    result = 0;
 
-                var id = connection.Execute(sql, objItemGroup);
-                return id;
+                }
+                catch (SqlException ex)
+                {
+                    int err = ex.Errors.Count;
+                    if (ex.Errors.Count > 0) // Assume the interesting stuff is in the first error
+                    {
+                        switch (ex.Errors[0].Number)
+                        {
+                            case 547: // Foreign Key violation
+                                result = 1;
+                                break;
+
+                            default:
+                                result = 2;
+                                break;
+                        }
+                    }
+
+                }
+
+                return result;
+            }
+        }
+
+        public string GetRefNo(ItemGroup objItemGroup)
+        {
+
+            using (IDbConnection connection = OpenConnection(dataConnection))
+            {
+                string RefNo = "";
+                var result = new ItemGroup();
+
+                IDbTransaction trn = connection.BeginTransaction();
+
+                try
+                {
+                    int internalid = DatabaseCommonRepository.GetInternalIDFromDatabase(connection, trn, typeof(ItemGroup).Name, "0", 0);
+                    RefNo = "ITMGRP/" + internalid;
+                    trn.Commit();
+                }
+                catch (Exception ex)
+                {
+                    trn.Rollback();
+                }
+                return RefNo;
             }
         }
 

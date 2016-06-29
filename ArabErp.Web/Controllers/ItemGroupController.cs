@@ -17,18 +17,106 @@ namespace ArabErp.Web.Controllers
         }
          public ActionResult Create()
         {
-            //var repo = new ItemGroupRepository();
-            //var sym = repo.FillCategory();
-            //ViewBag.ItemCategory = new SelectList(sym.ItemCategory, "itmCatId", "CategoryName");
+            ViewBag.Title = "Create";
+            ItemGroup ItemGroup = new ItemGroup();
+            ItemGroup.ItemGroupRefNo = new ItemGroupRepository().GetRefNo(ItemGroup);
             dropdown();
-            return View();
+            return View(ItemGroup);
         }
-         public ActionResult Save(ItemGroup objItemGroup)
+         [HttpPost]
+         public ActionResult Create(ItemGroup model)
+         {
+             model.OrganizationId = 1;
+             model.CreatedDate = System.DateTime.Now;
+             model.CreatedBy = Request.ServerVariables["HTTP_X_FORWARDED_FOR"] ?? Request.ServerVariables["REMOTE_ADDR"];
+             var result = new ItemGroupRepository().InsertItemGroup(model);
+
+             if (result.ItemGroupId> 0)
+             {
+                 TempData["Success"] = "Added Successfully!";
+                 TempData["ItemGroupRefNo"] = result.ItemGroupRefNo;
+                 return RedirectToAction("Create");
+             }
+             else
+             {
+                 TempData["error"] = "Oops!!..Something Went Wrong!!";
+                 TempData["ItemGroupRefNo"] = null;
+                 return View("Create", model);
+             }
+         }
+
+         public ActionResult Edit(int Id)
          {
              dropdown();
-             new ItemGroupRepository().InsertItemGroup(objItemGroup);
-             return View("Create");
+             ViewBag.Title = "Edit";
+             ItemGroup objItemGroup = new ItemGroupRepository().GetItemGroup(Id);
+             return View("Create", objItemGroup);
          }
+
+         [HttpPost]
+         public ActionResult Edit(ItemGroup model)
+         {
+
+             model.OrganizationId = 1;
+             model.CreatedDate = System.DateTime.Now;
+             model.CreatedBy = Request.ServerVariables["HTTP_X_FORWARDED_FOR"] ?? Request.ServerVariables["REMOTE_ADDR"];
+
+
+             var result = new ItemGroupRepository().UpdateItemGroup(model);
+
+             if (result.ItemGroupId > 0)
+             {
+                 TempData["Success"] = "Updated Successfully!";
+                 TempData["ItemGroupRefNo"] = result.ItemGroupRefNo;
+                 return RedirectToAction("Create");
+             }
+             else
+             {
+                 TempData["error"] = "Oops!!..Something Went Wrong!!";
+                 TempData["ItemGroupRefNo"] = null;
+                 return View("Edit", model);
+             }
+
+         }
+
+         public ActionResult Delete(int Id)
+         {
+             dropdown();
+             ViewBag.Title = "Delete";
+             ItemGroup objItemGroup = new ItemGroupRepository().GetItemGroup(Id);
+             return View("Create", objItemGroup);
+
+         }
+
+         [HttpPost]
+         public ActionResult Delete(ItemGroup model)
+         {
+             int result = new ItemGroupRepository().DeleteItemGroup(model);
+
+             if (result == 0)
+             {
+                 TempData["Success"] = "Deleted Successfully!";
+                 TempData["ItemGroupRefNo"] = model.ItemGroupRefNo;
+                 return RedirectToAction("Create");
+             }
+             else
+             {
+                 if (result == 1)
+                 {
+                     TempData["error"] = "Sorry!! You Cannot Delete This Item Group It Is Already In Use";
+                     TempData["ItemGroupRefNo"] = null;
+                 }
+                 else
+                 {
+                     TempData["error"] = "Oops!!..Something Went Wrong!!";
+                     TempData["ItemGroupRefNo"] = null;
+                 }
+                 return RedirectToAction("Create");
+             }
+
+         }
+
+
          public void dropdown()
          {
              var repo = new ItemGroupRepository();
