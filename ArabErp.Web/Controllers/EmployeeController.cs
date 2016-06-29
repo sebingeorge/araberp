@@ -136,7 +136,7 @@ namespace ArabErp.Web.Controllers
             if (result.EmployeeId > 0)
             {
                 TempData["Success"] = "Deleted Successfully!";
-                TempData["RefNo"] = result.EmployeeRefNo;
+                TempData["RefNo"] = model.EmployeeRefNo;
                 return RedirectToAction("Create");
             }
             else
