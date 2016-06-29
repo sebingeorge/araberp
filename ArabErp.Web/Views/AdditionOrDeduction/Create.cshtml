@@ -35,7 +35,7 @@
                             </div>
                             <div class="col-md-4">
                                 <div class="part4">
-                                    <label>Name</label>
+                                    <label>Addition / Deduction</label>
                                     @Html.DropDownListFor(m => Model.AddDedType, (SelectList)ViewBag.AdditionDeduction, "Select Type", new { @class = "form_input", autocomplete = "off" })
                                     @Html.ValidationMessageFor(model => model.AddDedType, "", new { @class = "text-danger" })
                                 </div>
