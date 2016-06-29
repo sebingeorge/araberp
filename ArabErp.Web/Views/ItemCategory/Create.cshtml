@@ -1,5 +1,5 @@
 ﻿@model ArabErp.Domain.ItemCategory
-@{ ViewBag.Title = "Create";Layout = "~/Views/Shared/_Layout.cshtml";}
+@{ Layout = "~/Views/Shared/_Layout.cshtml";}
 
 <script>
         $(document).ready(function () {
@@ -24,6 +24,35 @@
             });
         })
 
+        $(document).ready(function () {
+
+
+            toastr.options = {
+                "closeButton": true,
+                "positionClass": "toast-bottom-full-width",
+                "preventDuplicates": false,
+                "onclick": null,
+
+                "timeOut": "0",
+                "extendedTimeOut": "1000",
+                "showEasing": "swing",
+                "hideEasing": "linear",
+                "showMethod": "fadeIn",
+                "hideMethod": "fadeOut"
+            }
+            if ('@TempData["success"]' != "" && '@TempData["itmCatRefNo"]' != "") {
+                toastr.success('@TempData["success"]' + '  Item Category Ref No. is : ' + '@TempData["itmCatRefNo"]');
+            }
+            else if ('@TempData["error"]' != "") {
+                toastr.error('@TempData["error"]');
+            }
+        });
+
+
+        function Exit() {
+            location.href = '@Url.Action("Create")';
+        }
+
     </script>
 
 
@@ -37,74 +66,72 @@
             <h4>Item Category</h4>
         </div>
 
-
         <div class="main-part pad1">
 
-            <div class="row">
+            @using (Html.BeginForm(null, null, FormMethod.Post, new { @class = "createFrom", @id = "ItemCategory_form" }))
+            {
+           
+       
+        <div class="row">
+
+            <div class="col-md-4">
+
+                @Html.HiddenFor(m => m.itmCatId, new { @class = "form_input", autocomplete = "off" })
+                
+                <div class="part4">
+                    <label for="itmCatRefNo">Code</label>
+                    @Html.TextBoxFor(m => m.itmCatRefNo, new { @class = "form_input form_input-half", autocomplete = "off", @readonly = "readonly" })
+                </div>
+
+                    <div class="part4">
+                        <label for="CategoryName">Name</label>
+                        @Html.TextBoxFor(m => m.CategoryName, new { @class = "form_input", autocomplete = "off" })
+                    </div>
+
+                </div>
 
 
 
                 <div class="col-md-4">
-
-                    @using (Html.BeginForm("Save", null, FormMethod.Post, new { @class = "createFrom", @id = "ItemCategory_form" }))
-                    {
-
-                        <div class="part4">
-
-                            <label for="itmCatRefNo">Code</label>
-                            @Html.TextBoxFor(m => m.itmCatRefNo, new { @class = "form_input form_input-half", autocomplete = "off" })
-
-                        </div>
-
-
-
-                        <div class="part4">
-                            <label for="CategoryName">Name</label>
-                            @Html.TextBoxFor(m => m.CategoryName, new { @class = "form_input", autocomplete = "off" })
-                        </div>
-
-
-
-
-
-
-
-
-
-                    }
-
-                    <div class="col-md-4">
-
-                    </div>
-
-
                 </div>
 
                 <div class="col-md-8">
                 </div>
 
+                <div class="col-md-12 hrpart">
 
+                    <button type="button" class="form-button right" onclick="Exit()">Exit</button>
 
-                    <div class="col-md-12 hrpart">
-                        <button type="button" class="form-button right">Exit</button>
-                        <button type="submit" class="form-button right">Save</button>
-                    </div>
+                    @if (@ViewBag.Title == "Create")
+                    {
+                    <button type="submit" class="form-button right">Save</button>
+                    }
 
+                    @if (@ViewBag.Title == "Edit")
+                    {
+                    <button type="submit" class="form-button right">Update</button>
+                    }
 
+                    @if (@ViewBag.Title == "Delete")
+                    {
+                    <button type="submit" class="form-button right">Delete</button>
+                    }
+
+                </div>
 
             </div>
 
+
+
+                  
+            }
         </div>
 
         <div class="main-list">
             @Html.Action("FillItemCategoryList")
         </div>
-        
-        @*<div class="row ">
-             <div class="col-md-12">
-                @Html.Action("FillItemCategoryList")
-            </div>
-        </div>*@
+
 
     </div>
+    
 </div>

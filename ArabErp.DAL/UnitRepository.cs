@@ -12,19 +12,41 @@ namespace ArabErp.DAL
     {
         static string dataConnection = GetConnectionString("arab");
 
-        public int InsertUnit(Unit objUnit)
+        public Unit InsertUnit(Unit objUnit)
         {
             using (IDbConnection connection = OpenConnection(dataConnection))
             {
-                string sql = @"INSERT INTO Unit (UnitRefNo,UnitName,CreatedBy,CreatedDate,OrganizationId,isActive) VALUES(@UnitRefNo,@UnitName,@CreatedBy,getDate(),@OrganizationId,1);
-            SELECT CAST(SCOPE_IDENTITY() as int)";
+                var result = new Unit();
+
+                IDbTransaction trn = connection.BeginTransaction();
+
+                string sql = @"INSERT INTO Unit (UnitRefNo,UnitName,CreatedBy,CreatedDate,OrganizationId,isActive) 
+                               VALUES(@UnitRefNo,@UnitName,@CreatedBy,getDate(),@OrganizationId,1);
+                               SELECT CAST(SCOPE_IDENTITY() as int)";
 
 
 
-                var id = connection.Query<int>(sql, objUnit).Single();
-                return id;
+                try
+                {
+                    int internalid = DatabaseCommonRepository.GetInternalIDFromDatabase(connection, trn, typeof(Unit).Name, "0", 1);
+                    objUnit.UnitRefNo = "UN/" + internalid;
+
+                    int id = connection.Query<int>(sql, objUnit, trn).Single();
+                    objUnit.UnitId = id;
+                    //connection.Dispose();
+                    trn.Commit();
+                }
+                catch (Exception ex)
+                {
+                    trn.Rollback();
+                    objUnit.UnitId = 0;
+                    objUnit.UnitRefNo = null;
+
+                }
+                return objUnit;
             }
         }
+
         public IEnumerable<Unit> FillUnitList()
         {
             using (IDbConnection connection = OpenConnection(dataConnection))
@@ -64,7 +86,7 @@ namespace ArabErp.DAL
             }
         }
 
-        public int UpdateUnit(Unit objUnit)
+        public Unit UpdateUnit(Unit objUnit)
         {
             using (IDbConnection connection = OpenConnection(dataConnection))
             {
@@ -72,21 +94,70 @@ namespace ArabErp.DAL
 
 
                 var id = connection.Execute(sql, objUnit);
-                return id;
+                return objUnit;
             }
         }
 
         public int DeleteUnit(Unit objUnit)
         {
+            int result = 0;
             using (IDbConnection connection = OpenConnection(dataConnection))
             {
-                string sql = @" Update Unit Set isActive=0 WHERE UnitId=@UnitId";
+               string sql = @" Update Unit Set isActive=0 WHERE UnitId=@UnitId";
+                try
+                {
 
+                    var id = connection.Execute(sql, objUnit);
+                    objUnit.UnitId = id;
+                    result = 0;
 
-                var id = connection.Execute(sql, objUnit);
-                return id;
+                }
+                catch (SqlException ex)
+                {
+                    int err = ex.Errors.Count;
+                    if (ex.Errors.Count > 0) // Assume the interesting stuff is in the first error
+                    {
+                        switch (ex.Errors[0].Number)
+                        {
+                            case 547: // Foreign Key violation
+                                result = 1;
+                                break;
+
+                            default:
+                                result = 2;
+                                break;
+                        }
+                    }
+
+                }
+
+                return result;
             }
         }
 
+   
+        public string GetRefNo(Unit objUnit)
+        {
+
+            using (IDbConnection connection = OpenConnection(dataConnection))
+            {
+                string RefNo = "";
+                var result = new Unit();
+
+                IDbTransaction trn = connection.BeginTransaction();
+
+                try
+                {
+                    int internalid = DatabaseCommonRepository.GetInternalIDFromDatabase(connection, trn, typeof(Unit).Name, "0", 0);
+                    RefNo = "UN/" + internalid;
+                    trn.Commit();
+                }
+                catch (Exception ex)
+                {
+                    trn.Rollback();
+                }
+                return RefNo;
+            }
+        }
     }
 }

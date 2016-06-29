@@ -212,7 +212,7 @@ namespace ArabErp.DAL
         {
             using (IDbConnection connection = OpenConnection(dataConnection))
             {
-                return connection.Query<Dropdown>("SELECT SalesQuotationId Id, QuotationRefNo Name FROM SalesQuotation WHERE ISNULL(isActive, 1) = 1 AND ISNULL(IsQuotationApproved,0)=1 ").ToList();
+                return connection.Query<Dropdown>("SELECT SalesQuotationId Id, QuotationRefNo Name FROM SalesQuotation WHERE ISNULL(isActive, 1) = 1 AND ISNULL(IsQuotationApproved,0)=1").ToList();
             }
         }
 
