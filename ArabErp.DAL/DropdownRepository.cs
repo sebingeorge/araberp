@@ -182,5 +182,27 @@ namespace ArabErp.DAL
                 return connection.Query<Dropdown>("SELECT PaymentTermsId Id, PaymentTermsName Name FROM PaymentTerms WHERE ISNULL(isActive, 1) = 1").ToList();
             }
         }
+        /// <summary>
+        /// Return all additions
+        /// </summary>
+        /// <returns></returns>
+        public List<Dropdown> AdditionDropdown()
+        {
+            using (IDbConnection connection = OpenConnection(dataConnection))
+            {
+                return connection.Query<Dropdown>("SELECT AddDedId Id, AddDedName Name FROM AdditionDeduction WHERE AddDedType = 1").ToList();
+            }
+        }
+        /// <summary>
+        /// Return all deductions
+        /// </summary>
+        /// <returns></returns>
+        public List<Dropdown> DeductionDropdown()
+        {
+            using (IDbConnection connection = OpenConnection(dataConnection))
+            {
+                return connection.Query<Dropdown>("SELECT AddDedId Id, AddDedName Name FROM AdditionDeduction WHERE AddDedType = 2").ToList();
+            }
+        }
     }
 }
