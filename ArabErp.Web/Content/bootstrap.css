@@ -6865,7 +6865,7 @@ td.visible-print {
         }
         .form-head1 h4 
         {
-            font-size:18px !important;
+            font-size:16px !important;
         }
         .form-head
    {
@@ -6920,7 +6920,7 @@ td.visible-print {
     }
 
     .lefto {
-    margin-right: 139px !important;
+    margin-right: 108px !important;
 }
 
 .body-content 
@@ -7025,6 +7025,14 @@ td.visible-print {
    width: 308px !important;
    border:none !important;
     }
+
+   .terms
+     {
+    margin-right:0 !important;
+    margin-top:0 !important;
+    width:100% !important;
+     }
+
 
 }
 
@@ -7140,6 +7148,7 @@ td.visible-print {
     {
    top: 33px !important;
     }
+
 
 
 

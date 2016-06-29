@@ -1,0 +1,74 @@
+﻿@using ArabErp.Domain
+@model IEnumerable<SalesQuotationList>
+@{
+    ViewBag.Title = "Quotation List";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<script>
+    function Revise(id)
+    {
+        var url = '@Url.Action("Revise")';
+        url = url + "?Id=" + id;
+        console.log(url);
+        window.location.href = url;
+    }
+    function Delete(id) {
+        var url = '@Url.Action("Delete")';
+        url = url + "?Id=" + id;
+        console.log(url);
+        window.location.href = url;
+    }
+    function Create()
+    {
+        var url = '@Url.Action("Create")';
+        window.location.href = url;
+    }
+</script>
+<div class="container">
+    <div class="row">
+        <div class="form-head1">
+            <h4>Sales Quotations</h4>
+        </div>
+        <div class="main-part pad1 white">
+            <div class="main-grid main-grid-top scroll1">
+                <div class=" table-responsive">
+                    <table class="table table-bordered">
+                        <thead>
+                            <tr class="grid_heading">
+                                <th><h1>Quo. Ref. No</h1></th>
+                                <th><h1>Quo. Date</h1></th>
+                                <th><h1>Customer</h1></th>
+                                <th><h1>Sales Executive</h1></th>
+                                <th><h1>Amount</h1></th>
+                                <th><h1>Revise</h1></th>
+                                <th><h1>De-Activate</h1></th>
+                            </tr>
+                        </thead>
+                        @foreach (var item in Model)
+                        {
+                            <tbody class="grid_row">
+                                <tr>
+                                    <td class="grid-cell">@item.QuotationRefNo</td>
+                                    <td class="grid-cell">@item.QuotationDate.ToString("dd-MMMM-yyyy")</td>
+                                    <td class="grid-cell">@item.CustomerName</td>
+                                    <td class="grid-cell">@item.EmployeeName</td>
+                                    <td class="grid-cell">@item.Amount</td>
+                                    <td><center><button class="form-button4" onclick="Revise(@item.SalesQuotationId)">Revise</button></center></td>
+                                    <td><center><button class="form-button4" onclick="Delete(@item.SalesQuotationId)">De-Activate</button></center></td>
+                                </tr>
+                            </tbody>
+                        }
+                    </table>
+                </div>                
+            </div>
+            <div class="row">
+                <div class="col-md-12 hrpart">
+                    <button type="button" class="form-button right" onclick="Create()">Create</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+

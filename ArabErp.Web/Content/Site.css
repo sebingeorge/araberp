@@ -654,8 +654,10 @@ section.content {
 
 .outer-login h4 
     {
-    font-size:24px;
-    color:#888484;
+    border-bottom: 1px solid #c9c9c6;
+    color: #888484;
+    font-size: 24px;
+    padding-bottom: 15px;
     }
 .main-login-user 
 {
@@ -700,7 +702,7 @@ section.content {
         height:41px;
         color: #000;
         display: block;
-       font-size: 11px;
+       font-size: 14px;
        line-height:41px;
        padding-left: 5px;
        padding-right: 5px;
@@ -748,7 +750,19 @@ section.content {
    color:#858586;
 }
 
+.terms 
+{
+    background-color: #5c5a5a;
+    border: 1px solid #fff;
+    border-radius: 4px;
+    color: #ffffff;
+    float: right;
+    height: 24px;
+    margin-right: -90px;
+    margin-top: -23px;
+    width: 80px;
 }
+
 
 
 

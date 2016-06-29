@@ -51,12 +51,12 @@
         <div class="row">
     <div class="part">
         <div class="col-md-2"><label for="PaymentTerms">Payment Terms</label></div>
-        <div class="col-md-10">
+        <div class="col-md-9 col-sm-10">
 
             @if (ViewData["action"].ToString() == "Create")
             {
                 @Html.TextBoxFor(m => m.PaymentTerms, new { @class = "form_input", autocomplete = "off" })
-    <div class="right"><button type="button" id="pymtTerms" onclick="showPaymentTerms()">...</button></div>
+                <button class="terms" type="button" id="pymtTerms" onclick="showPaymentTerms()">...</button>
             }
             else
             {
@@ -141,13 +141,13 @@
     </div>
     <div class="col-md-2">
         <div class="part4">
-            <label for="EDateArrival">EDA</label>
+            <label for="EDateArrival">Expected Date of Arrival</label>
             @Html.TextBoxFor(m => m.EDateArrival, Model.EDateArrival.ToString("dd/MMMM/yyyy"), new { @class = "form_input ", autocomplete = "off", @readonly = "readonly" })
         </div>
     </div>
     <div class="col-md-2">
         <div class="part4">
-            <label for="EDateDelivery">EDD</label>
+            <label for="EDateDelivery">Expected Date of Delivery</label>
             @Html.TextBoxFor(m => m.EDateDelivery, Model.EDateDelivery.ToString("dd/MMMM/yyyy"), new { @class = "form_input ", autocomplete = "off", @readonly = "readonly" })
         </div>
     </div>

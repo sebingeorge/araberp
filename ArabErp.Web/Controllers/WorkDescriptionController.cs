@@ -30,6 +30,21 @@ namespace ArabErp.Web.Controllers
             workdescription.WorkVsTasks.Add(new WorkVsTask());
             return View(workdescription);
         }
+
+        public ActionResult CreateProjectWorkDescription()
+        {
+
+         
+            FillItem();
+            FillJobCardTaskMaster();
+            WorkDescription workdescription = new WorkDescription();
+
+            workdescription.isProjectBased = true;
+            workdescription.WorkVsItems.Add(new WorkVsItem());
+            workdescription.WorkVsTasks.Add(new WorkVsTask());
+            return View("CreateWorkDescription",workdescription);
+        }
+
         public void FillItem()
         {
             ItemRepository Repo = new ItemRepository();

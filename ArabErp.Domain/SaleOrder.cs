@@ -10,19 +10,16 @@ namespace ArabErp.Domain
    public class SaleOrder
     {
         public int SaleOrderId { get; set; }
-     
         public string SaleOrderRefNo { get; set; }
-    
         public DateTime SaleOrderDate { get; set; }
         [Required]
+        public int SalesQuotationId { get; set; }
         public int CustomerId { get; set; }
         public string CustomerName { get; set; }
         public string CustomerAddress { get; set; }
-      
-         [Required]
+        [Required]
         public string CustomerOrderRef { get; set; }
         public int? CurrencyId { get; set; }
-
         public string CurrencyName { get; set; }
         public string SpecialRemarks { get; set; }
         public string PaymentTerms { get; set; }
@@ -43,9 +40,7 @@ namespace ArabErp.Domain
         public DateTime? CreatedDate { get; set; }
         public int? OrganizationId { get; set; }
         public int? VehicleModelId { get; set; }
-        public int SalesQuotationId { get; set; }
-
-        [Required]
+     
 
         public string SaleOrderHoldReason { get; set; }
         public DateTime SaleOrderHoldDate { get; set; }

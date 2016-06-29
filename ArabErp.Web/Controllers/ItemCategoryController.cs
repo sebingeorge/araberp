@@ -18,15 +18,105 @@ namespace ArabErp.Web.Controllers
         }
         public ActionResult Create()
         {
-            return View();
+            ViewBag.Title = "Create";
+            ItemCategory ItemCategory = new ItemCategory();
+            ItemCategory.itmCatRefNo= new ItemCategoryRepository().GetRefNo(ItemCategory);
+            return View(ItemCategory);
         }
-      
-        public ActionResult Save(ItemCategory objItemCategory)
+
+        [HttpPost]
+        public ActionResult Create(ItemCategory model)
         {
-            var repo = new ItemCategoryRepository();
-            new ItemCategoryRepository().InsertItemCategory(objItemCategory);
-            return View("Create");
+            model.OrganizationId = 1;
+            model.CreatedDate = System.DateTime.Now;
+            model.CreatedBy = Request.ServerVariables["HTTP_X_FORWARDED_FOR"] ?? Request.ServerVariables["REMOTE_ADDR"];
+            var result = new ItemCategoryRepository().InsertItemCategory(model);
+
+            if (result.itmCatId > 0)
+            {
+                TempData["Success"] = "Added Successfully!";
+                TempData["itmCatRefNo"] = result.itmCatRefNo;
+                return RedirectToAction("Create");
+            }
+            else
+            {
+                TempData["error"] = "Oops!!..Something Went Wrong!!";
+                TempData["itmCatRefNo"] = null;
+                return View("Create", model);
+            }
         }
+
+
+        public ActionResult Edit(int Id)
+        {
+            ViewBag.Title = "Edit";
+            ItemCategory objItemCategory = new ItemCategoryRepository().GetItemCategory(Id);
+            return View("Create", objItemCategory);
+        }
+
+        [HttpPost]
+        public ActionResult Edit(ItemCategory model)
+        {
+
+            model.OrganizationId = 1;
+            model.CreatedDate = System.DateTime.Now;
+            model.CreatedBy = Request.ServerVariables["HTTP_X_FORWARDED_FOR"] ?? Request.ServerVariables["REMOTE_ADDR"];
+
+
+            var result = new ItemCategoryRepository().UpdateItemCategory(model);
+
+            if (result.itmCatId > 0)
+            {
+                TempData["Success"] = "Updated Successfully!";
+                TempData["itmCatRefNo"] = result.itmCatRefNo;
+                return RedirectToAction("Create");
+            }
+            else
+            {
+                TempData["error"] = "Oops!!..Something Went Wrong!!";
+                TempData["itmCatRefNo"] = null;
+                return View("Edit", model);
+            }
+
+        }
+
+        public ActionResult Delete(int Id)
+        {
+            ViewBag.Title = "Delete";
+            ItemCategory objItemCategory = new ItemCategoryRepository().GetItemCategory(Id);
+            return View("Create", objItemCategory);
+
+        }
+
+        [HttpPost]
+        public ActionResult Delete(ItemCategory model)
+        {
+            int result = new ItemCategoryRepository().DeleteItemCategory(model);
+
+            if (result == 0)
+            {
+                TempData["Success"] = "Deleted Successfully!";
+                TempData["itmCatRefNo"] = model.itmCatRefNo;
+                return RedirectToAction("Create");
+            }
+            else
+            {
+                if (result == 1)
+                {
+                    TempData["error"] = "Sorry!! You Cannot Delete This ItemCategory. It Is Already In Use";
+                    TempData["itmCatRefNo"] = null;
+                }
+                else
+                {
+                    TempData["error"] = "Oops!!..Something Went Wrong!!";
+                    TempData["itmCatRefNo"] = null;
+                }
+                return RedirectToAction("Create");
+            }
+
+        }
+
+     
         public ActionResult FillItemCategoryList(int? page)
           {
           int itemsPerPage = 10;

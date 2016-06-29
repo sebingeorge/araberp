@@ -18,33 +18,32 @@ namespace ArabErp.Web.Controllers
         public ActionResult Create()
         {
             ViewBag.Title = "Create";
-            return View();
+            Unit Unit = new Unit();
+            Unit.UnitRefNo = new UnitRepository().GetRefNo(Unit);
+            return View(Unit);
         }
-         [HttpPost]
+        [HttpPost]
         public ActionResult Create(Unit model)
         {
-            //if (ModelState.IsValid)
-            //{
-                model.OrganizationId = 1;
-                model.CreatedDate = System.DateTime.Now;
-                model.CreatedBy = Request.ServerVariables["HTTP_X_FORWARDED_FOR"] ?? Request.ServerVariables["REMOTE_ADDR"];
+            model.OrganizationId = 1;
+            model.CreatedDate = System.DateTime.Now;
+            model.CreatedBy = Request.ServerVariables["HTTP_X_FORWARDED_FOR"] ?? Request.ServerVariables["REMOTE_ADDR"];
+            var result = new UnitRepository().InsertUnit(model);
 
-                var repo = new UnitRepository();
-                new UnitRepository().InsertUnit(model);
+            if (result.UnitId> 0)
+            {
+                TempData["Success"] = "Added Successfully!";
+                TempData["UnitRefNo"] = result.UnitRefNo;
                 return RedirectToAction("Create");
-            //}
-            //else
-            //{
-            //    return View(model);
-            //}
+            }
+            else
+            {
+                TempData["error"] = "Oops!!..Something Went Wrong!!";
+                TempData["UnitRefNo"] = null;
+                return View("Create", model);
+            }
         }
-
-        //public ActionResult Save(Unit objUnit)
-        //{
-        //    var repo = new UnitRepository();
-        //    new UnitRepository().InsertUnit(objUnit);
-        //    return View("Create");
-        //}
+    
         public ActionResult FillUnitList(int? page)
         {
             int itemsPerPage = 10;
@@ -65,24 +64,29 @@ namespace ArabErp.Web.Controllers
         [HttpPost]
         public ActionResult Edit(Unit model)
         {
-
-            if (ModelState.IsValid)
-            {
+                    
                 model.OrganizationId = 1;
                 model.CreatedDate = System.DateTime.Now;
                 model.CreatedBy = Request.ServerVariables["HTTP_X_FORWARDED_FOR"] ?? Request.ServerVariables["REMOTE_ADDR"];
 
-                var repo = new UnitRepository();
-                new UnitRepository().UpdateUnit(model);
-                return RedirectToAction("Create");
-            }
-            else
-            {
-                return View(model);
-            }
+
+                var result = new UnitRepository().UpdateUnit(model);
+
+                if (result.UnitId > 0)
+                {
+                    TempData["Success"] = "Updated Successfully!";
+                    TempData["UnitRefNo"] = result.UnitRefNo;
+                    return RedirectToAction("Create");
+                }
+                else
+                {
+                    TempData["error"] = "Oops!!..Something Went Wrong!!";
+                    TempData["UnitRefNo"] = null;
+                    return View("Edit", model);
+                }
 
         }
-
+            
         public ActionResult Delete(int Id)
         {
             ViewBag.Title = "Delete";
@@ -94,19 +98,31 @@ namespace ArabErp.Web.Controllers
         [HttpPost]
         public ActionResult Delete(Unit model)
         {
+            int result = new UnitRepository().DeleteUnit(model);
 
-            if (ModelState.IsValid)
+            if (result == 0)
             {
-                var repo = new UnitRepository();
-                new UnitRepository().DeleteUnit(model);
+                TempData["Success"] = "Deleted Successfully!";
+                TempData["UnitRefNo"] = model.UnitRefNo;
                 return RedirectToAction("Create");
             }
             else
             {
-            return View(model);
+                if (result == 1)
+                {
+                    TempData["error"] = "Sorry!! You Cannot Delete This Unit. It Is Already In Use";
+                    TempData["UnitRefNo"] = null;
+                }
+                else
+                {
+                    TempData["error"] = "Oops!!..Something Went Wrong!!";
+                    TempData["UnitRefNo"] = null;
+                }
+                return RedirectToAction("Create");
             }
 
         }
 
+   
     }
 }
