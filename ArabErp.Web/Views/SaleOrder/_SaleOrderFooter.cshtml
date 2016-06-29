@@ -56,7 +56,7 @@
             @if (ViewData["action"].ToString() == "Create")
             {
                 @Html.TextBoxFor(m => m.PaymentTerms, new { @class = "form_input", autocomplete = "off" })
-                <button class="terms" type="button" id="pymtTerms" onclick="showPaymentTerms()">Click Me</button>
+                <button class="terms" type="button" id="pymtTerms" onclick="showPaymentTerms()">...</button>
             }
             else
             {

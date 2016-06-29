@@ -32,6 +32,7 @@ namespace ArabErp.Web.Controllers
                 FillVehicle();
                 FillUnit();
                 FillEmployee();
+                FillQuotationNo();
                 //FillPaymentTerms();
             }
             catch (NullReferenceException nx)
@@ -109,12 +110,12 @@ namespace ArabErp.Web.Controllers
             var list = repo.FillCurrency();
             ViewBag.currlist = new SelectList(list, "Id", "Name");
         }
-        //public void FillPaymentTerms()
-        //{
-        //    var repo = new DropdownRepository();
-        //    var list = repo.PaymentTermsDropdown();
-        //    ViewBag.PayTermslist = new SelectList(list, "Id", "Name");
-        //}
+        public void FillQuotationNo()
+        {
+            var repo = new DropdownRepository();
+            var list = repo.QuotationNoDropdown();
+            ViewBag.QuotationNolist = new SelectList(list, "Id", "Name");
+        }
         [HttpPost]
         public ActionResult Save(SaleOrder model)
         {
