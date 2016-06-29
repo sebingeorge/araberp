@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace ArabErp.DAL
 {
-    public static class DatabaseCommonRepository
+    public static class DatabaseCommonRepository 
     {
         static string dataConnection = BaseRepository.GetConnectionString("arab");
         public static int GetInternalIDFromDatabase(IDbConnection connection, IDbTransaction trn, string DOCUMENTTYPEID, string UNIQUEID, int DOUPDATE)
@@ -65,6 +65,25 @@ namespace ArabErp.DAL
                 return "1";
             }
             catch(Exception)
+            {
+                throw;
+            }
+        }
+        public static string GetNextRefNoWithNoUpdate(string DocumentType)
+        {
+            try
+            {
+                using (IDbConnection connection = BaseRepository.OpenConnection(dataConnection))
+                {
+                    string query = @"SELECT CAST(MST_LASTSERIALNO + 1 AS VARCHAR) FROM MST_SYSTEM_DOCUMENT_SERIALNO WHERE MST_DOCUMENTID = @DocumentType";
+                    return connection.Query<string>(query, new { DocumentType = DocumentType }, null).First();
+                }
+            }
+            catch (InvalidOperationException)
+            {
+                return "1";
+            }
+            catch (Exception)
             {
                 throw;
             }
