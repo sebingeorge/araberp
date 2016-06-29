@@ -1,7 +1,7 @@
 ﻿@model IList<ArabErp.Domain.PendingForGRN>
 
 @{
-    ViewBag.Title = "Pending Direct Purchase Requests"; 
+    ViewBag.Title = "Pending Direct Purchase Requests";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
@@ -33,6 +33,10 @@
         @{TempData["success"] = TempData["error"] = "";}
     });
 
+    function PreviousList(){
+        window.location = '@Url.Action("PreviousList", "GrnWareHouse")';
+    }
+
     function formValidation() {
         var flag = false;
         $("input[type='checkbox']").each(function (i, obj) {
@@ -62,7 +66,7 @@
                 <br />
                 <div class="row">
                     <div class="col-md-12 hrpart">
-                        <button type="submit" class="form-button">@Html.ActionLink("Previous", "PreviousList", "GrnWareHouse") </button>
+                        <input type="button" class="form-button" onclick="PreviousList()" value="Previous">
 
                         <input type="submit" class="form-button right" value="Proceed" id="btnProceed" />
                     </div>

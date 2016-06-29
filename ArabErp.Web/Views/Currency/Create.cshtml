@@ -3,6 +3,47 @@
     ViewBag.Title = "Create";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
+@{string actionName = HttpContext.Current.Request.RequestContext.RouteData.Values["action"].ToString(); }
+<script type="text/javascript">
+    function Exit() {
+        location.href = '@Url.Action("Create")';
+    }
+    $(document).ready(function () {
+        var Action = '@actionName';
+        if (Action == 'Delete')
+        {
+
+            $("input[type='text'], select, textarea").attr('disabled', 'disabled');
+            //$("input[type=radio]").attr('disabled', true);
+        }
+        if (Action == 'Create') {
+            //$("#GenderId").prop("checked", true)
+        }
+
+        //$("#radio_1").prop("checked", true)
+        toastr.options = {
+            "closeButton": true,
+            "positionClass": "toast-bottom-full-width",
+            "preventDuplicates": false,
+            "onclick": null,
+
+            "timeOut": "0",
+            "extendedTimeOut": "1000",
+
+            "showEasing": "swing",
+            "hideEasing": "linear",
+            "showMethod": "fadeIn",
+            "hideMethod": "fadeOut"
+        }
+        if ('@TempData["success"]' != "" && '@TempData["RefNo"]' != "") {
+            toastr.success('@TempData["success"]' + '  Empoyee Ref No. is : ' + '@TempData["RefNo"]');
+        }
+        else if ('@TempData["error"]' != "") {
+            toastr.error('@TempData["error"]');
+        }
+
+    });
+</script>
 <div class="h4bgcolor">
 
     <div class="container body-content">
@@ -13,12 +54,15 @@
         </div>
 
         <div class="col-md-14">
-            <form role="form" action="@Url.Action("Save")" method="post">
+            @using (Html.BeginForm(null, null, FormMethod.Post, new { @class = "createFrom", @id = "Currency_form" }))
+            {
                 <div class="row main-part pad1">
                     <div class="row">
                         <div class="col-md-6">
                             <div class="part4">
                                 <label for="CurrencyRefNo">Code</label>
+                                @Html.HiddenFor(m => m.CurrencyId)
+                                @Html.HiddenFor(m => m.CurrencyRefNo)
                                 @Html.TextBoxFor(m => m.CurrencyRefNo, new { @class = "form_input form_input-half", autocomplete = "off" })
                                 @Html.ValidationMessageFor(model => model.CurrencyRefNo, "", new { @class = "text-danger" })
                             </div>
@@ -57,14 +101,21 @@
 
                         <div class="col-md-12 hrpart">
                             <button type="button" class="form-button right">Exit</button>
-                            <button type="submit" class="form-button right">Save</button>
+                            @if (actionName == "Create")
+                            { <button type="submit" class="form-button right">Save</button>}
+                            else if (actionName == "Edit")
+                            { <button type="submit" class="form-button right">Update</button>}
+                            else if(actionName=="Delete")
+                            { <button type="submit" class="form-button right">Delete</button>}
+                            
+                            
                         </div>
 
                     </div>
 
                 </div>
 
-
+            }
 
                 <div class="row">
 

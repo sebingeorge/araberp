@@ -24,28 +24,44 @@
 
   
  
-                    <div class="col-md-4">
-                          <div class="part4">
-                            <label>Name</label>
-                            @Html.EditorFor(m => m.AddDedName, new { @class = "form_input", autocomplete = "off" })
-                            @Html.ValidationMessageFor(model => model.AddDedName, "", new { @class = "text-danger" })
+                    <div class="col-md-12">
+                        <div class="row">
+                            <div class="col-md-4">
+                                <div class="part4">
+                                    <label>Name</label>
+                                    @Html.TextBoxFor(m => m.AddDedName, new { @class = "form_input", autocomplete = "off" })
+                                    @Html.ValidationMessageFor(model => model.AddDedName, "", new { @class = "text-danger" })
+                                </div>
                             </div>
-                        <div class="part4">
-                            <label>Name</label>
-                            @Html.DropDownListFor(m => Model.AddDedType, (SelectList)ViewBag.AdditionDeduction, "Select Type", new { @class = "form_input", autocomplete = "off" })
-                            @Html.ValidationMessageFor(model => model.AddDedType, "", new { @class = "text-danger" })
+                            <div class="col-md-4">
+                                <div class="part4">
+                                    <label>Addition / Deduction</label>
+                                    @Html.DropDownListFor(m => Model.AddDedType, (SelectList)ViewBag.AdditionDeduction, "Select Type", new { @class = "form_input", autocomplete = "off" })
+                                    @Html.ValidationMessageFor(model => model.AddDedType, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                            </div>
+                            </div>
                         </div>
-                        <div class="part4">
-                            <label>Remarks</label>
-                            @Html.TextAreaFor(m => m.AddDedRemarks, new { @class = "form_input form_input-h", autocomplete = "off" })
-                            @Html.ValidationMessageFor(model => model.AddDedRemarks, "", new { @class = "text-danger" })
-                        </div>
+
+                    <div class="col-md-12">
+                        <div class="row">
+                        
+
+                            <div class="col-md-12">
+                                <label>Remarks</label>
+                                <div class="part4">
+                                    @Html.TextAreaFor(m => m.AddDedRemarks, new { @class = "form_input form_input-h", autocomplete = "off" })
+                                    @Html.ValidationMessageFor(model => model.AddDedRemarks, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+                            
+                            </div>
                         </div>
 
               
-                    <div class="col-md-8">
 
-                    </div>
 
                     <div class="col-md-12 hrpart">
                         <button class="form-button right" onclick="GotoIndex()">Exit</button>
