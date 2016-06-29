@@ -604,7 +604,7 @@ background-color: #D6D5D5;
     cursor: pointer;
     height: 34px;
     left: 6px;
-    position: absolute;
+    position: /*absolute*/fixed;
     text-indent: -99999em;
     top: 22px;
     width: 44px;

@@ -490,7 +490,7 @@
     <Content Include="Views\Shared\Lockout.cshtml" />
     <Content Include="Views\Shared\_LoginPartial.cshtml" />
     <Content Include="Views\SaleOrder\Create.cshtml" />
-    <Content Include="Views\WorkShopRequest\CreateWorkShopRequest.cshtml" />
+    <Content Include="Views\WorkShopRequest\Create.cshtml" />
     <Content Include="Views\PurchaseRequest\Create.cshtml" />
     <Content Include="Views\GrnWareHouse\Create.cshtml" />
     <Content Include="Views\SupplyOrder\Create.cshtml" />
@@ -617,6 +617,9 @@
     <Content Include="Views\PaymentTerms\Create.cshtml" />
     <Content Include="Views\PaymentTerms\PaymentTermsListView.cshtml" />
     <Content Include="Views\Shared\_LayoutLogin.cshtml" />
+    <Content Include="Views\Item\_Form.cshtml" />
+    <Content Include="Views\Item\Edit.cshtml" />
+    <Content Include="Views\Item\Delete.cshtml" />
     <Content Include="Views\Supplier\Index.cshtml" />
     <Content Include="Views\Supplier\_SupplierListView.cshtml" />
     <Content Include="Views\Customer\Index.cshtml" />

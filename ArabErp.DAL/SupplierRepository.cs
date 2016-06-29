@@ -50,7 +50,7 @@ namespace ArabErp.DAL
             using (IDbConnection connection = OpenConnection(dataConnection))
             {
                 var param = new DynamicParameters();
-                return connection.Query<Dropdown>("select SupplierId Id,SupplierName Name from Supplier").ToList();
+                return connection.Query<Dropdown>("select SupplierId Id,SupplierName Name from Supplier WHERE isActive=1").ToList();
             }
         }
 
@@ -146,7 +146,7 @@ namespace ArabErp.DAL
         {
             using (IDbConnection connection = OpenConnection(dataConnection))
             {
-                string sql = @"Delete Supplier  OUTPUT DELETED.SupplierId WHERE SupplierId=@SupplierId";
+                string sql = @" UPDATE Supplier SET isActive=0 WHERE SupplierId=@SupplierId";
 
 
                 var id = connection.Execute(sql, objSupplier);
@@ -160,7 +160,7 @@ namespace ArabErp.DAL
                 //var sym = new Currency();
                 //sym = connection.Query<Currency>("select SymbolId,SymbolName from Symbol").ToList();
 
-                return connection.Query<Dropdown>("select SupCategoryId Id,SupCategoryName Name from SupplierCategory").ToList();
+                return connection.Query<Dropdown>("select SupCategoryId Id,SupCategoryName Name from SupplierCategory ").ToList();
             }
         }
         public IEnumerable<Dropdown> FillCdategoryList()

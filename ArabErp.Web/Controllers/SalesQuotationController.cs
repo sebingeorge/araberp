@@ -81,7 +81,12 @@ namespace ArabErp.Web.Controllers
 
             SalesQuotation salesquotation = repo.GetSalesQuotation(Id);
             salesquotation.CustomerAddress = sorepo.GetCusomerAddressByKey(salesquotation.CustomerId);
-
+            salesquotation.ParentId = salesquotation.SalesQuotationId;
+            salesquotation.IsQuotationApproved = false;
+            if (salesquotation.GrantParentId == null || salesquotation.GrantParentId == 0)
+            {
+                salesquotation.GrantParentId = salesquotation.ParentId;
+            }
 
             salesquotation.SalesQuotationItems = repo.GetSalesQuotationItems(Id);
             ViewBag.SubmitAction = "Revise";
@@ -92,6 +97,12 @@ namespace ArabErp.Web.Controllers
         {
             if(!ModelState.IsValid)
             {
+                //To Debug Errors
+                var errors = ModelState
+                    .Where(x => x.Value.Errors.Count > 0)
+                    .Select(x => new { x.Key, x.Value.Errors })
+                    .ToArray();
+                //End
                 FillCustomer();
                 FillCurrency();
                 FillCommissionAgent();
@@ -104,6 +115,7 @@ namespace ArabErp.Web.Controllers
             }
             else
             {
+                SalesQuotation result = new SalesQuotationRepository().ReviseSalesQuotation(model);
                 return RedirectToAction("Index");
             }
         }

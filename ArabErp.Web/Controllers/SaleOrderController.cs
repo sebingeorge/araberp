@@ -263,6 +263,7 @@ namespace ArabErp.Web.Controllers
             FillVehicle();
             var repo = new SaleOrderRepository();
             SaleOrder model = repo.GetSaleOrder(SaleOrderId ?? 0);
+            model.SaleOrderReleaseDate = DateTime.Now;
             var SOList = repo.GetSaleOrderItem(SaleOrderId ?? 0);
             model.Items = new List<SaleOrderItem>();
             foreach (var item in SOList)
