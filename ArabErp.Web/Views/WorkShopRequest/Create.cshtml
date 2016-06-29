@@ -4,21 +4,7 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 <script>
-    $(document).ready(function () {
-        //$('#work_form').bootstrapValidator({
-        //    fields: {
-        //        WorkShopRequestRefNo: {
-        //            validators: {
-        //                notEmpty: {
-        //                    message: 'Please enter request no'
-        //                }
-        //            }
-        //        },
-
-        // }
-        //});
-
-    });
+   
 
     $(document).ready(function () {
         $("#Items_0__SlNo").val('1');
@@ -69,22 +55,7 @@
         location.href = '@Url.Action("WorkShopRequestPending")';
     }
 
-    //function calculateSummary() {
-    //    var quantity = parseFloat("0");
-    //    var amount = parseFloat("0");
-    //    $('.clQuantity').each(function (i, obj) {
-    //        var a = parseFloat($("#Items_" + i + "__Quantity").val());
-    //        console.log(a);
-    //        if (isNaN(a)) {
-    //            a = parseFloat("0");
-    //        }
-
-    //        quantity = quantity + a;
-    //    });
-
-    //    $("#QtyTotal").text(quantity);
-
-    //}
+    
 </script>
 
 <div class="container">
@@ -116,7 +87,7 @@
                         <label for="CustomerName">Customer</label>
                         @Html.TextBoxFor(m => m.CustomerName, new { @class = "form_input", autocomplete = "off", @readonly = "readonly" })
                     </div>
-                    <div class="col-md-3">
+                    <div class="col-md-2">
                         <label for="CustomerOrderRef">Customer Order Ref.</label>
                         @Html.TextBoxFor(m => m.CustomerOrderRef, new { @class = "form_input", autocomplete = "off", @readonly = "readonly" })
                     </div>
@@ -140,10 +111,10 @@
                 <div class="row form-group">
                     <div class="col-md-12">
                         <div class="row">
-                            <div class="col-md-1">
-                                <label for="SplRemarks1">Spl.Remarks</label>
+                            <div class="col-md-2">
+                                <label for="SplRemarks1">Special Remarks</label>
                             </div>
-                            <div class="col-md-11">
+                            <div class="col-md-10">
                                 @Html.TextAreaFor(m => m.SpecialRemarks, new { @class = "form_input form_input-h", autocomplete = "off" })
                             </div>
                         </div>
@@ -152,6 +123,8 @@
                 <div class="row form-group">
                     <div class="col-md-2">
                         <label for="reqdate">Delivery Date</label>
+                    </div>
+                    <div class="col-md-2">
                         @Html.TextBoxFor(m => m.RequiredDate, Model.RequiredDate.ToString("dd/MMMM/yyyy"), new { @class = "form_input", autocomplete = "off", @readonly = "readonly", @required = "true" })
                     </div>
                 </div>

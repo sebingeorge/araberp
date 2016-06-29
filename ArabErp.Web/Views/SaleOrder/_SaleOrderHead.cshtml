@@ -11,17 +11,7 @@
 
 <script>
     $(document).ready(function () {
-        //var d = new Date();
-        //locale = "en-us",
-        //  month = d.toLocaleString(locale, { month: "long" });
-        //var DateString = d.getDate()+'/'+month+'/'+d.getFullYear();
-        ////var strDate = d.toLocaleDateString("DD/MMMM/YYYY");
-        ////alert(strDate);
-        ////d.getFullYear() + "/" + (d. + 1) + "/" + d.getDate();
-        //$('#SaleOrderDate').val(DateString);
-        //var date = $('#SaleOrderDate').val();
-        //alert(date);
-        //var x=FormatDate(date);
+      
         
         toastr.options = {
             "closeButton": true,
@@ -56,6 +46,18 @@
         <label for="SaleOrderDate">Date</label>
         @*@Html.TextBoxFor(m => m.SaleOrderDate, new { @class = "form_input ", autocomplete = "off", @readonly = "readonly" })*@
         @Html.TextBoxFor(m => m.SaleOrderDate, Model.SaleOrderDate.ToString("dd/MMMM/yyyy"), new { @class = "form_input ", autocomplete = "off", @readonly = "readonly"})
+    </div>
+    <div class="col-md-2">
+        <label for="selectCustomer">Quotation No.</label>
+        @if (ViewData["action"].ToString() == "Create")
+        {
+            @Html.DropDownListFor(m => Model.SalesQuotationId, (SelectList)ViewBag.QuotationNolist, "Select Quotation", new { @class = "form_input", autocomplete = "off", @onchange = "QuotationChanged(this);" })
+
+        }
+        else
+        {
+            @Html.DropDownListFor(m => Model.SalesQuotationId, (SelectList)ViewBag.QuotationNolist, "Select Quotation", new { @class = "form_input", autocomplete = "off", @onchange = "QuotationChanged(this);", @disabled = "true" })
+        }
     </div>
 </div>
 <div class="row form-group">

@@ -9,7 +9,7 @@ namespace ArabErp.Domain
    public class Customer
     {
         public int CustomerId { get; set; }
-        public int CustomerRefNo { get; set; }
+        public string CustomerRefNo { get; set; }
         public string CustomerName { get; set; }
         public string CustomerPrintName { get; set; }
         public int CategoryId { get; set; }

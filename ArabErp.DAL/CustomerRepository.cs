@@ -46,10 +46,14 @@ namespace ArabErp.DAL
             }
         }
 
-        public int InsertCustomer(Customer objCustomer)
+        public Customer InsertCustomer(Customer objCustomer)
         {
             using (IDbConnection connection = OpenConnection(dataConnection))
             {
+                var result = new Customer();
+
+                IDbTransaction trn = connection.BeginTransaction();
+
                 string sql = @"insert  into Customer(CustomerRefNo,CustomerName,CustomerPrintName,CategoryId,LeadSourceId,
                                                      CurrencyId,DoorNo,Street,State,Country,Zip,Phone,Fax,Email,ContactPerson,
                                                      CreatedBy,CreatedDate,OrganizationId) 
@@ -58,10 +62,27 @@ namespace ArabErp.DAL
                                                      @CreatedBy,@CreatedDate,@OrganizationId);
                                                      SELECT CAST(SCOPE_IDENTITY() as int)";
 
-                var id = connection.Query<int>(sql, objCustomer).Single();
-                return id;
+                try
+                {
+                    int internalid = DatabaseCommonRepository.GetInternalIDFromDatabase(connection, trn, typeof(Customer).Name, "0", 1);
+                    objCustomer.CustomerRefNo = "CUS/" + internalid;
+
+                    int id = connection.Query<int>(sql, objCustomer, trn).Single();
+                    objCustomer.CustomerId = id;
+                    //connection.Dispose();
+                    trn.Commit();
+                }
+                catch (Exception ex)
+                {
+                    trn.Rollback();
+                    objCustomer.CustomerId = 0;
+                    objCustomer.CustomerRefNo = null;
+
+                }
+                return objCustomer;
             }
         }
+
 
 
         public Customer GetCustomer(int CustomerId)
@@ -95,7 +116,7 @@ namespace ArabErp.DAL
             }
         }
 
-        public int UpdateCustomer(Customer objCustomer)
+        public Customer UpdateCustomer(Customer objCustomer)
         {
             using (IDbConnection connection = OpenConnection(dataConnection))
             {
@@ -106,21 +127,47 @@ namespace ArabErp.DAL
                                 WHERE CustomerId = @CustomerId";
 
                 var id = connection.Execute(sql, objCustomer);
-                return id;
+                return objCustomer;
             }
         }
 
         public int DeleteCustomer(Customer objCustomer)
         {
+            int result = 0;
             using (IDbConnection connection = OpenConnection(dataConnection))
             {
-                string sql = @"Delete Customer  OUTPUT DELETED.CustomerId WHERE CustomerId=@CustomerId";
+                string sql = @" UPDATE Customer SET isActive=0  WHERE CustomerId=@CustomerId";
+                try
+                {
 
+                    var id = connection.Execute(sql, objCustomer);
+                    objCustomer.CustomerId = id;
+                    result = 0;
 
-                var id = connection.Execute(sql, objCustomer);
-                return id;
+                }
+                catch (SqlException ex)
+                {
+                    int err = ex.Errors.Count;
+                    if (ex.Errors.Count > 0) // Assume the interesting stuff is in the first error
+                    {
+                        switch (ex.Errors[0].Number)
+                        {
+                            case 547: // Foreign Key violation
+                                result = 1;
+                                break;
+
+                            default:
+                                result = 2;
+                                break;
+                        }
+                    }
+
+                }
+
+                return result;
             }
         }
+
 
         /// <summary>
         /// Get the door, street, state, country address of a given customer
@@ -133,6 +180,30 @@ namespace ArabErp.DAL
             {
                 return connection.Query<string>(@"SELECT DoorNo+', '+Street+', '+[State]+', '+ISNULL(CountryName, '') FROM Customer LEFT JOIN Country ON Country = CountryId WHERE CustomerId = @customerId",
                     new { customerId = customerId }).First();
+            }
+        }
+
+        public string GetRefNo(Customer objCustomer)
+        {
+
+            using (IDbConnection connection = OpenConnection(dataConnection))
+            {
+                string RefNo = "";
+                var result = new Customer();
+
+                IDbTransaction trn = connection.BeginTransaction();
+
+                try
+                {
+                    int internalid = DatabaseCommonRepository.GetInternalIDFromDatabase(connection, trn, typeof(Customer).Name, "0", 0);
+                    RefNo = "CUS/" + internalid;
+                    trn.Commit();
+                }
+                catch (Exception ex)
+                {
+                    trn.Rollback();
+                }
+                return RefNo;
             }
         }
     }

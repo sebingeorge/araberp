@@ -48,8 +48,8 @@
             <form role="form">
                 <div class="row form-group">
                     <div class="col-md-2">
-                        <label for="PurchaseRequestNo">PRS. No.</label>
-                        @Html.TextBoxFor(m => m.PurchaseRequestNo, new { @class = "form_input", autocomplete = "off" })
+                        <label for="PurchaseRequestNo">PRS.No.</label>
+                        @Html.TextBoxFor(m => m.PurchaseRequestNo, new { @class = "form_input", autocomplete = "off", @readonly = "readonly" })
                     </div>
                     <div class="col-md-2">
                         <label for="PurchaseRequestDate">Date</label>
@@ -62,28 +62,29 @@
                         <label for="CustomerName">Customer</label>
                         @Html.TextBoxFor(m => m.CustomerName, new { @class = "form_input", autocomplete = "off", @readonly = "readonly" })
                     </div>
-                    <div class="col-md-3">
+                    <div class="col-md-2">
                         <label for="CustomerOrderRef">Customer Order Ref.</label>
                         @Html.TextBoxFor(m => m.CustomerOrderRef, new { @class = "form_input", autocomplete = "off", @readonly = "readonly" })
                     </div>
                     <div class="col-md-3">
-                        <label for="WorkShopRequestRefNo">WorkShop Request No. & Date </label>
+                        <label for="WorkShopRequestRefNo">WorkShop Reqest No. & Date </label>
                         @Html.TextBoxFor(m => m.WorkShopRequestRefNo, new { @class = "form_input", autocomplete = "off", @readonly = "readonly" })
                     </div>
                 </div>
                     <table class="table table-bordered table-hover" id="tab_logic">
                     <thead>
                         <tr class="grid_heading">
-                         <th width="20%"><h1>Material/Spares</h1></th>
+                         <th width="30%"><h1>Material/Spares</h1></th>
                             <th width="10%"><h1>Part No.</h1></th>
                             <th width="25%"><h1>Remarks</h1></th>
-                            <th width="10%" class="text-right "><h1>WR Req.Qty.</h1></th>
-                            <th width="10%" class="text-right "><h1>WR Pnd Iss.Qty.</h1></th>
+                            <th width="5%" class="text-right "><h1>WR Req.Qty.</h1></th>
+                            <th width="5%" class="text-right "><h1>WR Pnd Iss.Qty.</h1></th>
                             <th width="5%" class="text-right "><h1>Min.Stock</h1></th>
-                            <th width="8%" class="text-right "><h1>Tot.Req.</h1></th>
-                            <th width="8%" class="text-right "><h1>Curr Stock</h1></th>
-                            <th width="5%" class="text-right "><h1>PR.Qty.</h1></th>
-                            <th width="5%"><h1>UoM</h1></th>
+                            <th width="5%" class="text-right "><h1>Tot.Req.Qty.</h1></th>
+                            <th width="5%" class="text-right "><h1>Curr.Stock</h1></th>
+                            <th width="5%" class="text-right "><h1>PRS.Qty.</h1></th>
+                            @*<th width="5%" class="text-right "><h1>In Trans.Qty.</h1></th>*@
+                            <th width="5%" class="text-left "><h1>UoM</h1></th>
                         </tr>
                     </thead>
                     <tbody>
@@ -101,7 +102,7 @@
                                 <td>@Html.TextBoxFor(m => m.items[i].TotalQty, new { @class = "form_input", @style = "text-align:right", autocomplete = "off", @readonly = "readonly" })</td>
                                 <td>@Html.TextBoxFor(m => m.items[i].CurrentStock, new { @class = "form_input ", @style = "text-align:right", autocomplete = "off", @readonly = "readonly" })</td>
                                 <td>@Html.TextBoxFor(m => m.items[i].Quantity, new { @class = "form_input numbers-only", @style = "text-align:right", autocomplete = "off" })</td>
-                                <td>@Html.TextBoxFor(m => m.items[i].UnitName, new { @class = "form_input", @style = "text-align:right", autocomplete = "off", @readonly = "readonly" })</td>
+                                <td>@Html.TextBoxFor(m => m.items[i].UnitName, new { @class = "form_input", @style = "text-align:left", autocomplete = "off", @readonly = "readonly" })</td>
                             </tr>
                         }
 
@@ -109,14 +110,14 @@
                     <tfoot>
                         <tr class="grid_heading">
 
-                            <th width="10%"></th>
+                            <th width="30%"></th>
                             <th width="10%"></th>
                             <th width="25%"></th>
-                            <th width="10%"></th>
-                            <th width="10%"></th>
+                            <th width="5%"></th>
+                            <th width="5%"></th>
                             <th width="5%"></th> 
-                            <th width="8%"></th>
-                            <th width="8%"></th>
+                            <th width="5%"></th>
+                            <th width="5%"></th>
                             <th width="5%"></th>
                             <th width="5%"></th>
                            
@@ -126,19 +127,21 @@
                 <div class="row form-group">
                     <div class="col-md-12">
                         <div class="row">
-                            <div class="col-md-1">
-                                <label for="SpecialRemarks">Spl.Remarks</label>
+                            <div class="col-md-12">
+                                <label for="SpecialRemarks">Special Remarks</label>
                             </div>
-                            <div class="col-md-11">
+                            <div class="col-md-12">
                                 @Html.TextBoxFor(m => m.SpecialRemarks, new { @class = "form_input form_input-h", autocomplete = "off" })
                     </div>
                 </div>
                     </div>
                 </div>
                 <div class="row form-group">
-                    <div class="col-md-1"><label for="RequiredDate">Required Date</label></div>
-                    <div class="col-md-2">@Html.TextBoxFor(m => m.RequiredDate, new { @class = "form_input", autocomplete = "off", @readonly = "readonly" })</div>
-                        
+                    <div class="col-md-2"><label for="RequiredDate">Required Date</label>
+                    @Html.TextBoxFor(m => m.RequiredDate, Model.RequiredDate.ToString("dd/MMMM/yyyy"), new { @class = "form_input", autocomplete = "off", @readonly = "readonly" })
+                    </div>
+                    
+                    
                     
                 </div>
 

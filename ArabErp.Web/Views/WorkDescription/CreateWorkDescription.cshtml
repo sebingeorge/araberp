@@ -109,7 +109,10 @@
         <div class="main-part pad1">
             @using (Html.BeginForm("Save", null, FormMethod.Post, new { @class = "createFrom", @id = "wrkdescr_form" }))
             {
-                <div class="row">
+               @Html.HiddenFor(m => m.WorkDescriptionId)
+                @Html.HiddenFor(m => m.isProjectBased)
+
+                 <div class="row">
                     <div class="col-md-4">
                         <div class="tick-main">
                             @Html.CheckBoxFor(m => m.isNewInstallation, new { autocomplete = "off" })
@@ -132,35 +135,41 @@
 
                 </div>
 
+
                     <div class="row">
 
 
                        
 
-                        <div class="col-md-3">
-                            <div class="part4">
-                                <label for="freezer">Freezer Type</label>
-                                @Html.DropDownListFor(m => Model.FreezerUnitId, (SelectList)ViewBag.FreezerUnitlist, "Select FreezerUnit", new { @class = "form_input", autocomplete = "off" })
-                            </div>
+                        @if (Model.isProjectBased == false)
+                        {
+
+                            <div class="col-md-3">
+                                <div class="part4">
+                                    <label for="freezer">Freezer Type</label>
+                                    @Html.DropDownListFor(m => Model.FreezerUnitId, (SelectList)ViewBag.FreezerUnitlist, "Select FreezerUnit", new { @class = "form_input", autocomplete = "off" })
+                                </div>
                             </div>
 
-                        <div class="col-md-3">
-                            <div class="part4">
-                                <label for="box">Box Type</label>
-                                @Html.DropDownListFor(m => Model.BoxId, (SelectList)ViewBag.Boxlist, "Select Box", new { @class = "form_input", autocomplete = "off" })
+                            <div class="col-md-3">
+                                <div class="part4">
+                                    <label for="box">Box Type</label>
+                                    @Html.DropDownListFor(m => Model.BoxId, (SelectList)ViewBag.Boxlist, "Select Box", new { @class = "form_input", autocomplete = "off" })
 
-                              </div>
+                                </div>
                             </div>
-                        <div class="col-md-3">
-                            <div class="part4">
-                                <label for="VehicleModelId">
-                                    Vehicle Model
-                                </label>
-                                @Html.DropDownListFor(m => Model.VehicleModelId, (SelectList)ViewBag.vehiclelist, "Select Vehicle", new { @class = "form_input", autocomplete = "off" })
+                            <div class="col-md-3">
+                                <div class="part4">
+                                    <label for="VehicleModelId">
+                                        Vehicle Model
+                                    </label>
+                                    @Html.DropDownListFor(m => Model.VehicleModelId, (SelectList)ViewBag.vehiclelist, "Select Vehicle", new { @class = "form_input", autocomplete = "off" })
+                                </div>
                             </div>
-                          </div>
+                        }
+  
 
-                        <div class="col-md-3">
+                        <div class="col-md-6">
                             <div class="part4">
                                 <label for="name">Name</label>
                                 @Html.TextBoxFor(m => m.WorkDescr, new { @class = "form_input", autocomplete = "off" })

@@ -45,21 +45,28 @@
 
                 <div class="col-md-4 ">
                     <div class="row">
-                        <div class="part4 col-md-6">
+                        
                             <div class="row">
-                                <label for="code" class="label1"> Item Ref. No</label>
-                                @Html.HiddenFor(m => m.ItemRefNo)
-                                @Html.HiddenFor(m => m.ItemId)
-                                @Html.TextBoxFor(m => m.ItemRefNo, new { @class = "form_input ", autocomplete = "off", @readonly = "readonly" })
+                                <div class="col-md-6">
+                                    <div class="part4">
+                                        <label for="code" class="label1"> Item Ref. No</label>
+                                        @Html.HiddenFor(m => m.ItemRefNo)
+                                        @Html.HiddenFor(m => m.ItemId)
+                                        @Html.TextBoxFor(m => m.ItemRefNo, new { @class = "form_input ", autocomplete = "off", @readonly = "readonly" })
+                                    </div>
+                                  </div>
+
+                                <div class="col-md-6">
+                                    <div class="part4">
+                                        <label for="code" class="label1">Part No</label>
+                                        @Html.TextBoxFor(m => m.PartNo, new { @class = "form_input ", autocomplete = "off" })
+                                    </div>
+                                </div>
                                 </div>
 
-                            </div>
-                        <div class="part4   col-md-6">
-                            <div class="row">
-                                <label for="code" class="label1">Part No</label>
-                                @Html.TextBoxFor(m => m.PartNo, new { @class = "form_input ", autocomplete = "off" })
-                                </div>
-                            </div>
+
+
+                          
                     </div>
 
                     <div class="row">
@@ -82,38 +89,39 @@
                 </div>
 
                 <div class="col-md-4">
+                    <div class="rowl rowr">
+                        <div class="part4">
+                            <label for="code" class="label1">Item Category</label>
 
-                    <div class="part4">
-                        <label for="code" class="label1">Item Category</label>
+                            @Html.Action("ItemCategory")
 
-                        @Html.Action("ItemCategory")
-
-                    </div>
-                    <div class="part4">
-                        <label for="code" class="label1">Item Group</label>
-                        <div id="DivItemGroup">
-                            
-                            @Html.Action("ItemGroup", "Item", new { Code = Model.ItemCategoryId })
                         </div>
+                        <div class="part4">
+                            <label for="code" class="label1">Item Group</label>
+                            <div id="DivItemGroup">
 
-                    </div>
-                    <div class="part4">
-                        <label for="code" class="label1">Item Sub Group</label>
-                        <div id="DivItemSubGroup">
-                            @Html.Action("ItemSubGroup", "Item", new { Code = Model.ItemGroupId })
-                        </div>
+                                @Html.Action("ItemGroup", "Item", new { Code = Model.ItemCategoryId })
+                            </div>
 
-                    </div>
-                    <div class="row">
-                        <div class="part4 col-md-6">
-                            <label for="name" class="label1">Unit</label>
-                            @Html.DropDownListFor(m => Model.ItemUnitId, (SelectList)ViewBag.Unit, "Select Unit", new { @class = "form_input" })
                         </div>
-                        <div class="part4 editor-field  col-md-6">
-                            <label for="name" class="label1">Expiry Date</label>
-                            @Html.TextBoxFor(model => model.ExpiryDate, Model.ExpiryDate.ToString("dd/MMMM/yyyy"),new { @class = "form_input", placeholder = "Select Expiry Date" })
+                        <div class="part4">
+                            <label for="code" class="label1">Item Sub Group</label>
+                            <div id="DivItemSubGroup">
+                                @Html.Action("ItemSubGroup", "Item", new { Code = Model.ItemGroupId })
+                            </div>
+
                         </div>
-                    </div>
+                        <div class="row">
+                            <div class="part4 col-md-6">
+                                <label for="name" class="label1">Unit</label>
+                                @Html.DropDownListFor(m => Model.ItemUnitId, (SelectList)ViewBag.Unit, "Select Unit", new { @class = "form_input" })
+                            </div>
+                            <div class="part4 editor-field  col-md-6">
+                                <label for="name" class="label1">Expiry Date</label>
+                                @Html.TextBoxFor(model => model.ExpiryDate, Model.ExpiryDate.ToString("dd/MMMM/yyyy"), new { @class = "form_input", placeholder = "Select Expiry Date" })
+                            </div>
+                            </div>
+                        </div>
 
                 </div>
 

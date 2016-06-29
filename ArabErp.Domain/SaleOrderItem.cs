@@ -21,7 +21,8 @@ namespace ArabErp.Domain
         public string ItemName { get; set; }
         public string UnitName { get; set; }
         public int? Quantity { get; set; }
-        public int? UnitId { get; set; }
+        public int? ActualQuantity { get; set; }
+       public int? UnitId { get; set; }
         public decimal? Rate { get; set; }
         public decimal? Discount { get; set; }
         public decimal Amount { get; set; }

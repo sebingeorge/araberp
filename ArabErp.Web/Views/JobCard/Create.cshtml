@@ -107,53 +107,53 @@
                         </div>
                     </div>
                     <div class="row form-group">
-                        <div class="col-md-3">
+                        <div class="col-md-4">
                             <label for="cus">Customer</label>
                             @Html.TextBoxFor(m => m.CustomerName, new { @class = "form_input", autocomplete = "off", @disabled = "true" })
                             @Html.HiddenFor(m => m.CustomerId, new { @class = "form_input", autocomplete = "off" })
                         </div>
-                        <div class="col-md-3">
+                        <div class="col-md-2">
                             <label for="cusref">Customer Order Ref.</label>
                             @Html.TextBoxFor(m => m.CustomerOrderRef, new { @class = "form_input", autocomplete = "off", @disabled = "true" })
                         </div>
-                        <div class="col-md-3">
+                        <div class="col-md-2">
                             <label for="vechmodel">Vehicle Model</label>
                             @Html.TextBoxFor(m => m.VehicleModelName, new { @class = "form_input", autocomplete = "off", @disabled = "true" })
                         </div>
-                        <div class="col-md-3">
+                        <div class="col-md-2">
                             <label for="chasisno">Chasis No/Reg No.</label>
                             @Html.DropDownListFor(m => m.InPassId, (SelectList)ViewBag.inpassList, "Select Chassis/Reg No.", new { @class = "form_input", autocomplete = "off" })
                         </div>
+                        <div class="col-md-2">
+                            <label for="freezer">Freezer Unit</label>
+                            @Html.DropDownListFor(m => Model.FreezerUnitId, (SelectList)ViewBag.FreezerUnits, "Select Freezer Unit", new { @class = "form_input", autocomplete = "off" })
+                        </div>
                     </div>
                     <div class="row form-group">
-                        <div class="col-md-3">
+                        <div class="col-md-4">
                             <label for="wrkdes">Work Description</label>
                             @Html.TextBoxFor(m => m.WorkDescription, new { @class = "form_input", autocomplete = "off", @disabled = "true" })
                             @Html.HiddenFor(m => m.WorkDescriptionId, new { @class = "form_input", autocomplete = "off" })
                         </div>
-                        <div class="col-md-3">
+                        <div class="col-md-2">
                             <label for="wrkreqref">WorkShop Request Ref.</label>
                             @Html.TextBoxFor(m => m.WorkShopRequestRef, new { @class = "form_input", autocomplete = "off", @disabled = "true" })
                         </div>
-                        <div class="col-md-3">
+                        <div class="col-md-2">
                             <label for="goodsland">Goods Landed</label>
                             @Html.TextBoxFor(m => m.GoodsLanded, new { @class = "form_input", autocomplete = "off", @disabled = "true" })
                         </div>
-                        <div class="col-md-3">
+                        <div class="col-md-2">
                             <label for="bay">Bay</label>
                             @Html.DropDownListFor(m => Model.BayId, (SelectList)ViewBag.BayList, "Select Bay", new { @class = "form_input", autocomplete = "off" })
                         </div>
-                    </div>
-                    <div class="row form-group">
-                        <div class="col-md-3">
-                            <label for="freezer">Freezer Unit</label>
-                            @Html.DropDownListFor(m => Model.FreezerUnitId, (SelectList)ViewBag.FreezerUnits, "Select Freezer Unit", new { @class = "form_input", autocomplete = "off" })
-                        </div>
-                        <div class="col-md-3">
+
+                        <div class="col-md-2">
                             <label for="box">Box</label>
                             @Html.DropDownListFor(m => Model.BoxId, (SelectList)ViewBag.Boxes, "Select Box", new { @class = "form_input", autocomplete = "off" })
                         </div>
                     </div>
+
                     <div class=" table-responsive">
                         <table class="table table-bordered" id="tab_logic">
                             <thead>
@@ -194,8 +194,8 @@
                     <div class="row form-group">
                         <div class="col-md-12">
                             <div class="row">
-                                <div class="col-md-1"><label for="SplRemarks1">Spl.Remarks</label></div>
-                                <div class="col-md-11">@Html.TextAreaFor(m => m.SpecialRemarks, new { @class = "form_input form_input-h", autocomplete = "off" })</div>
+                                <div class="col-md-2"><label for="SplRemarks1">Special Remarks</label></div>
+                                <div class="col-md-10">@Html.TextAreaFor(m => m.SpecialRemarks, new { @class = "form_input form_input-h", autocomplete = "off" })</div>
                                     
                                    
                                 
@@ -203,7 +203,7 @@
                         </div>
                     </div>
                     <div class="row form-group">
-                        <div class="col-md-3">
+                        <div class="col-md-2">
                             <label for="reqdate">Required Date</label>
                             @Html.TextBoxFor(m => m.RequiredDate,Model.RequiredDate.ToString("dd/MMMM/yyyy"), new { @class = "form_input ", autocomplete = "off", @readonly = "readonly" })
                         </div>

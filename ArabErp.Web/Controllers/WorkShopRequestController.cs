@@ -79,7 +79,7 @@ namespace ArabErp.Web.Controllers
                 model.Items = new List<SaleOrderItem>();
                 foreach (var item in WSList)
                 {
-                    model.Items.Add(new SaleOrderItem { PartNo = item.PartNo, ItemName = item.ItemName, Quantity = item.Quantity, UnitName = item.UnitName,ItemId=item.ItemId });
+                    model.Items.Add(new SaleOrderItem { PartNo = item.PartNo, ItemName = item.ItemName, Quantity = item.Quantity, UnitName = item.UnitName, ItemId = item.ItemId, ActualQuantity=item.Quantity });
 
                 }
                 return PartialView("_DisplayWorkShopRequestData", model);

@@ -120,10 +120,10 @@
                 <div class="row form-group">
                     <div class="col-md-12">
                         <div class="row">
-                            <div class="col-md-1">
-                                <label for="SpecialRemarks">Spl.Remarks</label>
+                            <div class="col-md-2">
+                                <label for="SpecialRemarks">Special Remarks</label>
                               </div>
-                            <div class="col-md-11">
+                            <div class="col-md-10">
                                 @Html.TextAreaFor(m => m.SpecialRemarks, new { @class = "form_input form_input-h", autocomplete = "off" })
                                 @*<textarea id="SplRemarks1" autocomplete="off" class="form_input form_input-h"></textarea>*@
                             </div>
@@ -131,7 +131,7 @@
                     </div>
                 </div>
                 <div class="row form-group">
-                        <div class="col-md-1"><label for="RequiredDate">Due Date</label></div>
+                        <div class="col-md-2"><label for="RequiredDate">Due Date</label></div>
                         <div class="col-md-2">@Html.TextBoxFor(m => m.RequiredDate, Model.RequiredDate.ToString("dd/MMMM/yyyy"), new { @class = "form_input", autocomplete = "off", @required = "true" })
                         @*<input type="date" id="duedate" class="form_input" />*@</div>
                         

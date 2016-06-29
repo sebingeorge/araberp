@@ -309,6 +309,7 @@
     <Content Include="Images\log-b.jpg" />
     <Content Include="Images\log-button-h.png" />
     <Content Include="Images\log-button.png" />
+    <Content Include="Images\logol.png" />
     <Content Include="Images\menu-b.jpg" />
     <Content Include="Images\tick.png" />
     <Content Include="Images\user-left.png" />
@@ -620,6 +621,14 @@
     <Content Include="Views\Item\_Form.cshtml" />
     <Content Include="Views\Item\Edit.cshtml" />
     <Content Include="Views\Item\Delete.cshtml" />
+    <Content Include="Views\Supplier\Index.cshtml" />
+    <Content Include="Views\Supplier\_SupplierListView.cshtml" />
+    <Content Include="Views\Customer\Index.cshtml" />
+    <Content Include="Views\Customer\_CustomerListView.cshtml" />
+    <Content Include="Views\PaymentTerms\PaymentTermsPopup.cshtml" />
+    <Content Include="Views\LoginHistory\Index.cshtml" />
+    <Content Include="Views\SalesQuotation\Index.cshtml" />
+    <Content Include="Views\SalesQuotation\Revise.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
