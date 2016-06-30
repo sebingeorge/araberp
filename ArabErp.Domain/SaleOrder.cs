@@ -50,6 +50,7 @@ namespace ArabErp.Domain
         public List<SaleOrderItem> Items { get; set; }
         public bool Select { get; set; }
         public int? Ageing { get; set; }
+        public int isProjectBased { get; set; }
      
         }
     }
