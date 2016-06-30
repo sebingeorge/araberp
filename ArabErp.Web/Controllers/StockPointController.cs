@@ -16,16 +16,86 @@ namespace ArabErp.Web.Controllers
             return View();
             
         }
-        public ActionResult create()
+        public ActionResult Create()
         {
-            return View();
+            string internalid = DatabaseCommonRepository.GetNextRefNoWithNoUpdate(typeof(Stockpoint).Name);
+            return View(new Stockpoint { StockPointRefNo = "EMPC/" + internalid });
         }
-        public ActionResult Save(Stockpoint objStockpoint)
+           [HttpPost]
+        public ActionResult Create(Stockpoint model)
         {
             var repo = new StockpointRepository();
-            new StockpointRepository().InsertStockpoint(objStockpoint);
-            return View("Create");
+            var result = new StockpointRepository().InsertStockpoint(model);
+            if (result.StockPointId > 0)
+            {
+                TempData["Success"] = "Added Successfully!";
+                TempData["RefNo"] = result.StockPointRefNo;
+                return RedirectToAction("Create");
+            }
+            else
+            {
+
+                TempData["error"] = "Oops!!..Something Went Wrong!!";
+                TempData["RefNo"] = null;
+                return View("Create", model);
+            }
         }
+           public ActionResult Edit(int Id)
+           {
+
+               Stockpoint model = new StockpointRepository().GetStockpoint(Id);
+               return View("Create", model);
+           }
+           [HttpPost]
+           public ActionResult Edit(Stockpoint model)
+           {
+               model.OrganizationId = 1;
+               model.CreatedDate = System.DateTime.Now;
+               model.CreatedBy = Request.ServerVariables["HTTP_X_FORWARDED_FOR"] ?? Request.ServerVariables["REMOTE_ADDR"];
+               var result = new StockpointRepository().UpdateStockpoint(model);
+               if (result.StockPointId > 0)
+               {
+                   TempData["Success"] = "Updated Successfully!";
+                   TempData["RefNo"] = result.StockPointRefNo;
+                   return RedirectToAction("Create");
+               }
+               else
+               {
+
+                   TempData["error"] = "Oops!!..Something Went Wrong!!";
+                   TempData["RefNo"] = null;
+
+                   return View("Create", model);
+               }
+
+           }
+           public ActionResult Delete(int Id)
+           {
+
+               Stockpoint model = new StockpointRepository().GetStockpoint(Id);
+               return View("Create", model);
+           }
+           [HttpPost]
+           public ActionResult Delete(Stockpoint model)
+           {
+
+               var result = new StockpointRepository().DeleteStockpoint(model);
+
+
+               if (result.StockPointId > 0)
+               {
+                   TempData["Success"] = "Deleted Successfully!";
+                   TempData["RefNo"] = model.StockPointRefNo;
+                   return RedirectToAction("Create");
+               }
+               else
+               {
+                   TempData["error"] = "Oops!!..Something Went Wrong!!";
+                   TempData["RefNo"] = null;
+                   return View("Create", model);
+               }
+
+           }
         public ActionResult FillStockpointList(int? page)
         {
             int itemsPerPage = 10;
