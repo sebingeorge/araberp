@@ -107,9 +107,9 @@
 
 <div class="row form-group">
    
-  
-    <div class="col-md-2">
-        <label for="PurchaseBillAmount">Net Amount</label>
-        @Html.TextBoxFor(m => m.PurchaseBillAmount, new { @class = "form_input ", @style = "text-align:right", autocomplete = "off",@readonly="readyonly" })
+        <div class="col-md-11"></div>
+        <div class="col-md-1">
+            <label for="PurchaseBillAmount">Net Amt.</label>
+            @Html.TextBoxFor(m => m.PurchaseBillAmount, new { @class = "form_input ", @style = "text-align:right", autocomplete = "off", @readonly = "readyonly" })
+        </div>
     </div>
-</div>
