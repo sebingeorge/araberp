@@ -15,16 +15,7 @@ namespace ArabErp.Web.Controllers
         {
             return View();
         }
-        //public ActionResult create()
-        //{
-        //    return View();
-        //}
-        //public ActionResult Save(CustomerCategory objCustomerCategory)
-        //{
-        //    var repo = new CustomerCategoryRepository();
-        //    new CustomerCategoryRepository().InsertCustomerCategory(objCustomerCategory);
-        //    return View("Create");
-        //}
+
         public ActionResult FillCustomerCategoryList(int?page)
         {
             int itemsPerPage = 10;

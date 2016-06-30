@@ -86,7 +86,7 @@
 </script>
 <div class="container">
     <div class="row">
-        @using (Html.BeginForm("Save", null, FormMethod.Post, new { @class = "createFrom", @id = "jobcard_form" }))
+        @using (Html.BeginForm(null, null, FormMethod.Post, new { @class = "createFrom", @id = "jobcard_form" }))
         {
             <div class="form-head1">
                 <h4>Job Card</h4>
@@ -96,9 +96,10 @@
                     <div class="row form-group">
                         <div class="col-md-2">
                             <label for="jcno">Job Card No.</label>
-                            @Html.TextBoxFor(m => m.JobCardNo, new { @class = "form_input", autocomplete = "off" })
+                            @Html.TextBoxFor(m => m.JobCardNo, new { @class = "form_input", autocomplete = "off", @readonly="readonly" })
                             @Html.HiddenFor(m => m.SaleOrderId)
                             @Html.HiddenFor(m => m.SaleOrderItemId)
+                            @Html.HiddenFor(m => m.isProjectBased)
                         </div>
                         <div class="col-md-2">
                             <label for="inputDate">Date</label>
@@ -116,18 +117,21 @@
                             <label for="cusref">Customer Order Ref.</label>
                             @Html.TextBoxFor(m => m.CustomerOrderRef, new { @class = "form_input", autocomplete = "off", @disabled = "true" })
                         </div>
-                        <div class="col-md-2">
-                            <label for="vechmodel">Vehicle Model</label>
-                            @Html.TextBoxFor(m => m.VehicleModelName, new { @class = "form_input", autocomplete = "off", @disabled = "true" })
-                        </div>
-                        <div class="col-md-2">
-                            <label for="chasisno">Chasis No/Reg No.</label>
-                            @Html.DropDownListFor(m => m.InPassId, (SelectList)ViewBag.inpassList, "Select Chassis/Reg No.", new { @class = "form_input", autocomplete = "off" })
-                        </div>
-                        <div class="col-md-2">
-                            <label for="freezer">Freezer Unit</label>
-                            @Html.DropDownListFor(m => Model.FreezerUnitId, (SelectList)ViewBag.FreezerUnits, "Select Freezer Unit", new { @class = "form_input", autocomplete = "off" })
-                        </div>
+                        @if (Model.isProjectBased == 0)
+                        {
+                            <div class="col-md-2">
+                                <label for="vechmodel">Vehicle Model</label>
+                                @Html.TextBoxFor(m => m.VehicleModelName, new { @class = "form_input", autocomplete = "off", @disabled = "true" })
+                            </div>
+                            <div class="col-md-2">
+                                <label for="chasisno">Chasis No/Reg No.</label>
+                                @Html.DropDownListFor(m => m.InPassId, (SelectList)ViewBag.inpassList, "Select Chassis/Reg No.", new { @class = "form_input", autocomplete = "off" })
+                            </div>
+                            <div class="col-md-2">
+                                <label for="freezer">Freezer Unit</label>
+                                @Html.DropDownListFor(m => Model.FreezerUnitId, (SelectList)ViewBag.FreezerUnits, "Select Freezer Unit", new { @class = "form_input", autocomplete = "off" })
+                            </div>
+                        }                        
                     </div>
                     <div class="row form-group">
                         <div class="col-md-4">
@@ -143,11 +147,13 @@
                             <label for="goodsland">Goods Landed</label>
                             @Html.TextBoxFor(m => m.GoodsLanded, new { @class = "form_input", autocomplete = "off", @disabled = "true" })
                         </div>
-                        <div class="col-md-2">
-                            <label for="bay">Bay</label>
-                            @Html.DropDownListFor(m => Model.BayId, (SelectList)ViewBag.BayList, "Select Bay", new { @class = "form_input", autocomplete = "off" })
-                        </div>
-
+                        @if (Model.isProjectBased == 0)
+                        {
+                            <div class="col-md-2">
+                                <label for="bay">Bay</label>
+                                @Html.DropDownListFor(m => Model.BayId, (SelectList)ViewBag.BayList, "Select Bay", new { @class = "form_input", autocomplete = "off" })
+                            </div>
+                        }                        
                         <div class="col-md-2">
                             <label for="box">Box</label>
                             @Html.DropDownListFor(m => Model.BoxId, (SelectList)ViewBag.Boxes, "Select Box", new { @class = "form_input", autocomplete = "off" })
@@ -158,11 +164,11 @@
                         <table class="table table-bordered" id="tab_logic">
                             <thead>
                                 <tr class="grid_heading">
-                                    <td><h1>+</h1></td>
-                                    <th><h1>Task</h1></th>
-                                    <th><h1>Employee</h1></th>
-                                    <th><h1>Date</h1></th>
-                                    <th><h1>Hrs.</h1></th>
+                                    <td width="5%"><h1>+</h1></td>
+                                    <th width="35%"><h1>Task</h1></th>
+                                    <th width="35%"><h1>Employee</h1></th>
+                                    <th width="10%"><h1>Date</h1></th>
+                                    <th width="10%"><h1>Hrs.</h1></th>
                                 </tr>
                             </thead>
                             <tbody class="grid_row">

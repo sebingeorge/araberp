@@ -29,8 +29,8 @@ namespace ArabErp.DAL
                     objSaleOrder.TotalAmount = objSaleOrder.Items.Sum(m => m.Amount);
                     objSaleOrder.TotalDiscount = objSaleOrder.Items.Sum(m => m.Discount);
                     string sql = @"
-                    insert  into SaleOrder(SaleOrderRefNo,SaleOrderDate,CustomerId,CustomerOrderRef,CurrencyId,SpecialRemarks,PaymentTerms,DeliveryTerms,CommissionAgentId,CommissionAmount,CommissionPerc,TotalAmount,TotalDiscount,SalesExecutiveId,EDateArrival,EDateDelivery,CreatedBy,CreatedDate,OrganizationId,SaleOrderApproveStatus,isProjectBased)
-                    Values (@SaleOrderRefNo,@SaleOrderDate,@CustomerId,@CustomerOrderRef,@CurrencyId,@SpecialRemarks,@PaymentTerms,@DeliveryTerms,@CommissionAgentId,@CommissionAmount,@CommissionPerc,@TotalAmount,@TotalDiscount,@SalesExecutiveId,@EDateArrival,@EDateDelivery,@CreatedBy,@CreatedDate,@OrganizationId,1,@isProjectBased);
+                    insert  into SaleOrder(SaleOrderRefNo,SaleOrderDate,CustomerId,CustomerOrderRef,CurrencyId,SpecialRemarks,PaymentTerms,DeliveryTerms,CommissionAgentId,CommissionAmount,CommissionPerc,TotalAmount,TotalDiscount,SalesExecutiveId,EDateArrival,EDateDelivery,CreatedBy,CreatedDate,OrganizationId,SaleOrderApproveStatus,isProjectBased,SalesQuotationId)
+                                   Values (@SaleOrderRefNo,@SaleOrderDate,@CustomerId,@CustomerOrderRef,@CurrencyId,@SpecialRemarks,@PaymentTerms,@DeliveryTerms,@CommissionAgentId,@CommissionAmount,@CommissionPerc,@TotalAmount,@TotalDiscount,@SalesExecutiveId,@EDateArrival,@EDateDelivery,@CreatedBy,@CreatedDate,@OrganizationId,1,@isProjectBased,@SalesQuotationId);
                     SELECT CAST(SCOPE_IDENTITY() as int) SaleOrderId";
 
 
@@ -112,7 +112,7 @@ namespace ArabErp.DAL
         ///  Saleorder Pending List for  hold stock
         /// </summary>
         /// <returns></returns>
-        public IEnumerable<PendingSO> GetSaleOrdersForHold()
+        public IEnumerable<PendingSO> GetSaleOrdersForHold(int isProjectBased)
         {
             using (IDbConnection connection = OpenConnection(dataConnection))
             {
@@ -121,7 +121,8 @@ namespace ArabErp.DAL
                              WHERE SI.SaleOrderId = t.SaleOrderId
                              FOR XML PATH(''), TYPE).value('.','NVARCHAR(MAX)'),1,2,' ') WorkDescription,DATEDIFF(dd,SO.SaleOrderDate,GETDATE ()) Ageing 
                              FROM SaleOrderItem t INNER JOIN SaleOrder SO on t.SaleOrderId=SO.SaleOrderId INNER JOIN Customer C ON SO.CustomerId =C.CustomerId
-                             left join WorkShopRequest WR on SO.SaleOrderId=WR.SaleOrderId WHERE WR.SaleOrderId is null and SO.isActive=1 and SO.SaleOrderApproveStatus=1 and SO.SaleOrderHoldStatus IS NULL
+                             left join WorkShopRequest WR on SO.SaleOrderId=WR.SaleOrderId 
+                             WHERE WR.SaleOrderId is null and SO.isActive=1 and SO.SaleOrderApproveStatus=1 and SO.SaleOrderHoldStatus IS NULL AND isProjectBased = "+ isProjectBased.ToString() + @"
                              GROUP BY t.SaleOrderId,SO.CustomerOrderRef,C.CustomerName,SO.SaleOrderRefNo,SO.EDateArrival,SO.EDateDelivery,SO.CustomerId,SO.SaleOrderDate";
                 return connection.Query<PendingSO>(query);
             }
@@ -324,12 +325,12 @@ namespace ArabErp.DAL
         /// Holded sale order to Release
         /// </summary>
         /// <returns></returns>
-        public IEnumerable<PendingSO> GetSaleOrderHolded()
+        public IEnumerable<PendingSO> GetSaleOrderHolded(int isProjectBased)
         {
             using (IDbConnection connection = OpenConnection(dataConnection))
             {
                 string query = "Select S.SaleOrderId,SaleOrderRefNo, SaleOrderDate, C.CustomerName, S.CustomerOrderRef,S.SaleOrderHoldDate,S.SaleOrderHoldReason";
-                query += " from SaleOrder S inner join Customer C on S.CustomerId = C.CustomerId where S.SaleOrderHoldStatus ='H'";
+                query += " from SaleOrder S inner join Customer C on S.CustomerId = C.CustomerId where S.SaleOrderHoldStatus ='H' and S.isProjectBased = " + isProjectBased.ToString();
                 return connection.Query<PendingSO>(query);
             }
         }
@@ -342,7 +343,7 @@ namespace ArabErp.DAL
 
             }
         }
-        public IEnumerable<SaleOrder> GetSaleOrdersForClosing()
+        public IEnumerable<SaleOrder> GetSaleOrdersForClosing(int isProjectBased)
         {
             using (IDbConnection connection = OpenConnection(dataConnection))
             {
@@ -352,6 +353,7 @@ namespace ArabErp.DAL
                 sql += " inner join SalesInvoice SI on SO.SaleOrderId = SI.SaleOrderId";
                 sql += " inner join Customer C on C.CustomerId = SO.CustomerId";
                 sql += " where SO.SaleOrderClosed is null";
+                sql += " AND SO.isProjectBased = " + isProjectBased.ToString();
 
                 return connection.Query<SaleOrder>(sql);
             }
@@ -362,6 +364,14 @@ namespace ArabErp.DAL
             {
                 string sql = "exec SaleOrderClosing " + Id.ToString();
                 connection.Query(sql);
+            }
+        }
+        public int IsProjectOrVehicle(int SaleOrderItemId)
+        {
+            using (IDbConnection connection = OpenConnection(dataConnection))
+            {
+                string sql = "select S.isProjectBased from SaleOrder S inner join SaleOrderItem I on S.SaleOrderId = I.SaleOrderId where I.SaleOrderItemId = " + SaleOrderItemId.ToString();
+                return connection.Query<int>(sql).Single();
             }
         }
     }

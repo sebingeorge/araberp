@@ -104,11 +104,11 @@
         <thead>
             <tr class="grid_heading">
 
-                <th width="15%"><h1>GRN No. & Date</h1></th>
-                <th width="25%"><h1>Material/Spares</h1></th>
+                <th width="11%"><h1>GRN No. & Date</h1></th>
+                <th width="24%"><h1>Material/Spares</h1></th>
                 <th width="5%" class="text-right "><h1>Qty.</h1></th>
                 <th width="5%" class="text-left"><h1>UoM</h1></th>
-                <th width="5%" class="text-right "><h1>Rate</h1></th>
+                <th width="10%" class="text-right "><h1>Rate</h1></th>
                 <th width="10%" class="text-right "><h1>Discount</h1></th>
                 <th width="10%" class="text-right "><h1>Ass.Value</h1></th>
                 <th width="5%" class="text-right "><h1>Tax%</h1></th>
@@ -132,8 +132,8 @@
                         </td>
                         <td>@Html.TextBoxFor(m => m.Items[i].Quantity, new { @class = "form_input", autocomplete = "off", @style ="text-align:right",@readonly = "readonly" })</td>
                         <td>@Html.TextBoxFor(m => m.Items[i].UnitName, new { @class = "form_input", @style = "text-align:left", autocomplete = "off", @readonly = "readonly" })</td>
-                        <td>@Html.TextBoxFor(m => m.Items[i].Rate, new { @class = "form_input numbers-only", @style = "text-align:right", autocomplete = "off", @onchange = "TextChanged(" + i + ");" })</td>
-                        <td>@Html.TextBoxFor(m => m.Items[i].Discount, new { @class = "form_input numbers-only", @style = "text-align:right", autocomplete = "off", @onchange = "TextChanged(" + i + ");" })</td>
+                        <td>@Html.TextBoxFor(m => m.Items[i].Rate, new { @class = "form_input numbers-only", @style = "text-align:right", autocomplete = "off", @readonly = "readonly", @onchange = "TextChanged(" + i + ");" })</td>
+                        <td>@Html.TextBoxFor(m => m.Items[i].Discount, new { @class = "form_input numbers-only", @style = "text-align:right", autocomplete = "off", @readonly = "readonly", @onchange = "TextChanged(" + i + ");" })</td>
                         <td>@Html.TextBoxFor(m => m.Items[i].Amount, new { @class = "form_input clAmount", @style = "text-align:right", autocomplete = "off", @readonly = "readonly" })</td>
                         <td>@Html.TextBoxFor(m => m.Items[i].TaxPercentage, new { @class = "form_input numbers-only", @style = "text-align:right", autocomplete = "off", @onchange = "TextChanged(" + i + ");" })</td>
                         <td>@Html.TextBoxFor(m => m.Items[i].TaxAmount, new { @class = "form_input", @style = "text-align:right", autocomplete = "off", @readonly = "readonly" })</td>
@@ -146,8 +146,8 @@
     <tfoot>
             <tr class="grid_heading">
 
-                <th width="15%" class="text-center"><h1></h1></th>
-                <th width="25%" class="text-center"><h1></h1></th>
+                <th width="11%" class="text-center"><h1></h1></th>
+                <th width="24%" class="text-center"><h1></h1></th>
                 <th width="5%" class="text-center"><h1></h1></th>
                 <th width="5%" class="text-center"><h1></h1></th>
                 <th width="10%" class="text-center"><h1></h1></th>
