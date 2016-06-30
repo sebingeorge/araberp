@@ -356,10 +356,10 @@ namespace ArabErp.Web.Controllers
             new SaleOrderRepository().UpdateSOApproval(SaleOrderId ?? 0);
             return RedirectToAction("PendingSaleOrderApproval");
         }
-        public ActionResult PendingSaleOrderHold(int? page)
+        public ActionResult PendingSaleOrderHold(int? page, int? isProjectBased)
         {
             var repo = new SaleOrderRepository();
-            IEnumerable<PendingSO> pendingSO = repo.GetSaleOrdersForHold();
+            IEnumerable<PendingSO> pendingSO = repo.GetSaleOrdersForHold(isProjectBased ?? 0);
             return View(pendingSO);
         }
         public ActionResult Hold(int? SaleOrderId)
@@ -393,10 +393,10 @@ namespace ArabErp.Web.Controllers
             new SaleOrderRepository().UpdateSOHold(Id ?? 0, hreason, HoldDate);
             return RedirectToAction("PendingSaleOrderHold");
         }
-        public ActionResult PendingSaleOrderRelease()
+        public ActionResult PendingSaleOrderRelease(int? isProjectBased)
         {
             var repo = new SaleOrderRepository();
-            IEnumerable<PendingSO> pendingSO = repo.GetSaleOrderHolded();
+            IEnumerable<PendingSO> pendingSO = repo.GetSaleOrderHolded(isProjectBased ?? 0);
             return View(pendingSO);
         }
         public ActionResult Release(int? SaleOrderId)
@@ -428,10 +428,10 @@ namespace ArabErp.Web.Controllers
             new SaleOrderRepository().UpdateSORelease(Id ?? 0, ReleaseDate);
             return RedirectToAction("PendingSaleOrderRelease");
         }
-        public ActionResult Closing()
+        public ActionResult Closing(int? isProjectBased)
         {
             SaleOrderRepository repo = new SaleOrderRepository();
-            return View(repo.GetSaleOrdersForClosing());
+            return View(repo.GetSaleOrdersForClosing(isProjectBased ?? 0));
         }
         public ActionResult Close(int? SaleOrderId)
         {
