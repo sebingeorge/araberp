@@ -46,6 +46,7 @@ namespace ArabErp.Web.Controllers
                 TempData["error"] = "Some error occurred. Please try again.|" + ex.Message;
             }
             SaleOrder saleOrder = new SaleOrder();
+            saleOrder.isProjectBased = 0;
             saleOrder.Items = new List<SaleOrderItem>();
             saleOrder.Items.Add(new SaleOrderItem());
             saleOrder.SaleOrderRefNo = "SAL/" + internalId;
@@ -53,6 +54,43 @@ namespace ArabErp.Web.Controllers
             saleOrder.EDateArrival = DateTime.Now;
             saleOrder.EDateDelivery = DateTime.Now;
             return View(saleOrder);
+        }
+        public ActionResult CreateProject()
+        {
+
+            string internalId = "";
+            try
+            {
+                internalId = DatabaseCommonRepository.GetNextReferenceNo(typeof(SaleOrder).Name);
+                FillCustomer();
+                FillCurrency();
+                FillCommissionAgent();
+                FillWrkDesc();
+                FillVehicle();
+                FillUnit();
+                FillEmployee();
+                FillQuotationNo();
+                //FillPaymentTerms();
+            }
+            catch (NullReferenceException nx)
+            {
+                TempData["success"] = "";
+                TempData["error"] = "Some required data was missing. Please try again.|" + nx.Message;
+            }
+            catch (Exception ex)
+            {
+                TempData["success"] = "";
+                TempData["error"] = "Some error occurred. Please try again.|" + ex.Message;
+            }
+            SaleOrder saleOrder = new SaleOrder();
+            saleOrder.isProjectBased = 1;
+            saleOrder.Items = new List<SaleOrderItem>();
+            saleOrder.Items.Add(new SaleOrderItem());
+            saleOrder.SaleOrderRefNo = "SAL/" + internalId;
+            saleOrder.SaleOrderDate = DateTime.Now;
+            saleOrder.EDateArrival = DateTime.Now;
+            saleOrder.EDateDelivery = DateTime.Now;
+            return View("Create",saleOrder);
         }
         public ActionResult DisplaySOList()
         {
@@ -117,7 +155,7 @@ namespace ArabErp.Web.Controllers
             ViewBag.QuotationNolist = new SelectList(list, "Id", "Name");
         }
         [HttpPost]
-        public ActionResult Save(SaleOrder model)
+        public ActionResult Create(SaleOrder model)
         {
             try
             {
@@ -159,6 +197,50 @@ namespace ArabErp.Web.Controllers
             FillEmployee();
 
             return View(model);
+        }
+        [HttpPost]
+        public ActionResult CreateProject(SaleOrder model)
+        {
+            try
+            {
+                model.OrganizationId = 1;
+                model.CreatedDate = System.DateTime.Now;
+                model.CreatedBy = Request.ServerVariables["HTTP_X_FORWARDED_FOR"] ?? Request.ServerVariables["REMOTE_ADDR"];
+                string id = new SaleOrderRepository().InsertSaleOrder(model);
+                if (id.Split('|')[0] != "0")
+                {
+                    TempData["success"] = "Saved successfully. Sale Order Reference No. is " + id.Split('|')[1];
+                    TempData["error"] = "";
+                    return RedirectToAction("Create");
+                }
+                else
+                {
+                    throw new Exception();
+                }
+            }
+            catch (SqlException sx)
+            {
+                TempData["error"] = "Some error occured while connecting to database. Please check your network connection and try again.|" + sx.Message;
+            }
+            catch (NullReferenceException nx)
+            {
+                TempData["error"] = "Some required data was missing. Please try again.|" + nx.Message;
+            }
+            catch (Exception ex)
+            {
+                TempData["error"] = "Some error occured. Please try again.|" + ex.Message;
+            }
+            TempData["success"] = "";
+            FillWrkDesc();
+            FillUnit();
+            FillCustomer();
+            //FillPaymentTerms();
+            FillVehicle();
+            FillCurrency();
+            FillCommissionAgent();
+            FillEmployee();
+
+            return View("Create",model);
         }
         [HttpGet]
         public JsonResult GetCustomerDetailsByKey(int cusKey)
