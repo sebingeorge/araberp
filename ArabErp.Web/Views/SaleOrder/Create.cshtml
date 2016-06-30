@@ -204,12 +204,12 @@
                 </div>
               
                 <div class="main-part pad1">
-                    @using (Html.BeginForm("Save", null, FormMethod.Post, new { @class = "createFrom", @id = "saleorder_form", onsubmit = "return Validation()" }))
+                    @using (Html.BeginForm(null, null, FormMethod.Post, new { @class = "createFrom", @id = "saleorder_form", onsubmit = "return Validation()" }))
         {
-                     
-@Html.Partial("_SaleOrderHead",Model)
-@Html.Partial("_DisplaySOList", Model)
-@Html.Partial("_SaleOrderFooter", Model)
+                     @Html.HiddenFor(m=>m.isProjectBased)
+                    @Html.Partial("_SaleOrderHead",Model)
+                    @Html.Partial("_DisplaySOList", Model)
+                    @Html.Partial("_SaleOrderFooter", Model)
                 <div class="row">
         <div class="col-md-12 hrpart">
             <button type="button" class="form-button right" onclick="Exit()">Exit</button>
