@@ -1,5 +1,10 @@
 ﻿@model ArabErp.Domain.SaleOrder
-
+@{ string actionName = ViewContext.RouteData.GetRequiredString("action");
+ if (actionName == "CreateProject")
+ {
+     actionName = "Create";
+ }
+}
 <script>
     $(document).ready(function () {
         $("#CommissionPerc").keyup(function () {
@@ -35,7 +40,7 @@
         <div class="col-md-2"><label for="SpecialRemarks">Special Remarks</label></div>
 
         <div class="col-md-10">
-            @if (ViewData["action"].ToString() == "Create")
+            @if (actionName == "Create")
             {
                 @Html.TextAreaFor(m => m.SpecialRemarks, new { @class = "form_input form_input-h", autocomplete = "off" })
             }
@@ -53,7 +58,7 @@
         <div class="col-md-2"><label for="PaymentTerms">Payment Terms</label></div>
         <div class="col-md-9 col-sm-10">
 
-            @if (ViewData["action"].ToString() == "Create")
+            @if (actionName == "Create")
             {
                 @Html.TextBoxFor(m => m.PaymentTerms, new { @class = "form_input", autocomplete = "off" })
                 <button class="terms" type="button" id="pymtTerms" onclick="showPaymentTerms()">...</button>
@@ -71,7 +76,7 @@
             <div class="part">
                 <div class="col-md-2"><label for="DeliveryTerms">Delivery Terms</label></div>
                 <div class="col-md-10">
-                    @if (ViewData["action"].ToString() == "Create")
+                    @if (actionName == "Create")
                     {
                         @Html.TextBoxFor(m => m.DeliveryTerms, new { @class = "form_input", autocomplete = "off" })
                     }
@@ -86,7 +91,7 @@
     <div class="col-md-2">
         <div class="part4">
             <label for="cmagent">Commission Agent</label>
-            @if (ViewData["action"].ToString() == "Create")
+            @if (actionName == "Create")
             {
                 @Html.DropDownListFor(m => Model.CommissionAgentId, (SelectList)ViewBag.commissionagentlist, "Select Commission Agent", new { @class = "form_input", autocomplete = "off" })
 
@@ -100,7 +105,7 @@
     <div class="col-md-2">
         <div class="part4">
             <label for="CommissionPerc">Commission %</label>
-            @if (ViewData["action"].ToString() == "Create")
+            @if (actionName == "Create")
             {
                 @Html.TextBoxFor(m => m.CommissionPerc, new { @class = "form_input form_input-half1 text-right numbers-only", autocomplete = "off" })
 
@@ -114,7 +119,7 @@
     <div class="col-md-2">
         <div class="part4">
             <label for="CommissionAmount">Commission Amt.</label>
-            @if (ViewData["action"].ToString() == "Create")
+            @if (actionName == "Create")
             {
                 @Html.TextBoxFor(m => m.CommissionAmount, new { @class = "form_input form_input-half2  text-right numbers-only", autocomplete = "off", @readonly = "readonly" })
 
@@ -128,7 +133,7 @@
     <div class="col-md-2">
         <div class="part4">
             <label for="selectorder">Order Taken By</label>
-            @if (ViewData["action"].ToString() == "Create")
+            @if (actionName == "Create")
             {
                 @Html.DropDownListFor(m => Model.SalesExecutiveId, (SelectList)ViewBag.employeelist, "Select Order Taken By", new { @class = "form_input", autocomplete = "off" })
             }
@@ -153,7 +158,7 @@
     </div>
 </div>
 
-        @if (ViewData["action"].ToString() == "Hold")
+        @if (actionName == "Hold")
         {
         <div class="row">
             <div class="col-md-10">
@@ -173,7 +178,7 @@
             </div>
            </div>
         }
-        @if (ViewData["action"].ToString() == "Release")
+        @if (actionName == "Release")
         {
             <div class="row">
                 <div class="col-md-8">

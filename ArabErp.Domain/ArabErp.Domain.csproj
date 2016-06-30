@@ -65,6 +65,8 @@
     <Compile Include="ItemSubGroup.cs" />
     <Compile Include="JobCard.cs" />
     <Compile Include="JobCardCompletion.cs" />
+    <Compile Include="JobCardDailyActivity.cs" />
+    <Compile Include="JobCardDailyActivityTask.cs" />
     <Compile Include="JobCardQC.cs" />
     <Compile Include="JobCardQCParam.cs" />
     <Compile Include="JobCardTask.cs" />

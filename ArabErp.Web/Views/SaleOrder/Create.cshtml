@@ -1,7 +1,11 @@
 ﻿@model  ArabErp.Domain.SaleOrder
 @{ ViewBag.Title = "Create SaleOrder"; Layout = "~/Views/Shared/_Layout.cshtml"; }
 @{ string actionName = ViewContext.RouteData.GetRequiredString("action");
-   ViewData["action"] = actionName;}
+   if (actionName == "CreateProject")
+   {
+       actionName = "Create";
+   }
+}
 
 <script>
 
@@ -46,24 +50,30 @@
            
             url:  "@Url.Action("GetQuationDetailsByKey","SaleOrder")",
             data: { quoKey: quoId },
-        cache: false,
-        type: "GET",
-        timeout: 10000,
-        dataType: "json",
-        success: function (result) {
-            if (result.Success) { // this sets the value from the response
-                $('#CustomerId').val(result.CustomerId);
-                $('#CurrencyName').val(result.CurrencyName);
-                $("#CustomerAddress").val(result.Address);
-                $("#PaymentTerms").val(result.PaymentTerms);
-                $("#SpecialRemarks").val(result.SpecialRemarks);
-            } else {
-                $('#SomeOtherHtmlTextBox').val("Failed");
+            cache: false,
+            type: "GET",
+            timeout: 10000,
+            dataType: "json",
+            success: function (result) {
+                if (result.Success) { // this sets the value from the response
+                    $('#CustomerId').val(result.CustomerId);
+                    $('#CurrencyName').val(result.CurrencyName);
+                    $("#CustomerAddress").val(result.Address);
+                    $("#PaymentTerms").val(result.PaymentTerms);
+                    $("#SpecialRemarks").val(result.SpecialRemarks);
+                    LoadWorkDescriptions(quoId)
+                } else {
+                    $('#SomeOtherHtmlTextBox').val("Failed");
+                }
             }
-        }
-    });
-  
-
+        });
+    }
+    function LoadWorkDescriptions(quoId)
+    {
+        var isProjectBased = $("#isProjectBased").val();
+        var url = '@Url.Action("RefreshDisplaySOList")';
+        url = url + "?quoId=" + quoId + "&isProjectBased=" + isProjectBased;
+        $("#wordescriptions").load(url);
     }
      function Validation() {
         var count = 0;
@@ -213,22 +223,22 @@
               
                 <div class="main-part pad1">
                     @using (Html.BeginForm(null, null, FormMethod.Post, new { @class = "createFrom", @id = "saleorder_form", onsubmit = "return Validation()" }))
-        {
-                     @Html.HiddenFor(m=>m.isProjectBased)
-                    @Html.Partial("_SaleOrderHead",Model)
-                    @Html.Partial("_DisplaySOList", Model)
-                    @Html.Partial("_SaleOrderFooter", Model)
-                <div class="row">
-        <div class="col-md-12 hrpart">
-            <button type="button" class="form-button right" onclick="Exit()">Exit</button>
-            <button type="submit" class="form-button right">Save</button>
+                    {
+                        @Html.HiddenFor(m=>m.isProjectBased)
+                        @Html.Partial("_SaleOrderHead",Model)
+                        <div id="wordescriptions">
+                            @Html.Partial("_DisplaySOList", Model)
+                        </div>                    
+                        @Html.Partial("_SaleOrderFooter", Model)
+                        <div class="row">
+                            <div class="col-md-12 hrpart">
+                                <button type="button" class="form-button right" onclick="Exit()">Exit</button>
+                                <button type="submit" class="form-button right">Save</button>
+                            </div>
+                        </div>      
+                    }
+                </div>
         </div>
-
-    </div>            
-
-        }
-    </div>
-</div>
     </div>
 
 

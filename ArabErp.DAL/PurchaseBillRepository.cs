@@ -35,41 +35,41 @@ namespace ArabErp.DAL
         /// </summary>
         /// <param name="model"></param>
         /// <returns></returns>
-        public int InsertPurchaseBill(PurchaseBill model)
+        public string InsertPurchaseBill(PurchaseBill objPurchaseBill)
         {
             using (IDbConnection connection = OpenConnection(dataConnection))
             {
-
                 IDbTransaction trn = connection.BeginTransaction();
                 try
                 {
-                    int id = 0;
+                    int internalId = DatabaseCommonRepository.GetInternalIDFromDatabase(connection, trn, typeof(PurchaseBill).Name, "0", 1);
+
+                    objPurchaseBill.PurchaseBillRefNo = "PRB/" + internalId;
 
                     string sql = @"insert  into PurchaseBill(PurchaseBillRefNo,SupplierId,PurchaseBillDate,Remarks,PurchaseBillAmount
-                             ,AdditionRemarks,DeductionRemarks,Deduction,Addition,CreatedBy,CreatedDate,OrganizationId)
-                              Values (@PurchaseBillRefNo,@SupplierId,@PurchaseBillDate,@Remarks,@PurchaseBillAmount
-                             ,@AdditionRemarks,@DeductionRemarks,@Deduction,@Addition,@CreatedBy,@CreatedDate,@OrganizationId);
-                             SELECT CAST(SCOPE_IDENTITY() as int)";
+                                ,AdditionId,DeductionId,Deduction,Addition,CreatedBy,CreatedDate,OrganizationId)
+                                 Values (@PurchaseBillRefNo,@SupplierId,@PurchaseBillDate,@Remarks,@PurchaseBillAmount
+                                ,@AdditionId,@DeductionId,@Deduction,@Addition,@CreatedBy,@CreatedDate,@OrganizationId);
+                                SELECT CAST(SCOPE_IDENTITY() as int)";
 
-                    id = connection.Query<int>(sql, model, trn).Single();
-                    var purchasebillitemrepo = new PurchaseBillItemRepository();
-                    foreach (var item in model.Items)
+
+                    var id = connection.Query<int>(sql, objPurchaseBill, trn).Single();
+
+                    foreach (PurchaseBillItem item in objPurchaseBill.Items)
                     {
                         item.PurchaseBillId = id;
                         new PurchaseBillItemRepository().InsertPurchaseBillItem(item, connection, trn);
-
                     }
 
                     trn.Commit();
-                    return id;
+
+                    return id + "|PRB/" + internalId;
                 }
                 catch (Exception)
                 {
                     trn.Rollback();
-                    return 0;
+                    return "0";
                 }
-
-
             }
         }
         public PurchaseBill GetPurchaseBill(int PurchaseBillId)

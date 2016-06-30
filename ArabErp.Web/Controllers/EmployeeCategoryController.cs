@@ -15,17 +15,30 @@ namespace ArabErp.Web.Controllers
         {
             return View();
         }
-        public ActionResult create()
+        public ActionResult Create()
         {
-            return View();
+            string internalid = DatabaseCommonRepository.GetNextRefNoWithNoUpdate(typeof(EmployeeCategory).Name);
+            return View(new EmployeeCategory { EmpCategoryRefNo = "EMPC/" + internalid });
         }
 
-      
-        public ActionResult Save(EmployeeCategory objEmployeeCategory)
+        [HttpPost]
+        public ActionResult Create(EmployeeCategory model)
         {
             var repo = new EmployeeCategoryRepository();
-            new EmployeeCategoryRepository().InsertEmployeeCategory(objEmployeeCategory);
-            return View("Create");
+            var result = new EmployeeCategoryRepository().InsertEmployeeCategory(model);
+            if (result.EmpCategoryId > 0)
+            {
+                TempData["Success"] = "Added Successfully!";
+                TempData["RefNo"] = result.EmpCategoryRefNo;
+                return RedirectToAction("Create");
+            }
+            else
+            {
+               
+                TempData["error"] = "Oops!!..Something Went Wrong!!";
+                TempData["RefNo"] = null;
+                return View("Create", model);
+            }
         }
         public ActionResult FillEmployeeCategoryList(int?page)
         {
@@ -34,6 +47,62 @@ namespace ArabErp.Web.Controllers
             var repo = new EmployeeCategoryRepository();
             var List = repo.FillEmployeeCategoryList();
             return PartialView("EmployeeCategoryListView", List);
+        }
+        public ActionResult Edit(int Id)
+        {
+           
+            EmployeeCategory model = new EmployeeCategoryRepository().GetEmployeeCategory(Id);
+            return View("Create", model);
+        }
+        [HttpPost]
+        public ActionResult Edit(EmployeeCategory model)
+        {
+            model.OrganizationId = 1;
+            model.CreatedDate = System.DateTime.Now;
+            model.CreatedBy = Request.ServerVariables["HTTP_X_FORWARDED_FOR"] ?? Request.ServerVariables["REMOTE_ADDR"];
+            var result = new EmployeeCategoryRepository().UpdateEmployeeCategory(model);
+            if (result.EmpCategoryId > 0)
+            {
+                TempData["Success"] = "Updated Successfully!";
+                TempData["RefNo"] = result.EmpCategoryRefNo;
+                return RedirectToAction("Create");
+            }
+            else
+            {
+               
+                TempData["error"] = "Oops!!..Something Went Wrong!!";
+                TempData["RefNo"] = null;
+
+                return View("Create", model);
+            }
+
+        }
+        public ActionResult Delete(int Id)
+        {
+
+            EmployeeCategory model = new EmployeeCategoryRepository().GetEmployeeCategory(Id);
+            return View("Create", model);
+        }
+        [HttpPost]
+        public ActionResult Delete(EmployeeCategory model)
+        {
+
+            var result = new EmployeeCategoryRepository().DeleteEmployeeCategory(model);
+
+
+            if (result.EmpCategoryId > 0)
+            {
+                TempData["Success"] = "Deleted Successfully!";
+                TempData["RefNo"] = model.EmpCategoryRefNo;
+                return RedirectToAction("Create");
+            }
+            else
+            {
+                TempData["error"] = "Oops!!..Something Went Wrong!!";
+                TempData["RefNo"] = null;
+                return View("Create", model);
+            }
+
         }
     }
 }
