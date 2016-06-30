@@ -72,7 +72,7 @@
 <div class="row form-group">
     <div class="col-md-12">
         <div class="row">
-            <div class="part">
+            <div class="part4">
                 <div class="col-md-2"><label for="Remarks">Special Remarks</label></div>
                 <div class="col-md-10">
                     @Html.TextAreaFor(m => m.Remarks, new { @class = "form_input form_input-h", autocomplete = "off" })
@@ -84,32 +84,38 @@
 
 
 <div class="row form-group">
-    <div class="col-md-5">
-        <label for="AdditionRemarks">Addition</label>
-        @Html.DropDownListFor(m => m.AdditionId, (SelectList)ViewBag.additionList, "Select Addition", new { @class = "form_input" })
-      
-    </div>
-    <div class="col-md-1">
-        <label for="Addition">Add.Amt.</label>
-        @Html.TextBoxFor(m => m.Addition, new { @class = "form_input numbers-only", @style = "text-align:right", autocomplete = "off", @Value = "0.00" })
-    </div>
+    <div class="col-md-5 col-sm-10 col-xs-8">
+        <div class="part4">
+            <label for="AdditionRemarks">Addition</label>
+            @Html.DropDownListFor(m => m.AdditionId, (SelectList)ViewBag.additionList, "Select Addition", new { @class = "form_input" })
+        </div>
+        </div>
+    <div class="col-md-1 col-xs-4 col-sm-2">
+        <div class="part4">
+            <label for="Addition">Add.Amt.</label>
+            @Html.TextBoxFor(m => m.Addition, new { @class = "form_input numbers-only", @style = "text-align:right", autocomplete = "off", @Value = "0.00" })
+        </div>
+        </div>
 
-    <div class="col-md-5">
-        <label for="DeductionRemarks">Deduction</label>
-        @Html.DropDownListFor(m => m.DeductionId, (SelectList)ViewBag.deductionList, "Select Deduction", new { @class = "form_input" })
-     
-    </div>
-    <div class="col-md-1">
-        <label for="Deduction">Ded.Amt.</label>
-        @Html.TextBoxFor(m => m.Deduction, new { @class = "form_input numbers-only", @style = "text-align:right", autocomplete = "off", @Value = "0.00" })
-    </div>
+    <div class="col-md-5 col-sm-10 col-xs-8">
+        <div class="part4">
+            <label for="DeductionRemarks">Deduction</label>
+            @Html.DropDownListFor(m => m.DeductionId, (SelectList)ViewBag.deductionList, "Select Deduction", new { @class = "form_input" })
+        </div>
+        </div>
+    <div class="col-md-1 col-xs-4 col-sm-2">
+        <div class="part4">
+            <label for="Deduction">Ded.Amt.</label>
+            @Html.TextBoxFor(m => m.Deduction, new { @class = "form_input numbers-only", @style = "text-align:right", autocomplete = "off", @Value = "0.00" })
+        </div>
+        </div>
 </div>
 
 <div class="row form-group">
    
-  
-    <div class="col-md-2">
-        <label for="PurchaseBillAmount">Net Amount</label>
-        @Html.TextBoxFor(m => m.PurchaseBillAmount, new { @class = "form_input ", @style = "text-align:right", autocomplete = "off",@readonly="readyonly" })
+        <div class="col-md-11"></div>
+    <div class="col-sm-offset-10 col-sm-2 col-md-push-1 col-md-1">
+        <label for="PurchaseBillAmount">Net Amt.</label>
+        @Html.TextBoxFor(m => m.PurchaseBillAmount, new { @class = "form_input ", @style = "text-align:right", autocomplete = "off", @readonly = "readyonly" })
     </div>
-</div>
+    </div>

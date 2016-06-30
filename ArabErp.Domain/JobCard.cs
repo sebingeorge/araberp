@@ -35,5 +35,6 @@ namespace ArabErp.Domain
         public int isProjectBased { get; set; }
         public List<JobCardTask> JobCardTasks { get; set; }
 
+
     }
 }

@@ -57,7 +57,7 @@
         <div class="main-part pad1">
             <div class="row">
 
-               @using (Html.BeginForm(null, null, FormMethod.Post, new { @class = "createFrom", @id = "Employee_form" }))
+               @using (Html.BeginForm(null, null, FormMethod.Post, new { @class = "createFrom", @id = "ItemSubGroup_form", }))
                {
                     <div class="col-md-4">
                         <div class="part4">
@@ -65,7 +65,7 @@
                             @Html.HiddenFor(m => m.ItemSubGroupId)
                             @Html.HiddenFor(m => m.ItemSubGroupRefNo)
 
-                            @Html.TextBoxFor(m => m.ItemSubGroupRefNo, new { @class = "form_input form_input-half", auocomplete = "off" })
+                            @Html.TextBoxFor(m => m.ItemSubGroupRefNo, new { @class = "form_input form_input-half", auocomplete = "off" ,@readonly = "readonly" })
                         </div>
                         <div class="part4">
 
