@@ -32,6 +32,7 @@ namespace ArabErp.Domain
         public int OrganizationId { get; set; }
         public int JodCardCompleteStatus { get; set; }
         public DateTime JodCardCompletedDate { get; set; }
+        public int isProjectBased { get; set; }
         public List<JobCardTask> JobCardTasks { get; set; }
         public int isProjectBased { get; set; }
 

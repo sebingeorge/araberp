@@ -4,15 +4,15 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 <script>
-        function OnSupplierChange(supplierId) {
+    function OnSupplierChange(supplierId) {
 
-            var id;
-            if ($(supplierId).val() != null && $(supplierId).val() != '') id = $(supplierId).val();
-            else id = 0;
-            var url = '@Url.Action("pendingGRN")';
-            url += "?supplierId=" + id;
-            $("#table-body").load(url);
-        }
+        var id;
+        if ($(supplierId).val() != null && $(supplierId).val() != '') id = $(supplierId).val();
+        else id = 0;
+        var url = '@Url.Action("pendingGRN")';
+        url += "?supplierId=" + id;
+        $("#table-body").load(url);
+    }
 
     function Validation() {
         var count = 0;
@@ -22,20 +22,48 @@
             return false;
         }
         $(".clcheck").each(function (i, obj) {
-          
+
 
             if ($(obj).is(':checked')){
 
                 count = count + 1;
-               
+
             }
-           
+
         });
         if (count == 0) {
             alert("Select Atleast One Record...");
             return false;
         }
     }
+
+    $(document).ready(function () {
+        toastr.options = {
+            "closeButton": true,
+            "positionClass": "toast-bottom-full-width",
+            "preventDuplicates": false,
+            "onclick": null,
+            "showDuration": "300",
+            "hideDuration": "1000",
+            "timeOut": "5000",
+            "extendedTimeOut": "0",
+            "showEasing": "swing",
+            "hideEasing": "linear",
+            "showMethod": "fadeIn",
+            "hideMethod": "fadeOut"
+        }
+        if ('@TempData["success"]' != '') {
+            toastr.success('@TempData["success"]');
+        }
+        else if ('@TempData["error"]' != '') {
+            toastr.error('@TempData["error"]'.split('|')[0]);
+            console.log('@TempData["error"]'.split('|')[1]);
+        }
+        @{ TempData["success"] = TempData["error"] = ""; }
+    })
+
+
+
 
     </script>
 

@@ -86,7 +86,7 @@
 <div class="row form-group">
     <div class="col-md-5">
         <label for="AdditionRemarks">Addition</label>
-        @Html.DropDownListFor(m => m.AdditionId, (SelectList)ViewBag.additionList, "Select addition", new { @class = "form_input" })
+        @Html.DropDownListFor(m => m.AdditionId, (SelectList)ViewBag.additionList, "Select Addition", new { @class = "form_input" })
       
     </div>
     <div class="col-md-1">
@@ -96,7 +96,7 @@
 
     <div class="col-md-5">
         <label for="DeductionRemarks">Deduction</label>
-        @Html.DropDownListFor(m => m.DeductionId, (SelectList)ViewBag.deductionList, "Select deduction", new { @class = "form_input" })
+        @Html.DropDownListFor(m => m.DeductionId, (SelectList)ViewBag.deductionList, "Select Deduction", new { @class = "form_input" })
      
     </div>
     <div class="col-md-1">
@@ -107,9 +107,9 @@
 
 <div class="row form-group">
    
-  
-    <div class="col-md-2">
-        <label for="PurchaseBillAmount">Net Amount</label>
-        @Html.TextBoxFor(m => m.PurchaseBillAmount, new { @class = "form_input ", @style = "text-align:right", autocomplete = "off",@readonly="readyonly" })
+        <div class="col-md-11"></div>
+        <div class="col-md-1">
+            <label for="PurchaseBillAmount">Net Amt.</label>
+            @Html.TextBoxFor(m => m.PurchaseBillAmount, new { @class = "form_input ", @style = "text-align:right", autocomplete = "off", @readonly = "readyonly" })
+        </div>
     </div>
-</div>
