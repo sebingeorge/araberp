@@ -16,17 +16,6 @@ namespace ArabErp.Web.Controllers
             return View();
         }
 
-        public ActionResult create()
-        {
-            return View();
-        }
-
-        public ActionResult Save(JobCardTaskMaster objTask)
-        {
-            var repo = new TaskRepository();
-            new TaskRepository().InsertTask(objTask);
-            return View("Create");
-        }
 
         public ActionResult FillTaskList(int?page)
         {
@@ -36,5 +25,105 @@ namespace ArabErp.Web.Controllers
             var List = repo.FillTaskList();
             return PartialView("TaskListView", List);
         }
+
+        public ActionResult Create()
+        {
+            ViewBag.Title = "Create";
+            JobCardTaskMaster JobCardTaskMaster = new JobCardTaskMaster();
+            JobCardTaskMaster.JobCardTaskRefNo = new TaskRepository().GetRefNo(JobCardTaskMaster);
+            return View(JobCardTaskMaster);
+        }
+        [HttpPost]
+        public ActionResult Create(JobCardTaskMaster model)
+        {
+            model.OrganizationId = 1;
+            model.CreatedDate = System.DateTime.Now;
+            model.CreatedBy = Request.ServerVariables["HTTP_X_FORWARDED_FOR"] ?? Request.ServerVariables["REMOTE_ADDR"];
+            var result = new TaskRepository().InsertTask(model);
+
+            if (result.JobCardTaskMasterId > 0)
+            {
+                TempData["Success"] = "Added Successfully!";
+                TempData["JobCardTaskRefNo"] = result.JobCardTaskRefNo;
+                return RedirectToAction("Create");
+            }
+            else
+            {
+                TempData["error"] = "Oops!!..Something Went Wrong!!";
+                TempData["JobCardTaskRefNo"] = null;
+                return View("Create", model);
+            }
+        }
+
+        public ActionResult Edit(int Id)
+        {
+            ViewBag.Title = "Edit";
+            JobCardTaskMaster objTask = new TaskRepository().GetTask(Id);
+            return View("Create", objTask);
+        }
+
+        [HttpPost]
+        public ActionResult Edit(JobCardTaskMaster model)
+        {
+
+            model.OrganizationId = 1;
+            model.CreatedDate = System.DateTime.Now;
+            model.CreatedBy = Request.ServerVariables["HTTP_X_FORWARDED_FOR"] ?? Request.ServerVariables["REMOTE_ADDR"];
+
+
+            var result = new TaskRepository().UpdateTask(model);
+
+            if (result.JobCardTaskMasterId > 0)
+            {
+                TempData["Success"] = "Updated Successfully!";
+                TempData["JobCardTaskRefNo"] = result.JobCardTaskRefNo;
+                return RedirectToAction("Create");
+            }
+            else
+            {
+                TempData["error"] = "Oops!!..Something Went Wrong!!";
+                TempData["JobCardTaskRefNo"] = null;
+                return View("Edit", model);
+            }
+
+        }
+
+        public ActionResult Delete(int Id)
+        {
+            ViewBag.Title = "Delete";
+            JobCardTaskMaster objTask = new TaskRepository().GetTask(Id);
+            return View("Create", objTask);
+
+        }
+
+        [HttpPost]
+        public ActionResult Delete(JobCardTaskMaster model)
+        {
+            int result = new TaskRepository().DeleteTask(model);
+
+            if (result == 0)
+            {
+                TempData["Success"] = "Deleted Successfully!";
+                TempData["JobCardTaskRefNo"] = model.JobCardTaskRefNo;
+                return RedirectToAction("Create");
+            }
+            else
+            {
+                if (result == 1)
+                {
+                    TempData["error"] = "Sorry!! You Cannot Delete This Task. It Is Already In Use";
+                    TempData["JobCardTaskRefNo"] = null;
+                }
+                else
+                {
+                    TempData["error"] = "Oops!!..Something Went Wrong!!";
+                    TempData["JobCardTaskRefNo"] = null;
+                }
+                return RedirectToAction("Create");
+            }
+
+        }
+
+
     }
 }
