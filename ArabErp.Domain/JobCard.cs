@@ -34,7 +34,7 @@ namespace ArabErp.Domain
         public DateTime JodCardCompletedDate { get; set; }
         public int isProjectBased { get; set; }
         public List<JobCardTask> JobCardTasks { get; set; }
-        public int isProjectBased { get; set; }
+
 
     }
 }
