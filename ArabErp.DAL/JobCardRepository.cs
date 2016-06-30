@@ -32,7 +32,7 @@ namespace ArabErp
         //    }
 
         //}
-        public IEnumerable<PendingSO> GetPendingSO()
+        public IEnumerable<PendingSO> GetPendingSO(int isProjectBased)
         {
             using (IDbConnection connection = OpenConnection(dataConnection))
             {
@@ -45,7 +45,7 @@ namespace ArabErp
                 query += " left join JobCard J on J.SaleOrderItemId = SI.SaleOrderItemId ";
                 query += " where J.SaleOrderItemId is null and S.SaleOrderApproveStatus = 1 ";
                 query += " and S.isActive=1 and S.SaleOrderApproveStatus=1 and S.SaleOrderHoldStatus IS NULL ";
-                query += " ";
+                query += " and S.isProjectBased = " + isProjectBased.ToString();
                 return connection.Query<PendingSO>(query);
             }
         }
