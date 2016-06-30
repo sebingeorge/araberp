@@ -12,18 +12,33 @@ namespace ArabErp.DAL
     {
         static string dataConnection = GetConnectionString("arab");
 
-        public int InsertItemSubGroup(ItemSubGroup objItemSubGroup)
+        public ItemSubGroup InsertItemSubGroup(ItemSubGroup model)
         {
-
             using (IDbConnection connection = OpenConnection(dataConnection))
             {
+                IDbTransaction trn = connection.BeginTransaction();
                 string sql = @"INSERT INTO ItemSubGroup (ItemSubGroupRefNo,ItemSubGroupName,ItemGroupId,
             CreatedBy,CreatedDate,OrganizationId) VALUES(@ItemSubGroupRefNo,@ItemSubGroupName,@ItemGroupId,@CreatedBy,getDate(),@OrganizationId);
             SELECT CAST(SCOPE_IDENTITY() as int)";
 
+                int id = 0;
 
-                var id = connection.Query<int>(sql, objItemSubGroup).Single();
-                return id;
+                try
+                {
+                    int internalid = DatabaseCommonRepository.GetInternalIDFromDatabase(connection, trn, typeof(Employee).Name, "0", 1);
+                    model.ItemSubGroupRefNo = "ISG/" + internalid;
+                    id = connection.Query<int>(sql, model, trn).Single();
+                    model.ItemSubGroupId = id;
+
+                    trn.Commit();
+                }
+                catch (Exception e)
+                {
+                    trn.Rollback();
+                    model.ItemSubGroupId = 0;
+                    model.ItemSubGroupRefNo = null;
+                }
+                return model;
             }
         }
 
@@ -32,7 +47,7 @@ namespace ArabErp.DAL
 
             using (IDbConnection connection = OpenConnection(dataConnection))
             {
-                return connection.Query<ItemSubGroup>("SELECT ItemSubGroupRefNo,ItemSubGroupName,ItemGroupName FROM ItemSubGroup S INNER JOIN ItemGroup G ON G.ItemGroupId=S.ItemGroupId").ToList();
+                return connection.Query<ItemSubGroup>("SELECT ItemSubGroupId,ItemSubGroupRefNo,ItemSubGroupName,ItemGroupName FROM ItemSubGroup S INNER JOIN ItemGroup G ON G.ItemGroupId=S.ItemGroupId where S.isActive=1").ToList();
             }
         }
 
@@ -73,18 +88,26 @@ namespace ArabErp.DAL
             }
         }
 
-        public int UpdateItemSubGroup(ItemSubGroup objItemSubGroup)
+        public ItemSubGroup UpdateItemSubGroup(ItemSubGroup model)
         {
             using (IDbConnection connection = OpenConnection(dataConnection))
             {
-                string sql = @"Update ItemSubGroup Set ItemSubGroupRefNo=@ItemSubGroupRefNo,ItemSubGroupName=@ItemSubGroupName OUTPUT INSERTED.ItemSubGroupId WHERE ItemSubGroupId=@ItemSubGroupId";
+                string sql = @"UPDATE ItemSubGroup SET ItemSubGroupName = @ItemSubGroupName,ItemGroupId = @ItemGroupId, CreatedBy = @CreatedBy,CreatedDate= GETDATE(),OrganizationId = @OrganizationId OUTPUT INSERTED.ItemSubGroupId  WHERE ItemSubGroupId = @ItemSubGroupId";
 
+                try
+                {
+                    var id = connection.Execute(sql, model);
+                    model.ItemSubGroupId = id;
+                }
+                catch (Exception ex)
+                {
 
-                var id = connection.Execute(sql, objItemSubGroup);
-                return id;
+                    model.ItemSubGroupId = 0;
+
+                }
+                return model;
             }
         }
-
         public int DeleteItemSubGroup(Unit objItemSubGroup)
         {
             using (IDbConnection connection = OpenConnection(dataConnection))
@@ -94,6 +117,26 @@ namespace ArabErp.DAL
 
                 var id = connection.Execute(sql, objItemSubGroup);
                 return id;
+            }
+        }
+        public ItemSubGroup DeleteItemSubGroup(ItemSubGroup model)
+        {
+            using (IDbConnection connection = OpenConnection(dataConnection))
+            {
+                string sql = @"UPDATE ItemSubGroup SET isActive = 0 OUTPUT INSERTED.ItemSubGroupId  WHERE ItemSubGroupId = @ItemSubGroupId";
+
+                try
+                {
+                    var id = connection.Execute(sql, model);
+                    model.ItemSubGroupId = id;
+                }
+                catch (Exception ex)
+                {
+
+                    model.ItemSubGroupId = 0;
+
+                }
+                return model;
             }
         }
 
