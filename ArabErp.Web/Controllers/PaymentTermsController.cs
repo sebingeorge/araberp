@@ -17,17 +17,7 @@ namespace ArabErp.Web.Controllers
             return View();
         }
 
-        public ActionResult Create()
-        {
-            return View();
-        }
-
-        public ActionResult Save(PaymentTerms objPaymentTerms)
-        {
-            var repo = new PaymentTermsRepository();
-            new PaymentTermsRepository().InsertPaymentTerms(objPaymentTerms);
-            return View("Create");
-        }
+      
         public ActionResult FillPaymentTermsList(int? page)
         {
             int itemsPerPage = 10;
@@ -43,5 +33,102 @@ namespace ArabErp.Web.Controllers
             return View(List);
         }
 
+        public ActionResult Create()
+        {
+            ViewBag.Title = "Create";
+            PaymentTerms PaymentTerms = new PaymentTerms();
+            PaymentTerms.PaymentTermsRefNo = new PaymentTermsRepository().GetRefNo(PaymentTerms);
+            return View(PaymentTerms);
+        }
+        [HttpPost]
+        public ActionResult Create(PaymentTerms model)
+        {
+            model.OrganizationId = 1;
+            model.CreatedDate = System.DateTime.Now;
+            model.CreatedBy = Request.ServerVariables["HTTP_X_FORWARDED_FOR"] ?? Request.ServerVariables["REMOTE_ADDR"];
+            var result = new PaymentTermsRepository().InsertPaymentTerms(model);
+
+            if (result.PaymentTermsId > 0)
+            {
+                TempData["Success"] = "Added Successfully!";
+                TempData["PaymentTermsRefNo"] = result.PaymentTermsRefNo;
+                return RedirectToAction("Create");
+            }
+            else
+            {
+                TempData["error"] = "Oops!!..Something Went Wrong!!";
+                TempData["PaymentTermsRefNo"] = null;
+                return View("Create", model);
+            }
+        }
+
+        public ActionResult Edit(int Id)
+        {
+            ViewBag.Title = "Edit";
+            PaymentTerms objPaymentTerms = new PaymentTermsRepository().GetPaymentTerms(Id);
+            return View("Create", objPaymentTerms);
+        }
+
+        [HttpPost]
+        public ActionResult Edit(PaymentTerms model)
+        {
+
+            model.OrganizationId = 1;
+            model.CreatedDate = System.DateTime.Now;
+            model.CreatedBy = Request.ServerVariables["HTTP_X_FORWARDED_FOR"] ?? Request.ServerVariables["REMOTE_ADDR"];
+
+
+            var result = new PaymentTermsRepository().UpdatePaymentTerms(model);
+
+            if (result.PaymentTermsId > 0)
+            {
+                TempData["Success"] = "Updated Successfully!";
+                TempData["PaymentTermsRefNo"] = result.PaymentTermsRefNo;
+                return RedirectToAction("Create");
+            }
+            else
+            {
+                TempData["error"] = "Oops!!..Something Went Wrong!!";
+                TempData["PaymentTermsRefNo"] = null;
+                return View("Edit", model);
+            }
+
+        }
+
+        public ActionResult Delete(int Id)
+        {
+            ViewBag.Title = "Delete";
+            PaymentTerms objPaymentTerms = new PaymentTermsRepository().GetPaymentTerms(Id);
+            return View("Create", objPaymentTerms);
+
+        }
+
+        [HttpPost]
+        public ActionResult Delete(PaymentTerms model)
+        {
+            int result = new PaymentTermsRepository().DeletePaymentTerms(model);
+
+            if (result == 0)
+            {
+                TempData["Success"] = "Deleted Successfully!";
+                TempData["PaymentTermsRefNo"] = model.PaymentTermsRefNo;
+                return RedirectToAction("Create");
+            }
+            else
+            {
+                if (result == 1)
+                {
+                    TempData["error"] = "Sorry!! You Cannot Delete This Payment Terms. It Is Already In Use";
+                    TempData["PaymentTermsRefNo"] = null;
+                }
+                else
+                {
+                    TempData["error"] = "Oops!!..Something Went Wrong!!";
+                    TempData["PaymentTermsRefNo"] = null;
+                }
+                return RedirectToAction("Create");
+            }
+
+        }
     }
 }
