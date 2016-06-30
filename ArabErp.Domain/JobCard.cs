@@ -34,7 +34,14 @@ namespace ArabErp.Domain
         public DateTime JodCardCompletedDate { get; set; }
         public int isProjectBased { get; set; }
         public List<JobCardTask> JobCardTasks { get; set; }
-
-
+    }
+    public class JobCardForDailyActivity
+    {
+        public int JobCardId { get; set; }
+        public string JobCardNo { get; set; }
+        public DateTime JobCardDate { get; set; }
+        public string EmployeeName { get; set; }
+        public string WorkDescr { get; set; }
+        public DateTime RequiredDate { get; set; }
     }
 }
