@@ -137,7 +137,7 @@
                             @Html.TextBoxFor(m => m.ExpenseDate, String.Format("{0:dd/MMMM/yyyy}", Model.ExpenseDate), new { @class = "form_input ", autocomplete = "off", @readonly = "readonly" })
                         </div>
                         <div class="col-md-2">
-                            <label>Against Sale Ord. / Job Card</label>
+                            <label>Sale Ord. / Job Card</label>
                             @Html.HiddenFor(m=>m.SoOrJc)
                             <select class="form_input" id="JcOrSo" onchange="OptionChanged()">
                                 <option>Select</option>
@@ -148,11 +148,11 @@
                         <div class="col-md-2">
                             <label id="againstId"></label>
                             @Html.DropDownListFor(m => Model.SaleOrderId, (SelectList)ViewBag.SO, "Select S.O", new { @class = "form_input divHidden", autocomplete = "off" })
-                            @Html.DropDownListFor(m => Model.JobCardId, (SelectList)ViewBag.JC, "Select J.C", new { @class = "form_input divHidden", autocomplete = "off" })
+                            @Html.DropDownListFor(m => Model.JobCardId, (SelectList)ViewBag.JC, "Select J.C", new { @class = "form_input divHidden against", autocomplete = "off" })
                         </div>
                     </div>
                     <div class="row form-group">
-                        <div class="col-md-3">
+                        <div class="col-md-6">
                             <label for="cus">Supplier</label>
                             @Html.DropDownListFor(m => Model.SupplierId, (SelectList)ViewBag.SupplierList, "Select Supplier", new { @class = "form_input", autocomplete = "off" })
                         </div>
@@ -174,9 +174,9 @@
                             <thead>
                                 <tr class="grid_heading">
                                     <td><h1>Expense Head</h1></td>
-                                    <td width="10%"><h1>Quantity</h1></td>
-                                    <td width="10%"><h1>Rate</h1></td>
-                                    <td width="10%"><h1>Amount</h1></td>
+                                    <td width="10%"><h1 class="text-right">Quantity</h1></td>
+                                    <td width="10%"><h1 class="text-right">Rate</h1></td>
+                                    <td width="10%"><h1 class="text-right">Amount</h1></td>
                                 </tr>
                             </thead>
                             <tbody class="grid_row">
@@ -188,13 +188,13 @@
                                             @Html.DropDownListFor(m => Model.ExpenseBillItem[row].AddDedId, (SelectList)ViewBag.Additions, "Select Addition", new { @class = "form_input", autocomplete = "off" })
                                         </td>
                                         <td>
-                                            @Html.TextBoxFor(m => m.ExpenseBillItem[row].ExpenseItemQty, new { @class = "form_input", autocomplete = "off", @onchange = "AdditionAmtChanged("+ row +")" })
+                                            @Html.TextBoxFor(m => m.ExpenseBillItem[row].ExpenseItemQty, new { @class = "form_input text-right", autocomplete = "off", @onchange = "AdditionAmtChanged(" + row + ")" })
                                         </td>
                                         <td>
-                                            @Html.TextBoxFor(m => m.ExpenseBillItem[row].ExpenseItemRate, new { @class = "form_input", autocomplete = "off", @onchange = "AdditionAmtChanged(" + row + ")" })
+                                            @Html.TextBoxFor(m => m.ExpenseBillItem[row].ExpenseItemRate, new { @class = "form_input text-right", autocomplete = "off", @onchange = "AdditionAmtChanged(" + row + ")" })
                                         </td>
                                         <td>
-                                            @Html.TextBoxFor(m => m.ExpenseBillItem[row].ExpenseItemAmount, new { @class = "form_input addition", autocomplete = "off",@readonly="readonly" })
+                                            @Html.TextBoxFor(m => m.ExpenseBillItem[row].ExpenseItemAmount, new { @class = "form_input addition text-right", autocomplete = "off", @readonly = "readonly" })
                                         </td>
                                     </tr>
                                     row++;
@@ -207,8 +207,8 @@
                         <table class="table table-bordered" id="tab_logic_deduction">
                             <thead>
                                 <tr class="grid_heading">
-                                    <td width="70%"><h1>Deduction Head</h1></td>
-                                    <td><h1>Amount</h1></td>
+                                    <td width="90%"><h1>Deduction Head</h1></td>
+                                    <td><h1 class="text-right">Amount</h1></td>
                                 </tr>
                             </thead>
                             <tbody class="grid_row">
@@ -220,7 +220,7 @@
                                             @Html.DropDownListFor(m => Model.deductions[dedrow].AddDedId, (SelectList)ViewBag.Deductions, "Select Deduction", new { @class = "form_input", autocomplete = "off" })
                                         </td>
                                         <td>
-                                            @Html.TextBoxFor(m => m.deductions[dedrow].ExpenseItemAmount, new { @class = "form_input deduction", autocomplete = "off", @onchange = "DeductionAmtChanged()" })
+                                            @Html.TextBoxFor(m => m.deductions[dedrow].ExpenseItemAmount, new { @class = "form_input deduction text-right", autocomplete = "off", @onchange = "DeductionAmtChanged()" })
                                         </td>
                                     </tr>
                                     dedrow++;
@@ -231,23 +231,25 @@
                     <a id="add_row" class="glyphicon glyphicon-plus" onclick="AddDeductionRow()"></a>
                     <div class="row form-group">
                         <div class="col-md-2">
-                            <label for="inputDate">Addition</label>
-                            @Html.TextBoxFor(m => m.TotalAddition, new { @class = "form_input", autocomplete = "off", @readonly = "readonly" })
+                            <label for="inputDate">Additional Amount</label>
+                            @Html.TextBoxFor(m => m.TotalAddition, new { @class = "form_input text-right", autocomplete = "off", @readonly = "readonly" })
                         </div>
                         <div class="col-md-2">
-                            <label for="inputDate">Dedution</label>
-                            @Html.TextBoxFor(m => m.TotalDeduction, new { @class = "form_input", autocomplete = "off", @readonly = "readonly" })
+                            <label for="inputDate">Deduction Amount</label>
+                            @Html.TextBoxFor(m => m.TotalDeduction, new { @class = "form_input text-right", autocomplete = "off", @readonly = "readonly" })
                         </div>
                         <div class="col-md-2">
                             <label for="inputDate">Total</label>
-                            @Html.TextBoxFor(m => m.TotalAmount, new { @class = "form_input", autocomplete = "off", @readonly = "readonly" })
+                            @Html.TextBoxFor(m => m.TotalAmount, new { @class = "form_input text-right", autocomplete = "off", @readonly = "readonly" })
                         </div>
                     </div>
-                    <div class="row form-group">
-                        <div class="col-md-1"><label for="inputDate">Spl.Remarks</label></div>
-                        <div class="col-md-11">
+                    <div class="row">
+                        <div class="part4">
+                            <div class="col-md-2"><label for="inputDate">Special Remarks</label></div>
+                            <div class="col-md-10">
 
-                            @Html.TextAreaFor(m => m.ExpenseRemarks, new { @class = "form_input form_input-h", autocomplete = "off" })
+                                @Html.TextAreaFor(m => m.ExpenseRemarks, new { @class = "form_input form_input-h", autocomplete = "off" })
+                            </div>
                         </div>
                     </div> 
                     

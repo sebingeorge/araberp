@@ -19,6 +19,7 @@ namespace ArabErp.Domain
         public string CustomerAddress { get; set; }
         [Required]
         public string CustomerOrderRef { get; set; }
+       [Required]
         public int? CurrencyId { get; set; }
         public string CurrencyName { get; set; }
         public string SpecialRemarks { get; set; }

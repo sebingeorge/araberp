@@ -13,7 +13,9 @@ namespace ArabErp.Domain
     {
         public int ItemSubGroupId { get; set; }
         public string ItemSubGroupRefNo { get; set; }
+      [Required]
         public string ItemSubGroupName { get; set; }
+       [Required]
         public int ItemGroupId { get; set; }
         public string CreatedBy { get; set; }
         public DateTime? CreatedDate { get; set; }
