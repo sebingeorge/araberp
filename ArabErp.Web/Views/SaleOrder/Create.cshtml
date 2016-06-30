@@ -33,6 +33,7 @@
                     $('#CurrencyId').val(result.CurrencyId);
                     $('#CurrencyName').val(result.CurrencyName);
                     $("#CustomerAddress").val(result.Address);
+
                 } else {
                     $('#SomeOtherHtmlTextBox').val("Failed");
                 }
@@ -56,24 +57,30 @@
             dataType: "json",
             success: function (result) {
                 if (result.Success) { // this sets the value from the response
-                    $('#CustomerId').val(result.CustomerId);
-                    $('#CurrencyName').val(result.CurrencyName);
-                    $("#CustomerAddress").val(result.Address);
-                    $("#PaymentTerms").val(result.PaymentTerms);
-                    $("#SpecialRemarks").val(result.SpecialRemarks);
-                    LoadWorkDescriptions(quoId)
+                   $('#CustomerId').val(result.CustomerId);
+                   $('#CurrencyName').val(result.CurrencyName);
+                   $("#CustomerAddress").val(result.Address);
+                   $("#PaymentTerms").val(result.PaymentTerms);
+                   $("#SpecialRemarks").val(result.SpecialRemarks);
+                   var currid = result.CurrencyId
+                  
+                    LoadWorkDescriptions(quoId, currid)
+                    $('#CurrencyId').val(result.CurrencyId);
+                   
                 } else {
                     $('#SomeOtherHtmlTextBox').val("Failed");
                 }
             }
         });
     }
-    function LoadWorkDescriptions(quoId)
+    function LoadWorkDescriptions(quoId, currid)
     {
+       
         var isProjectBased = $("#isProjectBased").val();
         var url = '@Url.Action("RefreshDisplaySOList")';
-        url = url + "?quoId=" + quoId + "&isProjectBased=" + isProjectBased;
+        url = url + "?quoId=" + quoId + "&isProjectBased=" + isProjectBased + "&currid=" + currid;
         $("#wordescriptions").load(url);
+     
     }
      function Validation() {
         var count = 0;

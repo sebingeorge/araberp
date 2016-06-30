@@ -238,22 +238,14 @@ namespace ArabErp.DAL
                 return address;
             }
         }
-        public Dropdown GetCustomerIdByQuotKey(int quoId)
-        {
-            using (IDbConnection connection = OpenConnection(dataConnection))
-            {
-                string query = "select CustomerId Id,CustomerName Name from Customer where CustomerId=(select CustomerId from SalesQuotation where SalesQuotationId = @quoId)";
-                return connection.Query<Dropdown>(query, new { quoId = quoId }).First<Dropdown>();
-            }
-        }
+       
 
-
-        public SaleOrder GetTermsByQuotKey(int quoId)
+        public SaleOrder GetSODetailsByQuotKey(int quoId)
         {
             using (IDbConnection connection = OpenConnection(dataConnection))
             {
 
-                string query = "SELECT PaymentTerms,Remarks SpecialRemarks FROM SalesQuotation where SalesQuotationId = @quoId";
+                string query = "SELECT S.CustomerId,S.CurrencyId,PaymentTerms,Remarks SpecialRemarks FROM SalesQuotation S inner join  Customer C on C.CustomerId=S.CustomerId  where SalesQuotationId = @quoId";
                 return connection.Query<SaleOrder>(query, new { quoId = quoId }).First<SaleOrder>();
             }
         }

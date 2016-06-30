@@ -8,6 +8,7 @@
 }
 <script>
     $(document).ready(function () {
+        //$('#CurrencyId').val(result.CurrencyId);
         calculateSummary();
         $("#Items_0__SlNo").val('1');
         $("#add_row").click(function () {
@@ -225,7 +226,7 @@
                         <input type="hidden" id="Row_@i" />
                         @if (actionName == "Create" || actionName == "CreateProject" || actionName == "RefreshDisplaySOList")
                         {
-                            @Html.DropDownListFor(x => Model.Items[i].WorkDescriptionId, new SelectList(ViewBag.workdesclist, "Value", "Text", Model.Items[i].WorkDescriptionId), "select work description", new { @class = "form_input", autocomplete = "off", @onchange = "OnWorkChange(this," + i + ")" })
+                            @Html.DropDownListFor(x => Model.Items[i].WorkDescriptionId, new SelectList(ViewBag.workdesclist, "Value", "Text", Model.Items[i].WorkDescriptionId), "select Work Description", new { @class = "form_input", autocomplete = "off", @onchange = "OnWorkChange(this," + i + ")" })
 
                         }
                         else
@@ -319,6 +320,7 @@
                             @*@Html.TextBoxFor(m => m.CurrencyName, new { @class = "form_input", autocomplete = "off", @style = "text-align:right;color:white", @disabled = "true" })
                 @Html.HiddenFor(m => m.CurrencyId)*@
                             @Html.DropDownListFor(m => Model.CurrencyId, (SelectList)ViewBag.currlist, "Select Currency", new { @class = "form_input", autocomplete = "off" })
+                            @*@Html.DropDownListFor(x => Model.CurrencyId, new SelectList(ViewBag.currlist, "Value", "Text", Model.CurrencyId), "select Currency", new { @class = "form_input", autocomplete = "off" })*@
                         }
                         else
                         {
