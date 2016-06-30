@@ -19,7 +19,8 @@ namespace ArabErp.Web.Controllers
         {
             return View();
         }
-        public ActionResult Save(CommissionAgent objCommissionAgent)
+        [HttpPost]
+        public ActionResult Create(CommissionAgent objCommissionAgent)
         {
             var repo = new CommissionAgentRepository();
             new CommissionAgentRepository().InsertCommissionAgent(objCommissionAgent);
