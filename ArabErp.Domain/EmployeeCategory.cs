@@ -13,6 +13,7 @@ namespace ArabErp.Domain
     {
         public int EmpCategoryId { get; set; }
         public string EmpCategoryRefNo { get; set; }
+         [Required]
         public string EmpCategoryName { get; set; }
         public string CreatedBy { get; set; }
         public DateTime? CreatedDate { get; set; }

@@ -54,7 +54,7 @@
         </div>
 
         <div class="col-md-14">
-            @using (Html.BeginForm(null, null, FormMethod.Post, new { @class = "createFrom", @id = "Currency_form" }))
+            @using (Html.BeginForm(null, null, FormMethod.Post, new { @class = "createFrom", @id = "Currency_form" , @readonly = "readonly"}))
             {
                 <div class="row main-part pad1">
                     <div class="row">
@@ -63,7 +63,7 @@
                                 <label for="CurrencyRefNo">Code</label>
                                 @Html.HiddenFor(m => m.CurrencyId)
                                 @Html.HiddenFor(m => m.CurrencyRefNo)
-                                @Html.TextBoxFor(m => m.CurrencyRefNo, new { @class = "form_input form_input-half", autocomplete = "off" })
+                                @Html.TextBoxFor(m => m.CurrencyRefNo, new { @class = "form_input form_input-half", autocomplete = "off", @readonly = "readonly" })
                                 @Html.ValidationMessageFor(model => model.CurrencyRefNo, "", new { @class = "text-danger" })
                             </div>
                             <div class="part4">

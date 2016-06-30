@@ -25,7 +25,7 @@ namespace ArabErp.DAL
 
                 try
                 {
-                    int internalid = DatabaseCommonRepository.GetInternalIDFromDatabase(connection, trn, typeof(Employee).Name, "0", 1);
+                    int internalid = DatabaseCommonRepository.GetInternalIDFromDatabase(connection, trn, typeof(ItemSubGroup).Name, "0", 1);
                     model.ItemSubGroupRefNo = "ISG/" + internalid;
                     id = connection.Query<int>(sql, model, trn).Single();
                     model.ItemSubGroupId = id;
