@@ -18,7 +18,8 @@ namespace ArabErp.DAL
             try
             {
 
-                string sql = @"insert  into SaleOrderItem(SaleOrderId,SlNo,WorkDescriptionId,VehicleModelId,Remarks,PartNo,Quantity,UnitId,Rate,Discount,Amount) Values (@SaleOrderId,@SlNo,@WorkDescriptionId,@VehicleModelId,@Remarks,@PartNo,@Quantity,@UnitId,@Rate,@Discount,@Amount);
+                string sql = @"insert  into SaleOrderItem(SaleOrderId,SlNo,WorkDescriptionId,VehicleModelId,Remarks,PartNo,Quantity,UnitId,Rate,Discount,Amount) 
+                                                    Values (@SaleOrderId,@SlNo,@WorkDescriptionId,@VehicleModelId,@Remarks,@PartNo,@Quantity,@UnitId,@Rate,@Discount,@Amount);
                        
                 SELECT CAST(SCOPE_IDENTITY() as int)";
 
@@ -93,6 +94,14 @@ namespace ArabErp.DAL
             {
                 var param = new DynamicParameters();
                 return connection.Query<Dropdown>("select WorkDescriptionId Id ,WorkDescr Name from WorkDescription").ToList();
+            }
+        }
+        public List<Dropdown> FillWorkDescForProject()
+        {
+            using (IDbConnection connection = OpenConnection(dataConnection))
+            {
+                var param = new DynamicParameters();
+                return connection.Query<Dropdown>("select WorkDescriptionId Id ,WorkDescr Name from WorkDescription where isProjectBased = 1").ToList();
             }
         }
         public List<Dropdown> FillUnit()

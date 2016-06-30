@@ -21,13 +21,17 @@ namespace ArabErp.Web.Controllers
         {
             return View();
         }
-        public ActionResult Create(int? Id)
+        public ActionResult Create(int? Id, int? isProjectBased)
         {
             JobCardRepository repo = new JobCardRepository();
-            JobCard model = repo.GetJobCardDetails(Id ?? 0);
+            SaleOrderRepository soRepo = new SaleOrderRepository();
+            isProjectBased = soRepo.IsProjectOrVehicle(Id ?? 0);
+            JobCard model = repo.GetJobCardDetails(Id ?? 0, isProjectBased ?? 0);
+            model.isProjectBased = isProjectBased ?? 0;
             model.JobCardTasks = new List<JobCardTask>();
-            model.JobCardTasks.Add(new JobCardTask());
+            model.JobCardTasks.Add(new JobCardTask() { TaskDate = DateTime.Now});
             model.JobCardDate = DateTime.Now;
+            model.RequiredDate = DateTime.Now;
             FillBay();
             FillEmployee();
             FillTaks(model.WorkDescriptionId);
@@ -36,16 +40,16 @@ namespace ArabErp.Web.Controllers
             FillVehicleRegNo();
             return View(model);
         }
-        public ActionResult PendingJobCard()
+        public ActionResult PendingJobCard(int? isProjectBased)
         {
-            IEnumerable<PendingSO> pendingSo = repo.GetPendingSO();
+            IEnumerable<PendingSO> pendingSo = repo.GetPendingSO(isProjectBased ?? 0);
             return View(pendingSo);
         }
-
-        public ActionResult Save(JobCard jc)
+        [HttpPost]
+        public ActionResult Create(JobCard model)
         {
-            var data = new JobCardRepository().SaveJobCard(jc);
-            return RedirectToAction("PendingJobCard");
+            var data = new JobCardRepository().SaveJobCard(model);
+            return RedirectToAction("PendingJobCard", new { isProjectBased = model.isProjectBased });
             // return View();
         }
 

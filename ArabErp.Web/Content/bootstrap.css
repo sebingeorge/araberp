@@ -7173,6 +7173,15 @@ td.visible-print {
         display:none !important;
     }
 
+    .login-user-left 
+    {
+        display:none !important;
+    }
+    .login-text-right
+    {
+        display:none !important;
+    }
+
 }
 
 

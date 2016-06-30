@@ -178,6 +178,11 @@ textarea {
     width: 92px;
     margin-right:0;
 }
+.form-button4:hover 
+    {
+        color:#a49e9e;
+        text-decoration:none;
+    }
  .form-button4 a 
  {
      color:#ffffff;
@@ -549,6 +554,17 @@ background-color: #D6D5D5;
     padding-top: 25px;
     }
 
+    .links li ul li ul
+    {
+
+    }
+    .submenu
+    {
+     float:left;
+     width:500px;
+     height:auto;
+    }
+
 
 
 .links li a {
@@ -649,15 +665,14 @@ section.content {
     -moz-border-bottom-left-radius: 8px;
     -moz-border-bottom-right-radius: 8px;
     box-shadow: 10px 10px 5px #858383;
-    margin-top:40px;
 }
 
 .outer-login h4 
     {
-    border-bottom: 1px solid #c9c9c6;
     color: #888484;
     font-size: 24px;
-    padding-bottom: 15px;
+    /*border-bottom: 1px solid #c9c9c6;
+    padding-bottom: 15px;*/
     }
 .main-login-user 
 {
@@ -763,6 +778,10 @@ section.content {
     width: 80px;
 }
 
+.against 
+{
+    margin-top:-22px;
+}
 
 
 

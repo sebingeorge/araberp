@@ -15,16 +15,7 @@ namespace ArabErp.Web.Controllers
         {
             return View();
         }
-        public ActionResult create()
-        {
-            return View();
-        }
-        public ActionResult Save(CustomerCategory objCustomerCategory)
-        {
-            var repo = new CustomerCategoryRepository();
-            new CustomerCategoryRepository().InsertCustomerCategory(objCustomerCategory);
-            return View("Create");
-        }
+
         public ActionResult FillCustomerCategoryList(int?page)
         {
             int itemsPerPage = 10;
@@ -33,5 +24,104 @@ namespace ArabErp.Web.Controllers
             var List = repo.FillCustomerCategoryList();
             return PartialView("CustomerCategoryListView", List);
         }
+
+        public ActionResult Create()
+        {
+            ViewBag.Title = "Create";
+            CustomerCategory CustomerCategory = new CustomerCategory();
+            CustomerCategory.CusCategoryRefNo = new CustomerCategoryRepository().GetRefNo(CustomerCategory);
+            return View(CustomerCategory);
+        }
+        [HttpPost]
+        public ActionResult Create(CustomerCategory model)
+        {
+            model.OrganizationId = 1;
+            model.CreatedDate = System.DateTime.Now;
+            model.CreatedBy = Request.ServerVariables["HTTP_X_FORWARDED_FOR"] ?? Request.ServerVariables["REMOTE_ADDR"];
+            var result = new CustomerCategoryRepository().InsertCustomerCategory(model);
+
+            if (result.CusCategoryId > 0)
+            {
+                TempData["Success"] = "Added Successfully!";
+                TempData["CusCategoryRefNo"] = result.CusCategoryRefNo;
+                return RedirectToAction("Create");
+            }
+            else
+            {
+                TempData["error"] = "Oops!!..Something Went Wrong!!";
+                TempData["CusCategoryRefNo"] = null;
+                return View("Create", model);
+            }
+        }
+
+        public ActionResult Edit(int Id)
+        {
+            ViewBag.Title = "Edit";
+            CustomerCategory objCustomerCategory = new CustomerCategoryRepository().GetCustomerCategory(Id);
+            return View("Create", objCustomerCategory);
+        }
+
+        [HttpPost]
+        public ActionResult Edit(CustomerCategory model)
+        {
+
+            model.OrganizationId = 1;
+            model.CreatedDate = System.DateTime.Now;
+            model.CreatedBy = Request.ServerVariables["HTTP_X_FORWARDED_FOR"] ?? Request.ServerVariables["REMOTE_ADDR"];
+
+
+            var result = new CustomerCategoryRepository().UpdateCustomerCategory(model);
+
+            if (result.CusCategoryId > 0)
+            {
+                TempData["Success"] = "Updated Successfully!";
+                TempData["CusCategoryRefNo"] = result.CusCategoryRefNo;
+                return RedirectToAction("Create");
+            }
+            else
+            {
+                TempData["error"] = "Oops!!..Something Went Wrong!!";
+                TempData["CusCategoryRefNo"] = null;
+                return View("Edit", model);
+            }
+
+        }
+
+        public ActionResult Delete(int Id)
+        {
+            ViewBag.Title = "Delete";
+            CustomerCategory objCustomerCategory = new CustomerCategoryRepository().GetCustomerCategory(Id);
+            return View("Create", objCustomerCategory);
+
+        }
+
+        [HttpPost]
+        public ActionResult Delete(CustomerCategory model)
+        {
+            int result = new CustomerCategoryRepository().DeleteCustomerCategory(model);
+
+            if (result == 0)
+            {
+                TempData["Success"] = "Deleted Successfully!";
+                TempData["CusCategoryRefNo"] = model.CusCategoryRefNo;
+                return RedirectToAction("Create");
+            }
+            else
+            {
+                if (result == 1)
+                {
+                    TempData["error"] = "Sorry!! You Cannot Delete This Customer Category It Is Already In Use";
+                    TempData["CusCategoryRefNo"] = null;
+                }
+                else
+                {
+                    TempData["error"] = "Oops!!..Something Went Wrong!!";
+                    TempData["CusCategoryRefNo"] = null;
+                }
+                return RedirectToAction("Create");
+            }
+
+        }
+
     }
 }

@@ -30,6 +30,8 @@ namespace ArabErp.Domain
         public DateTime? CreatedDate { get; set; }
         public int OrganizationId { get; set; }
         public bool isActive { get; set; }
+        public int? AdditionId { get; set; }
+        public int? DeductionId { get; set; }
         public List<PurchaseBillItem> Items { get; set; }
     }
 }

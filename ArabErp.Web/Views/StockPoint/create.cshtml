@@ -1,79 +1,45 @@
 ﻿@model ArabErp.Domain.Stockpoint
 
 @{ViewBag.Title = "create";Layout = "~/Views/Shared/_Layout.cshtml";}
-
-<script>
+@{string actionName = HttpContext.Current.Request.RequestContext.RouteData.Values["action"].ToString(); }
+<script type="text/javascript">
+    function Exit() {
+        location.href = '@Url.Action("Create")';
+    }
     $(document).ready(function () {
-        $('#Stockpoint_form').bootstrapValidator({
-            fields: {
-                StockPointRefNo: {
-                    validators: {
-                        notEmpty: {
-                            message: 'Please Enter Code'
-                        }
-                    }
-                },
+        var Action = '@actionName';
+        if (Action == 'Delete') {
 
-                StockPointName: {
-                    validators: {
-                        notEmpty: {
-                            message: 'Please Enter Name'
-                        }
-                    }
-                },
+            $("input[type='text'], select, textarea").attr('disabled', 'disabled');
+            $("input[type=radio]").attr('disabled', true);
+        }
+        if (Action == 'Create') {
+            $("#GenderId").prop("checked", true)
+        }
 
-                //StockPointDoorNo: {
-                //    validators: {
-                //        notEmpty: {
-                //            message: 'Please Enter Door No & Building'
-                //        }
-                //    }
-                //},
+        //$("#radio_1").prop("checked", true)
+        toastr.options = {
+            "closeButton": true,
+            "positionClass": "toast-bottom-full-width",
+            "preventDuplicates": false,
+            "onclick": null,
 
-                //StockPointZip: {
-                //    validators: {
-                //        notEmpty: {
-                //            message: 'Please Enter Zip'
-                //        }
-                //    }
-                //},
+            "timeOut": "0",
+            "extendedTimeOut": "1000",
 
-                //StockPointArea: {
-                //    validators: {
-                //        notEmpty: {
-                //            message: 'Please Enter Area & City'
-                //        }
-                //    }
-                //},
+            "showEasing": "swing",
+            "hideEasing": "linear",
+            "showMethod": "fadeIn",
+            "hideMethod": "fadeOut"
+        }
+        if ('@TempData["success"]' != "" && '@TempData["RefNo"]' != "") {
+            toastr.success('@TempData["success"]' + '  Empoyee Ref No. is : ' + '@TempData["RefNo"]');
+        }
+        else if ('@TempData["error"]' != "") {
+            toastr.error('@TempData["error"]');
+        }
 
-                StockPointPhone: {
-                    validators: {
-                        numeric: {
-                            message: 'Please Enter Phone No'
-                        }
-                    }
-                },
-
-                //StockPointCity: {
-                //    validators: {
-                //        notEmpty: {
-                //            message: 'Please Enter City & State'
-                //        }
-                //    }
-                //},
-
-                //StockPointFax: {
-                //    validators: {
-                //        notEmpty: {
-                //            message: 'Please Enter Fax'
-                //        }
-                //    }
-                //},
-
-            }
-        });
-    })
-
+    });
 </script>
 
 
@@ -89,13 +55,15 @@
         <div class="main-part pad1">
             <div class="row">
 
-                @using (Html.BeginForm("Save", null, FormMethod.Post, new { @class = "createFrom", @id = "Stockpoint_form" }))
-                {
+               @using (Html.BeginForm(null, null, FormMethod.Post, new { @class = "createFrom", @id = "StockPoint_form" }))
+               {
 
                     <div class="col-md-4">
                         <div class="part4">
                             <label for="StockPointRefNo">Code</label>
-                            @Html.TextBoxFor(m => m.StockPointRefNo, new { @class = "form_input form_input-half", autocomplete = "off" })
+                            @Html.HiddenFor(m => m.StockPointId)
+                            @Html.HiddenFor(m => m.StockPointRefNo)
+                            @Html.TextBoxFor(m => m.StockPointRefNo, new { @class = "form_input form_input-half", autocomplete = "off", @readonly = "readonly" })
                         </div>
                         <div class="part4">
                             <label for="StockPointShrtName">Short Name</label>
@@ -129,7 +97,7 @@
 
 
 
-                }
+              
 
                 <div class="col-md-4">
                     <div class="part4">
@@ -146,9 +114,17 @@
                     </div>
                 </div>
                 <div class="col-md-12 hrpart">
-                    <button type="button" class="form-button right">Exit</button>
-                    <button type="submit" class="form-button right">Save</button>
+                    <button type="button" class="form-button right" onclick="Exit();">Exit</button>
+                    @if (actionName == "Edit")
+                    { <button type="submit" class="form-button right">Update</button> }
+                    else
+                        if (actionName == "Delete")
+                        {  <button type="submit" class="form-button right">Delete</button>}
+                        else
+                        { <button type="submit" class="form-button right">Save</button>}
+
                 </div>
+               }
             </div>
 
 

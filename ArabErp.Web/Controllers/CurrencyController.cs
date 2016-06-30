@@ -19,14 +19,98 @@ namespace ArabErp.Web.Controllers
         public ActionResult Create()
         {
             FillCurrencySymbols();
-            return View();
+            string internalid = DatabaseCommonRepository.GetNextRefNoWithNoUpdate(typeof(Currency).Name);
+            
+            return View(new Currency { CurrencyRefNo="CUR/"+internalid});
         }
-        public ActionResult Save(Currency objCurrency)
+        [HttpPost]
+        public ActionResult Create(Currency model)
+        {
+            model.OrganizationId = 1;
+            model.CreatedDate = System.DateTime.Now;
+            model.CreatedBy = Request.ServerVariables["HTTP_X_FORWARDED_FOR"] ?? Request.ServerVariables["REMOTE_ADDR"];
+            FillCurrencySymbols();
+            var result=new CurrencyRepository().InsertCurrency(model);
+              if (result.CurrencyId > 0)
+            {
+                TempData["Success"] = "Added Successfully!";
+                TempData["RefNo"] = result.CurrencyRefNo;
+                return RedirectToAction("Create");
+            }
+            else
+            {
+                FillCurrencySymbols();
+                TempData["error"] = "Oops!!..Something Went Wrong!!";
+                TempData["RefNo"] = null;
+                return View("Create", model);
+            }
+        }
+        public ActionResult Edit(int Id)
         {
             FillCurrencySymbols();
-            new CurrencyRepository().InsertCurrency(objCurrency);
-            return View("Create");
+            Currency model = new CurrencyRepository().GetCurrency(Id);
+            return View("Create", model);
         }
+        [HttpPost]
+        public ActionResult Edit(Currency model)
+        {
+            model.OrganizationId = 1;
+            model.CreatedDate = System.DateTime.Now;
+            model.CreatedBy = Request.ServerVariables["HTTP_X_FORWARDED_FOR"] ?? Request.ServerVariables["REMOTE_ADDR"];
+            var result = new CurrencyRepository().UpdateCurrency(model);
+
+
+            if (result.CurrencyId > 0)
+            {
+                TempData["Success"] = "Updated Successfully!";
+                TempData["RefNo"] = result.CurrencyRefNo;
+                return RedirectToAction("Create");
+            }
+            else
+            {
+                FillCurrencySymbols();
+                TempData["error"] = "Oops!!..Something Went Wrong!!";
+                TempData["RefNo"] = null;
+                return View("Create", model);
+            }
+
+        }
+        public ActionResult Delete(int Id)
+        {
+            FillCurrencySymbols();
+            Currency model = new CurrencyRepository().GetCurrency(Id);
+            //FillDesignationDropdown();
+            //FillCategoryDropdown();
+            //FillLocationDropdown();
+
+
+            return View("Create", model);
+
+
+        }
+        [HttpPost]
+        public ActionResult Delete(Currency model)
+        {
+
+            var result = new CurrencyRepository().DeleteCurrency(model);
+
+
+            if (result.CurrencyId > 0)
+            {
+                TempData["Success"] = "Deleted Successfully!";
+                TempData["RefNo"] = model.CurrencyRefNo;
+                return RedirectToAction("Create");
+            }
+            else
+            {
+                FillCurrencySymbols();
+                TempData["error"] = "Oops!!..Something Went Wrong!!";
+                TempData["RefNo"] = null;
+                return View("Create", model);
+            }
+
+        }
+
         public void FillCurrencySymbols()
         {
             var repo = new CurrencyRepository();

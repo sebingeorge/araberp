@@ -91,6 +91,8 @@
     <Compile Include="ItemRepository.cs" />
     <Compile Include="ItemGroupRepository.cs" />
     <Compile Include="ItemSubGroupRepository.cs" />
+    <Compile Include="JobCardDailyActivityRepository.cs" />
+    <Compile Include="JobCardDailyActivityTaskRepository.cs" />
     <Compile Include="JobCardQCParamRepository.cs" />
     <Compile Include="JobCardQCRepository.cs" />
     <Compile Include="JobCardRepository.cs" />

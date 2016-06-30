@@ -1,39 +1,50 @@
 ﻿@model ArabErp.Domain.ItemSubGroup
 @{ ViewBag.Title = "Create";Layout = "~/Views/Shared/_Layout.cshtml";}
 
-<script>
+@{string actionName = HttpContext.Current.Request.RequestContext.RouteData.Values["action"].ToString(); }
+<script type="text/javascript">
+    function Exit() {
+        location.href = '@Url.Action("Create")';
+    }
     $(document).ready(function () {
-        $('#ItemSubGroup_form').bootstrapValidator({
-            fields: {
-                ItemSubGroupRefNo: {
-                    validators: {
-                        notEmpty: {
-                            message: 'Please Enter Code'
-                        }
-                    }
-                },
+        var Action = '@actionName';
+        if (Action == 'Delete') {
 
-                ItemSubGroupName: {
-                    validators: {
-                        notEmpty: {
-                            message: 'Please Enter Name'
-                        }
-                    }
-                },
+            $("input[type='text'], select, textarea").attr('disabled', 'disabled');
+            $("input[type=radio]").attr('disabled', true);
+        }
+        if (Action == 'Create') {
+            $("#GenderId").prop("checked", true)
+        }
 
-                ItemGroupId: {
-                    validators: {
-                        notEmpty: {
-                            message: 'Please Select Group'
-                        }
-                    }
-                },
+        //$("#radio_1").prop("checked", true)
+        toastr.options = {
+            "closeButton": true,
+            "positionClass": "toast-bottom-full-width",
+            "preventDuplicates": false,
+            "onclick": null,
 
-            }
-        });
-    })
+            "timeOut": "0",
+            "extendedTimeOut": "1000",
 
+            "showEasing": "swing",
+            "hideEasing": "linear",
+            "showMethod": "fadeIn",
+            "hideMethod": "fadeOut"
+        }
+        if ('@TempData["success"]' != "" && '@TempData["RefNo"]' != "") {
+            toastr.success('@TempData["success"]' + '  Empoyee Ref No. is : ' + '@TempData["RefNo"]');
+        }
+        else if ('@TempData["error"]' != "") {
+            toastr.error('@TempData["error"]');
+        }
+
+    });
 </script>
+
+
+
+
 
 
 
@@ -46,12 +57,15 @@
         <div class="main-part pad1">
             <div class="row">
 
-                @using (Html.BeginForm("Save", null, FormMethod.Post, new { @class = "createFrom", @id = "ItemSubGroup_form" }))
-                {
+               @using (Html.BeginForm(null, null, FormMethod.Post, new { @class = "createFrom", @id = "ItemSubGroup_form", }))
+               {
                     <div class="col-md-4">
                         <div class="part4">
                             <label for="ItemSubGroupRefNo">Code</label>
-                            @Html.TextBoxFor(m => m.ItemSubGroupRefNo, new { @class = "form_input form_input-half", auocomplete = "off" })
+                            @Html.HiddenFor(m => m.ItemSubGroupId)
+                            @Html.HiddenFor(m => m.ItemSubGroupRefNo)
+
+                            @Html.TextBoxFor(m => m.ItemSubGroupRefNo, new { @class = "form_input form_input-half", auocomplete = "off" ,@readonly = "readonly" })
                         </div>
                         <div class="part4">
 
@@ -72,7 +86,7 @@
 
                     </div>
 
-                }
+               
                 <div class="col-md-4">
                 </div>
                 <div class="col-md-4">
@@ -81,10 +95,17 @@
 
 
                     <div class="col-md-12 hrpart">
-                        <button type="button" class="form-button right">Exit</button>
-                        <button type="submit" class="form-button right">Save</button>
-                    </div>
+                        <button type="button" class="form-button right" onclick="Exit();">Exit</button>
+                        @if (actionName == "Edit")
+                        { <button type="submit" class="form-button right">Update</button> }
+                        else
+                            if (actionName == "Delete")
+                            {  <button type="submit" class="form-button right">Delete</button>}
+                            else
+                            { <button type="submit" class="form-button right">Save</button>}
 
+                    </div>
+                }
             </div>
         </div>
 

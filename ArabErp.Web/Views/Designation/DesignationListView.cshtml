@@ -1,6 +1,33 @@
 ﻿@model IList<ArabErp.Domain.Designation>
-
 @using GridMvc.Html
+
+<script>
+    function OpenEdit(id) {
+       alert("open");
+        @*var url = '@Url.Action("Edit")';
+        url += "?Id=" + id;
+        location.href = '@Url.Action("Edit", "Item")';*@
+
+        var url = '@Url.Action("Edit")';
+        //url += "?Id=" + id;
+        Location.href = url;
+        return false;
+
+    }
+
+    function OpenDelete(id) {
+        //alert("open");
+        @*var url = '@Url.Action("Edit")';
+        url += "?Id=" + id;
+        location.href = '@Url.Action("Edit", "Item")';*@
+
+        var url = '@Url.Action("Delete")';
+        //url += "?Id=" + id;
+        Location.href = url;
+        return false;
+    }
+
+</script>
 
 <style type="text/css">
     .tableData {
@@ -27,13 +54,9 @@
                         {
                             columns.Add(m => m.DesignationRefNo).Titled("Ref No.").SetWidth(20);
                             columns.Add(m => m.DesignationName).Titled("Name").SetWidth(210);
+                            columns.Add().Encoded(false).Sanitized(false).Css("cent").SetWidth(30).RenderValueAs(m => @<a href="@Url.Action("Edit", new { Id=m.DesignationId })">Edit</a>);
+                            columns.Add().Encoded(false).Sanitized(false).Css("cent").SetWidth(30).RenderValueAs(m => @<a href="@Url.Action("Delete", new { Id=m.DesignationId })">Delete</a>);
 
-                            columns.Add().Encoded(false).Sanitized(false).Css("cent").SetWidth(30).RenderValueAs(o => @<a href="">Edit</a>);
-                            columns.Add().Encoded(false).Sanitized(false).Css("cent").SetWidth(30).RenderValueAs(o => @<a href="">Delete</a>);
-
-                            //.Format("<a href="\"DeleteRecord?name={CategoryName}\"">{CategoryName}</a>");
-
-                            //columns.Add(m => m.CurrencyName).Sortable(true);
                         }).WithPaging(10)
         </div>
 

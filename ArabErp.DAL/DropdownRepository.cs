@@ -208,11 +208,12 @@ namespace ArabErp.DAL
         /// Return all Active and Approved QuotationNo
         /// </summary>
         /// <returns></returns>
-        public List<Dropdown> QuotationNoDropdown()
+        public List<Dropdown> QuotationNoDropdown(int isProjectBased)
         {
             using (IDbConnection connection = OpenConnection(dataConnection))
             {
-                return connection.Query<Dropdown>("SELECT SalesQuotationId Id, QuotationRefNo Name FROM SalesQuotation WHERE ISNULL(isActive, 1) = 1 AND ISNULL(IsQuotationApproved,0)=1").ToList();
+                return connection.Query<Dropdown>(@"SELECT SalesQuotationId Id, QuotationRefNo Name FROM SalesQuotation WHERE ISNULL(isActive, 1) = 1 
+                AND ISNULL(IsQuotationApproved,0)=1 and isProjectBased = " + isProjectBased.ToString() + " AND SalesQuotationId not in (select SalesQuotationId from SaleOrder where SalesQuotationId is not null)").ToList();
             }
         }
 

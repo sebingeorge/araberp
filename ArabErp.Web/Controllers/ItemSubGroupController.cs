@@ -17,18 +17,90 @@ namespace ArabErp.Web.Controllers
         }
         public ActionResult Create()
         {
-            dropdown();
-            return View();
+            FillItemGroup();
+            string internalid = DatabaseCommonRepository.GetNextRefNoWithNoUpdate(typeof(ItemSubGroup).Name);
+            return View(new ItemSubGroup { ItemSubGroupRefNo = "ISG/" + internalid });
         }
-
-        public ActionResult Save(ItemSubGroup objItemSubGroup)
+        [HttpPost]
+        public ActionResult Create(ItemSubGroup model)
         {
-            dropdown();
-            new ItemSubGroupRepository().InsertItemSubGroup(objItemSubGroup);
-            return View("Create");
+            model.OrganizationId = 1;
+            model.CreatedDate = System.DateTime.Now;
+            model.CreatedBy = Request.ServerVariables["HTTP_X_FORWARDED_FOR"] ?? Request.ServerVariables["REMOTE_ADDR"];
+           
+            FillItemGroup();
+            var result = new ItemSubGroupRepository().InsertItemSubGroup(model);
+            if (result.ItemSubGroupId > 0)
+            {
+                TempData["Success"] = "Added Successfully!";
+                TempData["RefNo"] = result.ItemSubGroupRefNo;
+                return RedirectToAction("Create");
+            }
+            else
+            {
+                FillItemGroup();
+                TempData["error"] = "Oops!!..Something Went Wrong!!";
+                TempData["RefNo"] = null;
+                return View("Create", model);
+            }
         }
+        public ActionResult Edit(int Id)
+        {
+            FillItemGroup();
+            ItemSubGroup model = new ItemSubGroupRepository().GetItemSubGroup(Id);
+            return View("Create", model);
+        }
+        [HttpPost]
+        public ActionResult Edit(ItemSubGroup model)
+        {
+            model.OrganizationId = 1;
+            model.CreatedDate = System.DateTime.Now;
+            model.CreatedBy = Request.ServerVariables["HTTP_X_FORWARDED_FOR"] ?? Request.ServerVariables["REMOTE_ADDR"];
+            var result = new ItemSubGroupRepository().UpdateItemSubGroup(model);
+            if (result.ItemSubGroupId > 0)
+            {
+                TempData["Success"] = "Updated Successfully!";
+                TempData["RefNo"] = result.ItemSubGroupRefNo;
+                return RedirectToAction("Create");
+            }
+            else
+            {
+                FillItemGroup();
+                TempData["error"] = "Oops!!..Something Went Wrong!!";
+                TempData["RefNo"] = null;
 
-        public void dropdown()
+                return View("Create", model);
+            }
+
+        }
+        public ActionResult Delete(int Id)
+        {
+            FillItemGroup();
+            ItemSubGroup model = new ItemSubGroupRepository().GetItemSubGroup(Id);
+            return View("Create", model);
+        }
+        [HttpPost]
+        public ActionResult Delete(ItemSubGroup model)
+        {
+
+            var result = new ItemSubGroupRepository().DeleteItemSubGroup(model);
+
+
+            if (result.ItemSubGroupId > 0)
+            {
+                TempData["Success"] = "Deleted Successfully!";
+                TempData["RefNo"] = model.ItemSubGroupRefNo;
+                return RedirectToAction("Create");
+            }
+            else
+            {
+                TempData["error"] = "Oops!!..Something Went Wrong!!";
+                TempData["RefNo"] = null;
+                return View("Create", model);
+            }
+
+        }
+        public void FillItemGroup()
         {
             var repo = new ItemSubGroupRepository();
             var List = repo.FillGroup();

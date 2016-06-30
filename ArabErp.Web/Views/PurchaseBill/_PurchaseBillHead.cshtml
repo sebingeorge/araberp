@@ -3,7 +3,7 @@
 <div class="row form-group">
     <div class="col-md-2">
         <label for=" PurchaseBillRefNo">Booking No.</label>
-        @Html.TextBoxFor(m => m.PurchaseBillRefNo, new { @class = "form_input", autocomplete = "off" })
+        @Html.TextBoxFor(m => m.PurchaseBillRefNo, new { @class = "form_input", autocomplete = "off", @readonly = "readonly" })
     </div>
     <div class="col-md-2">
         <label for="PurchaseBillDate">Date</label>

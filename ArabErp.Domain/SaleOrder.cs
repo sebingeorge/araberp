@@ -12,13 +12,13 @@ namespace ArabErp.Domain
         public int SaleOrderId { get; set; }
         public string SaleOrderRefNo { get; set; }
         public DateTime SaleOrderDate { get; set; }
-        [Required]
-        public int SalesQuotationId { get; set; }
+        public int? SalesQuotationId { get; set; }
         public int CustomerId { get; set; }
         public string CustomerName { get; set; }
         public string CustomerAddress { get; set; }
         [Required]
         public string CustomerOrderRef { get; set; }
+       [Required]
         public int? CurrencyId { get; set; }
         public string CurrencyName { get; set; }
         public string SpecialRemarks { get; set; }
@@ -50,6 +50,7 @@ namespace ArabErp.Domain
         public List<SaleOrderItem> Items { get; set; }
         public bool Select { get; set; }
         public int? Ageing { get; set; }
+        public int isProjectBased { get; set; }
      
         }
     }

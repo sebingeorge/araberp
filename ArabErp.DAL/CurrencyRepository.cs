@@ -42,34 +42,80 @@ namespace ArabErp.DAL
                 //var sym = new Currency();
                 //sym = connection.Query<Currency>("select SymbolId,SymbolName from Symbol").ToList();
 
-                return connection.Query<Currency>("SELECT CurrencyId,CurrencyRefNo,CurrencyName,Elementary,CurrencyExRate,CurrencySymbolId, SymbolId,SymbolName FROM Currency C LEFT jOIN Symbol S ON  C.CurrencySymbolId=S.SymbolId").ToList();
+                return connection.Query<Currency>("SELECT CurrencyId,CurrencyRefNo,CurrencyName,Elementary,CurrencyExRate,CurrencySymbolId, SymbolId,SymbolName FROM Currency C LEFT jOIN Symbol S ON  C.CurrencySymbolId=S.SymbolId where C.isActive=1").ToList();
             }
         }
 
         
 
 
-        public int InsertCurrency(Currency objCurrency)
+        public Currency InsertCurrency(Currency model)
         {
             using (IDbConnection connection = OpenConnection(dataConnection))
             {
+                IDbTransaction trn = connection.BeginTransaction();
                 string sql = @"
             INSERT INTO [Currency] (CurrencyRefNo,CurrencyName,Elementary,CurrencyExRate,CurrencySymbolId,OrganizationId) VALUES (@CurrencyRefNo,@CurrencyName,@Elementary,@CurrencyExRate,@CurrencySymbolId,@OrganizationId);
             SELECT CAST(SCOPE_IDENTITY() as int)";
 
+                int id = 0;
 
-
-                var id = connection.Query<int>(sql, new
+                try
                 {
-                    CurrencyRefNo = objCurrency.CurrencyRefNo,
-                    CurrencyName = objCurrency.CurrencyName,
-                    Elementary = objCurrency.Elementary,
-                    CurrencyExRate = objCurrency.CurrencyExRate,
-                    CurrencySymbolId = objCurrency.CurrencySymbolId,
-                    OrganizationId = objCurrency.OrganizationId
+                    int internalid = DatabaseCommonRepository.GetInternalIDFromDatabase(connection, trn, typeof(Currency).Name, "0", 1);
+                    model.CurrencyRefNo = "CUR/" + internalid;
+                    id = connection.Query<int>(sql, model, trn).Single();
+                    model.CurrencyId = id;
 
-                }).Single();
-                return id;
+                    trn.Commit();
+                }
+                catch (Exception e)
+                {
+                    trn.Rollback();
+                    model.CurrencyId = 0;
+                    model.CurrencyRefNo = null;
+                }
+                return model;
+            }
+        }
+        public Currency UpdateCurrency(Currency model)
+        {
+            using (IDbConnection connection = OpenConnection(dataConnection))
+            {
+                string sql = @"UPDATE Currency SET CurrencyName = @CurrencyName,Elementary = @Elementary,CurrencyExRate = @CurrencyExRate,CurrencySymbolId = @CurrencySymbolId,CreatedBy = @CreatedBy,CreatedDate= GETDATE(),OrganizationId = @OrganizationId OUTPUT INSERTED.CurrencyId  WHERE CurrencyId = @CurrencyId";
+
+                try
+                {
+                    var id = connection.Execute(sql, model);
+                    model.CurrencyId = id;
+                }
+                catch (Exception ex)
+                {
+
+                    model.CurrencyId = 0;
+
+                }
+                return model;
+            }
+        }
+        public Currency DeleteCurrency(Currency model)
+        {
+            using (IDbConnection connection = OpenConnection(dataConnection))
+            {
+                string sql = @"UPDATE Currency SET isActive = 0 OUTPUT INSERTED.CurrencyId  WHERE CurrencyId = @CurrencyId";
+
+                try
+                {
+                    var id = connection.Execute(sql, model);
+                    model.CurrencyId = id;
+                }
+                catch (Exception ex)
+                {
+
+                    model.CurrencyId = 0;
+
+                }
+                return model;
             }
         }
 

@@ -23,14 +23,30 @@ namespace ArabErp.DAL
         //    }
         //}
 
-        public int InsertVehicleModel(VehicleModel objVehicleModel)
+        public VehicleModel InsertVehicleModel(VehicleModel model)
         {
             using (IDbConnection connection = OpenConnection(dataConnection))
             {
+                IDbTransaction trn = connection.BeginTransaction();
                 string sql = @"INSERT INTO VehicleModel(VehicleModelRefNo,VehicleModelName,VehicleModelDescription,CreatedBy,CreatedDate,OrganizationId) VALUES(@VehicleModelRefNo,@VehicleModelName,@VehicleModelDescription,@CreatedBy,getDate(),@OrganizationId);
             SELECT CAST(SCOPE_IDENTITY() as int)";
-                var id = connection.Query<int>(sql, objVehicleModel).Single();
-                return id;
+                int id = 0;
+                try
+                {
+                    int internalid = DatabaseCommonRepository.GetInternalIDFromDatabase(connection, trn, typeof(VehicleModel).Name, "0", 1);
+                    model.VehicleModelRefNo = "VM/" + internalid;
+                    id = connection.Query<int>(sql, model, trn).Single();
+                    model.VehicleModelId = id;
+
+                    trn.Commit();
+                }
+                catch (Exception e)
+                {
+                    trn.Rollback();
+                    model.VehicleModelId = 0;
+                    model.VehicleModelRefNo = null;
+                }
+                return model;
             }
         }
 
@@ -38,7 +54,7 @@ namespace ArabErp.DAL
         {
             using (IDbConnection connection = OpenConnection(dataConnection))
             {
-                return connection.Query<VehicleModel>("SELECT VehicleModelRefNo,VehicleModelName,VehicleModelDescription  FROM VehicleModel").ToList();
+                return connection.Query<VehicleModel>("SELECT VehicleModelId,VehicleModelRefNo,VehicleModelName,VehicleModelDescription  FROM VehicleModel where isActive=1").ToList();
             }
         }
         public VehicleModel GetVehicleModel(int VehicleModelId)
@@ -70,10 +86,47 @@ namespace ArabErp.DAL
             }
         }
 
-        //public void Dispose()
-        //{
-        //    connection.Dispose();
-        //}
+        public VehicleModel UpdateVehicleModel(VehicleModel model)
+        {
+            using (IDbConnection connection = OpenConnection(dataConnection))
+            {
+                string sql = @"UPDATE VehicleModel SET VehicleModelName= @VehicleModelName,VehicleModelDescription = @VehicleModelDescription, CreatedBy = @CreatedBy,CreatedDate= GETDATE(),OrganizationId = @OrganizationId OUTPUT INSERTED.VehicleModelId  WHERE VehicleModelId = @VehicleModelId";
+
+                try
+                {
+                    var id = connection.Execute(sql, model);
+                    model.VehicleModelId = id;
+                }
+                catch (Exception ex)
+                {
+
+                    model.VehicleModelId = 0;
+
+                }
+                return model;
+            }
+        }
+        public VehicleModel DeleteVehicleModel(VehicleModel model)
+        {
+            using (IDbConnection connection = OpenConnection(dataConnection))
+            {
+                string sql = @"UPDATE VehicleModel SET isActive = 0 OUTPUT INSERTED.VehicleModelId  WHERE VehicleModelId = @VehicleModelId";
+                
+                try
+                {
+                    var id = connection.Execute(sql, model);
+                    model.VehicleModelId = id;
+                }
+                catch (Exception ex)
+                {
+
+                    model.VehicleModelId = 0;
+
+                }
+                return model;
+            }
+        }
+
 
     }
    

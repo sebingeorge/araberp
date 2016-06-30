@@ -217,7 +217,7 @@
                     <div class="col-md-2">
                         <label id="againstId"></label>
                         @Html.DropDownListFor(m => Model.SaleOrderId, (SelectList)ViewBag.SO, "Select S.O", new { @class = "form_input divHidden", autocomplete = "off" })
-                        @Html.DropDownListFor(m => Model.JobCardId, (SelectList)ViewBag.JC, "Select J.C", new { @class = "form_input divHidden", autocomplete = "off" })
+                        @Html.DropDownListFor(m => Model.JobCardId, (SelectList)ViewBag.JC, "Select J.C", new { @class = "form_input divHidden against", autocomplete = "off" })
                     </div>
                 </div>
                 <div class="row form-group">

@@ -37,6 +37,7 @@ namespace ArabErp.Web.Controllers
             oItem.MaxLevel = null;
             oItem.StockRequired = false;
             oItem.BatchRequired=false;
+            oItem.ItemRefNo = "ITM/"+DatabaseCommonRepository.GetNextRefNoWithNoUpdate(typeof(Item).Name);
            
             return View("Create", oItem);
         }

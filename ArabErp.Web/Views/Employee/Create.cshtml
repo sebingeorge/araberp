@@ -1,81 +1,68 @@
 ﻿@model ArabErp.Domain.Employee
 
 @{ViewBag.Title = "Create"; Layout = "~/Views/Shared/_Layout.cshtml";}
-
-<script>
+@{string actionName = HttpContext.Current.Request.RequestContext.RouteData.Values["action"].ToString(); }
+<script type="text/javascript">
+    function Exit() {
+        location.href = '@Url.Action("Create")';
+    }
     $(document).ready(function () {
-        $('#Employee_form').bootstrapValidator({
-            fields: {
-                EmployeeRefNo: {
-                    validators: {
-                        notEmpty: {
-                            message: 'Please Enter Code'
-                        }
-                    }
-                },
+        var Action = '@actionName';
+        if (Action == 'Delete')
+        {
+         
+            $("input[type='text'], select, textarea").attr('disabled', 'disabled');
+            $("input[type=radio]").attr('disabled', true);
+        }
+        if (Action == 'Create') {
+            $("#GenderId").prop("checked", true)
+        }
+       
+        //$("#radio_1").prop("checked", true)
+        toastr.options = {
+            "closeButton": true,
+            "positionClass": "toast-bottom-full-width",
+            "preventDuplicates": false,
+            "onclick": null,
 
-                EmployeeName: {
-                    validators: {
-                        notEmpty: {
-                            message: 'Please Enter Name'
-                        }
-                    }
-                },
+            "timeOut": "0",
+            "extendedTimeOut": "1000",
 
-                DesignationId: {
-                    validators: {
-                        notEmpty: {
-                            message: 'Please Select Designation'
-                        }
-                    }
-                },
+            "showEasing": "swing",
+            "hideEasing": "linear",
+            "showMethod": "fadeIn",
+            "hideMethod": "fadeOut"
+        }
+        if ('@TempData["success"]' != "" && '@TempData["RefNo"]' != "") {
+            toastr.success('@TempData["success"]' + '  Empoyee Ref No. is : ' + '@TempData["RefNo"]');
+        }
+        else if ('@TempData["error"]' != "") {
+            toastr.error('@TempData["error"]');
+        }
 
-                CategoryId: {
-                    validators: {
-                        notEmpty: {
-                            message: 'Please Select Category'
-                        }
-                    }
-                },
-
-                LocationId: {
-                    validators: {
-                        notEmpty: {
-                            message: 'Please Select Location'
-                        }
-                    }
-                }
-
-
-            }
-        });
-    })
-
+    });
 </script>
-
-
-
 <div class="container">
     <div class="row">
         <div class="form-head1">
             <h4>Employee</h4>
         </div>
         <div class="main-part pad1">
-            <div class="row">
-
-                @using (Html.BeginForm("Save", null, FormMethod.Post, new { @class = "createFrom", @id = "Employee_form" }))
-                {
+            @using (Html.BeginForm(null, null, FormMethod.Post, new { @class = "createFrom", @id = "Employee_form" }))
+            {
+                <div class="row">
                     <div class="col-md-4">
                         <div class="part4">
                             <label for="EmployeeRefNo">Code</label>
-                            @Html.TextBoxFor(m => m.EmployeeRefNo, new { @class = "form_input form_input-half", autocomplete = "off" })
+                            @Html.HiddenFor(m => m.EmployeeId)
+                            @Html.HiddenFor(m => m.EmployeeRefNo)
+                            @Html.TextBoxFor(m => m.EmployeeRefNo, new { @class = "form_input form_input-half", autocomplete = "off", @readonly = "readonly" })
                         </div>
                         <div class="part4">
                             <label for="CategoryId">Category</label>
-                            @Html.DropDownListFor(m => Model.CategoryId, (SelectList)ViewBag.EmployeeCategory, "Select Category", new { @class = "form_input", autocomplete = "off" })
+                            @Html.DropDownListFor(m => m.CategoryId, (SelectList)ViewBag.EmployeeCategory, "Select Category", new { @class = "form_input", autocomplete = "off" })
+
                         </div>
-
-
                     </div>
                     <div class="col-md-4">
                         <div class="part4">
@@ -84,46 +71,45 @@
                         </div>
                         <div class="part4">
                             <label for="DesignationId">Designation</label>
-                            @Html.DropDownListFor(m => Model.DesignationId, (SelectList)ViewBag.EmployeeDesignations, "Select Designation", new { @class = "form_input", autocomplete = "off" })
-                        </div>
 
-
-                    </div>
-
-              
-                <div class="col-md-4">
-                    <div class="part4 col-md-6">
-                        <label>Gender</label>
-                        <div class="editor-field">
-                          
-                            @Html.RadioButtonFor(model => model.GenderId, 1, new { @checked = true }) Male
-                            @Html.RadioButtonFor(model => model.GenderId, 2, new { @checked = true }) Female
+                            @Html.DropDownListFor(m => m.DesignationId, (SelectList)ViewBag.EmployeeDesignations, "Select Designation", new { @class = "form_input", autocomplete = "off" })
                         </div>
                     </div>
-                    <div class="part4">
-                        <label for="HourlyCost">Hourly Cost</label>
-                        @Html.TextBoxFor(m => m.Hourlycost, new { @class = "form_input form_input-half", autocomplete = "off" })
+                    <div class="col-md-4">
+                        <div class="part4 col-md-6">
+                            <label>Gender</label>
+                            <div class="editor-field">
+                                 @Html.RadioButtonFor(m => m.GenderId,0) Male
+                                @Html.RadioButtonFor(m => m.GenderId,1) Female
 
-                    </div>
-
-                    <div class="part4 col-md-12">
-                        <label for="LocationId">Location</label>
-                        @Html.DropDownListFor(m => Model.LocationId, (SelectList)ViewBag.EmployeeLocation, "Select Location", new { @class = "form_input", autocomplete = "off" })
+                                @*@Html.RadioButtonFor(m => m.GenderId, 1, new { @checked = true }) Male
+                                @Html.RadioButtonFor(m => m.GenderId, 2, new { @checked = true }) Female*@
+                            </div>
+                        </div>
+                        <div class="part4">
+                            <label for="HourlyCost">Hourly Cost</label>
+                            @Html.TextBoxFor(m => m.Hourlycost, new { @class = "form_input form_input-half", autocomplete = "off" })
+                        </div>
+                        <div class="part4 col-md-12">
+                            <label for="LocationId">Location</label>
+                            @Html.DropDownListFor(m => m.LocationId, (SelectList)ViewBag.EmployeeLocation, "Select Location", new { @class = "form_input", autocomplete = "off" })
+                        </div>
                     </div>
                 </div>
-                }
-            </div>
-                    
-
-            <div class="row">
-               
-                <div class="col-md-12 hrpart">
-                    <button type="button" class="form-button right">Exit</button>
-                    <button type="submit" class="form-button right">Save</button>
+                <div class="row">
+                    <div class="col-md-12 hrpart">
+                        <button type="button" class="form-button right" onclick="Exit();">Exit</button>
+                        @if(actionName=="Edit")
+                        { <button type="submit" class="form-button right">Update</button> }
+                        else
+                            if(actionName=="Delete")
+                            {  <button type="submit" class="form-button right">Delete</button>}
+                                 else
+                                    { <button type="submit" class="form-button right">Save</button>}
+                       
+                    </div>
                 </div>
-                
-            </div>
-
+            }
         </div>
 
         <div class="main-list">
@@ -138,4 +124,3 @@
     </div>
 
 </div>
-

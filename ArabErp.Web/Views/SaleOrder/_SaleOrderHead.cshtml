@@ -1,7 +1,13 @@
 ﻿@model ArabErp.Domain.SaleOrder
+@{ string actionName = ViewContext.RouteData.GetRequiredString("action");
+ if (actionName == "CreateProject")
+ {
+     actionName = "Create";
+ }
+}
 @{
     object displayMode = null;
-    if (ViewData["action"].ToString() == "Create")
+    if (actionName == "Create")
     {
         displayMode = new { @class = "form_input", autocomplete = "off" };
     }
@@ -49,21 +55,21 @@
     </div>
     <div class="col-md-2">
         <label for="selectCustomer">Quotation No.</label>
-        @if (ViewData["action"].ToString() == "Create")
+        @if (actionName == "Create")
         {
             @Html.DropDownListFor(m => Model.SalesQuotationId, (SelectList)ViewBag.QuotationNolist, "Select Quotation", new { @class = "form_input", autocomplete = "off", @onchange = "QuotationChanged(this);" })
 
         }
         else
         {
-            @Html.DropDownListFor(m => Model.SalesQuotationId, (SelectList)ViewBag.QuotationNolist, "Select Quotation", new { @class = "form_input", autocomplete = "off", @onchange = "QuotationChanged(this);", @disabled = "true" })
+            @*@Html.DropDownListFor(m => Model.SalesQuotationId, (SelectList)ViewBag.QuotationNolist, "Select Quotation", new { @class = "form_input", autocomplete = "off", @onchange = "QuotationChanged(this);", @disabled = "true" })*@
         }
     </div>
 </div>
 <div class="row form-group">
     <div class="col-md-4">
         <label for="selectCustomer">Customer</label>
-        @if (ViewData["action"].ToString() == "Create")
+        @if (actionName == "Create")
         {
             @Html.DropDownListFor(m => Model.CustomerId, (SelectList)ViewBag.customerlist, "Select Customer", new { @class = "form_input", autocomplete = "off", @onchange = "CustomerChanged(this);" })
 
@@ -79,7 +85,7 @@
     </div>
     <div class="col-md-2">
         <label for="CustomerOrderRef">Customer Order Ref.</label>
-        @if (ViewData["action"].ToString() == "Create")
+        @if (actionName == "Create")
         {
             @Html.TextBoxFor(m => m.CustomerOrderRef, new { @class = "form_input", autocomplete = "off" })
         }
