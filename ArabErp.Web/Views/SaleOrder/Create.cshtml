@@ -35,27 +35,35 @@
             }
         });
   
-        function QuotationChanged(quot)
-        {
-            var quot = quot.value;
 
-            $.ajax({
-                url:  "@Url.Action("GetCustomerDetailsByKey", "SaleOrder")",
-                data: { cusKey: cusId },
-            cache: false,
-            type: "GET",
-            timeout: 10000,
-            dataType: "json",
-            success: function (result) {
-                if (result.Success) { // this sets the value from the response
-                    $('#CurrencyId').val(result.CurrencyId);
-                    $('#CurrencyName').val(result.CurrencyName);
-                    $("#CustomerAddress").val(result.Address);
-                } else {
-                    $('#SomeOtherHtmlTextBox').val("Failed");
-                }
+    }
+
+    function QuotationChanged(quot)
+    {
+        var quoId = quot.value;
+       
+        $.ajax({
+           
+            url:  "@Url.Action("GetQuationDetailsByKey","SaleOrder")",
+            data: { quoKey: quoId },
+        cache: false,
+        type: "GET",
+        timeout: 10000,
+        dataType: "json",
+        success: function (result) {
+            if (result.Success) { // this sets the value from the response
+                $('#CustomerId').val(result.CustomerId);
+                $('#CurrencyName').val(result.CurrencyName);
+                $("#CustomerAddress").val(result.Address);
+                $("#PaymentTerms").val(result.PaymentTerms);
+                $("#SpecialRemarks").val(result.SpecialRemarks);
+            } else {
+                $('#SomeOtherHtmlTextBox').val("Failed");
             }
-        });
+        }
+    });
+  
+
     }
      function Validation() {
         var count = 0;
@@ -204,12 +212,12 @@
                 </div>
               
                 <div class="main-part pad1">
-                    @using (Html.BeginForm("Save", null, FormMethod.Post, new { @class = "createFrom", @id = "saleorder_form", onsubmit = "return Validation()" }))
+                    @using (Html.BeginForm(null, null, FormMethod.Post, new { @class = "createFrom", @id = "saleorder_form", onsubmit = "return Validation()" }))
         {
-                     
-@Html.Partial("_SaleOrderHead",Model)
-@Html.Partial("_DisplaySOList", Model)
-@Html.Partial("_SaleOrderFooter", Model)
+                     @Html.HiddenFor(m=>m.isProjectBased)
+                    @Html.Partial("_SaleOrderHead",Model)
+                    @Html.Partial("_DisplaySOList", Model)
+                    @Html.Partial("_SaleOrderFooter", Model)
                 <div class="row">
         <div class="col-md-12 hrpart">
             <button type="button" class="form-button right" onclick="Exit()">Exit</button>

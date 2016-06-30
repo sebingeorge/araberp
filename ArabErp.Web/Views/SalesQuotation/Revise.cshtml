@@ -25,8 +25,18 @@
 <script>
     function GotoIndex()
     {
-        var url = '@Url.Action("Index")';
-        location.href = url;
+        var project = $("#isProjectBased").val();
+        if (project == 0)
+        {
+            var url = '@Url.Action("Index")';
+            location.href = url;
+        }
+        else
+        {
+            var url = '@Url.Action("ProjectIndex")';
+            location.href = url;
+        }
+        
     }
 
     $(function () {
