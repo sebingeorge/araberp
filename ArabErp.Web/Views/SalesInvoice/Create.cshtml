@@ -210,13 +210,13 @@
                         <div class="row form-group">
 
                                 <div class="part1">
-                                    <div class="col-md-1"><label for="SpecialRemarks">Spl.Remarks</label></div>
-                                    <div class="col-md-11"> @Html.TextAreaFor(m => m.SpecialRemarks, new { @class = "form_input form_input-h", autocomplete = "off" })</div>
+                                    <div class="col-md-2"><label for="SpecialRemarks">Special Remarks</label></div>
+                                    <div class="col-md-10"> @Html.TextAreaFor(m => m.SpecialRemarks, new { @class = "form_input form_input-h", autocomplete = "off" })</div>
                                       
                                     </div>
                                 <div class="part">
-                                    <div class="col-md-1"><label for="PaymentTerms">Pay.Terms</label></div>
-                                    <div class="col-md-11">@Html.TextBoxFor(m => m.PaymentTerms, new { @class = "form_input", autocomplete = "off" })</div>
+                                    <div class="col-md-2"><label for="PaymentTerms">Payment Terms</label></div>
+                                    <div class="col-md-10">@Html.TextBoxFor(m => m.PaymentTerms, new { @class = "form_input", autocomplete = "off" })</div>
                                         
 
                                     </div>
@@ -225,11 +225,11 @@
                         
                         <div class="row form-group">
                          
-                                <div class="col-md-3">
-                                    <label for="PaymentTerms">Additional</label>
+                                <div class="col-md-2">
+                                    <label for="PaymentTerms">Additional Amount</label>
                                     @Html.TextBoxFor(m => m.Addition, new { @class = "form_input numbers-only", @style = "text-align:right", autocomplete = "off", @Value = "0.00" })
                                 </div>
-                                <div class="col-md-9">
+                                <div class="col-md-10">
                                     <label for="PaymentTerms">Remarks</label>
                                     @Html.TextBoxFor(m => m.AdditionRemarks, new { @class = "form_input clAmount", autocomplete = "off" })
                                 </div>
@@ -237,11 +237,11 @@
                             </div>
                           <div class="row form-group">
                         
-                                <div class="col-md-3">
-                                    <label for="PaymentTerms">Deduction</label>
+                                <div class="col-md-2">
+                                    <label for="PaymentTerms">Deduction Amount</label>
                                     @Html.TextBoxFor(m => m.Deduction, new { @class = "form_input numbers-only clAmount", @style = "text-align:right", autocomplete = "off", @Value = "0.00" })
                                 </div>
-                                <div class="col-md-9">
+                                <div class="col-md-10">
                                     <label for="PaymentTerms">Remarks</label>
                                     @Html.TextBoxFor(m => m.DeductionRemarks, new { @class = "form_input", autocomplete = "off" })
                                 </div>

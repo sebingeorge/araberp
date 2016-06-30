@@ -178,6 +178,11 @@ textarea {
     width: 92px;
     margin-right:0;
 }
+.form-button4:hover 
+    {
+        color:#a49e9e;
+        text-decoration:none;
+    }
  .form-button4 a 
  {
      color:#ffffff;
@@ -763,6 +768,10 @@ section.content {
     width: 80px;
 }
 
+.against 
+{
+    margin-top:-22px;
+}
 
 
 

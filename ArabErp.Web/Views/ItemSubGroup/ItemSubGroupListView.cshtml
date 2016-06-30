@@ -28,8 +28,9 @@
                             columns.Add(m => m.ItemSubGroupName).Titled("Name").SetWidth(110);
                             columns.Add(m => m.ItemGroupName).Titled("Group").SetWidth(110);
 
-                            columns.Add().Encoded(false).Sanitized(false).SetWidth(30).Css("cent").RenderValueAs(o => @<a href="">Edit</a>);
-                            columns.Add().Encoded(false).Sanitized(false).SetWidth(30).Css("cent").RenderValueAs(o => @<a href="">Delete</a>);
+                            columns.Add().Encoded(false).Sanitized(false).SetWidth(30).Css("cent").RenderValueAs(o => @<a href="@Url.Action("Edit", new { Id = o.ItemSubGroupId })">Edit</a>);
+                            columns.Add().Encoded(false).Sanitized(false).SetWidth(30).Css("cent").RenderValueAs(o => @<a href="@Url.Action("Delete", new { Id = o.ItemSubGroupId })">Delete</a>);
+
 
                             //.Format("<a href="\"DeleteRecord?name={CategoryName}\"">{CategoryName}</a>");
 
