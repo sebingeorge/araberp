@@ -24,7 +24,7 @@
                             <th width="15%" nowrap><h1>Received By</h1></th>
                             <th width="15%" nowrap><h1>Warehouse/Stockpoint</h1></th>
                             <th width="1%" class="text-right" nowrap><h1>Grand Total</h1></th>
-                            <th width="10%" class="text-right" nowrap><h1>Type</h1></th>
+                            <th width="10%" nowrap><h1>Type</h1></th>
                             <th></th>
                         </tr>
                     </thead>
@@ -58,7 +58,7 @@
                                             <input type="text" class="form_input" @(Model[i].isDirectPurchaseGRN ? "value = " + "DIRECT-GRN" : "value=GRN") disabled />
                                         </td>
                                         <td>
-                                            <input type="button" class="mtop form-button3" value="Edit" title="Click here to edit this entry" onclick="Edit(@Model[i].GRNId)" />
+                                            <input type="button" class="form-button5" value="Edit" title="Click here to edit this entry" onclick="Edit(@Model[i].GRNId)" />
                                         </td>
                                     </tr>
                                 }
@@ -73,6 +73,11 @@
                     </tbody>
                 </table>
             </div>
+            @*<div class="row">
+                <div class="col-md-12 hrpart">
+                    <input type="button" class="form-button right" value="Pending" id="btnProceed" />
+                </div>
+            </div>*@
         </div>
     </div>
 

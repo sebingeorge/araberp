@@ -15,7 +15,7 @@
             "onclick": null,
             "showDuration": "300",
             "hideDuration": "1000",
-            "timeOut": "0",
+            "timeOut": "5000",
             "extendedTimeOut": "1000",
             "showEasing": "swing",
             "hideEasing": "linear",
@@ -63,12 +63,12 @@
                     @Html.Action("PendingDirectPurchaseGrid")
 
                 </div>
-                <br />
+                <em>P.S.: Only approved requests will show up here</em>
                 <div class="row">
                     <div class="col-md-12 hrpart">
-                        <input type="button" class="form-button" onclick="PreviousList()" value="Previous">
+                        <input type="button" class="form-button" onclick="PreviousList()" value="Previous" title="Previously accepted GRNs">
 
-                        <input type="submit" class="form-button right" value="Proceed" id="btnProceed" />
+                        <input type="submit" class="form-button right" value="Proceed" id="btnProceed" title="Proceed" />
                     </div>
                 </div>
 

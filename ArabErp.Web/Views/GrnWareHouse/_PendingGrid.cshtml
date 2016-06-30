@@ -34,12 +34,13 @@
 <table class="table table-bordered">
     <thead>
         <tr class="grid_heading">
+            <th><h1>Supplier</h1></th>
             <th><h1>SO No. &amp; Date</h1></th>
             <th><h1>Quotation No. &amp; Date</h1></th>
             <th><h1>Special Remarks</h1></th>
             <th width="1%" class="text-right" nowrap><h1>Ageing</h1></th>
-            <th><h1>Required Date</h1></th>
-            <th width="10%" style="vertical-align:middle">
+            <th width="1%" nowrap><h1>Required Date</h1></th>
+            <th width="1%" style="vertical-align:middle" title="Check this to select all checkboxes below" nowrap>
                 <h1>
                     <input id="checkAll" type="checkbox"> Select all
                 </h1>
@@ -53,6 +54,9 @@
                 for (int i = 0; i < Model.Count; i++)
                 {
                     <tr>
+                        <td>
+                            <input type="text" class="form_input" value="@Model[i].SupplierName" disabled />
+                        </td>
                         <td>
                             @Html.HiddenFor(m => m[i].SupplyOrderId)
                             <input type="text" class="form_input" value="@Model[i].SoNoWithDate" disabled />
@@ -78,7 +82,7 @@
             else
             {
                 <tr>
-                    <td colspan="6" align="center"><em>Please select a supplier to continue...</em></td>
+                    <td colspan="6" align="center"><em>There are no pending/incomplete supply orders to show</em></td>
                 </tr>
             }
         }
