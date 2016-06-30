@@ -38,7 +38,7 @@ namespace ArabErp.Web.Controllers
         public ActionResult Create(IList<PendingGRN> PendingGRNSelected)
 
         {
-
+            FillAdditionDeduction();
             PurchaseBill purchasebill = new PurchaseBill();
             PurchaseBillRepository rep = new PurchaseBillRepository();
             if (PendingGRNSelected != null)
@@ -53,9 +53,29 @@ namespace ArabErp.Web.Controllers
 
 
             }
+            string internalId = "";
+            try
+            {
+                internalId = DatabaseCommonRepository.GetNextReferenceNo(typeof(PurchaseBill).Name);
+
+            }
+            catch (NullReferenceException nx)
+            {
+                TempData["success"] = "";
+                TempData["error"] = "Some required data was missing. Please try again.|" + nx.Message;
+            }
+            catch (Exception ex)
+            {
+                TempData["success"] = "";
+                TempData["error"] = "Some error occurred. Please try again.|" + ex.Message;
+            }
+
+            purchasebill.PurchaseBillRefNo = "PRB/" + internalId;
+         
             purchasebill.Supplier = PendingGRNSelected[0].SupplierName;
             purchasebill.SupplierId = PendingGRNSelected[0].SupplierId;
             purchasebill.PurchaseBillDate = System.DateTime.Today;
+
             return View(purchasebill);
 
         }
@@ -70,6 +90,12 @@ namespace ArabErp.Web.Controllers
            
 
         }
+        public void FillAdditionDeduction()
+        {
+            ViewBag.additionList = new SelectList(new DropdownRepository().AdditionDropdown(), "Id", "Name");
+            ViewBag.deductionList = new SelectList(new DropdownRepository().DeductionDropdown(), "Id", "Name");
+        }
+
 
     }
 }
