@@ -18,7 +18,7 @@ namespace ArabErp.DAL
             using (IDbConnection connection = OpenConnection(dataConnection))
             {
                 IDbTransaction trn = connection.BeginTransaction();
-                string sql = @"INSERT INTO EmpolyeeCategory(EmpCategoryRefNo,EmpCategoryName,CreatedBy,CreatedDate,OrganizationId) VALUES(@EmpCategoryRefNo,@EmpCategoryName,@CreatedBy,getDate(),@OrganizationId);
+                string sql = @"INSERT INTO EmployeeCategory(EmpCategoryRefNo,EmpCategoryName,CreatedBy,CreatedDate,OrganizationId) VALUES(@EmpCategoryRefNo,@EmpCategoryName,@CreatedBy,getDate(),@OrganizationId);
             SELECT CAST(SCOPE_IDENTITY() as int)";
                 int id = 0;
 
@@ -44,7 +44,7 @@ namespace ArabErp.DAL
         {
             using (IDbConnection connection = OpenConnection(dataConnection))
             {
-                string sql = @"UPDATE EmpolyeeCategory SET EmpCategoryName = @EmpCategoryName, CreatedBy = @CreatedBy,CreatedDate= GETDATE(),OrganizationId = @OrganizationId OUTPUT INSERTED.EmpCategoryId  WHERE EmpCategoryId = @EmpCategoryId";
+                string sql = @"UPDATE EmployeeCategory SET EmpCategoryName = @EmpCategoryName, CreatedBy = @CreatedBy,CreatedDate= GETDATE(),OrganizationId = @OrganizationId OUTPUT INSERTED.EmpCategoryId  WHERE EmpCategoryId = @EmpCategoryId";
 
                 try
                 {
@@ -64,7 +64,7 @@ namespace ArabErp.DAL
         {
             using (IDbConnection connection = OpenConnection(dataConnection))
             {
-                string sql = @"UPDATE EmpolyeeCategory SET isActive = 0 OUTPUT INSERTED.EmpCategoryId  WHERE EmpCategoryId = @EmpCategoryId";
+                string sql = @"UPDATE EmployeeCategory SET isActive = 0 OUTPUT INSERTED.EmpCategoryId  WHERE EmpCategoryId = @EmpCategoryId";
 
                 try
                 {
@@ -86,7 +86,7 @@ namespace ArabErp.DAL
             using (IDbConnection connection = OpenConnection(dataConnection))
             {
 
-                return connection.Query<EmployeeCategory>("SELECT EmpCategoryId,EmpCategoryRefNo,EmpCategoryName  FROM EmpolyeeCategory where isActive = 1").ToList();
+                return connection.Query<EmployeeCategory>("SELECT EmpCategoryId,EmpCategoryRefNo,EmpCategoryName  FROM EmployeeCategory where isActive = 1").ToList();
             }
         }
 
@@ -94,7 +94,7 @@ namespace ArabErp.DAL
         {
             using (IDbConnection connection = OpenConnection(dataConnection))
             {
-                string sql = @"select * from EmpolyeeCategory
+                string sql = @"select * from EmployeeCategory
                         where EmpCategoryId=@EmpCategoryId";
 
                 var objEmployeeCategory = connection.Query<EmployeeCategory>(sql, new
@@ -110,7 +110,7 @@ namespace ArabErp.DAL
         {
             using (IDbConnection connection = OpenConnection(dataConnection))
             {
-                string sql = @"select * from EmpolyeeCategory
+                string sql = @"select * from EmployeeCategory
                         where OrganizationId>0";
 
                 var objEmployeeCategory = connection.Query<EmployeeCategory>(sql).ToList<EmployeeCategory>();
