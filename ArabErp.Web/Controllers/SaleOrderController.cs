@@ -249,6 +249,14 @@ namespace ArabErp.Web.Controllers
             string address = (new SaleOrderRepository()).GetCusomerAddressByKey(cusKey);
             return Json(new { Success = true, CurrencyName = res.Name,CurrencyId=res.Id, Address = address }, JsonRequestBehavior.AllowGet);
         }
+         [HttpGet]
+        public JsonResult GetQuationDetailsByKey(int quoKey)
+        {
+            var cusname = (new SaleOrderRepository()).GetCustomerIdByQuotKey(quoKey);
+            string address = (new SaleOrderRepository()).GetCustomerAddressQuotKey(quoKey);
+            var details = (new SaleOrderRepository()).GetTermsByQuotKey(quoKey);
+            return Json(new { Success = true, CustomerId = cusname.Id, Address = address, PaymentTerms = details.PaymentTerms, SpecialRemarks =details.SpecialRemarks}, JsonRequestBehavior.AllowGet);
+        }
         public JsonResult GetVehicleModel(int WorkDescriptionId)
         {
             SaleOrderItem List = new SaleOrderRepository().GetVehicleModel(WorkDescriptionId);

@@ -35,27 +35,35 @@
             }
         });
   
-        function QuotationChanged(quot)
-        {
-            var quot = quot.value;
 
-            $.ajax({
-                url:  "@Url.Action("GetCustomerDetailsByKey", "SaleOrder")",
-                data: { cusKey: cusId },
-            cache: false,
-            type: "GET",
-            timeout: 10000,
-            dataType: "json",
-            success: function (result) {
-                if (result.Success) { // this sets the value from the response
-                    $('#CurrencyId').val(result.CurrencyId);
-                    $('#CurrencyName').val(result.CurrencyName);
-                    $("#CustomerAddress").val(result.Address);
-                } else {
-                    $('#SomeOtherHtmlTextBox').val("Failed");
-                }
+    }
+
+    function QuotationChanged(quot)
+    {
+        var quoId = quot.value;
+       
+        $.ajax({
+           
+            url:  "@Url.Action("GetQuationDetailsByKey","SaleOrder")",
+            data: { quoKey: quoId },
+        cache: false,
+        type: "GET",
+        timeout: 10000,
+        dataType: "json",
+        success: function (result) {
+            if (result.Success) { // this sets the value from the response
+                $('#CustomerId').val(result.CustomerId);
+                $('#CurrencyName').val(result.CurrencyName);
+                $("#CustomerAddress").val(result.Address);
+                $("#PaymentTerms").val(result.PaymentTerms);
+                $("#SpecialRemarks").val(result.SpecialRemarks);
+            } else {
+                $('#SomeOtherHtmlTextBox').val("Failed");
             }
-        });
+        }
+    });
+  
+
     }
      function Validation() {
         var count = 0;

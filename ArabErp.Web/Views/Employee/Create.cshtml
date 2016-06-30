@@ -55,6 +55,7 @@
                         <div class="part4">
                             <label for="EmployeeRefNo">Code</label>
                             @Html.HiddenFor(m => m.EmployeeId)
+                            @Html.HiddenFor(m => m.EmployeeRefNo)
                             @Html.TextBoxFor(m => m.EmployeeRefNo, new { @class = "form_input form_input-half", autocomplete = "off", @readonly = "readonly" })
                         </div>
                         <div class="part4">
