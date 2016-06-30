@@ -36,9 +36,9 @@ namespace ArabErp.Web.Controllers
             FillVehicleRegNo();
             return View(model);
         }
-        public ActionResult PendingJobCard()
+        public ActionResult PendingJobCard(int? isProjectBased)
         {
-            IEnumerable<PendingSO> pendingSo = repo.GetPendingSO();
+            IEnumerable<PendingSO> pendingSo = repo.GetPendingSO(isProjectBased ?? 0);
             return View(pendingSo);
         }
 

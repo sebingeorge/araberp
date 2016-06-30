@@ -84,25 +84,30 @@
 
 
 <div class="row form-group">
-    <div class="col-md-2">
-        <label for="Addition">Additional Amount</label>
+    <div class="col-md-5">
+        <label for="AdditionRemarks">Addition</label>
+        @Html.DropDownListFor(m => m.AdditionId, (SelectList)ViewBag.additionList, "Select Addition", new { @class = "form_input" })
+      
+    </div>
+    <div class="col-md-1">
+        <label for="Addition">Add.Amt.</label>
         @Html.TextBoxFor(m => m.Addition, new { @class = "form_input numbers-only", @style = "text-align:right", autocomplete = "off", @Value = "0.00" })
     </div>
-    <div class="col-md-8">
-        <label for="AdditionRemarks">Addition Remarks</label>
-        @Html.TextBoxFor(m => m.AdditionRemarks, new { @class = "form_input", autocomplete = "off" })
+
+    <div class="col-md-5">
+        <label for="DeductionRemarks">Deduction</label>
+        @Html.DropDownListFor(m => m.DeductionId, (SelectList)ViewBag.deductionList, "Select Deduction", new { @class = "form_input" })
+     
+    </div>
+    <div class="col-md-1">
+        <label for="Deduction">Ded.Amt.</label>
+        @Html.TextBoxFor(m => m.Deduction, new { @class = "form_input numbers-only", @style = "text-align:right", autocomplete = "off", @Value = "0.00" })
     </div>
 </div>
 
 <div class="row form-group">
-    <div class="col-md-2">
-        <label for="Deduction">Deduction Amount</label>
-        @Html.TextBoxFor(m => m.Deduction, new { @class = "form_input numbers-only", @style = "text-align:right", autocomplete = "off", @Value = "0.00" })
-    </div>
-    <div class="col-md-8">
-        <label for="DeductionRemarks">Deduction Remarks</label>
-        @Html.TextBoxFor(m => m.DeductionRemarks, new { @class = "form_input", autocomplete = "off" })
-    </div>
+   
+  
     <div class="col-md-2">
         <label for="PurchaseBillAmount">Net Amount</label>
         @Html.TextBoxFor(m => m.PurchaseBillAmount, new { @class = "form_input ", @style = "text-align:right", autocomplete = "off",@readonly="readyonly" })
