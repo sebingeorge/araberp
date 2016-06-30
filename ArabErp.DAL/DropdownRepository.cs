@@ -157,7 +157,7 @@ namespace ArabErp.DAL
             }
         }
         /// <summary>
-        /// Returns all suppliers who have pending sale order(s)
+        /// Returns all suppliers who have pending/incomplete supply order(s)
         /// </summary>
         /// <returns></returns>
         public List<Dropdown> SupplierDropdown1()
@@ -168,7 +168,7 @@ namespace ArabErp.DAL
                                                     INNER JOIN SupplyOrder SO ON SOI.SupplyOrderId = SO.SupplyOrderId
                                                     INNER JOIN Supplier S ON SO.SupplierId = S.SupplierId
                                                     LEFT JOIN GRNItem GI ON SOI.SupplyOrderItemId = GI.SupplyOrderItemId
-                                                    WHERE GI.SupplyOrderItemId IS NULL").ToList();
+                                                    WHERE GI.SupplyOrderItemId IS NULL OR GI.Quantity < SOI.OrderedQty").ToList();
             }
         }
         /// <summary>
