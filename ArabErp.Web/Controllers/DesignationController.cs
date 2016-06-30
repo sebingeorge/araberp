@@ -15,16 +15,7 @@ namespace ArabErp.Web.Controllers
         {
             return View();
         }
-        public ActionResult create()
-        {
-            return View();
-        }
-        public ActionResult Save(Designation objDesignation)
-        {
-            var repo = new DesignationRepository();
-            new DesignationRepository().InsertDesignation(objDesignation);
-            return View("Create");
-        }
+
         public ActionResult FillDesignationList(int? page)
         {
             int itemsPerPage = 10;
@@ -34,5 +25,102 @@ namespace ArabErp.Web.Controllers
             return PartialView("DesignationListView",List);
         }
 
+        public ActionResult Create()
+        {
+            ViewBag.Title = "Create";
+            Designation Designation = new Designation();
+            Designation.DesignationRefNo = new DesignationRepository().GetRefNo(Designation);
+            return View(Designation);
+        }
+        [HttpPost]
+        public ActionResult Create(Designation model)
+        {
+            model.OrganizationId = 1;
+            model.CreatedDate = System.DateTime.Now;
+            model.CreatedBy = Request.ServerVariables["HTTP_X_FORWARDED_FOR"] ?? Request.ServerVariables["REMOTE_ADDR"];
+            var result = new DesignationRepository().InsertDesignation(model);
+
+            if (result.DesignationId > 0)
+            {
+                TempData["Success"] = "Added Successfully!";
+                TempData["DesignationRefNo"] = result.DesignationRefNo;
+                return RedirectToAction("Create");
+            }
+            else
+            {
+                TempData["error"] = "Oops!!..Something Went Wrong!!";
+                TempData["DesignationRefNo"] = null;
+                return View("Create", model);
+            }
+        }
+
+        public ActionResult Edit(int Id)
+        {
+            ViewBag.Title = "Edit";
+            Designation objDesignation = new DesignationRepository().GetDesignation(Id);
+            return View("Create", objDesignation);
+        }
+
+        [HttpPost]
+        public ActionResult Edit(Designation model)
+        {
+
+            model.OrganizationId = 1;
+            model.CreatedDate = System.DateTime.Now;
+            model.CreatedBy = Request.ServerVariables["HTTP_X_FORWARDED_FOR"] ?? Request.ServerVariables["REMOTE_ADDR"];
+
+
+            var result = new DesignationRepository().UpdateDesignation(model);
+
+            if (result.DesignationId > 0)
+            {
+                TempData["Success"] = "Updated Successfully!";
+                TempData["DesignationRefNo"] = result.DesignationRefNo;
+                return RedirectToAction("Create");
+            }
+            else
+            {
+                TempData["error"] = "Oops!!..Something Went Wrong!!";
+                TempData["DesignationRefNo"] = null;
+                return View("Edit", model);
+            }
+
+        }
+
+        public ActionResult Delete(int Id)
+        {
+            ViewBag.Title = "Delete";
+            Designation objDesignation = new DesignationRepository().GetDesignation(Id);
+            return View("Create", objDesignation);
+
+        }
+
+        [HttpPost]
+        public ActionResult Delete(Designation model)
+        {
+            int result = new DesignationRepository().DeleteDesignation(model);
+
+            if (result == 0)
+            {
+                TempData["Success"] = "Deleted Successfully!";
+                TempData["DesignationRefNo"] = model.DesignationRefNo;
+                return RedirectToAction("Create");
+            }
+            else
+            {
+                if (result == 1)
+                {
+                    TempData["error"] = "Sorry!! You Cannot Delete This Designation It Is Already In Use";
+                    TempData["DesignationRefNo"] = null;
+                }
+                else
+                {
+                    TempData["error"] = "Oops!!..Something Went Wrong!!";
+                    TempData["DesignationRefNo"] = null;
+                }
+                return RedirectToAction("Create");
+            }
+
+        }
     }
 }
