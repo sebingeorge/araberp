@@ -172,19 +172,23 @@
     }
 
     function OnWorkChange(sender, index) {
+        var isProjectBased = $("#isProjectBased").val();
+        if (isProjectBased == 0)
+        {
+            var id = $(sender).val();
+            if (id != '') {
+                var url = '@Url.Action("GetVehicleModel")';
+                $.getJSON(url, { WorkDescriptionId: id },
+                    function (data) {
+                        $("#Items_" + index + "__VehicleModelId").val(data.VehicleId);
+                        $("#Items_" + index + "__VehicleModelName").val(data.VehicleName);
+                    });
+            }
+            else {
 
-        var id = $(sender).val();
-        if (id != '') {
-            var url = '@Url.Action("GetVehicleModel")';
-            $.getJSON(url, { WorkDescriptionId: id },
-                function (data) {
-                    $("#Items_" + index + "__VehicleModelId").val(data.VehicleId);
-                    $("#Items_" + index + "__VehicleModelName").val(data.VehicleName);
-                });
+            }
         }
-        else {
-
-        }
+        
     }
 
   

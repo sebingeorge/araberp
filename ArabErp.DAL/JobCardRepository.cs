@@ -49,19 +49,35 @@ namespace ArabErp
                 return connection.Query<PendingSO>(query);
             }
         }
-        public JobCard GetJobCardDetails(int SoItemId)
+        public JobCard GetJobCardDetails(int SoItemId, int isProjectBased)
         {
             using (IDbConnection connection = OpenConnection(dataConnection))
             {
-                string query = "select S.SaleOrderId, SI.SaleOrderItemId,";
-                query += " GETDATE() JobCardDate, C.CustomerId, C.CustomerName, S.CustomerOrderRef, V.VehicleModelName,";
-                query += " ''ChasisNoRegNo, W.WorkDescriptionId, W.WorkDescr as WorkDescription, '' WorkShopRequestRef, ";
-                query += " 0 GoodsLanded, 0 BayId, 0 FreezerUnitId, 0 BoxId";
-                query += " from SaleOrder S inner join Customer C on S.CustomerId = C.CustomerId";
-                query += " inner join SaleOrderItem SI on SI.SaleOrderId = S.SaleOrderId";
-                query += " inner join WorkDescription W on W.WorkDescriptionId = SI.WorkDescriptionId";
-                query += " inner join VehicleModel V on V.VehicleModelId = W.VehicleModelId";
-                query += " where SI.SaleOrderItemId = " + SoItemId.ToString();
+                string query = string.Empty;
+                if(isProjectBased == 0)
+                {
+                    query = "select S.SaleOrderId, SI.SaleOrderItemId,";
+                    query += " GETDATE() JobCardDate, C.CustomerId, C.CustomerName, S.CustomerOrderRef, V.VehicleModelName,";
+                    query += " ''ChasisNoRegNo, W.WorkDescriptionId, W.WorkDescr as WorkDescription, '' WorkShopRequestRef, ";
+                    query += " 0 GoodsLanded, 0 BayId, 0 FreezerUnitId, 0 BoxId";
+                    query += " from SaleOrder S inner join Customer C on S.CustomerId = C.CustomerId";
+                    query += " inner join SaleOrderItem SI on SI.SaleOrderId = S.SaleOrderId";
+                    query += " inner join WorkDescription W on W.WorkDescriptionId = SI.WorkDescriptionId";
+                    query += " inner join VehicleModel V on V.VehicleModelId = W.VehicleModelId";
+                    query += " where SI.SaleOrderItemId = " + SoItemId.ToString();
+                }
+                else
+                {
+                    query = "select S.SaleOrderId, SI.SaleOrderItemId,";
+                    query += " GETDATE() JobCardDate, C.CustomerId, C.CustomerName, S.CustomerOrderRef,";
+                    query += " ''ChasisNoRegNo, W.WorkDescriptionId, W.WorkDescr as WorkDescription, '' WorkShopRequestRef, ";
+                    query += " 0 GoodsLanded, 0 BayId, 0 FreezerUnitId, 0 BoxId";
+                    query += " from SaleOrder S inner join Customer C on S.CustomerId = C.CustomerId";
+                    query += " inner join SaleOrderItem SI on SI.SaleOrderId = S.SaleOrderId";
+                    query += " inner join WorkDescription W on W.WorkDescriptionId = SI.WorkDescriptionId";
+                    query += " where SI.SaleOrderItemId = " + SoItemId.ToString();
+                }
+                
 
                 JobCard jobcard = connection.Query<JobCard>(query).FirstOrDefault();
                 return jobcard;
@@ -104,8 +120,11 @@ namespace ArabErp
                 IDbTransaction trn = connection.BeginTransaction();
                 try
                 {
+                    int internalId = DatabaseCommonRepository.GetInternalIDFromDatabase(connection, trn, typeof(JobCard).Name, "0", 1);
+                    objJobCard.JobCardNo = "JC/" + internalId.ToString();
                     int id = 0;
-                    string sql = @"insert  into JobCard(JobCardNo,JobCardDate,SaleOrderId,InPassId,WorkDescriptionId,FreezerUnitId,BoxId,BayId,SpecialRemarks,RequiredDate,EmployeeId,CreatedBy,CreatedDate,OrganizationId, SaleOrderItemId) Values (@JobCardNo,@JobCardDate,@SaleOrderId,@InPassId,@WorkDescriptionId,@FreezerUnitId,@BoxId,@BayId,@SpecialRemarks,@RequiredDate,@EmployeeId,@CreatedBy,@CreatedDate,@OrganizationId,@SaleOrderItemId);
+                    string sql = @"insert  into JobCard(JobCardNo,JobCardDate,SaleOrderId,InPassId,WorkDescriptionId,FreezerUnitId,BoxId,BayId,SpecialRemarks,RequiredDate,EmployeeId,CreatedBy,CreatedDate,OrganizationId, SaleOrderItemId,isProjectBased) Values 
+                                                       (@JobCardNo,@JobCardDate,@SaleOrderId,@InPassId,@WorkDescriptionId,@FreezerUnitId,@BoxId,@BayId,@SpecialRemarks,@RequiredDate,@EmployeeId,@CreatedBy,@CreatedDate,@OrganizationId,@SaleOrderItemId,@isProjectBased);
                     SELECT CAST(SCOPE_IDENTITY() as int)";
 
                     id = connection.Query<int>(sql, objJobCard, trn).Single();

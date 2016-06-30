@@ -12,16 +12,30 @@ namespace ArabErp.DAL
     {
         static string dataConnection = GetConnectionString("arab");
 
-        public int InsertStockpoint(Stockpoint objStockpoint)
+        public Stockpoint InsertStockpoint(Stockpoint model)
         {
             using (IDbConnection connection = OpenConnection(dataConnection))
             {
+                IDbTransaction trn = connection.BeginTransaction();
                 string sql = @"insert  into StockPoint(StockPointRefNo,StockPointName,StockPointShrtName,StockPointDoorNo,StockPointZip,StockPointArea,StockPointPhone,StockPointCity,StockPointFax,CreatedBy,CreatedDate,OrganizationId) Values (@StockPointRefNo,@StockPointName,@StockPointShrtName,@StockPointDoorNo,@StockPointZip,@StockPointArea,@StockPointPhone,@StockPointCity,@StockPointFax,@CreatedBy,getDate(),@OrganizationId);
             SELECT CAST(SCOPE_IDENTITY() as int)";
+                int id = 0;
+                try
+                {
+                    int internalid = DatabaseCommonRepository.GetInternalIDFromDatabase(connection, trn, typeof(Stockpoint).Name, "0", 1);
+                    model.StockPointRefNo = "SP/" + internalid;
+                    id = connection.Query<int>(sql, model, trn).Single();
+                    model.StockPointId = id;
 
-
-            var id = connection.Query<int>(sql, objStockpoint).Single();
-            return id;
+                    trn.Commit();
+                }
+                catch (Exception e)
+                {
+                    trn.Rollback();
+                    model.StockPointId = 0;
+                    model.StockPointRefNo = null;
+                }
+                return model;
         }
         }
 
@@ -29,7 +43,7 @@ namespace ArabErp.DAL
         {
             using (IDbConnection connection = OpenConnection(dataConnection))
             {
-            return connection.Query<Stockpoint>("SELECT StockPointRefNo,StockPointName,StockPointShrtName FROM Stockpoint").ToList();
+                return connection.Query<Stockpoint>("SELECT StockPointId,StockPointRefNo,StockPointName,StockPointShrtName FROM Stockpoint where isActive=1").ToList();
         }
         }
         public Stockpoint GetStockpoint(int StockpointId)
@@ -61,29 +75,48 @@ namespace ArabErp.DAL
         }
         }
 
-        public int UpdateStockpoint(Stockpoint objStockpoint)
+        public Stockpoint UpdateStockpoint(Stockpoint model)
         {
             using (IDbConnection connection = OpenConnection(dataConnection))
             {
-            string sql = @"UPDATE StockPoint SET StockPointRefNo = @StockPointRefNo ,StockPointName = @StockPointName ,StockPointShrtName = @StockPointShrtName ,StockPointDoorNo = @StockPointDoorNo,StockPointZip = @StockPointZip,StockPointArea = @StockPointArea,StockPointPhone = @StockPointPhone,StockPointCity = @StockPointCity,StockPointFax = @StockPointFax  OUTPUT INSERTED.StockPointId  WHERE StockPointId = @StockPointId";
+                string sql = @"UPDATE Stockpoint SET StockPointName = @StockPointName ,	StockPointShrtName = @StockPointShrtName,	StockPointDoorNo = @StockPointDoorNo,	StockPointZip = @StockPointZip 	,StockPointArea = @StockPointArea	,StockPointPhone = @StockPointPhone,	StockPointCity = @StockPointCity,	StockPointFax = @StockPointFax, CreatedBy = @CreatedBy,CreatedDate= GETDATE(),OrganizationId = @OrganizationId OUTPUT INSERTED.StockPointId  WHERE StockPointId = @StockPointId";
 
+                try
+                {
+                    var id = connection.Execute(sql, model);
+                    model.StockPointId = id;
+                }
+                catch (Exception ex)
+                {
 
-            var id = connection.Execute(sql, objStockpoint);
-            return id;
+                    model.StockPointId = 0;
+
+                }
+                return model;
+            }
         }
-        }
 
-        public int DeleteStockpoint(Unit objStockpoint)
+        public Stockpoint DeleteStockpoint(Stockpoint model)
         {
             using (IDbConnection connection = OpenConnection(dataConnection))
             {
-            string sql = @"Delete Stockpoint  OUTPUT DELETED.StockpointId WHERE StockpointId=@StockpointId";
+                string sql = @"UPDATE Stockpoint SET isActive = 0 OUTPUT INSERTED.StockPointId  WHERE StockPointId = @StockPointId";
 
+                try
+                {
+                    var id = connection.Execute(sql, model);
+                    model.StockPointId = id;
+                }
+                catch (Exception ex)
+                {
 
-            var id = connection.Execute(sql, objStockpoint);
-            return id;
+                    model.StockPointId = 0;
+
+                }
+                return model;
+            }
         }
-        }
+
 
 
     }

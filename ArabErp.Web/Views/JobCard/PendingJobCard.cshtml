@@ -4,19 +4,33 @@
     ViewBag.Title = "PendingJobCard";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
+@{
+    int isProjectBased = 0;
+    try
+    {
+        isProjectBased = Convert.ToInt32(Request.QueryString["isProjectBased"].ToString() ?? "0");
+    }
+    catch
+    {
+
+    }
+}
 <script>
     function GotoJobcard(id)
     {
-        var url = '@Url.Action("Create")';
-        url = url + "?Id=" + id;
+        var isProjectBased = $("#isProjectBased").val();
+        var url = '@Url.Action("Create")';        
+        url = url + "?Id=" + id + "&isProjectBased=" + isProjectBased;
         console.log(url);
         window.location.href = url;
     }
 </script>
+
 <div class="container">
     <div class="row">
         <div class="form-head1">
             <h4>Pending Work for Job Card</h4>
+            <input id="isProjectBased" type="hidden" value="@isProjectBased" />
         </div>
         <div class="main-part pad1 white">
             <div class="main-grid main-grid-top scroll1">
@@ -25,7 +39,10 @@
                         <thead>
                             <tr class="grid_heading">
                                 <th><h1>Work Description</h1></th>
-                                <th><h1>Vehicle Model</h1></th>
+                                @if (isProjectBased == 0)
+                                {
+                                    <th><h1>Vehicle Model</h1></th>
+                                }                                
                                 <th><h1>SO No & Date</h1></th>
                                 <th><h1>Customer</h1></th>
                                 <th><h1>Customer Order Ref.</h1></th>
@@ -37,7 +54,10 @@
                             <tbody class="grid_row">
                                 <tr>
                                     <td class="grid-cell">@item.WorkDescr</td>
-                                    <td class="grid-cell">@item.VehicleModelName</td>
+                                    @if (isProjectBased == 0)
+                                    {
+                                        <td class="grid-cell">@item.VehicleModelName</td>
+                                    }                                    
                                     <td class="grid-cell">@item.SaleOrderRefNo &amp; @item.SaleOrderDate.ToString("dd/MMM/yyyy")</td>
                                     <td class="grid-cell">@item.CustomerName</td>
                                     <td class="grid-cell">@item.CustomerOrderRef</td>
