@@ -32,7 +32,7 @@ namespace ArabErp.Web.Controllers
                 FillVehicle();
                 FillUnit();
                 FillEmployee();
-                FillQuotationNo();
+                FillQuotationNo(0);
                 //FillPaymentTerms();
             }
             catch (NullReferenceException nx)
@@ -65,11 +65,11 @@ namespace ArabErp.Web.Controllers
                 FillCustomer();
                 FillCurrency();
                 FillCommissionAgent();
-                FillWrkDesc();
+                FillWrkDescProject();
                 FillVehicle();
                 FillUnit();
                 FillEmployee();
-                FillQuotationNo();
+                FillQuotationNo(1);
                 //FillPaymentTerms();
             }
             catch (NullReferenceException nx)
@@ -106,10 +106,59 @@ namespace ArabErp.Web.Controllers
             saleOrder.Items.Add(item);
             return PartialView("_DisplaySOList", saleOrder);
         }
+        public ActionResult RefreshDisplaySOList(int? quoId, int isProjectBased)
+        {
+            FillCurrency();
+            if (isProjectBased == 0)
+            {
+                FillWrkDesc();
+            }
+            else
+            {
+                FillWrkDescProject();
+            }
+            
+            FillVehicle();
+            FillUnit();
+            SaleOrder saleOrder = new SaleOrder();
+            saleOrder.Items = new List<SaleOrderItem>();            
+
+            SalesQuotationRepository quoRepo = new SalesQuotationRepository();
+            List<SalesQuotationItem> quoItems = quoRepo.GetSalesQuotationItems(quoId ?? 0);
+            if(quoItems != null)
+            {
+                foreach(var items in quoItems)
+                {
+                    saleOrder.Items.Add(new SaleOrderItem()
+                    {
+                        WorkDescriptionId = items.WorkDescriptionId,
+                        UnitId = items.UnitId,
+                        SlNo = 1,
+                        Quantity = items.Quantity,
+                        Rate = items.Rate,
+                        Discount = items.Discount,
+                        Amount = items.Amount
+                    });
+                }
+            }
+            else
+            {
+                var item = new SaleOrderItem();
+                saleOrder.Items.Add(item);
+            }
+            saleOrder.isProjectBased = isProjectBased;
+            return PartialView("_DisplaySOList", saleOrder);
+        }
         public void FillWrkDesc()
         {
             var repo = new SaleOrderItemRepository();
             var list = repo.FillWorkDesc();
+            ViewBag.workdesclist = new SelectList(list, "Id", "Name");
+        }
+        public void FillWrkDescProject()
+        {
+            var repo = new SaleOrderItemRepository();
+            var list = repo.FillWorkDescForProject();
             ViewBag.workdesclist = new SelectList(list, "Id", "Name");
         }
         public void FillCustomer()
@@ -148,10 +197,10 @@ namespace ArabErp.Web.Controllers
             var list = repo.FillCurrency();
             ViewBag.currlist = new SelectList(list, "Id", "Name");
         }
-        public void FillQuotationNo()
+        public void FillQuotationNo(int isProjectBased)
         {
             var repo = new DropdownRepository();
-            var list = repo.QuotationNoDropdown();
+            var list = repo.QuotationNoDropdown(isProjectBased);
             ViewBag.QuotationNolist = new SelectList(list, "Id", "Name");
         }
         [HttpPost]
@@ -211,7 +260,15 @@ namespace ArabErp.Web.Controllers
                 {
                     TempData["success"] = "Saved successfully. Sale Order Reference No. is " + id.Split('|')[1];
                     TempData["error"] = "";
-                    return RedirectToAction("Create");
+                    if(model.isProjectBased == 0)
+                    {
+                        return RedirectToAction("Create");
+                    }
+                    else
+                    {
+                        return RedirectToAction("CreateProject");
+                    }
+                    
                 }
                 else
                 {
@@ -231,7 +288,7 @@ namespace ArabErp.Web.Controllers
                 TempData["error"] = "Some error occured. Please try again.|" + ex.Message;
             }
             TempData["success"] = "";
-            FillWrkDesc();
+            FillWrkDescProject();
             FillUnit();
             FillCustomer();
             //FillPaymentTerms();
@@ -240,7 +297,7 @@ namespace ArabErp.Web.Controllers
             FillCommissionAgent();
             FillEmployee();
 
-            return View("Create",model);
+            return RedirectToAction("CreateProject");
         }
         [HttpGet]
         public JsonResult GetCustomerDetailsByKey(int cusKey)
@@ -277,22 +334,22 @@ namespace ArabErp.Web.Controllers
             //FillPaymentTerms();
             FillUnit();
             FillEmployee();
-                FillWrkDesc();
-                FillVehicle();
-                var repo = new SaleOrderRepository();
-                SaleOrder model = repo.GetSaleOrder(SaleOrderId ?? 0);
-                var SOList = repo.GetSaleOrderItem(SaleOrderId ?? 0);
-                model.Items = new List<SaleOrderItem>();
-                foreach (var item in SOList)
-                {
-                    var soitem = new SaleOrderItem { WorkDescriptionId = item.WorkDescriptionId, VehicleModelId = item.VehicleModelId, Quantity = item.Quantity, UnitId = item.UnitId, Rate = item.Rate,Amount=item.Amount,Discount=item.Discount };
-                    model.Items.Add(soitem);
+            
+            FillVehicle();
+            var repo = new SaleOrderRepository();
+            SaleOrder model = repo.GetSaleOrder(SaleOrderId ?? 0);
+            var SOList = repo.GetSaleOrderItem(SaleOrderId ?? 0);
+            model.Items = new List<SaleOrderItem>();
+            foreach (var item in SOList)
+            {
+                var soitem = new SaleOrderItem { WorkDescriptionId = item.WorkDescriptionId, VehicleModelId = item.VehicleModelId, Quantity = item.Quantity, UnitId = item.UnitId, Rate = item.Rate,Amount=item.Amount,Discount=item.Discount };
+                model.Items.Add(soitem);
 
-                }
-
-                return View("Approval",model);
             }
-                [HttpPost]
+            FillWrkDesc();
+            return View("Approval",model);
+        }
+        [HttpPost]
         public ActionResult UpdateApprovalStatus(int? SaleOrderId)
         {
 
@@ -313,7 +370,7 @@ namespace ArabErp.Web.Controllers
             //FillPaymentTerms();
             FillUnit();
             FillEmployee();
-            FillWrkDesc();
+            
             FillVehicle();
             var repo = new SaleOrderRepository();
             SaleOrder model = repo.GetSaleOrder(SaleOrderId ?? 0);
@@ -327,7 +384,7 @@ namespace ArabErp.Web.Controllers
                 model.Items.Add(soitem);
 
             }
-
+            FillWrkDesc();
             return View("Approval", model);
         }
         public ActionResult UpdateHoldStatus(int? Id, string hreason, string  HoldDate)
@@ -349,8 +406,7 @@ namespace ArabErp.Web.Controllers
             FillCommissionAgent();
             //FillPaymentTerms();
             FillUnit();
-            FillEmployee();
-            FillWrkDesc();
+            FillEmployee();            
             FillVehicle();
             var repo = new SaleOrderRepository();
             SaleOrder model = repo.GetSaleOrder(SaleOrderId ?? 0);
@@ -363,7 +419,7 @@ namespace ArabErp.Web.Controllers
                 model.Items.Add(soitem);
 
             }
-
+            FillWrkDesc();
             return View("Approval", model);
         }
         public ActionResult UpdateReleaseStatus(int? Id, string ReleaseDate)
@@ -384,8 +440,7 @@ namespace ArabErp.Web.Controllers
             FillCommissionAgent();
             //FillPaymentTerms();
             FillUnit();
-            FillEmployee();
-            FillWrkDesc();
+            FillEmployee();            
             FillVehicle();
             var repo = new SaleOrderRepository();
             SaleOrder model = repo.GetSaleOrder(SaleOrderId ?? 0);
@@ -397,7 +452,7 @@ namespace ArabErp.Web.Controllers
                 model.Items.Add(soitem);
 
             }
-
+            FillWrkDesc();
             return View(model);
         }
         [HttpPost]
