@@ -366,5 +366,13 @@ namespace ArabErp.DAL
                 connection.Query(sql);
             }
         }
+        public int IsProjectOrVehicle(int SaleOrderItemId)
+        {
+            using (IDbConnection connection = OpenConnection(dataConnection))
+            {
+                string sql = "select S.isProjectBased from SaleOrder S inner join SaleOrderItem I on S.SaleOrderId = I.SaleOrderId where I.SaleOrderItemId = " + SaleOrderItemId.ToString();
+                return connection.Query<int>(sql).Single();
+            }
+        }
     }
 }

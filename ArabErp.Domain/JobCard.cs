@@ -16,7 +16,7 @@ namespace ArabErp.Domain
         public string CustomerName { get; set; }
         public string CustomerOrderRef { get; set; }
         public string VehicleModelName { get; set; }
-        public int InPassId { get; set; }
+        public int? InPassId { get; set; }
         public int WorkDescriptionId { get; set; }
         public string WorkDescription { get; set; }
         public string WorkShopRequestRef { get; set; }
@@ -33,6 +33,7 @@ namespace ArabErp.Domain
         public int JodCardCompleteStatus { get; set; }
         public DateTime JodCardCompletedDate { get; set; }
         public List<JobCardTask> JobCardTasks { get; set; }
+        public int isProjectBased { get; set; }
 
     }
 }
