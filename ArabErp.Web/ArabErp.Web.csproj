@@ -206,6 +206,7 @@
     <Compile Include="Controllers\BaseController.cs" />
     <Compile Include="Controllers\BayController.cs" />
     <Compile Include="Controllers\BayStatusController.cs" />
+    <Compile Include="Controllers\BoxController.cs" />
     <Compile Include="Controllers\CommissionAgentController.cs" />
     <Compile Include="Controllers\ConsumptionController.cs" />
     <Compile Include="Controllers\CurrencyController.cs" />
@@ -639,6 +640,8 @@
     <Content Include="Views\Bay\BayListView.cshtml" />
     <Content Include="Views\Bay\Create.cshtml" />
     <Content Include="Views\PurchaseBill\PurchaseBillList.cshtml" />
+    <Content Include="Views\Box\Create.cshtml" />
+    <Content Include="Views\Box\BoxListView.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
