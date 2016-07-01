@@ -10,10 +10,14 @@ namespace ArabErp.Domain
     public class AdditionOrDeduction
     {
         public int? AddDedId { get; set; }
-        [Required]
+        public string AddDedRefNo { get; set; }
+        //[Required]
         public string AddDedName { get; set; }
-        [Required]
-        public int? AddDedType { get; set; }
+        //[Required]
+        public string AddDedType { get; set; }
         public string AddDedRemarks { get; set; }
+        public string CreatedBy { get; set; }
+        public DateTime? CreatedDate { get; set; }
+        public int OrganizationId { get; set; }
     }
 }
