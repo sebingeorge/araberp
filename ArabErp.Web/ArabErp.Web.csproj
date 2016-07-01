@@ -204,6 +204,7 @@
     <Compile Include="Controllers\AdditionalWorkShopRequestController.cs" />
     <Compile Include="Controllers\AdditionOrDeductionController.cs" />
     <Compile Include="Controllers\BaseController.cs" />
+    <Compile Include="Controllers\BayController.cs" />
     <Compile Include="Controllers\BayStatusController.cs" />
     <Compile Include="Controllers\CommissionAgentController.cs" />
     <Compile Include="Controllers\ConsumptionController.cs" />
@@ -635,6 +636,8 @@
     <Content Include="Views\AdditionOrDeduction\Create.cshtml" />
     <Content Include="Views\FreezerUnit\Create.cshtml" />
     <Content Include="Views\FreezerUnit\FreezerUnitListView.cshtml" />
+    <Content Include="Views\Bay\BayListView.cshtml" />
+    <Content Include="Views\Bay\Create.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
