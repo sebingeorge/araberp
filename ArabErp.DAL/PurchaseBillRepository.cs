@@ -123,13 +123,14 @@ namespace ArabErp.DAL
         {
             using (IDbConnection connection = OpenConnection(dataConnection))
             {
-                string qry = @"Select G.GRNId,G.GRNNo,G.GRNDate,S.SupplierName,S.SupplierId,DATEDIFF(dd,G.GRNDate,GETDATE ()) Ageing 
+                string qry = @"Select distinct G.GRNId,G.GRNNo,G.GRNDate,S.SupplierName,S.SupplierId,DATEDIFF(dd,G.GRNDate,GETDATE ()) Ageing,ST.StockPointName, ISNULL(G.GrandTotal, 0.00) GrandTotal 
                                from GRN G 
                                INNER JOIN GRNItem GI ON G.GRNId=GI.GRNId
                                INNER JOIN Supplier S ON G.SupplierId=S.SupplierId
+                               INNER JOIN Stockpoint ST ON G.WareHouseId = ST.StockPointId
                                LEFT JOIN PurchaseBillItem P ON P.GRNItemId=GI.GRNItemId 
-                               WHERE P.PurchaseBillId is null AND S.SupplierId=@supplierId 
-                               GROUP BY G.GRNId,G.GRNNo,G.GRNDate,S.SupplierName,S.SupplierId";
+                               WHERE P.PurchaseBillId is null AND S.SupplierId=ISNULL(NULLIF(@supplierId, 0), S.SupplierId)";
+                              
                 return connection.Query<PendingGRN>(qry, new { SupplierId = supplierId }).ToList();
             }
         }
