@@ -13,17 +13,36 @@ namespace ArabErp.DAL
         static string dataConnection = GetConnectionString("arab");
 
 
-        public int InsertFreezerUnit(FreezerUnit objFreezerUnit)
+        public FreezerUnit InsertFreezerUnit(FreezerUnit objFreezerUnit)
         {
-
             using (IDbConnection connection = OpenConnection(dataConnection))
             {
-                string sql = @"INSERT INTO FreezerUnit (FreezerUnitRefNo,FreezerUnitName,CreatedBy,CreatedDate,OrganizationId) VALUES(@FreezerUnitRefNo,@FreezerUnitName,@CreatedBy,@CreatedDate,@OrganizationId);
-            SELECT CAST(SCOPE_IDENTITY() as int)";
+                var result = new FreezerUnit();
 
+                IDbTransaction trn = connection.BeginTransaction();
 
-                var id = connection.Query<int>(sql, objFreezerUnit).Single();
-                return id;
+                string sql = @"INSERT INTO FreezerUnit (FreezerUnitRefNo,FreezerUnitName,CreatedBy,CreatedDate,OrganizationId)
+                               VALUES(@FreezerUnitRefNo,@FreezerUnitName,@CreatedBy,@CreatedDate,@OrganizationId);
+                               SELECT CAST(SCOPE_IDENTITY() as int)";
+
+                try
+                {
+                    int internalid = DatabaseCommonRepository.GetInternalIDFromDatabase(connection, trn, typeof(FreezerUnit).Name, "0", 1);
+                    objFreezerUnit.FreezerUnitRefNo = "FU/" + internalid;
+
+                    int id = connection.Query<int>(sql, objFreezerUnit, trn).Single();
+                    objFreezerUnit.FreezerUnitId = id;
+                    //connection.Dispose();
+                    trn.Commit();
+                }
+                catch (Exception ex)
+                {
+                    trn.Rollback();
+                    objFreezerUnit.FreezerUnitId = 0;
+                    objFreezerUnit.FreezerUnitRefNo = null;
+
+                }
+                return objFreezerUnit;
             }
         }
 
@@ -46,30 +65,26 @@ namespace ArabErp.DAL
             }
         }
 
-        public List<Dropdown> FillFreezerUnit()
+        //public List<Dropdown> FillFreezerUnit()
+        //{
+        //    using (IDbConnection connection = OpenConnection(dataConnection))
+        //    {
+        //        var param = new DynamicParameters();
+        //        return connection.Query<Dropdown>("select FreezerUnitId Id,FreezerUnitName Name from FreezerUnit").ToList();
+        //    }
+        //}
+
+        public IEnumerable<FreezerUnit> FillFreezerUnit()
         {
             using (IDbConnection connection = OpenConnection(dataConnection))
             {
-                var param = new DynamicParameters();
-                return connection.Query<Dropdown>("select FreezerUnitId Id,FreezerUnitName Name from FreezerUnit").ToList();
+
+                return connection.Query<FreezerUnit>("SELECT FreezerUnitId,FreezerUnitRefNo,FreezerUnitName FROM FreezerUnit WHERE isActive=1").ToList();
             }
         }
 
-        public List<FreezerUnit> GetFreezerUnits()
-        {
 
-            using (IDbConnection connection = OpenConnection(dataConnection))
-            {
-                string sql = @"select * from FreezerUnit
-                        where isActive=1";
-
-                var objFreezerUnits = connection.Query<FreezerUnit>(sql).ToList<FreezerUnit>();
-
-                return objFreezerUnits;
-            }
-        }
-
-        public int UpdateFreezerUnit(FreezerUnit objFreezerUnit)
+        public FreezerUnit UpdateFreezerUnit(FreezerUnit objFreezerUnit)
         {
 
             using (IDbConnection connection = OpenConnection(dataConnection))
@@ -78,22 +93,71 @@ namespace ArabErp.DAL
 
 
                 var id = connection.Execute(sql, objFreezerUnit);
-                return id;
+                return objFreezerUnit;
             }
         }
 
-        public int DeleteFreezerUnit(Unit objFreezerUnit)
+        public int DeleteFreezerUnit(FreezerUnit objFreezerUnit)
         {
+            int result = 0;
             using (IDbConnection connection = OpenConnection(dataConnection))
             {
-                string sql = @"Delete FreezerUnit  OUTPUT DELETED.FreezerUnitId WHERE FreezerUnitId=@FreezerUnitId";
+                string sql =  @"Update FreezerUnit Set isActive=0 WHERE FreezerUnitId=@FreezerUnitId";
+                try
+                {
 
+                    var id = connection.Execute(sql, objFreezerUnit);
+                    objFreezerUnit.FreezerUnitId = id;
+                    result = 0;
 
-                var id = connection.Execute(sql, objFreezerUnit);
-                return id;
+                }
+                catch (SqlException ex)
+                {
+                    int err = ex.Errors.Count;
+                    if (ex.Errors.Count > 0) // Assume the interesting stuff is in the first error
+                    {
+                        switch (ex.Errors[0].Number)
+                        {
+                            case 547: // Foreign Key violation
+                                result = 1;
+                                break;
+
+                            default:
+                                result = 2;
+                                break;
+                        }
+                    }
+
+                }
+
+                return result;
             }
         }
 
+
+        public string GetRefNo(FreezerUnit objFreezerUnit)
+        {
+
+            using (IDbConnection connection = OpenConnection(dataConnection))
+            {
+                string RefNo = "";
+                var result = new FreezerUnit();
+
+                IDbTransaction trn = connection.BeginTransaction();
+
+                try
+                {
+                    int internalid = DatabaseCommonRepository.GetInternalIDFromDatabase(connection, trn, typeof(FreezerUnit).Name, "0", 0);
+                    RefNo = "FU/" + internalid;
+                    trn.Commit();
+                }
+                catch (Exception ex)
+                {
+                    trn.Rollback();
+                }
+                return RefNo;
+            }
+        }
 
     }
 }

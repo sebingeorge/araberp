@@ -91,8 +91,12 @@
                             @Html.TextBoxFor(m => m.Hourlycost, new { @class = "form_input form_input-half", autocomplete = "off" })
                         </div>
                         <div class="part4 col-md-12">
-                            <label for="LocationId">Location</label>
-                            @Html.DropDownListFor(m => m.LocationId, (SelectList)ViewBag.EmployeeLocation, "Select Location", new { @class = "form_input", autocomplete = "off" })
+                            <div class="row">
+
+
+                                <label for="LocationId">Location</label>
+                                @Html.DropDownListFor(m => m.LocationId, (SelectList)ViewBag.EmployeeLocation, "Select Location", new { @class = "form_input", autocomplete = "off" })
+                            </div>
                         </div>
                     </div>
                 </div>

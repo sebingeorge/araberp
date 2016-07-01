@@ -1,0 +1,128 @@
+﻿@model ArabErp.Domain.Bay
+@{ Layout = "~/Views/Shared/_Layout.cshtml"; }
+
+<script>
+    $(document).ready(function () {
+        $('#bay_form').bootstrapValidator({
+            fields: {
+                BayRefNo: {
+                    validators: {
+                        notEmpty: {
+                            message: 'Please Enter Code'
+                        }
+                    }
+                },
+
+                BayName: {
+                    validators: {
+                        notEmpty: {
+                            message: 'Please Enter Name'
+                        }
+                    }
+                },
+            }
+        });
+    })
+
+    $(document).ready(function () {
+
+
+        toastr.options = {
+            "closeButton": true,
+            "positionClass": "toast-bottom-full-width",
+            "preventDuplicates": false,
+            "onclick": null,
+
+            "timeOut": "0",
+            "extendedTimeOut": "1000",
+            "showEasing": "swing",
+            "hideEasing": "linear",
+            "showMethod": "fadeIn",
+            "hideMethod": "fadeOut"
+        }
+        if ('@TempData["success"]' != "" && '@TempData["BayRefNo"]' != "") {
+            toastr.success('@TempData["success"]' + '  Bay Ref No. is : ' + '@TempData["BayRefNo"]');
+        }
+        else if ('@TempData["error"]' != "") {
+            toastr.error('@TempData["error"]');
+        }
+    });
+
+
+    function Exit() {
+        location.href = '@Url.Action("Create")';
+    }
+
+</script>
+
+
+<div class=" container ">
+    <div class="row">
+
+        <div class="form-head1">
+            <h4>Bay</h4>
+        </div>
+
+        <div class="main-part pad1">
+
+            @using (Html.BeginForm(null, null, FormMethod.Post, new { @class = "createFrom", @id = "bay_form" }))
+            {
+
+                <div class="row">
+
+                    <div class="col-md-4">
+
+                        @Html.HiddenFor(m => m.BayId, new { @class = "form_input", autocomplete = "off" })
+
+                        <div class="part4">
+                            <label for="BayRefNo">Code</label>
+                            @Html.TextBoxFor(m => m.BayRefNo, new { @class = "form_input form_input-half", autocomplete = "off", @readonly = "readonly" })
+                        </div>
+
+                        <div class="part4">
+                            <label for="BayName">Name</label>
+                            @Html.TextBoxFor(m => m.BayName, new { @class = "form_input", autocomplete = "off" })
+                        </div>
+
+                    </div>
+
+                    <div class="col-md-4">
+                    </div>
+
+                    <div class="col-md-4">
+                    </div>
+
+                    <div class="col-md-12 hrpart">
+
+                        <button type="button" class="form-button right" onclick="Exit()">Exit</button>
+
+                        @if (@ViewBag.Title == "Create")
+                        {
+                            <button type="submit" class="form-button right">Save</button>
+                        }
+
+                        @if (@ViewBag.Title == "Edit")
+                        {
+                            <button type="submit" class="form-button right">Update</button>
+                        }
+
+                        @if (@ViewBag.Title == "Delete")
+                        {
+                            <button type="submit" class="form-button right">Delete</button>
+                        }
+
+                    </div>
+
+
+
+                </div>
+            }
+        </div>
+
+        <div class="main-list">
+            @Html.Action("FillBayList")
+        </div>
+
+
+    </div>
+</div>

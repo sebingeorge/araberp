@@ -204,7 +204,9 @@
     <Compile Include="Controllers\AdditionalWorkShopRequestController.cs" />
     <Compile Include="Controllers\AdditionOrDeductionController.cs" />
     <Compile Include="Controllers\BaseController.cs" />
+    <Compile Include="Controllers\BayController.cs" />
     <Compile Include="Controllers\BayStatusController.cs" />
+    <Compile Include="Controllers\BoxController.cs" />
     <Compile Include="Controllers\CommissionAgentController.cs" />
     <Compile Include="Controllers\ConsumptionController.cs" />
     <Compile Include="Controllers\CurrencyController.cs" />
@@ -223,6 +225,7 @@
     <Compile Include="Controllers\ItemGroupController.cs" />
     <Compile Include="Controllers\ItemSubGroupController.cs" />
     <Compile Include="Controllers\JobCardController.cs" />
+    <Compile Include="Controllers\JobCardDailyActivityController.cs" />
     <Compile Include="Controllers\JobCardQCController.cs" />
     <Compile Include="Controllers\JobOrderCompletionController.cs" />
     <Compile Include="Controllers\LoginHistoryController.cs" />
@@ -599,7 +602,6 @@
     <Content Include="Views\PurchaseBill\_PurchaseBillTable.cshtml" />
     <Content Include="Views\StockJournal\_StockJournalList.cshtml" />
     <Content Include="Views\AdditionOrDeduction\Index.cshtml" />
-    <Content Include="Views\AdditionOrDeduction\Create.cshtml" />
     <Content Include="Views\SalesQuotation\Create.cshtml" />
     <Content Include="Views\GrnWareHouse\_PendingGrid.cshtml" />
     <Content Include="Views\GrnWareHouse\PendingDirectPurchase.cshtml" />
@@ -629,6 +631,17 @@
     <Content Include="Views\LoginHistory\Index.cshtml" />
     <Content Include="Views\SalesQuotation\Index.cshtml" />
     <Content Include="Views\SalesQuotation\Revise.cshtml" />
+    <Content Include="Views\JobCardDailyActivity\PendingJobcardTasks.cshtml" />
+    <Content Include="Views\JobCardDailyActivity\Create.cshtml" />
+    <Content Include="Views\AdditionOrDeduction\AdditionDeductionListView.cshtml" />
+    <Content Include="Views\AdditionOrDeduction\Create.cshtml" />
+    <Content Include="Views\FreezerUnit\Create.cshtml" />
+    <Content Include="Views\FreezerUnit\FreezerUnitListView.cshtml" />
+    <Content Include="Views\Bay\BayListView.cshtml" />
+    <Content Include="Views\Bay\Create.cshtml" />
+    <Content Include="Views\PurchaseBill\PurchaseBillList.cshtml" />
+    <Content Include="Views\Box\Create.cshtml" />
+    <Content Include="Views\Box\BoxListView.cshtml" />
     <Content Include="Views\WorkDescription\Index.cshtml" />
     <Content Include="Views\WorkDescription\WorkDescriptionGrid.cshtml" />
   </ItemGroup>
@@ -637,7 +650,6 @@
     <Folder Include="bin\" />
     <Folder Include="Images\App_LocalResources\" />
     <Folder Include="Views\Base\" />
-    <Folder Include="Views\FreezerUnit\" />
     <Folder Include="Views\LocalPurchase\" />
     <Folder Include="Views\MisReport\" />
     <Folder Include="Views\StockJournel\" />

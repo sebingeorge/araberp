@@ -310,5 +310,37 @@ namespace ArabErp
         //{
         //    connection.Dispose();
         //}
+        public JobCard GetDetailsById(int JobCardId, int? JobCardTaskId)
+        {
+            using (IDbConnection connection = OpenConnection(dataConnection))
+            {
+                string sql = "select * from JobCard where JobCardId = " + JobCardId.ToString();
+                JobCard jc = connection.Query<JobCard>(sql).Single();
+                jc.JobCardTasks = new List<JobCardTask>();
+                if(jc!= null)
+                {
+                    sql = string.Empty;
+                    sql = "select * from JobCardTask where JobCardId = " + JobCardId.ToString();
+                    var tasks = connection.Query<JobCardTask>(sql);
+
+                    if(JobCardTaskId != null)
+                    {
+                        var t = from a in tasks where a.JobCardTaskId == (JobCardTaskId ?? 0) select a;
+                        foreach(var item in t)
+                        {
+                            jc.JobCardTasks.Add(item);
+                        }
+                    }
+                    else
+                    {
+                        foreach (var item in tasks)
+                        {
+                            jc.JobCardTasks.Add(item);
+                        }
+                    }                    
+                }
+                return jc;
+            }
+        }
     }
 }

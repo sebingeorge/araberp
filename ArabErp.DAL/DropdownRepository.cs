@@ -157,7 +157,7 @@ namespace ArabErp.DAL
             }
         }
         /// <summary>
-        /// Returns all suppliers who have pending sale order(s)
+        /// Returns all suppliers who have pending/incomplete supply order(s)
         /// </summary>
         /// <returns></returns>
         public List<Dropdown> SupplierDropdown1()
@@ -168,7 +168,7 @@ namespace ArabErp.DAL
                                                     INNER JOIN SupplyOrder SO ON SOI.SupplyOrderId = SO.SupplyOrderId
                                                     INNER JOIN Supplier S ON SO.SupplierId = S.SupplierId
                                                     LEFT JOIN GRNItem GI ON SOI.SupplyOrderItemId = GI.SupplyOrderItemId
-                                                    WHERE GI.SupplyOrderItemId IS NULL").ToList();
+                                                    WHERE GI.SupplyOrderItemId IS NULL OR GI.Quantity < SOI.OrderedQty").ToList();
             }
         }
         /// <summary>
@@ -214,6 +214,19 @@ namespace ArabErp.DAL
             {
                 return connection.Query<Dropdown>(@"SELECT SalesQuotationId Id, QuotationRefNo Name FROM SalesQuotation WHERE ISNULL(isActive, 1) = 1 
                 AND ISNULL(IsQuotationApproved,0)=1 and isProjectBased = " + isProjectBased.ToString() + " AND SalesQuotationId not in (select SalesQuotationId from SaleOrder where SalesQuotationId is not null)").ToList();
+            }
+        }
+        /// <summary>
+        /// Return Quotation number in Sale Order
+        /// </summary>
+        /// <param name="isProjectBased"></param>
+        /// <returns></returns>
+        public List<Dropdown> QuotationInSaleOrderDropdown(int isProjectBased)
+        {
+            using (IDbConnection connection = OpenConnection(dataConnection))
+            {
+                return connection.Query<Dropdown>(@"SELECT  S.SalesQuotationId Id, QuotationRefNo Name FROM SaleOrder S
+                                           INNER JOIN SalesQuotation SQ ON S.SalesQuotationId=SQ.SalesQuotationId WHERE S.isProjectBased = " + isProjectBased.ToString() + "").ToList();
             }
         }
 

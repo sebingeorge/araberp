@@ -1,0 +1,52 @@
+﻿@model IEnumerable<ArabErp.Domain.JobCardForDailyActivity>
+@{
+    ViewBag.Title = "PendingJobcardTasks";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<script>
+    function GoToDailyActivity(Id)
+    {
+        var url = '@Url.Action("Create")';
+        url = url + "?Id=" + Id;
+        window.location.href = url;
+    }
+</script>
+<div class="container">
+    <div class="row">
+        <div class="form-head1">
+            <h4>Pending Work for Daily Activity</h4>
+        </div>
+        <div class="main-part pad1 white">
+            <div class="main-grid main-grid-top scroll1">
+                <div class=" table-responsive">
+                    <table class="table table-bordered">
+                        <thead>
+                            <tr class="grid_heading">
+                                <th><h1>Work Description</h1></th>
+                                <th><h1>Job Card No</h1></th>
+                                <th><h1>Job Card Date</h1></th>
+                                <th><h1>Employee</h1></th>
+                                <th><h1>Required Date</h1></th>
+                                <th><center><h1>Select</h1></center></th>
+                            </tr>
+                        </thead>
+                        @foreach (var item in Model)
+                        {
+                            <tbody class="grid_row">
+                                <tr>
+                                    <td class="grid-cell">@item.WorkDescr</td>
+                                    <td class="grid-cell">@item.JobCardNo</td>
+                                    <td class="grid-cell">@item.JobCardDate.ToString("dd/MMM/yyyy")</td>
+                                    <td class="grid-cell">@item.EmployeeName</td>
+                                    <td class="grid-cell">@item.RequiredDate.ToString("dd/MMM/yyyy")</td>
+                                    <td><center><button class="form-button5" onclick="GoToDailyActivity(@item.JobCardId)">Select</button></center></td>
+                                </tr>
+                            </tbody>
+                        }
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
