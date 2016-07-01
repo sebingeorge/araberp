@@ -135,5 +135,19 @@ namespace ArabErp.DAL
             }
         }
 
+
+        public IEnumerable<PurchaseBill> GetPurchaseBillPreviousList()
+        {
+            using (IDbConnection connection = OpenConnection(dataConnection))
+            {
+                string query = @"SELECT 
+	                                PurchaseBillId,PurchaseBillRefNo,CONVERT(VARCHAR(15),PurchaseBillDate, 104)PurchaseBillDate,
+	                                ISNULL(S.SupplierName, '-') Supplier,ISNULL(P.PurchaseBillAmount, 0.00) PurchaseBillAmount
+	                                FROM PurchaseBill P INNER JOIN Supplier S ON S.SupplierId=P.SupplierId
+                                    WHERE ISNULL(P.isActive, 1) = 1
+                                    ORDER BY PurchaseBillDate DESC, P.CreatedDate DESC;";
+                return connection.Query<PurchaseBill>(query);
+            }
+        }
     }
 } 

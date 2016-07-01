@@ -638,6 +638,7 @@
     <Content Include="Views\FreezerUnit\FreezerUnitListView.cshtml" />
     <Content Include="Views\Bay\BayListView.cshtml" />
     <Content Include="Views\Bay\Create.cshtml" />
+    <Content Include="Views\PurchaseBill\PurchaseBillList.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

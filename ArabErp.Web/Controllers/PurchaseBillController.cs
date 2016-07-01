@@ -122,7 +122,13 @@ namespace ArabErp.Web.Controllers
             ViewBag.additionList = new SelectList(new DropdownRepository().AdditionDropdown(), "Id", "Name");
             ViewBag.deductionList = new SelectList(new DropdownRepository().DeductionDropdown(), "Id", "Name");
         }
-
+        public ActionResult PurchaseBillList()
+        {
+            var repo = new PurchaseBillRepository();
+            IEnumerable<PurchaseBill> PurchaseBillList = repo.GetPurchaseBillPreviousList();
+            return View("PurchaseBillList", PurchaseBillList);
+           
+        }
 
     }
 }
