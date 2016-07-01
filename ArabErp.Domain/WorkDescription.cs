@@ -15,6 +15,7 @@ namespace ArabErp.Domain
             WorkVsTasks = new List<WorkVsTask>();
     }
         public int WorkDescriptionId { get; set; }
+        public string WorkDescriptionRefNo { get; set; }
         public int? VehicleModelId { get; set; }
         public int? FreezerUnitId { get; set; }
         public int? BoxId { get; set; }

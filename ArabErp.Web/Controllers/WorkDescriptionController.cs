@@ -15,6 +15,14 @@ namespace ArabErp.Web.Controllers
         {
             return View();
         }
+        public ActionResult FillWorkDescriptionList(int? page)
+        {
+            int itemsPerPage = 10;
+            int pageNumber = page ?? 1;
+            var repo = new WorkDescriptionRepository();
+            var List = repo.FillWorkDescriptionList();
+            return PartialView("WorkDescriptionGrid", List);
+        }
         public ActionResult CreateWorkDescription()
         {
 
@@ -44,7 +52,39 @@ namespace ArabErp.Web.Controllers
             workdescription.WorkVsTasks.Add(new WorkVsTask());
             return View("CreateWorkDescription",workdescription);
         }
+        public ActionResult EditWorkDescription(int Id)
+        {
+            FillVehicle();
+            FillBox();
+            FillFreezerUnit();
+            FillItem();
+            FillJobCardTaskMaster();
+            WorkDescription model = new WorkDescriptionRepository().GetWorkDescription(Id);
+            return View("CreateWorkDescription", model);
+        }
+        [HttpPost]
+        public ActionResult EditWorkDescription(WorkDescription model)
+        {
+            //model.OrganizationId = 1;
+            //model.CreatedDate = System.DateTime.Now;
+            //model.CreatedBy = Request.ServerVariables["HTTP_X_FORWARDED_FOR"] ?? Request.ServerVariables["REMOTE_ADDR"];
+            //var result = new WorkDescriptionRepository().UpdateWorkDescription(model);
+            //if (result.VehicleModelId > 0)
+            //{
+            //    TempData["Success"] = "Updated Successfully!";
+            //    TempData["RefNo"] = result.VehicleModelRefNo;
+            //    return RedirectToAction("Create");
+            //}
+            //else
+            //{
 
+            //    TempData["error"] = "Oops!!..Something Went Wrong!!";
+            //    TempData["RefNo"] = null;
+
+            //    return View("Create", model);
+            //}
+            return View("Create", model);
+        }
         public void FillItem()
         {
             ItemRepository Repo = new ItemRepository();
@@ -77,28 +117,39 @@ namespace ArabErp.Web.Controllers
             ViewBag.FreezerUnitlist = new SelectList(list, "Id", "Name");
         }
         [HttpPost]
-        public ActionResult Save(WorkDescription model)
+        public ActionResult CreateWorkDescription(WorkDescription model)
         {
 
 
             model.OrganizationId = 1;
             model.CreatedDate = System.DateTime.Now;
             model.CreatedBy = Request.ServerVariables["HTTP_X_FORWARDED_FOR"] ?? Request.ServerVariables["REMOTE_ADDR"];
-            new WorkDescriptionRepository().InsertWorkDescription(model);
+            var result = new WorkDescriptionRepository().InsertWorkDescription(model);
 
-            FillVehicle();
-            FillBox();
-            FillFreezerUnit();
-            FillItem();
-            FillJobCardTaskMaster();
-            WorkDescription workdescription = new WorkDescription();
+           
 
 
-            workdescription.WorkVsItems.Add(new WorkVsItem());
-            workdescription.WorkVsTasks.Add(new WorkVsTask());
+            if (result.WorkDescriptionId > 0)
+            {
+                TempData["Success"] = "Added Successfully!";
+                TempData["RefNo"] = result.WorkDescriptionRefNo;
+                return RedirectToAction("CreateWorkDescription");
+            }
+            else
+            {
+                FillVehicle();
+                FillBox();
+                FillFreezerUnit();
+                FillItem();
+                FillJobCardTaskMaster();
+                WorkDescription workdescription = new WorkDescription();
+                workdescription.WorkVsItems.Add(new WorkVsItem());
+                workdescription.WorkVsTasks.Add(new WorkVsTask());
 
-
-            return View("CreateWorkDescription", workdescription);
+                TempData["error"] = "Oops!!..Something Went Wrong!!";
+                TempData["RefNo"] = null;
+                return View("CreateWorkDescription", model);
+            }
         }
     }
 }

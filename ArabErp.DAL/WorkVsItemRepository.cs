@@ -11,23 +11,42 @@ namespace ArabErp.DAL
     public class WorkVsItemRepository : BaseRepository
     {
         static string dataConnection = GetConnectionString("arab");
-        public int InsertWorkVsItem(WorkVsItem objWorkVsItem)
+        public int InsertWorkVsItem(WorkVsItem objWorkVsItem, IDbConnection connection, IDbTransaction trn)
         {
 
-            using (IDbConnection connection = OpenConnection(dataConnection))
+             try
             {
                 string sql = @"insert  into WorkVsItem(ItemId,WorkDescriptionId,Quantity,CreatedBy,CreatedDate,OrganizationId) Values (@ItemId,@WorkDescriptionId,@Quantity,@CreatedBy,@CreatedDate,@OrganizationId);
             SELECT CAST(SCOPE_IDENTITY() as int)";
 
 
-                var id = connection.Query<int>(sql, objWorkVsItem).Single();
+                var id = connection.Query<int>(sql, objWorkVsItem,trn).Single();
                 return id;
             }
+             catch (Exception)
+             {
+                 throw;
+             }
+
         }
 
 
-  
 
+
+        public List<WorkVsItem> GetWorkDescriptionWorkVsItems(int Id)
+        {
+            using (IDbConnection connection = OpenConnection(dataConnection))
+            {
+                string sql = @"select * from WorkVsItem where isActive=1 and WorkDescriptionId=@Id";
+
+                var objWorkVsItems = connection.Query<WorkVsItem>(sql, new
+                {
+                    Id = Id
+                }).ToList<WorkVsItem>();
+
+                return objWorkVsItems;
+            }
+        }
         public List<WorkVsItem> GetWorkVsItems()
         {
             using (IDbConnection connection = OpenConnection(dataConnection))

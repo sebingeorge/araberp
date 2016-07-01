@@ -1,0 +1,62 @@
+﻿
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<script type="text/javascript">
+
+    function Create() {
+            location.href = '@Url.Action("Create")';
+    }
+    $(document).ready(function () {
+
+        toastr.options = {
+            "closeButton": true,
+            "positionClass": "toast-bottom-full-width",
+            "preventDuplicates": false,
+            "onclick": null,
+
+            "timeOut": "0",
+            "extendedTimeOut": "1000",
+            "showEasing": "swing",
+            "hideEasing": "linear",
+            "showMethod": "fadeIn",
+            "hideMethod": "fadeOut"
+        }
+        if ('@TempData["success"]' != "") {
+            toastr.success('@TempData["success"]' + '  Work Description Ref No. is : ' + '@TempData["RefNo"]');
+        }
+        else if ('@TempData["error"]' != "") {
+            toastr.error('@TempData["error"]');
+        }
+    });
+
+</script>
+<div class=" container">
+    <div class="row">
+
+        <div class="form-head form-head3">
+            <h4>Item List</h4>
+        </div>
+
+        <div class="main-part white pad1">
+
+            <div class="row">
+
+                @Html.Action("FillWorkDescriptionList")
+
+
+
+            </div>
+
+            <button type="button" onclick="Create();" class="form-button top5">Create</button>
+
+
+        </div>
+
+    </div>
+
+</div>
+
+

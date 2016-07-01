@@ -12,38 +12,57 @@ namespace ArabErp.DAL
     {
         static string dataConnection = GetConnectionString("arab");
 
-
-        public int InsertWorkDescription(WorkDescription objWorkDescription)
+        public IEnumerable<WorkDescription> FillWorkDescriptionList()
         {
             using (IDbConnection connection = OpenConnection(dataConnection))
             {
-                string sql = @"insert  into WorkDescription(VehicleModelId,FreezerUnitId,BoxId,WorkDescr,isNewInstallation,isRepair,isSubAssembly,CreatedBy,CreatedDate,OrganizationId) Values (@VehicleModelId,@FreezerUnitId,@BoxId,@WorkDescr,@isNewInstallation,@isRepair,@isSubAssembly,@CreatedBy,@CreatedDate,@OrganizationId);
+                return connection.Query<WorkDescription>("SELECT *  FROM WorkDescription where isActive=1").ToList();
+            }
+        }
+        public WorkDescription InsertWorkDescription(WorkDescription objWorkDescription)
+        {
+            using (IDbConnection connection = OpenConnection(dataConnection))
+            {
+                //var result = new WorkDescription();
+                IDbTransaction trn = connection.BeginTransaction();
+                string sql = @"insert  into WorkDescription(WorkDescriptionRefNo,VehicleModelId,FreezerUnitId,BoxId,WorkDescr,isNewInstallation,isRepair,isSubAssembly,CreatedBy,CreatedDate,OrganizationId) Values (@WorkDescriptionRefNo,@VehicleModelId,@FreezerUnitId,@BoxId,@WorkDescr,@isNewInstallation,@isRepair,@isSubAssembly,@CreatedBy,@CreatedDate,@OrganizationId);
             SELECT CAST(SCOPE_IDENTITY() as int)";
 
-
-                var id = connection.Query<int>(sql, objWorkDescription).Single();
-
-                var worksitemrepo = new WorkVsItemRepository();
-                foreach (var item in objWorkDescription.WorkVsItems)
+                try
                 {
-                    item.WorkDescriptionId = id;
-                    item.CreatedBy = objWorkDescription.CreatedBy;
-                    item.CreatedDate = objWorkDescription.CreatedDate;
-                    worksitemrepo.InsertWorkVsItem(item);
+                    int internalid = DatabaseCommonRepository.GetInternalIDFromDatabase(connection, trn, typeof(WorkDescription).Name, "0", 1);
+                    objWorkDescription.WorkDescriptionRefNo = "WD/" + internalid;
+                    var id = connection.Query<int>(sql, objWorkDescription, trn).Single();
+
+                    var worksitemrepo = new WorkVsItemRepository();
+                    foreach (var item in objWorkDescription.WorkVsItems)
+                    {
+                        item.WorkDescriptionId = id;
+                        item.CreatedBy = objWorkDescription.CreatedBy;
+                        item.CreatedDate = objWorkDescription.CreatedDate;
+                        worksitemrepo.InsertWorkVsItem(item, connection, trn);
+                    }
+
+
+                    var workstaskepo = new WorkVsTaskRepository();
+
+                    foreach (var item in objWorkDescription.WorkVsTasks)
+                    {
+                        item.WorkDescriptionId = id;
+                        item.CreatedBy = objWorkDescription.CreatedBy;
+                        item.CreatedDate = objWorkDescription.CreatedDate;
+                        workstaskepo.InsertWorkVsTask(item, connection, trn);
+                    }
+                    objWorkDescription.WorkDescriptionId = id;
+                    trn.Commit();
                 }
-
-
-                var workstaskepo = new WorkVsTaskRepository();
-
-                foreach (var item in objWorkDescription.WorkVsTasks)
+                catch (Exception ex)
                 {
-                    item.WorkDescriptionId = id;
-                    item.CreatedBy = objWorkDescription.CreatedBy;
-                    item.CreatedDate = objWorkDescription.CreatedDate;
-                    workstaskepo.InsertWorkVsTask(item);
+                    trn.Rollback();
+                    objWorkDescription.WorkDescriptionId = 0;
+                    objWorkDescription.WorkDescriptionRefNo = null;
                 }
-
-                return id;
+                return objWorkDescription;
             }
         }
 
@@ -59,7 +78,10 @@ namespace ArabErp.DAL
                 {
                     WorkDescriptionId = WorkDescriptionId
                 }).First<WorkDescription>();
-
+                 var worksitemrepo = new WorkVsItemRepository();
+                 var workstaskrepo = new WorkVsTaskRepository();
+                 objWorkDescription.WorkVsItems = worksitemrepo.GetWorkDescriptionWorkVsItems(WorkDescriptionId);
+                 objWorkDescription.WorkVsTasks = workstaskrepo.GetWorkDescriptionWorkVsTasks(WorkDescriptionId);
                 return objWorkDescription;
             }
         }
