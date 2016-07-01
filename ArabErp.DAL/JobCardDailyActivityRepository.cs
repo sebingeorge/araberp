@@ -32,7 +32,9 @@ namespace ArabErp.DAL
                     foreach (var item in objJobCardDailyActivity.JobCardDailyActivityTask)
                     {
                         item.JobCardDailyActivityId = id;
-                        sql = @"insert  into JobCardDailyActivityTask (JobCardDailyActivityId,JobCardTaskId,TaskStartDate,TaskEndDate,ActualHours,CreatedBy,CreatedDate,OrganizationId) Values (@JobCardDailyActivityId,@JobCardTaskId,@TaskStartDate,@TaskEndDate,@ActualHours,@CreatedBy,@CreatedDate,@OrganizationId);
+                        item.CreatedDate = DateTime.Now;
+                        sql = @"insert  into JobCardDailyActivityTask (JobCardDailyActivityId,JobCardTaskId,TaskStartDate,TaskEndDate,ActualHours,CreatedBy,CreatedDate,OrganizationId) Values 
+                                                                      (@JobCardDailyActivityId,@JobCardTaskId,@TaskStartDate,@TaskEndDate,@ActualHours,@CreatedBy,@CreatedDate,@OrganizationId);
                         SELECT CAST(SCOPE_IDENTITY() as int)";
 
 

@@ -43,6 +43,7 @@ namespace ArabErp.Web.Controllers
             if(ModelState.IsValid)
             {
                 JobCardDailyActivityRepository repo = new JobCardDailyActivityRepository();
+                model.CreatedDate = DateTime.Now;
                 var id = repo.InsertJobCardDailyActivity(model);
                 return RedirectToAction("PendingJobcardTasks");
             }
