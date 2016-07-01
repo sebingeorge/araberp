@@ -13,6 +13,11 @@ namespace ArabErp.Web.Controllers
         // GET: WorkDescription
         public ActionResult Index()
         {
+            FillVehicle();
+            FillBox();
+            FillFreezerUnit();
+            FillItem();
+            FillJobCardTaskMaster();
             return View();
         }
         public ActionResult FillWorkDescriptionList(int? page)
@@ -31,8 +36,9 @@ namespace ArabErp.Web.Controllers
             FillFreezerUnit();
             FillItem();
             FillJobCardTaskMaster();
+           
             WorkDescription workdescription = new WorkDescription();
-
+            workdescription.WorkDescriptionRefNo ="WD/" + DatabaseCommonRepository.GetNextRefNoWithNoUpdate(typeof(WorkDescription).Name);
 
             workdescription.WorkVsItems.Add(new WorkVsItem());
             workdescription.WorkVsTasks.Add(new WorkVsTask());
@@ -108,13 +114,13 @@ namespace ArabErp.Web.Controllers
         {
             var repo = new BoxRepository();
             var list = repo.FillBox();
-            ViewBag.boxlist = new SelectList(list, "Id", "Name");
+            ViewBag.boxlist = new SelectList(list, "BoxId", "BoxName");
         }
         public void FillFreezerUnit()
         {
             var repo = new FreezerUnitRepository();
             var list = repo.FillFreezerUnit();
-            ViewBag.FreezerUnitlist = new SelectList(list, "Id", "Name");
+            ViewBag.FreezerUnitlist = new SelectList(list, "FreezerUnitId", "FreezerUnitName");
         }
         [HttpPost]
         public ActionResult CreateWorkDescription(WorkDescription model)
