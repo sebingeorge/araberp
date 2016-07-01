@@ -599,7 +599,6 @@
     <Content Include="Views\PurchaseBill\_PurchaseBillTable.cshtml" />
     <Content Include="Views\StockJournal\_StockJournalList.cshtml" />
     <Content Include="Views\AdditionOrDeduction\Index.cshtml" />
-    <Content Include="Views\AdditionOrDeduction\Create.cshtml" />
     <Content Include="Views\SalesQuotation\Create.cshtml" />
     <Content Include="Views\GrnWareHouse\_PendingGrid.cshtml" />
     <Content Include="Views\GrnWareHouse\PendingDirectPurchase.cshtml" />
@@ -629,6 +628,8 @@
     <Content Include="Views\LoginHistory\Index.cshtml" />
     <Content Include="Views\SalesQuotation\Index.cshtml" />
     <Content Include="Views\SalesQuotation\Revise.cshtml" />
+    <Content Include="Views\AdditionOrDeduction\AdditionDeductionListView.cshtml" />
+    <Content Include="Views\AdditionOrDeduction\Create.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
