@@ -13,7 +13,7 @@
             "onclick": null,
             "showDuration": "300",
             "hideDuration": "1000",
-            "timeOut": "0",
+            "timeOut": "5000",
             "extendedTimeOut": "1000",
             "showEasing": "swing",
             "hideEasing": "linear",
@@ -37,11 +37,15 @@
         $("#pending-grid").load(url, { supplierId: id });
     }
 
+    function PreviousList() {
+        window.location = '@Url.Action("PreviousList", "GrnWareHouse")';
+    }
+
     function formValidation() {
-        if ($("#cboSupplier").val() == '') {
-            toastr.info("You have to select a supplier first");
-        }
-        else {
+        //if ($("#cboSupplier").val() == '') {
+        //    toastr.info("You have to select a supplier first");
+        //}
+        //else {
             var flag = false;
             $("input[type='checkbox']").each(function (i, obj) {
                 if ($(obj).is(':checked'))
@@ -51,8 +55,9 @@
                 toastr.info("You have to select atleast one LPO to continue.");
                 return false;
             }
-        }
-        return true;
+            else return true;
+        //}
+        //return true;
     }
 </script>
 
@@ -66,7 +71,7 @@
                 <div class="row">
                     <div class="col-md-3">
                         <label for="cboSupplier">Supplier</label>
-                        @Html.DropDownListFor(m => Model[0].SupplierId, (SelectList)ViewBag.supplierList, "Select Supplier", new { @id = "cboSupplier", @class = "form_input", @onchange = "OnSupplierChanged(this)", @required = "true" })
+                        @Html.DropDownListFor(m => Model[0].SupplierId, (SelectList)ViewBag.supplierList, "All", new { @id = "cboSupplier", @class = "form_input", @onchange = "OnSupplierChanged(this)" })
                     </div>
                 </div>
                 <br />
@@ -79,10 +84,10 @@
 
                 <div class="row">
                     <div class="col-md-1">
-                        <button type="submit" class="form-button left">@Html.ActionLink("Previous", "PreviousList", "GrnWareHouse") </button>
+                        <input type="button" class="form-button" onclick="PreviousList()" value="Previous" title="Previously accepted GRNs">
                     </div>
                     <div class="col-md-offset-10 col-md-1" style="right:25px">
-                        <input type="submit" class="form-button" value="Proceed" id="btnProceed" />
+                        <input type="submit" class="form-button" value="Proceed" id="btnProceed" title="Proceed" />
                     </div>
                 </div>
             </form>

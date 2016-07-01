@@ -223,6 +223,7 @@
     <Compile Include="Controllers\ItemGroupController.cs" />
     <Compile Include="Controllers\ItemSubGroupController.cs" />
     <Compile Include="Controllers\JobCardController.cs" />
+    <Compile Include="Controllers\JobCardDailyActivityController.cs" />
     <Compile Include="Controllers\JobCardQCController.cs" />
     <Compile Include="Controllers\JobOrderCompletionController.cs" />
     <Compile Include="Controllers\LoginHistoryController.cs" />
@@ -628,6 +629,8 @@
     <Content Include="Views\LoginHistory\Index.cshtml" />
     <Content Include="Views\SalesQuotation\Index.cshtml" />
     <Content Include="Views\SalesQuotation\Revise.cshtml" />
+    <Content Include="Views\JobCardDailyActivity\PendingJobcardTasks.cshtml" />
+    <Content Include="Views\JobCardDailyActivity\Create.cshtml" />
     <Content Include="Views\AdditionOrDeduction\AdditionDeductionListView.cshtml" />
     <Content Include="Views\AdditionOrDeduction\Create.cshtml" />
   </ItemGroup>

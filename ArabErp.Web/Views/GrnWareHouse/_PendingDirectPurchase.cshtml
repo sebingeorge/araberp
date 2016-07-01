@@ -35,12 +35,14 @@
 <table class="table table-bordered">
     <thead>
         <tr class="grid_heading">
-            <th width="10%" nowrap><h1>Request No. &amp; Date</h1></th>
+            <th width="15%" nowrap><h1>Request No. &amp; Date</h1></th>
             <th width="20%" nowrap><h1>Special Remarks</h1></th>
-            <th width="20%" nowrap><h1>Required Date</h1></th>
+            <th width="1%" nowrap><h1>Required Date</h1></th>
             <th width="1%" class="text-right" nowrap><h1>Age (in days)</h1></th>
+            @*<th width="1%" class="text-right" nowrap><h1>Required Qty</h1></th>
+            <th width="1%" class="text-right" nowrap><h1>Pending Qty</h1></th>*@
             <th width="1%" class="text-right" nowrap><h1>Total Amount</h1></th>
-            <th width="1%" style="vertical-align:middle" nowrap>
+            <th width="1%" style="vertical-align:middle" nowrap title="Check this to select all checkboxes below">
                 <h1>
                     <input id="checkAll" type="checkbox"> Select all
                 </h1>
@@ -68,6 +70,12 @@
                         <td>
                             <input type="text" class="form_input text-right" value="@Model[i].Age" disabled />
                         </td>
+                        @*<td>
+                            <input type="text" class="form_input text-right" value="@Model[i].RequiredQuantity" disabled />
+                        </td>
+                        <td>
+                            <input type="text" class="form_input text-right" value="@Model[i].PendingQuantity" disabled />
+                        </td>*@
                         <td>
                             <input type="text" class="form_input text-right" value="@Model[i].TotalAmount" disabled />
                         </td>

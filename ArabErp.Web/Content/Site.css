@@ -508,7 +508,7 @@ background-color: #D6D5D5;
   z-index: 1000;
   position: fixed;
   border-right:3px solid #fff;
-  /*width:50px;*/
+  width:204px;
 }
 
 .pushmenu h3 {
@@ -535,17 +535,31 @@ background-color: #D6D5D5;
 .links li ul li
 {
     width:200px;
-    border-bottom:1px solid #444444;
-    background-color:#ffffff;
+    border-bottom:1px solid #fff;
+    background-color:#428bca;
     height:25px;
-
 }
 
     .links li ul li a 
     {
         font-size:13px;
+        color:#fff;
+    }
+
+    .links li ul li li 
+    {
+        background-color:#fff;
+        border-bottom:1px solid #444444;
+    }
+        .links li ul li li a 
+    {
         color:#444444;
     }
+    .links li ul li li a:hover 
+     {
+        background-color:#535353;
+     } 
+
 
     .links li .glyphicon 
     {
@@ -553,6 +567,8 @@ background-color: #D6D5D5;
     padding-left: 25px;
     padding-top: 25px;
     }
+
+
 
 
 
@@ -566,7 +582,7 @@ background-color: #D6D5D5;
   padding: 4px;
 }
 
-.links li a:after {
+/*.links li a:after {
   content: '';
   display: block;
   position: absolute;
@@ -574,13 +590,24 @@ background-color: #D6D5D5;
   bottom: -5px;
   width: 0;
   height: 4px;
-  /*background-color: #f1f1f1;*/
+ background-color: #f1f1f1;
   -webkit-transition: width 0.3s ease;
   -moz-transition: width 0.3s ease;
   transition: width 0.3s ease;
+}*/
+
+.links li a::after {
+    bottom: 4px;
+    content: "";
+    display: block;
+    height: 4px;
+    right: 13px;
+    position: absolute;
+    transition: width 0.3s ease 0s;
+    width: 0;
 }
 
-.links li a:hover:after { width: 70%; }
+.links li a:hover:after { /*width: 70%;*/ right:18px; }
 
 .links li a:active { color: #dbdbdb; }
 
@@ -654,15 +681,14 @@ section.content {
     -moz-border-bottom-left-radius: 8px;
     -moz-border-bottom-right-radius: 8px;
     box-shadow: 10px 10px 5px #858383;
-    margin-top:40px;
 }
 
 .outer-login h4 
     {
-    border-bottom: 1px solid #c9c9c6;
     color: #888484;
     font-size: 24px;
-    padding-bottom: 15px;
+    /*border-bottom: 1px solid #c9c9c6;
+    padding-bottom: 15px;*/
     }
 .main-login-user 
 {

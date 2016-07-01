@@ -40,7 +40,7 @@
         location.href = url;
     }
     $(function () {
-        $("#QuotationDate").datepicker({ dateFormat: "dd/MM/yy" });
+        $("#QuotationDate").datepicker({dateFormat: "dd/MM/yy" });
         $("#ExpectedDeliveryDate").datepicker({ dateFormat: "dd/MM/yy" });
         $("#PredictedClosingDate").datepicker({ dateFormat: "dd/MM/yy" });
         $("#QuotationValidToDate").datepicker({ dateFormat: "dd/MM/yy" });
@@ -58,7 +58,7 @@
             dataType: "json",
             success: function (result) {
                 if (result.Success) { // this sets the value from the response
-                    $('#CurrencyId').val(result.Result);
+                    $('#CurrencyId').val(result.CurrencyId);
                     $("#CustomerAddress").val(result.Address);
                 } else {
                     $('#SomeOtherHtmlTextBox').val("Failed");

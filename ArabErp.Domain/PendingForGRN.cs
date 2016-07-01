@@ -21,6 +21,7 @@ namespace ArabErp.Domain
         public int? TotalAmount { get; set; }
         public bool isChecked { get; set; }
         public bool isDirectPurchase { get; set; }
-        public string Approved { get; set; }
+        public int PendingQuantity { get; set; }
+        public int RequiredQuantity { get; set; }
     }
 }

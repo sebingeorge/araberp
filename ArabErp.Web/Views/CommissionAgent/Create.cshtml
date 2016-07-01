@@ -1,64 +1,48 @@
 ﻿@model ArabErp.Domain.CommissionAgent
 
 @{ViewBag.Title = "Create"; Layout = "~/Views/Shared/_Layout.cshtml";}
-
-<script>
+@{string actionName = HttpContext.Current.Request.RequestContext.RouteData.Values["action"].ToString(); }
+<script type="text/javascript">
+    function Exit() {
+        location.href = '@Url.Action("Create")';
+    }
     $(document).ready(function () {
-        $('#CommissionAgent_form').bootstrapValidator({
-            fields: {
-                CommissionAgentRefNo: {
-                    validators: {
-                        notEmpty: {
-                            message: 'Please Enter Code'
-                        }
-                    }
-                },
+        var Action = '@actionName';
+        if (Action == 'Delete') {
 
-                CommissionAgentName: {
-                    validators: {
-                        notEmpty: {
-                            message: 'Please Enter Name'
-                        }
-                    }
-                },
+            $("input[type='text'], select, textarea").attr('disabled', 'disabled');
+            $("input[type=radio]").attr('disabled', true);
+        }
+        if (Action == 'Create') {
+            $("#GenderId").prop("checked", true)
+        }
 
-                //Address1: {
-                //    validators: {
-                //        notEmpty: {
-                //            message: 'Please Enter Door No'
-                //        }
-                //    }
-                //},
+        //$("#radio_1").prop("checked", true)
+        toastr.options = {
+            "closeButton": true,
+            "positionClass": "toast-bottom-full-width",
+            "preventDuplicates": false,
+            "onclick": null,
 
-                //Address2: {
-                //    validators: {
-                //        notEmpty: {
-                //            message: 'Please Enter Street'
-                //        }
-                //    }
-                //},
+            "timeOut": "0",
+            "extendedTimeOut": "1000",
 
-                //Address3: {
-                //    validators: {
-                //        notEmpty: {
-                //            message: 'Please Enter Area & City'
-                //        }
-                //    }
-                //},
+            "showEasing": "swing",
+            "hideEasing": "linear",
+            "showMethod": "fadeIn",
+            "hideMethod": "fadeOut"
+        }
+        if ('@TempData["success"]' != "" && '@TempData["RefNo"]' != "") {
+            toastr.success('@TempData["success"]' + '  Empoyee Ref No. is : ' + '@TempData["RefNo"]');
+        }
+        else if ('@TempData["error"]' != "") {
+            toastr.error('@TempData["error"]');
+        }
 
-                Phone: {
-                    validators: {
-                        numeric: {
-                            message: 'Please Enter Valid Phone No'
-                        }
-                    }
-                },
-
-            }
-        });
-    })
-
+    });
 </script>
+
+
 
 
 
@@ -71,8 +55,8 @@
 
 
         <div class="main-part pad1">
-            @using (Html.BeginForm("Save", null, FormMethod.Post, new { @class = "createFrom", @id = "CommissionAgent_form" }))
-            {
+            @using (Html.BeginForm(null, null, FormMethod.Post, new { @class = "createFrom", @id = "VehicleModel_form" }))
+                {
                 <div class="row">
 
 
@@ -81,7 +65,9 @@
 
                         <div class="part4">
                             <label for="CommissionAgentRefNo">Code</label>
-                            @Html.TextBoxFor(m => m.CommissionAgentRefNo, new { @class = "form_input form_input-half", autocomplete = "off" })
+                            @Html.HiddenFor(m => m.CommissionAgentId)
+                            @Html.HiddenFor(m => m.CommissionAgentRefNo)
+                            @Html.TextBoxFor(m => m.CommissionAgentRefNo, new { @class = "form_input form_input-half", autocomplete = "off" , @readonly = "readonly"})
                         </div>
                         <div class="part4">
                             <label for="Address1">Door No</label>
@@ -113,8 +99,15 @@
                         </div>
                     </div>
                     <div class="col-md-12 hrpart">
-                        <button type="button" class="form-button right">Exit</button>
-                        <button type="submit" class="form-button right">Save</button>
+                        <button type="button" class="form-button right" onclick="Exit();">Exit</button>
+                        @if (actionName == "Edit")
+                        { <button type="submit" class="form-button right">Update</button> }
+                        else
+                            if (actionName == "Delete")
+                            {  <button type="submit" class="form-button right">Delete</button>}
+                            else
+                            { <button type="submit" class="form-button right">Save</button>}
+
                     </div>
 
                 </div>
