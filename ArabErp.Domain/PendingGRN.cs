@@ -16,6 +16,8 @@ namespace ArabErp.Domain
         public string SupplyOrderNo { get; set; }
         public DateTime SupplyOrderDate { get; set; }
         public int  Ageing { get; set; }
+        public string StockPointName { get; set; }
+        public decimal? GrandTotal { get; set; }
        public bool Select { get; set; }
     }
 }

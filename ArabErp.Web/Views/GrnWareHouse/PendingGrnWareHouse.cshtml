@@ -32,6 +32,7 @@
     });
 
     function OnSupplierChanged(sender) {
+       
         var id = $(sender).val();
         var url = '@Url.Action("PendingGrid")';
         $("#pending-grid").load(url, { supplierId: id });

@@ -6,64 +6,64 @@ using System.Web.Mvc;
 using ArabErp.Domain;
 using ArabErp.DAL;
 
+
 namespace ArabErp.Web.Controllers
 {
-    public class FreezerUnitController : BaseController
+    public class BoxController : Controller
     {
-        // GET: FreezerUnit
+        // GET: Box
         public ActionResult Index()
         {
             return View();
         }
-
-        public ActionResult FillFreezerUnit(int? page)
-        {
-            int itemsPerPage = 10;
-            int pageNumber = page ?? 1;
-            var rep = new FreezerUnitRepository();
-            var List = rep.FillFreezerUnit();
-            return PartialView("FreezerUnitListView", List);
-        }
-
         public ActionResult Create()
         {
             ViewBag.Title = "Create";
-            FreezerUnit FreezerUnit = new FreezerUnit();
-            FreezerUnit.FreezerUnitRefNo = new FreezerUnitRepository().GetRefNo(FreezerUnit);
-            return View(FreezerUnit);
+            Box Box = new Box();
+            Box.BoxRefNo = new BoxRepository().GetRefNo(Box);
+            return View(Box);
         }
         [HttpPost]
-        public ActionResult Create(FreezerUnit model)
+        public ActionResult Create(Box model)
         {
             model.OrganizationId = 1;
             model.CreatedDate = System.DateTime.Now;
             model.CreatedBy = Request.ServerVariables["HTTP_X_FORWARDED_FOR"] ?? Request.ServerVariables["REMOTE_ADDR"];
-            var result = new FreezerUnitRepository().InsertFreezerUnit(model);
+            var result = new BoxRepository().InsertBox(model);
 
-            if (result.FreezerUnitId > 0)
+            if (result.BoxId > 0)
             {
                 TempData["Success"] = "Added Successfully!";
-                TempData["FreezerUnitRefNo"] = result.FreezerUnitRefNo;
+                TempData["BoxRefNo"] = result.BoxRefNo;
                 return RedirectToAction("Create");
             }
             else
             {
                 TempData["error"] = "Oops!!..Something Went Wrong!!";
-                TempData["FreezerUnitRefNo"] = null;
+                TempData["BoxRefNo"] = null;
                 return View("Create", model);
             }
         }
 
-        
+        public ActionResult FillBoxList(int? page)
+        {
+            int itemsPerPage = 10;
+            int pageNumber = page ?? 1;
+            var rep = new BoxRepository();
+            var List = rep.FillBox();
+            return PartialView("BoxListView", List);
+        }
+
+
         public ActionResult Edit(int Id)
         {
             ViewBag.Title = "Edit";
-            FreezerUnit objFreezerUnit = new FreezerUnitRepository().GetFreezerUnit(Id);
-            return View("Create", objFreezerUnit);
+            Box objBox = new BoxRepository().GetBox(Id);
+            return View("Create", objBox);
         }
 
         [HttpPost]
-        public ActionResult Edit(FreezerUnit model)
+        public ActionResult Edit(Box model)
         {
 
             model.OrganizationId = 1;
@@ -71,18 +71,18 @@ namespace ArabErp.Web.Controllers
             model.CreatedBy = Request.ServerVariables["HTTP_X_FORWARDED_FOR"] ?? Request.ServerVariables["REMOTE_ADDR"];
 
 
-            var result = new FreezerUnitRepository().UpdateFreezerUnit(model);
+            var result = new BoxRepository().UpdateBox(model);
 
-            if (result.FreezerUnitId > 0)
+            if (result.BoxId > 0)
             {
                 TempData["Success"] = "Updated Successfully!";
-                TempData["FreezerUnitRefNo"] = result.FreezerUnitRefNo;
+                TempData["BoxRefNo"] = result.BoxRefNo;
                 return RedirectToAction("Create");
             }
             else
             {
                 TempData["error"] = "Oops!!..Something Went Wrong!!";
-                TempData["FreezerUnitRefNo"] = null;
+                TempData["BoxRefNo"] = null;
                 return View("Edit", model);
             }
 
@@ -91,33 +91,33 @@ namespace ArabErp.Web.Controllers
         public ActionResult Delete(int Id)
         {
             ViewBag.Title = "Delete";
-            FreezerUnit objFreezerUnit = new FreezerUnitRepository().GetFreezerUnit(Id);
-            return View("Create", objFreezerUnit);
+            Box objBox = new BoxRepository().GetBox(Id);
+            return View("Create", objBox);
 
         }
 
         [HttpPost]
-        public ActionResult Delete(FreezerUnit model)
+        public ActionResult Delete(Box model)
         {
-            int result = new FreezerUnitRepository().DeleteFreezerUnit(model);
+            int result = new BoxRepository().DeleteBox(model);
 
             if (result == 0)
             {
                 TempData["Success"] = "Deleted Successfully!";
-                TempData["FreezerUnitRefNo"] = model.FreezerUnitRefNo;
+                TempData["BoxRefNo"] = model.BoxRefNo;
                 return RedirectToAction("Create");
             }
             else
             {
                 if (result == 1)
                 {
-                    TempData["error"] = "Sorry!! You Cannot Delete This Freezer Unit. It Is Already In Use";
-                    TempData["FreezerUnitRefNo"] = null;
+                    TempData["error"] = "Sorry!! You Cannot Delete This Box It Is Already In Use";
+                    TempData["BoxRefNo"] = null;
                 }
                 else
                 {
                     TempData["error"] = "Oops!!..Something Went Wrong!!";
-                    TempData["FreezerUnitRefNo"] = null;
+                    TempData["BoxRefNo"] = null;
                 }
                 return RedirectToAction("Create");
             }
