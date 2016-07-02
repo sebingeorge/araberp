@@ -95,7 +95,8 @@
                             <li><a href="@Url.Action("PendingSaleOrderRelease", "SaleOrder", new { isProjectBased = 1 })"><span class="badge pull-right"></span>Sale Order Release</a></li>
                             <li><a href="@Url.Action("PendingJobCard", "JobCard", new { isProjectBased = 1 })"><span class="badge pull-right"></span>Job Card</a></li>
                             <li><a href="@Url.Action("PendingJobcardTasks", "JobCardDailyActivity")"><span class="badge pull-right"></span>Daily Activity</a></li>
-                            <li><a href="@Url.Action("PendingSalesInvoice", "SalesInvoice")"><span class="badge pull-right"></span>Sales Invoice</a></li>
+                            <li><a href="@Url.Action("PendingSalesInvoice", "SalesInvoice", new { invType = "Inter"})"><span class="badge pull-right"></span>Inter Invoice</a></li>
+                            <li><a href="@Url.Action("PendingSalesInvoice", "SalesInvoice", new { invType = "Final" })"><span class="badge pull-right"></span>Final Invoice</a></li>
                             <li><a href="@Url.Action("Create", "Expense")"><span class="badge pull-right"></span>Expense Bill</a></li>
                             <li><a href="@Url.Action("Closing", "SaleOrder", new { isProjectBased = 1 })"><span class="badge pull-right"></span>Sale Order Close</a></li>
                         </ul>
@@ -151,7 +152,7 @@
                             @*<li><a href="@Url.Action("PendingSaleOrderApproval", "SaleOrder")"><span class="badge pull-right"></span>Sale Order Approval</a></li>*@
                             <li><a href="@Url.Action("PendingSaleOrderHold", "SaleOrder")"><span class="badge pull-right"></span>Sale Order Hold</a></li>
                             <li><a href="@Url.Action("PendingSaleOrderRelease", "SaleOrder")"><span class="badge pull-right"></span>Sale Order Release</a></li>
-                            <li><a href="@Url.Action("PendingSalesInvoice", "SalesInvoice")"><span class="badge pull-right"></span>Sales Invoice</a></li>
+                            <li><a href="@Url.Action("PendingSalesInvoice", "SalesInvoice", new { invType = "Transportation" })"><span class="badge pull-right"></span>Sales Invoice</a></li>
                             <li><a href="@Url.Action("Create", "Expense")"><span class="badge pull-right"></span>Expense Bill</a></li>
                             <li><a href="@Url.Action("Closing", "SaleOrder")"><span class="badge pull-right"></span>Sale Order Close</a></li>
                         </ul>

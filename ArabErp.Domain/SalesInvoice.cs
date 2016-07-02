@@ -15,7 +15,6 @@ namespace ArabErp.Domain
        
         public string CurrentDate { get; set; }
         public string SalesInvoiceNo { get; set; }
-        [Required]
         public string SalesInvoiceRefNo { get; set; }
        
         public DateTime? SalesInvoiceDate { get; set; }
@@ -37,6 +36,8 @@ namespace ArabErp.Domain
         public decimal? Deduction { get; set; }
         public string AdditionRemarks { get; set; }
         public string DeductionRemarks { get; set; }
+        public string InvoiceType { get; set; }
+        public int isProjectBased { get; set; }
         public List<SalesInvoiceItem> SaleInvoiceItems { get; set; }
     }
 }

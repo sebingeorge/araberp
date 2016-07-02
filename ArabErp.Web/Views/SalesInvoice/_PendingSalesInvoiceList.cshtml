@@ -113,10 +113,6 @@
 
 @using (Html.BeginForm("Create", null, FormMethod.Post, new { @class = "createFrom", @id = "Item_form" }))
 {
-
-
-  
-    
            <div class="container" style="margin-bottom:2px;">
             <div class="row">
                 <div class="main-list white col-md-12 wid left">
@@ -186,6 +182,7 @@
                                                 <td width="10%"><center>@Html.CheckBoxFor(model => Model[i].SelectStatus, new { @class = "check_box", @onclick = "Checked(this)" })</center></td>
                                                 @Html.HiddenFor(model => Model[i].SaleOrderId)
                                                 @Html.HiddenFor(model => Model[i].SaleOrderItemId)
+                                                @Html.HiddenFor(model => Model[i].invType)
                                                 @* <td><a href="" onclick="OpenCustomerInvoice('@Model[i].SaleOrderId');">Select</a></td>*@
                                             </tr>
                                         }
