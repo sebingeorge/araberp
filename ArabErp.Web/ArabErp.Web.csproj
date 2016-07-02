@@ -642,6 +642,8 @@
     <Content Include="Views\PurchaseBill\PurchaseBillList.cshtml" />
     <Content Include="Views\Box\Create.cshtml" />
     <Content Include="Views\Box\BoxListView.cshtml" />
+    <Content Include="Views\WorkDescription\Index.cshtml" />
+    <Content Include="Views\WorkDescription\WorkDescriptionGrid.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
