@@ -1,32 +1,23 @@
 ﻿@model ArabErp.Domain.AdditionOrDeduction
 
 @{Layout = "~/Views/Shared/_Layout.cshtml";}
-<script>
+
+@{string actionName = HttpContext.Current.Request.RequestContext.RouteData.Values["action"].ToString(); }
+
+<script type="text/javascript">
+    function Exit() {
+        location.href = '@Url.Action("Create")';
+    }
     $(document).ready(function () {
-        $('#AddDed_form').bootstrapValidator({
-            fields: {
-                AddDedName: {
-                    validators: {
-                        notEmpty: {
-                            message: 'Please Enter Name'
-                        }
-                    }
-                },
+        var Action = '@actionName';
+        if (Action == 'Delete') {
 
-                AddDedType: {
-                    validators: {
-                        notEmpty: {
-                            message: 'Please Select Type'
-                        }
-                    }
-                },
-
-            }
-        });
-    })
-
-
-    $(document).ready(function () {
+            $("input[type='text'], select, textarea").attr('disabled', 'disabled');
+            $("input[type=radio]").attr('disabled', true);
+        }
+        if (Action == 'Create') {
+            $("#GenderId").prop("checked", true)
+        }
 
 
         toastr.options = {
@@ -50,11 +41,6 @@
         }
     });
 
-
-    function Exit() {
-        location.href = '@Url.Action("Create")';
-    }
-
 </script>
 
 <div class="container">
@@ -76,7 +62,8 @@
                                 <div class="col-md-4">
                                     <div class="part4">
 
-                                        @Html.HiddenFor(m => m.AddDedId, new { @class = "form_input", autocomplete = "off"})
+                                        @Html.HiddenFor(m => m.AddDedId)
+                                        @Html.HiddenFor(m => m.AddDedRefNo)
 
                                         <label for="AddDedRefNo">Code</label>
                                         @Html.TextBoxFor(m => m.AddDedRefNo, new { @class = "form_input", autocomplete = "off", @readonly = "readonly" })
@@ -88,14 +75,12 @@
                                             <div class="part4">
                                                 <label for="AddDedName">Name</label>
                                                 @Html.TextBoxFor(m => m.AddDedName, new { @class = "form_input", autocomplete = "off" })
-                                                @Html.ValidationMessageFor(model => model.AddDedName, "", new { @class = "text-danger" })
                                             </div>
                                         </div>
                                         <div class="col-md-4">
                                             <div class="part4">
                                                 <label for="AddDedType">Addition / Deduction</label>
                                                 @Html.DropDownListFor(m => Model.AddDedType, (SelectList)ViewBag.AdditionDeduction, "Select Type", new { @class = "form_input", autocomplete = "off" })
-                                                @Html.ValidationMessageFor(model => model.AddDedType, "", new { @class = "text-danger" })
                                             </div>
                                         </div>
                                         <div class="col-md-4">
@@ -112,8 +97,7 @@
                                                <div class="part4">
                                                 <label for="AddDedRemarks">Remarks</label>
                                                 @Html.TextAreaFor(m => m.AddDedRemarks, new { @class = "form_input form_input-h", autocomplete = "off" })
-                                                @Html.ValidationMessageFor(model => model.AddDedRemarks, "", new { @class = "text-danger" })
-                                            </div>
+                                               </div>
                                         </div>
 
                                     </div>
@@ -121,36 +105,19 @@
 
 
 
-
                         <div class="col-md-12 hrpart">
-
-                            <button type="button" class="form-button right" onclick="Exit()">Exit</button>
-
-                            @if (@ViewBag.Title == "Create")
-                            {
-                                <button type="submit" class="form-button right">Save</button>
-                            }
-
-                            @if (@ViewBag.Title == "Edit")
-                            {
-                                <button type="submit" class="form-button right">Update</button>
-                            }
-
-                            @if (@ViewBag.Title == "Delete")
-                            {
-                                <button type="submit" class="form-button right">Delete</button>
-                            }
+                            <button type="button" class="form-button right" onclick="Exit();">Exit</button>
+                            @if (actionName == "Edit")
+                            { <button type="submit" class="form-button right">Update</button> }
+                            else
+                                if (actionName == "Delete")
+                                {  <button type="submit" class="form-button right">Delete</button>}
+                                else
+                                { <button type="submit" class="form-button right">Save</button>}
 
                         </div>
 
                             </div>
-
-
-
-
-
-
-
                 </form>
             </div>
         }

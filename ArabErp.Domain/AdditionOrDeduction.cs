@@ -11,9 +11,9 @@ namespace ArabErp.Domain
     {
         public int? AddDedId { get; set; }
         public string AddDedRefNo { get; set; }
-        //[Required]
+        [Required]
         public string AddDedName { get; set; }
-        //[Required]
+        [Required]
         public string AddDedType { get; set; }
         public string AddDedRemarks { get; set; }
         public string CreatedBy { get; set; }

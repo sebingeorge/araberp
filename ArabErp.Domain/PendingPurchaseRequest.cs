@@ -10,9 +10,11 @@ namespace ArabErp.Domain
     {
         public int PurchaseRequestId { get; set; }
         public string PurchaseRequestNo { get; set; }
+        public string SpecialRemarks { get; set; }
         public DateTime PurchaseRequestDate { get; set; }
         public DateTime RequiredDate { get; set; }
         public bool Select { get; set; }
         public int Ageing { get; set; }
+        public string WRNoAndDate { get; set; }
     }
 }

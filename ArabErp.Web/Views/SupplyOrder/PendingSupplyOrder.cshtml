@@ -4,58 +4,128 @@
     ViewBag.Title = "PendingSupplyOrder";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
+
+<script type="text/javascript">
+
+    $(document).ready(function () {
+        toastr.options = {
+            "closeButton": true,
+            "positionClass": "toast-bottom-full-width",
+            "showDuration": "300",
+            "hideDuration": "1000",
+            "timeOut": "0",
+            "extendedTimeOut": "1000"
+        }
+        if ('@TempData["success"]' != '') {
+            toastr.success('@TempData["success"]');
+
+        }
+        else if ('@TempData["error"]' != '') {
+            toastr.error('@TempData["error"]'.split('|')[0]);
+            console.log('@TempData["error"]'.split('|')[1]);
+        }
+        @{TempData["success"] = TempData["error"] = "";}
+    });
+
+    function PreviousList() {
+        var url = '@Url.Action("PreviousList")';
+        window.location = url;
+    }
+
+    function formValidation() {
+        var flag = false;
+        $("input[type='checkbox']").each(function (i, obj) {
+            if ($(obj).is(':checked'))
+                flag = true;
+        });
+        if (!flag) {
+            toastr.info("You have to select atleast one purchase request to continue.");
+        }
+        return flag;
+    }
+
+</script>
+
 <div class="container">
     <div class="row">
         <div class="form-head1">
             <h4>Pending Purchase Requests</h4>
         </div>
-        <div class="main-part pad1 white">
-            <form method="post" action="@Url.Action("Create", "SupplyOrder")">
+        <div class="main-part pad1">
+            <form method="post" action="@Url.Action("Create", "SupplyOrder")" onsubmit="return formValidation()">
                 @*<div class=" table-responsive">
-                    <table class="table table-bordered">
-                        <thead>
-                            <tr class="grid_heading">
-                                <th><h1>PRS No.</h1></th>
-                                <th><h1>PRS Date</h1></th>
-                                <th><h1>Material Description</h1></th>
-                                <th class="text-right "><h1>PR Qty.</h1></th>
-                                <th class="text-right "><h1>Pending Qty.</h1></th>
-                                <th class="text-right "><h1>Unit</h1></th>
-                                <th><h1>Required Date</h1></th>
-                                <th><h1>Select</h1></th>
-                            </tr>
-                        </thead>
-                        <tbody class="grid_row">
+                        <table class="table table-bordered">
+                            <thead>
+                                <tr class="grid_heading">
+                                    <th><h1>PRS No.</h1></th>
+                                    <th><h1>PRS Date</h1></th>
+                                    <th><h1>Material Description</h1></th>
+                                    <th class="text-right "><h1>PR Qty.</h1></th>
+                                    <th class="text-right "><h1>Pending Qty.</h1></th>
+                                    <th class="text-right "><h1>Unit</h1></th>
+                                    <th><h1>Required Date</h1></th>
+                                    <th><h1>Select</h1></th>
+                                </tr>
+                            </thead>
+                            <tbody class="grid_row">
 
-                    </table>
-                </div>*@
+                        </table>
+                    </div>*@
                 <div class="row">
 
-                    <div class="main-grid main-grid-top scroll1">
-                        <div class=" table-responsive">
+                    <div class="main-grid main-grid-top">
+                        <div class=" table-responsive scroll4">
                             <table class="table table-bordered">
                                 <thead>
                                     <tr class="grid_heading">
-                                        <th><h1>PRS No. and Date</h1></th>
-                                        <th><h1>Ageing</h1></th>
-                                        <th><h1>Required Date</h1></th>
-                                        <th><center><h1>Select</h1></center></th>
+                                        <th width="15%"><h1>PRS No. &amp; Date</h1></th>
+                                        <th width="15%"><h1>Required Date</h1></th>
+                                        <th width="15%"><h1>WR No. &amp; Date</h1></th>
+                                        <th width="25%"><h1>Special Remarks</h1></th>
+                                        <th width="1%" nowrap><h1>Ageing</h1></th>
+                                        <th width="1%" nowrap><center><h1>Select</h1></center></th>
                                     </tr>
                                 </thead>
-                                @for (int i = 0; i < Model.Count(); i++)
-{
-                                @Html.HiddenFor(m => m[i].PurchaseRequestId)
                                 <tbody class="grid_row">
-                                    <tr>
-                                        <td class="grid-cell">@Model[i].PurchaseRequestNo  -  @Model[i].RequiredDate.ToString("dd/MMM/yyyy") </td>
-                                        <td class="grid-cell">@Model[i].Ageing </td>
-                                        <td class="grid-cell">@Model[i].RequiredDate.ToString("dd/MMM/yyyy")</td>
-                                        <td><center>@Html.CheckBoxFor(m => m[i].Select)</center></td>
+                                    @if (Model.Count != 0)
+                                    {
+                                        for (int i = 0; i < Model.Count(); i++)
+                                        {
+                                            @Html.HiddenFor(m => m[i].PurchaseRequestId)
+                                            <tr>
+                                                <td>
+                                                    <input type="text" value="@Model[i].PurchaseRequestNo  -  @Model[i].RequiredDate.ToString("dd MMM yyyy")" class="form_input" disabled />
+                                                </td>
+                                                <td>
+                                                    <input type="text" value="@Model[i].RequiredDate.ToString("dd MMM yyyy")" class="form_input" disabled />
+                                                </td>
+                                                <td>
+                                                    <input type="text" value="@Model[i].WRNoAndDate" class="form_input" disabled />
+                                                </td>
+                                                <td>
+                                                    <input type="text" value="@Model[i].SpecialRemarks" class="form_input" disabled />
+                                                </td>
+                                                <td>
+                                                    <input type="text" value="@Model[i].Ageing" class="form_input" disabled />
+                                                </td>
+                                                <td>
+                                                    <center>@Html.CheckBoxFor(m => m[i].Select)</center>
+                                                </td>
 
-                                    </tr>
+                                            </tr>
+
+                                        }
+                                    }
+                                    else
+                                    {
+                                        <tr>
+                                            <td align="center" colspan="5"><em>There are no pending purchase requests</em></td>
+                                        </tr>
+                                    }
                                 </tbody>
-                                }
+
                             </table>
+                            <br />
                         </div>
 
 
@@ -63,44 +133,45 @@
 
 
                     <div class="col-md-12 hrpart top5">
+                        <input type="button" class="form-button" onclick="PreviousList()" value="Previous" title="Previous supply orders">
                         <button type="submit" class="form-button right">Proceed</button>
                     </div>
-                    </div>
-
-
-
-
-
-
-
-                    @*<div class="main-part wid pad1">
-            <div class="table-responsive">
-
-
-                <div class="row">
-
-                    <div class="col-md-12">
-
-
-                        <div class="col-md-4 col-sm-4 grid-left">PRS No. and Date</div>
-                        <div class="col-md-4 col-sm-4 grid-left">Required Date</div>
-                        <div class="col-md-4 col-sm-4 grid-left"></div>
-
-
-                        @for (int i = 0; i < Model.Count(); i++)
-                        {
-                            @Html.HiddenFor(m => m[i].PurchaseRequestId)
-                            <div class="col-md-4 col-sm-4"><div> @Model[i].PurchaseRequestNo  -  @Model[i].RequiredDate.ToString("dd/MMM/yyyy")  </div></div>
-                            <div class="col-md-4 col-sm-4"><div>@Model[i].RequiredDate.ToString("dd/MMM/yyyy") </div></div>
-                            <div class="col-md-4 col-sm-4"><div><center>@Html.CheckBoxFor(m => m[i].Select)</center></div></div>
-                        }
-                    </div>
-                </div>
-
                 </div>
 
 
-            </div>*@
+
+
+
+
+
+                @*<div class="main-part wid pad1">
+                    <div class="table-responsive">
+
+
+                        <div class="row">
+
+                            <div class="col-md-12">
+
+
+                                <div class="col-md-4 col-sm-4 grid-left">PRS No. and Date</div>
+                                <div class="col-md-4 col-sm-4 grid-left">Required Date</div>
+                                <div class="col-md-4 col-sm-4 grid-left"></div>
+
+
+                                @for (int i = 0; i < Model.Count(); i++)
+                                {
+                                    @Html.HiddenFor(m => m[i].PurchaseRequestId)
+                                    <div class="col-md-4 col-sm-4"><div> @Model[i].PurchaseRequestNo  -  @Model[i].RequiredDate.ToString("dd/MMM/yyyy")  </div></div>
+                                    <div class="col-md-4 col-sm-4"><div>@Model[i].RequiredDate.ToString("dd/MMM/yyyy") </div></div>
+                                    <div class="col-md-4 col-sm-4"><div><center>@Html.CheckBoxFor(m => m[i].Select)</center></div></div>
+                                }
+                            </div>
+                        </div>
+
+                        </div>
+
+
+                    </div>*@
 
 
 
@@ -111,7 +182,7 @@
 
 
 
-</form>
+            </form>
         </div>
     </div>
 </div>

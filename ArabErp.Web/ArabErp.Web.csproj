@@ -602,6 +602,7 @@
     <Content Include="Views\PurchaseBill\_PurchaseBillTable.cshtml" />
     <Content Include="Views\StockJournal\_StockJournalList.cshtml" />
     <Content Include="Views\AdditionOrDeduction\Index.cshtml" />
+    <Content Include="Views\AdditionOrDeduction\Create.cshtml" />
     <Content Include="Views\SalesQuotation\Create.cshtml" />
     <Content Include="Views\GrnWareHouse\_PendingGrid.cshtml" />
     <Content Include="Views\GrnWareHouse\PendingDirectPurchase.cshtml" />
@@ -650,6 +651,7 @@
     <Folder Include="bin\" />
     <Folder Include="Images\App_LocalResources\" />
     <Folder Include="Views\Base\" />
+    <Folder Include="Views\FreezerUnit\" />
     <Folder Include="Views\LocalPurchase\" />
     <Folder Include="Views\MisReport\" />
     <Folder Include="Views\StockJournel\" />

@@ -13,7 +13,9 @@ namespace ArabErp.Domain
     {
         public int CusCategoryId { get; set; }
         public string CusCategoryRefNo { get; set; }
+        [Required]
         public string CusCategoryName { get; set; }
+        [Required]
         public string CusCategoryShortName { get; set; }
         public string CreatedBy { get; set; }
         public DateTime? CreatedDate { get; set; }
