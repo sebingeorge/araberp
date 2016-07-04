@@ -16,12 +16,14 @@
                     <table class="table table-bordered">
                         <thead>
                             <tr class="grid_heading">
-                                <th width="35%"><h1>Customer</h1></th>
-                                <th width="20%"><h1>Customer Order Ref.</h1></th>
-                                <th width="20%"><h1>SO.No. & Date</h1></th>
-
+                                <th width="25%"><h1>Customer</h1></th>
+                                @*<th width="15%"><h1>Customer Order Ref.</h1></th>*@
+                                <th width="15%"><h1>SO.No. & Date</h1></th>
+                                <th width="20%"><h1>Work Description</h1></th>
+                                <th width="5%"><h1>Ageing</h1></th>
                                 <th width="10%"><h1>EDA</h1></th>
                                 <th width="10%"><h1>EDD</h1></th>
+                                <th width="10%"><h1>Remaining Days</h1></th>
                                 <th width="5%"><h1></h1></th>
                             </tr>
                         </thead>
@@ -30,10 +32,13 @@
                             <tbody class="grid_row">
                                 <tr>
                                     <td class="grid-cell">@item.CustomerName</td>
-                                    <td class="grid-cell">@item.CustomerOrderRef</td>
+                                    @*<td class="grid-cell">@item.CustomerOrderRef</td>*@
                                     <td class="grid-cell">@item.SaleOrderRefNo &amp; @item.SaleOrderDate.ToString("dd/MMM/yyyy")</td>
+                                    <td class="grid-cell">@item.WorkDescription </td>
+                                    <td class="grid-cell">@item.Ageing</td>
                                     <td class="grid-cell">@item.EDateArrival.ToString("dd/MMM/yyyy")</td>
                                     <td class="grid-cell">@item.EDateDelivery.ToString("dd/MMM/yyyy")</td>
+                                    <td class="grid-cell">@item.Remaindays</td>
                                     <td><center>@Html.ActionLink("Select", "Hold", "SaleOrder", new { SaleOrderId = @item.SaleOrderId }, new { @class = "form-button5", @style = "text-align:center" })</center></td>
 
                                   

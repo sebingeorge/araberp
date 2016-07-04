@@ -5,6 +5,7 @@ using System.Web;
 using System.Web.Mvc;
 using ArabErp.DAL;
 using ArabErp.Domain;
+using System.Data.SqlClient;
 
 namespace ArabErp.Web.Controllers
 {
@@ -128,6 +129,54 @@ namespace ArabErp.Web.Controllers
         {
             FillSupplier();
             FillCurrency();
+        }
+
+        public ActionResult PendingApproval()
+        {
+            return View(new SupplyOrderRepository().GetPendingApproval());
+        }
+
+        public ActionResult Approve(int id = 0)
+        {
+            try
+            {
+                if (id != 0)
+                {
+                    SupplyOrder supplyorder = new SupplyOrder();
+                    supplyorder = new SupplyOrderRepository().GetSupplyOrder(id);
+                    FillDropdowns();
+                    return View();
+                }
+                else
+                {
+                    TempData["error"] = "That was an invalid/unknown request. Please try again.";
+                    TempData["success"] = "";
+                }
+            }
+            catch (InvalidOperationException iox)
+            {
+                TempData["error"] = "Sorry, we could not find the requested item. Please try again.|" + iox.Message;
+            }
+            catch (SqlException sx)
+            {
+                TempData["error"] = "Some error occured while connecting to database. Please try again after sometime.|" + sx.Message;
+            }
+            catch (NullReferenceException nx)
+            {
+                TempData["error"] = "Some required data was missing. Please try again.|" + nx.Message;
+            }
+            catch (Exception ex)
+            {
+                TempData["error"] = "Some error occured. Please try again.|" + ex.Message;
+            }
+
+            TempData["success"] = "";
+            return RedirectToAction("PendingApproval");
+        }
+        [HttpPost]
+        public ActionResult Approve(SupplyOrder model)
+        {
+            return View();
         }
     }
 }
