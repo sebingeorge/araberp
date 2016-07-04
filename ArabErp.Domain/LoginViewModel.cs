@@ -21,7 +21,8 @@ namespace ArabErp.Domain
         [DataType(DataType.Password)]
         [Display(Name = "Password")]
         public string Password { get; set; }
-
+        [Required]
+        public int OrganizationId { get; set; }
         [Display(Name = "Remember me?")]
         public bool RememberMe { get; set; }
     }

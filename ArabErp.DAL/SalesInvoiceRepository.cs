@@ -99,7 +99,16 @@ namespace ArabErp.DAL
                 }
                 else if(invType == "Final")
                 {
-
+                    sql = @"SELECT DISTINCT C.CustomerName Customer, SO.SaleOrderId SaleOrderId,CONCAT(SO.SaleOrderRefNo,'/',Convert(varchar(15),SO.SaleOrderDate,106 )) as SaleOrderRefNoWithDate
+                        FROM SaleOrder SO LEFT JOIN SaleOrderItem SOI ON SO.SaleOrderId=SOI.SaleOrderId
+						LEFT JOIN SalesInvoiceItem SII ON SOI.SaleOrderItemId=SII.SaleOrderItemId
+						LEFT JOIN JobCard JC ON JC.SaleOrderItemId=SOI.SaleOrderItemId
+						LEFT JOIN Customer C ON C.CustomerId=SO.CustomerId
+						WHERE SII.SalesInvoiceId IS NULL AND JC.JodCardCompleteStatus=1 AND SO.isActive=1
+						AND SO.isActive=1
+						AND JC.isActive=1
+						AND C.isActive=1
+						AND SOI.isActive=1";
                 }
                 else if (invType == "Transportation")
                 {
@@ -113,8 +122,7 @@ namespace ArabErp.DAL
 						AND JC.isActive=1
 						AND C.isActive=1
 						AND SOI.isActive=1";
-                }
-                
+                }               
 
                 var objSalesInvoices = connection.Query<SalesInvoice>(sql).ToList<SalesInvoice>();
 
@@ -150,7 +158,25 @@ namespace ArabErp.DAL
                 }
                 else if (invType == "Final")
                 {
-
+                    sql = @"SELECT * INTO #SaleOrder FROM SaleOrder WHERE SaleOrderId=@SaleOrderId AND isActive=1;
+                            SELECT SO.SaleOrderId SaleOrderId,SOI.WorkDescriptionId WorkDescriptionId,SOI.SaleOrderItemId SaleOrderItemId,SOI.Quantity Quantity,SOI.Rate Rate,SOI.Amount Amount,SOI.VehicleModelId,JC.JobCardNo JobCardNo INTO #TEMP_ORDER 
+                            FROM #SaleOrder SO LEFT JOIN SaleOrderItem SOI ON SO.SaleOrderId=SOI.SaleOrderId
+	        				LEFT JOIN JobCard JC ON JC.SaleOrderItemId=SOI.SaleOrderItemId
+		        			WHERE JC.JodCardCompleteStatus=1
+                            SELECT * INTO #SalesInvoice FROM SalesInvoice WHERE SaleOrderId=@SaleOrderId AND isActive=1;
+                            SELECT SI.SaleOrderId,SII.SaleOrderItemId INTO #TEMP_INVOICE FROM #SalesInvoice SI LEFT JOIN SalesInvoiceItem SII ON SI.SalesInvoiceId=SII.SalesInvoiceId;
+                            SELECT O.SaleOrderId,O.SaleOrderItemId,O.Quantity,O.Rate,O.Amount,O.VehicleModelId,O.WorkDescriptionId WorkDescriptionId,W.WorkDescr WorkDescr,O.JobCardNo JobCardNo INTO #RESULT FROM #TEMP_ORDER O 
+                            LEFT JOIN #TEMP_INVOICE I ON O.SaleOrderId=I.SaleOrderId AND O.SaleOrderItemId=I.SaleOrderItemId 
+                            LEFT JOIN WorkDescription W ON W.WorkDescriptionId=O.WorkDescriptionId
+                            WHERE I.SaleOrderId IS NULL AND I.SaleOrderItemId IS NULL;
+                            SELECT R.SaleOrderId SaleOrderId,R.SaleOrderItemId SaleOrderItemId,R.Quantity Quantity,R.Rate Rate,r.Amount Amount,
+                            CONCAT(V.VehicleModelName,'',VehicleModelDescription) VehicleModelName,R.WorkDescr WorkDescription,R.JobCardNo JobCardNo FROM #RESULT R 
+                            LEFT JOIN VehicleModel V ON R.VehicleModelId=V.VehicleModelId
+                            DROP TABLE #RESULT;
+                            DROP TABLE #SaleOrder;
+                            DROP TABLE #SalesInvoice;
+                            DROP TABLE #TEMP_INVOICE;
+                            DROP TABLE #TEMP_ORDER;";
                 }
                 else if (invType == "Transportation")
                 {
@@ -208,7 +234,26 @@ namespace ArabErp.DAL
                }
                else if (invType == "Final")
                {
-
+                   sql = @" SELECT * INTO #SaleOrder FROM SaleOrder WHERE SaleOrderId=@SaleOrderId
+                            select Distinct 
+                            C.CustomerName Customer,
+                            SO.SaleOrderId SaleOrderId,
+                            S.SymbolName CurrencySymbol,
+                            Convert(varchar(15),Getdate(),106) CurrentDate,
+                            SO.SaleOrderRefNo SaleOrderRefNo ,
+                            Concat(C.DoorNo,',',C.Street,',',C.State,',',C.Country,',',C.Zip)
+                            CustomerAddress,
+                            SO.CustomerOrderRef CustomerOrderRef,
+                            SO.SpecialRemarks SpecialRemarks,
+                            SO.PaymentTerms PaymentTerms from #SaleOrder SO 
+                            left join SaleOrderItem SOI on SO.SaleOrderId=SOI.SaleOrderId
+                            Left join JobCard JC on SO.SaleOrderId=JC.SaleOrderId
+                            Left join Customer C on SO.CustomerId=C.CustomerId
+                            LEFT JOIN Currency CU ON CU.CurrencyId=C.CurrencyId
+                            LEFT JOIN Symbol S ON S.SymbolId=CU.CurrencySymbolId 
+                            Left Join WorkDescription WD on SOI.WorkDescriptionId=WD.WorkDescriptionId
+                            where JC.JodCardCompleteStatus=1 AND SO.isActive=1 AND SOI.isActive=1 AND JC.isActive=1
+                            DROP TABLE #SaleOrder";
                }
                else if (invType == "Transportation")
                {

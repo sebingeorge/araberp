@@ -47,9 +47,14 @@
                             @Html.PasswordFor(m => m.Password, new { @class = "login-text" })
                             @Html.ValidationMessageFor(m => m.Password, "", new { @class = "text-danger" })
                             <div class="login-text-right"></div>
-
                         </div>
-
+                        <div class="row main-login-user">
+                            <div class="login-user-left"></div>
+                            @Html.Label("Organization", new { @class = "control-label login-user" })
+                            <div class="login-user-right"></div>
+                            @Html.DropDownListFor(m => Model.OrganizationId, (SelectList)ViewBag.Organizations, "Select Organization", new { @class = "login-text", autocomplete = "off" })
+                            <div class="login-text-right"></div>
+                        </div>
     <div class="checkbox rem">
         @Html.CheckBoxFor(m => m.RememberMe)
         @Html.LabelFor(m => m.RememberMe)
