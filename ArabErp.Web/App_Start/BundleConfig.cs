@@ -33,7 +33,7 @@ namespace ArabErp
 
                       ));
 
-                    
+
 
             bundles.Add(new StyleBundle("~/Content/css").Include(
                       "~/Content/bootstrap.css",
