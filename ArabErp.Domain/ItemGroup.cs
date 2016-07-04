@@ -13,8 +13,11 @@ namespace ArabErp.Domain
     {
         public int ItemGroupId { get; set; }
         public string ItemGroupRefNo { get; set; }
+        [Required]
         public string ItemGroupName { get; set; }
+        [Required]
         public int ItemCategoryId { get; set; }
+        [Required]
         public string CreatedBy { get; set; }
         public DateTime? CreatedDate { get; set; }
         public int OrganizationId { get; set; }

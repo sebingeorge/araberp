@@ -58,9 +58,10 @@ namespace ArabErp.DAL
             }
         }
 
-        public int DeleteItemCategory(ItemCategory objItemCategory)
+
+        public ItemCategory DeleteItemCategory(ItemCategory objItemCategory)
         {
-            int result = 0;
+          
             using (IDbConnection connection = OpenConnection(dataConnection))
             {
                 string sql = @" Update ItemCategory Set isActive=0 WHERE itmCatId=@itmCatId";
@@ -69,29 +70,16 @@ namespace ArabErp.DAL
 
                     var id = connection.Execute(sql, objItemCategory);
                     objItemCategory.itmCatId = id;
-                    result = 0;
+                    //result = 0;
 
                 }
-                catch (SqlException ex)
+                catch (Exception ex)
                 {
-                    int err = ex.Errors.Count;
-                    if (ex.Errors.Count > 0) // Assume the interesting stuff is in the first error
-                    {
-                        switch (ex.Errors[0].Number)
-                        {
-                            case 547: // Foreign Key violation
-                                result = 1;
-                                break;
 
-                            default:
-                                result = 2;
-                                break;
-                        }
-                    }
+                    objItemCategory.itmCatId = 0;
 
                 }
-
-                return result;
+                return objItemCategory;
             }
         }
 
