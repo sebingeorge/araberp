@@ -77,18 +77,26 @@
                 </div>
 
                 <div class="row form-group">
-                    <div class="col-md-2"><label for="SpecialRemarks">Special Remarks</label></div>
-                    <div class="col-md-10">@Html.TextBoxFor(m => m.Remarks, new { @class = "form_input form_input-h", autocomplete = "off" })
-                    @*<textarea id="SplRemarks1" autocomplete="off" class="form_input form_input-h"></textarea>*@</div>
+                    <div class="col-md-12">
+                        <div class="part1">
+                            <label for="SpecialRemarks">Special Remarks</label>
+                            @Html.TextBoxFor(m => m.Remarks, new { @class = "form_input form_input-h", autocomplete = "off" })
+                            @*<textarea id="SplRemarks1" autocomplete="off" class="form_input form_input-h"></textarea>*@
+                        </div>
+                    </div>
                                 
 
 
                 </div>
                 <div class="row form-group">
-                    <div class="col-md-2"><label for="RequiredDate">Issued By</label></div>
-                    <div class="col-md-2">@Html.DropDownListFor(m => m.IssuedBy, (SelectList)ViewBag.EmployeeList, "Select Employee", new { @class = "form_input", autocomplete = "off" })
+                    <div class="col-md-2">
+                        <div class="part1">
+                    <label for="RequiredDate">Issued By</label>
+                    @Html.DropDownListFor(m => m.IssuedBy, (SelectList)ViewBag.EmployeeList, "Select Employee", new { @class = "form_input", autocomplete = "off" })
                     @*@Html.TextBoxFor(m => m.IssuedBy, new { @class = "form_input", autocomplete = "off" })*@
-                    @*<input type="date" id="duedate" class="form_input" />*@</div>
+                    @*<input type="date" id="duedate" class="form_input" />*@
+                       </div>
+                    </div>
                         
 
 

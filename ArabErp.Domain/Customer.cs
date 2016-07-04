@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.ComponentModel.DataAnnotations;
 
 namespace ArabErp.Domain
 {
@@ -10,19 +11,28 @@ namespace ArabErp.Domain
     {
         public int CustomerId { get; set; }
         public string CustomerRefNo { get; set; }
+        [Required]
         public string CustomerName { get; set; }
+        [Required]
         public string CustomerPrintName { get; set; }
         public int CategoryId { get; set; }
+        [Required]
         public int LeadSourceId { get; set; }
         public int CurrencyId { get; set; }
+        [Required]
         public string DoorNo { get; set; }
+        [Required]
         public string Street { get; set; }
+        [Required]
         public string State { get; set; }
+        [Required]
         public int Country { get; set; }
+        [Required]
         public string Zip { get; set; }
         public string Phone { get; set; }
         public string Fax { get; set; }
         public string Email { get; set; }
+        [Required]
         public string ContactPerson { get; set; }
         public string CreatedBy { get; set; }
         public DateTime? CreatedDate { get; set; }

@@ -2,32 +2,22 @@
 
 @{Layout = "~/Views/Shared/_Layout.cshtml";}
 
-<script>
+@{string actionName = HttpContext.Current.Request.RequestContext.RouteData.Values["action"].ToString(); }
+
+<script type="text/javascript">
+    function Exit() {
+        location.href = '@Url.Action("Create")';
+    }
     $(document).ready(function () {
-        $('#PaymentTerms_form').bootstrapValidator({
-            fields: {
-                
-                PaymentTermsRefNo: {
-                    validators: {
-                        notEmpty: {
-                            message: 'Please Enter Code'
-                        }
-                    }
-                },
+        var Action = '@actionName';
+        if (Action == 'Delete') {
 
-                PaymentTermsName: {
-                    validators: {
-                        notEmpty: {
-                            message: 'Please Enter Name'
-                        }
-                    }
-                },
-
-            }
-        });
-    })
-
-    $(document).ready(function () {
+            $("input[type='text'], select, textarea").attr('disabled', 'disabled');
+            $("input[type=radio]").attr('disabled', true);
+        }
+        if (Action == 'Create') {
+            $("#GenderId").prop("checked", true)
+        }
 
 
         toastr.options = {
@@ -52,10 +42,6 @@
     });
 
 
-    function Exit() {
-        location.href = '@Url.Action("Create")';
-    }
-
 </script>
 
 <div class=" container ">
@@ -74,7 +60,8 @@
 
                     <div class="col-md-4">
 
-                        @Html.HiddenFor(m => m.PaymentTermsId, new { @class = "form_input", autocomplete = "off" })
+                        @Html.HiddenFor(m => m.PaymentTermsId)
+                        @Html.HiddenFor(m => m.PaymentTermsRefNo)
 
                         <div class="part4">
                             <label for="PaymentTermsRefNo">Code</label>
@@ -95,23 +82,14 @@
                     </div>
 
                     <div class="col-md-12 hrpart">
-
-                        <button type="button" class="form-button right" onclick="Exit()">Exit</button>
-
-                        @if (@ViewBag.Title == "Create")
-                        {
-                            <button type="submit" class="form-button right">Save</button>
-                        }
-
-                        @if (@ViewBag.Title == "Edit")
-                        {
-                            <button type="submit" class="form-button right">Update</button>
-                        }
-
-                        @if (@ViewBag.Title == "Delete")
-                        {
-                            <button type="submit" class="form-button right">Delete</button>
-                        }
+                        <button type="button" class="form-button right" onclick="Exit();">Exit</button>
+                        @if (actionName == "Edit")
+                        { <button type="submit" class="form-button right">Update</button> }
+                        else
+                            if (actionName == "Delete")
+                            {  <button type="submit" class="form-button right">Delete</button>}
+                            else
+                            { <button type="submit" class="form-button right">Save</button>}
 
                     </div>
 

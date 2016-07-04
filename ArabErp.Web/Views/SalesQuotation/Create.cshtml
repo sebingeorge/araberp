@@ -635,48 +635,47 @@
 
 
 
-                <div class="row form-group ">
-                    <div class="part1">
-                        <div class="col-md-2">
+                <div class="row">
 
-                         
-                            <label for="Remarks">Special Remarks</label>
+                        <div class="col-md-12">
 
-                        </div>
-                        <div class="col-md-10">
+                            <div class="part1">
 
-                            @if (ViewBag.actionName.ToString() == "Create")
-                            {
-                                @Html.TextAreaFor(m => m.Remarks, new { @class = "form_input form_input-h", autocomplete = "off" })
-                            }
-                            else
-                            {
-                                @Html.TextAreaFor(m => m.Remarks, new { @class = "form_input form_input-h", autocomplete = "off", @readonly = "readonly" })
-                            }
+                                <label for="Remarks">Special Remarks</label>
 
-                        </div>
+                                @if (ViewBag.actionName.ToString() == "Create")
+                                {
+                                    @Html.TextAreaFor(m => m.Remarks, new { @class = "form_input form_input-h", autocomplete = "off" })
+                                }
+                                else
+                                {
+                                    @Html.TextAreaFor(m => m.Remarks, new { @class = "form_input form_input-h", autocomplete = "off", @readonly = "readonly" })
+                                }
 
-                    </div>
-
-                    <div class="part">
-                        <div class="col-md-2">
-
-                            <label for="PaymentTerms">Payment Terms</label>
+                            </div>
 
                         </div>
-                        <div class="col-md-9 col-sm-10" style="display:inline-block;position:relative;">
 
-                            @if (ViewBag.actionName.ToString() == "Create")
-                            {
-                                @Html.TextBoxFor(m => m.PaymentTerms, new { @class = "form_input", autocomplete = "off" })
-                                <button class="terms" type="button" id="pymtTerms" onclick="showPaymentTerms()">...</button>
-                            }
-                            else
-                            {
-                                @Html.TextBoxFor(m => m.PaymentTerms, new { @class = "form_input", autocomplete = "off", @readonly = "readonly" })
-                            }
 
-                        </div>
+
+
+                        <div class="col-md-11 col-sm-10" style="display:inline-block;position:relative;">
+
+                            <div class="part4">
+
+                                <label for="PaymentTerms">Payment Terms</label>
+
+                                @if (ViewBag.actionName.ToString() == "Create")
+                                {
+                                    @Html.TextBoxFor(m => m.PaymentTerms, new { @class = "form_input", autocomplete = "off" })
+                                    <button class="terms" type="button" id="pymtTerms" onclick="showPaymentTerms()">...</button>
+                                }
+                                else
+                                {
+                                    @Html.TextBoxFor(m => m.PaymentTerms, new { @class = "form_input", autocomplete = "off", @readonly = "readonly" })
+                                }
+
+                            </div>
 
                     </div>
 
@@ -686,7 +685,7 @@
 
 
 
-                <div class="row form-group ">
+                <div class="row">
 
                     <div class="col-md-3">
                         <label for="SalesQuotationRejectReasonId">Sales Quotation Status</label>
