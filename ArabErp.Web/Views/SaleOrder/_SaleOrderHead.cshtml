@@ -62,7 +62,7 @@
         }
         else
         {
-            @*@Html.DropDownListFor(m => Model.SalesQuotationId, (SelectList)ViewBag.QuotationNolist, "Select Quotation", new { @class = "form_input", autocomplete = "off", @onchange = "QuotationChanged(this);", @disabled = "true" })*@
+            @Html.DropDownListFor(m => Model.SalesQuotationId, (SelectList)ViewBag.QuotationNolist, "Select Quotation", new { @class = "form_input", autocomplete = "off", @disabled = "true" })
         }
     </div>
 </div>
@@ -76,7 +76,7 @@
         }
         else
         {
-            @Html.DropDownListFor(m => Model.CustomerId, (SelectList)ViewBag.customerlist, "Select Customer", new { @class = "form_input", autocomplete = "off", @onchange = "CustomerChanged(this);", @disabled = "true" })
+            @Html.DropDownListFor(m => Model.CustomerId, (SelectList)ViewBag.customerlist, "Select Customer", new { @class = "form_input", autocomplete = "off", @disabled = "true" })
         }
      </div>
     <div class="col-md-6">

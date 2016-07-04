@@ -1,85 +1,164 @@
 ﻿@model ArabErp.Domain.AdditionOrDeduction
 
-@{
-    ViewBag.Title = "Create";
-    Layout = "~/Views/Shared/_Layout.cshtml";
-}
+@{Layout = "~/Views/Shared/_Layout.cshtml";}
 <script>
-    function GotoIndex()
-    {
-        var url = '@Url.Action("Index")';
-        location.href = url;
+    $(document).ready(function () {
+        $('#AddDed_form').bootstrapValidator({
+            fields: {
+                AddDedName: {
+                    validators: {
+                        notEmpty: {
+                            message: 'Please Enter Name'
+                        }
+                    }
+                },
+
+                AddDedType: {
+                    validators: {
+                        notEmpty: {
+                            message: 'Please Select Type'
+                        }
+                    }
+                },
+
+            }
+        });
+    })
+
+
+    $(document).ready(function () {
+
+
+        toastr.options = {
+            "closeButton": true,
+            "positionClass": "toast-bottom-full-width",
+            "preventDuplicates": false,
+            "onclick": null,
+
+            "timeOut": "0",
+            "extendedTimeOut": "1000",
+            "showEasing": "swing",
+            "hideEasing": "linear",
+            "showMethod": "fadeIn",
+            "hideMethod": "fadeOut"
+        }
+        if ('@TempData["success"]' != "" && '@TempData["AddDedRefNo"]' != "") {
+            toastr.success('@TempData["success"]' + ' Addition/Deduction Ref No. is : ' + '@TempData["AddDedRefNo"]');
+        }
+        else if ('@TempData["error"]' != "") {
+            toastr.error('@TempData["error"]');
+        }
+    });
+
+
+    function Exit() {
+        location.href = '@Url.Action("Create")';
     }
+
 </script>
+
 <div class="container">
+
     <div class="form-head1">
-        <h4>Create Addition/ Deduction</h4>
+        <h4>Addition/ Deduction</h4>
     </div>
+
     <div class="col-md-14">
-    @using (Html.BeginForm(null, null, FormMethod.Post, new { @class = "createFrom", onsubmit = "return RMValidation()" }))
-    {
-        <div class="main-part pad1">
-            <form role="form">
-                <div class="row">
+        @using (Html.BeginForm(null, null, FormMethod.Post, new { @class = "createFrom", @id = "AddDed_form" }))
+        {
+            <div class="main-part pad1">
 
-  
- 
-                    <div class="col-md-12">
-                        <div class="row">
-                            <div class="col-md-4">
-                                <div class="part4">
-                                    <label>Name</label>
-                                    @Html.TextBoxFor(m => m.AddDedName, new { @class = "form_input", autocomplete = "off" })
-                                    @Html.ValidationMessageFor(model => model.AddDedName, "", new { @class = "text-danger" })
-                                </div>
-                            </div>
-                            <div class="col-md-4">
-                                <div class="part4">
-                                    <label>Addition / Deduction</label>
-                                    @Html.DropDownListFor(m => Model.AddDedType, (SelectList)ViewBag.AdditionDeduction, "Select Type", new { @class = "form_input", autocomplete = "off" })
-                                    @Html.ValidationMessageFor(model => model.AddDedType, "", new { @class = "text-danger" })
-                                </div>
-                            </div>
-                            <div class="col-md-4">
-                            </div>
-                            </div>
-                        </div>
+                <form role="form">
+                    <div class="row">
 
-                    <div class="col-md-12">
-                        <div class="row">
-                        
+                        <div class="col-md-12">
+                            <div class="row">
+                                <div class="col-md-4">
+                                    <div class="part4">
 
-                            <div class="col-md-12">
-                                <label>Remarks</label>
-                                <div class="part4">
-                                    @Html.TextAreaFor(m => m.AddDedRemarks, new { @class = "form_input form_input-h", autocomplete = "off" })
-                                    @Html.ValidationMessageFor(model => model.AddDedRemarks, "", new { @class = "text-danger" })
+                                        @Html.HiddenFor(m => m.AddDedId, new { @class = "form_input", autocomplete = "off"})
+
+                                        <label for="AddDedRefNo">Code</label>
+                                        @Html.TextBoxFor(m => m.AddDedRefNo, new { @class = "form_input", autocomplete = "off", @readonly = "readonly" })
                                     </div>
                                 </div>
-                            
                             </div>
+                                    <div class="row">
+                                        <div class="col-md-4">
+                                            <div class="part4">
+                                                <label for="AddDedName">Name</label>
+                                                @Html.TextBoxFor(m => m.AddDedName, new { @class = "form_input", autocomplete = "off" })
+                                                @Html.ValidationMessageFor(model => model.AddDedName, "", new { @class = "text-danger" })
+                                            </div>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <div class="part4">
+                                                <label for="AddDedType">Addition / Deduction</label>
+                                                @Html.DropDownListFor(m => Model.AddDedType, (SelectList)ViewBag.AdditionDeduction, "Select Type", new { @class = "form_input", autocomplete = "off" })
+                                                @Html.ValidationMessageFor(model => model.AddDedType, "", new { @class = "text-danger" })
+                                            </div>
+                                        </div>
+                                        <div class="col-md-4">
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-12">
+                                    <div class="row">
+
+
+                                        <div class="col-md-12">
+                                           
+                                               <div class="part4">
+                                                <label for="AddDedRemarks">Remarks</label>
+                                                @Html.TextAreaFor(m => m.AddDedRemarks, new { @class = "form_input form_input-h", autocomplete = "off" })
+                                                @Html.ValidationMessageFor(model => model.AddDedRemarks, "", new { @class = "text-danger" })
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                </div>
+
+
+
+
+                        <div class="col-md-12 hrpart">
+
+                            <button type="button" class="form-button right" onclick="Exit()">Exit</button>
+
+                            @if (@ViewBag.Title == "Create")
+                            {
+                                <button type="submit" class="form-button right">Save</button>
+                            }
+
+                            @if (@ViewBag.Title == "Edit")
+                            {
+                                <button type="submit" class="form-button right">Update</button>
+                            }
+
+                            @if (@ViewBag.Title == "Delete")
+                            {
+                                <button type="submit" class="form-button right">Delete</button>
+                            }
+
                         </div>
 
-              
+                            </div>
 
 
-                    <div class="col-md-12 hrpart">
-                        <button class="form-button right" onclick="GotoIndex()">Exit</button>
-                        <button type="submit" class="form-button right">Save</button>
-                    </div>
-
-                </div>
 
 
-                 
-
-             
 
 
-            </form>                    
-        </div>
-    }
+
+                </form>
+            </div>
+        }
+
     </div>
+
+    <div class="main-list">
+        @Html.Action("FillAdditionDeductionList")
+    </div>
+
 </div>
-
-

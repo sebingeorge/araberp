@@ -3285,11 +3285,18 @@ input[type="button"].btn-block {
   white-space: nowrap;
 }
 
-.dropdown-menu > li > a:hover,
+/*.dropdown-menu > li > a:hover,
 .dropdown-menu > li > a:focus {
   color: #ffffff;
   text-decoration: none;
   background-color: #428bca;
+}*/
+
+.dropdown-menu > li > a:hover,
+.dropdown-menu > li > a:focus {
+  color: #ffffff;
+  text-decoration: none;
+  background-color: #3178b5;
 }
 
 .dropdown-menu > .active > a,
@@ -7007,6 +7014,7 @@ td.visible-print {
      
     {
    top: 33px !important;
+   width:313px !important;
     }
 
 
@@ -7032,6 +7040,14 @@ td.visible-print {
     margin-top:0 !important;
     width:100% !important;
      }
+
+       .dropdown-submenu ul 
+{
+    left:0 !important;
+    background-color:#fff !important;
+    position:relative !important;
+    z-index:9999 !important;
+}
 
 
 }
@@ -7149,6 +7165,11 @@ td.visible-print {
    top: 33px !important;
     }
 
+           .dropdown-submenu ul 
+{
+    left:98px !important;
+}
+
 
 
 
@@ -7182,6 +7203,8 @@ td.visible-print {
         display:none !important;
     }
 
+
+
 }
 
 
@@ -7194,11 +7217,61 @@ td.visible-print {
 
      .login-text 
     {
-        width:80.4% !important
+        width:79.4% !important
     }
 
 
 
+}
+
+
+
+.dropdown-submenu {
+    position: relative;
+}
+
+.dropdown-submenu>.dropdown-menu {
+    top: 0;
+    left: 100%;
+    margin-top: -1px;
+    margin-left: -1px;
+    -webkit-border-radius: 0 6px 6px 6px;
+    -moz-border-radius: 0 6px 6px;
+    border-radius: 0 6px 6px 6px;
+}
+
+.dropdown-submenu:hover>.dropdown-menu {
+    display: block;
+}
+
+.dropdown-submenu>a:after {
+    display: block;
+    content: " ";
+    float: right;
+    width: 0;
+    height: 0;
+    border-color: transparent;
+    border-style: solid;
+    border-width: 5px 0 5px 5px;
+    border-left-color: #ccc;
+    margin-top: 5px;
+    margin-right: -10px;
+}
+
+.dropdown-submenu:hover>a:after {
+    border-left-color: #fff;
+}
+
+.dropdown-submenu.pull-left {
+    float: none;
+}
+
+.dropdown-submenu.pull-left>.dropdown-menu {
+    left: -100%;
+    margin-left: 10px;
+    -webkit-border-radius: 6px 0 6px 6px;
+    -moz-border-radius: 6px 0 6px 6px;
+    border-radius: 6px 0 6px 6px;
 }
 
 

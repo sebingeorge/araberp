@@ -25,7 +25,8 @@ namespace ArabErp
                       "~/Scripts/jquery-1.10.2.js",
                       "~/Scripts/jquery-ui-1.11.4.js",
                       //"~/Scripts/bootstrap-datepicker.min.js",
-                      "~/Scripts/bootstrapValidator.js"
+                      "~/Scripts/bootstrapValidator.js",
+                      "~/Scripts/jquery-1.12.4.min.js"
                       //"~/Scripts/jquery-1.8.3.js",
                       //"~/Scripts/jquery-1.8.3.min.js"
 

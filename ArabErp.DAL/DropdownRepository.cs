@@ -216,6 +216,19 @@ namespace ArabErp.DAL
                 AND ISNULL(IsQuotationApproved,0)=1 and isProjectBased = " + isProjectBased.ToString() + " AND SalesQuotationId not in (select SalesQuotationId from SaleOrder where SalesQuotationId is not null)").ToList();
             }
         }
+        /// <summary>
+        /// Return Quotation number in Sale Order
+        /// </summary>
+        /// <param name="isProjectBased"></param>
+        /// <returns></returns>
+        public List<Dropdown> QuotationInSaleOrderDropdown(int isProjectBased)
+        {
+            using (IDbConnection connection = OpenConnection(dataConnection))
+            {
+                return connection.Query<Dropdown>(@"SELECT  S.SalesQuotationId Id, QuotationRefNo Name FROM SaleOrder S
+                                           INNER JOIN SalesQuotation SQ ON S.SalesQuotationId=SQ.SalesQuotationId WHERE S.isProjectBased = " + isProjectBased.ToString() + "").ToList();
+            }
+        }
 
         /// <summary>
         /// Return all active currecies

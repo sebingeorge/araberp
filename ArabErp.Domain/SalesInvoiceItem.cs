@@ -30,13 +30,6 @@ namespace ArabErp.Domain
         public bool SelectStatus { get; set; }
         public int SaleOrderItemId { get; set; }
         public int JobCardId { get; set; }
-      
-      
-       
-       
-
-       
-
-        
+        public string invType { get; set; }
     }
 }

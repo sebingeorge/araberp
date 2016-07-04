@@ -2,32 +2,59 @@
 @using ArabErp.Domain
 @model IList<PendingGRN>
 
-@if (Model.Count != 0)
-{
-    for (int i = 0; i < Model.Count(); i++)
-    {
 
-    <tr>
-        @Html.HiddenFor(m => m[i].GRNId)
-        @Html.HiddenFor(m => m[0].SupplierName)
-        @Html.HiddenFor(m => m[0].SupplierId)
-        <td class="grid-cell">@Model[i].GRNNo  &amp; @Model[i].GRNDate.ToString("dd/MMM/yyyy")</td>
-        <td class="grid-cell">@Model[i].SupplierName</td>
-        <td class="grid-cell">@Model[i].Ageing </td>
+<table class="table table-bordered">
+    <thead>
+        <tr class="grid_heading">
+            <th width="40% "><h1>Supplier</h1></th>
+            <th width="20% "><h1>GRN.No. & Date</h1></th>
+            <th width="15%" nowrap><h1>Warehouse/Stockpoint</h1></th>
+            <th width="5%" class="text-right" nowrap><h1>Grand Total</h1></th>
+            <th width="5% "><h1>Ageing</h1></th>
+            <th width="15%" class="text-center "><h1>Select</h1></th>
+        </tr>
+    </thead>
+    <tbody class="grid_row">
+        @{
+            if (Model.Count > 0)
+            {
+                for (int i = 0; i < Model.Count; i++)
+                {
+                    <tr>
+                        @Html.HiddenFor(m => m[i].GRNId)
+                        @Html.HiddenFor(m => m[i].SupplierName)
+                        @Html.HiddenFor(m => m[i].SupplierId)
+                        <td>
+                            <input type="text" class="form_input" value="@Model[i].SupplierName" disabled />
+                        </td>
+                        <td>
+                           
+                            <input type="text" class="form_input" value="@Model[i].GRNNo  &amp; @Model[i].GRNDate.ToString("dd/MMM/yyyy")" disabled />
+                        </td>
+                        <td>
 
-        <td><center>@Html.CheckBoxFor(m => @Model[i].Select, new { @class = "CheckBoxClass clcheck" })</center></td>
+                            <input type="text" class="form_input" value="@Model[i].StockPointName" disabled />
+                        </td>
+                        <td>
 
-    </tr>
-
-}
-
-}
-else
-{
-    <tr>
-        <td colspan="5" align="center" valign="middle">
-            <em>please select a supplier to continue</em>
-        </td>
-    </tr>
-
-}
+                            <input type="text" class="form_input text-right" value="@Model[i].GrandTotal" disabled />
+                        </td>
+                        <td>
+                            <input type="text" class="form_input" value="@Model[i].Ageing" disabled />
+                        </td>
+                       
+                        <td align="center">
+                            @Html.CheckBoxFor(m => m[i].Select, new { @class = "CheckBoxClass clcheck" })
+                        </td>
+                    </tr>
+                }
+            }
+            else
+            {
+                <tr>
+                    <td colspan="6" align="center"><em>There are no pending/incomplete grn to show</em></td>
+                </tr>
+            }
+        }
+    </tbody>
+</table>

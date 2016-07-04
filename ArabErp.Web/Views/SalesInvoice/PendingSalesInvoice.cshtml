@@ -4,7 +4,9 @@
     ViewBag.Title = "PendingSalesInvoice";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
-
+@{
+    string invType = Request.QueryString["invtype"].ToString();
+}
 
 
 <script>
@@ -44,12 +46,9 @@
     });
     function OpenCustomerInvoice(key, Customer, SaleOrderRefNoWithDate) {
 
-
+        var invType = $("#invType").val();
         var Url = '@Url.Action("PendingSalesInvoiceDt")';
-        $("#SalesInvoiceListDiv").load(Url, { SalesOrderId: key, Customer: Customer, SaleOrderRefNoWithDate: SaleOrderRefNoWithDate });
-
-
-
+        $("#SalesInvoiceListDiv").load(Url, { SalesOrderId: key, Customer: Customer, SaleOrderRefNoWithDate: SaleOrderRefNoWithDate, invType: invType });
 
 
     }
@@ -80,7 +79,7 @@ td:nth-child(3), th:nth-child(3) { min-width: 280px; }*/
 <div class="container">
 
     <div class="row">
-
+        <input type="hidden" id="invType" value="@invType" />
         <div class="form-head1">
             <h4>Pending Sales Invoice</h4>
         </div>

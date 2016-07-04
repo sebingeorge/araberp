@@ -83,7 +83,7 @@
                             <input type="text" class="form_input" value="@Model[i].RequiredDate" disabled />
                         </td>
                         <td align="center">
-                            @Html.CheckBoxFor(m => m[i].isChecked, new { @class = "chk", @onchange = "OnCheckboxChanged(this)" })
+                            @Html.CheckBoxFor(m => m[i].isChecked, new { @class = "chk CheckBoxClass", @onchange = "OnCheckboxChanged(this)" })
                         </td>
                     </tr>
                 }

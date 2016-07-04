@@ -1,26 +1,15 @@
-﻿@model ArabErp.Domain.PurchaseBill
+﻿@using ArabErp.Domain
+@model IList<PendingGRN>
 @{
     ViewBag.Title = "Index";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 <script>
-    function OnSupplierChange(supplierId) {
 
-        var id;
-        if ($(supplierId).val() != null && $(supplierId).val() != '') id = $(supplierId).val();
-        else id = 0;
-        var url = '@Url.Action("pendingGRN")';
-        url += "?supplierId=" + id;
-        $("#table-body").load(url);
-    }
 
     function Validation() {
         var count = 0;
-        if ($('#SupplierId').val() == '') {
-            alert("Select Supplier.");
-            $('#SupplierId').focus();
-            return false;
-        }
+       
         $(".clcheck").each(function (i, obj) {
 
 
@@ -31,6 +20,12 @@
             }
 
         });
+       
+        if ($("#cboSupplier").val() == '') {
+            alert("Select Supplier.");
+            $('#cboSupplier').focus();
+            return false;
+        }
         if (count == 0) {
             alert("Select Atleast One Record...");
             return false;
@@ -60,9 +55,19 @@
             console.log('@TempData["error"]'.split('|')[1]);
         }
         @{ TempData["success"] = TempData["error"] = ""; }
+
+
+       
     })
-
-
+    function OnSupplierChanged(sender) {
+        var id = $(sender).val();
+        var url = '@Url.Action("pendingGRN")';
+        $("#pending-grn").load(url, { supplierId: id });
+    }
+    function PreviousList()
+    {
+    window.location='@Url.Action("PurchaseBillList", "PurchaseBill")'
+    }
 
 
     </script>
@@ -78,31 +83,21 @@
                     <div class="col-md-4">
                         <label>Supplier</label>
 
-                     
-                        @Html.DropDownListFor(m =>Model.SupplierId, (SelectList)ViewBag.supplierList, "Select Supplier", new { @class = "form_input", autocomplete = "off", @onchange = "OnSupplierChange(this);" })
+                        @Html.DropDownListFor(m => Model[0].SupplierId, (SelectList)ViewBag.supplierList, "All", new { @id = "cboSupplier", @class = "form_input", @onchange = "OnSupplierChanged(this)" })
+                   
                     </div>
                 </div>
-                <div class="scroll1">
-                    <table class="table table-bordered">
-                        <thead>
-                            <tr class="grid_heading">
-                              
-                                <th width="20% "><h1>GRN No & Date</h1></th>
-                                <th width="40% "><h1>Supplier</h1></th>
-                                <th width="10% "><h1>Ageing</h1></th>
-                                <th width="10%" class="text-center "><h1>Select</h1></th>
-                            </tr>
-                        </thead>
-                        <tbody id="table-body" class="grid_row">
-                            @Html.Action("pendingGRN", new { supplierId = 0 })
-                        </tbody>
-                    </table>
-                </div>
+         
+                <div class="table-responsive scroll4" id="pending-grn">
 
+                    @Html.Action("pendingGRN")
+
+                </div>
                 <div class="row">
 
                     <div class="col-md-12 hrpart">
-                        <button class="form-button left">Previous</button>
+                        <input type="button" class="form-button" onclick="PreviousList()" value="Previous">
+                      
                        
                         <button type="submit" class="form-button right">Proceed</button>
 

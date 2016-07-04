@@ -33,7 +33,7 @@ namespace ArabErp.Web.Controllers
                 FillUnit();
                 FillEmployee();
                 FillQuotationNo(0);
-                //FillPaymentTerms();
+            
             }
             catch (NullReferenceException nx)
             {
@@ -70,7 +70,7 @@ namespace ArabErp.Web.Controllers
                 FillUnit();
                 FillEmployee();
                 FillQuotationNo(1);
-                //FillPaymentTerms();
+               
             }
             catch (NullReferenceException nx)
             {
@@ -106,7 +106,7 @@ namespace ArabErp.Web.Controllers
             saleOrder.Items.Add(item);
             return PartialView("_DisplaySOList", saleOrder);
         }
-        public ActionResult RefreshDisplaySOList(int? quoId, int isProjectBased)
+        public ActionResult RefreshDisplaySOList(int? quoId, int isProjectBased, int currid)
         {
             FillCurrency();
             if (isProjectBased == 0)
@@ -121,6 +121,7 @@ namespace ArabErp.Web.Controllers
             FillVehicle();
             FillUnit();
             SaleOrder saleOrder = new SaleOrder();
+            saleOrder.CurrencyId = currid;
             saleOrder.Items = new List<SaleOrderItem>();            
 
             SalesQuotationRepository quoRepo = new SalesQuotationRepository();
@@ -132,6 +133,7 @@ namespace ArabErp.Web.Controllers
                     saleOrder.Items.Add(new SaleOrderItem()
                     {
                         WorkDescriptionId = items.WorkDescriptionId,
+                        VehicleModelName=items.VehicleModelName,
                         UnitId = items.UnitId,
                         SlNo = 1,
                         Quantity = items.Quantity,
@@ -203,6 +205,12 @@ namespace ArabErp.Web.Controllers
             var list = repo.QuotationNoDropdown(isProjectBased);
             ViewBag.QuotationNolist = new SelectList(list, "Id", "Name");
         }
+        public void FillQuotationNoInSo(int isProjectBased)
+        {
+            var repo = new DropdownRepository();
+            var list = repo.QuotationInSaleOrderDropdown(isProjectBased);
+            ViewBag.QuotationNolist = new SelectList(list, "Id", "Name");
+        }
         [HttpPost]
         public ActionResult Create(SaleOrder model)
         {
@@ -239,7 +247,6 @@ namespace ArabErp.Web.Controllers
             FillWrkDesc();
             FillUnit();
             FillCustomer();
-            //FillPaymentTerms();
             FillVehicle();
             FillCurrency();
             FillCommissionAgent();
@@ -291,7 +298,6 @@ namespace ArabErp.Web.Controllers
             FillWrkDescProject();
             FillUnit();
             FillCustomer();
-            //FillPaymentTerms();
             FillVehicle();
             FillCurrency();
             FillCommissionAgent();
@@ -309,10 +315,10 @@ namespace ArabErp.Web.Controllers
          [HttpGet]
         public JsonResult GetQuationDetailsByKey(int quoKey)
         {
-            var cusname = (new SaleOrderRepository()).GetCustomerIdByQuotKey(quoKey);
+          
             string address = (new SaleOrderRepository()).GetCustomerAddressQuotKey(quoKey);
-            var details = (new SaleOrderRepository()).GetTermsByQuotKey(quoKey);
-            return Json(new { Success = true, CustomerId = cusname.Id, Address = address, PaymentTerms = details.PaymentTerms, SpecialRemarks =details.SpecialRemarks}, JsonRequestBehavior.AllowGet);
+            var details = (new SaleOrderRepository()).GetSODetailsByQuotKey(quoKey);
+            return Json(new { Success = true, CustomerId = details.CustomerId, Address = address, CurrencyId = details.CurrencyId, PaymentTerms = details.PaymentTerms, SpecialRemarks = details.SpecialRemarks }, JsonRequestBehavior.AllowGet);
         }
         public JsonResult GetVehicleModel(int WorkDescriptionId)
         {
@@ -367,7 +373,7 @@ namespace ArabErp.Web.Controllers
             FillCustomer();
             FillCurrency();
             FillCommissionAgent();
-            //FillPaymentTerms();
+            FillQuotationNoInSo(0);
             FillUnit();
             FillEmployee();
             
@@ -404,7 +410,7 @@ namespace ArabErp.Web.Controllers
             FillCustomer();
             FillCurrency();
             FillCommissionAgent();
-            //FillPaymentTerms();
+            FillQuotationNoInSo(0);
             FillUnit();
             FillEmployee();            
             FillVehicle();

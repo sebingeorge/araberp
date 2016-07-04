@@ -19,18 +19,19 @@ namespace ArabErp.Web.Controllers
             return View();
             
         }
-        public ActionResult pendingGRN(int supplierId)
+      
+        public PartialViewResult pendingGRN(int supplierId = 0)
         {
-
-            if (supplierId == 0)
+            try
             {
-                List<PendingGRN> list = new List<PendingGRN>();
-                return PartialView("_pendingGRN", list);
+                return PartialView("_pendingGRN", new PurchaseBillRepository().GetGRNPending(supplierId));
             }
-            return PartialView("_pendingGRN", new PurchaseBillRepository().GetGRNPending(supplierId));
-
-            
+            catch (Exception)
+            {
+                return PartialView("_pendingGRN", new List<PendingGRN>());
+            }
         }
+
         public void GrnSupplierDropdown()
         {
             ViewBag.supplierList = new SelectList(new DropdownRepository().GrnSupplierDropdown(), "Id", "Name");
@@ -121,7 +122,13 @@ namespace ArabErp.Web.Controllers
             ViewBag.additionList = new SelectList(new DropdownRepository().AdditionDropdown(), "Id", "Name");
             ViewBag.deductionList = new SelectList(new DropdownRepository().DeductionDropdown(), "Id", "Name");
         }
-
+        public ActionResult PurchaseBillList()
+        {
+            var repo = new PurchaseBillRepository();
+            IEnumerable<PurchaseBill> PurchaseBillList = repo.GetPurchaseBillPreviousList();
+            return View("PurchaseBillList", PurchaseBillList);
+           
+        }
 
     }
 }
