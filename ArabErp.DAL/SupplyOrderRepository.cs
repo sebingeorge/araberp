@@ -138,17 +138,50 @@ namespace ArabErp.DAL
 
         public SupplyOrder GetSupplyOrder(int SupplyOrderId)
         {
-            using (IDbConnection connection = OpenConnection(dataConnection))
+            try
             {
-                string sql = @"select * from SupplyOrder
-                        where SupplyOrderId=@SupplyOrderId";
-
-                var objSupplyOrder = connection.Query<SupplyOrder>(sql, new
+                using (IDbConnection connection = OpenConnection(dataConnection))
                 {
-                    SupplyOrderId = SupplyOrderId
-                }).First<SupplyOrder>();
+                    string query = @"SELECT 
+                                    SupplyOrderId,
+	                                SupplyOrderNo,
+	                                CONVERT(DATETIME, SupplyOrderDate, 106) SupplyOrderDate,
+	                                SupplierId,
+	                                QuotaionNoAndDate,
+	                                SpecialRemarks,
+	                                PaymentTerms,
+	                                DeliveryTerms,
+	                                RequiredDate,
+	                                CurrencyId
+                                FROM SupplyOrder
+                                WHERE SupplyOrderId = @SupplyOrderId
+	                                AND ISNULL(isActive, 1) = 1";
 
-                return objSupplyOrder;
+                    var objSupplyOrder = connection.Query<SupplyOrder>(query, new
+                    {
+                        SupplyOrderId = SupplyOrderId
+                    }).First<SupplyOrder>();
+
+                    objSupplyOrder.SupplyOrderItems = GetPurchaseRequestItems(new List<int>(SupplyOrderId));
+
+                    return objSupplyOrder;
+                }
+            }
+            catch (InvalidOperationException iox)
+            {
+                throw iox;
+            }
+            catch (SqlException sx)
+            {
+                throw sx;
+            }
+            catch (NullReferenceException nx)
+            {
+                throw nx;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
             }
         }
 
@@ -187,7 +220,10 @@ namespace ArabErp.DAL
                 return id;
             }
         }
-
+        /// <summary>
+        /// Return all approved supply orders
+        /// </summary>
+        /// <returns></returns>
         public IEnumerable<SupplyOrderPreviousList> GetPreviousList()
         {
             using (IDbConnection connection = OpenConnection(dataConnection))
@@ -217,6 +253,48 @@ namespace ArabErp.DAL
                                 INNER JOIN Supplier SUP ON SO.SupplierId = SUP.SupplierId
                                 INNER JOIN #SUPPLY_ITEM SI ON SO.SupplyOrderId = SI.SupplyOrderId
                                 WHERE ISNULL(SO.isActive, 1) = 1
+                                    AND ISNULL(isApproved, 0) = 1
+								ORDER BY SupplyOrderDate DESC, SO.CreatedDate DESC;
+                                DROP TABLE #SUPPLY_ITEM;";
+
+                return connection.Query<SupplyOrderPreviousList>(query).ToList<SupplyOrderPreviousList>();
+            }
+        }
+        /// <summary>
+        /// Return all unapproved supply orders
+        /// </summary>
+        /// <returns></returns>
+        public IEnumerable<SupplyOrderPreviousList> GetPendingApproval()
+        {
+            using (IDbConnection connection = OpenConnection(dataConnection))
+            {
+                string query = @"SELECT
+	                                SupplyOrderId,
+	                                SUM(PRI.Quantity) RequestedQuantity,
+	                                SUM(SOI.OrderedQty) SuppliedQuantity,
+	                                SUM(PRI.Quantity - SOI.OrderedQty) BalanceQuantity,
+	                                SUM(SOI.Amount) Amount
+                                INTO #SUPPLY_ITEM
+                                FROM SupplyOrderItem SOI
+                                INNER JOIN PurchaseRequestItem PRI ON SOI.PurchaseRequestItemId = PRI.PurchaseRequestItemId
+                                WHERE ISNULL(SOI.isActive, 1) = 1 AND ISNULL(PRI.isActive, 1) = 1
+                                GROUP BY SupplyOrderId;
+                                SELECT 
+									SO.SupplyOrderId,
+	                                SO.SupplyOrderNo,
+	                                CONVERT(DATETIME, SO.SupplyOrderDate, 106) SupplyOrderDate,
+	                                SUP.SupplierName,
+	                                ISNULL(SO.QuotaionNoAndDate, '-') QuotationNoAndDate,
+	                                SI.RequestedQuantity,
+	                                SI.SuppliedQuantity,
+	                                SI.BalanceQuantity,
+	                                SI.Amount,
+									SO.CreatedDate
+                                FROM SupplyOrder SO
+                                INNER JOIN Supplier SUP ON SO.SupplierId = SUP.SupplierId
+                                INNER JOIN #SUPPLY_ITEM SI ON SO.SupplyOrderId = SI.SupplyOrderId
+                                WHERE ISNULL(SO.isActive, 1) = 1
+                                    AND ISNULL(isApproved, 0) = 0
 								ORDER BY SupplyOrderDate DESC, SO.CreatedDate DESC;
                                 DROP TABLE #SUPPLY_ITEM;";
 
