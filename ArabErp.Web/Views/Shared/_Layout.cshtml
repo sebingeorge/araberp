@@ -15,7 +15,7 @@
 
     <link href="~/Content/toastr/build/toastr.min.css" rel="stylesheet" />
     <script src="~/Content/toastr/build/toastr.min.js"></script>
-    <script src="~/Content/jquery-1.12.4.min.js"></script>
+    @*<script src="~/Content/jquery-1.12.4.min.js"></script>*@
 
     <link href="~/Content/menu.css" rel="stylesheet" />
     @*<link href="~/scripts/mdb.css" rel="stylesheet" />
@@ -58,7 +58,7 @@
 
                     <li class="dropdown-submenu"><a href="#"><span class="badge pull-right"></span>Item</a>
                         <ul class="dropdown-menu">
-                            <li><a href="@Url.Action("Index","Item")"><span class="badge pull-right"></span>Item</a></li>
+                    <li><a href="@Url.Action("Index","Item")"><span class="badge pull-right"></span>Item</a></li>
                             <li><a href="@Url.Action("Create","ItemCategory")"><span class="badge pull-right"></span>Item Category</a></li>
                             <li><a href="@Url.Action("Create","ItemGroup")"><span class="badge pull-right"></span>Item Group</a></li>
                             <li><a href="@Url.Action("Create","ItemSubGroup")"><span class="badge pull-right"></span>Item SubGroup</a></li>
@@ -69,21 +69,21 @@
                     <li class="dropdown-submenu">
                         <a href="#"><span class="badge pull-right"></span>Employee</a>
                         <ul class="dropdown-menu">
-                            <li><a href="@Url.Action("Create", "Employee")"><span class="badge pull-right"></span>Employee</a></li>
+                    <li><a href="@Url.Action("Create", "Employee")"><span class="badge pull-right"></span>Employee</a></li>
                             <li><a href="@Url.Action("Create","EmployeeCategory")"><span class="badge pull-right"></span>Employee Category</a></li>
                         </ul>
                     </li>
                     <li class="dropdown-submenu">
                         <a href="#"><span class="badge pull-right"></span>Supplier</a>
                         <ul class="dropdown-menu">
-                            <li><a href="@Url.Action("Index", "Supplier")"><span class="badge pull-right"></span>Supplier</a></li>
+                    <li><a href="@Url.Action("Index", "Supplier")"><span class="badge pull-right"></span>Supplier</a></li>
                             <li><a href="@Url.Action("Create","SupplierCategory")"><span class="badge pull-right"></span>Supplier Category</a></li>
                         </ul>
                     </li>
                     <li class="dropdown-submenu">
                         <a href="#"><span class="badge pull-right"></span>Customer</a>
                         <ul class="dropdown-menu">
-                            <li><a href="@Url.Action("Index", "Customer")"><span class="badge pull-right"></span>Customer</a></li>
+                    <li><a href="@Url.Action("Index", "Customer")"><span class="badge pull-right"></span>Customer</a></li>
                             <li><a href="@Url.Action("Create","CustomerCategory")"><span class="badge pull-right"></span>Customer Category</a></li>
                         </ul>
                     </li>
@@ -113,7 +113,10 @@
                             <li><a href="@Url.Action("CreateProject","SaleOrder")"><span class="badge pull-right"></span>Sale Order</a></li>
                             <li><a href="@Url.Action("PendingSaleOrderHold", "SaleOrder", new { isProjectBased = 1})"><span class="badge pull-right"></span>Sale Order Hold</a></li>
                             <li><a href="@Url.Action("PendingSaleOrderRelease", "SaleOrder", new { isProjectBased = 1 })"><span class="badge pull-right"></span>Sale Order Release</a></li>
+                            <li><a href="@Url.Action("PendingJobCard", "JobCard", new { isProjectBased = 1 })"><span class="badge pull-right"></span>Job Card</a></li>
+                            <li><a href="@Url.Action("PendingJobcardTasks", "JobCardDailyActivity")"><span class="badge pull-right"></span>Daily Activity</a></li>
                             <li><a href="@Url.Action("PendingSalesInvoice", "SalesInvoice")"><span class="badge pull-right"></span>Sales Invoice</a></li>
+                            <li><a href="@Url.Action("Create", "Expense")"><span class="badge pull-right"></span>Expense Bill</a></li>
                             <li><a href="@Url.Action("Closing", "SaleOrder", new { isProjectBased = 1 })"><span class="badge pull-right"></span>Sale Order Close</a></li>
                         </ul>
                     </li>
@@ -156,7 +159,7 @@
                             @*<li><a href="@Url.Action("PendingSaleOrderApproval", "SaleOrder")"><span class="badge pull-right"></span>Sale Order Approval</a></li>*@
                             <li><a href="@Url.Action("PendingSaleOrderHold", "SaleOrder")"><span class="badge pull-right"></span>Sale Order Hold</a></li>
                             <li><a href="@Url.Action("PendingSaleOrderRelease", "SaleOrder")"><span class="badge pull-right"></span>Sale Order Release</a></li>
-                            <li><a href="@Url.Action("PendingSalesInvoice", "SalesInvoice")"><span class="badge pull-right"></span>Sales Invoice</a></li>
+                            <li><a href="@Url.Action("PendingSalesInvoice", "SalesInvoice", new { invType = "Transportation" })"><span class="badge pull-right"></span>Sales Invoice</a></li>
                             <li><a href="@Url.Action("Create", "Expense")"><span class="badge pull-right"></span>Expense Bill</a></li>
                             <li><a href="@Url.Action("Closing", "SaleOrder")"><span class="badge pull-right"></span>Sale Order Close</a></li>
                         </ul>

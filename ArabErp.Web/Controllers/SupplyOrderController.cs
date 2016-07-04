@@ -19,7 +19,7 @@ namespace ArabErp.Web.Controllers
         {
             SupplyOrder supplyorder = new SupplyOrder();
 
-
+            supplyorder.SupplyOrderNo = "LPO/" + DatabaseCommonRepository.GetNextReferenceNo(typeof(SupplyOrder).Name);
 
             SupplyOrderRepository rep = new SupplyOrderRepository();
             if (PendingPurchaseRequestItemsSelected != null)
@@ -31,17 +31,11 @@ namespace ArabErp.Web.Controllers
                                                           select p.PurchaseRequestId).ToList<int>();
                     supplyorder.SupplyOrderItems = rep.GetPurchaseRequestItems(selectedpurchaserequests);
                 }
-
-
             }
-
-
             supplyorder.SupplyOrderDate = System.DateTime.Today;
             supplyorder.RequiredDate = System.DateTime.Today;
 
-
-
-            FillSupplier();
+            FillDropdowns();
 
             return View(supplyorder);
         }
@@ -65,12 +59,31 @@ namespace ArabErp.Web.Controllers
         [HttpPost]
         public ActionResult Save(SupplyOrder model)
         {
-
-            model.OrganizationId = 1;
-            model.CreatedDate = System.DateTime.Now;
-            model.CreatedBy = Request.ServerVariables["HTTP_X_FORWARDED_FOR"] ?? Request.ServerVariables["REMOTE_ADDR"];
-            new SupplyOrderRepository().InsertSupplyOrder(model);
-            return RedirectToAction("PendingSupplyOrder");
+            try
+            {
+                model.OrganizationId = 1;
+                model.CreatedDate = System.DateTime.Now;
+                model.CreatedBy = Request.ServerVariables["HTTP_X_FORWARDED_FOR"] ?? Request.ServerVariables["REMOTE_ADDR"];
+                string referenceNo = new SupplyOrderRepository().InsertSupplyOrder(model);
+                if (referenceNo != "")
+                {
+                    TempData["error"] = "";
+                    TempData["success"] = "Saved successfully. Reference No. is " + referenceNo;
+                    return RedirectToAction("PendingSupplyOrder");
+                }
+                else
+                {
+                    TempData["error"] = "Some error occured while saving. Please try again.";
+                    TempData["success"] = "";
+                }
+            }
+            catch (Exception)
+            {
+                TempData["error"] = "Some error occured. Please try again.";
+                TempData["success"] = "";
+            }
+            FillDropdowns();
+            return View("Create", model);
         }
 
         public ActionResult LocalSupplyOrder()
@@ -90,6 +103,31 @@ namespace ArabErp.Web.Controllers
         private void GetMaterialDropdown()
         {
             ViewBag.materialList = new SelectList(new DropdownRepository().ItemDropdown(), "Id", "Name");
+        }
+
+        public ActionResult PreviousList()
+        {
+            try
+            {
+                return View(new SupplyOrderRepository().GetPreviousList());
+            }
+            catch (Exception)
+            {
+                TempData["success"] = "";
+                TempData["error"] = "Some error occured while retreiving the previous list. Please try again.";
+                return View(new SupplyOrderPreviousList());
+            }
+        }
+
+        public void FillCurrency()
+        {
+            ViewBag.currencyList = new SelectList(new DropdownRepository().CurrencyDropdown(), "Id", "Name");
+        }
+
+        public void FillDropdowns()
+        {
+            FillSupplier();
+            FillCurrency();
         }
     }
 }
