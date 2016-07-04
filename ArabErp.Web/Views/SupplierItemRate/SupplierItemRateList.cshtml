@@ -1,0 +1,76 @@
+﻿@model ArabErp.Domain.SupplierItemRate
+<script>
+    $(document).ready(function () {
+
+        $("#add_row").click(function () {
+            var i = 0;
+            var no = 1;
+            $('input[id^="Row_"]').each(function () {
+                var id = this.id;
+                no++;
+                var row = Number(id.replace("Row_", ""));
+                if (row > i) {
+                    i = row;
+                }
+            });
+            i++;
+
+            var index = (new Date()).getTime(); // unique indexer
+            var clone = $('#Row_0').clone(); // clone the BatchProducts item
+            //Update the index of the clone
+            //clone.html($(clone).html().replace("Items_0__", 'Items_' + i + '__'));
+            clone.html($(clone).html().replace(/\Items_0__/g, 'Items_' + i + '__'));
+            clone.html($(clone).html().replace(/\Items_0__/g, 'Items_' + i + '__'));
+            clone.html($(clone).html().replace(/\Items[0]./g, 'Items[' + i + '].'));
+            clone.html($(clone).html().replace(/\[0\]/g, '[' + i + ']'));
+            clone.html($(clone).html().replace(/\(0\)/g, '(' + i + ')'));
+            clone.html($(clone).html().replace(/Row_0/, 'Row_' + i + ''));
+            clone.html($(clone).html().replace(/hidden0/, 'hidden' + i));
+            clone.html($(clone).html().replace(/this, 0/, 'this ,' + i));
+            $("#tab_logic").append('<tr id="' + i + '">' + clone.html() + '  </tr>');
+        });
+    });
+
+    function OnMaterialChange(s, index) {
+        $("#hidden"+index).val($(s).val());
+    }
+
+</script>
+
+
+<div class="table-responsive">
+    <table class="table table-bordered table-hover" id="tab_logic">
+        <thead>
+            <tr class="grid_heading">
+                @*<th width="5%" class="text-center"><h1>Sl.No.</h1></th>*@
+                <th width="85%" class="text-left"><h1>Item</h1></th>
+                <th width="10%" class="text-center"><h1>Rate</h1></th>
+            </tr>
+        </thead>
+
+        <tbody>
+            @for (int i = 0; i < Model.SupplierItemRateItem.Count; i++)
+            {
+                <tr id="Row_@i">
+                    @*<td>@i</td>*@
+                    <td>
+                        <input type="hidden" id="Row_@i" />
+                        @Html.HiddenFor(m => m.SupplierItemRateItem[i].ItemId, new { @id = "hidden" + i })
+                        @Html.DropDownListFor(m => m.SupplierItemRateItem[i].ItemId, (SelectList)ViewBag.Itemlist, Model.SupplierItemRateItem[i].ItemId.ToString() != "" ? ((SelectList)ViewBag.Itemlist).Where(p => p.Value == Model.SupplierItemRateItem[i].ItemId.ToString()).First().Text : "select", new { @class = "form_input", autocomplete = "off", @onchange = "OnMaterialChange(this, " + i + ")" })
+
+                        @*@Html.DropDownListFor(m => m[i].ItemId, (SelectList)ViewBag.Itemlist, Model[i].ItemId.ToString() != "" ? ((SelectList)ViewBag.Itemlist).Skip(Convert.ToInt32(Model[i].ItemId)).First().Text : "select", new { @class = "form_input", autocomplete = "off" })*@
+                    </td>
+
+                    <td>
+                        @Html.TextBoxFor(m => m.SupplierItemRateItem[i].FixedRate, new { @class = "form_input", autocomplete = "off", @style = "text-align:right" })
+                    </td>
+
+                </tr>
+            }
+            @*<tr id='addr1'></tr>*@
+        </tbody>
+
+    </table>
+</div>
+<a id="add_row" class="glyphicon glyphicon-plus"></a><a id='delete_row' style="float:right" class="glyphicon glyphicon-minus"></a>
+
