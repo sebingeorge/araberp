@@ -15,18 +15,18 @@
         var pending = Number($("#Items_" + i + "__PendingQuantity").val());
         if (!isNaN(current)) {
             if (current > pending) {
-                alert('Only ' + pending + ' ' + $("#Items_" + i + "__UnitName").val() + ' of ' + $("#Items_" + i + "__ItemName").val() + ' is required. Please enter a lesser quantity.');
+                toastr.info('Only ' + pending + ' ' + $("#Items_" + i + "__UnitName").val() + ' of ' + $("#Items_" + i + "__ItemName").val() + ' is required. Please enter a lesser quantity.');
                 $(s).val(stock < pending ? stock : pending);
             }
             else if (current > stock) {
                 if (stock == 0)
-                    alert('Not enough stock available for the item. Please add stock before issuing.');
+                    toastr.info('Not enough stock available for the item. Please add stock before issuing.');
                 else
-                    alert('Not enough stock available for the item. Please enter a lesser quantity.');
+                    toastr.info('Not enough stock available for the material. Please enter a lesser quantity.');
                 $(s).val(stock < pending ? stock : pending);
             }
         }
-        else alert("Please enter a valid number");
+        else toastr.info("Please enter a valid number");
     }
 </script>
 
@@ -34,27 +34,27 @@
     @for (int i = 0; i < Model.Items.Count; i++)
     {
         <tr id="@i">
-            <td>
+            <td align="center">
                 <span>@(i + 1)</span>
                 @Html.HiddenFor(m => m.Items[i].WorkShopRequestItemId)
                 @Html.HiddenFor(m => m.Items[i].ItemId)
             </td>
             <td>
-                @Html.TextBoxFor(m => m.Items[i].ItemName, new { @class = "form_input", @disabled = "true", @style = "background:#fefefe" })
+                @Html.TextBoxFor(m => m.Items[i].ItemName, new { @class = "form_input", @readonly = "true", @style = "background:#fefefe" })
             </td>
-            <td>@Html.TextBoxFor(m => m.Items[i].RequiredQuantity, new { @class = "form_input text-right", @disabled = "true" })</td>
-            <td>@Html.TextBoxFor(m => m.Items[i].IssuedQuantity, new { @class = "form_input text-right", @disabled = "true" })</td>
+            <td>@Html.TextBoxFor(m => m.Items[i].RequiredQuantity, new { @class = "form_input text-right", @readonly = "true" })</td>
+            <td>@Html.TextBoxFor(m => m.Items[i].IssuedQuantity, new { @class = "form_input text-right", @readonly = "true" })</td>
             <td>
-                @Html.TextBoxFor(m => m.Items[i].PendingQuantity, new { @class = "form_input text-right", @disabled = "true" })
+                @Html.TextBoxFor(m => m.Items[i].PendingQuantity, new { @class = "form_input text-right", @readonly = "true" })
             </td>
             <td>
-                @Html.TextBoxFor(m => m.Items[i].StockQuantity, new { @class = "form_input text-right", @disabled = "true" })
+                @Html.TextBoxFor(m => m.Items[i].StockQuantity, new { @class = "form_input text-right", @readonly = "true" })
             </td>
             <td>
                 @Html.TextBoxFor(m => m.Items[i].CurrentIssuedQuantity, new { @class = "form_input text-right numbers-only", @placeholder = "Qty", @onchange = "ValidateQuantity(this, " + @i + ")" })
             </td>
             <td>
-                @Html.TextBoxFor(m => m.Items[i].UnitName, new { @class = "form_input", @disabled = "true", @style = "background:#fefefe" })
+                @Html.TextBoxFor(m => m.Items[i].UnitName, new { @class = "form_input", @readonly = "true" })
             </td>
         </tr>
     }

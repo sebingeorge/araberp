@@ -309,7 +309,9 @@
     <Content Include="Images\admin.png" />
     <Content Include="Images\banner.png" />
     <Content Include="Images\button-part.jpg" />
+    <Content Include="Images\Home.png" />
     <Content Include="Images\icon_nav.png" />
+    <Content Include="Images\icon_nav1.png" />
     <Content Include="Images\log-b.jpg" />
     <Content Include="Images\log-button-h.png" />
     <Content Include="Images\log-button.png" />
@@ -646,6 +648,8 @@
     <Content Include="Views\Box\BoxListView.cshtml" />
     <Content Include="Views\WorkDescription\Index.cshtml" />
     <Content Include="Views\WorkDescription\WorkDescriptionGrid.cshtml" />
+    <Content Include="Views\SupplyOrder\PreviousList.cshtml" />
+    <Content Include="Views\StoresIssue\PreviousList.cshtml" />
     <Content Include="Views\SupplierItemRate\Create.cshtml" />
     <Content Include="Views\SupplierItemRate\SupplierItemRateList.cshtml" />
   </ItemGroup>

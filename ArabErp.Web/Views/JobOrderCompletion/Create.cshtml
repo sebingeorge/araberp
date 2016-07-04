@@ -149,11 +149,11 @@
                 <div class="row form-group">
                     <div class="col-md-12">
                         <div class="row">
-                            <div class="col-md-2">
-                        <label for="SplRemarks1">Special Remarks</label>
-                            </div>
-                            <div class="col-md-10">
-                                @Html.TextAreaFor(m => m.SpecialRemarks, new { @class = "form_input form_input-h", autocomplete = "off" })
+                            <div class="col-md-12">
+                                <div class="part1">
+                                    <label for="SplRemarks1">Special Remarks</label>
+                                    @Html.TextAreaFor(m => m.SpecialRemarks, new { @class = "form_input form_input-h", autocomplete = "off" })
+                                </div>
                             </div>
                         </div>
                     </div>

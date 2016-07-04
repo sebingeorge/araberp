@@ -15,11 +15,15 @@ namespace ArabErp.Domain
         public string CustomerName { get; set; }
         public string CustomerOrderRef { get; set; }
         public string VehicleModelName { get; set; }
-        public string WorkDescr { get; set; }
+        public string WorkDescription { get; set; }
         public string SaleOrderHoldReason { get; set; }
         public DateTime SaleOrderHoldDate { get; set; }
         public DateTime EDateArrival { get; set; }
         public DateTime EDateDelivery { get; set; }
+        public int? Ageing { get; set; }
+        public int? Remaindays { get; set; }
+        
+
         
     }
 }
