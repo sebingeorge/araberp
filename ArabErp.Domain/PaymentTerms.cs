@@ -13,7 +13,9 @@ namespace ArabErp.Domain
     {
         public int PaymentTermsId { get; set; }
         public string PaymentTermsRefNo { get; set; }
+        [Required]
         public string PaymentTermsName { get; set; }
+        [Required]
         public string CreatedBy { get; set; }
         public DateTime? CreatedDate { get; set; }
         public int OrganizationId { get; set; }

@@ -1,30 +1,23 @@
 ﻿@model ArabErp.Domain.Box
 @{ Layout = "~/Views/Shared/_Layout.cshtml"; }
 
-<script>
-    $(document).ready(function () {
-        $('#box_form').bootstrapValidator({
-            fields: {
-                BoxRefNo: {
-                    validators: {
-                        notEmpty: {
-                            message: 'Please Enter Code'
-                        }
-                    }
-                },
+@{string actionName = HttpContext.Current.Request.RequestContext.RouteData.Values["action"].ToString(); }
 
-                BoxName: {
-                    validators: {
-                        notEmpty: {
-                            message: 'Please Enter Name'
-                        }
-                    }
-                },
-            }
-        });
-    })
-
+<script type="text/javascript">
+    function Exit() {
+        location.href = '@Url.Action("Create")';
+    }
     $(document).ready(function () {
+        var Action = '@actionName';
+        if (Action == 'Delete') {
+
+            $("input[type='text'], select, textarea").attr('disabled', 'disabled');
+            $("input[type=radio]").attr('disabled', true);
+        }
+        if (Action == 'Create') {
+            $("#GenderId").prop("checked", true)
+        }
+
 
 
         toastr.options = {
@@ -49,10 +42,6 @@
     });
 
 
-    function Exit() {
-        location.href = '@Url.Action("Create")';
-    }
-
 </script>
 
 
@@ -72,7 +61,8 @@
 
                     <div class="col-md-4">
 
-                        @Html.HiddenFor(m => m.BoxId, new { @class = "form_input", autocomplete = "off" })
+                        @Html.HiddenFor(m => m.BoxId)
+                        @Html.HiddenFor(m => m.BoxRefNo)
 
                         <div class="part4">
                             <label for="BoxRefNo">Code</label>
@@ -93,27 +83,16 @@
                     </div>
 
                     <div class="col-md-12 hrpart">
-
-                        <button type="button" class="form-button right" onclick="Exit()">Exit</button>
-
-                        @if (@ViewBag.Title == "Create")
-                        {
-                            <button type="submit" class="form-button right">Save</button>
-                        }
-
-                        @if (@ViewBag.Title == "Edit")
-                        {
-                            <button type="submit" class="form-button right">Update</button>
-                        }
-
-                        @if (@ViewBag.Title == "Delete")
-                        {
-                            <button type="submit" class="form-button right">Delete</button>
-                        }
+                        <button type="button" class="form-button right" onclick="Exit();">Exit</button>
+                        @if (actionName == "Edit")
+                        { <button type="submit" class="form-button right">Update</button> }
+                        else
+                            if (actionName == "Delete")
+                            {  <button type="submit" class="form-button right">Delete</button>}
+                            else
+                            { <button type="submit" class="form-button right">Save</button>}
 
                     </div>
-
-
 
                 </div>
             }

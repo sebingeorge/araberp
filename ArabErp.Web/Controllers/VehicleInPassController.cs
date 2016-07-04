@@ -58,7 +58,7 @@ namespace ArabErp.Web.Controllers
             return Json(new
             {
                 SaleOrderRefNo = data.SaleOrderRefNo,
-                WorkDescr = data.WorkDescr,
+                WorkDescr = data.WorkDescription ,
                 VehicleModelName = data.VehicleModelName,
                 CustomerName = data.CustomerName
             }, JsonRequestBehavior.AllowGet);

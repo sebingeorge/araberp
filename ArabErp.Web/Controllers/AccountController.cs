@@ -68,6 +68,7 @@ namespace ArabErp.Web.Controllers
             if (url[url.Length - 1] == "LogOff")
                 returnUrl = "/";
             ViewBag.ReturnUrl = returnUrl;
+            FillOrganization();
             return View();
         }
 
@@ -80,6 +81,7 @@ namespace ArabErp.Web.Controllers
         {
             if (!ModelState.IsValid)
             {
+                FillOrganization();
                 return View(model);
             }
 
@@ -94,19 +96,26 @@ namespace ArabErp.Web.Controllers
 
             if(user == null)
             {
+                FillOrganization();
                 ModelState.AddModelError("", "Invalid login attempt.");
                 return View(model);
             }
             else
             {
-                SignIn(user, model.RememberMe, HttpContext.Response.Cookies);
+                SignIn(user, model.OrganizationId, model.RememberMe, HttpContext.Response.Cookies);
                 return RedirectToLocal(returnUrl);
             }
         }
-        private void SignIn(User user, bool isPersistent, HttpCookieCollection cookiecollection)
+        private void FillOrganization()
         {
-            var userData = String.Format("{0}|{1}|{2}|{3}|{4}",
-                user.UserId, user.UserName, user.UserPassword, user.UserEmail, user.UserRole);
+            OrganizationRepository repo = new OrganizationRepository();
+            var organizations = repo.GetOrganizations();
+            ViewBag.Organizations = new SelectList(organizations, "OrganizationId", "OrganizationName");
+        }
+        private void SignIn(User user, int OrganizationId, bool isPersistent, HttpCookieCollection cookiecollection)
+        {
+            var userData = String.Format("{0}|{1}|{2}|{3}|{4}|{5}",
+                user.UserId, user.UserName, user.UserPassword, user.UserEmail, user.UserRole, OrganizationId);
             var ticket = new FormsAuthenticationTicket(1, userData, DateTime.UtcNow, DateTime.UtcNow.AddMinutes(30), isPersistent, userData, FormsAuthentication.FormsCookiePath);
             var encryptedTicket = FormsAuthentication.Encrypt(ticket);
             var authCookie = new HttpCookie(FormsAuthentication.FormsCookieName, encryptedTicket) { HttpOnly = true };
@@ -118,12 +127,13 @@ namespace ArabErp.Web.Controllers
             userCookie.Values.Add("publicKey", ConvertPasswordToPublicKey(user.UserPassword));
             userCookie.Values.Add("UserEmail", user.UserEmail.ToString());
             userCookie.Values.Add("UserRole", user.UserRole.ToString());
+            userCookie.Values.Add("Organization", OrganizationId.ToString());
             cookiecollection.Add(userCookie);
             Session.Add("user", userCookie);
 
             UserRepository repo = new UserRepository();
             string ip = Request.ServerVariables["HTTP_X_FORWARDED_FOR"] ?? Request.ServerVariables["REMOTE_ADDR"];
-            repo.InsertLoginHistory(user, Session.SessionID.ToString(), ip);
+            repo.InsertLoginHistory(user, Session.SessionID.ToString(), ip, OrganizationId.ToString());
             //return userCookie;
         }
         public string ConvertPasswordToPublicKey(string encrytedpwd)

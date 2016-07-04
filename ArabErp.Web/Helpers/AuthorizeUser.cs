@@ -31,12 +31,13 @@ namespace ArabErp.Web.Helpers
 
                     var _userId = _userdata[0];
                     var _username = _userdata[1];
+                    var _OrganizationId = Convert.ToInt32(_userdata[5].ToString());
                     string _action = filterContext.ActionDescriptor.ActionName;
                     string _controller = filterContext.ActionDescriptor.ControllerDescriptor.ControllerName;
 
                     UserRepository repo = new UserRepository();
 
-                    bool res = repo.IsValidUser(Convert.ToInt32(_userId.ToString()), _username.ToString(), _controller, _action);
+                    bool res = repo.IsValidUser(Convert.ToInt32(_userId.ToString()), _username.ToString(), _controller, _action, _OrganizationId);
                 }
             }
         }
