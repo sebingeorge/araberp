@@ -308,7 +308,9 @@
     <Content Include="Images\admin.png" />
     <Content Include="Images\banner.png" />
     <Content Include="Images\button-part.jpg" />
+    <Content Include="Images\Home.png" />
     <Content Include="Images\icon_nav.png" />
+    <Content Include="Images\icon_nav1.png" />
     <Content Include="Images\log-b.jpg" />
     <Content Include="Images\log-button-h.png" />
     <Content Include="Images\log-button.png" />
