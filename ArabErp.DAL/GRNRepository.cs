@@ -244,6 +244,7 @@ namespace ArabErp.DAL
 	                                    DATEDIFF(day, SupplyOrderDate, GETDATE()) Age,
 	                                    ISNULL(SpecialRemarks, '-') SpecialRemarks,
 	                                    ISNULL(CONVERT(VARCHAR(15),RequiredDate,106), '-') RequiredDate,
+										S.SupplierId,
 										S.SupplierName
                                     FROM SupplyOrder SO 
 	                                    INNER JOIN SupplyOrderItem SOI ON SO.SupplyOrderId = SOI.SupplyOrderId
@@ -344,7 +345,7 @@ namespace ArabErp.DAL
                                 INNER JOIN Unit U ON I.ItemUnitId = U.UnitId
                                 LEFT JOIN #GRN GRN ON SOI.SupplyOrderItemId = GRN.SupplyOrderItemId
                                 WHERE (SOI.SupplyOrderItemId IS NULL OR ISNULL(GRN.Quantity, 0) < ISNULL(SOI.OrderedQty, 0))
-                                AND SO.SupplyOrderId IN (2022)
+                                AND SO.SupplyOrderId IN @id
                                 AND ISNULL(SOI.isActive, 1) = 1 AND ISNULL(PR.isActive, 1) = 1;
                                 DROP TABLE #GRN;";
 

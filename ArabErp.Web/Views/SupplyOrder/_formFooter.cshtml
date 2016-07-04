@@ -3,39 +3,46 @@
 <div class="row form-group">
     <div class="col-md-12">
         <div class="row">
-            <div class="part1">
-                <div class="col-md-2">
-                    <label for="SplRemarks1">Special Remarks</label>
-                </div>
-                <div class="col-md-10">
-                    @Html.TextAreaFor(m => m.SpecialRemarks, new { @class = "form_input form_input-h" })
-                </div>
+                <div class="col-md-12">
+                    <div class="part1">
+                        <label for="SpecialRemarks">Special Remarks</label>
+                        @Html.TextAreaFor(m => m.SpecialRemarks, new { @class = "form_input form_input-h" })
+                    </div>
             </div>
         </div>
 
         <div class="row">
-            <div class="part">
-                <div class="col-md-2">
-                    <label for="payterms">Payment Terms</label>
-                </div>
-                <div class="col-md-10">
-                    @Html.TextBoxFor(m => m.PaymentTerms, new { @class = "form_input" })
-                </div>
+                <div class="col-md-12">
+                    <div class="part4">
+                        <label for="PaymentTerms">Payment Terms</label>
+                        @Html.TextBoxFor(m => m.PaymentTerms, new { @class = "form_input" })
+                    </div>
             </div>
         </div>
 
         <div class="row">
-            <div class="part">
-                <div class="col-md-2">
-                    <label for="delterms">Delivery Terms</label>
-                </div>
-                <div class="col-md-10">
-                    @Html.TextBoxFor(m => m.DeliveryTerms, new { @class = "form_input" })
-                </div>
+                <div class="col-md-12">
+                    <div class="part4">
+                        <label for="DeliveryTerms">Delivery Terms</label>
+                        @Html.TextBoxFor(m => m.DeliveryTerms, new { @class = "form_input" })
+                    </div>
             </div>
         </div>
 
+        <div class="row">
+                <div class="col-md-2">
+                    <div class="part">
+                        <label for="RequiredDate">Required Date</label>
+                        @Html.TextBoxFor(m => m.RequiredDate, Model.RequiredDate.ToString("dd/MMMM/yyyy"), new { @class = "form_input ", autocomplete = "off" })
+                    </div>
+            </div>
+        </div>
 
-
+        @*<div class="row">
+            <div class="col-md-2">
+                <label for="reqdate">Required Date</label>
+                @Html.TextBoxFor(m => m.RequiredDate, Model.RequiredDate.ToString("dd/MMMM/yyyy"), new { @class = "form_input ", autocomplete = "off" })
+            </div>
+        </div>*@
     </div>
 </div>

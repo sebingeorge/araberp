@@ -6,44 +6,77 @@
 }
 
 <script>
-    $(document).ready(function() {
-        $('#supplyorder_form').bootstrapValidator({
-            fields: {
-                SupplyOrderNo: {
-                    validators: {
-                        notEmpty: {
-                            message: 'Please enter SupplyOrderNo'
-                        }
-                    }
-                },
-                SupplyOrderDate: {
-                    validators: {
-                        notEmpty: {
-                            message: 'Please enter SupplyOrderDate'
-                        }
-                    }
-                },
+    $(document).ready(function () {
 
-                SupplierId: {
-                    validators: {
-                        notEmpty: {
-                            message: 'Please select Supplier'
-                        }
-                    }
-                },
-                RequiredDate: {
-                    validators: {
-                        notEmpty: {
-                            message: 'Please enter required date'
-                        }
-                    }
-                }
+        calculateSummary();
+        $("#SupplyOrderNo").tooltip();
 
-         }
+        $(document).ready(function () {
+            toastr.options = {
+                "closeButton": true,
+                "positionClass": "toast-bottom-full-width",
+                "showDuration": "300",
+                "hideDuration": "1000",
+                "timeOut": "0",
+                "extendedTimeOut": "1000"
+            }
+            if ('@TempData["success"]' != '') {
+                toastr.success('@TempData["success"]');
+
+            }
+            else if ('@TempData["error"]' != '') {
+                toastr.error('@TempData["error"]'.split('|')[0]);
+                console.log('@TempData["error"]'.split('|')[1]);
+            }
+        @{TempData["success"] = TempData["error"] = "";}
         });
+
+        //$('#supplyorder_form').bootstrapValidator({
+        //    fields: {
+        //        SupplyOrderNo: {
+        //            validators: {
+        //                notEmpty: {
+        //                    message: 'Please enter SupplyOrderNo'
+        //                }
+        //            }
+        //        },
+        //        SupplyOrderDate: {
+        //            validators: {
+        //                notEmpty: {
+        //                    message: 'Please enter SupplyOrderDate'
+        //                }
+        //            }
+        //        },
+
+        //        SupplierId: {
+        //            validators: {
+        //                notEmpty: {
+        //                    message: 'Please select Supplier'
+        //                }
+        //            }
+        //        },
+        //        RequiredDate: {
+        //            validators: {
+        //                notEmpty: {
+        //                    message: 'Please enter required date'
+        //                }
+        //            }
+        //        }
+
+        // }
+        //});
 
     });
 
+    function ValidateRow(index) {
+        var pending = Number($("#SupplyOrderItems_" + index + "__BalQty").val());
+        var ordered = Number($("#SupplyOrderItems_" + index + "__OrderedQty").val());
+        if (ordered > pending) {
+            toastr.info("Ordered quantity cannot be more than pending quantity");
+            $("#SupplyOrderItems_" + index + "__OrderedQty").val(pending);
+            QuantityChanged(index);
+        }
+    }
 
     function QuantityChanged(row) {
         var quantity = $("#SupplyOrderItems_" + row + "__OrderedQty").val();
@@ -60,28 +93,28 @@
             discount = 0;
         }
         var amount = (quantity * rate) - discount;
-        $("#SupplyOrderItems_" + row + "__Amount").val(amount);
+        $("#SupplyOrderItems_" + row + "__Amount").val(amount.toFixed(2));
         calculateSummary();
     }
 
     function calculateSummary() {
-        var quantity = parseFloat("0");
-        var amount = parseFloat("0");
-        $('.clQuantity').each(function (i, obj) {
-            var a = parseFloat($("#SupplyOrderItems_" + i + "__OrderedQty").val());
+        //var quantity = parseFloat("0.00");
+        var amount = parseFloat("0.00");
+        //$('.clQuantity').each(function (i, obj) {
+        //    var a = parseFloat($("#SupplyOrderItems_" + i + "__OrderedQty").val());
 
-            if (isNaN(a)) {
-                a = parseFloat("0");
-            }
+        //    if (isNaN(a)) {
+        //        a = parseFloat("0.00");
+        //    }
 
-            quantity = quantity + a;
-        });
+        //    quantity = quantity + a;
+        //});
 
         $('.clAmount').each(function (i, obj) {
             var a = parseFloat($("#SupplyOrderItems_" + i + "__Amount").val());
             if (isNaN(a)) {
 
-                a = parseFloat("0");
+                a = parseFloat("0.00");
 
             }
 
@@ -89,17 +122,26 @@
         });
 
         //$("#QtyTotal").text(quantity);
-        $("#QtyAmount").text(amount);
+        $("#QtyAmount").text(amount.toFixed(2));
     }
 
     $(function () {
         $("#SupplyOrderDate").datepicker({ dateFormat: "dd-MM-yy" });
         $("#RequiredDate").datepicker({ dateFormat: "dd-MM-yy" });
-      
     });
 
+    function Back() {
+        var url = '@Url.Action("PendingSupplyOrder")';
+        window.location = url;
+    }
 
-
+    function formValidation() {
+        if (Number($("#QtyAmount").text()) <= 0) {
+            toastr.info("Total amount cannot be less than or equal to zero");
+            return false;
+        }
+        else return true;
+    }
 
 </script>
 <div class="container">
@@ -108,7 +150,7 @@
             <h4>Supply Order / LPO</h4>
         </div>
         <div class="main-part pad1">
-           @using (Html.BeginForm("Save", null, FormMethod.Post, new { @class = "createFrom", @id = "supplyorder_form" }))
+           @using (Html.BeginForm("Save", null, FormMethod.Post, new { @class = "createFrom", @id = "supplyorder_form", @onsubmit = "return formValidation()" }))
            {
                 @Html.Partial("_formHeader")
                
@@ -121,7 +163,7 @@
     <div class="row">
 
         <div class="col-md-12 hrpart">
-            <button type="button" class="form-button right">Exit</button>
+            <input type="button" class="form-button right" value="Exit" onclick="Back()"/>
             <button type="submit" class="form-button right">Save</button>
         </div>
 

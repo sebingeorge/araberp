@@ -11,7 +11,7 @@ namespace ArabErp.DAL
     public class StoreIssueRepository : BaseRepository
     {
         static string dataConnection = GetConnectionString("arab");
-        public int InsertStoreIssue(StoreIssue objStoreIssue)
+        public string InsertStoreIssue(StoreIssue objStoreIssue)
         {
             try
             {
@@ -20,6 +20,9 @@ namespace ArabErp.DAL
                     IDbTransaction txn = connection.BeginTransaction();
                     try
                     {
+                        string referenceNo = "STO/0/" + DatabaseCommonRepository.GetInternalIDFromDatabase(connection, txn, typeof(StoreIssue).Name, "0", 1);
+                        objStoreIssue.StoreIssueRefNo = referenceNo;
+
                         string sql = @"INSERT INTO StoreIssue(
                                 StoreIssueRefNo, 
                                 StoreIssueDate, 
@@ -66,22 +69,22 @@ namespace ArabErp.DAL
                             }
                         }
                         txn.Commit();
-                        return id;
+                        return referenceNo;
                     }
-                    catch (Exception)
+                    catch (Exception ex)
                     {
                         txn.Rollback();
-                        return 0;
+                        throw ex;
                     }
                 }
             }
-            catch (SqlException)
+            catch (SqlException sx)
             {
-                throw;
+                throw sx;
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-                throw;
+                throw ex;
             }
         }
 
@@ -143,7 +146,7 @@ namespace ArabErp.DAL
                 SELECT ItemId, ItemName, ItemUnitId INTO #ITEM FROM Item;
 				SELECT UnitId, UnitName INTO #UNIT FROM Unit;
 				SELECT ItemId, SUM(ISNULL(Quantity, 0)) StockQuantity INTO #STOCK FROM StockUpdate GROUP BY ItemId;
-                SELECT /*W.WorkShopRequestId,*/ W.WorkShopRequestItemId, ITEM.ItemId, ITEM.ItemName, UNIT.UnitName, W.RequiredQuantity, ISNULL(I.IssuedQuantity, 0) IssuedQuantity, ISNULL((W.RequiredQuantity-ISNULL(I.IssuedQuantity, 0)), 0) PendingQuantity, ISNULL(STOCK.StockQuantity, 0) StockQuantity FROM #WORK W LEFT JOIN #ISSUE I ON W.WorkShopRequestId = I.WorkShopRequestId AND W.WorkShopRequestItemId = I.WorkShopRequestItemId INNER JOIN #ITEM ITEM ON W.ItemId = ITEM.ItemId INNER JOIN #UNIT UNIT ON ITEM.ItemUnitId = UNIT.UnitId INNER JOIN #STOCK STOCK ON ITEM.ItemId = STOCK.ItemId WHERE W.WorkShopRequestId = @WorkShopRequestId AND W.RequiredQuantity > ISNULL(I.IssuedQuantity, 0);
+                SELECT /*W.WorkShopRequestId,*/ W.WorkShopRequestItemId, ITEM.ItemId, ITEM.ItemName, UNIT.UnitName, W.RequiredQuantity, ISNULL(I.IssuedQuantity, 0) IssuedQuantity, ISNULL((W.RequiredQuantity-ISNULL(I.IssuedQuantity, 0)), 0) PendingQuantity, CAST(ROUND(ISNULL(STOCK.StockQuantity, 0), 0) AS INT) StockQuantity FROM #WORK W LEFT JOIN #ISSUE I ON W.WorkShopRequestId = I.WorkShopRequestId AND W.WorkShopRequestItemId = I.WorkShopRequestItemId INNER JOIN #ITEM ITEM ON W.ItemId = ITEM.ItemId INNER JOIN #UNIT UNIT ON ITEM.ItemUnitId = UNIT.UnitId INNER JOIN #STOCK STOCK ON ITEM.ItemId = STOCK.ItemId WHERE W.WorkShopRequestId = @WorkShopRequestId AND W.RequiredQuantity > ISNULL(I.IssuedQuantity, 0);
                 DROP TABLE #ISSUE;
                 DROP TABLE #WORK;
                 DROP TABLE #ITEM;
@@ -167,6 +170,32 @@ namespace ArabErp.DAL
                     DROP TABLE #CUS;
                     DROP TABLE #SALE;
                     DROP TABLE #WORK;", new { WorkShopRequestId = workshopRequestId }).First();
+            }
+        }
+
+        /// <summary>
+        /// Return all active store issues
+        /// </summary>
+        /// <returns></returns>
+        public IEnumerable<StoresIssuePreviousList> PreviousList()
+        {
+            using (IDbConnection connection = OpenConnection(dataConnection))
+            {
+                string query = @"SELECT 
+	                                SI.StoreIssueId,
+	                                SI.StoreIssueRefNo,
+	                                SI.StoreIssueDate,
+	                                ISNULL(WR.WorkShopRequestRefNo, '') WorkShopRequestRefNo,
+	                                WR.WorkShopRequestDate,
+	                                E.EmployeeName,
+	                                SI.Remarks,
+	                                SI.CreatedDate
+                                FROM StoreIssue SI
+	                                INNER JOIN WorkShopRequest WR ON SI.WorkShopRequestId = WR.WorkShopRequestId
+	                                INNER JOIN Employee E ON SI.EmployeeId = E.EmployeeId
+                                WHERE ISNULL(SI.isActive, 1) = 1
+                                ORDER BY StoreIssueDate DESC, SI.CreatedDate DESC;";
+                return connection.Query<StoresIssuePreviousList>(query).ToList();
             }
         }
     }

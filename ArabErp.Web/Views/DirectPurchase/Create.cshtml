@@ -225,20 +225,17 @@
 
                     </div>
                 </div>
-
-                @Html.Partial("_grid")
+                <div class="table-responsive">
+                    @Html.Partial("_grid")
+                </div>
 
                 <div class="row form-group">
-                    <div class="col-md-12">
-                        <div class="row">
-                            <div class="col-md-2">
+                            <div class="col-md-12">
+                                <div class="part1">
                                 <label for="SpecialRemarks">Special Remarks</label>
-                            </div>
-                            <div class="col-md-10">
                                 @Html.TextAreaFor(m => m.SpecialRemarks, new { @class = "form_input form_input-h", autocomplete = "off" })
                             </div>
-                        </div>
-                    </div>
+                            </div>
                 </div>
 
                 <div class="row">

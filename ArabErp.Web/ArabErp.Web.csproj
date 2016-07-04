@@ -604,6 +604,7 @@
     <Content Include="Views\PurchaseBill\_PurchaseBillTable.cshtml" />
     <Content Include="Views\StockJournal\_StockJournalList.cshtml" />
     <Content Include="Views\AdditionOrDeduction\Index.cshtml" />
+    <Content Include="Views\AdditionOrDeduction\Create.cshtml" />
     <Content Include="Views\SalesQuotation\Create.cshtml" />
     <Content Include="Views\GrnWareHouse\_PendingGrid.cshtml" />
     <Content Include="Views\GrnWareHouse\PendingDirectPurchase.cshtml" />
@@ -646,6 +647,8 @@
     <Content Include="Views\Box\BoxListView.cshtml" />
     <Content Include="Views\WorkDescription\Index.cshtml" />
     <Content Include="Views\WorkDescription\WorkDescriptionGrid.cshtml" />
+    <Content Include="Views\SupplyOrder\PreviousList.cshtml" />
+    <Content Include="Views\StoresIssue\PreviousList.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

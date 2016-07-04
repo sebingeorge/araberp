@@ -2,41 +2,24 @@
 
 @{Layout = "~/Views/Shared/_Layout.cshtml";}
 
-<script>
+@{string actionName = HttpContext.Current.Request.RequestContext.RouteData.Values["action"].ToString(); }
+
+<script type="text/javascript">
+    function Exit() {
+        location.href = '@Url.Action("Create")';
+    }
     $(document).ready(function () {
-        $('#CustomerCategory_form').bootstrapValidator({
-            fields: {
-                CusCategoryRefNo: {
-                    validators: {
-                        notEmpty: {
-                            message: 'Please Enter Code'
-                        }
-                    }
-                },
+        var Action = '@actionName';
+        if (Action == 'Delete') {
 
-                CusCategoryName: {
-                    validators: {
-                        notEmpty: {
-                            message: 'Please Enter Name'
-                        }
-                    }
-                },
+            $("input[type='text'], select, textarea").attr('disabled', 'disabled');
+            $("input[type=radio]").attr('disabled', true);
+        }
+        if (Action == 'Create') {
+            $("#GenderId").prop("checked", true)
+        }
 
-                //CusCategoryShortName: {
-                //    validators: {
-                //        notEmpty: {
-                //            message: 'Please Enter Short Name'
-                //        }
-                //    }
-                //},
-
-            }
-        });
-    })
-
-    $(document).ready(function () {
-
-
+        //$("#radio_1").prop("checked", true)
         toastr.options = {
             "closeButton": true,
             "positionClass": "toast-bottom-full-width",
@@ -45,6 +28,7 @@
 
             "timeOut": "0",
             "extendedTimeOut": "1000",
+
             "showEasing": "swing",
             "hideEasing": "linear",
             "showMethod": "fadeIn",
@@ -56,16 +40,9 @@
         else if ('@TempData["error"]' != "") {
             toastr.error('@TempData["error"]');
         }
+
     });
-
-
-    function Exit() {
-        location.href = '@Url.Action("Create")';
-    }
-
 </script>
-
-
 
 <div class="container ">
     <div class="row ">
@@ -81,7 +58,9 @@
 
                     <div class="col-md-4">
 
-                        @Html.HiddenFor(m => m.CusCategoryId, new { @class = "form_input form_input-half", autocomplete = "off" })
+                        @Html.HiddenFor(m => m.CusCategoryId)
+                        @Html.HiddenFor(m => m.CusCategoryRefNo)
+
 
                         <div class="part4">
                             <label for="CusCategoryRefNo">Code</label>
@@ -107,25 +86,17 @@
                     </div>
 
                     <div class="col-md-12 hrpart">
-
-                        <button type="button" class="form-button right" onclick="Exit()">Exit</button>
-
-                        @if (@ViewBag.Title == "Create")
-                        {
-                            <button type="submit" class="form-button right">Save</button>
-                        }
-
-                        @if (@ViewBag.Title == "Edit")
-                        {
-                            <button type="submit" class="form-button right">Update</button>
-                        }
-
-                        @if (@ViewBag.Title == "Delete")
-                        {
-                            <button type="submit" class="form-button right">Delete</button>
-                        }
+                        <button type="button" class="form-button right" onclick="Exit();">Exit</button>
+                        @if (actionName == "Edit")
+                        { <button type="submit" class="form-button right">Update</button> }
+                        else
+                            if (actionName == "Delete")
+                            {  <button type="submit" class="form-button right">Delete</button>}
+                            else
+                            { <button type="submit" class="form-button right">Save</button>}
 
                     </div>
+
 
                 </div>
             }

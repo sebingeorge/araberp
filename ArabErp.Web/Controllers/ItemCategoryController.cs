@@ -91,9 +91,9 @@ namespace ArabErp.Web.Controllers
         [HttpPost]
         public ActionResult Delete(ItemCategory model)
         {
-            int result = new ItemCategoryRepository().DeleteItemCategory(model);
+            var result = new ItemCategoryRepository().DeleteItemCategory(model);
 
-            if (result == 0)
+            if (result.itmCatId > 0)
             {
                 TempData["Success"] = "Deleted Successfully!";
                 TempData["itmCatRefNo"] = model.itmCatRefNo;
@@ -101,17 +101,9 @@ namespace ArabErp.Web.Controllers
             }
             else
             {
-                if (result == 1)
-                {
-                    TempData["error"] = "Sorry!! You Cannot Delete This ItemCategory. It Is Already In Use";
-                    TempData["itmCatRefNo"] = null;
-                }
-                else
-                {
-                    TempData["error"] = "Oops!!..Something Went Wrong!!";
-                    TempData["itmCatRefNo"] = null;
-                }
-                return RedirectToAction("Create");
+                TempData["error"] = "Oops!!..Something Went Wrong!!";
+                TempData["itmCatRefNo"] = null;
+                return View("Create", model);
             }
 
         }

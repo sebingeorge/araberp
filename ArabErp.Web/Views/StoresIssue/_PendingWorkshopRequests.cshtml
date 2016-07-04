@@ -25,8 +25,14 @@
             <td>
                 <input class="form_input" type="text" value="@Model[i].RequiredDate.ToString("dd/MMM/yyyy")" disabled />
             </td>
+            <td>
+                <input class="form_input" type="text" value="@Model[i].DaysLeft" disabled />
+            </td>
+            <td>
+                <input class="form_input" type="text" value="@Model[i].Ageing" disabled />
+            </td>
             <td align="center">
-                <button class="btn btn-xs btn-primary" onclick="Open('@Model[i].WorkShopRequestId')"><span class="glyphicon glyphicon-edit" style="top:2px"></span></button>
+                <input type="button" class="form-button4" onclick="Open('@Model[i].WorkShopRequestId')" value="Select" />
             </td>
         </tr>
     }

@@ -7036,9 +7036,7 @@ td.visible-print {
 
    .terms
      {
-    margin-right:0 !important;
-    margin-top:0 !important;
-    width:100% !important;
+    margin-top:-29px !important;
      }
 
        .dropdown-submenu ul 
