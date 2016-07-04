@@ -19,7 +19,7 @@ namespace ArabErp.Domain
         public string VehicleModelName { get; set; }
         public string FreezerUnitName { get; set; }
         public string BoxName { get; set; }
-
+        public int? SlNo { get; set; }
         public int? VehicleModelId { get; set; }
         public int? FreezerUnitId { get; set; }
         public int? BoxId { get; set; }
