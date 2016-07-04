@@ -46,9 +46,9 @@ namespace ArabErp.DAL
 
                     objPurchaseBill.PurchaseBillRefNo = "PRB/" + internalId;
 
-                    string sql = @"insert  into PurchaseBill(PurchaseBillRefNo,SupplierId,PurchaseBillDate,Remarks,PurchaseBillAmount
+                    string sql = @"insert  into PurchaseBill(PurchaseBillRefNo,SupplierId,PurchaseBillDate,PurchaseBillNoDate,Remarks,PurchaseBillAmount
                                 ,AdditionId,DeductionId,Deduction,Addition,CreatedBy,CreatedDate,OrganizationId)
-                                 Values (@PurchaseBillRefNo,@SupplierId,@PurchaseBillDate,@Remarks,@PurchaseBillAmount
+                                 Values (@PurchaseBillRefNo,@SupplierId,@PurchaseBillDate,@PurchaseBillNoDate,@Remarks,@PurchaseBillAmount
                                 ,@AdditionId,@DeductionId,@Deduction,@Addition,@CreatedBy,@CreatedDate,@OrganizationId);
                                 SELECT CAST(SCOPE_IDENTITY() as int)";
 
@@ -141,7 +141,7 @@ namespace ArabErp.DAL
             using (IDbConnection connection = OpenConnection(dataConnection))
             {
                 string query = @"SELECT 
-	                                PurchaseBillId,PurchaseBillRefNo,CONVERT(VARCHAR(15),PurchaseBillDate, 104)PurchaseBillDate,
+	                                PurchaseBillId,PurchaseBillRefNo,CONVERT(VARCHAR(15),PurchaseBillDate, 104)PurchaseBillDate,PurchaseBillNoDate,
 	                                ISNULL(S.SupplierName, '-') Supplier,ISNULL(P.PurchaseBillAmount, 0.00) PurchaseBillAmount
 	                                FROM PurchaseBill P INNER JOIN Supplier S ON S.SupplierId=P.SupplierId
                                     WHERE ISNULL(P.isActive, 1) = 1
