@@ -41,7 +41,6 @@ namespace ArabErp.Domain
         public int? OrganizationId { get; set; }
         public int? VehicleModelId { get; set; }
      
-
         public string SaleOrderHoldReason { get; set; }
         public DateTime SaleOrderHoldDate { get; set; }
         [Required]
@@ -51,6 +50,8 @@ namespace ArabErp.Domain
         public bool Select { get; set; }
         public int? Ageing { get; set; }
         public int isProjectBased { get; set; }
+        public string WorkDescription { get; set; }
+        public int? Remaindays { get; set; }
      
         }
     }

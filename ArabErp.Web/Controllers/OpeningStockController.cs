@@ -44,6 +44,8 @@ namespace ArabErp.Web.Controllers
                 OpeningStock.OpeningStockItem = repo.GetItem(stockpointId).ToList();
             }
 
+            if (OpeningStock.OpeningStockItem.Count == 0)
+                OpeningStock.OpeningStockItem.Add(new OpeningStockItem());
             return PartialView("OpeningStockList", OpeningStock);
         }
 
@@ -82,7 +84,7 @@ namespace ArabErp.Web.Controllers
                 OpeningStock OpeningStock = new OpeningStock();
                 OpeningStock.OpeningStockItem = new List<OpeningStockItem>();
                 OpeningStock.OpeningStockItem.Add(new OpeningStockItem());
-                return View("Create");
+                return RedirectToAction("Create");
              }
 
         }

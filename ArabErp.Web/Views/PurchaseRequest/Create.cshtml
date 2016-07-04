@@ -53,7 +53,7 @@
                         @Html.TextBoxFor(m => m.CustomerOrderRef, new { @class = "form_input", autocomplete = "off", @readonly = "readonly" })
                     </div>
                     <div class="col-md-3">
-                        <label for="WorkShopRequestRefNo">WorkShop Reqest No. & Date </label>
+                        <label for="WorkShopRequestRefNo">WorkShop Request No. & Date </label>
                         @Html.TextBoxFor(m => m.WorkShopRequestRefNo, new { @class = "form_input", autocomplete = "off", @readonly = "readonly" })
                     </div>
                 </div>
@@ -119,7 +119,7 @@
                                 <label for="SpecialRemarks">Special Remarks</label>
                             </div>
                             <div class="col-md-12">
-                                @Html.TextBoxFor(m => m.SpecialRemarks, new { @class = "form_input form_input-h", autocomplete = "off" })
+                                @Html.TextAreaFor(m => m.SpecialRemarks, new { @class = "form_input form_input-h", autocomplete = "off" })
                     </div>
                 </div>
                     </div>
