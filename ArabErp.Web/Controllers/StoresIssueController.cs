@@ -18,38 +18,61 @@ namespace ArabErp.Web.Controllers
         }
         public ActionResult Issuance(int id = 0)
         {
-            EmployeeDropdown();
-            StockpointDropdown();
+            string referenceNo = "STO/" + DatabaseCommonRepository.GetNextReferenceNo(typeof(StoreIssue).Name);
+            FillDropdowns();
             if (id == 0) return RedirectToAction("Pending");
-            return View(new StoreIssue { WorkShopRequestId = id, StoreIssueDate = DateTime.Today });
+            return View(new StoreIssue { WorkShopRequestId = id, StoreIssueDate = DateTime.Today, StoreIssueRefNo = referenceNo });
         }
         [HttpPost]
         public ActionResult Issuance(StoreIssue model)
         {
             try
             {
+                List<int> temp = (from StoreIssueItem i in model.Items
+                                  where i.CurrentIssuedQuantity > 0
+                                  select i.StoreIssueId).ToList();
+                List<StoreIssueItem> items = model.Items.Where(m => m.CurrentIssuedQuantity > 0).ToList();
+                if (temp.Count == 0)
+                {
+                    TempData["error"] = "Atleast one of the quantities must be greater than zero";
+                    goto ReturnSameView;
+                }
+
                 model.OrganizationId = 1;
                 model.CreatedDate = System.DateTime.Now;
                 model.CreatedBy = Request.ServerVariables["HTTP_X_FORWARDED_FOR"] ?? Request.ServerVariables["REMOTE_ADDR"];
-
-                if (new StoreIssueRepository().InsertStoreIssue(model) > 0) //if insert success
+                string result = new StoreIssueRepository().InsertStoreIssue(model);
+                if (result.Length != 0) //if insert success
                 {
-                    TempData["success"] = "Saved succesfully";
+                    TempData["success"] = "Saved succesfully. Reference No. is " + result;
                     TempData["error"] = "";
                     return RedirectToAction("Pending");
                 }
+                else throw new Exception();
             }
             catch (SqlException sx)
             {
                 TempData["error"] = "Some error occured while connecting to database. Please check your network connection and try again.|" + sx.Message;
-                TempData["success"] = "";
             }
             catch (NullReferenceException nx)
             {
                 TempData["error"] = "Some required data was missing. Please try again.|" + nx.Message;
-                TempData["success"] = "";
             }
-            return View(new { id = model.WorkShopRequestId }); //if insert fails
+            catch (Exception ex)
+            {
+                TempData["error"] = "Some error occured. Please try again.|" + ex.Message;
+            }
+
+        ReturnSameView:
+            FillDropdowns();
+            TempData["success"] = "";
+            return View(model); //if insert fails
+        }
+
+        private void FillDropdowns()
+        {
+            EmployeeDropdown();
+            StockpointDropdown();
         }
         public ActionResult Pending()
         {
@@ -76,6 +99,10 @@ namespace ArabErp.Web.Controllers
         {
             string data = new StoreIssueRepository().WorkshopRequestHeadDetails(workshopRequestId);
             return Json(data, JsonRequestBehavior.AllowGet);
+        }
+        public ActionResult PreviousList()
+        {
+            return View(new StoreIssueRepository().PreviousList());
         }
     }
 }
