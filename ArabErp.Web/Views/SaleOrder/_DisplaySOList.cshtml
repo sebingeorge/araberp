@@ -325,7 +325,7 @@
                         {
                             @*@Html.TextBoxFor(m => m.CurrencyName, new { @class = "form_input", autocomplete = "off", @style = "text-align:right;color:white", @disabled = "true" })
                 @Html.HiddenFor(m => m.CurrencyId)*@
-                            @Html.DropDownListFor(m => Model.CurrencyId, (SelectList)ViewBag.currlist, "Select Currency", new { @class = "form_input", @style = "background:", autocomplete = "off" })
+                            @Html.DropDownListFor(m => Model.CurrencyId, (SelectList)ViewBag.currlist, "Select Currency", new { @class = "form_input", @style = "background:lightgrey", autocomplete = "off" })
                             @*@Html.DropDownListFor(x => Model.CurrencyId, new SelectList(ViewBag.currlist, "Value", "Text", Model.CurrencyId), "select Currency", new { @class = "form_input", autocomplete = "off" })*@
                         }
                         else
