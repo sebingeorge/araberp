@@ -25,36 +25,50 @@ namespace ArabErp.Web.Controllers
             if(ObjSaleInvoiceItem.Count>0)
             {
                 
-                saleinvoice = SalesInvoiceRepo.GetSelectedSalesInvoiceHD(ObjSaleInvoiceItem[0].SaleOrderId);
-               
-                
+                saleinvoice = SalesInvoiceRepo.GetSelectedSalesInvoiceHD(ObjSaleInvoiceItem[0].SaleOrderId, ObjSaleInvoiceItem[0].invType);
+                saleinvoice.InvoiceType = ObjSaleInvoiceItem[0].invType;
+
                 List<int> SelectedSaleOrderItemId = (from SalesInvoiceItem s in ObjSaleInvoiceItem
                                                      where s.SelectStatus
                                                      select s.SaleOrderItemId).ToList<int>();
 
                 saleinvoice.SaleInvoiceItems = SalesInvoiceItemRepo.GetSelectedSalesInvoiceDT(SelectedSaleOrderItemId, ObjSaleInvoiceItem[0].SaleOrderId);
+                
                 //SalesInvoiceRepository SalesInvoiceRepo = new SalesInvoiceRepository();
                 //SalesInvoice saleinvoice = SalesInvoiceRepo.GetSelectedSalesInvoiceHD(SelectedSaleOrderItemId);
 
                
 
             }
+            if(saleinvoice.InvoiceType == "Inter" || saleinvoice.InvoiceType == "Final")
+            {
+                saleinvoice.isProjectBased = 1;
+            }
+            else
+            {
+                saleinvoice.isProjectBased = 0;
+            }
             return View("Create", saleinvoice);
         }
-        public ActionResult PendingSalesInvoice()
+        public ActionResult PendingSalesInvoice(string invType)
         {
-            var List = Repo.GetSalesInvoiceCustomerList();
+            var List = Repo.GetSalesInvoiceCustomerList(invType);
             return View("PendingSalesInvoice",List);
          
         }
-        public ActionResult PendingSalesInvoiceDt(int SalesOrderId, string Customer, string SaleOrderRefNoWithDate)
+        public ActionResult PendingSalesInvoiceDt(int SalesOrderId, string Customer, string SaleOrderRefNoWithDate, string invType)
         {
             ViewBag.CustomerName = Customer;
             ViewBag.SaleOrderRefNoWithDate = SaleOrderRefNoWithDate;
-            var List = Repo.GetPendingSalesInvoiceList(SalesOrderId);
+            var List = Repo.GetPendingSalesInvoiceList(SalesOrderId, invType);
+            foreach(var item in List)
+            {
+                item.invType = invType;
+            }
             return PartialView("_PendingSalesInvoiceList",List);
 
         }
+        [HttpPost]
         public ActionResult Save(SalesInvoice model)
         {
             //var List = Repo.GetPendingSalesInvoiceList(SalesOrderId);
@@ -73,7 +87,7 @@ namespace ArabErp.Web.Controllers
                 TempData["error"] = null ;
               
                 TempData["SalesInvoiceRefNo"] = null;
-                return RedirectToAction("PendingSalesInvoice");
+                return RedirectToAction("PendingSalesInvoice", new { invType = model.InvoiceType});
             }
             else
             {
