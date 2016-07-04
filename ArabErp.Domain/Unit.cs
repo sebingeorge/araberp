@@ -13,7 +13,9 @@ namespace ArabErp.Domain
     {
        public int UnitId { get; set; }
        public string UnitRefNo { get; set; }
+       [Required]
        public string UnitName { get; set; }
+       [Required]
        public string CreatedBy { get; set; }
        public DateTime? CreatedDate { get; set; }
        public int OrganizationId { get; set; }

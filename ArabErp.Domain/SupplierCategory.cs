@@ -13,7 +13,9 @@ namespace ArabErp.Domain
     {
         public int SupCategoryId { get; set; }
         public string SupCategoryRefNo { get; set; }
+        [Required]
         public string SupCategoryName { get; set; }
+        [Required]
         public string SupCategoryShortName { get; set; }
         public string CreatedBy { get; set; }
         public DateTime? CreatedDate { get; set; }

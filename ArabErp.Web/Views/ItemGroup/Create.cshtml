@@ -1,42 +1,24 @@
 ﻿@model ArabErp.Domain.ItemGroup
 @{Layout = "~/Views/Shared/_Layout.cshtml";}
 
-<script>
+@{string actionName = HttpContext.Current.Request.RequestContext.RouteData.Values["action"].ToString(); }
+
+<script type="text/javascript">
+    function Exit() {
+        location.href = '@Url.Action("Create")';
+    }
     $(document).ready(function () {
-        $('#ItemGroup_form').bootstrapValidator({
-            fields: {
-                ItemGroupRefNo: {
-                    validators: {
-                        notEmpty: {
-                            message: 'Please Enter Code'
-                        }
-                    }
-                },
+        var Action = '@actionName';
+        if (Action == 'Delete') {
 
-                ItemGroupName: {
-                    validators: {
-                        notEmpty: {
-                            message: 'Please Enter Name'
-                        }
-                    }
-                },
+            $("input[type='text'], select, textarea").attr('disabled', 'disabled');
+            $("input[type=radio]").attr('disabled', true);
+        }
+        if (Action == 'Create') {
+            $("#GenderId").prop("checked", true)
+        }
 
-                ItemCategoryId: {
-                    validators: {
-                        notEmpty: {
-                            message: 'Please Select Category'
-                        }
-                    }
-                },
-
-            }
-        });
-    })
-
-
-    $(document).ready(function () {
-
-
+        //$("#radio_1").prop("checked", true)
         toastr.options = {
             "closeButton": true,
             "positionClass": "toast-bottom-full-width",
@@ -45,24 +27,20 @@
 
             "timeOut": "0",
             "extendedTimeOut": "1000",
+
             "showEasing": "swing",
             "hideEasing": "linear",
             "showMethod": "fadeIn",
             "hideMethod": "fadeOut"
         }
         if ('@TempData["success"]' != "" && '@TempData["ItemGroupRefNo"]' != "") {
-            toastr.success('@TempData["success"]' + ' Item Group Ref No. is : ' + '@TempData["ItemGroupRefNo"]');
+            toastr.success('@TempData["success"]' + '  Item Group Ref No. is : ' + '@TempData["ItemGroupRefNo"]');
         }
         else if ('@TempData["error"]' != "") {
             toastr.error('@TempData["error"]');
         }
+
     });
-
-
-    function Exit() {
-        location.href = '@Url.Action("Create")';
-    }
-
 </script>
 
 
@@ -82,7 +60,9 @@
 
                     <div class="col-md-4">
 
-                        @Html.HiddenFor(m => m.ItemGroupId, new { @class = "form_input", autocomplete = "off" })
+                        @Html.HiddenFor(m => m.ItemGroupId)
+                        @Html.HiddenFor(m => m.ItemGroupRefNo)
+
                         <div class="part4">
                             <label for="ItemGroupRefNo">Code</label>
                             @Html.TextBoxFor(m => m.ItemGroupRefNo, new { @class = "form_input form_input-half", autocomplete = "off", @readonly = "readonly" })
@@ -108,23 +88,14 @@
 
 
                     <div class="col-md-12 hrpart">
-
-                        <button type="button" class="form-button right" onclick="Exit()">Exit</button>
-
-                        @if (@ViewBag.Title == "Create")
-                        {
-                            <button type="submit" class="form-button right">Save</button>
-                        }
-
-                        @if (@ViewBag.Title == "Edit")
-                        {
-                            <button type="submit" class="form-button right">Update</button>
-                        }
-
-                        @if (@ViewBag.Title == "Delete")
-                        {
-                            <button type="submit" class="form-button right">Delete</button>
-                        }
+                        <button type="button" class="form-button right" onclick="Exit();">Exit</button>
+                        @if (actionName == "Edit")
+                        { <button type="submit" class="form-button right">Update</button> }
+                        else
+                            if (actionName == "Delete")
+                            {  <button type="submit" class="form-button right">Delete</button>}
+                            else
+                            { <button type="submit" class="form-button right">Save</button>}
 
                     </div>
 
