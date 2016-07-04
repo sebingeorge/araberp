@@ -13,18 +13,23 @@ namespace ArabErp.DAL
         static string dataConnection = GetConnectionString("arab");
 
 
-        public int InsertWorkVsTask(WorkVsTask objWorkVsTask)
+        public int InsertWorkVsTask(WorkVsTask objWorkVsTask, IDbConnection connection, IDbTransaction trn)
         {
-
-            using (IDbConnection connection = OpenConnection(dataConnection))
+               try
             {
+           
                 string sql = @"insert  into WorkVsTask(WorkDescriptionId,JobCardTaskMasterId,Hours,CreatedBy,CreatedDate,OrganizationId) Values (@WorkDescriptionId,@JobCardTaskMasterId,@Hours,@CreatedBy,@CreatedDate,@OrganizationId);
             SELECT CAST(SCOPE_IDENTITY() as int)";
 
 
-                var id = connection.Query<int>(sql, objWorkVsTask).Single();
+                var id = connection.Query<int>(sql, objWorkVsTask,trn).Single();
                 return id;
             }
+               catch (Exception)
+               {
+                   throw;
+               }
+            
         }
 
 
@@ -54,6 +59,21 @@ namespace ArabErp.DAL
                         where isActive=1";
 
                 var objWorkVsTasks = connection.Query<WorkVsTask>(sql).ToList<WorkVsTask>();
+
+                return objWorkVsTasks;
+            }
+        }
+        public List<WorkVsTask> GetWorkDescriptionWorkVsTasks(int Id)
+        {
+
+            using (IDbConnection connection = OpenConnection(dataConnection))
+            {
+                string sql = @"select * from WorkVsTask where isActive=1 and WorkDescriptionId=@Id";
+
+                var objWorkVsTasks = connection.Query<WorkVsTask>(sql, new
+                {
+                    Id = Id
+                }).ToList<WorkVsTask>();
 
                 return objWorkVsTasks;
             }

@@ -64,7 +64,10 @@
         var url = '@Url.Action("pendingGRN")';
         $("#pending-grn").load(url, { supplierId: id });
     }
-
+    function PreviousList()
+    {
+    window.location='@Url.Action("PurchaseBillList", "PurchaseBill")'
+    }
 
 
     </script>
@@ -93,7 +96,8 @@
                 <div class="row">
 
                     <div class="col-md-12 hrpart">
-                        <button class="form-button left">Previous</button>
+                        <input type="button" class="form-button" onclick="PreviousList()" value="Previous">
+                      
                        
                         <button type="submit" class="form-button right">Proceed</button>
 

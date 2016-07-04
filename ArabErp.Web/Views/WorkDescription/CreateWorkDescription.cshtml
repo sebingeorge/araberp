@@ -3,44 +3,49 @@
     ViewBag.Title = "CreateWorkDescription";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
+@{string actionName = HttpContext.Current.Request.RequestContext.RouteData.Values["action"].ToString(); }
+
 <script>
+    function Exit() {
+        location.href = '@Url.Action("Index")';
+    }
     $(document).ready(function () {
-        $('#wrkdescr_form').bootstrapValidator({
-            fields: {
-                FreezerUnitId: {
-                    validators: {
-                        notEmpty: {
-                            message: 'Please enter FreezerUnit'
-                        }
-                    }
-                },
-                BoxId: {
-                    validators: {
-                        notEmpty: {
-                            message: 'Please enter Box'
-                        }
-                    }
-                },
-                VehicleModelId: {
-                    validators: {
-                        notEmpty: {
-                            message: 'Please enter VehicleModel'
-                        }
-                    }
-                },
-                WorkDescr: {
-                    validators: {
-                        notEmpty: {
-                            message: 'Please enter Work Description'
-                        }
-                    }
-                }
+    
 
-            }
-        });
+        var Action = '@actionName';
+        if (Action == 'Delete') {
 
-    });
-    $(document).ready(function () {
+            $("input[type='text'], select, textarea").attr('disabled', 'disabled');
+            $("input[type=radio]").attr('disabled', true);
+        }
+        if (Action == 'Create') {
+            $("#GenderId").prop("checked", true)
+        }
+
+        //$("#radio_1").prop("checked", true)
+        toastr.options = {
+            "closeButton": true,
+            "positionClass": "toast-bottom-full-width",
+            "preventDuplicates": false,
+            "onclick": null,
+
+            "timeOut": "0",
+            "extendedTimeOut": "1000",
+
+            "showEasing": "swing",
+            "hideEasing": "linear",
+            "showMethod": "fadeIn",
+            "hideMethod": "fadeOut"
+        }
+        if ('@TempData["success"]' != "" && '@TempData["RefNo"]' != "") {
+           
+            toastr.success('@TempData["success"]' + '  Work Description Ref No. is : ' + '@TempData["RefNo"]');
+        }
+        else if ('@TempData["error"]' != "") {
+            toastr.error('@TempData["error"]');
+        }
+
+
         $("#add_task_row").click(function () {
             var i = 0;
             var no = 1;
@@ -107,33 +112,37 @@
         </div>
 
         <div class="main-part pad1">
-            @using (Html.BeginForm("Save", null, FormMethod.Post, new { @class = "createFrom", @id = "wrkdescr_form" }))
-            {
+           @using (Html.BeginForm(null, null, FormMethod.Post, new { @class = "createFrom", @id = "VehicleModel_form" }))
+           {
                @Html.HiddenFor(m => m.WorkDescriptionId)
                 @Html.HiddenFor(m => m.isProjectBased)
 
                  <div class="row">
-                    <div class="col-md-4">
-                        <div class="tick-main">
-                            @Html.CheckBoxFor(m => m.isNewInstallation, new { autocomplete = "off" })
+                     <div class="col-md-3">
+                         <label for="name">Ref. No.</label>
+                         @Html.TextBoxFor(m => m.WorkDescriptionRefNo, new { @class = "form_input", autocomplete = "off" })
+                         </div>
+                         <div class="col-md-6">
+                            
+                                 @Html.CheckBoxFor(m => m.isNewInstallation, new { autocomplete = "off" })
 
 
-                            <span class="text">New Installation</span>
+                                 <span class="text">New Installation</span>
 
 
 
-                            @Html.CheckBoxFor(m => m.isRepair, new { autocomplete = "off" })
-                            <span class="text">Repair / Service</span>
+                                 @Html.CheckBoxFor(m => m.isRepair, new { autocomplete = "off" })
+                                 <span class="text">Repair / Service</span>
 
 
 
-                            @Html.CheckBoxFor(m => m.isSubAssembly, new { autocomplete = "off" })
-                            <span class="text">Sub Assembly</span>
+                                 @Html.CheckBoxFor(m => m.isSubAssembly, new { autocomplete = "off" })
+                                 <span class="text">Sub Assembly</span>
 
-                        </div>
-                    </div>
+                             
+                         </div>
 
-                </div>
+                     </div>
 
 
                     <div class="row">
@@ -204,11 +213,13 @@
                                     @for (int i = 0; i < Model.WorkVsItems.Count; i++)
                                     {
                                         <tr id="Row_item_@i">
-
-                                            <td>
+                                            
+                                            <td>@Html.DropDownListFor(m => m.WorkVsItems[i].ItemId, new SelectList(ViewBag.ItemList, "Value", "Text", Model.WorkVsItems[i].ItemId), "select Item", new { @class = "form_input", autocomplete = "off"})
+                                                </td>
+                                            @*<td>
 
                                                 @Html.DropDownListFor(m => m.WorkVsItems[i].ItemId, (SelectList)ViewBag.ItemList, "Select Item", new { @class = "form_input", autocomplete = "off" })
-                                            </td>
+                                            </td>*@
 
                                             <td>
 
@@ -241,11 +252,13 @@
                                     @for (int i = 0; i < Model.WorkVsTasks.Count; i++)
                                     {
                                         <tr id="Row_task_@i">
-
                                             <td>
+                                                @Html.DropDownListFor(m => m.WorkVsTasks[i].JobCardTaskMasterId, new SelectList(ViewBag.JobCardTaskMasterList, "Value", "Text", Model.WorkVsTasks[i].JobCardTaskMasterId), "select Task", new { @class = "form_input", autocomplete = "off" })
+                                        </td>
+                                            @*<td>
                                               
                                                 @Html.DropDownListFor(m => m.WorkVsTasks[i].JobCardTaskMasterId, (SelectList)ViewBag.JobCardTaskMasterList, "Select Task", new { @class = "form_input", autocomplete = "off" })
-                                            </td>
+                                            </td>*@
                                             <td>
 
                                                 @Html.TextBoxFor(m => m.WorkVsTasks[i].Hours, new { @class = "form_input text-right", autocomplete = "off" })
@@ -268,8 +281,15 @@
                         <div class="row">
 
                             <div class="col-md-12 hrpart">
-                                <button type="button" class="form-button right">Exit</button>
-                                <button type="submit" class="form-button right">Save</button>
+                                <button type="button" class="form-button right" onclick="Exit();">Exit</button>
+                                @if (actionName == "Edit")
+                                { <button type="submit" class="form-button right">Update</button> }
+                                else
+                                    if (actionName == "Delete")
+                                    {  <button type="submit" class="form-button right">Delete</button>}
+                                    else
+                                    { <button type="submit" class="form-button right">Save</button>}
+
                             </div>
 
                         </div>
