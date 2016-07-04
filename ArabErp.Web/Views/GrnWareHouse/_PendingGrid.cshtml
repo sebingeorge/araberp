@@ -28,6 +28,14 @@
             }
         });
     })
+
+    function OnCheckboxChanged(sender) {
+        if ($("#cboSupplier").val() == '') {
+            $(sender).prop("checked", false);
+            toastr.info("You have to select a supplier before selecting supply orders");
+            $("#cboSupplier").focus();
+        }
+    }
 </script>
 
 <input type="hidden" id="hidden-check" value="0" />
@@ -55,6 +63,7 @@
                 {
                     <tr>
                         <td>
+                            @Html.HiddenFor(m => m[i].SupplierId)
                             <input type="text" class="form_input" value="@Model[i].SupplierName" disabled />
                         </td>
                         <td>
@@ -74,7 +83,7 @@
                             <input type="text" class="form_input" value="@Model[i].RequiredDate" disabled />
                         </td>
                         <td align="center">
-                            @Html.CheckBoxFor(m => m[i].isChecked, new { @class = "chk" })
+                            @Html.CheckBoxFor(m => m[i].isChecked, new { @class = "chk", @onchange = "OnCheckboxChanged(this)" })
                         </td>
                     </tr>
                 }

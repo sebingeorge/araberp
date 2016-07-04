@@ -2,26 +2,22 @@
 
 <div class="row form-group">
     <div class="col-md-2">
-        <label for="sono">SO.No.</label>
-        @Html.TextBoxFor(m => m.SupplyOrderNo, new { @class = "form_input" })
+        <label for="SupplyOrderNo">SO.No.</label>
+        @Html.TextBoxFor(m => m.SupplyOrderNo, new { @class = "form_input", @readonly = "true", title = "This number may change after saving" })
     </div>
     <div class="col-md-2">
-        <label for="inputDate">Date</label>
-        @Html.TextBoxFor(m => m.SupplyOrderDate, Model.SupplyOrderDate.ToString("dd/MMMM/yyyy"), new { @class = "form_input ", autocomplete = "off" })
+        <label for="SupplyOrderDate">Date</label>
+        @Html.TextBoxFor(m => m.SupplyOrderDate, Model.SupplyOrderDate.ToString("dd/MMMM/yyyy"), new { @class = "form_input ", autocomplete = "off", @required="true" })
     </div>
 
 </div>
 <div class="row form-group">
     <div class="col-md-4">
         <label for="SupplierId">Supplier</label>
-        @Html.DropDownListFor(m => Model.SupplierId, (SelectList)ViewBag.SupplierList, "Select Supplier", new { @class = "form_input", autocomplete = "off" })
+        @Html.DropDownListFor(m => Model.SupplierId, (SelectList)ViewBag.SupplierList, "Select Supplier", new { @class = "form_input", autocomplete = "off", @required="true" })
     </div>
     <div class="col-md-2">
-        <label for="cusref">Quotation No. & Date</label>
+        <label for="QuotaionNoAndDate">Quotation No. & Date</label>
         @Html.TextBoxFor(m => m.QuotaionNoAndDate, new { @class = "form_input" })
-    </div>
-    <div class="col-md-2">
-        <label for="reqdate">Required Date</label>
-        @Html.TextBoxFor(m => m.RequiredDate, Model.RequiredDate.ToString("dd/MMMM/yyyy"), new { @class = "form_input ", autocomplete = "off" })
     </div>
 </div>

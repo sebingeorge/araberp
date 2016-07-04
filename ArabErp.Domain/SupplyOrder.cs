@@ -24,6 +24,7 @@ namespace ArabErp.Domain
         public string PaymentTerms { get; set; }
         public string DeliveryTerms { get; set; }
         public DateTime RequiredDate { get; set; }
+        public int CurrencyId { get; set; }
         public string CreatedBy { get; set; }
         public DateTime CreatedDate { get; set; }
         [Required]

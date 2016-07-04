@@ -629,6 +629,7 @@
     <Content Include="Views\LoginHistory\Index.cshtml" />
     <Content Include="Views\SalesQuotation\Index.cshtml" />
     <Content Include="Views\SalesQuotation\Revise.cshtml" />
+    <Content Include="Views\SupplyOrder\PreviousList.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
