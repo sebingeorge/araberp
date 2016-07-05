@@ -27,6 +27,23 @@ namespace ArabErp.DAL
             return connection;
         }
 
+       public bool IsFieldExists(string connStrName, string TableName, string FieldName, string Value, string UniqueIDField, int? Id)
+        {
+            using (IDbConnection connection = OpenConnection(connStrName))
+           {
+               string sql = String.Format("select count(*) from {0} where {1} = {2}", TableName, FieldName, Value);
+                if(Id != null && Id != 0)
+                {
+                    sql += String.Format(" and {0} <> {1}",UniqueIDField, (Id??0));
+                }
+
+                int count = connection.Query<int>(sql).Single();
+                if (count > 0)
+                    return true;
+                else
+                    return false;
+           }
+        }
         //protected SqlConnection connection;
         //public BaseRepository()
         //{
