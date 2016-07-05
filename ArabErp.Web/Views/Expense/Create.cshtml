@@ -231,25 +231,30 @@
                     <a id="add_row" class="glyphicon glyphicon-plus" onclick="AddDeductionRow()"></a>
                     <div class="row form-group">
                         <div class="col-md-2">
-                            <label for="inputDate">Additional Amount</label>
-                            @Html.TextBoxFor(m => m.TotalAddition, new { @class = "form_input text-right", autocomplete = "off", @readonly = "readonly" })
-                        </div>
+                            <div class="part1">
+                                <label for="inputDate">Additional Amount</label>
+                                @Html.TextBoxFor(m => m.TotalAddition, new { @class = "form_input text-right", autocomplete = "off", @readonly = "readonly" })
+                            </div>
+                            </div>
                         <div class="col-md-2">
-                            <label for="inputDate">Deduction Amount</label>
-                            @Html.TextBoxFor(m => m.TotalDeduction, new { @class = "form_input text-right", autocomplete = "off", @readonly = "readonly" })
-                        </div>
+                            <div class="part1">
+                                <label for="inputDate">Deduction Amount</label>
+                                @Html.TextBoxFor(m => m.TotalDeduction, new { @class = "form_input text-right", autocomplete = "off", @readonly = "readonly" })
+                            </div>
+                            </div>
                         <div class="col-md-2">
-                            <label for="inputDate">Total</label>
-                            @Html.TextBoxFor(m => m.TotalAmount, new { @class = "form_input text-right", autocomplete = "off", @readonly = "readonly" })
-                        </div>
+                            <div class="part1">
+                                <label for="inputDate">Total</label>
+                                @Html.TextBoxFor(m => m.TotalAmount, new { @class = "form_input text-right", autocomplete = "off", @readonly = "readonly" })
+                            </div>
+                            </div>
                     </div>
                     <div class="row">
-                        <div class="part4">
-                            <div class="col-md-2"><label for="inputDate">Special Remarks</label></div>
-                            <div class="col-md-10">
-
-                                @Html.TextAreaFor(m => m.ExpenseRemarks, new { @class = "form_input form_input-h", autocomplete = "off" })
-                            </div>
+                            <div class="col-md-12">
+                                <div class="part1">
+                                    <label for="inputDate">Special Remarks</label>
+                                    @Html.TextAreaFor(m => m.ExpenseRemarks, new { @class = "form_input form_input-h", autocomplete = "off" })
+                                </div>
                         </div>
                     </div> 
                     
