@@ -40,7 +40,8 @@ namespace ArabErp
                       "~/Content/themes/base/all.css",
                       "~/Content/site.css",
                       "~/Content/Style.css",
-                      "~/Content/bootstrapValidator.min.css"));
+                      "~/Content/bootstrapValidator.min.css",
+                      "~/Content/menu.css"));
                        //"~/Content/datepicker.min.css",
                        //"~/Content/datepicker3.min.css"));
            
