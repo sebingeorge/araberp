@@ -41,7 +41,7 @@
                                 <th><h1>Sales Executive</h1></th>
                                 <th><h1>Amount</h1></th>
                                 <th><h1>Revise</h1></th>
-                                <th><h1>De-Activate</h1></th>
+                                <th><h1>Cancel</h1></th>
                             </tr>
                         </thead>
                         @foreach (var item in Model)
@@ -54,7 +54,7 @@
                                     <td class="grid-cell">@item.EmployeeName</td>
                                     <td class="grid-cell">@item.Amount</td>
                                     <td><center><button class="form-button4" onclick="Revise(@item.SalesQuotationId)">Revise</button></center></td>
-                                    <td><center><button class="form-button4" onclick="Delete(@item.SalesQuotationId)">De-Activate</button></center></td>
+                                    <td><center><button class="form-button4" onclick="Delete(@item.SalesQuotationId)">Cancel</button></center></td>
                                 </tr>
                             </tbody>
                         }
