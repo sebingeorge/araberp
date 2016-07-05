@@ -1,14 +1,16 @@
 ﻿@model ArabErp.Domain.SupplierItemRate
 
-@{
-    string actionName = ViewContext.RouteData.GetRequiredString("action");
-
-}
+@{string actionName = ViewContext.RouteData.GetRequiredString("action");}
 
 
 <script>
     $(document).ready(function () {
-
+        //$('#CurrencyId').val(result.CurrencyId);
+        calculateSummary();
+        $("#Items_0__SlNo").val('1');
+        
+       
+    });
 
         function AddAdditionRow() {
             var i = 0;
@@ -56,17 +58,12 @@
             if (i > 1) {
                 $("#" + index).remove();
                 for (var j = index + 1; j < i; j++) {
-                    var WorkDescriptionId = $("#Items_" + j + "__WorkDescriptionId").val();
-                    var VehicleModelId = $("#Items_" + j + "__VehicleModelId").val();
-                    var Quantity = $("#Items_" + j + "__Quantity").val();
-                    var UnitId = $("#Items_" + j + "__UnitId").val();
-                    var Rate = $("#Items_" + j + "__Rate").val();
-                    var Discount = $("#Items_" + j + "__Discount").val();
-                    var Amount = $("#Items_" + j + "__Amount").val();
+                    var ItemId = $("#SupplierItemRateItem_" + j + "__ItemId").val();
+                    var FixedRate = $("#SupplierItemRateItem_" + j + "__FixedRate").val();
                     //alert(WorkDescriptionId + ',' + VehicleModelId + ',' + Quantity + ',' + UnitId + ',' + Rate + ',' + Discount + ',' + Amount);
 
                     var clone = $("#" + j).clone(true, true);
-                    clone.html($(clone).html().replace(new RegExp("Items_" + j + "__", "g"), 'Items_' + (j - 1) + '__'));
+                    clone.html($(clone).html().replace(new RegExp("SupplierItemRateItem_" + j + "__", "g"), 'SupplierItemRateItem_' + (j - 1) + '__'));
                     clone.html($(clone).html().replace(new RegExp("\\[" + j + "].", "g"), "[" + (j - 1) + "]."));
                     clone.html($(clone).html().replace(new RegExp('slno' + (j + 1) + '">' + (j + 1), "g"), 'slno' + (j) + '">' + (j)));
                     clone.html($(clone).html().replace("Delete(" + j, "Delete(" + (j - 1)));
@@ -77,22 +74,18 @@
 
                     clone.html($(clone).html().replace("this," + j, "this," + (j - 1)));
                     $("#" + j).html(clone.html());
-                    $("#Items_" + (j - 1) + "__SlNo").val(j);
+                    $("#SupplierItemRateItem_" + (j - 1) + "__SlNo").val(j);
                     $("#" + (j)).attr('id', (j - 1));
                     //alert(j);
-                    $("#Items_" + (j - 1) + "__WorkDescriptionId").val(WorkDescriptionId);
-                    $("#Items_" + (j - 1) + "__VehicleModelId").val(VehicleModelId);
-                    $("#Items_" + (j - 1) + "__Quantity").val(Quantity);
-                    $("#Items_" + (j - 1) + "__UnitId").val(UnitId);
-                    $("#Items_" + (j - 1) + "__Rate").val(Rate);
-                    $("#Items_" + (j - 1) + "__Discount").val(Discount);
-                    $("#Items_" + (j - 1) + "__Amount").val(Amount);
+                    $("#SupplierItemRateItem_" + (j - 1) + "__ItemId").val(ItemId);
+                    $("#SupplierItemRateItem_" + (j - 1) + "__FixedRate").val(FixedRate);
+               
                 }
             }
         }
-    });
 
-    function OnMaterialChange(s, index) {
+
+        function OnMaterialChange(s, index) {
         $("#hidden"+index).val($(s).val());
     }
 
@@ -103,7 +96,6 @@
     <table class="table table-bordered table-hover" id="tab_logic">
         <thead>
             <tr class="grid_heading">
-                @*<th width="5%" class="text-center"><h1>Sl.No.</h1></th>*@
                 <th width="2%" class="text-center"></th>
                 <th width="5%" class="text-center"><h1>#</h1></th>
                 <th width="85%" class="text-left"><h1>Item</h1></th>
