@@ -10,5 +10,7 @@ namespace ArabErp.Web.Controllers
     [AuthorizeUser]
     public class BaseController : Controller
     {
+        public int UserID { get; set; }
+        public int OrganizationId { get; set; }
     }
 }
