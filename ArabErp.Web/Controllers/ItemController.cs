@@ -54,6 +54,7 @@ namespace ArabErp.Web.Controllers
             var repo = new ItemRepository();
             bool isexists = repo.IsFieldExists(repo.ConnectionString(), "Item","ItemName",oitem.ItemName, null, null);
             if (!isexists)
+
             {
                 var result = new ItemRepository().InsertItem(oitem);
               if (result.ItemId > 0)

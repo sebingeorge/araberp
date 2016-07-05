@@ -29,21 +29,41 @@ namespace ArabErp.Web.Controllers
              model.OrganizationId = 1;
              model.CreatedDate = System.DateTime.Now;
              model.CreatedBy = Request.ServerVariables["HTTP_X_FORWARDED_FOR"] ?? Request.ServerVariables["REMOTE_ADDR"];
-             var result = new ItemGroupRepository().InsertItemGroup(model);
 
-             if (result.ItemGroupId> 0)
+             var repo = new ItemGroupRepository();
+             bool isexists = repo.IsFieldExists(repo.ConnectionString(), "ItemGroup", "ItemGroupName", model.ItemGroupName, null, null);
+             if (!isexists)
+
              {
-                 TempData["Success"] = "Added Successfully!";
-                 TempData["ItemGroupRefNo"] = result.ItemGroupRefNo;
-                 return RedirectToAction("Create");
+                 var result = new ItemGroupRepository().InsertItemGroup(model);
+                 if (result.ItemGroupId > 0)
+                 {
+
+                     TempData["Success"] = "Added Successfully!";
+                     TempData["ItemGroupRefNo"] = result.ItemGroupRefNo;
+                     return RedirectToAction("Create");
+                 }
+
+                 else
+                 {
+                     dropdown();
+                     TempData["error"] = "Oops!!..Something Went Wrong!!";
+                     TempData["ItemGroupRefNo"] = null;
+                     return View("Create", model);
+                 }
+
              }
              else
              {
-                 TempData["error"] = "Oops!!..Something Went Wrong!!";
+
+                 dropdown();
+                 TempData["error"] = "This Item Group Name Alredy Exists!!";
                  TempData["ItemGroupRefNo"] = null;
                  return View("Create", model);
              }
+
          }
+
 
          public ActionResult Edit(int Id)
          {
@@ -55,29 +75,44 @@ namespace ArabErp.Web.Controllers
 
          [HttpPost]
          public ActionResult Edit(ItemGroup model)
-         {
+        {
 
              model.OrganizationId = 1;
              model.CreatedDate = System.DateTime.Now;
              model.CreatedBy = Request.ServerVariables["HTTP_X_FORWARDED_FOR"] ?? Request.ServerVariables["REMOTE_ADDR"];
+             var repo = new ItemGroupRepository();
 
 
-             var result = new ItemGroupRepository().UpdateItemGroup(model);
-
-             if (result.ItemGroupId > 0)
+             bool isexists = repo.IsFieldExists(repo.ConnectionString(), "ItemGroup", "ItemGroupName", model.ItemGroupName, "ItemGroupId", model.ItemGroupId);
+             if (!isexists)
              {
-                 TempData["Success"] = "Updated Successfully!";
-                 TempData["ItemGroupRefNo"] = result.ItemGroupRefNo;
-                 return RedirectToAction("Create");
+                 var result = new ItemGroupRepository().UpdateItemGroup(model);
+
+                 if (result.ItemGroupId > 0)
+                 {
+                     TempData["Success"] = "Updated Successfully!";
+                     TempData["ItemGroupRefNo"] = result.ItemGroupRefNo;
+                     return RedirectToAction("Create");
+                 }
+                 else
+                 {
+                     dropdown();
+                     TempData["error"] = "Oops!!..Something Went Wrong!!";
+                     TempData["ItemGroupRefNo"] = null;
+                     return View("Edit", model);
+                 }
              }
              else
              {
-                 TempData["error"] = "Oops!!..Something Went Wrong!!";
+                 dropdown();
+                 TempData["error"] = "This Item Name Alredy Exists!!";
                  TempData["ItemGroupRefNo"] = null;
-                 return View("Edit", model);
+                 return View("Create", model);
              }
 
          }
+
+
 
          public ActionResult Delete(int Id)
          {
