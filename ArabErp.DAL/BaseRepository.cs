@@ -26,7 +26,16 @@ namespace ArabErp.DAL
             }
             return connection;
         }
-
+       /// <summary>
+       /// To check the Field Duplicates
+       /// </summary>
+       /// <param name="connStrName">connection string to database</param>
+       /// <param name="TableName">Name of table in Database</param>
+       /// <param name="FieldName">Name of Column to be checked</param>
+       /// <param name="Value">Value to be checked for duplication</param>
+       /// <param name="UniqueIDField">Field Name of Primary Key Column</param>
+       /// <param name="Id">Optional Parameter Give Primary key value if in Modify mode</param>
+       /// <returns>Returns True if exists else false</returns>
        public bool IsFieldExists(string connStrName, string TableName, string FieldName, string Value, string UniqueIDField, int? Id)
         {
             using (IDbConnection connection = OpenConnection(connStrName))
