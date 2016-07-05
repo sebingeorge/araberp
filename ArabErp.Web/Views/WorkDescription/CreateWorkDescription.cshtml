@@ -301,7 +301,8 @@
                                 <thead>
                                     <tr class="grid_heading">
                                         <th width="2%"><h1>#</h1></th>
-                                        <th width="84%"><h1>Items</h1></th>
+                                        <th width="2%"><h1>#</h1></th>
+                                        <th width="82%"><h1>Items</h1></th>
                                         <th width="12%"><h1>Quantity</h1></th>
                                         <th width="2%"><h1></h1></th>
 
@@ -311,9 +312,12 @@
                                     @for (int i = 0; i < Model.WorkVsItems.Count; i++)
                                     {
                                         <tr id="Row_item_@i">
-                                          
-                                            @Html.HiddenFor(m => m.WorkVsItems[i].SlNo)
                                             <td style="vertical-align:middle"><a class="glyphicon glyphicon-minus" style="top:0px" onclick="ItemRowDelete(@i)"></a></td>
+                                            <td align="center">
+                                                <span id="slno@(i+1)">@(i + 1)</span>
+                                                @Html.HiddenFor(m => m.WorkVsItems[i].SlNo)
+                                            </td>
+                                           
                                             <td>@Html.DropDownListFor(m => m.WorkVsItems[i].ItemId, new SelectList(ViewBag.ItemList, "Value", "Text", Model.WorkVsItems[i].ItemId), "select Item", new { @class = "form_input", autocomplete = "off"})
                                                 </td>
                                             @*<td>
