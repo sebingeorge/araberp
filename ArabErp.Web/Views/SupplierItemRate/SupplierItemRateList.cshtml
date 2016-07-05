@@ -1,8 +1,18 @@
 ﻿@model ArabErp.Domain.SupplierItemRate
+
+@{string actionName = ViewContext.RouteData.GetRequiredString("action");}
+
+
 <script>
     $(document).ready(function () {
+        //$('#CurrencyId').val(result.CurrencyId);
+        calculateSummary();
+        $("#Items_0__SlNo").val('1');
+        
+       
+    });
 
-        $("#add_row").click(function () {
+        function AddAdditionRow() {
             var i = 0;
             var no = 1;
             $('input[id^="Row_"]').each(function () {
@@ -16,22 +26,66 @@
             i++;
 
             var index = (new Date()).getTime(); // unique indexer
-            var clone = $('#Row_0').clone(); // clone the BatchProducts item
+            var clone = $('#0').clone(); // clone the BatchProducts item
             //Update the index of the clone
             //clone.html($(clone).html().replace("Items_0__", 'Items_' + i + '__'));
-            clone.html($(clone).html().replace(/\Items_0__/g, 'Items_' + i + '__'));
-            clone.html($(clone).html().replace(/\Items_0__/g, 'Items_' + i + '__'));
-            clone.html($(clone).html().replace(/\Items[0]./g, 'Items[' + i + '].'));
+            clone.html($(clone).html().replace(/SupplierItemRateItem_0__/g, 'SupplierItemRateItem_' + i + '__'));
+            clone.html($(clone).html().replace(/SupplierItemRateItem_0__/g, 'SupplierItemRateItem_' + i + '__'));
+            clone.html($(clone).html().replace(/\SupplierItemRateItem[0]./g, 'SupplierItemRateItem[' + i + '].'));
             clone.html($(clone).html().replace(/\[0\]/g, '[' + i + ']'));
             clone.html($(clone).html().replace(/\(0\)/g, '(' + i + ')'));
             clone.html($(clone).html().replace(/Row_0/, 'Row_' + i + ''));
-            clone.html($(clone).html().replace(/hidden0/, 'hidden' + i));
-            clone.html($(clone).html().replace(/this, 0/, 'this ,' + i));
+            clone.html($(clone).html().replace(/slno1/, 'slno' + (i + 1) + ''));
+            clone.html($(clone).html().replace(/this,0/, 'this,' + i + ''));
             $("#tab_logic").append('<tr id="' + i + '">' + clone.html() + '  </tr>');
-        });
-    });
+            $("#slno" + (i + 1)).html((i + 1));
+            $("#SupplierItemRateItem_" + i + "__SlNo").val((i + 1));
+        }
+        function Delete(index) {
 
-    function OnMaterialChange(s, index) {
+            var i = 0;
+            var no = 1;
+            $('input[id^="Row_"]').each(function () {
+                var id = this.id;
+                no++;
+                var row = Number(id.replace("Row_", ""));
+                if (row > i) {
+                    i = row;
+                }
+            });
+            i++;
+            //$("#" + index).html('');
+            if (i > 1) {
+                $("#" + index).remove();
+                for (var j = index + 1; j < i; j++) {
+                    var ItemId = $("#SupplierItemRateItem_" + j + "__ItemId").val();
+                    var FixedRate = $("#SupplierItemRateItem_" + j + "__FixedRate").val();
+                    //alert(WorkDescriptionId + ',' + VehicleModelId + ',' + Quantity + ',' + UnitId + ',' + Rate + ',' + Discount + ',' + Amount);
+
+                    var clone = $("#" + j).clone(true, true);
+                    clone.html($(clone).html().replace(new RegExp("SupplierItemRateItem_" + j + "__", "g"), 'SupplierItemRateItem_' + (j - 1) + '__'));
+                    clone.html($(clone).html().replace(new RegExp("\\[" + j + "].", "g"), "[" + (j - 1) + "]."));
+                    clone.html($(clone).html().replace(new RegExp('slno' + (j + 1) + '">' + (j + 1), "g"), 'slno' + (j) + '">' + (j)));
+                    clone.html($(clone).html().replace("Delete(" + j, "Delete(" + (j - 1)));
+                    clone.html($(clone).html().replace("Row_" + j, "Row_" + (j - 1)));
+
+
+
+
+                    clone.html($(clone).html().replace("this," + j, "this," + (j - 1)));
+                    $("#" + j).html(clone.html());
+                    $("#SupplierItemRateItem_" + (j - 1) + "__SlNo").val(j);
+                    $("#" + (j)).attr('id', (j - 1));
+                    //alert(j);
+                    $("#SupplierItemRateItem_" + (j - 1) + "__ItemId").val(ItemId);
+                    $("#SupplierItemRateItem_" + (j - 1) + "__FixedRate").val(FixedRate);
+               
+                }
+            }
+        }
+
+
+        function OnMaterialChange(s, index) {
         $("#hidden"+index).val($(s).val());
     }
 
@@ -42,19 +96,28 @@
     <table class="table table-bordered table-hover" id="tab_logic">
         <thead>
             <tr class="grid_heading">
-                @*<th width="5%" class="text-center"><h1>Sl.No.</h1></th>*@
+                <th width="2%" class="text-center"></th>
+                <th width="5%" class="text-center"><h1>#</h1></th>
                 <th width="85%" class="text-left"><h1>Item</h1></th>
                 <th width="10%" class="text-center"><h1>Rate</h1></th>
+                <th width="2%" class="text-center"></th>
             </tr>
         </thead>
 
         <tbody>
             @for (int i = 0; i < Model.SupplierItemRateItem.Count; i++)
             {
-                <tr id="Row_@i">
-                    @*<td>@i</td>*@
+                <tr id="@i">
+                    <td style="vertical-align:middle"><a class="glyphicon glyphicon-minus" style="top:0px" onclick="Delete(@i)"></a></td>
+
+                    <td align="center">
+                        <span id="slno@(i+1)">@(i + 1)</span>
+                        @Html.HiddenFor(m => m.SupplierItemRateItem[i].SlNo)
+                    </td>
+
                     <td>
                         <input type="hidden" id="Row_@i" />
+
                         @Html.HiddenFor(m => m.SupplierItemRateItem[i].ItemId, new { @id = "hidden" + i })
                         @Html.DropDownListFor(m => m.SupplierItemRateItem[i].ItemId, (SelectList)ViewBag.Itemlist, Model.SupplierItemRateItem[i].ItemId.ToString() != "" ? ((SelectList)ViewBag.Itemlist).Where(p => p.Value == Model.SupplierItemRateItem[i].ItemId.ToString()).First().Text : "select", new { @class = "form_input", autocomplete = "off", @onchange = "OnMaterialChange(this, " + i + ")" })
 
@@ -65,6 +128,7 @@
                         @Html.TextBoxFor(m => m.SupplierItemRateItem[i].FixedRate, new { @class = "form_input", autocomplete = "off", @style = "text-align:right" })
                     </td>
 
+                    <td style="vertical-align:middle"><a id="add_row" class="glyphicon glyphicon-plus" style="top:0px" onclick="AddAdditionRow()"></a></td>
                 </tr>
             }
             @*<tr id='addr1'></tr>*@
@@ -72,5 +136,5 @@
 
     </table>
 </div>
-<a id="add_row" class="glyphicon glyphicon-plus"></a><a id='delete_row' style="float:right" class="glyphicon glyphicon-minus"></a>
+
 

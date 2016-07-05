@@ -20,6 +20,7 @@ namespace ArabErp.Domain
     }
         public class SupplierItemRateItem
             {
+                public int? SlNo { get; set; }
                 public int? ItemId { get; set; }
                 public decimal? FixedRate { get; set; }
 

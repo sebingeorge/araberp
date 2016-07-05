@@ -37,12 +37,12 @@ namespace ArabErp.DAL
                 return connection.Query<User>("select * from [User] where UserName='"+ username +"' and UserPassword='"+ password +"'").Single();
             }
         }
-        public bool IsValidUser(int UserId, string Username, string ControllName, string ActionName, int OrganizationId)
+        public bool IsValidUser(int UserId, string Username, string ControllName, string ActionName, int OrganizationId, string SessionID)
         {
             using (IDbConnection connection = OpenConnection(dataConnection))
             {
-                string sql = @"insert into TransactionHistory(UserId, TransTime, Mode, Form, OrganizationId)
-                               values('"+ UserId.ToString() +"', GetDate(), '"+ ActionName +"', '"+ ControllName +"', '"+ OrganizationId.ToString() +"')";
+                string sql = @"insert into TransactionHistory(UserId, TransTime, Mode, Form, OrganizationId, SessionID)
+                               values('" + UserId.ToString() + "', GetDate(), '" + ActionName + "', '" + ControllName + "', '" + OrganizationId.ToString() + "','" + SessionID + "')";
                 connection.Query(sql);
             }
             return true;
