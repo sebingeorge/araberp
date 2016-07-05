@@ -7202,6 +7202,23 @@ td.visible-print {
         display:none !important;
     }
 
+    .login-user1 
+    {
+        width:100% !important;
+    }
+    .login-text1
+    {
+        width:100% !important;
+    }
+    .mline 
+    {
+        line-height:34px !important;
+    }
+    .log-button1
+    {
+        width:100% !important;
+    }
+
 
 
 }
