@@ -1,0 +1,35 @@
+﻿@model ArabErp.Domain.QuickView
+           @{
+               int total = Model.NoOfProjectQuotations + 
+                   Model.NoOfPurchaseRequests + 
+                   Model.NoOfSupplyOrders + 
+                   Model.NoOfTransQuotations + 
+                   Model.NoOfWorkShopRequests;
+           }
+<ul class="nav navbar-nav">
+    <li>
+        <a data-toggle="dropdown" class="dropdown-toggle" href="#"><i class="glyphicon glyphicon-bell"></i>@total</a>
+        <ul class="dropdown-menu">            
+            @if (Model.PendingProjectQuotations)
+            {
+                <li><a href="@Url.Action("ListSalesQuotationsProject", "SalesQuotation")" class="form_input"><span class="badge pull-right" style="margin-right:5px;">@Model.NoOfProjectQuotations</span>Prj. Quot. For Approval</a></li>
+            }
+            @if (Model.PendingTransQuotations)
+            {
+                <li><a href="@Url.Action("ListSalesQuotations", "SalesQuotation")" class="form_input"><span class="badge pull-right">@Model.NoOfTransQuotations</span>Trn. Quot. For Approval</a></li>
+            }
+            @if (Model.PendingSupplyOrders)
+            {
+                <li><a href="@Url.Action("PendingGrnWareHouse", "GrnWareHouse")" class="form_input"><span class="badge pull-right">@Model.NoOfSupplyOrders</span>Pending Supply Orders for GRN</a></li>
+            }
+            @if (Model.PendingDirectPurchaseRequests)
+            {
+                <li><a href="@Url.Action("Approval", "DirectPurchase")" class="form_input"><span class="badge pull-right">@Model.NoOfPurchaseRequests</span>Dir. Pur. Req. For Approval</a></li>
+            }
+            @if (Model.PendingWorkshopRequests)
+            {
+                <li><a href="@Url.Action("WorkShopRequestPending", "WorkShopRequest")" class="form_input"><span class="badge pull-right">@Model.NoOfWorkShopRequests</span>S.O for Work. Requ.</a></li>
+            }
+        </ul>
+    </li>
+</ul>
