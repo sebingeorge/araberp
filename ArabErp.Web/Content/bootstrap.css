@@ -4295,7 +4295,7 @@ textarea.input-group-sm > .input-group-btn > .btn {
   }
   .navbar-nav > li {
     float: left;
-    margin-left:-10px;
+    margin-left:-4px;
   }
   .navbar-nav > li > a {
     padding-top: 15px;
