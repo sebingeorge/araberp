@@ -8,56 +8,50 @@
     <div class="container">
         <div class="row">
 
-            <div class="col-md-3"></div>
-            <div class="col-md-6 col-xs-10 col-sm-11 outer-login regtop">
-                <div class="col-md-12">
-                    <h5>New User</h5>
+            <div class="form-head1">
+                <h4>New User</h4>
+            </div>
 
-                        @Html.ValidationSummary("", new { @class = "text-danger" })
-                            <div class="row main-login-user1">
-                                <label for="BayRefNo" class="login-user1">Email</label>
-                                <div class="login-user-right1"></div>
-                                @Html.TextBoxFor(m => m.UserEmail, new { @class = "login-text1" })
-                            </div>
-
-
-                            <div class="row main-login-user1">
-                                <label for="BayRefNo" class="login-user1">User Name</label>
-                                <div class="login-user-right1"></div>
-                                @Html.TextBoxFor(m => m.UserName, new { @class = "login-text1" })
-                            </div>
-
-                        <div class="row main-login-user1">
-                            <label for="BayRefNo" class="login-user1">Password</label>
-                            <div class="login-user-right1"></div>
-                            @Html.PasswordFor(m => m.UserPassword, new { @class = "login-text1" })
-                        </div>
-
-
-                            <div class="row main-login-user1">
-                                <label for="BayRefNo" class="login-user1 mline">Confirm Password</label>
-                                <div class="login-user-right1"></div>
-                                @Html.PasswordFor(m => m.ConfirmPassword, new { @class = "login-text1" })
-                            </div>
-
-                        <div class="row form-group">
-                            <div class="col-md-4">
-                            </div>
-                            <div class="col-md-4">
-                            </div>
-                            <div class="col-md-4">
-                                <input type="submit" class="log-button1" value="Register" />
-                            </div>
-                        </div>
- 
+            <div class=" main-part pad1">
+                <div class="row">
+                <div class="col-md-4">
+                    <div class="matop">@Html.ValidationSummary("", new { @class = "text-danger" })</div>
+                    <div class="part4">
+                       
+                    <label for="BayRefNo">Email</label>
+                    @Html.TextBoxFor(m => m.UserEmail, new { @class = "form_input" })
+                    </div>
+                    <div class="part4">
+                        <label for="BayRefNo">User Name</label>
+                        @Html.TextBoxFor(m => m.UserName, new { @class = "form_input" })
+                    </div>
+                    <div class="part4">
+                        <label for="BayRefNo">Password</label>
+                        @Html.PasswordFor(m => m.UserPassword, new { @class = "form_input" })
+                    </div>
+                    <div class="part4">
+                        <label for="BayRefNo">Confirm Password</label>
+                        @Html.PasswordFor(m => m.ConfirmPassword, new { @class = "form_input" })
+                    </div>
+                    </div>
+                    </div>
 
 
-                 </div>
+
+                <div class="row">
+
+                    <div class="col-md-12 hrpart">
+                        <input type="submit" class=" form-button right" value="Register" />
+                    </div>
+
                 </div>
-            <div class="col-md-3"></div>
+            </div>
 
 
-               
+
+
+
+
             </div>
     </div>
     

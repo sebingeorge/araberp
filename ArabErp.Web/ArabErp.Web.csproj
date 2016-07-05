@@ -283,8 +283,10 @@
     <Content Include="Content\images\no.png" />
     <Content Include="Content\images\yes.png" />
     <Content Include="Content\jquery-1.12.4.min.js" />
+    <Content Include="Content\jquery-2.1.4.min.js" />
     <Content Include="Content\PagedList.css" />
-    <Content Include="Content\script.js" />
+    <Content Include="Scripts\polyfiller.js" />
+    <Content Include="Scripts\script.js" />
     <Content Include="Content\toastr\build\toastr.css" />
     <Content Include="Content\toastr\build\toastr.min.css" />
     <Content Include="Content\toastr\build\toastr.min.js" />
