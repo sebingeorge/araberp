@@ -444,6 +444,7 @@ namespace ArabErp.Web.Controllers
             FillCustomer();
             FillCurrency();
             FillCommissionAgent();
+            FillQuotationNoInSo(0);
             //FillPaymentTerms();
             FillUnit();
             FillEmployee();            
