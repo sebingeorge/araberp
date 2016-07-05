@@ -1,25 +1,42 @@
 ﻿@model IList<ArabErp.Domain.SupplyOrderPreviousList>
 
 @{
-    ViewBag.Title = "Previous List";
     Layout = "~/Views/Shared/_Layout.cshtml";
+    ViewBag.Title = "Unapproved Supply Orders / LPO";
 }
 
 <script type="text/javascript">
-    @*function Pending() {
-        var url = '@Url.Action("PendingSupplyOrder")';
-        window.location = url;
-    }*@
 
-    function OpenEditForm() {
-        alert("function not defined");
+    $(document).ready(function () {
+        //---------------------toastr---------------------------//
+        toastr.options = {
+            "positionClass": "toast-bottom-full-width",
+            "timeOut": "5000",
+            "extendedTimeOut": "2000"
+        }
+        if ('@TempData["success"]' != '') {
+            toastr.success('@TempData["success"]');
+        }
+        else if ('@TempData["error"]' != '') {
+            toastr.error('@TempData["error"]'.split('|')[0]);
+            console.log('@TempData["error"]'.split('|')[1]);
+        }
+        @{ TempData["success"] = TempData["error"] = ""; }
+        //------------------------------------------------------//
+    })
+
+    function Approve(id) {
+        var url = '@Url.Action("Approve")';
+        url += "?id=" + id;
+        window.location = url;
     }
+
 </script>
 
 <div class="container">
     <div class="row">
         <div class="form-head1">
-            <h4>Supply Order / LPO</h4>
+            <h4>Unapproved Supply Order / LPO</h4>
         </div>
         <div class="main-part pad1">
 
@@ -68,7 +85,7 @@
                                         <input type="text" value="@Model[i].Amount" class="form_input text-right" disabled />
                                     </td>
                                     <td align="center">
-                                        <input type="button" value="Select" class="form-button4" onclick="OpenEditForm(@Model[i].SupplyOrderId)" />
+                                        <input type="button" value="Approve" class="form-button4" onclick="Approve(@Model[i].SupplyOrderId)" />
                                     </td>
                                 </tr>
                             }

@@ -8,6 +8,7 @@ namespace ArabErp.Domain
 {
    public class WorkVsTask
     {
+       public int? SlNo { get; set; }
         public int WorkVsTaskId { get; set; }
         public int WorkDescriptionId { get; set; }
         public int JobCardTaskMasterId { get; set; }

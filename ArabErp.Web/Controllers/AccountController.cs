@@ -133,7 +133,7 @@ namespace ArabErp.Web.Controllers
 
             UserRepository repo = new UserRepository();
             string ip = Request.ServerVariables["HTTP_X_FORWARDED_FOR"] ?? Request.ServerVariables["REMOTE_ADDR"];
-            repo.InsertLoginHistory(user, Session.SessionID.ToString(), ip);
+            repo.InsertLoginHistory(user, Session.SessionID.ToString(), ip, OrganizationId.ToString());
             //return userCookie;
         }
         public string ConvertPasswordToPublicKey(string encrytedpwd)

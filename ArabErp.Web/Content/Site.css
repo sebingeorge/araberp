@@ -806,6 +806,11 @@ section.content {
 {
     margin-top:-22px;
 }
+.toast .toast-info
+ {
+    position:absolute;
+    top:0;
+}
 
 
 

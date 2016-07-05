@@ -37,16 +37,22 @@ namespace ArabErp.DAL
                 return connection.Query<User>("select * from [User] where UserName='"+ username +"' and UserPassword='"+ password +"'").Single();
             }
         }
-        public bool IsValidUser(int UserId, string Username, string ControllName, string ActionName)
-        {
-            return true;
-        }
-        public void InsertLoginHistory(User user, string sessionId, string ipAddress)
+        public bool IsValidUser(int UserId, string Username, string ControllName, string ActionName, int OrganizationId)
         {
             using (IDbConnection connection = OpenConnection(dataConnection))
             {
-                string sql = "Insert into LoginHistory(UserId, LogIn, SessionID, IpAddress)";
-                sql += " values('"+ user.UserId.ToString() +"', GetDate(), '"+ sessionId +"','"+ ipAddress +"')";
+                string sql = @"insert into TransactionHistory(UserId, TransTime, Mode, Form, OrganizationId)
+                               values('"+ UserId.ToString() +"', GetDate(), '"+ ActionName +"', '"+ ControllName +"', '"+ OrganizationId.ToString() +"')";
+                connection.Query(sql);
+            }
+            return true;
+        }
+        public void InsertLoginHistory(User user, string sessionId, string ipAddress, string OrganizationId)
+        {
+            using (IDbConnection connection = OpenConnection(dataConnection))
+            {
+                string sql = "Insert into LoginHistory(UserId, LogIn, SessionID, IpAddress, OrganizationId)";
+                sql += " values('" + user.UserId.ToString() + "', GetDate(), '" + sessionId + "','" + ipAddress + "','" + OrganizationId + "')";
                 connection.Query(sql);
             }
         }
