@@ -19,6 +19,7 @@ namespace ArabErp.Domain
     }
    public class OpeningStockItem
     {
+        public int? SlNo { get; set; }
         public int? ItemId { get; set; }
         public decimal? Quantity { get; set; }
        
