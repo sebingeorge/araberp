@@ -651,6 +651,7 @@
     <Content Include="Views\SupplierItemRate\SupplierItemRateList.cshtml" />
     <Content Include="Views\SupplyOrder\Approve.cshtml" />
     <Content Include="Views\SupplyOrder\PendingApproval.cshtml" />
+    <Content Include="Views\Shared\_QuickView.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
