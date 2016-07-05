@@ -37,7 +37,7 @@ namespace ArabErp.Web.Helpers
 
                     UserRepository repo = new UserRepository();
 
-                    bool res = repo.IsValidUser(Convert.ToInt32(_userId.ToString()), _username.ToString(), _controller, _action, _OrganizationId);
+                    bool res = repo.IsValidUser(Convert.ToInt32(_userId.ToString()), _username.ToString(), _controller, _action, _OrganizationId, HttpContext.Current.Session.SessionID);
                 }
             }
         }
