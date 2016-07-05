@@ -915,6 +915,20 @@ section.content {
     top:0;
 }
 
+.navbar-nav li ul 
+{
+    margin-left:-45px;
+}
+.navbar-nav li ul li 
+{
+    width:250px;
+    border-bottom:1px solid #b1b1b1;
+}
+.glyphicon-bell 
+{
+    margin-top:-10px;
+}
+
 
 
 
