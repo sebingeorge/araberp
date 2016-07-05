@@ -50,22 +50,38 @@ namespace ArabErp.Web.Controllers
             oitem.OrganizationId = 1;
             oitem.CreatedDate = System.DateTime.Now;
             oitem.CreatedBy = Request.ServerVariables["HTTP_X_FORWARDED_FOR"] ?? Request.ServerVariables["REMOTE_ADDR"];
-            var result = new ItemRepository().InsertItem(oitem);
 
-
-            if (result.ItemId > 0)
+            var repo = new ItemRepository();
+            bool isexists = repo.IsFieldExists(repo.ConnectionString(), "Item","ItemName",oitem.ItemName, null, null);
+            if (!isexists)
             {
+                var result = new ItemRepository().InsertItem(oitem);
+              if (result.ItemId > 0)
+                {
+
                 TempData["Success"] = "Added Successfully!";
                 TempData["ItemRefNo"] = result.ItemRefNo;
                 return RedirectToAction("Index");
-            }
-            else
-            {
+                }
+
+              else
+               {
+                FillUnit();
                 TempData["error"] = "Oops!!..Something Went Wrong!!";
                 TempData["ItemRefNo"] = null;
                 return View("Create", oitem);
+               }
+         
+               }
+            else
+             {
+
+                FillUnit();
+                TempData["error"] = "This Item Name Alredy Exists!!";
+                TempData["ItemRefNo"] = null;
+                return View("Create", oitem);
             }
-          
+
         }
 
         public ActionResult View(int Id)
@@ -88,31 +104,46 @@ namespace ArabErp.Web.Controllers
             
         }
        [HttpPost]
+      
+
         public ActionResult Edit(Item model)
         {
             model.OrganizationId = 1;
             model.CreatedDate = System.DateTime.Now;
             model.CreatedBy = Request.ServerVariables["HTTP_X_FORWARDED_FOR"] ?? Request.ServerVariables["REMOTE_ADDR"];
-            var result = new ItemRepository().UpdateItem(model);
+            var repo = new ItemRepository();
 
 
-            if (result.ItemId > 0)
+            bool isexists = repo.IsFieldExists(repo.ConnectionString(), "Item", "ItemName", model.ItemName, "ItemId", model.ItemId);
+            if (!isexists)
+
             {
-                TempData["Success"] = "Updated Successfully!";
-                TempData["ItemRefNo"] = result.ItemRefNo;
-                return RedirectToAction("Index");
+                var result = new ItemRepository().UpdateItem(model);
+
+                if (result.ItemId > 0)
+                {
+                    TempData["Success"] = "Updated Successfully!";
+                    TempData["ItemRefNo"] = result.ItemRefNo;
+                    return RedirectToAction("Index");
+                }
+                else
+                {
+                    FillUnit();
+                    TempData["error"] = "Oops!!..Something Went Wrong!!";
+                    TempData["ItemRefNo"] = null;
+                    return View("Edit", model);
+                }
             }
             else
             {
-                TempData["error"] = "Oops!!..Something Went Wrong!!";
+
+                FillUnit();
+                TempData["error"] = "This Item Name Alredy Exists!!";
                 TempData["ItemRefNo"] = null;
-                SaleOrder saleOrder = new SaleOrder();
-                saleOrder.SaleOrderDate = System.DateTime.Today;
-                saleOrder.Items = new List<SaleOrderItem>();
-                saleOrder.Items.Add(new SaleOrderItem());
+               
                 return View("Edit", model);
             }
-           
+
         }
 
 
@@ -157,8 +188,6 @@ namespace ArabErp.Web.Controllers
            }
 
         }
-
-
 
 
         public void FillItemSubGroup(int Id)
@@ -215,8 +244,6 @@ namespace ArabErp.Web.Controllers
             return PartialView("_ItemListView",List);
         }
 
-
-
-        
+       
     }
 }
