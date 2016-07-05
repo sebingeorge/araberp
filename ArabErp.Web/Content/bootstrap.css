@@ -4295,7 +4295,7 @@ textarea.input-group-sm > .input-group-btn > .btn {
   }
   .navbar-nav > li {
     float: left;
-    margin-left:-10px;
+    margin-left:-4px;
   }
   .navbar-nav > li > a {
     padding-top: 15px;
@@ -7200,6 +7200,23 @@ td.visible-print {
     .login-text-right
     {
         display:none !important;
+    }
+
+    .login-user1 
+    {
+        width:100% !important;
+    }
+    .login-text1
+    {
+        width:100% !important;
+    }
+    .mline 
+    {
+        line-height:34px !important;
+    }
+    .log-button1
+    {
+        width:100% !important;
     }
 
 
