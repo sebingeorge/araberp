@@ -56,5 +56,17 @@ namespace ArabErp.DAL
                 }
             }
         }
+        public QuotationApprovalAmountSettings GetUserApprovalAmountSettings(int UserId)
+        {
+            using (IDbConnection connection = OpenConnection(dataConnection))
+            {
+                string sql = @"declare @approveType as int;
+                            select @approveType = case when Approval1 = 1 then 1 when Approval2 = 1 then 2 when Approval3 = 1 then 3 else 0 end 
+                            from QuotationApprovalSettings where UserId = "+ UserId.ToString() + @"
+                            select ApprovalCode, AmountFrom, AmountTo from QuotationApprovalAmountSettings where ApprovalCode = @approveType";
+
+                return connection.Query<QuotationApprovalAmountSettings>(sql).Single();
+            }
+        }
     }
 }

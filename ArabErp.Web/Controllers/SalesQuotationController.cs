@@ -216,7 +216,12 @@ namespace ArabErp.Web.Controllers
 
         public ActionResult ListSalesQuotations(int ProjectBased)
         {
-        
+            QuotationApprovalRepository appRepo = new QuotationApprovalRepository();
+            QuotationApprovalAmountSettings amt = appRepo.GetUserApprovalAmountSettings(UserID);
+
+            ViewBag.AmountFrom = amt.AmountFrom;
+            ViewBag.AmountTo = amt.AmountTo;
+
             var repo = new SalesQuotationRepository();
 
             List<SalesQuotation> salesquotations = repo.GetSalesQuotationApproveList(ProjectBased);
