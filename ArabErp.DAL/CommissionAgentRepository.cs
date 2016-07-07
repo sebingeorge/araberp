@@ -11,7 +11,10 @@ namespace ArabErp.DAL
     public class CommissionAgentRepository : BaseRepository
     {
         static string dataConnection = GetConnectionString("arab");
-
+        public string ConnectionString()
+        {
+            return dataConnection;
+        }
         public CommissionAgent InsertCommissionAgent(CommissionAgent model)
 
         {

@@ -17,26 +17,57 @@ namespace ArabErp.Web.Controllers
         }
         public ActionResult Create()
         {
-            return View();
+            string internalid = DatabaseCommonRepository.GetNextRefNoWithNoUpdate(typeof(CommissionAgent).Name);
+            return View(new CommissionAgent { CommissionAgentRefNo = "CA/" + internalid });
         }
         [HttpPost]
         public ActionResult Create(CommissionAgent model)
         {
+        //    var repo = new CommissionAgentRepository();
+        //    var result = new CommissionAgentRepository().InsertCommissionAgent(model);
+        //    if (result.CommissionAgentId > 0)
+        //    {
+        //        TempData["Success"] = "Added Successfully!";
+        //        TempData["RefNo"] = result.CommissionAgentRefNo;
+        //        return RedirectToAction("Create");
+        //    }
+        //    else
+        //    {
+
+        //        TempData["error"] = "Oops!!..Something Went Wrong!!";
+        //        TempData["RefNo"] = null;
+        //        return View("Create", model);
+        //    }
+        //}
             var repo = new CommissionAgentRepository();
-            var result = new CommissionAgentRepository().InsertCommissionAgent(model);
-            if (result.CommissionAgentId > 0)
+            bool isexists = repo.IsFieldExists(repo.ConnectionString(), "CommissionAgent", "CommissionAgentName", model.CommissionAgentName, null, null);
+            if (!isexists)
             {
-                TempData["Success"] = "Added Successfully!";
-                TempData["RefNo"] = result.CommissionAgentRefNo;
-                return RedirectToAction("Create");
+                var result = new CommissionAgentRepository().InsertCommissionAgent(model);
+                if (result.CommissionAgentId > 0)
+                {
+
+                    TempData["Success"] = "Added Successfully!";
+                    TempData["RefNo"] = result.CommissionAgentRefNo;
+                    return RedirectToAction("Create");
+                }
+
+                else
+                {
+                    TempData["error"] = "Oops!!..Something Went Wrong!!";
+                    TempData["RefNo"] = null;
+                    return View("Create", model);
+                }
+
             }
             else
             {
 
-                TempData["error"] = "Oops!!..Something Went Wrong!!";
+                TempData["error"] = "This Name Alredy Exists!!";
                 TempData["RefNo"] = null;
                 return View("Create", model);
             }
+
         }
         public ActionResult Edit(int Id)
         {
@@ -50,23 +81,53 @@ namespace ArabErp.Web.Controllers
             model.OrganizationId = 1;
             model.CreatedDate = System.DateTime.Now;
             model.CreatedBy = Request.ServerVariables["HTTP_X_FORWARDED_FOR"] ?? Request.ServerVariables["REMOTE_ADDR"];
-            var result = new CommissionAgentRepository().UpdateCommissionAgent(model);
-            if (result.CommissionAgentId > 0)
+            var repo = new CommissionAgentRepository();
+            bool isexists = repo.IsFieldExists(repo.ConnectionString(), "CommissionAgent", "CommissionAgentName", model.CommissionAgentName, "CommissionAgentId", model.CommissionAgentId);
+            if (!isexists)
             {
-                TempData["Success"] = "Updated Successfully!";
-                TempData["RefNo"] = result.CommissionAgentRefNo;
-                return RedirectToAction("Create");
+                var result = new CommissionAgentRepository().UpdateCommissionAgent(model);
+                if (result.CommissionAgentId > 0)
+                {
+
+                    TempData["Success"] = "Updated Successfully!";
+                    TempData["RefNo"] = result.CommissionAgentRefNo;
+                    return RedirectToAction("Create");
+                }
+
+                else
+                {
+                    TempData["error"] = "Oops!!..Something Went Wrong!!";
+                    TempData["RefNo"] = null;
+                    return View("Create", model);
+                }
+
             }
             else
             {
 
-                TempData["error"] = "Oops!!..Something Went Wrong!!";
+                TempData["error"] = "This Name Alredy Exists!!";
                 TempData["RefNo"] = null;
-
                 return View("Create", model);
             }
 
         }
+        //    var result = new CommissionAgentRepository().UpdateCommissionAgent(model);
+        //    if (result.CommissionAgentId > 0)
+        //    {
+        //        TempData["Success"] = "Updated Successfully!";
+        //        TempData["RefNo"] = result.CommissionAgentRefNo;
+        //        return RedirectToAction("Create");
+        //    }
+        //    else
+        //    {
+
+        //        TempData["error"] = "Oops!!..Something Went Wrong!!";
+        //        TempData["RefNo"] = null;
+
+        //        return View("Create", model);
+        //    }
+
+        //}
 
         public ActionResult Delete(int Id)
         {
