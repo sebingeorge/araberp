@@ -11,7 +11,10 @@ namespace ArabErp.DAL
     public class AdditionOrDeductionRepository:BaseRepository
     {
         static string dataConnection = GetConnectionString("arab");
-
+        public string ConnectionString()
+        {
+            return dataConnection;
+        }
         public IEnumerable<AdditionOrDeduction> FillAdditionDeductionList()
         {
             using (IDbConnection connection = OpenConnection(dataConnection))
