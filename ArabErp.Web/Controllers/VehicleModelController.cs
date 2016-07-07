@@ -24,21 +24,37 @@ namespace ArabErp.Web.Controllers
         public ActionResult Create(VehicleModel model)
         {
             var repo = new VehicleModelRepository();
-            var result = new VehicleModelRepository().InsertVehicleModel(model);
-            if (result.VehicleModelId > 0)
+            bool isexists = repo.IsFieldExists(repo.ConnectionString(), "VehicleModel", "VehicleModelName", model.VehicleModelName, null, null);
+            if (!isexists)
             {
-                TempData["Success"] = "Added Successfully!";
-                TempData["RefNo"] = result.VehicleModelRefNo;
-                return RedirectToAction("Create");
+                var result = new VehicleModelRepository().InsertVehicleModel(model);
+                if (result.VehicleModelId > 0)
+                {
+
+                    TempData["Success"] = "Added Successfully!";
+                    TempData["RefNo"] = result.VehicleModelRefNo;
+                    return RedirectToAction("Create");
+                }
+
+                else
+                {
+
+                    TempData["error"] = "Oops!!..Something Went Wrong!!";
+                    TempData["RefNo"] = null;
+                    return View("Create", model);
+                }
+
             }
             else
             {
 
-                TempData["error"] = "Oops!!..Something Went Wrong!!";
+                TempData["error"] = "This  Name Alredy Exists!!";
                 TempData["RefNo"] = null;
                 return View("Create", model);
             }
+
         }
+
           public ActionResult Edit(int Id)
           {
 
@@ -51,23 +67,40 @@ namespace ArabErp.Web.Controllers
               model.OrganizationId = 1;
               model.CreatedDate = System.DateTime.Now;
               model.CreatedBy = Request.ServerVariables["HTTP_X_FORWARDED_FOR"] ?? Request.ServerVariables["REMOTE_ADDR"];
-              var result = new VehicleModelRepository().UpdateVehicleModel(model);
-              if (result.VehicleModelId > 0)
+
+              var repo = new VehicleModelRepository();
+              bool isexists = repo.IsFieldExists(repo.ConnectionString(), "VehicleModel", "VehicleModelName", model.VehicleModelName, "VehicleModelId", model.VehicleModelId);
+              if (!isexists)
               {
-                  TempData["Success"] = "Updated Successfully!";
-                  TempData["RefNo"] = result.VehicleModelRefNo;
-                  return RedirectToAction("Create");
+                  var result = new VehicleModelRepository().UpdateVehicleModel(model);
+                  if (result.VehicleModelId > 0)
+                  {
+
+                      TempData["Success"] = "Updated Successfully!";
+                      TempData["RefNo"] = result.VehicleModelRefNo;
+                      return RedirectToAction("Create");
+                  }
+
+                  else
+                  {
+
+                      TempData["error"] = "Oops!!..Something Went Wrong!!";
+                      TempData["RefNo"] = null;
+                      return View("Create", model);
+                  }
+
               }
               else
               {
 
-                  TempData["error"] = "Oops!!..Something Went Wrong!!";
+                  TempData["error"] = "This  Name Alredy Exists!!";
                   TempData["RefNo"] = null;
-
                   return View("Create", model);
               }
 
           }
+
+        
           public ActionResult Delete(int Id)
           {
 

@@ -12,7 +12,11 @@ namespace ArabErp.DAL
    public  class TaskRepository:BaseRepository
     {
 
-       static string dataConnection = GetConnectionString("arab");
+        static string dataConnection = GetConnectionString("arab");
+        public string ConnectionString()
+        {
+            return dataConnection;
+        }
 
        public JobCardTaskMaster InsertTask(JobCardTaskMaster objTask)
        {
