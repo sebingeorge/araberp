@@ -25,9 +25,12 @@ namespace ArabErp.DAL
 
                     foreach(var item in user.Module)
                     {
-                        item.UserId = id;
-                        sql = "insert into ModuleVsUser(ModuleId, UserId) values(@ModuleId, @UserId);";
-                        connection.Query(sql, item);
+                        if(item.isPermission == 1)
+                        {
+                            item.UserId = id;
+                            sql = "insert into ModuleVsUser(ModuleId, UserId) values(@ModuleId, @UserId);";
+                            connection.Query(sql, item);
+                        }                        
                     }
                     return id;
                 }
@@ -36,6 +39,39 @@ namespace ArabErp.DAL
                     return 0;
                 }                
             }
+        }
+        public int UpdateUser(User user)
+        {
+            using (IDbConnection connection = OpenConnection(dataConnection))
+            {
+                try
+                {
+                    string sql = "Update [User] set UserEmail = @UserEmail";
+                    if (user.UserPassword != null && user.UserPassword != "")
+                    {
+                        sql += ", UserPassword = @UserPassword, @UserSalt = UserSalt";
+                    }
+                    sql += " where UserId = @UserId;";
+                    connection.Query(sql, user);
+
+                    sql = "delete from ModuleVsUser where UserId = " + user.UserId.ToString();
+                    connection.Query(sql);
+                    foreach (var item in user.Module)
+                    {
+                        if(item.isPermission == 1)
+                        {
+                            item.UserId = user.UserId ?? 0;
+                            sql = "insert into ModuleVsUser(ModuleId, UserId) values(@ModuleId, @UserId);";
+                            connection.Query(sql, item);
+                        }                        
+                    }
+                }
+                catch
+                {
+                    return 0;
+                }
+            }
+            return user.UserId ?? 0;
         }
         public User GetUserByUserNameAndPassword(string username, string password)
         {
@@ -93,6 +129,14 @@ namespace ArabErp.DAL
             {
                 string sql = "select * from [User]";
                 return connection.Query<User>(sql);
+            }
+        }
+        public IEnumerable<ModuleVsUser> GetModulePermissions(int UserId)
+        {
+            using (IDbConnection connection = OpenConnection(dataConnection))
+            {
+                string sql = "select M.* from Module M inner join ModuleVsUser MU on M.ModuleId = MU.ModuleId where MU.UserId = " + UserId.ToString();
+                return connection.Query<ModuleVsUser>(sql);
             }
         }
     }
