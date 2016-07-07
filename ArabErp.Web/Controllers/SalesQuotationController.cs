@@ -327,5 +327,29 @@ namespace ArabErp.Web.Controllers
             }
           
         }
+          [HttpGet]
+        public ActionResult StatusUpdate(int Id)
+        {
+            FillCustomer();
+            FillCurrency();
+            FillCommissionAgent();
+            FillWrkDesc();
+            FillVehicle();
+            FillUnit();
+            FillEmployee();
+            FillSalesQuotationRejectReason();
+            var repo = new SalesQuotationRepository();
+
+            var sorepo = new SaleOrderRepository();
+
+
+            SalesQuotation salesquotation = repo.GetSalesQuotation(Id);
+            salesquotation.CustomerAddress = sorepo.GetCusomerAddressByKey(salesquotation.CustomerId);
+
+
+            salesquotation.SalesQuotationItems = repo.GetSalesQuotationItems(Id);
+            ViewBag.SubmitAction = "StatusUpdate";
+            return View("StatusUpdate", salesquotation);
+        }
     }
 }
