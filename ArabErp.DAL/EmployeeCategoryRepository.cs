@@ -12,7 +12,10 @@ namespace ArabErp.DAL
     public class EmployeeCategoryRepository:BaseRepository
     {
         static string dataConnection = GetConnectionString("arab");
-
+        public string ConnectionString()
+        {
+            return dataConnection;
+        }
         public EmployeeCategory InsertEmployeeCategory(EmployeeCategory model)
         {
             using (IDbConnection connection = OpenConnection(dataConnection))

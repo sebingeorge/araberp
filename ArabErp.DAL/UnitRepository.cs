@@ -11,6 +11,10 @@ namespace ArabErp.DAL
     public class UnitRepository : BaseRepository
     {
         static string dataConnection = GetConnectionString("arab");
+        public string ConnectionString()
+        {
+            return dataConnection;
+        }
 
         public Unit InsertUnit(Unit objUnit)
         {

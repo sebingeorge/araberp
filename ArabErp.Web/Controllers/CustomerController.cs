@@ -63,24 +63,45 @@ namespace ArabErp.Web.Controllers
                 model.OrganizationId = 1;
                 model.CreatedDate = System.DateTime.Now;
                 model.CreatedBy = Request.ServerVariables["HTTP_X_FORWARDED_FOR"] ?? Request.ServerVariables["REMOTE_ADDR"];
-                var result = new CustomerRepository().InsertCustomer(model);
-             
-               if (result.CustomerId > 0)
-            {
-                TempData["Success"] = "Added Successfully!";
-                TempData["CustomerRefNo"] = result.CustomerRefNo;
-                return RedirectToAction("Index");
-            }
-            else
-            {
-                TempData["error"] = "Oops!!..Something Went Wrong!!";
-                TempData["CustomerRefNo"] = null;
-                return View("Create", model);
-            }
-          
+
+                var repo = new CustomerRepository();
+                bool isexists = repo.IsFieldExists(repo.ConnectionString(), "Customer", "CustomerName", model.CustomerName, null, null);
+                if (!isexists)
+                {
+                    var result = new CustomerRepository().InsertCustomer(model);
+                    if (result.CustomerId > 0)
+                    {
+
+                        TempData["Success"] = "Added Successfully!";
+                        TempData["CustomerRefNo"] = result.CustomerRefNo;
+                        return RedirectToAction("Index");
+                    }
+
+                    else
+                    {
+                        FillCategoryDropdown();
+                        FillCountryDropdown();
+                        FillCurrencyDropdown();
+                        TempData["error"] = "Oops!!..Something Went Wrong!!";
+                        TempData["CustomerRefNo"] = null;
+                        return View("Create", model);
+                    }
+
+                }
+                else
+                {
+
+                    FillCategoryDropdown();
+                    FillCountryDropdown();
+                    FillCurrencyDropdown();
+                    TempData["error"] = "This Name Alredy Exists!!";
+                    TempData["CustomerRefNo"] = null;
+                    return View("Create", model);
+                }
+
         }
 
-
+     
          public ActionResult Edit(int Id)
         {
             //int Id = 0;
@@ -100,24 +121,44 @@ namespace ArabErp.Web.Controllers
                 model.OrganizationId = 1;
                 model.CreatedDate = System.DateTime.Now;
                 model.CreatedBy = Request.ServerVariables["HTTP_X_FORWARDED_FOR"] ?? Request.ServerVariables["REMOTE_ADDR"];
-                var result = new CustomerRepository().UpdateCustomer(model);
 
-                if (result.CustomerId > 0)
+                var repo = new CustomerRepository();
+                bool isexists = repo.IsFieldExists(repo.ConnectionString(), "Customer", "CustomerName", model.CustomerName, "CustomerId", model.CustomerId);
+                if (!isexists)
                 {
-                    TempData["Success"] = "Updated Successfully!";
-                    TempData["CustomerRefNo"] = result.CustomerRefNo;
-                    return RedirectToAction("Index");
+                    var result = new CustomerRepository().UpdateCustomer(model);
+                    if (result.CustomerId > 0)
+                    {
+
+                        TempData["Success"] = "Updated Successfully!";
+                        TempData["CustomerRefNo"] = result.CustomerRefNo;
+                        return RedirectToAction("Index");
+                    }
+
+                    else
+                    {
+                        FillCategoryDropdown();
+                        FillCountryDropdown();
+                        FillCurrencyDropdown();
+                        TempData["error"] = "Oops!!..Something Went Wrong!!";
+                        TempData["CustomerRefNo"] = null;
+                        return View("Create", model);
+                    }
+
                 }
                 else
                 {
-                    TempData["error"] = "Oops!!..Something Went Wrong!!";
+
+                    FillCategoryDropdown();
+                    FillCountryDropdown();
+                    FillCurrencyDropdown();
+                    TempData["error"] = "This Name Alredy Exists!!";
                     TempData["CustomerRefNo"] = null;
-                    return View("Edit", model);
+                    return View("Create", model);
                 }
 
         }
-           
-     
+   
 
         public ActionResult Delete(int Id)
         {
