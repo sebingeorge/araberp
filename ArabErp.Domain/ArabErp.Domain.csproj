@@ -95,6 +95,8 @@
     <Compile Include="PurchaseRequest.cs" />
     <Compile Include="PurchaseRequestItem.cs" />
     <Compile Include="QuickView.cs" />
+    <Compile Include="QuotationApprovalAmountSettings.cs" />
+    <Compile Include="QuotationApprovalSettings.cs" />
     <Compile Include="SaleOrder.cs" />
     <Compile Include="SaleOrderItem.cs" />
     <Compile Include="SaleOrderList.cs" />

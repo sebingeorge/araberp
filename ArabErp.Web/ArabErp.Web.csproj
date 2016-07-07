@@ -231,6 +231,7 @@
     <Compile Include="Controllers\PaymentTermsController.cs" />
     <Compile Include="Controllers\PurchaseBillController.cs" />
     <Compile Include="Controllers\PurchaseRequestController.cs" />
+    <Compile Include="Controllers\QuotationApprovalController.cs" />
     <Compile Include="Controllers\SaleOrderController.cs" />
     <Compile Include="Controllers\SaleOrderStatusController.cs" />
     <Compile Include="Controllers\SalesInvoiceController.cs" />
@@ -654,6 +655,7 @@
     <Content Include="Views\SupplyOrder\Approve.cshtml" />
     <Content Include="Views\SupplyOrder\PendingApproval.cshtml" />
     <Content Include="Views\Shared\_QuickView.cshtml" />
+    <Content Include="Views\QuotationApproval\Create.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
