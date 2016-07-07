@@ -22,6 +22,13 @@ namespace ArabErp.DAL
                     sql += " SELECT CAST(SCOPE_IDENTITY() as int);";
 
                     var id = connection.Query<int>(sql, user).Single();
+
+                    foreach(var item in user.Module)
+                    {
+                        item.UserId = id;
+                        sql = "insert into ModuleVsUser(ModuleId, UserId) values(@ModuleId, @UserId);";
+                        connection.Query(sql, item);
+                    }
                     return id;
                 }
                 catch(Exception ex)
@@ -64,6 +71,28 @@ namespace ArabErp.DAL
             using (IDbConnection connection = OpenConnection(dataConnection))
             {
                 string sql = "update LoginHistory set LogoutTime = Getdate() where SessionID = " + sessionId;
+            }
+        }
+        public IEnumerable<ModuleVsUser> GetModules(int? UserId)
+        {
+            using (IDbConnection connection = OpenConnection(dataConnection))
+            {
+                string sql = @"select M.ModuleId, M.ModuleName, isPermission =  case when RowId is null then 0 else 1 end 
+                        from Module M left join ModuleVsUser MU on M.ModuleId = MU.ModuleId";
+                if (UserId != null)
+                {
+                    sql += " and UserId = " + UserId.ToString();
+                }
+                return connection.Query<ModuleVsUser>(sql);
+            }
+        }
+
+        public IEnumerable<User> GetUsers()
+        {
+            using (IDbConnection connection = OpenConnection(dataConnection))
+            {
+                string sql = "select * from [User]";
+                return connection.Query<User>(sql);
             }
         }
     }

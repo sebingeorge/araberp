@@ -656,6 +656,7 @@
     <Content Include="Views\SupplyOrder\PendingApproval.cshtml" />
     <Content Include="Views\Shared\_QuickView.cshtml" />
     <Content Include="Views\QuotationApproval\Create.cshtml" />
+    <Content Include="Views\Account\UserList.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

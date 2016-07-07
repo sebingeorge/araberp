@@ -37,23 +37,61 @@
                     </div>
 
 
-
+                <div class="table-responsive">
+                    <div class="tab_logic">
+                        <table class="table table-bordered" id="tab_logic">
+                            <thead>
+                                <tr class="grid_heading">
+                                    <th style="width:20%;">Module</th>
+                                    <th style="width:10%;">Access</th>
+                                    <th></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @for (int j = 0; j < Model.Module.Count; j++)
+                                {
+                                    <tr class="grid_row">
+                                        @Html.HiddenFor(m => m.Module[j].UserId)
+                                        @Html.HiddenFor(m => m.Module[j].ModuleId)
+                                        @Html.HiddenFor(m => m.Module[j].isPermission)
+                                        @Html.HiddenFor(m => m.Module[j].ModuleName)
+                                        <td style="padding-left:5px;">@Model.Module[j].ModuleName</td>
+                                        <td align="center">
+                                            <input type="checkbox" id="App1_@j" onchange="App1Changed(@j)" @(Model.Module[j].isPermission == 1 ? "checked" : "") />
+                                        </td>
+                                        <td></td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
                 <div class="row">
 
                     <div class="col-md-12 hrpart">
                         <input type="submit" class=" form-button right" value="Register" />
+                        <input type="button" class=" form-button right" value="Exit" onclick="GoUserList()" />
                     </div>
 
                 </div>
             </div>
-
-
-
-
-
-
             </div>
     </div>
     
     
 }
+<script>
+    function App1Changed(row) {
+        if ($("#App1_" + row).prop("checked") == true) {
+            $("#Module_" + row + "__isPermission").val(1);
+        }
+        else if ($("#App1_" + row).prop("checked") == false) {
+            $("#Module_" + row + "__isPermission").val(0);
+        }
+    }
+    function GoUserList()
+    {
+        var url = '@Url.Action("UserList")';
+        location.href = url;
+    }
+</script>

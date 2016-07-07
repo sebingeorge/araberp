@@ -195,7 +195,14 @@ namespace ArabErp.Web.Controllers
         [AllowAnonymous]
         public ActionResult Register()
         {
-            return View();
+            User model = new User();
+            model.Module = new System.Collections.Generic.List<ModuleVsUser>();
+            var modules = (new UserRepository()).GetModules(null);
+            foreach (var item in modules)
+            {
+                model.Module.Add(item);
+            }
+            return View(model);
         }
 
         //
@@ -222,7 +229,11 @@ namespace ArabErp.Web.Controllers
             // If we got this far, something failed, redisplay form
             return View(model);
         }
-
+        [AllowAnonymous]
+        public ActionResult UserList()
+        {
+            return View(new UserRepository().GetUsers());
+        }
         //
         // GET: /Account/ConfirmEmail
         [AllowAnonymous]
