@@ -13,7 +13,8 @@ namespace ArabErp.Web.Controllers
         public int UserID { 
             get
             {
-                int Id = Convert.ToInt32(Request.Cookies["user"]["UserId"]);
+                HttpCookie usr = (HttpCookie)Session["user"];
+                int Id = Convert.ToInt32(usr["UserId"]);
                 return Id;
             }
             set

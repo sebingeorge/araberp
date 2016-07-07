@@ -4,7 +4,20 @@
     ViewBag.Title = "ListSalesQuotations";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
+@{
+    decimal amountFrom = 0;
+    decimal amountTo = 0;
 
+    try
+    {
+        amountFrom = Convert.ToDecimal(ViewBag.AmountFrom);
+        amountTo = Convert.ToDecimal(ViewBag.AmountTo);
+    }
+    catch
+    {
+
+    }
+}
 
 <div class="container">
 
@@ -17,12 +30,15 @@
         <div class="main-part pad1 white">
             <div class="main-grid main-grid-top scroll1">
                 <div class="table-responsive">
+                    <span class="form_input" style="font-style:italic; color:red;">You have permission to Approve Quotations between @amountFrom and @amountTo</span>
                     <table class="table table-bordered">
                         <thead>
                             <tr class="grid_heading">
-                                <th width="40%"><h1>Customer</h1></th>
+                                <th width="30%"><h1>Customer</h1></th>
                                 <th width="30%"><h1>Sales Executive</h1></th>
                                 <th width ="25%"><h1>Quotation Ref.No. & Date</h1></th>
+                                <th width="10%"><h1>Amount</h1></th>
+                                <th width="20%"><h1>Status</h1></th>
                                 <th width="5%"><center><h1>Select</h1></center></th>
 
                             </tr>
@@ -34,7 +50,20 @@
                                     <td class="grid-cell">@item.CustomerName</td>
                                     <td class="grid-cell">@item.SalesExecutiveName</td>
                                     <td class="grid-cell">@item.QuotationRefNo &amp; @item.QuotationDate.ToString("dd/MMM/yyyy")</td>
-                                    <td><center>@Html.ActionLink("Select", "Approve", "SalesQuotation", new { SalesQuotationId = @item.SalesQuotationId }, new { @class = "form-button5", @style = "text-align:center" })</center></td>
+                                    <td class="grid-cell" align="right">@item.Amount</td>
+                                    <td class="grid-cell">@item.ReasonDescription</td>
+                                    <td>
+                                        <center>
+                                            @if(item.Amount <= amountTo)
+                                            {
+                                                @Html.ActionLink("Select", "Approve", "SalesQuotation", new { SalesQuotationId = @item.SalesQuotationId }, new { @class = "form-button5", @style = "text-align:center" })
+                                            }
+                                            else
+                                            {
+                                                <span class="form_input" style="font-style:italic; color:red;">No Permission</span>
+                                            }                         
+                                        </center>
+                                    </td>                                    
                                 </tr>
                            </tbody>
                         }

@@ -22,6 +22,8 @@ namespace ArabErp.Domain
         public decimal? TotalQty { get; set; }
         public decimal? Quantity { get; set; }
         public decimal InTransitQty { get; set; }
+        public decimal PendingPRQty { get; set; }
+        public decimal ShortorExcess { get; set; }
         public string UnitName { get; set; }
         public string CreatedBy { get; set; }
         public DateTime? CreatedDate { get; set; }
