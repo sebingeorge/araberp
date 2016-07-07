@@ -61,22 +61,7 @@ namespace ArabErp.Web.Controllers
 
         }
 
-        //    FillItemGroup();
-        //    var result = new ItemSubGroupRepository().InsertItemSubGroup(model);
-        //    if (result.ItemSubGroupId > 0)
-        //    {
-        //        TempData["Success"] = "Added Successfully!";
-        //        TempData["RefNo"] = result.ItemSubGroupRefNo;
-        //        return RedirectToAction("Create");
-        //    }
-        //    else
-        //    {
-        //        FillItemGroup();
-        //        TempData["error"] = "Oops!!..Something Went Wrong!!";
-        //        TempData["RefNo"] = null;
-        //        return View("Create", model);
-        //    }
-        //}
+   
         public ActionResult Edit(int Id)
         {
             FillItemGroup();
@@ -122,23 +107,7 @@ namespace ArabErp.Web.Controllers
 
         }
 
-        //    var result = new ItemSubGroupRepository().UpdateItemSubGroup(model);
-        //    if (result.ItemSubGroupId > 0)
-        //    {
-        //        TempData["Success"] = "Updated Successfully!";
-        //        TempData["RefNo"] = result.ItemSubGroupRefNo;
-        //        return RedirectToAction("Create");
-        //    }
-        //    else
-        //    {
-        //        FillItemGroup();
-        //        TempData["error"] = "Oops!!..Something Went Wrong!!";
-        //        TempData["RefNo"] = null;
-
-        //        return View("Create", model);
-        //    }
-
-        //}
+     
         public ActionResult Delete(int Id)
         {
             FillItemGroup();

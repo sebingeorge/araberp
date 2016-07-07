@@ -3,14 +3,17 @@
 
 
 <script type="text/javascript">
+
     function openPop() {
-
         var url = '@Url.Action("Create")';
-
         window.location = url;
     }
+
+    function Exit() {
+        location.href = '@Url.Action("Index","Home")';
+    }
+
     $(document).ready(function () {
-      
 
         toastr.options = {
             "closeButton": true,
@@ -46,15 +49,16 @@
         <div class="main-part white pad1">
 
             <div class="row">
-
                 @Html.Action("SupplierList")
-
-
-
-
             </div>
            
-                <button type="button" onclick="openPop();" class="form-button top5">Create</button>
+            <div class="row">
+                <div class="col-md-12 hrpart">
+                    <button type="button" class="form-button right" onclick="Exit();">Exit</button>
+                    <button type="submit" class="form-button left" onclick="openPop();">Create</button>
+                    @*<button type="button" onclick="openPop();" class="form-button top5">Create</button>*@
+                </div>
+            </div>
            
 
         </div>

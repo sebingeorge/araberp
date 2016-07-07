@@ -7,7 +7,7 @@
 
 <div class="container">
 
-    <div class="row">
+    
 
         <div class="row">
 
@@ -28,32 +28,32 @@
 
 
                         <div class="row main-login-user">
-                            <div class="login-user-left"></div>
+                            @*<div class="login-user-left"></div>*@
                             @Html.LabelFor(m => m.Username, new { @class = "control-label login-user" })
-                            <div class="login-user-right"></div>
+                            @*<div class="login-user-right"></div>*@
 
 
                             @Html.TextBoxFor(m => m.Username, new { @class = "login-text" })
                             @Html.ValidationMessageFor(m => m.Username, "", new { @class = "text-danger" })
 
-                            <div class="login-text-right"></div>
+                            @*<div class="login-text-right"></div>*@
 
 
                         </div>
                         <div class="row main-login-user">
-                            <div class="login-user-left"></div>
+                            @*<div class="login-user-left"></div>*@
                             @Html.LabelFor(m => m.Password, new { @class = "control-label login-user" })
-                            <div class="login-user-right"></div>
+                            @*<div class="login-user-right"></div>*@
                             @Html.PasswordFor(m => m.Password, new { @class = "login-text" })
                             @Html.ValidationMessageFor(m => m.Password, "", new { @class = "text-danger" })
-                            <div class="login-text-right"></div>
+                            @*<div class="login-text-right"></div>*@
                         </div>
                         <div class="row main-login-user">
-                            <div class="login-user-left"></div>
+                            @*<div class="login-user-left"></div>*@
                             @Html.Label("Organization", new { @class = "control-label login-user" })
-                            <div class="login-user-right"></div>
+                            @*<div class="login-user-right"></div>*@
                             @Html.DropDownListFor(m => Model.OrganizationId, (SelectList)ViewBag.Organizations, "Select Organization", new { @class = "login-text", autocomplete = "off" })
-                            <div class="login-text-right"></div>
+                            @*<div class="login-text-right"></div>*@
                         </div>
     <div class="checkbox rem">
         @Html.CheckBoxFor(m => m.RememberMe)
@@ -92,7 +92,7 @@
 
         </div>
 
-        </div>
+        
     </div>
 
         @*@section Scripts {

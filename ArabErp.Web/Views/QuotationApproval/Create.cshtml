@@ -1,0 +1,117 @@
+﻿@model ArabErp.Domain.QuotationApprovalViewModel
+@{
+    ViewBag.Title = "Create";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<script>
+    function App1Changed(row)
+    {
+        if($("#App1_" + row).prop("checked") == true){
+            $("#QuotationApprovalSettings_"+ row +"__Approval1").val(1);
+        }
+        else if($("#App1_" + row).prop("checked") == false){
+            $("#QuotationApprovalSettings_"+ row +"__Approval1").val(0);
+        }
+    }
+    function App2Changed(row)
+    {
+        if($("#App2_" + row).prop("checked") == true){
+            $("#QuotationApprovalSettings_"+ row +"__Approval2").val(1);
+        }
+        else if($("#App2_" + row).prop("checked") == false){
+            $("#QuotationApprovalSettings_"+ row +"__Approval2").val(0);
+        }
+    }
+    function App3Changed(row)
+    {
+        if($("#App3_" + row).prop("checked") == true){
+            $("#QuotationApprovalSettings_"+ row +"__Approval3").val(1);
+        }
+        else if($("#App3_" + row).prop("checked") == false){
+            $("#QuotationApprovalSettings_"+ row +"__Approval3").val(0);
+        }
+    }
+</script>
+
+<div class="container">
+    <div class="row">
+        <div class="form-head1">
+            <h4>Quotation User Approval Settings</h4>
+        </div>
+        @using (Html.BeginForm(null, null, FormMethod.Post, new { @class = "createFrom", @id = "grn_form" }))
+        {
+            <div class="main-part pad1">
+                @{ int i = 0;}
+                @foreach (var item in Model.QuotationApprovalAmountSettings)
+                {
+                    @Html.HiddenFor(m => m.QuotationApprovalAmountSettings[i].ApprovalCode)
+                    <div class="row form-group">
+                        <div class="col-md-2">
+                            <label>Approval @item.ApprovalCode</label>
+                        </div>
+                        <div class="col-md-2">
+                            <label>Amount From</label>
+                            @Html.TextBoxFor(m => m.QuotationApprovalAmountSettings[i].AmountFrom, new { @class = "form_input", autocomplete = "off", @required = "true", @readonly = "true" })
+                        </div>
+                        <div class="col-md-2">
+                            <label>Amount To</label>
+                            @Html.TextBoxFor(m => m.QuotationApprovalAmountSettings[i].AmountTo, new { @class = "form_input", autocomplete = "off", @required = "true", @readonly = "true" })
+                        </div>
+                    </div>
+                    i++;
+                }
+                <div class="table-responsive">
+                    <div class="tab_logic">
+                        <table class="table table-bordered" id="tab_logic">
+                            <thead>
+                                <tr class="grid_heading">
+                                    <th style="width:20%;">User</th>
+                                    <th style="width:10%;">Approval 1</th>
+                                    <th style="width:10%;">Approval 2</th>
+                                    <th style="width:10%;">Approval 3</th>
+                                    <th></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @for (int j = 0; j < Model.QuotationApprovalSettings.Count; j++)
+                                {
+                                    string checked1 = "";
+                                    string checked2 = "";
+                                    string checked3 = "";
+                                    if (Model.QuotationApprovalSettings[j].Approval1 == 1)
+                                    {
+                                        checked1 = "checked";
+                                    }
+                                    <tr class="grid_row">
+                                        @Html.HiddenFor(m => m.QuotationApprovalSettings[j].UserId)
+                                        @Html.HiddenFor(m => m.QuotationApprovalSettings[j].UserName)
+                                        @Html.HiddenFor(m => m.QuotationApprovalSettings[j].Approval1)
+                                        @Html.HiddenFor(m => m.QuotationApprovalSettings[j].Approval2)
+                                        @Html.HiddenFor(m => m.QuotationApprovalSettings[j].Approval3)
+                                        <td style="padding-left:5px;">@Model.QuotationApprovalSettings[j].UserName</td>
+                                        <td align="center">
+                                            <input type="checkbox" id="App1_@j" onchange="App1Changed(@j)" @(Model.QuotationApprovalSettings[j].Approval1 == 1 ? "checked" : "") />
+                                        </td>
+                                        <td align="center">
+                                            <input type="checkbox" id="App2_@j" onclick="App2Changed(@j)" @(Model.QuotationApprovalSettings[j].Approval2 == 1 ? "checked" : "") />
+                                        </td>
+                                        <td align="center">
+                                            <input type="checkbox" id="App3_@j" onclick="App3Changed(@j)" @(Model.QuotationApprovalSettings[j].Approval3 == 1 ? "checked" : "") />
+                                        </td>
+                                        <td></td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12 hrpart">
+                        <button type="button" class="form-button right" onclick="Exit()">Exit</button>
+                        <button type="submit" class="form-button right">Save</button>
+                    </div>
+                </div>
+            </div>            
+        }        
+    </div>
+</div>

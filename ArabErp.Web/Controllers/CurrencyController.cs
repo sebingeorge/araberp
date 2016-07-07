@@ -30,21 +30,54 @@ namespace ArabErp.Web.Controllers
             model.CreatedDate = System.DateTime.Now;
             model.CreatedBy = Request.ServerVariables["HTTP_X_FORWARDED_FOR"] ?? Request.ServerVariables["REMOTE_ADDR"];
             FillCurrencySymbols();
-            var result=new CurrencyRepository().InsertCurrency(model);
-              if (result.CurrencyId > 0)
+
+            var repo = new CurrencyRepository();
+            bool isexists = repo.IsFieldExists(repo.ConnectionString(), "Currency", "CurrencyName", model.CurrencyName, null, null);
+            if (!isexists)
             {
-                TempData["Success"] = "Added Successfully!";
-                TempData["RefNo"] = result.CurrencyRefNo;
-                return RedirectToAction("Create");
+                var result = new CurrencyRepository().InsertCurrency(model);
+                if (result.CurrencyId > 0)
+                {
+
+                    TempData["Success"] = "Added Successfully!";
+                    TempData["RefNo"] = result.CurrencyRefNo;
+                    return RedirectToAction("Create");
+                }
+
+                else
+                {
+                  
+                    TempData["error"] = "Oops!!..Something Went Wrong!!";
+                    TempData["RefNo"] = null;
+                    return View("Create", model);
+                }
+
             }
             else
             {
-                FillCurrencySymbols();
-                TempData["error"] = "Oops!!..Something Went Wrong!!";
+              
+                TempData["error"] = "This Name Alredy Exists!!";
                 TempData["RefNo"] = null;
                 return View("Create", model);
             }
+
         }
+
+        //    var result=new CurrencyRepository().InsertCurrency(model);
+        //      if (result.CurrencyId > 0)
+        //    {
+        //        TempData["Success"] = "Added Successfully!";
+        //        TempData["RefNo"] = result.CurrencyRefNo;
+        //        return RedirectToAction("Create");
+        //    }
+        //    else
+        //    {
+        //        FillCurrencySymbols();
+        //        TempData["error"] = "Oops!!..Something Went Wrong!!";
+        //        TempData["RefNo"] = null;
+        //        return View("Create", model);
+        //    }
+        //}
         public ActionResult Edit(int Id)
         {
             FillCurrencySymbols();
@@ -57,24 +90,57 @@ namespace ArabErp.Web.Controllers
             model.OrganizationId = 1;
             model.CreatedDate = System.DateTime.Now;
             model.CreatedBy = Request.ServerVariables["HTTP_X_FORWARDED_FOR"] ?? Request.ServerVariables["REMOTE_ADDR"];
-            var result = new CurrencyRepository().UpdateCurrency(model);
 
-
-            if (result.CurrencyId > 0)
+            var repo = new CurrencyRepository();
+            bool isexists = repo.IsFieldExists(repo.ConnectionString(), "Currency", "CurrencyName", model.CurrencyName, "CurrencyId",model.CurrencyId);
+            if (!isexists)
             {
-                TempData["Success"] = "Updated Successfully!";
-                TempData["RefNo"] = result.CurrencyRefNo;
-                return RedirectToAction("Create");
+                var result = new CurrencyRepository().UpdateCurrency(model);
+                if (result.CurrencyId > 0)
+                {
+
+                    TempData["Success"] = "Updated Successfully!";
+                    TempData["RefNo"] = result.CurrencyRefNo;
+                    return RedirectToAction("Create");
+                }
+
+                else
+                {
+                    FillCurrencySymbols();
+                    TempData["error"] = "Oops!!..Something Went Wrong!!";
+                    TempData["RefNo"] = null;
+                    return View("Create", model);
+                }
+
             }
             else
             {
                 FillCurrencySymbols();
-                TempData["error"] = "Oops!!..Something Went Wrong!!";
+                TempData["error"] = "This Name Alredy Exists!!";
                 TempData["RefNo"] = null;
                 return View("Create", model);
             }
 
         }
+
+        //    var result = new CurrencyRepository().UpdateCurrency(model);
+
+
+        //    if (result.CurrencyId > 0)
+        //    {
+        //        TempData["Success"] = "Updated Successfully!";
+        //        TempData["RefNo"] = result.CurrencyRefNo;
+        //        return RedirectToAction("Create");
+        //    }
+        //    else
+        //    {
+        //        FillCurrencySymbols();
+        //        TempData["error"] = "Oops!!..Something Went Wrong!!";
+        //        TempData["RefNo"] = null;
+        //        return View("Create", model);
+        //    }
+
+        //}
         public ActionResult Delete(int Id)
         {
             FillCurrencySymbols();

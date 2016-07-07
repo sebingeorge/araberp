@@ -25,21 +25,37 @@ namespace ArabErp.Web.Controllers
         public ActionResult Create(EmployeeCategory model)
         {
             var repo = new EmployeeCategoryRepository();
-            var result = new EmployeeCategoryRepository().InsertEmployeeCategory(model);
-            if (result.EmpCategoryId > 0)
+
+            bool isexists = repo.IsFieldExists(repo.ConnectionString(), "EmployeeCategory", "EmpCategoryName", model.EmpCategoryName, null, null);
+            if (!isexists)
             {
-                TempData["Success"] = "Added Successfully!";
-                TempData["RefNo"] = result.EmpCategoryRefNo;
-                return RedirectToAction("Create");
+                var result = new EmployeeCategoryRepository().InsertEmployeeCategory(model);
+                if (result.EmpCategoryId > 0)
+                {
+
+                    TempData["Success"] = "Added Successfully!";
+                    TempData["RefNo"] = result.EmpCategoryRefNo;
+                    return RedirectToAction("Create");
+                }
+
+                else
+                {
+                    TempData["error"] = "Oops!!..Something Went Wrong!!";
+                    TempData["RefNo"] = null;
+                    return View("Create", model);
+                }
+
             }
             else
             {
-               
-                TempData["error"] = "Oops!!..Something Went Wrong!!";
+
+                TempData["error"] = "This Name Alredy Exists!!";
                 TempData["RefNo"] = null;
                 return View("Create", model);
             }
+
         }
+
         public ActionResult FillEmployeeCategoryList(int?page)
         {
             int itemsPerPage = 10;
@@ -60,23 +76,39 @@ namespace ArabErp.Web.Controllers
             model.OrganizationId = 1;
             model.CreatedDate = System.DateTime.Now;
             model.CreatedBy = Request.ServerVariables["HTTP_X_FORWARDED_FOR"] ?? Request.ServerVariables["REMOTE_ADDR"];
-            var result = new EmployeeCategoryRepository().UpdateEmployeeCategory(model);
-            if (result.EmpCategoryId > 0)
+
+            var repo = new EmployeeCategoryRepository();
+            bool isexists = repo.IsFieldExists(repo.ConnectionString(), "EmployeeCategory", "EmpCategoryName", model.EmpCategoryName, " EmpCategoryId",model.EmpCategoryId);
+            if (!isexists)
             {
-                TempData["Success"] = "Updated Successfully!";
-                TempData["RefNo"] = result.EmpCategoryRefNo;
-                return RedirectToAction("Create");
+                var result = new EmployeeCategoryRepository().UpdateEmployeeCategory(model);
+                if (result.EmpCategoryId > 0)
+                {
+
+                    TempData["Success"] = "Updated Successfully!";
+                    TempData["RefNo"] = result.EmpCategoryRefNo;
+                    return RedirectToAction("Create");
+                }
+
+                else
+                {
+                    TempData["error"] = "Oops!!..Something Went Wrong!!";
+                    TempData["RefNo"] = null;
+                    return View("Create", model);
+                }
+
             }
             else
             {
-               
-                TempData["error"] = "Oops!!..Something Went Wrong!!";
-                TempData["RefNo"] = null;
 
+                TempData["error"] = "This Name Alredy Exists!!";
+                TempData["RefNo"] = null;
                 return View("Create", model);
             }
 
         }
+
+        
         public ActionResult Delete(int Id)
         {
 

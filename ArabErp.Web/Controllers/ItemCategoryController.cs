@@ -30,23 +30,40 @@ namespace ArabErp.Web.Controllers
             model.OrganizationId = 1;
             model.CreatedDate = System.DateTime.Now;
             model.CreatedBy = Request.ServerVariables["HTTP_X_FORWARDED_FOR"] ?? Request.ServerVariables["REMOTE_ADDR"];
-            var result = new ItemCategoryRepository().InsertItemCategory(model);
-
-            if (result.itmCatId > 0)
+            
+            var repo = new ItemCategoryRepository();
+            bool isexists = repo.IsFieldExists(repo.ConnectionString(), "ItemCategory", "CategoryName", model.CategoryName, null, null);
+            if (!isexists)
             {
-                TempData["Success"] = "Added Successfully!";
-                TempData["itmCatRefNo"] = result.itmCatRefNo;
-                return RedirectToAction("Create");
+                var result = new ItemCategoryRepository().InsertItemCategory(model);
+                if (result.itmCatId > 0)
+                {
+
+                    TempData["Success"] = "Added Successfully!";
+                    TempData["itmCatRefNo"] = result.itmCatRefNo;
+                    return RedirectToAction("Create");
+                }
+
+                else
+                {
+                
+                    TempData["error"] = "Oops!!..Something Went Wrong!!";
+                    TempData["itmCatRefNo"] = null;
+                    return View("Create", model);
+                }
+
             }
             else
             {
-                TempData["error"] = "Oops!!..Something Went Wrong!!";
+
+                TempData["error"] = "This Item Category Name Alredy Exists!!";
                 TempData["itmCatRefNo"] = null;
                 return View("Create", model);
             }
+
         }
 
-
+     
         public ActionResult Edit(int Id)
         {
             ViewBag.Title = "Edit";
@@ -62,24 +79,39 @@ namespace ArabErp.Web.Controllers
             model.CreatedDate = System.DateTime.Now;
             model.CreatedBy = Request.ServerVariables["HTTP_X_FORWARDED_FOR"] ?? Request.ServerVariables["REMOTE_ADDR"];
 
-
-            var result = new ItemCategoryRepository().UpdateItemCategory(model);
-
-            if (result.itmCatId > 0)
+            var repo = new ItemCategoryRepository();
+            bool isexists = repo.IsFieldExists(repo.ConnectionString(), "ItemCategory", "CategoryName", model.CategoryName, "itmCatId", model.itmCatId);
+            if (!isexists)
             {
-                TempData["Success"] = "Updated Successfully!";
-                TempData["itmCatRefNo"] = result.itmCatRefNo;
-                return RedirectToAction("Create");
+                var result = new ItemCategoryRepository().UpdateItemCategory(model);
+                if (result.itmCatId > 0)
+                {
+
+                    TempData["Success"] = "Updated Successfully!";
+                    TempData["itmCatRefNo"] = result.itmCatRefNo;
+                    return RedirectToAction("Create");
+                }
+
+                else
+                {
+
+                    TempData["error"] = "Oops!!..Something Went Wrong!!";
+                    TempData["itmCatRefNo"] = null;
+                    return View("Create", model);
+                }
+
             }
             else
             {
-                TempData["error"] = "Oops!!..Something Went Wrong!!";
+
+                TempData["error"] = "This Item Category Name Alredy Exists!!";
                 TempData["itmCatRefNo"] = null;
-                return View("Edit", model);
+                return View("Create", model);
             }
 
         }
 
+       
         public ActionResult Delete(int Id)
         {
             ViewBag.Title = "Delete";

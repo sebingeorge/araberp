@@ -13,6 +13,10 @@ namespace ArabErp.DAL
        
         private SqlConnection connection;
         static string dataConnection = GetConnectionString("arab");
+        public string ConnectionString()
+        {
+            return dataConnection;
+        }
 
         public CustomerRepository()
         {

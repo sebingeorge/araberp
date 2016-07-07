@@ -12,18 +12,11 @@ namespace ArabErp.DAL
 {
     public class SupplierCategoryRepository:BaseRepository
     {
-         //private SqlConnection connection;
-
-         static string dataConnection = GetConnectionString("arab");
-
-        // public SupplierCategoryRepository()
-        //{
-        //    if (connection == null)
-        //    {
-        //        connection = ConnectionManager.connection;
-        //    }
-        //}
-
+        static string dataConnection = GetConnectionString("arab");
+        public string ConnectionString()
+        {
+            return dataConnection;
+        }
          public SupplierCategory InsertSupplierCategory(SupplierCategory objSupplierCategory)
          {
              using (IDbConnection connection = OpenConnection(dataConnection))

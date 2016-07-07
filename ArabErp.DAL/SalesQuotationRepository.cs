@@ -15,13 +15,12 @@ namespace ArabErp.DAL
         {
             using (IDbConnection connection = OpenConnection(dataConnection))
             {
-                string sql = string.Empty;
-                sql += " select Q.SalesQuotationId, Q.QuotationRefNo, Q.QuotationDate, C.CustomerName, E.EmployeeName,";
-                sql += " Q.Amount";
-                sql += " from SalesQuotation Q ";
-                sql += " inner join Customer C on C.CustomerId = Q.CustomerId";
-                sql += " inner join Employee E on E.EmployeeId = Q.SalesExecutiveId";
-                sql += " where Q.isActive = 1 and isProjectBased = " + isProjectBased.ToString();
+                string sql = @"select Q.SalesQuotationId, Q.QuotationRefNo, Q.QuotationDate, C.CustomerName, E.EmployeeName, Q.Amount,RR.ReasonDescription
+                               from SalesQuotation Q 
+                               inner join Customer C on C.CustomerId = Q.CustomerId
+                               inner join Employee E on E.EmployeeId = Q.SalesExecutiveId
+                               inner join SalesQuotationRejectReason RR on RR.SalesQuotationRejectReasonId=q.SalesQuotationRejectReasonId
+                               where Q.isActive = 1 and isProjectBased ="+ isProjectBased;
 
                 return connection.Query<SalesQuotationList>(sql);
             }
@@ -162,7 +161,7 @@ namespace ArabErp.DAL
             using (IDbConnection connection = OpenConnection(dataConnection))
             {
                 string sql = @"select *,VehicleModelName from SalesQuotationItem S inner join WorkDescription W ON S.WorkDescriptionId=W.WorkDescriptionId
-                               INNER JOIN VehicleModel V ON  V.VehicleModelId=W.VehicleModelId
+                               LEFT JOIN VehicleModel V ON  V.VehicleModelId=W.VehicleModelId
                                where SalesQuotationId=@SalesQuotationId";
 
                 var SalesQuotationItems = connection.Query<SalesQuotationItem>(sql, new
@@ -190,9 +189,10 @@ namespace ArabErp.DAL
         {
             using (IDbConnection connection = OpenConnection(dataConnection))
             {
-                string sql = @"select E.EmployeeName SalesExecutiveName ,C.CustomerName,SQ.*,C.DoorNo +','+ C.Street+','+C.State CustomerAddress from SalesQuotation SQ 
-                            inner join Customer C on SQ.CustomerId=C.CustomerId inner join Employee E
-                            on  E.EmployeeId =SQ.SalesExecutiveId
+                string sql = @"select E.EmployeeName SalesExecutiveName ,C.CustomerName,SQ.*,C.DoorNo +','+ C.Street+','+C.State CustomerAddress,RR.ReasonDescription from SalesQuotation SQ 
+                            inner join Customer C on SQ.CustomerId=C.CustomerId
+							 inner join Employee E on  E.EmployeeId =SQ.SalesExecutiveId
+							  inner join SalesQuotationRejectReason RR on  RR.SalesQuotationRejectReasonId =SQ.SalesQuotationRejectReasonId
                         where SQ.ApprovedBy is null and  SQ.isActive=1 and isnull(SQ.IsQuotationApproved,0)=0 and SQ.IsProjectBased = " + IsProjectBased.ToString();
 
                 var objSalesQuotations = connection.Query<SalesQuotation>(sql).ToList<SalesQuotation>();

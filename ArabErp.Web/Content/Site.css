@@ -669,7 +669,7 @@ section.content {
     {
     background: url(../Images/menu-b.jpg) repeat-x; 
     border-bottom: 1px solid #fff;
-    font-size: 14px !;
+    font-size: 14px !important;
     font-weight: bold !important;
     height: 35px;
     line-height: 24px;
@@ -711,6 +711,7 @@ section.content {
 {
     position:relative;
     margin-bottom:15px;
+    margin-left:3px;
 }
 .login-user-left 
 {
@@ -732,7 +733,7 @@ section.content {
         font-weight:normal;
         padding-left:16px;
         padding-right:16px;
-        width: 18.6%;
+        width: 19.6%;
 
 
 }
@@ -755,7 +756,7 @@ section.content {
        padding-left: 5px;
        padding-right: 5px;
        vertical-align: middle;
-       width:79%;
+       width:77%;
        border:0; 
 } 
 .login-text-right 
@@ -801,7 +802,7 @@ section.content {
     padding-top: 3px;
 }
 
-}
+
 .login-user-right1 
 {
         background: url(../Images/user-right.png) no-repeat;
