@@ -669,7 +669,7 @@ section.content {
     {
     background: url(../Images/menu-b.jpg) repeat-x; 
     border-bottom: 1px solid #fff;
-    font-size: 14px !;
+    font-size: 14px !important;
     font-weight: bold !important;
     height: 35px;
     line-height: 24px;
@@ -802,7 +802,7 @@ section.content {
     padding-top: 3px;
 }
 
-}
+
 .login-user-right1 
 {
         background: url(../Images/user-right.png) no-repeat;
