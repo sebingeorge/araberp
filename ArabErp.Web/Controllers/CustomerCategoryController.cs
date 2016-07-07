@@ -38,21 +38,37 @@ namespace ArabErp.Web.Controllers
             model.OrganizationId = 1;
             model.CreatedDate = System.DateTime.Now;
             model.CreatedBy = Request.ServerVariables["HTTP_X_FORWARDED_FOR"] ?? Request.ServerVariables["REMOTE_ADDR"];
-            var result = new CustomerCategoryRepository().InsertCustomerCategory(model);
 
-            if (result.CusCategoryId > 0)
+            var repo = new CustomerCategoryRepository();
+            bool isexists = repo.IsFieldExists(repo.ConnectionString(), "CustomerCategory", "CusCategoryName", model.CusCategoryName, null, null);
+            if (!isexists)
             {
-                TempData["Success"] = "Added Successfully!";
-                TempData["CusCategoryRefNo"] = result.CusCategoryRefNo;
-                return RedirectToAction("Create");
+                var result = new CustomerCategoryRepository().InsertCustomerCategory(model);
+                if (result.CusCategoryId > 0)
+                {
+
+                    TempData["Success"] = "Added Successfully!";
+                    TempData["CusCategoryRefNo"] = result.CusCategoryRefNo;
+                    return RedirectToAction("Create");
+                }
+
+                else
+                {
+                    TempData["error"] = "Oops!!..Something Went Wrong!!";
+                    TempData["CusCategoryRefNo"] = null;
+                    return View("Create", model);
+                }
+
             }
             else
             {
-                TempData["error"] = "Oops!!..Something Went Wrong!!";
+                TempData["error"] = "This Name Alredy Exists!!";
                 TempData["CusCategoryRefNo"] = null;
                 return View("Create", model);
             }
+
         }
+
 
         public ActionResult Edit(int Id)
         {
@@ -69,23 +85,36 @@ namespace ArabErp.Web.Controllers
             model.CreatedDate = System.DateTime.Now;
             model.CreatedBy = Request.ServerVariables["HTTP_X_FORWARDED_FOR"] ?? Request.ServerVariables["REMOTE_ADDR"];
 
-
-            var result = new CustomerCategoryRepository().UpdateCustomerCategory(model);
-
-            if (result.CusCategoryId > 0)
+            var repo = new CustomerCategoryRepository();
+            bool isexists = repo.IsFieldExists(repo.ConnectionString(), "CustomerCategory", "CusCategoryName", model.CusCategoryName, "CusCategoryId", model.CusCategoryId);
+            if (!isexists)
             {
-                TempData["Success"] = "Updated Successfully!";
-                TempData["CusCategoryRefNo"] = result.CusCategoryRefNo;
-                return RedirectToAction("Create");
+                var result = new CustomerCategoryRepository().UpdateCustomerCategory(model);
+                if (result.CusCategoryId > 0)
+                {
+
+                    TempData["Success"] = "Updated Successfully!";
+                    TempData["CusCategoryRefNo"] = result.CusCategoryRefNo;
+                    return RedirectToAction("Create");
+                }
+
+                else
+                {
+                    TempData["error"] = "Oops!!..Something Went Wrong!!";
+                    TempData["CusCategoryRefNo"] = null;
+                    return View("Create", model);
+                }
+
             }
             else
             {
-                TempData["error"] = "Oops!!..Something Went Wrong!!";
+                TempData["error"] = "This Name Alredy Exists!!";
                 TempData["CusCategoryRefNo"] = null;
-                return View("Edit", model);
+                return View("Create", model);
             }
 
         }
+
 
         public ActionResult Delete(int Id)
         {

@@ -43,28 +43,46 @@ namespace ArabErp.Web.Controllers
             model.OrganizationId = 1;
             model.CreatedDate = System.DateTime.Now;
             model.CreatedBy = Request.ServerVariables["HTTP_X_FORWARDED_FOR"] ?? Request.ServerVariables["REMOTE_ADDR"];
-            var result = new EmployeeRepository().UpdateEmployee(model);
 
 
-            if (result.EmployeeId > 0)
+            var repo = new EmployeeRepository();
+
+            bool isexists = repo.IsFieldExists(repo.ConnectionString(), "Employee", "EmployeeName", model.EmployeeName, "EmployeeId", model.EmployeeId);
+            if (!isexists)
             {
-                TempData["Success"] = "Updated Successfully!";
-                TempData["RefNo"] = result.EmployeeRefNo;
-                return RedirectToAction("Create");
+                var result = new EmployeeRepository().UpdateEmployee(model);
+                if (result.EmployeeId > 0)
+                {
+
+                    TempData["Success"] = "Updated Successfully!";
+                    TempData["RefNo"] = result.EmployeeRefNo;
+                    return RedirectToAction("Create");
+                }
+
+                else
+                {
+                    FillDesignationDropdown();
+                    FillCategoryDropdown();
+                    FillLocationDropdown();
+                    TempData["error"] = "Oops!!..Something Went Wrong!!";
+                    TempData["RefNo"] = null;
+                    return View("Create", model);
+                }
+
             }
             else
             {
+
                 FillDesignationDropdown();
                 FillCategoryDropdown();
                 FillLocationDropdown();
-
-                TempData["error"] = "Oops!!..Something Went Wrong!!";
+                TempData["error"] = "This Name Alredy Exists!!";
                 TempData["RefNo"] = null;
-
                 return View("Create", model);
             }
 
         }
+ 
 
         public void FillDesignationDropdown()
         {
@@ -87,32 +105,62 @@ namespace ArabErp.Web.Controllers
             model.OrganizationId = 1;
             model.CreatedDate = System.DateTime.Now;
             model.CreatedBy = Request.ServerVariables["HTTP_X_FORWARDED_FOR"] ?? Request.ServerVariables["REMOTE_ADDR"];
-            var result = new EmployeeRepository().Insert(model);
+            var repo = new EmployeeRepository();
 
-
-            if (result.EmployeeId > 0)
+            bool isexists = repo.IsFieldExists(repo.ConnectionString(), "Employee", "EmployeeName", model.EmployeeName, null,null);
+            if (!isexists)
             {
-                TempData["Success"] = "Added Successfully!";
-                TempData["RefNo"] = result.EmployeeRefNo;
-                return RedirectToAction("Create");
+                var result = new EmployeeRepository().Insert(model);
+                if (result.EmployeeId > 0)
+                {
+
+                    TempData["Success"] = "Added Successfully!";
+                    TempData["RefNo"] = result.EmployeeRefNo;
+                    return RedirectToAction("Create");
+                }
+
+                else
+                {
+                    FillDesignationDropdown();
+                    FillCategoryDropdown();
+                    FillLocationDropdown();
+                    TempData["error"] = "Oops!!..Something Went Wrong!!";
+                    TempData["RefNo"] = null;
+                    return View("Create", model);
+                }
+
             }
             else
             {
+
                 FillDesignationDropdown();
                 FillCategoryDropdown();
                 FillLocationDropdown();
-                TempData["error"] = "Oops!!..Something Went Wrong!!";
+                TempData["error"] = "This Name Alredy Exists!!";
                 TempData["RefNo"] = null;
                 return View("Create", model);
             }
-          
+
         }
-        //public ActionResult FillEmployeeList()
-        //{
-        //    //var repo = new EmployeeRepository();
-        //    var List = rep.FillEmployeeList();
-        //    return PartialView("EmployeeListView", List);
+
+        //    if (result.EmployeeId > 0)
+        //    {
+        //        TempData["Success"] = "Added Successfully!";
+        //        TempData["RefNo"] = result.EmployeeRefNo;
+        //        return RedirectToAction("Create");
+        //    }
+        //    else
+        //    {
+        //        FillDesignationDropdown();
+        //        FillCategoryDropdown();
+        //        FillLocationDropdown();
+        //        TempData["error"] = "Oops!!..Something Went Wrong!!";
+        //        TempData["RefNo"] = null;
+        //        return View("Create", model);
+        //    }
+          
         //}
+
         public ActionResult Delete(int EmployeeId)
         {
 

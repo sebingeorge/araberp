@@ -11,6 +11,10 @@ namespace ArabErp.DAL
     public class ItemCategoryRepository:BaseRepository
     {
         static string dataConnection = GetConnectionString("arab");
+        public string ConnectionString()
+        {
+            return dataConnection;
+        }
 
         public ItemCategory InsertItemCategory(ItemCategory objItemCategory)
         {

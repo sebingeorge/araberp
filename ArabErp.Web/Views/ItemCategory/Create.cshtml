@@ -4,9 +4,11 @@
 @{string actionName = HttpContext.Current.Request.RequestContext.RouteData.Values["action"].ToString(); }
 
 <script type="text/javascript">
+
     function Exit() {
-        location.href = '@Url.Action("Create")';
+        location.href = '@Url.Action("Index","Home")';
     }
+
     $(document).ready(function () {
         var Action = '@actionName';
         if (Action == 'Delete') {

@@ -73,21 +73,44 @@ namespace ArabErp.Web.Controllers
                 model.OrganizationId = 1;
                 model.CreatedDate = System.DateTime.Now;
                 model.CreatedBy = Request.ServerVariables["HTTP_X_FORWARDED_FOR"] ?? Request.ServerVariables["REMOTE_ADDR"];
-                var result = new SupplierRepository().InsertSupplier(model);
-                
-            if (result.SupplierId> 0)
-            {
-                TempData["Success"] = "Added Successfully!";
-                TempData["SupplierRefNo"] = result.SupplierRefNo;
-                return RedirectToAction("Index");
-            }
-            else
-            {
-                TempData["error"] = "Oops!!..Something Went Wrong!!";
-                TempData["SupplierRefNo"] = null;
-                return View("Create", model);
-            }
-          
+
+                var repo = new SupplierRepository();
+                bool isexists = repo.IsFieldExists(repo.ConnectionString(), "Supplier", "SupplierName", model.SupplierName, null, null);
+                if (!isexists)
+                {
+                    var result = new SupplierRepository().InsertSupplier(model);
+                    if (result.SupplierId > 0)
+                    {
+
+                        TempData["Success"] = "Added Successfully!";
+                        TempData["SupplierRefNo"] = result.SupplierRefNo;
+                        return RedirectToAction("Index");
+                    }
+
+                    else
+                    {
+                        FillCategoryDropdown();
+                        FillCountryDropdown();
+                        FillCurrencyDropdown();
+                        FillPurchaseType();
+                        TempData["error"] = "Oops!!..Something Went Wrong!!";
+                        TempData["SupplierRefNo"] = null;
+                        return View("Create", model);
+                    }
+
+                }
+                else
+                {
+
+                    FillCategoryDropdown();
+                    FillCountryDropdown();
+                    FillCurrencyDropdown();
+                    FillPurchaseType();
+                    TempData["error"] = "This Name Alredy Exists!!";
+                    TempData["SupplierRefNo"] = null;
+                    return View("Edit", model);
+                }
+
         }
                            
         
@@ -108,28 +131,52 @@ namespace ArabErp.Web.Controllers
         [HttpPost]
         public ActionResult Edit(Supplier model)
         {
+                ViewBag.Title = "Edit";
                 model.OrganizationId = 1;
                 model.CreatedDate = System.DateTime.Now;
                 model.CreatedBy = Request.ServerVariables["HTTP_X_FORWARDED_FOR"] ?? Request.ServerVariables["REMOTE_ADDR"];
 
-                var result = new SupplierRepository().UpdateSupplier(model);
-
-                if (result.SupplierId > 0)
+                var repo = new SupplierRepository();
+                bool isexists = repo.IsFieldExists(repo.ConnectionString(), "Supplier", "SupplierName", model.SupplierName, "SupplierId", model.SupplierId);
+                if (!isexists)
                 {
-                    TempData["Success"] = "Updated Successfully!";
-                    TempData["SupplierRefNo"] = result.SupplierRefNo;
-                    return RedirectToAction("Index");
+                    var result = new SupplierRepository().UpdateSupplier(model);
+                    if (result.SupplierId > 0)
+                    {
+
+                        TempData["Success"] = "Updated Successfully!";
+                        TempData["SupplierRefNo"] = result.SupplierRefNo;
+                        return RedirectToAction("Index");
+                    }
+
+                    else
+                    {
+                        FillCategoryDropdown();
+                        FillCountryDropdown();
+                        FillCurrencyDropdown();
+                        FillPurchaseType();
+                        TempData["error"] = "Oops!!..Something Went Wrong!!";
+                        TempData["SupplierRefNo"] = null;
+                        return View("Create", model);
+                    }
+
                 }
                 else
                 {
-                    TempData["error"] = "Oops!!..Something Went Wrong!!";
+
+                    FillCategoryDropdown();
+                    FillCountryDropdown();
+                    FillCurrencyDropdown();
+                    FillPurchaseType();
+                    TempData["error"] = "This Name Alredy Exists!!";
                     TempData["SupplierRefNo"] = null;
-                    return View("Edit", model);
+                    return View("Create", model);
                 }
 
-            }
+        }
 
 
+  
         public ActionResult Delete(int Id)
         {
             //int Id = 0;
