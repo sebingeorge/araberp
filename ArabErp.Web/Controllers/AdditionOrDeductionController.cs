@@ -51,21 +51,55 @@ namespace ArabErp.Web.Controllers
             model.OrganizationId = 1;
             model.CreatedDate = System.DateTime.Now;
             model.CreatedBy = Request.ServerVariables["HTTP_X_FORWARDED_FOR"] ?? Request.ServerVariables["REMOTE_ADDR"];
-            var result = new AdditionOrDeductionRepository().Insert(model);
 
-            if (result.AddDedId > 0)
+            var repo = new AdditionOrDeductionRepository();
+            bool isexists = repo.IsFieldExists(repo.ConnectionString(), "AdditionDeduction", "AddDedName", model.AddDedName,null,null);
+            if (!isexists)
             {
-                TempData["Success"] = "Added Successfully!";
-                TempData["AddDedRefNo"] = result.AddDedRefNo;
-                return RedirectToAction("Create");
+                var result = new AdditionOrDeductionRepository().Insert(model);
+                if (result.AddDedId > 0)
+                {
+
+                    TempData["Success"] = "Added Successfully!";
+                    TempData["AddDedRefNo"] = result.AddDedRefNo;
+                    return RedirectToAction("Create");
+                }
+
+                else
+                {
+                    FillAdditionDeduction();
+                    TempData["error"] = "Oops!!..Something Went Wrong!!";
+                    TempData["AddDedRefNo"] = null;
+                    return View("Create", model);
+                }
+
             }
             else
             {
-                TempData["error"] = "Oops!!..Something Went Wrong!!";
+
+                FillAdditionDeduction();
+                TempData["error"] = "This Name Alredy Exists!!";
                 TempData["AddDedRefNo"] = null;
                 return View("Create", model);
             }
+
         }
+
+        //    var result = new AdditionOrDeductionRepository().Insert(model);
+
+        //    if (result.AddDedId > 0)
+        //    {
+        //        TempData["Success"] = "Added Successfully!";
+        //        TempData["AddDedRefNo"] = result.AddDedRefNo;
+        //        return RedirectToAction("Create");
+        //    }
+        //    else
+        //    {
+        //        TempData["error"] = "Oops!!..Something Went Wrong!!";
+        //        TempData["AddDedRefNo"] = null;
+        //        return View("Create", model);
+        //    }
+        //}
 
         public ActionResult Edit(int Id)
         {
@@ -84,22 +118,55 @@ namespace ArabErp.Web.Controllers
             model.CreatedBy = Request.ServerVariables["HTTP_X_FORWARDED_FOR"] ?? Request.ServerVariables["REMOTE_ADDR"];
 
 
-            var result = new AdditionOrDeductionRepository().Update(model);
-
-            if (result.AddDedId > 0)
+            var repo = new AdditionOrDeductionRepository();
+            bool isexists = repo.IsFieldExists(repo.ConnectionString(), "AdditionDeduction", "AddDedName", model.AddDedName, "AddDedId", model.AddDedId);
+            if (!isexists)
             {
-                TempData["Success"] = "Updated Successfully!";
-                TempData["AddDedRefNo"] = result.AddDedRefNo;
-                return RedirectToAction("Create");
+                var result = new AdditionOrDeductionRepository().Update(model);
+                if (result.AddDedId > 0)
+                {
+
+                    TempData["Success"] = "Updated Successfully!";
+                    TempData["AddDedRefNo"] = result.AddDedRefNo;
+                    return RedirectToAction("Create");
+                }
+
+                else
+                {
+                    FillAdditionDeduction();
+                    TempData["error"] = "Oops!!..Something Went Wrong!!";
+                    TempData["AddDedRefNo"] = null;
+                    return View("Create", model);
+                }
+
             }
             else
             {
-                TempData["error"] = "Oops!!..Something Went Wrong!!";
+
+                FillAdditionDeduction();
+                TempData["error"] = "This Name Alredy Exists!!";
                 TempData["AddDedRefNo"] = null;
-                return View("Edit", model);
+                return View("Create", model);
             }
 
         }
+
+        //    var result = new AdditionOrDeductionRepository().Update(model);
+
+        //    if (result.AddDedId > 0)
+        //    {
+        //        TempData["Success"] = "Updated Successfully!";
+        //        TempData["AddDedRefNo"] = result.AddDedRefNo;
+        //        return RedirectToAction("Create");
+        //    }
+        //    else
+        //    {
+        //        TempData["error"] = "Oops!!..Something Went Wrong!!";
+        //        TempData["AddDedRefNo"] = null;
+        //        return View("Edit", model);
+        //    }
+
+        //}
 
         public ActionResult Delete(int Id)
         {

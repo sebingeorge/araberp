@@ -11,6 +11,10 @@ namespace ArabErp.DAL
     public class BoxRepository : BaseRepository
     {
         static string dataConnection = GetConnectionString("arab");
+        public string ConnectionString()
+        {
+            return dataConnection;
+        }
         public Box InsertBox(Box objBox)
         {
             using (IDbConnection connection = OpenConnection(dataConnection))
