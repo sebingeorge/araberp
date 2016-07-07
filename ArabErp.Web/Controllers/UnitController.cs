@@ -28,21 +28,38 @@ namespace ArabErp.Web.Controllers
             model.OrganizationId = 1;
             model.CreatedDate = System.DateTime.Now;
             model.CreatedBy = Request.ServerVariables["HTTP_X_FORWARDED_FOR"] ?? Request.ServerVariables["REMOTE_ADDR"];
-            var result = new UnitRepository().InsertUnit(model);
 
-            if (result.UnitId> 0)
+            var repo = new UnitRepository();
+            bool isexists = repo.IsFieldExists(repo.ConnectionString(), "Unit", "UnitName", model.UnitName, null, null);
+            if (!isexists)
             {
-                TempData["Success"] = "Added Successfully!";
-                TempData["UnitRefNo"] = result.UnitRefNo;
-                return RedirectToAction("Create");
+                var result = new UnitRepository().InsertUnit(model);
+                if (result.UnitId > 0)
+                {
+
+                    TempData["Success"] = "Added Successfully!";
+                    TempData["UnitRefNo"] = result.UnitRefNo;
+                    return RedirectToAction("Create");
+                }
+
+                else
+                {
+                    TempData["error"] = "Oops!!..Something Went Wrong!!";
+                    TempData["UnitRefNo"] = null;
+                    return View("Create", model);
+                }
+
             }
             else
             {
-                TempData["error"] = "Oops!!..Something Went Wrong!!";
+
+                TempData["error"] = "This Name Alredy Exists!!";
                 TempData["UnitRefNo"] = null;
                 return View("Create", model);
             }
+
         }
+
     
         public ActionResult FillUnitList(int? page)
         {
@@ -70,23 +87,38 @@ namespace ArabErp.Web.Controllers
                 model.CreatedBy = Request.ServerVariables["HTTP_X_FORWARDED_FOR"] ?? Request.ServerVariables["REMOTE_ADDR"];
 
 
+            var repo = new UnitRepository();
+            bool isexists = repo.IsFieldExists(repo.ConnectionString(), "Unit", "UnitName", model.UnitName, "UnitId", model.UnitId);
+            if (!isexists)
+            {
                 var result = new UnitRepository().UpdateUnit(model);
-
                 if (result.UnitId > 0)
                 {
+
                     TempData["Success"] = "Updated Successfully!";
                     TempData["UnitRefNo"] = result.UnitRefNo;
                     return RedirectToAction("Create");
                 }
+
                 else
                 {
                     TempData["error"] = "Oops!!..Something Went Wrong!!";
                     TempData["UnitRefNo"] = null;
-                    return View("Edit", model);
+                    return View("Create", model);
                 }
 
+            }
+            else
+            {
+
+                TempData["error"] = "This Name Alredy Exists!!";
+                TempData["UnitRefNo"] = null;
+                return View("Create", model);
+            }
+
         }
-            
+
+                    
         public ActionResult Delete(int Id)
         {
             ViewBag.Title = "Delete";

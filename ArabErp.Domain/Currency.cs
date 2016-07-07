@@ -13,13 +13,13 @@ namespace ArabErp.Domain
     {
         
         public int CurrencyId { get; set; }
-        [Required(ErrorMessage = "Please Enter Code")]
+        [Required]
         public string CurrencyRefNo { get; set; }
-         [Required(ErrorMessage = "Please Enter Name")]
+         [Required]
         public string CurrencyName { get; set; }
-         [Required(ErrorMessage = "Please Enter Elementary")]
+         [Required]
         public string Elementary { get; set; }
-         [Required(ErrorMessage = "Please Enter Exchange Rate")]
+         [Required]
         public string CurrencyExRate { get; set; }
         public int CurrencySymbolId { get; set; }
         public string CreatedBy { get; set; }

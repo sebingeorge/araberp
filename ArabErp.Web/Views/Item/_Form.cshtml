@@ -33,15 +33,7 @@
         }
     }
 
-    function ItemChanged() {
 
-        var ItemName = $('#ItemName').text();
-        var ItemName1 = $("#ItemRefNo").text();
-
-        if (ItemName = ItemName1) {
-            alert("This Name Alredy Exits");
-           }
-    }
 
 </script>
 <div class="row">
@@ -85,7 +77,7 @@
                                
                         <div class="part4">
                             <label for="name" class="label1">Item Name</label>
-                            @Html.TextBoxFor(m => m.ItemName, new { @class = "form_input", autocomplete = "off", @onchange = "ItemChanged(this);" })
+                            @Html.TextBoxFor(m => m.ItemName, new { @class = "form_input", autocomplete = "off" })
                         </div>
                         <div class="part4">
                             <label for="code" class="label1">Print Name</label>

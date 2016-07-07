@@ -12,17 +12,11 @@ namespace ArabErp.DAL
 {
     public class VehicleModelRepository : BaseRepository
     {
-         //private SqlConnection connection;
         static string dataConnection = GetConnectionString("arab");
-
-        // public VehicleModelRepository()
-        //{
-        //    if (connection == null)
-        //    {
-        //        connection = ConnectionManager.connection;
-        //    }
-        //}
-
+        public string ConnectionString()
+        {
+            return dataConnection;
+        }
         public VehicleModel InsertVehicleModel(VehicleModel model)
         {
             using (IDbConnection connection = OpenConnection(dataConnection))

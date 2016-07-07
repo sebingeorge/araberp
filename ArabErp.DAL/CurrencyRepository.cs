@@ -11,6 +11,10 @@ namespace ArabErp.DAL
     public class CurrencyRepository : BaseRepository 
     {
         static string dataConnection = GetConnectionString("arab");
+        public string ConnectionString()
+        {
+            return dataConnection;
+        }
         public Currency GetCurrency(int CurrencyId)
         {
             using (IDbConnection connection = OpenConnection(dataConnection))

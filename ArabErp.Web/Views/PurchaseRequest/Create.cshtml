@@ -60,16 +60,18 @@
                     <table class="table table-bordered table-hover" id="tab_logic">
                     <thead>
                         <tr class="grid_heading">
-                         <th width="30%"><h1>Material/Spares</h1></th>
+                         <th width="20%"><h1>Material/Spares</h1></th>
                             <th width="10%"><h1>Part No.</h1></th>
                             <th width="20%"><h1>Remarks</h1></th>
                             <th width="5%" class="text-right "><h1>WR.Qty.</h1></th>
-                            <th width="5%" class="text-right "><h1>WR.Pnd.Iss.Qty.</h1></th>
+                            <th width="5%" class="text-right "><h1>Pnd.Iss.Qty.</h1></th>
                             <th width="5%" class="text-right "><h1>Min.Stock</h1></th>
                             <th width="5%" class="text-right "><h1>Tot.Req.Qty.</h1></th>
-                            <th width="5%" class="text-right "><h1>In Transit.Qty.</h1></th>
                             <th width="5%" class="text-right "><h1>Curr.Stock</h1></th>
-                            <th width="5%" class="text-right "><h1>PRS.Qty.</h1></th>
+                            <th width="5%" class="text-right "><h1>In-Trans.Qty.</h1></th>
+                            <th width="5%" class="text-right "><h1>Pnd.PR.Qty.</h1></th>
+                            <th width="5%" class="text-right "><h1>Short/Excess</h1></th>
+                            <th width="5%" class="text-right "><h1>PR.Qty.</h1></th>
                             <th width="5%" class="text-left "><h1>UoM</h1></th>
                         </tr>
                     </thead>
@@ -86,9 +88,12 @@
                                 <td>@Html.TextBoxFor(m => m.items[i].WRIssueQty, new { @class = "form_input", @style = "text-align:right", autocomplete = "off", @readonly = "readonly" })</td>
                                 <td>@Html.TextBoxFor(m => m.items[i].MinLevel, new { @class = "form_input", @style = "text-align:right", autocomplete = "off", @readonly = "readonly" })</td>
                                 <td>@Html.TextBoxFor(m => m.items[i].TotalQty, new { @class = "form_input", @style = "text-align:right", autocomplete = "off", @readonly = "readonly" })</td>
-                                <td>@Html.TextBoxFor(m => m.items[i].TotalQty, new { @class = "form_input", @style = "text-align:right", autocomplete = "off", @readonly = "readonly" })</td>
                                 <td>@Html.TextBoxFor(m => m.items[i].CurrentStock, new { @class = "form_input ", @style = "text-align:right", autocomplete = "off", @readonly = "readonly" })</td>
+                                <td>@Html.TextBoxFor(m => m.items[i].InTransitQty, new { @class = "form_input", @style = "text-align:right", autocomplete = "off", @readonly = "readonly" })</td>
+                                <td>@Html.TextBoxFor(m => m.items[i].InTransitQty, new { @class = "form_input", @style = "text-align:right", autocomplete = "off", @readonly = "readonly" })</td>
+                                <td>@Html.TextBoxFor(m => m.items[i].InTransitQty, new { @class = "form_input", @style = "text-align:right", autocomplete = "off", @readonly = "readonly" })</td>
                                 <td>@Html.TextBoxFor(m => m.items[i].Quantity, new { @class = "form_input numbers-only", @style = "text-align:right", autocomplete = "off" })</td>
+                               
                                 <td>@Html.TextBoxFor(m => m.items[i].UnitName, new { @class = "form_input", @style = "text-align:left", autocomplete = "off", @readonly = "readonly" })</td>
                             </tr>
                         }
@@ -97,7 +102,7 @@
                     <tfoot>
                         <tr class="grid_heading">
 
-                            <th width="30%"></th>
+                            <th width="20%"></th>
                             <th width="10%"></th>
                             <th width="20%"></th>
                             <th width="5%"></th>
@@ -108,7 +113,8 @@
                             <th width="5%"></th>
                             <th width="5%"></th>
                             <th width="5%"></th>
-                           
+                            <th width="5%"></th>
+                            <th width="5%"></th>
                     </tr>
                     </tfoot>
                 </table>

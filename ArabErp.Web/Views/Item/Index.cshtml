@@ -9,6 +9,13 @@
     function Create() {
             location.href = '@Url.Action("Create")';  
     }
+
+       function Exit() {
+        
+         location.href = '@Url.Action("Index","Home")';
+    }
+
+
     $(document).ready(function () {
       
         toastr.options = {
@@ -44,16 +51,17 @@
         <div class="main-part white pad1">
 
             <div class="row">
-
                 @Html.Action("ItemList")
+            </div>
 
-
-
+            <div class="row">
+                <div class="col-md-12 hrpart">
+                    <button type="button" class="form-button right" onclick="Exit();">Exit</button>
+                    <button type="submit" class="form-button left" onclick="Create();">Create</button>
+                </div>
 
             </div>
-            
-                <button type="button" onclick="Create();" class="form-button top5">Create</button>
-            
+  
 
         </div>
 

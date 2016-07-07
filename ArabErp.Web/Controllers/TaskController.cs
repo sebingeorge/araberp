@@ -39,21 +39,39 @@ namespace ArabErp.Web.Controllers
             model.OrganizationId = 1;
             model.CreatedDate = System.DateTime.Now;
             model.CreatedBy = Request.ServerVariables["HTTP_X_FORWARDED_FOR"] ?? Request.ServerVariables["REMOTE_ADDR"];
-            var result = new TaskRepository().InsertTask(model);
 
-            if (result.JobCardTaskMasterId > 0)
+            var repo = new TaskRepository();
+            bool isexists = repo.IsFieldExists(repo.ConnectionString(), "JobCardTaskMaster", "JobCardTaskName", model.JobCardTaskName,null,null);
+            if (!isexists)
             {
-                TempData["Success"] = "Added Successfully!";
-                TempData["JobCardTaskRefNo"] = result.JobCardTaskRefNo;
-                return RedirectToAction("Create");
+                var result = new TaskRepository().InsertTask(model);
+                if (result.JobCardTaskMasterId > 0)
+                {
+
+                    TempData["Success"] = "Added Successfully!";
+                    TempData["JobCardTaskRefNo"] = result.JobCardTaskRefNo;
+                    return RedirectToAction("Create");
+                }
+
+                else
+                {
+
+                    TempData["error"] = "Oops!!..Something Went Wrong!!";
+                    TempData["JobCardTaskRefNo"] = null;
+                    return View("Create", model);
+                }
+
             }
             else
             {
-                TempData["error"] = "Oops!!..Something Went Wrong!!";
+
+                TempData["error"] = "This  Name Alredy Exists!!";
                 TempData["JobCardTaskRefNo"] = null;
                 return View("Create", model);
             }
+
         }
+
 
         public ActionResult Edit(int Id)
         {
@@ -70,20 +88,34 @@ namespace ArabErp.Web.Controllers
             model.CreatedDate = System.DateTime.Now;
             model.CreatedBy = Request.ServerVariables["HTTP_X_FORWARDED_FOR"] ?? Request.ServerVariables["REMOTE_ADDR"];
 
-
-            var result = new TaskRepository().UpdateTask(model);
-
-            if (result.JobCardTaskMasterId > 0)
+            var repo = new TaskRepository();
+            bool isexists = repo.IsFieldExists(repo.ConnectionString(), "JobCardTaskMaster", "JobCardTaskName", model.JobCardTaskName, "JobCardTaskMasterId", model.JobCardTaskMasterId);
+            if (!isexists)
             {
-                TempData["Success"] = "Updated Successfully!";
-                TempData["JobCardTaskRefNo"] = result.JobCardTaskRefNo;
-                return RedirectToAction("Create");
+                var result = new TaskRepository().UpdateTask(model);
+                if (result.JobCardTaskMasterId > 0)
+                {
+
+                    TempData["Success"] = "Updated Successfully!";
+                    TempData["JobCardTaskRefNo"] = result.JobCardTaskRefNo;
+                    return RedirectToAction("Create");
+                }
+
+                else
+                {
+
+                    TempData["error"] = "Oops!!..Something Went Wrong!!";
+                    TempData["JobCardTaskRefNo"] = null;
+                    return View("Create", model);
+                }
+
             }
             else
             {
-                TempData["error"] = "Oops!!..Something Went Wrong!!";
+
+                TempData["error"] = "This  Name Alredy Exists!!";
                 TempData["JobCardTaskRefNo"] = null;
-                return View("Edit", model);
+                return View("Create", model);
             }
 
         }

@@ -11,6 +11,10 @@ namespace ArabErp.DAL
     public class ItemGroupRepository : BaseRepository
     {
         static string dataConnection = GetConnectionString("arab");
+        public string ConnectionString()
+        {
+            return dataConnection;
+        }
         public ItemGroup InsertItemGroup(ItemGroup objItemGroup)
         {
             using (IDbConnection connection = OpenConnection(dataConnection))

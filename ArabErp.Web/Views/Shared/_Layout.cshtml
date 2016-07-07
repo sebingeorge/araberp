@@ -4,14 +4,35 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>@ViewBag.Title - Arab Application</title>
-    @RenderSection("scripts", required: false)
-    @Scripts.Render("~/bundles/jquery")
+    @*@RenderSection("scripts", required: false)*@
+    @*@Scripts.Render("~/bundles/jquery")
     @Styles.Render("~/Content/css")
     @Scripts.Render("~/bundles/modernizr")
     @Scripts.Render("~/bundles/jqueryval")
     @Styles.Render("~/bundles/toasterStyle")
     @Scripts.Render("~/bundles/toasterScript")
-    @Scripts.Render("~/bundles/menu")
+    @Scripts.Render("~/bundles/menu")*@
+    <script src="~/Scripts/jquery-1.10.2.js"></script>
+    <script src="~/Scripts/jquery-1.8.3.js"></script>
+
+    <link href="~/Content/bootstrap.css" rel="stylesheet" />
+    <link href="~/Content/themes/base/all.css" rel="stylesheet" />
+    <link href="~/Content/site.css" rel="stylesheet" />
+    <link href="~/Content/Style.css" rel="stylesheet" />
+    <link href="~/Content/bootstrapValidator.min.css" rel="stylesheet" />
+    <link href="~/Content/menu.css" rel="stylesheet" />
+
+    <script src="~/Scripts/modernizr-2.6.2.js"></script>
+                 
+    <script src="~/Scripts/jquery.validate.js"></script>
+    <script src="~/Scripts/jquery.validate.unobtrusive.js"></script>
+
+    <link href="~/Content/toastr/build/toastr.min.css" rel="stylesheet" />
+
+    <script src="~/Content/toastr/build/toastr.min.js"></script>
+
+    <script src="~/Scripts/script.js"></script>
+
     <script src="~/MVCGridHandler.axd/script.js"></script>
     @*<script src="~/scripts/mdb.js"></script>
         <script src="~/scripts/mdb.min.js"></script>*@
@@ -112,8 +133,14 @@
                     <li><a href="@Url.Action("Create", "Bay")"><span class="badge pull-right"></span>Bay</a></li>
                     <li><a href="@Url.Action("Create", "FreezerUnit")"><span class="badge pull-right"></span>Freezer Unit</a></li>
                     <li><a href="@Url.Action("Create", "PaymentTerms")"><span class="badge pull-right"></span>Payment Terms</a></li>
-                    <li><a href="@Url.Action("Create", "SupplierItemRate")"><span class="badge pull-right"></span>Supplier Wise Item Rate Settings</a></li>
-                    <li><a href="@Url.Action("Register", "Account")"><span class="badge pull-right"></span>User Settings</a></li>
+                    <li><a href="@Url.Action("Create", "SupplierItemRate")"><span class="badge pull-right"></span>Supplier Wise Item Rate Settings</a></li>                    
+                    <li class="dropdown-submenu">
+                        <a href="#"><span class="badge pull-right"></span>User Settings</a>
+                        <ul class="dropdown-menu">
+                            <li><a href="@Url.Action("Register", "Account")"><span class="badge pull-right"></span>User Settings</a></li>
+                            <li><a href="@Url.Action("Create", "QuotationApproval")"><span class="badge pull-right"></span>Quotation Approval V/s User</a></li>
+                        </ul>
+                    </li>
                 </ul>
             </li>
             <li>
@@ -122,7 +149,7 @@
                     <li class="dropdown-submenu"><a href="#"><span class="badge pull-right"></span>Sales</a>
                         <ul class="dropdown-menu">
                             <li><a href="@Url.Action("CreateProject", "SalesQuotation")"><span class="badge pull-right"></span>Quotation Request</a></li>
-                            <li><a href="@Url.Action("ListSalesQuotationsProject","SalesQuotation")"><span class="badge pull-right"></span>Quotation Request Approval</a></li>
+                            <li><a href="@Url.Action("ListSalesQuotations", "SalesQuotation", new { ProjectBased = 1 })"><span class="badge pull-right"></span>Quotation Request Approval</a></li>
                             <li><a href="@Url.Action("CreateProject","SaleOrder")"><span class="badge pull-right"></span>Sale Order</a></li>
                             <li><a href="@Url.Action("PendingSaleOrderHold", "SaleOrder", new { isProjectBased = 1})"><span class="badge pull-right"></span>Sale Order Hold</a></li>
                             <li><a href="@Url.Action("PendingSaleOrderRelease", "SaleOrder", new { isProjectBased = 1 })"><span class="badge pull-right"></span>Sale Order Release</a></li>
@@ -167,7 +194,7 @@
                         <a href="#"><span class="badge pull-right"></span>Sales</a>
                         <ul class="dropdown-menu">
                             <li><a href="@Url.Action("Create","SalesQuotation")"><span class="badge pull-right"></span>Quotation Request</a></li>
-                            <li><a href="@Url.Action("ListSalesQuotations","SalesQuotation")"><span class="badge pull-right"></span>Quotation Request Approval</a></li>
+                            <li><a href="@Url.Action("ListSalesQuotations", "SalesQuotation", new { ProjectBased = 0 })"><span class="badge pull-right"></span>Quotation Request Approval</a></li>
                             <li><a href="@Url.Action("Create","SaleOrder")"><span class="badge pull-right"></span>Sale Order</a></li>
                             @*<li><a href="@Url.Action("PendingSaleOrderApproval", "SaleOrder")"><span class="badge pull-right"></span>Sale Order Approval</a></li>*@
                             <li><a href="@Url.Action("PendingSaleOrderHold", "SaleOrder")"><span class="badge pull-right"></span>Sale Order Hold</a></li>

@@ -27,23 +27,41 @@ namespace ArabErp.Web.Controllers
             model.OrganizationId = 1;
             model.CreatedDate = System.DateTime.Now;
             model.CreatedBy = Request.ServerVariables["HTTP_X_FORWARDED_FOR"] ?? Request.ServerVariables["REMOTE_ADDR"];
-           
-            FillItemGroup();
-            var result = new ItemSubGroupRepository().InsertItemSubGroup(model);
-            if (result.ItemSubGroupId > 0)
+
+            var repo = new ItemSubGroupRepository();
+            bool isexists = repo.IsFieldExists(repo.ConnectionString(), "ItemSubGroup", "ItemSubGroupName", model.ItemSubGroupName, null, null);
+            if (!isexists)
             {
-                TempData["Success"] = "Added Successfully!";
-                TempData["RefNo"] = result.ItemSubGroupRefNo;
-                return RedirectToAction("Create");
+                var result = new ItemSubGroupRepository().InsertItemSubGroup(model);
+                if (result.ItemSubGroupId > 0)
+                {
+
+                    TempData["Success"] = "Added Successfully!";
+                    TempData["ItemSubGroupName"] = result.ItemSubGroupName;
+                    return RedirectToAction("Create");
+                }
+
+                else
+                {
+                    FillItemGroup();
+                    TempData["error"] = "Oops!!..Something Went Wrong!!";
+                    TempData["ItemSubGroupName"] = null;
+                    return View("Create", model);
+                }
+
             }
             else
             {
+
                 FillItemGroup();
-                TempData["error"] = "Oops!!..Something Went Wrong!!";
-                TempData["RefNo"] = null;
+                TempData["error"] = "This Item SubGroup Name Alredy Exists!!";
+                TempData["ItemSubGroupName"] = null;
                 return View("Create", model);
             }
+
         }
+
+   
         public ActionResult Edit(int Id)
         {
             FillItemGroup();
@@ -56,23 +74,40 @@ namespace ArabErp.Web.Controllers
             model.OrganizationId = 1;
             model.CreatedDate = System.DateTime.Now;
             model.CreatedBy = Request.ServerVariables["HTTP_X_FORWARDED_FOR"] ?? Request.ServerVariables["REMOTE_ADDR"];
-            var result = new ItemSubGroupRepository().UpdateItemSubGroup(model);
-            if (result.ItemSubGroupId > 0)
+
+            var repo = new ItemSubGroupRepository();
+
+
+            bool isexists = repo.IsFieldExists(repo.ConnectionString(), "ItemSubGroup", "ItemSubGroupName", model.ItemSubGroupName, "ItemSubGroupId", model.ItemSubGroupId);
+            if (!isexists)
             {
-                TempData["Success"] = "Updated Successfully!";
-                TempData["RefNo"] = result.ItemSubGroupRefNo;
-                return RedirectToAction("Create");
+                var result = new ItemSubGroupRepository().UpdateItemSubGroup(model);
+
+                if (result.ItemSubGroupId > 0)
+                {
+                    TempData["Success"] = "Updated Successfully!";
+                    TempData["RefNo"] = result.ItemSubGroupRefNo;
+                    return RedirectToAction("Create");
+                }
+                else
+                {
+                    FillItemGroup();
+                    TempData["error"] = "Oops!!..Something Went Wrong!!";
+                    TempData["RefNo"] = null;
+                    return View("Edit", model);
+                }
             }
             else
             {
                 FillItemGroup();
-                TempData["error"] = "Oops!!..Something Went Wrong!!";
+                TempData["error"] = "This Item Name Alredy Exists!!";
                 TempData["RefNo"] = null;
-
                 return View("Create", model);
             }
 
         }
+
+     
         public ActionResult Delete(int Id)
         {
             FillItemGroup();

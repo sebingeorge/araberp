@@ -37,20 +37,36 @@ namespace ArabErp.Web.Controllers
              model.OrganizationId = 1;
              model.CreatedDate = System.DateTime.Now;
              model.CreatedBy = Request.ServerVariables["HTTP_X_FORWARDED_FOR"] ?? Request.ServerVariables["REMOTE_ADDR"];
-             var result = new SupplierCategoryRepository().InsertSupplierCategory(model);
 
-             if (result.SupCategoryId > 0)
+             var repo = new SupplierCategoryRepository();
+             bool isexists = repo.IsFieldExists(repo.ConnectionString(), "SupplierCategory", "SupCategoryName", model.SupCategoryName, null, null);
+              if (!isexists)
+
              {
-                 TempData["Success"] = "Added Successfully!";
-                 TempData["SupCategoryRefNo"] = result.SupCategoryRefNo;
-                 return RedirectToAction("Create");
+                 var result = new SupplierCategoryRepository().InsertSupplierCategory(model);
+                 if (result.SupCategoryId > 0)
+                 {
+
+                     TempData["Success"] = "Added Successfully!";
+                     TempData["SupCategoryRefNo"] = result.SupCategoryRefNo;
+                     return RedirectToAction("Create");
+                 }
+
+                 else
+                 {
+                     TempData["error"] = "Oops!!..Something Went Wrong!!";
+                     TempData["SupCategoryRefNo"] = null;
+                     return View("Create", model);
+                 }
+
              }
              else
              {
-                 TempData["error"] = "Oops!!..Something Went Wrong!!";
+                 TempData["error"] = "This Name Alredy Exists!!";
                  TempData["SupCategoryRefNo"] = null;
                  return View("Create", model);
              }
+
          }
 
          public ActionResult Edit(int Id)
@@ -69,19 +85,33 @@ namespace ArabErp.Web.Controllers
              model.CreatedBy = Request.ServerVariables["HTTP_X_FORWARDED_FOR"] ?? Request.ServerVariables["REMOTE_ADDR"];
 
 
-             var result = new SupplierCategoryRepository().UpdateSupplierCategory(model);
+              var repo = new SupplierCategoryRepository();
+              bool isexists = repo.IsFieldExists(repo.ConnectionString(), "SupplierCategory", "SupCategoryName", model.SupCategoryName, "SupCategoryId", model.SupCategoryId);
+              if (!isexists)
 
-             if (result.SupCategoryId > 0)
              {
-                 TempData["Success"] = "Updated Successfully!";
-                 TempData["SupCategoryRefNo"] = result.SupCategoryRefNo;
-                 return RedirectToAction("Create");
+                 var result = new SupplierCategoryRepository().UpdateSupplierCategory(model);
+                 if (result.SupCategoryId > 0)
+                 {
+
+                     TempData["Success"] = "Updated Successfully!";
+                     TempData["SupCategoryRefNo"] = result.SupCategoryRefNo;
+                     return RedirectToAction("Create");
+                 }
+
+                 else
+                 {
+                     TempData["error"] = "Oops!!..Something Went Wrong!!";
+                     TempData["SupCategoryRefNo"] = null;
+                     return View("Create", model);
+                 }
+
              }
              else
              {
-                 TempData["error"] = "Oops!!..Something Went Wrong!!";
+                 TempData["error"] = "This Name Alredy Exists!!";
                  TempData["SupCategoryRefNo"] = null;
-                 return View("Edit", model);
+                 return View("Create", model);
              }
 
          }

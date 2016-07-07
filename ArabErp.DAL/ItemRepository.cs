@@ -12,6 +12,10 @@ namespace ArabErp.DAL
     public class ItemRepository :BaseRepository
     {
         static string dataConnection = GetConnectionString("arab");
+        public string ConnectionString()
+        {
+            return dataConnection;
+        }
         public List<Dropdown> FillItemSubGroup(int Id)
         {
             using (IDbConnection connection = OpenConnection(dataConnection))
@@ -107,6 +111,8 @@ namespace ArabErp.DAL
         }
         public Item InsertItem(Item objItem)
         {
+
+            
             using (IDbConnection connection = OpenConnection(dataConnection))
             {
                 var result = new Item();

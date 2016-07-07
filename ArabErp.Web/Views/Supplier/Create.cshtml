@@ -5,7 +5,7 @@
 
 <script type="text/javascript">
     function Exit() {
-        location.href = '@Url.Action("Create")';
+        location.href = '@Url.Action("Index")';
     }
     $(document).ready(function () {
         var Action = '@actionName';
@@ -250,20 +250,13 @@
 
                             <button type="button" class="form-button right" onclick="Exit()">Exit</button>
 
-                            @if (@ViewBag.Title == "Create")
-                            {
-                                <button type="submit" class="form-button right">Save</button>
-                            }
-
-                            @if (@ViewBag.Title == "Edit")
-                            {
-                                <button type="submit" class="form-button right">Update</button>
-                            }
-
-                            @if (@ViewBag.Title == "Delete")
-                            {
-                                <button type="submit" class="form-button right">Delete</button>
-                            }
+                            @if (actionName == "Create")
+                            {  <button type="submit" class="form-button right">Save</button>}
+                            else if (actionName == "Edit")
+                            {  <button type="submit" class="form-button right">Update</button>}
+                            else if (actionName == "Delete")
+                            { <button type="submit" class="form-button right">Delete</button> }
+                                                                                          
 
                         </div>
 

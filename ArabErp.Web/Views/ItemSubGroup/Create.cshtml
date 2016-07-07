@@ -5,7 +5,8 @@
 
 <script type="text/javascript">
     function Exit() {
-        location.href = '@Url.Action("Create")';
+        @*location.href = '@Url.Action("Create")';*@
+        location.href = '@Url.Action("Index","Home")';
     }
     $(document).ready(function () {
         var Action = '@actionName';
@@ -34,7 +35,7 @@
             "hideMethod": "fadeOut"
         }
         if ('@TempData["success"]' != "" && '@TempData["RefNo"]' != "") {
-            toastr.success('@TempData["success"]' + '  Empoyee Ref No. is : ' + '@TempData["RefNo"]');
+            toastr.success('@TempData["success"]' + '  Item SubGroup Ref No. is : ' + '@TempData["RefNo"]');
         }
         else if ('@TempData["error"]' != "") {
             toastr.error('@TempData["error"]');

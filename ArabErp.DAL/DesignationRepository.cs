@@ -11,7 +11,10 @@ namespace ArabErp.DAL
     public class DesignationRepository : BaseRepository
     {
         static string dataConnection = GetConnectionString("arab");
-
+        public string ConnectionString()
+        {
+            return dataConnection;
+        }
 
         public Designation InsertDesignation(Designation objDesignation)
         {
