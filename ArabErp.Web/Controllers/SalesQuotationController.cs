@@ -214,22 +214,14 @@ namespace ArabErp.Web.Controllers
             
         }
 
-        public ActionResult ListSalesQuotations()
+        public ActionResult ListSalesQuotations(int ProjectBased)
         {
         
             var repo = new SalesQuotationRepository();
 
-            List<SalesQuotation> salesquotations = repo.GetSalesQuotationApproveList(0);
+            List<SalesQuotation> salesquotations = repo.GetSalesQuotationApproveList(ProjectBased);
       
             return View(salesquotations);
-        }
-        public ActionResult ListSalesQuotationsProject()
-        {
-            var repo = new SalesQuotationRepository();
-
-            List<SalesQuotation> salesquotations = repo.GetSalesQuotationApproveList(1);
-
-            return View("ListSalesQuotations",salesquotations);
         }
 
         public void FillWrkDesc()
