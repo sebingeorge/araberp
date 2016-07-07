@@ -78,6 +78,7 @@
     <Compile Include="DirectPurchaseRequestItem.cs" />
     <Compile Include="LoginHistory.cs" />
     <Compile Include="LoginViewModel.cs" />
+    <Compile Include="MaterialPlanning.cs" />
     <Compile Include="OpeningStock.cs" />
     <Compile Include="Organization.cs" />
     <Compile Include="PaymentTerms.cs" />

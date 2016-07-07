@@ -226,6 +226,7 @@
     <Compile Include="Controllers\JobOrderCompletionController.cs" />
     <Compile Include="Controllers\LoginHistoryController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
+    <Compile Include="Controllers\MaterialPlanningController.cs" />
     <Compile Include="Controllers\MisReportController.cs" />
     <Compile Include="Controllers\OpeningStockController.cs" />
     <Compile Include="Controllers\PaymentTermsController.cs" />
@@ -657,6 +658,8 @@
     <Content Include="Views\Shared\_QuickView.cshtml" />
     <Content Include="Views\QuotationApproval\Create.cshtml" />
     <Content Include="Views\SalesQuotation\StatusUpdate.cshtml" />
+    <Content Include="Views\MaterialPlanning\Index.cshtml" />
+    <Content Include="Views\MaterialPlanning\Planning.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
