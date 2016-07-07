@@ -12,7 +12,10 @@ namespace ArabErp.DAL
     {
         static string dataConnection = GetConnectionString("arab");
 
-
+        public string ConnectionString()
+        {
+            return dataConnection;
+        }
         public FreezerUnit InsertFreezerUnit(FreezerUnit objFreezerUnit)
         {
             using (IDbConnection connection = OpenConnection(dataConnection))

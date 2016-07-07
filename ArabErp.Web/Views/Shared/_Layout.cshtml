@@ -80,7 +80,7 @@
 <body>
     <div class="pushmenu-push"></div>
 
-    <nav class="pushmenu pushmenu-left">
+    <nav class="pushmenu pushmenu-left" >
         <h3>Logo</h3>
         <ul class="links">
 
@@ -269,71 +269,72 @@
             
         </ul>
     </nav>
-
-    <div class="container">
+    <section class="buttonset">
+        <div id="nav_list">MENU</div>
+    </section>
+    <div class="container" id="containerId">
         <div class="main">
-            <section class="buttonset">
-                <div id="nav_list">MENU</div>
-            </section>
 
 
 
-            <div class="container-fluid body-content">
+          
+                <div class="container-fluid body-content">
 
-                @RenderBody()
+                    @RenderBody()
 
-            </div>
-            @Scripts.Render("~/bundles/bootstrap")
-            @RenderSection("scripts", required: false)
-
-        </div><!-- End Main -->
-    </div><!-- End Container -->
-
-    @*<script type="text/javascript" src="~/Content/script.js"></script>*@
-    <script type="text/javascript">
-
-        var _gaq = _gaq || [];
-        _gaq.push(['_setAccount', 'UA-36251023-1']);
-        _gaq.push(['_setDomainName', 'jqueryscript.net']);
-        _gaq.push(['_trackPageview']);
-
-        (function () {
-            var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
-            ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
-            var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
-        })();
-
-    </script>
-    <div class="navbar navbar-default navbar-fixed-top">
-        <div class="container-fluid">
-
-            @*<div class="navbar-header">
-                <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false">
-                    <span class="sr-only">Toggle navigation</span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                </button>*@
-                <div class="logo">
-                    <a href="@Url.Action("index","Home")"><img src="~/Images/logo.png" height="68" /></a>
                 </div>
-            </div>            
-            <div class="container-fluid">
-                <div class="row">
-                    <div class="col-md-12 col-md-offset-9 col-md-push-1 collapse navbar-collapse" id="navbar">
-                        <div id="QuickLink">
+                @Scripts.Render("~/bundles/bootstrap")
+                @RenderSection("scripts", required: false)
+          
+
+            <!-- End Main -->
+        </div><!-- End Container -->
+    </div>
+            @*<script type="text/javascript" src="~/Content/script.js"></script>*@
+            <script type="text/javascript">
+
+                var _gaq = _gaq || [];
+                _gaq.push(['_setAccount', 'UA-36251023-1']);
+                _gaq.push(['_setDomainName', 'jqueryscript.net']);
+                _gaq.push(['_trackPageview']);
+
+                (function () {
+                    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+                    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+                    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+                })();
+
+            </script>
+            <div class="navbar navbar-default navbar-fixed-top" id="NavBarDivId">
+                <div class="container-fluid">
+
+                    @*<div class="navbar-header">
+                    <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false">
+                        <span class="sr-only">Toggle navigation</span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>*@
+                    <div class="logo">
+                        <a href="@Url.Action("index","Home")"><img src="~/Images/logo.png" height="68" /></a>
+                    </div>
+                </div>
+                <div class="container-fluid">
+                    <div class="row">
+                        <div class="col-md-12 col-md-offset-9 col-md-push-1 collapse navbar-collapse" id="navbar">
+                            <div id="QuickLink">
+                            </div>
+                            <ul class="nav navbar-nav">
+                                <li><a href="#"><i class="glyphicon glyphicon-home" onclick="GoToHome()"></i></a></li>
+                                <li><a href="#"><i class="glyphicon glyphicon-user"></i></a></li>
+                                <li><a href="#" title="click to see user information">@username</a></li>
+                                <li><a href="#"><i class="glyphicon glyphicon-off" onclick="Logout()" title="Logout"></i></a></li>
+                            </ul>
                         </div>
-                        <ul class="nav navbar-nav">
-                            <li><a href="#"><i class="glyphicon glyphicon-home" onclick="GoToHome()"></i></a></li>
-                            <li><a href="#"><i class="glyphicon glyphicon-user"></i></a></li>
-                            <li><a href="#" title="click to see user information">@username</a></li>
-                            <li><a href="#"><i class="glyphicon glyphicon-off" onclick="Logout()" title="Logout"></i></a></li>
-                        </ul>
                     </div>
                 </div>
             </div>
         </div>
-    </div>
 
 </body>
 </html>

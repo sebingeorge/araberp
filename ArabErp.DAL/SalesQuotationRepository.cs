@@ -154,6 +154,26 @@ namespace ArabErp.DAL
                 
             }
         }
+        public SalesQuotation StatusUpdate(SalesQuotation objSalesQuotation)
+        {
+            using (IDbConnection connection = OpenConnection(dataConnection))
+            {
+                string sql = @"Update SalesQuotation  SET SalesQuotationRejectReasonId=@SalesQuotationRejectReasonId   OUTPUT INSERTED.SalesQuotationId WHERE SalesQuotationId=@SalesQuotationId";
+
+                try
+                {
+                    objSalesQuotation.SalesQuotationId = connection.Query<int>(sql, new { SalesQuotationRejectReasonId = objSalesQuotation.SalesQuotationRejectReasonId, SalesQuotationId = objSalesQuotation.SalesQuotationId }).First<int>();
+
+                }
+                catch {
+                    objSalesQuotation.SalesQuotationId = 0;
+                    objSalesQuotation.QuotationRefNo = null;
+                
+                }
+                return objSalesQuotation;
+
+            }
+        }
 
         public List<SalesQuotationItem> GetSalesQuotationItems(int SalesQuotationId)
         {

@@ -11,7 +11,10 @@ namespace ArabErp.DAL
     public class BayRepository : BaseRepository
     {
         static string dataConnection = GetConnectionString("arab");
-   
+        public string ConnectionString()
+        {
+            return dataConnection;
+        }
 
         public Bay GetBay(int BayId)
         {
