@@ -133,8 +133,14 @@
                     <li><a href="@Url.Action("Create", "Bay")"><span class="badge pull-right"></span>Bay</a></li>
                     <li><a href="@Url.Action("Create", "FreezerUnit")"><span class="badge pull-right"></span>Freezer Unit</a></li>
                     <li><a href="@Url.Action("Create", "PaymentTerms")"><span class="badge pull-right"></span>Payment Terms</a></li>
-                    <li><a href="@Url.Action("Create", "SupplierItemRate")"><span class="badge pull-right"></span>Supplier Wise Item Rate Settings</a></li>
-                    <li><a href="@Url.Action("Register", "Account")"><span class="badge pull-right"></span>User Settings</a></li>
+                    <li><a href="@Url.Action("Create", "SupplierItemRate")"><span class="badge pull-right"></span>Supplier Wise Item Rate Settings</a></li>                    
+                    <li class="dropdown-submenu">
+                        <a href="#"><span class="badge pull-right"></span>User Settings</a>
+                        <ul class="dropdown-menu">
+                            <li><a href="@Url.Action("Register", "Account")"><span class="badge pull-right"></span>User Settings</a></li>
+                            <li><a href="@Url.Action("Create", "QuotationApproval")"><span class="badge pull-right"></span>Quotation Approval V/s User</a></li>
+                        </ul>
+                    </li>
                 </ul>
             </li>
             <li>

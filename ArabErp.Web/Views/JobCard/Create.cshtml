@@ -83,7 +83,7 @@
         $('#Row_' + i).find('.taskdate').datepicker({ dateFormat: "dd-MM-yy" });
         assignTaskDate();
     }
-</script>
+    </script> 
 <div class="container">
     <div class="row">
         @using (Html.BeginForm(null, null, FormMethod.Post, new { @class = "createFrom", @id = "jobcard_form" }))
@@ -165,10 +165,10 @@
                             <thead>
                                 <tr class="grid_heading">
                                     <td width="5%"><h1>+</h1></td>
-                                    <th width="35%"><h1>Task</h1></th>
-                                    <th width="35%"><h1>Employee</h1></th>
+                                    <th width="40%"><h1>Task</h1></th>
+                                    <th width="40%"><h1>Employee</h1></th>
                                     <th width="10%"><h1>Date</h1></th>
-                                    <th width="10%"><h1>Hrs.</h1></th>
+                                    <th width="5%"><h1>Hrs.</h1></th>
                                 </tr>
                             </thead>
                             <tbody class="grid_row">
