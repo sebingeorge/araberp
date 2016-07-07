@@ -324,5 +324,60 @@ namespace ArabErp.Web.Controllers
             }
           
         }
+       
+        public ActionResult StatusUpdate(int Id)
+        {
+            FillCustomer();
+            FillCurrency();
+            FillCommissionAgent();
+            FillWrkDesc();
+            FillVehicle();
+            FillUnit();
+            FillEmployee();
+            FillSalesQuotationRejectReason();
+            var repo = new SalesQuotationRepository();
+
+            var sorepo = new SaleOrderRepository();
+
+
+            SalesQuotation salesquotation = repo.GetSalesQuotation(Id);
+            salesquotation.CustomerAddress = sorepo.GetCusomerAddressByKey(salesquotation.CustomerId);
+
+
+            salesquotation.SalesQuotationItems = repo.GetSalesQuotationItems(Id);
+            ViewBag.SubmitAction = "StatusUpdate";
+            return View("StatusUpdate", salesquotation);
+        }
+        [HttpPost]
+        public ActionResult StatusUpdate(SalesQuotation model)
+          {
+
+              var repo = new SalesQuotationRepository();
+
+              var result =repo.StatusUpdate(model);
+
+
+              if (result.SalesQuotationId > 0)
+              {
+                  TempData["Success"] = "Added Successfully!";
+                  TempData["QuotationRefNo"] = result.QuotationRefNo;
+                  if (model.isProjectBased == 0)
+                  {
+                      return RedirectToAction("ListSalesQuotations");
+                  }
+                  else
+                  {
+                      return RedirectToAction("ListSalesQuotationsProject");
+                  }
+              }
+              else
+              {
+                  TempData["error"] = "Oops!!..Something Went Wrong!!";
+                  TempData["SaleOrderRefNo"] = null;
+                  return RedirectToAction("StatusUpdate", model.SalesQuotationId);
+              }
+             
+
+          }
     }
 }

@@ -15,7 +15,7 @@
     }
     catch
     {
-        
+
     }
 }
 
@@ -38,6 +38,7 @@
                                 <th width="30%"><h1>Sales Executive</h1></th>
                                 <th width ="25%"><h1>Quotation Ref.No. & Date</h1></th>
                                 <th width="10%"><h1>Amount</h1></th>
+                                <th width="20%"><h1>Status</h1></th>
                                 <th width="5%"><center><h1>Select</h1></center></th>
 
                             </tr>
@@ -50,6 +51,7 @@
                                     <td class="grid-cell">@item.SalesExecutiveName</td>
                                     <td class="grid-cell">@item.QuotationRefNo &amp; @item.QuotationDate.ToString("dd/MMM/yyyy")</td>
                                     <td class="grid-cell" align="right">@item.Amount</td>
+                                    <td class="grid-cell">@item.ReasonDescription</td>
                                     <td>
                                         <center>
                                             @if(item.Amount <= amountTo)
@@ -61,10 +63,10 @@
                                                 <span class="form_input" style="font-style:italic; color:red;">No Permission</span>
                                             }                         
                                         </center>
-                                    </td>
+                                    </td>                                    
                                 </tr>
                            </tbody>
-                        }                        
+                        }
                     </table>
                 </div>
             </div>

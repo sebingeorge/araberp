@@ -6,27 +6,21 @@ using System.Threading.Tasks;
 
 namespace ArabErp.Domain
 {
-  public  class PurchaseRequestItem
+  public  class MaterialPlanning
     {
-        public int PurchaseRequestItemId { get; set; }
-        public int PurchaseRequestId { get; set; }
-        public int? SlNo { get; set; }
+       
         public string ItemName { get; set; }
         public int? ItemId { get; set; }
-        public int? WRRequestQty { get; set; }
+        public int? WRQTY { get; set; }
         public int? MinLevel { get; set; }
         public int? CurrentStock { get; set; }
-        public string Remarks { get; set; }
         public string PartNo { get; set; }
-        public decimal? WRIssueQty { get; set; }
+        public decimal? WRPndIssQty { get; set; }
         public decimal? TotalQty { get; set; }
-        public decimal? Quantity { get; set; }
-        public decimal InTransitQty { get; set; }
+       public decimal InTransitQty { get; set; }
         public decimal PendingPRQty { get; set; }
         public decimal ShortorExcess { get; set; }
         public string UnitName { get; set; }
-        public string CreatedBy { get; set; }
-        public DateTime? CreatedDate { get; set; }
-        public int OrganizationId { get; set; }
+       
     }
 }

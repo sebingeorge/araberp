@@ -38,21 +38,52 @@ namespace ArabErp.Web.Controllers
             model.OrganizationId = 1;
             model.CreatedDate = System.DateTime.Now;
             model.CreatedBy = Request.ServerVariables["HTTP_X_FORWARDED_FOR"] ?? Request.ServerVariables["REMOTE_ADDR"];
-            var result = new BayRepository().InsertBay(model);
 
-            if (result.BayId > 0)
+            var repo = new BayRepository();
+            bool isexists = repo.IsFieldExists(repo.ConnectionString(), "Bay", "BayName", model.BayName, null, null);
+            if (!isexists)
             {
-                TempData["Success"] = "Added Successfully!";
-                TempData["BayRefNo"] = result.BayRefNo;
-                return RedirectToAction("Create");
+                var result = new BayRepository().InsertBay(model);
+                if (result.BayId > 0)
+                {
+
+                    TempData["Success"] = "Added Successfully!";
+                    TempData["BayRefNo"] = result.BayRefNo;
+                    return RedirectToAction("Create");
+                }
+
+                else
+                {
+                    TempData["error"] = "Oops!!..Something Went Wrong!!";
+                    TempData["BayRefNo"] = null;
+                    return View("Create", model);
+                }
+
             }
             else
             {
-                TempData["error"] = "Oops!!..Something Went Wrong!!";
+                TempData["error"] = "This Name Alredy Exists!!";
                 TempData["BayRefNo"] = null;
                 return View("Create", model);
             }
+
         }
+
+        //    var result = new BayRepository().InsertBay(model);
+
+        //    if (result.BayId > 0)
+        //    {
+        //        TempData["Success"] = "Added Successfully!";
+        //        TempData["BayRefNo"] = result.BayRefNo;
+        //        return RedirectToAction("Create");
+        //    }
+        //    else
+        //    {
+        //        TempData["error"] = "Oops!!..Something Went Wrong!!";
+        //        TempData["BayRefNo"] = null;
+        //        return View("Create", model);
+        //    }
+        //}
 
  
         public ActionResult Edit(int Id)
@@ -70,23 +101,52 @@ namespace ArabErp.Web.Controllers
             model.CreatedDate = System.DateTime.Now;
             model.CreatedBy = Request.ServerVariables["HTTP_X_FORWARDED_FOR"] ?? Request.ServerVariables["REMOTE_ADDR"];
 
-
-            var result = new BayRepository().UpdateBay(model);
-
-            if (result.BayId > 0)
+            var repo = new BayRepository();
+            bool isexists = repo.IsFieldExists(repo.ConnectionString(), "Bay", "BayName", model.BayName,"BayId", model.BayId);
+            if (!isexists)
             {
-                TempData["Success"] = "Updated Successfully!";
-                TempData["BayRefNo"] = result.BayRefNo;
-                return RedirectToAction("Create");
+                var result = new BayRepository().UpdateBay(model);
+                if (result.BayId > 0)
+                {
+
+                    TempData["Success"] = "Updated Successfully!";
+                    TempData["BayRefNo"] = result.BayRefNo;
+                    return RedirectToAction("Create");
+                }
+
+                else
+                {
+                    TempData["error"] = "Oops!!..Something Went Wrong!!";
+                    TempData["BayRefNo"] = null;
+                    return View("Create", model);
+                }
+
             }
             else
             {
-                TempData["error"] = "Oops!!..Something Went Wrong!!";
+                TempData["error"] = "This Name Alredy Exists!!";
                 TempData["BayRefNo"] = null;
-                return View("Edit", model);
+                return View("Create", model);
             }
 
         }
+
+        //    var result = new BayRepository().UpdateBay(model);
+
+        //    if (result.BayId > 0)
+        //    {
+        //        TempData["Success"] = "Updated Successfully!";
+        //        TempData["BayRefNo"] = result.BayRefNo;
+        //        return RedirectToAction("Create");
+        //    }
+        //    else
+        //    {
+        //        TempData["error"] = "Oops!!..Something Went Wrong!!";
+        //        TempData["BayRefNo"] = null;
+        //        return View("Edit", model);
+        //    }
+
+        //}
 
         public ActionResult Delete(int Id)
         {

@@ -11,14 +11,21 @@ namespace ArabErp.DAL
     public class StockpointRepository : BaseRepository
     {
         static string dataConnection = GetConnectionString("arab");
-
+        public string ConnectionString()
+        {
+            return dataConnection;
+        }
         public Stockpoint InsertStockpoint(Stockpoint model)
         {
             using (IDbConnection connection = OpenConnection(dataConnection))
             {
                 IDbTransaction trn = connection.BeginTransaction();
-                string sql = @"insert  into StockPoint(StockPointRefNo,StockPointName,StockPointShrtName,StockPointDoorNo,StockPointZip,StockPointArea,StockPointPhone,StockPointCity,StockPointFax,CreatedBy,CreatedDate,OrganizationId) Values (@StockPointRefNo,@StockPointName,@StockPointShrtName,@StockPointDoorNo,@StockPointZip,@StockPointArea,@StockPointPhone,@StockPointCity,@StockPointFax,@CreatedBy,getDate(),@OrganizationId);
-            SELECT CAST(SCOPE_IDENTITY() as int)";
+
+                string sql = @"insert  into StockPoint(StockPointRefNo,StockPointName,StockPointShrtName,StockPointDoorNo,StockPointZip,StockPointArea,
+                                       StockPointPhone,StockPointCity,StockPointFax,CreatedBy,CreatedDate,OrganizationId) 
+                                       Values (@StockPointRefNo,@StockPointName,@StockPointShrtName,@StockPointDoorNo,@StockPointZip,
+                                       @StockPointArea,@StockPointPhone,@StockPointCity,@StockPointFax,@CreatedBy,getDate(),@OrganizationId);
+                                       SELECT CAST(SCOPE_IDENTITY() as int)";
                 int id = 0;
                 try
                 {

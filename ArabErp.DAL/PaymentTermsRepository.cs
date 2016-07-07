@@ -11,7 +11,10 @@ namespace ArabErp.DAL
     public class PaymentTermsRepository : BaseRepository
     {
         static string dataConnection = GetConnectionString("arab");
-
+        public string ConnectionString()
+        {
+            return dataConnection;
+        }
         public PaymentTerms InsertPaymentTerms(PaymentTerms objPaymentTerms)
         {
             using (IDbConnection connection = OpenConnection(dataConnection))

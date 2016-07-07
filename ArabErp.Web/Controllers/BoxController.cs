@@ -29,21 +29,51 @@ namespace ArabErp.Web.Controllers
             model.OrganizationId = 1;
             model.CreatedDate = System.DateTime.Now;
             model.CreatedBy = Request.ServerVariables["HTTP_X_FORWARDED_FOR"] ?? Request.ServerVariables["REMOTE_ADDR"];
-            var result = new BoxRepository().InsertBox(model);
 
-            if (result.BoxId > 0)
+            var repo = new BoxRepository();
+            bool isexists = repo.IsFieldExists(repo.ConnectionString(), "Box", "BoxName", model.BoxName, null, null);
+            if (!isexists)
             {
-                TempData["Success"] = "Added Successfully!";
-                TempData["BoxRefNo"] = result.BoxRefNo;
-                return RedirectToAction("Create");
+                var result = new BoxRepository().InsertBox(model);
+                if (result.BoxId > 0)
+                {
+
+                    TempData["Success"] = "Added Successfully!";
+                    TempData["BoxRefNo"] = result.BoxRefNo;
+                    return RedirectToAction("Create");
+                }
+
+                else
+                {
+                    TempData["error"] = "Oops!!..Something Went Wrong!!";
+                    TempData["BoxRefNo"] = null;
+                    return View("Create", model);
+                }
+
             }
             else
             {
-                TempData["error"] = "Oops!!..Something Went Wrong!!";
+                TempData["error"] = "This  Name Alredy Exists!!";
                 TempData["BoxRefNo"] = null;
                 return View("Create", model);
             }
+
         }
+        //    var result = new BoxRepository().InsertBox(model);
+
+        //    if (result.BoxId > 0)
+        //    {
+        //        TempData["Success"] = "Added Successfully!";
+        //        TempData["BoxRefNo"] = result.BoxRefNo;
+        //        return RedirectToAction("Create");
+        //    }
+        //    else
+        //    {
+        //        TempData["error"] = "Oops!!..Something Went Wrong!!";
+        //        TempData["BoxRefNo"] = null;
+        //        return View("Create", model);
+        //    }
+        //}
 
         public ActionResult FillBoxList(int? page)
         {
@@ -70,23 +100,52 @@ namespace ArabErp.Web.Controllers
             model.CreatedDate = System.DateTime.Now;
             model.CreatedBy = Request.ServerVariables["HTTP_X_FORWARDED_FOR"] ?? Request.ServerVariables["REMOTE_ADDR"];
 
-
-            var result = new BoxRepository().UpdateBox(model);
-
-            if (result.BoxId > 0)
+            var repo = new BoxRepository();
+            bool isexists = repo.IsFieldExists(repo.ConnectionString(), "Box", "BoxName", model.BoxName, "BoxId", model.BoxId);
+            if (!isexists)
             {
-                TempData["Success"] = "Updated Successfully!";
-                TempData["BoxRefNo"] = result.BoxRefNo;
-                return RedirectToAction("Create");
+                var result = new BoxRepository().UpdateBox(model);
+                if (result.BoxId > 0)
+                {
+
+                    TempData["Success"] = "Updated Successfully!";
+                    TempData["BoxRefNo"] = result.BoxRefNo;
+                    return RedirectToAction("Create");
+                }
+
+                else
+                {
+                    TempData["error"] = "Oops!!..Something Went Wrong!!";
+                    TempData["BoxRefNo"] = null;
+                    return View("Create", model);
+                }
+
             }
             else
             {
-                TempData["error"] = "Oops!!..Something Went Wrong!!";
+                TempData["error"] = "This  Name Alredy Exists!!";
                 TempData["BoxRefNo"] = null;
-                return View("Edit", model);
+                return View("Create", model);
             }
 
         }
+
+        //    var result = new BoxRepository().UpdateBox(model);
+
+        //    if (result.BoxId > 0)
+        //    {
+        //        TempData["Success"] = "Updated Successfully!";
+        //        TempData["BoxRefNo"] = result.BoxRefNo;
+        //        return RedirectToAction("Create");
+        //    }
+        //    else
+        //    {
+        //        TempData["error"] = "Oops!!..Something Went Wrong!!";
+        //        TempData["BoxRefNo"] = null;
+        //        return View("Edit", model);
+        //    }
+
+        //}
 
         public ActionResult Delete(int Id)
         {

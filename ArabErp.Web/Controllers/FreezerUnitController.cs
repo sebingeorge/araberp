@@ -38,21 +38,40 @@ namespace ArabErp.Web.Controllers
             model.OrganizationId = 1;
             model.CreatedDate = System.DateTime.Now;
             model.CreatedBy = Request.ServerVariables["HTTP_X_FORWARDED_FOR"] ?? Request.ServerVariables["REMOTE_ADDR"];
-            var result = new FreezerUnitRepository().InsertFreezerUnit(model);
 
-            if (result.FreezerUnitId > 0)
+
+            var repo = new FreezerUnitRepository();
+            bool isexists = repo.IsFieldExists(repo.ConnectionString(), "FreezerUnit", "FreezerUnitName", model.FreezerUnitName, null, null);
+            if (!isexists)
             {
-                TempData["Success"] = "Added Successfully!";
-                TempData["FreezerUnitRefNo"] = result.FreezerUnitRefNo;
-                return RedirectToAction("Create");
+                var result = new FreezerUnitRepository().InsertFreezerUnit(model);
+                if (result.FreezerUnitId > 0)
+                {
+
+                    TempData["Success"] = "Added Successfully!";
+                    TempData["FreezerUnitRefNo"] = result.FreezerUnitRefNo;
+                    return RedirectToAction("Create");
+                }
+
+                else
+                {
+
+                    TempData["error"] = "Oops!!..Something Went Wrong!!";
+                    TempData["FreezerUnitRefNo"] = null;
+                    return View("Create", model);
+                }
+
             }
             else
             {
-                TempData["error"] = "Oops!!..Something Went Wrong!!";
+
+                TempData["error"] = "This Name Alredy Exists!!";
                 TempData["FreezerUnitRefNo"] = null;
                 return View("Create", model);
             }
+
         }
+
 
         
         public ActionResult Edit(int Id)
@@ -71,23 +90,38 @@ namespace ArabErp.Web.Controllers
             model.CreatedBy = Request.ServerVariables["HTTP_X_FORWARDED_FOR"] ?? Request.ServerVariables["REMOTE_ADDR"];
 
 
-            var result = new FreezerUnitRepository().UpdateFreezerUnit(model);
-
-            if (result.FreezerUnitId > 0)
+            var repo = new FreezerUnitRepository();
+            bool isexists = repo.IsFieldExists(repo.ConnectionString(), "FreezerUnit", "FreezerUnitName", model.FreezerUnitName, "FreezerUnitId", model.FreezerUnitId);
+            if (!isexists)
             {
-                TempData["Success"] = "Updated Successfully!";
-                TempData["FreezerUnitRefNo"] = result.FreezerUnitRefNo;
-                return RedirectToAction("Create");
+                var result = new FreezerUnitRepository().UpdateFreezerUnit(model);
+                if (result.FreezerUnitId > 0)
+                {
+
+                    TempData["Success"] = "Updated Successfully!";
+                    TempData["FreezerUnitRefNo"] = result.FreezerUnitRefNo;
+                    return RedirectToAction("Create");
+                }
+
+                else
+                {
+
+                    TempData["error"] = "Oops!!..Something Went Wrong!!";
+                    TempData["FreezerUnitRefNo"] = null;
+                    return View("Create", model);
+                }
+
             }
             else
             {
-                TempData["error"] = "Oops!!..Something Went Wrong!!";
+
+                TempData["error"] = "This Name Alredy Exists!!";
                 TempData["FreezerUnitRefNo"] = null;
-                return View("Edit", model);
+                return View("Create", model);
             }
 
         }
-
+      
         public ActionResult Delete(int Id)
         {
             ViewBag.Title = "Delete";

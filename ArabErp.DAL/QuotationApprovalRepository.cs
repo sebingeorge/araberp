@@ -61,9 +61,16 @@ namespace ArabErp.DAL
             using (IDbConnection connection = OpenConnection(dataConnection))
             {
                 string sql = @"declare @approveType as int;
-                            select @approveType = case when Approval1 = 1 then 1 when Approval2 = 1 then 2 when Approval3 = 1 then 3 else 0 end 
-                            from QuotationApprovalSettings where UserId = "+ UserId.ToString() + @"
-                            select ApprovalCode, AmountFrom, AmountTo from QuotationApprovalAmountSettings where ApprovalCode = @approveType";
+                            select @approveType = case when Approval3 = 1 then 3 when Approval2 = 1 then 2 when Approval1 = 1 then 1 else 0 end  
+                            from QuotationApprovalSettings where UserId = " + UserId.ToString() + @"
+                            if Exists(select ApprovalCode, AmountFrom, AmountTo from QuotationApprovalAmountSettings where ApprovalCode = @approveType)
+							begin
+                            select ApprovalCode, AmountFrom, AmountTo from QuotationApprovalAmountSettings where ApprovalCode = @approveType
+							end
+							else
+							begin
+								select 0 ApprovalCode, 0 AmountFrom, 0 AmountTo
+							end";
 
                 return connection.Query<QuotationApprovalAmountSettings>(sql).Single();
             }

@@ -46,21 +46,37 @@ namespace ArabErp.Web.Controllers
             model.OrganizationId = 1;
             model.CreatedDate = System.DateTime.Now;
             model.CreatedBy = Request.ServerVariables["HTTP_X_FORWARDED_FOR"] ?? Request.ServerVariables["REMOTE_ADDR"];
-            var result = new PaymentTermsRepository().InsertPaymentTerms(model);
-
-            if (result.PaymentTermsId > 0)
+         
+            var repo = new PaymentTermsRepository();
+            bool isexists = repo.IsFieldExists(repo.ConnectionString(), "PaymentTerms", "PaymentTermsName", model.PaymentTermsName, null, null);
+            if (!isexists)
             {
-                TempData["Success"] = "Added Successfully!";
-                TempData["PaymentTermsRefNo"] = result.PaymentTermsRefNo;
-                return RedirectToAction("Create");
+                var result = new PaymentTermsRepository().InsertPaymentTerms(model);
+                if (result.PaymentTermsId > 0)
+                {
+
+                    TempData["Success"] = "Added Successfully!";
+                    TempData["PaymentTermsRefNo"] = result.PaymentTermsRefNo;
+                    return RedirectToAction("Create");
+                }
+
+                else
+                {
+                    TempData["error"] = "Oops!!..Something Went Wrong!!";
+                    TempData["PaymentTermsRefNo"] = null;
+                    return View("Create", model);
+                }
+
             }
             else
             {
-                TempData["error"] = "Oops!!..Something Went Wrong!!";
+                TempData["error"] = "This Name Alredy Exists!!";
                 TempData["PaymentTermsRefNo"] = null;
                 return View("Create", model);
             }
+
         }
+
 
         public ActionResult Edit(int Id)
         {
@@ -77,23 +93,54 @@ namespace ArabErp.Web.Controllers
             model.CreatedDate = System.DateTime.Now;
             model.CreatedBy = Request.ServerVariables["HTTP_X_FORWARDED_FOR"] ?? Request.ServerVariables["REMOTE_ADDR"];
 
-
-            var result = new PaymentTermsRepository().UpdatePaymentTerms(model);
-
-            if (result.PaymentTermsId > 0)
+            var repo = new PaymentTermsRepository();
+            bool isexists = repo.IsFieldExists(repo.ConnectionString(), "PaymentTerms", "PaymentTermsName", model.PaymentTermsName, "PaymentTermsId", model.PaymentTermsId);
+            if (!isexists)
             {
-                TempData["Success"] = "Updated Successfully!";
-                TempData["PaymentTermsRefNo"] = result.PaymentTermsRefNo;
-                return RedirectToAction("Create");
+                var result = new PaymentTermsRepository().UpdatePaymentTerms(model);
+                if (result.PaymentTermsId > 0)
+                {
+
+                    TempData["Success"] = "Updated Successfully!";
+                    TempData["PaymentTermsRefNo"] = result.PaymentTermsRefNo;
+                    return RedirectToAction("Create");
+                }
+
+                else
+                {
+                    TempData["error"] = "Oops!!..Something Went Wrong!!";
+                    TempData["PaymentTermsRefNo"] = null;
+                    return View("Create", model);
+                }
+
             }
             else
             {
-                TempData["error"] = "Oops!!..Something Went Wrong!!";
+                TempData["error"] = "This Name Alredy Exists!!";
                 TempData["PaymentTermsRefNo"] = null;
-                return View("Edit", model);
+                return View("Create", model);
             }
 
         }
+
+
+
+        //    var result = new PaymentTermsRepository().UpdatePaymentTerms(model);
+
+        //    if (result.PaymentTermsId > 0)
+        //    {
+        //        TempData["Success"] = "Updated Successfully!";
+        //        TempData["PaymentTermsRefNo"] = result.PaymentTermsRefNo;
+        //        return RedirectToAction("Create");
+        //    }
+        //    else
+        //    {
+        //        TempData["error"] = "Oops!!..Something Went Wrong!!";
+        //        TempData["PaymentTermsRefNo"] = null;
+        //        return View("Edit", model);
+        //    }
+
+        //}
 
         public ActionResult Delete(int Id)
         {
