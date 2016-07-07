@@ -157,5 +157,41 @@ namespace ArabErp.Web.Controllers
                 return View("CreateWorkDescription", model);
             }
         }
+
+        [HttpPost]
+        public ActionResult CreateProjectWorkDescription(WorkDescription model)
+        {
+
+
+            model.OrganizationId = 1;
+            model.CreatedDate = System.DateTime.Now;
+            model.CreatedBy = Request.ServerVariables["HTTP_X_FORWARDED_FOR"] ?? Request.ServerVariables["REMOTE_ADDR"];
+            var result = new WorkDescriptionRepository().InsertProjectWorkDescription(model);
+
+
+
+
+            if (result.WorkDescriptionId > 0)
+            {
+                TempData["Success"] = "Added Successfully!";
+                TempData["RefNo"] = result.WorkDescriptionRefNo;
+                return RedirectToAction("CreateProjectWorkDescription");
+            }
+            else
+            {
+                FillVehicle();
+                FillBox();
+                FillFreezerUnit();
+                FillItem();
+                FillJobCardTaskMaster();
+                WorkDescription workdescription = new WorkDescription();
+                workdescription.WorkVsItems.Add(new WorkVsItem());
+                workdescription.WorkVsTasks.Add(new WorkVsTask());
+
+                TempData["error"] = "Oops!!..Something Went Wrong!!";
+                TempData["RefNo"] = null;
+                return View("CreateProjectWorkDescription", model);
+            }
+        }
     }
 }
