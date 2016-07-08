@@ -929,6 +929,13 @@ section.content {
 {
     margin-top:-10px;
 }
+.perm 
+{
+    font-style:italic;
+    color:red !important;
+    line-height: 8px !important;
+    padding-top: 1px;
+}
 
 
 
