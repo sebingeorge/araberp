@@ -308,7 +308,7 @@ namespace ArabErp.Web.Controllers
                 }
                 if(res > 0)
                 {
-                    return RedirectToAction("Register");
+                    return RedirectToAction("UserList");
                 }
             }
             // If we got this far, something failed, redisplay form
