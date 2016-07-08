@@ -12,11 +12,11 @@
         <ul class="dropdown-menu">            
             @if (Model.PendingProjectQuotations)
             {
-                <li><a href="@Url.Action("ListSalesQuotationsProject", "SalesQuotation")" class="form_input"><span class="badge pull-right" style="margin-right:5px;">@Model.NoOfProjectQuotations</span>Prj. Quot. For Approval</a></li>
+                <li><a href="@Url.Action("ListSalesQuotations", "SalesQuotation", new { ProjectBased = 1 })" class="form_input"><span class="badge pull-right" style="margin-right:5px;">@Model.NoOfProjectQuotations</span>Prj. Quot. For Approval</a></li>
             }
             @if (Model.PendingTransQuotations)
             {
-                <li><a href="@Url.Action("ListSalesQuotations", "SalesQuotation")" class="form_input"><span class="badge pull-right">@Model.NoOfTransQuotations</span>Trn. Quot. For Approval</a></li>
+                <li><a href="@Url.Action("ListSalesQuotations", "SalesQuotation", new { ProjectBased = 0 })" class="form_input"><span class="badge pull-right">@Model.NoOfTransQuotations</span>Trn. Quot. For Approval</a></li>
             }
             @if (Model.PendingSupplyOrders)
             {

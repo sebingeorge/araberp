@@ -24,6 +24,7 @@ namespace ArabErp.Domain
         public int? FreezerUnitId { get; set; }
         public int? BoxId { get; set; }
         public string WorkDescr { get; set; }
+        public string WorkDescrShortName { get; set; }
         public string CreatedBy { get; set; }
         public DateTime CreatedDate { get; set; }
         public int OrganizationId { get; set; }
