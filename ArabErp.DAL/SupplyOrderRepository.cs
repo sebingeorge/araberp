@@ -239,7 +239,7 @@ namespace ArabErp.DAL
                                 INNER JOIN PurchaseRequestItem PRI ON SOI.PurchaseRequestItemId = PRI.PurchaseRequestItemId
                                 WHERE ISNULL(SOI.isActive, 1) = 1 AND ISNULL(PRI.isActive, 1) = 1
                                 GROUP BY SupplyOrderId;
-                                SELECT 
+                                SELECT SO.SupplyOrderId,
 	                                SO.SupplyOrderNo,
 	                                CONVERT(DATETIME, SO.SupplyOrderDate, 106) SupplyOrderDate,
 	                                SUP.SupplierName,
@@ -253,7 +253,7 @@ namespace ArabErp.DAL
                                 INNER JOIN Supplier SUP ON SO.SupplierId = SUP.SupplierId
                                 INNER JOIN #SUPPLY_ITEM SI ON SO.SupplyOrderId = SI.SupplyOrderId
                                 WHERE ISNULL(SO.isActive, 1) = 1
-                                    AND ISNULL(isApproved, 0) = 1
+                                    AND ISNULL(isApproved, 0) = 0
 								ORDER BY SupplyOrderDate DESC, SO.CreatedDate DESC;
                                 DROP TABLE #SUPPLY_ITEM;";
 
