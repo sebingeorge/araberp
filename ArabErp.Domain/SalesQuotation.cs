@@ -51,6 +51,7 @@ namespace ArabErp.Domain
         public int GrantParentId { get; set; }
         public int isProjectBased { get; set; }
          public string ReasonDescription { get; set; }
+         public string WorkDescription { get; set; }
         public List<SalesQuotationItem> SalesQuotationItems { get; set; } 
     }
 }

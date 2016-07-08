@@ -18,7 +18,7 @@ namespace ArabErp.Web.Controllers
 
             return View();
         }
-        public ActionResult Create()
+        public ActionResult Create(int? SalesQuotationId)
         {
            
             string internalId = "";
@@ -33,6 +33,7 @@ namespace ArabErp.Web.Controllers
                 FillUnit();
                 FillEmployee();
                 FillQuotationNo(0);
+              
             
             }
             catch (NullReferenceException nx)
@@ -45,15 +46,26 @@ namespace ArabErp.Web.Controllers
                 TempData["success"] = "";
                 TempData["error"] = "Some error occurred. Please try again.|" + ex.Message;
             }
-            SaleOrder saleOrder = new SaleOrder();
-            saleOrder.isProjectBased = 0;
-            saleOrder.Items = new List<SaleOrderItem>();
-            saleOrder.Items.Add(new SaleOrderItem());
-            saleOrder.SaleOrderRefNo = "SAL/" + internalId;
-            saleOrder.SaleOrderDate = DateTime.Now;
-            saleOrder.EDateArrival = DateTime.Now;
-            saleOrder.EDateDelivery = DateTime.Now;
-            return View(saleOrder);
+            //SaleOrder saleOrder = new SaleOrder();
+            var repo = new SaleOrderRepository();
+            SaleOrder model = repo.GetSaleOrderFrmQuotation(SalesQuotationId ?? 0);
+
+            var SOList = repo.GetSaleOrderItemFrmQuotation(SalesQuotationId ?? 0);
+            model.Items = new List<SaleOrderItem>();
+            foreach (var item in SOList)
+            {
+                var soitem = new SaleOrderItem { WorkDescriptionId = item.WorkDescriptionId, VehicleModelName = item.VehicleModelName, Quantity = item.Quantity, UnitId = item.UnitId, Rate = item.Rate, Amount = item.Amount, Discount = item.Discount };
+                model.Items.Add(soitem);
+
+            }
+            model.isProjectBased = 0;
+            //saleOrder.Items = new List<SaleOrderItem>();
+            //saleOrder.Items.Add(new SaleOrderItem());
+            model.SaleOrderRefNo = "SAL/" + internalId;
+            model.SaleOrderDate = DateTime.Now;
+            model.EDateArrival = DateTime.Now;
+            model.EDateDelivery = DateTime.Now;
+            return View(model);
         }
         public ActionResult CreateProject()
         {
@@ -469,5 +481,14 @@ namespace ArabErp.Web.Controllers
             repo.CloseSaleOrder(model.SaleOrderId);
             return RedirectToAction("Closing");
         }
+        public ActionResult PendingSalesQutoforSaleOrder(int ProjectBased)
+        {
+            var repo = new SalesQuotationRepository();
+
+            List<SalesQuotation> salesquotations = repo.GetSalesQuotationForSO(ProjectBased);
+
+            return View(salesquotations);
+        }
+
     }
 }

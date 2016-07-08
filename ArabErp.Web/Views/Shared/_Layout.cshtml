@@ -187,7 +187,7 @@
                             <ul class="dropdown-menu">
                                 <li><a href="@Url.Action("Create","SalesQuotation")"><span class="badge pull-right"></span>Quotation Request</a></li>
                                 <li><a href="@Url.Action("ListSalesQuotations", "SalesQuotation", new { ProjectBased = 0 })"><span class="badge pull-right"></span>Quotation Request Approval</a></li>
-                                <li><a href="@Url.Action("Create","SaleOrder")"><span class="badge pull-right"></span>Sale Order</a></li>
+                                <li><a href="@Url.Action("PendingSalesQutoforSaleOrder", "SaleOrder", new { ProjectBased = 0 })"><span class="badge pull-right"></span>Sale Order</a></li>
                                 <li><a href="@Url.Action("PendingSaleOrderHold", "SaleOrder")"><span class="badge pull-right"></span>Sale Order Hold</a></li>
                                 <li><a href="@Url.Action("PendingSaleOrderRelease", "SaleOrder")"><span class="badge pull-right"></span>Sale Order Release</a></li>
                                 <li><a href="@Url.Action("PendingSalesInvoice", "SalesInvoice", new { invType = "Final" })"><span class="badge pull-right"></span>Sales Invoice</a></li>
