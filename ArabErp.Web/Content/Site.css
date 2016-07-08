@@ -556,6 +556,7 @@ background-color: #D6D5D5;
         background-color:#fff;
         border-bottom:1px solid #444444;
         height:22px;
+        width:auto;
     }
         .links li ul li li a 
     {
