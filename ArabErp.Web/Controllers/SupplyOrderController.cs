@@ -110,7 +110,9 @@ namespace ArabErp.Web.Controllers
         {
             try
             {
+
                 return View(new SupplyOrderRepository().GetPreviousList());
+
             }
             catch (Exception)
             {
