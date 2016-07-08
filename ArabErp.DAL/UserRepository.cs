@@ -113,11 +113,15 @@ namespace ArabErp.DAL
         {
             using (IDbConnection connection = OpenConnection(dataConnection))
             {
-                string sql = @"select M.ModuleId, M.ModuleName, isPermission =  case when RowId is null then 0 else 1 end 
-                        from Module M left join ModuleVsUser MU on M.ModuleId = MU.ModuleId";
+                string sql = "";
                 if (UserId != null)
                 {
-                    sql += " and UserId = " + UserId.ToString();
+                    sql = @"select M.ModuleId, M.ModuleName, isPermission =  case when RowId is null then 0 else 1 end 
+                        from Module M left join ModuleVsUser MU on M.ModuleId = MU.ModuleId and MU.UserId = " + UserId.ToString();
+                }
+                else
+                {
+                    sql = @"select M.ModuleId, M.ModuleName,0 as isPermission from Module M";
                 }
                 return connection.Query<ModuleVsUser>(sql);
             }
