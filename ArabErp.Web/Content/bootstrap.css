@@ -4930,6 +4930,32 @@ a.badge:focus {
   cursor: pointer;
 }
 
+.badge1 {
+  display: inline-block;
+  min-width: 10px;
+  padding: 0px 4px;
+  font-size: 12px;
+  font-weight: bold;
+  line-height: 1;
+  color: #ffffff;
+  text-align: center;
+  white-space: nowrap;
+  vertical-align: baseline;
+  background-color: #999999;
+  border-radius: 10px;
+}
+
+.badge1:empty {
+  display: none;
+}
+
+a.badge1:hover,
+a.badge1:focus {
+  color: #ffffff;
+  text-decoration: none;
+  cursor: pointer;
+}
+
 .btn .badge {
   position: relative;
   top: -1px;
