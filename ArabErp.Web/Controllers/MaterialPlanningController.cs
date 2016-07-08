@@ -10,7 +10,7 @@ using System.Data.SqlClient;
 
 namespace ArabErp.Web.Controllers
 {
-    public class MaterialPlanningController : Controller
+    public class MaterialPlanningController : BaseController
     {
         // GET: MaterialPlanning
         public ActionResult Index(int? isProjectBased)

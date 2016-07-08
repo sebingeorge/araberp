@@ -21,6 +21,12 @@
             "showMethod": "fadeIn",
             "hideMethod": "fadeOut"
         }
+        if ('@TempData["success"]' != "" && '@TempData["QuotationRefNo"]' != "") {
+            toastr.success('@TempData["success"]' + '   Sales Quotation No. is : ' + '@TempData["QuotationRefNo"]');
+        }
+        else if ('@TempData["error"]' != "") {
+            toastr.error('@TempData["error"]');
+        }
 
         $('#QuotationTable tr').click(function (event) {
             $("tr").removeClass("active");
@@ -48,10 +54,10 @@
             toastr.warning("Please Select Any Sales Quotation !!")
         }
         else {
-            alert("action call");
+         
             var url = '@Url.Action("StatusUpdate")';
             url = url + "?Id=" + $('#HiddenFieldSalesQuotationId').val();
-            alert(url);
+           
             console.log(url);
             window.location.href = url;
         }
@@ -67,11 +73,11 @@
             window.location.href = url;
         }
     }
-    function Create()
-    {
+    function Create() {
         var url = '@Url.Action("Create")';
         window.location.href = url;
     }
+
 </script>
 <style>
    table tr.active {border:3px solid #0094ff;}

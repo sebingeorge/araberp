@@ -351,7 +351,7 @@ namespace ArabErp.Web.Controllers
         [HttpPost]
         public ActionResult StatusUpdate(SalesQuotation model)
           {
-
+              int SalesQUotationId = model.SalesQuotationId;
               var repo = new SalesQuotationRepository();
 
               var result =repo.StatusUpdate(model);
@@ -359,22 +359,24 @@ namespace ArabErp.Web.Controllers
 
               if (result.SalesQuotationId > 0)
               {
-                  TempData["Success"] = "Added Successfully!";
+                  TempData["Success"] = "Status Successfully Updated!";
                   TempData["QuotationRefNo"] = result.QuotationRefNo;
                   if (model.isProjectBased == 0)
                   {
-                      return RedirectToAction("ListSalesQuotations");
+                      return RedirectToAction("Index");
                   }
                   else
                   {
-                      return RedirectToAction("ListSalesQuotationsProject");
+                      return RedirectToAction("Index");
                   }
               }
               else
               {
+                  int i = model.SalesQuotationId;
                   TempData["error"] = "Oops!!..Something Went Wrong!!";
                   TempData["SaleOrderRefNo"] = null;
-                  return RedirectToAction("StatusUpdate", model.SalesQuotationId);
+                  return RedirectToAction("StatusUpdate", new { Id = SalesQUotationId });
+                  
               }
              
 
