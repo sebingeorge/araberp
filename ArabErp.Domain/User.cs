@@ -25,5 +25,6 @@ namespace ArabErp.Domain
         public string ConfirmPassword { get; set; }
         public string UserSalt { get; set; }
         public int? UserRole { get; set; }
+        public List<ModuleVsUser> Module { get; set; }
     }
 }

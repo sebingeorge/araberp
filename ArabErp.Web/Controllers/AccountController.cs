@@ -24,6 +24,57 @@ namespace ArabErp.Web.Controllers
         private ApplicationSignInManager _signInManager;
         private ApplicationUserManager _userManager;
 
+        protected override IAsyncResult BeginExecuteCore(AsyncCallback callback, object state)
+        {
+            try
+            {
+                HttpCookie usr = Request.Cookies["userCookie"] as HttpCookie;
+                int Id = Convert.ToInt32(usr["UserId"]);
+
+                UserRepository repo = new UserRepository();
+                var modules = repo.GetModulePermissions(Id);
+                ModulePermission permission = new ModulePermission();
+
+                foreach (var item in modules)
+                {
+                    if (item.ModuleName == "Admin")
+                    {
+                        permission.Admin = true;
+                    }
+                    else if (item.ModuleName == "Purchase")
+                    {
+                        permission.Purchase = true;
+                    }
+                    else if (item.ModuleName == "Sales")
+                    {
+                        permission.Sales = true;
+                    }
+                    else if (item.ModuleName == "Project")
+                    {
+                        permission.Project = true;
+                    }
+                    else if (item.ModuleName == "Transportation")
+                    {
+                        permission.Transportation = true;
+                    }
+                    else if (item.ModuleName == "Finance")
+                    {
+                        permission.Finance = true;
+                    }
+                    else if (item.ModuleName == "MIS Repots")
+                    {
+                        permission.MISReports = true;
+                    }
+                }
+                ViewBag.ModulePermissions = permission;
+            }
+            catch
+            {
+                ModulePermission permission = new ModulePermission();
+                ViewBag.ModulePermissions = permission;
+            }
+            return base.BeginExecuteCore(callback, state);
+        }
         public AccountController()
         {
         }
@@ -193,9 +244,32 @@ namespace ArabErp.Web.Controllers
         //
         // GET: /Account/Register
         [AllowAnonymous]
-        public ActionResult Register()
+        public ActionResult Register(int? Id)
         {
-            return View();
+            if((Id?? 0) == 0)
+            {
+                User model = new User();
+                model.Module = new System.Collections.Generic.List<ModuleVsUser>();
+                var modules = (new UserRepository()).GetModules(null);
+                foreach (var item in modules)
+                {
+                    model.Module.Add(item);
+                }
+                return View(model);
+            }
+            else
+            {
+                var users = (new UserRepository().GetUsers());
+                User model = (from a in users where a.UserId == Id select a).Single();
+                model.Module = new System.Collections.Generic.List<ModuleVsUser>();
+                var modules = (new UserRepository()).GetModules(Id);
+                foreach (var item in modules)
+                {
+                    model.Module.Add(item);
+                }
+                return View(model);
+            }           
+            
         }
 
         //
@@ -206,23 +280,45 @@ namespace ArabErp.Web.Controllers
         public async Task<ActionResult> Register(User model)
         {
             if (ModelState.IsValid)
-            {
-                string salt = ConfigurationManager.AppSettings["salt"].ToString();
-                string saltpassword = String.Concat(salt, model.UserPassword);
-                string hashedPassword = FormsAuthentication.HashPasswordForStoringInConfigFile(saltpassword, "sha1");
+            {                
+                int res = 0;
+                if((model.UserId ?? 0) == 0)
+                {
+                    string salt = ConfigurationManager.AppSettings["salt"].ToString();
+                    string saltpassword = String.Concat(salt, model.UserPassword);
+                    string hashedPassword = FormsAuthentication.HashPasswordForStoringInConfigFile(saltpassword, "sha1");
 
-                model.UserPassword = model.ConfirmPassword = hashedPassword;
-                model.UserSalt = salt;
-                int res = (new UserRepository()).InsertUser(model);
+                    model.UserPassword = model.ConfirmPassword = hashedPassword;
+                    model.UserSalt = salt;
+
+                    res = (new UserRepository()).InsertUser(model);
+                }
+                else
+                {
+                    if(model.UserPassword != null && model.UserPassword != "")
+                    {
+                        string salt = ConfigurationManager.AppSettings["salt"].ToString();
+                        string saltpassword = String.Concat(salt, model.UserPassword);
+                        string hashedPassword = FormsAuthentication.HashPasswordForStoringInConfigFile(saltpassword, "sha1");
+
+                        model.UserPassword = model.ConfirmPassword = hashedPassword;
+                        model.UserSalt = salt;
+                    }
+                    res = (new UserRepository()).UpdateUser(model);
+                }
                 if(res > 0)
                 {
-                    return RedirectToAction("Register");
+                    return RedirectToAction("UserList");
                 }
             }
             // If we got this far, something failed, redisplay form
             return View(model);
         }
-
+        [AllowAnonymous]
+        public ActionResult UserList()
+        {
+            return View(new UserRepository().GetUsers());
+        }
         //
         // GET: /Account/ConfirmEmail
         [AllowAnonymous]

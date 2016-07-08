@@ -79,6 +79,8 @@
     <Compile Include="LoginHistory.cs" />
     <Compile Include="LoginViewModel.cs" />
     <Compile Include="MaterialPlanning.cs" />
+    <Compile Include="ModulePermission.cs" />
+    <Compile Include="ModuleVsUser.cs" />
     <Compile Include="OpeningStock.cs" />
     <Compile Include="Organization.cs" />
     <Compile Include="PaymentTerms.cs" />

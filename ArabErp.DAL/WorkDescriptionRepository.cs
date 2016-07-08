@@ -28,8 +28,60 @@ namespace ArabErp.DAL
             {
                 //var result = new WorkDescription();
                 IDbTransaction trn = connection.BeginTransaction();
-                string sql = @"insert  into WorkDescription(WorkDescriptionRefNo,VehicleModelId,FreezerUnitId,BoxId,WorkDescr,isNewInstallation,isRepair,isSubAssembly,CreatedBy,CreatedDate,OrganizationId) Values (@WorkDescriptionRefNo,@VehicleModelId,@FreezerUnitId,@BoxId,@WorkDescr,@isNewInstallation,@isRepair,@isSubAssembly,@CreatedBy,@CreatedDate,@OrganizationId);
-            SELECT CAST(SCOPE_IDENTITY() as int)";
+                string sql = @"insert  into WorkDescription(WorkDescriptionRefNo,VehicleModelId,FreezerUnitId,BoxId,
+                               WorkDescr,WorkDescrShortName,isNewInstallation,isRepair,isSubAssembly,isProjectBased,CreatedBy,CreatedDate,OrganizationId) 
+                               Values (@WorkDescriptionRefNo,@VehicleModelId,@FreezerUnitId,@BoxId,@WorkDescr,@WorkDescrShortName,@isNewInstallation,
+                               @isRepair,@isSubAssembly,0,@CreatedBy,@CreatedDate,@OrganizationId);
+                               SELECT CAST(SCOPE_IDENTITY() as int)";
+
+                try
+                {
+                    int internalid = DatabaseCommonRepository.GetInternalIDFromDatabase(connection, trn, typeof(WorkDescription).Name, "0", 1);
+                    objWorkDescription.WorkDescriptionRefNo = "WD/" + internalid;
+                    var id = connection.Query<int>(sql, objWorkDescription, trn).Single();
+
+                    var worksitemrepo = new WorkVsItemRepository();
+                    foreach (var item in objWorkDescription.WorkVsItems)
+                    {
+                        item.WorkDescriptionId = id;
+                        item.CreatedBy = objWorkDescription.CreatedBy;
+                        item.CreatedDate = objWorkDescription.CreatedDate;
+                        worksitemrepo.InsertWorkVsItem(item, connection, trn);
+                    }
+
+
+                    var workstaskepo = new WorkVsTaskRepository();
+
+                    foreach (var item in objWorkDescription.WorkVsTasks)
+                    {
+                        item.WorkDescriptionId = id;
+                        item.CreatedBy = objWorkDescription.CreatedBy;
+                        item.CreatedDate = objWorkDescription.CreatedDate;
+                        workstaskepo.InsertWorkVsTask(item, connection, trn);
+                    }
+                    objWorkDescription.WorkDescriptionId = id;
+                    trn.Commit();
+                }
+                catch (Exception ex)
+                {
+                    trn.Rollback();
+                    objWorkDescription.WorkDescriptionId = 0;
+                    objWorkDescription.WorkDescriptionRefNo = null;
+                }
+                return objWorkDescription;
+            }
+        }
+        public WorkDescription InsertProjectWorkDescription(WorkDescription objWorkDescription)
+        {
+            using (IDbConnection connection = OpenConnection(dataConnection))
+            {
+                //var result = new WorkDescription();
+                IDbTransaction trn = connection.BeginTransaction();
+                string sql = @"insert  into WorkDescription(WorkDescriptionRefNo,VehicleModelId,FreezerUnitId,BoxId,
+                               WorkDescr,WorkDescrShortName,isNewInstallation,isRepair,isSubAssembly,isProjectBased,CreatedBy,CreatedDate,OrganizationId) 
+                               Values (@WorkDescriptionRefNo,@VehicleModelId,@FreezerUnitId,@BoxId,@WorkDescr,@WorkDescrShortName,@isNewInstallation,
+                               @isRepair,@isSubAssembly,1,@CreatedBy,@CreatedDate,@OrganizationId);
+                               SELECT CAST(SCOPE_IDENTITY() as int)";
 
                 try
                 {
@@ -69,7 +121,6 @@ namespace ArabErp.DAL
             }
         }
 
-
         public WorkDescription GetWorkDescription(int WorkDescriptionId)
         {
             using (IDbConnection connection = OpenConnection(dataConnection))
@@ -106,7 +157,7 @@ namespace ArabErp.DAL
         {
             using (IDbConnection connection = OpenConnection(dataConnection))
             {
-                string sql = @"UPDATE WorkDescription SET VehicleModelId = @VehicleModelId ,FreezerUnitId = @FreezerUnitId ,BoxId = @BoxId ,WorkDescr = @WorkDescr,CreatedBy = @CreatedBy,CreatedDate = @CreatedDate  OUTPUT INSERTED.WorkDescriptionId  WHERE WorkDescriptionId = @WorkDescriptionId";
+                string sql = @"UPDATE WorkDescription SET VehicleModelId = @VehicleModelId ,FreezerUnitId = @FreezerUnitId ,BoxId = @BoxId ,WorkDescr = @WorkDescr,WorkDescrShortName= @WorkDescrShortName,CreatedBy = @CreatedBy,CreatedDate = @CreatedDate  OUTPUT INSERTED.WorkDescriptionId  WHERE WorkDescriptionId = @WorkDescriptionId";
 
 
                 var id = connection.Execute(sql, objWorkDescription);

@@ -660,6 +660,7 @@
     <Content Include="Views\SalesQuotation\StatusUpdate.cshtml" />
     <Content Include="Views\MaterialPlanning\Index.cshtml" />
     <Content Include="Views\MaterialPlanning\Planning.cshtml" />
+    <Content Include="Views\Account\UserList.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

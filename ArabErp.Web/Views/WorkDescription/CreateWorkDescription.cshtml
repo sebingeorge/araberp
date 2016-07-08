@@ -242,6 +242,7 @@
                                     @Html.DropDownListFor(m => Model.BoxId, (SelectList)ViewBag.Boxlist, "Select Box", new { @class = "form_input", autocomplete = "off" })
                                 </div>
                             </div>
+                            
                             <div class="col-md-3">
                                 <div class="part4">
                                     <label for="VehicleModelId">
@@ -259,6 +260,12 @@
 
                         </div>
 
+                        <div class="col-md-3">
+                            <div class="part4">
+                                <label for="box">Short Name</label>
+                                @Html.TextBoxFor(m => m.WorkDescrShortName, new { @class = "form_input", autocomplete = "off" })
+                            </div>
+                        </div>
 
 
                     </div>
