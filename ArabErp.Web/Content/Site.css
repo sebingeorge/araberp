@@ -556,6 +556,7 @@ background-color: #D6D5D5;
         background-color:#fff;
         border-bottom:1px solid #444444;
         height:22px;
+        width:auto;
     }
         .links li ul li li a 
     {
@@ -928,6 +929,13 @@ section.content {
 .glyphicon-bell 
 {
     margin-top:-10px;
+}
+.perm 
+{
+    font-style:italic;
+    color:red !important;
+    line-height: 8px !important;
+    padding-top: 1px;
 }
 
 
