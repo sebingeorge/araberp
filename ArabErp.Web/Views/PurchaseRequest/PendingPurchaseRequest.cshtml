@@ -67,11 +67,22 @@
                                     <td><center>@Html.ActionLink("Select", "Create", "PurchaseRequest", new { WorkShopRequestId = @item.WorkShopRequestId }, new { @class = "form-button5" })</center></td>
                                     
                                 </tr>
+                              
                             </tbody>
                         }
                     </table>
                 </div>
             </div>
+
+            @*<div class="form-head1">
+                <h4>Row Count:- @Model.Count()</h4>
+            </div>*@
+
+            <div>
+                <h5>Row Count:- @Model.Count()</h5>
+            </div>
+
         </div>
+
             </div>
             </div>
