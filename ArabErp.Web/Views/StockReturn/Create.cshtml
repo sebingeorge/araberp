@@ -6,6 +6,11 @@
 }
 
 <script type="text/javascript">
+
+    function Exit() {
+        location.href = '@Url.Action("Index","Home")';
+   }
+
     $(document).ready(function () {
 
         toastr.options = {
@@ -103,7 +108,7 @@
                 <div class="row form-group">
                     <div class="col-md-2">
                         <label for="StockReturnId">Stock Return No.</label>
-                        @Html.TextBoxFor(m => m.StockReturnRefNo, new { @class = "form_input", autocomplete = "off", @required = "true" })
+                        @Html.TextBoxFor(m => m.StockReturnRefNo, new { @class = "form_input", autocomplete = "off", @required = "true" ,@readonly="true" })
                     </div>
                     <div class="col-md-2">
                         <label for="StockReturnDate">Date</label>
@@ -151,7 +156,7 @@
                 <div class="row">
 
                     <div class="col-md-12 hrpart">
-                        <input type="button" class="form-button right" value="Exit">
+                        <button type="button" class="form-button right" onclick="Exit();">Exit</button>
                         <button type="submit" class="form-button right">Save</button>
                     </div>
 

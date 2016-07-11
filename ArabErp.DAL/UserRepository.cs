@@ -77,7 +77,17 @@ namespace ArabErp.DAL
         {
             using (IDbConnection connection = OpenConnection(dataConnection))
             {
-                return connection.Query<User>("select * from [User] where UserName='"+ username +"' and UserPassword='"+ password +"'").Single();
+                string sql = "select * from [User] where UserName='" + username + "' and UserPassword='" + password + "'";
+                var user = new User();
+                try
+                {
+                    user = connection.Query<User>(sql).Single();
+                }
+                catch
+                {
+
+                }
+                return user;
             }
         }
         public bool IsValidUser(int UserId, string Username, string ControllName, string ActionName, int OrganizationId, string SessionID)

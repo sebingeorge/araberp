@@ -19,8 +19,10 @@ namespace ArabErp.Web.Controllers
         {
             FillJobCard();
             StockPointDropdown();
-            return View(new StockReturn { StockReturnDate = DateTime.Today });
+            string internalid = DatabaseCommonRepository.GetNextRefNoWithNoUpdate(typeof(StockReturn).Name);
+            return View(new StockReturn { StockReturnDate = DateTime.Today, StockReturnRefNo = "SR/" + internalid });
         }
+
         [HttpPost]
         public ActionResult Create(StockReturn model)
         {
