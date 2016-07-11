@@ -162,8 +162,6 @@ namespace ArabErp.DAL
                         SupplyOrderId = SupplyOrderId
                     }).First<SupplyOrder>();
 
-                    objSupplyOrder.SupplyOrderItems = GetPurchaseRequestItems(new List<int>(SupplyOrderId));
-
                     return objSupplyOrder;
                 }
             }
@@ -299,6 +297,25 @@ namespace ArabErp.DAL
                                 DROP TABLE #SUPPLY_ITEM;";
 
                 return connection.Query<SupplyOrderPreviousList>(query).ToList<SupplyOrderPreviousList>();
+            }
+        }
+
+        public int Approve(int supplyOrderId)
+        {
+            try
+            {
+                using (IDbConnection connection = OpenConnection(dataConnection))
+                {
+                    string query = @"UPDATE SupplyOrder SET isApproved = 1 WHERE SupplyOrderId = @supplyOrderId;";
+
+                    connection.Execute(query, new { supplyOrderId = supplyOrderId });
+
+                    return 1;
+                }
+            }
+            catch (Exception)
+            {
+                return 0;
             }
         }
     }

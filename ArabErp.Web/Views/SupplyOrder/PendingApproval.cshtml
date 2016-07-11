@@ -31,6 +31,11 @@
         window.location = url;
     }
 
+    function Exit() {
+        var url = '@Url.Action("Index", "Home")';
+        window.location = url;
+    }
+
 </script>
 
 <div class="container">
@@ -93,6 +98,12 @@
                     </tbody>
                 </table>
             </div>
+            <div class="row">
+                <div class="col-md-12 hrpart">
+                    <input type="button" class="form-button right" value="Exit" onclick="Exit()" />
+                </div>
+            </div>
+
         </div>
     </div>
 </div>
