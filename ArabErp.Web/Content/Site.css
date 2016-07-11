@@ -937,6 +937,20 @@ section.content {
     line-height: 8px !important;
     padding-top: 1px;
 }
+.row-count
+ {
+    float:left;
+    margin-left: 11px;
+    margin-top: -12px;
+}
+
+.row-count h5
+
+{
+    color:#2db4e3;
+    font-size:16px;
+
+}
 
 
 
