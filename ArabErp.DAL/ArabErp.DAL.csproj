@@ -109,6 +109,7 @@
     <Compile Include="PurchaseBillRepository.cs" />
     <Compile Include="PurchaseRequestItemRepository.cs" />
     <Compile Include="PurchaseRequestRepository.cs" />
+    <Compile Include="QuerySheetRepository.cs" />
     <Compile Include="QuotationApprovalRepository.cs" />
     <Compile Include="SaleOrderItemRepository.cs" />
     <Compile Include="SaleOrderRepository.cs" />
