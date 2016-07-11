@@ -145,10 +145,10 @@ namespace ArabErp.Web.Controllers
 
             var user = (new UserRepository()).GetUserByUserNameAndPassword(model.Username, hashedPassword);
 
-            if(user == null)
+            if(user == null || user.UserName == null)
             {
                 FillOrganization();
-                ModelState.AddModelError("", "Invalid login attempt.");
+                ModelState.AddModelError("", "Invalid User name or Password. Please try again.");
                 return View(model);
             }
             else
