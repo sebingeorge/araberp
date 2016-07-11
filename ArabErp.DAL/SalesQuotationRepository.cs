@@ -243,5 +243,29 @@ namespace ArabErp.DAL
                 return connection.Query<Dropdown>("select SalesQuotationRejectReasonId Id,ReasonDescription Name from SalesQuotationRejectReason").ToList();
             }
         }
+        /// <summary>
+        /// Pending Sales Quotation for Sale Order
+        /// </summary>
+        /// <param name="IsProjectBased"></param>
+        /// <returns></returns>
+        public List<SalesQuotation> GetSalesQuotationForSO(int IsProjectBased)
+        {
+            using (IDbConnection connection = OpenConnection(dataConnection))
+            {
+                string sql = @"select E.EmployeeName SalesExecutiveName ,C.CustomerName,SQ.*,STUFF((SELECT ', ' + CAST(W.WorkDescr AS VARCHAR(10)) [text()]
+                             FROM SalesQuotationItem S inner join WorkDescription W on W.WorkDescriptionId=S.WorkDescriptionId
+                             WHERE S.SalesQuotationId = SI.SalesQuotationId
+                             FOR XML PATH(''), TYPE).value('.','NVARCHAR(MAX)'),1,2,' ') WorkDescription from SalesQuotation SQ 
+                             inner join SalesQuotationItem SI on SI.SalesQuotationId=SQ.SalesQuotationId
+                             inner join Customer C on SQ.CustomerId=C.CustomerId
+							 inner join Employee E on  E.EmployeeId =SQ.SalesExecutiveId
+							 
+                             where   SQ.isActive=1 and isnull(SQ.IsQuotationApproved,0)=1 and SQ.IsProjectBased = " + IsProjectBased.ToString();
+
+                var objSalesQuotations = connection.Query<SalesQuotation>(sql).ToList<SalesQuotation>();
+
+                return objSalesQuotations;
+            }
+        }
     }
 }

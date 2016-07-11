@@ -57,7 +57,30 @@ namespace ArabErp.DAL
 
 
 
+        public SaleOrder GetSaleOrderFrmQuotation(int Id)
+        {
+            using (IDbConnection connection = OpenConnection(dataConnection))
+            {
+                string sql = @"select *,DoorNo +','+ Street+','+State CustomerAddress from SalesQuotation S inner join Customer C on S.CustomerId=C.CustomerId  where SalesQuotationId=@Id";
 
+                var objSaleOrder = connection.Query<SaleOrder>(sql, new
+                {
+                    Id = Id
+                }).First<SaleOrder>();
+
+                return objSaleOrder;
+            }
+        }
+        public List<SaleOrderItem> GetSaleOrderItemFrmQuotation(int Id)
+        {
+            using (IDbConnection connection = OpenConnection(dataConnection))
+            {
+                string sql = @"select *,VehicleModelName from SalesQuotationItem S inner join WorkDescription W ON S.WorkDescriptionId=W.WorkDescriptionId
+                               LEFT JOIN VehicleModel V ON  V.VehicleModelId=W.VehicleModelId
+                               where SalesQuotationId=@Id";
+                return connection.Query<SaleOrderItem>(sql, new { Id = Id }).ToList();
+            }
+        }
 
         public SaleOrder GetSaleOrder(int SaleOrderId)
         {
