@@ -1,71 +1,46 @@
 ﻿@model ArabErp.Domain.WorkShopRequest
 
-<script type="text/javascript">
+@{string actionName = ViewContext.RouteData.GetRequiredString("action");}
+
+<script>
     $(document).ready(function () {
+        //$('#CurrencyId').val(result.CurrencyId);
+        //calculateSummary();
         $("#Items_0__SlNo").val('1');
-        $("#add_row").click(function () {
-            var i = 0;
-            var no = 1;
-            $('input[id^="Row_"]').each(function () {
-                var id = this.id;
-                no++;
-                var row = Number(id.replace("Row_", ""));
-                if (row > i) {
-                    i = row;
-                }
-            });
-            i++;
 
-            var index = (new Date()).getTime(); // unique indexer
-            var clone = $('#0').clone(); // clone the BatchProducts item
-            //Update the index of the clone
-            //clone.html($(clone).html().replace("Items_0__", 'Items_' + i + '__'));
-            clone.html($(clone).html().replace(/\Items_0__/g, 'Items_' + i + '__'));
-            clone.html($(clone).html().replace(/\Items[0]./g, 'Items[' + i + '].'));
-            clone.html($(clone).html().replace(/\[0\]/g, '[' + i + ']'));
-            clone.html($(clone).html().replace(/\(0\)/g, '(' + i + ')'));
-            clone.html($(clone).html().replace(/Row_0/, 'Row_' + i));
-            clone.html($(clone).html().replace(/slno1/, 'slno' + (i + 1) + ''));
-            clone.html($(clone).html().replace(/unit0/, 'unit' + i + ''));
-            clone.html($(clone).html().replace(/partno0/, 'partno' + i + ''));
-            clone.html($(clone).html().replace(/this,0/, 'this,' + i + ''));
-            $("#table-additional-items-list").append('<tr id="' + i + '">' + clone.html() + '  </tr>');
-            $("#slno" + (i + 1)).html((i + 1));
-            $("#Items_" + i + "__SlNo").val((i + 1));
-            $("#unit" + i).html('');
-            $("#partno" + i).html('');
 
-            //bind keypress event for new row inputs.
-            $(".numbers-only").keypress(function (e) {
-                if (e.which == 8 || (e.which == 46 && $(this).val().indexOf('.') == -1) || (e.which > 47 && e.which < 58)) { } else { return false; }
-            });
-        });
-
-        $(".numbers-only").keypress(function (e) {
-            if (e.which == 8 || (e.which == 46 && $(this).val().indexOf('.') == -1) || (e.which > 47 && e.which < 58)) { } else { return false; }
-        });
     });
 
-    function OnItemChange(sender, index) {
-        var id = $(sender).val();
-        if (id != '') {
-            var url = '@Url.Action("GetItemUnit")';//get unit of selected item
-            $.getJSON(url, { itemId: id },
-                function (data) {
-                    $("#unit" + index).html(data);
-                });
-            url = '@Url.Action("GetItemPartNo")';//get part number of selected item
-            $.getJSON(url, { itemId: id },
-                function (data) {
-                    $("#partno" + index).html(data);
-                });
-        }
-        else {
-            $("#unit" + index).html('');
-            $("#partno" + index).html('');
-        }
-    }
 
+    function AddAdditionRow() {
+        var i = 0;
+        var no = 1;
+        $('input[id^="Row_"]').each(function () {
+            var id = this.id;
+            no++;
+            var row = Number(id.replace("Row_", ""));
+            if (row > i) {
+                i = row;
+            }
+        });
+        i++;
+
+        var index = (new Date()).getTime(); // unique indexer
+        var clone = $('#0').clone(); // clone the BatchProducts item
+        //Update the index of the clone
+        //clone.html($(clone).html().replace("Items_0__", 'Items_' + i + '__'));
+        clone.html($(clone).html().replace(/Items_0__/g, 'Items_' + i + '__'));
+        clone.html($(clone).html().replace(/Items_0__/g, 'Items_' + i + '__'));
+        clone.html($(clone).html().replace(/\Items[0]./g, 'Items[' + i + '].'));
+        clone.html($(clone).html().replace(/\[0\]/g, '[' + i + ']'));
+        clone.html($(clone).html().replace(/\(0\)/g, '(' + i + ')'));
+        clone.html($(clone).html().replace(/Row_0/, 'Row_' + i + ''));
+        clone.html($(clone).html().replace(/slno1/, 'slno' + (i + 1) + ''));
+        clone.html($(clone).html().replace(/this,0/, 'this,' + i + ''));
+        $("#tab_logic").append('<tr id="' + i + '">' + clone.html() + '  </tr>');
+        $("#slno" + (i + 1)).html((i + 1));
+        $("#Items_" + i + "__SlNo").val((i + 1));
+    }
     function Delete(index) {
 
         var i = 0;
@@ -83,49 +58,85 @@
         if (i > 1) {
             $("#" + index).remove();
             for (var j = index + 1; j < i; j++) {
-                var item = $("#Items_" + j + "__ItemId").val();
-                var remarks = $("#Items_" + j + "__Remarks").val();
-                var qty = $("#Items_" + j + "__Quantity").val();
+                var ItemId = $("#Items_" + j + "__ItemId").val();
+                var Remarks = $("#Items_" + j + "__Remarks").val();
+                var Quantity = $("#Items_" + j + "__Quantity").val();
+                //var FixedRate = $("#Items_" + j + "__Remarks").val();
+
+                //alert(WorkDescriptionId + ',' + VehicleModelId + ',' + Quantity + ',' + UnitId + ',' + Rate + ',' + Discount + ',' + Amount);
+
                 var clone = $("#" + j).clone(true, true);
                 clone.html($(clone).html().replace(new RegExp("Items_" + j + "__", "g"), 'Items_' + (j - 1) + '__'));
                 clone.html($(clone).html().replace(new RegExp("\\[" + j + "].", "g"), "[" + (j - 1) + "]."));
                 clone.html($(clone).html().replace(new RegExp('slno' + (j + 1) + '">' + (j + 1), "g"), 'slno' + (j) + '">' + (j)));
                 clone.html($(clone).html().replace("Delete(" + j, "Delete(" + (j - 1)));
                 clone.html($(clone).html().replace("Row_" + j, "Row_" + (j - 1)));
-                clone.html($(clone).html().replace("unit" + j, "unit" + (j - 1)));
-                clone.html($(clone).html().replace("partno" + j, "partno" + (j - 1)));
+
+
+
+
                 clone.html($(clone).html().replace("this," + j, "this," + (j - 1)));
                 $("#" + j).html(clone.html());
                 $("#Items_" + (j - 1) + "__SlNo").val(j);
                 $("#" + (j)).attr('id', (j - 1));
-                $("#Items_" + (j - 1) + "__ItemId").val(item);
-                $("#Items_" + (j - 1) + "__Remarks").val(remarks);
-                $("#Items_" + (j - 1) + "__Quantity").val(qty);
+                //alert(j);
+                $("#Items_" + (j - 1) + "__ItemId").val(ItemId);
+                $("#Items_" + (j - 1) + "__Remarks").val(Remarks);
+                $("#Items_" + (j - 1) + "__Quantity").val(Quantity);
+                //$("#Items_" + (j - 1) + "__Remarks").val(Remarks);
+
             }
         }
     }
+
+
+    @*function OnItemChange(sender, index) {
+        var id = $(sender).val();
+        if (id != '') {
+            var url = '@Url.Action("GetItemUnit")';//get unit of selected item
+            $.getJSON(url, { itemId: id },
+                function (data) {
+                    $("#unit" + index).html(data);
+                });
+            url = '@Url.Action("GetItemPartNo")';//get part number of selected item
+            $.getJSON(url, { itemId: id },
+                function (data) {
+                    $("#partno" + index).html(data);
+                });
+        }
+        else {
+            $("#unit" + index).html('');
+            $("#partno" + index).html('');
+        }
+    }*@
+
+
 </script>
 
 <table class="table table-bordered" id="table-additional-items-list">
     <thead>
         <tr class="grid_heading">
-            <th width="5%"><h1>Sl.No.</h1></th>
+            <th width="2%" class="text-center"></th>
+            <th width="5%"><h1>#</h1></th>
             <th><h1>Material Spares</h1></th>
             <th width="10%"><h1>Part No.</h1></th>
             <th><h1>Remarks</h1></th>
             <th width="5%" class="text-right "><h1>Qty</h1></th>
             <th width="5%"><h1>UoM</h1></th>
-            <th width="2%">&nbsp;</th>
+            <th width="2%" class="text-center"></th>
         </tr>
     </thead>
     <tbody class="grid_row">
         @for (int i = 0; i < Model.Items.Count; i++)
         {
+            
             <tr id="@i">
-                <td>
+                <td style="vertical-align:middle"><a class="glyphicon glyphicon-minus" style="top:0px" onclick="Delete(@i)"></a></td>
+                <td align="center">
                     <span id="slno@(i+1)">@(i + 1)</span>
                     @Html.HiddenFor(m => m.Items[i].SlNo)
                 </td>
+
                 <td>
                     <input type="hidden" id="Row_@i" />
                     @Html.DropDownListFor(m => m.Items[i].ItemId, (SelectList)ViewBag.itemList, "Select Material", new { @class = "form_input", autocomplete = "off", @onchange = "OnItemChange(this," + i + ")" })
@@ -134,10 +145,10 @@
                 <td>@Html.TextBoxFor(m => m.Items[i].Remarks, new { @class = "form_input", autocomplete = "off", placeholder = "Remarks" })</td>
                 <td>@Html.TextBoxFor(m => m.Items[i].Quantity, new { @class = "form_input numbers-only text-right", autocomplete = "off", placeholder = "Qty" })</td>
                 <td id="unit0" class="qreturn" style="vertical-align:middle"></td>
-                <td style="vertical-align:middle"><a class="glyphicon glyphicon-minus" style="top:0px" onclick="Delete(@i)"></a></td>
+                <td style="vertical-align:middle"><a id="add_row" class="glyphicon glyphicon-plus" style="top:0px" onclick="AddAdditionRow()"></a></td>
             </tr>
         }
     </tbody>
 </table>
-<a id="add_row" class="glyphicon glyphicon-plus"></a>
+@*<a id="add_row" class="glyphicon glyphicon-plus"></a>*@
 @*<a id='delete_row' style="float:right" class="glyphicon glyphicon-minus"></a>*@
