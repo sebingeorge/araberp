@@ -67,7 +67,7 @@ namespace ArabErp.Web.Controllers
             model.EDateDelivery = DateTime.Now;
             return View(model);
         }
-        public ActionResult CreateProject()
+        public ActionResult CreateProject(int? SalesQuotationId)
         {
 
             string internalId = "";
@@ -94,15 +94,26 @@ namespace ArabErp.Web.Controllers
                 TempData["success"] = "";
                 TempData["error"] = "Some error occurred. Please try again.|" + ex.Message;
             }
-            SaleOrder saleOrder = new SaleOrder();
-            saleOrder.isProjectBased = 1;
-            saleOrder.Items = new List<SaleOrderItem>();
-            saleOrder.Items.Add(new SaleOrderItem());
-            saleOrder.SaleOrderRefNo = "SAL/" + internalId;
-            saleOrder.SaleOrderDate = DateTime.Now;
-            saleOrder.EDateArrival = DateTime.Now;
-            saleOrder.EDateDelivery = DateTime.Now;
-            return View("Create",saleOrder);
+            var repo = new SaleOrderRepository();
+            SaleOrder model = repo.GetSaleOrderFrmQuotation(SalesQuotationId ?? 0);
+
+            var SOList = repo.GetSaleOrderItemFrmQuotation(SalesQuotationId ?? 0);
+            model.Items = new List<SaleOrderItem>();
+            foreach (var item in SOList)
+            {
+                var soitem = new SaleOrderItem { WorkDescriptionId = item.WorkDescriptionId, VehicleModelName = item.VehicleModelName, Quantity = item.Quantity, UnitId = item.UnitId, Rate = item.Rate, Amount = item.Amount, Discount = item.Discount };
+                model.Items.Add(soitem);
+
+            }
+            //SaleOrder saleOrder = new SaleOrder();
+            model.isProjectBased = 1;
+            //model.Items = new List<SaleOrderItem>();
+            //model.Items.Add(new SaleOrderItem());
+            model.SaleOrderRefNo = "SAL/" + internalId;
+            model.SaleOrderDate = DateTime.Now;
+            model.EDateArrival = DateTime.Now;
+            model.EDateDelivery = DateTime.Now;
+            return View("Create", model);
         }
         public ActionResult DisplaySOList()
         {
@@ -236,7 +247,7 @@ namespace ArabErp.Web.Controllers
                 {
                     TempData["success"] = "Saved successfully. Sale Order Reference No. is " + id.Split('|')[1];
                     TempData["error"] = "";
-                    return RedirectToAction("Create");
+                    return RedirectToAction("PendingSalesQutoforSaleOrder", new { ProjectBased = 0 });
                 }
                 else
                 {
@@ -279,14 +290,14 @@ namespace ArabErp.Web.Controllers
                 {
                     TempData["success"] = "Saved successfully. Sale Order Reference No. is " + id.Split('|')[1];
                     TempData["error"] = "";
-                    if(model.isProjectBased == 0)
-                    {
-                        return RedirectToAction("Create");
-                    }
-                    else
-                    {
-                        return RedirectToAction("CreateProject");
-                    }
+                    //if (model.isProjectBased == 0)
+                    //{
+                    //    return RedirectToAction("PendingSalesQutoforSaleOrder", new { ProjectBased = 0 });
+                    //}
+                    //else
+                    //{
+                        return RedirectToAction("PendingSalesQutoforSaleOrder", new { ProjectBased = 1 });
+                    //}
                     
                 }
                 else
@@ -314,8 +325,8 @@ namespace ArabErp.Web.Controllers
             FillCurrency();
             FillCommissionAgent();
             FillEmployee();
-
-            return RedirectToAction("CreateProject");
+            return View(model);
+          
         }
         [HttpGet]
         public JsonResult GetCustomerDetailsByKey(int cusKey)

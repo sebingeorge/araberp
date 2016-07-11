@@ -146,8 +146,9 @@ namespace ArabErp.Web.Controllers
                 {
                     SupplyOrder supplyorder = new SupplyOrder();
                     supplyorder = new SupplyOrderRepository().GetSupplyOrder(id);
+                    supplyorder.SupplyOrderItems = new SupplyOrderItemRepository().GetSupplyOrderItems(id);
                     FillDropdowns();
-                    return View();
+                    return View(supplyorder);
                 }
                 else
                 {
@@ -178,7 +179,19 @@ namespace ArabErp.Web.Controllers
         [HttpPost]
         public ActionResult Approve(SupplyOrder model)
         {
-            return View();
+            int id = new SupplyOrderRepository().Approve(model.SupplyOrderId);
+            if (id > 0)
+            {
+                TempData["success"] = "Approved successfully";
+                TempData["error"] = "";
+                return RedirectToAction("PendingApproval");
+            }
+            else
+            {
+                TempData["success"] = "";
+                TempData["error"] = "Some error occured while approving the order. Please try again.";
+                return View(model);
+            }
         }
     }
 }

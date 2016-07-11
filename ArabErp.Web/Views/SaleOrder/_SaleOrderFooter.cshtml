@@ -58,16 +58,16 @@
         <div class="col-md-11 col-sm-10 col-xs-8">
             <label for="PaymentTerms">Payment Terms</label>
 
-            @if (actionName == "Create")
+            @*@if (actionName == "Create")
             {
                 @Html.TextBoxFor(m => m.PaymentTerms, new { @class = "form_input", autocomplete = "off" })
                 <button class="terms" type="button" id="pymtTerms" onclick="showPaymentTerms()">...</button>
             }
             else
-            {
+            {*@
                 @Html.TextBoxFor(m => m.PaymentTerms, new { @class = "form_input", autocomplete = "off", @readonly = "readonly" })
 
-            }
+            @*}*@
         </div>
        
     </div>

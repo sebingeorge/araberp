@@ -2,7 +2,7 @@
 
 @{
     Layout = "~/Views/Shared/_Layout.cshtml";
-    ViewBag.Title = "Approve Supply Order";
+    ViewBag.Title = "Approve Supply Order / LPO";
 }
 
 <script type="text/javascript">
@@ -10,6 +10,8 @@
     $(document).ready(function () {
 
         $('#disabled-div').find('input[type="text"], textarea, select').attr('disabled', 'disabled');
+
+        calculateSummary();
 
         //---------------------toastr---------------------------//
         toastr.options = {
@@ -28,8 +30,20 @@
         //------------------------------------------------------//
     })
 
+    function calculateSummary() {
+        var amount = parseFloat("0.00");
+        $('.clAmount').each(function (i, obj) {
+            var a = parseFloat($("#SupplyOrderItems_" + i + "__Amount").val());
+            if (isNaN(a)) {
+                a = parseFloat("0.00");
+            }
+            amount = amount + a;
+        });
+        $("#QtyAmount").text(amount.toFixed(2));
+    }
+
     function Back() {
-        var url = '@Url.Action("PendingSupplyOrder")';
+        var url = '@Url.Action("PendingApproval")';
         window.location = url;
     }
 
@@ -54,7 +68,7 @@
                 <div class="row">
                     <div class="col-md-12 hrpart">
                         <input type="button" class="form-button right" value="Exit" onclick="Back()" />
-                        <button type="submit" class="form-button right">Save</button>
+                        <button type="submit" class="form-button right">Approve</button>
                     </div>
                 </div>
             }
