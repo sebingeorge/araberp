@@ -20,9 +20,15 @@ namespace ArabErp.Web.Controllers
             FillStockPoint();
             FIllEmployee();
             FIllStockItems(0);
-            StockJournal StockJournalList = new StockJournal { StockJournelItems = new List<StockJournalItem>() };
+            //StockJournal StockJournal = new StockJournal();
+            string internalid = DatabaseCommonRepository.GetNextRefNoWithNoUpdate(typeof(StockJournal).Name);
+            StockJournal StockJournalList = new StockJournal { StockJournelItems = new List<StockJournalItem>(), StockJournalRefno = "SJ/" + internalid };
+
             StockJournalList.StockJournelItems.Add(new StockJournalItem());
+            //StockJournal.StockJournalRefno = "SJ/" + internalid;
             return View("Create", StockJournalList);
+            //return View(new StockJournal { StockJournalRefno = "SJ/" + internalid });
+         
         }
          [HttpPost]
         public ActionResult Create(StockJournal model)
