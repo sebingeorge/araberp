@@ -199,7 +199,7 @@
     <table class="table table-bordered" id="tab_logic">
         <thead>
             <tr class="grid_heading">
-                <th width="2%" class="text-center"></th>
+                @*<th width="2%" class="text-center"></th>*@
                 <th width="5%" class="text-center"><h1>#</h1></th>
                 <th width="31%" class="text-left"><h1>Work Description</h1></th>
                 @if (Model.isProjectBased == 0)
@@ -211,7 +211,7 @@
                 <th width="10%" class="text-right"><h1>Rate</h1></th>
                 <th width="10%" class="text-right"><h1>Discount</h1></th>
                 <th width="10%" class="text-right"><h1>Amount</h1></th>
-                <th width="2%" class="text-center"></th>
+                @*<th width="2%" class="text-center"></th>*@
                
             </tr>
         </thead>
@@ -219,7 +219,7 @@
             @for (int i = 0; i < Model.Items.Count; i++)
             {
                 <tr id="@i">
-                    <td style="vertical-align:middle"><a class="glyphicon glyphicon-minus" style="top:0px" onclick="Delete(@i)"></a></td>
+                    @*<td style="vertical-align:middle"><a class="glyphicon glyphicon-minus" style="top:0px" onclick="Delete(@i)"></a></td>*@
                     <td align="center">
                         <span id="slno@(i+1)">@(i + 1)</span>
                         @Html.HiddenFor(m => m.Items[i].SlNo)
@@ -300,17 +300,17 @@
                         @*}*@
                     </td>
                     <td>@Html.TextBoxFor(m => m.Items[i].Amount, new { @class = "form_input clAmount", autocomplete = "off", @style = "text-align:right", placeholder = "Amount", @readonly = "readonly" })</td>
-                    @if (actionName == "Create" || actionName == "CreateProject" || actionName == "RefreshDisplaySOList")
+                    @*@if (actionName == "Create" || actionName == "CreateProject" || actionName == "RefreshDisplaySOList")
                         {
                     <td style="vertical-align:middle"><a id="add_row"  class="glyphicon glyphicon-plus" style="top:0px" onclick="AddAdditionRow()"></a></td>
-}
+}*@
                 </tr>
             }
             @*<tr id='addr1'></tr>*@
         </tbody>
         <tfoot>
             <tr class="grid_heading">
-                <th width="2%"></th>
+                @*<th width="2%"></th>*@
                 <th width="5%" class="text-center"><h1></h1></th>
                 <th width="26%" class="text-center"><h1></h1></th>
                 @if (Model.isProjectBased == 0)
@@ -342,7 +342,7 @@
                
                 <th width="10%" class="text-right">@Html.TextBoxFor(m => m.TotalAmount, new { @class = "form_input", @style = "text-align:right", autocomplete = "off", @readonly = "readonly" })</th>
                
-                <th width="2%"></th>
+                @*<th width="2%"></th>*@
 
             </tr>
         </tfoot>
