@@ -31,17 +31,18 @@
         console.log(url);
         window.location.href = url;
     }
-    function Exit() {
-         
-        if ('@ViewData["action"].ToString()' == "Hold")
-        {
-           
-         location.href = '@Url.Action("PendingSaleOrderHold", "SaleOrder")';
-        }
-    else if ('@ViewData["action"].ToString()' == "Release")
-    {
-        location.href = '@Url.Action("PendingSaleOrderRelease", "SaleOrder")';
+    function SaleOrderCancel() {
+        var id = $("#SaleOrderId").val();
+       
+        var url = '@Url.Action("UpdateCancelStatus")';
+        url = url + "?Id=" + id;
+        console.log(url);
+        window.location.href = url;
     }
+    function Exit() {
+     
+         location.href = '@Url.Action("PendingSaleOrderHold", "SaleOrder")';
+      
     }
     $(document).ready(function () {
         if ('@ViewData["action"].ToString()' == "Hold") {
@@ -63,6 +64,10 @@
 else if (ViewData["action"].ToString() == "Hold")
 {
     <h4>Sale Order Hold</h4>
+}
+else if (ViewData["action"].ToString() == "Cancel")
+{
+    <h4>Sale Order Cancel</h4>
 }
 else
 {
@@ -89,6 +94,10 @@ else
                     else if (ViewData["action"].ToString() == "Hold")
                     {
                         <button type="button" class="form-button right" onclick="SaleOrderHold()">Hold</button>
+                    }
+                    else if (ViewData["action"].ToString() == "Cancel")
+                    {
+                        <button type="button" class="form-button right" onclick="SaleOrderCancel()">Cancel</button>
                     }
                     else
                     {

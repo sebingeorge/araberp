@@ -145,8 +145,8 @@ namespace ArabErp.DAL
                              FROM SaleOrderItem SI inner join WorkDescription W on W.WorkDescriptionId=SI.WorkDescriptionId
                              WHERE SI.SaleOrderId = t.SaleOrderId
                              FOR XML PATH(''), TYPE).value('.','NVARCHAR(MAX)'),1,2,' ') WorkDescription,DATEDIFF(dd,SO.SaleOrderDate,GETDATE ()) Ageing,DATEDIFF(dd,GETDATE (),SO.EDateDelivery)Remaindays,
-                             case when ISNULL(JodCardCompleteStatus,0) = 1 then 'Jod Card Completed'
-                                  when J.SaleOrderItemId is not null then 'Jod Card Started'
+                             case when ISNULL(JodCardCompleteStatus,0) = 1 then 'Job Card Completed'
+                                  when J.SaleOrderItemId is not null then 'Job Card Started'
                                   when SO.SaleOrderHoldStatus='H' then 'Holded'  
                                   when SO.SaleOrderApproveStatus=1 then 'Confirmed' end as Status,SO.TotalAmount
                              FROM SaleOrderItem t INNER JOIN SaleOrder SO on t.SaleOrderId=SO.SaleOrderId INNER JOIN Customer C ON SO.CustomerId =C.CustomerId
@@ -362,6 +362,21 @@ namespace ArabErp.DAL
             {
                 string sql = @"Update SaleOrder set SaleOrderHoldStatus = null,SaleOrderReleaseDate=@ReleaseDate WHERE SaleOrderId=@SaleOrderId";
                 return connection.Execute(sql, new { SaleOrderId = SaleOrderId, ReleaseDate = ReleaseDate });
+
+            }
+        }
+        /// <summary>
+        /// Cancel Sale Order ,no job card started
+        /// </summary>
+        /// <param name="SaleOrderId"></param>
+        /// <param name="ReleaseDate"></param>
+        /// <returns></returns>
+        public int UpdateSOCancel(int SaleOrderId)
+        {
+            using (IDbConnection connection = OpenConnection(dataConnection))
+            {
+                string sql = @"Update SaleOrder set isActive = 0 WHERE SaleOrderId=@SaleOrderId";
+                return connection.Execute(sql, new { SaleOrderId = SaleOrderId });
 
             }
         }
