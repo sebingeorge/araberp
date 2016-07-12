@@ -9,7 +9,7 @@ using ArabErp.DAL;
 
 namespace ArabErp.Web.Controllers
 {
-    public class BoxController : Controller
+    public class BoxController :BaseController
     {
         // GET: Box
         public ActionResult Index()
