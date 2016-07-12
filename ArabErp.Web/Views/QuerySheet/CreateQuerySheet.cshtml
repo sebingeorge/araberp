@@ -1,0 +1,244 @@
+﻿@model ArabErp.Domain.QuerySheet
+
+@{
+    ViewBag.Title = "Create Query Sheet";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@{ string actionName = ViewContext.RouteData.GetRequiredString("action");
+    if (actionName == "CreateQuerySheet")
+    {
+        actionName = "Create";
+    }
+}
+<div class="form-head1">
+    <h4> Query Sheet</h4>
+    </div>
+    <div class="main-part pad1">
+
+        @using (Html.BeginForm(null, null, FormMethod.Post))
+        {
+            @Html.HiddenFor(m => m.QuerySheetId)
+
+            <div class="row form-group ">
+                <div class="col-md-6">
+                    <label for="ProjectName">Project Name</label>
+                    @if (ViewBag.Title.ToString() == "Create")
+                    {
+                        @Html.TextBoxFor(m => m.ProjectName, new { @class = "form_input", autocomplete = "off" })
+                    }
+                    else
+                    {
+                        @Html.TextBoxFor(m => m.ProjectName, new { @class = "form_input", autocomplete = "off", @readonly = "readonly" })
+                    }
+                </div>
+
+                <div class="col-md-6">
+                    <label for="ContactPerson">Contact Person</label>
+                    @if (ViewBag.Title.ToString() == "Create")
+                    {
+                        @Html.TextBoxFor(m => m.ContactPerson, new { @class = "form_input", autocomplete = "off" })
+                    }
+                    else
+                    {
+                        @Html.TextBoxFor(m => m.ContactPerson, new { @class = "form_input", autocomplete = "off", @readonly = "readonly" })
+                    }
+                </div>
+            </div>
+            <div class="row form-group ">
+                <div class="col-md-6">
+                    <label for="ContactNumber">Contact Number</label>
+                    @if (ViewBag.Title.ToString() == "Create")
+                    {
+                        @Html.TextBoxFor(m => m.ContactNumber, new { @class = "form_input", autocomplete = "off" })
+                    }
+                    else
+                    {
+                        @Html.TextBoxFor(m => m.ContactNumber, new { @class = "form_input", autocomplete = "off", @readonly = "readonly" })
+                    }
+                </div>
+
+                <div class="col-md-6">
+                    <label for="Email">Email</label>
+                    @if (ViewBag.Title.ToString() == "Create")
+                    {
+                        @Html.TextBoxFor(m => m.Email, new { @class = "form_input", autocomplete = "off" })
+                    }
+                    else
+                    {
+                        @Html.TextBoxFor(m => m.Email, new { @class = "form_input", autocomplete = "off", @readonly = "readonly" })
+                    }
+                </div>
+            </div>
+            <div class="row form-group ">
+                <div class="col-md-6">
+                    <label for="RoomDetails">Room Details</label>
+                    @if (ViewBag.Title.ToString() == "Create")
+                    {
+                        @Html.TextBoxFor(m => m.RoomDetails, new { @class = "form_input", autocomplete = "off" })
+                    }
+                    else
+                    {
+                        @Html.TextBoxFor(m => m.RoomDetails, new { @class = "form_input", autocomplete = "off", @readonly = "readonly" })
+                    }
+                </div>
+
+                <div class="col-md-6">
+                    <label for="ExternalRoomDimension">External Room Dimension</label>
+                    @if (ViewBag.Title.ToString() == "Create")
+                    {
+                        @Html.TextBoxFor(m => m.ExternalRoomDimension, new { @class = "form_input", autocomplete = "off" })
+                    }
+                    else
+                    {
+                        @Html.TextBoxFor(m => m.ExternalRoomDimension, new { @class = "form_input", autocomplete = "off", @readonly = "readonly" })
+                    }
+                </div>
+            </div>
+            <div class="row form-group ">
+                <div class="col-md-6">
+                    <label for="ColdRoomArea">Cold Room Area</label>
+                    @if (ViewBag.Title.ToString() == "Create")
+                    {
+                        @Html.TextBoxFor(m => m.ColdRoomArea, new { @class = "form_input", autocomplete = "off" })
+                    }
+                    else
+                    {
+                        @Html.TextBoxFor(m => m.ColdRoomArea, new { @class = "form_input", autocomplete = "off", @readonly = "readonly" })
+                    }
+                </div>
+
+                <div class="col-md-6">
+                    <label for="ColdRoomLocation">Cold Room Location</label>
+                    @if (ViewBag.Title.ToString() == "Create")
+                    {
+                        @Html.TextBoxFor(m => m.ColdRoomLocation, new { @class = "form_input", autocomplete = "off" })
+                    }
+                    else
+                    {
+                        @Html.TextBoxFor(m => m.ColdRoomLocation, new { @class = "form_input", autocomplete = "off", @readonly = "readonly" })
+                    }
+                </div>
+            </div>
+            <div class="row form-group ">
+                <div class="col-md-6">
+                    <label for="TemperatureRequired">Temperature Required</label>
+                    @if (ViewBag.Title.ToString() == "Create")
+                    {
+                        @Html.TextBoxFor(m => m.TemperatureRequired, new { @class = "form_input", autocomplete = "off" })
+                    }
+                    else
+                    {
+                        @Html.TextBoxFor(m => m.TemperatureRequired, new { @class = "form_input", autocomplete = "off", @readonly = "readonly" })
+                    }
+                </div>
+
+                <div class="col-md-6">
+                    <label for="PanelThicknessANDSpec">Panel Thickness AND Spec</label>
+                    @if (ViewBag.Title.ToString() == "Create")
+                    {
+                        @Html.TextBoxFor(m => m.PanelThicknessANDSpec, new { @class = "form_input", autocomplete = "off" })
+                    }
+                    else
+                    {
+                        @Html.TextBoxFor(m => m.PanelThicknessANDSpec, new { @class = "form_input", autocomplete = "off", @readonly = "readonly" })
+                    }
+                </div>
+            </div>
+            <div class="row form-group ">
+                <div class="col-md-6">
+                    <label for="DoorSizeTypeAndNumberOfDoor">Door Size Type And Number Of Door</label>
+                    @if (ViewBag.Title.ToString() == "Create")
+                    {
+                        @Html.TextBoxFor(m => m.DoorSizeTypeAndNumberOfDoor, new { @class = "form_input", autocomplete = "off" })
+                    }
+                    else
+                    {
+                        @Html.TextBoxFor(m => m.DoorSizeTypeAndNumberOfDoor, new { @class = "form_input", autocomplete = "off", @readonly = "readonly" })
+                    }
+                </div>
+
+                <div class="col-md-6">
+                    <label for="FloorDetails">Floor Details</label>
+                    @if (ViewBag.Title.ToString() == "Create")
+                    {
+                        @Html.TextBoxFor(m => m.FloorDetails, new { @class = "form_input", autocomplete = "off" })
+                    }
+                    else
+                    {
+                        @Html.TextBoxFor(m => m.FloorDetails, new { @class = "form_input", autocomplete = "off", @readonly = "readonly" })
+                    }
+                </div>
+            </div>
+            <div class="row form-group ">
+                <div class="col-md-6">
+                    <label for="ProductDetails">Product Details</label>
+                    @if (ViewBag.Title.ToString() == "Create")
+                    {
+                        @Html.TextBoxFor(m => m.ProductDetails, new { @class = "form_input", autocomplete = "off" })
+                    }
+                    else
+                    {
+                        @Html.TextBoxFor(m => m.ProductDetails, new { @class = "form_input", autocomplete = "off", @readonly = "readonly" })
+                    }
+                </div>
+
+                <div class="col-md-6">
+                    <label for="ProductIncomingTemperature">Product Incoming Temperature</label>
+                    @if (ViewBag.Title.ToString() == "Create")
+                    {
+                        @Html.TextBoxFor(m => m.ProductIncomingTemperature, new { @class = "form_input", autocomplete = "off" })
+                    }
+                    else
+                    {
+                        @Html.TextBoxFor(m => m.ProductIncomingTemperature, new { @class = "form_input", autocomplete = "off", @readonly = "readonly" })
+                    }
+                </div>
+            </div>
+            <div class="row form-group ">
+                <div class="col-md-6">
+                    <label for="PipeLength">Pipe Length</label>
+                    @if (ViewBag.Title.ToString() == "Create")
+                    {
+                        @Html.TextBoxFor(m => m.PipeLength, new { @class = "form_input", autocomplete = "off" })
+                    }
+                    else
+                    {
+                        @Html.TextBoxFor(m => m.PipeLength, new { @class = "form_input", autocomplete = "off", @readonly = "readonly" })
+                    }
+                </div>
+
+                <div class="col-md-6">
+                    <label for="Refrigerant">Refrigerant</label>
+                    @if (ViewBag.Title.ToString() == "Create")
+                    {
+                        @Html.TextBoxFor(m => m.Refrigerant, new { @class = "form_input", autocomplete = "off" })
+                    }
+                    else
+                    {
+                        @Html.TextBoxFor(m => m.Refrigerant, new { @class = "form_input", autocomplete = "off", @readonly = "readonly" })
+                    }
+                </div>
+            </div>
+            <div class="row form-group ">
+                <div class="col-md-6">
+                    <label for="EletricalPowerAvailability">Eletrical Power Availability</label>
+                    @if (ViewBag.Title.ToString() == "Create")
+                    {
+                        @Html.TextBoxFor(m => m.EletricalPowerAvailability, new { @class = "form_input", autocomplete = "off" })
+                    }
+                    else
+                    {
+                        @Html.TextBoxFor(m => m.EletricalPowerAvailability, new { @class = "form_input", autocomplete = "off", @readonly = "readonly" })
+                    }
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-12 hrpart">
+                    <button type="button" class="form-button right" onclick="Exit()">Exit</button>
+                    <button type="submit" class="form-button right">Save</button>
+                </div>
+            </div>
+        }
+    </div>
