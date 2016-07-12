@@ -234,6 +234,7 @@
     <Compile Include="Controllers\PaymentTermsController.cs" />
     <Compile Include="Controllers\PurchaseBillController.cs" />
     <Compile Include="Controllers\PurchaseRequestController.cs" />
+    <Compile Include="Controllers\QuerySheetController.cs" />
     <Compile Include="Controllers\QuotationApprovalController.cs" />
     <Compile Include="Controllers\SaleOrderController.cs" />
     <Compile Include="Controllers\SaleOrderStatusController.cs" />
@@ -664,6 +665,7 @@
     <Content Include="Views\MaterialPlanning\Planning.cshtml" />
     <Content Include="Views\Account\UserList.cshtml" />
     <Content Include="Views\SaleOrder\PendingSalesQutoforSaleOrder.cshtml" />
+    <Content Include="Views\QuerySheet\CreateQuerySheet.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

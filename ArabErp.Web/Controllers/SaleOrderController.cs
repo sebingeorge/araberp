@@ -391,7 +391,8 @@ namespace ArabErp.Web.Controllers
             IEnumerable<PendingSO> pendingSO = repo.GetSaleOrdersForHold(isProjectBased ?? 0);
             return View(pendingSO);
         }
-        public ActionResult Hold(int? SaleOrderId)
+            [HttpGet]
+        public ActionResult Hold(int? Id)
         {
             FillCustomer();
             FillCurrency();
@@ -402,9 +403,9 @@ namespace ArabErp.Web.Controllers
             
             FillVehicle();
             var repo = new SaleOrderRepository();
-            SaleOrder model = repo.GetSaleOrder(SaleOrderId ?? 0);
+            SaleOrder model = repo.GetSaleOrder(Id ?? 0);
             model.SaleOrderHoldDate = DateTime.Now;
-            var SOList = repo.GetSaleOrderItem(SaleOrderId ?? 0);
+            var SOList = repo.GetSaleOrderItem(Id ?? 0);
             model.Items = new List<SaleOrderItem>();
            
             foreach (var item in SOList)
