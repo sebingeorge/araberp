@@ -20,8 +20,16 @@
                 <button class="btn btn-xs btn-primary" onclick="Open('@Model[i].SaleOrderItemId')"><span class="glyphicon glyphicon-pencil" style="top:2px"></span></button>
             </td>
         </tr>
+
+    @*<div class="row-count">
+        <br />
+        <h5>Row Count:- @Model.Count()</h5>
+    </div>*@
     }
 }
+
+
+
 else
 {
     <tr>
@@ -30,5 +38,4 @@ else
         </td>
     </tr>
 }
-
 
