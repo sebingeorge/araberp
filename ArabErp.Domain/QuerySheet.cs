@@ -28,7 +28,7 @@ namespace ArabErp.Domain
         public string Refrigerant { get; set; }
         public string EletricalPowerAvailability { get; set; }
         public string CreatedBy { get; set; }
-        public DateTime? CreatedDate { get; set; }
+        public DateTime CreatedDate { get; set; }
         public int OrganizationId { get; set; }
         public bool isActive { get; set; }
     }
