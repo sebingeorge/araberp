@@ -22,6 +22,9 @@ namespace ArabErp.Domain
         public DateTime EDateDelivery { get; set; }
         public int? Ageing { get; set; }
         public int? Remaindays { get; set; }
+        public string Status { get; set; }
+        public decimal TotalAmount { get; set; }
+        
         
 
         
