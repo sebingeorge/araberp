@@ -940,8 +940,7 @@ section.content {
 .row-count
  {
     float:left;
-    margin-left: 11px;
-    margin-top: -12px;
+    margin-top:-20px;
 }
 
 .row-count h5
