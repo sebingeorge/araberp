@@ -23,13 +23,14 @@
             <div class="row form-group ">
 @if (actionName != "Create")
 {
-                <div class="col-md-6">
+                <div class="col-md-12">
                     <label for="ProjectName">Query Sheet RefNo</label>
 
                       @Html.TextBoxFor(m => m.QuerySheetRefNo, new { @class = "form_input", autocomplete = "off", @readonly = "readonly" })
 
                 </div>
-                    }
+
+}
                 <div class="col-md-6">
                     <label for="ProjectName">Project Name</label>
                     @if (actionName == "Create")

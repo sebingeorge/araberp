@@ -37,7 +37,7 @@ namespace ArabErp.Web.Controllers
                         qs.QuerySheetRefNo = id.Split('|')[1];
                         TempData["success"] = "Saved successfully.  Reference No. is " + id.Split('|')[1];
                         TempData["error"] = "";
-                        return RedirectToAction("ViewQuerySheet", new { qs = qs });
+                        return RedirectToAction("ViewQuerySheet", new { QuerySheetId = qs.QuerySheetId });
                     }
                     else
                     {
@@ -63,10 +63,10 @@ namespace ArabErp.Web.Controllers
         }
 
         // GET: QuerySheet
-        public ActionResult ViewQuerySheet(QuerySheet qs)
+        public ActionResult ViewQuerySheet(int QuerySheetId)
         {
-           
 
+            var qs = new QuerySheetRepository().GetQuerySheet(QuerySheetId);
             return View("CreateQuerySheet",qs);
         }
 
