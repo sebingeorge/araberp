@@ -391,7 +391,7 @@ namespace ArabErp.Web.Controllers
             IEnumerable<PendingSO> pendingSO = repo.GetSaleOrdersForHold(isProjectBased ?? 0);
             return View(pendingSO);
         }
-            [HttpGet]
+          
         public ActionResult Hold(int? Id)
         {
             FillCustomer();
@@ -429,7 +429,7 @@ namespace ArabErp.Web.Controllers
             IEnumerable<PendingSO> pendingSO = repo.GetSaleOrderHolded(isProjectBased ?? 0);
             return View(pendingSO);
         }
-        public ActionResult Release(int? SaleOrderId)
+        public ActionResult Release(int? Id)
         {
             FillCustomer();
             FillCurrency();
@@ -439,9 +439,9 @@ namespace ArabErp.Web.Controllers
             FillEmployee();            
             FillVehicle();
             var repo = new SaleOrderRepository();
-            SaleOrder model = repo.GetSaleOrder(SaleOrderId ?? 0);
+            SaleOrder model = repo.GetSaleOrder(Id ?? 0);
             model.SaleOrderReleaseDate = DateTime.Now;
-            var SOList = repo.GetSaleOrderItem(SaleOrderId ?? 0);
+            var SOList = repo.GetSaleOrderItem(Id ?? 0);
             model.Items = new List<SaleOrderItem>();
             foreach (var item in SOList)
             {
@@ -452,11 +452,40 @@ namespace ArabErp.Web.Controllers
             FillWrkDesc();
             return View("Approval", model);
         }
+        public ActionResult Cancel(int? Id)
+        {
+            FillCustomer();
+            FillCurrency();
+            FillCommissionAgent();
+            FillQuotationNoInSo(0);
+            FillUnit();
+            FillEmployee();
+            FillVehicle();
+            var repo = new SaleOrderRepository();
+            SaleOrder model = repo.GetSaleOrder(Id ?? 0);
+            model.SaleOrderReleaseDate = DateTime.Now;
+            var SOList = repo.GetSaleOrderItem(Id ?? 0);
+            model.Items = new List<SaleOrderItem>();
+            foreach (var item in SOList)
+            {
+                var soitem = new SaleOrderItem { WorkDescriptionId = item.WorkDescriptionId, VehicleModelId = item.VehicleModelId, Quantity = item.Quantity, UnitId = item.UnitId, Rate = item.Rate, Amount = item.Amount, Discount = item.Discount };
+                model.Items.Add(soitem);
+
+            }
+            FillWrkDesc();
+            return View("Approval", model);
+        }
+        public ActionResult UpdateCancelStatus(int? Id)
+        {
+
+            new SaleOrderRepository().UpdateSOCancel(Id ?? 0);
+            return RedirectToAction("PendingSaleOrderHold");
+        }
         public ActionResult UpdateReleaseStatus(int? Id, string ReleaseDate)
         {
 
             new SaleOrderRepository().UpdateSORelease(Id ?? 0, ReleaseDate);
-            return RedirectToAction("PendingSaleOrderRelease");
+            return RedirectToAction("PendingSaleOrderHold");
         }
         public ActionResult Closing(int? isProjectBased)
         {

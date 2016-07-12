@@ -28,44 +28,88 @@
             toastr.error('@TempData["error"]');
         }
 
-        $('#SaleOrderTable tr').click(function (event) {
-            $("tr").removeClass("active");
-            $(this).addClass("active");
-            $('#HiddenFieldSaleOrderId').val($(this).attr('id'));
 
-        });
-    });
-
-    function Hold() {
+    $("#SaleOrderTable tr").click(function() {
+        var selected = $(this).hasClass("highlight");
+        $("#SaleOrderTable tr").removeClass("highlight");
+        if(!selected)
+            $(this).addClass("highlight");
+        $('#HiddenFieldSaleOrderId').val($(this).attr('id'));
+        var status = $(this).closest('tr').children('td.st').text();
+        $('#HiddenStatus').val(status);
       
+    });
+    });
+    function Hold() {
+     
         if ($('#HiddenFieldSaleOrderId').val() == '' || $('#HiddenFieldSaleOrderId').val() == 0) {
             toastr.warning("Please select a sales order!!")
         }
-        else {
-        
+        else if ($('#HiddenStatus').val()=="Holded")
+        {
+            toastr.warning("Already Holded!!")
+        }
+        else
+            {
             var url = '@Url.Action("Hold")';
             url = url + "?Id=" + $('#HiddenFieldSaleOrderId').val();
             console.log(url);
-          
+
             window.location.href = url;
-          
+
+        }
+    }
+    function Release() {
+
+        if ($('#HiddenFieldSaleOrderId').val() == '' || $('#HiddenFieldSaleOrderId').val() == 0) {
+            toastr.warning("Please select a sales order!!")
+        }
+        else if ($('#HiddenStatus').val() != "Holded") {
+            toastr.warning("Sale Order with Holded status can be Released !!")
+        }
+        else {
+
+            var url = '@Url.Action("Release")';
+            url = url + "?Id=" + $('#HiddenFieldSaleOrderId').val();
+            console.log(url);
+
+            window.location.href = url;
+
+        }
+    }
+    function Cancel() {
+       
+        if ($('#HiddenFieldSaleOrderId').val() == '' || $('#HiddenFieldSaleOrderId').val() == 0) {
+            toastr.warning("Please select a sales order!!")
+        }
+       
+        else if ($('#HiddenStatus').val() == "Job Card Started" || $('#HiddenStatus').val() == "Job Card Completed") {
+            toastr.warning("Can't Cancel Sale Order !!")
+        }
+        else {
+
+            var url = '@Url.Action("Cancel")';
+            url = url + "?Id=" + $('#HiddenFieldSaleOrderId').val();
+            console.log(url);
+
+            window.location.href = url;
+
         }
     }
 </script>
 <style>
-    table tr.active {
-        border: 3px solid #0094ff;
-    }
+    .highlight { background-color:#2eb5e4; }
 </style>
 <div class="container">
     <div class="row">
         <div class="form-head1">
-            <h4>Pending Sale Order</h4>
+            <h4>Pending Sale Orders</h4>
         </div>
         <div class="main-part pad1 white">
             <div class="main-grid main-grid-top scroll1">
                 <div class=" table-responsive">
                     <input type="hidden" id="HiddenFieldSaleOrderId" />
+                    <input type="hidden" id="HiddenStatus" />
                     <table class="table table-bordered" id="SaleOrderTable">
                         <thead>
                             <tr class="grid_heading">
@@ -95,23 +139,20 @@
                                     <td class="grid-cell">@item.EDateArrival.ToString("dd/MMM/yyyy")</td>
                                     <td class="grid-cell">@item.EDateDelivery.ToString("dd/MMM/yyyy")</td>
                                     <td class="grid-cell">@item.Remaindays</td>
-                                    <td class="grid-cell">@item.Status</td>
-                                    @*  <td><center>@Html.ActionLink("Select", "Hold", "SaleOrder", new { SaleOrderId = @item.SaleOrderId }, new { @class = "form-button5", @style = "text-align:center" })</center></td>*@
+                                    <td class="grid-cell st">@item.Status</td>
+                                  
 
 
                                 </tr>
                             </tbody>
                         }
                     </table>
-                  
-
+               
                 </div>
-
-
             </div>
             <div class="row">
                 <div class="col-md-12 hrpart">
-                    <button class="form-button right" >Cancel</button>
+                    <button class="form-button right" onclick="Cancel()">Cancel</button>
                     <button class="form-button right" onclick="Release()">Release</button>
                     <button class="form-button right" onclick="Hold()">Hold</button>
                   
