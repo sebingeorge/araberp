@@ -11,17 +11,41 @@ namespace ArabErp.DAL
     public class QuerySheetRepository : BaseRepository
     {
         static string dataConnection = GetConnectionString("arab");
-        public int InsertQuerySheet(QuerySheet objQuerySheet)
+        public string InsertQuerySheet(QuerySheet objQuerySheet)
         {
 
             using (IDbConnection connection = OpenConnection(dataConnection))
             {
-                string sql = @"insert  into QuerySheet(ProjectName,ContactPerson,ContactNumber,Email,RoomDetails,ExternalRoomDimension,ColdRoomArea,ColdRoomLocation,TemperatureRequired,PanelThicknessANDSpec,DoorSizeTypeAndNumberOfDoor,FloorDetails,ProductDetails,ProductIncomingTemperature,PipeLength,Refrigerant,EletricalPowerAvailability,CreatedBy,CreatedDate,OrganizationId) Values (@ProjectName,@ContactPerson,@ContactNumber,@Email,@RoomDetails,@ExternalRoomDimension,@ColdRoomArea,@ColdRoomLocation,@TemperatureRequired,@PanelThicknessANDSpec,@DoorSizeTypeAndNumberOfDoor,@FloorDetails,@ProductDetails,@ProductIncomingTemperature,@PipeLength,@Refrigerant,@EletricalPowerAvailability,@CreatedBy,@CreatedDate,@OrganizationId);
+
+                IDbTransaction txn = connection.BeginTransaction();
+                try
+                {
+    int internalId = DatabaseCommonRepository.GetInternalIDFromDatabase(connection, txn, typeof(SaleOrder).Name, "0", 1);
+
+                    objQuerySheet.QuerySheetRefNo= "QSH/" + internalId;
+
+
+
+
+                string sql = @"insert  into QuerySheet(QuerySheetRefNo,ProjectName,ContactPerson,ContactNumber,Email,RoomDetails,ExternalRoomDimension,ColdRoomArea,ColdRoomLocation,TemperatureRequired,PanelThicknessANDSpec,DoorSizeTypeAndNumberOfDoor,FloorDetails,ProductDetails,ProductIncomingTemperature,PipeLength,Refrigerant,EletricalPowerAvailability,CreatedBy,CreatedDate,OrganizationId) Values (@QuerySheetRefNo,@ProjectName,@ContactPerson,@ContactNumber,@Email,@RoomDetails,@ExternalRoomDimension,@ColdRoomArea,@ColdRoomLocation,@TemperatureRequired,@PanelThicknessANDSpec,@DoorSizeTypeAndNumberOfDoor,@FloorDetails,@ProductDetails,@ProductIncomingTemperature,@PipeLength,@Refrigerant,@EletricalPowerAvailability,@CreatedBy,@CreatedDate,@OrganizationId);
             SELECT CAST(SCOPE_IDENTITY() as int)";
 
 
-                var id = connection.Query<int>(sql, objQuerySheet).Single();
-                return id;
+                var id = connection.Query<int>(sql, objQuerySheet,txn).Single();
+
+
+                    txn.Commit();
+
+                    return id + "|QSH/" + internalId;
+                }
+                catch (Exception ex )
+                {
+                    
+                    txn.Rollback();
+                    throw ex;
+                    return "0";
+                }
+
             }
         }
 

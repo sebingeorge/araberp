@@ -9,6 +9,7 @@ namespace ArabErp.Domain
    public class QuerySheet
     {
         public int QuerySheetId { get; set; }
+        public string QuerySheetRefNo { get; set; }
         public string ProjectName { get; set; }
         public string ContactPerson { get; set; }
         public string ContactNumber { get; set; }
