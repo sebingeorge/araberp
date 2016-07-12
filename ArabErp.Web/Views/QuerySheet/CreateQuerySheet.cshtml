@@ -11,6 +11,16 @@
         actionName = "Create";
     }
 }
+
+
+<script>
+    function Exit() {
+
+        location.href = '@Url.Action("QuerySheetList", "QuerySheet")';
+    }
+</script>
+
+
 <div class="form-head1">
     <h4> Query Sheet</h4>
     </div>
@@ -19,15 +29,15 @@
         @using (Html.BeginForm(null, null, FormMethod.Post))
         {
             @Html.HiddenFor(m => m.QuerySheetId)
-            
+
              <div class="row form-group">
 
-                 @if (actionName != "Create")
+                 @if (actionName == "Create")
                  {
                      <div class="col-md-2">
                          <label for="ProjectName">Query Sheet RefNo</label>
                      </div>
-                     <div class="col-md-10">
+                     <div class="col-md-4">
 
 
                          @Html.TextBoxFor(m => m.QuerySheetRefNo, new { @class = "form_input", autocomplete = "off", @readonly = "readonly" })
@@ -37,8 +47,8 @@
                  }
 
                 </div>
-            
-            
+
+
             <div class="row form-group">
                 <div class="col-md-2">
                     <label for="ProjectName">Project Name</label>
@@ -59,7 +69,7 @@
                     <label for="ContactPerson">Contact Person</label>
                 </div>
                 <div class="col-md-4">
-                    
+
                     @if (actionName == "Create")
                     {
                         @Html.TextBoxFor(m => m.ContactPerson, new { @class = "form_input", autocomplete = "off" })
@@ -90,7 +100,7 @@
                     <label for="Email">Email</label>
                 </div>
                 <div class="col-md-4">
-                    
+
                     @if (actionName == "Create")
                     {
                         @Html.TextBoxFor(m => m.Email, new { @class = "form_input", autocomplete = "off" })
@@ -124,7 +134,7 @@
                 </div>
 
                     <div class="col-md-10">
-                        
+
                         @if (actionName == "Create")
                     {
                             @Html.TextBoxFor(m => m.ExternalRoomDimension, new { @class = "form_input", autocomplete = "off" })
@@ -157,7 +167,7 @@
                 </div>
 
                 <div class="col-md-10">
-                    
+
                     @if (actionName == "Create")
                     {
                         @Html.TextBoxFor(m => m.ColdRoomLocation, new { @class = "form_input", autocomplete = "off" })
@@ -190,11 +200,11 @@
             <div class="row form-group">
 
                 <div class="col-md-2">
-                    <label for="PanelThicknessANDSpec">Panel Thickness AND Spec</label>
+                    <label for="PanelThicknessANDSpec">Panel Thickness & Spec</label>
                 </div>
 
                 <div class="col-md-10">
-                    
+
                     @if (actionName == "Create")
                     {
                         @Html.TextBoxFor(m => m.PanelThicknessANDSpec, new { @class = "form_input", autocomplete = "off" })
@@ -205,10 +215,10 @@
                     }
                 </div>
             </div>
-            
+
              <div class="row form-group">
                  <div class="col-md-2">
-                     <label for="DoorSizeTypeAndNumberOfDoor">Door Size Type And Number Of Door</label>
+                     <label for="DoorSizeTypeAndNumberOfDoor">Door Size Type & Number Of Door</label>
                  </div>
                  <div class="col-md-10">
 
@@ -228,7 +238,7 @@
                 </div>
 
                 <div class="col-md-10">
-                   
+
                     @if (actionName == "Create")
                     {
                         @Html.TextBoxFor(m => m.FloorDetails, new { @class = "form_input", autocomplete = "off" })
@@ -261,7 +271,7 @@
                     <label for="ProductIncomingTemperature">Product Incoming Temperature</label>
                 </div>
                 <div class="col-md-10">
-                    
+
                     @if (actionName == "Create")
                     {
                         @Html.TextBoxFor(m => m.ProductIncomingTemperature, new { @class = "form_input", autocomplete = "off" })
@@ -293,7 +303,7 @@
                     <label for="Refrigerant">Refrigerant</label>
                 </div>
                 <div class="col-md-10">
-                    
+
                     @if (actionName == "Create")
                     {
                         @Html.TextBoxFor(m => m.Refrigerant, new { @class = "form_input", autocomplete = "off" })
@@ -309,7 +319,7 @@
                     <label for="EletricalPowerAvailability">Eletrical Power Availability</label>
                 </div>
                 <div class="col-md-10">
-                    
+
                     @if (actionName == "Create")
                     {
                         @Html.TextBoxFor(m => m.EletricalPowerAvailability, new { @class = "form_input", autocomplete = "off" })

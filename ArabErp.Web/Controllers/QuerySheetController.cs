@@ -70,6 +70,12 @@ namespace ArabErp.Web.Controllers
             return View("CreateQuerySheet",qs);
         }
 
+        public ActionResult QuerySheetList ()
+        {
+            var qs = new QuerySheetRepository().GetQuerySheets();
+            return View( qs);
+        }
+
 
     }
 }
