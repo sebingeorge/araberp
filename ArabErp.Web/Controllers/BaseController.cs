@@ -99,7 +99,8 @@ namespace ArabErp.Web.Controllers
         public int OrganizationId {
             get
             {
-                int Id = Convert.ToInt32(Request.Cookies["user"]["Organization"]);
+                HttpCookie usr = (HttpCookie)Session["user"];
+                int Id = Convert.ToInt32(usr["Organization"]);
                 return Id;
             }
             set
