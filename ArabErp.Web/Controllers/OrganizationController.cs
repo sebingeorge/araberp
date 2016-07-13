@@ -145,7 +145,6 @@ namespace ArabErp.Web.Controllers
 
         }
 
-
         public void dropdown()
         {
             var repo = new OrganizationRepository();
