@@ -4915,7 +4915,7 @@ textarea.input-group-sm > .input-group-btn > .btn {
   text-align: center;
   white-space: nowrap;
   vertical-align: baseline;
-  background-color: #095caf;
+  background-color: #ff0036;
   border-radius: 10px;
 }
 
@@ -4941,7 +4941,7 @@ a.badge:focus {
   text-align: center;
   white-space: nowrap;
   vertical-align: baseline;
-  background-color: #095caf;
+  background-color: #ff0036;
   border-radius: 10px;
 }
 
