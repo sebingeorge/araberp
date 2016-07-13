@@ -30,7 +30,7 @@ namespace ArabErp.Web.Controllers
         {
             FillSO();
             FillJC();
-            model.OrganizationId = 1;
+            model.OrganizationId = OrganizationId;
             model.CreatedDate = System.DateTime.Now;
             model.CreatedBy = Request.ServerVariables["HTTP_X_FORWARDED_FOR"] ?? Request.ServerVariables["REMOTE_ADDR"];
             if (new DirectPurchaseRepository().InsertDirectPurchaseRequest(model) > 0)
@@ -60,7 +60,7 @@ namespace ArabErp.Web.Controllers
             string str;
             try
             {
-                int organizationId = 1;
+                int organizationId = OrganizationId;
                 str = new DirectPurchaseRepository().GetPurchaseLimit(organizationId);
             }
             catch (Exception)

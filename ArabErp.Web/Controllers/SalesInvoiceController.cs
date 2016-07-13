@@ -72,7 +72,7 @@ namespace ArabErp.Web.Controllers
         public ActionResult Save(SalesInvoice model)
         {
             //var List = Repo.GetPendingSalesInvoiceList(SalesOrderId);
-            model.OrganizationId = 1;
+            model.OrganizationId = OrganizationId;
             model.CreatedDate = System.DateTime.Now;
             model.CreatedBy = Request.ServerVariables["HTTP_X_FORWARDED_FOR"] ?? Request.ServerVariables["REMOTE_ADDR"];
 

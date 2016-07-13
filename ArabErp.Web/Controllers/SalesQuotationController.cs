@@ -74,7 +74,7 @@ namespace ArabErp.Web.Controllers
         [HttpPost]
         public ActionResult CreateProject(SalesQuotation model)
         {
-            model.OrganizationId = 1;
+            model.OrganizationId = OrganizationId;
             model.CreatedDate = System.DateTime.Now;
             model.CreatedBy = Request.ServerVariables["HTTP_X_FORWARDED_FOR"] ?? Request.ServerVariables["REMOTE_ADDR"];
             
@@ -292,7 +292,7 @@ namespace ArabErp.Web.Controllers
         public ActionResult Create(SalesQuotation model)
         {
 
-            model.OrganizationId = 1;
+            model.OrganizationId = OrganizationId;
             model.CreatedDate = System.DateTime.Now;
             model.CreatedBy = Request.ServerVariables["HTTP_X_FORWARDED_FOR"] ?? Request.ServerVariables["REMOTE_ADDR"];
             SalesQuotation result= new SalesQuotationRepository().InsertSalesQuotation(model);

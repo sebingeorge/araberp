@@ -38,7 +38,7 @@ namespace ArabErp.Web.Controllers
                     goto ReturnSameView;
                 }
 
-                model.OrganizationId = 1;
+                model.OrganizationId = OrganizationId;
                 model.CreatedDate = System.DateTime.Now;
                 model.CreatedBy = Request.ServerVariables["HTTP_X_FORWARDED_FOR"] ?? Request.ServerVariables["REMOTE_ADDR"];
                 string result = new StoreIssueRepository().InsertStoreIssue(model);

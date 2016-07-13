@@ -35,7 +35,7 @@ namespace ArabErp.Web.Controllers
         [HttpPost]
         public ActionResult Create(FreezerUnit model)
         {
-            model.OrganizationId = 1;
+            model.OrganizationId = OrganizationId;
             model.CreatedDate = System.DateTime.Now;
             model.CreatedBy = Request.ServerVariables["HTTP_X_FORWARDED_FOR"] ?? Request.ServerVariables["REMOTE_ADDR"];
 
@@ -85,7 +85,7 @@ namespace ArabErp.Web.Controllers
         public ActionResult Edit(FreezerUnit model)
         {
 
-            model.OrganizationId = 1;
+            model.OrganizationId = OrganizationId;
             model.CreatedDate = System.DateTime.Now;
             model.CreatedBy = Request.ServerVariables["HTTP_X_FORWARDED_FOR"] ?? Request.ServerVariables["REMOTE_ADDR"];
 

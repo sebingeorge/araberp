@@ -27,7 +27,7 @@ namespace ArabErp.Web.Controllers
             {
                 try
                 {
-                    qs.OrganizationId = 1;
+                    qs.OrganizationId = OrganizationId;
                     qs.CreatedDate = System.DateTime.Now;
                     qs.CreatedBy = Request.ServerVariables["HTTP_X_FORWARDED_FOR"] ?? Request.ServerVariables["REMOTE_ADDR"];
                     var id = new QuerySheetRepository().InsertQuerySheet(qs);

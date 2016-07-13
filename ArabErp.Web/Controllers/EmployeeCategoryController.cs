@@ -73,7 +73,7 @@ namespace ArabErp.Web.Controllers
         [HttpPost]
         public ActionResult Edit(EmployeeCategory model)
         {
-            model.OrganizationId = 1;
+            model.OrganizationId = OrganizationId;
             model.CreatedDate = System.DateTime.Now;
             model.CreatedBy = Request.ServerVariables["HTTP_X_FORWARDED_FOR"] ?? Request.ServerVariables["REMOTE_ADDR"];
 
