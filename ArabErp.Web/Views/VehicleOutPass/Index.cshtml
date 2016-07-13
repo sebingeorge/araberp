@@ -15,7 +15,7 @@
 
         var url = '@Url.Action("PendingVehicleOutPass")';
         url += "?customerId=" + id;
-        $("#table-body").load(url);
+        $("#outpassdetails").load(url);
 
         var url = '@Url.Action("GetCustomerAddress")';
         $.getJSON(url, { id: id }, function (data) {
@@ -46,23 +46,11 @@
                     <input type="text" class="form_input" id="txtAddress" disabled/>
                 </div>
             </div>
-            <div class="scroll1">
-                <table class="table table-bordered">
-                    <thead>
-                        <tr class="grid_heading">
-                            <th><h1>SO No. &amp; Date</h1></th>
-                            <th><h1>JC No. &amp; Date</h1></th>
-                            <th><h1>Work Description</h1></th>
-                            <th><h1>Vehicle Model</h1></th>
-                            <th><h1>Chasis No/Reg No.</h1></th>
-                            <th width="1"></th>
-                        </tr>
-                    </thead>
-                    <tbody id="table-body" class="grid_row">
-                        @Html.Action("PendingVehicleOutPass", new { customerId = 0 })
-                    </tbody>
-                </table>
+
+            <div id="outpassdetails">
+                @Html.Action("PendingVehicleOutPass", new { customerId = 0 })
             </div>
+
 
         </div>
     </div>
