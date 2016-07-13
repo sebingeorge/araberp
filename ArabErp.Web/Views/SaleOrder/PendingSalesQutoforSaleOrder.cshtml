@@ -37,15 +37,28 @@
                                     <td class="grid-cell">@item.WorkDescription</td>
                                     <td class="grid-cell" align="right">@item.Amount</td>
                                     <td class="grid-cell">@item.SalesExecutiveName</td>
+                                  @if (@item.isProjectBased == 0)
+                {
                                     <td><center>@Html.ActionLink("Select", "Create", "SaleOrder", new { SalesQuotationId = @item.SalesQuotationId }, new { @class = "form-button5" })</center></td>
-                                
-                                  
+                                  }
+                                else
+                                  { 
+                                    <td><center>@Html.ActionLink("Select", "CreateProject", "SaleOrder", new { SalesQuotationId = @item.SalesQuotationId }, new { @class = "form-button5" })</center></td>
+                                  }
                                 </tr>
                             </tbody>
                         }
                     </table>
                 </div>
             </div>
+
+            
+                <div class="row-count">
+                    <br />
+                    <h5>Row Count:- @Model.Count()</h5>
+                </div>
+           
+
         </div>
     </div>
 </div>

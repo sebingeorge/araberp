@@ -46,7 +46,7 @@ namespace ArabErp.Web.Controllers
         {
             try
             {
-                model.OrganizationId = 1;
+                model.OrganizationId = OrganizationId;
                 model.CreatedDate = DateTime.Now;
                 model.CreatedBy = Request.ServerVariables["HTTP_X_FORWARDED_FOR"] ?? Request.ServerVariables["REMOTE_ADDR"];
                 string id = new ConsumptionRepository().InsertConsumption(model);

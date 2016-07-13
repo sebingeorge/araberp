@@ -156,6 +156,7 @@
                     </table>
                 </div>
 
+                
               
                 @if (Model.Pager.EndPage > 1)
                 {
@@ -190,9 +191,14 @@
 
             </div>
 
+            <div class="row-count">
+                <br />
+                <h5>Row Count:- @Model.SaleOrders.Count()</h5>
+            </div>
 
         </div>
 
+       
     </div>
 </div>
 

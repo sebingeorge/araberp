@@ -55,19 +55,19 @@
         <div class="row">
     <div class="part4">
 
-        <div class="col-md-11 col-sm-10 col-xs-8">
+        <div class="col-md-12">
             <label for="PaymentTerms">Payment Terms</label>
 
-            @if (actionName == "Create")
+            @*@if (actionName == "Create")
             {
                 @Html.TextBoxFor(m => m.PaymentTerms, new { @class = "form_input", autocomplete = "off" })
                 <button class="terms" type="button" id="pymtTerms" onclick="showPaymentTerms()">...</button>
             }
             else
-            {
+            {*@
                 @Html.TextBoxFor(m => m.PaymentTerms, new { @class = "form_input", autocomplete = "off", @readonly = "readonly" })
 
-            }
+            @*}*@
         </div>
        
     </div>
@@ -102,7 +102,7 @@
             }
         </div>
     </div>
-    <div class="col-md-2">
+    @*<div class="col-md-2">
         <div class="part4">
             <label for="CommissionPerc">Commission %</label>
             @if (actionName == "Create")
@@ -115,13 +115,13 @@
                 @Html.TextBoxFor(m => m.CommissionPerc, new { @class = "form_input form_input-half1 text-right", autocomplete = "off", @readonly = "readonly" })
             }
         </div>
-    </div>
+    </div>*@
     <div class="col-md-2">
         <div class="part4">
             <label for="CommissionAmount">Commission Amt.</label>
             @if (actionName == "Create")
             {
-                @Html.TextBoxFor(m => m.CommissionAmount, new { @class = "form_input form_input-half2  text-right numbers-only", autocomplete = "off", @readonly = "readonly" })
+                @Html.TextBoxFor(m => m.CommissionAmount, new { @class = "form_input form_input-half2  text-right numbers-only", autocomplete = "off" })
 
             }
             else

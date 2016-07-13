@@ -53,6 +53,11 @@
         @*@Html.TextBoxFor(m => m.SaleOrderDate, new { @class = "form_input ", autocomplete = "off", @readonly = "readonly" })*@
         @Html.TextBoxFor(m => m.SaleOrderDate, Model.SaleOrderDate.ToString("dd/MMMM/yyyy"), new { @class = "form_input ", autocomplete = "off", @readonly = "readonly"})
     </div>
+    <div class="col-md-2">
+        <label for="BillNoDate">Quotation No. & Date</label>
+        @Html.TextBoxFor(m => m.QuotationNoDate, new { @class = "form_input", autocomplete = "off", @readonly = "readonly" })
+        @Html.HiddenFor(m => m.SalesQuotationId, new { @class = "form_input", autocomplete = "off" })
+    </div>
     @*<div class="col-md-2">
         <label for="selectCustomer">Quotation No.</label>
         @if (actionName == "Create")
@@ -69,15 +74,15 @@
 <div class="row form-group">
     <div class="col-md-4">
         <label for="selectCustomer">Customer</label>
-        @if (actionName == "Create")
+        @*@if (actionName == "Create")
         {
             @Html.DropDownListFor(m => Model.CustomerId, (SelectList)ViewBag.customerlist, "Select Customer", new { @class = "form_input", autocomplete = "off", @onchange = "CustomerChanged(this);" })
 
         }
-        else
-        {
+        else*@
+        @*{*@
             @Html.DropDownListFor(m => Model.CustomerId, (SelectList)ViewBag.customerlist, "Select Customer", new { @class = "form_input", autocomplete = "off", @disabled = "true" })
-        }
+        @*}*@
      </div>
     <div class="col-md-6">
         <label for="CustomerOrderRef">Customer Address</label>
@@ -88,7 +93,7 @@
         @if (actionName == "Create")
         {
             @Html.TextBoxFor(m => m.CustomerOrderRef, new { @class = "form_input", autocomplete = "off" })
-        }
+      }
         else
         {
             @Html.TextBoxFor(m => m.CustomerOrderRef, new { @class = "form_input", autocomplete = "off", @readonly = "readonly" })

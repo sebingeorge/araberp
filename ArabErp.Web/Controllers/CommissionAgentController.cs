@@ -23,26 +23,12 @@ namespace ArabErp.Web.Controllers
         [HttpPost]
         public ActionResult Create(CommissionAgent model)
         {
-        //    var repo = new CommissionAgentRepository();
-        //    var result = new CommissionAgentRepository().InsertCommissionAgent(model);
-        //    if (result.CommissionAgentId > 0)
-        //    {
-        //        TempData["Success"] = "Added Successfully!";
-        //        TempData["RefNo"] = result.CommissionAgentRefNo;
-        //        return RedirectToAction("Create");
-        //    }
-        //    else
-        //    {
-
-        //        TempData["error"] = "Oops!!..Something Went Wrong!!";
-        //        TempData["RefNo"] = null;
-        //        return View("Create", model);
-        //    }
-        //}
+        
             var repo = new CommissionAgentRepository();
             bool isexists = repo.IsFieldExists(repo.ConnectionString(), "CommissionAgent", "CommissionAgentName", model.CommissionAgentName, null, null);
             if (!isexists)
             {
+                model.OrganizationId = OrganizationId;
                 var result = new CommissionAgentRepository().InsertCommissionAgent(model);
                 if (result.CommissionAgentId > 0)
                 {
@@ -78,7 +64,7 @@ namespace ArabErp.Web.Controllers
         [HttpPost]
         public ActionResult Edit(CommissionAgent model)
         {
-            model.OrganizationId = 1;
+            model.OrganizationId = OrganizationId;
             model.CreatedDate = System.DateTime.Now;
             model.CreatedBy = Request.ServerVariables["HTTP_X_FORWARDED_FOR"] ?? Request.ServerVariables["REMOTE_ADDR"];
             var repo = new CommissionAgentRepository();

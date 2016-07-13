@@ -16,7 +16,7 @@
 
         var url = '@Url.Action("PendingVehicleInPass")';
         url += "?customerId=" + id;
-        $("#table-body").load(url);
+        $("#inpassdetails").load(url);
 
         if (id != 0) {
             var url = '@Url.Action("GetCustomerAddress", "VehicleOutPass")';
@@ -50,22 +50,10 @@
                     <input type="text" class="form_input" id="txtAddress" disabled />
                 </div>
             </div>
-            <div class="scroll1">
-                <table class="table table-bordered">
-                    <thead>
-                        <tr class="grid_heading">
-                            <th><h1>SO No. &amp; Date</h1></th>
-                            <th><h1>Work Description</h1></th>
-                            <th><h1>Vehicle Model</h1></th>
-                            <th></th>
-                        </tr>
-                    </thead>
-                    <tbody id="table-body" class="grid_row">
-                        @Html.Action("PendingVehicleInPass", new { customerId = 0 })
-                    </tbody>
-                </table>
-            </div>
 
+            <div id="inpassdetails">
+                @Html.Action("PendingVehicleInPass", new { customerId = 0 })
+            </div>
         </div>
     </div>
 </div>

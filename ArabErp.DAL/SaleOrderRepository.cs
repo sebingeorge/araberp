@@ -61,7 +61,8 @@ namespace ArabErp.DAL
         {
             using (IDbConnection connection = OpenConnection(dataConnection))
             {
-                string sql = @"select *,DoorNo +','+ Street+','+State CustomerAddress from SalesQuotation S inner join Customer C on S.CustomerId=C.CustomerId  where SalesQuotationId=@Id";
+                string sql = @"select *,DoorNo +','+ Street+','+State CustomerAddress,CONCAT(QuotationRefNo,'/',CONVERT (VARCHAR(15),QuotationDate,104))
+                               QuotationNoDate from SalesQuotation S inner join Customer C on S.CustomerId=C.CustomerId  where SalesQuotationId=@Id";
 
                 var objSaleOrder = connection.Query<SaleOrder>(sql, new
                 {
@@ -143,10 +144,15 @@ namespace ArabErp.DAL
                 string query = @"SELECT  DISTINCT t.SaleOrderId,SO.CustomerOrderRef,SO.SaleOrderRefNo,SO.SaleOrderDate,SO.EDateArrival,SO.EDateDelivery,SO.CustomerId,C.CustomerName,STUFF((SELECT ', ' + CAST(W.WorkDescr AS VARCHAR(10)) [text()]
                              FROM SaleOrderItem SI inner join WorkDescription W on W.WorkDescriptionId=SI.WorkDescriptionId
                              WHERE SI.SaleOrderId = t.SaleOrderId
-                             FOR XML PATH(''), TYPE).value('.','NVARCHAR(MAX)'),1,2,' ') WorkDescription,DATEDIFF(dd,SO.SaleOrderDate,GETDATE ()) Ageing,DATEDIFF(dd,GETDATE (),SO.EDateDelivery)Remaindays 
+                             FOR XML PATH(''), TYPE).value('.','NVARCHAR(MAX)'),1,2,' ') WorkDescription,DATEDIFF(dd,SO.SaleOrderDate,GETDATE ()) Ageing,DATEDIFF(dd,GETDATE (),SO.EDateDelivery)Remaindays,
+                             case when ISNULL(JodCardCompleteStatus,0) = 1 then 'Job Card Completed'
+                                  when J.SaleOrderItemId is not null then 'Job Card Started'
+                                  when SO.SaleOrderHoldStatus='H' then 'Holded'  
+                                  when SO.SaleOrderApproveStatus=1 then 'Confirmed' end as Status,SO.TotalAmount
                              FROM SaleOrderItem t INNER JOIN SaleOrder SO on t.SaleOrderId=SO.SaleOrderId INNER JOIN Customer C ON SO.CustomerId =C.CustomerId
                              left join SalesInvoice SI on SO.SaleOrderId=SI.SaleOrderId 
-                             WHERE SI.SaleOrderId is null and SO.isActive=1 and SO.SaleOrderApproveStatus=1 and SO.SaleOrderHoldStatus IS NULL AND SO.isProjectBased = " + isProjectBased.ToString() + @" order by SO.SaleOrderDate ASC";
+                             left join JobCard J on J.SaleOrderItemId = t.SaleOrderItemId
+                             WHERE SI.SaleOrderId is null and SO.isActive=1 and SO.SaleOrderApproveStatus=1  AND SO.isProjectBased = " + isProjectBased.ToString() + @" order by SO.SaleOrderDate ASC";
                             
                 return connection.Query<PendingSO>(query);
             }
@@ -356,6 +362,21 @@ namespace ArabErp.DAL
             {
                 string sql = @"Update SaleOrder set SaleOrderHoldStatus = null,SaleOrderReleaseDate=@ReleaseDate WHERE SaleOrderId=@SaleOrderId";
                 return connection.Execute(sql, new { SaleOrderId = SaleOrderId, ReleaseDate = ReleaseDate });
+
+            }
+        }
+        /// <summary>
+        /// Cancel Sale Order ,no job card started
+        /// </summary>
+        /// <param name="SaleOrderId"></param>
+        /// <param name="ReleaseDate"></param>
+        /// <returns></returns>
+        public int UpdateSOCancel(int SaleOrderId)
+        {
+            using (IDbConnection connection = OpenConnection(dataConnection))
+            {
+                string sql = @"Update SaleOrder set isActive = 0 WHERE SaleOrderId=@SaleOrderId";
+                return connection.Execute(sql, new { SaleOrderId = SaleOrderId });
 
             }
         }

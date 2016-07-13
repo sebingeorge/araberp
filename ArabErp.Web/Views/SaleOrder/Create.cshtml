@@ -188,6 +188,7 @@
 
      }
      $(document).ready(function () {
+         $("#CustomerOrderRef").focus();
          //bind keypress event for new row inputs.
          $(".numbers-only").keypress(function (e) {
              if (e.which == 8 || (e.which == 46 && $(this).val().indexOf('.') == -1) || (e.which > 47 && e.which < 58)) { } else { return false; }
@@ -218,7 +219,7 @@
 
      function Exit() {
         
-         location.href = '@Url.Action("Index","Home")';
+         location.href = '@Url.Action("PendingSalesQutoforSaleOrder", "SaleOrder", new { ProjectBased = 0 })';
     }
 </script>
 @Html.HiddenFor(m => m.SaleOrderId)
@@ -234,7 +235,7 @@
                         @Html.HiddenFor(m=>m.isProjectBased)
                         @Html.Partial("_SaleOrderHead",Model)
                         <div id="wordescriptions">
-                            @Html.Partial("_DisplaySOList", Model)
+                        @Html.Partial("_DisplaySOList", Model)
                         </div>                    
                         @Html.Partial("_SaleOrderFooter", Model)
                         <div class="row">

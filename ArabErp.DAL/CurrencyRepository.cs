@@ -86,7 +86,9 @@ namespace ArabErp.DAL
         {
             using (IDbConnection connection = OpenConnection(dataConnection))
             {
-                string sql = @"UPDATE Currency SET CurrencyName = @CurrencyName,Elementary = @Elementary,CurrencyExRate = @CurrencyExRate,CurrencySymbolId = @CurrencySymbolId,CreatedBy = @CreatedBy,CreatedDate= GETDATE(),OrganizationId = @OrganizationId OUTPUT INSERTED.CurrencyId  WHERE CurrencyId = @CurrencyId";
+                string sql = @"UPDATE Currency SET CurrencyName = @CurrencyName,Elementary = @Elementary,CurrencyExRate = @CurrencyExRate,
+                                CurrencySymbolId = @CurrencySymbolId,CreatedBy = @CreatedBy,CreatedDate= GETDATE(),OrganizationId = @OrganizationId 
+                                OUTPUT INSERTED.CurrencyId  WHERE CurrencyId = @CurrencyId";
 
                 try
                 {

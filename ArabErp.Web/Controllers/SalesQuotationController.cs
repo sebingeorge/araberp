@@ -66,15 +66,18 @@ namespace ArabErp.Web.Controllers
 
             salesquotation.SalesQuotationItems = new List<SalesQuotationItem>();
             salesquotation.SalesQuotationItems.Add(new SalesQuotationItem());
+            salesquotation.SalesQuotationItems[0].Quantity = 1;
+            salesquotation.SalesQuotationItems[0].UnitId = 25;
             ViewBag.SubmitAction = "Save";
             return View("Create",salesquotation);
         }
         [HttpPost]
         public ActionResult CreateProject(SalesQuotation model)
         {
-            model.OrganizationId = 1;
+            model.OrganizationId = OrganizationId;
             model.CreatedDate = System.DateTime.Now;
             model.CreatedBy = Request.ServerVariables["HTTP_X_FORWARDED_FOR"] ?? Request.ServerVariables["REMOTE_ADDR"];
+            
             SalesQuotation result = new SalesQuotationRepository().InsertSalesQuotation(model);
             if (result.SalesQuotationId > 0)
             {
@@ -289,7 +292,7 @@ namespace ArabErp.Web.Controllers
         public ActionResult Create(SalesQuotation model)
         {
 
-            model.OrganizationId = 1;
+            model.OrganizationId = OrganizationId;
             model.CreatedDate = System.DateTime.Now;
             model.CreatedBy = Request.ServerVariables["HTTP_X_FORWARDED_FOR"] ?? Request.ServerVariables["REMOTE_ADDR"];
             SalesQuotation result= new SalesQuotationRepository().InsertSalesQuotation(model);
