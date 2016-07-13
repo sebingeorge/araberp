@@ -40,36 +40,18 @@
         </div>
 
         <div class="main-part pad1">
-            <div class="table-responsive scroll4">
-                <table class="table table-bordered">
-                    <thead>
-                        <tr class="grid_heading">
-                            <th><h1>Customer</h1></th>
-                            <th><h1>WR No. &amp; Date</h1></th>
-                            @*<th><h1>Workshop Request Date</h1></th>*@
-                            <th><h1>SO No. &amp; Date</h1></th>
-                            <th width="1%" nowrap><h1>Required Date</h1></th>
-                            <th width="1%" nowrap><h1>Days Left</h1></th>
-                            <th width="1%" nowrap><h1>Ageing</h1></th>
-                            <th width="1%"></th>
-                        </tr>
-                    </thead>
-
-                    @Html.Action("PendingWorkshopRequests")
-
-                </table>
+ 
+            <div >
+                @Html.Action("PendingWorkshopRequests")
             </div>
 
             <div class="row">
                 <div class="col-md-12 hrpart">
                     <button class="form-button" onclick="PreviousList()">Previous</button>
-                    @*<div class="margf">
-                            <button type="submit" class="form-button">Exit</button>
-                            <button type="submit" class="form-button">Proceed</button>
-                        </div>*@
                 </div>
-
             </div>
+
+
         </div>
     </div>
 </div>
