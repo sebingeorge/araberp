@@ -31,6 +31,7 @@
 
 <script>
     function GotoIndex() {
+       
         var url = '@Url.Action("Index")';
         location.href = url;
     }
@@ -67,6 +68,7 @@
         });
         //$('#CurrencyId').val("2");
     }
+    
     $(document).ready(function () {
         toastr.options = {
             "closeButton": true,
@@ -168,13 +170,7 @@
                 count = 1;
             }
 
-            //  if (!$(this).val()) {
-            //      //$(this).addClass('');
-            //    $(this).addClass('warning');
-            //    alert("Please enter Quantity");
-            //    $(this).focus();
-            //    return rtn;
-            //}
+         
 
 
         });
@@ -192,11 +188,14 @@
 
     }
     function showPaymentTerms() {
+        var x = screen.width / 2 - 600 / 2;
+        var y = screen.height / 2 - 250 / 2;
         var url = '@Url.Action("PaymentTermsPopup","PaymentTerms")';
-        var popup = window.open(url, "PaymentTermPopup", "width=900,height=400");
+        var popup = window.open(url, "PaymentTermPopup", 'width=500,height=200,menubar=no,status=no,titlebar=no,location=no,scrollbars=no,left=' + x + ',top=' + y);
         popup.focus();
         return false;
     }
+ 
 </script>
 <div class="container">
     <div class="row">
@@ -357,35 +356,8 @@
                 <script>
                     $(document).ready(function () {
                         $("#SalesQuotationItems_0__SlNo").val('1');
-                        $("#add_row").click(function () {
-                            var i = 0;
-                            var no = 1;
-                            $('input[id^="Row_"]').each(function () {
-                                var id = this.id;
-                                no++;
-                                var row = Number(id.replace("Row_", ""));
-                                if (row > i) {
-                                    i = row;
-                                }
-                            });
-                            i++;
-
-                            var index = (new Date()).getTime(); // unique indexer
-                            var clone = $('#0').clone(); // clone the BatchProducts item
-                            //Update the index of the clone
-                            //clone.html($(clone).html().replace("SalesQuotationItems_0__", 'SalesQuotationItems_' + i + '__'));
-                            clone.html($(clone).html().replace(/SalesQuotationItems_0__/g, 'SalesQuotationItems_' + i + '__'));
-                            clone.html($(clone).html().replace(/SalesQuotationItems_0__/g, 'SalesQuotationItems_' + i + '__'));
-                            clone.html($(clone).html().replace(/\SalesQuotationItems[0]./g, 'SalesQuotationItems[' + i + '].'));
-                            clone.html($(clone).html().replace(/\[0\]/g, '[' + i + ']'));
-                            clone.html($(clone).html().replace(/\(0\)/g, '(' + i + ')'));
-                            clone.html($(clone).html().replace(/Row_0/, 'Row_' + i + ''));
-                            clone.html($(clone).html().replace(/slno1/, 'slno' + (i + 1) + ''));
-                            clone.html($(clone).html().replace(/this,0/, 'this,' + i + ''));
-                            $("#tab_logic").append('<tr id="' + i + '">' + clone.html() + '  </tr>');
-                            $("#slno" + (i + 1)).html((i + 1));
-                            $("#SalesQuotationItems_" + i + "__SlNo").val((i + 1));
-                        });
+                        //$('td:nth-child(2)').hide();
+                     
                     });
                     function Delete(index) {
 
@@ -426,7 +398,7 @@
                                 $("#" + j).html(clone.html());
                                 $("#SalesQuotationItems_" + (j - 1) + "__SlNo").val(j);
                                 $("#" + (j)).attr('id', (j - 1));
-                                alert(j);
+                                //alert(j);
                                 $("#SalesQuotationItems_" + (j - 1) + "__WorkDescriptionId").val(WorkDescriptionId);
                                 $("#SalesQuotationItems_" + (j - 1) + "__VehicleModelId").val(VehicleModelId);
                                 $("#SalesQuotationItems_" + (j - 1) + "__Quantity").val(Quantity);
@@ -505,22 +477,50 @@
                         }
                     }*@
 
+                    function AddAdditionRow() {
+                      
+                        var i = 0;
+                        var no = 1;
+                        $('input[id^="Row_"]').each(function () {
+                            var id = this.id;
+                            no++;
+                            var row = Number(id.replace("Row_", ""));
+                            if (row > i) {
+                                i = row;
+                            }
+                        });
+                        i++;
+                        var index = (new Date()).getTime(); // unique indexer
+                        var clone = $('#0').clone(); // clone the BatchProducts item
+                        //Update the index of the clone
+                        //clone.html($(clone).html().replace("SalesQuotationItems_0__", 'SalesQuotationItems_' + i + '__'));
+                        clone.html($(clone).html().replace(/SalesQuotationItems_0__/g, 'SalesQuotationItems_' + i + '__'));
+                        clone.html($(clone).html().replace(/SalesQuotationItems_0__/g, 'SalesQuotationItems_' + i + '__'));
+                        clone.html($(clone).html().replace(/\SalesQuotationItems[0]./g, 'SalesQuotationItems[' + i + '].'));
+                        clone.html($(clone).html().replace(/\[0\]/g, '[' + i + ']'));
+                        clone.html($(clone).html().replace(/\(0\)/g, '(' + i + ')'));
+                        clone.html($(clone).html().replace(/Row_0/, 'Row_' + i + ''));
+                        clone.html($(clone).html().replace(/slno1/, 'slno' + (i + 1) + ''));
+                        clone.html($(clone).html().replace(/this,0/, 'this,' + i + ''));
+                        $("#tab_logic").append('<tr id="' + i + '">' + clone.html() + '  </tr>');
+                        $("#slno" + (i + 1)).html((i + 1));
+                        $("#SalesQuotationItems_" + i + "__SlNo").val((i + 1));
+                    }
 
 
 
-
-
-                </script>
-
+              </script>
+    
 
                 <div class="table-responsive">
-                    <table class="table table-bordered table-hover" id="tab_logic">
+                    <table class="table table-bordered" id="tab_logic">
                         <thead>
                             <tr class="grid_heading">
-                                <th width="2%" class="text-center"><h1>#</h1></th>
-                                <th width="37%" class="text-left"><h1>Work Description</h1></th>
-                                <th width="5%" class="text-right"><h1>Qty</h1></th>
-                                <th width="5%"><h1>UoM</h1></th>
+                                <th width="2%" class="text-center"></th>
+                                <th width="6%" class="text-center"><h1>#</h1></th>
+                                <th width="50%" class="text-left"><h1>Work Description</h1></th>
+                                @*<th width="5%" class="text-right"><h1>Qty</h1></th>
+                                <th width="5%"><h1>UoM</h1></th>*@
                                 <th width="10%" class="text-right"><h1>Rate</h1></th>
                                 <th width="10%" class="text-right"><h1>Discount</h1></th>
                                 <th width="10%" class="text-right"><h1>Amount</h1></th>
@@ -531,9 +531,12 @@
                             @for (int i = 0; i < Model.SalesQuotationItems.Count; i++)
                             {
                                 <tr id="@i">
+                                    <td style="vertical-align:middle"><a class="glyphicon glyphicon-minus" style="top:0px" onclick="Delete(@i)"></a></td>
                                     <td align="center">
-                                        <span id="slno@(i+1)">@(i + 1)</span>
+                                        <span id="slno@(i + 1)">@(i + 1)</span>
                                         @Html.HiddenFor(m => m.SalesQuotationItems[i].SlNo)
+                                        @Html.HiddenFor(m => m.SalesQuotationItems[i].Quantity)
+                                        @Html.HiddenFor(m => m.SalesQuotationItems[i].UnitId)
                                     </td>
 
                                     <td>
@@ -549,9 +552,11 @@
                                         }
 
                                     </td>
+                                   
+                                       
+                                   
 
-
-                                    <td>
+                                    @*<td>
                                         @if (ViewBag.actionName.ToString() == "Create")
                                         {
                                             @Html.TextBoxFor(m => m.SalesQuotationItems[i].Quantity, new { @class = "form_input clQuantity validateqty", @style = "text-align:right", autocomplete = "off", placeholder = "Qty", @onchange = "QuantityChanged(" + i + ");" })
@@ -572,7 +577,7 @@
                                             @Html.DropDownListFor(x => Model.SalesQuotationItems[i].UnitId, new SelectList(ViewBag.unitlist, "Value", "Text", Model.SalesQuotationItems[i].UnitId), "Select Unit", new { @class = "form_input", autocomplete = "off", @disabled = "true" })
 
                                         }
-                                    </td>
+                                    </td>*@
                                     <td>
                                         @if (ViewBag.actionName.ToString() == "Create")
                                         {
@@ -596,17 +601,18 @@
                                         }
                                     </td>
                                     <td>@Html.TextBoxFor(m => m.SalesQuotationItems[i].Amount, new { @class = "form_input clAmount", autocomplete = "off", @style = "text-align:right", placeholder = "Amount", @readonly = "true" })</td>
-                                    <td style="vertical-align:middle"><a class="glyphicon glyphicon-minus" style="top:0px" onclick="Delete(@i)"></a></td>
+                                    <td style="vertical-align:middle"><a id="add_row" class="glyphicon glyphicon-plus" style="top:0px" onclick="AddAdditionRow()"></a></td>
                                 </tr>
                             }
-                            @*<tr id='addr1'></tr>*@
+                           
                         </tbody>
                         <tfoot>
                             <tr class="grid_heading">
-                                <th width="5%" class="text-center"><h1>Grand Total</h1></th>
-                                <th width="37%" class="text-center"><h1></h1></th>
-                                <th width="5%" class="text-center"><h1></h1></th>
-                                <th width="5%" class="text-right"><span id="QtyTotal"></span></th>
+                                <th width="2%" class="text-center"></th>
+                                <th width="6%" class="text-center"><h1>Grand Total</h1></th>
+                                <th width="50%" class="text-center "><h1></h1></th>
+                                @*<th width="5%" class="text-center"><h1></h1></th>
+                                <th width="5%" class="text-right"><span id="QtyTotal"></span></th>*@
                                 <th width="10%"></th>
                                 <th width="10%" class="text-right"><h1>
     @if (ViewBag.actionName.ToString() == "Create")
@@ -627,7 +633,7 @@
                         </tfoot>
                     </table>
                 </div>
-                <a id="add_row" class="glyphicon glyphicon-plus"></a>
+             
 
 
 
