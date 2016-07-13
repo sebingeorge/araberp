@@ -100,6 +100,8 @@
     <Compile Include="QuickView.cs" />
     <Compile Include="QuotationApprovalAmountSettings.cs" />
     <Compile Include="QuotationApprovalSettings.cs" />
+    <Compile Include="RateSettings.cs" />
+    <Compile Include="RateSettingsItems.cs" />
     <Compile Include="SaleOrder.cs" />
     <Compile Include="SaleOrderItem.cs" />
     <Compile Include="SaleOrderList.cs" />

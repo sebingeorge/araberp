@@ -11,6 +11,8 @@
 
         CalculateSummary();
 
+        $("#ConsumptionNo").tooltip();
+
         $("#ConsumptionDate").datepicker({
             dateFormat: "dd-MM-yy"
         });
@@ -74,7 +76,7 @@
                 <div class="row form-group">
                     <div class="col-md-2">
                         <label for="ConsumptionNo">Consumption Ref.No.</label>
-                        @Html.TextBoxFor(m => m.ConsumptionNo, new { @class = "form_input", @readonly = "true", @title = "Consumption No. may change after saving" })
+                        @Html.TextBoxFor(m => m.ConsumptionNo, new { @class = "form_input", @readonly = "true", @title = "This number may change after saving" })
                     </div>
                     <div class="col-md-2">
                         <label for="ConsumptionDate">Date</label>

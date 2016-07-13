@@ -6,6 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Dapper;
+using System.Collections;
 
 namespace ArabErp.DAL
 {
@@ -239,6 +240,14 @@ namespace ArabErp.DAL
             using (IDbConnection connection = OpenConnection(dataConnection))
             {
                 return connection.Query<Dropdown>(@"SELECT CurrencyId Id, CurrencyName+' ('+S.SymbolName+')' Name FROM Currency C INNER JOIN Symbol S ON C.CurrencySymbolId = S.SymbolId WHERE ISNULL(C.isActive, 1) = 1").ToList();
+            }
+        }
+
+        public IEnumerable<Dropdown> WorkDescriptionDropdown()
+        {
+            using (IDbConnection connection = OpenConnection(dataConnection))
+            {
+                return connection.Query<Dropdown>(@"SELECT WorkDescriptionId Id, WorkDescr Name FROM WorkDescription WHERE ISNULL(isActive, 1) = 1;").ToList();
             }
         }
     }
