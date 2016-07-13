@@ -21,7 +21,8 @@ namespace ArabErp.DAL
             using (IDbConnection connection = OpenConnection(dataConnection))
             {
                 IDbTransaction trn = connection.BeginTransaction();
-                string sql = @"INSERT INTO CommissionAgent (CommissionAgentRefNo,CommissionAgentName,Address1,Address2,Address3,Phone,CreatedBy,CreatedDate,OrganizationId) VALUES(@CommissionAgentRefNo,@CommissionAgentName,@Address1,@Address2,@Address3,@Phone,@CreatedBy,getDate(),@OrganizationId);
+                string sql = @"INSERT INTO CommissionAgent (CommissionAgentRefNo,CommissionAgentName,Address1,Address2,Address3,Phone,CreatedBy,CreatedDate,OrganizationId) 
+                                VALUES(@CommissionAgentRefNo,@CommissionAgentName,@Address1,@Address2,@Address3,@Phone,@CreatedBy,getDate(),@OrganizationId);
             SELECT CAST(SCOPE_IDENTITY() as int)";
 
 
@@ -49,7 +50,9 @@ namespace ArabErp.DAL
         {
             using (IDbConnection connection = OpenConnection(dataConnection))
             {
-                string sql = @"UPDATE CommissionAgent SET CommissionAgentName = @CommissionAgentName,Address1 = @Address1 ,Address2 = @Address2,Address3 = @Address3,Phone = @Phone, CreatedBy = @CreatedBy,CreatedDate= GETDATE(),OrganizationId = @OrganizationId OUTPUT INSERTED.CommissionAgentId  WHERE CommissionAgentId = @CommissionAgentId";
+                string sql = @"UPDATE CommissionAgent SET CommissionAgentName = @CommissionAgentName,Address1 = @Address1 ,Address2 = @Address2,Address3 = @Address3,
+                                Phone = @Phone, CreatedBy = @CreatedBy,CreatedDate= GETDATE(),OrganizationId = @OrganizationId OUTPUT INSERTED.CommissionAgentId  
+                                WHERE CommissionAgentId = @CommissionAgentId";
 
                 try
                 {
