@@ -1,4 +1,4 @@
-﻿@model ArabErp.Domain.ItemGroup
+﻿@model ArabErp.Domain.Organization
 @{Layout = "~/Views/Shared/_Layout.cshtml";}
 
 @{string actionName = HttpContext.Current.Request.RequestContext.RouteData.Values["action"].ToString(); }
@@ -34,8 +34,8 @@
             "showMethod": "fadeIn",
             "hideMethod": "fadeOut"
         }
-        if ('@TempData["success"]' != "" && '@TempData["ItemGroupRefNo"]' != "") {
-            toastr.success('@TempData["success"]' + '  Item Group Ref No. is : ' + '@TempData["ItemGroupRefNo"]');
+        if ('@TempData["success"]' != "" && '@TempData["OrganizationRefNo"]' != "") {
+            toastr.success('@TempData["success"]' + ' Organization Ref No. is : ' + '@TempData["OrganizationRefNo"]');
         }
         else if ('@TempData["error"]' != "") {
             toastr.error('@TempData["error"]');
@@ -46,37 +46,39 @@
 
 
 
-<div class="container">
-    <div class="row">
+<div class=" container ">
+    <div class=" row ">
 
         <div class="form-head1">
-            <h4>Item Group</h4>
+            <h4>Organization</h4>
         </div>
 
         <div class="main-part pad1">
 
-            @using (Html.BeginForm(null, null, FormMethod.Post, new { @class = "createFrom", @id = "ItemGroup_form" , @readonly = "readonly"}))
+            @using (Html.BeginForm(null, null, FormMethod.Post, new { @class = "createFrom", @id = "Organization_form", @readonly = "readonly" }))
             {
                 <div class="row">
 
                     <div class="col-md-4">
 
-                        @Html.HiddenFor(m => m.ItemGroupId)
-                        @Html.HiddenFor(m => m.ItemGroupRefNo)
+                        @Html.HiddenFor(m => m.OrganizationId)
+                        @Html.HiddenFor(m => m.OrganizationRefNo)
 
                         <div class="part4">
-                            <label for="ItemGroupRefNo">Code</label>
-                            @Html.TextBoxFor(m => m.ItemGroupRefNo, new { @class = "form_input form_input-half", autocomplete = "off", @readonly = "readonly" })
-                        </div>
-                        <div class="part4">
-                            <label for="ItemCategoryId">Category</label>
-                            @Html.DropDownListFor(m => Model.ItemCategoryId, (SelectList)ViewBag.ItemCategory, "Select Item Category", new { @class = "form_input", autocomplete = "off" })
+                            <label for="OrganizationRefNo">Code</label>
+                            @Html.TextBoxFor(m => m.OrganizationRefNo, new { @class = "form_input form_input-half", autocomplete = "off", @readonly = "readonly" })
                         </div>
 
                         <div class="part4">
-                            <label for="ItemGroupName">Name</label>
-                            @Html.TextBoxFor(m => m.ItemGroupName, new { @class = "form_input", autocomplete = "off" })
+                            <label for="OrganizationName">Name</label>
+                            @Html.TextBoxFor(m => m.OrganizationName, new { @class = "form_input", autocomplete = "off" })
                         </div>
+
+                        <div class="part4">
+                            <label for="CurrencyId">Currency</label>
+                            @Html.DropDownListFor(m => Model.CurrencyId, (SelectList)ViewBag.Currency, "Select Item Currency", new { @class = "form_input", autocomplete = "off" })
+                        </div>
+
 
                     </div>
 
@@ -107,9 +109,9 @@
         </div>
 
         <div class="main-list">
-            @Html.Action("FillItemGroupList")
+            @Html.Action("FillOrganizationList")
         </div>
 
     </div>
 
- </div>
+</div>
