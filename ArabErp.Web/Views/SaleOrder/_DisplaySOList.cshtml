@@ -206,8 +206,8 @@
                 {
                     <th width="25%" class="text-left"><h1>Vehicle Model</h1></th>
                 }                
-                <th width="5%" class="text-right"><h1>Qty.</h1></th>
-                <th width="5%"><h1>UoM</h1></th>
+                @*<th width="5%" class="text-right"><h1>Qty.</h1></th>
+                <th width="5%"><h1>UoM</h1></th>*@
                 <th width="10%" class="text-right"><h1>Rate</h1></th>
                 <th width="10%" class="text-right"><h1>Discount</h1></th>
                 <th width="10%" class="text-right"><h1>Amount</h1></th>
@@ -223,6 +223,8 @@
                     <td align="center">
                         <span id="slno@(i+1)">@(i + 1)</span>
                         @Html.HiddenFor(m => m.Items[i].SlNo)
+                        @Html.HiddenFor(m => m.Items[i].Quantity)
+                        @Html.HiddenFor(m => m.Items[i].UnitId)
                     </td>
 
                     <td>
@@ -255,7 +257,7 @@
                         </td>
                     }                    
 
-                    <td>
+                   @* <td>*@
                         @*@if (actionName == "Create" || actionName == "CreateProject" || actionName == "RefreshDisplaySOList")
                         {
                             @Html.TextBoxFor(m => m.Items[i].Quantity, new { @class = "form_input clQuantity validateqty numbers-only", @style = "text-align:right", autocomplete = "off", placeholder = "Qty" , @onkeyup = "ValueChanged(" + i + ");"})
@@ -263,20 +265,20 @@
                         }
                         else
                         {*@
-                            @Html.TextBoxFor(m => m.Items[i].Quantity, new { @class = "form_input clQuantity  ", @style = "text-align:right", autocomplete = "off", placeholder = "Qty", @disabled = "true" })
+                           @* @Html.TextBoxFor(m => m.Items[i].Quantity, new { @class = "form_input clQuantity  ", @style = "text-align:right", autocomplete = "off", placeholder = "Qty", @disabled = "true" })*@
                         @*}*@
-                    </td>
-                    <td>
+                    @*</td>*@
+                   @* <td>*@
                         @*@if (actionName == "Create" || actionName == "CreateProject" || actionName == "RefreshDisplaySOList")
                         {
                             @Html.DropDownListFor(x => Model.Items[i].UnitId, new SelectList(ViewBag.unitlist, "Value", "Text", Model.Items[i].UnitId), "Select Unit", new { @class = "form_input", autocomplete = "off" })
                         }
                         else
                         {*@
-                            @Html.DropDownListFor(x => Model.Items[i].UnitId, new SelectList(ViewBag.unitlist, "Value", "Text", Model.Items[i].UnitId), "Select Unit", new { @class = "form_input", autocomplete = "off", @disabled = "true" })
+                          @*  @Html.DropDownListFor(x => Model.Items[i].UnitId, new SelectList(ViewBag.unitlist, "Value", "Text", Model.Items[i].UnitId), "Select Unit", new { @class = "form_input", autocomplete = "off", @disabled = "true" })*@
 
                         @*}*@
-                    </td>
+                   @* </td>*@
                     <td>
                         @*@if (actionName == "Create" || actionName == "CreateProject" || actionName == "RefreshDisplaySOList")
                         {
@@ -311,30 +313,22 @@
         <tfoot>
             <tr class="grid_heading">
                 @*<th width="2%"></th>*@
-                <th width="5%" class="text-center"><h1></h1></th>
+                <th width="5%" class="text-center"><h1>Total</h1></th>
                 <th width="26%" class="text-center"><h1></h1></th>
                 @if (Model.isProjectBased == 0)
                 {
                     <th width="25%" class="text-center"></th>
                 }                
-                <th width="5%" class="text-right"><span id="QtyTotal"></span></th>
-                <th width="8%">
-                    <h1>
-                        @*@if (actionName == "Create" || actionName == "CreateProject" || actionName == "RefreshDisplaySOList")
-                        {*@
-                            @*@Html.TextBoxFor(m => m.CurrencyName, new { @class = "form_input", autocomplete = "off", @style = "text-align:right;color:white", @disabled = "true" })*@
-                            @Html.HiddenFor(m => m.CurrencyId)
-                            @*@Html.DropDownListFor(m => Model.CurrencyId, (SelectList)ViewBag.currlist, "Select Currency", new { @class = "form_input", @style = "background:lightgrey", autocomplete = "off" })*@
-                            @*@Html.DropDownListFor(x => Model.CurrencyId, new SelectList(ViewBag.currlist, "Value", "Text", Model.CurrencyId), "select Currency", new { @class = "form_input", autocomplete = "off" })*@
-                        @*}
-                        else
-                        {*@
-                            @Html.DropDownListFor(m => Model.CurrencyId, (SelectList)ViewBag.currlist, "Select Currency", new { @class = "form_input", autocomplete = "off", @disabled = "true" })
+                @*<th width="5%" class="text-right"><span id="QtyTotal"></span></th>*@
+             
+                <th width="10%" class="text-right">
+                <h1>
+                    @Html.HiddenFor(m => m.CurrencyId)
+                    @Html.DropDownListFor(m => Model.CurrencyId, (SelectList)ViewBag.currlist, "Select Currency", new { @class = "form_input", autocomplete = "off", @style = "background:lightgrey", @disabled = "true" })
 
-                        @*}*@
-                    </h1>
+
+                </h1>
                 </th>
-                <th width="10%" class="text-right"><h1>Total</h1></th>
                 <th width="10%" class="text-right">
                     @Html.TextBoxFor(m => m.TotalDiscount, new { @class = "form_input", @style = "text-align:right", autocomplete = "off", @readonly = "readonly" })
                     @*<span id="QtyDiscount"></span>*@
