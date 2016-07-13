@@ -48,7 +48,7 @@ namespace ArabErp.Web.Controllers
         }
         public ActionResult Save(JobCardQC jc)
         {
-            jc.OrganizationId = 1;
+            jc.OrganizationId = OrganizationId;
             jc.CreatedDate = System.DateTime.Now;
             jc.CreatedBy = Request.ServerVariables["HTTP_X_FORWARDED_FOR"] ?? Request.ServerVariables["REMOTE_ADDR"];
             new JobCardQCRepository().InsertJobCardQC(jc);

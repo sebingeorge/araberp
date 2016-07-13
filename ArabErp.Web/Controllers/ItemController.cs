@@ -47,7 +47,7 @@ namespace ArabErp.Web.Controllers
             FillItemCategory();
             FillUnit();
             InitDropdown();
-            oitem.OrganizationId = 1;
+            oitem.OrganizationId = OrganizationId;
             oitem.CreatedDate = System.DateTime.Now;
             oitem.CreatedBy = Request.ServerVariables["HTTP_X_FORWARDED_FOR"] ?? Request.ServerVariables["REMOTE_ADDR"];
 
@@ -109,7 +109,7 @@ namespace ArabErp.Web.Controllers
 
         public ActionResult Edit(Item model)
         {
-            model.OrganizationId = 1;
+            model.OrganizationId = OrganizationId;
             model.CreatedDate = System.DateTime.Now;
             model.CreatedBy = Request.ServerVariables["HTTP_X_FORWARDED_FOR"] ?? Request.ServerVariables["REMOTE_ADDR"];
             var repo = new ItemRepository();

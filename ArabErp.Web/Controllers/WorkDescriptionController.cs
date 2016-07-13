@@ -71,7 +71,7 @@ namespace ArabErp.Web.Controllers
         [HttpPost]
         public ActionResult EditWorkDescription(WorkDescription model)
         {
-            //model.OrganizationId = 1;
+            //model.OrganizationId = OrganizationId;
             //model.CreatedDate = System.DateTime.Now;
             //model.CreatedBy = Request.ServerVariables["HTTP_X_FORWARDED_FOR"] ?? Request.ServerVariables["REMOTE_ADDR"];
             //var result = new WorkDescriptionRepository().UpdateWorkDescription(model);
@@ -127,7 +127,7 @@ namespace ArabErp.Web.Controllers
         {
 
 
-            model.OrganizationId = 1;
+            model.OrganizationId = OrganizationId;
             model.CreatedDate = System.DateTime.Now;
             model.CreatedBy = Request.ServerVariables["HTTP_X_FORWARDED_FOR"] ?? Request.ServerVariables["REMOTE_ADDR"];
             var result = new WorkDescriptionRepository().InsertWorkDescription(model);
@@ -163,7 +163,7 @@ namespace ArabErp.Web.Controllers
         {
 
 
-            model.OrganizationId = 1;
+            model.OrganizationId = OrganizationId;
             model.CreatedDate = System.DateTime.Now;
             model.CreatedBy = Request.ServerVariables["HTTP_X_FORWARDED_FOR"] ?? Request.ServerVariables["REMOTE_ADDR"];
             var result = new WorkDescriptionRepository().InsertProjectWorkDescription(model);
