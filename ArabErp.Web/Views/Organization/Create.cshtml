@@ -1,0 +1,117 @@
+﻿@model ArabErp.Domain.Organization
+@{Layout = "~/Views/Shared/_Layout.cshtml";}
+
+@{string actionName = HttpContext.Current.Request.RequestContext.RouteData.Values["action"].ToString(); }
+
+<script type="text/javascript">
+    function Exit() {
+        location.href = '@Url.Action("Index","Home")';
+        @*location.href = '@Url.Action("Create")';*@
+    }
+    $(document).ready(function () {
+        var Action = '@actionName';
+        if (Action == 'Delete') {
+
+            $("input[type='text'], select, textarea").attr('disabled', 'disabled');
+            $("input[type=radio]").attr('disabled', true);
+        }
+        if (Action == 'Create') {
+            $("#GenderId").prop("checked", true)
+        }
+
+        //$("#radio_1").prop("checked", true)
+        toastr.options = {
+            "closeButton": true,
+            "positionClass": "toast-bottom-full-width",
+            "preventDuplicates": false,
+            "onclick": null,
+
+            "timeOut": "0",
+            "extendedTimeOut": "1000",
+
+            "showEasing": "swing",
+            "hideEasing": "linear",
+            "showMethod": "fadeIn",
+            "hideMethod": "fadeOut"
+        }
+        if ('@TempData["success"]' != "" && '@TempData["OrganizationRefNo"]' != "") {
+            toastr.success('@TempData["success"]' + ' Organization Ref No. is : ' + '@TempData["OrganizationRefNo"]');
+        }
+        else if ('@TempData["error"]' != "") {
+            toastr.error('@TempData["error"]');
+        }
+
+    });
+</script>
+
+
+
+<div class=" container ">
+    <div class=" row ">
+
+        <div class="form-head1">
+            <h4>Organization</h4>
+        </div>
+
+        <div class="main-part pad1">
+
+            @using (Html.BeginForm(null, null, FormMethod.Post, new { @class = "createFrom", @id = "Organization_form", @readonly = "readonly" }))
+            {
+                <div class="row">
+
+                    <div class="col-md-4">
+
+                        @Html.HiddenFor(m => m.OrganizationId)
+                        @Html.HiddenFor(m => m.OrganizationRefNo)
+
+                        <div class="part4">
+                            <label for="OrganizationRefNo">Code</label>
+                            @Html.TextBoxFor(m => m.OrganizationRefNo, new { @class = "form_input form_input-half", autocomplete = "off", @readonly = "readonly" })
+                        </div>
+
+                        <div class="part4">
+                            <label for="OrganizationName">Name</label>
+                            @Html.TextBoxFor(m => m.OrganizationName, new { @class = "form_input", autocomplete = "off" })
+                        </div>
+
+                        <div class="part4">
+                            <label for="CurrencyId">Currency</label>
+                            @Html.DropDownListFor(m => Model.CurrencyId, (SelectList)ViewBag.Currency, "Select Item Currency", new { @class = "form_input", autocomplete = "off" })
+                        </div>
+
+
+                    </div>
+
+
+                    <div class="col-md-4">
+                    </div>
+
+                    <div class="col-md-4">
+                    </div>
+
+
+                    <div class="col-md-12 hrpart">
+                        <button type="button" class="form-button right" onclick="Exit();">Exit</button>
+                        @if (actionName == "Edit")
+                        { <button type="submit" class="form-button right">Update</button> }
+                        else
+                            if (actionName == "Delete")
+                            {  <button type="submit" class="form-button right">Delete</button>}
+                            else
+                            { <button type="submit" class="form-button right">Save</button>}
+
+                    </div>
+
+
+                </div>
+            }
+
+        </div>
+
+        <div class="main-list">
+            @Html.Action("FillOrganizationList")
+        </div>
+
+    </div>
+
+</div>
