@@ -218,6 +218,7 @@
     <Compile Include="Controllers\FreezerUnitController.cs" />
     <Compile Include="Controllers\GrnWareHouseController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\ItemBatchController.cs" />
     <Compile Include="Controllers\ItemCategoryController.cs" />
     <Compile Include="Controllers\ItemController.cs" />
     <Compile Include="Controllers\ItemGroupController.cs" />
@@ -680,6 +681,7 @@
     <Folder Include="bin\" />
     <Folder Include="Images\App_LocalResources\" />
     <Folder Include="Views\Base\" />
+    <Folder Include="Views\ItemBatch\" />
     <Folder Include="Views\LocalPurchase\" />
     <Folder Include="Views\MisReport\" />
   </ItemGroup>
