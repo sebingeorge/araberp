@@ -54,8 +54,8 @@ namespace ArabErp.Web.Controllers
                 TempData["error"] = "Some error occurred. Please try again.|" + ex.Message;
             }
 
-            model.PorformaInvoiceNo = "PINV/" + internalId;
-            model.PorformaInvoiceDate = System.DateTime.Today;
+            model.ProformaInvoiceRefNo = "PINV/" + internalId;
+            model.ProformaInvoiceDate = System.DateTime.Today;
            
             return View(model);
         }

@@ -170,5 +170,33 @@ namespace ArabErp.DAL
                 return connection.Query<RateSettingsItems>(query, new { from = from }).ToList();
             }
         }
+
+        /// <summary>
+        /// Return the rate of a work description for a given date
+        /// </summary>
+        /// <param name="workDescriptionId"></param>
+        /// <param name="RateType">1 = Min, 2 = Medium, 3 = Max</param>
+        /// <param name="date"></param>
+        /// <returns></returns>
+        public decimal GetRate(int workDescriptionId, string date, int RateType)
+        {
+            try
+            {
+                using (IDbConnection connection = OpenConnection(dataConnection))
+                {
+                    string type = "MinRate";
+                    if (RateType == 2) type = "MediumRate";
+                    else if (RateType == 3) type = "MaxRate";
+                    string query = @"SELECT " + type + " FROM RateSettings WHERE WorkDescriptionId = @workDescriptionId AND @date BETWEEN FromDate AND ToDate;";
+
+                    return connection.Query<decimal>(query, new { workDescriptionId = workDescriptionId, date = date }).First();
+                }
+            }
+            catch (InvalidOperationException)
+            {
+                return 0;
+                throw;
+            }
+        }
     }
 }

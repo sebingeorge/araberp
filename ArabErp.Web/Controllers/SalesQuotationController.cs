@@ -384,5 +384,11 @@ namespace ArabErp.Web.Controllers
              
 
           }
+
+        public JsonResult GetRate(int workDescriptionId, string date, int type)
+        {
+            decimal data = new RateSettingsRepository().GetRate(workDescriptionId, date, type);
+            return Json(data, JsonRequestBehavior.AllowGet);
+        }
     }
 }
