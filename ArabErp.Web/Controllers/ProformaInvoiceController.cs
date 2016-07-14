@@ -26,14 +26,14 @@ namespace ArabErp.Web.Controllers
         public ActionResult Create(int? SaleOrderId)
         {
             ProformaInvoiceRepository repo = new ProformaInvoiceRepository();
-
+            CurrencyRepository repo1 = new CurrencyRepository();
             ProformaInvoice model = repo.GetSaleOrderForPorforma(SaleOrderId ?? 0);
-
+            model.SymbolName = repo1.GetCurrencyFrmOrganization(OrganizationId).SymbolName;
             var PIList = repo.GetPorformaInvoiceData(model.SaleOrderId);
             model.Items = new List<ProformaInvoiceItem>();
             foreach (var item in PIList)
             {
-                model.Items.Add(new ProformaInvoiceItem { PartNo = item.PartNo, ItemName = item.ItemName, Quantity = item.Quantity, UnitName = item.UnitName, ItemId = item.ItemId, ActualQuantity = item.Quantity });
+                model.Items.Add(new ProformaInvoiceItem { WorkDescription  = item.WorkDescription, VehicleModelName = item.VehicleModelName, Quantity = item.Quantity, UnitName = item.UnitName,Rate=item.Rate,Amount=item.Amount,Discount=item.Discount });
 
             }
 
@@ -54,8 +54,8 @@ namespace ArabErp.Web.Controllers
                 TempData["error"] = "Some error occurred. Please try again.|" + ex.Message;
             }
 
-            model.PorformaInvoiceNo = "PINV/" + internalId;
-            model.PorformaInvoiceDate = System.DateTime.Today;
+            model.ProformaInvoiceRefNo = "PINV/" + internalId;
+            model.ProformaInvoiceDate = System.DateTime.Today;
            
             return View(model);
         }

@@ -263,8 +263,7 @@ namespace ArabErp.DAL
                             SO.SaleOrderId SaleOrderId,
                             S.SymbolName CurrencySymbol,
                             Convert(varchar(15),Getdate(),106) CurrentDate,
-                            SO.SaleOrderRefNo SaleOrderRefNo ,
-                            Concat(C.DoorNo,',',C.Street,',',C.State,',',C.Country,',',C.Zip)
+                            SO.SaleOrderRefNo SaleOrderRefNo ,DoorNo +','+ Street+','+State
                             CustomerAddress,
                             SO.CustomerOrderRef CustomerOrderRef,
                             SO.SpecialRemarks SpecialRemarks,
