@@ -87,6 +87,7 @@
     <Compile Include="FreezerUnitRepository.cs" />
     <Compile Include="GRNItemRepository.cs" />
     <Compile Include="GRNRepository.cs" />
+    <Compile Include="ItemBatchRepository.cs" />
     <Compile Include="ItemCategoryRepository.cs" />
     <Compile Include="ItemRepository.cs" />
     <Compile Include="ItemGroupRepository.cs" />

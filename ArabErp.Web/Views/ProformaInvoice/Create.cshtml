@@ -80,22 +80,22 @@
     <div class="row">
 
         <div class="form-head1">
-            <h4>Porforma Invoice</h4>
+            <h4>Proforma Invoice</h4>
         </div>
         <div class="main-part pad1">
             @using (Html.BeginForm("Save", null, FormMethod.Post, new { @class = "createFrom", @id = "saleorder_form" }))
             {
                 <div class="row form-group ">
                     <div class="col-md-2">
-                        <label for="PorformaInvoiceNo">Porforma No.</label>
+                        <label for="PorformaInvoiceNo">Proforma No.</label>
                         @Html.HiddenFor(m => Model.SaleOrderId)
                        
                         @Html.HiddenFor(m => Model.isProjectBased)
-                        @Html.TextBoxFor(m => m.PorformaInvoiceNo, new { @class = "form_input", autocomplete = "off", @readonly = "readonly" })
+                        @Html.TextBoxFor(m => m.ProformaInvoiceRefNo, new { @class = "form_input", autocomplete = "off", @readonly = "readonly" })
                     </div>
                     <div class="col-md-2">
                         <label for="SaleOrderDate">Date</label>
-                        @Html.TextBoxFor(m => m.PorformaInvoiceDate, String.Format("{0:dd/MM/yyyy}", Model.PorformaInvoiceDate), new { @class = "form_input ", autocomplete = "off", @readonly = "readonly" })
+                        @Html.TextBoxFor(m => m.ProformaInvoiceDate, String.Format("{0:dd/MM/yyyy}", Model.ProformaInvoiceDate), new { @class = "form_input ", autocomplete = "off", @readonly = "readonly" })
                     </div>
                 </div>
                 <div class="row form-group">
