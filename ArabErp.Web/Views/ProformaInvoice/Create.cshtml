@@ -73,6 +73,10 @@
             popup.focus();
             return false;
         }
+        function Exit() {
+
+            location.href = '@Url.Action("PendingProforma", "ProformaInvoice", new { @Model.isProjectBased })';
+        }
     </script>
 }
 <div class="container">
@@ -83,7 +87,7 @@
             <h4>Proforma Invoice</h4>
         </div>
         <div class="main-part pad1">
-            @using (Html.BeginForm("Save", null, FormMethod.Post, new { @class = "createFrom", @id = "saleorder_form" }))
+            @using (Html.BeginForm("Save", null, FormMethod.Post, new { @class = "createFrom"}))
             {
                 <div class="row form-group ">
                     <div class="col-md-2">
@@ -126,7 +130,10 @@
                             <tr class="grid_heading">
                                 <th width="2%" class="text-center"><h1>#</h1></th>
                                 <th width="25%"><h1>Work Description</h1></th>
+                               @if (Model.isProjectBased == 0)
+                                {
                                 <th width="25%"><h1>Vehicle Model</h1></th>
+                               }
                                 <th width="5%" class="text-right"><h1>Qty</h1></th>
                                 <th width="5%"><h1>UoM</h1></th>
                                 <th width="10%" class="text-right"><h1>Rate</h1></th>
@@ -140,10 +147,13 @@
                                 <tr id="Row_@i">
                                     <td align="center">@(i + 1) </td>
                                     @Html.HiddenFor(m => Model.Items[i].SaleOrderItemId)
-                                    @Html.HiddenFor(m => Model.Items[i].SaleOrderId)
+                                  
                                 
                                     <td>@Html.TextBoxFor(m => Model.Items[i].WorkDescription, new { @class = "form_input", autocomplete = "off", @style = "text-align:left",@readonly = "readonly" })</td>
+                                    @if (Model.isProjectBased == 0)
+                                    {
                                     <td>@Html.TextBoxFor(m => Model.Items[i].VehicleModelName, new { @class = "form_input", autocomplete = "off", @style = "text-align:left",@readonly = "readonly" })</td>
+                                    }
                                     <td>@Html.TextBoxFor(m => Model.Items[i].Quantity, new { @class = "form_input", autocomplete = "off", @style = "text-align:right", @readonly = "readonly" })</td>
                                     <td>@Html.TextBoxFor(m => Model.Items[i].UnitName, new { @class = "form_input", autocomplete = "off", @style = "text-align:left",@readonly = "readonly" })</td>
                                     <td>@Html.TextBoxFor(m => Model.Items[i].Rate, new { @class = "form_input ", autocomplete = "off", @style = "text-align:right", @onkeyup = "ValueChanged(" + i + ");", })</td>
@@ -157,7 +167,10 @@
                             <tr class="grid_heading">
                                 <th width="5%" class="text-center"><h1>Total</h1></th>
                                 <th width="25%" class="text-center"><h1></h1></th>
+                                @if (Model.isProjectBased == 0)
+                                    {
                                 <th width="25%" class="text-center"><h1></h1></th>
+                                    }
                                 <th width="5%" class="text-right"></th>
                                 <th width="5%"></th>
                                 <th width="10%" class="text-right"></th>
@@ -205,7 +218,7 @@
 
                 <div class="row">
                     <div class="col-md-12 hrpart">
-                        <button class="form-button right" onclick="Back()">Exit</button>
+                        <button class="form-button right" onclick="Exit()">Exit</button>
                         <button type="submit" class="form-button right">Save</button>
                     </div>
 
