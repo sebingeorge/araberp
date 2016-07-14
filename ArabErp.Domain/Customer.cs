@@ -39,6 +39,7 @@ namespace ArabErp.Domain
         public int OrganizationId { get; set; }
         public string CusCategoryName { get; set; }
         public string CountryName { get; set; }
+        public int? CreditPeriod { get; set; }
     }
    public enum CategoryId
    { Category1, Category2}

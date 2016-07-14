@@ -56,7 +56,8 @@ namespace ArabErp.Domain
         public int? OrganizationId { get; set; }
         public string isActive { get; set; }
         public string SupCategoryName { get; set; }
-        public string PurchaseTypeName { get; set; }  
-              
+        public string PurchaseTypeName { get; set; }
+        public int? CreditPeriod { get; set; }
+
     }
 }

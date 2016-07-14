@@ -238,6 +238,7 @@
     <Compile Include="Controllers\PurchaseRequestController.cs" />
     <Compile Include="Controllers\QuerySheetController.cs" />
     <Compile Include="Controllers\QuotationApprovalController.cs" />
+    <Compile Include="Controllers\RateSettingsController.cs" />
     <Compile Include="Controllers\SaleOrderController.cs" />
     <Compile Include="Controllers\SaleOrderStatusController.cs" />
     <Compile Include="Controllers\SalesInvoiceController.cs" />
@@ -668,6 +669,9 @@
     <Content Include="Views\QuerySheet\QuerySheetList.cshtml" />
     <Content Include="Views\Organization\Create.cshtml" />
     <Content Include="Views\Organization\OrganizationListView.cshtml" />
+    <Content Include="Views\RateSettings\Index.cshtml" />
+    <Content Include="Views\RateSettings\_grid.cshtml" />
+    <Content Include="Views\RateSettings\PreviousListPopup.cshtml" />
     <Content Include="Views\ProformaInvoice\PendingProforma.cshtml" />
     <Content Include="Views\ProformaInvoice\Create.cshtml" />
   </ItemGroup>
