@@ -172,12 +172,12 @@
                         </div>
 
     <div class="table-responsive">
-        <table class="table table-bordered table-hover" id="tab_logic">
+        <table class="table table-bordered" id="tab_logic">
             <thead>
                 <tr class="grid_heading">
                     <th width="2%" class="text-center"><h1>#</h1></th>
-                    <th width="25%" class="text-center"><h1>Work Description</h1></th>
-                    <th width="25%" class="text-center"><h1>Vehicle Model</h1></th>
+                    <th width="25%"><h1>Work Description</h1></th>
+                    <th width="25%"><h1>Vehicle Model</h1></th>
                     <th width="5%" class="text-right"><h1>Qty</h1></th>
                     <th width="5%"><h1>UoM</h1></th>
                     <th width="10%" class="text-right"><h1>Rate</h1></th>
@@ -189,7 +189,7 @@
                 @for (int i = 0; i < Model.SaleInvoiceItems.Count; i++)
                 {
                     <tr id="Row_@i">
-                        <td>@(i+1) </td>
+                        <td align="center">@(i+1) </td>
                         @Html.HiddenFor(m=> Model.SaleInvoiceItems[i].SaleOrderItemId)
                         @Html.HiddenFor(m => Model.SaleInvoiceItems[i].SaleOrderId)
                         @Html.HiddenFor(m => Model.SaleInvoiceItems[i].JobCardId)

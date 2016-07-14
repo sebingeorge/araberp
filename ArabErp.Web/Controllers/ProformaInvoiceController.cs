@@ -28,12 +28,12 @@ namespace ArabErp.Web.Controllers
             ProformaInvoiceRepository repo = new ProformaInvoiceRepository();
 
             ProformaInvoice model = repo.GetSaleOrderForPorforma(SaleOrderId ?? 0);
-
+            model.SymbolName = repo.GetCurrencyFrmOrganization(OrganizationId).SymbolName;
             var PIList = repo.GetPorformaInvoiceData(model.SaleOrderId);
             model.Items = new List<ProformaInvoiceItem>();
             foreach (var item in PIList)
             {
-                model.Items.Add(new ProformaInvoiceItem { PartNo = item.PartNo, ItemName = item.ItemName, Quantity = item.Quantity, UnitName = item.UnitName, ItemId = item.ItemId, ActualQuantity = item.Quantity });
+                model.Items.Add(new ProformaInvoiceItem { WorkDescription  = item.WorkDescription, VehicleModelName = item.VehicleModelName, Quantity = item.Quantity, UnitName = item.UnitName,Rate=item.Rate,Amount=item.Amount,Discount=item.Discount });
 
             }
 

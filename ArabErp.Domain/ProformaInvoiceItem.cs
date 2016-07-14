@@ -12,7 +12,7 @@ namespace ArabErp.Domain
           public int? SaleOrderItemId { get; set; }
           public int? SaleOrderId { get; set; }
           public int? SlNo { get; set; }
-          public int? WorkDescriptionId { get; set; }
+          public string WorkDescription { get; set; }
           public int? VehicleModelId { get; set; }
           public string VehicleModelName { get; set; }
           public string Remarks { get; set; }
@@ -22,7 +22,7 @@ namespace ArabErp.Domain
           public string UnitName { get; set; }
           public int? Quantity { get; set; }
           public int? ActualQuantity { get; set; }
-          public int? UnitId { get; set; }
+        
           public decimal? Rate { get; set; }
           public decimal? Discount { get; set; }
           public decimal Amount { get; set; }
