@@ -14,8 +14,8 @@ namespace ArabErp.DAL
         public int InsertSalesQuotationItem(SalesQuotationItem objSalesQuotationItem, IDbConnection connection, IDbTransaction trn)
         {
 
-       
-                string sql = @"insert  into SalesQuotationItem(SalesQuotationId,SlNo,WorkDescriptionId,Remarks,PartNo,Quantity,UnitId,Rate,Discount,Amount,OrganizationId) Values (@SalesQuotationId,@SlNo,@WorkDescriptionId,@Remarks,@PartNo,@Quantity,@UnitId,@Rate,@Discount,@Amount,@OrganizationId);
+
+            string sql = @"insert  into SalesQuotationItem(SalesQuotationId,SlNo,WorkDescriptionId,Remarks,PartNo,Quantity,UnitId,Rate,Discount,Amount,OrganizationId,RateType) Values (@SalesQuotationId,@SlNo,@WorkDescriptionId,@Remarks,@PartNo,@Quantity,@UnitId,@Rate,@Discount,@Amount,@OrganizationId,@RateType);
             SELECT CAST(SCOPE_IDENTITY() as int)";
 
 
