@@ -233,6 +233,7 @@
     <Compile Include="Controllers\OpeningStockController.cs" />
     <Compile Include="Controllers\OrganizationController.cs" />
     <Compile Include="Controllers\PaymentTermsController.cs" />
+    <Compile Include="Controllers\ProformaInvoiceController.cs" />
     <Compile Include="Controllers\PurchaseBillController.cs" />
     <Compile Include="Controllers\PurchaseRequestController.cs" />
     <Compile Include="Controllers\QuerySheetController.cs" />
@@ -671,6 +672,8 @@
     <Content Include="Views\RateSettings\Index.cshtml" />
     <Content Include="Views\RateSettings\_grid.cshtml" />
     <Content Include="Views\RateSettings\PreviousListPopup.cshtml" />
+    <Content Include="Views\ProformaInvoice\PendingProforma.cshtml" />
+    <Content Include="Views\ProformaInvoice\Create.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
