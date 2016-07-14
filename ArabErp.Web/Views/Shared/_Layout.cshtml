@@ -127,6 +127,7 @@
                         <li><a href="@Url.Action("Create", "Organization")"><span class="badge pull-right"></span>Organization</a></li>
                         <li><a href="@Url.Action("Create","Currency")"><span class="badge pull-right"></span>Currency</a></li>
                         <li><a href="@Url.Action("Index","WorkDescription")"><span class="badge pull-right"></span>Work Description</a></li>
+                        <li><a href="@Url.Action("Index","RateSettings")"><span class="badge pull-right"></span>Rate Settings</a></li>
                         <li><a href="@Url.Action("CreateProjectWorkDescription","WorkDescription")"><span class="badge pull-right"></span>Project Work Description</a></li>
                         <li><a href="@Url.Action("Create","VehicleModel")"><span class="badge pull-right"></span>Vehicle Model</a></li>
                         <li><a href="@Url.Action("Create","Task")"><span class="badge pull-right"></span>Task</a></li>
@@ -192,6 +193,7 @@
                                 <li><a href="@Url.Action("ListSalesQuotations", "SalesQuotation", new { ProjectBased = 0 })"><span class="badge pull-right"></span>Quotation Request Approval</a></li>
                                 <li><a href="@Url.Action("PendingSalesQutoforSaleOrder", "SaleOrder", new { ProjectBased = 0 })"><span class="badge pull-right"></span>Sale Order</a></li>
                                 <li><a href="@Url.Action("PendingSaleOrderHold", "SaleOrder")"><span class="badge pull-right"></span>Pending Sale Orders</a></li>
+                                <li><a href="@Url.Action("PendingProforma", "ProformaInvoice", new { invType = "Final" })"><span class="badge pull-right"></span>Proforma Invoice</a></li>
                                 <li><a href="@Url.Action("PendingSalesInvoice", "SalesInvoice", new { invType = "Final" })"><span class="badge pull-right"></span>Sales Invoice</a></li>
                                 <li><a href="@Url.Action("Closing", "SaleOrder")"><span class="badge pull-right"></span>Sale Order Close</a></li>
                             </ul>

@@ -1,0 +1,50 @@
+﻿@model IList<ArabErp.Domain.RateSettings>
+@*@using GridMvc.Html*@
+
+@{
+    ViewBag.Title = "Previous Rates";
+    Layout = "~/Views/Shared/_LayoutPopup.cshtml";
+}
+
+<div class="table-responsive">
+
+    <div class="main-grid">
+
+        <table class="table table-bordered">
+            <thead>
+                <tr class="grid_heading">
+                    <th>#</th>
+                    <th>Period</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                @for (int i = 0; i < Model.Count; i++)
+                {
+                    <tr class="grid_row">
+                        <td>@(i + 1)</td>
+                        <td>@Model[i].FromDate.ToString("dd MMMM yyyy") - @Model[i].ToDate.ToString("dd MMMM yyyy")</td>
+                        <td>
+                            <input type="button" class="form-button4" onclick="SelectPeriod('@Model[i].FromDate.ToString("dd-MMMM-yyyy")', '@Model[i].ToDate.ToString("dd-MMMM-yyyy")')" value="Select" />
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+
+        @*@Html.Grid(Model).Columns(columns =>
+        {
+            columns.Add(m => m.FromDate).Titled("Ref No.").SetWidth(20);
+            columns.Add(m => m.ToDate).Titled("Name").SetWidth(120);
+            //columns.Add().Encoded(false).Sanitized(false).SetWidth(20).RenderValueAs(o => @<center><a href="javascript:void(0);" class="form-button5" onclick="SelectPeriod('@o.FromDate')">Select</a></center>);
+        }).WithPaging(10)*@
+
+    </div>
+
+</div>
+<script>
+    function SelectPeriod(fromDate, toDate) {
+        opener.CallToParent(fromDate, toDate);
+        window.close();
+    }
+</script>

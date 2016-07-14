@@ -1,0 +1,87 @@
+﻿@model ArabErp.Domain.RateSettings
+
+<script type="text/javascript">
+
+    $(document).ready(function () {
+
+        $(".numbers-only").keypress(function (e) {
+            if (e.which == 8 || (e.which == 46 && $(this).val().indexOf('.') == -1) || (e.which > 47 && e.which < 58)) { } else { return false; }
+        });
+
+    })
+
+    function formValidation() {
+        var status = true;
+        var count = '@Model.Items.Count';
+        
+        for (var i = 0; i < count; i++) {
+            var minrate = Number($("#Items_" + i + "__MinRate").val());
+            var mediumrate = Number($("#Items_" + i + "__MediumRate").val());
+            var maxrate = Number($("#Items_" + i + "__MaxRate").val());
+            if ((minrate == 0 || mediumrate == 0 || maxrate == 0) && (minrate + mediumrate + maxrate) > 0) {
+                toastr.info("You have to fill either all or no rates for each work description");
+                status = false;
+                break;
+            }
+        }
+
+        if (status) {
+            var j = 0;
+            for (; Number($("#Items_" + j + "__MinRate").val()) == 0; j++) { }
+            if (j == count) {
+                status = false;
+                toastr.info("You have to fill the rates for atleast one work description");
+            }
+        }
+
+        //if (status) {
+        //    if(ValidateDate($("#FromDate")))
+        //    {
+        //        if (ValidateDate($("#ToDate"))) {
+        //            status = true;
+        //        }
+        //        else status = false;
+        //    }
+        //    else status = false;
+        //}
+
+        return status;
+    }
+
+</script>
+
+<table class="table table-bordered">
+    <thead>
+        <tr class="grid_heading">
+            <th width="1%" style="vertical-align:middle"><h1>#</h1></th>
+            <th width="38%" style="vertical-align:middle"><h1>Work Description</h1></th>
+            <th width="5%" style="vertical-align:middle;text-align:right"><h1>Min. Rate</h1></th>
+            <th width="5%" style="vertical-align:middle;text-align:right"><h1>Medium Rate</h1></th>
+            <th width="5%" style="vertical-align:middle;text-align:right"><h1>Max. Rate</h1></th>
+        </tr>
+    </thead>
+    <tbody class="grid_row">
+        @for (int i = 0; i < Model.Items.Count; i++)
+        {
+            <tr>
+                <td>
+                    <input type="text" class="form_input" style="width:25px;text-align:center" value="@(i+1)" disabled />
+                </td>
+                <td>
+                    @Html.HiddenFor(m => m.Items[i].WorkDescriptionId)
+                    @Html.TextBoxFor(m => m.Items[i].WorkDescr, new { @class = "form_input", @readonly = "true" })
+                </td>
+                <td>
+                    @Html.TextBoxFor(m => m.Items[i].MinRate, new { @class = "form_input numbers-only text-right" })
+                </td>
+                <td>
+                    @Html.TextBoxFor(m => m.Items[i].MediumRate, new { @class = "form_input numbers-only text-right" })
+                </td>
+                <td>
+                    @Html.TextBoxFor(m => m.Items[i].MaxRate, new { @class = "form_input numbers-only text-right" })
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
