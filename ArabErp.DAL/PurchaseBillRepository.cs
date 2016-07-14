@@ -35,6 +35,19 @@ namespace ArabErp.DAL
         /// </summary>
         /// <param name="model"></param>
         /// <returns></returns>
+        /// 
+        public PurchaseBill GetBillDueDate(int supplierId)
+        {
+            using (IDbConnection connection = OpenConnection(dataConnection))
+            {
+
+                string sql = @"SELECT (getdate()+CreditPeriod)PurchaseBillDueDate  FROM Supplier S WHERE S.SupplierId=@SupplierId";
+                var objPurchaseBill = connection.Query<PurchaseBill>(sql, new { supplierId = supplierId }).Single<PurchaseBill>();
+                return objPurchaseBill;
+            }
+        }
+
+
         public string InsertPurchaseBill(PurchaseBill objPurchaseBill)
         {
             using (IDbConnection connection = OpenConnection(dataConnection))
@@ -46,11 +59,11 @@ namespace ArabErp.DAL
 
                     objPurchaseBill.PurchaseBillRefNo = "PRB/" + internalId;
 
-                    string sql = @"insert  into PurchaseBill(PurchaseBillRefNo,SupplierId,PurchaseBillDate,PurchaseBillNoDate,Remarks,PurchaseBillAmount
-                                ,AdditionId,DeductionId,Deduction,Addition,CreatedBy,CreatedDate,OrganizationId)
-                                 Values (@PurchaseBillRefNo,@SupplierId,@PurchaseBillDate,@PurchaseBillNoDate,@Remarks,@PurchaseBillAmount
-                                ,@AdditionId,@DeductionId,@Deduction,@Addition,@CreatedBy,@CreatedDate,@OrganizationId);
-                                SELECT CAST(SCOPE_IDENTITY() as int)";
+                    string sql = @"insert  into PurchaseBill(PurchaseBillRefNo,SupplierId,PurchaseBillDate,PurchaseBillNoDate,PurchaseBillDueDate,
+                                   Remarks,PurchaseBillAmount,AdditionId,DeductionId,Deduction,Addition,CreatedBy,CreatedDate,OrganizationId)
+                                   Values (@PurchaseBillRefNo,@SupplierId,@PurchaseBillDate,@PurchaseBillNoDate,@PurchaseBillDueDate,@Remarks,
+                                   @PurchaseBillAmount,@AdditionId,@DeductionId,@Deduction,@Addition,@CreatedBy,@CreatedDate,@OrganizationId);
+                                   SELECT CAST(SCOPE_IDENTITY() as int)";
 
 
                     var id = connection.Query<int>(sql, objPurchaseBill, trn).Single();
@@ -147,6 +160,25 @@ namespace ArabErp.DAL
                                     WHERE ISNULL(P.isActive, 1) = 1
                                     ORDER BY PurchaseBillDate DESC, P.CreatedDate DESC;";
                 return connection.Query<PurchaseBill>(query);
+            }
+        }
+
+
+        public DateTime GetDueDate(DateTime d,int sup)
+        {
+            using (IDbConnection connection = OpenConnection(dataConnection))
+            {
+                var param = new DynamicParameters();
+                //PurchaseBill PurchaseBill = connection.Query<PurchaseBill>("select (d+CreditPeriod) PurchaseBillDueDate FROM Supplier WHERE SupplierId= " + sup).FirstOrDefault();
+                PurchaseBill PurchaseBill = connection.Query<PurchaseBill>(
+                    "select DATEADD(day,CreditPeriod,@date) PurchaseBillDueDate FROM Supplier WHERE SupplierId= " + sup,
+                    new { date = d }).Single<PurchaseBill>();
+                DateTime duedate = System.DateTime.Today; 
+                if (PurchaseBill != null)
+                {
+                    duedate = PurchaseBill.PurchaseBillDueDate;
+                }
+                return duedate;
             }
         }
     }
