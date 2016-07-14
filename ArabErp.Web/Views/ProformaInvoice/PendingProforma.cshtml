@@ -1,0 +1,110 @@
+﻿@using ArabErp.Domain
+@model IEnumerable<PendingSO>
+@{
+    ViewBag.Title = "PendingProforma";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<script>
+    $(document).ready(function () {
+        $('#HiddenFieldSaleOrderId').val(0);
+
+        toastr.options = {
+            "closeButton": true,
+            "positionClass": "toast-bottom-full-width",
+            "preventDuplicates": false,
+            "onclick": null,
+
+            "timeOut": "0",
+            "extendedTimeOut": "1000",
+            "showEasing": "swing",
+            "hideEasing": "linear",
+            "showMethod": "fadeIn",
+            "hideMethod": "fadeOut"
+        }
+        if ('@TempData["success"]' != "" && '@TempData["QuotationRefNo"]' != "") {
+            toastr.success('@TempData["success"]' + '   Sales Quotation No. is : ' + '@TempData["QuotationRefNo"]');
+        }
+        else if ('@TempData["error"]' != "") {
+            toastr.error('@TempData["error"]');
+        }
+
+
+
+    });
+  
+   
+  
+</script>
+
+<div class="container">
+    <div class="row">
+        <div class="form-head1">
+            <h4>Sale Orders for Proforma Invoice</h4>
+        </div>
+        <div class="main-part pad1 white">
+            <div class="main-grid main-grid-top scroll1">
+                <div class=" table-responsive">
+                    <input type="hidden" id="HiddenFieldSaleOrderId" />
+                    <input type="hidden" id="HiddenStatus" />
+                    <table class="table table-bordered" id="SaleOrderTable">
+                        <thead>
+                            <tr class="grid_heading">
+                                <th width="13%"><h1>SO.No. & Date</h1></th>
+                                <th width="23%"><h1>Customer</h1></th>
+                                @*<th width="15%"><h1>Customer Order Ref.</h1></th>*@
+                               
+                                <th width="17%"><h1>Work Description</h1></th>
+                                <th width="5%" class="text-right"><h1>Amount</h1></th>
+                                <th width="5%"><h1>Ageing</h1></th>
+                                <th width="10%"><h1>EDA</h1></th>
+                                <th width="10%"><h1>EDD</h1></th>
+                                <th width="10%"><h1></h1></th>
+                               
+                            </tr>
+                        </thead>
+                        @foreach (var item in Model)
+                        {
+                            <tbody class="grid_row">
+
+                                <tr id="@item.SaleOrderId">
+                                    <td class="grid-cell">@item.SaleOrderRefNo &amp; @item.SaleOrderDate.ToString("dd/MMM/yyyy")</td>
+                                    <td class="grid-cell">@item.CustomerName</td>
+                                    @*<td class="grid-cell">@item.CustomerOrderRef</td>*@
+                                   
+                                    <td class="grid-cell">@item.WorkDescription </td>
+                                    <td class="grid-cell text-right">@item.TotalAmount</td>
+                                    <td class="grid-cell">@item.Ageing</td>
+                                    <td class="grid-cell">@item.EDateArrival.ToString("dd/MMM/yyyy")</td>
+                                    <td class="grid-cell">@item.EDateDelivery.ToString("dd/MMM/yyyy")</td>
+                                    <td><center>@Html.ActionLink("Select", "Create", "ProformaInvoice", new { SaleOrderId = @item.SaleOrderId }, new { @class = "form-button5" })</center></td>
+                                  
+
+
+
+                                </tr>
+                            </tbody>
+                        }
+                    </table>
+
+                </div>
+            </div>
+
+            <br />
+            <div class="row-count">
+                <h5>Row Count:- @Model.Count()</h5>
+            </div>
+
+        </div>
+
+
+
+
+
+
+
+    </div>
+
+</div>
+
+
