@@ -6,25 +6,25 @@
  }
 }
 <script>
-    $(document).ready(function () {
-        $("#CommissionPerc").keyup(function () {
+    //$(document).ready(function () {
+    //    $("#CommissionPerc").keyup(function () {
       
-        var CommPercentage = parseFloat("0");
-        var CommAmt = parseFloat("0");
+    //    var CommPercentage = parseFloat("0");
+    //    var CommAmt = parseFloat("0");
 
-        var TotalAmt = $("#TotalAmount").val();
+    //    var TotalAmt = $("#TotalAmount").val();
       
-        CommPercentage = parseFloat($("#CommissionPerc").val());
+    //    CommPercentage = parseFloat($("#CommissionPerc").val());
 
-        if (isNaN(CommPercentage)) {
-            CommPercentage = parseFloat("0");
-        }
+    //    if (isNaN(CommPercentage)) {
+    //        CommPercentage = parseFloat("0");
+    //    }
      
-        CommAmt = TotalAmt * (CommPercentage / 100);
+    //    CommAmt = TotalAmt * (CommPercentage / 100);
         
-        //$("#CommissionAmount").val(CommAmt);
-    });
-    });
+    //    //$("#CommissionAmount").val(CommAmt);
+    //});
+    //});
     function showPaymentTerms() {
         var x = screen.width / 2 - 600 / 2;
         var y = screen.height / 2 - 250 / 2;
@@ -120,12 +120,12 @@
             <label for="CommissionAmount">Commission Amt.</label>
             @if (actionName == "Create")
             {
-                @Html.TextBoxFor(m => m.CommissionAmount, new { @class = "form_input form_input-half2  text-right numbers-only", autocomplete = "off" })
+                @Html.TextBoxFor(m => Model.CommissionAmount, new { @class = "form_input form_input-half2  text-right numbers-only", autocomplete = "off" })
 
             }
             else
             {
-                @Html.TextBoxFor(m => m.CommissionAmount, new { @class = "form_input form_input-half2  text-right ", autocomplete = "off", @readonly = "readonly" })
+                @Html.TextBoxFor(m => Model.CommissionAmount, new { @class = "form_input form_input-half2  text-right  numbers-only ", autocomplete = "off", @readonly = "readonly" })
             }
         </div>
     </div>
