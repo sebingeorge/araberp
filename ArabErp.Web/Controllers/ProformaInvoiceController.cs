@@ -26,9 +26,9 @@ namespace ArabErp.Web.Controllers
         public ActionResult Create(int? SaleOrderId)
         {
             ProformaInvoiceRepository repo = new ProformaInvoiceRepository();
-
+            CurrencyRepository repo1 = new CurrencyRepository();
             ProformaInvoice model = repo.GetSaleOrderForPorforma(SaleOrderId ?? 0);
-            model.SymbolName = repo.GetCurrencyFrmOrganization(OrganizationId).SymbolName;
+            model.SymbolName = repo1.GetCurrencyFrmOrganization(OrganizationId).SymbolName;
             var PIList = repo.GetPorformaInvoiceData(model.SaleOrderId);
             model.Items = new List<ProformaInvoiceItem>();
             foreach (var item in PIList)
