@@ -30,5 +30,18 @@ namespace ArabErp.Domain
         public DateTime? CreatedDate { get; set; }
         public int? OrganizationId { get; set; }
 
+        public bool? IsPaymentApprovedForWorkshopRequest { get; set; }
+        public string PaymentApprovedForWorkshopRequestReceiptNoAndDate { get; set; }
+        public bool? IsPaymentApprovedForJobOrder { get; set; }
+        public string PaymentApprovedForJobOrderReceiptNoAndDate { get; set; }
+        public bool? IsPaymentApprovedForDelivery { get; set; }
+        public string PaymentApprovedForDeliveryReceiptNoAndDate { get; set; }
+        public string PaymentApprovedForWorkshopRequestCreatedBy { get; set; }
+        public DateTime? PaymentApprovedForWorkshopRequestCreatedDate { get; set; }
+        public string PaymentApprovedForJobOrderCreatedBy { get; set; }
+        public DateTime? PaymentApprovedForJobOrderCreatedDate { get; set; }
+        public string PaymentApprovedForDeliveryCreatedBy { get; set; }
+        public DateTime? PaymentApprovedForDeliveryCreatedDate { get; set; }
+
     }
 }

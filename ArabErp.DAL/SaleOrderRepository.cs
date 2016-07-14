@@ -87,11 +87,20 @@ namespace ArabErp.DAL
         {
             using (IDbConnection connection = OpenConnection(dataConnection))
             {
-                string sql = @"select *,DoorNo +','+ Street+','+State CustomerAddress,CONCAT(QuotationRefNo,'/',CONVERT (VARCHAR(15),QuotationDate,104))QuotationNoDate  
-                               from SaleOrder S 
-                               inner join Customer C on S.CustomerId=C.CustomerId  
-                               inner join SalesQuotation SQ ON SQ.SalesQuotationId=S.SalesQuotationId
-                               where SaleOrderId=@SaleOrderId";
+//                string sql = @"select *,DoorNo +','+ Street+','+State CustomerAddress,CONCAT(QuotationRefNo,'/',CONVERT (VARCHAR(15),QuotationDate,104))QuotationNoDate  
+//                               from SaleOrder S 
+//                               inner join Customer C on S.CustomerId=C.CustomerId  
+//                               inner join SalesQuotation SQ ON SQ.SalesQuotationId=S.SalesQuotationId
+//                               where SaleOrderId=@SaleOrderId";
+
+                string sql = @"SELECT SaleOrderId,SaleOrderRefNo,SaleOrderDate,CONCAT(QuotationRefNo,'/',CONVERT (VARCHAR(15),QuotationDate,104))QuotationNoDate,  
+                               C.CustomerId,CustomerName,DoorNo +','+ Street+','+State CustomerAddress,CustomerOrderRef,S.CurrencyId,SpecialRemarks,S.PaymentTerms,
+                               DeliveryTerms,CommissionAgentId,CommissionAmount,TotalAmount,TotalDiscount,S.SalesExecutiveId,EDateArrival,EDateDelivery,SaleOrderApproveStatus,
+                               SaleOrderHoldStatus,SaleOrderHoldReason,SaleOrderHoldDate,SaleOrderReleaseDate,S.SalesQuotationId,SaleOrderClosed,S.isProjectBased
+                               FROM SaleOrder S 
+                               INNER JOIN Customer C ON S.CustomerId=C.CustomerId  
+                               INNER JOIN SalesQuotation SQ ON SQ.SalesQuotationId=S.SalesQuotationId
+                               WHERE SaleOrderId=@SaleOrderId";
 
                 var objSaleOrder = connection.Query<SaleOrder>(sql, new
                 {
