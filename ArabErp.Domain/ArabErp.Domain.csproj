@@ -60,6 +60,7 @@
     <Compile Include="GRN.cs" />
     <Compile Include="GRNItem.cs" />
     <Compile Include="Item.cs" />
+    <Compile Include="ItemBatch.cs" />
     <Compile Include="ItemCategory.cs" />
     <Compile Include="ItemGroup.cs" />
     <Compile Include="ItemSubGroup.cs" />
@@ -92,6 +93,8 @@
     <Compile Include="PendingSO.cs" />
     <Compile Include="PendingSupplyOrder.cs" />
     <Compile Include="PendingWorkShopRequest.cs" />
+    <Compile Include="ProformaInvoice.cs" />
+    <Compile Include="ProformaInvoiceItem.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="PurchaseBill.cs" />
     <Compile Include="PurchaseBillItem.cs" />

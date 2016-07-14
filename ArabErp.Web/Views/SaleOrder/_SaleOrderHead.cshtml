@@ -56,6 +56,7 @@
     <div class="col-md-2">
         <label for="BillNoDate">Quotation No. & Date</label>
         @Html.TextBoxFor(m => m.QuotationNoDate, new { @class = "form_input", autocomplete = "off", @readonly = "readonly" })
+        @Html.HiddenFor(m => m.QuotationNoDate, new { @class = "form_input", autocomplete = "off" })
         @Html.HiddenFor(m => m.SalesQuotationId, new { @class = "form_input", autocomplete = "off" })
     </div>
     @*<div class="col-md-2">
@@ -81,8 +82,9 @@
         }
         else*@
         @*{*@
+            @Html.HiddenFor(m => m.CustomerId, new { @class = "form_input", autocomplete = "off" })
             @Html.DropDownListFor(m => Model.CustomerId, (SelectList)ViewBag.customerlist, "Select Customer", new { @class = "form_input", autocomplete = "off", @disabled = "true" })
-        @*}*@
+          @*}*@
      </div>
     <div class="col-md-6">
         <label for="CustomerOrderRef">Customer Address</label>
