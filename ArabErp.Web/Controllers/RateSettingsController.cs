@@ -7,6 +7,7 @@ using System.Web.Mvc;
 using ArabErp.Domain;
 using ArabErp.DAL;
 using ArabErp.Web.Models;
+using System.Collections;
 
 namespace ArabErp.Web.Controllers
 {
@@ -82,6 +83,17 @@ namespace ArabErp.Web.Controllers
             RateSettings model = new RateSettings();
             model.Items = new RateSettingsRepository().GetPreviousWorkDescriptions(from);
             return PartialView("_grid", model);
+        }
+
+        public IEnumerable RateSettingsDropdown()
+        {
+            return new List<SelectListItem>
+            {
+                new SelectListItem{ Text = "Custom", Value = "0" },
+                new SelectListItem{ Text = "Min", Value = "1" },
+                new SelectListItem{ Text = "Medium", Value = "2" },
+                new SelectListItem{ Text = "Max", Value = "3" }
+            };
         }
     }
 }
