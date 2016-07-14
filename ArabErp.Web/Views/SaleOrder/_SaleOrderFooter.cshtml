@@ -8,7 +8,6 @@
 <script>
     $(document).ready(function () {
         $("#CommissionPerc").keyup(function () {
-           
       
         var CommPercentage = parseFloat("0");
         var CommAmt = parseFloat("0");
@@ -23,7 +22,7 @@
      
         CommAmt = TotalAmt * (CommPercentage / 100);
         
-        $("#CommissionAmount").val(CommAmt);
+        //$("#CommissionAmount").val(CommAmt);
     });
     });
     function showPaymentTerms() {

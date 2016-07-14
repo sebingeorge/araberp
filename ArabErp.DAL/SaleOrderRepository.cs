@@ -87,7 +87,11 @@ namespace ArabErp.DAL
         {
             using (IDbConnection connection = OpenConnection(dataConnection))
             {
-                string sql = @"select *,DoorNo +','+ Street+','+State CustomerAddress from SaleOrder S inner join Customer C on S.CustomerId=C.CustomerId  where SaleOrderId=@SaleOrderId";
+                string sql = @"select *,DoorNo +','+ Street+','+State CustomerAddress,CONCAT(QuotationRefNo,'/',CONVERT (VARCHAR(15),QuotationDate,104))QuotationNoDate  
+                               from SaleOrder S 
+                               inner join Customer C on S.CustomerId=C.CustomerId  
+                               inner join SalesQuotation SQ ON SQ.SalesQuotationId=S.SalesQuotationId
+                               where SaleOrderId=@SaleOrderId";
 
                 var objSaleOrder = connection.Query<SaleOrder>(sql, new
                 {
@@ -302,7 +306,8 @@ namespace ArabErp.DAL
             using (IDbConnection connection = OpenConnection(dataConnection))
             {
                 string query = "Select S.SaleOrderId,SaleOrderRefNo, SaleOrderDate, C.CustomerName, S.CustomerOrderRef";
-                query += " from SaleOrder S inner join Customer C on S.CustomerId = C.CustomerId where isnull(SaleOrderApproveStatus,0)=0";
+                query += " from SaleOrder S inner join Customer C on S.CustomerId = C.CustomerId";
+                query += " where CommissionAmount>0 And isnull(CommissionAmountApproveStatus,0)=0 ";
                 return connection.Query<PendingSO>(query);
             }
         }
@@ -324,7 +329,7 @@ namespace ArabErp.DAL
         {
             using (IDbConnection connection = OpenConnection(dataConnection))
             {
-                string sql = @"Update SaleOrder set SaleOrderApproveStatus=1 WHERE SaleOrderId=@SaleOrderId";
+                string sql = @"Update SaleOrder set CommissionAmountApproveStatus=1 WHERE SaleOrderId=@SaleOrderId";
                 return connection.Execute(sql, new { SaleOrderId = SaleOrderId });
 
             }
