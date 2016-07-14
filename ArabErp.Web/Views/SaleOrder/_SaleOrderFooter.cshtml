@@ -40,11 +40,11 @@
             <label for="SpecialRemarks">Special Remarks</label>
             @if (actionName == "Create")
             {
-                @Html.TextAreaFor(m => m.SpecialRemarks, new { @class = "form_input form_input-h", autocomplete = "off" })
+                @Html.TextAreaFor(m => Model.SpecialRemarks, new { @class = "form_input form_input-h", autocomplete = "off" })
             }
             else
             {
-                @Html.TextAreaFor(m => m.SpecialRemarks, new { @class = "form_input form_input-h", autocomplete = "off", @readonly = "readonly" })
+                @Html.TextAreaFor(m => Model.SpecialRemarks, new { @class = "form_input form_input-h", autocomplete = "off", @readonly = "readonly" })
 
             }
         </div>
@@ -64,7 +64,7 @@
             }
             else
             {*@
-                @Html.TextBoxFor(m => m.PaymentTerms, new { @class = "form_input", autocomplete = "off", @readonly = "readonly" })
+                @Html.TextBoxFor(m => Model.PaymentTerms, new { @class = "form_input", autocomplete = "off", @readonly = "readonly" })
 
             @*}*@
         </div>
@@ -77,11 +77,11 @@
                 <label for="DeliveryTerms">Delivery Terms</label>
                     @if (actionName == "Create")
                     {
-                        @Html.TextBoxFor(m => m.DeliveryTerms, new { @class = "form_input", autocomplete = "off" })
+                        @Html.TextBoxFor(m => Model.DeliveryTerms, new { @class = "form_input", autocomplete = "off" })
                     }
                     else
                     {
-                        @Html.TextBoxFor(m => m.DeliveryTerms, new { @class = "form_input", autocomplete = "off", @readonly = "readonly" })
+                        @Html.TextBoxFor(m => Model.DeliveryTerms, new { @class = "form_input", autocomplete = "off", @readonly = "readonly" })
                     }
                 </div>
             </div>
@@ -120,12 +120,12 @@
             <label for="CommissionAmount">Commission Amt.</label>
             @if (actionName == "Create")
             {
-                @Html.TextBoxFor(m => m.CommissionAmount, new { @class = "form_input form_input-half2  text-right numbers-only", autocomplete = "off" })
+                @Html.TextBoxFor(m => Model.CommissionAmount, new { @class = "form_input form_input-half2  text-right numbers-only", autocomplete = "off" })
 
             }
             else
             {
-                @Html.TextBoxFor(m => m.CommissionAmount, new { @class = "form_input form_input-half2  text-right ", autocomplete = "off", @readonly = "readonly" })
+                @Html.TextBoxFor(m => Model.CommissionAmount, new { @class = "form_input form_input-half2  text-right ", autocomplete = "off", @readonly = "readonly" })
             }
         </div>
     </div>
@@ -146,13 +146,13 @@
     <div class="col-md-2">
         <div class="part4">
             <label for="EDateArrival">Expected Date of Arrival</label>
-            @Html.TextBoxFor(m => m.EDateArrival, Model.EDateArrival.ToString("dd/MMMM/yyyy"), new { @class = "form_input ", autocomplete = "off", @readonly = "readonly" })
+            @Html.TextBoxFor(m => Model.EDateArrival, Model.EDateArrival.ToString("dd/MMMM/yyyy"), new { @class = "form_input ", autocomplete = "off", @readonly = "readonly" })
         </div>
     </div>
     <div class="col-md-2">
         <div class="part4">
             <label for="EDateDelivery">Expected Date of Delivery</label>
-            @Html.TextBoxFor(m => m.EDateDelivery, Model.EDateDelivery.ToString("dd/MMMM/yyyy"), new { @class = "form_input ", autocomplete = "off", @readonly = "readonly" })
+            @Html.TextBoxFor(m => Model.EDateDelivery, Model.EDateDelivery.ToString("dd/MMMM/yyyy"), new { @class = "form_input ", autocomplete = "off", @readonly = "readonly" })
         </div>
     </div>
 </div>
@@ -164,15 +164,15 @@
                 <div class="part4">
                     <label for="SaleOrderHoldReason">Hold Reason</label>
 
-                    @Html.TextAreaFor(m => m.SaleOrderHoldReason, new { @class = "form_input form_input-h", autocomplete = "off" })
-                    @Html.HiddenFor(m => m.SaleOrderHoldReason)
+                    @Html.TextAreaFor(m => Model.SaleOrderHoldReason, new { @class = "form_input form_input-h", autocomplete = "off" })
+                    @Html.HiddenFor(m => Model.SaleOrderHoldReason)
             </div>
             </div>
             <div class="col-md-2">
                 <div class="part4">
                     <label for="SaleOrderHoldDate">Hold Date</label>
-                @Html.TextBoxFor(m => m.SaleOrderHoldDate, Model.SaleOrderHoldDate.ToString("dd/MMMM/yyyy"), new { @class = "form_input ", autocomplete = "off" })
-                @Html.HiddenFor(m => m.SaleOrderHoldDate)
+                @Html.TextBoxFor(m => Model.SaleOrderHoldDate, Model.SaleOrderHoldDate.ToString("dd/MMMM/yyyy"), new { @class = "form_input ", autocomplete = "off" })
+                @Html.HiddenFor(m => Model.SaleOrderHoldDate)
             </div>
             </div>
            </div>
@@ -184,22 +184,22 @@
                     <div class="part4">
                         <label for="SaleOrderHoldReason">Hold Reason</label>
 
-                        @Html.TextAreaFor(m => m.SaleOrderHoldReason, new { @class = "form_input form_input-h", autocomplete = "off" , @readonly = "readonly"})
-                        @Html.HiddenFor(m => m.SaleOrderHoldReason)
+                        @Html.TextAreaFor(m => Model.SaleOrderHoldReason, new { @class = "form_input form_input-h", autocomplete = "off", @readonly = "readonly" })
+                        @Html.HiddenFor(m => Model.SaleOrderHoldReason)
                     </div>
                 </div>
                 <div class="col-md-2">
                     <div class="part4">
                         <label for="SaleOrderHoldDate">Hold Date</label>
-                        @Html.TextBoxFor(m => m.SaleOrderHoldDate, Model.SaleOrderHoldDate.ToString("dd/MMMM/yyyy"), new { @class = "form_input ", autocomplete = "off", @disabled = "true" })
-                        @Html.HiddenFor(m => m.SaleOrderHoldDate)
+                        @Html.TextBoxFor(m => Model.SaleOrderHoldDate, Model.SaleOrderHoldDate.ToString("dd/MMMM/yyyy"), new { @class = "form_input ", autocomplete = "off", @disabled = "true" })
+                        @Html.HiddenFor(m => Model.SaleOrderHoldDate)
                     </div>
                 </div>
                 <div class="col-md-2">
                     <div class="part4">
                         <label for="SaleOrderHoldDate">Release Date</label>
-                        @Html.TextBoxFor(m => m.SaleOrderReleaseDate, Model.SaleOrderReleaseDate.ToString("dd/MMMM/yyyy"), new { @class = "form_input ", autocomplete = "off" })
-                        @Html.HiddenFor(m => m.SaleOrderReleaseDate)
+                        @Html.TextBoxFor(m => Model.SaleOrderReleaseDate, Model.SaleOrderReleaseDate.ToString("dd/MMMM/yyyy"), new { @class = "form_input ", autocomplete = "off" })
+                        @Html.HiddenFor(m => Model.SaleOrderReleaseDate)
                     </div>
                 </div>
             </div>
