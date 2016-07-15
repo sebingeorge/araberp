@@ -17,5 +17,14 @@ namespace ArabErp.Domain
         public DateTime? CreatedDate { get; set; }
         public int OrganizationId { get; set; }
         public bool isActive { get; set; }
+        public string ItemName { get; set; }
+        public int Quantity { get; set; }
+        public string Remarks { get; set; }
+        public string isDirect { get; set; }
+        public string GRNNo { get; set; }
+        public DateTime GRNDate { get; set; }
+        public string SupplierName { get; set; }
+        public int Ageing { get; set; }
+        public string StockPointName { get; set; }
     }
 }

@@ -1,7 +1,7 @@
 ﻿@model IList<ArabErp.Domain.PendingGRNItemsForBatch>
 
 @{
-    ViewBag.Title = "Pending GRN For Batching";
+    ViewBag.Title = "Pending GRN For Serial Number";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
@@ -49,14 +49,14 @@
                         <tr class="grid_heading">
                             <th width="1%" class="text-center">#</th>
                             <th width="10%"><h1>GRN No. & Date</h1></th>
-                            <th width="10%"><h1>Item</h1></th>
+                            <th width="15%"><h1>Item</h1></th>
                             <th width="1%" nowrap><h1>Quantity</h1></th>
-                            <th width="10%"><h1>Remarks</h1></th>
+                            @*<th width="10%"><h1>Remarks</h1></th>*@
                             <th width="10%"><h1>Supplier</h1></th>
-                            <th width="10%" nowrap><h1>Warehouse/Stockpoint</h1></th>
+                            <th width="1%" nowrap><h1>Warehouse/Stockpoint</h1></th>
                             <th width="1%" nowrap><h1>Ageing</h1></th>
-                            <th width="10%" nowrap><h1>Type</h1></th>
-                            <th width="10%"></th>
+                            <th width="6%" nowrap><h1>Type</h1></th>
+                            <th width="1%"></th>
                         </tr>
                     </thead>
                     <tbody class="grid_row">
@@ -78,9 +78,9 @@
                                         <td>
                                             <input type="text" value="@Model[i].Quantity" class="form_input text-right" disabled />
                                         </td>
-                                        <td>
+                                        @*<td>
                                             <input type="text" value="@Model[i].Remarks" class="form_input" disabled />
-                                        </td>
+                                        </td>*@
                                         <td>
                                             <input type="text" value="@Model[i].SupplierName" class="form_input" disabled />
                                         </td>
@@ -94,7 +94,7 @@
                                             <input type="text" value="@Model[i].isDirect" class="form_input" disabled />
                                         </td>
                                         <td>
-                                            <input type="button" class="form-button5" value="Select" title="Select this item to assigning serial number" onclick="OnItemSelected('@(i)')" />
+                                            <input type="button" class="form-button4" value="Select" title="Select this item to assigning serial number" onclick="OnItemSelected('@Model[i].GRNItemId')" />
                                         </td>
                                     </tr>
                                 }

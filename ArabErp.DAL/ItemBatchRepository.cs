@@ -11,17 +11,29 @@ namespace ArabErp.DAL
     public class ItemBatchRepository : BaseRepository
     {
         static string dataConnection = GetConnectionString("arab");
-        public int InsertItemBatch(ItemBatch objItemBatch)
+        public int InsertItemBatch(IList<ItemBatch> model)
         {
-
             using (IDbConnection connection = OpenConnection(dataConnection))
             {
-                string sql = @"insert  into ItemBatch(GRNItemId,SaleOrderItemId,StoreIssueItemId,SerialNo,CreatedBy,CreatedDate,OrganizationId) Values (@GRNItemId,@SaleOrderItemId,@StoreIssueItemId,@SerialNo,@CreatedBy,@CreatedDate,@OrganizationId);
+                IDbTransaction txn = connection.BeginTransaction();
+
+                string sql = @"insert  into ItemBatch(GRNItemId,SerialNo,CreatedBy,CreatedDate,OrganizationId, isActive) Values (@GRNItemId,@SerialNo,@CreatedBy,@CreatedDate,@OrganizationId,1);
             SELECT CAST(SCOPE_IDENTITY() as int)";
 
-
-                var id = connection.Query<int>(sql, objItemBatch).Single();
-                return id;
+                try
+                {
+                    foreach (var item in model)
+                    {
+                        var id = connection.Query<int>(sql, item, txn).Single();
+                    }
+                    txn.Commit();
+                    return 1;
+                }
+                catch (Exception ex)
+                {
+                    txn.Rollback();
+                    throw ex;
+                }
             }
         }
 
@@ -70,7 +82,7 @@ namespace ArabErp.DAL
             }
         }
 
-        public IEnumerable<PendingGRNItemsForBatch> PendingGRNItems()
+        public IEnumerable<ItemBatch> PendingGRNItems()
         {
             try
             {
@@ -95,12 +107,12 @@ namespace ArabErp.DAL
                             LEFT JOIN ItemBatch P ON P.GRNItemId=GI.GRNItemId 
                             WHERE P.GRNItemId IS NULL
 							AND I.BatchRequired = 1;";
-                    return connection.Query<PendingGRNItemsForBatch>(query).ToList();
+                    return connection.Query<ItemBatch>(query).ToList();
                 }
             }
             catch (InvalidOperationException)
             {
-                return new List<PendingGRNItemsForBatch>();
+                return new List<ItemBatch>();
             }
             catch (SqlException sx)
             {
@@ -119,7 +131,6 @@ namespace ArabErp.DAL
                 using (IDbConnection connection = OpenConnection(dataConnection))
                 {
                     string query = @"SELECT GI.GRNItemId,
-	                                    I.ItemId, 
 	                                    I.ItemName, 
 	                                    GI.Quantity,
 	                                    GI.Rate,
@@ -137,7 +148,8 @@ namespace ArabErp.DAL
                                    INNER JOIN Supplier S ON G.SupplierId=S.SupplierId
                                    INNER JOIN Stockpoint ST ON G.WareHouseId = ST.StockPointId
 							       INNER JOIN Item I ON GI.ItemId = I.ItemId
-							       WHERE GI.GRNItemId = @id";
+							       WHERE GI.GRNItemId = @id
+                                   ORDER BY G.GRNDate DESC, G.CreatedDate DESC";
 
                     return connection.Query<ItemBatch>(query, new { id = grnItemId }).First();
                 }
@@ -154,6 +166,36 @@ namespace ArabErp.DAL
             {
                 throw ex;
             }
+        }
+
+        public IEnumerable<PendingForSOIReservation> GetUnreservedItems()
+        {
+            using (IDbConnection connection = OpenConnection(dataConnection))
+            {
+                string query = @"SELECT
+	                                SOI.SaleOrderItemId,
+	                                SO.SaleOrderRefNo,
+	                                CONVERT(VARCHAR, SO.SaleOrderDate, 106) SaleOrderDate,
+	                                ISNULL(SOI.Quantity, 0) Quantity,
+	                                WD.WorkDescriptionRefNo,
+	                                I.ItemName
+                                FROM SaleOrderItem SOI
+                                INNER JOIN SaleOrder SO ON SOI.SaleOrderId = SO.SaleOrderId
+                                LEFT JOIN ItemBatch IB ON SOI.SaleOrderItemId = IB.SaleOrderItemId AND IB.SaleOrderItemId IS NULL
+                                INNER JOIN WorkDescription WD ON SOI.WorkDescriptionId = WD.WorkDescriptionId
+                                INNER JOIN WorkVsItem WI ON WD.WorkDescriptionId = WI.WorkDescriptionId
+                                INNER JOIN Item I ON WI.ItemId = I.ItemId
+                                WHERE ISNULL(SOI.isActive, 1) = 1
+                                AND SO.isActive = 1 AND SOI.isActive = 1 AND SO.SaleOrderApproveStatus = 1
+                                ORDER BY SO.SaleOrderDate DESC, SO.CreatedDate DESC";
+
+                return connection.Query<PendingForSOIReservation>(query).ToList();
+            }
+        }
+
+        public IEnumerable<PendingForSOIReservation> GetSaleOrderItemForReservation()
+        {
+            throw new NotImplementedException();
         }
     }
 }

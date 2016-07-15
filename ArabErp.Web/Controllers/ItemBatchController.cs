@@ -28,7 +28,11 @@ namespace ArabErp.Web.Controllers
             {
                 if (id != 0)
                 {
-                    return View(new ItemBatchRepository().GetGRNItem(grnItemId: id));
+                    ItemBatch model = new ItemBatchRepository().GetGRNItem(grnItemId: id);
+                    List<ItemBatch> list = new List<ItemBatch>();
+                    for (int i = 0; i < model.Quantity; i++)
+                        list.Add(model);
+                    return View(list);
                 }
                 throw new NullReferenceException();
             }
@@ -37,10 +41,10 @@ namespace ArabErp.Web.Controllers
                 TempData["success"] = "";
                 TempData["error"] = "Some required data was missing. Please try again";
             }
-            catch (SqlException)
+            catch (SqlException sx)
             {
                 TempData["success"] = "";
-                TempData["error"] = "Some error occured while connecting to database. Check your network connection and try again";
+                TempData["error"] = "Some error occured while connecting to database. Check your network connection and try again|" + sx.Message;
             }
             catch (Exception)
             {
@@ -50,10 +54,41 @@ namespace ArabErp.Web.Controllers
             return RedirectToAction("Pending");
         }
         [HttpPost]
-        public ActionResult Create(ItemBatch model)
+        public ActionResult Create(IList<ItemBatch> model)
         {
-            //do post here
-            return View();
+            foreach (ItemBatch item in model)
+            {
+                item.CreatedBy = UserID.ToString();
+                item.OrganizationId = OrganizationId;
+                item.CreatedDate = DateTime.Now;
+            }
+            try
+            {
+                new ItemBatchRepository().InsertItemBatch(model);
+                TempData["success"] = "Saved successfully";
+                TempData["error"] = "";
+                return RedirectToAction("Pending");
+            }
+            catch (Exception ex)
+            {
+                TempData["success"] = "";
+                TempData["error"] = "Some error occured while connecting to database. Check your network connection and try again|" + ex.Message;
+            }
+            return View(model);
+        }
+
+        public ActionResult PendingReservation()
+        {
+            return View(new ItemBatchRepository().GetUnreservedItems());
+        }
+
+        public ActionResult Reserve(int id = 0)
+        {
+            if (id != 0)
+            {
+                return View(new ItemBatchRepository().GetSaleOrderItemForReservation());
+            }
+            else throw new NullReferenceException();
         }
     }
 }

@@ -86,7 +86,7 @@
     <Compile Include="Organization.cs" />
     <Compile Include="PaymentTerms.cs" />
     <Compile Include="PendingForGRN.cs" />
-    <Compile Include="PendingGRNItemsForBatch.cs" />
+    <Compile Include="PendingForSOIReservation.cs" />
     <Compile Include="PendingJC.cs" />
     <Compile Include="PendingJobCardQC.cs" />
     <Compile Include="PendingGRN.cs" />
