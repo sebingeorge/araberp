@@ -70,6 +70,46 @@ namespace ArabErp.DAL
             }
         }
 
-
+        public IEnumerable<PendingGRNItemsForBatch> PendingGRNItems()
+        {
+            try
+            {
+                using (IDbConnection connection = OpenConnection(dataConnection))
+                {
+                    string query = @"SELECT GI.GRNItemId,
+	                            I.ItemId, 
+	                            I.ItemName, 
+	                            GI.Quantity, 
+	                            GI.Remarks, 
+	                            CASE G.isDirectPurchaseGRN WHEN 1 THEN 'DIRECT GRN' ELSE 'GRN' END isDirect, 
+	                            G.GRNNo,
+	                            CONVERT(VARCHAR, G.GRNDate, 106) GRNDate,
+	                            S.SupplierName,
+	                            DATEDIFF(dd,G.GRNDate,GETDATE ()) Ageing,
+	                            ST.StockPointName 
+                            FROM GRN G 
+                            INNER JOIN GRNItem GI ON G.GRNId=GI.GRNId
+                            INNER JOIN Supplier S ON G.SupplierId=S.SupplierId
+                            INNER JOIN Stockpoint ST ON G.WareHouseId = ST.StockPointId
+							INNER JOIN Item I ON GI.ItemId = I.ItemId
+                            LEFT JOIN ItemBatch P ON P.GRNItemId=GI.GRNItemId 
+                            WHERE P.GRNItemId IS NULL
+							AND I.BatchRequired = 1;";
+                    return connection.Query<PendingGRNItemsForBatch>(query).ToList();
+                }
+            }
+            catch (InvalidOperationException)
+            {
+                return new List<PendingGRNItemsForBatch>();
+            }
+            catch (SqlException sx)
+            {
+                throw sx;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
     }
 }
