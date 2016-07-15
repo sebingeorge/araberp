@@ -239,7 +239,7 @@ namespace ArabErp.Web.Controllers
         {
             try
             {
-                model.OrganizationId = OrganizationId;
+            model.OrganizationId = OrganizationId;
             model.CreatedDate = System.DateTime.Now;
             model.CreatedBy = Request.ServerVariables["HTTP_X_FORWARDED_FOR"] ?? Request.ServerVariables["REMOTE_ADDR"];
             string id = new SaleOrderRepository().InsertSaleOrder(model);

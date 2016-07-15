@@ -182,6 +182,7 @@
                                 <li><a href="@Url.Action("PendingSalesQutoforSaleOrder", "SaleOrder", new { ProjectBased = 1 })"><span class="badge pull-right"></span>Project - Sale Order</a></li>
                                 <li><a href="@Url.Action("PendingSaleOrderApproval", "SaleOrder", new { ProjectBased = 1 })"><span class="badge pull-right"></span>Project - Sale Order Approval</a></li>
                                 <li><a href="@Url.Action("PendingSaleOrderHold", "SaleOrder", new { isProjectBased = 1})"><span class="badge pull-right"></span>Project - Pending Sale Orders</a></li>
+                                <li><a href="@Url.Action("PendingProforma", "ProformaInvoice", new { isProjectBased =1 })"><span class="badge pull-right"></span>Project - Proforma Invoice</a></li>
                                 <li><a href="@Url.Action("PendingSalesInvoice", "SalesInvoice", new { invType = "Inter" })"><span class="badge pull-right"></span>Inter Invoice</a></li>
                                 <li><a href="@Url.Action("Closing", "SaleOrder", new { isProjectBased = 1 })"><span class="badge pull-right"></span>Project - Sale Order Close</a></li>
                             </ul>
@@ -193,7 +194,7 @@
                                 <li><a href="@Url.Action("ListSalesQuotations", "SalesQuotation", new { ProjectBased = 0 })"><span class="badge pull-right"></span>Quotation Request Approval</a></li>
                                 <li><a href="@Url.Action("PendingSalesQutoforSaleOrder", "SaleOrder", new { ProjectBased = 0 })"><span class="badge pull-right"></span>Sale Order</a></li>
                                 <li><a href="@Url.Action("PendingSaleOrderHold", "SaleOrder")"><span class="badge pull-right"></span>Pending Sale Orders</a></li>
-                                <li><a href="@Url.Action("PendingProforma", "ProformaInvoice", new { invType = "Final" })"><span class="badge pull-right"></span>Proforma Invoice</a></li>
+                                <li><a href="@Url.Action("PendingProforma", "ProformaInvoice", new { ProjectBased = 0 })"><span class="badge pull-right"></span>Proforma Invoice</a></li>
                                 <li><a href="@Url.Action("PendingSalesInvoice", "SalesInvoice", new { invType = "Final" })"><span class="badge pull-right"></span>Sales Invoice</a></li>
                                 <li><a href="@Url.Action("Closing", "SaleOrder")"><span class="badge pull-right"></span>Sale Order Close</a></li>
                             </ul>
