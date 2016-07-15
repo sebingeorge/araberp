@@ -349,10 +349,10 @@ namespace ArabErp.Web.Controllers
             var Result=new {VehicleId=List.VehicleModelId ,VehicleName=List.VehicleModelName};
             return Json(Result, JsonRequestBehavior.AllowGet);
         }
-        public ActionResult PendingSaleOrderApproval()
+        public ActionResult PendingSaleOrderApproval(int ProjectBased)
         {
             var repo = new SaleOrderRepository();
-            IEnumerable<PendingSO> pendingSO = repo.GetSaleOrderPending();
+            IEnumerable<PendingSO> pendingSO = repo.GetSaleOrderPending(ProjectBased);
             return View(pendingSO);  
         }
         public ActionResult Approval(int? SaleOrderId)

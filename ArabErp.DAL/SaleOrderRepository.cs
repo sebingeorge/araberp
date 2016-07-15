@@ -310,13 +310,13 @@ namespace ArabErp.DAL
         /// Data from sale order table which is not Approved
         /// </summary>
         /// <returns></returns>
-        public IEnumerable<PendingSO> GetSaleOrderPending()
+        public IEnumerable<PendingSO> GetSaleOrderPending(int IsProjectBased)
         {
             using (IDbConnection connection = OpenConnection(dataConnection))
             {
                 string query = "Select S.SaleOrderId,SaleOrderRefNo, SaleOrderDate, C.CustomerName, S.CustomerOrderRef";
                 query += " from SaleOrder S inner join Customer C on S.CustomerId = C.CustomerId";
-                query += " where CommissionAmount>0 And isnull(CommissionAmountApproveStatus,0)=0 ";
+                query += " where CommissionAmount>0 And isnull(CommissionAmountApproveStatus,0)=0 AND S.IsProjectBased = " + IsProjectBased.ToString();
                 return connection.Query<PendingSO>(query);
             }
         }
