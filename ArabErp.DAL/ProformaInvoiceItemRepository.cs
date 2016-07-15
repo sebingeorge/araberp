@@ -19,7 +19,7 @@ namespace ArabErp.DAL
             {
 
                 string sql = @"insert  into ProformaInvoiceItem(ProformaInvoiceId,SaleOrderItemId,Rate,Discount,Amount) 
-                                                    Values (@ProformaInvoiceId,@SaleOrderItemId,@Rate,@VehicleModelId,@Discount,@Amount);
+                                                    Values (@ProformaInvoiceId,@SaleOrderItemId,@Rate,@Discount,@Amount);
                        
                 SELECT CAST(SCOPE_IDENTITY() as int)";
 

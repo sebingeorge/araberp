@@ -67,7 +67,7 @@ namespace ArabErp.DAL
                  objProInvoice.ProformaInvoiceRefNo = "PINV/" + internalId;
                 
                  string sql = @"
-                    insert  into SaleOrder(ProformaInvoiceRefNo,ProformaInvoiceDate,SaleOrderId,SpecialRemarks,PaymentTerms,CreatedBy,CreatedDate,OrganizationId)
+                    insert  into ProformaInvoice(ProformaInvoiceRefNo,ProformaInvoiceDate,SaleOrderId,SpecialRemarks,PaymentTerms,CreatedBy,CreatedDate,OrganizationId)
                                    Values (@ProformaInvoiceRefNo,@ProformaInvoiceDate,@SaleOrderId,@SpecialRemarks,@PaymentTerms,@CreatedBy,@CreatedDate,@OrganizationId);
                     SELECT CAST(SCOPE_IDENTITY() as int) ProformaInvoiceId";
 

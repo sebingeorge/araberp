@@ -178,7 +178,7 @@
                             <ul class="dropdown-menu">
                                 <li><a href="@Url.Action("CreateQuerySheet", "QuerySheet")"><span class="badge pull-right"></span>Project - Query Sheet</a></li>
                                 <li><a href="@Url.Action("CreateProject", "SalesQuotation")"><span class="badge pull-right"></span>Project - Quotation Request</a></li>
-                                <li><a href="@Url.Action("ListSalesQuotations", "SalesQuotation", new { ProjectBased = 1 })"><span class="badge pull-right"></span>Project - Quotation Request Approval</a></li>
+                                <li><a class="projectn" href="@Url.Action("ListSalesQuotations", "SalesQuotation", new { ProjectBased = 1 })"><span class="badge pull-right"></span>Project - Quotation Request Approval</a></li>
                                 <li><a href="@Url.Action("PendingSalesQutoforSaleOrder", "SaleOrder", new { ProjectBased = 1 })"><span class="badge pull-right"></span>Project - Sale Order</a></li>
                                 <li><a href="@Url.Action("PendingSaleOrderApproval", "SaleOrder", new { ProjectBased = 1 })"><span class="badge pull-right"></span>Project - Sale Order Approval</a></li>
                                 <li><a href="@Url.Action("PendingSaleOrderHold", "SaleOrder", new { isProjectBased = 1})"><span class="badge pull-right"></span>Project - Pending Sale Orders</a></li>
@@ -343,7 +343,7 @@
                     </div>
                 </div>
             </div>
-        </div>
+       
 
 </body>
 </html>

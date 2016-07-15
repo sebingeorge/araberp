@@ -675,6 +675,8 @@
     <Content Include="Views\RateSettings\PreviousListPopup.cshtml" />
     <Content Include="Views\ProformaInvoice\PendingProforma.cshtml" />
     <Content Include="Views\ProformaInvoice\Create.cshtml" />
+    <Content Include="Views\ItemBatch\Pending.cshtml" />
+    <Content Include="Views\ItemBatch\Create.cshtml" />
     <Content Include="Views\SaleOrder\PendingSaleOrderApprovalTransaction.cshtml" />
   </ItemGroup>
   <ItemGroup>
@@ -682,7 +684,6 @@
     <Folder Include="bin\" />
     <Folder Include="Images\App_LocalResources\" />
     <Folder Include="Views\Base\" />
-    <Folder Include="Views\ItemBatch\" />
     <Folder Include="Views\LocalPurchase\" />
     <Folder Include="Views\MisReport\" />
     <Folder Include="Views\StockJournel\" />
