@@ -33,7 +33,7 @@ namespace ArabErp.Web.Controllers
             model.Items = new List<ProformaInvoiceItem>();
             foreach (var item in PIList)
             {
-                model.Items.Add(new ProformaInvoiceItem { WorkDescription  = item.WorkDescription, VehicleModelName = item.VehicleModelName, Quantity = item.Quantity, UnitName = item.UnitName,Rate=item.Rate,Amount=item.Amount,Discount=item.Discount });
+                model.Items.Add(new ProformaInvoiceItem { WorkDescription  = item.WorkDescription, VehicleModelName = item.VehicleModelName, Quantity = item.Quantity, UnitName = item.UnitName,Rate=item.Rate,Amount=item.Amount,Discount=item.Discount,SaleOrderItemId=item.SaleOrderItemId });
 
             }
 
