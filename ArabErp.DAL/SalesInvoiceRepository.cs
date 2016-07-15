@@ -60,7 +60,10 @@ namespace ArabErp.DAL
         {
             using (IDbConnection connection = OpenConnection(dataConnection))
             {
-                string sql = @"UPDATE SalesInvoice SET SalesInvoiceDate = @SalesInvoiceDate ,JobCardId = @JobCardId ,SpecialRemarks = @SpecialRemarks ,PaymentTerms = @PaymentTerms,CreatedBy = @CreatedBy,CreatedDate = @CreatedDate,OrganizationId = @OrganizationId  OUTPUT INSERTED.SalesInvoiceId  WHERE SalesInvoiceId = @SalesInvoiceId";
+                string sql = @"UPDATE SalesInvoice SET SalesInvoiceDate = @SalesInvoiceDate ,SalesInvoiceDueDate=@SalesInvoiceDueDate,
+                               JobCardId = @JobCardId ,SpecialRemarks = @SpecialRemarks ,PaymentTerms = @PaymentTerms,
+                               CreatedBy = @CreatedBy,CreatedDate = @CreatedDate,OrganizationId = @OrganizationId  
+                               OUTPUT INSERTED.SalesInvoiceId  WHERE SalesInvoiceId = @SalesInvoiceId";
 
 
                 var id = connection.Execute(sql, objSalesInvoice);
@@ -217,6 +220,7 @@ namespace ArabErp.DAL
                                 SO.SaleOrderId SaleOrderId,
                                 S.SymbolName CurrencySymbol,
                                 Convert(varchar(15),Getdate(),106) CurrentDate,
+                                (getdate()+CreditPeriod)SalesInvoiceDueDate,
                                 SO.SaleOrderRefNo SaleOrderRefNo ,
                                 Concat(C.DoorNo,',',C.Street,',',C.State,',',C.Country,',',C.Zip)
                                 CustomerAddress,
@@ -240,6 +244,7 @@ namespace ArabErp.DAL
                             SO.SaleOrderId SaleOrderId,
                             S.SymbolName CurrencySymbol,
                             Convert(varchar(15),Getdate(),106) CurrentDate,
+                            (getdate()+CreditPeriod)SalesInvoiceDueDate,
                             SO.SaleOrderRefNo SaleOrderRefNo ,
                             Concat(C.DoorNo,',',C.Street,',',C.State,',',C.Country,',',C.Zip)
                             CustomerAddress,
@@ -263,6 +268,7 @@ namespace ArabErp.DAL
                             SO.SaleOrderId SaleOrderId,
                             S.SymbolName CurrencySymbol,
                             Convert(varchar(15),Getdate(),106) CurrentDate,
+                            (getdate()+CreditPeriod)SalesInvoiceDueDate,
                             SO.SaleOrderRefNo SaleOrderRefNo ,
                             Concat(C.DoorNo,',',C.Street,',',C.State,',',C.Country,',',C.Zip)
                             CustomerAddress,
@@ -295,9 +301,13 @@ namespace ArabErp.DAL
                 {
                     int internalId = DatabaseCommonRepository.GetInternalIDFromDatabase(connection, trn, typeof(SalesInvoice).Name, "0", 1);
                     model.SalesInvoiceRefNo = "INV/" + internalId.ToString();
-                    string sql = @" INSERT INTO SalesInvoice(SalesInvoiceRefNo,SalesInvoiceDate,SaleOrderId,Addition,Deduction,AdditionRemarks,DeductionRemarks,InvoiceType,isProjectBased)
-                                   VALUES(      @SalesInvoiceRefNo,GETDATE(),@SaleOrderId,@Addition,@Deduction,@AdditionRemarks,@DeductionRemarks,@InvoiceType,@isProjectBased);
-                                   SELECT CAST(SCOPE_IDENTITY() as int) SalesInvoiceId";
+
+                    string sql = @" INSERT INTO SalesInvoice(SalesInvoiceRefNo,SalesInvoiceDate,SalesInvoiceDueDate,SaleOrderId,
+                                    SpecialRemarks,PaymentTerms,Addition,Deduction,AdditionRemarks,
+                                    DeductionRemarks,InvoiceType,isProjectBased,CreatedBy,CreatedDate,OrganizationId)
+                                    VALUES( @SalesInvoiceRefNo,@SalesInvoiceDate,@SalesInvoiceDueDate,@SaleOrderId,@SpecialRemarks,@PaymentTerms,
+                                    @Addition,@Deduction,@AdditionRemarks,@DeductionRemarks,@InvoiceType,@isProjectBased,@CreatedBy,@CreatedDate,@OrganizationId);
+                                    SELECT CAST(SCOPE_IDENTITY() as int) SalesInvoiceId";
 
 
                     result = connection.Query<SalesInvoice>(sql, model, trn).Single<SalesInvoice>();
@@ -306,11 +316,13 @@ namespace ArabErp.DAL
                     foreach (var item in model.SaleInvoiceItems)
                     {
                         item.SalesInvoiceId = result.SalesInvoiceId;
+
                         item.OrganizationId = model.OrganizationId;
                         SalesInvoiceItemRepo.InsertSalesInvoiceItem(item, connection, trn);
                     }
                     
                     trn.Commit();
+                    //return id + "|INV/" + internalId;
                 }
                 catch (Exception ex)
                 {
@@ -329,6 +341,21 @@ namespace ArabErp.DAL
 
         }
 
-
+        public DateTime GetDueDate(DateTime d, int SaleOrderId)
+        {
+            using (IDbConnection connection = OpenConnection(dataConnection))
+            {
+                var param = new DynamicParameters();
+                SalesInvoice SalesInvoice = connection.Query<SalesInvoice>(
+                    "select DATEADD(day,CreditPeriod,@date) SalesInvoiceDueDate FROM SaleOrder S INNER JOIN Customer C ON S.CustomerId=C.CustomerId WHERE SaleOrderId= " + SaleOrderId,
+                    new { date = d }).Single<SalesInvoice>();
+                DateTime duedate = System.DateTime.Today;
+                if (SalesInvoice != null)
+                {
+                    duedate = SalesInvoice.SalesInvoiceDueDate;
+                }
+                return duedate;
+            }
+        }
     }
 }

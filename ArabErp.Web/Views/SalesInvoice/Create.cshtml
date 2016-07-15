@@ -14,9 +14,19 @@
 
 
 <script>
-    function Back() {
-        location.href = '@Url.Action("PendingSalesInvoice")';
+
+    function Exit() {
+        location.href = '@Url.Action("PendingSalesInvoice", "SalesInvoice", new { invType = Model.InvoiceType })';
     }
+
+    $(function () {
+        $("#SalesInvoiceDate").datepicker({ dateFormat: "dd/MM/yy" });
+    });
+
+
+    @*function Back() {
+        location.href = '@Url.Action("PendingSalesInvoice")';
+    }*@
     $(document).ready(function () {
 
                 toastr.options = {
@@ -125,6 +135,27 @@
         net = total + addition - deduction;
         $("#TotalAmount").text(total);
     }
+
+    function DateChanged(Date) {
+        var d = $(Date).val();
+        var sup = $("#SaleOrderId").val();
+
+        $.ajax({
+            url: "@Url.Action("GetDueDate", "SalesInvoice")",
+            data: { date: d, SaleOrderId: sup },
+        cache: false,
+        type: "GET",
+        timeout: 10000,
+        dataType: "json",
+        success: function (duedate) {
+               
+            $("#SalesInvoiceDueDate").val(duedate);
+        }
+    });
+
+    }
+
+    
 </script>
 <div class="container">
 
@@ -145,8 +176,13 @@
                                 @Html.TextBoxFor(m => m.SalesInvoiceRefNo, new { @class = "form_input", autocomplete = "off", @readonly = "readonly" })
                             </div>
                             <div class="col-md-2">
-                                <label for="SaleOrderDate">Date</label>
-                                @Html.TextBoxFor(m => m.CurrentDate, String.Format("{0:dd/MM/yyyy}", Model.CurrentDate), new { @class = "form_input ", autocomplete = "off", @readonly = "readonly" })
+                                <label for="SalesInvoiceDate">Date</label>
+                                @Html.TextBoxFor(m => m.SalesInvoiceDate, Model.SalesInvoiceDate.ToString("dd/MMMM/yyyy"), new { @class = "form_input ", autocomplete = "off", @readonly = "readonly", @onchange = "DateChanged(this)" })
+                                @*@Html.TextBoxFor(m => m.SalesInvoiceDate, String.Format("{0:dd/MM/yyyy}", Model.SalesInvoiceDate), new { @class = "form_input ", autocomplete = "off", @readonly = "readonly" })*@
+                            </div>
+                            <div class="col-md-2">
+                                <label for="BillDueDate">Bill Due Date</label>
+                                @Html.TextBoxFor(m => m.SalesInvoiceDueDate, Model.SalesInvoiceDueDate.ToString("dd/MMMM/yyyy"), new { @class = "form_input ", autocomplete = "off", @readonly = "readonly" })
                             </div>
                         </div>
                         <div class="row form-group">
@@ -294,7 +330,7 @@
                         
        <div class="row">
         <div class="col-md-12 hrpart">
-            <button class="form-button right" onclick="Back()">Exit</button>
+            <button type="button" class="form-button right" onclick="Exit()">Exit</button>
             <button type="submit" class="form-button right">Save</button>
         </div>
 
