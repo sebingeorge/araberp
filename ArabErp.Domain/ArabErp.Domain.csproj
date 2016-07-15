@@ -90,6 +90,7 @@
     <Compile Include="PendingJobCardQC.cs" />
     <Compile Include="PendingGRN.cs" />
     <Compile Include="PendingPurchaseRequest.cs" />
+    <Compile Include="PendingSaleOrderForTransactionApproval.cs" />
     <Compile Include="PendingSO.cs" />
     <Compile Include="PendingSupplyOrder.cs" />
     <Compile Include="PendingWorkShopRequest.cs" />

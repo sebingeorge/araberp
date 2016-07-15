@@ -675,6 +675,7 @@
     <Content Include="Views\RateSettings\PreviousListPopup.cshtml" />
     <Content Include="Views\ProformaInvoice\PendingProforma.cshtml" />
     <Content Include="Views\ProformaInvoice\Create.cshtml" />
+    <Content Include="Views\SaleOrder\PendingSaleOrderApprovalTransaction.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -684,6 +685,7 @@
     <Folder Include="Views\ItemBatch\" />
     <Folder Include="Views\LocalPurchase\" />
     <Folder Include="Views\MisReport\" />
+    <Folder Include="Views\StockJournel\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff" />

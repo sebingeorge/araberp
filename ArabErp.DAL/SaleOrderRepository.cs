@@ -99,7 +99,7 @@ namespace ArabErp.DAL
                                SaleOrderHoldStatus,SaleOrderHoldReason,SaleOrderHoldDate,SaleOrderReleaseDate,S.SalesQuotationId,SaleOrderClosed,S.isProjectBased
                                FROM SaleOrder S 
                                INNER JOIN Customer C ON S.CustomerId=C.CustomerId  
-                               INNER JOIN SalesQuotation SQ ON SQ.SalesQuotationId=S.SalesQuotationId
+                               LEFT JOIN SalesQuotation SQ ON SQ.SalesQuotationId=S.SalesQuotationId
                                WHERE SaleOrderId=@SaleOrderId";
 
                 var objSaleOrder = connection.Query<SaleOrder>(sql, new
@@ -197,6 +197,38 @@ namespace ArabErp.DAL
 
 
                 var id = connection.Execute(sql, objSaleOrder);
+                return id;
+            }
+        }
+        public int UpdateSaleOrderItemStatus(SaleOrderItem item, string ApprType)
+        {
+            using (IDbConnection connection = OpenConnection(dataConnection))
+            {
+                string sql = string.Empty;
+
+                if (ApprType == "WORKSHOP_REQUEST")
+                {
+                    sql = @"UPDATE SaleOrderItem SET IsPaymentApprovedForWorkshopRequest = @IsPaymentApprovedForWorkshopRequest ,
+                        PaymentApprovedForWorkshopRequestReceiptNoAndDate = @PaymentApprovedForWorkshopRequestReceiptNoAndDate,
+                        PaymentApprovedForWorkshopRequestCreatedBy = @PaymentApprovedForWorkshopRequestCreatedBy,
+                        PaymentApprovedForWorkshopRequestCreatedDate = @PaymentApprovedForWorkshopRequestCreatedDate  WHERE SaleOrderItemId = @SaleOrderItemId";
+                }
+                else if (ApprType == "JOB_CARD")
+                {
+                    sql = @"UPDATE SaleOrderItem SET IsPaymentApprovedForJobOrder = @IsPaymentApprovedForJobOrder ,
+                        PaymentApprovedForJobOrderReceiptNoAndDate = @PaymentApprovedForJobOrderReceiptNoAndDate,
+                        PaymentApprovedForJobOrderCreatedBy = @PaymentApprovedForJobOrderCreatedBy,
+                        PaymentApprovedForJobOrderCreatedDate = @PaymentApprovedForJobOrderCreatedDate  WHERE SaleOrderItemId = @SaleOrderItemId";
+                }
+                else if (ApprType == "DELIVERY_CHALLAN")
+                {
+                    sql = @"UPDATE SaleOrderItem SET IsPaymentApprovedForDelivery = @IsPaymentApprovedForDelivery ,
+                        PaymentApprovedForDeliveryReceiptNoAndDate = @PaymentApprovedForDeliveryReceiptNoAndDate ,
+                        PaymentApprovedForDeliveryCreatedBy = @PaymentApprovedForDeliveryCreatedBy,
+                        PaymentApprovedForDeliveryCreatedDate = @PaymentApprovedForDeliveryCreatedDate  WHERE SaleOrderItemId = @SaleOrderItemId";
+                }
+                
+                var id = connection.Execute(sql, item);
                 return id;
             }
         }
@@ -318,6 +350,20 @@ namespace ArabErp.DAL
                 query += " from SaleOrder S inner join Customer C on S.CustomerId = C.CustomerId";
                 query += " where CommissionAmount>0 And isnull(CommissionAmountApproveStatus,0)=0 ";
                 return connection.Query<PendingSO>(query);
+            }
+        }
+        public IEnumerable<PendingSaleOrderForTransactionApproval> GetSaleOrderPendingForTrnApproval()
+        {
+            using (IDbConnection connection = OpenConnection(dataConnection))
+            {
+                string query = @"select SI.SaleOrderId, SI.SaleOrderItemId , SH.SaleOrderRefNo, SH.SaleOrderDate, C.CustomerName,
+                                W.WorkDescr, SI.Amount, SI.IsPaymentApprovedForWorkshopRequest, SI.IsPaymentApprovedForJobOrder,
+                                SI.IsPaymentApprovedForDelivery
+                                from SaleOrder SH inner join SaleOrderItem SI on SH.SaleOrderId = SI.SaleOrderId
+                                inner join Customer C on C.CustomerId = SH.CustomerId 
+                                inner join WorkDescription W on W.WorkDescriptionId = SI.WorkDescriptionId 
+                                order by SH.SaleOrderDate, C.CustomerName ";
+                return connection.Query<PendingSaleOrderForTransactionApproval>(query);
             }
         }
 
