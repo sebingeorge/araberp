@@ -7283,13 +7283,12 @@ td.visible-print {
 }
 
 .dropdown-submenu>.dropdown-menu {
-    top: 0;
+    border-radius: 0 6px 6px;
     left: 100%;
-    margin-top: -1px;
-    margin-left: -1px;
-    -webkit-border-radius: 0 6px 6px 6px;
-    -moz-border-radius: 0 6px 6px;
-    border-radius: 0 6px 6px 6px;
+    margin-left: -203px;
+    margin-top: 25px;
+    top: 0;
+    width: 102%;
 }
 
 .dropdown-submenu:hover>.dropdown-menu {
