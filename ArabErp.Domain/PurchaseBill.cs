@@ -18,8 +18,9 @@ namespace ArabErp.Domain
         public int SupplierId { get; set; }
         public string Supplier { get; set; }
         public DateTime PurchaseBillDate { get; set; }
-       [Required]
+        [Required]
         public string PurchaseBillNoDate { get; set; }
+        public DateTime PurchaseBillDueDate { get; set; }
         public string Remarks { get; set; }
         public decimal PurchaseBillAmount { get; set; }
         public string AdditionRemarks { get; set; }

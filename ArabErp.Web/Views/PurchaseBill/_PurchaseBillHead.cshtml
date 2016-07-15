@@ -1,25 +1,56 @@
 ﻿@model ArabErp.Domain.PurchaseBill
 
+<script>
+
+    function DateChanged(Date) {
+        var d = $(Date).val();
+        var sup = $("#SupplierId").val();
+
+        $.ajax({
+            url: "@Url.Action("GetDueDate", "PurchaseBill")",
+            data: { date: d, supplierId: sup },
+            cache: false,
+            type: "GET",
+            timeout: 10000,
+            dataType: "json",
+            success: function (duedate) {
+               
+                $("#PurchaseBillDueDate").val(duedate);
+            }
+        });
+
+    }
+
+</script>
+
+
 <div class="row form-group">
     <div class="col-md-2">
         <label for=" PurchaseBillRefNo">Booking No.</label>
         @Html.TextBoxFor(m => m.PurchaseBillRefNo, new { @class = "form_input", autocomplete = "off", @readonly = "readonly" })
     </div>
+
     <div class="col-md-2">
         <label for="PurchaseBillDate">Date</label>
-          
-        @Html.TextBoxFor(m => m.PurchaseBillDate, Model.PurchaseBillDate.ToString("dd/MMMM/yyyy"), new { @class = "form_input ", autocomplete = "off", @readonly = "readonly" })
+        @Html.TextBoxFor(m => m.PurchaseBillDate, Model.PurchaseBillDate.ToString("dd/MMMM/yyyy"), new { @class = "form_input ", autocomplete = "off", @readonly = "readonly", @onchange = "DateChanged(this)" })
     </div>
 </div>
+
 <div class="row form-group">
     <div class="col-md-4">
         <label for="SupplierId">Supplier</label>
         @Html.TextBoxFor(m => m.Supplier, new { @class = "form_input", autocomplete = "off", @readonly = "readonly" })
         @Html.HiddenFor(m => m.SupplierId, new { @class = "form_input", autocomplete = "off" })
     </div>
-        <div class="col-md-2">
-            <label for="BillNoDate">Bill No. & Date</label>
+
+    <div class="col-md-2">
+        <label for="BillNoDate">Bill No. & Date</label>
         @Html.TextBoxFor(m => m.PurchaseBillNoDate, new { @class = "form_input", autocomplete = "off" })
-      
     </div>
+
+    <div class="col-md-2">
+        <label for="BillDueDate">Bill Due Date</label>
+        @Html.TextBoxFor(m => m.PurchaseBillDueDate, Model.PurchaseBillDueDate.ToString("dd/MMMM/yyyy"), new { @class = "form_input ", autocomplete = "off", @readonly = "readonly" })
     </div>
+
+</div>

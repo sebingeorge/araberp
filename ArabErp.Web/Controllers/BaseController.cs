@@ -89,7 +89,8 @@ namespace ArabErp.Web.Controllers
         {
             get
             {
-                return Request.Cookies["user"]["UserName"];
+                HttpCookie usr = (HttpCookie)Session["user"];
+                return usr["UserName"].ToString();
             }
             set
             {

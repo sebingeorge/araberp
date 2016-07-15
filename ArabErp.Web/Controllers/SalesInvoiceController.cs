@@ -28,6 +28,10 @@ namespace ArabErp.Web.Controllers
                 saleinvoice = SalesInvoiceRepo.GetSelectedSalesInvoiceHD(ObjSaleInvoiceItem[0].SaleOrderId, ObjSaleInvoiceItem[0].invType);
                 saleinvoice.InvoiceType = ObjSaleInvoiceItem[0].invType;
 
+                string internalId = "";
+                internalId = DatabaseCommonRepository.GetNextReferenceNo(typeof(SalesInvoice).Name);
+                saleinvoice.SalesInvoiceDate = System.DateTime.Today;
+                saleinvoice.SalesInvoiceRefNo = "INV/" + internalId;
                 List<int> SelectedSaleOrderItemId = (from SalesInvoiceItem s in ObjSaleInvoiceItem
                                                      where s.SelectStatus
                                                      select s.SaleOrderItemId).ToList<int>();
@@ -71,7 +75,6 @@ namespace ArabErp.Web.Controllers
         [HttpPost]
         public ActionResult Save(SalesInvoice model)
         {
-            //var List = Repo.GetPendingSalesInvoiceList(SalesOrderId);
             model.OrganizationId = OrganizationId;
             model.CreatedDate = System.DateTime.Now;
             model.CreatedBy = Request.ServerVariables["HTTP_X_FORWARDED_FOR"] ?? Request.ServerVariables["REMOTE_ADDR"];
@@ -98,12 +101,12 @@ namespace ArabErp.Web.Controllers
             
 
         }
-        //public ActionResult GetSalesInvoiceCustomerList(int? page)
-        //{
-        //    //int itemsPerPage = 10;
-        //    int pageNumber = page ?? 1;
-
-
-        //}
+       
+        public JsonResult GetDueDate(DateTime date, int SaleOrderId)
+        {
+            DateTime duedate = (new SalesInvoiceRepository()).GetDueDate(date, SaleOrderId);
+            return Json(duedate.ToString("dd/MMMM/yyyy"), JsonRequestBehavior.AllowGet);
+        }
+      
     }
 }

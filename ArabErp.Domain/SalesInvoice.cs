@@ -17,7 +17,8 @@ namespace ArabErp.Domain
         public string SalesInvoiceNo { get; set; }
         public string SalesInvoiceRefNo { get; set; }
        
-        public DateTime? SalesInvoiceDate { get; set; }
+        public DateTime SalesInvoiceDate { get; set; }
+        public DateTime SalesInvoiceDueDate { get; set; }
         public string Customer { get; set; }
         public string CustomerAddress { get; set; }
         public string CustomerOrderRef { get; set; }
