@@ -37,6 +37,19 @@ namespace ArabErp.DAL
                     {
                         int internalid = DatabaseCommonRepository.GetInternalIDFromDatabase(connection, trn, typeof(SalesQuotation).Name, "0",1);
                         model.QuotationRefNo = "SQ/" + internalid;
+
+                        #region automatically approve if no custom rates are set
+                        if (model.isProjectBased == 0)
+                        {
+                            List<int> rateType = (from SalesQuotationItem s in model.SalesQuotationItems
+                                                  where s.RateType == 0
+                                                  select s.RateType).ToList();
+                            if (rateType.Count > 0)
+                                model.IsQuotationApproved = false;
+                            else model.IsQuotationApproved = true;
+                        }
+                        #endregion
+
                         string sql = @"
                                         insert  into SalesQuotation(QuotationRefNo,QuotationDate,CustomerId,ContactPerson,SalesExecutiveId,PredictedClosingDate,QuotationValidToDate,ExpectedDeliveryDate,IsQuotationApproved,ApprovedBy,Amount,QuotationStatus,Remarks,SalesQuotationRejectReasonId,QuotationRejectReason,Competitors,PaymentTerms,DiscountRemarks,CreatedBy,CreatedDate,OrganizationId,isProjectBased)
                                         Values (@QuotationRefNo,@QuotationDate,@CustomerId,@ContactPerson,@SalesExecutiveId,@PredictedClosingDate,@QuotationValidToDate,@ExpectedDeliveryDate,@IsQuotationApproved,@ApprovedBy,@Amount,@QuotationStatus,@Remarks,@SalesQuotationRejectReasonId,@QuotationRejectReason,@Competitors,@PaymentTerms,@DiscountRemarks,@CreatedBy,@CreatedDate,@OrganizationId,@isProjectBased);

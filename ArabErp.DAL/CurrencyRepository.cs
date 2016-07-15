@@ -128,7 +128,7 @@ namespace ArabErp.DAL
         {
             using (IDbConnection connection = OpenConnection(dataConnection))
             {
-                string sql = @"select S.SymbolName,C.CurrencyName from Organization O 
+                string sql = @"select S.SymbolName,C.CurrencyName,C.CurrencyId from Organization O 
                              inner join Currency C on C.CurrencyId = O.CurrencyId
                              inner join Symbol S on C.CurrencySymbolId = S.SymbolId
                              where O.OrganizationId=@OrganizationId";
