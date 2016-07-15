@@ -125,9 +125,9 @@
                     <table class="table table-bordered">
                         <thead>
                             <tr class="grid_heading">
+                                <th width="15%"><h1>SO.No. & Date</h1></th>
                                 <th width="20%"><h1>Customer</h1></th>
                                 <th width="15%"><h1>Customer Order Ref.</h1></th>
-                                <th width="15%"><h1>SO.No. & Date</h1></th>
                                 <th width="15%"><h1>Work Description</h1></th>
                                 <th width="5%"><h1>Ageing</h1></th>
                                 <th width="10%"><h1>EDA</h1></th>
@@ -140,9 +140,9 @@
                        {
                             <tbody class="grid_row">
                                 <tr>
+                                    <td class="grid-cell"><input type="text" disabled="disabled" class="form_input" value="@Model.SaleOrders.ElementAt(i).SaleOrderRefNo" /></td>
                                     <td class="grid-cell"><input type="text" disabled="disabled" class="form_input" value="@Model.SaleOrders.ElementAt(i).CustomerName" /></td>
                                     <td class="grid-cell"><input type="text" disabled="disabled" class="form_input" value="@Model.SaleOrders.ElementAt(i).CustomerOrderRef" /></td>
-                                    <td class="grid-cell"><input type="text" disabled="disabled" class="form_input" value="@Model.SaleOrders.ElementAt(i).SaleOrderRefNo" /></td>
                                     <td class="grid-cell"><input type="text" disabled="disabled" class="form_input" value="@Model.SaleOrders.ElementAt(i).WorkDescription" /></td>
                                     <td class="grid-cell"><input type="text" disabled="disabled" class="form_input" value="@Model.SaleOrders.ElementAt(i).Ageing" /></td>
                                     <td class="grid-cell"><input type="text" disabled="disabled" class="form_input" value="@Model.SaleOrders.ElementAt(i).EDateArrival.ToString("dd/MMM/yyyy")" /></td>

@@ -5,21 +5,24 @@
 }
 <script>
     $(function () {
-       
+
         $("#PurchaseBillDate").datepicker({ dateFormat: "dd/MM/yy" });
     });
 
     $(document).ready(function () {
         $('#BillNoDate').focus();
-     
+
         //bind keypress event for new row inputs.
         $(".numbers-only").keypress(function (e) {
             //alert("hi");
             if (e.which == 8 || (e.which == 46 && $(this).val().indexOf('.') == -1) || (e.which > 47 && e.which < 58)) { } else { return false; }
         });
     });
+    function Exit() {
+        location.href = '@Url.Action("WorkShopRequestPending")';
+    }
 
-  
+
 
 </script>
 <div class="container">
@@ -45,7 +48,7 @@
                 <div class="row">
 
                     <div class="col-md-12 hrpart">
-                        <button type="button" class="form-button right">Exit</button>
+                        <button type="button" class="form-button right" onclick="Exit()">Exit</button>
                         <button type="submit" class="form-button right">Save</button>
 
                     </div>

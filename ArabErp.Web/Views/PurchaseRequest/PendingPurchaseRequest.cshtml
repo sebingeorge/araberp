@@ -45,10 +45,10 @@
                         <table class="table table-bordered">
                             <thead>
                                 <tr class="grid_heading">
+                                    <th><h1>WR.No. & Date</h1></th>
                                     <th><h1>Customer</h1></th>
                                     <th><h1>Customer Order Ref.</h1></th>
                                     <th><h1>SO.No. & Date</h1></th>
-                                    <th><h1>WR.No. & Date</h1></th>
                                     <th><h1>Ageing</h1></th>
                                     <th><h1>Required Date</h1></th>
                                     <th><center><h1></h1></center></th>
@@ -59,10 +59,10 @@
                         {
                                 <tbody class="grid_row">
                                     <tr>
+                                        <td class="grid-cell">@item.WorkShopRequestRefNo &amp; @item.WorkShopRequestDate.ToString("dd/MMM/yyyy")</td>
                                         <td class="grid-cell">@item.CustomerName</td>
                                         <td class="grid-cell">@item.CustomerOrderRef</td>
                                         <td class="grid-cell">@item.SaleOrderRefNo &amp; @item.SaleOrderDate.ToString("dd/MMM/yyyy")</td>
-                                        <td class="grid-cell">@item.WorkShopRequestRefNo &amp; @item.WorkShopRequestDate.ToString("dd/MMM/yyyy")</td>
                                         <td class="grid-cell">@item.Ageing</td>
                                         <td class="grid-cell">@item.RequiredDate.ToString("dd/MMM/yyyy")</td>
                                         <td><center>@Html.ActionLink("Select", "Create", "PurchaseRequest", new { WorkShopRequestId = @item.WorkShopRequestId }, new { @class = "form-button5" })</center></td>

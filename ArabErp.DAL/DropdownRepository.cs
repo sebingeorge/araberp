@@ -250,5 +250,13 @@ namespace ArabErp.DAL
                 return connection.Query<Dropdown>(@"SELECT WorkDescriptionId Id, WorkDescr Name FROM WorkDescription WHERE ISNULL(isActive, 1) = 1;").ToList();
             }
         }
+        public List<Dropdown> QuerySheetNoDropdown()
+        {
+            using (IDbConnection connection = OpenConnection(dataConnection))
+            {
+                return connection.Query<Dropdown>(@"SELECT QuerySheetId Id, QuerySheetRefNo Name FROM QuerySheet WHERE ISNULL(isActive, 1) = 1 
+                 and QuerySheetId not in (select QuerySheetId from SalesQuotation where QuerySheetId is not null)").ToList();
+            }
+        }
     }
 }
