@@ -676,6 +676,7 @@
     <Content Include="Views\ProformaInvoice\PendingProforma.cshtml" />
     <Content Include="Views\ProformaInvoice\Create.cshtml" />
     <Content Include="Views\ItemBatch\Pending.cshtml" />
+    <Content Include="Views\ItemBatch\Create.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

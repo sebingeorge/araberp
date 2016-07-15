@@ -1,0 +1,38 @@
+﻿@model ArabErp.Domain.ItemBatch
+
+@{
+    ViewBag.Title = "Assign Serial Numbers";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<script type="text/javascript">
+
+    function Back() {
+        var url = '@Url.Action("Pending")';
+        window.location = url;
+    }
+
+</script>
+
+<div class="container">
+    <div class="row">
+
+        <div class="form-head1">
+            <h4>Assign Serial Number</h4>
+        </div>
+
+        <div class="main-part pad1">
+            <div class="row">
+                @using (Html.BeginForm(null, null, FormMethod.Post, new { @class = "createFrom", @id = "batching-form" }))
+                {
+                    
+                }
+                <div class="col-md-12 hrpart">
+                    <input type="button" class="form-button" onclick="Back()" value="Exit">
+                    <button type="submit" class="form-button right">Proceed</button>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
