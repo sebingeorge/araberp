@@ -1,12 +1,13 @@
 ﻿
 @using ArabErp.Domain
-@model IEnumerable<PendingSO>
+@model IEnumerable<PendingSaleOrderForTransactionApproval>
 @{
     ViewBag.Title = "Pending SaleOrder Approval";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 @{
     string actionName = ViewContext.RouteData.GetRequiredString("action");
+    string AppType = ViewBag.ApproveType;
 }
 <div class="container">
 
@@ -38,9 +39,11 @@
                     <table class="table table-bordered">
                         <thead>
                             <tr class="grid_heading">
-                                <th><h1>SO No & Date</h1></th>
+                                <th><h1>SO No</h1></th>
+                                <th><h1>SO Date</h1></th>
                                 <th><h1>Customer</h1></th>
-                                <th><h1>Customer Order Ref.</h1></th>
+                                <th><h1>Work Description</h1></th>
+                                <th><h1>Amount</h1></th>
                                 <th><center><h1>Select</h1></center></th>
                             </tr>
                         </thead>
@@ -48,10 +51,12 @@
                         {
                             <tbody class="grid_row">
                                 <tr>
-                                    <td class="grid-cell">@item.SaleOrderRefNo &amp; @item.SaleOrderDate.ToString("dd/MMM/yyyy")</td>
+                                    <td class="grid-cell">@item.SaleOrderRefNo</td>
+                                    <td class="grid-cell">@item.SaleOrderDate.ToString("dd/MMM/yyyy")</td>
                                     <td class="grid-cell">@item.CustomerName</td>
-                                    <td class="grid-cell">@item.CustomerOrderRef</td>
-                                    <td><center><button class="form-button4">@Html.ActionLink("Select", "Approval", "SaleOrder", new { SaleOrderId = @item.SaleOrderId }, null)</button></center></td>
+                                    <td class="grid-cell">@item.WorkDescr</td>
+                                    <td class="grid-cell">@item.Amount</td>
+                                    <td><center><button class="form-button4">@Html.ActionLink("Select", "ApprovalForTrn", "SaleOrder", new { SaleOrderId = @item.SaleOrderId, SaleOrderItemId = @item.SaleOrderItemId, AppType = @AppType }, null)</button></center></td>
                                    
                                 </tr>
                             </tbody>
