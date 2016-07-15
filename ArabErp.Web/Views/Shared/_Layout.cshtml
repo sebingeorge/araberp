@@ -193,6 +193,7 @@
                                 <li><a href="@Url.Action("Create","SalesQuotation")"><span class="badge pull-right"></span>Quotation Request</a></li>
                                 <li><a href="@Url.Action("ListSalesQuotations", "SalesQuotation", new { ProjectBased = 0 })"><span class="badge pull-right"></span>Quotation Request Approval</a></li>
                                 <li><a href="@Url.Action("PendingSalesQutoforSaleOrder", "SaleOrder", new { ProjectBased = 0 })"><span class="badge pull-right"></span>Sale Order</a></li>
+                                <li><a href="@Url.Action("PendingSaleOrderApproval", "SaleOrder", new { ProjectBased = 0 })"><span class="badge pull-right"></span>Sale Order Approval</a></li>
                                 <li><a href="@Url.Action("PendingSaleOrderHold", "SaleOrder")"><span class="badge pull-right"></span>Pending Sale Orders</a></li>
                                 <li><a href="@Url.Action("PendingProforma", "ProformaInvoice", new { ProjectBased = 0 })"><span class="badge pull-right"></span>Proforma Invoice</a></li>
                                 <li><a href="@Url.Action("PendingSalesInvoice", "SalesInvoice", new { invType = "Final" })"><span class="badge pull-right"></span>Sales Invoice</a></li>
@@ -269,7 +270,11 @@
             {
                 <li>
                     <a data-toggle="dropdown" class="dropdown-toggle menu" href="#">@*<i class="glyphicon glyphicon-th-list"></i>*@ Finance</a>
-                    <ul class="dropdown-menu"></ul>
+                    <ul class="dropdown-menu">
+                        <li><a href="@Url.Action("PendingSaleOrderApprovalWR", "SaleOrder")"><span class="badge pull-right"></span>SO - Approval For Workshop Request</a></li>
+                        <li><a href="@Url.Action("PendingSaleOrderApprovalJC", "SaleOrder")"><span class="badge pull-right"></span>SO - Approval For Job Card</a></li>
+                        <li><a href="@Url.Action("PendingSaleOrderApprovalDEL", "SaleOrder")"><span class="badge pull-right"></span>SO - Approval For Delivery</a></li>
+                    </ul>
                 </li>
             }
         </ul>

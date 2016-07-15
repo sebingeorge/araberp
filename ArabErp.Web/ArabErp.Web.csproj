@@ -677,6 +677,7 @@
     <Content Include="Views\ProformaInvoice\Create.cshtml" />
     <Content Include="Views\ItemBatch\Pending.cshtml" />
     <Content Include="Views\ItemBatch\Create.cshtml" />
+    <Content Include="Views\SaleOrder\PendingSaleOrderApprovalTransaction.cshtml" />
     <Content Include="Views\ItemBatch\PendingReservation.cshtml" />
   </ItemGroup>
   <ItemGroup>
@@ -686,6 +687,7 @@
     <Folder Include="Views\Base\" />
     <Folder Include="Views\LocalPurchase\" />
     <Folder Include="Views\MisReport\" />
+    <Folder Include="Views\StockJournel\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff" />
@@ -723,7 +725,7 @@
           <AutoAssignPort>True</AutoAssignPort>
           <DevelopmentServerPort>4807</DevelopmentServerPort>
           <DevelopmentServerVPath>/</DevelopmentServerVPath>
-          <IISUrl>http://localhost:4807/</IISUrl>
+          <IISUrl>http://localhost:5802/</IISUrl>
           <NTLMAuthentication>False</NTLMAuthentication>
           <UseCustomServer>False</UseCustomServer>
           <CustomServerUrl>

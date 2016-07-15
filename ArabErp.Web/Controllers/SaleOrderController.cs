@@ -349,18 +349,116 @@ namespace ArabErp.Web.Controllers
             var Result=new {VehicleId=List.VehicleModelId ,VehicleName=List.VehicleModelName};
             return Json(Result, JsonRequestBehavior.AllowGet);
         }
-        public ActionResult PendingSaleOrderApproval()
+        public ActionResult PendingSaleOrderApproval(int ProjectBased)
         {
             var repo = new SaleOrderRepository();
-            IEnumerable<PendingSO> pendingSO = repo.GetSaleOrderPending();
+            IEnumerable<PendingSO> pendingSO = repo.GetSaleOrderPending(ProjectBased);
             return View(pendingSO);  
+        }
+        public ActionResult PendingSaleOrderApprovalWR()
+        {
+            var repo = new SaleOrderRepository();
+            IEnumerable<PendingSaleOrderForTransactionApproval> pendingSO = repo.GetSaleOrderPendingForTrnApproval();
+            var result = from a in pendingSO where (a.IsPaymentApprovedForWorkshopRequest == false || a.IsPaymentApprovedForWorkshopRequest == null) select a;
+            ViewBag.ApproveType = "WORKSHOP_REQUEST";
+            return View("PendingSaleOrderApprovalTransaction", result);
+        }
+        public ActionResult PendingSaleOrderApprovalJC()
+        {
+            var repo = new SaleOrderRepository();
+            IEnumerable<PendingSaleOrderForTransactionApproval> pendingSO = repo.GetSaleOrderPendingForTrnApproval();
+            var result = from a in pendingSO where (a.IsPaymentApprovedForJobOrder == false || a.IsPaymentApprovedForJobOrder == null) select a;
+            ViewBag.ApproveType = "JOB_CARD";
+            return View("PendingSaleOrderApprovalTransaction", result);
+        }
+        public ActionResult PendingSaleOrderApprovalDEL()
+        {
+            var repo = new SaleOrderRepository();
+            IEnumerable<PendingSaleOrderForTransactionApproval> pendingSO = repo.GetSaleOrderPendingForTrnApproval();
+            var result = from a in pendingSO where (a.IsPaymentApprovedForDelivery == false || a.IsPaymentApprovedForDelivery == null) select a;
+            ViewBag.ApproveType = "DELIVERY_CHALLAN";
+            return View("PendingSaleOrderApprovalTransaction", result);
+        }
+        public ActionResult ApprovalForTrn(int? SaleOrderId, int? SaleOrderItemId, string AppType)
+        {
+            FillCustomer();
+            FillCurrency();
+            FillCommissionAgent();
+            FillUnit();
+            FillEmployee();
+
+            FillVehicle();
+            var repo = new SaleOrderRepository();
+            SaleOrder model = repo.GetSaleOrder(SaleOrderId ?? 0);
+            var SOList = repo.GetSaleOrderItem(SaleOrderId ?? 0);
+            model.Items = new List<SaleOrderItem>();
+            foreach (var item in SOList)
+            {
+                if(item.SaleOrderItemId == SaleOrderItemId)
+                {
+                    var soitem = new SaleOrderItem { 
+                        SaleOrderItemId = item.SaleOrderItemId,
+                        WorkDescriptionId = item.WorkDescriptionId, 
+                        VehicleModelId = item.VehicleModelId, 
+                        Quantity = item.Quantity, 
+                        UnitId = item.UnitId, 
+                        Rate = item.Rate, 
+                        Amount = item.Amount, 
+                        Discount = item.Discount };
+                    model.Items.Add(soitem);
+
+                    if (AppType == "WORKSHOP_REQUEST")
+                    {
+                        soitem.IsPaymentApprovedForWorkshopRequest = true;
+                    }
+                    else if (AppType == "JOB_CARD")
+                    {
+                        soitem.IsPaymentApprovedForJobOrder = true;
+                    }
+                    else if (AppType == "DELIVERY_CHALLAN")
+                    {
+                        soitem.IsPaymentApprovedForDelivery = true;
+                    }
+                }
+                
+            }
+            ViewBag.AppType = AppType;
+            FillWrkDesc();
+            return View("Approval", model);
+        }
+        public ActionResult UpdateApprovalForTrn(SaleOrder model)
+        {
+            var repo = new SaleOrderRepository();
+            var item = model.Items[0];
+            
+            var view = "PendingSaleOrderApprovalDEL";
+            if(item.IsPaymentApprovedForDelivery == true)
+            {
+                item.PaymentApprovedForDeliveryCreatedBy = UserName;
+                item.PaymentApprovedForDeliveryCreatedDate = DateTime.Now;
+                repo.UpdateSaleOrderItemStatus(item, "DELIVERY_CHALLAN");
+            }
+            else if(item.IsPaymentApprovedForJobOrder == true)
+            {
+                item.PaymentApprovedForJobOrderCreatedBy = UserName;
+                item.PaymentApprovedForJobOrderCreatedDate = DateTime.Now;
+                repo.UpdateSaleOrderItemStatus(item, "JOB_CARD");
+                view = "PendingSaleOrderApprovalJC";
+            }
+            else if(item.IsPaymentApprovedForWorkshopRequest == true)
+            {
+                item.PaymentApprovedForWorkshopRequestCreatedBy = UserName;
+                item.PaymentApprovedForWorkshopRequestCreatedDate = DateTime.Now;
+                repo.UpdateSaleOrderItemStatus(item, "WORKSHOP_REQUEST");
+                view = "PendingSaleOrderApprovalWR";
+            }
+            return RedirectToAction(view);
         }
         public ActionResult Approval(int? SaleOrderId)
         {
             FillCustomer();
             FillCurrency();
             FillCommissionAgent();
-            //FillPaymentTerms();
             FillUnit();
             FillEmployee();
             

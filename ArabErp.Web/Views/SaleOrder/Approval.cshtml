@@ -1,6 +1,11 @@
 ﻿@model  ArabErp.Domain.SaleOrder
 @{ string actionName = ViewContext.RouteData.GetRequiredString("action");
  ViewData["action"] = actionName;
+ string postActionName = "UpdateApprovalStatus";
+     if (actionName == "ApprovalForTrn")
+     {
+         actionName = "UpdateApprovalForTrn";
+     }
 }
 <script>
     $(function () {
@@ -52,60 +57,127 @@
             $("#SaleOrderReleaseDate").select();
         }
     })
-   
+    function ApproveDeliveryChallan()
+    {
+
+    }
+    function ApproveJobCard() {
+
+    }
+    function ApproveWorkshopRequest() {
+
+    }
 </script>
 <div class="container">
     <div class="row">
         <div class="form-head1">
-@if (ViewData["action"].ToString() == "Approval")
-{
-    <h4>Sale Order Approval</h4>
-}
-else if (ViewData["action"].ToString() == "Hold")
-{
-    <h4>Sale Order Hold</h4>
-}
-else if (ViewData["action"].ToString() == "Cancel")
-{
-    <h4>Sale Order Cancel</h4>
-}
-else
-{
-    <h4>Sale Order Release</h4>
-}        
+            @if (ViewData["action"].ToString() == "Approval")
+            {
+                <h4>Sale Order Approval</h4>
+            }
+            else if (ViewData["action"].ToString() == "Hold")
+            {
+                <h4>Sale Order Hold</h4>
+            }
+            else if (ViewData["action"].ToString() == "Cancel")
+            {
+                <h4>Sale Order Cancel</h4>
+            }
+            else if (ViewData["action"].ToString() == "ApprovalForTrn")
+            {
+                <h4>Sale Order Approval</h4>
+            }
+            else
+            {
+                <h4>Sale Order Release</h4>
+            }        
         </div>
         <div class="main-part pad1">
           
                 @Html.Partial("_SaleOrderHead",Model)
-                @Html.Partial("_DisplaySOList", Model)
-                
-                @Html.Partial("_SaleOrderFooter", Model)
-@using (Html.BeginForm("UpdateApprovalStatus", null, FormMethod.Post, new { @class = "createFrom", @id = "saleorder_form" }))
-{
-    @Html.HiddenFor(m => m.SaleOrderId)
-        
-         <div class="row">
-                   <div class="col-md-12 hrpart">
-                       <button type="button" class="form-button right" onclick="Exit()">Exit</button>
-                    @if (ViewData["action"].ToString() == "Approval")
+                @Html.Partial("_DisplaySOList", Model)                
+                @Html.Partial("_SaleOrderFooter", Model)                
+                @using (Html.BeginForm(actionName, null, FormMethod.Post, new { @class = "createFrom", @id = "saleorder_form" }))
+                {
+                    if (ViewData["action"].ToString() == "ApprovalForTrn")
+                    {
+                        @Html.HiddenFor(m => m.SaleOrderId)
+                        @Html.HiddenFor(m => m.Items[0].SaleOrderItemId)
+                        if (ViewBag.AppType == "WORKSHOP_REQUEST")
+                        {
+                            <div class="row">
+                                <div class="part1">
+                                    <div class="col-md-12">
+                                        <label for="SpecialRemarks">Workshop Request Receipt No. &amp; Date.</label>
+                                        @Html.HiddenFor(m=> m.Items[0].IsPaymentApprovedForWorkshopRequest)
+                                        @Html.TextAreaFor(m => Model.Items[0].PaymentApprovedForWorkshopRequestReceiptNoAndDate, new { @class = "form_input form_input-h", autocomplete = "off" })
+                                    </div>
+                                </div>
+                            </div>
+                        }
+                        else if (ViewBag.AppType == "JOB_CARD")
+                        {
+                            <div class="row">
+                                <div class="part1">
+                                    <div class="col-md-12">
+                                        <label for="SpecialRemarks">Job Order Receipt No. &amp; Date.</label>
+                                        @Html.HiddenFor(m => m.Items[0].IsPaymentApprovedForJobOrder)
+                                        @Html.TextAreaFor(m => Model.Items[0].PaymentApprovedForJobOrderReceiptNoAndDate, new { @class = "form_input form_input-h", autocomplete = "off" })
+                                    </div>
+                                </div>
+                            </div>
+                        }
+                        else if (ViewBag.AppType == "DELIVERY_CHALLAN")
+                        {
+                            <div class="row">
+                                <div class="part1">
+                                    <div class="col-md-12">
+                                        <label for="SpecialRemarks">Delivery Challan Receipt No. &amp; Date.</label>
+                                        @Html.HiddenFor(m => m.Items[0].IsPaymentApprovedForDelivery)
+                                        @Html.TextAreaFor(m => Model.Items[0].PaymentApprovedForDeliveryReceiptNoAndDate, new { @class = "form_input form_input-h", autocomplete = "off" })
+                                    </div>
+                                </div>
+                            </div>
+                        }
+                    }
+                    @Html.HiddenFor(m => m.SaleOrderId)        
+                    <div class="row">
+                            <div class="col-md-12 hrpart">
+                                <button type="button" class="form-button right" onclick="Exit()">Exit</button>
+                            @if (ViewData["action"].ToString() == "Approval")
+                                    {
+                                <button type="submit" class="form-button right">Approve</button>
+                                    }
+                            else if (ViewData["action"].ToString() == "Hold")
                             {
-                        <button type="submit" class="form-button right">Approve</button>
+                                <button type="button" class="form-button right" onclick="SaleOrderHold()">Hold</button>
                             }
-                    else if (ViewData["action"].ToString() == "Hold")
-                    {
-                        <button type="button" class="form-button right" onclick="SaleOrderHold()">Hold</button>
-                    }
-                    else if (ViewData["action"].ToString() == "Cancel")
-                    {
-                        <button type="button" class="form-button right" onclick="SaleOrderCancel()">Cancel</button>
-                    }
-                    else
-                    {
-                        <button type="button" class="form-button right" onclick="SaleOrderRelease()">Release</button>
-                    }
+                            else if (ViewData["action"].ToString() == "Cancel")
+                            {
+                                <button type="button" class="form-button right" onclick="SaleOrderCancel()">Cancel</button>
+                            }
+                            else if (ViewData["action"].ToString() == "ApprovalForTrn")
+                            {
+                                if (ViewBag.AppType == "DELIVERY_CHALLAN")
+                                {
+                                    <button type="submit" class="form-button right" onclick="ApproveDeliveryChallan()">Approve</button>
+                                }
+                                else if (ViewBag.AppType == "JOB_CARD")
+                                {
+                                    <button type="submit" class="form-button right" onclick="ApproveJobCard()">Approve</button>
+                                }
+                                else if (ViewBag.AppType == "WORKSHOP_REQUEST")
+                                {
+                                    <button type="submit" class="form-button right" onclick="ApproveWorkshopRequest()">Approve</button>
+                                }
+                            }
+                            else
+                            {
+                                <button type="button" class="form-button right" onclick="SaleOrderRelease()">Release</button>
+                            }
+                            </div>
                     </div>
-          </div>
-}
+                }
         </div>
     </div>
 </div>

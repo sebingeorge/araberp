@@ -59,6 +59,7 @@ namespace ArabErp.Web.Controllers
             FillVehicle();
             FillUnit();
             FillEmployee();
+            FillQuerySheet();
             FillSalesQuotationRejectReason();
             SalesQuotation salesquotation = new SalesQuotation();
             salesquotation.isProjectBased = 1;
@@ -99,6 +100,7 @@ namespace ArabErp.Web.Controllers
                 FillCommissionAgent();
                 FillWrkDescForProject();
                 FillVehicle();
+                FillQuerySheet();
                 FillUnit();
                 FillEmployee();
                 FillSalesQuotationRejectReason();
@@ -123,6 +125,7 @@ namespace ArabErp.Web.Controllers
             FillCommissionAgent();
             FillWrkDesc();
             FillVehicle();
+            FillQuerySheet();
             FillUnit();
             FillEmployee();
             FillSalesQuotationRejectReason();
@@ -149,6 +152,7 @@ namespace ArabErp.Web.Controllers
             FillCommissionAgent();
             FillWrkDesc();
             FillVehicle();
+            FillQuerySheet();
             FillUnit();
             FillEmployee();
             FillSalesQuotationRejectReason();
@@ -186,6 +190,7 @@ namespace ArabErp.Web.Controllers
                 FillCurrency();
                 FillCommissionAgent();
                 FillWrkDesc();
+                FillQuerySheet();
                 FillVehicle();
                 FillUnit();
                 FillEmployee();
@@ -293,6 +298,12 @@ namespace ArabErp.Web.Controllers
             var list = repo.FillSalesQuotationRejectReason();
             ViewBag.SalesQuotationRejectReasonlist = new SelectList(list, "Id", "Name");
         }
+        public void FillQuerySheet()
+        {
+            var repo = new DropdownRepository();
+            var list = repo.QuerySheetNoDropdown();
+            ViewBag.QuerySheetNolist = new SelectList(list, "Id", "Name");
+        }
 
         [HttpPost]
         public ActionResult Create(SalesQuotation model)
@@ -342,6 +353,7 @@ namespace ArabErp.Web.Controllers
             FillWrkDesc();
             FillVehicle();
             FillUnit();
+            FillQuerySheet();
             FillEmployee();
             FillSalesQuotationRejectReason();
             var repo = new SalesQuotationRepository();
