@@ -77,7 +77,7 @@ namespace ArabErp.Web.Controllers
             purchasebill.Supplier = PendingGRNSelected[0].SupplierName;
             purchasebill.SupplierId = PendingGRNSelected[0].SupplierId;
             purchasebill.PurchaseBillDate = System.DateTime.Today;
-
+            purchasebill.PurchaseBillDueDate = rep.GetBillDueDate(PendingGRNSelected[0].SupplierId).PurchaseBillDueDate;
             return View(purchasebill);
 
         }
@@ -85,7 +85,7 @@ namespace ArabErp.Web.Controllers
         {
             try
             {
-                model.OrganizationId = OrganizationId;
+            model.OrganizationId = OrganizationId;
             model.CreatedDate = System.DateTime.Now;
             model.CreatedBy = Request.ServerVariables["HTTP_X_FORWARDED_FOR"] ?? Request.ServerVariables["REMOTE_ADDR"];
       
@@ -129,6 +129,18 @@ namespace ArabErp.Web.Controllers
             return View("PurchaseBillList", PurchaseBillList);
            
         }
+
+         [HttpGet]
+        public JsonResult GetDueDate(DateTime date,int supplierId)
+        {
+            //var res = (new PurchaseBillRepository()).GetCurrencyIdByCustKey(cusKey);
+            DateTime duedate = (new PurchaseBillRepository()).GetDueDate(date, supplierId);
+            //var Result = new { VehicleId = List.VehicleModelId, VehicleName = List.VehicleModelName };
+            //return Json(Result, JsonRequestBehavior.AllowGet);
+
+            return Json(duedate.ToString("dd/MMMM/yyyy"), JsonRequestBehavior.AllowGet);
+        }
+        
 
     }
 }

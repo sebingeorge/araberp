@@ -56,7 +56,7 @@
                             <th width="10%" nowrap><h1>Warehouse/Stockpoint</h1></th>
                             <th width="1%" nowrap><h1>Ageing</h1></th>
                             <th width="10%" nowrap><h1>Type</h1></th>
-                            <th></th>
+                            <th width="10%"></th>
                         </tr>
                     </thead>
                     <tbody class="grid_row">
@@ -94,7 +94,7 @@
                                             <input type="text" value="@Model[i].isDirect" class="form_input" disabled />
                                         </td>
                                         <td>
-                                            <input type="button" value="Select" title="Select this item to assigning serial number" onclick="OnItemSelected('@(i)')" />
+                                            <input type="button" class="form-button5" value="Select" title="Select this item to assigning serial number" onclick="OnItemSelected('@(i)')" />
                                         </td>
                                     </tr>
                                 }
