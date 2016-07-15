@@ -218,6 +218,7 @@
     <Compile Include="Controllers\FreezerUnitController.cs" />
     <Compile Include="Controllers\GrnWareHouseController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\ItemBatchController.cs" />
     <Compile Include="Controllers\ItemCategoryController.cs" />
     <Compile Include="Controllers\ItemController.cs" />
     <Compile Include="Controllers\ItemGroupController.cs" />
@@ -674,6 +675,7 @@
     <Content Include="Views\RateSettings\PreviousListPopup.cshtml" />
     <Content Include="Views\ProformaInvoice\PendingProforma.cshtml" />
     <Content Include="Views\ProformaInvoice\Create.cshtml" />
+    <Content Include="Views\ItemBatch\Pending.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

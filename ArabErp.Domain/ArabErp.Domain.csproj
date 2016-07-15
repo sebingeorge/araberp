@@ -60,6 +60,7 @@
     <Compile Include="GRN.cs" />
     <Compile Include="GRNItem.cs" />
     <Compile Include="Item.cs" />
+    <Compile Include="ItemBatch.cs" />
     <Compile Include="ItemCategory.cs" />
     <Compile Include="ItemGroup.cs" />
     <Compile Include="ItemSubGroup.cs" />
@@ -85,6 +86,7 @@
     <Compile Include="Organization.cs" />
     <Compile Include="PaymentTerms.cs" />
     <Compile Include="PendingForGRN.cs" />
+    <Compile Include="PendingGRNItemsForBatch.cs" />
     <Compile Include="PendingJC.cs" />
     <Compile Include="PendingJobCardQC.cs" />
     <Compile Include="PendingGRN.cs" />

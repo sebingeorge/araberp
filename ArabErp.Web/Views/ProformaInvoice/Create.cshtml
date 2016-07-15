@@ -3,35 +3,109 @@
     ViewBag.Title = "Create";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
+@{
+   
+    var totalDiscount = Model.Items.Sum(a => a.Discount);
+    var totalAmount = Model.Items.Sum(a => a.Amount);
+    <script>
+        $(document).ready(function () {
+            $(".numbers-only").keypress(function (e) {
+                if (e.which == 8 || (e.which == 46 && $(this).val().indexOf('.') == -1) || (e.which > 47 && e.which < 58)) { } else { return false; }
+            });
+        });
 
+        function ValueChanged(row) {
+            var quantity = $("#Items_" + row + "__Quantity").val();
+            var rate = $("#Items_" + row + "__Rate").val();
+            var discount = $("#Items_" + row + "__Discount").val();
+            var amount = (quantity * rate) - discount;
+            $("#Items_" + row + "__Amount").val(amount);
+
+           
+            calculateSummary();
+        }
+        function calculateSummary() {
+           
+            var amount = parseFloat("0");
+            var discount = parseFloat("0");
+          
+            
+            $('.cldiscount').each(function (i, obj) {
+               var a = parseFloat($("#Items_" + i + "__Discount").val());
+                if (isNaN(a)) {
+                    a = parseFloat("0");
+                }
+
+                discount = discount + a;
+            });
+
+            $('.clAmount').each(function (i, obj) {
+                var a = parseFloat($("#Items_" + i + "__Amount").val());
+                if (isNaN(a)) {
+
+                    a = parseFloat("0");
+                 
+                }
+
+                amount = amount + a;
+            
+            });
+            
+            $("#gridTotal").text(amount);
+            $("#TotalDiscount").text(discount);
+            
+            $("#TotalAmount").text(amount);
+           
+
+          
+
+        }
+        function showPaymentTerms() {
+            var x = screen.width / 2 - 600 / 2;
+            var y = screen.height / 2 - 275/ 2;
+            var url = '@Url.Action("PaymentTermsPopup","PaymentTerms")';
+            var popup = window.open(url, "PaymentTermPopup", 'width=500,height=275,menubar=no,status=no,titlebar=no,location=no,scrollbars=no,left=' + x + ',top=' + y);
+            popup.focus();
+            return false;
+        }
+
+        $(function () {
+            $("#ProformaInvoiceDate").datepicker({ dateFormat: "dd-MM-yy" });
+        });
+        function Exit() {
+
+            location.href = '@Url.Action("PendingProforma", "ProformaInvoice", new { @Model.isProjectBased })';
+        }
+    </script>
+}
 <div class="container">
 
     <div class="row">
 
         <div class="form-head1">
-            <h4>Porforma Invoice</h4>
+            <h4>Proforma Invoice</h4>
         </div>
         <div class="main-part pad1">
-            @using (Html.BeginForm("Save", null, FormMethod.Post, new { @class = "createFrom", @id = "saleorder_form" }))
+            @using (Html.BeginForm("Create", null, FormMethod.Post, new { @class = "createFrom", @id = "proformainvoice_form" }))
             {
                 <div class="row form-group ">
                     <div class="col-md-2">
-                        <label for="SaleOrderRefNo">Porforma No.</label>
+                        <label for="PorformaInvoiceNo">Proforma No.</label>
                         @Html.HiddenFor(m => Model.SaleOrderId)
-                       
                         @Html.HiddenFor(m => Model.isProjectBased)
-                        @Html.TextBoxFor(m => m.PorformaInvoiceRefNo, new { @class = "form_input", autocomplete = "off", @readonly = "readonly" })
+                        @Html.TextBoxFor(m => m.ProformaInvoiceRefNo, new { @class = "form_input", autocomplete = "off", @readonly = "readonly" })
                     </div>
                     <div class="col-md-2">
                         <label for="SaleOrderDate">Date</label>
-                        @Html.TextBoxFor(m => m.PorformaInvoiceDate, String.Format("{0:dd/MM/yyyy}", Model.PorformaInvoiceDate), new { @class = "form_input ", autocomplete = "off", @readonly = "readonly" })
+                       
+                        @Html.TextBoxFor(m => m.ProformaInvoiceDate, Model.ProformaInvoiceDate.ToString("dd/MMMM/yyyy"), new { @class = "form_input ", autocomplete = "off", @readonly = "readonly" })
                     </div>
                 </div>
                 <div class="row form-group">
                     <div class="col-md-4">
                         <label for="selectCustomer">Customer</label>
                     
-                        @Html.TextBoxFor(m => Model.Customer, new { @class = "form_input", autocomplete = "off", @readonly = "readonly" })
+                        @Html.TextBoxFor(m => Model.CustomerName, new { @class = "form_input", autocomplete = "off", @readonly = "readonly" })
                     </div>
 
                     <div class="col-md-4">
@@ -50,12 +124,15 @@
                 </div>
 
                 <div class="table-responsive">
-                    <table class="table table-bordered table-hover" id="tab_logic">
+                    <table class="table table-bordered" id="tab_logic">
                         <thead>
                             <tr class="grid_heading">
                                 <th width="2%" class="text-center"><h1>#</h1></th>
-                                <th width="25%" class="text-center"><h1>Work Description</h1></th>
-                                <th width="25%" class="text-center"><h1>Vehicle Model</h1></th>
+                                <th width="25%"><h1>Work Description</h1></th>
+                               @if (Model.isProjectBased == 0)
+                                {
+                                <th width="25%"><h1>Vehicle Model</h1></th>
+                               }
                                 <th width="5%" class="text-right"><h1>Qty</h1></th>
                                 <th width="5%"><h1>UoM</h1></th>
                                 <th width="10%" class="text-right"><h1>Rate</h1></th>
@@ -67,47 +144,49 @@
                             @for (int i = 0; i < Model.Items.Count; i++)
                             {
                                 <tr id="Row_@i">
-                                    <td>@(i + 1) </td>
+                                    <td align="center">@(i + 1) </td>
                                     @Html.HiddenFor(m => Model.Items[i].SaleOrderItemId)
-                                    @Html.HiddenFor(m => Model.Items[i].SaleOrderId)
+                                  
                                 
-                                    @*<td>@Html.TextBoxFor(m => Model.Items[i].WorkDescription, new { @class = "form_input", autocomplete = "off", @style = "text-align:left", placeholder = "Rate", @readonly = "readonly" })</td>*@
-                                    <td>@Html.TextBoxFor(m => Model.Items[i].VehicleModelName, new { @class = "form_input", autocomplete = "off", @style = "text-align:left", placeholder = "Rate", @readonly = "readonly" })</td>
-                      
-                                    <td>@*@Html.TextBoxFor(m => Model.Items[i].Unit, new { @class = "form_input", autocomplete = "off", @style = "text-align:left", placeholder = "Rate", @readonly = "readonly" })*@</td>
-                           
-                                    <td>@Html.TextBoxFor(m => Model.Items[i].Discount, new { @class = "form_input clAmount", autocomplete = "off", @style = "text-align:right", placeholder = "Amount", @readonly = "readonly" })</td>
-                                    <td>@Html.TextBoxFor(m => Model.Items[i].Amount, new { @class = "form_input clAmount", autocomplete = "off", @style = "text-align:right", placeholder = "Amount", @readonly = "readonly" })</td>
+                                    <td>@Html.TextBoxFor(m => Model.Items[i].WorkDescription, new { @class = "form_input", autocomplete = "off", @style = "text-align:left",@readonly = "readonly" })</td>
+                                    @if (Model.isProjectBased == 0)
+                                    {
+                                    <td>@Html.TextBoxFor(m => Model.Items[i].VehicleModelName, new { @class = "form_input", autocomplete = "off", @style = "text-align:left",@readonly = "readonly" })</td>
+                                    }
+                                    <td>@Html.TextBoxFor(m => Model.Items[i].Quantity, new { @class = "form_input", autocomplete = "off", @style = "text-align:right", @readonly = "readonly" })</td>
+                                    <td>@Html.TextBoxFor(m => Model.Items[i].UnitName, new { @class = "form_input", autocomplete = "off", @style = "text-align:left",@readonly = "readonly" })</td>
+                                    <td>@Html.TextBoxFor(m => Model.Items[i].Rate, new { @class = "form_input numbers-only", autocomplete = "off", @style = "text-align:right", @onkeyup = "ValueChanged(" + i + ");", })</td>
+                                    <td>@Html.TextBoxFor(m => Model.Items[i].Discount, new { @class = "form_input cldiscount numbers-only", autocomplete = "off", @style = "text-align:right", @onkeyup = "ValueChanged(" + i + ");", })</td>
+                                    <td>@Html.TextBoxFor(m => Model.Items[i].Amount, new { @class = "form_input clAmount", autocomplete = "off", @style = "text-align:right", @readonly = "readonly" })</td>
                                 </tr>
                             }
                          
                         </tbody>
                         <tfoot>
                             <tr class="grid_heading">
-                                <th width="5%" class="text-center"><h1></h1></th>
+                                <th width="5%" class="text-center"><h1>Total</h1></th>
                                 <th width="25%" class="text-center"><h1></h1></th>
-                                <th width="25%" class="text-center"><h1>Total</h1></th>
+                                @if (Model.isProjectBased == 0)
+                                    {
+                                <th width="25%" class="text-center"><h1></h1></th>
+                                    }
                                 <th width="5%" class="text-right"></th>
                                 <th width="5%"></th>
-                                <th width="10%" class="text-right"><h1></h1></th>
                                 <th width="10%" class="text-right"></th>
-                                <th width="10%" class="text-right"><span id="gridTotal"></span></th>
+                                                         
+                                <th width="10%" class="text-right"><span id="TotalDiscount">@totalDiscount</span></th>
+                                <th width="10%" class="text-right"><span id="gridTotal">@totalAmount</span></th>
+                               
                             </tr>
                         </tfoot>
                     </table>
                 </div>
+    <div class="row form-group">
+        <div class="col-md-12">
+                                 <label for="SpecialRemarks" class="tamount"><b>@(Model.SymbolName)<span id="TotalAmount">@totalAmount </span></b></label>
 
-                <div class="row form-group">
-                    <div class="col-md-12">
-
-                      
-                        <label for="SpecialRemarks" class="tamount"><b>@(Model.CurrencySymbol)<span id="TotalAmount"> </span></b></label>
-
-                    </div>
-                </div>
-
-
-
+        </div>
+    </div>
                 <div class="row form-group">
                     <div class="col-md-12">
                         <div class="part1">
@@ -116,22 +195,30 @@
                         </div>
                     </div>
                 </div>
+    <div class="row">
+        <div class="col-md-11 col-sm-10" style="display:inline-block;position:relative;">
 
-                <div class="row form-group">
-                    <div class="col-md-12">
-                        <div class="part1">
-                            <label for="PaymentTerms">Payment Terms</label>
-                            @Html.TextBoxFor(m => m.PaymentTerms, new { @class = "form_input", autocomplete = "off" })
-                        </div>
-                    </div>
-                </div>
+            <div class="part4">
+
+                <label for="PaymentTerms">Payment Terms</label>
 
 
-             
+                @Html.TextBoxFor(m => m.PaymentTerms, new { @class = "form_input", autocomplete = "off" })
+                <button class="terms" type="button" id="pymtTerms" onclick="showPaymentTerms()">...</button>
+
+
+            </div>
+
+        </div>
+    </div>
+
+
+
+
 
                 <div class="row">
                     <div class="col-md-12 hrpart">
-                        <button class="form-button right" onclick="Back()">Exit</button>
+                        <button class="form-button right" onclick="Exit()">Exit</button>
                         <button type="submit" class="form-button right">Save</button>
                     </div>
 

@@ -27,5 +27,7 @@ namespace ArabErp.Domain
         public decimal Amount { get; set; }
         public int OrganizationId { get; set; }
         public bool isActive { get; set; }
+
+        public int RateType { get; set; }
     }
 }

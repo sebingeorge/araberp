@@ -31,6 +31,7 @@ namespace ArabErp.Web.Controllers
             FillUnit();
             FillEmployee();
             FillSalesQuotationRejectReason();
+            FillRateSettings();
             SalesQuotation salesquotation = new SalesQuotation();
             salesquotation.isProjectBased = 0;
             salesquotation.QuotationDate = System.DateTime.Today;
@@ -38,9 +39,12 @@ namespace ArabErp.Web.Controllers
             salesquotation.PredictedClosingDate = System.DateTime.Today;
             salesquotation.QuotationValidToDate = System.DateTime.Today;
             salesquotation.ExpectedDeliveryDate = System.DateTime.Today;
+            salesquotation.CurrencyId = new CurrencyRepository().GetCurrencyFrmOrganization(OrganizationId).CurrencyId;
 
             salesquotation.SalesQuotationItems = new List<SalesQuotationItem>();
             salesquotation.SalesQuotationItems.Add(new SalesQuotationItem());
+            salesquotation.SalesQuotationItems[0].Quantity = 1;
+            salesquotation.SalesQuotationItems[0].UnitId = 25;
             ViewBag.SubmitAction = "Save";
             return View(salesquotation);
         }
@@ -63,6 +67,7 @@ namespace ArabErp.Web.Controllers
             salesquotation.PredictedClosingDate = System.DateTime.Today;
             salesquotation.QuotationValidToDate = System.DateTime.Today;
             salesquotation.ExpectedDeliveryDate = System.DateTime.Today;
+            salesquotation.CurrencyId = new CurrencyRepository().GetCurrencyFrmOrganization(OrganizationId).CurrencyId;
 
             salesquotation.SalesQuotationItems = new List<SalesQuotationItem>();
             salesquotation.SalesQuotationItems.Add(new SalesQuotationItem());
@@ -121,6 +126,7 @@ namespace ArabErp.Web.Controllers
             FillUnit();
             FillEmployee();
             FillSalesQuotationRejectReason();
+            FillRateSettings();
             var repo = new SalesQuotationRepository();
 
             var sorepo = new SaleOrderRepository();
@@ -384,5 +390,16 @@ namespace ArabErp.Web.Controllers
              
 
           }
+
+        public JsonResult GetRate(int workDescriptionId, string date, int type)
+        {
+            decimal data = new RateSettingsRepository().GetRate(workDescriptionId, date, type);
+            return Json(data, JsonRequestBehavior.AllowGet);
+        }
+
+        public void FillRateSettings()
+        {
+            ViewBag.rateSettings = new SelectList(new RateSettingsController().RateSettingsDropdown(), "Value", "Text");
+        }
     }
 }

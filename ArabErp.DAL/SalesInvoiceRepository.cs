@@ -307,7 +307,7 @@ namespace ArabErp.DAL
                                     DeductionRemarks,InvoiceType,isProjectBased,CreatedBy,CreatedDate,OrganizationId)
                                     VALUES( @SalesInvoiceRefNo,@SalesInvoiceDate,@SalesInvoiceDueDate,@SaleOrderId,@SpecialRemarks,@PaymentTerms,
                                     @Addition,@Deduction,@AdditionRemarks,@DeductionRemarks,@InvoiceType,@isProjectBased,@CreatedBy,@CreatedDate,@OrganizationId);
-                                    SELECT CAST(SCOPE_IDENTITY() as int) SalesInvoiceId";
+                                   SELECT CAST(SCOPE_IDENTITY() as int) SalesInvoiceId";
 
 
                     result = connection.Query<SalesInvoice>(sql, model, trn).Single<SalesInvoice>();
