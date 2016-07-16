@@ -14,7 +14,13 @@ namespace ArabErp.Web.Controllers
         {
             Dashboard dashboard = new Dashboard();
             DashboardRepository repo = new DashboardRepository();
-            dashboard.DashboardMonthlySalesQuotations = repo.GetSalesQuotationDetails(OrganizationId);
+
+            dashboard.DashboardMonthlySalesOrders = repo.GetSalesOrderDetails(OrganizationId);
+            dashboard.DashboardTotalSalesQuotations = repo.GetSalesQuotationDetails(OrganizationId);
+            dashboard.DashboardAcceptedSalesQuotations = repo.GetAccesptedSalesQuotationDetails(OrganizationId);
+            dashboard.DashboardAcceptedProjectSalesQuotations = repo.GetAccesptedProjectSalesQuotationDetails(OrganizationId);
+            dashboard.DashboardAcceptedTransportationSalesQuotations = repo.GetAccesptedTransportationSalesQuotationDetails(OrganizationId);
+
             return View(dashboard);
         }
 

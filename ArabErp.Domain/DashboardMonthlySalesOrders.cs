@@ -6,9 +6,14 @@ using System.Threading.Tasks;
 
 namespace ArabErp.Domain
 {
-    public class DashboardMonthlySalesQuotations
+    public class DashboardMonthlySalesOrders
     {
         public string SODate { get; set; }
         public decimal TotalAmount { get; set; }
+    }
+    public class DashboardTotalSalesQuotations
+    {
+        public string SODate { get; set; }
+        public int Quotations { get; set; }
     }
 }

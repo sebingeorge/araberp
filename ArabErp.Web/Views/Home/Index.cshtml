@@ -11,35 +11,154 @@
 <script src="http://code.highcharts.com/highcharts.js"></script>
 <script src="http://code.highcharts.com/modules/exporting.js"></script> 
 @{
-    string months = string.Empty;
-    string datas = string.Empty;
-    foreach (var item in Model.DashboardMonthlySalesQuotations)
+    string SOmonths = string.Empty;
+    string SOdatas = string.Empty;
+    string SQmonths = string.Empty;
+    string SQdatas = string.Empty;
+    string ASQdatas = string.Empty;
+    string ProjectASQdatas = string.Empty;
+    string TransportationASQdatas = string.Empty;
+    foreach (var item in Model.DashboardMonthlySalesOrders)
     {
-        
-        if (months == string.Empty)
+
+        if (SOmonths == string.Empty)
         {
-            months = "'" + item.SODate + "'";
+            SOmonths = "'" + item.SODate + "'";
         }
         else
         {
-            months += ",'" + item.SODate + "'";
+            SOmonths += ",'" + item.SODate + "'";
         }
-        if (datas == string.Empty)
+        if (SOdatas == string.Empty)
         {
-            datas = "" + item.TotalAmount + "";
+            SOdatas = "" + item.TotalAmount + "";
         }
         else
         {
-            datas += ", " + item.TotalAmount + "";
+            SOdatas += ", " + item.TotalAmount + "";
+        }
+    }
+    foreach (var item in Model.DashboardTotalSalesQuotations)
+    {
+        if (SQmonths == string.Empty)
+        {
+            SQmonths = "'" + item.SODate + "'";
+        }
+        else
+        {
+            SQmonths += ",'" + item.SODate + "'";
+        }
+        if (SQdatas == string.Empty)
+        {
+            SQdatas = "" + item.Quotations + "";
+        }
+        else
+        {
+            SQdatas += ", " + item.Quotations + "";
+        }
+    }
+    foreach (var item in Model.DashboardAcceptedSalesQuotations)
+    {
+        if (ASQdatas == string.Empty)
+        {
+            ASQdatas = "" + item.Quotations + "";
+        }
+        else
+        {
+            ASQdatas += ", " + item.Quotations + "";
+        }
+    }
+    foreach (var item in Model.DashboardAcceptedProjectSalesQuotations)
+    {
+        if (ProjectASQdatas == string.Empty)
+        {
+            ProjectASQdatas = "" + item.Quotations + "";
+        }
+        else
+        {
+            ProjectASQdatas += ", " + item.Quotations + "";
+        }
+    }
+    foreach (var item in Model.DashboardAcceptedTransportationSalesQuotations)
+    {
+        if (TransportationASQdatas == string.Empty)
+        {
+            TransportationASQdatas = "" + item.Quotations + "";
+        }
+        else
+        {
+            TransportationASQdatas += ", " + item.Quotations + "";
         }
     }
 }
 <script type="text/javascript">
     $(document).ready(function () {
+        showSaleOrders();
+        showSaleQuotations();
+    });
+
+    function showSaleQuotations()
+    {
         chart1 = new Highcharts.Chart({
             chart: {
                 type: 'spline',
-                renderTo: 'myDiv'
+                renderTo: 'SaleQuotation'
+            },
+            title: {
+                text: 'Sale Quotations',
+                x: -20 //center
+            },
+            subtitle: {
+                text: 'Monthly Sale Quotation summary',
+                x: -20
+            },
+            xAxis: {
+                categories: [@Html.Raw(SQmonths)]
+            },
+            yAxis: {
+                title: {
+                    text: 'Sale Quotations'
+                },
+                plotLines: [{
+                    value: 0,
+                    width: 1,
+                    color: '#808080'
+                }]
+            },
+            tooltip: {
+                valueSuffix: ' numbers'
+            },
+            legend: {
+                layout: 'vertical',
+                align: 'right',
+                verticalAlign: 'middle',
+                borderWidth: 0
+            },
+            series: [{
+                name: 'Total Received',
+                data: [@SQdatas]
+            },
+            {
+                name: 'Total Accepted',
+                data: [@ASQdatas]
+            },
+            {
+                name: 'Accepted Project',
+                data: [@ProjectASQdatas]
+            },
+            {
+                name: 'Accepted Transportation',
+                data: [@TransportationASQdatas]
+            }]
+        });
+    }
+
+    function showSaleOrders()
+    {
+        chart1 = new Highcharts.Chart({
+            chart: {
+                type: 'spline',
+                renderTo: 'SaleOrder'
             },
             title: {
                 text: 'Sale Orders',
@@ -50,11 +169,11 @@
                 x: -20
             },
             xAxis: {
-                categories: [@Html.Raw(months)]
+                categories: [@Html.Raw(SOmonths)]
             },
             yAxis: {
                 title: {
-                    text: 'Sale Order Amount'
+                    text: 'Sale Order Amount (x 10,000.00)'
                 },
                 plotLines: [{
                     value: 0,
@@ -73,10 +192,10 @@
             },
             series: [{
                 name: 'AARC',
-                data: [@datas]
+                data: [@SOdatas]
             }]
         });
-    });
+    }
 </script>
 
 <script type="text/javascript">
@@ -85,12 +204,16 @@
     })
 </script>
 <div class="container body-content1">
-    <div id="myDiv" style="min-width: 310px; height: 400px; margin: 0 auto">
+    <div class="col-md-12">
+        <div class="row">
+            <div id="SaleQuotation" style="min-width: 100px; height: 400px; margin: 0 auto">
+            </div>
+            <div id="SaleOrder" style="min-width: 100px; height: 400px; margin: 0 auto">
+            </div>
+        </div>
     </div>
-    @*@if(Model.DashboardMonthlySalesQuotations != null)
-    {
-        Html.Partial("_MonthlySaleOrders", Model.DashboardMonthlySalesQuotations);
-    }*@
+
+    
     @*<center>
         <img src="~/Images/banner.png" width="100%" />
     </center>*@

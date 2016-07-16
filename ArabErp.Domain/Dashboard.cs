@@ -8,6 +8,10 @@ namespace ArabErp.Domain
 {
     public class Dashboard
     {
-        public IEnumerable<DashboardMonthlySalesQuotations> DashboardMonthlySalesQuotations { get; set; }
+        public IEnumerable<DashboardMonthlySalesOrders> DashboardMonthlySalesOrders { get; set; }
+        public IEnumerable<DashboardTotalSalesQuotations> DashboardTotalSalesQuotations { get; set; }
+        public IEnumerable<DashboardTotalSalesQuotations> DashboardAcceptedSalesQuotations { get; set; }
+        public IEnumerable<DashboardTotalSalesQuotations> DashboardAcceptedProjectSalesQuotations { get; set; }
+        public IEnumerable<DashboardTotalSalesQuotations> DashboardAcceptedTransportationSalesQuotations { get; set; }
     }
 }
