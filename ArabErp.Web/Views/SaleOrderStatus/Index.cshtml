@@ -6,13 +6,13 @@
 
 <div class="container">
     <div class="row">
-        <div class="form-head1">
+        <div class="form-head1 widthset">
             <h4>Sale Order Status Report</h4>
         </div>
        
-        <div class="main-part white pad1">
+        <div class="main-part white pad1 widthset">
 
-            <div class="main-list wid  scroll4">
+            <div class="main-list wid scroll4">
                 <table class="table table-bordered">
                     <tr class="grid_heading">
                         <td width="20%">Customer</td>
@@ -44,10 +44,14 @@
                             <td class="grid-cell">@((DateTime.Now - item.SaleOrderDate).Days)</td>
                             <td class="grid-cell">@((DateTime.Now - item.EDateDelivery).Days)</td>
                             @*<td class="grid-cell"><img src="~/Images/x.png" )" height="10" width="10" /></td>*@
-                            <td class="grid-cell"><img src="~/Images/@(item.WorkShopRequest == "Yes" ? "tick.png" : "x.png")" height="10" width="10" /></td>
-                            <td class="grid-cell"><img src="~/Images/@(item.PurchaseRequest == "Yes" ? "tick.png" : "x.png")" height="10" width="10" /></td>
-                            <td class="grid-cell"><img src="~/Images/@(item.SuppyOrder == "Yes" ? "tick.png" : "x.png")" height="10" width="10" /></td>
-                            <td class="grid-cell"><img src="~/Images/@(item.GRN == "Yes" ? "tick.png" : "x.png")" height="10" width="10" /></td>
+                            @*<td class="grid-cell"><img src="~/Images/@(item.WorkShopRequest == "Yes" ? "tick.png" : "x.png")" height="10" width="10" /></td>*@
+                            <td class="grid-cell">@item.WorkShopRequest</td>
+                            <td class="grid-cell">@item.PurchaseRequest</td>
+                            <td class="grid-cell">@item.SuppyOrder</td>
+                            <td class="grid-cell">@item.GRN</td>
+                            @*<td class="grid-cell"><img src="~/Images/@(item.PurchaseRequest == "Yes" ? "tick.png" : "x.png")" height="10" width="10" /></td>*@
+                            @*<td class="grid-cell"><img src="~/Images/@(item.SuppyOrder == "Yes" ? "tick.png" : "x.png")" height="10" width="10" /></td>
+                            <td class="grid-cell"><img src="~/Images/@(item.GRN == "Yes" ? "tick.png" : "x.png")" height="10" width="10" /></td>*@
                             <td class="grid-cell">@item.VehicleInpass</td>
                             <td class="grid-cell">@item.JobCard</td>
                             @*<td class="grid-cell"><img src="~/Images/@(item.VehicleInpass == "Yes" ? "tick.png" : "x.png")" height="10" width="10" /></td>*@

@@ -20,10 +20,10 @@ namespace ArabErp.DAL
                 sql += " '' JobCardApproval,";
                 sql += " JobCard = case when J.SaleOrderItemId is null then  '-' else JobCardNo +','+ CONVERT (VARCHAR(15),JobCardDate,106) end,";
                 sql += " JobCardComplete = case when ISNULL(JodCardCompleteStatus,0) = 1 then 'Yes' else 'End' end,";
-                sql += " WorkShopRequest = case when W.WorkShopRequestId is null then 'No' else 'Yes' end,";
-                sql += " PurchaseRequest = case when P.PurchaseRequestId is null then 'No' else 'Yes' end,";
-                sql += " SuppyOrder = case when GI.SupplyOrderItemId is null then 'No' else 'Yes' end,";
-                sql += " GRN = case when G.GRNId is null then 'No' else 'Yes' end,";
+                sql += " WorkShopRequest = case when W.WorkShopRequestId is null then '-' else  WorkShopRequestRefNo +','+ CONVERT (VARCHAR(15),WorkShopRequestDate,106) end,";
+                sql += " PurchaseRequest = case when P.PurchaseRequestId is null then '-' else  PurchaseRequestNo +','+ CONVERT (VARCHAR(15),PurchaseRequestDate,106) end,";
+                sql += " SuppyOrder = case when GI.SupplyOrderItemId is null then '-' else SupplyOrderNo +','+ CONVERT (VARCHAR(15),SupplyOrderDate,106)  end,";
+                sql += " GRN = case when G.GRNId is null then '-' else GRNNo +','+ CONVERT (VARCHAR(15),GRNDate,106)  end,";
                 sql += " SalesInvoice = case when SLI.SalesInvoiceId is null then 'No' else 'Yes' end,";
                 sql += " VehicleInpass =  case when J.InPassId is null then '-' else  VehicleInPassNo +','+ CONVERT (VARCHAR(15),VehicleInPassDate,106)  end,";
                 sql += " VI.RegistrationNo, V.VehicleModelName";
