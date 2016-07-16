@@ -181,5 +181,14 @@ namespace ArabErp.DAL
                 return duedate;
             }
         }
+
+        public List<Dropdown> FillCurrency()
+        {
+            using (IDbConnection connection = OpenConnection(dataConnection))
+            {
+                var param = new DynamicParameters();
+                return connection.Query<Dropdown>("select CurrencyId Id,CurrencyName Name from Currency").ToList();
+            }
+        }
     }
 } 

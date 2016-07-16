@@ -16,6 +16,7 @@ namespace ArabErp.Web.Controllers
         public ActionResult Index()
         {
             GrnSupplierDropdown();
+            FillCurrency();
             return View();
             
         }
@@ -36,11 +37,17 @@ namespace ArabErp.Web.Controllers
         {
             ViewBag.supplierList = new SelectList(new DropdownRepository().GrnSupplierDropdown(), "Id", "Name");
         }
-
+        public void FillCurrency()
+        {
+            var repo = new PurchaseBillRepository();
+            var list = repo.FillCurrency();
+            ViewBag.currlist = new SelectList(list, "Id", "Name");
+        }
         public ActionResult Create(IList<PendingGRN> PendingGRNSelected)
 
         {
             FillAdditionDeduction();
+            FillCurrency();
             PurchaseBill purchasebill = new PurchaseBill();
             PurchaseBillRepository rep = new PurchaseBillRepository();
             if (PendingGRNSelected != null)
@@ -124,6 +131,7 @@ namespace ArabErp.Web.Controllers
         }
         public ActionResult PurchaseBillList()
         {
+            FillCurrency();
             var repo = new PurchaseBillRepository();
             IEnumerable<PurchaseBill> PurchaseBillList = repo.GetPurchaseBillPreviousList();
             return View("PurchaseBillList", PurchaseBillList);
