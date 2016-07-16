@@ -26,5 +26,7 @@ namespace ArabErp.Domain
         public string SupplierName { get; set; }
         public int Ageing { get; set; }
         public string StockPointName { get; set; }
+        public bool isSelected { get; set; }
+
     }
 }
