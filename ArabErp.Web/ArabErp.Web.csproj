@@ -678,6 +678,7 @@
     <Content Include="Views\ItemBatch\Pending.cshtml" />
     <Content Include="Views\ItemBatch\Create.cshtml" />
     <Content Include="Views\SaleOrder\PendingSaleOrderApprovalTransaction.cshtml" />
+    <Content Include="Views\ItemBatch\PendingReservation.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -724,7 +725,7 @@
           <AutoAssignPort>True</AutoAssignPort>
           <DevelopmentServerPort>4807</DevelopmentServerPort>
           <DevelopmentServerVPath>/</DevelopmentServerVPath>
-          <IISUrl>http://localhost:4807/</IISUrl>
+          <IISUrl>http://localhost:5802/</IISUrl>
           <NTLMAuthentication>False</NTLMAuthentication>
           <UseCustomServer>False</UseCustomServer>
           <CustomServerUrl>

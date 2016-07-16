@@ -314,6 +314,18 @@
                             @Html.TextBoxFor(m => m.ExpectedDeliveryDate, Model.ExpectedDeliveryDate.ToString("dd/MMMM/yyyy"), new { @class = "form_input", autocomplete = "off" })
                        
                     </div>
+                @if (Model.isProjectBased == 1)
+                {
+                    <div class="col-md-2">
+             
+            <label for="selectCustomer">Query Sheet No.</label>
+           
+                @Html.DropDownListFor(m => Model.QuerySheetId, (SelectList)ViewBag.QuerySheetNolist, "Select Query Sheet", new { @class = "form_input", autocomplete = "off" })
+              
+        </div>
+                }
+
+
                 </div>
                 <div class="row form-group ">
 

@@ -1,0 +1,78 @@
+﻿@model IList<ArabErp.Domain.PendingForSOIReservation>
+
+@{
+    ViewBag.Title = "Pending Sale Orders For Reservation";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<script type="text/javascript">
+
+    function Previous() {
+        alert('function not defined');
+    }
+
+    function OnItemSelected(id) {
+        var url = '@Url.Action("Reserve")';
+        url += "?id=" + id;
+        window.location = url;
+    }
+
+</script>
+
+<div class="container">
+    <div class="row">
+
+        <div class="form-head1">
+            <h4>Assign Serial Number</h4>
+        </div>
+
+        <div class="main-part pad1">
+            <div class="table-responsive scroll4">
+                <table class="table table-bordered">
+                    <thead>
+                        <tr class="grid_heading">
+                            <th width="5%" class="text-center">#</th>
+                            <th width="20%"><h1>Sale Order No. &amp; Date</h1></th>
+                            <th width="20%"><h1>Work Desc. No.</h1></th>
+                            <th width="20%"><h1>Item Name</h1></th>
+                            <th width="5%" class="text-right"><h1>Quantity</h1></th>
+                            <th width="1%"></th>
+                        </tr>
+                    </thead>
+                    <tbody class="grid_row">
+                        @for (int i = 0; i < Model.Count; i++)
+                        {
+                            <tr>
+                                <td>
+                                    <input type="text" value="@(i + 1)" style="width:100%" class="form_input text-center" disabled />
+                                </td>
+                                <td>
+                                    <input type="text" value="@Model[i].SaleOrderRefNo - @Model[i].SaleOrderDate.ToString("dd MMMM yyyy")" class="form_input" disabled />
+                                </td>
+                                <td>
+                                    <input type="text" value="@Model[i].WorkDescriptionRefNo" class="form_input" disabled />
+                                </td>
+                                <td>
+                                    <input type="text" value="@Model[i].ItemName" class="form_input" disabled />
+                                </td>
+                                <td>
+                                    <input type="text" value="@Model[i].Quantity" class="form_input text-right" disabled />
+                                </td>
+                                <td>
+                                    <input type="button" class="form-button4" value="Select" title="Select this item to assigning serial number" onclick="OnItemSelected('@Model[i].SaleOrderItemId')" />
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+
+            </div>
+
+            <div class="row">
+                <div class="col-md-12 hrpart">
+                    <input type="button" class="form-button" onclick="Previous()" value="Previous">
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

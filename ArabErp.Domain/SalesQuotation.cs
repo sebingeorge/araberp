@@ -15,6 +15,8 @@ namespace ArabErp.Domain
         }
 
         public int SalesQuotationId { get; set; }
+        public int QuerySheetId { get; set; }
+        
         public string QuotationRefNo { get; set; }
         public DateTime QuotationDate { get; set; }
         public string CustomerName { get; set; }

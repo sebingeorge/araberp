@@ -15,20 +15,21 @@
             <div class="main-list wid  scroll4">
                 <table class="table table-bordered">
                     <tr class="grid_heading">
-                        <td>Customer</td>
-                        <td width="10%">Sale Order Ref. No.</td>
-                        <td width="18%">Vehicle Model & Reg. No.</td>
-                        <td style="width:10%;">Sale Order Date</td>
-                        <td style="width:10%;">EDD</td>
+                        <td width="20%">Customer</td>
+                        <td width="7%">S.O No.</td>
+                        <td style="width:7%;">S.O Date</td>
+                        <td width="15%">Vehicle Model & Reg.No.</td>
+                        <td style="width:7%;">EDD</td>
                         <td style="width:3%;">S.O. Age</td>
                         <td style="width:3%;">ODD.</td>
-                        <td style="width:3%;">Sale Ord. App.</td>
+
+                        @*<td style="width:3%;">Sale Ord. App.</td>*@
                         <td style="width:3%;">Work. Req.</td>
                         <td style="width:3%;">Pur. Req.</td>
                         <td style="width:3%;">Sup. Ord.</td>
                         <td style="width:3%;">GRN</td>
-                        <td style="width:3%;">Inpass</td>
-                        <td style="width:3%;">Job Card</td>
+                        <td style="width:10%;">Inpass No. & Date</td>
+                        <td style="width:10%;">Job Card No. & Date</td>
                         <td style="width:3%;">Job Card Comp.</td>
                         <td style="width:3%;">Sales Inv.</td>
                     </tr>
@@ -37,18 +38,20 @@
                         <tr class="grid-row">
                             <td class="grid-cell">@item.CustomerName</td>
                             <td class="grid-cell">@item.SaleOrderRefNo</td>
-                            <td class="grid-cell">@item.VehicleModelName - @item.RegistrationNo</td>
                             <td class="grid-cell">@item.SaleOrderDate.ToString("dd/MMM/yyyy")</td>
+                            <td class="grid-cell">@item.VehicleModelName - @item.RegistrationNo</td>
                             <td class="grid-cell">@item.EDateDelivery.ToString("dd/MMM/yyyy")</td>
                             <td class="grid-cell">@((DateTime.Now - item.SaleOrderDate).Days)</td>
                             <td class="grid-cell">@((DateTime.Now - item.EDateDelivery).Days)</td>
-                            <td class="grid-cell"><img src="~/Images/x.png" )" height="10" width="10" /></td>
+                            @*<td class="grid-cell"><img src="~/Images/x.png" )" height="10" width="10" /></td>*@
                             <td class="grid-cell"><img src="~/Images/@(item.WorkShopRequest == "Yes" ? "tick.png" : "x.png")" height="10" width="10" /></td>
                             <td class="grid-cell"><img src="~/Images/@(item.PurchaseRequest == "Yes" ? "tick.png" : "x.png")" height="10" width="10" /></td>
                             <td class="grid-cell"><img src="~/Images/@(item.SuppyOrder == "Yes" ? "tick.png" : "x.png")" height="10" width="10" /></td>
                             <td class="grid-cell"><img src="~/Images/@(item.GRN == "Yes" ? "tick.png" : "x.png")" height="10" width="10" /></td>
-                            <td class="grid-cell"><img src="~/Images/@(item.VehicleInpass == "Yes" ? "tick.png" : "x.png")" height="10" width="10" /></td>
-                            <td class="grid-cell"><img src="~/Images/@(item.JobCard == "Yes" ? "tick.png" : "x.png")" height="10" width="10" /></td>
+                            <td class="grid-cell">@item.VehicleInpass</td>
+                            <td class="grid-cell">@item.JobCard</td>
+                            @*<td class="grid-cell"><img src="~/Images/@(item.VehicleInpass == "Yes" ? "tick.png" : "x.png")" height="10" width="10" /></td>*@
+                            @*<td class="grid-cell"><img src="~/Images/@(item.JobCard == "Yes" ? "tick.png" : "x.png")" height="10" width="10" /></td>*@
                             <td class="grid-cell"><img src="~/Images/@(item.JobCardComplete == "Yes" ? "tick.png" : "x.png")" height="10" width="10" /></td>
                             <td class="grid-cell"><img src="~/Images/@(item.SalesInvoice == "Yes" ? "tick.png" : "x.png")" height="10" width="10" /></td>
                         </tr>
