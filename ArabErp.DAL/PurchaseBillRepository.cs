@@ -60,8 +60,8 @@ namespace ArabErp.DAL
                     objPurchaseBill.PurchaseBillRefNo = "PRB/" + internalId;
 
                     string sql = @"insert  into PurchaseBill(PurchaseBillRefNo,SupplierId,PurchaseBillDate,PurchaseBillNoDate,PurchaseBillDueDate,
-                                   Remarks,PurchaseBillAmount,AdditionId,DeductionId,Deduction,Addition,CreatedBy,CreatedDate,OrganizationId)
-                                   Values (@PurchaseBillRefNo,@SupplierId,@PurchaseBillDate,@PurchaseBillNoDate,@PurchaseBillDueDate,@Remarks,
+                                   CurrencyId,Remarks,PurchaseBillAmount,AdditionId,DeductionId,Deduction,Addition,CreatedBy,CreatedDate,OrganizationId)
+                                   Values (@PurchaseBillRefNo,@SupplierId,@PurchaseBillDate,@PurchaseBillNoDate,@PurchaseBillDueDate,@CurrencyId,@Remarks,
                                    @PurchaseBillAmount,@AdditionId,@DeductionId,@Deduction,@Addition,@CreatedBy,@CreatedDate,@OrganizationId);
                                    SELECT CAST(SCOPE_IDENTITY() as int)";
 
@@ -179,6 +179,15 @@ namespace ArabErp.DAL
                     duedate = PurchaseBill.PurchaseBillDueDate;
                 }
                 return duedate;
+            }
+        }
+
+        public List<Dropdown> FillCurrency()
+        {
+            using (IDbConnection connection = OpenConnection(dataConnection))
+            {
+                var param = new DynamicParameters();
+                return connection.Query<Dropdown>("select CurrencyId Id,CurrencyName Name from Currency").ToList();
             }
         }
     }

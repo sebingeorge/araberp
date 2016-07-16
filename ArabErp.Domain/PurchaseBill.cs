@@ -21,6 +21,7 @@ namespace ArabErp.Domain
         [Required]
         public string PurchaseBillNoDate { get; set; }
         public DateTime PurchaseBillDueDate { get; set; }
+        public int? CurrencyId { get; set; }
         public string Remarks { get; set; }
         public decimal PurchaseBillAmount { get; set; }
         public string AdditionRemarks { get; set; }
