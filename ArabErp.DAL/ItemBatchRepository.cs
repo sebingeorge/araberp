@@ -126,7 +126,27 @@ namespace ArabErp.DAL
 
         public void ReserveItemBatch(IList<ItemBatch> model)
         {
-            throw new NotImplementedException();
+            using (IDbConnection connection = OpenConnection(dataConnection))
+            {
+                IDbTransaction txn = connection.BeginTransaction();
+
+                string sql = @"Update  ItemBatch  Set SaleOrderItemId=@SaleOrderItemId OUTPUT INSERTED.ItemBatchId WHERE ItemBatchId=@ItemBatchId)";
+
+                try
+                {
+                    foreach (var item in model)
+                    {
+                        var id = connection.Query<int>(sql, item, txn).Single();
+                    }
+                    txn.Commit();
+                    
+                }
+                catch (Exception ex)
+                {
+                    txn.Rollback();
+                    throw ex;
+                }
+            }
         }
 
         public ItemBatch GetGRNItem(int grnItemId)
@@ -202,7 +222,17 @@ namespace ArabErp.DAL
         {
             using (IDbConnection connection = OpenConnection(dataConnection))
             {
-                string query = @"SELECT * from ItemBatch ";
+                string query = @"SELECT P.ItemBatchId,
+	                            I.ItemId, 
+	                            I.ItemName, 
+	                            P.SerialNo
+                            FROM GRN G 
+                            INNER JOIN GRNItem GI ON G.GRNId=GI.GRNId
+							INNER JOIN Item I ON GI.ItemId = I.ItemId
+                            INNER JOIN ItemBatch P ON P.GRNItemId=GI.GRNItemId 
+                            LEFT JOIN SaleOrderItem SO ON P.GRNItemId=GI.GRNItemId 
+                            WHERE P.GRNItemId IS NULL
+							AND I.BatchRequired = 1;";
 
                 return connection.Query<ItemBatch>(query).ToList(); 
             }
