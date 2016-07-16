@@ -1,0 +1,66 @@
+﻿@model IList<ArabErp.Domain.ItemBatch>
+
+@{
+    ViewBag.Title = "Reserve Item";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<script type="text/javascript">
+
+    function Back() {
+        var url = '@Url.Action("Pending")';
+        window.location = url;
+    }
+
+</script>
+
+<div class="container">
+    <div class="row">
+
+        <div class="form-head1">
+            <h4>Reserve Item</h4>
+        </div>
+
+        <div class="main-part pad1">
+            @using (Html.BeginForm(null, null, FormMethod.Post, new { @class = "createFrom", @id = "batching-form" }))
+            {
+                <div class="table-responsive scroll4">
+                    <table class="table table-bordered">
+                        <thead>
+                            <tr class="grid_heading">
+                                <th width="5%" class="text-center">#</th>
+                                <th width="90%"><h1>Serial Number</h1></th>
+                                <th width="5%"><h1>Select</h1></th>
+                            </tr>
+                        </thead>
+                        <tbody class="grid_row">
+                            @for (int i = 0; i < Model.Count; i++)
+                            {
+                                <tr>
+                                    <td>
+                                        @Html.HiddenFor(m => m[i].ItemBatchId)                                      
+                                        <input type="text" value="@(i + 1)" style="width:100%" class="form_input text-center" disabled />
+                                    </td>
+                                    <td>
+                                        @Html.TextBoxFor(m => m[i].SerialNo, new { @class = "form_input", autocomplete = "off", @readonly = "readonly" } )
+                                    </td>
+                                    <td>
+                                        @Html.CheckBoxFor(m => m[i].isSelected, new { @class = "form_input", autocomplete = "off", @readonly = "readonly" })
+                                    </td>
+
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+
+                </div>
+                <div class="row">
+                    <div class="col-md-12 hrpart">
+                        <input type="button" class="form-button right" onclick="Back()" value="Back">
+                        <button type="submit" class="form-button right">Save</button>
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+</div>

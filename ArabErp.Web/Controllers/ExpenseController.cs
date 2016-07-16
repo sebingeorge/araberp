@@ -22,8 +22,10 @@ namespace ArabErp.Web.Controllers
             FillDeduction();
             FillSO();
             FillJC();
+            FillCurrency();
             ExpenseBill expense = new ExpenseBill();
             expense.ExpenseDate = expense.ExpenseBillDate = expense.ExpenseBillDueDate = DateTime.Now;
+            expense.CurrencyId = new CurrencyRepository().GetCurrencyFrmOrganization(OrganizationId).CurrencyId;
             expense.ExpenseBillItem = new List<ExpenseBillItem>();
             expense.deductions = new List<ExpenseBillItem>();
             expense.ExpenseBillItem.Add(new ExpenseBillItem());
@@ -78,6 +80,21 @@ namespace ArabErp.Web.Controllers
             ExpenseRepository repo = new ExpenseRepository();
             List<Dropdown> list = repo.FillJC();
             ViewBag.JC = new SelectList(list, "Id", "Name");
+        }
+        public void FillCurrency()
+        {
+            var repo = new ExpenseRepository();
+            var List = repo.FillCurrency();
+            ViewBag.Currency = new SelectList(List, "Id", "Name");
+        }
+        public JsonResult GetDueDate(DateTime date, int supplierId)
+        {
+            //var res = (new PurchaseBillRepository()).GetCurrencyIdByCustKey(cusKey);
+            DateTime duedate = (new ExpenseRepository()).GetDueDate(date, supplierId);
+            //var Result = new { VehicleId = List.VehicleModelId, VehicleName = List.VehicleModelName };
+            //return Json(Result, JsonRequestBehavior.AllowGet);
+
+            return Json(duedate.ToString("dd/MMMM/yyyy"), JsonRequestBehavior.AllowGet);
         }
     }
 }

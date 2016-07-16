@@ -19,6 +19,7 @@ namespace ArabErp.Domain
         public decimal TotalAddition { get; set; }
         public decimal TotalDeduction { get; set; }
         public decimal TotalAmount { get; set; }
+        public int CurrencyId { get; set; }
         public string SoOrJc { get; set; }
         public int? SaleOrderId { get; set; }
         public int? JobCardId { get; set; }
