@@ -125,7 +125,7 @@ namespace ArabErp.Web.Controllers
             FillCommissionAgent();
             FillWrkDesc();
             FillVehicle();
-            FillQuerySheet();
+            FillQuerySheetInQuot();
             FillUnit();
             FillEmployee();
             FillSalesQuotationRejectReason();
@@ -304,7 +304,12 @@ namespace ArabErp.Web.Controllers
             var list = repo.QuerySheetNoDropdown();
             ViewBag.QuerySheetNolist = new SelectList(list, "Id", "Name");
         }
-
+        public void FillQuerySheetInQuot()
+        {
+            var repo = new DropdownRepository();
+            var list = repo.QuerySheetNoInQuotationDropdown();
+            ViewBag.QuerySheetNolist = new SelectList(list, "Id", "Name");
+        }
         [HttpPost]
         public ActionResult Create(SalesQuotation model)
         {
