@@ -19,7 +19,7 @@
     $(function () {
         $("#ExpenseDate").datepicker({ dateFormat: "dd/MM/yy" });
         $("#ExpenseBillDate").datepicker({ dateFormat: "dd/MM/yy" });
-        $("#ExpenseBillDueDate").datepicker({ dateFormat: "dd/MM/yy" });
+        //$("#ExpenseBillDueDate").datepicker({ dateFormat: "dd/MM/yy" });
     });
     function AddAdditionRow()
     {
@@ -66,7 +66,6 @@
 
         $("#tab_logic_deduction").append('<tr id="Row_Ded_' + i + '" class="TaskRow_Ded">' + clone.html() + '  </tr>'); var i = 0;        
     }
-
     function AdditionAmtChanged(row)
     {
         var qty = $("#ExpenseBillItem_"+ row +"__ExpenseItemQty").val();
@@ -116,6 +115,27 @@
             $("#JobCardId").addClass("divHidden");
         }
     }
+
+    function DateChanged() {
+        var d = $("#ExpenseDate").val();
+        var sup = $("#SupplierId").val();
+        //alert(d);
+        //alert(sup);
+        $.ajax({
+            url: "@Url.Action("GetDueDate", "Expense")",
+            data: { date: d, SupplierId: sup },
+        cache: false,
+        type: "GET",
+        timeout: 10000,
+        dataType: "json",
+        success: function (duedate) {
+               
+            $("#ExpenseBillDueDate").val(duedate);
+        }
+    });
+
+    }
+
 </script>
 <div class="container">
     <div class="row">
@@ -134,7 +154,8 @@
                         </div>
                         <div class="col-md-2">
                             <label for="inputDate">Date</label>
-                            @Html.TextBoxFor(m => m.ExpenseDate, String.Format("{0:dd/MMMM/yyyy}", Model.ExpenseDate), new { @class = "form_input ", autocomplete = "off", @readonly = "readonly" })
+                            @*@Html.TextBoxFor(m => m.ExpenseDate, String.Format("{0:dd/MMMM/yyyy}", Model.ExpenseDate), new { @class = "form_input ", autocomplete = "off", @readonly = "readonly"  ,@onchange = "DateChanged(this)" })*@
+                            @Html.TextBoxFor(m => m.ExpenseDate, Model.ExpenseDate.ToString("dd/MMMM/yyyy"), new { @class = "form_input ", autocomplete = "off", @readonly = "readonly", @onchange = "DateChanged()" })
                         </div>
                         <div class="col-md-2">
                             <label>Sale Ord. / Job Card</label>
@@ -154,19 +175,20 @@
                     <div class="row form-group">
                         <div class="col-md-6">
                             <label for="cus">Supplier</label>
-                            @Html.DropDownListFor(m => Model.SupplierId, (SelectList)ViewBag.SupplierList, "Select Supplier", new { @class = "form_input", autocomplete = "off" })
+                            @Html.DropDownListFor(m => Model.SupplierId, (SelectList)ViewBag.SupplierList, "Select Supplier", new { @class = "form_input", autocomplete = "off", @onchange = "DateChanged()" })
                         </div>
                         <div class="col-md-2">
                             <label for="inputDate">Bill Ref.</label>
                             @Html.TextBoxFor(m => m.ExpenseBillRef, new { @class = "form_input", autocomplete = "off" })
                         </div>
-                        <div class="col-md-2">
+                        <div class="col-md-2"> 
                             <label for="inputDate">Bill Date</label>
                             @Html.TextBoxFor(m => m.ExpenseBillDate, String.Format("{0:dd/MMMM/yyyy}", Model.ExpenseBillDate), new { @class = "form_input ", autocomplete = "off", @readonly = "readonly" })
                         </div>
                         <div class="col-md-2">
                             <label for="inputDate">Bill Due Date</label>
-                            @Html.TextBoxFor(m => m.ExpenseBillDueDate, String.Format("{0:dd/MMMM/yyyy}", Model.ExpenseBillDueDate), new { @class = "form_input ", autocomplete = "off", @readonly = "readonly" })
+                            @*@Html.TextBoxFor(m => m.ExpenseBillDueDate, String.Format("{0:dd/MMMM/yyyy}", Model.ExpenseBillDueDate), new { @class = "form_input ", autocomplete = "off", @readonly = "readonly" })*@
+                            @Html.TextBoxFor(m => m.ExpenseBillDueDate, Model.ExpenseBillDueDate.ToString("dd/MMMM/yyyy"), new { @class = "form_input ", autocomplete = "off", @readonly = "readonly" })
                         </div>
                     </div>
                     <div class="table-responsive">
@@ -235,19 +257,25 @@
                                 <label for="inputDate">Additional Amount</label>
                                 @Html.TextBoxFor(m => m.TotalAddition, new { @class = "form_input text-right", autocomplete = "off", @readonly = "readonly" })
                             </div>
-                            </div>
+                        </div>
                         <div class="col-md-2">
                             <div class="part1">
                                 <label for="inputDate">Deduction Amount</label>
                                 @Html.TextBoxFor(m => m.TotalDeduction, new { @class = "form_input text-right", autocomplete = "off", @readonly = "readonly" })
                             </div>
-                            </div>
+                       </div>
                         <div class="col-md-2">
                             <div class="part1">
                                 <label for="inputDate">Total</label>
                                 @Html.TextBoxFor(m => m.TotalAmount, new { @class = "form_input text-right", autocomplete = "off", @readonly = "readonly" })
                             </div>
+                        </div>
+                        <div class="col-md-2">
+                            <div class="part1">
+                                <label for="inputDate">Currency</label>
+                               @Html.DropDownListFor(m => Model.CurrencyId, (SelectList)ViewBag.Currency, "Select Item Currency", new { @class = "form_input", autocomplete = "off" })
                             </div>
+                        </div>
                     </div>
                     <div class="row">
                             <div class="col-md-12">
@@ -255,7 +283,7 @@
                                     <label for="inputDate">Special Remarks</label>
                                     @Html.TextAreaFor(m => m.ExpenseRemarks, new { @class = "form_input form_input-h", autocomplete = "off" })
                                 </div>
-                        </div>
+                            </div>
                     </div> 
                     
                     <div class="row">
