@@ -44,6 +44,54 @@
         $("#tab_logic").append('<tr id="Row_' + i + '" class="TaskRow">' + clone.html() + '  </tr>'); var i = 0;
         
     }
+    function AddDelete(index) {
+   
+        var i = 0;
+        var no = 0; 
+        $('.TaskRow').each(function (j, obj) {
+           
+            var row = Number(obj.id.replace("Row_", ""));
+            console.log(j);
+            i = j;
+        });
+        i++;
+       
+        //$("#" + index).html('');
+        if (i > 1) {
+            $("#" + index).remove();
+
+            for (var j = index + 1; j < i; j++) {
+                alert(i);
+                var AddDedId = $("#ExpenseBillItem_" + j + "__AddDedId").val();
+                var ExpenseItemQty = $("#ExpenseBillItem_" + j + "__ExpenseItemQty").val();
+                var ExpenseItemRate = $("#ExpenseBillItem_" + j + "__ExpenseItemRate").val();
+                var ExpenseItemAmount = $("#ExpenseBillItem_" + j + "__ExpenseItemAmount").val();
+
+               
+
+                //alert(WorkDescriptionId + ',' + VehicleModelId + ',' + Quantity + ',' + UnitId + ',' + Rate + ',' + Discount + ',' + Amount);
+
+                var clone = $("#" + j).clone(true, true);
+                clone.html($(clone).html().replace(new RegExp("ExpenseBillItem_" + j + "__", "g"), 'ExpenseBillItem_' + (j - 1) + '__'));
+                clone.html($(clone).html().replace(new RegExp("\\[" + j + "].", "g"), "[" + (j - 1) + "]."));
+                //clone.html($(clone).html().replace(new RegExp('slno' + (j + 1) + '">' + (j + 1), "g"), 'slno' + (j) + '">' + (j)));
+                clone.html($(clone).html().replace("Delete(" + j, "Delete(" + (j - 1)));
+                clone.html($(clone).html().replace("Row_" + j, "Row_" + (j - 1)));
+
+
+                clone.html($(clone).html().replace("this," + j, "this," + (j - 1)));
+                $("#" + j).html(clone.html());
+                //$("#ExpenseBillItem_" + (j - 1) + "__SlNo").val(j);
+                $("#" + (j)).attr('id', (j - 1));
+                //alert(j);
+                $("#ExpenseBillItem_" + (j - 1) + "__AddDedId").val(AddDedId);
+                $("#ExpenseBillItem_" + (j - 1) + "__ExpenseItemQty").val(ExpenseItemQty);
+                $("#ExpenseBillItem_" + (j - 1) + "__ExpenseItemRate").val(ExpenseItemRate);
+                $("#ExpenseBillItem_" + (j - 1) + "__ExpenseItemAmount").val(ExpenseItemAmount);
+
+            }
+        }
+    }
     function AddDeductionRow()
     {
         var i = 0;
@@ -195,17 +243,21 @@
                         <table class="table table-bordered" id="tab_logic">
                             <thead>
                                 <tr class="grid_heading">
+                                    <th width="2%" class="text-center"></th>
                                     <td><h1>Expense Head</h1></td>
                                     <td width="5%"><h1 class="text-right">Quantity</h1></td>
                                     <td width="10%"><h1 class="text-right">Rate</h1></td>
                                     <td width="10%"><h1 class="text-right">Amount</h1></td>
+                                    <th width="2%" class="text-center"></th>
                                 </tr>
                             </thead>
+
                             <tbody class="grid_row">
                                 @{ int row = 0;}
                                 @foreach (var item in Model.ExpenseBillItem)
                                 {
-                                    <tr id="Row_@row" class="TaskRow">
+                                     <tr id="Row_@row" class="TaskRow">
+                                        <td style="vertical-align:middle"><a  class="glyphicon glyphicon-minus" style="top:0px" onclick="AddDelete(@row)"></a></td>
                                         <td>
                                             @Html.DropDownListFor(m => Model.ExpenseBillItem[row].AddDedId, (SelectList)ViewBag.Additions, "Select Addition", new { @class = "form_input", autocomplete = "off" })
                                         </td>
@@ -218,19 +270,22 @@
                                         <td>
                                             @Html.TextBoxFor(m => m.ExpenseBillItem[row].ExpenseItemAmount, new { @class = "form_input addition text-right", autocomplete = "off", @readonly = "readonly" })
                                         </td>
+                                        <td style="vertical-align:middle"><a id="add_row" class="glyphicon glyphicon-plus" style="top:0px" onclick="AddAdditionRow()"></a></td>
                                     </tr>
-                                    row++;
                                 }
                             </tbody>
                         </table>
                     </div>
-                    <a id="add_row" class="glyphicon glyphicon-plus" onclick="AddAdditionRow()"></a>
+
+
                     <div class="table-responsive">
                         <table class="table table-bordered" id="tab_logic_deduction">
                             <thead>
                                 <tr class="grid_heading">
+                                    <th width="2%" class="text-center"></th>
                                     <td width="90%"><h1>Deduction Head</h1></td>
                                     <td><h1 class="text-right">Amount</h1></td>
+                                    <th width="2%" class="text-center"></th>
                                 </tr>
                             </thead>
                             <tbody class="grid_row">
@@ -238,19 +293,20 @@
                                 @foreach (var item in Model.deductions)
                                 {
                                     <tr id="Row_Ded_@dedrow" class="TaskRow_Ded">
+                                        <td style="vertical-align:middle"><a class="glyphicon glyphicon-minus" style="top:0px" onclick="DedDelete(Row_@row)"></a></td>
                                         <td>
                                             @Html.DropDownListFor(m => Model.deductions[dedrow].AddDedId, (SelectList)ViewBag.Deductions, "Select Deduction", new { @class = "form_input", autocomplete = "off" })
                                         </td>
                                         <td>
                                             @Html.TextBoxFor(m => m.deductions[dedrow].ExpenseItemAmount, new { @class = "form_input deduction text-right", autocomplete = "off", @onchange = "DeductionAmtChanged()" })
                                         </td>
+                                        <td style="vertical-align:middle"><a id="add_row" class="glyphicon glyphicon-plus" style="top:0px" onclick="AddDeductionRow()"></a></td>
                                     </tr>
-                                    dedrow++;
                                 }
                             </tbody>
                         </table>
                     </div>
-                    <a id="add_row" class="glyphicon glyphicon-plus" onclick="AddDeductionRow()"></a>
+
                     <div class="row form-group">
                         <div class="col-md-2">
                             <div class="part1">
