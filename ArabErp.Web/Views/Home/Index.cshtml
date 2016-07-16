@@ -1,39 +1,97 @@
-﻿@{
+﻿@model ArabErp.Domain.Dashboard
+@{
     ViewBag.Title = "Home Page";
 }
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+<style type="text/css">
+    $ {
+        demo .css;
+    }
+</style>
+<script src="http://code.highcharts.com/highcharts.js"></script>
+<script src="http://code.highcharts.com/modules/exporting.js"></script> 
+@{
+    string months = string.Empty;
+    string datas = string.Empty;
+    foreach (var item in Model.DashboardMonthlySalesQuotations)
+    {
+        
+        if (months == string.Empty)
+        {
+            months = "'" + item.SODate + "'";
+        }
+        else
+        {
+            months += ",'" + item.SODate + "'";
+        }
+        if (datas == string.Empty)
+        {
+            datas = "" + item.TotalAmount + "";
+        }
+        else
+        {
+            datas += ", " + item.TotalAmount + "";
+        }
+    }
+}
+<script type="text/javascript">
+    $(document).ready(function () {
+        chart1 = new Highcharts.Chart({
+            chart: {
+                type: 'spline',
+                renderTo: 'myDiv'
+            },
+            title: {
+                text: 'Sale Orders',
+                x: -20 //center
+            },
+            subtitle: {
+                text: 'Monthly Sale order summary',
+                x: -20
+            },
+            xAxis: {
+                categories: [@Html.Raw(months)]
+            },
+            yAxis: {
+                title: {
+                    text: 'Sale Order Amount'
+                },
+                plotLines: [{
+                    value: 0,
+                    width: 1,
+                    color: '#808080'
+                }]
+            },
+            tooltip: {
+                valueSuffix: ' x 10k Q.R'
+            },
+            legend: {
+                layout: 'vertical',
+                align: 'right',
+                verticalAlign: 'middle',
+                borderWidth: 0
+            },
+            series: [{
+                name: 'AARC',
+                data: [@datas]
+            }]
+        });
+    });
+</script>
 
 <script type="text/javascript">
     $(document).ready(function () {
         @{TempData["success"] = TempData["error"] = "";}
     })
 </script>
-
-<div class="container body-content1"><center><img src="~/Images/banner.png" width="100%" /></center></div>
-
-@*<div class="jumbotron">
-    <h1>ASP.NET</h1>
-    <p class="lead">ASP.NET is a free web framework for building great Web sites and Web applications using HTML, CSS and JavaScript.</p>
-    <p><a href="http://asp.net" class="btn btn-primary btn-lg">Learn more &raquo;</a></p>
+<div class="container body-content1">
+    <div id="myDiv" style="min-width: 310px; height: 400px; margin: 0 auto">
+    </div>
+    @*@if(Model.DashboardMonthlySalesQuotations != null)
+    {
+        Html.Partial("_MonthlySaleOrders", Model.DashboardMonthlySalesQuotations);
+    }*@
+    @*<center>
+        <img src="~/Images/banner.png" width="100%" />
+    </center>*@
 </div>
-
-<div class="row">
-    <div class="col-md-4">
-        <h2>Getting started</h2>
-        <p>
-            ASP.NET MVC gives you a powerful, patterns-based way to build dynamic websites that
-            enables a clean separation of concerns and gives you full control over markup
-            for enjoyable, agile development.
-        </p>
-        <p><a class="btn btn-default" href="http://go.microsoft.com/fwlink/?LinkId=301865">Learn more &raquo;</a></p>
-    </div>
-    <div class="col-md-4">
-        <h2>Get more libraries</h2>
-        <p>NuGet is a free Visual Studio extension that makes it easy to add, remove, and update libraries and tools in Visual Studio projects.</p>
-        <p><a class="btn btn-default" href="http://go.microsoft.com/fwlink/?LinkId=301866">Learn more &raquo;</a></p>
-    </div>
-    <div class="col-md-4">
-        <h2>Web Hosting</h2>
-        <p>You can easily find a web hosting company that offers the right mix of features and price for your applications.</p>
-        <p><a class="btn btn-default" href="http://go.microsoft.com/fwlink/?LinkId=301867">Learn more &raquo;</a></p>
-    </div>
-</div>*@

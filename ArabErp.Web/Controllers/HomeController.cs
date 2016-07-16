@@ -12,7 +12,10 @@ namespace ArabErp.Web.Controllers
     {
         public ActionResult Index()
         {
-            return View();
+            Dashboard dashboard = new Dashboard();
+            DashboardRepository repo = new DashboardRepository();
+            dashboard.DashboardMonthlySalesQuotations = repo.GetSalesQuotationDetails(OrganizationId);
+            return View(dashboard);
         }
 
         public ActionResult About()

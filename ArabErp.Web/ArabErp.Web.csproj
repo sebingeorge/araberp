@@ -294,6 +294,8 @@
     <Content Include="Content\jquery-1.12.4.min.js" />
     <Content Include="Content\jquery-2.1.4.min.js" />
     <Content Include="Content\PagedList.css" />
+    <Content Include="Scripts\Highcharts\exporting.js" />
+    <Content Include="Scripts\Highcharts\highcharts.js" />
     <Content Include="Scripts\polyfiller.js" />
     <Content Include="Scripts\script.js" />
     <Content Include="Content\toastr\build\toastr.css" />
@@ -679,6 +681,7 @@
     <Content Include="Views\ItemBatch\Create.cshtml" />
     <Content Include="Views\SaleOrder\PendingSaleOrderApprovalTransaction.cshtml" />
     <Content Include="Views\ItemBatch\PendingReservation.cshtml" />
+    <Content Include="Views\Home\_MonthlySaleOrders.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

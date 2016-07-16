@@ -51,6 +51,8 @@
     <Compile Include="Currency.cs" />
     <Compile Include="Customer.cs" />
     <Compile Include="CustomerCategory.cs" />
+    <Compile Include="Dashboard.cs" />
+    <Compile Include="DashboardMonthlySalesQuotations.cs" />
     <Compile Include="Designation.cs" />
     <Compile Include="Dropdown.cs" />
     <Compile Include="Employee.cs" />
