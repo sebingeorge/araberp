@@ -29,7 +29,8 @@
                         <thead>
                             <tr class="grid_heading">
                                 <th width="5%" class="text-center">#</th>
-                                <th width="90%"><h1>Serial Number</h1></th>
+                                <th width="50%"><h1>Item Name</h1></th>
+                                <th width="40%"><h1>Serial Number</h1></th>
                                 <th width="5%"><h1>Select</h1></th>
                             </tr>
                         </thead>
@@ -38,9 +39,15 @@
                             {
                                 <tr>
                                     <td>
-                                        @Html.HiddenFor(m => m[i].ItemBatchId)                                      
+                                        @Html.HiddenFor(m => m[i].ItemBatchId)      
+                                        @Html.HiddenFor(m => m[i].SaleOrderItemId)
+                                                                        
                                         <input type="text" value="@(i + 1)" style="width:100%" class="form_input text-center" disabled />
                                     </td>
+                                    <td>
+                                        @Html.TextBoxFor(m => m[i].ItemName, new { @class = "form_input", autocomplete = "off", @readonly = "readonly" })
+                                    </td>
+
                                     <td>
                                         @Html.TextBoxFor(m => m[i].SerialNo, new { @class = "form_input", autocomplete = "off", @readonly = "readonly" } )
                                     </td>

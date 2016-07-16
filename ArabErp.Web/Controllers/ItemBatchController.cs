@@ -85,24 +85,39 @@ namespace ArabErp.Web.Controllers
         [HttpGet]
         public ActionResult Reserve(int id = 0)
         {
-            //if (id != 0)
-            //{
-                return View(new ItemBatchRepository().GetItemBatchForReservation());
-            //}
-            //else throw new NullReferenceException();
+            if (id != 0)
+            {
+
+                var items = new ItemBatchRepository().GetItemBatchForReservation();
+                for (int i = 0; i < items.Count() - 1; i++)
+                    items.ElementAt(i).SaleOrderItemId = id;
+
+                return View(items);
+            }
+            else throw new NullReferenceException();
         }
 
         [HttpPost]
         public ActionResult Reserve(IList<ItemBatch> model)
         {
-           
+            int? sid = 0;
+
+            sid = model.First().SaleOrderItemId;
+
             try
             {
-                //new ItemBatchRepository().ReserveItemBatch(model);
-                TempData["success"] = "Saved successfully";
-                TempData["error"] = "";
-                return RedirectToAction("Reserve");
-            }
+                IList<ItemBatch> selectedmodel = (from i in model where i.isSelected == true select i).ToList<ItemBatch>();
+
+                if (selectedmodel.Count>0)
+                {
+                    //new ItemBatchRepository().ReserveItemBatch(selectedmodel);
+                }
+                    TempData["success"] = "Saved successfully";
+                    TempData["error"] = "";
+                    return RedirectToAction("Reserve",new {id=sid });
+
+                }
+               
             catch (Exception ex)
             {
                 TempData["success"] = "";
