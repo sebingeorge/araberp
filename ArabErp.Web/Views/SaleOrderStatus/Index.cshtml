@@ -44,10 +44,14 @@
                             <td class="grid-cell">@((DateTime.Now - item.SaleOrderDate).Days)</td>
                             <td class="grid-cell">@((DateTime.Now - item.EDateDelivery).Days)</td>
                             @*<td class="grid-cell"><img src="~/Images/x.png" )" height="10" width="10" /></td>*@
-                            <td class="grid-cell"><img src="~/Images/@(item.WorkShopRequest == "Yes" ? "tick.png" : "x.png")" height="10" width="10" /></td>
-                            <td class="grid-cell"><img src="~/Images/@(item.PurchaseRequest == "Yes" ? "tick.png" : "x.png")" height="10" width="10" /></td>
-                            <td class="grid-cell"><img src="~/Images/@(item.SuppyOrder == "Yes" ? "tick.png" : "x.png")" height="10" width="10" /></td>
-                            <td class="grid-cell"><img src="~/Images/@(item.GRN == "Yes" ? "tick.png" : "x.png")" height="10" width="10" /></td>
+                            @*<td class="grid-cell"><img src="~/Images/@(item.WorkShopRequest == "Yes" ? "tick.png" : "x.png")" height="10" width="10" /></td>*@
+                            <td class="grid-cell">@item.WorkShopRequest</td>
+                            <td class="grid-cell">@item.PurchaseRequest</td>
+                            <td class="grid-cell">@item.SuppyOrder</td>
+                            <td class="grid-cell">@item.GRN</td>
+                            @*<td class="grid-cell"><img src="~/Images/@(item.PurchaseRequest == "Yes" ? "tick.png" : "x.png")" height="10" width="10" /></td>*@
+                            @*<td class="grid-cell"><img src="~/Images/@(item.SuppyOrder == "Yes" ? "tick.png" : "x.png")" height="10" width="10" /></td>
+                            <td class="grid-cell"><img src="~/Images/@(item.GRN == "Yes" ? "tick.png" : "x.png")" height="10" width="10" /></td>*@
                             <td class="grid-cell">@item.VehicleInpass</td>
                             <td class="grid-cell">@item.JobCard</td>
                             @*<td class="grid-cell"><img src="~/Images/@(item.VehicleInpass == "Yes" ? "tick.png" : "x.png")" height="10" width="10" /></td>*@

@@ -258,5 +258,14 @@ namespace ArabErp.DAL
                  and QuerySheetId not in (select QuerySheetId from SalesQuotation where QuerySheetId is not null)").ToList();
             }
         }
+
+        public List<Dropdown> QuerySheetNoInQuotationDropdown()
+        {
+            using (IDbConnection connection = OpenConnection(dataConnection))
+            {
+                return connection.Query<Dropdown>(@"SELECT Q.QuerySheetId Id, Q.QuerySheetRefNo Name FROM QuerySheet Q inner join SalesQuotation SQ ON Q.QuerySheetId=SQ.QuerySheetId").ToList();
+                
+            }
+        }
     }
 }
