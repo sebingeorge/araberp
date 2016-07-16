@@ -82,13 +82,35 @@ namespace ArabErp.Web.Controllers
             return View(new ItemBatchRepository().GetUnreservedItems());
         }
 
+        [HttpGet]
         public ActionResult Reserve(int id = 0)
         {
-            if (id != 0)
-            {
-                return View(new ItemBatchRepository().GetSaleOrderItemForReservation());
-            }
-            else throw new NullReferenceException();
+            //if (id != 0)
+            //{
+                return View(new ItemBatchRepository().GetItemBatchForReservation());
+            //}
+            //else throw new NullReferenceException();
         }
+
+        [HttpPost]
+        public ActionResult Reserve(IList<ItemBatch> model)
+        {
+           
+            try
+            {
+                //new ItemBatchRepository().ReserveItemBatch(model);
+                TempData["success"] = "Saved successfully";
+                TempData["error"] = "";
+                return RedirectToAction("Reserve");
+            }
+            catch (Exception ex)
+            {
+                TempData["success"] = "";
+                TempData["error"] = "Some error occured while connecting to database. Check your network connection and try again|" + ex.Message;
+            }
+            return View(model);
+        }
+
+
     }
 }

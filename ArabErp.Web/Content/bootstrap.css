@@ -7076,8 +7076,23 @@ td.visible-print {
 
     .row-count1
  {
-    margin-top:0 !important;
+    margin-top:-3px !important;
+    padding-left:0px !important;
 }
+
+.row-count1 h5
+
+{
+    font-size:13px !important;
+
+}
+
+.widthset 
+{
+    margin-left:0 !important;
+    width:95% !important;
+}
+
 
 
 }
@@ -7201,10 +7216,32 @@ td.visible-print {
 }
     .row-count1
  {
-    margin-top:0 !important;
+     margin-left: -15px !important;
+    margin-top: -3px !important;
+}
+   .row-count1 h5 
+        {
+            font-size:14px !important;
+        }
+
+   .widthset 
+{
+    
+    width:94% !important;
+    margin-left:0px !important;
 }
 
 
+
+}
+
+@media only screen and (min-width:1024px) and (max-width: 5000px) {
+.widthset 
+{
+    
+    width:113% !important;
+    margin-left:-89px !important;
+}
 
 }
 

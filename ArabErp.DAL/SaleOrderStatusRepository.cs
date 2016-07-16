@@ -20,10 +20,10 @@ namespace ArabErp.DAL
                 sql += " '' JobCardApproval,";
                 sql += " JobCard = case when J.SaleOrderItemId is null then  '-' else JobCardNo +','+ CONVERT (VARCHAR(15),JobCardDate,106) end,";
                 sql += " JobCardComplete = case when ISNULL(JodCardCompleteStatus,0) = 1 then 'Yes' else 'End' end,";
-                sql += " WorkShopRequest = case when W.WorkShopRequestId is null then 'No' else 'Yes' end,";
-                sql += " PurchaseRequest = case when P.PurchaseRequestId is null then 'No' else 'Yes' end,";
-                sql += " SuppyOrder = case when GI.SupplyOrderItemId is null then 'No' else 'Yes' end,";
-                sql += " GRN = case when G.GRNId is null then 'No' else 'Yes' end,";
+                sql += " WorkShopRequest = case when W.WorkShopRequestId is null then '-' else case when SIS.StoreIssueId is null then  WorkShopRequestRefNo +','+ CONVERT (VARCHAR(15),W.RequiredDate,106) else '-'  end end,";
+                sql += " PurchaseRequest = case when P.PurchaseRequestId is null then '-' else  PurchaseRequestNo +','+ CONVERT (VARCHAR(15),PurchaseRequestDate,106) end,";
+                sql += " SuppyOrder =  case when GI.SupplyOrderItemId is null then '-' else case when G.GRNId is null then  SupplyOrderNo +','+ CONVERT (VARCHAR(15),SO.RequiredDate,106) else '-'  end end,";
+                sql += " GRN = case when G.GRNId is null then '-' else GRNNo +','+ CONVERT (VARCHAR(15),GRNDate,106)  end,";
                 sql += " SalesInvoice = case when SLI.SalesInvoiceId is null then 'No' else 'Yes' end,";
                 sql += " VehicleInpass =  case when J.InPassId is null then '-' else  VehicleInPassNo +','+ CONVERT (VARCHAR(15),VehicleInPassDate,106)  end,";
                 sql += " VI.RegistrationNo, V.VehicleModelName";
@@ -40,6 +40,7 @@ namespace ArabErp.DAL
                 sql += " left join GRNItem GI on GI.SupplyOrderItemId = SUI.SupplyOrderItemId";
                 sql += " left join GRN G on G.GRNId = G.GRNId";
                 sql += " left join SalesInvoiceItem SLI on SLI.SaleOrderItemId = SI.SaleOrderItemId";
+                sql += " left join StoreIssue SIS on SIS.WorkShopRequestId=W.WorkShopRequestId";
                 sql += " left join VehicleInPass VI on VI.VehicleInPassId = J.InPassId";
                 sql += " order by S.SaleOrderDate, S.SaleOrderId";
 
@@ -70,6 +71,7 @@ namespace ArabErp.DAL
                 //sql += " left join GRNItem GI on GI.SupplyOrderItemId = SUI.SupplyOrderItemId";
                 //sql += " left join GRN G on G.GRNId = G.GRNId";
                 //sql += " left join SalesInvoiceItem SLI on SLI.SaleOrderItemId = SI.SaleOrderItemId";
+
                 //sql += " left join VehicleInPass VI on VI.VehicleInPassId = J.InPassId";
                 //sql += " order by S.SaleOrderDate, S.SaleOrderId";
 

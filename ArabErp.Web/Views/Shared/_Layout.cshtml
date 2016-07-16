@@ -164,7 +164,9 @@
                         <li><a href="@Url.Action("CreateRequest","DirectPurchase")"><span class="badge pull-right"></span>Direct Purchase Request</a></li>
                         <li><a href="@Url.Action("Approval","DirectPurchase")"><span class="badge pull-right"></span>Direct Purchase Approval</a></li>
                         <li><a href="@Url.Action("PendingGrnWareHouse","GrnWareHouse")"><span class="badge pull-right"></span>GRN</a></li>
-                        <li><a href="@Url.Action("PendingDirectPurchase","GrnWareHouse")"><span class="badge pull-right"></span>Direct GRN</a></li>
+                        <li><a href="@Url.Action("PendingDirectPurchase","GrnWareHouse")"><span class="badge pull-right"></span>Direct Purchase GRN</a></li>
+                        <li><a href="@Url.Action("Pending","ItemBatch")"><span class="badge pull-right"></span>Assign Serial No</a></li>
+                        <li><a href="@Url.Action("PendingReservation","ItemBatch")"><span class="badge pull-right"></span>Allocate Serial No</a></li>
                         <li><a href="@Url.Action("Index", "PurchaseBill")"><span class="badge pull-right"></span>Purchase Bill</a></li>
                         <li><a href="@Url.Action("Create", "Expense")"><span class="badge pull-right"></span>Expense Bill</a></li>
                     </ul>
@@ -273,7 +275,7 @@
                 <li>
                     <a data-toggle="dropdown" class="dropdown-toggle menu" href="#">@*<i class="glyphicon glyphicon-th-list"></i>*@ Finance</a>
                     <ul class="dropdown-menu">
-                        <li><a href="@Url.Action("PendingSaleOrderApprovalWR", "SaleOrder")"><span class="badge pull-right"></span>SO - Approval For Workshop Request</a></li>
+                        <li><a class="projectn" href="@Url.Action("PendingSaleOrderApprovalWR", "SaleOrder")"><span class="badge pull-right"></span>SO - Approval For Workshop Request</a></li>
                         <li><a href="@Url.Action("PendingSaleOrderApprovalJC", "SaleOrder")"><span class="badge pull-right"></span>SO - Approval For Job Card</a></li>
                         <li><a href="@Url.Action("PendingSaleOrderApprovalDEL", "SaleOrder")"><span class="badge pull-right"></span>SO - Approval For Delivery</a></li>
                     </ul>

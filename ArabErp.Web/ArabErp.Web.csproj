@@ -681,6 +681,7 @@
     <Content Include="Views\ItemBatch\Create.cshtml" />
     <Content Include="Views\SaleOrder\PendingSaleOrderApprovalTransaction.cshtml" />
     <Content Include="Views\ItemBatch\PendingReservation.cshtml" />
+    <Content Include="Views\ItemBatch\Reserve.cshtml" />
     <Content Include="Views\Home\_MonthlySaleOrders.cshtml" />
   </ItemGroup>
   <ItemGroup>
