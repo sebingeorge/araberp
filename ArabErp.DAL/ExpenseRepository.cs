@@ -52,6 +52,16 @@ namespace ArabErp.DAL
                 return connection.Query<Dropdown>("select JobCardId Id, JobCardNo Name from JobCard").ToList();
             }
         }
+        public IEnumerable<Dropdown> FillCurrency()
+        {
+
+            using (IDbConnection connection = OpenConnection(dataConnection))
+            {
+
+                return connection.Query<Dropdown>("SELECT CurrencyId Id,CurrencyName Name FROM Currency").ToList();
+            }
+        }
+
         public int Insert(ExpenseBill expenseBill)
         {
             int id = 0;
@@ -69,8 +79,8 @@ namespace ArabErp.DAL
                         expenseBill.JobCardId = null;
                     }
                     string sql = string.Empty;
-                    sql += "insert into ExpenseBill(ExpenseNo, ExpenseDate, ExpenseBillRef, ExpenseBillDate, ExpenseBillDueDate, SupplierId, ExpenseRemarks, TotalAddition, TotalDeduction, TotalAmount, SaleOrderId, JobCardId)";
-                    sql += " values(@ExpenseNo, @ExpenseDate, @ExpenseBillRef, @ExpenseBillDate, @ExpenseBillDueDate, @SupplierId, @ExpenseRemarks, @TotalAddition, @TotalDeduction, @TotalAmount, @SaleOrderId, @JobCardId);";
+                    sql += "insert into ExpenseBill(ExpenseNo,ExpenseDate,ExpenseBillRef,ExpenseBillDate,ExpenseBillDueDate,SupplierId,ExpenseRemarks,TotalAddition,TotalDeduction,TotalAmount,CurrencyId,SaleOrderId,JobCardId)";
+                    sql += " values(@ExpenseNo,@ExpenseDate,@ExpenseBillRef,@ExpenseBillDate,@ExpenseBillDueDate,@SupplierId,@ExpenseRemarks,@TotalAddition,@TotalDeduction,@TotalAmount,@CurrencyId,@SaleOrderId,@JobCardId);";
                     sql += " SELECT CAST(SCOPE_IDENTITY() as int);";
 
                     id = connection.Query<int>(sql, expenseBill, trn).Single();
@@ -119,5 +129,24 @@ namespace ArabErp.DAL
                 return connection.Query<ExpenseBillListViewModel>(sql);
             }
         }
+
+        public DateTime GetDueDate(DateTime d, int sup)
+        {
+            using (IDbConnection connection = OpenConnection(dataConnection))
+            {
+                var param = new DynamicParameters();
+
+                ExpenseBill ExpenseBill = connection.Query<ExpenseBill>(
+                    "select DATEADD(day,CreditPeriod,@date) ExpenseBillDueDate FROM Supplier WHERE SupplierId= " + sup,
+                    new { date = d }).Single<ExpenseBill>();
+                DateTime duedate = System.DateTime.Today;
+                if (ExpenseBill != null)
+                {
+                    duedate = ExpenseBill.ExpenseBillDueDate;
+                }
+                return duedate;
+            }
+        }
+
     }
 }
