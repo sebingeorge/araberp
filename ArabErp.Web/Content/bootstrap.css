@@ -7076,7 +7076,15 @@ td.visible-print {
 
     .row-count1
  {
-    margin-top:0 !important;
+    margin-top:-3px !important;
+    padding-left:0px !important;
+}
+
+.row-count1 h5
+
+{
+    font-size:13px !important;
+
 }
 
 
@@ -7201,9 +7209,13 @@ td.visible-print {
 }
     .row-count1
  {
-    margin-top:0 !important;
+     margin-left: -15px !important;
+    margin-top: -3px !important;
 }
-
+   .row-count1 h5 
+        {
+            font-size:14px !important;
+        }
 
 
 }
