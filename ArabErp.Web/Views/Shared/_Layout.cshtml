@@ -15,6 +15,7 @@
     @Styles.Render("~/bundles/toasterStyle")
     @Scripts.Render("~/bundles/toasterScript")
     @Scripts.Render("~/bundles/menu")*@
+
     <script src="~/Scripts/jquery-1.10.2.js"></script>
     <script src="~/Scripts/jquery-1.8.3.js"></script>
 
@@ -26,7 +27,7 @@
     <link href="~/Content/menu.css" rel="stylesheet" />
 
     <script src="~/Scripts/modernizr-2.6.2.js"></script>
-                 
+
     <script src="~/Scripts/jquery.validate.js"></script>
     <script src="~/Scripts/jquery.validate.unobtrusive.js"></script>
 
@@ -37,6 +38,7 @@
     <script src="~/Scripts/script.js"></script>
 
     <script src="~/MVCGridHandler.axd/script.js"></script>
+
     @*<script src="~/scripts/mdb.js"></script>
         <script src="~/scripts/mdb.min.js"></script>*@
 
@@ -273,7 +275,7 @@
                 <li>
                     <a data-toggle="dropdown" class="dropdown-toggle menu" href="#">@*<i class="glyphicon glyphicon-th-list"></i>*@ Finance</a>
                     <ul class="dropdown-menu">
-                        <li><a href="@Url.Action("PendingSaleOrderApprovalWR", "SaleOrder")"><span class="badge pull-right"></span>SO - Approval For Workshop Request</a></li>
+                        <li><a class="projectn" href="@Url.Action("PendingSaleOrderApprovalWR", "SaleOrder")"><span class="badge pull-right"></span>SO - Approval For Workshop Request</a></li>
                         <li><a href="@Url.Action("PendingSaleOrderApprovalJC", "SaleOrder")"><span class="badge pull-right"></span>SO - Approval For Job Card</a></li>
                         <li><a href="@Url.Action("PendingSaleOrderApprovalDEL", "SaleOrder")"><span class="badge pull-right"></span>SO - Approval For Delivery</a></li>
                     </ul>

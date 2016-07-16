@@ -976,10 +976,15 @@ section.content {
 {
     font-size:11px;
 }
+  .links li ul li a.projectn 
+{
+    font-size:11px;
+}
 .widthset 
 {
+    
+    width:113%;
     margin-left:-89px;
-    width:113% !important;
 }
 
 
