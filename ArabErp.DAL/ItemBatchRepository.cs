@@ -124,6 +124,11 @@ namespace ArabErp.DAL
             }
         }
 
+        public void ReserveItemBatch(IList<ItemBatch> model)
+        {
+            throw new NotImplementedException();
+        }
+
         public ItemBatch GetGRNItem(int grnItemId)
         {
             try
@@ -193,9 +198,14 @@ namespace ArabErp.DAL
             }
         }
 
-        public IEnumerable<PendingForSOIReservation> GetSaleOrderItemForReservation()
+        public IEnumerable<ItemBatch> GetItemBatchForReservation()
         {
-            throw new NotImplementedException();
+            using (IDbConnection connection = OpenConnection(dataConnection))
+            {
+                string query = @"SELECT * from ItemBatch ";
+
+                return connection.Query<ItemBatch>(query).ToList(); 
+            }
         }
     }
 }
