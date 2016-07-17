@@ -18,6 +18,9 @@
     string ASQdatas = string.Empty;
     string ProjectASQdatas = string.Empty;
     string TransportationASQdatas = string.Empty;
+    string PurchaseData = string.Empty;
+    string SalesData = string.Empty;
+    
     foreach (var item in Model.DashboardMonthlySalesOrders)
     {
 
@@ -90,13 +93,84 @@
             TransportationASQdatas += ", " + item.Quotations + "";
         }
     }
+    foreach (var item in Model.DashboardPurchase)
+    {
+        if (PurchaseData == string.Empty)
+        {
+            PurchaseData = "" + item.Amount + "";
+        }
+        else
+        {
+            PurchaseData += ", " + item.Amount + "";
+        }
+    }
+    foreach (var item in Model.DashboardSales)
+    {
+        if (SalesData == string.Empty)
+        {
+            SalesData = "" + item.Amount + "";
+        }
+        else
+        {
+            SalesData += ", " + item.Amount + "";
+        }
+    }
 }
 <script type="text/javascript">
     $(document).ready(function () {
         showSaleOrders();
         showSaleQuotations();
+        showSalePurchase();
     });
 
+    function showSalePurchase() {
+        chart1 = new Highcharts.Chart({
+            chart: {
+                type: 'column',
+                renderTo: 'SalesAndPurchase'
+            },
+            title: {
+                text: 'Sales Vs Purchase'
+            },
+            subtitle: {
+                text: 'Monthly Sales Vs Purchase Comparison'
+            },
+            xAxis: {
+                categories: [@Html.Raw(SQmonths)],
+                crosshair: true
+            },
+            yAxis: {
+                min: 0,
+                title: {
+                    text: 'Amount (Q.R)'
+                }
+            },
+            tooltip: {
+                headerFormat: '<span style="font-size:10px">{point.key}</span><table>',
+                pointFormat: '<tr><td style="color:{series.color};padding:0">{series.name}: </td>' +
+                    '<td style="padding:0"><b>{point.y:.1f} mm</b></td></tr>',
+                footerFormat: '</table>',
+                shared: true,
+                useHTML: true
+            },
+            plotOptions: {
+                column: {
+                    pointPadding: 0.2,
+                    borderWidth: 0
+                }
+            },
+            series: [{
+                name: 'Sales',
+                data: [@PurchaseData]
+
+            }, {
+                name: 'Purchase',
+                data: [@SalesData]
+
+            }]
+
+        });
+    }
     function showSaleQuotations()
     {
         chart1 = new Highcharts.Chart({
@@ -209,6 +283,8 @@
             <div id="SaleQuotation" style="min-width: 100px; height: 400px; margin: 0 auto">
             </div>
             <div id="SaleOrder" style="min-width: 100px; height: 400px; margin: 0 auto">
+            </div>
+            <div id="SalesAndPurchase" style="min-width: 100px; height: 400px; margin: 0 auto">
             </div>
         </div>
     </div>

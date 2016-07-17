@@ -16,4 +16,9 @@ namespace ArabErp.Domain
         public string SODate { get; set; }
         public int Quotations { get; set; }
     }
+    public class DashboardPurchaseSales
+    {
+        public string InvoiceDate { get; set; }
+        public decimal Amount { get; set; }
+    }
 }

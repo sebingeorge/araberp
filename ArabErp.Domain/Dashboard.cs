@@ -13,5 +13,7 @@ namespace ArabErp.Domain
         public IEnumerable<DashboardTotalSalesQuotations> DashboardAcceptedSalesQuotations { get; set; }
         public IEnumerable<DashboardTotalSalesQuotations> DashboardAcceptedProjectSalesQuotations { get; set; }
         public IEnumerable<DashboardTotalSalesQuotations> DashboardAcceptedTransportationSalesQuotations { get; set; }
+        public IEnumerable<DashboardPurchaseSales> DashboardSales { get; set; }
+        public IEnumerable<DashboardPurchaseSales> DashboardPurchase { get; set; }
     }
 }

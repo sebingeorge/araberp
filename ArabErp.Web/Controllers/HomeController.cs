@@ -20,6 +20,8 @@ namespace ArabErp.Web.Controllers
             dashboard.DashboardAcceptedSalesQuotations = repo.GetAccesptedSalesQuotationDetails(OrganizationId);
             dashboard.DashboardAcceptedProjectSalesQuotations = repo.GetAccesptedProjectSalesQuotationDetails(OrganizationId);
             dashboard.DashboardAcceptedTransportationSalesQuotations = repo.GetAccesptedTransportationSalesQuotationDetails(OrganizationId);
+            dashboard.DashboardPurchase = repo.GetPurchaseDetails(OrganizationId);
+            dashboard.DashboardSales = repo.GetSalesDetails(OrganizationId);
 
             return View(dashboard);
         }

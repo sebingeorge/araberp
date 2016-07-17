@@ -71,5 +71,33 @@ namespace ArabErp.DAL
                 return connection.Query<DashboardTotalSalesQuotations>(sql);
             }
         }
+        public IEnumerable<DashboardPurchaseSales> GetSalesDetails(int OrganizationId)
+        {
+            using (IDbConnection connection = OpenConnection(dataConnection))
+            {
+                string sql = @"with A as(
+                select DATEPART(month,SalesInvoiceDate)monthcode,DATENAME(month, SalesInvoiceDate) + ' ' + DATENAME(YEAR, SalesInvoiceDate) InvoiceDate,
+                SOI.Amount
+                from SalesInvoice SH
+                inner join SalesInvoiceItem SI on SH.SalesInvoiceId = SI.SalesInvoiceId
+                inner join SaleOrderItem SOI on SOI.SaleOrderItemId = SI.SaleOrderItemId)
+                select monthcode, InvoiceDate, sum(Amount)Amount from A group by monthcode, InvoiceDate;";
+
+                return connection.Query<DashboardPurchaseSales>(sql);
+            }
+        }
+        public IEnumerable<DashboardPurchaseSales> GetPurchaseDetails(int OrganizationId)
+        {
+            using (IDbConnection connection = OpenConnection(dataConnection))
+            {
+                string sql = @"with A as(
+                select DATEPART(month,PurchaseBillDate)monthcode,DATENAME(month, PurchaseBillDate) + ' ' + DATENAME(YEAR, PurchaseBillDate) InvoiceDate,
+                PurchaseBillAmount
+                from PurchaseBill)
+                select monthcode, InvoiceDate, sum(PurchaseBillAmount)Amount from A group by monthcode, InvoiceDate;";
+
+                return connection.Query<DashboardPurchaseSales>(sql);
+            }
+        }
     }
 }
