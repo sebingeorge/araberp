@@ -219,7 +219,7 @@ namespace ArabErp.Web.Controllers
             repo.ApproveSalesQuotation(model);
             if(model.isProjectBased == 0)
             {
-                return RedirectToAction("ListSalesQuotations");
+                return RedirectToAction("ListSalesQuotations", new { ProjectBased = 0 });
             }
             else
             {

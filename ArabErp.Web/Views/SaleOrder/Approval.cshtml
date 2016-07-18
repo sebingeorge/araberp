@@ -4,7 +4,7 @@
  string postActionName = "UpdateApprovalStatus";
      if (actionName == "ApprovalForTrn")
      {
-         actionName = "UpdateApprovalForTrn";
+         postActionName = "UpdateApprovalForTrn";
      }
 }
 <script>
@@ -45,8 +45,8 @@
         window.location.href = url;
     }
     function Exit() {
-     
-         location.href = '@Url.Action("PendingSaleOrderApproval", "SaleOrder")';
+       
+        location.href = '@Url.Action("PendingSaleOrderApproval", "SaleOrder")';
       
     }
     $(document).ready(function () {
@@ -97,7 +97,7 @@
                 @Html.Partial("_SaleOrderHead",Model)
                 @Html.Partial("_DisplaySOList", Model)                
                 @Html.Partial("_SaleOrderFooter", Model)                
-                @using (Html.BeginForm(actionName, null, FormMethod.Post, new { @class = "createFrom", @id = "saleorder_form" }))
+                @using (Html.BeginForm(postActionName, null, FormMethod.Post, new { @class = "createFrom", @id = "saleorder_form" }))
                 {
                     if (ViewData["action"].ToString() == "ApprovalForTrn")
                     {
