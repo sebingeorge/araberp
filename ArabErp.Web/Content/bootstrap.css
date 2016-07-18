@@ -6952,6 +6952,10 @@ td.visible-print {
     {
         float:none !important;
     }
+   .hrpart1 
+    {
+        float:none !important;
+    }
 
     .lefto {
     margin-right: 108px !important;
@@ -7078,6 +7082,7 @@ td.visible-print {
  {
     margin-top:-3px !important;
     padding-left:0px !important;
+    margin-bottom:28px !important;
 }
 
 .row-count1 h5
@@ -7177,6 +7182,10 @@ td.visible-print {
     {
         float:none !important;
     }
+    .hrpart1 
+    {
+        float:none !important;
+    }
 
         .body-content 
 {
@@ -7218,6 +7227,7 @@ td.visible-print {
  {
      margin-left: -15px !important;
     margin-top: -3px !important;
+    margin-bottom:32px !important;
 }
    .row-count1 h5 
         {
