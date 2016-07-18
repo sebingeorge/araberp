@@ -422,6 +422,26 @@ h5
     float:left;
     margin-left:10px;
     }
+.hrpart1 
+{
+    border-top: 1px solid /*#dddddd*/#d6d8de;
+    /*background: url(../Images/button-part.jpg) repeat-x;*/ 
+    height:36px;
+    margin-top: 10px;
+    padding-top: 8px;
+    float:left;
+    margin-top:0;
+}
+.hrpart1 .right 
+    {
+    float:right;
+    margin-left:10px;
+    }
+.hrpart1 .left 
+    {
+    float:left;
+    margin-left:10px;
+    }
 .body-content1
  {
     margin-top:40px;
