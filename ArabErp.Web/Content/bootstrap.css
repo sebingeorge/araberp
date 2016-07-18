@@ -6891,7 +6891,7 @@ td.visible-print {
     }
     .form-head1
    {
-        width: 92.8% !important;
+        width: 91.8% !important;
     }
             .form-head h4 
         {
@@ -6949,6 +6949,10 @@ td.visible-print {
 
 }
     .hrpart 
+    {
+        float:none !important;
+    }
+   .hrpart1 
     {
         float:none !important;
     }
@@ -7074,10 +7078,21 @@ td.visible-print {
     z-index:9999 !important;
 }
 
+     .row-count 
+    {
+    margin-left: -15px !important;
+    margin-top: -3px !important;
+    }
+    .row-count h5 
+        {
+            font-size:13px !important;
+        }
+
     .row-count1
  {
     margin-top:-3px !important;
     padding-left:0px !important;
+    margin-bottom:28px !important;
 }
 
 .row-count1 h5
@@ -7086,7 +7101,27 @@ td.visible-print {
     font-size:13px !important;
 
 }
+.row-count2 {
+    margin-bottom: 24px !important;
+    margin-top: -16px !important;
+    padding-left: 0px !important;
+}
+.row-count2 h5
 
+{
+    font-size:13px !important;
+}
+.row-count3 {
+
+    margin-top: -16px !important;
+    margin-bottom:24px !important;
+
+}
+.row-count3 h5
+
+{
+    font-size:13px !important;
+}
 .widthset 
 {
     margin-left:0 !important;
@@ -7177,6 +7212,10 @@ td.visible-print {
     {
         float:none !important;
     }
+    .hrpart1 
+    {
+        float:none !important;
+    }
 
         .body-content 
 {
@@ -7214,15 +7253,47 @@ td.visible-print {
 {
     left:98px !important;
 }
+    .row-count 
+    {
+    margin-left: -15px !important;
+    margin-top: -3px !important;
+    }
+    .row-count h5 
+        {
+            font-size:14px !important;
+        }
     .row-count1
  {
      margin-left: -15px !important;
     margin-top: -3px !important;
+    margin-bottom:32px !important;
 }
    .row-count1 h5 
         {
             font-size:14px !important;
         }
+
+   .row-count2 {
+    margin-bottom: 24px !important;
+    margin-top: -16px !important;
+    padding-left: 0px !important;
+}
+.row-count2 h5
+
+{
+    font-size:14px !important;
+}
+.row-count3 {
+
+    margin-top: -16px !important;
+    margin-bottom:24px !important;
+
+}
+.row-count3 h5
+
+{
+    font-size:14px !important;
+}
 
    .widthset 
 {

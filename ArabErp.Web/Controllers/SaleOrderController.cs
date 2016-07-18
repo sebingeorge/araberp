@@ -479,9 +479,9 @@ namespace ArabErp.Web.Controllers
         [HttpPost]
         public ActionResult UpdateApprovalStatus(int? SaleOrderId)
         {
-
+            SaleOrder so = (new SaleOrderRepository()).GetSaleOrder(SaleOrderId ?? 0);
             new SaleOrderRepository().UpdateSOApproval(SaleOrderId ?? 0);
-            return RedirectToAction("PendingSaleOrderApproval");
+            return RedirectToAction("PendingSaleOrderApproval", new { ProjectBased = so.isProjectBased});
         }
         public ActionResult PendingSaleOrderHold(int? page, int? isProjectBased)
         {
