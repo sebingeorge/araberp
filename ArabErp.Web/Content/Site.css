@@ -946,8 +946,9 @@ section.content {
 }
 .row-count
  {
-    float:left;
-    margin-top:-20px;
+    margin-top:-16px;
+    margin-bottom:9px;
+    margin-left:-4px;
 }
 
 .row-count h5
@@ -965,6 +966,34 @@ section.content {
 }
 
 .row-count1 h5
+
+{
+    color:#2db4e3;
+    font-size:16px;
+
+}
+.row-count2
+ {
+    margin-top:-16px;
+    padding-left:10px;
+    margin-bottom:40px;
+}
+
+.row-count2 h5
+
+{
+    color:#2db4e3;
+    font-size:16px;
+
+}
+.row-count3
+ {
+    margin-bottom: 28px;
+    margin-top: -19px;
+    padding-left: 13px;
+}
+
+.row-count3 h5
 
 {
     color:#2db4e3;
@@ -989,6 +1018,10 @@ section.content {
 .user-setting 
 {
     margin-top:-45px !important;
+}
+.top0 
+{
+    margin-top:0 !important;
 }
 
 
