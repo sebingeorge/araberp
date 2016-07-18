@@ -230,9 +230,9 @@ namespace ArabErp.DAL
                             INNER JOIN GRNItem GI ON G.GRNId=GI.GRNId
 							INNER JOIN Item I ON GI.ItemId = I.ItemId
                             INNER JOIN ItemBatch P ON P.GRNItemId=GI.GRNItemId 
-                            LEFT JOIN SaleOrderItem SO ON P.GRNItemId=GI.GRNItemId 
-                            WHERE P.GRNItemId IS NULL
-							AND I.BatchRequired = 1;";
+                            LEFT JOIN SaleOrderItem SO ON P.SaleOrderItemId=SO.SaleOrderItemId 
+                            WHERE P.SaleOrderItemId IS NULL
+							;";
 
                 return connection.Query<ItemBatch>(query).ToList(); 
             }
