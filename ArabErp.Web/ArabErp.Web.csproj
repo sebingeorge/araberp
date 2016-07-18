@@ -234,6 +234,7 @@
     <Compile Include="Controllers\OpeningStockController.cs" />
     <Compile Include="Controllers\OrganizationController.cs" />
     <Compile Include="Controllers\PaymentTermsController.cs" />
+    <Compile Include="Controllers\ProfitabilityReportController.cs" />
     <Compile Include="Controllers\ProformaInvoiceController.cs" />
     <Compile Include="Controllers\PurchaseBillController.cs" />
     <Compile Include="Controllers\PurchaseRequestController.cs" />
@@ -683,6 +684,7 @@
     <Content Include="Views\ItemBatch\PendingReservation.cshtml" />
     <Content Include="Views\ItemBatch\Reserve.cshtml" />
     <Content Include="Views\Home\_MonthlySaleOrders.cshtml" />
+    <Content Include="Views\ProfitabilityReport\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

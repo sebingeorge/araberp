@@ -106,6 +106,7 @@
     <Compile Include="OpeningStockRepository.cs" />
     <Compile Include="OrganizationRepository.cs" />
     <Compile Include="PaymentTermsRepository.cs" />
+    <Compile Include="ProfitabilityReportRepository.cs" />
     <Compile Include="ProformaInvoiceItemRepository.cs" />
     <Compile Include="ProformaInvoiceRepository.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

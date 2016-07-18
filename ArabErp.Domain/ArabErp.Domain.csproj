@@ -97,6 +97,7 @@
     <Compile Include="PendingSO.cs" />
     <Compile Include="PendingSupplyOrder.cs" />
     <Compile Include="PendingWorkShopRequest.cs" />
+    <Compile Include="ProfitabilityReport.cs" />
     <Compile Include="ProformaInvoice.cs" />
     <Compile Include="ProformaInvoiceItem.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

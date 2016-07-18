@@ -459,7 +459,8 @@ namespace ArabErp.DAL
         {
             using (IDbConnection connection = OpenConnection(dataConnection))
             {
-                string sql = "exec SaleOrderClosing " + Id.ToString();
+                //string sql = "exec SaleOrderClosing " + Id.ToString();
+                string sql = "update SaleOrder set SaleOrderClosed = 'CLOSED' where SaleOrderId = " + Id.ToString() + ";";
                 connection.Query(sql);
             }
         }

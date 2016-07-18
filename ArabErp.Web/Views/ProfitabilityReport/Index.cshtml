@@ -1,0 +1,54 @@
+﻿@model IEnumerable<ArabErp.Domain.ProfitabilityReport>
+@{
+    ViewBag.Title = "Profitability Report";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<div class="container">
+    <div class="row">
+        <div class="form-head1">
+            <h4>Profitability Report on @DateTime.Now.ToString("dd-MMMM-yyyy")</h4>
+        </div>
+
+        <div class="main-part white pad1">
+            
+            <div class="col-md-12">
+                <div class="row">
+                    <div class=" table-responsive">
+                        <table class="table table-bordered">
+                            <thead>
+                                <tr class="grid_heading">
+                                    <th><h1>Sale Order Ref</h1></th>                                    
+                                    <th><h1>SO Date</h1></th>
+                                    <th><h1>Customer</h1></th>
+                                    <th><h1>S.O Amount</h1></th>
+                                    <th><h1>Purchase</h1></th>
+                                    <th><h1>Expense</h1></th>
+                                    <th><h1>Labour</h1></th>
+                                    <th><h1>Invoice</h1></th>
+                                    <th><h1>Profut/ Loss</h1></th>
+                                </tr>
+                            </thead>
+                            @foreach (var item in Model)
+                            {
+                                <tbody class="grid_row">
+                                    <tr>
+                                        <td class="grid-cell">@item.SaleOrderRefNo</td>                                        
+                                        <td class="grid-cell">@item.SaleOrderDate.ToString("dd/MMM/yyyy")</td>
+                                        <td class="grid-cell">@item.CustomerName</td>
+                                        <td class="grid-cell">@item.OrderAmount</td>
+                                        <td class="grid-cell">@item.Purchase</td>
+                                        <td class="grid-cell">@item.Expense</td>
+                                        <td class="grid-cell">@item.Labour</td>
+                                        <td class="grid-cell">@item.SalesInvoice</td>
+                                        <td class="grid-cell">@item.SalesInvoice - (@item.Purchase + @item.Expense + @item.Labour)</td>
+                                    </tr>
+                                </tbody>
+                            }
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
