@@ -232,7 +232,7 @@ namespace ArabErp.DAL
                             INNER JOIN ItemBatch P ON P.GRNItemId=GI.GRNItemId 
                             LEFT JOIN SaleOrderItem SO ON P.GRNItemId=GI.GRNItemId 
                             WHERE P.GRNItemId IS NULL
-							AND I.BatchRequired = 1;";
+							;";
 
                 return connection.Query<ItemBatch>(query).ToList(); 
             }
