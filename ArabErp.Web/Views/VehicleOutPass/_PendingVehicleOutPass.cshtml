@@ -4,12 +4,12 @@
     <table class="table table-bordered">
         <thead>
             <tr class="grid_heading">
-                <th><h1>SO.No. &amp; Date</h1></th>
-                <th><h1>JC.No. &amp; Date</h1></th>
-                <th><h1>Work Description</h1></th>
-                <th><h1>Vehicle Model</h1></th>
-                <th><h1>Chasis No./Reg No.</h1></th>
-                <th width="1"></th>
+                <th width="12%"><h1>SO.No. &amp; Date</h1></th>
+                <th width="13%"><h1>JC.No. &amp; Date</h1></th>
+                <th width="20%"><h1>Work Description</h1></th>
+                <th width="20%" h1>Vehicle Model</h1></th>
+                <th width="20%"><h1>Chasis No./Reg No.</h1></th>
+                <th width="15%"></th>
             </tr>
         </thead>
         <tbody id="table-body" class="grid_row">
@@ -36,8 +36,17 @@
                             <input class="form_input" type="text" value="@Model[i].RegistrationNo" disabled />
                         </td>
                         <td align="center">
-                       <center>@Html.ActionLink("Select", "Save", "VehicleOutPass", new { Id = @Model[i].JobCardId }, new { @class = "form-button5" })</center>
-                            @*<button class="btn btn-xs btn-primary" onclick="Open('@Model[i].JobCardId')"><span class="glyphicon glyphicon-pencil" style="top:2px"></span></button>*@
+
+                            <center>
+                                @if (Model[i].IsPaymentApprovedForDelivery == 1)
+                                {
+                                    @Html.ActionLink("Select", "Save", "VehicleOutPass", new { Id = @Model[i].JobCardId }, new { @class = "form-button5" })
+                                }
+                                else
+                                {
+                                    <span class="form_input perm">Approval Pending</span>
+                                }
+                            </center>
                         </td>
                     </tr>
                 }

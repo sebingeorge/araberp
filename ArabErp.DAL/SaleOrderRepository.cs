@@ -254,7 +254,7 @@ namespace ArabErp.DAL
             using (IDbConnection connection = OpenConnection(dataConnection))
             {
                 var param = new DynamicParameters();
-                return connection.Query<Dropdown>("select CustomerId Id,CustomerName Name from Customer").ToList();
+                return connection.Query<Dropdown>("select CustomerId Id,CustomerName Name from Customer  WHERE ISNULL(isActive, 1) = 1").ToList();
             }
         }
 
@@ -263,7 +263,7 @@ namespace ArabErp.DAL
             using (IDbConnection connection = OpenConnection(dataConnection))
             {
                 var param = new DynamicParameters();
-                return connection.Query<Dropdown>("select CommissionAgentId Id,CommissionAgentName Name from CommissionAgent").ToList();
+                return connection.Query<Dropdown>("select CommissionAgentId Id,CommissionAgentName Name from CommissionAgent  WHERE ISNULL(isActive, 1) = 1").ToList();
             }
         }
       
@@ -272,7 +272,7 @@ namespace ArabErp.DAL
             using (IDbConnection connection = OpenConnection(dataConnection))
             {
                 var param = new DynamicParameters();
-                return connection.Query<Dropdown>("select CurrencyId Id,CurrencyName Name from Currency").ToList();
+                return connection.Query<Dropdown>("select CurrencyId Id,CurrencyName Name from Currency  WHERE ISNULL(isActive, 1) = 1").ToList();
             }
         }
         /// <summary>
