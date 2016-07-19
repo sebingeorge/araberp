@@ -46,7 +46,7 @@
     }
     function Exit() {
        
-        location.href = '@Url.Action("PendingSaleOrderApproval", "SaleOrder")';
+        location.href = '@Url.Action("PendingSaleOrderApproval", "SaleOrder", new { ProjectBased = 0 })';
       
     }
     $(document).ready(function () {
@@ -101,6 +101,7 @@
                 {
                     if (ViewData["action"].ToString() == "ApprovalForTrn")
                     {
+                        @Html.HiddenFor(m=>m.isProjectBased)
                         @Html.HiddenFor(m => m.SaleOrderId)
                         @Html.HiddenFor(m => m.Items[0].SaleOrderItemId)
                         if (ViewBag.AppType == "WORKSHOP_REQUEST")
