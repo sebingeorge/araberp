@@ -6,6 +6,10 @@
 }
 
 <script type="text/javascript">
+    $(function () {
+
+        $("#VehicleOutPassDate").datepicker({ dateFormat: "dd-MM-yy" });
+    });
     $(document).ready(function () {
         $.getJSON('@Url.Action("GetJobCardDetails")', { id: '@Model.JobCardId' },
             function (data) {
@@ -38,68 +42,73 @@
             @using (Html.BeginForm("Save", null, FormMethod.Post, new { @class = "createFrom", onsubmit = "return formValidation()", @id = "vehicle-inpass-form" }))
             {
                 <div class="row form-group">
-                    <div class="col-md-4">
-                        <label>Customer</label>
-                        <input type="text" class="form_input" id="txtCustomer" disabled />
-                    </div>
-                    <div class="col-md-2">
-                        <label>SO No. &amp; Date</label>
-                        <input type="text" class="form_input" id="txtSONoDate" disabled />
-                    </div>
-                    <div class="col-md-2">
-                        <label>JC No. &amp; Date</label>
-                        <input type="text" class="form_input" id="txtJCNoDate" disabled />
-                    </div>
-                    <div class="col-md-2">
-                        <label>Chasis No/Reg No.</label>
-                        <input type="text" class="form_input" id="txtRegNo" disabled />
-                    </div>
-                    <div class="col-md-2">
-                        <label>Vehicle Model</label>
-                        <input type="text" class="form_input" id="txtVehicleModel" disabled />
-                    </div>
-                </div>
-
-                <div class="row form-group">
-
-                    <div class="col-md-6">
-                        <label>Work Description</label>
-                        <input type="text" class="form_input" id="txtWork" disabled />
-                    </div>
                     <div class="col-md-2">
                         <label>Vehicle Out-Pass No.</label>
                         @Html.HiddenFor(m => m.JobCardId)
-                        @Html.TextBoxFor(m => m.VehicleOutPassNo, new { @class = "form_input" })
+                        @Html.TextBoxFor(m => m.VehicleOutPassNo, new { @class = "form_input", autocomplete = "off" })
                     </div>
                     <div class="col-md-2">
                         <label>Out-Pass Date</label>
-                        @Html.TextBoxFor(m => m.VehicleOutPassDate, new { @class = "form_input", @type = "date" })
-                    </div>
-                    <div class="col-md-2">
-                        <label>Employee</label>
-                        @Html.DropDownListFor(m => m.EmployeeId, (SelectList)ViewBag.employeeList, "Select Employee", new { @class = "form_input" })
+                        @Html.TextBoxFor(m => m.VehicleOutPassDate, Model.VehicleOutPassDate.ToString("dd/MMMM/yyyy"), new { @class = "form_input ", autocomplete = "off" })
+                        @*@Html.TextBoxFor(m => m.VehicleOutPassDate, new { @class = "form_input", @type = "date" })*@
                     </div>
                 </div>
-
-
-
-    <div class="row form-group">
-                    <div class="col-md-12">
-                        <label>Special Remarks</label>
-                        @Html.TextAreaFor(m => m.Remarks, new { @class = "form_input form_input-h" })
+                    <div class="row form-group">
+                        <div class="col-md-5">
+                            <label>Customer</label>
+                            <input type="text" class="form_input" id="txtCustomer" readonly />
+                        </div>
+                        <div class="col-md-2">
+                            <label>SO.No. &amp; Date</label>
+                            <input type="text" class="form_input" id="txtSONoDate" readonly />
+                        </div>
+                        <div class="col-md-2">
+                            <label>JC.No. &amp; Date</label>
+                            <input type="text" class="form_input" id="txtJCNoDate" readonly />
+                        </div>
+                        <div class="col-md-3">
+                            <label>Chasis No./Reg No.</label>
+                            <input type="text" class="form_input" id="txtRegNo" readonly />
+                        </div>
+                        
                     </div>
-    </div>
-                
 
-                <div class="row">
-                    <div class="col-md-12 col-md hrpart">
-                        <input class="form-button right" type="button" value="Exit" onclick="Back()" />
-                        <input class="form-button right" type="submit" value="Save" />
+                    <div class="row form-group">
+
+                        <div class="col-md-5">
+                            <label>Work Description</label>
+                            <input type="text" class="form_input" id="txtWork" readonly />
+                        </div>
                        
+                        <div class="col-md-4">
+                            <label>Vehicle Model</label>
+                            <input type="text" class="form_input" id="txtVehicleModel" readonly />
+                        </div>
+                        <div class="col-md-3">
+                            <label>Employee</label>
+                            @Html.DropDownListFor(m => m.EmployeeId, (SelectList)ViewBag.employeeList, "Select Employee", new { @class = "form_input" })
+                        </div>
                     </div>
-                </div>
-            }
 
-        </div>
+
+
+                    <div class="row form-group">
+                        <div class="col-md-12">
+                            <label>Special Remarks</label>
+                            @Html.TextAreaFor(m => m.Remarks, new { @class = "form_input form_input-h" })
+                        </div>
+                    </div>
+
+
+                    <div class="row">
+                        <div class="col-md-12 col-md hrpart">
+                            <input class="form-button right" type="button" value="Exit" onclick="Back()" />
+                            <input class="form-button right" type="submit" value="Save" />
+
+                        </div>
+                    </div>
+                    }
+
+                </div>
     </div>
 </div>
