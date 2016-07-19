@@ -37,7 +37,7 @@ namespace ArabErp.Web.Controllers
             if (id != 0)
             {
                 EmployeeDropdown();
-                return View(new VehicleOutPass { JobCardId = id });
+                return View(new VehicleOutPass { JobCardId = id,VehicleOutPassDate=DateTime.Now});
             }
             return RedirectToAction("Index");
         }

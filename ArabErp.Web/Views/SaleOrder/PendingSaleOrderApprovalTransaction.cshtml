@@ -39,12 +39,12 @@
                     <table class="table table-bordered">
                         <thead>
                             <tr class="grid_heading">
-                                <th><h1>SO No</h1></th>
+                                <th><h1>SO.No.</h1></th>
                                 <th><h1>SO Date</h1></th>
                                 <th><h1>Customer</h1></th>
                                 <th><h1>Work Description</h1></th>
-                                <th><h1>Amount</h1></th>
-                                <th><center><h1>Select</h1></center></th>
+                                <th class="text-right"><h1>Amount</h1></th>
+                                <th><center><h1></h1></center></th>
                             </tr>
                         </thead>
                         @foreach (var item in Model)
@@ -55,7 +55,7 @@
                                     <td class="grid-cell">@item.SaleOrderDate.ToString("dd/MMM/yyyy")</td>
                                     <td class="grid-cell">@item.CustomerName</td>
                                     <td class="grid-cell">@item.WorkDescr</td>
-                                    <td class="grid-cell">@item.Amount</td>
+                                    <td class="grid-cell text-right">@item.Amount</td>
                                     <td><center><button class="form-button4">@Html.ActionLink("Select", "ApprovalForTrn", "SaleOrder", new { SaleOrderId = @item.SaleOrderId, SaleOrderItemId = @item.SaleOrderItemId, AppType = @AppType }, null)</button></center></td>
                                    
                                 </tr>

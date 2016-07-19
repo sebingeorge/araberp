@@ -4,11 +4,11 @@
     <table class="table table-bordered">
         <thead>
             <tr class="grid_heading">
-                <th><h1>SO No. &amp; Date</h1></th>
-                <th><h1>JC No. &amp; Date</h1></th>
+                <th><h1>SO.No. &amp; Date</h1></th>
+                <th><h1>JC.No. &amp; Date</h1></th>
                 <th><h1>Work Description</h1></th>
                 <th><h1>Vehicle Model</h1></th>
-                <th><h1>Chasis No/Reg No.</h1></th>
+                <th><h1>Chasis No./Reg No.</h1></th>
                 <th width="1"></th>
             </tr>
         </thead>
@@ -36,7 +36,8 @@
                             <input class="form_input" type="text" value="@Model[i].RegistrationNo" disabled />
                         </td>
                         <td align="center">
-                            <button class="btn btn-xs btn-primary" onclick="Open('@Model[i].JobCardId')"><span class="glyphicon glyphicon-pencil" style="top:2px"></span></button>
+                       <center>@Html.ActionLink("Select", "Save", "VehicleOutPass", new { Id = @Model[i].JobCardId }, new { @class = "form-button5" })</center>
+                            @*<button class="btn btn-xs btn-primary" onclick="Open('@Model[i].JobCardId')"><span class="glyphicon glyphicon-pencil" style="top:2px"></span></button>*@
                         </td>
                     </tr>
                 }
