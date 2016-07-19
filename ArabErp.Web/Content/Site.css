@@ -199,7 +199,7 @@ textarea {
     color: #ffffff;
     height: 22px;
     width: 92px;
-    margin-left:20px;
+    /*margin-left:20px;*/
     float:left;
 }
     .form-button5:hover 
@@ -953,7 +953,7 @@ section.content {
 {
     font-style:italic;
     color:red !important;
-    line-height: 8px !important;
+    line-height: 8px;
     padding-top: 1px;
 }
 .row-count
@@ -1034,6 +1034,10 @@ section.content {
 .top0 
 {
     margin-top:0 !important;
+}
+.lgrey 
+{
+    background-color:#d3d3d3 !important;
 }
 
 
