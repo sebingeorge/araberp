@@ -2383,9 +2383,9 @@ input[type="button"].btn-block {
   opacity: 1;
 }
 
-.collapse {
+/*.collapse {
   display: none;
-}
+}*/
 
 .collapse.in {
   display: block;
@@ -3829,7 +3829,8 @@ textarea.input-group-sm > .input-group-btn > .btn {
 
 .nav > li {
   position: relative;
-  display: block;
+  /*display: block;*/
+  display:inline-block;
 }
 
 .nav > li > a {
@@ -6862,6 +6863,10 @@ td.visible-print {
 
 @media only screen and (min-width:320px) and (max-width: 640px)
  {
+    body 
+    {
+        padding-top:100px !important; 
+    }
   .marg {
      margin-left: 0% !important;
   }
@@ -6891,7 +6896,7 @@ td.visible-print {
     }
     .form-head1
    {
-        width: 92.8% !important;
+        width: 91.8% !important;
     }
             .form-head h4 
         {
@@ -7044,7 +7049,7 @@ td.visible-print {
     .pushmenu
      
     {
-   top: 33px !important;
+   top: 80px !important;
    width:313px !important;
     }
 
@@ -7078,6 +7083,16 @@ td.visible-print {
     z-index:9999 !important;
 }
 
+     .row-count 
+    {
+    margin-left: -15px !important;
+    margin-top: -3px !important;
+    }
+    .row-count h5 
+        {
+            font-size:13px !important;
+        }
+
     .row-count1
  {
     margin-top:-3px !important;
@@ -7091,12 +7106,59 @@ td.visible-print {
     font-size:13px !important;
 
 }
+.row-count2 {
+    margin-bottom: 24px !important;
+    margin-top: -16px !important;
+    padding-left: 0px !important;
+}
+.row-count2 h5
 
+{
+    font-size:13px !important;
+}
+.row-count3 {
+
+    margin-top: -16px !important;
+    margin-bottom:24px !important;
+
+}
+.row-count3 h5
+
+{
+    font-size:13px !important;
+}
 .widthset 
 {
     margin-left:0 !important;
     width:95% !important;
 }
+
+    .navbar-nav > li > a 
+    {
+        line-height:0 !important;
+    }
+
+    .QuickLink 
+    {
+    top: 74px;
+    position: relative;
+    left: 10px;
+    }
+
+    .QuickLink ul.open 
+        {
+        margin-top:-50px ;
+        }
+
+   .QuickLink .dropdown-menu
+   {
+       margin-top:0px !important;
+       position:relative !important;
+       z-index:999 !important;
+       background-color:#fff !important;
+       width:100% !important;
+        border:1px solid #ccc !important; 
+   }
 
 
 
@@ -7221,8 +7283,18 @@ td.visible-print {
 
            .dropdown-submenu ul 
 {
-    left:98px !important;
+    left:-103px !important;
+    top:23px !important;
 }
+    .row-count 
+    {
+    margin-left: -15px !important;
+    margin-top: -3px !important;
+    }
+    .row-count h5 
+        {
+            font-size:14px !important;
+        }
     .row-count1
  {
      margin-left: -15px !important;
@@ -7233,6 +7305,28 @@ td.visible-print {
         {
             font-size:14px !important;
         }
+
+   .row-count2 {
+    margin-bottom: 24px !important;
+    margin-top: -16px !important;
+    padding-left: 0px !important;
+}
+.row-count2 h5
+
+{
+    font-size:14px !important;
+}
+.row-count3 {
+
+    margin-top: -16px !important;
+    margin-bottom:24px !important;
+
+}
+.row-count3 h5
+
+{
+    font-size:14px !important;
+}
 
    .widthset 
 {
