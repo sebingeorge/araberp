@@ -151,9 +151,9 @@
                         <label for="ToDate">To</label>
                         @Html.TextBoxFor(m => m.ToDate, Model.ToDate.ToString("dd/MMMM/yyyy"), new { @class = "form_input", @required = "true", @onchange = "ValidateDate(this)" })
                     </div>
-                    <div class="col-md-2">
+                    <div class="col-md-1">
                         <label></label>
-                        <input type="button" id="browse" value="..." class="form-button4" style="margin-top:20px" title="Browse for previous rate periods" onclick="showPreviousRates()" />
+                        <input type="button" id="browse" value="..." class="terms1"  title="Browse for previous rate periods" onclick="showPreviousRates()" />
                     </div>
                 </div>
 

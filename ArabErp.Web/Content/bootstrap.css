@@ -2383,9 +2383,9 @@ input[type="button"].btn-block {
   opacity: 1;
 }
 
-.collapse {
+/*.collapse {
   display: none;
-}
+}*/
 
 .collapse.in {
   display: block;
@@ -3829,7 +3829,8 @@ textarea.input-group-sm > .input-group-btn > .btn {
 
 .nav > li {
   position: relative;
-  display: block;
+  /*display: block;*/
+  display:inline-block;
 }
 
 .nav > li > a {
@@ -6862,6 +6863,10 @@ td.visible-print {
 
 @media only screen and (min-width:320px) and (max-width: 640px)
  {
+    body 
+    {
+        padding-top:100px !important; 
+    }
   .marg {
      margin-left: 0% !important;
   }
@@ -7044,7 +7049,7 @@ td.visible-print {
     .pushmenu
      
     {
-   top: 33px !important;
+   top: 80px !important;
    width:313px !important;
     }
 
@@ -7127,6 +7132,33 @@ td.visible-print {
     margin-left:0 !important;
     width:95% !important;
 }
+
+    .navbar-nav > li > a 
+    {
+        line-height:0 !important;
+    }
+
+    .QuickLink 
+    {
+    top: 74px;
+    position: relative;
+    left: 10px;
+    }
+
+    .QuickLink ul.open 
+        {
+        margin-top:-50px ;
+        }
+
+   .QuickLink .dropdown-menu
+   {
+       margin-top:0px !important;
+       position:relative !important;
+       z-index:999 !important;
+       background-color:#fff !important;
+       width:100% !important;
+        border:1px solid #ccc !important; 
+   }
 
 
 
@@ -7251,7 +7283,8 @@ td.visible-print {
 
            .dropdown-submenu ul 
 {
-    left:98px !important;
+    left:-103px !important;
+    top:23px !important;
 }
     .row-count 
     {
