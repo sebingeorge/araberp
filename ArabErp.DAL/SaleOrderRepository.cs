@@ -136,10 +136,18 @@ namespace ArabErp.DAL
                 string sql = @"SELECT  distinct t.SaleOrderId,SO.CustomerOrderRef,SO.SaleOrderDate,SO.SaleOrderRefNo +','+ Replace(Convert(varchar,SaleOrderDate,106),' ','/') SaleOrderRefNo,SO.EDateArrival,SO.EDateDelivery,SO.CustomerId,C.CustomerName,STUFF((SELECT ', ' + CAST(W.WorkDescr AS VARCHAR(10)) [text()]
                              FROM SaleOrderItem SI inner join WorkDescription W on W.WorkDescriptionId=SI.WorkDescriptionId
                              WHERE SI.SaleOrderId = t.SaleOrderId
-                             FOR XML PATH(''), TYPE).value('.','NVARCHAR(MAX)'),1,2,' ') WorkDescription,DATEDIFF(dd,SO.SaleOrderDate,GETDATE ()) Ageing,DATEDIFF(dd,GETDATE (),SO.EDateDelivery)Remaindays  
+                             FOR XML PATH(''), TYPE).value('.','NVARCHAR(MAX)'),1,2,' ') WorkDescription,DATEDIFF(dd,SO.SaleOrderDate,GETDATE ()) Ageing,DATEDIFF(dd,GETDATE (),SO.EDateDelivery)Remaindays,'' WorkRequestPaymentApproved  INTO #TEMP  
                              FROM SaleOrderItem t INNER JOIN SaleOrder SO on t.SaleOrderId=SO.SaleOrderId INNER JOIN Customer C ON SO.CustomerId =C.CustomerId
                              left join WorkShopRequest WR on SO.SaleOrderId=WR.SaleOrderId WHERE WR.SaleOrderId is null and SO.isActive=1 and SO.SaleOrderApproveStatus=1 and SO.SaleOrderHoldStatus IS NULL 
-                             order by SO.SaleOrderDate ASC";
+                             order by SO.SaleOrderDate ASC;
+
+                              with A as
+                              (
+                               select SaleOrderId  from SaleOrderItem WHERE IsPaymentApprovedForWorkshopRequest IS NULL
+                               )
+                               update #TEMP set #TEMP.WorkRequestPaymentApproved = 'P' FROM A  INNER JOIN  #TEMP  ON  #TEMP.SaleOrderId = A.SaleOrderId;
+                               SELECT * FROM  #TEMP";
+                   
                            
                 var objSaleOrders = connection.Query<SaleOrder>(sql).ToList<SaleOrder>();
 
@@ -246,7 +254,7 @@ namespace ArabErp.DAL
             using (IDbConnection connection = OpenConnection(dataConnection))
             {
                 var param = new DynamicParameters();
-                return connection.Query<Dropdown>("select CustomerId Id,CustomerName Name from Customer").ToList();
+                return connection.Query<Dropdown>("select CustomerId Id,CustomerName Name from Customer  WHERE ISNULL(isActive, 1) = 1").ToList();
             }
         }
 
@@ -255,7 +263,7 @@ namespace ArabErp.DAL
             using (IDbConnection connection = OpenConnection(dataConnection))
             {
                 var param = new DynamicParameters();
-                return connection.Query<Dropdown>("select CommissionAgentId Id,CommissionAgentName Name from CommissionAgent").ToList();
+                return connection.Query<Dropdown>("select CommissionAgentId Id,CommissionAgentName Name from CommissionAgent  WHERE ISNULL(isActive, 1) = 1").ToList();
             }
         }
       
@@ -264,7 +272,7 @@ namespace ArabErp.DAL
             using (IDbConnection connection = OpenConnection(dataConnection))
             {
                 var param = new DynamicParameters();
-                return connection.Query<Dropdown>("select CurrencyId Id,CurrencyName Name from Currency").ToList();
+                return connection.Query<Dropdown>("select CurrencyId Id,CurrencyName Name from Currency  WHERE ISNULL(isActive, 1) = 1").ToList();
             }
         }
         /// <summary>

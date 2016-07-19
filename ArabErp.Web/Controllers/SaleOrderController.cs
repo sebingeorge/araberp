@@ -54,7 +54,7 @@ namespace ArabErp.Web.Controllers
             model.Items = new List<SaleOrderItem>();
             foreach (var item in SOList)
             {
-                var soitem = new SaleOrderItem { WorkDescriptionId = item.WorkDescriptionId, VehicleModelName = item.VehicleModelName, Quantity = item.Quantity, UnitId = item.UnitId, Rate = item.Rate, Amount = item.Amount, Discount = item.Discount };
+                var soitem = new SaleOrderItem { WorkDescriptionId = item.WorkDescriptionId, VehicleModelName = item.VehicleModelName,VehicleModelId=item.VehicleModelId, Quantity = item.Quantity, UnitId = item.UnitId, Rate = item.Rate, Amount = item.Amount, Discount = item.Discount };
                 model.Items.Add(soitem);
 
             }
@@ -479,9 +479,9 @@ namespace ArabErp.Web.Controllers
         [HttpPost]
         public ActionResult UpdateApprovalStatus(int? SaleOrderId)
         {
-
+            SaleOrder so = (new SaleOrderRepository()).GetSaleOrder(SaleOrderId ?? 0);
             new SaleOrderRepository().UpdateSOApproval(SaleOrderId ?? 0);
-            return RedirectToAction("PendingSaleOrderApproval");
+            return RedirectToAction("PendingSaleOrderApproval", new { ProjectBased = so.isProjectBased});
         }
         public ActionResult PendingSaleOrderHold(int? page, int? isProjectBased)
         {

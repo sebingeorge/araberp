@@ -15,5 +15,6 @@ namespace ArabErp.Domain
         public string VehicleModel { get; set; }
         public string CustomerName { get; set; }
         public string RegistrationNo { get; set; }
+        public int IsPaymentApprovedForDelivery { get; set; }
     }
 }

@@ -107,7 +107,8 @@ textarea {
     color: #ffffff;
     height: 33px;
     width: 92px;
-    margin-right:0;
+    margin-left:5px;
+    margin-right:5px;
 }
 .form-button a 
 {
@@ -176,7 +177,8 @@ textarea {
     color: #ffffff;
     height: 22px;
     width: 92px;
-    margin-right:0;
+    margin-left:5px;
+    margin-right:5px;
 }
 .form-button4:hover 
     {
@@ -199,7 +201,8 @@ textarea {
     color: #ffffff;
     height: 22px;
     width: 92px;
-    margin-left:20px;
+    margin-left:5px;
+    margin-right:5px;
     float:left;
 }
     .form-button5:hover 
@@ -911,7 +914,19 @@ section.content {
     height: 24px;
     margin-right: -90px;
     margin-top: -23px;
-    width: 80px;
+    width:50px;
+}
+
+.terms1 
+{
+    background-color: #5c5a5a;
+    border: 1px solid #fff;
+    border-radius: 4px;
+    color: #ffffff;
+    float: right;
+    height: 24px;
+    margin-top:17px;
+    width:50px;
 }
 
 .against 
@@ -941,13 +956,14 @@ section.content {
 {
     font-style:italic;
     color:red !important;
-    line-height: 8px !important;
+    line-height: 8px;
     padding-top: 1px;
 }
 .row-count
  {
-    float:left;
-    margin-top:-20px;
+    margin-top:-16px;
+    margin-bottom:9px;
+    margin-left:-4px;
 }
 
 .row-count h5
@@ -971,6 +987,34 @@ section.content {
     font-size:16px;
 
 }
+.row-count2
+ {
+    margin-top:-16px;
+    padding-left:10px;
+    margin-bottom:40px;
+}
+
+.row-count2 h5
+
+{
+    color:#2db4e3;
+    font-size:16px;
+
+}
+.row-count3
+ {
+    margin-bottom: 28px;
+    margin-top: -19px;
+    padding-left: 13px;
+}
+
+.row-count3 h5
+
+{
+    color:#2db4e3;
+    font-size:16px;
+
+}
 
  .links li ul li li a.projectn 
 {
@@ -985,6 +1029,18 @@ section.content {
     
     width:113%;
     margin-left:-89px;
+}
+.user-setting 
+{
+    margin-top:-45px !important;
+}
+.top0 
+{
+    margin-top:0 !important;
+}
+.lgrey 
+{
+    background-color:#d3d3d3 !important;
 }
 
 

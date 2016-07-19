@@ -37,7 +37,7 @@ namespace ArabErp
             using (IDbConnection connection = OpenConnection(dataConnection))
             {
                 string query = string.Empty;
-                query += " select SI.SaleOrderItemId,SaleOrderRefNo, SaleOrderDate, C.CustomerName, S.CustomerOrderRef, V.VehicleModelName, W.WorkDescr";
+                query += " select SI.SaleOrderItemId,SaleOrderRefNo, SaleOrderDate, C.CustomerName, S.CustomerOrderRef, V.VehicleModelName, W.WorkDescr WorkDescription,IsPaymentApprovedForJobOrder";
                 query += " from SaleOrder S inner join Customer C on S.CustomerId = C.CustomerId ";
                 query += " inner join SaleOrderItem SI on SI.SaleOrderId = S.SaleOrderId ";
                 query += " inner join WorkDescription W on W.WorkDescriptionId = SI.WorkDescriptionId";
