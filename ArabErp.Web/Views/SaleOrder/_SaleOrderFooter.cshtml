@@ -99,15 +99,15 @@
                 <div class="row">
     <div class="col-md-2">
         <div class="part4">
-            <label for="cmagent">Commission Agent</label>
+            <label for="cmagent">Sales Executive 1</label>
             @if (actionName == "Create")
             {
-                @Html.DropDownListFor(m => Model.CommissionAgentId, (SelectList)ViewBag.commissionagentlist, "Select Commission Agent", new { @class = "form_input", autocomplete = "off" })
+                @Html.DropDownListFor(m => Model.CommissionAgentId, (SelectList)ViewBag.commissionagentlist, "Select Sales Executive 1", new { @class = "form_input", autocomplete = "off" })
 
             }
             else
             {
-                @Html.DropDownListFor(m => Model.CommissionAgentId, (SelectList)ViewBag.commissionagentlist, "Select Commission Agent", new { @class = "form_input", autocomplete = "off", @disabled = "true" })
+                @Html.DropDownListFor(m => Model.CommissionAgentId, (SelectList)ViewBag.commissionagentlist, "Select Sales Executive 1", new { @class = "form_input", autocomplete = "off", @disabled = "true" })
             }
         </div>
     </div>
@@ -127,7 +127,7 @@
     </div>*@
     <div class="col-md-2">
         <div class="part4">
-            <label for="CommissionAmount">Commission Amt.</label>
+            <label for="CommissionAmount">Incentive Amt.</label>
             @if (actionName == "Create")
             {
                 @Html.TextBoxFor(m => Model.CommissionAmount, new { @class = "form_input form_input-half2  text-right numbers-only", autocomplete = "off" })
