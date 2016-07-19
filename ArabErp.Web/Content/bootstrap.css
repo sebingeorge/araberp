@@ -7147,7 +7147,7 @@ td.visible-print {
 
     .QuickLink ul.open 
         {
-        margin-top:-50px ;
+        margin-top:-100px !important;
         }
 
    .QuickLink .dropdown-menu
@@ -7159,6 +7159,11 @@ td.visible-print {
        width:100% !important;
         border:1px solid #ccc !important; 
    }
+    .perm 
+    {
+        line-height:13px !important;
+        font-size:11px !important;
+    }
 
 
 
