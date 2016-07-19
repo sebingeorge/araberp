@@ -107,7 +107,8 @@ textarea {
     color: #ffffff;
     height: 33px;
     width: 92px;
-    margin-right:0;
+    margin-left:5px;
+    margin-right:5px;
 }
 .form-button a 
 {
@@ -176,7 +177,8 @@ textarea {
     color: #ffffff;
     height: 22px;
     width: 92px;
-    margin-right:0;
+    margin-left:5px;
+    margin-right:5px;
 }
 .form-button4:hover 
     {
@@ -199,7 +201,8 @@ textarea {
     color: #ffffff;
     height: 22px;
     width: 92px;
-    /*margin-left:20px;*/
+    margin-left:5px;
+    margin-right:5px;
     float:left;
 }
     .form-button5:hover 
