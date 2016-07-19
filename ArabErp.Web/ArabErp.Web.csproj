@@ -685,6 +685,8 @@
     <Content Include="Views\ItemBatch\Reserve.cshtml" />
     <Content Include="Views\Home\_MonthlySaleOrders.cshtml" />
     <Content Include="Views\ProfitabilityReport\Index.cshtml" />
+    <Content Include="Views\ItemBatch\ReservedList.cshtml" />
+    <Content Include="Views\ItemBatch\UnReserve.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
