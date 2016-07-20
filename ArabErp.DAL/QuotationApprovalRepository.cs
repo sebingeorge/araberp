@@ -25,7 +25,7 @@ namespace ArabErp.DAL
         {
             using (IDbConnection connection = OpenConnection(dataConnection))
             {
-                string sql = @"select U.UserId, U.UserName, Q.Approval1, Q.Approval2, Q.Approval3 from 
+                string sql = @"select U.UserId, U.UserName, Q.Approval1, Q.Approval2, Q.Approval3,Q.Cancel from 
                             QuotationApprovalSettings Q
                             right join [User] U on Q.UserId = U.UserId";
 
@@ -50,8 +50,8 @@ namespace ArabErp.DAL
                 connection.Query(sql);
                 foreach (var item in model.QuotationApprovalSettings)
                 {
-                    sql = @"insert into QuotationApprovalSettings(UserId, Approval1, Approval2, Approval3) values
-                           (@UserId, @Approval1, @Approval2, @Approval3);";
+                    sql = @"insert into QuotationApprovalSettings(UserId, Approval1, Approval2, Approval3,Cancel) values
+                           (@UserId, @Approval1, @Approval2, @Approval3,@Cancel);";
                     connection.Query(sql, item);
                 }
             }

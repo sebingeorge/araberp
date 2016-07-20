@@ -18,5 +18,6 @@ namespace ArabErp.Domain
         public int Approval1 { get; set; }
         public int Approval2 { get; set; }
         public int Approval3 { get; set; }
+        public int Cancel { get; set; }
     }
 }
