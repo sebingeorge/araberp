@@ -7166,7 +7166,10 @@ td.visible-print {
         font-size:11px !important;
     }
 
-
+    .top6 
+    {
+        margin-top:-70px !important;
+    }
 
 }
 
