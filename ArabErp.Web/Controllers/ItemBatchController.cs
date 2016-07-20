@@ -83,18 +83,19 @@ namespace ArabErp.Web.Controllers
         }
 
         [HttpGet]
-        public ActionResult Reserve(int id = 0)
+        public ActionResult Reserve(int id = 0, int item = 0)//SOI id and material id is received here
         {
-            if (id != 0)
+            if (id != 0 && item != 0)
             {
-
-                var items = new ItemBatchRepository().GetItemBatchForReservation();
-                for (int i = 0; i < items.Count() - 1; i++)
-                    items.ElementAt(i).SaleOrderItemId = id;
-
+                var items = new ItemBatchRepository().GetItemBatchForReservation(id, item);
                 return View(items);
             }
-            else throw new NullReferenceException();
+            else
+            {
+                TempData["success"] = "";
+                TempData["error"] = "That was an invalid request. Please try again.";
+                return RedirectToAction("PendingReservation");
+            }
         }
 
         [HttpPost]
@@ -108,24 +109,57 @@ namespace ArabErp.Web.Controllers
             {
                 IList<ItemBatch> selectedmodel = (from i in model where i.isSelected == true select i).ToList<ItemBatch>();
 
-                if (selectedmodel.Count>0)
+                if (selectedmodel.Count > 0)
                 {
-                    //new ItemBatchRepository().ReserveItemBatch(selectedmodel);
+                    new ItemBatchRepository().ReserveItemBatch(selectedmodel);
                 }
-                    TempData["success"] = "Saved successfully";
-                    TempData["error"] = "";
-                    return RedirectToAction("Reserve",new {id=sid });
+                TempData["success"] = "Saved successfully";
+                TempData["error"] = "";
+                return RedirectToAction("PendingReservation");
 
-                }
-               
+            }
+
             catch (Exception ex)
             {
                 TempData["success"] = "";
-                TempData["error"] = "Some error occured while connecting to database. Check your network connection and try again|" + ex.Message;
+                TempData["error"] = "Some error occured. Please try again|" + ex.Message;
             }
             return View(model);
         }
+        public ActionResult ReservedList()
+        {
+            return View(new ItemBatchRepository().GetReservedItems());
+        }
 
+        public ActionResult UnReserve(int id = 0)
+        {
+            if (id != 0)
+            {
+                return View(new ItemBatchRepository().GetItemBatchForUnReservation(SaleOrderId: id));
+            }
+            else
+            {
+                return RedirectToAction("ReservedList");
+            }
+        }
 
+        [HttpPost]
+        public ActionResult UnReserve(IList<ItemBatch> model)
+        {
+            try
+            {
+                List<int> selected = (from item in model where item.isSelected select item.ItemBatchId).ToList<int>();
+                new ItemBatchRepository().UnReserveItems(selected);
+                TempData["success"] = "Unreserved successfully";
+                TempData["error"] = "";
+                return RedirectToAction("ReservedList");
+            }
+            catch (Exception)
+            {
+                TempData["success"] = "";
+                TempData["error"] = "Some error occured. Please try again.";
+                return View("UnReserve", model);
+            }
+        }
     }
 }

@@ -130,7 +130,7 @@ namespace ArabErp.DAL
             {
                 IDbTransaction txn = connection.BeginTransaction();
 
-                string sql = @"Update  ItemBatch  Set SaleOrderItemId=@SaleOrderItemId OUTPUT INSERTED.ItemBatchId WHERE ItemBatchId=@ItemBatchId)";
+                string sql = @"Update  ItemBatch  Set SaleOrderItemId=@SaleOrderItemId OUTPUT INSERTED.ItemBatchId WHERE ItemBatchId=@ItemBatchId";
 
                 try
                 {
@@ -139,7 +139,7 @@ namespace ArabErp.DAL
                         var id = connection.Query<int>(sql, item, txn).Single();
                     }
                     txn.Commit();
-                    
+
                 }
                 catch (Exception ex)
                 {
@@ -193,48 +193,150 @@ namespace ArabErp.DAL
             }
         }
 
+        /// <summary>
+        /// Return all sale order items that doesnt have a reserved material
+        /// </summary>
+        /// <returns></returns>
         public IEnumerable<PendingForSOIReservation> GetUnreservedItems()
         {
             using (IDbConnection connection = OpenConnection(dataConnection))
             {
                 string query = @"SELECT
+									GI.ItemId,
+									BT.SaleOrderItemId,
+									COUNT(BT.SaleOrderItemId) ReservedQuantity
+								INTO #RESERVED
+								FROM ItemBatch BT
+								INNER JOIN GRNItem GI ON BT.GRNItemId = GI.GRNItemId
+								WHERE BT.SaleOrderItemId IS NOT NULL
+								GROUP BY GI.ItemId, BT.SaleOrderItemId;
+
+								SELECT
 	                                SOI.SaleOrderItemId,
 	                                SO.SaleOrderRefNo,
 	                                CONVERT(VARCHAR, SO.SaleOrderDate, 106) SaleOrderDate,
 	                                ISNULL(SOI.Quantity, 0) Quantity,
 	                                WD.WorkDescriptionRefNo,
-	                                I.ItemName
+                                    I.ItemId,
+									R.ReservedQuantity,
+	                                I.ItemName,
+									WD.WorkDescrShortName
                                 FROM SaleOrderItem SOI
                                 INNER JOIN SaleOrder SO ON SOI.SaleOrderId = SO.SaleOrderId
-                                LEFT JOIN ItemBatch IB ON SOI.SaleOrderItemId = IB.SaleOrderItemId AND IB.SaleOrderItemId IS NULL
                                 INNER JOIN WorkDescription WD ON SOI.WorkDescriptionId = WD.WorkDescriptionId
                                 INNER JOIN WorkVsItem WI ON WD.WorkDescriptionId = WI.WorkDescriptionId
                                 INNER JOIN Item I ON WI.ItemId = I.ItemId
+								LEFT JOIN #RESERVED R ON SOI.SaleOrderItemId = R.SaleOrderItemId AND I.ItemId = R.ItemId
                                 WHERE ISNULL(SOI.isActive, 1) = 1
                                 AND SO.isActive = 1 AND SOI.isActive = 1 AND SO.SaleOrderApproveStatus = 1
-                                ORDER BY SO.SaleOrderDate DESC, SO.CreatedDate DESC";
+								--AND IB.SaleOrderItemId IS NULL
+								AND ISNULL(ReservedQuantity, 0) < ISNULL(SOI.Quantity, 0)
+                                ORDER BY SO.SaleOrderDate DESC, SO.CreatedDate DESC;
+
+								DROP TABLE #RESERVED;";
 
                 return connection.Query<PendingForSOIReservation>(query).ToList();
             }
         }
 
-        public IEnumerable<ItemBatch> GetItemBatchForReservation()
+        public IEnumerable<ItemBatch> GetItemBatchForReservation(int saleOrderItemId, int materialId)
         {
             using (IDbConnection connection = OpenConnection(dataConnection))
             {
-                string query = @"SELECT P.ItemBatchId,
-	                            I.ItemId, 
-	                            I.ItemName, 
-	                            P.SerialNo
-                            FROM GRN G 
-                            INNER JOIN GRNItem GI ON G.GRNId=GI.GRNId
-							INNER JOIN Item I ON GI.ItemId = I.ItemId
-                            INNER JOIN ItemBatch P ON P.GRNItemId=GI.GRNItemId 
-                            LEFT JOIN SaleOrderItem SO ON P.SaleOrderItemId=SO.SaleOrderItemId 
-                            WHERE P.SaleOrderItemId IS NULL
-							;";
+                string query = @"SELECT
+	                                IB.ItemBatchId,
+	                                IB.SerialNo,
+	                                GI.ItemId
+                                INTO #BATCH
+                                FROM ItemBatch IB
+                                INNER JOIN GRNItem GI ON IB.GRNItemId = GI.GRNItemId AND IB.SaleOrderItemId IS NULL
+                                WHERE ItemId = @item;
 
-                return connection.Query<ItemBatch>(query).ToList(); 
+								SELECT
+	                                GI.ItemId,
+	                                COUNT(IB.SaleOrderItemId) ReservedQuantity
+                                INTO #RESERVED
+                                FROM ItemBatch IB
+                                INNER JOIN GRNItem GI ON IB.GRNItemId = GI.GRNItemId
+								WHERE ItemId = @item AND IB.SaleOrderItemId = @id
+                                GROUP BY GI.ItemId;
+
+                                SELECT
+	                                SOI.SaleOrderItemId,
+	                                SOI.Quantity - ISNULL(R.ReservedQuantity, 0) Quantity,
+	                                B.SerialNo,
+	                                B.ItemBatchId,
+	                                I.ItemName
+									--ISNULL(R.ReservedQuantity, 0) ReservedQuantity
+                                FROM SaleOrderItem SOI
+                                INNER JOIN WorkDescription WD ON SOI.WorkDescriptionId = WD.WorkDescriptionId
+                                INNER JOIN WorkVsItem WI ON WD.WorkDescriptionId = WI.WorkDescriptionId
+                                INNER JOIN #BATCH B ON WI.ItemId = B.ItemId
+                                INNER JOIN Item I ON B.ItemId = I.ItemId
+								LEFT JOIN #RESERVED R ON B.ItemId = R.ItemId
+                                WHERE SOI.SaleOrderItemId = @id AND WI.ItemId = @item;
+
+                                DROP TABLE #BATCH;
+								DROP TABLE #RESERVED;";
+
+                return connection.Query<ItemBatch>(query, new { id = saleOrderItemId, item = materialId }).ToList();
+            }
+        }
+
+        public IEnumerable<PendingForSOIReservation> GetReservedItems()
+        {
+            using (IDbConnection connection = OpenConnection(dataConnection))
+            {
+                string query = @"SELECT
+	                                DISTINCT SO.SaleOrderId,
+	                                SO.SaleOrderRefNo,
+	                                CONVERT(VARCHAR, SO.SaleOrderDate, 106) SaleOrderDate
+	                                --WD.WorkDescriptionRefNo,
+	                                --WD.WorkDescrShortName,
+	                                --IB.SerialNo
+                                FROM ItemBatch IB
+                                INNER JOIN SaleOrderItem SOI ON IB.SaleOrderItemId = SOI.SaleOrderItemId
+                                INNER JOIN SaleOrder SO ON SOI.SaleOrderId = SO.SaleOrderId
+                                INNER JOIN WorkDescription WD ON SOI.WorkDescriptionId = WD.WorkDescriptionId
+                                WHERE IB.SaleOrderItemId IS NOT NULL
+                                AND ISNULL(IB.isActive, 1) = 1";
+                return connection.Query<PendingForSOIReservation>(query).ToList();
+            }
+        }
+
+        public IEnumerable<ItemBatch> GetItemBatchForUnReservation(int SaleOrderId)
+        {
+            using (IDbConnection connection = OpenConnection(dataConnection))
+            {
+                string query = @"SELECT
+	                                ItemBatchId,
+	                                I.ItemName,
+	                                IB.SerialNo
+                                FROM ItemBatch IB
+                                INNER JOIN SaleOrderItem SOI ON IB.SaleOrderItemId = SOI.SaleOrderItemId
+                                INNER JOIN SaleOrder SO ON SOI.SaleOrderId = SO.SaleOrderId
+                                INNER JOIN GRNItem GI ON IB.GRNItemId = GI.GRNItemId
+                                INNER JOIN Item I ON GI.ItemId = I.ItemId
+                                WHERE SO.SaleOrderId = @id
+                                AND IB.isActive = 1";
+                return connection.Query<ItemBatch>(query, new { id = SaleOrderId }).ToList();
+            }
+        }
+
+        public int UnReserveItems(List<int> selected)
+        {
+            try
+            {
+                using (IDbConnection connection = OpenConnection(dataConnection))
+                {
+                    string query = @"UPDATE ItemBatch SET SaleOrderItemId = NULL WHERE ItemBatchId IN @id";
+                    connection.Execute(query, new { id = selected });
+                    return 1;
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
             }
         }
     }
