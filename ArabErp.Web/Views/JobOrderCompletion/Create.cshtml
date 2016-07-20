@@ -109,11 +109,12 @@
                     <table class="table table-bordered" id="tab_logic">
                         <thead>
                             <tr class="grid_heading">
-                                <th width="5%"><h1>#</h1></th>
+                                <th width="2%"><h1>#</h1></th>
                                 <th width="40%"><h1>Task</h1></th>
                                 <th width="35%"><h1>Employee</h1></th>
                                 <th width="10%"><h1>Date</h1></th>
                                 <th width="10%"><h1>Actual Hrs.</h1></th>
+                                <th width="2%"><h1></h1></th>
                             </tr>
                         </thead>
                         <tbody class="grid_row">
@@ -124,8 +125,7 @@
                                     <td>
                                         @Html.HiddenFor(m => m.JobCardTask[row].Existing)
                                         @Html.HiddenFor(m => m.JobCardTask[row].SlNo)
-                                        <button id="add_@row" type="button" value="Add" onclick="AddRowBelow(@row);">+</button>
-                                    </td>
+                                     </td>
                                     <td>
                                         @*@Html.DropDownListFor(m => Model.JobCardTask[row].JobCardTaskMasterId, new  (SelectList)ViewBag.TaskList, "Value", "Text", Model.JobCardTask[row].JobCardTaskMasterId, new { @class = "form_input", autocomplete = "off" })*@
                                         @Html.DropDownListFor(x => Model.JobCardTask[row].JobCardTaskMasterId, new SelectList(ViewBag.TaskList, "Value", "Text", Model.JobCardTask[row].JobCardTaskMasterId), "select work description", new { @class = "form_input", autocomplete = "off" })
@@ -139,6 +139,9 @@
                                     </td>
                                     <td>
                                         @Html.TextBoxFor(m => m.JobCardTask[row].ActualHours, new { @class = "form_input", autocomplete = "off" })
+                                    </td>
+                                    <td style="vertical-align:middle;">
+                                        <a class="glyphicon glyphicon-plus" id="add_@row" style="top:0;" @*type="button" value="Add"*@ onclick="AddRowBelow(@row);"></a>
                                     </td>
                                 </tr>
                                 row++;

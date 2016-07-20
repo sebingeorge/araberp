@@ -23,9 +23,10 @@
     </div>
     <div class="main-part white pad1">
         <div class="col-md-12">
-            <div class="table-responsive">
-                <div class="main-grid main-grid-top">
-                    @Html.Grid(Model).Columns(columns =>
+            <div class="row">
+                <div class="table-responsive">
+                    <div class="main-grid main-grid-top">
+                        @Html.Grid(Model).Columns(columns =>
                         {
                             columns.Add(m => m.SaleOrderRefNo).Titled("S.O Ref");
                             columns.Add(m => m.SaleOrderDate).Titled("S.O Date");
@@ -35,13 +36,14 @@
                             columns.Add(m => m.EDateDelivery).Titled("EDD");
                             columns.Add().Encoded(false).Sanitized(false).SetWidth(8).Css("cent").RenderValueAs(o => @<button class="form-button4" onclick="OpenEdit(@o.SaleOrderId);">Select</button>);
                         }).WithPaging(10)
+                    </div>
                 </div>
-            </div>
 
-            <div class="row-count1">
-             <h5>Row Count:- @Model.Count()</h5>
-            </div>
+                <div class="row-count1">
+                    <h5>Row Count:- @Model.Count()</h5>
+                </div>
 
+            </div>
         </div>
     </div>
 </div>
