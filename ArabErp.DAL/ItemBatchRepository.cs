@@ -339,5 +339,55 @@ namespace ArabErp.DAL
                 throw ex;
             }
         }
+
+        /// <summary>
+        /// Return all materials in [ItemBatch] table (i.e., items that have a serial number)
+        /// </summary>
+        /// <param name="serialno">Empty string for no serial number</param>
+        /// <param name="item">0 for any item</param>
+        /// <param name="type">0 for any type, 1 for reserved, 2 for unreserved, 3 for used</param>
+        /// <param name="saleorder">0 for any sale order</param>
+        /// <returns></returns>
+        public IEnumerable<ItemBatch> GetMaterialList(string serialno, int item, int type, int saleorder)
+        {
+            using (IDbConnection connection = OpenConnection(dataConnection))
+            {
+                string query = @"SELECT
+	                                IB.ItemBatchId,
+	                                G.GRNNo,
+	                                CONVERT(VARCHAR, G.GRNDate, 106) GRNDate,
+	                                ISNULL(SO.SaleOrderRefNo, '-') SaleOrderRefNo,
+	                                ISNULL(CONVERT(VARCHAR, SO.SaleOrderDate, 106), '-') SaleOrderDate,
+	                                I.ItemName,
+	                                IB.SerialNo,
+	                                U.UserName AS CreatedBy
+                                FROM ItemBatch IB
+                                LEFT JOIN SaleOrderItem SOI ON IB.SaleOrderItemId = SOI.SaleOrderItemId
+                                LEFT JOIN SaleOrder SO ON SOI.SaleOrderId = SO.SaleOrderId
+                                INNER JOIN GRNItem GI ON IB.GRNItemId = GI.GRNItemId
+                                INNER JOIN GRN G ON GI.GRNId = G.GRNId
+                                INNER JOIN Item I ON GI.ItemId = I.ItemId
+                                LEFT JOIN [User] U ON IB.CreatedBy = U.UserId
+                                WHERE ISNULL(IB.isActive, 1) = 1
+								AND IB.SerialNo LIKE '%'+@serialno+'%'
+								AND I.ItemId = ISNULL(NULLIF(@item, 0), I.ItemId)
+								AND ISNULL(SO.SaleOrderId, 0) = ISNULL(NULLIF(ISNULL(@saleorder, 0), 0), ISNULL(SO.SaleOrderId, 0))
+                                ORDER BY G.GRNDate DESC, IB.CreatedDate DESC;";
+                if (type == 1)
+                {
+                    query = query.Insert(query.IndexOf("ORDER BY"), "AND SO.SaleOrderId IS NOT NULL ");
+                }
+                else if (type == 2)
+                {
+                    query = query.Insert(query.IndexOf("ORDER BY"), "AND SO.SaleOrderId IS NULL ");
+                }
+                else if (type == 3)
+                {
+                    query = query.Insert(query.IndexOf("WHERE"), "LEFT JOIN SalesInvoiceItem SI ON SOI.SaleOrderItemId = SI.SaleOrderItemId ");
+                    query = query.Insert(query.IndexOf("ORDER BY"), "AND SI.SaleOrderItemId IS NOT NULL ");
+                }
+                return connection.Query<ItemBatch>(query, new { serialno = serialno, item = item, saleorder = saleorder }).ToList();
+            }
+        }
     }
 }
