@@ -4907,6 +4907,7 @@ textarea.input-group-sm > .input-group-btn > .btn {
 }
 
 .badge {
+ animation: blinker 1s linear infinite;
   display: inline-block;
   min-width: 10px;
   padding: 0px 4px;
@@ -4932,7 +4933,16 @@ a.badge:focus {
   cursor: pointer;
 }
 
+.blink_me {
+  animation: blinker 1s linear infinite;
+}
+
+@keyframes blinker {  
+  50% { opacity: 0.0; }
+}
+
 .badge1 {
+  animation: blinker 1s linear infinite;
   display: inline-block;
   min-width: 10px;
   padding: 0px 4px;
