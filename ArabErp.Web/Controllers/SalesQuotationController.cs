@@ -418,5 +418,36 @@ namespace ArabErp.Web.Controllers
         {
             ViewBag.rateSettings = new SelectList(new RateSettingsController().RateSettingsDropdown(), "Value", "Text");
         }
+   
+        public ActionResult Delete(int Id)
+        {
+            SalesQuotationRepository repo = new SalesQuotationRepository();
+            int CancelStatus = repo.GetUserApprovalCancelStatus(UserID);
+            int result = new SalesQuotationRepository().DeleteSalesQuotation(Id, CancelStatus);
+
+            if (result == 1)
+            {
+                TempData["success"] = "Cancelled Successfully!";
+                return RedirectToAction("Index");
+            }
+            else
+            {
+                if (result == 0)
+                {
+                    TempData["error"] = "Sorry!! You don't have Permission to Delete this Quotation";
+                    TempData["QuotationRefNo"] = null;
+                }
+                else
+                {
+                    TempData["error"] = "Oops!!..Something Went Wrong!!";
+                    TempData["QuotationRefNo"] = null;
+                }
+                return RedirectToAction("Index");
+            }
+
+        }
+
+   
+
     }
 }

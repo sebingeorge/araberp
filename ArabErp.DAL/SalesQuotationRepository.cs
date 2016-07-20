@@ -35,9 +35,13 @@ namespace ArabErp.DAL
                     IDbTransaction trn = connection.BeginTransaction();
                     try
                     {
+
+                        
+
+
                         int internalid = DatabaseCommonRepository.GetInternalIDFromDatabase(connection, trn, typeof(SalesQuotation).Name, "0",1);
                         model.QuotationRefNo = "SQ/" + internalid;
-
+                      
                         #region automatically approve if no custom rates are set
                         if (model.isProjectBased == 0)
                         {
@@ -235,15 +239,21 @@ namespace ArabErp.DAL
         }
 
 
-        public int DeleteSalesQuotation(Unit objSalesQuotation)
+        public int DeleteSalesQuotation(int Id,int CancelStatus)
         {
             using (IDbConnection connection = OpenConnection(dataConnection))
             {
-                string sql = @"Delete SalesQuotation  OUTPUT DELETED.SalesQuotationId WHERE SalesQuotationId=@SalesQuotationId";
-
-
-                var id = connection.Execute(sql, objSalesQuotation);
-                return id;
+                string sql = string.Empty;
+            
+                if(CancelStatus ==1)
+                {
+                    sql = @"Update SalesQuotation  set  isActive=0 WHERE SalesQuotationId=@Id";
+                    var id = connection.Execute(sql, new { Id = Id });
+                    return id;
+                 }
+                
+                return 0;
+                
             }
         }
 
@@ -278,6 +288,16 @@ namespace ArabErp.DAL
                 var objSalesQuotations = connection.Query<SalesQuotation>(sql).ToList<SalesQuotation>();
 
                 return objSalesQuotations;
+            }
+        }
+        public int GetUserApprovalCancelStatus(int UserId)
+        {
+            using (IDbConnection connection = OpenConnection(dataConnection))
+            {
+               
+                string sql = @"select Cancel CancelStatus from QuotationApprovalSettings where UserId = " + UserId.ToString() + "";
+                var CancelStatus = connection.Query<int>(sql).Single();
+                return CancelStatus;
             }
         }
     }

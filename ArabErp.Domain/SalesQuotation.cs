@@ -54,6 +54,7 @@ namespace ArabErp.Domain
         public int isProjectBased { get; set; }
          public string ReasonDescription { get; set; }
          public string WorkDescription { get; set; }
+         public int? CancelStatus { get; set; }
         public List<SalesQuotationItem> SalesQuotationItems { get; set; } 
     }
 }

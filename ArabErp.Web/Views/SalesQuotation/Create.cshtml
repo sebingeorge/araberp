@@ -194,9 +194,9 @@
     }
     function showPaymentTerms() {
         var x = screen.width / 2 - 600 / 2;
-        var y = screen.height / 2 - 250 / 2;
+        var y = screen.height / 2 - 300 / 2;
         var url = '@Url.Action("PaymentTermsPopup","PaymentTerms")';
-        var popup = window.open(url, "PaymentTermPopup", 'width=500,height=200,menubar=no,status=no,titlebar=no,location=no,scrollbars=no,left=' + x + ',top=' + y);
+        var popup = window.open(url, "PaymentTermPopup", 'width=500,height=300,menubar=no,status=no,titlebar=no,location=no,scrollbars=no,left=' + x + ',top=' + y);
         popup.focus();
         return false;
     }

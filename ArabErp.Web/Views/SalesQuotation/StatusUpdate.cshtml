@@ -292,7 +292,7 @@
                     </div>
                     <div class="col-md-6">
                         <label for="CustomerAddress">Customer Address</label>
-                        @Html.TextAreaFor(m => m.CustomerAddress, new { @class = "form_input", autocomplete = "off", @readonly = "readonly" })
+                        @Html.TextBoxFor(m => m.CustomerAddress, new { @class = "form_input", autocomplete = "off", @readonly = "readonly" })
                     </div>
                 </div>
 
@@ -481,22 +481,7 @@
 
                     }
 
-                    @*function OnWorkChange(sender, index) {
-
-                        var id = $(sender).val();
-                        if (id != '') {
-                            var url = '@Url.Action("GetVehicleModel")';
-                            $.getJSON(url, { WorkDescriptionId: id },
-                                function (data) {
-                                    $("#SalesQuotationItems_" + index + "__VehicleModelId").val(data.VehicleId);
-                                    $("#SalesQuotationItems_" + index + "__VehicleModelName").val(data.VehicleName);
-                                });
-                        }
-                        else {
-
-                        }
-                    }*@
-
+                   
 
 
 
@@ -509,6 +494,7 @@
                     <table class="table table-bordered table-hover" id="tab_logic">
                         <thead>
                             <tr class="grid_heading">
+                                
                                 <th width="2%" class="text-center"><h1>#</h1></th>
                                 <th width="25%" class="text-left"><h1>Work Description</h1></th>
                                 <th width="5%" class="text-right"><h1>Qty</h1></th>
@@ -516,13 +502,14 @@
                                 <th width="10%" class="text-right"><h1>Rate</h1></th>
                                 <th width="10%" class="text-right"><h1>Discount</h1></th>
                                 <th width="8%" class="text-right"><h1>Amount</h1></th>
-                                <th>&nbsp;</th>
+                                @*<th>&nbsp;</th>*@
                             </tr>
                         </thead>
                         <tbody id="table_validation">
                             @for (int i = 0; i < Model.SalesQuotationItems.Count; i++)
                             {
                                 <tr id="@i">
+                                 
                                     <td align="center">
                                         <span id="slno@(i+1)">@(i + 1)</span>
                                         @Html.HiddenFor(m => m.SalesQuotationItems[i].SlNo)
@@ -588,38 +575,38 @@
                                         }
                                     </td>
                                     <td>@Html.TextBoxFor(m => m.SalesQuotationItems[i].Amount, new { @class = "form_input clAmount", autocomplete = "off", @style = "text-align:right", placeholder = "Amount", @readonly = "true" })</td>
-                                    <td style="vertical-align:middle"><a class="glyphicon glyphicon-minus" style="top:0px" onclick="Delete(@i)"></a></td>
+                                  
                                 </tr>
                             }
                             @*<tr id='addr1'></tr>*@
                         </tbody>
                         <tfoot>
                             <tr class="grid_heading">
-                                <th width="5%" class="text-center"><h1></h1></th>
+                                <th width="5%" class="text-center"><h1>Total</h1></th>
                                 <th width="25%" class="text-center"><h1></h1></th>
                                 <th width="5%" class="text-center"><h1></h1></th>
                                 <th width="5%" class="text-right"><span id="QtyTotal"></span></th>
                                 <th width="10%"></th>
-                                <th width="10%" class="text-right"><h1>Total</h1></th>
-                                <th width="7%" class="text-right">
-                                    <h1>
-                                        @if (ViewBag.actionName.ToString() == "StatusUpdate")
-                                        {
-                                            @Html.DropDownListFor(m => Model.CurrencyId, (SelectList)ViewBag.currlist, "Select Currency", new { @class = "form_input", autocomplete = "off", @disabled = "true" })
-                                        }
-                                        else
-                                        {
-                                            @Html.DropDownListFor(m => Model.CurrencyId, (SelectList)ViewBag.currlist, "Select Currency", new { @class = "form_input", autocomplete = "off", @disabled = "true" })
+                                <th width="10%" class="text-right"><h1>
+    @if (ViewBag.actionName.ToString() == "StatusUpdate")
+    {
+        @Html.DropDownListFor(m => Model.CurrencyId, (SelectList)ViewBag.currlist, "Select Currency", new { @class = "form_input", autocomplete = "off", @disabled = "true" })
+    }
+    else
+    {
+        @Html.DropDownListFor(m => Model.CurrencyId, (SelectList)ViewBag.currlist, "Select Currency", new { @class = "form_input", autocomplete = "off", @disabled = "true" })
 
-                                        }
-                                    </h1>
+    }
+</h1></th>
+                                <th width="7%" class="text-right"><span id="QtyAmount"></span>
+                                   
                                 </th>
-                                <th width="8%" class="text-right"><span id="QtyAmount"></span></th>
+                                @*<th width="8%" class="text-right"><span id="QtyAmount"></span></th>*@
                             </tr>
                         </tfoot>
                     </table>
                 </div>
-                <a id="add_row" class="glyphicon glyphicon-plus"></a>
+                @*<a id="add_row" class="glyphicon glyphicon-plus"></a>*@
 
 
 
