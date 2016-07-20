@@ -161,5 +161,32 @@ namespace ArabErp.Web.Controllers
                 return View("UnReserve", model);
             }
         }
+
+        /// <summary>
+        /// List of materials that have a serial number
+        /// </summary>
+        /// <returns></returns>
+        public ActionResult MaterialList()
+        {
+            FillMaterial(); FillSaleOrder();
+            return View();
+        }
+
+        public ActionResult MaterialListGrid(string serialno = "", int item = 0, int type = 0, int saleorder = 0)
+        {
+            return PartialView("_MaterialListGrid", new ItemBatchRepository().GetMaterialList(serialno, item, type, saleorder));
+        }
+
+        #region Dropdowns
+        public void FillMaterial()
+        {
+            ViewBag.materialList = new SelectList(new DropdownRepository().ItemDropdown(), "Id", "Name");
+        }
+
+        public void FillSaleOrder()
+        {
+            ViewBag.saleOrderList = new SelectList(new DropdownRepository().SaleOrderDropdown1(), "Id", "Name");
+        }
+        #endregion
     }
 }

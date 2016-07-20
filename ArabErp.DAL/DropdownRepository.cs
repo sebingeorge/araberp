@@ -267,5 +267,19 @@ namespace ArabErp.DAL
                 
             }
         }
+        /// <summary>
+        /// Return all sale orders in descending order
+        /// </summary>
+        /// <returns></returns>
+        public List<Dropdown> SaleOrderDropdown1()
+        {
+            using (IDbConnection connection = OpenConnection(dataConnection))
+            {
+                return connection.Query<Dropdown>(@"SELECT SaleOrderId Id, SaleOrderRefNo + ' - ' + CONVERT(VARCHAR, SaleOrderDate, 106) Name FROM SaleOrder 
+                                                    WHERE ISNULL(isActive, 1) = 1
+                                                    AND SaleOrderApproveStatus = 1
+                                                    ORDER BY SaleOrderDate DESC, CreatedDate DESC").ToList();
+            }
+        }
     }
 }

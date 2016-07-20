@@ -26,6 +26,8 @@ namespace ArabErp.Domain
         public string SupplierName { get; set; }
         public int Ageing { get; set; }
         public string StockPointName { get; set; }
+        public string SaleOrderRefNo { get; set; }
+        public string SaleOrderDate { get; set; }
         public bool isSelected { get; set; }
 
     }
