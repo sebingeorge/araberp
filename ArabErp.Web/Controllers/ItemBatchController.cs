@@ -131,7 +131,8 @@ namespace ArabErp.Web.Controllers
             return View(new ItemBatchRepository().GetReservedItems());
         }
 
-        public ActionResult UnReserve(int id = 0)
+        
+        public ActionResult UnReserve(int id = 0)//sale order id is received here
         {
             if (id != 0)
             {
@@ -139,6 +140,8 @@ namespace ArabErp.Web.Controllers
             }
             else
             {
+                TempData["success"] = "";
+                TempData["error"] = "That was an invalid request. Please try again.";
                 return RedirectToAction("ReservedList");
             }
         }
@@ -175,6 +178,23 @@ namespace ArabErp.Web.Controllers
         public ActionResult MaterialListGrid(string serialno = "", int item = 0, int type = 0, int saleorder = 0)
         {
             return PartialView("_MaterialListGrid", new ItemBatchRepository().GetMaterialList(serialno, item, type, saleorder));
+        }
+
+        /// <summary>
+        /// Get Sale Order Ref. No. and Date, GRN Ref. No. and Date, Work Desc. Ref. No and Short Name
+        /// </summary>
+        /// <param name="id">SaleOrderId OR SaleOrderItemId</param>
+        /// <param name="type">0 if SaleOrderId, 1 if SaleOrderItemId</param>
+        /// <returns>JsonResult</returns>
+        public JsonResult GetItemBatchDetails(int id, int type)
+        {
+            ItemBatch model = new ItemBatchRepository().GetItemBatchDetails(id, type);
+            return Json(new
+            {
+                WorkDescRefNo = model.WorkDescrRefNo + " - " + model.WorkDescrShortName,
+                SaleOrderRefNo = model.SaleOrderRefNo + " - " + model.SaleOrderDate,
+                GRNRefNo = model.GRNNo + " - " + model.GRNDate.ToString("dd MMMM yyyy")
+            }, JsonRequestBehavior.AllowGet);
         }
 
         #region Dropdowns
