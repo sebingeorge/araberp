@@ -6915,7 +6915,8 @@ td.visible-print {
         }
         .form-head1 h4 
         {
-            font-size:16px !important;
+            font-size:13px !important;
+            line-height:21px !important;
         }
         .form-head
    {
@@ -7180,7 +7181,10 @@ td.visible-print {
     {
         margin-top:-70px !important;
     }
-
+    .hrpart .right 
+    {
+        margin-right:-4px !important;
+    }
 }
 
 @media only screen and (min-width:768px) and (max-width: 1024px)
