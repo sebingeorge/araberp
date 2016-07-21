@@ -143,19 +143,24 @@
                                 @Html.TextBoxFor(m => m.MaxLevel, new { @class = "form_input", autocomplete = "off" })
                             </div>
                         </div>
-                        <div class="part4">
 
-
-                            @Html.CheckBoxFor(model => model.BatchRequired)
-                            <label for="name" class="lefto">Batch Required</label>
-
-
-                            @Html.CheckBoxFor(model => model.StockRequired)
-                            <label for="name">Stock Required</label>
+                        <div class="row">
+                            <div class="part4 col-md-4">
+                                @Html.CheckBoxFor(model => model.BatchRequired)
+                                <label for="name" class="lefto">Batch Required</label>
+                            </div>
+                            <div class="part4 col-md-4">
+                                @Html.CheckBoxFor(model => model.StockRequired)
+                                <label for="name">Stock Required</label>
+                            </div>
+                            <div class="part4 col-md-4">
+                                @Html.CheckBoxFor(model => model.CriticalItem)
+                                <label for="name">Critical</label>
+                            </div>
+                            </div>
                         </div>
 
-
-                    </div>
+                       
 
                 </div>
 
