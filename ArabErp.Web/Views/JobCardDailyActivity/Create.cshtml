@@ -3,13 +3,32 @@
     ViewBag.Title = "Create";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
-@{ 
+@{
     string actionName = ViewContext.RouteData.GetRequiredString("action");
 }
 <script>
     $(function () {
-        $("#JobCardDailyActivityDate").datepicker({ dateFormat: "dd/MM/yy" });
-        assignTaskDate();
+        
+        @if (!ViewBag.isTxnPending)
+        {
+            @: $("#JobCardDailyActivityDate").datepicker({ dateFormat: "dd/MM/yy" });
+            @: assignTaskDate();
+            @: $("input[id^='Fileupload']").attr("disabled", "true");
+            @: $("input[type='file']").attr("title", "Images can be uploaded once Daily Activity is saved");
+            @: $("input[type='file']").tooltip();
+        }
+        else
+        {
+            if(Model.JobCardDailyActivityId != null || Model.JobCardDailyActivityId != 0)
+            {
+                @: $("#JobCardDailyActivityId").val(@Model.JobCardDailyActivityId);
+            }
+            @: $("input[type='text'], textarea").attr("readonly", "true");
+            @: $("select").attr("disabled", "true");
+            @: $("select").attr("disabled", "true");
+            @: $("button[type='submit'], .glyphicon-plus").hide();
+        }
+
     });
     function assignTaskDate() {
         $('.taskdate').each(function (i, obj) {
@@ -18,8 +37,7 @@
             $("#" + obj.id).datepicker({ dateFormat: "dd/MM/yy" });
         });
     }
-    function AddAdditionRow()
-    {
+    function AddAdditionRow() {
         var i = 0;
         var no = 0;
         $('.TaskRow').each(function (j, obj) {
@@ -42,7 +60,31 @@
         $("#tab_logic").append('<tr id="Row_' + i + '" class="TaskRow">' + clone.html() + '  </tr>');
         assignTaskDate();
     }
+
+    function ImageUpload(index) {
+        var xhr = new XMLHttpRequest();
+        var fd = new FormData();
+        var id = $("#JobCardDailyActivityId").val();
+        fd.append("file", document.getElementById('File' + index).files[0]);
+        var url = '@Url.Action("UploadFiles")';
+        xhr.open("POST", url + "?id=" + id + "&index=" + index, true);
+        xhr.send(fd);
+        xhr.addEventListener("load", function (event) {
+            var temppath = event.target.response;
+            temppath = temppath.replace(/["']/g, "");
+            //$("#childImagepath").val(event.target.response);
+            $("#image_preview" + index).attr("src", "\\App_Images\\" + temppath);
+        }, false);
+    }
+
 </script>
+
+<style type="text/css">
+    .image-upload{
+        width:150px;
+        height:100px
+    }
+</style>
 
 <div class="container">
     <div class="row">
@@ -50,80 +92,134 @@
             <h4>Daily Activity</h4>
         </div>
         <div class="main-part pad1">
-        @using (Html.BeginForm(null, null, FormMethod.Post, new { @class = "createFrom", @id = "dailyactivity_form" }))
-        {
-            @Html.HiddenFor(m => m.JobCardDailyActivityId)
-            @Html.HiddenFor(m => m.JobCardId)
-            @Html.HiddenFor(m => m.EmployeeId)
-            <div class="row form-group">
-                <div class="col-md-2">
-                    <label>Ref. No</label>
-                    @Html.TextBoxFor(m => m.JobCardDailyActivityRefNo, new { @class = "form_input ", autocomplete = "off", @readonly = "readonly" })
+            @using (Html.BeginForm(null, null, FormMethod.Post, new { @class = "createFrom", @id = "dailyactivity_form" }))
+            {
+                @Html.HiddenFor(m => m.JobCardDailyActivityId)
+                @Html.HiddenFor(m => m.JobCardId)
+                @Html.HiddenFor(m => m.EmployeeId)
+                <div class="row form-group">
+                    <div class="col-md-2">
+                        <label>Ref. No</label>
+                        @Html.TextBoxFor(m => m.JobCardDailyActivityRefNo, new { @class = "form_input ", autocomplete = "off", @readonly = "readonly" })
+                    </div>
+                    <div class="col-md-2">
+                        <label>Date</label>
+                        @Html.TextBoxFor(m => m.JobCardDailyActivityDate, Model.JobCardDailyActivityDate.ToString("dd/MMMM/yyyy"), new { @class = "form_input ", autocomplete = "off", @readonly = "readonly" })
+                    </div>
                 </div>
-                <div class="col-md-2">
-                    <label>Date</label>
-                    @Html.TextBoxFor(m => m.JobCardDailyActivityDate, Model.JobCardDailyActivityDate.ToString("dd/MMMM/yyyy"), new { @class = "form_input ", autocomplete = "off", @readonly = "readonly" })
+                <div class="row form-group">
+                    <div class="col-md-2">
+                        <label>Employee</label>
+                        @Html.TextBoxFor(m => m.EmployeeName, new { @class = "form_input ", autocomplete = "off", @readonly = "readonly" })
+                    </div>
+                    <div class="col-md-2">
+                        <label>Job Card Ref.</label>
+                        @Html.TextBoxFor(m => m.JobCardNo, new { @class = "form_input ", autocomplete = "off", @readonly = "readonly" })
+                    </div>
                 </div>
-            </div>
-            <div class="row form-group">
-                <div class="col-md-2">
-                    <label>Employee</label>
-                    @Html.TextBoxFor(m => m.EmployeeName, new { @class = "form_input ", autocomplete = "off", @readonly = "readonly" })
-                </div>
-                <div class="col-md-2">
-                    <label>Job Card Ref.</label>
-                    @Html.TextBoxFor(m => m.JobCardNo, new { @class = "form_input ", autocomplete = "off", @readonly = "readonly" })
-                </div>
-            </div>
-            <div class="table-responsive">
-                <table class="table table-bordered" id="tab_logic">
-                    <thead>
-                        <tr class="grid_heading">
-                           
-                            <th width="1%" class="text-center"><h1>#</h1></th>
-                            <th width="26%" class="text-left"><h1>Task</h1></th>
-                            <th width="5%" class="text-right"><h1>Start Date</h1></th>
-                            <th width="5%" class="text-right"><h1>End Date</h1></th>
-                            <th width="10%" class="text-right"><h1>Actual Hours</h1></th>
-                            <th width="1%" class="text-center"></th>
-                        </tr>
-                    </thead>
-                    <tbody class="grid_row" id="table_validation">
-                        @{int i = 0;}
-                        @foreach (var item in Model.JobCardDailyActivityTask)
-                        {
-                            <tr id="Row_@i" class="TaskRow">
-                                
-                                <td width="1%">@(i + 1)</td>
-                                <td width="26%">@Html.DropDownListFor(m => Model.JobCardDailyActivityTask[i].JobCardTaskId, (SelectList)ViewBag.TaskList, "Select Task", new { @class = "form_input", autocomplete = "off" })</td>
-                                <td width="5%">@Html.TextBoxFor(m => m.JobCardDailyActivityTask[i].TaskStartDate, Model.JobCardDailyActivityTask[i].TaskStartDate.ToString("dd/MMMM/yyyy"), new { @class = "taskdate form_input", autocomplete = "off" })</td>
-                                <td width="5%">@Html.TextBoxFor(m => m.JobCardDailyActivityTask[i].TaskEndDate, Model.JobCardDailyActivityTask[i].TaskEndDate.ToString("dd/MMMM/yyyy"), new { @class = "taskdate form_input", autocomplete = "off" })</td>
-                                <td width="10%">@Html.TextBoxFor(m => m.JobCardDailyActivityTask[i].ActualHours, new { @class = "form_input", autocomplete = "off" })</td>
-                                <td style="vertical-align:middle"><a id="add_@i" class="glyphicon glyphicon-plus" style="top:0px" onclick="AddAdditionRow()"></a></td>
+                <div class="table-responsive">
+                    <table class="table table-bordered" id="tab_logic">
+                        <thead>
+                            <tr class="grid_heading">
+
+                                <th width="1%" class="text-center"><h1>#</h1></th>
+                                <th width="26%" class="text-left"><h1>Task</h1></th>
+                                <th width="5%" class="text-right"><h1>Start Date</h1></th>
+                                <th width="5%" class="text-right"><h1>End Date</h1></th>
+                                <th width="10%" class="text-right"><h1>Actual Hours</h1></th>
+                                <th width="1%" class="text-center"></th>
                             </tr>
+                        </thead>
+                        <tbody class="grid_row" id="table_validation">
+                            @{int i = 0;}
+                            @foreach (var item in Model.JobCardDailyActivityTask)
+                        {
+                        <tr id="Row_@i" class="TaskRow">
+
+                            <td width="1%">@(i + 1)</td>
+                            <td width="26%">@Html.DropDownListFor(m => Model.JobCardDailyActivityTask[i].JobCardTaskId, (SelectList)ViewBag.TaskList, "Select Task", new { @class = "form_input", autocomplete = "off" })</td>
+                            <td width="5%">@Html.TextBoxFor(m => m.JobCardDailyActivityTask[i].TaskStartDate, Model.JobCardDailyActivityTask[i].TaskStartDate.ToString("dd/MMMM/yyyy"), new { @class = "taskdate form_input", autocomplete = "off" })</td>
+                            <td width="5%">@Html.TextBoxFor(m => m.JobCardDailyActivityTask[i].TaskEndDate, Model.JobCardDailyActivityTask[i].TaskEndDate.ToString("dd/MMMM/yyyy"), new { @class = "taskdate form_input", autocomplete = "off" })</td>
+                            <td width="10%">@Html.TextBoxFor(m => m.JobCardDailyActivityTask[i].ActualHours, new { @class = "form_input", autocomplete = "off" })</td>
+                            <td style="vertical-align:middle"><a id="add_@i" class="glyphicon glyphicon-plus" style="top:0px" onclick="AddAdditionRow()"></a></td>
+                        </tr>
                             i++;
                         }
-                    </tbody>
-                </table>
-            </div>
-            <div class="row form-group">
-                <div class="col-md-12">
-                    <div class="row">
-                       
-                        <div class="col-md-12">
-                            <label for="SplRemarks1">Special Remarks</label>
-                            @Html.TextAreaFor(m => m.Remarks, new { @class = "form_input form_input-h", autocomplete = "off" })
+                        </tbody>
+                    </table>
+                </div>
+                <div class="row form-group">
+                    <div class="col-md-12">
+                        <div class="row">
+
+                            <div class="col-md-12">
+                                <label for="SplRemarks1">Special Remarks</label>
+                                @Html.TextAreaFor(m => m.Remarks, new { @class = "form_input form_input-h", autocomplete = "off" })
+                            </div>
                         </div>
                     </div>
                 </div>
-            </div>
-            <div class="row">
-                <div class="col-md-12 hrpart">
-                    <button class="form-button right">Exit</button>
-                    <button type="submit" class="form-button right">Save</button>
+
+                <div class="row form-group">
+                    @*@{
+                        var images = new string[]
+                        {
+                            Model.Image1, Model.Image2, Model.Image3, Model.Image4
+                        };
+                        int j=0;
+                        foreach (var Image in images)
+                        {
+                            <div class="col-md-3">
+                                <div id="image_preview@(j)" title="Photo Preview">
+                                    <p><img src="\App_Images\@Image" alt="please upload image" id="image_preview@(j)" width="150px" height="100px" /></p>
+                                ></div>
+                                <input type="file" id="ImageFile@(j)" class="button" />
+                                <input type="button" class="form-button" id="Fileupload@(j)" value="Upload" onclick="Javascript: ImageUpload(@(j));" />
+                            </div>
+                        }
+                    }*@
+                    
+
+                    <div class="col-md-3">
+                        <div id="img_preview1" title="Photo Preview">
+                            <p><img src="\App_Images\@Model.Image1" alt="Please upload image" id="image_preview1" class="image-upload" /></p>
+                        </div>
+                        <input type="file" id="File1" class="button" />
+                        <input type="button" class="form-button" id="Fileupload1" value="Upload" onclick="Javascript: ImageUpload(1);" title="Upload to database" />
+                    </div>
+
+                    <div class="col-md-3">
+                        <div id="img_preview2" title="Photo Preview">
+                            <p><img src="\App_Images\@Model.Image2" alt="Please upload image" id="image_preview2" class="image-upload" /></p>
+                        </div>
+                        <input type="file" id="File2" class="button" />
+                        <input type="button" class="form-button" id="Fileupload2" value="Upload" onclick="Javascript: ImageUpload(2);" title="Upload to database" />
+                    </div>
+
+                    <div class="col-md-3">
+                        <div id="img_preview3" title="Photo Preview">
+                            <p><img src="\App_Images\@Model.Image3" alt="Please upload image" id="image_preview3" class="image-upload" /></p>
+                        </div>
+                        <input type="file" id="File3" class="button" />
+                        <input type="button" class="form-button" id="Fileupload3" value="Upload" onclick="Javascript: ImageUpload(3);" title="Upload to database" />
+                    </div>
+
+                    <div class="col-md-3">
+                        <div id="img_preview4" title="Photo Preview">
+                            <p><img src="\App_Images\@Model.Image4" alt="Please upload image" id="image_preview4" class="image-upload" /></p>
+                        </div>
+                        <input type="file" id="File4" class="button" />
+                        <input type="button" class="form-button" id="Fileupload4" value="Upload" onclick="Javascript: ImageUpload(4);" title="Upload to database" />
+                    </div>
                 </div>
-            </div>
-        }
-    </div>
+
+                <div class="row">
+                    <div class="col-md-12 hrpart">
+                        <button class="form-button right">Exit</button>
+                        <button type="submit" class="form-button right">Save</button>
+                    </div>
+                </div>
+            }
+        </div>
     </div>
 </div>

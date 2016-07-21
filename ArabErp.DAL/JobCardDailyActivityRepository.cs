@@ -43,7 +43,7 @@ namespace ArabErp.DAL
 
                     trn.Commit();
                 }
-                catch(Exception ex)
+                catch (Exception ex)
                 {
                     trn.Rollback();
                     return 0;
@@ -96,7 +96,7 @@ namespace ArabErp.DAL
                 return id;
             }
         }
-        
+
         public IEnumerable<JobCardForDailyActivity> PendingJobcardTasks()
         {
             using (IDbConnection connection = OpenConnection(dataConnection))
@@ -110,5 +110,19 @@ namespace ArabErp.DAL
             }
         }
 
+        /// <summary>
+        /// Update the image name in table, according to the given index (Image1, Image2, Image3, Image4)
+        /// </summary>
+        /// <param name="fileName">Name of file with extension</param>
+        /// <param name="id">JobCardDailyActivityId</param>
+        /// <param name="index">Index of column</param>
+        public void UpdateImageName(string fileName, int? id, int? index)
+        {
+            using (IDbConnection connection = OpenConnection(dataConnection))
+            {
+                string query = @"UPDATE JobCardDailyActivity SET Image" + index + " = @fileName WHERE JobCardDailyActivityId = @id";
+                connection.Execute(query, new { fileName = fileName, id = id });
+            }
+        }
     }
 }
