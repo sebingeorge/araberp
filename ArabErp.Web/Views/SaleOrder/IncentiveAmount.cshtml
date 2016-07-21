@@ -1,0 +1,87 @@
+﻿@using ArabErp.Domain
+@model IList<SaleOrder>
+@*@model ArabErp.Domain.SaleOrder*@
+@{
+    ViewBag.Title = "IncentiveAmount";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<script>
+    $(function () {
+
+        $("#FromDate").datepicker({ dateFormat: "dd/MM/yy" });
+    });
+
+    $(function () {
+
+        $("#ToDate").datepicker({ dateFormat: "dd/MM/yy" });
+    });
+</script>
+
+<div class="container">
+
+    <div class="row">
+
+
+        <div class="form-head1">
+            <h4>SaleOrder - Incentive Details</h4>
+        </div>
+
+                <div class="main-part pad1 white">
+
+                    <div class="row form-group">
+                        <div class="col-md-2">
+                            <label for="From">From</label>
+                            @Html.TextBox("FromDate", DateTime.Today.ToString("dd/MMMM/yyyy"), new { @class = "form_input ", autocomplete = "off", @readonly = "readonly", @onchange = "DateChanged()" })
+                        </div>
+                        <div class="col-md-2">
+                            <label for="To">To</label>
+                            @Html.TextBox("ToDate",DateTime.Today.ToString("dd/MMMM/yyyy"), new { @class = "form_input ", autocomplete = "off", @readonly = "readonly", @onchange = "DateChanged()" })
+                        </div>
+                    </div>
+
+                <div class="main-grid main-grid-top scroll1">
+                    <div class=" table-responsive">
+                        <table class="table table-bordered">
+                            <thead>
+                                <tr class="grid_heading">
+                                    <th width="20%" class="text-left"><h1>SO No</h1></th>
+                                    <th width="10%" class="text-left"><h1>SO Date</h1></th>
+                                    <th width="10%" class="text-right"><h1>Amount</h1></th>
+                                    <th width="20%" class="text-left"><h1>Order Taken</h1></th>
+                                    <th width="20%" class="text-left"><h1>Sales Executive</h1></th>
+                                    <th width="11%" class="text-right"><h1>Incentive Amount</h1></th>
+                                </tr>
+                            </thead>
+
+                          @foreach (var item in Model)
+                            {
+                                <tbody class="grid_row">
+                                    <tr>
+                                        <td>@Html.TextBoxFor(m => @item.SaleOrderRefNo, new {@class = "form_input", autocomplete = "off", @style = "text-align:left", @readonly = "readonly" })</td>
+                                        <td>@Html.TextBoxFor(m => @item.SaleOrderDate, item.SaleOrderDate.ToString("dd/MMMM/yyyy"), new { @class = "form_input", autocomplete = "off", @style = "text-align:left", @readonly = "readonly" })</td>
+                                        <td>@Html.TextBoxFor(m => @item.TotalAmount, new {@class = "form_input", autocomplete = "off", @style = "text-align:right", @readonly = "readonly" })</td>
+                                        <td>@Html.TextBoxFor(m => @item.EmployeeName, new {@class = "form_input", autocomplete = "off", @style = "text-align:left", @readonly = "readonly" })</td>
+                                        <td>@Html.TextBoxFor(m => @item.CommissionAgentName, new {@class = "form_input", autocomplete = "off", @style = "text-align:left", @readonly = "readonly" })</td>
+                                        <td>@Html.TextBoxFor(m => @item.CommissionAmount, new {@class = "form_input", autocomplete = "off", @style = "text-align:right", @readonly = "readonly" })</td>
+
+                                </tr>
+                                  
+                            </tbody>
+                           }
+                        </table>
+                    </div>
+
+
+                </div>
+
+                <br/>
+                <div class="row-count1">
+                    <h5>Total Incentive Amount = @Model.Sum(a => a.CommissionAmount)</h5>
+                </div>
+
+            </div>
+        </div>
+</div>
+
+
