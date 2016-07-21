@@ -1,87 +1,95 @@
-﻿@using ArabErp.Domain
-@model IList<SaleOrder>
-@*@model ArabErp.Domain.SaleOrder*@
-@{
-    ViewBag.Title = "IncentiveAmount";
-    Layout = "~/Views/Shared/_Layout.cshtml";
-}
+﻿
+    @model IList<ArabErp.Domain.SaleOrder>
 
-<script>
-    $(function () {
+    @{
+        ViewBag.Title = "IncentiveAmount";
+        Layout = "~/Views/Shared/_Layout.cshtml";
+    }
 
-        $("#FromDate").datepicker({ dateFormat: "dd/MM/yy" });
-    });
+    <script type="text/javascript">
 
-    $(function () {
+        $(document).ready(function () {
 
-        $("#ToDate").datepicker({ dateFormat: "dd/MM/yy" });
-    });
-</script>
+            //---------------------toastr---------------------------//
+            toastr.options = {
+                "positionClass": "toast-bottom-full-width",
+                "timeOut": "5000",
+                "extendedTimeOut": "2000"
+            }
+            if ('@TempData["success"]' != '') {
+                toastr.success('@TempData["success"]');
+            }
+            else if ('@TempData["error"]' != '') {
+                toastr.error('@TempData["error"]'.split('|')[0]);
+                console.log('@TempData["error"]'.split('|')[1]);
+            }
+            @{ TempData["success"] = TempData["error"] = ""; }
+            //------------------------------------------------------//
 
-<div class="container">
+        })
 
-    <div class="row">
+    
 
+        function Filter() {
+            $(grid).addClass("fade");
+            var url = '@Url.Action("IncentiveAmountList")';
+            var FromDate = $("#FromDate").val();
+            var ToDate = $("#ToDate").val();
+            var CommissionAgentId = $("#CommissionAgentId").val();
+            url += "?FromDate=" + FromDate + "&ToDate=" + ToDate + "&CommissionAgentId=" + CommissionAgentId;
+            $("#grid").load(url, function () {
+                $(grid).removeClass("fade");
+            });
+        }
 
-        <div class="form-head1">
-            <h4>SaleOrder - Incentive Details</h4>
-        </div>
+    
 
-                <div class="main-part pad1 white">
+        $(function () {
 
-                    <div class="row form-group">
-                        <div class="col-md-2">
-                            <label for="From">From</label>
-                            @Html.TextBox("FromDate", DateTime.Today.ToString("dd/MMMM/yyyy"), new { @class = "form_input ", autocomplete = "off", @readonly = "readonly", @onchange = "DateChanged()" })
-                        </div>
-                        <div class="col-md-2">
-                            <label for="To">To</label>
-                            @Html.TextBox("ToDate",DateTime.Today.ToString("dd/MMMM/yyyy"), new { @class = "form_input ", autocomplete = "off", @readonly = "readonly", @onchange = "DateChanged()" })
-                        </div>
+            $("#FromDate").datepicker({ dateFormat: "dd/MM/yy" });
+        });
+
+        $(function () {
+
+            $("#ToDate").datepicker({ dateFormat: "dd/MM/yy" });
+        });
+
+    </script>
+
+    @*<style type="text/css">
+        .fade {
+            opacity: .5;
+        }
+    </style>*@
+
+    <div class="container">
+        <div class="row">
+
+            <div class="form-head1">
+                <h4>SaleOrder - Incentive Details</h4>
+            </div>
+
+            <div class="main-part pad1">
+
+                <div class="row form-group">
+                    <div class="col-md-2">
+                        <label for="From">From</label>
+                        @Html.TextBox("FromDate", DateTime.Today.ToString("dd/MMMM/yyyy"), new { @class = "form_input ", autocomplete = "off", @readonly = "readonly", @onchange = "Filter()" })
+                    </div>
+                    <div class="col-md-2">
+                        <label for="To">To</label>
+                        @Html.TextBox("ToDate", DateTime.Today.ToString("dd/MMMM/yyyy"), new { @class = "form_input ", autocomplete = "off", @readonly = "readonly", @onchange = "Filter()" })
+                    </div>
+                    <div class="col-md-3">
+                        <label for="CommissionAgentId">Sales Executive</label>
+                        @Html.DropDownList("CommissionAgentId", (SelectList)ViewBag.commissionagentlist, "Any", new { @class = "form_input", @onchange = "Filter()" })
                     </div>
 
-                <div class="main-grid main-grid-top scroll1">
-                    <div class=" table-responsive">
-                        <table class="table table-bordered">
-                            <thead>
-                                <tr class="grid_heading">
-                                    <th width="20%" class="text-left"><h1>SO No</h1></th>
-                                    <th width="10%" class="text-left"><h1>SO Date</h1></th>
-                                    <th width="10%" class="text-right"><h1>Amount</h1></th>
-                                    <th width="20%" class="text-left"><h1>Order Taken</h1></th>
-                                    <th width="20%" class="text-left"><h1>Sales Executive</h1></th>
-                                    <th width="11%" class="text-right"><h1>Incentive Amount</h1></th>
-                                </tr>
-                            </thead>
+                  </div>
 
-                          @foreach (var item in Model)
-                            {
-                                <tbody class="grid_row">
-                                    <tr>
-                                        <td>@Html.TextBoxFor(m => @item.SaleOrderRefNo, new {@class = "form_input", autocomplete = "off", @style = "text-align:left", @readonly = "readonly" })</td>
-                                        <td>@Html.TextBoxFor(m => @item.SaleOrderDate, item.SaleOrderDate.ToString("dd/MMMM/yyyy"), new { @class = "form_input", autocomplete = "off", @style = "text-align:left", @readonly = "readonly" })</td>
-                                        <td>@Html.TextBoxFor(m => @item.TotalAmount, new {@class = "form_input", autocomplete = "off", @style = "text-align:right", @readonly = "readonly" })</td>
-                                        <td>@Html.TextBoxFor(m => @item.EmployeeName, new {@class = "form_input", autocomplete = "off", @style = "text-align:left", @readonly = "readonly" })</td>
-                                        <td>@Html.TextBoxFor(m => @item.CommissionAgentName, new {@class = "form_input", autocomplete = "off", @style = "text-align:left", @readonly = "readonly" })</td>
-                                        <td>@Html.TextBoxFor(m => @item.CommissionAmount, new {@class = "form_input", autocomplete = "off", @style = "text-align:right", @readonly = "readonly" })</td>
-
-                                </tr>
-                                  
-                            </tbody>
-                           }
-                        </table>
-                    </div>
-
-
+                <div class="table-responsive scroll4" id="grid">
+                    @Html.Action("IncentiveAmountList")
                 </div>
-
-                <br/>
-                <div class="row-count1">
-                    <h5>Total Incentive Amount = @Model.Sum(a => a.CommissionAmount)</h5>
-                </div>
-
             </div>
         </div>
-</div>
-
-
+    </div>

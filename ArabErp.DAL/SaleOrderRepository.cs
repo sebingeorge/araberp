@@ -495,10 +495,31 @@ namespace ArabErp.DAL
                                   GROUP BY SH.SaleOrderId, SH.SaleOrderRefNo, SH.SaleOrderDate,
                                   EmployeeName,CommissionAgentName,CommissionAmount
                                   ORDER BY SH.SaleOrderDate";
-                return connection.Query<SaleOrder>(query);
+                return connection.Query<SaleOrder>(query).ToList();
             }
         }
 
+
+        public IEnumerable<SaleOrder> GetSaleOrderIncentiveAmountList(DateTime? FromDate, DateTime? ToDate, int CommissionAgentId)
+        {
+            using (IDbConnection connection = OpenConnection(dataConnection))
+            {
+                string query = @"SELECT SH.SaleOrderId, SH.SaleOrderRefNo, SH.SaleOrderDate,SUM(SI.Amount)TotalAmount,
+                                  EmployeeName,CommissionAgentName,CommissionAmount
+                                  FROM SaleOrder SH 
+                                  INNER JOIN SaleOrderItem SI ON SH.SaleOrderId = SI.SaleOrderId
+                                  INNER JOIN CommissionAgent C ON C.CommissionAgentId=SH.CommissionAgentId
+                                  INNER JOIN Employee ON EmployeeId =SalesExecutiveId
+                                  WHERE SH.CommissionAmountApproveStatus=1
+								  AND SaleOrderDate Between ISNULL(NULLIF(@FromDate, getDate()), SaleOrderDate) and 
+                                  ISNULL(NULLIF(@ToDate, getDate()), SaleOrderDate) AND SH.CommissionAgentId= ISNULL(NULLIF(@CommissionAgentId, 0),SH.CommissionAgentId)
+								  GROUP BY SH.SaleOrderId, SH.SaleOrderRefNo, SH.SaleOrderDate,
+                                  EmployeeName,CommissionAgentName,CommissionAmount
+                                  ORDER BY SH.SaleOrderRefNo;";
+
+                return connection.Query<SaleOrder>(query, new { FromDate = FromDate, ToDate = ToDate, CommissionAgentId = CommissionAgentId }).ToList();
+            }
+        }
        
 
     }
