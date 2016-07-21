@@ -58,13 +58,26 @@ namespace ArabErp.DAL
 
             using (IDbConnection connection = OpenConnection(dataConnection))
             {
-                string sql = @"select * from JobCardDailyActivity
-                        where JobCardDailyActivityId=@JobCardDailyActivityId";
+                string sql = @"SELECT
+	                                JobCardDailyActivityId,
+	                                JobCardDailyActivityRefNo,
+	                                CONVERT(VARCHAR, JobCardDailyActivityDate, 106) JobCardDailyActivityDate,
+	                                EMP.EmployeeName,
+	                                JC.JobCardNo,
+	                                SpecialRemarks Remarks,
+	                                Image1,Image2,Image3,Image4
+                                FROM JobCardDailyActivity DA
+                                INNER JOIN JobCard JC ON DA.JobCardId = JC.JobCardId
+                                INNER JOIN Employee EMP ON JC.EmployeeId = EMP.EmployeeId
+                                WHERE DA.JobCardDailyActivityId = @JobCardDailyActivityId
+                                AND DA.isActive = 1";
 
                 var objJobCardDailyActivity = connection.Query<JobCardDailyActivity>(sql, new
                 {
                     JobCardDailyActivityId = JobCardDailyActivityId
                 }).First<JobCardDailyActivity>();
+
+                objJobCardDailyActivity.JobCardDailyActivityTask = new JobCardDailyActivityTaskRepository().GetJobCardDailyActivityTasks(JobCardDailyActivityId);
 
                 return objJobCardDailyActivity;
             }

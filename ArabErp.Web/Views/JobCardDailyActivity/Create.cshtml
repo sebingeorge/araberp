@@ -8,28 +8,10 @@
 }
 <script>
     $(function () {
-        
-        @if (ViewBag.isTxnPending)
-        {
-            @: $("#JobCardDailyActivityDate").datepicker({ dateFormat: "dd/MM/yy" });
-            @: assignTaskDate();
-            @: $("input[id^='Fileupload']").attr("disabled", "true");
-            @: $("input[type='file']").attr("title", "Images can be uploaded once Daily Activity is saved");
-            @: $("input[type='file']").tooltip();
-        }
-        else
-        {
-            if(Model.JobCardDailyActivityId != null || Model.JobCardDailyActivityId != 0)
-            {
-                @: $("#JobCardDailyActivityId").val(@Model.JobCardDailyActivityId);
-            }
-            @: $("input[type='text'], textarea").attr("readonly", "true");
-            @: $("select").attr("disabled", "true");
-            @: $("select").attr("disabled", "true");
-            @: $("button[type='submit'], .glyphicon-plus").hide();
-        }
-
+        $("#JobCardDailyActivityDate").datepicker({ dateFormat: "dd/MM/yy" });
+        assignTaskDate();
     });
+
     function assignTaskDate() {
         $('.taskdate').each(function (i, obj) {
             //console.log(obj.id);
@@ -61,30 +43,7 @@
         assignTaskDate();
     }
 
-    function ImageUpload(index) {
-        var xhr = new XMLHttpRequest();
-        var fd = new FormData();
-        var id = $("#JobCardDailyActivityId").val();
-        fd.append("file", document.getElementById('File' + index).files[0]);
-        var url = '@Url.Action("UploadFiles")';
-        xhr.open("POST", url + "?id=" + id + "&index=" + index, true);
-        xhr.send(fd);
-        xhr.addEventListener("load", function (event) {
-            var temppath = event.target.response;
-            temppath = temppath.replace(/["']/g, "");
-            //$("#childImagepath").val(event.target.response);
-            $("#image_preview" + index).attr("src", "\\App_Images\\" + temppath);
-        }, false);
-    }
-
 </script>
-
-<style type="text/css">
-    .image-upload{
-        width:150px;
-        height:100px
-    }
-</style>
 
 <div class="container">
     <div class="row">
@@ -157,59 +116,6 @@
                                 @Html.TextAreaFor(m => m.Remarks, new { @class = "form_input form_input-h", autocomplete = "off" })
                             </div>
                         </div>
-                    </div>
-                </div>
-
-                <div class="row form-group">
-                    @*@{
-                        var images = new string[]
-                        {
-                            Model.Image1, Model.Image2, Model.Image3, Model.Image4
-                        };
-                        int j=0;
-                        foreach (var Image in images)
-                        {
-                            <div class="col-md-3">
-                                <div id="image_preview@(j)" title="Photo Preview">
-                                    <p><img src="\App_Images\@Image" alt="please upload image" id="image_preview@(j)" width="150px" height="100px" /></p>
-                                ></div>
-                                <input type="file" id="ImageFile@(j)" class="button" />
-                                <input type="button" class="form-button" id="Fileupload@(j)" value="Upload" onclick="Javascript: ImageUpload(@(j));" />
-                            </div>
-                        }
-                    }*@
-                    
-
-                    <div class="col-md-3">
-                        <div id="img_preview1" title="Photo Preview">
-                            <p><img src="\App_Images\@Model.Image1" alt="Please upload image" id="image_preview1" class="image-upload" /></p>
-                        </div>
-                        <input type="file" id="File1" class="button" />
-                        <input type="button" class="form-button" id="Fileupload1" value="Upload" onclick="Javascript: ImageUpload(1);" title="Upload to database" />
-                    </div>
-
-                    <div class="col-md-3">
-                        <div id="img_preview2" title="Photo Preview">
-                            <p><img src="\App_Images\@Model.Image2" alt="Please upload image" id="image_preview2" class="image-upload" /></p>
-                        </div>
-                        <input type="file" id="File2" class="button" />
-                        <input type="button" class="form-button" id="Fileupload2" value="Upload" onclick="Javascript: ImageUpload(2);" title="Upload to database" />
-                    </div>
-
-                    <div class="col-md-3">
-                        <div id="img_preview3" title="Photo Preview">
-                            <p><img src="\App_Images\@Model.Image3" alt="Please upload image" id="image_preview3" class="image-upload" /></p>
-                        </div>
-                        <input type="file" id="File3" class="button" />
-                        <input type="button" class="form-button" id="Fileupload3" value="Upload" onclick="Javascript: ImageUpload(3);" title="Upload to database" />
-                    </div>
-
-                    <div class="col-md-3">
-                        <div id="img_preview4" title="Photo Preview">
-                            <p><img src="\App_Images\@Model.Image4" alt="Please upload image" id="image_preview4" class="image-upload" /></p>
-                        </div>
-                        <input type="file" id="File4" class="button" />
-                        <input type="button" class="form-button" id="Fileupload4" value="Upload" onclick="Javascript: ImageUpload(4);" title="Upload to database" />
                     </div>
                 </div>
 

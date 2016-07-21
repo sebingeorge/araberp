@@ -43,14 +43,26 @@ namespace ArabErp.DAL
             }
         }
 
-        public List<JobCardDailyActivityTask> GetJobCardDailyActivityTasks()
+        /// <summary>
+        /// Get JobCard Daily Activity Tasks by JobCardDailyActivityId (0 for all Tasks)
+        /// </summary>
+        /// <param name="JobCardDailyActivityId">0 for all tasks</param>
+        /// <returns></returns>
+        public List<JobCardDailyActivityTask> GetJobCardDailyActivityTasks(int JobCardDailyActivityId)
         {
             using (IDbConnection connection = OpenConnection(dataConnection))
             {
-                string sql = @"select * from JobCardDailyActivityTask
-                        where isActive=1";
+                string sql = @"SELECT
+	                                CONVERT(VARCHAR, T.TaskStartDate, 106) TaskStartDate,
+	                                CONVERT(VARCHAR, T.TaskEndDate, 106) TaskEndDate,
+	                                T.ActualHours,
+	                                JCT.JobCardTaskName
+                                FROM JobCardDailyActivityTask T
+                                INNER JOIN JobCardTaskMaster JCT ON T.JobCardTaskId = JCT.JobCardTaskMasterId
+                                WHERE JobCardDailyActivityId = 27
+                                AND T.isActive = 1";
 
-                var objJobCardDailyActivityTasks = connection.Query<JobCardDailyActivityTask>(sql).ToList<JobCardDailyActivityTask>();
+                var objJobCardDailyActivityTasks = connection.Query<JobCardDailyActivityTask>(sql, new { JobCardDailyActivityId = JobCardDailyActivityId }).ToList<JobCardDailyActivityTask>();
 
                 return objJobCardDailyActivityTasks;
             }

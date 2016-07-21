@@ -47,12 +47,7 @@ namespace ArabErp.Web.Controllers
                 JobCardDailyActivityRepository repo = new JobCardDailyActivityRepository();
                 model.CreatedDate = DateTime.Now;
                 var id = repo.InsertJobCardDailyActivity(model);
-                //return RedirectToAction("PendingJobcardTasks");
-                JobCard jc = new JobCardRepository().GetDetailsById(model.JobCardId, null);
-                FillTaks(jc.WorkDescriptionId);
-                ViewBag.isTxnPending = false;
-                model.JobCardDailyActivityId = id;
-                return View(model);
+                return RedirectToAction("Details", new { id = id });
             }
             else
             {
@@ -71,29 +66,6 @@ namespace ArabErp.Web.Controllers
         {
             string fileName = UploadImage(file);
             new JobCardDailyActivityRepository().UpdateImageName(fileName, id, index);
-            
-
-            //RegistrationViewModel reg = _registrationManager.GetChildDetails(Child_Id);
-
-            //_registrationManager.UpdateChildImage(Child_Id, fileName, image_type);
-
-            //if (image_type == "child")
-            //{
-            //    if (reg != null && reg.childImagepath != null && reg.childImagepath != "")
-            //    {
-            //        string oldpath = Path.Combine(Server.MapPath("~/App_Images/"), reg.childImagepath);
-            //        System.IO.File.Delete(oldpath);
-            //    }
-            //}
-            //if (image_type == "parent")
-            //{
-            //    if (reg != null && reg.parentImagepath != null && reg.parentImagepath != "")
-            //    {
-            //        string oldpath = Path.Combine(Server.MapPath("~/Content/img/"), reg.parentImagepath);
-            //        System.IO.File.Delete(oldpath);
-            //    }
-            //}
-            //return Json(fileName, JsonRequestBehavior.AllowGet);
             return Json(fileName, JsonRequestBehavior.AllowGet);
         }
 
@@ -103,6 +75,12 @@ namespace ArabErp.Web.Controllers
             string qualifiedName = Server.MapPath("~/App_Images/") + uniqueName;
             file.SaveAs(qualifiedName);
             return uniqueName;
+        }
+
+        public ActionResult Details(int id)//JobCardDailyActivityId
+        {
+            var model = new JobCardDailyActivityRepository().GetJobCardDailyActivity(id);
+            return View(model);
         }
     }
 }
