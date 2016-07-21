@@ -146,20 +146,20 @@
                                     @Html.TextBoxFor(m => m.ContactPerson, new { @class = "form_input", autocomplete = "off" })
                                 </div>
 
-                                <div class="col-md-6">
-                                    <div class="row">
-                                        <div class="part4">
-                                            <label for="CreditPeriod">Credit Period</label>
-                                            @Html.TextBoxFor(m => m.CreditPeriod, new { @class = "form_input", autocomplete = "off" })
-                                        </div>
-                                    </div>
-                                    </div>
+                             </div>
 
+                            <div class="row">
+                                <div class="part4 col-md-5">
+                                    <label for="CreditPeriod">Credit Period</label>
+                                    @Html.TextBoxFor(m => m.CreditPeriod, new { @class = "form_input", autocomplete = "off" })
                                 </div>
-
-
-
+                                <div class="part4 col-md-5">
+                                    <label for="CreditLimit">Credit Limit</label>
+                                    @Html.TextBoxFor(m => m.CreditLimit, new { @class = "form_input", autocomplete = "off" })
+                                </div>
                             </div>
+
+                       </div>
 
                         <div class="row">
 
