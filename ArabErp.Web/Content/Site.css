@@ -961,9 +961,9 @@ section.content {
 }
 .row-count
  {
-    margin-top:-16px;
-    margin-bottom:9px;
-    margin-left:-4px;
+    margin-bottom: 23px;
+    margin-left: -4px;
+    margin-top: -22px
 }
 
 .row-count h5
