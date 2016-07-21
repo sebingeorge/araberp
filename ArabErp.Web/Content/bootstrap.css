@@ -7139,6 +7139,16 @@ td.visible-print {
 {
     font-size:13px !important;
 }
+.row-count4 {
+
+    margin-bottom:24px !important;
+
+}
+.row-count4 h5
+
+{
+    font-size:13px !important;
+}
 .widthset 
 {
     margin-left:0 !important;
@@ -7360,6 +7370,17 @@ td.visible-print {
 
 }
 .row-count3 h5
+
+{
+    font-size:14px !important;
+}
+
+.row-count4{
+
+    margin-bottom:24px !important;
+
+}
+.row-count4 h5
 
 {
     font-size:14px !important;
