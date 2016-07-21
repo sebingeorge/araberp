@@ -13,17 +13,17 @@
         </div>
         <div class="main-part white pad1">
             <div class="row">
-                <div class="table-responsive">
+                
                     <div class="main-grid main-grid-top">
-
-                        @Html.Grid(Model).Columns(columns =>
+                        <div class="table-responsive">
+                            @Html.Grid(Model).Columns(columns =>
                         {
                             columns.Add(m => m.UserName).Titled("User Name").SetWidth(110);
                             columns.Add(m => m.LoginDate).Titled("Date").SetWidth(30);
                             columns.Add(m => m.LoginTime).Titled("Login Time").SetWidth(30);
                             columns.Add(m => m.LogoutTime).Titled("Logout Time").SetWidth(30);
                         }).WithPaging(10)
-                    </div>
+                        </div>
 
                 </div>
 

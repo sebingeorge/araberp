@@ -7096,8 +7096,8 @@ td.visible-print {
 
      .row-count 
     {
-    margin-left: -15px !important;
-    margin-top: -3px !important;
+    margin-left:0px !important;
+    margin-top: -23px !important;
     }
     .row-count h5 
         {
@@ -7307,8 +7307,8 @@ td.visible-print {
 }
     .row-count 
     {
-    margin-left: -15px !important;
-    margin-top: -3px !important;
+    margin-left: -4px !important;
+    margin-top: -25px !important;
     }
     .row-count h5 
         {
