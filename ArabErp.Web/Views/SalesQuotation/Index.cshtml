@@ -21,9 +21,19 @@
             "showMethod": "fadeIn",
             "hideMethod": "fadeOut"
         }
-        if ('@TempData["success"]' != "" && '@TempData["QuotationRefNo"]' != "") {
-            toastr.success('@TempData["success"]' + '   Sales Quotation No. is : ' + '@TempData["QuotationRefNo"]');
+        if ('@TempData["success"]' != "")
+        {
+            if ('@TempData["success"]' != "" && '@TempData["QuotationRefNo"]' != "") {
+                toastr.success('@TempData["success"]' + '   Sales Quotation No. is : ' + '@TempData["QuotationRefNo"]');
+            }
+            else
+            {
+                toastr.success('@TempData["success"]');
+            }
         }
+        @*if ('@TempData["success"]' != "" && '@TempData["QuotationRefNo"]' != "") {
+            toastr.success('@TempData["success"]' + '   Sales Quotation No. is : ' + '@TempData["QuotationRefNo"]');
+        }*@
         else if ('@TempData["error"]' != "") {
             toastr.error('@TempData["error"]');
         }
@@ -63,6 +73,7 @@
         }
     }
     function Delete() {
+      
         if ($('#HiddenFieldSalesQuotationId').val() == '' || $('#HiddenFieldSalesQuotationId').val() == 0) {
             toastr.warning("Please Select Any Sales Quotation !!")
         }
@@ -71,6 +82,7 @@
             url = url + "?Id=" + $('#HiddenFieldSalesQuotationId').val();
             console.log(url);
             window.location.href = url;
+          
         }
     }
     function Create() {

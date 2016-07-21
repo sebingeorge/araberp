@@ -83,18 +83,19 @@ namespace ArabErp.Web.Controllers
         }
 
         [HttpGet]
-        public ActionResult Reserve(int id = 0)
+        public ActionResult Reserve(int id = 0, int item = 0)//SOI id and material id is received here
         {
-            if (id != 0)
+            if (id != 0 && item != 0)
             {
-
-                var items = new ItemBatchRepository().GetItemBatchForReservation();
-                for (int i = 0; i < items.Count() - 1; i++)
-                    items.ElementAt(i).SaleOrderItemId = id;
-
+                var items = new ItemBatchRepository().GetItemBatchForReservation(id, item);
                 return View(items);
             }
-            else throw new NullReferenceException();
+            else
+            {
+                TempData["success"] = "";
+                TempData["error"] = "That was an invalid request. Please try again.";
+                return RedirectToAction("PendingReservation");
+            }
         }
 
         [HttpPost]
@@ -108,24 +109,104 @@ namespace ArabErp.Web.Controllers
             {
                 IList<ItemBatch> selectedmodel = (from i in model where i.isSelected == true select i).ToList<ItemBatch>();
 
-                if (selectedmodel.Count>0)
+                if (selectedmodel.Count > 0)
                 {
-                    //new ItemBatchRepository().ReserveItemBatch(selectedmodel);
+                    new ItemBatchRepository().ReserveItemBatch(selectedmodel);
                 }
-                    TempData["success"] = "Saved successfully";
-                    TempData["error"] = "";
-                    return RedirectToAction("Reserve",new {id=sid });
+                TempData["success"] = "Saved successfully";
+                TempData["error"] = "";
+                return RedirectToAction("PendingReservation");
 
-                }
-               
+            }
+
             catch (Exception ex)
             {
                 TempData["success"] = "";
-                TempData["error"] = "Some error occured while connecting to database. Check your network connection and try again|" + ex.Message;
+                TempData["error"] = "Some error occured. Please try again|" + ex.Message;
             }
             return View(model);
         }
+        public ActionResult ReservedList()
+        {
+            return View(new ItemBatchRepository().GetReservedItems());
+        }
 
+        
+        public ActionResult UnReserve(int id = 0)//sale order id is received here
+        {
+            if (id != 0)
+            {
+                return View(new ItemBatchRepository().GetItemBatchForUnReservation(SaleOrderId: id));
+            }
+            else
+            {
+                TempData["success"] = "";
+                TempData["error"] = "That was an invalid request. Please try again.";
+                return RedirectToAction("ReservedList");
+            }
+        }
 
+        [HttpPost]
+        public ActionResult UnReserve(IList<ItemBatch> model)
+        {
+            try
+            {
+                List<int> selected = (from item in model where item.isSelected select item.ItemBatchId).ToList<int>();
+                new ItemBatchRepository().UnReserveItems(selected);
+                TempData["success"] = "Unreserved successfully";
+                TempData["error"] = "";
+                return RedirectToAction("ReservedList");
+            }
+            catch (Exception)
+            {
+                TempData["success"] = "";
+                TempData["error"] = "Some error occured. Please try again.";
+                return View("UnReserve", model);
+            }
+        }
+
+        /// <summary>
+        /// List of materials that have a serial number
+        /// </summary>
+        /// <returns></returns>
+        public ActionResult MaterialList()
+        {
+            FillMaterial(); FillSaleOrder();
+            return View();
+        }
+
+        public ActionResult MaterialListGrid(string serialno = "", int item = 0, int type = 0, int saleorder = 0)
+        {
+            return PartialView("_MaterialListGrid", new ItemBatchRepository().GetMaterialList(serialno, item, type, saleorder));
+        }
+
+        /// <summary>
+        /// Get Sale Order Ref. No. and Date, GRN Ref. No. and Date, Work Desc. Ref. No and Short Name
+        /// </summary>
+        /// <param name="id">SaleOrderId OR SaleOrderItemId</param>
+        /// <param name="type">0 if SaleOrderId, 1 if SaleOrderItemId</param>
+        /// <returns>JsonResult</returns>
+        public JsonResult GetItemBatchDetails(int id, int type)
+        {
+            ItemBatch model = new ItemBatchRepository().GetItemBatchDetails(id, type);
+            return Json(new
+            {
+                WorkDescRefNo = model.WorkDescrRefNo + " - " + model.WorkDescrShortName,
+                SaleOrderRefNo = model.SaleOrderRefNo + " - " + model.SaleOrderDate,
+                GRNRefNo = model.GRNNo + " - " + model.GRNDate.ToString("dd MMMM yyyy")
+            }, JsonRequestBehavior.AllowGet);
+        }
+
+        #region Dropdowns
+        public void FillMaterial()
+        {
+            ViewBag.materialList = new SelectList(new DropdownRepository().ItemDropdown(), "Id", "Name");
+        }
+
+        public void FillSaleOrder()
+        {
+            ViewBag.saleOrderList = new SelectList(new DropdownRepository().SaleOrderDropdown1(), "Id", "Name");
+        }
+        #endregion
     }
 }

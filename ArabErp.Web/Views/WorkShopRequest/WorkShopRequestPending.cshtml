@@ -127,13 +127,13 @@
                             <tr class="grid_heading">
                                 <th width="15%"><h1>SO.No. & Date</h1></th>
                                 <th width="20%"><h1>Customer</h1></th>
-                                <th width="15%"><h1>Customer Order Ref.</h1></th>
+                                <th width="12%"><h1>Customer Order Ref.</h1></th>
                                 <th width="15%"><h1>Work Description</h1></th>
-                                <th width="5%"><h1>Ageing</h1></th>
+                                <th width="3%"><h1>Ageing</h1></th>
                                 <th width="10%"><h1>EDA</h1></th>
                                 <th width="10%"><h1>EDD</h1></th>
-                                <th width="10%"><h1>Days Left</h1></th>
-                                <th><center><h1>Select</h1></center></th>
+                                <th width="3%"><h1>Days Left</h1></th>
+                                <th width="14%"><center><h1>Select</h1></center></th>
                             </tr>
                         </thead>
                        @for (int i = 0; i < Model.SaleOrders.Count(); i++)
@@ -148,8 +148,19 @@
                                     <td class="grid-cell"><input type="text" disabled="disabled" class="form_input" value="@Model.SaleOrders.ElementAt(i).EDateArrival.ToString("dd/MMM/yyyy")" /></td>
                                     <td class="grid-cell"><input type="text" disabled="disabled" class="form_input" value="@Model.SaleOrders.ElementAt(i).EDateDelivery.ToString("dd/MMM/yyyy")" /></td>
                                     <td class="grid-cell"><input type="text" disabled="disabled" class="form_input" value="@Model.SaleOrders.ElementAt(i).Remaindays" /></td>
-                                    <td><center>@Html.ActionLink("Select", "Create", "WorkShopRequest", new { SaleOrderId = Model.SaleOrders.ElementAt(i).SaleOrderId },new {@class="form-button5"})</center></td>
-
+                                    <td>
+                                        <center>
+                                            @if (Model.SaleOrders.ElementAt(i).WorkRequestPaymentApproved == "P")
+                                            {
+                                                <span class="form_input perm">Approval Pending</span>
+                                            }
+                                             else
+                                            {
+                                            @Html.ActionLink("Select", "Create", "WorkShopRequest", new { SaleOrderId = Model.SaleOrders.ElementAt(i).SaleOrderId }, new { @class = "form-button5" })
+                                            }
+                                        </center>
+                                    </td>
+                                   
                                 </tr>
                             </tbody>
                         }

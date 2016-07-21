@@ -32,7 +32,7 @@ p {
   display: block;
   width: 100%;
   height: 22px;
-  font-size: 11px;
+  font-size: 12px;
   line-height: 1.428571429;
   color: #000;
   vertical-align: middle;
@@ -163,6 +163,11 @@ p {
           .top5
      {
          margin-top:-11px !important;
+
+     }
+     .top6
+     {
+         margin-top:-7px;
 
      }
 

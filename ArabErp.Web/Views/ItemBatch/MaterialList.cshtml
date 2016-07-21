@@ -1,0 +1,102 @@
+﻿@model IList<ArabErp.Domain.ItemBatch>
+
+@{
+    ViewBag.Title = "Material List";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<script type="text/javascript">
+
+    $(document).ready(function () {
+
+        //---------------------toastr---------------------------//
+        toastr.options = {
+            "positionClass": "toast-bottom-full-width",
+            "timeOut": "5000",
+            "extendedTimeOut": "2000"
+        }
+        if ('@TempData["success"]' != '') {
+            toastr.success('@TempData["success"]');
+        }
+        else if ('@TempData["error"]' != '') {
+            toastr.error('@TempData["error"]'.split('|')[0]);
+            console.log('@TempData["error"]'.split('|')[1]);
+        }
+        @{ TempData["success"] = TempData["error"] = ""; }
+        //------------------------------------------------------//
+
+    })
+
+    function OnItemSelected(id) {
+        @*var url = '@Url.Action("Create")';
+        url += "?id=" + id;
+        window.location = url;*@
+    }
+
+    function Filter() {
+        $(grid).addClass("fade");
+        var url = '@Url.Action("MaterialListGrid")';
+        var serialno = $("#txtSerialNo").val();
+        var item = $("#cboItem").val();
+        var type = $("#cboType").val();
+        var saleorder = $("#cboSaleOrder").val();
+        url += "?serialno=" + serialno + "&item=" + item + "&type=" + type + "&saleorder=" + saleorder;
+        $("#grid").load(url, function () {
+            $(grid).removeClass("fade");
+        });
+    }
+
+    function OnTypeChanged(sender) {
+
+    }
+
+</script>
+
+<style type="text/css">
+    .fade {
+        opacity: .5;
+    }
+</style>
+
+<div class="container">
+    <div class="row">
+
+        <div class="form-head1">
+            <h4>Material List</h4>
+        </div>
+
+        <div class="main-part pad1">
+
+            <div class="row form-group">
+                <div class="col-md-2">
+                    <label for="txtSerialNo">Serial No.</label>
+                    <input type="text" class="form_input" id="txtSerialNo" />
+                </div>
+                <div class="col-md-3">
+                    <label for="cboItem">Material/Spare</label>
+                    @Html.DropDownList("cboItem", (SelectList)ViewBag.materialList, "Any", new { @class = "form_input" })
+                </div>
+                <div class="col-md-2">
+                    <label for="cboType">Type</label>
+                    <select id="cboType" class="form_input" onclick="OnTypeChanged(this)">
+                        <option value="0">Any</option>
+                        <option value="1">Reserved</option>
+                        <option value="2">Unreserved</option>
+                        <option value="3">Used</option>
+                    </select>
+                </div>
+                <div class="col-md-3">
+                    <label for="cboSaleOrder">Sale Order</label>
+                    @Html.DropDownList("cboSaleOrder", (SelectList)ViewBag.saleOrderList, "Any", new { @class = "form_input" })
+                </div>
+                <div class="col-md-2">
+                    <input type="button" class="form-button" value="Filter" onclick="Filter()" />
+                </div>
+            </div>
+
+            <div class="table-responsive scroll4" id="grid">
+                @Html.Action("MaterialListGrid")
+            </div>
+        </div>
+    </div>
+</div>

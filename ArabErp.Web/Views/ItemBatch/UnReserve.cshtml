@@ -1,7 +1,7 @@
 ﻿@model IList<ArabErp.Domain.ItemBatch>
 
 @{
-    ViewBag.Title = "Reserve Item";
+    ViewBag.Title = "Unreserve Item";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
@@ -26,7 +26,7 @@
         //------------------------------------------------------//
 
         var url = '@Url.Action("GetItemBatchDetails")';
-        $.getJSON(url, { id: '@Request.QueryString["id"]', type: 1 }, function (data) {
+        $.getJSON(url, { id: '@Request.QueryString["id"]', type: 0 }, function (data) {
             $("#txtGRNRefNo").val(data.GRNRefNo);
             $("#txtSORefNo").val(data.SaleOrderRefNo);
             $("#txtWDRefNo").val(data.WorkDescRefNo);
@@ -35,32 +35,19 @@
     })
 
     function Back() {
-        var url = '@Url.Action("PendingReservation")';
+        var url = '@Url.Action("ReservedList")';
         window.location = url;
     }
 
     function formValidation() {
-        @if (Model.Count == 0)
-            {
-                @: var quantity = 0;
-                            }
-            else
-            {
-                @: var quantity = '@Model[0].Quantity';
-                            }
-
         var count = 0;
-        $('input[type="checkbox"').each(function (index, obj) {
+        $('input[type="checkbox"]').each(function (index, obj) {
             if ($(obj).is(":checked")) count++;
         })
-
-        if (count > Number(quantity)) {
-            toastr.info("Only " + quantity + " item(s) are required. Please deselect " + (count - quantity) + " item(s).");
+        if (count > 0) {
+            return true;
         }
-        else if (count == 0) {
-            toastr.info(quantity + " item(s) are required. Please select atleast one item.");
-        }
-        else return true;
+        toastr.info("You have to select atleast one item to unreserve");
         return false;
     }
 
@@ -70,11 +57,11 @@
     <div class="row">
 
         <div class="form-head1">
-            <h4>Reserve Item</h4>
+            <h4>Unreserve Item</h4>
         </div>
 
         <div class="main-part pad1">
-            @using (Html.BeginForm(null, null, FormMethod.Post, new { @class = "createFrom", @id = "batching-form", @onsubmit = "return formValidation()" }))
+            @using (Html.BeginForm(null, null, FormMethod.Post, new { @class = "createFrom", @id = "unreserving-form", @onsubmit = "return formValidation()" }))
             {
                 <div class="row form-group">
                     <div class="col-md-3">
@@ -91,16 +78,6 @@
                     </div>
                 </div>
                 
-                if (Model.Count > 0)
-                {
-                    <div class="row form-group">
-                        <div class="col-md-10">
-                            <em>
-                                Number of items remaining for reservation is <strong>@Model[0].Quantity</strong>
-                            </em>
-                        </div>
-                    </div>
-                }
                 <div class="table-responsive scroll4">
                     <table class="table table-bordered">
                         <thead>
@@ -108,7 +85,7 @@
                                 <th width="5%" class="text-center">#</th>
                                 <th width="50%"><h1>Item Name</h1></th>
                                 <th width="40%"><h1>Serial Number</h1></th>
-                                <th width="5%"><h1>Select</h1></th>
+                                <th width="5%" title="Selected items will be unreserved"><h1>Select</h1></th>
                             </tr>
                         </thead>
                         <tbody class="grid_row">
@@ -119,7 +96,6 @@
                                     <tr>
                                         <td>
                                             @Html.HiddenFor(m => m[i].ItemBatchId)
-                                            @Html.HiddenFor(m => m[i].SaleOrderItemId)
 
                                             <input type="text" value="@(i + 1)" style="width:100%" class="form_input text-center" disabled />
                                         </td>
@@ -131,7 +107,7 @@
                                             @Html.TextBoxFor(m => m[i].SerialNo, new { @class = "form_input", autocomplete = "off", @readonly = "readonly" })
                                         </td>
                                         <td>
-                                            @Html.CheckBoxFor(m => m[i].isSelected, new { @class = "form_input", autocomplete = "off", @readonly = "readonly" })
+                                            @Html.CheckBoxFor(m => m[i].isSelected, new { @class = "form_input", autocomplete = "off", @readonly = "readonly", @title = "Select to unreserve this item" })
                                         </td>
 
                                     </tr>
@@ -163,3 +139,4 @@
         </div>
     </div>
 </div>
+

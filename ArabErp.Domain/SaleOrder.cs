@@ -53,6 +53,7 @@ namespace ArabErp.Domain
         public int isProjectBased { get; set; }
         public string WorkDescription { get; set; }
         public int? Remaindays { get; set; }
+        public string WorkRequestPaymentApproved { get; set; }
         public string EmployeeName { get; set; }
         public string CommissionAgentName { get; set; }
         public DateTime FromDate { get; set; }

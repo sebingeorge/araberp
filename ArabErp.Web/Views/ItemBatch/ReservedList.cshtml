@@ -1,0 +1,106 @@
+﻿@model IList<ArabErp.Domain.PendingForSOIReservation>
+
+@{
+    ViewBag.Title = "Reserved List";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<script type="text/javascript">
+
+    $(document).ready(function () {
+
+        //---------------------toastr---------------------------//
+        toastr.options = {
+            "positionClass": "toast-bottom-full-width",
+            "timeOut": "5000",
+            "extendedTimeOut": "2000"
+        }
+        if ('@TempData["success"]' != '') {
+            toastr.success('@TempData["success"]');
+        }
+        else if ('@TempData["error"]' != '') {
+            toastr.error('@TempData["error"]'.split('|')[0]);
+            console.log('@TempData["error"]'.split('|')[1]);
+        }
+        @{ TempData["success"] = TempData["error"] = ""; }
+        //------------------------------------------------------//
+
+    })
+
+    function OnItemSelected(id) {
+        var url = '@Url.Action("Unreserve")';
+        url += "?id=" + id;
+        window.location = url;
+    }
+
+</script>
+
+<div class="container">
+    <div class="row">
+
+        <div class="form-head1">
+            <h4>Reserved List for Unreservation</h4>
+        </div>
+
+        <div class="main-part pad1">
+            <div class="table-responsive scroll4">
+                <table class="table table-bordered">
+                    <thead>
+                        <tr class="grid_heading">
+                            <th width="2%" class="text-center">#</th>
+                            <th width="17%" title="Sale Order Reference No. & Date"><h1>SO Ref. No. &amp; Date</h1></th>
+                            <th width="35%" title="Work Description Short Name"><h1>WD Short Name</h1></th>
+                            <th width="30%"><h1>Serial No</h1></th>
+                            @*<th width="5%" class="text-right"><h1>Quantity</h1></th>
+                            <th width="5%" class="text-right" title="Previously Reserved Quantity" nowrap><h1>Res. Qty.</h1></th>
+                            <th width="5%" class="text-right" title="Remaining quantity to be reserved" nowrap><h1>Rem. Qty.</h1></th>*@
+                            <th width="1%"></th>
+                        </tr>
+                    </thead>
+                    <tbody class="grid_row">
+                        @{
+                            if (Model.Count > 0)
+                            {
+                                for (int i = 0; i < Model.Count; i++)
+                                {
+                                    <tr>
+                                        <td>
+                                            <input type="text" value="@(i + 1)" style="width:25px" class="form_input text-center" disabled />
+                                        </td>
+                                        <td>
+                                            <input type="text" value="@Model[i].SaleOrderRefNo - @Model[i].SaleOrderDate.ToString("dd MMMM yyyy")" class="form_input" disabled />
+                                        </td>
+                                        <td>
+                                                    <input type="text" value="@Model[i].WorkDescrShortName" class="form_input" disabled />
+                                                </td>
+                                                <td>
+                                                    <input type="text" value="@Model[i].SerialNo" class="form_input" disabled />
+                                                </td>
+                                                @*<td>
+                                                <input type="text" value="@Model[i].Remarks" class="form_input" disabled />
+                                            </td>
+                                                <td>
+                                                    <input type="text" value="@Model[i].SupplierName" class="form_input" disabled />
+                                                </td>
+                                                <td>
+                                                    <input type="text" value="@Model[i].StockPointName" class="form_input" disabled />
+                                                </td>
+                                                <td>
+                                                    <input type="text" value="@Model[i].Ageing" class="form_input" disabled />
+                                                </td>
+                                                <td>
+                                                    <input type="text" value="@Model[i].isDirect" class="form_input" disabled />
+                                                </td>*@
+                                        <td>
+                                            <input type="button" class="form-button4" value="Select" title="Select this item for unreserving serial number" onclick="OnItemSelected('@Model[i].SaleOrderId')" />
+                                        </td>
+                                    </tr>
+                                }
+                            }
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>

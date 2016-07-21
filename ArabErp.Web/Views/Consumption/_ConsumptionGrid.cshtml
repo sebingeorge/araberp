@@ -109,6 +109,7 @@
 <table class="table table-bordered" id="consumption-table">
     <thead>
         <tr class="grid_heading">
+            <th width="1%" align="center"></th>
             <th width="1%" align="center">#</th>
             <th width="38%" style="vertical-align:middle"><h1>Material/Spares</h1></th>
             <th width="10%" style="vertical-align:middle"><h1>Part No.</h1></th>
@@ -121,6 +122,9 @@
         @for (int i = 0; i < Model.ConsumptionItems.Count; i++)
         {
             <tr id="@i">
+                <td style="vertical-align:middle" align="center">
+                    <a class="glyphicon glyphicon-minus" style="top:0px" onclick="Delete(@i)"></a>
+                </td>
                 <td style="vertical-align:middle" align="center">
                     @Html.TextBoxFor(m => m.ConsumptionItems[i].SlNo, new { @class = "form_input", @readonly = "true", @style = "width:20px;padding:0px" })
                 </td>
@@ -139,7 +143,7 @@
                     @Html.TextBoxFor(m => m.ConsumptionItems[i].Amount, new { @class = "form_input text-right numbers-only", @required = "true", @placeholder = "Amount" })
                 </td>
                 <td style="vertical-align:middle" align="center">
-                    <a class="glyphicon glyphicon-minus" style="top:0px" onclick="Delete(@i)"></a>
+                    <a class="glyphicon glyphicon-plus" id="add_row" style="top:0px"></a> 
                 </td>
             </tr>
         }
@@ -147,7 +151,7 @@
     </tbody>
     <tfoot>
         <tr class="grid_heading">
-            <th width="1%" align="center"><a class="glyphicon glyphicon-plus" id="add_row" style="top:0px"></a></th>
+            <th width="1%" align="center"></th>
             <th class="text-center"><h1></h1></th>
             <th class="text-center"><h1></h1></th>
             <th class="text-right" style="vertical-align:middle">
@@ -159,6 +163,7 @@
             <th>
                 <span id="total"></span>
             </th>
+            <th class="text-center"><h1></h1></th>
         </tr>
     </tfoot>
 </table>
