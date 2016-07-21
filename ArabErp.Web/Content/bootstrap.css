@@ -7185,6 +7185,20 @@ td.visible-print {
     {
         margin-right:-4px !important;
     }
+
+        .incentive
+     {
+        margin-top:3px !important;
+        padding-right:0 !important;
+    }
+     .incentive h5 
+            {
+         font-size:13px !important;
+            }
+     .incentive-t 
+{
+    font-size:13px !important;
+}
 }
 
 @media only screen and (min-width:768px) and (max-width: 1024px)
@@ -7358,6 +7372,10 @@ td.visible-print {
     margin-left:0px !important;
 }
 
+    .incentive
+     {
+        margin-top:3px !important;
+    }
 
 
 }
