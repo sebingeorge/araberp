@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace ArabErp.Domain
 {
-  public  class JobCardDailyActivity
+    public class JobCardDailyActivity
     {
         public int JobCardDailyActivityId { get; set; }
         public string JobCardDailyActivityRefNo { get; set; }
@@ -21,5 +21,10 @@ namespace ArabErp.Domain
         public int OrganizationId { get; set; }
         public bool isActive { get; set; }
         public List<JobCardDailyActivityTask> JobCardDailyActivityTask { get; set; }
+
+        public string Image1 { get; set; }
+        public string Image2 { get; set; }
+        public string Image3 { get; set; }
+        public string Image4 { get; set; }
     }
 }

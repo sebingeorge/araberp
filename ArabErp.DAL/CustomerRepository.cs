@@ -60,10 +60,10 @@ namespace ArabErp.DAL
 
                 string sql = @"insert  into Customer(CustomerRefNo,CustomerName,CustomerPrintName,CategoryId,LeadSourceId,CurrencyId,
                                                      DoorNo,Street,State,Country,Zip,Phone,Fax,Email,ContactPerson,CreditPeriod,
-                                                     CreatedBy,CreatedDate,OrganizationId) 
+                                                     CreditLimit,CreatedBy,CreatedDate,OrganizationId) 
                                                      Values (@CustomerRefNo,@CustomerName,@CustomerPrintName,@CategoryId,@LeadSourceId,
                                                      @CurrencyId,@DoorNo,@Street,@State,@Country,@Zip,@Phone,@Fax,@Email,@ContactPerson,
-                                                     @CreditPeriod,@CreatedBy,@CreatedDate,@OrganizationId);
+                                                     @CreditPeriod,@CreditLimit,@CreatedBy,@CreatedDate,@OrganizationId);
                                                      SELECT CAST(SCOPE_IDENTITY() as int)";
 
                 try
@@ -127,7 +127,7 @@ namespace ArabErp.DAL
                 string sql = @" UPDATE Customer SET CustomerRefNo = @CustomerRefNo ,CustomerName=@CustomerName,CustomerPrintName=@CustomerPrintName,
                                 CategoryId=@CategoryId,LeadSourceId=@LeadSourceId,CurrencyId=@CurrencyId,DoorNo=@DoorNo,Street=@Street,State=@State,
                                 Country=@Country,Zip=@Zip,Phone=@Phone,Fax=@Fax,Email=@Email,ContactPerson=@ContactPerson,CreditPeriod=@CreditPeriod,
-                                CreatedBy = @CreatedBy,CreatedDate = @CreatedDate,OrganizationId=@OrganizationId
+                                CreditLimit=@CreditLimit,CreatedBy = @CreatedBy,CreatedDate = @CreatedDate,OrganizationId=@OrganizationId
                                 WHERE CustomerId = @CustomerId";
 
                 var id = connection.Execute(sql, objCustomer);
