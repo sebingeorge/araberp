@@ -631,9 +631,13 @@ namespace ArabErp.Web.Controllers
 
         public ActionResult IncentiveAmountReport()
         {
-            var repo = new SaleOrderRepository();
-            IEnumerable<SaleOrder> SaleOrder = repo.GetSaleOrderIncentiveAmount();
-            return View("IncentiveAmount", SaleOrder);  
+            FillCommissionAgent();
+            return View("IncentiveAmount");
+         }
+
+        public ActionResult IncentiveAmountList(DateTime? FromDate, DateTime? ToDate, int CommissionAgentId=0)
+        {
+            return PartialView("IncentiveAmountGrid", new SaleOrderRepository().GetSaleOrderIncentiveAmountList(FromDate, ToDate, CommissionAgentId));
         }
     }
 }

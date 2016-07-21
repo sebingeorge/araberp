@@ -56,8 +56,7 @@ namespace ArabErp.Domain
         public string WorkRequestPaymentApproved { get; set; }
         public string EmployeeName { get; set; }
         public string CommissionAgentName { get; set; }
-        public DateTime FromDate { get; set; }
-        public DateTime ToDate { get; set; }
+       
         }
     }
 
