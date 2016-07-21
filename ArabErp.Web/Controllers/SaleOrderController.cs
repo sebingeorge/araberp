@@ -629,5 +629,11 @@ namespace ArabErp.Web.Controllers
             return View(salesquotations);
         }
 
+        public ActionResult IncentiveAmountReport()
+        {
+            var repo = new SaleOrderRepository();
+            IEnumerable<SaleOrder> SaleOrder = repo.GetSaleOrderIncentiveAmount();
+            return View("IncentiveAmount", SaleOrder);  
+        }
     }
 }

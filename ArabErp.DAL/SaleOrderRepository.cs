@@ -480,5 +480,26 @@ namespace ArabErp.DAL
                 return connection.Query<int>(sql).Single();
             }
         }
+
+        public IEnumerable<SaleOrder> GetSaleOrderIncentiveAmount()
+        {
+            using (IDbConnection connection = OpenConnection(dataConnection))
+            {
+                string query = @" SELECT SH.SaleOrderId, SH.SaleOrderRefNo, SH.SaleOrderDate,SUM(SI.Amount)TotalAmount,
+                                  EmployeeName,CommissionAgentName,CommissionAmount
+                                  FROM SaleOrder SH 
+                                  INNER JOIN SaleOrderItem SI ON SH.SaleOrderId = SI.SaleOrderId
+                                  INNER JOIN CommissionAgent C ON C.CommissionAgentId=SH.CommissionAgentId
+                                  INNER JOIN Employee ON EmployeeId =SalesExecutiveId
+                                  WHERE SH.CommissionAmountApproveStatus=1
+                                  GROUP BY SH.SaleOrderId, SH.SaleOrderRefNo, SH.SaleOrderDate,
+                                  EmployeeName,CommissionAgentName,CommissionAmount
+                                  ORDER BY SH.SaleOrderDate";
+                return connection.Query<SaleOrder>(query);
+            }
+        }
+
+       
+
     }
 }

@@ -690,6 +690,7 @@
     <Content Include="Views\ItemBatch\UnReserve.cshtml" />
     <Content Include="Views\ItemBatch\MaterialList.cshtml" />
     <Content Include="Views\ItemBatch\_MaterialListGrid.cshtml" />
+    <Content Include="Views\SaleOrder\IncentiveAmount.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
