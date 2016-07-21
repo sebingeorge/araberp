@@ -9,7 +9,7 @@
 <script>
     $(function () {
         
-        @if (!ViewBag.isTxnPending)
+        @if (ViewBag.isTxnPending)
         {
             @: $("#JobCardDailyActivityDate").datepicker({ dateFormat: "dd/MM/yy" });
             @: assignTaskDate();
