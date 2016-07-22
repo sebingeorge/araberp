@@ -90,9 +90,11 @@ namespace ArabErp.Web.Controllers
             return new List<SelectListItem>
             {
                 new SelectListItem{ Text = "Custom", Value = "0" },
+                new SelectListItem{ Text = "Special", Value = "4" },
                 new SelectListItem{ Text = "Min", Value = "1" },
                 new SelectListItem{ Text = "Medium", Value = "2" },
                 new SelectListItem{ Text = "Max", Value = "3" }
+
             };
         }
     }
