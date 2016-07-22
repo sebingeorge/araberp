@@ -136,6 +136,7 @@
     <Compile Include="SupplierCategory.cs" />
     <Compile Include="SupplierItemRate.cs" />
     <Compile Include="SupplyOrder.cs" />
+    <Compile Include="SupplyOrderFollowup.cs" />
     <Compile Include="SupplyOrderItem.cs" />
     <Compile Include="SupplyOrderPreviousList.cs" />
     <Compile Include="TransactionHistory.cs" />
