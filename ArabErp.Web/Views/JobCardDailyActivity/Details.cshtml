@@ -115,7 +115,7 @@
                     </div>
                 </div>
 
-                if (ViewBag.previousAction == "Create")
+                if (TempData["previousAction"] == "Create")
                 {
                     <div class="row form-group">
                         <div class="col-md-10 blink_me">
@@ -149,7 +149,7 @@
                         <div id="img_preview1" title="Photo Preview">
                             <p><img src="\App_Images\@Model.Image1" alt="Please upload image" id="image_preview1" class="image-upload" /></p>
                         </div>
-                        @if (ViewBag.previousAction == "Create")
+                        @if (TempData["previousAction"] == "Create")
                         {
                             <input type="file" id="File1" class="button" />
                             <input type="button" class="form-button" id="Fileupload1" value="Upload" onclick="Javascript: ImageUpload(1);" title="Upload to database" />
@@ -160,7 +160,7 @@
                         <div id="img_preview2" title="Photo Preview">
                             <p><img src="\App_Images\@Model.Image2" alt="Please upload image" id="image_preview2" class="image-upload" /></p>
                         </div>
-                        @if (ViewBag.previousAction == "Create")
+                        @if (TempData["previousAction"] == "Create")
                         {
                             <input type="file" id="File2" class="button" />
                             <input type="button" class="form-button" id="Fileupload2" value="Upload" onclick="Javascript: ImageUpload(2);" title="Upload to database" />
@@ -171,7 +171,7 @@
                         <div id="img_preview3" title="Photo Preview">
                             <p><img src="\App_Images\@Model.Image3" alt="Please upload image" id="image_preview3" class="image-upload" /></p>
                         </div>
-                        @if (ViewBag.previousAction == "Create")
+                        @if (TempData["previousAction"] == "Create")
                         {
                             <input type="file" id="File3" class="button" />
                             <input type="button" class="form-button" id="Fileupload3" value="Upload" onclick="Javascript: ImageUpload(3);" title="Upload to database" />
@@ -182,7 +182,7 @@
                         <div id="img_preview4" title="Photo Preview">
                             <p><img src="\App_Images\@Model.Image4" alt="Please upload image" id="image_preview4" class="image-upload" /></p>
                         </div>
-                        @if (ViewBag.previousAction == "Create")
+                        @if (TempData["previousAction"] == "Create")
                         {
                             <input type="file" id="File4" class="button" />
                             <input type="button" class="form-button" id="Fileupload4" value="Upload" onclick="Javascript: ImageUpload(4);" title="Upload to database" />
