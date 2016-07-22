@@ -28,43 +28,10 @@
                 toastr.error('@TempData["error"]'.split('|')[0]);
                 console.log('@TempData["error"]'.split('|')[1]);
             }
-        @{TempData["success"] = TempData["error"] = "";}
+            @{TempData["success"] = TempData["error"] = "";}
         });
 
-        //$('#supplyorder_form').bootstrapValidator({
-        //    fields: {
-        //        SupplyOrderNo: {
-        //            validators: {
-        //                notEmpty: {
-        //                    message: 'Please enter SupplyOrderNo'
-        //                }
-        //            }
-        //        },
-        //        SupplyOrderDate: {
-        //            validators: {
-        //                notEmpty: {
-        //                    message: 'Please enter SupplyOrderDate'
-        //                }
-        //            }
-        //        },
 
-        //        SupplierId: {
-        //            validators: {
-        //                notEmpty: {
-        //                    message: 'Please select Supplier'
-        //                }
-        //            }
-        //        },
-        //        RequiredDate: {
-        //            validators: {
-        //                notEmpty: {
-        //                    message: 'Please enter required date'
-        //                }
-        //            }
-        //        }
-
-        // }
-        //});
 
     });
 
@@ -142,7 +109,56 @@
         }
         else return true;
     }
+    function SupplierChanged(supplier)
+    {
+        var id;
+        if ($(supplier).val() != null && $(supplier).val() != '')
+           id = $(supplier).val();
+        else
+            id = 0;
 
+        var ItemId="";
+
+        $('.itmcodes').each(function (i, obj) {
+
+            var abc = $("#SupplyOrderItems_" + i + "__ItemId").val();
+            ItemId = ItemId + ',' + abc
+
+        });
+        var url = '@Url.Action("GetSupplierItemRateSettings")'
+        $.ajax({
+            url: url,
+            data: { Id: id, ItemId: ItemId.substring(1) },
+            cache: false,
+            type: "GET",
+            timeout: 10000,
+            dataType: "json",
+            success: function (result) {
+               
+                if (result.Success) { // this sets the value from the response
+                    
+                    $('.clRate').each(function (i, obj) {
+                      
+                        var itmcode = $("#SupplyOrderItems_" + i + "__ItemId").val();
+                       
+                        if(itmcode==result.ItemId)
+                        {
+                            $("#SupplyOrderItems_" + i + "__Rate").val(result.FixedRate);
+                        }
+                        else
+                        {
+                            alert("hi");
+                        }
+                    })
+                    }
+                else {
+                   
+                }
+            
+        }
+        });
+       
+    }
 </script>
 <div class="container">
     <div class="row">
@@ -153,11 +169,12 @@
            @using (Html.BeginForm("Save", null, FormMethod.Post, new { @class = "createFrom", @id = "supplyorder_form", @onsubmit = "return formValidation()" }))
            {
                 @Html.Partial("_formHeader")
-               
-                <div class="table-responsive">
-                    @Html.Partial("_grid")
-                </div>
-               
+
+    <div class="table-responsive" id="itemdetails">
+        @Html.Partial("_grid")
+     
+    </div>
+
                 @Html.Partial("_formFooter")
 
     <div class="row">
