@@ -1,0 +1,67 @@
+﻿@model ArabErp.Domain.CustomerVsWorkDescriptionRate
+
+@{string actionName = ViewContext.RouteData.GetRequiredString("action");}
+
+
+<script>
+    $(document).ready(function () {
+        //$('#CurrencyId').val(result.CurrencyId);
+        calculateSummary();
+        $("#Items_0__SlNo").val('1');
+
+        $(".numbers-only").keypress(function (e) {
+            //alert("hi");
+            if (e.which == 8 || (e.which == 46 && $(this).val().indexOf('.') == -1) || (e.which > 47 && e.which < 58)) { } else { return false; }
+        });
+
+    });
+
+
+        function OnMaterialChange(s, index) {
+        $("#hidden"+index).val($(s).val());
+    }
+
+</script>
+
+
+<div class="table-responsive">
+    <table class="table table-bordered table-hover" id="tab_logic">
+        <thead>
+            <tr class="grid_heading">
+                <th width="5%" class="text-center"><h1>#</h1></th>
+                <th width="81%" class="text-left"><h1>Work Description</h1></th>
+                <th width="10%" class="text-left"><h1>Rate</h1></th>
+            </tr>
+        </thead>
+
+        <tbody>
+            @for (int i = 0; i < Model.CustomerVsWorkRateItem.Count; i++)
+            {
+                <tr id="@i">
+                    
+                    <td align="center">
+                        <span id="slno@(i+1)">@(i + 1)</span>
+                        @Html.HiddenFor(m => m.CustomerVsWorkRateItem[i].SlNo)
+                    </td>
+
+                    <td>
+                        <input type="hidden" id="Row_@i" />
+                        @Html.HiddenFor(m => m.CustomerVsWorkRateItem[i].WorkDescriptionId, new { @id = "hidden" + i })
+                        @Html.TextBoxFor(m => m.CustomerVsWorkRateItem[i].WorkDescription, new { @class = "form_input", autocomplete = "off", @style = "text-align:left" ,@readonly="readonly"})
+                    </td>
+
+                    <td>
+                        @Html.TextBoxFor(m => m.CustomerVsWorkRateItem[i].FixedRate, new { @class = "form_input numbers-only", autocomplete = "off", @style = "text-align:right" })
+                    </td>
+
+                </tr>
+            }
+            @*<tr id='addr1'></tr>*@
+        </tbody>
+
+    </table>
+</div>
+
+
+
+

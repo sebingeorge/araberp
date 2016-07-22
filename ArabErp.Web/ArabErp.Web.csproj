@@ -210,6 +210,7 @@
     <Compile Include="Controllers\CurrencyController.cs" />
     <Compile Include="Controllers\CustomerCategoryController.cs" />
     <Compile Include="Controllers\CustomerController.cs" />
+    <Compile Include="Controllers\CustomerVsWorkRateController.cs" />
     <Compile Include="Controllers\DesignationController.cs" />
     <Compile Include="Controllers\DirectPurchaseController.cs" />
     <Compile Include="Controllers\EmployeeCategoryController.cs" />
@@ -692,12 +693,15 @@
     <Content Include="Views\ItemBatch\_MaterialListGrid.cshtml" />
     <Content Include="Views\SaleOrder\IncentiveAmount.cshtml" />
     <Content Include="Views\SaleOrder\IncentiveAmountGrid.cshtml" />
+    <Content Include="Views\CustomerVsWorkRate\Create.cshtml" />
+    <Content Include="Views\CustomerVsWorkRate\CustomerItemRateList.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="bin\" />
     <Folder Include="Images\App_LocalResources\" />
     <Folder Include="Views\Base\" />
+    <Folder Include="Views\CustomerVsWorkDescription\" />
     <Folder Include="Views\LocalPurchase\" />
     <Folder Include="Views\MisReport\" />
     <Folder Include="Views\StockJournel\" />
