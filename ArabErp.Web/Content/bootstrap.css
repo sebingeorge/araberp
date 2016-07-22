@@ -7209,6 +7209,11 @@ td.visible-print {
 {
     font-size:13px !important;
 }
+     .filter
+ {
+    margin-left:-5px !important;
+}
+
 }
 
 @media only screen and (min-width:768px) and (max-width: 1024px)

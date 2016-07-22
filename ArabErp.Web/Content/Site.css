@@ -1071,6 +1071,17 @@ section.content {
 {
     background-color:#d3d3d3 !important;
 }
+.chart 
+{
+    min-width: 100px;
+    height:230px;
+    margin-bottom:15px;
+    margin-top:15px;
+}
+.filter
+ {
+    margin-top:12px;
+}
 
 
 
