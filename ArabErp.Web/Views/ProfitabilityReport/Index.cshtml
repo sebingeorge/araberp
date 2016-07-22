@@ -20,12 +20,12 @@
                                     <th><h1>Sale Order Ref</h1></th>                                    
                                     <th><h1>SO Date</h1></th>
                                     <th><h1>Customer</h1></th>
-                                    <th><h1>S.O Amount</h1></th>
-                                    <th><h1>Purchase</h1></th>
-                                    <th><h1>Expense</h1></th>
-                                    <th><h1>Labour</h1></th>
-                                    <th><h1>Invoice</h1></th>
-                                    <th><h1>Profut/ Loss</h1></th>
+                                    <th class="text-right"><h1>S.O Amount</h1></th>
+                                    <th class="text-right"><h1>Purchase</h1></th>
+                                    <th class="text-right"><h1>Expense</h1></th>
+                                    <th class="text-right"><h1>Labour</h1></th>
+                                    <th class="text-right"><h1>Invoice</h1></th>
+                                    <th class="text-right"><h1>Profit/ Loss</h1></th>
                                 </tr>
                             </thead>
                             @foreach (var item in Model)
@@ -35,12 +35,12 @@
                                         <td class="grid-cell">@item.SaleOrderRefNo</td>                                        
                                         <td class="grid-cell">@item.SaleOrderDate.ToString("dd/MMM/yyyy")</td>
                                         <td class="grid-cell">@item.CustomerName</td>
-                                        <td class="grid-cell">@item.OrderAmount</td>
-                                        <td class="grid-cell">@item.Purchase</td>
-                                        <td class="grid-cell">@item.Expense</td>
-                                        <td class="grid-cell">@item.Labour</td>
-                                        <td class="grid-cell">@item.SalesInvoice</td>
-                                        <td class="grid-cell">@item.SalesInvoice - (@item.Purchase + @item.Expense + @item.Labour)</td>
+                                        <td class="grid-cell text-right">@item.OrderAmount</td>
+                                        <td class="grid-cell text-right">@item.Purchase</td>
+                                        <td class="grid-cell text-right">@item.Expense</td>
+                                        <td class="grid-cell text-right">@item.Labour</td>
+                                        <td class="grid-cell text-right">@item.SalesInvoice</td>
+                                        <td class="grid-cell text-right">@item.SalesInvoice - (@item.Purchase + @item.Expense + @item.Labour)</td>
                                     </tr>
                                 </tbody>
                             }
