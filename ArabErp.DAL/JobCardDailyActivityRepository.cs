@@ -43,7 +43,7 @@ namespace ArabErp.DAL
 
                     trn.Commit();
                 }
-                catch(Exception ex)
+                catch (Exception ex)
                 {
                     trn.Rollback();
                     return 0;
@@ -58,24 +58,69 @@ namespace ArabErp.DAL
 
             using (IDbConnection connection = OpenConnection(dataConnection))
             {
-                string sql = @"select * from JobCardDailyActivity
-                        where JobCardDailyActivityId=@JobCardDailyActivityId";
+                string sql = @"SELECT
+	                                JobCardDailyActivityId,
+	                                JobCardDailyActivityRefNo,
+	                                CONVERT(VARCHAR, JobCardDailyActivityDate, 106) JobCardDailyActivityDate,
+	                                EMP.EmployeeName,
+	                                JC.JobCardNo,
+	                                SpecialRemarks Remarks,
+	                                Image1,Image2,Image3,Image4
+                                FROM JobCardDailyActivity DA
+                                INNER JOIN JobCard JC ON DA.JobCardId = JC.JobCardId
+                                INNER JOIN Employee EMP ON JC.EmployeeId = EMP.EmployeeId
+                                WHERE DA.JobCardDailyActivityId = @JobCardDailyActivityId
+                                AND DA.isActive = 1";
 
                 var objJobCardDailyActivity = connection.Query<JobCardDailyActivity>(sql, new
                 {
                     JobCardDailyActivityId = JobCardDailyActivityId
                 }).First<JobCardDailyActivity>();
 
+                objJobCardDailyActivity.JobCardDailyActivityTask = new JobCardDailyActivityTaskRepository().GetJobCardDailyActivityTasks(JobCardDailyActivityId);
+
                 return objJobCardDailyActivity;
             }
         }
 
+        /// <summary>
+        /// Get all items in Daily Activity
+        /// </summary>
+        /// <returns></returns>
         public List<JobCardDailyActivity> GetJobCardDailyActivitys()
         {
             using (IDbConnection connection = OpenConnection(dataConnection))
             {
-                string sql = @"select * from JobCardDailyActivity
-                        where isActive=1";
+                string sql = @"SELECT
+	                                JobCardDailyActivityId,
+	                                SUM(ActualHours) ActualHours,
+	                                STUFF((SELECT ', ' + CAST(M.JobCardTaskName AS VARCHAR(10)) [text()]
+	                                FROM JobCardDailyActivityTask T inner join JobCardTaskMaster M on T.JobCardTaskId = M.JobCardTaskMasterId
+	                                WHERE T.JobCardDailyActivityId = TASK.JobCardDailyActivityId
+	                                FOR XML PATH(''), TYPE).value('.','NVARCHAR(MAX)'),1,2,' ') Tasks
+	                                INTO #TASKS
+                                FROM JobCardDailyActivityTask TASK
+                                WHERE isActive = 1
+                                GROUP BY JobCardDailyActivityId
+
+                                SELECT
+	                                DA.JobCardDailyActivityId,
+	                                DA.JobCardDailyActivityRefNo,
+	                                CONVERT(VARCHAR, DA.JobCardDailyActivityDate, 106) JobCardDailyActivityDate,
+	                                Remarks,
+	                                CONVERT(VARCHAR, JC.JobCardDate, 106) JobCardDate,
+	                                JC.JobCardNo,
+	                                EMP.EmployeeName,
+	                                T.ActualHours,
+	                                T.Tasks
+                                FROM JobCardDailyActivity DA
+                                INNER JOIN JobCard JC ON DA.JobCardId = JC.JobCardId
+                                INNER JOIN Employee EMP ON DA.EmployeeId = EMP.EmployeeId
+                                INNER JOIN #TASKS T ON DA.JobCardDailyActivityId = T.JobCardDailyActivityId
+                                WHERE DA.isActive = 1
+                                ORDER BY DA.JobCardDailyActivityDate DESC, DA.CreatedDate DESC;
+
+                                DROP TABLE #TASKS;";
 
                 var objJobCardDailyActivitys = connection.Query<JobCardDailyActivity>(sql).ToList<JobCardDailyActivity>();
 
@@ -96,7 +141,7 @@ namespace ArabErp.DAL
                 return id;
             }
         }
-        
+
         public IEnumerable<JobCardForDailyActivity> PendingJobcardTasks()
         {
             using (IDbConnection connection = OpenConnection(dataConnection))
@@ -110,5 +155,19 @@ namespace ArabErp.DAL
             }
         }
 
+        /// <summary>
+        /// Update the image name in table, according to the given index (Image1, Image2, Image3, Image4)
+        /// </summary>
+        /// <param name="fileName">Name of file with extension</param>
+        /// <param name="id">JobCardDailyActivityId</param>
+        /// <param name="index">Index of column</param>
+        public void UpdateImageName(string fileName, int? id, int? index)
+        {
+            using (IDbConnection connection = OpenConnection(dataConnection))
+            {
+                string query = @"UPDATE JobCardDailyActivity SET Image" + index + " = @fileName WHERE JobCardDailyActivityId = @id";
+                connection.Execute(query, new { fileName = fileName, id = id });
+            }
+        }
     }
 }

@@ -40,6 +40,26 @@ namespace ArabErp.Web.Controllers
 
             return View(supplyorder);
         }
+        //public PartialViewResult grid(IList<PendingPurchaseRequest> PendingPurchaseRequestItemsSelected, int Id = 0)
+        //{
+        //    SupplyOrder supplyorder = new SupplyOrder();
+        //    SupplyOrderRepository rep = new SupplyOrderRepository();
+        //    if (PendingPurchaseRequestItemsSelected != null)
+        //    {
+        //        if (PendingPurchaseRequestItemsSelected.Count > 0)
+        //        {
+        //            List<int> selectedpurchaserequests = (from PendingPurchaseRequest p in PendingPurchaseRequestItemsSelected
+        //                                                  where p.Select
+        //                                                  select p.PurchaseRequestId).ToList<int>();
+        //            supplyorder.SupplyOrderItems = rep.GetPurchaseRequestItems(selectedpurchaserequests, Id);
+        //        }
+        //    }
+        //    FillCurrency();
+        //    return PartialView("_grid", supplyorder);
+
+        //}
+
+
         public ActionResult PendingSupplyOrder()
         {
 
@@ -192,6 +212,14 @@ namespace ArabErp.Web.Controllers
                 TempData["error"] = "Some error occured while approving the order. Please try again.";
                 return View(model);
             }
+        }
+   [HttpGet]
+        public JsonResult GetSupplierItemRateSettings(int Id,string ItemId)
+        {
+            SupplyOrderItem List = new SupplyOrderRepository().GetSupplierItemRate(Id, ItemId);
+            var Result = new { Success = true, ItemId = List.ItemId, FixedRate = List.FixedRate };
+            return Json(Result, JsonRequestBehavior.AllowGet);
+          
         }
     }
 }

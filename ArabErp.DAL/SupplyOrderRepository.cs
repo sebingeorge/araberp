@@ -35,7 +35,7 @@ namespace ArabErp.DAL
                         {
                             item.SupplyOrderId = id;
                             item.OrganizationId = objSupplyOrder.OrganizationId;
-                            supplyorderitemrepo.InsertSupplyOrderItem(item, connection, trn); 
+                            supplyorderitemrepo.InsertSupplyOrderItem(item, connection, trn);
                         }
                     }
 
@@ -55,21 +55,21 @@ namespace ArabErp.DAL
         {
             using (IDbConnection connection = OpenConnection(dataConnection))
             {
-//                string sql = @"SELECT
-//	                            CONCAT(PurchaseRequestNo,' - ',
-//	                            CONVERT (VARCHAR(15),PurchaseRequestDate,106)) PRNODATE,
-//	                            PurchaseRequestItemId,
-//	                            i.ItemName,
-//	                            i.PartNo,
-//	                            CAST(PI.Quantity AS INT) as BalQty,
-//	                            CAST(PI.Quantity AS INT) AS OrderedQty,
-//                                0.00 AS Rate,
-//                                0.00 AS Discount,
-//                                0.00 AS Amount
-//                            FROM PurchaseRequest P 
-//                            INNER JOIN PurchaseRequestItem PI ON P.PurchaseRequestId=PI.PurchaseRequestId
-//                            INNER JOIN Item i ON PI.ItemId=i.ItemId
-//                            WHERE P.PurchaseRequestId in @selectedpurchaserequests";
+                //                string sql = @"SELECT
+                //	                            CONCAT(PurchaseRequestNo,' - ',
+                //	                            CONVERT (VARCHAR(15),PurchaseRequestDate,106)) PRNODATE,
+                //	                            PurchaseRequestItemId,
+                //	                            i.ItemName,
+                //	                            i.PartNo,
+                //	                            CAST(PI.Quantity AS INT) as BalQty,
+                //	                            CAST(PI.Quantity AS INT) AS OrderedQty,
+                //                                0.00 AS Rate,
+                //                                0.00 AS Discount,
+                //                                0.00 AS Amount
+                //                            FROM PurchaseRequest P 
+                //                            INNER JOIN PurchaseRequestItem PI ON P.PurchaseRequestId=PI.PurchaseRequestId
+                //                            INNER JOIN Item i ON PI.ItemId=i.ItemId
+                //                            WHERE P.PurchaseRequestId in @selectedpurchaserequests";
                 string sql = @"select distinct SI.PurchaseRequestItemId, SUM(SI.OrderedQty) SuppliedQuantity 
                                     INTO #SUPPLY
                                     from [dbo].[SupplyOrderItem] SI
@@ -79,7 +79,7 @@ namespace ArabErp.DAL
 	                                    CONCAT(PurchaseRequestNo,' - ',
 	                                    CONVERT (VARCHAR(15),PurchaseRequestDate,106)) PRNODATE,
 	                                    PI.PurchaseRequestItemId,
-	                                    i.ItemName,
+	                                    i.ItemName,i.ItemId,
 	                                    i.PartNo,
 	                                    CAST(ISNULL(PI.Quantity, 0) - ISNULL(SUP.SuppliedQuantity, 0) AS INT) as BalQty,
 	                                    CAST(ISNULL(PI.Quantity, 0) - ISNULL(SUP.SuppliedQuantity, 0) AS INT) AS OrderedQty,
@@ -90,7 +90,7 @@ namespace ArabErp.DAL
                                     INNER JOIN PurchaseRequestItem PI ON P.PurchaseRequestId=PI.PurchaseRequestId
                                     INNER JOIN Item i ON PI.ItemId=i.ItemId
                                     LEFT JOIN #SUPPLY SUP ON PI.PurchaseRequestItemId = SUP.PurchaseRequestItemId
-                                    WHERE P.PurchaseRequestId in @selectedpurchaserequests
+                                    WHERE P.PurchaseRequestId in @selectedpurchaserequests 
                                     AND (SUP.PurchaseRequestItemId IS NULL OR ISNULL(SUP.SuppliedQuantity, 0) < ISNULL(PI.Quantity, 0));
                                     DROP TABLE #SUPPLY;";
 
@@ -99,6 +99,14 @@ namespace ArabErp.DAL
                 return objPendingPurchaseRequests;
             }
         }
+        //public List<SupplyOrderItem> GetSupplierItemRateSetting(int Id)
+        //{
+        //    using (IDbConnection connection = OpenConnection(dataConnection))
+        //    {
+        //        string sql = @"select * from SaleOrderItem where SaleOrderId=@SaleOrderId";
+        //        return connection.Query<SaleOrderItem>(sql, new { SaleOrderId = SaleOrderId }).ToList();
+        //    }
+        //}
 
         public IEnumerable<PendingPurchaseRequest> GetPendingPurchaseRequest()
         {
@@ -316,6 +324,24 @@ namespace ArabErp.DAL
             catch (Exception)
             {
                 return 0;
+            }
+        }
+
+        public SupplyOrderItem GetSupplierItemRate(int Id, string ItemId)
+        {
+            try
+            {
+                using (IDbConnection connection = OpenConnection(dataConnection))
+                {
+
+                    string query = String.Format("select ItemId,FixedRate  from SupplierItemRate where SupplierId = {0} and ItemId in ({1});", Id, ItemId);
+                    return connection.Query<SupplyOrderItem>(query).First<SupplyOrderItem>();
+                      
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
             }
         }
     }

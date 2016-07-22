@@ -69,13 +69,14 @@
         </div>
         <div class="main-part pad1">
             <form role="form" method="post" action="Create" onsubmit="return formValidation()">
-                <div class="row">
-                    <div class="col-md-3">
-                        <label for="cboSupplier">Supplier</label>
-                        @Html.DropDownListFor(m => Model[0].SupplierId, (SelectList)ViewBag.supplierList, "All", new { @id = "cboSupplier", @class = "form_input", @onchange = "OnSupplierChanged(this)" })
+                <div class="form-group">
+                    <div class="row">
+                        <div class="col-md-3">
+                            <label for="cboSupplier">Supplier</label>
+                            @Html.DropDownListFor(m => Model[0].SupplierId, (SelectList)ViewBag.supplierList, "All", new { @id = "cboSupplier", @class = "form_input", @onchange = "OnSupplierChanged(this)" })
+                        </div>
                     </div>
                 </div>
-                <br />
 
                 <div class="table-responsive scroll4" id="pending-grid">
                     @Html.Action("PendingGrid")

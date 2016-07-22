@@ -15,7 +15,7 @@
 <div class="row form-group">
     <div class="col-md-4">
         <label for="SupplierId">Supplier</label>
-        @Html.DropDownListFor(m => Model.SupplierId, (SelectList)ViewBag.SupplierList, "Select Supplier", new { @class = "form_input", autocomplete = "off", @required="true" })
+        @Html.DropDownListFor(m => Model.SupplierId, (SelectList)ViewBag.SupplierList, "Select Supplier", new { @class = "form_input", autocomplete = "off", @required="true", @onchange = "SupplierChanged(this);" })
     </div>
     <div class="col-md-2">
         <label for="QuotaionNoAndDate">Quotation No. & Date</label>

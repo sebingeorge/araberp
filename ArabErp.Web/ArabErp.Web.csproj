@@ -693,11 +693,14 @@
     <Content Include="Views\ItemBatch\_MaterialListGrid.cshtml" />
     <Content Include="Views\SaleOrder\IncentiveAmount.cshtml" />
     <Content Include="Views\SaleOrder\IncentiveAmountGrid.cshtml" />
+    <Content Include="Views\JobCardDailyActivity\Details.cshtml" />
+    <Content Include="Views\JobCardDailyActivity\PreviousList.cshtml" />
     <Content Include="Views\CustomerVsWorkRate\Create.cshtml" />
     <Content Include="Views\CustomerVsWorkRate\CustomerItemRateList.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="App_Images\" />
     <Folder Include="bin\" />
     <Folder Include="Images\App_LocalResources\" />
     <Folder Include="Views\Base\" />
