@@ -25,6 +25,13 @@
         @{ TempData["success"] = TempData["error"] = ""; }
         //------------------------------------------------------//
 
+        var url = '@Url.Action("GetItemBatchDetails")';
+        $.getJSON(url, { id: '@Request.QueryString["id"]', type: 1 }, function (data) {
+            $("#txtGRNRefNo").val(data.GRNRefNo);
+            $("#txtSORefNo").val(data.SaleOrderRefNo);
+            $("#txtWDRefNo").val(data.WorkDescRefNo);
+        });
+
     })
 
     function Back() {
@@ -34,13 +41,13 @@
 
     function formValidation() {
         @if (Model.Count == 0)
-        {
-            @: var quantity = 0;
-        }
-        else
-        {
-            @: var quantity = '@Model[0].Quantity';
-        }
+            {
+                @: var quantity = 0;
+                            }
+            else
+            {
+                @: var quantity = '@Model[0].Quantity';
+                            }
 
         var count = 0;
         $('input[type="checkbox"').each(function (index, obj) {
@@ -69,6 +76,31 @@
         <div class="main-part pad1">
             @using (Html.BeginForm(null, null, FormMethod.Post, new { @class = "createFrom", @id = "batching-form", @onsubmit = "return formValidation()" }))
             {
+                <div class="row form-group">
+                    <div class="col-md-3">
+                        <label for="txtGRNRefNo">GRN Ref. No. &amp; Date</label>
+                        <input type="text" class="form_input" id="txtGRNRefNo" disabled />
+                    </div>
+                    <div class="col-md-3">
+                        <label for="txtSORefNo" title="Sale Order Reference No & Date">SO Ref. No. &amp; Date</label>
+                        <input type="text" class="form_input" id="txtSORefNo" disabled />
+                    </div>
+                    <div class="col-md-5">
+                        <label for="txtWDRefNo" title="Work Descr. Reference No & Short Name">WD Ref. No. &amp; Short Name</label>
+                        <input type="text" class="form_input" id="txtWDRefNo" disabled />
+                    </div>
+                </div>
+                
+                if (Model.Count > 0)
+                {
+                    <div class="row form-group">
+                        <div class="col-md-10">
+                            <em>
+                                Number of items remaining for reservation is <strong>@Model[0].Quantity</strong>
+                            </em>
+                        </div>
+                    </div>
+                }
                 <div class="table-responsive scroll4">
                     <table class="table table-bordered">
                         <thead>

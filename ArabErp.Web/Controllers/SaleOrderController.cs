@@ -629,5 +629,15 @@ namespace ArabErp.Web.Controllers
             return View(salesquotations);
         }
 
+        public ActionResult IncentiveAmountReport()
+        {
+            FillCommissionAgent();
+            return View("IncentiveAmount");
+         }
+
+        public ActionResult IncentiveAmountList(DateTime? FromDate, DateTime? ToDate, int CommissionAgentId=0)
+        {
+            return PartialView("IncentiveAmountGrid", new SaleOrderRepository().GetSaleOrderIncentiveAmountList(FromDate, ToDate, CommissionAgentId));
+        }
     }
 }

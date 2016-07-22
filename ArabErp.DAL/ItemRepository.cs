@@ -117,9 +117,9 @@ namespace ArabErp.DAL
             {
                 var result = new Item();
                 IDbTransaction trn = connection.BeginTransaction();
-              
-                string sql = @"insert  into Item(ItemRefNo,PartNo,ItemName,ItemPrintName,ItemShortName,ItemGroupId,ItemSubGroupId,ItemCategoryId,ItemUnitId,MinLevel,ReorderLevel,MaxLevel,ExpiryDate,BatchRequired,StockRequired,OrganizationId,CreatedBy,CreatedDate) Values
-                                            (@ItemRefNo,@PartNo,@ItemName,@ItemPrintName,@ItemShortName,@ItemGroupId,@ItemSubGroupId,@ItemCategoryId,@ItemUnitId,@MinLevel,@ReorderLevel,@MaxLevel,@ExpiryDate,@BatchRequired,@StockRequired,@OrganizationId,@CreatedBy,@CreatedDate);
+
+                string sql = @"insert  into Item(ItemRefNo,PartNo,ItemName,ItemPrintName,ItemShortName,ItemGroupId,ItemSubGroupId,ItemCategoryId,ItemUnitId,MinLevel,ReorderLevel,MaxLevel,ExpiryDate,BatchRequired,StockRequired,CriticalItem,OrganizationId,CreatedBy,CreatedDate) Values
+                                            (@ItemRefNo,@PartNo,@ItemName,@ItemPrintName,@ItemShortName,@ItemGroupId,@ItemSubGroupId,@ItemCategoryId,@ItemUnitId,@MinLevel,@ReorderLevel,@MaxLevel,@ExpiryDate,@BatchRequired,@StockRequired,@CriticalItem,@OrganizationId,@CreatedBy,@CreatedDate);
             SELECT CAST(SCOPE_IDENTITY() as int)";
                
                 
@@ -182,7 +182,7 @@ namespace ArabErp.DAL
         {
             using (IDbConnection connection = OpenConnection(dataConnection))
             {
-                string sql = @"UPDATE Item SET PartNo = @PartNo ,ItemName = @ItemName ,ItemPrintName = @ItemPrintName ,ItemShortName = @ItemShortName,ItemGroupId = @ItemGroupId,ItemSubGroupId = @ItemSubGroupId,ItemCategoryId = @ItemCategoryId,ItemUnitId = @ItemUnitId ,ExpiryDate = @ExpiryDate ,MinLevel = @MinLevel,MaxLevel = @MaxLevel,ReorderLevel = @ReorderLevel,BatchRequired = @BatchRequired ,StockRequired = @StockRequired OUTPUT INSERTED.ItemId  WHERE ItemId = @ItemId";
+                string sql = @"UPDATE Item SET PartNo = @PartNo ,ItemName = @ItemName ,ItemPrintName = @ItemPrintName ,ItemShortName = @ItemShortName,ItemGroupId = @ItemGroupId,ItemSubGroupId = @ItemSubGroupId,ItemCategoryId = @ItemCategoryId,ItemUnitId = @ItemUnitId ,ExpiryDate = @ExpiryDate ,MinLevel = @MinLevel,MaxLevel = @MaxLevel,ReorderLevel = @ReorderLevel,BatchRequired = @BatchRequired ,StockRequired = @StockRequired,CriticalItem=@CriticalItem OUTPUT INSERTED.ItemId  WHERE ItemId = @ItemId";
 
                 try
                 {

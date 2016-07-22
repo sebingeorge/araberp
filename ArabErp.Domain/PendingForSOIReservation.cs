@@ -18,5 +18,6 @@ namespace ArabErp.Domain
         public int ItemId { get; set; }
         public int ReservedQuantity { get; set; }
         public string WorkDescrShortName { get; set; }
+        public string SerialNo { get; set; }
     }
 }

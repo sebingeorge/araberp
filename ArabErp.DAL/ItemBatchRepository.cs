@@ -227,10 +227,12 @@ namespace ArabErp.DAL
                                 INNER JOIN WorkVsItem WI ON WD.WorkDescriptionId = WI.WorkDescriptionId
                                 INNER JOIN Item I ON WI.ItemId = I.ItemId
 								LEFT JOIN #RESERVED R ON SOI.SaleOrderItemId = R.SaleOrderItemId AND I.ItemId = R.ItemId
+								LEFT JOIN SalesInvoiceItem SII ON SOI.SaleOrderItemId = SII.SaleOrderItemId
                                 WHERE ISNULL(SOI.isActive, 1) = 1
                                 AND SO.isActive = 1 AND SOI.isActive = 1 AND SO.SaleOrderApproveStatus = 1
 								--AND IB.SaleOrderItemId IS NULL
 								AND ISNULL(ReservedQuantity, 0) < ISNULL(SOI.Quantity, 0)
+								AND SII.SaleOrderItemId IS NULL
                                 ORDER BY SO.SaleOrderDate DESC, SO.CreatedDate DESC;
 
 								DROP TABLE #RESERVED;";
@@ -290,7 +292,21 @@ namespace ArabErp.DAL
                 string query = @"SELECT
 	                                DISTINCT SO.SaleOrderId,
 	                                SO.SaleOrderRefNo,
-	                                CONVERT(VARCHAR, SO.SaleOrderDate, 106) SaleOrderDate
+	                                CONVERT(VARCHAR, SO.SaleOrderDate, 106) SaleOrderDate,
+									
+									STUFF((SELECT ', ' + CAST(W.WorkDescrShortName AS VARCHAR(10)) [text()]
+									FROM SaleOrderItem SI inner join WorkDescription W on W.WorkDescriptionId=SI.WorkDescriptionId
+									WHERE SI.SaleOrderId = SO.SaleOrderId
+									FOR XML PATH(''), TYPE).value('.','NVARCHAR(MAX)'),1,2,' ') WorkDescrShortName,
+
+									STUFF((SELECT ', ' + CAST(BTCH.SerialNo AS VARCHAR(10)) [text()]
+									FROM ItemBatch BTCH inner join SaleOrderItem SAL on BTCH.SaleOrderItemId = SAL.SaleOrderItemId
+									WHERE SAL.SaleOrderId = SOI.SaleOrderId
+									FOR XML PATH(''), TYPE).value('.','NVARCHAR(MAX)'),1,2,' ') SerialNo,
+
+									SO.SaleOrderDate,
+									SO.CreatedDate
+
 	                                --WD.WorkDescriptionRefNo,
 	                                --WD.WorkDescrShortName,
 	                                --IB.SerialNo
@@ -299,7 +315,8 @@ namespace ArabErp.DAL
                                 INNER JOIN SaleOrder SO ON SOI.SaleOrderId = SO.SaleOrderId
                                 INNER JOIN WorkDescription WD ON SOI.WorkDescriptionId = WD.WorkDescriptionId
                                 WHERE IB.SaleOrderItemId IS NOT NULL
-                                AND ISNULL(IB.isActive, 1) = 1";
+                                AND ISNULL(IB.isActive, 1) = 1
+                                ORDER BY SO.SaleOrderDate DESC, SO.CreatedDate DESC";
                 return connection.Query<PendingForSOIReservation>(query).ToList();
             }
         }
@@ -387,6 +404,38 @@ namespace ArabErp.DAL
                     query = query.Insert(query.IndexOf("ORDER BY"), "AND SI.SaleOrderItemId IS NOT NULL ");
                 }
                 return connection.Query<ItemBatch>(query, new { serialno = serialno, item = item, saleorder = saleorder }).ToList();
+            }
+        }
+
+        /// <summary>
+        /// Get Sale Order Ref. No. and Date, GRN Ref. No. and Date, Work Desc. Ref. No and Short Name
+        /// </summary>
+        /// <param name="id">SaleOrderId OR SaleOrderItemId</param>
+        /// <param name="type">0 if SaleOrderId, 1 if SaleOrderItemId</param>
+        /// <returns>ItemBatch</returns>
+        public ItemBatch GetItemBatchDetails(int id, int type)
+        {
+            using (IDbConnection connection = OpenConnection(dataConnection))
+            {
+                string query = @"SELECT
+	                                G.GRNNo,
+	                                CONVERT(VARCHAR, G.GRNDate, 106) GRNDate,
+	                                WD.WorkDescriptionRefNo,
+	                                WD.WorkDescrShortName,
+	                                SO.SaleOrderRefNo,
+	                                CONVERT(VARCHAR, SO.SaleOrderDate, 106) SaleOrderDate
+                                FROM ItemBatch IB
+                                INNER JOIN GRNItem GI ON IB.GRNItemId = GI.GRNItemId
+                                INNER JOIN GRN G ON GI.GRNId = G.GRNId
+                                INNER JOIN SaleOrderItem SOI ON IB.SaleOrderItemId = SOI.SaleOrderItemId
+                                INNER JOIN SaleOrder SO ON SOI.SaleOrderId = SO.SaleOrderId
+                                INNER JOIN WorkDescription WD ON SOI.WorkDescriptionId = WD.WorkDescriptionId
+                                WHERE SOI.SaleOrderItemId = @id AND IB.isActive = 1";
+                if (type == 0)
+                {
+                    query = query.Replace("SOI.SaleOrderItemId = @id", "SO.SaleOrderId = @id");
+                }
+                return connection.Query<ItemBatch>(query, new { id = id }).First();
             }
         }
     }

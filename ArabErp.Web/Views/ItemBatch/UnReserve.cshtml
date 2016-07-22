@@ -1,7 +1,7 @@
 ﻿@model IList<ArabErp.Domain.ItemBatch>
 
 @{
-    ViewBag.Title = "UnReserve Items";
+    ViewBag.Title = "Unreserve Item";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
@@ -25,6 +25,13 @@
         @{ TempData["success"] = TempData["error"] = ""; }
         //------------------------------------------------------//
 
+        var url = '@Url.Action("GetItemBatchDetails")';
+        $.getJSON(url, { id: '@Request.QueryString["id"]', type: 0 }, function (data) {
+            $("#txtGRNRefNo").val(data.GRNRefNo);
+            $("#txtSORefNo").val(data.SaleOrderRefNo);
+            $("#txtWDRefNo").val(data.WorkDescRefNo);
+        });
+
     })
 
     function Back() {
@@ -33,7 +40,15 @@
     }
 
     function formValidation() {
-        return true;
+        var count = 0;
+        $('input[type="checkbox"]').each(function (index, obj) {
+            if ($(obj).is(":checked")) count++;
+        })
+        if (count > 0) {
+            return true;
+        }
+        toastr.info("You have to select atleast one item to unreserve");
+        return false;
     }
 
 </script>
@@ -42,12 +57,27 @@
     <div class="row">
 
         <div class="form-head1">
-            <h4>Reserve Item</h4>
+            <h4>Unreserve Item</h4>
         </div>
 
         <div class="main-part pad1">
             @using (Html.BeginForm(null, null, FormMethod.Post, new { @class = "createFrom", @id = "unreserving-form", @onsubmit = "return formValidation()" }))
             {
+                <div class="row form-group">
+                    <div class="col-md-3">
+                        <label for="txtGRNRefNo">GRN Ref. No. &amp; Date</label>
+                        <input type="text" class="form_input" id="txtGRNRefNo" disabled />
+                    </div>
+                    <div class="col-md-3">
+                        <label for="txtSORefNo" title="Sale Order Reference No & Date">SO Ref. No. &amp; Date</label>
+                        <input type="text" class="form_input" id="txtSORefNo" disabled />
+                    </div>
+                    <div class="col-md-5">
+                        <label for="txtWDRefNo" title="Work Descr. Reference No & Short Name">WD Ref. No. &amp; Short Name</label>
+                        <input type="text" class="form_input" id="txtWDRefNo" disabled />
+                    </div>
+                </div>
+                
                 <div class="table-responsive scroll4">
                     <table class="table table-bordered">
                         <thead>

@@ -28,6 +28,8 @@ namespace ArabErp.Domain
         public string StockPointName { get; set; }
         public string SaleOrderRefNo { get; set; }
         public string SaleOrderDate { get; set; }
+        public string WorkDescrShortName { get; set; }
+        public string WorkDescrRefNo { get; set; }
         public bool isSelected { get; set; }
 
     }

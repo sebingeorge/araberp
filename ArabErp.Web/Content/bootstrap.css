@@ -6915,7 +6915,8 @@ td.visible-print {
         }
         .form-head1 h4 
         {
-            font-size:16px !important;
+            font-size:13px !important;
+            line-height:21px !important;
         }
         .form-head
    {
@@ -7096,8 +7097,8 @@ td.visible-print {
 
      .row-count 
     {
-    margin-left: -15px !important;
-    margin-top: -3px !important;
+    margin-left:0px !important;
+    margin-top: -23px !important;
     }
     .row-count h5 
         {
@@ -7134,6 +7135,16 @@ td.visible-print {
 
 }
 .row-count3 h5
+
+{
+    font-size:13px !important;
+}
+.row-count4 {
+
+    margin-bottom:24px !important;
+
+}
+.row-count4 h5
 
 {
     font-size:13px !important;
@@ -7180,7 +7191,24 @@ td.visible-print {
     {
         margin-top:-70px !important;
     }
+    .hrpart .right 
+    {
+        margin-right:-4px !important;
+    }
 
+        .incentive
+     {
+        margin-top:3px !important;
+        padding-right:0 !important;
+    }
+     .incentive h5 
+            {
+         font-size:13px !important;
+            }
+     .incentive-t 
+{
+    font-size:13px !important;
+}
 }
 
 @media only screen and (min-width:768px) and (max-width: 1024px)
@@ -7307,8 +7335,8 @@ td.visible-print {
 }
     .row-count 
     {
-    margin-left: -15px !important;
-    margin-top: -3px !important;
+    margin-left: -4px !important;
+    margin-top: -25px !important;
     }
     .row-count h5 
         {
@@ -7347,6 +7375,17 @@ td.visible-print {
     font-size:14px !important;
 }
 
+.row-count4{
+
+    margin-bottom:24px !important;
+
+}
+.row-count4 h5
+
+{
+    font-size:14px !important;
+}
+
    .widthset 
 {
     
@@ -7354,6 +7393,10 @@ td.visible-print {
     margin-left:0px !important;
 }
 
+    .incentive
+     {
+        margin-top:3px !important;
+    }
 
 
 }
