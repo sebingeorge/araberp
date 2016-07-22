@@ -13,6 +13,7 @@ namespace ArabErp.Domain
         public DateTime JobCardDailyActivityDate { get; set; }
         public int JobCardId { get; set; }
         public string JobCardNo { get; set; }
+        public DateTime JobCardDate { get; set; }
         public string Remarks { get; set; }
         public int EmployeeId { get; set; }
         public string EmployeeName { get; set; }
@@ -26,5 +27,7 @@ namespace ArabErp.Domain
         public string Image2 { get; set; }
         public string Image3 { get; set; }
         public string Image4 { get; set; }
+        public decimal ActualHours { get; set; }
+        public string Tasks { get; set; }
     }
 }

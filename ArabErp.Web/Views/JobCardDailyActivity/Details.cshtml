@@ -29,6 +29,11 @@
         }, false);
     }
 
+    function Exit() {
+        var url = '@Url.Action("Index", "Home")';
+        window.location = url;
+    }
+
 </script>
 
 <style type="text/css">
@@ -110,6 +115,17 @@
                     </div>
                 </div>
 
+                if (ViewBag.previousAction == "Create")
+                {
+                    <div class="row form-group">
+                        <div class="col-md-10 blink_me">
+                            <em>
+                                <strong>Please upload images</strong>
+                            </em>
+                        </div>
+                    </div>
+                }
+
                 <div class="row form-group">
                     @*@{
                             var images = new string[]
@@ -128,43 +144,55 @@
                                 </div>
                             }
                         }*@
-                    
+
                     <div class="col-md-3">
                         <div id="img_preview1" title="Photo Preview">
                             <p><img src="\App_Images\@Model.Image1" alt="Please upload image" id="image_preview1" class="image-upload" /></p>
                         </div>
-                        <input type="file" id="File1" class="button" />
-                        <input type="button" class="form-button" id="Fileupload1" value="Upload" onclick="Javascript: ImageUpload(1);" title="Upload to database" />
+                        @if (ViewBag.previousAction == "Create")
+                        {
+                            <input type="file" id="File1" class="button" />
+                            <input type="button" class="form-button" id="Fileupload1" value="Upload" onclick="Javascript: ImageUpload(1);" title="Upload to database" />
+                        }
                     </div>
 
                     <div class="col-md-3">
                         <div id="img_preview2" title="Photo Preview">
                             <p><img src="\App_Images\@Model.Image2" alt="Please upload image" id="image_preview2" class="image-upload" /></p>
                         </div>
-                        <input type="file" id="File2" class="button" />
-                        <input type="button" class="form-button" id="Fileupload2" value="Upload" onclick="Javascript: ImageUpload(2);" title="Upload to database" />
+                        @if (ViewBag.previousAction == "Create")
+                        {
+                            <input type="file" id="File2" class="button" />
+                            <input type="button" class="form-button" id="Fileupload2" value="Upload" onclick="Javascript: ImageUpload(2);" title="Upload to database" />
+                        }
                     </div>
 
                     <div class="col-md-3">
                         <div id="img_preview3" title="Photo Preview">
                             <p><img src="\App_Images\@Model.Image3" alt="Please upload image" id="image_preview3" class="image-upload" /></p>
                         </div>
-                        <input type="file" id="File3" class="button" />
-                        <input type="button" class="form-button" id="Fileupload3" value="Upload" onclick="Javascript: ImageUpload(3);" title="Upload to database" />
+                        @if (ViewBag.previousAction == "Create")
+                        {
+                            <input type="file" id="File3" class="button" />
+                            <input type="button" class="form-button" id="Fileupload3" value="Upload" onclick="Javascript: ImageUpload(3);" title="Upload to database" />
+                        }
                     </div>
 
                     <div class="col-md-3">
                         <div id="img_preview4" title="Photo Preview">
                             <p><img src="\App_Images\@Model.Image4" alt="Please upload image" id="image_preview4" class="image-upload" /></p>
                         </div>
-                        <input type="file" id="File4" class="button" />
-                        <input type="button" class="form-button" id="Fileupload4" value="Upload" onclick="Javascript: ImageUpload(4);" title="Upload to database" />
+                        @if (ViewBag.previousAction == "Create")
+                        {
+                            <input type="file" id="File4" class="button" />
+                            <input type="button" class="form-button" id="Fileupload4" value="Upload" onclick="Javascript: ImageUpload(4);" title="Upload to database" />
+                        }
                     </div>
                 </div>
 
                 <div class="row">
                     <div class="col-md-12 hrpart">
-                        <input class="form-button right" type="button" value="Exit" />
+                        <input class="form-button right" type="button" value="Exit" onclick="Exit()" />
                         @*<button type="submit" class="form-button right">Save</button>*@
                     </div>
                 </div>

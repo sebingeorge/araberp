@@ -10,6 +10,11 @@
         url = url + "?Id=" + Id;
         window.location.href = url;
     }
+
+    function PreviousList() {
+        var url = '@Url.Action("PreviousList")';
+        window.location = url;
+    }
 </script>
 <div class="container">
     <div class="row">
@@ -49,6 +54,12 @@
 
             <div class="row-count1">
                 <h5>Row Count:- @Model.Count()</h5>
+            </div>
+
+            <div class="row">
+                <div class="col-md-12 hrpart">
+                    <input class="form-button" type="button" value="Previous" onclick="PreviousList()" />
+                </div>
             </div>
 
         </div>

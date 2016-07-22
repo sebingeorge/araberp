@@ -59,7 +59,7 @@ namespace ArabErp.DAL
 	                                JCT.JobCardTaskName
                                 FROM JobCardDailyActivityTask T
                                 INNER JOIN JobCardTaskMaster JCT ON T.JobCardTaskId = JCT.JobCardTaskMasterId
-                                WHERE JobCardDailyActivityId = 27
+                                WHERE JobCardDailyActivityId = @JobCardDailyActivityId
                                 AND T.isActive = 1";
 
                 var objJobCardDailyActivityTasks = connection.Query<JobCardDailyActivityTask>(sql, new { JobCardDailyActivityId = JobCardDailyActivityId }).ToList<JobCardDailyActivityTask>();

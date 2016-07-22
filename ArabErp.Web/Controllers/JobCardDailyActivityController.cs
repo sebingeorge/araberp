@@ -47,6 +47,7 @@ namespace ArabErp.Web.Controllers
                 JobCardDailyActivityRepository repo = new JobCardDailyActivityRepository();
                 model.CreatedDate = DateTime.Now;
                 var id = repo.InsertJobCardDailyActivity(model);
+                ViewBag.previousAction = "Create";
                 return RedirectToAction("Details", new { id = id });
             }
             else
@@ -81,6 +82,11 @@ namespace ArabErp.Web.Controllers
         {
             var model = new JobCardDailyActivityRepository().GetJobCardDailyActivity(id);
             return View(model);
+        }
+
+        public ActionResult PreviousList()
+        {
+            return View(new JobCardDailyActivityRepository().GetJobCardDailyActivitys());
         }
     }
 }

@@ -83,12 +83,44 @@ namespace ArabErp.DAL
             }
         }
 
+        /// <summary>
+        /// Get all items in Daily Activity
+        /// </summary>
+        /// <returns></returns>
         public List<JobCardDailyActivity> GetJobCardDailyActivitys()
         {
             using (IDbConnection connection = OpenConnection(dataConnection))
             {
-                string sql = @"select * from JobCardDailyActivity
-                        where isActive=1";
+                string sql = @"SELECT
+	                                JobCardDailyActivityId,
+	                                SUM(ActualHours) ActualHours,
+	                                STUFF((SELECT ', ' + CAST(M.JobCardTaskName AS VARCHAR(10)) [text()]
+	                                FROM JobCardDailyActivityTask T inner join JobCardTaskMaster M on T.JobCardTaskId = M.JobCardTaskMasterId
+	                                WHERE T.JobCardDailyActivityId = TASK.JobCardDailyActivityId
+	                                FOR XML PATH(''), TYPE).value('.','NVARCHAR(MAX)'),1,2,' ') Tasks
+	                                INTO #TASKS
+                                FROM JobCardDailyActivityTask TASK
+                                WHERE isActive = 1
+                                GROUP BY JobCardDailyActivityId
+
+                                SELECT
+	                                DA.JobCardDailyActivityId,
+	                                DA.JobCardDailyActivityRefNo,
+	                                CONVERT(VARCHAR, DA.JobCardDailyActivityDate, 106) JobCardDailyActivityDate,
+	                                Remarks,
+	                                CONVERT(VARCHAR, JC.JobCardDate, 106) JobCardDate,
+	                                JC.JobCardNo,
+	                                EMP.EmployeeName,
+	                                T.ActualHours,
+	                                T.Tasks
+                                FROM JobCardDailyActivity DA
+                                INNER JOIN JobCard JC ON DA.JobCardId = JC.JobCardId
+                                INNER JOIN Employee EMP ON DA.EmployeeId = EMP.EmployeeId
+                                INNER JOIN #TASKS T ON DA.JobCardDailyActivityId = T.JobCardDailyActivityId
+                                WHERE DA.isActive = 1
+                                ORDER BY DA.JobCardDailyActivityDate DESC, DA.CreatedDate DESC;
+
+                                DROP TABLE #TASKS;";
 
                 var objJobCardDailyActivitys = connection.Query<JobCardDailyActivity>(sql).ToList<JobCardDailyActivity>();
 
