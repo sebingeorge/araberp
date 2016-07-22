@@ -25,8 +25,8 @@ namespace ArabErp.DAL
                var result = new JobCardTaskMaster();
                IDbTransaction trn = connection.BeginTransaction();
 
-               string sql = @"INSERT INTO JobCardTaskMaster(JobCardTaskRefNo,JobCardTaskName,CreatedBy,CreatedDate,OrganizationId) 
-                            VALUES(@JobCardTaskRefNo,@JobCardTaskName,@CreatedBy,@CreatedDate,@OrganizationId);
+               string sql = @"INSERT INTO JobCardTaskMaster(JobCardTaskRefNo,JobCardTaskName,MinimumRate,CreatedBy,CreatedDate,OrganizationId) 
+                            VALUES(@JobCardTaskRefNo,@JobCardTaskName,@MinimumRate,@CreatedBy,@CreatedDate,@OrganizationId);
                             SELECT CAST(SCOPE_IDENTITY() as int)";
                try
                {
@@ -90,7 +90,8 @@ namespace ArabErp.DAL
        {
            using (IDbConnection connection = OpenConnection(dataConnection))
            {
-               string sql = @"Update JobCardTaskMaster Set JobCardTaskRefNo=@JobCardTaskRefNo,JobCardTaskName=@JobCardTaskName OUTPUT INSERTED.JobCardTaskMasterId WHERE JobCardTaskMasterId=@JobCardTaskMasterId";
+               string sql = @"Update JobCardTaskMaster Set JobCardTaskRefNo=@JobCardTaskRefNo,JobCardTaskName=@JobCardTaskName,MinimumRate=@MinimumRate 
+                             OUTPUT INSERTED.JobCardTaskMasterId WHERE JobCardTaskMasterId=@JobCardTaskMasterId";
 
 
                var id = connection.Execute(sql, objTask);
