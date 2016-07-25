@@ -697,6 +697,7 @@
     <Content Include="Views\JobCardDailyActivity\PreviousList.cshtml" />
     <Content Include="Views\CustomerVsWorkRate\Create.cshtml" />
     <Content Include="Views\CustomerVsWorkRate\CustomerItemRateList.cshtml" />
+    <Content Include="Views\QuerySheet\_ProjectCosting.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

@@ -15,7 +15,8 @@ namespace ArabErp.Web.Controllers
         public ActionResult CreateQuerySheet()
         {
             QuerySheet qs = new QuerySheet();
-
+            qs.QuerySheetDate = DateTime.Now;
+           
             return View(qs);
         }
 
@@ -75,7 +76,10 @@ namespace ArabErp.Web.Controllers
             var qs = new QuerySheetRepository().GetQuerySheets();
             return View( qs);
         }
-
+      public ActionResult ProjectCosting()
+        {
+            return PartialView("_ProjectCosting");
+        }
 
     }
 }
