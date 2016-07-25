@@ -204,7 +204,7 @@
     function OnRateTypeChanged(index) {
         var rate = $("#SalesQuotationItems_" + index + "__Rate");
         var type = $("#SalesQuotationItems_" + index + "__RateType");
-        if ($(type).val() == 0) {
+        if ($(type).val() == 0 || $(type).val() == 4) {
             $(rate).removeProp("readonly");
             $(rate).val(0.00);
             QuantityChanged(index);

@@ -3,12 +3,12 @@
 <table class="table table-bordered">
     <thead>
         <tr class="grid_heading">
-            <th width="20%" class="text-left"><h1>SO No</h1></th>
-            <th width="10%" class="text-left"><h1>SO Date</h1></th>
+            <th width="8%" class="text-left"><h1>SO No</h1></th>
+            <th width="8%" class="text-left"><h1>SO Date</h1></th>
             <th width="10%" class="text-right"><h1>Amount</h1></th>
             <th width="20%" class="text-left"><h1>Order Taken</h1></th>
             <th width="20%" class="text-left"><h1>Sales Executive</h1></th>
-            <th width="11%" class="text-right"><h1>Incentive Amount</h1></th>
+            <th width="10%" class="text-right"><h1>Incentive Amount</h1></th>
         </tr>
     </thead>
     <tbody class="grid_row">
@@ -25,7 +25,7 @@
                             <input type="text" value="@Model[i].SaleOrderDate.ToString("dd MMMM yyyy")" class="form_input" disabled />
                         </td>
                         <td>
-                            <input type="text" value="@Model[i].TotalAmount" class="form_input" disabled />
+                            <input type="text" value="@Model[i].TotalAmount" class="form_input text-right" disabled />
                         </td>
                         <td>
                             <input type="text" value="@Model[i].EmployeeName" class="form_input" disabled />
@@ -34,7 +34,7 @@
                             <input type="text" value="@Model[i].CommissionAgentName" class="form_input" disabled />
                         </td>
                         <td>
-                            <input type="text" value="@Model[i].CommissionAmount" class="form_input" disabled />
+                            <input type="text" value="@Model[i].CommissionAmount" class="form_input text-right" disabled />
                         </td>
                     </tr>
                 }
