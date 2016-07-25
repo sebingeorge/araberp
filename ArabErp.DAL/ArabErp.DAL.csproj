@@ -140,6 +140,7 @@
     <Compile Include="SupplierCategoryRepository.cs" />
     <Compile Include="SupplierItemRateRepository.cs" />
     <Compile Include="SupplierRepository.cs" />
+    <Compile Include="SupplyOrderFollowupRepository.cs" />
     <Compile Include="SupplyOrderItemRepository.cs" />
     <Compile Include="SupplyOrderRepository.cs" />
     <Compile Include="TaskRepository.cs" />
