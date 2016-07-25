@@ -122,6 +122,9 @@
     <Compile Include="SalesQuotation.cs" />
     <Compile Include="SalesQuotationItem.cs" />
     <Compile Include="SalesQuotationList.cs" />
+    <Compile Include="StockCreation.cs" />
+    <Compile Include="StockCreationConsumedItem.cs" />
+    <Compile Include="StockCreationFinishedGood.cs" />
     <Compile Include="StockJournal.cs" />
     <Compile Include="StockJournalItem.cs" />
     <Compile Include="Stockpoint.cs" />

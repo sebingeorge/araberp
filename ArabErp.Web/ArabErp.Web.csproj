@@ -246,6 +246,7 @@
     <Compile Include="Controllers\SaleOrderStatusController.cs" />
     <Compile Include="Controllers\SalesInvoiceController.cs" />
     <Compile Include="Controllers\SalesQuotationController.cs" />
+    <Compile Include="Controllers\StockCreationController.cs" />
     <Compile Include="Controllers\StockJournalController.cs" />
     <Compile Include="Controllers\StockPointController.cs" />
     <Compile Include="Controllers\StockReportController.cs" />
@@ -697,6 +698,9 @@
     <Content Include="Views\JobCardDailyActivity\PreviousList.cshtml" />
     <Content Include="Views\CustomerVsWorkRate\Create.cshtml" />
     <Content Include="Views\CustomerVsWorkRate\CustomerItemRateList.cshtml" />
+    <Content Include="Views\StockCreation\Create.cshtml" />
+    <Content Include="Views\StockCreation\_FinishedGood.cshtml" />
+    <Content Include="Views\StockCreation\_ConsumedItem.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

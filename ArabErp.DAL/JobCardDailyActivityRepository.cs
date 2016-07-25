@@ -94,7 +94,7 @@ namespace ArabErp.DAL
                 string sql = @"SELECT
 	                                JobCardDailyActivityId,
 	                                SUM(ActualHours) ActualHours,
-	                                STUFF((SELECT ', ' + CAST(M.JobCardTaskName AS VARCHAR(10)) [text()]
+	                                STUFF((SELECT ', ' + CAST(M.JobCardTaskName AS VARCHAR(MAX)) [text()]
 	                                FROM JobCardDailyActivityTask T inner join JobCardTaskMaster M on T.JobCardTaskId = M.JobCardTaskMasterId
 	                                WHERE T.JobCardDailyActivityId = TASK.JobCardDailyActivityId
 	                                FOR XML PATH(''), TYPE).value('.','NVARCHAR(MAX)'),1,2,' ') Tasks
