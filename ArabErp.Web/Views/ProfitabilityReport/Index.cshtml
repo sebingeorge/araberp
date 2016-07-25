@@ -30,6 +30,7 @@
                             </thead>
                             @foreach (var item in Model)
                             {
+                                decimal profit = item.SalesInvoice - (item.Purchase + item.Expense + item.Labour);
                                 <tbody class="grid_row">
                                     <tr>
                                         <td class="grid-cell">@item.SaleOrderRefNo</td>                                        
@@ -40,7 +41,7 @@
                                         <td class="grid-cell text-right">@item.Expense</td>
                                         <td class="grid-cell text-right">@item.Labour</td>
                                         <td class="grid-cell text-right">@item.SalesInvoice</td>
-                                        <td class="grid-cell text-right">@item.SalesInvoice - (@item.Purchase + @item.Expense + @item.Labour)</td>
+                                        <td class="grid-cell text-right">@profit</td>
                                     </tr>
                                 </tbody>
                             }
