@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.ComponentModel.DataAnnotations;
+
 
 namespace ArabErp.Domain
 {
@@ -10,6 +12,8 @@ namespace ArabErp.Domain
     {
         public int QuerySheetId { get; set; }
         public string QuerySheetRefNo { get; set; }
+        public DateTime QuerySheetDate { get; set; }
+        [Required]
         public string ProjectName { get; set; }
         public string ContactPerson { get; set; }
         public string ContactNumber { get; set; }
@@ -23,6 +27,9 @@ namespace ArabErp.Domain
         public string DoorSizeTypeAndNumberOfDoor { get; set; }
         public string FloorDetails { get; set; }
         public string ProductDetails { get; set; }
+        public string OtherDetails { get; set; }
+        public decimal Amount { get; set; }
+        public string Remarks { get; set; }
         public string ProductIncomingTemperature { get; set; }
         public string PipeLength { get; set; }
         public string Refrigerant { get; set; }
@@ -31,5 +38,15 @@ namespace ArabErp.Domain
         public DateTime CreatedDate { get; set; }
         public int OrganizationId { get; set; }
         public bool isActive { get; set; }
+        public List<ProjectCost> Items { get; set; }
+    }
+    public class ProjectCost
+    {
+        public int CostingId { get; set; }
+        public int QuerySheetId { get; set; }
+        public string Description { get; set; }
+        public decimal Amount { get; set; }
+        public string Remarks { get; set; }
+
     }
 }

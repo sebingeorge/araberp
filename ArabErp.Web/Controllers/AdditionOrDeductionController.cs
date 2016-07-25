@@ -30,7 +30,7 @@ namespace ArabErp.Web.Controllers
         public void FillAdditionDeduction()
         {
             List<Dropdown> types = new List<Dropdown>();
-            types.Add(new Dropdown { Id = 1, Name = "Addtion" });
+            types.Add(new Dropdown { Id = 1, Name = "Addition" });
             types.Add(new Dropdown { Id = 2, Name = "Deduction" });
             ViewBag.AdditionDeduction = new SelectList(types, "Id", "Name");
         }

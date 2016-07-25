@@ -1,0 +1,223 @@
+﻿@model ArabErp.Domain.CustomerReceipt
+@{
+    ViewBag.Title = "CreateRequest";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<style>
+    .divHidden {
+        visibility: hidden;
+    }
+
+    .divShow {
+        visibility: visible;
+    }
+</style>
+<script>
+    $(document).ready(function () {
+        toastr.options = {
+            "closeButton": true,
+            "positionClass": "toast-bottom-full-width",
+            "preventDuplicates": false,
+            "onclick": null,
+            "showDuration": "300",
+            "hideDuration": "1000",
+            "timeOut": "0",
+            "extendedTimeOut": "1000",
+            "showEasing": "swing",
+            "hideEasing": "linear",
+            "showMethod": "fadeIn",
+            "hideMethod": "fadeOut"
+        }
+        if ('@TempData["success"]' != "") {
+            toastr.success('@TempData["success"]');
+        }
+        else if ('@TempData["error"]' != "") {
+            toastr.error('@TempData["error"]');
+        }
+
+        //$('#purchasereq_form').bootstrapValidator({
+        //    // To use feedback icons, ensure that you use Bootstrap v3.1.0 or later
+        //    //feedbackIcons: {
+        //    //    valid: 'glyphicon glyphicon-ok',
+        //    //    invalid: 'glyphicon glyphicon-remove',
+        //    //    validating: 'glyphicon glyphicon-refresh'
+        //    //},
+        //    fields: {
+        //        PurchaseRequestNo: {
+        //            validators: {
+        //                notEmpty: {
+        //                    message: 'Please enter PurchaseRequest No.'
+        //                }
+        //            }
+        //        },
+        //        PurchaseRequestDate: {
+        //            validators: {
+        //                notEmpty: {
+        //                    message: 'Please select PurchaseRequest Date'
+        //                }
+        //            }
+        //        },
+        //    }
+        //});
+    })
+    function Exit() {
+        location.href = '@Url.Action("Index","Home")';
+    }
+    $(function () {
+        $("#CustomerReceiptDate").datepicker({
+            dateFormat: "d-MM-yy"
+        });
+    });
+
+    function Toast() {
+        toastr.options = {
+            "closeButton": true,
+            "debug": false,
+            "newestOnTop": false,
+            "progressBar": false,
+            "positionClass": "toast-bottom-full-width",
+            "preventDuplicates": true,
+            "onclick": null,
+            "showDuration": "300",
+            "hideDuration": "1000",
+            "timeOut": "0",
+            "extendedTimeOut": "1000",
+            "showEasing": "swing",
+            "hideEasing": "linear",
+            "showMethod": "fadeIn",
+            "hideMethod": "fadeOut"
+        }
+        toastr.success("This is a sample toast message");
+    }
+
+    function OptionChanged() {
+        var opt = $("#JcOrSo").val();
+        $("#Against").val(opt);
+        if (opt == "JC") {
+            $("#againstId").text("Job Card");
+            $("#SaleOrderId").removeClass("divHidden");
+            $("#JobCardId").removeClass("divHidden");
+            $("#SalesInvoiceId").removeClass("divHidden");
+
+            $("#SaleOrderId").removeClass("divShow");
+            $("#JobCardId").removeClass("divShow");
+            $("#SalesInvoiceId").removeClass("divShow");
+
+            $("#SaleOrderId").addClass("divHidden");
+            $("#SalesInvoiceId").addClass("divHidden");
+            $("#JobCardId").addClass("divShow");
+        }
+        if (opt == "SO") {
+            $("#againstId").text("Sale Order");
+            $("#SaleOrderId").removeClass("divHidden");
+            $("#JobCardId").removeClass("divHidden");
+            $("#SalesInvoiceId").removeClass("divHidden");
+
+            $("#SaleOrderId").removeClass("divShow");
+            $("#JobCardId").removeClass("divShow");
+            $("#SalesInvoiceId").removeClass("divShow");
+
+            $("#JobCardId").addClass("divHidden");
+            $("#SalesInvoiceId").addClass("divHidden");
+            $("#SaleOrderId").addClass("divShow");
+
+        }
+        if (opt == "SI") {
+            $("#againstId").text("Sale Invoice");
+            $("#SaleOrderId").removeClass("divHidden");
+            $("#JobCardId").removeClass("divHidden");
+            $("#SalesInvoiceId").removeClass("divHidden");
+
+            $("#SaleOrderId").removeClass("divShow");
+            $("#JobCardId").removeClass("divShow");
+            $("#SalesInvoiceId").removeClass("divShow");
+
+            $("#SaleOrderId").addClass("divHidden");
+            $("#JobCardId").addClass("divHidden");
+            $("#SalesInvoiceId").addClass("divShow");
+        }
+    }
+</script>
+<div class="container">
+    <div class="row">
+
+        <div class="form-head1">
+            <h4>Receipt Aganist Customer</h4>
+        </div>
+
+        <div class="main-part pad1">
+        @using (Html.BeginForm("CreateRequest", null, FormMethod.Post, new { @class = "CreateRequest" }))
+            {
+            @*<form method="post" role="form" >*@
+                <div class="row form-group">
+                    <div class="col-md-2">
+                        <label for="CustomerReceiptRefNo">CR No.</label>
+                        @Html.TextBoxFor(m => m.CustomerReceiptRefNo, new { @class = "form_input", autocomplete = "off", @required = "true" })
+                    </div>
+                    <div class="col-md-2">
+                        <label for="CustomerReceiptDate">Date</label>
+                        @Html.TextBoxFor(m => m.CustomerReceiptDate, Model.CustomerReceiptDate.ToString("dd/MMMM/yyyy"), new { @class = "form_input", autocomplete = "off", @required = "true" })
+                    </div>
+                </div>
+                    <div class="row form-group">
+                        <div class="col-md-4">
+                            <label for="CustomerReceiptDate">Customer</label>
+                            @Html.DropDownListFor(m => m.CustomerId, (SelectList)ViewBag.Customer, "Select Customer", new { @class = "form_input", autocomplete = "off" })
+                        </div>
+                    </div>
+
+                    <div class="row form-group">
+                        <div class="col-md-2">
+                            <label>Against</label>
+                            @Html.HiddenFor(m => m.Against)
+                            <select class="form_input" id="JcOrSo" onchange="OptionChanged()">
+                                <option>Select</option>
+                                <option value="SO">Sale Order</option>
+                                <option value="JC">Job Card</option>
+                                <option value="SI">Sale Invoice</option>
+                            </select>
+                        </div>
+
+
+                        <div class="col-md-2">
+                            <label id="againstId"></label>
+                            @Html.DropDownListFor(m => Model.SaleOrderId, (SelectList)ViewBag.SO, "Select S.O", new { @class = "form_input divHidden", autocomplete = "off" })
+                            @Html.DropDownListFor(m => Model.JobCardId, (SelectList)ViewBag.JC, "Select J.C", new { @class = "form_input divHidden against", autocomplete = "off" })
+                            @Html.DropDownListFor(m => Model.SalesInvoiceId, (SelectList)ViewBag.SI, "Select S.I", new { @class = "form_input divHidden against", autocomplete = "off" })
+                        </div>
+                    </div>
+               
+
+                <div class="row form-group">
+                    <div class="col-md-2">
+                        <div class="part4">
+                            <label for="Amount">Amount</label>
+                            @Html.TextBoxFor(m => m.Amount, new { @class = "form_input", autocomplete = "off" })
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row form-group">
+                    <div class="col-md-12">
+                        <div class="part1">
+                            <label for="SpecialRemarks">Special Remarks</label>
+                            @Html.TextAreaFor(m => m.SpecialRemarks, new { @class = "form_input form_input-h", autocomplete = "off" })
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+
+                    <div class="col-md-12 hrpart">
+                        @*<button type="button" class="form-button right" onclick="Exit();">Exit</button>*@
+                        <button type="submit" class="form-button right">Save</button>
+                     </div>
+
+                </div>
+
+        }
+        </div>
+    </div>
+</div>
+
