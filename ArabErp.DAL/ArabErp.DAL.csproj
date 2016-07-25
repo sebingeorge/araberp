@@ -76,6 +76,7 @@
     <Compile Include="ConsumptionRepository.cs" />
     <Compile Include="CurrencyRepository.cs" />
     <Compile Include="CustomerCategoryRepository.cs" />
+    <Compile Include="CustomerReceiptRepository  .cs" />
     <Compile Include="CustomerRepository.cs" />
     <Compile Include="CustomerVsWorkRateRepository.cs" />
     <Compile Include="DashboardRepository.cs" />

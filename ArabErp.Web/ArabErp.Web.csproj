@@ -210,6 +210,7 @@
     <Compile Include="Controllers\CurrencyController.cs" />
     <Compile Include="Controllers\CustomerCategoryController.cs" />
     <Compile Include="Controllers\CustomerController.cs" />
+    <Compile Include="Controllers\CustomerReceiptController.cs" />
     <Compile Include="Controllers\CustomerVsWorkRateController.cs" />
     <Compile Include="Controllers\DesignationController.cs" />
     <Compile Include="Controllers\DirectPurchaseController.cs" />
@@ -697,6 +698,7 @@
     <Content Include="Views\JobCardDailyActivity\PreviousList.cshtml" />
     <Content Include="Views\CustomerVsWorkRate\Create.cshtml" />
     <Content Include="Views\CustomerVsWorkRate\CustomerItemRateList.cshtml" />
+    <Content Include="Views\CustomerReceipt\Create.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

@@ -52,6 +52,16 @@ namespace ArabErp.DAL
                 return connection.Query<Dropdown>("select JobCardId Id, JobCardNo Name from JobCard").ToList();
             }
         }
+
+        public List<Dropdown> FillSI()
+        {
+            using (IDbConnection connection = OpenConnection(dataConnection))
+            {
+                var param = new DynamicParameters();
+                return connection.Query<Dropdown>("select SalesInvoiceId Id, SalesInvoiceRefNo Name from SalesInvoice").ToList();
+            }
+        }
+
         public IEnumerable<Dropdown> FillCurrency()
         {
 
