@@ -246,6 +246,7 @@
     <Compile Include="Controllers\SaleOrderStatusController.cs" />
     <Compile Include="Controllers\SalesInvoiceController.cs" />
     <Compile Include="Controllers\SalesQuotationController.cs" />
+    <Compile Include="Controllers\StockCreationController.cs" />
     <Compile Include="Controllers\StockJournalController.cs" />
     <Compile Include="Controllers\StockPointController.cs" />
     <Compile Include="Controllers\StockReportController.cs" />
@@ -255,6 +256,7 @@
     <Compile Include="Controllers\SupplierController.cs" />
     <Compile Include="Controllers\SupplierItemRateController.cs" />
     <Compile Include="Controllers\SupplyOrderController.cs" />
+    <Compile Include="Controllers\SupplyOrderFollowupController.cs" />
     <Compile Include="Controllers\TaskController.cs" />
     <Compile Include="Controllers\UnitController.cs" />
     <Compile Include="Controllers\VehicleInPassController.cs" />
@@ -697,6 +699,10 @@
     <Content Include="Views\JobCardDailyActivity\PreviousList.cshtml" />
     <Content Include="Views\CustomerVsWorkRate\Create.cshtml" />
     <Content Include="Views\CustomerVsWorkRate\CustomerItemRateList.cshtml" />
+    <Content Include="Views\SupplyOrderFollowup\Pending.cshtml" />
+    <Content Include="Views\StockCreation\Create.cshtml" />
+    <Content Include="Views\StockCreation\_FinishedGood.cshtml" />
+    <Content Include="Views\StockCreation\_ConsumedItem.cshtml" />
     <Content Include="Views\QuerySheet\_ProjectCosting.cshtml" />
   </ItemGroup>
   <ItemGroup>

@@ -19,7 +19,7 @@
                                 <th width="25%"><h1>Customer</h1></th>
                                 <th width="15%"><h1>SO.No. & Date</h1></th>
                                 <th width="20%"><h1>Work Description</h1></th>
-                                <th width="5%"><h1>Ageing</h1></th>
+                                <th width="5%" class=" text-right"><h1>Ageing</h1></th>
                                 <th width="10%"><h1>EDA</h1></th>
                                 <th width="10%"><h1>EDD</h1></th>
                                 <th width="10%"><h1>Days Left</h1></th>
@@ -33,7 +33,7 @@
                                     <td class="grid-cell">@item.CustomerName</td>
                                     <td class="grid-cell">@item.SaleOrderRefNo &amp; @item.SaleOrderDate.ToString("dd/MMM/yyyy")</td>
                                     <td class="grid-cell">@item.WorkDescription </td>
-                                    <td class="grid-cell">@item.Ageing</td>
+                                    <td class="grid-cell text-right">@item.Ageing</td>
                                     <td class="grid-cell">@item.EDateArrival.ToString("dd/MMM/yyyy")</td>
                                     <td class="grid-cell">@item.EDateDelivery.ToString("dd/MMM/yyyy")</td>
                                     <td class="grid-cell">@item.Remaindays</td>
