@@ -78,6 +78,9 @@ namespace ArabErp.Web.Controllers
         }
       public ActionResult ProjectCosting()
         {
+            //var repo = new QuerySheetRepository();
+            //IEnumerable<ProjectCost> items = repo.GetProjectCostingParameter();
+            //return View(items);
             return PartialView("_ProjectCosting");
         }
 

@@ -43,6 +43,7 @@ namespace ArabErp.Domain
     public class ProjectCost
     {
         public int CostingId { get; set; }
+        public int QuerySheetId { get; set; }
         public string Description { get; set; }
         public decimal Amount { get; set; }
         public string Remarks { get; set; }
