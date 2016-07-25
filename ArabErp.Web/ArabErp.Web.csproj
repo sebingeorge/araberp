@@ -210,6 +210,7 @@
     <Compile Include="Controllers\CurrencyController.cs" />
     <Compile Include="Controllers\CustomerCategoryController.cs" />
     <Compile Include="Controllers\CustomerController.cs" />
+    <Compile Include="Controllers\CustomerReceiptController.cs" />
     <Compile Include="Controllers\CustomerVsWorkRateController.cs" />
     <Compile Include="Controllers\DesignationController.cs" />
     <Compile Include="Controllers\DirectPurchaseController.cs" />
@@ -704,6 +705,7 @@
     <Content Include="Views\StockCreation\_FinishedGood.cshtml" />
     <Content Include="Views\StockCreation\_ConsumedItem.cshtml" />
     <Content Include="Views\QuerySheet\_ProjectCosting.cshtml" />
+    <Content Include="Views\CustomerReceipt\Create.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
