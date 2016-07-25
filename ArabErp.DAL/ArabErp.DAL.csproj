@@ -76,6 +76,7 @@
     <Compile Include="ConsumptionRepository.cs" />
     <Compile Include="CurrencyRepository.cs" />
     <Compile Include="CustomerCategoryRepository.cs" />
+    <Compile Include="CustomerReceiptRepository  .cs" />
     <Compile Include="CustomerRepository.cs" />
     <Compile Include="CustomerVsWorkRateRepository.cs" />
     <Compile Include="DashboardRepository.cs" />
@@ -139,6 +140,7 @@
     <Compile Include="SupplierCategoryRepository.cs" />
     <Compile Include="SupplierItemRateRepository.cs" />
     <Compile Include="SupplierRepository.cs" />
+    <Compile Include="SupplyOrderFollowupRepository.cs" />
     <Compile Include="SupplyOrderItemRepository.cs" />
     <Compile Include="SupplyOrderRepository.cs" />
     <Compile Include="TaskRepository.cs" />

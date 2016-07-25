@@ -51,6 +51,7 @@
     <Compile Include="Currency.cs" />
     <Compile Include="Customer.cs" />
     <Compile Include="CustomerCategory.cs" />
+    <Compile Include="CustomerReceipt.cs" />
     <Compile Include="CustomerVsWorkDescriptionRate.cs" />
     <Compile Include="Dashboard.cs" />
     <Compile Include="DashboardMonthlySalesOrders.cs" />
@@ -122,6 +123,9 @@
     <Compile Include="SalesQuotation.cs" />
     <Compile Include="SalesQuotationItem.cs" />
     <Compile Include="SalesQuotationList.cs" />
+    <Compile Include="StockCreation.cs" />
+    <Compile Include="StockCreationConsumedItem.cs" />
+    <Compile Include="StockCreationFinishedGood.cs" />
     <Compile Include="StockJournal.cs" />
     <Compile Include="StockJournalItem.cs" />
     <Compile Include="Stockpoint.cs" />
@@ -136,6 +140,7 @@
     <Compile Include="SupplierCategory.cs" />
     <Compile Include="SupplierItemRate.cs" />
     <Compile Include="SupplyOrder.cs" />
+    <Compile Include="SupplyOrderFollowup.cs" />
     <Compile Include="SupplyOrderItem.cs" />
     <Compile Include="SupplyOrderPreviousList.cs" />
     <Compile Include="TransactionHistory.cs" />

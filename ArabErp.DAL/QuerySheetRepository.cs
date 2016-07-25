@@ -93,6 +93,15 @@ namespace ArabErp.DAL
                 return id;
             }
         }
+        public IEnumerable<ProjectCost> GetProjectCostingParameter()
+        {
+            using (IDbConnection connection = OpenConnection(dataConnection))
+            {
+                string query = @"select  Description,''Remarks,0.00 Amount from CostingParameters ";
+
+                return connection.Query<ProjectCost>(query);
+            }
+        }
 
 
     }

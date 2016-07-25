@@ -1,0 +1,117 @@
+﻿@model ArabErp.Domain.StockCreation
+
+<script type="text/javascript">
+
+    function AddRowToConsumedItems() {
+        var i = 0;
+        $('tr[id^="CI_"]').each(function () {
+            var id = this.id;
+            var row = Number(id.replace("CI_", ""));
+            if (row > i) {
+                i = row;
+            }
+        });
+        i++;
+        var item = $("#ConsumedItems_" + (i - 1) + "__ItemId").val();
+        var quantity = $("#ConsumedItems_" + (i - 1) + "__Quantity").val();
+        if (item != "" && quantity != "0") {
+            var clone = $('#CI_0').clone(); // clone the BatchProducts item
+            //Update the index of the clone
+            //clone.html($(clone).html().replace("SalesQuotationItems_0__", 'SalesQuotationItems_' + i + '__'));
+            clone.html($(clone).html().replace(/ConsumedItems_0__/g, 'ConsumedItems_' + i + '__'));
+            clone.html($(clone).html().replace(/ConsumedItems_0__/g, 'ConsumedItems_' + i + '__'));
+            clone.html($(clone).html().replace(/\ConsumedItems[0]./g, 'ConsumedItems[' + i + '].'));
+            clone.html($(clone).html().replace(/\[0\]/g, '[' + i + ']'));
+            clone.html($(clone).html().replace(/\(0\)/g, '(' + i + ')'));
+            clone.html($(clone).html().replace(/CI_0/, 'CI_' + i + ''));
+            clone.html($(clone).html().replace(/CI_slno_0/, 'CI_slno_' + i + ''));
+            //clone.html($(clone).html().replace(/this,0/, 'this,' + i + ''));
+            $("#consumed-items-table").append('<tr id="CI_' + i + '">' + clone.html() + '  </tr>');
+            $("#CI_slno_" + i).val((i + 1));
+            //$("#FinishedGoods_" + i + "__SlNo").val((i + 1));
+        }
+        else {
+            toastr.info("You have to fill the existing rows before adding a new row");
+        }
+    }
+
+    function DeleteRowFromConsumed(index) {
+        var i = 0;
+        var no = 1;
+        $('tr[id^="CI_"]').each(function () {
+            var id = this.id;
+            no++;
+            var row = Number(id.replace("CI_", ""));
+            if (row > i) {
+                i = row;
+            }
+        });
+        i++;
+
+        if (i > 1) {
+            $("#CI_" + index).remove();
+            for (var j = index + 1; j < i; j++) {
+                var ItemId = $("#ConsumedItems_" + j + "__ItemId").val();
+                var Quantity = $("#ConsumedItems_" + j + "__Quantity").val();
+                var Rate = $("#ConsumedItems_" + j + "__Rate").val();
+
+                var clone = $("#CI_" + j).clone(true, true);
+                clone.html($(clone).html().replace(new RegExp("ConsumedItems_" + j + "__", "g"), 'ConsumedItems_' + (j - 1) + '__'));
+                clone.html($(clone).html().replace(new RegExp("\\[" + j + "].", "g"), "[" + (j - 1) + "]."));
+                clone.html($(clone).html().replace("DeleteRowFromConsumed(" + j, "DeleteRowFromConsumed(" + (j - 1)));
+                clone.html($(clone).html().replace('CI_slno_' + j, 'CI_slno_' + (j - 1)));
+                //clone.html($(clone).html().replace("Delete(" + j, "Delete(" + (j - 1)));
+                //clone.html($(clone).html().replace("Row_" + j, "Row_" + (j - 1)));
+                //clone.html($(clone).html().replace("this," + j, "this," + (j - 1)));
+                $("#CI_" + j).html(clone.html());
+                //$("#ConsumedItems_" + (j - 1) + "__SlNo").val(j);
+                $("#CI_" + (j)).attr('id', 'CI_' + (j - 1));
+                $("#CI_slno_" + (j - 1)).val(j);
+
+                $("#ConsumedItems_" + (j - 1) + "__ItemId").val(ItemId);
+                $("#ConsumedItems_" + (j - 1) + "__Quantity").val(Quantity);
+                $("#ConsumedItems_" + (j - 1) + "__Rate").val(Rate);
+            }
+        }
+    }
+
+</script>
+
+<table class="table table-bordered" id="consumed-items-table">
+    <thead>
+        <tr class="grid_heading">
+            <th width="2%"></th>
+            <th width="3%" class="text-center">#</th>
+            <th width="70%"><h1>Material/Spare</h1></th>
+            <th width="10%" class="text-right"><h1>Quantity</h1></th>
+            <th width="10%" class="text-right"><h1>Rate</h1></th>
+            <th width="2%"></th>
+        </tr>
+    </thead>
+    <tbody class="grid_row">
+        @for (int i = 0; i < Model.ConsumedItems.Count; i++)
+        {
+            <tr id="CI_@i">
+                <td style="vertical-align:middle" align="center">
+                    <a class="glyphicon glyphicon-minus" style="top:0px" onclick="DeleteRowFromConsumed(@i)"></a>
+                </td>
+                <td>
+                    @Html.HiddenFor(m => m.ConsumedItems[i].StockCreationConsumedItemId)
+                    <input id="CI_slno_@i" type="text" value="@(i + 1)" style="width:100%" class="form_input text-center" disabled />
+                </td>
+                <td>
+                    @Html.DropDownListFor(m => m.ConsumedItems[i].ItemId, (SelectList)ViewBag.materialList, "Select Material/Spare", new { @class = "form_input" })
+                </td>
+                <td>
+                    @Html.TextBoxFor(m => m.ConsumedItems[i].Quantity, new { @class = "form_input text-right" })
+                </td>
+                <td>
+                    @Html.TextBoxFor(m => m.ConsumedItems[i].Rate, new { @class = "form_input text-right" })
+                </td>
+                <td style="vertical-align:middle" align="center">
+                    <a id="add_row" class="glyphicon glyphicon-plus" style="top:0px" onclick="AddRowToConsumedItems()"></a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
