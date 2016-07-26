@@ -44,5 +44,12 @@ namespace ArabErp.Domain
         public string SupplierName { get; set; }
         public string ExpenseBillRef { get; set; }
         public decimal TotalAmount { get; set; }
+        public string ExpenseBillDate { get; set; }
+        public string ExpenseBillDueDate { get; set; }
+        public string SaleOrderRefNo { get; set; }
+        public string SaleOrderDate { get; set; }
+        public string JobCardNo { get; set; }
+        public string JobCardDate { get; set; }
+        public string Type { get; set; }
     }
 }

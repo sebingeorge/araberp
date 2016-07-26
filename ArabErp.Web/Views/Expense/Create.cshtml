@@ -14,13 +14,48 @@
 </style>
 <script>
     function expenseBillValidate() {
-        return confirm("Do you want to Save?");
+        return true;//confirm("Do you want to Save?");
     }
     $(function () {
-        $("#ExpenseDate").datepicker({ dateFormat: "dd/MM/yy" });
-        $("#ExpenseBillDate").datepicker({ dateFormat: "dd/MM/yy" });
+
+        if ('@ViewBag.mode' == 'Approve') {
+            $("input[type='text'], textarea, select").attr("disabled", "true");
+            $(".glyphicon-minus .glyphicon-plus").hide();
+            OptionChanged();
+        }
+        else {
+            $("#ExpenseDate").datepicker({ dateFormat: "dd/MM/yy" });
+            $("#ExpenseBillDate").datepicker({ dateFormat: "dd/MM/yy" });
+        }
+
         //$("#ExpenseBillDueDate").datepicker({ dateFormat: "dd/MM/yy" });
+
+        //---------------------toastr---------------------------//
+        toastr.options = {
+            "positionClass": "toast-bottom-full-width",
+            "timeOut": "5000",
+            "extendedTimeOut": "2000"
+        }
+        if ('@TempData["success"]' != '') {
+            toastr.success('@TempData["success"]');
+        }
+        else if ('@TempData["error"]' != '') {
+            toastr.error('@TempData["error"]'.split('|')[0]);
+            console.log('@TempData["error"]'.split('|')[1]);
+        }
+        @{ TempData["success"] = TempData["error"] = ""; }
+        //------------------------------------------------------//
+        numbersOnly();
     });
+
+    function numbersOnly() {
+        //bind keypress event
+        $(".numbers-only").keypress(function (e) {
+            if (e.which == 8 || (e.which == 45 && $(this).val().indexOf('-') == -1) || (e.which == 46 && $(this).val().indexOf('.') == -1) || (e.which > 47 && e.which < 58)) { }
+            else { return false; }
+        });
+    }
+
     function AddAdditionRow() {
 
         var i = 0;
@@ -49,7 +84,7 @@
         $("#tab_logic").append('<tr id="Row_Ad_Id_' + i + '">' + clone.html() + '  </tr>');
 
         $("#ExpenseBillItem_" + i + "__SlNo").val((i + 1));
-
+        numbersOnly();
     }
     function AddDelete(index) {
 
@@ -128,6 +163,7 @@
         clone.html($(clone).html().replace(/this,0/, 'this,' + i + ''));
         $("#tab_logic_deduction").append('<tr id="' + i + '">' + clone.html() + '  </tr>');
         $("#deductions_" + i + "__SlNo").val((i + 1));
+        numbersOnly();
     }
     function DedDelete(index) {
 
@@ -195,8 +231,14 @@
         $("#TotalAmount").val(add - ded);
     }
     function OptionChanged() {
-        var opt = $("#JcOrSo").val();
-        $("#SoOrJc").val(opt);
+        if ('@ViewBag.mode' == 'Approve') {
+            var opt = $("#SoOrJc").val();
+            $("#JcOrSo").val(opt);
+        }
+        else {
+            var opt = $("#JcOrSo").val();
+            $("#SoOrJc").val(opt);
+        }
         if (opt == "JC") {
             $("#againstId").text("Job Card");
             $("#SaleOrderId").removeClass("divHidden");
@@ -250,7 +292,7 @@
                     <div class="row form-group">
                         <div class="col-md-2">
                             <label for="jcno">Expense Bill No.</label>
-                            @Html.TextBoxFor(m => m.ExpenseNo, new { @class = "form_input", autocomplete = "off" })
+                            @Html.TextBoxFor(m => m.ExpenseNo, new { @class = "form_input", autocomplete = "off", @readonly = "true" })
                             @Html.HiddenFor(m => m.ExpenseId)
                         </div>
                         <div class="col-md-2">
@@ -319,13 +361,13 @@
                                             @Html.DropDownListFor(m => Model.ExpenseBillItem[i].AddDedId, (SelectList)ViewBag.Additions, "Select Addition", new { @class = "form_input", autocomplete = "off" })
                                         </td>
                                         <td>
-                                            @Html.TextBoxFor(m => m.ExpenseBillItem[i].ExpenseItemQty, new { @class = "form_input text-right", autocomplete = "off", @onchange = "AdditionAmtChanged(" + i + ")" })
+                                            @Html.TextBoxFor(m => m.ExpenseBillItem[i].ExpenseItemQty, new { @class = "form_input text-right numbers-only", autocomplete = "off", @onchange = "AdditionAmtChanged(" + i + ")" })
                                         </td>
                                         <td>
-                                            @Html.TextBoxFor(m => m.ExpenseBillItem[i].ExpenseItemRate, new { @class = "form_input text-right", autocomplete = "off", @onchange = "AdditionAmtChanged(" + i + ")" })
+                                            @Html.TextBoxFor(m => m.ExpenseBillItem[i].ExpenseItemRate, new { @class = "form_input text-right numbers-only", autocomplete = "off", @onchange = "AdditionAmtChanged(" + i + ")" })
                                         </td>
                                         <td>
-                                            @Html.TextBoxFor(m => m.ExpenseBillItem[i].ExpenseItemAmount, new { @class = "form_input addition text-right", autocomplete = "off", @readonly = "readonly" })
+                                            @Html.TextBoxFor(m => m.ExpenseBillItem[i].ExpenseItemAmount, new { @class = "form_input addition text-right numbers-only", autocomplete = "off", @readonly = "readonly" })
                                         </td>
                                         <td style="vertical-align:middle"><a id="add_row" class="glyphicon glyphicon-plus" style="top:0px" onclick="AddAdditionRow()"></a></td>
 
@@ -348,7 +390,7 @@
                             </thead>
 
                             <tbody>
-         
+
                                 @for (int i = 0; i < Model.deductions.Count; i++)
                                 {
                                     <tr id="@i">
@@ -359,7 +401,7 @@
                                             @Html.DropDownListFor(m => Model.deductions[i].AddDedId, (SelectList)ViewBag.Deductions, "Select Deduction", new { @class = "form_input", autocomplete = "off" })
                                         </td>
                                         <td>
-                                            @Html.TextBoxFor(m => m.deductions[i].ExpenseItemAmount, new { @class = "form_input deduction text-right", autocomplete = "off", @onchange = "DeductionAmtChanged()" })
+                                            @Html.TextBoxFor(m => m.deductions[i].ExpenseItemAmount, new { @class = "form_input deduction text-right numbers-only", autocomplete = "off", @onchange = "DeductionAmtChanged()" })
                                         </td>
                                         <td style="vertical-align:middle"><a id="add_row" class="glyphicon glyphicon-plus" style="top:0px" onclick="AddDeductionRow()"></a></td>
                                     </tr>
@@ -406,8 +448,17 @@
                     <div class="row">
 
                         <div class="col-md-12 hrpart">
-                            <button class="form-button right">Exit</button>
-                            <button type="submit" class="form-button right">Save</button>
+                            <input type="button" class="form-button right" value="Exit" />
+                            <button type="submit" class="form-button right">
+                                @if(ViewBag.mode != "Approve")
+                                { 
+                                    @: Save 
+                                } 
+                                else 
+                                {
+                                    @: Approve 
+                                }
+                            </button>
                         </div>
 
                     </div>
@@ -417,5 +468,5 @@
             </div>
 
         }
-    </div>
-</div>
+                        </div>
+                    </div>

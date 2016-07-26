@@ -17,12 +17,7 @@ namespace ArabErp.Web.Controllers
         }
         public ActionResult Create()
         {
-            FillSupplier();
-            FillAddition();
-            FillDeduction();
-            FillSO();
-            FillJC();
-            FillCurrency();
+            FillDropdowns();
             ExpenseBill expense = new ExpenseBill();
             expense.ExpenseDate = expense.ExpenseBillDate = expense.ExpenseBillDueDate = DateTime.Now;
             expense.CurrencyId = new CurrencyRepository().GetCurrencyFrmOrganization(OrganizationId).CurrencyId;
@@ -32,13 +27,24 @@ namespace ArabErp.Web.Controllers
             expense.deductions.Add(new ExpenseBillItem());
             return View(expense);
         }
+
+        private void FillDropdowns()
+        {
+            FillSupplier();
+            FillAddition();
+            FillDeduction();
+            FillSO();
+            FillJC();
+            FillCurrency();
+        }
+
         [HttpPost]
         public ActionResult Create(ExpenseBill model)
         {
             if(ModelState.IsValid)
             {
                 ExpenseRepository repo = new ExpenseRepository();
-                repo.Insert(model);
+                TempData["success"] = "Saved Successfully. Reference no. is " + repo.Insert(model);
                 return RedirectToAction("Create");
             }
             else
@@ -48,6 +54,7 @@ namespace ArabErp.Web.Controllers
                 FillDeduction();
                 FillSO();
                 FillJC();
+                TempData["error"] = "Some error occurred. Please try again.";
                 return View(model);
             }
         }
@@ -95,6 +102,44 @@ namespace ArabErp.Web.Controllers
             //return Json(Result, JsonRequestBehavior.AllowGet);
 
             return Json(duedate.ToString("dd/MMMM/yyyy"), JsonRequestBehavior.AllowGet);
+        }
+
+        public ActionResult PendingApproval()
+        {
+            return View(new ExpenseRepository().GetUnapprovedExpenseBills());
+        }
+
+        public ActionResult Approve(int id=0)
+        {
+            if (id != 0)
+            {
+                FillDropdowns();
+                var model = new ExpenseRepository().GetExpenseBill(id);
+                ViewBag.mode = "Approve";
+                return View("Create", model);
+            }
+            else
+            {
+                TempData["error"] = "That was an invalid request. Please try again.";
+                return RedirectToAction("PendingApproval");
+            }
+        }
+
+        [HttpPost]
+        public ActionResult Approve(ExpenseBill model)
+        {
+            int i = new ExpenseRepository().Approve(model.ExpenseId.GetValueOrDefault(0));
+            if (i>0)
+            {
+                TempData["success"] = "Approved Successfully";
+                return RedirectToAction("PendingApproval"); 
+            }
+            else
+            {
+                FillDropdowns();
+                TempData["error"] = "Some error occured while approving. Please try again.";
+                return View("Create", model);
+            }
         }
     }
 }

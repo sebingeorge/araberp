@@ -9,7 +9,7 @@ using System.Data;
 
 namespace ArabErp.DAL
 {
-    public class ExpenseRepository:BaseRepository
+    public class ExpenseRepository : BaseRepository
     {
         static string dataConnection = GetConnectionString("arab");
         public List<Dropdown> FillSupplier()
@@ -72,7 +72,7 @@ namespace ArabErp.DAL
             }
         }
 
-        public int Insert(ExpenseBill expenseBill)
+        public string Insert(ExpenseBill expenseBill)
         {
             int id = 0;
             using (IDbConnection connection = OpenConnection(dataConnection))
@@ -80,7 +80,9 @@ namespace ArabErp.DAL
                 IDbTransaction trn = connection.BeginTransaction();
                 try
                 {
-                    if(expenseBill.SoOrJc == "JC")
+                    expenseBill.ExpenseNo = "EXP/" + DatabaseCommonRepository.GetInternalIDFromDatabase(connection, trn, typeof(ExpenseBill).Name, "0", 1);
+
+                    if (expenseBill.SoOrJc == "JC")
                     {
                         expenseBill.SaleOrderId = null;
                     }
@@ -119,13 +121,13 @@ namespace ArabErp.DAL
                     }
                     trn.Commit();
                 }
-                catch(Exception ex)
+                catch (Exception ex)
                 {
                     trn.Rollback();
                 }
-                
+
             }
-            return id;
+            return expenseBill.ExpenseNo;
         }
         public IEnumerable<ExpenseBillListViewModel> GetList()
         {
@@ -158,5 +160,61 @@ namespace ArabErp.DAL
             }
         }
 
+        /// <summary>
+        /// Return all unapproved expense bills
+        /// </summary>
+        /// <returns></returns>
+        public IEnumerable<ExpenseBillListViewModel> GetUnapprovedExpenseBills()
+        {
+            using (IDbConnection connection = OpenConnection(dataConnection))
+            {
+                string query = @"SELECT 
+	                            EB.ExpenseId,
+	                            EB.ExpenseNo,
+	                            CONVERT(VARCHAR, EB.ExpenseDate, 106) ExpenseDate,
+	                            ExpenseBillRef,
+	                            CONVERT(VARCHAR, EB.ExpenseBillDate, 106) ExpenseBillDate,
+	                            CONVERT(VARCHAR, EB.ExpenseBillDueDate, 106) ExpenseBillDueDate,
+	                            S.SupplierName,
+	                            EB.TotalAmount,
+	                            SO.SaleOrderRefNo,
+	                            CONVERT(VARCHAR, So.SaleOrderDate, 106) SaleOrderDate,
+	                            JC.JobCardNo,
+	                            CONVERT(VARCHAR, JC.JobCardDate, 106) JobCardDate,
+	                            CASE EB.SaleOrderId WHEN NULL THEN 'SO' ELSE 'JC' END AS [Type]
+                            FROM ExpenseBill EB
+                            INNER JOIN Supplier S ON EB.SupplierId = S.SupplierId
+                            LEFT JOIN SaleOrder SO ON EB.SaleOrderId = SO.SaleOrderId
+                            LEFT JOIN JobCard JC ON EB.JobCardId = JC.JobCardId
+                            WHERE EB.isApproved = 0";
+                return connection.Query<ExpenseBillListViewModel>(query).ToList();
+            }
+        }
+
+        public int Approve(int id)
+        {
+            using (IDbConnection connection = OpenConnection(dataConnection))
+            {
+                string query = @"UPDATE ExpenseBill SET isApproved = 1 WHERE ExpenseId = @id";
+                return connection.Execute(query, new { id = id });
+            }
+        }
+
+        public ExpenseBill GetExpenseBill(int id)
+        {
+            using (IDbConnection connection = OpenConnection(dataConnection))
+            {
+                string query = @"SELECT *, CASE WHEN SaleOrderId IS NULL THEN 'JC' ELSE 'SO' END SoOrJc FROM ExpenseBill WHERE ExpenseId = @id";
+                ExpenseBill model = connection.Query<ExpenseBill>(query, new { id = id }).Single();
+
+                query = @"SELECT * FROM ExpenseBillItem WHERE ExpenseId = @id AND ExpenseItemAddDed = 1";
+                model.ExpenseBillItem = connection.Query<ExpenseBillItem>(query, new { id = id }).ToList() ?? new List<ExpenseBillItem>();
+
+                query = @"SELECT * FROM ExpenseBillItem WHERE ExpenseId = @id AND ExpenseItemAddDed = 2";
+                model.deductions = connection.Query<ExpenseBillItem>(query, new { id = id }).ToList() ?? new List<ExpenseBillItem>();
+
+                return model;
+            }
+        }
     }
 }
