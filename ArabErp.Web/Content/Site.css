@@ -32,7 +32,7 @@ textarea {
     padding:24px;
     border-radius:0 0 5px 5px;
     -moz-radius:0 0 5px 5px;
-    margin-right:24px;
+    /*margin-right:24px;*/
     margin-bottom:20px;  
     border: 1px solid #fff;
     /*box-shadow: 1px 2px 3px #888888;*/
@@ -261,11 +261,11 @@ background-color: #ffffff;
     border-radius: 5px;
     line-height: 9px;
     padding: 1px;
-    width: 98%;
+    width: 100%;
 }
 .main-list1 
 {
-    width:97%;
+    width:100%;
 }
 .main-list-head 
 {  
@@ -540,12 +540,12 @@ background-color: #D6D5D5;
     width:200px;
     border-bottom:1px solid #fff;
     background-color:#428bca;
-    height:25px;
+    height:24px;
 }
 
     .links li ul li a 
     {
-        font-size:13px;
+        font-size:12px;
         color:#fff;
     }
 
