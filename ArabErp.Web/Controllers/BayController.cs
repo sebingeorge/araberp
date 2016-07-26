@@ -5,6 +5,7 @@ using System.Web;
 using System.Web.Mvc;
 using ArabErp.Domain;
 using ArabErp.DAL;
+using System.Collections;
 
 namespace ArabErp.Web.Controllers
 {
@@ -27,6 +28,7 @@ namespace ArabErp.Web.Controllers
 
         public ActionResult Create()
         {
+            FillBayType();
             ViewBag.Title = "Create";
             Bay Bay = new Bay();
             Bay.BayRefNo = new BayRepository().GetRefNo(Bay);
@@ -46,7 +48,7 @@ namespace ArabErp.Web.Controllers
                 var result = new BayRepository().InsertBay(model);
                 if (result.BayId > 0)
                 {
-
+                    FillBayType();
                     TempData["Success"] = "Added Successfully!";
                     TempData["BayRefNo"] = result.BayRefNo;
                     return RedirectToAction("Create");
@@ -54,6 +56,7 @@ namespace ArabErp.Web.Controllers
 
                 else
                 {
+                    FillBayType();
                     TempData["error"] = "Oops!!..Something Went Wrong!!";
                     TempData["BayRefNo"] = null;
                     return View("Create", model);
@@ -68,26 +71,10 @@ namespace ArabErp.Web.Controllers
             }
 
         }
-
-        //    var result = new BayRepository().InsertBay(model);
-
-        //    if (result.BayId > 0)
-        //    {
-        //        TempData["Success"] = "Added Successfully!";
-        //        TempData["BayRefNo"] = result.BayRefNo;
-        //        return RedirectToAction("Create");
-        //    }
-        //    else
-        //    {
-        //        TempData["error"] = "Oops!!..Something Went Wrong!!";
-        //        TempData["BayRefNo"] = null;
-        //        return View("Create", model);
-        //    }
-        //}
-
  
         public ActionResult Edit(int Id)
         {
+            FillBayType();
             ViewBag.Title = "Edit";
             Bay objBay = new BayRepository().GetBay(Id);
             return View("Create", objBay);
@@ -116,6 +103,7 @@ namespace ArabErp.Web.Controllers
 
                 else
                 {
+                    FillBayType();
                     TempData["error"] = "Oops!!..Something Went Wrong!!";
                     TempData["BayRefNo"] = null;
                     return View("Create", model);
@@ -124,6 +112,7 @@ namespace ArabErp.Web.Controllers
             }
             else
             {
+                FillBayType();
                 TempData["error"] = "This Name Alredy Exists!!";
                 TempData["BayRefNo"] = null;
                 return View("Create", model);
@@ -131,25 +120,9 @@ namespace ArabErp.Web.Controllers
 
         }
 
-        //    var result = new BayRepository().UpdateBay(model);
-
-        //    if (result.BayId > 0)
-        //    {
-        //        TempData["Success"] = "Updated Successfully!";
-        //        TempData["BayRefNo"] = result.BayRefNo;
-        //        return RedirectToAction("Create");
-        //    }
-        //    else
-        //    {
-        //        TempData["error"] = "Oops!!..Something Went Wrong!!";
-        //        TempData["BayRefNo"] = null;
-        //        return View("Edit", model);
-        //    }
-
-        //}
-
         public ActionResult Delete(int Id)
         {
+            FillBayType();
             ViewBag.Title = "Delete";
             Bay objBay = new BayRepository().GetBay(Id);
             return View("Create", objBay);
@@ -171,11 +144,13 @@ namespace ArabErp.Web.Controllers
             {
                 if (result == 1)
                 {
+                    FillBayType();
                     TempData["error"] = "Sorry!! You Cannot Delete This Bay It Is Already In Use";
                     TempData["BayRefNo"] = null;
                 }
                 else
                 {
+                    FillBayType();
                     TempData["error"] = "Oops!!..Something Went Wrong!!";
                     TempData["BayRefNo"] = null;
                 }
@@ -184,5 +159,13 @@ namespace ArabErp.Web.Controllers
 
         }
 
+        public void FillBayType()
+        {
+            List<Dropdown> types = new List<Dropdown>();
+            types.Add(new Dropdown { Id = 0, Name = "Transport" });
+            types.Add(new Dropdown { Id = 1, Name = "Bus" });
+            ViewBag.baytype = new SelectList(types, "Id", "Name");
+        }
+       
     }
 }

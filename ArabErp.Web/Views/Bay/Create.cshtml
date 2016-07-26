@@ -14,12 +14,13 @@
 
             $("input[type='text'], select, textarea").attr('disabled', 'disabled');
             $("input[type=radio]").attr('disabled', true);
+            $("#BayType").val(@Model.BayType);
         }
         if (Action == 'Create') {
             $("#GenderId").prop("checked", true)
         }
-
-
+        else
+            $("#BayType").val(@Model.BayType);
 
         toastr.options = {
             "closeButton": true,
@@ -64,6 +65,7 @@
 
                         @Html.HiddenFor(m => m.BayId)
                         @Html.HiddenFor(m => m.BayRefNo)
+                     
 
                         <div class="part4">
                             <label for="BayRefNo">Code</label>
@@ -73,6 +75,11 @@
                         <div class="part4">
                             <label for="BayName">Name</label>
                             @Html.TextBoxFor(m => m.BayName, new { @class = "form_input", autocomplete = "off" })
+                        </div>
+
+                        <div class="part4">
+                            <label for="BayType">Type</label>
+                            @Html.DropDownListFor(m => Model.BayType, (SelectList)ViewBag.baytype, "Select Bay Type", new { @class = "form_input" })
                         </div>
 
                     </div>
