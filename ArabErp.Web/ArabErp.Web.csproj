@@ -703,6 +703,7 @@
     <Content Include="Views\StockCreation\Create.cshtml" />
     <Content Include="Views\StockCreation\_FinishedGood.cshtml" />
     <Content Include="Views\StockCreation\_ConsumedItem.cshtml" />
+    <Content Include="Views\StockCreation\PreviousList.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
