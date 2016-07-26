@@ -27,7 +27,7 @@ namespace ArabErp.Domain
         public string DoorSizeTypeAndNumberOfDoor { get; set; }
         public string FloorDetails { get; set; }
         public string ProductDetails { get; set; }
-        public string OtherDetails { get; set; }
+        public string Kilowatt { get; set; }
         public decimal Amount { get; set; }
         public string Remarks { get; set; }
         public string ProductIncomingTemperature { get; set; }

@@ -310,15 +310,15 @@
 
                     <div class="col-md-6">
 
-                        <label for="Others">Others</label>
+                        <label for="Others">Kilowatt</label>
 
                         @if (actionName == "Create")
                         {
-                            @Html.TextBoxFor(m => m.OtherDetails, new { @class = "form_input", autocomplete = "off" })
+                            @Html.TextBoxFor(m => m.Kilowatt, new { @class = "form_input", autocomplete = "off" })
                         }
                         else
                         {
-                            @Html.TextBoxFor(m => m.OtherDetails, new { @class = "form_input", autocomplete = "off", @readonly = "readonly" })
+                            @Html.TextBoxFor(m => m.Kilowatt, new { @class = "form_input", autocomplete = "off", @readonly = "readonly" })
                         }
                     </div>
                 </div>

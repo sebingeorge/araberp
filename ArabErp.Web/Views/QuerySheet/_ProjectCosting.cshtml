@@ -1,4 +1,4 @@
-﻿
+﻿@model ArabErp.Domain.QuerySheet
 
 <div class="table-responsive">
     <h5>Project Costing</h5>
@@ -11,85 +11,36 @@
 
             </tr>
         </thead>
-        <tbody class="grid_row">
+  
 
-            <tr>
-                <td width="40%">
-                    <input type="text" value="Condenser Unit" id="1" class=" form_input" disabled />
-                </td>
-                <td>
-                    <input type="text" class="form_input" />
-                    @*@Html.TextBoxFor(m => m.Items[i]., new { @class = "form_input ", autocomplete = "off" })*@
+            <tbody class="grid_row">
+@for (int i = 0; i < Model.Items.Count; i++)
+{
+                <tr>
+                    <td width="40%">
+                        @Html.HiddenFor(m => m.Items[i].CostingId)
+                        @Html.TextBoxFor(m => m.Items[i].Description , new { @class = "form_input ", autocomplete = "off" })
+                      
+                    </td>
+                    <td>
+                       
+                        @Html.TextBoxFor(m => m.Items[i].Remarks, new { @class = "form_input ", autocomplete = "off" })
 
-                </td>
-                <td>
-                    <input type="text" class="form_input text-right" />
-                    @*@Html.TextBoxFor(m => m.Amount, new { @class = "form_input ", autocomplete = "off", @style = "text-align:right" })*@
-                </td>
+                    </td>
+                    <td>
+                       
+                        @Html.TextBoxFor(m => m.Items[i].Amount, new { @class = "form_input ", autocomplete = "off", @style = "text-align:right" })
+                    </td>
 
-            </tr>
-            <tr>
-                <td width="40%">
-                    <input type="text" value="Evaporation Unit" id="2" class=" form_input" disabled />
-                </td>
-                <td>
-                    <input type="text" class="form_input" />
-                    @*@Html.TextBoxFor(new { @class = "form_input ", autocomplete = "off" })*@
-                </td>
-                <td>
-                    <input type="text" class="form_input text-right" />
-                    @*@Html.TextBoxFor(m => m.Amount, new { @class = "form_input ", autocomplete = "off", @style = "text-align:right" })*@
-                </td>
+                </tr>
 
-            </tr>
-            <tr>
-                <td width="40%">
-                    <input type="text" value="Raw Materials" id="3" class=" form_input" disabled />
-                </td>
-
-                <td>
-                    <input type="text" class="form_input" />
-                    @*@Html.TextBoxFor( new { @class = "form_input ", autocomplete = "off" })*@
-                </td>
-                <td>
-                    <input type="text" class="form_input text-right" />
-                    @*@Html.TextBoxFor( new { @class = "form_input ", autocomplete = "off", @style = "text-align:right" })*@
-                </td>
-
-            </tr>
-            <tr>
-                <td width="40%">
-                    <input type="text" value="Labour On Site" id="4" class=" form_input" disabled />
-                </td>
-                <td>
-                    <input type="text" class="form_input" />
-                    @*@Html.TextBoxFor(m => m.Remarks, new { @class = "form_input ", autocomplete = "off" })*@
-                </td>
-                <td>
-                    <input type="text" class="form_input text-right" />
-                    @*@Html.TextBoxFor(m => m.Amount, new { @class = "form_input ", autocomplete = "off", @style = "text-align:right" })*@
-                </td>
-
-            </tr>
-            <tr>
-                <td width="40%">
-                    <input type="text" value="Transportation" id="5" class=" form_input" disabled />
-                </td>
-                <td>
-                    <input type="text" class="form_input" />
-                    @*@Html.TextBoxFor(m => m.Remarks, new { @class = "form_input ", autocomplete = "off" })*@
-                </td>
-                <td>
-                    <input type="text" class="form_input text-right" />
-                    @*@Html.TextBoxFor(m => m.Amount, new { @class = "form_input ", autocomplete = "off", @style = "text-align:right" })*@
-                </td>
-
-            </tr>
-
-        </tbody>
+                }
+            </tbody>
+      
     </table>
 
 
 
 
 </div>
+
