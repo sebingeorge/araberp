@@ -149,7 +149,7 @@
                 <div class="row form-group">
                     <div class="col-md-2">
                         @Html.HiddenFor(m => m.CustomerReceiptId)
-                        @Html.HiddenFor(m => m.CustomerReceiptRefNo)
+                        @*@Html.HiddenFor(m => m.CustomerReceiptRefNo)*@
 
                         <label for="CustomerReceiptRefNo">CR No.</label>
                         @Html.TextBoxFor(m => m.CustomerReceiptRefNo, new { @class = "form_input", autocomplete = "off", @required = "true" })
