@@ -14,5 +14,14 @@ namespace ArabErp.Domain
 
         public List<StockCreationFinishedGood> FinishedGoods { get; set; }
         public List<StockCreationConsumedItem> ConsumedItems { get; set; }
+
+        public int OrganizationId { get; set; }
+        public string CreatedBy { get; set; }
+        public DateTime? CreatedDate { get; set; }
+        public int FinishedGoodStockpointId { get; set; }
+        public int ConsumedItemStockpointId { get; set; }
+
+        public string Finished { get; set; }
+        public string Consumed { get; set; }
     }
 }

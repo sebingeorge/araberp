@@ -27,12 +27,23 @@
 
         $("#StockCreationDate").datepicker({
             dateFormat: "dd MM yy"
-        })
+        });
+
+        //bind keypress event
+        $(".numbers-only").keypress(function (e) {
+            if (e.which == 8 || (e.which == 45 && $(this).val().indexOf('-') == -1) || (e.which == 46 && $(this).val().indexOf('.') == -1) || (e.which > 47 && e.which < 58)) { }
+            else { return false; }
+        });
 
     })
 
     function formValidation() {
-        return false;
+        return true;
+    }
+
+    function Previous() {
+        var url = '@Url.Action("PreviousList")';
+        window.location = url;
     }
 
 </script>
@@ -59,10 +70,18 @@
                     </div>
                     <div class="col-md-2">
                         <label for="StockCreationDate">Date</label>
-                        @Html.TextBoxFor(m => m.StockCreationDate, new { @class = "form_input", @readonly = "true", @required = "true" })
+                        @Html.TextBoxFor(m => m.StockCreationDate, Model.StockCreationDate.ToString("dd MMMM yyyy"), new { @class = "form_input", @readonly = "true", @required = "true" })
+                    </div>
+                    <div class="col-md-3">
+                        <label for="FinishedGoodStockpointId">Finished Goods Stockpoint</label>
+                        @Html.DropDownListFor(m => m.FinishedGoodStockpointId, (SelectList)ViewBag.stockpointList, "Select Stockpoint", new { @class = "form_input" })
+                    </div>
+                    <div class="col-md-3">
+                        <label for="ConsumedItemStockpointId">Consumed Items Stockpoint</label>
+                        @Html.DropDownListFor(m => m.ConsumedItemStockpointId, (SelectList)ViewBag.stockpointList, "Select Stockpoint", new { @class = "form_input" })
                     </div>
                 </div>
-                
+
                 <strong>Finished Goods:</strong>
                 <div class="table-responsive scroll4">
                     @Html.Action("FinishedGoodsGrid")
@@ -72,9 +91,10 @@
                 <div class="table-responsive scroll4">
                     @Html.Action("ConsumedItemsGrid")
                 </div>
-                
+
                 <div class="row">
                     <div class="col-md-12 hrpart">
+                        <input type="button" class="form-button left" value="Previous" onclick="Previous()" title="Previously created stocks" />
                         <input type="button" class="form-button right" value="Exit" onclick="Exit()" title="Go to home page" />
                         <input type="submit" class="form-button right" value="Save" />
                     </div>

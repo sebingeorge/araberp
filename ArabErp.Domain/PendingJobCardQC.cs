@@ -9,7 +9,7 @@ namespace ArabErp.Domain
     public class PendingJobCardQC
     {
         public int JobCardId { get; set; }
-        public int JobCardNo { get; set; }
+        public string JobCardNo { get; set; }
         public DateTime JobCardDate { get; set; }
         public string JobCardDateString { get; set; }
         public int SaleOrderId { get; set; }

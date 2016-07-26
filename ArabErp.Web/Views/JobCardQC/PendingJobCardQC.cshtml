@@ -68,6 +68,7 @@ tbody td, thead th {
         url = url + "&VehicleModel=" + VehicleModel;
         console.log(url);
         window.location.href = url;
+        alert(url);
     }
 
 </script>
@@ -99,7 +100,7 @@ tbody td, thead th {
                                 <td><input type="text" class="form_input" disabled value="@item.CustomerName" /></td>
                                 <td><input type="text" class="form_input" disabled value="@item.VehicleModelName" /></td>
                                 @*<td><button class="glyphicon-folder-open" onclick="GotoJobcardCompletion(@item.JobCardId)">Select</button></td>*@
-                                <td align="center"><button class="btn btn-xs btn-primary" onclick="GotoJobcardQC(@item.JobCardId,@item.JobCardNo,'@item.JobCardDate.ToString("dd/MMM/yyyy")','@item.CustomerName','@item.VehicleModelName')"><span class="glyphicon glyphicon-edit" style="top:2px"></span></button></td>
+                                <td align="center"><button class="btn btn-xs btn-primary" onclick="GotoJobcardQC(@item.JobCardId,'@item.JobCardNo','@item.JobCardDate.ToString("dd/MMM/yyyy")','@item.CustomerName','@item.VehicleModelName')"><span class="glyphicon glyphicon-edit" style="top:2px"></span></button></td>
                             </tr>
                         }
                     </tbody>

@@ -33,6 +33,11 @@
         else {
             toastr.info("You have to fill the existing rows before adding a new row");
         }
+        //bind keypress event
+        $(".numbers-only").keypress(function (e) {
+            if (e.which == 8 || (e.which == 45 && $(this).val().indexOf('-') == -1) || (e.which == 46 && $(this).val().indexOf('.') == -1) || (e.which > 47 && e.which < 58)) { }
+            else { return false; }
+        });
     }
 
     function DeleteRowFromConsumed(index) {
@@ -100,13 +105,13 @@
                     <input id="CI_slno_@i" type="text" value="@(i + 1)" style="width:100%" class="form_input text-center" disabled />
                 </td>
                 <td>
-                    @Html.DropDownListFor(m => m.ConsumedItems[i].ItemId, (SelectList)ViewBag.materialList, "Select Material/Spare", new { @class = "form_input" })
+                    @Html.DropDownListFor(m => m.ConsumedItems[i].ItemId, (SelectList)ViewBag.materialList, "Select Material/Spare", new { @class = "form_input", @required = "true" })
                 </td>
                 <td>
-                    @Html.TextBoxFor(m => m.ConsumedItems[i].Quantity, new { @class = "form_input text-right" })
+                    @Html.TextBoxFor(m => m.ConsumedItems[i].Quantity, new { @class = "form_input text-right numbers-only", @required = "true" })
                 </td>
                 <td>
-                    @Html.TextBoxFor(m => m.ConsumedItems[i].Rate, new { @class = "form_input text-right" })
+                    @Html.TextBoxFor(m => m.ConsumedItems[i].Rate, new { @class = "form_input text-right numbers-only" })
                 </td>
                 <td style="vertical-align:middle" align="center">
                     <a id="add_row" class="glyphicon glyphicon-plus" style="top:0px" onclick="AddRowToConsumedItems()"></a>

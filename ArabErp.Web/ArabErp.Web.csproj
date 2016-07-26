@@ -708,6 +708,7 @@
     <Content Include="Views\CustomerReceipt\Create.cshtml" />
     <Content Include="Views\CustomerReceipt\_CustomerReceiptListView.cshtml" />
     <Content Include="Views\CustomerReceipt\Index.cshtml" />
+    <Content Include="Views\StockCreation\PreviousList.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
