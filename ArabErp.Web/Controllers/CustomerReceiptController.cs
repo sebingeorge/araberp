@@ -17,8 +17,18 @@ namespace ArabErp.Web.Controllers
             return View();
         }
 
+        public ActionResult CustomerReceiptList(int? page)
+        {
+            int itemsPerPage = 10;
+            int pageNumber = page ?? 1;
+            var repo = new CustomerReceiptRepository();
+            var List = repo.GetCustomerReceipt();
+            return PartialView("_CustomerReceiptListView", List);
+        }
+
         public ActionResult CreateRequest()
         {
+            ViewBag.Title = "Create";
             FillCustomer();
             FillSO();
             FillJC();
@@ -47,7 +57,108 @@ namespace ArabErp.Web.Controllers
                 return View("Create", model);
             }
         }
-    
+
+        public ActionResult Edit(int Id)
+        {
+            //int Id = 0;
+            FillCustomer();
+            FillSO();
+            FillJC();
+            FillSI();
+            ViewBag.Title = "Edit";
+            CustomerReceipt objCustomerReceipt = new CustomerReceiptRepository().GetCustomerReceipt(Id);
+            return View("Create", objCustomerReceipt);
+
+
+        }
+
+        [HttpPost]
+        public ActionResult Edit(CustomerReceipt model)
+        {
+            ViewBag.Title = "Edit";
+            model.OrganizationId = OrganizationId;
+            model.CreatedDate = System.DateTime.Now;
+            model.CreatedBy = Request.ServerVariables["HTTP_X_FORWARDED_FOR"] ?? Request.ServerVariables["REMOTE_ADDR"];
+
+            var repo = new CustomerReceiptRepository();
+            //bool isexists = repo.IsFieldExists(repo.ConnectionString(), "CustomerReceipt", "CustomerReceiptRefNo", model.CustomerReceiptRefNo, "CustomerReceiptId", model.CustomerReceiptId);
+            //if (!isexists)
+            {
+                var result = new CustomerReceiptRepository().UpdateCustomerReceipt(model);
+                if (result.CustomerReceiptId > 0)
+                {
+
+                    TempData["Success"] = "Updated Successfully!";
+                    TempData["CustomerReceiptRefNo"] = result.CustomerReceiptRefNo;
+                    return RedirectToAction("Index");
+                }
+
+                else
+                {
+                    FillCustomer();
+                    FillSO();
+                    FillJC();
+                    FillSI();
+                    TempData["error"] = "Oops!!..Something Went Wrong!!";
+                    TempData["CustomerReceiptRefNo"] = null;
+                    return View("Create", model);
+                }
+
+            }
+            //else
+            //{
+
+            //    FillCustomer();
+            //    FillSO();
+            //    FillJC();
+            //    FillSI();
+            //    TempData["error"] = "This Ref No Alredy Exists!!";
+            //    TempData["CustomerReceiptRefNo"] = null;
+            //    return View("Create", model);
+            //}
+
+       }
+
+        public ActionResult Delete(int Id)
+        {
+            //int Id = 0;
+            FillCustomer();
+            FillSO();
+            FillJC();
+            FillSI();
+            ViewBag.Title = "Delete";
+            CustomerReceipt objCustomerReceipt = new CustomerReceiptRepository().GetCustomerReceipt(Id);
+            return View("Create", objCustomerReceipt);
+        }
+
+        [HttpPost]
+        public ActionResult Delete(CustomerReceipt model)
+        {
+            int result = new CustomerReceiptRepository().DeleteCustomerReceipt(model);
+
+            if (result == 0)
+            {
+                TempData["Success"] = "Deleted Successfully!";
+                TempData["CustomerReceiptRefNo"] = model.CustomerReceiptRefNo;
+                return RedirectToAction("Index");
+            }
+            else
+            {
+                if (result == 1)
+                {
+                    TempData["error"] = "Sorry!! You Cannot Delete This Customer Receipt. It Is Already In Use";
+                    TempData["CustomerReceiptRefNo"] = null;
+                }
+                else
+                {
+                    TempData["error"] = "Oops!!..Something Went Wrong!!";
+                    TempData["CustomerReceiptRefNo"] = null;
+                }
+                return RedirectToAction("Index");
+            }
+
+        }
+
         public void FillCustomer()
         {
             SaleOrderRepository repo = new SaleOrderRepository();

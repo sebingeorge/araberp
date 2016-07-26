@@ -1,8 +1,7 @@
 ﻿@model ArabErp.Domain.CustomerReceipt
-@{
-    ViewBag.Title = "CreateRequest";
-    Layout = "~/Views/Shared/_Layout.cshtml";
-}
+@{Layout = "~/Views/Shared/_Layout.cshtml";}
+
+@{string actionName = HttpContext.Current.Request.RequestContext.RouteData.Values["action"].ToString(); }
 
 <style>
     .divHidden {
@@ -36,60 +35,56 @@
             toastr.error('@TempData["error"]');
         }
 
-        //$('#purchasereq_form').bootstrapValidator({
-        //    // To use feedback icons, ensure that you use Bootstrap v3.1.0 or later
-        //    //feedbackIcons: {
-        //    //    valid: 'glyphicon glyphicon-ok',
-        //    //    invalid: 'glyphicon glyphicon-remove',
-        //    //    validating: 'glyphicon glyphicon-refresh'
-        //    //},
-        //    fields: {
-        //        PurchaseRequestNo: {
-        //            validators: {
-        //                notEmpty: {
-        //                    message: 'Please enter PurchaseRequest No.'
-        //                }
-        //            }
-        //        },
-        //        PurchaseRequestDate: {
-        //            validators: {
-        //                notEmpty: {
-        //                    message: 'Please select PurchaseRequest Date'
-        //                }
-        //            }
-        //        },
-        //    }
-        //});
     })
     function Exit() {
-        location.href = '@Url.Action("Index","Home")';
+        location.href = '@Url.Action("Index", "CustomerReceipt")';
     }
-    $(function () {
-        $("#CustomerReceiptDate").datepicker({
-            dateFormat: "d-MM-yy"
-        });
-    });
 
-    function Toast() {
+    $(document).ready(function () {
+        var Action = '@actionName';
+        if (Action == 'Delete') {
+
+            $("input[type='text'], select, textarea").attr('disabled', 'disabled');
+            $("input[type=radio]").attr('disabled', true);
+
+        }
+        if (Action == 'Create') {
+            $("#GenderId").prop("checked", true)
+        }
+
+        //$("#radio_1").prop("checked", true)
         toastr.options = {
             "closeButton": true,
-            "debug": false,
-            "newestOnTop": false,
-            "progressBar": false,
             "positionClass": "toast-bottom-full-width",
-            "preventDuplicates": true,
+            "preventDuplicates": false,
             "onclick": null,
-            "showDuration": "300",
-            "hideDuration": "1000",
+
             "timeOut": "0",
             "extendedTimeOut": "1000",
+
             "showEasing": "swing",
             "hideEasing": "linear",
             "showMethod": "fadeIn",
             "hideMethod": "fadeOut"
         }
-        toastr.success("This is a sample toast message");
-    }
+        if ('@TempData["success"]' != "" && '@TempData["CustomerReceiptRefNo"]' != "") {
+            toastr.success('@TempData["success"]' + '  Customer Receipt Ref No. is : ' + '@TempData["CustomerReceiptRefNo"]');
+        }
+        else if ('@TempData["error"]' != "") {
+            toastr.error('@TempData["error"]');
+        }
+
+    });
+
+    $(function () {
+
+        $("#JcOrSo").val('@Model.Against');
+        OptionChanged();
+
+        $("#CustomerReceiptDate").datepicker({
+            dateFormat: "d-MM-yy"
+        });
+    });
 
     function OptionChanged() {
         var opt = $("#JcOrSo").val();
@@ -147,13 +142,18 @@
         </div>
 
         <div class="main-part pad1">
-        @using (Html.BeginForm("CreateRequest", null, FormMethod.Post, new { @class = "CreateRequest" }))
+              @using (Html.BeginForm(null, null, FormMethod.Post, new { @class = "CreateRequest", @id = "CustomerReceipt_form" }))
+       
             {
             @*<form method="post" role="form" >*@
                 <div class="row form-group">
                     <div class="col-md-2">
+                        @Html.HiddenFor(m => m.CustomerReceiptId)
+                        @Html.HiddenFor(m => m.CustomerReceiptRefNo)
+
                         <label for="CustomerReceiptRefNo">CR No.</label>
                         @Html.TextBoxFor(m => m.CustomerReceiptRefNo, new { @class = "form_input", autocomplete = "off", @required = "true" })
+
                     </div>
                     <div class="col-md-2">
                         <label for="CustomerReceiptDate">Date</label>
@@ -179,7 +179,6 @@
                             </select>
                         </div>
 
-
                         <div class="col-md-2">
                             <label id="againstId"></label>
                             @Html.DropDownListFor(m => Model.SaleOrderId, (SelectList)ViewBag.SO, "Select S.O", new { @class = "form_input divHidden", autocomplete = "off" })
@@ -187,7 +186,6 @@
                             @Html.DropDownListFor(m => Model.SalesInvoiceId, (SelectList)ViewBag.SI, "Select S.I", new { @class = "form_input divHidden against", autocomplete = "off" })
                         </div>
                     </div>
-               
 
                 <div class="row form-group">
                     <div class="col-md-2">
@@ -209,14 +207,21 @@
 
                 <div class="row">
 
-                    <div class="col-md-12 hrpart">
-                        @*<button type="button" class="form-button right" onclick="Exit();">Exit</button>*@
-                        <button type="submit" class="form-button right">Save</button>
-                     </div>
+            <div class="col-md-12 hrpart">
 
-                </div>
+            <button type="button" class="form-button right" onclick="Exit()">Exit</button>
+            @if (actionName == "CreateRequest")
+            {  <button type="submit" class="form-button right">Save</button>}
+            else if (actionName == "Edit")
+            {  <button type="submit" class="form-button right">Update</button>}
+            else if (actionName == "Delete")
+            { <button type="submit" class="form-button right">Delete</button> }
+                                                                              
+           </div>
 
-        }
+              </div>
+
+            }
         </div>
     </div>
 </div>

@@ -706,6 +706,8 @@
     <Content Include="Views\StockCreation\_ConsumedItem.cshtml" />
     <Content Include="Views\QuerySheet\_ProjectCosting.cshtml" />
     <Content Include="Views\CustomerReceipt\Create.cshtml" />
+    <Content Include="Views\CustomerReceipt\_CustomerReceiptListView.cshtml" />
+    <Content Include="Views\CustomerReceipt\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
