@@ -15,7 +15,17 @@ namespace ArabErp.Web.Controllers
         public ActionResult CreateQuerySheet()
         {
             QuerySheet qs = new QuerySheet();
+            qs.QuerySheetDate = DateTime.Now;
+            var repo = new QuerySheetRepository();
+            var PCList = repo.GetProjectCostingParameter();
+            qs.Items = new List<ProjectCost>();
 
+            foreach (var item in PCList)
+            {
+                var pcitem = new ProjectCost {CostingId=item.CostingId ,Description = item.Description, Remarks = item.Remarks, Amount = item.Amount };
+                qs.Items.Add(pcitem);
+
+            }
             return View(qs);
         }
 
@@ -75,7 +85,21 @@ namespace ArabErp.Web.Controllers
             var qs = new QuerySheetRepository().GetQuerySheets();
             return View( qs);
         }
+      //public ActionResult ProjectCosting()
+      //  {
+      //      var repo = new QuerySheetRepository();
+      //      QuerySheet model=new QuerySheet ();
+      //      var PCList = repo.GetProjectCostingParameter();
+      //      model.Items  = new List<ProjectCost>();
 
+      //      foreach (var item in PCList)
+      //      {
+      //          var pcitem = new ProjectCost { Description = item.Description, Remarks = item.Remarks, Amount = item.Amount };
+      //          model.Items.Add(pcitem);
+
+      //      }
+      //      return PartialView("_ProjectCosting", model);
+      //  }
 
     }
 }

@@ -13,43 +13,39 @@ namespace ArabErp.DAL
         static string dataConnection = GetConnectionString("arab");
         public string InsertQuerySheet(QuerySheet objQuerySheet)
         {
-
             using (IDbConnection connection = OpenConnection(dataConnection))
             {
-
-                IDbTransaction txn = connection.BeginTransaction();
+             IDbTransaction txn = connection.BeginTransaction();
                 try
                 {
-    int internalId = DatabaseCommonRepository.GetInternalIDFromDatabase(connection, txn, typeof(SaleOrder).Name, "0", 1);
-
+                    int internalId = DatabaseCommonRepository.GetInternalIDFromDatabase(connection, txn, typeof(QuerySheet).Name, "0", 1);
                     objQuerySheet.QuerySheetRefNo= "QSH/" + internalId;
 
+                    string sql = @"insert  into QuerySheet(QuerySheetRefNo,QuerySheetDate,ProjectName,ContactPerson,ContactNumber,Email,RoomDetails,ExternalRoomDimension,ColdRoomArea,ColdRoomLocation,TemperatureRequired,PanelThicknessANDSpec,DoorSizeTypeAndNumberOfDoor,FloorDetails,ProductDetails,ProductIncomingTemperature,PipeLength,Refrigerant,EletricalPowerAvailability,Kilowatt,CreatedBy,CreatedDate,OrganizationId)
+                                 Values (@QuerySheetRefNo,@QuerySheetDate,@ProjectName,@ContactPerson,@ContactNumber,@Email,@RoomDetails,@ExternalRoomDimension,@ColdRoomArea,@ColdRoomLocation,@TemperatureRequired,@PanelThicknessANDSpec,@DoorSizeTypeAndNumberOfDoor,@FloorDetails,@ProductDetails,@ProductIncomingTemperature,@PipeLength,@Refrigerant,@EletricalPowerAvailability,@Kilowatt,@CreatedBy,@CreatedDate,@OrganizationId);
+                             SELECT CAST(SCOPE_IDENTITY() as int)";
 
+                    var id = connection.Query<int>(sql, objQuerySheet, txn).Single();
 
-
-                string sql = @"insert  into QuerySheet(QuerySheetRefNo,ProjectName,ContactPerson,ContactNumber,Email,RoomDetails,ExternalRoomDimension,ColdRoomArea,ColdRoomLocation,TemperatureRequired,PanelThicknessANDSpec,DoorSizeTypeAndNumberOfDoor,FloorDetails,ProductDetails,ProductIncomingTemperature,PipeLength,Refrigerant,EletricalPowerAvailability,CreatedBy,CreatedDate,OrganizationId) Values (@QuerySheetRefNo,@ProjectName,@ContactPerson,@ContactNumber,@Email,@RoomDetails,@ExternalRoomDimension,@ColdRoomArea,@ColdRoomLocation,@TemperatureRequired,@PanelThicknessANDSpec,@DoorSizeTypeAndNumberOfDoor,@FloorDetails,@ProductDetails,@ProductIncomingTemperature,@PipeLength,@Refrigerant,@EletricalPowerAvailability,@CreatedBy,@CreatedDate,@OrganizationId);
-            SELECT CAST(SCOPE_IDENTITY() as int)";
-
-
-                var id = connection.Query<int>(sql, objQuerySheet,txn).Single();
-
+                    foreach (ProjectCost item in objQuerySheet.Items)
+                    {
+                        item.QuerySheetId= id;
+                        new ProjectCostRepository().InsertProjectCosting(item, connection, txn);
+                    }
 
                     txn.Commit();
 
                     return id + "|QSH/" + internalId;
                 }
-                catch (Exception ex )
+                catch (Exception)
                 {
-                    
                     txn.Rollback();
-                    throw ex;
                     return "0";
                 }
-
             }
         }
-
-
+                
+                   
         public QuerySheet GetQuerySheet(int QuerySheetId)
         {
 
@@ -91,6 +87,15 @@ namespace ArabErp.DAL
 
                 var id = connection.Execute(sql, objQuerySheet);
                 return id;
+            }
+        }
+        public IEnumerable<ProjectCost> GetProjectCostingParameter()
+        {
+            using (IDbConnection connection = OpenConnection(dataConnection))
+            {
+                string query = @"select CostingId,Description,''Remarks,0.00 Amount from CostingParameters";
+
+                return connection.Query<ProjectCost>(query);
             }
         }
 

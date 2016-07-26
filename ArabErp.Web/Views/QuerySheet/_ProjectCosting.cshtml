@@ -1,0 +1,46 @@
+﻿@model ArabErp.Domain.QuerySheet
+
+<div class="table-responsive">
+    <h5>Project Costing</h5>
+    <table class="table table-bordered">
+        <thead>
+            <tr class="grid_heading">
+                <th width="40%" class="text-left"><h1>Description</h1></th>
+                <th width="50%" class="text-left"><h1>Remarks</h1></th>
+                <th width="10%" class="text-right"><h1>Amount</h1></th>
+
+            </tr>
+        </thead>
+  
+
+            <tbody class="grid_row">
+@for (int i = 0; i < Model.Items.Count; i++)
+{
+                <tr>
+                    <td width="40%">
+                        @Html.HiddenFor(m => m.Items[i].CostingId)
+                        @Html.TextBoxFor(m => m.Items[i].Description , new { @class = "form_input ", autocomplete = "off" })
+                      
+                    </td>
+                    <td>
+                       
+                        @Html.TextBoxFor(m => m.Items[i].Remarks, new { @class = "form_input ", autocomplete = "off" })
+
+                    </td>
+                    <td>
+                       
+                        @Html.TextBoxFor(m => m.Items[i].Amount, new { @class = "form_input ", autocomplete = "off", @style = "text-align:right" })
+                    </td>
+
+                </tr>
+
+                }
+            </tbody>
+      
+    </table>
+
+
+
+
+</div>
+

@@ -1,0 +1,78 @@
+﻿
+
+@model IList<ArabErp.Domain.CustomerReceipt>
+@using GridMvc.Html
+
+<script>
+    function OpenEdit(id) {
+       alert("open");
+        @*var url = '@Url.Action("Edit")';
+        url += "?Id=" + id;
+        location.href = '@Url.Action("Edit", "Item")';*@
+
+        var url = '@Url.Action("Edit")';
+        //url += "?Id=" + id;
+        Location.href = url;
+        return false;
+
+    }
+
+    function OpenDelete(id) {
+        //alert("open");
+        @*var url = '@Url.Action("Edit")';
+        url += "?Id=" + id;
+        location.href = '@Url.Action("Edit", "Item")';*@
+
+        var url = '@Url.Action("Delete")';
+        //url += "?Id=" + id;
+        Location.href = url;
+        return false;
+    }
+
+</script>
+
+
+<style type="text/css">
+    .tableData {
+        font-size: 12px;
+        padding-left: 4px;
+    }
+
+    .list {
+        display: block;
+        height: 320px;
+        overflow-y: scroll;
+    }
+
+        .list tr:hover {
+            background-color: #DFEDF7;
+        }
+</style>
+
+<div class="table-responsive">
+    <div class="main-grid main-grid-top">
+
+        @Html.Grid(Model).Columns(columns =>
+                        {
+                            //columns.Add(m => m.SupplierId).Titled("Code").SetWidth(30);
+                            columns.Add(m => m.CustomerReceiptRefNo).Titled("Ref No.").SetWidth(30);
+                            columns.Add(m => m.CustomerReceiptDate).Titled("Date").SetWidth(110);
+                            columns.Add(m => m.CustomerName).Titled("Customer").SetWidth(110);
+                            columns.Add(m => m.Against).Titled("Aganist").SetWidth(110);
+                            columns.Add().Encoded(false).Sanitized(false).SetWidth(30).Css("cent").RenderValueAs(m => @<a href="@Url.Action("Edit", new { Id = m.CustomerReceiptId })">Edit</a>);
+                            columns.Add().Encoded(false).Sanitized(false).SetWidth(30).Css("cent").RenderValueAs(m => @<a href="@Url.Action("Delete", new { Id = m.CustomerReceiptId })">Delete</a>);
+
+                            //.Format("<a href="\"DeleteRecord?name={CategoryName}\"">{CategoryName}</a>");
+
+                            //columns.Add(m => m.CurrencyName).Sortable(true);
+                        }).WithPaging(10)
+    </div>
+
+
+    <div class="row-count1">
+        <h5>Row Count:- @Model.Count()</h5>
+    </div>
+
+
+</div>
+

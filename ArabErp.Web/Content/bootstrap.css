@@ -6905,9 +6905,13 @@ td.visible-print {
     {
       Float:none !important;
     }
+    .main-part 
+    {
+        width: 95.8% !important;
+    }
     .form-head1
    {
-        width: 91.8% !important;
+        width: 95.8% !important;
     }
             .form-head h4 
         {
@@ -6924,7 +6928,7 @@ td.visible-print {
     }
    .form-head3
    {
-        width:92.6% !important;
+        width:95.8% !important;
     }
     .form-button 
     {
@@ -6952,7 +6956,7 @@ td.visible-print {
     }
         .main-list 
     {
-        width:93% !important;
+        width:96% !important;
     }
 
      .rowl
@@ -7077,7 +7081,7 @@ td.visible-print {
 
     .links li ul li 
     {
-   height: 18px !important;
+   height: 16px !important;
    width: 308px !important;
    border:none !important;
     }
@@ -7237,15 +7241,18 @@ td.visible-print {
     margin-left: 68.5% !important;
 }
 
-
+      .main-part 
+    {
+        width: 95.8% !important;
+    }
 
     .form-head1
    {
-        width: 96.8% !important;
+        width: 95.8% !important;
     }
             .form-head
    {
-        width: 94.8% !important;
+        width: 91.8% !important;
     }
     .navbar-nav 
     {
@@ -7254,7 +7261,7 @@ td.visible-print {
 
        .form-head3
    {
-        width:96.6% !important;
+        width:95.8% !important;
     }
        
      .marg6 {
@@ -7274,11 +7281,11 @@ td.visible-print {
     }
     .main-list 
     {
-     width:97% !important;
+     width:96% !important;
     }
        .main-list1 
     {
-        width:95% !important;
+        width:92% !important;
     }
          .rowl
 {
@@ -7410,7 +7417,7 @@ td.visible-print {
 .widthset 
 {
     
-    width:113% !important;
+    width:115% !important;
     margin-left:-89px !important;
 }
 
