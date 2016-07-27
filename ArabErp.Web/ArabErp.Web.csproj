@@ -709,6 +709,7 @@
     <Content Include="Views\CustomerReceipt\_CustomerReceiptListView.cshtml" />
     <Content Include="Views\CustomerReceipt\Index.cshtml" />
     <Content Include="Views\StockCreation\PreviousList.cshtml" />
+    <Content Include="Views\Expense\PendingApproval.cshtml" />
     <Content Include="Views\PurchaseRequest\PreviousList.cshtml" />
   </ItemGroup>
   <ItemGroup>

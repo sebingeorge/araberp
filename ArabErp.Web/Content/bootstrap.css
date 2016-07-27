@@ -6977,6 +6977,10 @@ td.visible-print {
     {
         float:none !important;
     }
+    .hrpart1 .form-button 
+    {
+        margin-left:-5px !important;
+    }
 
     .lefto {
     margin-right: 108px !important;

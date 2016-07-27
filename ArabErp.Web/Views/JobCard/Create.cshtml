@@ -164,7 +164,7 @@
                         <table class="table table-bordered" id="tab_logic">
                             <thead>
                                 <tr class="grid_heading">
-                                    <td width="5%"><h1>+</h1></td>
+                                    <td width="2%"><h1>#</h1></td>
                                     <th width="40%"><h1>Task</h1></th>
                                     <th width="40%"><h1>Employee</h1></th>
                                     <th width="10%"><h1>Date</h1></th>
@@ -177,7 +177,7 @@
                                 {
                                     <tr id="Row_@row" class="TaskRow">
                                         <td>
-                                            <button id="add_@row" type="button" value="Add" onclick="AddRowBelow(@row);">+</button>
+                                            <a id="add_@row" class="glyphicon glyphicon-plus" @*type="button" value="Add"*@ onclick="AddRowBelow(@row);" style="top:0;"></a>
                                         </td>
                                         <td>
                                             @Html.DropDownListFor(m => Model.JobCardTasks[row].JobCardTaskId, (SelectList)ViewBag.TaskList, "Select Task", new { @class = "form_input", autocomplete = "off" })
