@@ -1,0 +1,90 @@
+﻿
+@model IList<ArabErp.Domain.PurchaseRequest>
+
+@{ViewBag.Title = "PreviousList";Layout = "~/Views/Shared/_Layout.cshtml";}
+
+<script type="text/javascript">
+
+    function OnSelected(id) {
+        var url = '@Url.Action("Edit")';
+        url += "/" + id;
+        window.location = url;
+    }
+
+    function Exit() {
+        var url = '@Url.Action("PendingPurchaseRequest")';
+        window.location = url;
+    }
+
+    $(document).ready(function () {
+        $("input[type='text']").attr("disabled", "true");
+    })
+
+</script>
+
+<div class="container">
+    <div class="row">
+        <div class="form-head1">
+            <h4>Purchase Request List</h4>
+        </div>
+        <div class="main-part pad1">
+
+            <div class="table-responsive scroll4">
+                <table class="table table-bordered" id="tab_logic">
+                    <thead>
+                        <tr class="grid_heading">
+                            <th width="3%" class="text-center"><h1>#</h1></th>
+                            <th width="10%" class="text-left" title="Purchase Request Ref.No. and Date"><h1>PR Ref. No. &amp; Date</h1></th>
+                            <th width="20%"><h1>Customer</h1></th>
+                            <th width="10%" title="WorkShop Request Ref. No. and Date"><h1>WR Ref. No. &amp; Date</h1></th>
+                            <th width="5%"><h1>Required Date</h1></th>
+                            <th width="1%" class="text-center"></th>
+                        </tr>
+                    </thead>
+                    <tbody class="grid_row">
+                        @if (Model.Count > 0)
+                        {
+                            for (int i = 0; i < Model.Count; i++)
+                            {
+                                <tr>
+                                    <td>
+                                        <input type="text" class="form_input text-center" style="width:100%" value="@(i+1)" />
+                                    </td>
+                                    <td>
+                                        <input type="text" class="form_input" style="width:100%" value="@Model[i].PurchaseRequestNo - @Model[i].PurchaseRequestDate.ToString("dd MMMM yyyy")" />
+                                    </td>
+                                    <td>
+                                        <input type="text" class="form_input" style="width:100%" value="@Model[i].CustomerName" />
+                                    </td>
+                                    <td>
+                                        <input type="text" class="form_input" style="width:100%" value="@Model[i].WorkShopRequestRefNo" />
+                                    </td>
+                                    <td>
+                                        <input type="text" class="form_input" style="width:100%" value="@Model[i].RequiredDate.ToString("dd MMM yyyy")" />
+                                    </td>
+
+                                    <td>
+                                        <input type="button" class="form-button4" onclick="OnSelected(@Model[i].PurchaseRequestId)" value="Select" title="Select to view details" />
+                                    </td>
+                                </tr>
+                            }
+                        }
+                    </tbody>
+                </table>
+            </div>
+
+            </br>
+            <div class="row-count">
+                <h5>Row Count:- @Model.Count()</h5>
+            </div>
+
+            <div class="row">
+            <div class="col-md-12 hrpart">
+                <input class="form-button right" type="button" value="Exit" onclick="Exit()" />
+            </div>
+        </div>
+
+        </div>
+    </div>
+</div>
+
