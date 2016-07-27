@@ -166,5 +166,40 @@ namespace ArabErp.DAL
 //            }
         }
 
+
+        public IEnumerable<PurchaseRequest> GetPurchaseRequest()
+        {
+            using (IDbConnection connection = OpenConnection(dataConnection))
+            {
+                string sql = @"select distinct SI.PurchaseRequestItemId, SUM(SI.OrderedQty) SuppliedQuantity 
+                                INTO #SUPPLY
+                                from [dbo].[SupplyOrderItem] SI
+                                -- join [dbo].[PurchaseRequestItem] 
+                                --PRI on SI.PurchaseRequestItemId=PRI.PurchaseRequestItemId join [dbo].[PurchaseRequest] PR on PRI.PurchaseRequestId=PR.PurchaseRequestId
+                                WHERE ISNULL(isActive, 1) = 1
+                                GROUP BY SI.PurchaseRequestItemId;
+                                select 
+	                                DISTINCT
+	                                P.PurchaseRequestId,
+	                                PurchaseRequestNo,
+	                                PurchaseRequestDate,
+	                                C.CustomerName,
+                                    P.RequiredDate,
+                                    ISNULL(P.SpecialRemarks, '-') SpecialRemarks, 
+                                    ISNULL(WRK.WorkShopRequestRefNo, '')+' - '+CONVERT(VARCHAR, WRK.WorkShopRequestDate, 106) WorkShopRequestRefNo
+                                    from PurchaseRequest P
+                                    INNER JOIN PurchaseRequestItem PRI ON P.PurchaseRequestId = PRI.PurchaseRequestId
+                                    INNER JOIN WorkShopRequest WRK ON P.WorkShopRequestId = WRK.WorkShopRequestId
+                                    INNER JOIN Customer C ON C.CustomerId=WRK.CustomerId
+                                LEFT JOIN #SUPPLY SUP ON PRI.PurchaseRequestItemId = SUP.PurchaseRequestItemId
+                                ORDER BY P.PurchaseRequestDate DESC;
+                                DROP TABLE #SUPPLY;";
+
+                var objPendingPurchaseRequests = connection.Query<PurchaseRequest>(sql).ToList<PurchaseRequest>();
+
+                return objPendingPurchaseRequests;
+            }
+        }
+
     }
 }

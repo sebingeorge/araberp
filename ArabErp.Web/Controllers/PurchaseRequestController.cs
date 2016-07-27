@@ -19,6 +19,12 @@ namespace ArabErp.Web.Controllers
         {
             return View();
         }
+        public ActionResult PendingPurchaseRequest()
+        {
+            var repo = new PurchaseRequestRepository();
+            IEnumerable<PendingWorkShopRequest> pendingWR = repo.GetWorkShopRequestPending();
+            return View(pendingWR);
+        }
         public ActionResult Create(int? WorkShopRequestId)
         {
             PurchaseRequestRepository repo = new PurchaseRequestRepository();
@@ -57,12 +63,6 @@ namespace ArabErp.Web.Controllers
 
             return View(model);
         }
-        public ActionResult PendingPurchaseRequest()
-        {
-            var repo = new PurchaseRequestRepository();
-            IEnumerable<PendingWorkShopRequest> pendingWR = repo.GetWorkShopRequestPending();
-            return View(pendingWR);      
-         }
         [HttpPost]
         public ActionResult Save(PurchaseRequest model)
         {
@@ -96,6 +96,66 @@ namespace ArabErp.Web.Controllers
                        TempData["error"] = "Some error occured. Please try again.|" + ex.Message;
                    }
             return RedirectToAction("PendingPurchaseRequest");
+        }
+
+        //public ActionResult Edit(int Id)
+        //{
+        //    var repo = new PurchaseRequestRepository();
+        //    SaleOrder model = repo.GetSaleOrder(SaleOrderId ?? 0);
+        //    var SOList = repo.GetSaleOrderItem(SaleOrderId ?? 0);
+        //    model.Items = new List<SaleOrderItem>();
+        //    foreach (var item in SOList)
+        //    {
+        //        var soitem = new SaleOrderItem { WorkDescriptionId = item.WorkDescriptionId, VehicleModelId = item.VehicleModelId, Quantity = item.Quantity, UnitId = item.UnitId, Rate = item.Rate, Amount = item.Amount, Discount = item.Discount };
+        //        model.Items.Add(soitem);
+
+        //    }
+        //     return View("Approval", model);
+        //}
+
+        [HttpPost]
+        public ActionResult Edit(Supplier model)
+        {
+            ViewBag.Title = "Edit";
+            model.OrganizationId = OrganizationId;
+            model.CreatedDate = System.DateTime.Now;
+            model.CreatedBy = Request.ServerVariables["HTTP_X_FORWARDED_FOR"] ?? Request.ServerVariables["REMOTE_ADDR"];
+
+            var repo = new SupplierRepository();
+            bool isexists = repo.IsFieldExists(repo.ConnectionString(), "Supplier", "SupplierName", model.SupplierName, "SupplierId", model.SupplierId);
+            if (!isexists)
+            {
+                var result = new SupplierRepository().UpdateSupplier(model);
+                if (result.SupplierId > 0)
+                {
+
+                    TempData["Success"] = "Updated Successfully!";
+                    TempData["SupplierRefNo"] = result.SupplierRefNo;
+                    return RedirectToAction("Index");
+                }
+
+                else
+                {
+  
+                    TempData["error"] = "Oops!!..Something Went Wrong!!";
+                    TempData["SupplierRefNo"] = null;
+                    return View("Create", model);
+                }
+
+            }
+            else
+            {
+
+                TempData["error"] = "This Name Alredy Exists!!";
+                TempData["SupplierRefNo"] = null;
+                return View("Create", model);
+            }
+
+        }
+
+        public ActionResult PreviousList()
+        {
+            return View(new PurchaseRequestRepository().GetPurchaseRequest());
         }
     }
 }
