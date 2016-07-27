@@ -252,14 +252,6 @@
                                 </div>
                             </div>
                         }
-                        <div class="col-md-6">
-                            <div class="part4">
-                                <label for="name">Name</label>
-                                @Html.TextBoxFor(m => m.WorkDescr, new { @class = "form_input", autocomplete = "off" })
-                            </div>
-
-                        </div>
-
                         <div class="col-md-3">
                             <div class="part4">
                                 <label for="box">Short Name</label>
@@ -269,119 +261,130 @@
 
 
                     </div>
+               
+               <div class="row">
+                           <div class="col-md-12">
+                            <div class="part4">
+                                <label for="name">Work Description</label>
+                                @Html.TextAreaFor(m => m.WorkDescr, new { @class = "form_input form_input-h1", autocomplete = "off" })
+                            </div>
+
+                        </div>
+                   </div>
                 
                 <div class="row">
                     <div class="col-md-12">&nbsp;</div>
                 </div>
 
+    <div class="form-group">
+
+        <div class="row">
 
 
-                <div class="row">
+            <div class="col-md-12">
+                <div class="table-responsive">
+                    <table class="table table-bordered table-hover" id="Tab_Item">
+                        <thead>
+                            <tr class="grid_heading">
+                                <th width="2%"><h1></h1></th>
+                                <th width="2%"><h1>#</h1></th>
+                                <th width="82%"><h1>Items</h1></th>
+                                <th width="12%" class="text-right"><h1>Quantity</h1></th>
+                                <th width="2%"><h1></h1></th>
 
-
-                    <div class="col-md-12">
-                        <div class="table-responsive">
-                            <table class="table table-bordered table-hover" id="Tab_Item">
-                                <thead>
-                                    <tr class="grid_heading">
-                                        <th width="2%"><h1></h1></th>
-                                        <th width="2%"><h1>#</h1></th>
-                                        <th width="82%"><h1>Items</h1></th>
-                                        <th width="12%" class="text-right"><h1>Quantity</h1></th>
-                                        <th width="2%"><h1></h1></th>
-
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    @for (int i = 0; i < Model.WorkVsItems.Count; i++)
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @for (int i = 0; i < Model.WorkVsItems.Count; i++)
                                     {
-                                        <tr id="Row_Item_Id_@i">
-                                            <td style="vertical-align:middle"><a class="glyphicon glyphicon-minus" style="top:0px" onclick="ItemRowDelete(@i)"></a></td>
-                                            <td align="center">
-                                                <span id="Itemslno@(i+1)">@(i + 1)</span>
-                                                @Html.HiddenFor(m => m.WorkVsItems[i].SlNo)
-                                            </td>
-                                           
-                                            <td><input type="hidden" id="Row_Item_@i" />
-                                                @Html.DropDownListFor(m => m.WorkVsItems[i].ItemId, new SelectList(ViewBag.ItemList, "Value", "Text", Model.WorkVsItems[i].ItemId), "select Item", new { @class = "form_input", autocomplete = "off"})
-                                                </td>
-                                            @*<td>
+                                    <tr id="Row_Item_Id_@i">
+                                        <td style="vertical-align:middle"><a class="glyphicon glyphicon-minus" style="top:0px" onclick="ItemRowDelete(@i)"></a></td>
+                                        <td align="center">
+                                            <span id="Itemslno@(i+1)">@(i + 1)</span>
+                                            @Html.HiddenFor(m => m.WorkVsItems[i].SlNo)
+                                        </td>
+
+                                        <td>
+                                            <input type="hidden" id="Row_Item_@i" />
+                                            @Html.DropDownListFor(m => m.WorkVsItems[i].ItemId, new SelectList(ViewBag.ItemList, "Value", "Text", Model.WorkVsItems[i].ItemId), "select Item", new { @class = "form_input", autocomplete = "off"})
+                                        </td>
+                                        @*<td>
 
                                                 @Html.DropDownListFor(m => m.WorkVsItems[i].ItemId, (SelectList)ViewBag.ItemList, "Select Item", new { @class = "form_input", autocomplete = "off" })
                                             </td>*@
 
-                                            <td>
+                                        <td>
 
-                                                @Html.TextBoxFor(m => m.WorkVsItems[i].Quantity, new { @class = "form_input text-right", autocomplete = "off" })
-                                            </td>
-                                            <td style="vertical-align:middle"><a class="glyphicon glyphicon-plus" style="top:0px" onclick="ItemRowAdd(@i)"></a></td>
-                                        </tr>
-                                    }
-                                    @*<tr id='addr1'></tr>*@
-                                </tbody>
-
-                            </table>
-                        </div>
-                        <div class="col-md-12">
-                            @*<a id="add_item_row" class="glyphicon glyphicon-plus"></a><a id='delete_item_row' style="float:right" class="glyphicon glyphicon-minus"></a>*@
-                        </div>
-                    </div>
-                    <div class="col-md-12">
-                        <div class="table-responsive">
-                            <table class="table table-bordered table-hover" id="Tab_Task">
-                                <thead>
-                                    <tr class="grid_heading">
-                                        <th width="2%"><h1></h1></th>
-                                        <th width="2%"><h1>#</h1></th>
-                                        <th width="82%"><h1>Tasks Executed for Work</h1></th>
-                                        <th width="12%" class="text-right"><h1>Hours</h1></th>
-                                        <th width="2%"><h1></h1></th>
-                                        
+                                            @Html.TextBoxFor(m => m.WorkVsItems[i].Quantity, new { @class = "form_input text-right", autocomplete = "off" })
+                                        </td>
+                                        <td style="vertical-align:middle"><a class="glyphicon glyphicon-plus" style="top:0px" onclick="ItemRowAdd(@i)"></a></td>
                                     </tr>
+                                    }
+                            @*<tr id='addr1'></tr>*@
+                        </tbody>
 
-                                </thead>
-                                <tbody>
-                                    @for (int i = 0; i < Model.WorkVsTasks.Count; i++)
+                    </table>
+                </div>
+                <div class="col-md-12">
+                    @*<a id="add_item_row" class="glyphicon glyphicon-plus"></a><a id='delete_item_row' style="float:right" class="glyphicon glyphicon-minus"></a>*@
+                </div>
+            </div>
+            <div class="col-md-12">
+                <div class="table-responsive">
+                    <table class="table table-bordered table-hover" id="Tab_Task">
+                        <thead>
+                            <tr class="grid_heading">
+                                <th width="2%"><h1></h1></th>
+                                <th width="2%"><h1>#</h1></th>
+                                <th width="82%"><h1>Tasks Executed for Work</h1></th>
+                                <th width="12%" class="text-right"><h1>Hours</h1></th>
+                                <th width="2%"><h1></h1></th>
+
+                            </tr>
+
+                        </thead>
+                        <tbody>
+                            @for (int i = 0; i < Model.WorkVsTasks.Count; i++)
                                     {
-                                        <tr id="Row_Task_Id_@i">
-                                            <td style="vertical-align:middle"><a class="glyphicon glyphicon-minus" style="top:0px" onclick="TaskRowDelete(@i)"></a></td>
-                                           
-                                            <td align="center">
-                                                <span id="Taskslno@(i+1)">@(i + 1)</span>
-                                                @Html.HiddenFor(m => m.WorkVsTasks[i].SlNo)
-                                            </td>
-                                            <td>
+                                    <tr id="Row_Task_Id_@i">
+                                        <td style="vertical-align:middle"><a class="glyphicon glyphicon-minus" style="top:0px" onclick="TaskRowDelete(@i)"></a></td>
+
+                                        <td align="center">
+                                            <span id="Taskslno@(i+1)">@(i + 1)</span>
+                                            @Html.HiddenFor(m => m.WorkVsTasks[i].SlNo)
+                                        </td>
+                                        <td>
                                             <input type="hidden" id="Row_Task_@i" />
-                                                @Html.DropDownListFor(m => m.WorkVsTasks[i].JobCardTaskMasterId, new SelectList(ViewBag.JobCardTaskMasterList, "Value", "Text", Model.WorkVsTasks[i].JobCardTaskMasterId), "select Task", new { @class = "form_input", autocomplete = "off" })
-                                            </td>
-                                            @*<td>
+                                            @Html.DropDownListFor(m => m.WorkVsTasks[i].JobCardTaskMasterId, new SelectList(ViewBag.JobCardTaskMasterList, "Value", "Text", Model.WorkVsTasks[i].JobCardTaskMasterId), "select Task", new { @class = "form_input", autocomplete = "off" })
+                                        </td>
+                                        @*<td>
 
-                                                    @Html.DropDownListFor(m => m.WorkVsTasks[i].JobCardTaskMasterId, (SelectList)ViewBag.JobCardTaskMasterList, "Select Task", new { @class = "form_input", autocomplete = "off" })
-                                                </td>*@
-                                            <td>
+                                                @Html.DropDownListFor(m => m.WorkVsTasks[i].JobCardTaskMasterId, (SelectList)ViewBag.JobCardTaskMasterList, "Select Task", new { @class = "form_input", autocomplete = "off" })
+                                            </td>*@
+                                        <td>
 
-                                                @Html.TextBoxFor(m => m.WorkVsTasks[i].Hours, new { @class = "form_input text-right", autocomplete = "off" })
-                                            </td>
-                                            <td style="vertical-align:middle"><a id="add_row" class="glyphicon glyphicon-plus" style="top:0px" onclick="TaskRowAdd(@i)"></a></td>
-                                        </tr>
+                                            @Html.TextBoxFor(m => m.WorkVsTasks[i].Hours, new { @class = "form_input text-right", autocomplete = "off" })
+                                        </td>
+                                        <td style="vertical-align:middle"><a id="add_row" class="glyphicon glyphicon-plus" style="top:0px" onclick="TaskRowAdd(@i)"></a></td>
+                                    </tr>
                                     }
 
-                                </tbody>
+                        </tbody>
 
-                            </table>
-
-
-                        </div>
-                        <div class="col-md-12">
-                           
-                        </div>
+                    </table>
 
 
-                        <div class="row">
+                </div>
+                <div class="col-md-12">
 
-                            <div class="col-md-12 hrpart">
-                                <button type="button" class="form-button right" onclick="Exit();">Exit</button>
-                                @if (actionName == "Edit")
+                </div>
+
+
+                <div class="row">
+
+                    <div class="col-md-12 hrpart">
+                        <button type="button" class="form-button right" onclick="Exit();">Exit</button>
+                        @if (actionName == "Edit")
                                 { <button type="submit" class="form-button right">Update</button> }
                                 else
                                     if (actionName == "Delete")
@@ -389,19 +392,20 @@
                                     else
                                     { <button type="submit" class="form-button right">Save</button>}
 
-                            </div>
-
-                        </div>
-
-
                     </div>
 
- 
-
-
-
                 </div>
-        
+
+
+            </div>
+
+
+
+
+
+        </div>
+
+    </div>
 
 
 
@@ -412,11 +416,10 @@
 
 
 
-                  
 
 
 
-            }
+           }
         </div>
 
     </div>

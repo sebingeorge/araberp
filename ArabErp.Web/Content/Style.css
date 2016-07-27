@@ -46,6 +46,11 @@ p {
 {
     height:34px;
 }
+.form_input-h1 
+{
+    height:130px;
+    float:left;
+}
 .form_input-half
  {
   width: 50%;

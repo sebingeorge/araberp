@@ -5,7 +5,19 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 <script>
+
+    function PreviousList() {
+        var url = '@Url.Action("PreviousList")';
+        window.location = url;
+    }
+
+    function Exit() {
+        var url = '@Url.Action("Index","Home")';
+        window.location = url;
+    }
+
     $(document).ready(function () {
+
         toastr.options = {
             "closeButton": true,
             "positionClass": "toast-bottom-full-width",
@@ -28,6 +40,8 @@
             console.log('@TempData["error"]'.split('|')[1]);
         }
         @{ TempData["success"] = TempData["error"] = ""; }
+
+        
     })
 </script>
 <div class="container">
@@ -76,16 +90,18 @@
                 </div>
             </div>
 
-            @*<div class="form-head1">
-                <h4>Row Count:- @Model.Count()</h4>
-            </div>*@
-
+            </br>
             <div class="row-count">
-          
                 <h5>Row Count:- @Model.Count()</h5>
             </div>
 
-        </div>
+            <div class="row">
+                <div class="col-md-12 hrpart">
+                    <input class="form-button left" type="button" value="Previous" onclick="PreviousList()" />
+                    <input class="form-button right" type="button" value="Exit" onclick="Exit()" />
+                </div>
+            </div>
 
- </div>
+        </div>
+     </div>
  </div>
