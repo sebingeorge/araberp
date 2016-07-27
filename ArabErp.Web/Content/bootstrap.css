@@ -3832,7 +3832,7 @@ textarea.input-group-sm > .input-group-btn > .btn {
   position: relative;
   /*display: block;*/
   display:inline-block;
-  margin-right:10px;
+  margin-right:4px;
 }
 
 .nav > li > a {
