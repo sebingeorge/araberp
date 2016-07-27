@@ -128,7 +128,8 @@ namespace ArabErp.Web.Controllers
         [HttpPost]
         public ActionResult Approve(ExpenseBill model)
         {
-            int i = new ExpenseRepository().Approve(model.ExpenseId.GetValueOrDefault(0));
+            model.ApprovedBy = UserID;
+            int i = new ExpenseRepository().Approve(model);
             if (i>0)
             {
                 TempData["success"] = "Approved Successfully";
