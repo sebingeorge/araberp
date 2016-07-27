@@ -29,7 +29,7 @@
         @{ TempData["success"] = TempData["error"] = ""; }
     })
 </script>
-<div class="container">
+<div class="container-fluid">
     <div class="row">
         <div class="form-head1">
             <h4>Pending Sale Order for Workshop Request</h4>
@@ -125,15 +125,15 @@
                     <table class="table table-bordered">
                         <thead>
                             <tr class="grid_heading">
-                                <th width="15%"><h1>SO.No. & Date</h1></th>
+                                <th width="11%"><h1>SO.No. & Date</h1></th>
                                 <th width="20%"><h1>Customer</h1></th>
-                                <th width="12%"><h1>Customer Order Ref.</h1></th>
-                                <th width="15%"><h1>Work Description</h1></th>
+                                <th width="10%"><h1>Customer Order Ref.</h1></th>
+                                <th width="25%"><h1>Work Description</h1></th>
                                 <th width="3%"><h1>Ageing</h1></th>
-                                <th width="10%"><h1>EDA</h1></th>
+                                <th width="9%"><h1>EDA</h1></th>
                                 <th width="10%"><h1>EDD</h1></th>
                                 <th width="3%"><h1>Days Left</h1></th>
-                                <th width="14%"><center><h1>Select</h1></center></th>
+                                <th width="21%"><center><h1>Select</h1></center></th>
                             </tr>
                         </thead>
                        @for (int i = 0; i < Model.SaleOrders.Count(); i++)
@@ -143,7 +143,7 @@
                                     <td class="grid-cell"><input type="text" disabled="disabled" class="form_input" value="@Model.SaleOrders.ElementAt(i).SaleOrderRefNo" /></td>
                                     <td class="grid-cell"><input type="text" disabled="disabled" class="form_input" value="@Model.SaleOrders.ElementAt(i).CustomerName" /></td>
                                     <td class="grid-cell"><input type="text" disabled="disabled" class="form_input" value="@Model.SaleOrders.ElementAt(i).CustomerOrderRef" /></td>
-                                    <td class="grid-cell"><input type="text" disabled="disabled" class="form_input" value="@Model.SaleOrders.ElementAt(i).WorkDescription" /></td>
+                                    <td class="grid-cell"><input type="text" disabled="disabled" class="form_input" value="@Model.SaleOrders.ElementAt(i).WorkDescription" data-toggle="tooltip" data-placement="top" title="This option is particularly useful in that it allows you to position the tooltip in the flow of the document near the triggering element - which will prevent the tooltip from floating away from the triggering element during a windo" /></td>
                                     <td class="grid-cell"><input type="text" disabled="disabled" class="form_input" value="@Model.SaleOrders.ElementAt(i).Ageing" /></td>
                                     <td class="grid-cell"><input type="text" disabled="disabled" class="form_input" value="@Model.SaleOrders.ElementAt(i).EDateArrival.ToString("dd/MMM/yyyy")" /></td>
                                     <td class="grid-cell"><input type="text" disabled="disabled" class="form_input" value="@Model.SaleOrders.ElementAt(i).EDateDelivery.ToString("dd/MMM/yyyy")" /></td>
@@ -212,7 +212,11 @@
     </div>
 </div>
 
-
+<script>
+    $(function () {
+        $('[data-toggle="tooltip"]').tooltip()
+    })
+</script>
 
 
 
