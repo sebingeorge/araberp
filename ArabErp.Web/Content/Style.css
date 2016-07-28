@@ -518,3 +518,11 @@ h5
     padding-top:-5px !important;
 }
 
+select option
+{
+    max-width:auto;
+}
+.tarea 
+{
+    overflow: visible;min-height: 22px;height: auto;
+}
