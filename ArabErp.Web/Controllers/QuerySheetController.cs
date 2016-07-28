@@ -14,12 +14,28 @@ namespace ArabErp.Web.Controllers
         // GET: QuerySheet
         public ActionResult CreateQuerySheet()
         {
+            string internalId = "";
+            try
+            {
+                internalId = DatabaseCommonRepository.GetNextReferenceNo(typeof(QuerySheet).Name);
+               
+            }
+            catch (NullReferenceException nx)
+            {
+                TempData["success"] = "";
+                TempData["error"] = "Some required data was missing. Please try again.|" + nx.Message;
+            }
+            catch (Exception ex)
+            {
+                TempData["success"] = "";
+                TempData["error"] = "Some error occurred. Please try again.|" + ex.Message;
+            }
             QuerySheet qs = new QuerySheet();
             qs.QuerySheetDate = DateTime.Now;
             var repo = new QuerySheetRepository();
             var PCList = repo.GetProjectCostingParameter();
             qs.Items = new List<ProjectCost>();
-
+            qs.QuerySheetRefNo = "QSH/" + internalId;
             foreach (var item in PCList)
             {
                 var pcitem = new ProjectCost {CostingId=item.CostingId ,Description = item.Description, Remarks = item.Remarks, Amount = item.Amount };
@@ -47,7 +63,7 @@ namespace ArabErp.Web.Controllers
                         qs.QuerySheetRefNo = id.Split('|')[1];
                         TempData["success"] = "Saved successfully.  Reference No. is " + id.Split('|')[1];
                         TempData["error"] = "";
-                        return RedirectToAction("ViewQuerySheet", new { QuerySheetId = qs.QuerySheetId });
+                        return RedirectToAction("CreateQuerySheet");
                     }
                     else
                     {
