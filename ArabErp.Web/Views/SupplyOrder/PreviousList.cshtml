@@ -11,6 +11,11 @@
         window.location = url;
     }*@
 
+    function Exit() {
+        var url = '@Url.Action("PendingSupplyOrder")';
+        window.location = url;
+    }
+
     function OpenEditForm() {
         alert("function not defined");
     }
@@ -76,6 +81,18 @@
                     </tbody>
                 </table>
             </div>
+
+            </br>
+            <div class="row-count">
+                <h5>Row Count:- @Model.Count()</h5>
+            </div>
+
+            <div class="row">
+                <div class="col-md-12 hrpart">
+                    <input class="form-button right" type="button" value="Exit" onclick="Exit()" />
+                </div>
+            </div>
+
         </div>
     </div>
 
