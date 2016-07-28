@@ -6,8 +6,10 @@
 <script type="text/javascript">
 
     function OnSelected(id) {
+
         var url = '@Url.Action("Edit")';
         url += "/" + id;
+        //alert(id);
         window.location = url;
     }
 

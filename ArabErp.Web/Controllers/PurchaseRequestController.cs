@@ -35,8 +35,11 @@ namespace ArabErp.Web.Controllers
             model.items = new List<PurchaseRequestItem>();
             foreach (var item in PRList)
             {
-                var pritem = new PurchaseRequestItem { PartNo = item.PartNo, ItemName = item.ItemName, Quantity = item.Quantity, UnitName = item.UnitName, ItemId = item.ItemId, MinLevel = item.MinLevel, WRRequestQty = item.WRRequestQty, CurrentStock = item.CurrentStock, WRIssueQty = item.WRIssueQty, TotalQty = item.TotalQty,InTransitQty=item.InTransitQty,PendingPRQty=item.PendingPRQty,ShortorExcess=item .ShortorExcess  };
-                model.items.Add(pritem);
+                var pritem = new PurchaseRequestItem { PartNo = item.PartNo, ItemName = item.ItemName, 
+                    Quantity = item.Quantity, UnitName = item.UnitName, ItemId = item.ItemId, MinLevel = item.MinLevel, 
+                    WRRequestQty = item.WRRequestQty, CurrentStock = item.CurrentStock, WRIssueQty = item.WRIssueQty, 
+                    TotalQty = item.TotalQty,InTransitQty=item.InTransitQty,PendingPRQty=item.PendingPRQty,ShortorExcess=item .ShortorExcess  };
+                    model.items.Add(pritem);
 
             }
             string internalId = "";
@@ -98,64 +101,86 @@ namespace ArabErp.Web.Controllers
             return RedirectToAction("PendingPurchaseRequest");
         }
 
-        //public ActionResult Edit(int Id)
-        //{
-        //    var repo = new PurchaseRequestRepository();
-        //    SaleOrder model = repo.GetSaleOrder(SaleOrderId ?? 0);
-        //    var SOList = repo.GetSaleOrderItem(SaleOrderId ?? 0);
-        //    model.Items = new List<SaleOrderItem>();
-        //    foreach (var item in SOList)
-        //    {
-        //        var soitem = new SaleOrderItem { WorkDescriptionId = item.WorkDescriptionId, VehicleModelId = item.VehicleModelId, Quantity = item.Quantity, UnitId = item.UnitId, Rate = item.Rate, Amount = item.Amount, Discount = item.Discount };
-        //        model.Items.Add(soitem);
+        public ActionResult Edit(int? id)
+        {
+            var repo = new PurchaseRequestRepository();
+            PurchaseRequest model = repo.GetPurchaseRequestHDDetails(id ?? 0);
 
-        //    }
-        //     return View("Approval", model);
-        //}
+            var PRList = repo.GetPurchaseRequestDTDetails(id ?? 0);
+            model.items = new List<PurchaseRequestItem>();
+            foreach (var item in PRList)
+            {
+                var pritem = new PurchaseRequestItem { PartNo = item.PartNo, ItemName = item.ItemName, Quantity = item.Quantity,
+                    UnitName = item.UnitName, ItemId = item.ItemId, MinLevel = item.MinLevel, WRRequestQty = item.WRRequestQty, 
+                    CurrentStock = item.CurrentStock, WRIssueQty = item.WRIssueQty, TotalQty = item.TotalQty, InTransitQty = item.InTransitQty, 
+                    PendingPRQty = item.PendingPRQty, ShortorExcess = item.ShortorExcess,Remarks=item.Remarks  };
+                model.items.Add(pritem);
+
+            }
+            return View("Edit", model);
+        }
 
         [HttpPost]
-        public ActionResult Edit(Supplier model)
+        public ActionResult Edit(PurchaseRequest model)
         {
             ViewBag.Title = "Edit";
             model.OrganizationId = OrganizationId;
             model.CreatedDate = System.DateTime.Now;
             model.CreatedBy = Request.ServerVariables["HTTP_X_FORWARDED_FOR"] ?? Request.ServerVariables["REMOTE_ADDR"];
 
-            var repo = new SupplierRepository();
-            bool isexists = repo.IsFieldExists(repo.ConnectionString(), "Supplier", "SupplierName", model.SupplierName, "SupplierId", model.SupplierId);
-            if (!isexists)
-            {
-                var result = new SupplierRepository().UpdateSupplier(model);
-                if (result.SupplierId > 0)
-                {
+            var repo = new PurchaseRequestRepository();
 
-                    TempData["Success"] = "Updated Successfully!";
-                    TempData["SupplierRefNo"] = result.SupplierRefNo;
-                    return RedirectToAction("Index");
-                }
+           var result1 = new PurchaseRequestRepository().CHECK(model.PurchaseRequestId);
+          if (result1>0)
+          {
+              var result = new PurchaseRequestRepository().UpdatePurchaseRequest(model);
+              if (result.PurchaseRequestId > 0)
+              {
 
-                else
-                {
-  
-                    TempData["error"] = "Oops!!..Something Went Wrong!!";
-                    TempData["SupplierRefNo"] = null;
-                    return View("Create", model);
-                }
+                  TempData["Success"] = "Updated Successfully!";
+                  TempData["PurchaseRequestNo"] = result.PurchaseRequestNo;
+                  return RedirectToAction("PreviousList");
+              }
+
+              else
+              {
+
+                  TempData["error"] = "Oops!!..Something Went Wrong!!";
+                  TempData["PurchaseRequestNo"] = null;
+                  return View("Edit", model);
+              }
+          }
+
+          else
+          {
+              TempData["error"] = "Sorry!!..Already Used!!";
+              TempData["PurchaseRequestNo"] = null;
+              return View("Edit", model);
+          }
 
             }
-            else
-            {
-
-                TempData["error"] = "This Name Alredy Exists!!";
-                TempData["SupplierRefNo"] = null;
-                return View("Create", model);
-            }
-
-        }
-
+     
         public ActionResult PreviousList()
         {
             return View(new PurchaseRequestRepository().GetPurchaseRequest());
         }
+
+        public ActionResult Delete(int Id)
+        {
+            ViewBag.Title = "Delete";
+            int id = new PurchaseRequestRepository().DeletePurchaseRequest(Id);
+            if (id>0)
+            {
+                TempData["Success"] = "Deleted Successfully!";
+                return RedirectToAction("PreviousList");
+            }
+            else
+            {
+                TempData["error"] = "Sorry!! You Cannot Delete This Purchase Request It Is Already In Use";
+                return RedirectToAction("Edit", new { id = Id });
+            }
+            
+        }
+      
     }
 }

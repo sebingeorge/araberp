@@ -79,18 +79,43 @@ namespace ArabErp.DAL
             }
         }
 
-        public int DeletePurchaseRequestItem(Unit objPurchaseRequestItem)
+        public int DeletePurchaseRequestItem(PurchaseRequestItem objPurchaseRequest)
         {
+            int result = 0;
             using (IDbConnection connection = OpenConnection(dataConnection))
             {
-                string sql = @"Delete PurchaseRequestItem  OUTPUT DELETED.PurchaseRequestItemId WHERE PurchaseRequestItemId=@PurchaseRequestItemId";
+                  string sql = @"UPDATE PurchaseRequestItem  SET  isActive=0 WHERE PurchaseRequestId=@PurchaseRequestId";
 
+                try
+                {
 
-                var id = connection.Execute(sql, objPurchaseRequestItem);
-                return id;
+                    var id = connection.Execute(sql, objPurchaseRequest);
+                    objPurchaseRequest.PurchaseRequestId = id;
+                    result = 0;
+
+                }
+                catch (SqlException ex)
+                {
+                    int err = ex.Errors.Count;
+                    if (ex.Errors.Count > 0) // Assume the interesting stuff is in the first error
+                    {
+                        switch (ex.Errors[0].Number)
+                        {
+                            case 547: // Foreign Key violation
+                                result = 1;
+                                break;
+
+                            default:
+                                result = 2;
+                                break;
+                        }
+                    }
+
+                }
+
+                return result;
             }
         }
-
 
     }
 }

@@ -80,25 +80,60 @@ namespace ArabErp.DAL
                 return objPurchaseRequests;
             }
         }
-        public int UpdatePurchaseRequest(PurchaseRequest objPurchaseRequest)
+
+        public int CHECK(int PurchaseRequestId)
+        {
+           using (IDbConnection connection = OpenConnection(dataConnection))
+            {
+                try
+                {
+                    string sql = @" SELECT PurchaseRequestId FROM PurchaseRequestItem P 
+                                INNER JOIN SupplyOrderItem S ON S.PurchaseRequestItemId=P.PurchaseRequestItemId 
+                                WHERE PurchaseRequestId=@PurchaseRequestId";
+
+                    var id = connection.Query<PurchaseRequest>(sql, new { PurchaseRequestId = PurchaseRequestId }).FirstOrDefault();
+                }
+                catch (InvalidOperationException)
+                {
+                    return 0;
+                }
+                return 1;
+
+                }
+
+            }
+
+
+        public PurchaseRequest UpdatePurchaseRequest(PurchaseRequest objPurchaseRequest)
         {
             using (IDbConnection connection = OpenConnection(dataConnection))
             {
-                string sql = @"UPDATE PurchaseRequest SET PurchaseRequestNo = @PurchaseRequestNo ,PurchaseRequestDate = @PurchaseRequestDate ,WorkShopRequestId = @WorkShopRequestId ,SpecialRemarks = @SpecialRemarks,RequiredDate = @RequiredDate  OUTPUT INSERTED.PurchaseRequestId  WHERE PurchaseRequestId = @PurchaseRequestId";
+                string sql = @" UPDATE PurchaseRequest SET PurchaseRequestNo = @PurchaseRequestNo ,PurchaseRequestDate = @PurchaseRequestDate ,
+                                WorkShopRequestId = @WorkShopRequestId ,SpecialRemarks = @SpecialRemarks,RequiredDate = @RequiredDate  
+                                OUTPUT INSERTED.PurchaseRequestId  WHERE PurchaseRequestId = @PurchaseRequestId";
                 var id = connection.Execute(sql, objPurchaseRequest);
-                return id;
+                return objPurchaseRequest;
             }
         }
 
-        public int DeletePurchaseRequest(Unit objPurchaseRequest)
+        public int DeletePurchaseRequest(int Id)
         {
+            int result = 0;
             using (IDbConnection connection = OpenConnection(dataConnection))
             {
-                string sql = @"Delete PurchaseRequest  OUTPUT DELETED.PurchaseRequestId WHERE PurchaseRequestId=@PurchaseRequestId";
-                var id = connection.Execute(sql, objPurchaseRequest);
-                return id;
+                string sql = @" Update PurchaseRequest Set isActive=0 WHERE PurchaseRequestId=@Id";
+
+
+                {
+
+                    var id = connection.Execute(sql, new { Id = Id });
+                    return id;
+
+                }
+
             }
         }
+
         /// <summary>
         /// Pending Workshop Request For Purchase Request
         /// </summary>
@@ -131,6 +166,7 @@ namespace ArabErp.DAL
                 return workshoprequest;
             }
         }
+
         /// <summary>
         /// Purchase Request Transaction Item Part Details
         /// </summary>
@@ -144,26 +180,64 @@ namespace ArabErp.DAL
                 string sql = "exec PurchaseRequestData " + Id.ToString();
                 return connection.Query<PurchaseRequestItem>(sql, new { WorkShopRequestId = Id }).ToList();
             }
-//            using (IDbConnection connection = OpenConnection(dataConnection))
-//            {
-//                string sql = @"select ItemId from WorkShopRequestItem
-//                        where WorkShopRequestId=@WorkShopRequestId";
+            //            using (IDbConnection connection = OpenConnection(dataConnection))
+            //            {
+            //                string sql = @"select ItemId from WorkShopRequestItem
+            //                        where WorkShopRequestId=@WorkShopRequestId";
 
-//                var OBJITEMS = connection.Query<PurchaseRequestItem>(sql, new { WorkShopRequestId = WorkShopRequestId }).ToList();
+            //                var OBJITEMS = connection.Query<PurchaseRequestItem>(sql, new { WorkShopRequestId = WorkShopRequestId }).ToList();
 
-//                string sql1 = @" SELECT  SUM(Quantity) -( SELECT SUM(IssuedQuantity)  FROM StoreIssueItem S INNER JOIN WorkShopRequestItem W ON W.WorkShopRequestItemId=S.WorkShopRequestItemId WHERE  W.ItemId= in @OBJITEMS)WRIssueQty
-//                            FROM WorkShopRequestItem W WHERE  W.ItemId in ";
+            //                string sql1 = @" SELECT  SUM(Quantity) -( SELECT SUM(IssuedQuantity)  FROM StoreIssueItem S INNER JOIN WorkShopRequestItem W ON W.WorkShopRequestItemId=S.WorkShopRequestItemId WHERE  W.ItemId= in @OBJITEMS)WRIssueQty
+            //                            FROM WorkShopRequestItem W WHERE  W.ItemId in ";
 
 
-//                string query = "select  I.PartNo,I.ItemId,I.ItemName,WI.Quantity WRRequestQty,UnitName,I.MinLevel,(I.MinLevel + WI.Quantity)TotalQty,ISNULL((select sum(Quantity) from StockUpdate SU where ItemId = I.ItemId ),0)CurrentStock,0 Quantity  from WorkShopRequest W ";
-//                query += " INNER JOIN WorkShopRequestItem WI ON W.WorkShopRequestId=WI.WorkShopRequestId  INNER JOIN";
-//                query += " Item I ON WI.ItemId=I.ItemId  INNER JOIN Unit U on U.UnitId =I.ItemUnitId WHERE W.WorkShopRequestId=@WorkShopRequestId";
+            //                string query = "select  I.PartNo,I.ItemId,I.ItemName,WI.Quantity WRRequestQty,UnitName,I.MinLevel,(I.MinLevel + WI.Quantity)TotalQty,ISNULL((select sum(Quantity) from StockUpdate SU where ItemId = I.ItemId ),0)CurrentStock,0 Quantity  from WorkShopRequest W ";
+            //                query += " INNER JOIN WorkShopRequestItem WI ON W.WorkShopRequestId=WI.WorkShopRequestId  INNER JOIN";
+            //                query += " Item I ON WI.ItemId=I.ItemId  INNER JOIN Unit U on U.UnitId =I.ItemUnitId WHERE W.WorkShopRequestId=@WorkShopRequestId";
 
-//                //string query = "select  I.PartNo,I.ItemId,I.ItemName,WI.Quantity WRRequestQty,UnitName,I.MinLevel, ISNULL(( select (Quantity-IssuedQuantity) from  StoreIssueItem S WHERE WI.WorkShopRequestItemId=S.WorkShopRequestItemId),0) WRIssueQty,(I.MinLevel + WI.Quantity)TotalQty,ISNULL((select sum(Quantity) from StockUpdate SU where ItemId = I.ItemId ),0)CurrentStock,0 Quantity  from WorkShopRequest W ";
-//                //query += " INNER JOIN WorkShopRequestItem WI ON W.WorkShopRequestId=WI.WorkShopRequestId  INNER JOIN";
-//                //query += " Item I ON WI.ItemId=I.ItemId  INNER JOIN Unit U on U.UnitId =I.ItemUnitId WHERE W.WorkShopRequestId=@WorkShopRequestId";
-//                return connection.Query<PurchaseRequestItem>(query, new { WorkShopRequestId = WorkShopRequestId }).ToList();
-//            }
+            //                //string query = "select  I.PartNo,I.ItemId,I.ItemName,WI.Quantity WRRequestQty,UnitName,I.MinLevel, ISNULL(( select (Quantity-IssuedQuantity) from  StoreIssueItem S WHERE WI.WorkShopRequestItemId=S.WorkShopRequestItemId),0) WRIssueQty,(I.MinLevel + WI.Quantity)TotalQty,ISNULL((select sum(Quantity) from StockUpdate SU where ItemId = I.ItemId ),0)CurrentStock,0 Quantity  from WorkShopRequest W ";
+            //                //query += " INNER JOIN WorkShopRequestItem WI ON W.WorkShopRequestId=WI.WorkShopRequestId  INNER JOIN";
+            //                //query += " Item I ON WI.ItemId=I.ItemId  INNER JOIN Unit U on U.UnitId =I.ItemUnitId WHERE W.WorkShopRequestId=@WorkShopRequestId";
+            //                return connection.Query<PurchaseRequestItem>(query, new { WorkShopRequestId = WorkShopRequestId }).ToList();
+            //            }
+        }
+
+
+        /// <summary>
+        /// Purchase Request Transaction Head Part Details
+        /// </summary>
+        /// <param name="PurchaseRequestId"></param>
+        /// <returns></returns>
+        public PurchaseRequest GetPurchaseRequestHDDetails(int PurchaseRequestId)
+        {
+            using (IDbConnection connection = OpenConnection(dataConnection))
+            {
+                string qry = " SELECT PurchaseRequestId,PurchaseRequestNo,PurchaseRequestDate,C.CustomerName,WR.CustomerOrderRef,PR.WorkShopRequestId,";
+                      qry += " WR.WorkShopRequestRefNo +','+ Replace(Convert(varchar,WorkShopRequestDate,106),' ','/') WorkShopRequestRefNo,";
+                      qry += " PR.SpecialRemarks,PR.RequiredDate";
+                      qry += " FROM PurchaseRequest PR";
+                      qry += " INNER JOIN WorkShopRequest WR ON WR.WorkShopRequestId=PR.WorkShopRequestId";
+                      qry += " INNER JOIN Customer C ON WR.CustomerId = C.CustomerId";
+                      qry += " WHERE PR.PurchaseRequestId = " + PurchaseRequestId.ToString();
+
+                PurchaseRequest PurchaseRequest = connection.Query<PurchaseRequest>(qry).FirstOrDefault();
+                return PurchaseRequest;
+            }
+        }
+
+        /// <summary>
+        /// Purchase Request Transaction DT Part Details
+        /// </summary>
+        /// <param name="WorkShopRequestId"></param>
+        /// <returns></returns>
+     
+        public List<PurchaseRequestItem> GetPurchaseRequestDTDetails(int PurchaseRequestId)
+        {
+            using (IDbConnection connection = OpenConnection(dataConnection))
+            {
+                string sql = "exec PurchaseRequestItemDetails " + PurchaseRequestId.ToString();
+                return connection.Query<PurchaseRequestItem>(sql, new { PurchaseRequestId = PurchaseRequestId }).ToList();
+            }
         }
 
 
@@ -174,12 +248,8 @@ namespace ArabErp.DAL
                 string sql = @"select distinct SI.PurchaseRequestItemId, SUM(SI.OrderedQty) SuppliedQuantity 
                                 INTO #SUPPLY
                                 from [dbo].[SupplyOrderItem] SI
-                                -- join [dbo].[PurchaseRequestItem] 
-                                --PRI on SI.PurchaseRequestItemId=PRI.PurchaseRequestItemId join [dbo].[PurchaseRequest] PR on PRI.PurchaseRequestId=PR.PurchaseRequestId
-                                WHERE ISNULL(isActive, 1) = 1
                                 GROUP BY SI.PurchaseRequestItemId;
-                                select 
-	                                DISTINCT
+                                select DISTINCT
 	                                P.PurchaseRequestId,
 	                                PurchaseRequestNo,
 	                                PurchaseRequestDate,
@@ -191,9 +261,10 @@ namespace ArabErp.DAL
                                     INNER JOIN PurchaseRequestItem PRI ON P.PurchaseRequestId = PRI.PurchaseRequestId
                                     INNER JOIN WorkShopRequest WRK ON P.WorkShopRequestId = WRK.WorkShopRequestId
                                     INNER JOIN Customer C ON C.CustomerId=WRK.CustomerId
-                                LEFT JOIN #SUPPLY SUP ON PRI.PurchaseRequestItemId = SUP.PurchaseRequestItemId
-                                ORDER BY P.PurchaseRequestDate DESC;
-                                DROP TABLE #SUPPLY;";
+                                    LEFT JOIN #SUPPLY SUP ON PRI.PurchaseRequestItemId = SUP.PurchaseRequestItemId
+                                    WHERE P.isActive= 1
+                                    ORDER BY P.PurchaseRequestDate DESC;
+                                    DROP TABLE #SUPPLY;";
 
                 var objPendingPurchaseRequests = connection.Query<PurchaseRequest>(sql).ToList<PurchaseRequest>();
 
