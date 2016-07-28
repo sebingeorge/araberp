@@ -43,7 +43,7 @@
 
 </script>
 
-
+<div class="row">
 
     <div class="form-head1">
         <h4>Addition/ Deduction</h4>
@@ -70,38 +70,38 @@
                                     </div>
                                 </div>
                             </div>
-                                    <div class="row">
-                                        <div class="col-md-4">
-                                            <div class="part4">
-                                                <label for="AddDedName">Name</label>
-                                                @Html.TextBoxFor(m => m.AddDedName, new { @class = "form_input", autocomplete = "off" })
-                                            </div>
-                                        </div>
-                                        <div class="col-md-4">
-                                            <div class="part4">
-                                                <label for="AddDedType">Addition / Deduction</label>
-                                                @Html.DropDownListFor(m => Model.AddDedType, (SelectList)ViewBag.AdditionDeduction, "Select Type", new { @class = "form_input", autocomplete = "off" })
-                                            </div>
-                                        </div>
-                                        <div class="col-md-4">
-                                        </div>
+                            <div class="row">
+                                <div class="col-md-4">
+                                    <div class="part4">
+                                        <label for="AddDedName">Name</label>
+                                        @Html.TextBoxFor(m => m.AddDedName, new { @class = "form_input", autocomplete = "off" })
                                     </div>
                                 </div>
+                                <div class="col-md-4">
+                                    <div class="part4">
+                                        <label for="AddDedType">Addition / Deduction</label>
+                                        @Html.DropDownListFor(m => Model.AddDedType, (SelectList)ViewBag.AdditionDeduction, "Select Type", new { @class = "form_input", autocomplete = "off" })
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-md-12">
+                            <div class="row">
+
 
                                 <div class="col-md-12">
-                                    <div class="row">
 
-
-                                        <div class="col-md-12">
-                                           
-                                               <div class="part4">
-                                                <label for="AddDedRemarks">Remarks</label>
-                                                @Html.TextAreaFor(m => m.AddDedRemarks, new { @class = "form_input form_input-h", autocomplete = "off" })
-                                               </div>
-                                        </div>
-
+                                    <div class="part4">
+                                        <label for="AddDedRemarks">Remarks</label>
+                                        @Html.TextAreaFor(m => m.AddDedRemarks, new { @class = "form_input form_input-h", autocomplete = "off" })
                                     </div>
                                 </div>
+
+                            </div>
+                        </div>
 
 
 
@@ -117,7 +117,7 @@
 
                         </div>
 
-                            </div>
+                    </div>
                 </form>
             </div>
         }
@@ -128,3 +128,4 @@
         @Html.Action("FillAdditionDeductionList")
     </div>
 
+</div>

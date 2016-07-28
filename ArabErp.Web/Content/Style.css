@@ -319,6 +319,11 @@ p {
     margin-top:-10px;
     margin-top:-10px;
 }
+.pad4 
+{
+    padding-left:15px;
+    padding-right:15px;
+}
 .add-top
 {
     padding-top:-10px;
