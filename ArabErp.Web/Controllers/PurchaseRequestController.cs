@@ -151,6 +151,7 @@ namespace ArabErp.Web.Controllers
                        TempData["success"] = "Updated successfully. Purchase Request Reference No. is " + id.Split('|')[1];
                        TempData["error"] = "";
                        return RedirectToAction("PendingPurchaseRequest");
+                       //return View("Edit", model);
                    }
                    else
                    {
@@ -201,8 +202,8 @@ namespace ArabErp.Web.Controllers
                 {
 
                     TempData["Success"] = "Deleted Successfully!";
-                    //TempData["PurchaseRequestNo"] = result.PurchaseRequestNo;
-                    return RedirectToAction("PreviousList");
+                    //return RedirectToAction("PreviousList");
+                    return RedirectToAction("PendingPurchaseRequest");
                 }
 
                 else
