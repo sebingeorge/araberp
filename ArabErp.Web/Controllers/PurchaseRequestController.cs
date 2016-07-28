@@ -131,35 +131,51 @@ namespace ArabErp.Web.Controllers
             var repo = new PurchaseRequestRepository();
 
            var result1 = new PurchaseRequestRepository().CHECK(model.PurchaseRequestId);
-          if (result1>0)
-          {
-              var result = new PurchaseRequestRepository().UpdatePurchaseRequest(model);
-              if (result.PurchaseRequestId > 0)
-              {
-
-                  TempData["Success"] = "Updated Successfully!";
-                  TempData["PurchaseRequestNo"] = result.PurchaseRequestNo;
-                  return RedirectToAction("PreviousList");
-              }
-
-              else
-              {
-
-                  TempData["error"] = "Oops!!..Something Went Wrong!!";
-                  TempData["PurchaseRequestNo"] = null;
-                  return View("Edit", model);
-              }
-          }
-
-          else
+           if (result1>0)
           {
               TempData["error"] = "Sorry!!..Already Used!!";
               TempData["PurchaseRequestNo"] = null;
               return View("Edit", model);
           }
 
-            }
-     
+          else
+          {
+                try
+            {
+              var result2 = new PurchaseRequestRepository().DeletePurchaseRequestDT(model.PurchaseRequestId);
+              var result3 = new PurchaseRequestRepository().DeletePurchaseRequestHD(model.PurchaseRequestId);
+              //var result = new PurchaseRequestRepository().UpdatePurchaseRequest(model);
+                string id = new PurchaseRequestRepository().InsertPurchaseRequest(model);
+                  if (id.Split('|')[0] != "0")
+                   {
+                       TempData["success"] = "Updated successfully. Purchase Request Reference No. is " + id.Split('|')[1];
+                       TempData["error"] = "";
+                       return RedirectToAction("PendingPurchaseRequest");
+                       //return View("Edit", model);
+                   }
+                   else
+                   {
+                       throw new Exception();
+                   }
+                   }
+                   catch (SqlException sx)
+                   {
+                       TempData["error"] = "Some error occured while connecting to database. Please check your network connection and try again.|" + sx.Message;
+                   }
+                   catch (NullReferenceException nx)
+                   {
+                       TempData["error"] = "Some required data was missing. Please try again.|" + nx.Message;
+                   }
+                   catch (Exception ex)
+                   {
+                       TempData["error"] = "Some error occured. Please try again.|" + ex.Message;
+                   }
+            return RedirectToAction("PendingPurchaseRequest");
+        }
+              
+          }
+
+ 
         public ActionResult PreviousList()
         {
             return View(new PurchaseRequestRepository().GetPurchaseRequest());
@@ -168,16 +184,36 @@ namespace ArabErp.Web.Controllers
         public ActionResult Delete(int Id)
         {
             ViewBag.Title = "Delete";
-            int id = new PurchaseRequestRepository().DeletePurchaseRequest(Id);
-            if (id>0)
+
+            var result1 = new PurchaseRequestRepository().CHECK(Id);
+            if (result1 > 0)
             {
-                TempData["Success"] = "Deleted Successfully!";
-                return RedirectToAction("PreviousList");
+                TempData["error"] = "Sorry!!..Already Used!!";
+                TempData["PurchaseRequestNo"] = null;
+                return RedirectToAction("Edit", new { id = Id });
             }
+
             else
             {
-                TempData["error"] = "Sorry!! You Cannot Delete This Purchase Request It Is Already In Use";
-                return RedirectToAction("Edit", new { id = Id });
+                var result2 = new PurchaseRequestRepository().DeletePurchaseRequestDT(Id);
+                var result3 = new PurchaseRequestRepository().DeletePurchaseRequestHD(Id);
+
+                if (Id > 0)
+                {
+
+                    TempData["Success"] = "Deleted Successfully!";
+                    //return RedirectToAction("PreviousList");
+                    return RedirectToAction("PendingPurchaseRequest");
+                }
+
+                else
+                {
+
+                    TempData["error"] = "Oops!!..Something Went Wrong!!";
+                    TempData["PurchaseRequestNo"] = null;
+                    return RedirectToAction("Edit", new { id = Id });
+                }
+
             }
             
         }
