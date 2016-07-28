@@ -138,7 +138,7 @@ namespace ArabErp.DAL
         {
             using (IDbConnection connection = OpenConnection(dataConnection))
             {
-                return connection.Query<Dropdown>(@"SELECT SaleOrderItemId INTO #OUT_PASS FROM VehicleOutPass VO
+                return connection.Query<Dropdown>(@"SELECT SaleOrderItemId INTO #OUT_PASS FROM DeliveryChallan VO
                         INNER JOIN JobCard JC ON VO.JobCardId = JC.JobCardId;
                         SELECT VI.VehicleInPassId Id, RegistrationNo Name FROM VehicleInPass VI
                         LEFT JOIN #OUT_PASS OP ON VI.SaleOrderItemId = OP.SaleOrderItemId

@@ -11,7 +11,7 @@ namespace ArabErp.Domain
         public int ItemBatchId { get; set; }
         public int GRNItemId { get; set; }
         public int? SaleOrderItemId { get; set; }
-        public int? VehicleOutPassId { get; set; }
+        public int? DeliveryChallanId { get; set; }
         public int? WarrantyPeriodInMonths { get; set; }
         public DateTime? WarrantyStartDate { get; set; }
         public DateTime? WarrantyExpireDate { get; set; }

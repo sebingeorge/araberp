@@ -153,7 +153,7 @@
     <Compile Include="UserRepository.cs" />
     <Compile Include="VehicleInPassRepository.cs" />
     <Compile Include="VehicleModelRepository.cs" />
-    <Compile Include="VehicleOutPassRepository.cs" />
+    <Compile Include="DeliveryChallanRepository.cs" />
     <Compile Include="WareHouseRepository.cs" />
     <Compile Include="WorkDescriptionRepository.cs" />
     <Compile Include="WorkShopGRNItemRepository.cs" />

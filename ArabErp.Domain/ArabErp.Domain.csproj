@@ -148,7 +148,7 @@
     <Compile Include="User.cs" />
     <Compile Include="VehicleInPass.cs" />
     <Compile Include="VehicleModel.cs" />
-    <Compile Include="VehicleOutPass.cs" />
+    <Compile Include="DeliveryChallan.cs" />
     <Compile Include="WareHouse.cs" />
     <Compile Include="WorkDescription.cs" />
     <Compile Include="WorkShopGRN.cs" />

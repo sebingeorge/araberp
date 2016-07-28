@@ -19,7 +19,7 @@
         $("#inpassdetails").load(url);
 
         if (id != 0) {
-            var url = '@Url.Action("GetCustomerAddress", "VehicleOutPass")';
+            var url = '@Url.Action("GetCustomerAddress", "DeliveryChallan")';
             $.getJSON(url, { id: id }, function (data) {
                 $("#txtAddress").val(data);
             });

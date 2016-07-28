@@ -1,19 +1,40 @@
 ﻿
 @{
-    ViewBag.Title = "Vehicle Out Pass";
+    ViewBag.Title = "Pending Delivery Challan";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
 <script type="text/javascript">
+
+    $(function () {
+        //---------------------toastr---------------------------//
+        toastr.options = {
+            "positionClass": "toast-bottom-full-width",
+            "timeOut": "5000",
+            "extendedTimeOut": "2000"
+        }
+        if ('@TempData["success"]' != '') {
+            toastr.success('@TempData["success"]');
+        }
+        else if ('@TempData["error"]' != '') {
+            toastr.error('@TempData["error"]'.split('|')[0]);
+            console.log('@TempData["error"]'.split('|')[1]);
+        }
+        @{ TempData["success"] = TempData["error"] = ""; }
+        //------------------------------------------------------//
+
+        $("#DeliveryChallanDate").datepicker({ dateFormat: "dd MM yy" });
+    });
+
     function formValidation() {
-        return confirm("Are you sure to Save?");
+        return true;//confirm("Are you sure to Save?");
     }
     function OnCustomerChange(s) {
         var id;
         if ($(s).val() != null && $(s).val() != '') id = $(s).val();
         else id = 0;
 
-        var url = '@Url.Action("PendingVehicleOutPass")';
+        var url = '@Url.Action("PendingDeliveryChallan")';
         url += "?customerId=" + id;
         $("#outpassdetails").load(url);
 
@@ -48,7 +69,7 @@
             </div>
 
             <div id="outpassdetails">
-                @Html.Action("PendingVehicleOutPass", new { customerId = 0 })
+                @Html.Action("PendingDeliveryChallan", new { customerId = 0 })
             </div>
 
 

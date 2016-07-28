@@ -40,7 +40,7 @@
                             <center>
                                 @if (Model[i].IsPaymentApprovedForDelivery == 1)
                                 {
-                                    @Html.ActionLink("Select", "Save", "VehicleOutPass", new { Id = @Model[i].JobCardId }, new { @class = "form-button5" })
+                                    @Html.ActionLink("Select", "Save", "DeliveryChallan", new { Id = @Model[i].JobCardId }, new { @class = "form-button5" })
                                 }
                                 else
                                 {
