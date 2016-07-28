@@ -84,7 +84,7 @@
         assignTaskDate();
     }
     </script> 
-<div class="container">
+
     <div class="row">
         @using (Html.BeginForm(null, null, FormMethod.Post, new { @class = "createFrom", @id = "jobcard_form" }))
         {
@@ -134,11 +134,13 @@
                         }                        
                     </div>
                     <div class="row form-group">
-                        <div class="col-md-4">
+                        <div class="col-md-12">
                             <label for="wrkdes">Work Description</label>
-                            @Html.TextBoxFor(m => m.WorkDescription, new { @class = "form_input", autocomplete = "off", @disabled = "true" })
+                            @Html.TextAreaFor(m => m.WorkDescription, new { @class = "form_input form_input-h1", autocomplete = "off" })
                             @Html.HiddenFor(m => m.WorkDescriptionId, new { @class = "form_input", autocomplete = "off" })
                         </div>
+                        </div>
+                    <div class="row form-group">
                         <div class="col-md-2">
                             <label for="wrkreqref">WorkShop Request Ref.</label>
                             @Html.TextBoxFor(m => m.WorkShopRequestRef, new { @class = "form_input", autocomplete = "off", @disabled = "true" })
@@ -153,7 +155,7 @@
                                 <label for="bay">Bay</label>
                                 @Html.DropDownListFor(m => Model.BayId, (SelectList)ViewBag.BayList, "Select Bay", new { @class = "form_input", autocomplete = "off" })
                             </div>
-                        }                        
+                        }
                         <div class="col-md-2">
                             <label for="box">Box</label>
                             @Html.DropDownListFor(m => Model.BoxId, (SelectList)ViewBag.Boxes, "Select Box", new { @class = "form_input", autocomplete = "off" })
@@ -236,4 +238,3 @@
         }
 
     </div>
-</div>

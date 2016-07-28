@@ -3832,6 +3832,7 @@ textarea.input-group-sm > .input-group-btn > .btn {
   position: relative;
   /*display: block;*/
   display:inline-block;
+  margin-right:4px;
 }
 
 .nav > li > a {
@@ -7172,7 +7173,7 @@ td.visible-print {
     {
     top: 74px;
     position: relative;
-    left: 10px;
+    left: 50px;
     }
 
     .QuickLink ul.open 
@@ -7201,7 +7202,7 @@ td.visible-print {
     }
     .hrpart .right 
     {
-        margin-right:-4px !important;
+        margin-right:0px !important;
     }
 
         .incentive
@@ -7221,6 +7222,11 @@ td.visible-print {
  {
     margin-left:-5px !important;
 }
+
+     /*#SalesQuotationItems_0__WorkDescriptionId option
+{
+    width:180px !important;
+}*/
 
 }
 
@@ -7414,6 +7420,10 @@ td.visible-print {
         margin-top:3px !important;
     }
 
+         /*#SalesQuotationItems_0__WorkDescriptionId option
+{
+    width:600px !important;
+}*/
 
 }
 
@@ -7505,7 +7515,7 @@ td.visible-print {
     border-radius: 0 6px 6px;
     left: 100%;
     margin-left: -203px;
-    margin-top: 25px;
+    margin-top: 23px;
     top: 0;
     width: 102%;
 }

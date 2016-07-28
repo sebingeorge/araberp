@@ -19,8 +19,14 @@
         window.location = url;
     }*@
 </script>
+@*<script>
+    function textAreaAdjust(o) {
+        o.style.height = "22px";
+        o.style.height = (50 + o.scrollHeight) + "px";
+    }
+</script>*@
 
-<div class="container">
+
     <div class="row">
         <div class="form-head1">
             <h4>Stock Creation</h4>
@@ -58,6 +64,8 @@
                                     </td>
                                     <td>
                                         <input class="form_input" value="@item.Consumed" disabled />
+                                        @*<textarea class="form_input" onkeyup="textAreaAdjust(this)" style="overflow:visible; height:auto;" disabled>@item.Consumed</textarea>*@
+                                        @*@Html.TextAreaFor(m => item.Consumed, new { @class = "form_input form_input-h1", autocomplete = "off" })*@
                                     </td>
                                     <td>
                                         <input class="form_input" value="@item.CreatedBy" disabled />
@@ -90,4 +98,4 @@
             </div>
         </div>
     </div>
-</div>
+

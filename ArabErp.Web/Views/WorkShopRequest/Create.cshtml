@@ -56,7 +56,7 @@
     
 </script>
 
-<div class="container">
+
     <div class="row">
         <div class="form-head1">
             <h4>WorkShop Request</h4>
@@ -105,8 +105,7 @@
                 <div class="row form-group">
                     <div class="col-md-12">
                         <label for="WorkDescription">Work Description</label>
-                        @Html.TextBoxFor(m => m.WorkDescription, new { @class = "form_input", autocomplete = "off", @readonly = "readonly" })
-
+                        @Html.TextAreaFor(m => m.WorkDescription, new { @class = "form_input form_input-h1", autocomplete = "off" })
                     </div>
 
                 </div>
@@ -149,6 +148,6 @@
             }
         </div>
     </div>
-</div>
+
 
 

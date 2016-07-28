@@ -25,6 +25,8 @@ namespace ArabErp.Domain
         public int? JobCardId { get; set; }
         public List<ExpenseBillItem> ExpenseBillItem{get; set;}
         public List<ExpenseBillItem> deductions { get; set; }
+
+        public int ApprovedBy { get; set; }
     }
     public class ExpenseBillItem
     {

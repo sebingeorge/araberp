@@ -191,12 +191,12 @@ namespace ArabErp.DAL
             }
         }
 
-        public int Approve(int id)
+        public int Approve(ExpenseBill model)
         {
             using (IDbConnection connection = OpenConnection(dataConnection))
             {
-                string query = @"UPDATE ExpenseBill SET isApproved = 1 WHERE ExpenseId = @id";
-                return connection.Execute(query, new { id = id });
+                string query = @"UPDATE ExpenseBill SET isApproved = 1, ApprovedBy = @ApprovedBy WHERE ExpenseId = @ExpenseId";
+                return connection.Execute(query, model);
             }
         }
 

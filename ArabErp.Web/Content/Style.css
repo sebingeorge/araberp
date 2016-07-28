@@ -46,6 +46,11 @@ p {
 {
     height:34px;
 }
+.form_input-h1 
+{
+    height:130px;
+    float:left;
+}
 .form_input-half
  {
   width: 50%;
@@ -513,3 +518,11 @@ h5
     padding-top:-5px !important;
 }
 
+select option
+{
+    max-width:auto;
+}
+.tarea 
+{
+    overflow: visible;min-height: 22px;height: auto;
+}

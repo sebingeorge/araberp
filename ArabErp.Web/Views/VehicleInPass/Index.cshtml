@@ -19,7 +19,7 @@
         $("#inpassdetails").load(url);
 
         if (id != 0) {
-            var url = '@Url.Action("GetCustomerAddress", "VehicleOutPass")';
+            var url = '@Url.Action("GetCustomerAddress", "DeliveryChallan")';
             $.getJSON(url, { id: id }, function (data) {
                 $("#txtAddress").val(data);
             });
@@ -33,7 +33,7 @@
     }
 </script>
 
-<div class="container">
+
     <div class="row">
         <div class="form-head1">
             <h4>Pending Vehicle In-Pass</h4>
@@ -56,4 +56,4 @@
             </div>
         </div>
     </div>
-</div>
+
