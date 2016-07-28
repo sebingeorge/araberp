@@ -12,10 +12,11 @@ namespace ArabErp.Domain
     {
         public int QuerySheetId { get; set; }
         public string QuerySheetRefNo { get; set; }
+         [Required]
         public DateTime QuerySheetDate { get; set; }
-        [Required]
-        public string ProjectName { get; set; }
+              public string ProjectName { get; set; }
         public string ContactPerson { get; set; }
+        //[RegularExpression(@"^\(?([0-9]{3})\)?[-. ]?([0-9]{3})[-. ]?([0-9]{4})$", ErrorMessage = "Not a valid Phone number")]
         public string ContactNumber { get; set; }
         public string Email { get; set; }
         public string RoomDetails { get; set; }
