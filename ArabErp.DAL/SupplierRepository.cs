@@ -77,20 +77,22 @@ namespace ArabErp.DAL
                 IDbTransaction trn = connection.BeginTransaction();
 
                 string sql = @"insert  into Supplier(SupplierRefNo,SupplierName,PurchaseTypeId,SupplierPrintName,
-                                                    SupCategoryId,ContractDate,ContactPerson,Active,CreditPeriod,
+                                                    SupCategoryId,ContractDate,ContactPerson,Active,
                                                     DoorNo,City,State,CountryId,
                                                     PostBoxNo,Phone,Fax,Email,
                                                     Bank,Branch,AccountDetails,SwiftCode,
                                                     RtgsNo,AccountNo,DiscountTermsId,DiscountRate,
                                                     CurrencyId,SupRefAccNo,PanNo,TinNo,
+                                                    CreditPeriod,CreditLimit,PaymentTerms,
                                                     CreatedBy,CreatedDate,OrganizationId) 
                                              Values (@SupplierRefNo,@SupplierName,@PurchaseTypeId,@SupplierPrintName,
-                                                    @SupCategoryId,@ContractDate,@ContactPerson,@Active,@CreditPeriod,
+                                                    @SupCategoryId,@ContractDate,@ContactPerson,@Active,
                                                     @DoorNo,@City,@State,@CountryId,
                                                     @PostBoxNo,@Phone,@Fax,@Email,
                                                     @Bank,@Branch,@AccountDetails,@SwiftCode,
                                                     @RtgsNo,@AccountNo,@DiscountTermsId,@DiscountRate,
                                                     @CurrencyId,@SupRefAccNo,@PanNo,@TinNo,
+                                                    @CreditPeriod,@CreditLimit,@PaymentTerms,
                                                     @CreatedBy,@CreatedDate,@OrganizationId);
                                                     SELECT CAST(SCOPE_IDENTITY() as int)";
 
@@ -154,10 +156,11 @@ namespace ArabErp.DAL
             {
                 string sql = @" UPDATE Supplier SET SupplierRefNo = @SupplierRefNo ,SupplierName=@SupplierName,PurchaseTypeId=@PurchaseTypeId,
                                 SupplierPrintName=@SupplierPrintName,SupCategoryId=@SupCategoryId,ContractDate=@ContractDate,ContactPerson=@ContactPerson,
-                                Active=@Active,CreditPeriod=@CreditPeriod,DoorNo=@DoorNo,City=@City,State=@State,CountryId=@CountryId,PostBoxNo=@PostBoxNo,
-                                Phone=@Phone,Fax=@Fax,Email=@Email,Bank=@Bank,Branch=@Branch,AccountDetails=@AccountDetails,SwiftCode=@SwiftCode,RtgsNo=@RtgsNo,
-                                AccountNo=@AccountNo,DiscountTermsId=@DiscountTermsId,DiscountRate=@DiscountRate,CurrencyId=@CurrencyId,SupRefAccNo=@SupRefAccNo,
-                                PanNo=@PanNo,TinNo=@TinNo,CreatedBy = @CreatedBy,CreatedDate = @CreatedDate,OrganizationId = @OrganizationId
+                                Active=@Active,DoorNo=@DoorNo,City=@City,State=@State,CountryId=@CountryId,PostBoxNo=@PostBoxNo,Phone=@Phone,Fax=@Fax,
+                                Email=@Email,Bank=@Bank,Branch=@Branch,AccountDetails=@AccountDetails,SwiftCode=@SwiftCode,RtgsNo=@RtgsNo,AccountNo=@AccountNo,
+                                DiscountTermsId=@DiscountTermsId,DiscountRate=@DiscountRate,CurrencyId=@CurrencyId,SupRefAccNo=@SupRefAccNo,PanNo=@PanNo,TinNo=@TinNo,
+                                CreditPeriod=@CreditPeriod,CreditLimit=@CreditLimit,PaymentTerms=@PaymentTerms,CreatedBy = @CreatedBy,CreatedDate = @CreatedDate,
+                                OrganizationId = @OrganizationId
                                 WHERE SupplierId = @SupplierId";
 
 
