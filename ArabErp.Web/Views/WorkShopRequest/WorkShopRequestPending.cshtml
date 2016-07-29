@@ -28,6 +28,10 @@
         }
         @{ TempData["success"] = TempData["error"] = ""; }
     })
+    function PreviousList() {
+        var url = '@Url.Action("Index")';
+        window.location = url;
+    }
 </script>
 
     <div class="row">
@@ -204,6 +208,11 @@
 
             <div class="row-count1">
                 <h5>Row Count:- @Model.SaleOrders.Count()</h5>
+            </div>
+            <div class="row">
+                <div class="col-md-12 hrpart">
+                    <input class="form-button left" type="button" value="Previous" onclick="PreviousList()" />
+                </div>
             </div>
 
         </div>
