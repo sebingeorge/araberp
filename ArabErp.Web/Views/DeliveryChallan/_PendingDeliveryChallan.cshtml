@@ -4,12 +4,12 @@
     <table class="table table-bordered">
         <thead>
             <tr class="grid_heading">
-                <th width="12%"><h1>SO.No. &amp; Date</h1></th>
-                <th width="13%"><h1>JC.No. &amp; Date</h1></th>
-                <th width="20%"><h1>Work Description</h1></th>
-                <th width="20%"><h1>Vehicle Model</h1></th>
-                <th width="20%"><h1>Chasis No./Reg No.</h1></th>
-                <th width="15%"></th>
+                <th width="10%"><h1>SO.No. &amp; Date</h1></th>
+                <th width="10%"><h1>JC.No. &amp; Date</h1></th>
+                <th width="45%"><h1>Work Description</h1></th>
+                <th width="15%"><h1>Vehicle Model</h1></th>
+                <th width="15%"><h1>Chasis No./Reg No.</h1></th>
+                <th width="5%">Select</th>
             </tr>
         </thead>
         <tbody id="table-body" class="grid_row">
@@ -26,8 +26,8 @@
                         <td>
                             <input class="form_input" type="text" value="@Model[i].JobCardNoDate" disabled />
                         </td>
-                        <td>
-                            <input class="form_input" type="text" value="@Model[i].WorkDescr" disabled />
+                        <td class="grid-cell">
+                            @*<input class="form_input" type="text" value="*@@Model[i].WorkDescr@*" disabled />*@
                         </td>
                         <td>
                             <input class="form_input" type="text" value="@Model[i].VehicleModel" disabled />

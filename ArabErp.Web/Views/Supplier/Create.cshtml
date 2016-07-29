@@ -52,20 +52,20 @@
 
 
 
-<div class="container body-content">
+
     <div class="row">
 
         <div class="form-head">
             <h4>Supplier</h4>
         </div>
         <div class="col-md-12">
-          @using (Html.BeginForm(null, null, FormMethod.Post, new { @class = "createFrom", @id ="Supplier_form"}))
-          {
+            @using (Html.BeginForm(null, null, FormMethod.Post, new { @class = "createFrom", @id = "Supplier_form" }))
+            {
                 <div class="row form-group main-part pad1">
                     <div class="row form-group pad3">
                         <div class="col-md-3">
                             <div class="part4">
-                                
+
                                 @Html.HiddenFor(m => m.SupplierId)
                                 @Html.HiddenFor(m => m.SupplierRefNo)
 
@@ -116,19 +116,10 @@
                                         @Html.RadioButtonFor(model => model.Active, 1, new { @checked = true }) Yes
                                         @Html.RadioButtonFor(model => model.Active, 2, new { @checked = true }) No
                                     </div>
-                                    </div>
-                                </div>
-
-                            <div class="col-md-6">
-                                <div class="row">
-                                    <div class="part4">
-                                        <label for="CreditPeriod">Credit Period</label>
-                                        @Html.TextBoxFor(m => m.CreditPeriod, new { @class = "form_input", autocomplete = "off" })
-                                    </div>
                                 </div>
                             </div>
 
-                            </div>
+                        </div>
 
 
                     </div>
@@ -186,6 +177,7 @@
 
 
                     <div class="row form-group pad3">
+
                         <h5 class="pad2">Bank & Terms</h5>
                         <div class="col-md-3">
                             <div class="part4">
@@ -253,12 +245,48 @@
                             </div>
                         </div>
 
+
+                    </div>
+
+                    <div class="row form-group pad3">
+                        <div class="col-md-3">
+                            
+                               
+                                    
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <div class="part4">
+                                                    <label for="CreditPeriod">Credit Period</label>
+                                                    @Html.TextBoxFor(m => m.CreditPeriod, new { @class = "form_input", autocomplete = "off" })
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <div class="part4">
+                                                    <label for="CreditLimit">Credit Limit</label>
+                                                    @Html.TextBoxFor(m => m.CreditLimit, new { @class = "form_input", autocomplete = "off" })
+                                                </div>
+                                            </div>
+
+
+
+                                    </div>
+                         
+                          
+
+                        </div>
+                        <div class="col-md-9">
+                           
+                                    <div class="part4">
+                                        <label for="PaymentTerms">Payment Terms</label>
+                                        @Html.TextAreaFor(m => m.PaymentTerms, new { @class = "form_input", autocomplete = "off" })
+                                    </div>
+                          
+                        </div>
+
                     </div>
 
 
-
                     <div class="row">
-                        
 
                         <div class="col-md-12 hrpart">
 
@@ -270,19 +298,17 @@
                             {  <button type="submit" class="form-button right">Update</button>}
                             else if (actionName == "Delete")
                             { <button type="submit" class="form-button right">Delete</button> }
-                                                                                          
+
 
                         </div>
 
-                       
+
                     </div>
 
                 </div>
 
-          }
-         </div>
+            }
+        </div>
 
-       </div>
-   </div>
-
+    </div>
 

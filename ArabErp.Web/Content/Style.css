@@ -48,7 +48,7 @@ p {
 }
 .form_input-h1 
 {
-    height:130px;
+    height:80px;
     float:left;
 }
 .form_input-half
@@ -319,6 +319,11 @@ p {
     margin-top:-10px;
     margin-top:-10px;
 }
+.pad4 
+{
+    padding-left:15px;
+    padding-right:15px;
+}
 .add-top
 {
     padding-top:-10px;
@@ -526,3 +531,4 @@ select option
 {
     overflow: visible;min-height: 22px;height: auto;
 }
+
