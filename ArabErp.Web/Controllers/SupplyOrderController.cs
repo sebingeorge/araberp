@@ -213,7 +213,7 @@ namespace ArabErp.Web.Controllers
                 return View(model);
             }
         }
-   [HttpGet]
+        [HttpGet]
         public JsonResult GetSupplierItemRateSettings(int Id,string ItemId)
         {
             SupplyOrderItem List = new SupplyOrderRepository().GetSupplierItemRate(Id, ItemId);
@@ -222,7 +222,7 @@ namespace ArabErp.Web.Controllers
           
         }
 
-   public ActionResult Edit(int id = 0)
+        public ActionResult Edit(int id = 0)
    {
        try
        {
@@ -261,8 +261,8 @@ namespace ArabErp.Web.Controllers
        return RedirectToAction("PendingSupplyOrder");
    }
 
-   [HttpPost]
-   public ActionResult Edit(SupplyOrder model)
+        [HttpPost]
+        public ActionResult Edit(SupplyOrder model)
    {
        ViewBag.Title = "Edit";
        model.OrganizationId = OrganizationId;
@@ -310,7 +310,7 @@ namespace ArabErp.Web.Controllers
 
    }
 
-   public ActionResult Delete(int Id)
+        public ActionResult Delete(int Id)
    {
        ViewBag.Title = "Delete";
 
