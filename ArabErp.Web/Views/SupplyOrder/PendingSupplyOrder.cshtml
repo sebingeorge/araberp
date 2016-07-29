@@ -32,6 +32,11 @@
         window.location = url;
     }
 
+    function Exit() {
+        var url = '@Url.Action("Index","Home")';
+        window.location = url;
+    }
+
     function formValidation() {
         var flag = false;
         $("input[type='checkbox']").each(function (i, obj) {
@@ -125,35 +130,21 @@
                                 </tbody>
 
                             </table>
-                            
-
-
+      
                         </div>
 
-
-
-                      
-
                     </div>
-
-
 
                     <div class="row-count2">
-
                         <h5>Row Count:- @Model.Count()</h5>
                     </div>
-                 
-
+    
                     <div class="col-md-12 hrpart">
                         <input type="button" class="form-button" onclick="PreviousList()" value="Previous" title="Previous supply orders">
+                        <input type="button" class=" form-button right" onclick="Exit()" value="Exit" />
                         <button type="submit" class="form-button right">Proceed</button>
-                    </div>
+                      </div>
                 </div>
-
-
-
-
-
 
 
                 @*<div class="main-part wid pad1">

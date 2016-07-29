@@ -221,5 +221,139 @@ namespace ArabErp.Web.Controllers
             return Json(Result, JsonRequestBehavior.AllowGet);
           
         }
+
+   public ActionResult Edit(int id = 0)
+   {
+       try
+       {
+           if (id != 0)
+           {
+               SupplyOrder supplyorder = new SupplyOrder();
+               supplyorder = new SupplyOrderRepository().GetSupplyOrder(id);
+               supplyorder.SupplyOrderItems = new SupplyOrderItemRepository().GetSupplyOrderItems(id);
+               FillDropdowns();
+               return View(supplyorder);
+           }
+           else
+           {
+               TempData["error"] = "That was an invalid/unknown request. Please try again.";
+               TempData["success"] = "";
+           }
+       }
+       catch (InvalidOperationException iox)
+       {
+           TempData["error"] = "Sorry, we could not find the requested item. Please try again.|" + iox.Message;
+       }
+       catch (SqlException sx)
+       {
+           TempData["error"] = "Some error occured while connecting to database. Please try again after sometime.|" + sx.Message;
+       }
+       catch (NullReferenceException nx)
+       {
+           TempData["error"] = "Some required data was missing. Please try again.|" + nx.Message;
+       }
+       catch (Exception ex)
+       {
+           TempData["error"] = "Some error occured. Please try again.|" + ex.Message;
+       }
+
+       TempData["success"] = "";
+       return RedirectToAction("PendingSupplyOrder");
+   }
+
+   [HttpPost]
+   public ActionResult Edit(SupplyOrder model)
+   {
+       ViewBag.Title = "Edit";
+       model.OrganizationId = OrganizationId;
+       model.CreatedDate = System.DateTime.Now;
+       model.CreatedBy = Request.ServerVariables["HTTP_X_FORWARDED_FOR"] ?? Request.ServerVariables["REMOTE_ADDR"];
+
+       FillDropdowns();
+
+       var repo = new SupplyOrderRepository();
+
+       var result1 = new SupplyOrderRepository().CHECK(model.SupplyOrderId);
+       if (result1 > 0)
+       {
+           TempData["error"] = "Sorry!!..Already Used!!";
+           TempData["PurchaseRequestNo"] = null;
+           return View("Edit", model);
+       }
+
+       else
+       {
+           try
+           {
+               var result2 = new SupplyOrderRepository().DeleteSODT(model.SupplyOrderId);
+               var result3 = new SupplyOrderRepository().DeleteSOHD(model.SupplyOrderId);
+               //var result = new PurchaseRequestRepository().UpdatePurchaseRequest(model);
+               string id = new SupplyOrderRepository().InsertSupplyOrder(model);
+               //if (id.Split('|')[0] != "0")
+               //{
+                   TempData["success"] = "Updated successfully. Purchase Request Reference No. is " +id;
+                   TempData["error"] = "";
+                   return RedirectToAction("PendingSupplyOrder");
+                   //return RedirectToAction("Edit", model);
+                   //return RedirectToAction("PendingApproval");
+               //}
+               //else
+               //{
+               //    throw new Exception();
+               //}
+           }
+           catch (SqlException sx)
+           {
+               TempData["error"] = "Some error occured while connecting to database. Please check your network connection and try again.|" + sx.Message;
+           }
+           catch (NullReferenceException nx)
+           {
+               TempData["error"] = "Some required data was missing. Please try again.|" + nx.Message;
+           }
+           catch (Exception ex)
+           {
+               TempData["error"] = "Some error occured. Please try again.|" + ex.Message;
+           }
+           return RedirectToAction("PendingSupplyOrder");
+       }
+
+   }
+
+   public ActionResult Delete(int Id)
+   {
+       ViewBag.Title = "Delete";
+
+       var result1 = new SupplyOrderRepository().CHECK(Id);
+       if (result1 > 0)
+       {
+           TempData["error"] = "Sorry!!..Already Used!!";
+           TempData["SupplyOrderNo"] = null;
+           return RedirectToAction("Edit", new { id = Id });
+       }
+
+       else
+       {
+           var result2 = new SupplyOrderRepository().DeleteSODT(Id);
+           var result3 = new SupplyOrderRepository().DeleteSOHD(Id);
+
+           if (Id > 0)
+           {
+
+               TempData["Success"] = "Deleted Successfully!";
+               //return RedirectToAction("PreviousList");
+               return RedirectToAction("PendingSupplyOrder");
+           }
+
+           else
+           {
+
+               TempData["error"] = "Oops!!..Something Went Wrong!!";
+               TempData["SupplyOrderNo"] = null;
+               return RedirectToAction("Edit", new { id = Id });
+           }
+
+       }
+
+   }
     }
 }

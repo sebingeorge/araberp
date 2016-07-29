@@ -712,6 +712,7 @@
     <Content Include="Views\Expense\PendingApproval.cshtml" />
     <Content Include="Views\PurchaseRequest\PreviousList.cshtml" />
     <Content Include="Views\PurchaseRequest\Edit.cshtml" />
+    <Content Include="Views\SupplyOrder\Edit.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
