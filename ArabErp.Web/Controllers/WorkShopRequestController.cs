@@ -15,8 +15,7 @@ namespace ArabErp.Web.Controllers
         // GET: WorkShopRequest
         public ActionResult Index()
         {
-            FillWRNo();
-            FillCustomerinWR();
+         
             return View();
         }
 
@@ -137,8 +136,13 @@ namespace ArabErp.Web.Controllers
         {
             ViewBag.CusList = new SelectList(new DropdownRepository().WRCustomerDropdown(), "Id", "Name");
         }
-       
-       
+
+        public ActionResult WorkShopRequestList()
+        {
+            FillWRNo();
+            FillCustomerinWR();
+            return View();
+        }
     }
 
 }

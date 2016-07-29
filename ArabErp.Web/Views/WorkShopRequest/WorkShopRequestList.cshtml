@@ -1,8 +1,9 @@
 ﻿
 @{
-    ViewBag.Title = "Index";
+    ViewBag.Title = "WorkShopRequestList";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
+
 <script>
     function OnWRNoChanged(sender) {
         var id = $("#cboWRNo").val();
@@ -24,10 +25,10 @@
     </div>
     <div class="main-part pad1">
         <div class="row form-group">
-     
+
             <div class="col-md-3">
                 <label for="cboWRNo">WorkShopRequest No.</label>
-                @Html.DropDownList("cboWRNo", (SelectList)ViewBag.WRNoList, "Any", new { @class = "form_input" ,@onchange = "OnWRNoChanged(this)" })
+                @Html.DropDownList("cboWRNo", (SelectList)ViewBag.WRNoList, "Any", new { @class = "form_input", @onchange = "OnWRNoChanged(this)" })
             </div>
             <div class="col-md-3">
                 <label for="cboWRNo">Customer</label>
@@ -37,8 +38,8 @@
         <div id="workshopreqlist">
             @Html.Action("PreviousList")
         </div>
-        </div>
-  
+    </div>
+
 </div>
 
 
