@@ -6934,6 +6934,7 @@ td.visible-print {
     .form-button 
     {
         width:100% !important;
+        margin-left:0px !important;
     }
     .left
     {
@@ -6989,8 +6990,8 @@ td.visible-print {
 
 .body-content 
 {
-    margin-left: 25px !important;
-    width: 90% !important;
+    margin-left: 28px !important;
+    width: 87% !important;
 }
 .body-content1 
 {
@@ -7106,8 +7107,9 @@ td.visible-print {
 
      .row-count 
     {
-    margin-left:0px !important;
-    margin-top: -23px !important;
+    margin-left: 0 !important;
+    margin-top: -18px !important;
+    margin-bottom: 29px !important;
     }
     .row-count h5 
         {
@@ -7150,7 +7152,7 @@ td.visible-print {
 }
 .row-count4 {
 
-    margin-bottom:24px !important;
+    margin-top: -16px !important;
 
 }
 .row-count4 h5
@@ -7358,7 +7360,8 @@ td.visible-print {
     .row-count 
     {
     margin-left: -4px !important;
-    margin-top: -25px !important;
+    margin-top: -17px !important;
+    margin-bottom: 32px !important;
     }
     .row-count h5 
         {
@@ -7399,7 +7402,7 @@ td.visible-print {
 
 .row-count4{
 
-    margin-bottom:24px !important;
+     margin-top: -16px !important;
 
 }
 .row-count4 h5

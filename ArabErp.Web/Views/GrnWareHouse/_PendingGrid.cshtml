@@ -37,69 +37,67 @@
         }
     }
 </script>
-
-<input type="hidden" id="hidden-check" value="0" />
-<table class="table table-bordered">
-    <thead>
-        <tr class="grid_heading">
-            <th width="15%"><h1>Supplier</h1></th>
-            <th width="11%"><h1>LPO.No. &amp; Date</h1></th>
-            <th width="11%"><h1>Quotation No. &amp; Date</h1></th>
-            <th width="20%"><h1>Special Remarks</h1></th>
-            <th width="1%"  nowrap><h1>Ageing</h1></th>
-            <th width="1%" nowrap><h1>Required Date</h1></th>
-            <th width="1%" style="vertical-align:middle" title="Check this to select all checkboxes below" nowrap>
-                <h1>
-                    <input id="checkAll" type="checkbox"> Select all
-                </h1>
-            </th>
-        </tr>
-    </thead>
-    <tbody class="grid_row">
-        @{
-            if (Model.Count > 0)
-            {
-                for (int i = 0; i < Model.Count; i++)
+<div class="table-responsive scroll4" id="pending-grid">
+    <input type="hidden" id="hidden-check" value="0" />
+    <table class="table table-bordered">
+        <thead>
+            <tr class="grid_heading">
+                <th width="20%"><h1>Supplier</h1></th>
+                <th width="12%"><h1>LPO.No. &amp; Date</h1></th>
+                <th width="12%"><h1>Quotation No. &amp; Date</h1></th>
+                <th width="36%"><h1>Special Remarks</h1></th>
+                <th width="5%" nowrap><h1>Ageing</h1></th>
+                <th width="10%" nowrap><h1>Required Date</h1></th>
+                <th width="5%" style="vertical-align:middle" title="Check this to select all checkboxes below" nowrap>
+                    <h1>
+                        <input id="checkAll" type="checkbox"> Select all
+                    </h1>
+                </th>
+            </tr>
+        </thead>
+        <tbody class="grid_row">
+            @{
+                if (Model.Count > 0)
+                {
+                    for (int i = 0; i < Model.Count; i++)
+                    {
+                        <tr>
+                            <td>
+                                @Html.HiddenFor(m => m[i].SupplierId)
+                                <input type="text" class="form_input" value="@Model[i].SupplierName" disabled />
+                            </td>
+                            <td>
+                                @Html.HiddenFor(m => m[i].SupplyOrderId)
+                                <input type="text" class="form_input" value="@Model[i].SoNoWithDate" disabled />
+                            </td>
+                            <td>
+                                <input type="text" class="form_input" value="@Model[i].QuotaionNoAndDate" disabled />
+                            </td>
+                            <td>
+                                <input type="text" class="form_input" value="@Model[i].SpecialRemarks" disabled />
+                            </td>
+                            <td>
+                                <input style="text-align:right;" type="text" class="form_input " value="@Model[i].Age" disabled />
+                            </td>
+                            <td>
+                                <input type="text" class="form_input" value="@Model[i].RequiredDate" disabled />
+                            </td>
+                            <td align="center">
+                                @Html.CheckBoxFor(m => m[i].isChecked, new { @class = "chk CheckBoxClass", @onchange = "OnCheckboxChanged(this)" })
+                            </td>
+                        </tr>
+                    }
+                }
+                else
                 {
                     <tr>
-                        <td>
-                            @Html.HiddenFor(m => m[i].SupplierId)
-                            <input type="text" class="form_input" value="@Model[i].SupplierName" disabled />
-                        </td>
-                        <td>
-                            @Html.HiddenFor(m => m[i].SupplyOrderId)
-                            <input type="text" class="form_input" value="@Model[i].SoNoWithDate" disabled />
-                        </td>
-                        <td>
-                            <input type="text" class="form_input" value="@Model[i].QuotaionNoAndDate" disabled />
-                        </td>
-                        <td>
-                            <input type="text" class="form_input" value="@Model[i].SpecialRemarks" disabled />
-                        </td>
-                        <td>
-                            <input style="text-align:right;" type="text" class="form_input " value="@Model[i].Age" disabled />
-                        </td>
-                        <td>
-                            <input type="text" class="form_input" value="@Model[i].RequiredDate" disabled />
-                        </td>
-                        <td align="center">
-                            @Html.CheckBoxFor(m => m[i].isChecked, new { @class = "chk CheckBoxClass", @onchange = "OnCheckboxChanged(this)" })
-                        </td>
+                        <td colspan="6" align="center"><em>There are no pending/incomplete supply orders to show</em></td>
                     </tr>
                 }
             }
-            else
-            {
-                <tr>
-                    <td colspan="6" align="center"><em>There are no pending/incomplete supply orders to show</em></td>
-                </tr>
-            }
-        }
-    </tbody>
-</table>
-
-
-
+        </tbody>
+    </table>
+</div>
 <div class="row-count">
     <h5>Row Count:- @Model.Count()</h5>
 </div>
