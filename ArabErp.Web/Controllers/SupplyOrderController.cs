@@ -287,20 +287,11 @@ namespace ArabErp.Web.Controllers
            {
                var result2 = new SupplyOrderRepository().DeleteSODT(model.SupplyOrderId);
                var result3 = new SupplyOrderRepository().DeleteSOHD(model.SupplyOrderId);
-               //var result = new PurchaseRequestRepository().UpdatePurchaseRequest(model);
                string id = new SupplyOrderRepository().InsertSupplyOrder(model);
-               //if (id.Split('|')[0] != "0")
-               //{
+
                    TempData["success"] = "Updated successfully. Purchase Request Reference No. is " +id;
                    TempData["error"] = "";
                    return RedirectToAction("PendingSupplyOrder");
-                   //return RedirectToAction("Edit", model);
-                   //return RedirectToAction("PendingApproval");
-               //}
-               //else
-               //{
-               //    throw new Exception();
-               //}
            }
            catch (SqlException sx)
            {
