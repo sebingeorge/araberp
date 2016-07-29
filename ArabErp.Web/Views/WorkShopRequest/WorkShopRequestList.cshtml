@@ -18,7 +18,7 @@
         $("#workshopreqlist").load(url, {id:id,cusid: cusid});
     }
 </script>
-<div class="row">
+@*<div class="row">
 
     <div class="form-head1">
         <h4>Workshop Request List</h4>
@@ -40,6 +40,30 @@
         </div>
     </div>
 
+</div>*@
+
+<div class="row">
+
+    <div class="form-head1">
+        <h4>Workshop Request List</h4>
+    </div>
+
+    <div class="main-part pad1">
+
+        <div class="row form-group">
+            <div class="col-md-3">
+                <label for="cboWRNo">WorkShopRequest No.</label>
+                @Html.DropDownList("cboWRNo", (SelectList)ViewBag.WRNoList, "Any", new { @class = "form_input", @onchange = "OnWRNoChanged(this)" })
+            </div>
+            <div class="col-md-3">
+                <label for="cboWRNo">Customer</label>
+                @Html.DropDownList("cboCustomer", (SelectList)ViewBag.CusList, "Any", new { @class = "form_input", @onchange = "OnCustomerChanged(this)" })
+            </div>
+          
+        </div>
+
+        <div id="workshopreqlist">
+            @Html.Action("PreviousList")
+        </div>
+    </div>
 </div>
-
-

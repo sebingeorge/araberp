@@ -11,14 +11,16 @@ namespace ArabErp.DAL
     public class MaterialPlanningRepository : BaseRepository
     {
         static string dataConnection = GetConnectionString("arab");
-        public IEnumerable<MaterialPlanning> GetMaterialPlanning(int Id)
+        public IEnumerable<MaterialPlanning> GetMaterialPlanning()
         {
             using (IDbConnection connection = OpenConnection(dataConnection))
             {
                 string sql = @"select I.ItemId,I.PartNo,ItemName,UnitName,MinLevel
                 ,ISNULL(sum(S.Quantity),0)CurrentStock,0WRQTY,0 WRPndIssQty ,0TotalQty,0InTransitQty,0PendingPRQty,0ShortorExcess INTO #TEMP FROM item I
                 INNER JOIN Unit U on U.UnitId =I.ItemUnitId
+                INNER JOIN ItemCategory IC ON IC.itmCatId=I.ItemCategoryId
                 LEFT JOIN StockUpdate S ON I.ItemId=S.ItemId
+                WHERE BatchRequired=1 AND CategoryName='Finished Goods'
                 GROUP BY I.ItemId,I.PartNo,ItemName,UnitName,MinLevel;
                            
                 with W as (
@@ -59,15 +61,15 @@ namespace ArabErp.DAL
 
                 update T set T.ShortorExcess = (T.CurrentStock+T.InTransitQty+T.PendingPRQty)-(T.TotalQty) from #TEMP T1 inner join #TEMP T on T.ItemId = T1.ItemId;
 
-                SELECT * FROM #TEMP where ItemId in (select W.ItemId from SaleOrderItem SI inner join WorkVsItem W on SI.WorkDescriptionId=W.WorkDescriptionId WHERE SaleOrderId=@Id );
+                SELECT * FROM #TEMP;
 
                 drop table #TEMP;
                 DROP TABLE #TEMP1;
                 DROP TABLE #TEMP2;";
 
 
-
-                return connection.Query<MaterialPlanning>(sql, new { Id = Id });
+                //where ItemId in (select W.ItemId from SaleOrderItem SI inner join WorkVsItem W on SI.WorkDescriptionId=W.WorkDescriptionId WHERE SaleOrderId=@Id)
+                return connection.Query<MaterialPlanning>(sql);
             }
         }
     }

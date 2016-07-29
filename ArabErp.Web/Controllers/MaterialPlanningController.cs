@@ -13,16 +13,16 @@ namespace ArabErp.Web.Controllers
     public class MaterialPlanningController : BaseController
     {
         // GET: MaterialPlanning
-        public ActionResult Index(int? isProjectBased)
-        {
-            var repo = new SaleOrderRepository();
-            IEnumerable<PendingSO> pendingSO = repo.GetSaleOrdersForHold(isProjectBased ?? 0);
-            return View(pendingSO);
-        }
-        public ActionResult Planning(int? SaleOrderId)
+        //public ActionResult Index(int? isProjectBased)
+        //{
+        //    var repo = new SaleOrderRepository();
+        //    IEnumerable<PendingSO> pendingSO = repo.GetSaleOrdersForHold(isProjectBased ?? 0);
+        //    return View(pendingSO);
+        //}
+        public ActionResult Planning()
         {
             MaterialPlanningRepository repo = new MaterialPlanningRepository();
-            return View(repo.GetMaterialPlanning(SaleOrderId ?? 0));
+            return View(repo.GetMaterialPlanning());
         }
     }
 }
