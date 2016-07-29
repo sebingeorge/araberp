@@ -52,7 +52,7 @@
 
 
 
-<div class="container body-content">
+
     <div class="row">
 
         <div class="form-head">
@@ -245,32 +245,46 @@
                             </div>
                         </div>
 
-                        <div class="row">
-                            <div class="col-md-3">
 
-                                <div class="col-md-12">
-                                    <div class="col-md-6">
-                                        <label for="CreditPeriod">Credit Period</label>
-                                        @Html.TextBoxFor(m => m.CreditPeriod, new { @class = "form_input", autocomplete = "off" })
+                    </div>
+
+                    <div class="row form-group pad3">
+                        <div class="col-md-3">
+                            
+                               
+                                    
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <div class="part4">
+                                                    <label for="CreditPeriod">Credit Period</label>
+                                                    @Html.TextBoxFor(m => m.CreditPeriod, new { @class = "form_input", autocomplete = "off" })
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <div class="part4">
+                                                    <label for="CreditLimit">Credit Limit</label>
+                                                    @Html.TextBoxFor(m => m.CreditLimit, new { @class = "form_input", autocomplete = "off" })
+                                                </div>
+                                            </div>
+
+
+
                                     </div>
+                         
+                          
 
-                                    <div class="col-md-6">
-                                        <label for="CreditLimit">Credit Limit</label>
-                                        @Html.TextBoxFor(m => m.CreditLimit, new { @class = "form_input", autocomplete = "off" })
+                        </div>
+                        <div class="col-md-9">
+                           
+                                    <div class="part4">
+                                        <label for="PaymentTerms">Payment Terms</label>
+                                        @Html.TextAreaFor(m => m.PaymentTerms, new { @class = "form_input", autocomplete = "off" })
                                     </div>
-                                </div>
-
-                            </div>
-                            <div class="col-md-9">
-                                <div class="col-md-12">
-                                    <label for="PaymentTerms">Payment Terms</label>
-                                    @Html.TextAreaFor(m => m.PaymentTerms, new { @class = "form_input", autocomplete = "off" })
-                                </div>
-                            </div>
-
+                          
                         </div>
 
                     </div>
+
 
                     <div class="row">
 
@@ -297,4 +311,4 @@
         </div>
 
     </div>
-</div>
+
