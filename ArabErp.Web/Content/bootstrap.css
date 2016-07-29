@@ -7514,8 +7514,8 @@ td.visible-print {
 .dropdown-submenu>.dropdown-menu {
     border-radius: 0 6px 6px;
     left: 100%;
-    margin-left: -203px;
-    margin-top: 23px;
+    /*margin-left: -203px;
+    margin-top: 23px;*/
     top: 0;
     width: 102%;
 }
