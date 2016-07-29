@@ -222,6 +222,13 @@ namespace ArabErp.Web.Controllers
           
         }
 
+        [HttpGet]
+        public JsonResult GetPaymentTerm(int supplierid)
+        {
+            string PaymentTerms = (new SupplyOrderRepository()).GetPaymentTerm(supplierid);
+            return Json(new { Success = true, PaymentTerms = PaymentTerms }, JsonRequestBehavior.AllowGet);
+        }
+
         public ActionResult Edit(int id = 0)
    {
        try

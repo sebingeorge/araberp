@@ -405,5 +405,20 @@ namespace ArabErp.DAL
             }
         }
 
+        public string GetPaymentTerm(int supplierid)
+        {
+            using (IDbConnection connection = OpenConnection(dataConnection))
+            {
+                var param = new DynamicParameters();
+                Supplier Supplier = connection.Query<Supplier>("select * from Supplier where SupplierId = " + supplierid).FirstOrDefault();
+
+                string PaymentTerms = "";
+                if (Supplier != null)
+                {
+                    PaymentTerms = Supplier.PaymentTerms;
+                }
+                return PaymentTerms;
+            }
+        }
     }
 }
