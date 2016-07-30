@@ -58,6 +58,7 @@ namespace ArabErp.Domain
         public string SupCategoryName { get; set; }
         public string PurchaseTypeName { get; set; }
         public int? CreditPeriod { get; set; }
-
+        public Decimal? CreditLimit { get; set; }
+        public string PaymentTerms { get; set; }
     }
 }

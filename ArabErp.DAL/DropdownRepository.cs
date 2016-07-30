@@ -281,5 +281,23 @@ namespace ArabErp.DAL
                                                     ORDER BY SaleOrderDate DESC, CreatedDate DESC").ToList();
             }
         }
+        /// <summary>
+        /// Select All WorkShop Request No.
+        /// </summary>
+        /// <returns></returns>
+        public List<Dropdown> WRNODropdown()
+        {
+            using (IDbConnection connection = OpenConnection(dataConnection))
+            {
+                return connection.Query<Dropdown>("SELECT WorkShopRequestId Id, WorkShopRequestRefNo Name FROM WorkShopRequest WHERE ISNULL(isActive, 1) = 1").ToList();
+            }
+        }
+         public List<Dropdown> WRCustomerDropdown()
+        {
+            using (IDbConnection connection = OpenConnection(dataConnection))
+            {
+                return connection.Query<Dropdown>("SELECT WR.CustomerId Id, C.CustomerName Name FROM WorkShopRequest WR inner join Customer C on C.CustomerId=WR.CustomerId  WHERE ISNULL(WR.isActive, 1) = 1").ToList();
+            }
+        }
     }
 }

@@ -47,10 +47,10 @@ namespace ArabErp.DAL
 	                                SOI.SupplyOrderItemId,
 	                                SOI.BalQty,
 	                                SOI.OrderedQty,
-	                                SOI.Rate,
+	                                SOI.Rate,SOI.Rate FixedRate,
 	                                SOI.Discount,
 	                                SOI.Amount,
-	                                I.ItemName,
+	                                I.ItemName,SOI.PurchaseRequestItemId,
 	                                ISNULL(I.PartNo, '-') PartNo,
 	                                ISNULL(PR.PurchaseRequestNo, '') + ' - ' + CONVERT(VARCHAR, PR.PurchaseRequestDate, 106) PRNODATE
                                 FROM SupplyOrderItem SOI

@@ -9,7 +9,7 @@
     }
 
     function Delete(id) {
-        alert(id);
+        //alert(id);
         var url = '@Url.Action("Delete")';
         url += "/" + id;
       
@@ -25,6 +25,26 @@
         $(".numbers-only").keypress(function (e) {
             if (e.which == 8 || (e.which == 46 && $(this).val().indexOf('.') == -1) || (e.which > 47 && e.which < 58)) { } else { return false; }
         });
+
+        toastr.options = {
+            "closeButton": true,
+            "positionClass": "toast-bottom-full-width",
+            "preventDuplicates": false,
+            "onclick": null,
+
+            "timeOut": "0",
+            "extendedTimeOut": "1000",
+            "showEasing": "swing",
+            "hideEasing": "linear",
+            "showMethod": "fadeIn",
+            "hideMethod": "fadeOut"
+        }
+        if ('@TempData["success"]' != "" && '@TempData["PurchaseRequestNo"]' != "") {
+            toastr.success('@TempData["success"]' + '  Purchase Request No. is : ' + '@TempData["PurchaseRequestNo"]');
+        }
+        else if ('@TempData["error"]' != "") {
+            toastr.error('@TempData["error"]');
+        }
     });
 </script>
 <div class="container">
@@ -90,7 +110,7 @@
                                 {
                                     <tr>
 
-                                        <td>@Html.TextBoxFor(m => m.items[i].ItemName, new { @class = "form_input", autocomplete = "off", placeholder = "Material/Spares", @readonly = "readonly" }) </td>
+                                        <td>@Html.HiddenFor(m => m.items[i].ItemId) @Html.TextBoxFor(m => m.items[i].ItemName, new { @class = "form_input", autocomplete = "off", placeholder = "Material/Spares", @readonly = "readonly" }) </td>
                                         <td> @Html.HiddenFor(m => m.items[i].PartNo) @Html.TextBoxFor(m => m.items[i].PartNo, new { @class = "form_input", autocomplete = "off", placeholder = "Part No.", @readonly = "readonly" })</td>
                                         <td>@Html.TextBoxFor(m => m.items[i].Remarks, new { @class = "form_input", autocomplete = "off", placeholder = "Remarks" })</td>
                                         <td>@Html.TextBoxFor(m => m.items[i].WRRequestQty, new { @class = "form_input", @style = "text-align:right", autocomplete = "off", @readonly = "readonly" })</td>

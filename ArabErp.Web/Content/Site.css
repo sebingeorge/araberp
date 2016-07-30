@@ -305,6 +305,11 @@ background-color: #ffffff;
         margin-left:5px;
 
 }
+.mb0rder 
+{
+ border-left:1px solid #d6d8de;  
+ border-bottom:1px solid #d6d8de;
+}
 
 
 .main-grid tr

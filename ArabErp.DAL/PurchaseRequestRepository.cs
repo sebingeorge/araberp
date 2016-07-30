@@ -85,24 +85,17 @@ namespace ArabErp.DAL
         {
            using (IDbConnection connection = OpenConnection(dataConnection))
             {
-                try
-                {
-                    string sql = @" SELECT PurchaseRequestId FROM PurchaseRequestItem P 
+                string sql = @" SELECT count(PurchaseRequestId)count FROM PurchaseRequestItem P 
                                 INNER JOIN SupplyOrderItem S ON S.PurchaseRequestItemId=P.PurchaseRequestItemId 
                                 WHERE PurchaseRequestId=@PurchaseRequestId";
 
-                    var id = connection.Query<PurchaseRequest>(sql, new { PurchaseRequestId = PurchaseRequestId }).FirstOrDefault();
-                }
-                catch (InvalidOperationException)
-                {
-                    return 0;
-                }
-                return 1;
+                    var id = connection.Query<int>(sql, new { PurchaseRequestId = PurchaseRequestId }).FirstOrDefault();
+
+                    return id;
 
                 }
 
             }
-
 
         public PurchaseRequest UpdatePurchaseRequest(PurchaseRequest objPurchaseRequest)
         {
@@ -115,14 +108,17 @@ namespace ArabErp.DAL
                 return objPurchaseRequest;
             }
         }
-
-        public int DeletePurchaseRequest(int Id)
+        /// <summary>
+        /// Delete Purchase Request HD Details
+        /// </summary>
+        /// <returns></returns>
+        public int DeletePurchaseRequestHD(int Id)
         {
             int result = 0;
             using (IDbConnection connection = OpenConnection(dataConnection))
             {
-                string sql = @" Update PurchaseRequest Set isActive=0 WHERE PurchaseRequestId=@Id";
-
+                //string sql = @" Update PurchaseRequest Set isActive=0 WHERE PurchaseRequestId=@Id";
+                string sql = @" DELETE FROM PurchaseRequest WHERE PurchaseRequestId=@Id";
 
                 {
 
@@ -133,7 +129,26 @@ namespace ArabErp.DAL
 
             }
         }
+        /// <summary>
+        /// Delete Purchase Request DT Details
+        /// </summary>
+        /// <returns></returns>
+        public int DeletePurchaseRequestDT(int Id)
+        {
+            int result3 = 0;
+            using (IDbConnection connection = OpenConnection(dataConnection))
+            {
+                string sql = @" DELETE FROM PurchaseRequestItem WHERE PurchaseRequestId=@Id";
 
+                {
+
+                    var id = connection.Execute(sql, new { Id = Id });
+                    return id;
+
+                }
+
+            }
+        }
         /// <summary>
         /// Pending Workshop Request For Purchase Request
         /// </summary>

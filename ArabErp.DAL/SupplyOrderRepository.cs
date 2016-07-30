@@ -23,8 +23,11 @@ namespace ArabErp.DAL
                 try
                 {
                     objSupplyOrder.SupplyOrderNo = "LPO/0/" + DatabaseCommonRepository.GetInternalIDFromDatabase(connection, trn, typeof(SupplyOrder).Name, "0", 1);
-                    string sql = @"insert  into SupplyOrder(SupplyOrderNo,SupplyOrderDate,SupplierId,QuotaionNoAndDate,SpecialRemarks,PaymentTerms,DeliveryTerms,RequiredDate,CreatedBy,CreatedDate,OrganizationId, CurrencyId) Values (@SupplyOrderNo,@SupplyOrderDate,@SupplierId,@QuotaionNoAndDate,@SpecialRemarks,@PaymentTerms,@DeliveryTerms,@RequiredDate,@CreatedBy,@CreatedDate,@OrganizationId, @CurrencyId);
-                        SELECT CAST(SCOPE_IDENTITY() as int)";
+                    string sql = @"insert into SupplyOrder(SupplyOrderNo,SupplyOrderDate,SupplierId,QuotaionNoAndDate,SpecialRemarks,
+                                   PaymentTerms,DeliveryTerms,RequiredDate,CreatedBy,CreatedDate,OrganizationId, CurrencyId) 
+                                   Values (@SupplyOrderNo,@SupplyOrderDate,@SupplierId,@QuotaionNoAndDate,@SpecialRemarks,@PaymentTerms,
+                                   @DeliveryTerms,@RequiredDate,@CreatedBy,@CreatedDate,@OrganizationId, @CurrencyId);
+                                   SELECT CAST(SCOPE_IDENTITY() as int)";
 
                     id = connection.Query<int>(sql, objSupplyOrder, trn).Single<int>();
 
@@ -259,7 +262,6 @@ namespace ArabErp.DAL
                                 INNER JOIN Supplier SUP ON SO.SupplierId = SUP.SupplierId
                                 INNER JOIN #SUPPLY_ITEM SI ON SO.SupplyOrderId = SI.SupplyOrderId
                                 WHERE ISNULL(SO.isActive, 1) = 1
-                                    AND ISNULL(isApproved, 0) = 0
 								ORDER BY SupplyOrderDate DESC, SO.CreatedDate DESC;
                                 DROP TABLE #SUPPLY_ITEM;";
 
@@ -342,6 +344,80 @@ namespace ArabErp.DAL
             catch (Exception ex)
             {
                 throw ex;
+            }
+        }
+
+        public int CHECK(int SupplyOrderId)
+        {
+            using (IDbConnection connection = OpenConnection(dataConnection))
+            {
+                string sql = @" SELECT Count(S.SupplyOrderId)Count FROM SupplyOrder S
+                                INNER JOIN SupplyOrderItem SI ON S.SupplyOrderId=SI.SupplyOrderId
+                                INNER JOIN GRNItem GI ON GI.SupplyOrderItemId=SI.SupplyOrderItemId 
+                                WHERE S.SupplyOrderId=@SupplyOrderId";
+
+                var id = connection.Query<int>(sql, new { SupplyOrderId = SupplyOrderId }).FirstOrDefault();
+
+                return id;
+
+            }
+
+        }
+
+        /// <summary>
+        /// Delete SO HD Details
+        /// </summary>
+        /// <returns></returns>
+        public int DeleteSOHD(int Id)
+        {
+            int result = 0;
+            using (IDbConnection connection = OpenConnection(dataConnection))
+            {
+                string sql = @" DELETE FROM SupplyOrder WHERE SupplyOrderId=@Id";
+
+                {
+
+                    var id = connection.Execute(sql, new { Id = Id });
+                    return id;
+
+                }
+
+            }
+        }
+        /// <summary>
+        /// Delete SO DT Details
+        /// </summary>
+        /// <returns></returns>
+        public int DeleteSODT(int Id)
+        {
+            int result3 = 0;
+            using (IDbConnection connection = OpenConnection(dataConnection))
+            {
+                string sql = @" DELETE FROM SupplyOrderItem WHERE SupplyOrderId=@Id";
+
+                {
+
+                    var id = connection.Execute(sql, new { Id = Id });
+                    return id;
+
+                }
+
+            }
+        }
+
+        public string GetPaymentTerm(int supplierid)
+        {
+            using (IDbConnection connection = OpenConnection(dataConnection))
+            {
+                var param = new DynamicParameters();
+                Supplier Supplier = connection.Query<Supplier>("select * from Supplier where SupplierId = " + supplierid).FirstOrDefault();
+
+                string PaymentTerms = "";
+                if (Supplier != null)
+                {
+                    PaymentTerms = Supplier.PaymentTerms;
+                }
+                return PaymentTerms;
             }
         }
     }
