@@ -5,7 +5,50 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
+<script type="text/javascript">
 
+    function Exit()
+    {
+        var url = '@Url.Action("Index")';
+        window.location = url;
+    }
+
+    function OpenEditForm(id)
+    {
+        var url = '@Url.Action("Edit")';
+        url += "/" + id;
+        window.location = url;
+    }
+
+    $(document).ready(function () {
+        toastr.options = {
+            "closeButton": true,
+            "positionClass": "toast-bottom-full-width",
+            "preventDuplicates": false,
+            "onclick": null,
+            "showDuration": "300",
+            "hideDuration": "1000",
+            "timeOut": "5000",
+            "extendedTimeOut": "0",
+            "showEasing": "swing",
+            "hideEasing": "linear",
+            "showMethod": "fadeIn",
+            "hideMethod": "fadeOut"
+        }
+        if ('@TempData["success"]' != '') {
+            toastr.success('@TempData["success"]');
+        }
+        else if ('@TempData["error"]' != '') {
+            toastr.error('@TempData["error"]'.split('|')[0]);
+            console.log('@TempData["error"]'.split('|')[1]);
+        }
+       @{ TempData["success"] = TempData["error"] = ""; }
+
+
+       
+    })
+
+</script>
 
     <div class="row">
 
@@ -49,7 +92,7 @@
                                         </td>
                                         
                                         <td>
-                                            <input type="button" class="form-button5" value="Edit" title="Click here to edit this entry"  />
+                                            <input type="button" value="Select" class="form-button4" onclick="OpenEditForm(@Model[i].PurchaseBillId)" title="Select to view details" />
                                         </td>
                                     </tr>
                                 }
@@ -65,6 +108,12 @@
                 </table>
             </div>
          
+            <div class="row">
+                <div class="col-md-12 hrpart">
+                    <input class="form-button right" type="button" value="Exit" onclick="Exit()" />
+                </div>
+            </div>
+
         </div>
     </div>
 
