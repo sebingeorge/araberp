@@ -25,7 +25,7 @@
 
 
 <div class="table-responsive">
-    <table class="table table-bordered table-hover" id="tab_logic">
+    <table class="table table-bordered" id="tab_logic">
         <thead>
             <tr class="grid_heading">
                 <th width="5%" class="text-center"><h1>#</h1></th>
@@ -47,7 +47,8 @@
                     <td>
                         <input type="hidden" id="Row_@i" />
                         @Html.HiddenFor(m => m.CustomerVsWorkRateItem[i].WorkDescriptionId, new { @id = "hidden" + i })
-                        @Html.TextBoxFor(m => m.CustomerVsWorkRateItem[i].WorkDescription, new { @class = "form_input", autocomplete = "off", @style = "text-align:left" ,@readonly="readonly"})
+                        @*@Html.TextBoxFor(m => m.CustomerVsWorkRateItem[i].WorkDescription, new { @class = "form_input", autocomplete = "off", @style = "text-align:left" ,@readonly="readonly"})*@
+                        @Html.TextAreaFor(m => m.CustomerVsWorkRateItem[i].WorkDescription, new { @class = "form_input form_input-h1", autocomplete = "off" })
                     </td>
 
                     <td>
