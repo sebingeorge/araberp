@@ -277,7 +277,7 @@ namespace ArabErp.DAL
                                     INNER JOIN WorkShopRequest WRK ON P.WorkShopRequestId = WRK.WorkShopRequestId
                                     INNER JOIN Customer C ON C.CustomerId=WRK.CustomerId
                                     LEFT JOIN #SUPPLY SUP ON PRI.PurchaseRequestItemId = SUP.PurchaseRequestItemId
-                                    WHERE P.isActive= 1
+                                    WHERE P.isActive= 1 
                                     ORDER BY P.PurchaseRequestDate DESC;
                                     DROP TABLE #SUPPLY;";
 

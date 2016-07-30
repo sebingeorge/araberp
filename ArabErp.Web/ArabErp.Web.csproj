@@ -718,6 +718,7 @@
     <Content Include="Views\WorkShopRequest\WorkShopRequestList.cshtml" />
     <Content Include="Views\ItemBatch\FGTrackingPopup.cshtml" />
     <Content Include="Views\ItemBatch\_FGTrackingDetails.cshtml" />
+    <Content Include="Views\PurchaseBill\Edit.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
