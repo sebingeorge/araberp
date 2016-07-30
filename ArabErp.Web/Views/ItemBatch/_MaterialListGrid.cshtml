@@ -30,13 +30,13 @@
         <tr class="grid_heading">
             <th width="2%" class="text-center">#</th>
             <th width="15%"><h1>Customer</h1></th>
-            <th width="15%"><h1>GRN No. & Date</h1></th>
-            <th width="14%" title="Sale Order Ref. No. and Date"><h1>SO Ref. No. & Date</h1></th>
+            <th width="15%" nowrap><h1>GRN No. & Date</h1></th>
+            <th width="14%" title="Sale Order Ref. No. and Date" nowrap><h1>SO Ref. No. & Date</h1></th>
             @*<th width="10%" title="Delivery Challan Ref. No."><h1>DC Ref. No.</h1></th>*@
             <th width="30%"><h1>Material/Spare</h1></th>
             <th width="13%" nowrap><h1>Serial No.</h1></th>
             <th width="12%" nowrap><h1>Employee</h1></th>
-            <th width="10%"><h1>Warranty Expire Date</h1></th>
+            <th width="10%" nowrap><h1>Warr. Ex. Date</h1></th>
             @*<th width="10%" title="in months"><h1>Warranty Left</h1></th>*@
             <th width="1%"></th>
             <th width="1%"></th>
@@ -74,7 +74,16 @@
                             <input type="text" value="@Model[i].CreatedBy" class="form_input" disabled />
                         </td>
                         <td>
-                            <input type="text" value="@Model[i].WarrantyExpireDate.ToString("dd MMMM yyyy")" class="form_input" disabled />
+                            <input type="text"
+                                   @if(Model[i].WarrantyExpireDate.ToString("dd MMMM yyyy") != "01 January 0001")
+                                   {
+                                       @: value="@Model[i].WarrantyExpireDate.ToString("dd MMMM yyyy")"
+                                   }
+                                   else
+                                   {
+                                       @: value="N/A"
+                                   }
+                            class="form_input" disabled />
                         </td>
                         @*<td>
                             <input type="text" value="@Model[i].WarrantyLeft" class="form_input" disabled />
@@ -90,7 +99,7 @@
                             }
                         </td>
                         <td>
-                            <input type="button" class="form-button4" onclick="ShowDetails(@Model[i].ItemBatchId)" value="Details" />
+                            <input type="button" class="form-button4" onclick="ShowDetails(@Model[i].ItemBatchId)" value="Details" title="Click to see more details"/>
                         </td>
                     </tr>
                 }
@@ -109,7 +118,7 @@
     </tbody>
 </table>
 
-<!-- Large modal -->
+<!-- modal to show details -->
 <div id="details-modal" class="modal fade bs-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel">
     <div class="modal-dialog modal-lg" role="document">
         <div class="modal-content">
