@@ -39,17 +39,17 @@ namespace ArabErp.DAL
         }
 
 
-        public PurchaseRequestItem GetPurchaseRequestItem(int PurchaseRequestItemId)
+        public PurchaseRequestItem GetPurchaseRequestItem(int PurchaseBillId)
         {
             using (IDbConnection connection = OpenConnection(dataConnection))
             {
 
                 string sql = @"select * from PurchaseRequestItem
-                        where PurchaseRequestItemId=@PurchaseRequestItemId";
+                        where PurchaseBillId=@PurchaseBillId";
 
                 var objPurchaseRequestItem = connection.Query<PurchaseRequestItem>(sql, new
                 {
-                    PurchaseRequestItemId = PurchaseRequestItemId
+                    PurchaseBillId = PurchaseBillId
                 }).First<PurchaseRequestItem>();
 
                 return objPurchaseRequestItem;
