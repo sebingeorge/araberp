@@ -131,7 +131,7 @@ namespace ArabErp.Web.Controllers
             return View(new ItemBatchRepository().GetReservedItems());
         }
 
-        
+
         public ActionResult UnReserve(int id = 0)//sale order id is received here
         {
             if (id != 0)
@@ -152,7 +152,7 @@ namespace ArabErp.Web.Controllers
             try
             {
                 List<int> selected = (from item in model where item.isSelected select item.ItemBatchId).ToList<int>();
-                new ItemBatchRepository().UnReserveItems(selected);
+                if (new ItemBatchRepository().UnReserveItems(selected) <= 0) throw new Exception();
                 TempData["success"] = "Unreserved successfully";
                 TempData["error"] = "";
                 return RedirectToAction("ReservedList");
@@ -195,6 +195,13 @@ namespace ArabErp.Web.Controllers
                 SaleOrderRefNo = model.SaleOrderRefNo + " - " + model.SaleOrderDate,
                 GRNRefNo = model.GRNNo + " - " + model.GRNDate.ToString("dd MMMM yyyy")
             }, JsonRequestBehavior.AllowGet);
+        }
+
+        public ActionResult FGTrackingPopup(int id=0)
+        {
+            if (id != 0)
+                return PartialView("_FGTrackingDetails", new ItemBatchRepository().FGTrackingDetailsByItemBatchId(id));
+            return View();
         }
 
         #region Dropdowns

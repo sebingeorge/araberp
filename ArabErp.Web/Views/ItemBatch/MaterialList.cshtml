@@ -28,9 +28,9 @@
     })
 
     function OnItemSelected(id) {
-        @*var url = '@Url.Action("Create")';
+        var url = '@Url.Action("Unreserve")';
         url += "?id=" + id;
-        window.location = url;*@
+        window.location = url;
     }
 
     function Filter() {
@@ -48,6 +48,15 @@
 
     function OnTypeChanged(sender) {
 
+    }
+
+    function OnRowDoubleClicked(id) {
+        var x = screen.width / 2 - 650 / 2;
+        var y = screen.height / 2 - 300 / 2;
+        var url = '@Url.Action("FGTrackingPopup")';
+        url += "?id=" + id;
+        var popup = window.open(url, "FG Tracking", "menubar=no,status=no,toolbar=no,scrollbars=0,width=800,height=500,left=" + x + ",top=" + y);
+        popup.focus();
     }
 
 </script>
@@ -97,6 +106,12 @@
             <div class="table-responsive scroll4" id="grid">
                 @Html.Action("MaterialListGrid")
             </div>
+            
+            @*<div class="row">
+                <div class="col-md-12">
+                    <em>**Double click on row for more details</em>
+                </div>
+            </div>*@
         </div>
     </div>
 
