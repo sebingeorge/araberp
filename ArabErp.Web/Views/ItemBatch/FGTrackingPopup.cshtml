@@ -1,0 +1,245 @@
+﻿@model ArabErp.Domain.FGTracking
+
+@{
+    ViewBag.Title = "FG Tracking";
+}
+
+<div class="row">
+    <div class="form-head1">
+        <h4>@Model.ItemName - <strong>@Model.SerialNo</strong></h4>
+    </div>
+    <div class="main-part pad1 ">
+       
+        <!--DELIVERY CHALLAN-->
+        <table class="table table-bordered">
+            <caption><strong>DELIVERY CHALLAN</strong></caption>
+            <thead class="grid_heading">
+                <tr>
+                    <th><h1>Del. Challan Ref. No. &amp; Date</h1></th>
+                    <th><h1>Warr. Expire Date</h1></th>
+                    <th><h1>Warr. Left (in months)</h1></th>
+                </tr>
+            </thead>
+            <tbody class="grid_row">
+                <tr>
+                    @if (!Model.DeliveryChallanRefNo.IsEmpty())
+                    {
+                        <td>
+                            @Model.DeliveryChallanRefNo - @Model.DeliveryChallanDate.ToString("dd MMMM yyyy")
+                        </td>
+                        <td>
+                            @Model.WarrantyExpireDate.ToString("dd MMMM yyyy")
+                        </td>
+                        <td>
+                            @Model.WarrantyLeft
+                        </td>
+                    }
+                    else
+                    {
+                        @:
+                        <td colspan="3"><center><em>Delivery Challan not yet created</em></center></td>
+                    }
+                </tr>
+            </tbody>
+        </table>
+
+        <!--SALES INVOICE-->
+        <table class="table table-bordered">
+            <caption><strong>SALES INVOICE</strong></caption>
+            <thead class="grid_heading">
+                <tr>
+                    <th><h1>Sales Invoice Ref. No. &amp; Date</h1></th>
+                    <th><h1>Amount</h1></th>
+                    <th><h1>Remarks</h1></th>
+                </tr>
+            </thead>
+            <tbody class="grid_row">
+                <tr>
+                    @if (!Model.SalesInvoiceRefNo.IsEmpty())
+                    {
+                        <td>
+                            @Model.SalesInvoiceRefNo - @Model.SalesInvoiceDate.ToString("dd MMMM yyyy")
+                        </td>
+                        <td>
+                            @Model.SalesInvoiceAmount
+                        </td>
+                        <td>
+                            @Model.SaleInvoiceRemarks
+                        </td>
+                    }
+                    else
+                    {
+                        @:
+                        <td colspan="3"><center><em>Sales Invoice not yet created</em></center></td>
+                    }
+                </tr>
+            </tbody>
+        </table>
+
+        <!--JOB CARD-->
+        <table class="table table-bordered">
+            <caption><strong>JOB CARD</strong></caption>
+            <thead class="grid_heading">
+                <tr>
+                    <th><h1>Job Card Ref. No. &amp; Date</h1></th>
+                    <th><h1>Job Card Task</h1></th>
+                    <th><h1>Employee</h1></th>
+                    <th><h1>Actual Hours</h1></th>
+                </tr>
+            </thead>
+            <tbody class="grid_row">
+                @if (Model.JobCardTasks.Count > 0)
+                {
+                    foreach (var item in Model.JobCardTasks)
+                    {
+                        <tr>
+                            <td>
+                                @item.JobCardNo - @item.JobCardDate.ToString("dd MMMM yyyy")
+                            </td>
+                            <td>
+                                @item.JobCardTaskName
+                            </td>
+                            <td>
+                                @item.TaskEmployeeName
+                            </td>
+                            <td>
+                                @item.ActualHours
+                            </td>
+                        </tr>
+                    }
+                }
+                else
+                {
+                    <tr>
+                        <td colspan="4">
+                            <center><em>Job Card not yet created</em></center>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+
+        <!--PURCHASE BILL-->
+        <table class="table table-bordered">
+            <caption><strong>PURCHASE BILL</strong></caption>
+            <thead class="grid_heading">
+                <tr>
+                    <th><h1>Purchase Bill Ref. No. &amp; Date</h1></th>
+                    <th><h1>Quantity</h1></th>
+                    <th><h1>Rate</h1></th>
+                    <th><h1>Amount</h1></th>
+                </tr>
+            </thead>
+            <tbody class="grid_row">
+                @if (!Model.PurchaseBillRefNo.IsEmpty())
+                {
+                    foreach (var item in Model.JobCardTasks)
+                    {
+                        <tr>
+                            <td>
+                                @item.PurchaseBillRefNo - @item.PurchaseBillDate.ToString("dd MMMM yyyy")
+                            </td>
+                            <td>
+                                @item.GRNQuantity
+                            </td>
+                            <td>
+                                @item.PurchaseBillRate
+                            </td>
+                            <td>
+                                @item.PurchaseBillAmount
+
+                            </td>
+                        </tr>
+                    }
+                }
+                else
+                {
+                    <tr>
+                        <td colspan="4">
+                            <center><em>Purchase Bill not yet created</em></center>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+
+        <!--GRN-->
+        <table class="table table-bordered">
+            <caption><strong>GRN</strong></caption>
+            <thead class="grid_heading">
+                <tr>
+                    <th><h1>GRN Ref. No. &amp; Date</h1></th>
+                    <th><h1>Supplier</h1></th>
+                    <th><h1>Quantity</h1></th>
+                    <th><h1>Rate</h1></th>
+                    <th><h1>Amount</h1></th>
+                    <th><h1>Stock Point</h1></th>
+                </tr>
+            </thead>
+            <tbody class="grid_row">
+                <tr>
+                    @if (!Model.GRNNo.IsEmpty())
+                    {
+                        <td>
+                            @Model.GRNNo - @Model.GRNDate.ToString("dd MMMM yyyy")
+                        </td>
+                        <td>
+                            @Model.SupplierName
+                        </td>
+                        <td>
+                            @Model.GRNQuantity
+                        </td>
+                        <td>
+                            @Model.GRNRate
+                        </td>
+                        <td>
+                            @Model.GRNAmount
+                        </td>
+                        <td>
+                            @Model.StockPointName
+                        </td>
+                    }
+                    else
+                    {
+                        @:
+                        <td colspan="6"><center><em>GRN not yet created</em></center></td>
+                    }
+                </tr>
+            </tbody>
+        </table>
+
+        <!--SALE ORDER-->
+        <table class="table table-bordered">
+            <caption><strong>SALE ORDER</strong></caption>
+            <thead class="grid_heading">
+                <tr>
+                    <th><h1>Sale Order Ref. No. &amp; Date</h1></th>
+                    <th><h1>Customer</h1></th>
+                    <th><h1>Sales Executive</h1></th>
+                </tr>
+            </thead>
+            <tbody class="grid_row">
+                <tr>
+                    @if (!Model.SaleOrderRefNo.IsEmpty())
+                    {
+                        <td>
+                            @Model.SaleOrderRefNo - @Model.SaleOrderDate.ToString("dd MMMM yyyy")
+                        </td>
+                        <td>
+                            @Model.CustomerName
+                        </td>
+                        <td>
+                            @Model.EmployeeName
+                        </td>
+                    }
+                    else
+                    {
+                        @:
+                        <td colspan="3"><center><em>Sales Order not found</em></center></td>
+                    }
+                </tr>
+            </tbody>
+        </table>
+
+    </div>
+</div>

@@ -6,15 +6,16 @@ using System.Threading.Tasks;
 
 namespace ArabErp.Domain
 {
-   public class ItemBatch
+    public class ItemBatch
     {
         public int ItemBatchId { get; set; }
         public int GRNItemId { get; set; }
         public int? SaleOrderItemId { get; set; }
+        public int? SaleOrderId { get; set; }
         public int? DeliveryChallanId { get; set; }
         public int? WarrantyPeriodInMonths { get; set; }
-        public DateTime? WarrantyStartDate { get; set; }
-        public DateTime? WarrantyExpireDate { get; set; }
+        public DateTime WarrantyStartDate { get; set; }
+        public DateTime WarrantyExpireDate { get; set; }
         public string SerialNo { get; set; }
         public string CreatedBy { get; set; }
         public DateTime? CreatedDate { get; set; }
@@ -34,6 +35,11 @@ namespace ArabErp.Domain
         public string WorkDescrShortName { get; set; }
         public string WorkDescrRefNo { get; set; }
         public bool isSelected { get; set; }
-
+        public string CustomerName { get; set; }
+        public string DeliveryChallanRefNo { get; set; }
+        /// <summary>
+        /// Warranty left in months
+        /// </summary>
+        public int WarrantyLeft { get; set; }
     }
 }
