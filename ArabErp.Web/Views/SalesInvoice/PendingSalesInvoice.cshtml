@@ -11,7 +11,7 @@
 
 <script>
     $(document).ready(function () {
-      
+
         toastr.options = {
             "closeButton": true,
             "positionClass": "toast-bottom-full-width",
@@ -25,12 +25,11 @@
             "showMethod": "fadeIn",
             "hideMethod": "fadeOut"
         }
-        if ('@TempData["success"]' != "")
-           {
-            toastr.success('@TempData["success"]' );
+        if ('@TempData["success"]' != "") {
+            toastr.success('@TempData["success"]');
         }
         else if ('@TempData["error"]' != "") {
-           
+
             toastr.error('@TempData["error"]');
         }
 
@@ -53,7 +52,10 @@
 
     }
 
-
+    function PreviousList() {
+        var url = '@Url.Action("Index")';
+        window.location = url;
+    }
 
 
     @*function FillItemSubGroup() {
@@ -71,57 +73,64 @@
 
 </script>
 <style>
-
-/*td:nth-child(1), th:nth-child(1) { min-width: 400px; }
-td:nth-child(2), th:nth-child(2) { min-width:400px; }
-td:nth-child(3), th:nth-child(3) { min-width: 280px; }*/
+    /*td:nth-child(1), th:nth-child(1) { min-width: 400px; }
+    td:nth-child(2), th:nth-child(2) { min-width:400px; }
+    td:nth-child(3), th:nth-child(3) { min-width: 280px; }*/
 </style>
 
 
-    <div class="row">
-        <input type="hidden" id="invType" value="@invType" />
-        <div class="form-head1">
-            <h4>Pending Sales Invoice</h4>
-        </div>
-        <div class="main-part pad1">
-            <div class="main-list wid" style="margin-bottom:10px" id="PendingCustomerInvoiceDiv">
-                <div class="main-grid">
-                    <div>
-                        <div class="table-responsive">
-                            <h5>Invoice List</h5>
-                            <table id="PendingCustomerInvoiceTable" class="table table-bordered">
-                                <thead style="position:relative;display:block">
-                                    <tr class="grid_heading">
-                                        <th style="min-width: 400px"><h1>Customer</h1></th>
-                                        <th style="min-width:400px"><h1>Sale Order Number</h1></th>
-                                        <th style="min-width:231px"><h1>Select</h1></th>
+<div class="row">
+    <input type="hidden" id="invType" value="@invType" />
+    <div class="form-head1">
+        <h4>Pending Sales Invoice</h4>
+    </div>
+    <div class="main-part pad1">
+        <div class="main-list wid" style="margin-bottom:10px" id="PendingCustomerInvoiceDiv">
+            <div class="main-grid">
+                <div>
+                    <div class="table-responsive">
+                        <h5>Invoice List</h5>
+                        <table id="PendingCustomerInvoiceTable" class="table table-bordered">
+                            <thead style="position:relative;display:block">
+                                <tr class="grid_heading">
+                                    <th style="min-width: 400px"><h1>Customer</h1></th>
+                                    <th style="min-width:400px"><h1>Sale Order Number</h1></th>
+                                    <th style="min-width:231px"><h1>Select</h1></th>
+                                </tr>
+                            </thead>
+                            <tbody style="display:  block;overflow:scroll;height:100px">
+                                @for (int i = 0; i < Model.Count(); i++)
+                                {
+                                    <tr>
+                                        <td style="min-width: 400px">@Html.TextBoxFor(m => Model[i].Customer, new { @class = "form_input ", autocomplete = "off", @readonly = "readonly" })</td>
+                                        <td style="min-width: 400px">@Html.TextBoxFor(m => Model[i].SaleOrderRefNoWithDate, new { @class = "form_input", autocomplete = "off", @readonly = "readonly" })</td>
+                                        <td style="min-width:231px"><div class="form-button3 mleft"><center><a onclick="OpenCustomerInvoice('@Model[i].SaleOrderId','@Model[i].Customer','@Model[i].SaleOrderRefNoWithDate');">View</a></center></div></td>
                                     </tr>
-                                </thead>
-                                <tbody style="display:  block;overflow:scroll;height:100px">
-                                    @for (int i = 0; i < Model.Count(); i++)
-                                    {
-                                        <tr>
-                                            <td style="min-width: 400px">@Html.TextBoxFor(m => Model[i].Customer, new { @class = "form_input ", autocomplete = "off", @readonly = "readonly" })</td>
-                                            <td style="min-width: 400px">@Html.TextBoxFor(m => Model[i].SaleOrderRefNoWithDate, new { @class = "form_input", autocomplete = "off", @readonly = "readonly" })</td>
-                                            <td style="min-width:231px"><div class="form-button3 mleft"><center><a onclick="OpenCustomerInvoice('@Model[i].SaleOrderId','@Model[i].Customer','@Model[i].SaleOrderRefNoWithDate');">View</a></center></div></td>
-                                        </tr>
-                                    }
-                                </tbody>
-                            </table>
-                        </div>
+                                }
+                            </tbody>
+                        </table>
                     </div>
                 </div>
             </div>
-          
-            
-          
+        </div>
 
 
-            <div id="SalesInvoiceListDiv">
-                @Html.Action("PendingSalesInvoiceDt", new { SalesOrderId = 0, Customer = "Select Any Invoice", SaleOrderRefNoWithDate = "Select Any Invoice" })
+
+
+
+        <div id="SalesInvoiceListDiv">
+            @Html.Action("PendingSalesInvoiceDt", new { SalesOrderId = 0, Customer = "Select Any Invoice", SaleOrderRefNoWithDate = "Select Any Invoice" })
+        </div>
+        <div class="row">
+
+            <div class="col-md-12 hrpart">
+                <input type="button" class="form-button left" value="Previous" onclick="PreviousList()" />
             </div>
-                </div>
-            </div>
+
+        </div>
+    </div>
+</div>
+
 
 
 

@@ -10,7 +10,7 @@ using System.Collections;
 
 namespace ArabErp.DAL
 {
-    public class DropdownRepository: BaseRepository
+    public class DropdownRepository : BaseRepository
     {
         static string dataConnection = GetConnectionString("arab");
         /// <summary>
@@ -264,7 +264,7 @@ namespace ArabErp.DAL
             using (IDbConnection connection = OpenConnection(dataConnection))
             {
                 return connection.Query<Dropdown>(@"SELECT Q.QuerySheetId Id, Q.QuerySheetRefNo Name FROM QuerySheet Q inner join SalesQuotation SQ ON Q.QuerySheetId=SQ.QuerySheetId").ToList();
-                
+
             }
         }
         /// <summary>
@@ -292,11 +292,23 @@ namespace ArabErp.DAL
                 return connection.Query<Dropdown>("SELECT WorkShopRequestId Id, WorkShopRequestRefNo Name FROM WorkShopRequest WHERE ISNULL(isActive, 1) = 1").ToList();
             }
         }
-         public List<Dropdown> WRCustomerDropdown()
+        public List<Dropdown> WRCustomerDropdown()
         {
             using (IDbConnection connection = OpenConnection(dataConnection))
             {
                 return connection.Query<Dropdown>("SELECT WR.CustomerId Id, C.CustomerName Name FROM WorkShopRequest WR inner join Customer C on C.CustomerId=WR.CustomerId  WHERE ISNULL(WR.isActive, 1) = 1").ToList();
+            }
+        }
+
+        /// <summary>
+        /// All GRN No, GRN id from [ItemBatch] (for item batch previous list)
+        /// </summary>
+        /// <returns></returns>
+        public List<Dropdown> GRNDropdown()
+        {
+            using (IDbConnection connection = OpenConnection(dataConnection))
+            {
+                return connection.Query<Dropdown>("SELECT DISTINCT G.GRNId Id, G.GRNNo Name FROM ItemBatch IB INNER JOIN GRNItem GI ON IB.GRNItemId = GI.GRNItemId INNER JOIN GRN G ON GI.GRNId = G.GRNId WHERE IB.isActive = 1 AND IB.OrganizationId = 1").ToList();
             }
         }
     }
