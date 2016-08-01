@@ -299,5 +299,13 @@ namespace ArabErp.DAL
                 return connection.Query<Dropdown>("SELECT WR.CustomerId Id, C.CustomerName Name FROM WorkShopRequest WR inner join Customer C on C.CustomerId=WR.CustomerId  WHERE ISNULL(WR.isActive, 1) = 1").ToList();
             }
         }
+
+         public List<Dropdown> ExpenseBillNoDropdown()
+         {
+             using (IDbConnection connection = OpenConnection(dataConnection))
+             {
+                 return connection.Query<Dropdown>("SELECT ExpenseId Id, ExpenseNo Name FROM ExpenseBill").ToList();
+             }
+         }
     }
 }
