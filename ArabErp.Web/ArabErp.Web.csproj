@@ -720,6 +720,8 @@
     <Content Include="Views\ItemBatch\_FGTrackingDetails.cshtml" />
     <Content Include="Views\PurchaseBill\Edit.cshtml" />
     <Content Include="Views\DirectPurchase\Index.cshtml" />
+    <Content Include="Views\Expense\_PreviousList.cshtml" />
+    <Content Include="Views\QuerySheet\Index.cshtml" />
     <Content Include="Views\SalesInvoice\Index.cshtml" />
     <Content Include="Views\SalesInvoice\_PreviousListGrid.cshtml" />
     <Content Include="Views\ItemBatch\Index.cshtml" />

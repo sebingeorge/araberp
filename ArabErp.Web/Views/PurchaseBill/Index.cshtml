@@ -9,18 +9,18 @@
 
     function Validation() {
         var count = 0;
-       
+
         $(".clcheck").each(function (i, obj) {
 
 
-            if ($(obj).is(':checked')){
+            if ($(obj).is(':checked')) {
 
                 count = count + 1;
 
             }
 
         });
-       
+
         if ($("#cboSupplier").val() == '') {
             alert("Select Supplier.");
             $('#cboSupplier').focus();
@@ -57,18 +57,21 @@
         @{ TempData["success"] = TempData["error"] = ""; }
 
 
-       
+
     })
     function OnSupplierChanged(sender) {
         var id = $(sender).val();
         var url = '@Url.Action("pendingGRN")';
         $("#pending-grn").load(url, { supplierId: id });
     }
-    function PreviousList()
-    {
-    window.location='@Url.Action("PurchaseBillList", "PurchaseBill")'
+    function PreviousList() {
+        window.location = '@Url.Action("PurchaseBillList", "PurchaseBill")'
     }
 
+    function Exit() {
+        var url = '@Url.Action("Index","Home")';
+        window.location = url;
+    }
 
     </script>
 
@@ -98,7 +101,8 @@
                     <div class="col-md-12 hrpart">
                         <input type="button" class="form-button" onclick="PreviousList()" value="Previous">
                       
-                       
+                        <input type="button" class=" form-button right" onclick="Exit()" value="Exit">
+
                         <button type="submit" class="form-button right">Proceed</button>
 
                     </div>

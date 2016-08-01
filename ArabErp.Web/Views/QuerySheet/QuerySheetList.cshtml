@@ -7,150 +7,11 @@
 <script>
     function Exit() {
 
-        location.href = '@Url.Action("Index", "Home")';
+        location.href = '@Url.Action("CreateQuerySheet", "QuerySheet")';
     }
 </script>
-@*<h2>QuerySheetList</h2>
-
-    <p>
-        @Html.ActionLink("Create New", "Create")
-    </p>
-    <table class="table">
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.QuerySheetRefNo)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.ProjectName)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.ContactPerson)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.ContactNumber)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Email)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.RoomDetails)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.ExternalRoomDimension)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.ColdRoomArea)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.ColdRoomLocation)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.TemperatureRequired)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.PanelThicknessANDSpec)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.DoorSizeTypeAndNumberOfDoor)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.FloorDetails)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.ProductDetails)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.ProductIncomingTemperature)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.PipeLength)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Refrigerant)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.EletricalPowerAvailability)
-            </th>
-
-            <th></th>
-        </tr>
-
-    @foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.QuerySheetRefNo)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.ProjectName)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.ContactPerson)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.ContactNumber)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Email)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.RoomDetails)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.ExternalRoomDimension)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.ColdRoomArea)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.ColdRoomLocation)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.TemperatureRequired)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.PanelThicknessANDSpec)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.DoorSizeTypeAndNumberOfDoor)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.FloorDetails)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.ProductDetails)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.ProductIncomingTemperature)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.PipeLength)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Refrigerant)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.EletricalPowerAvailability)
-            </td>
-
-            <td>
-                @Html.ActionLink("Edit", "Edit", new { id=item.QuerySheetId }) |
-                @Html.ActionLink("Details", "Details", new { id=item.QuerySheetId }) |
-                @Html.ActionLink("Delete", "Delete", new { id=item.QuerySheetId })
-            </td>
-        </tr>
-    }
-
-    </table>*@
-
-
 
     <div class="row">
-
-        <div class="form-head1">
-            <h4>Query Sheet</h4>
-        </div>
-
-
 
 
         <div class="main-part pad1 white">
@@ -188,13 +49,20 @@
 
 
             </div>
-            <div class="row">
-                <div class="col-md-12 hrpart">
 
-                    <button type="button" class="form-button right" onclick="Exit()">Exit</button>
-                </div>
-            </div>
+           
 
 
         </div>
+
+        <div class="row-count">
+            <h5>Row Count:- @Model.Count()</h5>
+        </div>
+
+        <div class="row">
+            <div class="col-md-12 hrpart">
+                <button type="button" class="form-button right" onclick="Exit()">Exit</button>
+            </div>
+        </div>
+
     </div>
