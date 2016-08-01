@@ -14,7 +14,7 @@ namespace ArabErp.Web.Controllers
         // GET: LocalPurchase
         public ActionResult Index()
         {
-            return View();
+            return View(new DirectPurchaseRepository().GetPreviousList());
         }
         public ActionResult CreateRequest()
         {
@@ -120,5 +120,6 @@ namespace ArabErp.Web.Controllers
             List<Dropdown> list = repo.FillJC();
             ViewBag.JC = new SelectList(list, "Id", "Name");
         }
+
     }
 }

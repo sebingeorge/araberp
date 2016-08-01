@@ -163,5 +163,34 @@ namespace ArabErp.DAL
                 throw;
             }
         }
+
+        public IList<DirectPurchaseRequest> GetPreviousList()
+        {
+            using (IDbConnection connection = OpenConnection(dataConnection))
+            {
+                string query = @"SELECT
+	                                DirectPurchaseRequestId,
+	                                PurchaseRequestNo,
+	                                CONVERT(VARCHAR, PurchaseRequestDate, 106) PurchaseRequestDate,
+	                                DP.SpecialRemarks,
+	                                DP.RequiredDate,
+	                                DATEDIFF(DAY, PurchaseRequestDate, GETDATE()) Ageing,
+	                                DATEDIFF(DAY, GETDATE(), DP.RequiredDate) DaysLeft,
+	                                DP.TotalAmount,
+	                                ISNULL(SO.SaleOrderId, 0) SaleOrderId,
+	                                SO.SaleOrderRefNo,
+	                                CONVERT(VARCHAR, SO.SaleOrderDate, 106) SaleOrderDate,
+	                                JC.JobCardNo,
+	                                CONVERT(VARCHAR, JC.JobCardDate, 106) JobCardDate,
+	                                ISNULL(JC.JobCardId, 0) JobCardId,
+	                                DP.CreatedBy
+                                FROM DirectPurchaseRequest DP
+                                LEFT JOIN SaleOrder SO ON DP.SaleOrderId = SO.SaleOrderId
+                                LEFT JOIN JobCard JC ON DP.JobCardId = JC.JobCardId
+                                WHERE DP.OrganizationId = @OrganizationId
+                                AND DP.isActive = 1";
+                return connection.Query<DirectPurchaseRequest>(query, new { OrganizationId = 1 }).ToList();
+            }
+        }
     }
 }
