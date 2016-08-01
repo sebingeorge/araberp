@@ -294,12 +294,12 @@ namespace ArabErp.DAL
 	                                SO.SaleOrderRefNo,
 	                                CONVERT(VARCHAR, SO.SaleOrderDate, 106) SaleOrderDate,
 									
-									STUFF((SELECT ', ' + CAST(W.WorkDescrShortName AS VARCHAR(10)) [text()]
+									STUFF((SELECT ', ' + CAST(W.WorkDescrShortName AS VARCHAR(MAX)) [text()]
 									FROM SaleOrderItem SI inner join WorkDescription W on W.WorkDescriptionId=SI.WorkDescriptionId
 									WHERE SI.SaleOrderId = SO.SaleOrderId
 									FOR XML PATH(''), TYPE).value('.','NVARCHAR(MAX)'),1,2,' ') WorkDescrShortName,
 
-									STUFF((SELECT ', ' + CAST(BTCH.SerialNo AS VARCHAR(10)) [text()]
+									STUFF((SELECT ', ' + CAST(BTCH.SerialNo AS VARCHAR(MAX)) [text()]
 									FROM ItemBatch BTCH inner join SaleOrderItem SAL on BTCH.SaleOrderItemId = SAL.SaleOrderItemId
 									WHERE SAL.SaleOrderId = SOI.SaleOrderId
 									FOR XML PATH(''), TYPE).value('.','NVARCHAR(MAX)'),1,2,' ') SerialNo,
@@ -529,6 +529,41 @@ namespace ArabErp.DAL
                 model.JobCardTasks = connection.Query<FGTracking>(query, new { itemBatchId = itemBatchId }).ToList();
 
                 return model;
+            }
+        }
+
+        public IList<ItemBatch> PreviousList(int id, DateTime? from, DateTime? to, int OrganizationId)
+        {
+            using (IDbConnection connection = OpenConnection(dataConnection))
+            {
+                string query = @"SELECT DISTINCT
+	                                G.GRNId,
+	                                G.GRNNo,
+	                                CONVERT(VARCHAR, G.GRNDate, 106) GRNDate,
+	                                --SOI.SaleOrderItemId,
+	                                --DeliveryChallanId,
+	
+	                                STUFF((SELECT ', ' + CAST(T1.SerialNo AS VARCHAR(MAX)) [text()]
+									                                FROM ItemBatch T1
+									                                WHERE T1.GRNItemId = IB.GRNItemId
+									                                FOR XML PATH(''), TYPE).value('.','NVARCHAR(MAX)'),1,2,'') SerialNo,
+
+	                                CONVERT(VARCHAR, IB.CreatedDate, 106) CreatedDate
+                                FROM ItemBatch IB
+                                INNER JOIN GRNItem GI ON IB.GRNItemId = GI.GRNItemId
+                                INNER JOIN GRN G ON GI.GRNId = G.GRNId
+                                WHERE G.GRNId = ISNULL(NULLIF(CAST(@id AS INT), 0), G.GRNId)
+                                AND IB.OrganizationId = @OrganizationId
+                                AND IB.isActive = 1
+								AND G.GRNDate BETWEEN ISNULL(@from, DATEADD(MONTH, -1, GETDATE())) AND ISNULL(@to, GETDATE())";
+                var list = connection.Query<ItemBatch>(query, new
+                {
+                    OrganizationId = OrganizationId,
+                    id = id,
+                    from = from,
+                    to = to
+                }).ToList();
+                return list;
             }
         }
     }

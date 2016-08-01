@@ -10,6 +10,7 @@ namespace ArabErp.Domain
     {
         public int ItemBatchId { get; set; }
         public int GRNItemId { get; set; }
+        public int GRNId { get; set; }
         public int? SaleOrderItemId { get; set; }
         public int? SaleOrderId { get; set; }
         public int? DeliveryChallanId { get; set; }
