@@ -272,14 +272,14 @@ namespace ArabErp.DAL
 				DROP TABLE #SALE;").ToList();
             }
         }
-        public IEnumerable<WorkShopRequest> GetAllWorkShopRequest(int id,int cusid)
+        public IEnumerable<WorkShopRequest> GetAllWorkShopRequest(int id, int cusid, int OrganizationId)
         {
             using (IDbConnection connection = OpenConnection(dataConnection))
             {
                 string qry = @"Select * from WorkShopRequest WR INNER JOIN Customer C on C.CustomerId=WR.CustomerId 
                                where  WR.WorkShopRequestId = ISNULL(NULLIF(@id, 0), WR.WorkShopRequestId)
-                               and WR.CustomerId = ISNULL(NULLIF(@cusid, 0), WR.CustomerId)";
-                return connection.Query<WorkShopRequest>(qry, new { id = id, cusid = cusid }).ToList();
+                               and WR.CustomerId = ISNULL(NULLIF(@cusid, 0), WR.CustomerId) and   WR.isActive=1 and WR.OrganizationId=@OrganizationId";
+                return connection.Query<WorkShopRequest>(qry, new { id = id, cusid = cusid, OrganizationId = OrganizationId }).ToList();
             }
         }
         public WorkShopRequest GetWorkshopRequestHdData(int WorkShopRequestId)

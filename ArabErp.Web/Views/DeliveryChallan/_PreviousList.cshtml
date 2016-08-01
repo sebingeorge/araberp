@@ -1,0 +1,45 @@
+﻿@model IList<ArabErp.Domain.DeliveryChallan>
+<div class="row">
+    <div class="main-part pad1 white">
+        <div class="row">
+            <div class="main-grid main-grid-top scroll1">
+                <div class=" table-responsive">
+                    <table class="table table-bordered">
+                        <thead>
+                            <tr class="grid_heading">
+                                <th><h1>Delivery Challan No.</h1></th>
+                                <th><h1>Date</h1></th>
+                                <th><h1>JC.No. & Date</h1></th>
+                                <th><h1>Employee</h1></th>
+                                <th width="1%" class="text-center"></th>
+
+                            </tr>
+                        </thead>
+                        @foreach (var item in Model)
+                        {
+                            <tbody class="grid_row">
+                                <tr>
+                                    <td class="grid-cell">@item.DeliveryChallanRefNo</td>
+                                    <td class="grid-cell">@item.DeliveryChallanDate.ToString("dd/MMM/yyyy")</td>
+                                    <td class="grid-cell">@item.JobCardNo &amp; @item.JobCardDate.ToString("dd/MMM/yyyy")</td>
+                                    <td class="grid-cell">@item.EmployeeName</td>
+                                    <td>
+                                        <input type="button" class="form-button4" value="Select" title="Select to view details" />
+                                    </td>
+                                </tr>
+                            </tbody>
+                        }
+                    </table>
+                </div>
+            </div>
+        </div>
+
+
+        <div class="row-count">
+            <h5>Row Count:- @Model.Count()</h5>
+        </div>
+
+
+
+    </div>
+</div>

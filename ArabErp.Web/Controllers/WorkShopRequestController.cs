@@ -61,7 +61,7 @@ namespace ArabErp.Web.Controllers
             var rep = new SaleOrderRepository();
 
 
-            var slist = rep.GetSaleOrdersPendingWorkshopRequest();
+            var slist = rep.GetSaleOrdersPendingWorkshopRequest(OrganizationId);
 
             var pager = new Pager(slist.Count(), page);
 
@@ -110,9 +110,9 @@ namespace ArabErp.Web.Controllers
                    TempData["success"] = "";
                   return RedirectToAction("WorkShopRequestPending");
                }
-        public ActionResult PreviousList(int id = 0,int cusid=0)
+               public ActionResult PreviousList(int id = 0, int cusid = 0)
                {
-                   return PartialView("_PreviousList",new WorkShopRequestRepository().GetAllWorkShopRequest(id,cusid));
+                   return PartialView("_PreviousList", new WorkShopRequestRepository().GetAllWorkShopRequest(id, cusid, OrganizationId));
                }
         public ActionResult Edit(int? id)
         {

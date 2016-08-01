@@ -42,12 +42,13 @@ namespace ArabErp.Web.Controllers
         }
         public ActionResult PendingJobCard(int? isProjectBased)
         {
-            IEnumerable<PendingSO> pendingSo = repo.GetPendingSO(isProjectBased ?? 0);
+            IEnumerable<PendingSO> pendingSo = repo.GetPendingSO(isProjectBased ?? 0,OrganizationId);
             return View(pendingSo);
         }
         [HttpPost]
         public ActionResult Create(JobCard model)
         {
+            model.OrganizationId = OrganizationId;
             var data = new JobCardRepository().SaveJobCard(model);
             return RedirectToAction("PendingJobCard", new { isProjectBased = model.isProjectBased });
             // return View();
@@ -86,6 +87,15 @@ namespace ArabErp.Web.Controllers
         public void FillVehicleRegNo()
         {
             ViewBag.inpassList = new SelectList(new DropdownRepository().VehicleInPassDropdown(), "Id", "Name");
+        }
+        public ActionResult JobCardList()
+        {
+
+            return View();
+        }
+        public ActionResult PreviousList(int id = 0, int cusid = 0)
+        {
+            return PartialView("_PreviousList", new JobCardRepository().GetAllJobCards(OrganizationId ));
         }
     }
 }

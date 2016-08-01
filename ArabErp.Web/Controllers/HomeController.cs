@@ -74,7 +74,7 @@ namespace ArabErp.Web.Controllers
             if(view.PendingWorkshopRequests)
             {
                 var rep = new SaleOrderRepository();
-                var slist = rep.GetSaleOrdersPendingWorkshopRequest();
+                var slist = rep.GetSaleOrdersPendingWorkshopRequest(OrganizationId);
                 view.NoOfWorkShopRequests = slist.Count;
             }
             return PartialView("_QuickView", view);

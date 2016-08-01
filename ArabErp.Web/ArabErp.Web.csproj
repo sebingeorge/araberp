@@ -720,6 +720,12 @@
     <Content Include="Views\ItemBatch\_FGTrackingDetails.cshtml" />
     <Content Include="Views\PurchaseBill\Edit.cshtml" />
     <Content Include="Views\DirectPurchase\Index.cshtml" />
+    <Content Include="Views\VehicleInPass\VehicleInpassList.cshtml" />
+    <Content Include="Views\VehicleInPass\_PreviousList.cshtml" />
+    <Content Include="Views\JobCard\JobCardList.cshtml" />
+    <Content Include="Views\JobCard\_PreviousList.cshtml" />
+    <Content Include="Views\DeliveryChallan\_PreviousList.cshtml" />
+    <Content Include="Views\DeliveryChallan\DeliveryChallanList.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
