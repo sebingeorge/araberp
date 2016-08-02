@@ -63,5 +63,23 @@ namespace ArabErp.Web.Controllers
                 CustomerName = data.CustomerName
             }, JsonRequestBehavior.AllowGet);
         }
+        public ActionResult VehicleInpassList()
+        {
+            FillVINo();
+            FillCustomerinVI();
+            return View();
+        }
+        public void FillVINo()
+        {
+            ViewBag.VINoList = new SelectList(new DropdownRepository().VINODropdown(), "Id", "Name");
+        }
+        public void FillCustomerinVI()
+        {
+            ViewBag.CusList = new SelectList(new DropdownRepository().VICustomerDropdown(), "Id", "Name");
+        }
+        public ActionResult PreviousList(int id = 0, int cusid = 0)
+        {
+            return PartialView("_PreviousList", new VehicleInPassRepository().GetAllVehicleInpass(id,cusid,OrganizationId));
+        }
     }
 }

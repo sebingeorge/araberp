@@ -26,9 +26,13 @@
         }
         else $("#txtAddress").val('');
     }
-    function Open(id) {
+    @*function Open(id) {
         var url = '@Url.Action("Save")';
         url += "?id=" + id;
+        window.location = url;
+    }*@
+    function PreviousList() {
+        var url = '@Url.Action("VehicleInpassList")';
         window.location = url;
     }
 </script>
@@ -53,6 +57,12 @@
 
             <div id="inpassdetails">
                 @Html.Action("PendingVehicleInPass", new { customerId = 0 })
+            </div>
+
+            <div class="row">
+                <div class="col-md-12 hrpart1">
+                    <input class="form-button left" type="button" value="Previous" onclick="PreviousList()" />
+                </div>
             </div>
         </div>
     </div>

@@ -300,5 +300,22 @@ namespace ArabErp.DAL
                 return CancelStatus;
             }
         }
+
+        public IEnumerable<SalesQuotationList> GetPreviousList(int isProjectBased, int id, int cusid)
+        {
+            using (IDbConnection connection = OpenConnection(dataConnection))
+            {
+                string sql = @"select Q.SalesQuotationId, Q.QuotationRefNo, Q.QuotationDate, C.CustomerName, E.EmployeeName, Q.Amount,RR.ReasonDescription
+                               from SalesQuotation Q 
+                               inner join Customer C on C.CustomerId = Q.CustomerId
+                               inner join Employee E on E.EmployeeId = Q.SalesExecutiveId
+                               inner join SalesQuotationRejectReason RR on RR.SalesQuotationRejectReasonId=q.SalesQuotationRejectReasonId
+                               where Q.SalesQuotationId= ISNULL(NULLIF(@id, 0), Q.SalesQuotationId) AND C.CustomerId = ISNULL(NULLIF(@cusid, 0), C.CustomerId) 
+                               and isProjectBased =" + isProjectBased ;
+
+                return connection.Query<SalesQuotationList>(sql, new { id = id, cusid = cusid }).ToList();
+            }
+        }
+
     }
 }

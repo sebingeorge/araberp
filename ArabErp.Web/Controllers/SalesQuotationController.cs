@@ -242,7 +242,12 @@ namespace ArabErp.Web.Controllers
       
             return View(salesquotations);
         }
-
+        public void FillQuotationNo()
+        {
+            var repo = new SaleOrderRepository();
+            var list = repo.FillQuotationNo();
+            ViewBag.QuotationNoList = new SelectList(list, "Id", "Name");
+        }
         public void FillWrkDesc()
         {
             var repo = new SaleOrderItemRepository();
@@ -447,7 +452,17 @@ namespace ArabErp.Web.Controllers
 
         }
 
-   
+        public ActionResult PreviousList(int type)
+        {
+            FillQuotationNo();
+            FillCustomer();
+            ViewBag.isProjectBased = type;
+            return View();
+        }
 
+        public ActionResult SalesQuotationsList(int ProjectBased, int id = 0, int cusid = 0)
+        {
+            return PartialView("_SalesQuotationsList", new SalesQuotationRepository().GetPreviousList(ProjectBased, id, cusid));
+        }
     }
 }

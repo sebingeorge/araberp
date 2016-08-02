@@ -32,7 +32,7 @@ namespace ArabErp
         //    }
 
         //}
-        public IEnumerable<PendingSO> GetPendingSO(int isProjectBased)
+        public IEnumerable<PendingSO> GetPendingSO(int isProjectBased, int OrganizationId)
         {
             using (IDbConnection connection = OpenConnection(dataConnection))
             {
@@ -44,7 +44,7 @@ namespace ArabErp
                 query += " left join VehicleModel V on V.VehicleModelId = W.VehicleModelId ";
                 query += " left join JobCard J on J.SaleOrderItemId = SI.SaleOrderItemId ";
                 query += " where J.SaleOrderItemId is null and S.SaleOrderApproveStatus = 1 ";
-                query += " and S.isActive=1 and S.SaleOrderApproveStatus=1 and S.SaleOrderHoldStatus IS NULL ";
+                query += " and S.isActive=1 and S.SaleOrderApproveStatus=1 and S.SaleOrderHoldStatus IS NULL and S.OrganizationId = " + OrganizationId.ToString() + "";
                 query += " and S.isProjectBased = " + isProjectBased.ToString();
                 return connection.Query<PendingSO>(query);
             }
@@ -340,6 +340,18 @@ namespace ArabErp
                     }                    
                 }
                 return jc;
+            }
+        }
+        public IEnumerable<JobCard> GetAllJobCards(int OrganizationId)
+        {
+            using (IDbConnection connection = OpenConnection(dataConnection))
+            {
+                string qry = @"select JobCardNo,JobCardDate,CustomerName,VehicleInPassNo,VehicleInPassDate,FreezerUnitName,RegistrationNo from JobCard J inner join SaleOrder S ON S.SaleOrderId=J.SaleOrderId
+                               inner join Customer C ON C.CustomerId=S.CustomerId
+                               inner join VehicleInPass VI ON VI.VehicleInPassId=J.InPassId
+                               inner join FreezerUnit F ON F.FreezerUnitId=J.FreezerUnitId where J.isActive=1 and J.OrganizationId = @OrganizationId ";
+                return connection.Query<JobCard>(qry,new{OrganizationId = OrganizationId}).ToList();
+
             }
         }
     }
