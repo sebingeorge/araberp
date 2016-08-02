@@ -1,0 +1,82 @@
+﻿@model IList<ArabErp.Domain.SalesQuotationList>
+
+@{
+    ViewBag.Title = "_SalesQuotationsList";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<script>
+    function OnSelected(id) {
+        var url = '@Url.Action("Edit")';
+        //alert(id);
+        url += "/" + id;
+        window.location = url;
+    }
+
+    function Exit() {
+        var url = '@Url.Action("Create", "Expense")';
+        window.location = url;
+    }
+</script>
+
+<div class="row">
+
+    <div class="main-part pad1 white">
+        <div class="main-grid main-grid-top scroll1">
+            <div class=" table-responsive">
+                <input type="hidden" id="HiddenFieldSalesQuotationId" />
+                <table class="table table-bordered" id="QuotationTable">
+                    <thead>
+                        <tr class="grid_heading">
+
+                            <th width="16%"><h1>Quotation Ref. No</h1></th>
+                            <th width="13%"><h1>Quotation Date</h1></th>
+                            <th width="23%"><h1>Customer</h1></th>
+                            <th width="16%"><h1>Sales Executive</h1></th>
+                            <th width="12%"><h1>Amount</h1></th>
+                            <th width="16%"><h1>Status</h1></th>
+                            <th width="1%" class="text-center"></th>
+                            @*<th><h1>Revise</h1></th>
+                                <th><h1>Cancel</h1></th>*@
+                        </tr>
+                    </thead>
+                    @foreach (var item in Model)
+                    {
+                        <tbody class="grid_row">
+                            <tr id="@item.SalesQuotationId">
+
+                                <td class="grid-cell">@item.QuotationRefNo</td>
+                                <td class="grid-cell">@item.QuotationDate.ToString("dd-MMMM-yyyy")</td>
+                                <td class="grid-cell">@item.CustomerName</td>
+                                <td class="grid-cell">@item.EmployeeName</td>
+                                <td class="grid-cell" style="text-align:right">@item.Amount</td>
+                                <td class="grid-cell">@item.ReasonDescription</td>
+                                <td>
+                                    <input type="button" class="form-button4" onclick="OnSelected(@item.SalesQuotationId)" value="Select" title="Select to view details" />
+                                </td>
+                                @*<td><center><button class="form-button4" onclick="Revise(@item.SalesQuotationId)">Revise</button></center></td>
+                                    <td><center><button class="form-button4" onclick="Delete(@item.SalesQuotationId)">Cancel</button></center></td>*@
+                            </tr>
+                        </tbody>
+                    }
+                </table>
+            </div>
+        </div>
+
+        <br />
+        <div class="row-count1">
+            <h5>Row Count:- @Model.Count()</h5>
+        </div>
+
+    </div>
+
+    <div class="row">
+        <div class="col-md-12 hrpart">
+            <button class="form-button right " onclick="Exit()">Exit</button>
+        </div>
+    </div>
+
+</div>
+
+
+

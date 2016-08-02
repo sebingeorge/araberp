@@ -40,6 +40,21 @@
         var url = '@Url.Action("ProjectIndex")';
         location.href = url;
     }
+
+    function PreviousList() {
+
+        var url = '@Url.Action("PreviousList", "SalesQuotation")';
+        @if (actionName == "Create")
+        {
+           @: url += "?type=1";
+        }
+        else
+        {
+            @: url += "?type=0";
+                }
+        window.location = url;
+    }
+
     $(function () {
         if ('@ViewBag.actionName.ToString()' == "Approve") {
             $("input").prop("readonly", "true");
@@ -726,11 +741,13 @@
                         {
                             <button type="button" class="form-button right" onclick="GotoIndex()">Exit</button>
                             <button type="submit" class="form-button right">Save</button>
+                            <input type="button" class="form-button" onclick="PreviousList()" value="Previous">
                         }
                         else if (actionName == "CreateProject")
                         {
                             <button type="button" class="form-button right" onclick="GotoProjectIndex()">Exit</button>
                             <button type="submit" class="form-button right">Save</button>
+                             <input type="button" class="form-button" onclick="PreviousList()" value="Previous">
                         }
                         else if (ViewBag.actionName.ToString() == "Approve")
                         {
