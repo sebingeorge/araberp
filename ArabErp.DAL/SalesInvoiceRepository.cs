@@ -362,7 +362,7 @@ namespace ArabErp.DAL
         /// All items in [SalesInvoice] where isProjectBased = 0
         /// </summary>
         /// <returns></returns>
-        public IList<SalesInvoice> PreviousList(int OrganizationId, DateTime? from, DateTime? to, int id = 0)
+        public IList<SalesInvoice> PreviousList(string type, int OrganizationId, DateTime? from, DateTime? to, int id = 0)
         {
             using (IDbConnection connection = OpenConnection(dataConnection))
             {
@@ -375,7 +375,8 @@ namespace ArabErp.DAL
 	                                ISNULL(INV.SpecialRemarks, '-') SpecialRemarks
                                 FROM SalesInvoice INV
                                 LEFT JOIN SaleOrder SO ON INV.SaleOrderId = SO.SaleOrderId
-                                WHERE INV.isProjectBased = 0
+                                WHERE INV.InvoiceType = @type
+                                --INV.isProjectBased = 0
                                 AND INV.OrganizationId = @OrganizationId
                                 AND CONVERT(DATE, INV.SalesInvoiceDate, 106) BETWEEN ISNULL(@from, DATEADD(MONTH, -1, GETDATE())) AND ISNULL(@to, GETDATE())
                                 AND INV.SalesInvoiceId = ISNULL(NULLIF(CAST(@id AS INT), 0), INV.SalesInvoiceId)
@@ -386,7 +387,8 @@ namespace ArabErp.DAL
                     OrganizationId = OrganizationId,
                     id = id,
                     from = from,
-                    to = to
+                    to = to,
+                    type = type
                 }).ToList();
             }
         }
