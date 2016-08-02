@@ -11,6 +11,7 @@ namespace ArabErp.Domain
         public int ProformaInvoiceId { get; set; }
         public int SaleOrderId { get; set; }
         public string SaleOrderRefNo { get; set; }
+        public DateTime SaleOrderDate { get; set; }
    
         public string ProformaInvoiceRefNo { get; set; }
         public DateTime ProformaInvoiceDate { get; set; }

@@ -13,9 +13,17 @@ namespace ArabErp.Web.Controllers
     public class ProformaInvoiceController : BaseController
     {
         // GET: ProformaInvoice
-        public ActionResult Index()
+        public ActionResult Index(int type)
         {
+            FillProformaInvoice(type);
+            FillCustomer(type);
+            ViewBag.type = type;
             return View();
+        }
+
+        public ActionResult PreviousList(int type, DateTime? from, DateTime? to, int customer = 0, int id = 0)
+        {
+            return PartialView("_PreviousListGrid", new ProformaInvoiceRepository().PreviousList(OrganizationId: OrganizationId, type: type, from: from, to: to, customer: customer, id: id));
         }
         public ActionResult PendingProforma(int? isProjectBased)
         {
@@ -33,7 +41,7 @@ namespace ArabErp.Web.Controllers
             model.Items = new List<ProformaInvoiceItem>();
             foreach (var item in PIList)
             {
-                model.Items.Add(new ProformaInvoiceItem { WorkDescription  = item.WorkDescription, VehicleModelName = item.VehicleModelName, Quantity = item.Quantity, UnitName = item.UnitName,Rate=item.Rate,Amount=item.Amount,Discount=item.Discount,SaleOrderItemId=item.SaleOrderItemId });
+                model.Items.Add(new ProformaInvoiceItem { WorkDescription = item.WorkDescription, VehicleModelName = item.VehicleModelName, Quantity = item.Quantity, UnitName = item.UnitName, Rate = item.Rate, Amount = item.Amount, Discount = item.Discount, SaleOrderItemId = item.SaleOrderItemId });
 
             }
 
@@ -56,10 +64,10 @@ namespace ArabErp.Web.Controllers
 
             model.ProformaInvoiceRefNo = "PINV/" + internalId;
             model.ProformaInvoiceDate = DateTime.Now;
-           
+
             return View(model);
         }
-          [HttpPost]
+        [HttpPost]
         public ActionResult Create(ProformaInvoice model)
         {
             try
@@ -92,10 +100,18 @@ namespace ArabErp.Web.Controllers
                 TempData["error"] = "Some error occured. Please try again.|" + ex.Message;
             }
             TempData["success"] = "";
-           
+
 
             return View(model);
         }
 
+        public void FillProformaInvoice(int type)
+        {
+            ViewBag.proformaInvoiceList = new SelectList(new DropdownRepository().ProformaInvoiceDropdown(OrganizationId: OrganizationId, type: type), "Id", "Name");
+        }
+        private void FillCustomer(int type)
+        {
+            ViewBag.customerList = new SelectList(new DropdownRepository().CustomerForProformaInvoice(OrganizationId: OrganizationId, type: type), "Id", "Name");
+        }
     }
 }
