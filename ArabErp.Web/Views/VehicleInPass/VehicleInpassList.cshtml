@@ -1,42 +1,40 @@
 ﻿
 @{
-    ViewBag.Title = "WorkShopRequestList";
+    ViewBag.Title = "VehicleInpassList";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
-
 <script type="text/javascript">
-    function OnWRNoChanged(sender) {
-        var id = $("#cboWRNo").val();
+    function OnVINoChanged(sender) {
+        var id = $("#cboVINo").val();
         var cusid = $("#cboCustomer").val();
         var url = '@Url.Action("PreviousList")';
-        $("#workshopreqlist").load(url, { id: id, cusid: cusid });
+        $("#vehicleInpasslist").load(url, { id: id, cusid: cusid });
     }
     function OnCustomerChanged(sender) {
         var cusid = $("#cboCustomer").val();
-        var id = $("#cboWRNo").val();
+        var id = $("#cboVINo").val();
         var url = '@Url.Action("PreviousList")';
-        $("#workshopreqlist").load(url, { id: id, cusid: cusid });
+        $("#vehicleInpasslist").load(url, { id: id, cusid: cusid });
     }
 </script>
 
-
 <div class="row">
     <div class="form-head1">
-        <h4>Workshop Request List</h4>
+        <h4>Vehicle Inpass List</h4>
     </div>
     <div class="main-part pad1">
         <div class="row form-group">
             <div class="col-md-3">
-                <label for="cboWRNo">WorkShopRequest No.</label>
-                @Html.DropDownList("cboWRNo", (SelectList)ViewBag.WRNoList, "Any", new { @class = "form_input", @onchange = "OnWRNoChanged(this)" })
+                <label for="cboWRNo">Vehicle Inpass No.</label>
+                @Html.DropDownList("cboVINo", (SelectList)ViewBag.VINoList, "Any", new { @class = "form_input", @onchange = "OnVINoChanged(this)" })
             </div>
             <div class="col-md-3">
                 <label for="cboWRNo">Customer</label>
                 @Html.DropDownList("cboCustomer", (SelectList)ViewBag.CusList, "Any", new { @class = "form_input", @onchange = "OnCustomerChanged(this)" })
             </div>
-        
+
         </div>
-        <div id="workshopreqlist">
+        <div id="vehicleInpasslist">
             @Html.Action("PreviousList")
         </div>
     </div>

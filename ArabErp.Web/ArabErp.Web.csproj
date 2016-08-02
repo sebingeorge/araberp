@@ -720,8 +720,18 @@
     <Content Include="Views\ItemBatch\_FGTrackingDetails.cshtml" />
     <Content Include="Views\PurchaseBill\Edit.cshtml" />
     <Content Include="Views\DirectPurchase\Index.cshtml" />
+    <Content Include="Views\VehicleInPass\VehicleInpassList.cshtml" />
+    <Content Include="Views\VehicleInPass\_PreviousList.cshtml" />
+    <Content Include="Views\JobCard\JobCardList.cshtml" />
+    <Content Include="Views\JobCard\_PreviousList.cshtml" />
+    <Content Include="Views\DeliveryChallan\_PreviousList.cshtml" />
+    <Content Include="Views\DeliveryChallan\DeliveryChallanList.cshtml" />
     <Content Include="Views\Expense\_PreviousList.cshtml" />
     <Content Include="Views\QuerySheet\Index.cshtml" />
+    <Content Include="Views\SalesInvoice\Index.cshtml" />
+    <Content Include="Views\SalesInvoice\_PreviousListGrid.cshtml" />
+    <Content Include="Views\ItemBatch\Index.cshtml" />
+    <Content Include="Views\ItemBatch\_PreviousListGrid.cshtml" />
     <Content Include="Views\SalesQuotation\PreviousList.cshtml" />
     <Content Include="Views\SalesQuotation\_SalesQuotationsList.cshtml" />
   </ItemGroup>

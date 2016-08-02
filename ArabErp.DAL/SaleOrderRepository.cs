@@ -128,7 +128,7 @@ namespace ArabErp.DAL
         /// </summary>
         /// <param name="model">Object of class SaleOrder</param>
         /// <returns>SaleOrders not in WorkshopRequest table</returns>
-        public List<SaleOrder> GetSaleOrdersPendingWorkshopRequest()
+        public List<SaleOrder> GetSaleOrdersPendingWorkshopRequest(int OrganizationId)
         {
             using (IDbConnection connection = OpenConnection(dataConnection))
             {
@@ -138,7 +138,7 @@ namespace ArabErp.DAL
                              WHERE SI.SaleOrderId = t.SaleOrderId
                              FOR XML PATH(''), TYPE).value('.','NVARCHAR(MAX)'),1,2,' ') WorkDescription,DATEDIFF(dd,SO.SaleOrderDate,GETDATE ()) Ageing,DATEDIFF(dd,GETDATE (),SO.EDateDelivery)Remaindays,'' WorkRequestPaymentApproved  INTO #TEMP  
                              FROM SaleOrderItem t INNER JOIN SaleOrder SO on t.SaleOrderId=SO.SaleOrderId INNER JOIN Customer C ON SO.CustomerId =C.CustomerId
-                             left join WorkShopRequest WR on SO.SaleOrderId=WR.SaleOrderId WHERE WR.SaleOrderId is null and SO.isActive=1 and SO.SaleOrderApproveStatus=1 and SO.SaleOrderHoldStatus IS NULL 
+                             left join WorkShopRequest WR on SO.SaleOrderId=WR.SaleOrderId WHERE WR.SaleOrderId is null and SO.isActive=1 and SO.SaleOrderApproveStatus=1 and SO.SaleOrderHoldStatus IS NULL and SO.OrganizationId = @OrganizationId
                              order by SO.SaleOrderDate ASC;
 
                               with A as
@@ -147,9 +147,9 @@ namespace ArabErp.DAL
                                )
                                update #TEMP set #TEMP.WorkRequestPaymentApproved = 'P' FROM A  INNER JOIN  #TEMP  ON  #TEMP.SaleOrderId = A.SaleOrderId;
                                SELECT * FROM  #TEMP";
-                   
-                           
-                var objSaleOrders = connection.Query<SaleOrder>(sql).ToList<SaleOrder>();
+
+
+                var objSaleOrders = connection.Query<SaleOrder>(sql, new { OrganizationId = OrganizationId }).ToList<SaleOrder>();
 
                 return objSaleOrders;
             }

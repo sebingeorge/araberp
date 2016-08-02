@@ -10,7 +10,7 @@ using System.Collections;
 
 namespace ArabErp.DAL
 {
-    public class DropdownRepository: BaseRepository
+    public class DropdownRepository : BaseRepository
     {
         static string dataConnection = GetConnectionString("arab");
         /// <summary>
@@ -289,14 +289,28 @@ namespace ArabErp.DAL
         {
             using (IDbConnection connection = OpenConnection(dataConnection))
             {
-                return connection.Query<Dropdown>("SELECT WorkShopRequestId Id, WorkShopRequestRefNo Name FROM WorkShopRequest WHERE ISNULL(isActive, 1) = 1").ToList();
+                return connection.Query<Dropdown>("SELECT WorkShopRequestId Id, WorkShopRequestRefNo Name FROM WorkShopRequest WHERE ISNULL(isActive, 1) = 1 ").ToList();
             }
         }
          public List<Dropdown> WRCustomerDropdown()
         {
             using (IDbConnection connection = OpenConnection(dataConnection))
             {
-                return connection.Query<Dropdown>("SELECT WR.CustomerId Id, C.CustomerName Name FROM WorkShopRequest WR inner join Customer C on C.CustomerId=WR.CustomerId  WHERE ISNULL(WR.isActive, 1) = 1").ToList();
+                return connection.Query<Dropdown>("SELECT DISTINCT WR.CustomerId Id, C.CustomerName Name FROM WorkShopRequest WR inner join Customer C on C.CustomerId=WR.CustomerId  WHERE ISNULL(WR.isActive, 1) = 1").ToList();
+            }
+        }
+         public List<Dropdown> VINODropdown()
+         {
+             using (IDbConnection connection = OpenConnection(dataConnection))
+             {
+                 return connection.Query<Dropdown>("SELECT VehicleInPassId Id, VehicleInPassNo Name FROM VehicleInPass WHERE ISNULL(isActive, 1) = 1 ").ToList();
+             }
+         }
+         public List<Dropdown> VICustomerDropdown()
+         {
+             using (IDbConnection connection = OpenConnection(dataConnection))
+             {
+                 return connection.Query<Dropdown>("SELECT DISTINCT S.CustomerId Id, C.CustomerName Name FROM VehicleInPass V INNER JOIN SaleOrder S on S.SaleOrderId=V.SaleOrderId inner join Customer C on C.CustomerId=S.CustomerId  WHERE ISNULL(V.isActive, 1) = 1").ToList();
             }
         }
 
@@ -315,5 +329,17 @@ namespace ArabErp.DAL
                  return connection.Query<Dropdown>("SELECT QuerySheetId Id, QuerySheetRefNo Name FROM QuerySheet").ToList();
              }
          }
+
+        /// <summary>
+        /// All GRN No, GRN id from [ItemBatch] (for item batch previous list)
+        /// </summary>
+        /// <returns></returns>
+        public List<Dropdown> GRNDropdown()
+        {
+            using (IDbConnection connection = OpenConnection(dataConnection))
+            {
+                return connection.Query<Dropdown>("SELECT DISTINCT G.GRNId Id, G.GRNNo Name FROM ItemBatch IB INNER JOIN GRNItem GI ON IB.GRNItemId = GI.GRNItemId INNER JOIN GRN G ON GI.GRNId = G.GRNId WHERE IB.isActive = 1 AND IB.OrganizationId = 1").ToList();
+            }
+        }
     }
 }

@@ -118,7 +118,7 @@ namespace ArabErp.DAL
                     DROP TABLE #VEHICLE_INPASS;
                     DROP TABLE #MODEL;
                     DROP TABLE #WORK;
-                    DROP TABLE #SALE;", new { customerId = customerId }).ToList();
+                    DROP TABLE #SALE;", new { customerId = customerId}).ToList();
             }
         }
         public PendingSO GetSaleOrderItemDetails(int saleOrderItemId)
@@ -141,6 +141,19 @@ namespace ArabErp.DAL
                     DROP TABLE #MODEL;
                     DROP TABLE #WORK;
                     DROP TABLE #SALE;", new { saleOrderItemId = saleOrderItemId }).Single();
+            }
+        }
+
+        public IEnumerable<VehicleInPass> GetAllVehicleInpass(int id,int cusid,int OrganizationId)
+        {
+            using (IDbConnection connection = OpenConnection(dataConnection))
+            {
+                string qry = @"select VehicleInPassId,VehicleInPassNo,VehicleInPassDate,SaleOrderRefNo,SaleOrderDate,RegistrationNo,CustomerName from VehicleInPass V
+                               inner join SaleOrder S ON S.SaleOrderId=V.SaleOrderId
+                               inner join Customer C ON C.CustomerId=S.CustomerId where V.isActive=1 and V.OrganizationId = @OrganizationId and  V.VehicleInPassId = ISNULL(NULLIF(@id, 0), V.VehicleInPassId)
+                               and S.CustomerId = ISNULL(NULLIF(@cusid, 0), S.CustomerId)";
+                return connection.Query<VehicleInPass>(qry, new { OrganizationId = OrganizationId, id = id, cusid = cusid}).ToList();
+
             }
         }
     }
