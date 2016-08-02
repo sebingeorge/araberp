@@ -7,6 +7,7 @@
 
 <script type="text/javascript">
     $(document).ready(function () {
+        $("#RegistrationNo").focus();
         $.getJSON('@Url.Action("GetSaleOrderItemDetails")', { id: '@Model.SaleOrderItemId' },
             function (data) {
                 $("#txtSONoDate").val(data.SaleOrderRefNo);
@@ -24,6 +25,10 @@
         var url = '@Url.Action("Index")';
         window.location = url;
     }
+    $(function ()
+    {
+           $("#VehicleInPassDate").datepicker({ dateFormat: "dd-MM-yy" });
+    });
 </script>
 
 
@@ -37,42 +42,47 @@
                     @using (Html.BeginForm("Save", null, FormMethod.Post, new { @class = "createFrom", onsubmit = "return formValidation()", @id = "vehicle-inpass-form" }))
                     {
                         <div class="row form-group">
-                            <div class="col-md-4">
-                                <label>Customer</label>
-                                <input type="text" class="form_input" id="txtCustomer" disabled />
-                            </div>
-                            <div class="col-md-2">
-                                <label>SO No. &amp; Date</label>
-                                <input type="text" class="form_input" id="txtSONoDate" disabled />
-                            </div>
-                        </div>
-
-                        <div class="row form-group">
-                            <div class="col-md-4">
-                                <label>Vehicle Model</label>
-                                <input type="text" class="form_input" id="txtVehicleModel" disabled />
-                            </div>
-                            <div class="col-md-8">
-                                <label>Work Description</label>
-                                <input type="text" class="form_input" id="txtWork" disabled />
-                            </div>
-                        </div>
-
-                        <div class="row form-group">
                             <div class="col-md-2">
                                 <label>Vehicle In-Pass No.</label>
-                                @Html.TextBoxFor(m => m.VehicleInPassNo, new { @class = "form_input" })
-                            </div>
-                            <div class="col-md-2">
-                                <label>Chasis No/Reg No.</label>
-                                @Html.HiddenFor(m => m.SaleOrderItemId)
-                                @Html.TextBoxFor(m => m.RegistrationNo, new { @class = "form_input" })
+                                @Html.TextBoxFor(m => m.VehicleInPassNo, new { @class = "form_input",@readonly="readonly" })
                             </div>
                             <div class="col-md-2">
                                 <label>In-Pass Date</label>
-                                @Html.TextBoxFor(m => m.VehicleInPassDate, new { @class = "form_input", @type = "date" })
+                                @Html.TextBoxFor(m => m.VehicleInPassDate, Model.VehicleInPassDate.ToString("dd/MMMM/yyyy"), new { @class = "form_input ", autocomplete = "off", @readonly = "readonly" })
+                        </div>
+                        </div>
+                        <div class="row form-group">
+                            <div class="col-md-4">
+                                <label>Customer</label>
+                                <input type="text" class="form_input" id="txtCustomer" readonly />
                             </div>
-                            <div class="col-md-6">
+                            <div class="col-md-2">
+                                <label>SO.No. &amp; Date</label>
+                                <input type="text" class="form_input" id="txtSONoDate" readonly />
+                            </div>
+                            <div class="row form-group">
+                                <div class="col-md-2">
+                                    <label>Vehicle Model</label>
+                                    <input type="text" class="form_input" id="txtVehicleModel" readonly />
+                                </div>
+                            </div>
+
+                       
+                            <div class="col-md-12">
+                                <label>Work Description</label>
+                                <input type="text" class="form_input" id="txtWork" readonly />
+                            </div>
+                        </div>
+
+                        <div class="row form-group">
+                           
+                            <div class="col-md-2">
+                                <label>Chassis No./Reg No.</label>
+                                @Html.HiddenFor(m => m.SaleOrderItemId)
+                                @Html.TextBoxFor(m => m.RegistrationNo, new { @class = "form_input", autocomplete = "off" })
+                            </div>
+                          
+                            <div class="col-md-4">
                                 <label>Employee</label>
                                 @Html.DropDownListFor(m => m.EmployeeId, (SelectList)ViewBag.employeeList, "Select Employee", new { @class = "form_input" })
                             </div>
