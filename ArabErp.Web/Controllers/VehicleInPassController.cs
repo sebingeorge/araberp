@@ -87,11 +87,11 @@ namespace ArabErp.Web.Controllers
         }
         public void FillVINo()
         {
-            ViewBag.VINoList = new SelectList(new DropdownRepository().VINODropdown(), "Id", "Name");
+            ViewBag.VINoList = new SelectList(new DropdownRepository().VINODropdown(OrganizationId), "Id", "Name");
         }
         public void FillCustomerinVI()
         {
-            ViewBag.CusList = new SelectList(new DropdownRepository().VICustomerDropdown(), "Id", "Name");
+            ViewBag.CusList = new SelectList(new DropdownRepository().VICustomerDropdown(OrganizationId), "Id", "Name");
         }
         public ActionResult PreviousList(DateTime? from , DateTime? to,int id = 0, int cusid = 0)
         {

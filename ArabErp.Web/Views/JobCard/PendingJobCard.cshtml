@@ -25,7 +25,11 @@
         window.location.href = url;
     }
     function PreviousList() {
+       
+        var isProjectBased = $("#isProjectBased").val();
         var url = '@Url.Action("JobCardList")';
+        url = url + "?isProjectBased=" + isProjectBased;
+     
         window.location = url;
     }
 </script>

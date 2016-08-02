@@ -88,14 +88,26 @@ namespace ArabErp.Web.Controllers
         {
             ViewBag.inpassList = new SelectList(new DropdownRepository().VehicleInPassDropdown(), "Id", "Name");
         }
-        public ActionResult JobCardList()
+        public ActionResult JobCardList(int isProjectBased)
         {
-
+            FillJCNo(isProjectBased);
+            FillCustomerinJC(isProjectBased);
+            ViewBag.ProjectBased = isProjectBased;
             return View();
         }
-        public ActionResult PreviousList(int id = 0, int cusid = 0)
+        public void FillJCNo(int isProjectBased)
         {
-            return PartialView("_PreviousList", new JobCardRepository().GetAllJobCards(OrganizationId ));
+            ViewBag.JCNoList = new SelectList(new DropdownRepository().JCNODropdown(OrganizationId, isProjectBased), "Id", "Name");
+        }
+        public void FillCustomerinJC(int isProjectBased)
+        {
+            ViewBag.CusList = new SelectList(new DropdownRepository().JCCustomerDropdown(OrganizationId, isProjectBased), "Id", "Name");
+        }
+        public ActionResult PreviousList( int ProjectBased,DateTime? from, DateTime? to, int id = 0, int cusid = 0)
+        {
+            from = from ?? DateTime.Today.AddMonths(-1);
+            to = to ?? DateTime.Today;
+            return PartialView("_PreviousList", new JobCardRepository().GetAllJobCards(ProjectBased, id, cusid, OrganizationId, from, to));
         }
     }
 }

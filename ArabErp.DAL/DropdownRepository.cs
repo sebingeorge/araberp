@@ -285,32 +285,44 @@ namespace ArabErp.DAL
         /// Select All WorkShop Request No.
         /// </summary>
         /// <returns></returns>
-        public List<Dropdown> WRNODropdown()
+        public List<Dropdown> WRNODropdown(int OrganizationId)
         {
             using (IDbConnection connection = OpenConnection(dataConnection))
             {
-                return connection.Query<Dropdown>("SELECT WorkShopRequestId Id, WorkShopRequestRefNo Name FROM WorkShopRequest WHERE ISNULL(isActive, 1) = 1 ").ToList();
+                return connection.Query<Dropdown>("SELECT WorkShopRequestId Id, WorkShopRequestRefNo Name FROM WorkShopRequest WHERE ISNULL(isActive, 1) = 1  and OrganizationId =" + OrganizationId.ToString() + "").ToList();
             }
         }
-        public List<Dropdown> WRCustomerDropdown()
+        /// <summary>
+        /// Select All Customers in  WorkShop Request .
+        /// </summary>
+        /// <returns></returns>
+        public List<Dropdown> WRCustomerDropdown(int OrganizationId)
         {
             using (IDbConnection connection = OpenConnection(dataConnection))
             {
-                return connection.Query<Dropdown>("SELECT DISTINCT WR.CustomerId Id, C.CustomerName Name FROM WorkShopRequest WR inner join Customer C on C.CustomerId=WR.CustomerId  WHERE ISNULL(WR.isActive, 1) = 1").ToList();
+                return connection.Query<Dropdown>("SELECT DISTINCT WR.CustomerId Id, C.CustomerName Name FROM WorkShopRequest WR inner join Customer C on C.CustomerId=WR.CustomerId  WHERE ISNULL(WR.isActive, 1) = 1  and WR.OrganizationId =" + OrganizationId.ToString() + "").ToList();
             }
         }
-         public List<Dropdown> VINODropdown()
+        /// <summary>
+        /// Select All Vehicle Inpass No.
+        /// </summary>
+        /// <returns></returns>
+        public List<Dropdown> VINODropdown(int OrganizationId)
          {
              using (IDbConnection connection = OpenConnection(dataConnection))
              {
-                 return connection.Query<Dropdown>("SELECT VehicleInPassId Id, VehicleInPassNo Name FROM VehicleInPass WHERE ISNULL(isActive, 1) = 1 ").ToList();
+                 return connection.Query<Dropdown>("SELECT VehicleInPassId Id, VehicleInPassNo Name FROM VehicleInPass WHERE ISNULL(isActive, 1) = 1  and OrganizationId =" + OrganizationId.ToString() + " ").ToList();
              }
          }
-         public List<Dropdown> VICustomerDropdown()
+         /// <summary>
+         /// Select All Customers Vehicle Inpass
+         /// </summary>
+         /// <returns></returns>
+         public List<Dropdown> VICustomerDropdown(int OrganizationId)
          {
              using (IDbConnection connection = OpenConnection(dataConnection))
              {
-                 return connection.Query<Dropdown>("SELECT DISTINCT S.CustomerId Id, C.CustomerName Name FROM VehicleInPass V INNER JOIN SaleOrder S on S.SaleOrderId=V.SaleOrderId inner join Customer C on C.CustomerId=S.CustomerId  WHERE ISNULL(V.isActive, 1) = 1").ToList();
+                 return connection.Query<Dropdown>("SELECT DISTINCT S.CustomerId Id, C.CustomerName Name FROM VehicleInPass V INNER JOIN SaleOrder S on S.SaleOrderId=V.SaleOrderId inner join Customer C on C.CustomerId=S.CustomerId  WHERE ISNULL(V.isActive, 1) = 1 and V.OrganizationId =" + OrganizationId.ToString() + "").ToList();
             }
         }
 
@@ -356,5 +368,36 @@ namespace ArabErp.DAL
                                                     new { OrganizationId = OrganizationId }).ToList();
             }
         }
+        /// <summary>
+        /// Select All Job Card No. from JobCard
+        /// </summary>
+        /// <returns></returns>
+        public List<Dropdown> JCNODropdown(int OrganizationId, int isProjectBased)
+        {
+            using (IDbConnection connection = OpenConnection(dataConnection))
+            {
+                return connection.Query<Dropdown>("SELECT JobCardId Id, JobCardNo Name FROM JobCard WHERE ISNULL(isActive, 1) = 1 and OrganizationId =" + OrganizationId.ToString() + " and isProjectBased=" + isProjectBased.ToString() + " ").ToList();
+            }
+        }
+        public List<Dropdown> JCCustomerDropdown(int OrganizationId, int isProjectBased)
+        {
+            using (IDbConnection connection = OpenConnection(dataConnection))
+            {
+                return connection.Query<Dropdown>("SELECT DISTINCT S.CustomerId Id, C.CustomerName Name from JobCard J inner join SaleOrder S ON S.SaleOrderId=J.SaleOrderId  inner join Customer C ON C.CustomerId=S.CustomerId WHERE ISNULL(J.isActive, 1) = 1 and J.OrganizationId =" + OrganizationId.ToString() + " and J.isProjectBased=" + isProjectBased.ToString() + " ").ToList();
+                              
+            }
+        }
+        /// <summary>
+        /// Select All Delivery Challan No. from DeliveryChallan
+        /// </summary>
+        /// <returns></returns>
+        public List<Dropdown> DCNODropdown(int OrganizationId)
+        {
+            using (IDbConnection connection = OpenConnection(dataConnection))
+            {
+                return connection.Query<Dropdown>("SELECT DeliveryChallanId Id, DeliveryChallanRefNo Name FROM DeliveryChallan WHERE ISNULL(isActive, 1) = 1 and OrganizationId =" + OrganizationId.ToString() + "").ToList();
+            }
+        }
+    
     }
 }

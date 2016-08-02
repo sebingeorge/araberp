@@ -13,18 +13,7 @@
             dateFormat: "dd-MM-yy"
         });
     })
-    @*function OnWRNoChanged(sender) {
-        var id = $("#cboWRNo").val();
-        var cusid = $("#cboCustomer").val();
-        var url = '@Url.Action("PreviousList")';
-        $("#workshopreqlist").load(url, { id: id, cusid: cusid });
-    }
-    function OnCustomerChanged(sender) {
-        var cusid = $("#cboCustomer").val();
-        var id = $("#cboWRNo").val();
-        var url = '@Url.Action("PreviousList")';
-        $("#workshopreqlist").load(url, { id: id, cusid: cusid });
-    }*@
+   
     function Filter() {
         $("#workshopreqlist").addClass("fade");
         var id = $("#cboWRNo").val();
@@ -46,7 +35,7 @@
     </div>
     <div class="main-part pad1">
         <div class="row form-group">
-            <div class="col-md-3">
+            <div class="col-md-2">
                 <label for="cboWRNo">WorkShopRequest No.</label>
                 @Html.DropDownList("cboWRNo", (SelectList)ViewBag.WRNoList, "Any", new { @class = "form_input", @onchange = "Filter()" })
             </div>
