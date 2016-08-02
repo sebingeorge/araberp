@@ -104,10 +104,10 @@ namespace ArabErp.DAL
                 return connection.Query<PendingSO>(@"SELECT SaleOrderId, SaleOrderRefNo, CustomerId, SaleOrderDate INTO #SALE FROM SaleOrder WHERE CustomerId = @customerId AND ISNULL(isActive, 1) = 1 AND ISNULL(SaleOrderApproveStatus, 0) = 1
                     SELECT SaleOrderId, SaleOrderItemId, WorkDescriptionId, VehicleModelId INTO #SALE_ITEM FROM SaleOrderItem WHERE ISNULL(isActive, 1) = 1;
                     SELECT SaleOrderItemId INTO #VEHICLE_INPASS FROM VehicleInPass WHERE ISNULL(isActive, 1) = 1;
-                    SELECT WorkDescriptionId, WorkDescr INTO #WORK FROM WorkDescription WHERE ISNULL(isActive, 1) = 1;
+                    SELECT WorkDescriptionId, WorkDescr  INTO #WORK FROM WorkDescription WHERE ISNULL(isActive, 1) = 1;
                     SELECT VehicleModelId, VehicleModelName, VehicleModelDescription INTO #MODEL FROM VehicleModel WHERE ISNULL(isActive, 1) = 1;
 
-                    SELECT SO.SaleOrderId, SO.SaleOrderRefNo + ' - ' + CONVERT(VARCHAR, SaleOrderDate, 106) SaleOrderRefNo, SOI.SaleOrderItemId, WorkDescr, VehicleModelName+' - '+VehicleModelDescription VehicleModelName FROM #SALE SO
+                    SELECT SO.SaleOrderId, SO.SaleOrderRefNo + ' - ' + CONVERT(VARCHAR, SaleOrderDate, 106) SaleOrderRefNo, SOI.SaleOrderItemId, WorkDescr WorkDescription, VehicleModelName+' - '+VehicleModelDescription VehicleModelName FROM #SALE SO
                     LEFT JOIN #SALE_ITEM SOI ON SO.SaleOrderId = SOI.SaleOrderId
                     LEFT JOIN #VEHICLE_INPASS VI ON SOI.SaleOrderItemId = VI.SaleOrderItemId
                     LEFT JOIN #WORK W ON SOI.WorkDescriptionId = W.WorkDescriptionId
@@ -130,7 +130,7 @@ namespace ArabErp.DAL
                     SELECT WorkDescriptionId, WorkDescr INTO #WORK FROM WorkDescription WHERE ISNULL(isActive, 1) = 1;
                     SELECT VehicleModelId, VehicleModelName, VehicleModelDescription INTO #MODEL FROM VehicleModel WHERE ISNULL(isActive, 1) = 1;
 
-                    SELECT SO.SaleOrderId, SO.SaleOrderRefNo + ' - ' + CONVERT(VARCHAR, SaleOrderDate, 106) SaleOrderRefNo, SOI.SaleOrderItemId, WorkDescr, VehicleModelName+' - '+VehicleModelDescription VehicleModelName, C.CustomerName FROM #SALE SO
+                    SELECT SO.SaleOrderId, SO.SaleOrderRefNo + ' - ' + CONVERT(VARCHAR, SaleOrderDate, 106) SaleOrderRefNo, SOI.SaleOrderItemId, WorkDescr WorkDescription, VehicleModelName+' - '+VehicleModelDescription VehicleModelName, C.CustomerName FROM #SALE SO
                     LEFT JOIN #SALE_ITEM SOI ON SO.SaleOrderId = SOI.SaleOrderId
                     LEFT JOIN #WORK W ON SOI.WorkDescriptionId = W.WorkDescriptionId
                     LEFT JOIN #MODEL M ON SOI.VehicleModelId = M.VehicleModelId
@@ -144,15 +144,15 @@ namespace ArabErp.DAL
             }
         }
 
-        public IEnumerable<VehicleInPass> GetAllVehicleInpass(int id,int cusid,int OrganizationId)
+        public IEnumerable<VehicleInPass> GetPreviousList(int id, int cusid, int OrganizationId, DateTime? from, DateTime? to)
         {
             using (IDbConnection connection = OpenConnection(dataConnection))
             {
                 string qry = @"select VehicleInPassId,VehicleInPassNo,VehicleInPassDate,SaleOrderRefNo,SaleOrderDate,RegistrationNo,CustomerName from VehicleInPass V
                                inner join SaleOrder S ON S.SaleOrderId=V.SaleOrderId
                                inner join Customer C ON C.CustomerId=S.CustomerId where V.isActive=1 and V.OrganizationId = @OrganizationId and  V.VehicleInPassId = ISNULL(NULLIF(@id, 0), V.VehicleInPassId)
-                               and S.CustomerId = ISNULL(NULLIF(@cusid, 0), S.CustomerId)";
-                return connection.Query<VehicleInPass>(qry, new { OrganizationId = OrganizationId, id = id, cusid = cusid}).ToList();
+                               and S.CustomerId = ISNULL(NULLIF(@cusid, 0), S.CustomerId) AND V.VehicleInPassDate BETWEEN ISNULL(@from, DATEADD(MONTH, -1, GETDATE())) AND ISNULL(@to, GETDATE())";
+                return connection.Query<VehicleInPass>(qry, new { OrganizationId = OrganizationId, id = id, cusid = cusid, to = to, from = from }).ToList();
 
             }
         }

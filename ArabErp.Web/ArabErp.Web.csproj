@@ -732,6 +732,7 @@
     <Content Include="Views\SalesInvoice\_PreviousListGrid.cshtml" />
     <Content Include="Views\ItemBatch\Index.cshtml" />
     <Content Include="Views\ItemBatch\_PreviousListGrid.cshtml" />
+    <Content Include="Views\Shared\ShowError.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
