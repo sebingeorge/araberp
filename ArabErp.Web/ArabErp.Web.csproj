@@ -734,6 +734,7 @@
     <Content Include="Views\ItemBatch\_PreviousListGrid.cshtml" />
     <Content Include="Views\SalesQuotation\PreviousList.cshtml" />
     <Content Include="Views\SalesQuotation\_SalesQuotationsList.cshtml" />
+    <Content Include="Views\Shared\ShowError.cshtml" />
     <Content Include="Views\SaleOrder\Index.cshtml" />
     <Content Include="Views\SaleOrder\_PreviousList.cshtml" />
   </ItemGroup>

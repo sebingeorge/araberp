@@ -5,5 +5,77 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h2>Index</h2>
+<style type="text/css">
+    .fade {
+        opacity: 0.6;
+    }
+</style>
+<script type="text/javascript">
+
+    $(document).ready(function () {
+        $("#txtFrom").datepicker({
+            dateFormat: "dd-MM-yy"
+        });
+        $("#txtTo").datepicker({
+            dateFormat: "dd-MM-yy"
+        });
+    })
+
+    function OnItemSelected(id) {
+        var url = '@Url.Action("Edit")';
+        url += "?id=" + id;
+        window.location = url;
+    }
+    function Exit() {
+        var url = '@Url.Action("PendingSalesInvoice", new { invType = ViewBag.type })';
+        window.location = url;
+    }
+
+    function Filter() {
+        $("#previous-list").addClass("fade");
+        var id = $("#cboSalesInvoice").val();
+        var from = $("#txtFrom").val();
+        var to = $("#txtTo").val();
+        var url = '@Url.Action("PreviousList")';
+        url += "?type=@(ViewBag.type)&from=" + from + "&to=" + to + "&id=" + id;
+        $("#previous-list").load(url, function () {
+            $("#previous-list").removeClass("fade");
+        });
+    }
+</script>
+
+<div class="row">
+
+    <div class="form-head1">
+        <h4>Previous List - Sales Invoice</h4>
+    </div>
+
+    <div class="main-part pad1">
+        <div class="row">
+            <div class="col-md-2">
+                <label>Sales Invoice No.</label>
+                @Html.DropDownList("cboSalesInvoice", (SelectList)ViewBag.salesInvoiceList, "All", new { @class = "form_input", @onchange = "Filter()" })
+            </div>
+            <div class="col-md-2">
+                <label>From</label>
+                <input id="txtFrom" value="@System.DateTime.Today.AddMonths(-1).ToString("dd-MMMM-yyyy")" onchange="Filter()" class="form_input" />
+            </div>
+            <div class="col-md-2">
+                <label>To</label>
+                <input id="txtTo" value="@System.DateTime.Today.ToString("dd-MMMM-yyyy")" onchange="Filter()" class="form_input" />
+            </div>
+        </div>
+        <br />
+
+        <div class="table-responsive scroll4" id="previous-list">
+            @Html.Action("PreviousList", new { type = ViewBag.type })
+        </div>
+
+        <div class="row">
+            <div class="col-md-12 hrpart">
+                <input type="button" class="form-button right" value="Exit" onclick="Exit()" />
+            </div>
+        </div>
+    </div>
+</div>
 

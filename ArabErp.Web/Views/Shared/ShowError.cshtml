@@ -1,0 +1,39 @@
+﻿@model System.Web.Mvc.HandleErrorInfo
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    ViewBag.Title = "Error";
+}
+
+<div class="site-wrapper">
+    <div class="container theme-showcase" role="main">
+        <div class="row  ">
+            <div class="col-xs-12 col-sm-12 col-md-12">
+                <div class="offer offer-success">
+                    <div class="shape">
+                        <div class="shape-text">
+                        </div>
+                    </div>
+                    <div class="offer-content">
+                        <h1 style=" color: #B70F0F;">Error.</h1>
+                        <h3> @ViewData["Error"]</h3>
+                        <p>
+                            An error occurred while processing your request.
+                        </p>
+
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+    </div>
+</div>
+
+
+
+
+
+
+
+
+

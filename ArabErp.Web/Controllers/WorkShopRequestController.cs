@@ -110,9 +110,9 @@ namespace ArabErp.Web.Controllers
                    TempData["success"] = "";
                   return RedirectToAction("WorkShopRequestPending");
                }
-               public ActionResult PreviousList(int id = 0, int cusid = 0)
+               public ActionResult PreviousList(DateTime? from, DateTime? to,int id = 0, int cusid = 0)
                {
-                   return PartialView("_PreviousList", new WorkShopRequestRepository().GetAllWorkShopRequest(id, cusid, OrganizationId));
+                   return PartialView("_PreviousList", new WorkShopRequestRepository().GetPrevious(from, to, id, cusid, OrganizationId));
                }
         public ActionResult Edit(int? id)
         {

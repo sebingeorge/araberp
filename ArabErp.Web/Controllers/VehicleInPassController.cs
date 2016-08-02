@@ -34,7 +34,23 @@ namespace ArabErp.Web.Controllers
             if (id != 0)
             {
                 EmployeeDropdown();
-                return View(new VehicleInPass { SaleOrderItemId = id });
+                string internalId = "";
+                try
+                {
+                    internalId = DatabaseCommonRepository.GetNextReferenceNo(typeof(VehicleInPass).Name);
+
+                }
+                catch (NullReferenceException nx)
+                {
+                    TempData["success"] = "";
+                    TempData["error"] = "Some required data was missing. Please try again.|" + nx.Message;
+                }
+                catch (Exception ex)
+                {
+                    TempData["success"] = "";
+                    TempData["error"] = "Some error occurred. Please try again.|" + ex.Message;
+                }
+                return View(new VehicleInPass { SaleOrderItemId = id ,VehicleInPassDate = DateTime.Now,VehicleInPassNo="VIN/" + internalId});
             }
             return RedirectToAction("Index");
         }
@@ -77,9 +93,12 @@ namespace ArabErp.Web.Controllers
         {
             ViewBag.CusList = new SelectList(new DropdownRepository().VICustomerDropdown(), "Id", "Name");
         }
-        public ActionResult PreviousList(int id = 0, int cusid = 0)
+        public ActionResult PreviousList(DateTime? from , DateTime? to,int id = 0, int cusid = 0)
         {
-            return PartialView("_PreviousList", new VehicleInPassRepository().GetAllVehicleInpass(id,cusid,OrganizationId));
+             from = from ?? DateTime.Today.AddMonths(-1);
+            to = to ?? DateTime.Today;
+            return PartialView("_PreviousList", new VehicleInPassRepository().GetPreviousList(id, cusid, OrganizationId, from, to));
         }
+       
     }
 }
