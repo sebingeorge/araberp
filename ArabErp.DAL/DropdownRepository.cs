@@ -384,7 +384,7 @@ namespace ArabErp.DAL
         {
             using (IDbConnection connection = OpenConnection(dataConnection))
             {
-                return connection.Query<Dropdown>(@"SELECT
+                return connection.Query<Dropdown>(@"SELECT DISTINCT
 	                                                    CUS.CustomerId Id,
 	                                                    CUS.CustomerName Name
                                                     FROM ProformaInvoice PRO
@@ -395,6 +395,66 @@ namespace ArabErp.DAL
                                                     AND PRO.isProjectBased = @type
                                                     ORDER BY CUS.CustomerName;",
                                                     new { OrganizationId = OrganizationId, type = type }).ToList();
+            }
+        }
+
+        /// <summary>
+        /// All items in [WorkshopRequest] where isAdditionalRequest = 1
+        /// </summary>
+        /// <param name="OrganizationId"></param>
+        /// <returns></returns>
+        public IEnumerable WorkshopRequestDropdown(int OrganizationId)
+        {
+            using (IDbConnection connection = OpenConnection(dataConnection))
+            {
+                return connection.Query<Dropdown>(@"SELECT
+	                                                    WR.WorkShopRequestId Id,
+	                                                    WR.WorkShopRequestRefNo Name
+                                                    FROM WorkShopRequest WR
+                                                    WHERE isAdditionalRequest = 1
+	                                                    AND WR.isActive = 1
+	                                                    AND WR.OrganizationId = 1
+                                                    ORDER BY WorkShopRequestDate DESC, CreatedDate DESC",
+                                                    new { OrganizationId = OrganizationId }).ToList();
+            }
+        }
+
+        /// <summary>
+        /// All 
+        /// </summary>
+        /// <param name="OrganizationId"></param>
+        /// <returns></returns>
+        public IEnumerable CustomerForAdditionalWorkshopRequest(int OrganizationId)
+        {
+            using (IDbConnection connection = OpenConnection(dataConnection))
+            {
+                return connection.Query<Dropdown>(@"SELECT DISTINCT
+	                                                    CUS.CustomerId Id,
+	                                                    CUS.CustomerName Name
+                                                    FROM WorkShopRequest WR
+	                                                    INNER JOIN Customer CUS ON WR.CustomerId = CUS.CustomerId
+                                                    WHERE isAdditionalRequest = 1
+	                                                    AND WR.isActive = 1
+	                                                    AND WR.OrganizationId = 1
+                                                    ORDER BY CUS.CustomerName",
+                                                    new { OrganizationId = OrganizationId }).ToList();
+            }
+        }
+
+        public IEnumerable JobCardForAdditionalWorkshopRequest(int OrganizationId)
+        {
+            using (IDbConnection connection = OpenConnection(dataConnection))
+            {
+                return connection.Query<Dropdown>(@"SELECT
+	                                                    JC.JobCardId Id,
+	                                                    JC.JobCardNo Name
+                                                    FROM WorkShopRequest WR
+	                                                    INNER JOIN JobCard JC ON WR.JobCardId = JC.JobCardId
+                                                    WHERE isAdditionalRequest = 1
+	                                                    AND WR.isActive = 1
+	                                                    AND WR.OrganizationId = 1
+                                                    ORDER BY JobCardDate DESC, WR.CreatedDate DESC",
+                                                    new { OrganizationId = OrganizationId }).ToList();
             }
         }
     }
