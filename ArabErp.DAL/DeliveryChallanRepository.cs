@@ -165,14 +165,14 @@ namespace ArabErp.DAL
                 return connection.Query<ItemBatch>(query, new { id = id }).ToList();
             }
         }
-        public IEnumerable<DeliveryChallan> GetAllDeliveryChallan(int OrganizationId)
+        public IEnumerable<DeliveryChallan> GetAllDeliveryChallan(int id, int cusid, int OrganizationId, DateTime? from, DateTime? to)
         {
             using (IDbConnection connection = OpenConnection(dataConnection))
             {
                 string qry = @"select DeliveryChallanId,DeliveryChallanRefNo,DeliveryChallanDate,JobCardNo,JobCardDate,E.EmployeeName from DeliveryChallan D
                                INNER JOIN Employee E ON E.EmployeeId=D.EmployeeId
-                               INNER JOIN JobCard J ON J.JobCardId =D.JobCardId where D.isActive=1 AND D.OrganizationId = @OrganizationId";
-                return connection.Query<DeliveryChallan>(qry, new { OrganizationId = OrganizationId }).ToList();
+                               INNER JOIN JobCard J ON J.JobCardId =D.JobCardId where D.isActive=1 AND D.OrganizationId = @OrganizationId and   D.DeliveryChallanDate BETWEEN ISNULL(@from, DATEADD(MONTH, -1, GETDATE())) AND ISNULL(@to, GETDATE()) AND  D.DeliveryChallanId = ISNULL(NULLIF(@id, 0), D.DeliveryChallanId) ";
+                return connection.Query<DeliveryChallan>(qry, new { OrganizationId = OrganizationId, id = id, from = from,to = to }).ToList();
 
             }
         }

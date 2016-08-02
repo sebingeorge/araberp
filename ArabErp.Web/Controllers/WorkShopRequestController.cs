@@ -130,11 +130,11 @@ namespace ArabErp.Web.Controllers
         }
         public void FillWRNo()
         {
-            ViewBag.WRNoList = new SelectList(new DropdownRepository().WRNODropdown(), "Id", "Name");
+            ViewBag.WRNoList = new SelectList(new DropdownRepository().WRNODropdown(OrganizationId), "Id", "Name");
         }
         public void FillCustomerinWR()
         {
-            ViewBag.CusList = new SelectList(new DropdownRepository().WRCustomerDropdown(), "Id", "Name");
+            ViewBag.CusList = new SelectList(new DropdownRepository().WRCustomerDropdown(OrganizationId), "Id", "Name");
         }
 
         public ActionResult WorkShopRequestList()
