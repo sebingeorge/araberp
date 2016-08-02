@@ -53,7 +53,7 @@
     }
 
     function PreviousList() {
-        var url = '@Url.Action("Index")';
+        var url = '@Url.Action("Index", new { type = invType })';
         window.location = url;
     }
 

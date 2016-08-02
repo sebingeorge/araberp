@@ -27,17 +27,17 @@
         window.location = url;
     }
     function Exit() {
-        var url = '@Url.Action("Pending")';
+        var url = '@Url.Action("PendingSalesInvoice", new { invType = ViewBag.type })';
         window.location = url;
     }
 
     function Filter() {
         $("#previous-list").addClass("fade");
-        var grnid = $("#cboSaleInvoice").val();
+        var id = $("#cboSalesInvoice").val();
         var from = $("#txtFrom").val();
         var to = $("#txtTo").val();
         var url = '@Url.Action("PreviousList")';
-        url += "?from=" + from + "&to=" + to + "&id=" + grnid;
+        url += "?type=@(ViewBag.type)&from=" + from + "&to=" + to + "&id=" + id;
         $("#previous-list").load(url, function () {
             $("#previous-list").removeClass("fade");
         });
@@ -54,7 +54,7 @@
         <div class="row">
             <div class="col-md-2">
                 <label>Sales Invoice No.</label>
-                @Html.DropDownList("cboSaleInvoice", (SelectList)ViewBag.salesInvoiceList, "All", new { @class = "form_input", @onchange = "Filter()" })
+                @Html.DropDownList("cboSalesInvoice", (SelectList)ViewBag.salesInvoiceList, "All", new { @class = "form_input", @onchange = "Filter()" })
             </div>
             <div class="col-md-2">
                 <label>From</label>
@@ -68,7 +68,7 @@
         <br />
 
         <div class="table-responsive scroll4" id="previous-list">
-            @Html.Action("PreviousList")
+            @Html.Action("PreviousList", new { type = ViewBag.type })
         </div>
 
         <div class="row">

@@ -13,15 +13,16 @@ namespace ArabErp.Web.Controllers
     {
         SalesInvoiceRepository Repo = new SalesInvoiceRepository();
         // GET: SalesInvoice
-        public ActionResult Index()
+        public ActionResult Index(string type)
         {
-            FillSalesInvoice();
+            ViewBag.type = type;
+            FillSalesInvoice(type);
             return View();
         }
 
-        public ActionResult PreviousList(DateTime? from, DateTime? to, int id = 0)
+        public ActionResult PreviousList(string type, DateTime? from, DateTime? to, int id = 0)
         {
-            return PartialView("_PreviousListGrid", new SalesInvoiceRepository().PreviousList(from:from, to:to, id:id, OrganizationId: OrganizationId));
+            return PartialView("_PreviousListGrid", new SalesInvoiceRepository().PreviousList(type: type, from: from, to: to, id: id, OrganizationId: OrganizationId));
         }
         public ActionResult Create(List<SalesInvoiceItem> ObjSaleInvoiceItem)
         {
@@ -114,9 +115,9 @@ namespace ArabErp.Web.Controllers
             return Json(duedate.ToString("dd/MMMM/yyyy"), JsonRequestBehavior.AllowGet);
         }
 
-        public void FillSalesInvoice()
+        public void FillSalesInvoice(string type)
         {
-            ViewBag.salesInvoiceList = new SelectList(new DropdownRepository().SalesInvoiceDropdown(OrganizationId), "Id", "Name");
+            ViewBag.salesInvoiceList = new SelectList(new DropdownRepository().SalesInvoiceDropdown(OrganizationId, type), "Id", "Name");
         }
     }
 }

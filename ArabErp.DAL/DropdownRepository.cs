@@ -299,18 +299,18 @@ namespace ArabErp.DAL
                 return connection.Query<Dropdown>("SELECT DISTINCT WR.CustomerId Id, C.CustomerName Name FROM WorkShopRequest WR inner join Customer C on C.CustomerId=WR.CustomerId  WHERE ISNULL(WR.isActive, 1) = 1").ToList();
             }
         }
-         public List<Dropdown> VINODropdown()
-         {
-             using (IDbConnection connection = OpenConnection(dataConnection))
-             {
-                 return connection.Query<Dropdown>("SELECT VehicleInPassId Id, VehicleInPassNo Name FROM VehicleInPass WHERE ISNULL(isActive, 1) = 1 ").ToList();
-             }
-         }
-         public List<Dropdown> VICustomerDropdown()
-         {
-             using (IDbConnection connection = OpenConnection(dataConnection))
-             {
-                 return connection.Query<Dropdown>("SELECT DISTINCT S.CustomerId Id, C.CustomerName Name FROM VehicleInPass V INNER JOIN SaleOrder S on S.SaleOrderId=V.SaleOrderId inner join Customer C on C.CustomerId=S.CustomerId  WHERE ISNULL(V.isActive, 1) = 1").ToList();
+        public List<Dropdown> VINODropdown()
+        {
+            using (IDbConnection connection = OpenConnection(dataConnection))
+            {
+                return connection.Query<Dropdown>("SELECT VehicleInPassId Id, VehicleInPassNo Name FROM VehicleInPass WHERE ISNULL(isActive, 1) = 1 ").ToList();
+            }
+        }
+        public List<Dropdown> VICustomerDropdown()
+        {
+            using (IDbConnection connection = OpenConnection(dataConnection))
+            {
+                return connection.Query<Dropdown>("SELECT DISTINCT S.CustomerId Id, C.CustomerName Name FROM VehicleInPass V INNER JOIN SaleOrder S on S.SaleOrderId=V.SaleOrderId inner join Customer C on C.CustomerId=S.CustomerId  WHERE ISNULL(V.isActive, 1) = 1").ToList();
             }
         }
 
@@ -342,7 +342,7 @@ namespace ArabErp.DAL
             }
         }
 
-        public List<Dropdown> SalesInvoiceDropdown(int OrganizationId)
+        public List<Dropdown> SalesInvoiceDropdown(int OrganizationId, string type)
         {
             using (IDbConnection connection = OpenConnection(dataConnection))
             {
@@ -350,10 +350,11 @@ namespace ArabErp.DAL
 	                                                    INV.SalesInvoiceId Id,
 	                                                    INV.SalesInvoiceRefNo Name
                                                     FROM SalesInvoice INV
-                                                    WHERE INV.isProjectBased = 0
+                                                    WHERE INV.InvoiceType = @type
+                                                    --INV.isProjectBased = 0
                                                     AND OrganizationId = 1
                                                     ORDER BY INV.SalesInvoiceDate DESC, INV.CreatedDate DESC",
-                                                    new { OrganizationId = OrganizationId }).ToList();
+                                                    new { OrganizationId = OrganizationId, type = type }).ToList();
             }
         }
     }
