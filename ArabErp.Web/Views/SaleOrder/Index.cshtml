@@ -1,0 +1,48 @@
+﻿
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<script>
+    function OnSONoChanged(sender) {
+        var id = $("#soNo").val();
+        //alert(id);
+        var cusid = $("#cboCustomer").val();
+        var url = '@Url.Action("PreviousList")';
+        $("#saleorderlist").load(url, { ProjectBased:@ViewBag.isProjectBased,id: id, cusid: cusid });
+    }
+    function OnCustomerChanged(sender) {
+        var cusid = $("#cboCustomer").val();
+        var id = $("#soNo").val();
+        var url = '@Url.Action("PreviousList")';
+        $("#saleorderlist").load(url, { ProjectBased:@ViewBag.isProjectBased,id: id, cusid: cusid });
+    }
+</script>
+
+<div class="row">
+
+    <div class="form-head1">
+        <h4>Sale Order List</h4>
+    </div>
+
+    <div class="main-part pad1">
+
+        <div class="row form-group">
+            <div class="col-md-3">
+                <label for="soNo">SO No.</label>
+                @Html.DropDownList("soNo", (SelectList)ViewBag.sorefnolist, "Any", new { @class = "form_input", @onchange = "OnSONoChanged(this)" })
+            </div>
+            <div class="col-md-3">
+                <label for="cboCustomer">Customer</label>
+                @Html.DropDownList("cboCustomer", (SelectList)ViewBag.customerlist, "Any", new { @class = "form_input", @onchange = "OnCustomerChanged(this)" })
+            </div>
+
+        </div>
+
+        <div id="saleorderlist">
+            @Html.Action("PreviousList", new { ProjectBased = ViewBag.isProjectBased })
+        </div>
+    </div>
+</div>
+

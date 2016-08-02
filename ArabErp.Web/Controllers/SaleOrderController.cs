@@ -13,11 +13,24 @@ namespace ArabErp.Web.Controllers
     public class SaleOrderController : BaseController
     {
         // GET: SaleOrder
-        public ActionResult Index()
+        public ActionResult Index(int type)
         {
-
+            FillSORefNo();
+            FillCustomer();
+            ViewBag.isProjectBased = type;
             return View();
+           
         }
+
+        public ActionResult PreviousList(int ProjectBased, int id = 0, int cusid = 0)
+        {
+            //var repo = new SaleOrderRepository();
+            //IEnumerable<PendingSO> pendingSO = repo.GetSaleOrderPending(ProjectBased);
+            //return View(pendingSO);
+
+            return PartialView("_PreviousList", new SaleOrderRepository().GetPreviousList(ProjectBased, id, cusid));
+        }
+
         public ActionResult Create(int? SalesQuotationId)
         {
            
@@ -173,6 +186,12 @@ namespace ArabErp.Web.Controllers
             }
             saleOrder.isProjectBased = isProjectBased;
             return PartialView("_DisplaySOList", saleOrder);
+        }
+        public void FillSORefNo()
+        {
+            var repo = new SaleOrderRepository();
+            var list = repo.FillSORefNo();
+            ViewBag.sorefnolist = new SelectList(list, "Id", "Name");
         }
         public void FillWrkDesc()
         {
@@ -625,7 +644,7 @@ namespace ArabErp.Web.Controllers
             var repo = new SalesQuotationRepository();
 
             List<SalesQuotation> salesquotations = repo.GetSalesQuotationForSO(ProjectBased);
-
+            ViewBag.ProjectBased = ProjectBased;
             return View(salesquotations);
         }
 
@@ -639,5 +658,7 @@ namespace ArabErp.Web.Controllers
         {
             return PartialView("IncentiveAmountGrid", new SaleOrderRepository().GetSaleOrderIncentiveAmountList(FromDate, ToDate, CommissionAgentId));
         }
+      
+
     }
 }

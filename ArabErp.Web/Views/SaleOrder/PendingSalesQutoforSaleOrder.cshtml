@@ -6,16 +6,33 @@
 }
 
 
+<script>
+
+    function PreviousList()
+    {
+       
+        var url = '@Url.Action("Index", "SaleOrder", new { type = ViewBag.ProjectBased })';
+         
+        window.location = url;
+    }
+
+    function Exit() {
+        var url = '@Url.Action("Index","Home")';
+        window.location = url;
+    }
+
+</script>
+
     <div class="row">
 
         <div class="form-head1">
             <h4>Pending Sales Quotation for Sale Order</h4>
         </div>
 
-        <div class="main-part pad1 white">
+        <div class="main-part pad1">
             <div class="main-grid-top scroll1">
                 <div class="table-responsive">
-                  
+
                     <table class="table table-bordered">
                         <thead>
                             <tr class="grid_heading">
@@ -28,7 +45,7 @@
                                 <th width="5%"><center><h1></h1></center></th>
                             </tr>
                         </thead>
-                        @foreach (var item in Model)
+                @foreach (var item in Model)
                         {
                             <tbody class="grid_row">
                                 <tr>
@@ -37,12 +54,12 @@
                                     <td class="grid-cell">@item.WorkDescription</td>
                                     <td class="grid-cell" align="right">@item.Amount</td>
                                     <td class="grid-cell">@item.SalesExecutiveName</td>
-                                  @if (@item.isProjectBased == 0)
-                {
+                @if (@item.isProjectBased == 0)
+                                  {
                                     <td><center>@Html.ActionLink("Select", "Create", "SaleOrder", new { SalesQuotationId = @item.SalesQuotationId }, new { @class = "form-button5" })</center></td>
                                   }
                                 else
-                                  { 
+                                  {
                                     <td><center>@Html.ActionLink("Select", "CreateProject", "SaleOrder", new { SalesQuotationId = @item.SalesQuotationId }, new { @class = "form-button5" })</center></td>
                                   }
                                 </tr>
@@ -52,14 +69,19 @@
                 </div>
             </div>
 
-            
+
                 <div class="row-count">
-                  
                     <h5>Row Count:- @Model.Count()</h5>
                 </div>
-           
 
+            <div class="row">
+                <div class="col-md-12 hrpart">
+                    <input type="button" class="form-button" onclick="PreviousList()" value="Previous">
+                    <input type="button" class="form-button right" onclick="Exit()" value="Exit">
+                </div>
+            </div>
         </div>
+
     </div>
 
 
