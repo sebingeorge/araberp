@@ -358,32 +358,44 @@ namespace ArabErp.DAL
             }
         }
 
-        public List<Dropdown> FillSORefNo(int OrganizationId, int type)
+        public IEnumerable ProformaInvoiceDropdown(int OrganizationId, int type)
         {
             using (IDbConnection connection = OpenConnection(dataConnection))
             {
-
-                return connection.Query<Dropdown>(@"SELECT SaleOrderId Id,SaleOrderRefNo Name
-                                                    FROM SaleOrder 
-                                                    WHERE OrganizationId = @OrganizationId AND isProjectBased = " + type,
+                return connection.Query<Dropdown>(@"SELECT
+	                                                    PRO.ProformaInvoiceId Id,
+	                                                    PRO.ProformaInvoiceRefNo Name
+                                                    FROM ProformaInvoice PRO
+                                                    WHERE PRO.OrganizationId = 1
+	                                                    AND PRO.isActive = 1
+	                                                    AND PRO.isProjectBased = @type
+                                                    ORDER BY PRO.ProformaInvoiceDate DESC, PRO.CreatedDate DESC;",
                                                     new { OrganizationId = OrganizationId, type = type }).ToList();
             }
         }
 
-
-        public List<Dropdown> FillSOCustomer(int OrganizationId, int type)
+        /// <summary>
+        /// All customers in [ProformaInvoice]
+        /// </summary>
+        /// <param name="OrganizationId"></param>
+        /// <param name="type">isProjectBased : 0 or 1</param>
+        /// <returns></returns>
+        public IEnumerable CustomerForProformaInvoice(int OrganizationId, int type)
         {
             using (IDbConnection connection = OpenConnection(dataConnection))
             {
-
-                return connection.Query<Dropdown>(@"SELECT  Distinct C.CustomerId Id,C.CustomerName Name
-                                                    FROM SaleOrder S
-                                                    INNER JOIN Customer C on S.CustomerId = C.CustomerId
-                                                    WHERE S.OrganizationId = @OrganizationId AND isProjectBased = " + type,
+                return connection.Query<Dropdown>(@"SELECT
+	                                                    CUS.CustomerId Id,
+	                                                    CUS.CustomerName Name
+                                                    FROM ProformaInvoice PRO
+	                                                    INNER JOIN SaleOrder SO ON PRO.SaleOrderId = SO.SaleOrderId
+	                                                    INNER JOIN Customer CUS ON SO.CustomerId = CUS.CustomerId
+                                                    WHERE PRO.OrganizationId = 1
+                                                    AND PRO.isActive = 1
+                                                    AND PRO.isProjectBased = @type
+                                                    ORDER BY CUS.CustomerName;",
                                                     new { OrganizationId = OrganizationId, type = type }).ToList();
             }
         }
-
-
     }
 }

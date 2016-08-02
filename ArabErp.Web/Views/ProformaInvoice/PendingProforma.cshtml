@@ -3,6 +3,7 @@
 @{
     ViewBag.Title = "PendingProforma";
     Layout = "~/Views/Shared/_Layout.cshtml";
+    string type = Request.QueryString["isProjectBased"];
 }
 
 <script>
@@ -33,7 +34,10 @@
 
     });
   
-   
+    function PreviousList() {
+        var url = '@Url.Action("Index", new { type = type })';
+        window.location = url;
+    }
   
 </script>
 
@@ -93,6 +97,14 @@
           
             <div class="row-count">
                 <h5>Row Count:- @Model.Count()</h5>
+            </div>
+
+            <div class="row">
+
+                <div class="col-md-12 hrpart">
+                    <input type="button" class="form-button left" value="Previous" onclick="PreviousList()" />
+                </div>
+
             </div>
 
         </div>

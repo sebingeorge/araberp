@@ -737,6 +737,8 @@
     <Content Include="Views\Shared\ShowError.cshtml" />
     <Content Include="Views\SaleOrder\Index.cshtml" />
     <Content Include="Views\SaleOrder\_PreviousList.cshtml" />
+    <Content Include="Views\ProformaInvoice\Index.cshtml" />
+    <Content Include="Views\ProformaInvoice\_PreviousListGrid.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
