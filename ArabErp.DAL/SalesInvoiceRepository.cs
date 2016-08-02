@@ -13,18 +13,18 @@ namespace ArabErp.DAL
         static string dataConnection = GetConnectionString("arab");
 
 
-//        public int InsertSalesInvoice(SalesInvoice objSalesInvoice)
-//        {
-//            using (IDbConnection connection = OpenConnection(dataConnection))
-//            {
-//                string sql = @"insert  into SalesInvoice(SalesInvoiceDate,JobCardId,SpecialRemarks,PaymentTerms,CreatedBy,CreatedDate) Values (@SalesInvoiceDate,@JobCardId,@SpecialRemarks,@PaymentTerms,@CreatedBy,@CreatedDate);
-//            SELECT CAST(SCOPE_IDENTITY() as int)";
+        //        public int InsertSalesInvoice(SalesInvoice objSalesInvoice)
+        //        {
+        //            using (IDbConnection connection = OpenConnection(dataConnection))
+        //            {
+        //                string sql = @"insert  into SalesInvoice(SalesInvoiceDate,JobCardId,SpecialRemarks,PaymentTerms,CreatedBy,CreatedDate) Values (@SalesInvoiceDate,@JobCardId,@SpecialRemarks,@PaymentTerms,@CreatedBy,@CreatedDate);
+        //            SELECT CAST(SCOPE_IDENTITY() as int)";
 
 
-//                var id = connection.Query<int>(sql, objSalesInvoice).Single();
-//                return id;
-//            }
-//        }
+        //                var id = connection.Query<int>(sql, objSalesInvoice).Single();
+        //                return id;
+        //            }
+        //        }
 
         public SalesInvoice GetSalesInvoice(int SalesInvoiceId)
         {
@@ -87,7 +87,7 @@ namespace ArabErp.DAL
             using (IDbConnection connection = OpenConnection(dataConnection))
             {
                 string sql = string.Empty;
-                if(invType == "Inter")
+                if (invType == "Inter")
                 {
                     sql = @"SELECT DISTINCT C.CustomerName Customer, SO.SaleOrderId SaleOrderId,CONCAT(SO.SaleOrderRefNo,'/',Convert(varchar(15),SO.SaleOrderDate,106 )) as SaleOrderRefNoWithDate
                         FROM SaleOrder SO LEFT JOIN SaleOrderItem SOI ON SO.SaleOrderId=SOI.SaleOrderId
@@ -100,7 +100,7 @@ namespace ArabErp.DAL
 						AND C.isActive=1
 						AND SOI.isActive=1";
                 }
-                else if(invType == "Final")
+                else if (invType == "Final")
                 {
                     sql = @"SELECT DISTINCT C.CustomerName Customer, SO.SaleOrderId SaleOrderId,CONCAT(SO.SaleOrderRefNo,'/',Convert(varchar(15),SO.SaleOrderDate,106 )) as SaleOrderRefNoWithDate
                         FROM SaleOrder SO LEFT JOIN SaleOrderItem SOI ON SO.SaleOrderId=SOI.SaleOrderId
@@ -125,7 +125,7 @@ namespace ArabErp.DAL
 						AND JC.isActive=1
 						AND C.isActive=1
 						AND SOI.isActive=1";
-                }               
+                }
 
                 var objSalesInvoices = connection.Query<SalesInvoice>(sql).ToList<SalesInvoice>();
 
@@ -203,18 +203,18 @@ namespace ArabErp.DAL
                             DROP TABLE #TEMP_INVOICE;
                             DROP TABLE #TEMP_ORDER;";
                 }
-                
+
                 return connection.Query<SalesInvoiceItem>(sql, new { SaleOrderId = SaleOrderId }).ToList();
             }
         }
         public SalesInvoice GetSelectedSalesInvoiceHD(int salesinvoiceid, string invType)
         {
-             using (IDbConnection connection = OpenConnection(dataConnection))
-           {
-               string sql = string.Empty;
-               if (invType == "Inter")
-               {
-                   sql = @" SELECT * INTO #SaleOrder FROM SaleOrder WHERE SaleOrderId=@SaleOrderId
+            using (IDbConnection connection = OpenConnection(dataConnection))
+            {
+                string sql = string.Empty;
+                if (invType == "Inter")
+                {
+                    sql = @" SELECT * INTO #SaleOrder FROM SaleOrder WHERE SaleOrderId=@SaleOrderId
                                 select Distinct 
                                 C.CustomerName Customer,
                                 SO.SaleOrderId SaleOrderId,
@@ -235,10 +235,10 @@ namespace ArabErp.DAL
                                 Left Join WorkDescription WD on SOI.WorkDescriptionId=WD.WorkDescriptionId
                                 where SO.isProjectBased = 1 AND SO.isActive=1 AND SOI.isActive=1 AND JC.isActive=1
                                 DROP TABLE #SaleOrder";
-               }
-               else if (invType == "Final")
-               {
-                   sql = @" SELECT * INTO #SaleOrder FROM SaleOrder WHERE SaleOrderId=@SaleOrderId
+                }
+                else if (invType == "Final")
+                {
+                    sql = @" SELECT * INTO #SaleOrder FROM SaleOrder WHERE SaleOrderId=@SaleOrderId
                             select Distinct 
                             C.CustomerName Customer,
                             SO.SaleOrderId SaleOrderId,
@@ -259,10 +259,10 @@ namespace ArabErp.DAL
                             Left Join WorkDescription WD on SOI.WorkDescriptionId=WD.WorkDescriptionId
                             where JC.JodCardCompleteStatus=1 AND SO.isActive=1 AND SOI.isActive=1 AND JC.isActive=1
                             DROP TABLE #SaleOrder";
-               }
-               else if (invType == "Transportation")
-               {
-                   sql = @" SELECT * INTO #SaleOrder FROM SaleOrder WHERE SaleOrderId=@SaleOrderId
+                }
+                else if (invType == "Transportation")
+                {
+                    sql = @" SELECT * INTO #SaleOrder FROM SaleOrder WHERE SaleOrderId=@SaleOrderId
                             select Distinct 
                             C.CustomerName Customer,
                             SO.SaleOrderId SaleOrderId,
@@ -283,8 +283,8 @@ namespace ArabErp.DAL
                             Left Join WorkDescription WD on SOI.WorkDescriptionId=WD.WorkDescriptionId
                             where JC.JodCardCompleteStatus=1 AND SO.isActive=1 AND SOI.isActive=1 AND JC.isActive=1
                             DROP TABLE #SaleOrder";
-               }
-                
+                }
+
                 var objSalesInvoiceHD = connection.Query<SalesInvoice>(sql, new { SaleOrderId = salesinvoiceid }).First();
 
                 return objSalesInvoiceHD;
@@ -320,7 +320,7 @@ namespace ArabErp.DAL
                         item.OrganizationId = model.OrganizationId;
                         SalesInvoiceItemRepo.InsertSalesInvoiceItem(item, connection, trn);
                     }
-                    
+
                     trn.Commit();
                     //return id + "|INV/" + internalId;
                 }
@@ -328,7 +328,7 @@ namespace ArabErp.DAL
                 {
                     result.SalesInvoiceId = 0;
                     result.SalesInvoiceRefNo = null;
-                    
+
                     trn.Rollback();
 
                     throw;
@@ -355,6 +355,39 @@ namespace ArabErp.DAL
                     duedate = SalesInvoice.SalesInvoiceDueDate;
                 }
                 return duedate;
+            }
+        }
+
+        /// <summary>
+        /// All items in [SalesInvoice] where isProjectBased = 0
+        /// </summary>
+        /// <returns></returns>
+        public IList<SalesInvoice> PreviousList(int OrganizationId, DateTime? from, DateTime? to, int id = 0)
+        {
+            using (IDbConnection connection = OpenConnection(dataConnection))
+            {
+                string query = @"SELECT
+	                                INV.SalesInvoiceId,
+	                                INV.SalesInvoiceRefNo,
+	                                INV.SalesInvoiceDate,
+	                                SO.SaleOrderRefNo,
+	                                SO.SaleOrderDate,
+	                                ISNULL(INV.SpecialRemarks, '-') SpecialRemarks
+                                FROM SalesInvoice INV
+                                LEFT JOIN SaleOrder SO ON INV.SaleOrderId = SO.SaleOrderId
+                                WHERE INV.isProjectBased = 0
+                                AND INV.OrganizationId = @OrganizationId
+                                AND CONVERT(DATE, INV.SalesInvoiceDate, 106) BETWEEN ISNULL(@from, DATEADD(MONTH, -1, GETDATE())) AND ISNULL(@to, GETDATE())
+                                AND INV.SalesInvoiceId = ISNULL(NULLIF(CAST(@id AS INT), 0), INV.SalesInvoiceId)
+                                ORDER BY INV.SalesInvoiceDate DESC, INV.CreatedDate DESC";
+
+                return connection.Query<SalesInvoice>(query, new
+                {
+                    OrganizationId = OrganizationId,
+                    id = id,
+                    from = from,
+                    to = to
+                }).ToList();
             }
         }
     }

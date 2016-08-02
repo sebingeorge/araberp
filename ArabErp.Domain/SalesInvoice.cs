@@ -12,6 +12,7 @@ namespace ArabErp.Domain
         public int SalesInvoiceId { get; set; }
         public int SaleOrderId { get; set; }
         public string SaleOrderRefNo { get; set; }
+        public DateTime SaleOrderDate { get; set; }
        
         public string CurrentDate { get; set; }
         public string SalesInvoiceNo { get; set; }

@@ -258,6 +258,16 @@ namespace ArabErp.DAL
             }
         }
 
+        public List<Dropdown> FillQuotationNo()
+        {
+            using (IDbConnection connection = OpenConnection(dataConnection))
+            {
+                var param = new DynamicParameters();
+                return connection.Query<Dropdown>("select SalesQuotationId Id,QuotationRefNo Name from SalesQuotation ").ToList();
+            }
+        }
+
+        
         public List<Dropdown> FillCommissionAgent()
         {
             using (IDbConnection connection = OpenConnection(dataConnection))
