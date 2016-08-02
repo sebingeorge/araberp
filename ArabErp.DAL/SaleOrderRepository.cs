@@ -258,6 +258,16 @@ namespace ArabErp.DAL
             }
         }
 
+        public List<Dropdown> FillSORefNo()
+        {
+            using (IDbConnection connection = OpenConnection(dataConnection))
+            {
+                var param = new DynamicParameters();
+                return connection.Query<Dropdown>("select SaleOrderId Id,SaleOrderRefNo Name from SaleOrder  WHERE ISNULL(isActive, 1) = 1").ToList();
+            }
+        }
+
+
         public List<Dropdown> FillQuotationNo()
         {
             using (IDbConnection connection = OpenConnection(dataConnection))
@@ -530,7 +540,22 @@ namespace ArabErp.DAL
                 return connection.Query<SaleOrder>(query, new { FromDate = FromDate, ToDate = ToDate, CommissionAgentId = CommissionAgentId }).ToList();
             }
         }
-       
+
+        public IEnumerable<PendingSO> GetPreviousList(int isProjectBased, int id, int cusid)
+        {
+            using (IDbConnection connection = OpenConnection(dataConnection))
+            {
+                string query = "Select S.SaleOrderId,SaleOrderRefNo, SaleOrderDate,CONCAT(QuotationRefNo,'/',CONVERT (VARCHAR(15),QuotationDate,104))QuotationNoDate, C.CustomerName, S.CustomerOrderRef";
+                query += " from SaleOrder S";
+                query += " inner join Customer C on S.CustomerId = C.CustomerId";
+                query += " left join SalesQuotation SQ ON SQ.SalesQuotationId=S.SalesQuotationId";
+                query += " where S.SaleOrderId= ISNULL(NULLIF(@id, 0), S.SaleOrderId) AND C.CustomerId = ISNULL(NULLIF(@cusid, 0), C.CustomerId)";
+                query += " and S.isProjectBased =" + isProjectBased;
+
+                return connection.Query<PendingSO>(query, new { id = id, cusid = cusid }).ToList();
+            }
+        }
+
 
     }
 }
