@@ -258,15 +258,9 @@ namespace ArabErp.DAL
             }
         }
 
-        public List<Dropdown> FillSORefNo()
-        {
-            using (IDbConnection connection = OpenConnection(dataConnection))
-            {
-                var param = new DynamicParameters();
-                return connection.Query<Dropdown>("select SaleOrderId Id,SaleOrderRefNo Name from SaleOrder  WHERE ISNULL(isActive, 1) = 1").ToList();
-            }
-        }
+     
 
+      
 
         public List<Dropdown> FillQuotationNo()
         {
@@ -541,7 +535,7 @@ namespace ArabErp.DAL
             }
         }
 
-        public IEnumerable<PendingSO> GetPreviousList(int isProjectBased, int id, int cusid)
+        public IEnumerable<PendingSO> GetPreviousList(int isProjectBased, int id, int cusid, int OrganizationId, DateTime? from, DateTime? to)
         {
             using (IDbConnection connection = OpenConnection(dataConnection))
             {
@@ -550,9 +544,9 @@ namespace ArabErp.DAL
                 query += " inner join Customer C on S.CustomerId = C.CustomerId";
                 query += " left join SalesQuotation SQ ON SQ.SalesQuotationId=S.SalesQuotationId";
                 query += " where S.SaleOrderId= ISNULL(NULLIF(@id, 0), S.SaleOrderId) AND C.CustomerId = ISNULL(NULLIF(@cusid, 0), C.CustomerId)";
-                query += " and S.isProjectBased =" + isProjectBased;
+                query += " and S.OrganizationId = @OrganizationId and S.SaleOrderDate BETWEEN ISNULL(@from, DATEADD(MONTH, -1, GETDATE())) AND ISNULL(@to, GETDATE()) and S.isProjectBased =" + isProjectBased;
 
-                return connection.Query<PendingSO>(query, new { id = id, cusid = cusid }).ToList();
+                return connection.Query<PendingSO>(query, new { OrganizationId = OrganizationId, id = id, cusid = cusid, to = to, from = from }).ToList();
             }
         }
 

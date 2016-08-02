@@ -15,20 +15,21 @@ namespace ArabErp.Web.Controllers
         // GET: SaleOrder
         public ActionResult Index(int type)
         {
-            FillSORefNo();
-            FillCustomer();
+            FillSORefNo(type);
+            FillSOCustomer(type);
             ViewBag.isProjectBased = type;
             return View();
            
         }
 
-        public ActionResult PreviousList(int ProjectBased, int id = 0, int cusid = 0)
+        public ActionResult PreviousList(DateTime? from, DateTime? to, int ProjectBased, int id = 0, int cusid = 0)
         {
             //var repo = new SaleOrderRepository();
             //IEnumerable<PendingSO> pendingSO = repo.GetSaleOrderPending(ProjectBased);
             //return View(pendingSO);
-
-            return PartialView("_PreviousList", new SaleOrderRepository().GetPreviousList(ProjectBased, id, cusid));
+            from = from ?? DateTime.Today.AddMonths(-1);
+            to = to ?? DateTime.Today;
+            return PartialView("_PreviousList", new SaleOrderRepository().GetPreviousList(ProjectBased, id, cusid, OrganizationId, from, to));
         }
 
         public ActionResult Create(int? SalesQuotationId)
@@ -187,11 +188,17 @@ namespace ArabErp.Web.Controllers
             saleOrder.isProjectBased = isProjectBased;
             return PartialView("_DisplaySOList", saleOrder);
         }
-        public void FillSORefNo()
+        public void FillSORefNo(int type)
         {
+            ViewBag.sorefnolist = new SelectList(new DropdownRepository().FillSORefNo(OrganizationId, type), "Id", "Name");
+
+        }
+        public void FillCustomer()
+        {
+
             var repo = new SaleOrderRepository();
-            var list = repo.FillSORefNo();
-            ViewBag.sorefnolist = new SelectList(list, "Id", "Name");
+            var list = repo.FillCustomer();
+            ViewBag.customerlist = new SelectList(list, "Id", "Name");
         }
         public void FillWrkDesc()
         {
@@ -205,11 +212,10 @@ namespace ArabErp.Web.Controllers
             var list = repo.FillWorkDescForProject();
             ViewBag.workdesclist = new SelectList(list, "Id", "Name");
         }
-        public void FillCustomer()
+        public void FillSOCustomer(int type)
         {
-            var repo = new SaleOrderRepository();
-            var list = repo.FillCustomer();
-            ViewBag.customerlist = new SelectList(list, "Id", "Name");
+            ViewBag.customerlist = new SelectList(new DropdownRepository().FillSOCustomer(OrganizationId, type), "Id", "Name");
+
         }
         public void FillVehicle()
         {

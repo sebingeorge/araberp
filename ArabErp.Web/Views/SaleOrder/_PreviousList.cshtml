@@ -1,10 +1,5 @@
 ﻿@model IList<ArabErp.Domain.PendingSO>
 
-@{
-    ViewBag.Title = "_PreviousList";
-    Layout = "~/Views/Shared/_Layout.cshtml";
-}
-
 <script>
     function OnSelected(id) {
         var url = '@Url.Action("Edit")';
@@ -29,7 +24,8 @@
                     <thead>
                         <tr class="grid_heading">
 
-                            <th width="15%"><h1>SO No & Date</h1></th>
+                            <th width="15%"><h1>SO No </h1></th>
+                            <th width="10%"><h1>SO Date</h1></th>
                             <th width="15%"><h1>Quotation No & Date</h1></th>
                             <th width="65%"><h1>Customer</h1></th>
                             <th width="30%"><h1>Customer Order Ref.</h1></th>
@@ -41,7 +37,8 @@
                         <tbody class="grid_row">
                             <tr id="@item.SaleOrderId">
 
-                                <td class="grid-cell">@item.SaleOrderRefNo &amp; @item.SaleOrderDate.ToString("dd/MMM/yyyy")</td>
+                                <td class="grid-cell">@item.SaleOrderRefNo </td>
+                                <td class="grid-cell">@item.SaleOrderDate.ToString("dd/MMM/yyyy")</td>
                                 <td class="grid-cell">@item.QuotationNoDate</td>
                                 <td class="grid-cell">@item.CustomerName</td>
                                 <td class="grid-cell">@item.CustomerOrderRef</td>

@@ -5,19 +5,31 @@
 }
 
 <script>
-    function OnSONoChanged(sender) {
+
+    $(document).ready(function () {
+        $("#txtFrom").datepicker({
+            dateFormat: "dd-MM-yy"
+        });
+        $("#txtTo").datepicker({
+            dateFormat: "dd-MM-yy"
+        });
+    })
+
+    function Filter() {
+        $("#saleorderlist").addClass("fade");
         var id = $("#soNo").val();
-        //alert(id);
         var cusid = $("#cboCustomer").val();
+        var from = $("#txtFrom").val();
+        var to = $("#txtTo").val();
         var url = '@Url.Action("PreviousList")';
-        $("#saleorderlist").load(url, { ProjectBased:@ViewBag.isProjectBased,id: id, cusid: cusid });
+        url += "?from=" + from + "&to=" + to + "&id=" + id + "&cusid=" + cusid + "&ProjectBased=" + @ViewBag.isProjectBased; 
+       
+        $("#saleorderlist").load(url, function () {
+            $("#saleorderlist").removeClass("fade");
+        });
     }
-    function OnCustomerChanged(sender) {
-        var cusid = $("#cboCustomer").val();
-        var id = $("#soNo").val();
-        var url = '@Url.Action("PreviousList")';
-        $("#saleorderlist").load(url, { ProjectBased:@ViewBag.isProjectBased,id: id, cusid: cusid });
-    }
+
+
 </script>
 
 <div class="row">
@@ -29,13 +41,25 @@
     <div class="main-part pad1">
 
         <div class="row form-group">
-            <div class="col-md-3">
+
+            <div class="col-md-2">
                 <label for="soNo">SO No.</label>
-                @Html.DropDownList("soNo", (SelectList)ViewBag.sorefnolist, "Any", new { @class = "form_input", @onchange = "OnSONoChanged(this)" })
+                @Html.DropDownList("soNo", (SelectList)ViewBag.sorefnolist, "Any", new { @class = "form_input", @onchange = "Filter()" })
             </div>
+
             <div class="col-md-3">
                 <label for="cboCustomer">Customer</label>
-                @Html.DropDownList("cboCustomer", (SelectList)ViewBag.customerlist, "Any", new { @class = "form_input", @onchange = "OnCustomerChanged(this)" })
+                @Html.DropDownList("cboCustomer", (SelectList)ViewBag.customerlist, "Any", new { @class = "form_input", @onchange = "Filter()" })
+            </div>
+
+            <div class="col-md-2">
+                <label>From</label>
+                <input id="txtFrom" value="@System.DateTime.Today.AddMonths(-1).ToString("dd-MMMM-yyyy")" onchange="Filter()" class="form_input" />
+            </div>
+
+            <div class="col-md-2">
+                <label>To</label>
+                <input id="txtTo" value="@System.DateTime.Today.ToString("dd-MMMM-yyyy")" onchange="Filter()" class="form_input" />
             </div>
 
         </div>

@@ -357,5 +357,33 @@ namespace ArabErp.DAL
                                                     new { OrganizationId = OrganizationId, type = type }).ToList();
             }
         }
+
+        public List<Dropdown> FillSORefNo(int OrganizationId, int type)
+        {
+            using (IDbConnection connection = OpenConnection(dataConnection))
+            {
+
+                return connection.Query<Dropdown>(@"SELECT SaleOrderId Id,SaleOrderRefNo Name
+                                                    FROM SaleOrder 
+                                                    WHERE OrganizationId = @OrganizationId AND isProjectBased = " + type,
+                                                    new { OrganizationId = OrganizationId, type = type }).ToList();
+            }
+        }
+
+
+        public List<Dropdown> FillSOCustomer(int OrganizationId, int type)
+        {
+            using (IDbConnection connection = OpenConnection(dataConnection))
+            {
+
+                return connection.Query<Dropdown>(@"SELECT  Distinct C.CustomerId Id,C.CustomerName Name
+                                                    FROM SaleOrder S
+                                                    INNER JOIN Customer C on S.CustomerId = C.CustomerId
+                                                    WHERE S.OrganizationId = @OrganizationId AND isProjectBased = " + type,
+                                                    new { OrganizationId = OrganizationId, type = type }).ToList();
+            }
+        }
+
+
     }
 }
