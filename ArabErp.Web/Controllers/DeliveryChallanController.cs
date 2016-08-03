@@ -89,12 +89,16 @@ namespace ArabErp.Web.Controllers
         }
         public ActionResult DeliveryChallanList()
         {
-
+            FillDCNo();
             return View();
         }
-        public ActionResult PreviousList(int id = 0, int cusid = 0)
+        public void FillDCNo()
         {
-            return PartialView("_PreviousList", new DeliveryChallanRepository().GetAllDeliveryChallan(OrganizationId));
+            ViewBag.DCNoList = new SelectList(new DropdownRepository().DCNODropdown(OrganizationId), "Id", "Name");
+        }
+        public ActionResult PreviousList(DateTime? from, DateTime? to, int id = 0, int cusid = 0)
+        {
+            return PartialView("_PreviousList", new DeliveryChallanRepository().GetAllDeliveryChallan(id, cusid, OrganizationId, from, to));
         }
     }
 }

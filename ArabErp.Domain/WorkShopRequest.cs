@@ -24,10 +24,13 @@ namespace ArabErp.Domain
         //for view model
         public string SaleOrderRefNo { get; set; }
         public string CustomerName { get; set; }
+        public DateTime SaleOrderDate { get; set; }
 
 
         public bool isAdditionalRequest { get; set; }
         public int JobCardId { get; set; }
+        public DateTime JobCardDate { get; set; }
+        public string JobCardNo { get; set; }
         public string SoNoWithDate { get; set; }
         public DateTime EDateArrival { get; set; }
         public DateTime EDateDelivery { get; set; }
