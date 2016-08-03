@@ -301,7 +301,7 @@ namespace ArabErp.DAL
             }
         }
 
-        public IEnumerable<SalesQuotationList> GetPreviousList(int isProjectBased, int id, int cusid)
+        public IEnumerable<SalesQuotationList> GetPreviousList(int isProjectBased, int id, int cusid, int OrganizationId, DateTime? from, DateTime? to)
         {
             using (IDbConnection connection = OpenConnection(dataConnection))
             {
@@ -311,9 +311,10 @@ namespace ArabErp.DAL
                                inner join Employee E on E.EmployeeId = Q.SalesExecutiveId
                                inner join SalesQuotationRejectReason RR on RR.SalesQuotationRejectReasonId=q.SalesQuotationRejectReasonId
                                where Q.SalesQuotationId= ISNULL(NULLIF(@id, 0), Q.SalesQuotationId) AND C.CustomerId = ISNULL(NULLIF(@cusid, 0), C.CustomerId) 
-                               and isProjectBased =" + isProjectBased ;
+                               and Q.QuotationDate BETWEEN ISNULL(@from, DATEADD(MONTH, -1, GETDATE())) AND ISNULL(@to, GETDATE())
+                               and Q.OrganizationId = @OrganizationId  and isProjectBased =" + isProjectBased;
 
-                return connection.Query<SalesQuotationList>(sql, new { id = id, cusid = cusid }).ToList();
+                return connection.Query<SalesQuotationList>(sql, new { OrganizationId = OrganizationId, id = id, cusid = cusid, to = to, from = from }).ToList();
             }
         }
 
