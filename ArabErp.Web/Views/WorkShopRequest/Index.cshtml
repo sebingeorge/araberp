@@ -1,10 +1,11 @@
 ﻿
 @{
-    ViewBag.Title = "JobCardList";
+    ViewBag.Title = "Index";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
-<script type="text/javascript">
 
+
+<script type="text/javascript">
     $(document).ready(function () {
         $("#txtFrom").datepicker({
             dateFormat: "dd-MM-yy"
@@ -15,38 +16,42 @@
     })
 
     function Filter() {
-        $("#jobcardlist").addClass("fade");
-        var id = $("#cboJCNo").val();
+        $("#workshopreqlist").addClass("fade");
+        var id = $("#cboWRNo").val();
         var cusid = $("#cboCustomer").val();
         var from = $("#txtFrom").val();
         var to = $("#txtTo").val();
         var url = '@Url.Action("PreviousList")';
-
-        url += "?from=" + from + "&to=" + to + "&id=" + id + "&cusid=" + cusid + "&ProjectBased=" + @ViewBag.ProjectBased;
-     
-        $("#jobcardlist").load(url, function () {
-            $("#jobcardlist").removeClass("fade");
+        url += "?from=" + from + "&to=" + to + "&id=" + id + "&cusid=" + cusid;
+        $("#workshopreqlist").load(url, function () {
+            $("#workshopreqlist").removeClass("fade");
         });
     }
-
+    function Exit() {
+        var url = '@Url.Action("WorkShopRequestPending")';
+        window.location = url;
+    }
 </script>
+
+
 <div class="row">
+
     <div class="form-head1">
-        <h4>JobCard List</h4>
+        <h4>Workshop Request List</h4>
     </div>
+
     <div class="main-part pad1">
-        <div class="row form-group">
+        <div class="row">
             <div class="col-md-2">
-                <label for="cboJCNo">JobCard No.</label>
-                @Html.DropDownList("cboJCNo", (SelectList)ViewBag.JCNoList, "Any", new { @class = "form_input", @onchange = "Filter()" })
+                <label for="cboWRNo">WorkShopRequest No.</label>
+                @Html.DropDownList("cboWRNo", (SelectList)ViewBag.WRNoList, "Any", new { @class = "form_input", @onchange = "Filter()" })
             </div>
             <div class="col-md-3">
-                <label for="cboCustomer">Customer</label>
+                <label for="cboWRNo">Customer</label>
                 @Html.DropDownList("cboCustomer", (SelectList)ViewBag.CusList, "Any", new { @class = "form_input", @onchange = "Filter()" })
             </div>
             <div class="col-md-2">
                 <label>From</label>
-
                 <input id="txtFrom" value="@System.DateTime.Today.AddMonths(-1).ToString("dd-MMMM-yyyy")" onchange="Filter()" class="form_input" />
             </div>
             <div class="col-md-2">
@@ -54,9 +59,16 @@
                 <input id="txtTo" value="@System.DateTime.Today.ToString("dd-MMMM-yyyy")" onchange="Filter()" class="form_input" />
             </div>
         </div>
-        <div id="jobcardlist">
-            @Html.Action("PreviousList", new { ProjectBased = ViewBag.ProjectBased })
+        <br />
+
+        <div class="table-responsive scroll4" id="workshopreqlist">
+            @Html.Action("PreviousList")
+        </div>
+
+        <div class="row">
+            <div class="col-md-12 hrpart">
+                <input type="button" class="form-button right" value="Exit" onclick="Exit()" />
+            </div>
         </div>
     </div>
 </div>
-
