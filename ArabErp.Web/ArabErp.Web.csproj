@@ -737,6 +737,8 @@
     <Content Include="Views\SaleOrder\_PreviousList.cshtml" />
     <Content Include="Views\ProformaInvoice\Index.cshtml" />
     <Content Include="Views\ProformaInvoice\_PreviousListGrid.cshtml" />
+    <Content Include="Views\AdditionalWorkShopRequest\Index.cshtml" />
+    <Content Include="Views\AdditionalWorkShopRequest\_PreviousListGrid.cshtml" />
     <Content Include="Views\WorkShopRequest\Index.cshtml" />
     <Content Include="Views\JobCard\Index.cshtml" />
   </ItemGroup>

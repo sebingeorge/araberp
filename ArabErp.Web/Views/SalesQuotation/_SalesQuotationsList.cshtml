@@ -14,7 +14,8 @@
     }
 
     function Exit() {
-        var url = '@Url.Action("Create", "Expense")';
+      
+        var url = '@Url.Action("Create", "SalesQuotation")';
         window.location = url;
     }
 </script>
@@ -63,11 +64,10 @@
             </div>
         </div>
 
-        <br />
-        <div class="row-count1">
-            <h5>Row Count:- @Model.Count()</h5>
-        </div>
+    </div>
 
+    <div class="row-count1">
+        <h5>Row Count:- @Model.Count()</h5>
     </div>
 
     <div class="row">

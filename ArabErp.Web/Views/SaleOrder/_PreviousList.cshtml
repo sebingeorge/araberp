@@ -9,7 +9,7 @@
     }
 
     function Exit() {
-        var url = '@Url.Action("Create", "Expense")';
+        var url = '@Url.Action("PendingSalesQutoforSaleOrder", "SaleOrder", new { ProjectBased = @ViewBag.ProjectBased })';
         window.location = url;
     }
 </script>
