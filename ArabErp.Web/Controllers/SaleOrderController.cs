@@ -29,6 +29,7 @@ namespace ArabErp.Web.Controllers
             //return View(pendingSO);
             from = from ?? DateTime.Today.AddMonths(-1);
             to = to ?? DateTime.Today;
+            ViewBag.ProjectBased = ProjectBased;
             return PartialView("_PreviousList", new SaleOrderRepository().GetPreviousList(ProjectBased, id, cusid, OrganizationId, from, to));
         }
 
