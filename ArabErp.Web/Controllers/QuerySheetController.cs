@@ -104,8 +104,11 @@ namespace ArabErp.Web.Controllers
 
         public ActionResult QuerySheetList(DateTime? from, DateTime? to, int id = 0)
         {
-            var qs = new QuerySheetRepository().GetQuerySheets(id, OrganizationId,from, to);
-            return View( qs);
+
+            return PartialView("QuerySheetList", new QuerySheetRepository().GetQuerySheets(OrganizationId: OrganizationId, id: id, from: from, to: to));
+            
+            //var qs = new QuerySheetRepository().GetQuerySheets(id, OrganizationId,from, to);
+            //return View( qs);
         }
 
         public void FillRefNo()

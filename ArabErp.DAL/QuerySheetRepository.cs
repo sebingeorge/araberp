@@ -65,7 +65,7 @@ namespace ArabErp.DAL
 
 
 
-        public IEnumerable<QuerySheet> GetQuerySheets(int id, int OrganizationId, DateTime? from, DateTime? to)
+        public IList<QuerySheet> GetQuerySheets(int id, int OrganizationId, DateTime? from, DateTime? to)
         {
             using (IDbConnection connection = OpenConnection(dataConnection))
             {

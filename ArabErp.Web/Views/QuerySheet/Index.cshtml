@@ -1,13 +1,18 @@
-﻿@{
+﻿@model IList<ArabErp.Domain.QuerySheet>
+
+
+@{
     ViewBag.Title = "Index";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
-<style>
-    .fade{
-        opacity: 0.6
+
+<style type="text/css">
+    .fade {
+        opacity: 0.6;
     }
 </style>
-<script>
+
+<script type="text/javascript">
 
     $(document).ready(function () {
         $("#txtFrom").datepicker({
@@ -18,6 +23,16 @@
         });
     })
 
+    function OnItemSelected(id) {
+        var url = '@Url.Action("Edit")';
+        url += "?id=" + id;
+        window.location = url;
+    }
+    function Exit() {
+        location.href = '@Url.Action("CreateQuerySheet", "QuerySheet")';
+        window.location = url;
+    }
+
     function Filter() {
         $("#querysheetlist").addClass("fade");
         var id = $("#cboQSNo").val();
@@ -26,15 +41,14 @@
         var url = '@Url.Action("QuerySheetList")';
         url += "?from=" + from + "&to=" + to + "&id=" + id;
 
-            $("#querysheetlist").load(url, function () {
+        $("#querysheetlist").load(url, function () {
             $("#querysheetlist").removeClass("fade");
         });
     }
 
-
-
-
 </script>
+
+
 
 <div class="row">
 
@@ -44,7 +58,7 @@
 
     <div class="main-part pad1">
 
-        <div class="row form-group">
+        <div class="row">
 
             <div class="col-md-2">
                 <label for="cboQSNo">Query Sheet Ref No.</label>
@@ -62,9 +76,18 @@
             </div>
         </div>
 
-        <div id="querysheetlist">
-            @Html.Action("QuerySheetList")
+        <br />
+
+        <div class="table-responsive" id="querysheetlist">
+              @Html.Action("QuerySheetList")
         </div>
-    </div>
+
+        <div class="row">
+            <div class="col-md-12 hrpart">
+                <input type="button" class="form-button right" value="Exit" onclick="Exit()" />
+            </div>
+        </div>
+
+     </div>
 </div>
 
