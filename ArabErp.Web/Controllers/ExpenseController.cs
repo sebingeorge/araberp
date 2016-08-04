@@ -14,13 +14,13 @@ namespace ArabErp.Web.Controllers
         public ActionResult Index()
         {
             FillExpenseNo();
-            FillSupplier();
+            FillEBSupplier();
             return View();
         }
 
-        public ActionResult PreviousList(int id = 0, int supid = 0)
+        public ActionResult PreviousList(DateTime? from, DateTime? to, int id = 0, int supid = 0)
         {
-            return PartialView("_PreviousList", new ExpenseRepository().GetList(id, supid));
+            return PartialView("_PreviousList", new ExpenseRepository().GetList( id: id,supid:supid, from: from, to: to));
         }
 
         public ActionResult Create()
@@ -106,6 +106,10 @@ namespace ArabErp.Web.Controllers
         {
             ViewBag.ExpenseNoList = new SelectList(new DropdownRepository().ExpenseBillNoDropdown(), "Id", "Name");
         }
+        public void FillEBSupplier()
+        {
+            ViewBag.SupplierList = new SelectList(new DropdownRepository().ExpenseBillSupplierDropdown(), "Id", "Name");
+         }
         public JsonResult GetDueDate(DateTime date, int supplierId)
         {
             //var res = (new PurchaseBillRepository()).GetCurrencyIdByCustKey(cusKey);

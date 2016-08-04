@@ -333,7 +333,13 @@ namespace ArabErp.DAL
                 return connection.Query<Dropdown>("SELECT ExpenseId Id, ExpenseNo Name FROM ExpenseBill").ToList();
             }
         }
-
+        public List<Dropdown> ExpenseBillSupplierDropdown()
+        {
+            using (IDbConnection connection = OpenConnection(dataConnection))
+            {
+                return connection.Query<Dropdown>("SELECT distinct S.SupplierId Id,SupplierName Name FROM Supplier S INNER JOIN ExpenseBill E ON E.SupplierId=S.SupplierId WHERE ISNULL(S.isActive, 1) = 1").ToList();
+            }
+        }
         public List<Dropdown> QuerySheetRefNoDropdown()
         {
             using (IDbConnection connection = OpenConnection(dataConnection))
