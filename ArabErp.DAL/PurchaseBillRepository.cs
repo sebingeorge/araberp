@@ -179,7 +179,7 @@ namespace ArabErp.DAL
             }
         }
 
-        public IEnumerable<PurchaseBill> GetPurchaseBillPreviousList()
+        public IList<PurchaseBill> GetPurchaseBillPreviousList(int id, int supid, DateTime? from, DateTime? to,int OrganizationId)
         {
             using (IDbConnection connection = OpenConnection(dataConnection))
             {
@@ -187,9 +187,12 @@ namespace ArabErp.DAL
 	                                PurchaseBillId,PurchaseBillRefNo,CONVERT(VARCHAR(15),PurchaseBillDate, 104)PurchaseBillDate,PurchaseBillNoDate,
 	                                ISNULL(S.SupplierName, '-') Supplier,ISNULL(P.PurchaseBillAmount, 0.00) PurchaseBillAmount
 	                                FROM PurchaseBill P INNER JOIN Supplier S ON S.SupplierId=P.SupplierId
-                                    WHERE ISNULL(P.isActive, 1) = 1
+                                    WHERE P.PurchaseBillId = ISNULL(NULLIF(@id, 0), P.PurchaseBillId) 
+                                    and P.SupplierId = ISNULL(NULLIF(@supid, 0), P.SupplierId)
+                                    and P.PurchaseBillDate BETWEEN ISNULL(@from, DATEADD(MONTH, -1, GETDATE())) AND ISNULL(@to, GETDATE()) 
+                                    and ISNULL(P.isActive, 1) = 1 and P.OrganizationId = @OrganizationId 
                                     ORDER BY PurchaseBillDate DESC, P.CreatedDate DESC;";
-                return connection.Query<PurchaseBill>(query);
+                return connection.Query<PurchaseBill>(query, new { OrganizationId = OrganizationId, id = id, supid = supid, to = to, from = from }).ToList();
             }
         }
 

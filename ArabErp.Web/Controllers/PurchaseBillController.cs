@@ -127,14 +127,35 @@ namespace ArabErp.Web.Controllers
             ViewBag.additionList = new SelectList(new DropdownRepository().AdditionDropdown(), "Id", "Name");
             ViewBag.deductionList = new SelectList(new DropdownRepository().DeductionDropdown(), "Id", "Name");
         }
+
+        public void FillBillRefNo()
+        {
+            ViewBag.BillNoList = new SelectList(new DropdownRepository().PurchaseBillNoDropdown(), "Id", "Name");
+        }
+        public void FillPBSupplier()
+        {
+            ViewBag.SupplierList = new SelectList(new DropdownRepository().PurchaseBillSupplierDropdown(), "Id", "Name");
+        }
+
         public ActionResult PurchaseBillList()
         {
-            FillCurrency();
-            var repo = new PurchaseBillRepository();
-            IEnumerable<PurchaseBill> PurchaseBillList = repo.GetPurchaseBillPreviousList();
-            return View("PurchaseBillList", PurchaseBillList);
+
+            FillBillRefNo();
+            FillPBSupplier();
+            return View();
            
         }
+
+        public ActionResult PurchaseBillListDatas(DateTime? from, DateTime? to, int id = 0, int supid = 0)
+        {
+            return PartialView("_PurchaseBillListDatas", new PurchaseBillRepository().GetPurchaseBillPreviousList(id: id, supid: supid, from: from, to: to, OrganizationId: OrganizationId));
+
+            //var repo = new PurchaseBillRepository();
+            //IEnumerable<PurchaseBill> PurchaseBillList = repo.GetPurchaseBillPreviousList();
+            //return View("PurchaseBillList", PurchaseBillList);
+
+        }
+
         [HttpGet]
         public JsonResult GetDueDate(DateTime date,int supplierId)
         {

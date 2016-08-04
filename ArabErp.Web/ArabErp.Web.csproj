@@ -662,7 +662,7 @@
     <Content Include="Views\Box\BoxListView.cshtml" />
     <Content Include="Views\WorkDescription\Index.cshtml" />
     <Content Include="Views\WorkDescription\WorkDescriptionGrid.cshtml" />
-    <Content Include="Views\SupplyOrder\PreviousList.cshtml" />
+    <Content Include="Views\SupplyOrder\_PreviousList.cshtml" />
     <Content Include="Views\StoresIssue\PreviousList.cshtml" />
     <Content Include="Views\SupplierItemRate\Create.cshtml" />
     <Content Include="Views\SupplierItemRate\SupplierItemRateList.cshtml" />
@@ -711,7 +711,7 @@
     <Content Include="Views\CustomerReceipt\Index.cshtml" />
     <Content Include="Views\StockCreation\PreviousList.cshtml" />
     <Content Include="Views\Expense\PendingApproval.cshtml" />
-    <Content Include="Views\PurchaseRequest\PreviousList.cshtml" />
+    <Content Include="Views\PurchaseRequest\_PreviousList.cshtml" />
     <Content Include="Views\PurchaseRequest\Edit.cshtml" />
     <Content Include="Views\WorkShopRequest\Edit.cshtml" />
     <Content Include="Views\WorkShopRequest\_PreviousList.cshtml" />
@@ -746,6 +746,9 @@
     <Content Include="Views\JobCardQC\_PreviousList.cshtml" />
     <Content Include="Views\WorkshopRequestRegister\Index.cshtml" />
     <Content Include="Views\WorkshopRequestRegister\_WorkShopRequestRegister.cshtml" />
+    <Content Include="Views\PurchaseBill\_PurchaseBillListDatas.cshtml" />
+    <Content Include="Views\SupplyOrder\Index.cshtml" />
+    <Content Include="Views\PurchaseRequest\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

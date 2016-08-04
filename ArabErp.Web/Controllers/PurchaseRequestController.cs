@@ -17,8 +17,16 @@ namespace ArabErp.Web.Controllers
         // GET: PurchaseRequest
         public ActionResult Index()
         {
+            FillPRRefNo();
+            FillPRCustomer();
             return View();
         }
+
+        public ActionResult PreviousList(DateTime? from, DateTime? to, int id = 0, int cusid = 0)
+        {
+            return PartialView("_PreviousList", new PurchaseRequestRepository().GetPurchaseRequest(OrganizationId: OrganizationId, id: id, cusid: cusid, from: from, to: to));
+        }
+
         public ActionResult PendingPurchaseRequest()
         {
             var repo = new PurchaseRequestRepository();
@@ -175,11 +183,6 @@ namespace ArabErp.Web.Controllers
               
           }
 
-        public ActionResult PreviousList()
-        {
-            return View(new PurchaseRequestRepository().GetPurchaseRequest());
-        }
-
         public ActionResult Delete(int Id)
         {
             ViewBag.Title = "Delete";
@@ -216,6 +219,14 @@ namespace ArabErp.Web.Controllers
             }
             
         }
-      
+
+        public void FillPRRefNo()
+        {
+            ViewBag.PRNoList = new SelectList(new DropdownRepository().PRRefNoDropdown(), "Id", "Name");
+        }
+        public void FillPRCustomer()
+        {
+            ViewBag.CustomerList = new SelectList(new DropdownRepository().PurchaseReqCustomerDropdown(), "Id", "Name");
+        }
     }
 }

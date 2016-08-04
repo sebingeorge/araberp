@@ -1,6 +1,7 @@
-﻿@model IList<ArabErp.Domain.PurchaseBill>
+﻿@model IList<ArabErp.Domain.SupplyOrderPreviousList>
+
 @{
-    ViewBag.Title = "PurchaseBillList";
+    ViewBag.Title = "Index";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
@@ -21,73 +22,44 @@
         });
     })
 
-    function Exit() {
-        var url = '@Url.Action("Index")';
+    function OnItemSelected(id) {
+        var url = '@Url.Action("Edit")';
+        url += "?id=" + id;
         window.location = url;
     }
-
-    function OpenEditForm(id) {
-        var url = '@Url.Action("Edit")';
-        url += "/" + id;
+    function Exit() {
+        location.href = '@Url.Action("PendingSupplyOrder")';
         window.location = url;
     }
 
     function Filter() {
-        $("#purchasebilllist").addClass("fade");
-        var id = $("#cboPBNo").val();
+        $("#solist").addClass("fade");
+        var id = $("#cboSONo").val();
         var supid = $("#cboSupplier").val();
         var from = $("#txtFrom").val();
         var to = $("#txtTo").val();
-        var url = '@Url.Action("PurchaseBillListDatas")';
+        var url = '@Url.Action("PreviousList")';
         url += "?from=" + from + "&to=" + to + "&id=" + id + "&supid=" + supid;
 
-        $("#purchasebilllist").load(url, function () {
-            $("#purchasebilllist").removeClass("fade");
+        $("#solist").load(url, function () {
+            $("#solist").removeClass("fade");
         });
     }
-
-    $(document).ready(function () {
-        toastr.options = {
-            "closeButton": true,
-            "positionClass": "toast-bottom-full-width",
-            "preventDuplicates": false,
-            "onclick": null,
-            "showDuration": "300",
-            "hideDuration": "1000",
-            "timeOut": "5000",
-            "extendedTimeOut": "0",
-            "showEasing": "swing",
-            "hideEasing": "linear",
-            "showMethod": "fadeIn",
-            "hideMethod": "fadeOut"
-        }
-        if ('@TempData["success"]' != '') {
-            toastr.success('@TempData["success"]');
-        }
-        else if ('@TempData["error"]' != '') {
-            toastr.error('@TempData["error"]'.split('|')[0]);
-            console.log('@TempData["error"]'.split('|')[1]);
-        }
-        @{ TempData["success"] = TempData["error"] = ""; }
-
-
-
-    })
 
 </script>
 
 <div class="row">
 
     <div class="form-head1">
-        <h4>Purchase Bill List</h4>
+        <h4>Supply Order / LPO List</h4>
     </div>
 
     <div class="main-part pad1">
 
         <div class="row">
             <div class="col-md-2">
-                <label for="cboPBNo">Bill No.</label>
-                @Html.DropDownList("cboPBNo", (SelectList)ViewBag.BillNoList, "Any", new { @class = "form_input", @onchange = "Filter()" })
+                <label for="cboSONo">SO No.</label>
+                @Html.DropDownList("cboSONo", (SelectList)ViewBag.SONoList, "Any", new { @class = "form_input", @onchange = "Filter()" })
             </div>
             <div class="col-md-3">
                 <label for="cboSupplier">Supplier</label>
@@ -106,8 +78,8 @@
 
         <br />
 
-        <div class="table-responsive" id="purchasebilllist">
-            @Html.Action("PurchaseBillListDatas")
+        <div class="table-responsive" id="solist">
+            @Html.Action("PreviousList")
         </div>
 
         <div class="row">
@@ -117,6 +89,4 @@
         </div>
     </div>
 </div>
-
-
 
