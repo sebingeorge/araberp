@@ -557,5 +557,20 @@ namespace ArabErp.DAL
             }
         }
 
+        public List<Dropdown> PurchaseBillNoDropdown()
+        {
+            using (IDbConnection connection = OpenConnection(dataConnection))
+            {
+                return connection.Query<Dropdown>("SELECT PurchaseBillId Id, PurchaseBillRefNo Name FROM PurchaseBill").ToList();
+            }
+        }
+        public List<Dropdown> PurchaseBillSupplierDropdown()
+        {
+            using (IDbConnection connection = OpenConnection(dataConnection))
+            {
+                return connection.Query<Dropdown>("SELECT distinct S.SupplierId Id,SupplierName Name FROM Supplier S INNER JOIN PurchaseBill P ON P.SupplierId=S.SupplierId WHERE ISNULL(S.isActive, 1) = 1").ToList();
+            }
+        }
+
     }
 }

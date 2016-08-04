@@ -1,23 +1,49 @@
-﻿@using ArabErp.Domain
-@model IList<PurchaseBill>
+﻿@model IList<ArabErp.Domain.PurchaseBill>
 @{
     ViewBag.Title = "PurchaseBillList";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
+<style type="text/css">
+    .fade {
+        opacity: 0.6;
+    }
+</style>
+
 <script type="text/javascript">
 
-    function Exit()
-    {
+    $(document).ready(function () {
+        $("#txtFrom").datepicker({
+            dateFormat: "dd-MM-yy"
+        });
+        $("#txtTo").datepicker({
+            dateFormat: "dd-MM-yy"
+        });
+    })
+
+    function Exit() {
         var url = '@Url.Action("Index")';
         window.location = url;
     }
 
-    function OpenEditForm(id)
-    {
+    function OpenEditForm(id) {
         var url = '@Url.Action("Edit")';
         url += "/" + id;
         window.location = url;
+    }
+
+    function Filter() {
+        $("#purchasebilllist").addClass("fade");
+        var id = $("#cboPBNo").val();
+        var supid = $("#cboSupplier").val();
+        var from = $("#txtFrom").val();
+        var to = $("#txtTo").val();
+        var url = '@Url.Action("PurchaseBillListDatas")';
+        url += "?from=" + from + "&to=" + to + "&id=" + id + "&supid=" + supid;
+
+        $("#purchasebilllist").load(url, function () {
+            $("#purchasebilllist").removeClass("fade");
+        });
     }
 
     $(document).ready(function () {
@@ -42,80 +68,55 @@
             toastr.error('@TempData["error"]'.split('|')[0]);
             console.log('@TempData["error"]'.split('|')[1]);
         }
-       @{ TempData["success"] = TempData["error"] = ""; }
+        @{ TempData["success"] = TempData["error"] = ""; }
 
 
-       
+
     })
 
 </script>
 
-    <div class="row">
+<div class="row">
 
-        <div class="form-head1">
-            <h4>Purchase Bill List</h4>
+    <div class="form-head1">
+        <h4>Purchase Bill List</h4>
+    </div>
+
+    <div class="main-part pad1">
+
+        <div class="row">
+            <div class="col-md-2">
+                <label for="cboPBNo">Bill No.</label>
+                @Html.DropDownList("cboPBNo", (SelectList)ViewBag.BillNoList, "Any", new { @class = "form_input", @onchange = "Filter()" })
+            </div>
+            <div class="col-md-3">
+                <label for="cboSupplier">Supplier</label>
+                @Html.DropDownList("cboSupplier", (SelectList)ViewBag.SupplierList, "Any", new { @class = "form_input", @onchange = "Filter()" })
+            </div>
+            <div class="col-md-2">
+                <label>From</label>
+                <input id="txtFrom" value="@System.DateTime.Today.AddMonths(-1).ToString("dd-MMMM-yyyy")" onchange="Filter()" class="form_input" />
+            </div>
+
+            <div class="col-md-2">
+                <label>To</label>
+                <input id="txtTo" value="@System.DateTime.Today.ToString("dd-MMMM-yyyy")" onchange="Filter()" class="form_input" />
+            </div>
         </div>
-        <div class="main-part pad1">
-            <div class="table-responsive scroll4">
-                <table class="table table-bordered">
-                    <thead>
-                        <tr class="grid_heading">
-                            <th width="15%" nowrap><h1>Booking No.</h1></th>
-                            <th width="15%" nowrap><h1>Booking Date</h1></th>
-                            <th width="40%" nowrap><h1>Supplier</h1></th>
-                            <th width="15%" nowrap><h1>Bill No. & Date</h1></th>
-                            <th width="15%" class="text-right" nowrap><h1>Amount</h1></th>
-                            <th></th>
-                        </tr>
-                    </thead>
-                    <tbody class="grid_row">
-                        @{
-                            if (Model.Count > 0)
-                            {
-                                for (int i = 0; i < Model.Count; i++)
-                                {
-                                    <tr>
-                                        <td>
-                                        <input type="text" class="form_input" value="@Model[i].PurchaseBillRefNo" disabled />
-                                        </td>
-                                        <td>
-                                            <input type="text" class="form_input" value="@Model[i].PurchaseBillDate.ToString("dd/MMM/yyyy")" disabled />
-                                        </td>
-                                        <td>
-                                            <input type="text" class="form_input" value="@Model[i].Supplier" disabled />
-                                        </td>
-                                        <td>
-                                            <input type="text" class="form_input" value="@Model[i].PurchaseBillNoDate" disabled />
-                                        </td>
-                                        <td>
-                                            <input type="text" class="form_input text-right " value="@Model[i].PurchaseBillAmount" disabled />
-                                        </td>
-                                        
-                                        <td>
-                                            <input type="button" value="Select" class="form-button4" onclick="OpenEditForm(@Model[i].PurchaseBillId)" title="Select to view details" />
-                                        </td>
-                                    </tr>
-                                }
-                            }
-                            else
-                            {
-                                <tr>
-                                    <td colspan="8" align="center"><em>There are no puchase bill entries to show!</em></td>
-                                </tr>
-                            }
-                        }
-                    </tbody>
-                </table>
-            </div>
-         
-            <div class="row">
-                <div class="col-md-12 hrpart">
-                    <input class="form-button right" type="button" value="Exit" onclick="Exit()" />
-                </div>
-            </div>
 
+        <br />
+
+        <div class="table-responsive" id="purchasebilllist">
+            @Html.Action("PurchaseBillListDatas")
+        </div>
+
+        <div class="row">
+            <div class="col-md-12 hrpart">
+                <input type="button" class="form-button right" value="Exit" onclick="Exit()" />
+            </div>
         </div>
     </div>
+</div>
 
 
 
