@@ -22,7 +22,7 @@
         var from = $("#txtFrom").val();
         var to = $("#txtTo").val();
         var url = '@Url.Action("PreviousList")';
-        url += "?from=" + from + "&to=" + to + "&id=" + id + "&cusid=" + cusid + "&ProjectBased=" + @ViewBag.isProjectBased; 
+        url += "?from=" + from + "&to=" + to + "&id=" + id + "&cusid=" + cusid + "&ProjectBased=" + @ViewBag.isProjectBased ; 
        
         $("#saleorderlist").load(url, function () {
             $("#saleorderlist").removeClass("fade");

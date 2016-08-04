@@ -28,18 +28,6 @@
         });
     }
 
-    @*function Filter() {
-        var id = $("#sqNo").val();
-        var cusid = $("#cboCustomer").val();
-        var url = '@Url.Action("SalesQuotationsList")';
-        $("#Quotationlist").load(url, { ProjectBased:@ViewBag.isProjectBased,id: id, cusid: cusid });
-    }
-    function OnCustomerChanged(sender) {
-        var cusid = $("#cboCustomer").val();
-        var id = $("#sqNo").val();
-        var url = '@Url.Action("SalesQuotationsList")';
-        $("#Quotationlist").load(url, { ProjectBased:@ViewBag.isProjectBased,id: id, cusid: cusid });
-    }*@
 </script>
 
 <div class="row">

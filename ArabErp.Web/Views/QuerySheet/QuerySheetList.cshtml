@@ -1,9 +1,5 @@
-﻿@model IEnumerable<ArabErp.Domain.QuerySheet>
+﻿@model IList<ArabErp.Domain.QuerySheet>
 
-@{
-    ViewBag.Title = "QuerySheetList";
-    Layout = "~/Views/Shared/_Layout.cshtml";
-}
 <script>
     function Exit() {
 
@@ -13,56 +9,55 @@
 
     <div class="row">
 
+    <div class="main-part pad1 white">
+        <div class="main-grid main-grid-top scroll1">
+            <div class=" table-responsive">
+                <input type="hidden" id="HiddenFieldSalesQuotationId" />
+                <table class="table table-bordered" id="QuotationTable">
+                    <thead>
+                        <tr class="grid_heading">
 
-        <div class="main-part pad1 white">
-            <div class="main-grid main-grid-top scroll1">
-                <div class=" table-responsive">
-                    <table class="table table-bordered">
-                        <thead>
-                            <tr class="grid_heading">
-                                <th><h1>QuerySheet Ref No</h1></th>
-                                <th><h1>Project Name</h1></th>
-                                <th><h1>Contact Person</h1></th>
-                                <th><h1>Contact Number</h1></th>
-                                <th><h1>Room Details</h1></th>
+                            <th><h1>QuerySheet Ref No</h1></th>
+                            <th><h1>Project Name</h1></th>
+                            <th><h1>Contact Person</h1></th>
+                            <th><h1>Contact Number</h1></th>
+                            <th><h1>Room Details</h1></th>
 
-                                <th><center><h1>Select</h1></center></th>
+                            <th><center><h1>Select</h1></center></th>
+                        </tr>
+                    </thead>
+                    @foreach (var item in Model)
+                    {
+                        <tbody class="grid_row">
+                            <tr id="@item.QuerySheetId">
+
+                                <td class="grid-cell">@item.QuerySheetRefNo &amp; @item.CreatedDate.ToString("dd/MMM/yyyy")</td>
+                                <td class="grid-cell">@item.ProjectName</td>
+                                <td class="grid-cell">@item.ContactPerson</td>
+                                <td class="grid-cell">@item.ContactNumber</td>
+                                <td class="grid-cell">@item.RoomDetails</td>
+
+                                <td><center><button class="form-button4">@Html.ActionLink("View", "ViewQuerySheet", "QuerySheet", new { QuerySheetId = @item.QuerySheetId }, null)</button></center></td>
+
                             </tr>
-                        </thead>
-                        @foreach (var item in Model)
-                        {
-                            <tbody class="grid_row">
-                                <tr>
-                                    <td class="grid-cell">@item.QuerySheetRefNo &amp; @item.CreatedDate.ToString("dd/MMM/yyyy")</td>
-                                    <td class="grid-cell">@item.ProjectName</td>
-                                    <td class="grid-cell">@item.ContactPerson</td>
-                                    <td class="grid-cell">@item.ContactNumber</td>
-                                    <td class="grid-cell">@item.RoomDetails</td>
-
-                                    <td><center><button class="form-button4">@Html.ActionLink("View", "ViewQuerySheet", "QuerySheet", new { QuerySheetId = @item.QuerySheetId }, null)</button></center></td>
-
-                                </tr>
-                            </tbody>
-                        }
-                    </table>
-                </div>
-
-
-            </div>
-
-           
-
-
-        </div>
-
-        <div class="row-count">
-            <h5>Row Count:- @Model.Count()</h5>
-        </div>
-
-        <div class="row">
-            <div class="col-md-12 hrpart">
-                <button type="button" class="form-button right" onclick="Exit()">Exit</button>
+                        </tbody>
+                    }
+                </table>
             </div>
         </div>
 
     </div>
+
+        <br />
+        <div class="row-count1">
+            <h5>Row Count:- @Model.Count()</h5>
+        </div>
+
+    <div class="row">
+        <div class="col-md-12 hrpart">
+            <button type="button" class="form-button right" onclick="Exit()">Exit</button>
+        </div>
+    </div>
+
+</div>
+

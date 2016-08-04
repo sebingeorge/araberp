@@ -2,12 +2,37 @@
     ViewBag.Title = "Index";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
-<script>
-    function OnQSNoChanged(sender) {
-        var id = $("#cboQSNo").val();
-        var url = '@Url.Action("QuerySheetList")';
-        $("#querysheetlist").load(url, { id: id });
+<style>
+    .fade{
+        opacity: 0.6
     }
+</style>
+<script>
+
+    $(document).ready(function () {
+        $("#txtFrom").datepicker({
+            dateFormat: "dd-MM-yy"
+        });
+        $("#txtTo").datepicker({
+            dateFormat: "dd-MM-yy"
+        });
+    })
+
+    function Filter() {
+        $("#querysheetlist").addClass("fade");
+        var id = $("#cboQSNo").val();
+        var from = $("#txtFrom").val();
+        var to = $("#txtTo").val();
+        var url = '@Url.Action("QuerySheetList")';
+        url += "?from=" + from + "&to=" + to + "&id=" + id;
+
+            $("#querysheetlist").load(url, function () {
+            $("#querysheetlist").removeClass("fade");
+        });
+    }
+
+
+
 
 </script>
 
@@ -20,9 +45,20 @@
     <div class="main-part pad1">
 
         <div class="row form-group">
-            <div class="col-md-3">
+
+            <div class="col-md-2">
                 <label for="cboQSNo">Query Sheet Ref No.</label>
-                @Html.DropDownList("cboQSNo", (SelectList)ViewBag.QSnoList, "Any", new { @class = "form_input", @onchange = "OnQSNoChanged(this)" })
+                @Html.DropDownList("cboQSNo", (SelectList)ViewBag.QSnoList, "Any", new { @class = "form_input", @onchange = "Filter()" })
+            </div>
+
+            <div class="col-md-2">
+                <label>From</label>
+                <input id="txtFrom" value="@System.DateTime.Today.AddMonths(-1).ToString("dd-MMMM-yyyy")" onchange="Filter()" class="form_input" />
+            </div>
+
+            <div class="col-md-2">
+                <label>To</label>
+                <input id="txtTo" value="@System.DateTime.Today.ToString("dd-MMMM-yyyy")" onchange="Filter()" class="form_input" />
             </div>
         </div>
 
