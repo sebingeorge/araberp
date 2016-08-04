@@ -3,7 +3,14 @@
     ViewBag.Title = "PreviousList";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
-<script>
+
+<style type="text/css">
+    .fade {
+        opacity: 0.6;
+    }
+</style>
+
+<script type="text/javascript">
 
     $(document).ready(function () {
         $("#txtFrom").datepicker({
@@ -14,6 +21,17 @@
         });
     })
 
+    function OnItemSelected(id) {
+        var url = '@Url.Action("Edit")';
+        url += "?id=" + id;
+        window.location = url;
+    }
+    function Exit() {
+        location.href = '@Url.Action("Create", "SalesQuotation")';
+        window.location = url;
+    }
+
+
     function Filter() {
         $("#Quotationlist").addClass("fade");
         var id = $("#sqNo").val();
@@ -21,8 +39,8 @@
         var from = $("#txtFrom").val();
         var to = $("#txtTo").val();
         var url = '@Url.Action("SalesQuotationsList")';
-        url += "?from=" + from + "&to=" + to + "&id=" + id + "&cusid=" + cusid + "&ProjectBased=" + @ViewBag.isProjectBased; 
-       
+        url += "?from=" + from + "&to=" + to + "&id=" + id + "&cusid=" + cusid + "&ProjectBased=" + @ViewBag.isProjectBased;
+
         $("#Quotationlist").load(url, function () {
             $("#Quotationlist").removeClass("fade");
         });
@@ -38,7 +56,7 @@
 
     <div class="main-part pad1">
 
-        <div class="row form-group">
+        <div class="row">
 
             <div class="col-md-2">
                 <label for="sqNo">Quotation No.</label>
@@ -61,9 +79,17 @@
             </div>
         </div>
 
-        <div id="Quotationlist">
+        <br />
+        <div class="table-responsive" id="Quotationlist">
             @Html.Action("SalesQuotationsList", new { ProjectBased = ViewBag.isProjectBased })
         </div>
+
+        <div class="row">
+            <div class="col-md-12 hrpart">
+                <input type="button" class="form-button right" value="Exit" onclick="Exit()" />
+            </div>
+        </div>
+
     </div>
 </div>
 
