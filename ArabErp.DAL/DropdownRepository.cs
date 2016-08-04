@@ -564,6 +564,12 @@ namespace ArabErp.DAL
                                                     new { OrganizationId = OrganizationId, type = type }).ToList();
             }
         }
-
+        public List<Dropdown> WRItemDropdown(int OrganizationId)
+        {
+            using (IDbConnection connection = OpenConnection(dataConnection))
+            {
+                return connection.Query<Dropdown>("SELECT DISTINCT I.ItemId Id, I.ItemName Name FROM  WorkShopRequestItem WI inner join WorkShopRequest W on W.WorkShopRequestId=WI.WorkShopRequestId   inner join Item I ON I.ItemId=WI.ItemId   WHERE ISNULL(WI.isActive, 1) = 1  and W.OrganizationId =" + OrganizationId.ToString() + "").ToList();
+            }
+        }
     }
 }

@@ -159,6 +159,7 @@
     <Compile Include="WorkShopGRNItemRepository.cs" />
     <Compile Include="WorkShopGRNRepository.cs" />
     <Compile Include="WorkShopRequestItemRepository.cs" />
+    <Compile Include="WorkshopRequestRegisterRepository.cs" />
     <Compile Include="WorkShopRequestRepository.cs" />
     <Compile Include="WorkVsItemRepository.cs" />
     <Compile Include="WorkVsTaskRepository.cs" />

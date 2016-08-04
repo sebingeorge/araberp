@@ -266,6 +266,7 @@
     <Compile Include="Controllers\WorkDescriptionController.cs" />
     <Compile Include="Controllers\WorkShopGRNController.cs" />
     <Compile Include="Controllers\WorkShopRequestController.cs" />
+    <Compile Include="Controllers\WorkshopRequestRegisterController.cs" />
     <Compile Include="DecimalModelBinder.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -743,6 +744,8 @@
     <Content Include="Views\JobCard\Index.cshtml" />
     <Content Include="Views\JobCardQC\Index.cshtml" />
     <Content Include="Views\JobCardQC\_PreviousList.cshtml" />
+    <Content Include="Views\WorkshopRequestRegister\Index.cshtml" />
+    <Content Include="Views\WorkshopRequestRegister\_WorkShopRequestRegister.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
