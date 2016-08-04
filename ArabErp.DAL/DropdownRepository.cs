@@ -580,5 +580,37 @@ namespace ArabErp.DAL
             }
         }
 
+        public List<Dropdown> SORefNoDropdown()
+        {
+            using (IDbConnection connection = OpenConnection(dataConnection))
+            {
+                return connection.Query<Dropdown>("SELECT SupplyOrderId Id, SupplyOrderNo Name FROM SupplyOrder").ToList();
+            }
+        }
+        public List<Dropdown> SupplyOrderSupplierDropdown()
+        {
+            using (IDbConnection connection = OpenConnection(dataConnection))
+            {
+                return connection.Query<Dropdown>("SELECT distinct S.SupplierId Id,SupplierName Name FROM Supplier S INNER JOIN SupplyOrder SO ON SO.SupplierId=S.SupplierId WHERE ISNULL(S.isActive, 1) = 1").ToList();
+            }
+        }
+
+        public List<Dropdown> PRRefNoDropdown()
+        {
+            using (IDbConnection connection = OpenConnection(dataConnection))
+            {
+                return connection.Query<Dropdown>("SELECT PurchaseRequestId Id, PurchaseRequestNo Name FROM PurchaseRequest").ToList();
+            }
+        }
+        public List<Dropdown> PurchaseReqCustomerDropdown()
+        {
+            using (IDbConnection connection = OpenConnection(dataConnection))
+            {
+                return connection.Query<Dropdown>(@"SELECT  Distinct C.CustomerId Id,C.CustomerName Name
+                                                    FROM Customer C
+                                                    INNER JOIN WorkShopRequest WR ON WR.CustomerId=C.CustomerId
+                                                    INNER JOIN PurchaseRequest P on P.WorkShopRequestId = WR.WorkShopRequestId").ToList();
+            }
+        }
     }
 }
