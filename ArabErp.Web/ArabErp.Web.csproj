@@ -741,6 +741,8 @@
     <Content Include="Views\AdditionalWorkShopRequest\_PreviousListGrid.cshtml" />
     <Content Include="Views\WorkShopRequest\Index.cshtml" />
     <Content Include="Views\JobCard\Index.cshtml" />
+    <Content Include="Views\JobCardQC\Index.cshtml" />
+    <Content Include="Views\JobCardQC\_PreviousList.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

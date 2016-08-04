@@ -15,7 +15,7 @@
     })
 
     function Filter() {
-      
+
         $("#dclist").addClass("fade");
         var id = $("#cboDCNo").val();
         var cusid = $("#cboCustomer").val();
@@ -29,9 +29,12 @@
             $("#dclist").removeClass("fade");
         });
     }
-
+    function Exit() {
+        var url = '@Url.Action("Index")';
+        window.location = url;
+    }
 </script>
-<div class="row">
+@*<div class="row">
     <div class="form-head1">
         <h4>Delivery Challan List</h4>
     </div>
@@ -41,10 +44,7 @@
                 <label for="cboDCNo">Delivery Challan No.</label>
                 @Html.DropDownList("cboDCNo", (SelectList)ViewBag.DCNoList, "Any", new { @class = "form_input", @onchange = "Filter()" })
             </div>
-            @*<div class="col-md-3">
-                <label for="cboWRNo">Date</label>
-                @Html.DropDownList("cboCustomer", (SelectList)ViewBag.CusList, "Any", new { @class = "form_input", @onchange = "OnCustomerChanged(this)" })
-            </div>*@
+           
             <div class="col-md-2">
                 <label>From</label>
 
@@ -59,6 +59,40 @@
             @Html.Action("PreviousList")
         </div>
     </div>
+</div>*@
+
+
+<div class="row">
+    <div class="form-head1">
+        <h4>Delivery Challan List</h4>
+    </div>
+
+    <div class="main-part pad1">
+        <div class="row">
+            <div class="col-md-2">
+                <label for="cboDCNo">Delivery Challan No.</label>
+                @Html.DropDownList("cboDCNo", (SelectList)ViewBag.DCNoList, "Any", new { @class = "form_input", @onchange = "Filter()" })
+            </div>
+            <div class="col-md-2">
+                <label>From</label>
+
+                <input id="txtFrom" value="@System.DateTime.Today.AddMonths(-1).ToString("dd-MMMM-yyyy")" onchange="Filter()" class="form_input" />
+            </div>
+            <div class="col-md-2">
+                <label>To</label>
+                <input id="txtTo" value="@System.DateTime.Today.ToString("dd-MMMM-yyyy")" onchange="Filter()" class="form_input" />
+            </div>
+        </div>
+        <br />
+
+        <div class="table-responsive scroll4" id="dclist">
+            @Html.Action("PreviousList")
+        </div>
+
+        <div class="row">
+            <div class="col-md-12 hrpart">
+                <input type="button" class="form-button right" value="Exit" onclick="Exit()" />
+            </div>
+        </div>
+    </div>
 </div>
-
-

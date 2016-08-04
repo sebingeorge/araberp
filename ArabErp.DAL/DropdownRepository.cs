@@ -526,5 +526,13 @@ namespace ArabErp.DAL
                                                     new { OrganizationId = OrganizationId }).ToList();
             }
         }
+
+        public List<Dropdown> JCQcNODropdown(int OrganizationId)
+        {
+            using (IDbConnection connection = OpenConnection(dataConnection))
+            {
+                return connection.Query<Dropdown>("SELECT JobCardQCId Id, JobCardQCRefNo Name FROM JobCardQC WHERE ISNULL(isActive, 1) = 1 and OrganizationId =" + OrganizationId.ToString() + " ").ToList();
+            }
+        }
     }
 }
