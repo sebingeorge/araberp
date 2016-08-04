@@ -1,10 +1,17 @@
-﻿
+﻿@model IList<ArabErp.Domain.PendingSO>
+
 @{
     ViewBag.Title = "Index";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<script>
+<style type="text/css">
+    .fade {
+        opacity: 0.6;
+    }
+</style>
+
+<script type="text/javascript">
 
     $(document).ready(function () {
         $("#txtFrom").datepicker({
@@ -15,6 +22,17 @@
         });
     })
 
+
+    function OnItemSelected(id) {
+        var url = '@Url.Action("Edit")';
+        url += "?id=" + id;
+        window.location = url;
+    }
+    function Exit() {
+        var url = '@Url.Action("PendingSalesQutoforSaleOrder", "SaleOrder", new { ProjectBased = @ViewBag.ProjectBased })';
+        window.location = url;
+    }
+
     function Filter() {
         $("#saleorderlist").addClass("fade");
         var id = $("#soNo").val();
@@ -22,8 +40,8 @@
         var from = $("#txtFrom").val();
         var to = $("#txtTo").val();
         var url = '@Url.Action("PreviousList")';
-        url += "?from=" + from + "&to=" + to + "&id=" + id + "&cusid=" + cusid + "&ProjectBased=" + @ViewBag.isProjectBased; 
-       
+        url += "?from=" + from + "&to=" + to + "&id=" + id + "&cusid=" + cusid + "&ProjectBased=" + @ViewBag.isProjectBased ;
+
         $("#saleorderlist").load(url, function () {
             $("#saleorderlist").removeClass("fade");
         });
@@ -40,7 +58,7 @@
 
     <div class="main-part pad1">
 
-        <div class="row form-group">
+        <div class="row">
 
             <div class="col-md-2">
                 <label for="soNo">SO No.</label>
@@ -64,9 +82,18 @@
 
         </div>
 
-        <div id="saleorderlist">
+        <br />
+
+        <div class="table-responsive" id="saleorderlist">
             @Html.Action("PreviousList", new { ProjectBased = ViewBag.isProjectBased })
         </div>
+
+        <div class="row">
+            <div class="col-md-12 hrpart">
+                <input type="button" class="form-button right" value="Exit" onclick="Exit()" />
+            </div>
+        </div>
+
     </div>
 </div>
 

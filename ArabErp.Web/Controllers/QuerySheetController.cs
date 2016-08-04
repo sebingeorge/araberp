@@ -102,10 +102,13 @@ namespace ArabErp.Web.Controllers
             return View("CreateQuerySheet",qs);
         }
 
-        public ActionResult QuerySheetList(int id = 0)
+        public ActionResult QuerySheetList(DateTime? from, DateTime? to, int id = 0)
         {
-            var qs = new QuerySheetRepository().GetQuerySheets(id);
-            return View( qs);
+
+            return PartialView("QuerySheetList", new QuerySheetRepository().GetQuerySheets(OrganizationId: OrganizationId, id: id, from: from, to: to));
+            
+            //var qs = new QuerySheetRepository().GetQuerySheets(id, OrganizationId,from, to);
+            //return View( qs);
         }
 
         public void FillRefNo()
