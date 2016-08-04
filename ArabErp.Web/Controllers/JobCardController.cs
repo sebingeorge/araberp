@@ -17,8 +17,11 @@ namespace ArabErp.Web.Controllers
             repo = new JobCardRepository();
         }
         // GET: JobCard
-        public ActionResult Index()
+        public ActionResult Index(int isProjectBased)
         {
+            FillJCNo(isProjectBased);
+            FillCustomerinJC(isProjectBased);
+            ViewBag.ProjectBased = isProjectBased;
             return View();
         }
         public ActionResult Create(int? Id, int? isProjectBased)
@@ -88,13 +91,7 @@ namespace ArabErp.Web.Controllers
         {
             ViewBag.inpassList = new SelectList(new DropdownRepository().VehicleInPassDropdown(), "Id", "Name");
         }
-        public ActionResult JobCardList(int isProjectBased)
-        {
-            FillJCNo(isProjectBased);
-            FillCustomerinJC(isProjectBased);
-            ViewBag.ProjectBased = isProjectBased;
-            return View();
-        }
+      
         public void FillJCNo(int isProjectBased)
         {
             ViewBag.JCNoList = new SelectList(new DropdownRepository().JCNODropdown(OrganizationId, isProjectBased), "Id", "Name");

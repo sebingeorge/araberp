@@ -715,14 +715,12 @@
     <Content Include="Views\WorkShopRequest\Edit.cshtml" />
     <Content Include="Views\WorkShopRequest\_PreviousList.cshtml" />
     <Content Include="Views\SupplyOrder\Edit.cshtml" />
-    <Content Include="Views\WorkShopRequest\WorkShopRequestList.cshtml" />
     <Content Include="Views\ItemBatch\FGTrackingPopup.cshtml" />
     <Content Include="Views\ItemBatch\_FGTrackingDetails.cshtml" />
     <Content Include="Views\PurchaseBill\Edit.cshtml" />
     <Content Include="Views\DirectPurchase\Index.cshtml" />
     <Content Include="Views\VehicleInPass\VehicleInpassList.cshtml" />
     <Content Include="Views\VehicleInPass\_PreviousList.cshtml" />
-    <Content Include="Views\JobCard\JobCardList.cshtml" />
     <Content Include="Views\JobCard\_PreviousList.cshtml" />
     <Content Include="Views\DeliveryChallan\_PreviousList.cshtml" />
     <Content Include="Views\DeliveryChallan\DeliveryChallanList.cshtml" />
@@ -741,6 +739,8 @@
     <Content Include="Views\ProformaInvoice\_PreviousListGrid.cshtml" />
     <Content Include="Views\AdditionalWorkShopRequest\Index.cshtml" />
     <Content Include="Views\AdditionalWorkShopRequest\_PreviousListGrid.cshtml" />
+    <Content Include="Views\WorkShopRequest\Index.cshtml" />
+    <Content Include="Views\JobCard\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
