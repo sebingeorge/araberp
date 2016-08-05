@@ -202,7 +202,7 @@ namespace ArabErp.DAL
         {
             using (IDbConnection connection = OpenConnection(dataConnection))
             {
-                return connection.Query<Stockpoint>("select * from Stockpoint");
+                return connection.Query<Stockpoint>("select * from Stockpoint where isActive=1");
             }
         }
 

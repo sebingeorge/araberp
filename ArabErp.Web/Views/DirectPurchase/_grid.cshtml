@@ -176,9 +176,12 @@
                 <td>
                     @Html.TextBoxFor(m => m.items[i].Quantity, new { @class = "form_input numbers-only", @style = "text-align:right", autocomplete = "off", placeholder = "Qty", @onkeyup = "OnQtyChange(this, " + i + ")", @required = "true" })
                 </td>
-                <td>
+
+                <td>@Html.TextBoxFor(m => m.items[i].txtUoM, new { @class = "form_input", @style = "text-align:left", autocomplete = "off", @readonly = "readonly" })</td>
+
+                @*<td>
                     <input type="text" id="txtUoM@(i)" class="form_input" disabled />
-                </td>
+                </td>*@
                 <td>
                     @Html.TextBoxFor(m => m.items[i].Rate, new { @class = "form_input numbers-only", @style = "text-align:right", autocomplete = "off", placeholder = "Rate", @onkeyup = "OnRateChange(this, " + i + ")", @required = "true" })
                 </td>
