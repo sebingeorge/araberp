@@ -241,6 +241,7 @@
     <Compile Include="Controllers\ProfitabilityReportController.cs" />
     <Compile Include="Controllers\ProformaInvoiceController.cs" />
     <Compile Include="Controllers\PurchaseBillController.cs" />
+    <Compile Include="Controllers\PurchaseBillRegisterController.cs" />
     <Compile Include="Controllers\PurchaseRequestController.cs" />
     <Compile Include="Controllers\QuerySheetController.cs" />
     <Compile Include="Controllers\QuotationApprovalController.cs" />
@@ -767,6 +768,7 @@
     <Content Include="Views\QuerySheet\Edit.cshtml" />
     <Content Include="Views\StoresLedger\_StoresLedger.cshtml" />
     <Content Include="Views\SalesQuotation\Edit.cshtml" />
+    <Content Include="Views\PurchaseBillRegister\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

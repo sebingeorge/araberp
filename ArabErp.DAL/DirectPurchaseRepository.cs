@@ -112,7 +112,7 @@ namespace ArabErp.DAL
                 using (IDbConnection connection = OpenConnection(dataConnection))
                 {
                     return connection.Query<string>(@"SELECT S.SymbolName INTO #SYM FROM Organization O INNER JOIN Currency C ON O.CurrencyId = C.CurrencyId INNER JOIN Symbol S ON C.CurrencySymbolId = S.SymbolId WHERE O.OrganizationId = @organizationId;
-                        SELECT TOP 1 CONVERT(VARCHAR, EffectiveDate, 106)+'|'+ISNULL((SELECT SymbolName FROM #SYM), '')+' '+CAST(Limit AS VARCHAR) FROM DirectPurchaseRequestLimit WHERE EffectiveDate <= GETDATE() AND OrganizationId = @organizationId ORDER BY EffectiveDate DESC;
+                        SELECT TOP 1 CONVERT(VARCHAR, EffectiveDate, 106)+'|'+/*ISNULL((SELECT SymbolName FROM #SYM), '')+' '+*/CAST(Limit AS VARCHAR) FROM DirectPurchaseRequestLimit WHERE EffectiveDate <= GETDATE() AND OrganizationId = @organizationId ORDER BY EffectiveDate DESC;
                         DROP TABLE #SYM;",
                         new { organizationId = organizationId }).First();
                 }
@@ -222,7 +222,7 @@ namespace ArabErp.DAL
             {
                 using (IDbConnection connection = OpenConnection(dataConnection))
                 {
-                    string query = @"SELECT * FROM DirectPurchaseRequest
+                    string query = @"SELECT *, CASE WHEN SaleOrderId IS NOT NULL THEN 'SO' WHEN JobCardId IS NOT NULL THEN 'JC' END AS SoOrJc FROM DirectPurchaseRequest
                                     WHERE DirectPurchaseRequestId = @DirectPurchaseRequestId
 	                                AND ISNULL(isActive, 1) = 1";
 
@@ -256,7 +256,7 @@ namespace ArabErp.DAL
         {
             using (IDbConnection connection = OpenConnection(dataConnection))
             {
-                string sql = @"SELECT ItemName,PartNo txtPartNo,UnitName txtUoM,* FROM DirectPurchaseRequestItem D
+                string sql = @"SELECT ItemName,PartNo,UnitName UoM,* FROM DirectPurchaseRequestItem D
                                INNER JOIN Item I ON I.ItemId=D.ItemId
                                INNER JOIN Unit U ON U.UnitId=I.ItemUnitId
                                WHERE DirectPurchaseRequestId = @DirectPurchaseRequestId;";

@@ -22,7 +22,7 @@
             "onclick": null,
             "showDuration": "300",
             "hideDuration": "1000",
-            "timeOut": "0",
+            "timeOut": "5000",
             "extendedTimeOut": "1000",
             "showEasing": "swing",
             "hideEasing": "linear",
@@ -85,32 +85,12 @@
         //});
     });
 
-    function Toast() {
-        toastr.options = {
-            "closeButton": true,
-            "debug": false,
-            "newestOnTop": false,
-            "progressBar": false,
-            "positionClass": "toast-bottom-full-width",
-            "preventDuplicates": true,
-            "onclick": null,
-            "showDuration": "300",
-            "hideDuration": "1000",
-            "timeOut": "5000",
-            "extendedTimeOut": "1000",
-            "showEasing": "swing",
-            "hideEasing": "linear",
-            "showMethod": "fadeIn",
-            "hideMethod": "fadeOut"
-        }
-        toastr.success("This is a sample toast message");
-    }
-
     function getPurchaseLimit(date) {
         var url = '@Url.Action("GetPurchaseLimit")';
-        $.getJSON(url, { date: date }, function (data) {
+        $.getJSON(url, function (data) {
             if (data == "error") {
                 toastr.error("Some error occured while fetching the purchase limit. Please reload the page and try again.");
+                $("#purchaseLimit").val(-1);
             }
             else {
                 $("#purchaseLimitDiv").html("<em>Direct Purchase limit w.e.f. <strong>" + data.split('|')[0] + "</strong> is <strong>" + data.split('|')[1] + "</strong></em>");
@@ -147,7 +127,7 @@
     }
 
     function formValidation() {
-        var status = true;
+        //var status = true;
 
         //$("select[id$='__ItemId']").each(function (i, obj) {
         //    if ($(obj).val == '') {
@@ -155,8 +135,26 @@
         //    }
         //});
 
-        status = isAlreadyExist(status);
-        return status;
+        //status = isAlreadyExist(status);
+
+        var total = 0;
+        var limit = $("#purchaseLimit").val();
+
+        if (limit == -1) {
+            toastr.error("Couldn't fetch the purchase limit. Please reload the page and try again.");
+            return false;
+        }
+        else {
+            $("input[id$='__Amount']").each(function (i, obj) {
+                total += Number($(obj).val());
+            });
+
+            if (total > Number(limit)) {
+                toastr.error("Total purchase amount cannot be greater than the purchase limit");
+                return false;
+            }
+        }
+        return true;
     }
     function OptionChanged() {
         var opt = $("#JcOrSo").val();
@@ -202,6 +200,7 @@
             @*@using (Html.BeginForm(null, null, FormMethod.Post, new { @class = "createFrom", @id = "purchasereq_form", @onsubmit = "return formValidation()" }))
                 {*@
             <form role="form" onsubmit="return formValidation()">
+                <input type="hidden" id="purchaseLimit" />
                 <div class="row form-group">
                     <div class="col-md-2">
                         <label for="PurchaseRequestNo">PR No.</label>
