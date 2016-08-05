@@ -34,7 +34,7 @@
             "onclick": null,
             "showDuration": "300",
             "hideDuration": "1000",
-            "timeOut": "0",
+            "timeOut": "5000",
             "extendedTimeOut": "1000",
             "showEasing": "swing",
             "hideEasing": "linear",
@@ -49,6 +49,7 @@
         }
 
         getPurchaseLimit();
+        OptionChanged();
 
         $('#purchasereq_form').bootstrapValidator({
             // To use feedback icons, ensure that you use Bootstrap v3.1.0 or later
@@ -82,7 +83,7 @@
             }
         });
     })
-  
+
     $(function () {
         $("#PurchaseRequestDate").datepicker({
             dateFormat: "d-MM-yy"
@@ -95,32 +96,12 @@
         //});
     });
 
-    function Toast() {
-        toastr.options = {
-            "closeButton": true,
-            "debug": false,
-            "newestOnTop": false,
-            "progressBar": false,
-            "positionClass": "toast-bottom-full-width",
-            "preventDuplicates": true,
-            "onclick": null,
-            "showDuration": "300",
-            "hideDuration": "1000",
-            "timeOut": "5000",
-            "extendedTimeOut": "1000",
-            "showEasing": "swing",
-            "hideEasing": "linear",
-            "showMethod": "fadeIn",
-            "hideMethod": "fadeOut"
-        }
-        toastr.success("This is a sample toast message");
-    }
-
     function getPurchaseLimit(date) {
         var url = '@Url.Action("GetPurchaseLimit")';
-        $.getJSON(url, { date: date }, function (data) {
+        $.getJSON(url, function (data) {
             if (data == "error") {
                 toastr.error("Some error occured while fetching the purchase limit. Please reload the page and try again.");
+                $("#purchaseLimit").val(-1);
             }
             else {
                 $("#purchaseLimitDiv").html("<em>Direct Purchase limit w.e.f. <strong>" + data.split('|')[0] + "</strong> is <strong>" + data.split('|')[1] + "</strong></em>");
@@ -129,11 +110,30 @@
         });
     }
 
+    function formValidation() {
+        var total = 0;
+        var limit = $("#purchaseLimit").val();
 
+        if (limit == -1) {
+            toastr.error("Couldn't fetch the purchase limit. Please reload the page and try again.");
+            return false;
+        }
+        else {
+            $("input[id$='__Amount']").each(function (i, obj) {
+                total += Number($(obj).val());
+            });
+
+            if (total > Number(limit)) {
+                toastr.error("Total purchase amount cannot be greater than the purchase limit");
+                return false;
+            }
+        }
+        return true;
+    }
 
     function OptionChanged() {
-        var opt = $("#JcOrSo").val();
-        $("#SoOrJc").val(opt);
+        var opt = $("#SoOrJc").val();
+        //$("#SoOrJc").val(opt);
         if (opt == "JC") {
             $("#againstId").text("Job Card");
             $("#SaleOrderId").removeClass("divHidden");
@@ -155,7 +155,7 @@
     }
 
 
-  
+
 </script>
 
 <div class="row">
@@ -168,6 +168,7 @@
         @*@using (Html.BeginForm(null, null, FormMethod.Post, new { @class = "createFrom", @id = "purchasereq_form", @onsubmit = "return formValidation()" }))
             {*@
         <form method="post" role="form" onsubmit="return formValidation()">
+            <input type="hidden" id="purchaseLimit" />
             <div class="row form-group">
                 <div class="col-md-2">
                     @Html.HiddenFor(m => m.DirectPurchaseRequestId, new { @class = "form_input", autocomplete = "off" })
@@ -184,12 +185,14 @@
                 </div>
                 <div class="col-md-2">
                     <label>Sale Ord. / Job Card</label>
-                    @Html.HiddenFor(m => m.SoOrJc)
-                    <select class="form_input" id="JcOrSo" onchange="OptionChanged()">
+                    @*@Html.HiddenFor(m => m.SoOrJc)*@
+                    @Html.DropDownListFor(m => m.SoOrJc, new List<SelectListItem> { new SelectListItem { Text = "Job Card", Value = "JC" }, new SelectListItem { Text = "Sale Order", Value = "SO" } }, "Select SO/JC", new { @class = "form_input", @onchange = "OptionChanged()" })
+
+                    @*<select class="form_input" id="JcOrSo" onchange="OptionChanged()">
                         <option>Select</option>
                         <option value="JC">Job Card</option>
                         <option value="SO">Sale Order</option>
-                    </select>
+                    </select>*@
                 </div>
                 <div class="col-md-2">
                     <label id="againstId"></label>
