@@ -170,7 +170,8 @@
                 <td>
                     @Html.HiddenFor(m => m.items[i].SlNo)
                     <input type="hidden" id="Row_@i" />
-                    @Html.DropDownListFor(m => m.items[i].ItemId, (SelectList)ViewBag.materialList, "Select Material/Spare", new { @class = "form_input", @onchange = "OnMaterialChange(this, " + i + ")" })
+                  
+                    @Html.DropDownListFor(m => m.items[i].ItemId, new SelectList(ViewBag.materialList, "Value", "Text", Model.items[i].ItemId), "Select Material/Spare", new { @class = "form_input", @onchange = "OnMaterialChange(this, " + i + ")" })
                 </td>
                 @*<td>
                     <input type="text" class="form_input" id="txtPartNo@(i)" disabled />
