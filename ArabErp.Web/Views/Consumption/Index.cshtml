@@ -1,9 +1,17 @@
-﻿
+﻿@model IList<ArabErp.Domain.Consumption>
+
 @{
-    ViewBag.Title = "Index";
+    ViewBag.Title = "Consumption List";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
+
+<style type="text/css">
+    .fade {
+        opacity: 0.6;
+    }
+</style>
 <script type="text/javascript">
+
     $(document).ready(function () {
         $("#txtFrom").datepicker({
             dateFormat: "dd-MM-yy"
@@ -13,38 +21,45 @@
         });
     })
 
-    function Filter() {
-        $("#workshopreqlist").addClass("fade");
-        var id = $("#cboWRNo").val();
-        var itmid = $("#cboItem").val();
-        var from = $("#txtFrom").val();
-        var to = $("#txtTo").val();
-        var url = '@Url.Action("WorkShopRequestRegister")';
-        url += "?from=" + from + "&to=" + to + "&id=" + id + "&itmid=" + itmid;
-        $("#workshopreqlist").load(url, function () {
-            $("#workshopreqlist").removeClass("fade");
-        });
-    }
-    function Exit() {
-        var url = '@Url.Action("Index", "Home")';
+    function OnItemSelected(id) {
+        var url = '@Url.Action("Edit")';
+        url += "?id=" + id;
         window.location = url;
     }
+    function Exit() {
+        var url = '@Url.Action("Create")';
+        window.location = url;
+    }
+
+    function Filter() {
+        $("#previous-list").addClass("fade");
+        var id = $("#cboRefNo").val();
+        var jobcard = $("#cboJobCard").val();
+        var from = $("#txtFrom").val();
+        var to = $("#txtTo").val();
+        var url = '@Url.Action("PreviousList")';
+        url += "?from=" + from + "&to=" + to + "&id=" + id + "&jobcard=" + jobcard;
+        $("#previous-list").load(url, function () {
+            $("#previous-list").removeClass("fade");
+        });
+    }
 </script>
+
 <div class="row">
 
     <div class="form-head1">
-        <h4>Workshop Request Register</h4>
+        <h4>Consumption List</h4>
     </div>
 
     <div class="main-part pad1">
         <div class="row">
             <div class="col-md-2">
-                <label for="cboWRNo">WorkShopRequest No.</label>
-                @Html.DropDownList("cboWRNo", (SelectList)ViewBag.WRNoList, "Any", new { @class = "form_input", @onchange = "Filter()" })
+                <label>Consumption No.</label>
+                @Html.DropDownList("cboRefNo", (SelectList)ViewBag.consumptionList, "All", new { @class = "form_input", @onchange = "Filter()" })
             </div>
-            <div class="col-md-3">
-                <label for="cboItem">Material/Spares</label>
-                @Html.DropDownList("cboItem", (SelectList)ViewBag.ItmList, "Any", new { @class = "form_input", @onchange = "Filter()" })
+            <div class="col-md-2">
+                <label>Job Card</label>
+                @Html.DropDownList("cboJobCard", (SelectList)ViewBag.jobcardList, "All", new { @class = "form_input", @onchange = "Filter()" })
             </div>
             <div class="col-md-2">
                 <label>From</label>
@@ -57,8 +72,8 @@
         </div>
         <br />
 
-        <div class="table-responsive scroll4" id="workshopreqlist">
-            @Html.Action("WorkShopRequestRegister")
+        <div class="table-responsive scroll4" id="previous-list">
+            @Html.Action("PreviousList")
         </div>
 
         <div class="row">

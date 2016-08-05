@@ -1,0 +1,57 @@
+﻿@model IList<ArabErp.Domain.Consumption>
+
+<table class="table table-bordered">
+    <thead>
+        <tr class="grid_heading">
+            <th width="2%" class="text-center"><h1>#</h1></th>
+            <th width="15%" nowrap><h1>Consumption Ref. No. &amp; Date</h1></th>
+            <th width="15%" nowrap><h1>Job Card Ref. No. &amp; Date</h1></th>
+            <th width="50%" nowrap><h1>Materials/Spares</h1></th>
+            <th width="20%" nowrap><h1>Remarks</h1></th>
+            <th width="15%" class="text-right" nowrap><h1>Total</h1></th>
+            <th width="1%"></th>
+        </tr>
+    </thead>
+    <tbody class="grid_row">
+        @if (Model.Count > 0)
+        {
+            int i = 0;
+            foreach (var item in Model)
+            {
+                <tr>
+                    <td align="center">
+                        @(++i)
+                    </td>
+                    <td>
+                        @item.ConsumptionNo- @item.ConsumptionDate.ToString("dd MMMM yyyy")
+                    </td>
+                    <td>
+                        @item.JobCardNo- @item.JobCardDate
+                    </td>
+                    <td>
+                        @item.ItemName
+                    </td>
+                    <td>
+                        @item.SpecialRemarks
+                    </td>
+                    <td align="right">
+                        @item.TotalAmount
+                    </td>
+                    <td>
+                        <input type="button" value="Select" onclick="OnItemSelected(@item.ConsumptionId)" checked class="form-button4" />
+                    </td>
+                </tr>
+            }
+        }
+        else
+        {
+            <tr>
+                <td colspan="7">
+                    <center>
+                        <em>No items found!</em>
+                    </center>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

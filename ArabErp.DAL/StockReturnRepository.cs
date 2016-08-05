@@ -169,7 +169,7 @@ namespace ArabErp.DAL
             }
         }
 
-        public IEnumerable<StockReturn> PreviousList(int OrganizationId, DateTime? from, DateTime? to, int id = 0, int jobcard = 0)
+        public IEnumerable<StockReturn> PreviousList(int OrganizationId, DateTime? from, DateTime? to, int id, int jobcard)
         {
             using (IDbConnection connection = OpenConnection(dataConnection))
             {
@@ -192,7 +192,7 @@ namespace ArabErp.DAL
                                     AND SR.isActive = 1
                                     AND CONVERT(DATE, SR.StockReturnDate, 106) BETWEEN ISNULL(@from, DATEADD(MONTH, -1, GETDATE())) AND ISNULL(@to, GETDATE())
                                     AND SR.StockReturnId = ISNULL(NULLIF(CAST(@id AS INT), 0), SR.StockReturnId)
-                                    AND JC.JobCardId = ISNULL(NULLIF(CAST(@jobcard AS INT), 0), JC.JobCardId)";
+                                    AND SR.JobCardId = ISNULL(NULLIF(CAST(@jobcard AS INT), 0), SR.JobCardId)";
                 return connection.Query<StockReturn>(query, new
                                                             {
                                                                 OrganizationId = OrganizationId,
