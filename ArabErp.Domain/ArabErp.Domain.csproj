@@ -45,6 +45,7 @@
     <Compile Include="Bay.cs" />
     <Compile Include="BayStatus.cs" />
     <Compile Include="Box.cs" />
+    <Compile Include="ClosingStock.cs" />
     <Compile Include="CommissionAgent.cs" />
     <Compile Include="Consumption.cs" />
     <Compile Include="ConsumptionItem.cs" />

@@ -36,6 +36,17 @@ namespace ArabErp.DAL
             }
         }
         /// <summary>
+        /// Return all item Category that are active
+        /// </summary>
+        /// <returns></returns>
+        public List<Dropdown> ItemCategoryDropdown()
+        {
+            using (IDbConnection connection = OpenConnection(dataConnection))
+            {
+                return connection.Query<Dropdown>("SELECT itmCatId Id,CategoryName Name FROM ItemCategory WHERE ISNULL(isActive, 1) = 1").ToList();
+            }
+        }
+        /// <summary>
         /// Return all active employees
         /// </summary>
         /// <returns></returns>

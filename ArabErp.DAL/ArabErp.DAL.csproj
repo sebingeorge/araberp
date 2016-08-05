@@ -70,6 +70,7 @@
     <Compile Include="BayRepository.cs" />
     <Compile Include="BayStatusReportRepository.cs" />
     <Compile Include="BoxRepository.cs" />
+    <Compile Include="ClosingStockRepository.cs" />
     <Compile Include="CommissionAgentRepository.cs" />
     <Compile Include="ConnectionManager.cs" />
     <Compile Include="ConsumptionItemRepository.cs" />

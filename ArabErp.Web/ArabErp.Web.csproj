@@ -205,6 +205,7 @@
     <Compile Include="Controllers\BayController.cs" />
     <Compile Include="Controllers\BayStatusController.cs" />
     <Compile Include="Controllers\BoxController.cs" />
+    <Compile Include="Controllers\ClosingStockController.cs" />
     <Compile Include="Controllers\CommissionAgentController.cs" />
     <Compile Include="Controllers\ConsumptionController.cs" />
     <Compile Include="Controllers\CurrencyController.cs" />
@@ -253,6 +254,7 @@
     <Compile Include="Controllers\StockReportController.cs" />
     <Compile Include="Controllers\StockReturnController.cs" />
     <Compile Include="Controllers\StoresIssueController.cs" />
+    <Compile Include="Controllers\StoresLedgerController.cs" />
     <Compile Include="Controllers\SupplierCategoryController.cs" />
     <Compile Include="Controllers\SupplierController.cs" />
     <Compile Include="Controllers\SupplierItemRateController.cs" />
@@ -749,6 +751,9 @@
     <Content Include="Views\PurchaseBill\_PurchaseBillListDatas.cshtml" />
     <Content Include="Views\SupplyOrder\Index.cshtml" />
     <Content Include="Views\PurchaseRequest\Index.cshtml" />
+    <Content Include="Views\ClosingStock\Index.cshtml" />
+    <Content Include="Views\ClosingStock\_ClosingStockRegister.cshtml" />
+    <Content Include="Views\StoresLedger\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
