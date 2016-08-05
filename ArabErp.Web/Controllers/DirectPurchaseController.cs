@@ -33,7 +33,10 @@ namespace ArabErp.Web.Controllers
             model.OrganizationId = OrganizationId;
             model.CreatedDate = System.DateTime.Now;
             model.CreatedBy = Request.ServerVariables["HTTP_X_FORWARDED_FOR"] ?? Request.ServerVariables["REMOTE_ADDR"];
-            if (new DirectPurchaseRepository().InsertDirectPurchaseRequest(model) > 0)
+            string referenceNo = new DirectPurchaseRepository().InsertDirectPurchaseRequest(model);
+            if (referenceNo != "")
+
+            //if (new DirectPurchaseRepository().InsertDirectPurchaseRequest(model) > 0)
             {
                 TempData["success"] = "Saved successfully";
                 TempData["error"] = "";
@@ -120,6 +123,135 @@ namespace ArabErp.Web.Controllers
             List<Dropdown> list = repo.FillJC();
             ViewBag.JC = new SelectList(list, "Id", "Name");
         }
+        public ActionResult Edit(int id = 0)
+        {
+            try
+            {
+                if (id != 0)
+                {
+                    FillSO();
+                    FillJC();
+                    GetMaterials();
 
+                    DirectPurchaseRequest DirectPurchaseRequest = new DirectPurchaseRequest();
+                    DirectPurchaseRequest = new DirectPurchaseRepository().GetDirectPurchaseRequest(id);
+                    DirectPurchaseRequest.items = new DirectPurchaseRepository().GetDirectPurchaseRequestItems(id);
+                   
+                    return View(DirectPurchaseRequest);
+                }
+                else
+                {
+                    TempData["error"] = "That was an invalid/unknown request. Please try again.";
+                    TempData["success"] = "";
+                }
+            }
+            catch (InvalidOperationException iox)
+            {
+                TempData["error"] = "Sorry, we could not find the requested item. Please try again.|" + iox.Message;
+            }
+            catch (SqlException sx)
+            {
+                TempData["error"] = "Some error occured while connecting to database. Please try again after sometime.|" + sx.Message;
+            }
+            catch (NullReferenceException nx)
+            {
+                TempData["error"] = "Some required data was missing. Please try again.|" + nx.Message;
+            }
+            catch (Exception ex)
+            {
+                TempData["error"] = "Some error occured. Please try again.|" + ex.Message;
+            }
+
+            TempData["success"] = "";
+            return RedirectToAction("CreateRequest");
+        }
+
+        [HttpPost]
+        public ActionResult Edit(DirectPurchaseRequest model)
+        {
+            ViewBag.Title = "Edit";
+            model.OrganizationId = OrganizationId;
+            model.CreatedDate = System.DateTime.Now;
+            model.CreatedBy = Request.ServerVariables["HTTP_X_FORWARDED_FOR"] ?? Request.ServerVariables["REMOTE_ADDR"];
+
+            FillSO();
+            FillJC();
+            GetMaterials();
+
+            var repo = new DirectPurchaseRepository();
+
+            var result1 = new DirectPurchaseRepository().CHECK(model.DirectPurchaseRequestId);
+            if (result1 > 0)
+            {
+                TempData["error"] = "Sorry!!..Already Used!!";
+                TempData["PurchaseRequestNo"] = null;
+                return View("Edit", model);
+            }
+
+            else
+            {
+                try
+                {
+                    var result2 = new DirectPurchaseRepository().DeleteDirectPurchaseDT(model.DirectPurchaseRequestId);
+                    var result3 = new DirectPurchaseRepository().DeleteDirectPurchaseHD(model.DirectPurchaseRequestId);
+                    string id = new DirectPurchaseRepository().InsertDirectPurchaseRequest(model);
+
+                    TempData["success"] = "Updated successfully. Direct Purchase Request Reference No. is " + id;
+                    TempData["error"] = "";
+                    return RedirectToAction("CreateRequest");
+                }
+                catch (SqlException sx)
+                {
+                    TempData["error"] = "Some error occured while connecting to database. Please check your network connection and try again.|" + sx.Message;
+                }
+                catch (NullReferenceException nx)
+                {
+                    TempData["error"] = "Some required data was missing. Please try again.|" + nx.Message;
+                }
+                catch (Exception ex)
+                {
+                    TempData["error"] = "Some error occured. Please try again.|" + ex.Message;
+                }
+                return RedirectToAction("CreateRequest");
+            }
+
+        }
+
+        public ActionResult Delete(int Id)
+        {
+            ViewBag.Title = "Delete";
+
+            var result1 = new DirectPurchaseRepository().CHECK(Id);
+            if (result1 > 0)
+            {
+                TempData["error"] = "Sorry!!..Already Used!!";
+                TempData["PurchaseRequestNo"] = null;
+                return RedirectToAction("Edit", new { id = Id });
+            }
+
+            else
+            {
+                var result2 = new DirectPurchaseRepository().DeleteDirectPurchaseDT(Id);
+                var result3 = new DirectPurchaseRepository().DeleteDirectPurchaseHD(Id);
+
+                if (Id > 0)
+                {
+
+                    TempData["Success"] = "Deleted Successfully!";
+                    //return RedirectToAction("PreviousList");
+                    return RedirectToAction("PendingSupplyOrder");
+                }
+
+                else
+                {
+
+                    TempData["error"] = "Oops!!..Something Went Wrong!!";
+                    TempData["SupplyOrderNo"] = null;
+                    return RedirectToAction("Edit", new { id = Id });
+                }
+
+            }
+
+        }
     }
 }

@@ -13,9 +13,11 @@ namespace ArabErp.DAL
     public class DirectPurchaseRepository : BaseRepository
     {
         static string dataConnection = GetConnectionString("arab");
+        readonly log4net.ILog logger = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
 
-        public int InsertDirectPurchaseRequest(DirectPurchaseRequest model)
+        public string InsertDirectPurchaseRequest(DirectPurchaseRequest model)
         {
+            int id = 0;
             using (IDbConnection connection = OpenConnection(dataConnection))
             {
                 IDbTransaction txn = connection.BeginTransaction(); try
@@ -60,23 +62,44 @@ namespace ArabErp.DAL
                                     @JobCardId
                                 )
                             SELECT CAST(SCOPE_IDENTITY() AS INT)";
-                    var id = connection.Query<int>(sql, model, txn).Single();
+                    id = connection.Query<int>(sql, model, txn).Single<int>();
 
+                    var supplyorderitemrepo = new DirectPurchaseItemRepository();
                     foreach (var item in model.items)
                     {
-                        item.DirectPurchaseRequestId = id;
-                        new DirectPurchaseItemRepository().InsertDirectPurchaseRequestItem(item, connection, txn);
+                            item.DirectPurchaseRequestId = id;
+                            new DirectPurchaseItemRepository().InsertDirectPurchaseRequestItem(item, connection, txn);
+                       
                     }
+
                     txn.Commit();
-                    return id;
                 }
-                catch (Exception)
+                catch (Exception ex)
                 {
+                    logger.Error(ex.Message);
                     txn.Rollback();
-                    return 0;
+                    throw;
                 }
+                return model.PurchaseRequestNo;
             }
         }
+
+
+        //            foreach (var item in model.items)
+        //            {
+        //                item.DirectPurchaseRequestId = id;
+        //                new DirectPurchaseItemRepository().InsertDirectPurchaseRequestItem(item, connection, txn);
+        //            }
+        //            txn.Commit();
+        //            return id;
+        //        }
+        //        catch (Exception)
+        //        {
+        //            txn.Rollback();
+        //            return 0;
+        //        }
+        //    }
+        //}
         /// <summary>
         /// Returns the purchase limit based on organization Id
         /// </summary>
@@ -192,5 +215,114 @@ namespace ArabErp.DAL
                 return connection.Query<DirectPurchaseRequest>(query, new { OrganizationId = 1 }).ToList();
             }
         }
+
+        public DirectPurchaseRequest GetDirectPurchaseRequest(int DirectPurchaseRequestId)
+        {
+            try
+            {
+                using (IDbConnection connection = OpenConnection(dataConnection))
+                {
+                    string query = @"SELECT * FROM DirectPurchaseRequest
+                                    WHERE DirectPurchaseRequestId = @DirectPurchaseRequestId
+	                                AND ISNULL(isActive, 1) = 1";
+
+                    var objDirectPurchaseRequest = connection.Query<DirectPurchaseRequest>(query, new
+                    {
+                        DirectPurchaseRequestId = DirectPurchaseRequestId
+                    }).First<DirectPurchaseRequest>();
+
+                    return objDirectPurchaseRequest;
+                }
+            }
+            catch (InvalidOperationException iox)
+            {
+                throw iox;
+            }
+            catch (SqlException sx)
+            {
+                throw sx;
+            }
+            catch (NullReferenceException nx)
+            {
+                throw nx;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
+        public List<DirectPurchaseRequestItem> GetDirectPurchaseRequestItems(int DirectPurchaseRequestId)
+        {
+            using (IDbConnection connection = OpenConnection(dataConnection))
+            {
+                string sql = @"SELECT ItemName,PartNo txtPartNo,UnitName txtUoM,* FROM DirectPurchaseRequestItem D
+                               INNER JOIN Item I ON I.ItemId=D.ItemId
+                               INNER JOIN Unit U ON U.UnitId=I.ItemUnitId
+                               WHERE DirectPurchaseRequestId = @DirectPurchaseRequestId;";
+
+                var objDirectPurchaseRequestItems = connection.Query<DirectPurchaseRequestItem>(sql, new { DirectPurchaseRequestId = DirectPurchaseRequestId }).ToList<DirectPurchaseRequestItem>();
+
+                return objDirectPurchaseRequestItems;
+            }
+        }
+
+        public int CHECK(int DirectPurchaseRequestId)
+        {
+            using (IDbConnection connection = OpenConnection(dataConnection))
+            {
+                string sql = @" SELECT Count(DirectPurchaseRequestId)Count FROM DirectPurchaseRequest 
+                                WHERE isApproved=1 AND DirectPurchaseRequestId=@DirectPurchaseRequestId";
+
+                var id = connection.Query<int>(sql, new { DirectPurchaseRequestId = DirectPurchaseRequestId }).FirstOrDefault();
+
+                return id;
+
+            }
+
+        }
+
+        /// <summary>
+        /// Delete HD Details
+        /// </summary>
+        /// <returns></returns>
+        public int DeleteDirectPurchaseHD(int Id)
+        {
+            int result = 0;
+            using (IDbConnection connection = OpenConnection(dataConnection))
+            {
+                string sql = @" DELETE FROM DirectPurchaseRequest WHERE DirectPurchaseRequestId=@Id";
+
+                {
+
+                    var id = connection.Execute(sql, new { Id = Id });
+                    return id;
+
+                }
+
+            }
+        }
+        /// <summary>
+        /// Delete DT Details
+        /// </summary>
+        /// <returns></returns>
+        public int DeleteDirectPurchaseDT(int Id)
+        {
+            int result3 = 0;
+            using (IDbConnection connection = OpenConnection(dataConnection))
+            {
+                string sql = @" DELETE FROM DirectPurchaseRequestItem WHERE DirectPurchaseRequestId=@Id";
+
+                {
+
+                    var id = connection.Execute(sql, new { Id = Id });
+                    return id;
+
+                }
+
+            }
+        }
+
+
     }
 }
