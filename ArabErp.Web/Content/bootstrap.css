@@ -1475,6 +1475,9 @@ th {
 .table-bordered > tbody > tr > td,
 .table-bordered > tfoot > tr > td {
   border: 1px solid #dddddd;
+  padding-left:7px;
+  padding-right:7px;
+  font-size:12px;
 }
 
 .table-bordered > thead > tr > th,
@@ -4298,7 +4301,7 @@ textarea.input-group-sm > .input-group-btn > .btn {
   }
   .navbar-nav > li {
     float: left;
-    margin-left:-12px;
+    margin-left:-20px;
   }
   .navbar-nav > li > a {
     padding-top: 15px;
@@ -7421,6 +7424,12 @@ td.visible-print {
     .incentive
      {
         margin-top:3px !important;
+    }
+    .QuickLink .dropdown-menu 
+
+    {
+        margin-left:-95px !important;
+        margin-top:5px !important;
     }
 
          /*#SalesQuotationItems_0__WorkDescriptionId option

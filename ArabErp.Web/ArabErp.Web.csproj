@@ -762,6 +762,8 @@
     <Content Include="Views\Consumption\_PreviousListGrid.cshtml" />
     <Content Include="Views\Consumption\Index.cshtml" />
     <Content Include="Views\Expense\Edit.cshtml" />
+    <Content Include="Views\StockJournal\Index.cshtml" />
+    <Content Include="Views\StockJournal\_PreviousListGrid.cshtml" />
     <Content Include="Views\QuerySheet\Edit.cshtml" />
   </ItemGroup>
   <ItemGroup>
