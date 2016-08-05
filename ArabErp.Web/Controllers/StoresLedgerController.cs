@@ -40,5 +40,10 @@ namespace ArabErp.Web.Controllers
             var result = repo.ItemCategoryDropdown();
             ViewBag.ItemCatList = new SelectList(result, "Id", "Name");
         }
+        public ActionResult StoresLedger(DateTime? from, DateTime? to, int stkid = 0, int itmcatid = 0, int itmid = 0)
+        {
+            to = to ?? DateTime.Today;
+            return PartialView("_StoresLedger", new StoresLedgerRepository().GetStoresLedgerData(from, to, stkid, itmcatid, itmid, OrganizationId));
+        }
     }
 }

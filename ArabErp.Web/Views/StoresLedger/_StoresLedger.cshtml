@@ -1,0 +1,46 @@
+﻿
+@model IList<ArabErp.Domain.ClosingStock>
+@{
+    var totalInQty = Model.Sum(a => a.INQTY);
+    var totalOutQty = Model.Sum(a => a.OUTQTY);
+    var ClosingStock =(totalInQty-totalOutQty);
+    }
+<table class="table table-bordered">
+    <thead>
+        <tr class="grid_heading">
+            <th width="10%"><h1>Entry Date</h1></th>
+            <th  width="10%"><h1>Trn.No.</h1></th>
+            <th width="60%"><h1>Transaction Type</h1></th>
+            <th class="text-right" width="10%"><h1>Qty In</h1></th>
+            <th class="text-right" width="10%"><h1>Qty Out</h1></th>
+        </tr>
+    </thead>
+   
+        <tbody class="grid_row">
+@foreach (var item in Model)
+{
+            <tr>
+                <td class="grid-cell">@item.stocktrnDate.ToString("dd/MMM/yyyy")</td>
+                <td class="grid-cell">@item.StockUserId</td>
+                <td class="grid-cell">@item.StockType</td>
+                <td class="grid-cell text-right">@item.INQTY</td>
+                <td class="grid-cell text-right">@item.OUTQTY</td>
+            </tr>
+            }
+        </tbody>
+
+    <tfoot>
+        <tr class="grid_heading">
+            <th width="10%"><h1></h1></th>
+            <th width="10%"><h1></h1></th>
+            <th class="text-right" width="60%"><h1>Total</h1></th>
+            <th class="text-right" width="10%"><span>@totalInQty</span></th>
+            <th class="text-right" width="10%"><span>@totalOutQty</span></th>
+        </tr>
+    </tfoot>
+</table>
+<div class="form-group right">
+    <div style ="float:right">
+        <label for="Closing Stock">Closing Stock:<span>@ClosingStock</span></label>
+    </div>
+</div>

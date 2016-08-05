@@ -249,7 +249,7 @@ namespace ArabErp
         {
             using (IDbConnection connection = OpenConnection(dataConnection))
             {
-                return connection.Query<Bay>("select BayId, BayName from Bay where BayId not in (select BayId from JobCard where ISNULL(JodCardCompleteStatus,0) = 0)");
+                return connection.Query<Bay>("select BayId, BayName from Bay where BayId not in (select isnull(BayId,0)BayId from JobCard where ISNULL(JodCardCompleteStatus,0) = 0)");
             }
         }
 
