@@ -288,7 +288,7 @@ namespace ArabErp.Web.Controllers
        if (result1 > 0)
        {
            TempData["error"] = "Sorry!!..Already Used!!";
-           TempData["PurchaseRequestNo"] = null;
+           TempData["ExpenseNo"] = null;
            return View("Edit", model);
        }
 
@@ -329,7 +329,7 @@ namespace ArabErp.Web.Controllers
        if (result1 > 0)
        {
            TempData["error"] = "Sorry!!..Already Used!!";
-           TempData["SupplyOrderNo"] = null;
+           TempData["ExpenseNo"] = null;
            return RedirectToAction("Edit", new { id = Id });
        }
 
@@ -350,7 +350,7 @@ namespace ArabErp.Web.Controllers
            {
 
                TempData["error"] = "Oops!!..Something Went Wrong!!";
-               TempData["SupplyOrderNo"] = null;
+               TempData["ExpenseNo"] = null;
                return RedirectToAction("Edit", new { id = Id });
            }
 

@@ -14,7 +14,14 @@ namespace ArabErp.Web.Controllers
         // GET: Consumption
         public ActionResult Index()
         {
+            FillConsumption();
+            FillJobCardForPreviousList();
             return View();
+        }
+
+        public ActionResult PreviousList(DateTime? from, DateTime? to, int id = 0, int jobcard = 0)
+        {
+            return PartialView("_PreviousListGrid", new ConsumptionRepository().PreviousList(OrganizationId: OrganizationId, from: from, to: to, id: id, jobcard: jobcard));
         }
 
         public ActionResult Create()
@@ -84,15 +91,6 @@ namespace ArabErp.Web.Controllers
         //    return PartialView("_ConsumptionGrid");
         //}
 
-        public void ItemDropdown()
-        {
-            ViewBag.itemList = new SelectList(new DropdownRepository().ItemDropdown(), "Id", "Name");
-        }
-
-        public void JobCardDropdown()
-        {
-            ViewBag.jobcardList = new SelectList(new DropdownRepository().JobCardDropdown(), "Id", "Name");
-        }
 
         public JsonResult JobCardDetails(int jobCardId)
         {
@@ -110,5 +108,24 @@ namespace ArabErp.Web.Controllers
         {
             return Json(new ItemRepository().GetPartNoUnit(itemId), JsonRequestBehavior.AllowGet);
         }
+
+        #region Dropdown
+        public void ItemDropdown()
+        {
+            ViewBag.itemList = new SelectList(new DropdownRepository().ItemDropdown(), "Id", "Name");
+        }
+        public void JobCardDropdown()
+        {
+            ViewBag.jobcardList = new SelectList(new DropdownRepository().JobCardDropdown(), "Id", "Name");
+        }
+        public void FillConsumption()
+        {
+            ViewBag.consumptionList = new SelectList(new DropdownRepository().ConsumptionDropdown(OrganizationId), "Id", "Name");
+        }
+        public void FillJobCardForPreviousList()
+        {
+            ViewBag.jobcardList = new SelectList(new DropdownRepository().JobCardForConsumption(OrganizationId), "Id", "Name");
+        }
+        #endregion
     }
 }

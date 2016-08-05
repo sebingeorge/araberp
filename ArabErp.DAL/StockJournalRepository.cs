@@ -5,6 +5,7 @@ using System.Data.SqlClient;
 using Dapper;
 using ArabErp.Domain;
 using System.Data;
+using System.Collections;
 
 namespace ArabErp.DAL
 {
@@ -69,6 +70,44 @@ namespace ArabErp.DAL
                 }
 
 
+            }
+        }
+
+        public IEnumerable PreviousList(int OrganizationId, DateTime? from, DateTime? to, int id, int stockpoint)
+        {
+            using (IDbConnection connection = OpenConnection(dataConnection))
+            {
+                string query = @"SELECT
+	                                SJ.StockJournalId,
+	                                SJ.StockJournalRefno,
+	                                CONVERT(VARCHAR, SJ.StockJournalDate, 106) StockJournalDate,
+	                                SP.StockPointName,
+	                                ISNULL(SJ.Remarks, '-') Remarks,
+	                                EMP.EmployeeName,
+
+	                                STUFF((SELECT ', ' + CAST(T2.ItemName + ' ('+CAST(T1.Quantity AS VARCHAR(MAX))+')' AS VARCHAR(MAX)) [text()]
+	                                FROM StockJournalItem T1 INNER JOIN Item T2 ON T1.ItemId = T2.ItemId
+	                                WHERE SJ.StockJournalId = T1.StockJournalId
+	                                FOR XML PATH(''), TYPE).value('.','NVARCHAR(MAX)'),1,2,'') ItemName
+
+                                FROM StockJournal SJ
+	                                INNER JOIN Stockpoint SP ON SJ.StockPointId = SP.StockPointId
+	                                INNER JOIN Employee EMP ON SJ.IssuedBy = EMP.EmployeeId
+                                WHERE SJ.OrganizationId = 1
+	                                AND SJ.isActive = 1
+                                AND CONVERT(DATE, SJ.StockJournalDate, 106) BETWEEN ISNULL(@from, DATEADD(MONTH, -1, GETDATE())) AND ISNULL(@to, GETDATE())
+                                AND SJ.StockJournalId = ISNULL(NULLIF(CAST(@id AS INT), 0), SJ.StockJournalId)
+                                AND SJ.StockPointId = ISNULL(NULLIF(CAST(@stockpoint AS INT), 0), SJ.StockPointId)
+                                ORDER BY SJ.StockJournalDate DESC, SJ.CreatedDate DESC";
+                return connection.Query<StockJournal>(query,
+                new
+                {
+                    OrganizationId = OrganizationId,
+                    id = id,
+                    from = from,
+                    to = to,
+                    stockpoint = stockpoint
+                }).ToList();
             }
         }
     }

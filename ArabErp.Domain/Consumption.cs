@@ -20,9 +20,11 @@ namespace ArabErp.Domain
         public bool isActive { get; set; }
         public List<ConsumptionItem> ConsumptionItems { get; set; }
 
+        public string JobCardNo { get; set; }
         public string JobCardDate { get; set; }
         public string SONoDate { get; set; }
         public string FreezerUnitName { get; set; }
         public string BoxName { get; set; }
+        public string ItemName { get; set; }
     }
 }

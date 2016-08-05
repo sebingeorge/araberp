@@ -78,19 +78,6 @@ namespace ArabErp.DAL
             }
         }
 
-
-
-        public int DeleteQuerySheet(Unit objQuerySheet)
-        {
-            using (IDbConnection connection = OpenConnection(dataConnection))
-            {
-                string sql = @"Delete QuerySheet  OUTPUT DELETED.QuerySheetId WHERE QuerySheetId=@QuerySheetId";
-
-
-                var id = connection.Execute(sql, objQuerySheet);
-                return id;
-            }
-        }
         public IEnumerable<ProjectCost> GetProjectCostingParameter()
         {
             using (IDbConnection connection = OpenConnection(dataConnection))
@@ -101,6 +88,61 @@ namespace ArabErp.DAL
             }
         }
 
+        public int CHECK(int QuerySheetId)
+        {
+            using (IDbConnection connection = OpenConnection(dataConnection))
+            {
+                string sql = @" SELECT Count(Q.QuerySheetId)Count FROM QuerySheet Q
+                                INNER JOIN SalesQuotation S ON S.QuerySheetId=Q.QuerySheetId
+                                WHERE Q.QuerySheetId=@QuerySheetId";
+
+                var id = connection.Query<int>(sql, new { QuerySheetId = QuerySheetId }).FirstOrDefault();
+
+                return id;
+
+            }
+
+        }
+        /// <summary>
+        /// Delete QuerySheet Details
+        /// </summary>
+        /// <returns></returns>
+        public int DeleteQuerySheet(int Id)
+        {
+            int result = 0;
+            using (IDbConnection connection = OpenConnection(dataConnection))
+            {
+                string sql = @" DELETE FROM QuerySheet WHERE QuerySheetId=@Id";
+
+                {
+
+                    var id = connection.Execute(sql, new { Id = Id });
+                    return id;
+
+                }
+
+            }
+        }
+        /// <summary>
+        /// Delete ProjectCosting DT Details
+        /// </summary>
+        /// <returns></returns>
+        public int DeleteProjectCosting(int Id)
+        {
+            int result3 = 0;
+            using (IDbConnection connection = OpenConnection(dataConnection))
+            {
+                string sql = @" DELETE FROM ProjectCosting WHERE QuerySheetId=@Id";
+
+                {
+
+                    var id = connection.Execute(sql, new { Id = Id });
+                    return id;
+
+                }
+
+            }
+        }
 
     }
 }
