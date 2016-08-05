@@ -220,5 +220,62 @@ namespace ArabErp.DAL
                 return model;
             }
         }
+
+        public int CHECK(int ExpenseId)
+        {
+            using (IDbConnection connection = OpenConnection(dataConnection))
+            {
+                string sql = @" SELECT Count(ExpenseId)Count FROM ExpenseBill
+                                WHERE isApproved =1 and ExpenseId=@ExpenseId";
+
+                var id = connection.Query<int>(sql, new { ExpenseId = ExpenseId }).FirstOrDefault();
+
+                return id;
+
+            }
+
+        }
+
+        /// <summary>
+        /// Delete ExpenseBill HD Details
+        /// </summary>
+        /// <returns></returns>
+        public int DeleteExpenseBillHD(int Id)
+        {
+            int result = 0;
+            using (IDbConnection connection = OpenConnection(dataConnection))
+            {
+                string sql = @" DELETE FROM ExpenseBill WHERE ExpenseId=@Id";
+
+                {
+
+                    var id = connection.Execute(sql, new { Id = Id });
+                    return id;
+
+                }
+
+            }
+        }
+        /// <summary>
+        /// Delete SO DT Details
+        /// </summary>
+        /// <returns></returns>
+        public int DeleteExpenseBillDT(int Id)
+        {
+            int result3 = 0;
+            using (IDbConnection connection = OpenConnection(dataConnection))
+            {
+                string sql = @" DELETE FROM ExpenseBillItem WHERE ExpenseId=@Id";
+
+                {
+
+                    var id = connection.Execute(sql, new { Id = Id });
+                    return id;
+
+                }
+
+            }
+        }
+       
     }
 }
