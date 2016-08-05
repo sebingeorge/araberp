@@ -49,6 +49,37 @@ namespace ArabErp.Web.Controllers
             ViewBag.SubmitAction = "Save";
             return View(salesquotation);
         }
+
+        [HttpPost]
+        public ActionResult Create(SalesQuotation model)
+        {
+
+            model.OrganizationId = OrganizationId;
+            model.CreatedDate = System.DateTime.Now;
+            model.CreatedBy = Request.ServerVariables["HTTP_X_FORWARDED_FOR"] ?? Request.ServerVariables["REMOTE_ADDR"];
+            SalesQuotation result = new SalesQuotationRepository().InsertSalesQuotation(model);
+            if (result.SalesQuotationId > 0)
+            {
+                TempData["Success"] = "Added Successfully!";
+                TempData["QuotationRefNo"] = result.QuotationRefNo;
+                return RedirectToAction("Create");
+            }
+            else
+            {
+                TempData["error"] = "Oops!!..Something Went Wrong!!";
+                TempData["SaleOrderRefNo"] = null;
+                FillCustomer();
+                FillCurrency();
+                FillCommissionAgent();
+                FillWrkDesc();
+                FillVehicle();
+                FillUnit();
+                FillEmployee();
+                FillSalesQuotationRejectReason();
+                return View("Create", model);
+            }
+
+        }
         public ActionResult CreateProject()
         {
             var internalid = DatabaseCommonRepository.GetNextReferenceNo(typeof(SalesQuotation).Name);
@@ -145,6 +176,22 @@ namespace ArabErp.Web.Controllers
             return View("Create",salesquotation);
         }
 
+        public ActionResult Approve(SalesQuotation model)
+        {
+
+            var repo = new SalesQuotationRepository();
+
+            repo.ApproveSalesQuotation(model);
+            if (model.isProjectBased == 0)
+            {
+                return RedirectToAction("ListSalesQuotations", new { ProjectBased = 0 });
+            }
+            else
+            {
+                return RedirectToAction("ListSalesQuotationsProject");
+            }
+
+        }
         [HttpGet]
         public ActionResult Revise(int Id)
         {
@@ -175,6 +222,7 @@ namespace ArabErp.Web.Controllers
             ViewBag.SubmitAction = "Revise";
             return View(salesquotation);
         }
+
         [HttpPost]
         public ActionResult Revise(SalesQuotation model)
         {
@@ -212,22 +260,7 @@ namespace ArabErp.Web.Controllers
                 
             }
         }
-        public ActionResult Approve(SalesQuotation model)
-        {
-
-            var repo = new SalesQuotationRepository();
-
-            repo.ApproveSalesQuotation(model);
-            if(model.isProjectBased == 0)
-            {
-                return RedirectToAction("ListSalesQuotations", new { ProjectBased = 0 });
-            }
-            else
-            {
-                return RedirectToAction("ListSalesQuotationsProject");
-            }           
-            
-        }
+     
 
         public ActionResult ListSalesQuotations(int ProjectBased)
         {
@@ -318,45 +351,7 @@ namespace ArabErp.Web.Controllers
             var list = repo.QuerySheetNoInQuotationDropdown();
             ViewBag.QuerySheetNolist = new SelectList(list, "Id", "Name");
         }
-        [HttpPost]
-        public ActionResult Create(SalesQuotation model)
-        {
-
-            model.OrganizationId = OrganizationId;
-            model.CreatedDate = System.DateTime.Now;
-            model.CreatedBy = Request.ServerVariables["HTTP_X_FORWARDED_FOR"] ?? Request.ServerVariables["REMOTE_ADDR"];
-            SalesQuotation result= new SalesQuotationRepository().InsertSalesQuotation(model);
-            if (result.SalesQuotationId > 0)
-            {
-                TempData["Success"] = "Added Successfully!";
-                TempData["QuotationRefNo"] = result.QuotationRefNo;
-                return RedirectToAction("Create");
-            }
-            else
-            {
-                TempData["error"] = "Oops!!..Something Went Wrong!!";
-                TempData["SaleOrderRefNo"] = null;
-                FillCustomer();
-                FillCurrency();
-                FillCommissionAgent();
-                FillWrkDesc();
-                FillVehicle();
-                FillUnit();
-                FillEmployee();
-                FillSalesQuotationRejectReason();
-                //SalesQuotation salesquotation = new SalesQuotation();
-                //salesquotation.QuotationDate = System.DateTime.Today;
-                //salesquotation.PredictedClosingDate = System.DateTime.Today;
-                //salesquotation.QuotationValidToDate = System.DateTime.Today;
-                //salesquotation.ExpectedDeliveryDate = System.DateTime.Today;
-                //SaleOrder saleOrder = new SaleOrder();
-                //saleOrder.SaleOrderDate = System.DateTime.Today;
-                //saleOrder.Items = new List<SaleOrderItem>();
-                //saleOrder.Items.Add(new SaleOrderItem());
-                return View("Create", model);
-            }
-          
-        }
+       
        
         public ActionResult StatusUpdate(int Id)
         {
@@ -533,9 +528,9 @@ namespace ArabErp.Web.Controllers
                     var result3 = new SalesQuotationRepository().DeleteSQHD(model.SalesQuotationId);
                     SalesQuotation id = new SalesQuotationRepository().InsertSalesQuotation(model);
 
-                    TempData["success"] = "Updated successfully. Purchase Request Reference No. is " + id;
-                    TempData["error"] = "";
-                    return View("Create", model);
+                    TempData["success"] = "Updated successfully !";
+                    TempData["QuotationRefNo"] = id.QuotationRefNo;
+                    return RedirectToAction("Create");
                 }
                 catch (SqlException sx)
                 {
@@ -575,7 +570,7 @@ namespace ArabErp.Web.Controllers
                 {
 
                     TempData["Success"] = "Deleted Successfully!";
-                    return RedirectToAction("PreviousList");
+                    return RedirectToAction("Index");
                     //return View("Create", model);
                 }
 
