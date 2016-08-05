@@ -39,5 +39,6 @@ namespace ArabErp.Domain
 
         public int Ageing { get; set; }
         public int DaysLeft { get; set; }
+        
     }
 }

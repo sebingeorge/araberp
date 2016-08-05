@@ -233,7 +233,7 @@ namespace ArabErp.DAL
         /// Return all approved supply orders
         /// </summary>
         /// <returns></returns>
-        public IEnumerable<SupplyOrderPreviousList> GetPreviousList()
+        public IList<SupplyOrderPreviousList> GetPreviousList(int OrganizationId,int id, int supid, DateTime? from, DateTime? to)
         {
             using (IDbConnection connection = OpenConnection(dataConnection))
             {
@@ -261,11 +261,14 @@ namespace ArabErp.DAL
                                 FROM SupplyOrder SO
                                 INNER JOIN Supplier SUP ON SO.SupplierId = SUP.SupplierId
                                 INNER JOIN #SUPPLY_ITEM SI ON SO.SupplyOrderId = SI.SupplyOrderId
-                                WHERE ISNULL(SO.isActive, 1) = 1
+                                WHERE ISNULL(SO.isActive, 1) = 1 and SO.OrganizationId=@OrganizationId
+                                and SO.SupplyOrderId = ISNULL(NULLIF(@id, 0), SO.SupplyOrderId)
+                                and SUP.SupplierId = ISNULL(NULLIF(@supid, 0), SUP.SupplierId)
+                                and SO.SupplyOrderDate BETWEEN ISNULL(@from, DATEADD(MONTH, -1, GETDATE())) AND ISNULL(@to, GETDATE()) 
 								ORDER BY SupplyOrderDate DESC, SO.CreatedDate DESC;
                                 DROP TABLE #SUPPLY_ITEM;";
 
-                return connection.Query<SupplyOrderPreviousList>(query).ToList<SupplyOrderPreviousList>();
+                return connection.Query<SupplyOrderPreviousList>(query, new { OrganizationId = OrganizationId,id = id, supid = supid, to = to, from = from }).ToList<SupplyOrderPreviousList>();
             }
         }
         /// <summary>

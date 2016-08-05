@@ -17,12 +17,34 @@ namespace ArabErp.Web.Controllers
             repo = new JobCardRepository();
         }
         // GET: JobCard
-        public ActionResult Index()
+        public ActionResult Index(int isProjectBased)
         {
+            try
+            { 
+            FillJCNo(isProjectBased);
+            FillCustomerinJC(isProjectBased);
+            ViewBag.ProjectBased = isProjectBased;
             return View();
+            }
+
+            catch (Exception ex)
+            {
+                string ErrorMessage = ex.Message.ToString();
+                if (ex.InnerException != null)
+                {
+                    if (ex.InnerException.Message != null)
+                    {
+                        ErrorMessage = ErrorMessage + ex.InnerException.Message.ToString();
+                    }
+                }
+                ViewData["Error"] = ErrorMessage;
+                return View("ShowError");
+            }
         }
         public ActionResult Create(int? Id, int? isProjectBased)
         {
+            try
+            {
             JobCardRepository repo = new JobCardRepository();
             SaleOrderRepository soRepo = new SaleOrderRepository();
             isProjectBased = soRepo.IsProjectOrVehicle(Id ?? 0);
@@ -39,19 +61,68 @@ namespace ArabErp.Web.Controllers
             FillBox();
             FillVehicleRegNo();
             return View(model);
+             }
+
+            catch (Exception ex)
+            {
+                string ErrorMessage = ex.Message.ToString();
+                if (ex.InnerException != null)
+                {
+                    if (ex.InnerException.Message != null)
+                    {
+                        ErrorMessage = ErrorMessage + ex.InnerException.Message.ToString();
+                    }
+                }
+                ViewData["Error"] = ErrorMessage;
+                return View("ShowError");
+            }
         }
         public ActionResult PendingJobCard(int? isProjectBased)
         {
+            try
+            {
             IEnumerable<PendingSO> pendingSo = repo.GetPendingSO(isProjectBased ?? 0,OrganizationId);
             return View(pendingSo);
+             }
+
+            catch (Exception ex)
+            {
+                string ErrorMessage = ex.Message.ToString();
+                if (ex.InnerException != null)
+                {
+                    if (ex.InnerException.Message != null)
+                    {
+                        ErrorMessage = ErrorMessage + ex.InnerException.Message.ToString();
+                    }
+                }
+                ViewData["Error"] = ErrorMessage;
+                return View("ShowError");
+            }
         }
         [HttpPost]
         public ActionResult Create(JobCard model)
         {
+            try
+            {
             model.OrganizationId = OrganizationId;
             var data = new JobCardRepository().SaveJobCard(model);
             return RedirectToAction("PendingJobCard", new { isProjectBased = model.isProjectBased });
             // return View();
+             }
+
+            catch (Exception ex)
+            {
+                string ErrorMessage = ex.Message.ToString();
+                if (ex.InnerException != null)
+                {
+                    if (ex.InnerException.Message != null)
+                    {
+                        ErrorMessage = ErrorMessage + ex.InnerException.Message.ToString();
+                    }
+                }
+                ViewData["Error"] = ErrorMessage;
+                return View("ShowError");
+            }
         }
 
         public void FillBay()
@@ -88,13 +159,7 @@ namespace ArabErp.Web.Controllers
         {
             ViewBag.inpassList = new SelectList(new DropdownRepository().VehicleInPassDropdown(), "Id", "Name");
         }
-        public ActionResult JobCardList(int isProjectBased)
-        {
-            FillJCNo(isProjectBased);
-            FillCustomerinJC(isProjectBased);
-            ViewBag.ProjectBased = isProjectBased;
-            return View();
-        }
+      
         public void FillJCNo(int isProjectBased)
         {
             ViewBag.JCNoList = new SelectList(new DropdownRepository().JCNODropdown(OrganizationId, isProjectBased), "Id", "Name");
@@ -105,9 +170,26 @@ namespace ArabErp.Web.Controllers
         }
         public ActionResult PreviousList( int ProjectBased,DateTime? from, DateTime? to, int id = 0, int cusid = 0)
         {
+            try
+            {
             from = from ?? DateTime.Today.AddMonths(-1);
             to = to ?? DateTime.Today;
             return PartialView("_PreviousList", new JobCardRepository().GetAllJobCards(ProjectBased, id, cusid, OrganizationId, from, to));
+             }
+
+            catch (Exception ex)
+            {
+                string ErrorMessage = ex.Message.ToString();
+                if (ex.InnerException != null)
+                {
+                    if (ex.InnerException.Message != null)
+                    {
+                        ErrorMessage = ErrorMessage + ex.InnerException.Message.ToString();
+                    }
+                }
+                ViewData["Error"] = ErrorMessage;
+                return View("ShowError");
+            }
         }
     }
 }

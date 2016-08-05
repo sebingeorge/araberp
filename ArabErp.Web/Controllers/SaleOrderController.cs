@@ -24,11 +24,10 @@ namespace ArabErp.Web.Controllers
 
         public ActionResult PreviousList(DateTime? from, DateTime? to, int ProjectBased, int id = 0, int cusid = 0)
         {
-            //var repo = new SaleOrderRepository();
-            //IEnumerable<PendingSO> pendingSO = repo.GetSaleOrderPending(ProjectBased);
-            //return View(pendingSO);
+
             from = from ?? DateTime.Today.AddMonths(-1);
             to = to ?? DateTime.Today;
+            ViewBag.ProjectBased = ProjectBased;
             return PartialView("_PreviousList", new SaleOrderRepository().GetPreviousList(ProjectBased, id, cusid, OrganizationId, from, to));
         }
 

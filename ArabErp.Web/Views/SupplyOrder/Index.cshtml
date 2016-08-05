@@ -1,4 +1,4 @@
-﻿@model IList<ArabErp.Domain.ExpenseBillListViewModel>
+﻿@model IList<ArabErp.Domain.SupplyOrderPreviousList>
 
 @{
     ViewBag.Title = "Index";
@@ -11,7 +11,7 @@
     }
 </style>
 
-<script type = "text/javascript" >
+<script type="text/javascript">
 
     $(document).ready(function () {
         $("#txtFrom").datepicker({
@@ -28,38 +28,38 @@
         window.location = url;
     }
     function Exit() {
-        location.href = '@Url.Action("Create", "Expense")';
+        location.href = '@Url.Action("PendingSupplyOrder")';
         window.location = url;
     }
 
     function Filter() {
-        $("#expensebilllist").addClass("fade");
-        var id = $("#cboEBNo").val();
+        $("#solist").addClass("fade");
+        var id = $("#cboSONo").val();
         var supid = $("#cboSupplier").val();
         var from = $("#txtFrom").val();
         var to = $("#txtTo").val();
         var url = '@Url.Action("PreviousList")';
         url += "?from=" + from + "&to=" + to + "&id=" + id + "&supid=" + supid;
 
-        $("#expensebilllist").load(url, function () {
-            $("#expensebilllist").removeClass("fade");
+        $("#solist").load(url, function () {
+            $("#solist").removeClass("fade");
         });
     }
-  
+
 </script>
 
 <div class="row">
 
     <div class="form-head1">
-        <h4>Expense Bill List</h4>
+        <h4>Supply Order / LPO List</h4>
     </div>
 
     <div class="main-part pad1">
 
         <div class="row">
             <div class="col-md-2">
-                <label for="cboEBNo">Bill No.</label>
-                @Html.DropDownList("cboEBNo", (SelectList)ViewBag.ExpenseNoList, "Any", new { @class = "form_input", @onchange = "Filter()" })
+                <label for="cboSONo">SO No.</label>
+                @Html.DropDownList("cboSONo", (SelectList)ViewBag.SONoList, "Any", new { @class = "form_input", @onchange = "Filter()" })
             </div>
             <div class="col-md-3">
                 <label for="cboSupplier">Supplier</label>
@@ -78,7 +78,7 @@
 
         <br />
 
-        <div class="table-responsive" id="expensebilllist">
+        <div class="table-responsive" id="solist">
             @Html.Action("PreviousList")
         </div>
 

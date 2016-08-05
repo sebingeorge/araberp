@@ -333,7 +333,13 @@ namespace ArabErp.DAL
                 return connection.Query<Dropdown>("SELECT ExpenseId Id, ExpenseNo Name FROM ExpenseBill").ToList();
             }
         }
-
+        public List<Dropdown> ExpenseBillSupplierDropdown()
+        {
+            using (IDbConnection connection = OpenConnection(dataConnection))
+            {
+                return connection.Query<Dropdown>("SELECT distinct S.SupplierId Id,SupplierName Name FROM Supplier S INNER JOIN ExpenseBill E ON E.SupplierId=S.SupplierId WHERE ISNULL(S.isActive, 1) = 1").ToList();
+            }
+        }
         public List<Dropdown> QuerySheetRefNoDropdown()
         {
             using (IDbConnection connection = OpenConnection(dataConnection))
@@ -524,6 +530,93 @@ namespace ArabErp.DAL
 	                                                    AND WR.OrganizationId = @OrganizationId
                                                     ORDER BY JobCardDate DESC, WR.CreatedDate DESC",
                                                     new { OrganizationId = OrganizationId }).ToList();
+            }
+        }
+
+        public List<Dropdown> JCQcNODropdown(int OrganizationId)
+        {
+            using (IDbConnection connection = OpenConnection(dataConnection))
+            {
+                return connection.Query<Dropdown>("SELECT JobCardQCId Id, JobCardQCRefNo Name FROM JobCardQC WHERE ISNULL(isActive, 1) = 1 and OrganizationId =" + OrganizationId.ToString() + " ").ToList();
+            }
+        }
+
+        public List<Dropdown> FillQuotationNo(int OrganizationId, int type)
+        {
+            using (IDbConnection connection = OpenConnection(dataConnection))
+            {
+
+                return connection.Query<Dropdown>(@"SELECT SalesQuotationId Id,QuotationRefNo Name
+                                                    FROM SalesQuotation 
+                                                    WHERE OrganizationId = @OrganizationId AND isProjectBased = " + type,
+                                                    new { OrganizationId = OrganizationId, type = type }).ToList();
+            }
+        }
+        public List<Dropdown> FillSQCustomer(int OrganizationId, int type)
+        {
+            using (IDbConnection connection = OpenConnection(dataConnection))
+            {
+
+                return connection.Query<Dropdown>(@"SELECT  Distinct C.CustomerId Id,C.CustomerName Name
+                                                    FROM SalesQuotation S
+                                                    INNER JOIN Customer C on S.CustomerId = C.CustomerId
+                                                    WHERE S.OrganizationId = @OrganizationId AND isProjectBased = " + type,
+                                                    new { OrganizationId = OrganizationId, type = type }).ToList();
+            }
+        }
+
+        public List<Dropdown> PurchaseBillNoDropdown()
+        {
+            using (IDbConnection connection = OpenConnection(dataConnection))
+            {
+                return connection.Query<Dropdown>("SELECT PurchaseBillId Id, PurchaseBillRefNo Name FROM PurchaseBill").ToList();
+            }
+        }
+        public List<Dropdown> PurchaseBillSupplierDropdown()
+        {
+            using (IDbConnection connection = OpenConnection(dataConnection))
+            {
+                return connection.Query<Dropdown>("SELECT distinct S.SupplierId Id,SupplierName Name FROM Supplier S INNER JOIN PurchaseBill P ON P.SupplierId=S.SupplierId WHERE ISNULL(S.isActive, 1) = 1").ToList();
+            }
+        }
+
+        public List<Dropdown> SORefNoDropdown()
+        {
+            using (IDbConnection connection = OpenConnection(dataConnection))
+            {
+                return connection.Query<Dropdown>("SELECT SupplyOrderId Id, SupplyOrderNo Name FROM SupplyOrder").ToList();
+            }
+        }
+        public List<Dropdown> SupplyOrderSupplierDropdown()
+        {
+            using (IDbConnection connection = OpenConnection(dataConnection))
+            {
+                return connection.Query<Dropdown>("SELECT distinct S.SupplierId Id,SupplierName Name FROM Supplier S INNER JOIN SupplyOrder SO ON SO.SupplierId=S.SupplierId WHERE ISNULL(S.isActive, 1) = 1").ToList();
+            }
+        }
+
+        public List<Dropdown> PRRefNoDropdown()
+        {
+            using (IDbConnection connection = OpenConnection(dataConnection))
+            {
+                return connection.Query<Dropdown>("SELECT PurchaseRequestId Id, PurchaseRequestNo Name FROM PurchaseRequest").ToList();
+            }
+        }
+        public List<Dropdown> PurchaseReqCustomerDropdown()
+        {
+            using (IDbConnection connection = OpenConnection(dataConnection))
+            {
+                return connection.Query<Dropdown>(@"SELECT  Distinct C.CustomerId Id,C.CustomerName Name
+                                                    FROM Customer C
+                                                    INNER JOIN WorkShopRequest WR ON WR.CustomerId=C.CustomerId
+                                                    INNER JOIN PurchaseRequest P on P.WorkShopRequestId = WR.WorkShopRequestId").ToList();
+            }
+        }
+        public List<Dropdown> WRItemDropdown(int OrganizationId)
+        {
+            using (IDbConnection connection = OpenConnection(dataConnection))
+            {
+                return connection.Query<Dropdown>("SELECT DISTINCT I.ItemId Id, I.ItemName Name FROM  WorkShopRequestItem WI inner join WorkShopRequest W on W.WorkShopRequestId=WI.WorkShopRequestId   inner join Item I ON I.ItemId=WI.ItemId   WHERE ISNULL(WI.isActive, 1) = 1  and W.OrganizationId =" + OrganizationId.ToString() + "").ToList();
             }
         }
 

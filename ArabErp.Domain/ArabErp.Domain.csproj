@@ -157,6 +157,7 @@
     <Compile Include="WorkShopGRNItem.cs" />
     <Compile Include="WorkShopRequest.cs" />
     <Compile Include="WorkShopRequestItem.cs" />
+    <Compile Include="WorkshopRequestRegister.cs" />
     <Compile Include="WorkShopRequestSaleOrder.cs" />
     <Compile Include="WorkShopRequestSaleOrderItem.cs" />
     <Compile Include="WorkVsItem.cs" />
