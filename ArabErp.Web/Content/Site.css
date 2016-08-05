@@ -324,8 +324,8 @@ background-color: #ffffff;
 }
     .main-grid .grid-cell 
     {
-        padding-left:4px;
-        padding-right:4px;
+        padding-left:7px;
+        padding-right:7px;
     }
 .main-grid .table-striped > tbody > tr:nth-child(2n+1) > td, .table-striped > tbody > tr:nth-child(2n+1) > th
 {
