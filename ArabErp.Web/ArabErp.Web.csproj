@@ -746,6 +746,7 @@
     <Content Include="Views\PurchaseBill\_PurchaseBillListDatas.cshtml" />
     <Content Include="Views\SupplyOrder\Index.cshtml" />
     <Content Include="Views\PurchaseRequest\Index.cshtml" />
+    <Content Include="Views\DirectPurchase\Edit.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
