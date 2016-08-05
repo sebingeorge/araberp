@@ -660,5 +660,38 @@ namespace ArabErp.DAL
                                                     new { OrganizationId = OrganizationId }).ToList();
             }
         }
+
+        public IEnumerable ConsumptionDropdown(int OrganizationId)
+        {
+            using (IDbConnection connection = OpenConnection(dataConnection))
+            {
+                return connection.Query<Dropdown>(@"SELECT
+	                                                    C.ConsumptionId Id,
+	                                                    C.ConsumptionNo Name
+                                                    FROM Consumption C
+                                                    WHERE C.OrganizationId = @OrganizationId
+	                                                    AND C.isActive = 1
+                                                    ORDER BY C.ConsumptionDate DESC, C.CreatedDate DESC",
+                                                    new { OrganizationId = OrganizationId }).ToList();
+            }
+        }
+
+        public IEnumerable JobCardForConsumption(int OrganizationId)
+        {
+            using (IDbConnection connection = OpenConnection(dataConnection))
+            {
+                return connection.Query<Dropdown>(@"SELECT DISTINCT
+	                                                    JC.JobCardId Id,
+	                                                    JC.JobCardNo Name,
+                                                        JC.JobCardDate,
+                                                        JC.CreatedDate
+                                                    FROM Consumption C
+	                                                    INNER JOIN JobCard JC ON C.JobCardId = JC.JobCardId
+                                                    WHERE C.OrganizationId = @OrganizationId
+	                                                    AND C.isActive = 1
+                                                    ORDER BY JC.JobCardDate DESC, JC.CreatedDate DESC",
+                                                    new { OrganizationId = OrganizationId }).ToList();
+            }
+        }
     }
 }

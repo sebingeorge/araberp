@@ -5,6 +5,7 @@ using System.Data.SqlClient;
 using Dapper;
 using ArabErp.Domain;
 using System.Data;
+using System.Collections;
 
 namespace ArabErp.DAL
 {
@@ -93,5 +94,43 @@ namespace ArabErp.DAL
         }
 
 
+
+        public IEnumerable PreviousList(int OrganizationId, DateTime? from, DateTime? to, int id, int jobcard)
+        {
+            using (IDbConnection connection = OpenConnection(dataConnection))
+            {
+                string sql = @"SELECT
+	                                C.ConsumptionId,
+	                                C.ConsumptionNo,
+	                                CONVERT(VARCHAR, C.ConsumptionDate, 106) ConsumptionDate,
+	                                JC.JobCardNo,
+	                                CONVERT(VARCHAR, JC.JobCardDate, 106) JobCardDate,
+	                                ISNULL(C.SpecialRemarks, '-') SpecialRemarks,
+                                    C.TotalAmount,
+                                    
+	                                STUFF((SELECT ', ' + CAST(T2.ItemName + ' ('+CAST(T1.Amount AS VARCHAR)+')' AS VARCHAR) [text()]
+	                                FROM ConsumptionItem T1 INNER JOIN Item T2 ON T1.ItemId = T2.ItemId
+	                                WHERE C.ConsumptionId = T1.ConsumptionId
+	                                FOR XML PATH(''), TYPE).value('.','NVARCHAR(MAX)'),1,2,'') ItemName
+                                    
+                                FROM Consumption C
+	                                INNER JOIN JobCard JC ON C.JobCardId = JC.JobCardId
+                                WHERE C.OrganizationId = @OrganizationId
+	                                AND C.isActive = 1  
+                                    AND CONVERT(DATE, C.ConsumptionDate, 106) BETWEEN ISNULL(@from, DATEADD(MONTH, -1, GETDATE())) AND ISNULL(@to, GETDATE())
+                                    AND C.ConsumptionId = ISNULL(NULLIF(CAST(@id AS INT), 0), C.ConsumptionId)
+                                    AND C.JobCardId = ISNULL(NULLIF(CAST(@jobcard AS INT), 0), C.JobCardId)
+                                ORDER BY C.ConsumptionDate DESC, C.CreatedDate DESC";
+
+                return connection.Query<Consumption>(sql, new
+                {
+                    OrganizationId = OrganizationId,
+                    id = id,
+                    from = from,
+                    to = to,
+                    jobcard = jobcard
+                }).ToList();
+            }
+        }
     }
 }
