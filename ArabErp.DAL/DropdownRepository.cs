@@ -488,7 +488,7 @@ namespace ArabErp.DAL
                                                     FROM WorkShopRequest WR
                                                     WHERE isAdditionalRequest = 1
 	                                                    AND WR.isActive = 1
-	                                                    AND WR.OrganizationId = 1
+	                                                    AND WR.OrganizationId = @OrganizationId
                                                     ORDER BY WorkShopRequestDate DESC, CreatedDate DESC",
                                                     new { OrganizationId = OrganizationId }).ToList();
             }
@@ -510,7 +510,7 @@ namespace ArabErp.DAL
 	                                                    INNER JOIN Customer CUS ON WR.CustomerId = CUS.CustomerId
                                                     WHERE isAdditionalRequest = 1
 	                                                    AND WR.isActive = 1
-	                                                    AND WR.OrganizationId = 1
+	                                                    AND WR.OrganizationId = @OrganizationId
                                                     ORDER BY CUS.CustomerName",
                                                     new { OrganizationId = OrganizationId }).ToList();
             }
@@ -527,7 +527,7 @@ namespace ArabErp.DAL
 	                                                    INNER JOIN JobCard JC ON WR.JobCardId = JC.JobCardId
                                                     WHERE isAdditionalRequest = 1
 	                                                    AND WR.isActive = 1
-	                                                    AND WR.OrganizationId = 1
+	                                                    AND WR.OrganizationId = @OrganizationId
                                                     ORDER BY JobCardDate DESC, WR.CreatedDate DESC",
                                                     new { OrganizationId = OrganizationId }).ToList();
             }
@@ -610,6 +610,54 @@ namespace ArabErp.DAL
                                                     FROM Customer C
                                                     INNER JOIN WorkShopRequest WR ON WR.CustomerId=C.CustomerId
                                                     INNER JOIN PurchaseRequest P on P.WorkShopRequestId = WR.WorkShopRequestId").ToList();
+            }
+        }
+        public List<Dropdown> WRItemDropdown(int OrganizationId)
+        {
+            using (IDbConnection connection = OpenConnection(dataConnection))
+            {
+                return connection.Query<Dropdown>("SELECT DISTINCT I.ItemId Id, I.ItemName Name FROM  WorkShopRequestItem WI inner join WorkShopRequest W on W.WorkShopRequestId=WI.WorkShopRequestId   inner join Item I ON I.ItemId=WI.ItemId   WHERE ISNULL(WI.isActive, 1) = 1  and W.OrganizationId =" + OrganizationId.ToString() + "").ToList();
+            }
+        }
+
+        /// <summary>
+        /// All items in [StockReturn]
+        /// </summary>
+        /// <param name="OrganizationId"></param>
+        /// <returns></returns>
+        public IEnumerable StockReturnDropdown(int OrganizationId)
+        {
+            using (IDbConnection connection = OpenConnection(dataConnection))
+            {
+                return connection.Query<Dropdown>(@"SELECT
+	                                                    SR.StockReturnId Id,
+	                                                    SR.StockReturnRefNo Name
+                                                    FROM StockReturn SR
+                                                    WHERE SR.OrganizationId = @OrganizationId
+                                                        AND SR.isActive = 1
+                                                    ORDER BY StockReturnDate DESC, SR.CreatedDate DESC",
+                                                    new { OrganizationId = OrganizationId }).ToList();
+            }
+        }
+
+        /// <summary>
+        /// All job cards in [StockReturn]
+        /// </summary>
+        /// <param name="OrganizationId"></param>
+        /// <returns></returns>
+        public IEnumerable JobCardForStockReturn(int OrganizationId)
+        {
+            using (IDbConnection connection = OpenConnection(dataConnection))
+            {
+                return connection.Query<Dropdown>(@"SELECT
+	                                                    SR.JobCardId Id,
+	                                                    JC.JobCardNo Name
+                                                    FROM StockReturn SR
+	                                                    INNER JOIN JobCard JC ON SR.JobCardId = JC.JobCardId
+                                                    WHERE SR.OrganizationId = @OrganizationId
+                                                        AND SR.isActive = 1
+                                                    ORDER BY StockReturnDate DESC, SR.CreatedDate DESC",
+                                                    new { OrganizationId = OrganizationId }).ToList();
             }
         }
     }
