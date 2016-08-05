@@ -15,17 +15,20 @@
     })
 
     function Filter() {
-        $("#workshopreqlist").addClass("fade");
-        var id = $("#cboWRNo").val();
-        var cusid = $("#cboCustomer").val();
+        $("#Stores_Ledger").addClass("fade");
+        var stkid = $("#cboStockpoint").val();
+        var itmcatid = $("#cboItemCat").val();
+        var itmid = $("#cboItem").val();
         var from = $("#txtFrom").val();
         var to = $("#txtTo").val();
-        var url = '@Url.Action("PreviousList")';
-        url += "?from=" + from + "&to=" + to + "&id=" + id + "&cusid=" + cusid;
-        $("#workshopreqlist").load(url, function () {
-            $("#workshopreqlist").removeClass("fade");
+        var url = '@Url.Action("StoresLedger")';
+        url += "?from=" + from + "&to=" + to + "&stkid=" + stkid + "&itmcatid=" + itmcatid + "&itmid=" + itmid;
+        $("#Stores_Ledger").load(url, function () {
+            $("#Stores_Ledger").removeClass("fade");
         });
     }
+  
+
     function Exit() {
         var url = '@Url.Action("Index", "Home")';
         window.location = url;
@@ -42,30 +45,32 @@
         
             <div class="col-md-2">
                 <label for="cboStockpoint">Stock Point</label>
-                @Html.DropDownList("cboStockpoint", (SelectList)ViewBag.WarehouseList, "Any", new { @class = "form_input", @onchange = "Filter()" })
+                @Html.DropDownList("cboStockpoint", (SelectList)ViewBag.WarehouseList, "Any", new { @class = "form_input"})
             </div>
-            <div class="col-md-3">
+            <div class="col-md-2">
                 <label for="cboItemCat">Item Category</label>
-                @Html.DropDownList("cboItemCat", (SelectList)ViewBag.ItemCatList, "Any", new { @class = "form_input", @onchange = "Filter()" })
+                @Html.DropDownList("cboItemCat", (SelectList)ViewBag.ItemCatList, "Any", new { @class = "form_input" })
             </div>
             <div class="col-md-3">
                 <label for="cboItem">Item</label>
-                @Html.DropDownList("cboItem", (SelectList)ViewBag.ItemList, "Any", new { @class = "form_input", @onchange = "Filter()" })
+                @Html.DropDownList("cboItem", (SelectList)ViewBag.ItemList, "Any", new { @class = "form_input"})
             </div>
             <div class="col-md-2">
                 <label>From</label>
-                <input id="txtFrom" value="@System.DateTime.Today.AddMonths(-1).ToString("dd-MMMM-yyyy")" onchange="Filter()" class="form_input" />
+                <input id="txtFrom" value="@System.DateTime.Today.AddMonths(-7).ToString("dd-MMMM-yyyy")"  class="form_input" />
             </div>
             <div class="col-md-2">
                 <label>To</label>
-                <input id="txtTo" value="@System.DateTime.Today.ToString("dd-MMMM-yyyy")" onchange="Filter()" class="form_input" />
+                <input id="txtTo" value="@System.DateTime.Today.ToString("dd-MMMM-yyyy")" class="form_input" />
             </div>
-
+            <div class="col-md-1">
+                <input type="button" class="form-button filter" value="OK" onclick="Filter()" />
+            </div>
         </div>
         <br />
 
-        <div class="table-responsive scroll4" id="Closing_stock">
-            @*@Html.Action("ClosingStockRegister")*@
+        <div class="table-responsive scroll4" id="Stores_Ledger">
+            @Html.Action("StoresLedger")
         </div>
 
         <div class="row">

@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using System.Data.SqlClient;
 
 namespace ArabErp.Web.Controllers
 {
@@ -468,6 +469,126 @@ namespace ArabErp.Web.Controllers
             to = to ?? DateTime.Today;
             ViewBag.ProjectBased = ProjectBased;
             return PartialView("_SalesQuotationsList", new SalesQuotationRepository().GetPreviousList(ProjectBased, id, cusid, OrganizationId, from, to));
+        }
+
+        public ActionResult Edit(int id = 0)
+        {
+            FillCustomer();
+            FillCurrency();
+            FillCommissionAgent();
+            FillWrkDesc();
+            FillVehicle();
+            FillQuerySheetInQuot();
+            FillUnit();
+            FillEmployee();
+            FillSalesQuotationRejectReason();
+            FillRateSettings();
+            var repo = new SalesQuotationRepository();
+
+            var sorepo = new SaleOrderRepository();
+
+
+            SalesQuotation salesquotation = repo.GetSalesQuotation(id);
+            salesquotation.CustomerAddress= sorepo.GetCusomerAddressByKey(salesquotation.CustomerId);
+
+
+            salesquotation.SalesQuotationItems = repo.GetSalesQuotationItems(id);
+            //ViewBag.SubmitAction = "Approve";
+            return View("Edit",salesquotation);
+    }
+
+        [HttpPost]
+        public ActionResult Edit(SalesQuotation model)
+        {
+            ViewBag.Title = "Edit";
+            model.OrganizationId = OrganizationId;
+            model.CreatedDate = System.DateTime.Now;
+            model.CreatedBy = Request.ServerVariables["HTTP_X_FORWARDED_FOR"] ?? Request.ServerVariables["REMOTE_ADDR"];
+
+            FillCustomer();
+            FillCurrency();
+            FillCommissionAgent();
+            FillWrkDescForProject();
+            FillVehicle();
+            FillUnit();
+            FillEmployee();
+            FillQuerySheet();
+            FillSalesQuotationRejectReason();
+
+            var repo = new SalesQuotationRepository();
+
+            var result1 = new SalesQuotationRepository().CHECK(model.SalesQuotationId);
+            if (result1 > 0)
+            {
+                TempData["error"] = "Sorry!!..Already Used!!";
+                TempData["ExpenseNo"] = null;
+                return View("Edit", model);
+            }
+
+            else
+            {
+                try
+                {
+                    var result2 = new SalesQuotationRepository().DeleteSQDT(model.SalesQuotationId);
+                    var result3 = new SalesQuotationRepository().DeleteSQHD(model.SalesQuotationId);
+                    SalesQuotation id = new SalesQuotationRepository().InsertSalesQuotation(model);
+
+                    TempData["success"] = "Updated successfully. Purchase Request Reference No. is " + id;
+                    TempData["error"] = "";
+                    return View("Create", model);
+                }
+                catch (SqlException sx)
+                {
+                    TempData["error"] = "Some error occured while connecting to database. Please check your network connection and try again.|" + sx.Message;
+                }
+                catch (NullReferenceException nx)
+                {
+                    TempData["error"] = "Some required data was missing. Please try again.|" + nx.Message;
+                }
+                catch (Exception ex)
+                {
+                    TempData["error"] = "Some error occured. Please try again.|" + ex.Message;
+                }
+                return View("Create", model);
+            }
+
+        }
+
+        public ActionResult DeleteSQ(int Id)
+        {
+            ViewBag.Title = "Delete";
+
+            var result1 = new SalesQuotationRepository().CHECK(Id);
+            if (result1 > 0)
+            {
+                TempData["error"] = "Sorry!!..Already Used!!";
+                TempData["ExpenseNo"] = null;
+                return RedirectToAction("Edit", new { id = Id });
+            }
+
+            else
+            {
+                var result2 = new SalesQuotationRepository().DeleteSQDT(Id);
+                var result3 = new SalesQuotationRepository().DeleteSQHD(Id);
+
+                if (Id > 0)
+                {
+
+                    TempData["Success"] = "Deleted Successfully!";
+                    return RedirectToAction("PreviousList");
+                    //return View("Create", model);
+                }
+
+                else
+                {
+
+                    TempData["error"] = "Oops!!..Something Went Wrong!!";
+                    TempData["ExpenseNo"] = null;
+                    return RedirectToAction("Edit", new { id = Id });
+                }
+
+            }
+
         }
     }
 }

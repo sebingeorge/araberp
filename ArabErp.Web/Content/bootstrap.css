@@ -1475,8 +1475,9 @@ th {
 .table-bordered > tbody > tr > td,
 .table-bordered > tfoot > tr > td {
   border: 1px solid #dddddd;
-  padding-left:5px;
-  padding-right:5px;
+  padding-left:7px;
+  padding-right:7px;
+  font-size:12px;
 }
 
 .table-bordered > thead > tr > th,

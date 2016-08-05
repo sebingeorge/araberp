@@ -115,7 +115,130 @@ namespace ArabErp.Web.Controllers
         {
             ViewBag.QSnoList = new SelectList(new DropdownRepository().QuerySheetRefNoDropdown(), "Id", "Name");
         }
+        public ActionResult Edit(int id = 0)
+        {
+            try
+            {
+                if (id != 0)
+                {
+                    QuerySheet QuerySheet = new QuerySheet();
+                    QuerySheet = new QuerySheetRepository().GetQuerySheet(id);
+                    QuerySheet.Items = new ProjectCostRepository().GetProjectCost(id);
 
+                    return View(QuerySheet);
+                }
+                else
+                {
+                    TempData["error"] = "That was an invalid/unknown request. Please try again.";
+                    TempData["success"] = "";
+                }
+            }
+            catch (InvalidOperationException iox)
+            {
+                TempData["error"] = "Sorry, we could not find the requested item. Please try again.|" + iox.Message;
+            }
+            catch (SqlException sx)
+            {
+                TempData["error"] = "Some error occured while connecting to database. Please try again after sometime.|" + sx.Message;
+            }
+            catch (NullReferenceException nx)
+            {
+                TempData["error"] = "Some required data was missing. Please try again.|" + nx.Message;
+            }
+            catch (Exception ex)
+            {
+                TempData["error"] = "Some error occured. Please try again.|" + ex.Message;
+            }
+
+            TempData["success"] = "";
+            return RedirectToAction("CreateQuerySheet");
+        }
+
+        [HttpPost]
+        public ActionResult Edit(QuerySheet model)
+        {
+            ViewBag.Title = "Edit";
+            model.OrganizationId = OrganizationId;
+            model.CreatedDate = System.DateTime.Now;
+            model.CreatedBy = Request.ServerVariables["HTTP_X_FORWARDED_FOR"] ?? Request.ServerVariables["REMOTE_ADDR"];
+
+
+
+            var repo = new QuerySheetRepository();
+
+            var result1 = new QuerySheetRepository().CHECK(model.QuerySheetId);
+            if (result1 > 0)
+            {
+                TempData["error"] = "Sorry!!..Already Used!!";
+                TempData["QuerySheetRefNo"] = null;
+                return View("Edit", model);
+            }
+
+            else
+            {
+                try
+                {
+                    var result2 = new QuerySheetRepository().DeleteProjectCosting(model.QuerySheetId);
+                    var result3 = new QuerySheetRepository().DeleteQuerySheet(model.QuerySheetId);
+                    string id = new QuerySheetRepository().InsertQuerySheet(model);
+
+                    TempData["success"] = "Updated successfully. Purchase Request Reference No. is " + id;
+                    TempData["error"] = "";
+                    return RedirectToAction("Index");
+                }
+                catch (SqlException sx)
+                {
+                    TempData["error"] = "Some error occured while connecting to database. Please check your network connection and try again.|" + sx.Message;
+                }
+                catch (NullReferenceException nx)
+                {
+                    TempData["error"] = "Some required data was missing. Please try again.|" + nx.Message;
+                }
+                catch (Exception ex)
+                {
+                    TempData["error"] = "Some error occured. Please try again.|" + ex.Message;
+                }
+                return RedirectToAction("CreateQuerySheet");
+            }
+
+        }
+
+        public ActionResult Delete(int Id)
+        {
+            ViewBag.Title = "Delete";
+
+            var result1 = new QuerySheetRepository().CHECK(Id);
+            if (result1 > 0)
+            {
+                TempData["error"] = "Sorry!!..Already Used!!";
+                TempData["QuerySheetRefNo"] = null;
+                return RedirectToAction("Edit", new { id = Id });
+            }
+
+            else
+            {
+                var result2 = new QuerySheetRepository().DeleteProjectCosting(Id);
+                var result3 = new QuerySheetRepository().DeleteQuerySheet(Id);
+
+                if (Id > 0)
+                {
+
+                    TempData["Success"] = "Deleted Successfully!";
+                    //return RedirectToAction("PreviousList");
+                    return RedirectToAction("Index");
+                }
+
+                else
+                {
+
+                    TempData["error"] = "Oops!!..Something Went Wrong!!";
+                    TempData["QuerySheetRefNo"] = null;
+                    return RedirectToAction("Edit", new { id = Id });
+                }
+
+            }
+
+        }
       //public ActionResult ProjectCosting()
       //  {
       //      var repo = new QuerySheetRepository();

@@ -36,6 +36,20 @@ namespace ArabErp.DAL
 
           }
 
+          public List<ProjectCost> GetProjectCost(int QuerySheetId)
+          {
+              using (IDbConnection connection = OpenConnection(dataConnection))
+              {
+                  string sql = @" SELECT ProjectCostingId,P.CostingId,QuerySheetId,Description,Amount,Remarks
+                                  FROM ProjectCosting P
+                                  INNER JOIN  CostingParameters C ON P.CostingId=C.CostingId
+                                  WHERE P.QuerySheetId = @QuerySheetId";
+
+                  var objQuerySheetItems = connection.Query<ProjectCost>(sql, new { QuerySheetId = QuerySheetId }).ToList<ProjectCost>();
+
+                  return objQuerySheetItems;
+              }
+          }
       
     }
 }
