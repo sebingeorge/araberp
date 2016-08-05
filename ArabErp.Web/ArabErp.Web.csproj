@@ -31,6 +31,7 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <UseVSHostingProcess>true</UseVSHostingProcess>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -741,6 +742,8 @@
     <Content Include="Views\ProformaInvoice\_PreviousListGrid.cshtml" />
     <Content Include="Views\AdditionalWorkShopRequest\Index.cshtml" />
     <Content Include="Views\AdditionalWorkShopRequest\_PreviousListGrid.cshtml" />
+    <Content Include="Views\StockReturn\Index.cshtml" />
+    <Content Include="Views\StockReturn\_PreviousListGrid.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
