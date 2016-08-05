@@ -28,7 +28,9 @@
                             <input class="form_input" type="text" value="@Model[i].VehicleModelName" disabled />
                         </td>
                         <td align="center">
-                            <button class="btn btn-xs btn-primary" onclick="Open('@Model[i].SaleOrderItemId')"><span class="glyphicon glyphicon-pencil" style="top:2px"></span></button>
+                            @Html.ActionLink("Select", "Save", "VehicleInpass", new { Id = @Model[i].SaleOrderItemId }, new { @class = "form-button5" })
+
+                            @*<button class="btn btn-xs btn-primary" onclick="Open('@Model[i].SaleOrderItemId')"><span class="glyphicon glyphicon-pencil" style="top:2px"></span></button>*@
                         </td>
                     </tr>
 

@@ -13,11 +13,24 @@ namespace ArabErp.Web.Controllers
     public class SaleOrderController : BaseController
     {
         // GET: SaleOrder
-        public ActionResult Index()
+        public ActionResult Index(int type)
+        {
+            FillSORefNo(type);
+            FillSOCustomer(type);
+            ViewBag.isProjectBased = type;
+            return View();
+           
+        }
+
+        public ActionResult PreviousList(DateTime? from, DateTime? to, int ProjectBased, int id = 0, int cusid = 0)
         {
 
-            return View();
+            from = from ?? DateTime.Today.AddMonths(-1);
+            to = to ?? DateTime.Today;
+            ViewBag.ProjectBased = ProjectBased;
+            return PartialView("_PreviousList", new SaleOrderRepository().GetPreviousList(ProjectBased, id, cusid, OrganizationId, from, to));
         }
+
         public ActionResult Create(int? SalesQuotationId)
         {
            
@@ -174,6 +187,18 @@ namespace ArabErp.Web.Controllers
             saleOrder.isProjectBased = isProjectBased;
             return PartialView("_DisplaySOList", saleOrder);
         }
+        public void FillSORefNo(int type)
+        {
+            ViewBag.sorefnolist = new SelectList(new DropdownRepository().FillSORefNo(OrganizationId, type), "Id", "Name");
+
+        }
+        public void FillCustomer()
+        {
+
+            var repo = new SaleOrderRepository();
+            var list = repo.FillCustomer();
+            ViewBag.customerlist = new SelectList(list, "Id", "Name");
+        }
         public void FillWrkDesc()
         {
             var repo = new SaleOrderItemRepository();
@@ -186,11 +211,10 @@ namespace ArabErp.Web.Controllers
             var list = repo.FillWorkDescForProject();
             ViewBag.workdesclist = new SelectList(list, "Id", "Name");
         }
-        public void FillCustomer()
+        public void FillSOCustomer(int type)
         {
-            var repo = new SaleOrderRepository();
-            var list = repo.FillCustomer();
-            ViewBag.customerlist = new SelectList(list, "Id", "Name");
+            ViewBag.customerlist = new SelectList(new DropdownRepository().FillSOCustomer(OrganizationId, type), "Id", "Name");
+
         }
         public void FillVehicle()
         {
@@ -625,7 +649,7 @@ namespace ArabErp.Web.Controllers
             var repo = new SalesQuotationRepository();
 
             List<SalesQuotation> salesquotations = repo.GetSalesQuotationForSO(ProjectBased);
-
+            ViewBag.ProjectBased = ProjectBased;
             return View(salesquotations);
         }
 
@@ -639,5 +663,7 @@ namespace ArabErp.Web.Controllers
         {
             return PartialView("IncentiveAmountGrid", new SaleOrderRepository().GetSaleOrderIncentiveAmountList(FromDate, ToDate, CommissionAgentId));
         }
+      
+
     }
 }

@@ -1,0 +1,50 @@
+﻿@model IList<ArabErp.Domain.ItemBatch>
+
+<table class="table table-bordered">
+    <thead>
+        <tr class="grid_heading">
+            <th width="2%" class="text-center"><h1>#</h1></th>
+            <th width="15%" nowrap><h1>GRN No. &amp; Date</h1></th>
+            <th width="70%" nowrap><h1>Serial No.</h1></th>
+            <th width="10%" nowrap><h1>Created Date</h1></th>
+            <th width="1%"></th>
+        </tr>
+    </thead>
+    <tbody class="grid_row">
+        @if (Model.Count > 0)
+        {
+            int i = 0;
+            foreach (var item in Model)
+            {
+                <tr>
+                    <td align="center">
+                        @(++i)
+                    </td>
+                    <td>
+                        @item.GRNNo - @item.GRNDate.ToString("dd MMMM yyyy")
+                    </td>
+                    <td>
+                        @item.SerialNo
+                    </td>
+                    <td>
+                        @item.CreatedDate.Value.ToString("dd MMMM yyyy")
+                    </td>
+                    <td>
+                        <input type="button" value="Select" onclick="OnItemSelected(@item.GRNItemId)" checked class="form-button4" />
+                    </td>
+                </tr>
+            }
+        }
+        else
+        {
+            <tr>
+                <td colspan="5">
+                    <center>
+                        <em>No items found!</em>
+                    </center>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+

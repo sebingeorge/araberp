@@ -63,16 +63,18 @@ namespace ArabErp.DAL
             }
         }
 
-        public List<QuerySheet> GetQuerySheets()
+
+
+        public IList<QuerySheet> GetQuerySheets(int id, int OrganizationId, DateTime? from, DateTime? to)
         {
             using (IDbConnection connection = OpenConnection(dataConnection))
             {
-                string sql = @"select * from QuerySheet
-                        where isActive=1";
+                string sql = " select * from QuerySheet";
+                sql += " where isActive=1 and OrganizationId = @OrganizationId ";
+                sql += " and QuerySheetDate BETWEEN ISNULL(@from, DATEADD(MONTH, -1, GETDATE())) AND ISNULL(@to, GETDATE()) ";
+                sql += " and QuerySheetId = ISNULL(NULLIF(@id, 0),QuerySheetId)";
+                return connection.Query<QuerySheet>(sql, new { OrganizationId = OrganizationId, id = id, to = to, from = from }).ToList();
 
-                var objQuerySheets = connection.Query<QuerySheet>(sql).ToList<QuerySheet>();
-
-                return objQuerySheets;
             }
         }
 

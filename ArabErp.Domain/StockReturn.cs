@@ -17,5 +17,9 @@ namespace ArabErp.Domain
         public DateTime? CreatedDate { get; set; }
         public int OrganizationId { get; set; }
         public List<StockReturnItem> Items { get; set; }
+
+        public string JobCardNo { get; set; }
+        public DateTime JobCardDate { get; set; }
+        public string ItemName { get; set; }
     }
 }

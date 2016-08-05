@@ -12,7 +12,10 @@
         location.href = '@Url.Action("PendingJobCardQC")';
     }
     
-
+    $(function () {
+        $("#CurrentDate").datepicker({ dateFormat: "dd-MM-yy" });
+   
+    });
 </script>
 
 
@@ -24,6 +27,19 @@
         @using (Html.BeginForm("Save", null, FormMethod.Post, new { @class = "createFrom", @id = "saleorder_form" }))
         {
             <div class="main-part pad1">
+                <div class="row form-group">
+                    <div class="col-md-2">
+                        <label for="jcno">JobCard QC.No.</label>
+                        @Html.TextBoxFor(m => m.JobCardQCRefNo, new { @class = "form_input", autocomplete = "off", @readonly = "readonly" })
+                      
+                    </div>
+                    <div class="col-md-2">
+                        <label for="name" class="label1">QC Date</label>
+                        @Html.TextBoxFor(m => m.CurrentDate, Model.CurrentDate.ToString("dd/MMMM/yyyy"), new { @class = "form_input ", autocomplete = "off", @readonly = "readonly" })
+                    </div>
+                        @*@Html.TextBoxFor(m => Model.CurrentDate, new { @Value = @DateTime.Now.ToShortDateString(), @class = "form_input", autocomplete = "off", @readonly = "readonly" })*@
+                    </div>
+              
                 <div class="row form-group ">
                     <div class="col-md-2">
                         <label for="name" class="label1">Job Card No.</label>
@@ -46,10 +62,7 @@
                         <label for="name" class="label1">Employee</label>
                         @Html.DropDownListFor(m => Model.EmployeeId, (SelectList)ViewBag.EmployeeList, "Select Employee", new { @class = "form_input" })
                     </div>
-                    <div class="col-md-2">
-                        <label for="name" class="label1">QC Date</label>
-                        @Html.TextBoxFor(m => Model.CurrentDate, new { @Value = @DateTime.Now.ToShortDateString(), @class = "form_input", autocomplete = "off", @readonly = "readonly" })
-                    </div>
+                  
                 </div>
                 <div class="wrap">
                     <div class="table-responsive">
@@ -58,7 +71,7 @@
                             <table class="table table-bordered ">
                                 <tr class="grid_heading">
                                     <th><h1>#</h1></th>
-                                    <th><h1>Parameters</h1></th>
+                                    <th><h1>QC Parameters</h1></th>
                                     <th><h1>Value</h1></th>
                                 </tr>
                                 @for (int i = 0; i < Model.JobCardQCParams.Count(); i++)

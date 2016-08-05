@@ -96,6 +96,11 @@
     function formValidation() {
         return true;
     }
+
+    function PreviousList() {
+        var url = '@Url.Action("Index")';
+        window.location = url;
+    }
 </script>
 
     <div class="row">
@@ -158,6 +163,7 @@
                     <div class="col-md-12 hrpart">
                         <button type="button" class="form-button right" onclick="Exit();">Exit</button>
                         <button type="submit" class="form-button right">Save</button>
+                        <input type="button" class="form-button left" onclick="PreviousList()" value="Previous" />
                     </div>
 
                 </div>

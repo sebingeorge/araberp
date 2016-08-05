@@ -14,7 +14,15 @@ namespace ArabErp.Web.Controllers
         // GET: ItemBatch
         public ActionResult Index()
         {
+            FillGRNNo();
             return View();
+        }
+
+        public ActionResult PreviousList(DateTime? from, DateTime? to, int id = 0)
+        {
+            from = from ?? DateTime.Today.AddMonths(-1);
+            to = to ?? DateTime.Today;
+            return PartialView("_PreviousListGrid", new ItemBatchRepository().PreviousList(id, from, to, OrganizationId));
         }
 
         public ActionResult Pending()
@@ -197,7 +205,7 @@ namespace ArabErp.Web.Controllers
             }, JsonRequestBehavior.AllowGet);
         }
 
-        public ActionResult FGTrackingPopup(int id=0)
+        public ActionResult FGTrackingPopup(int id = 0)
         {
             if (id != 0)
                 return PartialView("_FGTrackingDetails", new ItemBatchRepository().FGTrackingDetailsByItemBatchId(id));
@@ -213,6 +221,11 @@ namespace ArabErp.Web.Controllers
         public void FillSaleOrder()
         {
             ViewBag.saleOrderList = new SelectList(new DropdownRepository().SaleOrderDropdown1(), "Id", "Name");
+        }
+
+        public void FillGRNNo()
+        {
+            ViewBag.grnList = new SelectList(new DropdownRepository().GRNDropdown(), "Id", "Name");
         }
         #endregion
     }

@@ -12,6 +12,12 @@ namespace ArabErp.Web.Controllers
     public class QuerySheetController : BaseController
     {
         // GET: QuerySheet
+        public ActionResult Index()
+        {
+            FillRefNo();
+            return View();
+        }
+
         public ActionResult CreateQuerySheet()
         {
             string internalId = "";
@@ -96,11 +102,20 @@ namespace ArabErp.Web.Controllers
             return View("CreateQuerySheet",qs);
         }
 
-        public ActionResult QuerySheetList ()
+        public ActionResult QuerySheetList(DateTime? from, DateTime? to, int id = 0)
         {
-            var qs = new QuerySheetRepository().GetQuerySheets();
-            return View( qs);
+
+            return PartialView("QuerySheetList", new QuerySheetRepository().GetQuerySheets(OrganizationId: OrganizationId, id: id, from: from, to: to));
+            
+            //var qs = new QuerySheetRepository().GetQuerySheets(id, OrganizationId,from, to);
+            //return View( qs);
         }
+
+        public void FillRefNo()
+        {
+            ViewBag.QSnoList = new SelectList(new DropdownRepository().QuerySheetRefNoDropdown(), "Id", "Name");
+        }
+
       //public ActionResult ProjectCosting()
       //  {
       //      var repo = new QuerySheetRepository();

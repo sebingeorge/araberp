@@ -1,0 +1,54 @@
+﻿@model IList<ArabErp.Domain.PurchaseBill>
+
+
+<table class="table table-bordered">
+    <thead>
+        <tr class="grid_heading">
+            <th width="15%" nowrap><h1>Booking No.</h1></th>
+            <th width="10%" nowrap><h1>Booking Date</h1></th>
+            <th width="40%" nowrap><h1>Supplier</h1></th>
+            <th width="15%" nowrap><h1>Bill No. & Date</h1></th>
+            <th width="10%" class="text-right" nowrap><h1>Amount</h1></th>
+            <th></th>
+        </tr>
+    </thead>
+
+    <tbody class="grid_row">
+        @if (Model.Count > 0)
+        {
+            int i = 0;
+            foreach (var item in Model)
+            {
+                <tr>
+                    <td>@item.PurchaseBillRefNo</td>
+                    <td>@item.PurchaseBillDate.ToString("dd/MMM/yyyy")</td>
+                    <td>@item.Supplier</td>
+                    <td>@item.PurchaseBillNoDate</td>
+                    <td>@item.PurchaseBillAmount</td>
+                    <td>
+                        <input type="button" class="form-button4" onclick="OnSelected(@item.PurchaseBillId)" value="Select" title="Select to view details" />
+                    </td>
+                </tr>
+            }
+        }
+        else
+        {
+            <tr>
+                <td colspan="6">
+                    <center>
+                        <em>No items found!</em>
+                    </center>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+
+<br />
+<div class="row-count1">
+    <h5>Row Count:- @Model.Count()</h5>
+</div>
+
+
+

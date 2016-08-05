@@ -14,8 +14,18 @@ namespace ArabErp.Web.Controllers
         // GET: SupplyOrder
         public ActionResult Index()
         {
+            FillSORefNo();
+            FillSOSupplier();
             return View();
         }
+
+        public ActionResult PreviousList(DateTime? from, DateTime? to, int id = 0, int supid = 0)
+        {
+            return PartialView("_PreviousList", new SupplyOrderRepository().GetPreviousList(OrganizationId : OrganizationId,id: id, supid: supid, from: from, to: to));
+        }
+
+
+
         public ActionResult Create(IList<PendingPurchaseRequest> PendingPurchaseRequestItemsSelected)
         {
             SupplyOrder supplyorder = new SupplyOrder();
@@ -126,21 +136,15 @@ namespace ArabErp.Web.Controllers
             ViewBag.materialList = new SelectList(new DropdownRepository().ItemDropdown(), "Id", "Name");
         }
 
-        public ActionResult PreviousList()
+        public void FillSORefNo()
         {
-            try
-            {
-
-                return View(new SupplyOrderRepository().GetPreviousList());
-
-            }
-            catch (Exception)
-            {
-                TempData["success"] = "";
-                TempData["error"] = "Some error occured while retreiving the previous list. Please try again.";
-                return View(new SupplyOrderPreviousList());
-            }
+            ViewBag.SONoList = new SelectList(new DropdownRepository().SORefNoDropdown(), "Id", "Name");
         }
+        public void FillSOSupplier()
+        {
+            ViewBag.SupplierList = new SelectList(new DropdownRepository().SupplyOrderSupplierDropdown(), "Id", "Name");
+        }
+       
 
         public void FillCurrency()
         {

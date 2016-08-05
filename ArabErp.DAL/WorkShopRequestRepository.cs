@@ -272,14 +272,14 @@ namespace ArabErp.DAL
 				DROP TABLE #SALE;").ToList();
             }
         }
-        public IEnumerable<WorkShopRequest> GetAllWorkShopRequest(int id,int cusid)
+        public IEnumerable<WorkShopRequest> GetPrevious(DateTime? from, DateTime? to, int id, int cusid, int OrganizationId)
         {
             using (IDbConnection connection = OpenConnection(dataConnection))
             {
                 string qry = @"Select * from WorkShopRequest WR INNER JOIN Customer C on C.CustomerId=WR.CustomerId 
                                where  WR.WorkShopRequestId = ISNULL(NULLIF(@id, 0), WR.WorkShopRequestId)
-                               and WR.CustomerId = ISNULL(NULLIF(@cusid, 0), WR.CustomerId)";
-                return connection.Query<WorkShopRequest>(qry, new { id = id, cusid = cusid }).ToList();
+                               and WR.CustomerId = ISNULL(NULLIF(@cusid, 0), WR.CustomerId) and   WR.isActive=1 and WR.OrganizationId=@OrganizationId AND WR.WorkShopRequestDate BETWEEN ISNULL(@from, DATEADD(MONTH, -1, GETDATE())) AND ISNULL(@to, GETDATE())";
+                return connection.Query<WorkShopRequest>(qry, new { id = id, cusid = cusid, OrganizationId = OrganizationId, from = from, to = to }).ToList();
             }
         }
         public WorkShopRequest GetWorkshopRequestHdData(int WorkShopRequestId)
@@ -309,8 +309,45 @@ namespace ArabErp.DAL
 
                 return connection.Query<WorkShopRequestItem>(query,
                 new { WorkShopRequestId = WorkShopRequestId }).ToList();
+            }
+        }
 
+        public IEnumerable<WorkShopRequest> PreviousList(int OrganizationId, DateTime? from, DateTime? to, int id = 0, int customer = 0, int jobcard = 0)
+        {
+            using (IDbConnection connection = OpenConnection(dataConnection))
+            {
 
+                string query = @"SELECT
+	                                WR.WorkShopRequestId,
+	                                WR.WorkShopRequestRefNo,
+	                                CONVERT(VARCHAR, WR.WorkShopRequestDate, 106) WorkshopRequestDate,
+	                                SO.SaleOrderRefNo,
+	                                CONVERT(VARCHAR, SO.SaleOrderDate, 106) SaleOrderDate,
+	                                CUS.CustomerName,
+	                                ISNULL(WR.SpecialRemarks ,'-') SpecialRemarks,
+	                                JC.JobCardNo,
+	                                CONVERT(VARCHAR, JC.JobCardDate, 106) JobCardDate
+                                FROM WorkShopRequest WR
+	                                INNER JOIN SaleOrder SO ON WR.SaleOrderId = SO.SaleOrderId
+	                                INNER JOIN JobCard JC ON WR.JobCardId = JC.JobCardId
+	                                INNER JOIN Customer CUS ON WR.CustomerId = CUS.CustomerId
+                                WHERE isAdditionalRequest = 1
+	                                AND WR.isActive = 1
+	                                AND WR.OrganizationId = @OrganizationId
+                                    AND CONVERT(DATE, WR.WorkShopRequestDate, 106) BETWEEN ISNULL(@from, DATEADD(MONTH, -1, GETDATE())) AND ISNULL(@to, GETDATE())
+                                    AND WR.WorkShopRequestId = ISNULL(NULLIF(CAST(@id AS INT), 0), WR.WorkShopRequestId)
+                                    AND WR.JobCardId = ISNULL(NULLIF(CAST(@jobcard AS INT), 0), WR.JobCardId)
+                                    AND CUS.CustomerId = ISNULL(NULLIF(CAST(@customer AS INT), 0), CUS.CustomerId)";
+
+                return connection.Query<WorkShopRequest>(query, new
+                {
+                    OrganizationId = OrganizationId,
+                    from = from,
+                    to = to,
+                    customer = customer,
+                    id = id,
+                    jobcard = jobcard
+                }).ToList();
             }
         }
 

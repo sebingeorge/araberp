@@ -24,6 +24,14 @@
         console.log(url);
         window.location.href = url;
     }
+    function PreviousList() {
+       
+        var isProjectBased = $("#isProjectBased").val();
+        var url = '@Url.Action("Index")';
+        url = url + "?isProjectBased=" + isProjectBased;
+     
+        window.location = url;
+    }
 </script>
 
 
@@ -105,7 +113,11 @@
                 </div>
 
             </div>*@
-
+            <div class="row">
+                <div class="col-md-12 hrpart1">
+                    <input class="form-button left" type="button" value="Previous" onclick="PreviousList()" />
+                </div>
+            </div>
         </div>
     </div>
    

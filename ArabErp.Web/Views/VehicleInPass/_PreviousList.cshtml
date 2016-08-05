@@ -1,0 +1,37 @@
+﻿@model IList<ArabErp.Domain.VehicleInPass>
+
+                    <table class="table table-bordered">
+                        <thead>
+                            <tr class="grid_heading">
+                                <th><h1>Vehicle Inpass No.</h1></th>
+                                <th><h1>Date</h1></th>
+                                <th><h1>Customer</h1></th>
+                                <th><h1>SO.No. & Date</h1></th>
+                                <th><h1>Chasis No./Reg No.</h1></th>
+                                <th width="1%" class="text-center"></th>
+
+                            </tr>
+                        </thead>
+                        @foreach (var item in Model)
+                        {
+                            <tbody class="grid_row">
+                                <tr>
+                                    <td class="grid-cell">@item.VehicleInPassNo</td>
+                                    <td class="grid-cell">@item.VehicleInPassDate.ToString("dd/MMM/yyyy")</td>
+                                    <td class="grid-cell">@item.CustomerName</td>
+                                    <td class="grid-cell">@item.SaleOrderRefNo &amp; @item.SaleOrderDate.ToString("dd/MMM/yyyy")</td>
+                                    <td class="grid-cell">@item.RegistrationNo</td>
+                                    <td>
+                                        <input type="button" class="form-button4"  value="Select" title="Select to view details" />
+                                    </td>
+                                </tr>
+                            </tbody>
+                        }
+                    </table>
+             
+
+
+       
+
+
+  

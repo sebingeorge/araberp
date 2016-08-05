@@ -94,7 +94,7 @@ namespace ArabErp.DAL
         /// </summary>
         /// <param name="customerId"></param>
         /// <returns></returns>
-        public IEnumerable<PendingJC> PendingDeliveryChallan(int customerId)
+        public IEnumerable<PendingJC> PendingDeliveryChallan(int customerId,int OrganizationId)
         {
             using (IDbConnection connection = OpenConnection(dataConnection))
             {
@@ -103,15 +103,15 @@ namespace ArabErp.DAL
                     INNER JOIN VehicleModel VM ON SOI.VehicleModelId = VM.VehicleModelId
                     INNER JOIN WorkDescription WD ON SOI.WorkDescriptionId = WD.WorkDescriptionId
                     INNER JOIN Customer CUS ON SO.CustomerId = CUS.CustomerId
-                    WHERE CUS.CustomerId = @customerId AND ISNULL(SOI.isActive, 1) = 1 AND ISNULL(VM.isActive, 1) = 1;
+                    WHERE CUS.CustomerId = @customerId AND ISNULL(SOI.isActive, 1) = 1 AND ISNULL(VM.isActive, 1) = 1 and SO.OrganizationId = @OrganizationId;
 
                     SELECT J.JobCardId, ISNULL(J.JobCardNo, '')+' - '+CONVERT(VARCHAR, J.JobCardDate, 106) JobCardNoDate, T.SaleOrderNoDate, T.VehicleModel, T.WorkDescr, T.CustomerName, ISNULL(VI.RegistrationNo, '-') RegistrationNo,T.IsPaymentApprovedForDelivery FROM JobCard J 
                     LEFT JOIN DeliveryChallan VO ON J.JobCardId = VO.JobCardId
                     INNER JOIN #TEMP T ON J.SaleOrderItemId = T.SaleOrderItemId
                     LEFT JOIN VehicleInPass VI ON T.SaleOrderItemId = VI.SaleOrderItemId
-                    WHERE ISNULL(J.JodCardCompleteStatus, 0) = 1 AND VO.JobCardId IS NULL;
+                    WHERE ISNULL(J.JodCardCompleteStatus, 0) = 1 AND VO.JobCardId IS NULL ;
 
-                    DROP TABLE #TEMP;", new { customerId = customerId }).ToList();
+                    DROP TABLE #TEMP;", new { customerId = customerId , OrganizationId=OrganizationId}).ToList();
             }
         }
         /// <summary>
@@ -163,6 +163,17 @@ namespace ArabErp.DAL
 
 
                 return connection.Query<ItemBatch>(query, new { id = id }).ToList();
+            }
+        }
+        public IEnumerable<DeliveryChallan> GetAllDeliveryChallan(int id, int cusid, int OrganizationId, DateTime? from, DateTime? to)
+        {
+            using (IDbConnection connection = OpenConnection(dataConnection))
+            {
+                string qry = @"select DeliveryChallanId,DeliveryChallanRefNo,DeliveryChallanDate,JobCardNo,JobCardDate,E.EmployeeName from DeliveryChallan D
+                               INNER JOIN Employee E ON E.EmployeeId=D.EmployeeId
+                               INNER JOIN JobCard J ON J.JobCardId =D.JobCardId where D.isActive=1 AND D.OrganizationId = @OrganizationId and   D.DeliveryChallanDate BETWEEN ISNULL(@from, DATEADD(MONTH, -1, GETDATE())) AND ISNULL(@to, GETDATE()) AND  D.DeliveryChallanId = ISNULL(NULLIF(@id, 0), D.DeliveryChallanId) ";
+                return connection.Query<DeliveryChallan>(qry, new { OrganizationId = OrganizationId, id = id, from = from,to = to }).ToList();
+
             }
         }
     }

@@ -15,7 +15,8 @@ namespace ArabErp.Web.Controllers
         // GET: WorkShopRequest
         public ActionResult Index()
         {
-         
+            FillWRNo();
+            FillCustomerinWR();
             return View();
         }
 
@@ -61,7 +62,7 @@ namespace ArabErp.Web.Controllers
             var rep = new SaleOrderRepository();
 
 
-            var slist = rep.GetSaleOrdersPendingWorkshopRequest();
+            var slist = rep.GetSaleOrdersPendingWorkshopRequest(OrganizationId);
 
             var pager = new Pager(slist.Count(), page);
 
@@ -110,9 +111,9 @@ namespace ArabErp.Web.Controllers
                    TempData["success"] = "";
                   return RedirectToAction("WorkShopRequestPending");
                }
-        public ActionResult PreviousList(int id = 0,int cusid=0)
+               public ActionResult PreviousList(DateTime? from, DateTime? to,int id = 0, int cusid = 0)
                {
-                   return PartialView("_PreviousList",new WorkShopRequestRepository().GetAllWorkShopRequest(id,cusid));
+                   return PartialView("_PreviousList", new WorkShopRequestRepository().GetPrevious(from, to, id, cusid, OrganizationId));
                }
         public ActionResult Edit(int? id)
         {
@@ -130,19 +131,13 @@ namespace ArabErp.Web.Controllers
         }
         public void FillWRNo()
         {
-            ViewBag.WRNoList = new SelectList(new DropdownRepository().WRNODropdown(), "Id", "Name");
+            ViewBag.WRNoList = new SelectList(new DropdownRepository().WRNODropdown(OrganizationId), "Id", "Name");
         }
         public void FillCustomerinWR()
         {
-            ViewBag.CusList = new SelectList(new DropdownRepository().WRCustomerDropdown(), "Id", "Name");
+            ViewBag.CusList = new SelectList(new DropdownRepository().WRCustomerDropdown(OrganizationId), "Id", "Name");
         }
 
-        public ActionResult WorkShopRequestList()
-        {
-            FillWRNo();
-            FillCustomerinWR();
-            return View();
-        }
     }
 
 }

@@ -1,10 +1,7 @@
 ﻿
 @model IList<ArabErp.Domain.WorkShopRequest>
 
-@{
-    ViewBag.Title = "PreviousList";
-    Layout = "~/Views/Shared/_Layout.cshtml";
-}
+
 <script>
     function OnSelected(id) {
 
@@ -14,16 +11,7 @@
 
     }
 </script>
-<div class="row">
 
-    @*<div class="form-head1">
-        <h4>Workshop Request List</h4>
-    </div>*@
-
-    <div class="main-part pad1 white">
-        <div class="row">
-            <div class="main-grid main-grid-top scroll1">
-                <div class=" table-responsive">
                     <table class="table table-bordered">
                         <thead>
                             <tr class="grid_heading">
@@ -54,16 +42,9 @@
                             </tbody>
                         }
                     </table>
-                </div>
-            </div>
-        </div>
+
+      
 
 
-        <div class="row-count">
-            <h5>Row Count:- @Model.Count()</h5>
-        </div>
-
-
-
-    </div>
-</div>
+    @*</div>*@
+@*</div>*@

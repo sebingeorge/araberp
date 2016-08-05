@@ -279,6 +279,15 @@
 
     }
 
+    function PreviousList() {
+        window.location = '@Url.Action("Index", "Expense")'
+    }
+
+    function Exit() {
+        var url = '@Url.Action("Index","Home")';
+        window.location = url;
+    }
+
 </script>
 
     <div class="row">
@@ -448,7 +457,8 @@
                     <div class="row">
 
                         <div class="col-md-12 hrpart">
-                            <input type="button" class="form-button right" value="Exit" />
+                            <input type="button" class=" form-button right" onclick="Exit()" value="Exit">
+                            <input type="button" class="form-button" onclick="PreviousList()" value="Previous">
                             <button type="submit" class="form-button right">
                                 @if(ViewBag.mode != "Approve")
                                 { 
