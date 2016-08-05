@@ -758,6 +758,7 @@
     <Content Include="Views\ClosingStock\Index.cshtml" />
     <Content Include="Views\ClosingStock\_ClosingStockRegister.cshtml" />
     <Content Include="Views\StoresLedger\Index.cshtml" />
+    <Content Include="Views\StoresLedger\_StoresLedger.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
