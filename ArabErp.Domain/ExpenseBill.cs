@@ -8,7 +8,7 @@ namespace ArabErp.Domain
 {
     public class ExpenseBill
     {
-        public int? ExpenseId { get; set; }
+        public int ExpenseId { get; set; }
         public string ExpenseNo { get; set; }
         public DateTime ExpenseDate { get; set; }
         public string ExpenseBillRef { get; set; }

@@ -1,0 +1,482 @@
+﻿@model ArabErp.Domain.ExpenseBill
+@{
+    ViewBag.Title = "Edit";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<style>
+    .divHidden {
+        visibility: hidden;
+    }
+
+    .divShow {
+        visibility: visible;
+    }
+</style>
+<script>
+    function expenseBillValidate() {
+        return true;//confirm("Do you want to Save?");
+    }
+    $(function () {
+
+        if ('@ViewBag.mode' == 'Approve') {
+            $("input[type='text'], textarea, select").attr("disabled", "true");
+            $(".glyphicon-minus .glyphicon-plus").hide();
+            OptionChanged();
+        }
+        else {
+            $("#ExpenseDate").datepicker({ dateFormat: "dd/MM/yy" });
+            $("#ExpenseBillDate").datepicker({ dateFormat: "dd/MM/yy" });
+        }
+
+        //$("#ExpenseBillDueDate").datepicker({ dateFormat: "dd/MM/yy" });
+
+        //---------------------toastr---------------------------//
+        toastr.options = {
+            "positionClass": "toast-bottom-full-width",
+            "timeOut": "5000",
+            "extendedTimeOut": "2000"
+        }
+        if ('@TempData["success"]' != '') {
+            toastr.success('@TempData["success"]');
+        }
+        else if ('@TempData["error"]' != '') {
+            toastr.error('@TempData["error"]'.split('|')[0]);
+            console.log('@TempData["error"]'.split('|')[1]);
+        }
+        @{ TempData["success"] = TempData["error"] = ""; }
+        //------------------------------------------------------//
+        numbersOnly();
+    });
+
+    function numbersOnly() {
+        //bind keypress event
+        $(".numbers-only").keypress(function (e) {
+            if (e.which == 8 || (e.which == 45 && $(this).val().indexOf('-') == -1) || (e.which == 46 && $(this).val().indexOf('.') == -1) || (e.which > 47 && e.which < 58)) { }
+            else { return false; }
+        });
+    }
+
+    function AddAdditionRow() {
+
+        var i = 0;
+        var no = 0;
+
+        $('input[id^="Row_Ad_"]').each(function () {
+            var id = this.id;
+            no++;
+            var row = Number(id.replace("Row_Ad_", ""));
+            if (row > i) {
+                i = row;
+            }
+        });
+        i++;
+
+        var index = (new Date()).getTime(); // unique indexer
+        var clone = $('#Row_Ad_Id_0').clone(); // clone the BatchProducts item
+        clone.html($(clone).html().replace(/\ExpenseBillItem_0__/g, 'ExpenseBillItem_' + i + '__'));
+        clone.html($(clone).html().replace(/\ExpenseBillItem_0__/g, 'ExpenseBillItem_' + i + '__'));
+        clone.html($(clone).html().replace(/\ExpenseBillItem[0]./g, 'ExpenseBillItem[' + i + '].'));
+        clone.html($(clone).html().replace(/\[0\]/g, '[' + i + ']'));
+        clone.html($(clone).html().replace(/\(0\)/g, '(' + i + ')'));
+
+        clone.html($(clone).html().replace(/\Row_Ad_0/g, 'Row_' + i + ''));
+        clone.html($(clone).html().replace(/this,0/, 'this,' + i + ''));
+        $("#tab_logic").append('<tr id="Row_Ad_Id_' + i + '">' + clone.html() + '  </tr>');
+
+        $("#ExpenseBillItem_" + i + "__SlNo").val((i + 1));
+        numbersOnly();
+    }
+    function AddDelete(index) {
+
+        var i = 0;
+        var no = 1;
+        $('input[id^="Row_"]').each(function () {
+            var id = this.id;
+            no++;
+            var row = Number(id.replace("Row_", ""));
+            if (row > i) {
+                i = row;
+            }
+        });
+        i++;
+        //$("#" + index).html('');
+        if (i > 1) {
+            $("#Row_Ad_Id_" + index).remove();
+            for (var j = index + 1; j < i; j++) {
+
+                var AddDedId = $("#ExpenseBillItem_" + j + "__AddDedId").val();
+                var ExpenseItemQty = $("#ExpenseBillItem_" + j + "__ExpenseItemQty").val();
+                var ExpenseItemRate = $("#ExpenseBillItem_" + j + "__ExpenseItemRate").val();
+                var ExpenseItemAmount = $("#ExpenseBillItem_" + j + "__ExpenseItemAmount").val();
+
+                //alert(AddDedId + ',' + ExpenseItemQty + ',' + ExpenseItemRate + ',' + ExpenseItemAmount );
+
+                var clone = $("#Row_Ad_Id_" + j).clone(true, true);
+
+                clone.html($(clone).html().replace(new RegExp("ExpenseBillItem_" + j + "__", "g"), 'ExpenseBillItem_' + (j - 1) + '__'));
+                clone.html($(clone).html().replace(new RegExp("\\[" + j + "].", "g"), "[" + (j - 1) + "]."));
+                //clone.html($(clone).html().replace(new RegExp('slno' + (j + 1) + '">' + (j + 1), "g"), 'slno' + (j) + '">' + (j)));
+                clone.html($(clone).html().replace("Delete(" + j, "Delete(" + (j - 1)));
+                clone.html($(clone).html().replace("Row_" + j, "Row_" + (j - 1)));
+
+
+                clone.html($(clone).html().replace("this," + j, "this," + (j - 1)));
+                $("#Row_Ad_Id_" + j).html(clone.html());
+                //$("#ExpenseBillItem_" + (j - 1) + "__SlNo").val(j);
+                $("#Row_Ad_Id_" + (j)).attr('id', (j - 1));
+                //alert(j);
+                $("#ExpenseBillItem_" + (j - 1) + "__AddDedId").val(AddDedId);
+                $("#ExpenseBillItem_" + (j - 1) + "__ExpenseItemQty").val(ExpenseItemQty);
+                $("#ExpenseBillItem_" + (j - 1) + "__ExpenseItemRate").val(ExpenseItemRate);
+                $("#ExpenseBillItem_" + (j - 1) + "__ExpenseItemAmount").val(ExpenseItemAmount);
+
+            }
+        }
+    }
+    function AddDeductionRow() {
+        //alert(i)
+
+        var i = 0;
+        var no = 0;
+
+        $('input[id^="Row_"]').each(function () {
+            var id = this.id;
+            no++;
+            var row = Number(id.replace("Row_", ""));
+            if (row > i) {
+                i = row;
+            }
+        });
+        i++;
+
+
+
+
+        var index = (new Date()).getTime(); // unique indexer
+        var clone = $('#0').clone(); // clone the BatchProducts item
+        clone.html($(clone).html().replace(/\deductions_0__/g, 'deductions_' + i + '__'));
+        clone.html($(clone).html().replace(/\deductions_0__/g, 'deductions_' + i + '__'));
+        clone.html($(clone).html().replace(/\deductions[0]./g, 'deductions[' + i + '].'));
+        clone.html($(clone).html().replace(/\[0\]/g, '[' + i + ']'));
+        clone.html($(clone).html().replace(/\(0\)/g, '(' + i + ')'));
+        clone.html($(clone).html().replace(/\Row_0/g, 'Row_' + i + ''));
+        clone.html($(clone).html().replace(/this,0/, 'this,' + i + ''));
+        $("#tab_logic_deduction").append('<tr id="' + i + '">' + clone.html() + '  </tr>');
+        $("#deductions_" + i + "__SlNo").val((i + 1));
+        numbersOnly();
+    }
+    function DedDelete(index) {
+
+        var i = 0;
+        var no = 1;
+        $('input[id^="Row_"]').each(function () {
+            var id = this.id;
+            no++;
+            var row = Number(id.replace("Row_", ""));
+            if (row > i) {
+                i = row;
+            }
+        });
+        i++;
+        //$("#" + index).html('');
+        if (i > 1) {
+            $("#" + index).remove();
+            for (var j = index + 1; j < i; j++) {
+
+                var AddDedId = $("#deductions_" + j + "__AddDedId").val();
+                var ExpenseItemAmount = $("#deductions_" + j + "__ExpenseItemAmount").val();
+
+                //alert(AddDedId + ',' + ExpenseItemQty + ',' + ExpenseItemRate + ',' + ExpenseItemAmount );
+
+                var clone = $("#" + j).clone(true, true);
+
+                clone.html($(clone).html().replace(new RegExp("deductions_" + j + "__", "g"), 'deductions_' + (j - 1) + '__'));
+                clone.html($(clone).html().replace(new RegExp("\\[" + j + "].", "g"), "[" + (j - 1) + "]."));
+                //clone.html($(clone).html().replace(new RegExp('slno' + (j + 1) + '">' + (j + 1), "g"), 'slno' + (j) + '">' + (j)));
+                clone.html($(clone).html().replace("Delete(" + j, "Delete(" + (j - 1)));
+                clone.html($(clone).html().replace("Row_" + j, "Row_" + (j - 1)));
+
+
+                clone.html($(clone).html().replace("this," + j, "this," + (j - 1)));
+                $("#" + j).html(clone.html());
+                //$("#ExpenseBillItem_" + (j - 1) + "__SlNo").val(j);
+                $("#" + (j)).attr('id', (j - 1));
+                //alert(j);
+                $("#deductions_" + (j - 1) + "__AddDedId").val(AddDedId);
+                $("#deductions_" + (j - 1) + "__ExpenseItemAmount").val(ExpenseItemAmount);
+            }
+        }
+    }
+
+    function AdditionAmtChanged(i) {
+        var qty = $("#ExpenseBillItem_" + i + "__ExpenseItemQty").val();
+        var amt = $("#ExpenseBillItem_" + i + "__ExpenseItemRate").val();
+        var total = qty * amt;
+        $("#ExpenseBillItem_" + i + "__ExpenseItemAmount").val(total);
+        DeductionAmtChanged();
+    }
+    function DeductionAmtChanged() {
+        var add = 0;
+        $('.addition').each(function (i, obj) {
+            console.log(obj);
+            add = add + eval(obj.value);
+        });
+        $("#TotalAddition").val(add);
+        var ded = 0;
+        $('.deduction').each(function (i, obj) {
+            console.log(obj);
+            ded = ded + eval(obj.value);
+        });
+        $("#TotalDeduction").val(ded);
+        $("#TotalAmount").val(add - ded);
+    }
+    function OptionChanged() {
+        if ('@ViewBag.mode' == 'Approve') {
+            var opt = $("#SoOrJc").val();
+            $("#JcOrSo").val(opt);
+        }
+        else {
+            var opt = $("#JcOrSo").val();
+            $("#SoOrJc").val(opt);
+        }
+        if (opt == "JC") {
+            $("#againstId").text("Job Card");
+            $("#SaleOrderId").removeClass("divHidden");
+            $("#JobCardId").removeClass("divHidden");
+            $("#SaleOrderId").removeClass("divShow");
+            $("#JobCardId").removeClass("divShow");
+            $("#SaleOrderId").addClass("divHidden");
+            $("#JobCardId").addClass("divShow");
+        }
+        if (opt == "SO") {
+            $("#againstId").text("Sale Order");
+            $("#SaleOrderId").removeClass("divHidden");
+            $("#JobCardId").removeClass("divHidden");
+            $("#SaleOrderId").removeClass("divShow");
+            $("#JobCardId").removeClass("divShow");
+            $("#SaleOrderId").addClass("divShow");
+            $("#JobCardId").addClass("divHidden");
+        }
+    }
+
+    function DateChanged() {
+        var d = $("#ExpenseDate").val();
+        var sup = $("#SupplierId").val();
+        //alert(d);
+        //alert(sup);
+        $.ajax({
+            url: "@Url.Action("GetDueDate", "Expense")",
+            data: { date: d, SupplierId: sup },
+            cache: false,
+            type: "GET",
+            timeout: 10000,
+            dataType: "json",
+            success: function (duedate) {
+
+                $("#ExpenseBillDueDate").val(duedate);
+            }
+        });
+
+    }
+
+    function Back() {
+        var url = '@Url.Action("Index", "Expense")'
+        window.location = url;
+    }
+
+    function Delete(id) {
+        //alert(id);
+        var url = '@Url.Action("Delete")';
+        url += "/" + id;
+
+        window.location = url;
+    }
+
+
+
+</script>
+
+<div class="row">
+    @using (Html.BeginForm(null, null, FormMethod.Post, new { @class = "createFrom", @id = "expensebill_form", onsubmit = "expenseBillValidate()" }))
+    {
+        <div class="form-head1">
+            <h4>Expense Bill</h4>
+        </div>
+        <div class="main-part pad1">
+            <form role="form">
+                <div class="row form-group">
+                    <div class="col-md-2">
+                        <label for="jcno">Expense Bill No.</label>
+                        @Html.TextBoxFor(m => m.ExpenseNo, new { @class = "form_input", autocomplete = "off", @readonly = "true" })
+                        @Html.HiddenFor(m => m.ExpenseId)
+                    </div>
+                    <div class="col-md-2">
+                        <label for="inputDate">Date</label>
+                        @*@Html.TextBoxFor(m => m.ExpenseDate, String.Format("{0:dd/MMMM/yyyy}", Model.ExpenseDate), new { @class = "form_input ", autocomplete = "off", @readonly = "readonly"  ,@onchange = "DateChanged(this)" })*@
+                        @Html.TextBoxFor(m => m.ExpenseDate, Model.ExpenseDate.ToString("dd/MMMM/yyyy"), new { @class = "form_input ", autocomplete = "off", @readonly = "readonly", @onchange = "DateChanged()" })
+                    </div>
+                    <div class="col-md-2">
+                        <label>Sale Ord. / Job Card</label>
+                        @Html.HiddenFor(m => m.SoOrJc)
+                        <select class="form_input" id="JcOrSo" onchange="OptionChanged()">
+                            <option>Select</option>
+                            <option value="JC">Job Card</option>
+                            <option value="SO">Sale Order</option>
+                        </select>
+                    </div>
+                    <div class="col-md-2">
+                        <label id="againstId"></label>
+                        @Html.DropDownListFor(m => Model.SaleOrderId, (SelectList)ViewBag.SO, "Select S.O", new { @class = "form_input divHidden", autocomplete = "off" })
+                        @Html.DropDownListFor(m => Model.JobCardId, (SelectList)ViewBag.JC, "Select J.C", new { @class = "form_input divHidden against", autocomplete = "off" })
+                    </div>
+                </div>
+                <div class="row form-group">
+                    <div class="col-md-6">
+                        <label for="cus">Supplier</label>
+                        @Html.DropDownListFor(m => Model.SupplierId, (SelectList)ViewBag.SupplierList, "Select Supplier", new { @class = "form_input", autocomplete = "off", @onchange = "DateChanged()" })
+                    </div>
+                    <div class="col-md-2">
+                        <label for="inputDate">Bill Ref.</label>
+                        @Html.TextBoxFor(m => m.ExpenseBillRef, new { @class = "form_input", autocomplete = "off" })
+                    </div>
+                    <div class="col-md-2">
+                        <label for="inputDate">Bill Date</label>
+                        @Html.TextBoxFor(m => m.ExpenseBillDate, String.Format("{0:dd/MMMM/yyyy}", Model.ExpenseBillDate), new { @class = "form_input ", autocomplete = "off", @readonly = "readonly" })
+                    </div>
+                    <div class="col-md-2">
+                        <label for="inputDate">Bill Due Date</label>
+                        @*@Html.TextBoxFor(m => m.ExpenseBillDueDate, String.Format("{0:dd/MMMM/yyyy}", Model.ExpenseBillDueDate), new { @class = "form_input ", autocomplete = "off", @readonly = "readonly" })*@
+                        @Html.TextBoxFor(m => m.ExpenseBillDueDate, Model.ExpenseBillDueDate.ToString("dd/MMMM/yyyy"), new { @class = "form_input ", autocomplete = "off", @readonly = "readonly" })
+                    </div>
+                </div>
+                <div class="table-responsive">
+                    <table class="table table-bordered" id="tab_logic">
+                        <thead>
+                            <tr class="grid_heading">
+                                <th width="2%" class="text-center"></th>
+                                <td><h1>Expense Head</h1></td>
+                                <td width="5%"><h1 class="text-right">Quantity</h1></td>
+                                <td width="10%"><h1 class="text-right">Rate</h1></td>
+                                <td width="10%"><h1 class="text-right">Amount</h1></td>
+                                <th width="2%" class="text-center"></th>
+                            </tr>
+                        </thead>
+
+                        <tbody>
+
+
+                            @for (int i = 0; i < Model.ExpenseBillItem.Count; i++)
+                            {
+                                @*<tr id="@i">*@
+                                <tr id="Row_Ad_Id_@i">
+                                    <td style="vertical-align:middle"><a class="glyphicon glyphicon-minus" style="top:0px" onclick="AddDelete(@i)"></a></td>
+
+                                    <td>
+                                        <input type="hidden" id="Row_Ad_@i" />
+                                        @Html.DropDownListFor(m => Model.ExpenseBillItem[i].AddDedId, (SelectList)ViewBag.Additions, "Select Addition", new { @class = "form_input", autocomplete = "off" })
+                                    </td>
+                                    <td>
+                                        @Html.TextBoxFor(m => m.ExpenseBillItem[i].ExpenseItemQty, new { @class = "form_input text-right numbers-only", autocomplete = "off", @onchange = "AdditionAmtChanged(" + i + ")" })
+                                    </td>
+                                    <td>
+                                        @Html.TextBoxFor(m => m.ExpenseBillItem[i].ExpenseItemRate, new { @class = "form_input text-right numbers-only", autocomplete = "off", @onchange = "AdditionAmtChanged(" + i + ")" })
+                                    </td>
+                                    <td>
+                                        @Html.TextBoxFor(m => m.ExpenseBillItem[i].ExpenseItemAmount, new { @class = "form_input addition text-right numbers-only", autocomplete = "off", @readonly = "readonly" })
+                                    </td>
+                                    <td style="vertical-align:middle"><a id="add_row" class="glyphicon glyphicon-plus" style="top:0px" onclick="AddAdditionRow()"></a></td>
+
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+
+
+                <div class="table-responsive">
+                    <table class="table table-bordered" id="tab_logic_deduction">
+                        <thead>
+                            <tr class="grid_heading">
+                                <th width="2%" class="text-center"></th>
+                                <td width="90%"><h1>Deduction Head</h1></td>
+                                <td><h1 class="text-right">Amount</h1></td>
+                                <th width="2%" class="text-center"></th>
+                            </tr>
+                        </thead>
+
+                        <tbody>
+
+                            @for (int i = 0; i < Model.deductions.Count; i++)
+                            {
+                                <tr id="@i">
+
+                                    <td style="vertical-align:middle"><a class="glyphicon glyphicon-minus" style="top:0px" onclick="DedDelete(@i)"></a></td>
+                                    <td>
+                                        <input type="hidden" id="Row_@i" />
+                                        @Html.DropDownListFor(m => Model.deductions[i].AddDedId, (SelectList)ViewBag.Deductions, "Select Deduction", new { @class = "form_input", autocomplete = "off" })
+                                    </td>
+                                    <td>
+                                        @Html.TextBoxFor(m => m.deductions[i].ExpenseItemAmount, new { @class = "form_input deduction text-right numbers-only", autocomplete = "off", @onchange = "DeductionAmtChanged()" })
+                                    </td>
+                                    <td style="vertical-align:middle"><a id="add_row" class="glyphicon glyphicon-plus" style="top:0px" onclick="AddDeductionRow()"></a></td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="row form-group">
+                    <div class="col-md-2">
+                        <div class="part1">
+                            <label for="inputDate">Additional Amount</label>
+                            @Html.TextBoxFor(m => m.TotalAddition, new { @class = "form_input text-right", autocomplete = "off", @readonly = "readonly" })
+                        </div>
+                    </div>
+                    <div class="col-md-2">
+                        <div class="part1">
+                            <label for="inputDate">Deduction Amount</label>
+                            @Html.TextBoxFor(m => m.TotalDeduction, new { @class = "form_input text-right", autocomplete = "off", @readonly = "readonly" })
+                        </div>
+                    </div>
+                    <div class="col-md-2">
+                        <div class="part1">
+                            <label for="inputDate">Total</label>
+                            @Html.TextBoxFor(m => m.TotalAmount, new { @class = "form_input text-right", autocomplete = "off", @readonly = "readonly" })
+                        </div>
+                    </div>
+                    <div class="col-md-2">
+                        <div class="part1">
+                            <label for="inputDate">Currency</label>
+                            @Html.DropDownListFor(m => Model.CurrencyId, (SelectList)ViewBag.Currency, "Select Item Currency", new { @class = "form_input", autocomplete = "off" })
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="part1">
+                            <label for="inputDate">Special Remarks</label>
+                            @Html.TextAreaFor(m => m.ExpenseRemarks, new { @class = "form_input form_input-h", autocomplete = "off" })
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+
+                    <div class="col-md-12 hrpart">
+                        <input type="button" class="form-button right" value="Exit" onclick="Back()" />
+                        <button type="submit" class="form-button right">Edit</button>
+                        <button type="button" class="form-button left" onclick="Delete('@Model.ExpenseId')">Delete</button>
+                    </div>
+
+                </div>
+
+            </form>
+
+        </div>
+
+    }
+</div>
+
+
+
