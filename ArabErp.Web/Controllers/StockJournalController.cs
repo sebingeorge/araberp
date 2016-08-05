@@ -13,7 +13,13 @@ namespace ArabErp.Web.Controllers
         // GET: StockJournal
         public ActionResult Index()
         {
+            FillStockJournal();
+            FillStockPointForPreviousList();
             return View();
+        }
+        public ActionResult PreviousList(DateTime? from, DateTime? to, int id = 0, int stockpoint = 0)
+        {
+            return PartialView("_PreviousListGrid", new StockJournalRepository().PreviousList(OrganizationId: OrganizationId, from: from, to: to, id: id, stockpoint: stockpoint));
         }
         public ActionResult Create()
         {
@@ -67,6 +73,13 @@ namespace ArabErp.Web.Controllers
             //List.StockJournelItems = new StockJournalItem();
             return PartialView("_StockJournalList", StockJournalList);
         }
+        
+        public JsonResult GetItemDetails(int itemId)
+        {
+            return Json(new StockJournalRepository().GetItemDetails(itemId), JsonRequestBehavior.AllowGet);
+        }
+
+        #region Dropdown
         public void FillStockPoint()
         {
             ViewBag.StockPointList = new SelectList(new DropdownRepository().StockpointDropdown(), "Id", "Name");
@@ -79,9 +92,14 @@ namespace ArabErp.Web.Controllers
         {
             ViewBag.EmployeeList = new SelectList(new DropdownRepository().EmployeeDropdown(), "Id", "Name");
         }
-        public JsonResult GetItemDetails(int itemId)
+        public void FillStockJournal()
         {
-            return Json(new StockJournalRepository().GetItemDetails(itemId), JsonRequestBehavior.AllowGet);
+            ViewBag.stockJournalList = new SelectList(new DropdownRepository().StockJournalDropdown(OrganizationId), "Id", "Name");
         }
+        public void FillStockPointForPreviousList()
+        {
+            ViewBag.stockpointList = new SelectList(new DropdownRepository().StockPointForStockJournal(OrganizationId), "Id", "Name");
+        }
+        #endregion
     }
 }

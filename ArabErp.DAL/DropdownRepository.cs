@@ -704,5 +704,36 @@ namespace ArabErp.DAL
                                                     new { OrganizationId = OrganizationId }).ToList();
             }
         }
+
+        public IEnumerable StockJournalDropdown(int OrganizationId)
+        {
+            using (IDbConnection connection = OpenConnection(dataConnection))
+            {
+                return connection.Query<Dropdown>(@"SELECT
+	                                                    SJ.StockJournalId Id,
+	                                                    SJ.StockJournalRefno Name
+                                                    FROM StockJournal SJ
+                                                    WHERE SJ.OrganizationId = @OrganizationId
+	                                                    AND SJ.isActive = 1
+                                                    ORDER BY SJ.StockJournalDate DESC, SJ.CreatedDate DESC",
+                                                    new { OrganizationId = OrganizationId }).ToList();
+            }
+        }
+
+        public IEnumerable StockPointForStockJournal(int OrganizationId)
+        {
+            using (IDbConnection connection = OpenConnection(dataConnection))
+            {
+                return connection.Query<Dropdown>(@"SELECT DISTINCT
+	                                                    SP.StockPointId Id,
+	                                                    SP.StockPointName Name
+                                                    FROM StockJournal SJ
+	                                                    INNER JOIN Stockpoint SP ON SJ.StockPointId = SP.StockPointId
+                                                    WHERE SJ.OrganizationId = @OrganizationId
+	                                                    AND SJ.isActive = 1
+                                                    ORDER BY SP.StockPointName",
+                                                    new { OrganizationId = OrganizationId }).ToList();
+            }
+        }
     }
 }

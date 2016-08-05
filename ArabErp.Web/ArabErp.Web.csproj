@@ -760,6 +760,8 @@
     <Content Include="Views\StoresLedger\Index.cshtml" />
     <Content Include="Views\Consumption\_PreviousListGrid.cshtml" />
     <Content Include="Views\Consumption\Index.cshtml" />
+    <Content Include="Views\StockJournal\Index.cshtml" />
+    <Content Include="Views\StockJournal\_PreviousListGrid.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
