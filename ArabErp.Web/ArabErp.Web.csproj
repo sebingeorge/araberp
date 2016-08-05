@@ -304,6 +304,7 @@
     <Content Include="Content\jquery-2.1.4.min.js" />
     <Content Include="Content\PagedList.css" />
     <Content Include="Images\logo.gif" />
+    <Content Include="Scripts\accordion-menu.js" />
     <Content Include="Scripts\Highcharts\exporting.js" />
     <Content Include="Scripts\Highcharts\highcharts.js" />
     <Content Include="Scripts\polyfiller.js" />
@@ -760,6 +761,7 @@
     <Content Include="Views\StoresLedger\Index.cshtml" />
     <Content Include="Views\Consumption\_PreviousListGrid.cshtml" />
     <Content Include="Views\Consumption\Index.cshtml" />
+    <Content Include="Views\Expense\Edit.cshtml" />
     <Content Include="Views\StockJournal\Index.cshtml" />
     <Content Include="Views\StockJournal\_PreviousListGrid.cshtml" />
   </ItemGroup>
