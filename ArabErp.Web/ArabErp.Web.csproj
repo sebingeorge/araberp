@@ -767,6 +767,7 @@
     <Content Include="Views\StockJournal\_PreviousListGrid.cshtml" />
     <Content Include="Views\QuerySheet\Edit.cshtml" />
     <Content Include="Views\StoresLedger\_StoresLedger.cshtml" />
+    <Content Include="Views\SalesQuotation\Edit.cshtml" />
     <Content Include="Views\PurchaseBillRegister\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>

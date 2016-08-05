@@ -22,6 +22,7 @@
     })
 
     function OnItemSelected(id) {
+        //alert(id);
         var url = '@Url.Action("Edit")';
         url += "?id=" + id;
         window.location = url;
