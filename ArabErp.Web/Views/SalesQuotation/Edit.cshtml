@@ -32,6 +32,14 @@
         window.location = url;
     }
 
+    function DeleteSQ(id) {
+        alert(id);
+        var url = '@Url.Action("DeleteSQ")';
+        url += "/" + id;
+
+        window.location = url;
+    }
+
 
     function CustomerChanged(cust) {
         var cusId = cust.value;
@@ -705,7 +713,7 @@
                 <div class="col-md-12 hrpart">
                     <input type="button" class="form-button right" value="Exit" onclick="Back()" />
                     <button type="submit" class="form-button right">Edit</button>
-                    <button type="button" class="form-button left" onclick="Delete('@Model.SalesQuotationId')">Delete</button>
+                    <button type="button" class="form-button left" onclick="DeleteSQ('@Model.SalesQuotationId')">Delete</button>
                 </div>
             </div>
         }

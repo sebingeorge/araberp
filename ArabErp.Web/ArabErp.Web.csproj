@@ -474,6 +474,7 @@
     <Content Include="Scripts\modernizr-2.6.2.js" />
     <Content Include="Scripts\respond.js" />
     <Content Include="Scripts\respond.min.js" />
+    <Content Include="Scripts\selectric\jquery.selectric.js" />
     <Content Include="Scripts\_references.js" />
     <Content Include="Views\Currency\Create.cshtml">
       <SubType>Code</SubType>
@@ -769,6 +770,8 @@
     <Content Include="Views\StoresLedger\_StoresLedger.cshtml" />
     <Content Include="Views\SalesQuotation\Edit.cshtml" />
     <Content Include="Views\PurchaseBillRegister\Index.cshtml" />
+    <Content Include="Scripts\selectric\.csscomb.json" />
+    <Content Include="Content\selectric.scss" />
     <Content Include="Views\PurchaseBillRegister\_PurchaseBillRegister.cshtml" />
   </ItemGroup>
   <ItemGroup>
