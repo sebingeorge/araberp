@@ -24,8 +24,9 @@
     </div>
     <div class="main-part white pad1">
             <div class="row">
-                <div class="table-responsive">
-                    <div class="main-grid main-grid-top">
+                
+                <div class="main-grid main-grid-top scroll1">
+                    <div class="table-responsive">
                         @Html.Grid(Model).Columns(columns =>
                         {
                             columns.Add(m => m.SaleOrderRefNo).Titled("S.O Ref");
