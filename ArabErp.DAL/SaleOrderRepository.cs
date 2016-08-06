@@ -136,17 +136,12 @@ namespace ArabErp.DAL
                 string sql = @"SELECT  distinct t.SaleOrderId,SO.CustomerOrderRef,SO.SaleOrderDate,SO.SaleOrderRefNo +','+ Replace(Convert(varchar,SaleOrderDate,106),' ','/') SaleOrderRefNo,SO.EDateArrival,SO.EDateDelivery,SO.CustomerId,C.CustomerName,STUFF((SELECT ', ' + CAST(W.WorkDescr AS VARCHAR(MAX)) [text()]
                              FROM SaleOrderItem SI inner join WorkDescription W on W.WorkDescriptionId=SI.WorkDescriptionId
                              WHERE SI.SaleOrderId = t.SaleOrderId
-                             FOR XML PATH(''), TYPE).value('.','NVARCHAR(MAX)'),1,2,' ') WorkDescription,DATEDIFF(dd,SO.SaleOrderDate,GETDATE ()) Ageing,DATEDIFF(dd,GETDATE (),SO.EDateDelivery)Remaindays,'' WorkRequestPaymentApproved  INTO #TEMP  
+                             FOR XML PATH(''), TYPE).value('.','NVARCHAR(MAX)'),1,2,' ') WorkDescription,DATEDIFF(dd,SO.SaleOrderDate,GETDATE ()) Ageing,DATEDIFF(dd,GETDATE (),SO.EDateDelivery)Remaindays 
                              FROM SaleOrderItem t INNER JOIN SaleOrder SO on t.SaleOrderId=SO.SaleOrderId INNER JOIN Customer C ON SO.CustomerId =C.CustomerId
                              left join WorkShopRequest WR on SO.SaleOrderId=WR.SaleOrderId WHERE WR.SaleOrderId is null and SO.isActive=1 and SO.SaleOrderApproveStatus=1 and SO.SaleOrderHoldStatus IS NULL and SO.OrganizationId = @OrganizationId
-                             order by SO.SaleOrderDate ASC;
+                             order by SO.SaleOrderDate ASC";
 
-                              with A as
-                              (
-                               select SaleOrderId  from SaleOrderItem WHERE IsPaymentApprovedForWorkshopRequest IS NULL
-                               )
-                               update #TEMP set #TEMP.WorkRequestPaymentApproved = 'P' FROM A  INNER JOIN  #TEMP  ON  #TEMP.SaleOrderId = A.SaleOrderId;
-                               SELECT * FROM  #TEMP";
+                           
 
 
                 var objSaleOrders = connection.Query<SaleOrder>(sql, new { OrganizationId = OrganizationId }).ToList<SaleOrder>();

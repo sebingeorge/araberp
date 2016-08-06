@@ -32,6 +32,12 @@ namespace ArabErp.Web.Controllers
             var result = repo.GrnSupplierDropdown();
             ViewBag.SupplierList = new SelectList(result, "Id", "Name");
         }
+        public ActionResult PurchaseBillRegister(DateTime? from, DateTime? to, int id = 0,int itmid = 0)
+        {
+            from = from ?? DateTime.Today.AddMonths(-7);
+            to = to ?? DateTime.Today;
+            return PartialView("_PurchaseBillRegister", new PurchaseBillRegisterRepository().GetPurchaseBillRegisterData(from,to,id,itmid,OrganizationId));
+        }
       
     }
 }

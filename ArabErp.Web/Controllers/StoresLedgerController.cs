@@ -42,6 +42,7 @@ namespace ArabErp.Web.Controllers
         }
         public ActionResult StoresLedger(DateTime? from, DateTime? to, int stkid = 0, int itmcatid = 0, int itmid = 0)
         {
+            from = from ?? DateTime.Today.AddMonths(-7);
             to = to ?? DateTime.Today;
             return PartialView("_StoresLedger", new StoresLedgerRepository().GetStoresLedgerData(from, to, stkid, itmcatid, itmid, OrganizationId));
         }

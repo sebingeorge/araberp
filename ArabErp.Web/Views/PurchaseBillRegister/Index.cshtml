@@ -3,7 +3,33 @@
     ViewBag.Title = "Index";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
+<script type="text/javascript">
+    $(document).ready(function () {
+        $("#txtFrom").datepicker({
+            dateFormat: "dd-MM-yy"
+        });
+        $("#txtTo").datepicker({
+            dateFormat: "dd-MM-yy"
+        });
+    })
 
+    function Filter() {
+        $("#purchasebill_Reg").addClass("fade");
+        var id = $("#cboSupplier").val();
+        var itmid = $("#cboItem").val();
+        var from = $("#txtFrom").val();
+        var to = $("#txtTo").val();
+        var url = '@Url.Action("PurchaseBillRegister")';
+        url += "?from=" + from + "&to=" + to + "&id=" + id + "&itmid=" + itmid;
+        $("#purchasebill_Reg").load(url, function () {
+            $("#purchasebill_Reg").removeClass("fade");
+        });
+    }
+    function Exit() {
+        var url = '@Url.Action("Index", "Home")';
+        window.location = url;
+    }
+</script>
 <div class="row">
 
     <div class="form-head1">
@@ -15,29 +41,27 @@
 
             <div class="col-md-2">
                 <label for="cboStockpoint">Supplier</label>
-                @Html.DropDownList("cboSupplier", (SelectList)ViewBag.SupplierList, "Any", new { @class = "form_input" })
+                @Html.DropDownList("cboSupplier", (SelectList)ViewBag.SupplierList, "Any", new { @class = "form_input", @onchange = "Filter()" })
             </div>
         
             <div class="col-md-3">
                 <label for="cboItem">Item</label>
-                @Html.DropDownList("cboItem", (SelectList)ViewBag.ItemList, "Any", new { @class = "form_input" })
+                @Html.DropDownList("cboItem", (SelectList)ViewBag.ItemList, "Any", new { @class = "form_input", @onchange = "Filter()" })
             </div>
             <div class="col-md-2">
                 <label>From</label>
-                <input id="txtFrom" value="@System.DateTime.Today.AddMonths(-7).ToString("dd-MMMM-yyyy")" class="form_input" />
+                <input id="txtFrom" value="@System.DateTime.Today.AddMonths(-7).ToString("dd-MMMM-yyyy")" class="form_input" onchange="Filter()" />
             </div>
             <div class="col-md-2">
                 <label>To</label>
-                <input id="txtTo" value="@System.DateTime.Today.ToString("dd-MMMM-yyyy")" class="form_input" />
+                <input id="txtTo" value="@System.DateTime.Today.ToString("dd-MMMM-yyyy")" class="form_input" onchange="Filter()" />
             </div>
-            <div class="col-md-1">
-                <input type="button" class="form-button filter" value="OK" onclick="Filter()" />
-            </div>
+           
         </div>
         <br />
 
-        <div class="table-responsive scroll4" id="Stores_Ledger">
-            @*@Html.Action("StoresLedger")*@
+        <div class="table-responsive scroll4" id="purchasebill_Reg">
+            @Html.Action("PurchaseBillRegister")
         </div>
 
         <div class="row">
