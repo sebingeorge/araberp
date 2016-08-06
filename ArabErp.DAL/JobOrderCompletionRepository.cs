@@ -14,35 +14,65 @@ namespace ArabErp.DAL
     public class JobOrderCompletionRepository:BaseRepository
     {
         static string dataConnection = GetConnectionString("arab");
-        public IEnumerable<JobOrderPending> GetPendingJobOrder()
+        public IEnumerable<JobOrderPending> GetPendingJobOrder(int? isProjectBased)
         {
             using (IDbConnection connection = OpenConnection(dataConnection))
             {
                 string query = string.Empty;
-                query += " select distinct J.JobCardId, J.JobCardNo, J.JobCardDate, C.CustomerName, V.VehicleModelName";
-                query += " from JobCard J";
-                query += " inner join SaleOrderItem SI on SI.SaleOrderItemId = J.SaleOrderItemId";
-                query += " inner join SaleOrder S on S.SaleOrderId = SI.SaleOrderId";
-                query += " inner join Customer C on S.CustomerId = C.CustomerId ";
-                query += " inner join WorkDescription W on W.WorkDescriptionId = SI.WorkDescriptionId";
-                query += " inner join VehicleModel V on V.VehicleModelId = W.VehicleModelId ";
-                query += " where ISNULL(J.JodCardCompleteStatus,0) <> 1";
+                if ((isProjectBased ?? 0) == 0)
+                {
+                    query += " select distinct J.JobCardId, J.JobCardNo, J.JobCardDate, C.CustomerName, V.VehicleModelName";
+                    query += " from JobCard J";
+                    query += " inner join SaleOrderItem SI on SI.SaleOrderItemId = J.SaleOrderItemId";
+                    query += " inner join SaleOrder S on S.SaleOrderId = SI.SaleOrderId";
+                    query += " inner join Customer C on S.CustomerId = C.CustomerId ";
+                    query += " inner join WorkDescription W on W.WorkDescriptionId = SI.WorkDescriptionId";
+                    query += " inner join VehicleModel V on V.VehicleModelId = W.VehicleModelId ";
+                    query += " where ISNULL(J.JodCardCompleteStatus,0) <> 1 and J.isProjectBased = 0";
+                }
+                else
+                {
+                    query += " select distinct J.JobCardId, J.JobCardNo, J.JobCardDate, C.CustomerName, '' VehicleModelName";
+                    query += " from JobCard J";
+                    query += " inner join SaleOrderItem SI on SI.SaleOrderItemId = J.SaleOrderItemId";
+                    query += " inner join SaleOrder S on S.SaleOrderId = SI.SaleOrderId";
+                    query += " inner join Customer C on S.CustomerId = C.CustomerId ";
+                    query += " inner join WorkDescription W on W.WorkDescriptionId = SI.WorkDescriptionId";
+                    query += " where ISNULL(J.JodCardCompleteStatus,0) <> 1 and J.isProjectBased = 1";
+                }
+                
+                
                 return connection.Query<JobOrderPending>(query);
             }
         }
 
-        public JobCardCompletion GetJobCardCompletion(int JobCardId)
+        public JobCardCompletion GetJobCardCompletion(int JobCardId, int isProjectBased)
         {
             using (IDbConnection connection = OpenConnection(dataConnection))
             {
-                string query = "select distinct J.JobCardId, J.JobCardNo, J.JobCardDate, C.CustomerId, C.CustomerName,";
-                query += " V.VehicleModelId, V.VehicleModelName, W.WorkDescr, W.WorkDescriptionId, J.SpecialRemarks";
-                query += " from JobCard J inner join SaleOrder S on S.SaleOrderId = J.SaleOrderId";
-                query += " inner join SaleOrderItem SI on SI.SaleOrderId = S.SaleOrderId";
-                query += " inner join Customer C on S.CustomerId = C.CustomerId";
-                query += " inner join WorkDescription W on W.WorkDescriptionId = SI.WorkDescriptionId";
-                query += " inner join VehicleModel V on V.VehicleModelId = W.VehicleModelId";
-                query += " where J.JobCardId = " + JobCardId.ToString();
+                string query = string.Empty;
+                if (isProjectBased == 0)
+                {
+                    query = "select distinct J.JobCardId, J.JobCardNo, J.JobCardDate, C.CustomerId, C.CustomerName,";
+                    query += " V.VehicleModelId, V.VehicleModelName, W.WorkDescr, W.WorkDescriptionId, J.SpecialRemarks";
+                    query += " from JobCard J inner join SaleOrder S on S.SaleOrderId = J.SaleOrderId";
+                    query += " inner join SaleOrderItem SI on SI.SaleOrderId = S.SaleOrderId";
+                    query += " inner join Customer C on S.CustomerId = C.CustomerId";
+                    query += " inner join WorkDescription W on W.WorkDescriptionId = SI.WorkDescriptionId";
+                    query += " inner join VehicleModel V on V.VehicleModelId = W.VehicleModelId";
+                    query += " where J.JobCardId = " + JobCardId.ToString() + "  and J.isProjectBased = 0";
+                }
+                else
+                {
+                    query = "select distinct J.JobCardId, J.JobCardNo, J.JobCardDate, C.CustomerId, C.CustomerName,";
+                    query += " 0 VehicleModelId, '' VehicleModelName, W.WorkDescr, W.WorkDescriptionId, J.SpecialRemarks";
+                    query += " from JobCard J inner join SaleOrder S on S.SaleOrderId = J.SaleOrderId";
+                    query += " inner join SaleOrderItem SI on SI.SaleOrderId = S.SaleOrderId";
+                    query += " inner join Customer C on S.CustomerId = C.CustomerId";
+                    query += " inner join WorkDescription W on W.WorkDescriptionId = SI.WorkDescriptionId";
+                    query += " where J.JobCardId = " + JobCardId.ToString() + " and J.isProjectBased = 1";
+                }
+                
                 var jobcard = connection.Query<JobCardCompletion>(query).FirstOrDefault();
 
                 query = string.Empty;

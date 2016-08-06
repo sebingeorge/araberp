@@ -3,12 +3,14 @@
     ViewBag.Title = "PendingJobOrderCompletion";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
-
+@{
+    int isProjectBased = Convert.ToInt32(Request.QueryString["isProjectBased"].ToString());
+}
 <script>
     function GotoJobcardCompletion(id)
     {
         var url = '@Url.Action("Create")';
-        url = url + "?Id=" + id;
+        url = url + "?Id=" + id + "&isProjectBased=" + @isProjectBased;
         console.log(url);
         window.location.href = url;
     }
@@ -28,10 +30,14 @@
                             <th width="15%"><h1>JC.No.</h1></th>
                             <th width="15%"><h1>JC.Date</h1></th>
                             <th width="50%"><h1>Customer</h1></th>
-                            <th width="15%"><h1>Vehicle Model</h1></th>
+                            @if (isProjectBased == 0)
+                            {
+                                <th width="15%"><h1>Vehicle Model</h1></th>
+                            }                            
                             <th width="5%"><center><h1></h1></center></th>
                         </tr>
                     </thead>
+
                     <tbody class="grid_row">
                         @foreach (var item in Model)
                         {
@@ -39,7 +45,10 @@
                                 <td>@item.JobCardNo</td>
                                 <td>@item.JobCardDate.ToString("dd/MMM/yyyy")</td>
                                 <td>@item.CustomerName</td>
-                                <td>@item.VehicleModelName</td>
+                                @if (isProjectBased == 0)
+                                {
+                                    <td>@item.VehicleModelName</td>
+                                }                                
                                 <td><center><button class="form-button form-button1" onclick="GotoJobcardCompletion(@item.JobCardId)">Select</button></center></td>
                             </tr>
                             
