@@ -41,62 +41,67 @@
             <input id="isProjectBased" type="hidden" value="@isProjectBased" />
         </div>
         <div class="main-part pad1 white">
-            <div class="main-grid-top scroll1">
-                <div class=" table-responsive">
-                    <table class="table table-bordered">
-                        <thead>
-                            <tr class="grid_heading">
-                                <th width="12%"><h1>SO.No. & Date</h1></th>
-                                <th width="41%"><h1>Work Description</h1></th>
-                                @if (isProjectBased == 0)
-                                {
-                                    <th width="10%"><h1>Vehicle Model</h1></th>
-                                }                                
-                               
-                                <th width="20%"><h1>Customer</h1></th>
-                                <th width="12%"><h1>Customer Order Ref.</h1></th>
-                                <th width="5%"><center><h1></h1></center></th>
-                            </tr>
-                        </thead>
-                        @foreach (var item in Model)
-                        {
-                            <tbody class="grid_row">
-                                <tr>
-                                    <td class="grid-cell">@item.SaleOrderRefNo &amp; @item.SaleOrderDate.ToString("dd/MMM/yyyy")</td>
-                                    <td class="grid-cell">@item.WorkDescription</td>
+            <div class="row">
+                <div class="main-grid main-grid-top scroll1">
+                    <div class=" table-responsive">
+                        <table class="table table-bordered">
+                            <thead>
+                                <tr class="grid_heading">
+                                    <th width="12%"><h1>SO.No. & Date</h1></th>
+                                    <th width="41%"><h1>Work Description</h1></th>
                                     @if (isProjectBased == 0)
                                     {
-                                        <td class="grid-cell">@item.VehicleModelName</td>
-                                    }                                    
-                                  
-                                    <td class="grid-cell">@item.CustomerName</td>
-                                    <td class="grid-cell">@item.CustomerOrderRef</td>
-
-                                    <td><center>
-                                    @if (item.IsPaymentApprovedForJobOrder == 1)
-                                            {
-                                        <button class="form-button5" onclick="GotoJobcard(@item.SaleOrderItemId)">Select</button>
-                                            }
-                                    else
-                                    {
-                                        <span class="form_input perm">Approval Pending</span>
+                                        <th width="10%"><h1>Vehicle Model</h1></th>
                                     }
-                                    </center></td>
-                                </tr>
-                            </tbody>
-                        }
-                    </table>
 
-                   
+                                    <th width="20%"><h1>Customer</h1></th>
+                                    <th width="12%"><h1>Customer Order Ref.</h1></th>
+                                    <th width="5%"><center><h1></h1></center></th>
+                                </tr>
+                            </thead>
+                            @foreach (var item in Model)
+                            {
+                                <tbody class="grid_row">
+                                    <tr>
+                                        <td class="grid-cell">@item.SaleOrderRefNo &amp; @item.SaleOrderDate.ToString("dd/MMM/yyyy")</td>
+                                        <td class="grid-cell">@item.WorkDescription</td>
+                                        @if (isProjectBased == 0)
+                                        {
+                                            <td class="grid-cell">@item.VehicleModelName</td>
+                                        }
+
+                                        <td class="grid-cell">@item.CustomerName</td>
+                                        <td class="grid-cell">@item.CustomerOrderRef</td>
+
+                                        <td>
+                                            <center>
+                                                @if (item.IsPaymentApprovedForJobOrder == 1)
+                                                {
+                                                    <button class="form-button5" onclick="GotoJobcard(@item.SaleOrderItemId)">Select</button>
+                                                }
+                                                else
+                                                {
+                                                    <span class="form_input perm">Approval Pending</span>
+                                                }
+                                            </center>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            }
+                        </table>
+
+
+
+                    </div>
+
 
                 </div>
 
 
-            </div>
+                <div class="row-count1">
 
-            <div class="row-count">
-               
-                <h5>Row Count:- @Model.Count()</h5>
+                    <h5>Row Count:- @Model.Count()</h5>
+                </div>
             </div>
 
 
