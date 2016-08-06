@@ -15,22 +15,23 @@ namespace ArabErp.Web.Controllers
         {
             return View();
         }
-        public ActionResult Create(int Id)
+        public ActionResult Create(int Id, int isProjectBased)
         {
             JobOrderCompletionRepository repo = new JobOrderCompletionRepository();
-            var jobcard = repo.GetJobCardCompletion(Id);
+            var jobcard = repo.GetJobCardCompletion(Id, isProjectBased);
             FillEmployee();
             FillTaks(jobcard.WorkDescriptionId ?? 0);
 
             jobcard.JobCardDate = DateTime.Now;
             jobcard.JobCardCompletedDate = DateTime.Now;
             jobcard.WarrentyPeriod = DateTime.Now;
+            jobcard.isProjectBased = isProjectBased;
             return View(jobcard);
         }
-        public ActionResult PendingJobOrderCompletion()
+        public ActionResult PendingJobOrderCompletion(int? isProjectBased)
         {
             JobOrderCompletionRepository repo = new JobOrderCompletionRepository();
-            var result = repo.GetPendingJobOrder();
+            var result = repo.GetPendingJobOrder(isProjectBased);
             return View(result);
         }
         public void FillEmployee()
@@ -49,7 +50,7 @@ namespace ArabErp.Web.Controllers
         {
             JobOrderCompletionRepository repo = new JobOrderCompletionRepository();
             repo.UpdateJobCardCompletion(model);
-            return RedirectToAction("PendingJobOrderCompletion");
+            return RedirectToAction("PendingJobOrderCompletion", new { isProjectBased = model.isProjectBased});
         }
     }
 }
