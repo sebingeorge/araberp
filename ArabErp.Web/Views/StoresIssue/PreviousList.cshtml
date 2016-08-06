@@ -21,22 +21,23 @@
         <div class="form-head1">
             <h4>Previous Stores Issue</h4>
         </div>
-        <div class="main-part pad1">
-
-            <div class="table-responsive scroll4">
-                <table class="table table-bordered">
-                    <thead>
-                        <tr class="grid_heading">
-                            <th width="10%" nowrap><h1>Stores Issue No.</h1></th>
-                            <th width="5%" nowrap><h1>Date</h1></th>
-                            <th width="10%" nowrap><h1>WR No. &amp; Date</h1></th>
-                            <th width="10%" nowrap><h1>Employee</h1></th>
-                            <th width="15%" nowrap><h1>Special Remarks</h1></th>
-                            <th width="1%"></th>
-                        </tr>
-                    </thead>
-                    <tbody class="grid_row">
-                        @{
+        <div class="main-part pad1 white">
+            <div class="row">
+                <div class="main-grid main-grid-top scroll1">
+                    <div class="table-responsive">
+                        <table class="table table-bordered">
+                            <thead>
+                                <tr class="grid_heading">
+                                    <th width="10%" nowrap><h1>Stores Issue No.</h1></th>
+                                    <th width="5%" nowrap><h1>Date</h1></th>
+                                    <th width="10%" nowrap><h1>WR No. &amp; Date</h1></th>
+                                    <th width="10%" nowrap><h1>Employee</h1></th>
+                                    <th width="15%" nowrap><h1>Special Remarks</h1></th>
+                                    <th width="1%"></th>
+                                </tr>
+                            </thead>
+                            <tbody class="grid_row">
+                                @{
                             for (int i = 0; i < Model.Count; i++)
                             {
                                 <tr>
@@ -60,10 +61,12 @@
                                     </td>
                                 </tr>
                             }
-                        }
-                    </tbody>
-                </table>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                    </div>
+                </div>
+                </div>
             </div>
-        </div>
-    </div>
 

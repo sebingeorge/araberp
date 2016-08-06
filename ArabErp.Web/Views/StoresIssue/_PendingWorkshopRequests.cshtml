@@ -8,54 +8,58 @@
     }
 </script>
 
-<div class="scroll1">
-    <table class="table table-bordered">
-        <thead>
-            <tr class="grid_heading">
-                  <th width="48%"><h1>Customer</h1></th>
-                  <th width="12%"><h1>WR No. &amp; Date</h1></th>
-                  <th width="12%"><h1>SO No. &amp; Date</h1></th>
-                  <th width="10%" nowrap><h1>Required Date</h1></th>
-                  <th width="8%" nowrap><h1>Days Left</h1></th>
-                  <th width="5%" nowrap><h1>Ageing</h1></th>
-                  <th width="5%"></th>
-            </tr>
-         </thead>
-    <tbody id="table-body" class="grid_row">
+<div class="row">
+    <div class="main-grid main-grid-top scroll1">
+        <div class="table-responsive">
+            <table class="table table-bordered">
+                <thead>
+                    <tr class="grid_heading">
+                        <th width="48%"><h1>Customer</h1></th>
+                        <th width="12%"><h1>WR No. &amp; Date</h1></th>
+                        <th width="12%"><h1>SO No. &amp; Date</h1></th>
+                        <th width="10%" nowrap><h1>Required Date</h1></th>
+                        <th width="8%" nowrap><h1>Days Left</h1></th>
+                        <th width="5%" nowrap><h1>Ageing</h1></th>
+                        <th width="5%"></th>
+                    </tr>
+                </thead>
+                <tbody id="table-body" class="grid_row">
 
-        @for (int i = 0; i < Model.Count; i++)
-        {
-            <tr id="@i">
-                <td>
-                    @Html.TextBoxFor(m => m[i].CustomerName, new { @class = "form_input", @disabled = "true" })
-                </td>
-                <td>
-                    @* Workshop request number and date is received from db as a single string into 'WorkShopRequestRefNo' *@
-                        @Html.TextBoxFor(m => m[i].WorkShopRequestRefNo, new { @class = "form_input", @disabled = "true" })
-                    </td>
-                    <td>
-                        <input class="form_input" type="text" value="@Model[i].SoNoWithDate" disabled />
-                    </td>
-                    <td>
-                        <input class="form_input" type="text" value="@Model[i].RequiredDate.ToString("dd/MMM/yyyy")" disabled />
-                    </td>
-                    <td>
-                        <input class="form_input" type="text" value="@Model[i].DaysLeft" disabled />
-                    </td>
-                    <td>
-                        <input class="form_input" type="text" value="@Model[i].Ageing" disabled />
-                    </td>
-                    <td align="center">
-                        <input type="button" class="form-button4" onclick="Open('@Model[i].WorkShopRequestId')" value="Select" />
-                    </td>
-                </tr>
-            }
+                    @for (int i = 0; i < Model.Count; i++)
+                    {
+                        <tr id="@i">
+                            <td>
+                                @Html.TextBoxFor(m => m[i].CustomerName, new { @class = "form_input", @disabled = "true" })
+                            </td>
+                            <td>
+                                @* Workshop request number and date is received from db as a single string into 'WorkShopRequestRefNo' *@
+                                @Html.TextBoxFor(m => m[i].WorkShopRequestRefNo, new { @class = "form_input", @disabled = "true" })
+                            </td>
+                            <td>
+                                <input class="form_input" type="text" value="@Model[i].SoNoWithDate" disabled />
+                            </td>
+                            <td>
+                                <input class="form_input" type="text" value="@Model[i].RequiredDate.ToString("dd/MMM/yyyy")" disabled />
+                            </td>
+                            <td>
+                                <input class="form_input" type="text" value="@Model[i].DaysLeft" disabled />
+                            </td>
+                            <td>
+                                <input class="form_input" type="text" value="@Model[i].Ageing" disabled />
+                            </td>
+                            <td align="center">
+                                <input type="button" class="form-button4" onclick="Open('@Model[i].WorkShopRequestId')" value="Select" />
+                            </td>
+                        </tr>
+                    }
 
-        </tbody>
-    </table>
-</div>
+                </tbody>
+            </table>
+        </div>
+        </div>
 
-<div class="row-count4">
-  
-    <h5>Row Count:- @Model.Count()</h5>
-</div>
+        <div class="row-count1">
+
+            <h5>Row Count:- @Model.Count()</h5>
+        </div>
+    </div>
