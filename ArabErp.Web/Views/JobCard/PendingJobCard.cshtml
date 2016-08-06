@@ -74,14 +74,9 @@
                                     <td class="grid-cell">@item.CustomerOrderRef</td>
 
                                     <td><center>
-                                    @if (item.IsPaymentApprovedForJobOrder == 1)
-                                            {
+                                  
                                         <button class="form-button5" onclick="GotoJobcard(@item.SaleOrderItemId)">Select</button>
-                                            }
-                                    else
-                                    {
-                                        <span class="form_input perm">Approval Pending</span>
-                                    }
+                                     
                                     </center></td>
                                 </tr>
                             </tbody>
