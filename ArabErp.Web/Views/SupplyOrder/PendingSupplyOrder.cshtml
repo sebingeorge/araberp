@@ -28,7 +28,12 @@
     });
 
     function PreviousList() {
-        var url = '@Url.Action("PreviousList")';
+        var url = '@Url.Action("Index")';
+        window.location = url;
+    }
+
+    function Exit() {
+        var url = '@Url.Action("Index","Home")';
         window.location = url;
     }
 
@@ -51,7 +56,7 @@
         <div class="form-head1">
             <h4>Pending Purchase Requests</h4>
         </div>
-        <div class="main-part pad1">
+        <div class="main-part pad1 white">
             <form method="post" action="@Url.Action("Create", "SupplyOrder")" onsubmit="return formValidation()">
                 @*<div class=" table-responsive">
                         <table class="table table-bordered">
@@ -73,17 +78,17 @@
                     </div>*@
                 <div class="row">
 
-                    <div class="main-grid main-grid-top">
-                        <div class=" table-responsive scroll4">
+                    <div class="main-grid main-grid-top scroll1">
+                        <div class=" table-responsive">
                             <table class="table table-bordered">
                                 <thead>
                                     <tr class="grid_heading">
-                                        <th width="8%"><h1>PRS No. &amp; Date</h1></th>
-                                        <th width="8%"><h1>Required Date</h1></th>
-                                        <th width="8%"><h1>WR No. &amp; Date</h1></th>
-                                        <th width="25%"><h1>Special Remarks</h1></th>
-                                        <th width="1%" nowrap><h1>Ageing</h1></th>
-                                        <th width="1%" nowrap><center><h1>Select</h1></center></th>
+                                        <th width="12%"><h1>PRS No. &amp; Date</h1></th>
+                                        <th width="10%"><h1>Required Date</h1></th>
+                                        <th width="12%"><h1>WR No. &amp; Date</h1></th>
+                                        <th width="56%"><h1>Special Remarks</h1></th>
+                                        <th width="5%" nowrap><h1>Ageing</h1></th>
+                                        <th width="5%" nowrap><center><h1>Select</h1></center></th>
                                     </tr>
                                 </thead>
                                 <tbody class="grid_row">
@@ -125,65 +130,54 @@
                                 </tbody>
 
                             </table>
-                            
-
 
                         </div>
 
-
-
-                      
-
                     </div>
 
-
-
-                    <div class="row-count2">
-
+                    <div class="row-count1">
                         <h5>Row Count:- @Model.Count()</h5>
                     </div>
-                 
-
-                    <div class="col-md-12 hrpart">
+                </div>
+    
+                <div class="row">
+                    <div class="col-md-12 hrpart1">
                         <input type="button" class="form-button" onclick="PreviousList()" value="Previous" title="Previous supply orders">
+                        <input type="button" class=" form-button right" onclick="Exit()" value="Exit" />
                         <button type="submit" class="form-button right">Proceed</button>
+                    </div>
+                  </div>
+
+
+
+                    @*<div class="main-part wid pad1">
+            <div class="table-responsive">
+
+
+                <div class="row">
+
+                    <div class="col-md-12">
+
+
+                        <div class="col-md-4 col-sm-4 grid-left">PRS No. and Date</div>
+                        <div class="col-md-4 col-sm-4 grid-left">Required Date</div>
+                        <div class="col-md-4 col-sm-4 grid-left"></div>
+
+
+                        @for (int i = 0; i < Model.Count(); i++)
+                        {
+                            @Html.HiddenFor(m => m[i].PurchaseRequestId)
+                            <div class="col-md-4 col-sm-4"><div> @Model[i].PurchaseRequestNo  -  @Model[i].RequiredDate.ToString("dd/MMM/yyyy")  </div></div>
+                            <div class="col-md-4 col-sm-4"><div>@Model[i].RequiredDate.ToString("dd/MMM/yyyy") </div></div>
+                            <div class="col-md-4 col-sm-4"><div><center>@Html.CheckBoxFor(m => m[i].Select)</center></div></div>
+                        }
                     </div>
                 </div>
 
+                </div>
 
 
-
-
-
-
-                @*<div class="main-part wid pad1">
-                    <div class="table-responsive">
-
-
-                        <div class="row">
-
-                            <div class="col-md-12">
-
-
-                                <div class="col-md-4 col-sm-4 grid-left">PRS No. and Date</div>
-                                <div class="col-md-4 col-sm-4 grid-left">Required Date</div>
-                                <div class="col-md-4 col-sm-4 grid-left"></div>
-
-
-                                @for (int i = 0; i < Model.Count(); i++)
-                                {
-                                    @Html.HiddenFor(m => m[i].PurchaseRequestId)
-                                    <div class="col-md-4 col-sm-4"><div> @Model[i].PurchaseRequestNo  -  @Model[i].RequiredDate.ToString("dd/MMM/yyyy")  </div></div>
-                                    <div class="col-md-4 col-sm-4"><div>@Model[i].RequiredDate.ToString("dd/MMM/yyyy") </div></div>
-                                    <div class="col-md-4 col-sm-4"><div><center>@Html.CheckBoxFor(m => m[i].Select)</center></div></div>
-                                }
-                            </div>
-                        </div>
-
-                        </div>
-
-
-                    </div>*@
+            </div>*@
 
 
 
@@ -194,7 +188,7 @@
 
 
 
-            </form>
+</form>
         </div>
     </div>
 

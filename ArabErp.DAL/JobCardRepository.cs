@@ -32,7 +32,7 @@ namespace ArabErp
         //    }
 
         //}
-        public IEnumerable<PendingSO> GetPendingSO(int isProjectBased)
+        public IEnumerable<PendingSO> GetPendingSO(int isProjectBased, int OrganizationId)
         {
             using (IDbConnection connection = OpenConnection(dataConnection))
             {
@@ -44,7 +44,7 @@ namespace ArabErp
                 query += " left join VehicleModel V on V.VehicleModelId = W.VehicleModelId ";
                 query += " left join JobCard J on J.SaleOrderItemId = SI.SaleOrderItemId ";
                 query += " where J.SaleOrderItemId is null and S.SaleOrderApproveStatus = 1 ";
-                query += " and S.isActive=1 and S.SaleOrderApproveStatus=1 and S.SaleOrderHoldStatus IS NULL ";
+                query += " and S.isActive=1 and S.SaleOrderApproveStatus=1 and S.SaleOrderHoldStatus IS NULL and S.OrganizationId = " + OrganizationId.ToString() + "";
                 query += " and S.isProjectBased = " + isProjectBased.ToString();
                 return connection.Query<PendingSO>(query);
             }
@@ -249,7 +249,7 @@ namespace ArabErp
         {
             using (IDbConnection connection = OpenConnection(dataConnection))
             {
-                return connection.Query<Bay>("select BayId, BayName from Bay where BayId not in (select BayId from JobCard where ISNULL(JodCardCompleteStatus,0) = 0)");
+                return connection.Query<Bay>("select BayId, BayName from Bay where BayId not in (select isnull(BayId,0)BayId from JobCard where ISNULL(JodCardCompleteStatus,0) = 0)");
             }
         }
 
@@ -340,6 +340,17 @@ namespace ArabErp
                     }                    
                 }
                 return jc;
+            }
+        }
+        public IEnumerable<JobCard> GetAllJobCards( int ProjectBased,int id, int cusid, int OrganizationId, DateTime? from, DateTime? to)
+        {
+            using (IDbConnection connection = OpenConnection(dataConnection))
+            {
+                string qry = @"select JobCardId,JobCardNo,JobCardDate,CustomerName,S.CustomerId from JobCard J inner join SaleOrder S ON S.SaleOrderId=J.SaleOrderId
+                               inner join Customer C ON C.CustomerId=S.CustomerId
+                               where J.isActive=1 and J.OrganizationId = @OrganizationId and  J.JobCardId = ISNULL(NULLIF(@id, 0), J.JobCardId) and S.CustomerId = ISNULL(NULLIF(@cusid, 0), S.CustomerId)  AND J.JobCardDate BETWEEN ISNULL(@from, DATEADD(MONTH, -1, GETDATE())) AND ISNULL(@to, GETDATE()) and J.isProjectBased = @ProjectBased";
+                return connection.Query<JobCard>(qry, new { id = id, cusid = cusid, from = from, to = to, OrganizationId = OrganizationId, ProjectBased = ProjectBased }).ToList();
+
             }
         }
     }

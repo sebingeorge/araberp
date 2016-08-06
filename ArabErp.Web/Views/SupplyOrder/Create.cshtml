@@ -118,7 +118,6 @@
             id = 0;
 
         var ItemId="";
-
         $('.itmcodes').each(function (i, obj) {
 
             var abc = $("#SupplyOrderItems_" + i + "__ItemId").val();
@@ -147,16 +146,31 @@
                         }
                         else
                         {
-                            alert("hi");
+                            //alert("hi");
                         }
                     })
                     }
-                else {
-                   
-                }
-            
         }
         });
+
+
+        $.ajax({
+            url: "@Url.Action("GetPaymentTerm", "SupplyOrder")",
+            data: { supplierid: id },
+        cache: false,
+        type: "GET",
+        timeout: 10000,
+        dataType: "json",
+        success: function (result) {
+            
+            if (result.Success) { // this sets the value from the response
+
+                $('#PaymentTerms').val(result.PaymentTerms);
+            } else {
+                $('#SomeOtherHtmlTextBox').val("Failed");
+            }
+        }
+    });
        
     }
 </script>

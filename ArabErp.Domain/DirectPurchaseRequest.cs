@@ -8,6 +8,10 @@ namespace ArabErp.Domain
 {
     public class DirectPurchaseRequest
     {
+        public DirectPurchaseRequest()
+       {
+           items = new List<DirectPurchaseRequestItem>();
+       }
         public int DirectPurchaseRequestId { get; set; }
         public string PurchaseRequestNo { get; set; }
         public DateTime? PurchaseRequestDate { get; set; }
@@ -22,5 +26,12 @@ namespace ArabErp.Domain
         public int? SaleOrderId { get; set; }
         public int? JobCardId { get; set; }
         public List<DirectPurchaseRequestItem> items { get; set; }
+
+        public string SaleOrderRefNo { get; set; }
+        public DateTime SaleOrderDate { get; set; }
+        public string JobCardNo { get; set; }
+        public DateTime JobCardDate { get; set; }
+        public int Ageing { get; set; }
+        public int DaysLeft { get; set; }
     }
 }

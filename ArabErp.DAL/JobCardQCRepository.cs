@@ -21,8 +21,10 @@ namespace ArabErp.DAL
                 try
                 {
                     int id = 0;
+                    int internalId = DatabaseCommonRepository.GetInternalIDFromDatabase(connection, trn, typeof(JobCardQC).Name, "0", 1);
 
-                    string sql = @"INSERT INTO JobCardQC(JobCardId,EmployeeId,JobCardQCDate,IsQCPassed,CreatedBy,CreatedDate,OrganizationId) VALUES (@JobCardId,@EmployeeId,GETDATE(),@IsQCPassed,@CreatedBy,GETDATE(),@OrganizationId);
+                    objJobCardQC.JobCardQCRefNo = "JQC/" + internalId;
+                    string sql = @"INSERT INTO JobCardQC(JobCardId,JobCardQCRefNo,EmployeeId,JobCardQCDate,IsQCPassed,CreatedBy,CreatedDate,OrganizationId) VALUES (@JobCardId,@JobCardQCRefNo,@EmployeeId,GETDATE(),@IsQCPassed,@CreatedBy,GETDATE(),@OrganizationId);
            
 
                         SELECT CAST(SCOPE_IDENTITY() as int)";
@@ -132,13 +134,21 @@ namespace ArabErp.DAL
             using (IDbConnection connection = OpenConnection(dataConnection))
             {
                 var param = new DynamicParameters();
-                //return connection.Query<Dropdown>("x",
-                // return connection.Query<Dropdown>("dbo.usp_MvcGetDayClosingDetails", param, commandType: CommandType.StoredProcedure).ToList();
-                return connection.Query<Dropdown>("SELECT EmployeeName Name,EmployeeId Id FROM employee").ToList();
+                return connection.Query<Dropdown>("SELECT EmployeeName Name,EmployeeId Id FROM employee where isActive=1").ToList();
 
             }
         }
+        public IEnumerable<JobCardQC> GetPreviousList( int id, int cusid, int OrganizationId, DateTime? from, DateTime? to)
+        {
+            using (IDbConnection connection = OpenConnection(dataConnection))
+            {
+                string qry = @"select JobCardQCId,JobCardQCRefNo,JobCardQCDate ,JobCardNo,JobCardDate  from JobCardQC J inner join JobCard JC ON J.JobCardId=JC.JobCardId
+                             
+                               where J.isActive=1 and J.OrganizationId = @OrganizationId and  J.JobCardQCId = ISNULL(NULLIF(@id, 0), J.JobCardQCId)  AND J.JobCardQCDate BETWEEN ISNULL(@from, DATEADD(MONTH, -1, GETDATE())) AND ISNULL(@to, GETDATE())";
+                return connection.Query<JobCardQC>(qry, new { id = id, cusid = cusid, from = from, to = to, OrganizationId = OrganizationId}).ToList();
 
+            }
+        }
 
     }
 }

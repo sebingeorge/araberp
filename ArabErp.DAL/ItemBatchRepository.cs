@@ -294,12 +294,12 @@ namespace ArabErp.DAL
 	                                SO.SaleOrderRefNo,
 	                                CONVERT(VARCHAR, SO.SaleOrderDate, 106) SaleOrderDate,
 									
-									STUFF((SELECT ', ' + CAST(W.WorkDescrShortName AS VARCHAR(10)) [text()]
+									STUFF((SELECT ', ' + CAST(W.WorkDescrShortName AS VARCHAR(MAX)) [text()]
 									FROM SaleOrderItem SI inner join WorkDescription W on W.WorkDescriptionId=SI.WorkDescriptionId
 									WHERE SI.SaleOrderId = SO.SaleOrderId
 									FOR XML PATH(''), TYPE).value('.','NVARCHAR(MAX)'),1,2,' ') WorkDescrShortName,
 
-									STUFF((SELECT ', ' + CAST(BTCH.SerialNo AS VARCHAR(10)) [text()]
+									STUFF((SELECT ', ' + CAST(BTCH.SerialNo AS VARCHAR(MAX)) [text()]
 									FROM ItemBatch BTCH inner join SaleOrderItem SAL on BTCH.SaleOrderItemId = SAL.SaleOrderItemId
 									WHERE SAL.SaleOrderId = SOI.SaleOrderId
 									FOR XML PATH(''), TYPE).value('.','NVARCHAR(MAX)'),1,2,' ') SerialNo,
@@ -316,6 +316,7 @@ namespace ArabErp.DAL
                                 INNER JOIN WorkDescription WD ON SOI.WorkDescriptionId = WD.WorkDescriptionId
                                 WHERE IB.SaleOrderItemId IS NOT NULL
                                 AND ISNULL(IB.isActive, 1) = 1
+                                AND IB.DeliveryChallanId IS NULL
                                 ORDER BY SO.SaleOrderDate DESC, SO.CreatedDate DESC";
                 return connection.Query<PendingForSOIReservation>(query).ToList();
             }
@@ -328,14 +329,16 @@ namespace ArabErp.DAL
                 string query = @"SELECT
 	                                ItemBatchId,
 	                                I.ItemName,
-	                                IB.SerialNo
+	                                IB.SerialNo,
+                                    SO.SaleOrderId
                                 FROM ItemBatch IB
                                 INNER JOIN SaleOrderItem SOI ON IB.SaleOrderItemId = SOI.SaleOrderItemId
                                 INNER JOIN SaleOrder SO ON SOI.SaleOrderId = SO.SaleOrderId
                                 INNER JOIN GRNItem GI ON IB.GRNItemId = GI.GRNItemId
                                 INNER JOIN Item I ON GI.ItemId = I.ItemId
                                 WHERE SO.SaleOrderId = @id
-                                AND IB.isActive = 1";
+                                AND IB.isActive = 1
+                                AND IB.DeliveryChallanId IS NULL";
                 return connection.Query<ItemBatch>(query, new { id = SaleOrderId }).ToList();
             }
         }
@@ -346,9 +349,8 @@ namespace ArabErp.DAL
             {
                 using (IDbConnection connection = OpenConnection(dataConnection))
                 {
-                    string query = @"UPDATE ItemBatch SET SaleOrderItemId = NULL WHERE ItemBatchId IN @id";
-                    connection.Execute(query, new { id = selected });
-                    return 1;
+                    string query = @"UPDATE ItemBatch SET SaleOrderItemId = NULL WHERE ItemBatchId IN @id AND DeliveryChallanId IS NULL";
+                    return connection.Execute(query, new { id = selected });
                 }
             }
             catch (Exception ex)
@@ -370,29 +372,37 @@ namespace ArabErp.DAL
             using (IDbConnection connection = OpenConnection(dataConnection))
             {
                 string query = @"SELECT
+                                    SO.SaleOrderId,
 	                                IB.ItemBatchId,
 	                                G.GRNNo,
 	                                CONVERT(VARCHAR, G.GRNDate, 106) GRNDate,
-	                                ISNULL(SO.SaleOrderRefNo, '-') SaleOrderRefNo,
-	                                ISNULL(CONVERT(VARCHAR, SO.SaleOrderDate, 106), '-') SaleOrderDate,
+	                                SO.SaleOrderRefNo,
+	                                CONVERT(VARCHAR, SO.SaleOrderDate, 106) SaleOrderDate,
 	                                I.ItemName,
 	                                IB.SerialNo,
-	                                U.UserName AS CreatedBy
+	                                U.EmployeeName AS CreatedBy,
+                                    ISNULL(IB.DeliveryChallanId, 0) DeliveryChallanId,
+									ISNULL(DC.DeliveryChallanRefNo, '-') DeliveryChallanRefNo,
+									CONVERT(VARCHAR, IB.WarrantyExpireDate, 106) WarrantyExpireDate,
+									DATEDIFF(MONTH, GETDATE(), IB.WarrantyExpireDate) WarrantyLeft,
+									C.CustomerName
                                 FROM ItemBatch IB
-                                LEFT JOIN SaleOrderItem SOI ON IB.SaleOrderItemId = SOI.SaleOrderItemId
-                                LEFT JOIN SaleOrder SO ON SOI.SaleOrderId = SO.SaleOrderId
-                                INNER JOIN GRNItem GI ON IB.GRNItemId = GI.GRNItemId
-                                INNER JOIN GRN G ON GI.GRNId = G.GRNId
-                                INNER JOIN Item I ON GI.ItemId = I.ItemId
-                                LEFT JOIN [User] U ON IB.CreatedBy = U.UserId
+                                    LEFT JOIN SaleOrderItem SOI ON IB.SaleOrderItemId = SOI.SaleOrderItemId
+                                    LEFT JOIN SaleOrder SO ON SOI.SaleOrderId = SO.SaleOrderId
+                                    INNER JOIN GRNItem GI ON IB.GRNItemId = GI.GRNItemId
+                                    INNER JOIN GRN G ON GI.GRNId = G.GRNId
+                                    INNER JOIN Item I ON GI.ItemId = I.ItemId
+                                    LEFT JOIN Employee U ON IB.CreatedBy = U.EmployeeId
+                                    INNER JOIN Customer C ON SO.CustomerId = C.CustomerId
+									LEFT JOIN DeliveryChallan DC ON IB.DeliveryChallanId = DC.DeliveryChallanId
                                 WHERE ISNULL(IB.isActive, 1) = 1
-								AND IB.SerialNo LIKE '%'+@serialno+'%'
-								AND I.ItemId = ISNULL(NULLIF(@item, 0), I.ItemId)
-								AND ISNULL(SO.SaleOrderId, 0) = ISNULL(NULLIF(ISNULL(@saleorder, 0), 0), ISNULL(SO.SaleOrderId, 0))
+								    AND IB.SerialNo LIKE '%'+@serialno+'%'
+								    AND I.ItemId = ISNULL(NULLIF(@item, 0), I.ItemId)
+								    AND ISNULL(SO.SaleOrderId, 0) = ISNULL(NULLIF(ISNULL(@saleorder, 0), 0), ISNULL(SO.SaleOrderId, 0))
                                 ORDER BY G.GRNDate DESC, IB.CreatedDate DESC;";
                 if (type == 1)
                 {
-                    query = query.Insert(query.IndexOf("ORDER BY"), "AND SO.SaleOrderId IS NOT NULL ");
+                    query = query.Insert(query.IndexOf("ORDER BY"), "AND SO.SaleOrderId IS NOT NULL AND IB.DeliveryChallanId IS NULL ");
                 }
                 else if (type == 2)
                 {
@@ -400,8 +410,9 @@ namespace ArabErp.DAL
                 }
                 else if (type == 3)
                 {
-                    query = query.Insert(query.IndexOf("WHERE"), "LEFT JOIN SalesInvoiceItem SI ON SOI.SaleOrderItemId = SI.SaleOrderItemId ");
-                    query = query.Insert(query.IndexOf("ORDER BY"), "AND SI.SaleOrderItemId IS NOT NULL ");
+                    //query = query.Insert(query.IndexOf("WHERE"), "LEFT JOIN ItemBatch IB1 ON SOI.SaleOrderItemId = SI.SaleOrderItemId ");
+                    //query = query.Insert(query.IndexOf("ORDER BY"), "AND SI.SaleOrderItemId IS NOT NULL ");
+                    query = query.Insert(query.IndexOf("ORDER BY"), "AND IB.DeliveryChallanId IS NOT NULL ");
                 }
                 return connection.Query<ItemBatch>(query, new { serialno = serialno, item = item, saleorder = saleorder }).ToList();
             }
@@ -436,6 +447,123 @@ namespace ArabErp.DAL
                     query = query.Replace("SOI.SaleOrderItemId = @id", "SO.SaleOrderId = @id");
                 }
                 return connection.Query<ItemBatch>(query, new { id = id }).First();
+            }
+        }
+
+        public FGTracking FGTrackingDetailsByItemBatchId(int itemBatchId)
+        {
+            using (IDbConnection connection = OpenConnection(dataConnection))
+            {
+//                string query = @"SELECT 
+//	                                SI.SalesInvoiceRefNo,
+//	                                SI.SalesInvoiceId,
+//	                                CONVERT(VARCHAR, SI.SalesInvoiceDate, 106) SalesInvoiceDate,
+//	                                ISNULL(SII.Amount, 0) Amount,
+//	                                SI.SpecialRemarks
+//                                FROM SalesInvoice SI
+//                                INNER JOIN SalesInvoiceItem SII ON SI.SalesInvoiceId = SII.SalesInvoiceId
+//                                INNER JOIN ItemBatch IB ON SII.SaleOrderItemId = IB.SaleOrderItemId
+//                                WHERE IB.ItemBatchId = @itemBatchId";
+                string query = @"SELECT 
+									IB.ItemBatchId,
+									IB.SerialNo,
+									DC.DeliveryChallanRefNo,
+									CONVERT(VARCHAR, DC.DeliveryChallanDate, 106) DeliveryChallanDate,
+									CONVERT(VARCHAR,IB.WarrantyExpireDate, 106) WarrantyExpireDate,
+									DATEDIFF(MONTH, GETDATE(), IB.WarrantyExpireDate) WarrantyLeft,
+	                                SI.SalesInvoiceRefNo,
+	                                SI.SalesInvoiceId,
+	                                CONVERT(VARCHAR, SI.SalesInvoiceDate, 106) SalesInvoiceDate,
+	                                ISNULL(SII.Amount, 0) SalesInvoiceAmount,
+	                                SI.SpecialRemarks SalesInvoiceRemarks,
+									I.ItemName,
+									G.GRNNo,
+									G.GRNDate,
+									S.SupplierName,
+									GI.Amount GRNAmount,
+									GI.Quantity GRNQuantity,
+									GI.Rate GRNRate,
+									SP.StockPointName,
+									PB.PurchaseBillRefNo,
+									CONVERT(VARCHAR, PB.PurchaseBillDate, 106) PurchaseBillDate,
+									GI.Quantity GRNQuantity,
+									PBI.Rate PurchaseBillRate,
+									PBI.Amount PurchaseBillAmount,
+									SO.SaleOrderRefNo,
+									CONVERT(VARCHAR, SO.SaleOrderDate, 106) SaleOrderDate,
+									EMP.EmployeeName,
+									CUS.CustomerName
+                                FROM SalesInvoice SI
+                                LEFT JOIN SalesInvoiceItem SII ON SI.SalesInvoiceId = SII.SalesInvoiceId
+                                RIGHT JOIN ItemBatch IB ON SII.SaleOrderItemId = IB.SaleOrderItemId
+								LEFT JOIN GRNItem GI ON IB.GRNItemId = GI.GRNItemId
+								INNER JOIN GRN G ON GI.GRNId = G.GRNId
+								LEFT JOIN Item I ON GI.ItemId = I.ItemId
+								LEFT JOIN Supplier S ON G.SupplierId = S.SupplierId
+								LEFT JOIN Stockpoint SP ON G.WareHouseId = SP.StockPointId
+								LEFT JOIN PurchaseBillItem PBI ON GI.GRNItemId = PBI.GRNItemId
+								LEFT JOIN PurchaseBill PB ON PBI.PurchaseBillId = PB.PurchaseBillId
+								LEFT JOIN SaleOrderItem SOI ON IB.SaleOrderItemId = SOI.SaleOrderItemId
+								LEFT JOIN SaleOrder SO ON SOI.SaleOrderId = SO.SaleOrderId
+								LEFT JOIN Employee EMP ON SO.SalesExecutiveId = EMP.EmployeeId
+								LEFT JOIN Customer CUS ON SO.CustomerId = CUS.CustomerId
+								LEFT JOIN DeliveryChallan DC ON IB.DeliveryChallanId = DC.DeliveryChallanId
+                                WHERE IB.ItemBatchId = @itemBatchId";
+                FGTracking model = connection.Query<FGTracking>(query, new { itemBatchId = itemBatchId }).First();
+
+                query = @"SELECT
+	                            JC.JobCardNo,
+	                            CONVERT(VARCHAR, JC.JobCardDate, 106) JobCardDate,
+	                            JCT.ActualHours,
+	                            JM.JobCardTaskName,
+	                            EMP.EmployeeName AS TaskEmployeeName
+                            FROM ItemBatch IB
+                            INNER JOIN JobCard JC ON IB.SaleOrderItemId = JC.SaleOrderItemId
+                            INNER JOIN JobCardTask JCT ON JC.JobCardId = JCT.JobCardId
+                            LEFT JOIN JobCardTaskMaster JM ON JCT.JobCardTaskMasterId = JM.JobCardTaskMasterId
+                            LEFT JOIN Employee EMP ON JCT.EmployeeId = EMP.EmployeeId
+                            INNER JOIN GRNItem GI ON IB.GRNItemId = GI.GRNItemId
+                            INNER JOIN WorkDescription WD ON JC.WorkDescriptionId = WD.WorkDescriptionId
+                            INNER JOIN WorkVsItem WI ON WD.WorkDescriptionId = WI.WorkDescriptionId AND WI.ItemId = GI.ItemId
+                            WHERE IB.ItemBatchId = @itemBatchId";
+                model.JobCardTasks = connection.Query<FGTracking>(query, new { itemBatchId = itemBatchId }).ToList();
+
+                return model;
+            }
+        }
+
+        public IList<ItemBatch> PreviousList(int id, DateTime? from, DateTime? to, int OrganizationId)
+        {
+            using (IDbConnection connection = OpenConnection(dataConnection))
+            {
+                string query = @"SELECT DISTINCT
+	                                G.GRNId,
+	                                G.GRNNo,
+	                                CONVERT(VARCHAR, G.GRNDate, 106) GRNDate,
+	                                --SOI.SaleOrderItemId,
+	                                --DeliveryChallanId,
+	
+	                                STUFF((SELECT ', ' + CAST(T1.SerialNo AS VARCHAR(MAX)) [text()]
+									                                FROM ItemBatch T1
+									                                WHERE T1.GRNItemId = IB.GRNItemId
+									                                FOR XML PATH(''), TYPE).value('.','NVARCHAR(MAX)'),1,2,'') SerialNo,
+
+	                                CONVERT(VARCHAR, IB.CreatedDate, 106) CreatedDate
+                                FROM ItemBatch IB
+                                INNER JOIN GRNItem GI ON IB.GRNItemId = GI.GRNItemId
+                                INNER JOIN GRN G ON GI.GRNId = G.GRNId
+                                WHERE G.GRNId = ISNULL(NULLIF(CAST(@id AS INT), 0), G.GRNId)
+                                AND IB.OrganizationId = @OrganizationId
+                                AND IB.isActive = 1
+								AND G.GRNDate BETWEEN ISNULL(@from, DATEADD(MONTH, -1, GETDATE())) AND ISNULL(@to, GETDATE())";
+                var list = connection.Query<ItemBatch>(query, new
+                {
+                    OrganizationId = OrganizationId,
+                    id = id,
+                    from = from,
+                    to = to
+                }).ToList();
+                return list;
             }
         }
     }

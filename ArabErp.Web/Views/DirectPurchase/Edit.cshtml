@@ -1,0 +1,235 @@
+﻿@model ArabErp.Domain.DirectPurchaseRequest
+@{
+    ViewBag.Title = "Edit Direct Purchase Request";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<style>
+    .divHidden {
+        visibility: hidden;
+    }
+
+    .divShow {
+        visibility: visible;
+    }
+</style>
+<script>
+
+    function Exit() {
+        location.href = '@Url.Action("Index")';
+    }
+
+    function Delete(id) {
+        alert(id);
+        var url = '@Url.Action("Delete")';
+        url += "/" + id;
+        window.location = url;
+    }
+
+    $(document).ready(function () {
+        toastr.options = {
+            "closeButton": true,
+            "positionClass": "toast-bottom-full-width",
+            "preventDuplicates": false,
+            "onclick": null,
+            "showDuration": "300",
+            "hideDuration": "1000",
+            "timeOut": "5000",
+            "extendedTimeOut": "1000",
+            "showEasing": "swing",
+            "hideEasing": "linear",
+            "showMethod": "fadeIn",
+            "hideMethod": "fadeOut"
+        }
+        if ('@TempData["success"]' != "") {
+            toastr.success('@TempData["success"]');
+        }
+        else if ('@TempData["error"]' != "") {
+            toastr.error('@TempData["error"]');
+        }
+
+        getPurchaseLimit();
+        OptionChanged();
+
+        $('#purchasereq_form').bootstrapValidator({
+            // To use feedback icons, ensure that you use Bootstrap v3.1.0 or later
+            //feedbackIcons: {
+            //    valid: 'glyphicon glyphicon-ok',
+            //    invalid: 'glyphicon glyphicon-remove',
+            //    validating: 'glyphicon glyphicon-refresh'
+            //},
+            fields: {
+                PurchaseRequestNo: {
+                    validators: {
+                        notEmpty: {
+                            message: 'Please enter PurchaseRequest No.'
+                        }
+                    }
+                },
+                PurchaseRequestDate: {
+                    validators: {
+                        notEmpty: {
+                            message: 'Please select PurchaseRequest Date'
+                        }
+                    }
+                },
+                RequiredDate: {
+                    validators: {
+                        notEmpty: {
+                            message: 'Please enter Required Date.'
+                        }
+                    }
+                }
+            }
+        });
+    })
+
+    $(function () {
+        $("#PurchaseRequestDate").datepicker({
+            dateFormat: "d-MM-yy"
+        });
+        $("#RequiredDate").datepicker({
+            dateFormat: "d-MM-yy"
+        });
+        //$("#PurchaseRequestDate").change(function (s, e) {
+        //    getPurchaseLimit($(this).val());
+        //});
+    });
+
+    function getPurchaseLimit(date) {
+        var url = '@Url.Action("GetPurchaseLimit")';
+        $.getJSON(url, function (data) {
+            if (data == "error") {
+                toastr.error("Some error occured while fetching the purchase limit. Please reload the page and try again.");
+                $("#purchaseLimit").val(-1);
+            }
+            else {
+                $("#purchaseLimitDiv").html("<em>Direct Purchase limit w.e.f. <strong>" + data.split('|')[0] + "</strong> is <strong>" + data.split('|')[1] + "</strong></em>");
+                $("#purchaseLimit").val(data.split('|')[1]);
+            }
+        });
+    }
+
+    function formValidation() {
+        var total = 0;
+        var limit = $("#purchaseLimit").val();
+
+        if (limit == -1) {
+            toastr.error("Couldn't fetch the purchase limit. Please reload the page and try again.");
+            return false;
+        }
+        else {
+            $("input[id$='__Amount']").each(function (i, obj) {
+                total += Number($(obj).val());
+            });
+
+            if (total > Number(limit)) {
+                toastr.error("Total purchase amount cannot be greater than the purchase limit");
+                return false;
+            }
+        }
+        return true;
+    }
+
+    function OptionChanged() {
+        var opt = $("#SoOrJc").val();
+        //$("#SoOrJc").val(opt);
+        if (opt == "JC") {
+            $("#againstId").text("Job Card");
+            $("#SaleOrderId").removeClass("divHidden");
+            $("#JobCardId").removeClass("divHidden");
+            $("#SaleOrderId").removeClass("divShow");
+            $("#JobCardId").removeClass("divShow");
+            $("#SaleOrderId").addClass("divHidden");
+            $("#JobCardId").addClass("divShow");
+        }
+        if (opt == "SO") {
+            $("#againstId").text("Sale Order");
+            $("#SaleOrderId").removeClass("divHidden");
+            $("#JobCardId").removeClass("divHidden");
+            $("#SaleOrderId").removeClass("divShow");
+            $("#JobCardId").removeClass("divShow");
+            $("#SaleOrderId").addClass("divShow");
+            $("#JobCardId").addClass("divHidden");
+        }
+    }
+
+
+
+</script>
+
+<div class="row">
+
+    <div class="form-head1">
+        <h4>Direct Purchase Request</h4>
+    </div>
+
+    <div class="main-part pad1">
+        @*@using (Html.BeginForm(null, null, FormMethod.Post, new { @class = "createFrom", @id = "purchasereq_form", @onsubmit = "return formValidation()" }))
+            {*@
+        <form method="post" role="form" onsubmit="return formValidation()">
+            <input type="hidden" id="purchaseLimit" />
+            <div class="row form-group">
+                <div class="col-md-2">
+                    @Html.HiddenFor(m => m.DirectPurchaseRequestId, new { @class = "form_input", autocomplete = "off" })
+                    <label for="PurchaseRequestNo">PR No.</label>
+                    @Html.TextBoxFor(m => m.PurchaseRequestNo, new { @class = "form_input", autocomplete = "off", @onchange = "OnRequestDateChanged(this)", @required = "true" })
+                </div>
+                <div class="col-md-2">
+                    <label for="PurchaseRequestDate">Date</label>
+                    @Html.TextBoxFor(m => m.PurchaseRequestDate, Model.PurchaseRequestDate.Value.ToString("dd/MMMM/yyyy"), new { @class = "form_input", autocomplete = "off", @required = "true" })
+                </div>
+                <div class="col-md-2">
+                    <label for="RequiredDate">Required Date</label>
+                    @Html.TextBoxFor(m => m.RequiredDate, Model.RequiredDate.Value.ToString("dd/MMMM/yyyy"), new { @class = "form_input", autocomplete = "off" })
+                </div>
+                <div class="col-md-2">
+                    <label>Sale Ord. / Job Card</label>
+                    @*@Html.HiddenFor(m => m.SoOrJc)*@
+                    @Html.DropDownListFor(m => m.SoOrJc, new List<SelectListItem> { new SelectListItem { Text = "Job Card", Value = "JC" }, new SelectListItem { Text = "Sale Order", Value = "SO" } }, "Select SO/JC", new { @class = "form_input", @onchange = "OptionChanged()" })
+
+                    @*<select class="form_input" id="JcOrSo" onchange="OptionChanged()">
+                        <option>Select</option>
+                        <option value="JC">Job Card</option>
+                        <option value="SO">Sale Order</option>
+                    </select>*@
+                </div>
+                <div class="col-md-2">
+                    <label id="againstId"></label>
+                    @Html.DropDownListFor(m => Model.SaleOrderId, (SelectList)ViewBag.SO, "Select S.O", new { @class = "form_input divHidden", autocomplete = "off" })
+                    @Html.DropDownListFor(m => Model.JobCardId, (SelectList)ViewBag.JC, "Select J.C", new { @class = "form_input divHidden against", autocomplete = "off" })
+                </div>
+            </div>
+            <div class="row form-group">
+                <div class="col-md-12" id="purchaseLimitDiv">
+
+                </div>
+            </div>
+            <div class="table-responsive">
+                @Html.Partial("_grid")
+            </div>
+
+            <div class="row form-group">
+                <div class="col-md-12">
+                    <div class="part1">
+                        <label for="SpecialRemarks">Special Remarks</label>
+                        @Html.TextAreaFor(m => m.SpecialRemarks, new { @class = "form_input form_input-h", autocomplete = "off" })
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+
+                <div class="col-md-12 hrpart">
+                    <button type="button" class="form-button left" onclick="Delete('@Model.DirectPurchaseRequestId')">Delete</button>
+                    <button type="button" class="form-button right" onclick="Exit()">Exit</button>
+                    <button type="submit" class="form-button right">Edit</button>
+                </div>
+
+            </div>
+
+
+            @*}*@
+        </form>
+    </div>
+</div>

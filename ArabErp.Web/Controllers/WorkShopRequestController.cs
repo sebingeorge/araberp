@@ -15,6 +15,8 @@ namespace ArabErp.Web.Controllers
         // GET: WorkShopRequest
         public ActionResult Index()
         {
+            FillWRNo();
+            FillCustomerinWR();
             return View();
         }
 
@@ -24,10 +26,15 @@ namespace ArabErp.Web.Controllers
         public ActionResult Create(int? SaleOrderId)
         {
             WorkShopRequestRepository repo = new WorkShopRequestRepository();
-
             WorkShopRequest model = repo.GetSaleOrderForWorkshopRequest(SaleOrderId ?? 0);
             model.WorkDescription = repo.GetCombinedWorkDescriptionSaleOrderForWorkshopRequest(SaleOrderId ?? 0).WorkDescription;
-           
+            var WSList = repo.GetWorkShopRequestData(SaleOrderId ?? 0);
+            model.Items = new List<WorkShopRequestItem>();
+            foreach (var item in WSList)
+            {
+                model.Items.Add(new WorkShopRequestItem { PartNo = item.PartNo, ItemName = item.ItemName, Quantity = item.Quantity, UnitName = item.UnitName, ItemId = item.ItemId, ActualQuantity = item.Quantity });
+
+            }
             string internalId = "";
             try
             {
@@ -44,7 +51,6 @@ namespace ArabErp.Web.Controllers
                 TempData["success"] = "";
                 TempData["error"] = "Some error occurred. Please try again.|" + ex.Message;
             }
-            
             model.WorkShopRequestRefNo = "WOR/" + internalId;
             model.WorkShopRequestDate = System.DateTime.Today;
             model.RequiredDate = System.DateTime.Today;
@@ -56,7 +62,7 @@ namespace ArabErp.Web.Controllers
             var rep = new SaleOrderRepository();
 
 
-            var slist = rep.GetSaleOrdersPendingWorkshopRequest();
+            var slist = rep.GetSaleOrdersPendingWorkshopRequest(OrganizationId);
 
             var pager = new Pager(slist.Count(), page);
 
@@ -69,21 +75,7 @@ namespace ArabErp.Web.Controllers
             return View(viewModel);
         }
 
-      
-
-               public ActionResult WorkShopRequestData(SaleOrder model)
-             {
-
-                var repo = new WorkShopRequestRepository();
-                var WSList = repo.GetWorkShopRequestData(model.SaleOrderId);
-                model.Items = new List<SaleOrderItem>();
-                foreach (var item in WSList)
-                {
-                    model.Items.Add(new SaleOrderItem { PartNo = item.PartNo, ItemName = item.ItemName, Quantity = item.Quantity, UnitName = item.UnitName, ItemId = item.ItemId, ActualQuantity=item.Quantity });
-
-                }
-                return PartialView("_DisplayWorkShopRequestData", model);
-           }
+          
                [HttpPost]
                public ActionResult Save(WorkShopRequest model)
                {
@@ -91,7 +83,7 @@ namespace ArabErp.Web.Controllers
                        model.OrganizationId = OrganizationId;
                    model.CreatedDate = System.DateTime.Now;
                    model.CreatedBy = Request.ServerVariables["HTTP_X_FORWARDED_FOR"] ?? Request.ServerVariables["REMOTE_ADDR"];
-                   //new WorkShopRequestRepository().InsertWorkShopRequest(model);
+                
                    string id = new WorkShopRequestRepository().InsertWorkShopRequest(model);
                    if (id.Split('|')[0] != "0")
                    {
@@ -119,6 +111,33 @@ namespace ArabErp.Web.Controllers
                    TempData["success"] = "";
                   return RedirectToAction("WorkShopRequestPending");
                }
+               public ActionResult PreviousList(DateTime? from, DateTime? to,int id = 0, int cusid = 0)
+               {
+                   return PartialView("_PreviousList", new WorkShopRequestRepository().GetPrevious(from, to, id, cusid, OrganizationId));
+               }
+        public ActionResult Edit(int? id)
+        {
+           
+            var repo = new WorkShopRequestRepository();
+            WorkShopRequest model = repo.GetWorkshopRequestHdData(id ?? 0);
+            var WSList = repo.GetWorkShopRequestDtData(id ?? 0);
+            model.Items = new List<WorkShopRequestItem>();
+            foreach (var item in WSList)
+            {
+                model.Items.Add(new WorkShopRequestItem { PartNo = item.PartNo, ItemName = item.ItemName, Quantity = item.Quantity, UnitName = item.UnitName, ItemId = item.ItemId });
+
+            }
+            return View("Edit", model);
+        }
+        public void FillWRNo()
+        {
+            ViewBag.WRNoList = new SelectList(new DropdownRepository().WRNODropdown(OrganizationId), "Id", "Name");
+        }
+        public void FillCustomerinWR()
+        {
+            ViewBag.CusList = new SelectList(new DropdownRepository().WRCustomerDropdown(OrganizationId), "Id", "Name");
+        }
+
     }
 
 }

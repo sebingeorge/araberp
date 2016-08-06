@@ -300,5 +300,82 @@ namespace ArabErp.DAL
                 return CancelStatus;
             }
         }
+
+        public IEnumerable<SalesQuotationList> GetPreviousList(int isProjectBased, int id, int cusid, int OrganizationId, DateTime? from, DateTime? to)
+        {
+            using (IDbConnection connection = OpenConnection(dataConnection))
+            {
+                string sql = @"select Q.SalesQuotationId, Q.QuotationRefNo, Q.QuotationDate, C.CustomerName, E.EmployeeName, Q.Amount,RR.ReasonDescription
+                               from SalesQuotation Q 
+                               inner join Customer C on C.CustomerId = Q.CustomerId
+                               inner join Employee E on E.EmployeeId = Q.SalesExecutiveId
+                               inner join SalesQuotationRejectReason RR on RR.SalesQuotationRejectReasonId=q.SalesQuotationRejectReasonId
+                               where Q.SalesQuotationId= ISNULL(NULLIF(@id, 0), Q.SalesQuotationId) AND C.CustomerId = ISNULL(NULLIF(@cusid, 0), C.CustomerId) 
+                               and Q.QuotationDate BETWEEN ISNULL(@from, DATEADD(MONTH, -1, GETDATE())) AND ISNULL(@to, GETDATE())
+                               and Q.OrganizationId = @OrganizationId  and isProjectBased =" + isProjectBased;
+
+                return connection.Query<SalesQuotationList>(sql, new { OrganizationId = OrganizationId, id = id, cusid = cusid, to = to, from = from }).ToList();
+            }
+        }
+
+        public int CHECK(int SalesQuotationId)
+        {
+            using (IDbConnection connection = OpenConnection(dataConnection))
+            {
+                string sql = @" SELECT Count(SalesQuotationId)Count FROM SalesQuotation     
+                                WHERE IsQuotationApproved =1 AND SalesQuotationId=@SalesQuotationId";
+
+                var id = connection.Query<int>(sql, new { SalesQuotationId = SalesQuotationId }).FirstOrDefault();
+
+                return id;
+
+            }
+
+        }
+
+
+        /// <summary>
+        /// Delete SQ HD Details
+        /// </summary>
+        /// <returns></returns>
+        public int DeleteSQHD(int Id)
+        {
+            int result = 0;
+            using (IDbConnection connection = OpenConnection(dataConnection))
+            {
+                string sql = @" DELETE FROM SalesQuotation WHERE SalesQuotationId=@Id";
+
+                {
+
+                    var id = connection.Execute(sql, new { Id = Id });
+                    return id;
+
+                }
+
+            }
+        }
+        /// <summary>
+        /// Delete SQ DT Details
+        /// </summary>
+        /// <returns></returns>
+        public int DeleteSQDT(int Id)
+        {
+            int result3 = 0;
+            using (IDbConnection connection = OpenConnection(dataConnection))
+            {
+                string sql = @" DELETE FROM SalesQuotationItem WHERE SalesQuotationId=@Id";
+
+                {
+
+                    var id = connection.Execute(sql, new { Id = Id });
+                    return id;
+
+                }
+
+            }
+        }
+
+
+
     }
 }

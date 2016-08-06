@@ -7,7 +7,7 @@
 <script>
 
     function PreviousList() {
-        var url = '@Url.Action("PreviousList")';
+        var url = '@Url.Action("Index")';
         window.location = url;
     }
 
@@ -59,12 +59,12 @@
                         <table class="table table-bordered">
                             <thead>
                                 <tr class="grid_heading">
-                                    <th><h1>WR.No. & Date</h1></th>
-                                    <th><h1>Customer</h1></th>
-                                    <th><h1>Customer Order Ref.</h1></th>
-                                    <th><h1>SO.No. & Date</h1></th>
-                                    <th><h1>Ageing</h1></th>
-                                    <th><h1>Required Date</h1></th>
+                                    <th width="12%"><h1>WR.No. & Date</h1></th>
+                                    <th width="46%"><h1>Customer</h1></th>
+                                    <th width="12%"><h1>Customer Order Ref.</h1></th>
+                                    <th width="10%"><h1>SO.No. & Date</h1></th>
+                                    <th width="5%"><h1>Ageing</h1></th>
+                                    <th width="10%"><h1>Required Date</h1></th>
                                     <th width="5%"><center><h1>Select</h1></center></th>
 
                                 </tr>
@@ -88,15 +88,16 @@
                         </table>
                     </div>
                 </div>
+                <div class="row-count1">
+                    <h5>Row Count:- @Model.Count()</h5>
+                </div>
             </div>
 
-            </br>
-            <div class="row-count">
-                <h5>Row Count:- @Model.Count()</h5>
-            </div>
+           
+
 
             <div class="row">
-                <div class="col-md-12 hrpart">
+                <div class="col-md-12 hrpart1">
                     <input class="form-button left" type="button" value="Previous" onclick="PreviousList()" />
                     <input class="form-button right" type="button" value="Exit" onclick="Exit()" />
                 </div>

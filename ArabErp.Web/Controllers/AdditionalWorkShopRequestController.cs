@@ -13,13 +13,22 @@ namespace ArabErp.Web.Controllers
         // GET: AdditionalWorkShopRequest
         public ActionResult Index()
         {
+            FillCustomer();
+            FillWorkshopRequests();
+            FillJobCard();
             return View();
         }
+
+        public ActionResult PreviousList(DateTime? from, DateTime? to, int id = 0, int customer = 0, int jobcard = 0)
+        {
+            return PartialView("_PreviousListGrid", new WorkShopRequestRepository().PreviousList(OrganizationId: OrganizationId, from: from, to: to, id: id, jobcard: jobcard, customer: customer));
+        }
+
         public ActionResult Create()
         {
             JobCardDropdown();
             string internalid = DatabaseCommonRepository.GetNextRefNoWithNoUpdate(typeof(WorkShopRequest).Name);
-   
+
             //return View(new Employee { EmployeeRefNo = "EMP/" + internalid });
 
             return View(new WorkShopRequest { WorkShopRequestDate = DateTime.Today, RequiredDate = DateTime.Today, WorkShopRequestRefNo = "WR/" + internalid });
@@ -91,5 +100,20 @@ namespace ArabErp.Web.Controllers
         {
             return Json(new WorkShopRequestRepository().GetItemPartNo(itemId), JsonRequestBehavior.AllowGet);
         }
+
+        #region Dropdowns
+        private void FillWorkshopRequests()
+        {
+            ViewBag.wrList = new SelectList(new DropdownRepository().WorkshopRequestDropdown(OrganizationId: OrganizationId), "Id", "Name");
+        }
+        private void FillCustomer()
+        {
+            ViewBag.customerList = new SelectList(new DropdownRepository().CustomerForAdditionalWorkshopRequest(OrganizationId: OrganizationId), "Id", "Name");
+        }
+        private void FillJobCard()
+        {
+            ViewBag.jobcardList = new SelectList(new DropdownRepository().JobCardForAdditionalWorkshopRequest(OrganizationId: OrganizationId), "Id", "Name");
+        }
+        #endregion
     }
 }

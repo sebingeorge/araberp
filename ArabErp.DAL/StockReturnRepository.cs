@@ -23,6 +23,7 @@ namespace ArabErp.DAL
                 IDbTransaction txn = connection.BeginTransaction();
                 try
                 {
+                    model.StockReturnRefNo = "SR/" + DatabaseCommonRepository.GetInternalIDFromDatabase(connection, txn, typeof(StockReturn).Name, "0", 1);
                     string sql = @"insert  into StockReturn(
                             StockReturnRefNo,
                             StockReturnDate,
@@ -145,7 +146,7 @@ namespace ArabErp.DAL
                                 INNER JOIN WorkShopRequest WR ON WRI.WorkShopRequestId = WR.WorkShopRequestId
                                 WHERE JobCardId = @jobCardId
                                 )";
-                return connection.Query<Dropdown>(query, 
+                return connection.Query<Dropdown>(query,
                     new { JobCardId = jobCardId }).ToList();
             }
         }
@@ -163,9 +164,44 @@ namespace ArabErp.DAL
                                 INNER JOIN Customer C ON S.CustomerId = C.CustomerId 
                                 INNER JOIN WorkDescription W ON J.WorkDescriptionId = W.WorkDescriptionId
                                 WHERE J.JobCardId = @JobCardId";
-                return connection.Query<string>(query, 
+                return connection.Query<string>(query,
                     new { JobCardId = id }).First<string>();
             }
-        } 
+        }
+
+        public IEnumerable<StockReturn> PreviousList(int OrganizationId, DateTime? from, DateTime? to, int id, int jobcard)
+        {
+            using (IDbConnection connection = OpenConnection(dataConnection))
+            {
+                string query = @"SELECT
+	                                SR.StockReturnId,
+	                                SR.StockReturnRefNo,
+	                                CONVERT(VARCHAR, SR.StockReturnDate, 106) StockReturnDate,
+	                                JC.JobCardNo,
+	                                CONVERT(VARCHAR, JC.JobCardDate, 106) JobCardDate,
+	                                ISNULL(SR.SpecialRemarks, '-') SpecialRemarks,
+
+	                                STUFF((SELECT ', ' + CAST(T2.ItemName + ' ('+CAST(T1.Quantity AS VARCHAR)+')' AS VARCHAR) [text()]
+	                                FROM StockReturnItem T1 INNER JOIN Item T2 ON T1.ItemId = T2.ItemId
+	                                WHERE SR.StockReturnId = T1.StockReturnId
+	                                FOR XML PATH(''), TYPE).value('.','NVARCHAR(MAX)'),1,2,'') ItemName
+
+                                FROM StockReturn SR
+	                                INNER JOIN JobCard JC ON SR.JobCardId = JC.JobCardId
+                                WHERE SR.OrganizationId = @OrganizationId
+                                    AND SR.isActive = 1
+                                    AND CONVERT(DATE, SR.StockReturnDate, 106) BETWEEN ISNULL(@from, DATEADD(MONTH, -1, GETDATE())) AND ISNULL(@to, GETDATE())
+                                    AND SR.StockReturnId = ISNULL(NULLIF(CAST(@id AS INT), 0), SR.StockReturnId)
+                                    AND SR.JobCardId = ISNULL(NULLIF(CAST(@jobcard AS INT), 0), SR.JobCardId)";
+                return connection.Query<StockReturn>(query, new
+                                                            {
+                                                                OrganizationId = OrganizationId,
+                                                                from = from,
+                                                                to = to,
+                                                                id = id,
+                                                                jobcard = jobcard
+                                                            }).ToList();
+            }
+        }
     }
 }

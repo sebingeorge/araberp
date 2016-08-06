@@ -29,23 +29,42 @@ namespace ArabErp.DAL
                 throw;
             }
         }
-        public PurchaseBillItem GetPurchaseBillItem(int PurchaseBillItemId)
-        {
+//        public PurchaseBillItem GetPurchaseBillItem(int PurchaseBillId)
+//        {
 
+//            using (IDbConnection connection = OpenConnection(dataConnection))
+//            {
+//                string sql = @"select * from PurchaseBillItem
+//                        where PurchaseBillId=@PurchaseBillId";
+
+//                var objPurchaseBillItem = connection.Query<PurchaseBillItem>(sql, new
+//                {
+//                    PurchaseBillId = PurchaseBillId
+//                }).First<PurchaseBillItem>();
+
+//                return objPurchaseBillItem;
+//            }
+//        }
+        public List<PurchaseBillItem> GetPurchaseBillItem(int PurchaseBillId)
+        {
             using (IDbConnection connection = OpenConnection(dataConnection))
             {
-                string sql = @"select * from PurchaseBillItem
-                        where PurchaseBillItemId=@PurchaseBillItemId";
+                string sql = @" SELECT CONCAT(GRNNo,'/',CONVERT (VARCHAR(15),GRNDate,104))GRNNoDate,
+                                P.PurchaseBillItemId,P.PurchaseBillId,P.GRNItemId,
+                                ItemName,GI.Quantity,U.UnitName,P.Discount,P.Rate,
+                                P.TaxPercentage,P.TaxAmount,P.Amount,P.Amount TotAmount,P.isActive
+                                FROM PurchaseBillItem P
+                                INNER JOIN GRNItem GI ON GI.GRNItemId=P.GRNItemId
+                                INNER JOIN GRN G ON G.GRNId=GI.GRNId
+                                INNER JOIN Item I ON I.ItemId=GI.ItemId
+                                INNER JOIN Unit U ON  U.UnitId=I.ItemUnitId
+                                WHERE PurchaseBillId= @PurchaseBillId";
 
-                var objPurchaseBillItem = connection.Query<PurchaseBillItem>(sql, new
-                {
-                    PurchaseBillItemId = PurchaseBillItemId
-                }).First<PurchaseBillItem>();
+                var objPurchaseBillItem = connection.Query<PurchaseBillItem>(sql, new { PurchaseBillId = PurchaseBillId }).ToList<PurchaseBillItem>();
 
                 return objPurchaseBillItem;
             }
         }
-
         public List<PurchaseBillItem> GetPurchaseBillItems()
         {
             using (IDbConnection connection = OpenConnection(dataConnection))
@@ -59,8 +78,6 @@ namespace ArabErp.DAL
             }
         }
 
-
-
         public int DeletePurchaseBillItem(Unit objPurchaseBillItem)
         {
             using (IDbConnection connection = OpenConnection(dataConnection))
@@ -72,7 +89,6 @@ namespace ArabErp.DAL
                 return id;
             }
         }
-
-
+   
     }
 }

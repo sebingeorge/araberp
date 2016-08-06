@@ -1,0 +1,112 @@
+﻿@model IList<ArabErp.Domain.QuerySheet>
+
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<style type="text/css">
+    .fade {
+        opacity: 0.6;
+    }
+</style>
+
+<script type="text/javascript">
+
+
+    $(document).ready(function () {
+        $("#txtFrom").datepicker({
+            dateFormat: "dd-MM-yy"
+        });
+        $("#txtTo").datepicker({
+            dateFormat: "dd-MM-yy"
+        });
+
+
+        //---------------------toastr---------------------------//
+        toastr.options = {
+            "positionClass": "toast-bottom-full-width",
+            "timeOut": "5000",
+            "extendedTimeOut": "2000"
+        }
+        if ('@TempData["success"]' != '') {
+            toastr.success('@TempData["success"]');
+        }
+        else if ('@TempData["error"]' != '') {
+            toastr.error('@TempData["error"]'.split('|')[0]);
+            console.log('@TempData["error"]'.split('|')[1]);
+        }
+        @{ TempData["success"] = TempData["error"] = ""; }
+        //------------------------------------------------------//
+
+    })
+
+    function OnItemSelected(id) {
+        var url = '@Url.Action("Edit")';
+        url += "?id=" + id;
+        window.location = url;
+    }
+    function Exit() {
+        location.href = '@Url.Action("CreateQuerySheet", "QuerySheet")';
+        window.location = url;
+    }
+
+    function Filter() {
+        $("#querysheetlist").addClass("fade");
+        var id = $("#cboQSNo").val();
+        var from = $("#txtFrom").val();
+        var to = $("#txtTo").val();
+        var url = '@Url.Action("QuerySheetList")';
+        url += "?from=" + from + "&to=" + to + "&id=" + id;
+
+        $("#querysheetlist").load(url, function () {
+            $("#querysheetlist").removeClass("fade");
+        });
+    }
+
+</script>
+
+
+
+<div class="row">
+
+    <div class="form-head1">
+        <h4>Query Sheet List</h4>
+    </div>
+
+    <div class="main-part pad1">
+
+        <div class="row">
+
+            <div class="col-md-2">
+                <label for="cboQSNo">Query Sheet Ref No.</label>
+                @Html.DropDownList("cboQSNo", (SelectList)ViewBag.QSnoList, "Any", new { @class = "form_input", @onchange = "Filter()" })
+            </div>
+
+            <div class="col-md-2">
+                <label>From</label>
+                <input id="txtFrom" value="@System.DateTime.Today.AddMonths(-1).ToString("dd-MMMM-yyyy")" onchange="Filter()" class="form_input" />
+            </div>
+
+            <div class="col-md-2">
+                <label>To</label>
+                <input id="txtTo" value="@System.DateTime.Today.ToString("dd-MMMM-yyyy")" onchange="Filter()" class="form_input" />
+            </div>
+        </div>
+
+        <br />
+
+        <div class="table-responsive" id="querysheetlist">
+              @Html.Action("QuerySheetList")
+        </div>
+
+        <div class="row">
+            <div class="col-md-12 hrpart">
+                <input type="button" class="form-button right" value="Exit" onclick="Exit()" />
+            </div>
+        </div>
+
+     </div>
+</div>
+

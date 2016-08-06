@@ -22,5 +22,9 @@ namespace ArabErp.Domain
          public DateTime? CreatedDate  {get;set;}
          public int?  OrganizationId {get;set;}
          public List<StockJournalItem> StockJournelItems { get; set; }
+
+         public string StockPointName { get; set; }
+         public string EmployeeName { get; set; }
+         public string ItemName { get; set; }
     }
 }

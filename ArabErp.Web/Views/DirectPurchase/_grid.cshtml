@@ -107,13 +107,19 @@
 
     function OnMaterialChange(sender, index) {
         var id = $(sender).val();
-        var url = '@Url.Action("GetPartNoUnit")';
-        $.getJSON(url, { itemId: id },
-            function (data) {
-                var arr = data.split('|');
-                $("#txtPartNo" + index).val(arr[0]);
-                $("#txtUoM" + index).val(arr[1]);
-            });
+        if (id != '') {
+            var url = '@Url.Action("GetPartNoUnit")';
+            $.getJSON(url, { itemId: id },
+                function (data) {
+                    var arr = data.split('|');
+                    $("#items_" + index + "__PartNo").val(arr[0]);
+                    $("#items_" + index + "__UoM").val(arr[1]);
+                });
+        }
+        else {
+            $("#items_" + index + "__PartNo").val('');
+            $("#items_" + index + "__UoM").val('');
+        }
     }
 
     function OnQtyChange(sender, index){
@@ -164,21 +170,27 @@
                 <td>
                     @Html.HiddenFor(m => m.items[i].SlNo)
                     <input type="hidden" id="Row_@i" />
-                    @Html.DropDownListFor(m => m.items[i].ItemId, (SelectList)ViewBag.materialList, "Select Material/Spare", new { @class = "form_input", @onchange = "OnMaterialChange(this, " + i + ")", @required = "true" })
+                  
+                    @Html.DropDownListFor(m => m.items[i].ItemId, new SelectList(ViewBag.materialList, "Value", "Text", Model.items[i].ItemId), "Select Material/Spare", new { @class = "form_input", @onchange = "OnMaterialChange(this, " + i + ")" })
                 </td>
-                <td>
+                @*<td>
                     <input type="text" class="form_input" id="txtPartNo@(i)" disabled />
+                </td>*@
+                <td>
+                    @Html.TextBoxFor(m => m.items[i].PartNo, new { @class = "form_input", autocomplete = "off", @readonly = "readonly" })
                 </td>
-                
                 <td>
                     @Html.TextBoxFor(m => m.items[i].Remarks, new { @class = "form_input", autocomplete = "off", placeholder = "Remarks" })
                 </td>
                 <td>
                     @Html.TextBoxFor(m => m.items[i].Quantity, new { @class = "form_input numbers-only", @style = "text-align:right", autocomplete = "off", placeholder = "Qty", @onkeyup = "OnQtyChange(this, " + i + ")", @required = "true" })
                 </td>
-                <td>
+
+                <td>@Html.TextBoxFor(m => m.items[i].UoM, new { @class = "form_input", @style = "text-align:left", autocomplete = "off", @readonly = "readonly" })</td>
+
+                @*<td>
                     <input type="text" id="txtUoM@(i)" class="form_input" disabled />
-                </td>
+                </td>*@
                 <td>
                     @Html.TextBoxFor(m => m.items[i].Rate, new { @class = "form_input numbers-only", @style = "text-align:right", autocomplete = "off", placeholder = "Rate", @onkeyup = "OnRateChange(this, " + i + ")", @required = "true" })
                 </td>

@@ -1,0 +1,29 @@
+﻿@model IList<ArabErp.Domain.WorkshopRequestRegister>
+<table class="table table-bordered">
+    <thead>
+        <tr class="grid_heading">
+            <th width="10%"><h1>Workshop Req.No.</h1></th>
+            <th width="10%"><h1>Date</h1></th>
+            <th width="65%"><h1>Material/Spares</h1></th>
+            <th width="10%" class="text-right"><h1>Qty.</h1></th>
+            <th width="5%"><h1>Unit</h1></th>
+         
+
+        </tr>
+    </thead>
+    @foreach (var item in Model)
+    {
+        <tbody class="grid_row">
+            <tr>
+                <td class="grid-cell">@item.WorkShopRequestRefNo</td>
+                <td class="grid-cell">@item.WorkShopRequestDate.ToString("dd/MMM/yyyy")</td>
+                <td class="grid-cell">@item.ItemName</td>
+                <td class="grid-cell text-right">@item.Quantity</td>
+                <td class="grid-cell">@item.UnitName</td>
+              
+
+            </tr>
+
+        </tbody>
+    }
+</table>

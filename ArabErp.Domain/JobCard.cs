@@ -33,6 +33,10 @@ namespace ArabErp.Domain
         public int JodCardCompleteStatus { get; set; }
         public DateTime JodCardCompletedDate { get; set; }
         public int isProjectBased { get; set; }
+        public string FreezerUnitName { get; set; }
+        public string VehicleInPassNo { get; set; }
+        public string RegistrationNo { get; set; }
+        public DateTime VehicleInPassDate { get; set; }
         public List<JobCardTask> JobCardTasks { get; set; }
     }
     public class JobCardForDailyActivity

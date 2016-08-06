@@ -55,18 +55,18 @@
         <div class="form-head1">
             <h4>Pending Direct Purchase Requests</h4>
         </div>
-        <div class="main-part pad1">
+        <div class="main-part pad1 white">
             <form role="form" method="post" action="Create" onsubmit="return formValidation()">
 
-                <div class="table-responsive scroll4">
+                
 
                     @Html.Action("PendingDirectPurchaseGrid")
 
-                </div>
+               
 
                 <em>P.S.: Only approved requests will show up here</em>
                 <div class="row">
-                    <div class="col-md-12 hrpart">
+                    <div class="col-md-12 hrpart1">
                         <input type="button" class="form-button" onclick="PreviousList()" value="Previous" title="Previously accepted GRNs">
 
                         <input type="submit" class="form-button right" value="Proceed" id="btnProceed" title="Proceed" />

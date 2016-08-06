@@ -1475,6 +1475,9 @@ th {
 .table-bordered > tbody > tr > td,
 .table-bordered > tfoot > tr > td {
   border: 1px solid #dddddd;
+  padding-left:7px;
+  padding-right:7px;
+  font-size:12px;
 }
 
 .table-bordered > thead > tr > th,
@@ -4298,7 +4301,7 @@ textarea.input-group-sm > .input-group-btn > .btn {
   }
   .navbar-nav > li {
     float: left;
-    margin-left:-12px;
+    margin-left:-20px;
   }
   .navbar-nav > li > a {
     padding-top: 15px;
@@ -5752,7 +5755,7 @@ body.modal-open,
 
 .modal-body {
   position: relative;
-  padding: 20px;
+  padding: 0 20px;
 }
 
 .modal-footer {
@@ -6934,6 +6937,7 @@ td.visible-print {
     .form-button 
     {
         width:100% !important;
+        margin-left:0px !important;
     }
     .left
     {
@@ -6989,8 +6993,8 @@ td.visible-print {
 
 .body-content 
 {
-    margin-left: 25px !important;
-    width: 90% !important;
+    margin-left: 28px !important;
+    width: 87% !important;
 }
 .body-content1 
 {
@@ -7106,8 +7110,9 @@ td.visible-print {
 
      .row-count 
     {
-    margin-left:0px !important;
-    margin-top: -23px !important;
+    margin-left: 0 !important;
+    margin-top: -18px !important;
+    margin-bottom: 29px !important;
     }
     .row-count h5 
         {
@@ -7150,7 +7155,7 @@ td.visible-print {
 }
 .row-count4 {
 
-    margin-bottom:24px !important;
+    margin-top: -16px !important;
 
 }
 .row-count4 h5
@@ -7358,7 +7363,8 @@ td.visible-print {
     .row-count 
     {
     margin-left: -4px !important;
-    margin-top: -25px !important;
+    margin-top: -17px !important;
+    margin-bottom: 32px !important;
     }
     .row-count h5 
         {
@@ -7399,7 +7405,7 @@ td.visible-print {
 
 .row-count4{
 
-    margin-bottom:24px !important;
+     margin-top: -16px !important;
 
 }
 .row-count4 h5
@@ -7418,6 +7424,12 @@ td.visible-print {
     .incentive
      {
         margin-top:3px !important;
+    }
+    .QuickLink .dropdown-menu 
+
+    {
+        margin-left:-95px !important;
+        margin-top:5px !important;
     }
 
          /*#SalesQuotationItems_0__WorkDescriptionId option
@@ -7514,8 +7526,8 @@ td.visible-print {
 .dropdown-submenu>.dropdown-menu {
     border-radius: 0 6px 6px;
     left: 100%;
-    margin-left: -203px;
-    margin-top: 23px;
+    /*margin-left: -203px;
+    margin-top: 23px;*/
     top: 0;
     width: 102%;
 }

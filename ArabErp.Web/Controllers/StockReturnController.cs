@@ -13,7 +13,14 @@ namespace ArabErp.Web.Controllers
         // GET: StockReturn
         public ActionResult Index()
         {
+            FillStockReturn();
+            FillJobCardForPreviousList();
             return View();
+        }
+
+        public ActionResult PreviousList(DateTime? from, DateTime? to, int id = 0, int jobcard = 0)
+        {
+            return PartialView("_PreviousListGrid", new StockReturnRepository().PreviousList(OrganizationId: OrganizationId, from: from, to: to, id: id, jobcard: jobcard));
         }
         public ActionResult Create()
         {
@@ -83,6 +90,15 @@ namespace ArabErp.Web.Controllers
         public void StockPointDropdown()
         {
             ViewBag.stockPointList = new SelectList(new DropdownRepository().StockpointDropdown(), "Id", "Name");
+        }
+
+        public void FillStockReturn()
+        {
+            ViewBag.stockReturnList = new SelectList(new DropdownRepository().StockReturnDropdown(OrganizationId), "Id", "Name");
+        }
+        public void FillJobCardForPreviousList()
+        {
+            ViewBag.jobcardList = new SelectList(new DropdownRepository().JobCardForStockReturn(OrganizationId), "Id", "Name");
         }
     }
 }

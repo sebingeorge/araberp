@@ -20,6 +20,7 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <UseVSHostingProcess>true</UseVSHostingProcess>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -45,6 +46,7 @@
     <Compile Include="Bay.cs" />
     <Compile Include="BayStatus.cs" />
     <Compile Include="Box.cs" />
+    <Compile Include="ClosingStock.cs" />
     <Compile Include="CommissionAgent.cs" />
     <Compile Include="Consumption.cs" />
     <Compile Include="ConsumptionItem.cs" />
@@ -60,6 +62,7 @@
     <Compile Include="Employee.cs" />
     <Compile Include="EmployeeCategory.cs" />
     <Compile Include="ExpenseBill.cs" />
+    <Compile Include="FGTracking.cs" />
     <Compile Include="FreezerUnit.cs" />
     <Compile Include="GRN.cs" />
     <Compile Include="GRNItem.cs" />
@@ -155,6 +158,7 @@
     <Compile Include="WorkShopGRNItem.cs" />
     <Compile Include="WorkShopRequest.cs" />
     <Compile Include="WorkShopRequestItem.cs" />
+    <Compile Include="WorkshopRequestRegister.cs" />
     <Compile Include="WorkShopRequestSaleOrder.cs" />
     <Compile Include="WorkShopRequestSaleOrderItem.cs" />
     <Compile Include="WorkVsItem.cs" />

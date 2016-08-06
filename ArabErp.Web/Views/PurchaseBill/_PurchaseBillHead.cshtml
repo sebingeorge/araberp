@@ -28,6 +28,7 @@
     <div class="col-md-2">
         <label for=" PurchaseBillRefNo">Booking No.</label>
         @Html.TextBoxFor(m => m.PurchaseBillRefNo, new { @class = "form_input", autocomplete = "off", @readonly = "readonly" })
+        @Html.HiddenFor(m => m.PurchaseBillId, new { @class = "form_input", autocomplete = "off" })
     </div>
 
     <div class="col-md-2">

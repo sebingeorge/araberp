@@ -30,7 +30,7 @@ namespace ArabErp.Web.Controllers
             {
                 return PartialView("_PendingDeliveryChallan", new List<PendingJC>());
             }
-            return PartialView("_PendingDeliveryChallan", new DeliveryChallanRepository().PendingDeliveryChallan(customerId));
+            return PartialView("_PendingDeliveryChallan", new DeliveryChallanRepository().PendingDeliveryChallan(customerId, OrganizationId));
         }
         public ActionResult Save(int id = 0)
         {
@@ -86,6 +86,19 @@ namespace ArabErp.Web.Controllers
                 CustomerName = data.CustomerName,
                 RegistrationNo = data.RegistrationNo
             }, JsonRequestBehavior.AllowGet);
+        }
+        public ActionResult DeliveryChallanList()
+        {
+            FillDCNo();
+            return View();
+        }
+        public void FillDCNo()
+        {
+            ViewBag.DCNoList = new SelectList(new DropdownRepository().DCNODropdown(OrganizationId), "Id", "Name");
+        }
+        public ActionResult PreviousList(DateTime? from, DateTime? to, int id = 0, int cusid = 0)
+        {
+            return PartialView("_PreviousList", new DeliveryChallanRepository().GetAllDeliveryChallan(id, cusid, OrganizationId, from, to));
         }
     }
 }

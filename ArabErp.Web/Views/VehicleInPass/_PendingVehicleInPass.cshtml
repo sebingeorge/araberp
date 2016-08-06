@@ -3,10 +3,10 @@
     <table class="table table-bordered">
         <thead>
             <tr class="grid_heading">
-                <th><h1>SO No. &amp; Date</h1></th>
-                <th><h1>Work Description</h1></th>
-                <th><h1>Vehicle Model</h1></th>
-                <th></th>
+                <th width="15%"><h1>SO No. &amp; Date</h1></th>
+                <th width="65%"><h1>Work Description</h1></th>
+                <th width="15%"><h1>Vehicle Model</h1></th>
+                <th width="5%"></th>
             </tr>
         </thead>
         <tbody id="table-body" class="grid_row">
@@ -28,7 +28,9 @@
                             <input class="form_input" type="text" value="@Model[i].VehicleModelName" disabled />
                         </td>
                         <td align="center">
-                            <button class="btn btn-xs btn-primary" onclick="Open('@Model[i].SaleOrderItemId')"><span class="glyphicon glyphicon-pencil" style="top:2px"></span></button>
+                            @Html.ActionLink("Select", "Save", "VehicleInpass", new { Id = @Model[i].SaleOrderItemId }, new { @class = "form-button5" })
+
+                            @*<button class="btn btn-xs btn-primary" onclick="Open('@Model[i].SaleOrderItemId')"><span class="glyphicon glyphicon-pencil" style="top:2px"></span></button>*@
                         </td>
                     </tr>
 

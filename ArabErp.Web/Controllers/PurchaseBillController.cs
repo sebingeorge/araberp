@@ -20,7 +20,6 @@ namespace ArabErp.Web.Controllers
             return View();
             
         }
-      
         public PartialViewResult pendingGRN(int supplierId = 0)
         {
             try
@@ -32,7 +31,6 @@ namespace ArabErp.Web.Controllers
                 return PartialView("_pendingGRN", new List<PendingGRN>());
             }
         }
-
         public void GrnSupplierDropdown()
         {
             ViewBag.supplierList = new SelectList(new DropdownRepository().GrnSupplierDropdown(), "Id", "Name");
@@ -124,22 +122,41 @@ namespace ArabErp.Web.Controllers
             return RedirectToAction("Index");
            
         }
-       
         public void FillAdditionDeduction()
         {
             ViewBag.additionList = new SelectList(new DropdownRepository().AdditionDropdown(), "Id", "Name");
             ViewBag.deductionList = new SelectList(new DropdownRepository().DeductionDropdown(), "Id", "Name");
         }
+
+        public void FillBillRefNo()
+        {
+            ViewBag.BillNoList = new SelectList(new DropdownRepository().PurchaseBillNoDropdown(), "Id", "Name");
+        }
+        public void FillPBSupplier()
+        {
+            ViewBag.SupplierList = new SelectList(new DropdownRepository().PurchaseBillSupplierDropdown(), "Id", "Name");
+        }
+
         public ActionResult PurchaseBillList()
         {
-            FillCurrency();
-            var repo = new PurchaseBillRepository();
-            IEnumerable<PurchaseBill> PurchaseBillList = repo.GetPurchaseBillPreviousList();
-            return View("PurchaseBillList", PurchaseBillList);
+
+            FillBillRefNo();
+            FillPBSupplier();
+            return View();
            
         }
 
-         [HttpGet]
+        public ActionResult PurchaseBillListDatas(DateTime? from, DateTime? to, int id = 0, int supid = 0)
+        {
+            return PartialView("_PurchaseBillListDatas", new PurchaseBillRepository().GetPurchaseBillPreviousList(id: id, supid: supid, from: from, to: to, OrganizationId: OrganizationId));
+
+            //var repo = new PurchaseBillRepository();
+            //IEnumerable<PurchaseBill> PurchaseBillList = repo.GetPurchaseBillPreviousList();
+            //return View("PurchaseBillList", PurchaseBillList);
+
+        }
+
+        [HttpGet]
         public JsonResult GetDueDate(DateTime date,int supplierId)
         {
             //var res = (new PurchaseBillRepository()).GetCurrencyIdByCustKey(cusKey);
@@ -149,7 +166,133 @@ namespace ArabErp.Web.Controllers
 
             return Json(duedate.ToString("dd/MMMM/yyyy"), JsonRequestBehavior.AllowGet);
         }
-        
+
+        public ActionResult Edit(int id = 0)
+        {
+            try
+            {
+                if (id != 0)
+                {
+                    PurchaseBill PurchaseBill = new PurchaseBill();
+                    PurchaseBill = new PurchaseBillRepository().GetPurchaseBill(id);
+                    PurchaseBill.Items = new PurchaseBillItemRepository().GetPurchaseBillItem(id);
+                    FillAdditionDeduction();
+                    FillCurrency();
+                    return View(PurchaseBill);
+                }
+                else
+                {
+                    TempData["error"] = "That was an invalid/unknown request. Please try again.";
+                    TempData["success"] = "";
+                }
+            }
+            catch (InvalidOperationException iox)
+            {
+                TempData["error"] = "Sorry, we could not find the requested item. Please try again.|" + iox.Message;
+            }
+            catch (SqlException sx)
+            {
+                TempData["error"] = "Some error occured while connecting to database. Please try again after sometime.|" + sx.Message;
+            }
+            catch (NullReferenceException nx)
+            {
+                TempData["error"] = "Some required data was missing. Please try again.|" + nx.Message;
+            }
+            catch (Exception ex)
+            {
+                TempData["error"] = "Some error occured. Please try again.|" + ex.Message;
+            }
+
+            TempData["success"] = "";
+            return RedirectToAction("Index");
+        }
+
+        [HttpPost]
+        public ActionResult Edit(PurchaseBill model)
+        {
+            ViewBag.Title = "Edit";
+            model.OrganizationId = OrganizationId;
+            model.CreatedDate = System.DateTime.Now;
+            model.CreatedBy = Request.ServerVariables["HTTP_X_FORWARDED_FOR"] ?? Request.ServerVariables["REMOTE_ADDR"];
+
+            FillAdditionDeduction();
+            FillCurrency();
+
+            var repo = new PurchaseBillRepository();
+
+            //var result1 = new PurchaseBillRepository().CHECK(model.SupplyOrderId);
+            //if (result1 > 0)
+            //{
+            //    TempData["error"] = "Sorry!!..Already Used!!";
+            //    TempData["PurchaseRequestNo"] = null;
+            //    return View("Edit", model);
+            //}
+
+            //else
+            {
+                try
+                {
+                    var result2 = new PurchaseBillRepository().DeletePuchaseBillDT(model.PurchaseBillId);
+                    var result3 = new PurchaseBillRepository().DeletePuchaseBillHD(model.PurchaseBillId);
+                    string id = new PurchaseBillRepository().InsertPurchaseBill(model);
+
+                    TempData["success"] = "Updated successfully. Purchase Request Reference No. is " + model.PurchaseBillRefNo;
+                    TempData["error"] = "";
+                    return RedirectToAction("PurchaseBillList");
+                }
+                catch (SqlException sx)
+                {
+                    TempData["error"] = "Some error occured while connecting to database. Please check your network connection and try again.|" + sx.Message;
+                }
+                catch (NullReferenceException nx)
+                {
+                    TempData["error"] = "Some required data was missing. Please try again.|" + nx.Message;
+                }
+                catch (Exception ex)
+                {
+                    TempData["error"] = "Some error occured. Please try again.|" + ex.Message;
+                }
+                return RedirectToAction("PurchaseBillList");
+            }
+
+        }
+
+        public ActionResult Delete(int Id)
+        {
+            ViewBag.Title = "Delete";
+
+            //var result1 = new SupplyOrderRepository().CHECK(Id);
+            //if (result1 > 0)
+            //{
+            //    TempData["error"] = "Sorry!!..Already Used!!";
+            //    TempData["SupplyOrderNo"] = null;
+            //    return RedirectToAction("Edit", new { id = Id });
+            //}
+
+            //else
+            //{
+                var result2 = new PurchaseBillRepository().DeletePuchaseBillDT(Id);
+                var result3 = new PurchaseBillRepository().DeletePuchaseBillHD(Id);
+
+                if (Id > 0)
+                {
+
+                    TempData["Success"] = "Deleted Successfully!";
+                    //return RedirectToAction("PreviousList");
+                    return RedirectToAction("PurchaseBillList");
+                }
+
+                else
+                {
+
+                    TempData["error"] = "Oops!!..Something Went Wrong!!";
+                    TempData["SupplyOrderNo"] = null;
+                    return RedirectToAction("Edit", new { id = Id });
+                }
+
+            }
+
+        }
 
     }
-}
+//}

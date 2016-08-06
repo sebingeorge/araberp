@@ -34,7 +34,23 @@ namespace ArabErp.Web.Controllers
             if (id != 0)
             {
                 EmployeeDropdown();
-                return View(new VehicleInPass { SaleOrderItemId = id });
+                string internalId = "";
+                try
+                {
+                    internalId = DatabaseCommonRepository.GetNextReferenceNo(typeof(VehicleInPass).Name);
+
+                }
+                catch (NullReferenceException nx)
+                {
+                    TempData["success"] = "";
+                    TempData["error"] = "Some required data was missing. Please try again.|" + nx.Message;
+                }
+                catch (Exception ex)
+                {
+                    TempData["success"] = "";
+                    TempData["error"] = "Some error occurred. Please try again.|" + ex.Message;
+                }
+                return View(new VehicleInPass { SaleOrderItemId = id ,VehicleInPassDate = DateTime.Now,VehicleInPassNo="VIN/" + internalId});
             }
             return RedirectToAction("Index");
         }
@@ -63,5 +79,26 @@ namespace ArabErp.Web.Controllers
                 CustomerName = data.CustomerName
             }, JsonRequestBehavior.AllowGet);
         }
+        public ActionResult VehicleInpassList()
+        {
+            FillVINo();
+            FillCustomerinVI();
+            return View();
+        }
+        public void FillVINo()
+        {
+            ViewBag.VINoList = new SelectList(new DropdownRepository().VINODropdown(OrganizationId), "Id", "Name");
+        }
+        public void FillCustomerinVI()
+        {
+            ViewBag.CusList = new SelectList(new DropdownRepository().VICustomerDropdown(OrganizationId), "Id", "Name");
+        }
+        public ActionResult PreviousList(DateTime? from , DateTime? to,int id = 0, int cusid = 0)
+        {
+             from = from ?? DateTime.Today.AddMonths(-1);
+            to = to ?? DateTime.Today;
+            return PartialView("_PreviousList", new VehicleInPassRepository().GetPreviousList(id, cusid, OrganizationId, from, to));
+        }
+       
     }
 }

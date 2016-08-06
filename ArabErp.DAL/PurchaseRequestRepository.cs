@@ -256,7 +256,7 @@ namespace ArabErp.DAL
         }
 
 
-        public IEnumerable<PurchaseRequest> GetPurchaseRequest()
+        public IList<PurchaseRequest> GetPurchaseRequest(int OrganizationId, int id, int cusid, DateTime? from, DateTime? to)
         {
             using (IDbConnection connection = OpenConnection(dataConnection))
             {
@@ -277,15 +277,17 @@ namespace ArabErp.DAL
                                     INNER JOIN WorkShopRequest WRK ON P.WorkShopRequestId = WRK.WorkShopRequestId
                                     INNER JOIN Customer C ON C.CustomerId=WRK.CustomerId
                                     LEFT JOIN #SUPPLY SUP ON PRI.PurchaseRequestItemId = SUP.PurchaseRequestItemId
-                                    WHERE P.isActive= 1
+                                    WHERE P.isActive= 1 and P.OrganizationId=@OrganizationId
+                                    and P.PurchaseRequestId = ISNULL(NULLIF(@id, 0), P.PurchaseRequestId )
+                                    and C.CustomerId = ISNULL(NULLIF(@cusid, 0), C.CustomerId)
+                                    and P.PurchaseRequestDate BETWEEN ISNULL(@from, DATEADD(MONTH, -1, GETDATE())) AND ISNULL(@to, GETDATE())  
                                     ORDER BY P.PurchaseRequestDate DESC;
                                     DROP TABLE #SUPPLY;";
 
-                var objPendingPurchaseRequests = connection.Query<PurchaseRequest>(sql).ToList<PurchaseRequest>();
-
-                return objPendingPurchaseRequests;
+                return connection.Query<PurchaseRequest>(sql, new { OrganizationId = OrganizationId, id = id, cusid = cusid, to = to, from = from }).ToList<PurchaseRequest>();
             }
         }
-
+            
+  
     }
 }

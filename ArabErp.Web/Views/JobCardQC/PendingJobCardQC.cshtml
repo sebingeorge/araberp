@@ -3,60 +3,9 @@
     ViewBag.Title = "PendingJobCardQC";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
-<style>
-    /*tr:hover {
-          background-color: lightblue;
-        }*/
-table {
-    width: 100%;
-    border-spacing: 0;
-}
 
-thead, tbody, tr, th, td { display: block; }
-
-/*thead tr {
-    /* fallback */
-    /*width: 100%;
-  
-    width: -webkit-calc(100% - 16px);
-    width:    -moz-calc(100% - 16px);
-    width:         calc(100% - 16px);*/
-/*}*/
-
-tr:after {  /* clearing float */
-    content: ' ';
-    display: block;
-    visibility: hidden;
-    clear: both;
-}
-
-tbody {
-    /*height: 70vh;*/
-    overflow-y: auto;
-    overflow-x: hidden;
-}
-
-tbody td, thead th {
-    width: 20%;  /* 19% is less than (100% / 5 cols) = 20% */
-    float: left;
-}
-</style>
 <script>
-    $(document).ready(function () {
-        var $table = $('table'),
-    $bodyCells = $table.find('tbody tr:first').children(),
-    colWidth;
 
-        // //Get the tbody columns width array
-        //colWidth = $bodyCells.map(function () {
-        //    return $(this).width();
-        //}).get();
-
-        //// Set the width of thead columns
-        //$table.find('thead tr').children().each(function (i, v) {
-        //    $(v).width(colWidth[i]);
-        //});
-    });
     function GotoJobcardQC(id,No,JcDate,Customer,VehicleModel)
     {
         var url = '@Url.Action("Create")';
@@ -68,70 +17,65 @@ tbody td, thead th {
         url = url + "&VehicleModel=" + VehicleModel;
         console.log(url);
         window.location.href = url;
-        alert(url);
+       
     }
+    function PreviousList() {
 
+     
+        var url = '@Url.Action("Index")';
+        window.location = url;
+    }
 </script>
-
-
-    <div class="row">
-
-        <div class="form-head1">
-            <h4>Pending Job Card QC</h4>
-        </div>
-        <div class="main-part pad1 white">
+<div class="row">
+    <div class="form-head1">
+        <h4>Pending Job Card QC</h4>
+          </div>
+    <div class="main-part pad1 white">
+        <div class="main-grid-top scroll1">
             <div class=" table-responsive">
                 <table class="table table-bordered">
                     <thead>
                         <tr class="grid_heading">
-                            <th><h1>JC No</h1></th>
-                            <th><h1>JC Date</h1></th>
-                            <th><h1>Customer</h1></th>
-                            <th><h1>Vehicle Model</h1></th>
-                            <th width="5%"><center><h1>Select</h1></center></th>
+                            <th width="10%"><h1>JC.No.</h1></th>
+                            <th width="10%"><h1>JC Date</h1></th>
+                            <th width="60%"><h1>Customer</h1></th>
+                            <th width="15%"><h1>Vehicle Model</h1></th>
+                            <th width="5%"><center><h1></h1></center></th>
+                         
                         </tr>
                     </thead>
-                    <tbody class="grid_row" style="overflow-y:auto">
-                        @foreach (var item in Model)
-                        {
+                    @foreach (var item in Model)
+                    {
+                        <tbody class="grid_row">
                             <tr>
-                                <td><input type="text" class="form_input" disabled value="@item.JobCardNo" /></td>
-                                <td><input type="text" class="form_input" disabled value="@item.JobCardDate.ToString("dd/MMM/yyyy")" /></td>
-                                <td><input type="text" class="form_input" disabled value="@item.CustomerName" /></td>
-                                <td><input type="text" class="form_input" disabled value="@item.VehicleModelName" /></td>
-                                @*<td><button class="glyphicon-folder-open" onclick="GotoJobcardCompletion(@item.JobCardId)">Select</button></td>*@
-                                <td align="center"><button class="btn btn-xs btn-primary" onclick="GotoJobcardQC(@item.JobCardId,'@item.JobCardNo','@item.JobCardDate.ToString("dd/MMM/yyyy")','@item.CustomerName','@item.VehicleModelName')"><span class="glyphicon glyphicon-edit" style="top:2px"></span></button></td>
+                                <td class="grid-cell">@item.JobCardNo</td>
+                                <td class="grid-cell">@item.JobCardDate.ToString("dd/MMM/yyyy")</td>
+                                <td class="grid-cell">@item.CustomerName</td>
+                                <td class="grid-cell">@item.VehicleModelName</td>
+                                <td>
+                                    <center>
+                                     
+                                        <button class="form-button5" onclick="GotoJobcardQC(@item.JobCardId,'@item.JobCardNo','@item.JobCardDate.ToString("dd/MMM/yyyy")','@item.CustomerName','@item.VehicleModelName')">Select</button>
+                                      
+                                    </center>
+                                </td>
                             </tr>
-                        }
-                    </tbody>
+                        </tbody>
+                    }
                 </table>
             </div>
-
-
-            <div class="row-count1">
-         
-                <h5>Row Count:- @Model.Count()</h5>
-            </div>
-
-            <div class="row">
-
-
-                @*<div class="col-md-12">
-                    <div class="left">
-                        <button class="form-button">Previous</button>
-                    </div>
-                    <div class="margf">
-                        <button type="submit" class="form-button">Exit</button>
-
-
-                        <button type="submit" class="form-button">Proceed</button>
-                    </div>
-
-                </div>*@
-
-
+        </div>
+                <div class="row-count">
+            <h5>Row Count:- @Model.Count()</h5>
+        </div>
+                <div class="row">
+            <div class="col-md-12 hrpart1">
+                <input class="form-button left" type="button" value="Previous" onclick="PreviousList()" />
             </div>
         </div>
     </div>
+</div>
+
+
 
 

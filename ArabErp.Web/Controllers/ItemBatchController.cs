@@ -14,7 +14,15 @@ namespace ArabErp.Web.Controllers
         // GET: ItemBatch
         public ActionResult Index()
         {
+            FillGRNNo();
             return View();
+        }
+
+        public ActionResult PreviousList(DateTime? from, DateTime? to, int id = 0)
+        {
+            from = from ?? DateTime.Today.AddMonths(-1);
+            to = to ?? DateTime.Today;
+            return PartialView("_PreviousListGrid", new ItemBatchRepository().PreviousList(id, from, to, OrganizationId));
         }
 
         public ActionResult Pending()
@@ -131,7 +139,7 @@ namespace ArabErp.Web.Controllers
             return View(new ItemBatchRepository().GetReservedItems());
         }
 
-        
+
         public ActionResult UnReserve(int id = 0)//sale order id is received here
         {
             if (id != 0)
@@ -152,7 +160,7 @@ namespace ArabErp.Web.Controllers
             try
             {
                 List<int> selected = (from item in model where item.isSelected select item.ItemBatchId).ToList<int>();
-                new ItemBatchRepository().UnReserveItems(selected);
+                if (new ItemBatchRepository().UnReserveItems(selected) <= 0) throw new Exception();
                 TempData["success"] = "Unreserved successfully";
                 TempData["error"] = "";
                 return RedirectToAction("ReservedList");
@@ -197,6 +205,13 @@ namespace ArabErp.Web.Controllers
             }, JsonRequestBehavior.AllowGet);
         }
 
+        public ActionResult FGTrackingPopup(int id = 0)
+        {
+            if (id != 0)
+                return PartialView("_FGTrackingDetails", new ItemBatchRepository().FGTrackingDetailsByItemBatchId(id));
+            return View();
+        }
+
         #region Dropdowns
         public void FillMaterial()
         {
@@ -206,6 +221,11 @@ namespace ArabErp.Web.Controllers
         public void FillSaleOrder()
         {
             ViewBag.saleOrderList = new SelectList(new DropdownRepository().SaleOrderDropdown1(), "Id", "Name");
+        }
+
+        public void FillGRNNo()
+        {
+            ViewBag.grnList = new SelectList(new DropdownRepository().GRNDropdown(), "Id", "Name");
         }
         #endregion
     }

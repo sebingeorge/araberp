@@ -17,5 +17,7 @@ namespace ArabErp.Domain
         public decimal? Quantity { get; set; }
         public decimal? Rate { get; set; }
         public decimal? Amount { get; set; }
+        public string PartNo { get; set; }
+        public string UoM { get; set; }
     }
 }

@@ -5,6 +5,7 @@ using System.Web;
 using System.Web.Mvc;
 using ArabErp.Domain;
 using ArabErp.DAL;
+using System.Data.SqlClient;
 
 namespace ArabErp.Web.Controllers
 {
@@ -13,8 +14,16 @@ namespace ArabErp.Web.Controllers
         // GET: Expense
         public ActionResult Index()
         {
-            return View((new ExpenseRepository()).GetList());
+            FillExpenseNo();
+            FillEBSupplier();
+            return View();
         }
+
+        public ActionResult PreviousList(DateTime? from, DateTime? to, int id = 0, int supid = 0)
+        {
+            return PartialView("_PreviousList", new ExpenseRepository().GetList( id: id,supid:supid, from: from, to: to));
+        }
+
         public ActionResult Create()
         {
             FillDropdowns();
@@ -94,6 +103,14 @@ namespace ArabErp.Web.Controllers
             var List = repo.FillCurrency();
             ViewBag.Currency = new SelectList(List, "Id", "Name");
         }
+        public void FillExpenseNo()
+        {
+            ViewBag.ExpenseNoList = new SelectList(new DropdownRepository().ExpenseBillNoDropdown(), "Id", "Name");
+        }
+        public void FillEBSupplier()
+        {
+            ViewBag.SupplierList = new SelectList(new DropdownRepository().ExpenseBillSupplierDropdown(), "Id", "Name");
+         }
         public JsonResult GetDueDate(DateTime date, int supplierId)
         {
             //var res = (new PurchaseBillRepository()).GetCurrencyIdByCustKey(cusKey);
@@ -141,6 +158,106 @@ namespace ArabErp.Web.Controllers
                 TempData["error"] = "Some error occured while approving. Please try again.";
                 return View("Create", model);
             }
+        }
+
+        public ActionResult Edit(int id = 0)
+        {
+            if (id != 0)
+            {
+                FillDropdowns();
+                var model = new ExpenseRepository().GetExpenseBill(id);
+
+                return View("Edit", model);
+            }
+            else
+            {
+                TempData["error"] = "That was an invalid request. Please try again.";
+                return RedirectToAction("Create");
+            }
+        }
+
+        [HttpPost]
+        public ActionResult Edit(ExpenseBill model)
+        {
+            ViewBag.Title = "Edit";
+           
+
+            FillDropdowns();
+
+            var repo = new ExpenseRepository();
+
+            var result1 = new ExpenseRepository().CHECK(model.ExpenseId);
+            if (result1 > 0)
+            {
+                TempData["error"] = "Sorry!!..Already Used!!";
+                TempData["PurchaseRequestNo"] = null;
+                return View("Edit", model);
+            }
+
+            else
+            {
+                try
+                {
+                    var result2 = new ExpenseRepository().DeleteExpenseBillDT(model.ExpenseId);
+                    var result3 = new ExpenseRepository().DeleteExpenseBillHD(model.ExpenseId);
+                    string id = new ExpenseRepository().Insert(model);
+
+                    TempData["success"] = "Updated successfully. Purchase Request Reference No. is " + id;
+                    TempData["error"] = "";
+                    return RedirectToAction("Create");
+                }
+                catch (SqlException sx)
+                {
+                    TempData["error"] = "Some error occured while connecting to database. Please check your network connection and try again.|" + sx.Message;
+                }
+                catch (NullReferenceException nx)
+                {
+                    TempData["error"] = "Some required data was missing. Please try again.|" + nx.Message;
+                }
+                catch (Exception ex)
+                {
+                    TempData["error"] = "Some error occured. Please try again.|" + ex.Message;
+                }
+                return RedirectToAction("Create");
+            }
+
+        }
+
+        public ActionResult Delete(int Id)
+        {
+            ViewBag.Title = "Delete";
+
+            var result1 = new ExpenseRepository().CHECK(Id);
+            if (result1 > 0)
+            {
+                TempData["error"] = "Sorry!!..Already Used!!";
+                TempData["SupplyOrderNo"] = null;
+                return RedirectToAction("Edit", new { id = Id });
+            }
+
+            else
+            {
+                var result2 = new ExpenseRepository().DeleteExpenseBillDT(Id);
+                var result3 = new ExpenseRepository().DeleteExpenseBillHD(Id);
+
+                if (Id > 0)
+                {
+
+                    TempData["Success"] = "Deleted Successfully!";
+                    //return RedirectToAction("PreviousList");
+                    return RedirectToAction("Create");
+                }
+
+                else
+                {
+
+                    TempData["error"] = "Oops!!..Something Went Wrong!!";
+                    TempData["SupplyOrderNo"] = null;
+                    return RedirectToAction("Edit", new { id = Id });
+                }
+
+            }
+
         }
     }
 }

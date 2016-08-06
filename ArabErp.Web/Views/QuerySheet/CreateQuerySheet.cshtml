@@ -16,8 +16,13 @@
 <script>
     function Exit() {
 
-        location.href = '@Url.Action("QuerySheetList", "QuerySheet")';
+        location.href = '@Url.Action("Index", "Home")';
     }
+
+    function PreviousList() {
+        window.location = '@Url.Action("Index", "QuerySheet")'
+    }
+
     $(function ()
     {
         $("#QuerySheetDate").datepicker({ dateFormat: "dd-MM-yy" });
@@ -330,7 +335,8 @@
                 <div class="row">
                     <div class="col-md-12 hrpart">
 
-                        <button type="button" class="form-button right" onclick="Exit()">Exit</button>
+                        <input type="button" class=" form-button right" onclick="Exit()" value="Exit">
+                        <input type="button" class="form-button" onclick="PreviousList()" value="Previous">
                         @if (actionName == "Create")
                         {
                             <button type="submit" class="form-button right">Save</button>

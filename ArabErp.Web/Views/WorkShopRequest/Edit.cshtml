@@ -1,0 +1,104 @@
+﻿@model  ArabErp.Domain.WorkShopRequest
+@{
+    ViewBag.Title = "Edit";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<script>
+    function Exit() {
+        location.href = '@Url.Action("WorkShopRequestList")';
+    }
+</script>
+<div class="row">
+    <div class="form-head1">
+        <h4>WorkShop Request</h4>
+    </div>
+
+    <div class="main-part pad1">
+
+        @using (Html.BeginForm("Save", null, FormMethod.Post, new { @class = "createFrom", @id = "work_form" }))
+        {
+            @Html.HiddenFor(m => m.WorkShopRequestId, new { @class = "form_input", autocomplete = "off" })
+            @Html.HiddenFor(m => m.CustomerId, new { @class = "form_input", autocomplete = "off" })
+            <div class="row form-group">
+                <div class="col-md-2">
+                    <label for="WorkShopRequestRefNo">Request No.</label>
+                    @Html.TextBoxFor(m => m.WorkShopRequestRefNo, new { @class = "form_input", autocomplete = "off", @required = "true", @readonly = "readonly" })
+                </div>
+                <div class="col-md-2">
+                    <label for="inputDate">Date</label>
+                    @Html.TextBoxFor(m => m.WorkShopRequestDate, Model.WorkShopRequestDate.ToString("dd/MMMM/yyyy"), new { @class = "form_input ", autocomplete = "off", @readonly = "readonly", @required = "true" })
+                </div>
+            </div>
+
+            <div class="row form-group">
+
+                <div class="col-md-4">
+                    <label for="CustomerName">Customer</label>
+                    @Html.TextBoxFor(m => m.CustomerName, new { @class = "form_input", autocomplete = "off", @readonly = "readonly" })
+                </div>
+                <div class="col-md-2">
+                    <label for="CustomerOrderRef">Customer Order Ref.</label>
+                    @Html.TextBoxFor(m => m.CustomerOrderRef, new { @class = "form_input", autocomplete = "off", @readonly = "readonly" })
+                </div>
+                <div class="col-md-2">
+                    <label for="SaleOrderRefNo">SO.No.& Date</label>
+                    @Html.TextBoxFor(m => m.SaleOrderRefNo, new { @class = "form_input", autocomplete = "off", @readonly = "readonly" })
+                </div>
+                <div class="col-md-2">
+                    <label for="SaleOrderRefNo">EDA</label>
+                    @Html.TextBoxFor(m => m.EDateArrival, Model.EDateArrival.ToString("dd/MMMM/yyyy"), new { @class = "form_input ", autocomplete = "off", @readonly = "readonly", @required = "true" })
+                </div>
+                <div class="col-md-2">
+                    <label for="SaleOrderRefNo">EDD</label>
+                    @Html.TextBoxFor(m => m.EDateDelivery, Model.EDateDelivery.ToString("dd/MMMM/yyyy"), new { @class = "form_input ", autocomplete = "off", @readonly = "readonly", @required = "true" })
+                </div>
+            </div>
+            <div class="row form-group">
+                <div class="col-md-12">
+                    <label for="WorkDescription">Work Description</label>
+                    @Html.TextAreaFor(m => m.WorkDescription, new { @class = "form_input form_input-h1", autocomplete = "off" })
+                </div>
+
+            </div>
+
+
+          
+    @Html.Partial("_DisplayWorkShopRequestData", Model)
+
+
+            <div class="row form-group">
+                <div class="col-md-12">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <label for="SpecialRemarks">Special Remarks</label>
+                        </div>
+                        <div class="col-md-12">
+                            @Html.TextAreaFor(m => m.SpecialRemarks, new { @class = "form_input form_input-h", autocomplete = "off" })
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-2">
+                    <label for="RequiredDate">Required Date</label>
+                    @Html.TextBoxFor(m => m.RequiredDate, Model.RequiredDate.ToString("dd/MMMM/yyyy"), new { @class = "form_input", autocomplete = "off", @readonly = "readonly" })
+                </div>
+
+
+
+            </div>
+    <div class="row">
+        <div class="col-md-12 hrpart">
+            <button type="button" class="form-button right" onclick="Exit()">Exit</button>
+            <button type="submit" class="form-button right">Edit</button>
+            <button type="button" class="form-button left" onclick="Delete()">Delete</button>
+        </div>
+
+    </div>
+
+        }
+    </div>
+</div>
+
+
+

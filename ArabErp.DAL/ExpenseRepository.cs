@@ -129,7 +129,8 @@ namespace ArabErp.DAL
             }
             return expenseBill.ExpenseNo;
         }
-        public IEnumerable<ExpenseBillListViewModel> GetList()
+        public IList<ExpenseBillListViewModel> GetList(int id, int supid, DateTime? from, DateTime? to)
+
         {
             using (IDbConnection connection = OpenConnection(dataConnection))
             {
@@ -137,8 +138,11 @@ namespace ArabErp.DAL
                 sql += " select E.ExpenseId, E.ExpenseNo, E.ExpenseDate, S.SupplierName, E.ExpenseBillRef, E.TotalAmount";
                 sql += " from ExpenseBill E";
                 sql += " inner join Supplier S on E.SupplierId = S.SupplierId";
+                sql += " where E.ExpenseId = ISNULL(NULLIF(@id, 0), E.ExpenseId)";
+                sql += " and E.SupplierId = ISNULL(NULLIF(@supid, 0), E.SupplierId)";
+                sql += " and E.ExpenseDate BETWEEN ISNULL(@from, DATEADD(MONTH, -1, GETDATE())) AND ISNULL(@to, GETDATE()) ";
 
-                return connection.Query<ExpenseBillListViewModel>(sql);
+                return connection.Query<ExpenseBillListViewModel>(sql, new { id = id, supid = supid, to = to, from = from }).ToList();
             }
         }
 
@@ -216,5 +220,62 @@ namespace ArabErp.DAL
                 return model;
             }
         }
+
+        public int CHECK(int ExpenseId)
+        {
+            using (IDbConnection connection = OpenConnection(dataConnection))
+            {
+                string sql = @" SELECT Count(ExpenseId)Count FROM ExpenseBill
+                                WHERE isApproved =1 and ExpenseId=@ExpenseId";
+
+                var id = connection.Query<int>(sql, new { ExpenseId = ExpenseId }).FirstOrDefault();
+
+                return id;
+
+            }
+
+        }
+
+        /// <summary>
+        /// Delete ExpenseBill HD Details
+        /// </summary>
+        /// <returns></returns>
+        public int DeleteExpenseBillHD(int Id)
+        {
+            int result = 0;
+            using (IDbConnection connection = OpenConnection(dataConnection))
+            {
+                string sql = @" DELETE FROM ExpenseBill WHERE ExpenseId=@Id";
+
+                {
+
+                    var id = connection.Execute(sql, new { Id = Id });
+                    return id;
+
+                }
+
+            }
+        }
+        /// <summary>
+        /// Delete SO DT Details
+        /// </summary>
+        /// <returns></returns>
+        public int DeleteExpenseBillDT(int Id)
+        {
+            int result3 = 0;
+            using (IDbConnection connection = OpenConnection(dataConnection))
+            {
+                string sql = @" DELETE FROM ExpenseBillItem WHERE ExpenseId=@Id";
+
+                {
+
+                    var id = connection.Execute(sql, new { Id = Id });
+                    return id;
+
+                }
+
+            }
+        }
+       
     }
 }

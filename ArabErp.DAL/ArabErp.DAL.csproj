@@ -20,6 +20,7 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <UseVSHostingProcess>true</UseVSHostingProcess>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -70,6 +71,7 @@
     <Compile Include="BayRepository.cs" />
     <Compile Include="BayStatusReportRepository.cs" />
     <Compile Include="BoxRepository.cs" />
+    <Compile Include="ClosingStockRepository.cs" />
     <Compile Include="CommissionAgentRepository.cs" />
     <Compile Include="ConnectionManager.cs" />
     <Compile Include="ConsumptionItemRepository.cs" />
@@ -141,6 +143,7 @@
     <Compile Include="StockUpdateRepository.cs" />
     <Compile Include="StoreIssueItemRepository.cs" />
     <Compile Include="StoreIssueRepository.cs" />
+    <Compile Include="StoresLedgerRepository.cs" />
     <Compile Include="SupplierCategoryRepository.cs" />
     <Compile Include="SupplierItemRateRepository.cs" />
     <Compile Include="SupplierRepository.cs" />
@@ -159,6 +162,7 @@
     <Compile Include="WorkShopGRNItemRepository.cs" />
     <Compile Include="WorkShopGRNRepository.cs" />
     <Compile Include="WorkShopRequestItemRepository.cs" />
+    <Compile Include="WorkshopRequestRegisterRepository.cs" />
     <Compile Include="WorkShopRequestRepository.cs" />
     <Compile Include="WorkVsItemRepository.cs" />
     <Compile Include="WorkVsTaskRepository.cs" />

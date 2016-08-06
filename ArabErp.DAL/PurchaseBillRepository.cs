@@ -90,8 +90,9 @@ namespace ArabErp.DAL
 
             using (IDbConnection connection = OpenConnection(dataConnection))
             {
-                string sql = @"select * from PurchaseBill
-                        where PurchaseBillId=@PurchaseBillId";
+                string sql = @" SELECT S.SupplierName Supplier, * FROM PurchaseBill P
+                                INNER JOIN Supplier S ON P.SupplierId=S.SupplierId
+                                WHERE PurchaseBillId=@PurchaseBillId";
 
                 var objPurchaseBill = connection.Query<PurchaseBill>(sql, new
                 {
@@ -116,18 +117,48 @@ namespace ArabErp.DAL
         }
 
 
-
-        public int DeletePurchaseBill(Unit objPurchaseBill)
+        /// <summary>
+        /// Delete SO HD Details
+        /// </summary>
+        /// <returns></returns>
+        public int DeletePuchaseBillHD(int Id)
         {
+            int result = 0;
             using (IDbConnection connection = OpenConnection(dataConnection))
             {
-                string sql = @"Delete PurchaseBill  OUTPUT DELETED.PurchaseBillId WHERE PurchaseBillId=@PurchaseBillId";
+                string sql = @" DELETE FROM PurchaseBill WHERE PurchaseBillId=@Id";
 
+                {
 
-                var id = connection.Execute(sql, objPurchaseBill);
-                return id;
+                    var id = connection.Execute(sql, new { Id = Id });
+                    return id;
+
+                }
+
             }
         }
+        /// <summary>
+        /// Delete SO DT Details
+        /// </summary>
+        /// <returns></returns>
+        public int DeletePuchaseBillDT(int Id)
+        {
+            int result3 = 0;
+            using (IDbConnection connection = OpenConnection(dataConnection))
+            {
+                string sql = @" DELETE FROM PurchaseBillItem WHERE PurchaseBillId=@Id";
+
+                {
+
+                    var id = connection.Execute(sql, new { Id = Id });
+                    return id;
+
+                }
+
+            }
+        }
+
+       
         /// <summary>
         /// Pending GRN For Purchase Bill
         /// </summary>
@@ -148,8 +179,7 @@ namespace ArabErp.DAL
             }
         }
 
-
-        public IEnumerable<PurchaseBill> GetPurchaseBillPreviousList()
+        public IList<PurchaseBill> GetPurchaseBillPreviousList(int id, int supid, DateTime? from, DateTime? to,int OrganizationId)
         {
             using (IDbConnection connection = OpenConnection(dataConnection))
             {
@@ -157,12 +187,14 @@ namespace ArabErp.DAL
 	                                PurchaseBillId,PurchaseBillRefNo,CONVERT(VARCHAR(15),PurchaseBillDate, 104)PurchaseBillDate,PurchaseBillNoDate,
 	                                ISNULL(S.SupplierName, '-') Supplier,ISNULL(P.PurchaseBillAmount, 0.00) PurchaseBillAmount
 	                                FROM PurchaseBill P INNER JOIN Supplier S ON S.SupplierId=P.SupplierId
-                                    WHERE ISNULL(P.isActive, 1) = 1
+                                    WHERE P.PurchaseBillId = ISNULL(NULLIF(@id, 0), P.PurchaseBillId) 
+                                    and P.SupplierId = ISNULL(NULLIF(@supid, 0), P.SupplierId)
+                                    and P.PurchaseBillDate BETWEEN ISNULL(@from, DATEADD(MONTH, -1, GETDATE())) AND ISNULL(@to, GETDATE()) 
+                                    and ISNULL(P.isActive, 1) = 1 and P.OrganizationId = @OrganizationId 
                                     ORDER BY PurchaseBillDate DESC, P.CreatedDate DESC;";
-                return connection.Query<PurchaseBill>(query);
+                return connection.Query<PurchaseBill>(query, new { OrganizationId = OrganizationId, id = id, supid = supid, to = to, from = from }).ToList();
             }
         }
-
 
         public DateTime GetDueDate(DateTime d,int sup)
         {

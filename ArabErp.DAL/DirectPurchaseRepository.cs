@@ -13,9 +13,11 @@ namespace ArabErp.DAL
     public class DirectPurchaseRepository : BaseRepository
     {
         static string dataConnection = GetConnectionString("arab");
+        readonly log4net.ILog logger = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
 
-        public int InsertDirectPurchaseRequest(DirectPurchaseRequest model)
+        public string InsertDirectPurchaseRequest(DirectPurchaseRequest model)
         {
+            int id = 0;
             using (IDbConnection connection = OpenConnection(dataConnection))
             {
                 IDbTransaction txn = connection.BeginTransaction(); try
@@ -60,23 +62,44 @@ namespace ArabErp.DAL
                                     @JobCardId
                                 )
                             SELECT CAST(SCOPE_IDENTITY() AS INT)";
-                    var id = connection.Query<int>(sql, model, txn).Single();
+                    id = connection.Query<int>(sql, model, txn).Single<int>();
 
+                    var supplyorderitemrepo = new DirectPurchaseItemRepository();
                     foreach (var item in model.items)
                     {
-                        item.DirectPurchaseRequestId = id;
-                        new DirectPurchaseItemRepository().InsertDirectPurchaseRequestItem(item, connection, txn);
+                            item.DirectPurchaseRequestId = id;
+                            new DirectPurchaseItemRepository().InsertDirectPurchaseRequestItem(item, connection, txn);
+                       
                     }
+
                     txn.Commit();
-                    return id;
                 }
-                catch (Exception)
+                catch (Exception ex)
                 {
+                    logger.Error(ex.Message);
                     txn.Rollback();
-                    return 0;
+                    throw;
                 }
+                return model.PurchaseRequestNo;
             }
         }
+
+
+        //            foreach (var item in model.items)
+        //            {
+        //                item.DirectPurchaseRequestId = id;
+        //                new DirectPurchaseItemRepository().InsertDirectPurchaseRequestItem(item, connection, txn);
+        //            }
+        //            txn.Commit();
+        //            return id;
+        //        }
+        //        catch (Exception)
+        //        {
+        //            txn.Rollback();
+        //            return 0;
+        //        }
+        //    }
+        //}
         /// <summary>
         /// Returns the purchase limit based on organization Id
         /// </summary>
@@ -89,7 +112,7 @@ namespace ArabErp.DAL
                 using (IDbConnection connection = OpenConnection(dataConnection))
                 {
                     return connection.Query<string>(@"SELECT S.SymbolName INTO #SYM FROM Organization O INNER JOIN Currency C ON O.CurrencyId = C.CurrencyId INNER JOIN Symbol S ON C.CurrencySymbolId = S.SymbolId WHERE O.OrganizationId = @organizationId;
-                        SELECT TOP 1 CONVERT(VARCHAR, EffectiveDate, 106)+'|'+ISNULL((SELECT SymbolName FROM #SYM), '')+' '+CAST(Limit AS VARCHAR) FROM DirectPurchaseRequestLimit WHERE EffectiveDate <= GETDATE() AND OrganizationId = @organizationId ORDER BY EffectiveDate DESC;
+                        SELECT TOP 1 CONVERT(VARCHAR, EffectiveDate, 106)+'|'+/*ISNULL((SELECT SymbolName FROM #SYM), '')+' '+*/CAST(Limit AS VARCHAR) FROM DirectPurchaseRequestLimit WHERE EffectiveDate <= GETDATE() AND OrganizationId = @organizationId ORDER BY EffectiveDate DESC;
                         DROP TABLE #SYM;",
                         new { organizationId = organizationId }).First();
                 }
@@ -163,5 +186,143 @@ namespace ArabErp.DAL
                 throw;
             }
         }
+
+        public IList<DirectPurchaseRequest> GetPreviousList()
+        {
+            using (IDbConnection connection = OpenConnection(dataConnection))
+            {
+                string query = @"SELECT
+	                                DirectPurchaseRequestId,
+	                                PurchaseRequestNo,
+	                                CONVERT(VARCHAR, PurchaseRequestDate, 106) PurchaseRequestDate,
+	                                DP.SpecialRemarks,
+	                                DP.RequiredDate,
+	                                DATEDIFF(DAY, PurchaseRequestDate, GETDATE()) Ageing,
+	                                DATEDIFF(DAY, GETDATE(), DP.RequiredDate) DaysLeft,
+	                                DP.TotalAmount,
+	                                ISNULL(SO.SaleOrderId, 0) SaleOrderId,
+	                                SO.SaleOrderRefNo,
+	                                CONVERT(VARCHAR, SO.SaleOrderDate, 106) SaleOrderDate,
+	                                JC.JobCardNo,
+	                                CONVERT(VARCHAR, JC.JobCardDate, 106) JobCardDate,
+	                                ISNULL(JC.JobCardId, 0) JobCardId,
+	                                DP.CreatedBy
+                                FROM DirectPurchaseRequest DP
+                                LEFT JOIN SaleOrder SO ON DP.SaleOrderId = SO.SaleOrderId
+                                LEFT JOIN JobCard JC ON DP.JobCardId = JC.JobCardId
+                                WHERE DP.OrganizationId = @OrganizationId
+                                AND DP.isActive = 1";
+                return connection.Query<DirectPurchaseRequest>(query, new { OrganizationId = 1 }).ToList();
+            }
+        }
+
+        public DirectPurchaseRequest GetDirectPurchaseRequest(int DirectPurchaseRequestId)
+        {
+            try
+            {
+                using (IDbConnection connection = OpenConnection(dataConnection))
+                {
+                    string query = @"SELECT *, CASE WHEN SaleOrderId IS NOT NULL THEN 'SO' WHEN JobCardId IS NOT NULL THEN 'JC' END AS SoOrJc FROM DirectPurchaseRequest
+                                    WHERE DirectPurchaseRequestId = @DirectPurchaseRequestId
+	                                AND ISNULL(isActive, 1) = 1";
+
+                    var objDirectPurchaseRequest = connection.Query<DirectPurchaseRequest>(query, new
+                    {
+                        DirectPurchaseRequestId = DirectPurchaseRequestId
+                    }).First<DirectPurchaseRequest>();
+
+                    return objDirectPurchaseRequest;
+                }
+            }
+            catch (InvalidOperationException iox)
+            {
+                throw iox;
+            }
+            catch (SqlException sx)
+            {
+                throw sx;
+            }
+            catch (NullReferenceException nx)
+            {
+                throw nx;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
+        public List<DirectPurchaseRequestItem> GetDirectPurchaseRequestItems(int DirectPurchaseRequestId)
+        {
+            using (IDbConnection connection = OpenConnection(dataConnection))
+            {
+                string sql = @"SELECT ItemName,PartNo,UnitName UoM,* FROM DirectPurchaseRequestItem D
+                               INNER JOIN Item I ON I.ItemId=D.ItemId
+                               INNER JOIN Unit U ON U.UnitId=I.ItemUnitId
+                               WHERE DirectPurchaseRequestId = @DirectPurchaseRequestId;";
+
+                var objDirectPurchaseRequestItems = connection.Query<DirectPurchaseRequestItem>(sql, new { DirectPurchaseRequestId = DirectPurchaseRequestId }).ToList<DirectPurchaseRequestItem>();
+
+                return objDirectPurchaseRequestItems;
+            }
+        }
+
+        public int CHECK(int DirectPurchaseRequestId)
+        {
+            using (IDbConnection connection = OpenConnection(dataConnection))
+            {
+                string sql = @" SELECT Count(DirectPurchaseRequestId)Count FROM DirectPurchaseRequest 
+                                WHERE isApproved=1 AND DirectPurchaseRequestId=@DirectPurchaseRequestId";
+
+                var id = connection.Query<int>(sql, new { DirectPurchaseRequestId = DirectPurchaseRequestId }).FirstOrDefault();
+
+                return id;
+
+            }
+
+        }
+
+        /// <summary>
+        /// Delete HD Details
+        /// </summary>
+        /// <returns></returns>
+        public int DeleteDirectPurchaseHD(int Id)
+        {
+            int result = 0;
+            using (IDbConnection connection = OpenConnection(dataConnection))
+            {
+                string sql = @" DELETE FROM DirectPurchaseRequest WHERE DirectPurchaseRequestId=@Id";
+
+                {
+
+                    var id = connection.Execute(sql, new { Id = Id });
+                    return id;
+
+                }
+
+            }
+        }
+        /// <summary>
+        /// Delete DT Details
+        /// </summary>
+        /// <returns></returns>
+        public int DeleteDirectPurchaseDT(int Id)
+        {
+            int result3 = 0;
+            using (IDbConnection connection = OpenConnection(dataConnection))
+            {
+                string sql = @" DELETE FROM DirectPurchaseRequestItem WHERE DirectPurchaseRequestId=@Id";
+
+                {
+
+                    var id = connection.Execute(sql, new { Id = Id });
+                    return id;
+
+                }
+
+            }
+        }
+
+
     }
 }
