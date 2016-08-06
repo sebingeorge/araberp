@@ -21,6 +21,7 @@ namespace ArabErp.Domain
         public DateTime JobCardCompletedDate { get; set; }
         public string SpecialRemarks { get; set; }
         public List<JobCardCompletionTask> JobCardTask { get; set; }
+        public int? isProjectBased { get; set; }
     }
     public class JobCardCompletionTask
     {
