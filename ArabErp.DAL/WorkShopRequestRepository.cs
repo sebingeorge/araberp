@@ -42,7 +42,7 @@ namespace ArabErp.DAL
                         item.WorkShopRequestId = id;
                         new WorkShopRequestItemRepository().InsertWorkShopRequestItem(item, connection, trn);
                     }
-
+                    InsertLoginHistory(dataConnection, objWorkShopRequest.CreatedBy, "Create", "Workshop Request", id.ToString(), "0");
                     trn.Commit();
 
                     return id + "|WOR/" + internalId;
@@ -143,9 +143,9 @@ namespace ArabErp.DAL
             using (IDbConnection connection = OpenConnection(dataConnection))
             {
                 string sql = @"UPDATE WorkShopRequest SET WorkShopRequestRefNo = @WorkShopRequestRefNo ,WorkShopRequestDate = @WorkShopRequestDate ,SaleOrderId = @SaleOrderId ,CustomerId = @CustomerId,CustomerOrderRef = @CustomerOrderRef,SpecialRemarks = @SpecialRemarks,RequiredDate = @RequiredDate,CreatedBy = @CreatedBy,CreatedDate = @CreatedDate  OUTPUT INSERTED.WorkShopRequestId  WHERE WorkShopRequestId = @WorkShopRequestId";
-
-
+                
                 var id = connection.Execute(sql, objWorkShopRequest);
+                InsertLoginHistory(dataConnection, objWorkShopRequest.CreatedBy, "Updatte", "Workshop Request", id.ToString(), "0");
                 return id;
             }
         }
@@ -159,6 +159,7 @@ namespace ArabErp.DAL
 
 
                 var id = connection.Execute(sql, objWorkShopRequest);
+                InsertLoginHistory(dataConnection, objWorkShopRequest.CreatedBy, "Delete", "Workshop Request", id.ToString(), "0");
                 return id;
             }
         }
@@ -240,6 +241,7 @@ namespace ArabErp.DAL
                         item.WorkShopRequestId = id;
                         new WorkShopRequestItemRepository().InsertAdditionalWorkshopRequestItem(item, connection, txn);
                     }
+                    InsertLoginHistory(dataConnection, model.CreatedBy, "Create", "Additional Workshop Request", id.ToString(), "0");
                     txn.Commit();
                     return id;
                 }
