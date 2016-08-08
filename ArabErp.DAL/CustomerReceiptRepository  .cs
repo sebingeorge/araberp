@@ -144,7 +144,7 @@ namespace ArabErp.DAL
                     var id = connection.Execute(sql, objCustomerReceipt);
                     objCustomerReceipt.CustomerReceiptId = id;
                     result = 0;
-                    InsertLoginHistory(dataConnection, model.CreatedBy, "Delete", "Customer Receipt", id.ToString(), "0");
+                    InsertLoginHistory(dataConnection, objCustomerReceipt.CreatedBy, "Delete", "Customer Receipt", id.ToString(), "0");
                 }
                 catch (SqlException ex)
                 {
