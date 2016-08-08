@@ -55,41 +55,47 @@ namespace ArabErp.Web.Controllers
 
             bool isexists = repo.IsFieldExists(repo.ConnectionString(), "Item","ItemName",oitem.ItemName, null, null);
             if (!isexists)
-
-            //bool isexists1 = repo.IsFieldExists(repo.ConnectionString(), "Item","PartNo",oitem.PartNo, null, null);
-            //if (!isexists1)
-
-            //{
             {
+                isexists = repo.IsFieldExists(repo.ConnectionString(), "Item", "PartNo", oitem.PartNo, null, null);
+                if (!isexists)
 
-
-                var result = new ItemRepository().InsertItem(oitem);
-              if (result.ItemId > 0)
                 {
 
-                TempData["Success"] = "Added Successfully!";
-                TempData["ItemRefNo"] = result.ItemRefNo;
-                return RedirectToAction("Index");
+
+                    var result = new ItemRepository().InsertItem(oitem);
+                    if (result.ItemId > 0)
+                    {
+
+                        TempData["Success"] = "Added Successfully!";
+                        TempData["ItemRefNo"] = result.ItemRefNo;
+                        return RedirectToAction("Index");
+                    }
+
+                    else
+                    {
+                        FillUnit();
+                        TempData["error"] = "Oops!!..Something Went Wrong!!";
+                        TempData["ItemRefNo"] = null;
+                        return View("Create", oitem);
+                    }
+
                 }
+                else
+                {
 
-              else
-               {
-                FillUnit();
-                TempData["error"] = "Oops!!..Something Went Wrong!!";
-                TempData["ItemRefNo"] = null;
-                return View("Create", oitem);
-               }
-         
-               }
+                    FillUnit();
+                    TempData["error"] = "This Part No. Alredy Exists!!";
+                    TempData["ItemRefNo"] = null;
+                    return View("Create", oitem);
+                }
+            }
             else
-             {
-
+            {
                 FillUnit();
                 TempData["error"] = "This Item Name Alredy Exists!!";
                 TempData["ItemRefNo"] = null;
                 return View("Create", oitem);
             }
-
         }
 
         public ActionResult View(int Id)

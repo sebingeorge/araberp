@@ -16,7 +16,7 @@
 
         }
         if (Action == 'Create') {
-            $("#GenderId").prop("checked", true)
+            $("#Active").prop("checked", true)
         }
 
         //$("#radio_1").prop("checked", true)
@@ -113,8 +113,11 @@
                             <div class="row">
                                 <div class="part4">
                                     <div style="font-size :12px">Active</div>
-                                    @Html.RadioButtonFor(model => model.Active, 1, new { @checked = true }) Yes
-                                    @Html.RadioButtonFor(model => model.Active, 2, new { @checked = true }) No
+                                    @Html.RadioButtonFor(m => m.Active, 1) Yes
+                                    @Html.RadioButtonFor(m => m.Active, 2) No
+
+                                    @*@Html.RadioButtonFor(model => model.Active, 1, new { @checked = true }) Yes
+                                    @Html.RadioButtonFor(model => model.Active, 2, new { @checked = true }) No*@
                                 </div>
                             </div>
                         </div>
