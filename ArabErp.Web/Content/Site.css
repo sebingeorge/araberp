@@ -329,7 +329,7 @@ background-color: #ffffff;
     }
 .main-grid .table-striped > tbody > tr:nth-child(2n+1) > td, .table-striped > tbody > tr:nth-child(2n+1) > th
 {
-    padding:4px !important;
+    /*padding:4px !important;*/
 }
  .main-grid .table 
  {

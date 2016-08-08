@@ -96,9 +96,10 @@ namespace ArabErp.DAL
                 string sql = @"SELECT SaleOrderId,SaleOrderRefNo,SaleOrderDate,CONCAT(QuotationRefNo,'/',CONVERT (VARCHAR(15),QuotationDate,104))QuotationNoDate,  
                                C.CustomerId,CustomerName,DoorNo +','+ Street+','+State CustomerAddress,CustomerOrderRef,S.CurrencyId,SpecialRemarks,S.PaymentTerms,
                                DeliveryTerms,CommissionAgentId,CommissionAmount,TotalAmount,TotalDiscount,S.SalesExecutiveId,EDateArrival,EDateDelivery,SaleOrderApproveStatus,
-                               SaleOrderHoldStatus,SaleOrderHoldReason,SaleOrderHoldDate,SaleOrderReleaseDate,S.SalesQuotationId,SaleOrderClosed,S.isProjectBased
+                               SaleOrderHoldStatus,SaleOrderHoldReason,SaleOrderHoldDate,SaleOrderReleaseDate,S.SalesQuotationId,SaleOrderClosed,S.isProjectBased,CUR.CurrencyName
                                FROM SaleOrder S 
                                INNER JOIN Customer C ON S.CustomerId=C.CustomerId  
+							   LEFT JOIN Currency CUR ON S.CurrencyId = CUR.CurrencyId
                                LEFT JOIN SalesQuotation SQ ON SQ.SalesQuotationId=S.SalesQuotationId
                                WHERE SaleOrderId=@SaleOrderId";
 
@@ -196,8 +197,7 @@ namespace ArabErp.DAL
         {
             using (IDbConnection connection = OpenConnection(dataConnection))
             {
-                string sql = @"UPDATE SaleOrder SET SaleOrderDate = @SaleOrderDate ,CustomerId = @CustomerId ,CustomerOrderRef = @CustomerOrderRef ,VehicleModelId = @VehicleModelId,SpecialRemarks = @SpecialRemarks,PaymentTermsRemarks = @PaymentTermsRemarks,DeliveryTerms = @DeliveryTerms,CommissionAgentId = @CommissionAgentId,CommisionAmount = @CommisionAmount,SalesExecutiveId = @SalesExecutiveId   OUTPUT INSERTED.SaleOrderId  WHERE SaleOrderId = @SaleOrderId";
-
+                string sql = @"UPDATE SaleOrder SET SaleOrderDate = @SaleOrderDate, CustomerOrderRef = @CustomerOrderRef,SpecialRemarks = @SpecialRemarks,CommissionAgentId = @CommissionAgentId,CommissionAmount = @CommissionAmount,SalesExecutiveId = @SalesExecutiveId, EDateArrival = @EDateArrival, EDateDelivery = @EDateDelivery, DeliveryTerms = @DeliveryTerms  WHERE SaleOrderId = @SaleOrderId";
 
                 var id = connection.Execute(sql, objSaleOrder);
                 InsertLoginHistory(dataConnection, objSaleOrder.CreatedBy, "Update", "Sale Order", id.ToString(), "0");
@@ -236,14 +236,33 @@ namespace ArabErp.DAL
                 return id;
             }
         }
-        public int DeleteSaleOrder(Unit objSaleOrder)
+        public int DeleteSaleOrder(int id)
         {
             using (IDbConnection connection = OpenConnection(dataConnection))
             {
-                string sql = @"Delete SaleOrder  OUTPUT DELETED.SaleOrderId WHERE SaleOrderId=@SaleOrderId";
-                var id = connection.Execute(sql, objSaleOrder);
-                InsertLoginHistory(dataConnection, objSaleOrder.CreatedBy, "Delete", "Sale Order", id.ToString(), "0");
-                return id;
+                //string sql = @"Delete SaleOrder  OUTPUT DELETED.SaleOrderId WHERE SaleOrderId=@SaleOrderId";
+                //var id = connection.Execute(sql, objSaleOrder);
+                //InsertLoginHistory(dataConnection, objSaleOrder.CreatedBy, "Delete", "Sale Order", id.ToString(), "0");
+                //return id;
+                //string sql = @"Delete SaleOrder  OUTPUT DELETED.SaleOrderId WHERE SaleOrderId=@SaleOrderId";
+                string query = @"DELETE FROM SaleOrderItem WHERE SaleOrderId = @id;
+                                DELETE FROM SaleOrder WHERE SaleOrderId = @id;";
+                IDbTransaction txn = connection.BeginTransaction();
+                try
+                {
+                    var output = connection.Execute(query, new { id = id }, txn);
+                    txn.Rollback();
+                    txn.Dispose();
+                    
+                    query = "UPDATE SaleOrder SET isActive = 0 WHERE SaleOrderId = @id";
+                    output = connection.Execute(query, new { id = id });
+                    return output;
+                }
+                catch (Exception)
+                {
+                    txn.Rollback();
+                    return 0;
+                }
             }
         }
         public List<Dropdown> FillCustomer()
@@ -390,7 +409,9 @@ namespace ArabErp.DAL
         {
             using (IDbConnection connection = OpenConnection(dataConnection))
             {
-                string sql = @"select * from SaleOrderItem where SaleOrderId=@SaleOrderId";
+                string sql = @"select *, WD.WorkDescr from SaleOrderItem SOI
+                                INNER JOIN WorkDescription WD ON SOI.WorkDescriptionId = WD.WorkDescriptionId 
+                                where SaleOrderId=@SaleOrderId";
                 return connection.Query<SaleOrderItem>(sql, new { SaleOrderId = SaleOrderId }).ToList();
             }
         }
@@ -541,12 +562,24 @@ namespace ArabErp.DAL
                 query += " inner join Customer C on S.CustomerId = C.CustomerId";
                 query += " left join SalesQuotation SQ ON SQ.SalesQuotationId=S.SalesQuotationId";
                 query += " where S.SaleOrderId= ISNULL(NULLIF(@id, 0), S.SaleOrderId) AND C.CustomerId = ISNULL(NULLIF(@cusid, 0), C.CustomerId)";
-                query += " and S.OrganizationId = @OrganizationId and S.SaleOrderDate BETWEEN ISNULL(@from, DATEADD(MONTH, -1, GETDATE())) AND ISNULL(@to, GETDATE()) and S.isProjectBased =" + isProjectBased;
+                query += " AND S.isActive = 1 and S.OrganizationId = @OrganizationId and S.SaleOrderDate BETWEEN ISNULL(@from, DATEADD(MONTH, -1, GETDATE())) AND ISNULL(@to, GETDATE()) and S.isProjectBased =" + isProjectBased;
 
                 return connection.Query<PendingSO>(query, new { OrganizationId = OrganizationId, id = id, cusid = cusid, to = to, from = from }).ToList();
             }
         }
 
+        public int isUsed(int id)
+        {
+             using (IDbConnection connection = OpenConnection(dataConnection))
+            {
+                string query = @"SELECT COUNT(JobCardId) FROM JobCard JC
+                                INNER JOIN SaleOrderItem SOI ON JC.SaleOrderItemId = SOI.SaleOrderItemId
+                                INNER JOIN SaleOrder SO ON SOI.SaleOrderId = SO.SaleOrderId
+                                WHERE SO.SaleOrderId = @id
+                                AND JC.isActive = 1";
 
+                return connection.Query<int>(query, new { id = id }).First();
+            }
+        }
     }
 }
