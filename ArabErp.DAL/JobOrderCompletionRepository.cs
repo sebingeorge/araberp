@@ -93,7 +93,7 @@ namespace ArabErp.DAL
             }
         }
 
-        public int UpdateJobCardCompletion(JobCardCompletion jobcard)
+        public int UpdateJobCardCompletion(JobCardCompletion jobcard, string CreatedBy)
         {
             int id = 0;
             using (IDbConnection connection = OpenConnection(dataConnection))
@@ -118,6 +118,7 @@ namespace ArabErp.DAL
                         connection.Query(query);
                     }
                 }
+                InsertLoginHistory(dataConnection, CreatedBy, "Update", "Job Card Completion", id.ToString(), "0");
             }
             return id;
         }

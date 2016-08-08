@@ -38,7 +38,7 @@ namespace ArabErp.DAL
                         item.PurchaseRequestId = id;
                         new PurchaseRequestItemRepository().InsertPurchaseRequestItem(item, connection, trn);
                     }
-
+                    InsertLoginHistory(dataConnection, objPurchaseRequest.CreatedBy, "Create", "Purchase Request", id.ToString(), "0");
                     trn.Commit();
 
                     return id + "|PUR/" + internalId;
@@ -105,6 +105,7 @@ namespace ArabErp.DAL
                                 WorkShopRequestId = @WorkShopRequestId ,SpecialRemarks = @SpecialRemarks,RequiredDate = @RequiredDate  
                                 OUTPUT INSERTED.PurchaseRequestId  WHERE PurchaseRequestId = @PurchaseRequestId";
                 var id = connection.Execute(sql, objPurchaseRequest);
+                InsertLoginHistory(dataConnection, objPurchaseRequest.CreatedBy, "Update", "Purchase Request", id.ToString(), "0");
                 return objPurchaseRequest;
             }
         }
@@ -112,7 +113,7 @@ namespace ArabErp.DAL
         /// Delete Purchase Request HD Details
         /// </summary>
         /// <returns></returns>
-        public int DeletePurchaseRequestHD(int Id)
+        public int DeletePurchaseRequestHD(int Id, string CreatedBy)
         {
             int result = 0;
             using (IDbConnection connection = OpenConnection(dataConnection))
@@ -123,6 +124,7 @@ namespace ArabErp.DAL
                 {
 
                     var id = connection.Execute(sql, new { Id = Id });
+                    InsertLoginHistory(dataConnection, CreatedBy, "Delete", "Purchase Request", id.ToString(), "0");
                     return id;
 
                 }

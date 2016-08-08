@@ -21,6 +21,7 @@ namespace ArabErp.DAL
 
 
                 var id = connection.Query<int>(sql, objSalesExecutive).Single();
+                
                 return id;
             }
         }

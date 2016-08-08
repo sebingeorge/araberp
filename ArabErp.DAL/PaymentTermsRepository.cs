@@ -35,6 +35,7 @@ namespace ArabErp.DAL
                     int id = connection.Query<int>(sql, objPaymentTerms, trn).Single();
                     objPaymentTerms.PaymentTermsId = id;
                     //connection.Dispose();
+                    InsertLoginHistory(dataConnection, objPaymentTerms.CreatedBy, "Create", "Payment Terms", id.ToString(), "0");
                     trn.Commit();
                 }
                 catch (Exception ex)
@@ -83,6 +84,7 @@ namespace ArabErp.DAL
 
 
                 var id = connection.Execute(sql, objPaymentTerms);
+                InsertLoginHistory(dataConnection, objPaymentTerms.CreatedBy, "Update", "Payment Terms", id.ToString(), "0");
                 return objPaymentTerms;
             }
         }
@@ -99,7 +101,7 @@ namespace ArabErp.DAL
                     var id = connection.Execute(sql, objPaymentTerms);
                     objPaymentTerms.PaymentTermsId = id;
                     result = 0;
-
+                    InsertLoginHistory(dataConnection, objPaymentTerms.CreatedBy, "Delete", "Payment Terms", id.ToString(), "0");
                 }
                 catch (SqlException ex)
                 {

@@ -35,6 +35,7 @@ namespace ArabErp.DAL
 
                     int id = connection.Query<int>(sql, objItemCategory, trn).Single();
                     objItemCategory.itmCatId = id;
+                    InsertLoginHistory(dataConnection, objItemCategory.CreatedBy, "Create", "Item Category", id.ToString(), "0");
                     //connection.Dispose();
                     trn.Commit();
                 }
@@ -56,8 +57,8 @@ namespace ArabErp.DAL
             {
                 string sql = @"Update ItemCategory Set itmCatRefNo=@itmCatRefNo,CategoryName=@CategoryName OUTPUT INSERTED.itmCatId WHERE itmCatId=@itmCatId";
 
-
                 var id = connection.Execute(sql, objItemCategory);
+                InsertLoginHistory(dataConnection, objItemCategory.CreatedBy, "Update", "Item Category", id.ToString(), "0");
                 return objItemCategory;
             }
         }
@@ -74,6 +75,7 @@ namespace ArabErp.DAL
 
                     var id = connection.Execute(sql, objItemCategory);
                     objItemCategory.itmCatId = id;
+                    InsertLoginHistory(dataConnection, objItemCategory.CreatedBy, "Delete", "Item Category", id.ToString(), "0");
                     //result = 0;
 
                 }

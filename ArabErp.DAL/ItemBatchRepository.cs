@@ -11,7 +11,7 @@ namespace ArabErp.DAL
     public class ItemBatchRepository : BaseRepository
     {
         static string dataConnection = GetConnectionString("arab");
-        public int InsertItemBatch(IList<ItemBatch> model)
+        public int InsertItemBatch(IList<ItemBatch> model, string CreatedBy)
         {
             using (IDbConnection connection = OpenConnection(dataConnection))
             {
@@ -26,6 +26,7 @@ namespace ArabErp.DAL
                     {
                         var id = connection.Query<int>(sql, item, txn).Single();
                     }
+                    InsertLoginHistory(dataConnection, CreatedBy, "Create", "Item Batch", "0", "0");
                     txn.Commit();
                     return 1;
                 }
@@ -124,7 +125,7 @@ namespace ArabErp.DAL
             }
         }
 
-        public void ReserveItemBatch(IList<ItemBatch> model)
+        public void ReserveItemBatch(IList<ItemBatch> model, string CreatedBy)
         {
             using (IDbConnection connection = OpenConnection(dataConnection))
             {
@@ -138,6 +139,7 @@ namespace ArabErp.DAL
                     {
                         var id = connection.Query<int>(sql, item, txn).Single();
                     }
+                    InsertLoginHistory(dataConnection, CreatedBy, "Create", "Reserve Item", "0", "0");
                     txn.Commit();
 
                 }
@@ -343,7 +345,7 @@ namespace ArabErp.DAL
             }
         }
 
-        public int UnReserveItems(List<int> selected)
+        public int UnReserveItems(List<int> selected, string CreatedBy)
         {
             try
             {
@@ -351,6 +353,7 @@ namespace ArabErp.DAL
                 {
                     string query = @"UPDATE ItemBatch SET SaleOrderItemId = NULL WHERE ItemBatchId IN @id AND DeliveryChallanId IS NULL";
                     return connection.Execute(query, new { id = selected });
+                    InsertLoginHistory(dataConnection, CreatedBy, "Create", "Un-Reserve Item", "0", "0");
                 }
             }
             catch (Exception ex)

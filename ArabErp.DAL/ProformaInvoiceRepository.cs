@@ -80,7 +80,7 @@ namespace ArabErp.DAL
                         item.ProformaInvoiceId = id;
                         new ProformaInvoiceItemRepository().InsertProformaInvoiceItem(item, connection, txn);
                     }
-
+                    InsertLoginHistory(dataConnection, objProInvoice.CreatedBy, "Create", "Proforma Invoice", id.ToString(), "0");
                     txn.Commit();
 
                     return id + "|PINV/" + internalId;

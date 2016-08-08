@@ -1,59 +1,60 @@
 ﻿@model IList<ArabErp.Domain.SupplyOrderPreviousList>
 
+<div class="row">
+    <div class="main-grid main-grid-top scroll1">
+        <div class="table-responsive">
+            <table class="table table-bordered">
+                <thead>
+                    <tr class="grid_heading">
 
-<table class="table table-bordered">
-    <thead>
-        <tr class="grid_heading">
-
-            <th width="15%" nowrap><h1>Supply Order No.</h1></th>
-            <th width="8%" nowrap><h1>Date</h1></th>
-            <th width="15%" nowrap><h1>Supplier</h1></th>
-            <th width="15%" nowrap><h1>Quotation No &amp; Date</h1></th>
-            <th width="1%" nowrap><h1>Requested Qty</h1></th>
-            <th width="1%" nowrap><h1>Supplied Qty</h1></th>
-            <th width="1%" nowrap><h1>Balance Qty</h1></th>
-            <th width="8%" class="text-right" nowrap><h1>Total</h1></th>
-            <th width="1%"></th>
-        </tr>
-    </thead>
-    <tbody class="grid_row">
-        @if (Model.Count > 0)
-        {
-            int i = 0;
-            foreach (var item in Model)
-                
-            {
-                <tr>
-                    <td>@item.SupplyOrderNo</td>
-                    <td>@item.SupplyOrderDate.ToString("dd/MMM/yyyy")</td>
-                    <td>@item.SupplierName</td>
-                    <td>@item.QuotationNoAndDate</td>
-                    <td>@item.RequestedQuantity</td>
-                    <td>@item.SuppliedQuantity</td>
-                    <td>@item.BalanceQuantity</td>
-                    <td>@item.Amount</td>
-                    <td>
-                        <input type="button" class="form-button4" onclick="OnSelected(@item.SupplyOrderId)" value="Select" title="Select to view details" />
-                    </td>
-                </tr>
-            }
-        }
-        else
-        {
-            <tr>
-                <td colspan="6">
-                    <center>
-                        <em>No items found!</em>
-                    </center>
-                </td>
-            </tr>
-        }
-    </tbody>
-</table>
-
-
-<br />
-<div class="row-count1">
-    <h5>Row Count:- @Model.Count()</h5>
+                        <th width="15%" nowrap><h1>Supply Order No.</h1></th>
+                        <th width="8%" nowrap><h1>Date</h1></th>
+                        <th width="15%" nowrap><h1>Supplier</h1></th>
+                        <th width="15%" nowrap><h1>Quotation No &amp; Date</h1></th>
+                        <th width="1%" nowrap><h1>Requested Qty</h1></th>
+                        <th width="1%" nowrap><h1>Supplied Qty</h1></th>
+                        <th width="1%" nowrap><h1>Balance Qty</h1></th>
+                        <th width="8%" class="text-right" nowrap><h1>Total</h1></th>
+                        <th width="1%"></th>
+                    </tr>
+                </thead>
+                <tbody class="grid_row">
+                    @if (Model.Count > 0)
+                    {
+                        int i = 0;
+                        foreach (var item in Model)
+                        {
+                            <tr>
+                                <td>@item.SupplyOrderNo</td>
+                                <td>@item.SupplyOrderDate.ToString("dd/MMM/yyyy")</td>
+                                <td>@item.SupplierName</td>
+                                <td>@item.QuotationNoAndDate</td>
+                                <td>@item.RequestedQuantity</td>
+                                <td>@item.SuppliedQuantity</td>
+                                <td>@item.BalanceQuantity</td>
+                                <td>@item.Amount</td>
+                                <td>
+                                    <input type="button" class="form-button4" onclick="OnSelected(@item.SupplyOrderId)" value="Select" title="Select to view details" />
+                                </td>
+                            </tr>
+                        }
+                    }
+                    else
+                    {
+                        <tr>
+                            <td colspan="6">
+                                <center>
+                                    <em>No items found!</em>
+                                </center>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
 </div>
+        </div>
+            <div class="row-count1">
+                <h5>Row Count:- @Model.Count()</h5>
+            </div>
+    </div>
 

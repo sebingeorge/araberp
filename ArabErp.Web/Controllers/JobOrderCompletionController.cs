@@ -49,7 +49,7 @@ namespace ArabErp.Web.Controllers
         public ActionResult Save(JobCardCompletion model)
         {
             JobOrderCompletionRepository repo = new JobOrderCompletionRepository();
-            repo.UpdateJobCardCompletion(model);
+            repo.UpdateJobCardCompletion(model, UserID.ToString());
             return RedirectToAction("PendingJobOrderCompletion", new { isProjectBased = model.isProjectBased});
         }
     }

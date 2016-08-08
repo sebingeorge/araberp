@@ -42,7 +42,7 @@ namespace ArabErp.DAL
                         item.SaleOrderId = id;
                         new SaleOrderItemRepository().InsertSaleOrderItem(item, connection, txn);
                     }
-
+                    InsertLoginHistory(dataConnection, objSaleOrder.CreatedBy, "Create", "Sale Order", id.ToString(), "0");
                     txn.Commit();
 
                     return id + "|SAL/" + internalId;
@@ -200,6 +200,7 @@ namespace ArabErp.DAL
 
 
                 var id = connection.Execute(sql, objSaleOrder);
+                InsertLoginHistory(dataConnection, objSaleOrder.CreatedBy, "Update", "Sale Order", id.ToString(), "0");
                 return id;
             }
         }
@@ -241,6 +242,7 @@ namespace ArabErp.DAL
             {
                 string sql = @"Delete SaleOrder  OUTPUT DELETED.SaleOrderId WHERE SaleOrderId=@SaleOrderId";
                 var id = connection.Execute(sql, objSaleOrder);
+                InsertLoginHistory(dataConnection, objSaleOrder.CreatedBy, "Delete", "Sale Order", id.ToString(), "0");
                 return id;
             }
         }

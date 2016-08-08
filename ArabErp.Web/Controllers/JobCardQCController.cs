@@ -69,7 +69,7 @@ namespace ArabErp.Web.Controllers
             {
             jc.OrganizationId = OrganizationId;
             jc.CreatedDate = System.DateTime.Now;
-            jc.CreatedBy = Request.ServerVariables["HTTP_X_FORWARDED_FOR"] ?? Request.ServerVariables["REMOTE_ADDR"];
+            jc.CreatedBy = UserID.ToString();
             new JobCardQCRepository().InsertJobCardQC(jc);
             return RedirectToAction("PendingJobCardQC");
             }

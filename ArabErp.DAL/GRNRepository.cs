@@ -66,7 +66,7 @@ namespace ArabErp.DAL
                                     stocktrnDate = model.GRNDate
                                 }, connection, trn);
                         }
-
+                        InsertLoginHistory(dataConnection, model.CreatedBy, "Create", "GRN", id.ToString(), "0");
                         trn.Commit();
                         return model.GRNNo;
                     }
@@ -179,9 +179,9 @@ namespace ArabErp.DAL
             using (IDbConnection connection = OpenConnection(dataConnection))
             {
                 string sql = @"UPDATE GRN SET GRNNo = @GRNNo ,GRNDate = @GRNDate ,SupplierId = @SupplierId ,WareHouseId = @WareHouseId,SupplierDCNoAndDate = @SupplierDCNoAndDate  OUTPUT INSERTED.GRNId  WHERE GRNId = @GRNId";
-
-
+                
                 var id = connection.Execute(sql, objGRN);
+                InsertLoginHistory(dataConnection, objGRN.CreatedBy, "Update", "GRN", id.ToString(), "0");
                 return id;
             }
         }
@@ -192,8 +192,8 @@ namespace ArabErp.DAL
             {
                 string sql = @"Delete GRN  OUTPUT DELETED.GRNId WHERE GRNId=@GRNId";
 
-
                 var id = connection.Execute(sql, objGRN);
+                InsertLoginHistory(dataConnection, objGRN.CreatedBy, "Delete", "GRN", id.ToString(), "0");
                 return id;
             }
         }

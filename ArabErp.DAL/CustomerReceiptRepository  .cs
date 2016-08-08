@@ -74,7 +74,7 @@ namespace ArabErp.DAL
                                  @CreatedBy,@CreatedDate,@OrganizationId,1)
                                  SELECT CAST(SCOPE_IDENTITY() AS INT)";
                     var id = connection.Query<int>(sql, model, txn).Single();
-
+                    InsertLoginHistory(dataConnection, model.CreatedBy, "Create", "Customer Receipt", id.ToString(), "0");
                     txn.Commit();
                     return id;
                 }
@@ -128,6 +128,7 @@ namespace ArabErp.DAL
                                 WHERE CustomerReceiptId = @CustomerReceiptId";
 
                 var id = connection.Execute(sql, objCustomerReceipt);
+                InsertLoginHistory(dataConnection, objCustomerReceipt.CreatedBy, "Update", "Customer Receipt", id.ToString(), "0");
                 return objCustomerReceipt;
             }
         }
@@ -143,7 +144,7 @@ namespace ArabErp.DAL
                     var id = connection.Execute(sql, objCustomerReceipt);
                     objCustomerReceipt.CustomerReceiptId = id;
                     result = 0;
-
+                    InsertLoginHistory(dataConnection, objCustomerReceipt.CreatedBy, "Delete", "Customer Receipt", id.ToString(), "0");
                 }
                 catch (SqlException ex)
                 {

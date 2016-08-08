@@ -19,6 +19,7 @@ namespace ArabErp.DAL
             SELECT CAST(SCOPE_IDENTITY() as int)";
 
                 var id = connection.Query<int>(sql, objConsumptionItem, txn).Single();
+                
                 return id;
             }
             catch (Exception)

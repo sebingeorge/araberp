@@ -38,7 +38,7 @@ namespace ArabErp.DAL
                         item.JobCardQCId = id;
                         JobCardQCParamRepo.InsertSaleOrderItem(item, connection, trn);
                     }
-
+                    InsertLoginHistory(dataConnection, objJobCardQC.CreatedBy, "Create", "Job Card QC", id.ToString(), "0");
                     trn.Commit();
                     return id;
                 }
@@ -115,6 +115,7 @@ namespace ArabErp.DAL
 
 
                 var id = connection.Execute(sql, objJobCardQC);
+                InsertLoginHistory(dataConnection, objJobCardQC.CreatedBy, "Create", "Job Card QC", id.ToString(), "0");
                 return id;
             }
         }
