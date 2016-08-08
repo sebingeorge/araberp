@@ -63,14 +63,14 @@ namespace ArabErp.Web.Controllers
             var repo = new SaleOrderRepository();
             SaleOrder model = repo.GetSaleOrderFrmQuotation(SalesQuotationId ?? 0);
 
-            var SOList = repo.GetSaleOrderItemFrmQuotation(SalesQuotationId ?? 0);
-            model.Items = new List<SaleOrderItem>();
-            foreach (var item in SOList)
-            {
-                var soitem = new SaleOrderItem { WorkDescriptionId = item.WorkDescriptionId, VehicleModelName = item.VehicleModelName,VehicleModelId=item.VehicleModelId, Quantity = item.Quantity, UnitId = item.UnitId, Rate = item.Rate, Amount = item.Amount, Discount = item.Discount };
-                model.Items.Add(soitem);
+            model.Items = repo.GetSaleOrderItemFrmQuotation(SalesQuotationId ?? 0);
+            //model.Items = new List<SaleOrderItem>();
+            //foreach (var item in SOList)
+            //{
+            //    var soitem = new SaleOrderItem { WorkDescriptionId = item.WorkDescriptionId, VehicleModelName = item.VehicleModelName,VehicleModelId=item.VehicleModelId, Quantity = item.Quantity, UnitId = item.UnitId, Rate = item.Rate, Amount = item.Amount, Discount = item.Discount };
+            //    model.Items.Add(soitem);
 
-            }
+            //}
             model.isProjectBased = 0;
             //saleOrder.Items = new List<SaleOrderItem>();
             //saleOrder.Items.Add(new SaleOrderItem());
@@ -110,14 +110,14 @@ namespace ArabErp.Web.Controllers
             var repo = new SaleOrderRepository();
             SaleOrder model = repo.GetSaleOrderFrmQuotation(SalesQuotationId ?? 0);
 
-            var SOList = repo.GetSaleOrderItemFrmQuotation(SalesQuotationId ?? 0);
-            model.Items = new List<SaleOrderItem>();
-            foreach (var item in SOList)
-            {
-                var soitem = new SaleOrderItem { WorkDescriptionId = item.WorkDescriptionId, VehicleModelName = item.VehicleModelName, Quantity = item.Quantity, UnitId = item.UnitId, Rate = item.Rate, Amount = item.Amount, Discount = item.Discount };
-                model.Items.Add(soitem);
+            model.Items = repo.GetSaleOrderItemFrmQuotation(SalesQuotationId ?? 0);
+            //model.Items = new List<SaleOrderItem>();
+            //foreach (var item in SOList)
+            //{
+            //    var soitem = new SaleOrderItem { WorkDescriptionId = item.WorkDescriptionId, VehicleModelName = item.VehicleModelName, Quantity = item.Quantity, UnitId = item.UnitId, Rate = item.Rate, Amount = item.Amount, Discount = item.Discount };
+            //    model.Items.Add(soitem);
 
-            }
+            //}
             //SaleOrder saleOrder = new SaleOrder();
             model.isProjectBased = 1;
             //model.Items = new List<SaleOrderItem>();
@@ -663,7 +663,67 @@ namespace ArabErp.Web.Controllers
         {
             return PartialView("IncentiveAmountGrid", new SaleOrderRepository().GetSaleOrderIncentiveAmountList(FromDate, ToDate, CommissionAgentId));
         }
-      
 
+        public ActionResult Edit(int id = 0)
+        {
+            if (id != 0)
+            {
+                FillCustomer();
+                FillCurrency();
+                FillCommissionAgent();
+                FillUnit();
+                FillEmployee();
+
+                FillVehicle();
+                var repo = new SaleOrderRepository();
+                SaleOrder model = repo.GetSaleOrder(id);
+                model.Items = repo.GetSaleOrderItem(id);
+                //model.Items = new List<SaleOrderItem>();
+                //foreach (var item in SOList)
+                //{
+                //    var soitem = new SaleOrderItem { WorkDescriptionId = item.WorkDescriptionId, VehicleModelId = item.VehicleModelId, Quantity = item.Quantity, UnitId = item.UnitId, Rate = item.Rate, Amount = item.Amount, Discount = item.Discount };
+                //    model.Items.Add(soitem);
+
+                //}
+                FillWrkDesc();
+                return View("Edit", model);
+            }
+            else
+            {
+                return RedirectToAction("Index");
+            }
+        }
+        [HttpPost]
+        public ActionResult Edit(SaleOrder model)
+        {
+            if (new SaleOrderRepository().isUsed(model.SaleOrderId) > 0)
+            {
+                TempData["error"] = "Cannot edit. Sale Order already used.";
+                return RedirectToAction("Edit", new { id = model.SaleOrderId });
+            }
+
+            if (new SaleOrderRepository().UpdateSaleOrder(model) > 0)
+            {
+                TempData["success"] = "Updated Successfully";
+                return RedirectToAction("Index", new { type = model.isProjectBased });
+            }
+            else
+            {
+                TempData["error"] = "Could not update due to some error. Please try again.";
+                return RedirectToAction("Edit", new { id = model.SaleOrderId });
+            }
+        }
+
+        public ActionResult Delete(int id, int type)
+        {
+            int i = new SaleOrderRepository().DeleteSaleOrder(id);
+            if (i > 0)
+            {
+                TempData["success"] = "Delete Successfully";
+                return RedirectToAction("Index", new { type = type });
+            }
+            TempData["error"] = "Cannot delete. Sale Order already used.";
+            return RedirectToAction("Edit", new { id = id });
+        }
     }
 }
