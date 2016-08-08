@@ -15,7 +15,6 @@ namespace ArabErp.Domain
         public string PartNo { get; set; }
          [Required]
         public string ItemName { get; set; }
-         [Required]
         public string ItemPrintName { get; set; }
          [Required]
         public string  ItemShortName { get; set; }
