@@ -61,7 +61,7 @@ namespace ArabErp.Web.Controllers
                 {
                     qs.OrganizationId = OrganizationId;
                     qs.CreatedDate = System.DateTime.Now;
-                    qs.CreatedBy = Request.ServerVariables["HTTP_X_FORWARDED_FOR"] ?? Request.ServerVariables["REMOTE_ADDR"];
+                    qs.CreatedBy = UserID.ToString();
                     var id = new QuerySheetRepository().InsertQuerySheet(qs);
                     if (id.Split('|')[0] != "0")
                     {
@@ -160,7 +160,7 @@ namespace ArabErp.Web.Controllers
             ViewBag.Title = "Edit";
             model.OrganizationId = OrganizationId;
             model.CreatedDate = System.DateTime.Now;
-            model.CreatedBy = Request.ServerVariables["HTTP_X_FORWARDED_FOR"] ?? Request.ServerVariables["REMOTE_ADDR"];
+            model.CreatedBy = UserID.ToString();
 
 
 

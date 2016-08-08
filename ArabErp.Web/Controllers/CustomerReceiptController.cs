@@ -43,7 +43,7 @@ namespace ArabErp.Web.Controllers
             FillSI();
             model.OrganizationId = OrganizationId;
             model.CreatedDate = System.DateTime.Now;
-            model.CreatedBy = Request.ServerVariables["HTTP_X_FORWARDED_FOR"] ?? Request.ServerVariables["REMOTE_ADDR"];
+            model.CreatedBy = UserID.ToString();
             if (new CustomerReceiptRepository().InsertCustomerReceipt(model) > 0)
             {
                 TempData["success"] = "Saved successfully";
@@ -78,7 +78,7 @@ namespace ArabErp.Web.Controllers
             ViewBag.Title = "Edit";
             model.OrganizationId = OrganizationId;
             model.CreatedDate = System.DateTime.Now;
-            model.CreatedBy = Request.ServerVariables["HTTP_X_FORWARDED_FOR"] ?? Request.ServerVariables["REMOTE_ADDR"];
+            model.CreatedBy = UserID.ToString();
 
             var repo = new CustomerReceiptRepository();
             //bool isexists = repo.IsFieldExists(repo.ConnectionString(), "CustomerReceipt", "CustomerReceiptRefNo", model.CustomerReceiptRefNo, "CustomerReceiptId", model.CustomerReceiptId);

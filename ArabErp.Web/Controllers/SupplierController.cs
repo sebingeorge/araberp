@@ -72,7 +72,7 @@ namespace ArabErp.Web.Controllers
 
             model.OrganizationId = OrganizationId;
                 model.CreatedDate = System.DateTime.Now;
-                model.CreatedBy = Request.ServerVariables["HTTP_X_FORWARDED_FOR"] ?? Request.ServerVariables["REMOTE_ADDR"];
+                model.CreatedBy = UserID.ToString();
 
                 var repo = new SupplierRepository();
                 bool isexists = repo.IsFieldExists(repo.ConnectionString(), "Supplier", "SupplierName", model.SupplierName, null, null);
@@ -134,7 +134,7 @@ namespace ArabErp.Web.Controllers
                 ViewBag.Title = "Edit";
                 model.OrganizationId = OrganizationId;
                 model.CreatedDate = System.DateTime.Now;
-                model.CreatedBy = Request.ServerVariables["HTTP_X_FORWARDED_FOR"] ?? Request.ServerVariables["REMOTE_ADDR"];
+                model.CreatedBy = UserID.ToString();
 
                 var repo = new SupplierRepository();
                 bool isexists = repo.IsFieldExists(repo.ConnectionString(), "Supplier", "SupplierName", model.SupplierName, "SupplierId", model.SupplierId);
