@@ -36,6 +36,7 @@ namespace ArabErp.DAL
                     int id = connection.Query<int>(sql, objFreezerUnit, trn).Single();
                     objFreezerUnit.FreezerUnitId = id;
                     //connection.Dispose();
+                    InsertLoginHistory(dataConnection, objFreezerUnit.CreatedBy, "Create", "Freezer Unit", id.ToString(), "0");
                     trn.Commit();
                 }
                 catch (Exception ex)
@@ -93,9 +94,9 @@ namespace ArabErp.DAL
             using (IDbConnection connection = OpenConnection(dataConnection))
             {
                 string sql = @"Update FreezerUnit Set FreezerUnitRefNo=@FreezerUnitRefNo,FreezerUnitName=@FreezerUnitName OUTPUT INSERTED.FreezerUnitId WHERE FreezerUnitId=@FreezerUnitId";
-
-
+                
                 var id = connection.Execute(sql, objFreezerUnit);
+                InsertLoginHistory(dataConnection, objFreezerUnit.CreatedBy, "Update", "Freezer Unit", id.ToString(), "0");
                 return objFreezerUnit;
             }
         }
@@ -112,7 +113,7 @@ namespace ArabErp.DAL
                     var id = connection.Execute(sql, objFreezerUnit);
                     objFreezerUnit.FreezerUnitId = id;
                     result = 0;
-
+                    InsertLoginHistory(dataConnection, objFreezerUnit.CreatedBy, "Delete", "Freezer Unit", id.ToString(), "0");
                 }
                 catch (SqlException ex)
                 {

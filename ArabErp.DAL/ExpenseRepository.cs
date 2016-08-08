@@ -119,6 +119,7 @@ namespace ArabErp.DAL
 
                         connection.Query(sql, item, trn);
                     }
+                    InsertLoginHistory(dataConnection, expenseBill.CreatedBy, "Create", "Expense Bill", id.ToString(), "0");
                     trn.Commit();
                 }
                 catch (Exception ex)
@@ -240,16 +241,16 @@ namespace ArabErp.DAL
         /// Delete ExpenseBill HD Details
         /// </summary>
         /// <returns></returns>
-        public int DeleteExpenseBillHD(int Id)
+        public int DeleteExpenseBillHD(int Id, string CreatedBy)
         {
             int result = 0;
             using (IDbConnection connection = OpenConnection(dataConnection))
             {
                 string sql = @" DELETE FROM ExpenseBill WHERE ExpenseId=@Id";
-
                 {
 
                     var id = connection.Execute(sql, new { Id = Id });
+                    InsertLoginHistory(dataConnection, CreatedBy, "Delete", "Expense Bill", id.ToString(), "0");
                     return id;
 
                 }
