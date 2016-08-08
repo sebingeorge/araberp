@@ -34,6 +34,7 @@ namespace ArabErp.DAL
 
                     int id = connection.Query<int>(sql, objBox, trn).Single();
                     objBox.BoxId = id;
+                    InsertLoginHistory(dataConnection, objBox.CreatedBy, "Create", "Box", internalid.ToString(), "0");
                     //connection.Dispose();
                     trn.Commit();
                 }
@@ -89,9 +90,8 @@ namespace ArabErp.DAL
             using (IDbConnection connection = OpenConnection(dataConnection))
             {
                 string sql = @"Update Box Set BoxRefNo=@BoxRefNo,BoxName=@BoxName OUTPUT INSERTED.BoxId WHERE BoxId=@BoxId";
-
-
                 var id = connection.Execute(sql, objBox);
+                InsertLoginHistory(dataConnection, objBox.CreatedBy, "Update", "Box", objBox.BoxId.ToString(), "0");
                 return objBox;
             }
         }
@@ -107,6 +107,7 @@ namespace ArabErp.DAL
 
                     var id = connection.Execute(sql, objBox);
                     objBox.BoxId = id;
+                    InsertLoginHistory(dataConnection, objBox.CreatedBy, "Delete", "Box", objBox.BoxId.ToString(), "0");
                     result = 0;
 
                 }

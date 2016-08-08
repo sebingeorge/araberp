@@ -73,7 +73,7 @@ namespace ArabErp.DAL
                         item.PurchaseBillId = id;
                         new PurchaseBillItemRepository().InsertPurchaseBillItem(item, connection, trn);
                     }
-
+                    InsertLoginHistory(dataConnection, objPurchaseBill.CreatedBy, "Create", "Purchase Bill", id.ToString(), "0");
                     trn.Commit();
 
                     return id + "|PRB/" + internalId;
@@ -121,7 +121,7 @@ namespace ArabErp.DAL
         /// Delete SO HD Details
         /// </summary>
         /// <returns></returns>
-        public int DeletePuchaseBillHD(int Id)
+        public int DeletePuchaseBillHD(int Id, string CreatedBy)
         {
             int result = 0;
             using (IDbConnection connection = OpenConnection(dataConnection))
@@ -131,6 +131,7 @@ namespace ArabErp.DAL
                 {
 
                     var id = connection.Execute(sql, new { Id = Id });
+                    InsertLoginHistory(dataConnection, CreatedBy, "Delete", "Purchase Bill", id.ToString(), "0");
                     return id;
 
                 }

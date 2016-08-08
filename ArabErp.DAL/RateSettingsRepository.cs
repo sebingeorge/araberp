@@ -13,7 +13,7 @@ namespace ArabErp.DAL
     {
         static string dataConnection = GetConnectionString("arab");
 
-        public int InsertRateSettings(RateSettings model)
+        public int InsertRateSettings(RateSettings model, string CreatedBy)
         {
             using (IDbConnection connection = OpenConnection(dataConnection))
             {
@@ -57,6 +57,7 @@ namespace ArabErp.DAL
                                             }, txn);
                         }
                     }
+                    InsertLoginHistory(dataConnection, CreatedBy, "Create", "Rate Settings", "0", "0");
                     txn.Commit();
                     return 1;
                 }

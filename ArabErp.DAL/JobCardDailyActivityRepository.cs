@@ -40,7 +40,7 @@ namespace ArabErp.DAL
 
                         var taskid = connection.Query<int>(sql, item, trn).Single();
                     }
-
+                    InsertLoginHistory(dataConnection, objJobCardDailyActivity.CreatedBy, "Create", "Job Card", id.ToString(), "0");
                     trn.Commit();
                 }
                 catch (Exception ex)

@@ -94,7 +94,7 @@ namespace ArabErp.Web.Controllers
             {
                 model.OrganizationId = OrganizationId;
                 model.CreatedDate = System.DateTime.Now;
-                model.CreatedBy = Request.ServerVariables["HTTP_X_FORWARDED_FOR"] ?? Request.ServerVariables["REMOTE_ADDR"];
+                model.CreatedBy = UserID.ToString();
                 string referenceNo = new SupplyOrderRepository().InsertSupplyOrder(model);
                 if (referenceNo != "")
                 {
@@ -278,7 +278,7 @@ namespace ArabErp.Web.Controllers
        ViewBag.Title = "Edit";
        model.OrganizationId = OrganizationId;
        model.CreatedDate = System.DateTime.Now;
-       model.CreatedBy = Request.ServerVariables["HTTP_X_FORWARDED_FOR"] ?? Request.ServerVariables["REMOTE_ADDR"];
+       model.CreatedBy = UserID.ToString();
 
        FillDropdowns();
 

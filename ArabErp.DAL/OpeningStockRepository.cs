@@ -44,6 +44,7 @@ namespace ArabErp.DAL
             {
                 string sql = @"Delete OpeningStock  OUTPUT DELETED.StockPointId WHERE StockPointId=@StockPointId";
                 var id = connection.Execute(sql, objOpeningStock);
+                InsertLoginHistory(dataConnection, objOpeningStock.CreatedBy, "Update", "Opening Stock", id.ToString(), "0");
                 return id;
             }
         }
@@ -70,7 +71,7 @@ namespace ArabErp.DAL
                         CreatedDate = objOpeningStock.CreatedDate,
                         OrganizationId = objOpeningStock.OrganizationId
                     }).Single();
-
+                    InsertLoginHistory(dataConnection, objOpeningStock.CreatedBy, "Create", "Opening Stock", id.ToString(), "0");
                 }
        
 

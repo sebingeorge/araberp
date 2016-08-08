@@ -56,7 +56,7 @@ namespace ArabErp.Web.Controllers
 
             model.OrganizationId = OrganizationId;
             model.CreatedDate = System.DateTime.Now;
-            model.CreatedBy = Request.ServerVariables["HTTP_X_FORWARDED_FOR"] ?? Request.ServerVariables["REMOTE_ADDR"];
+            model.CreatedBy = UserID.ToString();
             SalesQuotation result = new SalesQuotationRepository().InsertSalesQuotation(model);
             if (result.SalesQuotationId > 0)
             {
@@ -114,7 +114,7 @@ namespace ArabErp.Web.Controllers
         {
             model.OrganizationId = OrganizationId;
             model.CreatedDate = System.DateTime.Now;
-            model.CreatedBy = Request.ServerVariables["HTTP_X_FORWARDED_FOR"] ?? Request.ServerVariables["REMOTE_ADDR"];
+            model.CreatedBy = UserID.ToString();
             
             SalesQuotation result = new SalesQuotationRepository().InsertSalesQuotation(model);
             if (result.SalesQuotationId > 0)
@@ -498,7 +498,7 @@ namespace ArabErp.Web.Controllers
             ViewBag.Title = "Edit";
             model.OrganizationId = OrganizationId;
             model.CreatedDate = System.DateTime.Now;
-            model.CreatedBy = Request.ServerVariables["HTTP_X_FORWARDED_FOR"] ?? Request.ServerVariables["REMOTE_ADDR"];
+            model.CreatedBy = UserID.ToString();
 
             FillCustomer();
             FillCurrency();

@@ -73,6 +73,7 @@ namespace ArabErp.DAL
 
                     int id = connection.Query<int>(sql, objCustomer, trn).Single();
                     objCustomer.CustomerId = id;
+                    InsertLoginHistory(dataConnection, objCustomer.CreatedBy, "Create", "Customer", id.ToString(), "0");
                     //connection.Dispose();
                     trn.Commit();
                 }
@@ -131,6 +132,7 @@ namespace ArabErp.DAL
                                 WHERE CustomerId = @CustomerId";
 
                 var id = connection.Execute(sql, objCustomer);
+                InsertLoginHistory(dataConnection, objCustomer.CreatedBy, "Update", "Customer", id.ToString(), "0");
                 return objCustomer;
             }
         }
@@ -147,7 +149,7 @@ namespace ArabErp.DAL
                     var id = connection.Execute(sql, objCustomer);
                     objCustomer.CustomerId = id;
                     result = 0;
-
+                    InsertLoginHistory(dataConnection, objCustomer.CreatedBy, "Delete", "Customer", id.ToString(), "0");
                 }
                 catch (SqlException ex)
                 {

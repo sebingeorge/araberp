@@ -67,6 +67,7 @@ namespace ArabErp.DAL
 
 
                 var id = connection.Execute(sql, objSalesInvoice);
+                InsertLoginHistory(dataConnection, objSalesInvoice.CreatedBy, "Update", "Sales Invoice", id.ToString(), "0");
                 return id;
             }
         }
@@ -79,6 +80,7 @@ namespace ArabErp.DAL
 
 
                 var id = connection.Execute(sql, objSalesInvoice);
+                InsertLoginHistory(dataConnection, objSalesInvoice.CreatedBy, "Delete", "Sales Invoice", id.ToString(), "0");
                 return id;
             }
         }
@@ -320,7 +322,7 @@ namespace ArabErp.DAL
                         item.OrganizationId = model.OrganizationId;
                         SalesInvoiceItemRepo.InsertSalesInvoiceItem(item, connection, trn);
                     }
-
+                    InsertLoginHistory(dataConnection, model.CreatedBy, "Create", "Sales Invoice", internalId.ToString(), "0");
                     trn.Commit();
                     //return id + "|INV/" + internalId;
                 }

@@ -68,6 +68,7 @@ namespace ArabErp.DAL
                     int id = connection.Query<int>(sql, objBay, trn).Single();
                     objBay.BayId = id;
                     //connection.Dispose();
+                    InsertLoginHistory(dataConnection, objBay.CreatedBy, "Create", "Bay", internalid.ToString(), "0");
                     trn.Commit();
                 }
                 catch (Exception ex)
@@ -88,6 +89,7 @@ namespace ArabErp.DAL
                 string sql = @"Update Bay Set BayRefNo=@BayRefNo,BayName=@BayName,BayType=@BayType OUTPUT INSERTED.BayId WHERE BayId=@BayId";
 
                 var id = connection.Execute(sql, objBay);
+                InsertLoginHistory(dataConnection, objBay.CreatedBy, "Update", "Bay", objBay.BayId.ToString(), "0");
                 return objBay;
             }
         }
@@ -104,7 +106,7 @@ namespace ArabErp.DAL
                     var id = connection.Execute(sql, objBay);
                     objBay.BayId = id;
                     result = 0;
-
+                    InsertLoginHistory(dataConnection, objBay.CreatedBy, "Delete", "Bay", objBay.BayId.ToString(), "0");
                 }
                 catch (SqlException ex)
                 {
