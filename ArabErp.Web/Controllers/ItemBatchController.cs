@@ -72,7 +72,7 @@ namespace ArabErp.Web.Controllers
             }
             try
             {
-                new ItemBatchRepository().InsertItemBatch(model);
+                new ItemBatchRepository().InsertItemBatch(model, UserID.ToString());
                 TempData["success"] = "Saved successfully";
                 TempData["error"] = "";
                 return RedirectToAction("Pending");
@@ -119,7 +119,7 @@ namespace ArabErp.Web.Controllers
 
                 if (selectedmodel.Count > 0)
                 {
-                    new ItemBatchRepository().ReserveItemBatch(selectedmodel);
+                    new ItemBatchRepository().ReserveItemBatch(selectedmodel, UserID.ToString());
                 }
                 TempData["success"] = "Saved successfully";
                 TempData["error"] = "";
@@ -160,7 +160,7 @@ namespace ArabErp.Web.Controllers
             try
             {
                 List<int> selected = (from item in model where item.isSelected select item.ItemBatchId).ToList<int>();
-                if (new ItemBatchRepository().UnReserveItems(selected) <= 0) throw new Exception();
+                if (new ItemBatchRepository().UnReserveItems(selected, UserID.ToString()) <= 0) throw new Exception();
                 TempData["success"] = "Unreserved successfully";
                 TempData["error"] = "";
                 return RedirectToAction("ReservedList");
