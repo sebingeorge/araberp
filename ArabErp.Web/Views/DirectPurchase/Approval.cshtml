@@ -57,50 +57,54 @@
             <div class="form-head1">
                 <h4>Direct Purchase Request Approval</h4>
             </div>
-            <div class="main-part pad1">
-                <div class="table-responsive scroll4">
-                    <table class="table table-bordered">
-                        <thead>
-                            <tr class="grid_heading">
-                                <th width="12%"><h1>PR No. &amp; Date</h1></th>
-                                <th width="73%"><h1>Special Remarks</h1></th>
-                                <th width="10%"><h1>Total Amount</h1></th>
-                                <th width="5%"></th>
-                            </tr>
-                        </thead>
+            <div class="main-part pad1 white">
+                <div class="row">
+                    <div class="main-grid main-grid-top scroll1">
+                        <div class="table-responsive">
+                            <table class="table table-bordered">
+                                <thead>
+                                    <tr class="grid_heading">
+                                        <th width="12%"><h1>PR No. &amp; Date</h1></th>
+                                        <th width="73%"><h1>Special Remarks</h1></th>
+                                        <th width="10%"><h1>Total Amount</h1></th>
+                                        <th width="5%"></th>
+                                    </tr>
+                                </thead>
 
-                        <tbody class="grid_row">
-                            @{
+                                <tbody class="grid_row">
+                                    @{
                                 for (int i = 0; i < Model.Count; i++)
                                 {
-                                    <tr>
-                                        <td>
-                                            <input type="text" class="form_input" value="@Model[i].PurchaseRequestNo" disabled/>
-                                        </td>
-                                        <td>
-                                            <input type="text" class="form_input" value="@Model[i].SpecialRemarks" disabled />
-                                        </td>
-                                        <td>
-                                            <input type="text" class="form_input" value="@Model[i].TotalAmount" disabled />
-                                        </td>
-                                        <td>
-                                            <button class="btn btn-xs btn-primary" onclick="Approve('@Model[i].DirectPurchaseRequestId')">
-                                                <span class="glyphicon glyphicon-edit" style="top:2px">
-                                                </span>
-                                            </button>
-                                        </td>
-                                    </tr>
+                                <tr>
+                                    <td>
+                                        <input type="text" class="form_input" value="@Model[i].PurchaseRequestNo" disabled />
+                                    </td>
+                                    <td>
+                                        <input type="text" class="form_input" value="@Model[i].SpecialRemarks" disabled />
+                                    </td>
+                                    <td>
+                                        <input type="text" class="form_input" value="@Model[i].TotalAmount" disabled />
+                                    </td>
+                                    <td>
+                                        <button class="btn btn-xs btn-primary" onclick="Approve('@Model[i].DirectPurchaseRequestId')">
+                                            <span class="glyphicon glyphicon-edit" style="top:2px">
+                                            </span>
+                                        </button>
+                                    </td>
+                                </tr>
                                 }
-                            }
-                        </tbody>
+                                    }
+                                </tbody>
 
-                    </table>
+                            </table>
 
-                </div>
+                        </div>
+                        </div>
 
-                <div class="row-count">
-                    <h5>Row Count:- @Model.Count()</h5>
-                </div>
+                        <div class="row-count1">
+                            <h5>Row Count:- @Model.Count()</h5>
+                        </div>
+                    </div>
 
 
                         @*<button class="btn btn-default">

@@ -31,7 +31,7 @@ namespace ArabErp.DAL
                     model.EmpCategoryRefNo = "EMPC/" + internalid;
                     id = connection.Query<int>(sql, model, trn).Single();
                     model.EmpCategoryId = id;
-
+                    InsertLoginHistory(dataConnection, model.CreatedBy, "Create", "Employee Category", id.ToString(), "0");
                     trn.Commit();
                 }
                 catch (Exception e)
@@ -53,6 +53,7 @@ namespace ArabErp.DAL
                 {
                     var id = connection.Execute(sql, model);
                     model.EmpCategoryId = id;
+                    InsertLoginHistory(dataConnection, model.CreatedBy, "Update", "Employee Category", id.ToString(), "0");
                 }
                 catch (Exception ex)
                 {
@@ -73,6 +74,7 @@ namespace ArabErp.DAL
                 {
                     var id = connection.Execute(sql, model);
                     model.EmpCategoryId = id;
+                    InsertLoginHistory(dataConnection, model.CreatedBy, "Delete", "Employee Category", id.ToString(), "0");
                 }
                 catch (Exception ex)
                 {

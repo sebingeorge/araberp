@@ -51,6 +51,8 @@ namespace ArabErp
                       "~/Content/menu.css"));
                        //"~/Content/datepicker.min.css",
                        //"~/Content/datepicker3.min.css"));
+
+            bundles.Add(new StyleBundle("~/bundles/selectric").Include("~/Content/selectric.scss"));
            
                     
         }

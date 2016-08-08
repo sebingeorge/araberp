@@ -29,60 +29,62 @@
             <h4>Pending Sales Quotation for Sale Order</h4>
         </div>
 
-        <div class="main-part pad1">
-            <div class="main-grid-top scroll1">
-                <div class="table-responsive">
+        <div class="main-part pad1 white">
+            <div class="row">
+                <div class="main-grid main-grid-top scroll1">
+                    <div class="table-responsive">
 
-                    <table class="table table-bordered">
-                        <thead>
-                            <tr class="grid_heading">
+                        <table class="table table-bordered">
+                            <thead>
+                                <tr class="grid_heading">
 
-                                <th width="12%"><h1>Quotation No. & Date</h1></th>
-                                <th width="15%"><h1>Customer</h1></th>
-                                <th width="43%"><h1>Work Description</h1></th>
-                                <th width="10%" class="text-right"><h1>Amount</h1></th>
-                                <th width="15%"><h1>Sales Executive</h1></th>
-                                <th width="5%"><center><h1></h1></center></th>
-                            </tr>
-                        </thead>
-                @foreach (var item in Model)
-                        {
-                            <tbody class="grid_row">
-                                <tr>
-                                    <td class="grid-cell">@item.QuotationRefNo &amp; @item.QuotationDate.ToString("dd/MMM/yyyy")</td>
-                                    <td class="grid-cell">@item.CustomerName</td>
-                                    <td class="grid-cell">@item.WorkDescription</td>
-                                    <td class="grid-cell" align="right">@item.Amount</td>
-                                    <td class="grid-cell">@item.SalesExecutiveName</td>
-                @if (@item.isProjectBased == 0)
-                                  {
-                                    <td><center>@Html.ActionLink("Select", "Create", "SaleOrder", new { SalesQuotationId = @item.SalesQuotationId }, new { @class = "form-button5" })</center></td>
-                                  }
-                                else
-                                  {
-                                    <td><center>@Html.ActionLink("Select", "CreateProject", "SaleOrder", new { SalesQuotationId = @item.SalesQuotationId }, new { @class = "form-button5" })</center></td>
-                                  }
+                                    <th width="12%"><h1>Quotation No. & Date</h1></th>
+                                    <th width="15%"><h1>Customer</h1></th>
+                                    <th width="43%"><h1>Work Description</h1></th>
+                                    <th width="10%" class="text-right"><h1>Amount</h1></th>
+                                    <th width="15%"><h1>Sales Executive</h1></th>
+                                    <th width="5%"><center><h1></h1></center></th>
                                 </tr>
-                            </tbody>
-                        }
-                    </table>
+                            </thead>
+                            @foreach (var item in Model)
+                            {
+                                <tbody class="grid_row">
+                                    <tr>
+                                        <td class="grid-cell">@item.QuotationRefNo &amp; @item.QuotationDate.ToString("dd/MMM/yyyy")</td>
+                                        <td class="grid-cell">@item.CustomerName</td>
+                                        <td class="grid-cell">@item.WorkDescription</td>
+                                        <td class="grid-cell" align="right">@item.Amount</td>
+                                        <td class="grid-cell">@item.SalesExecutiveName</td>
+                                        @if (@item.isProjectBased == 0)
+                                        {
+                                            <td><center>@Html.ActionLink("Select", "Create", "SaleOrder", new { SalesQuotationId = @item.SalesQuotationId }, new { @class = "form-button5" })</center></td>
+                                        }
+                                        else
+                                        {
+                                            <td><center>@Html.ActionLink("Select", "CreateProject", "SaleOrder", new { SalesQuotationId = @item.SalesQuotationId }, new { @class = "form-button5" })</center></td>
+                                        }
+                                    </tr>
+                                </tbody>
+                            }
+                        </table>
+                    </div>
                 </div>
-            </div>
 
 
-                <div class="row-count">
+                <div class="row-count1">
                     <h5>Row Count:- @Model.Count()</h5>
                 </div>
+                </div>
 
-            <div class="row">
-                <div class="col-md-12 hrpart">
-                    <input type="button" class="form-button" onclick="PreviousList()" value="Previous">
-                    <input type="button" class="form-button right" onclick="Exit()" value="Exit">
+                <div class="row">
+                    <div class="col-md-12 hrpart1">
+                        <input type="button" class="form-button" onclick="PreviousList()" value="Previous">
+                        <input type="button" class="form-button right" onclick="Exit()" value="Exit">
+                    </div>
                 </div>
             </div>
-        </div>
 
-    </div>
+        </div>
 
 
 

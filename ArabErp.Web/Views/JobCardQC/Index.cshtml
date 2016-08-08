@@ -43,7 +43,7 @@
                 <label for="cboJCQcNo">JobCard Qc.No.</label>
                 @Html.DropDownList("cboJCQcNo", (SelectList)ViewBag.JCQcNoList, "Any", new { @class = "form_input", @onchange = "Filter()" })
             </div>
-       
+
             <div class="col-md-2">
                 <label>From</label>
                 <input id="txtFrom" value="@System.DateTime.Today.AddMonths(-1).ToString("dd-MMMM-yyyy")" onchange="Filter()" class="form_input" />
@@ -54,15 +54,19 @@
             </div>
         </div>
         <br />
-        <div class="table-responsive scroll4" id="jobcardqclist">
-            @Html.Action("PreviousList")
-        </div>
         <div class="row">
-            <div class="col-md-12 hrpart">
-                <input type="button" class="form-button right" value="Exit" onclick="Exit()" />
+            <div class="main-grid main-grid-top scroll1">
+                <div class="table-responsive" id="jobcardqclist">
+                    @Html.Action("PreviousList")
+                </div>
+                </div>
+            </div>
+                <div class="row">
+                    <div class="col-md-12 hrpart">
+                        <input type="button" class="form-button right" value="Exit" onclick="Exit()" />
+                    </div>
+                </div>
             </div>
         </div>
-    </div>
-</div>
 
 

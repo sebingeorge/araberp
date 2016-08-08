@@ -30,6 +30,8 @@ namespace ArabErp.Web.Controllers
         }
         public ActionResult WorkShopRequestRegister(DateTime? from, DateTime? to, int id = 0, int itmid = 0)
         {
+            from = from ?? DateTime.Today.AddMonths(-1);
+            to = to ?? DateTime.Today;
             return PartialView("_WorkShopRequestRegister", new WorkshopRequestRegisterRepository().GetWorkshopRegisterData(from, to, id, itmid, OrganizationId));
         }
     }

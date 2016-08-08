@@ -1,70 +1,74 @@
 ﻿@model IList<ArabErp.Domain.PendingJC>
 
-<div class="scroll1">
-    <table class="table table-bordered">
-        <thead>
-            <tr class="grid_heading">
-                <th width="10%"><h1>SO.No. &amp; Date</h1></th>
-                <th width="10%"><h1>JC.No. &amp; Date</h1></th>
-                <th width="45%"><h1>Work Description</h1></th>
-                <th width="15%"><h1>Vehicle Model</h1></th>
-                <th width="15%"><h1>Chasis No./Reg No.</h1></th>
-                <th width="5%"></th>
-            </tr>
-        </thead>
-        <tbody id="table-body" class="grid_row">
-
-
-            @if (Model.Count != 0)
-            {
-                for (int i = 0; i < Model.Count; i++)
-                {
-                    <tr>
-                        <td>
-                            <input class="form_input" type="text" value="@Model[i].SaleOrderNoDate" disabled />
-                        </td>
-                        <td>
-                            <input class="form_input" type="text" value="@Model[i].JobCardNoDate" disabled />
-                        </td>
-                        <td class="grid-cell">
-                            @*<input class="form_input" type="text" value="*@@Model[i].WorkDescr@*" disabled />*@
-                        </td>
-                        <td>
-                            <input class="form_input" type="text" value="@Model[i].VehicleModel" disabled />
-                        </td>
-                        <td>
-                            <input class="form_input" type="text" value="@Model[i].RegistrationNo" disabled />
-                        </td>
-                        <td align="center">
-
-                            <center>
-                                @if (Model[i].IsPaymentApprovedForDelivery == 1)
-                                {
-                                    @Html.ActionLink("Select", "Save", "DeliveryChallan", new { Id = @Model[i].JobCardId }, new { @class = "form-button5" })
-                                }
-                                else
-                                {
-                                    <span class="form_input perm">Approval Pending</span>
-                                }
-                            </center>
-                        </td>
+<div class="row">
+    <div class="main-grid main-grid-top scroll1">
+        <div class="table-responsive">
+            <table class="table table-bordered">
+                <thead>
+                    <tr class="grid_heading">
+                        <th width="10%"><h1>SO.No. &amp; Date</h1></th>
+                        <th width="10%"><h1>JC.No. &amp; Date</h1></th>
+                        <th width="45%"><h1>Work Description</h1></th>
+                        <th width="15%"><h1>Vehicle Model</h1></th>
+                        <th width="15%"><h1>Chasis No./Reg No.</h1></th>
+                        <th width="5%"></th>
                     </tr>
-                }
-            }
-            else
-            {
-                <tr>
-                    <td colspan="6" align="center" valign="middle">
-                        <em>Please select a customer to continue</em>
-                    </td>
-                </tr>
-            }
-        </tbody>
-    </table>
-</div>
+                </thead>
+                <tbody id="table-body" class="grid_row">
 
 
-<div class="row-count" id="rowcount">
+                    @if (Model.Count != 0)
+                    {
+                        for (int i = 0; i < Model.Count; i++)
+                        {
+                            <tr>
+                                <td>
+                                    <input class="form_input" type="text" value="@Model[i].SaleOrderNoDate" disabled />
+                                </td>
+                                <td>
+                                    <input class="form_input" type="text" value="@Model[i].JobCardNoDate" disabled />
+                                </td>
+                                <td class="grid-cell">
+                                    @*<input class="form_input" type="text" value="*@@Model[i].WorkDescr@*" disabled />*@
+                                </td>
+                                <td>
+                                    <input class="form_input" type="text" value="@Model[i].VehicleModel" disabled />
+                                </td>
+                                <td>
+                                    <input class="form_input" type="text" value="@Model[i].RegistrationNo" disabled />
+                                </td>
+                                <td align="center">
 
-    <h5>Row Count:- @Model.Count()</h5>
+                                    <center>
+                                        @if (Model[i].IsPaymentApprovedForDelivery == 1)
+                                        {
+                                            @Html.ActionLink("Select", "Save", "DeliveryChallan", new { Id = @Model[i].JobCardId }, new { @class = "form-button5" })
+                                        }
+                                        else
+                                        {
+                                            <span class="form_input perm">Approval Pending</span>
+                                        }
+                                    </center>
+                                </td>
+                            </tr>
+                        }
+                    }
+                    else
+                    {
+                        <tr>
+                            <td colspan="6" align="center" valign="middle">
+                                <em>Please select a customer to continue</em>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+            </div>
+        </div>
+
+
+    <div class="row-count1" id="rowcount">
+
+        <h5>Row Count:- @Model.Count()</h5>
+    </div>
 </div>

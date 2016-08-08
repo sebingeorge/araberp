@@ -50,6 +50,8 @@ namespace ArabErp.Web.Controllers
         [HttpPost]
         public ActionResult Create(ExpenseBill model)
         {
+            model.CreatedBy = UserID.ToString();
+            model.CreatedDate = DateTime.Now;
             if(ModelState.IsValid)
             {
                 ExpenseRepository repo = new ExpenseRepository();
@@ -180,7 +182,8 @@ namespace ArabErp.Web.Controllers
         public ActionResult Edit(ExpenseBill model)
         {
             ViewBag.Title = "Edit";
-           
+            model.CreatedBy = UserID.ToString();
+            model.CreatedDate = DateTime.Now;
 
             FillDropdowns();
 
@@ -199,7 +202,7 @@ namespace ArabErp.Web.Controllers
                 try
                 {
                     var result2 = new ExpenseRepository().DeleteExpenseBillDT(model.ExpenseId);
-                    var result3 = new ExpenseRepository().DeleteExpenseBillHD(model.ExpenseId);
+                    var result3 = new ExpenseRepository().DeleteExpenseBillHD(model.ExpenseId, UserID.ToString());
                     string id = new ExpenseRepository().Insert(model);
 
                     TempData["success"] = "Updated successfully. Purchase Request Reference No. is " + id;
@@ -238,7 +241,7 @@ namespace ArabErp.Web.Controllers
             else
             {
                 var result2 = new ExpenseRepository().DeleteExpenseBillDT(Id);
-                var result3 = new ExpenseRepository().DeleteExpenseBillHD(Id);
+                var result3 = new ExpenseRepository().DeleteExpenseBillHD(Id, UserID.ToString());
 
                 if (Id > 0)
                 {

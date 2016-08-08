@@ -81,7 +81,7 @@ namespace ArabErp.Web.Controllers
             {
                 model.OrganizationId = OrganizationId;
             model.CreatedDate = System.DateTime.Now;
-            model.CreatedBy = Request.ServerVariables["HTTP_X_FORWARDED_FOR"] ?? Request.ServerVariables["REMOTE_ADDR"];
+            model.CreatedBy = UserID.ToString();
             string id = new PurchaseRequestRepository().InsertPurchaseRequest(model);
                    if (id.Split('|')[0] != "0")
                    {
@@ -134,7 +134,7 @@ namespace ArabErp.Web.Controllers
             ViewBag.Title = "Edit";
             model.OrganizationId = OrganizationId;
             model.CreatedDate = System.DateTime.Now;
-            model.CreatedBy = Request.ServerVariables["HTTP_X_FORWARDED_FOR"] ?? Request.ServerVariables["REMOTE_ADDR"];
+            model.CreatedBy = UserID.ToString();
 
             var repo = new PurchaseRequestRepository();
 
@@ -151,7 +151,7 @@ namespace ArabErp.Web.Controllers
                 try
             {
               var result2 = new PurchaseRequestRepository().DeletePurchaseRequestDT(model.PurchaseRequestId);
-              var result3 = new PurchaseRequestRepository().DeletePurchaseRequestHD(model.PurchaseRequestId);
+              var result3 = new PurchaseRequestRepository().DeletePurchaseRequestHD(model.PurchaseRequestId, UserID.ToString());
               //var result = new PurchaseRequestRepository().UpdatePurchaseRequest(model);
                 string id = new PurchaseRequestRepository().InsertPurchaseRequest(model);
                   if (id.Split('|')[0] != "0")
@@ -198,7 +198,7 @@ namespace ArabErp.Web.Controllers
             else
             {
                 var result2 = new PurchaseRequestRepository().DeletePurchaseRequestDT(Id);
-                var result3 = new PurchaseRequestRepository().DeletePurchaseRequestHD(Id);
+                var result3 = new PurchaseRequestRepository().DeletePurchaseRequestHD(Id, UserID.ToString());
 
                 if (Id > 0)
                 {

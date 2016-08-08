@@ -31,49 +31,52 @@
         <h4>Pending Job Card QC</h4>
           </div>
     <div class="main-part pad1 white">
-        <div class="main-grid-top scroll1">
-            <div class=" table-responsive">
-                <table class="table table-bordered">
-                    <thead>
-                        <tr class="grid_heading">
-                            <th width="10%"><h1>JC.No.</h1></th>
-                            <th width="10%"><h1>JC Date</h1></th>
-                            <th width="60%"><h1>Customer</h1></th>
-                            <th width="15%"><h1>Vehicle Model</h1></th>
-                            <th width="5%"><center><h1></h1></center></th>
-                         
-                        </tr>
-                    </thead>
-                    @foreach (var item in Model)
-                    {
-                        <tbody class="grid_row">
-                            <tr>
-                                <td class="grid-cell">@item.JobCardNo</td>
-                                <td class="grid-cell">@item.JobCardDate.ToString("dd/MMM/yyyy")</td>
-                                <td class="grid-cell">@item.CustomerName</td>
-                                <td class="grid-cell">@item.VehicleModelName</td>
-                                <td>
-                                    <center>
-                                     
-                                        <button class="form-button5" onclick="GotoJobcardQC(@item.JobCardId,'@item.JobCardNo','@item.JobCardDate.ToString("dd/MMM/yyyy")','@item.CustomerName','@item.VehicleModelName')">Select</button>
-                                      
-                                    </center>
-                                </td>
+        <div class="row">
+            <div class="main-grid main-grid-top scroll1">
+                <div class=" table-responsive">
+                    <table class="table table-bordered">
+                        <thead>
+                            <tr class="grid_heading">
+                                <th width="10%"><h1>JC.No.</h1></th>
+                                <th width="10%"><h1>JC Date</h1></th>
+                                <th width="60%"><h1>Customer</h1></th>
+                                <th width="15%"><h1>Vehicle Model</h1></th>
+                                <th width="5%"><center><h1></h1></center></th>
+
                             </tr>
-                        </tbody>
-                    }
-                </table>
+                        </thead>
+                        @foreach (var item in Model)
+                        {
+                            <tbody class="grid_row">
+                                <tr>
+                                    <td class="grid-cell">@item.JobCardNo</td>
+                                    <td class="grid-cell">@item.JobCardDate.ToString("dd/MMM/yyyy")</td>
+                                    <td class="grid-cell">@item.CustomerName</td>
+                                    <td class="grid-cell">@item.VehicleModelName</td>
+                                    <td>
+                                        <center>
+
+                                            <button class="form-button5" onclick="GotoJobcardQC(@item.JobCardId,'@item.JobCardNo','@item.JobCardDate.ToString("dd/MMM/yyyy")','@item.CustomerName','@item.VehicleModelName')">Select</button>
+
+                                        </center>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        }
+                    </table>
+                </div>
+            </div>
+
+            <div class="row-count1">
+                <h5>Row Count:- @Model.Count()</h5>
             </div>
         </div>
-                <div class="row-count">
-            <h5>Row Count:- @Model.Count()</h5>
-        </div>
-                <div class="row">
-            <div class="col-md-12 hrpart1">
-                <input class="form-button left" type="button" value="Previous" onclick="PreviousList()" />
+            <div class="row">
+                <div class="col-md-12 hrpart1">
+                    <input class="form-button left" type="button" value="Previous" onclick="PreviousList()" />
+                </div>
             </div>
         </div>
-    </div>
 </div>
 
 

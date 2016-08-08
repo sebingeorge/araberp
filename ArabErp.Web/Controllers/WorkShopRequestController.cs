@@ -82,7 +82,7 @@ namespace ArabErp.Web.Controllers
                    try {
                        model.OrganizationId = OrganizationId;
                    model.CreatedDate = System.DateTime.Now;
-                   model.CreatedBy = Request.ServerVariables["HTTP_X_FORWARDED_FOR"] ?? Request.ServerVariables["REMOTE_ADDR"];
+                   model.CreatedBy = UserID.ToString();
                 
                    string id = new WorkShopRequestRepository().InsertWorkShopRequest(model);
                    if (id.Split('|')[0] != "0")
@@ -113,6 +113,8 @@ namespace ArabErp.Web.Controllers
                }
                public ActionResult PreviousList(DateTime? from, DateTime? to,int id = 0, int cusid = 0)
                {
+                   from = from ?? DateTime.Today.AddMonths(-1);
+                   to = to ?? DateTime.Today;
                    return PartialView("_PreviousList", new WorkShopRequestRepository().GetPrevious(from, to, id, cusid, OrganizationId));
                }
         public ActionResult Edit(int? id)

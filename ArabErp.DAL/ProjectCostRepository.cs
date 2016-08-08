@@ -27,6 +27,7 @@ namespace ArabErp.DAL
 
 
                 var id = connection.Query<int>(sql, objProjectCostItem, trn).First();
+                
                 return id;
               }
               catch (Exception)

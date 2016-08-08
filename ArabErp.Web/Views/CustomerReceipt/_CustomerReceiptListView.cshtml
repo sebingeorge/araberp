@@ -49,9 +49,9 @@
         }
 </style>
 
-<div class="table-responsive">
-    <div class="main-grid main-grid-top">
 
+    <div class="main-grid main-grid-top scroll1">
+    <div class="table-responsive">
         @Html.Grid(Model).Columns(columns =>
                         {
                             //columns.Add(m => m.SupplierId).Titled("Code").SetWidth(30);
@@ -69,10 +69,11 @@
     </div>
 
 
-    <div class="row-count1">
-        <h5>Row Count:- @Model.Count()</h5>
-    </div>
 
 
+
+</div>
+<div class="row-count1">
+    <h5>Row Count:- @Model.Count()</h5>
 </div>
 

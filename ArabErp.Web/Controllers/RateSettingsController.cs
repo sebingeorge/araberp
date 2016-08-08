@@ -31,7 +31,7 @@ namespace ArabErp.Web.Controllers
         {
             try
             {
-                new RateSettingsRepository().InsertRateSettings(model);
+                new RateSettingsRepository().InsertRateSettings(model, UserID.ToString());
                 TempData["success"] = "Saved successfully";
                 TempData["error"] = "";
                 return RedirectToAction("Index");

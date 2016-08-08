@@ -32,7 +32,7 @@ namespace ArabErp.Web.Controllers
             FillJC();
             model.OrganizationId = OrganizationId;
             model.CreatedDate = System.DateTime.Now;
-            model.CreatedBy = Request.ServerVariables["HTTP_X_FORWARDED_FOR"] ?? Request.ServerVariables["REMOTE_ADDR"];
+            model.CreatedBy = UserID.ToString();
             string referenceNo = new DirectPurchaseRepository().InsertDirectPurchaseRequest(model);
             if (referenceNo != "")
 
@@ -172,7 +172,7 @@ namespace ArabErp.Web.Controllers
             ViewBag.Title = "Edit";
             model.OrganizationId = OrganizationId;
             model.CreatedDate = System.DateTime.Now;
-            model.CreatedBy = Request.ServerVariables["HTTP_X_FORWARDED_FOR"] ?? Request.ServerVariables["REMOTE_ADDR"];
+            model.CreatedBy = UserID.ToString();
 
             FillSO();
             FillJC();
@@ -193,7 +193,7 @@ namespace ArabErp.Web.Controllers
                 try
                 {
                     var result2 = new DirectPurchaseRepository().DeleteDirectPurchaseDT(model.DirectPurchaseRequestId);
-                    var result3 = new DirectPurchaseRepository().DeleteDirectPurchaseHD(model.DirectPurchaseRequestId);
+                    var result3 = new DirectPurchaseRepository().DeleteDirectPurchaseHD(model.DirectPurchaseRequestId, UserID.ToString());
                     string id = new DirectPurchaseRepository().InsertDirectPurchaseRequest(model);
 
                     TempData["success"] = "Updated successfully. Direct Purchase Request Reference No. is " + id;
@@ -232,7 +232,7 @@ namespace ArabErp.Web.Controllers
             else
             {
                 var result2 = new DirectPurchaseRepository().DeleteDirectPurchaseDT(Id);
-                var result3 = new DirectPurchaseRepository().DeleteDirectPurchaseHD(Id);
+                var result3 = new DirectPurchaseRepository().DeleteDirectPurchaseHD(Id, UserID.ToString());
 
                 if (Id > 0)
                 {

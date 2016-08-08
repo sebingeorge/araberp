@@ -98,9 +98,9 @@
                         <li class="dropdown-submenu">
                             <a href="#"><span class="badge pull-right"></span>Item</a>
                             <ul class="dropdown-menu">
+                                <li><a href="@Url.Action("Create","ItemCategory")"><span class="badge pull-right"></span>Item Category</a></li>
                                 <li><a href="@Url.Action("Create","ItemGroup")"><span class="badge pull-right"></span>Item Group</a></li>
                                 <li><a href="@Url.Action("Create","ItemSubGroup")"><span class="badge pull-right"></span>Item SubGroup</a></li>
-                                <li><a href="@Url.Action("Create","ItemCategory")"><span class="badge pull-right"></span>Item Category</a></li>
                                 <li><a href="@Url.Action("Index","Item")"><span class="badge pull-right"></span>Item</a></li>
                                 <li><a href="@Url.Action("Create", "Unit")"><span class="badge pull-right"></span>UOM</a></li>
                             </ul>
@@ -222,6 +222,7 @@
                             <ul class="dropdown-menu">
                                 <li><a href="@Url.Action("PendingJobCard", "JobCard", new { isProjectBased = 1 })"><span class="badge pull-right"></span>Job Card</a></li>
                                 <li><a href="@Url.Action("PendingJobcardTasks", "JobCardDailyActivity")"><span class="badge pull-right"></span>Daily Activity</a></li>
+                                <li><a href="@Url.Action("PendingJobOrderCompletion", "JobOrderCompletion", new { isProjectBased = 1})"><span class="badge pull-right"></span>Job Order Completion</a></li>
                             </ul>
                         </li>
                     </ul>
@@ -238,7 +239,7 @@
                                 <li><a href="@Url.Action("Index","VehicleInPass")"><span class="badge pull-right"></span>Vehicle Inpass</a></li>
                                 <li><a href="@Url.Action("PendingJobCard","JobCard")"><span class="badge pull-right"></span>Job Card</a></li>
                                 <li><a href="@Url.Action("PendingJobCardQC", "JobCardQC")"><span class="badge pull-right"></span>Quality Control</a></li>
-                                <li><a href="@Url.Action("PendingJobOrderCompletion","JobOrderCompletion")"><span class="badge pull-right"></span>Job Order Completion</a></li>
+                                <li><a href="@Url.Action("PendingJobOrderCompletion", "JobOrderCompletion", new { isProjectBased = 0})"><span class="badge pull-right"></span>Job Order Completion</a></li>
                                 <li><a href="@Url.Action("Index","DeliveryChallan")"><span class="badge pull-right"></span>Delivery Challan</a></li>
                             </ul>
                         </li>
@@ -286,8 +287,8 @@
                 <li>
                     <a data-toggle="dropdown" class="dropdown-toggle menu" href="#">@*<i class="glyphicon glyphicon-th-list"></i>*@ Finance</a>
                     <ul class="dropdown-menu">
-                        <li><a class="projectn" href="@Url.Action("PendingSaleOrderApprovalWR", "SaleOrder")"><span class="badge pull-right"></span>SO - Approval For Workshop Request</a></li>
-                        <li><a href="@Url.Action("PendingSaleOrderApprovalJC", "SaleOrder")"><span class="badge pull-right"></span>SO - Approval For Job Card</a></li>
+                        @*<li><a class="projectn" href="@Url.Action("PendingSaleOrderApprovalWR", "SaleOrder")"><span class="badge pull-right"></span>SO - Approval For Workshop Request</a></li>
+                        <li><a href="@Url.Action("PendingSaleOrderApprovalJC", "SaleOrder")"><span class="badge pull-right"></span>SO - Approval For Job Card</a></li>*@
                         <li><a href="@Url.Action("PendingSaleOrderApprovalDEL", "SaleOrder")"><span class="badge pull-right"></span>SO - Approval For Delivery</a></li>
                         <li><a href="@Url.Action("IncentiveAmountReport", "SaleOrder")"><span class="badge pull-right"></span>SO - Incentive Details</a></li>
                     </ul>

@@ -35,7 +35,7 @@ namespace ArabErp.DAL
                         item.ConsumptionId = id;
                         new ConsumptionItemRepository().InsertConsumptionItem(item, connection, txn);
                     }
-
+                    InsertLoginHistory(dataConnection, objConsumption.CreatedBy, "Create", "Consumption", id.ToString(), "0");
                     txn.Commit();
 
                     return id + "|CON/" + internalId;
@@ -86,9 +86,8 @@ namespace ArabErp.DAL
             using (IDbConnection connection = OpenConnection(dataConnection))
             {
                 string sql = @"Delete Consumption  OUTPUT DELETED.ConsumptionId WHERE ConsumptionId=@ConsumptionId";
-
-
                 var id = connection.Execute(sql, objConsumption);
+                InsertLoginHistory(dataConnection, objConsumption.CreatedBy, "Delete", "Consumption", id.ToString(), "0");
                 return id;
             }
         }

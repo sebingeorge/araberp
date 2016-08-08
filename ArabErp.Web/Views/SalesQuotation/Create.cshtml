@@ -29,8 +29,13 @@
         ViewBag.Title = "Pending Sales Quotation";
     }
 }
-
+<script src="~/Scripts/selectric/jquery.selectric.js"></script>
+@Styles.Render("~/bundles/selectric")
+@*<link rel="stylesheet" href="~/Content/selectric.scss" />*@
 <script>
+    $(function () {
+        $('select').selectric();
+    });
     function GotoIndex() {
 
         var url = '@Url.Action("Index")';

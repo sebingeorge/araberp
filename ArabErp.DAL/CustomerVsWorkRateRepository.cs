@@ -55,6 +55,7 @@ namespace ArabErp.DAL
             {
                 string sql = @"Delete From  CustomerVsWorkRate  WHERE CustomerId=@CustomerId";
                 var id = connection.Execute(sql, objCustomerVsWorkRate);
+                InsertLoginHistory(dataConnection, objCustomerVsWorkRate.CreatedBy, "Delete", "Customer Vs Work Rate", id.ToString(), "0");
                 return id;
             }
         }
@@ -81,7 +82,7 @@ namespace ArabErp.DAL
                         CreatedDate = objCustomerVsWorkRate.CreatedDate,
                         OrganizationId = objCustomerVsWorkRate.OrganizationId
                     }).Single();
-
+                    InsertLoginHistory(dataConnection, objCustomerVsWorkRate.CreatedBy, "Update", "Customer Vs Work Rate", id.ToString(), "0");
                 }
 
 

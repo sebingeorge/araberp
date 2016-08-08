@@ -53,6 +53,34 @@ namespace ArabErp.DAL
                     return false;
            }
         }
+       /// <summary>
+       /// To Insert Transaction History of transactions
+       /// </summary>
+       /// <param name="connStrName">Connection String</param>
+       /// <param name="UserId">User ID of Logined User</param>
+       /// <param name="Mode">Mode of transaction</param>
+       /// <param name="Form">Controller Name</param>
+       /// <param name="TransactionCode">Transaction ID of current transaction</param>
+       /// <param name="OrganizationId">Current Company ID</param>
+       public void InsertLoginHistory(string connStrName,string UserId, string Mode, string Form, string TransactionCode, string OrganizationId)
+       {
+           using (IDbConnection connection = OpenConnection(connStrName))
+           {
+               string sql = @"INSERT INTO [dbo].[TransactionHistory]
+                           ([UserId]
+                           ,[TransTime]
+                           ,[Mode]
+                           ,[Form]
+                           ,[FormTransCode]
+                           ,[IPAddress]
+                           ,[OrganizationId]
+                           ,[SessionID])
+                     VALUES
+                           ('" + UserId + "','" + DateTime.Now.ToString() +"','" + Mode +"','" + Form +"','" + TransactionCode +"','','','')";
+
+               connection.Query(sql);
+           }
+       }
         //protected SqlConnection connection;
         //public BaseRepository()
         //{

@@ -22,6 +22,7 @@ namespace ArabErp.DAL
 
 
                 var id = connection.Query<int>(sql, objJobCardTaskMaster).Single();
+                InsertLoginHistory(dataConnection, objJobCardTaskMaster.CreatedBy, "Create", "Job Card Task Master", id.ToString(), "0");
                 return id;
             }
         }
@@ -74,6 +75,7 @@ namespace ArabErp.DAL
 
 
                 var id = connection.Execute(sql, objJobCardTaskMaster);
+                InsertLoginHistory(dataConnection, objJobCardTaskMaster.CreatedBy, "Update", "Job Card Task Master", id.ToString(), "0");
                 return id;
             }
         }
@@ -86,6 +88,7 @@ namespace ArabErp.DAL
 
 
                 var id = connection.Execute(sql, objJobCardTaskMaster);
+                InsertLoginHistory(dataConnection, objJobCardTaskMaster.CreatedBy, "Delete", "Job Card Task Master", id.ToString(), "0");
                 return id;
             }
         }

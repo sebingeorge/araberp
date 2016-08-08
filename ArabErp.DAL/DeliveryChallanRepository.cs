@@ -34,6 +34,7 @@ namespace ArabErp.DAL
                                 WHERE ItemBatchId = @ItemBatchId";
                         connection.Execute(sql, item, txn);
                     }
+                    InsertLoginHistory(dataConnection, objDeliveryChallan.CreatedBy, "Create", "Delivery Challan", id.ToString(), "0");
                     txn.Commit();
                     return objDeliveryChallan.DeliveryChallanRefNo;
                 }
@@ -86,6 +87,7 @@ namespace ArabErp.DAL
 
 
                 var id = connection.Execute(sql, objDeliveryChallan);
+                InsertLoginHistory(dataConnection, objDeliveryChallan.CreatedBy, "Delete", "Delivery Challan", id.ToString(), "0");
                 return id;
             }
         }

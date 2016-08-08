@@ -28,7 +28,7 @@ namespace ArabErp.Web.Controllers
         {
             model.OrganizationId = OrganizationId;
             model.CreatedDate = System.DateTime.Now;
-            model.CreatedBy = Request.ServerVariables["HTTP_X_FORWARDED_FOR"] ?? Request.ServerVariables["REMOTE_ADDR"];
+            model.CreatedBy = UserID.ToString();
             FillCurrencySymbols();
 
             var repo = new CurrencyRepository();
@@ -89,7 +89,7 @@ namespace ArabErp.Web.Controllers
         {
             model.OrganizationId = OrganizationId;
             model.CreatedDate = System.DateTime.Now;
-            model.CreatedBy = Request.ServerVariables["HTTP_X_FORWARDED_FOR"] ?? Request.ServerVariables["REMOTE_ADDR"];
+            model.CreatedBy = UserID.ToString();
 
             var repo = new CurrencyRepository();
             bool isexists = repo.IsFieldExists(repo.ConnectionString(), "Currency", "CurrencyName", model.CurrencyName, "CurrencyId",model.CurrencyId);
