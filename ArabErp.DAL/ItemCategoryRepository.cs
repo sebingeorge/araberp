@@ -89,11 +89,11 @@ namespace ArabErp.DAL
             }
         }
 
-        public IEnumerable<ItemCategory> FillItemCategoryList()
+        public IEnumerable<ItemCategory> FillItemCategoryList(string name)
         {
             using (IDbConnection connection = OpenConnection(dataConnection))
             {
-                return connection.Query<ItemCategory>("SELECT itmCatId,itmCatRefNo,CategoryName FROM ItemCategory WHERE isActive=1").ToList();
+                return connection.Query<ItemCategory>("SELECT itmCatId,itmCatRefNo,CategoryName FROM ItemCategory WHERE isActive=1 AND CategoryName LIKE '%'+@name+'%'", new { name = name }).ToList();
             }
         }
 

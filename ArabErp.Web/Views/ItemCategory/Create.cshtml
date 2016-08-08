@@ -44,6 +44,18 @@
         }
 
     });
+
+
+    function Filter() {
+        $(grid).addClass("fade");
+        var url = '@Url.Action("FillItemCategoryList")';
+        var name = $("#txtName").val();
+        url += "?name=" + name;
+        $("#grid").load(url, function () {
+            $(grid).removeClass("fade");
+        });
+    }
+
 </script>
 
 
@@ -110,8 +122,20 @@
             }
         </div>
 
+    
+
         <div class="main-list">
-            @Html.Action("FillItemCategoryList")
+
+            <div class="col-md-2">
+                
+                <label for="txtName">Name</label>
+                <input type="text" class="form_input" style=" border-color:deepskyblue" id="txtName" onkeyup="Filter()" />
+            </div>
+
+            <div class="main-list" id="grid">
+                @Html.Action("FillItemCategoryList")
+            </div>
+           
         </div>
 
 
