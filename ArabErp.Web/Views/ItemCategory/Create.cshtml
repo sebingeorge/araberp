@@ -126,13 +126,17 @@
 
         <div class="main-list">
 
-            <div class="col-md-2">
-                
-                <label for="txtName">Name</label>
-                <input type="text" class="form_input" style=" border-color:deepskyblue" id="txtName" onkeyup="Filter()" />
-            </div>
+                <div class="part">
+                <div class="col-md-2">
 
-            <div class="main-list" id="grid">
+                    <label for="txtName">Name</label>
+                    <input type="text" class="form_input bluebox" id="txtName" onkeyup="Filter()" />
+                </div>
+            </div>
+            <br />
+              
+
+            <div id="grid">
                 @Html.Action("FillItemCategoryList")
             </div>
            
