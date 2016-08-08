@@ -60,6 +60,7 @@ namespace ArabErp.DAL
                         workstaskepo.InsertWorkVsTask(item, connection, trn);
                     }
                     objWorkDescription.WorkDescriptionId = id;
+                    InsertLoginHistory(dataConnection, objWorkDescription.CreatedBy, "Create", "Work Description", id.ToString(), "0");
                     trn.Commit();
                 }
                 catch (Exception ex)
@@ -109,6 +110,7 @@ namespace ArabErp.DAL
                         workstaskepo.InsertWorkVsTask(item, connection, trn);
                     }
                     objWorkDescription.WorkDescriptionId = id;
+                    InsertLoginHistory(dataConnection, objWorkDescription.CreatedBy, "Create", "Work Description", id.ToString(), "0");
                     trn.Commit();
                 }
                 catch (Exception ex)
@@ -158,9 +160,9 @@ namespace ArabErp.DAL
             using (IDbConnection connection = OpenConnection(dataConnection))
             {
                 string sql = @"UPDATE WorkDescription SET VehicleModelId = @VehicleModelId ,FreezerUnitId = @FreezerUnitId ,BoxId = @BoxId ,WorkDescr = @WorkDescr,WorkDescrShortName= @WorkDescrShortName,CreatedBy = @CreatedBy,CreatedDate = @CreatedDate  OUTPUT INSERTED.WorkDescriptionId  WHERE WorkDescriptionId = @WorkDescriptionId";
-
-
+                
                 var id = connection.Execute(sql, objWorkDescription);
+                InsertLoginHistory(dataConnection, objWorkDescription.CreatedBy, "Update", "Work Description", id.ToString(), "0");
                 return id;
             }
         }
@@ -170,9 +172,9 @@ namespace ArabErp.DAL
             using (IDbConnection connection = OpenConnection(dataConnection))
             {
                 string sql = @"Delete WorkDescription  OUTPUT DELETED.WorkDescriptionId WHERE WorkDescriptionId=@WorkDescriptionId";
-
-
+                
                 var id = connection.Execute(sql, objWorkDescription);
+                InsertLoginHistory(dataConnection, objWorkDescription.CreatedBy, "Delete", "Work Description", id.ToString(), "0");
                 return id;
             }
         }
