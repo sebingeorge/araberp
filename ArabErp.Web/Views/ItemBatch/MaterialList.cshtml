@@ -102,16 +102,19 @@
                     <input type="button" class="form-button filter" value="Filter" onclick="Filter()" />
                 </div>
             </div>
-
-            <div class="table-responsive scroll4" id="grid">
-                @Html.Action("MaterialListGrid")
-            </div>
-            
-            @*<div class="row">
-                <div class="col-md-12">
-                    <em>**Double click on row for more details</em>
+            <div class="row">
+                <div class="main-grid main-grid-top scroll1">
+                    <div class="table-responsive" id="grid">
+                        @Html.Action("MaterialListGrid")
+                    </div>
+                    </div>
                 </div>
-            </div>*@
-        </div>
-    </div>
+
+                    @*<div class="row">
+                        <div class="col-md-12">
+                            <em>**Double click on row for more details</em>
+                        </div>
+                    </div>*@
+                </div>
+            </div>
 
