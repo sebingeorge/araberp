@@ -32,6 +32,7 @@ namespace ArabErp.DAL
                             connection.Query(sql, item);
                         }                        
                     }
+                    InsertLoginHistory(dataConnection, user.CreatedBy, "Create", "Unit", id.ToString(), "0");
                     return id;
                 }
                 catch(Exception ex)
@@ -71,6 +72,7 @@ namespace ArabErp.DAL
                     return 0;
                 }
             }
+            InsertLoginHistory(dataConnection, user.CreatedBy, "Update", "Unit", user.UserId.ToString(), "0");
             return user.UserId ?? 0;
         }
         public User GetUserByUserNameAndPassword(string username, string password)

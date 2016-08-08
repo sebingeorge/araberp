@@ -37,6 +37,7 @@ namespace ArabErp.DAL
 
                     int id = connection.Query<int>(sql, objUnit, trn).Single();
                     objUnit.UnitId = id;
+                    InsertLoginHistory(dataConnection, objUnit.CreatedBy, "Create", "Unit", id.ToString(), "0");
                     //connection.Dispose();
                     trn.Commit();
                 }
@@ -98,6 +99,7 @@ namespace ArabErp.DAL
 
 
                 var id = connection.Execute(sql, objUnit);
+                InsertLoginHistory(dataConnection, objUnit.CreatedBy, "Update", "Unit", id.ToString(), "0");
                 return objUnit;
             }
         }
@@ -114,7 +116,7 @@ namespace ArabErp.DAL
                     var id = connection.Execute(sql, objUnit);
                     objUnit.UnitId = id;
                     result = 0;
-
+                    InsertLoginHistory(dataConnection, objUnit.CreatedBy, "Delete", "Unit", id.ToString(), "0");
                 }
                 catch (SqlException ex)
                 {
