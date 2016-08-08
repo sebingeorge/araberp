@@ -489,14 +489,14 @@ namespace ArabErp.Web.Controllers
             FillVehicle();
             var repo = new SaleOrderRepository();
             SaleOrder model = repo.GetSaleOrder(SaleOrderId ?? 0);
-            var SOList = repo.GetSaleOrderItem(SaleOrderId ?? 0);
-            model.Items = new List<SaleOrderItem>();
-            foreach (var item in SOList)
-            {
-                var soitem = new SaleOrderItem { WorkDescriptionId = item.WorkDescriptionId, VehicleModelId = item.VehicleModelId, Quantity = item.Quantity, UnitId = item.UnitId, Rate = item.Rate,Amount=item.Amount,Discount=item.Discount };
-                model.Items.Add(soitem);
+            model.Items = repo.GetSaleOrderItem(SaleOrderId ?? 0);
+            //model.Items = new List<SaleOrderItem>();
+            //foreach (var item in SOList)
+            //{
+            //    var soitem = new SaleOrderItem { WorkDescriptionId = item.WorkDescriptionId, VehicleModelId = item.VehicleModelId, Quantity = item.Quantity, UnitId = item.UnitId, Rate = item.Rate,Amount=item.Amount,Discount=item.Discount };
+            //    model.Items.Add(soitem);
 
-            }
+            //}
             FillWrkDesc();
             return View("Approval",model);
         }

@@ -384,9 +384,9 @@ namespace ArabErp.DAL
         {
             using (IDbConnection connection = OpenConnection(dataConnection))
             {
-                string query = "Select S.SaleOrderId,SaleOrderRefNo, SaleOrderDate, C.CustomerName, S.CustomerOrderRef";
-                query += " from SaleOrder S inner join Customer C on S.CustomerId = C.CustomerId";
-                query += " where CommissionAmount>0 And isnull(CommissionAmountApproveStatus,0)=0 AND S.IsProjectBased = " + IsProjectBased.ToString();
+                string query = "Select S.SaleOrderId,SaleOrderRefNo, SaleOrderDate, C.CustomerName, S.CustomerOrderRef,E.EmployeeName,DATEDIFF(DAY,S.SaleOrderDate, GETDATE()) Ageing,DATEDIFF(DAY,GETDATE(), S.EDateDelivery) Remaindays,S.TotalAmount";
+                query += " from SaleOrder S inner join Customer C on S.CustomerId = C.CustomerId LEFT JOIN Employee E ON S.CreatedBy = E.EmployeeId";
+                query += " where CommissionAmount>0 And isnull(CommissionAmountApproveStatus,0)=0 AND S.isActive = 1 AND S.IsProjectBased = " + IsProjectBased.ToString() + " ORDER BY S.EDateDelivery DESC, S.CreatedDate DESC";
                 return connection.Query<PendingSO>(query);
             }
         }
@@ -409,8 +409,9 @@ namespace ArabErp.DAL
         {
             using (IDbConnection connection = OpenConnection(dataConnection))
             {
-                string sql = @"select *, WD.WorkDescr from SaleOrderItem SOI
+                string sql = @"select *, WD.WorkDescr, VM.VehicleModelName from SaleOrderItem SOI
                                 INNER JOIN WorkDescription WD ON SOI.WorkDescriptionId = WD.WorkDescriptionId 
+								LEFT JOIN VehicleModel VM ON SOI.VehicleModelId = VM.VehicleModelId
                                 where SaleOrderId=@SaleOrderId";
                 return connection.Query<SaleOrderItem>(sql, new { SaleOrderId = SaleOrderId }).ToList();
             }
