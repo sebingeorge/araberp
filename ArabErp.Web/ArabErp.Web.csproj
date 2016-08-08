@@ -773,6 +773,7 @@
     <Content Include="Scripts\selectric\.csscomb.json" />
     <Content Include="Content\selectric.scss" />
     <Content Include="Views\PurchaseBillRegister\_PurchaseBillRegister.cshtml" />
+    <Content Include="Views\SaleOrder\Edit.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

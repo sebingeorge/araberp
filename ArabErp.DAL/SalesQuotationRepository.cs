@@ -35,10 +35,6 @@ namespace ArabErp.DAL
                     IDbTransaction trn = connection.BeginTransaction();
                     try
                     {
-
-                        
-
-
                         int internalid = DatabaseCommonRepository.GetInternalIDFromDatabase(connection, trn, typeof(SalesQuotation).Name, "0",1);
                         model.QuotationRefNo = "SQ/" + internalid;
                       
@@ -67,7 +63,7 @@ namespace ArabErp.DAL
                             item.SalesQuotationId = model.SalesQuotationId;
                             saleorderitemrepo.InsertSalesQuotationItem(item, connection, trn);
                         }
-
+                        InsertLoginHistory(dataConnection, model.CreatedBy, "Create", "Sales Quotation", model.SalesQuotationId.ToString(), "0");
                         trn.Commit();
 
                       
@@ -123,7 +119,7 @@ namespace ArabErp.DAL
                         item.SalesQuotationId = model.SalesQuotationId;
                         saleorderitemrepo.InsertSalesQuotationItem(item, connection, trn);
                     }
-
+                    InsertLoginHistory(dataConnection, model.CreatedBy, "Revision", "Sales Quotation", model.SalesQuotationId.ToString(), "0");
                     trn.Commit();
 
 
@@ -187,6 +183,7 @@ namespace ArabErp.DAL
                     objSalesQuotation.QuotationRefNo = null;
                 
                 }
+                InsertLoginHistory(dataConnection, objSalesQuotation.CreatedBy, "Status Change", "Sales Quotation", objSalesQuotation.SalesQuotationId.ToString(), "0");
                 return objSalesQuotation;
 
             }

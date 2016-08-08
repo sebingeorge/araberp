@@ -16,53 +16,53 @@
 <div class="row">
     <div class="main-grid main-grid-top scroll1">
         <div class="table-responsive" id="saleorderlist">
-            <table class="table table-bordered">
-                <thead>
-                    <tr class="grid_heading">
+<table class="table table-bordered">
+    <thead>
+        <tr class="grid_heading">
 
-                        <th width="15%"><h1>SO No </h1></th>
-                        <th width="10%"><h1>SO Date</h1></th>
-                        <th width="15%"><h1>Quotation No & Date</h1></th>
-                        <th width="65%"><h1>Customer</h1></th>
-                        <th width="30%"><h1>Customer Order Ref.</h1></th>
-                        <th width="5%"><center><h1>Select</h1></center></th>
-                    </tr>
-                </thead>
+            <th width="15%"><h1>SO No </h1></th>
+            <th width="10%"><h1>SO Date</h1></th>
+            <th width="15%"><h1>Quotation No & Date</h1></th>
+            <th width="50%"><h1>Customer</h1></th>
+            <th width="30%"><h1>Customer Order Ref.</h1></th>
+            <th width="5%"><center><h1>Select</h1></center></th>
+        </tr>
+    </thead>
 
-                <tbody class="grid_row">
-                    @if (Model.Count > 0)
-                    {
-                        int i = 0;
-                        foreach (var item in Model)
-                        {
-                            <tr>
+    <tbody class="grid_row">
+        @if (Model.Count > 0)
+        {
+            foreach (var item in Model)
+            {
+                <tr>
 
-                                <td>@item.SaleOrderRefNo </td>
-                                <td>@item.SaleOrderDate.ToString("dd/MMM/yyyy")</td>
-                                <td>@item.QuotationNoDate</td>
-                                <td>@item.CustomerName</td>
-                                <td>@item.CustomerOrderRef</td>
-                                <td><center><button class="form-button4">@Html.ActionLink("Select", "Approval", "SaleOrder", new { SaleOrderId = @item.SaleOrderId }, null)</button></center></td>
-                            </tr>
-                        }
-                    }
-                    else
-                    {
-                        <tr>
-                            <td colspan="6">
-                                <center>
-                                    <em>No items found!</em>
-                                </center>
-                            </td>
-                        </tr>
-                    }
-                </tbody>
-            </table>
+                    <td>@item.SaleOrderRefNo </td>
+                    <td>@item.SaleOrderDate.ToString("dd/MMM/yyyy")</td>
+                    <td>@item.QuotationNoDate</td>
+                    <td>@item.CustomerName</td>
+                    <td>@item.CustomerOrderRef</td>
+                    <td><center><button class="form-button4">@Html.ActionLink("Select", "Edit", "SaleOrder", new { id = @item.SaleOrderId }, null)</button></center></td>
+                </tr>
+            }
+        }
+        else
+        {
+            <tr>
+                <td colspan="6">
+                    <center>
+                        <em>No items found!</em>
+                    </center>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
 
         </div>
     </div>
 
-    <div class="row-count1">
-        <h5>Row Count:- @Model.Count()</h5>
-    </div>
+<br />
+<div class="row-count4">
+    <h5>Row Count:- @Model.Count</h5>
+</div>
 </div>

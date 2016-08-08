@@ -51,7 +51,7 @@ namespace ArabErp.DAL
                     new WorkShopGRNItemRepository().InsertWGRNItem(item, connection, trn);
 
                 }
-
+                InsertLoginHistory(dataConnection, model.CreatedBy, "Create", "Workshop GRN", id.ToString(), "0");
                 trn.Commit();
                 return id;
                 }
@@ -105,9 +105,9 @@ namespace ArabErp.DAL
             using (IDbConnection connection = OpenConnection(dataConnection))
             {
                 string sql = @"Delete WorkShopGRN  OUTPUT DELETED.WorkShopGRNId WHERE WorkShopGRNId=@WorkShopGRNId";
-
-
+                
                 var id = connection.Execute(sql, objWorkShopGRN);
+                InsertLoginHistory(dataConnection, objWorkShopGRN.CreatedBy, "Delete", "Workshop GRN", id.ToString(), "0");
                 return id;
             }
         }

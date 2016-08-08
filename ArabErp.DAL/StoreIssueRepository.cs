@@ -68,6 +68,7 @@ namespace ArabErp.DAL
                                 }, connection, txn);
                             }
                         }
+                        InsertLoginHistory(dataConnection, objStoreIssue.CreatedBy, "Create", "Store Issue", id.ToString(), "0");
                         txn.Commit();
                         return referenceNo;
                     }
@@ -125,9 +126,8 @@ namespace ArabErp.DAL
             using (IDbConnection connection = OpenConnection(dataConnection))
             {
                 string sql = @"Delete StoreIssue  OUTPUT DELETED.StoreIssueId WHERE StoreIssueId=@StoreIssueId";
-
-
                 var id = connection.Execute(sql, objStoreIssue);
+                InsertLoginHistory(dataConnection, objStoreIssue.CreatedBy, "Delete", "Store Issue", id.ToString(), "0");
                 return id;
             }
         }

@@ -11,7 +11,6 @@ namespace ArabErp.Domain
     {
         public int ItemId { get; set; }
         public string ItemRefNo { get; set; }
-        [Required]
         public string PartNo { get; set; }
          [Required]
         public string ItemName { get; set; }
@@ -28,13 +27,10 @@ namespace ArabErp.Domain
         public int? ItemUnitId { get; set; }
         public int? ItemQualityId { get; set; }
         public int? CommodityId { get; set; }
-         [Required]
         public int? MinLevel { get; set; }
-         [Required]
         public int? ReorderLevel { get; set; }
-         [Required]
         public int? MaxLevel { get; set; }
-         [Required]
+        [Required]
         public DateTime ExpiryDate { get; set; }
         public Boolean BatchRequired { get; set; }
         public Boolean StockRequired { get; set; }
@@ -43,9 +39,9 @@ namespace ArabErp.Domain
         public DateTime? CreatedDate { get; set; }
         public int? OrganizationId { get; set; }
         public string CategoryName { get; set; }
-         public string ItemGroupName { get; set; }
-         public string ItemSubGroupName { get; set; }
-        
+        public string ItemGroupName { get; set; }
+        public string ItemSubGroupName { get; set; }
+        public string UnitName { get; set; }
     }
     public enum  ItemSubGroupId
     {

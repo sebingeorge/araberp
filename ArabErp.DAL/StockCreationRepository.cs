@@ -90,6 +90,7 @@ namespace ArabErp.DAL
                     }
                     #endregion
 
+                    InsertLoginHistory(dataConnection, model.CreatedBy, "Create", "Stock Creation", id.ToString(), "0");
                     txn.Commit();
                 }
                 catch (Exception ex)

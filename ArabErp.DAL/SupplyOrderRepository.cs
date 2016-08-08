@@ -41,7 +41,7 @@ namespace ArabErp.DAL
                             supplyorderitemrepo.InsertSupplyOrderItem(item, connection, trn);
                         }
                     }
-
+                    InsertLoginHistory(dataConnection, objSupplyOrder.CreatedBy, "Create", "LPO", id.ToString(), "0");
                     trn.Commit();
                 }
                 catch (Exception ex)
@@ -215,6 +215,7 @@ namespace ArabErp.DAL
 
 
                 var id = connection.Execute(sql, objSupplyOrder);
+                InsertLoginHistory(dataConnection, objSupplyOrder.CreatedBy, "Update", "LPO", id.ToString(), "0");
                 return id;
             }
         }
@@ -226,6 +227,7 @@ namespace ArabErp.DAL
 
 
                 var id = connection.Execute(sql, objSupplyOrder);
+                InsertLoginHistory(dataConnection, objSupplyOrder.CreatedBy, "Delete", "LPO", id.ToString(), "0");
                 return id;
             }
         }

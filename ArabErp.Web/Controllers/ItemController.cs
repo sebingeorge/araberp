@@ -52,10 +52,17 @@ namespace ArabErp.Web.Controllers
             oitem.CreatedBy = UserID.ToString();
 
             var repo = new ItemRepository();
+
             bool isexists = repo.IsFieldExists(repo.ConnectionString(), "Item","ItemName",oitem.ItemName, null, null);
             if (!isexists)
 
+            //bool isexists1 = repo.IsFieldExists(repo.ConnectionString(), "Item","PartNo",oitem.PartNo, null, null);
+            //if (!isexists1)
+
+            //{
             {
+
+
                 var result = new ItemRepository().InsertItem(oitem);
               if (result.ItemId > 0)
                 {
@@ -236,13 +243,14 @@ namespace ArabErp.Web.Controllers
             FillItemCategory();
             return PartialView("_ItemCategoryDropdown");
         }
-        public ActionResult ItemList(int? page)
+        public ActionResult ItemList(int? page, string name = "")
         {
             int itemsPerPage = 10;
             int pageNumber = page ?? 1;
-            var repo = new ItemRepository();
-            var List = repo.GetItems();
-            return PartialView("_ItemListView",List);
+            return PartialView("_ItemListView", new ItemRepository().GetItems(name));
+            //var repo = new ItemRepository();
+            //var List = repo.GetItems();
+            //return PartialView("_ItemListView",List);
         }
 
        
