@@ -179,7 +179,7 @@ namespace ArabErp.Web.Controllers
                 try
                 {
                     var result2 = new QuerySheetRepository().DeleteProjectCosting(model.QuerySheetId);
-                    var result3 = new QuerySheetRepository().DeleteQuerySheet(model.QuerySheetId);
+                    var result3 = new QuerySheetRepository().DeleteQuerySheet(model.QuerySheetId, UserID.ToString());
                     string id = new QuerySheetRepository().InsertQuerySheet(model);
 
                     TempData["success"] = "Updated successfully. Purchase Request Reference No. is " + id;
@@ -218,7 +218,7 @@ namespace ArabErp.Web.Controllers
             else
             {
                 var result2 = new QuerySheetRepository().DeleteProjectCosting(Id);
-                var result3 = new QuerySheetRepository().DeleteQuerySheet(Id);
+                var result3 = new QuerySheetRepository().DeleteQuerySheet(Id, UserID.ToString());
 
                 if (Id > 0)
                 {

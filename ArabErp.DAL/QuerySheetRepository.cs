@@ -32,7 +32,7 @@ namespace ArabErp.DAL
                         item.QuerySheetId= id;
                         new ProjectCostRepository().InsertProjectCosting(item, connection, txn);
                     }
-
+                    InsertLoginHistory(dataConnection, objQuerySheet.CreatedBy, "Create", "Query Sheet", id.ToString(), "0");
                     txn.Commit();
 
                     return id + "|QSH/" + internalId;
@@ -107,7 +107,7 @@ namespace ArabErp.DAL
         /// Delete QuerySheet Details
         /// </summary>
         /// <returns></returns>
-        public int DeleteQuerySheet(int Id)
+        public int DeleteQuerySheet(int Id, string CreatedBy)
         {
             int result = 0;
             using (IDbConnection connection = OpenConnection(dataConnection))
@@ -117,6 +117,7 @@ namespace ArabErp.DAL
                 {
 
                     var id = connection.Execute(sql, new { Id = Id });
+                    InsertLoginHistory(dataConnection, CreatedBy, "Delete", "Query Sheet", id.ToString(), "0");
                     return id;
 
                 }

@@ -233,7 +233,7 @@ namespace ArabErp.Web.Controllers
                 try
                 {
                     var result2 = new PurchaseBillRepository().DeletePuchaseBillDT(model.PurchaseBillId);
-                    var result3 = new PurchaseBillRepository().DeletePuchaseBillHD(model.PurchaseBillId);
+                    var result3 = new PurchaseBillRepository().DeletePuchaseBillHD(model.PurchaseBillId, UserID.ToString());
                     string id = new PurchaseBillRepository().InsertPurchaseBill(model);
 
                     TempData["success"] = "Updated successfully. Purchase Request Reference No. is " + model.PurchaseBillRefNo;
@@ -272,7 +272,7 @@ namespace ArabErp.Web.Controllers
             //else
             //{
                 var result2 = new PurchaseBillRepository().DeletePuchaseBillDT(Id);
-                var result3 = new PurchaseBillRepository().DeletePuchaseBillHD(Id);
+                var result3 = new PurchaseBillRepository().DeletePuchaseBillHD(Id, UserID.ToString());
 
                 if (Id > 0)
                 {
