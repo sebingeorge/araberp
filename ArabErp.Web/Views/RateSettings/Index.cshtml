@@ -167,10 +167,13 @@
                             }, new { @class = "form_input", @onchange = "OnTypeChanged()" })
                         </div>
                     </div>*@
-
-                <div class="table-responsive scrollable" id="work-description-table">
+                            <div class="row">
+                <div class="main-grid main-grid-top scroll1">
+                <div class="table-responsive" id="work-description-table">
                     @Html.Action("WorkDescriptions")
                 </div>
+                    </div>
+                    </div>
 
                 <div class="row">
                     <div class="col-md-12 hrpart">

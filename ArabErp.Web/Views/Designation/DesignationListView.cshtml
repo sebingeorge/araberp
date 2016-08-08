@@ -48,7 +48,7 @@
 
 <div class="table-responsive">
 
-    <div class="main-grid">
+    <div class="main-grid scroll1">
 
         @Html.Grid(Model).Columns(columns =>
                         {
@@ -58,7 +58,7 @@
                             columns.Add().Encoded(false).Sanitized(false).Css("cent").SetWidth(30).RenderValueAs(m => @<a href="@Url.Action("Delete", new { Id=m.DesignationId })">Delete</a>);
 
                         }).WithPaging(10)
-        </div>
+    </div>
 
 
     <div class="row-count1">
