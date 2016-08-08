@@ -138,6 +138,7 @@ namespace ArabErp
                         var taskid = repo.InsertJobCardTask(item, connection, trn);
                         i++;
                     }
+                    InsertLoginHistory(dataConnection, objJobCard.CreatedBy, "Create", "Job Card", id.ToString(), "0");
                     trn.Commit();
                     return id;
                 }
@@ -158,6 +159,7 @@ namespace ArabErp
 
 
                 var id = connection.Execute(sql, objJobCard);
+                InsertLoginHistory(dataConnection, objJobCard.CreatedBy, "Update", "Job Card", id.ToString(), "0");
                 return id;
             }
         }
