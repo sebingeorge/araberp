@@ -1,11 +1,34 @@
 ﻿@model  ArabErp.Domain.SaleOrder
-@{ string actionName = ViewContext.RouteData.GetRequiredString("action");
- ViewData["action"] = actionName;
- string postActionName = "UpdateApprovalStatus";
-     if (actionName == "ApprovalForTrn")
-     {
-         postActionName = "UpdateApprovalForTrn";
-     }
+@{
+
+    string actionName = ViewContext.RouteData.GetRequiredString("action");
+    ViewData["action"] = actionName;
+    string postActionName = "UpdateApprovalStatus";
+    if (actionName == "ApprovalForTrn")
+    {
+        postActionName = "UpdateApprovalForTrn";
+    }
+
+    if (ViewData["action"].ToString() == "Approval")
+    {
+        ViewBag.Title = "Sale Order Approval";
+    }
+    else if (ViewData["action"].ToString() == "Hold")
+    {
+        ViewBag.Title = "Sale Order Hold";
+    }
+    else if (ViewData["action"].ToString() == "Cancel")
+    {
+        ViewBag.Title = "Sale Order Cancel";
+    }
+    else if (ViewData["action"].ToString() == "ApprovalForTrn")
+    {
+        ViewBag.Title = "Sale Order Approval";
+    }
+    else
+    {
+        ViewBag.Title = "Sale Order Release";
+    }
 }
 <script>
     $(function () {
