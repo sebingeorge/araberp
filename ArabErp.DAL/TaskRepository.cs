@@ -35,6 +35,7 @@ namespace ArabErp.DAL
 
                    int id = connection.Query<int>(sql, objTask, trn).Single();
                    objTask.JobCardTaskMasterId = id;
+                   InsertLoginHistory(dataConnection, objTask.CreatedBy, "Create", "Task", id.ToString(), "0");
                    //connection.Dispose();
                    trn.Commit();
                }
@@ -95,6 +96,7 @@ namespace ArabErp.DAL
 
 
                var id = connection.Execute(sql, objTask);
+               InsertLoginHistory(dataConnection, objTask.CreatedBy, "Update", "Task", id.ToString(), "0");
                return objTask;
            }
        }
@@ -110,6 +112,7 @@ namespace ArabErp.DAL
 
                    var id = connection.Execute(sql, objTask);
                    objTask.JobCardTaskMasterId = id;
+                   InsertLoginHistory(dataConnection, objTask.CreatedBy, "Delete", "Task", id.ToString(), "0");
                    result = 0;
 
                }

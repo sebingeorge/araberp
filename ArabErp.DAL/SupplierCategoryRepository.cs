@@ -36,6 +36,7 @@ namespace ArabErp.DAL
                      int id = connection.Query<int>(sql, objSupplierCategory, trn).Single();
                      objSupplierCategory.SupCategoryId = id;
                      //connection.Dispose();
+                     InsertLoginHistory(dataConnection, objSupplierCategory.CreatedBy, "Create", "Supplier Category", id.ToString(), "0");
                      trn.Commit();
                  }
                  catch (Exception ex)
@@ -90,9 +91,9 @@ namespace ArabErp.DAL
              using (IDbConnection connection = OpenConnection(dataConnection))
              {
                  string sql = @"Update SupplierCategory Set SupCategoryRefNo=@SupCategoryRefNo,SupCategoryName=@SupCategoryName,SupCategoryShortName=@SupCategoryShortName OUTPUT INSERTED.SupCategoryId WHERE SupCategoryId=@SupCategoryId";
-
-
+                 
                  var id = connection.Execute(sql, objSupplierCategory);
+                 InsertLoginHistory(dataConnection, objSupplierCategory.CreatedBy, "Update", "Supplier Category", id.ToString(), "0");
                  return objSupplierCategory;
              }
          }
@@ -108,6 +109,7 @@ namespace ArabErp.DAL
 
                      var id = connection.Execute(sql, objSupplierCategory);
                      objSupplierCategory.SupCategoryId = id;
+                     InsertLoginHistory(dataConnection, objSupplierCategory.CreatedBy, "Delete", "Supplier Category", id.ToString(), "0");
                      result = 0;
 
                  }

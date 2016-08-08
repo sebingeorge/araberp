@@ -31,7 +31,7 @@ namespace ArabErp.DAL
                     model.VehicleModelRefNo = "VM/" + internalid;
                     id = connection.Query<int>(sql, model, trn).Single();
                     model.VehicleModelId = id;
-
+                    InsertLoginHistory(dataConnection, model.CreatedBy, "Create", "Vehicle Model", id.ToString(), "0");
                     trn.Commit();
                 }
                 catch (Exception e)
@@ -90,6 +90,7 @@ namespace ArabErp.DAL
                 {
                     var id = connection.Execute(sql, model);
                     model.VehicleModelId = id;
+                    InsertLoginHistory(dataConnection, model.CreatedBy, "Update", "Vehicle Model", id.ToString(), "0");
                 }
                 catch (Exception ex)
                 {
@@ -110,6 +111,7 @@ namespace ArabErp.DAL
                 {
                     var id = connection.Execute(sql, model);
                     model.VehicleModelId = id;
+                    InsertLoginHistory(dataConnection, model.CreatedBy, "Delete", "Vehicle Model", id.ToString(), "0");
                 }
                 catch (Exception ex)
                 {

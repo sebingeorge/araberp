@@ -59,7 +59,7 @@ namespace ArabErp.DAL
                         new StockJournalItemsRepository().InsertStockJournalItem(item, connection, trn);
 
                     }
-
+                    InsertLoginHistory(dataConnection, model.CreatedBy, "Create", "Stock Journal", id.ToString(), "0");
                     trn.Commit();
                     return id;
                 }

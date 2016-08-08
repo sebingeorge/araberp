@@ -290,7 +290,7 @@ namespace ArabErp.Web.Controllers
 
                     model.UserPassword = model.ConfirmPassword = hashedPassword;
                     model.UserSalt = salt;
-
+                    
                     res = (new UserRepository()).InsertUser(model);
                 }
                 else
