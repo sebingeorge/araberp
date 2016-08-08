@@ -118,7 +118,7 @@ namespace ArabErp.DAL
                         connection.Query(query);
                     }
                 }
-                InsertLoginHistory(dataConnection, CreatedBy, "Create", "Job Card Completion", id.ToString(), "0");
+                InsertLoginHistory(dataConnection, CreatedBy, "Update", "Job Card Completion", id.ToString(), "0");
             }
             return id;
         }

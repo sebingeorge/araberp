@@ -29,7 +29,7 @@ namespace ArabErp.Web.Controllers
         [HttpPost]
         public ActionResult Create(Organization model)
         {
-
+            model.CreatedBy = UserID.ToString();
             var repo = new OrganizationRepository();
             bool isexists = repo.IsFieldExists(repo.ConnectionString(), "Organization", "OrganizationName", model.OrganizationName, null, null);
             if (!isexists)
@@ -77,7 +77,7 @@ namespace ArabErp.Web.Controllers
         {
 
             var repo = new OrganizationRepository();
-
+            model.CreatedBy = UserID.ToString();
 
             bool isexists = repo.IsFieldExists(repo.ConnectionString(), "Organization", "OrganizationName", model.OrganizationName, "OrganizationId", model.OrganizationId);
             if (!isexists)
@@ -120,6 +120,7 @@ namespace ArabErp.Web.Controllers
         [HttpPost]
         public ActionResult Delete(Organization model)
         {
+            model.CreatedBy = UserID.ToString();
             int result = new OrganizationRepository().DeleteOrganization(model);
 
             if (result == 0)
