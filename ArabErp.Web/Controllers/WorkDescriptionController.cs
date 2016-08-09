@@ -47,8 +47,7 @@ namespace ArabErp.Web.Controllers
 
         public ActionResult CreateProjectWorkDescription()
         {
-
-         
+        
             FillItem();
             FillJobCardTaskMaster();
             WorkDescription workdescription = new WorkDescription();
@@ -193,5 +192,11 @@ namespace ArabErp.Web.Controllers
                 return View("CreateProjectWorkDescription", model);
             }
         }
+
+        public JsonResult GetUnit(int itemId)
+        {
+            return Json(new ItemRepository().GetPartNoUnit(itemId), JsonRequestBehavior.AllowGet);
+        }
+
     }
 }

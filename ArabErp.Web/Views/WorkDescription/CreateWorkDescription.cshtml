@@ -27,14 +27,14 @@
         var index = (new Date()).getTime(); // unique indexer
         var clone = $('#Row_Item_Id_0').clone(); // clone the BatchProducts item
         //Update the index of the clone
-        //clone.html($(clone).html().replace("Items_0__", 'Items_' + i + '__'));
-        clone.html($(clone).html().replace(/WorkVsItems_0__/g, 'WorkVsItems_' + i + '__'));
+       
         clone.html($(clone).html().replace(/WorkVsItems_0__/g, 'WorkVsItems_' + i + '__'));
         clone.html($(clone).html().replace(/\WorkVsItems[0]./g, 'WorkVsItems[' + i + '].'));
         clone.html($(clone).html().replace(/\[0\]/g, '[' + i + ']'));
         clone.html($(clone).html().replace(/\(0\)/g, '(' + i + ')'));
         clone.html($(clone).html().replace(/Row_Item_0/, 'Row_Item_' + i + ''));
         clone.html($(clone).html().replace(/Itemslno1/, 'Itemslno' + (i + 1) + ''));
+        clone.html($(clone).html().replace("OnMaterialChange(this," + i, "OnMaterialChange(this," + (i + 1)));
         clone.html($(clone).html().replace(/this,0/, 'this,' + i + ''));
         $("#Tab_Item").append('<tr id="'+'Row_Item_Id_' + i + '">' + clone.html() + '  </tr>');
         $("#Itemslno" + (i + 1)).html((i + 1));
@@ -58,6 +58,7 @@
             $("#Row_Item_Id_" + index).remove();
             for (var j = index + 1; j < i; j++) {
                 var ItemId = $("#WorkVsItems_" + j + "__ItemId").val();
+                var uom = $("#WorkVsItems_" + j + "__UoM").val();
                 var Quantity = $("#WorkVsItems_" + j + "__Quantity").val();
   
                 var clone = $("#Row_Item_Id_" + j).clone(true, true);
@@ -65,6 +66,7 @@
                 clone.html($(clone).html().replace(new RegExp("\\[" + j + "].", "g"), "[" + (j - 1) + "]."));
                 clone.html($(clone).html().replace(new RegExp('Itemslno' + (j + 1) + '">' + (j + 1), "g"), 'Itemslno' + (j) + '">' + (j)));
                 clone.html($(clone).html().replace("ItemRowDelete(" + j, "ItemRowDelete(" + (j - 1)));
+                clone.html($(clone).html().replace("OnMaterialChange(this," + j, "OnMaterialChange(this," + (j - 1)));
                 clone.html($(clone).html().replace("Row_Item_Id_" + j, "Row_Item_Id_" + (j - 1)));
                 clone.html($(clone).html().replace("Row_Item_" + j, "Row_Item_" + (j - 1)));
                 clone.html($(clone).html().replace("this," + j, "this," + (j - 1)));
@@ -72,6 +74,7 @@
                 $("#WorkVsItems_" + (j - 1) + "__SlNo").val(j);
                 $("#Row_Item_Id_" + (j)).attr('id', "Row_Item_Id_"+(j - 1));     
                 $("#WorkVsItems_" + (j - 1) + "__ItemId").val(ItemId);
+                $("#WorkVsItems_" + (j - 1) + "__UoM").val(uom);
                 $("#WorkVsItems_" + (j - 1) + "__Quantity").val(Quantity);
             }
         }
@@ -146,7 +149,7 @@
     
         $("#WorkVsItems_0__SlNo").val('1');
         var Action = '@actionName';
-        if (Action == 'Delete') {
+        if (Action == 'EditWorkDescription') {
 
             $("input[type='text'], select, textarea").attr('disabled', 'disabled');
             $("input[type=radio]").attr('disabled', true);
@@ -179,6 +182,24 @@
         }
     });
 
+    function OnMaterialChange(sender, index) {
+        var id = $(sender).val();
+
+        //alert(index);
+
+        if (id != '') {
+            var url = '@Url.Action("GetUnit")';
+            $.getJSON(url, { itemId: id },
+                function (data) {
+                    var arr = data.split('|');
+                    //alert(arr);
+                    $("#WorkVsItems_" + index + "__UoM").val(arr[1]);
+                });
+        }
+        else {
+            $("#WorkVsItems_" + index + "__UoM").val('');
+        }
+    }
 </script>
 
 
@@ -289,6 +310,7 @@
                                 <th width="2%"><h1></h1></th>
                                 <th width="2%"><h1>#</h1></th>
                                 <th width="89%"><h1>Items</h1></th>
+                                <th width="8%"><h1>Unit</h1></th>
                                 <th width="5%" class="text-right"><h1>Quantity</h1></th>
                                 <th width="2%"><h1></h1></th>
 
@@ -306,15 +328,15 @@
 
                                         <td>
                                             <input type="hidden" id="Row_Item_@i" />
-                                            @Html.DropDownListFor(m => m.WorkVsItems[i].ItemId, new SelectList(ViewBag.ItemList, "Value", "Text", Model.WorkVsItems[i].ItemId), "select Item", new { @class = "form_input", autocomplete = "off"})
+                                            @Html.DropDownListFor(m => m.WorkVsItems[i].ItemId, new SelectList(ViewBag.ItemList, "Value", "Text", Model.WorkVsItems[i].ItemId), "select Item", new { @class = "form_input", @onchange = "OnMaterialChange(this," + i + ")" })
+                                       
                                         </td>
-                                        @*<td>
-
-                                                @Html.DropDownListFor(m => m.WorkVsItems[i].ItemId, (SelectList)ViewBag.ItemList, "Select Item", new { @class = "form_input", autocomplete = "off" })
-                                            </td>*@
 
                                         <td>
+                                            @Html.TextBoxFor(m => m.WorkVsItems[i].UoM, new { @class = "form_input", @style = "text-align:left", autocomplete = "off", @readonly = "readonly" })
+                                        </td>
 
+                                        <td>
                                             @Html.TextBoxFor(m => m.WorkVsItems[i].Quantity, new { @class = "form_input text-right", autocomplete = "off" })
                                         </td>
                                         <td style="vertical-align:middle"><a class="glyphicon glyphicon-plus" style="top:0px" onclick="ItemRowAdd(@i)"></a></td>
@@ -384,8 +406,10 @@
 
                     <div class="col-md-12 hrpart">
                         <button type="button" class="form-button right" onclick="Exit();">Exit</button>
-                        @if (actionName == "Edit")
-                                { <button type="submit" class="form-button right">Update</button> }
+                        @if (actionName == "EditWorkDescription")
+                                { 
+                            @*<button type="submit" class="form-button right">Update</button>*@ 
+                                }
                                 else
                                     if (actionName == "Delete")
                                     {  <button type="submit" class="form-button right">Delete</button>}

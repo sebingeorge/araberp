@@ -35,7 +35,6 @@ namespace ArabErp.Domain
 
         public bool isProjectBased { get; set; }
         public decimal MinimumAmount { get; set; }
-
         public List<WorkVsItem> WorkVsItems { get; set; }
         public List<WorkVsTask> WorkVsTasks { get; set; }
     }
