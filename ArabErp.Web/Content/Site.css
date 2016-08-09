@@ -1102,7 +1102,11 @@ section.content {
  {
     margin-top:12px;
 }
-
+.field-validation-error
+{
+    color:red;
+    font-size:small;
+}
 
 
 

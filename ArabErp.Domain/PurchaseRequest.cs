@@ -7,7 +7,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace ArabErp.Domain
 {
-   public class PurchaseRequest
+    public class PurchaseRequest
     {
         public int PurchaseRequestId { get; set; }
         public string PurchaseRequestNo { get; set; }
@@ -19,8 +19,10 @@ namespace ArabErp.Domain
         public string CustomerOrderRef { get; set; }
         public string CustomerName { get; set; }
         public string SpecialRemarks { get; set; }
+        [Required]
+        [ValidateDateGreaterThan]
         public DateTime RequiredDate { get; set; }
-          [Required]
+        [Required]
         public string CreatedBy { get; set; }
         public DateTime? CreatedDate { get; set; }
         public int OrganizationId { get; set; }
