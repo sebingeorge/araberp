@@ -1,0 +1,437 @@
+﻿@model  ArabErp.Domain.WorkDescription
+@{
+    ViewBag.Title = "Edit";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<script>
+    function Exit() {
+        location.href = '@Url.Action("Index", "WorkDescription")';
+    }
+
+    function Delete(id) {
+        //alert(id);
+        var url = '@Url.Action("Delete")';
+        url += "/" + id;
+
+        window.location = url;
+    }
+
+    function ItemRowAdd() {
+
+        var i = 0;
+        var no = 1;
+        $('input[id^="Row_Item_"]').each(function () {
+            var id = this.id;
+            no++;
+            var row = Number(id.replace("Row_Item_", ""));
+            if (row > i) {
+                i = row;
+            }
+        });
+        i++;
+
+        var index = (new Date()).getTime(); // unique indexer
+        var clone = $('#Row_Item_Id_0').clone(); // clone the BatchProducts item
+        //Update the index of the clone
+
+        clone.html($(clone).html().replace(/WorkVsItems_0__/g, 'WorkVsItems_' + i + '__'));
+        clone.html($(clone).html().replace(/\WorkVsItems[0]./g, 'WorkVsItems[' + i + '].'));
+        clone.html($(clone).html().replace(/\[0\]/g, '[' + i + ']'));
+        clone.html($(clone).html().replace(/\(0\)/g, '(' + i + ')'));
+        clone.html($(clone).html().replace(/Row_Item_0/, 'Row_Item_' + i + ''));
+        clone.html($(clone).html().replace(/Itemslno1/, 'Itemslno' + (i + 1) + ''));
+        clone.html($(clone).html().replace("OnMaterialChange(this," + i, "OnMaterialChange(this," + (i + 1)));
+        clone.html($(clone).html().replace(/this,0/, 'this,' + i + ''));
+        $("#Tab_Item").append('<tr id="'+'Row_Item_Id_' + i + '">' + clone.html() + '  </tr>');
+        $("#Itemslno" + (i + 1)).html((i + 1));
+        $("#WorkVsItems_" + i + "__SlNo").val((i + 1));
+
+        $("#WorkVsItems_" + i + "__ItemId").val('');
+        $("#WorkVsItems_" + i + "__UoM").val('');
+        $("#WorkVsItems_" + i + "__Quantity").val(0);
+    }
+    function ItemRowDelete(index) {
+
+        var i = 0;
+        var no = 1;
+        $('input[id^="Row_Item_"]').each(function () {
+            var id = this.id;
+            no++;
+            var row = Number(id.replace("Row_Item_", ""));
+            if (row > i) {
+                i = row;
+            }
+        });
+        i++;
+        //$("#" + index).html('');
+        if (i > 1) {
+            $("#Row_Item_Id_" + index).remove();
+            for (var j = index + 1; j < i; j++) {
+                var ItemId = $("#WorkVsItems_" + j + "__ItemId").val();
+                var uom = $("#WorkVsItems_" + j + "__UoM").val();
+                var Quantity = $("#WorkVsItems_" + j + "__Quantity").val();
+
+                var clone = $("#Row_Item_Id_" + j).clone(true, true);
+                clone.html($(clone).html().replace(new RegExp("WorkVsItems_" + j + "__", "g"), 'WorkVsItems_' + (j - 1) + '__'));
+                clone.html($(clone).html().replace(new RegExp("\\[" + j + "].", "g"), "[" + (j - 1) + "]."));
+                clone.html($(clone).html().replace(new RegExp('Itemslno' + (j + 1) + '">' + (j + 1), "g"), 'Itemslno' + (j) + '">' + (j)));
+                clone.html($(clone).html().replace("ItemRowDelete(" + j, "ItemRowDelete(" + (j - 1)));
+                clone.html($(clone).html().replace("OnMaterialChange(this," + j, "OnMaterialChange(this," + (j - 1)));
+                clone.html($(clone).html().replace("Row_Item_Id_" + j, "Row_Item_Id_" + (j - 1)));
+                clone.html($(clone).html().replace("Row_Item_" + j, "Row_Item_" + (j - 1)));
+                clone.html($(clone).html().replace("this," + j, "this," + (j - 1)));
+                $("#Row_Item_Id_" + j).html(clone.html());
+                $("#WorkVsItems_" + (j - 1) + "__SlNo").val(j);
+                $("#Row_Item_Id_" + (j)).attr('id', "Row_Item_Id_"+(j - 1));
+                $("#WorkVsItems_" + (j - 1) + "__ItemId").val(ItemId);
+                $("#WorkVsItems_" + (j - 1) + "__UoM").val(uom);
+                $("#WorkVsItems_" + (j - 1) + "__Quantity").val(Quantity);
+
+            }
+        }
+    }
+    function TaskRowAdd() {
+
+        var i = 0;
+        var no = 1;
+        $('input[id^="Row_Task_"]').each(function () {
+            var id = this.id;
+            no++;
+            var row = Number(id.replace("Row_Task_", ""));
+            if (row > i) {
+                i = row;
+            }
+        });
+        i++;
+
+        var index = (new Date()).getTime(); // unique indexer
+        var clone = $('#Row_Task_Id_0').clone(); // clone the BatchProducts item
+        //Update the index of the clone
+        //clone.html($(clone).html().replace("Items_0__", 'Items_' + i + '__'));
+        clone.html($(clone).html().replace(/WorkVsTasks_0__/g, 'WorkVsTasks_' + i + '__'));
+        clone.html($(clone).html().replace(/WorkVsTasks_0__/g, 'WorkVsTasks_' + i + '__'));
+        clone.html($(clone).html().replace(/\WorkVsTasks[0]./g, 'WorkVsTasks[' + i + '].'));
+        clone.html($(clone).html().replace(/\[0\]/g, '[' + i + ']'));
+        clone.html($(clone).html().replace(/\(0\)/g, '(' + i + ')'));
+        clone.html($(clone).html().replace(/Row_Task_0/, 'Row_Task_' + i + ''));
+        clone.html($(clone).html().replace(/Taskslno1/, 'Taskslno' + (i + 1) + ''));
+        clone.html($(clone).html().replace(/this,0/, 'this,' + i + ''));
+        $("#Tab_Task").append('<tr id="'+'Row_Task_Id_' + i + '">' + clone.html() + '  </tr>');
+        $("#Taskslno" + (i + 1)).html((i + 1));
+        $("#WorkVsTasks_" + i + "__SlNo").val((i + 1));
+
+        $("#WorkVsTasks_" + i + "__JobCardTaskMasterId").val('');
+        $("#WorkVsTasks_" + i + "__Hours").val(0);
+
+    }
+    function TaskRowDelete(index) {
+
+        var i = 0;
+        var no = 1;
+        $('input[id^="Row_Task_"]').each(function () {
+            var id = this.id;
+            no++;
+            var row = Number(id.replace("Row_Task_", ""));
+            if (row > i) {
+                i = row;
+            }
+        });
+        i++;
+        //$("#" + index).html('');
+        if (i > 1) {
+            $("#Row_Task_Id_" + index).remove();
+            for (var j = index + 1; j < i; j++) {
+                var JobCardTaskMasterId = $("#WorkVsTasks_" + j + "__JobCardTaskMasterId").val();
+                var Hours = $("#WorkVsTasks_" + j + "__Hours").val();
+
+                var clone = $("#Row_Task_Id_" + j).clone(true, true);
+                clone.html($(clone).html().replace(new RegExp("WorkVsTasks_" + j + "__", "g"), 'WorkVsTasks_' + (j - 1) + '__'));
+                clone.html($(clone).html().replace(new RegExp("\\[" + j + "].", "g"), "[" + (j - 1) + "]."));
+                clone.html($(clone).html().replace(new RegExp('Taskslno' + (j + 1) + '">' + (j + 1), "g"), 'Taskslno' + (j) + '">' + (j)));
+                clone.html($(clone).html().replace("TaskRowDelete(" + j, "TaskRowDelete(" + (j - 1)));
+                clone.html($(clone).html().replace("Row_Task_Id_" + j, "Row_Task_Id_" + (j - 1)));
+                clone.html($(clone).html().replace("Row_Task_" + j, "Row_Task_" + (j - 1)));
+                clone.html($(clone).html().replace("this," + j, "this," + (j - 1)));
+                $("#Row_Task_Id_" + j).html(clone.html());
+                $("#WorkVsTasks_" + (j - 1) + "__SlNo").val(j);
+                $("#Row_Task_Id_" + (j)).attr('id', "Row_Task_Id_"+(j - 1));
+                $("#WorkVsTasks_" + (j - 1) + "__JobCardTaskMasterId").val(JobCardTaskMasterId);
+                $("#WorkVsTasks_" + (j - 1) + "__Hours").val(Hours);
+
+                $("#WorkVsTasks_" + (j - 1) + "__JobCardTaskMasterId").val(JobCardTaskMasterId);
+                $("#WorkVsTasks_" + (j - 1) + "__Hours").val(Hours);
+            }
+        }
+    }
+    $(document).ready(function () {
+
+        //$("#radio_1").prop("checked", true)
+        toastr.options = {
+            "closeButton": true,
+            "positionClass": "toast-bottom-full-width",
+            "preventDuplicates": false,
+            "onclick": null,
+
+            "timeOut": "0",
+            "extendedTimeOut": "1000",
+
+            "showEasing": "swing",
+            "hideEasing": "linear",
+            "showMethod": "fadeIn",
+            "hideMethod": "fadeOut"
+        }
+        if ('@TempData["success"]' != "" && '@TempData["WorkDescriptionRefNo"]' != "") {
+            toastr.success('@TempData["success"]' + '  Work Description No. is : ' + '@TempData["WorkDescriptionRefNo"]');
+        }
+        else if ('@TempData["error"]' != "") {
+            toastr.error('@TempData["error"]');
+        }
+    });
+
+
+    function OnMaterialChange(sender, index) {
+        var id = $(sender).val();
+
+        //alert(index);
+
+        if (id != '') {
+            var url = '@Url.Action("GetUnit")';
+            $.getJSON(url, { itemId: id },
+                function (data) {
+                    var arr = data.split('|');
+                    //alert(arr);
+                    $("#WorkVsItems_" + index + "__UoM").val(arr[1]);
+                });
+        }
+        else {
+            $("#WorkVsItems_" + index + "__UoM").val('');
+        }
+    }
+</script>
+
+
+<div class="row">
+    <div class="form-head1">
+        <h4>Work Description</h4>
+    </div>
+
+    <div class="main-part pad1">
+        @using (Html.BeginForm(null, null, FormMethod.Post, new { @class = "createFrom", @id = "VehicleModel_form" }))
+        {
+            @Html.HiddenFor(m => m.WorkDescriptionId)
+            @Html.HiddenFor(m => m.isProjectBased)
+
+            <div class="row">
+                <div class="col-md-3">
+                    <label for="name">Ref. No.</label>
+                    @Html.TextBoxFor(m => m.WorkDescriptionRefNo, new { @class = "form_input", autocomplete = "off" })
+                </div>
+                <div class="col-md-6">
+
+                    @Html.CheckBoxFor(m => m.isNewInstallation, new { autocomplete = "off" })
+
+
+                    <span class="text">New Installation</span>
+
+
+
+                    @Html.CheckBoxFor(m => m.isRepair, new { autocomplete = "off" })
+                    <span class="text">Repair / Service</span>
+
+
+
+                    @Html.CheckBoxFor(m => m.isSubAssembly, new { autocomplete = "off" })
+                    <span class="text">Sub Assembly</span>
+
+
+                </div>
+
+            </div>
+
+
+            <div class="row">
+
+
+
+
+                @if (Model.isProjectBased == false)
+                {
+
+                    <div class="col-md-3">
+                        <div class="part4">
+                            <label for="freezer">Freezer Unit</label>
+                            @Html.DropDownListFor(m => Model.FreezerUnitId, (SelectList)ViewBag.FreezerUnitlist, "Select FreezerUnit", new { @class = "form_input", autocomplete = "off" })
+                        </div>
+                    </div>
+
+                    <div class="col-md-3">
+                        <div class="part4">
+                            <label for="box">Box Type</label>
+                            @Html.DropDownListFor(m => Model.BoxId, (SelectList)ViewBag.Boxlist, "Select Box", new { @class = "form_input", autocomplete = "off" })
+                        </div>
+                    </div>
+
+                    <div class="col-md-3">
+                        <div class="part4">
+                            <label for="VehicleModelId">
+                                Vehicle Model
+                            </label>
+                            @Html.DropDownListFor(m => Model.VehicleModelId, (SelectList)ViewBag.vehiclelist, "Select Vehicle", new { @class = "form_input", autocomplete = "off" })
+                        </div>
+                    </div>
+                }
+                <div class="col-md-3">
+                    <div class="part4">
+                        <label for="box">Short Name</label>
+                        @Html.TextBoxFor(m => m.WorkDescrShortName, new { @class = "form_input", autocomplete = "off" })
+                    </div>
+                </div>
+
+
+            </div>
+
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="part4">
+                        <label for="name">Work Description</label>
+                        @Html.TextAreaFor(m => m.WorkDescr, new { @class = "form_input form_input-h1", autocomplete = "off" })
+                    </div>
+
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-12">&nbsp;</div>
+            </div>
+
+            <div class="form-group">
+
+                <div class="row">
+
+
+                    <div class="col-md-12">
+                        <div class="table-responsive">
+                            <table class="table table-bordered table-hover" id="Tab_Item">
+                                <thead>
+                                    <tr class="grid_heading">
+                                        <th width="2%"><h1></h1></th>
+                                        <th width="2%"><h1>#</h1></th>
+                                        <th width="89%"><h1>Items</h1></th>
+                                        <th width="8%"><h1>Unit</h1></th>
+                                        <th width="5%" class="text-right"><h1>Quantity</h1></th>
+                                        <th width="2%"><h1></h1></th>
+
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @for (int i = 0; i < Model.WorkVsItems.Count; i++)
+                                    {
+                                        <tr id="Row_Item_Id_@i">
+                                            <td style="vertical-align:middle"><a class="glyphicon glyphicon-minus" style="top:0px" onclick="ItemRowDelete(@i)"></a></td>
+                                            <td align="center">
+                                                <span id="Itemslno@(i+1)">@(i + 1)</span>
+                                                @Html.HiddenFor(m => m.WorkVsItems[i].SlNo)
+                                            </td>
+
+                                            <td>
+                                                <input type="hidden" id="Row_Item_@i" />
+                                                @*@Html.DropDownListFor(m => m.WorkVsItems[i].ItemId, new SelectList(ViewBag.ItemList, "Value", "Text", Model.WorkVsItems[i].ItemId), "select Item", new { @class = "form_input", @onchange = "OnMaterialChange(this," + i + ")" })*@
+                                                @Html.DropDownListFor(m => m.WorkVsItems[i].ItemId, new SelectList(ViewBag.ItemList, "Value", "Text", Model.WorkVsItems[i].ItemId), "Select Item", new { @class = "form_input", autocomplete = "off", @onchange = "OnMaterialChange(this," + i + ")" })
+                                            </td>
+
+                                            <td>
+                                                @Html.TextBoxFor(m => m.WorkVsItems[i].UoM, new { @class = "form_input", @style = "text-align:left", autocomplete = "off", @readonly = "readonly" })
+                                            </td>
+
+                                            <td>
+                                                @Html.TextBoxFor(m => m.WorkVsItems[i].Quantity, new { @class = "form_input text-right", autocomplete = "off" })
+                                            </td>
+                                            <td style="vertical-align:middle"><a class="glyphicon glyphicon-plus" style="top:0px" onclick="ItemRowAdd(@i)"></a></td>
+                                        </tr>
+                                    }
+                                    @*<tr id='addr1'></tr>*@
+                                </tbody>
+
+                            </table>
+                        </div>
+                        <div class="col-md-12">
+                            @*<a id="add_item_row" class="glyphicon glyphicon-plus"></a><a id='delete_item_row' style="float:right" class="glyphicon glyphicon-minus"></a>*@
+                        </div>
+                    </div>
+                    <div class="col-md-12">
+                        <div class="table-responsive">
+                            <table class="table table-bordered table-hover" id="Tab_Task">
+                                <thead>
+                                    <tr class="grid_heading">
+                                        <th width="2%"><h1></h1></th>
+                                        <th width="2%"><h1>#</h1></th>
+                                        <th width="88%"><h1>Tasks Executed for Work</h1></th>
+                                        <th width="6%" class="text-right"><h1>Hours</h1></th>
+                                        <th width="2%"><h1></h1></th>
+
+                                    </tr>
+
+                                </thead>
+                                <tbody>
+                                    @for (int i = 0; i < Model.WorkVsTasks.Count; i++)
+                                    {
+                                        <tr id="Row_Task_Id_@i">
+                                            <td style="vertical-align:middle"><a class="glyphicon glyphicon-minus" style="top:0px" onclick="TaskRowDelete(@i)"></a></td>
+
+                                            <td align="center">
+                                                <span id="Taskslno@(i+1)">@(i + 1)</span>
+                                                @Html.HiddenFor(m => m.WorkVsTasks[i].SlNo)
+                                            </td>
+                                            <td>
+                                                <input type="hidden" id="Row_Task_@i" />
+                                                @*@Html.DropDownListFor(m => m.WorkVsTasks[i].JobCardTaskMasterId, new SelectList(ViewBag.JobCardTaskMasterList, "Value", "Text", Model.WorkVsTasks[i].JobCardTaskMasterId), "select Task", new { @class = "form_input", autocomplete = "off" })*@
+                                                @Html.DropDownListFor(m => m.WorkVsTasks[i].JobCardTaskMasterId, new SelectList(ViewBag.JobCardTaskMasterList, "Value", "Text", Model.WorkVsTasks[i].JobCardTaskMasterId), "Select Task", new { @class = "form_input", autocomplete = "off"})
+                                            </td>
+                                            @*<td>
+
+                                                    @Html.DropDownListFor(m => m.WorkVsTasks[i].JobCardTaskMasterId, (SelectList)ViewBag.JobCardTaskMasterList, "Select Task", new { @class = "form_input", autocomplete = "off" })
+                                                </td>*@
+                                            <td>
+
+                                                @Html.TextBoxFor(m => m.WorkVsTasks[i].Hours, new { @class = "form_input text-right", autocomplete = "off" })
+                                            </td>
+                                            <td style="vertical-align:middle"><a id="add_row" class="glyphicon glyphicon-plus" style="top:0px" onclick="TaskRowAdd(@i)"></a></td>
+                                        </tr>
+                                    }
+
+                                </tbody>
+
+                            </table>
+
+
+                        </div>
+                        <div class="col-md-12">
+
+                        </div>
+
+
+                        <div class="row">
+
+                            <div class="col-md-12 hrpart">
+                                <button type="button" class="form-button right" onclick="Exit()">Exit</button>
+                                <button type="submit" class="form-button right">Edit</button>
+                                <button type="button" class="form-button left" onclick="Delete('@Model.WorkDescriptionId')">Delete</button>
+                            </div>
+
+                        </div>
+
+
+                    </div>
+
+                </div>
+
+            </div>
+        }
+    </div>
+
+</div>
+
+
+
+

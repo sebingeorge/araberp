@@ -35,7 +35,7 @@ namespace ArabErp.Web.Controllers
             OpeningStock.OpeningStockItem = new List<OpeningStockItem>();
             if (stockpointId == null || stockpointId == 0)
             {
-                var OpeningStockItem = new OpeningStockItem();
+                var OpeningStockItem = new OpeningStockItem { Quantity = 0 };
                 OpeningStock.OpeningStockItem.Add(OpeningStockItem);
             }
             else

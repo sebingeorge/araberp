@@ -777,6 +777,7 @@
     <Content Include="Views\SaleOrder\Edit.cshtml" />
     <Content Include="Views\TransactionHistory\Index.cshtml" />
     <Content Include="Views\TransactionHistory\_Grid.cshtml" />
+    <Content Include="Views\WorkDescription\Edit.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

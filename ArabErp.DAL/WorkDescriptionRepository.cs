@@ -167,18 +167,85 @@ namespace ArabErp.DAL
             }
         }
 
-        public int DeleteWorkDescription(Unit objWorkDescription)
+        public int CHECK(int WorkDescriptionId)
         {
             using (IDbConnection connection = OpenConnection(dataConnection))
             {
-                string sql = @"Delete WorkDescription  OUTPUT DELETED.WorkDescriptionId WHERE WorkDescriptionId=@WorkDescriptionId";
-                
-                var id = connection.Execute(sql, objWorkDescription);
-                InsertLoginHistory(dataConnection, objWorkDescription.CreatedBy, "Delete", "Work Description", id.ToString(), "0");
+                string sql = @"SELECT count(W.WorkDescriptionId)count FROM WorkDescription W 
+                               INNER JOIN CustomerVsWorkRate C ON C.WorkDescriptionId=W.WorkDescriptionId 
+                               LEFT JOIN SalesQuotationItem S ON S.WorkDescriptionId=W.WorkDescriptionId 
+                               WHERE W.WorkDescriptionId=@WorkDescriptionId";
+
+                var id = connection.Query<int>(sql, new { WorkDescriptionId = WorkDescriptionId }).FirstOrDefault();
+
                 return id;
+
+            }
+
+        }
+
+        /// <summary>
+        /// Delete HD Details
+        /// </summary>
+        /// <returns></returns>
+        public int DeleteWorkDescriptionHD(int Id, string CreatedBy)
+        {
+            int result4 = 0;
+            using (IDbConnection connection = OpenConnection(dataConnection))
+            {
+                string sql = @" DELETE FROM WorkDescription WHERE WorkDescriptionId=@Id";
+
+                {
+
+                    var id = connection.Execute(sql, new { Id = Id });
+                    InsertLoginHistory(dataConnection, CreatedBy, "Delete", "Work Description", id.ToString(), "0");
+                    return id;
+
+                }
+
+            }
+        }
+        /// <summary>
+        /// Delete  Item DT Details
+        /// </summary>
+        /// <returns></returns>
+        public int DeleteWorkDescriptionItem(int Id)
+        {
+            int result2 = 0;
+            using (IDbConnection connection = OpenConnection(dataConnection))
+            {
+                string sql = @" DELETE FROM WorkVsItem WHERE WorkDescriptionId=@Id";
+
+                {
+
+                    var id = connection.Execute(sql, new { Id = Id });
+                    return id;
+
+                }
+
             }
         }
 
+        /// <summary>
+        /// Delete  Task DT Details
+        /// </summary>
+        /// <returns></returns>
+        public int DeleteWorkDescriptionTask(int Id)
+        {
+            int result3 = 0;
+            using (IDbConnection connection = OpenConnection(dataConnection))
+            {
+                string sql = @" DELETE FROM WorkVsTask WHERE WorkDescriptionId=@Id";
+
+                {
+
+                    var id = connection.Execute(sql, new { Id = Id });
+                    return id;
+
+                }
+
+            }
+        }
 
     }
 }

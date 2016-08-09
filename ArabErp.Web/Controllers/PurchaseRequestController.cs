@@ -184,7 +184,7 @@ namespace ArabErp.Web.Controllers
                    {
                        TempData["error"] = "Some error occured. Please try again.|" + ex.Message;
                    }
-            return RedirectToAction("PendingPurchaseRequest");
+            return RedirectToAction("Index");
         }
               
           }
