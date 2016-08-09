@@ -45,8 +45,11 @@
                             columns.Add(m => m.FreezerUnitName).Titled("Freezer Unit").SetWidth(30);
                             columns.Add(m => m.BoxName).Titled("Box Name").SetWidth(20);
 
-                            columns.Add().Encoded(false).Sanitized(false).SetWidth(10).Css("cent").RenderValueAs(o => @<a href="@Url.Action("EditWorkDescription", new { Id = o.WorkDescriptionId })">Edit</a>);
-                            columns.Add().Encoded(false).Sanitized(false).SetWidth(10).Css("cent").RenderValueAs(o => @<a href="@Url.Action("Delete", new { Id = o.WorkDescriptionId })">Delete</a>);
+                            columns.Add().Encoded(false).Sanitized(false).SetWidth(10).Css("cent").RenderValueAs(o => @<a href="@Url.Action("EditWorkDescription", new { Id = o.WorkDescriptionId })">View</a>);
+                            @*columns.Add().Encoded(false).Sanitized(false).SetWidth(10).Css("cent").RenderValueAs(o => @<a href="@Url.Action("Delete", new { Id = o.WorkDescriptionId })">Delete</a>);*@
+            
+                            @*columns.Add().Encoded(false).Sanitized(false).SetWidth(10).Css("cent").RenderValueAs(o => @<a href="@Url.Action("EditWorkDescription", new { Id = o.WorkDescriptionId })">Edit</a>);
+                            columns.Add().Encoded(false).Sanitized(false).SetWidth(10).Css("cent").RenderValueAs(o => @<a href="@Url.Action("Delete", new { Id = o.WorkDescriptionId })">Delete</a>);*@
 
                         }).WithPaging(10)
     </div>

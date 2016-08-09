@@ -1,6 +1,6 @@
 ﻿
 @{
-    ViewBag.Title = "Index";
+    ViewBag.Title = "Job Card List";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 <script type="text/javascript">
@@ -29,13 +29,13 @@
         });
     }
     function Exit() {
-        var url = '@Url.Action("PendingJobCard")';
+        var url = '@Url.Action("PendingJobCard", new { isProjectBased = ViewBag.ProjectBased })';
         window.location = url;
     }
 </script>
 <div class="row">
         <div class="form-head1">
-        <h4>JobCard List</h4>
+        <h4>Job Card List</h4>
     </div>
 
     <div class="main-part pad1">

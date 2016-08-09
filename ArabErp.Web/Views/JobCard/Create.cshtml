@@ -1,10 +1,27 @@
 ﻿@model ArabErp.Domain.JobCard
 @{
-    ViewBag.Title = "Create";
+    ViewBag.Title = "Create Job Card";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 <script>
-    $(document).ready(function() {
+    $(document).ready(function () {
+
+        //---------------------toastr---------------------------//
+        toastr.options = {
+            "positionClass": "toast-bottom-full-width",
+            "timeOut": "5000",
+            "extendedTimeOut": "2000"
+        }
+        if ('@TempData["success"]' != '') {
+            toastr.success('@TempData["success"]');
+        }
+        else if ('@TempData["error"]' != '') {
+            toastr.error('@TempData["error"]'.split('|')[0]);
+            console.log('@TempData["error"]'.split('|')[1]);
+        }
+        @{ TempData["success"] = TempData["error"] = ""; }
+        //------------------------------------------------------//
+
         $('#saleorder_form').bootstrapValidator({
             fields: {
                 JobCardNo: {
@@ -83,13 +100,29 @@
         $('#Row_' + i).find('.taskdate').datepicker({ dateFormat: "dd-MM-yy" });
         assignTaskDate();
     }
-</script> 
+
+    function Exit() {
+        var url = '@Url.Action("PendingJobCard")';
+        window.location = url;
+    }
+
+    function formValidation() {
+        var date = new Date($("#JobCardDate").val());
+        var required = new Date($("#RequiredDate").val());
+        if (date < required) {
+            toastr.info("Required date cannot be less than Job Card date");
+            return false;
+        }
+        return true;
+    }
+
+    </script> 
 
     <div class="row">
-        @using (Html.BeginForm(null, null, FormMethod.Post, new { @class = "createFrom", @id = "jobcard_form" }))
+        @using (Html.BeginForm(null, null, FormMethod.Post, new { @class = "createFrom", @id = "jobcard_form", @onsubmit = "return formValidation()" }))
         {
             <div class="form-head1">
-                <h4>Job Card</h4>
+                <h4>Create Job Card</h4>
             </div>
             <div class="main-part pad1">
                 <form role="form">
@@ -104,61 +137,63 @@
                         <div class="col-md-2">
                             <label for="inputDate">Date</label>
                          
-                            @Html.TextBoxFor(m => m.JobCardDate, Model.JobCardDate.ToString("dd/MMMM/yyyy"), new { @class = "form_input ", autocomplete = "off", @readonly = "readonly" })
+                            @Html.TextBoxFor(m => m.JobCardDate, Model.JobCardDate.ToString("dd/MMMM/yyyy"), new { @class = "form_input ", autocomplete = "off", @readonly = "readonly", @required = "true" })
                         </div>
                     </div>
                     <div class="row form-group">
                         <div class="col-md-4">
                             <label for="cus">Customer</label>
-                            @Html.TextBoxFor(m => m.CustomerName, new { @class = "form_input", autocomplete = "off", @disabled = "true" })
+                            @Html.TextBoxFor(m => m.CustomerName, new { @class = "form_input", autocomplete = "off", @readonly = "true" })
                             @Html.HiddenFor(m => m.CustomerId, new { @class = "form_input", autocomplete = "off" })
                         </div>
                         <div class="col-md-2">
                             <label for="cusref">Customer Order Ref.</label>
-                            @Html.TextBoxFor(m => m.CustomerOrderRef, new { @class = "form_input", autocomplete = "off", @disabled = "true" })
+                            @Html.TextBoxFor(m => m.CustomerOrderRef, new { @class = "form_input", autocomplete = "off", @readonly = "true" })
                         </div>
                         @if (Model.isProjectBased == 0)
                         {
                             <div class="col-md-2">
                                 <label for="vechmodel">Vehicle Model</label>
-                                @Html.TextBoxFor(m => m.VehicleModelName, new { @class = "form_input", autocomplete = "off", @disabled = "true" })
+                                @Html.TextBoxFor(m => m.VehicleModelName, new { @class = "form_input", autocomplete = "off", @readonly = "true" })
                             </div>
                             <div class="col-md-2">
                                 <label for="chasisno">Chassis No/Reg No.</label>
-                                @Html.DropDownListFor(m => m.InPassId, (SelectList)ViewBag.inpassList, "Select Chassis/Reg No.", new { @class = "form_input", autocomplete = "off" })
+                                @Html.HiddenFor(m => m.InPassId)
+                                @Html.TextBoxFor(m => m.RegistrationNo, new { @class = "form_input", autocomplete = "off", @readonly = "true" })
+                                @*@Html.DropDownListFor(m => m.InPassId, (SelectList)ViewBag.inpassList, "Select Chassis/Reg No.", new { @class = "form_input", autocomplete = "off" })*@
                             </div>
                             <div class="col-md-2">
                                 <label for="freezer">Freezer Unit</label>
-                                @Html.DropDownListFor(m => Model.FreezerUnitId, (SelectList)ViewBag.FreezerUnits, "Select Freezer Unit", new { @class = "form_input", autocomplete = "off" })
+                                @Html.DropDownListFor(m => Model.FreezerUnitId, (SelectList)ViewBag.FreezerUnits, "Select Freezer Unit", new { @class = "form_input", autocomplete = "off", @required = "true" })
                             </div>
                         }                        
                     </div>
                     <div class="row form-group">
                         <div class="col-md-12">
                             <label for="wrkdes">Work Description</label>
-                            @Html.TextAreaFor(m => m.WorkDescription, new { @class = "form_input form_input-h1", autocomplete = "off" })
+                            @Html.TextAreaFor(m => m.WorkDescription, new { @class = "form_input form_input-h1", autocomplete = "off", @readonly = "true" })
                             @Html.HiddenFor(m => m.WorkDescriptionId, new { @class = "form_input", autocomplete = "off" })
                         </div>
                         </div>
                     <div class="row form-group">
                         <div class="col-md-2">
                             <label for="wrkreqref">WorkShop Request Ref.</label>
-                            @Html.TextBoxFor(m => m.WorkShopRequestRef, new { @class = "form_input", autocomplete = "off", @disabled = "true" })
+                            @Html.TextBoxFor(m => m.WorkShopRequestRef, new { @class = "form_input", autocomplete = "off", @readonly = "true" })
                         </div>
                         <div class="col-md-2">
                             <label for="goodsland">Goods Landed</label>
-                            @Html.TextBoxFor(m => m.GoodsLanded, new { @class = "form_input", autocomplete = "off", @disabled = "true" })
+                            @Html.TextBoxFor(m => m.GoodsLanded, new { @class = "form_input", autocomplete = "off", @readonly = "true" })
                         </div>
                         @if (Model.isProjectBased == 0)
                         {
                             <div class="col-md-2">
                                 <label for="bay">Bay</label>
-                                @Html.DropDownListFor(m => Model.BayId, (SelectList)ViewBag.BayList, "Select Bay", new { @class = "form_input", autocomplete = "off" })
+                                @Html.DropDownListFor(m => Model.BayId, (SelectList)ViewBag.BayList, "Select Bay", new { @class = "form_input", autocomplete = "off", @required = "true" })
                             </div>
                         }
                         <div class="col-md-2">
                             <label for="box">Box</label>
-                            @Html.DropDownListFor(m => Model.BoxId, (SelectList)ViewBag.Boxes, "Select Box", new { @class = "form_input", autocomplete = "off" })
+                            @Html.DropDownListFor(m => Model.BoxId, (SelectList)ViewBag.Boxes, "Select Box", new { @class = "form_input", autocomplete = "off", @required = "true" })
                         </div>
                     </div>
 
@@ -215,11 +250,11 @@
                     <div class="row">
                         <div class="col-md-2">
                             <label for="reqdate">Required Date</label>
-                            @Html.TextBoxFor(m => m.RequiredDate,Model.RequiredDate.ToString("dd/MMMM/yyyy"), new { @class = "form_input ", autocomplete = "off", @readonly = "readonly" })
+                            @Html.TextBoxFor(m => m.RequiredDate, Model.RequiredDate.ToString("dd/MMMM/yyyy"), new { @class = "form_input ", autocomplete = "off", @readonly = "readonly", @required = "true" })
                         </div>
                         <div class="col-md-3">
                             <label for="emp">Employee/Supervisor</label>
-                            @Html.DropDownListFor(m => Model.EmployeeId, (SelectList)ViewBag.EmployeeList, "Select Employee", new { @class = "form_input", autocomplete = "off" })
+                            @Html.DropDownListFor(m => Model.EmployeeId, (SelectList)ViewBag.EmployeeList, "Select Employee", new { @class = "form_input", autocomplete = "off", @required = "true" })
                         </div>
                     </div>
 
@@ -227,7 +262,7 @@
                     <div class="row">
 
                         <div class="col-md-12 hrpart">
-                            <button class="form-button right">Exit</button>
+                            <button type="button" class="form-button right" onclick="Exit()">Exit</button>
                             <button type="submit" class="form-button right">Save</button>
                         </div>
 
