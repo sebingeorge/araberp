@@ -28,9 +28,12 @@
         </div>
 
         <div class="main-part pad1">
-         @using (Html.BeginForm("Save", null, FormMethod.Post, new { @class = "createFrom", @id = "purchasereq_form" }))
+         @using (Html.BeginForm(null, null, FormMethod.Post, new { @class = "createFrom", @id = "purchasereq_form" }))
          {
             @Html.HiddenFor(m => m.WorkShopRequestId, new { @class = "form_input", autocomplete = "off" })
+             @Html.HiddenFor(m => m.OrganizationId, new { @class = "form_input", autocomplete = "off" })
+             @Html.HiddenFor(m => m.CreatedDate, new { @class = "form_input", autocomplete = "off" })
+             @Html.HiddenFor(m => m.CreatedBy, new { @class = "form_input", autocomplete = "off" })
             <form role="form">
                 <div class="row form-group">
                     <div class="col-md-2">
@@ -91,7 +94,7 @@
                                     <td>@Html.TextBoxFor(m => m.items[i].TotalQty, new { @class = "form_input", @style = "text-align:right", autocomplete = "off", @readonly = "readonly" })</td>
                                     <td>@Html.TextBoxFor(m => m.items[i].CurrentStock, new { @class = "form_input ", @style = "text-align:right", autocomplete = "off", @readonly = "readonly" })</td>
                                     <td>@Html.TextBoxFor(m => m.items[i].InTransitQty, new { @class = "form_input", @style = "text-align:right", autocomplete = "off", @readonly = "readonly" })</td>
-                                    <td>@Html.TextBoxFor(m => m.items[i].PendingPRQty, new { @class = "form_input", @style = "text-align:right", autocomplete = "off", @readonly = "readonly" })</td>
+                                    <td>@Html.TextBoxFor(m => m.items[i].PendingPRQty, new { @class = "form_input", @style = "text-align:right", autocomplete = "off", @readonly = "readonly", @required = "true" })</td>
                                     <td>@Html.TextBoxFor(m => m.items[i].ShortorExcess, new { @class = "form_input", @style = "text-align:right", autocomplete = "off", @readonly = "readonly" })</td>
                                     <td>@Html.TextBoxFor(m => m.items[i].Quantity, new { @class = "form_input numbers-only", @style = "text-align:right", autocomplete = "off" })</td>
 
@@ -135,6 +138,7 @@
                 <div class="row form-group">
                     <div class="col-md-2"><label for="RequiredDate">Required Date</label>
                     @Html.TextBoxFor(m => m.RequiredDate, Model.RequiredDate.ToString("dd/MMMM/yyyy"), new { @class = "form_input", autocomplete = "off", @readonly = "readonly" })
+                    @Html.ValidationMessageFor(m=>m.RequiredDate)
                     </div>
                     
                     

@@ -70,19 +70,25 @@ namespace ArabErp.Web.Controllers
             model.PurchaseRequestNo = "PUR/" + internalId;
             model.PurchaseRequestDate = System.DateTime.Today;
             model.RequiredDate = System.DateTime.Today;
-
+            model.OrganizationId = OrganizationId;
+            model.CreatedDate = System.DateTime.Now;
+            model.CreatedBy = UserID.ToString();
 
             return View(model);
         }
         [HttpPost]
-        public ActionResult Save(PurchaseRequest model)
+        public ActionResult Create(PurchaseRequest model)
         {
             try
             {
+                if(!ModelState.IsValid)
+                {
+                    return View(model);
+                }
                 model.OrganizationId = OrganizationId;
-            model.CreatedDate = System.DateTime.Now;
-            model.CreatedBy = UserID.ToString();
-            string id = new PurchaseRequestRepository().InsertPurchaseRequest(model);
+                model.CreatedDate = System.DateTime.Now;
+                model.CreatedBy = UserID.ToString();
+                string id = new PurchaseRequestRepository().InsertPurchaseRequest(model);
                    if (id.Split('|')[0] != "0")
                    {
                        TempData["success"] = "Saved successfully. Purchase Request Reference No. is " + id.Split('|')[1];
