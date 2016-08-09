@@ -41,6 +41,9 @@
         $("#tab_logic").append('<tr id="' + i + '">' + clone.html() + '  </tr>');
         $("#slno" + (i + 1)).html((i + 1));
         $("#OpeningStockItem_" + i + "__SlNo").val((i + 1));
+
+        $("#OpeningStockItem_" + i + "__ItemId").val('');
+        $("#OpeningStockItem_" + i + "__Quantity").val(0);
     }
     function Delete(index) {
 
@@ -117,10 +120,8 @@
                     <td>
                         <input type="hidden" id="Row_@i" />
                         @Html.HiddenFor(m => m.OpeningStockItem[i].ItemId, new { @id = "hidden" + i })
-                        @Html.DropDownListFor(m => m.OpeningStockItem[i].ItemId, (SelectList)ViewBag.Itemlist, Model.OpeningStockItem[i].ItemId.ToString() != "" ? ((SelectList)ViewBag.Itemlist).Where(p => p.Value == Model.OpeningStockItem[i].ItemId.ToString()).First().Text : "select", new { @class = "form_input", autocomplete = "off", @onchange = "OnMaterialChange(this, " + i + ")" })
-
-                        @*@Html.DropDownListFor(m => m[i].ItemId, (SelectList)ViewBag.Itemlist, Model[i].ItemId.ToString() != "" ? ((SelectList)ViewBag.Itemlist).Skip(Convert.ToInt32(Model[i].ItemId)).First().Text : "select", new { @class = "form_input", autocomplete = "off" })*@
-                    </td>
+                        @Html.DropDownListFor(m => m.OpeningStockItem[i].ItemId, new SelectList(ViewBag.Itemlist, "Value", "Text", Model.OpeningStockItem[i].ItemId), "Select Material/Spare", new { @class = "form_input", autocomplete = "off", @onchange = "OnMaterialChange(this, " + i + ")" })
+                     </td>
 
                     <td>
                         @Html.TextBoxFor(m => m.OpeningStockItem[i].Quantity, new { @class = "form_input", autocomplete = "off", @style = "text-align:right" })

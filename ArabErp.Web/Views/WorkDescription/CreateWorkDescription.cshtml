@@ -173,9 +173,8 @@
             "showMethod": "fadeIn",
             "hideMethod": "fadeOut"
         }
-        if ('@TempData["success"]' != "" && '@TempData["RefNo"]' != "") {
-           
-            toastr.success('@TempData["success"]' + '  Work Description Ref No. is : ' + '@TempData["RefNo"]');
+        if ('@TempData["success"]' != "" && '@TempData["WorkDescriptionRefNo"]' != "") {
+            toastr.success('@TempData["success"]' + '  Work Description No. is : ' + '@TempData["WorkDescriptionRefNo"]');
         }
         else if ('@TempData["error"]' != "") {
             toastr.error('@TempData["error"]');
@@ -406,15 +405,16 @@
 
                     <div class="col-md-12 hrpart">
                         <button type="button" class="form-button right" onclick="Exit();">Exit</button>
-                        @if (actionName == "EditWorkDescription")
-                                { 
+                        @*@if (actionName == "EditWorkDescription")
+                                {*@ 
                             @*<button type="submit" class="form-button right">Update</button>*@ 
-                                }
+                                @*}
                                 else
                                     if (actionName == "Delete")
                                     {  <button type="submit" class="form-button right">Delete</button>}
                                     else
-                                    { <button type="submit" class="form-button right">Save</button>}
+                                    {*@ 
+                        <button type="submit" class="form-button right">Save</button>
 
                     </div>
 
@@ -423,26 +423,9 @@
 
             </div>
 
-
-
-
-
         </div>
 
     </div>
-
-
-
-
-
-
-
-
-
-
-
-
-
            }
         </div>
 
