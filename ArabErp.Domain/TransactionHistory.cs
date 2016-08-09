@@ -12,9 +12,10 @@ namespace ArabErp.Domain
         public int UserId { get; set; }
         public DateTime TransTime { get; set; }
         public string Mode { get; set; }
-        public int? Form { get; set; }
+        public string Form { get; set; }
         public int? FormTransCode { get; set; }
         public string IPAddress { get; set; }
         public int OrganizationId { get; set; }
+        public string UserName { get; set; }
     }
 }

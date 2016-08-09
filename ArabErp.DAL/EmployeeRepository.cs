@@ -68,7 +68,7 @@ namespace ArabErp.DAL
                     model.EmployeeRefNo = "EMP/" + internalid;
                      id = connection.Query<int>(sql, model, trn).Single();
                      model.EmployeeId = id;
-                     InsertLoginHistory(dataConnection, model.CreatedBy, "Create", "Employee", id.ToString(), "0");
+                     InsertLoginHistory(dataConnection, model.CreatedBy, "Create", "Employee", id.ToString(), model.OrganizationId.ToString());
                      trn.Commit();
                 }
                 catch (Exception e)
