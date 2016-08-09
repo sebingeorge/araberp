@@ -58,7 +58,7 @@ namespace ArabErp.DAL
         {
             using (IDbConnection connection = OpenConnection(dataConnection))
             {
-                return connection.Query<Dropdown>("Select ItemGroupId Id,ItemGroupName Name From ItemGroup").ToList();
+                return connection.Query<Dropdown>("Select ItemGroupId Id,ItemGroupName Name From ItemGroup WHERE isActive=1").ToList();
             }
         }
         public ItemSubGroup GetItemSubGroup(int ItemSubGroupId)
