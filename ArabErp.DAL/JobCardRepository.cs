@@ -105,7 +105,7 @@ namespace ArabErp
 
 
 
-        public int SaveJobCard(JobCard jc)
+        public string SaveJobCard(JobCard jc)
         {
             using (IDbConnection connection = OpenConnection(dataConnection))
             {
@@ -114,7 +114,7 @@ namespace ArabErp
             }
         }
 
-        public int InsertJobCard(JobCard objJobCard)
+        public string InsertJobCard(JobCard objJobCard)
         {
             using (IDbConnection connection = OpenConnection(dataConnection))
             {
@@ -142,12 +142,12 @@ namespace ArabErp
                     }
                     InsertLoginHistory(dataConnection, objJobCard.CreatedBy, "Create", "Job Card", id.ToString(), "0");
                     trn.Commit();
-                    return id;
+                    return objJobCard.JobCardNo;
                 }
                 catch (Exception ex)
                 {
                     trn.Rollback();
-                    return 0;
+                    return "";
                 }
 
             }
