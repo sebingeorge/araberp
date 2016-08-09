@@ -11,6 +11,7 @@ namespace ArabErp.Domain
     {
         public int PurchaseRequestId { get; set; }
         public string PurchaseRequestNo { get; set; }
+        [Required]
         public DateTime PurchaseRequestDate { get; set; }
         [Required]
         public int WorkShopRequestId { get; set; }
@@ -20,7 +21,7 @@ namespace ArabErp.Domain
         public string CustomerName { get; set; }
         public string SpecialRemarks { get; set; }
         [Required]
-        [ValidateDateGreaterThan]
+        [ValidateDateGreaterThan("PurchaseRequestDate")]
         public DateTime RequiredDate { get; set; }
         [Required]
         public string CreatedBy { get; set; }
