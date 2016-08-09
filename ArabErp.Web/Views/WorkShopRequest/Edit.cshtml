@@ -1,11 +1,52 @@
 ﻿@model  ArabErp.Domain.WorkShopRequest
 @{
-    ViewBag.Title = "Edit";
+    ViewBag.Title = "WorkShop Request";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 <script>
     function Exit() {
-        location.href = '@Url.Action("WorkShopRequestList")';
+        location.href = '@Url.Action("Index")';
+    }
+
+    $(function () {
+        //---------------------toastr---------------------------//
+        toastr.options = {
+            "positionClass": "toast-bottom-full-width",
+            "timeOut": "5000",
+            "extendedTimeOut": "2000"
+        }
+        if ('@TempData["success"]' != '') {
+            toastr.success('@TempData["success"]');
+        }
+        else if ('@TempData["error"]' != '') {
+            toastr.error('@TempData["error"]'.split('|')[0]);
+            console.log('@TempData["error"]'.split('|')[1]);
+        }
+        @{ TempData["success"] = TempData["error"] = ""; }
+        //------------------------------------------------------//
+
+        //$("#WorkShopRequestDate").datepicker({
+        //    changeMonth: true,
+        //    changeYear: true,
+        //    dateFormat: "dd-MM-yy"
+        //});
+        //$("#RequiredDate").datepicker({
+        //    changeMonth: true,
+        //    changeYear: true,
+        //    dateFormat: "dd-MM-yy"
+        //});
+
+        $("input, textarea").prop("readonly", "true");
+    });
+
+    function formValidation() {
+        var date = new Date($("#WorkShopRequestDate").val());
+        var required = new Date($("#RequiredDate").val());
+        if (date >= required) {
+            toastr.info("Required date should be less than request date");
+            return false;
+        }
+        return true;
     }
 </script>
 <div class="row">
@@ -15,7 +56,7 @@
 
     <div class="main-part pad1">
 
-        @using (Html.BeginForm("Save", null, FormMethod.Post, new { @class = "createFrom", @id = "work_form" }))
+        @using (Html.BeginForm("Save", null, FormMethod.Post, new { @class = "createFrom", @id = "work_form", @onsubmit = "return formValidation()" }))
         {
             @Html.HiddenFor(m => m.WorkShopRequestId, new { @class = "form_input", autocomplete = "off" })
             @Html.HiddenFor(m => m.CustomerId, new { @class = "form_input", autocomplete = "off" })
@@ -29,7 +70,7 @@
                     @Html.TextBoxFor(m => m.WorkShopRequestDate, Model.WorkShopRequestDate.ToString("dd/MMMM/yyyy"), new { @class = "form_input ", autocomplete = "off", @readonly = "readonly", @required = "true" })
                 </div>
             </div>
-
+        
             <div class="row form-group">
 
                 <div class="col-md-4">
@@ -90,8 +131,8 @@
     <div class="row">
         <div class="col-md-12 hrpart">
             <button type="button" class="form-button right" onclick="Exit()">Exit</button>
-            <button type="submit" class="form-button right">Edit</button>
-            <button type="button" class="form-button left" onclick="Delete()">Delete</button>
+            @*<button type="submit" class="form-button right">Edit</button>
+            <button type="button" class="form-button left" onclick="Delete()">Delete</button>*@
         </div>
 
     </div>

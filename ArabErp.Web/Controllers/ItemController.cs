@@ -52,37 +52,50 @@ namespace ArabErp.Web.Controllers
             oitem.CreatedBy = UserID.ToString();
 
             var repo = new ItemRepository();
+
             bool isexists = repo.IsFieldExists(repo.ConnectionString(), "Item","ItemName",oitem.ItemName, null, null);
             if (!isexists)
-
             {
-                var result = new ItemRepository().InsertItem(oitem);
-              if (result.ItemId > 0)
+                isexists = repo.IsFieldExists(repo.ConnectionString(), "Item", "PartNo", oitem.PartNo, null, null);
+                if (!isexists)
+
                 {
 
-                TempData["Success"] = "Added Successfully!";
-                TempData["ItemRefNo"] = result.ItemRefNo;
-                return RedirectToAction("Index");
+
+                    var result = new ItemRepository().InsertItem(oitem);
+                    if (result.ItemId > 0)
+                    {
+
+                        TempData["Success"] = "Added Successfully!";
+                        TempData["ItemRefNo"] = result.ItemRefNo;
+                        return RedirectToAction("Index");
+                    }
+
+                    else
+                    {
+                        FillUnit();
+                        TempData["error"] = "Oops!!..Something Went Wrong!!";
+                        TempData["ItemRefNo"] = null;
+                        return View("Create", oitem);
+                    }
+
                 }
+                else
+                {
 
-              else
-               {
-                FillUnit();
-                TempData["error"] = "Oops!!..Something Went Wrong!!";
-                TempData["ItemRefNo"] = null;
-                return View("Create", oitem);
-               }
-         
-               }
+                    FillUnit();
+                    TempData["error"] = "This Part No. Alredy Exists!!";
+                    TempData["ItemRefNo"] = null;
+                    return View("Create", oitem);
+                }
+            }
             else
-             {
-
+            {
                 FillUnit();
                 TempData["error"] = "This Item Name Alredy Exists!!";
                 TempData["ItemRefNo"] = null;
                 return View("Create", oitem);
             }
-
         }
 
         public ActionResult View(int Id)
@@ -236,13 +249,14 @@ namespace ArabErp.Web.Controllers
             FillItemCategory();
             return PartialView("_ItemCategoryDropdown");
         }
-        public ActionResult ItemList(int? page)
+        public ActionResult ItemList(int? page, string name = "")
         {
             int itemsPerPage = 10;
             int pageNumber = page ?? 1;
-            var repo = new ItemRepository();
-            var List = repo.GetItems();
-            return PartialView("_ItemListView",List);
+            return PartialView("_ItemListView", new ItemRepository().GetItems(name));
+            //var repo = new ItemRepository();
+            //var List = repo.GetItems();
+            //return PartialView("_ItemListView",List);
         }
 
        

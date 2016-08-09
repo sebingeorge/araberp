@@ -24,7 +24,7 @@ namespace ArabErp.DAL
             
             //return connection.Query<Dropdown>("x",
             // return connection.Query<Dropdown>("dbo.usp_MvcGetDayClosingDetails", param, commandType: CommandType.StoredProcedure).ToList();
-            return connection.Query<Dropdown>("select ItemSubGroupId Id,ItemSubGroupName Name from ItemSubGroup where ItemGroupId=@ID", new { ID = Id }).ToList();
+            return connection.Query<Dropdown>("select ItemSubGroupId Id,ItemSubGroupName Name from ItemSubGroup WHERE isActive=1 AND ItemGroupId=@ID", new { ID = Id }).ToList();
             }
 
         }
@@ -35,7 +35,7 @@ namespace ArabErp.DAL
                 var param = new DynamicParameters();
                 //return connection.Query<Dropdown>("x",
                 // return connection.Query<Dropdown>("dbo.usp_MvcGetDayClosingDetails", param, commandType: CommandType.StoredProcedure).ToList();
-                return connection.Query<Dropdown>("select itmCatId Id,CategoryName Name from ItemCategory").ToList();
+                return connection.Query<Dropdown>("select itmCatId Id,CategoryName Name from ItemCategory WHERE isActive=1").ToList();
 
             }
         }
@@ -51,7 +51,7 @@ namespace ArabErp.DAL
                 var param = new DynamicParameters();
                 //return connection.Query<Dropdown>("x",
                 // return connection.Query<Dropdown>("dbo.usp_MvcGetDayClosingDetails", param, commandType: CommandType.StoredProcedure).ToList();
-                return connection.Query<Dropdown>("select ItemGroupId Id,ItemGroupName Name from ItemGroup where ItemCategoryId=@ID", new { ID = Id }).ToList();
+                return connection.Query<Dropdown>("select ItemGroupId Id,ItemGroupName Name from ItemGroup WHERE isActive=1 AND ItemCategoryId=@ID", new { ID = Id }).ToList();
             }
 
         }
@@ -63,7 +63,7 @@ namespace ArabErp.DAL
         {
             using (IDbConnection connection = OpenConnection(dataConnection))
             {
-                return connection.Query<Dropdown>("select UnitId Id,UnitName Name from Unit").ToList();
+                return connection.Query<Dropdown>("select UnitId Id,UnitName Name from Unit WHERE isActive=1").ToList();
             }
              }
         public List<Dropdown> FillItem()
@@ -162,18 +162,19 @@ namespace ArabErp.DAL
             }
         }
 
-        public List<Item> GetItems()
+        public List<Item> GetItems(string name)
 
         {
             using (IDbConnection connection = OpenConnection(dataConnection))
             {
-                string sql = @"SELECT ItemId,PartNo,ItemName,CategoryName,ItemGroupName,ItemSubGroupName FROM Item I
+                string sql = @"SELECT ItemId,PartNo,ItemName,CategoryName,ItemGroupName,ItemSubGroupName,UnitName FROM Item I
                                INNER JOIN ItemCategory ON itmCatId=ItemCategoryId
                                INNER JOIN ItemGroup G ON I.ItemGroupId=G.ItemGroupId
                                INNER JOIN ItemSubGroup S ON I.ItemSubGroupId=S.ItemSubGroupId
-                               WHERE I.isActive=1";
+                               INNER JOIN Unit U ON U.UnitId=I.ItemUnitId
+                               WHERE I.isActive=1 AND ItemName LIKE '%'+@name+'%'";
 
-                var objItems = connection.Query<Item>(sql).ToList<Item>();
+                var objItems = connection.Query<Item>(sql, new { name = name }).ToList<Item>();
 
                 return objItems;
             }
@@ -243,6 +244,15 @@ namespace ArabErp.DAL
             using (IDbConnection connection = OpenConnection(dataConnection))
             {
                 return connection.Query<string>("SELECT ISNULL(PartNo,'')+'|'+ISNULL(UnitName,'') FROM Item I INNER JOIN Unit U ON I.ItemUnitId = U.UnitId WHERE ItemId = @itemId",
+                new { itemId = itemId }).First<string>();
+            }
+        }
+
+        public string GetUnit(int itemId)
+        {
+            using (IDbConnection connection = OpenConnection(dataConnection))
+            {
+                return connection.Query<string>("SELECT UnitName FROM Item I INNER JOIN Unit U ON I.ItemUnitId = U.UnitId WHERE ItemId = @itemId",
                 new { itemId = itemId }).First<string>();
             }
         }

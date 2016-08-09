@@ -66,7 +66,7 @@ namespace ArabErp.DAL
             using (IDbConnection connection = OpenConnection(dataConnection))
             {
 
-                return connection.Query<Dropdown>("select itmCatId Id,CategoryName Name from ItemCategory").ToList();
+                return connection.Query<Dropdown>("select itmCatId Id,CategoryName Name from ItemCategory WHERE isActive=1").ToList();
             }
         }
 

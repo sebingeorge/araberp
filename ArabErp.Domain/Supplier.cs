@@ -47,6 +47,7 @@ namespace ArabErp.Domain
         public string AccountNo { get; set; }
         public int? DiscountTermsId { get; set; }
         public string DiscountRate { get; set; }
+        [Required]
         public int? CurrencyId { get; set; }
         [Required]
         public string PanNo { get; set; }
@@ -57,7 +58,9 @@ namespace ArabErp.Domain
         public string isActive { get; set; }
         public string SupCategoryName { get; set; }
         public string PurchaseTypeName { get; set; }
+        [Required]
         public int? CreditPeriod { get; set; }
+        [Required]
         public Decimal? CreditLimit { get; set; }
         public string PaymentTerms { get; set; }
     }

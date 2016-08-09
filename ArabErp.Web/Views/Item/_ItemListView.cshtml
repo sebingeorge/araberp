@@ -45,6 +45,7 @@
                             columns.Add(m => m.CategoryName).Titled("Item Category").SetWidth(110);
                             columns.Add(m => m.ItemGroupName).Titled("Item Group").SetWidth(110);
                             columns.Add(m => m.ItemSubGroupName).Titled("Item Sub Group").SetWidth(110);
+                            columns.Add(m => m.UnitName).Titled("Unit").SetWidth(40);
                             @*columns.Add().Encoded(false).Sanitized(false).SetWidth(30).Css("cent").RenderValueAs(o => @<button class="edit-book display-mode" onclick="Edit(this.)">Edit</button>);
                             columns.Add().Encoded(false).Sanitized(false).SetWidth(30).Css("cent").RenderValueAs(o => @<a href="">Delete</a>);*@
                             columns.Add().Encoded(false).Sanitized(false).SetWidth(30).Css("cent").RenderValueAs(o => @<a href="@Url.Action("Edit", new { Id = o.ItemId})">Edit</a>);
