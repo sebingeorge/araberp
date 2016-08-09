@@ -37,12 +37,13 @@ namespace ArabErp
             using (IDbConnection connection = OpenConnection(dataConnection))
             {
                 string query = string.Empty;
-                query += " select SI.SaleOrderItemId,SaleOrderRefNo, SaleOrderDate, C.CustomerName, S.CustomerOrderRef, V.VehicleModelName, W.WorkDescr WorkDescription,IsPaymentApprovedForJobOrder";
+                query += " select SI.SaleOrderItemId,SaleOrderRefNo, SaleOrderDate, C.CustomerName, S.CustomerOrderRef, V.VehicleModelName, W.WorkDescr WorkDescription,IsPaymentApprovedForJobOrder, ISNULL(VIP.RegistrationNo, '-')RegistrationNo ";
                 query += " from SaleOrder S inner join Customer C on S.CustomerId = C.CustomerId ";
                 query += " inner join SaleOrderItem SI on SI.SaleOrderId = S.SaleOrderId ";
                 query += " inner join WorkDescription W on W.WorkDescriptionId = SI.WorkDescriptionId";
                 query += " left join VehicleModel V on V.VehicleModelId = W.VehicleModelId ";
                 query += " left join JobCard J on J.SaleOrderItemId = SI.SaleOrderItemId ";
+                query += " LEFT JOIN VehicleInPass VIP ON SI.SaleOrderItemId = VIP.SaleOrderItemId ";
                 query += " where J.SaleOrderItemId is null and S.SaleOrderApproveStatus = 1 ";
                 query += " and S.isActive=1 and S.SaleOrderApproveStatus=1 and S.SaleOrderHoldStatus IS NULL and S.OrganizationId = " + OrganizationId.ToString() + "";
                 query += " and S.isProjectBased = " + isProjectBased.ToString();
@@ -56,15 +57,16 @@ namespace ArabErp
                 string query = string.Empty;
                 if(isProjectBased == 0)
                 {
-                    query = "select S.SaleOrderId, SI.SaleOrderItemId,";
-                    query += " GETDATE() JobCardDate, C.CustomerId, C.CustomerName, S.CustomerOrderRef, V.VehicleModelName,";
-                    query += " ''ChasisNoRegNo, W.WorkDescriptionId, W.WorkDescr as WorkDescription, '' WorkShopRequestRef, ";
-                    query += " 0 GoodsLanded, 0 BayId, 0 FreezerUnitId, 0 BoxId";
-                    query += " from SaleOrder S inner join Customer C on S.CustomerId = C.CustomerId";
-                    query += " inner join SaleOrderItem SI on SI.SaleOrderId = S.SaleOrderId";
-                    query += " inner join WorkDescription W on W.WorkDescriptionId = SI.WorkDescriptionId";
-                    query += " inner join VehicleModel V on V.VehicleModelId = W.VehicleModelId";
-                    query += " where SI.SaleOrderItemId = " + SoItemId.ToString();
+                    query = @"select S.SaleOrderId, SI.SaleOrderItemId,
+                    GETDATE() JobCardDate, C.CustomerId, C.CustomerName, S.CustomerOrderRef, V.VehicleModelName,
+                    ''ChasisNoRegNo, W.WorkDescriptionId, W.WorkDescr as WorkDescription, '' WorkShopRequestRef, 
+                    0 GoodsLanded, 0 BayId, 0 FreezerUnitId, 0 BoxId, ISNULL(VI.RegistrationNo, '-') RegistrationNo, VI.VehicleInPassId InPassId
+                    from SaleOrder S inner join Customer C on S.CustomerId = C.CustomerId
+                    inner join SaleOrderItem SI on SI.SaleOrderId = S.SaleOrderId
+                    inner join WorkDescription W on W.WorkDescriptionId = SI.WorkDescriptionId
+                    inner join VehicleModel V on V.VehicleModelId = W.VehicleModelId
+					LEFT JOIN VehicleInPass VI ON SI.SaleOrderItemId = VI.SaleOrderItemId
+                    where SI.SaleOrderItemId = " + SoItemId.ToString();
                 }
                 else
                 {

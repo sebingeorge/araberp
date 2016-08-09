@@ -49,6 +49,7 @@ namespace ArabErp.Web.Controllers
             SaleOrderRepository soRepo = new SaleOrderRepository();
             isProjectBased = soRepo.IsProjectOrVehicle(Id ?? 0);
             JobCard model = repo.GetJobCardDetails(Id ?? 0, isProjectBased ?? 0);
+            model.JobCardNo = "JC/" + DatabaseCommonRepository.GetNextReferenceNo(typeof(JobCard).Name);
             model.isProjectBased = isProjectBased ?? 0;
             model.JobCardTasks = new List<JobCardTask>();
             model.JobCardTasks.Add(new JobCardTask() { TaskDate = DateTime.Now});
@@ -59,7 +60,7 @@ namespace ArabErp.Web.Controllers
             FillTaks(model.WorkDescriptionId);
             FillFreezerUnit();
             FillBox();
-            FillVehicleRegNo();
+            //FillVehicleRegNo();
             return View(model);
              }
 
@@ -155,10 +156,10 @@ namespace ArabErp.Web.Controllers
             var result = repo.GetBoxes();
             ViewBag.Boxes = new SelectList(result, "BoxId", "BoxName");
         }
-        public void FillVehicleRegNo()
-        {
-            ViewBag.inpassList = new SelectList(new DropdownRepository().VehicleInPassDropdown(), "Id", "Name");
-        }
+        //public void FillVehicleRegNo(int saleOrderItemId)
+        //{
+        //    ViewBag.inpassList = new SelectList(new DropdownRepository().VehicleInPassDropdown(), "Id", "Name");
+        //}
       
         public void FillJCNo(int isProjectBased)
         {
