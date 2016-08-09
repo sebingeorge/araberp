@@ -37,7 +37,10 @@ namespace ArabErp.DAL
         {
             using (IDbConnection connection = OpenConnection(dataConnection))
             {
-                string sql = @"select * from WorkVsItem where isActive=1 and WorkDescriptionId=@Id";
+                string sql = @" SELECT  WorkVsItemId,W.ItemId,WorkDescriptionId,Quantity,UnitName UoM From WorkVsItem W
+                                INNER JOIN Item I On I.ItemId=W.ItemId
+                                INNER JOIN Unit U ON U.UnitId=I.ItemUnitId
+                                WHERE W.isActive=1 and WorkDescriptionId=@Id";
 
                 var objWorkVsItems = connection.Query<WorkVsItem>(sql, new
                 {

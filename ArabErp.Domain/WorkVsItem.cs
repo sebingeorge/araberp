@@ -11,6 +11,7 @@ namespace ArabErp.Domain
         public int? SlNo { get; set; }
         public int WorkVsItemId { get; set; }
         public int ItemId { get; set; }
+        public string UoM { get; set; }
         public int WorkDescriptionId { get; set; }
         public decimal Quantity { get; set; }
         public string CreatedBy { get; set; }

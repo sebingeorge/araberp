@@ -247,5 +247,14 @@ namespace ArabErp.DAL
                 new { itemId = itemId }).First<string>();
             }
         }
+
+        public string GetUnit(int itemId)
+        {
+            using (IDbConnection connection = OpenConnection(dataConnection))
+            {
+                return connection.Query<string>("SELECT UnitName FROM Item I INNER JOIN Unit U ON I.ItemUnitId = U.UnitId WHERE ItemId = @itemId",
+                new { itemId = itemId }).First<string>();
+            }
+        }
     }
 }
