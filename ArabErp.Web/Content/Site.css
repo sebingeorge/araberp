@@ -1102,6 +1102,10 @@ section.content {
  {
     margin-top:12px;
 }
+.wid1
+{
+    width:75px;
+}
 .field-validation-error
 {
     color:red;

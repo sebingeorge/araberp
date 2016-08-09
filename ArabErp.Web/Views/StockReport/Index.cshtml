@@ -12,42 +12,44 @@
 
         <div class="main-part white pad1">
 
-            <div class="main-list wid  scroll4">
-                <table class="table table-bordered">
-                    <tr class="grid_heading">
-                        <td><h1>Item</h1></td>
-                        <td style="width:10%;"><h1>IN</td>
-                        <td style="width:10%;"><h1>OUT</td>
-                        <td style="width:10%;"><h1>Balance</h1></td>                        
-                    </tr>
-                    @foreach (var item in Model)
+            <div class="row">
+                <div class="main-grid main-grid-top scroll1">
+                    <div class="table-responsive">
+                        <table class="table table-bordered">
+                            <tr class="grid_heading">
+                                <td><h1>Item</h1></td>
+                                <td style="width:10%;"><h1>IN</td>
+                                <td style="width:10%;"><h1>OUT</td>
+                                <td style="width:10%;"><h1>Balance</h1></td>
+                            </tr>
+                            @foreach (var item in Model)
                     {
-                        <tr class="grid-row">
-                            <td class="grid-cell">
-                                <a style="cursor:pointer;" onclick="OpenDetail(@item.ItemId)">@item.ItemName</a>
-                            </td>
-                            <td class="grid-cell">@item.InQuantity</td>
-                            <td class="grid-cell">@item.OutQuantity</td>
-                            <td class="grid-cell">@item.Balance</td>                            
-                        </tr>
+                    <tr class="grid-row">
+                        <td class="grid-cell">
+                            <a style="cursor:pointer;" onclick="OpenDetail(@item.ItemId)">@item.ItemName</a>
+                        </td>
+                        <td class="grid-cell">@item.InQuantity</td>
+                        <td class="grid-cell">@item.OutQuantity</td>
+                        <td class="grid-cell">@item.Balance</td>
+                    </tr>
                     }
-                </table>
+                        </table>
+                    </div>
+                    </div>
+
+                    <div class="row-count1">
+                        <h5>Row Count:- @Model.Count()</h5>
+                    </div>
+                </div>
+
+
+                </div>
             </div>
 
-           
-                <div class="row-count">
-                    <h5>Row Count:- @Model.Count()</h5>
-                </div>
-      
-
-        </div>
-    </div>
-
-<script>
-    function OpenDetail(id)
-    {
-        var url = '@Url.Action("DrillDown")';
-        url += "?itemId=" + id;
-        window.open(url);
-    }
-</script>
+            <script>
+                function OpenDetail(id) {
+                    var url = '@Url.Action("DrillDown")';
+                    url += "?itemId=" + id;
+                    window.open(url);
+                }
+            </script>
