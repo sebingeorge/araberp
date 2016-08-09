@@ -43,7 +43,7 @@
                 <label for="cboStockpoint">Supplier</label>
                 @Html.DropDownList("cboSupplier", (SelectList)ViewBag.SupplierList, "Any", new { @class = "form_input", @onchange = "Filter()" })
             </div>
-        
+
             <div class="col-md-3">
                 <label for="cboItem">Item</label>
                 @Html.DropDownList("cboItem", (SelectList)ViewBag.ItemList, "Any", new { @class = "form_input", @onchange = "Filter()" })
@@ -56,19 +56,22 @@
                 <label>To</label>
                 <input id="txtTo" value="@System.DateTime.Today.ToString("dd-MMMM-yyyy")" class="form_input" onchange="Filter()" />
             </div>
-           
+
         </div>
         <br />
-
-        <div class="table-responsive scroll4" id="purchasebill_Reg">
-            @Html.Action("PurchaseBillRegister")
-        </div>
-
         <div class="row">
-            <div class="col-md-12 hrpart">
-                <input type="button" class="form-button right" value="Exit" onclick="Exit()" />
+            <div class="main-grid main-grid-top scroll1">
+                <div class="table-responsive" id="purchasebill_Reg">
+                    @Html.Action("PurchaseBillRegister")
+                </div>
+                </div>
+            </div>
+
+                <div class="row">
+                    <div class="col-md-12 hrpart">
+                        <input type="button" class="form-button right" value="Exit" onclick="Exit()" />
+                    </div>
+                </div>
             </div>
         </div>
-    </div>
-</div>
 

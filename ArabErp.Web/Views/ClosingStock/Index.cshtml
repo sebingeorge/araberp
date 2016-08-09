@@ -35,15 +35,15 @@
 
     <div class="main-part pad1">
         <div class="row">
-         
+
             <div class="col-md-2">
                 <label>As On Date</label>
                 <input id="txtAsOn" value="@System.DateTime.Today.ToString("dd-MMMM-yyyy")" onchange="Filter()" class="form_input" />
             </div>
-          <div class="col-md-3">
-              <label for="cboStockpoint">Stock Point</label>
-              @Html.DropDownList("cboStockpoint", (SelectList)ViewBag.WarehouseList, "Any", new { @class = "form_input", @onchange = "Filter()" })
-          </div>
+            <div class="col-md-3">
+                <label for="cboStockpoint">Stock Point</label>
+                @Html.DropDownList("cboStockpoint", (SelectList)ViewBag.WarehouseList, "Any", new { @class = "form_input", @onchange = "Filter()" })
+            </div>
             <div class="col-md-3">
                 <label for="cboItemCat">Item Category</label>
                 @Html.DropDownList("cboItemCat", (SelectList)ViewBag.ItemCatList, "Any", new { @class = "form_input", @onchange = "Filter()" })
@@ -54,16 +54,19 @@
             </div>
         </div>
         <br />
-
-        <div class="table-responsive scroll4" id="Closing_stock">
-            @Html.Action("ClosingStockRegister")
-        </div>
-
         <div class="row">
-            <div class="col-md-12 hrpart">
-                <input type="button" class="form-button right" value="Exit" onclick="Exit()" />
+            <div class="main-grid main-grid-top scroll1">
+                <div class="table-responsive" id="Closing_stock">
+                    @Html.Action("ClosingStockRegister")
+                </div>
+                </div>
+            </div>
+
+                <div class="row">
+                    <div class="col-md-12 hrpart">
+                        <input type="button" class="form-button right" value="Exit" onclick="Exit()" />
+                    </div>
+                </div>
             </div>
         </div>
-    </div>
-</div>
 
