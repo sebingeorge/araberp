@@ -16,20 +16,19 @@
     }
 }
 <script>
-    function GotoJobcard(id)
-    {
+    function GotoJobcard(id) {
         var isProjectBased = $("#isProjectBased").val();
-        var url = '@Url.Action("Create")';        
+        var url = '@Url.Action("Create")';
         url = url + "?Id=" + id + "&isProjectBased=" + isProjectBased;
         console.log(url);
         window.location.href = url;
     }
     function PreviousList() {
-       
+
         var isProjectBased = $("#isProjectBased").val();
         var url = '@Url.Action("Index")';
         url = url + "?isProjectBased=" + isProjectBased;
-     
+
         window.location = url;
     }
 
@@ -53,57 +52,75 @@
 </script>
 
 
-    <div class="row">
-        <div class="form-head1">
-            <h4>Pending Work for Job Card</h4>
-            <input id="isProjectBased" type="hidden" value="@isProjectBased" />
-        </div>
-        <div class="main-part pad1">
-            <div class="row">
-                <div class="main-grid main-grid-top scroll1">
+<div class="row">
+    <div class="form-head1">
+        <h4>Pending Work for Job Card</h4>
+        <input id="isProjectBased" type="hidden" value="@isProjectBased" />
+    </div>
+    <div class="main-part pad1">
+        <div class="row">
+            <div class="main-grid main-grid-top scroll1">
                 <div class=" table-responsive">
                     <table class="table table-bordered">
                         <thead>
                             <tr class="grid_heading">
-                                <th width="12%"><h1>SO.No. & Date</h1></th>
+                                <th width="12%" title="Sale Order No. & Date"><h1>SO. No. & Date</h1></th>
                                 <th width="41%"><h1>Work Description</h1></th>
                                 @if (isProjectBased == 0)
                                 {
                                     <th width="10%"><h1>Vehicle Model</h1></th>
                                     <th width="10%"><h1>Reg. No</h1></th>
-                                }                                
-                               
+                                }
+
                                 <th width="20%"><h1>Customer</h1></th>
-                                <th width="12%"><h1>Customer Order Ref.</h1></th>
+                                <th width="12%" nowrap><h1>Customer Order Ref.</h1></th>
+                                <th width="10%"><h1>Ageing</h1></th>
+                                <th width="10%" nowrap><h1>Days Left</h1></th>
                                 <th width="5%"><center><h1></h1></center></th>
                             </tr>
                         </thead>
-                        @foreach (var item in Model)
-                        {
-                            <tbody class="grid_row">
-                                <tr>
-                                    <td class="grid-cell">@item.SaleOrderRefNo &amp; @item.SaleOrderDate.ToString("dd/MMM/yyyy")</td>
-                                    <td class="grid-cell">@item.WorkDescription</td>
-                                    @if (isProjectBased == 0)
-                                    {
-                                        <td class="grid-cell">@item.VehicleModelName</td>
-                                        <td class="grid-cell">@item.RegistrationNo</td>
-                                    }                                    
-                                  
-                                    <td class="grid-cell">@item.CustomerName</td>
-                                    <td class="grid-cell">@item.CustomerOrderRef</td>
 
-                                    <td><center>
-                                  
-                                        <button class="form-button5" onclick="GotoJobcard(@item.SaleOrderItemId)">Select</button>
-                                     
-                                    </center></td>
+                        <tbody class="grid_row">
+                            @if (Model.Count() > 0)
+                            {
+                                foreach (var item in Model)
+                                {
+                                    <tr>
+                                        <td class="grid-cell">@item.SaleOrderRefNo &amp; @item.SaleOrderDate.ToString("dd/MMM/yyyy")</td>
+                                        <td class="grid-cell">@item.WorkDescription</td>
+                                        @if (isProjectBased == 0)
+                                        {
+                                            <td class="grid-cell">@item.VehicleModelName</td>
+                                            <td class="grid-cell">@item.RegistrationNo</td>
+                                        }
+
+                                        <td class="grid-cell">@item.CustomerName</td>
+                                        <td class="grid-cell">@item.CustomerOrderRef</td>
+                                        <td class="grid-cell">@item.Ageing</td>
+                                        <td class="grid-cell">@item.Remaindays</td>
+
+                                        <td>
+                                            <center>
+
+                                                <button class="form-button5" onclick="GotoJobcard(@item.SaleOrderItemId)">Select</button>
+
+                                            </center>
+                                        </td>
+                                    </tr>
+                                }
+                            }
+                            else
+                            {
+                                <tr>
+                                    <td colspan="9">
+                                        <center><em>No items found!</em></center>
+                                    </td>
                                 </tr>
-                            </tbody>
-                        }
+                            }
+                        </tbody>
                     </table>
 
-                   
+
 
                 </div>
 
@@ -111,14 +128,14 @@
             </div>
 
 
-                <div class="row-count1">
-               
+            <div class="row-count1">
+
                 <h5>Row Count:- @Model.Count()</h5>
             </div>
-            </div>
+        </div>
 
 
-            @*<div class="col-md-12">
+        @*<div class="col-md-12">
                 <div class="row">
                     <div class="margl">
                         <button class="form-button">Previous</button>
@@ -131,13 +148,13 @@
                 </div>
 
             </div>*@
-            <div class="row">
-                <div class="col-md-12 hrpart1">
-                    <input class="form-button left" type="button" value="Previous" onclick="PreviousList()" />
-                </div>
+        <div class="row">
+            <div class="col-md-12 hrpart1">
+                <input class="form-button left" type="button" value="Previous" onclick="PreviousList()" />
             </div>
         </div>
     </div>
-   
+</div>
+
 
 
