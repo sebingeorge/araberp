@@ -302,14 +302,11 @@
     </section>
     <div class="container-fluid" id="containerId">
         <div class="main">
-
-
-
-          
                 <div class="container-fluid body-content">
-
                     @RenderBody()
-
+                </div>
+                <div>
+                    @Html.ValidationSummary()
                 </div>
                 @Scripts.Render("~/bundles/bootstrap")
                 @RenderSection("scripts", required: false)
