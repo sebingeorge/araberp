@@ -417,6 +417,12 @@ namespace ArabErp.Web.Controllers
             return Json(data, JsonRequestBehavior.AllowGet);
         }
 
+        public JsonResult GetSpecialRate(int workDescriptionId, int customerId)
+        {
+            decimal data = new RateSettingsRepository().GetSpecialRate(workDescriptionId, customerId);
+            return Json(data, JsonRequestBehavior.AllowGet);
+        }
+
         public void FillRateSettings()
         {
             ViewBag.rateSettings = new SelectList(new RateSettingsController().RateSettingsDropdown(), "Value", "Text");
