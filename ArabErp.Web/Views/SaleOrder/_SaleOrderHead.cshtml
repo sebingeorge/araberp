@@ -94,11 +94,11 @@
         <label for="CustomerOrderRef">Customer Order Ref.</label>
         @if (actionName == "Create")
         {
-            @Html.TextBoxFor(m => m.CustomerOrderRef, new { @class = "form_input", autocomplete = "off" })
+            @Html.TextBoxFor(m => m.CustomerOrderRef, new { @class = "form_input", autocomplete = "off", @required = "true" })
       }
         else
         {
-            @Html.TextBoxFor(m => m.CustomerOrderRef, new { @class = "form_input", autocomplete = "off", @readonly = "readonly" })
+            @Html.TextBoxFor(m => m.CustomerOrderRef, new { @class = "form_input", autocomplete = "off", @readonly = "readonly", @required = "true" })
       
         }
     </div>

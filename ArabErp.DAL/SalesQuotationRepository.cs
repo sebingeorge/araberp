@@ -277,7 +277,8 @@ namespace ArabErp.DAL
                              WHERE S.SalesQuotationId = SI.SalesQuotationId
                              FOR XML PATH(''), TYPE).value('.','NVARCHAR(MAX)'),1,2,' ') WorkDescription,
 							 DATEDIFF(DAY, SQ.QuotationDate, GETDATE()) Ageing,
-							 DATEDIFF(DAY, GETDATE(), SQ.ExpectedDeliveryDate) DaysLeft
+							 DATEDIFF(DAY, GETDATE(), SQ.ExpectedDeliveryDate) DaysLeft,
+                             SQ.ExpectedDeliveryDate
 							 from SalesQuotation SQ 
                              inner join SalesQuotationItem SI on SI.SalesQuotationId=SQ.SalesQuotationId
                              inner join Customer C on SQ.CustomerId=C.CustomerId

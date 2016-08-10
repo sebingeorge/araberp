@@ -42,6 +42,7 @@
                                 <th width="43%"><h1>Work Description</h1></th>
                                 <th width="10%" class="text-right"><h1>Amount</h1></th>
                                 <th width="15%"><h1>Sales Executive</h1></th>
+                                <th width="10%" nowrap><h1>Exp. Delivery</h1></th>
                                 <th width="5%"><h1>Ageing</h1></th>
                                 <th width="5%" nowrap><h1>Days Left</h1></th>
                                 <th width="5%"><center><h1></h1></center></th>
@@ -58,6 +59,7 @@
                                         <td class="grid-cell">@item.WorkDescription</td>
                                         <td class="grid-cell" align="right">@item.Amount</td>
                                         <td class="grid-cell">@item.SalesExecutiveName</td>
+                                        <td class="grid-cell" nowrap>@item.ExpectedDeliveryDate.ToString("dd-MMMM-yyyy")</td>
                                         <td class="grid-cell">@item.Ageing</td>
                                         <td class="grid-cell">@item.DaysLeft</td>
                                         @if (@item.isProjectBased == 0)
@@ -74,7 +76,7 @@
                             else
                             {
                                 <tr>
-                                    <td colspan="6">
+                                    <td colspan="7">
                                         <center><em>No items found!</em></center>
                                     </td>
                                 </tr>
