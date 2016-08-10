@@ -21,7 +21,7 @@ namespace ArabErp.Web.Controllers
 
         public ActionResult PreviousList(DateTime? from, DateTime? to, int id = 0, int supid = 0)
         {
-            return PartialView("_PreviousList", new SupplyOrderRepository().GetPreviousList(OrganizationId : OrganizationId,id: id, supid: supid, from: from, to: to));
+            return PartialView("_PreviousList", new SupplyOrderRepository().GetPreviousList(OrganizationId: OrganizationId, id: id, supid: supid, from: from, to: to));
         }
 
 
@@ -144,7 +144,7 @@ namespace ArabErp.Web.Controllers
         {
             ViewBag.SupplierList = new SelectList(new DropdownRepository().SupplyOrderSupplierDropdown(), "Id", "Name");
         }
-       
+
 
         public void FillCurrency()
         {
@@ -218,12 +218,12 @@ namespace ArabErp.Web.Controllers
             }
         }
         [HttpGet]
-        public JsonResult GetSupplierItemRateSettings(int Id,string ItemId)
+        public JsonResult GetSupplierItemRateSettings(int Id, int ItemId)
         {
             SupplyOrderItem List = new SupplyOrderRepository().GetSupplierItemRate(Id, ItemId);
             var Result = new { Success = true, ItemId = List.ItemId, FixedRate = List.FixedRate };
             return Json(Result, JsonRequestBehavior.AllowGet);
-          
+
         }
 
         [HttpGet]
@@ -234,128 +234,128 @@ namespace ArabErp.Web.Controllers
         }
 
         public ActionResult Edit(int id = 0)
-   {
-       try
-       {
-           if (id != 0)
-           {
-               SupplyOrder supplyorder = new SupplyOrder();
-               supplyorder = new SupplyOrderRepository().GetSupplyOrder(id);
-               supplyorder.SupplyOrderItems = new SupplyOrderItemRepository().GetSupplyOrderItems(id);
-               FillDropdowns();
-               return View(supplyorder);
-           }
-           else
-           {
-               TempData["error"] = "That was an invalid/unknown request. Please try again.";
-               TempData["success"] = "";
-           }
-       }
-       catch (InvalidOperationException iox)
-       {
-           TempData["error"] = "Sorry, we could not find the requested item. Please try again.|" + iox.Message;
-       }
-       catch (SqlException sx)
-       {
-           TempData["error"] = "Some error occured while connecting to database. Please try again after sometime.|" + sx.Message;
-       }
-       catch (NullReferenceException nx)
-       {
-           TempData["error"] = "Some required data was missing. Please try again.|" + nx.Message;
-       }
-       catch (Exception ex)
-       {
-           TempData["error"] = "Some error occured. Please try again.|" + ex.Message;
-       }
+        {
+            try
+            {
+                if (id != 0)
+                {
+                    SupplyOrder supplyorder = new SupplyOrder();
+                    supplyorder = new SupplyOrderRepository().GetSupplyOrder(id);
+                    supplyorder.SupplyOrderItems = new SupplyOrderItemRepository().GetSupplyOrderItems(id);
+                    FillDropdowns();
+                    return View(supplyorder);
+                }
+                else
+                {
+                    TempData["error"] = "That was an invalid/unknown request. Please try again.";
+                    TempData["success"] = "";
+                }
+            }
+            catch (InvalidOperationException iox)
+            {
+                TempData["error"] = "Sorry, we could not find the requested item. Please try again.|" + iox.Message;
+            }
+            catch (SqlException sx)
+            {
+                TempData["error"] = "Some error occured while connecting to database. Please try again after sometime.|" + sx.Message;
+            }
+            catch (NullReferenceException nx)
+            {
+                TempData["error"] = "Some required data was missing. Please try again.|" + nx.Message;
+            }
+            catch (Exception ex)
+            {
+                TempData["error"] = "Some error occured. Please try again.|" + ex.Message;
+            }
 
-       TempData["success"] = "";
-       return RedirectToAction("PendingSupplyOrder");
-   }
+            TempData["success"] = "";
+            return RedirectToAction("PendingSupplyOrder");
+        }
 
         [HttpPost]
         public ActionResult Edit(SupplyOrder model)
-   {
-       ViewBag.Title = "Edit";
-       model.OrganizationId = OrganizationId;
-       model.CreatedDate = System.DateTime.Now;
-       model.CreatedBy = UserID.ToString();
+        {
+            ViewBag.Title = "Edit";
+            model.OrganizationId = OrganizationId;
+            model.CreatedDate = System.DateTime.Now;
+            model.CreatedBy = UserID.ToString();
 
-       FillDropdowns();
+            FillDropdowns();
 
-       var repo = new SupplyOrderRepository();
+            var repo = new SupplyOrderRepository();
 
-       var result1 = new SupplyOrderRepository().CHECK(model.SupplyOrderId);
-       if (result1 > 0)
-       {
-           TempData["error"] = "Sorry!!..Already Used!!";
-           TempData["ExpenseNo"] = null;
-           return View("Edit", model);
-       }
+            var result1 = new SupplyOrderRepository().CHECK(model.SupplyOrderId);
+            if (result1 > 0)
+            {
+                TempData["error"] = "Sorry!!..Already Used!!";
+                TempData["ExpenseNo"] = null;
+                return View("Edit", model);
+            }
 
-       else
-       {
-           try
-           {
-               var result2 = new SupplyOrderRepository().DeleteSODT(model.SupplyOrderId);
-               var result3 = new SupplyOrderRepository().DeleteSOHD(model.SupplyOrderId);
-               string id = new SupplyOrderRepository().InsertSupplyOrder(model);
+            else
+            {
+                try
+                {
+                    var result2 = new SupplyOrderRepository().DeleteSODT(model.SupplyOrderId);
+                    var result3 = new SupplyOrderRepository().DeleteSOHD(model.SupplyOrderId);
+                    string id = new SupplyOrderRepository().InsertSupplyOrder(model);
 
-                   TempData["success"] = "Updated successfully. Purchase Request Reference No. is " +id;
-                   TempData["error"] = "";
-                   return RedirectToAction("PendingSupplyOrder");
-           }
-           catch (SqlException sx)
-           {
-               TempData["error"] = "Some error occured while connecting to database. Please check your network connection and try again.|" + sx.Message;
-           }
-           catch (NullReferenceException nx)
-           {
-               TempData["error"] = "Some required data was missing. Please try again.|" + nx.Message;
-           }
-           catch (Exception ex)
-           {
-               TempData["error"] = "Some error occured. Please try again.|" + ex.Message;
-           }
-           return RedirectToAction("PendingSupplyOrder");
-       }
+                    TempData["success"] = "Updated successfully. Purchase Request Reference No. is " + id;
+                    TempData["error"] = "";
+                    return RedirectToAction("Index");
+                }
+                catch (SqlException sx)
+                {
+                    TempData["error"] = "Some error occured while connecting to database. Please check your network connection and try again.|" + sx.Message;
+                }
+                catch (NullReferenceException nx)
+                {
+                    TempData["error"] = "Some required data was missing. Please try again.|" + nx.Message;
+                }
+                catch (Exception ex)
+                {
+                    TempData["error"] = "Some error occured. Please try again.|" + ex.Message;
+                }
+                return View("Edit", model);
+            }
 
-   }
+        }
 
         public ActionResult Delete(int Id)
-   {
-       ViewBag.Title = "Delete";
+        {
+            ViewBag.Title = "Delete";
 
-       var result1 = new SupplyOrderRepository().CHECK(Id);
-       if (result1 > 0)
-       {
-           TempData["error"] = "Sorry!!..Already Used!!";
-           TempData["ExpenseNo"] = null;
-           return RedirectToAction("Edit", new { id = Id });
-       }
+            var result1 = new SupplyOrderRepository().CHECK(Id);
+            if (result1 > 0)
+            {
+                TempData["error"] = "Sorry!!..Already Used!!";
+                TempData["ExpenseNo"] = null;
+                return RedirectToAction("Edit", new { id = Id });
+            }
 
-       else
-       {
-           var result2 = new SupplyOrderRepository().DeleteSODT(Id);
-           var result3 = new SupplyOrderRepository().DeleteSOHD(Id);
+            else
+            {
+                var result2 = new SupplyOrderRepository().DeleteSODT(Id);
+                var result3 = new SupplyOrderRepository().DeleteSOHD(Id);
 
-           if (Id > 0)
-           {
+                if (Id > 0)
+                {
 
-               TempData["Success"] = "Deleted Successfully!";
-               //return RedirectToAction("PreviousList");
-               return RedirectToAction("PendingSupplyOrder");
-           }
+                    TempData["Success"] = "Deleted Successfully!";
+                    //return RedirectToAction("PreviousList");
+                    return RedirectToAction("PendingSupplyOrder");
+                }
 
-           else
-           {
+                else
+                {
 
-               TempData["error"] = "Oops!!..Something Went Wrong!!";
-               TempData["ExpenseNo"] = null;
-               return RedirectToAction("Edit", new { id = Id });
-           }
+                    TempData["error"] = "Oops!!..Something Went Wrong!!";
+                    TempData["ExpenseNo"] = null;
+                    return RedirectToAction("Edit", new { id = Id });
+                }
 
-       }
+            }
 
-   }
+        }
     }
 }
