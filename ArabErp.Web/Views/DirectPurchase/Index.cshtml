@@ -31,15 +31,15 @@
                         <thead>
                             <tr class="grid_heading">
                                 <th width="2%"><h1>#</h1></th>
-                                <th width="15%" nowrap><h1>PRS No. &amp; Date</h1></th>
-                                <th width="15%" title="Sale Order Ref. No. & Date" nowrap><h1>SO Ref. No. &amp; Date</h1></th>
-                                <th width="15%" title="Job Card Ref. No. & Date" nowrap><h1>JC Ref. No. &amp; Date</h1></th>
-                                <th width="15%" nowrap><h1>Remarks</h1></th>
+                                <th width="12%" nowrap><h1>PRS No. &amp; Date</h1></th>
+                                <th width="12%" title="Sale Order Ref. No. & Date" nowrap><h1>SO Ref. No. &amp; Date</h1></th>
+                                <th width="12%" title="Job Card Ref. No. & Date" nowrap><h1>JC Ref. No. &amp; Date</h1></th>
+                                <th width="27%" nowrap><h1>Remarks</h1></th>
                                 <th width="10%" nowrap><h1>Required Date</h1></th>
                                 <th width="5%" nowrap><h1>Ageing</h1></th>
                                 <th width="5%" nowrap><h1>Days Left</h1></th>
-                                <th width="1%" class="text-right" nowrap><h1>Total</h1></th>
-                                <th width="1%"></th>
+                                <th width="5%" class="text-right" nowrap><h1>Total</h1></th>
+                                <th width="10%"><center>Select</center></th>
                             </tr>
                         </thead>
                         <tbody class="grid_row">
@@ -91,7 +91,7 @@
                             @item.TotalAmount
                         </td>
                         <td>
-                            <input type="button" value="Select" onclick="OnItemSelected(@item.DirectPurchaseRequestId)" class="form-button4" />
+                            <center><input type="button" value="Select" onclick="OnItemSelected(@item.DirectPurchaseRequestId)" class="form-button4" /></center>
                         </td>
                     </tr>
                         }
