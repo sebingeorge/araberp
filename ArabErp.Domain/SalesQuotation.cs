@@ -29,6 +29,7 @@ namespace ArabErp.Domain
         [Required]
         public DateTime QuotationValidToDate { get; set; }
         [Required]
+        [ValidateDateGreaterThan("QuotationDate")]
         public DateTime ExpectedDeliveryDate { get; set; }
         [Required]
         public bool? IsQuotationApproved { get; set; }
@@ -55,6 +56,9 @@ namespace ArabErp.Domain
          public string ReasonDescription { get; set; }
          public string WorkDescription { get; set; }
          public int? CancelStatus { get; set; }
-        public List<SalesQuotationItem> SalesQuotationItems { get; set; } 
+        public List<SalesQuotationItem> SalesQuotationItems { get; set; }
+
+        public int Ageing { get; set; }
+        public int DaysLeft { get; set; }
     }
 }

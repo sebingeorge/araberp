@@ -54,6 +54,114 @@
 
         window.location = url;
     }
+
+    function ValidateRow(index) {
+        var pending = Number($("#SupplyOrderItems_" + index + "__BalQty").val());
+        var ordered = Number($("#SupplyOrderItems_" + index + "__OrderedQty").val());
+        if (ordered > pending) {
+            toastr.info("Ordered quantity cannot be more than pending quantity");
+            $("#SupplyOrderItems_" + index + "__OrderedQty").val(pending);
+            QuantityChanged(index);
+        }
+    }
+
+    function QuantityChanged(row) {
+        var quantity = $("#SupplyOrderItems_" + row + "__OrderedQty").val();
+        var rate = $("#SupplyOrderItems_" + row + "__Rate").val();
+        var discount = $("#SupplyOrderItems_" + row + "__Discount").val();
+
+        if (quantity == NaN) {
+            quantity = 0;
+        }
+        if (rate == NaN) {
+            rate = 0;
+        }
+        if (discount == NaN) {
+            discount = 0;
+        }
+        var amount = (quantity * rate) - discount;
+        $("#SupplyOrderItems_" + row + "__Amount").val(amount.toFixed(2));
+        calculateSummary();
+    }
+
+    $(function () {
+        $("#SupplyOrderDate").datepicker({ dateFormat: "dd-MM-yy" });
+        $("#RequiredDate").datepicker({ dateFormat: "dd-MM-yy" });
+    });
+
+    function formValidation() {
+        if (Number($("#QtyAmount").text()) <= 0) {
+            toastr.info("Total amount cannot be less than or equal to zero");
+            return false;
+        }
+        else return true;
+    }
+
+    function SupplierChanged(supplier)
+    {
+        var id;
+        if ($(supplier).val() != null && $(supplier).val() != '')
+            id = $(supplier).val();
+        else
+            id = 0;
+
+        var ItemId = "";
+        var url = '@Url.Action("GetSupplierItemRateSettings")';
+        $('.itmcodes').each(function (i, obj) {
+
+            var abc = $("#SupplyOrderItems_" + i + "__ItemId").val();
+            $.ajax({
+                url: url,
+                data: { Id: id, ItemId: abc },
+                cache: false,
+                async: false,
+                type: "GET",
+                timeout: 10000,
+                dataType: "json",
+                success: function (result) {
+
+                    if (result.Success) { // this sets the value from the response
+
+                        //$('.clRate').each(function (i, obj) {
+
+                        //var itmcode = $("#SupplyOrderItems_" + i + "__ItemId").val();
+
+                        //if (itmcode == result.ItemId) {
+                        $("#SupplyOrderItems_" + i + "__Rate").val(result.FixedRate.toFixed(2));
+                        QuantityChanged(i);
+                        //}
+                        //else {
+                        //alert("hi");
+                        //}
+                        //})
+                    }
+                }
+            });
+            //ItemId = ItemId + ',' + abc
+
+        });
+        
+
+
+        $.ajax({
+            url: "@Url.Action("GetPaymentTerm", "SupplyOrder")",
+            data: { supplierid: id },
+        cache: false,
+        type: "GET",
+        timeout: 10000,
+        dataType: "json",
+        success: function (result) {
+            
+            if (result.Success) { // this sets the value from the response
+
+                $('#PaymentTerms').val(result.PaymentTerms);
+            } else {
+                $('#SomeOtherHtmlTextBox').val("Failed");
+            }
+        }
+    });
+       
+    }
 </script>
 
 

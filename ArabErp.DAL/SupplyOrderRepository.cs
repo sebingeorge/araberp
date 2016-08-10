@@ -93,7 +93,7 @@ namespace ArabErp.DAL
                                     INNER JOIN PurchaseRequestItem PI ON P.PurchaseRequestId=PI.PurchaseRequestId
                                     INNER JOIN Item i ON PI.ItemId=i.ItemId
                                     LEFT JOIN #SUPPLY SUP ON PI.PurchaseRequestItemId = SUP.PurchaseRequestItemId
-                                    WHERE P.PurchaseRequestId in @selectedpurchaserequests 
+                                    WHERE P.PurchaseRequestId in @selectedpurchaserequests AND (ISNULL(PI.Quantity, 0) - ISNULL(SUP.SuppliedQuantity, 0)) > 0
                                     AND (SUP.PurchaseRequestItemId IS NULL OR ISNULL(SUP.SuppliedQuantity, 0) < ISNULL(PI.Quantity, 0));
                                     DROP TABLE #SUPPLY;";
 
@@ -137,7 +137,7 @@ namespace ArabErp.DAL
                                 INNER JOIN PurchaseRequestItem PRI ON P.PurchaseRequestId = PRI.PurchaseRequestId
                                 INNER JOIN WorkShopRequest WRK ON P.WorkShopRequestId = WRK.WorkShopRequestId
                                 LEFT JOIN #SUPPLY SUP ON PRI.PurchaseRequestItemId = SUP.PurchaseRequestItemId
-                                WHERE P.isActive=1 and 
+                                WHERE P.isActive=1 and  ISNULL(PRI.Quantity, 0) > 0 AND 
                                 (SUP.PurchaseRequestItemId IS NULL OR ISNULL(SUP.SuppliedQuantity, 0) < ISNULL(PRI.Quantity, 0))
                                 ORDER BY P.RequiredDate DESC, P.PurchaseRequestDate DESC;
                                 DROP TABLE #SUPPLY;";
@@ -335,21 +335,21 @@ namespace ArabErp.DAL
             }
         }
 
-        public SupplyOrderItem GetSupplierItemRate(int Id, string ItemId)
+        public SupplyOrderItem GetSupplierItemRate(int Id, int ItemId)
         {
             try
             {
                 using (IDbConnection connection = OpenConnection(dataConnection))
                 {
 
-                    string query = String.Format("select ItemId, ISNULL(FixedRate, 0) FixedRate  from SupplierItemRate where SupplierId = {0} and ItemId in ({1});", Id, ItemId);
+                    string query = String.Format("select ItemId, ISNULL(FixedRate, 0) FixedRate  from SupplierItemRate where SupplierId = {0} and ItemId = {1};", Id, ItemId);
                     return connection.Query<SupplyOrderItem>(query).First<SupplyOrderItem>();
                       
                 }
             }
-            catch (Exception ex)
+            catch (Exception)
             {
-                throw ex;
+                return new SupplyOrderItem { ItemId = Id, FixedRate = 0 };
             }
         }
 

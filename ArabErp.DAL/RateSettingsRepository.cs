@@ -199,5 +199,26 @@ namespace ArabErp.DAL
                 throw;
             }
         }
+
+        public decimal GetSpecialRate(int workDescriptionId, int customerId)
+        {
+            try
+            {
+                using (IDbConnection connection = OpenConnection(dataConnection))
+                {
+                    //string type = "Special";
+                    //if (RateType == 2) type = "MediumRate";
+                    //else if (RateType == 3) type = "MaxRate";
+                    string query = @"SELECT FixedRate FROM CustomerVsWorkRate WHERE WorkDescriptionId =@workDescriptionId AND CustomerId=@customerId ;";
+
+                    return connection.Query<decimal>(query, new { workDescriptionId = workDescriptionId, customerId = customerId }).First();
+                }
+            }
+            catch (InvalidOperationException)
+            {
+                return 0;
+                throw;
+            }
+        }
     }
 }

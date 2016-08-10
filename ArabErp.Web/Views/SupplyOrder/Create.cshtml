@@ -17,7 +17,7 @@
                 "positionClass": "toast-bottom-full-width",
                 "showDuration": "300",
                 "hideDuration": "1000",
-                "timeOut": "0",
+                "timeOut": "5000",
                 "extendedTimeOut": "1000"
             }
             if ('@TempData["success"]' != '') {
@@ -102,13 +102,13 @@
         window.location = url;
     }
 
-    function formValidation() {
-        if (Number($("#QtyAmount").text()) <= 0) {
-            toastr.info("Total amount cannot be less than or equal to zero");
-            return false;
-        }
-        else return true;
-    }
+    //function formValidation() {
+    //    if (Number($("#QtyAmount").text()) <= 0) {
+    //        toastr.info("Total amount cannot be less than or equal to zero");
+    //        return false;
+    //    }
+    //    else return true;
+    //}
     function SupplierChanged(supplier)
     {
         var id;
@@ -117,41 +117,42 @@
         else
             id = 0;
 
-        var ItemId="";
+        var ItemId = "";
+        var url = '@Url.Action("GetSupplierItemRateSettings")';
         $('.itmcodes').each(function (i, obj) {
 
             var abc = $("#SupplyOrderItems_" + i + "__ItemId").val();
-            ItemId = ItemId + ',' + abc
+            $.ajax({
+                url: url,
+                data: { Id: id, ItemId: abc },
+                cache: false,
+                async: false,
+                type: "GET",
+                timeout: 10000,
+                dataType: "json",
+                success: function (result) {
+
+                    if (result.Success) { // this sets the value from the response
+
+                        //$('.clRate').each(function (i, obj) {
+
+                            //var itmcode = $("#SupplyOrderItems_" + i + "__ItemId").val();
+
+                            //if (itmcode == result.ItemId) {
+                        $("#SupplyOrderItems_" + i + "__Rate").val(result.FixedRate.toFixed(2));
+                        QuantityChanged(i);
+                            //}
+                            //else {
+                                //alert("hi");
+                            //}
+                        //})
+                    }
+                }
+            });
+            //ItemId = ItemId + ',' + abc
 
         });
-        var url = '@Url.Action("GetSupplierItemRateSettings")'
-        $.ajax({
-            url: url,
-            data: { Id: id, ItemId: ItemId.substring(1) },
-            cache: false,
-            type: "GET",
-            timeout: 10000,
-            dataType: "json",
-            success: function (result) {
-               
-                if (result.Success) { // this sets the value from the response
-                    
-                    $('.clRate').each(function (i, obj) {
-                      
-                        var itmcode = $("#SupplyOrderItems_" + i + "__ItemId").val();
-                       
-                        if(itmcode==result.ItemId)
-                        {
-                            $("#SupplyOrderItems_" + i + "__Rate").val(result.FixedRate);
-                        }
-                        else
-                        {
-                            //alert("hi");
-                        }
-                    })
-                    }
-        }
-        });
+        
 
 
         $.ajax({
@@ -173,6 +174,16 @@
     });
        
     }
+
+    function formValidation() {
+        var total = Number($("#QtyAmount").text());
+        if (total <= 0) {
+            toastr.info("Total amount should be greater than 0");
+            return false;
+        }
+        return true;
+    }
+
 </script>
 
     <div class="row">

@@ -53,7 +53,11 @@ namespace ArabErp.Web.Controllers
         [HttpPost]
         public ActionResult Create(SalesQuotation model)
         {
-
+            if(!ModelState.IsValid)
+            {
+                var allErrors = ModelState.Values.SelectMany(v => v.Errors);                
+                return View(model);
+            }
             model.OrganizationId = OrganizationId;
             model.CreatedDate = System.DateTime.Now;
             model.CreatedBy = UserID.ToString();
@@ -414,6 +418,12 @@ namespace ArabErp.Web.Controllers
         public JsonResult GetRate(int workDescriptionId, string date, int type)
         {
             decimal data = new RateSettingsRepository().GetRate(workDescriptionId, date, type);
+            return Json(data, JsonRequestBehavior.AllowGet);
+        }
+
+        public JsonResult GetSpecialRate(int workDescriptionId, int customerId)
+        {
+            decimal data = new RateSettingsRepository().GetSpecialRate(workDescriptionId, customerId);
             return Json(data, JsonRequestBehavior.AllowGet);
         }
 
