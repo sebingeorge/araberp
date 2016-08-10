@@ -34,6 +34,7 @@
                     <div class="part">
                         <label for="RequiredDate">Required Date</label>
                         @Html.TextBoxFor(m => m.RequiredDate, Model.RequiredDate.ToString("dd/MMMM/yyyy"), new { @class = "form_input ", autocomplete = "off" })
+                        @Html.ValidationMessageFor(m => m.RequiredDate)
                     </div>
             </div>
         </div>

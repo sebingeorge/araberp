@@ -7,13 +7,14 @@ using System.ComponentModel.DataAnnotations;
 
 namespace ArabErp.Domain
 {
-   public class SupplyOrder
+    public class SupplyOrder
     {
-       public SupplyOrder()
-       {
-           SupplyOrderItems = new List<SupplyOrderItem>();
-       }
+        public SupplyOrder()
+        {
+            SupplyOrderItems = new List<SupplyOrderItem>();
+        }
         public int SupplyOrderId { get; set; }
+        [Required]
         public DateTime SupplyOrderDate { get; set; }
         [Required]
         public int PurchaseRequestId { get; set; }
@@ -23,6 +24,8 @@ namespace ArabErp.Domain
         public string SpecialRemarks { get; set; }
         public string PaymentTerms { get; set; }
         public string DeliveryTerms { get; set; }
+        [Required]
+        [ValidateDateGreaterThan("SupplyOrderDate")]
         public DateTime RequiredDate { get; set; }
         public int CurrencyId { get; set; }
         public string CreatedBy { get; set; }
@@ -32,17 +35,17 @@ namespace ArabErp.Domain
         public string SupplierName { get; set; }
         public string SoNoWithDate { get; set; }
         public List<SupplyOrderItem> SupplyOrderItems { get; set; }
-       // public string SoNoWithDate
-       // {
-       //     get
-       //     {
-       //         return string.Format("{0},{1}", SupplyOrderId, SupplyOrderDate.ToShortDateString());
-       //     }
-       //     set
-       //     {
+        // public string SoNoWithDate
+        // {
+        //     get
+        //     {
+        //         return string.Format("{0},{1}", SupplyOrderId, SupplyOrderDate.ToShortDateString());
+        //     }
+        //     set
+        //     {
 
-       //     }
-       //}
+        //     }
+        //}
 
     }
 }

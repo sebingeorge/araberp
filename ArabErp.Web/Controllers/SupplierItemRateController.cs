@@ -77,11 +77,12 @@ namespace ArabErp.Web.Controllers
             FillSupplier();
             FillItem();
 
-            //TempData["Success"] = "Added Successfully!";
-            SupplierItemRate SupplierItemRate = new SupplierItemRate();
+               SupplierItemRate SupplierItemRate = new SupplierItemRate();
             SupplierItemRate.SupplierItemRateItem = new List<SupplierItemRateItem>();
             SupplierItemRate.SupplierItemRateItem.Add(new SupplierItemRateItem());
             //return View("Create");
+            TempData["Success"] = "Updated Successfully!";
+            TempData["SupplierId"] = model.SupplierId;
             return RedirectToAction("Create");
         }
     }

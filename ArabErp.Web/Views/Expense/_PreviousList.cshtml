@@ -19,12 +19,12 @@
             <table class="table table-bordered">
                 <thead>
                     <tr class="grid_heading">
-                        <th width="15%"><h1>Bill No</h1></th>
-                        <th width="10%"><h1>Bill Date</h1></th>
-                        <th width="50%"><h1>Supplier</h1></th>
-                        <th width="20%"><h1>Bill Ref.</h1></th>
-                        <th width="30%"><h1>Amount</h1></th>
-                        <th width="1%" class="text-center"></th>
+                        <th width="12%"><h1>Bill No</h1></th>
+                        <th width="12%"><h1>Bill Date</h1></th>
+                        <th width="42%"><h1>Supplier</h1></th>
+                        <th width="12%"><h1>Bill Ref.</h1></th>
+                        <th width="12%"><h1>Amount</h1></th>
+                        <th width="10%" class="text-center">Select</th>
 
                     </tr>
                 </thead>
@@ -42,7 +42,7 @@
                                 <td>@item.ExpenseBillRef</td>
                                 <td>@item.TotalAmount</td>
                                 <td>
-                                    <input type="button" class="form-button4" onclick="OnSelected(@item.ExpenseId)" value="Select" title="Select to view details" />
+                                    <center><input type="button" class="form-button4" onclick="OnSelected(@item.ExpenseId)" value="Select" title="Select to view details" /></center>
                                 </td>
                             </tr>
                         }

@@ -15,23 +15,34 @@
             </tr>
         </thead>
         <tbody id="table_validation">
-            @for (int i = 0; i < Model.SupplyOrderItems.Count(); i++)
+            @if (Model.SupplyOrderItems.Count > 0)
+            {
+                for (int i = 0; i < Model.SupplyOrderItems.Count(); i++)
+                {
+                    <tr>
+                        <td align="center">@(i + 1) @Html.HiddenFor(m => m.SupplyOrderItems[i].PurchaseRequestItemId)</td>
+                        <td>@Html.TextBoxFor(m => m.SupplyOrderItems[i].PRNODATE, new { @class = "form_input", @readonly = "true" }) </td>
+                        <td>
+                            @Html.HiddenFor(m => m.SupplyOrderItems[i].PurchaseRequestItemId)
+                            @Html.HiddenFor(m => m.SupplyOrderItems[i].ItemId, new { @class = "itmcodes" })
+                            @Html.TextBoxFor(m => m.SupplyOrderItems[i].ItemName, new { @class = "form_input", @readonly = "true" })
+                        </td>
+                        <td>@Html.TextBoxFor(m => m.SupplyOrderItems[i].PartNo, new { @class = "form_input", @readonly = "true" })</td>
+                        <td>@Html.TextBoxFor(m => m.SupplyOrderItems[i].BalQty, new { @class = "form_input", @style = "text-align:right", @readonly = "true" })</td>
+                        <td>@Html.TextBoxFor(m => m.SupplyOrderItems[i].OrderedQty, new { @class = "form_input clQuantity", @style = "text-align:right", @onkeyup = "QuantityChanged(" + i + ");", @required = "true", @onchange = "ValidateRow(" + i + ")" })</td>
+                        <td>@Html.TextBoxFor(m => m.SupplyOrderItems[i].Rate, new { @class = "form_input clRate", @style = "text-align:right", @onkeyup = "QuantityChanged(" + i + ");", @required = "true" })</td>
+                        <td>@Html.TextBoxFor(m => m.SupplyOrderItems[i].Discount, new { @class = "form_input", @style = "text-align:right", @onkeyup = "QuantityChanged(" + i + ");", @required = "true" })</td>
+                        <td>@Html.TextBoxFor(m => m.SupplyOrderItems[i].Amount, new { @class = "form_input clAmount", @style = "text-align:right", @readonly = "true" })</td>
+
+                    </tr>
+                }
+            }
+            else
             {
                 <tr>
-                    <td align="center">@(i + 1) @Html.HiddenFor(m => m.SupplyOrderItems[i].PurchaseRequestItemId)</td>
-                    <td>@Html.TextBoxFor(m => m.SupplyOrderItems[i].PRNODATE, new { @class = "form_input", @readonly = "true" }) </td>
-                    <td>
-                        @Html.HiddenFor(m => m.SupplyOrderItems[i].PurchaseRequestItemId)
-                        @Html.HiddenFor(m => m.SupplyOrderItems[i].ItemId, new { @class = "itmcodes" })
-                        @Html.TextBoxFor(m => m.SupplyOrderItems[i].ItemName, new { @class = "form_input", @readonly = "true" })
+                    <td colspan="11">
+                        <center><em>No items pending!</em></center>
                     </td>
-                    <td>@Html.TextBoxFor(m => m.SupplyOrderItems[i].PartNo, new { @class = "form_input", @readonly = "true" })</td>
-                    <td>@Html.TextBoxFor(m => m.SupplyOrderItems[i].BalQty, new { @class = "form_input", @style = "text-align:right", @readonly = "true" })</td>
-                    <td>@Html.TextBoxFor(m => m.SupplyOrderItems[i].OrderedQty, new { @class = "form_input clQuantity", @style = "text-align:right", @onkeyup = "QuantityChanged(" + i + ");", @required = "true", @onchange = "ValidateRow(" + i + ")" })</td>
-                    <td>@Html.TextBoxFor(m => m.SupplyOrderItems[i].Rate, new { @class = "form_input clRate", @style = "text-align:right", @onkeyup = "QuantityChanged(" + i + ");", @required = "true" })</td>
-                    <td>@Html.TextBoxFor(m => m.SupplyOrderItems[i].Discount, new { @class = "form_input", @style = "text-align:right", @onkeyup = "QuantityChanged(" + i + ");", @required = "true" })</td>
-                    <td>@Html.TextBoxFor(m => m.SupplyOrderItems[i].Amount, new { @class = "form_input clAmount", @style = "text-align:right", @readonly="true" })</td>
-
                 </tr>
             }
         </tbody>
