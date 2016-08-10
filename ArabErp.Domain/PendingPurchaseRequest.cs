@@ -15,6 +15,7 @@ namespace ArabErp.Domain
         public DateTime RequiredDate { get; set; }
         public bool Select { get; set; }
         public int Ageing { get; set; }
+        public int DaysLeft { get; set; }
         public string WRNoAndDate { get; set; }
     }
 }

@@ -131,6 +131,7 @@ namespace ArabErp.DAL
 	                                ISNULL(P.SpecialRemarks, '-') SpecialRemarks,
 	                                ISNULL(WRK.WorkShopRequestRefNo, '')+' - '+CONVERT(VARCHAR, WRK.WorkShopRequestDate, 106) WRNoAndDate,
 	                                DATEDIFF(dd,P.PurchaseRequestDate,GETDATE ()) Ageing,
+									DATEDIFF(dd, GETDATE(), P.RequiredDate) DaysLeft,
 	                                P.PurchaseRequestDate, P.CreatedDate
                                 from PurchaseRequest P
                                 INNER JOIN PurchaseRequestItem PRI ON P.PurchaseRequestId = PRI.PurchaseRequestId
@@ -138,7 +139,7 @@ namespace ArabErp.DAL
                                 LEFT JOIN #SUPPLY SUP ON PRI.PurchaseRequestItemId = SUP.PurchaseRequestItemId
                                 WHERE P.isActive=1 and 
                                 (SUP.PurchaseRequestItemId IS NULL OR ISNULL(SUP.SuppliedQuantity, 0) < ISNULL(PRI.Quantity, 0))
-                                ORDER BY P.PurchaseRequestDate DESC, P.CreatedDate DESC;
+                                ORDER BY P.RequiredDate DESC, P.PurchaseRequestDate DESC;
                                 DROP TABLE #SUPPLY;";
 
                 var objPendingPurchaseRequests = connection.Query<PendingPurchaseRequest>(sql).ToList<PendingPurchaseRequest>();
@@ -341,7 +342,7 @@ namespace ArabErp.DAL
                 using (IDbConnection connection = OpenConnection(dataConnection))
                 {
 
-                    string query = String.Format("select ItemId,FixedRate  from SupplierItemRate where SupplierId = {0} and ItemId in ({1});", Id, ItemId);
+                    string query = String.Format("select ItemId, ISNULL(FixedRate, 0) FixedRate  from SupplierItemRate where SupplierId = {0} and ItemId in ({1});", Id, ItemId);
                     return connection.Query<SupplyOrderItem>(query).First<SupplyOrderItem>();
                       
                 }
