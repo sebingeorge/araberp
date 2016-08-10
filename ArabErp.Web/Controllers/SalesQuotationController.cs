@@ -53,7 +53,11 @@ namespace ArabErp.Web.Controllers
         [HttpPost]
         public ActionResult Create(SalesQuotation model)
         {
-
+            if(!ModelState.IsValid)
+            {
+                var allErrors = ModelState.Values.SelectMany(v => v.Errors);                
+                return View(model);
+            }
             model.OrganizationId = OrganizationId;
             model.CreatedDate = System.DateTime.Now;
             model.CreatedBy = UserID.ToString();
