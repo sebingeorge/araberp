@@ -47,9 +47,9 @@
         $("#Itemslno" + (i + 1)).html((i + 1));
         $("#WorkVsItems_" + i + "__SlNo").val((i + 1));
 
-        //$("#WorkVsItems_" + i + "__ItemId").val('');
-        //$("#WorkVsItems_" + i + "__UoM").val('');
-        //$("#WorkVsItems_" + i + "__Quantity").val(0);
+        $("#WorkVsItems_" + i + "__ItemId").val('');
+        $("#WorkVsItems_" + i + "__UoM").val('');
+        $("#WorkVsItems_" + i + "__Quantity").val(0);
     }
     function ItemRowDelete(index) {
 
@@ -119,10 +119,10 @@
         clone.html($(clone).html().replace(/this,0/, 'this,' + i + ''));
         $("#Tab_Task").append('<tr id="'+'Row_Task_Id_' + i + '">' + clone.html() + '  </tr>');
         $("#Taskslno" + (i + 1)).html((i + 1));
-        $("#WorkVsTask_" + i + "__SlNo").val((i + 1));
+        $("#WorkVsTasks_" + i + "__SlNo").val((i + 1));
 
-        $("#WorkVsTask_" + i + "__JobCardTaskMasterId").val('');
-        $("#WorkVsTask_" + i + "__Hours").val(0);
+        $("#WorkVsTasks_" + i + "__JobCardTaskMasterId").val('');
+        $("#WorkVsTasks_" + i + "__Hours").val(0);
 
     }
     function TaskRowDelete(index) {
@@ -337,7 +337,7 @@
                                             <td>
                                                 <input type="hidden" id="Row_Item_@i" />
                                                 @*@Html.DropDownListFor(m => m.WorkVsItems[i].ItemId, new SelectList(ViewBag.ItemList, "Value", "Text", Model.WorkVsItems[i].ItemId), "select Item", new { @class = "form_input", @onchange = "OnMaterialChange(this," + i + ")" })*@
-                                                @Html.DropDownListFor(m => m.WorkVsItems[i].ItemId, new SelectList(ViewBag.ItemList, "Value", "Text", Model.WorkVsItems[i].ItemId), "Select Item", new { @class = "form_input", autocomplete = "off", @onchange = "OnMaterialChange(this, " + i + ")" })
+                                                @Html.DropDownListFor(m => m.WorkVsItems[i].ItemId, new SelectList(ViewBag.ItemList, "Value", "Text", Model.WorkVsItems[i].ItemId), "Select Item", new { @class = "form_input", autocomplete = "off", @onchange = "OnMaterialChange(this," + i + ")" })
                                             </td>
 
                                             <td>

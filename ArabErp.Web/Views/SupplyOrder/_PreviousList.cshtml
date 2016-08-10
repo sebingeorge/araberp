@@ -11,9 +11,9 @@
                         <th width="8%" nowrap><h1>Date</h1></th>
                         <th width="15%" nowrap><h1>Supplier</h1></th>
                         <th width="15%" nowrap><h1>Quotation No &amp; Date</h1></th>
-                        <th width="1%" nowrap><h1>Requested Qty</h1></th>
-                        <th width="1%" nowrap><h1>Supplied Qty</h1></th>
-                        <th width="1%" nowrap><h1>Balance Qty</h1></th>
+                        <th width="1%" class="text-right" nowrap><h1>Requested Qty</h1></th>
+                        <th width="1%" class="text-right" nowrap><h1>Supplied Qty</h1></th>
+                        <th width="1%" class="text-right" nowrap><h1>Balance Qty</h1></th>
                         <th width="8%" class="text-right" nowrap><h1>Total</h1></th>
                         <th width="1%"></th>
                     </tr>
@@ -29,10 +29,10 @@
                                 <td>@item.SupplyOrderDate.ToString("dd/MMM/yyyy")</td>
                                 <td>@item.SupplierName</td>
                                 <td>@item.QuotationNoAndDate</td>
-                                <td>@item.RequestedQuantity</td>
-                                <td>@item.SuppliedQuantity</td>
-                                <td>@item.BalanceQuantity</td>
-                                <td>@item.Amount</td>
+                                <td align="right">@item.RequestedQuantity</td>
+                                <td align="right">@item.SuppliedQuantity</td>
+                                <td align="right">@item.BalanceQuantity</td>
+                                <td align="right">@item.Amount</td>
                                 <td>
                                     <input type="button" class="form-button4" onclick="OnSelected(@item.SupplyOrderId)" value="Select" title="Select to view details" />
                                 </td>
@@ -42,7 +42,7 @@
                     else
                     {
                         <tr>
-                            <td colspan="6">
+                            <td colspan="9">
                                 <center>
                                     <em>No items found!</em>
                                 </center>
