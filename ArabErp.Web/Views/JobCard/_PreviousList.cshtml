@@ -3,13 +3,13 @@
 <table class="table table-bordered">
     <thead>
         <tr class="grid_heading">
-            <th><h1>JobCard No.</h1></th>
-            <th><h1>Date</h1></th>
-            <th><h1>Customer</h1></th>
+            <th width="15%"><h1>JobCard No.</h1></th>
+            <th width="15%"><h1>Date</h1></th>
+            <th width="60%"><h1>Customer</h1></th>
             @*<th><h1>Inpass No. & Date</h1></th>
                 <th><h1>Chasis No./Reg No.</h1></th>
                 <th><h1>Freezer Unit</h1></th>*@
-            <th width="1%" class="text-center"></th>
+            <th width="10%" class="text-center"><h1>Select</h1></th>
 
         </tr>
     </thead>
@@ -27,7 +27,7 @@
                         <td class="grid-cell">@item.RegistrationNo</td>
                         <td class="grid-cell">@item.FreezerUnitName</td>*@
                     <td>
-                        <input type="button" class="form-button4" value="Select" title="Select to view details" />
+                        <center><input type="button" class="form-button4" value="Select" title="Select to view details" /></center>
                     </td>
                 </tr>
             }
