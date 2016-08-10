@@ -4,12 +4,12 @@
     <thead>
         <tr class="grid_heading">
             <th width="2%" class="text-center"><h1>#</h1></th>
-            <th width="15%" nowrap><h1>Consumption Ref. No. &amp; Date</h1></th>
-            <th width="15%" nowrap><h1>Job Card Ref. No. &amp; Date</h1></th>
-            <th width="50%" nowrap><h1>Materials/Spares</h1></th>
+            <th width="12%" nowrap><h1>Consumption Ref. No. &amp; Date</h1></th>
+            <th width="12%" nowrap><h1>Job Card Ref. No. &amp; Date</h1></th>
+            <th width="30%" nowrap><h1>Materials/Spares</h1></th>
             <th width="20%" nowrap><h1>Remarks</h1></th>
-            <th width="15%" class="text-right" nowrap><h1>Total</h1></th>
-            <th width="1%"></th>
+            <th width="14%" class="text-right" nowrap><h1>Total</h1></th>
+            <th width="10%"><center>Select</center></th>
         </tr>
     </thead>
     <tbody class="grid_row">
@@ -38,7 +38,7 @@
                         @item.TotalAmount
                     </td>
                     <td>
-                        <input type="button" value="Select" onclick="OnItemSelected(@item.ConsumptionId)" checked class="form-button4" />
+                        <center><input type="button" value="Select" onclick="OnItemSelected(@item.ConsumptionId)" checked class="form-button4" /></center>
                     </td>
                 </tr>
             }

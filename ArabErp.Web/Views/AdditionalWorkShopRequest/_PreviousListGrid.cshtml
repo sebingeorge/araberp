@@ -4,12 +4,12 @@
     <thead>
         <tr class="grid_heading">
             <th width="2%" class="text-center"><h1>#</h1></th>
-            <th width="15%" title="Workshop Request Ref. No. & Date" nowrap><h1>WR Ref. No. &amp; Date</h1></th>
-            <th width="15%" nowrap><h1>Sale Order Ref. No. &amp; Date</h1></th>
-            <th width="15%" nowrap><h1>Job Card Ref. No. &amp; Date</h1></th>
-            <th width="70%" nowrap><h1>Customer</h1></th>
-            <th width="10%" nowrap><h1>Remarks</h1></th>
-            <th width="1%"></th>
+            <th width="12%" title="Workshop Request Ref. No. & Date" nowrap><h1>WR Ref. No. &amp; Date</h1></th>
+            <th width="12%" nowrap><h1>Sale Order Ref. No. &amp; Date</h1></th>
+            <th width="12%" nowrap><h1>Job Card Ref. No. &amp; Date</h1></th>
+            <th width="20%" nowrap><h1>Customer</h1></th>
+            <th width="32%" nowrap><h1>Remarks</h1></th>
+            <th width="10%"><center>Select</center></th>
         </tr>
     </thead>
     <tbody class="grid_row">
@@ -38,7 +38,7 @@
                         @item.SpecialRemarks
                     </td>
                     <td>
-                        <input type="button" value="Select" onclick="OnItemSelected(@item.WorkShopRequestId)" checked class="form-button4" />
+                        <center><input type="button" value="Select" onclick="OnItemSelected(@item.WorkShopRequestId)" checked class="form-button4" /></center>
                     </td>
                 </tr>
             }
