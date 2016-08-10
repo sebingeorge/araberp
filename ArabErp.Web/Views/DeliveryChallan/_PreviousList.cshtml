@@ -3,11 +3,11 @@
                     <table class="table table-bordered">
                         <thead>
                             <tr class="grid_heading">
-                                <th><h1>Delivery Challan No.</h1></th>
-                                <th><h1>Date</h1></th>
-                                <th><h1>JC.No. & Date</h1></th>
-                                <th><h1>Employee</h1></th>
-                                <th width="1%" class="text-center"></th>
+                                <th width="12%"><h1>Delivery Challan No.</h1></th>
+                                <th width="12%"><h1>Date</h1></th>
+                                <th width="12%"><h1>JC.No. & Date</h1></th>
+                                <th width="54%"><h1>Employee</h1></th>
+                                <th width="10%" class="text-center">Select</th>
 
                             </tr>
                         </thead>
@@ -20,7 +20,7 @@
                                     <td class="grid-cell">@item.JobCardNo &amp; @item.JobCardDate.ToString("dd/MMM/yyyy")</td>
                                     <td class="grid-cell">@item.EmployeeName</td>
                                     <td>
-                                        <input type="button" class="form-button4" value="Select" title="Select to view details" />
+                                        <center><input type="button" class="form-button4" value="Select" title="Select to view details" /></center>
                                     </td>
                                 </tr>
                             </tbody>
