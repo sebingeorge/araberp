@@ -33,7 +33,7 @@
         "hideMethod": "fadeOut"
     }
     if ('@TempData["success"]' != "" && '@TempData["SupplierId"]' != "") {
-        toastr.success('@TempData["success"]' + '  Rate Seeting - Supplier Wise is Updated : ' + '@TempData["SupplierId"]');
+        toastr.success('@TempData["success"]' );
     }
     else if ('@TempData["error"]' != "") {
         toastr.error('@TempData["error"]');
