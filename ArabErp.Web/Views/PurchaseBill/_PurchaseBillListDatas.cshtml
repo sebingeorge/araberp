@@ -10,7 +10,7 @@
                         <th width="40%" nowrap><h1>Supplier</h1></th>
                         <th width="15%" nowrap><h1>Bill No. & Date</h1></th>
                         <th width="10%" class="text-right" nowrap><h1>Amount</h1></th>
-                        <th></th>
+                        <th width="10%"><center><h1>Select</h1></center></th>
                     </tr>
                 </thead>
 
@@ -27,7 +27,7 @@
                                 <td>@item.PurchaseBillNoDate</td>
                                 <td>@item.PurchaseBillAmount</td>
                                 <td>
-                                    <input type="button" class="form-button4" onclick="OnSelected(@item.PurchaseBillId)" value="Select" title="Select to view details" />
+                                    <center><input type="button" class="form-button4" onclick="OnSelected(@item.PurchaseBillId)" value="Select" title="Select to view details" /></center>
                                 </td>
                             </tr>
                         }
