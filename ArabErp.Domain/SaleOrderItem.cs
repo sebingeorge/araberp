@@ -31,13 +31,13 @@ namespace ArabErp.Domain
         public DateTime? CreatedDate { get; set; }
         public int? OrganizationId { get; set; }
         public bool? IsPaymentApprovedForWorkshopRequest { get; set; }
-       [Required]
+       
         public string PaymentApprovedForWorkshopRequestReceiptNoAndDate { get; set; }
         public bool? IsPaymentApprovedForJobOrder { get; set; }
-       [Required]
+       
         public string PaymentApprovedForJobOrderReceiptNoAndDate { get; set; }
         public bool? IsPaymentApprovedForDelivery { get; set; }
-       [Required]
+       
         public string PaymentApprovedForDeliveryReceiptNoAndDate { get; set; }
         public string PaymentApprovedForWorkshopRequestCreatedBy { get; set; }
         public DateTime? PaymentApprovedForWorkshopRequestCreatedDate { get; set; }
