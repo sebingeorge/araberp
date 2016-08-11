@@ -399,7 +399,7 @@
                     <div class="col-md-6">
                         <label for="CustomerId">Customer</label>
                        
-                            @Html.DropDownListFor(m => Model.CustomerId, (SelectList)ViewBag.customerlist, "Select Customer", new { @class = "form_input", autocomplete = "off", @onchange = "CustomerChanged(this);" })
+                            @Html.DropDownListFor(m => Model.CustomerId, (SelectList)ViewBag.customerlist, "Select Customer", new { @class = "form_input", autocomplete = "off", @onchange = "CustomerChanged(this)" })
 
                     </div>
                     <div class="col-md-6">
@@ -707,9 +707,9 @@
                                     <th width="5%" class="text-right"><span id="QtyTotal"></span></th>*@
                                 <th width="10%"></th>
                                 <th width="10%" class="text-right">
-                                    <h1>
-                                            
-                                        @Html.DropDownListFor(m => Model.CurrencyId, (SelectList)ViewBag.currlist, "Select Currency", new { @class = "form_input", autocomplete = "off" })
+                                    <h1 >
+                                       
+                                        @Html.DropDownListFor(m => m.CurrencyId, (SelectList)ViewBag.currlist, "Select Currency", new { @class = "form_input", autocomplete = "off" })
                                   </h1>
                                 </th>
                                 <th width="10%" class="text-right">

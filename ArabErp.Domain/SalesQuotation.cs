@@ -30,8 +30,9 @@ namespace ArabErp.Domain
         public DateTime QuotationValidToDate { get; set; }
         [Required]
         [ValidateDateGreaterThan("QuotationDate")]
+        //[Display(Name = "foo")]
         public DateTime ExpectedDeliveryDate { get; set; }
-        [Required]
+       
         public bool? IsQuotationApproved { get; set; }
         public int? ApprovedBy { get; set; }
         public decimal Amount { get; set; }
