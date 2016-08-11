@@ -1111,6 +1111,10 @@ section.content {
     color:red;
     font-size:small;
 }
+.validation-summary-errors{
+    color:red;
+    font-size:small;
+}
 
 
 
