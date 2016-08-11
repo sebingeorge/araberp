@@ -175,6 +175,7 @@ namespace ArabErp.Web.Controllers
                 {
                     PurchaseBill PurchaseBill = new PurchaseBill();
                     PurchaseBill = new PurchaseBillRepository().GetPurchaseBill(id);
+                    PurchaseBill.PurchaseBillAmount *= (decimal)1.00;
                     PurchaseBill.Items = new PurchaseBillItemRepository().GetPurchaseBillItem(id);
                     FillAdditionDeduction();
                     FillCurrency();
