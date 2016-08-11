@@ -20,8 +20,14 @@ namespace ArabErp.DAL
             int id = 0;
             using (IDbConnection connection = OpenConnection(dataConnection))
             {
-                IDbTransaction txn = connection.BeginTransaction(); try
+                IDbTransaction txn = connection.BeginTransaction(); 
+                try
                 {
+
+                    int internalId = DatabaseCommonRepository.GetInternalIDFromDatabase(connection, txn, typeof(DirectPurchaseRequest).Name, "0", 1);
+                    model.PurchaseRequestNo = "DPR/0/" + internalId;
+
+
                     if (model.SoOrJc == "JC")
                     {
                         model.SaleOrderId = null;

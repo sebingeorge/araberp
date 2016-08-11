@@ -65,6 +65,7 @@
         if ('@ViewBag.actionName.ToString()' == "Approve") {
             $("input").prop("readonly", "true");
             $("select").prop("disabled", "true");
+            $(".glyphicon-minus, .glyphicon-plus").hide();
         }
         else {
             
