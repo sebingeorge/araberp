@@ -13,9 +13,10 @@ p {
   .grid_row
 {
    
-    background-color:#F8F9F9;
-    /*height :50px;*/
+    background-color:#fff !important;
+
 }
+
   .button-style{
     color:#070B19;
     background-color:#9A9EAB;

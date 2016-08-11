@@ -1,26 +1,26 @@
 ﻿@*@model ArabErp.Web.Models.PagedSaleOrderViewModel*@
 @model IList<ArabErp.Domain.SaleOrder>
 
-<div class="main-grid main-grid-top scroll1">
-    <div class=" table-responsive">
-        <table class="table table-bordered">
-            <thead>
-                <tr class="grid_heading">
-                    <th width="12%"><h1>SO.No. & Date</h1></th>
-                    <th width="13%"><h1>Customer</h1></th>
-                    <th width="12%"><h1>Customer Order Ref.</h1></th>
-                    <th width="27%"><h1>Work Description</h1></th>
-                    <th width="5%"><h1>Ageing</h1></th>
-                    <th width="7%"><h1>EDA</h1></th>
-                    <th width="7%"><h1>EDD</h1></th>
-                    <th width="7%"><h1>Days Left</h1></th>
-                    <th width="10%"><center><h1>Select</h1></center></th>
-                </tr>
-            </thead>
+                <div class="main-grid main-grid-top scroll1">
+                <div class=" table-responsive">
+                    <table class="table table-bordered">
+                        <thead>
+                            <tr class="grid_heading">
+                                <th width="12%"><h1>SO.No. & Date</h1></th>
+                                <th width="13%"><h1>Customer</h1></th>
+                                <th width="12%"><h1>Customer Order Ref.</h1></th>
+                                <th width="27%"><h1>Work Description</h1></th>
+                                <th width="5%"><h1>Ageing</h1></th>
+                                <th width="7%"><h1>EDA</h1></th>
+                                <th width="7%"><h1>EDD</h1></th>
+                                <th width="7%"><h1>Days Left</h1></th>
+                                <th width="10%"><center><h1>Select</h1></center></th>
+                            </tr>
+                        </thead>
             @for (int i = 0; i < Model.Count; i++)
-            {
-                <tbody class="grid_row">
-                    <tr>
+                       {
+                            <tbody class="grid_row">
+                                <tr>
                         <td class="grid-cell">@*<input type="text" disabled="disabled" class="form_input" value="*@@Model.ElementAt(i).SaleOrderRefNo@*" /></td>*@
                         <td class="grid-cell">@*<input type="text" disabled="disabled" class="form_input" value="*@@Model.ElementAt(i).CustomerName@*" /></td>*@
                         <td class="grid-cell">@*<input type="text" disabled="disabled" class="form_input" value="*@@Model.ElementAt(i).CustomerOrderRef@*" /></td>*@
@@ -29,51 +29,51 @@
                         <td class="grid-cell">@*<input type="text" disabled="disabled" class="form_input" value="*@@Model.ElementAt(i).EDateArrival.ToString("dd/MMM/yyyy")@*" /></td>*@
                         <td class="grid-cell">@*<input type="text" disabled="disabled" class="form_input" value="*@@Model.ElementAt(i).EDateDelivery.ToString("dd/MMM/yyyy")@*" /></td>*@
                         <td class="grid-cell">@*<input type="text" disabled="disabled" class="form_input" value="*@@Model.ElementAt(i).Remaindays@*" /></td>*@
-                        <td>
-                            <center>
-
+                                    <td>
+                                        <center>
+                                          
                                 @Html.ActionLink("Select", "Create", "WorkShopRequest", new { SaleOrderId = Model.ElementAt(i).SaleOrderId }, new { @class = "form-button5" })
-
-                            </center>
-                        </td>
-
-                    </tr>
-                </tbody>
-            }
-        </table>
-    </div>
+                                          
+                                        </center>
+                                    </td>
+                                   
+                                </tr>
+                            </tbody>
+                        }
+                    </table>
+                </div>
 </div>
 @*@if (Model.Pager.EndPage > 1)
-    {
-        <ul class="pagination">
-            @if (Model.Pager.CurrentPage > 1)
-            {
-                <li>
-                    <a href="~/WorkShopRequest/WorkShopRequestPending">First</a>
-                </li>
-                <li>
-                    <a href="~/WorkShopRequest/WorkShopRequestPending?page=@(Model.Pager.CurrentPage - 1)">Previous</a>
-                </li>
-            }
+                {
+                    <ul class="pagination">
+                        @if (Model.Pager.CurrentPage > 1)
+                        {
+                            <li>
+                                <a href="~/WorkShopRequest/WorkShopRequestPending">First</a>
+                            </li>
+                            <li>
+                                <a href="~/WorkShopRequest/WorkShopRequestPending?page=@(Model.Pager.CurrentPage - 1)">Previous</a>
+                            </li>
+                        }
 
-            @for (var page = Model.Pager.StartPage; page <= Model.Pager.EndPage; page++)
-            {
-                <li class="@(page == Model.Pager.CurrentPage ? "active" : "")">
-                    <a href="~/WorkShopRequest/WorkShopRequestPending?page=@page">@page</a>
-                </li>    }
+                        @for (var page = Model.Pager.StartPage; page <= Model.Pager.EndPage; page++)
+                        {
+                            <li class="@(page == Model.Pager.CurrentPage ? "active" : "")">
+                                <a href="~/WorkShopRequest/WorkShopRequestPending?page=@page">@page</a>
+                            </li>    }
 
-            @if (Model.Pager.CurrentPage < Model.Pager.TotalPages)
-            {
-                <li>
+                        @if (Model.Pager.CurrentPage < Model.Pager.TotalPages)
+                        {
+                            <li>
                     <a href="~/WorkShopRequest/WorkShopRequestPending?page=@(Model.Pager.CurrentPage + 1)">Next</a>
-                </li>
-                <li>
-                    <a href="~/WorkShopRequest/WorkShopRequestPending?page=@(Model.Pager.TotalPages)">Last</a>
-                </li>
-            }
-        </ul>
+                            </li>
+                            <li>
+                                <a href="~/WorkShopRequest/WorkShopRequestPending?page=@(Model.Pager.TotalPages)">Last</a>
+                            </li>
+                        }
+                    </ul>
     }*@
 
-<div class="row-count1">
+                <div class="row-count1">
     <h5>Row Count:- @Model.Count</h5>
-</div>
+    </div>

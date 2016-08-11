@@ -53,7 +53,7 @@
         $(document).ready(function () {
             showQuickView();
             //---------------------toastr---------------------------//
-            toastr.options = {
+            @*toastr.options = {
                 "positionClass": "toast-bottom-full-width",
                 "timeOut": "5000",
                 "extendedTimeOut": "2000"
@@ -65,7 +65,7 @@
                 toastr.error('@TempData["error"]'.split('|')[0]);
                 console.log('@TempData["error"]'.split('|')[1]);
             }
-            @{ TempData["success"] = TempData["error"] = ""; }
+            @{ TempData["success"] = TempData["error"] = ""; }*@
             //------------------------------------------------------//
         });
         window.setInterval("showQuickView();", 20000);

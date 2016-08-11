@@ -333,6 +333,22 @@ namespace ArabErp.DAL
             }
         }
 
+        public string GetContactPerson(int cusId)
+        {
+            using (IDbConnection connection = OpenConnection(dataConnection))
+            {
+                var param = new DynamicParameters();
+                Customer customer = connection.Query<Customer>("select * from Customer where CustomerId = " + cusId).FirstOrDefault();
+
+                string ContactPerson = "";
+                if (ContactPerson != null)
+                {
+                    ContactPerson = customer.ContactPerson;
+                }
+                return ContactPerson;
+            }
+        }
+
         public string GetCustomerAddressQuotKey(int quoId)
         {
             using (IDbConnection connection = OpenConnection(dataConnection))

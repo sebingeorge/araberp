@@ -23,11 +23,19 @@ namespace ArabErp.Web.Controllers
             GetMaterials();
             List<DirectPurchaseRequestItem> list = new List<DirectPurchaseRequestItem>();
             list.Add(new DirectPurchaseRequestItem());
-            return View("Create", new DirectPurchaseRequest { items = list, PurchaseRequestDate = DateTime.Today, RequiredDate = DateTime.Today });
+            return View("Create", new DirectPurchaseRequest { items = list, PurchaseRequestDate = DateTime.Today, RequiredDate = DateTime.Today, PurchaseRequestNo = "DPR/" + DatabaseCommonRepository.GetNextReferenceNo(typeof(DirectPurchaseRequest).Name) });
         }
         [HttpPost]
         public ActionResult CreateRequest(DirectPurchaseRequest model)
         {
+            if (!ModelState.IsValid)
+            {
+                FillSO();
+                FillJC();
+                GetMaterials();
+                return View("Create", model);
+            }
+
             FillSO();
             FillJC();
             model.OrganizationId = OrganizationId;
