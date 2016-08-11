@@ -141,6 +141,5 @@ namespace ArabErp.DAL
                 return objCurrency;
             }
         }
-     
     }
 }

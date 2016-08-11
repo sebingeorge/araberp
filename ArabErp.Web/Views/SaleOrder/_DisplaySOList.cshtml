@@ -234,6 +234,7 @@
 
                            @*@Html.DropDownListFor(x => Model.Items[i].WorkDescriptionId, new SelectList(ViewBag.workdesclist, "Value", "Text", Model.Items[i].WorkDescriptionId), "select Work Description", new { @class = "form_input", autocomplete = "off", @disabled = "true", @onchange = "OnWorkChange(this," + i + ")" })*@
                         @Html.HiddenFor(m => m.Items[i].WorkDescriptionId)
+                        @Html.HiddenFor(m => m.Items[i].WorkDescr)
                         @Model.Items[i].WorkDescr
                                                 @*}
         else

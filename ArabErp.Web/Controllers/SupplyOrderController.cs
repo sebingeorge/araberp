@@ -92,20 +92,27 @@ namespace ArabErp.Web.Controllers
         {
             try
             {
-                model.OrganizationId = OrganizationId;
-                model.CreatedDate = System.DateTime.Now;
-                model.CreatedBy = UserID.ToString();
-                string referenceNo = new SupplyOrderRepository().InsertSupplyOrder(model);
-                if (referenceNo != "")
+                if (!ModelState.IsValid)
                 {
-                    TempData["error"] = "";
-                    TempData["success"] = "Saved successfully. Reference No. is " + referenceNo;
-                    return RedirectToAction("PendingSupplyOrder");
+                    var allErrors = ModelState.Values.SelectMany(v => v.Errors);
                 }
                 else
                 {
-                    TempData["error"] = "Some error occured while saving. Please try again.";
-                    TempData["success"] = "";
+                    model.OrganizationId = OrganizationId;
+                    model.CreatedDate = System.DateTime.Now;
+                    model.CreatedBy = UserID.ToString();
+                    string referenceNo = new SupplyOrderRepository().InsertSupplyOrder(model);
+                    if (referenceNo != "")
+                    {
+                        TempData["error"] = "";
+                        TempData["success"] = "Saved successfully. Reference No. is " + referenceNo;
+                        return RedirectToAction("PendingSupplyOrder");
+                    }
+                    else
+                    {
+                        TempData["error"] = "Some error occured while saving. Please try again.";
+                        TempData["success"] = "";
+                    }
                 }
             }
             catch (Exception)

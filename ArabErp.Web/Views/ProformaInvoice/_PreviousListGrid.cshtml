@@ -7,8 +7,8 @@
             <th width="15%" nowrap><h1>Proforma Invoice No. &amp; Date</h1></th>
             <th width="15%" nowrap><h1>Sale Order No. &amp; Date</h1></th>
             <th width="20%" nowrap><h1>Customer</h1></th>
-            <th width="30%" nowrap><h1>Remarks</h1></th>
-            <th width="1%"></th>
+            <th width="38%" nowrap><h1>Remarks</h1></th>
+            <th width="10%"><center><h1>Select</h1></center></th>
         </tr>
     </thead>
 
@@ -35,7 +35,7 @@
                         @item.SpecialRemarks
                     </td>
                     <td>
-                        <input type="button" value="Select" onclick="OnItemSelected(@item.ProformaInvoiceId)" checked class="form-button4" />
+                        <center><input type="button" value="Select" onclick="OnItemSelected(@item.ProformaInvoiceId)" checked class="form-button4" /></center>
                     </td>
                 </tr>
             }
