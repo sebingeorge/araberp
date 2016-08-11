@@ -6,7 +6,24 @@
 <script>
     $(function () {
 
+        //---------------------toastr---------------------------//
+        toastr.options = {
+            "positionClass": "toast-bottom-full-width",
+            "timeOut": "5000",
+            "extendedTimeOut": "2000"
+        }
+        if ('@TempData["success"]' != '') {
+            toastr.success('@TempData["success"]');
+        }
+        else if ('@TempData["error"]' != '') {
+            toastr.error('@TempData["error"]'.split('|')[0]);
+            console.log('@TempData["error"]'.split('|')[1]);
+        }
+        @{ TempData["success"] = TempData["error"] = ""; }
+        //------------------------------------------------------//
+
         $("#PurchaseBillDate").datepicker({ dateFormat: "dd-MM-yy" });
+        $("#PurchaseBillDueDate").datepicker({ dateFormat: "dd-MM-yy" });
     });
 
     $(document).ready(function () {
@@ -23,7 +40,21 @@
         location.href = '@Url.Action("Index")';
     }
 
-
+    function formValidation() {
+        var additionId = $("#AdditionId").val();
+        var add_value = $("#Addition").val();
+        var deductionId = $("#DeductionId").val();
+        var ded_value = $("#Deduction").val();
+        if(additionId != '' && (add_value.trim() == '' || Number(add_value) <= 0)){
+            toastr.info("Addition amount is required");
+            return false;
+        }
+        else if(deductionId != '' && (ded_value.trim() == '' || Number(ded_value) <= 0)){
+            toastr.info("Deduction amount is required");
+            return false;
+        }
+        return true;
+    }
 
 </script>
 
@@ -34,7 +65,7 @@
 
         <div class="main-part pad1">
 
-            @using (Html.BeginForm("Save", null, FormMethod.Post, new { @class = "createFrom", @id = "grn_form" }))
+            @using (Html.BeginForm("Save", null, FormMethod.Post, new { @class = "createFrom", @id = "grn_form", @onsubmit = "return formValidation()" }))
             {
                 @*@Html.HiddenFor(m => m.SupplyOrderId, new { @class = "form_input", autocomplete = "off" })*@
                 @Html.Partial("_PurchaseBillHead",Model)
