@@ -30,10 +30,11 @@
                                 <td style="width:10%;">Pur.Req.No & Date</td>
                                 <td style="width:10%;">LPO No. & Due Date</td>
                                 <td style="width:10%;">GRN</td>
+                                <td style="width:10%;">Batch Alloc.</td>
                                 <td style="width:10%;">Inpass No. & Date</td>
                                 <td style="width:10%;">Job Card No. & Date</td>
                                 <td style="width:2%;">Job Card Comp.</td>
-                                <td style="width:2%;">Sales Inv.</td>
+                                @*<td style="width:2%;">Sales Inv.</td>*@
                             </tr>
                             @foreach (var item in Model)
                     {
@@ -51,6 +52,7 @@
                         <td class="grid-cell">@item.PurchaseRequest</td>
                         <td class="grid-cell">@item.SuppyOrder</td>
                         <td class="grid-cell">@item.GRN</td>
+                        <td class="grid-cell">@item.Allocation</td>
                         @*<td class="grid-cell"><img src="~/Images/@(item.PurchaseRequest == "Yes" ? "tick.png" : "x.png")" height="10" width="10" /></td>*@
                         @*<td class="grid-cell"><img src="~/Images/@(item.SuppyOrder == "Yes" ? "tick.png" : "x.png")" height="10" width="10" /></td>
                         <td class="grid-cell"><img src="~/Images/@(item.GRN == "Yes" ? "tick.png" : "x.png")" height="10" width="10" /></td>*@
@@ -58,8 +60,8 @@
                         <td class="grid-cell">@item.JobCard</td>
                         @*<td class="grid-cell"><img src="~/Images/@(item.VehicleInpass == "Yes" ? "tick.png" : "x.png")" height="10" width="10" /></td>*@
                         @*<td class="grid-cell"><img src="~/Images/@(item.JobCard == "Yes" ? "tick.png" : "x.png")" height="10" width="10" /></td>*@
-                        <td class="grid-cell"><img src="~/Images/@(item.JobCardComplete == "Yes" ? "tick.png" : "x.png")" height="10" width="10" /></td>
-                        <td class="grid-cell"><img src="~/Images/@(item.SalesInvoice == "Yes" ? "tick.png" : "x.png")" height="10" width="10" /></td>
+                        <td class="grid-cell">@item.JobCardComplete</td>
+                        @*<td class="grid-cell"><img src="~/Images/@(item.SalesInvoice == "Yes" ? "tick.png" : "x.png")" height="10" width="10" /></td>*@
                     </tr>
                     }
                         </table>
