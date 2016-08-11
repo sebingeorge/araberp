@@ -15,12 +15,12 @@
                     <table class="table table-bordered">
                         <thead>
                             <tr class="grid_heading">
-                                <th><h1>Workshop Req.No</h1></th>
-                                <th><h1>Date</h1></th>
-                                <th><h1>Customer</h1></th>
-                                <th><h1>Customer Order Ref.</h1></th>
-                                <th><h1>Required Date</h1></th>
-                                <th width="1%" class="text-center"></th>
+                                <th width="12%"><h1>Workshop Req.No</h1></th>
+                                <th width="12%"><h1>Date</h1></th>
+                                <th width="42%"><h1>Customer</h1></th>
+                                <th width="12%"><h1>Customer Order Ref.</h1></th>
+                                <th width="12%"><h1>Required Date</h1></th>
+                                <th width="10%" class="text-center"><h1>Select</h1></th>
 
                             </tr>
                         </thead>
@@ -34,7 +34,7 @@
                                     <td class="grid-cell">@item.CustomerOrderRef</td>
                                     <td class="grid-cell">@item.RequiredDate.ToString("dd/MMM/yyyy")</td>
                                     <td>
-                                        <input type="button" class="form-button4" onclick="OnSelected(@item.WorkShopRequestId)" value="Select" title="Select to view details" />
+                                        <center><input type="button" class="form-button4" onclick="OnSelected(@item.WorkShopRequestId)" value="Select" title="Select to view details" /></center>
                                     </td>
 
                                 </tr>

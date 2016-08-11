@@ -19,7 +19,7 @@ namespace ArabErp.Web.Controllers
             FillSOCustomer(type);
             ViewBag.isProjectBased = type;
             return View();
-           
+
         }
 
         public ActionResult PreviousList(DateTime? from, DateTime? to, int ProjectBased, int id = 0, int cusid = 0)
@@ -33,7 +33,7 @@ namespace ArabErp.Web.Controllers
 
         public ActionResult Create(int? SalesQuotationId)
         {
-           
+
             string internalId = "";
             try
             {
@@ -46,8 +46,8 @@ namespace ArabErp.Web.Controllers
                 FillUnit();
                 FillEmployee();
                 FillQuotationNo(0);
-              
-            
+
+
             }
             catch (NullReferenceException nx)
             {
@@ -95,7 +95,7 @@ namespace ArabErp.Web.Controllers
                 FillUnit();
                 FillEmployee();
                 FillQuotationNo(1);
-               
+
             }
             catch (NullReferenceException nx)
             {
@@ -135,10 +135,10 @@ namespace ArabErp.Web.Controllers
             FillVehicle();
             FillUnit();
             SaleOrder saleOrder = new SaleOrder();
-         
+
             saleOrder.Items = new List<SaleOrderItem>();
             var item = new SaleOrderItem();
-           
+
             saleOrder.Items.Add(item);
             return PartialView("_DisplaySOList", saleOrder);
         }
@@ -153,23 +153,23 @@ namespace ArabErp.Web.Controllers
             {
                 FillWrkDescProject();
             }
-            
+
             FillVehicle();
             FillUnit();
             SaleOrder saleOrder = new SaleOrder();
             saleOrder.CurrencyId = currid;
-            saleOrder.Items = new List<SaleOrderItem>();            
+            saleOrder.Items = new List<SaleOrderItem>();
 
             SalesQuotationRepository quoRepo = new SalesQuotationRepository();
             List<SalesQuotationItem> quoItems = quoRepo.GetSalesQuotationItems(quoId ?? 0);
-            if(quoItems != null)
+            if (quoItems != null)
             {
-                foreach(var items in quoItems)
+                foreach (var items in quoItems)
                 {
                     saleOrder.Items.Add(new SaleOrderItem()
                     {
                         WorkDescriptionId = items.WorkDescriptionId,
-                        VehicleModelName=items.VehicleModelName,
+                        VehicleModelName = items.VehicleModelName,
                         UnitId = items.UnitId,
                         SlNo = 1,
                         Quantity = items.Quantity,
@@ -263,19 +263,26 @@ namespace ArabErp.Web.Controllers
         {
             try
             {
-            model.OrganizationId = OrganizationId;
-            model.CreatedDate = System.DateTime.Now;
-            model.CreatedBy = UserID.ToString();
-            string id = new SaleOrderRepository().InsertSaleOrder(model);
-             if (id.Split('|')[0] != "0")
+                if (ModelState.IsValid)
                 {
-                    TempData["success"] = "Saved successfully. Sale Order Reference No. is " + id.Split('|')[1];
-                    TempData["error"] = "";
-                    return RedirectToAction("PendingSalesQutoforSaleOrder", new { ProjectBased = 0 });
+                    model.OrganizationId = OrganizationId;
+                    model.CreatedDate = System.DateTime.Now;
+                    model.CreatedBy = UserID.ToString();
+                    string id = new SaleOrderRepository().InsertSaleOrder(model);
+                    if (id.Split('|')[0] != "0")
+                    {
+                        TempData["success"] = "Saved successfully. Sale Order Reference No. is " + id.Split('|')[1];
+                        TempData["error"] = "";
+                        return RedirectToAction("PendingSalesQutoforSaleOrder", new { ProjectBased = 0 });
+                    }
+                    else
+                    {
+                        throw new Exception();
+                    } 
                 }
                 else
                 {
-                    throw new Exception();
+                    var allErrors = ModelState.Values.SelectMany(v => v.Errors);
                 }
             }
             catch (SqlException sx)
@@ -320,9 +327,9 @@ namespace ArabErp.Web.Controllers
                     //}
                     //else
                     //{
-                        return RedirectToAction("PendingSalesQutoforSaleOrder", new { ProjectBased = 1 });
+                    return RedirectToAction("PendingSalesQutoforSaleOrder", new { ProjectBased = 1 });
                     //}
-                    
+
                 }
                 else
                 {
@@ -350,19 +357,19 @@ namespace ArabErp.Web.Controllers
             FillCommissionAgent();
             FillEmployee();
             return View(model);
-          
+
         }
         [HttpGet]
         public JsonResult GetCustomerDetailsByKey(int cusKey)
         {
             var res = (new SaleOrderRepository()).GetCurrencyIdByCustKey(cusKey);
             string address = (new SaleOrderRepository()).GetCusomerAddressByKey(cusKey);
-            return Json(new { Success = true, CurrencyName = res.Name,CurrencyId=res.Id, Address = address }, JsonRequestBehavior.AllowGet);
+            return Json(new { Success = true, CurrencyName = res.Name, CurrencyId = res.Id, Address = address }, JsonRequestBehavior.AllowGet);
         }
-         [HttpGet]
+        [HttpGet]
         public JsonResult GetQuationDetailsByKey(int quoKey)
         {
-          
+
             string address = (new SaleOrderRepository()).GetCustomerAddressQuotKey(quoKey);
             var details = (new SaleOrderRepository()).GetSODetailsByQuotKey(quoKey);
             return Json(new { Success = true, CustomerId = details.CustomerId, Address = address, CurrencyId = details.CurrencyId, PaymentTerms = details.PaymentTerms, SpecialRemarks = details.SpecialRemarks }, JsonRequestBehavior.AllowGet);
@@ -370,14 +377,14 @@ namespace ArabErp.Web.Controllers
         public JsonResult GetVehicleModel(int WorkDescriptionId)
         {
             SaleOrderItem List = new SaleOrderRepository().GetVehicleModel(WorkDescriptionId);
-            var Result=new {VehicleId=List.VehicleModelId ,VehicleName=List.VehicleModelName};
+            var Result = new { VehicleId = List.VehicleModelId, VehicleName = List.VehicleModelName };
             return Json(Result, JsonRequestBehavior.AllowGet);
         }
         public ActionResult PendingSaleOrderApproval(int ProjectBased)
         {
             var repo = new SaleOrderRepository();
             IEnumerable<PendingSO> pendingSO = repo.GetSaleOrderPending(ProjectBased);
-            return View(pendingSO);  
+            return View(pendingSO);
         }
         public ActionResult PendingSaleOrderApprovalWR()
         {
@@ -418,17 +425,19 @@ namespace ArabErp.Web.Controllers
             model.Items = new List<SaleOrderItem>();
             foreach (var item in SOList)
             {
-                if(item.SaleOrderItemId == SaleOrderItemId)
+                if (item.SaleOrderItemId == SaleOrderItemId)
                 {
-                    var soitem = new SaleOrderItem { 
+                    var soitem = new SaleOrderItem
+                    {
                         SaleOrderItemId = item.SaleOrderItemId,
-                        WorkDescriptionId = item.WorkDescriptionId, 
-                        VehicleModelId = item.VehicleModelId, 
-                        Quantity = item.Quantity, 
-                        UnitId = item.UnitId, 
-                        Rate = item.Rate, 
-                        Amount = item.Amount, 
-                        Discount = item.Discount };
+                        WorkDescriptionId = item.WorkDescriptionId,
+                        VehicleModelId = item.VehicleModelId,
+                        Quantity = item.Quantity,
+                        UnitId = item.UnitId,
+                        Rate = item.Rate,
+                        Amount = item.Amount,
+                        Discount = item.Discount
+                    };
                     model.Items.Add(soitem);
 
                     if (AppType == "WORKSHOP_REQUEST")
@@ -444,7 +453,7 @@ namespace ArabErp.Web.Controllers
                         soitem.IsPaymentApprovedForDelivery = true;
                     }
                 }
-                
+
             }
             ViewBag.AppType = AppType;
             FillWrkDesc();
@@ -454,22 +463,22 @@ namespace ArabErp.Web.Controllers
         {
             var repo = new SaleOrderRepository();
             var item = model.Items[0];
-            
+
             var view = "PendingSaleOrderApprovalDEL";
-            if(item.IsPaymentApprovedForDelivery == true)
+            if (item.IsPaymentApprovedForDelivery == true)
             {
                 item.PaymentApprovedForDeliveryCreatedBy = UserName;
                 item.PaymentApprovedForDeliveryCreatedDate = DateTime.Now;
                 repo.UpdateSaleOrderItemStatus(item, "DELIVERY_CHALLAN");
             }
-            else if(item.IsPaymentApprovedForJobOrder == true)
+            else if (item.IsPaymentApprovedForJobOrder == true)
             {
                 item.PaymentApprovedForJobOrderCreatedBy = UserName;
                 item.PaymentApprovedForJobOrderCreatedDate = DateTime.Now;
                 repo.UpdateSaleOrderItemStatus(item, "JOB_CARD");
                 view = "PendingSaleOrderApprovalJC";
             }
-            else if(item.IsPaymentApprovedForWorkshopRequest == true)
+            else if (item.IsPaymentApprovedForWorkshopRequest == true)
             {
                 item.PaymentApprovedForWorkshopRequestCreatedBy = UserName;
                 item.PaymentApprovedForWorkshopRequestCreatedDate = DateTime.Now;
@@ -485,7 +494,7 @@ namespace ArabErp.Web.Controllers
             FillCommissionAgent();
             FillUnit();
             FillEmployee();
-            
+
             FillVehicle();
             var repo = new SaleOrderRepository();
             SaleOrder model = repo.GetSaleOrder(SaleOrderId ?? 0);
@@ -498,14 +507,14 @@ namespace ArabErp.Web.Controllers
 
             //}
             FillWrkDesc();
-            return View("Approval",model);
+            return View("Approval", model);
         }
         [HttpPost]
         public ActionResult UpdateApprovalStatus(int? SaleOrderId)
         {
             SaleOrder so = (new SaleOrderRepository()).GetSaleOrder(SaleOrderId ?? 0);
             new SaleOrderRepository().UpdateSOApproval(SaleOrderId ?? 0);
-            return RedirectToAction("PendingSaleOrderApproval", new { ProjectBased = so.isProjectBased});
+            return RedirectToAction("PendingSaleOrderApproval", new { ProjectBased = so.isProjectBased });
         }
         public ActionResult PendingSaleOrderHold(int? page, int? isProjectBased)
         {
@@ -513,7 +522,7 @@ namespace ArabErp.Web.Controllers
             IEnumerable<PendingSO> pendingSO = repo.GetSaleOrdersForHold(isProjectBased ?? 0);
             return View(pendingSO);
         }
-          
+
         public ActionResult Hold(int? Id)
         {
             FillCustomer();
@@ -522,14 +531,14 @@ namespace ArabErp.Web.Controllers
             FillQuotationNoInSo(0);
             FillUnit();
             FillEmployee();
-            
+
             FillVehicle();
             var repo = new SaleOrderRepository();
             SaleOrder model = repo.GetSaleOrder(Id ?? 0);
             model.SaleOrderHoldDate = DateTime.Now;
             var SOList = repo.GetSaleOrderItem(Id ?? 0);
             model.Items = new List<SaleOrderItem>();
-           
+
             foreach (var item in SOList)
             {
                 var soitem = new SaleOrderItem { WorkDescriptionId = item.WorkDescriptionId, VehicleModelId = item.VehicleModelId, Quantity = item.Quantity, UnitId = item.UnitId, Rate = item.Rate, Amount = item.Amount, Discount = item.Discount };
@@ -539,7 +548,7 @@ namespace ArabErp.Web.Controllers
             FillWrkDesc();
             return View("Approval", model);
         }
-        public ActionResult UpdateHoldStatus(int? Id, string hreason, string  HoldDate)
+        public ActionResult UpdateHoldStatus(int? Id, string hreason, string HoldDate)
         {
 
             new SaleOrderRepository().UpdateSOHold(Id ?? 0, hreason, HoldDate);
@@ -558,7 +567,7 @@ namespace ArabErp.Web.Controllers
             FillCommissionAgent();
             FillQuotationNoInSo(0);
             FillUnit();
-            FillEmployee();            
+            FillEmployee();
             FillVehicle();
             var repo = new SaleOrderRepository();
             SaleOrder model = repo.GetSaleOrder(Id ?? 0);
@@ -622,7 +631,7 @@ namespace ArabErp.Web.Controllers
             FillQuotationNoInSo(0);
             //FillPaymentTerms();
             FillUnit();
-            FillEmployee();            
+            FillEmployee();
             FillVehicle();
             var repo = new SaleOrderRepository();
             SaleOrder model = repo.GetSaleOrder(SaleOrderId ?? 0);
@@ -657,9 +666,9 @@ namespace ArabErp.Web.Controllers
         {
             FillCommissionAgent();
             return View("IncentiveAmount");
-         }
+        }
 
-        public ActionResult IncentiveAmountList(DateTime? FromDate, DateTime? ToDate, int CommissionAgentId=0)
+        public ActionResult IncentiveAmountList(DateTime? FromDate, DateTime? ToDate, int CommissionAgentId = 0)
         {
             return PartialView("IncentiveAmountGrid", new SaleOrderRepository().GetSaleOrderIncentiveAmountList(FromDate, ToDate, CommissionAgentId));
         }
