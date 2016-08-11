@@ -18,7 +18,7 @@ namespace ArabErp.Web.Controllers
             GrnSupplierDropdown();
             FillCurrency();
             return View();
-            
+
         }
         public PartialViewResult pendingGRN(int supplierId = 0)
         {
@@ -42,7 +42,6 @@ namespace ArabErp.Web.Controllers
             ViewBag.currlist = new SelectList(list, "Id", "Name");
         }
         public ActionResult Create(IList<PendingGRN> PendingGRNSelected)
-
         {
             FillAdditionDeduction();
             FillCurrency();
@@ -53,8 +52,8 @@ namespace ArabErp.Web.Controllers
                 if (PendingGRNSelected.Count > 0)
                 {
                     List<int> selectedgrn = (from PendingGRN p in PendingGRNSelected
-                                                          where p.Select
-                                                          select p.GRNId).ToList<int>();
+                                             where p.Select
+                                             select p.GRNId).ToList<int>();
                     purchasebill.Items = rep.GetGRNItems(selectedgrn);
                 }
 
@@ -78,7 +77,7 @@ namespace ArabErp.Web.Controllers
             }
 
             purchasebill.PurchaseBillRefNo = "PRB/" + internalId;
-         
+
             purchasebill.Supplier = PendingGRNSelected[0].SupplierName;
             purchasebill.SupplierId = PendingGRNSelected[0].SupplierId;
             purchasebill.PurchaseBillDate = System.DateTime.Today;
@@ -87,40 +86,50 @@ namespace ArabErp.Web.Controllers
             return View(purchasebill);
 
         }
+        [HttpPost]
         public ActionResult Save(PurchaseBill model)
         {
             try
             {
-            model.OrganizationId = OrganizationId;
-            model.CreatedDate = System.DateTime.Now;
-            model.CreatedBy = UserID.ToString();
-      
-             string id = new PurchaseBillRepository().InsertPurchaseBill(model);
-                   if (id.Split('|')[0] != "0")
-                   {
-                       TempData["success"] = "Saved successfully. Purchase Bill Reference No. is " + id.Split('|')[1];
-                       TempData["error"] = "";
-                       return RedirectToAction("Index");
-                   }
-                   else
-                   {
-                       throw new Exception();
-                   }
-                   }
-                   catch (SqlException sx)
-                   {
-                       TempData["error"] = "Some error occured while connecting to database. Please check your network connection and try again.|" + sx.Message;
-                   }
-                   catch (NullReferenceException nx)
-                   {
-                       TempData["error"] = "Some required data was missing. Please try again.|" + nx.Message;
-                   }
-                   catch (Exception ex)
-                   {
-                       TempData["error"] = "Some error occured. Please try again.|" + ex.Message;
-                   }
-            return RedirectToAction("Index");
-           
+                if (ModelState.IsValid)
+                {
+                    model.OrganizationId = OrganizationId;
+                    model.CreatedDate = System.DateTime.Now;
+                    model.CreatedBy = UserID.ToString();
+
+                    string id = new PurchaseBillRepository().InsertPurchaseBill(model);
+                    if (id.Split('|')[0] != "0")
+                    {
+                        TempData["success"] = "Saved successfully. Purchase Bill Reference No. is " + id.Split('|')[1];
+                        TempData["error"] = "";
+                        return RedirectToAction("Index");
+                    }
+                    else
+                    {
+                        throw new Exception();
+                    } 
+                }
+                else
+                {
+                    var allErrors = ModelState.Values.SelectMany(v => v.Errors);
+                }
+            }
+            catch (SqlException sx)
+            {
+                TempData["error"] = "Some error occured while connecting to database. Please check your network connection and try again.|" + sx.Message;
+            }
+            catch (NullReferenceException nx)
+            {
+                TempData["error"] = "Some required data was missing. Please try again.|" + nx.Message;
+            }
+            catch (Exception ex)
+            {
+                TempData["error"] = "Some error occured. Please try again.|" + ex.Message;
+            } 
+            FillAdditionDeduction();
+            FillCurrency();
+            return View("Create", model);
+
         }
         public void FillAdditionDeduction()
         {
@@ -143,7 +152,7 @@ namespace ArabErp.Web.Controllers
             FillBillRefNo();
             FillPBSupplier();
             return View();
-           
+
         }
 
         public ActionResult PurchaseBillListDatas(DateTime? from, DateTime? to, int id = 0, int supid = 0)
@@ -157,7 +166,7 @@ namespace ArabErp.Web.Controllers
         }
 
         [HttpGet]
-        public JsonResult GetDueDate(DateTime date,int supplierId)
+        public JsonResult GetDueDate(DateTime date, int supplierId)
         {
             //var res = (new PurchaseBillRepository()).GetCurrencyIdByCustKey(cusKey);
             DateTime duedate = (new PurchaseBillRepository()).GetDueDate(date, supplierId);
@@ -175,6 +184,7 @@ namespace ArabErp.Web.Controllers
                 {
                     PurchaseBill PurchaseBill = new PurchaseBill();
                     PurchaseBill = new PurchaseBillRepository().GetPurchaseBill(id);
+                    PurchaseBill.PurchaseBillAmount *= (decimal)1.00;
                     PurchaseBill.Items = new PurchaseBillItemRepository().GetPurchaseBillItem(id);
                     FillAdditionDeduction();
                     FillCurrency();
@@ -271,28 +281,28 @@ namespace ArabErp.Web.Controllers
 
             //else
             //{
-                var result2 = new PurchaseBillRepository().DeletePuchaseBillDT(Id);
-                var result3 = new PurchaseBillRepository().DeletePuchaseBillHD(Id, UserID.ToString());
+            var result2 = new PurchaseBillRepository().DeletePuchaseBillDT(Id);
+            var result3 = new PurchaseBillRepository().DeletePuchaseBillHD(Id, UserID.ToString());
 
-                if (Id > 0)
-                {
+            if (Id > 0)
+            {
 
-                    TempData["Success"] = "Deleted Successfully!";
-                    //return RedirectToAction("PreviousList");
-                    return RedirectToAction("PurchaseBillList");
-                }
+                TempData["Success"] = "Deleted Successfully!";
+                //return RedirectToAction("PreviousList");
+                return RedirectToAction("PurchaseBillList");
+            }
 
-                else
-                {
+            else
+            {
 
-                    TempData["error"] = "Oops!!..Something Went Wrong!!";
-                    TempData["SupplyOrderNo"] = null;
-                    return RedirectToAction("Edit", new { id = Id });
-                }
-
+                TempData["error"] = "Oops!!..Something Went Wrong!!";
+                TempData["SupplyOrderNo"] = null;
+                return RedirectToAction("Edit", new { id = Id });
             }
 
         }
 
     }
+
+}
 //}

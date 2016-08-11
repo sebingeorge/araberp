@@ -1,0 +1,101 @@
+﻿@*@model ArabErp.Domain.SaleOrder*@
+@*@model ArabErp.Web.Models.PagedSaleOrderViewModel*@
+
+@{
+    ViewBag.Title = "Pending Sale Orders for WorkShop Request";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<script>
+    $(document).ready(function () {
+
+        $('[data-toggle="popover"]').popover();
+
+        toastr.options = {
+            "closeButton": true,
+            "positionClass": "toast-bottom-full-width",
+            "preventDuplicates": false,
+            "onclick": null,
+            "showDuration": "300",
+            "hideDuration": "1000",
+            "timeOut": "5000",
+            "extendedTimeOut": "0",
+            "showEasing": "swing",
+            "hideEasing": "linear",
+            "showMethod": "fadeIn",
+            "hideMethod": "fadeOut"
+        }
+        if ('@TempData["success"]' != '') {
+            toastr.success('@TempData["success"]');
+        }
+        else if ('@TempData["error"]' != '') {
+            toastr.error('@TempData["error"]'.split('|')[0]);
+            console.log('@TempData["error"]'.split('|')[1]);
+        }
+        @{ TempData["success"] = TempData["error"] = ""; }
+    })
+    function PreviousList() {
+        var url = '@Url.Action("Index")';
+        window.location = url;
+    }
+
+    function Exit() {
+        var url = '@Url.Action("Index", "Home")';
+        window.location = url;
+    }
+
+    function Filter() {
+        $("#wr-pending").addClass("fade");
+        var saleOrder = $("#txtSaleOrder").val();
+        //saleOrder = saleOrder.replace(/ /g, '+');
+        var url = '@Url.Action("WorkShopRequestPending")';
+        url += "?saleOrder=" + encodeURIComponent(saleOrder);
+        $("#wr-pending").load(url, function () {
+            $("#wr-pending").removeClass("fade");
+        });
+    }
+</script>
+
+<div class="row">
+    <div class="form-head1">
+        <h4>Pending Sale Order for Workshop Request</h4>
+    </div>
+
+    <div class="main-part pad1">
+        <div class="row">
+            <div class="col-md-2">
+                <label for="txtSaleOrder">Sale Order No.</label>
+                <input class="form_input" onkeyup="Filter()" id="txtSaleOrder" placeholder="Search for Sale Order" />
+            </div>
+        </div>
+        <br />
+        <div class="row" id="wr-pending">
+            
+                @Html.Action("WorkShopRequestPending")
+
+        </div>
+
+
+        <div class="row">
+            <div class="col-md-12 hrpart">
+                <input class="form-button" type="button" value="Previous" onclick="PreviousList()" />
+                <input type="button" class="form-button right" value="Exit" onclick="Exit()" />
+            </div>
+        </div>
+
+    </div>
+
+
+</div>
+
+
+<script>
+    $(function () {
+        $('[data-toggle="tooltip"]').tooltip()
+    })
+</script>
+
+
+
+
+
+
