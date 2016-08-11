@@ -364,7 +364,8 @@ namespace ArabErp.Web.Controllers
         {
             var res = (new SaleOrderRepository()).GetCurrencyIdByCustKey(cusKey);
             string address = (new SaleOrderRepository()).GetCusomerAddressByKey(cusKey);
-            return Json(new { Success = true, CurrencyName = res.Name, CurrencyId = res.Id, Address = address }, JsonRequestBehavior.AllowGet);
+            string ContactPerson = (new SaleOrderRepository()).GetContactPerson(cusKey);
+            return Json(new { Success = true, CurrencyName = res.Name, CurrencyId = res.Id, Address = address, ContactPerson = ContactPerson }, JsonRequestBehavior.AllowGet);
         }
         [HttpGet]
         public JsonResult GetQuationDetailsByKey(int quoKey)
