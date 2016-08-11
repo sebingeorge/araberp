@@ -20,14 +20,14 @@
                         <table class="table table-bordered">
                             <thead>
                                 <tr class="grid_heading">
-                                    <th width="15%" nowrap><h1>GRN No. &amp; Date</h1></th>
-                                    <th width="15%" nowrap><h1>Supplier</h1></th>
-                                    <th width="15%" nowrap><h1>Supplier DC.No. &amp; Date</h1></th>
-                                    <th width="15%" nowrap><h1>Received By</h1></th>
+                                    <th width="12%" nowrap><h1>GRN No. &amp; Date</h1></th>
+                                    <th width="19%" nowrap><h1>Supplier</h1></th>
+                                    <th width="12%" nowrap><h1>Supplier DC.No. &amp; Date</h1></th>
+                                    <th width="12%" nowrap><h1>Received By</h1></th>
                                     <th width="15%" nowrap><h1>Warehouse/Stockpoint</h1></th>
-                                    <th width="1%" class="text-right" nowrap><h1>Grand Total</h1></th>
+                                    <th width="10%" class="text-right" nowrap><h1>Grand Total</h1></th>
                                     <th width="10%" nowrap><h1>Type</h1></th>
-                                    <th></th>
+                                    <th width="10%"><center>Edit</center></th>
                                 </tr>
                             </thead>
                             <tbody class="grid_row">
@@ -60,7 +60,7 @@
                                                     <input type="text" class="form_input" @(Model[i].isDirectPurchaseGRN ? "value = " + "DIRECT-GRN" : "value=GRN") disabled />
                                                 </td>
                                                 <td>
-                                                    <input type="button" class="form-button5" value="Edit" title="Click here to edit this entry" onclick="Edit(@Model[i].GRNId)" />
+                                                    <center><input type="button" class="form-button5" value="Edit" title="Click here to edit this entry" onclick="Edit(@Model[i].GRNId)" /></center>
                                                 </td>
                                             </tr>
                                         }

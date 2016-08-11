@@ -15,6 +15,7 @@ namespace ArabErp.Domain
         }
         public int SupplyOrderId { get; set; }
         [Required]
+        [Display(Name="Supply Order Date")]
         public DateTime SupplyOrderDate { get; set; }
         [Required]
         public int PurchaseRequestId { get; set; }

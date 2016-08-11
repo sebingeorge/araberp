@@ -88,6 +88,7 @@
                 if (result.Success) { // this sets the value from the response
                     $('#CurrencyId').val(result.CurrencyId);
                     $("#CustomerAddress").val(result.Address);
+                    $("#ContactPerson").val(result.ContactPerson);
                 } else {
                     $('#SomeOtherHtmlTextBox').val("Failed");
                 }
@@ -117,6 +118,7 @@
         else if ('@TempData["error"]' != "") {
             toastr.error('@TempData["error"]');
         }
+
         //bind keypress event for new row inputs.
         $(".numbers-only").keypress(function (e) {
             if (e.which == 8 || (e.which == 46 && $(this).val().indexOf('.') == -1) || (e.which > 47 && e.which < 58)) { } else { return false; }
@@ -399,7 +401,7 @@
                     <div class="col-md-6">
                         <label for="CustomerId">Customer</label>
                        
-                            @Html.DropDownListFor(m => Model.CustomerId, (SelectList)ViewBag.customerlist, "Select Customer", new { @class = "form_input", autocomplete = "off", @onchange = "CustomerChanged(this);" })
+                            @Html.DropDownListFor(m => Model.CustomerId, (SelectList)ViewBag.customerlist, "Select Customer", new { @class = "form_input", autocomplete = "off", @onchange = "CustomerChanged(this)" })
 
                     </div>
                     <div class="col-md-6">
@@ -412,7 +414,7 @@
                     <div class="col-md-6">
                         <label for="ContactPerson">Contact Person</label>
                      
-                            @Html.TextBoxFor(m => m.ContactPerson, new { @class = "form_input", autocomplete = "off" })
+                            @Html.TextBoxFor(m => m.ContactPerson, new { @class = "form_input", autocomplete = "off", @readonly = "readonly" })
                         
                     </div>
 
@@ -707,9 +709,9 @@
                                     <th width="5%" class="text-right"><span id="QtyTotal"></span></th>*@
                                 <th width="10%"></th>
                                 <th width="10%" class="text-right">
-                                    <h1>
-                                            
-                                        @Html.DropDownListFor(m => Model.CurrencyId, (SelectList)ViewBag.currlist, "Select Currency", new { @class = "form_input", autocomplete = "off" })
+                                    <h1 >
+                                       
+                                        @Html.DropDownListFor(m => m.CurrencyId, (SelectList)ViewBag.currlist, "Select Currency", new { @class = "form_input", autocomplete = "off" })
                                   </h1>
                                 </th>
                                 <th width="10%" class="text-right">

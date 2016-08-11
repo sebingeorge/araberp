@@ -53,9 +53,20 @@ namespace ArabErp.Web.Controllers
         [HttpPost]
         public ActionResult Create(SalesQuotation model)
         {
-            if(!ModelState.IsValid)
+            if (!ModelState.IsValid)
             {
-                var allErrors = ModelState.Values.SelectMany(v => v.Errors);                
+                var allErrors = ModelState.Values.SelectMany(v => v.Errors);
+
+                FillCustomer();
+                FillCurrency();
+                FillCommissionAgent();
+                FillWrkDesc();
+                FillVehicle();
+                FillUnit();
+                FillEmployee();
+                FillSalesQuotationRejectReason();
+                FillRateSettings();
+
                 return View(model);
             }
             model.OrganizationId = OrganizationId;
@@ -188,11 +199,15 @@ namespace ArabErp.Web.Controllers
             repo.ApproveSalesQuotation(model);
             if (model.isProjectBased == 0)
             {
+                TempData["Success"] = "Approved Successfully!";
+                TempData["QuotationRefNo"] = model.QuotationRefNo;
                 return RedirectToAction("ListSalesQuotations", new { ProjectBased = 0 });
             }
             else
             {
-                return RedirectToAction("ListSalesQuotationsProject");
+                TempData["Success"] = "Approved Successfully!";
+                TempData["QuotationRefNo"] = model.QuotationRefNo;
+                return RedirectToAction("ListSalesQuotations", new { ProjectBased = 1 });
             }
 
         }

@@ -167,7 +167,7 @@ namespace ArabErp.DAL
         {
             using (IDbConnection connection = OpenConnection(dataConnection))
             {
-                string sql = @"SELECT ItemId,PartNo,ItemName,CategoryName,ItemGroupName,ItemSubGroupName,UnitName FROM Item I
+                string sql = @" SELECT ItemId,PartNo,ItemName,CategoryName,ItemGroupName,ItemSubGroupName,UnitName FROM Item I
                                INNER JOIN ItemCategory ON itmCatId=ItemCategoryId
                                INNER JOIN ItemGroup G ON I.ItemGroupId=G.ItemGroupId
                                INNER JOIN ItemSubGroup S ON I.ItemSubGroupId=S.ItemSubGroupId

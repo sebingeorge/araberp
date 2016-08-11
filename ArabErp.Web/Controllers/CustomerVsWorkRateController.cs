@@ -69,11 +69,12 @@ namespace ArabErp.Web.Controllers
             FillCustomer();
             
 
-            //TempData["Success"] = "Added Successfully!";
             CustomerVsWorkDescriptionRate CustomerVsWorkDescriptionRate = new CustomerVsWorkDescriptionRate();
             CustomerVsWorkDescriptionRate.CustomerVsWorkRateItem = new List<CustomerVsWorkRateItem>();
             CustomerVsWorkDescriptionRate.CustomerVsWorkRateItem.Add(new CustomerVsWorkRateItem());
-            //return View("Create");
+
+            TempData["Success"] = "Updated Successfully!";
+            //TempData["CustomerId"] = model.CustomerId;
             return RedirectToAction("Create");
         }
 

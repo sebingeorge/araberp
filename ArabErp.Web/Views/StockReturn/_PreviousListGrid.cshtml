@@ -6,9 +6,9 @@
             <th width="2%" class="text-center"><h1>#</h1></th>
             <th width="15%" nowrap><h1>Stock Return Ref. No. &amp; Date</h1></th>
             <th width="15%" nowrap><h1>Job Card Ref. No. &amp; Date</h1></th>
-            <th width="50%" nowrap><h1>Materials/Spares</h1></th>
-            <th width="20%" nowrap><h1>Remarks</h1></th>
-            <th width="1%"></th>
+            <th width="33%" nowrap><h1>Materials/Spares</h1></th>
+            <th width="25%" nowrap><h1>Remarks</h1></th>
+            <th width="10%"><center><h1>Select</h1></center></th>
         </tr>
     </thead>
     <tbody class="grid_row">
@@ -34,7 +34,7 @@
                         @item.SpecialRemarks
                     </td>
                     <td>
-                        <input type="button" value="Select" onclick="OnItemSelected(@item.StockReturnId)" checked class="form-button4" />
+                        <center><input type="button" value="Select" onclick="OnItemSelected(@item.StockReturnId)" checked class="form-button4" /></center>
                     </td>
                 </tr>
             }

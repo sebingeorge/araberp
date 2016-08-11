@@ -250,10 +250,10 @@ namespace ArabErp.Web.Controllers
             return PartialView("_ItemCategoryDropdown");
         }
         public ActionResult ItemList(int? page, string name = "")
-        {
+        { 
             int itemsPerPage = 10;
             int pageNumber = page ?? 1;
-            return PartialView("_ItemListView", new ItemRepository().GetItems(name));
+            return PartialView("_ItemListView", new ItemRepository().GetItems(name.Trim()));
             //var repo = new ItemRepository();
             //var List = repo.GetItems();
             //return PartialView("_ItemListView",List);

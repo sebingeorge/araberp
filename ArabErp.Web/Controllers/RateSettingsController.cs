@@ -97,5 +97,11 @@ namespace ArabErp.Web.Controllers
 
             };
         }
+
+        public JsonResult GetCurrency()
+        {
+            Currency model = new CurrencyRepository().GetCurrencyFrmOrganization(OrganizationId);
+            return Json(new { CurrencyName = model.CurrencyName, SymbolName = model.SymbolName }, JsonRequestBehavior.AllowGet);
+        }
     }
 }
