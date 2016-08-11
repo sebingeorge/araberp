@@ -21,13 +21,14 @@
                             <thead>
                                 <tr class="grid_heading">
                                     <th width="12%" nowrap><h1>GRN No. &amp; Date</h1></th>
+                                    <th width="15%" nowrap><h1>Supply Order No.</h1></th>
                                     <th width="19%" nowrap><h1>Supplier</h1></th>
                                     <th width="12%" nowrap><h1>Supplier DC.No. &amp; Date</h1></th>
-                                    <th width="12%" nowrap><h1>Received By</h1></th>
-                                    <th width="15%" nowrap><h1>Warehouse/Stockpoint</h1></th>
-                                    <th width="10%" class="text-right" nowrap><h1>Grand Total</h1></th>
+                                    <th width="10%" nowrap><h1>Received By</h1></th>
+                                    <th width="12%" nowrap><h1>Warehouse/Stockpoint</h1></th>
+                                    <th width="5%" class="text-right" nowrap><h1>Grand Total</h1></th>
                                     <th width="10%" nowrap><h1>Type</h1></th>
-                                    <th width="10%"><center>Edit</center></th>
+                                    <th width="8%"><center>Edit</center></th>
                                 </tr>
                             </thead>
                             <tbody class="grid_row">
@@ -40,6 +41,9 @@
                                                 <td>
                                                     @Html.HiddenFor(m => m[i].GRNId)
                                                     <input type="text" class="form_input" value="@Model[i].GRNNo" disabled />
+                                                </td>
+                                                <td>
+                                                    <input type="text" class="form_input" value="@Model[i].SONODATE" disabled />
                                                 </td>
                                                 <td>
                                                     <input type="text" class="form_input" value="@Model[i].Supplier" disabled />
