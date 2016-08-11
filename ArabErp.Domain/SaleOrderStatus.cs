@@ -24,5 +24,6 @@ namespace ArabErp.Domain
         public string RegistrationNo { get; set; }
         public string VehicleModelName { get; set; }
         public string VehicleInpass { get; set; }
+        public string Allocation { get; set; }
     }
 }
