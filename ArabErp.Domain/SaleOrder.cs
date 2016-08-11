@@ -11,6 +11,7 @@ namespace ArabErp.Domain
     {
         public int SaleOrderId { get; set; }
         public string SaleOrderRefNo { get; set; }
+        [Required]
         public DateTime SaleOrderDate { get; set; }
         public int? SalesQuotationId { get; set; }
         public string QuotationNoDate { get; set; }
@@ -33,12 +34,13 @@ namespace ArabErp.Domain
         public float? CommissionPerc { get; set; }
         [Required]
         public int SalesExecutiveId { get; set; }
+        [Required]
         [ValidateDateGreaterThan("SaleOrderDate")]
         public DateTime EDateArrival { get; set; }
         [Required]
         [ValidateDateGreaterThan("SaleOrderDate")]
         public DateTime EDateDelivery { get; set; }
-        [Required]
+        
         public string CreatedBy { get; set; }
         public DateTime? CreatedDate { get; set; }
         public int? OrganizationId { get; set; }

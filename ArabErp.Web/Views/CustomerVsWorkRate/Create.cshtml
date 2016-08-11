@@ -36,7 +36,7 @@
         "hideMethod": "fadeOut"
     }
     if ('@TempData["success"]' != "" && '@TempData["CustomerId"]' != "") {
-        toastr.success('@TempData["success"]' + '  Rate Setting - Customer Wise is Updated : ' + '@TempData["CustomerId"]');
+        toastr.success('@TempData["success"]' + '  Rate Setting - Customer Wise is Updated : ');
     }
     else if ('@TempData["error"]' != "") {
         toastr.error('@TempData["error"]');
@@ -83,7 +83,7 @@
 
                             <div class="col-md-12 hrpart">
                                 <button type="button" class="form-button right" onclick="Exit();">Exit</button>
-                                <button type="submit" class="form-button right">Save</button>
+                                <button type="submit" class="form-button right">Update</button>
                             </div>
 
                         </div>
