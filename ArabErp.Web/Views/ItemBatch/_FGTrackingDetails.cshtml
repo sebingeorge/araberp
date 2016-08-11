@@ -27,7 +27,18 @@
                             @Model.WarrantyExpireDate.ToString("dd MMMM yyyy")
                         </td>
                         <td>
-                            @Model.WarrantyLeft
+                            @if (Model.WarrantyLeft == 0)
+                            {
+                                @: <span class="perm">Ends this month</span>
+                            }
+                            else if (Model.WarrantyLeft < 0)
+                            {
+                                @: <span class="perm">Warranty ended @Model.WarrantyLeft month(s) ago</span>
+                            }
+                            else
+                            {
+                                @Model.WarrantyLeft @: months left
+                            }
                         </td>
                     }
                     else
@@ -38,6 +49,7 @@
                 </tr>
             </tbody>
         </table>
+        <br />
 
         <!--SALES INVOICE-->
         <table class="table table-bordered table-responsive">
@@ -71,6 +83,7 @@
                 </tr>
             </tbody>
         </table>
+        <br />
 
         <!--JOB CARD-->
         <table class="table table-bordered table-responsive">
@@ -114,6 +127,7 @@
                 }
             </tbody>
         </table>
+        <br />
 
         <!--PURCHASE BILL-->
         <table class="table table-bordered table-responsive">
@@ -158,6 +172,7 @@
                 }
             </tbody>
         </table>
+        <br />
 
         <!--GRN-->
         <table class="table table-bordered table-responsive">
@@ -203,6 +218,7 @@
                 </tr>
             </tbody>
         </table>
+        <br />
 
         <!--SALE ORDER-->
         <table class="table table-bordered table-responsive">
