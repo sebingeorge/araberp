@@ -88,6 +88,7 @@
                 if (result.Success) { // this sets the value from the response
                     $('#CurrencyId').val(result.CurrencyId);
                     $("#CustomerAddress").val(result.Address);
+                    $("#ContactPerson").val(result.ContactPerson);
                 } else {
                     $('#SomeOtherHtmlTextBox').val("Failed");
                 }
@@ -412,7 +413,7 @@
                     <div class="col-md-6">
                         <label for="ContactPerson">Contact Person</label>
                      
-                            @Html.TextBoxFor(m => m.ContactPerson, new { @class = "form_input", autocomplete = "off" })
+                            @Html.TextBoxFor(m => m.ContactPerson, new { @class = "form_input", autocomplete = "off", @readonly = "readonly" })
                         
                     </div>
 
