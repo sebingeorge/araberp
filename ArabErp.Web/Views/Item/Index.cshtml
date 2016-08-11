@@ -43,7 +43,9 @@
         $(grid).addClass("fade");
         var url = '@Url.Action("ItemList")';
         var name = $("#txtName").val();
+        name = name.replace(/ /g, "+");
         url += "?name=" + name;
+        //alert(url);
         $("#grid").load(url, function () {
             $(grid).removeClass("fade");
         });

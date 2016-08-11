@@ -50,9 +50,12 @@ namespace ArabErp.DAL
                         }
                         #endregion
 
-                        string sql = @"
-                                        insert  into SalesQuotation(QuotationRefNo,QuotationDate,CustomerId,ContactPerson,SalesExecutiveId,PredictedClosingDate,QuotationValidToDate,ExpectedDeliveryDate,IsQuotationApproved,ApprovedBy,Amount,QuotationStatus,Remarks,SalesQuotationRejectReasonId,QuotationRejectReason,Competitors,PaymentTerms,DiscountRemarks,CreatedBy,CreatedDate,OrganizationId,isProjectBased,QuerySheetId)
-                                        Values (@QuotationRefNo,@QuotationDate,@CustomerId,@ContactPerson,@SalesExecutiveId,@PredictedClosingDate,@QuotationValidToDate,@ExpectedDeliveryDate,@IsQuotationApproved,@ApprovedBy,@Amount,@QuotationStatus,@Remarks,@SalesQuotationRejectReasonId,@QuotationRejectReason,@Competitors,@PaymentTerms,@DiscountRemarks,@CreatedBy,@CreatedDate,@OrganizationId,@isProjectBased,@QuerySheetId);
+                        string sql = @" insert  into SalesQuotation(QuotationRefNo,QuotationDate,CustomerId,ContactPerson,SalesExecutiveId,PredictedClosingDate,
+                                        QuotationValidToDate,ExpectedDeliveryDate,IsQuotationApproved,ApprovedBy,Amount,CurrencyId,QuotationStatus,Remarks,SalesQuotationRejectReasonId,
+                                        QuotationRejectReason,Competitors,PaymentTerms,DiscountRemarks,CreatedBy,CreatedDate,OrganizationId,isProjectBased,QuerySheetId)
+                                        Values (@QuotationRefNo,@QuotationDate,@CustomerId,@ContactPerson,@SalesExecutiveId,@PredictedClosingDate,@QuotationValidToDate,
+                                        @ExpectedDeliveryDate,@IsQuotationApproved,@ApprovedBy,@Amount,@CurrencyId,@QuotationStatus,@Remarks,@SalesQuotationRejectReasonId,
+                                        @QuotationRejectReason,@Competitors,@PaymentTerms,@DiscountRemarks,@CreatedBy,@CreatedDate,@OrganizationId,@isProjectBased,@QuerySheetId);
                                         SELECT CAST(SCOPE_IDENTITY() as int) SalesQuotationId";
 
                         model.SalesQuotationId = connection.Query<int>(sql, model, trn).First<int>();
