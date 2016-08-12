@@ -72,10 +72,15 @@ namespace ArabErp.Web.Controllers
             }
             try
             {
-                new ItemBatchRepository().InsertItemBatch(model, UserID.ToString());
-                TempData["success"] = "Saved successfully";
-                TempData["error"] = "";
-                return RedirectToAction("Pending");
+                string existingSerialNos = new ItemBatchRepository().IsSerialNoExists(model.Select(m => m.SerialNo).ToList());
+                if (existingSerialNos == null)
+                {
+                    new ItemBatchRepository().InsertItemBatch(model, UserID.ToString());
+                    TempData["success"] = "Saved successfully";
+                    TempData["error"] = "";
+                    return RedirectToAction("Pending");
+                }
+                TempData["error"] = existingSerialNos + " already exists.";
             }
             catch (Exception ex)
             {

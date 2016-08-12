@@ -50,7 +50,7 @@
             <div class="row">
                 <div class="main-grid main-grid-top scroll1">
                     <div class="table-responsive">
-                        <table class="table table-bordered">
+                        <table class="table table-bordered table-hover">
                             <thead>
                                 <tr class="grid_heading">
                                     <th class="text-center" width="2%">#</th>
@@ -60,7 +60,7 @@
                                     <th width="20%"><h1>Supplier</h1></th>
                                     <th nowrap width="10%"><h1>Warehouse/Stockpoint</h1></th>
                                     <th width="5%" nowrap><h1>Ageing</h1></th>
-                                    <th width="5%" nowrap><h1>Type</h1></th>
+                                    <th width="7%" nowrap><h1>Type</h1></th>
                                     <th width="10%"><center><h1>Select</h1></center></th>
                                 </tr>
                             </thead>
@@ -71,35 +71,35 @@
                                         for (int i = 0; i < Model.Count; i++)
                                         {
                                             <tr>
-                                                <td>
-                                                    <input type="text" value="@(i + 1)" style="width:25px" class="form_input text-center" disabled />
+                                                <td align="center">
+                                                    @*<input type="text" value="*@@(i + 1)@*" style="width:25px" class="form_input text-center" disabled />*@
                                                 </td>
                                                 <td>
-                                                    <input type="text" value="@Model[i].GRNNo - @Model[i].GRNDate.ToString("dd MMMM yyyy")" class="form_input" disabled />
+                                                    @*<input type="text" value="*@@Model[i].GRNNo - @Model[i].GRNDate.ToString("dd MMMM yyyy")@*" class="form_input" disabled />*@
                                                 </td>
                                                 <td>
-                                                    <input type="text" value="@Model[i].ItemName" class="form_input" disabled />
+                                                    @*<input type="text" value="*@@Model[i].ItemName@*" class="form_input" disabled />*@
                                                 </td>
                                                 <td>
-                                                    <input type="text" value="@Model[i].Quantity" class="form_input text-right" disabled />
+                                                    @*<input type="text" value="*@@Model[i].Quantity@*" class="form_input text-right" disabled />*@
                                                 </td>
                                                 @*<td>
                                                     <input type="text" value="@Model[i].Remarks" class="form_input" disabled />
                                                 </td>*@
                                                 <td>
-                                                    <input type="text" value="@Model[i].SupplierName" class="form_input" disabled />
+                                                    @*<input type="text" value="*@@Model[i].SupplierName@*" class="form_input" disabled />*@
                                                 </td>
                                                 <td>
-                                                    <input type="text" value="@Model[i].StockPointName" class="form_input" disabled />
+                                                    @*<input type="text" value="*@@Model[i].StockPointName@*" class="form_input" disabled />*@
                                                 </td>
                                                 <td>
-                                                    <input type="text" value="@Model[i].Ageing" class="form_input" disabled />
+                                                    @*<input type="text" value="*@@Model[i].Ageing@*" class="form_input" disabled />*@
+                                                </td>
+                                                <td nowrap>
+                                                    @*<input type="text" value="*@@Model[i].isDirect@*" class="form_input" disabled />*@
                                                 </td>
                                                 <td>
-                                                    <input type="text" value="@Model[i].isDirect" class="form_input" disabled />
-                                                </td>
-                                                <td>
-                                                    <center><input type="button" class="form-button4" value="Select" title="Select this item to assigning serial number" onclick="OnItemSelected('@Model[i].GRNItemId')" /></center>
+                                                    <center><input type="button" class="form-button4" value="Select" title="Select this item to assign serial number" onclick="OnItemSelected('@Model[i].GRNItemId')" /></center>
                                                 </td>
                                             </tr>
                                         }
