@@ -20,12 +20,12 @@
             TotAssAmt = TotAssAmt + AssAmt;
             TotAmt = TotAmt + Amt;
 
-            $("#TotalAmount").text(TotAmt);
-            $("#TotalAssAmount").text(TotAssAmt);
+            $("#TotalAmount").text(TotAmt.toFixed(2));
+            $("#TotalAssAmount").text(TotAssAmt.toFixed(2));
          
         });
       
-        $("#PurchaseBillAmount").val(TotAmt)
+        $("#PurchaseBillAmount").val(TotAmt.toFixed(2))
               
 
     });
@@ -58,9 +58,9 @@
 
         var totalamount = amount + TaxAmount;
      
-        $("#Items_" + row + "__Amount").val(amount);
-        $("#Items_" + row + "__TaxAmount").val(TaxAmount);
-        $("#Items_" + row + "__TotAmount").val(totalamount);
+        $("#Items_" + row + "__Amount").val(amount.toFixed(2));
+        $("#Items_" + row + "__TaxAmount").val(TaxAmount.toFixed(2));
+        $("#Items_" + row + "__TotAmount").val(totalamount.toFixed(2));
 
         calculateSummary();
 
@@ -87,14 +87,14 @@
             TotAssAmt = TotAssAmt + AssAmt;
             TotAmt = TotAmt + Amt;
 
-            $("#TotalAmount").text(TotAmt);
-            $("#TotalAssAmount").text(TotAssAmt);
+            $("#TotalAmount").text(TotAmt.toFixed(2));
+            $("#TotalAssAmount").text(TotAssAmt.toFixed(2));
         });
     }
 </script>
 <div class="tab_logic">
 
-    <table class="table table-bordered table-hover" id="tab_logic">
+    <table class="table table-bordered" id="tab_logic">
         <thead>
             <tr class="grid_heading">
 

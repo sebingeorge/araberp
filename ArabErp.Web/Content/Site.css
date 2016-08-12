@@ -1116,5 +1116,7 @@ section.content {
     font-size:small;
 }
 
-
+.fade{
+    opacity: 0.6
+}
 

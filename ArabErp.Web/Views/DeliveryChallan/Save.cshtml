@@ -24,7 +24,7 @@
         @{ TempData["success"] = TempData["error"] = ""; }
         //------------------------------------------------------//
 
-        $("#DeliveryChallanDate").datepicker({ dateFormat: "dd MM yy" });
+        //$("#DeliveryChallanDate").datepicker({ dateFormat: "dd-MM-yy" });
     });
     $(document).ready(function () {
         $.getJSON('@Url.Action("GetJobCardDetails")', { id: '@Model.JobCardId' },
@@ -36,6 +36,8 @@
                 $("#txtCustomer").val(data.CustomerName);
                 $("#txtRegNo").val(data.RegistrationNo);
             });
+
+        $("#DeliveryChallanRefNo").tooltip();
     });
 
     function formValidation() {
@@ -54,134 +56,134 @@
 </script>
 
 
-    <div class="row">
-        <div class="form-head1">
-            <h4>Create Delivery Challan</h4>
-        </div>
-        <div class="main-part pad1">
+<div class="row">
+    <div class="form-head1">
+        <h4>Create Delivery Challan</h4>
+    </div>
+    <div class="main-part pad1">
 
-            @using (Html.BeginForm("Save", null, FormMethod.Post, new { @class = "createFrom", onsubmit = "return formValidation()", @id = "vehicle-inpass-form" }))
-            {
-                <div class="row form-group">
-                    <div class="col-md-2">
-                        <label>Delivery Challan Ref. No.</label>
-                        @Html.HiddenFor(m => m.JobCardId)
-                        @Html.TextBoxFor(m => m.DeliveryChallanRefNo, new { @class = "form_input", autocomplete = "off", @readonly = "true" })
-                    </div>
-                    <div class="col-md-2">
-                        <label>Challan Date</label>
-                        @Html.TextBoxFor(m => m.DeliveryChallanDate, Model.DeliveryChallanDate.ToString("dd MMMM yyyy"), new { @class = "form_input ", autocomplete = "off", @required = "true" })
-                        @*@Html.TextBoxFor(m => m.DeliveryChallanDate, new { @class = "form_input", @type = "date" })*@
-                    </div>
+        @using (Html.BeginForm("Save", null, FormMethod.Post, new { @class = "createFrom", onsubmit = "return formValidation()", @id = "vehicle-inpass-form" }))
+        {
+            <div class="row form-group">
+                <div class="col-md-2">
+                    <label>Delivery Challan Ref. No.</label>
+                    @Html.HiddenFor(m => m.JobCardId)
+                    @Html.TextBoxFor(m => m.DeliveryChallanRefNo, new { @class = "form_input", autocomplete = "off", @readonly = "true", @title = "This number may change after saving" })
                 </div>
-                <div class="row form-group">
-                    <div class="col-md-5">
-                        <label>Customer</label>
-                        <input type="text" class="form_input" id="txtCustomer" readonly />
-                    </div>
-                    <div class="col-md-2" title="Sale Order Ref. No. and Date">
-                        <label>SO. No. &amp; Date</label>
-                        <input type="text" class="form_input" id="txtSONoDate" readonly />
-                    </div>
-                    <div class="col-md-2" title="Job Card Ref. No. and Date">
-                        <label>JC. No. &amp; Date</label>
-                        <input type="text" class="form_input" id="txtJCNoDate" readonly />
-                    </div>
-                    <div class="col-md-3">
-                        <label>Chasis No./Reg No.</label>
-                        <input type="text" class="form_input" id="txtRegNo" readonly />
-                    </div>
-
+                <div class="col-md-2">
+                    <label>Challan Date</label>
+                    @Html.TextBoxFor(m => m.DeliveryChallanDate, Model.DeliveryChallanDate.ToString("dd-MMMM-yyyy"), new { @class = "form_input ", autocomplete = "off", @required = "true", @readonly = "true" })
+                    @*@Html.TextBoxFor(m => m.DeliveryChallanDate, new { @class = "form_input", @type = "date" })*@
+                </div>
+            </div>
+            <div class="row form-group">
+                <div class="col-md-5">
+                    <label>Customer</label>
+                    <input type="text" class="form_input" id="txtCustomer" readonly />
+                </div>
+                <div class="col-md-2" title="Sale Order Ref. No. and Date">
+                    <label>SO. No. &amp; Date</label>
+                    <input type="text" class="form_input" id="txtSONoDate" readonly />
+                </div>
+                <div class="col-md-2" title="Job Card Ref. No. and Date">
+                    <label>JC. No. &amp; Date</label>
+                    <input type="text" class="form_input" id="txtJCNoDate" readonly />
+                </div>
+                <div class="col-md-3">
+                    <label>Chasis No./Reg No.</label>
+                    <input type="text" class="form_input" id="txtRegNo" readonly />
                 </div>
 
-                <div class="row form-group">
+            </div>
 
-                    <div class="col-md-12">
-                        <label>Work Description</label>
-                        <textarea class="form_input form_input-h1" id="txtWork" readonly ></textarea>
-                    </div>
+            <div class="row form-group">
+
+                <div class="col-md-12">
+                    <label>Work Description</label>
+                    <textarea class="form_input form_input-h1" id="txtWork" readonly></textarea>
                 </div>
-                <div class="row form-group">
+            </div>
+            <div class="row form-group">
 
-                    <div class="col-md-4">
-                        <label>Vehicle Model</label>
-                        <input type="text" class="form_input" id="txtVehicleModel" readonly />
-                    </div>
-                    <div class="col-md-3">
-                        <label>Employee</label>
-                        @Html.DropDownListFor(m => m.EmployeeId, (SelectList)ViewBag.employeeList, "Select Employee", new { @class = "form_input", @required = "true" })
-                    </div>
+                <div class="col-md-4">
+                    <label>Vehicle Model</label>
+                    <input type="text" class="form_input" id="txtVehicleModel" readonly />
                 </div>
+                <div class="col-md-3">
+                    <label>Employee</label>
+                    @Html.DropDownListFor(m => m.EmployeeId, (SelectList)ViewBag.employeeList, "Select Employee", new { @class = "form_input", @required = "true" })
+                </div>
+            </div>
 
 
-                <div class="table-responsive scroll4">
-                    <table class="table table-bordered">
-                        <thead>
-                            <tr class="grid_heading">
-                                <th width="5%" class="text-center">#</th>
-                                <th width="30%"><h1>Serial Number</h1></th>
-                                <th width="30%"><h1>Item</h1></th>
-                                <th width="10%" nowrap><h1>Warranty Period (in months)</h1></th>
-                            </tr>
-                        </thead>
-                        <tbody class="grid_row">
-                            @if (Model.ItemBatches.Count > 0)
+            <div class="table-responsive scroll4">
+                <table class="table table-bordered">
+                    <thead>
+                        <tr class="grid_heading">
+                            <th width="5%" class="text-center">#</th>
+                            <th width="30%"><h1>Serial Number</h1></th>
+                            <th width="30%"><h1>Item</h1></th>
+                            <th width="10%" nowrap><h1>Warranty Period (in months)</h1></th>
+                        </tr>
+                    </thead>
+                    <tbody class="grid_row">
+                        @if (Model.ItemBatches.Count > 0)
+                        {
+                            foreach (var item in Model.ItemBatches)
                             {
-                                foreach (var item in Model.ItemBatches)
-                                {
-                                    int i = 0;
-                                    <tr>
-                                        <td>
-                                            @Html.HiddenFor(m => m.ItemBatches[i].ItemBatchId)
-                                            <input class="form_input" value="@(i+1)" disabled />
-                                        </td>
-                                        <td>
-                                            @Html.TextBoxFor(m => m.ItemBatches[i].SerialNo, new { @class = "form_input", @disabled = "true" })
-                                        </td>
-                                        <td>
-                                            @Html.TextBoxFor(m => m.ItemBatches[i].ItemName, new { @class = "form_input", @disabled = "true" })
-                                        </td>
-                                        <td>
-                                            @Html.TextBoxFor(m => m.ItemBatches[i].WarrantyPeriodInMonths, new { @class = "form_input", @required = "true" })
-                                        </td>
-                                    </tr>
-                                    i++;
-                                }
-                            }
-                            else
-                            {
+                                int i = 0;
                                 <tr>
-                                    <td colspan="4">
-                                        <center>
-                                            <em>
-                                                There are no reserved items found for this Job Card!
-                                            </em>
-                                        </center>
+                                    <td align="center">
+                                        @Html.HiddenFor(m => m.ItemBatches[i].ItemBatchId)
+                                        <input class="form_input" value="@(i+1)" disabled />
+                                    </td>
+                                    <td>
+                                        @Html.TextBoxFor(m => m.ItemBatches[i].SerialNo, new { @class = "form_input", @disabled = "true" })
+                                    </td>
+                                    <td>
+                                        @Html.TextBoxFor(m => m.ItemBatches[i].ItemName, new { @class = "form_input", @disabled = "true" })
+                                    </td>
+                                    <td>
+                                        @Html.TextBoxFor(m => m.ItemBatches[i].WarrantyPeriodInMonths, new { @class = "form_input", @required = "true" })
                                     </td>
                                 </tr>
+                                i++;
                             }
-                        </tbody>
-                    </table>
+                        }
+                        else
+                        {
+                            <tr>
+                                <td colspan="4">
+                                    <center>
+                                        <em>
+                                            There are no reserved items found for this Job Card!
+                                        </em>
+                                    </center>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+
+
+            <div class="row form-group">
+                <div class="col-md-12">
+                    <label>Special Remarks</label>
+                    @Html.TextAreaFor(m => m.Remarks, new { @class = "form_input form_input-h" })
                 </div>
+            </div>
 
 
-                <div class="row form-group">
-                    <div class="col-md-12">
-                        <label>Special Remarks</label>
-                        @Html.TextAreaFor(m => m.Remarks, new { @class = "form_input form_input-h" })
-                    </div>
+            <div class="row">
+                <div class="col-md-12 col-md hrpart">
+                    <input class="form-button right" type="button" value="Exit" onclick="Back()" />
+                    <input class="form-button right" type="submit" value="Save" />
+                    @*<input class="form-button left" type="button" value="Back" onclick="Back()" />*@
                 </div>
+            </div>
+        }
 
-
-                <div class="row">
-                    <div class="col-md-12 col-md hrpart">
-                        <input class="form-button right" type="button" value="Exit" onclick="Exit()" />
-                        <input class="form-button right" type="submit" value="Save" />
-                        <input class="form-button left" type="button" value="Back" onclick="Back()" />
-                    </div>
-                </div>
-            }
-
-        </div>
     </div>
+</div>
 

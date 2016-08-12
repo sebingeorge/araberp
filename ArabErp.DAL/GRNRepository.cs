@@ -143,24 +143,35 @@ namespace ArabErp.DAL
         {
             using (IDbConnection connection = OpenConnection(dataConnection))
             {
-                string query = @"SELECT 
-	                                GRNId,
-	                                GRNNo+' - '+CONVERT(VARCHAR, GRNDate, 106) GRNNo,
-	                                ISNULL(S.SupplierName, '-') Supplier,
-	                                ISNULL(SupplierDCNoAndDate, '-') SupplierDCNoAndDate,
-	                                EMP.EmployeeName ReceivedByName,
-	                                ST.StockPointName,
-	                                ISNULL(G.GrandTotal, 0.00) GrandTotal,
-	                                G.isDirectPurchaseGRN
-                                FROM GRN G INNER JOIN Supplier S ON S.SupplierId=G.SupplierId
+              string query = @" SELECT Distinct
+                                G.GRNId,GRNNo+' - '+CONVERT(VARCHAR, GRNDate, 106) GRNNo,
+                                STUFF((SELECT Distinct ', ' + CAST(SO.SupplyOrderNo AS VARCHAR(MAX)) [text()]
+                                FROM GRNItem GT1 
+							    INNER  JOIN SupplyOrderItem SOT ON SOT.SupplyOrderItemId =GT1.SupplyOrderItemId
+							    INNER  JOIN SupplyOrder SO on SO.SupplyOrderId=SOT.SupplyOrderId
+                                WHERE GT1.GRNId = GT.GRNId
+                                FOR XML PATH(''), TYPE).value('.','NVARCHAR(MAX)'),1,2,' ') SONoDATE,
+
+                                ISNULL(S.SupplierName, '-') Supplier,
+                                ISNULL(SupplierDCNoAndDate, '-') SupplierDCNoAndDate,
+                                EMP.EmployeeName ReceivedByName,
+                                ST.StockPointName,
+                                ISNULL(G.GrandTotal, 0.00) GrandTotal,
+                                G.isDirectPurchaseGRN
+                                FROM GRN G 
+                                INNER JOIN GRNItem GT ON GT.GRNId=G.GRNId
+                                INNER JOIN Supplier S ON S.SupplierId=G.SupplierId
                                 INNER JOIN Employee EMP ON G.ReceivedBy = EMP.EmployeeId
                                 INNER JOIN Stockpoint ST ON G.WareHouseId = ST.StockPointId
+
                                 WHERE ISNULL(G.isActive, 1) = 1
-                                ORDER BY GRNDate DESC, G.CreatedDate DESC;";
+                                GROUP BY G.GRNId,G.GRNNo,G.GRNDate,S.SupplierName,G.SupplierDCNoAndDate,
+                                EMP.EmployeeName ,ST.StockPointName,G.GrandTotal,G.CreatedDate,
+                                G.isDirectPurchaseGRN,GT.SupplyOrderItemId,GT.GRNId;";
                 return connection.Query<GRN>(query);
             }
         }
-
+            
         public List<GRN> GetGRNs()
         {
             using (IDbConnection connection = OpenConnection(dataConnection))

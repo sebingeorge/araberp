@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.ComponentModel.DataAnnotations;
 
 namespace ArabErp.Domain
 {
@@ -16,6 +17,8 @@ namespace ArabErp.Domain
         public string PurchaseRequestNo { get; set; }
         public DateTime? PurchaseRequestDate { get; set; }
         public string SpecialRemarks { get; set; }
+        [Required]
+        [ValidateDateGreaterThan("PurchaseRequestDate")]
         public DateTime? RequiredDate { get; set; }
         public string CreatedBy { get; set; }
         public DateTime? CreatedDate { get; set; }

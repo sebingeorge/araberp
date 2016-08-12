@@ -53,23 +53,27 @@ namespace ArabErp.Web.Controllers
             model.RequiredDate = System.DateTime.Today;
             return View(model);
         }
-        public ActionResult WorkShopRequestPending(int? page)
+        public ActionResult Pending()
+        {
+            return View();
+        }
+        public ActionResult WorkShopRequestPending(string saleOrder="")
         {
 
             var rep = new SaleOrderRepository();
 
 
-            var slist = rep.GetSaleOrdersPendingWorkshopRequest(OrganizationId);
+            var slist = rep.GetSaleOrdersPendingWorkshopRequest(OrganizationId, saleOrder.Trim());
 
-            var pager = new Pager(slist.Count(), page);
+            //var pager = new Pager(slist.Count(), page);
 
-            var viewModel = new PagedSaleOrderViewModel
-            {
-                SaleOrders = slist.Skip((pager.CurrentPage - 1) * pager.PageSize).Take(pager.PageSize),
-                Pager = pager
-            };
+            //var viewModel = new PagedSaleOrderViewModel
+            //{
+            //    SaleOrders = slist.Skip((pager.CurrentPage - 1) * pager.PageSize).Take(pager.PageSize),
+            //    Pager = pager
+            //};
 
-            return View(viewModel);
+            return PartialView("_PendingGrid", slist);
         }
         [HttpPost]
         public ActionResult Save(WorkShopRequest model)

@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using System.ComponentModel.DataAnnotations;
 namespace ArabErp.Domain
 {
-   public class PurchaseBill
+    public class PurchaseBill
     {
         //public PurchaseBill()
         //{
@@ -17,9 +17,14 @@ namespace ArabErp.Domain
         public string PurchaseBillRefNo { get; set; }
         public int SupplierId { get; set; }
         public string Supplier { get; set; }
+        [Required]
+        [Display(Name = "Purchase Bill Date")]
         public DateTime PurchaseBillDate { get; set; }
         [Required]
         public string PurchaseBillNoDate { get; set; }
+        [Required]
+        [ValidateDateGreaterThan("PurchaseBillDate")]
+        [Display(Name = "Due Date")]
         public DateTime PurchaseBillDueDate { get; set; }
         public int? CurrencyId { get; set; }
         public string Remarks { get; set; }

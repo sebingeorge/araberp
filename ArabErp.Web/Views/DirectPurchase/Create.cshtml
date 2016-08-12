@@ -137,10 +137,14 @@
 
         //status = isAlreadyExist(status);
 
+    
         var total = 0;
         var limit = $("#purchaseLimit").val();
 
-        if (limit == -1) {
+        if
+            (limit == -1)
+
+        {
             toastr.error("Couldn't fetch the purchase limit. Please reload the page and try again.");
             return false;
         }
@@ -199,12 +203,12 @@
         <div class="main-part pad1">
             @*@using (Html.BeginForm(null, null, FormMethod.Post, new { @class = "createFrom", @id = "purchasereq_form", @onsubmit = "return formValidation()" }))
                 {*@
-            <form role="form" onsubmit="return formValidation()">
+            <form role="form" onsubmit="return formValidation()" method="Post">
                 <input type="hidden" id="purchaseLimit" />
                 <div class="row form-group">
                     <div class="col-md-2">
                         <label for="PurchaseRequestNo">PR No.</label>
-                        @Html.TextBoxFor(m => m.PurchaseRequestNo, new { @class = "form_input", autocomplete = "off", @onchange = "OnRequestDateChanged(this)", @required="true" })
+                        @Html.TextBoxFor(m => m.PurchaseRequestNo, new { @class = "form_input", autocomplete = "off", @onchange = "OnRequestDateChanged(this)", @required = "true", @readonly = "readonly" })
                     </div>
                     <div class="col-md-2">
                         <label for="PurchaseRequestDate">Date</label>
@@ -213,6 +217,7 @@
                     <div class="col-md-2">
                         <label for="RequiredDate">Required Date</label>
                         @Html.TextBoxFor(m => m.RequiredDate, Model.RequiredDate.Value.ToString("dd/MMMM/yyyy"), new { @class = "form_input", autocomplete = "off" })
+                        @*@Html.ValidationMessageFor(m=> m.RequiredDate)*@
                     </div>
                     <div class="col-md-2">
                         <label>Sale Ord. / Job Card</label>
