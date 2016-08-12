@@ -55,92 +55,92 @@
 </script>
 
 
-    <div class="row">
+<div class="row">
 
-        <div class="form-head1">
-            <h4>Unreserve Item</h4>
-        </div>
-
-        <div class="main-part pad1">
-            @using (Html.BeginForm(null, null, FormMethod.Post, new { @class = "createFrom", @id = "unreserving-form", @onsubmit = "return formValidation()" }))
-            {
-                <div class="row form-group">
-                    <div class="col-md-3">
-                        <label for="txtGRNRefNo">GRN Ref. No. &amp; Date</label>
-                        <input type="text" class="form_input" id="txtGRNRefNo" disabled />
-                    </div>
-                    <div class="col-md-3">
-                        <label for="txtSORefNo" title="Sale Order Reference No & Date">SO Ref. No. &amp; Date</label>
-                        <input type="text" class="form_input" id="txtSORefNo" disabled />
-                    </div>
-                    <div class="col-md-5">
-                        <label for="txtWDRefNo" title="Work Descr. Reference No & Short Name">WD Ref. No. &amp; Short Name</label>
-                        <input type="text" class="form_input" id="txtWDRefNo" disabled />
-                    </div>
-                </div>
-                            <div class="row">
-                <div class="main-grid main-grid-top scroll1">
-                <div class="table-responsive">
-                    <table class="table table-bordered">
-                        <thead>
-                            <tr class="grid_heading">
-                                <th width="2%" class="text-center">#</th>
-                                <th width="60%"><h1>Item Name</h1></th>
-                                <th width="33%"><h1>Serial Number</h1></th>
-                                <th width="5%" title="Selected items will be unreserved"><h1>Select</h1></th>
-                            </tr>
-                        </thead>
-                        <tbody class="grid_row">
-                            @if (Model.Count > 0)
-                            {
-                                for (int i = 0; i < Model.Count; i++)
-                                {
-                                    <tr>
-                                        <td>
-                                            @Html.HiddenFor(m => m[i].ItemBatchId)
-
-                                            <input type="text" value="@(i + 1)" style="width:100%" class="form_input text-center" disabled />
-                                        </td>
-                                        <td>
-                                            @Html.TextBoxFor(m => m[i].ItemName, new { @class = "form_input", autocomplete = "off", @readonly = "readonly" })
-                                        </td>
-
-                                        <td>
-                                            @Html.TextBoxFor(m => m[i].SerialNo, new { @class = "form_input", autocomplete = "off", @readonly = "readonly" })
-                                        </td>
-                                        <td>
-                                            @Html.CheckBoxFor(m => m[i].isSelected, new { @class = "form_input", autocomplete = "off", @readonly = "readonly", @title = "Select to unreserve this item" })
-                                        </td>
-
-                                    </tr>
-                                }
-                            }
-                            else
-                            {
-                                <tr>
-                                    <td colspan="4">
-                                        <center>
-                                            <em>
-                                                Sorry, we couldn't find any item with a serial number. Please assign serial numbers and it will show up here.
-                                            </em>
-                                        </center>
-                                    </td>
-                                </tr>
-                            }
-                        </tbody>
-                    </table>
-
-                </div>
-                    </div>
-                    </div>
-                <div class="row">
-                    <div class="col-md-12 hrpart">
-                        <input type="button" class="form-button right" onclick="Back()" value="Back">
-                        <button type="submit" class="form-button right">Save</button>
-                    </div>
-                </div>
-            }
-        </div>
+    <div class="form-head1">
+        <h4>Unreserve Item</h4>
     </div>
 
+    <div class="main-part pad1">
+        @using (Html.BeginForm(null, null, FormMethod.Post, new { @class = "createFrom", @id = "unreserving-form", @onsubmit = "return formValidation()" }))
+        {
+            <div class="row form-group">
+                <div class="col-md-3">
+                    <label for="txtGRNRefNo">GRN Ref. No. &amp; Date</label>
+                    <input type="text" class="form_input" id="txtGRNRefNo" disabled />
+                </div>
+                <div class="col-md-3">
+                    <label for="txtSORefNo" title="Sale Order Reference No & Date">SO Ref. No. &amp; Date</label>
+                    <input type="text" class="form_input" id="txtSORefNo" disabled />
+                </div>
+                <div class="col-md-5">
+                    <label for="txtWDRefNo" title="Work Descr. Reference No & Short Name">WD Ref. No. &amp; Short Name</label>
+                    <input type="text" class="form_input" id="txtWDRefNo" disabled />
+                </div>
+            </div>
+            <div class="row">
+                <div class="main-grid main-grid-top scroll1">
+                    <div class="table-responsive">
+                        <table class="table table-bordered">
+                            <thead>
+                                <tr class="grid_heading">
+                                    <th width="2%" class="text-center">#</th>
+                                    <th width="50%"><h1>Item Name</h1></th>
+                                    <th width="20%"><h1>Serial Number</h1></th>
+                                    <th width="20%"><h1>GRN No. &amp; Date</h1></th>
+                                    <th width="5%" title="Checked items will be unreserved"><h1>Select</h1></th>
+                                </tr>
+                            </thead>
+                            <tbody class="grid_row">
+                                @if (Model.Count > 0)
+                                {
+                                    for (int i = 0; i < Model.Count; i++)
+                                    {
+                                        <tr>
+                                            <td>
+                                                @Html.HiddenFor(m => m[i].ItemBatchId)
+                                                @*<input type="text" value="*@@(i + 1)@*" style="width:100%" class="form_input text-center" disabled />*@
+                                            </td>
+                                            <td>
+                                                @Html.TextBoxFor(m => m[i].ItemName, new { @class = "form_input", autocomplete = "off", @readonly = "readonly" })
+                                            </td>
+                                            <td>
+                                                @Html.TextBoxFor(m => m[i].SerialNo, new { @class = "form_input", autocomplete = "off", @readonly = "readonly" })
+                                            </td>
+                                            <td>
+                                                @Html.TextBoxFor(m => m[i].GRNNo, Model[i].GRNNo + " - " + Model[i].GRNDate.ToString("dd-MMMM-yyyy"), new { @class = "form_input", autocomplete = "off", @readonly = "readonly" })
+                                            </td>
+                                            <td>
+                                                @Html.CheckBoxFor(m => m[i].isSelected, new { @class = "form_input", autocomplete = "off", @readonly = "readonly", @title = "Check to unreserve this item" })
+                                            </td>
 
+                                        </tr>
+                                    }
+                                }
+                                else
+                                {
+                                    <tr>
+                                        <td colspan="4">
+                                            <center>
+                                                <em>
+                                                    Sorry, we couldn't find any item with a serial number. Please assign serial numbers and it will show up here.
+                                                </em>
+                                            </center>
+                                        </td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-12 hrpart">
+                    <input type="button" class="form-button right" onclick="Back()" value="Back">
+                    <button type="submit" class="form-button right">Save</button>
+                </div>
+            </div>
+        }
+    </div>
+</div>
