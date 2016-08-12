@@ -378,3 +378,17 @@
 
 </body>
 </html>
+<script>
+    $('input').on('input', onInput);
+
+    var inputValue = '';
+
+    function onInput(e) {
+        if (e.currentTarget.value.length > 10) {
+            e.currentTarget.value = titleValue;
+            return;
+        }
+
+        inputValue = e.currentTarget.value;
+    }
+</script>
