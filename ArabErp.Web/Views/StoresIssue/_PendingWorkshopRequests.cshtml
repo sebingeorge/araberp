@@ -14,13 +14,13 @@
             <table class="table table-bordered">
                 <thead>
                     <tr class="grid_heading">
-                        <th width="48%"><h1>Customer</h1></th>
+                        <th width="43%"><h1>Customer</h1></th>
                         <th width="12%"><h1>WR No. &amp; Date</h1></th>
                         <th width="12%"><h1>SO No. &amp; Date</h1></th>
                         <th width="10%" nowrap><h1>Required Date</h1></th>
                         <th width="8%" nowrap><h1>Days Left</h1></th>
                         <th width="5%" nowrap><h1>Ageing</h1></th>
-                        <th width="5%"></th>
+                        <th width="10%"><center><h1>Select</h1></center></th>
                     </tr>
                 </thead>
                 <tbody id="table-body" class="grid_row">
@@ -48,7 +48,7 @@
                                 <input class="form_input" type="text" value="@Model[i].Ageing" disabled />
                             </td>
                             <td align="center">
-                                <input type="button" class="form-button4" onclick="Open('@Model[i].WorkShopRequestId')" value="Select" />
+                                <center><input type="button" class="form-button4" onclick="Open('@Model[i].WorkShopRequestId')" value="Select" /></center>
                             </td>
                         </tr>
                     }
@@ -59,7 +59,6 @@
         </div>
 
         <div class="row-count1">
-
             <h5>Row Count:- @Model.Count()</h5>
         </div>
     </div>

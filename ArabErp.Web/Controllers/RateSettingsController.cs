@@ -31,7 +31,7 @@ namespace ArabErp.Web.Controllers
         {
             try
             {
-                new RateSettingsRepository().InsertRateSettings(model);
+                new RateSettingsRepository().InsertRateSettings(model, UserID.ToString());
                 TempData["success"] = "Saved successfully";
                 TempData["error"] = "";
                 return RedirectToAction("Index");
@@ -96,6 +96,12 @@ namespace ArabErp.Web.Controllers
                 new SelectListItem{ Text = "Max", Value = "3" }
 
             };
+        }
+
+        public JsonResult GetCurrency()
+        {
+            Currency model = new CurrencyRepository().GetCurrencyFrmOrganization(OrganizationId);
+            return Json(new { CurrencyName = model.CurrencyName, SymbolName = model.SymbolName }, JsonRequestBehavior.AllowGet);
         }
     }
 }

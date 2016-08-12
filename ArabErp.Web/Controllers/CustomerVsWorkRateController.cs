@@ -62,18 +62,19 @@ namespace ArabErp.Web.Controllers
 
             model.OrganizationId = OrganizationId;
             model.CreatedDate = System.DateTime.Now;
-            model.CreatedBy = Request.ServerVariables["HTTP_X_FORWARDED_FOR"] ?? Request.ServerVariables["REMOTE_ADDR"];
+            model.CreatedBy = UserID.ToString();
             new CustomerVsWorkRateRepository().DeleteCustomerItemRate(model);
             new CustomerVsWorkRateRepository().InsertCustomerItemRate(model);
 
             FillCustomer();
             
 
-            //TempData["Success"] = "Added Successfully!";
             CustomerVsWorkDescriptionRate CustomerVsWorkDescriptionRate = new CustomerVsWorkDescriptionRate();
             CustomerVsWorkDescriptionRate.CustomerVsWorkRateItem = new List<CustomerVsWorkRateItem>();
             CustomerVsWorkDescriptionRate.CustomerVsWorkRateItem.Add(new CustomerVsWorkRateItem());
-            //return View("Create");
+
+            TempData["Success"] = "Updated Successfully!";
+            //TempData["CustomerId"] = model.CustomerId;
             return RedirectToAction("Create");
         }
 

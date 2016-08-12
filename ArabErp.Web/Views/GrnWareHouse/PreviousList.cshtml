@@ -13,21 +13,22 @@
         <div class="form-head1">
             <h4>GRN List</h4>
         </div>
-        <div class="main-part pad1 white">
+        <div class="main-part pad1">
             <div class="row">
                 <div class="main-grid main-grid-top scroll1">
                     <div class="table-responsive">
                         <table class="table table-bordered">
                             <thead>
                                 <tr class="grid_heading">
-                                    <th width="15%" nowrap><h1>GRN No. &amp; Date</h1></th>
-                                    <th width="15%" nowrap><h1>Supplier</h1></th>
-                                    <th width="15%" nowrap><h1>Supplier DC.No. &amp; Date</h1></th>
-                                    <th width="15%" nowrap><h1>Received By</h1></th>
-                                    <th width="15%" nowrap><h1>Warehouse/Stockpoint</h1></th>
-                                    <th width="1%" class="text-right" nowrap><h1>Grand Total</h1></th>
+                                    <th width="12%" nowrap><h1>GRN No. &amp; Date</h1></th>
+                                    <th width="15%" nowrap><h1>Supply Order No.</h1></th>
+                                    <th width="19%" nowrap><h1>Supplier</h1></th>
+                                    <th width="12%" nowrap><h1>Supplier DC.No. &amp; Date</h1></th>
+                                    <th width="10%" nowrap><h1>Received By</h1></th>
+                                    <th width="12%" nowrap><h1>Warehouse/Stockpoint</h1></th>
+                                    <th width="5%" class="text-right" nowrap><h1>Grand Total</h1></th>
                                     <th width="10%" nowrap><h1>Type</h1></th>
-                                    <th></th>
+                                    <th width="8%"><center>Edit</center></th>
                                 </tr>
                             </thead>
                             <tbody class="grid_row">
@@ -40,6 +41,9 @@
                                                 <td>
                                                     @Html.HiddenFor(m => m[i].GRNId)
                                                     <input type="text" class="form_input" value="@Model[i].GRNNo" disabled />
+                                                </td>
+                                                <td>
+                                                    <input type="text" class="form_input" value="@Model[i].SONODATE" disabled />
                                                 </td>
                                                 <td>
                                                     <input type="text" class="form_input" value="@Model[i].Supplier" disabled />
@@ -60,7 +64,7 @@
                                                     <input type="text" class="form_input" @(Model[i].isDirectPurchaseGRN ? "value = " + "DIRECT-GRN" : "value=GRN") disabled />
                                                 </td>
                                                 <td>
-                                                    <input type="button" class="form-button5" value="Edit" title="Click here to edit this entry" onclick="Edit(@Model[i].GRNId)" />
+                                                    <center><input type="button" class="form-button5" value="Edit" title="Click here to edit this entry" onclick="Edit(@Model[i].GRNId)" /></center>
                                                 </td>
                                             </tr>
                                         }
@@ -77,6 +81,10 @@
                     </div>
                     </div>
                 </div>
+            <br/>
+            <div class="row-count1">
+                <h5>Row Count:- @Model.Count</h5>
+            </div>
                     @*<div class="row">
                         <div class="col-md-12 hrpart">
                             <input type="button" class="form-button right" value="Pending" id="btnProceed" />

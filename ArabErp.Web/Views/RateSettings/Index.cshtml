@@ -37,6 +37,7 @@
         });
 
         showExpiryNotification();
+        showCurrency();
 
         @*$("#FromDate, #ToDate").change(function () {
             var sender = this;
@@ -87,6 +88,15 @@
         })
     }
 
+    function showCurrency() {
+        var url = '@Url.Action("GetCurrency")';
+        $.getJSON(url, function (data) {
+            if (data != "0")
+                $("#currency-notification").html("**Currency is " + data.CurrencyName + "(" + data.SymbolName + ")");
+            //else $("#currency-notification").html("**Currency could not be loaded");
+        })
+    }
+
     @*function OnTypeChanged() {
         var type = $("#Type").val();
         var url = '@Url.Action("WorkDescriptions")';
@@ -96,9 +106,9 @@
 
     function showPreviousRates() {
         var x = screen.width / 2 - 650 / 2;
-        var y = screen.height / 2 - 300 / 2;
+        var y = screen.height / 2 - 305 / 2;
         var url = '@Url.Action("PreviousListPopup")';
-        var popup = window.open(url, "PreviousRates", "scrollbars=0,width=650,height=300,left=" + x + ",top=" + y);
+        var popup = window.open(url, "PreviousRates", "scrollbars=0,width=650,height=305,left=" + x + ",top=" + y);
         popup.focus();
     }
 
@@ -119,66 +129,63 @@
 
 </script>
 
-<style type="text/css">
-    .scrollable {
-        max-height: 50vh;
-        overflow-y: auto;
-        overflow-x: hidden;
-    }
-</style>
-
-
-    <div class="row">
-        <div class="form-head1">
-            <h4>Rate Settings</h4>
-        </div>
-
-        <div class="main-part pad1">
-            @using (Html.BeginForm(null, null, FormMethod.Post, new { @class = "createFrom", @id = "rate-settings-form", @onsubmit = "return formValidation()" }))
-            {
-                <div class="row form-group">
-                    <div class="col-md-12">
-                        <em id="expiry-notification"></em>
-                    </div>
-                </div>
-
-                <div class="row form-group">
-                    <div class="col-md-2">
-                        <label for="FromDate">From</label>
-                        @Html.TextBoxFor(m => m.FromDate, Model.FromDate.ToString("dd/MMMM/yyyy"), new { @class = "form_input", @required = "true", @onchange = "ValidateDate(this)" })
-                    </div>
-                    <div class="col-md-2">
-                        <label for="ToDate">To</label>
-                        @Html.TextBoxFor(m => m.ToDate, Model.ToDate.ToString("dd/MMMM/yyyy"), new { @class = "form_input", @required = "true", @onchange = "ValidateDate(this)" })
-                    </div>
-                    <div class="col-md-1">
-                        <label></label>
-                        <input type="button" id="browse" value="..." class="terms1"  title="Browse for previous rate periods" onclick="showPreviousRates()" />
-                    </div>
-                </div>
-
-                @*<div class="row form-group">
-                        <div class="col-md-4">
-                            <label for="Type">Type</label>
-                            @Html.DropDownListFor(m => m.Type, new List<SelectListItem>
-                            {
-                                new SelectListItem{ Text = "Project", Value = "1" },
-                                new SelectListItem{ Text = "Transport", Value = "0" }
-                            }, new { @class = "form_input", @onchange = "OnTypeChanged()" })
-                        </div>
-                    </div>*@
-
-                <div class="table-responsive scrollable" id="work-description-table">
-                    @Html.Action("WorkDescriptions")
-                </div>
-
-                <div class="row">
-                    <div class="col-md-12 hrpart">
-                        <input type="button" class="form-button right" value="Exit" onclick="Exit()" title="Go to home page"/>
-                        <input type="submit" class="form-button right" value="Save" />
-                    </div>
-                </div>
-            }
-        </div>
+<div class="row">
+    <div class="form-head1">
+        <h4>Rate Settings</h4>
     </div>
+
+    <div class="main-part pad1">
+        @using (Html.BeginForm(null, null, FormMethod.Post, new { @class = "createFrom", @id = "rate-settings-form", @onsubmit = "return formValidation()" }))
+        {
+            <div class="row form-group">
+                <div class="col-md-12">
+                    <em id="expiry-notification"></em>&nbsp;&nbsp;&nbsp;&nbsp;
+                    @*<br /><br />*@
+                    <em id="currency-notification"></em>
+                </div>
+            </div>
+
+            <div class="row form-group">
+                <div class="col-md-2">
+                    <label for="FromDate">From</label>
+                    @Html.TextBoxFor(m => m.FromDate, Model.FromDate.ToString("dd/MMMM/yyyy"), new { @class = "form_input", @required = "true", @onchange = "ValidateDate(this)" })
+                </div>
+                <div class="col-md-2">
+                    <label for="ToDate">To</label>
+                    @Html.TextBoxFor(m => m.ToDate, Model.ToDate.ToString("dd/MMMM/yyyy"), new { @class = "form_input", @required = "true", @onchange = "ValidateDate(this)" })
+                </div>
+                <div class="col-md-1">
+                    <label></label>
+                    <input type="button" id="browse" value="..." class="terms1" title="Browse for previous rate periods" onclick="showPreviousRates()" />
+                </div>
+            </div>
+
+            @*<div class="row form-group">
+                    <div class="col-md-4">
+                        <label for="Type">Type</label>
+                        @Html.DropDownListFor(m => m.Type, new List<SelectListItem>
+                        {
+                            new SelectListItem{ Text = "Project", Value = "1" },
+                            new SelectListItem{ Text = "Transport", Value = "0" }
+                        }, new { @class = "form_input", @onchange = "OnTypeChanged()" })
+                    </div>
+                </div>*@
+            
+            <div class="row">
+                <div class="main-grid main-grid-top scroll1">
+                    <div class="table-responsive" id="work-description-table">
+                        @Html.Action("WorkDescriptions")
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-12 hrpart">
+                    <input type="button" class="form-button right" value="Exit" onclick="Exit()" title="Go to home page" />
+                    <input type="submit" class="form-button right" value="Save" />
+                </div>
+            </div>
+        }
+    </div>
+</div>
 

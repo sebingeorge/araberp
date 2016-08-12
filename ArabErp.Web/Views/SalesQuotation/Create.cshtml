@@ -29,13 +29,13 @@
         ViewBag.Title = "Pending Sales Quotation";
     }
 }
-<script src="~/Scripts/selectric/jquery.selectric.js"></script>
-@Styles.Render("~/bundles/selectric")
+@*<script src="~/Scripts/selectric/jquery.selectric.js"></script>
+@Styles.Render("~/bundles/selectric")*@
 @*<link rel="stylesheet" href="~/Content/selectric.scss" />*@
 <script>
-    $(function () {
-        $('select').selectric();
-    });
+    //$(function () {
+    //    $('select').selectric();
+    //});
     function GotoIndex() {
 
         var url = '@Url.Action("Index")';
@@ -60,12 +60,15 @@
         window.location = url;
     }
 
-    $(function () {
+    $(function() {
+       
         if ('@ViewBag.actionName.ToString()' == "Approve") {
             $("input").prop("readonly", "true");
             $("select").prop("disabled", "true");
+            $(".glyphicon-minus, .glyphicon-plus").hide();
         }
         else {
+            
             $("#QuotationDate").datepicker({ dateFormat: "dd/MM/yy" });
             $("#ExpectedDeliveryDate").datepicker({ dateFormat: "dd/MM/yy" });
             $("#PredictedClosingDate").datepicker({ dateFormat: "dd/MM/yy" });
@@ -86,12 +89,14 @@
                 if (result.Success) { // this sets the value from the response
                     $('#CurrencyId').val(result.CurrencyId);
                     $("#CustomerAddress").val(result.Address);
+                    $("#ContactPerson").val(result.ContactPerson);
                 } else {
                     $('#SomeOtherHtmlTextBox').val("Failed");
                 }
             }
         });
         //$('#CurrencyId').val("2");
+        OnCustomerChanged();
     }
 
     $(document).ready(function () {
@@ -114,6 +119,7 @@
         else if ('@TempData["error"]' != "") {
             toastr.error('@TempData["error"]');
         }
+
         //bind keypress event for new row inputs.
         $(".numbers-only").keypress(function (e) {
             if (e.which == 8 || (e.which == 46 && $(this).val().indexOf('.') == -1) || (e.which > 47 && e.which < 58)) { } else { return false; }
@@ -222,9 +228,11 @@
     }
 
     function OnRateTypeChanged(index) {
+
         var rate = $("#SalesQuotationItems_" + index + "__Rate");
         var type = $("#SalesQuotationItems_" + index + "__RateType");
-        if ($(type).val() == 0 || $(type).val() == 4) {
+
+        if ($(type).val() == 0) {
             $(rate).removeProp("readonly");
             $(rate).val(0.00);
             QuantityChanged(index);
@@ -249,25 +257,61 @@
     }
 
     function SetRate(index, type) {
+
+       
+        //alert(type);
+
+
+        var customer = $("#CustomerId");
+
         var work = $("#SalesQuotationItems_" + index + "__WorkDescriptionId");
         var quotationDate = $("#QuotationDate").val();
         var rate = $("#SalesQuotationItems_" + index + "__Rate");
         var rateType = $("#SalesQuotationItems_" + index + "__RateType");
-        var url = '@Url.Action("GetRate")';
-        $.getJSON(url, { workDescriptionId: $(work).val(), date: quotationDate, type: type },
-            function (data) {
-                if (Number(data) != 0) {
-                    $(rateType).val(type);
-                    $(rate).val(Number(data).toFixed(2));
-                    $(rate).prop("readonly", "true");
-                    QuantityChanged(index);
-                }
-                else {
-                    $(rateType).val(0);//set to custom if 0
-                    $(rate).removeProp("readonly");
-                    $(rate).val(0.00);
-                }
-            });
+
+
+        if (type == 4) {
+
+            var url = '@Url.Action("GetSpecialRate")';
+
+            //alert(type);
+
+            $.getJSON(url, { workDescriptionId: $(work).val(), customerId: $(customer).val() },
+
+                function (data) {
+                    if (Number(data) != 0) {
+                        $(rateType).val(type);
+                        $(rate).val(Number(data).toFixed(2));
+                        $(rate).prop("readonly", "true");
+                        QuantityChanged(index);
+                    }
+                    else {
+                        $(rateType).val(0);//set to custom if 0
+                        $(rate).removeProp("readonly");
+                        $(rate).val(0.00);
+                    }
+                });
+
+        }
+        else {
+            var url = '@Url.Action("GetRate")';
+            $.getJSON(url, { workDescriptionId: $(work).val(), date: quotationDate, type: type },
+                function (data) {
+                    if (Number(data) != 0) {
+                        $(rateType).val(type);
+                        $(rate).val(Number(data).toFixed(2));
+                        $(rate).prop("readonly", "true");
+                        QuantityChanged(index);
+                    }
+                    else {
+                        $(rateType).val(0);//set to custom if 0
+                        $(rate).removeProp("readonly");
+                        $(rate).val(0.00);
+                    }
+                });
+
+        }
+
     }
 
     function OnQuotationDateChanged(sender) {
@@ -277,6 +321,12 @@
                 SetRate(index, $(obj).val());
             }
         });
+    }
+
+    function OnCustomerChanged() {
+        for(var i=0; i< @Model.SalesQuotationItems.Count; i++){
+            OnRateTypeChanged(i);
+        }
     }
 
 </script>
@@ -332,7 +382,7 @@
                         <label for="ExpectedDeliveryDate">Expected Delivery Date</label>
                        
                             @Html.TextBoxFor(m => m.ExpectedDeliveryDate, Model.ExpectedDeliveryDate.ToString("dd/MMMM/yyyy"), new { @class = "form_input", autocomplete = "off" })
-                       
+                            @Html.ValidationMessageFor(m => m.ExpectedDeliveryDate)
                     </div>
                 @if (Model.isProjectBased == 1)
                 {
@@ -352,7 +402,7 @@
                     <div class="col-md-6">
                         <label for="CustomerId">Customer</label>
                        
-                            @Html.DropDownListFor(m => Model.CustomerId, (SelectList)ViewBag.customerlist, "Select Customer", new { @class = "form_input", autocomplete = "off", @onchange = "CustomerChanged(this);" })
+                            @Html.DropDownListFor(m => Model.CustomerId, (SelectList)ViewBag.customerlist, "Select Customer", new { @class = "form_input", autocomplete = "off", @onchange = "CustomerChanged(this)" })
 
                     </div>
                     <div class="col-md-6">
@@ -365,7 +415,7 @@
                     <div class="col-md-6">
                         <label for="ContactPerson">Contact Person</label>
                      
-                            @Html.TextBoxFor(m => m.ContactPerson, new { @class = "form_input", autocomplete = "off" })
+                            @Html.TextBoxFor(m => m.ContactPerson, new { @class = "form_input", autocomplete = "off", @readonly = "readonly" })
                         
                     </div>
 
@@ -594,7 +644,9 @@
 
                                     <td>
                                         <input type="hidden" id="Row_@i" />
-                                            @Html.DropDownListFor(x => Model.SalesQuotationItems[i].WorkDescriptionId, new SelectList(ViewBag.workdesclist, "Value", "Text", Model.SalesQuotationItems[i].WorkDescriptionId), "select work description", new { @class = "form_input", autocomplete = "off", @onchange = "OnWorkDescChanged(" + i + ")" })
+                                            @Html.DropDownListFor(x => Model.SalesQuotationItems[i].WorkDescriptionId, new SelectList(ViewBag.workdesclist, "Value", "Text",
+                                            Model.SalesQuotationItems[i].WorkDescriptionId), "select work description", new { @class = "form_input", autocomplete = "off",
+                                            @onchange = "OnWorkDescChanged(" + i + ")" })
                                     </td>
 
                                     @if (new[] { "Create", "Approve" }.Contains(ViewContext.RouteData.GetRequiredString("action")))
@@ -628,12 +680,17 @@
                                             }
                                         </td>*@
                                     <td>
-                                            @Html.TextBoxFor(m => m.SalesQuotationItems[i].Rate, new { @class = "form_input numbers-only clrate validateqty", autocomplete = "off", @style = "text-align:right", placeholder = "Rate", @onchange = "QuantityChanged(" + i + ");", @onkeyup = "QuantityChanged(" + i + ")" })
-    </td>
-                                    <td>
-                                            @Html.TextBoxFor(m => m.SalesQuotationItems[i].Discount, new { @class = "form_input numbers-only", autocomplete = "off", @style = "text-align:right", placeholder = "Discount", @onchange = "QuantityChanged(" + i + ");", @onkeyup = "QuantityChanged(" + i + ")" })
-
+                                            @Html.TextBoxFor(m => m.SalesQuotationItems[i].Rate, new { @class = "form_input numbers-only clrate validateqty",
+                                             autocomplete = "off", @style = "text-align:right", placeholder = "Rate", 
+                                            @onchange = "QuantityChanged(" + i + ");", @onkeyup = "QuantityChanged(" + i + ")" })
                                     </td>
+
+                                    <td>
+                                         @Html.TextBoxFor(m => m.SalesQuotationItems[i].Discount, new { @class = "form_input numbers-only",
+                                        autocomplete = "off", @style = "text-align:right", placeholder = "Discount", 
+                                        @onchange = "QuantityChanged(" + i + ");", @onkeyup = "QuantityChanged(" + i + ")" })
+                                    </td>
+
                                     <td>@Html.TextBoxFor(m => m.SalesQuotationItems[i].Amount, new { @class = "form_input clAmount", autocomplete = "off", @style = "text-align:right", placeholder = "Amount", @readonly = "true" })</td>
                                     <td style="vertical-align:middle"><a id="add_row" class="glyphicon glyphicon-plus" style="top:0px" onclick="AddAdditionRow()"></a></td>
                                 </tr>
@@ -653,9 +710,9 @@
                                     <th width="5%" class="text-right"><span id="QtyTotal"></span></th>*@
                                 <th width="10%"></th>
                                 <th width="10%" class="text-right">
-                                    <h1>
-                                            
-                                        @Html.DropDownListFor(m => Model.CurrencyId, (SelectList)ViewBag.currlist, "Select Currency", new { @class = "form_input", autocomplete = "off" })
+                                    <h1 >
+                                       
+                                        @Html.DropDownListFor(m => m.CurrencyId, (SelectList)ViewBag.currlist, "Select Currency", new { @class = "form_input", autocomplete = "off" })
                                   </h1>
                                 </th>
                                 <th width="10%" class="text-right">
@@ -666,13 +723,6 @@
                         </tfoot>
                     </table>
                 </div>
-
-
-
-
-
-
-
 
                 <div class="row">
 
@@ -702,11 +752,7 @@
 
                     </div>
 
-
-
                 </div>
-
-
 
                 <div class="row">
 

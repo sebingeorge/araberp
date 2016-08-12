@@ -34,9 +34,12 @@
         if ($(s).val() != null && $(s).val() != '') id = $(s).val();
         else id = 0;
 
+        $("#outpassdetails").addClass("fade");
         var url = '@Url.Action("PendingDeliveryChallan")';
         url += "?customerId=" + id;
-        $("#outpassdetails").load(url);
+        $("#outpassdetails").load(url, function () {
+            $("#outpassdetails").removeClass("fade");
+        });
 
         var url = '@Url.Action("GetCustomerAddress")';
         $.getJSON(url, { id: id }, function (data) {
@@ -50,6 +53,11 @@
     }
     function PreviousList() {
         var url = '@Url.Action("DeliveryChallanList")';
+        window.location = url;
+    }
+
+    function Exit() {
+        var url = '@Url.Action("Index", "Home")';
         window.location = url;
     }
 </script>
@@ -79,6 +87,7 @@
             <div class="row">
                 <div class="col-md-12 hrpart">
                     <input class="form-button" type="button" value="Previous" onclick="PreviousList()" />
+                    <input class="form-button right" type="button" value="Exit" onclick="Exit()" />
                 </div>
             </div>
 

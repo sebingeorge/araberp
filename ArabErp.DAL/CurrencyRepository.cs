@@ -70,7 +70,7 @@ namespace ArabErp.DAL
                     model.CurrencyRefNo = "CUR/" + internalid;
                     id = connection.Query<int>(sql, model, trn).Single();
                     model.CurrencyId = id;
-
+                    InsertLoginHistory(dataConnection, model.CreatedBy, "Create", "Currency", id.ToString(), "0");
                     trn.Commit();
                 }
                 catch (Exception e)
@@ -94,6 +94,7 @@ namespace ArabErp.DAL
                 {
                     var id = connection.Execute(sql, model);
                     model.CurrencyId = id;
+                    InsertLoginHistory(dataConnection, model.CreatedBy, "Update", "Currency", id.ToString(), "0");
                 }
                 catch (Exception ex)
                 {
@@ -114,6 +115,7 @@ namespace ArabErp.DAL
                 {
                     var id = connection.Execute(sql, model);
                     model.CurrencyId = id;
+                    InsertLoginHistory(dataConnection, model.CreatedBy, "Delete", "Currency", id.ToString(), "0");
                 }
                 catch (Exception ex)
                 {
@@ -139,6 +141,5 @@ namespace ArabErp.DAL
                 return objCurrency;
             }
         }
-     
     }
 }

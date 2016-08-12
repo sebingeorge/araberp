@@ -35,10 +35,6 @@ namespace ArabErp.DAL
                     IDbTransaction trn = connection.BeginTransaction();
                     try
                     {
-
-                        
-
-
                         int internalid = DatabaseCommonRepository.GetInternalIDFromDatabase(connection, trn, typeof(SalesQuotation).Name, "0",1);
                         model.QuotationRefNo = "SQ/" + internalid;
                       
@@ -54,9 +50,12 @@ namespace ArabErp.DAL
                         }
                         #endregion
 
-                        string sql = @"
-                                        insert  into SalesQuotation(QuotationRefNo,QuotationDate,CustomerId,ContactPerson,SalesExecutiveId,PredictedClosingDate,QuotationValidToDate,ExpectedDeliveryDate,IsQuotationApproved,ApprovedBy,Amount,QuotationStatus,Remarks,SalesQuotationRejectReasonId,QuotationRejectReason,Competitors,PaymentTerms,DiscountRemarks,CreatedBy,CreatedDate,OrganizationId,isProjectBased,QuerySheetId)
-                                        Values (@QuotationRefNo,@QuotationDate,@CustomerId,@ContactPerson,@SalesExecutiveId,@PredictedClosingDate,@QuotationValidToDate,@ExpectedDeliveryDate,@IsQuotationApproved,@ApprovedBy,@Amount,@QuotationStatus,@Remarks,@SalesQuotationRejectReasonId,@QuotationRejectReason,@Competitors,@PaymentTerms,@DiscountRemarks,@CreatedBy,@CreatedDate,@OrganizationId,@isProjectBased,@QuerySheetId);
+                        string sql = @" insert  into SalesQuotation(QuotationRefNo,QuotationDate,CustomerId,ContactPerson,SalesExecutiveId,PredictedClosingDate,
+                                        QuotationValidToDate,ExpectedDeliveryDate,IsQuotationApproved,ApprovedBy,Amount,CurrencyId,QuotationStatus,Remarks,SalesQuotationRejectReasonId,
+                                        QuotationRejectReason,Competitors,PaymentTerms,DiscountRemarks,CreatedBy,CreatedDate,OrganizationId,isProjectBased,QuerySheetId)
+                                        Values (@QuotationRefNo,@QuotationDate,@CustomerId,@ContactPerson,@SalesExecutiveId,@PredictedClosingDate,@QuotationValidToDate,
+                                        @ExpectedDeliveryDate,@IsQuotationApproved,@ApprovedBy,@Amount,@CurrencyId,@QuotationStatus,@Remarks,@SalesQuotationRejectReasonId,
+                                        @QuotationRejectReason,@Competitors,@PaymentTerms,@DiscountRemarks,@CreatedBy,@CreatedDate,@OrganizationId,@isProjectBased,@QuerySheetId);
                                         SELECT CAST(SCOPE_IDENTITY() as int) SalesQuotationId";
 
                         model.SalesQuotationId = connection.Query<int>(sql, model, trn).First<int>();
@@ -67,7 +66,7 @@ namespace ArabErp.DAL
                             item.SalesQuotationId = model.SalesQuotationId;
                             saleorderitemrepo.InsertSalesQuotationItem(item, connection, trn);
                         }
-
+                        InsertLoginHistory(dataConnection, model.CreatedBy, "Create", "Sales Quotation", model.SalesQuotationId.ToString(), "0");
                         trn.Commit();
 
                       
@@ -123,7 +122,7 @@ namespace ArabErp.DAL
                         item.SalesQuotationId = model.SalesQuotationId;
                         saleorderitemrepo.InsertSalesQuotationItem(item, connection, trn);
                     }
-
+                    InsertLoginHistory(dataConnection, model.CreatedBy, "Revision", "Sales Quotation", model.SalesQuotationId.ToString(), "0");
                     trn.Commit();
 
 
@@ -187,6 +186,7 @@ namespace ArabErp.DAL
                     objSalesQuotation.QuotationRefNo = null;
                 
                 }
+                InsertLoginHistory(dataConnection, objSalesQuotation.CreatedBy, "Status Change", "Sales Quotation", objSalesQuotation.SalesQuotationId.ToString(), "0");
                 return objSalesQuotation;
 
             }
@@ -275,15 +275,20 @@ namespace ArabErp.DAL
         {
             using (IDbConnection connection = OpenConnection(dataConnection))
             {
-                string sql = @"select distinct E.EmployeeName SalesExecutiveName ,C.CustomerName,SQ.*,STUFF((SELECT ', ' + CAST(W.WorkDescr AS VARCHAR(10)) [text()]
+                string sql = String.Format(@"select distinct E.EmployeeName SalesExecutiveName ,C.CustomerName,SQ.*,STUFF((SELECT ', ' + CAST(W.WorkDescr AS VARCHAR(MAX)) [text()]
                              FROM SalesQuotationItem S inner join WorkDescription W on W.WorkDescriptionId=S.WorkDescriptionId
                              WHERE S.SalesQuotationId = SI.SalesQuotationId
-                             FOR XML PATH(''), TYPE).value('.','NVARCHAR(MAX)'),1,2,' ') WorkDescription from SalesQuotation SQ 
+                             FOR XML PATH(''), TYPE).value('.','NVARCHAR(MAX)'),1,2,' ') WorkDescription,
+							 DATEDIFF(DAY, SQ.QuotationDate, GETDATE()) Ageing,
+							 DATEDIFF(DAY, GETDATE(), SQ.ExpectedDeliveryDate) DaysLeft,
+                             SQ.ExpectedDeliveryDate
+							 from SalesQuotation SQ 
                              inner join SalesQuotationItem SI on SI.SalesQuotationId=SQ.SalesQuotationId
                              inner join Customer C on SQ.CustomerId=C.CustomerId
 							 inner join Employee E on  E.EmployeeId =SQ.SalesExecutiveId
 							 left join SaleOrder SO on SO.SalesQuotationId=SQ.SalesQuotationId
-                             where   SQ.isActive=1 and isnull(SQ.IsQuotationApproved,0)=1 AND SO.SalesQuotationId IS NULL AND SQ.IsProjectBased = " + IsProjectBased.ToString();
+                             where   SQ.isActive=1 and isnull(SQ.IsQuotationApproved,0)=1 AND SO.SalesQuotationId IS NULL AND SQ.IsProjectBased = {0} 
+                             ORDER BY SQ.ExpectedDeliveryDate DESC, SQ.QuotationDate DESC", IsProjectBased.ToString());
 
                 var objSalesQuotations = connection.Query<SalesQuotation>(sql).ToList<SalesQuotation>();
 

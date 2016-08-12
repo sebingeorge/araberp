@@ -32,7 +32,7 @@ namespace ArabErp.DAL
                     model.ItemSubGroupRefNo = "ISG/" + internalid;
                     id = connection.Query<int>(sql, model, trn).Single();
                     model.ItemSubGroupId = id;
-
+                    InsertLoginHistory(dataConnection, model.CreatedBy, "Create", "Item Sub Group", id.ToString(), "0");
                     trn.Commit();
                 }
                 catch (Exception e)
@@ -58,7 +58,7 @@ namespace ArabErp.DAL
         {
             using (IDbConnection connection = OpenConnection(dataConnection))
             {
-                return connection.Query<Dropdown>("Select ItemGroupId Id,ItemGroupName Name From ItemGroup").ToList();
+                return connection.Query<Dropdown>("Select ItemGroupId Id,ItemGroupName Name From ItemGroup WHERE isActive=1").ToList();
             }
         }
         public ItemSubGroup GetItemSubGroup(int ItemSubGroupId)
@@ -101,6 +101,7 @@ namespace ArabErp.DAL
                 {
                     var id = connection.Execute(sql, model);
                     model.ItemSubGroupId = id;
+                    InsertLoginHistory(dataConnection, model.CreatedBy, "Update", "Item Sub Group", id.ToString(), "0");
                 }
                 catch (Exception ex)
                 {
@@ -132,6 +133,7 @@ namespace ArabErp.DAL
                 {
                     var id = connection.Execute(sql, model);
                     model.ItemSubGroupId = id;
+                    InsertLoginHistory(dataConnection, model.CreatedBy, "Delete", "Item Sub Group", id.ToString(), "0");
                 }
                 catch (Exception ex)
                 {

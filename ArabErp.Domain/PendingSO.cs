@@ -26,7 +26,8 @@ namespace ArabErp.Domain
         public decimal TotalAmount { get; set; }
         public int? IsPaymentApprovedForJobOrder { get; set; }
         public string QuotationNoDate { get; set; }
-        
+        public string EmployeeName { get; set; }
+        public string RegistrationNo { get; set; }
         
 
         

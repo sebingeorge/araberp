@@ -13,7 +13,7 @@ namespace ArabErp.DAL
     {
         static string dataConnection = GetConnectionString("arab");
 
-        public int InsertRateSettings(RateSettings model)
+        public int InsertRateSettings(RateSettings model, string CreatedBy)
         {
             using (IDbConnection connection = OpenConnection(dataConnection))
             {
@@ -57,6 +57,7 @@ namespace ArabErp.DAL
                                             }, txn);
                         }
                     }
+                    InsertLoginHistory(dataConnection, CreatedBy, "Create", "Rate Settings", "0", "0");
                     txn.Commit();
                     return 1;
                 }
@@ -190,6 +191,27 @@ namespace ArabErp.DAL
                     string query = @"SELECT " + type + " FROM RateSettings WHERE WorkDescriptionId = @workDescriptionId AND @date BETWEEN FromDate AND ToDate;";
 
                     return connection.Query<decimal>(query, new { workDescriptionId = workDescriptionId, date = date }).First();
+                }
+            }
+            catch (InvalidOperationException)
+            {
+                return 0;
+                throw;
+            }
+        }
+
+        public decimal GetSpecialRate(int workDescriptionId, int customerId)
+        {
+            try
+            {
+                using (IDbConnection connection = OpenConnection(dataConnection))
+                {
+                    //string type = "Special";
+                    //if (RateType == 2) type = "MediumRate";
+                    //else if (RateType == 3) type = "MaxRate";
+                    string query = @"SELECT FixedRate FROM CustomerVsWorkRate WHERE WorkDescriptionId =@workDescriptionId AND CustomerId=@customerId ;";
+
+                    return connection.Query<decimal>(query, new { workDescriptionId = workDescriptionId, customerId = customerId }).First();
                 }
             }
             catch (InvalidOperationException)

@@ -1,6 +1,6 @@
 ﻿@model ArabErp.Domain.SaleOrder
 @{ string actionName = ViewContext.RouteData.GetRequiredString("action");
- if (actionName == "CreateProject")
+ if (actionName == "CreateProject" ||actionName == "Edit")
  {
      actionName = "Create";
  }
@@ -81,7 +81,7 @@
                 }
                 else
                 {
-                  <label for="DeliveryTerms">Project Completion</label>
+                  <label for="DeliveryTerms">Project Completion Terms</label>
                 }
 
                 

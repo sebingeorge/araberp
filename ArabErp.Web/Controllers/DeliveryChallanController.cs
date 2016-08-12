@@ -40,6 +40,7 @@ namespace ArabErp.Web.Controllers
                 return View(new DeliveryChallan
                 {
                     JobCardId = id,
+                    DeliveryChallanRefNo = "DEL/" + DatabaseCommonRepository.GetNextReferenceNo(typeof(DeliveryChallan).Name),
                     DeliveryChallanDate = DateTime.Now,
                     ItemBatches = new DeliveryChallanRepository().GetSerialNos(id).ToList()
                 });
@@ -51,7 +52,7 @@ namespace ArabErp.Web.Controllers
         {
             model.OrganizationId = OrganizationId;
             model.CreatedDate = System.DateTime.Now;
-            model.CreatedBy = Request.ServerVariables["HTTP_X_FORWARDED_FOR"] ?? Request.ServerVariables["REMOTE_ADDR"];
+            model.CreatedBy = UserID.ToString();
 
             foreach (ItemBatch item in model.ItemBatches)
             {
@@ -59,7 +60,7 @@ namespace ArabErp.Web.Controllers
                 item.WarrantyExpireDate = model.DeliveryChallanDate.AddMonths(item.WarrantyPeriodInMonths ?? 0).AddDays(-1);
             }
             string ref_no = new DeliveryChallanRepository().InsertDeliveryChallan(model);
-            if (ref_no.Length>0)
+            if (ref_no.Length > 0)
             {
                 TempData["success"] = "Saved Successfully. The Reference No. is " + ref_no;
                 return RedirectToAction("Index");

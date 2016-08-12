@@ -134,10 +134,15 @@ namespace ArabErp.Web.Controllers
         {
             try
             {
+                //if (!ModelState.IsValid)
+                //{
+                //    return View(model);
+                //}
+
                 if (model == null || model.Items == null || model.Items.Count == 0) throw new NullReferenceException();
                 model.OrganizationId = OrganizationId;
                 model.CreatedDate = System.DateTime.Now;
-                model.CreatedBy = Request.ServerVariables["HTTP_X_FORWARDED_FOR"] ?? Request.ServerVariables["REMOTE_ADDR"];
+                model.CreatedBy = UserID.ToString();
                 string result = new GRNRepository().InsertGRN(model);
                 if (result != "")
                 {

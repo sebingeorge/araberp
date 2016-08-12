@@ -35,6 +35,7 @@ namespace ArabErp.DAL
                     int id = connection.Query<int>(sql, objDesignation, trn).Single();
                     objDesignation.DesignationId = id;
                     //connection.Dispose();
+                    InsertLoginHistory(dataConnection, objDesignation.CreatedBy, "Create", "Designation", id.ToString(), "0");
                     trn.Commit();
                 }
                 catch (Exception ex)
@@ -92,6 +93,7 @@ namespace ArabErp.DAL
                 string sql = @"Update Designation Set DesignationRefNo=@DesignationRefNo,DesignationName=@DesignationName OUTPUT INSERTED.DesignationId WHERE DesignationId=@DesignationId";
 
                 var id = connection.Execute(sql, objDesignation);
+                InsertLoginHistory(dataConnection, objDesignation.CreatedBy, "Update", "Designation", id.ToString(), "0");
                 return objDesignation;
             }
         }
@@ -107,6 +109,7 @@ namespace ArabErp.DAL
 
                     var id = connection.Execute(sql, objDesignation);
                     objDesignation.DesignationId = id;
+                    InsertLoginHistory(dataConnection, objDesignation.CreatedBy, "Delete", "Designation", id.ToString(), "0");
                     result = 0;
 
                 }

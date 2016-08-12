@@ -40,6 +40,9 @@
             $("#tab_logic").append('<tr id="' + i + '">' + clone.html() + '  </tr>');
             $("#slno" + (i + 1)).html((i + 1));
             $("#SupplierItemRateItem_" + i + "__SlNo").val((i + 1));
+
+            $("#SupplierItemRateItem_" + i + "__ItemId").val('');
+            $("#SupplierItemRateItem_" + i + "__FixedRate").val(0);
         }
         function Delete(index) {
 
@@ -68,9 +71,6 @@
                     clone.html($(clone).html().replace(new RegExp('slno' + (j + 1) + '">' + (j + 1), "g"), 'slno' + (j) + '">' + (j)));
                     clone.html($(clone).html().replace("Delete(" + j, "Delete(" + (j - 1)));
                     clone.html($(clone).html().replace("Row_" + j, "Row_" + (j - 1)));
-
-
-
 
                     clone.html($(clone).html().replace("this," + j, "this," + (j - 1)));
                     $("#" + j).html(clone.html());
@@ -117,11 +117,9 @@
 
                     <td>
                         <input type="hidden" id="Row_@i" />
-
                         @Html.HiddenFor(m => m.SupplierItemRateItem[i].ItemId, new { @id = "hidden" + i })
-                        @Html.DropDownListFor(m => m.SupplierItemRateItem[i].ItemId, (SelectList)ViewBag.Itemlist, Model.SupplierItemRateItem[i].ItemId.ToString() != "" ? ((SelectList)ViewBag.Itemlist).Where(p => p.Value == Model.SupplierItemRateItem[i].ItemId.ToString()).First().Text : "select", new { @class = "form_input", autocomplete = "off", @onchange = "OnMaterialChange(this, " + i + ")" })
-
-                        @*@Html.DropDownListFor(m => m[i].ItemId, (SelectList)ViewBag.Itemlist, Model[i].ItemId.ToString() != "" ? ((SelectList)ViewBag.Itemlist).Skip(Convert.ToInt32(Model[i].ItemId)).First().Text : "select", new { @class = "form_input", autocomplete = "off" })*@
+                        @*@Html.DropDownListFor(m => m.SupplierItemRateItem[i].ItemId, (SelectList)ViewBag.Itemlist, Model.SupplierItemRateItem[i].ItemId.ToString() != "" ? ((SelectList)ViewBag.Itemlist).Where(p => p.Value == Model.SupplierItemRateItem[i].ItemId.ToString()).First().Text : "select", new { @class = "form_input", autocomplete = "off", @onchange = "OnMaterialChange(this, " + i + ")" })*@
+                        @Html.DropDownListFor(m => m.SupplierItemRateItem[i].ItemId, new SelectList(ViewBag.Itemlist, "Value", "Text", Model.SupplierItemRateItem[i].ItemId), "Select Material/Spare", new { @class = "form_input", autocomplete = "off", @onchange = "OnMaterialChange(this, " + i + ")" })
                     </td>
 
                     <td>

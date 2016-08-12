@@ -47,6 +47,7 @@ namespace ArabErp.DAL
 
                      int id = connection.Query<int>(sql, objCustomerCategory, trn).Single();
                      objCustomerCategory.CusCategoryId = id;
+                     InsertLoginHistory(dataConnection, objCustomerCategory.CreatedBy, "Create", "Customer Category", id.ToString(), "0");
                      //connection.Dispose();
                      trn.Commit();
                  }
@@ -66,9 +67,9 @@ namespace ArabErp.DAL
              using (IDbConnection connection = OpenConnection(dataConnection))
              {
                  string sql = @"Update CustomerCategory Set CusCategoryRefNo=@CusCategoryRefNo,CusCategoryName=@CusCategoryName,CusCategoryShortName=@CusCategoryShortName OUTPUT INSERTED.CusCategoryId WHERE CusCategoryId=@CusCategoryId";
-
-
+                 
                  var id = connection.Execute(sql, objCustomerCategory);
+                 InsertLoginHistory(dataConnection, objCustomerCategory.CreatedBy, "Update", "Customer Category", id.ToString(), "0");
                  return objCustomerCategory;
              }
          }
@@ -84,6 +85,7 @@ namespace ArabErp.DAL
 
                      var id = connection.Execute(sql, objCustomerCategory);
                      objCustomerCategory.CusCategoryId = id;
+                     InsertLoginHistory(dataConnection, objCustomerCategory.CreatedBy, "Delete", "Customer Category", id.ToString(), "0");
                      result = 0;
 
                  }

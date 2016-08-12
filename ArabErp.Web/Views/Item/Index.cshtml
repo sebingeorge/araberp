@@ -39,6 +39,18 @@
         }
     });
 
+    function Filter() {
+        $(grid).addClass("fade");
+        var url = '@Url.Action("ItemList")';
+        var name = $("#txtName").val();
+        name = name.replace(/ /g, "+");
+        url += "?name=" + name;
+        //alert(url);
+        $("#grid").load(url, function () {
+            $(grid).removeClass("fade");
+        });
+    }
+
 </script>
 
 
@@ -48,9 +60,19 @@
             <h4>Item List</h4>
         </div>
 
-        <div class="main-part white pad1">
-
+        <div class="main-list pad1">
             <div class="row">
+                <div class="part">
+                    <div class="col-md-4">
+
+                        <label for="txtName">Name</label>
+                        <input type="text" class="form_input bluebox" id="txtName" onkeyup="Filter()" />
+                    </div>
+                </div>
+            </div>
+            <br />
+
+            <div class="row" id="grid">
                 @Html.Action("ItemList")
             </div>
 
@@ -58,11 +80,11 @@
                 <div class="col-md-12 hrpart1">
                     <button type="submit" class="form-button" onclick="Create();">Create</button>
                     <button type="button" class="form-button right" onclick="Exit();">Exit</button>
-                    
+
                 </div>
 
             </div>
-  
+
 
         </div>
 

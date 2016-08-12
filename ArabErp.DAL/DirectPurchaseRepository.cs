@@ -20,8 +20,14 @@ namespace ArabErp.DAL
             int id = 0;
             using (IDbConnection connection = OpenConnection(dataConnection))
             {
-                IDbTransaction txn = connection.BeginTransaction(); try
+                IDbTransaction txn = connection.BeginTransaction(); 
+                try
                 {
+
+                    int internalId = DatabaseCommonRepository.GetInternalIDFromDatabase(connection, txn, typeof(DirectPurchaseRequest).Name, "0", 1);
+                    model.PurchaseRequestNo = "DPR/0/" + internalId;
+
+
                     if (model.SoOrJc == "JC")
                     {
                         model.SaleOrderId = null;
@@ -71,7 +77,7 @@ namespace ArabErp.DAL
                             new DirectPurchaseItemRepository().InsertDirectPurchaseRequestItem(item, connection, txn);
                        
                     }
-
+                    InsertLoginHistory(dataConnection, model.CreatedBy, "Create", "Direct Purchase", id.ToString(), "0");
                     txn.Commit();
                 }
                 catch (Exception ex)
@@ -286,7 +292,7 @@ namespace ArabErp.DAL
         /// Delete HD Details
         /// </summary>
         /// <returns></returns>
-        public int DeleteDirectPurchaseHD(int Id)
+        public int DeleteDirectPurchaseHD(int Id, string CreatedBy)
         {
             int result = 0;
             using (IDbConnection connection = OpenConnection(dataConnection))
@@ -296,6 +302,7 @@ namespace ArabErp.DAL
                 {
 
                     var id = connection.Execute(sql, new { Id = Id });
+                    InsertLoginHistory(dataConnection, CreatedBy, "Delete", "Direct Purchase", id.ToString(), "0");
                     return id;
 
                 }

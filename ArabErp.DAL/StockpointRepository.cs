@@ -33,7 +33,7 @@ namespace ArabErp.DAL
                     model.StockPointRefNo = "SP/" + internalid;
                     id = connection.Query<int>(sql, model, trn).Single();
                     model.StockPointId = id;
-
+                    InsertLoginHistory(dataConnection, model.CreatedBy, "Create", "Stock Point", id.ToString(), "0");
                     trn.Commit();
                 }
                 catch (Exception e)
@@ -92,6 +92,7 @@ namespace ArabErp.DAL
                 {
                     var id = connection.Execute(sql, model);
                     model.StockPointId = id;
+                    InsertLoginHistory(dataConnection, model.CreatedBy, "Update", "Stock Point", id.ToString(), "0");
                 }
                 catch (Exception ex)
                 {
@@ -113,6 +114,7 @@ namespace ArabErp.DAL
                 {
                     var id = connection.Execute(sql, model);
                     model.StockPointId = id;
+                    InsertLoginHistory(dataConnection, model.CreatedBy, "Delete", "Stock Point", id.ToString(), "0");
                 }
                 catch (Exception ex)
                 {

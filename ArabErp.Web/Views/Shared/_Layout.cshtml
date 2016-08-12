@@ -52,6 +52,21 @@
     <script>
         $(document).ready(function () {
             showQuickView();
+            //---------------------toastr---------------------------//
+            @*toastr.options = {
+                "positionClass": "toast-bottom-full-width",
+                "timeOut": "5000",
+                "extendedTimeOut": "2000"
+            }
+            if ('@TempData["success"]' != '') {
+                toastr.success('@TempData["success"]');
+            }
+            else if ('@TempData["error"]' != '') {
+                toastr.error('@TempData["error"]'.split('|')[0]);
+                console.log('@TempData["error"]'.split('|')[1]);
+            }
+            @{ TempData["success"] = TempData["error"] = ""; }*@
+            //------------------------------------------------------//
         });
         window.setInterval("showQuickView();", 20000);
         function showQuickView() {
@@ -98,9 +113,9 @@
                         <li class="dropdown-submenu">
                             <a href="#"><span class="badge pull-right"></span>Item</a>
                             <ul class="dropdown-menu">
+                                <li><a href="@Url.Action("Create","ItemCategory")"><span class="badge pull-right"></span>Item Category</a></li>
                                 <li><a href="@Url.Action("Create","ItemGroup")"><span class="badge pull-right"></span>Item Group</a></li>
                                 <li><a href="@Url.Action("Create","ItemSubGroup")"><span class="badge pull-right"></span>Item SubGroup</a></li>
-                                <li><a href="@Url.Action("Create","ItemCategory")"><span class="badge pull-right"></span>Item Category</a></li>
                                 <li><a href="@Url.Action("Index","Item")"><span class="badge pull-right"></span>Item</a></li>
                                 <li><a href="@Url.Action("Create", "Unit")"><span class="badge pull-right"></span>UOM</a></li>
                             </ul>
@@ -108,6 +123,7 @@
                         <li class="dropdown-submenu">
                             <a href="#"><span class="badge pull-right"></span>Employee</a>
                             <ul class="dropdown-menu">
+                                <li><a href="@Url.Action("Create","Designation")"><span class="badge pull-right"></span>Designation</a></li>
                                 <li><a href="@Url.Action("Create","EmployeeCategory")"><span class="badge pull-right"></span>Employee Category</a></li>
                                 <li><a href="@Url.Action("Create", "Employee")"><span class="badge pull-right"></span>Employee</a></li>
                             </ul>
@@ -133,7 +149,6 @@
                         <li><a href="@Url.Action("CreateProjectWorkDescription","WorkDescription")"><span class="badge pull-right"></span>Project Work Description</a></li>
                         <li><a href="@Url.Action("Create","VehicleModel")"><span class="badge pull-right"></span>Vehicle Model</a></li>
                         <li><a href="@Url.Action("Create","Task")"><span class="badge pull-right"></span>Task</a></li>
-                        <li><a href="@Url.Action("Create","Designation")"><span class="badge pull-right"></span>Designation</a></li>
                         <li><a href="@Url.Action("Create", "CommissionAgent")"><span class="badge pull-right"></span>Commission Agent</a></li>
                         <li><a href="@Url.Action("Create", "OpeningStock")"><span class="badge pull-right"></span>Opening Stock</a></li>
                         <li><a href="@Url.Action("Create","StockPoint")"><span class="badge pull-right"></span>StockPoint</a></li>
@@ -247,7 +262,7 @@
                         <li class="dropdown-submenu">
                             <a href="#"><span class="badge pull-right"></span>Workshop</a>
                             <ul class="dropdown-menu">
-                                <li><a href="@Url.Action("WorkShopRequestPending","WorkShopRequest")"><span class="badge pull-right"></span>Workshop Request</a></li>
+                                <li><a href="@Url.Action("Pending","WorkShopRequest")"><span class="badge pull-right"></span>Workshop Request</a></li>
                                 <li><a href="@Url.Action("Create","AdditionalWorkShopRequest")"><span class="badge pull-right"></span>Additional Workshop Request</a></li>
                                 <li><a href="@Url.Action("Create","StockReturn")"><span class="badge pull-right"></span>Stock Return</a></li>
                                 <li><a href="@Url.Action("Create", "StockJournal")"><span class="badge pull-right"></span>Stock Journal</a></li>
@@ -279,6 +294,7 @@
                         <li><a href="@Url.Action("Index","ClosingStock")"><span class="badge pull-right"></span>Closing Stock Report</a></li>
                         <li><a href="@Url.Action("Index","StoresLedger")"><span class="badge pull-right"></span>Stores Ledger</a></li>
                         <li><a href="@Url.Action("Index","PurchaseBillRegister")"><span class="badge pull-right"></span>Purchase Bill Register</a></li>
+                        <li><a href="@Url.Action("Index", "TransactionHistory")"><span class="badge pull-right"></span>Transaction History</a></li>
                         <li><a href="@Url.Action("Index","StockMovementRegister")"><span class="badge pull-right"></span>Stock Movement Report</a></li>
                     </ul>
                 </li>
@@ -302,14 +318,11 @@
     </section>
     <div class="container-fluid" id="containerId">
         <div class="main">
-
-
-
-          
                 <div class="container-fluid body-content">
-
                     @RenderBody()
-
+                </div>
+                <div>
+                    @Html.ValidationSummary()
                 </div>
                 @Scripts.Render("~/bundles/bootstrap")
                 @RenderSection("scripts", required: false)

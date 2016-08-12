@@ -31,8 +31,10 @@ namespace ArabErp.DAL
 
             using (IDbConnection connection = OpenConnection(dataConnection))
             {
-                string sql = @"select * from TransactionHistory
-                        where TransactionHistoryId=@TransactionHistoryId";
+                string sql = @"select U.UserName, Form, Mode, TransTime, FormTransCode
+                                from TransactionHistory T
+                                inner join [User] U on T.UserId = U.UserId
+                                where FormTransCode is not null";
 
                 var objTransactionHistory = connection.Query<TransactionHistory>(sql, new
                 {
@@ -43,13 +45,18 @@ namespace ArabErp.DAL
             }
         }
 
-        public List<TransactionHistory> GetTransactionHistorys()
+        public List<TransactionHistory> GetTransactionHistorys(string From, string To)
         {
             using (IDbConnection connection = OpenConnection(dataConnection))
             {
-                string sql = @"select * from TransactionHistory
-                        where isActive=1";
-
+                string sql = @"select U.UserName, Form, Mode, TransTime, FormTransCode
+                                from TransactionHistory T
+                                inner join [User] U on T.UserId = U.UserId
+                                where FormTransCode is not null";
+                if(From != string.Empty && To != string.Empty)
+                {
+                    sql += " and TransTime >= '"+ From +"' and TransTime <= '"+ To +"'";
+                }
                 var objTransactionHistorys = connection.Query<TransactionHistory>(sql).ToList<TransactionHistory>();
 
                 return objTransactionHistorys;

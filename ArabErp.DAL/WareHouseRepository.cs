@@ -22,6 +22,7 @@ namespace ArabErp.DAL
 
 
                 var id = connection.Query<int>(sql, objWareHouse).Single();
+                InsertLoginHistory(dataConnection, objWareHouse.CreatedBy, "Create", "Warehouse", id.ToString(), "0");
                 return id;
             }
         }
@@ -61,9 +62,9 @@ namespace ArabErp.DAL
             using (IDbConnection connection = OpenConnection(dataConnection))
             {
                 string sql = @"UPDATE WareHouse SET WareHouseNo = @WareHouseNo ,WareHouseDescription = @WareHouseDescription ,CreatedBy = @CreatedBy ,CreatedDate = @CreatedDate  OUTPUT INSERTED.WareHouseId  WHERE WareHouseId = @WareHouseId";
-
-
+                
                 var id = connection.Execute(sql, objWareHouse);
+                InsertLoginHistory(dataConnection, objWareHouse.CreatedBy, "Update", "Warehouse", id.ToString(), "0");
                 return id;
             }
         }
@@ -73,9 +74,9 @@ namespace ArabErp.DAL
             using (IDbConnection connection = OpenConnection(dataConnection))
             {
                 string sql = @"Delete WareHouse  OUTPUT DELETED.WareHouseId WHERE WareHouseId=@WareHouseId";
-
-
+                
                 var id = connection.Execute(sql, objWareHouse);
+                InsertLoginHistory(dataConnection, objWareHouse.CreatedBy, "Delete", "Warehouse", id.ToString(), "0");
                 return id;
             }
         }

@@ -44,6 +44,7 @@ namespace ArabErp.DAL
                         SELECT CAST(SCOPE_IDENTITY() AS INT)";
 
                 var id = connection.Query<int>(sql, objVehicleInPass).Single();
+                InsertLoginHistory(dataConnection, objVehicleInPass.CreatedBy, "Create", "Vehicle Inpass", id.ToString(), "0");
                 return id;
             }
         }
@@ -87,8 +88,8 @@ namespace ArabErp.DAL
             {
                 string sql = @"Delete VehicleInPass  OUTPUT DELETED.VehicleInPassId WHERE VehicleInPassId=@VehicleInPassId";
 
-
                 var id = connection.Execute(sql, objVehicleInPass);
+                InsertLoginHistory(dataConnection, objVehicleInPass.CreatedBy, "Delete", "Vehicle Inpass", id.ToString(), "0");
                 return id;
             }
         }

@@ -9,46 +9,48 @@
             <h4>Profitability Report on @DateTime.Now.ToString("dd-MMMM-yyyy")</h4>
         </div>
 
-        <div class="main-part white pad1">
+        <div class="main-part pad1">
             
-            <div class="col-md-12">
+
                 <div class="row">
-                    <div class=" table-responsive">
-                        <table class="table table-bordered">
-                            <thead>
-                                <tr class="grid_heading">
-                                    <th width="10%"><h1>Sale Order Ref</h1></th>                                    
-                                    <th width="10%"><h1>SO Date</h1></th>
-                                    <th width="20%"><h1>Customer</h1></th>
-                                    <th width="10%" class="text-right"><h1>S.O Amount</h1></th>
-                                    <th width="10%" class="text-right"><h1>Purchase</h1></th>
-                                    <th width="10%" class="text-right"><h1>Expense</h1></th>
-                                    <th width="10%" class="text-right"><h1>Labour</h1></th>
-                                    <th width="10%" class="text-right"><h1>Invoice</h1></th>
-                                    <th width="10%" class="text-right"><h1>Profit/ Loss</h1></th>
-                                </tr>
-                            </thead>
-                            @foreach (var item in Model)
+                    <div class="main-grid main-grid-top scroll1">
+                        <div class=" table-responsive">
+                            <table class="table table-bordered">
+                                <thead>
+                                    <tr class="grid_heading">
+                                        <th width="10%"><h1>Sale Order Ref</h1></th>
+                                        <th width="10%"><h1>SO Date</h1></th>
+                                        <th width="20%"><h1>Customer</h1></th>
+                                        <th width="10%" class="text-right"><h1>S.O Amount</h1></th>
+                                        <th width="10%" class="text-right"><h1>Purchase</h1></th>
+                                        <th width="10%" class="text-right"><h1>Expense</h1></th>
+                                        <th width="10%" class="text-right"><h1>Labour</h1></th>
+                                        <th width="10%" class="text-right"><h1>Invoice</h1></th>
+                                        <th width="10%" class="text-right"><h1>Profit/ Loss</h1></th>
+                                    </tr>
+                                </thead>
+                                @foreach (var item in Model)
                             {
                                 decimal profit = item.SalesInvoice - (item.Purchase + item.Expense + item.Labour);
-                                <tbody class="grid_row">
-                                    <tr>
-                                        <td class="grid-cell">@item.SaleOrderRefNo</td>                                        
-                                        <td class="grid-cell">@item.SaleOrderDate.ToString("dd/MMM/yyyy")</td>
-                                        <td class="grid-cell">@item.CustomerName</td>
-                                        <td class="grid-cell text-right">@item.OrderAmount</td>
-                                        <td class="grid-cell text-right">@item.Purchase</td>
-                                        <td class="grid-cell text-right">@item.Expense</td>
-                                        <td class="grid-cell text-right">@item.Labour</td>
-                                        <td class="grid-cell text-right">@item.SalesInvoice</td>
-                                        <td class="grid-cell text-right">@profit</td>
-                                    </tr>
-                                </tbody>
+                            <tbody class="grid_row">
+                                <tr>
+                                    <td class="grid-cell">@item.SaleOrderRefNo</td>
+                                    <td class="grid-cell">@item.SaleOrderDate.ToString("dd/MMM/yyyy")</td>
+                                    <td class="grid-cell">@item.CustomerName</td>
+                                    <td class="grid-cell text-right">@item.OrderAmount</td>
+                                    <td class="grid-cell text-right">@item.Purchase</td>
+                                    <td class="grid-cell text-right">@item.Expense</td>
+                                    <td class="grid-cell text-right">@item.Labour</td>
+                                    <td class="grid-cell text-right">@item.SalesInvoice</td>
+                                    <td class="grid-cell text-right">@profit</td>
+                                </tr>
+                            </tbody>
                             }
-                        </table>
+                            </table>
+                        </div>
+                        </div>
                     </div>
-                </div>
-            </div>
+
 
         </div>
     </div>

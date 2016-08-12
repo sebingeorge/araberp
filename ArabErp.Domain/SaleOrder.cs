@@ -7,10 +7,11 @@ using System.ComponentModel.DataAnnotations;
 
 namespace ArabErp.Domain
 {
-   public class SaleOrder
+    public class SaleOrder
     {
         public int SaleOrderId { get; set; }
         public string SaleOrderRefNo { get; set; }
+        [Required]
         public DateTime SaleOrderDate { get; set; }
         public int? SalesQuotationId { get; set; }
         public string QuotationNoDate { get; set; }
@@ -19,7 +20,7 @@ namespace ArabErp.Domain
         public string CustomerAddress { get; set; }
         [Required]
         public string CustomerOrderRef { get; set; }
-       [Required]
+        [Required]
         public int? CurrencyId { get; set; }
         public string CurrencyName { get; set; }
         public string SpecialRemarks { get; set; }
@@ -28,20 +29,23 @@ namespace ArabErp.Domain
         [Required]
         public decimal? TotalAmount { get; set; }
         public decimal? TotalDiscount { get; set; }
-        public int CommissionAgentId { get; set; }
+        public int? CommissionAgentId { get; set; }
         public decimal? CommissionAmount { get; set; }
         public float? CommissionPerc { get; set; }
         [Required]
         public int SalesExecutiveId { get; set; }
+        [Required]
+        [ValidateDateGreaterThan("SaleOrderDate")]
         public DateTime EDateArrival { get; set; }
-         [Required]
+        [Required]
+        [ValidateDateGreaterThan("SaleOrderDate")]
         public DateTime EDateDelivery { get; set; }
-         [Required]
+        
         public string CreatedBy { get; set; }
         public DateTime? CreatedDate { get; set; }
         public int? OrganizationId { get; set; }
         public int? VehicleModelId { get; set; }
-     
+
         public string SaleOrderHoldReason { get; set; }
         public DateTime SaleOrderHoldDate { get; set; }
         [Required]
@@ -56,7 +60,7 @@ namespace ArabErp.Domain
         public string WorkRequestPaymentApproved { get; set; }
         public string EmployeeName { get; set; }
         public string CommissionAgentName { get; set; }
-       
-        }
+
     }
+}
 

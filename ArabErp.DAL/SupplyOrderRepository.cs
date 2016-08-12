@@ -41,7 +41,7 @@ namespace ArabErp.DAL
                             supplyorderitemrepo.InsertSupplyOrderItem(item, connection, trn);
                         }
                     }
-
+                    InsertLoginHistory(dataConnection, objSupplyOrder.CreatedBy, "Create", "LPO", id.ToString(), "0");
                     trn.Commit();
                 }
                 catch (Exception ex)
@@ -93,7 +93,7 @@ namespace ArabErp.DAL
                                     INNER JOIN PurchaseRequestItem PI ON P.PurchaseRequestId=PI.PurchaseRequestId
                                     INNER JOIN Item i ON PI.ItemId=i.ItemId
                                     LEFT JOIN #SUPPLY SUP ON PI.PurchaseRequestItemId = SUP.PurchaseRequestItemId
-                                    WHERE P.PurchaseRequestId in @selectedpurchaserequests 
+                                    WHERE P.PurchaseRequestId in @selectedpurchaserequests AND (ISNULL(PI.Quantity, 0) - ISNULL(SUP.SuppliedQuantity, 0)) > 0
                                     AND (SUP.PurchaseRequestItemId IS NULL OR ISNULL(SUP.SuppliedQuantity, 0) < ISNULL(PI.Quantity, 0));
                                     DROP TABLE #SUPPLY;";
 
@@ -131,14 +131,15 @@ namespace ArabErp.DAL
 	                                ISNULL(P.SpecialRemarks, '-') SpecialRemarks,
 	                                ISNULL(WRK.WorkShopRequestRefNo, '')+' - '+CONVERT(VARCHAR, WRK.WorkShopRequestDate, 106) WRNoAndDate,
 	                                DATEDIFF(dd,P.PurchaseRequestDate,GETDATE ()) Ageing,
+									DATEDIFF(dd, GETDATE(), P.RequiredDate) DaysLeft,
 	                                P.PurchaseRequestDate, P.CreatedDate
                                 from PurchaseRequest P
                                 INNER JOIN PurchaseRequestItem PRI ON P.PurchaseRequestId = PRI.PurchaseRequestId
                                 INNER JOIN WorkShopRequest WRK ON P.WorkShopRequestId = WRK.WorkShopRequestId
                                 LEFT JOIN #SUPPLY SUP ON PRI.PurchaseRequestItemId = SUP.PurchaseRequestItemId
-                                WHERE P.isActive=1 and 
+                                WHERE P.isActive=1 and  ISNULL(PRI.Quantity, 0) > 0 AND 
                                 (SUP.PurchaseRequestItemId IS NULL OR ISNULL(SUP.SuppliedQuantity, 0) < ISNULL(PRI.Quantity, 0))
-                                ORDER BY P.PurchaseRequestDate DESC, P.CreatedDate DESC;
+                                ORDER BY P.RequiredDate DESC, P.PurchaseRequestDate DESC;
                                 DROP TABLE #SUPPLY;";
 
                 var objPendingPurchaseRequests = connection.Query<PendingPurchaseRequest>(sql).ToList<PendingPurchaseRequest>();
@@ -215,6 +216,7 @@ namespace ArabErp.DAL
 
 
                 var id = connection.Execute(sql, objSupplyOrder);
+                InsertLoginHistory(dataConnection, objSupplyOrder.CreatedBy, "Update", "LPO", id.ToString(), "0");
                 return id;
             }
         }
@@ -226,6 +228,7 @@ namespace ArabErp.DAL
 
 
                 var id = connection.Execute(sql, objSupplyOrder);
+                InsertLoginHistory(dataConnection, objSupplyOrder.CreatedBy, "Delete", "LPO", id.ToString(), "0");
                 return id;
             }
         }
@@ -332,21 +335,21 @@ namespace ArabErp.DAL
             }
         }
 
-        public SupplyOrderItem GetSupplierItemRate(int Id, string ItemId)
+        public SupplyOrderItem GetSupplierItemRate(int Id, int ItemId)
         {
             try
             {
                 using (IDbConnection connection = OpenConnection(dataConnection))
                 {
 
-                    string query = String.Format("select ItemId,FixedRate  from SupplierItemRate where SupplierId = {0} and ItemId in ({1});", Id, ItemId);
+                    string query = String.Format("select ItemId, ISNULL(FixedRate, 0) FixedRate  from SupplierItemRate where SupplierId = {0} and ItemId = {1};", Id, ItemId);
                     return connection.Query<SupplyOrderItem>(query).First<SupplyOrderItem>();
                       
                 }
             }
-            catch (Exception ex)
+            catch (Exception)
             {
-                throw ex;
+                return new SupplyOrderItem { ItemId = Id, FixedRate = 0 };
             }
         }
 

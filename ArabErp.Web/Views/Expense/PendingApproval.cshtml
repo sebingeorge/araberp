@@ -46,75 +46,79 @@
         </div>
 
         <div class="main-part pad1">
-            <div class="table-responsive scroll4">
-                <table class="table table-bordered">
-                    <thead>
-                        <tr class="grid_heading">
-                            <th width="2%" class="text-center">#</th>
-                            <th width="12%" nowrap><h1>Expense No. &amp; Date</h1></th>
-                            <th width="12%" nowrap><h1>Expense Bill Ref. No.</h1></th>
-                            <th width="12%" nowrap><h1>Expense Bill Date</h1></th>
-                            <th width="12%" nowrap><h1>Expense Bill Due Date</h1></th>
-                            <th width="10%" nowrap><h1>SO/JC Ref. No &amp; Date</h1></th>
-                            <th width="25%"><h1>Supplier</h1></th>
-                            <th width="10%" class="text-right"><h1>Amount</h1></th>
-                            <th width="5%"></th>
-                        </tr>
-                    </thead>
-                    <tbody class="grid_row">
-                        @if (Model.Count > 0)
+            <div class="row">
+                <div class="main-grid main-grid-top scroll1">
+                    <div class="table-responsive">
+                        <table class="table table-bordered">
+                            <thead>
+                                <tr class="grid_heading">
+                                    <th width="2%" class="text-center">#</th>
+                                    <th width="12%" nowrap><h1>Expense No. &amp; Date</h1></th>
+                                    <th width="12%" nowrap><h1>Expense Bill Ref. No.</h1></th>
+                                    <th width="12%" nowrap><h1>Expense Bill Date</h1></th>
+                                    <th width="12%" nowrap><h1>Expense Bill Due Date</h1></th>
+                                    <th width="10%" nowrap><h1>SO/JC Ref. No &amp; Date</h1></th>
+                                    <th width="20%"><h1>Supplier</h1></th>
+                                    <th width="10%" class="text-right"><h1>Amount</h1></th>
+                                    <th width="10%"><center>Select</center></th>
+                                </tr>
+                            </thead>
+                            <tbody class="grid_row">
+                                @if (Model.Count > 0)
                         {
                             for (int i = 0; i < Model.Count; i++)
                             {
-                                <tr>
-                                    <td>
-                                        <input class="form_input text-center" style="width:100%" value="@(i+1)" disabled />
-                                    </td>
-                                    <td>
-                                        <input class="form_input" value="@Model[i].ExpenseNo - @Model[i].ExpenseDate.ToString("dd MMMM yyyy")" disabled />
-                                    </td>
-                                    <td>
-                                        <input class="form_input" value="@Model[i].ExpenseBillRef" disabled />
-                                    </td>
-                                    <td>
-                                        <input class="form_input" value="@Model[i].ExpenseBillDate" disabled />
-                                    </td>
-                                    <td>
-                                        <input class="form_input" value="@Model[i].ExpenseBillDueDate" disabled />
-                                    </td>
-                                    <td>
-                                        <input class="form_input" @{if (Model[0].Type == "SO") { @: value="@Model[i].SaleOrderRefNo - @Model[i].SaleOrderDate"
-                                                                                                 } else {  @: value="@Model[i].JobCardNo - @Model[i].JobCardDate"
-                                        } } disabled />
-                                    </td>
-                                    <td>
-                                        <input class="form_input" value="@Model[i].SupplierName" disabled />
-                                    </td>
-                                    <td>
-                                        <input class="form_input text-right" value="@Model[i].TotalAmount" disabled />
-                                    </td>
-                                    <td>
-                                        <input type="button" class="form-button5" value="Select" onclick="Approve(@Model[i].ExpenseId)" />
-                                    </td>
-                                </tr>
+                        <tr>
+                            <td>
+                                <input class="form_input text-center" style="width:100%" value="@(i+1)" disabled />
+                            </td>
+                            <td>
+                                <input class="form_input" value="@Model[i].ExpenseNo - @Model[i].ExpenseDate.ToString("dd MMMM yyyy")" disabled />
+                            </td>
+                            <td>
+                                <input class="form_input" value="@Model[i].ExpenseBillRef" disabled />
+                            </td>
+                            <td>
+                                <input class="form_input" value="@Model[i].ExpenseBillDate" disabled />
+                            </td>
+                            <td>
+                                <input class="form_input" value="@Model[i].ExpenseBillDueDate" disabled />
+                            </td>
+                            <td>
+                                <input class="form_input" @{if (Model[0].Type == "SO") { @: value="@Model[i].SaleOrderRefNo - @Model[i].SaleOrderDate"
+                                                                                                                                        } else {  @: value="@Model[i].JobCardNo - @Model[i].JobCardDate"
+                                                                               } } disabled />
+                            </td>
+                            <td>
+                                <input class="form_input" value="@Model[i].SupplierName" disabled />
+                            </td>
+                            <td>
+                                <input class="form_input text-right" value="@Model[i].TotalAmount" disabled />
+                            </td>
+                            <td>
+                                <center><input type="button" class="form-button5" value="Select" onclick="Approve(@Model[i].ExpenseId)" /></center>
+                            </td>
+                        </tr>
                             }
                         }
                         else
                         {
-                            <tr>
-                                <td colspan="9">
-                                    <center>
-                                        <em>
-                                            No items found!
-                                        </em>
-                                    </center>
-                                </td>
-                            </tr>
+                        <tr>
+                            <td colspan="9">
+                                <center>
+                                    <em>
+                                        No items found!
+                                    </em>
+                                </center>
+                            </td>
+                        </tr>
                         }
-                    </tbody>
-                </table>
+                            </tbody>
+                        </table>
 
+                    </div>
+                    </div>
+                </div>
+                </div>
             </div>
-        </div>
-    </div>
 

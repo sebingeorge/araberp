@@ -101,14 +101,16 @@
                         </div>
                     </div>
                 }
-                <div class="table-responsive scroll4">
+                            <div class="row">
+                <div class="main-grid main-grid-top scroll1">
+                <div class="table-responsive">
                     <table class="table table-bordered">
                         <thead>
                             <tr class="grid_heading">
                                 <th width="2%" class="text-center">#</th>
                                 <th width="60%"><h1>Item Name</h1></th>
-                                <th width="33%"><h1>Serial Number</h1></th>
-                                <th width="5%"><h1>Select</h1></th>
+                                <th width="28%"><h1>Serial Number</h1></th>
+                                <th width="10%"><center><h1>Select</h1></center></th>
                             </tr>
                         </thead>
                         <tbody class="grid_row">
@@ -131,7 +133,7 @@
                                             @Html.TextBoxFor(m => m[i].SerialNo, new { @class = "form_input", autocomplete = "off", @readonly = "readonly" })
                                         </td>
                                         <td>
-                                            @Html.CheckBoxFor(m => m[i].isSelected, new { @class = "form_input", autocomplete = "off", @readonly = "readonly" })
+                                            <center>@Html.CheckBoxFor(m => m[i].isSelected, new { @class = "form_input", autocomplete = "off", @readonly = "readonly" })</center>
                                         </td>
 
                                     </tr>
@@ -153,6 +155,8 @@
                     </table>
 
                 </div>
+                    </div>
+                   </div>
                 <div class="row">
                     <div class="col-md-12 hrpart">
                         <input type="button" class="form-button right" onclick="Back()" value="Back">

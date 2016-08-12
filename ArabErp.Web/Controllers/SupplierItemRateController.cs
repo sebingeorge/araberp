@@ -70,18 +70,19 @@ namespace ArabErp.Web.Controllers
 
             model.OrganizationId = OrganizationId;
             model.CreatedDate = System.DateTime.Now;
-            model.CreatedBy = Request.ServerVariables["HTTP_X_FORWARDED_FOR"] ?? Request.ServerVariables["REMOTE_ADDR"];
+            model.CreatedBy = UserID.ToString();
             new SupplierItemRateRepository().DeleteSupplierItemRate(model);
             new SupplierItemRateRepository().InsertSupplierItemRate(model);
 
             FillSupplier();
             FillItem();
 
-            //TempData["Success"] = "Added Successfully!";
-            SupplierItemRate SupplierItemRate = new SupplierItemRate();
+               SupplierItemRate SupplierItemRate = new SupplierItemRate();
             SupplierItemRate.SupplierItemRateItem = new List<SupplierItemRateItem>();
             SupplierItemRate.SupplierItemRateItem.Add(new SupplierItemRateItem());
             //return View("Create");
+            TempData["Success"] = "Updated Successfully!";
+            TempData["SupplierId"] = model.SupplierId;
             return RedirectToAction("Create");
         }
     }

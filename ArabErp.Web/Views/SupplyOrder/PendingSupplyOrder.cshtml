@@ -56,7 +56,7 @@
         <div class="form-head1">
             <h4>Pending Purchase Requests</h4>
         </div>
-        <div class="main-part pad1 white">
+        <div class="main-part pad1">
             <form method="post" action="@Url.Action("Create", "SupplyOrder")" onsubmit="return formValidation()">
                 @*<div class=" table-responsive">
                         <table class="table table-bordered">
@@ -83,11 +83,12 @@
                             <table class="table table-bordered">
                                 <thead>
                                     <tr class="grid_heading">
-                                        <th width="12%"><h1>PRS No. &amp; Date</h1></th>
+                                        <th width="15%"><h1>PRS No. &amp; Date</h1></th>
                                         <th width="10%"><h1>Required Date</h1></th>
-                                        <th width="12%"><h1>WR No. &amp; Date</h1></th>
-                                        <th width="56%"><h1>Special Remarks</h1></th>
+                                        <th width="15%"><h1>WR No. &amp; Date</h1></th>
+                                        <th width="40%"><h1>Special Remarks</h1></th>
                                         <th width="5%" nowrap><h1>Ageing</h1></th>
+                                        <th width="5%" nowrap><h1>Days Left</h1></th>
                                         <th width="5%" nowrap><center><h1>Select</h1></center></th>
                                     </tr>
                                 </thead>
@@ -98,7 +99,7 @@
                                         {
                                             @Html.HiddenFor(m => m[i].PurchaseRequestId)
                                             <tr>
-                                                <td>
+                                                @*<td>
                                                     <input type="text" value="@Model[i].PurchaseRequestNo  -  @Model[i].RequiredDate.ToString("dd MMM yyyy")" class="form_input" disabled />
                                                 </td>
                                                 <td>
@@ -112,6 +113,31 @@
                                                 </td>
                                                 <td>
                                                     <input type="text" style=" text-align:right;" value="@Model[i].Ageing" class="form_input" disabled />
+                                                </td>
+                                                <td>
+                                                    <input type="text" style=" text-align:right;" value="@Model[i].DaysLeft" class="form_input" disabled />
+                                                </td>
+                                                <td>
+                                                    <center>@Html.CheckBoxFor(m => m[i].Select)</center>
+                                                </td>*@
+
+                                                <td>
+                                                    @Model[i].PurchaseRequestNo  -  @Model[i].RequiredDate.ToString("dd MMM yyyy")
+                                                </td>
+                                                <td>
+                                                    @Model[i].RequiredDate.ToString("dd MMM yyyy")
+                                                </td>
+                                                <td>
+                                                    @Model[i].WRNoAndDate
+                                                </td>
+                                                <td>
+                                                    @Model[i].SpecialRemarks
+                                                </td>
+                                                <td>
+                                                    @Model[i].Ageing
+                                                </td>
+                                                <td>
+                                                    @Model[i].DaysLeft
                                                 </td>
                                                 <td>
                                                     <center>@Html.CheckBoxFor(m => m[i].Select)</center>
@@ -141,7 +167,7 @@
                 </div>
     
                 <div class="row">
-                    <div class="col-md-12 hrpart1">
+                    <div class="col-md-12 hrpart">
                         <input type="button" class="form-button" onclick="PreviousList()" value="Previous" title="Previous supply orders">
                         <input type="button" class=" form-button right" onclick="Exit()" value="Exit" />
                         <button type="submit" class="form-button right">Proceed</button>

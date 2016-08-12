@@ -18,6 +18,35 @@
 
     }
 }
+<script type="text/javascript">
+
+    $(document).ready(function () {
+              
+
+        //$("#radio_1").prop("checked", true)
+        toastr.options = {
+            "closeButton": true,
+            "positionClass": "toast-bottom-full-width",
+            "preventDuplicates": false,
+            "onclick": null,
+
+            "timeOut": "0",
+            "extendedTimeOut": "1000",
+
+            "showEasing": "swing",
+            "hideEasing": "linear",
+            "showMethod": "fadeIn",
+            "hideMethod": "fadeOut"
+        }
+        if ('@TempData["success"]' != "" && '@TempData["QuotationRefNo"]' != "") {
+            toastr.success('@TempData["success"]' + ' Sales Quotation Ref No. is : ' + '@TempData["QuotationRefNo"]');
+        }
+        else if ('@TempData["error"]' != "") {
+            toastr.error('@TempData["error"]');
+        }
+
+    });
+</script>
 
 
 
@@ -27,7 +56,7 @@
             <h4>Pending Quotation Request Approval</h4>
         </div>
 
-        <div class="main-part pad1 white">
+        <div class="main-part pad1">
             <div class="row">
                 <div class="main-grid main-grid-top scroll1">
                     <div class="table-responsive">
@@ -35,12 +64,12 @@
                         <table class="table table-bordered">
                             <thead>
                                 <tr class="grid_heading">
-                                    <th width="40%"><h1>Customer</h1></th>
+                                    <th width="35%"><h1>Customer</h1></th>
                                     <th width="25%"><h1>Sales Executive</h1></th>
                                     <th width="15%"><h1>Quotation Ref.No. & Date</h1></th>
                                     <th width="10%" class="text-right"><h1>Amount</h1></th>
                                     <th width="5%"><h1>Status</h1></th>
-                                    <th width="5%"><center><h1>Select</h1></center></th>
+                                    <th width="10%"><center><h1>Select</h1></center></th>
 
                                 </tr>
                             </thead>

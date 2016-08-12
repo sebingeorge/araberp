@@ -32,41 +32,62 @@
         </div>
 
        
-        <div class="main-part pad1 white">
-            <div class="main-grid-top scroll1">
-                <div class=" table-responsive">
-                    <table class="table table-bordered">
-                        <thead>
-                            <tr class="grid_heading">
-                                <th width="15%"><h1>SO No & Date</h1></th>
-                                <th width="65%"><h1>Customer</h1></th>
-                                <th width="15%"><h1>Customer Order Ref.</h1></th>
-                                <th width="5%"><center><h1>Select</h1></center></th>
-                            </tr>
-                        </thead>
-                        @foreach (var item in Model)
-                        {
-                            <tbody class="grid_row">
-                                <tr>
-                                    <td class="grid-cell">@item.SaleOrderRefNo &amp; @item.SaleOrderDate.ToString("dd/MMM/yyyy")</td>
-                                    <td class="grid-cell">@item.CustomerName</td>
-                                    <td class="grid-cell">@item.CustomerOrderRef</td>
-                                    <td><center><button class="form-button4">@Html.ActionLink("Select", "Approval", "SaleOrder", new { SaleOrderId = @item.SaleOrderId }, null)</button></center></td>
-                                   
+        <div class="main-part pad1">
+            <div class="row">
+                <div class="main-grid main-grid-top scroll4">
+                    <div class="table-responsive">
+                        <table class="table table-bordered">
+                            <thead>
+                                <tr class="grid_heading">
+                                    <th width="12%"><h1>SO No & Date</h1></th>
+                                    <th width="21%"><h1>Customer</h1></th>
+                                    <th width="12%"><h1>Customer Order Ref.</h1></th>
+                                    <th width="15%"><h1>Employee</h1></th>
+                                    <th width="10%"><h1>Total Amount</h1></th>
+                                    <th width="10%"><h1>Ageing</h1></th>
+                                    <th width="10%"><h1>Days Left</h1></th>
+                                    <th width="10%"><center><h1>Select</h1></center></th>
                                 </tr>
+                            </thead>
+                            <tbody class="grid_row">
+                                @if (Model.Count() > 0)
+                                {
+                                    foreach (var item in Model)
+                                    {
+                                        <tr>
+                                            <td class="grid-cell">@item.SaleOrderRefNo &amp; @item.SaleOrderDate.ToString("dd/MMM/yyyy")</td>
+                                            <td class="grid-cell">@item.CustomerName</td>
+                                            <td class="grid-cell">@item.CustomerOrderRef</td>
+                                            <td class="grid-cell">@item.EmployeeName</td>
+                                            <td class="grid-cell">@item.TotalAmount</td>
+                                            <td class="grid-cell">@item.Ageing</td>
+                                            <td class="grid-cell">@item.Remaindays</td>
+                                            <td><center><button class="form-button4">@Html.ActionLink("Select", "Approval", "SaleOrder", new { SaleOrderId = @item.SaleOrderId }, null)</button></center></td>
+                                        </tr>
+
+                                    }
+                                }
+                                else
+                                {
+                                    <tr>
+                                        <td colspan="8">
+                                            <center><em>No items found!</em></center>
+                                        </td>
+                                    </tr>
+                                }
                             </tbody>
-                        }
-                    </table>
+                        </table>
+                    </div>
+
+
                 </div>
 
 
+                <div class="row-count1">
+                    <h5>Row Count:- @Model.Count()</h5>
+                </div>
+
             </div>
-
-
-            <div class="row-count">
-                <h5>Row Count:- @Model.Count()</h5>
-            </div>   
-
+            </div>
         </div>
-    </div>
 

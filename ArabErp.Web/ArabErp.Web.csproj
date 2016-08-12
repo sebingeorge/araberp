@@ -264,6 +264,7 @@
     <Compile Include="Controllers\SupplyOrderController.cs" />
     <Compile Include="Controllers\SupplyOrderFollowupController.cs" />
     <Compile Include="Controllers\TaskController.cs" />
+    <Compile Include="Controllers\TransactionHistoryController.cs" />
     <Compile Include="Controllers\UnitController.cs" />
     <Compile Include="Controllers\VehicleInPassController.cs" />
     <Compile Include="Controllers\VehicleModelController.cs" />
@@ -529,7 +530,7 @@
     <Content Include="Views\StockReturn\Create.cshtml" />
     <Content Include="Views\StockJournal\Create.cshtml" />
     <Content Include="Views\AdditionalWorkShopRequest\Create.cshtml" />
-    <Content Include="Views\WorkShopRequest\WorkShopRequestPending.cshtml" />
+    <Content Include="Views\WorkShopRequest\Pending.cshtml" />
     <Content Include="Views\PurchaseRequest\PendingPurchaseRequest.cshtml" />
     <Content Include="Views\SupplyOrder\PendingSupplyOrder.cshtml" />
     <Content Include="Views\GrnWareHouse\PendingGrnWareHouse.cshtml" />
@@ -775,6 +776,11 @@
     <Content Include="Content\selectric.scss" />
     <Content Include="Views\PurchaseBillRegister\_PurchaseBillRegister.cshtml" />
     <Content Include="Views\StockMovementRegister\Index.cshtml" />
+    <Content Include="Views\SaleOrder\Edit.cshtml" />
+    <Content Include="Views\TransactionHistory\Index.cshtml" />
+    <Content Include="Views\TransactionHistory\_Grid.cshtml" />
+    <Content Include="Views\WorkDescription\Edit.cshtml" />
+    <Content Include="Views\WorkShopRequest\_PendingGrid.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

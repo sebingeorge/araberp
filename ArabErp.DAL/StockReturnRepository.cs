@@ -49,6 +49,7 @@ namespace ArabErp.DAL
                         item.StockReturnId = id;
                         new StockReturnItemRepository().InsertStockReturnItem(item, connection, txn);
                     }
+                    InsertLoginHistory(dataConnection, model.CreatedBy, "Create", "Stock Return", id.ToString(), "0");
                     txn.Commit();
                     return id;
                 }
@@ -96,8 +97,8 @@ namespace ArabErp.DAL
             {
                 string sql = @"UPDATE StockReturn SET StockReturnDate = @StockReturnDate ,JobCardId = @JobCardId ,SpecialRemarks = @SpecialRemarks ,CreatedBy = @CreatedBy,CreatedDate = @CreatedDate  OUTPUT INSERTED.StockReturnId  WHERE StockReturnId = @StockReturnId";
 
-
                 var id = connection.Execute(sql, objStockReturn);
+                InsertLoginHistory(dataConnection, objStockReturn.CreatedBy, "Update", "Stock Return", id.ToString(), "0");
                 return id;
             }
         }
@@ -107,9 +108,8 @@ namespace ArabErp.DAL
             using (IDbConnection connection = OpenConnection(dataConnection))
             {
                 string sql = @"Delete StockReturn  OUTPUT DELETED.StockReturnId WHERE StockReturnId=@StockReturnId";
-
-
                 var id = connection.Execute(sql, objStockReturn);
+                InsertLoginHistory(dataConnection, objStockReturn.CreatedBy, "Delete", "Stock Return", id.ToString(), "0");
                 return id;
             }
         }

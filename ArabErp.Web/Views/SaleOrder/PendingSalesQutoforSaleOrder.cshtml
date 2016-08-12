@@ -8,11 +8,10 @@
 
 <script>
 
-    function PreviousList()
-    {
-       
+    function PreviousList() {
+
         var url = '@Url.Action("Index", "SaleOrder", new { type = ViewBag.ProjectBased })';
-         
+
         window.location = url;
     }
 
@@ -23,66 +22,85 @@
 
 </script>
 
-    <div class="row">
+<div class="row">
 
-        <div class="form-head1">
-            <h4>Pending Sales Quotation for Sale Order</h4>
-        </div>
+    <div class="form-head1">
+        <h4>Pending Sales Quotation for Sale Order</h4>
+    </div>
 
-        <div class="main-part pad1">
-            <div class="main-grid-top scroll1">
+    <div class="main-part pad1">
+        <div class="row">
+            <div class="main-grid main-grid-top scroll1">
                 <div class="table-responsive">
 
                     <table class="table table-bordered">
                         <thead>
                             <tr class="grid_heading">
 
-                                <th width="12%"><h1>Quotation No. & Date</h1></th>
-                                <th width="15%"><h1>Customer</h1></th>
-                                <th width="43%"><h1>Work Description</h1></th>
+                                <th width="12%" nowrap><h1>Quotation No. & Date</h1></th>
+                                <th width="12%"><h1>Customer</h1></th>
+                                <th width="34%"><h1>Work Description</h1></th>
                                 <th width="10%" class="text-right"><h1>Amount</h1></th>
                                 <th width="15%"><h1>Sales Executive</h1></th>
-                                <th width="5%"><center><h1></h1></center></th>
+                                <th width="10%" nowrap><h1>Exp. Delivery</h1></th>
+                                <th width="5%"><h1>Ageing</h1></th>
+                                <th width="5%" nowrap><h1>Days Left</h1></th>
+                                <th width="10%"><center><h1>Select</h1></center></th>
                             </tr>
                         </thead>
-                @foreach (var item in Model)
-                        {
-                            <tbody class="grid_row">
+                        <tbody class="grid_row">
+                            @if (Model.Count() > 0)
+                            {
+                                foreach (var item in Model)
+                                {
+                                    <tr>
+                                        <td class="grid-cell">@item.QuotationRefNo &amp; @item.QuotationDate.ToString("dd/MMM/yyyy")</td>
+                                        <td class="grid-cell">@item.CustomerName</td>
+                                        <td class="grid-cell">@item.WorkDescription</td>
+                                        <td class="grid-cell" align="right">@item.Amount</td>
+                                        <td class="grid-cell">@item.SalesExecutiveName</td>
+                                        <td class="grid-cell" nowrap>@item.ExpectedDeliveryDate.ToString("dd-MMMM-yyyy")</td>
+                                        <td class="grid-cell">@item.Ageing</td>
+                                        <td class="grid-cell">@item.DaysLeft</td>
+                                        @if (@item.isProjectBased == 0)
+                                        {
+                                            <td><center>@Html.ActionLink("Select", "Create", "SaleOrder", new { SalesQuotationId = @item.SalesQuotationId }, new { @class = "form-button5" })</center></td>
+                                        }
+                                        else
+                                        {
+                                            <td><center>@Html.ActionLink("Select", "CreateProject", "SaleOrder", new { SalesQuotationId = @item.SalesQuotationId }, new { @class = "form-button5" })</center></td>
+                                        }
+                                    </tr>
+                                }
+                            }
+                            else
+                            {
                                 <tr>
-                                    <td class="grid-cell">@item.QuotationRefNo &amp; @item.QuotationDate.ToString("dd/MMM/yyyy")</td>
-                                    <td class="grid-cell">@item.CustomerName</td>
-                                    <td class="grid-cell">@item.WorkDescription</td>
-                                    <td class="grid-cell" align="right">@item.Amount</td>
-                                    <td class="grid-cell">@item.SalesExecutiveName</td>
-                @if (@item.isProjectBased == 0)
-                                  {
-                                    <td><center>@Html.ActionLink("Select", "Create", "SaleOrder", new { SalesQuotationId = @item.SalesQuotationId }, new { @class = "form-button5" })</center></td>
-                                  }
-                                else
-                                  {
-                                    <td><center>@Html.ActionLink("Select", "CreateProject", "SaleOrder", new { SalesQuotationId = @item.SalesQuotationId }, new { @class = "form-button5" })</center></td>
-                                  }
+                                    <td colspan="7">
+                                        <center><em>No items found!</em></center>
+                                    </td>
                                 </tr>
-                            </tbody>
-                        }
+                            }
+                        </tbody>
                     </table>
                 </div>
             </div>
 
 
-                <div class="row-count">
-                    <h5>Row Count:- @Model.Count()</h5>
-                </div>
-
-            <div class="row">
-                <div class="col-md-12 hrpart">
-                    <input type="button" class="form-button" onclick="PreviousList()" value="Previous">
-                    <input type="button" class="form-button right" onclick="Exit()" value="Exit">
-                </div>
+            <div class="row-count1">
+                <h5>Row Count:- @Model.Count()</h5>
             </div>
         </div>
 
+        <div class="row">
+            <div class="col-md-12 hrpart">
+                <input type="button" class="form-button" onclick="PreviousList()" value="Previous">
+                <input type="button" class="form-button right" onclick="Exit()" value="Exit">
+            </div>
+        </div>
     </div>
+
+</div>
 
 
 

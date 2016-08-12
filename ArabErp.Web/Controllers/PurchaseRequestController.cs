@@ -70,19 +70,25 @@ namespace ArabErp.Web.Controllers
             model.PurchaseRequestNo = "PUR/" + internalId;
             model.PurchaseRequestDate = System.DateTime.Today;
             model.RequiredDate = System.DateTime.Today;
-
+            model.OrganizationId = OrganizationId;
+            model.CreatedDate = System.DateTime.Now;
+            model.CreatedBy = UserID.ToString();
 
             return View(model);
         }
         [HttpPost]
-        public ActionResult Save(PurchaseRequest model)
+        public ActionResult Create(PurchaseRequest model)
         {
             try
             {
+                if(!ModelState.IsValid)
+                {
+                    return View(model);
+                }
                 model.OrganizationId = OrganizationId;
-            model.CreatedDate = System.DateTime.Now;
-            model.CreatedBy = Request.ServerVariables["HTTP_X_FORWARDED_FOR"] ?? Request.ServerVariables["REMOTE_ADDR"];
-            string id = new PurchaseRequestRepository().InsertPurchaseRequest(model);
+                model.CreatedDate = System.DateTime.Now;
+                model.CreatedBy = UserID.ToString();
+                string id = new PurchaseRequestRepository().InsertPurchaseRequest(model);
                    if (id.Split('|')[0] != "0")
                    {
                        TempData["success"] = "Saved successfully. Purchase Request Reference No. is " + id.Split('|')[1];
@@ -134,7 +140,7 @@ namespace ArabErp.Web.Controllers
             ViewBag.Title = "Edit";
             model.OrganizationId = OrganizationId;
             model.CreatedDate = System.DateTime.Now;
-            model.CreatedBy = Request.ServerVariables["HTTP_X_FORWARDED_FOR"] ?? Request.ServerVariables["REMOTE_ADDR"];
+            model.CreatedBy = UserID.ToString();
 
             var repo = new PurchaseRequestRepository();
 
@@ -151,7 +157,7 @@ namespace ArabErp.Web.Controllers
                 try
             {
               var result2 = new PurchaseRequestRepository().DeletePurchaseRequestDT(model.PurchaseRequestId);
-              var result3 = new PurchaseRequestRepository().DeletePurchaseRequestHD(model.PurchaseRequestId);
+              var result3 = new PurchaseRequestRepository().DeletePurchaseRequestHD(model.PurchaseRequestId, UserID.ToString());
               //var result = new PurchaseRequestRepository().UpdatePurchaseRequest(model);
                 string id = new PurchaseRequestRepository().InsertPurchaseRequest(model);
                   if (id.Split('|')[0] != "0")
@@ -178,7 +184,7 @@ namespace ArabErp.Web.Controllers
                    {
                        TempData["error"] = "Some error occured. Please try again.|" + ex.Message;
                    }
-            return RedirectToAction("PendingPurchaseRequest");
+            return RedirectToAction("Index");
         }
               
           }
@@ -198,7 +204,7 @@ namespace ArabErp.Web.Controllers
             else
             {
                 var result2 = new PurchaseRequestRepository().DeletePurchaseRequestDT(Id);
-                var result3 = new PurchaseRequestRepository().DeletePurchaseRequestHD(Id);
+                var result3 = new PurchaseRequestRepository().DeletePurchaseRequestHD(Id, UserID.ToString());
 
                 if (Id > 0)
                 {

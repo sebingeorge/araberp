@@ -25,56 +25,59 @@
             <h4>Daily Activity List</h4>
         </div>
         <div class="main-part pad1">
-
-            <div class="table-responsive scroll4">
-                <table class="table table-bordered" id="tab_logic">
-                    <thead>
-                        <tr class="grid_heading">
-                            <th width="3%" class="text-center"><h1>#</h1></th>
-                            <th width="15%" class="text-left" title="Daily Activity Ref. No. and Date"><h1>DA Ref. No. &amp; Date</h1></th>
-                            <th width="15%" title="Job Card Ref. No. and Date"><h1>JC Ref. No. &amp; Date</h1></th>
-                            <th width="10%"><h1>Employee</h1></th>
-                            <th width="15%"><h1>Remarks</h1></th>
-                            <th width="5%" nowrap><h1>Actual Hours</h1></th>
-                            <th width="20%"><h1>Tasks</h1></th>
-                            <th width="1%" class="text-center"></th>
-                        </tr>
-                    </thead>
-                    <tbody class="grid_row">
-                        @if (Model.Count > 0)
+            <div class="row">
+                <div class="main-grid main-grid-top scroll1">
+                    <div class="table-responsive">
+                        <table class="table table-bordered" id="tab_logic">
+                            <thead>
+                                <tr class="grid_heading">
+                                    <th width="2%" class="text-center"><h1>#</h1></th>
+                                    <th width="15%" class="text-left" title="Daily Activity Ref. No. and Date"><h1>DA Ref. No. &amp; Date</h1></th>
+                                    <th width="15%" title="Job Card Ref. No. and Date"><h1>JC Ref. No. &amp; Date</h1></th>
+                                    <th width="10%"><h1>Employee</h1></th>
+                                    <th width="23%"><h1>Remarks</h1></th>
+                                    <th width="5%" nowrap><h1>Actual Hours</h1></th>
+                                    <th width="20%"><h1>Tasks</h1></th>
+                                    <th width="10%" class="text-center"><h1>Select</h1></th>
+                                </tr>
+                            </thead>
+                            <tbody class="grid_row">
+                                @if (Model.Count > 0)
                         {
                             for (int i = 0; i < Model.Count; i++)
                             {
-                                <tr>
-                                    <td>
-                                        <input type="text" class="form_input text-center" style="width:100%" value="@(i+1)" />
-                                    </td>
-                                    <td>
-                                        <input type="text" class="form_input" style="width:100%" value="@Model[i].JobCardDailyActivityRefNo - @Model[i].JobCardDailyActivityDate.ToString("dd MMMM yyyy")" />
-                                    </td>
-                                    <td>
-                                        <input type="text" class="form_input" style="width:100%" value="@Model[i].JobCardNo - @Model[i].JobCardDate.ToString("dd MMMM yyyy")" />
-                                    </td>
-                                    <td>
-                                        <input type="text" class="form_input" style="width:100%" value="@Model[i].EmployeeName" />
-                                    </td>
-                                    <td>
-                                        <input type="text" class="form_input" style="width:100%" value="@Model[i].Remarks" />
-                                    </td>
-                                    <td>
-                                        <input type="text" class="form_input" style="width:100%" value="@Model[i].ActualHours" />
-                                    </td>
-                                    <td>
-                                        <input type="text" class="form_input" style="width:100%" value="@Model[i].Tasks" />
-                                    </td>
-                                    <td>
-                                        <input type="button" class="form-button4" onclick="OnItemSelected(@Model[i].JobCardDailyActivityId)" value="Select" title="Select to view details" />
-                                    </td>
-                                </tr>
+                        <tr>
+                            <td>
+                                <input type="text" class="form_input text-center" style="width:100%" value="@(i+1)" />
+                            </td>
+                            <td>
+                                <input type="text" class="form_input" style="width:100%" value="@Model[i].JobCardDailyActivityRefNo - @Model[i].JobCardDailyActivityDate.ToString("dd MMMM yyyy")" />
+                            </td>
+                            <td>
+                                <input type="text" class="form_input" style="width:100%" value="@Model[i].JobCardNo - @Model[i].JobCardDate.ToString("dd MMMM yyyy")" />
+                            </td>
+                            <td>
+                                <input type="text" class="form_input" style="width:100%" value="@Model[i].EmployeeName" />
+                            </td>
+                            <td>
+                                <input type="text" class="form_input" style="width:100%" value="@Model[i].Remarks" />
+                            </td>
+                            <td>
+                                <input type="text" class="form_input" style="width:100%" value="@Model[i].ActualHours" />
+                            </td>
+                            <td>
+                                <input type="text" class="form_input" style="width:100%" value="@Model[i].Tasks" />
+                            </td>
+                            <td>
+                                <center><input type="button" class="form-button4" onclick="OnItemSelected(@Model[i].JobCardDailyActivityId)" value="Select" title="Select to view details" /></center>
+                            </td>
+                        </tr>
                             }
                         }
-                    </tbody>
-                </table>
+                            </tbody>
+                        </table>
+                    </div>
+                    </div>
+                </div>
+                </div>
             </div>
-        </div>
-    </div>

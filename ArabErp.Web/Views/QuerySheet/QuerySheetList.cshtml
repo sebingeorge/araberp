@@ -1,54 +1,59 @@
 ﻿@model IList<ArabErp.Domain.QuerySheet>
 
+<div class="row">
+    <div class="main-grid main-grid-top scroll1">
+        <div class="table-responsive">
+            <table class="table table-bordered">
+                <thead>
+                    <tr class="grid_heading">
 
-<table class="table table-bordered">
-    <thead>
-        <tr class="grid_heading">
+                        <th><h1>QuerySheet Ref No</h1></th>
+                        <th><h1>Project Name</h1></th>
+                        <th><h1>Contact Person</h1></th>
+                        <th><h1>Contact Number</h1></th>
+                        <th><h1>Room Details</h1></th>
+                        <th width="10%"><center><h1>Select</h1></center></th>
+                    </tr>
+                </thead>
 
-            <th><h1>QuerySheet Ref No</h1></th>
-            <th><h1>Project Name</h1></th>
-            <th><h1>Contact Person</h1></th>
-            <th><h1>Contact Number</h1></th>
-            <th><h1>Room Details</h1></th>
-            <th><center><h1>Select</h1></center></th>
-        </tr>
-    </thead>
+                <tbody class="grid_row">
+                    @if (Model.Count > 0)
+                    {
+                        int i = 0;
+                        foreach (var item in Model)
+                        {
+                            <tr>
+                                <td>@item.QuerySheetRefNo - @item.QuerySheetDate.ToString("dd MMMM yyyy") </td>
+                                <td>@item.ProjectName</td>
+                                <td>@item.ContactPerson</td>
+                                <td>@item.ContactNumber</td>
+                                <td>@item.RoomDetails</td>
+                                <td align="center"><input type="button" value="Select" onclick="OnItemSelected(@item.QuerySheetId)" checked class="form-button4" /></td>
+                            </tr>
+                        }
+                    }
+                    else
+                    {
+                        <tr>
+                            <td colspan="6">
+                                <center>
+                                    <em>No items found!</em>
+                                </center>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
 
-    <tbody class="grid_row">
-        @if (Model.Count > 0)
-        {
-            int i = 0;
-            foreach (var item in Model)
-            {
-                <tr>
-                    <td>@item.QuerySheetRefNo - @item.QuerySheetDate.ToString("dd MMMM yyyy") </td>
-                    <td>@item.ProjectName</td>
-                    <td>@item.ContactPerson</td>
-                    <td>@item.ContactNumber</td>
-                    <td>@item.RoomDetails</td>
-                    <td align="center"><input type="button" value="Select" onclick="OnItemSelected(@item.QuerySheetId)" checked class="form-button4" /></td>
-                </tr>
-            }
-        }
-        else
-        {
-            <tr>
-                <td colspan="6">
-                    <center>
-                        <em>No items found!</em>
-                    </center>
-                </td>
-            </tr>
-        }
-    </tbody>
-</table>
-   
 
-<br />
-<div class="row-count1">
-    <h5>Row Count:- @Model.Count()</h5>
+
+        </div>
+    </div>
+
+    <div class="row-count1">
+        <h5>Row Count:- @Model.Count()</h5>
+    </div>
+
+
 </div>
-
-
-
 

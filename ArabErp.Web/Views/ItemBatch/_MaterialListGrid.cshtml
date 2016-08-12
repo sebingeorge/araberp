@@ -25,7 +25,7 @@
 </script>
 
 
-<table class="table table-bordered" id="aaa" data-placement="bottom">
+<table class="table table-bordered table-hover" id="aaa" data-placement="bottom">
     <thead>
         <tr class="grid_heading">
             <th width="2%" class="text-center">#</th>
@@ -48,42 +48,42 @@
             {
                 for (int i = 0; i < Model.Count; i++)
                 {
-                    <tr ondblclick="OnRowDoubleClicked(@Model[i].ItemBatchId)">
+                    <tr>
                         <td>
-                            <input type="text" value="@(i + 1)" style="width:25px" class="form_input text-center" disabled />
+                            @*<input type="text" value="*@@(i + 1)@*" style="width:25px" class="form_input text-center" disabled />*@
                         </td>
                         <td>
-                            <input value="@Model[i].CustomerName" class="form_input" title="@Model[i].CustomerName" disabled />
+                            @*<input value="*@@Model[i].CustomerName@*" class="form_input" title="@Model[i].CustomerName" disabled />*@
                         </td>
                         <td>
-                            <input type="text" value="@Model[i].GRNNo - @Model[i].GRNDate.ToString("dd MMMM yyyy")" class="form_input" disabled />
+                            @*<input type="text" value="*@@Model[i].GRNNo - @Model[i].GRNDate.ToString("dd-MMMM-yyyy")@*" class="form_input" disabled />*@
                         </td>
                         <td>
-                            <input type="text" value="@Model[i].SaleOrderRefNo - @Model[i].SaleOrderDate" class="form_input" disabled />
+                            @*<input type="text" value="*@@Model[i].SaleOrderRefNo - @Model[i].SaleOrderDate@*" class="form_input" disabled />*@
                         </td>
                         @*<td>
                             <input type="text" value="@Model[i].DeliveryChallanRefNo" class="form_input" disabled />
                         </td>*@
                         <td>
-                            <input type="text" value="@Model[i].ItemName" class="form_input" disabled />
+                            @*<input type="text" value="*@@Model[i].ItemName@*" class="form_input" disabled />*@
                         </td>
                         <td>
-                            <input type="text" value="@Model[i].SerialNo" class="form_input bold" disabled />
+                            @*<input type="text" value="*@@Model[i].SerialNo@*" class="form_input bold" disabled />*@
                         </td>
                         <td>
-                            <input type="text" value="@Model[i].CreatedBy" class="form_input" disabled />
+                            @*<input type="text" value="*@@Model[i].CreatedBy@*" class="form_input" disabled />*@
                         </td>
                         <td>
-                            <input type="text"
+                            @*<input type="text"*@
                                    @if(Model[i].WarrantyExpireDate.ToString("dd MMMM yyyy") != "01 January 0001")
                                    {
-                                       @: value="@Model[i].WarrantyExpireDate.ToString("dd MMMM yyyy")"
+                                       @: @*value="*@@Model[i].WarrantyExpireDate.ToString("dd MMMM yyyy")@*"*@
                                    }
                                    else
                                    {
-                                       @: value="N/A"
+                                       @: @*value="*@N/A@*"*@
                                    }
-                            class="form_input" disabled />
+                            @*class="form_input" disabled />*@
                         </td>
                         @*<td>
                             <input type="text" value="@Model[i].WarrantyLeft" class="form_input" disabled />

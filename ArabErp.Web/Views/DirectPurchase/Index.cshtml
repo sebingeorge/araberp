@@ -24,88 +24,92 @@
     </div>
 
     <div class="main-part pad1">
-        <div class="table-responsive scroll4">
-            <table class="table table-bordered">
-                <thead>
-                    <tr class="grid_heading">
-                        <th width="2%"><h1>#</h1></th>
-                        <th width="15%" nowrap><h1>PRS No. &amp; Date</h1></th>
-                        <th width="15%" title="Sale Order Ref. No. & Date" nowrap><h1>SO Ref. No. &amp; Date</h1></th>
-                        <th width="15%" title ="Job Card Ref. No. & Date" nowrap><h1>JC Ref. No. &amp; Date</h1></th>
-                        <th width="15%" nowrap><h1>Remarks</h1></th>
-                        <th width="10%" nowrap><h1>Required Date</h1></th>
-                        <th width="5%" nowrap><h1>Ageing</h1></th>
-                        <th width="5%" nowrap><h1>Days Left</h1></th>
-                        <th width="1%" class="text-right" nowrap><h1>Total</h1></th>
-                        <th width="1%"></th>
-                    </tr>
-                </thead>
-                <tbody class="grid_row">
-                    @if (Model.Count > 0)
+        <div class="row">
+            <div class="main-grid main-grid-top scroll1">
+                <div class="table-responsive">
+                    <table class="table table-bordered">
+                        <thead>
+                            <tr class="grid_heading">
+                                <th width="2%"><h1>#</h1></th>
+                                <th width="12%" nowrap><h1>PRS No. &amp; Date</h1></th>
+                                <th width="12%" title="Sale Order Ref. No. & Date" nowrap><h1>SO Ref. No. &amp; Date</h1></th>
+                                <th width="12%" title="Job Card Ref. No. & Date" nowrap><h1>JC Ref. No. &amp; Date</h1></th>
+                                <th width="27%" nowrap><h1>Remarks</h1></th>
+                                <th width="10%" nowrap><h1>Required Date</h1></th>
+                                <th width="5%" nowrap><h1>Ageing</h1></th>
+                                <th width="5%" nowrap><h1>Days Left</h1></th>
+                                <th width="5%" class="text-right" nowrap><h1>Total</h1></th>
+                                <th width="10%"><center>Select</center></th>
+                            </tr>
+                        </thead>
+                        <tbody class="grid_row">
+                            @if (Model.Count > 0)
                     {
                         int i = 0;
                         foreach (var item in Model)
                         {
-                            <tr>
-                                <td align="center">
-                                    @(++i)
-                                </td>
-                                <td>
-                                    @item.PurchaseRequestNo - @item.PurchaseRequestDate.Value.ToString("dd MMMM yyyy")
-                                </td>
-                                <td>
-                                    @if (item.SaleOrderId.Equals(0))
+                    <tr>
+                        <td align="center">
+                            @(++i)
+                        </td>
+                        <td>
+                            @item.PurchaseRequestNo - @item.PurchaseRequestDate.Value.ToString("dd MMMM yyyy")
+                        </td>
+                        <td>
+                            @if (item.SaleOrderId.Equals(0))
                                     {
-                                        @: N/A
+                                    @: N/A
                                     }
                                     else
                                     {
-                                        @: @item.SaleOrderRefNo - @item.SaleOrderDate.ToString("dd MMMM yyyy")
+                                    @: @item.SaleOrderRefNo - @item.SaleOrderDate.ToString("dd MMMM yyyy")
                                     }
-                                </td>
-                                <td>
-                                    @if (item.JobCardId.Equals(0))
+                        </td>
+                        <td>
+                            @if (item.JobCardId.Equals(0))
                                     {
-                                        @: N/A
+                                    @: N/A
                                     }
                                     else
                                     {
-                                        @: @item.JobCardNo - @item.JobCardDate.ToString("dd MMMM yyyy")
+                                    @: @item.JobCardNo - @item.JobCardDate.ToString("dd MMMM yyyy")
                                     }
-                                </td>
-                                <td>
-                                    @item.SpecialRemarks
-                                </td>
-                                <td>
-                                    @item.RequiredDate.Value.ToString("dd MMMM yyyy")
-                                </td>
-                                <td>
-                                    @item.Ageing
-                                </td>
-                                <td>
-                                    @item.DaysLeft
-                                </td>
-                                <td align="right">
-                                    @item.TotalAmount
-                                </td>
-                                <td>
-                                    <input type="button" value="Select" onclick="OnItemSelected(@item.DirectPurchaseRequestId)" class="form-button4" />
-                                </td>
-                            </tr>
+                        </td>
+                        <td>
+                            @item.SpecialRemarks
+                        </td>
+                        <td>
+                            @item.RequiredDate.Value.ToString("dd MMMM yyyy")
+                        </td>
+                        <td>
+                            @item.Ageing
+                        </td>
+                        <td>
+                            @item.DaysLeft
+                        </td>
+                        <td align="right">
+                            @item.TotalAmount
+                        </td>
+                        <td>
+                            <center><input type="button" value="Select" onclick="OnItemSelected(@item.DirectPurchaseRequestId)" class="form-button4" /></center>
+                        </td>
+                    </tr>
                         }
                     }
                     else
                     {
 
                     }
-                </tbody>
-            </table>
-        </div>
+                        </tbody>
+                    </table>
+                </div>
+                </div>
+            </div>
 
-        <div class="row">
-            <div class="col-md-12 hrpart">
-                <input type="button" class="form-button right" value="Exit" onclick="Exit()" />
+                <div class="row">
+                    <div class="col-md-12 hrpart">
+                        <input type="button" class="form-button right" value="Exit" onclick="Exit()" />
+                    </div>
+                </div>
             </div>
         </div>
-    </div>
-</div>

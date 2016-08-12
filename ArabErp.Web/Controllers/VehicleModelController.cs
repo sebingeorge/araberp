@@ -66,7 +66,7 @@ namespace ArabErp.Web.Controllers
           {
               model.OrganizationId = 1;
               model.CreatedDate = System.DateTime.Now;
-              model.CreatedBy = Request.ServerVariables["HTTP_X_FORWARDED_FOR"] ?? Request.ServerVariables["REMOTE_ADDR"];
+              model.CreatedBy = UserID.ToString();
 
               var repo = new VehicleModelRepository();
               bool isexists = repo.IsFieldExists(repo.ConnectionString(), "VehicleModel", "VehicleModelName", model.VehicleModelName, "VehicleModelId", model.VehicleModelId);

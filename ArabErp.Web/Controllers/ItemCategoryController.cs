@@ -29,7 +29,7 @@ namespace ArabErp.Web.Controllers
         {
             model.OrganizationId = OrganizationId;
             model.CreatedDate = System.DateTime.Now;
-            model.CreatedBy = Request.ServerVariables["HTTP_X_FORWARDED_FOR"] ?? Request.ServerVariables["REMOTE_ADDR"];
+            model.CreatedBy = UserID.ToString();
             
             var repo = new ItemCategoryRepository();
             bool isexists = repo.IsFieldExists(repo.ConnectionString(), "ItemCategory", "CategoryName", model.CategoryName, null, null);
@@ -77,7 +77,7 @@ namespace ArabErp.Web.Controllers
 
             model.OrganizationId = OrganizationId;
             model.CreatedDate = System.DateTime.Now;
-            model.CreatedBy = Request.ServerVariables["HTTP_X_FORWARDED_FOR"] ?? Request.ServerVariables["REMOTE_ADDR"];
+            model.CreatedBy = UserID.ToString();
 
             var repo = new ItemCategoryRepository();
             bool isexists = repo.IsFieldExists(repo.ConnectionString(), "ItemCategory", "CategoryName", model.CategoryName, "itmCatId", model.itmCatId);
@@ -141,15 +141,16 @@ namespace ArabErp.Web.Controllers
         }
 
      
-        public ActionResult FillItemCategoryList(int? page)
+        public ActionResult FillItemCategoryList(int? page, string name = "")
           {
           int itemsPerPage = 10;
           int pageNumber = page ?? 1;
-          var repo = new ItemCategoryRepository();
-          var List = repo.FillItemCategoryList();
-          return PartialView("ItemCategoryListView", List);
+          return PartialView("ItemCategoryListView", new ItemCategoryRepository().FillItemCategoryList(name));
+          //var repo = new ItemCategoryRepository();
+          //var List = repo.FillItemCategoryList();
+          //return PartialView("ItemCategoryListView", List);
           }
-       
+        
         
 
     }

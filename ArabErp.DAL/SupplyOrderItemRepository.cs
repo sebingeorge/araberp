@@ -50,6 +50,7 @@ namespace ArabErp.DAL
 	                                SOI.Rate,SOI.Rate FixedRate,
 	                                SOI.Discount,
 	                                SOI.Amount,
+                                    I.ItemId,
 	                                I.ItemName,SOI.PurchaseRequestItemId,
 	                                ISNULL(I.PartNo, '-') PartNo,
 	                                ISNULL(PR.PurchaseRequestNo, '') + ' - ' + CONVERT(VARCHAR, PR.PurchaseRequestDate, 106) PRNODATE

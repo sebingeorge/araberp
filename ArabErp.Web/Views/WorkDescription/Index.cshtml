@@ -9,6 +9,11 @@
     function Create() {
             location.href = '@Url.Action("CreateWorkDescription")';
     }
+
+    function Exit() {
+        location.href = '@Url.Action("Index","Home")';
+    }
+
     $(document).ready(function () {
 
         toastr.options = {
@@ -24,8 +29,8 @@
             "showMethod": "fadeIn",
             "hideMethod": "fadeOut"
         }
-        if ('@TempData["success"]' != "") {
-            toastr.success('@TempData["success"]' + '  Work Description Ref No. is : ' + '@TempData["RefNo"]');
+        if ('@TempData["success"]' != "" && '@TempData["WorkDescriptionRefNo"]' != "") {
+            toastr.success('@TempData["success"]' + '  Work Description No. is : ' + '@TempData["WorkDescriptionRefNo"]');
         }
         else if ('@TempData["error"]' != "") {
             toastr.error('@TempData["error"]');
@@ -40,7 +45,7 @@
             <h4>Work Description List</h4>
         </div>
 
-        <div class="main-part white pad1">
+        <div class="main-part pad1 white">
 
             <div class="row">
                 @Html.Action("FillWorkDescriptionList")
@@ -49,7 +54,9 @@
             <div class="row">
                 <div class="col-md-12 hrpart1">
                     <button type="button" onclick="Create();" class="form-button">Create</button>
+                    <button type="button" onclick="Exit();" class="form-button right">Exit</button>
                 </div>
+
                 </div>
 
             </div>

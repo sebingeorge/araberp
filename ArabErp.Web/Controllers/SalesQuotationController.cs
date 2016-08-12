@@ -53,10 +53,25 @@ namespace ArabErp.Web.Controllers
         [HttpPost]
         public ActionResult Create(SalesQuotation model)
         {
+            if (!ModelState.IsValid)
+            {
+                var allErrors = ModelState.Values.SelectMany(v => v.Errors);
 
+                FillCustomer();
+                FillCurrency();
+                FillCommissionAgent();
+                FillWrkDesc();
+                FillVehicle();
+                FillUnit();
+                FillEmployee();
+                FillSalesQuotationRejectReason();
+                FillRateSettings();
+
+                return View(model);
+            }
             model.OrganizationId = OrganizationId;
             model.CreatedDate = System.DateTime.Now;
-            model.CreatedBy = Request.ServerVariables["HTTP_X_FORWARDED_FOR"] ?? Request.ServerVariables["REMOTE_ADDR"];
+            model.CreatedBy = UserID.ToString();
             SalesQuotation result = new SalesQuotationRepository().InsertSalesQuotation(model);
             if (result.SalesQuotationId > 0)
             {
@@ -114,7 +129,7 @@ namespace ArabErp.Web.Controllers
         {
             model.OrganizationId = OrganizationId;
             model.CreatedDate = System.DateTime.Now;
-            model.CreatedBy = Request.ServerVariables["HTTP_X_FORWARDED_FOR"] ?? Request.ServerVariables["REMOTE_ADDR"];
+            model.CreatedBy = UserID.ToString();
             
             SalesQuotation result = new SalesQuotationRepository().InsertSalesQuotation(model);
             if (result.SalesQuotationId > 0)
@@ -184,11 +199,15 @@ namespace ArabErp.Web.Controllers
             repo.ApproveSalesQuotation(model);
             if (model.isProjectBased == 0)
             {
+                TempData["Success"] = "Approved Successfully!";
+                TempData["QuotationRefNo"] = model.QuotationRefNo;
                 return RedirectToAction("ListSalesQuotations", new { ProjectBased = 0 });
             }
             else
             {
-                return RedirectToAction("ListSalesQuotationsProject");
+                TempData["Success"] = "Approved Successfully!";
+                TempData["QuotationRefNo"] = model.QuotationRefNo;
+                return RedirectToAction("ListSalesQuotations", new { ProjectBased = 1 });
             }
 
         }
@@ -417,6 +436,12 @@ namespace ArabErp.Web.Controllers
             return Json(data, JsonRequestBehavior.AllowGet);
         }
 
+        public JsonResult GetSpecialRate(int workDescriptionId, int customerId)
+        {
+            decimal data = new RateSettingsRepository().GetSpecialRate(workDescriptionId, customerId);
+            return Json(data, JsonRequestBehavior.AllowGet);
+        }
+
         public void FillRateSettings()
         {
             ViewBag.rateSettings = new SelectList(new RateSettingsController().RateSettingsDropdown(), "Value", "Text");
@@ -498,7 +523,7 @@ namespace ArabErp.Web.Controllers
             ViewBag.Title = "Edit";
             model.OrganizationId = OrganizationId;
             model.CreatedDate = System.DateTime.Now;
-            model.CreatedBy = Request.ServerVariables["HTTP_X_FORWARDED_FOR"] ?? Request.ServerVariables["REMOTE_ADDR"];
+            model.CreatedBy = UserID.ToString();
 
             FillCustomer();
             FillCurrency();

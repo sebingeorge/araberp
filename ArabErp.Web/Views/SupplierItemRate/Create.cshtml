@@ -33,7 +33,7 @@
         "hideMethod": "fadeOut"
     }
     if ('@TempData["success"]' != "" && '@TempData["SupplierId"]' != "") {
-        toastr.success('@TempData["success"]' + '  Rate Seeting - Supplier Wise is Updated : ' + '@TempData["SupplierId"]');
+        toastr.success('@TempData["success"]' );
     }
     else if ('@TempData["error"]' != "") {
         toastr.error('@TempData["error"]');
@@ -52,7 +52,7 @@
             <h4>Supplier Wise Item Rate Settings</h4>
         </div>
 
-        <div class=" main-part pad1 ">
+        <div class=" main-part pad1">
             @using (Html.BeginForm("Save", null, FormMethod.Post, new { @class = "createFrom", @id = "SupplierItemRate_form" }))
             {
                 <div class="row">
@@ -66,28 +66,31 @@
                         </div>
                     </div>
                 </div>
-
-                <div id="Supplier-Rate-list" class="table-responsive">
-                    @Html.Action("SupplierItemRateList", new { SupplierId = 0 })
-                </div>
-   
                 <div class="row">
-
-                    <div class="col-md-12 hrpart">
-                        <button type="button" class="form-button right" onclick="Exit();">Exit</button>
-                        <button type="submit" class="form-button right">Save</button>
+                    <div class="main-grid main-grid-top scroll1">
+                        <div id="Supplier-Rate-list" class="table-responsive">
+                            @Html.Action("SupplierItemRateList", new { SupplierId = 0 })
+                        </div>
+                        </div>
                     </div>
 
+                        <div class="row">
+
+                            <div class="col-md-12 hrpart">
+                                <button type="button" class="form-button right" onclick="Exit();">Exit</button>
+                                <button type="submit" class="form-button right">Save</button>
+                            </div>
+
+                        </div>
+
+
+
+                        }
+
+
+
+                    </div>
                 </div>
-
-
-
-            }
-
-
-
-        </div>
-    </div>
 
 
 

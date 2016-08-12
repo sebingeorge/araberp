@@ -183,7 +183,7 @@ namespace ArabErp.Web.Controllers
             Session.Add("user", userCookie);
 
             UserRepository repo = new UserRepository();
-            string ip = Request.ServerVariables["HTTP_X_FORWARDED_FOR"] ?? Request.ServerVariables["REMOTE_ADDR"];
+            string ip = Request.ServerVariables["HTTP_X_FORWARDED_FOR"];
             repo.InsertLoginHistory(user, Session.SessionID.ToString(), ip, OrganizationId.ToString());
             //return userCookie;
         }
@@ -290,7 +290,7 @@ namespace ArabErp.Web.Controllers
 
                     model.UserPassword = model.ConfirmPassword = hashedPassword;
                     model.UserSalt = salt;
-
+                    
                     res = (new UserRepository()).InsertUser(model);
                 }
                 else

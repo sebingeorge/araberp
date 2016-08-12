@@ -29,7 +29,7 @@ namespace ArabErp.DAL
         {
             using (IDbConnection connection = OpenConnection(dataConnection))
             {
-                return connection.Query<Dropdown>("SELECT SupCategoryId Id ,SupCategoryName Name FROM SupplierCategory").ToList();
+                return connection.Query<Dropdown>("SELECT SupCategoryId Id ,SupCategoryName Name FROM SupplierCategory WHERE isActive=1").ToList();
             }
         }
 
@@ -37,7 +37,7 @@ namespace ArabErp.DAL
         {
             using (IDbConnection connection = OpenConnection(dataConnection))
             {
-                return connection.Query<Dropdown>("SELECT CountryId Id,CountryName Name FROM Country").ToList();
+                return connection.Query<Dropdown>("SELECT CountryId Id,CountryName Name FROM Country WHERE isActive=1").ToList();
             }
         }
 
@@ -45,7 +45,7 @@ namespace ArabErp.DAL
         {
             using (IDbConnection connection = OpenConnection(dataConnection))
             {
-                return connection.Query<Dropdown>("SELECT CurrencyId Id,CurrencyName Name FROM Currency").ToList();
+                return connection.Query<Dropdown>("SELECT CurrencyId Id,CurrencyName Name FROM Currency WHERE isActive=1").ToList();
             }
         }
 
@@ -103,6 +103,7 @@ namespace ArabErp.DAL
 
                     int id = connection.Query<int>(sql, objSupplier, trn).Single();
                     objSupplier.SupplierId = id;
+                    InsertLoginHistory(dataConnection, objSupplier.CreatedBy, "Create", "Supplier", id.ToString(), "0");
                     //connection.Dispose();
                     trn.Commit();
                 }
@@ -165,6 +166,7 @@ namespace ArabErp.DAL
 
 
                 var id = connection.Execute(sql, objSupplier);
+                InsertLoginHistory(dataConnection, objSupplier.CreatedBy, "Update", "Supplier", id.ToString(), "0");
                 return objSupplier;
             }
         }
@@ -181,7 +183,7 @@ namespace ArabErp.DAL
                     var id = connection.Execute(sql, objSupplier);
                     objSupplier.SupplierId = id;
                     result = 0;
-
+                    InsertLoginHistory(dataConnection, objSupplier.CreatedBy, "Delete", "Supplier", id.ToString(), "0");
                 }
                 catch (SqlException ex)
                 {
