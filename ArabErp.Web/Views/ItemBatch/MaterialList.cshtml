@@ -40,7 +40,7 @@
         var item = $("#cboItem").val();
         var type = $("#cboType").val();
         var saleorder = $("#cboSaleOrder").val();
-        url += "?serialno=" + serialno + "&item=" + item + "&type=" + type + "&saleorder=" + saleorder;
+        url += "?serialno=" + encodeURIComponent(serialno) + "&item=" + item + "&type=" + type + "&saleorder=" + saleorder;
         $("#grid").load(url, function () {
             $(grid).removeClass("fade");
         });
@@ -50,23 +50,16 @@
 
     }
 
-    function OnRowDoubleClicked(id) {
+    @*function OnRowDoubleClicked(id) {
         var x = screen.width / 2 - 650 / 2;
         var y = screen.height / 2 - 300 / 2;
         var url = '@Url.Action("FGTrackingPopup")';
         url += "?id=" + id;
         var popup = window.open(url, "FG Tracking", "menubar=no,status=no,toolbar=no,scrollbars=0,width=800,height=500,left=" + x + ",top=" + y);
         popup.focus();
-    }
+    }*@
 
 </script>
-
-<style type="text/css">
-    .fade {
-        opacity: .5;
-    }
-</style>
-
 
     <div class="row">
 
@@ -79,15 +72,15 @@
             <div class="row form-group">
                 <div class="col-md-2">
                     <label for="txtSerialNo">Serial No.</label>
-                    <input type="text" class="form_input" id="txtSerialNo" />
+                    <input type="text" class="form_input" id="txtSerialNo" onkeyup="Filter()" />
                 </div>
                 <div class="col-md-3">
                     <label for="cboItem">Material/Spare</label>
-                    @Html.DropDownList("cboItem", (SelectList)ViewBag.materialList, "Any", new { @class = "form_input" })
+                    @Html.DropDownList("cboItem", (SelectList)ViewBag.materialList, "Any", new { @class = "form_input", @onchange = "Filter()" })
                 </div>
                 <div class="col-md-2">
                     <label for="cboType">Type</label>
-                    <select id="cboType" class="form_input" onclick="OnTypeChanged(this)">
+                    <select id="cboType" class="form_input" onclick="OnTypeChanged(this)" onchange="Filter()">
                         <option value="0">Any</option>
                         <option value="1">Reserved</option>
                         <option value="2">Unreserved</option>
@@ -96,11 +89,11 @@
                 </div>
                 <div class="col-md-3">
                     <label for="cboSaleOrder">Sale Order</label>
-                    @Html.DropDownList("cboSaleOrder", (SelectList)ViewBag.saleOrderList, "Any", new { @class = "form_input" })
+                    @Html.DropDownList("cboSaleOrder", (SelectList)ViewBag.saleOrderList, "Any", new { @class = "form_input", @onchange = "Filter()" })
                 </div>
-                <div class="col-md-2">
+                @*<div class="col-md-2">
                     <input type="button" class="form-button filter" value="Filter" onclick="Filter()" />
-                </div>
+                </div>*@
             </div>
             <div class="row">
                 <div class="main-grid main-grid-top scroll1">
