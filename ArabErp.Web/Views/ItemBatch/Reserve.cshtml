@@ -26,8 +26,8 @@
         //------------------------------------------------------//
 
         var url = '@Url.Action("GetItemBatchDetails")';
-        $.getJSON(url, { id: '@Request.QueryString["id"]', type: 1 }, function (data) {
-            $("#txtGRNRefNo").val(data.GRNRefNo);
+        $.getJSON(url, { id: '@Model[0].SaleOrderItemId', type: 1 }, function (data) {
+            //$("#txtGRNRefNo").val(data.GRNRefNo);
             $("#txtSORefNo").val(data.SaleOrderRefNo);
             $("#txtWDRefNo").val(data.WorkDescRefNo);
         });
@@ -43,11 +43,11 @@
         @if (Model.Count == 0)
             {
                 @: var quantity = 0;
-                            }
+            }
             else
             {
                 @: var quantity = '@Model[0].Quantity';
-                            }
+            }
 
         var count = 0;
         $('input[type="checkbox"').each(function (index, obj) {
@@ -55,7 +55,7 @@
         })
 
         if (count > Number(quantity)) {
-            toastr.info("Only " + quantity + " item(s) are required. Please deselect " + (count - quantity) + " item(s).");
+            toastr.info("Only " + quantity + " item(s) required. Please deselect " + (count - quantity) + " item(s).");
         }
         else if (count == 0) {
             toastr.info(quantity + " item(s) are required. Please select atleast one item.");
@@ -77,10 +77,10 @@
             @using (Html.BeginForm(null, null, FormMethod.Post, new { @class = "createFrom", @id = "batching-form", @onsubmit = "return formValidation()" }))
             {
                 <div class="row form-group">
-                    <div class="col-md-3">
+                    @*<div class="col-md-3">
                         <label for="txtGRNRefNo">GRN Ref. No. &amp; Date</label>
                         <input type="text" class="form_input" id="txtGRNRefNo" disabled />
-                    </div>
+                    </div>*@
                     <div class="col-md-3">
                         <label for="txtSORefNo" title="Sale Order Reference No & Date">SO Ref. No. &amp; Date</label>
                         <input type="text" class="form_input" id="txtSORefNo" disabled />
@@ -110,7 +110,8 @@
                                 <th width="2%" class="text-center">#</th>
                                 <th width="60%"><h1>Item Name</h1></th>
                                 <th width="28%"><h1>Serial Number</h1></th>
-                                <th width="10%"><center><h1>Select</h1></center></th>
+                                <th width="28%"><h1>GRN No. &amp; Date</h1></th>
+                                <th width="1%"><center><h1>Select</h1></center></th>
                             </tr>
                         </thead>
                         <tbody class="grid_row">
@@ -119,18 +120,20 @@
                                 for (int i = 0; i < Model.Count; i++)
                                 {
                                     <tr>
-                                        <td>
+                                        <td align="center">
                                             @Html.HiddenFor(m => m[i].ItemBatchId)
                                             @Html.HiddenFor(m => m[i].SaleOrderItemId)
 
-                                            <input type="text" value="@(i + 1)" style="width:100%" class="form_input text-center" disabled />
+                                            @*<input type="text" value="*@@(i + 1)@*" style="width:100%" class="form_input text-center" disabled />*@
                                         </td>
                                         <td>
                                             @Html.TextBoxFor(m => m[i].ItemName, new { @class = "form_input", autocomplete = "off", @readonly = "readonly" })
                                         </td>
-
                                         <td>
                                             @Html.TextBoxFor(m => m[i].SerialNo, new { @class = "form_input", autocomplete = "off", @readonly = "readonly" })
+                                        </td>
+                                        <td>
+                                            @Html.TextBoxFor(m => m[i].GRNNo, new { @class = "form_input", autocomplete = "off", @readonly = "readonly" })
                                         </td>
                                         <td>
                                             <center>@Html.CheckBoxFor(m => m[i].isSelected, new { @class = "form_input", autocomplete = "off", @readonly = "readonly" })</center>

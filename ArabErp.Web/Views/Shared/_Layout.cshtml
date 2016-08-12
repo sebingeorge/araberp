@@ -52,6 +52,9 @@
     <script>
         $(document).ready(function () {
             showQuickView();
+
+            $("input[type='text'], textarea").prop("maxlength", "500");
+
             //---------------------toastr---------------------------//
             @*toastr.options = {
                 "positionClass": "toast-bottom-full-width",

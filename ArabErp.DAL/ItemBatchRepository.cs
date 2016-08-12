@@ -11,6 +11,7 @@ namespace ArabErp.DAL
     public class ItemBatchRepository : BaseRepository
     {
         static string dataConnection = GetConnectionString("arab");
+
         public int InsertItemBatch(IList<ItemBatch> model, string CreatedBy)
         {
             using (IDbConnection connection = OpenConnection(dataConnection))
@@ -18,7 +19,7 @@ namespace ArabErp.DAL
                 IDbTransaction txn = connection.BeginTransaction();
 
                 string sql = @"insert  into ItemBatch(GRNItemId,SerialNo,CreatedBy,CreatedDate,OrganizationId, isActive) Values (@GRNItemId,@SerialNo,@CreatedBy,@CreatedDate,@OrganizationId,1);
-            SELECT CAST(SCOPE_IDENTITY() as int)";
+                                SELECT CAST(SCOPE_IDENTITY() as int)";
 
                 try
                 {
@@ -37,7 +38,6 @@ namespace ArabErp.DAL
                 }
             }
         }
-
 
         public ItemBatch GetItemBatch(int ItemBatchId)
         {
@@ -69,8 +69,6 @@ namespace ArabErp.DAL
             }
         }
 
-
-
         public int DeleteItemBatch(Unit objItemBatch)
         {
             using (IDbConnection connection = OpenConnection(dataConnection))
@@ -93,7 +91,7 @@ namespace ArabErp.DAL
 	                            I.ItemId, 
 	                            I.ItemName, 
 	                            GI.Quantity, 
-	                            GI.Remarks, 
+	                            ISNULL(GI.Remarks, '-') Remarks, 
 	                            CASE G.isDirectPurchaseGRN WHEN 1 THEN 'DIRECT GRN' ELSE 'GRN' END isDirect, 
 	                            G.GRNNo,
 	                            CONVERT(VARCHAR, G.GRNDate, 106) GRNDate,
@@ -107,7 +105,8 @@ namespace ArabErp.DAL
 							INNER JOIN Item I ON GI.ItemId = I.ItemId
                             LEFT JOIN ItemBatch P ON P.GRNItemId=GI.GRNItemId 
                             WHERE P.GRNItemId IS NULL
-							AND I.BatchRequired = 1;";
+							AND I.BatchRequired = 1
+							ORDER BY G.GRNDate DESC, G.CreatedDate DESC;";
                     return connection.Query<ItemBatch>(query).ToList();
                 }
             }
@@ -235,6 +234,7 @@ namespace ArabErp.DAL
 								--AND IB.SaleOrderItemId IS NULL
 								AND ISNULL(ReservedQuantity, 0) < ISNULL(SOI.Quantity, 0)
 								AND SII.SaleOrderItemId IS NULL
+                                AND I.BatchRequired = 1
                                 ORDER BY SO.SaleOrderDate DESC, SO.CreatedDate DESC;
 
 								DROP TABLE #RESERVED;";
@@ -250,11 +250,14 @@ namespace ArabErp.DAL
                 string query = @"SELECT
 	                                IB.ItemBatchId,
 	                                IB.SerialNo,
-	                                GI.ItemId
+	                                GI.ItemId,
+									G.GRNNo,
+									CONVERT(VARCHAR, G.GRNDate, 106) GRNDate
                                 INTO #BATCH
                                 FROM ItemBatch IB
                                 INNER JOIN GRNItem GI ON IB.GRNItemId = GI.GRNItemId AND IB.SaleOrderItemId IS NULL
-                                WHERE ItemId = @item;
+								INNER JOIN GRN G ON GI.GRNId = G.GRNId
+                                WHERE ItemId = @item AND G.isActive = 1 AND GI.isActive = 1;
 
 								SELECT
 	                                GI.ItemId,
@@ -270,7 +273,9 @@ namespace ArabErp.DAL
 	                                SOI.Quantity - ISNULL(R.ReservedQuantity, 0) Quantity,
 	                                B.SerialNo,
 	                                B.ItemBatchId,
-	                                I.ItemName
+	                                I.ItemName,
+									B.GRNDate,
+									B.GRNNo
 									--ISNULL(R.ReservedQuantity, 0) ReservedQuantity
                                 FROM SaleOrderItem SOI
                                 INNER JOIN WorkDescription WD ON SOI.WorkDescriptionId = WD.WorkDescriptionId
@@ -431,20 +436,50 @@ namespace ArabErp.DAL
         {
             using (IDbConnection connection = OpenConnection(dataConnection))
             {
-                string query = @"SELECT
-	                                G.GRNNo,
-	                                CONVERT(VARCHAR, G.GRNDate, 106) GRNDate,
-	                                WD.WorkDescriptionRefNo,
-	                                WD.WorkDescrShortName,
-	                                SO.SaleOrderRefNo,
-	                                CONVERT(VARCHAR, SO.SaleOrderDate, 106) SaleOrderDate
-                                FROM ItemBatch IB
-                                INNER JOIN GRNItem GI ON IB.GRNItemId = GI.GRNItemId
-                                INNER JOIN GRN G ON GI.GRNId = G.GRNId
-                                INNER JOIN SaleOrderItem SOI ON IB.SaleOrderItemId = SOI.SaleOrderItemId
-                                INNER JOIN SaleOrder SO ON SOI.SaleOrderId = SO.SaleOrderId
+//                string query = @"SELECT
+//	                                G.GRNNo,
+//	                                CONVERT(VARCHAR, G.GRNDate, 106) GRNDate,
+//	                                WD.WorkDescriptionRefNo,
+//	                                WD.WorkDescrShortName,
+//	                                SO.SaleOrderRefNo,
+//	                                CONVERT(VARCHAR, SO.SaleOrderDate, 106) SaleOrderDate
+//                                FROM ItemBatch IB
+//                                INNER JOIN GRNItem GI ON IB.GRNItemId = GI.GRNItemId
+//                                INNER JOIN GRN G ON GI.GRNId = G.GRNId
+//                                INNER JOIN SaleOrderItem SOI ON IB.SaleOrderItemId = SOI.SaleOrderItemId
+//                                INNER JOIN SaleOrder SO ON SOI.SaleOrderId = SO.SaleOrderId
+//                                INNER JOIN WorkDescription WD ON SOI.WorkDescriptionId = WD.WorkDescriptionId
+//                                WHERE SOI.SaleOrderItemId = @id AND IB.isActive = 1";
+
+                string query = @"--SELECT
+	                                --IB.ItemBatchId,
+	                                --IB.SerialNo,
+	                                --GI.ItemId,
+									--G.GRNNo,
+									--CONVERT(VARCHAR, G.GRNDate, 106) GRNDate
+                                --INTO #BATCH
+                                --FROM ItemBatch IB
+                                --INNER JOIN GRNItem GI ON IB.GRNItemId = GI.GRNItemId AND IB.SaleOrderItemId IS NULL
+								--INNER JOIN GRN G ON GI.GRNId = G.GRNId
+                                --WHERE ItemId = 19;
+
+                                SELECT DISTINCT
+									--B.GRNNo,
+									--B.GRNDate,
+									WD.WorkDescriptionRefNo,
+									WD.WorkDescrShortName,
+									SO.SaleOrderRefNo,
+									CONVERT(VARCHAR, SO.SaleOrderDate, 106) SaleOrderDate
+									--ISNULL(R.ReservedQuantity, 0) ReservedQuantity
+                                FROM SaleOrderItem SOI
                                 INNER JOIN WorkDescription WD ON SOI.WorkDescriptionId = WD.WorkDescriptionId
-                                WHERE SOI.SaleOrderItemId = @id AND IB.isActive = 1";
+                                INNER JOIN WorkVsItem WI ON WD.WorkDescriptionId = WI.WorkDescriptionId
+                                --INNER JOIN #BATCH B ON WI.ItemId = B.ItemId
+								INNER JOIN SaleOrder SO ON SOI.SaleOrderId = SO.SaleOrderId
+                                WHERE SOI.SaleOrderItemId = @id;
+
+                                --DROP TABLE #BATCH;";
+
                 if (type == 0)
                 {
                     query = query.Replace("SOI.SaleOrderItemId = @id", "SO.SaleOrderId = @id");
@@ -457,16 +492,16 @@ namespace ArabErp.DAL
         {
             using (IDbConnection connection = OpenConnection(dataConnection))
             {
-//                string query = @"SELECT 
-//	                                SI.SalesInvoiceRefNo,
-//	                                SI.SalesInvoiceId,
-//	                                CONVERT(VARCHAR, SI.SalesInvoiceDate, 106) SalesInvoiceDate,
-//	                                ISNULL(SII.Amount, 0) Amount,
-//	                                SI.SpecialRemarks
-//                                FROM SalesInvoice SI
-//                                INNER JOIN SalesInvoiceItem SII ON SI.SalesInvoiceId = SII.SalesInvoiceId
-//                                INNER JOIN ItemBatch IB ON SII.SaleOrderItemId = IB.SaleOrderItemId
-//                                WHERE IB.ItemBatchId = @itemBatchId";
+                //                string query = @"SELECT 
+                //	                                SI.SalesInvoiceRefNo,
+                //	                                SI.SalesInvoiceId,
+                //	                                CONVERT(VARCHAR, SI.SalesInvoiceDate, 106) SalesInvoiceDate,
+                //	                                ISNULL(SII.Amount, 0) Amount,
+                //	                                SI.SpecialRemarks
+                //                                FROM SalesInvoice SI
+                //                                INNER JOIN SalesInvoiceItem SII ON SI.SalesInvoiceId = SII.SalesInvoiceId
+                //                                INNER JOIN ItemBatch IB ON SII.SaleOrderItemId = IB.SaleOrderItemId
+                //                                WHERE IB.ItemBatchId = @itemBatchId";
                 string query = @"SELECT 
 									IB.ItemBatchId,
 									IB.SerialNo,
@@ -567,6 +602,19 @@ namespace ArabErp.DAL
                     to = to
                 }).ToList();
                 return list;
+            }
+        }
+
+        public string IsSerialNoExists(List<string> serialNos)
+        {
+            using (IDbConnection connection = OpenConnection(dataConnection))
+            {
+                string query = @"SELECT STUFF((SELECT ', ' + T1.SerialNo
+                                FROM ItemBatch T1
+                                WHERE SerialNo IN @list
+                                ORDER BY T1.SerialNo
+                                FOR XML PATH('')), 1, 1, '') AS SerialNos";
+                return connection.Query<string>(query, new { list = serialNos }).First();
             }
         }
     }
