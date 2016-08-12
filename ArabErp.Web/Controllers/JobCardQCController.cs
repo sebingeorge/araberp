@@ -18,7 +18,8 @@ namespace ArabErp.Web.Controllers
             FillJCQcNo();
             return View();
         }
-        public ActionResult Create(int Id, string No, string JcDate, string Customer, string VehicleModel)
+
+        public ActionResult Create(int Id, string No, DateTime JcDate, string Customer, string VehicleModel)
         {
           try
             {
@@ -29,7 +30,7 @@ namespace ArabErp.Web.Controllers
             objJCQC.JobCardQCRefNo = "JQC/" + internalId;
             objJCQC.JobCardNo = No;
             objJCQC.JobCardId = Id;
-            objJCQC.CurrentDate = DateTime.Now;
+            objJCQC.CurrentDate =  System.DateTime.Today;
             objJCQC.JcDate = JcDate;
             objJCQC.Customer = Customer;
             objJCQC.VehicleModel = VehicleModel;
@@ -63,31 +64,54 @@ namespace ArabErp.Web.Controllers
             var List = JobCardQCRepo.FillEmployee();
             ViewBag.EmployeeList = new SelectList(List, "Id", "Name");
         }
-        public ActionResult Save(JobCardQC jc)
+        public ActionResult Save(JobCardQC model)
         {
-             try
-            {
-            jc.OrganizationId = OrganizationId;
-            jc.CreatedDate = System.DateTime.Now;
-            jc.CreatedBy = UserID.ToString();
-            new JobCardQCRepository().InsertJobCardQC(jc);
-            return RedirectToAction("PendingJobCardQC");
-            }
 
-             catch (Exception ex)
-             {
-                 string ErrorMessage = ex.Message.ToString();
-                 if (ex.InnerException != null)
-                 {
-                     if (ex.InnerException.Message != null)
-                     {
-                         ErrorMessage = ErrorMessage + ex.InnerException.Message.ToString();
-                     }
-                 }
-                 ViewData["Error"] = ErrorMessage;
-                 return View("ShowError");
-             }
-        }
+            if (!ModelState.IsValid)
+            {
+                FillEmployee();
+                return View("Create",model);
+            }
+            //try
+            //{
+                model.OrganizationId = OrganizationId;
+                model.CreatedDate = System.DateTime.Now;
+                model.CreatedBy = UserID.ToString();
+
+                if (new JobCardQCRepository().InsertJobCardQC(model) > 0)
+                {
+                    TempData["Success"] = "Added Successfully!";
+                    TempData["JobCardQCRefNo"] = model.JobCardQCRefNo;
+                    return RedirectToAction("Index");
+                }
+                else
+                {
+                    TempData["error"] = "Oops!!..Something Went Wrong!!";
+                    TempData["JobCardQCRefNo"] = null;
+                    return View(new JobCardQC { JobCardQCId = model.JobCardQCId });
+                }
+
+            }
+        //}
+        //    //new JobCardQCRepository().InsertJobCardQC(jc);
+
+            //return RedirectToAction("PendingJobCardQC");
+            //}
+
+            // catch (Exception ex)
+            // {
+            //     string ErrorMessage = ex.Message.ToString();
+            //     if (ex.InnerException != null)
+            //     {
+            //         if (ex.InnerException.Message != null)
+            //         {
+            //             ErrorMessage = ErrorMessage + ex.InnerException.Message.ToString();
+            //         }
+            //     }
+            //     ViewData["Error"] = ErrorMessage;
+            //     return View("ShowError");
+            // }
+        //}
         public ActionResult PendingJobCardQC()
         {
             try

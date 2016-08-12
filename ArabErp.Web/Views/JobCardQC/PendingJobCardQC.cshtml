@@ -50,13 +50,13 @@
                             <tbody class="grid_row">
                                 <tr>
                                     <td class="grid-cell">@item.JobCardNo</td>
-                                    <td class="grid-cell">@item.JobCardDate.ToString("dd/MMM/yyyy")</td>
+                                    <td class="grid-cell">@item.JobCardDate.ToString("dd/MMMM/yyyy")</td>
                                     <td class="grid-cell">@item.CustomerName</td>
                                     <td class="grid-cell">@item.VehicleModelName</td>
                                     <td>
                                         <center>
 
-                                            <button class="form-button5" onclick="GotoJobcardQC(@item.JobCardId,'@item.JobCardNo','@item.JobCardDate.ToString("dd/MMM/yyyy")','@item.CustomerName','@item.VehicleModelName')">Select</button>
+                                            <button class="form-button5" onclick="GotoJobcardQC(@item.JobCardId,'@item.JobCardNo','@item.JobCardDate.ToString("dd/MMMM/yyyy")','@item.CustomerName','@item.VehicleModelName')">Select</button>
 
                                         </center>
                                     </td>
