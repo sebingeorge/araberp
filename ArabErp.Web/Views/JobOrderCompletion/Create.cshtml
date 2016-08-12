@@ -9,13 +9,22 @@
 <script>
     $(function () {
 
-
-        $("#JobCardCompletedDate").datepicker({ dateFormat: "dd-MM-yy" });
-        $("#WarrentyPeriod").datepicker({ dateFormat: "dd-MM-yy" });
-        $("#TaskDate").datepicker({ dateFormat: "dd-MM-yy" });
-
-
-        assignTaskDate();
+        //if (ViewBag.type = 0)
+        //{
+            $("#JobCardCompletedDate").datepicker({ dateFormat: "dd-MM-yy" });
+            $("#WarrentyPeriod").datepicker({ dateFormat: "dd-MM-yy" });
+            $("#TaskDate").datepicker({ dateFormat: "dd-MM-yy" });
+            assignTaskDate();
+            $(".glyphicon-plus").hide();
+        //}
+        //else
+        //{
+        //    $("#JobCardCompletedDate").datepicker({ dateFormat: "dd-MM-yy" });
+        //    $("#WarrentyPeriod").datepicker({ dateFormat: "dd-MM-yy" });
+        //    $("#TaskDate").datepicker({ dateFormat: "dd-MM-yy" });
+        //    assignTaskDate();
+        //    $(".glyphicon-plus").show();
+        //}
     });
     function assignTaskDate() {
         $('.taskdate').each(function (i, obj) {

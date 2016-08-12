@@ -61,6 +61,7 @@ namespace ArabErp.Web.Controllers
                 FillFreezerUnit();
                 FillBox();
                 //FillVehicleRegNo();
+             
                 return View(model);
             }
 
