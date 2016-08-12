@@ -14,6 +14,11 @@
         console.log(url);
         window.location.href = url;
     }
+
+    function Exit()
+    {
+        location.href ='@Url.Action("Index","Home")';
+    }
 </script>
 
 
@@ -72,8 +77,8 @@
 
                         <div class="col-md-12 hrpart">
                  
-                    <button class="form-button">Previous</button>
-                    <button type="button" class="form-button right">Exit</button>
+                    @*<button class="form-button">Previous</button>*@
+                    <button type="button" class="form-button right" onclick="Exit();">Exit</button>
                    
                 </div>
 

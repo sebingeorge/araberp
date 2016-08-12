@@ -1,7 +1,7 @@
-﻿@model IList<ArabErp.Domain.PendingForSOIReservation>
+﻿
 
 @{
-    ViewBag.Title = "Pending Sale Orders For Reservation";
+    ViewBag.Title = "Allocate Serial Number";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
@@ -37,64 +37,43 @@
         window.location = url;
     }
 
+    function Filter() {
+        $("#unreserved-table").addClass("fade");
+        var saleOrder = $("#saleOrder").val();
+        var item = $("#itemName").val();
+        var url = '@Url.Action("PendingReservationGrid")';
+        url += "?saleOrder=" + encodeURIComponent(saleOrder) + "&item=" + encodeURIComponent(item);
+        $("#unreserved-table").load(url, function () {
+            $("#unreserved-table").removeClass("fade");
+        })
+    }
+
 </script>
 
 
     <div class="row">
 
         <div class="form-head1">
-            <h4>Assign Serial Number</h4>
+            <h4>Allocate Serial Number</h4>
         </div>
 
         <div class="main-part pad1">
             <div class="row">
+                <div class="col-md-2">
+                    <label for="saleOrder">Sale Order</label>
+                    <input id="saleOrder" class="form_input" onkeyup="Filter()" />
+                </div>
+                <div class="col-md-2">
+                    <label for="itemName">Item</label>
+                    <input id="itemName" class="form_input" onkeyup="Filter()" />
+                </div>
+            </div>
+            <br />
+            <div class="row">
                 <div class="main-grid main-grid-top scroll1">
-                    <div class="table-responsive">
-                        <table class="table table-bordered">
-                            <thead>
-                                <tr class="grid_heading">
-                                    <th width="2%" class="text-center">#</th>
-                                    <th width="15%" title="Sale Order Ref. No. & Date"><h1>SO Ref. No. &amp; Date</h1></th>
-                                    <th width="17%" title="Work Description Ref. No. & Date"><h1>WD Ref. No. &amp; Short Name</h1></th>
-                                    <th width="41%"><h1>Item Name</h1></th>
-                                    <th width="5%" class="text-right"><h1>Quantity</h1></th>
-                                    <th width="5%" class="text-right" title="Previously Reserved Quantity" nowrap><h1>Res. Qty.</h1></th>
-                                    <th width="5%" class="text-right" title="Remaining quantity to be reserved" nowrap><h1>Rem. Qty.</h1></th>
-                                    <th width="10%"><center><h1>Select</h1></center></th>
-                                </tr>
-                            </thead>
-                            <tbody class="grid_row">
-                                @for (int i = 0; i < Model.Count; i++)
-                                {
-                                    <tr>
-                                        <td>
-                                            <input type="text" value="@(i + 1)" style="width:100%" class="form_input text-center" disabled />
-                                        </td>
-                                        <td>
-                                            <input type="text" value="@Model[i].SaleOrderRefNo - @Model[i].SaleOrderDate.ToString("dd MMMM yyyy")" class="form_input" disabled />
-                                        </td>
-                                        <td>
-                                            <input type="text" value="@Model[i].WorkDescriptionRefNo - @Model[i].WorkDescrShortName" class="form_input" disabled />
-                                        </td>
-                                        <td>
-                                            <input type="text" value="@Model[i].ItemName" class="form_input" disabled />
-                                        </td>
-                                        <td>
-                                            <input type="text" value="@Model[i].Quantity" class="form_input text-right" disabled />
-                                        </td>
-                                        <td>
-                                            <input type="text" value="@Model[i].ReservedQuantity" class="form_input text-right" disabled />
-                                        </td>
-                                        <td>
-                                            <input type="text" value="@(Model[i].Quantity - Model[i].ReservedQuantity)" class="form_input text-right" disabled />
-                                        </td>
-                                        <td>
-                                            <center><input type="button" class="form-button4" value="Select" title="Select this item for assigning serial number" onclick="OnItemSelected('@Model[i].SaleOrderItemId', '@Model[i].ItemId')" /></center>
-                                        </td>
-                                    </tr>
-                                }
-                            </tbody>
-                        </table>
+                    <div class="table-responsive" id="unreserved-table">
+                        
+                        @Html.Action("PendingReservationGrid")
 
                     </div>
                     </div>

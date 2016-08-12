@@ -61,8 +61,19 @@ namespace ArabErp.Web.Controllers
             model.CreatedDate = System.DateTime.Now;
             model.CreatedBy = UserID.ToString();
             if(new VehicleInPassRepository().InsertVehicleInPass(model) > 0)
-                return RedirectToAction("Index");
-            else return View(new VehicleInPass { SaleOrderItemId = model.SaleOrderItemId });
+               
+                {
+                    TempData["Success"] = "Added Successfully!";
+                    TempData["VehicleInPassNo"] = model.VehicleInPassNo;
+                    return RedirectToAction("Index");
+                }
+                else
+                {
+                    TempData["error"] = "Oops!!..Something Went Wrong!!";
+                    TempData["VehicleInPassNo"] = null;
+                    return View(new VehicleInPass { SaleOrderItemId = model.SaleOrderItemId });
+                }
+                   
         }
         public void EmployeeDropdown()
         {
