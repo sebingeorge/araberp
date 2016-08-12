@@ -14,7 +14,7 @@
     
     $(function () {
         $("#CurrentDate").datepicker({ dateFormat: "dd-MM-yy" });
-   
+        //$("#JcDate").datepicker({ dateFormat: "dd-MM-yy" });
     });
 </script>
 
@@ -36,6 +36,7 @@
                     <div class="col-md-2">
                         <label for="name" class="label1">QC Date</label>
                         @Html.TextBoxFor(m => m.CurrentDate, Model.CurrentDate.ToString("dd/MMMM/yyyy"), new { @class = "form_input ", autocomplete = "off", @readonly = "readonly" })
+                        @*@Html.ValidationMessageFor(m=>m.CurrentDate)*@
                     </div>
                         @*@Html.TextBoxFor(m => Model.CurrentDate, new { @Value = @DateTime.Now.ToShortDateString(), @class = "form_input", autocomplete = "off", @readonly = "readonly" })*@
                     </div>
@@ -48,7 +49,7 @@
                     </div>
                     <div class="col-md-2">
                         <label for="name" class="label1">Job Card Date</label>
-                        @Html.TextBoxFor(m => Model.JcDate, new { @class = "form_input", autocomplete = "off", @readonly = "readonly" })
+                        @Html.TextBoxFor(m => m.JcDate, Model.JcDate.ToString("dd/MMMM/yyyy"), new { @class = "form_input", autocomplete = "off", @readonly = "readonly" })
                     </div>
                     <div class="col-md-2">
                         <label for="name" class="label1">Customer</label>
@@ -102,8 +103,9 @@
                 <div class="row">
 
                     <div class="col-md-12 hrpart">
-                        <button type="submit" class="form-button right">Save</button>
                         <button class="form-button right" onclick="Back()">Exit</button>
+                        <button type="submit" class="form-button right">Save</button>
+                       
                     </div>
 
                 </div>

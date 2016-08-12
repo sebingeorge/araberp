@@ -140,12 +140,18 @@ namespace ArabErp.DAL
             }
         }
         public IEnumerable<JobCardQC> GetPreviousList( int id, int cusid, int OrganizationId, DateTime? from, DateTime? to)
+
         {
             using (IDbConnection connection = OpenConnection(dataConnection))
             {
-                string qry = @"select JobCardQCId,JobCardQCRefNo,JobCardQCDate ,JobCardNo,JobCardDate  from JobCardQC J inner join JobCard JC ON J.JobCardId=JC.JobCardId
-                             
-                               where J.isActive=1 and J.OrganizationId = @OrganizationId and  J.JobCardQCId = ISNULL(NULLIF(@id, 0), J.JobCardQCId)  AND J.JobCardQCDate BETWEEN ISNULL(@from, DATEADD(MONTH, -1, GETDATE())) AND ISNULL(@to, GETDATE())";
+                string qry = @" select JobCardQCId,JobCardQCRefNo,JobCardQCDate ,JobCardNo,JobCardDate,
+                                CASE WHEN IsQCPassed=1 THEN 'PASSED' ELSE 'FAIL' END QCStatus  
+                                from JobCardQC J 
+                                inner join JobCard JC ON J.JobCardId=JC.JobCardId
+                                where J.isActive=1 and J.OrganizationId = @OrganizationId 
+                                and  J.JobCardQCId = ISNULL(NULLIF(@id, 0), J.JobCardQCId)  
+                                AND Convert(date,J.JobCardQCDate,106) BETWEEN ISNULL(@from, DATEADD(MONTH, -1, GETDATE())) AND ISNULL(@to, GETDATE())
+                                ORDER BY J.JobCardQCDate Desc";
                 return connection.Query<JobCardQC>(qry, new { id = id, cusid = cusid, from = from, to = to, OrganizationId = OrganizationId}).ToList();
 
             }
