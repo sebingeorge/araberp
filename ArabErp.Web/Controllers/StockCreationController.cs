@@ -19,7 +19,11 @@ namespace ArabErp.Web.Controllers
         public ActionResult Create()
         {
             FillStockpoint();
-            var model = new StockCreation { StockCreationDate = DateTime.Today };
+            var model = new StockCreation
+            {
+                StockCreationDate = DateTime.Today,
+                StockCreationRefNo = "STO/" + DatabaseCommonRepository.GetNextReferenceNo(typeof(StockCreation).Name)
+            };
             return View(model);
         }
 
@@ -30,14 +34,14 @@ namespace ArabErp.Web.Controllers
             {
                 model.OrganizationId = OrganizationId;
                 model.CreatedDate = System.DateTime.Now;
-                model.CreatedBy = UserName;
+                model.CreatedBy = UserID.ToString();
 
                 string ref_no = new StockCreationRepository().CreateStock(model);
                 TempData["success"] = "Saved successfully. The Reference No. is " + ref_no;
             }
             catch (Exception ex)
             {
-                TempData["error"] = "Some error occured while saving. Please try again|" + ex.Message;
+                TempData["error"] = "Some error occured while saving. Please try again.|" + ex.Message;
                 FillDropdowns();
                 return View("Create", model);
             }
@@ -65,7 +69,7 @@ namespace ArabErp.Web.Controllers
 
         public ActionResult PreviousList()
         {
-            return View(new StockCreationRepository().GetStockCreations());
+            return View(new StockCreationRepository().GetStockCreations(organizationId: OrganizationId));
         }
 
         //public ActionResult Details(int id)

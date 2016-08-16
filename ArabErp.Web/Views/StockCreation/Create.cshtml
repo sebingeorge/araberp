@@ -9,6 +9,8 @@
 
     $(document).ready(function () {
 
+        $("#StockCreationRefNo").tooltip();
+
         //---------------------toastr---------------------------//
         toastr.options = {
             "positionClass": "toast-bottom-full-width",
@@ -49,57 +51,57 @@
 </script>
 
 
-    <div class="row">
-        <div class="form-head1">
-            <h4>Stock Creation</h4>
-        </div>
-
-        <div class="main-part pad1">
-            @using (Html.BeginForm(null, null, FormMethod.Post, new { @class = "createFrom", @id = "stock-creation-form", @onsubmit = "return formValidation()" }))
-            {
-                <div class="row form-group">
-                    <div class="col-md-12">
-                        <em id="expiry-notification"></em>
-                    </div>
-                </div>
-
-                <div class="row form-group">
-                    <div class="col-md-2">
-                        <label for="StockCreationRefNo">Reference No.</label>
-                        @Html.TextBoxFor(m => m.StockCreationRefNo, new { @class = "form_input", @readonly = "true" })
-                    </div>
-                    <div class="col-md-2">
-                        <label for="StockCreationDate">Date</label>
-                        @Html.TextBoxFor(m => m.StockCreationDate, Model.StockCreationDate.ToString("dd MMMM yyyy"), new { @class = "form_input", @readonly = "true", @required = "true" })
-                    </div>
-                    <div class="col-md-3">
-                        <label for="FinishedGoodStockpointId">Finished Goods Stockpoint</label>
-                        @Html.DropDownListFor(m => m.FinishedGoodStockpointId, (SelectList)ViewBag.stockpointList, "Select Stockpoint", new { @class = "form_input" })
-                    </div>
-                    <div class="col-md-3">
-                        <label for="ConsumedItemStockpointId">Consumed Items Stockpoint</label>
-                        @Html.DropDownListFor(m => m.ConsumedItemStockpointId, (SelectList)ViewBag.stockpointList, "Select Stockpoint", new { @class = "form_input" })
-                    </div>
-                </div>
-
-                <strong>Finished Goods:</strong>
-                <div class="table-responsive scroll4">
-                    @Html.Action("FinishedGoodsGrid")
-                </div>
-
-                <strong>Consumed Items:</strong>
-                <div class="table-responsive scroll4">
-                    @Html.Action("ConsumedItemsGrid")
-                </div>
-
-                <div class="row">
-                    <div class="col-md-12 hrpart">
-                        <input type="button" class="form-button" value="Previous" onclick="Previous()" title="Previously created stocks" />
-                        <input type="button" class="form-button right" value="Exit" onclick="Exit()" title="Go to home page" />
-                        <input type="submit" class="form-button right" value="Save" />
-                    </div>
-                </div>
-            }
-        </div>
+<div class="row">
+    <div class="form-head1">
+        <h4>Stock Creation</h4>
     </div>
+
+    <div class="main-part pad1">
+        @using (Html.BeginForm(null, null, FormMethod.Post, new { @class = "createFrom", @id = "stock-creation-form", @onsubmit = "return formValidation()" }))
+        {
+            <div class="row form-group">
+                <div class="col-md-12">
+                    <em id="expiry-notification"></em>
+                </div>
+            </div>
+
+            <div class="row form-group">
+                <div class="col-md-2">
+                    <label for="StockCreationRefNo">Reference No.</label>
+                    @Html.TextBoxFor(m => m.StockCreationRefNo, new { @class = "form_input", @readonly = "true", @title = "This number may change after saving" })
+                </div>
+                <div class="col-md-2">
+                    <label for="StockCreationDate">Date</label>
+                    @Html.TextBoxFor(m => m.StockCreationDate, Model.StockCreationDate.ToString("dd MMMM yyyy"), new { @class = "form_input", @readonly = "true", @required = "true" })
+                </div>
+                <div class="col-md-3">
+                    <label for="FinishedGoodStockpointId">Finished Goods Stockpoint</label>
+                    @Html.DropDownListFor(m => m.FinishedGoodStockpointId, (SelectList)ViewBag.stockpointList, "Select Stockpoint", new { @class = "form_input" })
+                </div>
+                <div class="col-md-3">
+                    <label for="ConsumedItemStockpointId">Consumed Items Stockpoint</label>
+                    @Html.DropDownListFor(m => m.ConsumedItemStockpointId, (SelectList)ViewBag.stockpointList, "Select Stockpoint", new { @class = "form_input" })
+                </div>
+            </div>
+
+            <strong>Finished Goods:</strong>
+            <div class="table-responsive scroll4">
+                @Html.Action("FinishedGoodsGrid")
+            </div>
+
+            <strong>Consumed Items:</strong>
+            <div class="table-responsive scroll4">
+                @Html.Action("ConsumedItemsGrid")
+            </div>
+
+            <div class="row">
+                <div class="col-md-12 hrpart">
+                    <input type="button" class="form-button" value="Previous" onclick="Previous()" title="Previously created stocks" />
+                    <input type="button" class="form-button right" value="Exit" onclick="Exit()" title="Go to home page" />
+                    <input type="submit" class="form-button right" value="Save" />
+                </div>
+            </div>
+        }
+    </div>
+</div>
 
