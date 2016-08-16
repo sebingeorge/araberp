@@ -26,9 +26,14 @@ namespace ArabErp.Web.Controllers
 
         public ActionResult Create()
         {
+            string internalId = "";
+            internalId = DatabaseCommonRepository.GetNextReferenceNo(typeof(ExpenseBill).Name);
+
             FillDropdowns();
             ExpenseBill expense = new ExpenseBill();
             expense.ExpenseDate = expense.ExpenseBillDate = expense.ExpenseBillDueDate = DateTime.Now;
+            expense.ExpenseNo = "EB/"+ internalId;
+
             expense.CurrencyId = new CurrencyRepository().GetCurrencyFrmOrganization(OrganizationId).CurrencyId;
             expense.ExpenseBillItem = new List<ExpenseBillItem>();
             expense.deductions = new List<ExpenseBillItem>();
@@ -65,6 +70,7 @@ namespace ArabErp.Web.Controllers
                 FillDeduction();
                 FillSO();
                 FillJC();
+                FillCurrency();
                 TempData["error"] = "Some error occurred. Please try again.";
                 return View(model);
             }

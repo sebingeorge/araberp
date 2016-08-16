@@ -26,6 +26,7 @@
         else {
             $("#ExpenseDate").datepicker({ dateFormat: "dd/MM/yy" });
             $("#ExpenseBillDate").datepicker({ dateFormat: "dd/MM/yy" });
+            $("#ExpenseBillDueDate").datepicker({ dateFormat: "dd/MM/yy" });
         }
 
         //$("#ExpenseBillDueDate").datepicker({ dateFormat: "dd/MM/yy" });
@@ -335,7 +336,7 @@
                         </div>
                         <div class="col-md-2">
                             <label for="inputDate">Bill Date</label>
-                            @Html.TextBoxFor(m => m.ExpenseBillDate, String.Format("{0:dd/MMMM/yyyy}", Model.ExpenseBillDate), new { @class = "form_input ", autocomplete = "off", @readonly = "readonly" })
+                            @Html.TextBoxFor(m => m.ExpenseBillDate, String.Format("{0:dd/MMMM/yyyy}", Model.ExpenseBillDate), new { @class = "form_input ", autocomplete = "off" })
                         </div>
                         <div class="col-md-2">
                             <label for="inputDate">Bill Due Date</label>
