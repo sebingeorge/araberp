@@ -1406,10 +1406,12 @@ pre code {
     margin-left: 91.66666666666666%;
   }
 }
-
+.bays table {
+    background-color:transparent;
+}
 table {
   max-width: 100%;
-  background-color: transparent;
+  /*background-color: transparent;*/
   background-color: #fff
 }
 
