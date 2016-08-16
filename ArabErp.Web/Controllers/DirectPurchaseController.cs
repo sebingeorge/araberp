@@ -206,7 +206,7 @@ namespace ArabErp.Web.Controllers
 
                     TempData["success"] = "Updated successfully. Direct Purchase Request Reference No. is " + id;
                     TempData["error"] = "";
-                    return RedirectToAction("CreateRequest");
+                    return RedirectToAction("Index");
                 }
                 catch (SqlException sx)
                 {
@@ -247,7 +247,7 @@ namespace ArabErp.Web.Controllers
 
                     TempData["Success"] = "Deleted Successfully!";
                     //return RedirectToAction("PreviousList");
-                    return RedirectToAction("PendingSupplyOrder");
+                    return RedirectToAction("Index");
                 }
 
                 else
