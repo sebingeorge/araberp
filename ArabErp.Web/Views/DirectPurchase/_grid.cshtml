@@ -148,7 +148,7 @@
     <thead>
         <tr class="grid_heading">
             <th width="2%"></th>
-            <th width="5%">#</th>
+            <th width="1%" class="text-center">#</th>
             <th width="20%">Material/Spares</th>
             <th width="10%">Part No</th>
             <th width="25%">Remarks</th>
@@ -164,7 +164,7 @@
         {
             <tr id="@i">
                 <td style="vertical-align:middle"><a class="glyphicon glyphicon-minus" style="top:0px" onclick="Delete(@i)"></a></td>
-                 <td>
+                 <td align="center">
                     <span id="slno@(i+1)">@(i + 1)</span>
                 </td>
                 <td>
@@ -211,6 +211,7 @@
             <th></th>
             <th></th>
             <th></th>
+            <th></th>
             <th class="text-right">Total</th>
             <th class="text-right">
                 <strong>
@@ -219,7 +220,6 @@
                     </span>
                 </strong>
             </th>
-            <th></th>
             <th></th>
         </tr>
     </tfoot>

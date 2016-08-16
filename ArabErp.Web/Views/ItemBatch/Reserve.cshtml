@@ -108,10 +108,10 @@
                         <thead>
                             <tr class="grid_heading">
                                 <th width="2%" class="text-center">#</th>
-                                <th width="60%"><h1>Item Name</h1></th>
-                                <th width="28%"><h1>Serial Number</h1></th>
-                                <th width="28%"><h1>GRN No. &amp; Date</h1></th>
-                                <th width="1%"><center><h1>Select</h1></center></th>
+                                <th width="50%"><h1>Item Name</h1></th>
+                                <th width="25%"><h1>Serial Number</h1></th>
+                                <th width="20%"><h1>GRN No. &amp; Date</h1></th>
+                                <th width="1%" title="Checked items will be reserved"><center><h1>Select</h1></center></th>
                             </tr>
                         </thead>
                         <tbody class="grid_row">
@@ -133,10 +133,10 @@
                                             @Html.TextBoxFor(m => m[i].SerialNo, new { @class = "form_input", autocomplete = "off", @readonly = "readonly" })
                                         </td>
                                         <td>
-                                            @Html.TextBoxFor(m => m[i].GRNNo, new { @class = "form_input", autocomplete = "off", @readonly = "readonly" })
+                                            @Html.TextBoxFor(m => m[i].GRNNo, Model[i].GRNNo + " - " + Model[i].GRNDate.ToString("dd-MMMM-yyyy"), new { @class = "form_input", autocomplete = "off", @readonly = "readonly" })
                                         </td>
                                         <td>
-                                            <center>@Html.CheckBoxFor(m => m[i].isSelected, new { @class = "form_input", autocomplete = "off", @readonly = "readonly" })</center>
+                                            <center>@Html.CheckBoxFor(m => m[i].isSelected, new { @class = "form_input", autocomplete = "off", @readonly = "readonly", @title = "Check to reserve" })</center>
                                         </td>
 
                                     </tr>

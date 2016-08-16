@@ -46,7 +46,7 @@ namespace ArabErp.Web.Controllers
 
             //if (new DirectPurchaseRepository().InsertDirectPurchaseRequest(model) > 0)
             {
-                TempData["success"] = "Saved successfully";
+                TempData["success"] = "Saved successfully. Reference No. is " + referenceNo;
                 TempData["error"] = "";
                 return RedirectToAction("CreateRequest");
             }

@@ -92,7 +92,12 @@ namespace ArabErp.Web.Controllers
 
         public ActionResult PendingReservation()
         {
-            return View(new ItemBatchRepository().GetUnreservedItems());
+            return View();
+        }
+
+        public ActionResult PendingReservationGrid(string saleOrder = "", string item = "")
+        {
+            return PartialView("_PendingReservationGrid", new ItemBatchRepository().GetUnreservedItems(saleOrder: saleOrder.Trim(), itemName: item.Trim()));
         }
 
         [HttpGet]
@@ -141,9 +146,13 @@ namespace ArabErp.Web.Controllers
         }
         public ActionResult ReservedList()
         {
-            return View(new ItemBatchRepository().GetReservedItems());
+            return View();
         }
 
+        public ActionResult ReservedListGrid(string saleOrder = "", string serialNo = "")
+        {
+            return PartialView("_ReservedListGrid", new ItemBatchRepository().GetReservedItems(saleOrder: saleOrder.Trim(), serialNo: serialNo.Trim()));
+        }
 
         public ActionResult UnReserve(int id = 0)//sale order id is received here
         {

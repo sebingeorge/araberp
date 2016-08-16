@@ -198,7 +198,7 @@ namespace ArabErp.DAL
         /// Return all sale order items that doesnt have a reserved material
         /// </summary>
         /// <returns></returns>
-        public IEnumerable<PendingForSOIReservation> GetUnreservedItems()
+        public IEnumerable<PendingForSOIReservation> GetUnreservedItems(string saleOrder, string itemName)
         {
             using (IDbConnection connection = OpenConnection(dataConnection))
             {
@@ -235,11 +235,13 @@ namespace ArabErp.DAL
 								AND ISNULL(ReservedQuantity, 0) < ISNULL(SOI.Quantity, 0)
 								AND SII.SaleOrderItemId IS NULL
                                 AND I.BatchRequired = 1
+                                AND SO.SaleOrderRefNo LIKE '%'+@saleOrder+'%'
+                                AND I.ItemName LIKE '%'+@itemName+'%'
                                 ORDER BY SO.SaleOrderDate DESC, SO.CreatedDate DESC;
 
 								DROP TABLE #RESERVED;";
 
-                return connection.Query<PendingForSOIReservation>(query).ToList();
+                return connection.Query<PendingForSOIReservation>(query, new { saleOrder = saleOrder, itemName = itemName }).ToList();
             }
         }
 
@@ -292,7 +294,7 @@ namespace ArabErp.DAL
             }
         }
 
-        public IEnumerable<PendingForSOIReservation> GetReservedItems()
+        public IEnumerable<PendingForSOIReservation> GetReservedItems(string saleOrder, string serialNo)
         {
             using (IDbConnection connection = OpenConnection(dataConnection))
             {
@@ -324,8 +326,10 @@ namespace ArabErp.DAL
                                 WHERE IB.SaleOrderItemId IS NOT NULL
                                 AND ISNULL(IB.isActive, 1) = 1
                                 AND IB.DeliveryChallanId IS NULL
+                                AND SO.SaleOrderRefNo LIKE '%'+@saleOrder+'%'
+                                AND IB.SerialNo LIKE '%'+@serialNo+'%'
                                 ORDER BY SO.SaleOrderDate DESC, SO.CreatedDate DESC";
-                return connection.Query<PendingForSOIReservation>(query).ToList();
+                return connection.Query<PendingForSOIReservation>(query, new { saleOrder = saleOrder, serialNo = serialNo }).ToList();
             }
         }
 
@@ -337,11 +341,14 @@ namespace ArabErp.DAL
 	                                ItemBatchId,
 	                                I.ItemName,
 	                                IB.SerialNo,
-                                    SO.SaleOrderId
+                                    SO.SaleOrderId,
+									G.GRNNo,
+									CONVERT(VARCHAR, G.GRNDate, 106) GRNDate
                                 FROM ItemBatch IB
                                 INNER JOIN SaleOrderItem SOI ON IB.SaleOrderItemId = SOI.SaleOrderItemId
                                 INNER JOIN SaleOrder SO ON SOI.SaleOrderId = SO.SaleOrderId
                                 INNER JOIN GRNItem GI ON IB.GRNItemId = GI.GRNItemId
+								INNER JOIN GRN G ON GI.GRNId = G.GRNId
                                 INNER JOIN Item I ON GI.ItemId = I.ItemId
                                 WHERE SO.SaleOrderId = @id
                                 AND IB.isActive = 1
@@ -436,20 +443,20 @@ namespace ArabErp.DAL
         {
             using (IDbConnection connection = OpenConnection(dataConnection))
             {
-//                string query = @"SELECT
-//	                                G.GRNNo,
-//	                                CONVERT(VARCHAR, G.GRNDate, 106) GRNDate,
-//	                                WD.WorkDescriptionRefNo,
-//	                                WD.WorkDescrShortName,
-//	                                SO.SaleOrderRefNo,
-//	                                CONVERT(VARCHAR, SO.SaleOrderDate, 106) SaleOrderDate
-//                                FROM ItemBatch IB
-//                                INNER JOIN GRNItem GI ON IB.GRNItemId = GI.GRNItemId
-//                                INNER JOIN GRN G ON GI.GRNId = G.GRNId
-//                                INNER JOIN SaleOrderItem SOI ON IB.SaleOrderItemId = SOI.SaleOrderItemId
-//                                INNER JOIN SaleOrder SO ON SOI.SaleOrderId = SO.SaleOrderId
-//                                INNER JOIN WorkDescription WD ON SOI.WorkDescriptionId = WD.WorkDescriptionId
-//                                WHERE SOI.SaleOrderItemId = @id AND IB.isActive = 1";
+                //                string query = @"SELECT
+                //	                                G.GRNNo,
+                //	                                CONVERT(VARCHAR, G.GRNDate, 106) GRNDate,
+                //	                                WD.WorkDescriptionRefNo,
+                //	                                WD.WorkDescrShortName,
+                //	                                SO.SaleOrderRefNo,
+                //	                                CONVERT(VARCHAR, SO.SaleOrderDate, 106) SaleOrderDate
+                //                                FROM ItemBatch IB
+                //                                INNER JOIN GRNItem GI ON IB.GRNItemId = GI.GRNItemId
+                //                                INNER JOIN GRN G ON GI.GRNId = G.GRNId
+                //                                INNER JOIN SaleOrderItem SOI ON IB.SaleOrderItemId = SOI.SaleOrderItemId
+                //                                INNER JOIN SaleOrder SO ON SOI.SaleOrderId = SO.SaleOrderId
+                //                                INNER JOIN WorkDescription WD ON SOI.WorkDescriptionId = WD.WorkDescriptionId
+                //                                WHERE SOI.SaleOrderItemId = @id AND IB.isActive = 1";
 
                 string query = @"--SELECT
 	                                --IB.ItemBatchId,

@@ -69,7 +69,7 @@
                 </td>
                 <td>
                     @Html.HiddenFor(m => m.Items[i].WorkDescriptionId)
-                    @Html.TextBoxFor(m => m.Items[i].WorkDescr, new { @class = "form_input", @readonly = "true" })
+                    @Html.TextAreaFor(m => m.Items[i].WorkDescr, new { @class = "form_input form_input-h1", @readonly = "true" })
                 </td>
                 <td>
                     @Html.TextBoxFor(m => m.Items[i].MinRate, new { @class = "form_input numbers-only text-right" })
