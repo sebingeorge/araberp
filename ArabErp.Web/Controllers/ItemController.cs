@@ -56,7 +56,11 @@ namespace ArabErp.Web.Controllers
             bool isexists = repo.IsFieldExists(repo.ConnectionString(), "Item","ItemName",oitem.ItemName, null, null);
             if (!isexists)
             {
+
+                if(oitem.PartNo!=null)
+
                 isexists = repo.IsFieldExists(repo.ConnectionString(), "Item", "PartNo", oitem.PartNo, null, null);
+
                 if (!isexists)
 
                 {
