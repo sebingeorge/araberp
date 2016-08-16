@@ -28,7 +28,7 @@
         //------------------------------------------------------//
 
         $("#StockCreationDate").datepicker({
-            dateFormat: "dd MM yy"
+            dateFormat: "dd-MM-yy"
         });
 
         //bind keypress event
@@ -40,11 +40,35 @@
     })
 
     function formValidation() {
-        return true;
+        var status = true;
+        $("input[id$='__StockQuantity']").each(function (index, object) {
+            if ($(object).val() <= 0) {
+                toastr.info("Consumed items should be in stock");
+                status = false;
+                return false;
+            }
+        })
+        return status;
     }
 
     function Previous() {
         var url = '@Url.Action("PreviousList")';
+        window.location = url;
+    }
+
+    function OnConsumedItemStockPointChanged() {
+        $("#consumed-table").addClass("fade");
+        $("input[id$='__StockQuantity']").each(function (index, object) {
+            if ($("#ConsumedItemStockpointId").val() == '') {
+                $(object).val(0);
+            }
+            else OnMaterialChanged(index);
+        })
+        $("#consumed-table").removeClass("fade");
+    }
+
+    function Exit() {
+        var url = '@Url.Action("Index", "Home")';
         window.location = url;
     }
 
@@ -72,25 +96,25 @@
                 </div>
                 <div class="col-md-2">
                     <label for="StockCreationDate">Date</label>
-                    @Html.TextBoxFor(m => m.StockCreationDate, Model.StockCreationDate.ToString("dd MMMM yyyy"), new { @class = "form_input", @readonly = "true", @required = "true" })
+                    @Html.TextBoxFor(m => m.StockCreationDate, Model.StockCreationDate.ToString("dd-MMMM-yyyy"), new { @class = "form_input", @readonly = "true", @required = "true" })
                 </div>
                 <div class="col-md-3">
-                    <label for="FinishedGoodStockpointId">Finished Goods Stockpoint</label>
+                    <label for="FinishedGoodStockpointId">Destination</label>
                     @Html.DropDownListFor(m => m.FinishedGoodStockpointId, (SelectList)ViewBag.stockpointList, "Select Stockpoint", new { @class = "form_input" })
                 </div>
                 <div class="col-md-3">
-                    <label for="ConsumedItemStockpointId">Consumed Items Stockpoint</label>
-                    @Html.DropDownListFor(m => m.ConsumedItemStockpointId, (SelectList)ViewBag.stockpointList, "Select Stockpoint", new { @class = "form_input" })
+                    <label for="ConsumedItemStockpointId">Source</label>
+                    @Html.DropDownListFor(m => m.ConsumedItemStockpointId, (SelectList)ViewBag.stockpointList, "Select Stockpoint", new { @class = "form_input", @onchange = "OnConsumedItemStockPointChanged()" })
                 </div>
             </div>
 
             <strong>Finished Goods:</strong>
-            <div class="table-responsive scroll4">
+            <div class="table-responsive scroll4" id="finished-table">
                 @Html.Action("FinishedGoodsGrid")
             </div>
 
             <strong>Consumed Items:</strong>
-            <div class="table-responsive scroll4">
+            <div class="table-responsive scroll4" id="consumed-table">
                 @Html.Action("ConsumedItemsGrid")
             </div>
 

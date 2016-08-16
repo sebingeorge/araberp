@@ -78,6 +78,19 @@ namespace ArabErp.Web.Controllers
         //    return View(new StockCreationRepository().GetStockCreation(id));
         //}
 
+        public ActionResult GetStockQuantity(int id = 0, int stockpoint = 0)
+        {
+            try
+            {
+                ClosingStock stock = new ClosingStockRepository().GetClosingStockData(DateTime.Today, stockpoint, 0, id, OrganizationId).First();
+                return Json(stock.Quantity, JsonRequestBehavior.AllowGet);
+            }
+            catch (InvalidOperationException)
+            {
+                return Json(0, JsonRequestBehavior.AllowGet);
+            }
+        }
+
         #region Dropdowns
         public void FillDropdowns()
         {
