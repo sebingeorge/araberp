@@ -15,26 +15,21 @@
 </style>
 <script>
     $(document).ready(function () {
+        //---------------------toastr---------------------------//
         toastr.options = {
-            "closeButton": true,
             "positionClass": "toast-bottom-full-width",
-            "preventDuplicates": false,
-            "onclick": null,
-            "showDuration": "300",
-            "hideDuration": "1000",
             "timeOut": "5000",
-            "extendedTimeOut": "1000",
-            "showEasing": "swing",
-            "hideEasing": "linear",
-            "showMethod": "fadeIn",
-            "hideMethod": "fadeOut"
+            "extendedTimeOut": "2000"
         }
-        if ('@TempData["success"]' != "") {
+        if ('@TempData["success"]' != '') {
             toastr.success('@TempData["success"]');
         }
-        else if ('@TempData["error"]' != "") {
-            toastr.error('@TempData["error"]');
+        else if ('@TempData["error"]' != '') {
+            toastr.error('@TempData["error"]'.split('|')[0]);
+            console.log('@TempData["error"]'.split('|')[1]);
         }
+        @{ TempData["success"] = TempData["error"] = ""; }
+        //------------------------------------------------------//
 
         getPurchaseLimit();
 
@@ -137,14 +132,12 @@
 
         //status = isAlreadyExist(status);
 
-    
+
         var total = 0;
         var limit = $("#purchaseLimit").val();
 
         if
-            (limit == -1)
-
-        {
+            (limit == -1) {
             toastr.error("Couldn't fetch the purchase limit. Please reload the page and try again.");
             return false;
         }
@@ -160,6 +153,7 @@
         }
         return true;
     }
+
     function OptionChanged() {
         var opt = $("#JcOrSo").val();
         $("#SoOrJc").val(opt);
@@ -194,77 +188,77 @@
     }
 </script>
 
-    <div class="row">
+<div class="row">
 
-        <div class="form-head1">
-            <h4>Direct Purchase Request</h4>
-        </div>
-
-        <div class="main-part pad1">
-            @*@using (Html.BeginForm(null, null, FormMethod.Post, new { @class = "createFrom", @id = "purchasereq_form", @onsubmit = "return formValidation()" }))
-                {*@
-            <form role="form" onsubmit="return formValidation()" method="Post">
-                <input type="hidden" id="purchaseLimit" />
-                <div class="row form-group">
-                    <div class="col-md-2">
-                        <label for="PurchaseRequestNo">PR No.</label>
-                        @Html.TextBoxFor(m => m.PurchaseRequestNo, new { @class = "form_input", autocomplete = "off", @onchange = "OnRequestDateChanged(this)", @required = "true", @readonly = "readonly" })
-                    </div>
-                    <div class="col-md-2">
-                        <label for="PurchaseRequestDate">Date</label>
-                        @Html.TextBoxFor(m => m.PurchaseRequestDate, Model.PurchaseRequestDate.Value.ToString("dd/MMMM/yyyy"), new { @class = "form_input", autocomplete = "off", @required = "true" })
-                    </div>
-                    <div class="col-md-2">
-                        <label for="RequiredDate">Required Date</label>
-                        @Html.TextBoxFor(m => m.RequiredDate, Model.RequiredDate.Value.ToString("dd/MMMM/yyyy"), new { @class = "form_input", autocomplete = "off" })
-                        @*@Html.ValidationMessageFor(m=> m.RequiredDate)*@
-                    </div>
-                    <div class="col-md-2">
-                        <label>Sale Ord. / Job Card</label>
-                        @Html.HiddenFor(m => m.SoOrJc)
-                        <select class="form_input" id="JcOrSo" onchange="OptionChanged()">
-                            <option>Select</option>
-                            <option value="JC">Job Card</option>
-                            <option value="SO">Sale Order</option>
-                        </select>
-                    </div>
-                    <div class="col-md-2">
-                        <label id="againstId"></label>
-                        @Html.DropDownListFor(m => Model.SaleOrderId, (SelectList)ViewBag.SO, "Select S.O", new { @class = "form_input divHidden", autocomplete = "off" })
-                        @Html.DropDownListFor(m => Model.JobCardId, (SelectList)ViewBag.JC, "Select J.C", new { @class = "form_input divHidden against", autocomplete = "off" })
-                    </div>
-                </div>
-                <div class="row form-group">
-                    <div class="col-md-12" id="purchaseLimitDiv">
-
-                    </div>
-                </div>
-                <div class="table-responsive">
-                    @Html.Partial("_grid")
-                </div>
-
-                <div class="row form-group">
-                            <div class="col-md-12">
-                                <div class="part1">
-                                <label for="SpecialRemarks">Special Remarks</label>
-                                @Html.TextAreaFor(m => m.SpecialRemarks, new { @class = "form_input form_input-h", autocomplete = "off" })
-                            </div>
-                            </div>
-                </div>
-
-                <div class="row">
-
-                    <div class="col-md-12 hrpart">
-                        <input type="button" class="form-button left" value="Previous" onclick="PreviousList()" />
-                        <input type="button" class="form-button right" value="Exit" onclick="Exit()" />
-                        <input type="submit" class="form-button right" value="Save" />
-                    </div>
-
-                </div>
-
-
-                @*}*@
-            </form>
-        </div>
+    <div class="form-head1">
+        <h4>Direct Purchase Request</h4>
     </div>
+
+    <div class="main-part pad1">
+        @*@using (Html.BeginForm(null, null, FormMethod.Post, new { @class = "createFrom", @id = "purchasereq_form", @onsubmit = "return formValidation()" }))
+            {*@
+        <form role="form" onsubmit="return formValidation()" method="Post">
+            <input type="hidden" id="purchaseLimit" />
+            <div class="row form-group">
+                <div class="col-md-2">
+                    <label for="PurchaseRequestNo">PR No.</label>
+                    @Html.TextBoxFor(m => m.PurchaseRequestNo, new { @class = "form_input", autocomplete = "off", @onchange = "OnRequestDateChanged(this)", @required = "true", @readonly = "readonly" })
+                </div>
+                <div class="col-md-2">
+                    <label for="PurchaseRequestDate">Date</label>
+                    @Html.TextBoxFor(m => m.PurchaseRequestDate, Model.PurchaseRequestDate.Value.ToString("dd/MMMM/yyyy"), new { @class = "form_input", autocomplete = "off", @required = "true" })
+                </div>
+                <div class="col-md-2">
+                    <label for="RequiredDate">Required Date</label>
+                    @Html.TextBoxFor(m => m.RequiredDate, Model.RequiredDate.Value.ToString("dd/MMMM/yyyy"), new { @class = "form_input", autocomplete = "off" })
+                    @*@Html.ValidationMessageFor(m=> m.RequiredDate)*@
+                </div>
+                <div class="col-md-2">
+                    <label>Sale Ord. / Job Card</label>
+                    @Html.HiddenFor(m => m.SoOrJc)
+                    <select class="form_input" id="JcOrSo" onchange="OptionChanged()">
+                        <option>Select</option>
+                        <option value="JC">Job Card</option>
+                        <option value="SO">Sale Order</option>
+                    </select>
+                </div>
+                <div class="col-md-2">
+                    <label id="againstId"></label>
+                    @Html.DropDownListFor(m => Model.SaleOrderId, (SelectList)ViewBag.SO, "Select S.O", new { @class = "form_input divHidden", autocomplete = "off" })
+                    @Html.DropDownListFor(m => Model.JobCardId, (SelectList)ViewBag.JC, "Select J.C", new { @class = "form_input divHidden against", autocomplete = "off" })
+                </div>
+            </div>
+            <div class="row form-group">
+                <div class="col-md-12" id="purchaseLimitDiv">
+
+                </div>
+            </div>
+            <div class="table-responsive">
+                @Html.Partial("_grid")
+            </div>
+
+            <div class="row form-group">
+                <div class="col-md-12">
+                    <div class="part1">
+                        <label for="SpecialRemarks">Special Remarks</label>
+                        @Html.TextAreaFor(m => m.SpecialRemarks, new { @class = "form_input form_input-h", autocomplete = "off" })
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+
+                <div class="col-md-12 hrpart">
+                    <input type="button" class="form-button left" value="Previous" onclick="PreviousList()" />
+                    <input type="button" class="form-button right" value="Exit" onclick="Exit()" />
+                    <input type="submit" class="form-button right" value="Save" />
+                </div>
+
+            </div>
+
+
+            @*}*@
+        </form>
+    </div>
+</div>
 

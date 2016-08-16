@@ -19,8 +19,7 @@
         location.href = '@Url.Action("Index")';
     }
 
-    function Delete(id) {
-        alert(id);
+    function DeleteRequest(id) {
         var url = '@Url.Action("Delete")';
         url += "/" + id;
         window.location = url;
@@ -221,7 +220,7 @@
             <div class="row">
 
                 <div class="col-md-12 hrpart">
-                    <button type="button" class="form-button left" onclick="Delete('@Model.DirectPurchaseRequestId')">Delete</button>
+                    <button type="button" class="form-button left" onclick="DeleteRequest(@Model.DirectPurchaseRequestId)">Delete</button>
                     <button type="button" class="form-button right" onclick="Exit()">Exit</button>
                     <button type="submit" class="form-button right">Edit</button>
                 </div>

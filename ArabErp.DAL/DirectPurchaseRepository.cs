@@ -217,7 +217,8 @@ namespace ArabErp.DAL
                                 LEFT JOIN SaleOrder SO ON DP.SaleOrderId = SO.SaleOrderId
                                 LEFT JOIN JobCard JC ON DP.JobCardId = JC.JobCardId
                                 WHERE DP.OrganizationId = @OrganizationId
-                                AND DP.isActive = 1";
+                                AND DP.isActive = 1
+                                ORDER BY DP.PurchaseRequestDate DESC, DP.CreatedDate DESC";
                 return connection.Query<DirectPurchaseRequest>(query, new { OrganizationId = 1 }).ToList();
             }
         }
