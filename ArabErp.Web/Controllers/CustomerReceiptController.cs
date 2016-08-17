@@ -9,7 +9,7 @@ using System.Web.Mvc;
 
 namespace ArabErp.Web.Controllers
 {
-    public class CustomerReceiptController :BaseController
+    public class CustomerReceiptController : BaseController
     {
         // GET: CustomerReceipt
         public ActionResult Index()
@@ -26,21 +26,55 @@ namespace ArabErp.Web.Controllers
             return PartialView("_CustomerReceiptListView", List);
         }
 
-        public ActionResult CreateRequest()
+        public ActionResult CreateRequest(int Code = 0)
         {
+            string internalId = "";
+            internalId = DatabaseCommonRepository.GetNextReferenceNo(typeof(CustomerReceipt).Name);
+
             ViewBag.Title = "Create";
             FillCustomer();
-            FillSO();
-            FillJC();
-            FillSI();
-            return View("Create", new CustomerReceipt { CustomerReceiptDate = DateTime.Today });
+            FillSaleOrder(Code);
+            FillJobCard(Code);
+            FillSalesInvoice(Code);
+            //FillSO();
+            //FillJC();
+            //FillSI();
+            return View("Create", new CustomerReceipt { CustomerReceiptDate = DateTime.Today, CustomerReceiptRefNo = "CR/" + internalId });
         }
-        [HttpPost]
-        public ActionResult CreateRequest(CustomerReceipt model)
+
+        public ActionResult Customer()
         {
-            FillSO();
-            FillJC();
-            FillSI();
+            FillCustomer();
+            return PartialView("_CustomerDropdown");
+        }
+
+        public ActionResult SaleOrder(int Code = 0, int id = 0)
+        {
+            FillSaleOrder(Code);
+            return PartialView("_SaleOrderDropdown", new CustomerReceipt { SaleOrderId = id });
+        }
+
+        public ActionResult JobCard(int Code = 0, int id = 0)
+        {
+            FillJobCard(Code);
+            return PartialView("_JobCardDropdown", new CustomerReceipt { JobCardId = id });
+        }
+
+        public ActionResult SalesInvoice(int Code=0, int id=0)
+        {
+            FillSalesInvoice(Code);
+            return PartialView("_SalesInvoiceDropdown", new CustomerReceipt { SalesInvoiceId = id });
+        }
+
+        [HttpPost]
+        public ActionResult CreateRequest(CustomerReceipt model, int Code = 0)
+        {
+            FillSaleOrder(Code);
+            FillJobCard(Code);
+            FillSalesInvoice(Code);
+            //FillSO();
+            //FillJC();
+            //FillSI();
             model.OrganizationId = OrganizationId;
             model.CreatedDate = System.DateTime.Now;
             model.CreatedBy = UserID.ToString();
@@ -58,13 +92,16 @@ namespace ArabErp.Web.Controllers
             }
         }
 
-        public ActionResult Edit(int Id)
+        public ActionResult Edit(int Id, int Code = 0)
         {
             //int Id = 0;
             FillCustomer();
-            FillSO();
-            FillJC();
-            FillSI();
+            FillSaleOrder(Code);
+            FillJobCard(Code);
+            FillSalesInvoice(Code);
+            //FillSO();
+            //FillJC();
+            //FillSI();
             ViewBag.Title = "Edit";
             CustomerReceipt objCustomerReceipt = new CustomerReceiptRepository().GetCustomerReceipt(Id);
             return View("Create", objCustomerReceipt);
@@ -73,7 +110,7 @@ namespace ArabErp.Web.Controllers
         }
 
         [HttpPost]
-        public ActionResult Edit(CustomerReceipt model)
+        public ActionResult Edit(CustomerReceipt model,int Code = 0)
         {
             ViewBag.Title = "Edit";
             model.OrganizationId = OrganizationId;
@@ -96,36 +133,32 @@ namespace ArabErp.Web.Controllers
                 else
                 {
                     FillCustomer();
-                    FillSO();
-                    FillJC();
-                    FillSI();
+                    FillSaleOrder(Code);
+                    FillJobCard(Code);
+                    FillSalesInvoice(Code);
+                    //FillSO();
+                    //FillJC();
+                    //FillSI();
                     TempData["error"] = "Oops!!..Something Went Wrong!!";
                     TempData["CustomerReceiptRefNo"] = null;
                     return View("Create", model);
                 }
 
             }
-            //else
-            //{
+    
 
-            //    FillCustomer();
-            //    FillSO();
-            //    FillJC();
-            //    FillSI();
-            //    TempData["error"] = "This Ref No Alredy Exists!!";
-            //    TempData["CustomerReceiptRefNo"] = null;
-            //    return View("Create", model);
-            //}
+        }
 
-       }
-
-        public ActionResult Delete(int Id)
+        public ActionResult Delete(int Id, int Code = 0)
         {
             //int Id = 0;
             FillCustomer();
-            FillSO();
-            FillJC();
-            FillSI();
+            FillSaleOrder(Code);
+            FillJobCard(Code);
+            FillSalesInvoice(Code);
+            //FillSO();
+            //FillJC();
+            //FillSI();
             ViewBag.Title = "Delete";
             CustomerReceipt objCustomerReceipt = new CustomerReceiptRepository().GetCustomerReceipt(Id);
             return View("Create", objCustomerReceipt);
@@ -165,6 +198,26 @@ namespace ArabErp.Web.Controllers
             List<Dropdown> list = repo.FillCustomer();
             ViewBag.Customer = new SelectList(list, "Id", "Name");
         }
+        public void FillSaleOrder(int Id)
+        {
+            CustomerReceiptRepository Repo = new CustomerReceiptRepository();
+            var List = Repo.FillSO(Id);
+            ViewBag.CSO = new SelectList(List, "Id", "Name");
+        }
+        public void FillJobCard(int Id)
+        {
+            CustomerReceiptRepository Repo = new CustomerReceiptRepository();
+            var List = Repo.FillJC(Id);
+            ViewBag.CJC = new SelectList(List, "Id", "Name");
+        }
+
+        public void FillSalesInvoice(int Id)
+        {
+            CustomerReceiptRepository Repo = new CustomerReceiptRepository();
+            var List = Repo.FillSI(Id);
+            ViewBag.CSI = new SelectList(List, "Id", "Name");
+        }
+
         public void FillSO()
         {
             ExpenseRepository repo = new ExpenseRepository();

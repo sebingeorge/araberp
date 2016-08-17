@@ -375,8 +375,9 @@
 
                                     <td>
                                         <input type="hidden" id="Row_Ad_@i" />
-                                        @Html.DropDownListFor(m => Model.ExpenseBillItem[i].AddDedId, (SelectList)ViewBag.Additions, "Select Addition", new { @class = "form_input", autocomplete = "off" })
-                                    </td>
+                                        @Html.DropDownListFor(m => Model.ExpenseBillItem[i].AddDedId,new SelectList(ViewBag.Additions,"Value","Text",Model.ExpenseBillItem[i].AddDedId), "Select Addition", new { @class = "form_input"})
+                                                     
+                                      </td>
                                     <td>
                                         @Html.TextBoxFor(m => m.ExpenseBillItem[i].ExpenseItemQty, new { @class = "form_input text-right numbers-only", autocomplete = "off", @onchange = "AdditionAmtChanged(" + i + ")" })
                                     </td>
@@ -415,7 +416,7 @@
                                     <td style="vertical-align:middle"><a class="glyphicon glyphicon-minus" style="top:0px" onclick="DedDelete(@i)"></a></td>
                                     <td>
                                         <input type="hidden" id="Row_@i" />
-                                        @Html.DropDownListFor(m => Model.deductions[i].AddDedId, (SelectList)ViewBag.Deductions, "Select Deduction", new { @class = "form_input", autocomplete = "off" })
+                                        @Html.DropDownListFor(m => Model.deductions[i].AddDedId, new SelectList(ViewBag.Deductions,"Value","Text",Model.deductions[i].AddDedId), "Select Deduction", new { @class = "form_input", autocomplete = "off" })
                                     </td>
                                     <td>
                                         @Html.TextBoxFor(m => m.deductions[i].ExpenseItemAmount, new { @class = "form_input deduction text-right numbers-only", autocomplete = "off", @onchange = "DeductionAmtChanged()" })

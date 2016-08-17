@@ -783,6 +783,10 @@
     <Content Include="Views\WorkShopRequest\_PendingGrid.cshtml" />
     <Content Include="Views\ItemBatch\_PendingReservationGrid.cshtml" />
     <Content Include="Views\ItemBatch\_ReservedListGrid.cshtml" />
+    <Content Include="Views\CustomerReceipt\_CustomerDropdown.cshtml" />
+    <Content Include="Views\CustomerReceipt\_SaleOrderDropdown.cshtml" />
+    <Content Include="Views\CustomerReceipt\_JobCardDropdown.cshtml" />
+    <Content Include="Views\CustomerReceipt\_SalesInvoiceDropdown.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

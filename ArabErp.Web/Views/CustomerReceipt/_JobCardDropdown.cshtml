@@ -1,0 +1,3 @@
+﻿@model ArabErp.Domain.CustomerReceipt
+@Html.DropDownListFor(m => Model.JobCardId, new SelectList(ViewBag.CJC,"Value","Text",Model.JobCardId), "Select J.C", new { @class = "form_input", autocomplete = "off", @required="true"})
+@Html.HiddenFor(m => Model.JobCardId)

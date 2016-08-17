@@ -18,6 +18,7 @@ namespace ArabErp.Domain
         public int CustomerId { get; set; }
         [Required]
         public string Against { get; set; }
+             [Required]
         public int? SaleOrderId { get; set; }
         public int? JobCardId { get; set; }
         public int? SalesInvoiceId { get; set; }
