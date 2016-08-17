@@ -80,6 +80,17 @@ namespace ArabErp.DAL
             }
         }
         /// <summary>
+        /// Return all active Customers which in Sales Invoice
+        /// </summary>
+        /// <returns></returns>
+        public List<Dropdown> SOCustomerDropdown()
+        {
+            using (IDbConnection connection = OpenConnection(dataConnection))
+            {
+                return connection.Query<Dropdown>("SELECT distinct C.CustomerId Id,CustomerName Name  from SalesInvoice S inner join SaleOrder SO ON SO.SaleOrderId=S.SaleOrderId inner join Customer C ON C.CustomerId=SO.CustomerId WHERE ISNULL(C.isActive, 1) = 1").ToList();
+            }
+        }
+        /// <summary>
         /// Return all stockpoints
         /// </summary>
         /// <returns></returns>

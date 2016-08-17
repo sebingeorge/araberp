@@ -248,8 +248,10 @@
     <Compile Include="Controllers\RateSettingsController.cs" />
     <Compile Include="Controllers\SaleOrderController.cs" />
     <Compile Include="Controllers\SaleOrderStatusController.cs" />
+    <Compile Include="Controllers\SaleOrderSummaryController.cs" />
     <Compile Include="Controllers\SalesInvoiceController.cs" />
     <Compile Include="Controllers\SalesQuotationController.cs" />
+    <Compile Include="Controllers\SalesRegisterController.cs" />
     <Compile Include="Controllers\StockCreationController.cs" />
     <Compile Include="Controllers\StockJournalController.cs" />
     <Compile Include="Controllers\StockMovementRegisterController.cs" />
@@ -789,6 +791,11 @@
     <Content Include="Views\StockMovementRegister\_ItemDropDown.cshtml" />
     <Content Include="Views\StoresLedger\_ItemDropDown.cshtml" />
     <Content Include="Views\ClosingStock\_ItemDropdown.cshtml" />
+    <Content Include="Views\SalesRegister\_SaleRegister.cshtml" />
+    <Content Include="Views\SalesRegister\Index.cshtml" />
+    <Content Include="Views\SalesRegister\_ItemDropDown.cshtml" />
+    <Content Include="Views\SaleOrderSummary\_SaleRegisterSummary.cshtml" />
+    <Content Include="Views\SaleOrderSummary\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
