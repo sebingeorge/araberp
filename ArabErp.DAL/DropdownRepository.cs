@@ -735,5 +735,38 @@ namespace ArabErp.DAL
                                                     new { OrganizationId = OrganizationId }).ToList();
             }
         }
+        /// <summary>
+        /// for MRP 
+        /// </summary>
+        /// <returns></returns>
+        public List<Dropdown> ItemFGDropdown()
+        {
+            using (IDbConnection connection = OpenConnection(dataConnection))
+            {
+                return connection.Query<Dropdown>("SELECT ItemId Id, ItemName Name FROM Item I INNER JOIN ItemCategory IC ON IC.itmCatId=I.ItemCategoryId WHERE ISNULL(I.isActive, 1) = 1 AND  IC.CategoryName='Finished Goods'").ToList();
+            }
+        }
+        /// <summary>
+        /// Return all PartNo of FG
+        /// </summary>
+        /// <returns></returns>
+        public List<Dropdown> PartNoDropdown(int Id)
+        {
+            using (IDbConnection connection = OpenConnection(dataConnection))
+            {
+                return connection.Query<Dropdown>("SELECT ItemId Id, PartNo Name FROM Item I INNER JOIN ItemCategory IC ON IC.itmCatId=I.ItemCategoryId WHERE ISNULL(I.isActive, 1) = 1 AND  IC.CategoryName='Finished Goods' AND ItemId=ISNULL(NULLIF(@Id, 0), ItemId)", new { Id = Id }).ToList();
+            }
+        }
+        /// <summary>
+        /// item Filtering with Category
+        /// </summary>
+        /// <returns></returns>
+        public List<Dropdown> ItemCatDropdown(int? Id)
+        {
+            using (IDbConnection connection = OpenConnection(dataConnection))
+            {
+                return connection.Query<Dropdown>("SELECT ItemId Id, ItemName Name FROM Item I INNER JOIN ItemCategory IC ON IC.itmCatId=I.ItemCategoryId WHERE ISNULL(I.isActive, 1) = 1 AND  IC.itmCatId=ISNULL(NULLIF(@Id, 0), itmCatId )", new { Id = Id }).ToList();
+            }
+        }
     }
 }

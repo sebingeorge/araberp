@@ -680,7 +680,6 @@
     <Content Include="Views\QuotationApproval\Create.cshtml" />
     <Content Include="Views\SalesQuotation\StatusUpdate.cshtml" />
     <Content Include="Views\MaterialPlanning\Index.cshtml" />
-    <Content Include="Views\MaterialPlanning\Planning.cshtml" />
     <Content Include="Views\Account\UserList.cshtml" />
     <Content Include="Views\SaleOrder\PendingSalesQutoforSaleOrder.cshtml" />
     <Content Include="Views\QuerySheet\CreateQuerySheet.cshtml" />
@@ -781,6 +780,13 @@
     <Content Include="Views\TransactionHistory\_Grid.cshtml" />
     <Content Include="Views\WorkDescription\Edit.cshtml" />
     <Content Include="Views\WorkShopRequest\_PendingGrid.cshtml" />
+    <Content Include="Views\StockMovementRegister\_StockMovementRegister.cshtml" />
+    <Content Include="Views\MaterialPlanning\_Planning.cshtml" />
+    <Content Include="Views\MaterialPlanning\_ItemDropDown.cshtml" />
+    <Content Include="Views\MaterialPlanning\_PartNoDropDown.cshtml" />
+    <Content Include="Views\StockMovementRegister\_ItemDropDown.cshtml" />
+    <Content Include="Views\StoresLedger\_ItemDropDown.cshtml" />
+    <Content Include="Views\ClosingStock\_ItemDropdown.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

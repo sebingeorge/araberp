@@ -16,10 +16,18 @@ namespace ArabErp.Web.Controllers
         public ActionResult Index()
         {
 
-            FillItem();
+            InitDropdown();
             FillWarehouse();
             FillItemCategory();
-            return View();
+            ClosingStock cs = new ClosingStock();
+            cs.itmCatId = 0;
+            return View("Index", cs);
+        }
+        public void InitDropdown()
+        {
+            var List = "";
+            ViewBag.ItemList = new SelectList(List, "Id", "Name");
+
         }
         public void FillWarehouse()
         {
@@ -27,10 +35,10 @@ namespace ArabErp.Web.Controllers
             var result = repo.StockpointDropdown();
             ViewBag.WarehouseList = new SelectList(result, "Id", "Name");
         }
-        public void FillItem()
+        public void FillItem(int Id)
         {
             DropdownRepository repo = new DropdownRepository();
-            var result = repo.ItemDropdown();
+            var result = repo.ItemCatDropdown(Id);
             ViewBag.ItemList = new SelectList(result, "Id", "Name");
         }
 
@@ -45,6 +53,11 @@ namespace ArabErp.Web.Controllers
             from = from ?? DateTime.Today.AddMonths(-7);
             to = to ?? DateTime.Today;
             return PartialView("_StoresLedger", new StoresLedgerRepository().GetStoresLedgerData(from, to, stkid, itmcatid, itmid, OrganizationId));
+        }
+        public ActionResult Item(int Code)
+        {
+            FillItem(Code);
+            return PartialView("_ItemDropDown");
         }
     }
 }

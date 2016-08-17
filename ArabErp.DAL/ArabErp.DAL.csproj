@@ -137,6 +137,7 @@
     <Compile Include="StockCreationRepository.cs" />
     <Compile Include="StockJournalItemsRepository.cs" />
     <Compile Include="StockJournalRepository.cs" />
+    <Compile Include="StockMovementRegisterRepository.cs" />
     <Compile Include="StockpointRepository.cs" />
     <Compile Include="StockReportRepository.cs" />
     <Compile Include="StockReturnItemRepository.cs" />

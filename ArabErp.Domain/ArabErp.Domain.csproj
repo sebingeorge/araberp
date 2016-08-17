@@ -132,6 +132,7 @@
     <Compile Include="StockCreationFinishedGood.cs" />
     <Compile Include="StockJournal.cs" />
     <Compile Include="StockJournalItem.cs" />
+    <Compile Include="StockMovementRegister.cs" />
     <Compile Include="Stockpoint.cs" />
     <Compile Include="StockReportSummary.cs" />
     <Compile Include="StockReturn.cs" />

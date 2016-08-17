@@ -1,4 +1,4 @@
-﻿
+﻿@model ArabErp.Domain.ClosingStock
 @{
     ViewBag.Title = "Index";
     Layout = "~/Views/Shared/_Layout.cshtml";
@@ -13,12 +13,26 @@
             dateFormat: "dd-MM-yy"
         });
     })
+    function FillItem() {
+        var Code = $('#itmCatId').val();
 
+        var Url = '@Url.Action("Item")';
+
+        if (Code == '') {
+            $("#DivItem").load(Url, { Code: 0 });
+
+        }
+        else {
+            $("#DivItem").load(Url, { Code: Code });
+
+        }
+
+    }
     function Filter() {
         $("#Stores_Ledger").addClass("fade");
         var stkid = $("#cboStockpoint").val();
-        var itmcatid = $("#cboItemCat").val();
-        var itmid = $("#cboItem").val();
+        var itmcatid = $("#itmCatId").val();
+        var itmid = $("#ItemId").val();
         var from = $("#txtFrom").val();
         var to = $("#txtTo").val();
         var url = '@Url.Action("StoresLedger")';
@@ -42,19 +56,6 @@
 
     <div class="main-part pad1">
         <div class="row">
-
-            <div class="col-md-2">
-                <label for="cboStockpoint">Stock Point</label>
-                @Html.DropDownList("cboStockpoint", (SelectList)ViewBag.WarehouseList, "Any", new { @class = "form_input" })
-            </div>
-            <div class="col-md-2">
-                <label for="cboItemCat">Item Category</label>
-                @Html.DropDownList("cboItemCat", (SelectList)ViewBag.ItemCatList, "Any", new { @class = "form_input" })
-            </div>
-            <div class="col-md-3">
-                <label for="cboItem">Material/Spares</label>
-                @Html.DropDownList("cboItem", (SelectList)ViewBag.ItemList, "Any", new { @class = "form_input" })
-            </div>
             <div class="col-md-2">
                 <label>From</label>
                 <input id="txtFrom" value="@System.DateTime.Today.AddMonths(-7).ToString("dd-MMMM-yyyy")" class="form_input" />
@@ -63,6 +64,23 @@
                 <label>To</label>
                 <input id="txtTo" value="@System.DateTime.Today.ToString("dd-MMMM-yyyy")" class="form_input" />
             </div>
+            <div class="col-md-2">
+                <label for="cboStockpoint">Stock Point</label>
+                @Html.DropDownList("cboStockpoint", (SelectList)ViewBag.WarehouseList, "Any", new { @class = "form_input" })
+            </div>
+            <div class="col-md-2">
+                <label for="cboItemCat">Item Category</label>
+                @Html.DropDownListFor(m => Model.itmCatId, (SelectList)ViewBag.ItemCatList, "Any", new { @class = "form_input", @onchange = "FillItem()" })
+                @Html.HiddenFor(m => Model.itmCatId)
+            </div>
+            <div class="col-md-3">
+                <label for="cboItem">Material/Spares</label>
+                <div id="DivItem">
+                    @Html.Action("Item", "StoresLedger", new { Code = Model.itmCatId })
+
+                </div>
+            </div>
+           
             <div class="col-md-1">
                 <input type="button" class="form-button wid1 filter" value="OK" onclick="Filter()" />
             </div>
