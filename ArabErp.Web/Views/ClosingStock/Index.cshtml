@@ -1,4 +1,4 @@
-﻿
+﻿@model ArabErp.Domain.ClosingStock
 @{
     ViewBag.Title = "Index";
     Layout = "~/Views/Shared/_Layout.cshtml";
@@ -9,12 +9,26 @@
             dateFormat: "dd-MM-yy"
         });
           })
+    function FillItem() {
+        var Code = $('#itmCatId').val();
 
+        var Url = '@Url.Action("Item")';
+
+        if (Code == '') {
+            $("#DivItem").load(Url, { Code: 0 });
+
+        }
+        else {
+            $("#DivItem").load(Url, { Code: Code });
+
+        }
+
+    }
     function Filter() {
         $("#Closing_stock").addClass("fade");
         var stkid = $("#cboStockpoint").val();
-        var itmcatid = $("#cboItemCat").val();
-        var itmid = $("#cboItem").val();
+        var itmcatid = $("#itmCatId").val();
+        var itmid = $("#ItemId").val();
         var Ason = $("#txtAsOn").val();
         var url = '@Url.Action("ClosingStockRegister")';
         url += "?Ason=" + Ason + "&stkid=" + stkid + "&itmcatid=" + itmcatid + "&itmid=" + itmid;
@@ -46,11 +60,15 @@
             </div>
             <div class="col-md-3">
                 <label for="cboItemCat">Item Category</label>
-                @Html.DropDownList("cboItemCat", (SelectList)ViewBag.ItemCatList, "Any", new { @class = "form_input", @onchange = "Filter()" })
+                @Html.DropDownListFor(m => Model.itmCatId, (SelectList)ViewBag.ItemCatList, "Any", new { @class = "form_input", @onchange = "FillItem();Filter()" })
+                @Html.HiddenFor(m => Model.itmCatId)
             </div>
             <div class="col-md-3">
                 <label for="cboItem">Material/Spares</label>
-                @Html.DropDownList("cboItem", (SelectList)ViewBag.ItemList, "Any", new { @class = "form_input", @onchange = "Filter()" })
+                <div id="DivItem">
+                    @Html.Action("Item", "ClosingStock", new { Code = Model.itmCatId })
+
+                </div>
             </div>
         </div>
         <br />

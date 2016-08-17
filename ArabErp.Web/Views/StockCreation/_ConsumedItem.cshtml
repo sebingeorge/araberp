@@ -80,6 +80,23 @@
         }
     }
 
+    function OnMaterialChanged(index) {
+
+        if ($("#ConsumedItemStockpointId").val() == '') {
+            toastr.info("You have to select the Stock Point before selecting material/spare");
+            $("#ConsumedItems_" + index + "__ItemId").val('');
+            return;
+        }
+
+        var material = $("#ConsumedItems_" + index + "__ItemId").val();
+        if (material == '') return;
+        var url = '@Url.Action("GetStockQuantity")';
+        $("#ConsumedItems_" + index + "__StockQuantity").val(0);
+        $.getJSON(url, { id: material, stockpoint: $("#ConsumedItemStockpointId").val() }, function (data) {
+            $("#ConsumedItems_" + index + "__StockQuantity").val(data);
+        })
+    }
+
 </script>
 
 <table class="table table-bordered" id="consumed-items-table">
@@ -87,7 +104,8 @@
         <tr class="grid_heading">
             <th width="2%"></th>
             <th width="3%" class="text-center">#</th>
-            <th width="70%"><h1>Material/Spare</h1></th>
+            <th width="63%"><h1>Material/Spare</h1></th>
+            <th width="10%" class="text-right"><h1>Stock</h1></th>
             <th width="10%" class="text-right"><h1>Quantity</h1></th>
             <th width="10%" class="text-right"><h1>Rate</h1></th>
             <th width="2%"></th>
@@ -105,7 +123,10 @@
                     <input id="CI_slno_@i" type="text" value="@(i + 1)" style="width:100%" class="form_input text-center" disabled />
                 </td>
                 <td>
-                    @Html.DropDownListFor(m => m.ConsumedItems[i].ItemId, (SelectList)ViewBag.materialList, "Select Material/Spare", new { @class = "form_input", @required = "true" })
+                    @Html.DropDownListFor(m => m.ConsumedItems[i].ItemId, (SelectList)ViewBag.materialList, "Select Material/Spare", new { @class = "form_input", @required = "true", @onchange = "OnMaterialChanged(" + i + ")" })
+                </td>
+                <td>
+                    @Html.TextBoxFor(m => m.ConsumedItems[i].StockQuantity, new { @class = "form_input text-right numbers-only", @readonly = "true" })
                 </td>
                 <td>
                     @Html.TextBoxFor(m => m.ConsumedItems[i].Quantity, new { @class = "form_input text-right numbers-only", @required = "true" })

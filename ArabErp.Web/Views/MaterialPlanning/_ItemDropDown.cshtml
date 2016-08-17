@@ -1,0 +1,5 @@
+﻿
+@model ArabErp.Domain.MaterialPlanning
+
+@Html.DropDownListFor(m => Model.ItemId, (SelectList)ViewBag.ItemList, "Any", new { @class = "form_input", @onchange = "FillPartNo()" })
+@Html.HiddenFor(m => Model.ItemId)

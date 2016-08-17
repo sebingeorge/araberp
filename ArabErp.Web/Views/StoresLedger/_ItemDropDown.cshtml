@@ -1,0 +1,7 @@
+﻿@model ArabErp.Domain.ClosingStock
+
+
+
+@Html.DropDownListFor(m => Model.ItemId, (SelectList)ViewBag.ItemList, "Any", new { @class = "form_input" })
+@Html.HiddenFor(m => Model.ItemId)
+

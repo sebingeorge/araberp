@@ -21,6 +21,7 @@ namespace ArabErp.Domain
         public decimal PendingPRQty { get; set; }
         public decimal ShortorExcess { get; set; }
         public string UnitName { get; set; }
+        public int? batch { get; set; }
        
     }
 }
