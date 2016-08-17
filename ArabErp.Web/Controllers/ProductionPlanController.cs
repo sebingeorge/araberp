@@ -13,5 +13,10 @@ namespace ArabErp.Web.Controllers
         {
             return View();
         }
+
+        public ActionResult CreateProductLine()
+        {
+            return View();
+        }
     }
 }

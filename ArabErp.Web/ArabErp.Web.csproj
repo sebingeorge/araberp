@@ -795,6 +795,7 @@
     <Content Include="Views\CustomerReceipt\_JobCardDropdown.cshtml" />
     <Content Include="Views\CustomerReceipt\_SalesInvoiceDropdown.cshtml" />
     <Content Include="Views\ProductionPlan\CreateProductionPlan.cshtml" />
+    <Content Include="Views\ProductionPlan\CreateProductLine.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
