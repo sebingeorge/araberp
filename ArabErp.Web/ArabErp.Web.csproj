@@ -238,6 +238,7 @@
     <Compile Include="Controllers\OpeningStockController.cs" />
     <Compile Include="Controllers\OrganizationController.cs" />
     <Compile Include="Controllers\PaymentTermsController.cs" />
+    <Compile Include="Controllers\ProductionPlanController.cs" />
     <Compile Include="Controllers\ProfitabilityReportController.cs" />
     <Compile Include="Controllers\ProformaInvoiceController.cs" />
     <Compile Include="Controllers\PurchaseBillController.cs" />
@@ -793,6 +794,7 @@
     <Content Include="Views\CustomerReceipt\_SaleOrderDropdown.cshtml" />
     <Content Include="Views\CustomerReceipt\_JobCardDropdown.cshtml" />
     <Content Include="Views\CustomerReceipt\_SalesInvoiceDropdown.cshtml" />
+    <Content Include="Views\ProductionPlan\CreateProductionPlan.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
