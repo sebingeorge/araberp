@@ -6,7 +6,7 @@ using System.Web.Mvc;
 
 namespace ArabErp.Web.Controllers
 {
-    public class ProductionPlanController : Controller
+    public class ProductionPlanController : BaseController
     {
         // GET: ProductionPlan
         public ActionResult CreateProductionPlan()
