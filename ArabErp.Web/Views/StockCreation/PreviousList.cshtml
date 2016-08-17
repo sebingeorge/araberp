@@ -36,7 +36,7 @@
             <div class="row">
                 <div class="main-grid main-grid-top scroll1">
                     <div class="table-responsive">
-                        <table class="table table-bordered" id="consumed-items-table">
+                        <table class="table table-bordered table-hover" id="consumed-items-table">
                             <thead>
                                 <tr class="grid_heading">
                                     <th width="3%" class="text-center">#</th>
@@ -54,22 +54,22 @@
                             foreach (var item in Model)
                             {
                         <tr>
-                            <td>
-                                <input class="form_input text-center" style="width:100%" value="@(++i)" disabled />
+                            <td align="center">
+                                @*<input class="form_input text-center" style="width:100%" value="*@@(++i)@*" disabled />*@
                             </td>
                             <td>
-                                <input class="form_input" value="@item.StockCreationRefNo - @item.StockCreationDate.ToString("dd MMMM yyyy")" disabled />
+                                @*<input class="form_input" value="*@@item.StockCreationRefNo - @item.StockCreationDate.ToString("dd MMMM yyyy")@*" disabled />*@
                             </td>
                             <td>
-                                <input class="form_input" value="@item.Finished" disabled />
+                                @*<input class="form_input" value="*@@item.Finished@*" disabled />*@
                             </td>
                             <td>
-                                <input class="form_input" value="@item.Consumed" disabled />
+                                @*<input class="form_input" value="*@@item.Consumed@*" disabled />*@
                                 @*<textarea class="form_input" onkeyup="textAreaAdjust(this)" style="overflow:visible; height:auto;" disabled>@item.Consumed</textarea>*@
                                 @*@Html.TextAreaFor(m => item.Consumed, new { @class = "form_input form_input-h1", autocomplete = "off" })*@
                             </td>
                             <td>
-                                <input class="form_input" value="@item.CreatedBy" disabled />
+                                @*<input class="form_input" value="*@@item.CreatedBy@*" disabled />*@
                             </td>
                             @*<td>
                                 <input type="button" class="form-button5" value="View" onclick="Details(@item.StockCreationId)" title="View details" />
@@ -80,7 +80,7 @@
                         else
                         {
                         <tr>
-                            <td colspan="4">
+                            <td colspan="5">
                                 <center>
                                     <em>
                                         No items to show!

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -18,7 +19,9 @@ namespace ArabErp.Domain
         public int OrganizationId { get; set; }
         public string CreatedBy { get; set; }
         public DateTime? CreatedDate { get; set; }
+        [Required]
         public int FinishedGoodStockpointId { get; set; }
+        [Required]
         public int ConsumedItemStockpointId { get; set; }
 
         public string Finished { get; set; }

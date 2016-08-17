@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.ComponentModel.DataAnnotations;
 
 namespace ArabErp.Domain
 {
@@ -10,16 +11,22 @@ namespace ArabErp.Domain
     {
         public int ExpenseId { get; set; }
         public string ExpenseNo { get; set; }
+        [Required]
         public DateTime ExpenseDate { get; set; }
+        [Required]
         public string ExpenseBillRef { get; set; }
+        [Required]
         public DateTime ExpenseBillDate { get; set; }
+        [Required]
         public DateTime ExpenseBillDueDate { get; set; }
+        [Required]
         public int? SupplierId { get; set; }
         public string ExpenseRemarks { get; set; }
         public decimal TotalAddition { get; set; }
         public decimal TotalDeduction { get; set; }
         public decimal TotalAmount { get; set; }
         public int CurrencyId { get; set; }
+        //[Required]
         public string SoOrJc { get; set; }
         public int? SaleOrderId { get; set; }
         public int? JobCardId { get; set; }
@@ -33,6 +40,7 @@ namespace ArabErp.Domain
     {
         public int? ExpenseRowId { get; set; }
         public int? ExpenseId { get; set; }
+        [Required]
         public int? AddDedId { get; set; }
         public decimal ExpenseItemRate { get;set;}
         public decimal ExpenseItemQty { get; set; }

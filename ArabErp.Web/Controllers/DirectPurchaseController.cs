@@ -46,7 +46,7 @@ namespace ArabErp.Web.Controllers
 
             //if (new DirectPurchaseRepository().InsertDirectPurchaseRequest(model) > 0)
             {
-                TempData["success"] = "Saved successfully";
+                TempData["success"] = "Saved successfully. Reference No. is " + referenceNo;
                 TempData["error"] = "";
                 return RedirectToAction("CreateRequest");
             }
@@ -206,7 +206,7 @@ namespace ArabErp.Web.Controllers
 
                     TempData["success"] = "Updated successfully. Direct Purchase Request Reference No. is " + id;
                     TempData["error"] = "";
-                    return RedirectToAction("CreateRequest");
+                    return RedirectToAction("Index");
                 }
                 catch (SqlException sx)
                 {
@@ -247,7 +247,7 @@ namespace ArabErp.Web.Controllers
 
                     TempData["Success"] = "Deleted Successfully!";
                     //return RedirectToAction("PreviousList");
-                    return RedirectToAction("PendingSupplyOrder");
+                    return RedirectToAction("Index");
                 }
 
                 else

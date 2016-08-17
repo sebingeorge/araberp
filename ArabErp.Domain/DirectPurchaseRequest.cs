@@ -15,6 +15,7 @@ namespace ArabErp.Domain
        }
         public int DirectPurchaseRequestId { get; set; }
         public string PurchaseRequestNo { get; set; }
+        [Required]
         public DateTime? PurchaseRequestDate { get; set; }
         public string SpecialRemarks { get; set; }
         [Required]

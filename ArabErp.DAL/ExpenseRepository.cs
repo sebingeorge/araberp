@@ -68,7 +68,7 @@ namespace ArabErp.DAL
             using (IDbConnection connection = OpenConnection(dataConnection))
             {
 
-                return connection.Query<Dropdown>("SELECT CurrencyId Id,CurrencyName Name FROM Currency").ToList();
+                return connection.Query<Dropdown>("SELECT CurrencyId Id,CurrencyName Name FROM Currency WHERE isActive=0").ToList();
             }
         }
 
@@ -80,7 +80,9 @@ namespace ArabErp.DAL
                 IDbTransaction trn = connection.BeginTransaction();
                 try
                 {
-                    expenseBill.ExpenseNo = "EXP/" + DatabaseCommonRepository.GetInternalIDFromDatabase(connection, trn, typeof(ExpenseBill).Name, "0", 1);
+                    int internalId = DatabaseCommonRepository.GetInternalIDFromDatabase(connection, trn, typeof(ExpenseBill).Name, "0", 1);
+
+                    expenseBill.ExpenseNo = "EB/" + internalId;
 
                     if (expenseBill.SoOrJc == "JC")
                     {

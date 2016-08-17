@@ -24,7 +24,7 @@ namespace ArabErp.DAL
                 IDbTransaction txn = connection.BeginTransaction();
                 try
                 {
-                    model.StockCreationRefNo = "STO/" + DatabaseCommonRepository.GetInternalIDFromDatabase(connection, txn, typeof(StockCreation).Name, "0", 1);
+                    model.StockCreationRefNo = "STO/0/" + DatabaseCommonRepository.GetInternalIDFromDatabase(connection, txn, typeof(StockCreation).Name, "0", 1);
 
                     string query = @"INSERT INTO StockCreation
                                 (
@@ -103,7 +103,7 @@ namespace ArabErp.DAL
             }
         }
 
-        public IEnumerable<StockCreation> GetStockCreations()
+        public IEnumerable<StockCreation> GetStockCreations(int organizationId)
         {
             using (IDbConnection connection = OpenConnection(dataConnection))
             {
@@ -111,7 +111,7 @@ namespace ArabErp.DAL
 	                                SC.StockCreationId,
 	                                SC.StockCreationRefNo,
 									CONVERT(VARCHAR, SC.StockCreationDate, 106) StockCreationDate,
-									SC.CreatedBy,
+									EMP.UserName CreatedBy,
 
 	                                STUFF((SELECT ', ' + CAST(I.ItemName+'('+CAST(T1.Quantity AS VARCHAR(MAX)) +')' AS VARCHAR(MAX)) [text()]
 	                                FROM StockCreationFinishedGoods T1 INNER JOIN StockCreation T2 on T1.StockCreationId = T2.StockCreationId
@@ -126,8 +126,11 @@ namespace ArabErp.DAL
 	                                FOR XML PATH(''), TYPE).value('.','NVARCHAR(MAX)'),1,2,' ') Consumed
 
                                 FROM StockCreation SC
+									LEFT JOIN [User] EMP ON SC.CreatedBy = EMP.UserId
+								WHERE SC.OrganizationId = @OrganizationId
+								AND SC.isActive = 1 
 								ORDER BY SC.StockCreationDate DESC, SC.CreatedDate DESC";
-                return connection.Query<StockCreation>(query).ToList();
+                return connection.Query<StockCreation>(query, new { OrganizationId = organizationId }).ToList();
             }
         }
 

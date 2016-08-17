@@ -3,59 +3,101 @@
 <script type="text/javascript">
     $(document).ready(function () {
         $("#items_0__SlNo").val('1');
-        $("#add_row").click(function () {
-            if (validateGrid()) {
-                var i = 0;
-                var no = 1;
-                $('input[id^="Row_"]').each(function () {
-                    var id = this.id;
-                    no++;
-                    var row = Number(id.replace("Row_", ""));
-                    if (row > i) {
-                        i = row;
-                    }
-                });
-                i++;
-                var index = (new Date()).getTime(); // unique indexer
-                var clone = $('#0').clone(); // clone the BatchProducts item
-                //Update the index of the clone
-                //clone.html($(clone).html().replace("Items_0__", 'Items_' + i + '__'));
-                clone.html($(clone).html().replace(/items_0__/g, 'items_' + i + '__'));
-                clone.html($(clone).html().replace(/\items[0]./g, 'items[' + i + '].'));
-                clone.html($(clone).html().replace(/\[0\]/g, '[' + i + ']'));
-                clone.html($(clone).html().replace(/\(0\)/g, '(' + i + ')'));
-                clone.html($(clone).html().replace(/Row_0/, 'Row_' + i + ''));
-                clone.html($(clone).html().replace(/slno1/, 'slno' + (i + 1) + ''));
-                clone.html($(clone).html().replace(/txtUoM0/, 'txtUoM' + i + ''));
-                clone.html($(clone).html().replace(/txtPartNo0/, 'txtPartNo' + i + ''));
-                clone.html($(clone).html().replace(/this, 0/g, 'this, ' + i + ''));
-                $("#table-grid").append('<tr id="' + i + '">' + clone.html() + '  </tr>');
-                $("#slno" + (i + 1)).html((i + 1));
-                $("#items_" + i + "__SlNo").val((i + 1));
-                $("#txtUoM" + i).html('');
-                $("#txtPartNo" + i).html('');
+        //$("#add_row").click(function () {
+        //    if (validateGrid()) {
+        //        var i = 0;
+        //        var no = 1;
+        //        $('input[id^="Row_"]').each(function () {
+        //            var id = this.id;
+        //            no++;
+        //            var row = Number(id.replace("Row_", ""));
+        //            if (row > i) {
+        //                i = row;
+        //            }
+        //        });
+        //        i++;
+        //        var index = (new Date()).getTime(); // unique indexer
+        //        var clone = $('#0').clone(); // clone the BatchProducts item
+        //        //Update the index of the clone
+        //        //clone.html($(clone).html().replace("Items_0__", 'Items_' + i + '__'));
+        //        clone.html($(clone).html().replace(/items_0__/g, 'items_' + i + '__'));
+        //        clone.html($(clone).html().replace(/\items[0]./g, 'items[' + i + '].'));
+        //        clone.html($(clone).html().replace(/\[0\]/g, '[' + i + ']'));
+        //        clone.html($(clone).html().replace(/\(0\)/g, '(' + i + ')'));
+        //        clone.html($(clone).html().replace(/Row_0/, 'Row_' + i + ''));
+        //        clone.html($(clone).html().replace(/slno1/, 'slno' + (i + 1) + ''));
+        //        clone.html($(clone).html().replace(/txtUoM0/, 'txtUoM' + i + ''));
+        //        clone.html($(clone).html().replace(/txtPartNo0/, 'txtPartNo' + i + ''));
+        //        clone.html($(clone).html().replace(/this, 0/g, 'this, ' + i + ''));
+        //        $("#table-grid").append('<tr id="' + i + '">' + clone.html() + '  </tr>');
+        //        $("#slno" + (i + 1)).html((i + 1));
+        //        $("#items_" + i + "__SlNo").val((i + 1));
+        //        $("#txtUoM" + i).html('');
+        //        $("#txtPartNo" + i).html('');
 
-                //bind keypress event for new row inputs.
-                $(".numbers-only").keypress(function (e) {
-                    if (e.which == 8 || (e.which == 46 && $(this).val().indexOf('.') == -1) || (e.which > 47 && e.which < 58)) { } else { return false; }
-                });
-            }
-            else{
-                toastr.info("You have to fill all existing item details before adding a new item");
-            }
-        });
+        //        //bind keypress event for new row inputs.
+        //        $(".numbers-only").keypress(function (e) {
+        //            if (e.which == 8 || (e.which == 46 && $(this).val().indexOf('.') == -1) || (e.which > 47 && e.which < 58)) { } else { return false; }
+        //        });
+        //    }
+        //    else{
+        //        toastr.info("You have to fill all existing item details before adding a new item");
+        //    }
+        //});
 
         $(".numbers-only").keypress(function (e) {
             if (e.which == 8 || (e.which == 46 && $(this).val().indexOf('.') == -1) || (e.which > 47 && e.which < 58)) { } else { return false; }
         });
     });
 
-    function validateGrid(){
+    function validateGrid() {
         var status = true;
-        $("select[id$='__ItemId'").each(function(){
-            if(this.value=='') status = false;
+        $("select[id$='__ItemId'").each(function (index, object) {
+            if (this.value == '' || $("#items_" + index + "__Quantity").val() == '' || $("#items_" + index + "__Rate").val() == '') status = false;
         });
         return status;
+    }
+
+    function AddRow() {
+        if (validateGrid()) {
+            var i = 0;
+            var no = 1;
+            $('input[id^="Row_"]').each(function () {
+                var id = this.id;
+                no++;
+                var row = Number(id.replace("Row_", ""));
+                if (row > i) {
+                    i = row;
+                }
+            });
+            i++;
+            var index = (new Date()).getTime(); // unique indexer
+            var clone = $('#0').clone(); // clone the BatchProducts item
+            //Update the index of the clone
+            //clone.html($(clone).html().replace("Items_0__", 'Items_' + i + '__'));
+            clone.html($(clone).html().replace(/items_0__/g, 'items_' + i + '__'));
+            clone.html($(clone).html().replace(/\items[0]./g, 'items[' + i + '].'));
+            clone.html($(clone).html().replace(/\[0\]/g, '[' + i + ']'));
+            clone.html($(clone).html().replace(/\(0\)/g, '(' + i + ')'));
+            clone.html($(clone).html().replace(/Row_0/, 'Row_' + i + ''));
+            clone.html($(clone).html().replace(/slno1/, 'slno' + (i + 1) + ''));
+            clone.html($(clone).html().replace(/txtUoM0/, 'txtUoM' + i + ''));
+            clone.html($(clone).html().replace(/txtPartNo0/, 'txtPartNo' + i + ''));
+            clone.html($(clone).html().replace(/this, 0/g, 'this, ' + i + ''));
+            $("#table-grid").append('<tr id="' + i + '">' + clone.html() + '  </tr>');
+            $("#slno" + (i + 1)).html((i + 1));
+            $("#items_" + i + "__SlNo").val((i + 1));
+            $("#txtUoM" + i).html('');
+            $("#txtPartNo" + i).html('');
+
+            //bind keypress event for new row inputs.
+            $(".numbers-only").keypress(function (e) {
+                if (e.which == 8 || (e.which == 46 && $(this).val().indexOf('.') == -1) || (e.which > 47 && e.which < 58)) { } else { return false; }
+            });
+        }
+        else {
+            toastr.info("You have to fill all existing item details before adding a new item");
+        }
     }
 
     function Delete(index) {
@@ -77,8 +119,8 @@
             for (var j = index + 1; j < i; j++) {
                 var item = $("#items_" + j + "__ItemId").val();
                 var remarks = $("#items_" + j + "__Remarks").val();
-                var partno = $("#txtPartNo" + j).val();
-                var uom = $("#txtUoM" + j).val();
+                var partno = $("#items_" + j + "__PartNo").val();
+                var uom = $("#items_" + j + "__UoM").val();
                 var qty = $("#items_" + j + "__Quantity").val();
                 var rate = $("#items_" + j + "__Rate").val();
                 var amount = $("#items_" + j + "__Amount").val();
@@ -88,16 +130,16 @@
                 clone.html($(clone).html().replace(new RegExp('slno' + (j + 1) + '">' + (j + 1), "g"), 'slno' + (j) + '">' + (j)));
                 clone.html($(clone).html().replace("Delete(" + j, "Delete(" + (j - 1)));
                 clone.html($(clone).html().replace("Row_" + j, "Row_" + (j - 1)));
-                clone.html($(clone).html().replace("txtUoM" + j, "txtUoM" + (j - 1)));
-                clone.html($(clone).html().replace("txtPartNo" + j, "txtPartNo" + (j - 1)));
+                clone.html($(clone).html().replace("items_" + j + "__UoM", "items_" + (j - 1) + "__UoM"));
+                clone.html($(clone).html().replace("items_" + j + "__PartNo", "items_" + (j - 1) + "__PartNo"));
                 clone.html($(clone).html().replace(new RegExp("this, " + j, "g"), "this, " + (j - 1)));
                 $("#" + j).html(clone.html());
                 $("#items_" + (j - 1) + "__SlNo").val(j);
                 $("#" + (j)).attr('id', (j - 1));
                 $("#items_" + (j - 1) + "__ItemId").val(item);
                 $("#items_" + (j - 1) + "__Remarks").val(remarks);
-                $("#txtPartNo" + (j - 1)).val(partno);
-                $("#txtUoM" + (j - 1)).val(uom);
+                $("#items_" + (j - 1) + "__PartNo").val(partno);
+                $("#items_" + (j - 1) + "__UoM").val(uom);
                 $("#items_" + (j - 1) + "__Quantity").val(qty);
                 $("#items_" + (j - 1) + "__Rate").val(rate);
                 $("#items_" + (j - 1) + "__Amount").val(amount);
@@ -107,6 +149,20 @@
 
     function OnMaterialChange(sender, index) {
         var id = $(sender).val();
+
+        var repeat = false;
+        $("select[id$='__ItemId']").each(function (i, object) {
+            //alert($(object).val());
+            if ($(object).val() == id && index != i) {
+                repeat = true;
+            }
+        });
+        if (repeat) {
+            toastr.info("Material/Spare already selected.");
+            id = '';
+            $(sender).val(id);
+        }
+
         if (id != '') {
             var url = '@Url.Action("GetPartNoUnit")';
             $.getJSON(url, { itemId: id },
@@ -122,10 +178,10 @@
         }
     }
 
-    function OnQtyChange(sender, index){
+    function OnQtyChange(sender, index) {
         var qty = Number($(sender).val());
-        var rate = Number($("#items_"+index+"__Rate").val());
-        $("#items_"+index+"__Amount").val((qty*rate).toFixed(2));
+        var rate = Number($("#items_" + index + "__Rate").val());
+        $("#items_" + index + "__Amount").val((qty * rate).toFixed(2));
         calculateTotal();
     }
 
@@ -137,18 +193,19 @@
         $("#total").html(total.toFixed(2));
     }
 
-    function OnRateChange(sender, index){
+    function OnRateChange(sender, index) {
         var rate = Number($(sender).val());
-        var qty = Number($("#items_"+index+"__Quantity").val());
-        $("#items_"+index+"__Amount").val((qty*rate).toFixed(2));
+        var qty = Number($("#items_" + index + "__Quantity").val());
+        $("#items_" + index + "__Amount").val((qty * rate).toFixed(2));
         calculateTotal();
-    }</script>
+    }
+</script>
 
 <table class="table table-bordered" id="table-grid">
     <thead>
         <tr class="grid_heading">
             <th width="2%"></th>
-            <th width="5%">#</th>
+            <th width="1%" class="text-center">#</th>
             <th width="20%">Material/Spares</th>
             <th width="10%">Part No</th>
             <th width="25%">Remarks</th>
@@ -164,18 +221,18 @@
         {
             <tr id="@i">
                 <td style="vertical-align:middle"><a class="glyphicon glyphicon-minus" style="top:0px" onclick="Delete(@i)"></a></td>
-                 <td>
+                <td align="center">
                     <span id="slno@(i+1)">@(i + 1)</span>
                 </td>
                 <td>
                     @Html.HiddenFor(m => m.items[i].SlNo)
                     <input type="hidden" id="Row_@i" />
-                  
-                    @Html.DropDownListFor(m => m.items[i].ItemId, new SelectList(ViewBag.materialList, "Value", "Text", Model.items[i].ItemId), "Select Material/Spare", new { @class = "form_input", @onchange = "OnMaterialChange(this, " + i + ")" })
+
+                    @Html.DropDownListFor(m => m.items[i].ItemId, new SelectList(ViewBag.materialList, "Value", "Text", Model.items[i].ItemId), "Select Material/Spare", new { @class = "form_input", @onchange = "OnMaterialChange(this, " + i + ")", @required = "true" })
                 </td>
                 @*<td>
-                    <input type="text" class="form_input" id="txtPartNo@(i)" disabled />
-                </td>*@
+                        <input type="text" class="form_input" id="txtPartNo@(i)" disabled />
+                    </td>*@
                 <td>
                     @Html.TextBoxFor(m => m.items[i].PartNo, new { @class = "form_input", autocomplete = "off", @readonly = "readonly" })
                 </td>
@@ -189,15 +246,15 @@
                 <td>@Html.TextBoxFor(m => m.items[i].UoM, new { @class = "form_input", @style = "text-align:left", autocomplete = "off", @readonly = "readonly" })</td>
 
                 @*<td>
-                    <input type="text" id="txtUoM@(i)" class="form_input" disabled />
-                </td>*@
+                        <input type="text" id="txtUoM@(i)" class="form_input" disabled />
+                    </td>*@
                 <td>
                     @Html.TextBoxFor(m => m.items[i].Rate, new { @class = "form_input numbers-only", @style = "text-align:right", autocomplete = "off", placeholder = "Rate", @onkeyup = "OnRateChange(this, " + i + ")", @required = "true" })
                 </td>
                 <td>
-                    @Html.TextBoxFor(m => m.items[i].Amount, new { @class = "form_input numbers-only", @style = "text-align:right", autocomplete = "off", @disabled = "true" })
+                    @Html.TextBoxFor(m => m.items[i].Amount, new { @class = "form_input numbers-only", @style = "text-align:right", autocomplete = "off", @readonly = "true" })
                 </td>
-                <td style="vertical-align:middle"><a id="add_row" class="glyphicon glyphicon-plus" style="top:0"></a></td>
+                <td style="vertical-align:middle"><a id="add_row" class="glyphicon glyphicon-plus" style="top:0" onclick="AddRow()"></a></td>
             </tr>
         }
 
@@ -205,6 +262,7 @@
     <tfoot>
         <tr class="grid_heading">
 
+            <th></th>
             <th></th>
             <th></th>
             <th></th>
@@ -219,7 +277,6 @@
                     </span>
                 </strong>
             </th>
-            <th></th>
             <th></th>
         </tr>
     </tfoot>

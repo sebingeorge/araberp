@@ -26,6 +26,7 @@ namespace ArabErp.Web.Controllers
             jobcard.JobCardCompletedDate = DateTime.Now;
             jobcard.WarrentyPeriod = DateTime.Now;
             jobcard.isProjectBased = isProjectBased;
+            //ViewBag.type = 1;
             return View(jobcard);
         }
         public ActionResult PendingJobOrderCompletion(int? isProjectBased)

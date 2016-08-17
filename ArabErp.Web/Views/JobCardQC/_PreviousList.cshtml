@@ -7,7 +7,7 @@
             <th><h1>JobCard QC.No.</h1></th>
             <th><h1>Date</h1></th>
             <th><h1></h1>JobCard No. & Date</th>
-           
+            <th><h1></h1>QC Status</th>
             <th width="10%" class="text-center"><h1>Select</h1></th>
 
         </tr>
@@ -19,6 +19,7 @@
                 <td class="grid-cell">@item.JobCardQCRefNo</td>
                 <td class="grid-cell">@item.JobCardQCDate.ToString("dd/MMM/yyyy")</td>
                 <td class="grid-cell">@item.JobCardNo &amp; @item.JobCardDate.ToString("dd/MMM/yyyy")</td>
+                <td class="grid-cell">@item.QCStatus</td>
                 <td>
                     <center><input type="button" class="form-button4" value="Select" title="Select to view details" /></center>
                 </td>

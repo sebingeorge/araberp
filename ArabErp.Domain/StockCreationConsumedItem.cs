@@ -13,5 +13,7 @@ namespace ArabErp.Domain
         public int ItemId { get; set; }
         public int Quantity { get; set; }
         public decimal Rate { get; set; }
+
+        public int StockQuantity { get; set; }
     }
 }

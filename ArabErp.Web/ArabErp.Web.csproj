@@ -780,6 +780,8 @@
     <Content Include="Views\TransactionHistory\_Grid.cshtml" />
     <Content Include="Views\WorkDescription\Edit.cshtml" />
     <Content Include="Views\WorkShopRequest\_PendingGrid.cshtml" />
+    <Content Include="Views\ItemBatch\_PendingReservationGrid.cshtml" />
+    <Content Include="Views\ItemBatch\_ReservedListGrid.cshtml" />
     <Content Include="Views\StockMovementRegister\_StockMovementRegister.cshtml" />
     <Content Include="Views\MaterialPlanning\_Planning.cshtml" />
     <Content Include="Views\MaterialPlanning\_ItemDropDown.cshtml" />
