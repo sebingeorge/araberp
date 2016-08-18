@@ -191,8 +191,7 @@
                         <li><a href="@Url.Action("Index", "PurchaseBill")"><span class="badge pull-right"></span>Purchase Bill</a></li>
                         <li><a href="@Url.Action("Create", "Expense")"><span class="badge pull-right"></span>Expense Bill</a></li>
                         <li><a href="@Url.Action("PendingApproval", "Expense")"><span class="badge pull-right"></span>Expense Bill Approval</a></li>
-                        <li><a href="@Url.Action("Index", "CustomerReceipt")"><span class="badge pull-right"></span>Receipt Against Customer</a></li>
-                    </ul>
+                     </ul>
                 </li>
             }
             @if (permissions.Sales)
@@ -288,11 +287,31 @@
                 <li>
                     <a data-toggle="dropdown" class="dropdown-toggle menu" href="#">@*<i class="glyphicon glyphicon-tags"></i>*@MIS Reports</a>
                     <ul class="dropdown-menu">
-                        <li><a href="@Url.Action("Index","SaleOrderStatus")"><span class="badge pull-right"></span>Sale Order Status</a></li>
-                        <li><a href="@Url.Action("Planning", "MaterialPlanning")"><span class="badge pull-right"></span>Material Planning Report</a></li>
+                        <li class="dropdown-submenu">
+                     
+                            <a href="#"><span class="badge pull-right"></span>Sales</a>
+                            <ul class="dropdown-menu">
+                               
+                                <li><a href="@Url.Action("Index","SaleOrderStatus")"><span class="badge pull-right"></span>Sale Order Status</a></li>
+                                <li><a href="@Url.Action("Index","ProfitabilityReport")"><span class="badge pull-right"></span>Sale Order Profitability</a></li>
+                                <li><a href="@Url.Action("Index", "SalesRegister")"><span class="badge pull-right"></span>Sales Register</a></li>
+                                <li><a href="@Url.Action("Index", "SaleOrderSummary")"><span class="badge pull-right"></span>Sale Order Summary</a></li>
+                                <li><a href="@Url.Action("Index", "SaleOrderStatus")"><span class="badge pull-right"></span>Pending Sale Orders</a></li>
+                                <li><a href="@Url.Action("Index", "SaleOrderStatus")"><span class="badge pull-right"></span>Sale Order Variance Report</a></li>
+                                <li><a href="@Url.Action("Index", "SaleOrderStatus")"><span class="badge pull-right"></span>Sales Analysis-Product Wise</a></li>
+                                <li><a href="@Url.Action("Index", "SaleOrderStatus")"><span class="badge pull-right"></span>Sales Analysis-Customer Wise</a></li>
+                                <li><a href="@Url.Action("Index", "SaleOrderStatus")"><span class="badge pull-right"></span>Target Vs Achieved</a></li>
+                                <li><a href="@Url.Action("Index", "SaleOrderStatus")"><span class="badge pull-right"></span>Sales Report-Detailed</a></li>
+                                <li><a href="@Url.Action("Index", "SaleOrderStatus")"><span class="badge pull-right"></span>Sales Report Summary</a></li>
+                                <li><a href="@Url.Action("Index", "SaleOrderStatus")"><span class="badge pull-right"></span></a></li>
+                            </ul>
+                        </li>
+                 
+                       
+                        <li><a href="@Url.Action("Index", "MaterialPlanning")"><span class="badge pull-right"></span>Material Planning Report</a></li>
                         <li><a href="@Url.Action("Index","BayStatus")"><span class="badge pull-right"></span>Bay Allocation Report</a></li>
                         <li><a href="@Url.Action("Index","StockReport")"><span class="badge pull-right"></span>Stock Report</a></li>
-                        <li><a href="@Url.Action("Index","ProfitabilityReport")"><span class="badge pull-right"></span>Sale Order Profitability</a></li>
+                    
                         <li><a href="@Url.Action("Index","LoginHistory")"><span class="badge pull-right"></span>Login History</a></li>
                         <li><a href="@Url.Action("Index","WorkshopRequestRegister")"><span class="badge pull-right"></span>Workshop Request Register</a></li>
                         <li><a href="@Url.Action("Index","ClosingStock")"><span class="badge pull-right"></span>Closing Stock Report</a></li>
@@ -312,6 +331,7 @@
                         <li><a href="@Url.Action("PendingSaleOrderApprovalJC", "SaleOrder")"><span class="badge pull-right"></span>SO - Approval For Job Card</a></li>*@
                         <li><a href="@Url.Action("PendingSaleOrderApprovalDEL", "SaleOrder")"><span class="badge pull-right"></span>SO - Approval For Delivery</a></li>
                         <li><a href="@Url.Action("IncentiveAmountReport", "SaleOrder")"><span class="badge pull-right"></span>SO - Incentive Details</a></li>
+                        <li><a href="@Url.Action("Index", "CustomerReceipt")"><span class="badge pull-right"></span>Receipt Against Customer</a></li>
                     </ul>
                 </li>
             }

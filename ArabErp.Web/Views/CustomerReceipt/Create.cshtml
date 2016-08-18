@@ -52,86 +52,54 @@
             $("#GenderId").prop("checked", true)
         }
 
-        //$("#radio_1").prop("checked", true)
-        toastr.options = {
-            "closeButton": true,
-            "positionClass": "toast-bottom-full-width",
-            "preventDuplicates": false,
-            "onclick": null,
-
-            "timeOut": "0",
-            "extendedTimeOut": "1000",
-
-            "showEasing": "swing",
-            "hideEasing": "linear",
-            "showMethod": "fadeIn",
-            "hideMethod": "fadeOut"
-        }
-        if ('@TempData["success"]' != "" && '@TempData["CustomerReceiptRefNo"]' != "") {
-            toastr.success('@TempData["success"]' + '  Customer Receipt Ref No. is : ' + '@TempData["CustomerReceiptRefNo"]');
-        }
-        else if ('@TempData["error"]' != "") {
-            toastr.error('@TempData["error"]');
-        }
-
     });
 
-    $(function () {
 
+    $(function () {
         $("#JcOrSo").val('@Model.Against');
         OptionChanged();
-
         $("#CustomerReceiptDate").datepicker({
             dateFormat: "d-MM-yy"
         });
     });
 
     function OptionChanged() {
-        var opt = $("#JcOrSo").val();
-        $("#Against").val(opt);
-        if (opt == "JC") {
-            $("#againstId").text("Job Card");
-            $("#SaleOrderId").removeClass("divHidden");
-            $("#JobCardId").removeClass("divHidden");
-            $("#SalesInvoiceId").removeClass("divHidden");
 
-            $("#SaleOrderId").removeClass("divShow");
-            $("#JobCardId").removeClass("divShow");
-            $("#SalesInvoiceId").removeClass("divShow");
-
-            $("#SaleOrderId").addClass("divHidden");
-            $("#SalesInvoiceId").addClass("divHidden");
-            $("#JobCardId").addClass("divShow");
+        var Code = $('#CustomerId').val();
+        var type = $("#JcOrSo").val();
+        var url = '';
+        //alert(type);
+        $("#againstId").text($("#JcOrSo option:selected").text());
+        if (type == 'SO')
+            url = '@Url.Action("SaleOrder")';
+        else if (type == 'JC')
+            url = '@Url.Action("JobCard")';
+        else if (type == 'SI')
+            url = '@Url.Action("SalesInvoice")';
+        else if (type == 'Select') {
+            $("#againstId").text("");
+            $("#dynamic-combo").html('');
         }
-        if (opt == "SO") {
-            $("#againstId").text("Sale Order");
-            $("#SaleOrderId").removeClass("divHidden");
-            $("#JobCardId").removeClass("divHidden");
-            $("#SalesInvoiceId").removeClass("divHidden");
 
-            $("#SaleOrderId").removeClass("divShow");
-            $("#JobCardId").removeClass("divShow");
-            $("#SalesInvoiceId").removeClass("divShow");
-
-            $("#JobCardId").addClass("divHidden");
-            $("#SalesInvoiceId").addClass("divHidden");
-            $("#SaleOrderId").addClass("divShow");
-
+        if (url != '') {
+            var id = 0;
+            @if(Model.SalesInvoiceId != null)
+            {
+                @: id = '@Model.SalesInvoiceId';
+            }
+            else if (Model.SaleOrderId != null)
+            {
+            @: id = '@Model.SaleOrderId';
+            }
+            else if (Model.JobCardId != null)
+            {
+                @: id = '@Model.JobCardId';
+            }
+            
+            $("#dynamic-combo").load(url, { Code: Code, id: id });
+            
         }
-        if (opt == "SI") {
-            $("#againstId").text("Sale Invoice");
-            $("#SaleOrderId").removeClass("divHidden");
-            $("#JobCardId").removeClass("divHidden");
-            $("#SalesInvoiceId").removeClass("divHidden");
 
-            $("#SaleOrderId").removeClass("divShow");
-            $("#JobCardId").removeClass("divShow");
-            $("#SalesInvoiceId").removeClass("divShow");
-
-            $("#SaleOrderId").addClass("divHidden");
-            $("#JobCardId").addClass("divHidden");
-            $("#SalesInvoiceId").addClass("divShow");
-        }
     }
 </script>
 
@@ -145,12 +113,10 @@
               @using (Html.BeginForm(null, null, FormMethod.Post, new { @class = "CreateRequest", @id = "CustomerReceipt_form" }))
        
             {
-            @*<form method="post" role="form" >*@
+         
                 <div class="row form-group">
                     <div class="col-md-2">
                         @Html.HiddenFor(m => m.CustomerReceiptId)
-                        @*@Html.HiddenFor(m => m.CustomerReceiptRefNo)*@
-
                         <label for="CustomerReceiptRefNo">CR No.</label>
                         @Html.TextBoxFor(m => m.CustomerReceiptRefNo, new { @class = "form_input", autocomplete = "off", @required = "true" })
 
@@ -162,8 +128,10 @@
                 </div>
                     <div class="row form-group">
                         <div class="col-md-4">
-                            <label for="CustomerReceiptDate">Customer</label>
-                            @Html.DropDownListFor(m => m.CustomerId, (SelectList)ViewBag.Customer, "Select Customer", new { @class = "form_input", autocomplete = "off" })
+                            <label for="Customer">Customer</label>
+                            @Html.DropDownListFor(m => m.CustomerId, (SelectList)ViewBag.Customer, "Select Customer", new { @class = "form_input", autocomplete = "off", @onchange = "OptionChanged()" })
+                             @*@Html.Action("Customer")*@
+                            @Html.HiddenFor(m => Model.CustomerId)
                         </div>
                     </div>
 
@@ -181,10 +149,13 @@
 
                         <div class="col-md-2">
                             <label id="againstId"></label>
-                            @Html.DropDownListFor(m => Model.SaleOrderId, (SelectList)ViewBag.SO, "Select S.O", new { @class = "form_input divHidden", autocomplete = "off" })
-                            @Html.DropDownListFor(m => Model.JobCardId, (SelectList)ViewBag.JC, "Select J.C", new { @class = "form_input divHidden against", autocomplete = "off" })
-                            @Html.DropDownListFor(m => Model.SalesInvoiceId, (SelectList)ViewBag.SI, "Select S.I", new { @class = "form_input divHidden against", autocomplete = "off" })
-                        </div>
+                            <div id="dynamic-combo">
+
+                            </div>
+                                @*@Html.DropDownListFor(m => Model.SaleOrderId, (SelectList)ViewBag.SO, "Select S.O", new { @class = "form_input divHidden", autocomplete = "off" })
+                                @Html.DropDownListFor(m => Model.JobCardId, (SelectList)ViewBag.JC, "Select J.C", new { @class = "form_input divHidden against", autocomplete = "off" })
+                                @Html.DropDownListFor(m => Model.SalesInvoiceId, (SelectList)ViewBag.SI, "Select S.I", new { @class = "form_input divHidden against", autocomplete = "off" })*@
+                       </div>
                     </div>
 
                 <div class="row form-group">

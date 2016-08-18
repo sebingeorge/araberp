@@ -33,7 +33,7 @@ namespace ArabErp.DAL
                 string sql = @" SELECT CustomerReceiptId,CustomerReceiptRefNo,CustomerReceiptDate,CustomerName,
                                 CASE WHEN SaleOrderId IS NOT NULL THEN 'Sale Order' 
                                      WHEN JobCardId IS NOT NULL THEN 'Job Card' 
-	                                 ELSE 'Sales Invoice' END AS Against 
+	                                 ELSE 'Sales Invoice' END AS Against,Amount 
                                 FROM CustomerReceipt CR
                                 INNER JOIN Customer C ON C.CustomerId=CR.CustomerId
                                 WHERE CR.isActive=1";
@@ -47,8 +47,13 @@ namespace ArabErp.DAL
         {
             using (IDbConnection connection = OpenConnection(dataConnection))
             {
-                IDbTransaction txn = connection.BeginTransaction(); try
+                IDbTransaction txn = connection.BeginTransaction(); 
+                try
                 {
+                    int internalId = DatabaseCommonRepository.GetInternalIDFromDatabase(connection, txn, typeof(CustomerReceipt).Name, "0", 1);
+
+                    model.CustomerReceiptRefNo = "CR/" + internalId;
+
                     if (model.Against == "JC")
                     {
                         model.SaleOrderId = null;
@@ -186,6 +191,32 @@ namespace ArabErp.DAL
             }
         }
 
-     
+        public List<Dropdown> FillSO(int Id)
+        {
+            using (IDbConnection connection = OpenConnection(dataConnection))
+            {
+                var param = new DynamicParameters();
+                return connection.Query<Dropdown>("SELECT SaleOrderId Id, SaleOrderRefNo Name FROM SaleOrder WHERE CustomerId=@ID", new { ID = Id }).ToList();
+            }
+        }
+
+        public List<Dropdown> FillJC(int Id)
+        {
+            using (IDbConnection connection = OpenConnection(dataConnection))
+            {
+                var param = new DynamicParameters();
+                return connection.Query<Dropdown>("SELECT JobCardId Id, JobCardNo Name FROM JobCard J INNER JOIN SaleOrder S ON S.SaleOrderId=J.SaleOrderId WHERE S.CustomerId=@ID", new { ID = Id }).ToList();
+            }
+        }
+
+        public List<Dropdown> FillSI(int Id)
+        {
+            using (IDbConnection connection = OpenConnection(dataConnection))
+            {
+                var param = new DynamicParameters();
+                return connection.Query<Dropdown>("SELECT SalesInvoiceId Id, SalesInvoiceRefNo Name FROM SalesInvoice J INNER JOIN SaleOrder S ON S.SaleOrderId=J.SaleOrderId WHERE S.CustomerId=@ID", new { ID = Id }).ToList();
+            }
+        }
     }
+
 }

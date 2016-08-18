@@ -14,15 +14,14 @@
     })
 
     function Filter() {
-        $("#purchasebill_Reg").addClass("fade");
-        var id = $("#cboSupplier").val();
-        var itmid = $("#cboItem").val();
+        $("#Sales_RegSum").addClass("fade");
+        var id = $("#cboCustomer").val();
         var from = $("#txtFrom").val();
         var to = $("#txtTo").val();
-        var url = '@Url.Action("PurchaseBillRegister")';
-        url += "?from=" + from + "&to=" + to + "&id=" + id + "&itmid=" + itmid;
-        $("#purchasebill_Reg").load(url, function () {
-            $("#purchasebill_Reg").removeClass("fade");
+        var url = '@Url.Action("SaleRegisterSummary")';
+        url += "?from=" + from + "&to=" + to + "&id=" + id ;
+        $("#Sales_RegSum").load(url, function () {
+            $("#Sales_RegSum").removeClass("fade");
         });
     }
     function Exit() {
@@ -31,11 +30,9 @@
     }
 </script>
 <div class="row">
-
     <div class="form-head1">
-        <h4>Purchase Bill Register</h4>
+        <h4>Sales Register Summary</h4>
     </div>
-
     <div class="main-part pad1">
         <div class="row">
             <div class="col-md-2">
@@ -46,32 +43,24 @@
                 <label>To</label>
                 <input id="txtTo" value="@System.DateTime.Today.ToString("dd-MMMM-yyyy")" class="form_input" onchange="Filter()" />
             </div>
-            <div class="col-md-2">
-                <label for="cboStockpoint">Supplier</label>
-                @Html.DropDownList("cboSupplier", (SelectList)ViewBag.SupplierList, "Any", new { @class = "form_input", @onchange = "Filter()" })
-            </div>
-
             <div class="col-md-3">
-                <label for="cboItem">Item</label>
-                @Html.DropDownList("cboItem", (SelectList)ViewBag.ItemList, "Any", new { @class = "form_input", @onchange = "Filter()" })
+                <label for="cboCustomer">Customer</label>
+                @Html.DropDownList("cboCustomer", (SelectList)ViewBag.CustomerList, "Any", new { @class = "form_input", @onchange = "Filter()" })
             </div>
-           
-
         </div>
         <br />
         <div class="row">
             <div class="main-grid main-grid-top scroll1">
-                <div class="table-responsive" id="purchasebill_Reg">
-                    @Html.Action("PurchaseBillRegister")
-                </div>
-                </div>
-            </div>
-
-                <div class="row">
-                    <div class="col-md-12 hrpart">
-                        <input type="button" class="form-button right" value="Exit" onclick="Exit()" />
-                    </div>
+                <div class="table-responsive" id="Sales_RegSum">
+                    @Html.Action("SaleRegisterSummary")
                 </div>
             </div>
         </div>
+        <div class="row">
+            <div class="col-md-12 hrpart">
+                <input type="button" class="form-button right" value="Exit" onclick="Exit()" />
+            </div>
+        </div>
+    </div>
+</div>
 

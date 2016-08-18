@@ -15,10 +15,19 @@ namespace ArabErp.Web.Controllers
         // GET: StockMovementRegister
         public ActionResult Index()
         {
-            FillItem();
+            InitDropdown();
             FillWarehouse();
             FillItemCategory();
-            return View();
+
+            ClosingStock cs = new ClosingStock();
+            cs.itmCatId = 0;
+            return View("Index", cs);
+        }
+        public void InitDropdown()
+        {
+            var List = "";
+            ViewBag.ItemList = new SelectList(List, "Id", "Name");
+
         }
         public void FillWarehouse()
         {
@@ -26,10 +35,10 @@ namespace ArabErp.Web.Controllers
             var result = repo.StockpointDropdown();
             ViewBag.WarehouseList = new SelectList(result, "Id", "Name");
         }
-        public void FillItem()
+        public void FillItem(int Id)
         {
             DropdownRepository repo = new DropdownRepository();
-            var result = repo.ItemDropdown();
+            var result = repo.ItemCatDropdown(Id);
             ViewBag.ItemList = new SelectList(result, "Id", "Name");
         }
 
@@ -39,5 +48,17 @@ namespace ArabErp.Web.Controllers
             var result = repo.ItemCategoryDropdown();
             ViewBag.ItemCatList = new SelectList(result, "Id", "Name");
         }
+        public ActionResult StockMovementRegister(DateTime? from, DateTime? to, int itmcatid = 0, int itmid = 0)
+        {
+            from = from ?? DateTime.Today.AddMonths(-1);
+            to = to ?? DateTime.Today;
+            return PartialView("_StockMovementRegister", new StockMovementRegisterRepository().GetStockMovementData(from, to, itmcatid, itmid, OrganizationId));
+        }
+        public ActionResult Item(int Code)
+        {
+            FillItem(Code);
+            return PartialView("_ItemDropDown");
+        }
+
     }
 }

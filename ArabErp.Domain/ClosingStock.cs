@@ -17,7 +17,9 @@ namespace ArabErp.Domain
       public string StockInOut { get; set; }
       public decimal  INQTY{ get; set; }
       public decimal OUTQTY { get; set; }
-
+      public decimal OPENINGSTOCK { get; set; }
+      public int itmCatId { get; set; }
+      public int ItemId { get; set; }
 
     }
 }

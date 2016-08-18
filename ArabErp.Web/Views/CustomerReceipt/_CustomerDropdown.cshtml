@@ -1,0 +1,4 @@
+﻿@model ArabErp.Domain.CustomerReceipt
+
+@Html.DropDownListFor(m => Model.CustomerId, (SelectList)ViewBag.Customer, "Select Customer", new { @class = "form_input", @onchange = "OptionChanged()" })
+@Html.HiddenFor(m => Model.CustomerId)

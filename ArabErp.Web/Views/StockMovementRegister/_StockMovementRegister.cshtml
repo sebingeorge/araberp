@@ -1,0 +1,37 @@
+﻿
+@model IList<ArabErp.Domain.ClosingStock>
+
+<table class="table table-bordered">
+    <thead>
+        <tr class="grid_heading">
+            <th width="20%"><h1>Opening Stock</h1></th>
+            <th class="text-right" width="20%"><h1>Inward</h1></th>
+            <th class="text-right" width="20%"><h1>Outward</h1></th>
+            <th class="text-right" width="20%"><h1>Closing Stock</h1></th>
+            <th class="text-left" width="20%"><h1>Unit</h1></th>
+        </tr>
+    </thead>
+
+    <tbody class="grid_row">
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td class="grid-cell">@item.OPENINGSTOCK</td>
+                <td class="grid-cell text-right">@item.INQTY</td>
+                <td class="grid-cell text-right">@item.OUTQTY</td>
+                <td class="grid-cell text-right">@(item.INQTY - item.OUTQTY)</td>
+                <td class="grid-cell text-left">@item.UnitName </td>
+            </tr>
+        }
+    </tbody>
+
+    @*<tfoot>
+        <tr class="grid_heading">
+            <th width="10%"><h1></h1></th>
+            <th width="10%"><h1></h1></th>
+            <th class="text-right" width="60%"><h1>Total</h1></th>
+            <th class="text-right" width="10%"></th>
+            <th class="text-right" width="10%"></th>
+        </tr>
+    </tfoot>*@
+</table>

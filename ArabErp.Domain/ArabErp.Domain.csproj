@@ -63,6 +63,7 @@
     <Compile Include="EmployeeCategory.cs" />
     <Compile Include="ExpenseBill.cs" />
     <Compile Include="FGTracking.cs" />
+    <Compile Include="RptFilter.cs" />
     <Compile Include="FreezerUnit.cs" />
     <Compile Include="GRN.cs" />
     <Compile Include="GRNItem.cs" />
@@ -127,11 +128,13 @@
     <Compile Include="SalesQuotation.cs" />
     <Compile Include="SalesQuotationItem.cs" />
     <Compile Include="SalesQuotationList.cs" />
+    <Compile Include="SalesRegister.cs" />
     <Compile Include="StockCreation.cs" />
     <Compile Include="StockCreationConsumedItem.cs" />
     <Compile Include="StockCreationFinishedGood.cs" />
     <Compile Include="StockJournal.cs" />
     <Compile Include="StockJournalItem.cs" />
+    <Compile Include="StockMovementRegister.cs" />
     <Compile Include="Stockpoint.cs" />
     <Compile Include="StockReportSummary.cs" />
     <Compile Include="StockReturn.cs" />
