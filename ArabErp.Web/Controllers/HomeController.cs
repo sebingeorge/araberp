@@ -22,6 +22,8 @@ namespace ArabErp.Web.Controllers
             dashboard.DashboardAcceptedTransportationSalesQuotations = repo.GetAccesptedTransportationSalesQuotationDetails(OrganizationId);
             dashboard.DashboardPurchase = repo.GetPurchaseDetails(OrganizationId);
             dashboard.DashboardSales = repo.GetSalesDetails(OrganizationId);
+            dashboard.DashboardFGAllocated = repo.GetFGAllocated(OrganizationId);
+            dashboard.DashboardSaleOrderAllocated = repo.GetFGAllocatedSaleOrder(OrganizationId);
 
             return View(dashboard);
         }

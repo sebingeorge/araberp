@@ -1,7 +1,7 @@
-﻿@model ArabErp.Domain.StockCreation
+﻿@model ArabErp.Domain.SubAssembly
 
 @{
-    ViewBag.Title = "Create Stock";
+    ViewBag.Title = "Create Sub-assembly";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
@@ -37,6 +37,8 @@
             else { return false; }
         });
 
+        OnConsumedItemStockPointChanged();
+
     })
 
     function formValidation() {
@@ -44,11 +46,6 @@
         $("input[id$='__StockQuantity']").each(function (index, object) {
             if ($(object).val() <= 0) {
                 toastr.info("Consumed items should be in stock");
-                status = false;
-                return false;
-            }
-            else if (Number($(object).val()) < Number($("#ConsumedItems_" + index + "__Quantity").val())) {
-                toastr.info("Consumed quantity cannot be greater than stock quantity");
                 status = false;
                 return false;
             }
@@ -64,10 +61,10 @@
     function OnConsumedItemStockPointChanged() {
         $("#consumed-table").addClass("fade");
         $("input[id$='__StockQuantity']").each(function (index, object) {
-            if ($("#ConsumedStockpointId").val() == '') {
+            if ($("#ConsumedItemStockpointId").val() == '') {
                 $(object).val(0);
             }
-            else OnMaterialChanged(index);
+            else OnConsumedMaterialChanged(index);
         })
         $("#consumed-table").removeClass("fade");
     }
@@ -82,7 +79,7 @@
 
 <div class="row">
     <div class="form-head1">
-        <h4>Stock Creation</h4>
+        <h4>Create Sub-assembly</h4>
     </div>
 
     <div class="main-part pad1">
@@ -101,36 +98,47 @@
                 </div>
                 <div class="col-md-2">
                     <label for="StockCreationDate">Date</label>
-                    @Html.TextBoxFor(m => m.StockCreationDate, Model.StockCreationDate.ToString("dd-MMMM-yyyy"), new { @class = "form_input", @readonly = "true", @required = "true", @onchange = "OnConsumedItemStockPointChanged()" })
+                    @Html.TextBoxFor(m => m.StockCreationDate, Model.StockCreationDate.ToString("dd-MMMM-yyyy"), new { @class = "form_input", @readonly = "true", @required = "true" })
                 </div>
                 <div class="col-md-3">
                     <label for="FinishedGoodStockpointId">Destination</label>
-                    @Html.DropDownListFor(m => m.FinishedStockpointId, (SelectList)ViewBag.stockpointList, "Select Stockpoint", new { @class = "form_input" })
-                </div>
-                <div class="col-md-3">
-                    <label for="ConsumedItemStockpointId">Source</label>
-                    @Html.DropDownListFor(m => m.ConsumedStockpointId, (SelectList)ViewBag.stockpointList, "Select Stockpoint", new { @class = "form_input", @onchange = "OnConsumedItemStockPointChanged()" })
+                    @Html.DropDownListFor(m => m.FinishedStockpointId, new SelectList(ViewBag.stockpointList, "Value", "Text", Model.FinishedStockpointId), "Select Stockpoint", new { @class = "form_input" })
                 </div>
             </div>
 
             <strong>Finished Goods:</strong>
             <div class="table-responsive scroll4" id="finished-table">
-                @Html.Action("FinishedGoodsGrid")
+                @Html.Partial("_FinishedGood")
             </div>
 
+            <br />
+            <div class="row">
+                <div class="col-md-3">
+                    <label for="EmployeeId">Employee</label>
+                    @Html.DropDownListFor(m => m.EmployeeId, new SelectList(ViewBag.employeeList, "Value", "Text", Model.EmployeeId), "Select Employee", new { @class = "form_input", @required = "true" })
+                </div>
+                <div class="col-md-1">
+                    <label for="WorkingHours">Hours</label>
+                    @Html.TextBoxFor(m => m.WorkingHours, new { @class = "form_input", @required = "true" })
+                </div>
+                <div class="col-md-3">
+                    <label for="ConsumedItemStockpointId">Source</label>
+                    @Html.DropDownListFor(m => m.ConsumedStockpointId, new SelectList(ViewBag.stockpointList, "Value", "Text", Model.ConsumedStockpointId), "Select Stockpoint", new { @class = "form_input", @onchange = "OnConsumedItemStockPointChanged()" })
+                </div>
+            </div>
+            <br />
             <strong>Consumed Items:</strong>
             <div class="table-responsive scroll4" id="consumed-table">
-                @Html.Action("ConsumedItemsGrid")
+                @Html.Partial("_ConsumedItem")
             </div>
 
             <div class="row">
                 <div class="col-md-12 hrpart">
-                    <input type="button" class="form-button" value="Previous" onclick="Previous()" title="Previously created stocks" />
-                    <input type="button" class="form-button right" value="Exit" onclick="Exit()" title="Go to home page" />
+                    <input type="button" class="form-button" value="Delete" onclick="DeleteItem()" />
+                    <input type="button" class="form-button right" value="Exit" onclick="Exit()" title="Go to previous list" />
                     <input type="submit" class="form-button right" value="Save" />
                 </div>
             </div>
         }
     </div>
 </div>
-

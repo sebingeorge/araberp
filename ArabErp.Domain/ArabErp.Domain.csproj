@@ -143,6 +143,7 @@
     <Compile Include="StoreIssue.cs" />
     <Compile Include="StoreIssueItem.cs" />
     <Compile Include="StoresIssuePreviousList.cs" />
+    <Compile Include="SubAssembly.cs" />
     <Compile Include="Supplier.cs" />
     <Compile Include="SupplierCategory.cs" />
     <Compile Include="SupplierItemRate.cs" />
@@ -150,6 +151,7 @@
     <Compile Include="SupplyOrderFollowup.cs" />
     <Compile Include="SupplyOrderItem.cs" />
     <Compile Include="SupplyOrderPreviousList.cs" />
+    <Compile Include="SupplyOrderRegister.cs" />
     <Compile Include="TransactionHistory.cs" />
     <Compile Include="Unit.cs" />
     <Compile Include="User.cs" />

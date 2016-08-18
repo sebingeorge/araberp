@@ -1,3 +1,3 @@
 ﻿@model ArabErp.Domain.CustomerReceipt
-@Html.DropDownListFor(m => Model.SalesInvoiceId, new SelectList(ViewBag.CSI, "Value", "Text", Model.SalesInvoiceId), "Select S.I", new { @class = "form_input", autocomplete = "off", @required = "true" })
+@Html.DropDownListFor(m => Model.SalesInvoiceId, new SelectList(ViewBag.CSI, "Value", "Text", Model.SalesInvoiceId), "Select S.I", new { @class = "form_input", autocomplete = "off", @required = "true", @onChange = "TotalAmount()" })
 @Html.HiddenFor(m => Model.SalesInvoiceId)

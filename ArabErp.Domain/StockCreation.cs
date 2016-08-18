@@ -20,9 +20,9 @@ namespace ArabErp.Domain
         public string CreatedBy { get; set; }
         public DateTime? CreatedDate { get; set; }
         [Required]
-        public int FinishedGoodStockpointId { get; set; }
+        public int FinishedStockpointId { get; set; }
         [Required]
-        public int ConsumedItemStockpointId { get; set; }
+        public int ConsumedStockpointId { get; set; }
 
         public string Finished { get; set; }
         public string Consumed { get; set; }

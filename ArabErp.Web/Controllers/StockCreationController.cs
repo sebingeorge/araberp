@@ -68,7 +68,7 @@ namespace ArabErp.Web.Controllers
         }
 
         public ActionResult PreviousList()
-        {
+        {//TODO Show stockpoints in previous list
             return View(new StockCreationRepository().GetStockCreations(organizationId: OrganizationId));
         }
 
@@ -78,11 +78,12 @@ namespace ArabErp.Web.Controllers
         //    return View(new StockCreationRepository().GetStockCreation(id));
         //}
 
-        public ActionResult GetStockQuantity(int id = 0, int stockpoint = 0)
+        public ActionResult GetStockQuantity(string date, int id = 0, int stockpoint = 0)
         {
             try
             {
-                ClosingStock stock = new ClosingStockRepository().GetClosingStockData(DateTime.Today, stockpoint, 0, id, OrganizationId).First();
+                if (id == 0 || stockpoint == 0 || date == null) throw new InvalidOperationException();
+                ClosingStock stock = new ClosingStockRepository().GetClosingStockData(Convert.ToDateTime(date), stockpoint, 0, id, OrganizationId).First();
                 return Json(stock.Quantity, JsonRequestBehavior.AllowGet);
             }
             catch (InvalidOperationException)
