@@ -42,5 +42,9 @@ namespace ArabErp.Web.Controllers
         {
             return View();
         }
+        public ActionResult Product()
+        {
+            return View();
+        }
     }
 }
