@@ -32,7 +32,9 @@ namespace ArabErp.DAL
 	                                StockCreationDate,
                                     CreatedBy,
                                     CreatedDate,
-                                    OrganizationId
+                                    OrganizationId,
+                                    ConsumedStockpointId,
+                                    FinishedStockpointId
                                 )
                                 VALUES
                                 (
@@ -40,7 +42,9 @@ namespace ArabErp.DAL
 	                                @StockCreationDate,
                                     @CreatedBy,
                                     @CreatedDate,
-                                    @OrganizationId
+                                    @OrganizationId,
+                                    @ConsumedStockpointId,
+                                    @FinishedStockpointId
                                 );
                                 SELECT CAST(SCOPE_IDENTITY() AS INT)";
 
@@ -56,7 +60,7 @@ namespace ArabErp.DAL
                             OrganizationId = model.OrganizationId,
                             CreatedBy = model.CreatedBy,
                             CreatedDate = model.CreatedDate,
-                            StockPointId = model.FinishedGoodStockpointId,
+                            StockPointId = model.FinishedStockpointId,
                             StockType = "StockCreation",
                             StockInOut = "IN",
                             stocktrnDate = System.DateTime.Today,
@@ -78,7 +82,7 @@ namespace ArabErp.DAL
                             OrganizationId = model.OrganizationId,
                             CreatedBy = model.CreatedBy,
                             CreatedDate = model.CreatedDate,
-                            StockPointId = model.FinishedGoodStockpointId,
+                            StockPointId = model.ConsumedStockpointId,
                             StockType = "StockCreation",
                             StockInOut = "OUT",
                             stocktrnDate = System.DateTime.Today,
@@ -128,6 +132,7 @@ namespace ArabErp.DAL
                                 FROM StockCreation SC
 									LEFT JOIN [User] EMP ON SC.CreatedBy = EMP.UserId
 								WHERE SC.OrganizationId = @OrganizationId
+                                AND SC.isSubAssembly = 0
 								AND SC.isActive = 1 
 								ORDER BY SC.StockCreationDate DESC, SC.CreatedDate DESC";
                 return connection.Query<StockCreation>(query, new { OrganizationId = organizationId }).ToList();
@@ -143,7 +148,7 @@ namespace ArabErp.DAL
         {
             using (IDbConnection connection = OpenConnection(dataConnection))
             {
-                string query = @"SELECT * FROM StockCreation WHERE StockCreationId = @id";
+                string query = @"SELECT * FROM StockCreation WHERE StockCreationId = @id ";
                 return connection.Query<StockCreation>(query, new { id = id }).ToList();
             }
         }

@@ -145,6 +145,7 @@
     <Compile Include="StoreIssueItemRepository.cs" />
     <Compile Include="StoreIssueRepository.cs" />
     <Compile Include="StoresLedgerRepository.cs" />
+    <Compile Include="SubAssemblyRepository.cs" />
     <Compile Include="SupplierCategoryRepository.cs" />
     <Compile Include="SupplierItemRateRepository.cs" />
     <Compile Include="SupplierRepository.cs" />

@@ -1,4 +1,4 @@
-﻿@model ArabErp.Domain.StockCreation
+﻿@model ArabErp.Domain.SubAssembly
 
 <script type="text/javascript">
 
@@ -80,7 +80,7 @@
         }
     }
 
-    function OnMaterialChanged(index) {
+    function OnConsumedMaterialChanged(index) {
         //check whether the material is already selected in any grid
         var item = $("#ConsumedItems_" + index + "__ItemId").val();
         if (item == '') return;
@@ -93,20 +93,23 @@
         if (count > 1) {
             toastr.info("This Material/Spare has already been added");
             $("#ConsumedItems_" + index + "__ItemId").val('');
+            $("#ConsumedItems_" + index + "__StockQuantity").val(0);
             return;
         }
 
+        //check whether stock point is selected before selecting consumed item
         if ($("#ConsumedStockpointId").val() == '') {
             toastr.info("You have to select the Stock Point before selecting material/spare");
             $("#ConsumedItems_" + index + "__ItemId").val('');
             return;
         }
 
+        //load the stock quantity of the selected item
         var date = $("#StockCreationDate").val();
         var material = $("#ConsumedItems_" + index + "__ItemId").val();
+        $("#ConsumedItems_" + index + "__StockQuantity").val(0);
         if (material == '') return;
         var url = '@Url.Action("GetStockQuantity")';
-        $("#ConsumedItems_" + index + "__StockQuantity").val(0);
         $.getJSON(url, { date: date, id: material, stockpoint: $("#ConsumedStockpointId").val() }, function (data) {
             $("#ConsumedItems_" + index + "__StockQuantity").val(data);
         })
@@ -138,7 +141,7 @@
                     <input id="CI_slno_@i" type="text" value="@(i + 1)" style="width:100%" class="form_input text-center" disabled />
                 </td>
                 <td>
-                    @Html.DropDownListFor(m => m.ConsumedItems[i].ItemId, (SelectList)ViewBag.materialList, "Select Material/Spare", new { @class = "form_input", @required = "true", @onchange = "OnMaterialChanged(" + i + ")" })
+                    @Html.DropDownListFor(m => m.ConsumedItems[i].ItemId, new SelectList(ViewBag.materialList, "Value", "Text", Model.ConsumedItems[i].ItemId), "Select Material/Spare", new { @class = "form_input", @required = "true", @onchange = "OnConsumedMaterialChanged(" + i + ")" })
                 </td>
                 <td>
                     @Html.TextBoxFor(m => m.ConsumedItems[i].StockQuantity, new { @class = "form_input text-right numbers-only", @readonly = "true" })
