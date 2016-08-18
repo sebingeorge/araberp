@@ -20,6 +20,10 @@
     string TransportationASQdatas = string.Empty;
     string PurchaseData = string.Empty;
     string SalesData = string.Empty;
+    string FGStock = Model.DashboardFGAllocated.TotalFG;
+    string AllocatedFG = Model.DashboardFGAllocated.AllocatedFG;
+    string AllocatedSO = Model.DashboardSaleOrderAllocated.AllocatedSaleOrders;
+    string TotalSO = Model.DashboardSaleOrderAllocated.TotalSaleOrders;
     
     foreach (var item in Model.DashboardMonthlySalesOrders)
     {
@@ -121,6 +125,8 @@
         showSaleOrders();
         showSaleQuotations();
         showSalePurchase();
+        showFGAllocated();
+        showFGAllocatedSO();
     });
 
     function showSalePurchase() {
@@ -270,6 +276,101 @@
             }]
         });
     }
+
+    function showFGAllocated()
+    {
+        chart1 = new Highcharts.Chart({
+            chart: {
+                plotBackgroundColor: null,
+                plotBorderWidth: null,
+                plotShadow: false,
+                type: 'pie',
+                renderTo: 'FGAllocated'
+            },
+            title: {
+                text: 'F.G Stock Vs Allocation'
+            },
+            tooltip: {
+                pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>'
+            },
+            plotOptions: {
+                pie: {
+                    allowPointSelect: true,
+                    cursor: 'pointer',
+                    dataLabels: {
+                        enabled: true,
+                        format: '<b>{point.name}</b>: {point.percentage:.1f} %',
+                        style: {
+                            color: (Highcharts.theme && Highcharts.theme.contrastTextColor) || 'black'
+                        }
+                    }
+                }
+            },
+            series: [{
+                name: 'Quantity',
+                colorByPoint: true,
+                data: [{
+                    name: 'FG Stock',
+                    y: @FGStock
+                    }, {
+                        name: 'Allocated',
+                        y: @AllocatedFG,
+                        sliced: true,
+                        selected: true
+                    }]
+            }]
+        });
+    }
+
+    function showFGAllocatedSO()
+    {
+        chart1 = new Highcharts.Chart({
+            chart: {
+                plotBackgroundColor: null,
+                plotBorderWidth: null,
+                plotShadow: false,
+                type: 'pie',
+                renderTo: 'FGAllocatedSO'
+            },
+            title: {
+                text: 'F.G Stock Vs S.O Allocation'
+            },
+            tooltip: {
+                pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>'
+            },
+            plotOptions: {
+                pie: {
+                    allowPointSelect: true,
+                    cursor: 'pointer',
+                    dataLabels: {
+                        enabled: true,
+                        format: '<b>{point.name}</b>: {point.percentage:.1f} %',
+                        style: {
+                            color: (Highcharts.theme && Highcharts.theme.contrastTextColor) || 'black'
+                        }
+                    }
+                }
+            },
+            series: [{
+                name: 'Quantity',
+                colorByPoint: true,
+                data: [{
+                    name: 'FG Stock',
+                    y: @FGStock
+                    }, {
+                        name: 'Allocated',
+                        y: @AllocatedSO,
+                    sliced: true,
+                    selected: true
+                }, {
+                    name: 'Total S.O',
+                    y: @TotalSO,
+                    sliced: true,
+                    selected: true
+                }]
+            }]
+        });
+    }
 </script>
 
 <script type="text/javascript">
@@ -304,6 +405,16 @@
                             <div id="SalesAndPurchase" class="col-md-12 chart">
                             </div>
                             <div data-u="thumb">Sales vs Purchase</div>
+                        </div>
+                        <div data-p="112.50" style="display: none;">
+                            <div id="FGAllocated" class="col-md-12 chart">
+                            </div>
+                            <div data-u="thumb">FG Allocated</div>
+                        </div>
+                        <div data-p="112.50" style="display: none;">
+                            <div id="FGAllocatedSO" class="col-md-12 chart">
+                            </div>
+                            <div data-u="thumb">FG Stock vs Total S.O vs Allocated S.O</div>
                         </div>
                     </div>
                     <!-- Thumbnail Navigator -->
