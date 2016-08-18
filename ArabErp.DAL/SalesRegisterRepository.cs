@@ -64,7 +64,7 @@ namespace ArabErp.DAL
                 return connection.Query<SalesRegister>(qry, new { OrganizationId = OrganizationId, from = from, to = to, id = id }).ToList();
             }
         }
-        public IEnumerable<SalesRegister> GetSalesAnalysisProductWise(DateTime? from, DateTime? to, int id, int OrganizationId)
+        public IEnumerable<SalesRegister> GetSalesAnalysisProductWise(DateTime? from, DateTime? to, int OrganizationId)
         {
             using (IDbConnection connection = OpenConnection(dataConnection))
             {
@@ -74,9 +74,9 @@ namespace ArabErp.DAL
 	                            inner join WorkDescription W ON W.WorkDescriptionId=SI.WorkDescriptionId
 	                            inner join SalesInvoiceItem SN on SN.SaleOrderItemId=SI.SaleOrderItemId
                                 inner join SalesInvoice SNI ON  SNI.SalesInvoiceId=SN.SalesInvoiceId
-                                where SalesInvoiceDate >= @from AND SalesInvoiceDate <= @to and S.OrganizationId=@OrganizationId)";
+                                where SalesInvoiceDate >= @from AND SalesInvoiceDate <= @to and S.OrganizationId=@OrganizationId";
 
-                return connection.Query<SalesRegister>(qry, new { OrganizationId = OrganizationId, from = from, to = to, id = id }).ToList();
+                return connection.Query<SalesRegister>(qry, new { OrganizationId = OrganizationId, from = from, to = to }).ToList();
             }
         }
         public IEnumerable<SalesRegister> GetSalesAnalysisCustomerWise(DateTime? from, DateTime? to, int id, int OrganizationId)

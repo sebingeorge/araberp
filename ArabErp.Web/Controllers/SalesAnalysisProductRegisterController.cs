@@ -17,11 +17,11 @@ namespace ArabErp.Web.Controllers
         {
             return View();
         }
-        public ActionResult SalesAnalysisProduct(DateTime? from, DateTime? to, int id = 0)
+        public ActionResult SalesAnalysisProduct(DateTime? from, DateTime? to)
         {
             from = from ?? DateTime.Today.AddMonths(-7);
             to = to ?? DateTime.Today;
-            return PartialView("_SalesAnalysisProduct", new SalesRegisterRepository().GetSalesAnalysisProductWise(from, to, id, OrganizationId));
+            return PartialView("_SalesAnalysisProduct", new SalesRegisterRepository().GetSalesAnalysisProductWise(from, to, OrganizationId));
         }
       
     }

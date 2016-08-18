@@ -16,11 +16,11 @@
 
     function Filter() {
         $("#Sales_Analysis").addClass("fade");
-        var id = $("#cboCustomer").val();
+       
         var from = $("#txtFrom").val();
         var to = $("#txtTo").val();
         var url = '@Url.Action("SalesAnalysisProduct")';
-        url += "?from=" + from + "&to=" + to + "&id=" + id ;
+        url += "?from=" + from + "&to=" + to;
         $("#Sales_Analysis").load(url, function () {
             $("#Sales_Analysis").removeClass("fade");
         });
