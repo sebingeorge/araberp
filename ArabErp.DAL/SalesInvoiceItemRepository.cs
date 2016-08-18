@@ -76,7 +76,7 @@ namespace ArabErp.DAL
             try
             {
 
-                string sql = @"INSERT INTO SalesInvoiceItem(SalesInvoiceId,SaleOrderItemId,JobCardId) VALUES (@SalesInvoiceId,@SaleOrderItemId,@JobCardId);
+                string sql = @"INSERT INTO SalesInvoiceItem(SalesInvoiceId,SaleOrderItemId,JobCardId,Quantity,Rate,Discount,Amount) VALUES (@SalesInvoiceId,@SaleOrderItemId,@JobCardId,@QuantityTxt,@Rate,@Discount,@Amount);
                                     SELECT CAST(SCOPE_IDENTITY() as int) ";
 
 

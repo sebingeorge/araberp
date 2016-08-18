@@ -238,6 +238,7 @@
     <Compile Include="Controllers\OpeningStockController.cs" />
     <Compile Include="Controllers\OrganizationController.cs" />
     <Compile Include="Controllers\PaymentTermsController.cs" />
+    <Compile Include="Controllers\PendingSaleOrderRegisterController.cs" />
     <Compile Include="Controllers\ProfitabilityReportController.cs" />
     <Compile Include="Controllers\ProformaInvoiceController.cs" />
     <Compile Include="Controllers\PurchaseBillController.cs" />
@@ -249,6 +250,8 @@
     <Compile Include="Controllers\SaleOrderController.cs" />
     <Compile Include="Controllers\SaleOrderStatusController.cs" />
     <Compile Include="Controllers\SaleOrderSummaryController.cs" />
+    <Compile Include="Controllers\SalesAnalysisCustomerRegisterController.cs" />
+    <Compile Include="Controllers\SalesAnalysisProductRegisterController.cs" />
     <Compile Include="Controllers\SalesInvoiceController.cs" />
     <Compile Include="Controllers\SalesQuotationController.cs" />
     <Compile Include="Controllers\SalesRegisterController.cs" />
@@ -800,6 +803,12 @@
     <Content Include="Views\SalesRegister\_ItemDropDown.cshtml" />
     <Content Include="Views\SaleOrderSummary\_SaleRegisterSummary.cshtml" />
     <Content Include="Views\SaleOrderSummary\Index.cshtml" />
+    <Content Include="Views\PendingSaleOrderRegister\Index.cshtml" />
+    <Content Include="Views\PendingSaleOrderRegister\_PendingSaleOrderRegister.cshtml" />
+    <Content Include="Views\SalesAnalysisProductRegister\Index.cshtml" />
+    <Content Include="Views\SalesAnalysisProductRegister\_SalesAnalysisProduct.cshtml" />
+    <Content Include="Views\SalesAnalysisCustomerRegister\Index.cshtml" />
+    <Content Include="Views\SalesAnalysisCustomerRegister\_SalesAnalysisCustomer.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

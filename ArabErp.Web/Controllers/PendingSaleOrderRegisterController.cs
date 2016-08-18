@@ -10,28 +10,26 @@ using System.Data.SqlClient;
 
 namespace ArabErp.Web.Controllers
 {
-    public class SalesRegisterController : BaseController
+    public class PendingSaleOrderRegisterController : BaseController
     {
-        // GET: SalesRegister
+        // GET: PendingSaleOrderRegister
         public ActionResult Index()
         {
-
             FillCustomer();
             return View();
         }
         public void FillCustomer()
         {
             DropdownRepository repo = new DropdownRepository();
-            var result = repo.SICustomerDropdown();
-            ViewBag.SupplierList = new SelectList(result, "Id", "Name");
+            var result = repo.SOCustomerDropDown(OrganizationId);
+            ViewBag.CustomerList = new SelectList(result, "Id", "Name");
         }
-        public ActionResult SaleRegister(DateTime? from, DateTime? to, int id = 0)
+        public ActionResult PendingSaleOrderRegister(DateTime? from, DateTime? to, int id = 0)
         {
             from = from ?? DateTime.Today.AddMonths(-7);
             to = to ?? DateTime.Today;
-            return PartialView("_SaleRegister", new SalesRegisterRepository().GetSalesRegister(from, to, id, OrganizationId));
+            return PartialView("_PendingSaleOrderRegister", new SalesRegisterRepository().GetPendingSO(from, to, id, OrganizationId));
         }
-      
       
       
     }
