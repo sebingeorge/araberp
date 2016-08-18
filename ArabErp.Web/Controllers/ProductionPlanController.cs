@@ -13,16 +13,34 @@ namespace ArabErp.Web.Controllers
         {
             return View();
         }
-
-        public ActionResult CreateProductLine()
+        public ActionResult CreateProductionPlanAdd()
+        {
+            return View();
+        }
+        public ActionResult ProductionPlanEdit()
         {
             return View();
         }
 
+        //public ActionResult CreateProductLine()
+        //{
+        //    return View();
+        //}
+        //public ActionResult CreateProductLineAdd()
+        //{
+        //    return View();
+        //}
         public ActionResult Index()
         {
             return View();
         }
-
+        public ActionResult Month()
+        {
+            return View();
+        }
+        public ActionResult FinancialYear()
+        {
+            return View();
+        }
     }
 }

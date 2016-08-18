@@ -3,8 +3,116 @@
     ViewBag.Title = "CreateProductionPlan";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
+<div class="row">
+    <div class="form-head1">
+        <h4>Production Planning</h4>
+    </div>
 
-<h2>CreateProductionPlan</h2>
+    <div class="main-part pad1">
+        <div class="row form-group">
+            <div class="col-md-2">
+                <label>Financial Year</label>
+                <input type="text" class="form_input" />
+            </div>
+            </div>
 
-@Html.ActionLink("ProductLIne", "CreateProductLIne")
+        <div class="table-responsive">
+            <table class="table table-bordered" id="tab_logic">
+                <thead>
+                    <tr class="grid_heading">
+                        <th width="8%"><h1>Production Code</h1></th>
+                        <th width="30%"><h1>Product</h1></th>
+                        <th width="7%"><h1>Packing Type</h1></th>
+                        <th width="5%" class="text-right "><h1>Month1</h1></th>
+                        <th width="5%" class="text-right "><h1>Month2</h1></th>
+                        <th width="5%" class="text-right "><h1>Month3</h1></th>
+                        <th width="5%" class="text-right "><h1>Month4</h1></th>
+                        <th width="5%" class="text-right "><h1>Month5</h1></th>
+                        <th width="5%" class="text-right "><h1>Month6</h1></th>
+                        <th width="5%" class="text-right "><h1>Month7</h1></th>
+                        <th width="5%" class="text-right "><h1>Month8</h1></th>
+                        <th width="5%" class="text-right "><h1>Month9</h1></th>
+                        <th width="5%" class="text-left "><h1>Month10</h1></th>
+                        <th width="5%" class="text-left "><h1>Month11</h1></th>
+                        <th width="5%" class="text-left "><h1>Month12</h1></th>
+                        <th width="5%" class="text-left "><h1>Total</h1></th>
+                        <th width="5%" class="text-left "><h1>Unit</h1></th>
+                    </tr>
+                </thead>
+                <tbody>
+
+                        <tr>
+
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                        
+                        </tr>
+
+
+                </tbody>
+                <tfoot>
+                    <tr class="grid_heading">
+
+                        <th></th>
+                        <th></th>
+                        <th></th>
+                        <th></th>
+                        <th></th>
+                        <th></th>
+                        <th></th>
+                        <th></th>
+                        <th></th>
+                        <th></th>
+                        <th></th>
+                        <th></th>
+                        <th></th>
+                        <th></th>
+                        <th></th>
+                        <th></th>
+                        <th></th>
+
+
+
+                    </tr>
+                </tfoot>
+            </table>
+        </div>
+
+        <div class="row">
+            <div class="col-md-12 hrpart">
+                <button type="button" class="form-button" onclick="Add()">Add</button>
+                <button type="submit" class="form-button" onclick="Edit()">Edit</button>
+            </div>
+
+        </div>  
+
+
+        </div>
+
+    </div>
+<script>
+    function Add() {
+        var url = '@Url.Action("CreateProductionPlanAdd")'
+        window.location = url;
+    }
+    function Edit() {
+        var url = '@Url.Action("ProductionPlanEdit")'
+        window.location = url;
+    }
+</script>
 
