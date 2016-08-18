@@ -791,6 +791,10 @@
     <Content Include="Views\StockMovementRegister\_ItemDropDown.cshtml" />
     <Content Include="Views\StoresLedger\_ItemDropDown.cshtml" />
     <Content Include="Views\ClosingStock\_ItemDropdown.cshtml" />
+    <Content Include="Views\CustomerReceipt\_CustomerDropdown.cshtml" />
+    <Content Include="Views\CustomerReceipt\_SaleOrderDropdown.cshtml" />
+    <Content Include="Views\CustomerReceipt\_JobCardDropdown.cshtml" />
+    <Content Include="Views\CustomerReceipt\_SalesInvoiceDropdown.cshtml" />
     <Content Include="Views\SalesRegister\_SaleRegister.cshtml" />
     <Content Include="Views\SalesRegister\Index.cshtml" />
     <Content Include="Views\SalesRegister\_ItemDropDown.cshtml" />
