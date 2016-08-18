@@ -1,0 +1,7 @@
+﻿
+@model ArabErp.Domain.RptFilter
+
+
+
+@Html.DropDownListFor(m => Model.ItemId, (SelectList)ViewBag.ItemList, "Any", new { @class = "form_input", @onchange = "Filter()" })
+@Html.HiddenFor(m => Model.ItemId)

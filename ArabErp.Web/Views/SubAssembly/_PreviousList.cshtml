@@ -1,0 +1,72 @@
+﻿@model IList<ArabErp.Domain.SubAssembly>
+
+<script type="text/javascript">
+
+    function Details(id) {
+        var url = '@Url.Action("Edit")';
+        url += "/" + id;
+        window.location = url;
+    }
+
+</script>
+
+<table class="table table-bordered table-hover" id="sub-assembly-table">
+    <thead>
+        <tr class="grid_heading">
+            <th width="3%" class="text-center">#</th>
+            <th width="15%" nowrap><h1>Reference No. &amp; Date</h1></th>
+            <th width="30%"><h1>Finished Goods</h1></th>
+            <th width="30%"><h1>Consumed Items</h1></th>
+            <th width="10%"><h1>Employee</h1></th>
+            <th width="5%" class="text-right"><h1>Hours</h1></th>
+            <th width="1%"></th>
+        </tr>
+    </thead>
+    <tbody class="grid_row">
+        @if (Model.Count > 0)
+        {
+            int i = 0;
+            foreach (var item in Model)
+            {
+                <tr>
+                    <td align="center">
+                        @*<input class="form_input text-center" style="width:100%" value="*@@(++i)@*" disabled />*@
+                    </td>
+                    <td>
+                        @*<input class="form_input" value="*@@item.StockCreationRefNo - @item.StockCreationDate.ToString("dd MMMM yyyy")@*" disabled />*@
+                    </td>
+                    <td>
+                        @*<input class="form_input" value="*@@item.Finished@*" disabled />*@
+                    </td>
+                    <td>
+                        @*<input class="form_input" value="*@@item.Consumed@*" disabled />*@
+                        @*<textarea class="form_input" onkeyup="textAreaAdjust(this)" style="overflow:visible; height:auto;" disabled>@item.Consumed</textarea>*@
+                        @*@Html.TextAreaFor(m => item.Consumed, new { @class = "form_input form_input-h1", autocomplete = "off" })*@
+                    </td>
+                    <td>
+                        @*<input class="form_input" value="*@@item.EmployeeName@*" disabled />*@
+                    </td>
+                    <td align="right">
+                        @*<input class="form_input" value="*@@item.WorkingHours@*" disabled />*@
+                    </td>
+                    <td>
+                        <input type="button" class="form-button5" value="Select" onclick="Details(@item.StockCreationId)" />
+                    </td>
+                </tr>
+            }
+        }
+        else
+        {
+            <tr>
+                <td colspan="7">
+                    <center>
+                        <em>
+                            No items to show!
+                        </em>
+                    </center>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+

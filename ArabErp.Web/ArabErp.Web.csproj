@@ -248,8 +248,10 @@
     <Compile Include="Controllers\RateSettingsController.cs" />
     <Compile Include="Controllers\SaleOrderController.cs" />
     <Compile Include="Controllers\SaleOrderStatusController.cs" />
+    <Compile Include="Controllers\SaleOrderSummaryController.cs" />
     <Compile Include="Controllers\SalesInvoiceController.cs" />
     <Compile Include="Controllers\SalesQuotationController.cs" />
+    <Compile Include="Controllers\SalesRegisterController.cs" />
     <Compile Include="Controllers\StockCreationController.cs" />
     <Compile Include="Controllers\StockJournalController.cs" />
     <Compile Include="Controllers\StockMovementRegisterController.cs" />
@@ -258,6 +260,7 @@
     <Compile Include="Controllers\StockReturnController.cs" />
     <Compile Include="Controllers\StoresIssueController.cs" />
     <Compile Include="Controllers\StoresLedgerController.cs" />
+    <Compile Include="Controllers\SubAssemblyController.cs" />
     <Compile Include="Controllers\SupplierCategoryController.cs" />
     <Compile Include="Controllers\SupplierController.cs" />
     <Compile Include="Controllers\SupplierItemRateController.cs" />
@@ -306,10 +309,15 @@
     <Content Include="Content\jquery-1.12.4.min.js" />
     <Content Include="Content\jquery-2.1.4.min.js" />
     <Content Include="Content\PagedList.css" />
+    <Content Include="Content\slider_css.css" />
     <Content Include="Images\logo.gif" />
     <Content Include="Scripts\accordion-menu.js" />
     <Content Include="Scripts\Highcharts\exporting.js" />
     <Content Include="Scripts\Highcharts\highcharts.js" />
+    <Content Include="Scripts\jquery-1.11.3.min.js" />
+    <Content Include="Scripts\jssor.slider-21.1.5.debug.js" />
+    <Content Include="Scripts\jssor.slider-21.1.5.min.js" />
+    <Content Include="Scripts\jssor.slider-21.1.5.mini.js" />
     <Content Include="Scripts\polyfiller.js" />
     <Content Include="Scripts\script.js" />
     <Content Include="Content\toastr\build\toastr.css" />
@@ -477,6 +485,7 @@
     <Content Include="Scripts\respond.js" />
     <Content Include="Scripts\respond.min.js" />
     <Content Include="Scripts\selectric\jquery.selectric.js" />
+    <Content Include="Scripts\slider.js" />
     <Content Include="Scripts\_references.js" />
     <Content Include="Views\Currency\Create.cshtml">
       <SubType>Code</SubType>
@@ -793,6 +802,17 @@
     <Content Include="Views\CustomerReceipt\_SaleOrderDropdown.cshtml" />
     <Content Include="Views\CustomerReceipt\_JobCardDropdown.cshtml" />
     <Content Include="Views\CustomerReceipt\_SalesInvoiceDropdown.cshtml" />
+    <Content Include="Views\SalesRegister\_SaleRegister.cshtml" />
+    <Content Include="Views\SalesRegister\Index.cshtml" />
+    <Content Include="Views\SalesRegister\_ItemDropDown.cshtml" />
+    <Content Include="Views\SaleOrderSummary\_SaleRegisterSummary.cshtml" />
+    <Content Include="Views\SaleOrderSummary\Index.cshtml" />
+    <Content Include="Views\SubAssembly\Index.cshtml" />
+    <Content Include="Views\SubAssembly\Create.cshtml" />
+    <Content Include="Views\SubAssembly\_ConsumedItem.cshtml" />
+    <Content Include="Views\SubAssembly\_FinishedGood.cshtml" />
+    <Content Include="Views\SubAssembly\_PreviousList.cshtml" />
+    <Content Include="Views\SubAssembly\Edit.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

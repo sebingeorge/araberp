@@ -32,7 +32,7 @@ namespace ArabErp.DAL
         {
             using (IDbConnection connection = OpenConnection(dataConnection))
             {
-                return connection.Query<Dropdown>("SELECT ItemId Id, ItemName Name FROM Item WHERE ISNULL(isActive, 1) = 1 ORDER BY Name").ToList();
+                return connection.Query<Dropdown>("SELECT ItemId Id, ItemName Name FROM Item WHERE ISNULL(isActive, 1) = 1 ORDER BY ItemName").ToList();
             }
         }
         /// <summary>
@@ -54,7 +54,7 @@ namespace ArabErp.DAL
         {
             using (IDbConnection connection = OpenConnection(dataConnection))
             {
-                return connection.Query<Dropdown>("SELECT EmployeeId Id, EmployeeName Name FROM Employee WHERE ISNULL(isActive, 1) = 1").ToList();
+                return connection.Query<Dropdown>("SELECT EmployeeId Id, EmployeeName Name FROM Employee WHERE ISNULL(isActive, 1) = 1 ORDER BY EmployeeName").ToList();
             }
         }
         /// <summary>
@@ -77,6 +77,17 @@ namespace ArabErp.DAL
             using (IDbConnection connection = OpenConnection(dataConnection))
             {
                 return connection.Query<Dropdown>("SELECT distinct S.SupplierId Id,SupplierName Name FROM Supplier S INNER JOIN GRN G ON G.SupplierId=S.SupplierId WHERE ISNULL(S.isActive, 1) = 1").ToList();
+            }
+        }
+        /// <summary>
+        /// Return all active Customers which in Sales Invoice
+        /// </summary>
+        /// <returns></returns>
+        public List<Dropdown> SOCustomerDropdown()
+        {
+            using (IDbConnection connection = OpenConnection(dataConnection))
+            {
+                return connection.Query<Dropdown>("SELECT distinct C.CustomerId Id,CustomerName Name  from SalesInvoice S inner join SaleOrder SO ON SO.SaleOrderId=S.SaleOrderId inner join Customer C ON C.CustomerId=SO.CustomerId WHERE ISNULL(C.isActive, 1) = 1").ToList();
             }
         }
         /// <summary>
