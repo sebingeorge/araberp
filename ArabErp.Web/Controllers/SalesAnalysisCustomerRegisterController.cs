@@ -8,14 +8,14 @@ using System.Web;
 using System.Web.Mvc;
 using System.Data.SqlClient;
 
+
 namespace ArabErp.Web.Controllers
 {
-    public class SalesRegisterController : BaseController
+    public class SalesAnalysisCustomerRegisterController : BaseController
     {
-        // GET: SalesRegister
+        // GET: SalesAnalysisCustomerRegister
         public ActionResult Index()
         {
-
             FillCustomer();
             return View();
         }
@@ -23,16 +23,14 @@ namespace ArabErp.Web.Controllers
         {
             DropdownRepository repo = new DropdownRepository();
             var result = repo.SICustomerDropdown();
-            ViewBag.SupplierList = new SelectList(result, "Id", "Name");
+            ViewBag.CustomerList = new SelectList(result, "Id", "Name");
         }
-        public ActionResult SaleRegister(DateTime? from, DateTime? to, int id = 0)
+        public ActionResult SalesAnalysisCustomer(DateTime? from, DateTime? to, int id = 0)
         {
             from = from ?? DateTime.Today.AddMonths(-7);
             to = to ?? DateTime.Today;
-            return PartialView("_SaleRegister", new SalesRegisterRepository().GetSalesRegister(from, to, id, OrganizationId));
+            return PartialView("_SalesAnalysisCustomer", new SalesRegisterRepository().GetSalesAnalysisCustomerWise(from, to, id, OrganizationId));
         }
-      
-      
       
     }
 }

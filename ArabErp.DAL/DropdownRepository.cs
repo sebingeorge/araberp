@@ -83,7 +83,7 @@ namespace ArabErp.DAL
         /// Return all active Customers which in Sales Invoice
         /// </summary>
         /// <returns></returns>
-        public List<Dropdown> SOCustomerDropdown()
+        public List<Dropdown> SICustomerDropdown()
         {
             using (IDbConnection connection = OpenConnection(dataConnection))
             {
@@ -450,7 +450,24 @@ namespace ArabErp.DAL
             }
         }
 
+        /// <summary>
+        /// Sale order Customers
+        /// </summary>
+        /// <param name="OrganizationId"></param>
+        /// <param name="type"></param>
+        /// <returns></returns>
+       public List<Dropdown> SOCustomerDropDown(int OrganizationId)
+        {
+            using (IDbConnection connection = OpenConnection(dataConnection))
+            {
 
+                return connection.Query<Dropdown>(@"SELECT  Distinct C.CustomerId Id,C.CustomerName Name
+                                                    FROM SaleOrder S
+                                                    INNER JOIN Customer C on S.CustomerId = C.CustomerId
+                                                    WHERE S.OrganizationId = @OrganizationId order by CustomerName ASC",
+                                                    new { OrganizationId = OrganizationId}).ToList();
+            }
+        }
         public List<Dropdown> FillSOCustomer(int OrganizationId, int type)
         {
             using (IDbConnection connection = OpenConnection(dataConnection))

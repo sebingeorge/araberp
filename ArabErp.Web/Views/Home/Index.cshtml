@@ -2,7 +2,7 @@
 @{
     ViewBag.Title = "Home Page";
 }
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+@*<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>*@
 <style type="text/css">
     $ {
         demo .css;
@@ -20,6 +20,10 @@
     string TransportationASQdatas = string.Empty;
     string PurchaseData = string.Empty;
     string SalesData = string.Empty;
+    string FGStock = Model.DashboardFGAllocated.TotalFG;
+    string AllocatedFG = Model.DashboardFGAllocated.AllocatedFG;
+    string AllocatedSO = Model.DashboardSaleOrderAllocated.AllocatedSaleOrders;
+    string TotalSO = Model.DashboardSaleOrderAllocated.TotalSaleOrders;
     
     foreach (var item in Model.DashboardMonthlySalesOrders)
     {
@@ -121,6 +125,8 @@
         showSaleOrders();
         showSaleQuotations();
         showSalePurchase();
+        showFGAllocated();
+        showFGAllocatedSO();
     });
 
     function showSalePurchase() {
@@ -270,6 +276,101 @@
             }]
         });
     }
+
+    function showFGAllocated()
+    {
+        chart1 = new Highcharts.Chart({
+            chart: {
+                plotBackgroundColor: null,
+                plotBorderWidth: null,
+                plotShadow: false,
+                type: 'pie',
+                renderTo: 'FGAllocated'
+            },
+            title: {
+                text: 'F.G Stock Vs Allocation'
+            },
+            tooltip: {
+                pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>'
+            },
+            plotOptions: {
+                pie: {
+                    allowPointSelect: true,
+                    cursor: 'pointer',
+                    dataLabels: {
+                        enabled: true,
+                        format: '<b>{point.name}</b>: {point.percentage:.1f} %',
+                        style: {
+                            color: (Highcharts.theme && Highcharts.theme.contrastTextColor) || 'black'
+                        }
+                    }
+                }
+            },
+            series: [{
+                name: 'Quantity',
+                colorByPoint: true,
+                data: [{
+                    name: 'FG Stock',
+                    y: @FGStock
+                    }, {
+                        name: 'Allocated',
+                        y: @AllocatedFG,
+                        sliced: true,
+                        selected: true
+                    }]
+            }]
+        });
+    }
+
+    function showFGAllocatedSO()
+    {
+        chart1 = new Highcharts.Chart({
+            chart: {
+                plotBackgroundColor: null,
+                plotBorderWidth: null,
+                plotShadow: false,
+                type: 'pie',
+                renderTo: 'FGAllocatedSO'
+            },
+            title: {
+                text: 'F.G Stock Vs S.O Allocation'
+            },
+            tooltip: {
+                pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>'
+            },
+            plotOptions: {
+                pie: {
+                    allowPointSelect: true,
+                    cursor: 'pointer',
+                    dataLabels: {
+                        enabled: true,
+                        format: '<b>{point.name}</b>: {point.percentage:.1f} %',
+                        style: {
+                            color: (Highcharts.theme && Highcharts.theme.contrastTextColor) || 'black'
+                        }
+                    }
+                }
+            },
+            series: [{
+                name: 'Quantity',
+                colorByPoint: true,
+                data: [{
+                    name: 'FG Stock',
+                    y: @FGStock
+                    }, {
+                        name: 'Allocated',
+                        y: @AllocatedSO,
+                    sliced: true,
+                    selected: true
+                }, {
+                    name: 'Total S.O',
+                    y: @TotalSO,
+                    sliced: true,
+                    selected: true
+                }]
+            }]
+        });
+    }
 </script>
 
 <script type="text/javascript">
@@ -277,22 +378,69 @@
         @{TempData["success"] = TempData["error"] = "";}
     })
 </script>
+
 <div class="body-content1">
     <div class="main-part pad1">
         <div class="row">
             <div class="col-md-12">
-                <div id="SaleQuotation" class="col-md-6 chart">
+                
+                <div id="jssor_1" style="position: relative; margin: 0 auto; top: 0px; left: 0px; width: 600px; height: 350px; overflow: hidden; visibility: hidden;">
+                    <!-- Loading Screen -->
+                    <div data-u="loading" style="position: absolute; top: 0px; left: 0px;">
+                        <div style="filter: alpha(opacity=70); opacity: 0.7; position: absolute; display: block; top: 0px; left: 0px; width: 100%; height: 100%;"></div>
+                        <div style="position:absolute;display:block;background:url('../../Content/images/loading.gif') no-repeat center center;top:0px;left:0px;width:100%;height:100%;"></div>
+                    </div>
+                    <div data-u="slides" style="cursor: default; position: relative; top: 0px; left: 0px; width: 600px; height: 300px; overflow: hidden;">
+                        <div data-p="112.50" style="display: none;">
+                            <div id="SaleQuotation" class="col-md-12 chart">
+                            </div>
+                            <div data-u="thumb">Sales Quotations</div>
+                        </div>
+                        <div data-p="112.50" style="display: none;">
+                            <div id="SaleOrder" class="col-md-12 chart">
+                            </div>
+                            <div data-u="thumb">Sale Orders</div>
+                        </div>
+                        <div data-p="112.50" style="display: none;">
+                            <div id="SalesAndPurchase" class="col-md-12 chart">
+                            </div>
+                            <div data-u="thumb">Sales vs Purchase</div>
+                        </div>
+                        <div data-p="112.50" style="display: none;">
+                            <div id="FGAllocated" class="col-md-12 chart">
+                            </div>
+                            <div data-u="thumb">FG Allocated</div>
+                        </div>
+                        <div data-p="112.50" style="display: none;">
+                            <div id="FGAllocatedSO" class="col-md-12 chart">
+                            </div>
+                            <div data-u="thumb">FG Stock vs Total S.O vs Allocated S.O</div>
+                        </div>
+                    </div>
+                    <!-- Thumbnail Navigator -->
+                    <div data-u="thumbnavigator" class="jssort09-600-45" style="position:absolute;bottom:0px;left:0px;width:600px;height:45px;">
+                        <div style="position: absolute; top: 0; left: 0; width: 100%; height:100%; background-color: #000; filter:alpha(opacity=40.0); opacity:0.4;"></div>
+                        <!-- Thumbnail Item Skin Begin -->
+                        <div data-u="slides" style="cursor: default;">
+                            <div data-u="prototype" class="p">
+                                <div data-u="thumbnailtemplate" class="t"></div>
+                            </div>
+                        </div>
+                        <!-- Thumbnail Item Skin End -->
+                    </div>
+                    <!-- Bullet Navigator -->
+                    <div data-u="navigator" class="jssorb01" style="bottom:16px;right:16px;">
+                        <div data-u="prototype" style="width:12px;height:12px;"></div>
+                    </div>
+                    <!-- Arrow Navigator -->
+                    <span data-u="arrowleft" class="jssora05l" style="top:0px;left:8px;width:40px;height:40px;" data-autocenter="2"></span>
+                    <span data-u="arrowright" class="jssora05r" style="top:0px;right:8px;width:40px;height:40px;" data-autocenter="2"></span>
                 </div>
-                <div id="SaleOrder" class="col-md-6 chart">
-                </div>
-                <div id="SalesAndPurchase" class="col-md-6 chart">
-                </div>
+                
             </div>
         </div>
     </div>
 
     
-    @*<center>
-        <img src="~/Images/banner.png" width="100%" />
-    </center>*@
+
 </div>

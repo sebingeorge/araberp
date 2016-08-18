@@ -236,5 +236,23 @@ namespace ArabErp.Web.Controllers
             List<Dropdown> list = repo.FillSI();
             ViewBag.SI = new SelectList(list, "Id", "Name");
         }
+
+        public JsonResult GETSOAMOUNT(int Id)
+        {
+            string SaleOrderAmount = new CustomerReceiptRepository().GetSOAmount(Id);
+            return Json(SaleOrderAmount, JsonRequestBehavior.AllowGet);
+        }
+
+        public JsonResult GETJCAMOUNT(int Id)
+        {
+            string SaleOrderAmount = new CustomerReceiptRepository().GetJCAmount(Id);
+            return Json(SaleOrderAmount, JsonRequestBehavior.AllowGet);
+        }
+
+        public JsonResult GETSIAMOUNT(int Id)
+        {
+            string SaleOrderAmount = new CustomerReceiptRepository().GetSIAmount(Id);
+            return Json(SaleOrderAmount, JsonRequestBehavior.AllowGet);
+        }
     }
 }
