@@ -21,4 +21,15 @@ namespace ArabErp.Domain
         public string InvoiceDate { get; set; }
         public decimal Amount { get; set; }
     }
+    public class DashboardFGAllocated
+    {
+        public string TotalFG { get; set; }
+        public string AllocatedFG { get; set; }
+    }
+    public class DashboardSaleOrderAllocated
+    {
+        public string TotalFG { get; set; }
+        public string AllocatedSaleOrders { get; set; }
+        public string TotalSaleOrders { get; set; }
+    }
 }

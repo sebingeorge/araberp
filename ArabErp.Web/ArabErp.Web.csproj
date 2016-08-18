@@ -305,6 +305,8 @@
     <Content Include="Content\datepicker3.min.css" />
     <Content Include="Content\dll\GridMvc.dll" />
     <Content Include="Content\Gridmvc.css" />
+    <Content Include="Content\images\a17.png" />
+    <Content Include="Content\images\loading.gif" />
     <Content Include="Content\images\no.png" />
     <Content Include="Content\images\yes.png" />
     <Content Include="Content\jquery-1.12.4.min.js" />

@@ -41,7 +41,7 @@
     width: 40px;
     height: 40px;
     cursor: pointer;
-    background: url('img/a17.png') no-repeat;
+    background: url('images/a17.png') no-repeat;
     overflow: hidden;
 }
 .jssora05l { background-position: -10px -40px; }
@@ -71,6 +71,6 @@
     left: 0;
     color:#fff;
     line-height: 45px;
-    font-size: 20px;
+    font-size: 12px;
     padding-left: 10px;
 }

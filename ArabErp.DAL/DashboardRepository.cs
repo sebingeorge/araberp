@@ -99,5 +99,33 @@ namespace ArabErp.DAL
                 return connection.Query<DashboardPurchaseSales>(sql);
             }
         }
+        public DashboardFGAllocated GetFGAllocated(int OrganizationId)
+        {
+            using (IDbConnection connection = OpenConnection(dataConnection))
+            {
+                string sql = @"declare @TotalFG decimal(18,2);
+                                declare @AllocatedFG decimal(18,2);
+                                select @TotalFG = count(*) from ItemBatch;
+                                select @AllocatedFG = count(*) from ItemBatch where SaleOrderItemId is not null;
+                                select TotalFG = @TotalFG, AllocatedFG = @AllocatedFG;";
+
+                return connection.Query<DashboardFGAllocated>(sql).Single();
+            }
+        }
+        public DashboardSaleOrderAllocated GetFGAllocatedSaleOrder(int OrganizationId)
+        {
+            using (IDbConnection connection = OpenConnection(dataConnection))
+            {
+                string sql = @"declare @TotalFG decimal(18,2);
+                declare @AllocatedSaleOrders decimal(18,2);
+                declare @TotalSaleOrders decimal(18,2);
+                select @TotalFG = count(*) from ItemBatch;
+                select @TotalSaleOrders = count(*) from SaleOrderItem where SaleOrderItemId not in (select SaleOrderItemId from ItemBatch where SaleOrderItemId is not null);
+                select @AllocatedSaleOrders = count(*) from SaleOrderItem where SaleOrderItemId in (select SaleOrderItemId from ItemBatch where SaleOrderItemId is not null);
+                select TotalFG = @TotalFG, AllocatedSaleOrders = @AllocatedSaleOrders, TotalSaleOrders = @TotalSaleOrders;";
+
+                return connection.Query<DashboardSaleOrderAllocated>(sql).Single();
+            }
+        }
     }
 }
