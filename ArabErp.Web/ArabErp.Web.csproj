@@ -308,10 +308,15 @@
     <Content Include="Content\jquery-1.12.4.min.js" />
     <Content Include="Content\jquery-2.1.4.min.js" />
     <Content Include="Content\PagedList.css" />
+    <Content Include="Content\slider_css.css" />
     <Content Include="Images\logo.gif" />
     <Content Include="Scripts\accordion-menu.js" />
     <Content Include="Scripts\Highcharts\exporting.js" />
     <Content Include="Scripts\Highcharts\highcharts.js" />
+    <Content Include="Scripts\jquery-1.11.3.min.js" />
+    <Content Include="Scripts\jssor.slider-21.1.5.debug.js" />
+    <Content Include="Scripts\jssor.slider-21.1.5.min.js" />
+    <Content Include="Scripts\jssor.slider-21.1.5.mini.js" />
     <Content Include="Scripts\polyfiller.js" />
     <Content Include="Scripts\script.js" />
     <Content Include="Content\toastr\build\toastr.css" />
@@ -479,6 +484,7 @@
     <Content Include="Scripts\respond.js" />
     <Content Include="Scripts\respond.min.js" />
     <Content Include="Scripts\selectric\jquery.selectric.js" />
+    <Content Include="Scripts\slider.js" />
     <Content Include="Scripts\_references.js" />
     <Content Include="Views\Currency\Create.cshtml">
       <SubType>Code</SubType>
