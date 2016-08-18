@@ -143,6 +143,7 @@
     <Compile Include="StoreIssue.cs" />
     <Compile Include="StoreIssueItem.cs" />
     <Compile Include="StoresIssuePreviousList.cs" />
+    <Compile Include="SubAssembly.cs" />
     <Compile Include="Supplier.cs" />
     <Compile Include="SupplierCategory.cs" />
     <Compile Include="SupplierItemRate.cs" />

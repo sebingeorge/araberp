@@ -43,7 +43,7 @@
                                     <th width="15%" nowrap><h1>Reference No. &amp; Date</h1></th>
                                     <th width="30%"><h1>Finished Goods</h1></th>
                                     <th width="30%"><h1>Consumed Items</h1></th>
-                                    <th width="10%"><h1>Employee</h1></th>
+                                    @*<th width="10%"><h1>Created By</h1></th>*@
                                     @*<th width="1%"></th>*@
                                 </tr>
                             </thead>
@@ -68,9 +68,9 @@
                                 @*<textarea class="form_input" onkeyup="textAreaAdjust(this)" style="overflow:visible; height:auto;" disabled>@item.Consumed</textarea>*@
                                 @*@Html.TextAreaFor(m => item.Consumed, new { @class = "form_input form_input-h1", autocomplete = "off" })*@
                             </td>
-                            <td>
-                                @*<input class="form_input" value="*@@item.CreatedBy@*" disabled />*@
-                            </td>
+                            @*<td>*@
+                                @*<input class="form_input" value="*@@*@item.CreatedBy*@@*" disabled />*@
+                            @*</td>*@
                             @*<td>
                                 <input type="button" class="form-button5" value="View" onclick="Details(@item.StockCreationId)" title="View details" />
                             </td>*@
@@ -80,7 +80,7 @@
                         else
                         {
                         <tr>
-                            <td colspan="5">
+                            <td colspan="4">
                                 <center>
                                     <em>
                                         No items to show!
