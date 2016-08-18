@@ -151,6 +151,7 @@
     <Compile Include="SupplyOrderFollowup.cs" />
     <Compile Include="SupplyOrderItem.cs" />
     <Compile Include="SupplyOrderPreviousList.cs" />
+    <Compile Include="SupplyOrderRegister.cs" />
     <Compile Include="TransactionHistory.cs" />
     <Compile Include="Unit.cs" />
     <Compile Include="User.cs" />

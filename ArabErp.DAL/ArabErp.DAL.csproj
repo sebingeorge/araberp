@@ -153,6 +153,7 @@
     <Compile Include="SupplierRepository.cs" />
     <Compile Include="SupplyOrderFollowupRepository.cs" />
     <Compile Include="SupplyOrderItemRepository.cs" />
+    <Compile Include="SupplyOrderRegisterRepository.cs" />
     <Compile Include="SupplyOrderRepository.cs" />
     <Compile Include="TaskRepository.cs" />
     <Compile Include="TransactionHistoryRepository.cs" />
