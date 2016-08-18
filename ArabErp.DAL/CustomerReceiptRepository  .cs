@@ -71,12 +71,12 @@ namespace ArabErp.DAL
                     }
                     string sql = @"INSERT INTO CustomerReceipt
                                  (CustomerReceiptRefNo,CustomerReceiptDate,CustomerId,
-	                             SaleOrderId,JobCardId,SalesInvoiceId,Amount,SpecialRemarks,
-	                             CreatedBy,CreatedDate,OrganizationId,isActive)
+	                             SaleOrderId,JobCardId,SalesInvoiceId,SaleOrderAmount,
+                                 Amount,SpecialRemarks,CreatedBy,CreatedDate,OrganizationId,isActive)
                                  VALUES
                                 (@CustomerReceiptRefNo,@CustomerReceiptDate,@CustomerId,
-                                 @SaleOrderId,@JobCardId,@SalesInvoiceId,@Amount,@SpecialRemarks,
-                                 @CreatedBy,@CreatedDate,@OrganizationId,1)
+                                 @SaleOrderId,@JobCardId,@SalesInvoiceId,@SaleOrderAmount,
+                                 @Amount,@SpecialRemarks,@CreatedBy,@CreatedDate,@OrganizationId,1)
                                  SELECT CAST(SCOPE_IDENTITY() AS INT)";
                     var id = connection.Query<int>(sql, model, txn).Single();
                     InsertLoginHistory(dataConnection, model.CreatedBy, "Create", "Customer Receipt", id.ToString(), "0");
@@ -128,8 +128,8 @@ namespace ArabErp.DAL
                 }
 
                 string sql = @" UPDATE CustomerReceipt SET CustomerReceiptRefNo = @CustomerReceiptRefNo ,CustomerReceiptDate=@CustomerReceiptDate,CustomerId=@CustomerId,
-                                SaleOrderId=@SaleOrderId,JobCardId=@JobCardId,SalesInvoiceId=@SalesInvoiceId,Amount=@Amount,SpecialRemarks=@SpecialRemarks,
-                                CreatedBy = @CreatedBy,CreatedDate = @CreatedDate,OrganizationId = @OrganizationId
+                                SaleOrderId=@SaleOrderId,JobCardId=@JobCardId,SalesInvoiceId=@SalesInvoiceId,SaleOrderAmount=@SaleOrderAmount,Amount=@Amount,
+                                SpecialRemarks=@SpecialRemarks,CreatedBy = @CreatedBy,CreatedDate = @CreatedDate,OrganizationId = @OrganizationId
                                 WHERE CustomerReceiptId = @CustomerReceiptId";
 
                 var id = connection.Execute(sql, objCustomerReceipt);
@@ -217,6 +217,48 @@ namespace ArabErp.DAL
                 return connection.Query<Dropdown>("SELECT SalesInvoiceId Id, SalesInvoiceRefNo Name FROM SalesInvoice J INNER JOIN SaleOrder S ON S.SaleOrderId=J.SaleOrderId WHERE S.CustomerId=@ID", new { ID = Id }).ToList();
             }
         }
+
+        public string GetSOAmount(int Id)
+        {
+            using (IDbConnection connection = OpenConnection(dataConnection))
+            {
+                 {
+                    string query = @"SELECT isnull(TotalAmount,0)TotalAmount FROM SaleOrder WHERE SaleOrderId= @Id";
+                    return connection.Query<string>(query, new { Id = Id }).First();
+                }
+               
+            }
+        }
+
+
+        public string GetJCAmount(int Id)
+        {
+            using (IDbConnection connection = OpenConnection(dataConnection))
+            {
+                {
+                    string query = @"SELECT isnull(TotalAmount,0)TotalAmount FROM JobCard J  
+                                     INNER JOIN SaleOrder S ON S.SaleOrderId=J.SaleOrderId
+                                     WHERE J.JobCardId= @Id";
+                    return connection.Query<string>(query, new { Id = Id }).First();
+                }
+
+            }
+        }
+
+        public string GetSIAmount(int Id)
+        {
+            using (IDbConnection connection = OpenConnection(dataConnection))
+            {
+                {
+                    string query = @"SELECT sum(isnull(Amount,0))Amount FROM SalesInvoice HD
+                                     INNER JOIN SalesInvoiceItem DT ON HD.SalesInvoiceId=DT.SalesInvoiceId
+                                     WHERE  HD.SalesInvoiceId= @Id";
+                    return connection.Query<string>(query, new { Id = Id }).First();
+                }
+
+            }
+        }
+
     }
 
 }

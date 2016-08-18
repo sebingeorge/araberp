@@ -23,6 +23,7 @@ namespace ArabErp.Domain
         public int? JobCardId { get; set; }
         public int? SalesInvoiceId { get; set; }
         [Required]
+        public Decimal SaleOrderAmount { get; set; }
         public Decimal Amount { get; set; }
         public string SpecialRemarks { get; set; }
         public string CreatedBy { get; set; }

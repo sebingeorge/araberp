@@ -70,6 +70,8 @@
         var url = '';
         //alert(type);
         $("#againstId").text($("#JcOrSo option:selected").text());
+
+        $("SaleOrderAmount").text("");
         if (type == 'SO')
             url = '@Url.Action("SaleOrder")';
         else if (type == 'JC')
@@ -79,6 +81,7 @@
         else if (type == 'Select') {
             $("#againstId").text("");
             $("#dynamic-combo").html('');
+            $("SaleOrderAmount").text("");
         }
 
         if (url != '') {
@@ -95,12 +98,66 @@
             {
                 @: id = '@Model.JobCardId';
             }
-            
+
             $("#dynamic-combo").load(url, { Code: Code, id: id });
-            
+
         }
 
     }
+
+    function TotalAmount() {
+        var type = $("#JcOrSo").val();
+
+        if (type == 'SO')
+            url = '@Url.Action("GETSOAMOUNT")';
+        else if (type == 'JC')
+            url = '@Url.Action("GETJCAMOUNT")';
+        else if (type == 'SI')
+            url = '@Url.Action("GETSIAMOUNT")';
+
+   
+        if(type == 'SO')
+            var Id = $('#SaleOrderId').val();
+
+        else if (type == 'JC')
+            var Id = $('#JobCardId').val();
+
+        else if (type == 'SI')
+            var Id = $('#SalesInvoiceId').val();
+
+        //alert(Id);
+
+        $.ajax({
+        url: url,
+        data: { Id: Id },
+        cache: false,
+        type: "GET",
+        timeout: 10000,
+        dataType: "json",
+        success: function (SaleOrderAmount) {
+               
+            $("#SaleOrderAmount").val(SaleOrderAmount);
+        }
+    });
+
+    }
+
+    function formValidation() {
+        //var amount = $("#Amount").val();
+        //alert(amount);
+
+        if (Number($("#Amount").val()) == 0) {
+            toastr.info("Amount cannot be less than zero");
+            return false;
+        }
+        else if (Number($("#Amount").val()) > Number($("#SaleOrderAmount").val())) {
+            toastr.info("Amount Should be less than Total Amount");
+            return false;
+        }
+        else return true;
+    }
+
+
 </script>
 
     <div class="row">
@@ -110,7 +167,7 @@
         </div>
 
         <div class="main-part pad1">
-              @using (Html.BeginForm(null, null, FormMethod.Post, new { @class = "CreateRequest", @id = "CustomerReceipt_form" }))
+              @using (Html.BeginForm(null, null, FormMethod.Post, new { @class = "CreateRequest", @id = "CustomerReceipt_form", @onsubmit = "return formValidation()" }))
        
             {
          
@@ -161,10 +218,21 @@
                 <div class="row form-group">
                     <div class="col-md-2">
                         <div class="part4">
-                            <label for="Amount">Amount</label>
-                            @Html.TextBoxFor(m => m.Amount, new { @class = "form_input", autocomplete = "off" })
+                            <label for="Amount">Total Amount</label>
+                            @Html.TextBoxFor(m => m.SaleOrderAmount, new { @class = "form_input", autocomplete = "off", @readonly = "true" })
                         </div>
+
                     </div>
+
+
+                    <div class="col-md-2">
+                        <div class="part4">
+                            <label for="Amount">Amount</label>
+                            @Html.TextBoxFor(m => m.Amount, new { @class = "form_input", autocomplete = "off", @onchange = "formValidation()"})
+                        </div>
+
+                    </div>
+
                 </div>
 
                 <div class="row form-group">
