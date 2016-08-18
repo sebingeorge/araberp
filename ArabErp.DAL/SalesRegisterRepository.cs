@@ -16,7 +16,7 @@ namespace ArabErp.DAL
             using (IDbConnection connection = OpenConnection(dataConnection))
             {
 
-                string qry = @"select SalesInvoiceRefNo,SalesInvoiceDate,CustomerName,WorkDescr,SOI.Quantity,SOI.Rate,(SOI.Quantity*SOI.Rate)Amount,SOI.Discount,ISNULL(SO.TotalAmount,0)TotalAmount,UnitName from SalesInvoice S 
+                string qry = @"select SalesInvoiceRefNo,SalesInvoiceDate,CustomerName,WorkDescr,SOI.Quantity,SOI.Rate,(SOI.Quantity*SOI.Rate)Amount,SOI.Discount,ISNULL(SOI.Amount,0)TotalAmount,UnitName from SalesInvoice S 
             inner join SalesInvoiceItem SI on S.SalesInvoiceId=SI.SalesInvoiceId
             inner join SaleOrder SO ON SO.SaleOrderId=S.SaleOrderId
             inner join SaleOrderItem SOI ON SO.SaleOrderId=SOI.SaleOrderId
