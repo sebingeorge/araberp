@@ -1,0 +1,115 @@
+﻿
+@{
+    ViewBag.Title = "PreviousPurchaseOrder";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+
+<div class="row">
+    <div class="form-head1">
+        <h4>Previous Purchase Order</h4>
+    </div>
+
+    <div class="main-part pad1">
+
+
+        <div class="row form-group">
+            <div class="col-md-2">
+                <label>From</label>
+                <input type="text" class="form_input" />
+            </div>
+            <div class="col-md-2">
+                <label>To</label>
+                <input type="text" class="form_input" />
+            </div>
+            <div class="col-md-2">
+                <label>Supplier</label>
+                <select class="form_input">
+                    <option value="volvo">Supplier1</option>
+                    <option value="saab">Supplier2</option>
+                </select>
+            </div>
+            <div class="col-md-2">
+                <label>Item</label>
+                <select class="form_input">
+                    <option value="volvo">Item1</option>
+                    <option value="saab">Item2</option>
+                </select>
+            </div>
+        </div>
+
+        <div class="table-responsive">
+            <table class="table table-bordered" id="tab_logic">
+                <thead>
+                    <tr class="grid_heading">
+                        <th width="10%"><h1>P.O. No</h1></th>
+                        <th width="10%"><h1>P.O. Date</h1></th>
+                        <th width="15%"><h1>Supplier</h1></th>
+                        <th width="25%"><h1>Item</h1></th>
+                        <th width="25%"><h1>Item Description</h1></th>
+                        <th width="5%" class="text-right"><h1>Qty</h1></th>
+                        <th width="5%" class="text-right"><h1>Unit</h1></th>
+                        <th width="5%" class="text-right"><h1>Rate</h1></th>
+                        <th width="5%" class="text-right"><h1>Amount</h1></th>
+                        <th width="5%" class="text-right"><h1>Status</h1></th>
+                    </tr>
+                </thead>
+                <tbody>
+
+                    <tr>
+
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+
+                    </tr>
+
+
+                </tbody>
+                <tfoot>
+                    <tr class="grid_heading">
+
+                        <th></th>
+                        <th></th>
+                        <th></th>
+                        <th></th>
+                        <th></th>
+                        <th></th>
+                        <th></th>
+                        <th></th>
+                        <th></th>
+                        <th></th>
+
+
+
+
+                    </tr>
+                </tfoot>
+            </table>
+        </div>
+
+
+
+
+
+
+        <div class="row">
+            <div class="col-md-12 hrpart">
+                <button type="button" class="form-button">Exit</button>
+            </div>
+
+        </div>
+
+
+    </div>
+
+</div>
+

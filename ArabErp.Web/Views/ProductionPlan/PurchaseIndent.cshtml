@@ -98,16 +98,18 @@
                 <label>Prefered Vendor</label>
                 <input type="text" class="form_input" />
             </div>
+        </div>
+
+        <div class="row form-group">
             <div class="col-md-12">
                 <label>Special Remarks</label>
-                <input type="text" class="form_input form_input-h" />
+                <input type="text" class="form_input form_input-h1" />
             </div>
         </div>
 
             <div class="row">
                 <div class="col-md-12 hrpart">
-                    <button type="button" class="form-button" onclick="Add()">Add</button>
-                    <button type="submit" class="form-button" onclick="Edit()">Edit</button>
+                    <button type="button" class="form-button" onclick="Previous()">Previous</button>
                 </div>
 
             </div>
@@ -116,3 +118,11 @@
         </div>
 
 </div>
+
+<script>
+    function Previous() {
+        var url = '@Url.Action("PreviousPurchaseIndent")'
+        window.location = url;
+    }
+
+</script>

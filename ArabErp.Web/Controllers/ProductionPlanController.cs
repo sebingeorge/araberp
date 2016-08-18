@@ -25,7 +25,30 @@ namespace ArabErp.Web.Controllers
         {
             return View();
         }
-
+        public ActionResult PreviousPurchaseIndent()
+        {
+            return View();
+        }
+        public ActionResult PurchaseIndentApproval()
+        {
+            return View();
+        }
+        public ActionResult PendingPurchaseIndent()
+        {
+            return View();
+        }
+        public ActionResult PurchaseOrder()
+        {
+            return View();
+        }
+        public ActionResult PreviousPurchaseOrder()
+        {
+            return View();
+        }
+        public ActionResult PurchaseOrderApproval()
+        {
+            return View();
+        }
         //public ActionResult CreateProductLine()
         //{
         //    return View();

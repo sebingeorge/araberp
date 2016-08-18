@@ -804,6 +804,12 @@
     <Content Include="Views\ProductionPlan\FinancialYear.cshtml" />
     <Content Include="Views\ProductionPlan\Product.cshtml" />
     <Content Include="Views\ProductionPlan\PurchaseIndent.cshtml" />
+    <Content Include="Views\ProductionPlan\PreviousPurchaseIndent.cshtml" />
+    <Content Include="Views\ProductionPlan\PurchaseIndentApproval.cshtml" />
+    <Content Include="Views\ProductionPlan\PendingPurchaseIndent.cshtml" />
+    <Content Include="Views\ProductionPlan\PurchaseOrder.cshtml" />
+    <Content Include="Views\ProductionPlan\PreviousPurchaseOrder.cshtml" />
+    <Content Include="Views\ProductionPlan\PurchaseOrderApproval.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
