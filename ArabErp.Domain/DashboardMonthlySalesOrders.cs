@@ -32,4 +32,9 @@ namespace ArabErp.Domain
         public string AllocatedSaleOrders { get; set; }
         public string TotalSaleOrders { get; set; }
     }
+    public class DashboardJobCardCompletedDaily
+    {
+        public string JobcardDate { get; set; }
+        public int JobCardCount { get; set; }
+    }
 }

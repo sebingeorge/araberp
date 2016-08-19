@@ -24,6 +24,8 @@
     string AllocatedFG = Model.DashboardFGAllocated.AllocatedFG;
     string AllocatedSO = Model.DashboardSaleOrderAllocated.AllocatedSaleOrders;
     string TotalSO = Model.DashboardSaleOrderAllocated.TotalSaleOrders;
+    string JobCardDays = string.Empty;
+    string JobCardCount = string.Empty;
     
     foreach (var item in Model.DashboardMonthlySalesOrders)
     {
@@ -119,6 +121,26 @@
             SalesData += ", " + item.Amount + "";
         }
     }
+    foreach (var item in Model.DashboardJobCardCompletedDaily)
+    {
+
+        if (JobCardDays == string.Empty)
+        {
+            JobCardDays = "'" + item.JobcardDate + "'";
+        }
+        else
+        {
+            JobCardDays += ",'" + item.JobcardDate + "'";
+        }
+        if (JobCardCount == string.Empty)
+        {
+            JobCardCount = "" + item.JobCardCount + "";
+        }
+        else
+        {
+            JobCardCount += ", " + item.JobCardCount + "";
+        }
+    }
 }
 <script type="text/javascript">
     $(document).ready(function () {
@@ -127,6 +149,7 @@
         showSalePurchase();
         showFGAllocated();
         showFGAllocatedSO();
+        showJobCardCompleted();
     });
 
     function showSalePurchase() {
@@ -360,15 +383,60 @@
                     }, {
                         name: 'Allocated',
                         y: @AllocatedSO,
-                    sliced: true,
-                    selected: true
-                }, {
-                    name: 'Total S.O',
-                    y: @TotalSO,
+                        sliced: true,
+                        selected: true
+                    }, {
+                        name: 'Total S.O',
+                        y: @TotalSO,
                     sliced: true,
                     selected: true
                 }]
             }]
+        });
+    }
+
+    function showJobCardCompleted() {
+        chart1 = new Highcharts.Chart({
+            chart: {
+                type: 'column',
+                renderTo: 'JobcardCompleted'
+            },
+            title: {
+                text: 'Jobcards Completed'
+            },
+            subtitle: {
+                text: 'No. Jobcards completed for the last 7 days.'
+            },
+            xAxis: {
+                categories: [@Html.Raw(JobCardDays)],
+                crosshair: true
+            },
+            yAxis: {
+                min: 0,
+                title: {
+                    text: 'No. Of Jobcards'
+                }
+            },
+            tooltip: {
+                headerFormat: '<span style="font-size:10px">{point.key}</span><table>',
+                pointFormat: '<tr><td style="color:{series.color};padding:0">{series.name}: </td>' +
+                    '<td style="padding:0"><b>{point.y:.1f}</b></td></tr>',
+                footerFormat: '</table>',
+                shared: true,
+                useHTML: true
+            },
+            plotOptions: {
+                column: {
+                    pointPadding: 0.2,
+                    borderWidth: 0
+                }
+            },
+            series: [{
+                name: 'No. Of Jobcards',
+                data: [@JobCardCount]
+
+            }]
+
         });
     }
 </script>
@@ -415,6 +483,11 @@
                             <div id="FGAllocatedSO" class="col-md-12 chart">
                             </div>
                             <div data-u="thumb">FG Stock vs Total S.O vs Allocated S.O</div>
+                        </div>
+                        <div data-p="112.50" style="display: none;">
+                            <div id="JobcardCompleted" class="col-md-12 chart">
+                            </div>
+                            <div data-u="thumb">No. Jobcards completed for the last 7 days.</div>
                         </div>
                     </div>
                     <!-- Thumbnail Navigator -->
