@@ -1,7 +1,9 @@
 ﻿using ArabErp.DAL;
 using ArabErp.Domain;
 using System;
+using System.Collections;
 using System.Collections.Generic;
+using System.Data.SqlClient;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
@@ -11,21 +13,23 @@ namespace ArabErp.Web.Controllers
     public class SubAssemblyController : BaseController
     {
         //TODO Check whether entered quantity is greater than stock quantity
+        //TODO Swap order of finished and consumed goods
         // GET: SubAssembly
         public ActionResult Index()
         {
             return View();
         }
 
-        public ActionResult Create()    
+        public ActionResult Create()
         {
-            FillStockpoint();
-            FillEmployee();
+            FillDropdowns();
             return View(new SubAssembly
             {
                 StockCreationDate = DateTime.Today,
                 StockCreationRefNo = "SUB/" + DatabaseCommonRepository.GetNextReferenceNo(typeof(SubAssembly).Name),
-                isSubAssembly = true
+                isSubAssembly = true,
+                ConsumedItems=ConsumedItemsGrid(),
+                FinishedGoods=FinishedGoodsGrid()
             });
         }
 
@@ -50,24 +54,20 @@ namespace ArabErp.Web.Controllers
             return RedirectToAction("Create");
         }
 
-        public ActionResult FinishedGoodsGrid()
+        public List<StockCreationFinishedGood> FinishedGoodsGrid()
         {
-            FillMaterial();
-            var model = new SubAssembly();
-            model.FinishedGoods = new List<StockCreationFinishedGood>();
+            var FinishedGoods = new List<StockCreationFinishedGood>();
             var a = new StockCreationFinishedGood();
-            model.FinishedGoods.Add(a);
-            return PartialView("_FinishedGood", model);
+            FinishedGoods.Add(a);
+            return FinishedGoods;
         }
 
-        public ActionResult ConsumedItemsGrid()
+        public List<StockCreationConsumedItem> ConsumedItemsGrid()
         {
-            FillMaterial();
-            var model = new SubAssembly();
-            model.ConsumedItems = new List<StockCreationConsumedItem>();
+            var ConsumedItems = new List<StockCreationConsumedItem>();
             var b = new StockCreationConsumedItem();
-            model.ConsumedItems.Add(b);
-            return PartialView("_ConsumedItem", model);
+            ConsumedItems.Add(b);
+            return ConsumedItems;
         }
 
         public ActionResult GetStockQuantity(string date, int id = 0, int stockpoint = 0)
@@ -114,17 +114,54 @@ namespace ArabErp.Web.Controllers
                 model.OrganizationId = OrganizationId;
                 model.CreatedDate = System.DateTime.Now;
                 model.CreatedBy = UserID.ToString();
-
                 string ref_no = new SubAssemblyRepository().UpdateSubAssembly(model);
-                //TempData["success"] = "Saved Successfully. Reference No. is " + ref_no;
+                TempData["success"] = "Updated Successfully - " + ref_no;
+                return RedirectToAction("Index");
+            }
+            catch (SqlException sx)
+            {
+                if (sx.Errors[0].Number == 547)
+                    TempData["error"] = "Cannot update, because the record is in use elsewhere";
+                else
+                    TempData["error"] = "Some error occured while connecting to database|" + sx.Message;
             }
             catch (Exception ex)
             {
                 TempData["error"] = "Some error occured while saving. Please try again.|" + ex.Message;
-                FillEmployee(); FillStockpoint();
-                return View("Create", model);
             }
-            return RedirectToAction("Index");
+            FillDropdowns();
+            return View("Create", model);
+        }
+
+        public ActionResult Delete(int id = 0)//StockCreationId is received here
+        {
+            if (id == 0)
+            {
+                TempData["error"] = "That was an invalid/unknown request";
+                return RedirectToAction("Index", "Home");
+            }
+            try
+            {
+                if (new SubAssemblyRepository().DeleteSubAssembly(id, UserID, OrganizationId) > 0)
+                {
+                    TempData["success"] = "Deleted Successfully";
+                    return RedirectToAction("Index");
+                }
+                else { throw new Exception(); }
+            }
+            catch (SqlException sx)
+            {
+                if (sx.Errors[0].Number == 547)
+                    TempData["error"] = "Cannot delete, because the record is in use elsewhere.";
+                else
+                    TempData["error"] = "Some error occured while connecting to database.|" + sx.Message;
+            }
+            catch (Exception ex)
+            {
+                TempData["error"] = "Some error occured. Please try again.|" + ex.Message;
+            }
+            FillDropdowns();
+            return RedirectToAction("Edit", new { id = id });
         }
 
         #region Dropdowns
