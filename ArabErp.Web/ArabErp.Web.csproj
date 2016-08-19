@@ -267,6 +267,7 @@
     <Compile Include="Controllers\SupplyOrderController.cs" />
     <Compile Include="Controllers\SupplyOrderFollowupController.cs" />
     <Compile Include="Controllers\SupplyOrderRegisterController.cs" />
+    <Compile Include="Controllers\SupplyOrderSummaryController.cs" />
     <Compile Include="Controllers\TaskController.cs" />
     <Compile Include="Controllers\TransactionHistoryController.cs" />
     <Compile Include="Controllers\UnitController.cs" />
@@ -818,6 +819,8 @@
     <Content Include="Views\SubAssembly\Edit.cshtml" />
     <Content Include="Views\SupplyOrderRegister\Index.cshtml" />
     <Content Include="Views\SupplyOrderRegister\_SupplyOrderRegister.cshtml" />
+    <Content Include="Views\SupplyOrderSummary\Index.cshtml" />
+    <Content Include="Views\SupplyOrderSummary\_SupplyOrderSummary.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

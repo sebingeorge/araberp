@@ -1,0 +1,32 @@
+﻿@model IList<ArabErp.Domain.SupplyOrderRegister>
+
+<div class="main-grid main-grid-top scroll1">
+    <table class="table table-bordered">
+        <thead>
+            <tr class="grid_heading">
+                <th width="5%"><h1>SO No</h1></th>
+                <th width="8%"><h1>Date</h1></th>
+                <th width="20%"><h1>Supplier</h1></th>
+                <th class="text-right" width="10%"><h1>Total Amount</h1></th>
+            </tr>
+        </thead>
+
+      
+            @foreach (var item in Model)
+            {
+            <tbody class="grid_row">
+                <tr>
+                    <td class="grid-cell">@item.SupplyOrderNo</td>
+                    <td class="grid-cell">@item.SupplyOrderDate.ToString("dd/MMM/yyyy")</td>
+                    <td class="grid-cell">@item.SupplierName</td>
+                    <td class="grid-cell text-right">@item.TotalAmount</td>
+
+                </tr>
+            </tbody>
+            }
+
+    </table>
+</div>
+<div class="row-count1">
+    <h5>Row Count:- @Model.Count()</h5>
+</div>
