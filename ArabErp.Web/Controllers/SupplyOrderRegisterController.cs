@@ -29,7 +29,7 @@ namespace ArabErp.Web.Controllers
         public void FillItem()
         {
             DropdownRepository repo=new DropdownRepository();
-            var result = repo.ItemDropdown();
+            var result = repo.SOItemDropdown();
             ViewBag.ItemList = new SelectList(result, "Id", "Name");
         }
 
@@ -38,6 +38,27 @@ namespace ArabErp.Web.Controllers
             from = from ?? DateTime.Today.AddMonths(-7);
             to = to ?? DateTime.Today;
             return PartialView("_SupplyOrderRegister", new SupplyOrderRegisterRepository().GetSupplyOrderRegisterData(from, to, id, itmid, OrganizationId));
+        }
+
+
+        public ActionResult SOCount(IList<SupplyOrderRegister> PendingPurchaseRequestItemsSelected)
+        {
+            SupplyOrderRegister SupplyOrderRegister = new SupplyOrderRegister();
+
+         
+            SupplyOrderRepository rep = new SupplyOrderRepository();
+            if (PendingPurchaseRequestItemsSelected != null)
+            {
+                if (PendingPurchaseRequestItemsSelected.Count > 0)
+                {
+                    List<int> selectedpurchaserequests = (from PendingPurchaseRequest p in PendingPurchaseRequestItemsSelected
+                                                          where p.Select
+                                                          select p.PurchaseRequestId).ToList<int>();
+                    //SupplyOrderRegister.SupplyOrderItems = rep.GetPurchaseRequestItems(selectedpurchaserequests);
+                }
+            }
+
+            return View(SupplyOrderRegister);
         }
 
     }
