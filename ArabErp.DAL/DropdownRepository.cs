@@ -805,6 +805,14 @@ namespace ArabErp.DAL
             }
         }
 
+        public List<Dropdown> PBItemDropdown()
+        {
+            using (IDbConnection connection = OpenConnection(dataConnection))
+            {
+                return connection.Query<Dropdown>("SELECT Distinct I.ItemId Id, ItemName Name FROM PurchaseBillItem PI INNER JOIN GRNItem GI ON GI.GRNItemId=PI.GRNItemId INNER JOIN Item I ON I.ItemId=GI.ItemId WHERE ISNULL(PI.isActive, 1) = 1 ORDER BY ItemName").ToList();
+            }
+        }
+
 
     }
 }
