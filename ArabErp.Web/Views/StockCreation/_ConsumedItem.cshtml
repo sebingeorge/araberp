@@ -94,7 +94,10 @@
     function OnMaterialChanged(index) {
         //check whether the material is already selected in any grid
         var item = $("#ConsumedItems_" + index + "__ItemId").val();
-        if (item == '') return;
+        if (item == '') {
+            $("#ConsumedItems_" + index + "__StockQuantity").val(0);
+            return;
+        }
         var count = 0;
         $("select[id$='__ItemId']").each(function (index, object) {
             if ($(object).val() == item) {
