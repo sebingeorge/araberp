@@ -38,6 +38,9 @@
             if (e.which == 8 || (e.which == 45 && $(this).val().indexOf('-') == -1) || (e.which == 46 && $(this).val().indexOf('.') == -1) || (e.which > 47 && e.which < 58)) { }
             else { return false; }
         });
+
+        $("#CI_" + i).find('span[class="custom-combobox"]').remove();
+        $("#ConsumedItems_"+i+"__ItemId").combobox();
     }
 
     function DeleteRowFromConsumed(index) {
@@ -83,7 +86,10 @@
     function OnConsumedMaterialChanged(index) {
         //check whether the material is already selected in any grid
         var item = $("#ConsumedItems_" + index + "__ItemId").val();
-        if (item == '') return;
+        if (item == '') {
+            $("#ConsumedItems_" + index + "__StockQuantity").val(0);
+            return;
+        }
         var count = 0;
         $("select[id$='__ItemId']").each(function (index, object) {
             if ($(object).val() == item) {
@@ -94,6 +100,8 @@
             toastr.info("This Material/Spare has already been added");
             $("#ConsumedItems_" + index + "__ItemId").val('');
             $("#ConsumedItems_" + index + "__StockQuantity").val(0);
+            $("#ConsumedItems_" + index + "__ItemId").combobox("destroy");
+            $("#ConsumedItems_" + index + "__ItemId").combobox();
             return;
         }
 
@@ -101,6 +109,8 @@
         if ($("#ConsumedStockpointId").val() == '') {
             toastr.info("You have to select the Stock Point before selecting material/spare");
             $("#ConsumedItems_" + index + "__ItemId").val('');
+            $("#ConsumedItems_" + index + "__ItemId").combobox("destroy");
+            $("#ConsumedItems_" + index + "__ItemId").combobox();
             return;
         }
 

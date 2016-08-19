@@ -38,6 +38,9 @@
             if (e.which == 8 || (e.which == 45 && $(this).val().indexOf('-') == -1) || (e.which == 46 && $(this).val().indexOf('.') == -1) || (e.which > 47 && e.which < 58)) { }
             else { return false; }
         });
+
+        $("#FG_" + i).find('span[class="custom-combobox"]').remove();
+        $("#FinishedGoods_"+i+"__ItemId").combobox();
     }
 
     function DeleteRowFromFinished(index) {
@@ -90,8 +93,10 @@
             }
         })
         if (count > 1) {
-            toastr.info("A Material/Spare can only be selected once");
+            toastr.info("This Material/Spare has already been added");
             $("#FinishedGoods_" + index + "__ItemId").val('');
+            $("#FinishedGoods_" + index + "__ItemId").combobox("destroy");
+            $("#FinishedGoods_" + index + "__ItemId").combobox();
         }
     }
 

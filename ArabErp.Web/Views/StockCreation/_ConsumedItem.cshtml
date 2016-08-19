@@ -104,6 +104,7 @@
         if (count > 1) {
             toastr.info("This Material/Spare has already been added");
             $("#ConsumedItems_" + index + "__ItemId").val('');
+            $("#ConsumedItems_" + index + "__StockQuantity").val(0);
             $("#ConsumedItems_" + index + "__ItemId").combobox("destroy");
             $("#ConsumedItems_" + index + "__ItemId").combobox();
             return;
