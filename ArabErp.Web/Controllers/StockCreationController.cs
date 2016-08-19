@@ -18,11 +18,13 @@ namespace ArabErp.Web.Controllers
 
         public ActionResult Create()
         {
-            FillStockpoint();
+            FillDropdowns();
             var model = new StockCreation
             {
                 StockCreationDate = DateTime.Today,
-                StockCreationRefNo = "STO/" + DatabaseCommonRepository.GetNextReferenceNo(typeof(StockCreation).Name)
+                StockCreationRefNo = "STO/" + DatabaseCommonRepository.GetNextReferenceNo(typeof(StockCreation).Name),
+                ConsumedItems = ConsumedItemsGrid(),
+                FinishedGoods = FinishedGoodsGrid()
             };
             return View(model);
         }
@@ -43,32 +45,29 @@ namespace ArabErp.Web.Controllers
             {
                 TempData["error"] = "Some error occured while saving. Please try again.|" + ex.Message;
                 FillDropdowns();
-                return View("Create", model);
+                return View(model);
             }
             return RedirectToAction("Create");
         }
 
-        public ActionResult FinishedGoodsGrid()
+        public List<StockCreationFinishedGood> FinishedGoodsGrid()
         {
-            FillMaterial();
-            var model = new StockCreation();
-            model.FinishedGoods = new List<StockCreationFinishedGood>();
+            var FinishedGoods = new List<StockCreationFinishedGood>();
             var a = new StockCreationFinishedGood();
-            model.FinishedGoods.Add(a);
-            return PartialView("_FinishedGood", model);
+            FinishedGoods.Add(a);
+            return FinishedGoods;
         }
-        public ActionResult ConsumedItemsGrid()
+
+        public List<StockCreationConsumedItem> ConsumedItemsGrid()
         {
-            FillMaterial();
-            var model = new StockCreation();
-            model.ConsumedItems = new List<StockCreationConsumedItem>();
+            var ConsumedItems = new List<StockCreationConsumedItem>();
             var b = new StockCreationConsumedItem();
-            model.ConsumedItems.Add(b);
-            return PartialView("_ConsumedItem", model);
+            ConsumedItems.Add(b);
+            return ConsumedItems;
         }
 
         public ActionResult PreviousList()
-        {//TODO Show stockpoints in previous list
+        {
             return View(new StockCreationRepository().GetStockCreations(organizationId: OrganizationId));
         }
 

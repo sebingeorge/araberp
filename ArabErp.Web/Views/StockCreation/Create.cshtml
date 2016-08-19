@@ -104,23 +104,23 @@
                     @Html.TextBoxFor(m => m.StockCreationDate, Model.StockCreationDate.ToString("dd-MMMM-yyyy"), new { @class = "form_input", @readonly = "true", @required = "true", @onchange = "OnConsumedItemStockPointChanged()" })
                 </div>
                 <div class="col-md-3">
-                    <label for="FinishedGoodStockpointId">Destination</label>
-                    @Html.DropDownListFor(m => m.FinishedStockpointId, (SelectList)ViewBag.stockpointList, "Select Stockpoint", new { @class = "form_input" })
-                </div>
-                <div class="col-md-3">
                     <label for="ConsumedItemStockpointId">Source</label>
                     @Html.DropDownListFor(m => m.ConsumedStockpointId, (SelectList)ViewBag.stockpointList, "Select Stockpoint", new { @class = "form_input", @onchange = "OnConsumedItemStockPointChanged()" })
                 </div>
+                <div class="col-md-3">
+                    <label for="FinishedGoodStockpointId">Destination</label>
+                    @Html.DropDownListFor(m => m.FinishedStockpointId, (SelectList)ViewBag.stockpointList, "Select Stockpoint", new { @class = "form_input" })
+                </div>
             </div>
-
-            <strong>Finished Goods:</strong>
-            <div class="table-responsive scroll4" id="finished-table">
-                @Html.Action("FinishedGoodsGrid")
-            </div>
-
-            <strong>Consumed Items:</strong>
+            
+            <strong>Consumed Items (OUT):</strong>
             <div class="table-responsive scroll4" id="consumed-table">
-                @Html.Action("ConsumedItemsGrid")
+                @Html.Partial("_ConsumedItem")
+            </div>
+
+            <strong>Finished Goods (IN):</strong>
+            <div class="table-responsive scroll4" id="finished-table">
+                @Html.Partial("_FinishedGood")
             </div>
 
             <div class="row">

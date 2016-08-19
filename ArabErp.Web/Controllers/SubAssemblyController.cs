@@ -12,8 +12,6 @@ namespace ArabErp.Web.Controllers
 {
     public class SubAssemblyController : BaseController
     {
-        //TODO Check whether entered quantity is greater than stock quantity
-        //TODO Swap order of finished and consumed goods
         // GET: SubAssembly
         public ActionResult Index()
         {
@@ -85,7 +83,7 @@ namespace ArabErp.Web.Controllers
         }
 
         public ActionResult PreviousList()
-        {//TODO Show stockpoints in previous list
+        {
             return PartialView("_PreviousList", new SubAssemblyRepository().GetSubAssemblies(organizationId: OrganizationId));
         }
 
