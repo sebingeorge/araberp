@@ -24,6 +24,15 @@ namespace ArabErp.DAL
                 return connection.Query<Organization>(sql);
             }
         }
+        public IEnumerable<Organization> GetOrganizationWithFY()
+        {
+            using (IDbConnection connection = OpenConnection(dataConnection))
+            {
+                string sql = @"select OrganizationId, OrganizationName = OrganizationName + ' - ' + ISNULL(FyName,'') from Organization 
+                left join FinancialYear on Organization.FyId = FinancialYear.FyId where isActive = 1 order by OrganizationName;";
+                return connection.Query<Organization>(sql);
+            }
+        }
         public Organization InsertOrganization(Organization objOrganization)
         {
             using (IDbConnection connection = OpenConnection(dataConnection))
