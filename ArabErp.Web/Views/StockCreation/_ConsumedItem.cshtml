@@ -43,12 +43,9 @@
             if (e.which == 8 || (e.which == 45 && $(this).val().indexOf('-') == -1) || (e.which == 46 && $(this).val().indexOf('.') == -1) || (e.which > 47 && e.which < 58)) { }
             else { return false; }
         });
-        //$("#CI_slno_" + i).find('span[class="custom-combobox"]').remove();
-        $("#CI_" + i).find('span').remove();
-        //$("#ConsumedItems_"+i+"__ItemId").combobox("destroy");
+
+        $("#CI_" + i).find('span[class="custom-combobox"]').remove();
         $("#ConsumedItems_"+i+"__ItemId").combobox();
-        //$("select[id$='__ItemId']").combobox("destroy");
-        //$("select[id$='__ItemId']").combobox();
     }
 
     function DeleteRowFromConsumed(index) {
