@@ -1,0 +1,128 @@
+﻿
+@{
+    ViewBag.Title = "GRN";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+
+<div class="row">
+    <div class="form-head1">
+        <h4>Goods Receipt Note</h4>
+    </div>
+
+    <div class="main-part pad1">
+
+
+        <div class="row form-group">
+            <div class="col-md-2">
+                <label>GRN No</label>
+                <input type="text" class="form_input" />
+            </div>
+            <div class="col-md-2">
+                <label>GRN Date</label>
+                <input type="text" class="form_input" />
+            </div>
+            <div class="col-md-4">
+                <label>Supplier</label>
+                <select class="form_input">
+                    <option value="volvo">Supplier1</option>
+                    <option value="saab">Supplier2</option>
+                </select>
+            </div>
+            <div class="col-md-4">
+                <label>P.O. Reference</label>
+                <select class="form_input">
+                    <option value="volvo">Reference1</option>
+                    <option value="saab">Reference2</option>
+                </select>
+            </div>
+        </div>
+
+        <div class="table-responsive">
+            <table class="table table-bordered" id="tab_logic">
+                <thead>
+                    <tr class="grid_heading">
+                        <th width="10%"><h1>P.I. No</h1></th>
+                        <th width="10%"><h1>Item Code</h1></th>
+                        <th width="20%"><h1>Item</h1></th>
+                        <th width="5%" class="text-right"><h1>P.O. Qty</h1></th>
+                        <th width="5%" class="text-right"><h1>GRN Qty</h1></th>
+                        <th width="5%" class="text-right"><h1>Unit</h1></th>
+                        <th width="5%" class="text-right"><h1>Rate</h1></th>
+                        <th width="5%" class="text-right"><h1>Amount</h1></th>
+                    </tr>
+                </thead>
+                <tbody>
+
+                    <tr>
+
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+
+                    </tr>
+
+
+                </tbody>
+                <tfoot>
+                    <tr class="grid_heading">
+
+                        <th></th>
+                        <th></th>
+                        <th></th>
+                        <th></th>
+                        <th></th>
+                        <th></th>
+                        <th></th>
+                        <th></th>
+
+
+
+
+                    </tr>
+                </tfoot>
+            </table>
+        </div>
+
+
+        <div class="row form-group">
+            <div class="col-md-2">
+                <label>Date For Delivery</label>
+                <input type="text" class="form_input" />
+            </div>
+        </div>
+
+        <div class="row form-group">
+            <div class="col-md-2">
+                <label>Terms and Conditions</label>
+                <button style="float:none;" class="terms" type="button" id="pymtTerms" onclick="showPaymentTerms()">...</button>
+            </div>
+        </div>
+
+
+
+        <div class="row">
+            <div class="col-md-12 hrpart">
+                <button type="button" class="form-button" onclick="Previous()">Previous</button>
+            </div>
+
+        </div>
+
+
+    </div>
+
+</div>
+
+<script>
+    function Previous() {
+        var url = '@Url.Action("PreviousPurchaseOrder")'
+        window.location = url;
+    }
+
+</script>

@@ -49,6 +49,14 @@ namespace ArabErp.Web.Controllers
         {
             return View();
         }
+        public ActionResult PendingPurchaseOrder()
+        {
+            return View();
+        }
+        public ActionResult GRN()
+        {
+            return View();
+        }
         //public ActionResult CreateProductLine()
         //{
         //    return View();

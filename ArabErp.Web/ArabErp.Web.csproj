@@ -810,6 +810,8 @@
     <Content Include="Views\ProductionPlan\PurchaseOrder.cshtml" />
     <Content Include="Views\ProductionPlan\PreviousPurchaseOrder.cshtml" />
     <Content Include="Views\ProductionPlan\PurchaseOrderApproval.cshtml" />
+    <Content Include="Views\ProductionPlan\PendingPurchaseOrder.cshtml" />
+    <Content Include="Views\ProductionPlan\GRN.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
