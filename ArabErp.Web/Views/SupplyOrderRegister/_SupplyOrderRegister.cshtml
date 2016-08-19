@@ -4,33 +4,58 @@
     <table class="table table-bordered">
         <thead>
             <tr class="grid_heading">
-                <th width="10%"><h1>SO No</h1></th>
-                <th width="10%"><h1>Date</h1></th>
-                <th width="25%"><h1>Supplier</h1></th>
-                <th width="30%"><h1>Material/Spares</h1></th>
+                <th width="5%"><h1>SO No</h1></th>
+                <th width="8%"><h1>Date</h1></th>
+                <th width="20%"><h1>Supplier</h1></th>
+                <th width="25%"><h1>Material/Spares</h1></th>
                 <th class="text-right" width="5%"><h1>Qty</h1></th>
+                <th class="text-left" width="5%"><h1>Unit</h1></th>
                 <th class="text-right" width="10%"><h1>Rate</h1></th>
                 <th class="text-right" width="10%"><h1>Amount</h1></th>
+                <th class="text-right" width="10%"><h1>Total Amount</h1></th>
             </tr>
         </thead>
 
         <tbody class="grid_row">
-            @foreach (var item in Model)
-            {
-                <tr>
-                    <td class="grid-cell">@item.SupplyOrderNo</td>
-                    <td class="grid-cell">@item.SupplyOrderDate.ToString("dd/MMM/yyyy")</td>
-                    <td class="grid-cell">@item.SupplierName</td>
-                    <td class="grid-cell">@item.ItemName</td>
-                    <td class="grid-cell text-right">@item.OrderedQty</td>
-                    <td class="grid-cell text-right">@item.Rate</td>
-                    <td class="grid-cell text-right">@item.Amount</td>
-                </tr>
+            @{
+                int val1 = 0;
+                bool isMerge = false;
+                foreach (var item in Model)
+                {
+                    <tr>
+                        @{
+                            if (val1 == 0)
+                            {
+                                val1 = Model.Count(m => m.SupplyOrderNo == item.SupplyOrderNo);
+                                <td rowspan="@val1" class="grid-cell">@item.SupplyOrderNo</td>
+                                <td rowspan="@val1" class="grid-cell">@item.SupplyOrderDate.ToString("dd/MMM/yyyy")</td>
+                                <td rowspan="@val1" class="grid-cell">@item.SupplierName</td>    
+                                isMerge = true;                        
+                            }
+                            else
+                            {
+                                isMerge = false;
+                            }
+                            
+                        }
+                        <td class="grid-cell">@item.ItemName</td>
+                        <td class="grid-cell text-right">@item.OrderedQty</td>
+                        <td class="grid-cell text-right">@item.UnitName</td>
+                        <td class="grid-cell text-right">@item.Rate</td>
+                        <td class="grid-cell text-right">@item.Amount</td>
+                        @if (isMerge)
+                        {
+                            <td rowspan="@val1" class="grid-cell text-right">@item.TotalAmount</td>
+                        }
+                        
+                    </tr>
+                    val1--;
+                }
             }
         </tbody>
 
     </table>
-    </div>
-    @*<div class="row-count1">
-            <h5>Row Count:- @Model.Count()</h5>
-        </div>*@
+</div>
+<div class="row-count1">
+    <h5>Row Count:- @Model.Count()</h5>
+</div>

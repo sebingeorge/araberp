@@ -29,18 +29,17 @@
     <link href="~/Content/Style.css" rel="stylesheet" />
     <link href="~/Content/bootstrapValidator.min.css" rel="stylesheet" />
     <link href="~/Content/menu.css" rel="stylesheet" />
+    <link href="~/Content/toastr.min.css" rel="stylesheet" />
 
     <script src="~/Scripts/modernizr-2.6.2.js"></script>
 
     <script src="~/Scripts/jquery.validate.js"></script>
     <script src="~/Scripts/jquery.validate.unobtrusive.js"></script>
 
-    <link href="~/Content/toastr/build/toastr.min.css" rel="stylesheet" />
 
-    <script src="~/Content/toastr/build/toastr.min.js"></script>
+    <script src="~/Scripts/toastr.min.js"></script>
 
-    <link href="~/Content/jquery-ui-1.12.0/jquery-ui.min.css" rel="stylesheet" />
-    <script src="~/Content/jquery-ui-1.12.0/jquery-ui.min.js"></script>
+    <script src="~/Scripts/autocomplete.js"></script>
 
     <script src="~/Scripts/script.js"></script>
 
@@ -301,7 +300,8 @@
                             <ul class="dropdown-menu">
 
                                 <li><a href="@Url.Action("Index", "SupplyOrderRegister")"><span class="badge pull-right"></span>Supply Order Register</a></li>
-
+                                <li><a href="@Url.Action("Index", "SupplyOrderSummary")"><span class="badge pull-right"></span>Supply Order Summary</a></li>
+                                <li><a href="@Url.Action("Index","PurchaseBillRegister")"><span class="badge pull-right"></span>Purchase Bill Register</a></li>
                              </ul>
                         </li>
 
@@ -334,7 +334,6 @@
                         <li><a href="@Url.Action("Index","WorkshopRequestRegister")"><span class="badge pull-right"></span>Workshop Request Register</a></li>
                         <li><a href="@Url.Action("Index","ClosingStock")"><span class="badge pull-right"></span>Closing Stock Report</a></li>
                         <li><a href="@Url.Action("Index","StoresLedger")"><span class="badge pull-right"></span>Stores Ledger</a></li>
-                        <li><a href="@Url.Action("Index","PurchaseBillRegister")"><span class="badge pull-right"></span>Purchase Bill Register</a></li>
                         <li><a href="@Url.Action("Index", "TransactionHistory")"><span class="badge pull-right"></span>Transaction History</a></li>
                         <li><a href="@Url.Action("Index","StockMovementRegister")"><span class="badge pull-right"></span>Stock Movement Report</a></li>
                     </ul>

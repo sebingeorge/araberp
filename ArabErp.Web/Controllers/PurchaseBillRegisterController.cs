@@ -23,7 +23,7 @@ namespace ArabErp.Web.Controllers
         public void FillItem()
         {
             DropdownRepository repo = new DropdownRepository();
-            var result = repo.ItemDropdown();
+            var result = repo.PBItemDropdown();
             ViewBag.ItemList = new SelectList(result, "Id", "Name");
         }
         public void FillSupplier()

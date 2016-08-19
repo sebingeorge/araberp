@@ -333,18 +333,18 @@ namespace ArabErp.DAL
         {
             using (IDbConnection connection = OpenConnection(dataConnection))
             {
-                 return connection.Query<Dropdown>("SELECT VehicleInPassId Id, VehicleInPassNo Name FROM VehicleInPass WHERE ISNULL(isActive, 1) = 1  and OrganizationId =" + OrganizationId.ToString() + " ").ToList();
+                return connection.Query<Dropdown>("SELECT VehicleInPassId Id, VehicleInPassNo Name FROM VehicleInPass WHERE ISNULL(isActive, 1) = 1  and OrganizationId =" + OrganizationId.ToString() + " ").ToList();
             }
         }
-         /// <summary>
-         /// Select All Customers Vehicle Inpass
-         /// </summary>
-         /// <returns></returns>
-         public List<Dropdown> VICustomerDropdown(int OrganizationId)
+        /// <summary>
+        /// Select All Customers Vehicle Inpass
+        /// </summary>
+        /// <returns></returns>
+        public List<Dropdown> VICustomerDropdown(int OrganizationId)
         {
             using (IDbConnection connection = OpenConnection(dataConnection))
             {
-                 return connection.Query<Dropdown>("SELECT DISTINCT S.CustomerId Id, C.CustomerName Name FROM VehicleInPass V INNER JOIN SaleOrder S on S.SaleOrderId=V.SaleOrderId inner join Customer C on C.CustomerId=S.CustomerId  WHERE ISNULL(V.isActive, 1) = 1 and V.OrganizationId =" + OrganizationId.ToString() + "").ToList();
+                return connection.Query<Dropdown>("SELECT DISTINCT S.CustomerId Id, C.CustomerName Name FROM VehicleInPass V INNER JOIN SaleOrder S on S.SaleOrderId=V.SaleOrderId inner join Customer C on C.CustomerId=S.CustomerId  WHERE ISNULL(V.isActive, 1) = 1 and V.OrganizationId =" + OrganizationId.ToString() + "").ToList();
             }
         }
 
@@ -496,7 +496,7 @@ namespace ArabErp.DAL
             using (IDbConnection connection = OpenConnection(dataConnection))
             {
                 return connection.Query<Dropdown>("SELECT DISTINCT S.CustomerId Id, C.CustomerName Name from JobCard J inner join SaleOrder S ON S.SaleOrderId=J.SaleOrderId  inner join Customer C ON C.CustomerId=S.CustomerId WHERE ISNULL(J.isActive, 1) = 1 and J.OrganizationId =" + OrganizationId.ToString() + " and J.isProjectBased=" + isProjectBased.ToString() + " ").ToList();
-                              
+
             }
         }
         /// <summary>
@@ -510,7 +510,7 @@ namespace ArabErp.DAL
                 return connection.Query<Dropdown>("SELECT DeliveryChallanId Id, DeliveryChallanRefNo Name FROM DeliveryChallan WHERE ISNULL(isActive, 1) = 1 and OrganizationId =" + OrganizationId.ToString() + "").ToList();
             }
         }
-    
+
 
         /// <summary>
         /// All items in [WorkshopRequest] where isAdditionalRequest = 1
@@ -796,5 +796,23 @@ namespace ArabErp.DAL
                 return connection.Query<Dropdown>("SELECT ItemId Id, ItemName Name FROM Item I INNER JOIN ItemCategory IC ON IC.itmCatId=I.ItemCategoryId WHERE ISNULL(I.isActive, 1) = 1 AND  IC.itmCatId=ISNULL(NULLIF(@Id, 0), itmCatId )", new { Id = Id }).ToList();
             }
         }
+
+        public List<Dropdown> SOItemDropdown()
+        {
+            using (IDbConnection connection = OpenConnection(dataConnection))
+            {
+                return connection.Query<Dropdown>("SELECT DISTINCT I.ItemId Id, I.ItemName Name FROM   item I INNER JOIN PurchaseRequestItem PI ON I.ItemId=PI.ItemId INNER JOIN SupplyOrderItem SI ON PI.PurchaseRequestItemId=SI.PurchaseRequestItemId INNER JOIN SupplyOrder S ON S.SupplyOrderId=SI.SupplyOrderId WHERE ISNULL(S.isActive, 1) = 1 ORDER BY ItemName").ToList();
+            }
+        }
+
+        public List<Dropdown> PBItemDropdown()
+        {
+            using (IDbConnection connection = OpenConnection(dataConnection))
+            {
+                return connection.Query<Dropdown>("SELECT Distinct I.ItemId Id, ItemName Name FROM PurchaseBillItem PI INNER JOIN GRNItem GI ON GI.GRNItemId=PI.GRNItemId INNER JOIN Item I ON I.ItemId=GI.ItemId WHERE ISNULL(PI.isActive, 1) = 1 ORDER BY ItemName").ToList();
+            }
+        }
+
+
     }
 }

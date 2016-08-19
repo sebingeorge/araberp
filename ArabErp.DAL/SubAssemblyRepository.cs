@@ -168,8 +168,10 @@ namespace ArabErp.DAL
         {
             using (IDbConnection connection = OpenConnection(dataConnection))
             {
-                #region Get data from [StockCreation] head
-                string query = @"SELECT
+                try
+                {
+                    #region Get data from [StockCreation] head
+                    string query = @"SELECT
 	                                StockCreationId,
 	                                StockCreationRefNo,
 	                                StockCreationDate,
@@ -182,11 +184,11 @@ namespace ArabErp.DAL
                                 WHERE StockCreationId = @id
                                 AND OrganizationId = @organizationId
                                 AND isActive = 1";
-                SubAssembly model = connection.Query<SubAssembly>(query, new { id=id, OrganizationId = organizationId }).First();
-                #endregion
+                    SubAssembly model = connection.Query<SubAssembly>(query, new { id = id, OrganizationId = organizationId }).First();
+                    #endregion
 
-                #region Get data from [StockCreationConsumedItems]
-                query = @"SELECT
+                    #region Get data from [StockCreationConsumedItems]
+                    query = @"SELECT
 	                            ConsumedItemsId,
 	                            StockCreationId,
 	                            ItemId,
@@ -195,11 +197,11 @@ namespace ArabErp.DAL
                             FROM StockCreationConsumedItems
                             WHERE StockCreationId = @id
                             AND isActive = 1";
-                model.ConsumedItems = connection.Query<StockCreationConsumedItem>(query, new { id = id }).ToList(); 
-                #endregion
+                    model.ConsumedItems = connection.Query<StockCreationConsumedItem>(query, new { id = id }).ToList();
+                    #endregion
 
-                #region Get data from [StockCreationFinishedGoods]
-                query = @"SELECT
+                    #region Get data from [StockCreationFinishedGoods]
+                    query = @"SELECT
 	                            FinishedGoodsId,
 	                            StockCreationId,
 	                            ItemId,
@@ -208,10 +210,15 @@ namespace ArabErp.DAL
                             FROM StockCreationFinishedGoods
                             WHERE StockCreationId = @id
                             AND isActive = 1";
-                model.FinishedGoods = connection.Query<StockCreationFinishedGood>(query, new { id = id }).ToList(); 
-                #endregion
+                    model.FinishedGoods = connection.Query<StockCreationFinishedGood>(query, new { id = id }).ToList();
+                    #endregion
 
-                return model;
+                    return model;
+                }
+                catch (Exception)
+                {
+                    return new SubAssembly();
+                }
             }
         }
 
@@ -222,23 +229,28 @@ namespace ArabErp.DAL
                 IDbTransaction txn = connection.BeginTransaction();
                 try
                 {
-                    //if (Delete(model, connection, txn) <= 0) return "";
+                    Delete(model.StockCreationId, connection, txn);
 
-                    //Create(model, connection, txn);
+                    Create(model, connection, txn);
 
-                    //InsertLoginHistory(dataConnection, model.CreatedBy, "Update", "Sub-assembly", model.StockCreationId.ToString(), model.OrganizationId.ToString());
-                    //txn.Commit();
+                    InsertLoginHistory(dataConnection, model.CreatedBy, "Update", "Sub-assembly", model.StockCreationId.ToString(), model.OrganizationId.ToString());
+                    txn.Commit();
                     return model.StockCreationRefNo;
                 }
-                catch (Exception)
+                catch (SqlException sx)
                 {
                     txn.Rollback();
-                    throw;
+                    throw sx;
+                }
+                catch (Exception ex)
+                {
+                    txn.Rollback();
+                    throw ex;
                 }
             }
         }
 
-        private int Delete(SubAssembly model, IDbConnection connection, IDbTransaction txn)
+        private int Delete(int stockCreationId, IDbConnection connection, IDbTransaction txn)
         {
             string query;
             int id = 0;
@@ -246,17 +258,46 @@ namespace ArabErp.DAL
             {
                 query = @"DELETE FROM StockCreationConsumedItems WHERE StockCreationId = @id;
                           DELETE FROM StockCreationFinishedGoods WHERE StockCreationId = @id;
-                          DELETE FROM StockCreation OUTPUT deleted.StockCreationId WHERE StockCreationId = @id";
-                id = connection.Query<int>(query, new { id = model.StockCreationId }, txn).First();
+                          DELETE FROM StockCreation OUTPUT deleted.StockCreationId WHERE StockCreationId = @id;
+                          DELETE FROM StockUpdate WHERE StocktrnId = @id";
+                id = connection.Query<int>(query, new { id = stockCreationId }, txn).First();
+                return id;
             }
             catch (SqlException sx)
             {
-                if (sx.Errors[0].Number == 547)
+                throw sx;
+                //if (sx.Errors[0].Number == 547)
+                //{
+                //    return 0;
+                //}
+                //else throw new Exception();
+            }
+            catch (Exception ex) { throw ex; }
+        }
+
+        public int DeleteSubAssembly(int id, int userId, int organizationId)
+        {
+            using (IDbConnection connection = OpenConnection(dataConnection))
+            {
+                IDbTransaction txn = connection.BeginTransaction();
+                try
                 {
-                    return 0;
+                    int output = Delete(id, connection, txn);
+                    InsertLoginHistory(dataConnection, userId.ToString(), "Delete", "Sub-assembly", id.ToString(), organizationId.ToString());
+                    txn.Commit();
+                    return output;
+                }
+                catch (SqlException sx)
+                {
+                    txn.Rollback();
+                    throw sx;
+                }
+                catch (Exception)
+                {
+                    txn.Rollback();
+                    throw;
                 }
             }
-            return id;
         }
     }
 }

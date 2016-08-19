@@ -8,14 +8,16 @@ namespace ArabErp.Domain
 {
     public class SupplyOrderRegister
     {
-
+        public int SaleOrderId { get; set; }
         public string SupplyOrderNo { get; set; }
         public DateTime SupplyOrderDate { get; set; }
         public string SupplierName { get; set; }
         public string ItemName { get; set; }
         public int OrderedQty { get; set; }
+        public string UnitName { get; set; }
         public decimal Rate { get; set; }
         public decimal Amount { get; set; }
+        public decimal TotalAmount { get; set; }
     
 
 

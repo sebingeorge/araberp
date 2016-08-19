@@ -30,6 +30,11 @@
         window.location = url;
     }
 
+    function Exit() {
+        var url = '@Url.Action("Index", "Home")';
+        window.location = url;
+    }
+
     @*function Details(id) {
         var url = '@Url.Action("Details")';
         url += "/" + id;
@@ -60,7 +65,8 @@
         </div>
         <div class="row">
             <div class="col-md-12 hrpart">
-                <input type="button" class="form-button right" value="Create" onclick="Create()" />
+                <input type="button" class="form-button left" value="Create" onclick="Create()" />
+                <input type="button" class="form-button right" value="Exit" title="Go to Home" onclick="Exit()" />
             </div>
         </div>
     </div>
