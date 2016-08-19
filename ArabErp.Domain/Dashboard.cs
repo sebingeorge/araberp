@@ -17,5 +17,6 @@ namespace ArabErp.Domain
         public IEnumerable<DashboardPurchaseSales> DashboardPurchase { get; set; }
         public DashboardFGAllocated DashboardFGAllocated { get; set; }
         public DashboardSaleOrderAllocated DashboardSaleOrderAllocated { get; set; }
+        public IEnumerable<DashboardJobCardCompletedDaily> DashboardJobCardCompletedDaily { get; set; }
     }
 }

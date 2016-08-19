@@ -7,6 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Dapper;
 using System.Collections;
+using System.Data.SqlClient;
 
 namespace ArabErp.DAL
 {
@@ -28,8 +29,26 @@ namespace ArabErp.DAL
                 {
                     model.StockCreationRefNo = "SUB/" + DatabaseCommonRepository.GetInternalIDFromDatabase(connection, txn, typeof(SubAssembly).Name, "0", 1);
 
-                    #region Inserting into [StockCreation] head
-                    string query = @"INSERT INTO StockCreation
+                    int id = Create(model, connection, txn);
+
+                    InsertLoginHistory(dataConnection, model.CreatedBy, "Create", "Sub-assembly", id.ToString(), model.OrganizationId.ToString());
+                    txn.Commit();
+                    return model.StockCreationRefNo;
+                }
+                catch (Exception)
+                {
+                    txn.Rollback();
+                    throw;
+                }
+            }
+        }
+
+        private int Create(SubAssembly model, IDbConnection connection, IDbTransaction txn)
+        {
+            try
+            {
+                #region Inserting into [StockCreation] head
+                string query = @"INSERT INTO StockCreation
                                     (
 	                                    StockCreationRefNo,
 	                                    StockCreationDate,
@@ -57,62 +76,58 @@ namespace ArabErp.DAL
                                     );
                                     SELECT CAST(SCOPE_IDENTITY() AS INT)";
 
-                    int id = connection.Query<int>(query, model, txn).First();
-                    #endregion
+                int id = connection.Query<int>(query, model, txn).First();
+                #endregion
 
-                    #region Inserting Finished Goods + Stock Updation
-                    foreach (var item in model.FinishedGoods)
-                    {
-                        item.StockCreationId = id;
-                        var i = new StockCreationFinishedGoodsRepository().InsertFinishedGoods(item, connection, txn);
-                        new StockUpdateRepository().InsertStockUpdate(new StockUpdate
-                        {
-                            OrganizationId = model.OrganizationId,
-                            CreatedBy = model.CreatedBy,
-                            CreatedDate = model.CreatedDate,
-                            StockPointId = model.FinishedStockpointId,
-                            StockType = typeof(SubAssembly).Name,
-                            StockInOut = "IN",
-                            stocktrnDate = System.DateTime.Today,
-                            ItemId = item.ItemId,
-                            Quantity = item.Quantity,
-                            StocktrnId = id,
-                            StockUserId = model.StockCreationRefNo
-                        }, connection, txn);
-                    }
-                    #endregion
-
-                    #region Inserting Consumed Items + Stock Updation
-                    foreach (var item in model.ConsumedItems)
-                    {
-                        item.StockCreationId = id;
-                        var i = new StockCreationConsumedItemsRepository().InsertConsumedItems(item, connection, txn);
-                        new StockUpdateRepository().InsertStockUpdate(new StockUpdate
-                        {
-                            OrganizationId = model.OrganizationId,
-                            CreatedBy = model.CreatedBy,
-                            CreatedDate = model.CreatedDate,
-                            StockPointId = model.FinishedStockpointId,
-                            StockType = typeof(SubAssembly).Name,
-                            StockInOut = "OUT",
-                            stocktrnDate = System.DateTime.Today,
-                            ItemId = item.ItemId,
-                            Quantity = item.Quantity * (-1),
-                            StocktrnId = id,
-                            StockUserId = model.StockCreationRefNo
-                        }, connection, txn);
-                    }
-                    #endregion
-
-                    InsertLoginHistory(dataConnection, model.CreatedBy, "Create", "Sub-assembly", id.ToString(), model.OrganizationId.ToString());
-                    txn.Commit();
-                    return model.StockCreationRefNo;
-                }
-                catch (Exception)
+                #region Inserting Finished Goods + Stock Updation
+                foreach (var item in model.FinishedGoods)
                 {
-                    txn.Rollback();
-                    throw;
+                    item.StockCreationId = id;
+                    var i = new StockCreationFinishedGoodsRepository().InsertFinishedGoods(item, connection, txn);
+                    new StockUpdateRepository().InsertStockUpdate(new StockUpdate
+                    {
+                        OrganizationId = model.OrganizationId,
+                        CreatedBy = model.CreatedBy,
+                        CreatedDate = model.CreatedDate,
+                        StockPointId = model.FinishedStockpointId,
+                        StockType = typeof(SubAssembly).Name,
+                        StockInOut = "IN",
+                        stocktrnDate = System.DateTime.Today,
+                        ItemId = item.ItemId,
+                        Quantity = item.Quantity,
+                        StocktrnId = id,
+                        StockUserId = model.StockCreationRefNo
+                    }, connection, txn);
                 }
+                #endregion
+
+                #region Inserting Consumed Items + Stock Updation
+                foreach (var item in model.ConsumedItems)
+                {
+                    item.StockCreationId = id;
+                    var i = new StockCreationConsumedItemsRepository().InsertConsumedItems(item, connection, txn);
+                    new StockUpdateRepository().InsertStockUpdate(new StockUpdate
+                    {
+                        OrganizationId = model.OrganizationId,
+                        CreatedBy = model.CreatedBy,
+                        CreatedDate = model.CreatedDate,
+                        StockPointId = model.FinishedStockpointId,
+                        StockType = typeof(SubAssembly).Name,
+                        StockInOut = "OUT",
+                        stocktrnDate = System.DateTime.Today,
+                        ItemId = item.ItemId,
+                        Quantity = item.Quantity * (-1),
+                        StocktrnId = id,
+                        StockUserId = model.StockCreationRefNo
+                    }, connection, txn);
+                }
+                #endregion
+
+                return id;
+            }
+            catch (Exception)
+            {
+                throw;
             }
         }
 
@@ -200,9 +215,48 @@ namespace ArabErp.DAL
             }
         }
 
-        //public string UpdateSubAssembly(SubAssembly model)
-        //{
+        public string UpdateSubAssembly(SubAssembly model)
+        {
+            using (IDbConnection connection = OpenConnection(dataConnection))
+            {
+                IDbTransaction txn = connection.BeginTransaction();
+                try
+                {
+                    //if (Delete(model, connection, txn) <= 0) return "";
 
-        //}
+                    //Create(model, connection, txn);
+
+                    //InsertLoginHistory(dataConnection, model.CreatedBy, "Update", "Sub-assembly", model.StockCreationId.ToString(), model.OrganizationId.ToString());
+                    //txn.Commit();
+                    return model.StockCreationRefNo;
+                }
+                catch (Exception)
+                {
+                    txn.Rollback();
+                    throw;
+                }
+            }
+        }
+
+        private int Delete(SubAssembly model, IDbConnection connection, IDbTransaction txn)
+        {
+            string query;
+            int id = 0;
+            try
+            {
+                query = @"DELETE FROM StockCreationConsumedItems WHERE StockCreationId = @id;
+                          DELETE FROM StockCreationFinishedGoods WHERE StockCreationId = @id;
+                          DELETE FROM StockCreation OUTPUT deleted.StockCreationId WHERE StockCreationId = @id";
+                id = connection.Query<int>(query, new { id = model.StockCreationId }, txn).First();
+            }
+            catch (SqlException sx)
+            {
+                if (sx.Errors[0].Number == 547)
+                {
+                    return 0;
+                }
+            }
+            return id;
+        }
     }
 }

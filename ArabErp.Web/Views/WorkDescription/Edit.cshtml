@@ -50,6 +50,9 @@
         $("#WorkVsItems_" + i + "__ItemId").val('');
         $("#WorkVsItems_" + i + "__UoM").val('');
         $("#WorkVsItems_" + i + "__Quantity").val(0);
+
+        $("#Row_Item_Id_" + i).find('span[class="custom-combobox"]').remove();
+        $("#WorkVsItems_" + i + "__ItemId").combobox();
     }
     function ItemRowDelete(index) {
 
@@ -124,6 +127,9 @@
         $("#WorkVsTasks_" + i + "__JobCardTaskMasterId").val('');
         $("#WorkVsTasks_" + i + "__Hours").val(0);
 
+        $("#Row_Task_Id_" + i).find('span[class="custom-combobox"]').remove();
+        $("#WorkVsTasks_" + i + "__JobCardTaskMasterId").combobox();
+
     }
     function TaskRowDelete(index) {
 
@@ -165,6 +171,9 @@
         }
     }
     $(document).ready(function () {
+
+        $("select[id$='__ItemId']").combobox();
+        $("select[id$='__JobCardTaskMasterId']").combobox();
 
         //$("#radio_1").prop("checked", true)
         toastr.options = {

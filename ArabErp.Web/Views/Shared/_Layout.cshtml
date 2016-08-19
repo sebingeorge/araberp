@@ -29,15 +29,17 @@
     <link href="~/Content/Style.css" rel="stylesheet" />
     <link href="~/Content/bootstrapValidator.min.css" rel="stylesheet" />
     <link href="~/Content/menu.css" rel="stylesheet" />
+    <link href="~/Content/toastr.min.css" rel="stylesheet" />
 
     <script src="~/Scripts/modernizr-2.6.2.js"></script>
 
     <script src="~/Scripts/jquery.validate.js"></script>
     <script src="~/Scripts/jquery.validate.unobtrusive.js"></script>
 
-    <link href="~/Content/toastr/build/toastr.min.css" rel="stylesheet" />
 
-    <script src="~/Content/toastr/build/toastr.min.js"></script>
+    <script src="~/Scripts/toastr.min.js"></script>
+
+    <script src="~/Scripts/autocomplete.js"></script>
 
     <script src="~/Scripts/script.js"></script>
 
@@ -311,10 +313,10 @@
                                 <li><a href="@Url.Action("Index","ProfitabilityReport")"><span class="badge pull-right"></span>Sale Order Profitability</a></li>
                                 <li><a href="@Url.Action("Index", "SalesRegister")"><span class="badge pull-right"></span>Sales Register</a></li>
                                 <li><a href="@Url.Action("Index", "SaleOrderSummary")"><span class="badge pull-right"></span>Sale Order Summary</a></li>
-                                <li><a href="@Url.Action("Index", "SaleOrderStatus")"><span class="badge pull-right"></span>Pending Sale Orders</a></li>
+                                <li><a href="@Url.Action("Index", "PendingSaleOrderRegister")"><span class="badge pull-right"></span>Pending Sale Orders</a></li>
                                 <li><a href="@Url.Action("Index", "SaleOrderStatus")"><span class="badge pull-right"></span>Sale Order Variance Report</a></li>
-                                <li><a href="@Url.Action("Index", "SaleOrderStatus")"><span class="badge pull-right"></span>Sales Analysis-Product Wise</a></li>
-                                <li><a href="@Url.Action("Index", "SaleOrderStatus")"><span class="badge pull-right"></span>Sales Analysis-Customer Wise</a></li>
+                                <li><a href="@Url.Action("Index", "SalesAnalysisProductRegister")"><span class="badge pull-right"></span>Sales Analysis-Product Wise</a></li>
+                                <li><a href="@Url.Action("Index", "SalesAnalysisCustomerRegister")"><span class="badge pull-right"></span>Sales Analysis-Customer Wise</a></li>
                                 <li><a href="@Url.Action("Index", "SaleOrderStatus")"><span class="badge pull-right"></span>Target Vs Achieved</a></li>
                                 <li><a href="@Url.Action("Index", "SaleOrderStatus")"><span class="badge pull-right"></span>Sales Report-Detailed</a></li>
                                 <li><a href="@Url.Action("Index", "SaleOrderStatus")"><span class="badge pull-right"></span>Sales Report Summary</a></li>

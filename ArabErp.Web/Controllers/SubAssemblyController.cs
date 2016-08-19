@@ -115,7 +115,7 @@ namespace ArabErp.Web.Controllers
                 model.CreatedDate = System.DateTime.Now;
                 model.CreatedBy = UserID.ToString();
 
-                //string ref_no = new SubAssemblyRepository().CreateSubAssembly(model);
+                string ref_no = new SubAssemblyRepository().UpdateSubAssembly(model);
                 //TempData["success"] = "Saved Successfully. Reference No. is " + ref_no;
             }
             catch (Exception ex)

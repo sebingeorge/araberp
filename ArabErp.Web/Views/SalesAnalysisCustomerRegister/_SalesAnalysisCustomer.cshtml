@@ -1,0 +1,24 @@
+﻿@model IList<ArabErp.Domain.SalesRegister>
+<table class="table table-bordered">
+    <thead>
+        <tr class="grid_heading">
+            <th width="10%"><h1>INV.NO.</h1></th>
+            <th width="35%"><h1>Customer</h1></th>
+            <th width="5%" class="text-right"><h1>Amount</h1></th>
+            <th width="5%" class="text-right"><h1>%</h1></th>
+
+        </tr>
+    </thead>
+    @foreach (var item in Model)
+    {
+        <tbody class="grid_row">
+            <tr>
+                <td class="grid-cell">@item.SalesInvoiceRefNo</td>
+                <td class="grid-cell">@item.CustomerName</td>
+                <td class="grid-cell text-right">@item.Amount</td>
+                <td class="grid-cell text-right"></td>
+
+            </tr>
+        </tbody>
+    }
+</table>

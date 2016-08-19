@@ -10,6 +10,8 @@ namespace ArabErp.Domain
     {
         public string SalesInvoiceRefNo { get; set; }
         public DateTime SalesInvoiceDate { get; set; }
+        public string SaleOrderRefNo { get; set; }
+        public DateTime SaleOrderDate { get; set; }
         public string WorkDescr { get; set; }
         public string CustomerName { get; set; }
         public int? Quantity { get; set; }
@@ -18,6 +20,11 @@ namespace ArabErp.Domain
         public decimal? Discount { get; set; }
         public decimal? Amount { get; set; }
         public decimal? TotalAmount { get; set; }
+          
+       public decimal? INVQTY { get; set; }
+       public decimal? BALQTY { get; set; }
+
+      
 
 
 
