@@ -21,9 +21,9 @@
         var from = $("#txtFrom").val();
         var to = $("#txtTo").val();
         var url = '@Url.Action("SupplyOrderSummary")';
-        url += "?from=" + from + "&to=" + to + "&id=" + id + "&itmid=" + itmid;
+        url += "?from=" + from + "&to=" + to + "&id=" + id ;
         $("#so_Summary").load(url, function () {
-            $("#so_Reg").removeClass("fade");
+            $("#so_Summary").removeClass("fade");
         });
     }
     function Exit() {

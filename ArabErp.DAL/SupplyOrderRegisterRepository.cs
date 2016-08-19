@@ -39,30 +39,25 @@ namespace ArabErp.DAL
                 return connection.Query<SupplyOrderRegister>(qry, new { id = id, itmid = itmid, OrganizationId = OrganizationId, from = from, to = to }).ToList();
             }
         }
-        public IEnumerable<SupplyOrderRegister> GetSupplyOrderSummaryData(DateTime? from, DateTime? to, int id, int itmid, int OrganizationId)
+        public IEnumerable<SupplyOrderRegister> GetSupplyOrderSummaryData(DateTime? from, DateTime? to, int id, int OrganizationId)
         {
             using (IDbConnection connection = OpenConnection(dataConnection))
             {
                 //              
-                string qry = @" SELECT SupplyOrderNo,SupplyOrderDate,SUP.SupplierName,ItemName,OrderedQty,UnitName,SI.Rate,SI.Amount,
-                                (select sum(SD.Amount) from SupplyOrderItem SD where  SD.SupplyOrderId=SI.SupplyOrderId 
-                                GROUP BY  SD.SupplyOrderId)TotalAmount
+                string qry = @" SELECT SupplyOrderNo,SupplyOrderDate,SUP.SupplierName, sum(SI.Amount)TotalAmount
                                 FROM SupplyOrder S
                                 INNER JOIN SupplyOrderItem SI ON S.SupplyOrderId=SI.SupplyOrderId 
                                 INNER JOIN Supplier SUP ON SUP.SupplierId=S.SupplierId
-                                INNER JOIN PurchaseRequestItem PI ON PI.PurchaseRequestItemId=SI.PurchaseRequestItemId
-                                INNER JOIN Item I ON  I.ItemId=PI.ItemId
-                                INNER JOIN Unit U ON U.UnitId=I.ItemUnitId
                                 WHERE S.isActive=1 AND S.SupplyOrderDate 
                                 BETWEEN ISNULL(@from, DATEADD(MONTH, -1, GETDATE())) AND ISNULL(@to, GETDATE()) 
-                                AND S.OrganizationId=@OrganizationId AND  I.ItemId = ISNULL(NULLIF(@itmid, 0), I.ItemId) 
+                                AND S.OrganizationId=@OrganizationId 
                                 and S.SupplierId=ISNULL(NULLIF(@id, 0), S.SupplierId) 
-                                GROUP BY SI.SupplyOrderId,SupplyOrderNo,SupplyOrderDate,SUP.SupplierName,ItemName,OrderedQty,UnitName,SI.Rate,SI.Amount
+                                GROUP BY SI.SupplyOrderId,SupplyOrderNo,SupplyOrderDate,SUP.SupplierName
                                 ORDER BY SupplyOrderDate";
 
 
 
-                return connection.Query<SupplyOrderRegister>(qry, new { id = id, itmid = itmid, OrganizationId = OrganizationId, from = from, to = to }).ToList();
+                return connection.Query<SupplyOrderRegister>(qry, new { id = id, OrganizationId = OrganizationId, from = from, to = to }).ToList();
             }
         }
 

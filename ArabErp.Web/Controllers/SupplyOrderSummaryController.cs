@@ -30,7 +30,7 @@ namespace ArabErp.Web.Controllers
         {
             from = from ?? DateTime.Today.AddMonths(-7);
             to = to ?? DateTime.Today;
-            return PartialView("_SupplyOrderSummary", new SupplyOrderRegisterRepository().GetSupplyOrderRegisterData(from, to, id, itmid, OrganizationId));
+            return PartialView("_SupplyOrderSummary", new SupplyOrderRegisterRepository().GetSupplyOrderSummaryData(from, to, id, OrganizationId));
         }
 
     }
