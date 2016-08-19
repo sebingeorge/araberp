@@ -131,7 +131,7 @@ namespace ArabErp.DAL
         {
             using (IDbConnection connection = OpenConnection(dataConnection))
             {
-                string sql = @"select top 7 convert(varchar(50),JobCardDate,106) JobcardDate, count(*) JobCardCount from JobCard where JodCardCompleteStatus = 1
+                string sql = @"select top 7 left(convert(varchar(50),JobCardDate,106),6) JobcardDate, count(*) JobCardCount from JobCard where JodCardCompleteStatus = 1
                 group by JobCardDate
                 order by JobCardDate desc";
 

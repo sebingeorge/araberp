@@ -408,8 +408,18 @@
                 text: 'No. Jobcards completed for the last 7 days.'
             },
             xAxis: {
+                //type: 'category',
                 categories: [@Html.Raw(JobCardDays)],
-                crosshair: true
+                labels: {
+                    rotation: -45,
+                    style: {
+                        fontSize: '13px',
+                        fontFamily: 'Verdana, sans-serif'
+                    }
+                }
+                @*rotation: -45,
+                categories: [@Html.Raw(JobCardDays)],
+                crosshair: true*@
             },
             yAxis: {
                 min: 0,
