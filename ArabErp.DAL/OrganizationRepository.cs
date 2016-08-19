@@ -32,8 +32,8 @@ namespace ArabErp.DAL
 
                 IDbTransaction trn = connection.BeginTransaction();
 
-                string sql = @"INSERT INTO Organization (OrganizationRefNo,OrganizationName,CurrencyId,isActive) 
-                               VALUES(@OrganizationRefNo,@OrganizationName,@CurrencyId,1);
+                string sql = @"INSERT INTO Organization (OrganizationRefNo,OrganizationName,CurrencyId,isActive, FyId) 
+                               VALUES(@OrganizationRefNo,@OrganizationName,@CurrencyId,1,@FyId);
                                SELECT CAST(SCOPE_IDENTITY() as int)";
 
 
@@ -98,7 +98,7 @@ namespace ArabErp.DAL
         {
             using (IDbConnection connection = OpenConnection(dataConnection))
             {
-                string sql = @"Update Organization Set OrganizationRefNo=@OrganizationRefNo,OrganizationName=@OrganizationName,CurrencyId=@CurrencyId OUTPUT INSERTED.OrganizationId WHERE OrganizationId=@OrganizationId";
+                string sql = @"Update Organization Set OrganizationRefNo=@OrganizationRefNo,OrganizationName=@OrganizationName,CurrencyId=@CurrencyId, FyId=@FyId OUTPUT INSERTED.OrganizationId WHERE OrganizationId=@OrganizationId";
 
 
                 var id = connection.Execute(sql, objOrganization);

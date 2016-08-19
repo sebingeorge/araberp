@@ -151,6 +151,10 @@ namespace ArabErp.Web.Controllers
             var repo = new OrganizationRepository();
             var List = repo.FillCurrency();
             ViewBag.Currency = new SelectList(List, "Id", "Name");
+
+            var fyRepo = new FinancialYearRepository();
+            var financialYear = fyRepo.GetFinancialYear();
+            ViewBag.FinancialYear = new SelectList(financialYear, "FyId", "FyName");
         }
         public ActionResult FillOrganizationList(int? page)
         {
