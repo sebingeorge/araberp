@@ -1,7 +1,7 @@
 ﻿@model ArabErp.Domain.StockCreation
 
 @{
-    ViewBag.Title = "Stock Conversion";
+    ViewBag.Title = "Edit/Delete Stock Conversion";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
@@ -82,7 +82,7 @@
 
 <div class="row">
     <div class="form-head1">
-        <h4>Stock Conversion</h4>
+        <h4>Edit/Delete Stock Conversion</h4>
     </div>
 
     <div class="main-part pad1">
@@ -97,7 +97,7 @@
             <div class="row form-group">
                 <div class="col-md-2">
                     <label for="StockCreationRefNo">Reference No.</label>
-                    @Html.TextBoxFor(m => m.StockCreationRefNo, new { @class = "form_input", @readonly = "true", @title = "This number may change after saving" })
+                    @Html.TextBoxFor(m => m.StockCreationRefNo, new { @class = "form_input", @readonly = "true"})
                 </div>
                 <div class="col-md-2">
                     <label for="StockCreationDate">Date</label>
@@ -105,11 +105,11 @@
                 </div>
                 <div class="col-md-3">
                     <label for="ConsumedItemStockpointId">Source</label>
-                    @Html.DropDownListFor(m => m.ConsumedStockpointId, (SelectList)ViewBag.stockpointList, "Select Stockpoint", new { @class = "form_input", @onchange = "OnConsumedItemStockPointChanged()" })
+                    @Html.DropDownListFor(m => m.ConsumedStockpointId, new SelectList(ViewBag.stockpointList, "Value", "Text", Model.ConsumedStockpointId), "Select Stockpoint", new { @class = "form_input", @onchange = "OnConsumedItemStockPointChanged()" })
                 </div>
                 <div class="col-md-3">
                     <label for="FinishedGoodStockpointId">Destination</label>
-                    @Html.DropDownListFor(m => m.FinishedStockpointId, (SelectList)ViewBag.stockpointList, "Select Stockpoint", new { @class = "form_input" })
+                    @Html.DropDownListFor(m => m.FinishedStockpointId, new SelectList(ViewBag.stockpointList, "Value", "Text", Model.FinishedStockpointId), "Select Stockpoint", new { @class = "form_input" })
                 </div>
             </div>
             
@@ -125,7 +125,7 @@
 
             <div class="row">
                 <div class="col-md-12 hrpart">
-                    <input type="button" class="form-button" value="Previous" onclick="Previous()" title="Previously created stocks" />
+                    <input type="button" class="form-button" value="Delete" onclick="DeleteItem()" />
                     <input type="button" class="form-button right" value="Exit" onclick="Exit()" title="Go to home page" />
                     <input type="submit" class="form-button right" value="Save" />
                 </div>

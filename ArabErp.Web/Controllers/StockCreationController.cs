@@ -91,6 +91,17 @@ namespace ArabErp.Web.Controllers
             }
         }
 
+        public ActionResult Edit(int id = 0)
+        {
+            if (id == 0)
+            {
+                TempData["error"] = "That was an invalid/unknown request";
+                return RedirectToAction("Index", "Home");
+            }
+            FillDropdowns();
+            return View(new StockCreationRepository().GetStockCreation(id, OrganizationId));
+        }
+
         #region Dropdowns
         public void FillDropdowns()
         {

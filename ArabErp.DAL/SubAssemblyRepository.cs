@@ -183,6 +183,7 @@ namespace ArabErp.DAL
                                 FROM StockCreation
                                 WHERE StockCreationId = @id
                                 AND OrganizationId = @organizationId
+                                AND isSubAssembly = 1
                                 AND isActive = 1";
                     SubAssembly model = connection.Query<SubAssembly>(query, new { id = id, OrganizationId = organizationId }).First();
                     #endregion

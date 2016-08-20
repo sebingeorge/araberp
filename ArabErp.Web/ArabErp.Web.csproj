@@ -759,6 +759,7 @@
     <Content Include="Views\SalesAnalysisCustomerRegister\_SalesAnalysisCustomer.cshtml" />
     <Content Include="Views\SupplyOrderSummary\Index.cshtml" />
     <Content Include="Views\SupplyOrderSummary\_SupplyOrderSummary.cshtml" />
+    <Content Include="Views\StockCreation\Edit.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
