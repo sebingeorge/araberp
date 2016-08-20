@@ -1,22 +1,50 @@
 ﻿
 @{
     ViewBag.Title = "Index";
-    Layout = "~/Views/Shared/_Layout.cshtml";
+    //Layout = "~/Views/Shared/_Layout.cshtml";
 }
+
+
+
 
 <h2>Index</h2>
 
-@Html.ActionLink("Production Plan", "CreateProductionPlan")<br />
-@Html.ActionLink("Purchase Indent", "PurchaseIndent")<br />
-@Html.ActionLink("Purchase Indent Approval", "PurchaseIndentApproval")<br />
-@Html.ActionLink("Purchase Order", "PendingPurchaseIndent")<br />
-@Html.ActionLink("Purchase Order Approvel", "PurchaseOrderApproval")<br />
-@Html.ActionLink("GRN", "PendingPurchaseOrder")<br />
-@Html.ActionLink("ProductLIne", "CreateProductLIne")
+<div class="form-button" style="width:200px; line-height:25px; height:25px; padding-left:10px;">@Html.ActionLink("Production Plan", "CreateProductionPlan")</div>
+<div class="form-button" style="width:200px; line-height:25px; height:25px;  padding-left:10px;">
+    @Html.ActionLink("Purchase Indent", "PurchaseIndent")</div>
+    <div class="form-button" style="width:200px; line-height:25px; height:25px;  padding-left:10px;">
+        @Html.ActionLink("Purchase Indent Approval", "PurchaseIndentApproval")</div>
+        <div class="form-button" style="width:200px; line-height:25px; height:25px;  padding-left:10px;">
+            @Html.ActionLink("Purchase Order", "PendingPurchaseIndent")</div>
+            <div class="form-button" style="width:200px; line-height:25px; height:25px;  padding-left:10px;">
+                @Html.ActionLink("Purchase Order Approvel", "PurchaseOrderApproval")</div>
+                <div class="form-button" style="width:200px; line-height:25px; height:25px;  padding-left:10px;">
+                    @Html.ActionLink("GRN", "PendingPurchaseOrder")</div>
 
 
-<h4>Admin</h4>
 
-@Html.ActionLink("Month", "Month")<br />
-@Html.ActionLink("Financial Year", "FinancialYear")<br />
-@Html.ActionLink("Product", "Product")<br />
+                        <h4>Admin</h4>
+
+                        <div class="form-button" style="width:200px; line-height:25px; height:25px;  padding-left:10px;">@Html.ActionLink("Month", "Month")</div>
+                       <div class="form-button" style="width:200px; line-height:25px; height:25px;  padding-left:10px;"> @Html.ActionLink("Financial Year", "FinancialYear")</div>
+<div class="form-button" style="width:200px; line-height:25px; height:25px;  padding-left:10px;"> @Html.ActionLink("Unit", "Unit")</div>
+                       <div class="form-button" style="width:200px; line-height:25px; height:25px;  padding-left:10px;"> @Html.ActionLink("Product", "Product")</div>
+<div class="form-button" style="width:200px; line-height:25px; height:25px;  padding-left:10px;">
+    @Html.ActionLink("Product LIne", "CreateProductLine")
+</div>
+<div class="form-button" style="width:200px; line-height:25px; height:25px;  padding-left:10px;">
+    @Html.ActionLink("Product Group", "ProductGroup")
+</div>
+<div class="form-button" style="width:200px; line-height:25px; height:25px;  padding-left:10px;">
+    @Html.ActionLink("Product Sub Group", "ProductSubGroup")
+</div>
+<div class="form-button" style="width:200px; line-height:25px; height:25px;  padding-left:10px;">
+    @Html.ActionLink("Supplier Category", "SupplierCategory")
+</div>
+<div class="form-button" style="width:200px; line-height:25px; height:25px;  padding-left:10px;">
+    @Html.ActionLink("Raw Material", "RawMaterial")
+</div>
+
+
+
+   

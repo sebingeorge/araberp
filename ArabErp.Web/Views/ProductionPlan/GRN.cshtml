@@ -23,19 +23,15 @@
                 <label>GRN Date</label>
                 <input type="text" class="form_input" />
             </div>
+            </div>
+        <div class="row form-group">
             <div class="col-md-4">
                 <label>Supplier</label>
-                <select class="form_input">
-                    <option value="volvo">Supplier1</option>
-                    <option value="saab">Supplier2</option>
-                </select>
+                <input type="text" class="form_input" />
             </div>
             <div class="col-md-4">
                 <label>P.O. Reference</label>
-                <select class="form_input">
-                    <option value="volvo">Reference1</option>
-                    <option value="saab">Reference2</option>
-                </select>
+                <input type="text" class="form_input" />
             </div>
         </div>
 
@@ -43,20 +39,56 @@
             <table class="table table-bordered" id="tab_logic">
                 <thead>
                     <tr class="grid_heading">
-                        <th width="10%"><h1>P.I. No</h1></th>
-                        <th width="10%"><h1>Item Code</h1></th>
-                        <th width="20%"><h1>Item</h1></th>
-                        <th width="5%" class="text-right"><h1>P.O. Qty</h1></th>
-                        <th width="5%" class="text-right"><h1>GRN Qty</h1></th>
-                        <th width="5%" class="text-right"><h1>Unit</h1></th>
-                        <th width="5%" class="text-right"><h1>Rate</h1></th>
-                        <th width="5%" class="text-right"><h1>Amount</h1></th>
+                        <th width="7%"><h1>P.O. No</h1></th>
+                        <th width="7%"><h1>Item Code</h1></th>
+                        <th width="30%"><h1>Item Name</h1></th>
+                        <th width="7%" class="text-right"><h1>P.O. Qty</h1></th>
+                        <th width="7%" class="text-right"><h1>GRN Qty</h1></th>
+                        <th width="7%" class="text-left"><h1>Unit</h1></th>
+                        <th width="7%" class="text-right"><h1>Rate</h1></th>
+                        <th width="7%" class="text-right"><h1>Amount</h1></th>
+                        <th width="7%"><h1>QC Applicable</h1></th>
+                        <th width="7%"><h1>Batch Name</h1></th>
+                        <th width="7%"><h1>Expiry Date</h1></th>
                     </tr>
                 </thead>
                 <tbody>
 
                     <tr>
 
+                        <td>PI50</td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+
+                    </tr>
+                    <tr>
+
+                        <td>PI50</td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+
+                    </tr>
+                    <tr>
+
+                        <td>PI50</td>
+                        <td></td>
+                        <td></td>
                         <td></td>
                         <td></td>
                         <td></td>
@@ -81,6 +113,9 @@
                         <th></th>
                         <th></th>
                         <th></th>
+                        <th></th>
+                        <th></th>
+                        <th></th>
 
 
 
@@ -93,15 +128,38 @@
 
         <div class="row form-group">
             <div class="col-md-2">
-                <label>Date For Delivery</label>
+                <label>Stock Point</label>
+                <select class="form_input">
+                    <option value="volvo">Stock Point1</option>
+                    <option value="saab">Stock Point2</option>
+                </select>
+            </div>
+            <div class="col-md-2">
+                <label>Received by</label>
+                <select class="form_input">
+                    <option value="volvo">Received1</option>
+                    <option value="saab">Received2</option>
+                </select>
+            </div>
+            </div>
+        <div class="row form-group">
+            <div class="col-md-2">
+                <label>Landing Date and Time</label>
+                <input type="text" class="form_input" />
+            </div>
+            <div class="col-md-2">
+                <label>Supplier DC No. and Date</label>
+                <input type="text" class="form_input" />
+            </div>
+            <div class="col-md-2">
+                <label>Delivery Mode</label>
                 <input type="text" class="form_input" />
             </div>
         </div>
-
         <div class="row form-group">
-            <div class="col-md-2">
-                <label>Terms and Conditions</label>
-                <button style="float:none;" class="terms" type="button" id="pymtTerms" onclick="showPaymentTerms()">...</button>
+            <div class="col-md-12">
+                <label>Special Remarks</label>
+                <input type="text" class="form_input form_input-h" />
             </div>
         </div>
 
@@ -109,7 +167,8 @@
 
         <div class="row">
             <div class="col-md-12 hrpart">
-                <button type="button" class="form-button" onclick="Previous()">Previous</button>
+                <button type="button" class="form-button">Save</button>
+                <button type="button" class="form-button">Exit</button>
             </div>
 
         </div>
@@ -119,10 +178,3 @@
 
 </div>
 
-<script>
-    function Previous() {
-        var url = '@Url.Action("PreviousPurchaseOrder")'
-        window.location = url;
-    }
-
-</script>

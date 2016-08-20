@@ -57,10 +57,26 @@ namespace ArabErp.Web.Controllers
         {
             return View();
         }
-        //public ActionResult CreateProductLine()
-        //{
-        //    return View();
-        //}
+        public ActionResult CreateProductLine()
+        {
+            return View();
+        }
+        public ActionResult ProductGroup()
+        {
+            return View();
+        }
+        public ActionResult ProductSubGroup()
+        {
+            return View();
+        }
+        public ActionResult SupplierCategory()
+        {
+            return View();
+        }
+        public ActionResult RawMaterial()
+        {
+            return View();
+        }
         //public ActionResult CreateProductLineAdd()
         //{
         //    return View();
@@ -78,6 +94,10 @@ namespace ArabErp.Web.Controllers
             return View();
         }
         public ActionResult Product()
+        {
+            return View();
+        }
+        public ActionResult Unit()
         {
             return View();
         }
