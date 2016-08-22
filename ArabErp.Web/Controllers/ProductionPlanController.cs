@@ -57,6 +57,34 @@ namespace ArabErp.Web.Controllers
         {
             return View();
         }
+        public ActionResult ProductionOrder()
+        {
+            return View();
+        }
+        public ActionResult GoodsIssue()
+        {
+            return View();
+        }
+        public ActionResult ConfirmProduction()
+        {
+            return View();
+        }
+        public ActionResult PendingGoodsIssue()
+        {
+            return View();
+        }
+        public ActionResult ReceiveFinishedGoods()
+        {
+            return View();
+        }
+        public ActionResult ProductionOrderReport()
+        {
+            return View();
+        }
+        public ActionResult StockRequirementReport()
+        {
+            return View();
+        }
         public ActionResult CreateProductLine()
         {
             return View();
@@ -98,6 +126,18 @@ namespace ArabErp.Web.Controllers
             return View();
         }
         public ActionResult Unit()
+        {
+            return View();
+        }
+        public ActionResult Item()
+        {
+            return View();
+        }
+        public ActionResult Supplier()
+        {
+            return View();
+        }
+        public ActionResult Plant()
         {
             return View();
         }

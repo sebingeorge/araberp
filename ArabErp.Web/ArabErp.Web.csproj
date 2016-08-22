@@ -817,6 +817,16 @@
     <Content Include="Views\ProductionPlan\ProductSubGroup.cshtml" />
     <Content Include="Views\ProductionPlan\SupplierCategory.cshtml" />
     <Content Include="Views\ProductionPlan\RawMaterial.cshtml" />
+    <Content Include="Views\ProductionPlan\Item.cshtml" />
+    <Content Include="Views\ProductionPlan\Supplier.cshtml" />
+    <Content Include="Views\ProductionPlan\Plant.cshtml" />
+    <Content Include="Views\ProductionPlan\ProductionOrder.cshtml" />
+    <Content Include="Views\ProductionPlan\GoodsIssue.cshtml" />
+    <Content Include="Views\ProductionPlan\PendingGoodsIssue.cshtml" />
+    <Content Include="Views\ProductionPlan\ConfirmProduction.cshtml" />
+    <Content Include="Views\ProductionPlan\ReceiveFinishedGoods.cshtml" />
+    <Content Include="Views\ProductionPlan\ProductionOrderReport.cshtml" />
+    <Content Include="Views\ProductionPlan\StockRequirementReport.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

@@ -15,9 +15,11 @@
         <div class="row form-group">
             <div class="col-md-4">
                 <div class="rowr">
-                    <div class="part4">
-                        <label>Product Code</label>
-                        <input type="text" class="form_input form_input-half" />
+                    <div class="part4 row">
+                        <div class="col-md-4">
+                            <label>Product Code</label>
+                            <input type="text" class="form_input" />
+                        </div>
                     </div>
                     <div class="part4">
                         <label>Name</label>
@@ -63,16 +65,18 @@
                         </select>
                     </div>
 
-                    <div class="part4">
-                        <label>Unit</label>
-                        <select class="form_input form_input-half">
-                            <option value="volvo">Select Unit</option>
-                            <option value="saab">Kg</option>
-                            <option value="opel">Ltr</option>
-                            <option value="audi">Nos</option>
-                            <option value="audi">Mtr</option>
-                        </select>
-                    </div>
+                    <div class="part4 row">
+                        <div class="col-md-4">
+                            <label>Unit</label>
+                            <select class="form_input">
+                                <option value="volvo">Select Unit</option>
+                                <option value="saab">Kg</option>
+                                <option value="opel">Ltr</option>
+                                <option value="audi">Nos</option>
+                                <option value="audi">Mtr</option>
+                            </select>
+                        </div>
+                        </div>
                 </div>
             </div>
 
@@ -108,7 +112,7 @@
                         </div>
                         </div>
                     <div class="row">
-                        <div class="part4 col-md-6">
+                        <div class="part4 col-md-4">
                             <label>Batch Required</label>
                             <select class="form_input">
                                 <option value="volvo">Yes</option>
@@ -125,7 +129,8 @@
 
         <div class="row">
             <div class="col-md-12 hrpart">
-                <button type="button" class="form-button">Creative</button>
+                <button type="button" class="form-button right">Save</button>
+                <button type="button" class="form-button right">Exit</button>
             </div>
 
         </div>
@@ -146,11 +151,11 @@
         <table class="table table-bordered" id="tab_logic">
             <thead>
                 <tr class="grid_heading">
-                    <th width="5%"><h1>Ref No</h1></th>
-                    <th width="35%"><h1>Name</h1></th>
-                    <th width="35%"><h1>Product Line</h1></th>
-                    <th width="10%"><center><h1>Edit</h1></center></th>
-                    <th width="10%"><center><h1>Delete</h1></center></th>
+                    <th width="7%"><h1>Ref No</h1></th>
+                    <th width="42%"><h1>Name</h1></th>
+                    <th width="41%"><h1>Product Line</h1></th>
+                    <th width="5%"><center><h1>Edit</h1></center></th>
+                    <th width="5%"><center><h1>Delete</h1></center></th>
 
                 </tr>
             </thead>
