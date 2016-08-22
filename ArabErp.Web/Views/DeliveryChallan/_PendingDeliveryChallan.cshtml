@@ -3,7 +3,7 @@
 <div class="row">
     <div class="main-grid main-grid-top scroll1">
         <div class="table-responsive">
-            <table class="table table-bordered">
+            <table class="table table-bordered table-hover">
                 <thead>
                     <tr class="grid_heading">
                         <th width="12%"><h1>SO.No. &amp; Date</h1></th>
@@ -11,7 +11,7 @@
                         <th width="39%"><h1>Work Description</h1></th>
                         <th width="15%"><h1>Vehicle Model</h1></th>
                         <th width="12%"><h1>Chasis No./Reg No.</h1></th>
-                        <th width="10%"><center>Select</center></th>
+                        <th width="1%"></th>
                     </tr>
                 </thead>
                 <tbody id="table-body" class="grid_row">
@@ -37,7 +37,7 @@
                                 <td>
                                     <input class="form_input" type="text" value="@Model[i].RegistrationNo" disabled />
                                 </td>
-                                <td align="center">
+                                <td align="center" nowrap>
 
                                     <center>
                                         @if (Model[i].IsPaymentApprovedForDelivery == 1)
@@ -46,7 +46,7 @@
                                         }
                                         else
                                         {
-                                            <span class="form_input perm">Approval Pending</span>
+                                            <span class="perm">Approval Pending</span>
                                         }
                                     </center>
                                 </td>
