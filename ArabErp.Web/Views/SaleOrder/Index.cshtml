@@ -46,7 +46,7 @@
         window.location = url;
     }
     function Exit() {
-        var url = '@Url.Action("PendingSalesQutoforSaleOrder", "SaleOrder", new { ProjectBased = @ViewBag.ProjectBased })';
+        var url = '@Url.Action("PendingSalesQutoforSaleOrder", "SaleOrder", new { ProjectBased = ViewBag.isProjectBased })';
         window.location = url;
     }
 

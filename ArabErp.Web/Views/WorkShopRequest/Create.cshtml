@@ -67,14 +67,14 @@
         var date = new Date($("#WorkShopRequestDate").val());
         var required = new Date($("#RequiredDate").val());
         if (date >= required) {
-            toastr.info("Required date should be less than request date");
+            toastr.info("Request date should be less than required date");
             return false;
         }
         return true;
     }
 
     function Exit() {
-        var url = '@Url.Action("WorkShopRequestPending")';
+        var url = '@Url.Action("Pending")';
         window.location = url;
     }
     
