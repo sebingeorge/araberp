@@ -52,23 +52,23 @@
                     <div class="main-part pad1">
                         @{ int i = 0;}
                         @foreach (var item in Model.QuotationApprovalAmountSettings)
-                {
-                            @Html.HiddenFor(m => m.QuotationApprovalAmountSettings[i].ApprovalCode)
-                            <div class="row form-group">
-                                <div class="col-md-2">
-                                    <label>Approval @item.ApprovalCode</label>
-                                </div>
-                                <div class="col-md-2">
-                                    <label>Amount From</label>
-                                    @Html.TextBoxFor(m => m.QuotationApprovalAmountSettings[i].AmountFrom, new { @class = "form_input", autocomplete = "off", @required = "true" })
-                                </div>
-                                <div class="col-md-2">
-                                    <label>Amount To</label>
-                                    @Html.TextBoxFor(m => m.QuotationApprovalAmountSettings[i].AmountTo, new { @class = "form_input", autocomplete = "off", @required = "true" })
-                                </div>
-                            </div>
-                    i++;
-                }
+                        {
+                                    @Html.HiddenFor(m => m.QuotationApprovalAmountSettings[i].ApprovalCode)
+                                    <div class="row form-group">
+                                        <div class="col-md-2">
+                                            <label>Approval @item.ApprovalCode</label>
+                                        </div>
+                                        <div class="col-md-2">
+                                            <label>Amount From</label>
+                                            @Html.TextBoxFor(m => m.QuotationApprovalAmountSettings[i].AmountFrom, new { @class = "form_input", autocomplete = "off", @required = "true" })
+                                        </div>
+                                        <div class="col-md-2">
+                                            <label>Amount To</label>
+                                            @Html.TextBoxFor(m => m.QuotationApprovalAmountSettings[i].AmountTo, new { @class = "form_input", autocomplete = "off", @required = "true" })
+                                        </div>
+                                    </div>
+                            i++;
+                        }
                         <div class="row">
                             <div class="main-grid main-grid-top scroll1">
                                 <div class="table-responsive">
