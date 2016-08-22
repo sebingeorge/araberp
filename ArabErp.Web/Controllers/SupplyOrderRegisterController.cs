@@ -54,5 +54,20 @@ namespace ArabErp.Web.Controllers
             return PartialView("_PendingSupplyOrderRegister", new SupplyOrderRegisterRepository().GetPendingSupplyOrderRegister(from, to, id, itmid, OrganizationId));
         }
 
+
+        public ActionResult SOVariance()
+        {
+            FillSupplier();
+            FillItem();
+            return View();
+        }
+
+        public ActionResult SupplyOrderVarianceReport(DateTime? from, DateTime? to, int id = 0, int itmid = 0)
+        {
+            from = from ?? DateTime.Today.AddMonths(-7);
+            to = to ?? DateTime.Today;
+            return PartialView("_SupplyOrderVarianceReport", new SupplyOrderRegisterRepository().GetSOVarianceData(from, to, id, itmid, OrganizationId));
+        }
+
     }
 }

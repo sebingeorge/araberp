@@ -21,8 +21,8 @@ namespace ArabErp.Domain
         public int SettledQty { get; set; }
         public int ReceviedQty { get; set; }
         public int BalanceQty { get; set; }
-    
-
+        public string STATUS { get; set; }
+        
 
     }
 }
