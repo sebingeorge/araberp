@@ -304,8 +304,9 @@ namespace ArabErp.Web.Controllers
                 try
                 {
                     var result2 = new SupplyOrderRepository().DeleteSODT(model.SupplyOrderId);
-                    var result3 = new SupplyOrderRepository().DeleteSOHD(model.SupplyOrderId);
-                    string id = new SupplyOrderRepository().InsertSupplyOrder(model);
+                    string id = new SupplyOrderRepository().UpdateSOHD(model);
+                    //var result3 = new SupplyOrderRepository().DeleteSOHD(model.SupplyOrderId);
+                    string id1 = new SupplyOrderRepository().InsertSODT(model);
 
                     TempData["success"] = "Updated successfully. Purchase Request Reference No. is " + id;
                     TempData["error"] = "";
