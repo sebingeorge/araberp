@@ -1,7 +1,7 @@
 ﻿@model IList<ArabErp.Domain.StockCreation>
 
 @{
-    ViewBag.Title = "Previous List";
+    ViewBag.Title = "Stock Conversion List";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
@@ -12,93 +12,92 @@
         window.location = url;
     }
 
-    @*function Details(id) {
-        var url = '@Url.Action("Details")';
+    function Details(id) {
+        var url = '@Url.Action("Edit")';
         url += "/" + id;
-        @(TempData["mode"] = "Details")
+        @*@(TempData["mode"] = "Details")*@
         window.location = url;
-    }*@
+    }
 </script>
 @*<script>
-    function textAreaAdjust(o) {
-        o.style.height = "22px";
-        o.style.height = (50 + o.scrollHeight) + "px";
-    }
-</script>*@
+        function textAreaAdjust(o) {
+            o.style.height = "22px";
+            o.style.height = (50 + o.scrollHeight) + "px";
+        }
+    </script>*@
 
 
-    <div class="row">
-        <div class="form-head1">
-            <h4>Stock Creation</h4>
-        </div>
+<div class="row">
+    <div class="form-head1">
+        <h4>Stock Conversion List</h4>
+    </div>
 
-        <div class="main-part pad1">
-            <div class="row">
-                <div class="main-grid main-grid-top scroll1">
-                    <div class="table-responsive">
-                        <table class="table table-bordered table-hover" id="consumed-items-table">
-                            <thead>
-                                <tr class="grid_heading">
-                                    <th width="3%" class="text-center">#</th>
-                                    <th width="15%" nowrap><h1>Reference No. &amp; Date</h1></th>
-                                    <th width="30%"><h1>Finished Goods</h1></th>
-                                    <th width="30%"><h1>Consumed Items</h1></th>
-                                    @*<th width="10%"><h1>Created By</h1></th>*@
-                                    @*<th width="1%"></th>*@
-                                </tr>
-                            </thead>
-                            <tbody class="grid_row">
-                                @if (Model.Count > 0)
-                        {
-                            int i = 0;
-                            foreach (var item in Model)
+    <div class="main-part pad1">
+        <div class="row">
+            <div class="main-grid main-grid-top scroll1">
+                <div class="table-responsive">
+                    <table class="table table-bordered table-hover" id="consumed-items-table">
+                        <thead>
+                            <tr class="grid_heading">
+                                <th width="3%" class="text-center">#</th>
+                                <th width="15%" nowrap><h1>Reference No. &amp; Date</h1></th>
+                                <th width="30%"><h1>Finished Goods</h1></th>
+                                <th width="30%"><h1>Consumed Items</h1></th>
+                                @*<th width="10%"><h1>Created By</h1></th>*@
+                                <th width="1%"></th>
+                            </tr>
+                        </thead>
+                        <tbody class="grid_row">
+                            @if (Model.Count > 0)
                             {
-                        <tr>
-                            <td align="center">
-                                @*<input class="form_input text-center" style="width:100%" value="*@@(++i)@*" disabled />*@
-                            </td>
-                            <td>
-                                @*<input class="form_input" value="*@@item.StockCreationRefNo - @item.StockCreationDate.ToString("dd MMMM yyyy")@*" disabled />*@
-                            </td>
-                            <td>
-                                @*<input class="form_input" value="*@@item.Finished@*" disabled />*@
-                            </td>
-                            <td>
-                                @*<input class="form_input" value="*@@item.Consumed@*" disabled />*@
-                                @*<textarea class="form_input" onkeyup="textAreaAdjust(this)" style="overflow:visible; height:auto;" disabled>@item.Consumed</textarea>*@
-                                @*@Html.TextAreaFor(m => item.Consumed, new { @class = "form_input form_input-h1", autocomplete = "off" })*@
-                            </td>
-                            @*<td>*@
-                                @*<input class="form_input" value="*@@*@item.CreatedBy*@@*" disabled />*@
-                            @*</td>*@
-                            @*<td>
-                                <input type="button" class="form-button5" value="View" onclick="Details(@item.StockCreationId)" title="View details" />
-                            </td>*@
-                        </tr>
+                                int i = 0;
+                                foreach (var item in Model)
+                                {
+                                    <tr>
+                                        <td align="center">
+                                            @*<input class="form_input text-center" style="width:100%" value="*@@(++i)@*" disabled />*@
+                                        </td>
+                                        <td>
+                                            @*<input class="form_input" value="*@@item.StockCreationRefNo - @item.StockCreationDate.ToString("dd MMMM yyyy")@*" disabled />*@
+                                        </td>
+                                        <td>
+                                            @*<input class="form_input" value="*@@item.Finished@*" disabled />*@
+                                        </td>
+                                        <td>
+                                            @*<input class="form_input" value="*@@item.Consumed@*" disabled />*@
+                                            @*<textarea class="form_input" onkeyup="textAreaAdjust(this)" style="overflow:visible; height:auto;" disabled>@item.Consumed</textarea>*@
+                                            @*@Html.TextAreaFor(m => item.Consumed, new { @class = "form_input form_input-h1", autocomplete = "off" })*@
+                                        </td>
+                                        @*<td>*@
+                                        @*<input class="form_input" value="*@@*@item.CreatedBy*@@*" disabled />*@
+                                        @*</td>*@
+                                        <td>
+                                            <input type="button" class="form-button5" value="Select" onclick="Details(@item.StockCreationId)" title="Select to edit/delete" />
+                                        </td>
+                                    </tr>
+                                }
                             }
-                        }
-                        else
-                        {
-                        <tr>
-                            <td colspan="4">
-                                <center>
-                                    <em>
-                                        No items to show!
-                                    </em>
-                                </center>
-                            </td>
-                        </tr>
-                        }
-                            </tbody>
-                        </table>
-                    </div>
-                    </div>
-                </div>
-                    <div class="row">
-                        <div class="col-md-12 hrpart">
-                            <input type="button" class="form-button right" value="Create" onclick="Create()" />
-                        </div>
-                    </div>
+                            else
+                            {
+                                <tr>
+                                    <td colspan="5">
+                                        <center>
+                                            <em>
+                                                No items to show!
+                                            </em>
+                                        </center>
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
                 </div>
             </div>
-
+        </div>
+        <div class="row">
+            <div class="col-md-12 hrpart">
+                <input type="button" class="form-button right" value="Create" onclick="Create()" />
+            </div>
+        </div>
+    </div>
+</div>

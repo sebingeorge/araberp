@@ -760,6 +760,7 @@
     <Content Include="Views\SalesAnalysisCustomerRegister\_SalesAnalysisCustomer.cshtml" />
     <Content Include="Views\SupplyOrderSummary\Index.cshtml" />
     <Content Include="Views\SupplyOrderSummary\_SupplyOrderSummary.cshtml" />
+    <Content Include="Views\StockCreation\Edit.cshtml" />
     <Content Include="Views\PendingPARregister\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>

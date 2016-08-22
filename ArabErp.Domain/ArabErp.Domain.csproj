@@ -63,6 +63,7 @@
     <Compile Include="EmployeeCategory.cs" />
     <Compile Include="ExpenseBill.cs" />
     <Compile Include="FGTracking.cs" />
+    <Compile Include="FinancialYear.cs" />
     <Compile Include="PurchaseRequestRegister.cs" />
     <Compile Include="RptFilter.cs" />
     <Compile Include="FreezerUnit.cs" />
