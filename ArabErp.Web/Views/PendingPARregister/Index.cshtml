@@ -1,0 +1,74 @@
+﻿@model IList<ArabErp.Domain.PurchaseRequestRegister>
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<script type="text/javascript">
+    function Exit() {
+        var url = '@Url.Action("Index", "Home")';
+        window.location = url;
+    }
+</script>
+<div class="row">
+    <div class="form-head1">
+        <h4>Pending PAR</h4>
+    </div>
+
+    <div class="main-part pad1">
+
+        <div class="row">
+            <div class="table-responsive" id="so_Summary">
+
+                <div class="main-grid main-grid-top scroll1">
+                    <table class="table table-bordered">
+                        <thead>
+                            <tr class="grid_heading">
+                                <th width="5%"><h1>Request No.</h1></th>
+                                <th width="6%"><h1>Date</h1></th>
+                                <th width="20%"><h1>ItemName</h1></th>
+                                <th width="30%"><h1>Remarks</h1></th>
+                                <th class="text-right" width="5%"><h1>Request Qty</h1></th>
+                                <th class="text-right" width="5%"><h1>GRN Qty</h1></th>
+                                <th class="text-right" width="5%"><h1>Settled Qty</h1></th>
+                                <th class="text-right" width="5%"><h1>Balance Qty</h1></th>
+                            </tr>
+                        </thead>
+
+
+                        @foreach (var item in Model)
+                        {
+                            <tbody class="grid_row">
+                                <tr>
+                                    <td class="grid-cell">@item.PurchaseRequestNo</td>
+                                    <td class="grid-cell">@item.PurchaseRequestDate.ToString("dd/MMM/yyyy")</td>
+                                    <td class="grid-cell">@item.ItemName</td>
+                                    <td class="grid-cell text-left">@item.Remarks</td>
+                                    <td class="grid-cell text-right">@item.ReqQty</td>
+                                    <td class="grid-cell text-right">@item.GRNQTY</td>
+                                    <td class="grid-cell text-right">@item.SettledQty</td>
+                                    <td class="grid-cell text-right">@item.BALQTY</td>
+
+                                </tr>
+                            </tbody>
+                        }
+
+                    </table>
+                </div>
+                <div class="row-count1">
+                    <h5>Row Count:- @Model.Count()</h5>
+                </div>
+
+
+
+
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-12 hrpart">
+                <input type="button" class="form-button right" value="Exit" onclick="Exit()" />
+            </div>
+        </div>
+
+    </div>
+</div>

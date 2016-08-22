@@ -238,6 +238,7 @@
     <Compile Include="Controllers\OpeningStockController.cs" />
     <Compile Include="Controllers\OrganizationController.cs" />
     <Compile Include="Controllers\PaymentTermsController.cs" />
+    <Compile Include="Controllers\PendingPARregisterController.cs" />
     <Compile Include="Controllers\PendingSaleOrderRegisterController.cs" />
     <Compile Include="Controllers\ProfitabilityReportController.cs" />
     <Compile Include="Controllers\ProformaInvoiceController.cs" />
@@ -760,6 +761,7 @@
     <Content Include="Views\SupplyOrderSummary\Index.cshtml" />
     <Content Include="Views\SupplyOrderSummary\_SupplyOrderSummary.cshtml" />
     <Content Include="Views\StockCreation\Edit.cshtml" />
+    <Content Include="Views\PendingPARregister\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

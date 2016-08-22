@@ -289,7 +289,26 @@ namespace ArabErp.DAL
                 return connection.Query<PurchaseRequest>(sql, new { OrganizationId = OrganizationId, id = id, cusid = cusid, to = to, from = from }).ToList<PurchaseRequest>();
             }
         }
-            
-  
+
+
+
+        public IEnumerable<PurchaseRequestRegister> GetPendingPARregisterData(int OrganizationId)
+        {
+            using (IDbConnection connection = OpenConnection(dataConnection))
+            {
+                //              
+                string qry = @"SELECT distinct PurchaseRequestNo,PurchaseRequestDate,I.ItemName,isnull(PI.Remarks,'-')Remarks,
+                                PI.Quantity ReqQty,Sum(isnull (GI.Quantity,0))GRNQTY,'0' SettledQty,(PI.Quantity)-Sum(isnull (GI.Quantity,0))BALQTY
+                                FROM PurchaseRequest P
+                                INNER JOIN PurchaseRequestItem PI ON PI.PurchaseRequestId=P.PurchaseRequestId
+                                INNER JOIN Item I ON I.ItemId=PI.ItemId
+                                LEFT JOIN SupplyOrderItem SI ON SI.PurchaseRequestItemId=PI.PurchaseRequestItemId
+                                LEFT JOIN GRNItem GI ON GI.SupplyOrderItemId=SI.SupplyOrderItemId
+                                WHERE P.OrganizationId=@OrganizationId
+                                GROUP BY PurchaseRequestNo,PurchaseRequestDate,I.ItemName,PI.Remarks,PI.Quantity";
+                return connection.Query<PurchaseRequestRegister>(qry, new { OrganizationId = OrganizationId }).ToList();
+            }
+        }
+
     }
 }
