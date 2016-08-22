@@ -19,7 +19,7 @@
                 <tr>
                     <td width="40%">
                         @Html.HiddenFor(m => m.Items[i].CostingId)
-                        @Html.TextBoxFor(m => m.Items[i].Description , new { @class = "form_input ", autocomplete = "off" })
+                        @Html.TextBoxFor(m => m.Items[i].Description , new { @class = "form_input ", autocomplete = "off", @readonly = "true" })
                       
                     </td>
                     <td>
