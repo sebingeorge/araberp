@@ -18,6 +18,9 @@ namespace ArabErp.Domain
         public decimal Rate { get; set; }
         public decimal Amount { get; set; }
         public decimal TotalAmount { get; set; }
+        public int SettledQty { get; set; }
+        public int ReceviedQty { get; set; }
+        public int BalanceQty { get; set; }
     
 
 

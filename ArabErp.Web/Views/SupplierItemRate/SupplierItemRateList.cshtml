@@ -117,10 +117,11 @@
 
                     <td>
                         <input type="hidden" id="Row_@i" />
-                        @Html.HiddenFor(m => m.SupplierItemRateItem[i].ItemId, new { @id = "hidden" + i })
+                        @*@Html.HiddenFor(m => m.SupplierItemRateItem[i].ItemId, new { @id = "hidden" + i })*@
                         @*@Html.DropDownListFor(m => m.SupplierItemRateItem[i].ItemId, (SelectList)ViewBag.Itemlist, Model.SupplierItemRateItem[i].ItemId.ToString() != "" ? ((SelectList)ViewBag.Itemlist).Where(p => p.Value == Model.SupplierItemRateItem[i].ItemId.ToString()).First().Text : "select", new { @class = "form_input", autocomplete = "off", @onchange = "OnMaterialChange(this, " + i + ")" })*@
-                        @Html.DropDownListFor(m => m.SupplierItemRateItem[i].ItemId, new SelectList(ViewBag.Itemlist, "Value", "Text", Model.SupplierItemRateItem[i].ItemId), "Select Material/Spare", new { @class = "form_input", autocomplete = "off", @onchange = "OnMaterialChange(this, " + i + ")" })
-                    </td>
+                        @Html.DropDownListFor(m => m.SupplierItemRateItem[i].ItemId, new SelectList(ViewBag.Itemlist, "Value", "Text", Model.SupplierItemRateItem[i].ItemId), "Select Material/Spare", new { @class = "form_input", autocomplete = "off" })
+                   
+                     </td>
 
                     <td>
                         @Html.TextBoxFor(m => m.SupplierItemRateItem[i].FixedRate, new { @class = "form_input", autocomplete = "off", @style = "text-align:right" })

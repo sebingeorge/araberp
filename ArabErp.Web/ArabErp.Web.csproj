@@ -240,6 +240,7 @@
     <Compile Include="Controllers\PaymentTermsController.cs" />
     <Compile Include="Controllers\PendingPARregisterController.cs" />
     <Compile Include="Controllers\PendingSaleOrderRegisterController.cs" />
+    <Compile Include="Controllers\PrefixSettingsController.cs" />
     <Compile Include="Controllers\ProfitabilityReportController.cs" />
     <Compile Include="Controllers\ProformaInvoiceController.cs" />
     <Compile Include="Controllers\PurchaseBillController.cs" />
@@ -762,6 +763,9 @@
     <Content Include="Views\SupplyOrderSummary\_SupplyOrderSummary.cshtml" />
     <Content Include="Views\StockCreation\Edit.cshtml" />
     <Content Include="Views\PendingPARregister\Index.cshtml" />
+    <Content Include="Views\PrefixSettings\Index.cshtml" />
+    <Content Include="Views\SupplyOrderRegister\PengingSO.cshtml" />
+    <Content Include="Views\SupplyOrderRegister\_PendingSupplyOrderRegister.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -772,6 +776,7 @@
     <Folder Include="Views\CustomerVsWorkDescription\" />
     <Folder Include="Views\LocalPurchase\" />
     <Folder Include="Views\MisReport\" />
+    <Folder Include="Views\PendingSupplyOrderRegister\" />
     <Folder Include="Views\StockJournel\" />
   </ItemGroup>
   <ItemGroup>

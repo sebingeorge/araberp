@@ -119,8 +119,9 @@
                     </td>
                     <td>
                         <input type="hidden" id="Row_@i" />
-                        @Html.HiddenFor(m => m.OpeningStockItem[i].ItemId, new { @id = "hidden" + i })
-                        @Html.DropDownListFor(m => m.OpeningStockItem[i].ItemId, new SelectList(ViewBag.Itemlist, "Value", "Text", Model.OpeningStockItem[i].ItemId), "Select Material/Spare", new { @class = "form_input", autocomplete = "off", @onchange = "OnMaterialChange(this, " + i + ")" })
+                        @*@Html.HiddenFor(m => m.OpeningStockItem[i].ItemId, new { @id = "hidden" + i })*@
+                        @Html.DropDownListFor(m => m.OpeningStockItem[i].ItemId, new SelectList(ViewBag.Itemlist, "Value", "Text", Model.OpeningStockItem[i].ItemId), "Select Material/Spare", new { @class = "form_input", autocomplete = "off"})
+                      
                      </td>
 
                     <td>
