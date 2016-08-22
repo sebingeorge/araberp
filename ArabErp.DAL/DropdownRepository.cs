@@ -152,6 +152,30 @@ namespace ArabErp.DAL
                     DROP TABLE #CUS;").ToList();
             }
         }
+
+        /// <summary>
+        /// Return all customers with jobcard id not in deliverychallan
+        /// </summary>
+        /// <returns></returns>
+        public List<Dropdown> CustomerDropdown1()
+        {
+            using ( IDbConnection connection = OpenConnection(dataConnection) )
+            {
+                string query = @"SELECT DISTINCT
+	                                CUS.CustomerId Id, 
+	                                CUS.CustomerName Name
+                                FROM JobCard JC
+	                                INNER JOIN SaleOrderItem SOI ON JC.SaleOrderItemId = SOI.SaleOrderItemId
+	                                INNER JOIN SaleOrder SO ON SOI.SaleOrderId = SO.SaleOrderId
+	                                LEFT JOIN DeliveryChallan DC ON JC.JobCardId = DC.JobCardId
+	                                INNER JOIN Customer CUS ON SO.CustomerId = CUS.CustomerId
+                                WHERE DC.JobCardId IS NULL
+	                                AND ISNULL(DC.isActive, 1) = 1
+	                                AND ISNULL(SO.isActive, 1) = 1";
+                return connection.Query<Dropdown>(query).ToList();
+            }
+        }
+
         /// <summary>
         /// Returns all vechile in-pass registration number that are not in out-pass
         /// </summary>

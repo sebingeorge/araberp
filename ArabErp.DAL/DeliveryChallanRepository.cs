@@ -27,13 +27,17 @@ namespace ArabErp.DAL
 
                     var id = connection.Query<int>(sql, objDeliveryChallan, txn).Single();
 
-                    foreach (var item in objDeliveryChallan.ItemBatches)
+                    try
                     {
-                        item.DeliveryChallanId = id;
-                        sql = @"UPDATE ItemBatch SET DeliveryChallanId = @DeliveryChallanId, WarrantyStartDate = @WarrantyStartDate, WarrantyExpireDate = @WarrantyExpireDate
+                        foreach (var item in objDeliveryChallan.ItemBatches)
+                        {
+                            item.DeliveryChallanId = id;
+                            sql = @"UPDATE ItemBatch SET DeliveryChallanId = @DeliveryChallanId, WarrantyStartDate = @WarrantyStartDate, WarrantyExpireDate = @WarrantyExpireDate
                                 WHERE ItemBatchId = @ItemBatchId";
-                        connection.Execute(sql, item, txn);
+                            connection.Execute(sql, item, txn);
+                        }
                     }
+                    catch (NullReferenceException) { }
                     InsertLoginHistory(dataConnection, objDeliveryChallan.CreatedBy, "Create", "Delivery Challan", id.ToString(), "0");
                     txn.Commit();
                     return objDeliveryChallan.DeliveryChallanRefNo;
@@ -96,7 +100,7 @@ namespace ArabErp.DAL
         /// </summary>
         /// <param name="customerId"></param>
         /// <returns></returns>
-        public IEnumerable<PendingJC> PendingDeliveryChallan(int customerId,int OrganizationId)
+        public IEnumerable<PendingJC> PendingDeliveryChallan(int customerId, int OrganizationId)
         {
             using (IDbConnection connection = OpenConnection(dataConnection))
             {
@@ -113,7 +117,7 @@ namespace ArabErp.DAL
                     LEFT JOIN VehicleInPass VI ON T.SaleOrderItemId = VI.SaleOrderItemId
                     WHERE ISNULL(J.JodCardCompleteStatus, 0) = 1 AND VO.JobCardId IS NULL ;
 
-                    DROP TABLE #TEMP;", new { customerId = customerId , OrganizationId=OrganizationId}).ToList();
+                    DROP TABLE #TEMP;", new { customerId = customerId, OrganizationId = OrganizationId }).ToList();
             }
         }
         /// <summary>
@@ -175,7 +179,7 @@ namespace ArabErp.DAL
                                INNER JOIN Employee E ON E.EmployeeId=D.EmployeeId
                                INNER JOIN JobCard J ON J.JobCardId =D.JobCardId where D.isActive=1 AND D.OrganizationId = @OrganizationId and   D.DeliveryChallanDate BETWEEN ISNULL(@from, DATEADD(MONTH, -1, GETDATE())) AND ISNULL(@to, GETDATE()) AND  D.DeliveryChallanId = ISNULL(NULLIF(@id, 0), D.DeliveryChallanId) 
                                ORDER BY D.DeliveryChallanDate DESC, D.CreatedDate DESC";
-                return connection.Query<DeliveryChallan>(qry, new { OrganizationId = OrganizationId, id = id, from = from,to = to }).ToList();
+                return connection.Query<DeliveryChallan>(qry, new { OrganizationId = OrganizationId, id = id, from = from, to = to }).ToList();
 
             }
         }
