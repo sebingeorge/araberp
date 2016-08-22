@@ -239,6 +239,7 @@
     <Compile Include="Controllers\OrganizationController.cs" />
     <Compile Include="Controllers\PaymentTermsController.cs" />
     <Compile Include="Controllers\PendingSaleOrderRegisterController.cs" />
+    <Compile Include="Controllers\ProductWiseSalesRegisterController.cs" />
     <Compile Include="Controllers\ProfitabilityReportController.cs" />
     <Compile Include="Controllers\ProformaInvoiceController.cs" />
     <Compile Include="Controllers\PurchaseBillController.cs" />
@@ -270,6 +271,7 @@
     <Compile Include="Controllers\SupplyOrderController.cs" />
     <Compile Include="Controllers\SupplyOrderFollowupController.cs" />
     <Compile Include="Controllers\SupplyOrderRegisterController.cs" />
+    <Compile Include="Controllers\TargetVsAchievedController.cs" />
     <Compile Include="Controllers\TaskController.cs" />
     <Compile Include="Controllers\TransactionHistoryController.cs" />
     <Compile Include="Controllers\UnitController.cs" />
@@ -846,6 +848,8 @@
     <Content Include="Views\SalesAnalysisProductRegister\_SalesAnalysisProduct.cshtml" />
     <Content Include="Views\SalesAnalysisCustomerRegister\Index.cshtml" />
     <Content Include="Views\SalesAnalysisCustomerRegister\_SalesAnalysisCustomer.cshtml" />
+    <Content Include="Views\TargetVsAchieved\Index.cshtml" />
+    <Content Include="Views\TargetVsAchieved\_TargetVsAchievedRegister.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -856,6 +860,7 @@
     <Folder Include="Views\CustomerVsWorkDescription\" />
     <Folder Include="Views\LocalPurchase\" />
     <Folder Include="Views\MisReport\" />
+    <Folder Include="Views\ProductWiseSalesRegister\" />
     <Folder Include="Views\StockJournel\" />
   </ItemGroup>
   <ItemGroup>

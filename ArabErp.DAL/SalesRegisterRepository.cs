@@ -51,7 +51,11 @@ namespace ArabErp.DAL
             using (IDbConnection connection = OpenConnection(dataConnection))
             {
 
-                string qry = @"	select SaleOrderRefNo,SaleOrderDate,CustomerName,WorkDescr,SI.Quantity Quantity,isnull(SN.Quantity,0) INVQTY,(SI.Quantity-isnull(SN.Quantity,0))BALQTY from SaleOrder S
+                string qry = @"	select SaleOrderRefNo,SaleOrderDate,CustomerName,WorkDescr,SI.Quantity Quantity,isnull(SN.Quantity,0) INVQTY,(SI.Quantity-isnull(SN.Quantity,0))BALQTY, 
+                                case when (SI.Quantity-isnull(SN.Quantity,0)) < 0 then 'Excess'
+                                when (isnull(SN.Quantity,0)-SI.Quantity) > 0 then 'Shortage'
+                                when isnull(SN.Quantity,0) = 0 then 'Pending'  end as Status
+                                from SaleOrder S
 				                inner join SaleOrderItem SI ON S.SaleOrderId=SI.SaleOrderId
 				                inner join Customer C ON C.CustomerId=S.CustomerId
 				                inner join WorkDescription W ON W.WorkDescriptionId=SI.WorkDescriptionId
@@ -59,6 +63,7 @@ namespace ArabErp.DAL
                                 WHERE SaleOrderDate >= @from AND SaleOrderDate <= @to and S.OrganizationId=@OrganizationId and S.CustomerId=ISNULL(NULLIF(@id, 0),S.CustomerId)
 				                GROUP BY SaleOrderRefNo,SaleOrderDate,CustomerName,WorkDescr,SI.Quantity ,SN.Quantity,SI.SaleOrderItemId
 				                having (SI.Quantity-isnull(SN.Quantity,0)) > 0";
+                                 
                             
 
                 return connection.Query<SalesRegister>(qry, new { OrganizationId = OrganizationId, from = from, to = to, id = id }).ToList();
@@ -69,12 +74,18 @@ namespace ArabErp.DAL
             using (IDbConnection connection = OpenConnection(dataConnection))
             {
 
-                string qry = @"	select SaleOrderRefNo,SalesInvoiceDate,WorkDescr,isnull(SN.Quantity,0) Quantity,isnull(SN.Amount,0) Amount from SaleOrder S
+                string qry = @"	select SaleOrderRefNo,SalesInvoiceDate,WorkDescr,isnull(SN.Quantity,0) Quantity,isnull(SN.Amount,0) Amount,
+                                round((sum(SN.Amount)/(select sum(SN.Amount) From
+                                SaleOrder S,SaleOrderItem SI,WorkDescription W,SalesInvoiceItem SN,SalesInvoice SNI
+                                Where  S.SaleOrderId=SI.SaleOrderId And  W.WorkDescriptionId=SI.WorkDescriptionId And SN.SaleOrderItemId=SI.SaleOrderItemId
+                                And SNI.SalesInvoiceId=SN.SalesInvoiceId and SalesInvoiceDate >= @from AND SalesInvoiceDate <= @to and S.OrganizationId=@OrganizationId)*100),2) as Perc
+                                from SaleOrder S
 	                            inner join SaleOrderItem SI ON S.SaleOrderId=SI.SaleOrderId
 	                            inner join WorkDescription W ON W.WorkDescriptionId=SI.WorkDescriptionId
 	                            inner join SalesInvoiceItem SN on SN.SaleOrderItemId=SI.SaleOrderItemId
                                 inner join SalesInvoice SNI ON  SNI.SalesInvoiceId=SN.SalesInvoiceId
-                                where SalesInvoiceDate >= @from AND SalesInvoiceDate <= @to and S.OrganizationId=@OrganizationId";
+                                where SalesInvoiceDate >= @from AND SalesInvoiceDate <= @to and S.OrganizationId=@OrganizationId
+                                GROUP BY SaleOrderRefNo,SalesInvoiceDate,WorkDescr,SN.Quantity,SN.Amount";
 
                 return connection.Query<SalesRegister>(qry, new { OrganizationId = OrganizationId, from = from, to = to }).ToList();
             }

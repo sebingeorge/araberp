@@ -20,9 +20,11 @@ namespace ArabErp.Domain
         public decimal? Discount { get; set; }
         public decimal? Amount { get; set; }
         public decimal? TotalAmount { get; set; }
-          
-       public decimal? INVQTY { get; set; }
-       public decimal? BALQTY { get; set; }
+        public string Status { get; set; }
+        public decimal? INVQTY { get; set; }
+        public decimal? BALQTY { get; set; }
+        public decimal? Perc { get; set; }
+      
 
       
 
