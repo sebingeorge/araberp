@@ -1,47 +1,60 @@
-﻿@model IEnumerable<ArabErp.Domain.PrefixSettingsVsOrganization>
+﻿@model ArabErp.Domain.PrefixSettings
 @{
-    ViewBag.Title = "Index";
+    ViewBag.Title = "Create";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
 <div class="row">
-    <div class="form-head  form-head3">
+    <div class="form-head1">
         <h4>Prefix Settings</h4>
     </div>
-    <div class="main-part pad1 white">
-        <div class="row">
-            <div class=" main-grid main-grid-top scroll1">
-                <div class="table-responsive">
-                    <table class="table table-bordered">
-                        <thead>
-                            <tr class="grid_heading">
-                                <th width="5%"><h1>#</h1></th>
-                                <th width="40%"><h1>Transaction Details</h1></th>
-                                <th width="10%"><h1>Prefix</h1></th>
-                                <th width="10%"><h1>Last Serial No</h1></th>
-                                <th width="35%"></th>
-                            </tr>
-                        </thead>
-                        <tbody class="grid_row">
-                            @{
-                                int i = 0;
-                                foreach (var item in Model)
-                                {
-                                    
-                                }
-                            }
-                        </tbody>
-                    </table>
+    @using (Html.BeginForm("Save", null, FormMethod.Post, new { @class = "createFrom", @id = "grn_form" }))
+    {
+        <div class="main-part pad1">
+            
+            <div class="row">
+                <div class="main-grid main-grid-top scroll1">
+                    <div class="table-responsive">
+                        <div class="tab_logic">
+                            <table class="table table-bordered" id="tab_logic">
+                                <thead>
+                                    <tr class="grid_heading">
+                                        <th width="5%"><h1>#</h1></th>
+                                        <th width="40%"><h1>Transaction Details</h1></th>
+                                        <th width="10%"><h1>Prefix</h1></th>
+                                        <th width="10%"><h1>Last Serial No</h1></th>
+                                        <th width="35%"></th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @for (int j = 0; j < Model.Prefixes.Count; j++)
+                                    {
+                                        <tr class="grid_row">
+                                            @Html.HiddenFor(m => m.Prefixes[j].OrganizationId)
+                                            @Html.HiddenFor(m => m.Prefixes[j].PrefixId)
+                                            <td>@(j+1)</td>
+                                            <td>@Model.Prefixes[j].TransactionName</td>
+                                            <td>
+                                                @Html.TextBoxFor(m=>m.Prefixes[j].Prefix, new { @class = "form_input" })
+                                            </td>
+                                            <td>
+                                                @Html.TextBoxFor(m => m.Prefixes[j].LastDocumentNo, new { @class = "form_input" })
+                                            </td>
+                                            <td></td>
+                                        </tr>
+                                    }
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-12 hrpart">
+                    <button type="button" class="form-button right" onclick="Exit()">Exit</button>
+                    <button type="submit" class="form-button right">Save</button>
                 </div>
             </div>
         </div>
-        <div class="row">
-            <div class="col-md-12 hrpart1">
-                <button type="submit" class="form-button" onclick="openPop();">Create</button>
-                <button type="button" class="form-button right" onclick="Exit();">Exit</button>
-            </div>
-        </div>
-    </div>
+    }
 </div>
-
-

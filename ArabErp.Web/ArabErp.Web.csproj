@@ -768,6 +768,8 @@
     <Content Include="Views\SupplyOrderRegister\_PendingSupplyOrderRegister.cshtml" />
     <Content Include="Views\SupplyOrderRegister\SOVariance.cshtml" />
     <Content Include="Views\SupplyOrderRegister\_SupplyOrderVarianceReport.cshtml" />
+    <Content Include="Views\PurchaseBillRegister\PurchaseBillDetailed.cshtml" />
+    <Content Include="Views\PurchaseBillRegister\_PurchaseBillDetailedList.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
