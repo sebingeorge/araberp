@@ -10,6 +10,7 @@
     $(document).ready(function () {
         $("select[id$='__ItemId']").combobox();
         $("#StockCreationRefNo").tooltip();
+        OnConsumedItemStockPointChanged();
 
         //---------------------toastr---------------------------//
         toastr.options = {

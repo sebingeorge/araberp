@@ -112,6 +112,7 @@
     <Compile Include="OpeningStockRepository.cs" />
     <Compile Include="OrganizationRepository.cs" />
     <Compile Include="PaymentTermsRepository.cs" />
+    <Compile Include="PrefixSettingsRepository.cs" />
     <Compile Include="ProfitabilityReportRepository.cs" />
     <Compile Include="ProformaInvoiceItemRepository.cs" />
     <Compile Include="ProformaInvoiceRepository.cs" />

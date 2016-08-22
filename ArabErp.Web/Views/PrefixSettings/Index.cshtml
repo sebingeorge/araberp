@@ -1,0 +1,47 @@
+﻿@model IEnumerable<ArabErp.Domain.PrefixSettingsVsOrganization>
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="row">
+    <div class="form-head  form-head3">
+        <h4>Prefix Settings</h4>
+    </div>
+    <div class="main-part pad1 white">
+        <div class="row">
+            <div class=" main-grid main-grid-top scroll1">
+                <div class="table-responsive">
+                    <table class="table table-bordered">
+                        <thead>
+                            <tr class="grid_heading">
+                                <th width="5%"><h1>#</h1></th>
+                                <th width="40%"><h1>Transaction Details</h1></th>
+                                <th width="10%"><h1>Prefix</h1></th>
+                                <th width="10%"><h1>Last Serial No</h1></th>
+                                <th width="35%"></th>
+                            </tr>
+                        </thead>
+                        <tbody class="grid_row">
+                            @{
+                                int i = 0;
+                                foreach (var item in Model)
+                                {
+                                    
+                                }
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12 hrpart1">
+                <button type="submit" class="form-button" onclick="openPop();">Create</button>
+                <button type="button" class="form-button right" onclick="Exit();">Exit</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
