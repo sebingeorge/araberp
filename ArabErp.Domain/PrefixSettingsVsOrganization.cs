@@ -12,5 +12,10 @@ namespace ArabErp.Domain
         public string Prefix { get; set; }
         public string TransactionName { get; set; }
         public int? OrganizationId { get; set; }
+        public int? LastDocumentNo { get; set; }
+    }
+    public class PrefixSettings
+    {
+        public List<PrefixSettingsVsOrganization> Prefixes { get; set; }
     }
 }

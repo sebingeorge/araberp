@@ -16,10 +16,28 @@ namespace ArabErp.DAL
             using (IDbConnection connection = OpenConnection(dataConnection))
             {
                 string sql = @"select P.PrefixId, ISNULL(PO.Prefix, P.Prefix) Prefix, P.TransactionName, " + OrganizationId.ToString() + @" as OrganizationId, 
-                ISNULL(LastDocumentNo,0)LastDocumentNo
+                ISNULL(PO.LastDocumentNo,0)LastDocumentNo
                 from PrefixSettings P left join PrefixSettingsVsOrganization PO on P.PrefixId = PO.PrefixId
                 and PO.OrganizationId = " + OrganizationId.ToString();
                 return connection.Query<PrefixSettingsVsOrganization>(sql);
+            }
+        }
+        public void SavePrefixSettings(IEnumerable<PrefixSettingsVsOrganization> model, int OrganizationId)
+        {
+            using (IDbConnection connection = OpenConnection(dataConnection))
+            {
+                string sql = string.Empty;
+                sql = "delete from PrefixSettingsVsOrganization where OrganizationId = " + OrganizationId.ToString();
+                connection.Query(sql, OrganizationId);
+
+                foreach(var item in model)
+                {
+                    sql = string.Empty;
+                    sql = "insert into PrefixSettingsVsOrganization(PrefixId, Prefix, OrganizationId, LastDocumentNo)";
+                    sql += " values(@PrefixId, @Prefix, @OrganizationId, @LastDocumentNo)";
+
+                    connection.Query(sql, item);
+                }
             }
         }
     }

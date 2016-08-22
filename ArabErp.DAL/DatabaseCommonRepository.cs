@@ -88,5 +88,52 @@ namespace ArabErp.DAL
                 throw;
             }
         }
+
+        public static string GetNewDocNo(IDbConnection connection, int OrganizationId, int PrefixId, bool NeedToUpdate)
+        {
+            string sql = @"declare @prefix as varchar(50);
+                declare @LastDocNo as varchar(10);
+                declare @HasOrgSettings varchar(5);
+                declare @PrefixId int;
+
+                select @prefix = ISNULL(PO.Prefix, P.Prefix), @LastDocNo = ISNULL(PO.LastDocumentNo,ISNULL(P.LastDocumentNo,0)) +1,
+                @HasOrgSettings = case when Id is null then 'No' else 'Yes' end,
+                @PrefixId = P.PrefixId
+                from PrefixSettings P left join PrefixSettingsVsOrganization PO on P.PrefixId = PO.PrefixId
+                and PO.OrganizationId = " + OrganizationId.ToString() + @" where P.PrefixId = " + PrefixId.ToString() + @";
+                select @prefix + '/' + @LastDocNo;";
+
+            if (NeedToUpdate)
+            {
+                sql += @"if(@HasOrgSettings = 'Yes')
+                    begin
+                        update PrefixSettingsVsOrganization set LastDocumentNo = @LastDocNo where OrganizationId = " + OrganizationId.ToString() + @" and PrefixId = " + PrefixId.ToString() + @";
+                    end
+                    if(@HasOrgSettings = 'No')
+                    begin
+                        update PrefixSettings set LastDocumentNo = @LastDocNo where PrefixId = " + PrefixId.ToString() + @";
+                    end";
+            }
+
+            return connection.Query<string>(sql).Single();
+        }
+        public static string GetNextDocNo(int PrefixId, int OrganizationId)
+        {
+            try
+            {
+                using (IDbConnection connection = BaseRepository.OpenConnection(dataConnection))
+                {
+                    return GetNewDocNo(connection, OrganizationId, PrefixId, false);
+                }
+            }
+            catch (InvalidOperationException)
+            {
+                return "0/1";
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
     }
 }

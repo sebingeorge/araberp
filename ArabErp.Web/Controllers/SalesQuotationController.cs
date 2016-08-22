@@ -22,7 +22,7 @@ namespace ArabErp.Web.Controllers
         }
         public ActionResult Create()
         {
-            var internalid = DatabaseCommonRepository.GetNextReferenceNo(typeof(SalesQuotation).Name);
+            var internalid = DatabaseCommonRepository.GetNextDocNo(1, OrganizationId);
 
             FillCustomer();
             FillCurrency();
@@ -36,7 +36,7 @@ namespace ArabErp.Web.Controllers
             SalesQuotation salesquotation = new SalesQuotation();
             salesquotation.isProjectBased = 0;
             salesquotation.QuotationDate = System.DateTime.Today;
-            salesquotation.QuotationRefNo = "SQ/" + internalid; 
+            salesquotation.QuotationRefNo = internalid; 
             salesquotation.PredictedClosingDate = System.DateTime.Today;
             salesquotation.QuotationValidToDate = System.DateTime.Today;
             salesquotation.ExpectedDeliveryDate = System.DateTime.Today;
@@ -97,7 +97,7 @@ namespace ArabErp.Web.Controllers
         }
         public ActionResult CreateProject()
         {
-            var internalid = DatabaseCommonRepository.GetNextReferenceNo(typeof(SalesQuotation).Name);
+            var internalid = DatabaseCommonRepository.GetNextDocNo(2, OrganizationId);
 
             FillCustomer();
             FillCurrency();
@@ -111,7 +111,7 @@ namespace ArabErp.Web.Controllers
             SalesQuotation salesquotation = new SalesQuotation();
             salesquotation.isProjectBased = 1;
             salesquotation.QuotationDate = System.DateTime.Today;
-            salesquotation.QuotationRefNo = "SQ/" + internalid;
+            salesquotation.QuotationRefNo = internalid;
             salesquotation.PredictedClosingDate = System.DateTime.Today;
             salesquotation.QuotationValidToDate = System.DateTime.Today;
             salesquotation.ExpectedDeliveryDate = System.DateTime.Today;

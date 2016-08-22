@@ -81,6 +81,8 @@ namespace ArabErp.DAL
                connection.Query(sql);
            }
        }
+
+       
         //protected SqlConnection connection;
         //public BaseRepository()
         //{
