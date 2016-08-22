@@ -28,7 +28,7 @@ namespace ArabErp.Domain
         public string QuotationNoDate { get; set; }
         public string EmployeeName { get; set; }
         public string RegistrationNo { get; set; }
-        
+        public int DaysLeft { get; set; }
 
         
     }
