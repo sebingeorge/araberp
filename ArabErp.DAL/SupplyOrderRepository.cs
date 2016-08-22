@@ -208,16 +208,51 @@ namespace ArabErp.DAL
             }
         }
 
-        public int UpdateSupplyOrder(SupplyOrder objSupplyOrder)
+
+        public string InsertSODT(SupplyOrder objSupplyOrder)
+        {
+            int id = 0;
+            using (IDbConnection connection = OpenConnection(dataConnection))
+            {
+                IDbTransaction trn = connection.BeginTransaction();
+                try
+                {
+                   
+                    var supplyorderitemrepo = new SupplyOrderItemRepository();
+                    foreach (var item in objSupplyOrder.SupplyOrderItems)
+                    {
+                        if (item.OrderedQty > 0)
+                        {
+                            item.SupplyOrderId = objSupplyOrder.SupplyOrderId;
+                            item.OrganizationId = objSupplyOrder.OrganizationId;
+                            supplyorderitemrepo.InsertSupplyOrderItem(item, connection, trn);
+                        }
+                    }
+                    InsertLoginHistory(dataConnection, objSupplyOrder.CreatedBy, "Update", "LPO", id.ToString(), "0");
+                    trn.Commit();
+                }
+                catch (Exception ex)
+                {
+                    logger.Error(ex.Message);
+                    trn.Rollback();
+                    throw;
+                }
+                return objSupplyOrder.SupplyOrderNo;
+            }
+        }
+
+        public string UpdateSOHD(SupplyOrder objSupplyOrder)
         {
             using (IDbConnection connection = OpenConnection(dataConnection))
             {
-                string sql = @"UPDATE SupplyOrder SET SupplyOrderDate = @SupplyOrderDate ,SupplierId = @SupplierId ,QuotaionNoAndDate = @QuotaionNoAndDate ,SpecialRemarks = @SpecialRemarks,PaymentTerms = @PaymentTerms,DeliveryTerms = @DeliveryTerms,RequiredDate = @RequiredDate,CreatedBy = @CreatedBy,CreatedDate = @CreatedDate  OUTPUT INSERTED.SupplyOrderId  WHERE SupplyOrderId = @SupplyOrderId";
-
-
+                string sql = @" UPDATE SupplyOrder SET SupplyOrderNo=@SupplyOrderNo,SupplyOrderDate = @SupplyOrderDate ,SupplierId = @SupplierId ,
+                                QuotaionNoAndDate = @QuotaionNoAndDate ,
+                                SpecialRemarks = @SpecialRemarks,PaymentTerms = @PaymentTerms,DeliveryTerms = @DeliveryTerms,
+                                RequiredDate = @RequiredDate,CreatedBy = @CreatedBy,CreatedDate = @CreatedDate,CurrencyId=@CurrencyId
+                                WHERE SupplyOrderId = @SupplyOrderId";
                 var id = connection.Execute(sql, objSupplyOrder);
-                InsertLoginHistory(dataConnection, objSupplyOrder.CreatedBy, "Update", "LPO", id.ToString(), "0");
-                return id;
+                //InsertLoginHistory(dataConnection, objSupplyOrder.CreatedBy, "Update", "LPO", id.ToString(), "0");
+                return objSupplyOrder.SupplyOrderNo;
             }
         }
         public int DeleteSupplyOrder(Unit objSupplyOrder)

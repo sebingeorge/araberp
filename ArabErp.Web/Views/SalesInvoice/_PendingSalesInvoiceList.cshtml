@@ -111,36 +111,36 @@
 
 </script>
 
-@using (Html.BeginForm("Create", null, FormMethod.Post, new { @class = "createFrom", @id = "Item_form" }))
+@using ( Html.BeginForm("Create", null, FormMethod.Post, new { @class = "createFrom", @id = "Item_form" }) )
 {
-           <div class="container-fluid pad4" style="margin-bottom:2px;">
-            <div class="row">
-                <div class="main-list white col-md-12 wid left">
-                    <div id="PendingCustomerInvoiceDiv">
-                        <div class="col-md-1" style="padding-top:5px;padding-left:40px">
+    <div class="container-fluid pad4" style="margin-bottom:2px;">
+        <div class="row">
+            <div class="main-list white col-md-12 wid left">
+                <div id="PendingCustomerInvoiceDiv">
+                    <div class="col-md-1" style="padding-top:5px;padding-left:40px">
 
-                            @*@Html.Label("Customer", new { @class = "form_input", autocomplete = "off", @readonly = "readonly" })*@
-                            <label>Customer</label>
+                        @*@Html.Label("Customer", new { @class = "form_input", autocomplete = "off", @readonly = "readonly" })*@
+                        <label>Customer</label>
 
-                        </div>
-                        <div class="col-md-2">
-                            @Html.TextBox("txtTitle", (string)ViewBag.CustomerName, new { @class = "form_input", Style = "background:#D6D5D5", autocomplete = "off", @readonly = "readonly" })
-                        </div>
-                        <div class="col-md-2" style="padding-top:5px;padding-left:62px">
+                    </div>
+                    <div class="col-md-2">
+                        @Html.TextBox("txtTitle", (string)ViewBag.CustomerName, new { @class = "form_input", Style = "background:#D6D5D5", autocomplete = "off", @readonly = "readonly" })
+                    </div>
+                    <div class="col-md-2" style="padding-top:5px;padding-left:62px">
 
-                            <label>Sale Order Ref No</label>
-                        </div>
-                        <div class="col-md-2">
+                        <label>Sale Order Ref No</label>
+                    </div>
+                    <div class="col-md-2">
 
-                            @Html.TextBox("txtTitle", (string)ViewBag.SaleOrderRefNoWithDate, new { @class = "form_input backgroundcolortransparent", Style = "background:#D6D5D5", autocomplete = "off", @readonly = "readonly" })
-                        </div>
-                        <div class="col-md-3">
+                        @Html.TextBox("txtTitle", (string)ViewBag.SaleOrderRefNoWithDate, new { @class = "form_input backgroundcolortransparent", Style = "background:#D6D5D5", autocomplete = "off", @readonly = "readonly" })
+                    </div>
+                    <div class="col-md-3">
 
-                        </div>
                     </div>
                 </div>
             </div>
-    </div> 
+        </div>
+    </div>
     <div class="container-fluid pad4">
         <div class="row">
             <div class="main-list col-md-12 wid">
@@ -150,27 +150,27 @@
                             <h5>Sales Invoice Details</h5>
                             <table id="PendingCustomerInvoiceTable" class="table table-bordered">
 
-                                @if (Model.Count > 0)
+                                @if ( Model.Count > 0 )
                                 {
-                                <thead>
-                                    <tr class="grid_heading">
-                                        <th width="40%"><h1>Work Description</h1></th>
-                                        <th width="20%"><h1>Job Card No.</h1></th>
-                                        <th width="15%"><h1>Vehicle Model</h1></th>
-                                        <th width="5%"><h1>Quantity</h1></th>
+                                    <thead>
+                                        <tr class="grid_heading">
+                                            <th width="40%"><h1>Work Description</h1></th>
+                                            <th width="20%"><h1>Job Card No.</h1></th>
+                                            <th width="15%"><h1>Vehicle Model</h1></th>
+                                            <th width="5%"><h1>Quantity</h1></th>
 
-                                        <th width="5%"><h1>Rate</h1></th>
-                                        <th width="5%"><h1>Amount</h1></th>
-                                        <th width="10%">
-                                            <h1>
-                                                <input id="checkAll" type="checkbox" value="Select All" /><label for="checkAll">Select All</label>
-                                                <input type="hidden" value="0" id="HiddenForCheckBox" />
-                                            </h1>
-                                        </th>
-                                    </tr>
-                                </thead>
+                                            <th width="5%"><h1>Rate</h1></th>
+                                            <th width="5%"><h1>Amount</h1></th>
+                                            <th width="10%">
+                                                <h1>
+                                                    <input id="checkAll" type="checkbox" value="Select All" /><label for="checkAll">Select All</label>
+                                                    <input type="hidden" value="0" id="HiddenForCheckBox" />
+                                                </h1>
+                                            </th>
+                                        </tr>
+                                    </thead>
                                     <tbody>
-                                        @for (int i = 0; i < Model.Count(); i++)
+                                        @for ( int i = 0; i < Model.Count(); i++ )
                                         {
                                             <tr style="width:80%">
                                                 <td width="20%">@Html.TextBoxFor(m => Model[i].WorkDescription, new { @class = "form_input", autocomplete = "off", @readonly = "readonly" })</td>

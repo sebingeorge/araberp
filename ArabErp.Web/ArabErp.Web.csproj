@@ -764,6 +764,10 @@
     <Content Include="Views\StockCreation\Edit.cshtml" />
     <Content Include="Views\PendingPARregister\Index.cshtml" />
     <Content Include="Views\PrefixSettings\Index.cshtml" />
+    <Content Include="Views\SupplyOrderRegister\PengingSO.cshtml" />
+    <Content Include="Views\SupplyOrderRegister\_PendingSupplyOrderRegister.cshtml" />
+    <Content Include="Views\SupplyOrderRegister\SOVariance.cshtml" />
+    <Content Include="Views\SupplyOrderRegister\_SupplyOrderVarianceReport.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -774,6 +778,7 @@
     <Folder Include="Views\CustomerVsWorkDescription\" />
     <Folder Include="Views\LocalPurchase\" />
     <Folder Include="Views\MisReport\" />
+    <Folder Include="Views\PendingSupplyOrderRegister\" />
     <Folder Include="Views\StockJournel\" />
   </ItemGroup>
   <ItemGroup>

@@ -89,7 +89,7 @@ namespace ArabErp.Web.Controllers
                 {
                     TempData["success"] = "Saved successfully. WorkShop Request Reference No. is " + id.Split('|')[1];
                     TempData["error"] = "";
-                    return RedirectToAction("WorkShopRequestPending");
+                    return RedirectToAction("Pending");
                 }
                 else
                 {
@@ -108,8 +108,7 @@ namespace ArabErp.Web.Controllers
             {
                 TempData["error"] = "Some error occured. Please try again.|" + ex.Message;
             }
-            TempData["success"] = "";
-            return RedirectToAction("WorkShopRequestPending");
+            return View("Pending", model);
         }
         public ActionResult PreviousList(DateTime? from, DateTime? to, int id = 0, int cusid = 0)
         {

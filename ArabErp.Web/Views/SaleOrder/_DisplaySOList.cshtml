@@ -152,9 +152,9 @@
         });
 
         //$("#QtyTotal").text(quantity);
-        $("#TotalAmount").val(amount);
+        $("#TotalAmount").val(amount.toFixed(2));
 
-        $("#TotalDiscount").val(discount);
+        $("#TotalDiscount").val(discount.toFixed(2));
 
         var TotalAmt = $("#TotalAmount").val();
 
@@ -300,7 +300,7 @@
                         }
                         else
                         {*@
-                            @Html.TextBoxFor(m => m.Items[i].Discount, new { @class = "form_input ", autocomplete = "off", @style = "text-align:right", placeholder = "Discount", @readonly = "readonly" })
+                            @Html.TextBoxFor(m => m.Items[i].Discount, new { @class = "form_input cldiscount", autocomplete = "off", @style = "text-align:right", placeholder = "Discount", @readonly = "readonly" })
                         @*}*@
                     </td>
                     <td>@Html.TextBoxFor(m => m.Items[i].Amount, new { @class = "form_input clAmount", autocomplete = "off", @style = "text-align:right", placeholder = "Amount", @readonly = "readonly" })</td>
