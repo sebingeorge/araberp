@@ -141,5 +141,9 @@ namespace ArabErp.Web.Controllers
         {
             return View();
         }
+        public ActionResult Layout()
+        {
+            return View();
+        }
     }
 }
