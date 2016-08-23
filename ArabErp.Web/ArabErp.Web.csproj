@@ -214,6 +214,7 @@
     <Compile Include="Controllers\CustomerController.cs" />
     <Compile Include="Controllers\CustomerReceiptController.cs" />
     <Compile Include="Controllers\CustomerVsWorkRateController.cs" />
+    <Compile Include="Controllers\CustomerWiseSalesRegisterController.cs" />
     <Compile Include="Controllers\DesignationController.cs" />
     <Compile Include="Controllers\DirectPurchaseController.cs" />
     <Compile Include="Controllers\EmployeeCategoryController.cs" />
@@ -772,6 +773,8 @@
     <Content Include="Views\SupplyOrderSummary\_SupplyOrderSummary.cshtml" />
     <Content Include="Views\TargetVsAchieved\Index.cshtml" />
     <Content Include="Views\TargetVsAchieved\_TargetVsAchievedRegister.cshtml" />
+    <Content Include="Views\CustomerWiseSalesRegister\Index.cshtml" />
+    <Content Include="Views\CustomerWiseSalesRegister\_CustomerWiseSalesRegister.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
