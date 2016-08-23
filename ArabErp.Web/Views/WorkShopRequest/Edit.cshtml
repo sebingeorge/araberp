@@ -9,6 +9,12 @@
     }
 
     $(function () {
+        $("#WorkShopRequestDate").datepicker({
+            dateFormat: "dd-MM-yy"
+        });
+        $("#RequiredDate").datepicker({
+            dateFormat: "dd-MM-yy"
+        });
         //---------------------toastr---------------------------//
         toastr.options = {
             "positionClass": "toast-bottom-full-width",
@@ -97,7 +103,7 @@
             <div class="row form-group">
                 <div class="col-md-12">
                     <label for="WorkDescription">Work Description</label>
-                    @Html.TextAreaFor(m => m.WorkDescription, new { @class = "form_input form_input-h1", autocomplete = "off" })
+                    @Html.TextAreaFor(m => m.WorkDescription, new { @class = "form_input form_input-h1", autocomplete = "off", @readonly="true" })
                 </div>
 
             </div>

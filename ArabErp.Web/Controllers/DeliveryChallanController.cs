@@ -22,11 +22,11 @@ namespace ArabErp.Web.Controllers
         }
         public void CustomerDropdown()
         {
-            ViewBag.customerList = new SelectList(new DropdownRepository().CustomerDropdown(), "Id", "Name");
+            ViewBag.customerList = new SelectList(new DropdownRepository().CustomerDropdown1(), "Id", "Name");
         }
         public ActionResult PendingDeliveryChallan(int customerId)
         {
-            if (customerId == 0)
+            if ( customerId == 0 )
             {
                 return PartialView("_PendingDeliveryChallan", new List<PendingJC>());
             }
@@ -34,7 +34,7 @@ namespace ArabErp.Web.Controllers
         }
         public ActionResult Save(int id = 0)
         {
-            if (id != 0)
+            if ( id != 0 )
             {
                 EmployeeDropdown();
                 return View(new DeliveryChallan
@@ -54,19 +54,24 @@ namespace ArabErp.Web.Controllers
             model.CreatedDate = System.DateTime.Now;
             model.CreatedBy = UserID.ToString();
 
-            foreach (ItemBatch item in model.ItemBatches)
+            try
             {
-                item.WarrantyStartDate = model.DeliveryChallanDate;
-                item.WarrantyExpireDate = model.DeliveryChallanDate.AddMonths(item.WarrantyPeriodInMonths ?? 0).AddDays(-1);
+                foreach ( ItemBatch item in model.ItemBatches )
+                {
+                    item.WarrantyStartDate = model.DeliveryChallanDate;
+                    item.WarrantyExpireDate = model.DeliveryChallanDate.AddMonths(item.WarrantyPeriodInMonths ?? 0).AddDays(-1);
+                }
             }
+            catch ( NullReferenceException ) { }
             string ref_no = new DeliveryChallanRepository().InsertDeliveryChallan(model);
-            if (ref_no.Length > 0)
+            if ( ref_no.Length > 0 )
             {
                 TempData["success"] = "Saved Successfully. The Reference No. is " + ref_no;
                 return RedirectToAction("Index");
             }
             else
             {
+                EmployeeDropdown();
                 TempData["error"] = "Some error occured while saving. Please try again";
                 return View(model);
             }

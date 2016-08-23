@@ -77,8 +77,10 @@
                             <label for="CurrencyId">Currency</label>
                             @Html.DropDownListFor(m => Model.CurrencyId, (SelectList)ViewBag.Currency, "Select Item Currency", new { @class = "form_input", autocomplete = "off" })
                         </div>
-
-
+                        <div class="part4">
+                            <label for="FinancialYear">Financial Year</label>
+                            @Html.DropDownListFor(m => Model.FyId, (SelectList)ViewBag.FinancialYear, "Select Financial Year", new { @class = "form_input", autocomplete = "off" })
+                        </div>
                     </div>
 
 

@@ -1,0 +1,91 @@
+﻿
+@{
+    ViewBag.Title = "SOVariance";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+<script type="text/javascript">
+
+    $(document).ready(function()
+    {
+        $("#txtFrom").datepicker({
+            dateformat:"dd-MM-yy"
+        });
+        $("#txtTo").datepicker({
+            dateFormat: "dd-MM-yy"
+        });
+    })
+
+    function Filter() {
+        $("#so_Reg").addClass("fade");
+        var id = $("#cboSupplier").val();
+        var itmid = $("#cboItem").val();
+        var from = $("#txtFrom").val();
+        var to = $("#txtTo").val();
+        var url = '@Url.Action("SupplyOrderVarianceReport")';
+        url += "?from=" + from + "&to=" + to + "&id=" + id + "&itmid=" + itmid;
+        $("#so_Reg").load(url, function () {
+            $("#so_Reg").removeClass("fade");
+        });
+    }
+    function Exit() {
+        var url = '@Url.Action("Index", "Home")';
+        window.location = url;
+    }
+
+</script>
+
+
+<div class="row">
+
+    <div class="form-head1">
+        <h4>Supply Order Variance Report</h4>
+    </div>
+
+    <div class="main-part pad1">
+        <div class="row">
+            <div class="col-md-2">
+                <label>From</label>
+                <input id="txtFrom" value="@System.DateTime.Today.AddMonths(-7).ToString("dd-MMMM-yyy")" class="form_input" onchange="Filter()" />
+            </div>
+
+            <div class="col-md-2">
+                <label>To</label>
+                <input id="txtTo" value="@System.DateTime.Today.ToString("dd-MMMM-yyy")" class="form_input" onchange="Filter()" />
+            </div>
+
+            <div class="col-md-2">
+                <label for="cboSupplier">Supplier</label>
+                @Html.DropDownList("cboSupplier", (SelectList)ViewBag.SupplierList, "Any", new { @class = "form_input", @onchange = "Filter()" })
+            </div>
+
+            <div class="col-md-3">
+                <label for="cboItem">Item</label>
+                @Html.DropDownList("cboItem", (SelectList)ViewBag.ItemList, "Any", new { @class = "form_input", @onchange = "Filter()" })
+            </div>
+
+        </div>
+
+        <br />
+
+        <div class="row">
+            @*<div class="main-grid main-grid-top scroll1">*@
+            <div class="table-responsive" id="so_Reg">
+                @Html.Action("SupplyOrderVarianceReport")
+            </div>
+        </div>
+        @*</div>*@
+
+        <div class="row">
+            <div class="col-md-12 hrpart">
+                <input type="button" class="form-button right" value="Exit" onclick="Exit()" />
+            </div>
+        </div>
+
+    </div>
+</div>
+
+
+
+

@@ -20,6 +20,8 @@ namespace ArabErp.Domain
         public int CurrencyId { get; set; }
         public string CurrencyName { get; set; }
         public string CreatedBy { get; set; }
+        [Required]
+        public int? FyId { get; set; }
 
      } 
 

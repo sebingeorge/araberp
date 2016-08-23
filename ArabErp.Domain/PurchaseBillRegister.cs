@@ -13,11 +13,11 @@ namespace ArabErp.Domain
         public string SupplierName { get; set; }
         public DateTime PurchaseBillDate { get; set; }
         public string ItemName { get; set; }
+        public string CategoryName { get; set; }
         public decimal Rate { get; set; }
         public string PurchaseBillNoDate { get; set; }
         public decimal Amount { get; set; }
         public int Quantity { get; set; }
-      
-
+        public string UnitName { get; set; }
     }
 }

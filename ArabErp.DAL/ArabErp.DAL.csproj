@@ -90,6 +90,7 @@
     <Compile Include="EmployeeCategoryRepository.cs" />
     <Compile Include="EmployeeRepository.cs" />
     <Compile Include="ExpenseRepository.cs" />
+    <Compile Include="FinancialYearRepository.cs" />
     <Compile Include="FreezerUnitRepository.cs" />
     <Compile Include="GRNItemRepository.cs" />
     <Compile Include="GRNRepository.cs" />
@@ -111,6 +112,7 @@
     <Compile Include="OpeningStockRepository.cs" />
     <Compile Include="OrganizationRepository.cs" />
     <Compile Include="PaymentTermsRepository.cs" />
+    <Compile Include="PrefixSettingsRepository.cs" />
     <Compile Include="ProfitabilityReportRepository.cs" />
     <Compile Include="ProformaInvoiceItemRepository.cs" />
     <Compile Include="ProformaInvoiceRepository.cs" />

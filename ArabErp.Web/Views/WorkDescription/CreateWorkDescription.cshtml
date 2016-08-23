@@ -39,6 +39,9 @@
         $("#Tab_Item").append('<tr id="'+'Row_Item_Id_' + i + '">' + clone.html() + '  </tr>');
         $("#Itemslno" + (i + 1)).html((i + 1));
         $("#WorkVsItems_" + i + "__SlNo").val((i + 1));
+
+        $("#Row_Item_Id_" + i).find('span[class="custom-combobox"]').remove();
+        $("#WorkVsItems_" + i + "__ItemId").combobox();
     }
     function ItemRowDelete(index) {
 
@@ -108,6 +111,9 @@
         $("#Tab_Task").append('<tr id="'+'Row_Task_Id_' + i + '">' + clone.html() + '  </tr>');
         $("#Taskslno" + (i + 1)).html((i + 1));
         $("#WorkVsTask_" + i + "__SlNo").val((i + 1));
+
+        $("#Row_Task_Id_" + i).find('span[class="custom-combobox"]').remove();
+        $("#WorkVsTasks_" + i + "__JobCardTaskMasterId").combobox();
     }
     function TaskRowDelete(index) {
 
@@ -147,6 +153,9 @@
     }
     $(document).ready(function () {
     
+        $("select[id$='__ItemId']").combobox();
+        $("select[id$='__JobCardTaskMasterId']").combobox();
+
         $("#WorkVsItems_0__SlNo").val('1');
         var Action = '@actionName';
         if (Action == 'EditWorkDescription') {
