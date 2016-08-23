@@ -129,9 +129,9 @@
                     <tbody class="grid_row">
                         @if (Model.ItemBatches.Count > 0)
                         {
+                            int i = 0;
                             foreach (var item in Model.ItemBatches)
                             {
-                                int i = 0;
                                 <tr>
                                     <td align="center">
                                         @Html.HiddenFor(m => m.ItemBatches[i].ItemBatchId)
