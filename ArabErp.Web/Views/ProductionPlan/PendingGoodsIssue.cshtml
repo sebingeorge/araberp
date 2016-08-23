@@ -1,0 +1,231 @@
+﻿@{
+    ViewBag.Title = "PendingGoodsIssue";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+
+<div class="row">
+    <div class="form-head1">
+        <h4>Pending Goods Issue to Production</h4>
+    </div>
+
+    <div class="main-part pad1">
+
+        <div class="table-responsive">
+            <table class="table table-bordered" id="tab_logic">
+                <thead>
+                    <tr class="grid_heading">
+                        <th width="7%"><h1>PRD Code</h1></th>
+                        <th width="66%"><h1>Item</h1></th>
+                        <th width="7%" class="text-right"><h1>Qty</h1></th>
+                        <th width="7%" class="text-left"><h1>Unit</h1></th>
+                        <th width="7%"><h1>Batch</h1></th>
+                        <th width="5%"><center><h1>Select</h1></center></th>
+                    </tr>
+                </thead>
+                <tbody>
+
+                    <tr>
+
+                        <td>P50</td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td><center><input type="checkbox" name="" value=""></center></td>
+
+                    </tr>
+                    <tr>
+
+                        <td>P50</td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td><center><input type="checkbox" name="" value=""></center></td>
+
+
+                    </tr>
+                    <tr>
+
+                        <td>P50</td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td><center><input type="checkbox" name="" value=""></center></td>
+
+
+                    </tr>
+                    <tr>
+
+                        <td>P50</td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td><center><input type="checkbox" name="" value=""></center></td>
+
+
+                    </tr>
+                    <tr>
+
+                        <td>P50</td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td><center><input type="checkbox" name="" value=""></center></td>
+
+
+                    </tr>
+                    <tr>
+
+                        <td>P50</td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td><center><input type="checkbox" name="" value=""></center></td>
+
+
+                    </tr>
+                    <tr>
+
+                        <td>P50</td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td><center><input type="checkbox" name="" value=""></center></td>
+
+
+                    </tr>
+                    <tr>
+
+                        <td>P50</td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td><center><input type="checkbox" name="" value=""></center></td>
+
+
+                    </tr>
+                    <tr>
+
+                        <td>P50</td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td><center><input type="checkbox" name="" value=""></center></td>
+
+
+                    </tr>
+                    <tr>
+
+                        <td>P50</td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td><center><input type="checkbox" name="" value=""></center></td>
+
+
+                    </tr>
+                    <tr>
+
+                        <td>P50</td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td><center><input type="checkbox" name="" value=""></center></td>
+
+
+                    </tr>
+                    <tr>
+
+                        <td>P50</td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td><center><input type="checkbox" name="" value=""></center></td>
+
+
+                    </tr>
+                    <tr>
+
+                        <td>P50</td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td><center><input type="checkbox" name="" value=""></center></td>
+
+
+                    </tr>
+                    <tr>
+
+                        <td>P50</td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td><center><input type="checkbox" name="" value=""></center></td>
+
+
+                    </tr>
+                    <tr>
+
+                        <td>P50</td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td><center><input type="checkbox" name="" value=""></center></td>
+
+
+                    </tr>
+
+
+
+
+
+                </tbody>
+                <tfoot>
+                    <tr class="grid_heading">
+
+                        <th></th>
+                        <th></th>
+                        <th></th>
+                        <th></th>
+                        <th></th>
+                        <th></th>
+
+
+
+
+                    </tr>
+                </tfoot>
+            </table>
+
+            <div class="row">
+                <div class="col-md-12 hrpart">
+                    <button type="button" class="form-button right" onclick="Proceed()">Proceed</button>
+                    <button type="button" class="form-button right">Exit</button>
+                </div>
+
+            </div>
+        </div>
+    </div>
+    <script>
+        function Proceed() {
+        var url = '@Url.Action("GoodsIssue")'
+        window.location = url;
+    }
+
+    </script>

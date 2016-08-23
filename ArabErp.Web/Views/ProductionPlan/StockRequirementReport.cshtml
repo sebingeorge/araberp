@@ -1,0 +1,234 @@
+﻿
+@{
+    ViewBag.Title = "StockRequirementReport";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+
+<div class="row">
+    <div class="form-head1">
+        <h4>Stock Requirement Report</h4>
+    </div>
+
+    <div class="main-part pad1">
+        <div class="row form-group">
+            <div class="col-md-2">
+                <label>SR No.</label>
+                <input type="text" class="form_input" />
+            </div>
+
+
+        </div>
+
+        <div class="row form-group">
+            <div class="col-md-4">
+                <label>Material</label>
+                <select class="form_input">
+                    <option value="volvo">Material 1</option>
+                    <option value="saab">Material 2</option>
+                </select>
+            </div>
+            <div class="col-md-4">
+                <label>Plant</label>
+                <select class="form_input">
+                    <option value="volvo">Plant 1</option>
+                    <option value="saab">Plant 2</option>
+                </select>
+            </div>
+        </div>
+
+
+        <div class="table-responsive">
+            <table class="table table-bordered" id="tab_logic">
+                <thead>
+                    <tr class="grid_heading">
+                        <th width="7%"><h1>SR No.</h1></th>
+                        <th width="7%"><h1>Date</h1></th>
+                        <th width="40%"><h1>MRP Element Data</h1></th>
+                        <th width="32%"><h1>Received / Required</h1></th>
+                        <th width="7%" class="text-right"><h1>Qty</h1></th>
+                        <th width="7%" class="text-left"><h1>Unit</h1></th>
+                    </tr>
+                </thead>
+                <tbody>
+
+                    <tr>
+
+                        <td>P50</td>
+                        <td></td>
+                        <td>Stock</td>
+                        <td></td>
+                        <td class="text-right">400</td>
+                        <td></td>
+
+                    </tr>
+                    <tr>
+
+                        <td>P50</td>
+                        <td></td>
+                        <td>Safty Stock</td>
+                        <td>-50</td>
+                        <td class="text-right">350</td>
+                        <td></td>
+
+
+                    </tr>
+                    <tr>
+
+                        <td>P50</td>
+                        <td></td>
+                        <td>Prod Order 2323</td>
+                        <td>100</td>
+                        <td class="text-right">450</td>
+                        <td></td>
+
+
+                    </tr>
+                    <tr>
+
+                        <td>P50</td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+
+
+                    </tr>
+                    <tr>
+
+                        <td>P50</td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+
+
+                    </tr>
+                    <tr>
+
+                        <td>P50</td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+
+
+                    </tr>
+                    <tr>
+
+                        <td>P50</td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+
+
+                    </tr>
+                    <tr>
+
+                        <td>P50</td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+
+
+                    </tr>
+                    <tr>
+
+                        <td>P50</td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+
+
+                    </tr>
+                    <tr>
+
+                        <td>P50</td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+
+
+                    </tr>
+                    <tr>
+
+                        <td>P50</td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+
+
+                    </tr>
+                    <tr>
+
+                        <td>P50</td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+
+
+                    </tr>
+
+
+
+
+
+
+
+
+
+
+                </tbody>
+                <tfoot>
+                    <tr class="grid_heading">
+
+                        <th></th>
+                        <th></th>
+                        <th></th>
+                        <th></th>
+                        <th></th>
+                        <th></th>
+
+
+
+
+                    </tr>
+                </tfoot>
+            </table>
+        </div>
+
+
+
+
+
+        <div class="row">
+            <div class="col-md-12 hrpart">
+                <button type="button" class="form-button right">Save</button>
+                <button type="button" class="form-button right">Exit</button>
+            </div>
+
+        </div>
+
+
+    </div>
+
+</div>
+
+
+

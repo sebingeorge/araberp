@@ -7496,7 +7496,10 @@ td.visible-print {
     {
         width:100% !important;
     }
-
+    .res 
+    {
+        width:96% !important;
+    }
 
 
 
@@ -7515,6 +7518,12 @@ td.visible-print {
     {
         width:77.8% !important
     }
+
+         .res 
+    {
+        width:96% !important;
+    }
+
 
 
 
