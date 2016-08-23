@@ -22,7 +22,7 @@ namespace ArabErp.Web.Controllers
         public void FillCustomer()
         {
             DropdownRepository repo = new DropdownRepository();
-            var result = repo.SICustomerDropdown();
+            var result = repo.SICustomerDropdown(OrganizationId);
             ViewBag.SupplierList = new SelectList(result, "Id", "Name");
         }
         public ActionResult SaleRegister(DateTime? from, DateTime? to, int id = 0)

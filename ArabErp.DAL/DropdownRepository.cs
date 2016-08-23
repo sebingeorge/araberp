@@ -91,11 +91,11 @@ namespace ArabErp.DAL
         /// Return all active Customers which in Sales Invoice
         /// </summary>
         /// <returns></returns>
-        public List<Dropdown> SICustomerDropdown()
+        public List<Dropdown> SICustomerDropdown(int OrganizationId)
         {
             using (IDbConnection connection = OpenConnection(dataConnection))
             {
-                return connection.Query<Dropdown>("SELECT distinct C.CustomerId Id,CustomerName Name  from SalesInvoice S inner join SaleOrder SO ON SO.SaleOrderId=S.SaleOrderId inner join Customer C ON C.CustomerId=SO.CustomerId WHERE ISNULL(C.isActive, 1) = 1").ToList();
+                return connection.Query<Dropdown>("SELECT distinct C.CustomerId Id,CustomerName Name  from SalesInvoice S inner join SaleOrder SO ON SO.SaleOrderId=S.SaleOrderId inner join Customer C ON C.CustomerId=SO.CustomerId WHERE ISNULL(C.isActive, 1) = 1 and S.OrganizationId=@OrganizationId", new { OrganizationId = OrganizationId }).ToList();
             }
         }
         /// <summary>
@@ -849,9 +849,15 @@ namespace ArabErp.DAL
         {
             using (IDbConnection connection = OpenConnection(dataConnection))
             {
-                return connection.Query<Dropdown>("SELECT  M.MonthId Id, MonthName Name FROM Month M INNER JOIN SalesTarget S ON M.MonthId=S.MonthId WHERE ISNULL(S.isActive, 1) = 1 AND  S.OrganizationId=ISNULL(NULLIF(@Id, 0), S.OrganizationId )", new { Id = Id }).ToList();
+                return connection.Query<Dropdown>("SELECT Distinct M.MonthId Id, MonthName Name FROM Month M INNER JOIN SalesTarget S ON M.MonthId=S.MonthId WHERE ISNULL(S.isActive, 1) = 1 AND  S.OrganizationId=ISNULL(NULLIF(@Id, 0), S.OrganizationId )", new { Id = Id }).ToList();
             }
         }
-        
+        public List<Dropdown> WorkDescDropdown(int Id)
+        {
+            using (IDbConnection connection = OpenConnection(dataConnection))
+            {
+                return connection.Query<Dropdown>("SELECT Distinct  W.WorkDescriptionId Id, WorkDescrShortName Name FROM WorkDescription W INNER JOIN SaleOrderItem SI ON SI.WorkDescriptionId=W.WorkDescriptionId INNER JOIN SalesInvoiceItem SOI ON SOI.SaleOrderItemId =SI.SaleOrderItemId WHERE ISNULL(W.isActive, 1) = 1 AND  W.OrganizationId=ISNULL(NULLIF(@Id, 0), W.OrganizationId )", new { Id = Id }).ToList();
+            }
+        }
     }
 }
