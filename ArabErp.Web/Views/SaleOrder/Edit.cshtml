@@ -80,47 +80,52 @@
     }
     function Validation() {
         var count = 0;
+        if ($("#CommissionAgentId").val() != '' && (Number($("#CommissionAmount").val()) == '' || Number($("#CommissionAmount").val()) <= 0)) {
+            toastr.info("Sales Executive incentive amount is required");
+            return false;
+        }
+        return true;
 
-        if ($('#CustomerId').val() == '') {
-            alert("select one customer...");
-            $('#CustomerId').focus();
-            return false;
-        }
-        else if ($('#CustomerOrderRef').val() == '') {
-            alert("please enter customer order ref.");
-            $('#CustomerOrderRef').focus();
-            return false;
-        }
-        else if ($('#PaymentTermsId').val() == '') {
-            alert("select payment terms");
-            $('#PaymentTermsId').focus();
-            return false;
-        }
-        else if ($('#CommissionAgentId').val() == '') {
-            alert("Select Sales Executive 1");
-            $('#CommissionAgentId').focus();
-            return false;
-        }
-        else if ($('#CommissionPerc').val() == '') {
-            alert("please enter commission percentage.");
-            $('#CommissionPerc').focus();
-            return false;
-        }
-        else if ($('#SalesExecutiveId').val() == '') {
-            alert("select order taken by");
-            $('#SalesExecutiveId').focus();
-            return false;
-        }
-        else if ($('#EDateArrival').val() == '') {
-            alert("select EDA");
-            $('#EDateArrival').focus();
-            return false;
-        }
-        else if ($('#EDateDelivery').val() == '') {
-            alert("select EDD");
-            $('#EDateDelivery').focus();
-            return false;
-        }
+        //if ($('#CustomerId').val() == '') {
+        //    alert("select one customer...");
+        //    $('#CustomerId').focus();
+        //    return false;
+        //}
+        //else if ($('#CustomerOrderRef').val() == '') {
+        //    alert("please enter customer order ref.");
+        //    $('#CustomerOrderRef').focus();
+        //    return false;
+        //}
+        //else if ($('#PaymentTermsId').val() == '') {
+        //    alert("select payment terms");
+        //    $('#PaymentTermsId').focus();
+        //    return false;
+        //}
+        //else if ($('#CommissionAgentId').val() == '') {
+        //    alert("Select Sales Executive 1");
+        //    $('#CommissionAgentId').focus();
+        //    return false;
+        //}
+        //else if ($('#CommissionPerc').val() == '') {
+        //    alert("please enter commission percentage.");
+        //    $('#CommissionPerc').focus();
+        //    return false;
+        //}
+        //else if ($('#SalesExecutiveId').val() == '') {
+        //    alert("select order taken by");
+        //    $('#SalesExecutiveId').focus();
+        //    return false;
+        //}
+        //else if ($('#EDateArrival').val() == '') {
+        //    alert("select EDA");
+        //    $('#EDateArrival').focus();
+        //    return false;
+        //}
+        //else if ($('#EDateDelivery').val() == '') {
+        //    alert("select EDD");
+        //    $('#EDateDelivery').focus();
+        //    return false;
+        //}
         //else if ($('#EDateDelivery').val() < $('#EDateArrival').val()) {
         //    alert("please select a valid Delivery Date, Delivery Date should be greater than Arrival Date");
         //    $('#EDateDelivery').focus();

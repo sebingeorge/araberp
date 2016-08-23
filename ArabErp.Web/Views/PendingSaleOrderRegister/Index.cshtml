@@ -3,6 +3,7 @@
     ViewBag.Title = "Index";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
+
 <script type="text/javascript">
     $(document).ready(function () {
         $("#txtFrom").datepicker({
@@ -13,17 +14,32 @@
         });
     })
 
-    function Filter() {
+    function Filter()
+    
+    {
         $("#Pend_SO").addClass("fade");
         var id = $("#cboCustomer").val();
+        alert(id);
         var from = $("#txtFrom").val();
         var to = $("#txtTo").val();
-        var url = '@Url.Action("PendingSaleOrderRegister")';
-        url += "?from=" + from + "&to=" + to + "&id=" + id ;
+      
+        if ('@ViewBag.type' == "Pending")
+
+        {
+
+            var url = '@Url.Action("PendingSaleOrderRegister")';
+            url += "?from=" + from + "&to=" + to + "&id=" + id;
+        }
+        else if ('@ViewBag.type' == "Variance") {
+
+            var url = '@Url.Action("SaleOrderVarianceRegister")';
+            url += "?from=" + from + "&to=" + to + "&id=" + id;
+        }
         $("#Pend_SO").load(url, function () {
             $("#Pend_SO").removeClass("fade");
         });
     }
+   
     function Exit() {
         var url = '@Url.Action("Index", "Home")';
         window.location = url;
@@ -31,7 +47,16 @@
 </script>
 <div class="row">
     <div class="form-head1">
-        <h4>Pending Sale Orders</h4>
+       @if (ViewBag.type == "Pending")
+          
+            {
+              <h4>Pending Sale Orders</h4>
+            }
+       else if (ViewBag.type == "Variance")
+          
+            {
+              <h4>Sale Order Variance Report</h4>
+          }
     </div>
     <div class="main-part pad1">
         <div class="row">
@@ -52,7 +77,16 @@
         <div class="row">
             <div class="main-grid main-grid-top scroll1">
                 <div class="table-responsive" id="Pend_SO">
-                    @Html.Action("PendingSaleOrderRegister")
+     @if (ViewBag.type == "Pending")
+
+            {
+           @Html.Action("PendingSaleOrderRegister")
+            }
+      else if (ViewBag.type == "Variance")
+          
+            {
+           @Html.Action("SaleOrderVarianceRegister")
+            }
                 </div>
             </div>
         </div>

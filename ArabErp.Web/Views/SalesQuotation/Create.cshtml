@@ -51,11 +51,11 @@
         var url = '@Url.Action("PreviousList", "SalesQuotation")';
         @if (actionName == "Create")
         {
-           @: url += "?type=1";
+           @: url += "?type=0";
         }
         else
         {
-            @: url += "?type=0";
+            @: url += "?type=1";
                 }
         window.location = url;
     }

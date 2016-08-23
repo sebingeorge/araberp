@@ -35,9 +35,17 @@ namespace ArabErp.DAL
                     IDbTransaction trn = connection.BeginTransaction();
                     try
                     {
-                        int internalid = DatabaseCommonRepository.GetInternalIDFromDatabase(connection, trn, typeof(SalesQuotation).Name, "0",1);
-                        model.QuotationRefNo = "SQ/" + internalid;
-                      
+                        //int internalid = DatabaseCommonRepository.GetInternalIDFromDatabase(connection, trn, typeof(SalesQuotation).Name, "0",1);
+                        //model.QuotationRefNo = "SQ/" + internalid;
+                        if (model.isProjectBased == 0)
+                        {
+                            model.QuotationRefNo = DatabaseCommonRepository.GetNewDocNo(connection, model.OrganizationId, 1, true);
+                        }
+                        else
+                        {
+                            model.QuotationRefNo = DatabaseCommonRepository.GetNewDocNo(connection, model.OrganizationId, 2, true);
+                        }
+                        
                         #region automatically approve if no custom rates are set
                         if (model.isProjectBased == 0)
                         {

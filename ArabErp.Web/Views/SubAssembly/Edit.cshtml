@@ -1,13 +1,15 @@
 ﻿@model ArabErp.Domain.SubAssembly
 
 @{
-    ViewBag.Title = "Create Sub-assembly";
+    ViewBag.Title = "Edit/Delete Sub-assembly";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
 <script type="text/javascript">
 
     $(document).ready(function () {
+
+        $("select[id$='__ItemId']").combobox();
 
         $("#StockCreationRefNo").tooltip();
 
@@ -61,7 +63,7 @@
     function OnConsumedItemStockPointChanged() {
         $("#consumed-table").addClass("fade");
         $("input[id$='__StockQuantity']").each(function (index, object) {
-            if ($("#ConsumedItemStockpointId").val() == '') {
+            if ($("#ConsumedStockpointId").val() == '') {
                 $(object).val(0);
             }
             else OnConsumedMaterialChanged(index);
@@ -70,7 +72,12 @@
     }
 
     function Exit() {
-        var url = '@Url.Action("Index", "Home")';
+        var url = '@Url.Action("Index")';
+        window.location = url;
+    }
+
+    function DeleteItem() {
+        var url = '@Url.Action("Delete", new { id = Model.StockCreationId })';
         window.location = url;
     }
 
@@ -79,7 +86,7 @@
 
 <div class="row">
     <div class="form-head1">
-        <h4>Create Sub-assembly</h4>
+        <h4>Edit/Delete Sub-assembly</h4>
     </div>
 
     <div class="main-part pad1">
@@ -98,7 +105,11 @@
                 </div>
                 <div class="col-md-2">
                     <label for="StockCreationDate">Date</label>
-                    @Html.TextBoxFor(m => m.StockCreationDate, Model.StockCreationDate.ToString("dd-MMMM-yyyy"), new { @class = "form_input", @readonly = "true", @required = "true" })
+                    @Html.TextBoxFor(m => m.StockCreationDate, Model.StockCreationDate.ToString("dd-MMMM-yyyy"), new { @class = "form_input", @readonly = "true", @required = "true", @onchange = "OnConsumedItemStockPointChanged()" })
+                </div>
+                <div class="col-md-3">
+                    <label for="ConsumedItemStockpointId">Source</label>
+                    @Html.DropDownListFor(m => m.ConsumedStockpointId, new SelectList(ViewBag.stockpointList, "Value", "Text", Model.ConsumedStockpointId), "Select Stockpoint", new { @class = "form_input", @onchange = "OnConsumedItemStockPointChanged()" })
                 </div>
                 <div class="col-md-3">
                     <label for="FinishedGoodStockpointId">Destination</label>
@@ -106,12 +117,6 @@
                 </div>
             </div>
 
-            <strong>Finished Goods:</strong>
-            <div class="table-responsive scroll4" id="finished-table">
-                @Html.Partial("_FinishedGood")
-            </div>
-
-            <br />
             <div class="row">
                 <div class="col-md-3">
                     <label for="EmployeeId">Employee</label>
@@ -121,21 +126,22 @@
                     <label for="WorkingHours">Hours</label>
                     @Html.TextBoxFor(m => m.WorkingHours, new { @class = "form_input", @required = "true" })
                 </div>
-                <div class="col-md-3">
-                    <label for="ConsumedItemStockpointId">Source</label>
-                    @Html.DropDownListFor(m => m.ConsumedStockpointId, new SelectList(ViewBag.stockpointList, "Value", "Text", Model.ConsumedStockpointId), "Select Stockpoint", new { @class = "form_input", @onchange = "OnConsumedItemStockPointChanged()" })
-                </div>
             </div>
             <br />
-            <strong>Consumed Items:</strong>
+            <strong>Consumed Materials (OUT):</strong>
             <div class="table-responsive scroll4" id="consumed-table">
                 @Html.Partial("_ConsumedItem")
+            </div>
+
+            <strong>Produced Materials (IN):</strong>
+            <div class="table-responsive scroll4" id="finished-table">
+                @Html.Partial("_FinishedGood")
             </div>
 
             <div class="row">
                 <div class="col-md-12 hrpart">
                     <input type="button" class="form-button" value="Delete" onclick="DeleteItem()" />
-                    <input type="button" class="form-button right" value="Exit" onclick="Exit()" title="Go to previous list" />
+                    <input type="button" class="form-button right" value="Back" onclick="Exit()" title="Go to previous list" />
                     <input type="submit" class="form-button right" value="Save" />
                 </div>
             </div>

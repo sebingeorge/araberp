@@ -144,12 +144,59 @@ namespace ArabErp.DAL
         /// </summary>
         /// <param name="id">StockCreationId</param>
         /// <returns></returns>
-        public IEnumerable<StockCreation> GetStockCreation(int id)
+        public StockCreation GetStockCreation(int id, int OrganizationId)
         {
             using (IDbConnection connection = OpenConnection(dataConnection))
             {
-                string query = @"SELECT * FROM StockCreation WHERE StockCreationId = @id ";
-                return connection.Query<StockCreation>(query, new { id = id }).ToList();
+                try
+                {
+                    #region Get data from [StockCreation] head
+                    string query = @"SELECT
+	                                StockCreationId,
+	                                StockCreationRefNo,
+	                                StockCreationDate,
+                                    ConsumedStockpointId,
+                                    FinishedStockpointId
+                                FROM StockCreation
+                                WHERE StockCreationId = @id
+                                AND OrganizationId = @organizationId
+                                AND isSubAssembly = 0
+                                AND isActive = 1";
+                    StockCreation model = connection.Query<StockCreation>(query, new { id = id, OrganizationId = OrganizationId }).First();
+                    #endregion
+
+                    #region Get data from [StockCreationConsumedItems]
+                    query = @"SELECT
+	                            ConsumedItemsId,
+	                            StockCreationId,
+	                            ItemId,
+	                            Quantity,
+	                            Rate
+                            FROM StockCreationConsumedItems
+                            WHERE StockCreationId = @id
+                            AND isActive = 1";
+                    model.ConsumedItems = connection.Query<StockCreationConsumedItem>(query, new { id = id }).ToList();
+                    #endregion
+
+                    #region Get data from [StockCreationFinishedGoods]
+                    query = @"SELECT
+	                            FinishedGoodsId,
+	                            StockCreationId,
+	                            ItemId,
+	                            Quantity,
+	                            Rate
+                            FROM StockCreationFinishedGoods
+                            WHERE StockCreationId = @id
+                            AND isActive = 1";
+                    model.FinishedGoods = connection.Query<StockCreationFinishedGood>(query, new { id = id }).ToList();
+                    #endregion
+
+                    return model;
+                }
+                catch (Exception)
+                {
+                    return new StockCreation();
+                }
             }
         }
     }

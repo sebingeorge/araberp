@@ -152,6 +152,30 @@ namespace ArabErp.DAL
                     DROP TABLE #CUS;").ToList();
             }
         }
+
+        /// <summary>
+        /// Return all customers with jobcard id not in deliverychallan
+        /// </summary>
+        /// <returns></returns>
+        public List<Dropdown> CustomerDropdown1()
+        {
+            using ( IDbConnection connection = OpenConnection(dataConnection) )
+            {
+                string query = @"SELECT DISTINCT
+	                                CUS.CustomerId Id, 
+	                                CUS.CustomerName Name
+                                FROM JobCard JC
+	                                INNER JOIN SaleOrderItem SOI ON JC.SaleOrderItemId = SOI.SaleOrderItemId
+	                                INNER JOIN SaleOrder SO ON SOI.SaleOrderId = SO.SaleOrderId
+	                                LEFT JOIN DeliveryChallan DC ON JC.JobCardId = DC.JobCardId
+	                                INNER JOIN Customer CUS ON SO.CustomerId = CUS.CustomerId
+                                WHERE DC.JobCardId IS NULL
+	                                AND ISNULL(DC.isActive, 1) = 1
+	                                AND ISNULL(SO.isActive, 1) = 1";
+                return connection.Query<Dropdown>(query).ToList();
+            }
+        }
+
         /// <summary>
         /// Returns all vechile in-pass registration number that are not in out-pass
         /// </summary>
@@ -796,5 +820,30 @@ namespace ArabErp.DAL
                 return connection.Query<Dropdown>("SELECT ItemId Id, ItemName Name FROM Item I INNER JOIN ItemCategory IC ON IC.itmCatId=I.ItemCategoryId WHERE ISNULL(I.isActive, 1) = 1 AND  IC.itmCatId=ISNULL(NULLIF(@Id, 0), itmCatId )", new { Id = Id }).ToList();
             }
         }
+
+        public List<Dropdown> SOItemDropdown()
+        {
+            using (IDbConnection connection = OpenConnection(dataConnection))
+            {
+                return connection.Query<Dropdown>("SELECT DISTINCT I.ItemId Id, I.ItemName Name FROM   item I INNER JOIN PurchaseRequestItem PI ON I.ItemId=PI.ItemId INNER JOIN SupplyOrderItem SI ON PI.PurchaseRequestItemId=SI.PurchaseRequestItemId INNER JOIN SupplyOrder S ON S.SupplyOrderId=SI.SupplyOrderId WHERE ISNULL(S.isActive, 1) = 1 ORDER BY ItemName").ToList();
+            }
+        }
+
+        public List<Dropdown> PBItemDropdown()
+        {
+            using (IDbConnection connection = OpenConnection(dataConnection))
+            {
+                return connection.Query<Dropdown>("SELECT Distinct I.ItemId Id, ItemName Name FROM PurchaseBillItem PI INNER JOIN GRNItem GI ON GI.GRNItemId=PI.GRNItemId INNER JOIN Item I ON I.ItemId=GI.ItemId WHERE ISNULL(PI.isActive, 1) = 1 ORDER BY ItemName").ToList();
+            }
+        }
+
+        public List<Dropdown> MonthDropdown(int Id)
+        {
+            using (IDbConnection connection = OpenConnection(dataConnection))
+            {
+                return connection.Query<Dropdown>("SELECT  M.MonthId Id, MonthName Name FROM Month M INNER JOIN SalesTarget S ON M.MonthId=S.MonthId WHERE ISNULL(S.isActive, 1) = 1 AND  S.OrganizationId=ISNULL(NULLIF(@Id, 0), S.OrganizationId )", new { Id = Id }).ToList();
+            }
+        }
+        
     }
 }

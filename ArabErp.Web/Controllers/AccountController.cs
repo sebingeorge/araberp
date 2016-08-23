@@ -160,7 +160,7 @@ namespace ArabErp.Web.Controllers
         private void FillOrganization()
         {
             OrganizationRepository repo = new OrganizationRepository();
-            var organizations = repo.GetOrganizations();
+            var organizations = repo.GetOrganizationWithFY();
             ViewBag.Organizations = new SelectList(organizations, "OrganizationId", "OrganizationName");
         }
         private void SignIn(User user, int OrganizationId, bool isPersistent, HttpCookieCollection cookiecollection)

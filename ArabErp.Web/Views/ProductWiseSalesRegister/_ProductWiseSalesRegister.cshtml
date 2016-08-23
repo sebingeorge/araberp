@@ -1,0 +1,49 @@
+﻿@model IList<ArabErp.Domain.SalesRegister>
+
+<table class="table table-bordered">
+    <thead>
+        <tr class="grid_heading">
+          
+            <th width="30%"><h1>Work Description</h1></th>
+            <th width="10%" class="text-right"><h1>Jan</h1></th>
+            <th width="10%" class="text-right"><h1>Feb</h1></th>
+            <th width="15%" class="text-right"><h1>Mar</h1></th>
+            <th width="5%" class="text-right"><h1>Apr</h1></th>
+            <th width="10%" class="text-right"><h1>May</h1></th>
+            <th width="10%" class="text-right"><h1>Jun</h1></th>
+            <th width="15%" class="text-right"><h1>Jul</h1></th>
+            <th width="5%" class="text-right"><h1>Aug</h1></th>
+            <th width="10%" class="text-right"><h1>Sep</h1></th>
+            <th width="10%" class="text-right"><h1>Oct</h1></th>
+            <th width="15%" class="text-right"><h1>Nov</h1></th>
+            <th width="5%" class="text-right"><h1>Dec</h1></th>
+            <th width="10%" class="text-right"><h1>%</h1></th>
+          
+
+        </tr>
+    </thead>
+    @foreach (var item in Model)
+    {
+        <tbody class="grid_row">
+            <tr>
+                <td class="grid-cell">@item.WorkDescr</td>
+                <td class="grid-cell text-right">@item.Jan</td>
+                <td class="grid-cell text-right">@item.Feb</td>
+                <td class="grid-cell text-right">@item.Mar</td>
+                <td class="grid-cell text-right">@item.Apr</td>
+                <td class="grid-cell text-right">@item.May</td>
+                <td class="grid-cell text-right">@item.Jun</td>
+                <td class="grid-cell text-right">@item.Jul</td>
+                <td class="grid-cell text-right">@item.Aug</td>
+                <td class="grid-cell text-right">@item.Sep</td>
+                <td class="grid-cell text-right">@item.Oct</td>
+                <td class="grid-cell text-right">@item.Nov</td>
+                <td class="grid-cell text-right">@item.Dece</td>
+                <td class="grid-cell text-right">@item.Perc</td>
+              
+
+
+            </tr>
+        </tbody>
+    }
+</table>
