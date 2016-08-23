@@ -260,10 +260,10 @@ namespace ArabErp.DAL
 
                                         --DEC
                                         Update  #SALES_MONTH_DETAILS SET Dece = ISNULL(SO_AMT,0)
-                                        FROM #SALES_DETAILS WHERE    #SALES_MONTH_DETAILS.Wrk_id= #SALES_DETAILS.Wrk_id AND MONTH_id=12
+                                        FROM #SALES_DETAILS WHERE  #SALES_MONTH_DETAILS.Wrk_id= #SALES_DETAILS.Wrk_id AND MONTH_id=12
 
 			                                                    
-                                        SELECT Wrk_id ,Wrk_Name WorkDescr  ,Apr ,May ,Jun ,Jul ,Aug ,Sep ,Oct ,Nov ,Dece,Jan ,Feb ,Mar 
+                                        SELECT Wrk_id,Wrk_Name WorkDescr,Apr ,May ,Jun ,Jul ,Aug ,Sep ,Oct ,Nov ,Dece,Jan ,Feb ,Mar 
                                         FROM  #SALES_MONTH_DETAILS"; 
 
 
