@@ -152,6 +152,30 @@ namespace ArabErp.DAL
                     DROP TABLE #CUS;").ToList();
             }
         }
+
+        /// <summary>
+        /// Return all customers with jobcard id not in deliverychallan
+        /// </summary>
+        /// <returns></returns>
+        public List<Dropdown> CustomerDropdown1()
+        {
+            using ( IDbConnection connection = OpenConnection(dataConnection) )
+            {
+                string query = @"SELECT DISTINCT
+	                                CUS.CustomerId Id, 
+	                                CUS.CustomerName Name
+                                FROM JobCard JC
+	                                INNER JOIN SaleOrderItem SOI ON JC.SaleOrderItemId = SOI.SaleOrderItemId
+	                                INNER JOIN SaleOrder SO ON SOI.SaleOrderId = SO.SaleOrderId
+	                                LEFT JOIN DeliveryChallan DC ON JC.JobCardId = DC.JobCardId
+	                                INNER JOIN Customer CUS ON SO.CustomerId = CUS.CustomerId
+                                WHERE DC.JobCardId IS NULL
+	                                AND ISNULL(DC.isActive, 1) = 1
+	                                AND ISNULL(SO.isActive, 1) = 1";
+                return connection.Query<Dropdown>(query).ToList();
+            }
+        }
+
         /// <summary>
         /// Returns all vechile in-pass registration number that are not in out-pass
         /// </summary>
@@ -333,18 +357,18 @@ namespace ArabErp.DAL
         {
             using (IDbConnection connection = OpenConnection(dataConnection))
             {
-                return connection.Query<Dropdown>("SELECT VehicleInPassId Id, VehicleInPassNo Name FROM VehicleInPass WHERE ISNULL(isActive, 1) = 1  and OrganizationId =" + OrganizationId.ToString() + " ").ToList();
+                 return connection.Query<Dropdown>("SELECT VehicleInPassId Id, VehicleInPassNo Name FROM VehicleInPass WHERE ISNULL(isActive, 1) = 1  and OrganizationId =" + OrganizationId.ToString() + " ").ToList();
             }
         }
-        /// <summary>
-        /// Select All Customers Vehicle Inpass
-        /// </summary>
-        /// <returns></returns>
-        public List<Dropdown> VICustomerDropdown(int OrganizationId)
+         /// <summary>
+         /// Select All Customers Vehicle Inpass
+         /// </summary>
+         /// <returns></returns>
+         public List<Dropdown> VICustomerDropdown(int OrganizationId)
         {
             using (IDbConnection connection = OpenConnection(dataConnection))
             {
-                return connection.Query<Dropdown>("SELECT DISTINCT S.CustomerId Id, C.CustomerName Name FROM VehicleInPass V INNER JOIN SaleOrder S on S.SaleOrderId=V.SaleOrderId inner join Customer C on C.CustomerId=S.CustomerId  WHERE ISNULL(V.isActive, 1) = 1 and V.OrganizationId =" + OrganizationId.ToString() + "").ToList();
+                 return connection.Query<Dropdown>("SELECT DISTINCT S.CustomerId Id, C.CustomerName Name FROM VehicleInPass V INNER JOIN SaleOrder S on S.SaleOrderId=V.SaleOrderId inner join Customer C on C.CustomerId=S.CustomerId  WHERE ISNULL(V.isActive, 1) = 1 and V.OrganizationId =" + OrganizationId.ToString() + "").ToList();
             }
         }
 
@@ -496,7 +520,7 @@ namespace ArabErp.DAL
             using (IDbConnection connection = OpenConnection(dataConnection))
             {
                 return connection.Query<Dropdown>("SELECT DISTINCT S.CustomerId Id, C.CustomerName Name from JobCard J inner join SaleOrder S ON S.SaleOrderId=J.SaleOrderId  inner join Customer C ON C.CustomerId=S.CustomerId WHERE ISNULL(J.isActive, 1) = 1 and J.OrganizationId =" + OrganizationId.ToString() + " and J.isProjectBased=" + isProjectBased.ToString() + " ").ToList();
-
+                              
             }
         }
         /// <summary>
@@ -510,7 +534,7 @@ namespace ArabErp.DAL
                 return connection.Query<Dropdown>("SELECT DeliveryChallanId Id, DeliveryChallanRefNo Name FROM DeliveryChallan WHERE ISNULL(isActive, 1) = 1 and OrganizationId =" + OrganizationId.ToString() + "").ToList();
             }
         }
-
+    
 
         /// <summary>
         /// All items in [WorkshopRequest] where isAdditionalRequest = 1

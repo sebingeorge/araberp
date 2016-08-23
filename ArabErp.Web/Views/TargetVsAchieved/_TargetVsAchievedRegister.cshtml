@@ -1,0 +1,29 @@
+﻿@model IList<ArabErp.Domain.SalesRegister>
+
+<table class="table table-bordered">
+    <thead>
+        <tr class="grid_heading">
+            <th width="20%"><h1>Month Name</h1></th>
+            <th width="30%"><h1>Work Description</h1></th>
+            <th width="10%" class="text-right"><h1>Target</h1></th>
+            <th width="10%" class="text-right"><h1>Achieved </h1></th>
+            <th width="15%" class="text-right"><h1>Variance</h1></th>
+            <th width="5%" class="text-right"><h1>Var %</h1></th>
+         
+        </tr>
+    </thead>
+    @foreach (var item in Model)
+    {
+        <tbody class="grid_row">
+            <tr>
+                <td class="grid-cell">@item.MonthName</td>
+                <td class="grid-cell">@item.WorkDescr</td>
+                <td class="grid-cell text-right">@item.Target</td>
+                <td class="grid-cell text-right">@item.Achieved </td>
+                <td class="grid-cell text-right">@item.Varience</td>
+                <td class="grid-cell text-right">@item.Varperc</td>
+              
+            </tr>
+        </tbody>
+    }
+</table>
