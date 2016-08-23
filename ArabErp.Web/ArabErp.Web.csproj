@@ -241,6 +241,7 @@
     <Compile Include="Controllers\PendingPARregisterController.cs" />
     <Compile Include="Controllers\PendingSaleOrderRegisterController.cs" />
     <Compile Include="Controllers\PrefixSettingsController.cs" />
+    <Compile Include="Controllers\ProductWiseSalesRegisterController.cs" />
     <Compile Include="Controllers\ProfitabilityReportController.cs" />
     <Compile Include="Controllers\ProformaInvoiceController.cs" />
     <Compile Include="Controllers\PurchaseBillController.cs" />
@@ -272,7 +273,6 @@
     <Compile Include="Controllers\SupplyOrderController.cs" />
     <Compile Include="Controllers\SupplyOrderFollowupController.cs" />
     <Compile Include="Controllers\SupplyOrderRegisterController.cs" />
-    <Compile Include="Controllers\SupplyOrderSummaryController.cs" />
     <Compile Include="Controllers\TaskController.cs" />
     <Compile Include="Controllers\TransactionHistoryController.cs" />
     <Compile Include="Controllers\UnitController.cs" />
@@ -759,17 +759,6 @@
     <Content Include="Views\SalesAnalysisProductRegister\_SalesAnalysisProduct.cshtml" />
     <Content Include="Views\SalesAnalysisCustomerRegister\Index.cshtml" />
     <Content Include="Views\SalesAnalysisCustomerRegister\_SalesAnalysisCustomer.cshtml" />
-    <Content Include="Views\SupplyOrderSummary\Index.cshtml" />
-    <Content Include="Views\SupplyOrderSummary\_SupplyOrderSummary.cshtml" />
-    <Content Include="Views\StockCreation\Edit.cshtml" />
-    <Content Include="Views\PendingPARregister\Index.cshtml" />
-    <Content Include="Views\PrefixSettings\Index.cshtml" />
-    <Content Include="Views\SupplyOrderRegister\PengingSO.cshtml" />
-    <Content Include="Views\SupplyOrderRegister\_PendingSupplyOrderRegister.cshtml" />
-    <Content Include="Views\SupplyOrderRegister\SOVariance.cshtml" />
-    <Content Include="Views\SupplyOrderRegister\_SupplyOrderVarianceReport.cshtml" />
-    <Content Include="Views\PurchaseBillRegister\PurchaseBillDetailed.cshtml" />
-    <Content Include="Views\PurchaseBillRegister\_PurchaseBillDetailedList.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

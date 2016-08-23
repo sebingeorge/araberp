@@ -1,5 +1,10 @@
 ﻿
 @model IList<ArabErp.Domain.SalesRegister>
+@{
+    string actionName = ViewContext.RouteData.GetRequiredString("action");
+    
+}
+
 <table class="table table-bordered">
     <thead>
         <tr class="grid_heading">
@@ -10,7 +15,10 @@
             <th width="5%" class="text-right"><h1>Qty As Per SO</h1></th>
             <th width="5%" class="text-right"><h1>Qty Sold</h1></th>
             <th width="5%" class="text-right"><h1>Balance</h1></th>
-
+            @if (actionName == "SaleOrderVarianceRegister")
+            {
+            <th width="5%" class="text-right"><h1>Status</h1></th>
+            }
         </tr>
     </thead>
     @foreach (var item in Model)
@@ -24,7 +32,10 @@
                 <td class="grid-cell text-right">@item.Quantity</td>
                 <td class="grid-cell text-right">@item.INVQTY</td>
                 <td class="grid-cell text-right">@item.BALQTY</td>
-
+                @if (actionName == "SaleOrderVarianceRegister")
+                {
+                    <td class="grid-cell text-right">@item.Status</td>
+                }
             </tr>
         </tbody>
     }
