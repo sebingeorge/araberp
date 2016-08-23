@@ -27,8 +27,8 @@ namespace ArabErp.Web.Controllers
             FIllEmployee();
             FIllStockItems(0);
             //StockJournal StockJournal = new StockJournal();
-            string internalid = DatabaseCommonRepository.GetNextRefNoWithNoUpdate(typeof(StockJournal).Name);
-            StockJournal StockJournalList = new StockJournal { StockJournelItems = new List<StockJournalItem>(), StockJournalRefno = "SJ/" + internalid };
+            string internalid = DatabaseCommonRepository.GetNextDocNo(22, OrganizationId);
+            StockJournal StockJournalList = new StockJournal { StockJournelItems = new List<StockJournalItem>(), StockJournalRefno = internalid };
 
             StockJournalList.StockJournelItems.Add(new StockJournalItem());
             //StockJournal.StockJournalRefno = "SJ/" + internalid;

@@ -37,7 +37,7 @@ namespace ArabErp.Web.Controllers
             string internalId = "";
             try
             {
-                internalId = DatabaseCommonRepository.GetNextReferenceNo(typeof(SaleOrder).Name);
+                internalId = DatabaseCommonRepository.GetNextDocNo(3, OrganizationId);
                 FillCustomer();
                 FillCurrency();
                 FillCommissionAgent();
@@ -74,7 +74,7 @@ namespace ArabErp.Web.Controllers
             model.isProjectBased = 0;
             //saleOrder.Items = new List<SaleOrderItem>();
             //saleOrder.Items.Add(new SaleOrderItem());
-            model.SaleOrderRefNo = "SAL/" + internalId;
+            model.SaleOrderRefNo = internalId;
             model.SaleOrderDate = DateTime.Now;
             model.EDateArrival = DateTime.Now;
             model.EDateDelivery = DateTime.Now;
@@ -86,7 +86,7 @@ namespace ArabErp.Web.Controllers
             string internalId = "";
             try
             {
-                internalId = DatabaseCommonRepository.GetNextReferenceNo(typeof(SaleOrder).Name);
+                internalId = DatabaseCommonRepository.GetNextDocNo(4, OrganizationId);
                 FillCustomer();
                 FillCurrency();
                 FillCommissionAgent();
@@ -122,7 +122,7 @@ namespace ArabErp.Web.Controllers
             model.isProjectBased = 1;
             //model.Items = new List<SaleOrderItem>();
             //model.Items.Add(new SaleOrderItem());
-            model.SaleOrderRefNo = "SAL/" + internalId;
+            model.SaleOrderRefNo = internalId;
             model.SaleOrderDate = DateTime.Now;
             model.EDateArrival = DateTime.Now;
             model.EDateDelivery = DateTime.Now;

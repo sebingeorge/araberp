@@ -24,10 +24,10 @@ namespace ArabErp.Web.Controllers
           try
             {
             string internalId = "";
-            internalId = DatabaseCommonRepository.GetNextReferenceNo(typeof(JobCardQC).Name);
+            internalId = DatabaseCommonRepository.GetNextDocNo(17, OrganizationId);
             FillEmployee();
             JobCardQC objJCQC = new JobCardQC();
-            objJCQC.JobCardQCRefNo = "JQC/" + internalId;
+            objJCQC.JobCardQCRefNo = internalId;
             objJCQC.JobCardNo = No;
             objJCQC.JobCardId = Id;
             objJCQC.CurrentDate =  System.DateTime.Today;

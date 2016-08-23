@@ -19,9 +19,9 @@ namespace ArabErp.DAL
                 IDbTransaction txn = connection.BeginTransaction();
                 try
                 {
-                    int internalId = DatabaseCommonRepository.GetInternalIDFromDatabase(connection, txn, typeof(Consumption).Name, "0", 1);
+                    var internalId = DatabaseCommonRepository.GetNewDocNo(connection, objConsumption.OrganizationId, 23, true,txn);
 
-                    objConsumption.ConsumptionNo = "CON/" + internalId;
+                    objConsumption.ConsumptionNo = internalId;
 
                     objConsumption.TotalAmount = objConsumption.ConsumptionItems.Sum(m => m.Amount);
 

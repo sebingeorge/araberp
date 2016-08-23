@@ -20,7 +20,7 @@ namespace ArabErp.DAL
                     IDbTransaction txn = connection.BeginTransaction();
                     try
                     {
-                        string referenceNo = "STO/0/" + DatabaseCommonRepository.GetInternalIDFromDatabase(connection, txn, typeof(StoreIssue).Name, "0", 1);
+                        string referenceNo = DatabaseCommonRepository.GetNewDocNo(connection, objStoreIssue.OrganizationId, 24, true,txn);
                         objStoreIssue.StoreIssueRefNo = referenceNo;
 
                         string sql = @"INSERT INTO StoreIssue(

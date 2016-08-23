@@ -93,7 +93,6 @@ namespace ArabErp.Web.Controllers
                 FillSalesQuotationRejectReason();
                 return View("Create", model);
             }
-
         }
         public ActionResult CreateProject()
         {

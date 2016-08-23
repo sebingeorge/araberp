@@ -20,8 +20,8 @@ namespace ArabErp.DAL
                 int id = 0;
                 try
                 {
-                    int internalId = DatabaseCommonRepository.GetInternalIDFromDatabase(connection, trn, typeof(JobCardDailyActivity).Name, "0", 1);
-                    objJobCardDailyActivity.JobCardDailyActivityRefNo = "DA/" + internalId.ToString();
+                    var internalId = DatabaseCommonRepository.GetNewDocNo(connection, objJobCardDailyActivity.OrganizationId, 27, true,trn);
+                    objJobCardDailyActivity.JobCardDailyActivityRefNo = internalId.ToString();
                     string sql = @"insert  into JobCardDailyActivity (JobCardDailyActivityDate,JobCardId,JobCardDailyActivityRefNo,Remarks,EmployeeId,CreatedBy,CreatedDate,OrganizationId) 
                                                             Values (@JobCardDailyActivityDate,@JobCardId,@JobCardDailyActivityRefNo,@Remarks,@EmployeeId,@CreatedBy,@CreatedDate,@OrganizationId);
                                 SELECT CAST(SCOPE_IDENTITY() as int)";

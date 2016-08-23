@@ -23,9 +23,18 @@ namespace ArabErp.DAL
                 IDbTransaction txn = connection.BeginTransaction();
                 try
                 {
-                    int internalId = DatabaseCommonRepository.GetInternalIDFromDatabase(connection, txn, typeof(SaleOrder).Name, "0", 1);
+                    var internalId = "";
 
-                    objSaleOrder.SaleOrderRefNo = "SAL/" + internalId;
+                    if(objSaleOrder.isProjectBased == 0)
+                    {
+                        internalId = DatabaseCommonRepository.GetNewDocNo(connection, objSaleOrder.OrganizationId ?? 0, 3, true,txn);
+                    }
+                    else
+                    {
+                        internalId = DatabaseCommonRepository.GetNewDocNo(connection, objSaleOrder.OrganizationId ?? 0, 4, true,txn);
+                    }
+
+                    objSaleOrder.SaleOrderRefNo = internalId;
                     objSaleOrder.TotalAmount = objSaleOrder.Items.Sum(m => m.Amount);
                     objSaleOrder.TotalDiscount = objSaleOrder.Items.Sum(m => m.Discount);
                     string sql = @"

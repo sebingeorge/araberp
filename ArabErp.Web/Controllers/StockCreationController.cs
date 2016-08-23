@@ -22,7 +22,7 @@ namespace ArabErp.Web.Controllers
             var model = new StockCreation
             {
                 StockCreationDate = DateTime.Today,
-                StockCreationRefNo = "STO/" + DatabaseCommonRepository.GetNextReferenceNo(typeof(StockCreation).Name),
+                StockCreationRefNo = DatabaseCommonRepository.GetNextDocNo(25, OrganizationId),
                 ConsumedItems = ConsumedItemsGrid(),
                 FinishedGoods = FinishedGoodsGrid()
             };

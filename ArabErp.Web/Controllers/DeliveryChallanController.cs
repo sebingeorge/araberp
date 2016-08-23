@@ -40,7 +40,7 @@ namespace ArabErp.Web.Controllers
                 return View(new DeliveryChallan
                 {
                     JobCardId = id,
-                    DeliveryChallanRefNo = "DEL/" + DatabaseCommonRepository.GetNextReferenceNo(typeof(DeliveryChallan).Name),
+                    DeliveryChallanRefNo = DatabaseCommonRepository.GetNextDocNo(18, OrganizationId),
                     DeliveryChallanDate = DateTime.Now,
                     ItemBatches = new DeliveryChallanRepository().GetSerialNos(id).ToList()
                 });

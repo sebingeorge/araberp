@@ -22,7 +22,7 @@ namespace ArabErp.DAL
                 IDbTransaction trn = connection.BeginTransaction();
                 try
                 {
-                    objSupplyOrder.SupplyOrderNo = "LPO/0/" + DatabaseCommonRepository.GetInternalIDFromDatabase(connection, trn, typeof(SupplyOrder).Name, "0", 1);
+                    objSupplyOrder.SupplyOrderNo = DatabaseCommonRepository.GetNewDocNo(connection, objSupplyOrder.OrganizationId, 9, true,trn);
                     string sql = @"insert into SupplyOrder(SupplyOrderNo,SupplyOrderDate,SupplierId,QuotaionNoAndDate,SpecialRemarks,
                                    PaymentTerms,DeliveryTerms,RequiredDate,CreatedBy,CreatedDate,OrganizationId, CurrencyId) 
                                    Values (@SupplyOrderNo,@SupplyOrderDate,@SupplierId,@QuotaionNoAndDate,@SpecialRemarks,@PaymentTerms,

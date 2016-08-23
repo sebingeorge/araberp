@@ -80,9 +80,9 @@ namespace ArabErp.DAL
                 IDbTransaction trn = connection.BeginTransaction();
                 try
                 {
-                    int internalId = DatabaseCommonRepository.GetInternalIDFromDatabase(connection, trn, typeof(ExpenseBill).Name, "0", 1);
+                    var internalId = DatabaseCommonRepository.GetNewDocNo(connection, expenseBill.OrganizationId, 14, true, trn);
 
-                    expenseBill.ExpenseNo = "EB/" + internalId;
+                    expenseBill.ExpenseNo = internalId;
 
                     if (expenseBill.SoOrJc == "JC")
                     {
@@ -93,8 +93,8 @@ namespace ArabErp.DAL
                         expenseBill.JobCardId = null;
                     }
                     string sql = string.Empty;
-                    sql += "insert into ExpenseBill(ExpenseNo,ExpenseDate,ExpenseBillRef,ExpenseBillDate,ExpenseBillDueDate,SupplierId,ExpenseRemarks,TotalAddition,TotalDeduction,TotalAmount,CurrencyId,SaleOrderId,JobCardId)";
-                    sql += " values(@ExpenseNo,@ExpenseDate,@ExpenseBillRef,@ExpenseBillDate,@ExpenseBillDueDate,@SupplierId,@ExpenseRemarks,@TotalAddition,@TotalDeduction,@TotalAmount,@CurrencyId,@SaleOrderId,@JobCardId);";
+                    sql += "insert into ExpenseBill(ExpenseNo,ExpenseDate,ExpenseBillRef,ExpenseBillDate,ExpenseBillDueDate,SupplierId,ExpenseRemarks,TotalAddition,TotalDeduction,TotalAmount,CurrencyId,SaleOrderId,JobCardId,OrganizationId)";
+                    sql += " values(@ExpenseNo,@ExpenseDate,@ExpenseBillRef,@ExpenseBillDate,@ExpenseBillDueDate,@SupplierId,@ExpenseRemarks,@TotalAddition,@TotalDeduction,@TotalAmount,@CurrencyId,@SaleOrderId,@JobCardId,@OrganizationId);";
                     sql += " SELECT CAST(SCOPE_IDENTITY() as int);";
 
                     id = connection.Query<int>(sql, expenseBill, trn).Single();
