@@ -772,6 +772,7 @@
     <Content Include="Views\SupplyOrderSummary\_SupplyOrderSummary.cshtml" />
     <Content Include="Views\TargetVsAchieved\Index.cshtml" />
     <Content Include="Views\TargetVsAchieved\_TargetVsAchievedRegister.cshtml" />
+    <Content Include="Views\GrnWareHouse\Edit.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

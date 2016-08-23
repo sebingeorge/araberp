@@ -183,16 +183,21 @@ namespace ArabErp.Web.Controllers
             return View("Create", model);
         }
 
-        public ActionResult Modify(int? GRNId)
+        public ActionResult Edit(int id=0)
         {
+            if (id == 0)
+            {
+                TempData["error"] = "That was an invalid/unknown request.";
+                return RedirectToAction("Index", "Home");
+            }
             GRNRepository repo = new GRNRepository();
             FillWarehouse();
             FillCurrency();
 
-            GRN model = repo.GetGRNDISPLAYDetails(GRNId ?? 0);
-            model.Items = repo.GetGRNDISPLAYItem(GRNId ?? 0);
+            GRN model = repo.GetGRNDetails(id);
+            model.Items = repo.GetGRNItems(id);
 
-            return View("Create", model);
+            return View(model);
         }
 
         public ActionResult PendingDirectPurchase()
