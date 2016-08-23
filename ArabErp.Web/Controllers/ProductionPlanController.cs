@@ -97,6 +97,18 @@ namespace ArabErp.Web.Controllers
         {
             return View();
         }
+        public ActionResult ProductionOrderRelease()
+        {
+            return View();
+        }
+        public ActionResult PlanedOrder()
+        {
+            return View();
+        }
+        public ActionResult ConvertPlannedOrdertoPurReq()
+        {
+            return View();
+        }
         public ActionResult SupplierCategory()
         {
             return View();

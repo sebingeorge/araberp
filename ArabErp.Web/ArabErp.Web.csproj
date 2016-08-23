@@ -827,6 +827,9 @@
     <Content Include="Views\ProductionPlan\ReceiveFinishedGoods.cshtml" />
     <Content Include="Views\ProductionPlan\ProductionOrderReport.cshtml" />
     <Content Include="Views\ProductionPlan\StockRequirementReport.cshtml" />
+    <Content Include="Views\ProductionPlan\ProductionOrderRelease.cshtml" />
+    <Content Include="Views\ProductionPlan\PlanedOrder.cshtml" />
+    <Content Include="Views\ProductionPlan\ConvertPlannedOrdertoPurReq.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

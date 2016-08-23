@@ -1,55 +1,193 @@
 ﻿
 @{
-    ViewBag.Title = "ProductSubGroup";
+    ViewBag.Title = "PlanedOrder";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
+
+
+@{
+    ViewBag.Title = "PlantOrder";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+
+
 <div class="row">
     <div class="form-head1">
-        <h4>Product Sub Group</h4>
+        <h4>Planned Order</h4>
     </div>
 
     <div class="main-part pad1">
+        <div class="row form-group">
+            <div class="col-md-2">
+                <label>Planned Order No.</label>
+                <input type="text" class="form_input" />
+            </div>
 
+        </div>
 
         <div class="row form-group">
             <div class="col-md-4">
-                <label>Name</label>
-                <input type="text" class="form_input" />
-            </div>
-        </div>
-
-        <div class="row form-group">
-            <div class="col-md-4">
-                <label>Short Name</label>
-                <input type="text" class="form_input" />
-            </div>
-        </div>
-
-        <div class="row form-group">
-
-            <div class="col-md-2">
-                <label>Product Group</label>
+                <label>Product</label>
                 <select class="form_input">
-                    <option value="volvo">Product Group1</option>
-                    <option value="saab">Product Group2</option>
-                </select>
-            </div>
-            <div class="col-md-2">
-                <label>Category</label>
-                <select class="form_input">
-                    <option value="volvo">Finished Goods</option>
-                    <option value="saab">Semi Finished</option>
-                    <option value="saab">Raw Material</option>
-                    <option value="saab">consumables</option>
-                    <option value="saab">Packing Materials</option>
-                    <option value="saab">Engineers</option>
-                    <option value="saab">Others</option>
+                    <option value="volvo">Product 1</option>
+                    <option value="saab">Product 2</option>
+                    <option value="opel">Product 3</option>
+                    <option value="audi">Product 4</option>
                 </select>
             </div>
         </div>
+        <div class="row form-group">
+            <div class="col-md-3">
+                <label>Plant</label>
+                <select class="form_input">
+                    <option value="volvo">Plant 1</option>
+                    <option value="saab">Plant 2</option>
+
+                </select>
+            </div>
+
+            <div class="col-md-3">
+                <label>Stock Point</label>
+                <select class="form_input">
+                    <option value="volvo">Stock Point 1</option>
+                    <option value="saab">Stock Point 2</option>
+
+                </select>
+            </div>
+            <div class="col-md-3">
+                <label>Order Finish Date</label>
+                <input type="text" class="form_input" />
+            </div>
 
 
+        </div>
+
+        <div class="table-responsive">
+            <table class="table table-bordered" id="tab_logic">
+                <thead>
+                    <tr class="grid_heading">
+                        <th width="7%"><h1>Item Code</h1></th>
+                        <th width="79%"><h1>Raw Material</h1></th>
+                        <th width="7%" class="text-right"><h1>Qty</h1></th>
+                        <th width="7%" class="text-left"><h1>Unit</h1></th>
+                    </tr>
+                </thead>
+                <tbody>
+
+                    <tr>
+
+                        <td>P50</td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+
+                    </tr>
+                    <tr>
+
+                        <td>P50</td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+
+
+                    </tr>
+                    <tr>
+
+                        <td>P50</td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+
+
+                    </tr>
+                    <tr>
+
+                        <td>P50</td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+
+
+                    </tr>
+                    <tr>
+
+                        <td>P50</td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+
+
+                    </tr>
+                    <tr>
+
+                        <td>P50</td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+
+
+                    </tr>
+                    <tr>
+
+                        <td>P50</td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+
+
+                    </tr>
+                    <tr>
+
+                        <td>P50</td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+
+
+                    </tr>
+                    <tr>
+
+                        <td>P50</td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+
+
+                    </tr>
+
+
+
+
+
+                </tbody>
+                <tfoot>
+                    <tr class="grid_heading">
+
+                        <th></th>
+                        <th></th>
+                        <th></th>
+                        <th></th>
+                        <th></th>
+
+
+
+
+                    </tr>
+                </tfoot>
+            </table>
+        </div>
 
 
 
@@ -67,168 +205,6 @@
     </div>
 
 </div>
-
-<div class="row">
-    <div class="res">
-        <div class="table-responsive">
-
-            <table class="table table-bordered" id="tab_logic">
-                <thead>
-                    <tr class="grid_heading">
-                        <th width="7%"><h1>Ref No</h1></th>
-                        <th width="33%"><h1>Name</h1></th>
-                        <th width="25%"><h1>Product Group</h1></th>
-                        <th width="25%"><h1>Category</h1></th>
-                        <th width="5%"><center><h1>Edit</h1></center></th>
-                        <th width="5%"><center><h1>Delete</h1></center></th>
-
-                    </tr>
-                </thead>
-                <tbody>
-
-                    <tr>
-                        <td>P.O50</td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-
-
-                    </tr>
-
-                    <tr>
-
-                        <td>P.O50</td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-
-
-                    </tr>
-
-                    <tr>
-                        <td>P.O50</td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-
-
-                    </tr>
-
-                    <tr>
-
-                        <td>P.O50</td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-
-
-                    </tr>
-                    <tr>
-                        <td>P.O50</td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-
-
-                    </tr>
-                    <tr>
-
-                        <td>P.O50</td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-
-
-                    </tr>
-                    <tr>
-
-                        <td>P.O50</td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-
-
-                    </tr>
-                    <tr>
-
-                        <td>P.O50</td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-
-
-                    </tr>
-                    <tr>
-
-                        <td>P.O50</td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-
-
-                    </tr>
-                    <tr>
-
-                        <td>P.O50</td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-
-
-                    </tr>
-
-
-
-
-
-
-
-
-
-                </tbody>
-                <tfoot>
-                    <tr class="grid_heading">
-
-                        <th></th>
-                        <th></th>
-                        <th></th>
-                        <th></th>
-                        <th></th>
-                        <th></th>
-
-
-
-
-
-
-                    </tr>
-                </tfoot>
-            </table>
-
-
-        </div>
-        </div>
-    </div>
 
 
 

@@ -1,45 +1,39 @@
 ﻿
 @{
-    ViewBag.Title = "GoodsIssue";
+    ViewBag.Title = "ConvertPlannedOrdertoPurReq";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
 
 
+
 <div class="row">
     <div class="form-head1">
-        <h4>Goods Issue to Production order</h4>
+        <h4>Convert Planned Order to Purchase Request</h4>
     </div>
 
     <div class="main-part pad1">
         <div class="row form-group">
             <div class="col-md-2">
-                <label>PRD No.</label>
+                <label>Planned Order No.</label>
                 <input type="text" class="form_input" />
             </div>
 
         </div>
 
-        <div class="row form-group">
-            <div class="col-md-3">
-                <label>Stock Point</label>
-                <select class="form_input">
-                    <option value="volvo">Stock Point 1</option>
-                    <option value="saab">Stock Pointt 2</option>
-                </select>
-            </div>
-        </div>
 
 
         <div class="table-responsive">
             <table class="table table-bordered" id="tab_logic">
                 <thead>
                     <tr class="grid_heading">
-                        <th width="7%"><h1>PRD Code</h1></th>
-                        <th width="72%"><h1>Item</h1></th>
+                        <th width="7%"><h1>Order No</h1></th>
+                        <th width="7%"><h1>Date</h1></th>
+                        <th width="79%"><h1>Product</h1></th>
                         <th width="7%" class="text-right"><h1>Qty</h1></th>
                         <th width="7%" class="text-left"><h1>Unit</h1></th>
-                        <th width="7%"><h1>Batch</h1></th>
+                        <th width="7%"><center><h1>Select</h1></center></th>
+
                     </tr>
                 </thead>
                 <tbody>
@@ -51,6 +45,7 @@
                         <td></td>
                         <td></td>
                         <td></td>
+                        <td><center><input type="checkbox" name="" value=""></center></td>
 
                     </tr>
                     <tr>
@@ -60,26 +55,7 @@
                         <td></td>
                         <td></td>
                         <td></td>
-
-
-                    </tr>
-                    <tr>
-
-                        <td>P50</td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-
-
-                    </tr>
-                    <tr>
-
-                        <td>P50</td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
+                        <td><center><input type="checkbox" name="" value=""></center></td>
 
 
                     </tr>
@@ -90,6 +66,7 @@
                         <td></td>
                         <td></td>
                         <td></td>
+                        <td><center><input type="checkbox" name="" value=""></center></td>
 
 
                     </tr>
@@ -100,6 +77,7 @@
                         <td></td>
                         <td></td>
                         <td></td>
+                        <td><center><input type="checkbox" name="" value=""></center></td>
 
 
                     </tr>
@@ -110,6 +88,7 @@
                         <td></td>
                         <td></td>
                         <td></td>
+                        <td><center><input type="checkbox" name="" value=""></center></td>
 
 
                     </tr>
@@ -120,6 +99,7 @@
                         <td></td>
                         <td></td>
                         <td></td>
+                        <td><center><input type="checkbox" name="" value=""></center></td>
 
 
                     </tr>
@@ -130,6 +110,7 @@
                         <td></td>
                         <td></td>
                         <td></td>
+                        <td><center><input type="checkbox" name="" value=""></center></td>
 
 
                     </tr>
@@ -140,6 +121,7 @@
                         <td></td>
                         <td></td>
                         <td></td>
+                        <td><center><input type="checkbox" name="" value=""></center></td>
 
 
                     </tr>
@@ -150,6 +132,19 @@
                         <td></td>
                         <td></td>
                         <td></td>
+                        <td><center><input type="checkbox" name="" value=""></center></td>
+
+
+                    </tr>
+
+                    <tr>
+
+                        <td>P50</td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td><center><input type="checkbox" name="" value=""></center></td>
 
 
                     </tr>
@@ -160,6 +155,29 @@
                         <td></td>
                         <td></td>
                         <td></td>
+                        <td><center><input type="checkbox" name="" value=""></center></td>
+
+
+                    </tr>
+                    <tr>
+
+                        <td>P50</td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td><center><input type="checkbox" name="" value=""></center></td>
+
+
+                    </tr>
+                    <tr>
+
+                        <td>P50</td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td><center><input type="checkbox" name="" value=""></center></td>
 
 
                     </tr>
@@ -172,6 +190,7 @@
                 <tfoot>
                     <tr class="grid_heading">
 
+                        <th></th>
                         <th></th>
                         <th></th>
                         <th></th>

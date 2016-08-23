@@ -12,6 +12,12 @@
 
 <div class="form-button" style="width:200px; line-height:25px; height:25px; padding-left:10px;">@Html.ActionLink("Production Plan", "CreateProductionPlan")</div>
 <div class="form-button" style="width:200px; line-height:25px; height:25px;  padding-left:10px;">
+    @Html.ActionLink("Planned Order", "PlanedOrder")
+</div>
+<div class="form-button" style="width:200px; line-height:25px; height:25px;  padding-left:10px; font-size:12px;">
+    @Html.ActionLink("Convert Planned Order to Pur Req", "ConvertPlannedOrdertoPurReq")
+</div>
+<div class="form-button" style="width:200px; line-height:25px; height:25px;  padding-left:10px;">
     @Html.ActionLink("Purchase Indent", "PurchaseIndent")</div>
     <div class="form-button" style="width:200px; line-height:25px; height:25px;  padding-left:10px;">
         @Html.ActionLink("Purchase Indent Approval", "PurchaseIndentApproval")</div>
@@ -21,17 +27,21 @@
                 @Html.ActionLink("Purchase Order Approvel", "PurchaseOrderApproval")</div>
                 <div class="form-button" style="width:200px; line-height:25px; height:25px;  padding-left:10px;">
                     @Html.ActionLink("GRN", "PendingPurchaseOrder")</div>
+
 <div class="form-button" style="width:200px; line-height:25px; height:25px;  padding-left:10px;">
     @Html.ActionLink("Production Order", "ProductionOrder")
 </div>
 <div class="form-button" style="width:200px; line-height:25px; height:25px;  padding-left:10px;">
-    @Html.ActionLink("Goods Issue", "PendingGoodsIssue")
+    @Html.ActionLink("Production Order Release", "ProductionOrderRelease")
 </div>
-<div class="form-button" style="width:200px; line-height:25px; height:25px;  padding-left:10px;">
+<div class="form-button" style="width:200px; line-height:25px; height:25px;  padding-left:10px;font-size:12px;">
+    @Html.ActionLink("Material to Production order", "PendingGoodsIssue")
+</div>
+<div class="form-button" style="width:200px; line-height:25px; height:25px;  padding-left:10px; ">
     @Html.ActionLink("Confirm Production", "ConfirmProduction")
 </div>
 <div class="form-button" style="width:200px; line-height:25px; height:25px;  padding-left:10px;">
-    @Html.ActionLink("Receive Finished Goods", "ReceiveFinishedGoods")
+    @Html.ActionLink("Receive Product to Inventory", "ReceiveFinishedGoods")
 </div>
 
 <h4>Report</h4>
