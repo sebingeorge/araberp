@@ -778,6 +778,8 @@
     <Content Include="Views\PurchaseBillRegister\_PurchaseBillDetailedList.cshtml" />
     <Content Include="Views\PurchaseMonthlyItemWiseRegister\PurchaseMonthlySupplierWise.cshtml" />
     <Content Include="Views\PurchaseMonthlyItemWiseRegister\_PurchaseMonthlySupplierWiseRegister.cshtml" />
+    <Content Include="Views\PurchaseBillRegister\PurchaseBillSummary.cshtml" />
+    <Content Include="Views\PurchaseBillRegister\_PurchaseBillSummaryList.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
