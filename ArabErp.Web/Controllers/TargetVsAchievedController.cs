@@ -14,13 +14,20 @@ namespace ArabErp.Web.Controllers
         // GET: TargetVsAchieved
         public ActionResult Index()
         {
+            FillMonth();
             return View();
         }
-        public ActionResult TargetVsAchievedRegister(DateTime? from, DateTime? to, int id = 0)
+
+        public void FillMonth()
         {
-            from = from ?? DateTime.Today.AddMonths(-7);
-            to = to ?? DateTime.Today;
-            return PartialView("_TargetVsAchievedRegister");
+            DropdownRepository repo = new DropdownRepository();
+            var result = repo.MonthDropdown(OrganizationId);
+            ViewBag.MonthList = new SelectList(result, "Id", "Name");
+        }
+        public ActionResult TargetVsAchievedRegister(int Id=0)
+        {
+
+            return PartialView("_TargetVsAchievedRegister", new SalesRegisterRepository().GetTargetVsAchieved(OrganizationId, Id));
         }
     }
 }

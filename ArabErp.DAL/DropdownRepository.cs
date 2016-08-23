@@ -796,5 +796,13 @@ namespace ArabErp.DAL
                 return connection.Query<Dropdown>("SELECT ItemId Id, ItemName Name FROM Item I INNER JOIN ItemCategory IC ON IC.itmCatId=I.ItemCategoryId WHERE ISNULL(I.isActive, 1) = 1 AND  IC.itmCatId=ISNULL(NULLIF(@Id, 0), itmCatId )", new { Id = Id }).ToList();
             }
         }
+        public List<Dropdown> MonthDropdown(int Id)
+        {
+            using (IDbConnection connection = OpenConnection(dataConnection))
+            {
+                return connection.Query<Dropdown>("SELECT  M.MonthId Id, MonthName Name FROM Month M INNER JOIN SalesTarget S ON M.MonthId=S.MonthId WHERE ISNULL(S.isActive, 1) = 1 AND  S.OrganizationId=ISNULL(NULLIF(@Id, 0), S.OrganizationId )", new { Id = Id }).ToList();
+            }
+        }
+        
     }
 }

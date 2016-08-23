@@ -850,6 +850,8 @@
     <Content Include="Views\SalesAnalysisCustomerRegister\_SalesAnalysisCustomer.cshtml" />
     <Content Include="Views\TargetVsAchieved\Index.cshtml" />
     <Content Include="Views\TargetVsAchieved\_TargetVsAchievedRegister.cshtml" />
+    <Content Include="Views\ProductWiseSalesRegister\Index.cshtml" />
+    <Content Include="Views\ProductWiseSalesRegister\_ProductWiseSalesRegister.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -860,7 +862,6 @@
     <Folder Include="Views\CustomerVsWorkDescription\" />
     <Folder Include="Views\LocalPurchase\" />
     <Folder Include="Views\MisReport\" />
-    <Folder Include="Views\ProductWiseSalesRegister\" />
     <Folder Include="Views\StockJournel\" />
   </ItemGroup>
   <ItemGroup>

@@ -44,6 +44,7 @@
 
         $("#OpeningStockItem_" + i + "__ItemId").val('');
         $("#OpeningStockItem_" + i + "__Quantity").val(0);
+
     }
     function Delete(index) {
 
@@ -89,10 +90,11 @@
 
 
     function OnMaterialChange(s, index) {
-        $("#hidden"+index).val($(s).val());
+         $("#hidden"+index).val($(s).val());
+       
     }
 
-    </script>
+</script>
 
 
 

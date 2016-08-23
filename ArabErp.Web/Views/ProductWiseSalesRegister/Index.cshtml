@@ -3,17 +3,18 @@
     ViewBag.Title = "Index";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
+
 <script type="text/javascript">
-  
+
 
     function Filter() {
-        $("#Target").addClass("fade");
-        var id = $("#cboMonth").val();
-    
-        var url = '@Url.Action("TargetVsAchievedRegister")';
+        $("#Prd_Sales").addClass("fade");
+        var id = $("#cboCustomer").val();
+
+        var url = '@Url.Action("ProductWiseSalesRegister")';
         url += "?id=" + id;
-        $("#Target").load(url, function () {
-            $("#Target").removeClass("fade");
+        $("#Prd_Sales").load(url, function () {
+            $("#Prd_Sales").removeClass("fade");
         });
     }
     function Exit() {
@@ -27,7 +28,7 @@
 <div class="row">
     <div class="form-head1">
 
-        <h4>Target Vs Achieved</h4>
+        <h4>Product Wise Sales</h4>
 
     </div>
     <div class="main-part pad1">
@@ -35,15 +36,15 @@
 
         <div class="row">
             <div class="col-md-3">
-                <label for="cboMonth">Month</label>
-                @Html.DropDownList("cboMonth", (SelectList)ViewBag.MonthList, "Any", new { @class = "form_input", @onchange = "Filter()" })
+                <label for="cboCustomer">Customer</label>
+                @Html.DropDownList("cboCustomer", (SelectList)ViewBag.CustomerList, "Any", new { @class = "form_input", @onchange = "Filter()" })
             </div>
         </div>
         <br />
         <div class="row">
             <div class="main-grid main-grid-top scroll1">
-                <div class="table-responsive" id="Target">
-                    @Html.Action("TargetVsAchievedRegister")
+                <div class="table-responsive" id="Prd_Sales">
+                    @Html.Action("ProductWiseSalesRegister")
                 </div>
             </div>
         </div>
@@ -55,6 +56,4 @@
         </div>
     </div>
 </div>
-
-
 
