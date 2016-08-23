@@ -301,8 +301,8 @@ namespace ArabErp.DAL
                 IDbTransaction trn = connection.BeginTransaction();
                 try
                 {
-                    int internalId = DatabaseCommonRepository.GetInternalIDFromDatabase(connection, trn, typeof(SalesInvoice).Name, "0", 1);
-                    model.SalesInvoiceRefNo = "INV/" + internalId.ToString();
+                    var internalId = DatabaseCommonRepository.GetNewDocNo(connection, model.OrganizationId, 7, true, trn);
+                    model.SalesInvoiceRefNo = internalId.ToString();
 
                     string sql = @" INSERT INTO SalesInvoice(SalesInvoiceRefNo,SalesInvoiceDate,SalesInvoiceDueDate,SaleOrderId,
                                     SpecialRemarks,PaymentTerms,Addition,Deduction,AdditionRemarks,

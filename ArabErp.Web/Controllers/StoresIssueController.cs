@@ -18,7 +18,7 @@ namespace ArabErp.Web.Controllers
         }
         public ActionResult Issuance(int id = 0)
         {
-            string referenceNo = "STO/" + DatabaseCommonRepository.GetNextReferenceNo(typeof(StoreIssue).Name);
+            string referenceNo = "STO/" + DatabaseCommonRepository.GetNextDocNo(24, OrganizationId);
             FillDropdowns();
             if (id == 0) return RedirectToAction("Pending");
             return View(new StoreIssue { WorkShopRequestId = id, StoreIssueDate = DateTime.Today, StoreIssueRefNo = referenceNo });

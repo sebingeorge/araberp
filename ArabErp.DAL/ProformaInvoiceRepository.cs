@@ -62,9 +62,9 @@ namespace ArabErp.DAL
                 IDbTransaction txn = connection.BeginTransaction();
                 try
                 {
-                    int internalId = DatabaseCommonRepository.GetInternalIDFromDatabase(connection, txn, typeof(ProformaInvoice).Name, "0", 1);
+                    var internalId = DatabaseCommonRepository.GetNewDocNo(connection, objProInvoice.OrganizationId, 6, true, txn);
 
-                    objProInvoice.ProformaInvoiceRefNo = "PINV/" + internalId;
+                    objProInvoice.ProformaInvoiceRefNo = internalId;
 
                     string sql = @"
                     insert  into ProformaInvoice(ProformaInvoiceRefNo,ProformaInvoiceDate,SaleOrderId,SpecialRemarks,PaymentTerms,CreatedBy,CreatedDate,OrganizationId,isProjectBased)

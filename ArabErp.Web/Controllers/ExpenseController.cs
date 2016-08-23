@@ -27,12 +27,12 @@ namespace ArabErp.Web.Controllers
         public ActionResult Create()
         {
             string internalId = "";
-            internalId = DatabaseCommonRepository.GetNextReferenceNo(typeof(ExpenseBill).Name);
+            internalId = DatabaseCommonRepository.GetNextDocNo(14, OrganizationId);
 
             FillDropdowns();
             ExpenseBill expense = new ExpenseBill();
             expense.ExpenseDate = expense.ExpenseBillDate = expense.ExpenseBillDueDate = DateTime.Now;
-            expense.ExpenseNo = "EB/"+ internalId;
+            expense.ExpenseNo = internalId;
 
             expense.CurrencyId = new CurrencyRepository().GetCurrencyFrmOrganization(OrganizationId).CurrencyId;
             expense.ExpenseBillItem = new List<ExpenseBillItem>();
@@ -57,6 +57,7 @@ namespace ArabErp.Web.Controllers
         {
             model.CreatedBy = UserID.ToString();
             model.CreatedDate = DateTime.Now;
+            model.OrganizationId = OrganizationId;
             if(ModelState.IsValid)
             {
                 ExpenseRepository repo = new ExpenseRepository();

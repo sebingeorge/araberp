@@ -35,7 +35,7 @@ namespace ArabErp.Web.Controllers
             string internalId = "";
             try
             {
-                internalId = DatabaseCommonRepository.GetNextReferenceNo(typeof(WorkShopRequest).Name);
+                internalId = DatabaseCommonRepository.GetNextDocNo(19, OrganizationId);
 
             }
             catch (NullReferenceException nx)
@@ -48,7 +48,7 @@ namespace ArabErp.Web.Controllers
                 TempData["success"] = "";
                 TempData["error"] = "Some error occurred. Please try again.|" + ex.Message;
             }
-            model.WorkShopRequestRefNo = "WOR/" + internalId;
+            model.WorkShopRequestRefNo = internalId;
             model.WorkShopRequestDate = System.DateTime.Today;
             model.RequiredDate = System.DateTime.Today;
             return View(model);

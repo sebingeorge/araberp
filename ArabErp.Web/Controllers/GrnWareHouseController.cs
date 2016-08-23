@@ -84,7 +84,7 @@ namespace ArabErp.Web.Controllers
                 FillAdditionDeduction();
                 FillEmployee();
 
-                model.GRNNo = "GRN/" + DatabaseCommonRepository.GetNextReferenceNo(typeof(GRN).Name);
+                model.GRNNo = DatabaseCommonRepository.GetNextDocNo(11, OrganizationId);
 
                 return View(model);
             }

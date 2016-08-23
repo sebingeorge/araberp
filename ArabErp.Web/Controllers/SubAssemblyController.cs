@@ -24,7 +24,7 @@ namespace ArabErp.Web.Controllers
             return View(new SubAssembly
             {
                 StockCreationDate = DateTime.Today,
-                StockCreationRefNo = "SUB/" + DatabaseCommonRepository.GetNextReferenceNo(typeof(SubAssembly).Name),
+                StockCreationRefNo = DatabaseCommonRepository.GetNextDocNo(26, OrganizationId),
                 isSubAssembly = true,
                 ConsumedItems=ConsumedItemsGrid(),
                 FinishedGoods=FinishedGoodsGrid()

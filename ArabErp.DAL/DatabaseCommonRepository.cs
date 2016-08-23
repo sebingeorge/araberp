@@ -88,8 +88,7 @@ namespace ArabErp.DAL
                 throw;
             }
         }
-
-        public static string GetNewDocNo(IDbConnection connection, int OrganizationId, int PrefixId, bool NeedToUpdate)
+        internal static string GetNewDocNo(IDbConnection connection, int OrganizationId, int PrefixId, bool NeedToUpdate, IDbTransaction trn)
         {
             string sql = @"declare @prefix as varchar(50);
                 declare @LastDocNo as varchar(10);
@@ -115,7 +114,7 @@ namespace ArabErp.DAL
                     end";
             }
 
-            return connection.Query<string>(sql).Single();
+            return connection.Query<string>(sql,null,trn).Single();
         }
         public static string GetNextDocNo(int PrefixId, int OrganizationId)
         {
@@ -123,7 +122,7 @@ namespace ArabErp.DAL
             {
                 using (IDbConnection connection = BaseRepository.OpenConnection(dataConnection))
                 {
-                    return GetNewDocNo(connection, OrganizationId, PrefixId, false);
+                    return GetNewDocNo(connection, OrganizationId, PrefixId, false, null);
                 }
             }
             catch (InvalidOperationException)

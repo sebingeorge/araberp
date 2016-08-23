@@ -24,7 +24,7 @@ namespace ArabErp.DAL
                 IDbTransaction txn = connection.BeginTransaction();
                 try
                 {
-                    model.StockCreationRefNo = "STO/0/" + DatabaseCommonRepository.GetInternalIDFromDatabase(connection, txn, typeof(StockCreation).Name, "0", 1);
+                    model.StockCreationRefNo = DatabaseCommonRepository.GetNewDocNo(connection, model.OrganizationId, 25, true,txn);
 
                     string query = @"INSERT INTO StockCreation
                                 (

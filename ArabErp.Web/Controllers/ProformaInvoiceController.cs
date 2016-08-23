@@ -48,7 +48,7 @@ namespace ArabErp.Web.Controllers
             string internalId = "";
             try
             {
-                internalId = DatabaseCommonRepository.GetNextReferenceNo(typeof(ProformaInvoice).Name);
+                internalId = DatabaseCommonRepository.GetNextDocNo(6, OrganizationId);
 
             }
             catch (NullReferenceException nx)
@@ -62,7 +62,7 @@ namespace ArabErp.Web.Controllers
                 TempData["error"] = "Some error occurred. Please try again.|" + ex.Message;
             }
 
-            model.ProformaInvoiceRefNo = "PINV/" + internalId;
+            model.ProformaInvoiceRefNo = internalId;
             model.ProformaInvoiceDate = DateTime.Now;
 
             return View(model);

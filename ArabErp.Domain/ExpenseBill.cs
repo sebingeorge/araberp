@@ -35,6 +35,7 @@ namespace ArabErp.Domain
         public int ApprovedBy { get; set; }
         public string CreatedBy { get; set; }
         public DateTime CreatedDate { get; set; }
+        public int OrganizationId { get; set; }
     }
     public class ExpenseBillItem
     {

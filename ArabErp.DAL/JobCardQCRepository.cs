@@ -21,9 +21,9 @@ namespace ArabErp.DAL
                 try
                 {
                     int id = 0;
-                    int internalId = DatabaseCommonRepository.GetInternalIDFromDatabase(connection, trn, typeof(JobCardQC).Name, "0", 1);
+                    string internalId = DatabaseCommonRepository.GetNewDocNo(connection, objJobCardQC.OrganizationId, 17, true,trn);
 
-                    objJobCardQC.JobCardQCRefNo = "JQC/" + internalId;
+                    objJobCardQC.JobCardQCRefNo = internalId;
                     string sql = @"INSERT INTO JobCardQC(JobCardId,JobCardQCRefNo,EmployeeId,JobCardQCDate,IsQCPassed,CreatedBy,CreatedDate,OrganizationId) VALUES (@JobCardId,@JobCardQCRefNo,@EmployeeId,GETDATE(),@IsQCPassed,@CreatedBy,GETDATE(),@OrganizationId);
            
 

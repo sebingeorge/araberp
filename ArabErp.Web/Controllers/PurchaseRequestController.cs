@@ -53,7 +53,7 @@ namespace ArabErp.Web.Controllers
             string internalId = "";
             try
             {
-                internalId = DatabaseCommonRepository.GetNextReferenceNo(typeof(PurchaseRequest).Name);
+                internalId = DatabaseCommonRepository.GetNextDocNo(8, OrganizationId);
 
             }
             catch (NullReferenceException nx)
@@ -67,7 +67,7 @@ namespace ArabErp.Web.Controllers
                 TempData["error"] = "Some error occurred. Please try again.|" + ex.Message;
             }
 
-            model.PurchaseRequestNo = "PUR/" + internalId;
+            model.PurchaseRequestNo = internalId;
             model.PurchaseRequestDate = System.DateTime.Today;
             model.RequiredDate = System.DateTime.Today;
             model.OrganizationId = OrganizationId;

@@ -27,11 +27,11 @@ namespace ArabErp.Web.Controllers
         public ActionResult Create()
         {
             JobCardDropdown();
-            string internalid = DatabaseCommonRepository.GetNextRefNoWithNoUpdate(typeof(WorkShopRequest).Name);
+            string internalid = DatabaseCommonRepository.GetNextDocNo(20, OrganizationId);
 
             //return View(new Employee { EmployeeRefNo = "EMP/" + internalid });
 
-            return View(new WorkShopRequest { WorkShopRequestDate = DateTime.Today, RequiredDate = DateTime.Today, WorkShopRequestRefNo = "WR/" + internalid });
+            return View(new WorkShopRequest { WorkShopRequestDate = DateTime.Today, RequiredDate = DateTime.Today, WorkShopRequestRefNo = internalid });
         }
         [HttpPost]
         public ActionResult Create(WorkShopRequest model)
