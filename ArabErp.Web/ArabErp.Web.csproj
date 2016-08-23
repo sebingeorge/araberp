@@ -761,6 +761,16 @@
     <Content Include="Views\SalesAnalysisProductRegister\_SalesAnalysisProduct.cshtml" />
     <Content Include="Views\SalesAnalysisCustomerRegister\Index.cshtml" />
     <Content Include="Views\SalesAnalysisCustomerRegister\_SalesAnalysisCustomer.cshtml" />
+    <Content Include="Views\PrefixSettings\Index.cshtml" />
+    <Content Include="Views\ProductWiseSalesRegister\Index.cshtml" />
+    <Content Include="Views\ProductWiseSalesRegister\_ProductWiseSalesRegister.cshtml">
+      <SubType>Code</SubType>
+    </Content>
+    <Content Include="Views\PendingPARregister\Index.cshtml" />
+    <Content Include="Views\SupplyOrderSummary\Index.cshtml" />
+    <Content Include="Views\SupplyOrderSummary\_SupplyOrderSummary.cshtml" />
+    <Content Include="Views\TargetVsAchieved\Index.cshtml" />
+    <Content Include="Views\TargetVsAchieved\_TargetVsAchievedRegister.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
