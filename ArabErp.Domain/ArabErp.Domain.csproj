@@ -65,6 +65,7 @@
     <Compile Include="FGTracking.cs" />
     <Compile Include="FinancialYear.cs" />
     <Compile Include="GINRegister.cs" />
+    <Compile Include="OpeningStockReport.cs" />
     <Compile Include="PrefixSettingsVsOrganization.cs" />
     <Compile Include="PurchaseRequestRegister.cs" />
     <Compile Include="RptFilter.cs" />

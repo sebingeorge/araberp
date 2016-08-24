@@ -10,9 +10,9 @@ using System.Data.SqlClient;
 
 namespace ArabErp.Web.Controllers
 {
-    public class ClosingStockController : BaseController
+    public class CurrentStockController : BaseController
     {
-        // GET: ClosingStock
+        // GET: CurrentStock
         public ActionResult Index()
         {
             InitDropdown();
@@ -28,10 +28,10 @@ namespace ArabErp.Web.Controllers
             ViewBag.ItemList = new SelectList(List, "Id", "Name");
 
         }
-        public ActionResult ClosingStockRegister(DateTime? Ason, int stkid = 0, int itmcatid = 0, int itmid = 0)
+        public ActionResult CurrentStockRegister( int stkid = 0, int itmcatid = 0, int itmid = 0)
         {
-            Ason = Ason ?? DateTime.Today;
-            return PartialView("_ClosingStockRegister", new ClosingStockRepository().GetClosingStockData(Ason, stkid, itmcatid, itmid, OrganizationId));
+
+            return PartialView("_CurrentStockRegister", new ClosingStockRepository().GetCurrentStockData(stkid, itmcatid, itmid, OrganizationId));
         }
         public void FillWarehouse()
         {
@@ -46,15 +46,15 @@ namespace ArabErp.Web.Controllers
             ViewBag.ItemList = new SelectList(result, "Id", "Name");
         }
         public void FillItemCategory()
-                {
-                    DropdownRepository repo = new DropdownRepository();
-                    var result = repo.ItemCategoryDropdown();
-                    ViewBag.ItemCatList = new SelectList(result, "Id", "Name");
-                }
+        {
+            DropdownRepository repo = new DropdownRepository();
+            var result = repo.ItemCategoryDropdown();
+            ViewBag.ItemCatList = new SelectList(result, "Id", "Name");
+        }
         public ActionResult Item(int Code)
-         {
-             FillItem(Code);
-             return PartialView("_ItemDropDown");
-         }
+        {
+            FillItem(Code);
+            return PartialView("_ItemDropDown");
+        }
     }
 }
