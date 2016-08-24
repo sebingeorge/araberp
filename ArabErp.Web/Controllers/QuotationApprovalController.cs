@@ -42,6 +42,8 @@ namespace ArabErp.Web.Controllers
             if(ModelState.IsValid)
             {
                 QuotationApprovalRepository repo = new QuotationApprovalRepository();
+                TempData["Success"] = "Updated Successfully!";
+                //TempData["Id"] = 1;
                 repo.UpdateSettings(model);
             }
             return View(model);
