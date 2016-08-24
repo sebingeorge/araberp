@@ -237,6 +237,7 @@
     <Compile Include="Controllers\MaterialPlanningController.cs" />
     <Compile Include="Controllers\MisReportController.cs" />
     <Compile Include="Controllers\OpeningStockController.cs" />
+    <Compile Include="Controllers\OpeningStockReportController.cs" />
     <Compile Include="Controllers\OrganizationController.cs" />
     <Compile Include="Controllers\PaymentTermsController.cs" />
     <Compile Include="Controllers\PendingPARregisterController.cs" />
@@ -784,6 +785,9 @@
     <Content Include="Views\CustomerWiseSalesRegister\_CustomerWiseSalesRegister.cshtml" />
     <Content Include="Views\PurchaseBillRegister\PurchaseBillSummary.cshtml" />
     <Content Include="Views\PurchaseBillRegister\_PurchaseBillSummaryList.cshtml" />
+    <Content Include="Views\OpeningStockReport\Index.cshtml" />
+    <Content Include="Views\OpeningStockReport\_ItemDropDown.cshtml" />
+    <Content Include="Views\OpeningStockReport\_OpeningStockRegister.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

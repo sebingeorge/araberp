@@ -1,0 +1,84 @@
+﻿@model ArabErp.Domain.OpeningStockReport
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<script type="text/javascript">
+
+    function FillItem() {
+        var Code = $('#itmCatId').val();
+
+        var Url = '@Url.Action("Item")';
+
+        if (Code == '') {
+            $("#DivItem").load(Url, { Code: 0 });
+
+        }
+        else {
+            $("#DivItem").load(Url, { Code: Code });
+
+        }
+
+    }
+    function Filter() {
+        $("#Opening_stock").addClass("fade");
+        var stkid = $("#cboStockpoint").val();
+        var itmcatid = $("#itmCatId").val();
+        var itmid = $("#ItemId").val();
+        //var Ason = $("#txtAsOn").val();
+        var url = '@Url.Action("OpeningStockRegister")';
+        url += "?stkid=" + stkid + "&itmcatid=" + itmcatid + "&itmid=" + itmid;
+        $("#Opening_stock").load(url, function () {
+            $("#Opening_stock").removeClass("fade");
+        });
+    }
+    function Exit() {
+        var url = '@Url.Action("Index", "Home")';
+        window.location = url;
+    }
+</script>
+<div class="row">
+
+    <div class="form-head1">
+        <h4>Opening Stock Report</h4>
+    </div>
+
+    <div class="main-part pad1">
+        <div class="row">
+
+            <div class="col-md-3">
+                <label for="cboStockpoint">Stock Point</label>
+                @Html.DropDownList("cboStockpoint", (SelectList)ViewBag.WarehouseList, "Any", new { @class = "form_input", @onchange = "Filter()" })
+            </div>
+            <div class="col-md-3">
+                <label for="cboItemCat">Item Category</label>
+                @Html.DropDownListFor(m => Model.itmCatId, (SelectList)ViewBag.ItemCatList, "Any", new { @class = "form_input", @onchange = "FillItem();Filter()" })
+                @Html.HiddenFor(m => Model.itmCatId)
+            </div>
+            <div class="col-md-3">
+                <label for="cboItem">Material/Spares</label>
+                <div id="DivItem">
+                    @Html.Action("Item", "OpeningStockReport", new { Code = Model.itmCatId })
+
+                </div>
+            </div>
+        </div>
+        <br />
+        <div class="row">
+            <div class="main-grid main-grid-top scroll1">
+                <div class="table-responsive" id="Opening_stock">
+                    @Html.Action("OpeningStockRegister")
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-12 hrpart">
+                <input type="button" class="form-button right" value="Exit" onclick="Exit()" />
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
