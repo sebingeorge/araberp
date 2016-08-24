@@ -222,6 +222,7 @@
     <Compile Include="Controllers\EmployeeController.cs" />
     <Compile Include="Controllers\ExpenseController.cs" />
     <Compile Include="Controllers\FreezerUnitController.cs" />
+    <Compile Include="Controllers\GINRegisterController.cs" />
     <Compile Include="Controllers\GrnWareHouseController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ItemBatchController.cs" />
@@ -792,6 +793,8 @@
     <Content Include="Views\CurrentStock\Index.cshtml" />
     <Content Include="Views\CurrentStock\_ItemDropDown.cshtml" />
     <Content Include="Views\CurrentStock\_CurrentStockRegister.cshtml" />
+    <Content Include="Views\GINRegister\Index.cshtml" />
+    <Content Include="Views\GINRegister\_GINRegister.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
