@@ -1,6 +1,6 @@
 ﻿
 @{
-    ViewBag.Title = "ConfirmProduction";
+    ViewBag.Title = "ConvertProductionPlanttoplannedorder";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
@@ -8,12 +8,38 @@
 
 <div class="row">
     <div class="form-head1">
-        <h4>Confirm Production</h4>
+        <h4>Convert Production Plant to planned order</h4>
     </div>
 
     <div class="main-part pad1">
         <div class="row form-group">
             <div class="col-md-2">
+                <label>PRD No.</label>
+                <input type="text" class="form_input" />
+            </div>
+        </div>
+        <div class="row form-group">
+            <div class="col-md-2">
+                <label>Financial Year</label>
+                <input type="text" class="form_input" />
+            </div>
+            <div class="col-md-2">
+                <label>Month</label>
+                <input type="text" class="form_input" />
+            </div>
+        </div>
+
+        <div class="row form-group">
+            <div class="col-md-4">
+                <label>Product</label>
+                <select class="form_input">
+                    <option value="volvo">Product 1</option>
+                    <option value="saab">Product 2</option>
+                    <option value="opel">Product 3</option>
+                    <option value="audi">Product 4</option>
+                </select>
+            </div>
+            <div class="col-md-4">
                 <label>Plant</label>
                 <select class="form_input">
                     <option value="volvo">Plant 1</option>
@@ -21,16 +47,19 @@
                 </select>
             </div>
 
+
+
+
+
+
         </div>
-
-
 
         <div class="table-responsive">
             <table class="table table-bordered" id="tab_logic">
                 <thead>
                     <tr class="grid_heading">
-                        <th width="7%"><h1>PRD Code</h1></th>
-                        <th width="79%"><h1>Material</h1></th>
+                        <th width="7%"><h1>PRD</h1></th>
+                        <th width="79%"><h1>Raw Material</h1></th>
                         <th width="7%" class="text-right"><h1>Qty</h1></th>
                         <th width="7%" class="text-left"><h1>Unit</h1></th>
                     </tr>
@@ -123,8 +152,6 @@
                         <td></td>
                         <td></td>
 
-
-
                     </tr>
                     <tr>
 
@@ -132,54 +159,6 @@
                         <td></td>
                         <td></td>
                         <td></td>
-
-
-
-                    </tr>
-                    <tr>
-
-                        <td>P50</td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-
-
-
-                    </tr>
-                    <tr>
-
-                        <td>P50</td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-
-
-                    </tr>
-                    <tr>
-
-                        <td>P50</td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-
-
-                    </tr>
-                    <tr>
-
-                        <td>P50</td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-
-
-                    </tr>
-                    <tr>
-
-                        <td>P50</td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-
 
                     </tr>
 
@@ -196,6 +175,10 @@
                         <th></th>
                         <th></th>
 
+
+
+
+
                     </tr>
                 </tfoot>
             </table>
@@ -207,8 +190,7 @@
 
         <div class="row">
             <div class="col-md-12 hrpart">
-                <button type="button" class="form-button right">Save</button>
-                <button type="button" class="form-button right">Exit</button>
+                <button type="button" class="form-button right" onclick="Create()">Create</button>
             </div>
 
         </div>
@@ -217,3 +199,11 @@
     </div>
 
 </div>
+
+<script>
+    function Create() {
+        var url = '@Url.Action("PlanedOrder")'
+        window.location = url;
+    }
+
+</script>

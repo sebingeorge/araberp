@@ -830,6 +830,10 @@
     <Content Include="Views\ProductionPlan\ProductionOrderRelease.cshtml" />
     <Content Include="Views\ProductionPlan\PlanedOrder.cshtml" />
     <Content Include="Views\ProductionPlan\ConvertPlannedOrdertoPurReq.cshtml" />
+    <Content Include="Views\ProductionPlan\ConvertPlannedOrdertoProductionOrder.cshtml" />
+    <Content Include="Views\ProductionPlan\PendingProduction.cshtml" />
+    <Content Include="Views\ProductionPlan\PendingReceiveProductInventory.cshtml" />
+    <Content Include="Views\ProductionPlan\ConvertProductionPlanttoplannedorder.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
