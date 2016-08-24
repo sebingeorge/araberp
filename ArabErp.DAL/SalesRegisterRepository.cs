@@ -387,6 +387,22 @@ namespace ArabErp.DAL
                 return connection.Query<SalesRegister>(qry, new { OrganizationId = OrganizationId, id = id }).ToList();
             }
         }
-        
+
+        public IEnumerable<GINRegister> GetGINRegisterData(int id, int OrganizationId)
+        {
+            using (IDbConnection connection = OpenConnection(dataConnection))
+            {
+
+                string qry = @" select I.ItemRefNo,I.ItemName,I.PartNo,WI.Quantity,SUM(ISNULL(SI.IssuedQuantity,0))ISSQTY,WI.Quantity-SUM(ISNULL(SI.IssuedQuantity,0))BALQTY,U.UnitName from WorkShopRequest W
+		                        INNER JOIN WorkShopRequestItem WI  ON W.WorkShopRequestId=WI.WorkShopRequestId
+		                        INNER JOIN Item I ON I.ItemId=WI.ItemId
+		                        INNER JOIN Unit U ON U.UnitId=I.ItemUnitId
+		                        LEFT JOIN StoreIssueItem SI ON SI.WorkShopRequestItemId=WI.WorkShopRequestItemId
+                                WHERE WI.ItemId=ISNULL(NULLIF(@id, 0),WI.ItemId) and W.OrganizationId=@OrganizationId	
+		                        group by I.ItemRefNo,I.ItemName,I.PartNo,WI.Quantity,U.UnitName";
+
+                return connection.Query<GINRegister>(qry, new { OrganizationId = OrganizationId, id = id }).ToList();
+            }
+        }
     }
 }

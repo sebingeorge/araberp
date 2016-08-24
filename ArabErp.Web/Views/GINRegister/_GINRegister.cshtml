@@ -1,0 +1,33 @@
+﻿@model IList<ArabErp.Domain.GINRegister>
+<table class="table table-bordered">
+    <thead>
+        <tr class="grid_heading">
+            <th width="10%"><h1>Material Code</h1></th>
+            <th width="30%"><h1>Material/Spares</h1></th>
+            <th width="10%"><h1>Part No.</h1></th>
+            <th width="10%" class="text-right"><h1>Required Qty.</h1></th>
+            <th width="10%" class="text-right"><h1>Issued Qty.</h1></th>
+            <th width="10%" class="text-right"><h1>Stock</h1></th>
+            <th width="10%" class="text-right"><h1>Balance Qty.</h1></th>
+            <th width="5%"><h1>Unit</h1></th>
+        </tr>
+    </thead>
+    @foreach (var item in Model)
+    {
+        <tbody class="grid_row">
+            <tr>
+                <td class="grid-cell">@item.ItemRefNo</td>
+                <td class="grid-cell">@item.ItemName</td>
+                <td class="grid-cell">@item.PartNo</td>
+                <td class="grid-cell text-right">@item.Quantity</td>
+                <td class="grid-cell text-right">@item.ISSQTY</td>
+                <td class="grid-cell"></td>
+                <td class="grid-cell text-right">@item.BALQTY</td>
+                <td class="grid-cell">@item.UnitName</td>
+
+
+            </tr>
+
+        </tbody>
+    }
+</table>
