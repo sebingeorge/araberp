@@ -210,6 +210,7 @@
     <Compile Include="Controllers\CommissionAgentController.cs" />
     <Compile Include="Controllers\ConsumptionController.cs" />
     <Compile Include="Controllers\CurrencyController.cs" />
+    <Compile Include="Controllers\CurrentStockController.cs" />
     <Compile Include="Controllers\CustomerCategoryController.cs" />
     <Compile Include="Controllers\CustomerController.cs" />
     <Compile Include="Controllers\CustomerReceiptController.cs" />
@@ -788,6 +789,9 @@
     <Content Include="Views\OpeningStockReport\Index.cshtml" />
     <Content Include="Views\OpeningStockReport\_ItemDropDown.cshtml" />
     <Content Include="Views\OpeningStockReport\_OpeningStockRegister.cshtml" />
+    <Content Include="Views\CurrentStock\Index.cshtml" />
+    <Content Include="Views\CurrentStock\_ItemDropDown.cshtml" />
+    <Content Include="Views\CurrentStock\_CurrentStockRegister.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
