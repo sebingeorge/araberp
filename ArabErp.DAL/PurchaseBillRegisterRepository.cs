@@ -51,6 +51,26 @@ namespace ArabErp.DAL
             }
         }
 
+        public IEnumerable<PurchaseBillRegister> PurchaseBillSummaryData(DateTime? from, DateTime? to, int id, int supid, int OrganizationId)
+        {
+            using (IDbConnection connection = OpenConnection(dataConnection))
+            {
+                //              
+                string qry = @"SELECT convert(varchar,P.PurchaseBillDate,106)PurchaseBillDate,SUM(PI.Amount)Amount
+                                FROM PurchaseBill P
+                                INNER JOIN PurchaseBillItem PI ON P.PurchaseBillId=PI.PurchaseBillId
+                                INNER JOIN GRNItem G ON P.PurchaseBillId=PI.PurchaseBillId
+                                INNER JOIN Item I ON G.ItemId =I.ItemId 
+                                INNER JOIN ItemCategory IC ON IC.itmCatId=I.ItemCategoryId
+                                WHERE P.isActive=1  AND P.PurchaseBillDate BETWEEN ISNULL(@from, DATEADD(MONTH, -1, GETDATE())) AND ISNULL(@to, GETDATE()) 
+                                AND P.OrganizationId=@OrganizationId AND  P.SupplierId = ISNULL(NULLIF(@supid, 0), P.SupplierId) and IC.itmCatId=ISNULL(NULLIF(@id, 0), IC.itmCatId) 
+                                GROUP BY  PurchaseBillDate
+                                ORDER BY PurchaseBillDate";
+
+                return connection.Query<PurchaseBillRegister>(qry, new { id = id, supid = supid, OrganizationId = OrganizationId, from = from, to = to }).ToList();
+            }
+        }
+
         public IEnumerable<PurchaseBillRegister> GetPurchaseMonthlyItemWiseData(int OrganizationId, int id)
         {
             using (IDbConnection connection = OpenConnection(dataConnection))

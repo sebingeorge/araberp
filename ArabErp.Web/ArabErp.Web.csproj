@@ -408,6 +408,7 @@
     <Content Include="Images\white-pattern.jpg" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
+    <None Include="Properties\PublishProfiles\Server.pubxml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />
     <Content Include="Scripts\jquery-1.10.2.min.js" />
@@ -781,6 +782,8 @@
     <Content Include="Views\PurchaseMonthlyItemWiseRegister\_PurchaseMonthlySupplierWiseRegister.cshtml" />
     <Content Include="Views\CustomerWiseSalesRegister\Index.cshtml" />
     <Content Include="Views\CustomerWiseSalesRegister\_CustomerWiseSalesRegister.cshtml" />
+    <Content Include="Views\PurchaseBillRegister\PurchaseBillSummary.cshtml" />
+    <Content Include="Views\PurchaseBillRegister\_PurchaseBillSummaryList.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

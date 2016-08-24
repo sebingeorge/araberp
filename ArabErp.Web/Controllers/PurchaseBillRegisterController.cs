@@ -41,6 +41,20 @@ namespace ArabErp.Web.Controllers
             return PartialView("_PurchaseBillDetailedList", new PurchaseBillRegisterRepository().PurchaseBillDetailedData(from, to, id, itmid, OrganizationId));
         }
 
+        public ActionResult PurchaseBillSummary()
+        {
+            FillItemCategory();
+            FillSupplier();
+            return View();
+        }
+
+        public ActionResult PurchaseBillSummaryList(DateTime? from, DateTime? to, int id = 0, int supid = 0)
+        {
+            from = from ?? DateTime.Today.AddMonths(-7);
+            to = to ?? DateTime.Today;
+            return PartialView("_PurchaseBillSummaryList", new PurchaseBillRegisterRepository().PurchaseBillSummaryData(from, to, id, supid, OrganizationId));
+        }
+
 
 
         public void FillItem()
@@ -58,7 +72,7 @@ namespace ArabErp.Web.Controllers
         public void FillItemCategory()
         {
             DropdownRepository repo = new DropdownRepository();
-            var result = repo.ItemCategoryDropdown();
+            var result = repo.PBItemCategoryDropdown();
             ViewBag.ItemCatList = new SelectList(result, "Id", "Name");
         }
     }
