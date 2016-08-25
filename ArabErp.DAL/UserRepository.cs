@@ -32,6 +32,15 @@ namespace ArabErp.DAL
                             connection.Query(sql, item);
                         }                        
                     }
+                    foreach(var item in user.ERPAlerts)
+                    {
+                        if(item.HasPermission == 1)
+                        {
+                            item.UserId = id;
+                            sql = "insert into ERPAlertsVsUser(AlertId, UserId) values(@AlertId, @UserId)";
+                            connection.Query(sql, item);
+                        }
+                    }
                     InsertLoginHistory(dataConnection, user.CreatedBy, "Create", "Unit", id.ToString(), "0");
                     return id;
                 }
@@ -65,6 +74,17 @@ namespace ArabErp.DAL
                             sql = "insert into ModuleVsUser(ModuleId, UserId) values(@ModuleId, @UserId);";
                             connection.Query(sql, item);
                         }                        
+                    }
+                    sql = "delete from ERPAlertsVsUser where UserId = " + user.UserId.ToString();
+                    connection.Query(sql);
+                    foreach (var item in user.ERPAlerts)
+                    {
+                        if (item.HasPermission == 1)
+                        {
+                            item.UserId = user.UserId ?? 0;
+                            sql = "insert into ERPAlertsVsUser(AlertId, UserId) values(@AlertId, @UserId)";
+                            connection.Query(sql, item);
+                        }
                     }
                 }
                 catch
@@ -153,6 +173,17 @@ namespace ArabErp.DAL
             {
                 string sql = "select M.* from Module M inner join ModuleVsUser MU on M.ModuleId = MU.ModuleId where MU.UserId = " + UserId.ToString();
                 return connection.Query<ModuleVsUser>(sql);
+            }
+        }
+        public IEnumerable<ERPAlerts> GetAlerts(int UserId)
+        {
+            using (IDbConnection connection = OpenConnection(dataConnection))
+            {
+                string query = @"select A.AlertId, A.AlertName, HasPermission = case when EU.RowId is null then 0 else 1 end,
+                "+ UserId.ToString() + @" UserId 
+                from ERPAlerts A
+                left join ERPAlertsVsUser EU on A.AlertId = EU.AlertId and EU.UserId = " + UserId.ToString();
+                return connection.Query<ERPAlerts>(query);
             }
         }
     }
