@@ -229,6 +229,19 @@ namespace ArabErp.Web.Controllers
             }
         }
 
+        public JsonResult GetSupplierCurrency(int id) //SupplierId is received here
+        {
+            try
+            {
+                Supplier model = new SupplierRepository().GetSupplierCurrency(id);
+                return Json(new { currencyId = model.CurrencyId, currencyName = model.CurrencyName }, JsonRequestBehavior.AllowGet);
+            }
+            catch
+            {
+                return Json(new { currencyId = "", currencyName = "" }, JsonRequestBehavior.AllowGet);
+            }
+        }
+
         /// <summary>
         /// All active suppliers
         /// </summary>

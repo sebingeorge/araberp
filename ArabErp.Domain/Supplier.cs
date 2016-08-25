@@ -49,6 +49,7 @@ namespace ArabErp.Domain
         public string DiscountRate { get; set; }
         [Required]
         public int? CurrencyId { get; set; }
+        public string CurrencyName { get; set; }
         [Required]
         public string PanNo { get; set; }
         public string TinNo { get; set; }
