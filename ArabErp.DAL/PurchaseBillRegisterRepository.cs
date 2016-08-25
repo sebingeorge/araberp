@@ -42,7 +42,7 @@ namespace ArabErp.DAL
                                 INNER JOIN Item I ON G.ItemId =I.ItemId 
                                 INNER JOIN ItemCategory IC ON IC.itmCatId=I.ItemCategoryId
                                 INNER JOIN Unit U ON U.UnitId=I.ItemUnitId
-                                WHERE P.isActive=1  AND P.PurchaseBillDate BETWEEN ISNULL(@from, DATEADD(MONTH, -1, GETDATE())) AND ISNULL(@to, GETDATE()) 
+                                WHERE P.isActive=1  AND P.PurchaseBillDate BETWEEN @from AND @to
                                 AND P.OrganizationId=@OrganizationId AND  I.ItemId = ISNULL(NULLIF(@itmid, 0), I.ItemId) and IC.itmCatId=ISNULL(NULLIF(@id, 0), IC.itmCatId) 
                                 GROUP BY  ItemName,IC.CategoryName,U.UnitName
                                 ORDER BY ItemName";
@@ -62,7 +62,7 @@ namespace ArabErp.DAL
                                 INNER JOIN GRNItem G ON P.PurchaseBillId=PI.PurchaseBillId
                                 INNER JOIN Item I ON G.ItemId =I.ItemId 
                                 INNER JOIN ItemCategory IC ON IC.itmCatId=I.ItemCategoryId
-                                WHERE P.isActive=1  AND P.PurchaseBillDate BETWEEN ISNULL(@from, DATEADD(MONTH, -1, GETDATE())) AND ISNULL(@to, GETDATE()) 
+                                WHERE P.isActive=1  AND P.PurchaseBillDate BETWEEN @from AND @to
                                 AND P.OrganizationId=@OrganizationId AND  P.SupplierId = ISNULL(NULLIF(@supid, 0), P.SupplierId) and IC.itmCatId=ISNULL(NULLIF(@id, 0), IC.itmCatId) 
                                 GROUP BY  PurchaseBillDate
                                 ORDER BY PurchaseBillDate";
