@@ -31,7 +31,7 @@
     @Html.ActionLink("Convert Production Plan to planned order", "ConvertProductionPlanttoplannedorder")
 </div>
 <div class="form-button menu-w fs">
-    @Html.ActionLink("Convert Planned Order to Pur Req", "ConvertPlannedOrdertoPurReq")
+    @Html.ActionLink("Convert Planned Order to Pur Indent", "ConvertPlannedOrdertoPurReq")
 </div>
 <div class="form-button menu-w">
     @Html.ActionLink("Purchase Indent", "PurchaseIndent")
@@ -49,6 +49,10 @@
     @Html.ActionLink("GRN", "PendingPurchaseOrder")
 </div>
 
+<div class="form-button menu-w fs">
+    @Html.ActionLink("Convert Planned Order to Production Order", "ConvertPlannedOrdertoProductionOrder")
+</div>
+
 <div class="form-button menu-w">
     @Html.ActionLink("Production Order", "PendingProduction")
 </div>
@@ -56,14 +60,12 @@
     @Html.ActionLink("Production Order Release", "ProductionOrderRelease")
 </div>
 <div class="form-button menu-w">
-    @Html.ActionLink("Material to Production order", "PendingGoodsIssue")
+    @Html.ActionLink("Issue Material to Production order", "PendingGoodsIssue")
 </div>
 <div class="form-button menu-w">
     @Html.ActionLink("Confirm Production", "ConfirmProduction")
 </div>
-<div class="form-button menu-w fs">
-    @Html.ActionLink("Convert Planned Order to Production Order", "ConvertPlannedOrdertoProductionOrder")
-</div>
+
 <div class="form-button menu-w">
     @Html.ActionLink("Receive Product to Inventory", "PendingReceiveProductInventory")
 </div>
