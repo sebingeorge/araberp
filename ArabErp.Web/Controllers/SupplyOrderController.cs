@@ -45,7 +45,7 @@ namespace ArabErp.Web.Controllers
             }
             supplyorder.SupplyOrderDate = System.DateTime.Today;
             supplyorder.RequiredDate = System.DateTime.Today;
-
+            supplyorder.CurrencyId = new CurrencyRepository().GetCurrencyFrmOrganization(OrganizationId).CurrencyId;
             FillDropdowns();
 
             return View(supplyorder);
@@ -294,7 +294,7 @@ namespace ArabErp.Web.Controllers
             var result1 = new SupplyOrderRepository().CHECK(model.SupplyOrderId);
             if (result1 > 0)
             {
-                TempData["error"] = "Sorry!!..Already Used!!";
+                TempData["error"] = "Sorry!!..Already Approved!!";
                 TempData["ExpenseNo"] = null;
                 return View("Edit", model);
             }
