@@ -143,7 +143,7 @@ namespace ArabErp.DAL
         {
             using (IDbConnection connection = OpenConnection(dataConnection))
             {
-              string query = @" SELECT Distinct
+                string query = @" SELECT Distinct
                                 G.GRNId,GRNNo+' - '+CONVERT(VARCHAR, GRNDate, 106) GRNNo,
                                 STUFF((SELECT Distinct ', ' + CAST(SO.SupplyOrderNo AS VARCHAR(MAX)) [text()]
                                 FROM GRNItem GT1 
@@ -157,7 +157,8 @@ namespace ArabErp.DAL
                                 EMP.EmployeeName ReceivedByName,
                                 ST.StockPointName,
                                 ISNULL(G.GrandTotal, 0.00) GrandTotal,
-                                G.isDirectPurchaseGRN
+                                G.isDirectPurchaseGRN,
+								G.GRNDate, G.CreatedDate
                                 FROM GRN G 
                                 INNER JOIN GRNItem GT ON GT.GRNId=G.GRNId
                                 INNER JOIN Supplier S ON S.SupplierId=G.SupplierId
@@ -167,7 +168,8 @@ namespace ArabErp.DAL
                                 WHERE ISNULL(G.isActive, 1) = 1
                                 GROUP BY G.GRNId,G.GRNNo,G.GRNDate,S.SupplierName,G.SupplierDCNoAndDate,
                                 EMP.EmployeeName ,ST.StockPointName,G.GrandTotal,G.CreatedDate,
-                                G.isDirectPurchaseGRN,GT.SupplyOrderItemId,GT.GRNId;";
+                                G.isDirectPurchaseGRN,GT.SupplyOrderItemId,GT.GRNId
+								ORDER BY G.GRNDate DESC, G.CreatedDate DESC;";
                 return connection.Query<GRN>(query);
             }
         }
@@ -289,7 +291,8 @@ namespace ArabErp.DAL
             {
                 using (IDbConnection connection = OpenConnection(dataConnection))
                 {
-                    return connection.Query<GRN>(@"SELECT Supplierid, SupplierName Supplier FROM Supplier WHERE SupplierId = @supplierId",
+                    return connection.Query<GRN>(@"SELECT Supplierid, SupplierName Supplier, S.CurrencyId CurrencyId, C.CurrencyName FROM Supplier S
+                                                    LEFT JOIN Currency C ON S.CUrrencyId = C.CurrencyId WHERE SupplierId = @supplierId",
                         new { supplierId = supplierId }
                         ).FirstOrDefault();
                 }
@@ -365,7 +368,7 @@ namespace ArabErp.DAL
         }
 
 
-        public GRN GetGRNDISPLAYDetails(int GRNId)
+        public GRN GetGRNDetails(int GRNId)
         {
             using (IDbConnection connection = OpenConnection(dataConnection))
             {
@@ -386,7 +389,7 @@ namespace ArabErp.DAL
         }
 
 
-        public List<GRNItem> GetGRNDISPLAYItem(int GRNId)
+        public List<GRNItem> GetGRNItems(int GRNId)
         {
             using (IDbConnection connection = OpenConnection(dataConnection))
             {

@@ -20,5 +20,9 @@ namespace ArabErp.Domain
         public bool isActive { get; set; }
 
         public string JobCardTaskName { get; set; }
+
+        public int EmployeeId { get; set; }
+        public string EmployeeName { get; set; }
+        public int JobCardTaskMasterId { get; set; }
     }
 }

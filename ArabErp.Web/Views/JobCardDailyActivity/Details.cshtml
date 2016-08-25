@@ -11,6 +11,25 @@
 
         $("input[type='text'], textarea, select").attr("disabled", "true");
 
+        @if (TempData["previousAction"] == "Create")
+        {
+            //---------------------toastr---------------------------//
+            @:toastr.options = {
+            @:    "positionClass": "toast-bottom-full-width",
+            @:    "timeOut": "5000",
+            @:    "extendedTimeOut": "2000"
+            @:}
+            @:if ('@TempData["success"]' != '') {
+            @:    toastr.success('@TempData["success"] Please upload the images.');
+            @:}
+            @:else if ('@TempData["error"]' != '') {
+            @:    toastr.error('@TempData["error"]');
+            @:    console.log('@TempData["error"]');
+            @:}
+            TempData["success"] = TempData["error"] = "";
+            //------------------------------------------------------//
+        }
+
     })
 
     function ImageUpload(index) {

@@ -795,6 +795,7 @@
     <Content Include="Views\CurrentStock\_CurrentStockRegister.cshtml" />
     <Content Include="Views\GINRegister\Index.cshtml" />
     <Content Include="Views\GINRegister\_GINRegister.cshtml" />
+    <Content Include="Views\GrnWareHouse\Edit.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
