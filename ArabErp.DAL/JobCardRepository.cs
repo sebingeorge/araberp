@@ -61,12 +61,14 @@ namespace ArabErp
                     query = @"select S.SaleOrderId, SI.SaleOrderItemId,
                     GETDATE() JobCardDate, C.CustomerId, C.CustomerName, S.CustomerOrderRef, V.VehicleModelName,
                     ''ChasisNoRegNo, W.WorkDescriptionId, W.WorkDescr as WorkDescription, '' WorkShopRequestRef, 
-                    0 GoodsLanded, 0 BayId, 0 FreezerUnitId, 0 BoxId, ISNULL(VI.RegistrationNo, '-') RegistrationNo, VI.VehicleInPassId InPassId
+                    0 GoodsLanded, 0 BayId, W.FreezerUnitId FreezerUnitId, FU.FreezerUnitName, W.BoxId BoxId, B.BoxName, ISNULL(VI.RegistrationNo, '-') RegistrationNo, VI.VehicleInPassId InPassId
                     from SaleOrder S inner join Customer C on S.CustomerId = C.CustomerId
                     inner join SaleOrderItem SI on SI.SaleOrderId = S.SaleOrderId
                     inner join WorkDescription W on W.WorkDescriptionId = SI.WorkDescriptionId
                     inner join VehicleModel V on V.VehicleModelId = W.VehicleModelId
 					LEFT JOIN VehicleInPass VI ON SI.SaleOrderItemId = VI.SaleOrderItemId
+					LEFT JOIN FreezerUnit FU ON W.FreezerUnitId = FU.FreezerUnitId
+					LEFT JOIN Box B ON W.BoxId = B.BoxId
                     where SI.SaleOrderItemId = " + SoItemId.ToString();
                 }
                 else

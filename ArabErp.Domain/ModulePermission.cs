@@ -24,4 +24,13 @@ namespace ArabErp.Domain
         public bool DirectPurchaseReqDorApproval { get; set; }
         public bool PendingSOForWorkshopReq { get; set; }
     }
+    public class GraphPermission
+    {
+        public bool SaleQuotations { get; set; }
+        public bool SaleOrders { get; set; }
+        public bool SalesVsPurchase { get; set; }
+        public bool FGStockVsAllocation { get; set; }
+        public bool FGStockVsSOAllocation { get; set; }
+        public bool JobCardCompletion7Days { get; set; }
+    }
 }

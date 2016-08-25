@@ -58,8 +58,8 @@ namespace ArabErp.Web.Controllers
                 FillBay();
                 FillEmployee();
                 FillTaks(model.WorkDescriptionId);
-                FillFreezerUnit();
-                FillBox();
+                //FillFreezerUnit();
+                //FillBox();
                 //FillVehicleRegNo();
              
                 return View(model);

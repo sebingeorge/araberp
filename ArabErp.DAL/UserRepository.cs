@@ -41,6 +41,15 @@ namespace ArabErp.DAL
                             connection.Query(sql, item);
                         }
                     }
+                    foreach (var item in user.ERPGraphs)
+                    {
+                        if (item.HasPermission == 1)
+                        {
+                            item.UserId = id;
+                            sql = "insert into ERPGraphsVsUser(GraphId, UserId) values(@GraphId, @UserId)";
+                            connection.Query(sql, item);
+                        }
+                    }
                     InsertLoginHistory(dataConnection, user.CreatedBy, "Create", "Unit", id.ToString(), "0");
                     return id;
                 }
@@ -83,6 +92,17 @@ namespace ArabErp.DAL
                         {
                             item.UserId = user.UserId ?? 0;
                             sql = "insert into ERPAlertsVsUser(AlertId, UserId) values(@AlertId, @UserId)";
+                            connection.Query(sql, item);
+                        }
+                    }
+                    sql = "delete from ERPGraphsVsUser where UserId = " + user.UserId.ToString();
+                    connection.Query(sql);
+                    foreach (var item in user.ERPGraphs)
+                    {
+                        if (item.HasPermission == 1)
+                        {
+                            item.UserId = user.UserId ?? 0;
+                            sql = "insert into ERPGraphsVsUser(GraphId, UserId) values(@GraphId, @UserId)";
                             connection.Query(sql, item);
                         }
                     }
@@ -179,11 +199,30 @@ namespace ArabErp.DAL
         {
             using (IDbConnection connection = OpenConnection(dataConnection))
             {
-                string query = @"select A.AlertId, A.AlertName, HasPermission = case when EU.RowId is null then 0 else 1 end,
-                "+ UserId.ToString() + @" UserId 
+                try
+                {
+                    string query = @"select A.AlertId, A.AlertName, HasPermission = case when EU.RowId is null then 0 else 1 end,
+                " + UserId.ToString() + @" UserId 
                 from ERPAlerts A
                 left join ERPAlertsVsUser EU on A.AlertId = EU.AlertId and EU.UserId = " + UserId.ToString();
-                return connection.Query<ERPAlerts>(query);
+                    return connection.Query<ERPAlerts>(query);
+                }
+                catch (Exception)
+                {
+                    return new List<ERPAlerts>();
+                }
+            }
+        }
+        public IEnumerable<ERPGraphs> GetGraphs(int UserId)
+        {
+            using (IDbConnection connection = OpenConnection(dataConnection))
+            {
+                string sql = @"select A.GraphId, A.GraphName, HasPermission = case when EU.RowId is null then 0 else 1 end,
+                " + UserId.ToString() + @" UserId 
+                from ERPGraphs A
+                left join ERPGraphsVsUser EU on A.GraphId = EU.GraphId and EU.UserId = " + UserId.ToString();
+
+                return connection.Query<ERPGraphs>(sql);
             }
         }
     }

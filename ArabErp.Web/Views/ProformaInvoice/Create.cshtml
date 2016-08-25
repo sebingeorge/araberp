@@ -55,9 +55,6 @@
             $("#TotalDiscount").text(discount);
             
             $("#TotalAmount").text(amount);
-           
-
-          
 
         }
         function showPaymentTerms() {
@@ -73,8 +70,11 @@
             $("#ProformaInvoiceDate").datepicker({ dateFormat: "dd-MM-yy" });
         });
         function Exit() {
+          
+            var url='@Url.Action("PendingProforma", new { ProjectBased = Model.isProjectBased })';
+            //alert(url);
+            location.href = url;
 
-            location.href = '@Url.Action("PendingProforma", "ProformaInvoice", new { @Model.isProjectBased })';
         }
     </script>
 }
@@ -97,22 +97,19 @@
                     </div>
                     <div class="col-md-2">
                         <label for="SaleOrderDate">Date</label>
-                       
                         @Html.TextBoxFor(m => m.ProformaInvoiceDate, Model.ProformaInvoiceDate.ToString("dd/MMMM/yyyy"), new { @class = "form_input ", autocomplete = "off", @readonly = "readonly" })
                     </div>
                 </div>
                 <div class="row form-group">
                     <div class="col-md-4">
                         <label for="selectCustomer">Customer</label>
-                    
                         @Html.TextBoxFor(m => Model.CustomerName, new { @class = "form_input", autocomplete = "off", @readonly = "readonly" })
                     </div>
 
                     <div class="col-md-4">
                         <label for="CustomerOrderRef">Customer Address</label>
                         @Html.TextBoxFor(m => m.CustomerAddress, new { @class = "form_input", autocomplete = "off", @readonly = "readonly" })
-                     
-                    </div>
+                     </div>
                     <div class="col-md-2">
                         <label for="CustomerOrderRef">Customer Order Ref.</label>
                         @Html.TextBoxFor(m => m.CustomerOrderRef, new { @class = "form_input", autocomplete = "off", @readonly = "readonly" })
@@ -181,12 +178,11 @@
                         </tfoot>
                     </table>
                 </div>
-    <div class="row form-group">
-        <div class="col-md-12">
-                                 <label for="SpecialRemarks" class="tamount"><b>@(Model.SymbolName)<span id="TotalAmount">@totalAmount </span></b></label>
-
-        </div>
-    </div>
+                <div class="row form-group">
+                    <div class="col-md-12">
+                        <label for="SpecialRemarks" class="tamount"><b>@(Model.SymbolName)<span id="TotalAmount">@totalAmount </span></b></label>
+                    </div>
+                </div>
                 <div class="row form-group">
                     <div class="col-md-12">
                         <div class="part1">
@@ -195,30 +191,19 @@
                         </div>
                     </div>
                 </div>
-    <div class="row">
-        <div class="col-md-11 col-sm-10" style="display:inline-block;position:relative;">
-
-            <div class="part4">
-
-                <label for="PaymentTerms">Payment Terms</label>
-
-
-                @Html.TextBoxFor(m => m.PaymentTerms, new { @class = "form_input", autocomplete = "off" })
-                <button class="terms" type="button" id="pymtTerms" onclick="showPaymentTerms()">...</button>
-
-
-            </div>
-
-        </div>
-    </div>
-
-
-
-
+               <div class="row">
+                  <div class="col-md-11 col-sm-10" style="display:inline-block;position:relative;">
+                    <div class="part4">
+                        <label for="PaymentTerms">Payment Terms</label>
+                        @Html.TextBoxFor(m => m.PaymentTerms, new { @class = "form_input", autocomplete = "off" })
+                        <button class="terms" type="button" id="pymtTerms" onclick="showPaymentTerms()">...</button>
+                    </div>
+                   </div>
+                </div>
 
                 <div class="row">
                     <div class="col-md-12 hrpart">
-                        <button class="form-button right" onclick="Exit()">Exit</button>
+                        <button type="button" class="form-button right" onclick="Exit()">Exit</button>
                         <button type="submit" class="form-button right">Save</button>
                     </div>
 

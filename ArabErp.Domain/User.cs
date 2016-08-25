@@ -27,6 +27,7 @@ namespace ArabErp.Domain
         public int? UserRole { get; set; }
         public List<ModuleVsUser> Module { get; set; }
         public List<ERPAlerts> ERPAlerts { get; set; }
+        public List<ERPGraphs> ERPGraphs { get; set; }
         public string CreatedBy { get; set; }
     }
 }
