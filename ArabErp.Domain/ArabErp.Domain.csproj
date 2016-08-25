@@ -62,6 +62,7 @@
     <Compile Include="Employee.cs" />
     <Compile Include="EmployeeCategory.cs" />
     <Compile Include="ERPAlerts.cs" />
+    <Compile Include="ERPGraphs.cs" />
     <Compile Include="ExpenseBill.cs" />
     <Compile Include="FGTracking.cs" />
     <Compile Include="FinancialYear.cs" />

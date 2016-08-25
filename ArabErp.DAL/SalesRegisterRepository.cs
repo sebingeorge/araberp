@@ -74,7 +74,7 @@ namespace ArabErp.DAL
             using (IDbConnection connection = OpenConnection(dataConnection))
             {
 
-                string qry = @"	select SaleOrderRefNo,SalesInvoiceDate,WorkDescr,isnull(SN.Quantity,0) Quantity,isnull(SN.Amount,0) Amount,
+                string qry = @"	select SaleOrderRefNo,SalesInvoiceDate,WorkDescrShortName,isnull(SN.Quantity,0) Quantity,isnull(SN.Amount,0) Amount,
                                 round((sum(SN.Amount)/(select sum(SN.Amount) From
                                 SaleOrder S,SaleOrderItem SI,WorkDescription W,SalesInvoiceItem SN,SalesInvoice SNI
                                 Where  S.SaleOrderId=SI.SaleOrderId And  W.WorkDescriptionId=SI.WorkDescriptionId And SN.SaleOrderItemId=SI.SaleOrderItemId
@@ -85,7 +85,7 @@ namespace ArabErp.DAL
 	                            inner join SalesInvoiceItem SN on SN.SaleOrderItemId=SI.SaleOrderItemId
                                 inner join SalesInvoice SNI ON  SNI.SalesInvoiceId=SN.SalesInvoiceId
                                 where SalesInvoiceDate >= @from AND SalesInvoiceDate <= @to and S.OrganizationId=@OrganizationId
-                                GROUP BY SaleOrderRefNo,SalesInvoiceDate,WorkDescr,SN.Quantity,SN.Amount";
+                                GROUP BY SaleOrderRefNo,SalesInvoiceDate,WorkDescrShortName,SN.Quantity,SN.Amount";
 
                 return connection.Query<SalesRegister>(qry, new { OrganizationId = OrganizationId, from = from, to = to }).ToList();
             }
@@ -106,17 +106,16 @@ namespace ArabErp.DAL
                 return connection.Query<SalesRegister>(qry, new { OrganizationId = OrganizationId, from = from, to = to, id = id }).ToList();
             }
         }
-        public IEnumerable<SalesRegister> GetTargetVsAchieved(int OrganizationId, int id)
+        public IEnumerable<SalesRegister> GetTargetVsAchieved(int OrganizationId, int id, DateTime FYStartdate, DateTime FYEnddate)
         {
             using (IDbConnection connection = OpenConnection(dataConnection))
             {
 
                 string qry = @"	
-                        DECLARE @FIN_START_DATE DATETIME;
-                        DECLARE @FIN_LAST_DATE DATETIME; 
+               
                         DECLARE @FIN_ID INT;
                         SELECT @FIN_ID=FyId from Organization where OrganizationId=@OrganizationId;
-                        SELECT @FIN_START_DATE=FyStartDate,@FIN_LAST_DATE=FyEndDate FROM FinancialYear WHERE FyId = @FIN_ID;
+
                         SELECT MonthId,[MonthName],MonthFromDate [YEAR] INTO #MONTH_DETAILS FROM Month;
                         SELECT  W.WorkDescriptionId,W.WorkDescrShortName WorkDescr,M.MonthId,[MonthName],
                         MAX(Target)AS [Target],
@@ -126,27 +125,26 @@ namespace ArabErp.DAL
                         LEFT JOIN SaleOrderItem SOI ON SOI.WorkDescriptionId =W.WorkDescriptionId
                         LEFT JOIN SalesInvoiceItem SI ON SOI.SaleOrderItemId =SI.SaleOrderItemId  
                         INNER JOIN SalesInvoice S ON SI.SalesInvoiceId =S.SalesInvoiceId
-                        AND SalesInvoiceDate >= @FIN_START_DATE  AND SalesInvoiceDate <=@FIN_LAST_DATE
+                        AND SalesInvoiceDate >= @FYStartdate  AND SalesInvoiceDate <=@FYEnddate
                         LEFT JOIN SalesTarget T ON T.WorkDescriptionId  = W.WorkDescriptionId AND T.FyId=@FIN_ID 
                         INNER JOIN #MONTH_DETAILS M ON M.MonthId=T.MonthId
                         where M.MonthId=ISNULL(NULLIF(@id, 0),M.MonthId)
                         GROUP BY  W.WorkDescriptionId,W.WorkDescrShortName,M.MonthId,[MonthName]
                         ORDER BY [Varperc] DESC
-                        DROP TABLE #MONTH_DETAILS";	
-              return connection.Query<SalesRegister>(qry, new { OrganizationId = OrganizationId,id=id}).ToList();
+                        DROP TABLE #MONTH_DETAILS";
+                return connection.Query<SalesRegister>(qry, new { OrganizationId = OrganizationId, id = id, FYStartdate = FYStartdate, FYEnddate = FYEnddate }).ToList();
             }
         }
-        public IEnumerable<SalesRegister>GetProductWiseSalesRegister(int OrganizationId, int id)
+        public IEnumerable<SalesRegister> GetProductWiseSalesRegister(int OrganizationId, int id, DateTime FYStartdate, DateTime FYEnddate)
         {
             using (IDbConnection connection = OpenConnection(dataConnection))
             {
 
                 string qry = @"	
-                                        DECLARE @FIN_START_DATE DATETIME;
-                                        DECLARE @FIN_LAST_DATE DATETIME;
+                                      
                                         DECLARE @FIN_ID int;
                                         SELECT @FIN_ID=FyId from Organization where OrganizationId=@OrganizationId;
-                                        SELECT @FIN_START_DATE=FyStartDate,@FIN_LAST_DATE=FyEndDate FROM FinancialYear WHERE FyId = @FIN_ID;
+                                       
 			
                                         CREATE TABLE #SALES_WORKDESC_DETAILS
                                         (
@@ -190,7 +188,7 @@ namespace ArabErp.DAL
                                         INNER JOIN SaleOrder SO ON SOI.SaleOrderId=SO.SaleOrderId
                                         LEFT JOIN WorkDescription W ON W.WorkDescriptionId  =SOI.WorkDescriptionId		
                                         INNER JOIN Customer C ON C.CustomerId=SO.CustomerId AND C.CustomerId=ISNULL(NULLIF(@id, 0),C.CustomerId)
-                                        WHERE SalesInvoiceDate>=@FIN_START_DATE  AND SalesInvoiceDate <=@FIN_LAST_DATE AND S.OrganizationId=@OrganizationId
+                                        WHERE SalesInvoiceDate>=@FYStartdate  AND SalesInvoiceDate <=@FYEnddate AND S.OrganizationId=@OrganizationId
                                       
 			
                                         INSERT INTO #SALES_WORKDESC_DETAILS(Wrk_id ,Wrk_Name )
@@ -199,7 +197,7 @@ namespace ArabErp.DAL
                                         INNER JOIN SaleOrderItem SOI  ON SI.SaleOrderItemId  =SOI.SaleOrderItemId 
                                         INNER JOIN SaleOrder SO ON SOI.SaleOrderId=SO.SaleOrderId
                                         LEFT JOIN WorkDescription W ON W.WorkDescriptionId  =SOI.WorkDescriptionId	
-                                        WHERE S.SalesInvoiceDate>=@FIN_START_DATE  AND S.SalesInvoiceDate <=@FIN_LAST_DATE 
+                                        WHERE S.SalesInvoiceDate>=@FYStartdate  AND S.SalesInvoiceDate <=@FYEnddate 
                                         AND  S.OrganizationId=@OrganizationId		
 
                                         INSERT INTO #SALES_MONTH_DETAILS(
@@ -259,22 +257,21 @@ namespace ArabErp.DAL
                                         SELECT Wrk_id,Wrk_Name WorkDescr,Apr ,May ,Jun ,Jul ,Aug ,Sep ,Oct ,Nov ,Dece,Jan ,Feb ,Mar 
                                         FROM  #SALES_MONTH_DETAILS"; 
 
-              return connection.Query<SalesRegister>(qry, new { OrganizationId = OrganizationId,id=id}).ToList();
+              return connection.Query<SalesRegister>(qry, new { OrganizationId = OrganizationId,id=id,FYStartdate = FYStartdate, FYEnddate = FYEnddate }).ToList();
             }
         }
 
 
-        public IEnumerable<SalesRegister> GetCustomerWiseSalesRegister(int OrganizationId, int id)
+        public IEnumerable<SalesRegister> GetCustomerWiseSalesRegister(int OrganizationId, int id, DateTime FYStartdate, DateTime FYEnddate)
         {
             using (IDbConnection connection = OpenConnection(dataConnection))
             {
 
                 string qry = @"	
-                                    DECLARE @FIN_START_DATE DATETIME;
-                                    DECLARE @FIN_LAST_DATE DATETIME;
+                                 
                                     DECLARE @FIN_ID int;
                                     SELECT @FIN_ID=FyId from Organization where OrganizationId=@OrganizationId;
-                                    SELECT @FIN_START_DATE=FyStartDate,@FIN_LAST_DATE=FyEndDate FROM FinancialYear WHERE FyId = @FIN_ID;            
+                                            
 
 		                                    CREATE TABLE #SALES_CUS_DETAILS
 		                                    (
@@ -316,14 +313,14 @@ namespace ArabErp.DAL
 		                                    INNER JOIN SaleOrder SO ON SOI.SaleOrderId=SO.SaleOrderId
 		                                    INNER JOIN WorkDescription W ON W.WorkDescriptionId  =SOI.WorkDescriptionId	AND W.WorkDescriptionId =ISNULL(NULLIF(@id, 0),W.WorkDescriptionId)	
 		                                    INNER JOIN Customer C ON C.CustomerId=SO.CustomerId AND C.CustomerId=C.CustomerId
-		                                    WHERE SalesInvoiceDate>=@FIN_START_DATE AND SalesInvoiceDate <=@FIN_LAST_DATE AND S.OrganizationId=@OrganizationId
+		                                    WHERE SalesInvoiceDate>=@FYStartdate AND SalesInvoiceDate <=@FYEnddate AND S.OrganizationId=@OrganizationId
 		                                    ORDER BY CustomerName		
 
 
 		                                    INSERT INTO #SALES_CUS_DETAILS(Cus_Id ,Cus_Name)
 		                                    SELECT DISTINCT C.CustomerId ,C.CustomerName  FROM SalesInvoice S,Customer C,SaleOrder SO
-		                                    WHERE SO.SaleOrderId =S.SaleOrderId AND C.CustomerId=SO.CustomerId AND SalesInvoiceDate>=@FIN_START_DATE  
-		                                    AND SalesInvoiceDate <=@FIN_LAST_DATE AND S.OrganizationId=1
+		                                    WHERE SO.SaleOrderId =S.SaleOrderId AND C.CustomerId=SO.CustomerId AND SalesInvoiceDate>=@FYStartdate  
+		                                    AND SalesInvoiceDate <=@FYEnddate AND S.OrganizationId=1
 		
 		
 		                                    INSERT INTO #SALES_MONTH_DETAILS(
@@ -383,7 +380,7 @@ namespace ArabErp.DAL
 		                                    SELECT Cus_Id,Cusname_Name CustomerName ,Apr ,May ,Jun ,Jul ,Aug ,Sep ,Oct ,Nov ,Dece,Jan ,Feb ,Mar 
 		                                    FROM  #SALES_MONTH_DETAILS ";
 
-                return connection.Query<SalesRegister>(qry, new { OrganizationId = OrganizationId, id = id }).ToList();
+                return connection.Query<SalesRegister>(qry, new { OrganizationId = OrganizationId, id = id,FYStartdate = FYStartdate, FYEnddate = FYEnddate  }).ToList();
             }
         }
 
@@ -392,15 +389,17 @@ namespace ArabErp.DAL
             using (IDbConnection connection = OpenConnection(dataConnection))
             {
 
-                string qry = @" select I.ItemRefNo,I.ItemName,I.PartNo,WI.Quantity,SUM(ISNULL(SI.IssuedQuantity,0))ISSQTY,WI.Quantity-SUM(ISNULL(SI.IssuedQuantity,0))BALQTY,U.UnitName from WorkShopRequest W
+                string qry = @" select I.ItemRefNo,I.ItemName,I.PartNo,W.WorkShopRequestRefNo,WI.Quantity,SUM(ISNULL(SI.IssuedQuantity,0))ISSQTY,WI.Quantity-SUM(ISNULL(SI.IssuedQuantity,0))BALQTY,U.UnitName,
+                                (select sum(Quantity) from StockUpdate S where S.ItemId=I.ItemId)STOCK
+                                from WorkShopRequest W
 		                        INNER JOIN WorkShopRequestItem WI  ON W.WorkShopRequestId=WI.WorkShopRequestId
 		                        INNER JOIN Item I ON I.ItemId=WI.ItemId
 		                        INNER JOIN Unit U ON U.UnitId=I.ItemUnitId
 		                        LEFT JOIN StoreIssueItem SI ON SI.WorkShopRequestItemId=WI.WorkShopRequestItemId
                                 WHERE WI.ItemId=ISNULL(NULLIF(@id, 0),WI.ItemId) and W.OrganizationId=@OrganizationId	
-		                        group by I.ItemRefNo,I.ItemName,I.PartNo,WI.Quantity,U.UnitName";
+		                        group by I.ItemRefNo,I.ItemName,I.PartNo,WI.Quantity,U.UnitName,W.WorkShopRequestRefNo,I.ItemId";
 
-                return connection.Query<GINRegister>(qry, new { OrganizationId = OrganizationId, id = id }).ToList();
+                return connection.Query<GINRegister>(qry, new { OrganizationId = OrganizationId, id = id}).ToList();
             }
         }
     }

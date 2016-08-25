@@ -15,12 +15,14 @@ namespace ArabErp.Web.Controllers
         public ActionResult Index()
         {
             FillCustomer();
+        
             return View();
         }
+     
         public ActionResult ProductWiseSalesRegister(int Id = 0)
         {
 
-            return PartialView("_ProductWiseSalesRegister", new SalesRegisterRepository().GetProductWiseSalesRegister(OrganizationId, Id));
+            return PartialView("_ProductWiseSalesRegister", new SalesRegisterRepository().GetProductWiseSalesRegister(OrganizationId, Id, FYStartdate, FYEnddate));
         }
         public void FillCustomer()
         {
