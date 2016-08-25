@@ -137,6 +137,10 @@ namespace ArabErp.Web.Controllers
         {
             return View();
         }
+        public ActionResult ReceiveProductInventory()
+        {
+            return View();
+        }
         //public ActionResult CreateProductLineAdd()
         //{
         //    return View();
