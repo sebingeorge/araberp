@@ -45,18 +45,16 @@ namespace ArabErp.Web.Controllers
             var result = repo.ItemCatDropdown(Id);
             ViewBag.ItemList = new SelectList(result, "Id", "Name");
         }
-
-        
- public void FillItemCategory()
-        {
-            DropdownRepository repo = new DropdownRepository();
-            var result = repo.ItemCategoryDropdown();
-            ViewBag.ItemCatList = new SelectList(result, "Id", "Name");
-        }
- public ActionResult Item(int Code)
- {
-     FillItem(Code);
-     return PartialView("_ItemDropDown");
- }
+        public void FillItemCategory()
+                {
+                    DropdownRepository repo = new DropdownRepository();
+                    var result = repo.ItemCategoryDropdown();
+                    ViewBag.ItemCatList = new SelectList(result, "Id", "Name");
+                }
+        public ActionResult Item(int Code)
+         {
+             FillItem(Code);
+             return PartialView("_ItemDropDown");
+         }
     }
 }

@@ -5,12 +5,9 @@
 }
 
 <script type="text/javascript">
-
-
     function Filter() {
         $("#Prd_Sales").addClass("fade");
         var id = $("#cboCustomer").val();
-
         var url = '@Url.Action("ProductWiseSalesRegister")';
         url += "?id=" + id;
         $("#Prd_Sales").load(url, function () {

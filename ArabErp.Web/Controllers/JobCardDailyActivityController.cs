@@ -27,10 +27,12 @@ namespace ArabErp.Web.Controllers
             JobCard jc = jcRepo.GetDetailsById(Id, null);
             FillTaks(jc.WorkDescriptionId);
             JobCardDailyActivity model = new JobCardDailyActivity();
+            model.JobCardDailyActivityRefNo = DatabaseCommonRepository.GetNextDocNo(27, OrganizationId);
             model.CreatedDate = DateTime.Now;
             model.JobCardDailyActivityDate = DateTime.Now;
-            model.JobCardDailyActivityTask = new List<JobCardDailyActivityTask>();
-            model.JobCardDailyActivityTask.Add(new JobCardDailyActivityTask() { TaskStartDate = DateTime.Now, TaskEndDate = DateTime.Now});
+            model.JobCardDailyActivityTask = new JobCardDailyActivityRepository().GetJobCardTasksForDailyActivity(Id, OrganizationId);
+            //model.JobCardDailyActivityTask = new List<JobCardDailyActivityTask>();
+            //model.JobCardDailyActivityTask.Add(new JobCardDailyActivityTask() { TaskStartDate = DateTime.Now, TaskEndDate = DateTime.Now});
             Employee emp = emRepo.GetEmployee(jc.EmployeeId);
             model.EmployeeId = jc.EmployeeId;
             model.EmployeeName = emp.EmployeeName;
@@ -42,17 +44,34 @@ namespace ArabErp.Web.Controllers
         [HttpPost]
         public ActionResult Create(JobCardDailyActivity model)
         {
-            if(ModelState.IsValid)
+            try
             {
-                JobCardDailyActivityRepository repo = new JobCardDailyActivityRepository();
+                model.CreatedBy = UserID.ToString();
+                model.OrganizationId = OrganizationId;
                 model.CreatedDate = DateTime.Now;
-                var id = repo.InsertJobCardDailyActivity(model);
-                TempData["previousAction"] = "Create";
-                return RedirectToAction("Details", new { id = id });
+                if (ModelState.IsValid)
+                {
+                    JobCardDailyActivityRepository repo = new JobCardDailyActivityRepository();
+                    model.CreatedDate = DateTime.Now;
+                    var id = repo.InsertJobCardDailyActivity(model);
+                    if (id == 0)
+                    {
+                        TempData["error"] = "Some error occured while saving. Please try again.";
+                        return View(model);
+                    }
+                    TempData["success"] = "Saved Successfully.";
+                    TempData["previousAction"] = "Create";
+                    return RedirectToAction("Details", new { id = id });
+                }
+                else
+                {
+                    return View("Create", new { Id = model.JobCardId });
+                }
             }
-            else
+            catch (Exception)
             {
-                return View("Create", new { Id = model.JobCardId });
+                TempData["error"] = "Some error occured. Please try again.";
+                return View(model);
             }
         }
         public void FillTaks(int workId)

@@ -210,16 +210,19 @@
     <Compile Include="Controllers\CommissionAgentController.cs" />
     <Compile Include="Controllers\ConsumptionController.cs" />
     <Compile Include="Controllers\CurrencyController.cs" />
+    <Compile Include="Controllers\CurrentStockController.cs" />
     <Compile Include="Controllers\CustomerCategoryController.cs" />
     <Compile Include="Controllers\CustomerController.cs" />
     <Compile Include="Controllers\CustomerReceiptController.cs" />
     <Compile Include="Controllers\CustomerVsWorkRateController.cs" />
+    <Compile Include="Controllers\CustomerWiseSalesRegisterController.cs" />
     <Compile Include="Controllers\DesignationController.cs" />
     <Compile Include="Controllers\DirectPurchaseController.cs" />
     <Compile Include="Controllers\EmployeeCategoryController.cs" />
     <Compile Include="Controllers\EmployeeController.cs" />
     <Compile Include="Controllers\ExpenseController.cs" />
     <Compile Include="Controllers\FreezerUnitController.cs" />
+    <Compile Include="Controllers\GINRegisterController.cs" />
     <Compile Include="Controllers\GrnWareHouseController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ItemBatchController.cs" />
@@ -236,6 +239,7 @@
     <Compile Include="Controllers\MaterialPlanningController.cs" />
     <Compile Include="Controllers\MisReportController.cs" />
     <Compile Include="Controllers\OpeningStockController.cs" />
+    <Compile Include="Controllers\OpeningStockReportController.cs" />
     <Compile Include="Controllers\OrganizationController.cs" />
     <Compile Include="Controllers\PaymentTermsController.cs" />
     <Compile Include="Controllers\PendingPARregisterController.cs" />
@@ -407,6 +411,7 @@
     <Content Include="Images\white-pattern.jpg" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
+    <None Include="Properties\PublishProfiles\Server.pubxml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />
     <Content Include="Scripts\jquery-1.10.2.min.js" />
@@ -772,6 +777,25 @@
     <Content Include="Views\SupplyOrderSummary\_SupplyOrderSummary.cshtml" />
     <Content Include="Views\TargetVsAchieved\Index.cshtml" />
     <Content Include="Views\TargetVsAchieved\_TargetVsAchievedRegister.cshtml" />
+    <Content Include="Views\PurchaseMonthlyItemWiseRegister\Index.cshtml" />
+    <Content Include="Views\PurchaseMonthlyItemWiseRegister\_PurchaseMonthlyItemWiseRegister.cshtml" />
+    <Content Include="Views\PurchaseBillRegister\PurchaseBillDetailed.cshtml" />
+    <Content Include="Views\PurchaseBillRegister\_PurchaseBillDetailedList.cshtml" />
+    <Content Include="Views\PurchaseMonthlyItemWiseRegister\PurchaseMonthlySupplierWise.cshtml" />
+    <Content Include="Views\PurchaseMonthlyItemWiseRegister\_PurchaseMonthlySupplierWiseRegister.cshtml" />
+    <Content Include="Views\CustomerWiseSalesRegister\Index.cshtml" />
+    <Content Include="Views\CustomerWiseSalesRegister\_CustomerWiseSalesRegister.cshtml" />
+    <Content Include="Views\PurchaseBillRegister\PurchaseBillSummary.cshtml" />
+    <Content Include="Views\PurchaseBillRegister\_PurchaseBillSummaryList.cshtml" />
+    <Content Include="Views\OpeningStockReport\Index.cshtml" />
+    <Content Include="Views\OpeningStockReport\_ItemDropDown.cshtml" />
+    <Content Include="Views\OpeningStockReport\_OpeningStockRegister.cshtml" />
+    <Content Include="Views\CurrentStock\Index.cshtml" />
+    <Content Include="Views\CurrentStock\_ItemDropDown.cshtml" />
+    <Content Include="Views\CurrentStock\_CurrentStockRegister.cshtml" />
+    <Content Include="Views\GINRegister\Index.cshtml" />
+    <Content Include="Views\GINRegister\_GINRegister.cshtml" />
+    <Content Include="Views\GrnWareHouse\Edit.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

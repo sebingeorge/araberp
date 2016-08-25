@@ -17,10 +17,8 @@
             <th width="10%" class="text-right"><h1>Oct</h1></th>
             <th width="15%" class="text-right"><h1>Nov</h1></th>
             <th width="5%" class="text-right"><h1>Dec</h1></th>
-            <th width="10%" class="text-right"><h1>%</h1></th>
-          
-
-        </tr>
+            @*<th width="10%" class="text-right"><h1>%</h1></th>*@
+       </tr>
     </thead>
     @foreach (var item in Model)
     {
@@ -39,10 +37,7 @@
                 <td class="grid-cell text-right">@item.Oct</td>
                 <td class="grid-cell text-right">@item.Nov</td>
                 <td class="grid-cell text-right">@item.Dece</td>
-                <td class="grid-cell text-right">@item.Perc</td>
-              
-
-
+                @*<td class="grid-cell text-right">@item.Perc</td>*@
             </tr>
         </tbody>
     }

@@ -35,5 +35,6 @@ namespace ArabErp.Domain
         public string ReceivedByName { get; set; }
         public bool isDirectPurchaseGRN { get; set; }
         public List<GRNItem> Items { get; set; }
+        public string CurrencyName { get; set; }
     }
 }
