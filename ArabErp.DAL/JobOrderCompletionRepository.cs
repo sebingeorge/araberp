@@ -96,6 +96,7 @@ namespace ArabErp.DAL
 	                        EMP.EmployeeName,
 	                        DAT.JobCardTaskId,
 	                        ISNULL(T.TotalHours, 0) ActualHours,
+							JT.Hours,
 	                        (SELECT TOP 1 CONVERT(VARCHAR, JobCardDailyActivityDate, 106) FROM JobCardDailyActivity WHERE JobCardId = @JobCardId ORDER BY JobCardDailyActivityDate) StartDate,
 	                        (SELECT TOP 1 CONVERT(VARCHAR, JobCardDailyActivityDate, 106) FROM JobCardDailyActivity WHERE JobCardId = @JobCardId ORDER BY JobCardDailyActivityDate DESC) EndDate
                         FROM JobCardTask JT

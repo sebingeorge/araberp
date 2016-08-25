@@ -149,9 +149,10 @@
                     <thead>
                         <tr class="grid_heading">
                             <th width="2%"><h1>#</h1></th>
-                            <th width="35%"><h1>Employee</h1></th>
-                            <th width="40%"><h1>Task</h1></th>
+                            <th width="30%"><h1>Employee</h1></th>
+                            <th width="35%"><h1>Task</h1></th>
                             <th width="10%"><h1>Date</h1></th>
+                            <th width="10%"><h1>Est. Hrs.</h1></th>
                             <th width="10%"><h1>Actual Hrs.</h1></th>
                             @*<th width="2%"><h1></h1></th>*@
                         </tr>
@@ -192,6 +193,9 @@
                                         }
                                     </td>
                                 }
+                                <td>
+                                    @Html.TextBoxFor(m => m.JobCardTask[row].Hours, new { @class = "form_input", autocomplete = "off", @readonly = "true" })
+                                </td>
                                 <td>
                                     @Html.TextBoxFor(m => m.JobCardTask[row].ActualHours, new { @class = "form_input", autocomplete = "off", @readonly = "true" })
                                 </td>
