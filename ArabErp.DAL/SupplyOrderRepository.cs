@@ -394,8 +394,7 @@ namespace ArabErp.DAL
             {
                 string sql = @" SELECT Count(S.SupplyOrderId)Count FROM SupplyOrder S
                                 INNER JOIN SupplyOrderItem SI ON S.SupplyOrderId=SI.SupplyOrderId
-                                INNER JOIN GRNItem GI ON GI.SupplyOrderItemId=SI.SupplyOrderItemId 
-                                WHERE S.SupplyOrderId=@SupplyOrderId";
+                                WHERE S.SupplyOrderId=@SupplyOrderId AND isApproved=1";
 
                 var id = connection.Query<int>(sql, new { SupplyOrderId = SupplyOrderId }).FirstOrDefault();
 

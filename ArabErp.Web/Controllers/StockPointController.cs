@@ -19,7 +19,7 @@ namespace ArabErp.Web.Controllers
         public ActionResult Create()
         {
             string internalid = DatabaseCommonRepository.GetNextRefNoWithNoUpdate(typeof(Stockpoint).Name);
-            return View(new Stockpoint { StockPointRefNo = "EMPC/" + internalid });
+            return View(new Stockpoint { StockPointRefNo = "SP/" + internalid });
         }
            [HttpPost]
         public ActionResult Create(Stockpoint model)
