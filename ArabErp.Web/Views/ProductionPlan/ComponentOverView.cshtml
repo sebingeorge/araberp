@@ -195,6 +195,7 @@
 
         <div class="row">
             <div class="col-md-12 hrpart">
+                <button type="button" class="form-button form-w" onclick="Previous()">Previous List</button>
                 <button type="button" class="form-button right">Confirm</button>
                 <button type="button" class="form-button right" onclick="Exit()">Exit</button>
             </div>
@@ -207,6 +208,10 @@
 </div>
 
 <script>
+    function Previous() {
+        var url = '@Url.Action("PreviousProductionOrder", "ProductionPlan")'
+        window.location = url;
+    }
     function Exit() {
         var url = '@Url.Action("Index","ProductionPlan")'
         window.location = url;

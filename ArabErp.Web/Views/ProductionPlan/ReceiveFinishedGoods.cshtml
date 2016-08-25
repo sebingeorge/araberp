@@ -186,7 +186,7 @@
 
         <div class="row">
             <div class="col-md-12 hrpart">
-                <button type="button" class="form-button">Previous List</button>
+                <button type="button" class="form-button form-w" onclick="Previous()">Previous List</button>
                 <button type="button" class="form-button right">Save</button>
                 <button type="button" class="form-button right" onclick="Exit()">Exit</button>
             </div>
@@ -199,12 +199,8 @@
 </div>
 
 <script>
-    function Exit() {
-        var url = '@Url.Action("Index","ProductionPlan")'
-        window.location = url;
-    }
-    function Exit() {
-        var url = '@Url.Action("Index","ProductionPlan")'
+    function Previous() {
+        var url = '@Url.Action("PreviousReceiveProductInventory", "ProductionPlan")'
         window.location = url;
     }
     function Exit() {

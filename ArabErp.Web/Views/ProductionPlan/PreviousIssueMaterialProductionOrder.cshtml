@@ -1,5 +1,6 @@
-﻿@{
-    ViewBag.Title = "PendingGoodsIssue";
+﻿
+@{
+    ViewBag.Title = "PreviousIssueMaterialProductionOrder";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
@@ -7,21 +8,40 @@
 
 <div class="row">
     <div class="form-head1">
-        <h4>Pending Issue Material to Production order</h4>
+        <h4>Previous Issue Material to Production Order</h4>
     </div>
 
     <div class="main-part pad1">
+
+
+        <div class="row form-group">
+            <div class="col-md-1">
+                <label>From</label>
+                <input type="text" class="form_input" />
+            </div>
+            <div class="col-md-1">
+                <label>To</label>
+                <input type="text" class="form_input" />
+            </div>
+            <div class="col-md-4">
+                <label>Item</label>
+                <select class="form_input">
+                    <option value="volvo">Item1</option>
+                    <option value="saab">Item2</option>
+                </select>
+            </div>
+        </div>
+
 
         <div class="table-responsive">
             <table class="table table-bordered" id="tab_logic">
                 <thead>
                     <tr class="grid_heading">
-                        <th width="7%"><h1>PRD Order No</h1></th>
-                        <th width="66%"><h1>Item</h1></th>
+                        <th width="7%"><h1>PRD Order No.</h1></th>
+                        <th width="72%"><h1>Item</h1></th>
                         <th width="7%" class="text-right"><h1>Qty</h1></th>
                         <th width="7%" class="text-left"><h1>Unit</h1></th>
                         <th width="7%"><h1>Batch</h1></th>
-                        <th width="5%"><center><h1>Select</h1></center></th>
                     </tr>
                 </thead>
                 <tbody>
@@ -33,7 +53,6 @@
                         <td></td>
                         <td></td>
                         <td></td>
-                        <td><center><input type="checkbox" name="" value=""></center></td>
 
                     </tr>
                     <tr>
@@ -43,18 +62,6 @@
                         <td></td>
                         <td></td>
                         <td></td>
-                        <td><center><input type="checkbox" name="" value=""></center></td>
-
-
-                    </tr>
-                    <tr>
-
-                        <td>P50</td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td><center><input type="checkbox" name="" value=""></center></td>
 
 
                     </tr>
@@ -65,7 +72,6 @@
                         <td></td>
                         <td></td>
                         <td></td>
-                        <td><center><input type="checkbox" name="" value=""></center></td>
 
 
                     </tr>
@@ -76,7 +82,6 @@
                         <td></td>
                         <td></td>
                         <td></td>
-                        <td><center><input type="checkbox" name="" value=""></center></td>
 
 
                     </tr>
@@ -87,7 +92,6 @@
                         <td></td>
                         <td></td>
                         <td></td>
-                        <td><center><input type="checkbox" name="" value=""></center></td>
 
 
                     </tr>
@@ -98,7 +102,6 @@
                         <td></td>
                         <td></td>
                         <td></td>
-                        <td><center><input type="checkbox" name="" value=""></center></td>
 
 
                     </tr>
@@ -109,7 +112,6 @@
                         <td></td>
                         <td></td>
                         <td></td>
-                        <td><center><input type="checkbox" name="" value=""></center></td>
 
 
                     </tr>
@@ -120,7 +122,6 @@
                         <td></td>
                         <td></td>
                         <td></td>
-                        <td><center><input type="checkbox" name="" value=""></center></td>
 
 
                     </tr>
@@ -131,7 +132,6 @@
                         <td></td>
                         <td></td>
                         <td></td>
-                        <td><center><input type="checkbox" name="" value=""></center></td>
 
 
                     </tr>
@@ -142,7 +142,6 @@
                         <td></td>
                         <td></td>
                         <td></td>
-                        <td><center><input type="checkbox" name="" value=""></center></td>
 
 
                     </tr>
@@ -153,7 +152,6 @@
                         <td></td>
                         <td></td>
                         <td></td>
-                        <td><center><input type="checkbox" name="" value=""></center></td>
 
 
                     </tr>
@@ -164,22 +162,9 @@
                         <td></td>
                         <td></td>
                         <td></td>
-                        <td><center><input type="checkbox" name="" value=""></center></td>
 
 
                     </tr>
-                    <tr>
-
-                        <td>P50</td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td><center><input type="checkbox" name="" value=""></center></td>
-
-
-                    </tr>
-
 
 
 
@@ -194,7 +179,6 @@
                         <th></th>
                         <th></th>
                         <th></th>
-                        <th></th>
 
 
 
@@ -202,24 +186,29 @@
                     </tr>
                 </tfoot>
             </table>
-
-            <div class="row">
-                <div class="col-md-12 hrpart">
-                    <button type="button" class="form-button right" onclick="Proceed()">Proceed</button>
-                    <button type="button" class="form-button right" onclick="Exit()">Exit</button>
-                </div>
-
-            </div>
         </div>
-    </div>
-    <script>
-        function Proceed() {
-        var url = '@Url.Action("GoodsIssue", "ProductionPlan")'
-        window.location = url;
-        }
-        function Exit() {
-            var url = '@Url.Action("Index","ProductionPlan")'
-            window.location = url;
-        }
 
-    </script>
+
+
+
+
+
+        <div class="row">
+            <div class="col-md-12 hrpart">
+                <button type="button" class="form-button right" onclick="Exit()">Exit</button>
+            </div>
+
+        </div>
+
+
+    </div>
+
+</div>
+
+<script>
+    function Exit() {
+        var url = '@Url.Action("Index","ProductionPlan")'
+        window.location = url;
+    }
+</script>
+
