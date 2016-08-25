@@ -306,6 +306,7 @@
                                 <li><a href="@Url.Action("Index", "PendingPARregister")"><span class="badge pull-right"></span>Pending PAR</a></li>
                                 <li><a href="@Url.Action("PengingSO", "SupplyOrderRegister")"><span class="badge pull-right"></span>Pending Supply Order</a></li>
                                 <li><a href="@Url.Action("SOVariance", "SupplyOrderRegister")"><span class="badge pull-right"></span>Supply Order Variance Report</a></li>
+                                <li><a href="@Url.Action("PurchaseBillSummary", "PurchaseBillRegister")"><span class="badge pull-right"></span>Purchase Bill Summmary</a></li>
                                 <li><a href="@Url.Action("PurchaseBillDetailed", "PurchaseBillRegister")"><span class="badge pull-right"></span>Purchase Bill Detailed</a></li>
                                 <li><a href="@Url.Action("Index", "PurchaseMonthlyItemWiseRegister")"><span class="badge pull-right"></span>Purchase Monthly Item wise</a></li>
                                 <li><a href="@Url.Action("PurchaseMonthlySupplierWise", "PurchaseMonthlyItemWiseRegister")"><span class="badge pull-right"></span>Purchase Monthly Supplier wise</a></li>
@@ -334,10 +335,13 @@
                         <li class="dropdown-submenu">
                             <a href="#"><span class="badge pull-right"></span>Stores</a>
                             <ul class="dropdown-menu">
-                                <li><a href="@Url.Action("Index","StockReport")"><span class="badge pull-right"></span>Stock Report</a></li>
+                                <li><a href="@Url.Action("Index", "OpeningStockReport")"><span class="badge pull-right"></span>Opening Stock Report</a></li>
+                                <li><a href="@Url.Action("Index", "CurrentStock")"><span class="badge pull-right"></span>Current Stock Report</a></li>
                                 <li><a href="@Url.Action("Index","ClosingStock")"><span class="badge pull-right"></span>Closing Stock Report</a></li>
+                                <li><a href="@Url.Action("Index","StockReport")"><span class="badge pull-right"></span>Stock Report</a></li>
                                 <li><a href="@Url.Action("Index","StoresLedger")"><span class="badge pull-right"></span>Stores Ledger</a></li>
                                 <li><a href="@Url.Action("Index","StockMovementRegister")"><span class="badge pull-right"></span>Stock Movement Report</a></li>
+                                <li><a href="@Url.Action("Index","GINRegister")"><span class="badge pull-right"></span>GIN Report</a></li>
                             </ul>
                         </li>
                         <li><a href="@Url.Action("Index", "MaterialPlanning")"><span class="badge pull-right"></span>Material Planning Report</a></li>
