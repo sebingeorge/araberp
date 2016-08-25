@@ -27,7 +27,7 @@ namespace ArabErp.Web.Controllers
         public ActionResult TargetVsAchievedRegister(int Id=0)
         {
 
-            return PartialView("_TargetVsAchievedRegister", new SalesRegisterRepository().GetTargetVsAchieved(OrganizationId, Id));
+            return PartialView("_TargetVsAchievedRegister", new SalesRegisterRepository().GetTargetVsAchieved(OrganizationId, Id,FYStartdate,FYEnddate));
         }
     }
 }

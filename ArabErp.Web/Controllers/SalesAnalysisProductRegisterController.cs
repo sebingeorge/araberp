@@ -16,7 +16,12 @@ namespace ArabErp.Web.Controllers
         public ActionResult Index()
         {
             ViewBag.startdate = FYStartdate;
+            FillWorkDesc();
             return View();
+        }
+        public void FillWorkDesc()
+        {
+            ViewBag.WrkList = new SelectList(new DropdownRepository().WorkDescDropdown(OrganizationId), "Id", "Name");
         }
         public ActionResult SalesAnalysisProduct(DateTime? from, DateTime? to)
         {
