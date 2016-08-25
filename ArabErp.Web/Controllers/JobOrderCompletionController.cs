@@ -51,7 +51,6 @@ namespace ArabErp.Web.Controllers
         {
             try
             {
-                throw new Exception();
                 JobOrderCompletionRepository repo = new JobOrderCompletionRepository();
                 repo.UpdateJobCardCompletion(model, UserID.ToString());
                 TempData["success"] = "Saved Successfully";

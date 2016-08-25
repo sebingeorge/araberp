@@ -38,6 +38,8 @@ namespace ArabErp.Domain
         public string RegistrationNo { get; set; }
         public DateTime VehicleInPassDate { get; set; }
         public List<JobCardTask> JobCardTasks { get; set; }
+
+        public string BoxName { get; set; }
     }
     public class JobCardForDailyActivity
     {

@@ -1,6 +1,6 @@
 ﻿@model ArabErp.Domain.JobCardCompletion
 @{
-    ViewBag.Title = "CreateJobOrderCompletion";
+    ViewBag.Title = "Job Order Completion";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 @{
@@ -8,15 +8,34 @@
     //int isProjectBased = Convert.ToInt32(Request.QueryString["isProjectBased"].ToString());
 }
 <script>
+
+    $(document).ready(function () {
+        //---------------------toastr---------------------------//
+        toastr.options = {
+            "positionClass": "toast-bottom-full-width",
+            "timeOut": "5000",
+            "extendedTimeOut": "2000"
+        }
+        if ('@TempData["success"]' != '') {
+            toastr.success('@TempData["success"]');
+        }
+        else if ('@TempData["error"]' != '') {
+            toastr.error('@TempData["error"]');
+            console.log('@TempData["error"]');
+        }
+        @{ TempData["success"] = TempData["error"] = ""; }
+        //------------------------------------------------------//
+    })
+
     $(function () {
 
         //if (ViewBag.type = 0)
         //{
-            $("#JobCardCompletedDate").datepicker({ dateFormat: "dd-MM-yy" });
-            $("#WarrentyPeriod").datepicker({ dateFormat: "dd-MM-yy" });
-            $("#TaskDate").datepicker({ dateFormat: "dd-MM-yy" });
-            assignTaskDate();
-            $(".glyphicon-plus").hide();
+        $("#JobCardCompletedDate").datepicker({ dateFormat: "dd-MM-yy" });
+        $("#WarrentyPeriod").datepicker({ dateFormat: "dd-MM-yy" });
+        $("#TaskDate").datepicker({ dateFormat: "dd-MM-yy" });
+        assignTaskDate();
+        $(".glyphicon-plus").hide();
         //}
         //else
         //{
@@ -73,9 +92,13 @@
         assignTaskDate();
         ResetExisting(rNo, i);
     }
-    function ResetExisting(oldRow, newRow)
-    {
+    function ResetExisting(oldRow, newRow) {
         $("#JobCardTask_" + newRow + "__Existing").val(1);
+    }
+
+    function Exit() {
+        var url = '@Url.Action("PendingJobOrderCompletion", new { isProjectBased = Model.isProjectBased })';
+        window.location = url;
     }
 </script>
 
@@ -103,26 +126,26 @@
             <div class="row form-group">
                 <div class="col-md-4">
                     <label for="cus">Customer</label>
-                    <input type="text" id="cus" class="form_input" autocomplete="off" value="@Model.CustomerName" readonly="readonly" />
+                    @Html.TextBoxFor(m => m.CustomerName, new { @class = "form_input", @readonly = "true" })
                 </div>
                 @if (isProjectBased == 0)
                 {
                     <div class="col-md-2">
                         <label for="vehmodel">Vehicle Model</label>
-                        <input type="text" id="vehmodel" class="form_input" autocomplete="off" value="@Model.VehicleModelName" />
+                        @Html.TextBoxFor(m => m.VehicleModelName, new { @class = "form_input", @readonly = "true" })
                     </div>
                 }
             </div>
             <div class="row form-group">
                 <div class="col-md-12">
                     <label for="work">Work Description</label>
-                    <textarea id="work" class="form_input form_input-h1">@Model.WorkDescr</textarea>
+                    @Html.TextAreaFor(m => m.WorkDescr, new { @class = "form_input form_input-h1", @readonly = "true" })
                 </div>
             </div>
             <div class="row form-group">
                 <div class="col-md-2">
                     <label for="WarrentyPeriod">Warranty Period</label>
-                    @Html.TextBoxFor(m => m.WarrentyPeriod, Model.WarrentyPeriod.ToString("dd/MMMM/yyyy"), new { @class = "form_input", autocomplete = "off" })
+                    @Html.TextBoxFor(m => m.WarrentyPeriod, Model.WarrentyPeriod.ToString("dd/MMMM/yyyy"), new { @class = "form_input", autocomplete = "off", @readonly = "true" })
                 </div>
             </div>
             <div class=" table-responsive">
@@ -131,9 +154,10 @@
                     <thead>
                         <tr class="grid_heading">
                             <th width="2%"><h1>#</h1></th>
-                            <th width="35%"><h1>Employee</h1></th>
-                            <th width="40%"><h1>Task</h1></th>
+                            <th width="30%"><h1>Employee</h1></th>
+                            <th width="35%"><h1>Task</h1></th>
                             <th width="10%"><h1>Date</h1></th>
+                            <th width="10%"><h1>Est. Hrs.</h1></th>
                             <th width="10%"><h1>Actual Hrs.</h1></th>
                             @*<th width="2%"><h1></h1></th>*@
                         </tr>
@@ -161,24 +185,22 @@
                                 @if (row == 0)
                                 {
                                     <td rowspan="@Model.JobCardTask.Count" align="center">
-                                        @if (Model.JobCardTask[row].StartDate == null)
-                                        {
 
-                                            @* @Html.TextBoxFor(m => m.JobCardTask[row].TaskDate, Model.JobCardTask[row].TaskDate.ToString("dd/MMMM/yyyy"), new { @class = "form_input", autocomplete = "off", @readonly = "readonly" }) *@
+                                        @if (Model.JobCardTask[row].StartDate.ToString("dd/MMMM/yyyy").Equals("01-January-0001"))
+                                        {
+                                            @: <span class="perm">No daily activity found</span>
                                         }
                                         else
                                         {
-                                            if (Model.JobCardTask[row].StartDate.ToString("dd/MMMM/yyyy").Equals("01-January-0001"))
-                                            {
-                                                @: <span class="perm">No daily activity found</span>
-                                            }
-                                            else
-                                            {
-                                                @Model.JobCardTask[row].StartDate.ToString("dd/MMMM/yyyy") <br />@:to<br /> @Model.JobCardTask[row].EndDate.ToString("dd/MMMM/yyyy")
-                                            }
+                                            @Html.HiddenFor(m => m.JobCardTask[row].StartDate)
+                                            @Html.HiddenFor(m => m.JobCardTask[row].EndDate)
+                                            @Model.JobCardTask[row].StartDate.ToString("dd/MMMM/yyyy") <br />@:to<br /> @Model.JobCardTask[row].EndDate.ToString("dd/MMMM/yyyy")
                                         }
                                     </td>
                                 }
+                                <td>
+                                    @Html.TextBoxFor(m => m.JobCardTask[row].Hours, new { @class = "form_input", autocomplete = "off", @readonly = "true" })
+                                </td>
                                 <td>
                                     @Html.TextBoxFor(m => m.JobCardTask[row].ActualHours, new { @class = "form_input", autocomplete = "off", @readonly = "true" })
                                 </td>
@@ -186,7 +208,7 @@
                                     <a class="glyphicon glyphicon-plus" id="add_@row" style="top:0;" @*type="button" value="Add"*@ onclick="AddRowBelow(@row);"></a>
                                 </td>-->
                             </tr>
-                            row++;
+                                row++;
                         }
                     </tbody>
                 </table>
@@ -210,7 +232,7 @@
             <div class="row">
 
                 <div class="col-md-12 hrpart">
-                    <button type="button" class="form-button right">Exit</button>
+                    <button type="button" class="form-button right" onclick="Exit()">Exit</button>
                     <button type="submit" class="form-button right">Save</button>
                 </div>
 

@@ -193,7 +193,9 @@
                         }
                         <div class="col-md-2">
                             <label for="box">Box</label>
-                            @Html.DropDownListFor(m => Model.BoxId, (SelectList)ViewBag.Boxes, "Select Box", new { @class = "form_input", autocomplete = "off", @required = "true" })
+                            @Html.HiddenFor(m => m.BoxId)
+                            @Html.TextBoxFor(m => m.BoxName, new { @class = "form_input", @readonly = "true" })
+                            @*@Html.DropDownListFor(m => Model.BoxId, (SelectList)ViewBag.Boxes, "Select Box", new { @class = "form_input", autocomplete = "off", @required = "true" })*@
                         </div>
                     </div>
 
