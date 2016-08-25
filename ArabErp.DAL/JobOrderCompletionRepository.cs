@@ -92,9 +92,11 @@ namespace ArabErp.DAL
 
                         SELECT DISTINCT
 	                        M.JobCardTaskName,
+							JT.SlNo,
 	                        EMP.EmployeeName,
 	                        DAT.JobCardTaskId,
 	                        ISNULL(T.TotalHours, 0) ActualHours,
+							JT.Hours,
 	                        (SELECT TOP 1 CONVERT(VARCHAR, JobCardDailyActivityDate, 106) FROM JobCardDailyActivity WHERE JobCardId = @JobCardId ORDER BY JobCardDailyActivityDate) StartDate,
 	                        (SELECT TOP 1 CONVERT(VARCHAR, JobCardDailyActivityDate, 106) FROM JobCardDailyActivity WHERE JobCardId = @JobCardId ORDER BY JobCardDailyActivityDate DESC) EndDate
                         FROM JobCardTask JT
@@ -128,7 +130,7 @@ namespace ArabErp.DAL
                 try
                 {
                     string query = "update JobCard set JodCardCompleteStatus = 1, JodCardCompletedDate='" + jobcard.JobCardCompletedDate.ToString("dd-MMM-yyyy") + "', WarrentyPeriod = '" + jobcard.WarrentyPeriod.ToString("dd/MMM/yyyy") + "' where jobCardId=" + jobcard.JobCardId.ToString();
-                    connection.Query(query, transaction: txn);
+                    var count = connection.Query(query, transaction: txn);
                     int i = 0;
                     foreach (var item in jobcard.JobCardTask)
                     {
@@ -143,12 +145,13 @@ namespace ArabErp.DAL
                         else
                         {
                             query = string.Empty;
-                            query = "update JobCardTask set ActualHours = " + item.ActualHours.ToString() + " where JobCardId = " + jobcard.JobCardId.ToString() + ";";
-                            //query = "update JobCardTask set ActualHours = " + item.ActualHours.ToString() + " where SlNo = " + item.SlNo.ToString() + " and JobCardId = " + jobcard.JobCardId.ToString() + ";";
+                            //query = "update JobCardTask set ActualHours = " + item.ActualHours.ToString() + " where JobCardId = " + jobcard.JobCardId.ToString() + ";";
+                            query = "update JobCardTask set ActualHours = " + item.ActualHours.ToString() + " where SlNo = " + item.SlNo.ToString() + " and JobCardId = " + jobcard.JobCardId.ToString() + ";";
                             connection.Query(query, transaction: txn);
                         }
                     }
                     InsertLoginHistory(dataConnection, CreatedBy, "Update", "Job Card Completion", id.ToString(), "0");
+                    txn.Commit();
                 }
                 catch (Exception)
                 {

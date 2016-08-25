@@ -42,6 +42,7 @@ namespace ArabErp.Web.Controllers
 
         public ActionResult PengingSO()
         {
+           
             FillSupplier();
             FillItem();
             return View();
@@ -57,6 +58,7 @@ namespace ArabErp.Web.Controllers
 
         public ActionResult SOVariance()
         {
+           
             FillSupplier();
             FillItem();
             return View();

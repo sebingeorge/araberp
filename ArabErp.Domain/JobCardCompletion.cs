@@ -34,6 +34,7 @@ namespace ArabErp.Domain
         public DateTime StartDate { get; set; }
         public DateTime EndDate { get; set; }
         public int? ActualHours { get; set; }
+        public int? Hours { get; set; }
         public int Existing { get; set; }
     }
 }
