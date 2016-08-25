@@ -49,7 +49,6 @@ namespace ArabErp.DAL
             int internalid = connection.Query<int>(SQLNo, new { DOCUMENTTYPEID = DOCUMENTTYPEID, UNIQUEID = UNIQUEID, DOUPDATE = DOUPDATE }, trn).First<int>();
             return internalid;
         }
-
         public static string GetNextReferenceNo(string DocumentType)
         {
             try
