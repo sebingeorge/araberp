@@ -322,7 +322,7 @@ namespace ArabErp.DAL
                         item.OrganizationId = model.OrganizationId;
                         SalesInvoiceItemRepo.InsertSalesInvoiceItem(item, connection, trn);
                     }
-                    InsertLoginHistory(dataConnection, model.CreatedBy, "Create", "Sales Invoice", internalId.ToString(), "0");
+                    InsertLoginHistory(dataConnection, model.CreatedBy, "Create", "Sales Invoice", result.SalesInvoiceId.ToString(), "0");
                     trn.Commit();
                     //return id + "|INV/" + internalId;
                 }

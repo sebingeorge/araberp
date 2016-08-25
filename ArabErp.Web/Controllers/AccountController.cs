@@ -251,8 +251,11 @@ namespace ArabErp.Web.Controllers
                 User model = new User();
                 model.Module = new System.Collections.Generic.List<ModuleVsUser>();
                 model.ERPAlerts = new System.Collections.Generic.List<ERPAlerts>();
+                model.ERPGraphs = new System.Collections.Generic.List<ERPGraphs>();
+
                 var modules = (new UserRepository()).GetModules(null);
                 var alerts = (new UserRepository()).GetAlerts(Id ?? 0);
+                var graphs = (new UserRepository()).GetGraphs(Id ?? 0);
                 foreach (var item in modules)
                 {
                     model.Module.Add(item);
@@ -260,6 +263,10 @@ namespace ArabErp.Web.Controllers
                 foreach (var item in alerts)
                 {
                     model.ERPAlerts.Add(item);
+                }
+                foreach (var item in graphs)
+                {
+                    model.ERPGraphs.Add(item);
                 }
                 return View(model);
             }
@@ -269,8 +276,11 @@ namespace ArabErp.Web.Controllers
                 User model = (from a in users where a.UserId == Id select a).Single();
                 model.Module = new System.Collections.Generic.List<ModuleVsUser>();
                 model.ERPAlerts = new System.Collections.Generic.List<ERPAlerts>();
+                model.ERPGraphs = new System.Collections.Generic.List<ERPGraphs>();
+
                 var modules = (new UserRepository()).GetModules(Id);
                 var alerts = (new UserRepository()).GetAlerts(Id ?? 0);
+                var graphs = (new UserRepository()).GetGraphs(Id ?? 0);
                 foreach (var item in modules)
                 {
                     model.Module.Add(item);
@@ -278,6 +288,10 @@ namespace ArabErp.Web.Controllers
                 foreach (var item in alerts)
                 {
                     model.ERPAlerts.Add(item);
+                }
+                foreach (var item in graphs)
+                {
+                    model.ERPGraphs.Add(item);
                 }
                 return View(model);
             }           
