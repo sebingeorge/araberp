@@ -21,7 +21,7 @@ namespace ArabErp.Web.Controllers
             FillItemCategory();
             ClosingStock cs = new ClosingStock();
             cs.itmCatId = 0;
-            ViewBag.startdate = Startdate;
+            ViewBag.startdate = FYStartdate;
             return View("Index", cs);
         }
         public void InitDropdown()
@@ -51,7 +51,7 @@ namespace ArabErp.Web.Controllers
         }
         public ActionResult StoresLedger(DateTime? from, DateTime? to, int stkid = 0, int itmcatid = 0, int itmid = 0)
         {
-            from = from ?? Startdate;
+            from = from ?? FYStartdate;
             to = to ?? DateTime.Today;
             return PartialView("_StoresLedger", new StoresLedgerRepository().GetStoresLedgerData(from, to, stkid, itmcatid, itmid, OrganizationId));
         }
