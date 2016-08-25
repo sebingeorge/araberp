@@ -25,10 +25,11 @@ namespace ArabErp.Web.Controllers
         {
             return PartialView("_PreviousListGrid", new ProformaInvoiceRepository().PreviousList(OrganizationId: OrganizationId, type: type, from: from, to: to, customer: customer, id: id));
         }
-        public ActionResult PendingProforma(int? isProjectBased)
+        public ActionResult PendingProforma(int? ProjectBased)
         {
             var repo = new ProformaInvoiceRepository();
-            IEnumerable<PendingSO> pendingSO = repo.GetSaleOrdersForPerforma(isProjectBased ?? 0);
+            ViewBag.ProjectBased = ProjectBased;
+            IEnumerable<PendingSO> pendingSO = repo.GetSaleOrdersForPerforma(ProjectBased ?? 0);
             return View(pendingSO);
         }
         public ActionResult Create(int? SaleOrderId)
@@ -79,8 +80,8 @@ namespace ArabErp.Web.Controllers
                 if (id.Split('|')[0] != "0")
                 {
                     TempData["success"] = "Saved successfully. Proforma Invoice No. is " + id.Split('|')[1];
-                    TempData["error"] = "";
-                    return RedirectToAction("PendingProforma", new { ProjectBased = 0 });
+                    //TempData["error"] = "";
+                    return RedirectToAction("PendingProforma", new { ProjectBased = model.isProjectBased });
                 }
                 else
                 {

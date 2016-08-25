@@ -333,7 +333,7 @@ namespace ArabErp.DAL
 
                     trn.Rollback();
 
-                    throw;
+                    throw ex;
                 }
                 return result;
 

@@ -169,7 +169,7 @@
                         <li><a href="@Url.Action("Create", "PaymentTerms")"><span class="badge pull-right"></span>Payment Terms</a></li>
                         <li><a href="@Url.Action("Create", "SupplierItemRate")"><span class="badge pull-right"></span>Supplier Wise Item Rate Settings</a></li>
                         <li><a href="@Url.Action("Index", "PrefixSettings")"><span class="badge pull-right"></span>Prefix Settings</a></li>
-                        <li><a class="projectn lh" href="@Url.Action("Create", "CustomerVsWorkRate")"><span class="badge pull-right"></span>Customer Wise Work <br />-Rate Settings</a></li>
+                        <li><a class="projectn lh" href="@Url.Action("Create", "CustomerVsWorkRate")"><span class="badge pull-right"></span>Customer Wise Work Rate Settings</a></li>
                         <li class="dropdown-submenu">
                             <a href="#"><span class="badge pull-right"></span>User Settings</a>
                             <ul class="dropdown-menu user-setting">
@@ -216,7 +216,7 @@
                                 <li><a href="@Url.Action("PendingSalesQutoforSaleOrder", "SaleOrder", new { ProjectBased = 1 })"><span class="badge pull-right"></span>Project - Sale Order</a></li>
                                 <li><a href="@Url.Action("PendingSaleOrderApproval", "SaleOrder", new { ProjectBased = 1 })"><span class="badge pull-right"></span>Project - Sale Order Approval</a></li>
                                 <li><a href="@Url.Action("PendingSaleOrderHold", "SaleOrder", new { isProjectBased = 1})"><span class="badge pull-right"></span>Project - Pending Sale Orders</a></li>
-                                <li><a href="@Url.Action("PendingProforma", "ProformaInvoice", new { isProjectBased =1 })"><span class="badge pull-right"></span>Project - Proforma Invoice</a></li>
+                                <li><a href="@Url.Action("PendingProforma", "ProformaInvoice", new { ProjectBased =1 })"><span class="badge pull-right"></span>Project - Proforma Invoice</a></li>
                                 <li><a href="@Url.Action("PendingSalesInvoice", "SalesInvoice", new { invType = "Inter" })"><span class="badge pull-right"></span>Inter Invoice</a></li>
                                 <li><a href="@Url.Action("Closing", "SaleOrder", new { isProjectBased = 1 })"><span class="badge pull-right"></span>Project - Sale Order Close</a></li>
                             </ul>
@@ -303,14 +303,14 @@
 
                                 <li><a href="@Url.Action("Index", "SupplyOrderRegister")"><span class="badge pull-right"></span>Supply Order Register</a></li>
                                 <li><a href="@Url.Action("Index", "SupplyOrderSummary")"><span class="badge pull-right"></span>Supply Order Summary</a></li>
-                                <li><a href="@Url.Action("Index","PurchaseBillRegister")"><span class="badge pull-right"></span>Purchase Bill Register</a></li>
                                 <li><a href="@Url.Action("Index", "PendingPARregister")"><span class="badge pull-right"></span>Pending PAR</a></li>
                                 <li><a href="@Url.Action("PengingSO", "SupplyOrderRegister")"><span class="badge pull-right"></span>Pending Supply Order</a></li>
                                 <li><a href="@Url.Action("SOVariance", "SupplyOrderRegister")"><span class="badge pull-right"></span>Supply Order Variance Report</a></li>
+                                <li><a href="@Url.Action("Index","PurchaseBillRegister")"><span class="badge pull-right"></span>Purchase Bill Register</a></li>
                                 <li><a href="@Url.Action("PurchaseBillSummary", "PurchaseBillRegister")"><span class="badge pull-right"></span>Purchase Bill Summmary</a></li>
                                 <li><a href="@Url.Action("PurchaseBillDetailed", "PurchaseBillRegister")"><span class="badge pull-right"></span>Purchase Bill Detailed</a></li>
-                                <li><a href="@Url.Action("Index", "PurchaseMonthlyItemWiseRegister")"><span class="badge pull-right"></span>Purchase Monthly Item wise</a></li>
-                                <li><a href="@Url.Action("PurchaseMonthlySupplierWise", "PurchaseMonthlyItemWiseRegister")"><span class="badge pull-right"></span>Purchase Monthly Supplier wise</a></li>
+                                <li><a href="@Url.Action("Index", "PurchaseMonthlyItemWiseRegister")"><span class="badge pull-right"></span>Purchase Monthly Item Wise</a></li>
+                                <li><a href="@Url.Action("PurchaseMonthlySupplierWise", "PurchaseMonthlyItemWiseRegister")"><span class="badge pull-right"></span>Purchase Monthly Supplier Wise</a></li>
                              </ul>
                         </li>
 

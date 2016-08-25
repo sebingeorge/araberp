@@ -164,7 +164,9 @@
                             </div>
                             <div class="col-md-2">
                                 <label for="freezer">Freezer Unit</label>
-                                @Html.DropDownListFor(m => Model.FreezerUnitId, (SelectList)ViewBag.FreezerUnits, "Select Freezer Unit", new { @class = "form_input", autocomplete = "off", @required = "true" })
+                                @Html.HiddenFor(m => m.FreezerUnitId)
+                                @Html.TextBoxFor(m => m.FreezerUnitName, new { @class = "form_input", @readonly = "true" })
+                                @*@Html.DropDownListFor(m => Model.FreezerUnitId, (SelectList)ViewBag.FreezerUnits, "Select Freezer Unit", new { @class = "form_input", autocomplete = "off", @required = "true" })*@
                             </div>
                         }                        
                     </div>

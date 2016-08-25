@@ -139,7 +139,7 @@ namespace ArabErp.DAL
         {
             using (IDbConnection connection = OpenConnection(dataConnection))
             {
-             
+
                 string sql = @" SELECT SupplierId,SupplierRefNo,SupplierName,SupCategoryName,PurchaseTypeName FROM Supplier S
                                 INNER JOIN SupplierCategory SC ON SC.SupCategoryId=S.SupCategoryId
                                 INNER JOIN PurchaseType P ON P.PurchaseTypeId=S.PurchaseTypeId
@@ -208,33 +208,33 @@ namespace ArabErp.DAL
             }
         }
 
-       
+
         public IEnumerable<Dropdown> FillCategoryList()
         {
             using (IDbConnection connection = OpenConnection(dataConnection))
             {
-               return connection.Query<Dropdown>("select SupCategoryId Id,SupCategoryName Name from SupplierCategory ").ToList();
+                return connection.Query<Dropdown>("select SupCategoryId Id,SupCategoryName Name from SupplierCategory ").ToList();
             }
         }
         public IEnumerable<Dropdown> FillCdategoryList()
         {
             using (IDbConnection connection = OpenConnection(dataConnection))
             {
-              return connection.Query<Dropdown>("select SupCategoryId Id,SupCategoryName Name from SupplierCategory").ToList();
+                return connection.Query<Dropdown>("select SupCategoryId Id,SupCategoryName Name from SupplierCategory").ToList();
             }
         }
 
 
         public string GetRefNo(Supplier objSupplier)
         {
-            
+
             using (IDbConnection connection = OpenConnection(dataConnection))
             {
-                string RefNo="";
+                string RefNo = "";
                 var result = new Supplier();
-               
+
                 IDbTransaction trn = connection.BeginTransaction();
-                              
+
                 try
                 {
                     int internalid = DatabaseCommonRepository.GetInternalIDFromDatabase(connection, trn, typeof(Supplier).Name, "0", 0);
@@ -249,6 +249,30 @@ namespace ArabErp.DAL
             }
         }
 
-
+        /// <summary>
+        /// Get Supplier Currency by SupplierId
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        public Supplier GetSupplierCurrency(int id)
+        {
+            try
+            {
+                using (IDbConnection connection = OpenConnection(dataConnection))
+                {
+                    string query = @"SELECT 
+	                                S.CurrencyId,
+	                                C.CurrencyName
+                                FROM Supplier S
+	                                INNER JOIN Currency C ON S.CurrencyId = C.CurrencyId
+                                WHERE S.SupplierId = @id";
+                    return connection.Query<Supplier>(query, new { id = id }).First();
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
     }
 }

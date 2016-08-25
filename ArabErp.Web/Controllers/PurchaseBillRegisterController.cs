@@ -17,11 +17,13 @@ namespace ArabErp.Web.Controllers
         {
             FillItem();
             FillSupplier();
+            ViewBag.startdate = FYStartdate;
+           
             return View();
         }
         public ActionResult PurchaseBillRegister(DateTime? from, DateTime? to, int id = 0,int itmid = 0)
         {
-            from = from ?? DateTime.Today.AddMonths(-7);
+            from = from ?? FYStartdate; ;
             to = to ?? DateTime.Today;
             return PartialView("_PurchaseBillRegister", new PurchaseBillRegisterRepository().GetPurchaseBillRegisterData(from,to,id,itmid,OrganizationId));
         }
@@ -31,12 +33,13 @@ namespace ArabErp.Web.Controllers
         {
             FillItem();
             FillItemCategory();
+            ViewBag.startdate = FYStartdate;
             return View();
         }
 
         public ActionResult PurchaseBillDetailedList(DateTime? from, DateTime? to, int id = 0, int itmid = 0)
         {
-            from = from ?? DateTime.Today.AddMonths(-7);
+            from = from ?? FYStartdate;
             to = to ?? DateTime.Today;
             return PartialView("_PurchaseBillDetailedList", new PurchaseBillRegisterRepository().PurchaseBillDetailedData(from, to, id, itmid, OrganizationId));
         }
@@ -45,12 +48,13 @@ namespace ArabErp.Web.Controllers
         {
             FillItemCategory();
             FillSupplier();
+            ViewBag.startdate = FYStartdate;
             return View();
         }
 
         public ActionResult PurchaseBillSummaryList(DateTime? from, DateTime? to, int id = 0, int supid = 0)
         {
-            from = from ?? DateTime.Today.AddMonths(-7);
+            from = from ?? FYStartdate;
             to = to ?? DateTime.Today;
             return PartialView("_PurchaseBillSummaryList", new PurchaseBillRegisterRepository().PurchaseBillSummaryData(from, to, id, supid, OrganizationId));
         }

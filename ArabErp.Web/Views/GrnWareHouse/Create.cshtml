@@ -125,6 +125,20 @@
         else return true;
     }
 
+    function OnSupplierChanged(sender) {
+        var id = $(sender).val();
+        if (id == '') {
+            $("#CurrencyId").val('');
+            $("#CurrencyName").val('');
+            return;
+        }
+        var url = '@Url.Action("GetSupplierCurrency")';
+        $.getJSON(url, { id: $(sender).val() }, function(data){
+            $("#CurrencyId").val(data.currencyId);
+            $("#CurrencyName").val(data.currencyName);
+        });
+    }
+
 </script>
 
 
@@ -156,7 +170,7 @@
                         @{
                 if (Model.isDirectPurchaseGRN)
                 {
-                    @Html.DropDownListFor(m => m.SupplierId, (SelectList)ViewBag.supplierList, "Select Supplier", new { @class = "form_input ", autocomplete = "off", @required = "true" })
+                    @Html.DropDownListFor(m => m.SupplierId, (SelectList)ViewBag.supplierList, "Select Supplier", new { @class = "form_input ", autocomplete = "off", @required = "true", @onchange = "OnSupplierChanged(this)" })
                 }
                 else
                 {
@@ -240,7 +254,7 @@
                             <h1>
                                 @*@Html.DropDownListFor(m => m.CurrencyId, new SelectList(ViewBag.currlist, "Value", "Text", Model.CurrencyId), "Select Currency", new { @class = "form_input", autocomplete = "off", @required = "true" })*@
                                 @Html.HiddenFor(m => m.CurrencyId)
-                                @Html.TextBoxFor(m => m.CurrencyName, new { @class = "form_input", @readonly = "true" })
+                                @Html.TextBoxFor(m => m.CurrencyName, new { @class = "form_input", @readonly = "true", @placeholder = "Currency" })
                             </h1>
                         </th>
                         <th width="5%" class="text-right"><span id="QtyAmount"></span></th>
