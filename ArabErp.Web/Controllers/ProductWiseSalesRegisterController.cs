@@ -25,7 +25,7 @@ namespace ArabErp.Web.Controllers
         public void FillCustomer()
         {
             DropdownRepository repo = new DropdownRepository();
-            var result = repo.SOCustomerDropDown(OrganizationId);
+            var result = repo.SICustomerDropdown(OrganizationId);
             ViewBag.CustomerList = new SelectList(result, "Id", "Name");
         }
     }

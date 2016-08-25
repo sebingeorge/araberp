@@ -23,7 +23,7 @@ namespace ArabErp.DAL
                 IDbTransaction txn = connection.BeginTransaction();
                 try
                 {
-                    model.StockReturnRefNo = "SR/" + DatabaseCommonRepository.GetInternalIDFromDatabase(connection, txn, typeof(StockReturn).Name, "0", 1);
+                    model.StockReturnRefNo = DatabaseCommonRepository.GetNewDocNo(connection, model.OrganizationId, 21, true,txn);
                     string sql = @"insert  into StockReturn(
                             StockReturnRefNo,
                             StockReturnDate,

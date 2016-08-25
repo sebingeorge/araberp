@@ -36,9 +36,9 @@ namespace ArabErp.Web.Controllers
                 saleinvoice.InvoiceType = ObjSaleInvoiceItem[0].invType;
 
                 string internalId = "";
-                internalId = DatabaseCommonRepository.GetNextReferenceNo(typeof(SalesInvoice).Name);
+                internalId = DatabaseCommonRepository.GetNextDocNo(7, OrganizationId);
                 saleinvoice.SalesInvoiceDate = System.DateTime.Today;
-                saleinvoice.SalesInvoiceRefNo = "INV/" + internalId;
+                saleinvoice.SalesInvoiceRefNo = internalId;
                 List<int> SelectedSaleOrderItemId = (from SalesInvoiceItem s in ObjSaleInvoiceItem
                                                      where s.SelectStatus
                                                      select s.SaleOrderItemId).ToList<int>();

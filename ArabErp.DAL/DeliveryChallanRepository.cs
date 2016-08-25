@@ -19,8 +19,7 @@ namespace ArabErp.DAL
                 IDbTransaction txn = connection.BeginTransaction();
                 try
                 {
-                    objDeliveryChallan.DeliveryChallanRefNo = "DEL/" + DatabaseCommonRepository.GetInternalIDFromDatabase(connection,
-                        txn, typeof(DeliveryChallan).Name, "0", 1);
+                    objDeliveryChallan.DeliveryChallanRefNo = DatabaseCommonRepository.GetNewDocNo(connection, objDeliveryChallan.OrganizationId, 18, true,txn);
 
                     string sql = @"insert into DeliveryChallan(JobCardId,DeliveryChallanRefNo,DeliveryChallanDate,EmployeeId,Remarks,CreatedBy,CreatedDate,OrganizationId,isActive) Values (@JobCardId,@DeliveryChallanRefNo,@DeliveryChallanDate,@EmployeeId,@Remarks,@CreatedBy,@CreatedDate,@OrganizationId,1);
                                 SELECT CAST(SCOPE_IDENTITY() as int);";

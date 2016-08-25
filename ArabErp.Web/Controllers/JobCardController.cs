@@ -49,7 +49,7 @@ namespace ArabErp.Web.Controllers
                 SaleOrderRepository soRepo = new SaleOrderRepository();
                 isProjectBased = soRepo.IsProjectOrVehicle(Id ?? 0);
                 JobCard model = repo.GetJobCardDetails(Id ?? 0, isProjectBased ?? 0);
-                model.JobCardNo = "JC/" + DatabaseCommonRepository.GetNextReferenceNo(typeof(JobCard).Name);
+                model.JobCardNo = DatabaseCommonRepository.GetNextDocNo(16, OrganizationId);
                 model.isProjectBased = isProjectBased ?? 0;
                 model.JobCardTasks = new List<JobCardTask>();
                 model.JobCardTasks.Add(new JobCardTask() { TaskDate = DateTime.Now });

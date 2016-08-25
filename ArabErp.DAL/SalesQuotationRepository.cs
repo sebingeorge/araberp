@@ -39,11 +39,11 @@ namespace ArabErp.DAL
                         //model.QuotationRefNo = "SQ/" + internalid;
                         if (model.isProjectBased == 0)
                         {
-                            model.QuotationRefNo = DatabaseCommonRepository.GetNewDocNo(connection, model.OrganizationId, 1, true);
+                            model.QuotationRefNo = DatabaseCommonRepository.GetNewDocNo(connection, model.OrganizationId, 1, true,trn);
                         }
                         else
                         {
-                            model.QuotationRefNo = DatabaseCommonRepository.GetNewDocNo(connection, model.OrganizationId, 2, true);
+                            model.QuotationRefNo = DatabaseCommonRepository.GetNewDocNo(connection, model.OrganizationId, 2, true,trn);
                         }
                         
                         #region automatically approve if no custom rates are set

@@ -30,7 +30,7 @@ namespace ArabErp.Web.Controllers
         {
             SupplyOrder supplyorder = new SupplyOrder();
 
-            supplyorder.SupplyOrderNo = "LPO/" + DatabaseCommonRepository.GetNextReferenceNo(typeof(SupplyOrder).Name);
+            supplyorder.SupplyOrderNo = DatabaseCommonRepository.GetNextDocNo(9, OrganizationId);
 
             SupplyOrderRepository rep = new SupplyOrderRepository();
             if (PendingPurchaseRequestItemsSelected != null)

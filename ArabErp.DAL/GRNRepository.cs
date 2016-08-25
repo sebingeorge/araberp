@@ -32,8 +32,8 @@ namespace ArabErp.DAL
                     IDbTransaction trn = connection.BeginTransaction();
                     try
                     {
-                        int internalId = DatabaseCommonRepository.GetInternalIDFromDatabase(connection, trn, typeof(GRN).Name, "0", 1);
-                        model.GRNNo = "GRN/0/" + internalId;
+                        var internalId = DatabaseCommonRepository.GetNewDocNo(connection, model.OrganizationId, 11, true,trn);
+                        model.GRNNo = internalId;
                         model.GrandTotal = model.Items.Sum(m => ((m.AcceptedQuantity * m.Rate) - m.Discount)) + model.Addition - model.Deduction;
 
                         int id = 0;

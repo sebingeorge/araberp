@@ -24,8 +24,8 @@ namespace ArabErp.DAL
                 try
                 {
 
-                    int internalId = DatabaseCommonRepository.GetInternalIDFromDatabase(connection, txn, typeof(DirectPurchaseRequest).Name, "0", 1);
-                    model.PurchaseRequestNo = "DPR/0/" + internalId;
+                    var internalId = DatabaseCommonRepository.GetNewDocNo(connection, model.OrganizationId, 10, true,txn);
+                    model.PurchaseRequestNo = internalId;
 
 
                     if (model.SoOrJc == "JC")

@@ -37,7 +37,7 @@ namespace ArabErp.Web.Controllers
                 string internalId = "";
                 try
                 {
-                    internalId = DatabaseCommonRepository.GetNextReferenceNo(typeof(VehicleInPass).Name);
+                    internalId = DatabaseCommonRepository.GetNextDocNo(15, OrganizationId);
 
                 }
                 catch (NullReferenceException nx)
@@ -50,7 +50,7 @@ namespace ArabErp.Web.Controllers
                     TempData["success"] = "";
                     TempData["error"] = "Some error occurred. Please try again.|" + ex.Message;
                 }
-                return View(new VehicleInPass { SaleOrderItemId = id ,VehicleInPassDate = DateTime.Now,VehicleInPassNo="VIN/" + internalId});
+                return View(new VehicleInPass { SaleOrderItemId = id ,VehicleInPassDate = DateTime.Now,VehicleInPassNo = internalId});
             }
             return RedirectToAction("Index");
         }

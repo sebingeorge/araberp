@@ -29,7 +29,7 @@ namespace ArabErp.Web.Controllers
             string internalId = "";
             try
             {
-                internalId = DatabaseCommonRepository.GetNextReferenceNo(typeof(Consumption).Name);
+                internalId = DatabaseCommonRepository.GetNextDocNo(23, OrganizationId);
             JobCardDropdown();
             ItemDropdown();
             }
@@ -45,7 +45,7 @@ namespace ArabErp.Web.Controllers
             }
             List<ConsumptionItem> Items = new List<ConsumptionItem>();
             Items.Add(new ConsumptionItem { SlNo = 1 });
-            return View(new Consumption { ConsumptionItems = Items, ConsumptionDate = DateTime.Today, ConsumptionNo = "CON/" + internalId });
+            return View(new Consumption { ConsumptionItems = Items, ConsumptionDate = DateTime.Today, ConsumptionNo = internalId });
         }
 
         [HttpPost]

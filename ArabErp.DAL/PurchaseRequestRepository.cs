@@ -24,9 +24,9 @@ namespace ArabErp.DAL
                 IDbTransaction trn = connection.BeginTransaction();
                 try
                 {
-                    int internalId = DatabaseCommonRepository.GetInternalIDFromDatabase(connection, trn, typeof(PurchaseRequest).Name, "0", 1);
+                    var internalId = DatabaseCommonRepository.GetNewDocNo(connection, objPurchaseRequest.OrganizationId, 8, true, trn);
 
-                    objPurchaseRequest.PurchaseRequestNo  = "PUR/" + internalId;
+                    objPurchaseRequest.PurchaseRequestNo  = internalId;
 
                     string sql = @"insert  into PurchaseRequest(PurchaseRequestNo,PurchaseRequestDate,WorkShopRequestId,SpecialRemarks,RequiredDate,CreatedBy,CreatedDate,OrganizationId) Values (@PurchaseRequestNo,@PurchaseRequestDate,@WorkShopRequestId,@SpecialRemarks,@RequiredDate,@CreatedBy,@CreatedDate,@OrganizationId);
                     SELECT CAST(SCOPE_IDENTITY() as int)";

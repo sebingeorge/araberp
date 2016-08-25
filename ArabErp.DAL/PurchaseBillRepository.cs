@@ -55,9 +55,9 @@ namespace ArabErp.DAL
                 IDbTransaction trn = connection.BeginTransaction();
                 try
                 {
-                    int internalId = DatabaseCommonRepository.GetInternalIDFromDatabase(connection, trn, typeof(PurchaseBill).Name, "0", 1);
+                    var internalId = DatabaseCommonRepository.GetNewDocNo(connection, objPurchaseBill.OrganizationId, 13, true, trn);
 
-                    objPurchaseBill.PurchaseBillRefNo = "PRB/" + internalId;
+                    objPurchaseBill.PurchaseBillRefNo = internalId;
 
                     string sql = @"insert  into PurchaseBill(PurchaseBillRefNo,SupplierId,PurchaseBillDate,PurchaseBillNoDate,PurchaseBillDueDate,
                                    CurrencyId,Remarks,PurchaseBillAmount,AdditionId,DeductionId,Deduction,Addition,CreatedBy,CreatedDate,OrganizationId)

@@ -20,8 +20,8 @@ namespace ArabErp.DAL
                 int id = 0;
                 try
                 {
-                    int internalId = DatabaseCommonRepository.GetInternalIDFromDatabase(connection, trn, typeof(JobCardDailyActivity).Name, "0", 1);
-                    objJobCardDailyActivity.JobCardDailyActivityRefNo = "DA/" + internalId.ToString();
+                    var internalId = DatabaseCommonRepository.GetNewDocNo(connection, objJobCardDailyActivity.OrganizationId, 27, true,trn);
+                    objJobCardDailyActivity.JobCardDailyActivityRefNo = internalId.ToString();
                     string sql = @"insert  into JobCardDailyActivity (JobCardDailyActivityDate,JobCardId,JobCardDailyActivityRefNo,Remarks,EmployeeId,CreatedBy,CreatedDate,OrganizationId) 
                                                             Values (@JobCardDailyActivityDate,@JobCardId,@JobCardDailyActivityRefNo,@Remarks,@EmployeeId,@CreatedBy,@CreatedDate,@OrganizationId);
                                 SELECT CAST(SCOPE_IDENTITY() as int)";
@@ -33,8 +33,8 @@ namespace ArabErp.DAL
                     {
                         item.JobCardDailyActivityId = id;
                         item.CreatedDate = DateTime.Now;
-                        sql = @"insert  into JobCardDailyActivityTask (JobCardDailyActivityId,JobCardTaskId,TaskStartDate,TaskEndDate,ActualHours,CreatedBy,CreatedDate,OrganizationId) Values 
-                                                                      (@JobCardDailyActivityId,@JobCardTaskId,@TaskStartDate,@TaskEndDate,@ActualHours,@CreatedBy,@CreatedDate,@OrganizationId);
+                        sql = @"insert  into JobCardDailyActivityTask (JobCardDailyActivityId,JobCardTaskId,TaskStartDate,TaskEndDate,ActualHours,CreatedBy,CreatedDate,OrganizationId, EmployeeId) Values 
+                                                                      (@JobCardDailyActivityId,@JobCardTaskMasterId,@TaskStartDate,@TaskEndDate,@ActualHours,@CreatedBy,@CreatedDate,@OrganizationId, @EmployeeId);
                         SELECT CAST(SCOPE_IDENTITY() as int)";
 
 
@@ -46,7 +46,7 @@ namespace ArabErp.DAL
                 catch (Exception ex)
                 {
                     trn.Rollback();
-                    return 0;
+                    throw ex;
                 }
                 return id;
             }
@@ -167,6 +167,26 @@ namespace ArabErp.DAL
             {
                 string query = @"UPDATE JobCardDailyActivity SET Image" + index + " = @fileName WHERE JobCardDailyActivityId = @id";
                 connection.Execute(query, new { fileName = fileName, id = id });
+            }
+        }
+
+        public List<JobCardDailyActivityTask> GetJobCardTasksForDailyActivity(int Id, int OrganizationId)
+        {
+            using (IDbConnection connection = OpenConnection(dataConnection))
+            {
+                string query = @"SELECT
+	                                T.EmployeeId,
+	                                E.EmployeeName,
+	                                T.JobCardTaskMasterId,
+	                                M.JobCardTaskName,
+									CONVERT(VARCHAR, GETDATE(), 106) TaskStartDate,
+									CONVERT(VARCHAR, GETDATE(), 106) TaskEndDate
+                                FROM JobCardTask T
+									INNER JOIN JobCard J ON T.JobCardId = J.JobCardId
+	                                INNER JOIN Employee E ON T.EmployeeId = E.EmployeeId
+	                                INNER JOIN JobCardTaskMaster M ON T.JobCardTaskMasterId = M.JobCardTaskMasterId
+                                WHERE T.isActive = 1 AND T.JobCardId = @id AND J.OrganizationId = @OrganizationId";
+                return connection.Query<JobCardDailyActivityTask>(query, new { id = Id, OrganizationId = OrganizationId }).ToList();
             }
         }
     }

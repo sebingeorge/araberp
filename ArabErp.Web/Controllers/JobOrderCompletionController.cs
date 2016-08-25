@@ -49,9 +49,19 @@ namespace ArabErp.Web.Controllers
         }
         public ActionResult Save(JobCardCompletion model)
         {
-            JobOrderCompletionRepository repo = new JobOrderCompletionRepository();
-            repo.UpdateJobCardCompletion(model, UserID.ToString());
-            return RedirectToAction("PendingJobOrderCompletion", new { isProjectBased = model.isProjectBased});
+            try
+            {
+                throw new Exception();
+                JobOrderCompletionRepository repo = new JobOrderCompletionRepository();
+                repo.UpdateJobCardCompletion(model, UserID.ToString());
+                TempData["success"] = "Saved Successfully";
+                return RedirectToAction("PendingJobOrderCompletion", new { isProjectBased = model.isProjectBased });
+            }
+            catch (Exception)
+            {
+                TempData["error"] = "Some error occured. Please try again.";
+                return View("Create", model);
+            }
         }
     }
 }

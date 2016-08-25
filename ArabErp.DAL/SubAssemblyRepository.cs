@@ -27,7 +27,7 @@ namespace ArabErp.DAL
                 IDbTransaction txn = connection.BeginTransaction();
                 try
                 {
-                    model.StockCreationRefNo = "SUB/" + DatabaseCommonRepository.GetInternalIDFromDatabase(connection, txn, typeof(SubAssembly).Name, "0", 1);
+                    model.StockCreationRefNo = DatabaseCommonRepository.GetNewDocNo(connection, model.OrganizationId, 26, true,txn);
 
                     int id = Create(model, connection, txn);
 

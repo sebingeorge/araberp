@@ -123,8 +123,8 @@ namespace ArabErp
                 IDbTransaction trn = connection.BeginTransaction();
                 try
                 {
-                    int internalId = DatabaseCommonRepository.GetInternalIDFromDatabase(connection, trn, typeof(JobCard).Name, "0", 1);
-                    objJobCard.JobCardNo = "JC/" + internalId.ToString();
+                    var internalId = DatabaseCommonRepository.GetNewDocNo(connection, objJobCard.OrganizationId, 16, true, trn);
+                    objJobCard.JobCardNo = internalId.ToString();
                     int id = 0;
                     string sql = @"insert  into JobCard(JobCardNo,JobCardDate,SaleOrderId,InPassId,WorkDescriptionId,FreezerUnitId,BoxId,BayId,SpecialRemarks,RequiredDate,EmployeeId,CreatedBy,CreatedDate,OrganizationId, SaleOrderItemId,isProjectBased) Values 
                                                        (@JobCardNo,@JobCardDate,@SaleOrderId,@InPassId,@WorkDescriptionId,@FreezerUnitId,@BoxId,@BayId,@SpecialRemarks,@RequiredDate,@EmployeeId,@CreatedBy,@CreatedDate,@OrganizationId,@SaleOrderItemId,@isProjectBased);

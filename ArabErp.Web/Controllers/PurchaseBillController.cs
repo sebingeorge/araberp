@@ -62,7 +62,7 @@ namespace ArabErp.Web.Controllers
             string internalId = "";
             try
             {
-                internalId = DatabaseCommonRepository.GetNextReferenceNo(typeof(PurchaseBill).Name);
+                internalId = DatabaseCommonRepository.GetNextDocNo(13, OrganizationId);
 
             }
             catch (NullReferenceException nx)
@@ -76,7 +76,7 @@ namespace ArabErp.Web.Controllers
                 TempData["error"] = "Some error occurred. Please try again.|" + ex.Message;
             }
 
-            purchasebill.PurchaseBillRefNo = "PRB/" + internalId;
+            purchasebill.PurchaseBillRefNo = internalId;
 
             purchasebill.Supplier = PendingGRNSelected[0].SupplierName;
             purchasebill.SupplierId = PendingGRNSelected[0].SupplierId;
