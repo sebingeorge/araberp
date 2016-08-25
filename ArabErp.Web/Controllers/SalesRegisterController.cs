@@ -26,7 +26,8 @@ namespace ArabErp.Web.Controllers
         }
         public ActionResult SaleRegister(DateTime? from, DateTime? to, int id = 0)
         {
-            from = Startdate;
+          
+            from = from ?? Startdate;
             to = to ?? DateTime.Today;
             return PartialView("_SaleRegister", new SalesRegisterRepository().GetSalesRegister(from, to, id, OrganizationId));
         }
