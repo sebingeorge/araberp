@@ -64,19 +64,30 @@
                     </thead>
 
                     <tbody class="grid_row">
-                        @foreach (var item in Model)
+                        @if (Model.Count() > 0)
+                        {
+                            foreach (var item in Model)
+                            {
+                                <tr>
+                                    <td>@item.JobCardNo</td>
+                                    <td>@item.JobCardDate.ToString("dd/MMM/yyyy")</td>
+                                    <td>@item.CustomerName</td>
+                                    @if (isProjectBased == 0)
+                                    {
+                                        <td>@item.VehicleModelName</td>
+                                    }
+                                    <td><center><button class="form-button form-button1" onclick="GotoJobcardCompletion(@item.JobCardId)">Select</button></center></td>
+                                </tr>
+
+                            }
+                        }
+                        else
                         {
                             <tr>
-                                <td>@item.JobCardNo</td>
-                                <td>@item.JobCardDate.ToString("dd/MMM/yyyy")</td>
-                                <td>@item.CustomerName</td>
-                                @if (isProjectBased == 0)
-                                {
-                                <td>@item.VehicleModelName</td>
-                                }                                
-                                <td><center><button class="form-button form-button1" onclick="GotoJobcardCompletion(@item.JobCardId)">Select</button></center></td>
+                                <td colspan="@(4 + isProjectBased)">
+                                    <center><em>No items found!</em></center>
+                                </td>
                             </tr>
-                            
                         }
                     </tbody>
                 </table>

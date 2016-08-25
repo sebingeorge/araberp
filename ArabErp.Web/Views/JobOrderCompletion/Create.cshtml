@@ -95,6 +95,11 @@
     function ResetExisting(oldRow, newRow) {
         $("#JobCardTask_" + newRow + "__Existing").val(1);
     }
+
+    function Exit() {
+        var url = '@Url.Action("PendingJobOrderCompletion", new { isProjectBased = Model.isProjectBased })';
+        window.location = url;
+    }
 </script>
 
 
@@ -227,7 +232,7 @@
             <div class="row">
 
                 <div class="col-md-12 hrpart">
-                    <button type="button" class="form-button right">Exit</button>
+                    <button type="button" class="form-button right" onclick="Exit()">Exit</button>
                     <button type="submit" class="form-button right">Save</button>
                 </div>
 
