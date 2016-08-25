@@ -149,6 +149,10 @@ namespace ArabErp.Web.Controllers
         {
             return View();
         }
+        public ActionResult PreviousGRN()
+        {
+            return View();
+        }
         //public ActionResult CreateProductLineAdd()
         //{
         //    return View();

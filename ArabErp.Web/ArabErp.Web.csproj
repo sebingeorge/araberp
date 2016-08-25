@@ -838,6 +838,7 @@
     <Content Include="Views\ProductionPlan\PreviousReceiveProductInventory.cshtml" />
     <Content Include="Views\ProductionPlan\PreviousIssueMaterialProductionOrder.cshtml" />
     <Content Include="Views\ProductionPlan\PreviousProductionOrder.cshtml" />
+    <Content Include="Views\ProductionPlan\PreviousGRN.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
