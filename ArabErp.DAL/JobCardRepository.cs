@@ -65,7 +65,7 @@ namespace ArabErp
                     from SaleOrder S inner join Customer C on S.CustomerId = C.CustomerId
                     inner join SaleOrderItem SI on SI.SaleOrderId = S.SaleOrderId
                     inner join WorkDescription W on W.WorkDescriptionId = SI.WorkDescriptionId
-                    inner join VehicleModel V on V.VehicleModelId = W.VehicleModelId
+                    LEFT join VehicleModel V on V.VehicleModelId = W.VehicleModelId
 					LEFT JOIN VehicleInPass VI ON SI.SaleOrderItemId = VI.SaleOrderItemId
 					LEFT JOIN FreezerUnit FU ON W.FreezerUnitId = FU.FreezerUnitId
 					LEFT JOIN Box B ON W.BoxId = B.BoxId
