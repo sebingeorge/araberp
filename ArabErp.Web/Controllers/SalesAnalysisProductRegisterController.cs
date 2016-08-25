@@ -15,11 +15,12 @@ namespace ArabErp.Web.Controllers
         // GET: SalesAnalysisProductRegister
         public ActionResult Index()
         {
+            ViewBag.startdate = Startdate;
             return View();
         }
         public ActionResult SalesAnalysisProduct(DateTime? from, DateTime? to)
         {
-            from = from ?? DateTime.Today.AddMonths(-7);
+            from = from ?? Startdate;
             to = to ?? DateTime.Today;
             return PartialView("_SalesAnalysisProduct", new SalesRegisterRepository().GetSalesAnalysisProductWise(from, to, OrganizationId));
         }

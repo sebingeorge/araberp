@@ -19,7 +19,7 @@
     {
         $("#Pend_SO").addClass("fade");
         var id = $("#cboCustomer").val();
-        alert(id);
+      
         var from = $("#txtFrom").val();
         var to = $("#txtTo").val();
       
@@ -62,7 +62,7 @@
         <div class="row">
             <div class="col-md-2">
                 <label>From</label>
-                <input id="txtFrom" value="@System.DateTime.Today.AddMonths(-7).ToString("dd-MMMM-yyyy")" class="form_input" onchange="Filter()" />
+                <input id="txtFrom"  value="@ViewBag.startdate.ToString("dd-MMMM-yyyy")" class="form_input" onchange="Filter()" />
             </div>
             <div class="col-md-2">
                 <label>To</label>

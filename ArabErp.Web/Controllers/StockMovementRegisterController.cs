@@ -21,6 +21,7 @@ namespace ArabErp.Web.Controllers
 
             ClosingStock cs = new ClosingStock();
             cs.itmCatId = 0;
+            ViewBag.startdate = Startdate;
             return View("Index", cs);
         }
         public void InitDropdown()
@@ -50,7 +51,7 @@ namespace ArabErp.Web.Controllers
         }
         public ActionResult StockMovementRegister(DateTime? from, DateTime? to, int itmcatid = 0, int itmid = 0)
         {
-            from = from ?? DateTime.Today.AddMonths(-1);
+            from = from ?? Startdate;
             to = to ?? DateTime.Today;
             return PartialView("_StockMovementRegister", new StockMovementRegisterRepository().GetStockMovementData(from, to, itmcatid, itmid, OrganizationId));
         }
