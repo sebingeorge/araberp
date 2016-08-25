@@ -16,6 +16,7 @@ namespace ArabErp.Web.Controllers
         // GET: SaleOrderSummary
         public ActionResult Index()
         {
+            ViewBag.startdate = FYStartdate;
             FillCustomer();
             return View();
         }
@@ -27,7 +28,7 @@ namespace ArabErp.Web.Controllers
         }
         public ActionResult SaleRegisterSummary(DateTime? from, DateTime? to, int id = 0)
         {
-            from = from ?? DateTime.Today.AddMonths(-7);
+            from = from ?? FYStartdate;
             to = to ?? DateTime.Today;
             return PartialView("_SaleRegisterSummary", new SalesRegisterRepository().GetSalesRegisterSummary(from, to, id, OrganizationId));
         }

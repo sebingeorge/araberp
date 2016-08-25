@@ -116,7 +116,6 @@ namespace ArabErp.DAL
                         DECLARE @FIN_LAST_DATE DATETIME; 
                         DECLARE @FIN_ID INT;
                         SELECT @FIN_ID=FyId from Organization where OrganizationId=@OrganizationId;
-
                         SELECT @FIN_START_DATE=FyStartDate,@FIN_LAST_DATE=FyEndDate FROM FinancialYear WHERE FyId = @FIN_ID;
                         SELECT MonthId,[MonthName],MonthFromDate [YEAR] INTO #MONTH_DETAILS FROM Month;
                         SELECT  W.WorkDescriptionId,W.WorkDescrShortName WorkDescr,M.MonthId,[MonthName],

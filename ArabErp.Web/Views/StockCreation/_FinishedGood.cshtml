@@ -93,8 +93,10 @@
             }
         })
         if (count > 1) {
-            toastr.info("A Material/Spare can only be selected once");
+            toastr.info("This Material/Spare has already been added");
             $("#FinishedGoods_" + index + "__ItemId").val('');
+            $("#FinishedGoods_" + index + "__ItemId").combobox("destroy");
+            $("#FinishedGoods_" + index + "__ItemId").combobox();
         }
     }
 

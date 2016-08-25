@@ -795,6 +795,12 @@
     <Content Include="Views\CurrentStock\_CurrentStockRegister.cshtml" />
     <Content Include="Views\GINRegister\Index.cshtml" />
     <Content Include="Views\GINRegister\_GINRegister.cshtml" />
+    <Content Include="Views\GrnWareHouse\Edit.cshtml" />
+    <Content Include="Views\SupplyOrderRegister\_PendingSupplyOrderRegister.cshtml" />
+    <Content Include="Views\SupplyOrderRegister\_SupplyOrderVarianceReport.cshtml" />
+    <Content Include="Views\SupplyOrderRegister\PengingSO.cshtml" />
+    <Content Include="Views\SupplyOrderRegister\SOVariance.cshtml" />
+    <Content Include="Views\StockCreation\Edit.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

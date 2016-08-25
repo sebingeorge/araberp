@@ -1,13 +1,12 @@
-﻿using ArabErp.DAL;
-using ArabErp.Domain;
-using ArabErp.Web.Models;
-using System;
+﻿using System;
 using System.Collections.Generic;
+using System.Data.SqlClient;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
-using System.Data.SqlClient;
-
+using ArabErp.Domain;
+using ArabErp.DAL;
+using ArabErp.Web.Models;
 namespace ArabErp.Web.Controllers
 {
     public class SalesRegisterController : BaseController
@@ -15,7 +14,7 @@ namespace ArabErp.Web.Controllers
         // GET: SalesRegister
         public ActionResult Index()
         {
-
+            ViewBag.startdate = FYStartdate;
             FillCustomer();
             return View();
         }
@@ -27,7 +26,8 @@ namespace ArabErp.Web.Controllers
         }
         public ActionResult SaleRegister(DateTime? from, DateTime? to, int id = 0)
         {
-            from = from ?? DateTime.Today.AddMonths(-7);
+
+            from = from ?? FYStartdate;
             to = to ?? DateTime.Today;
             return PartialView("_SaleRegister", new SalesRegisterRepository().GetSalesRegister(from, to, id, OrganizationId));
         }

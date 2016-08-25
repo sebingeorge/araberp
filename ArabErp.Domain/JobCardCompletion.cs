@@ -31,7 +31,10 @@ namespace ArabErp.Domain
         public int EmployeeId { get; set; }
         public string EmployeeName { get; set; }
         public DateTime TaskDate { get; set; }
+        public DateTime StartDate { get; set; }
+        public DateTime EndDate { get; set; }
         public int? ActualHours { get; set; }
+        public int? Hours { get; set; }
         public int Existing { get; set; }
     }
 }

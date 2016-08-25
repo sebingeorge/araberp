@@ -16,6 +16,7 @@ namespace ArabErp.Web.Controllers
         public ActionResult Index()
         {
             FillSupplier();
+            ViewBag.startdate = FYStartdate;
             return View();
         }
         public void FillSupplier()
@@ -28,7 +29,7 @@ namespace ArabErp.Web.Controllers
 
         public ActionResult SupplyOrderSummary(DateTime? from, DateTime? to, int id = 0, int itmid = 0)
         {
-            from = from ?? DateTime.Today.AddMonths(-7);
+            from = from ?? FYStartdate;
             to = to ?? DateTime.Today;
             return PartialView("_SupplyOrderSummary", new SupplyOrderRegisterRepository().GetSupplyOrderSummaryData(from, to, id, OrganizationId));
         }

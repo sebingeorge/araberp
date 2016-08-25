@@ -56,6 +56,7 @@ namespace ArabErp.DAL
                 int id = 0;
                 foreach (var item in objOpeningStock.OpeningStockItem)
                 {
+                    if (item.ItemId == null || item.ItemId == 0) continue;
                     string sql = @"insert  into OpeningStock(StockPointId,ItemId,Quantity,CreatedBy,CreatedDate,OrganizationId) 
                            Values (@stockpointId,@ItemId,@Quantity,@CreatedBy,@CreatedDate,@OrganizationId);
                            SELECT CAST(SCOPE_IDENTITY() as int)";
@@ -97,6 +98,7 @@ namespace ArabErp.DAL
                 int id = 0;
                 foreach (var item in objOpeningStock.OpeningStockItem)
                 {
+                    if (item.ItemId == null || item.ItemId == 0) continue;
                     string sql = @"insert  into StockUpdate(StockPointId,stocktrnDate,ItemId,Quantity,
                                  StockType,StockInOut,CreatedBy,CreatedDate,OrganizationId) 
                                  Values (@stockpointId,@CreatedDate,@ItemId,@Quantity,'OpeningStock','IN',

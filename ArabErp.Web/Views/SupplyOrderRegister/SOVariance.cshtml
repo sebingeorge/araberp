@@ -10,7 +10,7 @@
     $(document).ready(function()
     {
         $("#txtFrom").datepicker({
-            dateformat:"dd-MM-yy"
+            dateFormat: "dd-MM-yy"
         });
         $("#txtTo").datepicker({
             dateFormat: "dd-MM-yy"
@@ -47,7 +47,7 @@
         <div class="row">
             <div class="col-md-2">
                 <label>From</label>
-                <input id="txtFrom" value="@System.DateTime.Today.AddMonths(-7).ToString("dd-MMMM-yyy")" class="form_input" onchange="Filter()" />
+                <input id="txtFrom" value="@ViewBag.startdate.ToString("dd-MMMM-yyyy")" class="form_input" onchange="Filter()" />
             </div>
 
             <div class="col-md-2">

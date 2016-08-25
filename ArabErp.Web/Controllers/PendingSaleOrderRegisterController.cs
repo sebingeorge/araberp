@@ -17,6 +17,7 @@ namespace ArabErp.Web.Controllers
         public ActionResult Index(string rptType)
         {
             ViewBag.type = rptType;
+            ViewBag.startdate = FYStartdate;
             FillCustomer();
             return View();
         }
@@ -30,13 +31,13 @@ namespace ArabErp.Web.Controllers
         }
         public ActionResult PendingSaleOrderRegister(DateTime? from, DateTime? to, int id = 0)
         {
-            from = from ?? DateTime.Today.AddMonths(-7);
+            from = from ?? FYStartdate;
             to = to ?? DateTime.Today;
             return PartialView("_PendingSaleOrderRegister", new SalesRegisterRepository().GetPendingSO(from, to, id, OrganizationId));
         }
         public ActionResult SaleOrderVarianceRegister(DateTime? from, DateTime? to, int id = 0)
         {
-            from = from ?? DateTime.Today.AddMonths(-7);
+            from = from ?? FYStartdate;
             to = to ?? DateTime.Today;
             return PartialView("_PendingSaleOrderRegister", new SalesRegisterRepository().GetPendingSO(from, to, id, OrganizationId));
         }

@@ -7,7 +7,7 @@
 <script>
     $(document).ready(function () {
         //$('#CurrencyId').val(result.CurrencyId);
-      
+        $("select[id$='__ItemId']").combobox();
         $("#OpeningStockItem_0__SlNo").val('1');
         
        
@@ -44,6 +44,9 @@
 
         $("#OpeningStockItem_" + i + "__ItemId").val('');
         $("#OpeningStockItem_" + i + "__Quantity").val(0);
+
+        $("#" + i).find('span[class="custom-combobox"]').remove();
+        $("#OpeningStockItem_"+i+"__ItemId").combobox();
 
     }
     function Delete(index) {

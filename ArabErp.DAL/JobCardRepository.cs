@@ -74,10 +74,10 @@ namespace ArabErp
                     query = "select S.SaleOrderId, SI.SaleOrderItemId,";
                     query += " GETDATE() JobCardDate, C.CustomerId, C.CustomerName, S.CustomerOrderRef,";
                     query += " ''ChasisNoRegNo, W.WorkDescriptionId, W.WorkDescr as WorkDescription, '' WorkShopRequestRef, ";
-                    query += " 0 GoodsLanded, 0 BayId, 0 FreezerUnitId, 0 BoxId";
+                    query += " 0 GoodsLanded, 0 BayId, 0 FreezerUnitId, W.BoxId BoxId, B.BoxName";
                     query += " from SaleOrder S inner join Customer C on S.CustomerId = C.CustomerId";
                     query += " inner join SaleOrderItem SI on SI.SaleOrderId = S.SaleOrderId";
-                    query += " inner join WorkDescription W on W.WorkDescriptionId = SI.WorkDescriptionId";
+                    query += " inner join WorkDescription W on W.WorkDescriptionId = SI.WorkDescriptionId LEFT JOIN Box B ON W.BoxId = B.BoxId";
                     query += " where SI.SaleOrderItemId = " + SoItemId.ToString();
                 }
                 

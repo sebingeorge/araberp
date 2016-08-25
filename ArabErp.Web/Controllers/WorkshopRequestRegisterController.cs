@@ -18,6 +18,7 @@ namespace ArabErp.Web.Controllers
         {
             FillWRNo();
             FillItemsinWR();
+            ViewBag.startdate = FYStartdate;
             return View();
         }
         public void FillWRNo()
@@ -30,7 +31,7 @@ namespace ArabErp.Web.Controllers
         }
         public ActionResult WorkShopRequestRegister(DateTime? from, DateTime? to, int id = 0, int itmid = 0)
         {
-            from = from ?? DateTime.Today.AddMonths(-1);
+            from = from ?? FYStartdate;
             to = to ?? DateTime.Today;
             return PartialView("_WorkShopRequestRegister", new WorkshopRequestRegisterRepository().GetWorkshopRegisterData(from, to, id, itmid, OrganizationId));
         }

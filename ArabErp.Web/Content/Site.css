@@ -1140,3 +1140,18 @@ section.content {
 }
 /***************************************/
 
+.grid_heading th {
+    vertical-align: middle
+}
+
+
+.tab-content 
+{
+    background-color:#fff;
+     padding: 12px;
+    margin-left: 1px;
+    border-bottom-left-radius:5px;
+    -moz-border-bottom-left-radius:5px;
+        border-bottom-right-radius:5px;
+    -moz-border-bottom-right-radius:5px;
+}

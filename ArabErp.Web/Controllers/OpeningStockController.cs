@@ -80,7 +80,7 @@ namespace ArabErp.Web.Controllers
                 FillStockpoint();
                 FillItem();
 
-                //TempData["Success"] = "Added Successfully!";
+                TempData["Success"] = "Added Successfully!";
                 OpeningStock OpeningStock = new OpeningStock();
                 OpeningStock.OpeningStockItem = new List<OpeningStockItem>();
                 OpeningStock.OpeningStockItem.Add(new OpeningStockItem());

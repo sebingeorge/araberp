@@ -1,32 +1,51 @@
 ﻿@model ArabErp.Domain.QuickView
            @{
-               int total = Model.NoOfProjectQuotations + 
-                   Model.NoOfPurchaseRequests + 
-                   Model.NoOfSupplyOrders + 
-                   Model.NoOfTransQuotations + 
-                   Model.NoOfWorkShopRequests;
+               var alertPermissions = (ArabErp.Domain.AlertPermission)ViewBag.AlertPermissions;
+               
+               int total = 0;
+
+               if (Model.PendingProjectQuotations && alertPermissions.ProjectQuotApproval == true)
+               {
+                   total += Model.NoOfProjectQuotations;
+               }
+               if (Model.PendingTransQuotations && alertPermissions.TransportQuotApproval == true)
+               {
+                   total += Model.NoOfTransQuotations;
+               }
+               if (Model.PendingSupplyOrders && alertPermissions.PendingSupplyOrdForGrn == true)
+               {
+                   total += Model.NoOfSupplyOrders;
+               }
+               if (Model.PendingDirectPurchaseRequests && alertPermissions.DirectPurchaseReqDorApproval == true)
+               {
+                   total += Model.NoOfPurchaseRequests;
+               }
+               if (Model.PendingWorkshopRequests && alertPermissions.PendingSOForWorkshopReq == true)
+               {
+                   total += Model.NoOfWorkShopRequests;
+               }
            }
 <ul class="nav navbar-nav">
     <li class="top6"> 
         <a data-toggle="dropdown" class="dropdown-toggle" href="#"><i class="glyphicon glyphicon-bell" style="top:7px;"></i><span class="badge1">@total</span></a>
         <ul class="dropdown-menu">            
-            @if (Model.PendingProjectQuotations)
+            @if (Model.PendingProjectQuotations && alertPermissions.ProjectQuotApproval == true)
             {
                 <li><a href="@Url.Action("ListSalesQuotations", "SalesQuotation", new { ProjectBased = 1 })" class="form_input"><span class="badge pull-right" style="margin-right:5px;">@Model.NoOfProjectQuotations</span>Prj. Quot. For Approval</a></li>
             }
-            @if (Model.PendingTransQuotations)
+            @if (Model.PendingTransQuotations && alertPermissions.TransportQuotApproval == true)
             {
                 <li><a href="@Url.Action("ListSalesQuotations", "SalesQuotation", new { ProjectBased = 0 })" class="form_input"><span class="badge pull-right">@Model.NoOfTransQuotations</span>Trn. Quot. For Approval</a></li>
             }
-            @if (Model.PendingSupplyOrders)
+            @if (Model.PendingSupplyOrders && alertPermissions.PendingSupplyOrdForGrn == true)
             {
                 <li><a href="@Url.Action("PendingGrnWareHouse", "GrnWareHouse")" class="form_input"><span class="badge pull-right">@Model.NoOfSupplyOrders</span>Pending Supply Orders for GRN</a></li>
             }
-            @if (Model.PendingDirectPurchaseRequests)
+            @if (Model.PendingDirectPurchaseRequests && alertPermissions.DirectPurchaseReqDorApproval == true)
             {
                 <li><a href="@Url.Action("Approval", "DirectPurchase")" class="form_input"><span class="badge pull-right">@Model.NoOfPurchaseRequests</span>Dir. Pur. Req. For Approval</a></li>
             }
-            @if (Model.PendingWorkshopRequests)
+            @if (Model.PendingWorkshopRequests && alertPermissions.PendingSOForWorkshopReq == true)
             {
                 <li><a href="@Url.Action("WorkShopRequestPending", "WorkShopRequest")" class="form_input"><span class="badge pull-right">@Model.NoOfWorkShopRequests</span>S.O for Work. Requ.</a></li>
             }

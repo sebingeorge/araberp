@@ -28,7 +28,7 @@ namespace ArabErp.DAL
                                 INNER JOIN Item I ON  I.ItemId=PI.ItemId
                                 INNER JOIN Unit U ON U.UnitId=I.ItemUnitId
                                 WHERE S.isActive=1 AND S.SupplyOrderDate 
-                                BETWEEN ISNULL(@from, DATEADD(MONTH, -1, GETDATE())) AND ISNULL(@to, GETDATE()) 
+                                BETWEEN  @from  AND @to 
                                 AND S.OrganizationId=@OrganizationId AND  I.ItemId = ISNULL(NULLIF(@itmid, 0), I.ItemId) 
                                 and S.SupplierId=ISNULL(NULLIF(@id, 0), S.SupplierId) 
                                 GROUP BY SI.SupplyOrderId,SupplyOrderNo,SupplyOrderDate,SUP.SupplierName,ItemName,OrderedQty,UnitName,SI.Rate,SI.Amount
@@ -49,7 +49,7 @@ namespace ArabErp.DAL
                                 INNER JOIN SupplyOrderItem SI ON S.SupplyOrderId=SI.SupplyOrderId 
                                 INNER JOIN Supplier SUP ON SUP.SupplierId=S.SupplierId
                                 WHERE S.isActive=1 AND S.SupplyOrderDate 
-                                BETWEEN ISNULL(@from, DATEADD(MONTH, -1, GETDATE())) AND ISNULL(@to, GETDATE()) 
+                                BETWEEN @from AND @to
                                 AND S.OrganizationId=@OrganizationId 
                                 and S.SupplierId=ISNULL(NULLIF(@id, 0), S.SupplierId) 
                                 GROUP BY SI.SupplyOrderId,SupplyOrderNo,SupplyOrderDate,SUP.SupplierName

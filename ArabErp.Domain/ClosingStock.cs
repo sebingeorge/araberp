@@ -19,6 +19,7 @@ namespace ArabErp.Domain
       public decimal OUTQTY { get; set; }
       public decimal OPENINGSTOCK { get; set; }
       public int itmCatId { get; set; }
+      public int ItemId { get; set; }
      
     }
 }
