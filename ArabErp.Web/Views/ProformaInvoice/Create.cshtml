@@ -73,8 +73,11 @@
             $("#ProformaInvoiceDate").datepicker({ dateFormat: "dd-MM-yy" });
         });
         function Exit() {
+          
+            var url='@Url.Action("PendingProforma", new { ProjectBased = Model.isProjectBased })';
+            //alert(url);
+            location.href = url;
 
-            location.href = '@Url.Action("PendingProforma", "ProformaInvoice", new { @Model.isProjectBased })';
         }
     </script>
 }
@@ -199,14 +202,9 @@
         <div class="col-md-11 col-sm-10" style="display:inline-block;position:relative;">
 
             <div class="part4">
-
                 <label for="PaymentTerms">Payment Terms</label>
-
-
                 @Html.TextBoxFor(m => m.PaymentTerms, new { @class = "form_input", autocomplete = "off" })
                 <button class="terms" type="button" id="pymtTerms" onclick="showPaymentTerms()">...</button>
-
-
             </div>
 
         </div>
@@ -218,7 +216,7 @@
 
                 <div class="row">
                     <div class="col-md-12 hrpart">
-                        <button class="form-button right" onclick="Exit()">Exit</button>
+                        <button type="button" class="form-button right" onclick="Exit()">Exit</button>
                         <button type="submit" class="form-button right">Save</button>
                     </div>
 
