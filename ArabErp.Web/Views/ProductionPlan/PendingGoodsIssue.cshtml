@@ -7,7 +7,7 @@
 
 <div class="row">
     <div class="form-head1">
-        <h4>Pending Goods Issue to Production Order</h4>
+        <h4>Pending Issue Material to Production order</h4>
     </div>
 
     <div class="main-part pad1">
@@ -16,7 +16,7 @@
             <table class="table table-bordered" id="tab_logic">
                 <thead>
                     <tr class="grid_heading">
-                        <th width="7%"><h1>PRD Code</h1></th>
+                        <th width="7%"><h1>PRD Order No</h1></th>
                         <th width="66%"><h1>Item</h1></th>
                         <th width="7%" class="text-right"><h1>Qty</h1></th>
                         <th width="7%" class="text-left"><h1>Unit</h1></th>
@@ -216,7 +216,7 @@
             <div class="row">
                 <div class="col-md-12 hrpart">
                     <button type="button" class="form-button right" onclick="Proceed()">Proceed</button>
-                    <button type="button" class="form-button right">Exit</button>
+                    <button type="button" class="form-button right" onclick="Exit()">Exit</button>
                 </div>
 
             </div>
@@ -226,6 +226,10 @@
         function Proceed() {
         var url = '@Url.Action("GoodsIssue")'
         window.location = url;
-    }
+        }
+        function Exit() {
+            var url = '@Url.Action("Index","ProductionPlan")'
+            window.location = url;
+        }
 
     </script>

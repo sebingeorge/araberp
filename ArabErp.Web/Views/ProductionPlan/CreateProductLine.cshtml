@@ -34,7 +34,7 @@
         <div class="row">
             <div class="col-md-12 hrpart">
                 <button type="button" class="form-button right">Save</button>
-                <button type="button" class="form-button right">Exit</button>
+                <button type="button" class="form-button right" onclick="Exit()">Exit</button>
             </div>
 
         </div>
@@ -178,3 +178,10 @@
         </div>
     </div>
 </div>
+
+<script>
+    function Exit() {
+        var url = '@Url.Action("Index","ProductionPlan")'
+        window.location = url;
+    }
+</script>

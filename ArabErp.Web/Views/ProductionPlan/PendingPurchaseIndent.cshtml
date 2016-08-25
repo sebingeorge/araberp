@@ -260,7 +260,7 @@
                 <div class="col-md-12 hrpart">
                     <button type="button" class="form-button form-w">Check Vendors</button>
                     <button type="button" class="form-button right" onclick="Create()">Proceed</button>
-                    <button type="button" class="form-button right">Exit</button>
+                    <button type="button" class="form-button right" onclick="Exit()">Exit</button>
                 </div>
 
             </div>
@@ -272,6 +272,10 @@
 <script>
     function Create() {
         var url = '@Url.Action("PurchaseOrder")'
+        window.location = url;
+    }
+    function Exit() {
+        var url = '@Url.Action("Index","ProductionPlan")'
         window.location = url;
     }
 
