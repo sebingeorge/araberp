@@ -834,6 +834,7 @@
     <Content Include="Views\ProductionPlan\PendingProduction.cshtml" />
     <Content Include="Views\ProductionPlan\PendingReceiveProductInventory.cshtml" />
     <Content Include="Views\ProductionPlan\ConvertProductionPlanttoplannedorder.cshtml" />
+    <Content Include="Views\ProductionPlan\ComponentOverView.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

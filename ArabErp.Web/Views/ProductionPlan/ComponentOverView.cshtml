@@ -1,6 +1,6 @@
 ﻿
 @{
-    ViewBag.Title = "ConvertProductionPlanttoplannedorder";
+    ViewBag.Title = "ComponentOverView";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
@@ -8,24 +8,20 @@
 
 <div class="row">
     <div class="form-head1">
-        <h4>Convert Production Plan to Planned order</h4>
+        <h4>Production Order Required Component OverView</h4>
     </div>
 
     <div class="main-part pad1">
-
         <div class="row form-group">
             <div class="col-md-2">
-                <label>Financial Year</label>
+                <label>PRD Order No.</label>
                 <input type="text" class="form_input" />
             </div>
-            <div class="col-md-2">
-                <label>Month</label>
-                <input type="text" class="form_input" />
-            </div>
+
         </div>
 
         <div class="row form-group">
-            <div class="col-md-4">
+            <div class="col-md-3">
                 <label>Product</label>
                 <select class="form_input">
                     <option value="volvo">Product 1</option>
@@ -34,27 +30,49 @@
                     <option value="audi">Product 4</option>
                 </select>
             </div>
+        </div>
+        <div class="row form-group">
+            <div class="col-md-1">
+                <label>Start Date</label>
+                <input type="text" class="form_input" />
+            </div>
+
+            <div class="col-md-1">
+                <label>End Date</label>
+                <input type="text" class="form_input" />
+            </div>
+            <div class="col-md-1">
+                <label>Qty</label>
+                <input type="text" class="form_input" />
+            </div>
+            <div class="col-md-2">
+                <label>Unit</label>
+                <select class="form_input">
+                    <option value="volvo">Select Unit</option>
+                    <option value="saab">Kg</option>
+                    <option value="opel">Liter</option>
+                    <option value="audi">Nos</option>
+                    <option value="audi">Mtrs</option>
+                </select>
+            </div>
             <div class="col-md-2">
                 <label>Plant</label>
                 <select class="form_input">
                     <option value="volvo">Plant 1</option>
                     <option value="saab">Plant 2</option>
+                    <option value="opel">Plant 3</option>
+                    <option value="audi">Plant 4</option>
                 </select>
             </div>
-
-
-
-
-
-
         </div>
+
 
         <div class="table-responsive">
             <table class="table table-bordered" id="tab_logic">
                 <thead>
                     <tr class="grid_heading">
-                        <th width="7%"><h1>PRD</h1></th>
-                        <th width="79%"><h1>Raw Material</h1></th>
+                        <th width="7%"><h1>PRD Order No.</h1></th>
+                        <th width="79%"><h1>Raw Materials</h1></th>
                         <th width="7%" class="text-right"><h1>Qty</h1></th>
                         <th width="7%" class="text-left"><h1>Unit</h1></th>
                     </tr>
@@ -147,13 +165,7 @@
                         <td></td>
                         <td></td>
 
-                    </tr>
-                    <tr>
 
-                        <td>P50</td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
 
                     </tr>
 
@@ -181,11 +193,10 @@
 
 
 
-
-
         <div class="row">
             <div class="col-md-12 hrpart">
-                <button type="button" class="form-button right" onclick="Create()">Create</button>
+                <button type="button" class="form-button right">Confirm</button>
+                <button type="button" class="form-button right" onclick="Exit()">Exit</button>
             </div>
 
         </div>
@@ -196,9 +207,14 @@
 </div>
 
 <script>
-    function Create() {
-        var url = '@Url.Action("PlanedOrder")'
+    function Exit() {
+        var url = '@Url.Action("Index","ProductionPlan")'
         window.location = url;
     }
 
 </script>
+
+
+
+
+

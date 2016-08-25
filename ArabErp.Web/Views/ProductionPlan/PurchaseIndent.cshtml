@@ -41,8 +41,8 @@
                             <th width="7%"><h1>Required Date</h1></th>
                             <th width="25%"><h1>Item Special Description</h1></th>
                         </tr>
-                        </tr>
-                        </tr>
+
+
                     </thead>
                     <tbody>
 
@@ -151,7 +151,7 @@
             <div class="row">
                 <div class="col-md-12 hrpart">
                     <button type="button" class="form-button form-w " onclick="Previous()">Previous List</button>
-                    <button type="button" class="form-button right">Exit</button>
+                    <button type="button" class="form-button right" onclick="Exit()">Exit</button>
                     <button type="button" class="form-button right">Save</button>
                 </div>
 
@@ -164,8 +164,11 @@
 
 <script>
     function Previous() {
-        var url = '@Url.Action("PreviousPurchaseIndent")'
+        var url = '@Url.Action("PreviousPurchaseIndent", "ProductionPlan")'
         window.location = url;
     }
-
+    function Exit() {
+        var url = '@Url.Action("Index","ProductionPlan")'
+        window.location = url;
+    }
 </script>

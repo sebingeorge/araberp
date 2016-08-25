@@ -133,6 +133,10 @@ namespace ArabErp.Web.Controllers
         {
             return View();
         }
+        public ActionResult ComponentOverView()
+        {
+            return View();
+        }
         //public ActionResult CreateProductLineAdd()
         //{
         //    return View();
