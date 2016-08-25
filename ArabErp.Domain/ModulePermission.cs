@@ -16,4 +16,12 @@ namespace ArabErp.Domain
         public bool Finance { get; set; }
         public bool MISReports { get; set; }
     }
+    public class AlertPermission
+    {
+        public bool ProjectQuotApproval { get; set; }
+        public bool TransportQuotApproval { get; set; }
+        public bool PendingSupplyOrdForGrn { get; set; }
+        public bool DirectPurchaseReqDorApproval { get; set; }
+        public bool PendingSOForWorkshopReq { get; set; }
+    }
 }

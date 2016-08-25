@@ -250,10 +250,16 @@ namespace ArabErp.Web.Controllers
             {
                 User model = new User();
                 model.Module = new System.Collections.Generic.List<ModuleVsUser>();
+                model.ERPAlerts = new System.Collections.Generic.List<ERPAlerts>();
                 var modules = (new UserRepository()).GetModules(null);
+                var alerts = (new UserRepository()).GetAlerts(Id ?? 0);
                 foreach (var item in modules)
                 {
                     model.Module.Add(item);
+                }
+                foreach (var item in alerts)
+                {
+                    model.ERPAlerts.Add(item);
                 }
                 return View(model);
             }
@@ -262,10 +268,16 @@ namespace ArabErp.Web.Controllers
                 var users = (new UserRepository().GetUsers());
                 User model = (from a in users where a.UserId == Id select a).Single();
                 model.Module = new System.Collections.Generic.List<ModuleVsUser>();
+                model.ERPAlerts = new System.Collections.Generic.List<ERPAlerts>();
                 var modules = (new UserRepository()).GetModules(Id);
+                var alerts = (new UserRepository()).GetAlerts(Id ?? 0);
                 foreach (var item in modules)
                 {
                     model.Module.Add(item);
+                }
+                foreach (var item in alerts)
+                {
+                    model.ERPAlerts.Add(item);
                 }
                 return View(model);
             }           
@@ -546,7 +558,7 @@ namespace ArabErp.Web.Controllers
             UserRepository repo = new UserRepository();
             string sessionid = Session.SessionID;
             repo.UpdateLoginHistory(sessionid);
-
+         
             Session.Abandon();
             UnsetAuthorizationCookie(HttpContext.Response, HttpContext.Request.Cookies);
         }

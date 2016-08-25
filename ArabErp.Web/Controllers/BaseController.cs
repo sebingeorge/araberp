@@ -30,10 +30,10 @@ namespace ArabErp.Web.Controllers
                 {
                     modules = (IEnumerable<ModuleVsUser>)Session["menupermissions"];
                     Session["menupermissions"] = modules;
-                }                
-
+                }
+                
                 ModulePermission permission = new ModulePermission();
-
+                
                 foreach (var item in modules)
                 {
                     if (item.ModuleName == "Admin")
@@ -65,7 +65,7 @@ namespace ArabErp.Web.Controllers
                         permission.MISReports = true;
                     }
                 }
-                ViewBag.ModulePermissions = permission;
+                ViewBag.ModulePermissions = permission;                
             }
             catch
             {

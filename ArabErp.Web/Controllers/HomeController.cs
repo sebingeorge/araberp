@@ -80,6 +80,48 @@ namespace ArabErp.Web.Controllers
                 var slist = rep.GetSaleOrdersPendingWorkshopRequest(OrganizationId);
                 view.NoOfWorkShopRequests = slist.Count;
             }
+
+            IEnumerable<ERPAlerts> Alerts;
+            if (Session["alertpermissions"] == null)
+            {
+                UserRepository repo = new UserRepository();
+                Alerts = repo.GetAlerts(UserID);
+                Session["alertpermissions"] = Alerts;
+            }
+            else
+            {
+                Alerts = (IEnumerable<ERPAlerts>)Session["alertpermissions"];
+                Session["alertpermissions"] = Alerts;
+            }
+
+            AlertPermission alertpermission = new AlertPermission();
+            foreach (var item in Alerts)
+            {
+                if (item.HasPermission == 1)
+                {
+                    switch (item.AlertId)
+                    {
+                        case 1:
+                            alertpermission.ProjectQuotApproval = true;
+                            break;
+                        case 2:
+                            alertpermission.TransportQuotApproval = true;
+                            break;
+                        case 3:
+                            alertpermission.PendingSupplyOrdForGrn = true;
+                            break;
+                        case 4:
+                            alertpermission.DirectPurchaseReqDorApproval = true;
+                            break;
+                        case 5:
+                            alertpermission.PendingSOForWorkshopReq = true;
+                            break;
+                        default:
+                            break;
+                    }
+                }
+            }
+            ViewBag.AlertPermissions = alertpermission;
             return PartialView("_QuickView", view);
         }
     }
