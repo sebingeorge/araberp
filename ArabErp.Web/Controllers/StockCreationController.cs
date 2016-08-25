@@ -39,15 +39,15 @@ namespace ArabErp.Web.Controllers
                 model.CreatedBy = UserID.ToString();
 
                 string ref_no = new StockCreationRepository().CreateStock(model);
-                TempData["success"] = "Saved successfully. The Reference No. is " + ref_no;
+                TempData["success"] = "Saved successfully. Reference No. is " + ref_no;
             }
-            catch (Exception ex)
+            catch (Exception)
             {
-                TempData["error"] = "Some error occured while saving. Please try again.|" + ex.Message;
+                TempData["error"] = "Some error occured while saving. Please try again.";
                 FillDropdowns();
                 return View(model);
             }
-            return RedirectToAction("Create");
+            return RedirectToAction("Create");  
         }
 
         public List<StockCreationFinishedGood> FinishedGoodsGrid()

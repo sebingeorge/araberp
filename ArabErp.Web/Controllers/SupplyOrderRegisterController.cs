@@ -17,7 +17,7 @@ namespace ArabErp.Web.Controllers
         {
             FillSupplier();
             FillItem();
-            ViewBag.startdate = Startdate;
+            ViewBag.startdate = FYStartdate;
             return View();
         }
         public void FillSupplier()
@@ -36,7 +36,7 @@ namespace ArabErp.Web.Controllers
 
         public ActionResult SupplyOrderRegister(DateTime? from, DateTime? to, int id = 0, int itmid = 0)
         {
-            from = from ?? Startdate;
+            from = from ?? FYStartdate;
             to = to ?? DateTime.Today;
             return PartialView("_SupplyOrderRegister", new SupplyOrderRegisterRepository().GetSupplyOrderRegisterData(from, to, id, itmid, OrganizationId));
         }
@@ -46,13 +46,13 @@ namespace ArabErp.Web.Controllers
            
             FillSupplier();
             FillItem();
-            ViewBag.startdate = Startdate;
+            ViewBag.startdate = FYStartdate;
             return View();
         }
 
         public ActionResult PendingSupplyOrderRegister(DateTime? from, DateTime? to, int id = 0, int itmid = 0)
         {
-            from = from ?? Startdate;
+            from = from ?? FYStartdate;
             to = to ?? DateTime.Today;
             return PartialView("_PendingSupplyOrderRegister", new SupplyOrderRegisterRepository().GetPendingSupplyOrderRegister(from, to, id, itmid, OrganizationId));
         }
@@ -63,13 +63,13 @@ namespace ArabErp.Web.Controllers
            
             FillSupplier();
             FillItem();
-            ViewBag.startdate = Startdate;
+            ViewBag.startdate = FYStartdate;
             return View();
         }
 
         public ActionResult SupplyOrderVarianceReport(DateTime? from, DateTime? to, int id = 0, int itmid = 0)
         {
-            from = from ?? Startdate;
+            from = from ?? FYStartdate;
             to = to ?? DateTime.Today;
             return PartialView("_SupplyOrderVarianceReport", new SupplyOrderRegisterRepository().GetSOVarianceData(from, to, id, itmid, OrganizationId));
         }

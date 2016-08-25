@@ -26,8 +26,8 @@ namespace ArabErp.Web.Controllers
                 StockCreationDate = DateTime.Today,
                 StockCreationRefNo = DatabaseCommonRepository.GetNextDocNo(26, OrganizationId),
                 isSubAssembly = true,
-                ConsumedItems=ConsumedItemsGrid(),
-                FinishedGoods=FinishedGoodsGrid()
+                ConsumedItems = ConsumedItemsGrid(),
+                FinishedGoods = FinishedGoodsGrid()
             });
         }
 
@@ -36,18 +36,27 @@ namespace ArabErp.Web.Controllers
         {
             try
             {
-                model.OrganizationId = OrganizationId;
-                model.CreatedDate = System.DateTime.Now;
-                model.CreatedBy = UserID.ToString();
+                if (ModelState.IsValid)
+                {
+                    model.OrganizationId = OrganizationId;
+                    model.CreatedDate = System.DateTime.Now;
+                    model.CreatedBy = UserID.ToString();
 
-                string ref_no = new SubAssemblyRepository().CreateSubAssembly(model);
-                TempData["success"] = "Saved Successfully. Reference No. is " + ref_no;
+                    string ref_no = new SubAssemblyRepository().CreateSubAssembly(model);
+                    TempData["success"] = "Saved Successfully. Reference No. is " + ref_no;
+                }
+                else
+                {
+                    var allErrors = ModelState.Values.SelectMany(v => v.Errors);
+                    FillDropdowns();
+                    return View(model);
+                }
             }
             catch (Exception ex)
             {
                 TempData["error"] = "Some error occured while saving. Please try again.|" + ex.Message;
-                FillEmployee(); FillStockpoint();
-                return View("Create", model);
+                FillDropdowns();
+                return View(model);
             }
             return RedirectToAction("Create");
         }

@@ -109,12 +109,25 @@ namespace ArabErp.Web.Controllers
 
             }
         }
-        public DateTime Startdate
+        public DateTime FYStartdate
         {
             get
             {
                 FinancialYearRepository repo = new FinancialYearRepository();
-                return repo.GetFinStartEndDate(OrganizationId);
+                return repo.GetFinStartDate(OrganizationId);
+
+            }
+            set
+            {
+
+            }
+        }
+        public DateTime FYEnddate
+        {
+            get
+            {
+                FinancialYearRepository repo = new FinancialYearRepository();
+                return repo.GetFinEndDate(OrganizationId);
 
             }
             set
