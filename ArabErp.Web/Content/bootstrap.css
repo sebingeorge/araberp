@@ -3849,8 +3849,8 @@ textarea.input-group-sm > .input-group-btn > .btn {
 
 .nav > li > a:hover,
 .nav > li > a:focus {
-  /*text-decoration: none;
-  background-color: #eeeeee;*/
+text-decoration: none;
+  /*background-color: #eeeeee;*/
 }
 
 .nav > li.disabled > a {
@@ -3885,22 +3885,28 @@ textarea.input-group-sm > .input-group-btn > .btn {
 
 .nav-tabs {
   border-bottom: 1px solid #dddddd;
+  margin-top:10px;
 }
 
 .nav-tabs > li {
   float: left;
   margin-bottom: -1px;
+  border:0;
 }
 
 .nav-tabs > li > a {
+    background-color:#2db4e3;
   margin-right: 2px;
   line-height: 1.428571429;
   border: 1px solid transparent;
   border-radius: 4px 4px 0 0;
+  color:#fff;
 }
 
 .nav-tabs > li > a:hover {
   border-color: #eeeeee #eeeeee #dddddd;
+  text-decoration:none;
+  background-color:#1e8fb6;
 }
 
 .nav-tabs > li.active > a,
@@ -3911,6 +3917,7 @@ textarea.input-group-sm > .input-group-btn > .btn {
   background-color: #ffffff;
   border: 1px solid #dddddd;
   border-bottom-color: transparent;
+  font-weight:bold;
 }
 
 .nav-tabs.nav-justified {
@@ -7497,6 +7504,10 @@ td.visible-print {
         line-height:34px !important;
     }
     .log-button1
+    {
+        width:100% !important;
+    }
+    .nav-tabs > li 
     {
         width:100% !important;
     }
