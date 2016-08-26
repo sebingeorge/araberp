@@ -40,7 +40,6 @@ namespace ArabErp.Web.Controllers
            
             WorkDescription workdescription = new WorkDescription();
             workdescription.WorkDescriptionRefNo ="WD/" + DatabaseCommonRepository.GetNextRefNoWithNoUpdate(typeof(WorkDescription).Name);
-
             workdescription.WorkVsItems.Add(new WorkVsItem());
             workdescription.WorkVsTasks.Add(new WorkVsTask());
             return View(workdescription);
@@ -52,7 +51,7 @@ namespace ArabErp.Web.Controllers
             FillItem();
             FillJobCardTaskMaster();
             WorkDescription workdescription = new WorkDescription();
-
+            workdescription.WorkDescriptionRefNo = "WD/" + DatabaseCommonRepository.GetNextRefNoWithNoUpdate(typeof(WorkDescription).Name);
             workdescription.isProjectBased = true;
             workdescription.WorkVsItems.Add(new WorkVsItem());
             workdescription.WorkVsTasks.Add(new WorkVsTask());
