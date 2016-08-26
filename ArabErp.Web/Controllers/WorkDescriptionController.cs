@@ -197,7 +197,7 @@ namespace ArabErp.Web.Controllers
         }
         public void FillVehicle()
         {
-            var repo = new SaleOrderItemRepository();
+            var repo = new DropdownRepository();
             var list = repo.FillVehicle();
             ViewBag.vehiclelist = new SelectList(list, "Id", "Name");
         }

@@ -20,6 +20,10 @@ namespace ArabErp.Web.Controllers
         {
             return View("Index",(new SalesQuotationRepository()).GetSalesQuotaationList(1));
         }
+        public ActionResult AfterSalesIndex()
+        {
+            return View("Index", (new SalesQuotationRepository()).GetSalesQuotaationList(2));
+        }
         public ActionResult Create()
         {
             var internalid = DatabaseCommonRepository.GetNextDocNo(1, OrganizationId);
@@ -163,6 +167,79 @@ namespace ArabErp.Web.Controllers
             }
 
         }
+        public ActionResult CreateAfterSales()
+        {
+            var internalid = DatabaseCommonRepository.GetNextDocNo(28, OrganizationId);
+
+            FillCustomer();
+            FillCurrency();
+            FillCommissionAgent();
+            FillWrkDescAfterSales();
+            FillVehicle();
+            FillUnit();
+            FillEmployee();
+            FillSalesQuotationRejectReason();
+            FillRateSettings();
+            SalesQuotation salesquotation = new SalesQuotation();
+            salesquotation.isProjectBased = 2;
+            salesquotation.QuotationDate = System.DateTime.Today;
+            salesquotation.QuotationRefNo = internalid;
+            salesquotation.PredictedClosingDate = System.DateTime.Today;
+            salesquotation.QuotationValidToDate = System.DateTime.Today;
+            salesquotation.ExpectedDeliveryDate = System.DateTime.Today;
+            salesquotation.CurrencyId = new CurrencyRepository().GetCurrencyFrmOrganization(OrganizationId).CurrencyId;
+
+            salesquotation.SalesQuotationItems = new List<SalesQuotationItem>();
+            salesquotation.SalesQuotationItems.Add(new SalesQuotationItem());
+            salesquotation.SalesQuotationItems[0].Quantity = 1;
+            //salesquotation.SalesQuotationItems[0].UnitId = 25;
+            ViewBag.SubmitAction = "Save";
+            return View("Create", salesquotation);
+        }
+        [HttpPost]
+        public ActionResult CreateAfterSales(SalesQuotation model)
+        {
+            if (!ModelState.IsValid)
+            {
+                var allErrors = ModelState.Values.SelectMany(v => v.Errors);
+
+                FillCustomer();
+                FillCurrency();
+                FillCommissionAgent();
+                FillWrkDescAfterSales();
+                FillVehicle();
+                FillUnit();
+                FillEmployee();
+                FillSalesQuotationRejectReason();
+                FillRateSettings();
+
+                return View(model);
+            }
+            model.OrganizationId = OrganizationId;
+            model.CreatedDate = System.DateTime.Now;
+            model.CreatedBy = UserID.ToString();
+            SalesQuotation result = new SalesQuotationRepository().InsertSalesQuotation(model);
+            if (result.SalesQuotationId > 0)
+            {
+                TempData["Success"] = "Added Successfully!";
+                TempData["QuotationRefNo"] = result.QuotationRefNo;
+                return RedirectToAction("Create");
+            }
+            else
+            {
+                TempData["error"] = "Oops!!..Something Went Wrong!!";
+                TempData["SaleOrderRefNo"] = null;
+                FillCustomer();
+                FillCurrency();
+                FillCommissionAgent();
+                FillWrkDescAfterSales();
+                FillVehicle();
+                FillUnit();
+                FillEmployee();
+                FillSalesQuotationRejectReason();
+                return View("Create", model);
+            }
+        }
         [HttpGet]
         public ActionResult Approve(int SalesQuotationId)
         {
@@ -194,7 +271,8 @@ namespace ArabErp.Web.Controllers
         {
 
             var repo = new SalesQuotationRepository();
-
+            model.CreatedDate = System.DateTime.Now;
+            model.CreatedBy = UserID.ToString();
             repo.ApproveSalesQuotation(model);
             if (model.isProjectBased == 0)
             {
@@ -202,11 +280,21 @@ namespace ArabErp.Web.Controllers
                 TempData["QuotationRefNo"] = model.QuotationRefNo;
                 return RedirectToAction("ListSalesQuotations", new { ProjectBased = 0 });
             }
-            else
+            else if (model.isProjectBased == 1)
             {
                 TempData["Success"] = "Approved Successfully!";
                 TempData["QuotationRefNo"] = model.QuotationRefNo;
                 return RedirectToAction("ListSalesQuotations", new { ProjectBased = 1 });
+            }
+            else if (model.isProjectBased == 2)
+            {
+                TempData["Success"] = "Approved Successfully!";
+                TempData["QuotationRefNo"] = model.QuotationRefNo;
+                return RedirectToAction("ListSalesQuotations", new { ProjectBased = 2 });
+            }
+            else
+            {
+                return View();
             }
 
         }
@@ -304,14 +392,20 @@ namespace ArabErp.Web.Controllers
         }
         public void FillWrkDesc()
         {
-            var repo = new SaleOrderItemRepository();
+            var repo = new DropdownRepository();
             var list = repo.FillWorkDesc();
             ViewBag.workdesclist = new SelectList(list, "Id", "Name");
         }
         public void FillWrkDescForProject()
         {
-            var repo = new SaleOrderItemRepository();
+            var repo = new DropdownRepository();
             var list = repo.FillWorkDescForProject();
+            ViewBag.workdesclist = new SelectList(list, "Id", "Name");
+        }
+        public void FillWrkDescAfterSales()
+        {
+            var repo = new DropdownRepository();
+            var list = repo.FillWorkDescForAfterSales();
             ViewBag.workdesclist = new SelectList(list, "Id", "Name");
         }
         public void FillCustomer()
@@ -322,7 +416,7 @@ namespace ArabErp.Web.Controllers
         }
         public void FillVehicle()
         {
-            var repo = new SaleOrderItemRepository();
+            var repo = new DropdownRepository();
             var list = repo.FillVehicle();
             ViewBag.vehiclelist = new SelectList(list, "Id", "Name");
         }
@@ -340,7 +434,7 @@ namespace ArabErp.Web.Controllers
         }
         public void FillUnit()
         {
-            var repo = new SaleOrderItemRepository();
+            var repo = new DropdownRepository();
             var list = repo.FillUnit();
             ViewBag.unitlist = new SelectList(list, "Id", "Name");
         }
