@@ -13,9 +13,17 @@ namespace ArabErp.DAL
         static string dataConnection = GetConnectionString("arab");
         public int InsertVehicleInPass(VehicleInPass objVehicleInPass)
         {
-
             using (IDbConnection connection = OpenConnection(dataConnection))
             {
+                IDbTransaction txn = connection.BeginTransaction();
+                try
+                {
+                    var internalId = DatabaseCommonRepository.GetNewDocNo(connection, objVehicleInPass.OrganizationId, 15, true, txn);
+
+                    objVehicleInPass.VehicleInPassNo = internalId;
+
+
+
                 string sql = @"INSERT INTO VehicleInPass(
                             VehicleInPassNo,
                             SaleOrderItemId,
@@ -41,13 +49,28 @@ namespace ArabErp.DAL
                             @OrganizationId,
                             1
                         );
-                        SELECT CAST(SCOPE_IDENTITY() AS INT)";
+                        SELECT CAST(SCOPE_IDENTITY() AS INT)VehicleInPassId";
 
-                var id = connection.Query<int>(sql, objVehicleInPass).Single();
-                InsertLoginHistory(dataConnection, objVehicleInPass.CreatedBy, "Create", "Vehicle Inpass", id.ToString(), "0");
-                return id;
+               
+                var id = connection.Query<int>(sql, objVehicleInPass,txn).Single();
+
+                 InsertLoginHistory(dataConnection, objVehicleInPass.CreatedBy, "Create", "Vehicle Inpass", id.ToString(), "0");
+                    txn.Commit();
+
+                    return id;
+                }
+                catch (Exception)
+                {
+                    txn.Rollback();
+                    return id1;
+                }
             }
         }
+
+        //        InsertLoginHistory(dataConnection, objVehicleInPass.CreatedBy, "Create", "Vehicle Inpass", id.ToString(), "0");
+        //        return id;
+        //    }
+        //}
 
 
         public VehicleInPass GetVehicleInPass(int VehicleInPassId)
@@ -157,5 +180,7 @@ namespace ArabErp.DAL
 
             }
         }
+
+        public int id1 { get; set; }
     }
 }
