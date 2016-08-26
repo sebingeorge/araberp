@@ -24,7 +24,7 @@ namespace ArabErp.Web.Controllers
         }
         public ActionResult CustomerWiseSalesRegister(int id = 0)
         {
-            return PartialView("_CustomerWiseSalesRegister", new SalesRegisterRepository().GetCustomerWiseSalesRegister(OrganizationId,id));
+            return PartialView("_CustomerWiseSalesRegister", new SalesRegisterRepository().GetCustomerWiseSalesRegister(OrganizationId, id,FYStartdate, FYEnddate));
         }
     }
 }

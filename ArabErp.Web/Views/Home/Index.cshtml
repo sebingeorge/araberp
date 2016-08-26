@@ -1,6 +1,7 @@
 ﻿@model ArabErp.Domain.Dashboard
 @{
     ViewBag.Title = "Home Page";
+    ArabErp.Domain.GraphPermission graphpermission = (ArabErp.Domain.GraphPermission)ViewBag.GraphPermission;
 }
 @*<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>*@
 <style type="text/css">
@@ -9,7 +10,7 @@
     }
 </style>
 <script src="http://code.highcharts.com/highcharts.js"></script>
-<script src="http://code.highcharts.com/modules/exporting.js"></script> 
+<script src="http://code.highcharts.com/modules/exporting.js"></script>
 @{
     string SOmonths = string.Empty;
     string SOdatas = string.Empty;
@@ -26,7 +27,7 @@
     string TotalSO = Model.DashboardSaleOrderAllocated.TotalSaleOrders;
     string JobCardDays = string.Empty;
     string JobCardCount = string.Empty;
-    
+
     foreach (var item in Model.DashboardMonthlySalesOrders)
     {
 
@@ -388,9 +389,9 @@
                     }, {
                         name: 'Total S.O',
                         y: @TotalSO,
-                    sliced: true,
-                    selected: true
-                }]
+                        sliced: true,
+                        selected: true
+                    }]
             }]
         });
     }
@@ -461,7 +462,7 @@
     <div class="main-part pad1">
         <div class="row">
             <div class="col-md-12">
-                
+
                 <div id="jssor_1" style="position: relative; margin: 0 auto; top: 0px; left: 0px; width: 600px; height: 350px; overflow: hidden; visibility: hidden;">
                     <!-- Loading Screen -->
                     <div data-u="loading" style="position: absolute; top: 0px; left: 0px;">
@@ -469,36 +470,54 @@
                         <div style="position:absolute;display:block;background:url('../../Content/images/loading.gif') no-repeat center center;top:0px;left:0px;width:100%;height:100%;"></div>
                     </div>
                     <div data-u="slides" style="cursor: default; position: relative; top: 0px; left: 0px; width: 600px; height: 300px; overflow: hidden;">
-                        <div data-p="112.50" style="display: none;">
-                            <div id="SaleQuotation" class="col-md-12 chart">
+                        @if (graphpermission.SaleQuotations)
+                        {
+                            <div data-p="112.50" style="display: none;">
+                                <div id="SaleQuotation" class="col-md-12 chart">
+                                </div>
+                                <div data-u="thumb">Sales Quotations</div>
                             </div>
-                            <div data-u="thumb">Sales Quotations</div>
-                        </div>
-                        <div data-p="112.50" style="display: none;">
-                            <div id="SaleOrder" class="col-md-12 chart">
+                        }
+                        @if (graphpermission.SaleOrders)
+                        {
+                            <div data-p="112.50" style="display: none;">
+                                <div id="SaleOrder" class="col-md-12 chart">
+                                </div>
+                                <div data-u="thumb">Sale Orders</div>
                             </div>
-                            <div data-u="thumb">Sale Orders</div>
-                        </div>
-                        <div data-p="112.50" style="display: none;">
-                            <div id="SalesAndPurchase" class="col-md-12 chart">
+                        }
+                        @if (graphpermission.SalesVsPurchase)
+                        {
+                            <div data-p="112.50" style="display: none;">
+                                <div id="SalesAndPurchase" class="col-md-12 chart">
+                                </div>
+                                <div data-u="thumb">Sales vs Purchase</div>
                             </div>
-                            <div data-u="thumb">Sales vs Purchase</div>
-                        </div>
-                        <div data-p="112.50" style="display: none;">
-                            <div id="FGAllocated" class="col-md-12 chart">
+                        }
+                        @if (graphpermission.FGStockVsAllocation)
+                        {
+                            <div data-p="112.50" style="display: none;">
+                                <div id="FGAllocated" class="col-md-12 chart">
+                                </div>
+                                <div data-u="thumb">FG Allocated</div>
                             </div>
-                            <div data-u="thumb">FG Allocated</div>
-                        </div>
-                        <div data-p="112.50" style="display: none;">
-                            <div id="FGAllocatedSO" class="col-md-12 chart">
+                        }
+                        @if (graphpermission.FGStockVsSOAllocation)
+                        {
+                            <div data-p="112.50" style="display: none;">
+                                <div id="FGAllocatedSO" class="col-md-12 chart">
+                                </div>
+                                <div data-u="thumb">FG Stock vs Total S.O vs Allocated S.O</div>
                             </div>
-                            <div data-u="thumb">FG Stock vs Total S.O vs Allocated S.O</div>
-                        </div>
-                        <div data-p="112.50" style="display: none;">
-                            <div id="JobcardCompleted" class="col-md-12 chart">
+                        }
+                        @if (graphpermission.JobCardCompletion7Days)
+                        {
+                            <div data-p="112.50" style="display: none;">
+                                <div id="JobcardCompleted" class="col-md-12 chart">
+                                </div>
+                                <div data-u="thumb">No. Jobcards completed for the last 7 days.</div>
                             </div>
-                            <div data-u="thumb">No. Jobcards completed for the last 7 days.</div>
-                        </div>
+                        }
                     </div>
                     <!-- Thumbnail Navigator -->
                     <div data-u="thumbnavigator" class="jssort09-600-45" style="position:absolute;bottom:0px;left:0px;width:600px;height:45px;">
@@ -519,11 +538,11 @@
                     <span data-u="arrowleft" class="jssora05l" style="top:0px;left:8px;width:40px;height:40px;" data-autocenter="2"></span>
                     <span data-u="arrowright" class="jssora05r" style="top:0px;right:8px;width:40px;height:40px;" data-autocenter="2"></span>
                 </div>
-                
+
             </div>
         </div>
     </div>
 
-    
+
 
 </div>

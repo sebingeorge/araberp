@@ -25,12 +25,12 @@
         @{ TempData["success"] = TempData["error"] = ""; }
         //------------------------------------------------------//
 
-        var url = '@Url.Action("GetItemBatchDetails")';
+        @*var url = '@Url.Action("GetItemBatchDetails")';
         $.getJSON(url, { id: '@Model[0].SaleOrderItemId', type: 1 }, function (data) {
             //$("#txtGRNRefNo").val(data.GRNRefNo);
             $("#txtSORefNo").val(data.SaleOrderRefNo);
             $("#txtWDRefNo").val(data.WorkDescRefNo);
-        });
+        });*@
 
     })
 

@@ -41,6 +41,15 @@ namespace ArabErp.DAL
                             connection.Query(sql, item);
                         }
                     }
+                    foreach (var item in user.ERPGraphs)
+                    {
+                        if (item.HasPermission == 1)
+                        {
+                            item.UserId = id;
+                            sql = "insert into ERPGraphsVsUser(GraphId, UserId) values(@GraphId, @UserId)";
+                            connection.Query(sql, item);
+                        }
+                    }
                     InsertLoginHistory(dataConnection, user.CreatedBy, "Create", "Unit", id.ToString(), "0");
                     return id;
                 }
@@ -83,6 +92,17 @@ namespace ArabErp.DAL
                         {
                             item.UserId = user.UserId ?? 0;
                             sql = "insert into ERPAlertsVsUser(AlertId, UserId) values(@AlertId, @UserId)";
+                            connection.Query(sql, item);
+                        }
+                    }
+                    sql = "delete from ERPGraphsVsUser where UserId = " + user.UserId.ToString();
+                    connection.Query(sql);
+                    foreach (var item in user.ERPGraphs)
+                    {
+                        if (item.HasPermission == 1)
+                        {
+                            item.UserId = user.UserId ?? 0;
+                            sql = "insert into ERPGraphsVsUser(GraphId, UserId) values(@GraphId, @UserId)";
                             connection.Query(sql, item);
                         }
                     }

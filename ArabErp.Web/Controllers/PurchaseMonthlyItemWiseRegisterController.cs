@@ -21,7 +21,7 @@ namespace ArabErp.Web.Controllers
         public ActionResult PurchaseMonthlyItemWiseRegister(int Id = 0)
         {
 
-            return PartialView("_PurchaseMonthlyItemWiseRegister", new PurchaseBillRegisterRepository().GetPurchaseMonthlyItemWiseData(OrganizationId, Id));
+            return PartialView("_PurchaseMonthlyItemWiseRegister", new PurchaseBillRegisterRepository().GetPurchaseMonthlyItemWiseData(OrganizationId, Id, FYStartdate, FYEnddate));
         }
 
         public ActionResult PurchaseMonthlySupplierWise()
@@ -33,7 +33,7 @@ namespace ArabErp.Web.Controllers
         public ActionResult PurchaseMonthlySupplierWiseRegister(int Id = 0)
         {
 
-            return PartialView("_PurchaseMonthlySupplierWiseRegister", new PurchaseBillRegisterRepository().GetPurchaseMonthlySupplieriseData(OrganizationId, Id));
+            return PartialView("_PurchaseMonthlySupplierWiseRegister", new PurchaseBillRegisterRepository().GetPurchaseMonthlySupplieriseData(OrganizationId,Id,FYStartdate,FYEnddate));
         }
 
         public void FillSupplier()

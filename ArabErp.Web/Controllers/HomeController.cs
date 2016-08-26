@@ -12,6 +12,40 @@ namespace ArabErp.Web.Controllers
     {
         public ActionResult Index()
         {
+            UserRepository userRepo = new UserRepository();
+            var graphs = userRepo.GetGraphs(UserID);
+            GraphPermission graphpermission = new GraphPermission();
+            foreach (var item in graphs)
+            {
+                if(item.HasPermission == 1)
+                {
+                    switch (item.GraphId)
+                    {
+                        case 1:
+                            graphpermission.SaleQuotations = true;
+                            break;
+                        case 2:
+                            graphpermission.SaleOrders = true;
+                            break;
+                        case 3:
+                            graphpermission.SalesVsPurchase = true;
+                            break;
+                        case 4:
+                            graphpermission.FGStockVsAllocation = true;
+                            break;
+                        case 5:
+                            graphpermission.FGStockVsSOAllocation = true;
+                            break;
+                        case 6:
+                            graphpermission.JobCardCompletion7Days = true;
+                            break;
+                        default:
+                            break;
+                    }
+                }
+            }
+            ViewBag.GraphPermission = graphpermission;
+
             Dashboard dashboard = new Dashboard();
             DashboardRepository repo = new DashboardRepository();
 

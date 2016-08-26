@@ -71,18 +71,17 @@ namespace ArabErp.DAL
             }
         }
 
-        public IEnumerable<PurchaseBillRegister> GetPurchaseMonthlyItemWiseData(int OrganizationId, int id)
+        public IEnumerable<PurchaseBillRegister> GetPurchaseMonthlyItemWiseData(int OrganizationId, int id, DateTime FYStartdate, DateTime FYEnddate)
         {
             using (IDbConnection connection = OpenConnection(dataConnection))
             {
 
                 string qry = @"	
-                                        DECLARE @FIN_START_DATE DATETIME;
-                                        DECLARE @FIN_LAST_DATE DATETIME;
+                                      
                                         DECLARE @FIN_ID int ;
                                         SELECT @FIN_ID=FyId from Organization where OrganizationId=@OrganizationId;
 
-                                        SELECT @FIN_START_DATE=FyStartDate,@FIN_LAST_DATE=FyEndDate FROM FinancialYear WHERE FyId = @FIN_ID;
+                                      
 			
 
                                         CREATE TABLE #PURCHASE_ITEMS_DETAILS
@@ -126,7 +125,7 @@ namespace ArabErp.DAL
                                         INNER JOIN GRNItem GI  ON GI.GRNItemId  =PI.GRNItemId
                                         INNER JOIN Item I ON I.ItemId  =GI.ItemId		
                                         INNER JOIN Supplier S ON S.SupplierId=P.SupplierId 
-                                        WHERE PurchaseBillDate>=@FIN_START_DATE  AND PurchaseBillDate <=@FIN_LAST_DATE AND S.SupplierId=ISNULL(NULLIF(@id, 0),S.SupplierId) AND P.OrganizationId=@OrganizationId
+                                        WHERE PurchaseBillDate>=@FYStartdate  AND PurchaseBillDate <=@FYEnddate AND S.SupplierId=ISNULL(NULLIF(@id, 0),S.SupplierId) AND P.OrganizationId=@OrganizationId
                                         GROUP BY MONTH(PurchaseBillDate),YEAR(PurchaseBillDate),I.ItemId,I.ItemName
 			
                                         INSERT INTO #PURCHASE_ITEMS_DETAILS(Itm_id ,Itm_Name )
@@ -136,7 +135,7 @@ namespace ArabErp.DAL
                                         INNER JOIN GRNItem GI  ON GI.GRNItemId  =PI.GRNItemId
                                         INNER JOIN Item I ON I.ItemId  =GI.ItemId
                                         INNER JOIN Supplier S ON S.SupplierId=P.SupplierId 	
-                                        WHERE PurchaseBillDate>=@FIN_START_DATE  AND PurchaseBillDate <=@FIN_LAST_DATE AND S.SupplierId=ISNULL(NULLIF(@id, 0),S.SupplierId) AND P.OrganizationId=@OrganizationId		
+                                        WHERE PurchaseBillDate>=@FYStartdate  AND PurchaseBillDate <=@FYEnddate AND S.SupplierId=ISNULL(NULLIF(@id, 0),S.SupplierId) AND P.OrganizationId=@OrganizationId		
 
 
                                         INSERT INTO #PURCHASE_MONTH_DETAILS(
@@ -200,22 +199,21 @@ namespace ArabErp.DAL
                                         SELECT Itm_id,Itm_Name ItemName,Apr ,May ,Jun ,Jul ,Aug ,Sep ,Oct ,Nov ,Dece,Total,Jan ,Feb ,Mar 
                                         FROM  #PURCHASE_MONTH_DETAILS ORDER BY Itm_Name";
 
-                return connection.Query<PurchaseBillRegister>(qry, new { OrganizationId = OrganizationId, id = id }).ToList();
+                return connection.Query<PurchaseBillRegister>(qry, new { OrganizationId = OrganizationId, id = id, FYStartdate = FYStartdate, FYEnddate = FYEnddate }).ToList();
             }
         }
 
-        public IEnumerable<PurchaseBillRegister> GetPurchaseMonthlySupplieriseData(int OrganizationId, int id)
+        public IEnumerable<PurchaseBillRegister> GetPurchaseMonthlySupplieriseData(int OrganizationId, int id, DateTime FYStartdate, DateTime FYEnddate)
         {
             using (IDbConnection connection = OpenConnection(dataConnection))
             {
 
                 string qry = @"	
-                                        DECLARE @FIN_START_DATE DATETIME;
-                                        DECLARE @FIN_LAST_DATE DATETIME;
+                                       
                                         DECLARE @FIN_ID int ;
                                         SELECT @FIN_ID=FyId from Organization where OrganizationId=@OrganizationId;
 
-                                        SELECT @FIN_START_DATE=FyStartDate,@FIN_LAST_DATE=FyEndDate FROM FinancialYear WHERE FyId = @FIN_ID;
+                                     
 			
 
                                         CREATE TABLE #PURCHASE_ITEMS_DETAILS
@@ -259,7 +257,7 @@ namespace ArabErp.DAL
                                         INNER JOIN GRNItem GI  ON GI.GRNItemId  =PI.GRNItemId
                                         INNER JOIN Item I ON I.ItemId  =GI.ItemId		
                                         INNER JOIN Supplier S ON S.SupplierId=P.SupplierId 
-                                        WHERE PurchaseBillDate>=@FIN_START_DATE  AND PurchaseBillDate <=@FIN_LAST_DATE AND I.ItemId=ISNULL(NULLIF(@id, 0),I.ItemId) AND P.OrganizationId=@OrganizationId
+                                        WHERE PurchaseBillDate>=@FYStartdate  AND PurchaseBillDate <=@FYEnddate AND I.ItemId=ISNULL(NULLIF(@id, 0),I.ItemId) AND P.OrganizationId=@OrganizationId
                                         GROUP BY MONTH(PurchaseBillDate),YEAR(PurchaseBillDate),S.SupplierId,S.SupplierName
 			
                                         INSERT INTO #PURCHASE_ITEMS_DETAILS(Sup_id ,Sup_Name )
@@ -269,7 +267,7 @@ namespace ArabErp.DAL
                                         INNER JOIN GRNItem GI  ON GI.GRNItemId  =PI.GRNItemId
                                         INNER JOIN Item I ON I.ItemId  =GI.ItemId
                                         INNER JOIN Supplier S ON S.SupplierId=P.SupplierId 	
-                                        WHERE PurchaseBillDate>=@FIN_START_DATE  AND PurchaseBillDate <=@FIN_LAST_DATE AND I.ItemId=ISNULL(NULLIF(@id, 0),I.ItemId) AND P.OrganizationId=@OrganizationId		
+                                        WHERE PurchaseBillDate>=@FYStartdate  AND PurchaseBillDate <=@FYEnddate AND I.ItemId=ISNULL(NULLIF(@id, 0),I.ItemId) AND P.OrganizationId=@OrganizationId		
 
 
                                         INSERT INTO #PURCHASE_MONTH_DETAILS(
@@ -333,7 +331,7 @@ namespace ArabErp.DAL
                                         SELECT Sup_id,Sup_Name SupplierName,Apr ,May ,Jun ,Jul ,Aug ,Sep ,Oct ,Nov ,Dece,Total,Jan ,Feb ,Mar 
                                         FROM  #PURCHASE_MONTH_DETAILS ORDER BY Sup_Name";
 
-                return connection.Query<PurchaseBillRegister>(qry, new { OrganizationId = OrganizationId, id = id }).ToList();
+                return connection.Query<PurchaseBillRegister>(qry, new { OrganizationId = OrganizationId, id = id, FYStartdate = FYStartdate, FYEnddate = FYEnddate }).ToList();
             }
         }
     }

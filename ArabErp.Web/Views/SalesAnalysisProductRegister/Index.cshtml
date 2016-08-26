@@ -44,10 +44,10 @@
                 <label>To</label>
                 <input id="txtTo" value="@System.DateTime.Today.ToString("dd-MMMM-yyyy")" class="form_input" onchange="Filter()" />
             </div>
-            @*<div class="col-md-3">
-                <label for="cboCustomer">Customer</label>
-                @Html.DropDownList("cboCustomer", (SelectList)ViewBag.CustomerList, "Any", new { @class = "form_input", @onchange = "Filter()" })
-            </div>*@
+            <div class="col-md-3">
+                <label for="cboWork">Work Description</label>
+                @Html.DropDownList("cboWork", (SelectList)ViewBag.WrkList, "Any", new { @class = "form_input", @onchange = "Filter()" })
+            </div>
         </div>
         <br />
         <div class="row">
