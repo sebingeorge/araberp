@@ -99,15 +99,15 @@
                 <div class="row">
     <div class="col-md-2">
         <div class="part4">
-            <label for="cmagent">Sales Executive 1</label>
+            <label for="cmagent">Success Fee</label>
             @if (actionName == "Create")
             {
-                @Html.DropDownListFor(m => Model.CommissionAgentId, (SelectList)ViewBag.commissionagentlist, "Select Sales Executive 1", new { @class = "form_input", autocomplete = "off" })
+                @Html.DropDownListFor(m => Model.CommissionAgentId, (SelectList)ViewBag.commissionagentlist, "Select Success Fee", new { @class = "form_input", autocomplete = "off" })
 
             }
             else
             {
-                @Html.DropDownListFor(m => Model.CommissionAgentId, (SelectList)ViewBag.commissionagentlist, "Select Sales Executive 1", new { @class = "form_input", autocomplete = "off", @disabled = "true" })
+                @Html.DropDownListFor(m => Model.CommissionAgentId, (SelectList)ViewBag.commissionagentlist, "Select Success Fee", new { @class = "form_input", autocomplete = "off", @disabled = "true" })
             }
         </div>
     </div>
