@@ -625,8 +625,26 @@
 
 
 
-                <div class="row form-group ">
-                    <div class="part1">
+                <div class="row">
+                    <div class="col-md-12">
+
+                        <div class="part1">
+
+                            <label for="Remarks">Special Remarks</label>
+
+                            @if (ViewBag.actionName.ToString() == "Revise")
+                            {
+                                @Html.TextAreaFor(m => m.Remarks, new { @class = "form_input form_input-h", autocomplete = "off" })
+                            }
+                            else
+                            {
+                                @Html.TextAreaFor(m => m.Remarks, new { @class = "form_input form_input-h", autocomplete = "off", @readonly = "readonly" })
+                            }
+                        </div>
+
+                    </div>
+
+                    @*<div class="part1">
                         <div class="col-md-1">
 
 
@@ -646,9 +664,19 @@
 
                         </div>
 
-                    </div>
+                    </div>*@
+                    <div class="col-md-11 col-sm-10" style="display:inline-block;position:relative;">
 
-                    <div class="part">
+                        <div class="part4">
+
+                            <label for="PaymentTerms">Payment Terms</label>
+
+                            @Html.TextBoxFor(m => m.PaymentTerms, new { @class = "form_input", autocomplete = "off" })
+                            <button class="terms" type="button" id="pymtTerms" onclick="showPaymentTerms()">...</button>
+                        </div>
+
+                    </div>
+                    @*<div class="part">
                         <div class="col-md-1">
                             <label for="PaymentTerms">Pay.Terms</label>
 
@@ -657,17 +685,17 @@
                             @Html.TextBoxFor(m => m.PaymentTerms, new { @class = "form_input", autocomplete = "off" })
                             <button type="button" id="pymtTerms" onclick="showPaymentTerms()">...</button>
                         </div>
-                    </div>
-                    <div class="part">
-                        <div class="col-md-1">
+                    </div>*@
+                    <div class ="col-md-12 col-sm-10" style="display:inline-block;position:relative;">
+                        <div class="part4">
+                            @*<div class="col-md-1">*@
                             <label for="PaymentTerms">Revision Reason</label>
-
-                        </div>
-                        <div class="col-md-11" style="display:inline-block;position:relative;">
+                            @*</div>
+                <div class="col-md-11" style="display:inline-block;position:relative;">*@
                             @Html.TextBoxFor(m => m.RevisionReason, new { @class = "form_input", autocomplete = "off" })
                         </div>
+</div>
                     </div>
-                </div>
 
 
 

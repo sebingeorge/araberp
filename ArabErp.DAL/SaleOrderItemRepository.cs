@@ -88,37 +88,6 @@ namespace ArabErp.DAL
             }
         }
 
-        public List<Dropdown> FillWorkDesc()
-        {
-            using (IDbConnection connection = OpenConnection(dataConnection))
-            {
-                var param = new DynamicParameters();
-                return connection.Query<Dropdown>("select WorkDescriptionId Id ,WorkDescr Name from WorkDescription").ToList();
-            }
-        }
-        public List<Dropdown> FillWorkDescForProject()
-        {
-            using (IDbConnection connection = OpenConnection(dataConnection))
-            {
-                var param = new DynamicParameters();
-                return connection.Query<Dropdown>("select WorkDescriptionId Id ,WorkDescr Name from WorkDescription where isProjectBased = 1").ToList();
-            }
-        }
-        public List<Dropdown> FillUnit()
-        {
-            using (IDbConnection connection = OpenConnection(dataConnection))
-            {
-                var param = new DynamicParameters();
-                return connection.Query<Dropdown>("select UnitId Id,UnitName Name from Unit").ToList();
-            }
-        }
-        public List<Dropdown> FillVehicle()
-        {
-            using (IDbConnection connection = OpenConnection(dataConnection))
-            {
-                var param = new DynamicParameters();
-                return connection.Query<Dropdown>("select VehicleModelId Id,VehicleModelName Name from VehicleModel").ToList();
-            }
-        }
+      
     }
 }
