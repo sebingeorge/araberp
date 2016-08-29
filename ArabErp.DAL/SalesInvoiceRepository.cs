@@ -374,7 +374,7 @@ namespace ArabErp.DAL
 	                                INV.SalesInvoiceDate,
 	                                SO.SaleOrderRefNo,
 	                                SO.SaleOrderDate,
-	                                ISNULL(INV.SpecialRemarks, '-') SpecialRemarks
+	                                ISNULL(INV.SpecialRemarks, '-') SpecialRemarks,isnull(INV.TotalAmount,0)TotalAmount
                                 FROM SalesInvoice INV
                                 LEFT JOIN SaleOrder SO ON INV.SaleOrderId = SO.SaleOrderId
                                 WHERE INV.InvoiceType = @type
