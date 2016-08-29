@@ -843,6 +843,8 @@
     <Content Include="Views\ProductionPlan\ProductionSchedule.cshtml" />
     <Content Include="Views\ProductionPlan\CustomerOrder.cshtml" />
     <Content Include="Views\ProductionPlan\ConvertCustomerOrderProductionSchedule.cshtml" />
+    <Content Include="Views\ProductionPlan\ConvertCustomerOrderPurIndent.cshtml" />
+    <Content Include="Views\ProductionPlan\ConvertProductionPlanPurIndent.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

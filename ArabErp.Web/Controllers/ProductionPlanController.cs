@@ -141,6 +141,14 @@ namespace ArabErp.Web.Controllers
         {
             return View();
         }
+        public ActionResult ConvertCustomerOrderPurIndent()
+        {
+            return View();
+        }
+        public ActionResult ConvertProductionPlanPurIndent()
+        {
+            return View();
+        }
         public ActionResult SupplierCategory()
         {
             return View();

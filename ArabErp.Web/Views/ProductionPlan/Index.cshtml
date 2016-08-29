@@ -43,7 +43,13 @@
     @Html.ActionLink("Convert Customer Order to Production Schedule", "ConvertCustomerOrderProductionSchedule")
 </div>
 <div class="form-button menu-w fs">
-    @Html.ActionLink("Convert Stock Order to Pur Indent", "ConvertPlannedOrdertoPurReq")
+    @Html.ActionLink("Convert Production Plan to Purchase Indent", "ConvertProductionPlanPurIndent")
+</div>
+<div class="form-button menu-w fs">
+    @Html.ActionLink("Convert Stock Order to Purchase Indent", "ConvertPlannedOrdertoPurReq")
+</div>
+<div class="form-button menu-w fs">
+    @Html.ActionLink("Convert Customer Order to Purchase Indent", "ConvertCustomerOrderPurIndent")
 </div>
 <div class="form-button menu-w">
     @Html.ActionLink("Purchase Indent", "PurchaseIndent")

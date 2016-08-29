@@ -374,6 +374,7 @@
             <div class="col-md-12 hrpart">
                 <button type="button" class="form-button right" onclick="Add()">Add</button>
                 <button type="submit" class="form-button right" onclick="Edit()">Edit</button>
+                <button type="button" class="form-button right" onclick="Exit()">Exit</button>
             </div>
 
         </div>  
@@ -391,5 +392,10 @@
         var url = '@Url.Action("ProductionPlanEdit", "ProductionPlan")'
         window.location = url;
     }
+    function Exit() {
+        var url = '@Url.Action("Index","ProductionPlan")'
+        window.location = url;
+    }
+
 </script>
 

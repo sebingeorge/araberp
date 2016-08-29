@@ -1,13 +1,14 @@
 ﻿
 @{
-    ViewBag.Title = "ConvertCustomerOrderProductionSchedule";
+    ViewBag.Title = "ConvertCustomerOrderPurIndent";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
 
+
 <div class="row">
     <div class="form-head1">
-        <h4>Convert Customer Order to Production Schedule</h4>
+        <h4>Convert Customer Order to Purchase Indent</h4>
     </div>
 
     <div class="main-part pad1">
@@ -229,7 +230,7 @@
 
 <script>
     function Proceed() {
-        var url = '@Url.Action("ProductionSchedule", "ProductionPlan")'
+        var url = '@Url.Action("PurchaseIndent", "ProductionPlan")'
         window.location = url;
     }
     function Exit() {
