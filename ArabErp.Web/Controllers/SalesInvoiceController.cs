@@ -6,6 +6,10 @@ using System.Web;
 using System.Web.Mvc;
 using ArabErp.Domain;
 using System.Collections;
+using CrystalDecisions.CrystalReports.Engine;
+using System.IO;
+using ArabErp.Web.Models;
+using System.Data;
 
 namespace ArabErp.Web.Controllers
 {
@@ -118,6 +122,56 @@ namespace ArabErp.Web.Controllers
         public void FillSalesInvoice(string type)
         {
             ViewBag.salesInvoiceList = new SelectList(new DropdownRepository().SalesInvoiceDropdown(OrganizationId, type), "Id", "Name");
+        }
+        public ActionResult Print(int Id)
+        {
+            
+            ReportDocument rd = new ReportDocument();
+            rd.Load(Path.Combine(Server.MapPath("~/Reports"), "SalesInvoice.rpt"));
+
+            DataSet ds = new DataSet();
+            ds.Tables.Add("Head");
+            ds.Tables.Add("Items");
+
+            ds.Tables["Head"].Columns.Add("SalesInvoiceRefNo");
+            ds.Tables["Head"].Columns.Add("SalesInvoiceDate");
+
+            ds.Tables["Items"].Columns.Add("WorkDescription");
+
+            SalesInvoiceRepository repo = new SalesInvoiceRepository();
+            var Head = repo.GetSalesInvoice(Id);
+
+            DataRow dr = ds.Tables["Head"].NewRow();
+            dr["SalesInvoiceRefNo"] = Head.SalesInvoiceRefNo;
+            dr["SalesInvoiceDate"] = Head.SalesInvoiceDate.ToString("dd-MMM-yyyy");
+            ds.Tables["Head"].Rows.Add(dr);
+
+            for (int i = 0; i < 10; i++)
+            {
+                DataRow dri = ds.Tables["Items"].NewRow();
+                dri["WorkDescription"] = "Work description " + i.ToString();
+                ds.Tables["Items"].Rows.Add(dri);
+            }
+
+            ds.WriteXml(Path.Combine(Server.MapPath("~/XML"), "SalesInvoice.xml"), XmlWriteMode.WriteSchema);
+
+            rd.SetDataSource(ds);
+
+            Response.Buffer = false;
+            Response.ClearContent();
+            Response.ClearHeaders();
+
+            
+            try
+            {
+                Stream stream = rd.ExportToStream(CrystalDecisions.Shared.ExportFormatType.PortableDocFormat);
+                stream.Seek(0, SeekOrigin.Begin);
+                return File(stream, "application/pdf", "SalesInvoice.pdf");
+            }
+            catch(Exception ex)
+            {
+                throw;
+            }
         }
     }
 }
