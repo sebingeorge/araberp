@@ -35,6 +35,8 @@ namespace ArabErp.DAL
                 return connection.Query<ClosingStock>(qry, new { stkid = stockPointId, itmcatid = itemCategoryId, itmid = itemId, OrganizationId = OrganizationId, Ason = asOn }).ToList();
             }
         }
+      
+     
 
         public IEnumerable<ClosingStock> GetCurrentStockData(int stockPointId, int itemCategoryId, int itemId, int OrganizationId)
         {
@@ -49,5 +51,7 @@ namespace ArabErp.DAL
                 return connection.Query<ClosingStock>(qry, new { stkid = stockPointId, itmcatid = itemCategoryId, itmid = itemId, OrganizationId = OrganizationId}).ToList();
             }
         }
+ 
+
     }
 }

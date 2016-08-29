@@ -226,14 +226,24 @@
                             <ul class="dropdown-menu">
                                 <li><a href="@Url.Action("Create","SalesQuotation")"><span class="badge pull-right"></span>Quotation Request</a></li>
                                 <li><a href="@Url.Action("ListSalesQuotations", "SalesQuotation", new { ProjectBased = 0 })"><span class="badge pull-right"></span>Quotation Request Approval</a></li>
+                                <li><a href="@Url.Action("CreateAfterSales", "SalesQuotation")"><span class="badge pull-right"></span>AfterSales-Quotation Request</a></li>
+                                <li><a href="@Url.Action("ListSalesQuotations", "SalesQuotation", new { ProjectBased = 2 })"><span class="badge pull-right"></span>AfterSales-Quotation Request Approval</a></li>
                                 <li><a href="@Url.Action("PendingSalesQutoforSaleOrder", "SaleOrder", new { ProjectBased = 0 })"><span class="badge pull-right"></span>Sale Order</a></li>
                                 <li><a href="@Url.Action("PendingSaleOrderApproval", "SaleOrder", new { ProjectBased = 0 })"><span class="badge pull-right"></span>Sale Order Approval</a></li>
                                 <li><a href="@Url.Action("PendingSaleOrderHold", "SaleOrder")"><span class="badge pull-right"></span>Pending Sale Orders</a></li>
                                 <li><a href="@Url.Action("PendingProforma", "ProformaInvoice", new { ProjectBased = 0 })"><span class="badge pull-right"></span>Proforma Invoice</a></li>
                                 <li><a href="@Url.Action("PendingSalesInvoice", "SalesInvoice", new { invType = "Final" })"><span class="badge pull-right"></span>Sales Invoice</a></li>
-                                <li><a href="@Url.Action("Closing", "SaleOrder")"><span class="badge pull-right"></span>Sale Order Close</a></li>
+                                <li><a href="@Url.Action("Closing","SaleOrder")"><span class="badge pull-right"></span>Sale Order Close</a></li>
                             </ul>
                         </li>
+                        @*<li class="dropdown-submenu">
+                            <a href="#"><span class="badge pull-right"></span>After Sales</a>
+                            <ul class="dropdown-menu">
+                                <li><a href="@Url.Action("CreateAfterSales", "SalesQuotation")"><span class="badge pull-right"></span>AfterSales-Quotation Request</a></li>
+                                <li><a class="projectn" href="@Url.Action("ListSalesQuotations", "SalesQuotation", new { ProjectBased = 1 })"><span class="badge pull-right"></span>After Sales - Quotation Request Approval</a></li>
+                            </ul>
+                        </li>*@
+
                     </ul>
                 </li>
             }
@@ -354,6 +364,7 @@
                     </ul>
                 </li>
             }
+          
             @if (permissions.Finance)
             {
                 <li>
@@ -367,6 +378,7 @@
                     </ul>
                 </li>
             }
+            
         </ul>
     </nav>
     <section class="buttonset">

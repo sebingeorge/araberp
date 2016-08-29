@@ -12,6 +12,8 @@ namespace ArabErp.Domain
         public int StockCreationId { get; set; }
         public int ItemId { get; set; }
         public int Quantity { get; set; }
+        public string UnitName { get; set; }
+        public string Unit { get; set; }
         public decimal Rate { get; set; }
 
         public int StockQuantity { get; set; }

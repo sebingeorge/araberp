@@ -201,16 +201,18 @@ namespace ArabErp.Web.Controllers
         }
         public void FillWrkDesc()
         {
-            var repo = new SaleOrderItemRepository();
+            var repo = new DropdownRepository();
             var list = repo.FillWorkDesc();
             ViewBag.workdesclist = new SelectList(list, "Id", "Name");
         }
         public void FillWrkDescProject()
         {
-            var repo = new SaleOrderItemRepository();
+            var repo = new DropdownRepository();
             var list = repo.FillWorkDescForProject();
             ViewBag.workdesclist = new SelectList(list, "Id", "Name");
         }
+        
+      
         public void FillSOCustomer(int type)
         {
             ViewBag.customerlist = new SelectList(new DropdownRepository().FillSOCustomer(OrganizationId, type), "Id", "Name");
@@ -218,7 +220,7 @@ namespace ArabErp.Web.Controllers
         }
         public void FillVehicle()
         {
-            var repo = new SaleOrderItemRepository();
+            var repo = new DropdownRepository();
             var list = repo.FillVehicle();
             ViewBag.vehiclelist = new SelectList(list, "Id", "Name");
         }
@@ -236,7 +238,7 @@ namespace ArabErp.Web.Controllers
         }
         public void FillUnit()
         {
-            var repo = new SaleOrderItemRepository();
+            var repo = new DropdownRepository();
             var list = repo.FillUnit();
             ViewBag.unitlist = new SelectList(list, "Id", "Name");
         }

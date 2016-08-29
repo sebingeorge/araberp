@@ -41,11 +41,14 @@ namespace ArabErp.DAL
                         {
                             model.QuotationRefNo = DatabaseCommonRepository.GetNewDocNo(connection, model.OrganizationId, 1, true,trn);
                         }
-                        else
+                        else if (model.isProjectBased == 1)
                         {
                             model.QuotationRefNo = DatabaseCommonRepository.GetNewDocNo(connection, model.OrganizationId, 2, true,trn);
                         }
-                        
+                        else if (model.isProjectBased == 2)
+                        {
+                            model.QuotationRefNo = DatabaseCommonRepository.GetNewDocNo(connection, model.OrganizationId, 28, true, trn);
+                        }
                         #region automatically approve if no custom rates are set
                         if (model.isProjectBased == 0)
                         {
@@ -171,10 +174,10 @@ namespace ArabErp.DAL
         {
             using (IDbConnection connection = OpenConnection(dataConnection))
             {
-                string sql = @"Update SalesQuotation  SET IsQuotationApproved=1, ApprovedBy=@ApprovedBy  OUTPUT INSERTED.SalesQuotationId WHERE SalesQuotationId=@SalesQuotationId";
+                string sql = @"Update SalesQuotation  SET IsQuotationApproved=1, ApprovedBy=@CreatedBy  OUTPUT INSERTED.SalesQuotationId WHERE SalesQuotationId=@SalesQuotationId";
 
 
-                var id = connection.Query(sql, new { ApprovedBy = objSalesQuotation.ApprovedBy , SalesQuotationId = objSalesQuotation.SalesQuotationId });
+                var id = connection.Query(sql, new { CreatedBy = objSalesQuotation.@CreatedBy, SalesQuotationId = objSalesQuotation.SalesQuotationId });
                 
             }
         }
@@ -207,6 +210,7 @@ namespace ArabErp.DAL
             {
                 string sql = @"select *,VehicleModelName from SalesQuotationItem S inner join WorkDescription W ON S.WorkDescriptionId=W.WorkDescriptionId
                                LEFT JOIN VehicleModel V ON  V.VehicleModelId=W.VehicleModelId
+                            
                                where SalesQuotationId=@SalesQuotationId";
 
                 var SalesQuotationItems = connection.Query<SalesQuotationItem>(sql, new
@@ -236,9 +240,10 @@ namespace ArabErp.DAL
             {
                 string sql = @"select E.EmployeeName SalesExecutiveName ,C.CustomerName,SQ.*,C.DoorNo +','+ C.Street+','+C.State CustomerAddress,RR.ReasonDescription from SalesQuotation SQ 
                             inner join Customer C on SQ.CustomerId=C.CustomerId
-							 inner join Employee E on  E.EmployeeId =SQ.SalesExecutiveId
-							  inner join SalesQuotationRejectReason RR on  RR.SalesQuotationRejectReasonId =SQ.SalesQuotationRejectReasonId
-                        where SQ.ApprovedBy is null and  SQ.isActive=1 and isnull(SQ.IsQuotationApproved,0)=0 and SQ.IsProjectBased = " + IsProjectBased.ToString();
+							inner join Employee E on  E.EmployeeId =SQ.SalesExecutiveId
+							inner join SalesQuotationRejectReason RR on  RR.SalesQuotationRejectReasonId =SQ.SalesQuotationRejectReasonId
+                            where SQ.ApprovedBy is null and  SQ.isActive=1 and isnull(SQ.IsQuotationApproved,0)=0
+                            and SQ.IsProjectBased = " + IsProjectBased.ToString();
 
                 var objSalesQuotations = connection.Query<SalesQuotation>(sql).ToList<SalesQuotation>();
 
@@ -295,7 +300,7 @@ namespace ArabErp.DAL
                              inner join Customer C on SQ.CustomerId=C.CustomerId
 							 inner join Employee E on  E.EmployeeId =SQ.SalesExecutiveId
 							 left join SaleOrder SO on SO.SalesQuotationId=SQ.SalesQuotationId
-                             where   SQ.isActive=1 and isnull(SQ.IsQuotationApproved,0)=1 AND SO.SalesQuotationId IS NULL AND SQ.IsProjectBased = {0} 
+                             where   SQ.isActive=1 and isnull(SQ.IsQuotationApproved,0)=1 AND SO.SalesQuotationId IS NULL AND SQ.IsProjectBased in (0,2) 
                              ORDER BY SQ.ExpectedDeliveryDate DESC, SQ.QuotationDate DESC", IsProjectBased.ToString());
 
                 var objSalesQuotations = connection.Query<SalesQuotation>(sql).ToList<SalesQuotation>();

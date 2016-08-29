@@ -89,10 +89,13 @@
     }
 
     function OnMaterialChanged(index) {
+
+   
         //check whether the material is already selected in any grid
         var item = $("#ConsumedItems_" + index + "__ItemId").val();
         if (item == '') {
             $("#ConsumedItems_" + index + "__StockQuantity").val(0);
+            $("#ConsumedItems_" + index + "__Unit").val('');
             return;
         }
         var count = 0;
@@ -105,6 +108,7 @@
             toastr.info("This Material/Spare has already been added");
             $("#ConsumedItems_" + index + "__ItemId").val('');
             $("#ConsumedItems_" + index + "__StockQuantity").val(0);
+            $("#ConsumedItems_" + index + "__Unit").val('');
             $("#ConsumedItems_" + index + "__ItemId").combobox("destroy");
             $("#ConsumedItems_" + index + "__ItemId").combobox();
             return;
@@ -118,13 +122,41 @@
             return;
         }
 
+        @*var date = $("#StockCreationDate").val();
+        var material = $("#ConsumedItems_" + index + "__ItemId").val();
+
+        $.ajax({
+             url:  "@Url.Action("GetStockQuantity")",
+            data: { date: date, id: material, stockpoint: $("#ConsumedStockpointId").val() },
+        cache: false,
+        type: "GET",
+        timeout: 10000,
+        dataType: "json",
+        success: function (result) {
+            if (result.Success) { // this sets the value from the response
+                $("#ConsumedItems_" + index + "__StockQuantity").val(data.Quantity);
+                $("#ConsumedItems_" + index + "__Unit").val(data.UnitName);
+                   
+            } else {
+                $('#SomeOtherHtmlTextBox').val("Failed");
+            }
+        }
+
+    });*@
         var date = $("#StockCreationDate").val();
         var material = $("#ConsumedItems_" + index + "__ItemId").val();
         if (material == '') return;
+
+
         var url = '@Url.Action("GetStockQuantity")';
         $("#ConsumedItems_" + index + "__StockQuantity").val(0);
+        $("#ConsumedItems_" + index + "__Unit").val('');
         $.getJSON(url, { date: date, id: material, stockpoint: $("#ConsumedStockpointId").val() }, function (data) {
+
+            //var arr = data.split('|');
+
             $("#ConsumedItems_" + index + "__StockQuantity").val(data);
+            $("#ConsumedItems_" + index + "__Unit").val();
         })
     }
 
@@ -138,6 +170,7 @@
             <th width="63%"><h1>Material/Spare</h1></th>
             <th width="10%" class="text-right"><h1>Stock</h1></th>
             <th width="10%" class="text-right"><h1>Quantity</h1></th>
+            <th width="10%" class="text-right"><h1>UoM</h1></th>
             <th width="10%" class="text-right"><h1>Rate</h1></th>
             <th width="2%"></th>
         </tr>
@@ -161,6 +194,9 @@
                 </td>
                 <td>
                     @Html.TextBoxFor(m => m.ConsumedItems[i].Quantity, new { @class = "form_input text-right numbers-only", @required = "true" })
+                </td>
+                <td>
+                    @Html.TextBoxFor(m => m.ConsumedItems[i].Unit, new { @class = "form_input text-left", @readonly = "true" })
                 </td>
                 <td>
                     @Html.TextBoxFor(m => m.ConsumedItems[i].Rate, new { @class = "form_input text-right numbers-only" })
