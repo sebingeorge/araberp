@@ -406,10 +406,12 @@ namespace ArabErp.DAL
         {
             using (IDbConnection connection = OpenConnection(dataConnection))
             {
-                string query = "Select S.SaleOrderId,SaleOrderRefNo, SaleOrderDate, C.CustomerName, S.CustomerOrderRef,E.EmployeeName,DATEDIFF(DAY,S.SaleOrderDate, GETDATE()) Ageing,DATEDIFF(DAY,GETDATE(), S.EDateDelivery) Remaindays,S.TotalAmount";
-                query += " from SaleOrder S inner join Customer C on S.CustomerId = C.CustomerId LEFT JOIN Employee E ON S.CreatedBy = E.EmployeeId";
-                query += " where CommissionAmount>0 And isnull(CommissionAmountApproveStatus,0)=0 AND S.isActive = 1 AND S.IsProjectBased = " + IsProjectBased.ToString() + " ORDER BY S.EDateDelivery DESC, S.CreatedDate DESC";
-                return connection.Query<PendingSO>(query);
+                string query = @"Select S.SaleOrderId,SaleOrderRefNo, SaleOrderDate, C.CustomerName, S.CustomerOrderRef,E.EmployeeName,DATEDIFF(DAY,S.SaleOrderDate, GETDATE()) Ageing,DATEDIFF(DAY,GETDATE(), S.EDateDelivery) Remaindays,S.TotalAmount
+                                 from SaleOrder S inner join Customer C on S.CustomerId = C.CustomerId LEFT JOIN Employee E ON S.CreatedBy = E.EmployeeId
+                                 where CommissionAmount>0 And isnull(CommissionAmountApproveStatus,0)=0 AND S.isActive = 1
+                                 and  S.IsProjectBased = @IsProjectBased
+                                 ORDER BY S.EDateDelivery DESC, S.CreatedDate DESC";
+                return connection.Query<PendingSO>(query, new { IsProjectBased = IsProjectBased });
             }
         }
         public IEnumerable<PendingSaleOrderForTransactionApproval> GetSaleOrderPendingForTrnApproval()

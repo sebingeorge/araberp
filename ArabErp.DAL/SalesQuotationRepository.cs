@@ -300,11 +300,13 @@ namespace ArabErp.DAL
                              inner join Customer C on SQ.CustomerId=C.CustomerId
 							 inner join Employee E on  E.EmployeeId =SQ.SalesExecutiveId
 							 left join SaleOrder SO on SO.SalesQuotationId=SQ.SalesQuotationId
-                             where   SQ.isActive=1 and isnull(SQ.IsQuotationApproved,0)=1 AND SO.SalesQuotationId IS NULL AND SQ.IsProjectBased in (0,2) 
-                             ORDER BY SQ.ExpectedDeliveryDate DESC, SQ.QuotationDate DESC", IsProjectBased.ToString());
+                             where   SQ.isActive=1 and isnull(SQ.IsQuotationApproved,0)=1 AND SO.SalesQuotationId IS NULL
+                            and ((@IsProjectBased=0 and SQ.IsProjectBased in (0,2)) or ( @IsProjectBased=1  and SQ.IsProjectBased in (1)))
+                            
+                             ORDER BY SQ.ExpectedDeliveryDate DESC, SQ.QuotationDate DESC");
 
-                var objSalesQuotations = connection.Query<SalesQuotation>(sql).ToList<SalesQuotation>();
-
+                var objSalesQuotations = connection.Query<SalesQuotation>(sql, new { IsProjectBased = IsProjectBased}).ToList<SalesQuotation>();
+                //AND SQ.IsProjectBased in(case when isnumeric(@IsProjectBased)=0 then (0,2) else @IsProjectBased end)
                 return objSalesQuotations;
             }
         }
