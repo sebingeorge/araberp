@@ -127,6 +127,7 @@
         else if ('@TempData["error"]' != "") {
             toastr.error('@TempData["error"]');
         }
+        @{ TempData["success"] = TempData["error"] = "";}
 
         //bind keypress event for new row inputs.
         $(".numbers-only").keypress(function (e) {
