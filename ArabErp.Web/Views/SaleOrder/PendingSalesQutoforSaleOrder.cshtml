@@ -80,7 +80,7 @@
                                         <td class="grid-cell" nowrap>@item.ExpectedDeliveryDate.ToString("dd-MMMM-yyyy")</td>
                                         <td class="grid-cell">@item.Ageing</td>
                                         <td class="grid-cell">@item.DaysLeft</td>
-                                        @if (@item.isProjectBased == 0)
+                                        @if (@item.isProjectBased == 0 || @item.isProjectBased == 2)
                                         {
                                             <td><center>@Html.ActionLink("Select", "Create", "SaleOrder", new { SalesQuotationId = @item.SalesQuotationId }, new { @class = "form-button5" })</center></td>
                                         }
