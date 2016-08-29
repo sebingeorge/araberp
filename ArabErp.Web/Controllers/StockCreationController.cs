@@ -83,7 +83,7 @@ namespace ArabErp.Web.Controllers
             {
                 if (id == 0 || stockpoint == 0 || date == null) throw new InvalidOperationException();
                 ClosingStock stock = new ClosingStockRepository().GetClosingStockData(Convert.ToDateTime(date), stockpoint, 0, id, OrganizationId).First();
-                return Json(stock.Quantity, stock.UnitName, JsonRequestBehavior.AllowGet);
+                return Json(new { Quantity = stock.Quantity, UnitName=stock.UnitName }, JsonRequestBehavior.AllowGet);
             }
             catch (InvalidOperationException)
             {
@@ -91,11 +91,6 @@ namespace ArabErp.Web.Controllers
             }
         }
 
-
-        //public JsonResult GetStockQuantity(string date, int id = 0, int stockpoint = 0)
-        //{
-        //    return Json(new ClosingStockRepository().GetClosingStockData(Convert.ToDateTime(date), stockpoint, 0, id, OrganizationId), JsonRequestBehavior.AllowGet);
-        //}
 
         public ActionResult Edit(int id = 0)
         {
