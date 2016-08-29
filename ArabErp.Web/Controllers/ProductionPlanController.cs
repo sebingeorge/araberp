@@ -125,6 +125,22 @@ namespace ArabErp.Web.Controllers
         {
             return View();
         }
+        public ActionResult ProductionPlantoProductionSchedule()
+        {
+            return View();
+        }
+        public ActionResult ProductionSchedule()
+        {
+            return View();
+        }
+        public ActionResult CustomerOrder()
+        {
+            return View();
+        }
+        public ActionResult ConvertCustomerOrderProductionSchedule()
+        {
+            return View();
+        }
         public ActionResult SupplierCategory()
         {
             return View();

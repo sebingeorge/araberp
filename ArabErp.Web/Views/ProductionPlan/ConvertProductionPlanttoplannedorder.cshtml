@@ -8,20 +8,21 @@
 
 <div class="row">
     <div class="form-head1">
-        <h4>Convert Production Plan to Planned order</h4>
+        <h4>Convert Stock Order to Production Schedule</h4>
     </div>
 
     <div class="main-part pad1">
-
         <div class="row form-group">
             <div class="col-md-2">
-                <label>Financial Year</label>
+                <label>Stock Order No.</label>
                 <input type="text" class="form_input" />
             </div>
+
             <div class="col-md-2">
-                <label>Month</label>
+                <label>Date</label>
                 <input type="text" class="form_input" />
             </div>
+
         </div>
 
         <div class="row form-group">
@@ -34,15 +35,30 @@
                     <option value="audi">Product 4</option>
                 </select>
             </div>
+
             <div class="col-md-2">
                 <label>Plant</label>
                 <select class="form_input">
                     <option value="volvo">Plant 1</option>
                     <option value="saab">Plant 2</option>
+
                 </select>
             </div>
 
+            <div class="col-md-2">
+                <label>Stock Point</label>
+                <select class="form_input">
+                    <option value="volvo">Stock Point 1</option>
+                    <option value="saab">Stock Point 2</option>
 
+                </select>
+
+            </div>
+
+            <div class="col-md-2">
+                <label>Order Finish Date</label>
+                <input type="text" class="form_input" />
+            </div>
 
 
 
@@ -53,10 +69,11 @@
             <table class="table table-bordered" id="tab_logic">
                 <thead>
                     <tr class="grid_heading">
-                        <th width="7%"><h1>PRD</h1></th>
-                        <th width="79%"><h1>Raw Material</h1></th>
+                        <th width="7%"><h1>Item Code</h1></th>
+                        <th width="72%"><h1>Raw Material</h1></th>
                         <th width="7%" class="text-right"><h1>Qty</h1></th>
                         <th width="7%" class="text-left"><h1>Unit</h1></th>
+                        <th width="7%"><center><h1>Select</h1></center></th>
                     </tr>
                 </thead>
                 <tbody>
@@ -67,6 +84,7 @@
                         <td>Potato</td>
                         <td class="text-right">500</td>
                         <td>Kg</td>
+                        <td><center><input type="checkbox" name="" value=""></center></td>
 
 
                     </tr>
@@ -76,27 +94,42 @@
                         <td>Extra Virgin Olive Oil</td>
                         <td class="text-right">100</td>
                         <td>Ltr</td>
+                        <td><center><input type="checkbox" name="" value=""></center></td>
+
+
+
+                    </tr>
+
+                    <tr>
+
+                        <td>10002</td>
+                        <td>Extra Virgin Olive Oil</td>
+                        <td class="text-right">100</td>
+                        <td>Ltr</td>
+                        <td><center><input type="checkbox" name="" value=""></center></td>
 
 
 
                     </tr>
                     <tr>
 
-                        <td>10003</td>
-                        <td>Salt</td>
-                        <td class="text-right">50</td>
-                        <td>Kg</td>
+                        <td>10002</td>
+                        <td>Extra Virgin Olive Oil</td>
+                        <td class="text-right">100</td>
+                        <td>Ltr</td>
+                        <td><center><input type="checkbox" name="" value=""></center></td>
 
 
 
                     </tr>
+
                     <tr>
 
                         <td>10004</td>
                         <td>Sun Flower Oil</td>
                         <td class="text-right">100</td>
                         <td>Ltr</td>
-
+                        <td><center><input type="checkbox" name="" value=""></center></td>
 
 
                     </tr>
@@ -106,7 +139,7 @@
                         <td>Marconda Almonds</td>
                         <td class="text-right">50</td>
                         <td>Kg</td>
-
+                        <td><center><input type="checkbox" name="" value=""></center></td>
 
 
                     </tr>
@@ -116,7 +149,7 @@
                         <td>Pistachios</td>
                         <td class="text-right">50</td>
                         <td>Kg</td>
-
+                        <td><center><input type="checkbox" name="" value=""></center></td>
 
 
                     </tr>
@@ -126,7 +159,7 @@
                         <td>Walnuts</td>
                         <td class="text-right">100</td>
                         <td>Kg</td>
-
+                        <td><center><input type="checkbox" name="" value=""></center></td>
 
 
                     </tr>
@@ -136,7 +169,7 @@
                         <td>Peanuts</td>
                         <td class="text-right">70</td>
                         <td>Kg</td>
-
+                        <td><center><input type="checkbox" name="" value=""></center></td>
 
                     </tr>
                     <tr>
@@ -145,42 +178,9 @@
                         <td>Salt</td>
                         <td class="text-right">50</td>
                         <td>Kg</td>
-
-
-                    </tr>
-
-                    <tr>
-
-                        <td>100010</td>
-                        <td>Marconda Almonds</td>
-                        <td class="text-right">50</td>
-                        <td>Kg</td>
-
-
+                        <td><center><input type="checkbox" name="" value=""></center></td>
 
                     </tr>
-                    <tr>
-
-                        <td>100011</td>
-                        <td>Pistachios</td>
-                        <td class="text-right">50</td>
-                        <td>Kg</td>
-
-
-
-                    </tr>
-
-                    <tr>
-
-                        <td>100012</td>
-                        <td>Marconda Almonds</td>
-                        <td class="text-right">50</td>
-                        <td>Kg</td>
-
-
-
-                    </tr>
-
 
 
 
@@ -190,6 +190,7 @@
                 <tfoot>
                     <tr class="grid_heading">
 
+                        <th></th>
                         <th></th>
                         <th></th>
                         <th></th>
@@ -210,7 +211,7 @@
 
         <div class="row">
             <div class="col-md-12 hrpart">
-                <button type="button" class="form-button right" onclick="Create()">Create</button>
+                <button type="button" class="form-button right" onclick="Proceed()">Proceed</button>
                 <button type="button" class="form-button right" onclick="Exit()">Exit</button>
             </div>
 
@@ -222,8 +223,8 @@
 </div>
 
 <script>
-    function Create() {
-        var url = '@Url.Action("PlanedOrder", "ProductionPlan")'
+    function Proceed() {
+        var url = '@Url.Action("ProductionSchedule", "ProductionPlan")'
         window.location = url;
     }
     function Exit() {

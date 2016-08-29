@@ -9,7 +9,7 @@
 <style>
     .menu-w 
     {
-        width:250px;
+        width:300px;
         line-height:25px;
         height:25px;
         padding-left:10px;
@@ -25,13 +25,25 @@
 
 <div class="form-button menu-w">@Html.ActionLink("Production Plan", "CreateProductionPlan")</div>
 <div class="form-button menu-w">
-    @Html.ActionLink("Planned Order", "PlanedOrder")
+    @Html.ActionLink("Stock Order", "PlanedOrder")
+</div>
+<div class="form-button menu-w">
+    @Html.ActionLink("Customer Order", "CustomerOrder")
+</div>
+<div class="form-button menu-w">
+    @Html.ActionLink("Production Schedule", "ProductionSchedule")
 </div>
 <div class="form-button menu-w fs">
-    @Html.ActionLink("Convert Production Plan to planned order", "ConvertProductionPlanttoplannedorder")
+    @Html.ActionLink("Convert Production Plan to Production Schedule", "ProductionPlantoProductionSchedule")
 </div>
 <div class="form-button menu-w fs">
-    @Html.ActionLink("Convert Planned Order to Pur Indent", "ConvertPlannedOrdertoPurReq")
+    @Html.ActionLink("Convert Stock Order to Production Schedule", "ConvertProductionPlanttoplannedorder")
+</div>
+<div class="form-button menu-w fs">
+    @Html.ActionLink("Convert Customer Order to Production Schedule", "ConvertCustomerOrderProductionSchedule")
+</div>
+<div class="form-button menu-w fs">
+    @Html.ActionLink("Convert Stock Order to Pur Indent", "ConvertPlannedOrdertoPurReq")
 </div>
 <div class="form-button menu-w">
     @Html.ActionLink("Purchase Indent", "PurchaseIndent")
@@ -50,7 +62,7 @@
 </div>
 
 <div class="form-button menu-w fs">
-    @Html.ActionLink("Convert Planned Order to Production Order", "ConvertPlannedOrdertoProductionOrder")
+    @Html.ActionLink("Convert Production Schedule to Production Order", "ConvertPlannedOrdertoProductionOrder")
 </div>
 
 <div class="form-button menu-w">
@@ -63,11 +75,11 @@
     @Html.ActionLink("Issue Material to Production order", "PendingGoodsIssue")
 </div>
 <div class="form-button menu-w">
-    @Html.ActionLink("Confirm Production", "ConfirmProduction")
+    @Html.ActionLink("Daily Production Report", "ConfirmProduction")
 </div>
 
 <div class="form-button menu-w">
-    @Html.ActionLink("Receive Product to Inventory", "PendingReceiveProductInventory")
+    @Html.ActionLink("Product QC Released Note", "PendingReceiveProductInventory")
 </div>
 
 
