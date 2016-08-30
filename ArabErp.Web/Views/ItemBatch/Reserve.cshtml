@@ -82,12 +82,14 @@
                         <input type="text" class="form_input" id="txtGRNRefNo" disabled />
                     </div>*@
                     <div class="col-md-3">
-                        <label for="txtSORefNo" title="Sale Order Reference No & Date">SO Ref. No. &amp; Date</label>
-                        <input type="text" class="form_input" id="txtSORefNo" disabled />
+                        <label for="txtSORefNo" title="Sale Order Reference No">SO Ref. No.</label>
+                        @Html.TextBoxFor(m => m[0].SaleOrderRefNo, new { @class = "form_input", @readonly = "true" })
+                        @*<input type="text" class="form_input" id="txtSORefNo"  disabled />*@
                     </div>
-                    <div class="col-md-5">
-                        <label for="txtWDRefNo" title="Work Descr. Reference No & Short Name">WD Ref. No. &amp; Short Name</label>
-                        <input type="text" class="form_input" id="txtWDRefNo" disabled />
+                    <div class="col-md-3">
+                        <label for="txtWDRefNo" title="Work Descr. Reference No">WD Ref. No.</label>
+                        @Html.TextBoxFor(m => m[0].WorkDescrRefNo, new { @class = "form_input", @readonly = "true" })
+                        @*<input type="text" class="form_input" id="txtWDRefNo" disabled />*@
                     </div>
                 </div>
                 

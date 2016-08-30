@@ -192,10 +192,15 @@
                         <li><a href="@Url.Action("Approval","DirectPurchase")"><span class="badge pull-right"></span>Direct Purchase Approval</a></li>
                         <li><a href="@Url.Action("PendingGrnWareHouse","GrnWareHouse")"><span class="badge pull-right"></span>GRN</a></li>
                         <li><a href="@Url.Action("PendingDirectPurchase","GrnWareHouse")"><span class="badge pull-right"></span>Direct Purchase GRN</a></li>
-                        <li><a href="@Url.Action("Pending","ItemBatch")"><span class="badge pull-right"></span>Assign Serial No</a></li>
-                        <li><a href="@Url.Action("PendingReservation","ItemBatch")"><span class="badge pull-right"></span>Allocate Serial No</a></li>
-                        <li><a href="@Url.Action("ReservedList","ItemBatch")"><span class="badge pull-right"></span>Unreserve Serial No</a></li>
-                        <li><a href="@Url.Action("MaterialList","ItemBatch")"><span class="badge pull-right"></span>Serial No List</a></li>
+                        <li class="dropdown-submenu">
+                            <a href="#"><span class="badge pull-right"></span>Serial No.</a>
+                            <ul class="dropdown-menu">
+                                <li><a href="@Url.Action("Pending","ItemBatch")"><span class="badge pull-right"></span>Assign Serial No</a></li>
+                                <li><a href="@Url.Action("PendingReservation","ItemBatch")"><span class="badge pull-right"></span>Reserve Serial No</a></li>
+                                <li><a href="@Url.Action("ReservedList","ItemBatch")"><span class="badge pull-right"></span>Unreserve Serial No</a></li>
+                                <li><a href="@Url.Action("MaterialList","ItemBatch")"><span class="badge pull-right"></span>Serial No List</a></li>
+                            </ul>
+                        </li>
                         <li><a href="@Url.Action("Index", "PurchaseBill")"><span class="badge pull-right"></span>Purchase Bill</a></li>
                         <li><a href="@Url.Action("Create", "Expense")"><span class="badge pull-right"></span>Expense Bill</a></li>
                         <li><a href="@Url.Action("PendingApproval", "Expense")"><span class="badge pull-right"></span>Expense Bill Approval</a></li>
