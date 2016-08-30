@@ -27,6 +27,7 @@ namespace ArabErp.Web.Controllers
         {
             PrefixSettingsRepository repo = new PrefixSettingsRepository();
             repo.SavePrefixSettings(model.Prefixes, OrganizationId);
+            TempData["Success"] = "Updated Successfully!";
             return RedirectToAction("Index");
         }
     }
