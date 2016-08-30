@@ -47,6 +47,7 @@
                 }
             }
         });
+        $("#BayId").focus();
     });
     $(function () {
         $("#JobCardDate").datepicker({ dateFormat: "dd-MM-yy" });
@@ -186,6 +187,13 @@
                             <label for="goodsland">Goods Landed</label>
                             @Html.TextBoxFor(m => m.GoodsLanded, new { @class = "form_input", autocomplete = "off", @readonly = "true" })
                         </div>
+                        <div class="col-md-2">
+                            <label for="box">Box</label>
+                            @Html.HiddenFor(m => m.BoxId)
+                            @Html.TextBoxFor(m => m.BoxName, new { @class = "form_input", @readonly = "true" })
+                            @*@Html.DropDownListFor(m => Model.BoxId, (SelectList)ViewBag.Boxes, "Select Box", new { @class = "form_input", autocomplete = "off", @required = "true" })*@
+                        </div>
+
                         @if (Model.isProjectBased == 0)
                         {
                             <div class="col-md-2">
@@ -193,12 +201,6 @@
                                 @Html.DropDownListFor(m => Model.BayId, (SelectList)ViewBag.BayList, "Select Bay", new { @class = "form_input", autocomplete = "off", @required = "true" })
                             </div>
                         }
-                        <div class="col-md-2">
-                            <label for="box">Box</label>
-                            @Html.HiddenFor(m => m.BoxId)
-                            @Html.TextBoxFor(m => m.BoxName, new { @class = "form_input", @readonly = "true" })
-                            @*@Html.DropDownListFor(m => Model.BoxId, (SelectList)ViewBag.Boxes, "Select Box", new { @class = "form_input", autocomplete = "off", @required = "true" })*@
-                        </div>
                     </div>
 
                     <div class=" table-responsive">

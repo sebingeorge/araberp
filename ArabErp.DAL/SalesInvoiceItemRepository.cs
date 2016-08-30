@@ -45,6 +45,21 @@ namespace ArabErp.DAL
                 return objSalesInvoiceItem;
             }
         }
+        public List<SalesInvoiceItem> GetSalesInvoiceItemforPrint(int SalesInvoiceId)
+        {
+            using (IDbConnection connection = OpenConnection(dataConnection))
+            {
+                string sql = @" select W.WorkDescriptionRefNo,W.WorkDescr WorkDescription,SI.Amount,SI.Rate,SI.Quantity,UnitName Unit from SalesInvoiceItem SI inner join SalesInvoice S ON SI.SalesInvoiceId=S.SalesInvoiceId
+                                inner join SaleOrderItem SII ON SII.SaleOrderItemId=SI.SaleOrderItemId
+                                inner join WorkDescription W ON W.WorkDescriptionId=SII.WorkDescriptionId
+                                INNER JOIN UNIT U ON U.UnitId=SII.UnitId
+                                where SI.SalesInvoiceId=@SalesInvoiceId";
+                               
+                return connection.Query<SalesInvoiceItem>(sql, new { SalesInvoiceId = SalesInvoiceId }).ToList();
+
+               
+            }
+        }
 
         public List<SalesInvoiceItem> GetSelectedSalesInvoiceDT(List<int> salesorderitemid,int saleorderid)
         {
