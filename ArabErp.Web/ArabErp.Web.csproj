@@ -46,36 +46,18 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\Antlr.3.4.1.9004\lib\Antlr3.Runtime.dll</HintPath>
     </Reference>
-    <Reference Include="CrystalDecisions.CrystalReports.Engine, Version=13.0.2000.0, Culture=neutral, PublicKeyToken=692fbea5521e1304, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\CrystalReportsDynamic.1.0.0\lib\CrystalDecisions.CrystalReports.Engine.dll</HintPath>
-    </Reference>
+    <Reference Include="CrystalDecisions.CrystalReports.Engine, Version=13.0.2000.0, Culture=neutral, PublicKeyToken=692fbea5521e1304, processorArchitecture=MSIL" />
     <Reference Include="CrystalDecisions.ReportAppServer.ClientDoc, Version=13.0.2000.0, Culture=neutral, PublicKeyToken=692fbea5521e1304, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
       <EmbedInteropTypes>True</EmbedInteropTypes>
-      <HintPath>..\packages\CrystalReportsDynamic.1.0.0\lib\CrystalDecisions.ReportAppServer.ClientDoc.dll</HintPath>
-      <Private>True</Private>
     </Reference>
     <Reference Include="CrystalDecisions.ReportAppServer.Controllers, Version=13.0.2000.0, Culture=neutral, PublicKeyToken=692fbea5521e1304, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
       <EmbedInteropTypes>True</EmbedInteropTypes>
-      <HintPath>..\packages\CrystalReportsDynamic.1.0.0\lib\CrystalDecisions.ReportAppServer.Controllers.dll</HintPath>
-      <Private>True</Private>
     </Reference>
     <Reference Include="CrystalDecisions.ReportAppServer.DataDefModel, Version=13.0.2000.0, Culture=neutral, PublicKeyToken=692fbea5521e1304, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
       <EmbedInteropTypes>True</EmbedInteropTypes>
-      <HintPath>..\packages\CrystalReportsDynamic.1.0.0\lib\CrystalDecisions.ReportAppServer.DataDefModel.dll</HintPath>
-      <Private>True</Private>
     </Reference>
-    <Reference Include="CrystalDecisions.ReportSource, Version=13.0.2000.0, Culture=neutral, PublicKeyToken=692fbea5521e1304, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\CrystalReportsDynamic.1.0.0\lib\CrystalDecisions.ReportSource.dll</HintPath>
-    </Reference>
-    <Reference Include="CrystalDecisions.Shared, Version=13.0.2000.0, Culture=neutral, PublicKeyToken=692fbea5521e1304, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\CrystalReportsDynamic.1.0.0\lib\CrystalDecisions.Shared.dll</HintPath>
-    </Reference>
+    <Reference Include="CrystalDecisions.ReportSource, Version=13.0.2000.0, Culture=neutral, PublicKeyToken=692fbea5521e1304, processorArchitecture=MSIL" />
+    <Reference Include="CrystalDecisions.Shared, Version=13.0.2000.0, Culture=neutral, PublicKeyToken=692fbea5521e1304, processorArchitecture=MSIL" />
     <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
       <HintPath>..\packages\EntityFramework.6.1.3\lib\net45\EntityFramework.dll</HintPath>
       <Private>True</Private>
@@ -299,6 +281,7 @@
     <Compile Include="Controllers\StockPointController.cs" />
     <Compile Include="Controllers\StockReportController.cs" />
     <Compile Include="Controllers\StockReturnController.cs" />
+    <Compile Include="Controllers\StockTransferController.cs" />
     <Compile Include="Controllers\StoresIssueController.cs" />
     <Compile Include="Controllers\StoresLedgerController.cs" />
     <Compile Include="Controllers\SubAssemblyController.cs" />
@@ -837,6 +820,10 @@
     <Content Include="Views\SupplyOrderRegister\PengingSO.cshtml" />
     <Content Include="Views\SupplyOrderRegister\SOVariance.cshtml" />
     <Content Include="Views\StockCreation\Edit.cshtml" />
+    <Content Include="Views\StockTransfer\Create.cshtml" />
+    <Content Include="Views\StockTransfer\_Materials.cshtml" />
+    <Content Include="Views\StockTransfer\Index.cshtml" />
+    <Content Include="Views\StockTransfer\_PreviousList.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -849,7 +836,6 @@
     <Folder Include="Views\MisReport\" />
     <Folder Include="Views\PendingSupplyOrderRegister\" />
     <Folder Include="Views\StockJournel\" />
-    <Folder Include="XML\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff" />

@@ -159,13 +159,13 @@
                         <li><a href="@Url.Action("CreateProjectWorkDescription","WorkDescription")"><span class="badge pull-right"></span>Project Work Description</a></li>
                         <li><a href="@Url.Action("Create","VehicleModel")"><span class="badge pull-right"></span>Vehicle Model</a></li>
                         <li><a href="@Url.Action("Create","Task")"><span class="badge pull-right"></span>Task</a></li>
-                        <li><a href="@Url.Action("Create", "CommissionAgent")"><span class="badge pull-right"></span>Commission Agent</a></li>
+                        <li><a href="@Url.Action("Create", "CommissionAgent")"><span class="badge pull-right"></span>Success Fee</a></li>
                         <li><a href="@Url.Action("Create", "OpeningStock")"><span class="badge pull-right"></span>Opening Stock</a></li>
                         <li><a href="@Url.Action("Create","StockPoint")"><span class="badge pull-right"></span>StockPoint</a></li>
                         <li><a href="@Url.Action("Create", "AdditionOrDeduction")"><span class="badge pull-right"></span>Addition/Deduction</a></li>
                         <li><a href="@Url.Action("Create", "Box")"><span class="badge pull-right"></span>Box</a></li>
                         <li><a href="@Url.Action("Create", "Bay")"><span class="badge pull-right"></span>Bay</a></li>
-                        <li><a href="@Url.Action("Create", "FreezerUnit")"><span class="badge pull-right"></span>Transport Refrigeration Unit</a></li>
+                        <li><a href="@Url.Action("Create", "FreezerUnit")"><span class="badge pull-right"></span>Refrigeration Unit</a></li>
                         <li><a href="@Url.Action("Create", "PaymentTerms")"><span class="badge pull-right"></span>Payment Terms</a></li>
                         <li><a href="@Url.Action("Create", "SupplierItemRate")"><span class="badge pull-right"></span>Supplier Wise Item Rate Settings</a></li>
                         <li><a href="@Url.Action("Index", "PrefixSettings")"><span class="badge pull-right"></span>Prefix Settings</a></li>
@@ -192,10 +192,15 @@
                         <li><a href="@Url.Action("Approval","DirectPurchase")"><span class="badge pull-right"></span>Direct Purchase Approval</a></li>
                         <li><a href="@Url.Action("PendingGrnWareHouse","GrnWareHouse")"><span class="badge pull-right"></span>GRN</a></li>
                         <li><a href="@Url.Action("PendingDirectPurchase","GrnWareHouse")"><span class="badge pull-right"></span>Direct Purchase GRN</a></li>
-                        <li><a href="@Url.Action("Pending","ItemBatch")"><span class="badge pull-right"></span>Assign Serial No</a></li>
-                        <li><a href="@Url.Action("PendingReservation","ItemBatch")"><span class="badge pull-right"></span>Allocate Serial No</a></li>
-                        <li><a href="@Url.Action("ReservedList","ItemBatch")"><span class="badge pull-right"></span>Unreserve Serial No</a></li>
-                        <li><a href="@Url.Action("MaterialList","ItemBatch")"><span class="badge pull-right"></span>Serial No List</a></li>
+                        <li class="dropdown-submenu">
+                            <a href="#"><span class="badge pull-right"></span>Serial No.</a>
+                            <ul class="dropdown-menu">
+                                <li><a href="@Url.Action("Pending","ItemBatch")"><span class="badge pull-right"></span>Assign Serial No</a></li>
+                                <li><a href="@Url.Action("PendingReservation","ItemBatch")"><span class="badge pull-right"></span>Reserve Serial No</a></li>
+                                <li><a href="@Url.Action("ReservedList","ItemBatch")"><span class="badge pull-right"></span>Unreserve Serial No</a></li>
+                                <li><a href="@Url.Action("MaterialList","ItemBatch")"><span class="badge pull-right"></span>Serial No List</a></li>
+                            </ul>
+                        </li>
                         <li><a href="@Url.Action("Index", "PurchaseBill")"><span class="badge pull-right"></span>Purchase Bill</a></li>
                         <li><a href="@Url.Action("Create", "Expense")"><span class="badge pull-right"></span>Expense Bill</a></li>
                         <li><a href="@Url.Action("PendingApproval", "Expense")"><span class="badge pull-right"></span>Expense Bill Approval</a></li>
@@ -295,6 +300,7 @@
                                 <li><a href="@Url.Action("Pending","StoresIssue")"><span class="badge pull-right"></span>Stores Issue</a></li>
                                 <li><a href="@Url.Action("Create","StockCreation")"><span class="badge pull-right"></span>Stock Conversion</a></li>
                                 <li><a href="@Url.Action("Create","SubAssembly")"><span class="badge pull-right"></span>Sub-assembly</a></li>
+                                <li><a href="@Url.Action("Create","StockTransfer")"><span class="badge pull-right"></span>Stock Transfer</a></li>
                             </ul>
                         </li>
                     </ul>

@@ -111,7 +111,7 @@ namespace ArabErp.DAL
                         OrganizationId = model.OrganizationId,
                         CreatedBy = model.CreatedBy,
                         CreatedDate = model.CreatedDate,
-                        StockPointId = model.FinishedStockpointId,
+                        StockPointId = model.ConsumedStockpointId,
                         StockType = typeof(SubAssembly).Name,
                         StockInOut = "OUT",
                         stocktrnDate = System.DateTime.Today,

@@ -122,27 +122,7 @@
             return;
         }
 
-        @*var date = $("#StockCreationDate").val();
-        var material = $("#ConsumedItems_" + index + "__ItemId").val();
 
-        $.ajax({
-             url:  "@Url.Action("GetStockQuantity")",
-            data: { date: date, id: material, stockpoint: $("#ConsumedStockpointId").val() },
-        cache: false,
-        type: "GET",
-        timeout: 10000,
-        dataType: "json",
-        success: function (result) {
-            if (result.Success) { // this sets the value from the response
-                $("#ConsumedItems_" + index + "__StockQuantity").val(data.Quantity);
-                $("#ConsumedItems_" + index + "__Unit").val(data.UnitName);
-                   
-            } else {
-                $('#SomeOtherHtmlTextBox').val("Failed");
-            }
-        }
-
-    });*@
         var date = $("#StockCreationDate").val();
         var material = $("#ConsumedItems_" + index + "__ItemId").val();
         if (material == '') return;
@@ -155,8 +135,8 @@
 
             //var arr = data.split('|');
 
-            $("#ConsumedItems_" + index + "__StockQuantity").val(data);
-            $("#ConsumedItems_" + index + "__Unit").val();
+            $("#ConsumedItems_" + index + "__StockQuantity").val(data.Quantity);
+            $("#ConsumedItems_" + index + "__Unit").val(data.UnitName);
         })
     }
 
@@ -167,10 +147,10 @@
         <tr class="grid_heading">
             <th width="2%"></th>
             <th width="3%" class="text-center">#</th>
-            <th width="63%"><h1>Material/Spare</h1></th>
+            <th width="60%"><h1>Material/Spare</h1></th>
             <th width="10%" class="text-right"><h1>Stock</h1></th>
             <th width="10%" class="text-right"><h1>Quantity</h1></th>
-            <th width="10%" class="text-right"><h1>UoM</h1></th>
+            <th width="5%" class="text-left"><h1>UoM</h1></th>
             <th width="10%" class="text-right"><h1>Rate</h1></th>
             <th width="2%"></th>
         </tr>

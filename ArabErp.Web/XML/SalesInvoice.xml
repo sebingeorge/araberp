@@ -1,0 +1,60 @@
+<?xml version="1.0" standalone="yes"?>
+<NewDataSet>
+  <xs:schema id="NewDataSet" xmlns="" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xs:element name="NewDataSet" msdata:IsDataSet="true" msdata:UseCurrentLocale="true">
+      <xs:complexType>
+        <xs:choice minOccurs="0" maxOccurs="unbounded">
+          <xs:element name="Head">
+            <xs:complexType>
+              <xs:sequence>
+                <xs:element name="SalesInvoiceRefNo" type="xs:string" minOccurs="0" />
+                <xs:element name="SalesInvoiceDate" type="xs:string" minOccurs="0" />
+              </xs:sequence>
+            </xs:complexType>
+          </xs:element>
+          <xs:element name="Items">
+            <xs:complexType>
+              <xs:sequence>
+                <xs:element name="WorkDescription" type="xs:string" minOccurs="0" />
+              </xs:sequence>
+            </xs:complexType>
+          </xs:element>
+        </xs:choice>
+      </xs:complexType>
+    </xs:element>
+  </xs:schema>
+  <Head>
+    <SalesInvoiceRefNo>SLI-16/6</SalesInvoiceRefNo>
+    <SalesInvoiceDate>29-Aug-2016</SalesInvoiceDate>
+  </Head>
+  <Items>
+    <WorkDescription>Work description 0</WorkDescription>
+  </Items>
+  <Items>
+    <WorkDescription>Work description 1</WorkDescription>
+  </Items>
+  <Items>
+    <WorkDescription>Work description 2</WorkDescription>
+  </Items>
+  <Items>
+    <WorkDescription>Work description 3</WorkDescription>
+  </Items>
+  <Items>
+    <WorkDescription>Work description 4</WorkDescription>
+  </Items>
+  <Items>
+    <WorkDescription>Work description 5</WorkDescription>
+  </Items>
+  <Items>
+    <WorkDescription>Work description 6</WorkDescription>
+  </Items>
+  <Items>
+    <WorkDescription>Work description 7</WorkDescription>
+  </Items>
+  <Items>
+    <WorkDescription>Work description 8</WorkDescription>
+  </Items>
+  <Items>
+    <WorkDescription>Work description 9</WorkDescription>
+  </Items>
+</NewDataSet>

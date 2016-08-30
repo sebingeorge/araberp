@@ -21,12 +21,12 @@ namespace ArabErp.Web.Controllers
             FillJobCardTaskMaster();
             return View();
         }
-        public ActionResult FillWorkDescriptionList(int? page)
+        public ActionResult FillWorkDescriptionList(int? page, string vehiclemodel = "", string freezerunit = "", string box = "")
         {
-            int itemsPerPage = 10;
+            //int itemsPerPage = 2;
             int pageNumber = page ?? 1;
             var repo = new WorkDescriptionRepository();
-            var List = repo.FillWorkDescriptionList();
+            var List = repo.FillWorkDescriptionList(vehiclemodel.Trim(), freezerunit.Trim(), box.Trim());
             return PartialView("WorkDescriptionGrid", List);
         }
         public ActionResult CreateWorkDescription()
@@ -40,6 +40,7 @@ namespace ArabErp.Web.Controllers
            
             WorkDescription workdescription = new WorkDescription();
             workdescription.WorkDescriptionRefNo ="WD/" + DatabaseCommonRepository.GetNextRefNoWithNoUpdate(typeof(WorkDescription).Name);
+            workdescription.isNewInstallation = true;
             workdescription.WorkVsItems.Add(new WorkVsItem());
             workdescription.WorkVsTasks.Add(new WorkVsTask());
             return View(workdescription);
@@ -52,6 +53,7 @@ namespace ArabErp.Web.Controllers
             FillJobCardTaskMaster();
             WorkDescription workdescription = new WorkDescription();
             workdescription.WorkDescriptionRefNo = "WD/" + DatabaseCommonRepository.GetNextRefNoWithNoUpdate(typeof(WorkDescription).Name);
+            workdescription.isNewInstallation = true;
             workdescription.isProjectBased = true;
             workdescription.WorkVsItems.Add(new WorkVsItem());
             workdescription.WorkVsTasks.Add(new WorkVsTask());

@@ -329,16 +329,16 @@
                                     {
                                     <tr id="Row_Item_Id_@i">
                                         <td style="vertical-align:middle"><a class="glyphicon glyphicon-minus" style="top:0px" onclick="ItemRowDelete(@i)"></a></td>
+                                        
                                         <td align="center">
                                             <span id="Itemslno@(i+1)">@(i + 1)</span>
-                                            @Html.HiddenFor(m => m.WorkVsItems[i].SlNo)
                                         </td>
 
                                         <td>
+                                            @Html.HiddenFor(m => m.WorkVsItems[i].SlNo)
                                             <input type="hidden" id="Row_Item_@i" />
-                                            @Html.DropDownListFor(m => m.WorkVsItems[i].ItemId, new SelectList(ViewBag.ItemList, "Value", "Text", Model.WorkVsItems[i].ItemId), "select Item", new { @class = "form_input", @onchange = "OnMaterialChange(this," + i + ")" })
-                                       
-                                        </td>
+                                            @Html.DropDownListFor(m => m.WorkVsItems[i].ItemId, new SelectList(ViewBag.ItemList, "Value", "Text", Model.WorkVsItems[i].ItemId), "select Item", new { @class = "form_input", @onchange = "OnMaterialChange(this," + i + ")", @required = "true" })
+                                       </td>
 
                                         <td>
                                             @Html.TextBoxFor(m => m.WorkVsItems[i].UoM, new { @class = "form_input", @style = "text-align:left", autocomplete = "off", @readonly = "readonly" })

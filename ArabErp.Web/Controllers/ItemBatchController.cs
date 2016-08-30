@@ -64,6 +64,16 @@ namespace ArabErp.Web.Controllers
         [HttpPost]
         public ActionResult Create(IList<ItemBatch> model)
         {
+            HashSet<string> temp = new HashSet<string>();
+            foreach (var item in model)
+            {
+                temp.Add(item.SerialNo);
+            }
+            if (temp.Count != model.Count)
+            {
+                TempData["error"] = "Serial numbers cannot be same. Please enter differenct serial numbers.";
+                return View(model);
+            }
             foreach (ItemBatch item in model)
             {
                 item.CreatedBy = UserID.ToString();
