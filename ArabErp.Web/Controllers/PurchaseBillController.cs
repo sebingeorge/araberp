@@ -55,6 +55,7 @@ namespace ArabErp.Web.Controllers
                                              where p.Select
                                              select p.GRNId).ToList<int>();
                     purchasebill.Items = rep.GetGRNItems(selectedgrn);
+                    purchasebill.SupplyOrderNo = rep.GetSupplyOrderNos(selectedgrn).SupplyOrderNo;
                 }
 
 
@@ -80,6 +81,7 @@ namespace ArabErp.Web.Controllers
 
             purchasebill.Supplier = PendingGRNSelected[0].SupplierName;
             purchasebill.SupplierId = PendingGRNSelected[0].SupplierId;
+          
             purchasebill.PurchaseBillDate = System.DateTime.Today;
             purchasebill.PurchaseBillDueDate = rep.GetBillDueDate(PendingGRNSelected[0].SupplierId).PurchaseBillDueDate;
             purchasebill.CurrencyId = new CurrencyRepository().GetCurrencyFrmOrganization(OrganizationId).CurrencyId;
@@ -185,6 +187,7 @@ namespace ArabErp.Web.Controllers
                     PurchaseBill PurchaseBill = new PurchaseBill();
                     PurchaseBill = new PurchaseBillRepository().GetPurchaseBill(id);
                     PurchaseBill.PurchaseBillAmount *= (decimal)1.00;
+                    PurchaseBill.SupplyOrderNo = new PurchaseBillRepository().PBSupplyOrderNos(id).SupplyOrderNo;
                     PurchaseBill.Items = new PurchaseBillItemRepository().GetPurchaseBillItem(id);
                     FillAdditionDeduction();
                     FillCurrency();

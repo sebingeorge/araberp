@@ -26,6 +26,7 @@ namespace ArabErp.Domain
         [ValidateDateGreaterThan("PurchaseBillDate")]
         [Display(Name = "Due Date")]
         public DateTime PurchaseBillDueDate { get; set; }
+        public string SupplyOrderNo { get; set; }
         public int? CurrencyId { get; set; }
         public string Remarks { get; set; }
         public decimal PurchaseBillAmount { get; set; }
