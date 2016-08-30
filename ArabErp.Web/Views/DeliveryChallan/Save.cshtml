@@ -120,7 +120,7 @@
                 <table class="table table-bordered">
                     <thead>
                         <tr class="grid_heading">
-                            <th width="5%" class="text-center">#</th>
+                            <th width="2%" class="text-center">#</th>
                             <th width="30%"><h1>Serial Number</h1></th>
                             <th width="30%"><h1>Item</h1></th>
                             <th width="10%" nowrap><h1>Warranty Period (in months)</h1></th>
@@ -135,13 +135,13 @@
                                 <tr>
                                     <td align="center">
                                         @Html.HiddenFor(m => m.ItemBatches[i].ItemBatchId)
-                                        <input class="form_input" value="@(i+1)" disabled />
+                                        @*<input class="form_input" value="*@@(i+1)@*" disabled />*@
                                     </td>
                                     <td>
-                                        @Html.TextBoxFor(m => m.ItemBatches[i].SerialNo, new { @class = "form_input", @disabled = "true" })
+                                        @Html.TextBoxFor(m => m.ItemBatches[i].SerialNo, new { @class = "form_input", @readonly = "true" })
                                     </td>
                                     <td>
-                                        @Html.TextBoxFor(m => m.ItemBatches[i].ItemName, new { @class = "form_input", @disabled = "true" })
+                                        @Html.TextBoxFor(m => m.ItemBatches[i].ItemName, new { @class = "form_input", @readonly = "true" })
                                     </td>
                                     <td>
                                         @Html.TextBoxFor(m => m.ItemBatches[i].WarrantyPeriodInMonths, new { @class = "form_input", @required = "true" })
