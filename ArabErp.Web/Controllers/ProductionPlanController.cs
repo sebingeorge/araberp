@@ -149,6 +149,14 @@ namespace ArabErp.Web.Controllers
         {
             return View();
         }
+        public ActionResult PreviousCustomerOrder()
+        {
+            return View();
+        }
+        public ActionResult PendingCustomerOrder()
+        {
+            return View();
+        }
         public ActionResult SupplierCategory()
         {
             return View();

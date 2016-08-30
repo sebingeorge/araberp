@@ -797,7 +797,6 @@
     <Content Include="Views\ProductionPlan\CreateProductionPlan.cshtml" />
     <Content Include="Views\ProductionPlan\CreateProductLine.cshtml" />
     <Content Include="Views\ProductionPlan\Index.cshtml" />
-    <Content Include="Views\ProductionPlan\CreateProductLineAdd.cshtml" />
     <Content Include="Views\ProductionPlan\CreateProductionPlanAdd.cshtml" />
     <Content Include="Views\ProductionPlan\ProductionPlanEdit.cshtml" />
     <Content Include="Views\ProductionPlan\Month.cshtml" />
@@ -845,6 +844,8 @@
     <Content Include="Views\ProductionPlan\ConvertCustomerOrderProductionSchedule.cshtml" />
     <Content Include="Views\ProductionPlan\ConvertCustomerOrderPurIndent.cshtml" />
     <Content Include="Views\ProductionPlan\ConvertProductionPlanPurIndent.cshtml" />
+    <Content Include="Views\ProductionPlan\PreviousCustomerOrder.cshtml" />
+    <Content Include="Views\ProductionPlan\PendingCustomerOrder.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
