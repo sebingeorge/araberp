@@ -1,13 +1,14 @@
 ﻿
 @{
-    ViewBag.Title = "ConvertPlannedOrdertoProductionOrder";
+    ViewBag.Title = "ProductionScheduleMPR";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
 
+
 <div class="row">
     <div class="form-head1">
-        <h4>Pending Production Schedule to Production Order</h4>
+        <h4>Pending Production Schedule to Material Planning Report</h4>
     </div>
 
     <div class="main-part pad1">
@@ -246,7 +247,7 @@
 
 <script>
     function Proceed() {
-        var url = '@Url.Action("ProductionOrder", "ProductionPlan")'
+        var url = '@Url.Action("MaterialPlanningReport", "ProductionPlan")'
         window.location = url;
     }
     function Exit() {
@@ -254,3 +255,4 @@
         window.location = url;
     }
 </script>
+

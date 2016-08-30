@@ -53,6 +53,26 @@ namespace ArabErp.Web.Controllers
         {
             return View();
         }
+        public ActionResult MaterialPlanningReport()
+        {
+            return View();
+        }
+        public ActionResult ProductionPlanMPR()
+        {
+            return View();
+        }
+        public ActionResult StockOrderMPR()
+        {
+            return View();
+        }
+        public ActionResult CustomerOrderMPR()
+        {
+            return View();
+        }
+        public ActionResult ProductionScheduleMPR()
+        {
+            return View();
+        }
         public ActionResult GRN()
         {
             return View();

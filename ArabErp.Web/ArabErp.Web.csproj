@@ -845,7 +845,11 @@
     <Content Include="Views\ProductionPlan\ConvertCustomerOrderPurIndent.cshtml" />
     <Content Include="Views\ProductionPlan\ConvertProductionPlanPurIndent.cshtml" />
     <Content Include="Views\ProductionPlan\PreviousCustomerOrder.cshtml" />
-    <Content Include="Views\ProductionPlan\PendingCustomerOrder.cshtml" />
+    <Content Include="Views\ProductionPlan\MaterialPlanningReport.cshtml" />
+    <Content Include="Views\ProductionPlan\ProductionScheduleMPR.cshtml" />
+    <Content Include="Views\ProductionPlan\CustomerOrderMPR.cshtml" />
+    <Content Include="Views\ProductionPlan\StockOrderMPR.cshtml" />
+    <Content Include="Views\ProductionPlan\ProductionPlanMPR.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
