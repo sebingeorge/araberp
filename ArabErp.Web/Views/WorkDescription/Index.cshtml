@@ -37,31 +37,65 @@
         }
     });
 
+    function Filter() {
+        $(grid).addClass("fade");
+        var url = '@Url.Action("FillWorkDescriptionList")';
+        var vehiclemodel = $("#txtVehicleModel1").val();
+        var freezerunit = $("#txtFreezerUnit").val();
+        var box = $("#txtBox").val();
+        url += "?vehiclemodel=" + encodeURIComponent(vehiclemodel) + "&freezerunit=" + encodeURIComponent(freezerunit) + "&box=" + encodeURIComponent(box);
+        $("#grid").load(url, function () {
+            $(grid).removeClass("fade");
+        });
+    }
+
 </script>
 
     <div class="row">
 
-        <div class="form-head form-head3">
-            <h4>Work Description List</h4>
+    <div class="form-head1">
+        <h4>Work Description List</h4>
+    </div>
+
+    <div class="main-part pad1">
+
+        <div class="row form-group">
+            <div class="col-md-2">
+                <label for="txtVehicleModel1">Vehicle Model</label>
+                <input type="text" class="form_input" id="txtVehicleModel1" onkeyup="Filter()" />
+            </div>
+            <div class="col-md-3">
+                <label for="txtFreezerUnit">Freezer Unit</label>
+                <input type="text" class="form_input" id="txtFreezerUnit" onkeyup="Filter()" />
+            </div>
+            <div class="col-md-2">
+                <label for="txtBox">Box</label>
+                <input type="text" class="form_input" id="txtBox" onkeyup="Filter()" />
+              
+            </div>
+    
         </div>
 
-        <div class="main-part pad1 white">
-
-            <div class="row">
-                @Html.Action("FillWorkDescriptionList")
-            </div>
-
-            <div class="row">
-                <div class="col-md-12 hrpart1">
-                    <button type="button" onclick="Create();" class="form-button">Create</button>
-                    <button type="button" onclick="Exit();" class="form-button right">Exit</button>
+        <div class="row">
+            <div class="main-grid main-grid-top ">
+                <div class="table-responsive" id="grid">
+                    @Html.Action("FillWorkDescriptionList")
                 </div>
-
-                </div>
-
             </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-12 hrpart">
+                <button type="button" onclick="Create();" class="form-button">Create</button>
+                <button type="button" onclick="Exit();" class="form-button right">Exit</button>
+            </div>
+        </div>
 
     </div>
+
+</div>
+
+
 
 
 
