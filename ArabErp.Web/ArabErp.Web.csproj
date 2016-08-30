@@ -281,6 +281,7 @@
     <Compile Include="Controllers\StockPointController.cs" />
     <Compile Include="Controllers\StockReportController.cs" />
     <Compile Include="Controllers\StockReturnController.cs" />
+    <Compile Include="Controllers\StockTransferController.cs" />
     <Compile Include="Controllers\StoresIssueController.cs" />
     <Compile Include="Controllers\StoresLedgerController.cs" />
     <Compile Include="Controllers\SubAssemblyController.cs" />
@@ -819,6 +820,10 @@
     <Content Include="Views\SupplyOrderRegister\PengingSO.cshtml" />
     <Content Include="Views\SupplyOrderRegister\SOVariance.cshtml" />
     <Content Include="Views\StockCreation\Edit.cshtml" />
+    <Content Include="Views\StockTransfer\Create.cshtml" />
+    <Content Include="Views\StockTransfer\_Materials.cshtml" />
+    <Content Include="Views\StockTransfer\Index.cshtml" />
+    <Content Include="Views\StockTransfer\_PreviousList.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

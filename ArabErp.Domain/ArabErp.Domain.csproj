@@ -146,6 +146,8 @@
     <Compile Include="StockReportSummary.cs" />
     <Compile Include="StockReturn.cs" />
     <Compile Include="StockReturnItem.cs" />
+    <Compile Include="StockTransfer.cs" />
+    <Compile Include="StockTransferItem.cs" />
     <Compile Include="StockUpdate.cs" />
     <Compile Include="StoreIssue.cs" />
     <Compile Include="StoreIssueItem.cs" />

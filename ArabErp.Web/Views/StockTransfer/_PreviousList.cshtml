@@ -1,0 +1,89 @@
+﻿@model IList<ArabErp.Domain.StockTransfer>
+
+<script type="text/javascript">
+
+    function Details(id) {
+        var url = '@Url.Action("Edit")';
+        url += "/" + id;
+        window.location = url;
+    }
+
+</script>
+
+<table class="table table-bordered table-hover" id="stock-transfer-table">
+    <thead>
+        <tr class="grid_heading">
+            <th width="2%" class="text-center">#</th>
+            <th width="15%" nowrap><h1>Reference No. &amp; Date</h1></th>
+            <th width="20%"><h1>From</h1></th>
+            <th width="20%"><h1>To</h1></th>
+            <th width="30%"><h1>Materials/Spares</h1></th>
+            <th width="3%" class="text-right"><h1>Qty</h1></th>
+            <th width="10%" nowrap><h1>Created By</h1></th>
+            <th width="1%"></th>
+        </tr>
+    </thead>
+    <tbody class="grid_row">
+        @if (Model.Count > 0)
+        {
+            int i = 0, count = 0;
+            bool isMerge = true;
+            foreach (var item in Model)
+            {
+                <tr>
+                    @if (count == 0)
+                    {
+                        count = Model.Where(x => x.StockTransferId == item.StockTransferId).Count();
+                        isMerge = true;
+                        <td align="center" rowspan="@(count)">
+                            @*<input class="form_input text-center" style="width:100%" value="*@@(++i)@*" disabled />*@
+                        </td>
+                        <td rowspan="@(count)">
+                            @*<input class="form_input" value="*@@item.StockTransferRefNo - @item.StockTransferDate.ToString("dd MMMM yyyy")@*" disabled />*@
+                        </td>
+                        <td rowspan="@(count)">
+                            @*<input class="form_input" value="*@@item.FromStockpointName@*" disabled />*@
+                        </td>
+                        <td rowspan="@(count)">
+                            @*<input class="form_input" value="*@@item.ToStockpointName@*" disabled />*@
+                            @*<textarea class="form_input" onkeyup="textAreaAdjust(this)" style="overflow:visible; height:auto;" disabled>@item.Consumed</textarea>*@
+                            @*@Html.TextAreaFor(m => item.Consumed, new { @class = "form_input form_input-h1", autocomplete = "off" })*@
+                        </td>
+                    }
+                    else
+                    {
+                        isMerge = false;
+                    }
+                    <td>
+                        @*<input class="form_input" value="*@@item.ItemName@*" disabled />*@
+                    </td>
+                    <td align="right">
+                        @*<input class="form_input" value="*@@item.Quantity@*" disabled />*@
+                    </td>
+                    <td>
+                        @*<input class="form_input" value="*@@item.CreatedBy@*" disabled />*@
+                    </td>
+                    @if (isMerge)
+                    {
+                        <td rowspan="@(count)">
+                            <input type="button" class="form-button5" value="Select" onclick="Details(@item.StockTransferId)" />
+                        </td>
+                    }
+                </tr>
+                count--;
+            }
+        }
+        else
+        {
+            <tr>
+                <td colspan="8">
+                    <center>
+                        <em>
+                            No items to show!
+                        </em>
+                    </center>
+                </td>
+            </tr>
+        }
+</tbody>
+</table>

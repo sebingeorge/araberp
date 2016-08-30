@@ -1,0 +1,174 @@
+﻿@model ArabErp.Domain.StockTransfer
+
+<script type="text/javascript">
+
+    function AddRowToItems() {
+        var i = 0;
+        $('tr[id^="CI_"]').each(function () {
+            var id = this.id;
+            var row = Number(id.replace("CI_", ""));
+            if (row > i) {
+                i = row;
+            }
+        });
+        i++;
+        var item = $("#Items_" + (i - 1) + "__ItemId").val();
+        var quantity = $("#Items_" + (i - 1) + "__Quantity").val();
+        if (item != "" && quantity != "0") {
+            var clone = $('#CI_0').clone(); // clone the BatchProducts item
+            //Update the index of the clone
+            //clone.html($(clone).html().replace("SalesQuotationItems_0__", 'SalesQuotationItems_' + i + '__'));
+            clone.html($(clone).html().replace(/Items_0__/g, 'Items_' + i + '__'));
+            clone.html($(clone).html().replace(/Items_0__/g, 'Items_' + i + '__'));
+            clone.html($(clone).html().replace(/\Items[0]./g, 'Items[' + i + '].'));
+            clone.html($(clone).html().replace(/\[0\]/g, '[' + i + ']'));
+            clone.html($(clone).html().replace(/\(0\)/g, '(' + i + ')'));
+            clone.html($(clone).html().replace(/CI_0/, 'CI_' + i + ''));
+            clone.html($(clone).html().replace(/CI_slno_0/, 'CI_slno_' + i + ''));
+            //clone.html($(clone).html().replace(/this,0/, 'this,' + i + ''));
+            $("#transfer-items-table").append('<tr id="CI_' + i + '">' + clone.html() + '  </tr>');
+            $("#CI_slno_" + i).val((i + 1));
+            //$("#FinishedGoods_" + i + "__SlNo").val((i + 1));
+        }
+        else {
+            toastr.info("You have to fill the existing rows before adding a new row");
+        }
+        //bind keypress event
+        $(".numbers-only").keypress(function (e) {
+            if (e.which == 8 || (e.which == 45 && $(this).val().indexOf('-') == -1) || (e.which == 46 && $(this).val().indexOf('.') == -1) || (e.which > 47 && e.which < 58)) { }
+            else { return false; }
+        });
+
+        $("#CI_" + i).find('span[class="custom-combobox"]').remove();
+        $("#Items_" + i + "__ItemId").combobox();
+    }
+
+    function DeleteRowFromConsumed(index) {
+        var i = 0;
+        var no = 1;
+        $('tr[id^="CI_"]').each(function () {
+            var id = this.id;
+            no++;
+            var row = Number(id.replace("CI_", ""));
+            if (row > i) {
+                i = row;
+            }
+        });
+        i++;
+
+        if (i > 1) {
+            $("#CI_" + index).remove();
+            for (var j = index + 1; j < i; j++) {
+                var ItemId = $("#Items_" + j + "__ItemId").val();
+                var Quantity = $("#Items_" + j + "__Quantity").val();
+                var Rate = $("#Items_" + j + "__Rate").val();
+
+                var clone = $("#CI_" + j).clone(true, true);
+                clone.html($(clone).html().replace(new RegExp("Items_" + j + "__", "g"), 'Items_' + (j - 1) + '__'));
+                clone.html($(clone).html().replace(new RegExp("\\[" + j + "].", "g"), "[" + (j - 1) + "]."));
+                clone.html($(clone).html().replace("DeleteRowFromConsumed(" + j, "DeleteRowFromConsumed(" + (j - 1)));
+                clone.html($(clone).html().replace('CI_slno_' + j, 'CI_slno_' + (j - 1)));
+                //clone.html($(clone).html().replace("Delete(" + j, "Delete(" + (j - 1)));
+                //clone.html($(clone).html().replace("Row_" + j, "Row_" + (j - 1)));
+                //clone.html($(clone).html().replace("this," + j, "this," + (j - 1)));
+                $("#CI_" + j).html(clone.html());
+                //$("#Items_" + (j - 1) + "__SlNo").val(j);
+                $("#CI_" + (j)).attr('id', 'CI_' + (j - 1));
+                $("#CI_slno_" + (j - 1)).val(j);
+
+                $("#Items_" + (j - 1) + "__ItemId").val(ItemId);
+                $("#Items_" + (j - 1) + "__Quantity").val(Quantity);
+                $("#Items_" + (j - 1) + "__Rate").val(Rate);
+            }
+        }
+    }
+
+    function OnConsumedMaterialChanged(index) {
+        //check whether the material is already selected in any grid
+        var item = $("#Items_" + index + "__ItemId").val();
+        if (item == '') {
+            $("#Items_" + index + "__StockQuantity").val(0);
+            return;
+        }
+        var count = 0;
+        $("select[id$='__ItemId']").each(function (index, object) {
+            if ($(object).val() == item) {
+                count++;
+            }
+        })
+        if (count > 1) {
+            toastr.info("This Material/Spare has already been added");
+            $("#Items_" + index + "__ItemId").val('');
+            $("#Items_" + index + "__StockQuantity").val(0);
+            $("#Items_" + index + "__ItemId").combobox("destroy");
+            $("#Items_" + index + "__ItemId").combobox();
+            return;
+        }
+
+        //check whether stock point is selected before selecting consumed item
+        if ($("#FromStockpointId").val() == '') {
+            toastr.info("You have to select the Stock Point before selecting material/spare");
+            $("#Items_" + index + "__ItemId").val('');
+            $("#Items_" + index + "__ItemId").combobox("destroy");
+            $("#Items_" + index + "__ItemId").combobox();
+            return;
+        }
+
+        //load the stock quantity of the selected item
+        var date = $("#StockTransferDate").val();
+        var material = $("#Items_" + index + "__ItemId").val();
+        $("#Items_" + index + "__StockQuantity").val(0);
+        if (material == '') return;
+        var url = '@Url.Action("GetStockQuantity")';
+        $.getJSON(url, { date: date, id: material, stockpoint: $("#FromStockpointId").val() }, function (data) {
+            $("#Items_" + index + "__StockQuantity").val(data);
+        })
+    }
+
+</script>
+
+<table class="table table-bordered" id="transfer-items-table">
+    <thead>
+        <tr class="grid_heading">
+            <th width="2%"></th>
+            <th width="3%" class="text-center">#</th>
+            <th width="63%"><h1>Material/Spare</h1></th>
+            <th width="10%" class="text-right"><h1>Stock</h1></th>
+            <th width="10%" class="text-right"><h1>Quantity</h1></th>
+            @*<th width="10%" class="text-right"><h1>Rate</h1></th>*@
+            <th width="2%"></th>
+        </tr>
+    </thead>
+    <tbody class="grid_row">
+        @if (Model.Items.Count > 0)
+        {
+            for (int i = 0; i < Model.Items.Count; i++)
+            {
+                <tr id="CI_@i">
+                    <td style="vertical-align:middle" align="center">
+                        <a class="glyphicon glyphicon-minus" style="top:0px" onclick="DeleteRowFromConsumed(@i)"></a>
+                    </td>
+                    <td>
+                        @Html.HiddenFor(m => m.Items[i].StockTransferItemId)
+                        <input id="CI_slno_@i" type="text" value="@(i + 1)" style="width:100%" class="form_input text-center" disabled />
+                    </td>
+                    <td>
+                        @Html.DropDownListFor(m => m.Items[i].ItemId, new SelectList(ViewBag.materialList, "Value", "Text", Model.Items[i].ItemId), "Select Material/Spare", new { @class = "form_input", @required = "true", @onchange = "OnConsumedMaterialChanged(" + i + ")" })
+                    </td>
+                    <td>
+                        @Html.TextBoxFor(m => m.Items[i].StockQuantity, new { @class = "form_input text-right numbers-only", @readonly = "true" })
+                    </td>
+                    <td>
+                        @Html.TextBoxFor(m => m.Items[i].Quantity, new { @class = "form_input text-right numbers-only", @required = "true" })
+                    </td>
+                    @*<td>
+                        @Html.TextBoxFor(m => m.Items[i].Rate, new { @class = "form_input text-right numbers-only" })
+                    </td>*@
+                    <td style="vertical-align:middle" align="center">
+                        <a id="add_row" class="glyphicon glyphicon-plus" style="top:0px" onclick="AddRowToItems()"></a>
+                    </td>
+                </tr>
+            }
+        }
+    </tbody>
+</table>

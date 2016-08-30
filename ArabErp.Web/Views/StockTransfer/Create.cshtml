@@ -1,0 +1,143 @@
+﻿@model ArabErp.Domain.StockTransfer
+
+@{
+    ViewBag.Title = "Stock Transfer";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<script type="text/javascript">
+
+    $(document).ready(function () {
+        $("select[id$='__ItemId']").combobox();
+        $("#StockTransferRefNo").tooltip();
+
+        //---------------------toastr---------------------------//
+        toastr.options = {
+            "positionClass": "toast-bottom-full-width",
+            "timeOut": "5000",
+            "extendedTimeOut": "2000"
+        }
+        if ('@TempData["success"]' != '') {
+            toastr.success('@TempData["success"]');
+        }
+        else if ('@TempData["error"]' != '') {
+            toastr.error('@TempData["error"]'.split('|')[0]);
+            console.log('@TempData["error"]'.split('|')[1]);
+        }
+        @{ TempData["success"] = TempData["error"] = ""; }
+        //------------------------------------------------------//
+
+        $("#StockTransferDate").datepicker({
+            dateFormat: "dd-MM-yy"
+        });
+
+        //bind keypress event
+        $(".numbers-only").keypress(function (e) {
+            if (e.which == 8 || (e.which == 45 && $(this).val().indexOf('-') == -1) || (e.which == 46 && $(this).val().indexOf('.') == -1) || (e.which > 47 && e.which < 58)) { }
+            else { return false; }
+        });
+
+    })
+
+    function formValidation() {
+        var status = true;
+        $("input[id$='__StockQuantity']").each(function (index, object) {
+            if ($(object).val() <= 0) {
+                toastr.info("Consumed items should be in stock");
+                status = false;
+                return false;
+            }
+            else if (Number($(object).val()) < Number($("#Items_" + index + "__Quantity").val())) {
+                toastr.info("Consumed quantity cannot be greater than stock quantity");
+                status = false;
+                return false;
+            }
+        })
+        return status;
+    }
+
+    function Previous() {
+        var url = '@Url.Action("Index")';
+        window.location = url;
+    }
+
+    function OnItemstockPointChanged() {
+        OnStockpointChanged($("#FromStockpointId"));
+        $("#transfer-table").addClass("fade");
+        $("input[id$='__StockQuantity']").each(function (index, object) {
+            if ($("#FromStockpointId").val() == '') {
+                $(object).val(0);
+            }
+            else OnConsumedMaterialChanged(index);
+        })
+        $("#transfer-table").removeClass("fade");
+    }
+
+    function OnStockpointChanged(sender) {
+        if (Number($("#FromStockpointId").val()) == Number($("#ToStockpointId").val())) {
+            toastr.info("Both stockpoints cannot be same");
+            $(sender).val('');
+        }
+    }
+
+    function Exit() {
+        var url = '@Url.Action("Index", "Home")';
+        window.location = url;
+    }
+
+</script>
+
+
+<div class="row">
+    <div class="form-head1">
+        <h4>Stock Transfer</h4>
+    </div>
+
+    <div class="main-part pad1">
+        @using (Html.BeginForm(null, null, FormMethod.Post, new { @class = "createFrom", @id = "stock-creation-form", @onsubmit = "return formValidation()" }))
+        {
+            <div class="row form-group">
+                <div class="col-md-12">
+                    <em id="expiry-notification"></em>
+                </div>
+            </div>
+
+            <div class="row form-group">
+                <div class="col-md-2">
+                    <label for="StockTransferRefNo">Reference No.</label>
+                    @Html.TextBoxFor(m => m.StockTransferRefNo, new { @class = "form_input", @readonly = "true", @title = "This number may change after saving" })
+                </div>
+                <div class="col-md-2">
+                    <label for="StockTransferDate">Date</label>
+                    @Html.TextBoxFor(m => m.StockTransferDate, Model.StockTransferDate.ToString("dd-MMMM-yyyy"), new { @class = "form_input", @readonly = "true", @required = "true", @onchange = "OnItemstockPointChanged()" })
+                </div>
+                <div class="col-md-3">
+                    <label for="ItemstockpointId">Source</label>
+                    @Html.DropDownListFor(m => m.FromStockpointId, (SelectList)ViewBag.stockpointList, "Select Stockpoint", new { @class = "form_input", @onchange = "OnItemstockPointChanged()" })
+                </div>
+            </div>
+            
+            
+            <br />
+            <strong>Materials/Spares:</strong>
+            <div class="table-responsive scroll4" id="transfer-table">
+                @Html.Partial("_Materials")
+            </div>
+            
+            <div class="row">
+                <div class="col-md-3">
+                    <label for="FinishedGoodStockpointId">Destination</label>
+                    @Html.DropDownListFor(m => m.ToStockpointId, (SelectList)ViewBag.stockpointList, "Select Stockpoint", new { @class = "form_input", @onchange = "OnStockpointChanged(this)" })
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-12 hrpart">
+                    <input type="button" class="form-button" value="Previous" onclick="Previous()" title="Previous stock transfers" />
+                    <input type="button" class="form-button right" value="Exit" onclick="Exit()" title="Go to home page" />
+                    <input type="submit" class="form-button right" value="Save" />
+                </div>
+            </div>
+        }
+    </div>
+</div>
