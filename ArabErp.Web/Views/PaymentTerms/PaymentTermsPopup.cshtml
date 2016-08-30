@@ -31,15 +31,19 @@
                     columns.Add(m => m.PaymentTermsName).Titled("Name").SetWidth(120);
                     columns.Add().Encoded(false).Sanitized(false).SetWidth(20).RenderValueAs(o => @<center><a href="javascript:void(0);" class="form-button5" onclick="SetPaymentTerm('@o.PaymentTermsName')">Select</a></center>
     );
-    }).WithPaging(10)
+                }).WithPaging(10)
 
-</div>
+    </div>
 
 </div>
 <script>
-    function SetPaymentTerm(term)
-    {
-        window.opener.$("#PaymentTerms").val(term);
+    function SetPaymentTerm(term) {
+        var existing_value = window.opener.$("#PaymentTerms").val();
+        var existing_array = existing_value.split(', ');
+        if ($.inArray(term, existing_array) < 0) {
+            var coma = existing_value == '' ? '' : ', ';
+            window.opener.$("#PaymentTerms").val(existing_value + coma + term);
+        }
         window.close();
         return false;
     }
