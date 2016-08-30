@@ -72,6 +72,12 @@ namespace ArabErp.Web.Controllers
             return TransferItems;
         }
 
+        //public ActionResult Edit(int id = 0)
+        //{
+        //    if (id == 0) return RedirectToAction("Index", "Home");
+        //    return View("")
+        //}
+
         #region Dropdowns
         public void FillDropdowns()
         {

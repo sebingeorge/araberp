@@ -18,7 +18,7 @@ namespace ArabErp.DAL
             {
                 IDbTransaction txn = connection.BeginTransaction();
 
-                string sql = @"insert  into ItemBatch(GRNItemId,SerialNo,CreatedBy,CreatedDate,OrganizationId, isActive) Values (@GRNItemId,@SerialNo,@CreatedBy,@CreatedDate,@OrganizationId,1);
+                string sql = @"insert  into ItemBatch(GRNItemId,SerialNo,CreatedBy,CreatedDate,OrganizationId, isActive) Values (@GRNItemId,LTRIM(RTRIM(@SerialNo)),@CreatedBy,@CreatedDate,@OrganizationId,1);
                                 SELECT CAST(SCOPE_IDENTITY() as int)";
 
                 try
@@ -277,7 +277,9 @@ namespace ArabErp.DAL
 	                                B.ItemBatchId,
 	                                I.ItemName,
 									B.GRNDate,
-									B.GRNNo
+									B.GRNNo,
+									SO.SaleOrderRefNo,
+									WD.WorkDescriptionRefNo WorkDescrRefNo
 									--ISNULL(R.ReservedQuantity, 0) ReservedQuantity
                                 FROM SaleOrderItem SOI
                                 INNER JOIN WorkDescription WD ON SOI.WorkDescriptionId = WD.WorkDescriptionId
@@ -285,6 +287,7 @@ namespace ArabErp.DAL
                                 INNER JOIN #BATCH B ON WI.ItemId = B.ItemId
                                 INNER JOIN Item I ON B.ItemId = I.ItemId
 								LEFT JOIN #RESERVED R ON B.ItemId = R.ItemId
+								INNER JOIN SaleOrder SO ON SOI.SaleOrderId = SO.SaleOrderId
                                 WHERE SOI.SaleOrderItemId = @id AND WI.ItemId = @item;
 
                                 DROP TABLE #BATCH;
@@ -585,22 +588,26 @@ namespace ArabErp.DAL
 	                                G.GRNId,
 	                                G.GRNNo,
 	                                CONVERT(VARCHAR, G.GRNDate, 106) GRNDate,
+									I.ItemName,
 	                                --SOI.SaleOrderItemId,
 	                                --DeliveryChallanId,
 	
 	                                STUFF((SELECT ', ' + CAST(T1.SerialNo AS VARCHAR(MAX)) [text()]
 									                                FROM ItemBatch T1
 									                                WHERE T1.GRNItemId = IB.GRNItemId
-									                                FOR XML PATH(''), TYPE).value('.','NVARCHAR(MAX)'),1,2,'') SerialNo,
+									                                FOR XML PATH('')),1,1,'') SerialNo,
 
-	                                CONVERT(VARCHAR, IB.CreatedDate, 106) CreatedDate
+	                                CONVERT(VARCHAR, IB.CreatedDate, 106) CreatedDate,
+									IB.CreatedDate
                                 FROM ItemBatch IB
                                 INNER JOIN GRNItem GI ON IB.GRNItemId = GI.GRNItemId
                                 INNER JOIN GRN G ON GI.GRNId = G.GRNId
+								INNER JOIN Item I ON GI.ItemId = I.ItemId
                                 WHERE G.GRNId = ISNULL(NULLIF(CAST(@id AS INT), 0), G.GRNId)
                                 AND IB.OrganizationId = @OrganizationId
                                 AND IB.isActive = 1
-								AND G.GRNDate BETWEEN ISNULL(@from, DATEADD(MONTH, -1, GETDATE())) AND ISNULL(@to, GETDATE())";
+								AND G.GRNDate BETWEEN ISNULL(@from, DATEADD(MONTH, -1, GETDATE())) AND ISNULL(@to, GETDATE())
+								ORDER BY IB.CreatedDate DESC";
                 var list = connection.Query<ItemBatch>(query, new
                 {
                     OrganizationId = OrganizationId,
