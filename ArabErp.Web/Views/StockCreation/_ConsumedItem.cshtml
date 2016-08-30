@@ -122,27 +122,7 @@
             return;
         }
 
-        @*var date = $("#StockCreationDate").val();
-        var material = $("#ConsumedItems_" + index + "__ItemId").val();
 
-        $.ajax({
-             url:  "@Url.Action("GetStockQuantity")",
-            data: { date: date, id: material, stockpoint: $("#ConsumedStockpointId").val() },
-        cache: false,
-        type: "GET",
-        timeout: 10000,
-        dataType: "json",
-        success: function (result) {
-            if (result.Success) { // this sets the value from the response
-                $("#ConsumedItems_" + index + "__StockQuantity").val(data.Quantity);
-                $("#ConsumedItems_" + index + "__Unit").val(data.UnitName);
-                   
-            } else {
-                $('#SomeOtherHtmlTextBox').val("Failed");
-            }
-        }
-
-    });*@
         var date = $("#StockCreationDate").val();
         var material = $("#ConsumedItems_" + index + "__ItemId").val();
         if (material == '') return;

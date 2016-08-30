@@ -633,7 +633,7 @@ namespace ArabErp.Web.Controllers
             var result1 = new SalesQuotationRepository().CHECK(model.SalesQuotationId);
             if (result1 > 0)
             {
-                TempData["error"] = "Sorry!!..Already Used!!";
+                TempData["error"] = "Sorry!!..Already Approved!";
                 TempData["ExpenseNo"] = null;
                 return View("Edit", model);
             }
@@ -674,7 +674,7 @@ namespace ArabErp.Web.Controllers
             var result1 = new SalesQuotationRepository().CHECK(Id);
             if (result1 > 0)
             {
-                TempData["error"] = "Sorry!!..Already Used!!";
+                TempData["error"] = "Sorry!!..Already Approved!";
                 TempData["ExpenseNo"] = null;
                 return RedirectToAction("Edit", new { id = Id });
             }
