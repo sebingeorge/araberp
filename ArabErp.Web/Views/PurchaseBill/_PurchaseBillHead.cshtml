@@ -54,4 +54,10 @@
         @Html.TextBoxFor(m => m.PurchaseBillDueDate, Model.PurchaseBillDueDate.ToString("dd/MMMM/yyyy"), new { @class = "form_input ", autocomplete = "off", @readonly = "readonly" })
     </div>
 
+    <div class="col-md-4">
+        <label for="SupplyOrderNo">Supply Order No</label>
+        @Html.TextBoxFor(m => m.SupplyOrderNo, new { @class = "form_input", autocomplete = "off", @readonly = "readonly" })
+        @*@Html.HiddenFor(m => m.SupplierId, new { @class = "form_input", autocomplete = "off" })*@
+    </div>
+
 </div>

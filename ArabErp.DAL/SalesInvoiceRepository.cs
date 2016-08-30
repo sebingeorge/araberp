@@ -31,8 +31,13 @@ namespace ArabErp.DAL
             using (IDbConnection connection = OpenConnection(dataConnection))
             {
 
-                string sql = @"select * from SalesInvoice
-                        where SalesInvoiceId=@SalesInvoiceId";
+                string sql = @" select SalesInvoiceRefNo,SalesInvoiceDate,CustomerName Customer,Concat(DoorNo,',',Street,',',Phone)CustomerAddress,SI.PaymentTerms,V.RegistrationNo,J.JobCardNo,VO.VehicleOutPassNo  from SalesInvoice SI
+                                inner join SaleOrder S on S.SaleOrderId=SI.SaleOrderId
+                                inner join Customer C ON C.CustomerId=S.CustomerId
+                                inner join JobCard J ON J.SaleOrderId=S.SaleOrderId
+                                left join VehicleInPass V ON V.VehicleInPassId=J.InPassId
+	                            left join VehicleOutPass VO ON VO.JobCardId=J.JobCardId
+                                where SalesInvoiceId=@SalesInvoiceId";
 
                 var objSalesInvoice = connection.Query<SalesInvoice>(sql, new
                 {

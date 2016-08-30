@@ -30,6 +30,24 @@ namespace ArabErp.DAL
             }
         }
 
+        public PurchaseBill GetSupplyOrderNos(List<int> selectedgrn)
+        {
+            using (IDbConnection connection = OpenConnection(dataConnection))
+            {
+                string sql = @" SELECT  STUFF((SELECT Distinct ', ' + CAST(SO.SupplyOrderNo AS VARCHAR(MAX)) [text()]
+                                FROM GRNItem GT1 
+                                INNER  JOIN SupplyOrderItem SOT ON SOT.SupplyOrderItemId =GT1.SupplyOrderItemId
+                                INNER  JOIN SupplyOrder SO on SO.SupplyOrderId=SOT.SupplyOrderId
+                                WHERE GT1.GRNId in  @selectedgrn
+                                FOR XML PATH(''), TYPE).value('.','NVARCHAR(MAX)'),1,2,' ') SupplyOrderNo";
+
+                var objPendingGRN = connection.Query<PurchaseBill>(sql, new { selectedgrn = selectedgrn }).Single<PurchaseBill>();
+
+                return objPendingGRN;
+            }
+        }
+
+
         /// <summary>
         /// 
         /// </summary>
@@ -103,6 +121,24 @@ namespace ArabErp.DAL
             }
         }
 
+        public PurchaseBill PBSupplyOrderNos(int PurchaseBillId)
+        {
+            using (IDbConnection connection = OpenConnection(dataConnection))
+            {
+                string sql = @" SELECT  STUFF((SELECT Distinct ', ' + CAST(SO.SupplyOrderNo AS VARCHAR(MAX)) [text()]
+                                FROM PurchaseBillItem PI
+								INNER JOIN GRNItem GI ON GI.GRNItemId=PI.GRNItemId
+								INNER  JOIN SupplyOrderItem SOT ON SOT.SupplyOrderItemId =GI.SupplyOrderItemId
+								INNER  JOIN SupplyOrder SO on SO.SupplyOrderId=SOT.SupplyOrderId
+								WHERE PurchaseBillId =@PurchaseBillId
+                                FOR XML PATH(''), TYPE).value('.','NVARCHAR(MAX)'),1,2,' ') SupplyOrderNo";
+
+                var objPendingGRN = connection.Query<PurchaseBill>(sql, new { PurchaseBillId = PurchaseBillId }).Single<PurchaseBill>();
+
+                return objPendingGRN;
+            }
+        }
+
         public List<PurchaseBill> GetPurchaseBills()
         {
             using (IDbConnection connection = OpenConnection(dataConnection))
@@ -165,16 +201,24 @@ namespace ArabErp.DAL
         /// </summary>
         /// <returns></returns>
         public IEnumerable<PendingGRN> GetGRNPending(int supplierId)
+
         {
             using (IDbConnection connection = OpenConnection(dataConnection))
             {
-                string qry = @"Select distinct G.GRNId,G.GRNNo,G.GRNDate,S.SupplierName,S.SupplierId,DATEDIFF(dd,G.GRNDate,GETDATE ()) Ageing,ST.StockPointName, ISNULL(G.GrandTotal, 0.00) GrandTotal 
-                               from GRN G 
-                               INNER JOIN GRNItem GI ON G.GRNId=GI.GRNId
-                               INNER JOIN Supplier S ON G.SupplierId=S.SupplierId
-                               INNER JOIN Stockpoint ST ON G.WareHouseId = ST.StockPointId
-                               LEFT JOIN PurchaseBillItem P ON P.GRNItemId=GI.GRNItemId 
-                               WHERE P.PurchaseBillId is null AND S.SupplierId=ISNULL(NULLIF(@supplierId, 0), S.SupplierId)";
+                string qry = @" SELECT distinct G.GRNId,G.GRNNo,G.GRNDate,
+                                STUFF((SELECT Distinct ', ' + CAST(SO.SupplyOrderNo AS VARCHAR(MAX)) [text()]
+                                FROM GRNItem GT1 
+                                INNER  JOIN SupplyOrderItem SOT ON SOT.SupplyOrderItemId =GT1.SupplyOrderItemId
+                                INNER  JOIN SupplyOrder SO on SO.SupplyOrderId=SOT.SupplyOrderId
+                                WHERE GT1.GRNId = GI.GRNId
+                                FOR XML PATH(''), TYPE).value('.','NVARCHAR(MAX)'),1,2,' ') SupplyOrderNo,S.SupplierName,S.SupplierId,
+                                DATEDIFF(dd,G.GRNDate,GETDATE ()) Ageing,ST.StockPointName, ISNULL(G.GrandTotal, 0.00) GrandTotal 
+                                FROM GRN G 
+                                INNER JOIN GRNItem GI ON G.GRNId=GI.GRNId
+                                INNER JOIN Supplier S ON G.SupplierId=S.SupplierId
+                                INNER JOIN Stockpoint ST ON G.WareHouseId = ST.StockPointId
+                                LEFT JOIN PurchaseBillItem P ON P.GRNItemId=GI.GRNItemId 
+                                WHERE P.PurchaseBillId is null AND S.SupplierId=ISNULL(NULLIF(@supplierId, 0), S.SupplierId)";
                               
                 return connection.Query<PendingGRN>(qry, new { SupplierId = supplierId }).ToList();
             }
