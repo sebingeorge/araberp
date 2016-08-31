@@ -201,6 +201,14 @@ namespace ArabErp.Web.Controllers
         {
             return View();
         }
+        public ActionResult SalesInvoice()
+        {
+            return View();
+        }
+        public ActionResult PendingSalesInvoice()
+        {
+            return View();
+        }
         public ActionResult PreviousGRN()
         {
             return View();

@@ -850,6 +850,8 @@
     <Content Include="Views\ProductionPlan\CustomerOrderMPR.cshtml" />
     <Content Include="Views\ProductionPlan\StockOrderMPR.cshtml" />
     <Content Include="Views\ProductionPlan\ProductionPlanMPR.cshtml" />
+    <Content Include="Views\ProductionPlan\SalesInvoice.cshtml" />
+    <Content Include="Views\ProductionPlan\PendingSalesInvoice.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
