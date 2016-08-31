@@ -34,11 +34,9 @@ namespace ArabErp.Domain
         public string SoNoWithDate { get; set; }
         public DateTime EDateArrival { get; set; }
         public DateTime EDateDelivery { get; set; }
-       
-        public List<WorkShopRequestItem> Items { get; set; }
-
         public int Ageing { get; set; }
         public int DaysLeft { get; set; }
-        
+        public List<WorkShopRequestItem> Items { get; set; }
+        public List<WorkShopRequestItem> AdditionalMaterials { get; set; }
     }
 }

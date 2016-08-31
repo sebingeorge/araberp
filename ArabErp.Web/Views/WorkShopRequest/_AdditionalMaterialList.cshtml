@@ -1,8 +1,8 @@
 ﻿@model ArabErp.Domain.WorkShopRequest
 
-@{string actionName = ViewContext.RouteData.GetRequiredString("action");}
+@*@{string actionName = ViewContext.RouteData.GetRequiredString("action");}*@
 
-<script type = "text/javascript" >
+<script type="text/javascript">
 
     $(document).ready(function () {
         $("#Items_0__SlNo").val('1');
@@ -10,7 +10,7 @@
 
 
     function AddAdditionRow() {
-        
+
             var i = 0;
             var no = 1;
             $('input[id^="Row_"]').each(function () {
@@ -52,7 +52,7 @@
                 }
             });
         }
-  
+
 
     function Delete(index) {
 
@@ -132,38 +132,38 @@
     <thead>
         <tr class="grid_heading">
             <th width="2%" class="text-center"></th>
-         <th width="5%" class="text-center "><h1>#</h1></th>
-            <th><h1>Material/Spares</h1></th>
+            <th width="5%" class="text-center "><h1>#</h1></th>
+            <th width="35%"><h1>Material/Spares</h1></th>
             <th width="10%"><h1>Part No.</h1></th>
-            <th><h1>Remarks</h1></th>
+            <th width="35%"><h1>Remarks</h1></th>
             <th width="5%" class="text-right "><h1>Qty.</h1></th>
-            <th width="5%"><h1>UoM</h1></th>
+            <th width="6%"><h1>UoM</h1></th>
             <th width="2%" class="text-center"></th>
         </tr>
     </thead>
     <tbody class="grid_row">
-        @for (int i = 0; i < Model.Items.Count; i++)
+        @for (int i = 0; i < Model.AdditionalMaterials.Count; i++)
         {
-            
+
             <tr id="@i">
                 <td style="vertical-align:middle"><a class="glyphicon glyphicon-minus" style="top:0px" onclick="Delete(@i)"></a></td>
                 <td align="center">
                     <span id="slno@(i+1)">@(i + 1)</span>
-                    @Html.HiddenFor(m => m.Items[i].SlNo)
+                    @Html.HiddenFor(m => m.AdditionalMaterials[i].SlNo)
                 </td>
 
                 <td>
                     <input type="hidden" id="Row_@i" />
-                    @Html.DropDownListFor(m => m.Items[i].ItemId, (SelectList)ViewBag.itemList, "Select Material", new { @class = "form_input", autocomplete = "off", @onchange = "OnItemChange(this," + i + ")" })
+                  
+                    @Html.DropDownListFor(m => m.AdditionalMaterials[i].ItemId,new SelectList(ViewBag.itemList, "Value", "Text", Model.AdditionalMaterials[i].ItemId), "Select Material/Spares", new { @class = "form_input", autocomplete = "off", @onchange = "OnItemChange(this," + i + ")" })
                 </td>
-                <td id="partno0" class="qreturn" style="vertical-align:middle"></td>
-                <td>@Html.TextBoxFor(m => m.Items[i].Remarks, new { @class = "form_input", autocomplete = "off", placeholder = "Remarks" })</td>
-                <td>@Html.TextBoxFor(m => m.Items[i].Quantity, new { @class = "form_input numbers-only text-right", autocomplete = "off", placeholder = "Qty" })</td>
-                <td id="unit0" class="qreturn" style="vertical-align:middle"></td>
+                <td id="partno0" class="qreturn" style="vertical-align:middle">@Html.TextBoxFor(m => m.AdditionalMaterials[i].PartNo, new { @class = "form_input text-left", @readonly = "true" })</td>
+                <td>@Html.TextBoxFor(m => m.AdditionalMaterials[i].Remarks, new { @class = "form_input", autocomplete = "off", placeholder = "Remarks" })</td>
+                <td>@Html.TextBoxFor(m => m.AdditionalMaterials[i].Quantity, new { @class = "form_input numbers-only text-right", autocomplete = "off", placeholder = "Qty" })</td>
+               
+                <td id="unit0" class="qreturn" style="vertical-align:middle">@Html.TextBoxFor(m => m.AdditionalMaterials[i].UnitName, new { @class = "form_input text-left", @readonly = "true" })</td>
                 <td style="vertical-align:middle"><a id="add_row" class="glyphicon glyphicon-plus" style="top:0px" onclick="AddAdditionRow()"></a></td>
             </tr>
         }
     </tbody>
 </table>
-@*<a id="add_row" class="glyphicon glyphicon-plus"></a>*@
-@*<a id='delete_row' style="float:right" class="glyphicon glyphicon-minus"></a>*@

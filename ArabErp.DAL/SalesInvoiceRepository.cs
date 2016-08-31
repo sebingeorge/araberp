@@ -227,7 +227,7 @@ namespace ArabErp.DAL
                                 SO.SaleOrderId SaleOrderId,
                                 S.SymbolName CurrencySymbol,
                                 Convert(varchar(15),Getdate(),106) CurrentDate,
-                                (getdate()+CreditPeriod)SalesInvoiceDueDate,
+                                isnull((getdate()+CreditPeriod),getdate())SalesInvoiceDueDate,
                                 SO.SaleOrderRefNo SaleOrderRefNo ,
                                 Concat(C.DoorNo,',',C.Street,',',C.State,',',C.Country,',',C.Zip)
                                 CustomerAddress,
@@ -251,7 +251,7 @@ namespace ArabErp.DAL
                             SO.SaleOrderId SaleOrderId,
                             S.SymbolName CurrencySymbol,
                             Convert(varchar(15),Getdate(),106) CurrentDate,
-                            (getdate()+CreditPeriod)SalesInvoiceDueDate,
+                            isnull((getdate()+CreditPeriod),getdate())SalesInvoiceDueDate,
                             SO.SaleOrderRefNo SaleOrderRefNo ,
                             Concat(C.DoorNo,',',C.Street,',',C.State,',',C.Country,',',C.Zip)
                             CustomerAddress,
@@ -275,7 +275,7 @@ namespace ArabErp.DAL
                             SO.SaleOrderId SaleOrderId,
                             S.SymbolName CurrencySymbol,
                             Convert(varchar(15),Getdate(),106) CurrentDate,
-                            (getdate()+CreditPeriod)SalesInvoiceDueDate,
+                            isnull((getdate()+CreditPeriod),getdate())SalesInvoiceDueDate,
                             SO.SaleOrderRefNo SaleOrderRefNo ,
                             Concat(C.DoorNo,',',C.Street,',',C.State,',',C.Country,',',C.Zip)
                             CustomerAddress,
@@ -354,7 +354,7 @@ namespace ArabErp.DAL
             {
                 var param = new DynamicParameters();
                 SalesInvoice SalesInvoice = connection.Query<SalesInvoice>(
-                    "select DATEADD(day,CreditPeriod,@date) SalesInvoiceDueDate FROM SaleOrder S INNER JOIN Customer C ON S.CustomerId=C.CustomerId WHERE SaleOrderId= " + SaleOrderId,
+                    "SELECT ISNULL( DATEADD(day,CreditPeriod,@date),getdate()) SalesInvoiceDueDate FROM SaleOrder S INNER JOIN Customer C ON S.CustomerId=C.CustomerId WHERE SaleOrderId= " + SaleOrderId,
                     new { date = d }).Single<SalesInvoice>();
                 DateTime duedate = System.DateTime.Today;
                 if (SalesInvoice != null)

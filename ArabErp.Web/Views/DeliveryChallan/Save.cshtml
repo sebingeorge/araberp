@@ -31,6 +31,7 @@
             function (data) {
                 $("#txtJCNoDate").val(data.JobCardNoDate);
                 $("#txtSONoDate").val(data.SaleOrderNoDate);
+                $("#txtCustomerOrderRef").val(data.CustomerOrderRef);
                 $("#txtVehicleModel").val(data.VehicleModel);
                 $("#txtWork").val(data.WorkDescr);
                 $("#txtCustomer").val(data.CustomerName);
@@ -58,7 +59,7 @@
 
 <div class="row">
     <div class="form-head1">
-        <h4>Create Delivery Challan</h4>
+        <h4>Delivery Challan</h4>
     </div>
     <div class="main-part pad1">
 
@@ -77,7 +78,7 @@
                 </div>
             </div>
             <div class="row form-group">
-                <div class="col-md-5">
+                <div class="col-md-4">
                     <label>Customer</label>
                     <input type="text" class="form_input" id="txtCustomer" readonly />
                 </div>
@@ -85,11 +86,15 @@
                     <label>SO. No. &amp; Date</label>
                     <input type="text" class="form_input" id="txtSONoDate" readonly />
                 </div>
+                <div class="col-md-2">
+                    <label>Customer Order Ref No.</label>
+                    <input type="text" class="form_input" id="txtCustomerOrderRef" readonly />
+                </div>
                 <div class="col-md-2" title="Job Card Ref. No. and Date">
                     <label>JC. No. &amp; Date</label>
                     <input type="text" class="form_input" id="txtJCNoDate" readonly />
                 </div>
-                <div class="col-md-3">
+                <div class="col-md-2">
                     <label>Chasis No./Reg No.</label>
                     <input type="text" class="form_input" id="txtRegNo" readonly />
                 </div>
@@ -120,7 +125,7 @@
                 <table class="table table-bordered">
                     <thead>
                         <tr class="grid_heading">
-                            <th width="5%" class="text-center">#</th>
+                            <th width="2%" class="text-center">#</th>
                             <th width="30%"><h1>Serial Number</h1></th>
                             <th width="30%"><h1>Item</h1></th>
                             <th width="10%" nowrap><h1>Warranty Period (in months)</h1></th>
@@ -135,13 +140,13 @@
                                 <tr>
                                     <td align="center">
                                         @Html.HiddenFor(m => m.ItemBatches[i].ItemBatchId)
-                                        <input class="form_input" value="@(i+1)" disabled />
+                                        @*<input class="form_input" value="*@@(i+1)@*" disabled />*@
                                     </td>
                                     <td>
-                                        @Html.TextBoxFor(m => m.ItemBatches[i].SerialNo, new { @class = "form_input", @disabled = "true" })
+                                        @Html.TextBoxFor(m => m.ItemBatches[i].SerialNo, new { @class = "form_input", @readonly = "true" })
                                     </td>
                                     <td>
-                                        @Html.TextBoxFor(m => m.ItemBatches[i].ItemName, new { @class = "form_input", @disabled = "true" })
+                                        @Html.TextBoxFor(m => m.ItemBatches[i].ItemName, new { @class = "form_input", @readonly = "true" })
                                     </td>
                                     <td>
                                         @Html.TextBoxFor(m => m.ItemBatches[i].WarrantyPeriodInMonths, new { @class = "form_input", @required = "true" })

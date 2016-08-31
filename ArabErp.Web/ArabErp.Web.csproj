@@ -32,6 +32,7 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <UseVSHostingProcess>true</UseVSHostingProcess>
+    <PlatformTarget>AnyCPU</PlatformTarget>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -430,6 +431,7 @@
     <Content Include="Images\white-pattern.jpg" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
+    <Content Include="XML\SalesInvoice.xml" />
     <None Include="Properties\PublishProfiles\Server.pubxml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />
@@ -824,6 +826,7 @@
     <Content Include="Views\StockTransfer\_Materials.cshtml" />
     <Content Include="Views\StockTransfer\Index.cshtml" />
     <Content Include="Views\StockTransfer\_PreviousList.cshtml" />
+    <Content Include="Views\WorkShopRequest\_AdditionalMaterialList.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

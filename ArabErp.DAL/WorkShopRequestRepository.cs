@@ -42,6 +42,11 @@ namespace ArabErp.DAL
                         item.WorkShopRequestId = id;
                         new WorkShopRequestItemRepository().InsertWorkShopRequestItem(item, connection, trn);
                     }
+                    foreach (WorkShopRequestItem item in objWorkShopRequest.AdditionalMaterials)
+                    {
+                        item.WorkShopRequestId = id;
+                        new WorkShopRequestItemRepository().InsertWorkShopRequestAdditionalMaterial(item, connection, trn);
+                    }
                     InsertLoginHistory(dataConnection, objWorkShopRequest.CreatedBy, "Create", "Workshop Request", id.ToString(), "0");
                     trn.Commit();
 
@@ -307,12 +312,25 @@ namespace ArabErp.DAL
             {
 
                 string query = "select I.ItemName,I.PartNo,WI.Remarks,WI.Quantity,UnitName from WorkShopRequestItem WI INNER JOIN Item I ON WI.ItemId=I.ItemId";
-                query += " INNER JOIN Unit U on U.UnitId =I.ItemUnitId  where  WorkShopRequestId = @WorkShopRequestId";
+                query += " INNER JOIN Unit U on U.UnitId =I.ItemUnitId  where isAddtionalMaterialRequest is null and   WorkShopRequestId = @WorkShopRequestId";
 
                 return connection.Query<WorkShopRequestItem>(query,
                 new { WorkShopRequestId = WorkShopRequestId }).ToList();
             }
         }
+        public List<WorkShopRequestItem> GetWorkShopRequestDtDataAddMat(int WorkShopRequestId)
+        {
+            using (IDbConnection connection = OpenConnection(dataConnection))
+            {
+
+                string query = "select I.ItemId,I.PartNo,WI.Remarks,WI.Quantity,UnitName from WorkShopRequestItem WI INNER JOIN Item I ON WI.ItemId=I.ItemId";
+                query += " INNER JOIN Unit U on U.UnitId =I.ItemUnitId  where isAddtionalMaterialRequest =1 and   WorkShopRequestId = @WorkShopRequestId";
+
+                return connection.Query<WorkShopRequestItem>(query,
+                new { WorkShopRequestId = WorkShopRequestId }).ToList();
+            }
+        }
+
 
         public IEnumerable<WorkShopRequest> PreviousList(int OrganizationId, DateTime? from, DateTime? to, int id = 0, int customer = 0, int jobcard = 0)
         {

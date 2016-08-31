@@ -331,6 +331,7 @@ namespace ArabErp.DAL
                                 AND IB.DeliveryChallanId IS NULL
                                 AND SO.SaleOrderRefNo LIKE '%'+@saleOrder+'%'
                                 AND IB.SerialNo LIKE '%'+@serialNo+'%'
+								AND ISNULL(SO.SaleOrderClosed, '') <> 'CLOSED'
                                 ORDER BY SO.SaleOrderDate DESC, SO.CreatedDate DESC";
                 return connection.Query<PendingForSOIReservation>(query, new { saleOrder = saleOrder, serialNo = serialNo }).ToList();
             }
