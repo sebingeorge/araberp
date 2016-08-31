@@ -135,21 +135,47 @@ namespace ArabErp.Web.Controllers
 
             ds.Tables["Head"].Columns.Add("SalesInvoiceRefNo");
             ds.Tables["Head"].Columns.Add("SalesInvoiceDate");
-
+            ds.Tables["Head"].Columns.Add("VehicleOutPassNo");
+            ds.Tables["Head"].Columns.Add("CustomerName");
+            ds.Tables["Head"].Columns.Add("Address");
+            ds.Tables["Head"].Columns.Add("PaymentTerms");
+            ds.Tables["Head"].Columns.Add("RegistrationNo");
+            ds.Tables["Head"].Columns.Add("JobCardNo");
+            ds.Tables["Items"].Columns.Add("Quantity");
             ds.Tables["Items"].Columns.Add("WorkDescription");
-
+            ds.Tables["Items"].Columns.Add("WorkDescriptionRefNo");
+            ds.Tables["Items"].Columns.Add("Rate");
+            ds.Tables["Items"].Columns.Add("Amount");
+            ds.Tables["Items"].Columns.Add("Unit");
             SalesInvoiceRepository repo = new SalesInvoiceRepository();
             var Head = repo.GetSalesInvoice(Id);
 
             DataRow dr = ds.Tables["Head"].NewRow();
             dr["SalesInvoiceRefNo"] = Head.SalesInvoiceRefNo;
             dr["SalesInvoiceDate"] = Head.SalesInvoiceDate.ToString("dd-MMM-yyyy");
+            dr["VehicleOutPassNo"] = Head.VehicleOutPassNo;
+            dr["CustomerName"] = Head.Customer;
+            dr["Address"] = Head.CustomerAddress;
+            dr["PaymentTerms"] = Head.PaymentTerms;
+            dr["RegistrationNo"] = Head.RegistrationNo;
+            dr["JobCardNo"] = Head.JobCardNo;
             ds.Tables["Head"].Rows.Add(dr);
 
-            for (int i = 0; i < 10; i++)
+        
+                SalesInvoiceItemRepository repo1 = new SalesInvoiceItemRepository();
+                 var Items = repo1.GetSalesInvoiceItemforPrint(Id);
+                foreach (var item in Items)
             {
+                var InvItem = new SalesInvoiceItem { Quantity = item.Quantity, Rate = item.Rate, Amount = item.Amount, Unit = item.Unit, WorkDescription = item.WorkDescription, WorkDescriptionRefNo = item.WorkDescriptionRefNo };
                 DataRow dri = ds.Tables["Items"].NewRow();
-                dri["WorkDescription"] = "Work description " + i.ToString();
+
+                dri["WorkDescription"] = InvItem.WorkDescription;
+                dri["WorkDescriptionRefNo"] = InvItem.WorkDescriptionRefNo;
+                dri["Quantity"] = InvItem.Quantity;
+                dri["Rate"] = InvItem.Rate;
+                dri["Amount"] = InvItem.Amount;
+                dri["Unit"] = InvItem.Unit;
+
                 ds.Tables["Items"].Rows.Add(dri);
             }
 
@@ -166,7 +192,7 @@ namespace ArabErp.Web.Controllers
             {
                 Stream stream = rd.ExportToStream(CrystalDecisions.Shared.ExportFormatType.PortableDocFormat);
                 stream.Seek(0, SeekOrigin.Begin);
-                return File(stream, "application/pdf", "SalesInvoice.pdf");
+                return File(stream, "application/pdf", String.Format("SalesInvoice{0}.pdf", Id.ToString()));
             }
             catch(Exception ex)
             {

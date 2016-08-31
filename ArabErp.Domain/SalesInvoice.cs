@@ -38,6 +38,11 @@ namespace ArabErp.Domain
         public string DeductionRemarks { get; set; }
         public string InvoiceType { get; set; }
         public int isProjectBased { get; set; }
+        public string RegistrationNo { get; set; }
+        public string JobCardNo { get; set; }
+        public string VehicleOutPassNo { get; set; }
+       
+       
         public List<SalesInvoiceItem> SaleInvoiceItems { get; set; }
     }
 }

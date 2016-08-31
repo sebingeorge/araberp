@@ -43,7 +43,14 @@ namespace ArabErp
                 query += " inner join WorkDescription W on W.WorkDescriptionId = SI.WorkDescriptionId";
                 query += " left join VehicleModel V on V.VehicleModelId = W.VehicleModelId ";
                 query += " left join JobCard J on J.SaleOrderItemId = SI.SaleOrderItemId ";
-                query += " LEFT JOIN VehicleInPass VIP ON SI.SaleOrderItemId = VIP.SaleOrderItemId ";
+                if (isProjectBased == 1)
+                {
+                    query += " LEFT JOIN VehicleInPass VIP ON SI.SaleOrderItemId = VIP.SaleOrderItemId ";
+                }
+                else
+                {
+                    query += " INNER JOIN VehicleInPass VIP ON SI.SaleOrderItemId = VIP.SaleOrderItemId ";
+                }
                 query += " where J.SaleOrderItemId is null and S.SaleOrderApproveStatus = 1 ";
                 query += " and S.isActive=1 and S.SaleOrderApproveStatus=1 and S.SaleOrderHoldStatus IS NULL and S.OrganizationId = " + OrganizationId.ToString() + "";
                 query += " and S.isProjectBased = " + isProjectBased.ToString();
