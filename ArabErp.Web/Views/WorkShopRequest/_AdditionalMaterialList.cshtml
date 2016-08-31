@@ -1,8 +1,8 @@
 ﻿@model ArabErp.Domain.WorkShopRequest
 
-@{string actionName = ViewContext.RouteData.GetRequiredString("action");}
+@*@{string actionName = ViewContext.RouteData.GetRequiredString("action");}*@
 
-<script type = "text/javascript" >
+<script type="text/javascript">
 
     $(document).ready(function () {
         $("#Items_0__SlNo").val('1');
@@ -10,7 +10,7 @@
 
 
     function AddAdditionRow() {
-        
+
             var i = 0;
             var no = 1;
             $('input[id^="Row_"]').each(function () {
@@ -52,7 +52,7 @@
                 }
             });
         }
-  
+
 
     function Delete(index) {
 
@@ -144,7 +144,7 @@
     <tbody class="grid_row">
         @for (int i = 0; i < Model.Items.Count; i++)
         {
-            
+
             <tr id="@i">
                 <td style="vertical-align:middle"><a class="glyphicon glyphicon-minus" style="top:0px" onclick="Delete(@i)"></a></td>
                 <td align="center">
@@ -154,7 +154,7 @@
 
                 <td>
                     <input type="hidden" id="Row_@i" />
-                    @Html.DropDownListFor(m => m.Items[i].ItemId, (SelectList)ViewBag.itemList, "Select Material", new { @class = "form_input", autocomplete = "off", @onchange = "OnItemChange(this," + i + ")" })
+                    @Html.DropDownListFor(m => m.Items[i].ItemId, (SelectList)ViewBag.itemList, "Select Material/Spares", new { @class = "form_input", autocomplete = "off", @onchange = "OnItemChange(this," + i + ")" })
                 </td>
                 <td id="partno0" class="qreturn" style="vertical-align:middle"></td>
                 <td>@Html.TextBoxFor(m => m.Items[i].Remarks, new { @class = "form_input", autocomplete = "off", placeholder = "Remarks" })</td>
@@ -165,5 +165,3 @@
         }
     </tbody>
 </table>
-@*<a id="add_row" class="glyphicon glyphicon-plus"></a>*@
-@*<a id='delete_row' style="float:right" class="glyphicon glyphicon-minus"></a>*@

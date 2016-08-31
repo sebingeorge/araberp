@@ -138,5 +138,25 @@ namespace ArabErp.Web.Controllers
         {
             ViewBag.CusList = new SelectList(new DropdownRepository().WRCustomerDropdown(OrganizationId), "Id", "Name");
         }
+        public PartialViewResult AdditionalMaterialList()
+        {
+            ItemDropdown();
+            WorkShopRequest workShopRequest = new WorkShopRequest { Items = new List<WorkShopRequestItem>() };
+            workShopRequest.Items.Add(new WorkShopRequestItem());
+            return PartialView("_AdditionalMaterialList", workShopRequest);
+        }
+        private void ItemDropdown()
+        {
+            ViewBag.itemList = new SelectList(new DropdownRepository().ItemDropdown(), "Id", "Name");
+        }
+        public JsonResult GetItemUnit(int itemId)
+        {
+            return Json(new StockReturnItemRepository().GetItemUnit(itemId), JsonRequestBehavior.AllowGet);
+        }
+        public JsonResult GetItemPartNo(int itemId)
+        {
+            return Json(new WorkShopRequestRepository().GetItemPartNo(itemId), JsonRequestBehavior.AllowGet);
+        }
+
     }
 }
