@@ -9,13 +9,24 @@
               <xs:sequence>
                 <xs:element name="SalesInvoiceRefNo" type="xs:string" minOccurs="0" />
                 <xs:element name="SalesInvoiceDate" type="xs:string" minOccurs="0" />
+                <xs:element name="VehicleOutPassNo" type="xs:string" minOccurs="0" />
+                <xs:element name="CustomerName" type="xs:string" minOccurs="0" />
+                <xs:element name="Address" type="xs:string" minOccurs="0" />
+                <xs:element name="PaymentTerms" type="xs:string" minOccurs="0" />
+                <xs:element name="RegistrationNo" type="xs:string" minOccurs="0" />
+                <xs:element name="JobCardNo" type="xs:string" minOccurs="0" />
               </xs:sequence>
             </xs:complexType>
           </xs:element>
           <xs:element name="Items">
             <xs:complexType>
               <xs:sequence>
+                <xs:element name="Quantity" type="xs:string" minOccurs="0" />
                 <xs:element name="WorkDescription" type="xs:string" minOccurs="0" />
+                <xs:element name="WorkDescriptionRefNo" type="xs:string" minOccurs="0" />
+                <xs:element name="Rate" type="xs:string" minOccurs="0" />
+                <xs:element name="Amount" type="xs:string" minOccurs="0" />
+                <xs:element name="Unit" type="xs:string" minOccurs="0" />
               </xs:sequence>
             </xs:complexType>
           </xs:element>
@@ -24,37 +35,27 @@
     </xs:element>
   </xs:schema>
   <Head>
-    <SalesInvoiceRefNo>SLI-16/6</SalesInvoiceRefNo>
-    <SalesInvoiceDate>29-Aug-2016</SalesInvoiceDate>
+    <SalesInvoiceRefNo>SLI-16/10</SalesInvoiceRefNo>
+    <SalesInvoiceDate>31-Aug-2016</SalesInvoiceDate>
+    <CustomerName>M/S Garden Fresh Vegetables (Manba)</CustomerName>
+    <Address>door121,Street,9746341798</Address>
+    <PaymentTerms>kk</PaymentTerms>
+    <JobCardNo>JC/16</JobCardNo>
   </Head>
   <Items>
-    <WorkDescription>Work description 0</WorkDescription>
+    <Quantity>1</Quantity>
+    <WorkDescription>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum</WorkDescription>
+    <WorkDescriptionRefNo>WD/0/17</WorkDescriptionRefNo>
+    <Rate>100.00</Rate>
+    <Amount>100.00</Amount>
+    <Unit>Nos</Unit>
   </Items>
   <Items>
-    <WorkDescription>Work description 1</WorkDescription>
-  </Items>
-  <Items>
-    <WorkDescription>Work description 2</WorkDescription>
-  </Items>
-  <Items>
-    <WorkDescription>Work description 3</WorkDescription>
-  </Items>
-  <Items>
-    <WorkDescription>Work description 4</WorkDescription>
-  </Items>
-  <Items>
-    <WorkDescription>Work description 5</WorkDescription>
-  </Items>
-  <Items>
-    <WorkDescription>Work description 6</WorkDescription>
-  </Items>
-  <Items>
-    <WorkDescription>Work description 7</WorkDescription>
-  </Items>
-  <Items>
-    <WorkDescription>Work description 8</WorkDescription>
-  </Items>
-  <Items>
-    <WorkDescription>Work description 9</WorkDescription>
+    <Quantity>1</Quantity>
+    <WorkDescription>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum</WorkDescription>
+    <WorkDescriptionRefNo>WD/0/24</WorkDescriptionRefNo>
+    <Rate>200.00</Rate>
+    <Amount>200.00</Amount>
+    <Unit>Nos</Unit>
   </Items>
 </NewDataSet>
