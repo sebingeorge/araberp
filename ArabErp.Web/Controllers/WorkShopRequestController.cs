@@ -118,10 +118,11 @@ namespace ArabErp.Web.Controllers
         }
         public ActionResult Edit(int? id)
         {
-
+            ItemDropdown();
             var repo = new WorkShopRequestRepository();
             WorkShopRequest model = repo.GetWorkshopRequestHdData(id ?? 0);
             model.Items = repo.GetWorkShopRequestDtData(id ?? 0);
+            model.AdditionalMaterials = repo.GetWorkShopRequestDtDataAddMat(id ?? 0);
             //model.Items = new List<WorkShopRequestItem>();
             //foreach (var item in WSList)
             //{
@@ -138,5 +139,25 @@ namespace ArabErp.Web.Controllers
         {
             ViewBag.CusList = new SelectList(new DropdownRepository().WRCustomerDropdown(OrganizationId), "Id", "Name");
         }
+        public PartialViewResult AdditionalMaterialList()
+        {
+            ItemDropdown();
+            WorkShopRequest workShopRequest = new WorkShopRequest { AdditionalMaterials = new List<WorkShopRequestItem>() };
+            workShopRequest.AdditionalMaterials.Add(new WorkShopRequestItem());
+            return PartialView("_AdditionalMaterialList", workShopRequest);
+        }
+        private void ItemDropdown()
+        {
+            ViewBag.itemList = new SelectList(new DropdownRepository().ItemDropdown(), "Id", "Name");
+        }
+        public JsonResult GetItemUnit(int itemId)
+        {
+            return Json(new StockReturnItemRepository().GetItemUnit(itemId), JsonRequestBehavior.AllowGet);
+        }
+        public JsonResult GetItemPartNo(int itemId)
+        {
+            return Json(new WorkShopRequestRepository().GetItemPartNo(itemId), JsonRequestBehavior.AllowGet);
+        }
+
     }
 }

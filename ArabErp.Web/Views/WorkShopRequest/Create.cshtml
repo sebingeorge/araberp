@@ -136,9 +136,10 @@
 
 
     @Html.Partial("_DisplayWorkShopRequestData", Model)
-
-
-            <br />
+    <strong>Additional Material/Spares</strong>
+    <div class=" table-responsive">
+        @Html.Action("AdditionalMaterialList")
+    </div>
     <div class="row form-group">
                     <div class="col-md-12">
                         <div class="row">
@@ -156,19 +157,16 @@
             <label for="RequiredDate">Required Date</label>
             @Html.TextBoxFor(m => m.RequiredDate, Model.RequiredDate.ToString("dd/MMMM/yyyy"), new { @class = "form_input", autocomplete = "off", @readonly = "readonly" })
                     </div>
-
-
-
                 </div>
     <div class="row">
         <div class="col-md-12 hrpart">
-           
+        
             <button type="button" class="form-button right" onclick="Exit()">Exit</button>
             <button type="submit" class="form-button right">Save</button>
         </div>
 
     </div>
-               
+              
             }
         </div>
     </div>

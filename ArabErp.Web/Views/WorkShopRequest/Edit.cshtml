@@ -76,9 +76,7 @@
                     @Html.TextBoxFor(m => m.WorkShopRequestDate, Model.WorkShopRequestDate.ToString("dd/MMMM/yyyy"), new { @class = "form_input ", autocomplete = "off", @readonly = "readonly", @required = "true" })
                 </div>
             </div>
-        
             <div class="row form-group">
-
                 <div class="col-md-4">
                     <label for="CustomerName">Customer</label>
                     @Html.TextBoxFor(m => m.CustomerName, new { @class = "form_input", autocomplete = "off", @readonly = "readonly" })
@@ -107,44 +105,43 @@
                 </div>
 
             </div>
-
-
-          
     @Html.Partial("_DisplayWorkShopRequestData", Model)
-
-
-            <div class="row form-group">
-                <div class="col-md-12">
-                    <div class="row">
-                        <div class="col-md-12">
-                            <label for="SpecialRemarks">Special Remarks</label>
-                        </div>
-                        <div class="col-md-12">
-                            @Html.TextAreaFor(m => m.SpecialRemarks, new { @class = "form_input form_input-h", autocomplete = "off" })
-                        </div>
-                    </div>
-                </div>
-            </div>
+    <strong>Additional Material/Spares</strong>
+    <div class=" table-responsive">
+    @Html.Partial("_AdditionalMaterialList", Model)
+    </div>
+    <div class="row form-group">
+        <div class="col-md-12">
             <div class="row">
-                <div class="col-md-2">
-                    <label for="RequiredDate">Required Date</label>
-                    @Html.TextBoxFor(m => m.RequiredDate, Model.RequiredDate.ToString("dd/MMMM/yyyy"), new { @class = "form_input", autocomplete = "off", @readonly = "readonly" })
+                <div class="col-md-12">
+                    <label for="SpecialRemarks">Special Remarks</label>
                 </div>
-
-
-
+                <div class="col-md-12">
+                    @Html.TextAreaFor(m => m.SpecialRemarks, new { @class = "form_input form_input-h", autocomplete = "off" })
+                </div>
             </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-2">
+            <label for="RequiredDate">Required Date</label>
+            @Html.TextBoxFor(m => m.RequiredDate, Model.RequiredDate.ToString("dd/MMMM/yyyy"), new { @class = "form_input", autocomplete = "off", @readonly = "readonly" })
+        </div>
+
+
+
+    </div>
     <div class="row">
         <div class="col-md-12 hrpart">
             <button type="button" class="form-button right" onclick="Exit()">Exit</button>
             @*<button type="submit" class="form-button right">Edit</button>
-            <button type="button" class="form-button left" onclick="Delete()">Delete</button>*@
+                <button type="button" class="form-button left" onclick="Delete()">Delete</button>*@
         </div>
 
     </div>
 
-        }
-    </div>
+    }
+</div>
 </div>
 
 
