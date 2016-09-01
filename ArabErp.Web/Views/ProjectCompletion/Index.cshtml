@@ -1,0 +1,82 @@
+﻿
+@{
+    ViewBag.Title = "Project Completion List";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<script type="text/javascript">
+    $(document).ready(function () {
+
+        //---------------------toastr---------------------------//
+        toastr.options = {
+            "positionClass": "toast-bottom-full-width",
+            "timeOut": "5000",
+            "extendedTimeOut": "2000"
+        }
+        if ('@TempData["success"]' != '') {
+            toastr.success('@TempData["success"]');
+        }
+        else if ('@TempData["error"]' != '') {
+            toastr.error('@TempData["error"]'.split('|')[0]);
+            console.log('@TempData["error"]'.split('|')[1]);
+        }
+        @{ TempData["success"] = TempData["error"] = ""; }
+        //------------------------------------------------------//
+
+    })
+
+    function Filter() {
+        var saleorder = $("#SaleOrderNo").val().trim();
+        var project = $("#CompletionNo").val().trim();
+        $("#previous-grid").addClass("fade");
+        var url = '@Url.Action("PreviousList")';
+        url += "?project=" + encodeURIComponent(project) + "&saleorder=" + encodeURIComponent(saleorder);
+        $("#previous-grid").load(url, function () {
+            $("#previous-grid").removeClass("fade");
+        })
+    }
+
+    function OnItemSelected(id) {
+        var url = '@Url.Action("Details")';
+        url += "/" + id;
+        window.location = url;
+    }
+
+    function Exit() {
+        var url = '@Url.Action("Pending")';
+        window.location = url;
+    }
+
+</script>
+
+<div class="row">
+    <div class="form-head1">
+        <h4>Project Completion List</h4>
+    </div>
+    <div class="main-part pad1">
+
+        <div class="row form-group">
+            <div class="col-md-3">
+                <label>Completion Ref. No.</label>
+                <input id="CompletionNo" placeholder="Search for Project Completion" class="form_input" onkeyup="Filter()" />
+            </div>
+            <div class="col-md-3">
+                <label>Sale Order Ref. No.</label>
+                <input id="SaleOrderNo" placeholder="Search for Sale Order" class="form_input" onkeyup="Filter()" />
+            </div>
+        </div>
+
+        <div id="previous-grid" class="scroll4">
+            @Html.Action("PreviousList")
+        </div>
+
+        <div class="row">
+            <div class="col-md-12 hrpart">
+                @*<input class="form-button" type="button" value="Previous" onclick="PreviousList()" />*@
+                <input class="form-button right" type="button" value="Exit" onclick="Exit()" />
+            </div>
+        </div>
+
+    </div>
+</div>
+

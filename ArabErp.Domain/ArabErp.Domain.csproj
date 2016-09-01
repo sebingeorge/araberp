@@ -69,6 +69,7 @@
     <Compile Include="GINRegister.cs" />
     <Compile Include="OpeningStockReport.cs" />
     <Compile Include="PrefixSettingsVsOrganization.cs" />
+    <Compile Include="ProjectCompletion.cs" />
     <Compile Include="PurchaseRequestRegister.cs" />
     <Compile Include="RptFilter.cs" />
     <Compile Include="FreezerUnit.cs" />

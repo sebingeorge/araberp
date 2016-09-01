@@ -1,0 +1,204 @@
+﻿@model ArabErp.Domain.ProjectCompletion
+
+@{
+    ViewBag.Title = "Project Completion Details";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<script type="text/javascript">
+
+    $(document).ready(function () {
+
+        $('input').attr("readonly", true);
+
+        //$("#ProjectCompletionDate").datepicker({
+        //    dateFormat: "dd MM yy"
+        //});
+
+        //---------------------toastr---------------------------//
+        @*toastr.options = {
+            "positionClass": "toast-bottom-full-width",
+            "timeOut": "5000",
+            "extendedTimeOut": "2000"
+        }
+        if ('@TempData["success"]' != '') {
+            toastr.success('@TempData["success"]');
+        }
+        else if ('@TempData["error"]' != '') {
+            toastr.error('@TempData["error"]'.split('|')[0]);
+            console.log('@TempData["error"]'.split('|')[1]);
+        }
+        @{ TempData["success"] = TempData["error"] = ""; }*@
+        //------------------------------------------------------//
+
+    })
+
+    function Back() {
+        var url = '@Url.Action("Index")';
+        window.location = url;
+    }
+
+</script>
+
+<div class="row">
+    <div class="form-head1">
+        <h4>Project Completion Commissioning/Handover Details</h4>
+    </div>
+    <div class="main-part pad1">
+        <form method="post">
+            @Html.HiddenFor(m => m.SaleOrderId)
+            @Html.HiddenFor(m => m.ProjectCompletionId)
+            <div class="row form-group">
+                <div class="col-md-2">
+                    <label for="ProjectCompletionRefNo">Project Completion No.</label>
+                    @Html.TextBoxFor(m => m.ProjectCompletionRefNo, new { @class = "form_input", @readonly = "true" })
+                </div>
+                <div class="col-md-2">
+                    <label for="ProjectCompletionDate">Date of Commissioning</label>
+                    @Html.TextBoxFor(m => m.ProjectCompletionDate, Model.ProjectCompletionDate.ToString("dd/MMMM/yyyy"), new { @class = "form_input", @readonly = "true", @required = "true" })
+                </div>
+            </div>
+            @Html.Action("SaleOrderDetails", new { id = Model.SaleOrderId })
+
+            <div class="row form-group">
+                <div class="col-md-4">
+                    <label for="aaa">Project</label>
+                    @Html.TextBoxFor(m => m.ProjectName, new { @class = "form_input", @readonly = "true" })
+                </div>
+                <div class="col-md-4">
+                    <label for="aaa">Client</label>
+                    @Html.TextBoxFor(m => m.CustomerName, new { @class = "form_input", @readonly = "true" })
+                </div>
+                <div class="col-md-4">
+                    <label for="aaa">Location</label>
+                    @Html.TextBoxFor(m => m.Location, new { @class = "form_input", @readonly = "true" })
+                </div>
+            </div>
+
+            <h5>Chiller:</h5>
+            <hr>
+            <div class="row form-group">
+                <div class="col-md-1">
+                    <label for="ChillerTemperature">Temperature</label>
+                    @Html.TextBoxFor(m => m.ChillerTemperature, new { @class = "form_input" })
+                </div>
+                <div class="col-md-2">
+                    <label for="ChillerDimension">Dimension</label>
+                    @Html.TextBoxFor(m => m.ChillerDimension, new { @class = "form_input" })
+                </div>
+                <div class="col-md-3">
+                    <label for="ChillerCondensingUnit">Condensing Unit</label>
+                    @Html.TextBoxFor(m => m.ChillerCondensingUnit, new { @class = "form_input" })
+                </div>
+                <div class="col-md-3">
+                    <label for="ChillerEvaporator">Evaporator</label>
+                    @Html.TextBoxFor(m => m.ChillerEvaporator, new { @class = "form_input" })
+                </div>
+                <div class="col-md-2">
+                    <label for="ChillerRefrigerant">Refrigerant</label>
+                    @Html.TextBoxFor(m => m.ChillerRefrigerant, new { @class = "form_input" })
+                </div>
+                <div class="col-md-1">
+                    <label for="ChillerQuantity">Quantity</label>
+                    @Html.TextBoxFor(m => m.ChillerQuantity, new { @class = "form_input" })
+                </div>
+            </div>
+
+
+            <h5>Freezer:</h5>
+            <hr>
+            <div class="row form-group">
+                <div class="col-md-1">
+                    <label for="FreezerTemperature">Temperature</label>
+                    @Html.TextBoxFor(m => m.FreezerTemperature, new { @class = "form_input" })
+                </div>
+                <div class="col-md-2">
+                    <label for="FreezerDimension">Dimension</label>
+                    @Html.TextBoxFor(m => m.FreezerDimension, new { @class = "form_input" })
+                </div>
+                <div class="col-md-3">
+                    <label for="FreezerCondensingUnit">Condensing Unit</label>
+                    @Html.TextBoxFor(m => m.FreezerCondensingUnit, new { @class = "form_input" })
+                </div>
+                <div class="col-md-3">
+                    <label for="FreezerEvaporator">Evaporator</label>
+                    @Html.TextBoxFor(m => m.FreezerEvaporator, new { @class = "form_input" })
+                </div>
+                <div class="col-md-2">
+                    <label for="FreezerRefrigerant">Refrigerant</label>
+                    @Html.TextBoxFor(m => m.FreezerRefrigerant, new { @class = "form_input" })
+                </div>
+                <div class="col-md-1">
+                    <label for="FreezerQuantity">Quantity</label>
+                    @Html.TextBoxFor(m => m.FreezerQuantity, new { @class = "form_input" })
+                </div>
+            </div>
+
+            @*<strong>Job Card details:</strong>
+                @Html.Action("JobCardDetails", Model.SaleOrderId)
+                <br />*@
+            <strong>Reserved Materials/Spares:</strong>
+            <div class="table-responsive scroll4">
+                <table class="table table-bordered">
+                    <thead>
+                        <tr class="grid_heading">
+                            <th width="2%" class="text-center">#</th>
+                            <th width="30%"><h1>Serial Number</h1></th>
+                            <th width="30%"><h1>Item</h1></th>
+                            <th width="10%" nowrap><h1>Warranty Start Date</h1></th>
+                            <th width="10%" nowrap><h1>Warranty Expiry Date</h1></th>
+                        </tr>
+                    </thead>
+                    <tbody class="grid_row">
+                        @if (Model.ItemBatches.Count > 0)
+                        {
+                            int i = 0;
+                            foreach (var item in Model.ItemBatches)
+                            {
+                                <tr>
+                                    <td align="center">
+                                        @Html.HiddenFor(m => m.ItemBatches[i].ItemBatchId)
+                                        @*<input class="form_input" value="*@@(i + 1)@*" disabled />*@
+                                    </td>
+                                    <td>
+                                        @Html.TextBoxFor(m => m.ItemBatches[i].SerialNo, new { @class = "form_input", @readonly = "true" })
+                                    </td>
+                                    <td>
+                                        @Html.TextBoxFor(m => m.ItemBatches[i].ItemName, new { @class = "form_input", @readonly = "true" })
+                                    </td>
+                                    <td>
+                                        @Html.TextBoxFor(m => m.ItemBatches[i].WarrantyStartDate, Model.ItemBatches[i].WarrantyStartDate.ToString("dd/MMMM/yyyy"), new { @class = "form_input numbers-only", @required = "true", @readonly = "true" })
+                                    </td>
+                                    <td>
+                                        @Html.TextBoxFor(m => m.ItemBatches[i].WarrantyExpireDate, Model.ItemBatches[i].WarrantyExpireDate.ToString("dd/MMMM/yyyy"), new { @class = "form_input numbers-only", @required = "true", @readonly = "true" })
+                                    </td>
+                                </tr>
+                                i++;
+                            }
+                        }
+                        else
+                        {
+                            <tr>
+                                <td colspan="5">
+                                    <center>
+                                        <em>
+                                            No reserved items could be found!
+                                        </em>
+                                    </center>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+            <div class="row">
+                <div class="col-md-12 col-md hrpart">
+                    <input class="form-button right" type="button" value="Exit" onclick="Back()" />
+                    @*<input class="form-button right" type="submit" value="Save" />*@
+                    @*<input class="form-button left" type="button" value="Back" onclick="Back()" />*@
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
