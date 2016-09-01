@@ -209,6 +209,14 @@ namespace ArabErp.Web.Controllers
         {
             return View();
         }
+        public ActionResult DeliveryChallan()
+        {
+            return View();
+        }
+        public ActionResult PendingDeliveryChallan()
+        {
+            return View();
+        }
         public ActionResult PreviousGRN()
         {
             return View();

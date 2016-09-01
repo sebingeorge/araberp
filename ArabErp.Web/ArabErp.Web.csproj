@@ -852,6 +852,8 @@
     <Content Include="Views\ProductionPlan\ProductionPlanMPR.cshtml" />
     <Content Include="Views\ProductionPlan\SalesInvoice.cshtml" />
     <Content Include="Views\ProductionPlan\PendingSalesInvoice.cshtml" />
+    <Content Include="Views\ProductionPlan\DeliveryChallan.cshtml" />
+    <Content Include="Views\ProductionPlan\PendingDeliveryChallan.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
