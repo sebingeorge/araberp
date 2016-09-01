@@ -1,0 +1,72 @@
+﻿@model ArabErp.Domain.JobCardCompletion
+
+<div class=" table-responsive">
+
+    <table class="table table-bordered" id="tab_logic">
+        <thead>
+            <tr class="grid_heading">
+                <th width="2%"><h1>#</h1></th>
+                <th width="15%"><h1>Job Card No.</h1></th>
+                <th width="15%"><h1>Employee</h1></th>
+                <th width="35%"><h1>Task</h1></th>
+                @*<th width="10%"><h1>Date</h1></th>*@
+                <th width="10%"><h1>Est. Hrs.</h1></th>
+                <th width="10%"><h1>Actual Hrs.</h1></th>
+                @*<th width="2%"><h1></h1></th>*@
+            </tr>
+        </thead>
+        <tbody class="grid_row">
+            @{ int row = 0;}
+            @foreach (var item in Model.JobCardTask)
+            {
+                <tr id="Row_@row" class="TaskRow">
+                    <td align="center">
+                        @Html.HiddenFor(m => m.JobCardTask[row].Existing)
+                        @Html.HiddenFor(m => m.JobCardTask[row].SlNo)
+                        @(row + 1)
+                    </td>
+                    <td>
+                        @Html.TextBoxFor(m => m.JobCardTask[row].JobCardNo, new { @class = "form_input", @readonly = "true" })
+                    </td>
+                    <td>
+                        @*@Html.DropDownListFor(m => Model.JobCardTask[row].JobCardTaskMasterId, new  (SelectList)ViewBag.TaskList, "Value", "Text", Model.JobCardTask[row].JobCardTaskMasterId, new { @class = "form_input", autocomplete = "off" })*@
+                        @*@Html.DropDownListFor(x => Model.JobCardTask[row].JobCardTaskMasterId, new SelectList(ViewBag.TaskList, "Value", "Text", Model.JobCardTask[row].JobCardTaskMasterId), "select work description", new { @class = "form_input", autocomplete = "off" })*@
+                        @Html.TextBoxFor(m => m.JobCardTask[row].EmployeeName, new { @class = "form_input", @readonly = "true" })
+                    </td>
+                    <td>
+                        @*@Html.DropDownListFor(m => Model.JobCardTask[row].EmployeeId, new  (SelectList)ViewBag.EmployeeList, "Value", "Text", Model.JobCardTask[row].EmployeeId, new { @class = "form_input", autocomplete = "off" })*@
+                        @*@Html.DropDownListFor(x => Model.JobCardTask[row].EmployeeId, new SelectList(ViewBag.EmployeeList, "Value", "Text", Model.JobCardTask[row].EmployeeId), "select work description", new { @class = "form_input", autocomplete = "off" })*@
+                        @Html.TextBoxFor(m => m.JobCardTask[row].JobCardTaskName, new { @class = "form_input", @readonly = "true" })
+                    </td>
+                    @*@if (row == 0)
+                        {
+                            <td rowspan="@Model.JobCardTask.Count" align="center">
+
+                                @if (Model.JobCardTask[row].StartDate.ToString("dd/MMMM/yyyy").Equals("01-January-0001"))
+                                {
+                                    @: <span class="perm">No daily activity found</span>
+                                            }
+                                else
+                                {
+                                    @Html.HiddenFor(m => m.JobCardTask[row].StartDate)
+                                    @Html.HiddenFor(m => m.JobCardTask[row].EndDate)
+                                    @Model.JobCardTask[row].StartDate.ToString("dd/MMMM/yyyy") <br />@:to<br /> @Model.JobCardTask[row].EndDate.ToString("dd/MMMM/yyyy")
+                                            }
+                            </td>
+                        }*@
+                    <td>
+                        @Html.TextBoxFor(m => m.JobCardTask[row].Hours, new { @class = "form_input", autocomplete = "off", @readonly = "true" })
+                    </td>
+                    <td>
+                        @Html.TextBoxFor(m => m.JobCardTask[row].ActualHours, new { @class = "form_input", autocomplete = "off", @readonly = "true" })
+                    </td>
+                    <!--<td style="vertical-align:middle;">
+                        <a class="glyphicon glyphicon-plus" id="add_@row" style="top:0;" @*type="button" value="Add"*@ onclick="AddRowBelow(@row);"></a>
+                    </td>-->
+                </tr>
+                row++;
+            }
+        </tbody>
+    </table>
+</div>
+

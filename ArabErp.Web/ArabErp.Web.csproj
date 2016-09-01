@@ -260,6 +260,7 @@
     <Compile Include="Controllers\ProductWiseSalesRegisterController.cs" />
     <Compile Include="Controllers\ProfitabilityReportController.cs" />
     <Compile Include="Controllers\ProformaInvoiceController.cs" />
+    <Compile Include="Controllers\ProjectCompletionController.cs" />
     <Compile Include="Controllers\PurchaseBillController.cs" />
     <Compile Include="Controllers\PurchaseBillRegisterController.cs" />
     <Compile Include="Controllers\PurchaseMonthlyItemWiseRegisterController.cs" />
@@ -824,6 +825,15 @@
     <Content Include="Views\StockTransfer\_Materials.cshtml" />
     <Content Include="Views\StockTransfer\Index.cshtml" />
     <Content Include="Views\StockTransfer\_PreviousList.cshtml" />
+    <Content Include="Views\ProjectCompletion\Pending.cshtml" />
+    <Content Include="Views\ProjectCompletion\_PendingGrid.cshtml" />
+    <Content Include="Views\ProjectCompletion\Complete.cshtml" />
+    <Content Include="Views\ProjectCompletion\_SaleOrderDetails.cshtml" />
+    <Content Include="Views\ProjectCompletion\_JobCardDetails.cshtml" />
+    <Content Include="Views\ProjectCompletion\_ItemBatchDetails.cshtml" />
+    <Content Include="Views\ProjectCompletion\Index.cshtml" />
+    <Content Include="Views\ProjectCompletion\_PreviousListGrid.cshtml" />
+    <Content Include="Views\ProjectCompletion\Details.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

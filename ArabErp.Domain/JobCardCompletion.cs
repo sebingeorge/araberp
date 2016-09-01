@@ -23,7 +23,7 @@ namespace ArabErp.Domain
         public List<JobCardCompletionTask> JobCardTask { get; set; }
         public int? isProjectBased { get; set; }
     }
-    public class JobCardCompletionTask
+    public class JobCardCompletionTask : JobCardCompletion
     {
         public int? SlNo { get; set; }
         public int? JobCardTaskMasterId { get; set; }
