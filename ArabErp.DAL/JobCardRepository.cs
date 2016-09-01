@@ -368,5 +368,28 @@ namespace ArabErp
 
             }
         }
+
+        public JobCard GetJobCardHD(int JobCardId)
+        {
+            using (IDbConnection connection = OpenConnection(dataConnection))
+            {
+
+                string sql = @" SELECT JobCardId,JobCardNo,JobCardDate,SaleOrderRefNo RegistrationNo,Concat(CustomerName,',',DoorNo,',',Street)CustomerName,
+                                C.Phone,C.ContactPerson,E.EmployeeName Technician,C.CustomerName Customer
+                                FROM JobCard J
+                                INNER JOIN SaleOrder S ON S.SaleOrderId=J.SaleOrderId
+                                INNER JOIN Customer C ON C.CustomerId=S.CustomerId
+                                INNER JOIN Employee E ON E.EmployeeId=J.EmployeeId
+                                WHERE JobCardId=@JobCardId";
+
+                var objJobCardId = connection.Query<JobCard>(sql, new
+                {
+                    JobCardId = JobCardId
+                }).First<JobCard>();
+
+                return objJobCardId;
+            }
+        }
+
     }
 }

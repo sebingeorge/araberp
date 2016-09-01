@@ -17,6 +17,11 @@ namespace ArabErp.Domain
         public DateTime? CreatedDate { get; set; }
         public int OrganizationId { get; set; }
         public int SlNo { get; set; }
-
+        public string Employee { get; set; }
+        public string Description { get; set; }
+        public DateTime StartDate { get; set; }
+        public DateTime EndDate { get; set; }
+        public decimal StartTime { get; set; }
+        public decimal EndTime { get; set; }
     }
 }

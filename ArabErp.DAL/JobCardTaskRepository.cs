@@ -85,6 +85,26 @@ namespace ArabErp.DAL
             }
 
         }
+
+
+        public List<JobCardTask> GetJobCardDT(int JobCardId)
+        {
+            using (IDbConnection connection = OpenConnection(dataConnection))
+            {
+                string sql = @" SELECT JT.TaskDate,E.EmployeeName Employee,JM.JobCardTaskName Description,
+                                ISNULL(JT.StartTime,'0.00')StartTime,ISNULL(JT.EndTime,'0.00')EndTime
+                                FROM JobCard J
+                                INNER JOIN JobCardTask JT ON J.JobCardId=JT.JobCardId
+                                INNER JOIN Employee E ON E.EmployeeId=JT.EmployeeId
+                                INNER JOIN JobCardTaskMaster JM ON JM.JobCardTaskMasterId=JT.JobCardTaskMasterId
+                                WHERE J.JobCardId=@JobCardId";
+
+                return connection.Query<JobCardTask>(sql, new { JobCardId = JobCardId }).ToList();
+
+
+            }
+        }
+
     }
 
 }
