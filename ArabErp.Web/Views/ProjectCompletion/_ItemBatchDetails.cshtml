@@ -1,0 +1,62 @@
+﻿@model ArabErp.Domain.ProjectCompletion
+
+<script type="text/javascript">
+
+    $(function () {
+        $(".numbers-only").keypress(function (e) {
+            if (e.which == 8 || (e.which == 46 && $(this).val().indexOf('.') == -1) || (e.which > 47 && e.which < 58)) { } else { return false; }
+        });
+    })
+
+</script>
+
+<div class="table-responsive scroll4">
+    <table class="table table-bordered">
+        <thead>
+            <tr class="grid_heading">
+                <th width="2%" class="text-center">#</th>
+                <th width="30%"><h1>Serial Number</h1></th>
+                <th width="30%"><h1>Item</h1></th>
+                <th width="10%" nowrap><h1>Warranty Period (in months)</h1></th>
+            </tr>
+        </thead>
+        <tbody class="grid_row">
+            @if (Model.ItemBatches.Count > 0)
+            {
+                int i = 0;
+                foreach (var item in Model.ItemBatches)
+                {
+                    <tr>
+                        <td align="center">
+                            @Html.HiddenFor(m => m.ItemBatches[i].ItemBatchId)
+                            @*<input class="form_input" value="*@@(i + 1)@*" disabled />*@
+                        </td>
+                        <td>
+                            @Html.TextBoxFor(m => m.ItemBatches[i].SerialNo, new { @class = "form_input", @readonly = "true" })
+                        </td>
+                        <td>
+                            @Html.TextBoxFor(m => m.ItemBatches[i].ItemName, new { @class = "form_input", @readonly = "true" })
+                        </td>
+                        <td>
+                            @Html.TextBoxFor(m => m.ItemBatches[i].WarrantyPeriodInMonths, new { @class = "form_input numbers-only", @required = "true", @placeholder = "Warranty in months" })
+                        </td>
+                    </tr>
+                    i++;
+                }
+            }
+            else
+            {
+                <tr>
+                    <td colspan="4">
+                        <center>
+                            <em>
+                                No reserved items could be found!
+                            </em>
+                        </center>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+

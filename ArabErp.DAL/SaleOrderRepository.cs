@@ -54,7 +54,7 @@ namespace ArabErp.DAL
                     InsertLoginHistory(dataConnection, objSaleOrder.CreatedBy, "Create", "Sale Order", id.ToString(), "0");
                     txn.Commit();
 
-                    return id + "|SAL/" + internalId;
+                    return id + "|" + internalId;
                 }
                 catch (Exception)
                 {

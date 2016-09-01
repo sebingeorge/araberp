@@ -15,7 +15,12 @@
 
     $(document).ready(function () {
         $("input[type='text']").attr("disabled", "true");
+     
     })
+    function Exit() {
+        var url = '@Url.Action("PendingJobcardTasks")';
+        window.location = url;
+    }
 
 </script>
 
@@ -31,14 +36,14 @@
                         <table class="table table-bordered" id="tab_logic">
                             <thead>
                                 <tr class="grid_heading">
-                                    <th width="2%" class="text-center"><h1>#</h1></th>
+                                  
                                     <th width="15%" class="text-left" title="Daily Activity Ref. No. and Date"><h1>DA Ref. No. &amp; Date</h1></th>
                                     <th width="15%" title="Job Card Ref. No. and Date"><h1>JC Ref. No. &amp; Date</h1></th>
                                     <th width="10%"><h1>Employee</h1></th>
                                     <th width="23%"><h1>Remarks</h1></th>
                                     <th width="5%" nowrap><h1>Actual Hours</h1></th>
                                     <th width="20%"><h1>Tasks</h1></th>
-                                    <th width="10%" class="text-center"><h1>Select</h1></th>
+                                    <th width="10%" class="text-center"><h1></h1></th>
                                 </tr>
                             </thead>
                             <tbody class="grid_row">
@@ -47,9 +52,7 @@
                             for (int i = 0; i < Model.Count; i++)
                             {
                         <tr>
-                            <td>
-                                <input type="text" class="form_input text-center" style="width:100%" value="@(i+1)" />
-                            </td>
+                           
                             <td>
                                 <input type="text" class="form_input" style="width:100%" value="@Model[i].JobCardDailyActivityRefNo - @Model[i].JobCardDailyActivityDate.ToString("dd MMMM yyyy")" />
                             </td>
@@ -79,5 +82,15 @@
                     </div>
                     </div>
                 </div>
+            <div class="row">
+                <div class="col-md-12 hrpart">
+                    <input type="button" class="form-button right" value="Exit" onclick="Exit()" />
                 </div>
+
+            </div>
+            <div class="row-count1">
+                <h5>Row Count:- @Model.Count()</h5>
+            </div>
+                </div>
+       
             </div>

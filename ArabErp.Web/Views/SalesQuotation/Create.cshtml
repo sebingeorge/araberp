@@ -393,19 +393,20 @@
                             @Html.TextBoxFor(m => m.ExpectedDeliveryDate, Model.ExpectedDeliveryDate.ToString("dd/MMMM/yyyy"), new { @class = "form_input", autocomplete = "off" })
                             @Html.ValidationMessageFor(m => m.ExpectedDeliveryDate)
                     </div>
-                @if (Model.isProjectBased == 1)
+                   
+                        @if (Model.isProjectBased == 1)
                 {
-                    <div class="col-md-2">
-             
-            <label for="selectCustomer">Query Sheet No.</label>
-           
-                @Html.DropDownListFor(m => Model.QuerySheetId, (SelectList)ViewBag.QuerySheetNolist, "Select Query Sheet", new { @class = "form_input", autocomplete = "off" })
-              
-        </div>
+                            <div class="col-md-2">
+
+                                <label for="selectCustomer">Query Sheet No.</label>
+
+                                @Html.DropDownListFor(m => Model.QuerySheetId, (SelectList)ViewBag.QuerySheetNolist, "Select Query Sheet", new { @class = "form_input", autocomplete = "off" })
+
+                            </div>
                 }
 
 
-                </div>
+                    </div>
                 <div class="row form-group ">
 
                     <div class="col-md-6">

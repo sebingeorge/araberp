@@ -37,7 +37,7 @@
         <table class="table table-bordered">
             <thead>
                 <tr class="grid_heading">
-                    <th width="2%" class="text-center"><h1>#</h1></th>
+                   
                     <th width="12%" class="text-left" title="Purchase Request Ref.No. and Date"><h1>PR Ref. No. &amp; Date</h1></th>
                     <th width="54%"><h1>Customer</h1></th>
                     <th width="12%" title="WorkShop Request Ref. No. and Date"><h1>WR Ref. No. &amp; Date</h1></th>
@@ -51,9 +51,7 @@
                     for (int i = 0; i < Model.Count; i++)
                     {
                         <tr>
-                            <td>
-                                <input type="text" class="form_input text-center" style="width:100%" value="@(i+1)" />
-                            </td>
+                          
                             <td>
                                 <input type="text" class="form_input" style="width:100%" value="@Model[i].PurchaseRequestNo - @Model[i].PurchaseRequestDate.ToString("dd MMMM yyyy")" />
                             </td>

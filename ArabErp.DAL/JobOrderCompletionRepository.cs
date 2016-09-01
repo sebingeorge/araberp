@@ -137,8 +137,9 @@ namespace ArabErp.DAL
                         if (item.Existing == 1)
                         {
                             query = string.Empty;
-                            query = @"insert  into JobCardTask(JobCardId,JobCardTaskMasterId,SlNo,EmployeeId,TaskDate,Hours,ActualHours,CreatedBy,CreatedDate,OrganizationId) Values 
-                        (" + jobcard.JobCardId.ToString() + "," + item.JobCardTaskMasterId + "," + i.ToString() + "," + item.EmployeeId.ToString() + "," + item.TaskDate.ToString("dd/MMM/yyyy") + "," + item.ActualHours + "," + item.ActualHours + ",NULL,GETDATE(),NULL); SELECT CAST(SCOPE_IDENTITY() as int)";
+                            query = @"insert  into JobCardTask(JobCardId,JobCardTaskMasterId,SlNo,EmployeeId,TaskDate,StartTime,EndTime,
+                                      Hours,ActualHours,CreatedBy,CreatedDate,OrganizationId) Values 
+                            (" + jobcard.JobCardId.ToString() + "," + item.JobCardTaskMasterId + "," + i.ToString() + "," + item.EmployeeId.ToString() + "," + item.TaskDate.ToString("dd/MMM/yyyy") + "," + item.StartTime + "," + item.EndTime + "," + item.ActualHours + "," + item.ActualHours + ",NULL,GETDATE(),NULL); SELECT CAST(SCOPE_IDENTITY() as int)";
                             connection.Query(query, transaction: txn);
                             i++;
                         }
@@ -146,7 +147,7 @@ namespace ArabErp.DAL
                         {
                             query = string.Empty;
                             //query = "update JobCardTask set ActualHours = " + item.ActualHours.ToString() + " where JobCardId = " + jobcard.JobCardId.ToString() + ";";
-                            query = "update JobCardTask set ActualHours = " + item.ActualHours.ToString() + " where SlNo = " + item.SlNo.ToString() + " and JobCardId = " + jobcard.JobCardId.ToString() + ";";
+                            query = "update JobCardTask set ActualHours = " + item.ActualHours.ToString() + ",StartTime = " + item.StartTime.ToString() + ",EndTime = " + item.EndTime.ToString() + "  where SlNo = " + item.SlNo.ToString() + " and JobCardId = " + jobcard.JobCardId.ToString() + ";";
                             connection.Query(query, transaction: txn);
                         }
                     }

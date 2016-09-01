@@ -23,7 +23,7 @@ namespace ArabErp.Domain
         public List<JobCardCompletionTask> JobCardTask { get; set; }
         public int? isProjectBased { get; set; }
     }
-    public class JobCardCompletionTask
+    public class JobCardCompletionTask : JobCardCompletion
     {
         public int? SlNo { get; set; }
         public int? JobCardTaskMasterId { get; set; }
@@ -33,6 +33,8 @@ namespace ArabErp.Domain
         public DateTime TaskDate { get; set; }
         public DateTime StartDate { get; set; }
         public DateTime EndDate { get; set; }
+        public int? StartTime { get; set; }
+        public int? EndTime { get; set; }
         public int? ActualHours { get; set; }
         public int? Hours { get; set; }
         public int Existing { get; set; }

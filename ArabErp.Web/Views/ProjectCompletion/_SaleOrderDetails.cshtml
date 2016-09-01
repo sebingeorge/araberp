@@ -1,0 +1,16 @@
+﻿@model ArabErp.Domain.SaleOrder
+
+<div class="row form-group">
+    <div class="col-md-2">
+        <label>Sale Order Ref. No.</label>
+        @Html.TextBoxFor(m => m.SaleOrderRefNo, new { @class = "form_input", @readonly = "true" })
+    </div>
+    <div class="col-md-2">
+        <label>Sale Order Date</label>
+        @Html.TextBoxFor(m => m.SaleOrderDate, Model.SaleOrderDate.ToString("dd/MMMM/yyyy"), new { @class = "form_input", @readonly = "true" })
+    </div>
+    @*<div class="col-md-3">
+        <label>Customer</label>
+        @Html.TextBoxFor(m => m.CustomerName, new { @class = "form_input", @readonly = "true" })
+    </div>*@
+</div>
