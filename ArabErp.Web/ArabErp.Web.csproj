@@ -222,6 +222,7 @@
     <Compile Include="Controllers\ClosingStockController.cs" />
     <Compile Include="Controllers\CommissionAgentController.cs" />
     <Compile Include="Controllers\ConsumptionController.cs" />
+    <Compile Include="Controllers\CostingParametersController.cs" />
     <Compile Include="Controllers\CurrencyController.cs" />
     <Compile Include="Controllers\CurrentStockController.cs" />
     <Compile Include="Controllers\CustomerCategoryController.cs" />
@@ -827,6 +828,8 @@
     <Content Include="Views\StockTransfer\Index.cshtml" />
     <Content Include="Views\StockTransfer\_PreviousList.cshtml" />
     <Content Include="Views\WorkShopRequest\_AdditionalMaterialList.cshtml" />
+    <Content Include="Views\CostingParameters\Create.cshtml" />
+    <Content Include="Views\CostingParameters\CostingParametersListView.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

@@ -50,6 +50,7 @@
     <Compile Include="CommissionAgent.cs" />
     <Compile Include="Consumption.cs" />
     <Compile Include="ConsumptionItem.cs" />
+    <Compile Include="CostingParameters.cs" />
     <Compile Include="Currency.cs" />
     <Compile Include="Customer.cs" />
     <Compile Include="CustomerCategory.cs" />
