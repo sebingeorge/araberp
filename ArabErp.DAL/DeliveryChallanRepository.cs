@@ -130,14 +130,18 @@ namespace ArabErp.DAL
             {
                 try
                 {
-                    return connection.Query<PendingJC>(@"SELECT ISNULL(SO.SaleOrderRefNo, '')+' - '+CONVERT(VARCHAR, SO.SaleOrderDate, 106) SaleOrderNoDate, VM.VehicleModelName+' - '+VM.VehicleModelDescription VehicleModel, WD.WorkDescr, CUS.CustomerName, SOI.SaleOrderItemId INTO #TEMP FROM SaleOrderItem SOI
+                    return connection.Query<PendingJC>(@"SELECT ISNULL(SO.SaleOrderRefNo, '')+' - '+CONVERT(VARCHAR, SO.SaleOrderDate, 106) SaleOrderNoDate, 
+                    VM.VehicleModelName+' - '+VM.VehicleModelDescription VehicleModel, WD.WorkDescr, CUS.CustomerName, SOI.SaleOrderItemId,SO.CustomerOrderRef INTO #TEMP 
+                    FROM SaleOrderItem SOI
                     INNER JOIN SaleOrder SO ON SO.SaleOrderId = SOI.SaleOrderId
                     INNER JOIN VehicleModel VM ON SOI.VehicleModelId = VM.VehicleModelId
                     INNER JOIN WorkDescription WD ON SOI.WorkDescriptionId = WD.WorkDescriptionId
                     INNER JOIN Customer CUS ON SO.CustomerId = CUS.CustomerId
                     WHERE ISNULL(SOI.isActive, 1) = 1 AND ISNULL(VM.isActive, 1) = 1;
 
-                    SELECT ISNULL(J.JobCardNo, '')+' - '+CONVERT(VARCHAR, J.JobCardDate, 106) JobCardNoDate, T.SaleOrderNoDate, T.VehicleModel, T.WorkDescr, T.CustomerName, ISNULL(VI.RegistrationNo, '-') RegistrationNo FROM JobCard J 
+                    SELECT ISNULL(J.JobCardNo, '')+' - '+CONVERT(VARCHAR, J.JobCardDate, 106) JobCardNoDate, T.SaleOrderNoDate,T.CustomerOrderRef,
+                    T.VehicleModel, T.WorkDescr, T.CustomerName, ISNULL(VI.RegistrationNo, '-') RegistrationNo 
+                    FROM JobCard J 
                     LEFT JOIN DeliveryChallan VO ON J.JobCardId = VO.JobCardId
                     INNER JOIN #TEMP T ON J.SaleOrderItemId = T.SaleOrderItemId
                     LEFT JOIN VehicleInPass VI ON T.SaleOrderItemId = VI.SaleOrderItemId

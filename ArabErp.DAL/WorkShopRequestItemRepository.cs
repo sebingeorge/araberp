@@ -34,7 +34,22 @@ namespace ArabErp.DAL
                 throw;
             }
         }
+        public int InsertWorkShopRequestAdditionalMaterial(WorkShopRequestItem model, IDbConnection connection, IDbTransaction trn)
+        {
+            try
+            {
 
+                string sql = @"INSERT INTO WorkShopRequestItem   (WorkShopRequestId,ItemId,Remarks,Quantity,isActive,isAddtionalMaterialRequest) VALUES( @WorkShopRequestId ,@ItemId,@Remarks,@Quantity,1,1);
+            SELECT CAST(SCOPE_IDENTITY() as int)";
+
+                var id = connection.Query<int>(sql, model, trn).Single();
+                return id;
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
 
         public WorkShopRequestItem GetWorkShopRequestItem(int WorkShopRequestItemId)
         {

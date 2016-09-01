@@ -16,14 +16,14 @@ namespace ArabErp.Web.Reports {
     using CrystalDecisions.CrystalReports.Engine;
     
     
-    public class SalesInvoice : ReportClass {
+    public class JobCard : ReportClass {
         
-        public SalesInvoice() {
+        public JobCard() {
         }
         
         public override string ResourceName {
             get {
-                return "SalesInvoice.rpt";
+                return "JobCard.rpt";
             }
             set {
                 // Do nothing
@@ -41,7 +41,7 @@ namespace ArabErp.Web.Reports {
         
         public override string FullResourceName {
             get {
-                return "ArabErp.Web.Reports.SalesInvoice.rpt";
+                return "ArabErp.Web.Reports.JobCard.rpt";
             }
             set {
                 // Do nothing
@@ -90,9 +90,9 @@ namespace ArabErp.Web.Reports {
     }
     
     [System.Drawing.ToolboxBitmapAttribute(typeof(CrystalDecisions.Shared.ExportOptions), "report.bmp")]
-    public class CachedSalesInvoice : Component, ICachedReport {
+    public class CachedJobCard : Component, ICachedReport {
         
-        public CachedSalesInvoice() {
+        public CachedJobCard() {
         }
         
         [Browsable(false)]
@@ -129,7 +129,7 @@ namespace ArabErp.Web.Reports {
         }
         
         public virtual CrystalDecisions.CrystalReports.Engine.ReportDocument CreateReport() {
-            SalesInvoice rpt = new SalesInvoice();
+            JobCard rpt = new JobCard();
             rpt.Site = this.Site;
             return rpt;
         }

@@ -10,6 +10,7 @@ namespace ArabErp.Domain
     {
         public int JobCardId { get; set; }
         public string SaleOrderNoDate { get; set; }
+        public string CustomerOrderRef { get; set; }
         public string JobCardNoDate { get; set; }
         public string WorkDescr { get; set; }
         public string VehicleModel { get; set; }

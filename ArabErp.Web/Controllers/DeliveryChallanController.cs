@@ -87,6 +87,7 @@ namespace ArabErp.Web.Controllers
             {
                 JobCardNoDate = data.JobCardNoDate,
                 SaleOrderNoDate = data.SaleOrderNoDate,
+                CustomerOrderRef = data.CustomerOrderRef,
                 VehicleModel = data.VehicleModel,
                 WorkDescr = data.WorkDescr,
                 CustomerName = data.CustomerName,

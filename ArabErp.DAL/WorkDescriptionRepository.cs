@@ -47,6 +47,7 @@ namespace ArabErp.DAL
                     var worksitemrepo = new WorkVsItemRepository();
                     foreach (var item in objWorkDescription.WorkVsItems)
                     {
+                        if (item.ItemId == 0 || item.Quantity == 0) continue;
                         item.WorkDescriptionId = id;
                         item.CreatedBy = objWorkDescription.CreatedBy;
                         item.CreatedDate = objWorkDescription.CreatedDate;
@@ -58,6 +59,7 @@ namespace ArabErp.DAL
 
                     foreach (var item in objWorkDescription.WorkVsTasks)
                     {
+                        if (item.JobCardTaskMasterId == 0) continue;
                         item.WorkDescriptionId = id;
                         item.CreatedBy = objWorkDescription.CreatedBy;
                         item.CreatedDate = objWorkDescription.CreatedDate;
@@ -97,6 +99,7 @@ namespace ArabErp.DAL
                     var worksitemrepo = new WorkVsItemRepository();
                     foreach (var item in objWorkDescription.WorkVsItems)
                     {
+                        if (item.ItemId == 0 || item.Quantity == 0) continue;
                         item.WorkDescriptionId = id;
                         item.CreatedBy = objWorkDescription.CreatedBy;
                         item.CreatedDate = objWorkDescription.CreatedDate;
@@ -108,6 +111,7 @@ namespace ArabErp.DAL
 
                     foreach (var item in objWorkDescription.WorkVsTasks)
                     {
+                        if (item.JobCardTaskMasterId == 0) continue;
                         item.WorkDescriptionId = id;
                         item.CreatedBy = objWorkDescription.CreatedBy;
                         item.CreatedDate = objWorkDescription.CreatedDate;
