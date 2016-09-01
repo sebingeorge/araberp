@@ -94,7 +94,7 @@ namespace ArabErp.DAL
                     InsertLoginHistory(dataConnection, objPurchaseBill.CreatedBy, "Create", "Purchase Bill", id.ToString(), "0");
                     trn.Commit();
 
-                    return id + "|PRB/" + internalId;
+                    return id + "|" + internalId;
                 }
                 catch (Exception)
                 {

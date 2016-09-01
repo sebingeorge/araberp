@@ -35,7 +35,7 @@ namespace ArabErp.DAL
                     InsertLoginHistory(dataConnection, objQuerySheet.CreatedBy, "Create", "Query Sheet", id.ToString(), "0");
                     txn.Commit();
 
-                    return id + "|QSH/" + internalId;
+                    return id + "|" + internalId;
                 }
                 catch (Exception)
                 {
