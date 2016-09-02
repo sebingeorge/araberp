@@ -33,8 +33,8 @@ namespace ArabErp.DAL
                     {
                         item.JobCardDailyActivityId = id;
                         item.CreatedDate = DateTime.Now;
-                        sql = @"insert  into JobCardDailyActivityTask (JobCardDailyActivityId,JobCardTaskId,TaskStartDate,TaskEndDate,ActualHours,CreatedBy,CreatedDate,OrganizationId, EmployeeId) Values 
-                                                                      (@JobCardDailyActivityId,@JobCardTaskMasterId,@TaskStartDate,@TaskEndDate,@ActualHours,@CreatedBy,@CreatedDate,@OrganizationId, @EmployeeId);
+                        sql = @"insert  into JobCardDailyActivityTask (JobCardDailyActivityId,JobCardTaskId,TaskStartDate,TaskEndDate,ActualHours,CreatedBy,CreatedDate,OrganizationId, EmployeeId, StartTime, EndTime) Values 
+                                                                      (@JobCardDailyActivityId,@JobCardTaskMasterId,@TaskStartDate,@TaskEndDate,@ActualHours,@CreatedBy,@CreatedDate,@OrganizationId, @EmployeeId, @StartTime, @EndTime);
                         SELECT CAST(SCOPE_IDENTITY() as int)";
 
 
@@ -142,7 +142,7 @@ namespace ArabErp.DAL
             }
         }
 
-        public IEnumerable<JobCardForDailyActivity> PendingJobcardTasks()
+        public IEnumerable<JobCardForDailyActivity> PendingJobcardTasks(int type, int OrganizationId)
         {
             using (IDbConnection connection = OpenConnection(dataConnection))
             {
@@ -150,8 +150,11 @@ namespace ArabErp.DAL
                             from JobCard J
                             inner join Employee E on E.EmployeeId = J.EmployeeId
                             inner join WorkDescription W on W.WorkDescriptionId = J.WorkDescriptionId
-                            where J.isProjectBased = 1 and J.JodCardCompleteStatus is null";
-                return connection.Query<JobCardForDailyActivity>(sql);
+                            where J.JodCardCompleteStatus is null
+							AND J.OrganizationId = @OrganizationId
+							AND	J.isProjectBased = @type
+							AND J.isActive = 1";
+                return connection.Query<JobCardForDailyActivity>(sql, new { OrganizationId = OrganizationId, type = type });
             }
         }
 

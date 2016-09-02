@@ -24,5 +24,8 @@ namespace ArabErp.Domain
         public int EmployeeId { get; set; }
         public string EmployeeName { get; set; }
         public int JobCardTaskMasterId { get; set; }
+
+        public string StartTime { get; set; }
+        public string EndTime { get; set; }
     }
 }
