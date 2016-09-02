@@ -1,13 +1,12 @@
-﻿@model ArabErp.Domain.CostingParameters
-@{
-    Layout = "~/Views/Shared/_Layout.cshtml";
-}
+﻿@model ArabErp.Domain.QCParameters
+@{Layout = "~/Views/Shared/_Layout.cshtml";}
+
 @{string actionName = HttpContext.Current.Request.RequestContext.RouteData.Values["action"].ToString(); }
 
 <script type="text/javascript">
     function Exit() {
         location.href = '@Url.Action("Index","Home")';
-
+        @*location.href = '@Url.Action("Create")';*@
     }
     $(document).ready(function () {
         var Action = '@actionName';
@@ -20,8 +19,7 @@
             $("#GenderId").prop("checked", true)
         }
 
-
-
+        //$("#radio_1").prop("checked", true)
         toastr.options = {
             "closeButton": true,
             "positionClass": "toast-bottom-full-width",
@@ -30,57 +28,65 @@
 
             "timeOut": "0",
             "extendedTimeOut": "1000",
+
             "showEasing": "swing",
             "hideEasing": "linear",
             "showMethod": "fadeIn",
             "hideMethod": "fadeOut"
         }
-        if ('@TempData["success"]' != "" && '@TempData["CostingRefNo"]' != "") {
-            toastr.success('@TempData["success"]' + ' Costing Ref No. is : ' + '@TempData["CostingRefNo"]');
+        if ('@TempData["success"]' != "" && '@TempData["OrganizationRefNo"]' != "") {
+            toastr.success('@TempData["success"]' + ' Organization Ref No. is : ' + '@TempData["OrganizationRefNo"]');
         }
         else if ('@TempData["error"]' != "") {
             toastr.error('@TempData["error"]');
         }
+
     });
-
-
 </script>
 
-<div class="row">
+
+
+<div class=" row ">
 
     <div class="form-head1">
-        <h4>Costing Parameters</h4>
+        <h4>QC Parameters</h4>
     </div>
 
     <div class="main-part pad1">
 
-        @using (Html.BeginForm(null, null, FormMethod.Post, new { @class = "createFrom", @id = "box_form" }))
+        @using (Html.BeginForm(null, null, FormMethod.Post, new { @class = "createFrom", @id = "Organization_form", @readonly = "readonly" }))
         {
-
             <div class="row">
 
                 <div class="col-md-4">
 
-                    @Html.HiddenFor(m => m.CostingId)
-                    @Html.HiddenFor(m => m.CostingRefNo)
+                    @Html.HiddenFor(m => m.QCParamId)
+                    @Html.HiddenFor(m => m.QCRefNo)
 
                     <div class="part4">
-                        <label for="CostingRefNo">Code</label>
-                        @Html.TextBoxFor(m => m.CostingRefNo, new { @class = "form_input form_input-half", autocomplete = "off", @readonly = "readonly" })
+                        <label for="Code">Code</label>
+                        @Html.TextBoxFor(m => m.QCRefNo, new { @class = "form_input form_input-half", autocomplete = "off", @readonly = "readonly" })
                     </div>
 
                     <div class="part4">
-                        <label for="Description">Description</label>
-                        @Html.TextBoxFor(m => m.Description, new { @class = "form_input", autocomplete = "off" })
+                        <label for="Code">Name</label>
+                        @Html.TextBoxFor(m => m.QCParamName, new { @class = "form_input", autocomplete = "off" })
                     </div>
 
+                    <div class="part4">
+                        <label for="Code">Type</label>
+                        @Html.DropDownListFor(m => Model.QCParaId, (SelectList)ViewBag.QCParaType, "Select Item Type", new { @class = "form_input", autocomplete = "off" })
+                    </div>
+                    
                 </div>
+
 
                 <div class="col-md-4">
                 </div>
 
                 <div class="col-md-4">
                 </div>
+
 
                 <div class="col-md-12 hrpart">
                     <button type="button" class="form-button right" onclick="Exit();">Exit</button>
@@ -94,22 +100,16 @@
 
                 </div>
 
+
             </div>
         }
+
     </div>
 
     <div class="main-list">
-        @Html.Action("FillBoxList")
+        @Html.Action("FillQCParameterList")
     </div>
 
-
 </div>
-
-
-
-
-
-
-
 
 
