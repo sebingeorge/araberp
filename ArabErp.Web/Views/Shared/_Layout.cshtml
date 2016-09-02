@@ -31,6 +31,7 @@
     <link href="~/Content/bootstrapValidator.min.css" rel="stylesheet" />
     <link href="~/Content/menu.css" rel="stylesheet" />
     <link href="~/Content/toastr.min.css" rel="stylesheet" />
+    <link href="~/Content/jquery.timepicker.css" rel="stylesheet" />
 
     <script src="~/Scripts/modernizr-2.6.2.js"></script>
 
@@ -261,7 +262,7 @@
                             <a href="#"><span class="badge pull-right"></span>Job Card</a>
                             <ul class="dropdown-menu">
                                 <li><a href="@Url.Action("PendingJobCard", "JobCard", new { isProjectBased = 1 })"><span class="badge pull-right"></span>Job Card</a></li>
-                                <li><a href="@Url.Action("PendingJobcardTasks", "JobCardDailyActivity")"><span class="badge pull-right"></span>Daily Activity</a></li>
+                                <li><a href="@Url.Action("PendingJobcardTasks", "JobCardDailyActivity", new { type = 1 })"><span class="badge pull-right"></span>Daily Activity</a></li>
                                 <li><a href="@Url.Action("PendingJobOrderCompletion", "JobOrderCompletion", new { isProjectBased = 1})"><span class="badge pull-right"></span>Job Order Completion</a></li>
                             </ul>
                         </li>
@@ -279,6 +280,7 @@
                             <ul class="dropdown-menu">
                                 <li><a href="@Url.Action("Index","VehicleInPass")"><span class="badge pull-right"></span>Vehicle Inpass</a></li>
                                 <li><a href="@Url.Action("PendingJobCard","JobCard")"><span class="badge pull-right"></span>Job Card</a></li>
+                                <li><a href="@Url.Action("PendingJobcardTasks", "JobCardDailyActivity")"><span class="badge pull-right"></span>Daily Activity</a></li>
                                 <li><a href="@Url.Action("PendingJobOrderCompletion", "JobOrderCompletion", new { isProjectBased = 0})"><span class="badge pull-right"></span>Job Order Completion</a></li>
                                 <li><a href="@Url.Action("PendingJobCardQC", "JobCardQC")"><span class="badge pull-right"></span>Quality Control</a></li>
                                 <li><a href="@Url.Action("Index","DeliveryChallan")"><span class="badge pull-right"></span>Delivery Challan</a></li>
@@ -469,3 +471,4 @@
     }
 </script>
 <script type="text/javascript" src="~/Scripts/jssor.slider-21.1.5.mini.js"></script>
+<script src="~/Scripts/jquery.timepicker.min.js"></script>
