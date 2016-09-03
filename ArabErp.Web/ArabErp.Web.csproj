@@ -847,6 +847,8 @@
     <Content Include="Views\ProjectCompletion\_PreviousListGrid.cshtml" />
     <Content Include="Views\ProjectCompletion\Details.cshtml" />
     <Content Include="Views\WorkShopRequest\_AdditionalMaterialList.cshtml" />
+    <Content Include="Views\SalesInvoice\Edit.cshtml" />
+   
     <Content Include="Views\CostingParameters\Create.cshtml" />
     <Content Include="Views\CostingParameters\CostingParametersListView.cshtml" />
     <Content Include="Views\QCParameter\Create.cshtml" />
