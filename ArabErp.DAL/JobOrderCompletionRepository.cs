@@ -83,12 +83,13 @@ namespace ArabErp.DAL
 
                 query = @"SELECT 
 	                        T1.EmployeeId,
+							T1.JobCardTaskId,
 	                        SUM(T1.ActualHours) TotalHours
                         INTO #TOTAL
                         FROM JobCardDailyActivityTask T1
 	                        INNER JOIN JobCardDailyActivity T2 ON T1.JobCardDailyActivityId = T2.JobCardDailyActivityId
                         WHERE T2.JobCardId = @JobCardId
-                        GROUP BY T1.EmployeeId
+                        GROUP BY T1.EmployeeId, T1.JobCardTaskId
 
                         SELECT DISTINCT
 	                        M.JobCardTaskName,
@@ -104,7 +105,7 @@ namespace ArabErp.DAL
 	                        LEFT JOIN JobCardDailyActivity DA ON JT.JobCardId = DA.JobCardId
 	                        LEFT JOIN JobCardDailyActivityTask DAT ON DA.JobCardDailyActivityId = DAT.JobCardDailyActivityId AND M.JobCardTaskMasterId = DAT.JobCardTaskId
 	                        LEFT JOIN Employee EMP ON JT.EmployeeId = EMP.EmployeeId
-	                        LEFT JOIN #TOTAL T ON EMP.EmployeeId = T.EmployeeId
+	                        LEFT JOIN #TOTAL T ON EMP.EmployeeId = T.EmployeeId AND DAT.JobCardTaskId = T.JobCardTaskId
                         WHERE JT.JobCardId = @JobCardId;
 
                         DROP TABLE #TOTAL;";
@@ -147,7 +148,8 @@ namespace ArabErp.DAL
                         {
                             query = string.Empty;
                             //query = "update JobCardTask set ActualHours = " + item.ActualHours.ToString() + " where JobCardId = " + jobcard.JobCardId.ToString() + ";";
-                            query = "update JobCardTask set ActualHours = " + item.ActualHours.ToString() + ",StartTime = " + item.StartTime.ToString() + ",EndTime = " + item.EndTime.ToString() + "  where SlNo = " + item.SlNo.ToString() + " and JobCardId = " + jobcard.JobCardId.ToString() + ";";
+                            //query = "update JobCardTask set ActualHours = " + item.ActualHours.ToString() + ",StartTime = " + item.StartTime.ToString() + ",EndTime = " + item.EndTime.ToString() + "  where SlNo = " + item.SlNo.ToString() + " and JobCardId = " + jobcard.JobCardId.ToString() + ";";
+                            query = "update JobCardTask set ActualHours = " + item.ActualHours.ToString() + " where SlNo = " + item.SlNo.ToString() + " and JobCardId = " + jobcard.JobCardId.ToString() + ";";
                             connection.Query(query, transaction: txn);
                         }
                     }

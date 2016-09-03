@@ -267,6 +267,7 @@
     <Compile Include="Controllers\PurchaseBillRegisterController.cs" />
     <Compile Include="Controllers\PurchaseMonthlyItemWiseRegisterController.cs" />
     <Compile Include="Controllers\PurchaseRequestController.cs" />
+    <Compile Include="Controllers\QCParameterController.cs" />
     <Compile Include="Controllers\QuerySheetController.cs" />
     <Compile Include="Controllers\QuotationApprovalController.cs" />
     <Compile Include="Controllers\RateSettingsController.cs" />
@@ -352,6 +353,7 @@
     <Content Include="Content\images\yes.png" />
     <Content Include="Content\jquery-1.12.4.min.js" />
     <Content Include="Content\jquery-2.1.4.min.js" />
+    <Content Include="Content\jquery.timepicker.css" />
     <Content Include="Content\PagedList.css" />
     <Content Include="Content\slider_css.css" />
     <Content Include="Content\toastr.min.css" />
@@ -361,6 +363,7 @@
     <Content Include="Scripts\Highcharts\exporting.js" />
     <Content Include="Scripts\Highcharts\highcharts.js" />
     <Content Include="Scripts\jquery-1.11.3.min.js" />
+    <Content Include="Scripts\jquery.timepicker.min.js" />
     <Content Include="Scripts\jssor.slider-21.1.5.debug.js" />
     <Content Include="Scripts\jssor.slider-21.1.5.min.js" />
     <Content Include="Scripts\jssor.slider-21.1.5.mini.js" />
@@ -846,6 +849,8 @@
     <Content Include="Views\WorkShopRequest\_AdditionalMaterialList.cshtml" />
     <Content Include="Views\CostingParameters\Create.cshtml" />
     <Content Include="Views\CostingParameters\CostingParametersListView.cshtml" />
+    <Content Include="Views\QCParameter\Create.cshtml" />
+    <Content Include="Views\QCParameter\QCParameterListView.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -890,7 +895,6 @@
       <LastGenOutput>SalesInvoice.cs</LastGenOutput>
     </EmbeddedResource>
   </ItemGroup>
-
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <Import Project="$(VSToolsPath)\WebApplications\Microsoft.WebApplication.targets" Condition="'$(VSToolsPath)' != ''" />
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v10.0\WebApplications\Microsoft.WebApplication.targets" Condition="false" />
