@@ -267,6 +267,7 @@
     <Compile Include="Controllers\PurchaseBillRegisterController.cs" />
     <Compile Include="Controllers\PurchaseMonthlyItemWiseRegisterController.cs" />
     <Compile Include="Controllers\PurchaseRequestController.cs" />
+    <Compile Include="Controllers\QCParameterController.cs" />
     <Compile Include="Controllers\QuerySheetController.cs" />
     <Compile Include="Controllers\QuotationApprovalController.cs" />
     <Compile Include="Controllers\RateSettingsController.cs" />
@@ -846,8 +847,12 @@
     <Content Include="Views\ProjectCompletion\_PreviousListGrid.cshtml" />
     <Content Include="Views\ProjectCompletion\Details.cshtml" />
     <Content Include="Views\WorkShopRequest\_AdditionalMaterialList.cshtml" />
+    <Content Include="Views\SalesInvoice\Edit.cshtml" />
+   
     <Content Include="Views\CostingParameters\Create.cshtml" />
     <Content Include="Views\CostingParameters\CostingParametersListView.cshtml" />
+    <Content Include="Views\QCParameter\Create.cshtml" />
+    <Content Include="Views\QCParameter\QCParameterListView.cshtml" />
     <Content Include="Views\JobCard\Edit.cshtml" />
   </ItemGroup>
   <ItemGroup>

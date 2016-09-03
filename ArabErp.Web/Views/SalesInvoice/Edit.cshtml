@@ -1,18 +1,14 @@
 ﻿@model  ArabErp.Domain.SalesInvoice
 @{
-    ViewBag.Title = "CreateSalesInvoice";
+    ViewBag.Title = "Edit";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
-
-
 @{
     var totalQuantity = Model.SaleInvoiceItems.Sum(a => a.QuantityTxt);
     var totalDiscount = Model.SaleInvoiceItems.Sum(a => a.Discount);
     var totalAmount = Model.SaleInvoiceItems.Sum(a => a.Amount);
     Model.TotalAmount = totalAmount ?? 0;
 }
-
-
 <script>
 
     function Exit() {
@@ -160,14 +156,18 @@
 
     function formValidation() {
         var total = Number($("#lblTotalAmount").text());
-        //alert(total);
-        if (total <= 0) {
+       if (total <= 0) {
             toastr.info("Total amount should be greater than 0");
             return false;
         }
         return true;
     }
-
+    function GoToPrint(id) {
+       
+        var url = '@Url.Action("Print")';
+        url += "?Id=" + id;
+        window.location = url;
+    }
 </script>
 
 
@@ -177,7 +177,7 @@
         <h4>Sales Invoice</h4>
     </div>
     <div class="main-part pad1">
-        @using (Html.BeginForm("Save", null, FormMethod.Post, new { @class = "createFrom", @id = "saleorder_form", @onsubmit = "return formValidation()" }))
+        @using (Html.BeginForm("null", null, FormMethod.Post, new { @class = "createFrom", @id = "saleorder_form", @onsubmit = "return formValidation()" }))
         {
             <div class="row form-group ">
                 <div class="col-md-2">
@@ -190,7 +190,7 @@
                 <div class="col-md-2">
                     <label for="SalesInvoiceDate">Date</label>
                     @Html.TextBoxFor(m => m.SalesInvoiceDate, Model.SalesInvoiceDate.ToString("dd/MMMM/yyyy"), new { @class = "form_input ", autocomplete = "off", @readonly = "readonly", @onchange = "DateChanged(this)" })
-                    @*@Html.TextBoxFor(m => m.SalesInvoiceDate, String.Format("{0:dd/MM/yyyy}", Model.SalesInvoiceDate), new { @class = "form_input ", autocomplete = "off", @readonly = "readonly" })*@
+                 
                 </div>
                 <div class="col-md-2">
                     <label for="BillDueDate">Bill Due Date</label>
@@ -200,14 +200,11 @@
             <div class="row form-group">
                 <div class="col-md-4">
                     <label for="selectCustomer">Customer</label>
-                    @*@Html.DropDownListFor(m => Model.Customer, (SelectList)ViewBag.customerlist, "Select Customer", new { @class = "form_input", autocomplete = "off", @onchange = "CustomerChanged(this);" })*@
                     @Html.TextBoxFor(m => Model.Customer, new { @class = "form_input", autocomplete = "off", @readonly = "readonly" })
                 </div>
-
                 <div class="col-md-4">
                     <label for="CustomerOrderRef">Customer Address</label>
                     @Html.TextBoxFor(m => m.CustomerAddress, new { @class = "form_input", autocomplete = "off", @readonly = "readonly" })
-                    @*<input type="text" id="CustomerAddress" class="form_input" autocomplete="off" />*@
                 </div>
                 <div class="col-md-2">
                     <label for="CustomerOrderRef">Customer Order Ref.</label>
@@ -237,42 +234,42 @@
                         </tr>
                     </thead>
                     <tbody>
-                        @for ( int i = 0; i < Model.SaleInvoiceItems.Count; i++ )
+                        @for (int i = 0; i < Model.SaleInvoiceItems.Count; i++)
                         {
                             <tr id="Row_@i">
                                 <td align="center">@(i + 1) </td>
                                 @Html.HiddenFor(m => Model.SaleInvoiceItems[i].SaleOrderItemId)
                                 @Html.HiddenFor(m => Model.SaleInvoiceItems[i].SaleOrderId)
                                 @Html.HiddenFor(m => Model.SaleInvoiceItems[i].JobCardId)
-                                <td>@Html.TextBoxFor(m => Model.SaleInvoiceItems[i].WorkDescription, new { @class = "form_input", autocomplete = "off", @style = "text-align:left", placeholder = "Rate", @readonly = "readonly" })</td>
+                                <td>@Html.TextBoxFor(m => Model.SaleInvoiceItems[i].WorkDescription, new { @class = "form_input", autocomplete = "off", @style = "text-align:left", placeholder = "WorkDescription", @readonly = "readonly" })</td>
                                 @if (Model.InvoiceType == "Final")
-                                    {
+                                {
                                 <td>
-                                 @Html.TextBoxFor(m => Model.SaleInvoiceItems[i].VehicleModelName, new { @class = "form_input", autocomplete = "off", @style = "text-align:left", placeholder = "Rate", @readonly = "readonly" })
-                                </td>
-                                    }
-                                    <td>
-                                    @if ( Model.InvoiceType == "Inter" || Model.InvoiceType == "Final" )
+                                @Html.TextBoxFor(m => Model.SaleInvoiceItems[i].VehicleModelName, new { @class = "form_input", autocomplete = "off", @style = "text-align:left", placeholder = "VehicleModel", @readonly = "readonly" })
+                                </td>    
+                                }      
+                                   <td>
+                                    @if (Model.InvoiceType == "Inter" || Model.InvoiceType == "Final")
                                     {
-                                        @Html.TextBoxFor(m => Model.SaleInvoiceItems[i].QuantityTxt, new { @class = "form_input Amount", autocomplete = "off", @style = "text-align:right", placeholder = "Rate", @onchange = "Amountchanged()" })
+                                        @Html.TextBoxFor(m => Model.SaleInvoiceItems[i].QuantityTxt, new { @class = "form_input Amount", autocomplete = "off", @style = "text-align:right", placeholder = "Quantity", @onchange = "Amountchanged()" })
                                     }
                                     else
                                     {
-                                        @Html.TextBoxFor(m => Model.SaleInvoiceItems[i].QuantityTxt, new { @class = "form_input", autocomplete = "off", @style = "text-align:right", placeholder = "Rate", @readonly = "readonly" })
+                                        @Html.TextBoxFor(m => Model.SaleInvoiceItems[i].QuantityTxt, new { @class = "form_input", autocomplete = "off", @style = "text-align:right", placeholder = "Quantity", @readonly = "readonly" })
                                     }
                                 </td>
-                                <td>@Html.TextBoxFor(m => Model.SaleInvoiceItems[i].Unit, new { @class = "form_input", autocomplete = "off", @style = "text-align:left", placeholder = "Rate", @readonly = "readonly" })</td>
+                                <td>@Html.TextBoxFor(m => Model.SaleInvoiceItems[i].Unit, new { @class = "form_input", autocomplete = "off", @style = "text-align:left", placeholder = "Unit", @readonly = "readonly" })</td>
                                 <td>
-                                    @if ( Model.InvoiceType == "Inter" || Model.InvoiceType == "Final" )
+                                    @if (Model.InvoiceType == "Inter" || Model.InvoiceType == "Final")
                                     {
-                                        @Html.TextBoxFor(m => Model.SaleInvoiceItems[i].Rate, new { @class = "form_input", autocomplete = "off", @style = "text-align:right", placeholder = "Discount", @readonly="readonly", @onchange = "Amountchanged()" })
+                                        @Html.TextBoxFor(m => Model.SaleInvoiceItems[i].Rate, new { @class = "form_input", autocomplete = "off", @style = "text-align:right", placeholder = "Rate", @readonly = "readonly", @onchange = "Amountchanged()" })
                                     }
                                     else
                                     {
-                                        @Html.TextBoxFor(m => Model.SaleInvoiceItems[i].Rate, new { @class = "form_input", autocomplete = "off", @style = "text-align:right", placeholder = "Discount", @readonly = "readonly" })
+                                        @Html.TextBoxFor(m => Model.SaleInvoiceItems[i].Rate, new { @class = "form_input", autocomplete = "off", @style = "text-align:right", placeholder = "Rate", @readonly = "readonly" })
                                     }
                                 </td>
-                                <td>@Html.TextBoxFor(m => Model.SaleInvoiceItems[i].Discount, new { @class = "form_input clAmount", autocomplete = "off", @style = "text-align:right", placeholder = "Amount", @readonly = "readonly" })</td>
+                                <td>@Html.TextBoxFor(m => Model.SaleInvoiceItems[i].Discount, new { @class = "form_input clAmount", autocomplete = "off", @style = "text-align:right", placeholder = "Discount", @readonly = "readonly" })</td>
                                 <td>@Html.TextBoxFor(m => Model.SaleInvoiceItems[i].Amount, new { @class = "form_input clAmount", autocomplete = "off", @style = "text-align:right", placeholder = "Amount", @readonly = "readonly" })</td>
                             </tr>
                         }
@@ -282,10 +279,10 @@
                         <tr class="grid_heading">
                             <th width="5%" class="text-center"><h1></h1></th>
                             <th width="25%" class="text-center"><h1>Total</h1></th>
-                            @if (Model.InvoiceType == "Final")
-                                    {
+                           @if (Model.InvoiceType == "Final")
+                             {
                             <th width="15%" class="text-center"><h1></h1></th>
-                                    }
+                              }
                             <th width="5%" class="text-right">@totalQuantity</th>
                             <th width="5%"></th>
                             <th width="10%" class="text-right"><h1></h1></th>
@@ -299,7 +296,7 @@
             <div class="row form-group">
                 <div class="col-md-12">
 
-                    @*@Html.TextBoxFor(m=>m.CurrencySymbol)*@
+                  
                     <label class="tamount"><b>@(Model.CurrencySymbol)<span id="lblTotalAmount">@Model.TotalAmount</span></b></label>
                     @Html.HiddenFor(m => m.TotalAmount)
                 </div>
@@ -354,7 +351,8 @@
             <div class="row">
                 <div class="col-md-12 hrpart">
                     <button type="button" class="form-button right" onclick="Exit()">Exit</button>
-                    <button type="submit" class="form-button right">Save</button>
+                    <button type="button" class="form-button right" onclick="GoToPrint(@Model.SalesInvoiceId)">Print</button>
+                    @*<button type="submit" class="form-button right">Edit</button>*@
                 </div>
 
             </div>
@@ -362,3 +360,6 @@
         }
     </div>
 </div>
+
+
+

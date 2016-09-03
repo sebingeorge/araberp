@@ -26,12 +26,12 @@ namespace ArabErp.DAL
         //            }
         //        }
 
-        public SalesInvoice GetSalesInvoice(int SalesInvoiceId)
+        public SalesInvoice GetSalesInvoiceHdforPrint(int SalesInvoiceId)
         {
             using (IDbConnection connection = OpenConnection(dataConnection))
             {
 
-                string sql = @" select SalesInvoiceRefNo,SalesInvoiceDate,CustomerName Customer,Concat(DoorNo,',',Street,',',Phone)CustomerAddress,SI.PaymentTerms,V.RegistrationNo,J.JobCardNo,VO.VehicleOutPassNo  from SalesInvoice SI
+                string sql = @" select SalesInvoiceRefNo,SalesInvoiceDate,CustomerName Customer,Concat(DoorNo,',',Street,',',Phone)CustomerAddress,S.CustomerOrderRef,SI.PaymentTerms,V.RegistrationNo,J.JobCardNo,VO.VehicleOutPassNo,SI.TotalAmount  from SalesInvoice SI
                                 inner join SaleOrder S on S.SaleOrderId=SI.SaleOrderId
                                 inner join Customer C ON C.CustomerId=S.CustomerId
                                 inner join JobCard J ON J.SaleOrderId=S.SaleOrderId
@@ -399,5 +399,48 @@ namespace ArabErp.DAL
                 }).ToList();
             }
         }
+
+        public SalesInvoice GetInvoiceHd(int Id,string type)
+        {
+
+            using (IDbConnection connection = OpenConnection(dataConnection))
+            {
+               
+                string sql = @" select SI.SalesInvoiceRefNo,SI.SalesInvoiceId,SI.SalesInvoiceDate,SI.SalesInvoiceDueDate,C.CustomerName Customer,
+                                Concat(C.DoorNo,',',C.Street,',',C.State,',',C.Country,',',C.Zip)CustomerAddress,
+                                S.CustomerOrderRef CustomerOrderRef,SI.SpecialRemarks,SI.PaymentTerms,SI.Addition,
+                                SI.Deduction,SI.AdditionRemarks,SI.DeductionRemarks,SI.TotalAmount,SI.InvoiceType
+                                from SalesInvoice SI 
+                                inner join SaleOrder S on S.SaleOrderId=SI.SaleOrderId
+                                inner join Customer C on S.CustomerId=C.CustomerId
+                                WHERE SalesInvoiceId=@Id";
+              
+                var objSalesInvoice = connection.Query<SalesInvoice>(sql, new
+                {
+                    Id = Id,type=type
+                }).First<SalesInvoice>();
+
+                return objSalesInvoice;
+            }
+        }
+        public List<SalesInvoiceItem> GetInvoiceItems(int Id)
+        {
+            using (IDbConnection connection = OpenConnection(dataConnection))
+            {
+              
+                    string sql = @" select SI.SalesInvoiceId,W.WorkDescr WorkDescription,SI.Quantity QuantityTxt,SI.Rate,SI.Discount,SI.Amount,U.UnitName Unit,V.VehicleModelName from SalesInvoiceItem SI 
+                                inner join SaleOrderItem S ON S.SaleOrderItemId=SI.SaleOrderItemId
+                                inner join WorkDescription W ON W.WorkDescriptionId=S.WorkDescriptionId
+                                left join Unit U ON U.UnitId=S.UnitId
+                                left join VehicleModel V ON V.VehicleModelId=W.VehicleModelId
+                                WHERE SalesInvoiceId= @Id";
+              
+
+                var objInvoiceItem = connection.Query<SalesInvoiceItem>(sql, new { Id = Id }).ToList<SalesInvoiceItem>();
+
+                return objInvoiceItem;
+            }
+        }
     }
+
 }
