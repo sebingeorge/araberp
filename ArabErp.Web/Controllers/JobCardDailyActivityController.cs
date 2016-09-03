@@ -16,9 +16,9 @@ namespace ArabErp.Web.Controllers
         {
             return View();
         }
-        public ActionResult PendingJobcardTasks()
+        public ActionResult PendingJobcardTasks(int type=0)
         {
-            return View((new JobCardDailyActivityRepository()).PendingJobcardTasks());
+            return View((new JobCardDailyActivityRepository()).PendingJobcardTasks(type, OrganizationId));
         }
         public ActionResult Create(int Id)
         {
@@ -31,6 +31,13 @@ namespace ArabErp.Web.Controllers
             model.CreatedDate = DateTime.Now;
             model.JobCardDailyActivityDate = DateTime.Now;
             model.JobCardDailyActivityTask = new JobCardDailyActivityRepository().GetJobCardTasksForDailyActivity(Id, OrganizationId);
+            if (model.JobCardDailyActivityTask.Count > 0)
+            {
+                foreach (var item in model.JobCardDailyActivityTask)
+                {
+                    item.StartTime = "9:00am"; item.EndTime = "6.00pm";
+                }
+            }
             //model.JobCardDailyActivityTask = new List<JobCardDailyActivityTask>();
             //model.JobCardDailyActivityTask.Add(new JobCardDailyActivityTask() { TaskStartDate = DateTime.Now, TaskEndDate = DateTime.Now});
             Employee emp = emRepo.GetEmployee(jc.EmployeeId);

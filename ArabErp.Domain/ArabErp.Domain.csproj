@@ -50,6 +50,7 @@
     <Compile Include="CommissionAgent.cs" />
     <Compile Include="Consumption.cs" />
     <Compile Include="ConsumptionItem.cs" />
+    <Compile Include="CostingParameters.cs" />
     <Compile Include="Currency.cs" />
     <Compile Include="Customer.cs" />
     <Compile Include="CustomerCategory.cs" />
@@ -71,6 +72,7 @@
     <Compile Include="PrefixSettingsVsOrganization.cs" />
     <Compile Include="ProjectCompletion.cs" />
     <Compile Include="PurchaseRequestRegister.cs" />
+    <Compile Include="QCParameters.cs" />
     <Compile Include="RptFilter.cs" />
     <Compile Include="FreezerUnit.cs" />
     <Compile Include="GRN.cs" />
