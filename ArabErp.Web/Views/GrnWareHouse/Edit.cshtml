@@ -150,6 +150,7 @@
                     <div class="col-md-2">
                         <label for="GRNNo">GRN No. </label>
                         @Html.TextBoxFor(m => m.GRNNo, new { @class = "form_input", autocomplete = "off", @required = "true", @readonly = "true", @title = "This number may change after saving" })
+                        @Html.HiddenFor(m=>m.GRNId)
                     </div>
                     <div class="col-md-2">
                         <label for="GRNDate">Date</label>
@@ -314,6 +315,7 @@
                     <div class="col-sm-offset-10 col-sm-2 col-md-push-1 col-md-1">
                         <label>Net Amt.</label>
                         <input type="text" id="grandTotal" class="form_input text-right bold" style="font-size:16px;padding:10px" disabled />
+                        @Html.HiddenFor(m=>m.GrandTotal)
                     </div>
                 </div>
 
