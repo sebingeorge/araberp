@@ -393,7 +393,16 @@
                             @Html.TextBoxFor(m => m.ExpectedDeliveryDate, Model.ExpectedDeliveryDate.ToString("dd/MMMM/yyyy"), new { @class = "form_input", autocomplete = "off" })
                             @Html.ValidationMessageFor(m => m.ExpectedDeliveryDate)
                     </div>
-                   
+                @if (Model.isProjectBased == 2)
+                {
+
+                    <div class="col-md-2">
+
+                        @Html.CheckBoxFor(m => m.isWarranty, new { autocomplete = "off" })
+                        <span class="text">Warranty</span>
+
+                    </div>
+                  }
                         @if (Model.isProjectBased == 1)
                 {
                             <div class="col-md-2">
@@ -404,7 +413,6 @@
 
                             </div>
                 }
-
 
                     </div>
                 <div class="row form-group ">

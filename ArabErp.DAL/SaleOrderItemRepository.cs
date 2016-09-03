@@ -18,8 +18,8 @@ namespace ArabErp.DAL
             try
             {
 
-                string sql = @"insert  into SaleOrderItem(SaleOrderId,SlNo,WorkDescriptionId,VehicleModelId,Remarks,PartNo,Quantity,Rate,Discount,Amount) 
-                                                    Values (@SaleOrderId,@SlNo,@WorkDescriptionId,@VehicleModelId,@Remarks,@PartNo,@Quantity,@Rate,@Discount,@Amount);
+                string sql = @"insert  into SaleOrderItem(SaleOrderId,SlNo,WorkDescriptionId,VehicleModelId,Remarks,PartNo,Quantity,UnitId,Rate,Discount,Amount) 
+                                                    Values (@SaleOrderId,@SlNo,@WorkDescriptionId,@VehicleModelId,@Remarks,@PartNo,@Quantity,@UnitId,@Rate,@Discount,@Amount);
                        
                 SELECT CAST(SCOPE_IDENTITY() as int)";
 

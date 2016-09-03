@@ -10,6 +10,7 @@ using CrystalDecisions.CrystalReports.Engine;
 using System.IO;
 using ArabErp.Web.Models;
 using System.Data;
+using System.Data.SqlClient;
 
 namespace ArabErp.Web.Controllers
 {
@@ -123,6 +124,48 @@ namespace ArabErp.Web.Controllers
         {
             ViewBag.salesInvoiceList = new SelectList(new DropdownRepository().SalesInvoiceDropdown(OrganizationId, type), "Id", "Name");
         }
+
+        public ActionResult Edit(int id ,string type)
+        {
+            try
+            {
+                if (id != 0)
+                {
+                    SalesInvoice saleinvoice = new SalesInvoice();
+                    saleinvoice = new SalesInvoiceRepository().GetInvoiceHd(id, type);
+
+
+                    saleinvoice.SaleInvoiceItems = new SalesInvoiceRepository().GetInvoiceItems(id);
+
+                    return View(saleinvoice);
+                }
+                else
+                {
+                    TempData["error"] = "That was an invalid/unknown request. Please try again.";
+                    TempData["success"] = "";
+                }
+            }
+            catch (InvalidOperationException iox)
+            {
+                TempData["error"] = "Sorry, we could not find the requested item. Please try again.|" + iox.Message;
+            }
+            catch (SqlException sx)
+            {
+                TempData["error"] = "Some error occured while connecting to database. Please try again after sometime.|" + sx.Message;
+            }
+            catch (NullReferenceException nx)
+            {
+                TempData["error"] = "Some required data was missing. Please try again.|" + nx.Message;
+            }
+            catch (Exception ex)
+            {
+                TempData["error"] = "Some error occured. Please try again.|" + ex.Message;
+            }
+
+            TempData["success"] = "";
+            return RedirectToAction("Index");
+        }
+
         public ActionResult Print(int Id)
         {
             
@@ -138,9 +181,11 @@ namespace ArabErp.Web.Controllers
             ds.Tables["Head"].Columns.Add("VehicleOutPassNo");
             ds.Tables["Head"].Columns.Add("CustomerName");
             ds.Tables["Head"].Columns.Add("Address");
+            ds.Tables["Head"].Columns.Add("CustomerOrderRef");
             ds.Tables["Head"].Columns.Add("PaymentTerms");
             ds.Tables["Head"].Columns.Add("RegistrationNo");
             ds.Tables["Head"].Columns.Add("JobCardNo");
+            ds.Tables["Head"].Columns.Add("TotalAmount");
             ds.Tables["Items"].Columns.Add("Quantity");
             ds.Tables["Items"].Columns.Add("WorkDescription");
             ds.Tables["Items"].Columns.Add("WorkDescriptionRefNo");
@@ -148,7 +193,7 @@ namespace ArabErp.Web.Controllers
             ds.Tables["Items"].Columns.Add("Amount");
             ds.Tables["Items"].Columns.Add("Unit");
             SalesInvoiceRepository repo = new SalesInvoiceRepository();
-            var Head = repo.GetSalesInvoice(Id);
+            var Head = repo.GetSalesInvoiceHdforPrint(Id);
 
             DataRow dr = ds.Tables["Head"].NewRow();
             dr["SalesInvoiceRefNo"] = Head.SalesInvoiceRefNo;
@@ -156,9 +201,11 @@ namespace ArabErp.Web.Controllers
             dr["VehicleOutPassNo"] = Head.VehicleOutPassNo;
             dr["CustomerName"] = Head.Customer;
             dr["Address"] = Head.CustomerAddress;
+            dr["CustomerOrderRef"] = Head.CustomerOrderRef;
             dr["PaymentTerms"] = Head.PaymentTerms;
             dr["RegistrationNo"] = Head.RegistrationNo;
             dr["JobCardNo"] = Head.JobCardNo;
+            dr["TotalAmount"] = Head.TotalAmount;
             ds.Tables["Head"].Rows.Add(dr);
 
         
