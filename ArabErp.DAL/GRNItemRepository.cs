@@ -73,16 +73,16 @@ namespace ArabErp.DAL
             }
         }
 
-        public int DeleteGRNItem(Unit objGRNItem)
+        public int DeleteGRNItem(int Id)
         {
 
             using (IDbConnection connection = OpenConnection(dataConnection))
             {
-                string sql = @"Delete GRNItem  OUTPUT DELETED.GRNItemId WHERE GRNItemId=@GRNItemId";
-
-
-                var id = connection.Execute(sql, objGRNItem);
+                string sql = @"Delete FROM GRNItem  WHERE GRNId=@Id";
+                { 
+                var id = connection.Execute(sql, new { Id = Id });
                 return id;
+                }
             }
         }
 

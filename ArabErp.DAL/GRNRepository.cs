@@ -81,6 +81,54 @@ namespace ArabErp.DAL
                 throw new NullReferenceException("1You have to fill the quantity of atleast one material");
         }
 
+        public GRN InsertGRNDT(GRN model)
+        {
+
+            model.Items = model.Items.Where(m => m.AcceptedQuantity > 0).ToList<GRNItem>();
+            if (model.Items != null && model.Items.Count > 0)
+            {
+                using (IDbConnection connection = OpenConnection(dataConnection))
+                {
+                    IDbTransaction trn = connection.BeginTransaction();
+                    try
+                    {
+
+                        foreach (var item in model.Items)
+                        {
+                            item.GRNId = model.GRNId;
+                            item.Amount = item.AcceptedQuantity * item.Rate;
+                            new GRNItemRepository().InsertGRNItem(item, connection, trn);
+                            new StockUpdateRepository().InsertStockUpdate(
+                                new StockUpdate
+                                {
+                                    CreatedBy = model.CreatedBy,
+                                    CreatedDate = model.CreatedDate,
+                                    OrganizationId = model.OrganizationId,
+                                    ItemId = item.ItemId,
+                                    Quantity = item.AcceptedQuantity,
+                                    StockInOut = "IN",
+                                    StockPointId = model.StockPointId,
+                                    StockType = model.isDirectPurchaseGRN ? "DirectGRN" : "GRN",
+                                    StocktrnId = model.GRNId,
+                                    StockUserId = model.GRNNo,
+                                    stocktrnDate = model.GRNDate
+                                }, connection, trn);
+                        }
+                       
+                        trn.Commit();
+                        return model;
+                    }
+                    catch (Exception ex)
+                    {
+                        trn.Rollback();
+                        throw ex;
+                    }
+                }
+            }
+            else
+                throw new NullReferenceException("1You have to fill the quantity of atleast one material");
+        }
+
         public int InsertStockUpdate(GRN model)
         {
             using (IDbConnection connection = OpenConnection(dataConnection))
@@ -187,30 +235,23 @@ namespace ArabErp.DAL
             }
         }
 
-        public int UpdateGRN(GRN objGRN)
+        public GRN UpdateGRN(GRN model)
         {
             using (IDbConnection connection = OpenConnection(dataConnection))
             {
-                string sql = @"UPDATE GRN SET GRNNo = @GRNNo ,GRNDate = @GRNDate ,SupplierId = @SupplierId ,WareHouseId = @WareHouseId,SupplierDCNoAndDate = @SupplierDCNoAndDate  OUTPUT INSERTED.GRNId  WHERE GRNId = @GRNId";
-                
-                var id = connection.Execute(sql, objGRN);
-                InsertLoginHistory(dataConnection, objGRN.CreatedBy, "Update", "GRN", id.ToString(), "0");
-                return id;
+               string sql = @"UPDATE GRN SET GRNNo = @GRNNo,GRNDate =@GRNDate ,SupplierId = @SupplierId,
+                            WareHouseId = @StockPointId,SupplierDCNoAndDate = @SupplierDCNoAndDate,CurrencyId=@CurrencyId,SpecialRemarks=@SpecialRemarks,
+                            Addition=@Addition,AdditionId=@AdditionId,Deduction=@Deduction,DeductionId=@DeductionId,CreatedBy=@CreatedBy, 
+                            CreatedDate=@CreatedDate, GrandTotal=@GrandTotal, VehicleNo=@VehicleNo, GatePassNo=@GatePassNo, ReceivedBy=@ReceivedBy WHERE GRNId = @GRNId";
+
+
+                var id = connection.Execute(sql, model);
+                InsertLoginHistory(dataConnection, model.CreatedBy, "Update", "GRN", id.ToString(), "0");
+                return model;
             }
         }
 
-        public int DeleteGRN(Unit objGRN)
-        {
-            using (IDbConnection connection = OpenConnection(dataConnection))
-            {
-                string sql = @"Delete GRN  OUTPUT DELETED.GRNId WHERE GRNId=@GRNId";
-
-                var id = connection.Execute(sql, objGRN);
-                InsertLoginHistory(dataConnection, objGRN.CreatedBy, "Delete", "GRN", id.ToString(), "0");
-                return id;
-            }
-        }
-
+  
         public IEnumerable<Stockpoint> GetWarehouseList()
         {
             using (IDbConnection connection = OpenConnection(dataConnection))
@@ -373,14 +414,16 @@ namespace ArabErp.DAL
             using (IDbConnection connection = OpenConnection(dataConnection))
             {
 
-                string qry = " SELECT GRNId,GRNNo,GRNDate,S.SupplierName Supplier,SONoAndDate SONODATE,";
+                string qry = " SELECT GRNId,GRNNo,GRNDate,S.SupplierName Supplier,''SONODATE,VehicleNo,GatePassNo,";
+                qry += " G.AdditionId,G.DeductionId,G.Addition Addition,G.Deduction Deduction,GrandTotal,ReceivedBy,";
                 qry += " SpecialRemarks,WareHouseId StockPointId,StockPointName,SupplierDCNoAndDate,";
-                qry += " SupplyOrderId SupplierId,AdditionRemarks,Addition Addition,";
-                qry += " DeductionRemarks,Deduction Deduction,G.CurrencyId CurrencyId,C.CurrencyName";
+                qry += " S.SupplierId SupplierId,G.CurrencyId CurrencyId,C.CurrencyName";
                 qry += " FROM GRN G";
                 qry += " INNER JOIN Supplier S ON S.SupplierId=G.SupplierId";
                 qry += " INNER JOIN Stockpoint SP On SP.StockPointId=G.WareHouseId";
                 qry += " INNER JOIN Currency C On C.CurrencyId=G.CurrencyId";
+                qry += " INNER JOIN AdditionDeduction A ON A.AddDedId=G.AdditionId";
+                qry += " INNER JOIN AdditionDeduction D ON D.AddDedId=G.DeductionId";
                 qry += " WHERE G.GRNId = " + GRNId.ToString();
 
                 GRN workshoprequest = connection.Query<GRN>(qry).FirstOrDefault();
@@ -394,9 +437,10 @@ namespace ArabErp.DAL
             using (IDbConnection connection = OpenConnection(dataConnection))
             {
 
-                string query = " SELECT GRNId,SupplyOrderItemId,I.ItemId,I.ItemName,G.PartNo,Quantity,Quantity PendingQuantity,Unit,Rate,Discount,Amount,Remarks";
+                string query = " SELECT GRNId,SupplyOrderItemId,I.ItemId,I.ItemName,I.PartNo,Quantity,Quantity PendingQuantity,U.UnitName Unit,Rate,Discount,Amount,Remarks";
                 query += " FROM GRNItem G";
                 query += " INNER JOIN Item I ON I.ItemId=G.ItemId";
+                query += " INNER JOIN Unit U ON U.UnitId=I.ItemUnitId";
                 query += " WHERE G.GRNId = " + GRNId.ToString();
 
                 return connection.Query<GRNItem>(query, new { GRNId = GRNId }).ToList();
@@ -527,5 +571,40 @@ namespace ArabErp.DAL
                 return connection.Query<GRNItem>(query, new { id = id }).ToList();
             }
         }
+
+
+        public int CHECK(int GRNId)
+        {
+            using (IDbConnection connection = OpenConnection(dataConnection))
+            {
+                string sql = @" SELECT count(G.GRNId)count FROM GRNItem G 
+                                INNER JOIN PurchaseBillItem P ON P.GRNItemId=G.GRNItemId
+                                WHERE GRNId =@GRNId";
+
+                var id = connection.Query<int>(sql, new { GRNId = GRNId }).FirstOrDefault();
+
+                return id;
+
+            }
+
+        }
+
+        public int DeleteGRNHD(int Id)
+        {
+
+            using (IDbConnection connection = OpenConnection(dataConnection))
+            {
+                string sql = @"Delete FROM GRN  WHERE GRNId=@Id";
+
+                {
+                    var id = connection.Execute(sql, new { Id = Id });
+                    return id;
+                }
+              
+            }
+        }
+
+
+
     }
 }

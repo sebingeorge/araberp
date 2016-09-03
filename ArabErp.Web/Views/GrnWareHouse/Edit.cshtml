@@ -125,6 +125,12 @@
         else return true;
     }
 
+    function Delete(id) {
+        var url = '@Url.Action("Delete")';
+        url += "/" + id
+        window.location = url;
+    }
+
 </script>
 
 
@@ -135,7 +141,7 @@
 
         <div class="main-part pad1">
 
-            @using (Html.BeginForm("Save", null, FormMethod.Post, new { @class = "createFrom", @id = "grn_form", @onsubmit = "return formValidation()" }))
+            @using (Html.BeginForm(null, null, FormMethod.Post, new { @class = "createFrom", @id = "grn_form", @onsubmit = "return formValidation()" }))
             {
                 @Html.HiddenFor(m => m.isDirectPurchaseGRN)
                 @Html.HiddenFor(m => m.SupplyOrderId, new { @class = "form_input", autocomplete = "off" })
@@ -286,19 +292,19 @@
                 <div class="row form-group">
                     <div class="col-md-5 col-sm-10 col-xs-8">
                         <label for="AdditionId">Addition</label>
-                        @Html.DropDownListFor(m => m.AdditionId, (SelectList)ViewBag.additionList, "Select addition", new { @class = "form_input" })
+                        @Html.DropDownListFor(m => Model.AdditionId, (SelectList)ViewBag.additionList, "Select addition", new { @class = "form_input" })
                     </div>
                     <div class="col-md-1 col-xs-4 col-sm-2">
                         <label for="Addition">Add.Amt.</label>
-                        @Html.TextBoxFor(m => m.Addition, new { @class = "form_input numbers-only", @style = "text-align:right", autocomplete = "off", @Value = "0.00", @onkeyup = "calculateGrandTotal()" })
+                        @Html.TextBoxFor(m => Model.Addition, new { @class = "form_input numbers-only", @style = "text-align:right", autocomplete = "off", @onkeyup = "calculateGrandTotal()" })
                     </div>
                     <div class="col-md-5 col-sm-10 col-xs-8">
                         <label for="DeductionId">Deduction</label>
-                        @Html.DropDownListFor(m => m.DeductionId, (SelectList)ViewBag.deductionList, "Select deduction", new { @class = "form_input" })
+                        @Html.DropDownListFor(m => Model.DeductionId, (SelectList)ViewBag.deductionList, "Select deduction", new { @class = "form_input" })
                     </div>
                     <div class="col-md-1 col-xs-4 col-sm-2">
                         <label for="Deduction">Ded.Amt.</label>
-                        @Html.TextBoxFor(m => m.Deduction, new { @class = "form_input numbers-only", @style = "text-align:right", autocomplete = "off", @Value = "0.00", @onkeyup = "calculateGrandTotal()" })
+                        @Html.TextBoxFor(m => Model.Deduction, new { @class = "form_input numbers-only", @style = "text-align:right", autocomplete = "off", @onkeyup = "calculateGrandTotal()" })
                     </div>
                 </div>
 
@@ -315,8 +321,8 @@
 
                     <div class="col-md-12 hrpart">
                         <button type="button" class="form-button right" onclick="Exit()">Exit</button>
-                        <button type="submit" class="form-button right">Save</button>
-
+                        <button type="submit" class="form-button right">Edit</button>
+                        <button type="button" class="form-button left" onclick="Delete('@Model.GRNId')">Delete</button>
                     </div>
 
                 </div>
