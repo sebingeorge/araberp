@@ -233,7 +233,7 @@ namespace ArabErp.Web.Controllers
                     var result5 = new GRNRepository().InsertGRNDT(model);
                     if (result5.GRNId > 0)
                     {
-                        TempData["success"] = "Updated successfully!";
+                        TempData["success"] = "Updated successfully. The GRN Reference No. is " + result.GRNNo;
                         TempData["GRNNo"] = result.GRNNo;
                         return RedirectToAction("PreviousList");
                         //return View("Edit", model);
