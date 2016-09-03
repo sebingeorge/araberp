@@ -405,15 +405,16 @@ namespace ArabErp.DAL
 
             using (IDbConnection connection = OpenConnection(dataConnection))
             {
+               
                 string sql = @" select SI.SalesInvoiceRefNo,SI.SalesInvoiceId,SI.SalesInvoiceDate,SI.SalesInvoiceDueDate,C.CustomerName Customer,
                                 Concat(C.DoorNo,',',C.Street,',',C.State,',',C.Country,',',C.Zip)CustomerAddress,
                                 S.CustomerOrderRef CustomerOrderRef,SI.SpecialRemarks,SI.PaymentTerms,SI.Addition,
-                                SI.Deduction,SI.AdditionRemarks,SI.DeductionRemarks,SI.TotalAmount
+                                SI.Deduction,SI.AdditionRemarks,SI.DeductionRemarks,SI.TotalAmount,SI.InvoiceType
                                 from SalesInvoice SI 
                                 inner join SaleOrder S on S.SaleOrderId=SI.SaleOrderId
                                 inner join Customer C on S.CustomerId=C.CustomerId
                                 WHERE SalesInvoiceId=@Id";
-
+              
                 var objSalesInvoice = connection.Query<SalesInvoice>(sql, new
                 {
                     Id = Id,type=type
@@ -426,12 +427,14 @@ namespace ArabErp.DAL
         {
             using (IDbConnection connection = OpenConnection(dataConnection))
             {
-                string sql = @" select SI.SalesInvoiceId,W.WorkDescr WorkDescription,SI.Quantity QuantityTxt,SI.Rate,SI.Discount,SI.Amount,U.UnitName Unit,V.VehicleModelName from SalesInvoiceItem SI 
+              
+                    string sql = @" select SI.SalesInvoiceId,W.WorkDescr WorkDescription,SI.Quantity QuantityTxt,SI.Rate,SI.Discount,SI.Amount,U.UnitName Unit,V.VehicleModelName from SalesInvoiceItem SI 
                                 inner join SaleOrderItem S ON S.SaleOrderItemId=SI.SaleOrderItemId
                                 inner join WorkDescription W ON W.WorkDescriptionId=S.WorkDescriptionId
-                                inner join Unit U ON U.UnitId=S.UnitId
-                                inner join VehicleModel V ON V.VehicleModelId=W.VehicleModelId
+                                left join Unit U ON U.UnitId=S.UnitId
+                                left join VehicleModel V ON V.VehicleModelId=W.VehicleModelId
                                 WHERE SalesInvoiceId= @Id";
+              
 
                 var objInvoiceItem = connection.Query<SalesInvoiceItem>(sql, new { Id = Id }).ToList<SalesInvoiceItem>();
 
