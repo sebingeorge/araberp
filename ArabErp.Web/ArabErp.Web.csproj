@@ -355,6 +355,7 @@
     <Content Include="Content\jquery-2.1.4.min.js" />
     <Content Include="Content\jquery.timepicker.css" />
     <Content Include="Content\PagedList.css" />
+    <Content Include="Content\simple-sidebar.css" />
     <Content Include="Content\slider_css.css" />
     <Content Include="Content\toastr.min.css" />
     <Content Include="Images\logo.gif" />
@@ -848,7 +849,6 @@
     <Content Include="Views\ProjectCompletion\Details.cshtml" />
     <Content Include="Views\WorkShopRequest\_AdditionalMaterialList.cshtml" />
     <Content Include="Views\SalesInvoice\Edit.cshtml" />
-   
     <Content Include="Views\CostingParameters\Create.cshtml" />
     <Content Include="Views\CostingParameters\CostingParametersListView.cshtml" />
     <Content Include="Views\QCParameter\Create.cshtml" />
