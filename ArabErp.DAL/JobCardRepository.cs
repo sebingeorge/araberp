@@ -154,7 +154,7 @@ namespace ArabErp
                     trn.Commit();
                     return objJobCard.JobCardNo;
                 }
-                catch (Exception ex)
+                catch (Exception)
                 {
                     trn.Rollback();
                     return "";
@@ -167,12 +167,38 @@ namespace ArabErp
         {
             using (IDbConnection connection = OpenConnection(dataConnection))
             {
-                string sql = @"UPDATE JobCard SET JobCardNo = @JobCardNo ,JobCardDate = @JobCardDate ,SaleOrderId = @SaleOrderId ,ChasisNoRegNo = @ChasisNoRegNo,WorkDescription = @WorkDescription,FreezerUnitId = @FreezerUnitId,BoxId = @BoxId,BayId = @BayId,SpecialRemarks = @SpecialRemarks  OUTPUT INSERTED.JobCardId  WHERE JobCardId = @JobCardId";
+                IDbTransaction txn = connection.BeginTransaction();
+                string sql = @"UPDATE JobCard SET
+	                                [JobCardDate] = @JobCardDate,
+	                                BayId = @BayId,
+	                                SpecialRemarks=@SpecialRemarks,
+	                                RequiredDate=@RequiredDate,
+	                                EmployeeId=@EmployeeId
+                                WHERE JobCardId = @JobCardId;
+                                DELETE FROM JobCardTask WHERE JobCardId = @JobCardId;";
+                try
+                {
+                    var id = connection.Execute(sql, objJobCard, txn);
 
+                    int i = 0;
+                    foreach (var item in objJobCard.JobCardTasks)
+                    {
+                        item.JobCardId = objJobCard.JobCardId;
+                        item.SlNo = i;
+                        JobCardTaskRepository repo = new JobCardTaskRepository();
+                        if (repo.InsertJobCardTask(item, connection, txn) == 0) throw new Exception("Some error occured while saving jobcard task");
+                        i++;
+                    }
 
-                var id = connection.Execute(sql, objJobCard);
-                InsertLoginHistory(dataConnection, objJobCard.CreatedBy, "Update", "Job Card", id.ToString(), "0");
-                return id;
+                    InsertLoginHistory(dataConnection, objJobCard.CreatedBy, "Update", "Job Card", id.ToString(), objJobCard.OrganizationId.ToString());
+                    txn.Commit();
+                    return id;
+                }
+                catch (Exception ex)
+                {
+                    txn.Rollback();
+                    throw ex;
+                }
             }
         }
 
@@ -264,6 +290,19 @@ namespace ArabErp
             using (IDbConnection connection = OpenConnection(dataConnection))
             {
                 return connection.Query<Bay>("select BayId, BayName from Bay where BayId not in (select isnull(BayId,0)BayId from JobCard where ISNULL(JodCardCompleteStatus,0) = 0)");
+            }
+        }
+
+        /// <summary>
+        /// Gets all bays that are free, considering the given job card's bay as free
+        /// </summary>
+        /// <param name="JobCardId"></param>
+        /// <returns></returns>
+        public IEnumerable<Bay> GetBayList1(int JobCardId)
+        {
+            using (IDbConnection connection = OpenConnection(dataConnection))
+            {
+                return connection.Query<Bay>("select BayId, BayName from Bay where BayId not in (select isnull(BayId,0)BayId from JobCard where ISNULL(JodCardCompleteStatus,0) = 0 AND JobCardId != @JobCardId)", new { JobCardId = JobCardId });
             }
         }
 
@@ -391,5 +430,97 @@ namespace ArabErp
             }
         }
 
+
+        public JobCard GetJobCardDetails2(int JobCardId, int OrganizationId)
+        {
+            using (IDbConnection connection = OpenConnection(dataConnection))
+            {
+                IDbTransaction txn = connection.BeginTransaction();
+                string query = string.Empty;
+                //if (isProjectBased == 0)
+                //{
+                query = @"select S.SaleOrderId, SI.SaleOrderItemId,
+                    GETDATE() JobCardDate, C.CustomerId, C.CustomerName, S.CustomerOrderRef, V.VehicleModelName,
+                    ''ChasisNoRegNo, W.WorkDescriptionId, W.WorkDescr as WorkDescription, '' WorkShopRequestRef, 
+                    0 GoodsLanded, 0 BayId, W.FreezerUnitId FreezerUnitId, FU.FreezerUnitName, W.BoxId BoxId, B.BoxName, 
+                    ISNULL(VI.RegistrationNo, '-') RegistrationNo, VI.VehicleInPassId InPassId, S.isProjectBased,
+					JC.JobCardId, JC.JobCardNo, JC.BayId, CONVERT(VARCHAR, JC.RequiredDate, 106) RequiredDate, JC.EmployeeId
+                    from SaleOrder S inner join Customer C on S.CustomerId = C.CustomerId
+                    inner join SaleOrderItem SI on SI.SaleOrderId = S.SaleOrderId
+                    inner join WorkDescription W on W.WorkDescriptionId = SI.WorkDescriptionId
+                    LEFT join VehicleModel V on V.VehicleModelId = W.VehicleModelId
+					LEFT JOIN VehicleInPass VI ON SI.SaleOrderItemId = VI.SaleOrderItemId
+					LEFT JOIN FreezerUnit FU ON W.FreezerUnitId = FU.FreezerUnitId
+					LEFT JOIN Box B ON W.BoxId = B.BoxId
+                    INNER JOIN JobCard JC ON SI.SaleOrderItemId = JC.SaleOrderItemId
+					WHERE JC.JobCardId = @JobCardId";
+                //}
+                //else
+                //{
+                //    query = "select S.SaleOrderId, SI.SaleOrderItemId,";
+                //    query += " GETDATE() JobCardDate, C.CustomerId, C.CustomerName, S.CustomerOrderRef,";
+                //    query += " ''ChasisNoRegNo, W.WorkDescriptionId, W.WorkDescr as WorkDescription, '' WorkShopRequestRef, ";
+                //    query += " 0 GoodsLanded, 0 BayId, 0 FreezerUnitId, W.BoxId BoxId, B.BoxName";
+                //    query += " from SaleOrder S inner join Customer C on S.CustomerId = C.CustomerId";
+                //    query += " inner join SaleOrderItem SI on SI.SaleOrderId = S.SaleOrderId";
+                //    query += " inner join WorkDescription W on W.WorkDescriptionId = SI.WorkDescriptionId LEFT JOIN Box B ON W.BoxId = B.BoxId";
+                //    query += " where SI.SaleOrderItemId = " + SoItemId.ToString();
+                //}
+
+
+                JobCard jobcard = connection.Query<JobCard>(query, new { JobCardId = JobCardId }, txn).FirstOrDefault();
+
+                query = @"SELECT
+	                            JobCardTaskMasterId JobCardTaskId,
+	                            EmployeeId,
+	                            CONVERT(VARCHAR, TaskDate, 106) TaskDate,
+	                            SlNo,
+	                            [Hours]
+                            FROM JobCardTask
+                            WHERE JobCardId = @JobCardId";
+                jobcard.JobCardTasks = connection.Query<JobCardTask>(query, new { JobCardId = JobCardId }, txn).ToList();
+
+                query = @"SELECT ISNULL(JodCardCompleteStatus, 0) FROM JobCard WHERE JobCardId=@JobCardId";
+                jobcard.IsUsed = Convert.ToBoolean(connection.Query<int>(query, new { JobCardId = jobcard.JobCardId }, txn).First());
+                if (jobcard.IsUsed) return jobcard;
+
+                try
+                {
+                    query = @"DELETE FROM JobCardTask WHERE JobCardId = @JobCardId;
+                              DELETE FROM JobCard WHERE JobCardId = @JobCardId;";
+                    connection.Query<JobCardTask>(query, new { JobCardId = JobCardId }, txn).ToList();
+                    txn.Rollback();
+                    jobcard.IsTaskUsed = false;
+                }
+                catch
+                {
+                    txn.Rollback();
+                    jobcard.IsTaskUsed = true;
+                }
+
+                return jobcard;
+            }
+        }
+
+        public string DeleteJobCard(int JobCardId)
+        {
+            using (IDbConnection connection = OpenConnection(dataConnection))
+            {
+                IDbTransaction txn = connection.BeginTransaction();
+                try
+                {
+                    string query = @"DELETE FROM JobCardTask WHERE JobCardId = @JobCardId;
+                              DELETE FROM JobCard OUTPUT deleted.JobCardNo WHERE JobCardId = @JobCardId;";
+                    string output = connection.Query<string>(query, new { JobCardId = JobCardId }, txn).First();
+                    txn.Commit();
+                    return output;
+                }
+                catch (Exception ex)
+                {
+                    txn.Rollback();
+                    throw ex;
+                }
+            }
+        }
     }
 }

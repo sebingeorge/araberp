@@ -44,6 +44,8 @@ namespace ArabErp.Domain
         public List<JobCardTask> JobCardTasks { get; set; }
 
         public string BoxName { get; set; }
+        public bool IsUsed { get; set; }
+        public bool IsTaskUsed { get; set; }
     }
     public class JobCardForDailyActivity
     {

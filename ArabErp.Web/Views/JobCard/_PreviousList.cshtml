@@ -1,6 +1,6 @@
 ﻿@model IList<ArabErp.Domain.JobCard>
 
-<table class="table table-bordered">
+<table class="table table-bordered table-hover">
     <thead>
         <tr class="grid_heading">
             <th width="15%"><h1>JobCard No.</h1></th>
@@ -27,7 +27,7 @@
                         <td class="grid-cell">@item.RegistrationNo</td>
                         <td class="grid-cell">@item.FreezerUnitName</td>*@
                     <td>
-                        <center><input type="button" class="form-button4" value="Select" title="Select to view details" /></center>
+                        <center><input type="button" class="form-button4" value="Select" title="Select to view details" onclick="Open(@item.JobCardId)" /></center>
                     </td>
                     <td>
                         <center><input type="button" value="Print" onclick="GoToPrint(@item.JobCardId)" checked class="form-button4" /></center>

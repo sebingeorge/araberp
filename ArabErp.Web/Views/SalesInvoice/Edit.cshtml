@@ -162,12 +162,20 @@
         }
         return true;
     }
+    function Delete(id,type) {
+        var url = '@Url.Action("Delete")';
+        //url += "/" + id + type;
+        url += "?id=" + id + "&type=" + type;
+        window.location = url;
+        alert(url);
+    }
     function GoToPrint(id) {
        
         var url = '@Url.Action("Print")';
         url += "?Id=" + id;
         window.location = url;
     }
+
 </script>
 
 
@@ -222,7 +230,10 @@
                         <tr class="grid_heading">
                             <th width="2%" class="text-center"><h1>#</h1></th>
                             <th width="35%"><h1>Work Description</h1></th>
+                            @if (Model.InvoiceType == "Final")
+                             {
                             <th width="15%"><h1>Vehicle Model</h1></th>
+                            }
                             <th width="5%" class="text-right"><h1>Qty</h1></th>
                             <th width="5%"><h1>UoM</h1></th>
                             <th width="10%" class="text-right"><h1>Rate</h1></th>
@@ -239,8 +250,13 @@
                                 @Html.HiddenFor(m => Model.SaleInvoiceItems[i].SaleOrderId)
                                 @Html.HiddenFor(m => Model.SaleInvoiceItems[i].JobCardId)
                                 <td>@Html.TextBoxFor(m => Model.SaleInvoiceItems[i].WorkDescription, new { @class = "form_input", autocomplete = "off", @style = "text-align:left", placeholder = "WorkDescription", @readonly = "readonly" })</td>
-                                <td>@Html.TextBoxFor(m => Model.SaleInvoiceItems[i].VehicleModelName, new { @class = "form_input", autocomplete = "off", @style = "text-align:left", placeholder = "VehicleModel", @readonly = "readonly" })</td>
+                                @if (Model.InvoiceType == "Final")
+                                {
                                 <td>
+                                @Html.TextBoxFor(m => Model.SaleInvoiceItems[i].VehicleModelName, new { @class = "form_input", autocomplete = "off", @style = "text-align:left", placeholder = "VehicleModel", @readonly = "readonly" })
+                                </td>    
+                                }      
+                                   <td>
                                     @if (Model.InvoiceType == "Inter" || Model.InvoiceType == "Final")
                                     {
                                         @Html.TextBoxFor(m => Model.SaleInvoiceItems[i].QuantityTxt, new { @class = "form_input Amount", autocomplete = "off", @style = "text-align:right", placeholder = "Quantity", @onchange = "Amountchanged()" })
@@ -270,8 +286,11 @@
                     <tfoot>
                         <tr class="grid_heading">
                             <th width="5%" class="text-center"><h1></h1></th>
-                            <th width="25%" class="text-center"><h1></h1></th>
-                            <th width="15%" class="text-center"><h1>Total</h1></th>
+                            <th width="25%" class="text-center"><h1>Total</h1></th>
+                           @if (Model.InvoiceType == "Final")
+                             {
+                            <th width="15%" class="text-center"><h1></h1></th>
+                              }
                             <th width="5%" class="text-right">@totalQuantity</th>
                             <th width="5%"></th>
                             <th width="10%" class="text-right"><h1></h1></th>
@@ -342,6 +361,7 @@
                     <button type="button" class="form-button right" onclick="Exit()">Exit</button>
                     <button type="button" class="form-button right" onclick="GoToPrint(@Model.SalesInvoiceId)">Print</button>
                     @*<button type="submit" class="form-button right">Edit</button>*@
+                    <button type="button" class="form-button left" onclick="Delete('@Model.SalesInvoiceId','@Model.InvoiceType')">Delete</button>
                 </div>
 
             </div>

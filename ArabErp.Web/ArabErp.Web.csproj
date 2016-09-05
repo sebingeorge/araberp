@@ -853,6 +853,7 @@
     <Content Include="Views\CostingParameters\CostingParametersListView.cshtml" />
     <Content Include="Views\QCParameter\Create.cshtml" />
     <Content Include="Views\QCParameter\QCParameterListView.cshtml" />
+    <Content Include="Views\JobCard\Edit.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
