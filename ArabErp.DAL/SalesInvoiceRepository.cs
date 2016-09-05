@@ -89,49 +89,28 @@ namespace ArabErp.DAL
                 return id;
             }
         }
-        /// <summary>
-        /// Delete from SalesInvoiceItem
-        /// </summary>
-        /// <param name="Id"></param>
-        /// <returns></returns>
-        public int DeleteInvoiceDt(int Id)
+       
+        public string DeleteInvoice(int Id)
         {
-         
             using (IDbConnection connection = OpenConnection(dataConnection))
             {
-                string sql = @" DELETE FROM SalesInvoiceItem WHERE SalesInvoiceId=@Id";
-
+                IDbTransaction txn = connection.BeginTransaction();
+                try
                 {
-
-                    var id = connection.Execute(sql, new { Id = Id });
-                    return id;
-
+                    string query = @"DELETE FROM SalesInvoiceItem WHERE SalesInvoiceId=@Id;
+                                     DELETE FROM SalesInvoice OUTPUT deleted.SalesInvoiceRefNo WHERE SalesInvoiceId=@Id;";
+                    string output = connection.Query<string>(query, new { Id = Id }, txn).First();
+                    txn.Commit();
+                    return output;
                 }
-
+                catch (Exception ex)
+                {
+                    txn.Rollback();
+                    throw ex;
+                }
             }
         }
 
-        /// <summary>
-        ///  /// Delete from SalesInvoice
-        /// </summary>
-        /// <param name="Id"></param>
-        /// <returns></returns>
-        public int DeleteInvoiceHd(int Id)
-        {
-
-            using (IDbConnection connection = OpenConnection(dataConnection))
-            {
-                string sql = @" DELETE FROM SalesInvoice WHERE SalesInvoiceId=@Id";
-
-                {
-
-                    var id = connection.Execute(sql, new { Id = Id });
-                    return id;
-
-                }
-
-            }
-        }
         public List<SalesInvoice> GetSalesInvoiceCustomerList(string invType)
         {
             using (IDbConnection connection = OpenConnection(dataConnection))
