@@ -173,17 +173,17 @@ namespace ArabErp.Web.Controllers
             FillAdditionDeduction();
 
             PendingForGRN pending = new PendingForGRN();
-            if(model.isDirectPurchaseGRN)
-               foreach(var item in model.Items)
-                   pending.DirectPurchaseRequestId = item.DirectPurchaseRequestId;
-            else 
-                foreach(var item in model.Items)
+            if (model.isDirectPurchaseGRN)
+                foreach (var item in model.Items)
+                    pending.DirectPurchaseRequestId = item.DirectPurchaseRequestId;
+            else
+                foreach (var item in model.Items)
                     pending.SupplyOrderId = item.SupplyOrderId;
 
             return View("Create", model);
         }
 
-        public ActionResult Edit(int id=0)
+        public ActionResult Edit(int id = 0)
         {
             if (id == 0)
             {
@@ -214,8 +214,8 @@ namespace ArabErp.Web.Controllers
             SupplierDropdown();
             FillAdditionDeduction();
 
-             var repo = new GRNRepository();
-             var result1 = new GRNRepository().CHECK(model.GRNId);
+            var repo = new GRNRepository();
+            var result1 = new GRNRepository().CHECK(model.GRNId);
             if (result1 > 0)
             {
                 TempData["error"] = "Sorry!!..Already Used!!";

@@ -246,5 +246,45 @@ namespace ArabErp.Web.Controllers
                 throw;
             }
         }
+        public ActionResult Delete(int Id,string type)
+             {
+            try
+            {
+                if (Id == 0) return RedirectToAction("PendingSalesInvoice", new { invType = type });
+                string ref_no = new SalesInvoiceRepository().DeleteInvoice(Id);
+                TempData["success"] = "Deleted Successfully (" + ref_no + ")";
+                return RedirectToAction("PendingSalesInvoice", new { invType = type });
+            }
+            catch (Exception)
+            {
+                TempData["error"] = "Some error occured while deleting. Please try again.";
+                return RedirectToAction("Edit", new { id = Id });
+            }
+        }
+        //{
+            
+
+           
+        //        var result2 = new SalesInvoiceRepository().DeleteInvoiceDt();
+        //        var result3 = new SalesInvoiceRepository().DeleteInvoiceHd(Id);
+
+        //        if (Id > 0)
+        //        {
+
+        //            TempData["Success"] = "Deleted Successfully!";
+        //            return RedirectToAction("PendingSalesInvoice", new { invType = type });
+        //        }
+
+        //        else
+        //        {
+
+        //            TempData["error"] = "Oops!!..Something Went Wrong!!";
+        //            TempData["SalesInvoiceRefNo"] = null;
+        //            return RedirectToAction("Edit", new { id = Id });
+        //        }
+
+           
+
+        //}
     }
 }

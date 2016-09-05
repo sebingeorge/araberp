@@ -89,6 +89,28 @@ namespace ArabErp.DAL
                 return id;
             }
         }
+       
+        public string DeleteInvoice(int Id)
+        {
+            using (IDbConnection connection = OpenConnection(dataConnection))
+            {
+                IDbTransaction txn = connection.BeginTransaction();
+                try
+                {
+                    string query = @"DELETE FROM SalesInvoiceItem WHERE SalesInvoiceId=@Id;
+                                     DELETE FROM SalesInvoice OUTPUT deleted.SalesInvoiceRefNo WHERE SalesInvoiceId=@Id;";
+                    string output = connection.Query<string>(query, new { Id = Id }, txn).First();
+                    txn.Commit();
+                    return output;
+                }
+                catch (Exception ex)
+                {
+                    txn.Rollback();
+                    throw ex;
+                }
+            }
+        }
+
         public List<SalesInvoice> GetSalesInvoiceCustomerList(string invType)
         {
             using (IDbConnection connection = OpenConnection(dataConnection))
@@ -405,8 +427,8 @@ namespace ArabErp.DAL
 
             using (IDbConnection connection = OpenConnection(dataConnection))
             {
-               
-                string sql = @" select SI.SalesInvoiceRefNo,SI.SalesInvoiceId,SI.SalesInvoiceDate,SI.SalesInvoiceDueDate,C.CustomerName Customer,
+
+                string sql = @" select SI.SaleOrderId,SI.SalesInvoiceRefNo,SI.isProjectBased,SI.SalesInvoiceId,SI.SalesInvoiceDate,SI.SalesInvoiceDueDate,C.CustomerName Customer,
                                 Concat(C.DoorNo,',',C.Street,',',C.State,',',C.Country,',',C.Zip)CustomerAddress,
                                 S.CustomerOrderRef CustomerOrderRef,SI.SpecialRemarks,SI.PaymentTerms,SI.Addition,
                                 SI.Deduction,SI.AdditionRemarks,SI.DeductionRemarks,SI.TotalAmount,SI.InvoiceType
@@ -427,8 +449,8 @@ namespace ArabErp.DAL
         {
             using (IDbConnection connection = OpenConnection(dataConnection))
             {
-              
-                    string sql = @" select SI.SalesInvoiceId,W.WorkDescr WorkDescription,SI.Quantity QuantityTxt,SI.Rate,SI.Discount,SI.Amount,U.UnitName Unit,V.VehicleModelName from SalesInvoiceItem SI 
+
+                string sql = @" select SI.SalesInvoiceId,SI.SaleOrderItemId,SI.JobCardId,W.WorkDescr WorkDescription,SI.Quantity QuantityTxt,SI.Rate,SI.Discount,SI.Amount,U.UnitName Unit,V.VehicleModelName from SalesInvoiceItem SI 
                                 inner join SaleOrderItem S ON S.SaleOrderItemId=SI.SaleOrderItemId
                                 inner join WorkDescription W ON W.WorkDescriptionId=S.WorkDescriptionId
                                 left join Unit U ON U.UnitId=S.UnitId

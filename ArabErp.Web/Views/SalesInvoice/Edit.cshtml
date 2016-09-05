@@ -162,12 +162,20 @@
         }
         return true;
     }
+    function Delete(id,type) {
+        var url = '@Url.Action("Delete")';
+        //url += "/" + id + type;
+        url += "?id=" + id + "&type=" + type;
+        window.location = url;
+       
+    }
     function GoToPrint(id) {
        
         var url = '@Url.Action("Print")';
         url += "?Id=" + id;
         window.location = url;
     }
+
 </script>
 
 
@@ -353,6 +361,7 @@
                     <button type="button" class="form-button right" onclick="Exit()">Exit</button>
                     <button type="button" class="form-button right" onclick="GoToPrint(@Model.SalesInvoiceId)">Print</button>
                     @*<button type="submit" class="form-button right">Edit</button>*@
+                    <button type="button" class="form-button left" onclick="Delete('@Model.SalesInvoiceId','@Model.InvoiceType')">Delete</button>
                 </div>
 
             </div>
