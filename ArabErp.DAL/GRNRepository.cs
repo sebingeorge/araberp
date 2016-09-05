@@ -39,10 +39,12 @@ namespace ArabErp.DAL
                         int id = 0;
 
                         string sql = @"INSERT INTO GRN(GRNNo,GRNDate,SupplierId,CurrencyId,WareHouseId,SupplierDCNoAndDate,SpecialRemarks,
-                                                   Addition,AdditionId,Deduction,DeductionId,CreatedBy,CreatedDate,OrganizationId,isDirectPurchaseGRN, GrandTotal, VehicleNo, GatePassNo, ReceivedBy) 
-                                            VALUES (@GRNNo,@GRNDate,@SupplierId,@CurrencyId,@StockPointId,@SupplierDCNoAndDate,@SpecialRemarks,
-                                                   @Addition,@AdditionId,@Deduction,@DeductionId,@CreatedBy,@CreatedDate,@OrganizationId,@isDirectPurchaseGRN, @GrandTotal, @VehicleNo, @GatePassNo, @ReceivedBy);
-                                            SELECT CAST(SCOPE_IDENTITY() AS INT)";
+                                                       Addition,AdditionId,Deduction,DeductionId,CreatedBy,CreatedDate,OrganizationId,isDirectPurchaseGRN,
+                                                       GrandTotal, VehicleNo, GatePassNo, ReceivedBy) 
+                                               VALUES (@GRNNo,@GRNDate,@SupplierId,@CurrencyId,@StockPointId,@SupplierDCNoAndDate,@SpecialRemarks,
+                                                       @Addition,@AdditionId,@Deduction,@DeductionId,@CreatedBy,@CreatedDate,@OrganizationId,@isDirectPurchaseGRN, 
+                                                       @GrandTotal, @VehicleNo, @GatePassNo, @ReceivedBy);
+                                              SELECT CAST(SCOPE_IDENTITY() AS INT)";
 
                         id = connection.Query<int>(sql, model, trn).Single();
                         foreach (var item in model.Items)
@@ -422,8 +424,8 @@ namespace ArabErp.DAL
                 qry += " INNER JOIN Supplier S ON S.SupplierId=G.SupplierId";
                 qry += " INNER JOIN Stockpoint SP On SP.StockPointId=G.WareHouseId";
                 qry += " INNER JOIN Currency C On C.CurrencyId=G.CurrencyId";
-                qry += " INNER JOIN AdditionDeduction A ON A.AddDedId=G.AdditionId";
-                qry += " INNER JOIN AdditionDeduction D ON D.AddDedId=G.DeductionId";
+                qry += " LEFT JOIN AdditionDeduction A ON A.AddDedId=G.AdditionId";
+                qry += " LEFT JOIN AdditionDeduction D ON D.AddDedId=G.DeductionId";
                 qry += " WHERE G.GRNId = " + GRNId.ToString();
 
                 GRN workshoprequest = connection.Query<GRN>(qry).FirstOrDefault();
@@ -437,13 +439,20 @@ namespace ArabErp.DAL
             using (IDbConnection connection = OpenConnection(dataConnection))
             {
 
-                string query = " SELECT GRNId,SupplyOrderItemId,I.ItemId,I.ItemName,I.PartNo,Quantity,Quantity PendingQuantity,U.UnitName Unit,Rate,Discount,Amount,Remarks";
-                query += " FROM GRNItem G";
-                query += " INNER JOIN Item I ON I.ItemId=G.ItemId";
-                query += " INNER JOIN Unit U ON U.UnitId=I.ItemUnitId";
-                query += " WHERE G.GRNId = " + GRNId.ToString();
+                string query = " SELECT GRNId,G.SupplyOrderItemId,I.ItemId,I.ItemName,I.PartNo,";
+                      query += " (sum(S.OrderedQty-G.Quantity )+G.Quantity)PendingQuantity,";
+                      query += " sum(G.ReceivedQty) ReceivedQuantity,sum(Quantity) AcceptedQuantity,";
+                      query += " (isnull(G.ReceivedQty,0)-isnull(Quantity,0)) RejectedQuantity,";
+                      query += " U.UnitName Unit,G.Rate,G.Discount,G.Amount,Remarks";
+                      query += " FROM GRNItem G";
+                      query += " INNER JOIN SupplyOrderItem S ON S.SupplyOrderItemId=G.SupplyOrderItemId";
+                      query += " INNER JOIN Item I ON I.ItemId=G.ItemId";
+                      query += " INNER JOIN Unit U ON U.UnitId=I.ItemUnitId";
+                      query += " WHERE G.GRNId = " + GRNId.ToString();
+                      query += " GROUP BY GRNId,G.SupplyOrderItemId,I.ItemId,I.ItemName,I.PartNo,";
+                      query += " G.ReceivedQty,G.Quantity,U.UnitName,G.Rate,G.Discount,G.Amount,Remarks";
 
-                return connection.Query<GRNItem>(query, new { GRNId = GRNId }).ToList();
+                return connection.Query<GRNItem>(query).ToList();
 
 
             }
