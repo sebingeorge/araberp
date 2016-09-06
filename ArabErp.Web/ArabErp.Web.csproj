@@ -355,6 +355,7 @@
     <Content Include="Content\jquery-2.1.4.min.js" />
     <Content Include="Content\jquery.timepicker.css" />
     <Content Include="Content\PagedList.css" />
+    <Content Include="Content\simple-sidebar.css" />
     <Content Include="Content\slider_css.css" />
     <Content Include="Content\toastr.min.css" />
     <Content Include="Images\logo.gif" />
