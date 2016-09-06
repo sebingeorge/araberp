@@ -52,12 +52,10 @@
 
 
     <div class="row">
-
         <div class="form-head1">
             <h4> Query Sheet</h4>
         </div>
         <div class="main-part pad1">
-
             @using (Html.BeginForm(null, null, FormMethod.Post))
             {
                 @Html.HiddenFor(m => m.QuerySheetId)
@@ -74,11 +72,9 @@
                      <label for="QuerySheetDate">Date</label>
                    @Html.TextBoxFor(m => m.QuerySheetDate, Model.QuerySheetDate.ToString("dd/MMMM/yyyy"), new { @class = "form_input ", autocomplete = "off", @readonly = "readonly" })
                  </div>
-
                     }
-
                 </div>
-                
+           
                 <hr />
 
 
@@ -125,10 +121,8 @@
                         }
                     </div>
                     <div class="col-md-3">
-
-                        <label for="Email">Email</label>
-
-                        @if (actionName == "Create")
+                       <label for="Email">Email</label>
+                         @if (actionName == "Create")
                         {
                             @Html.TextBoxFor(m => m.Email, new { @class = "form_input", autocomplete = "off" })
                         }
@@ -138,219 +132,62 @@
                         }
                     </div>
                 </div>
-               
-                <hr />
-                <div class="row form-group">
+    
+    <div class="row form-group">
 
-                    <div class="col-md-4">
+    </div>
 
-                        <label for="RoomDetails">Room Details</label>
-
-                        @if (actionName == "Create")
-                        {
-                            @Html.TextBoxFor(m => m.RoomDetails, new { @class = "form_input", autocomplete = "off" })
-                        }
-                        else
-                        {
-                            @Html.TextBoxFor(m => m.RoomDetails, new { @class = "form_input", autocomplete = "off", @readonly = "readonly" })
-                        }
-                    </div>
-
-
-                    <div class="col-md-4">
-
-                        <label for="ExternalRoomDimension">External Room Dimension</label>
-
-                        @if (actionName == "Create")
-                        {
-                            @Html.TextBoxFor(m => m.ExternalRoomDimension, new { @class = "form_input", autocomplete = "off" })
-                        }
-                        else
-                        {
-                            @Html.TextBoxFor(m => m.ExternalRoomDimension, new { @class = "form_input", autocomplete = "off", @readonly = "readonly" })
-                        }
-                    </div>
-                    <div class="col-md-4">
-
-                        <label for="ColdRoomArea">Cold Room Area</label>
-
-                        @if (actionName == "Create")
-                        {
-                            @Html.TextBoxFor(m => m.ColdRoomArea, new { @class = "form_input", autocomplete = "off" })
-                        }
-                        else
-                        {
-                            @Html.TextBoxFor(m => m.ColdRoomArea, new { @class = "form_input", autocomplete = "off", @readonly = "readonly" })
-                        }
-                    </div>
-                </div>
-                <div class="row form-group">
-
+    <div class="table-responsive">
+        <table class="table table-bordered" id="tab_logic">
+            <thead>
+                <tr class="grid_heading">
+                    <th width="2%" class="text-center"><h1>#</h1></th>
+                    <th width="25%"><h1>Room Details</h1></th>
+                    <th width="25%"><h1>External Room Dimension</h1></th>
+                    <th width="5%"><h1>Cold Room Area</h1></th>
+                    <th width="5%"><h1>Cold Room Location</h1></th>
+                    <th width="10%"><h1>Temperature</h1></th>
+                    <th width="10%"><h1>Panel Thickness</h1></th>
+                    <th width="10%"><h1>Floor Details</h1></th>
+                    <th width="10%"><h1>Product Details</h1></th>
+                    <th width="10%"><h1>Product Incoming Temperature</h1></th>
+                    <th width="10%"><h1>Pipe Length</h1></th>
+                    <th width="10%"><h1>Refrigerant</h1></th>
+                    <th width="10%"><h1>Eletrical Power</h1></th>
+                    <th width="10%"><h1>Door Size</h1></th>
+                    <th width="10%"><h1>Kilowatt</h1></th>
                    
+                </tr>
+            </thead>
+            <tbody>
+                @for (int i = 0; i < Model.QuerySheetItems.Count; i++)
+                {
+                    <tr id="Row_@i">
+                        <td align="center">@(i + 1) </td>
+                        @Html.HiddenFor(m => Model.QuerySheetItems[i].QuerySheetItemId)
 
 
-                    <div class="col-md-4">
+                        <td>@Html.TextBoxFor(m => Model.QuerySheetItems[i].RoomDetails, new { @class = "form_input", autocomplete = "off" })</td>
+                        <td>@Html.TextBoxFor(m => Model.QuerySheetItems[i].ExternalRoomDimension, new { @class = "form_input", autocomplete = "off" })</td>
+                        <td>@Html.TextBoxFor(m => Model.QuerySheetItems[i].ColdRoomArea, new { @class = "form_input", autocomplete = "off" })</td>
+                        <td>@Html.TextBoxFor(m => Model.QuerySheetItems[i].ColdRoomLocation, new { @class = "form_input", autocomplete = "off" })</td>
+                        <td>@Html.TextBoxFor(m => Model.QuerySheetItems[i].TemperatureRequired, new { @class = "form_input", autocomplete = "off" })</td>
+                        <td>@Html.TextBoxFor(m => Model.QuerySheetItems[i].PanelThicknessANDSpec, new { @class = "form_input", autocomplete = "off" })</td>
+                        <td>@Html.TextBoxFor(m => Model.QuerySheetItems[i].FloorDetails, new { @class = "form_input", autocomplete = "off" })</td>
+                        <td>@Html.TextBoxFor(m => Model.QuerySheetItems[i].ProductDetails, new { @class = "form_input", autocomplete = "off" })</td>
+                        <td>@Html.TextBoxFor(m => Model.QuerySheetItems[i].ProductIncomingTemperature, new { @class = "form_input", autocomplete = "off" })</td>
+                        <td>@Html.TextBoxFor(m => Model.QuerySheetItems[i].PipeLength, new { @class = "form_input", autocomplete = "off" })</td>
+                        <td>@Html.TextBoxFor(m => Model.QuerySheetItems[i].Refrigerant, new { @class = "form_input", autocomplete = "off" })</td>
+                        <td>@Html.TextBoxFor(m => Model.QuerySheetItems[i].EletricalPowerAvailability, new { @class = "form_input", autocomplete = "off" })</td>
+                        <td>@Html.TextBoxFor(m => Model.QuerySheetItems[i].DoorSizeTypeAndNumberOfDoor, new { @class = "form_input", autocomplete = "off" })</td>
+                        <td>@Html.TextBoxFor(m => Model.QuerySheetItems[i].Kilowatt, new { @class = "form_input", autocomplete = "off" })</td>
+                    </tr>
+                }
 
-                        <label for="ColdRoomLocation">Cold Room Location</label>
-
-                        @if (actionName == "Create")
-                        {
-                            @Html.TextBoxFor(m => m.ColdRoomLocation, new { @class = "form_input", autocomplete = "off" })
-                        }
-                        else
-                        {
-                            @Html.TextBoxFor(m => m.ColdRoomLocation, new { @class = "form_input", autocomplete = "off", @readonly = "readonly" })
-                        }
-                    </div>
-                    <div class="col-md-4">
-
-                        <label for="TemperatureRequired">Temperature Required</label>
-
-                        @if (actionName == "Create")
-                        {
-                            @Html.TextBoxFor(m => m.TemperatureRequired, new { @class = "form_input", autocomplete = "off" })
-                        }
-                        else
-                        {
-                            @Html.TextBoxFor(m => m.TemperatureRequired, new { @class = "form_input", autocomplete = "off", @readonly = "readonly" })
-                        }
-                    </div>
-                    <div class="col-md-4">
-
-                        <label for="PanelThicknessANDSpec">Panel Thickness & Spec</label>
-
-                        @if (actionName == "Create")
-                        {
-                            @Html.TextBoxFor(m => m.PanelThicknessANDSpec, new { @class = "form_input", autocomplete = "off" })
-                        }
-                        else
-                        {
-                            @Html.TextBoxFor(m => m.PanelThicknessANDSpec, new { @class = "form_input", autocomplete = "off", @readonly = "readonly" })
-                        }
-                    </div>
-                </div>
-
-               
-
-                <div class="row form-group">
-
-                   
-
-                    <div class="col-md-4">
-                        <label for="FloorDetails">Floor Details</label>
-                        @if (actionName == "Create")
-                        {
-                            @Html.TextBoxFor(m => m.FloorDetails, new { @class = "form_input", autocomplete = "off" })
-                        }
-                        else
-                        {
-                            @Html.TextBoxFor(m => m.FloorDetails, new { @class = "form_input", autocomplete = "off", @readonly = "readonly" })
-                        }
-                    </div>
-                    <div class="col-md-4">
-
-                        <label for="ProductDetails">Product Details</label>
-
-                        @if (actionName == "Create")
-                        {
-                            @Html.TextBoxFor(m => m.ProductDetails, new { @class = "form_input", autocomplete = "off" })
-                        }
-                        else
-                        {
-                            @Html.TextBoxFor(m => m.ProductDetails, new { @class = "form_input", autocomplete = "off", @readonly = "readonly" })
-                        }
-                    </div>
-                    <div class="col-md-4">
-
-                        <label for="ProductIncomingTemperature">Product Incoming Temperature</label>
-
-                        @if (actionName == "Create")
-                        {
-                            @Html.TextBoxFor(m => m.ProductIncomingTemperature, new { @class = "form_input", autocomplete = "off" })
-                        }
-                        else
-                        {
-                            @Html.TextBoxFor(m => m.ProductIncomingTemperature, new { @class = "form_input", autocomplete = "off", @readonly = "readonly" })
-                        }
-                    </div>
-                </div>
-                <div class="row form-group">
-
-                   
-
-
-                    
-                    <div class="col-md-4">
-
-                        <label for="PipeLength">Pipe Length</label>
-
-                        @if (actionName == "Create")
-                        {
-                            @Html.TextBoxFor(m => m.PipeLength, new { @class = "form_input", autocomplete = "off" })
-                        }
-                        else
-                        {
-                            @Html.TextBoxFor(m => m.PipeLength, new { @class = "form_input", autocomplete = "off", @readonly = "readonly" })
-                        }
-                    </div>
-                    <div class="col-md-4">
-
-                        <label for="Refrigerant">Refrigerant</label>
-
-                        @if (actionName == "Create")
-                        {
-                            @Html.TextBoxFor(m => m.Refrigerant, new { @class = "form_input", autocomplete = "off" })
-                        }
-                        else
-                        {
-                            @Html.TextBoxFor(m => m.Refrigerant, new { @class = "form_input", autocomplete = "off", @readonly = "readonly" })
-                        }
-                    </div>
-                    <div class="col-md-4">
-
-                        <label for="EletricalPowerAvailability">Eletrical Power Availability</label>
-
-                        @if (actionName == "Create")
-                        {
-                            @Html.TextBoxFor(m => m.EletricalPowerAvailability, new { @class = "form_input", autocomplete = "off" })
-                        }
-                        else
-                        {
-                            @Html.TextBoxFor(m => m.EletricalPowerAvailability, new { @class = "form_input", autocomplete = "off", @readonly = "readonly" })
-                        }
-                    </div>
-                </div>
-                <div class="row form-group">
-
-                    <div class="col-md-6">
-
-            <label for="DoorSizeTypeAndNumberOfDoor">Door Size,Type & Number of Door</label>
-
-            @if (actionName == "Create")
-            {
-                @Html.TextBoxFor(m => m.DoorSizeTypeAndNumberOfDoor, new { @class = "form_input", autocomplete = "off" })
-            }
-            else
-            {
-                @Html.TextBoxFor(m => m.DoorSizeTypeAndNumberOfDoor, new { @class = "form_input", autocomplete = "off", @readonly = "readonly" })
-            }
-        </div>
-
-                    <div class="col-md-6">
-
-                        <label for="Others">Kilowatt</label>
-
-                        @if (actionName == "Create")
-                        {
-                            @Html.TextBoxFor(m => m.Kilowatt, new { @class = "form_input", autocomplete = "off" })
-                        }
-                        else
-                        {
-                            @Html.TextBoxFor(m => m.Kilowatt, new { @class = "form_input", autocomplete = "off", @readonly = "readonly" })
-                        }
-                    </div>
-                </div>
-
+            </tbody>
+            
+        </table>
+    </div>
     @Html.Partial("_ProjectCosting", Model)
 
                 <div class="row">

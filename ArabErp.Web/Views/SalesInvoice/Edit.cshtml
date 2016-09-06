@@ -164,10 +164,9 @@
     }
     function Delete(id,type) {
         var url = '@Url.Action("Delete")';
-        //url += "/" + id + type;
         url += "?id=" + id + "&type=" + type;
         window.location = url;
-        alert(url);
+       
     }
     function GoToPrint(id) {
        
@@ -259,11 +258,11 @@
                                    <td>
                                     @if (Model.InvoiceType == "Inter" || Model.InvoiceType == "Final")
                                     {
-                                        @Html.TextBoxFor(m => Model.SaleInvoiceItems[i].QuantityTxt, new { @class = "form_input Amount", autocomplete = "off", @style = "text-align:right", placeholder = "Quantity", @onchange = "Amountchanged()" })
+                                        @Html.TextBoxFor(m => Model.SaleInvoiceItems[i].QuantityTxt, new { @class = "form_input Amount", autocomplete = "off", @style = "text-align:right", placeholder = "Qty", @onchange = "Amountchanged()" })
                                     }
                                     else
                                     {
-                                        @Html.TextBoxFor(m => Model.SaleInvoiceItems[i].QuantityTxt, new { @class = "form_input", autocomplete = "off", @style = "text-align:right", placeholder = "Quantity", @readonly = "readonly" })
+                                        @Html.TextBoxFor(m => Model.SaleInvoiceItems[i].QuantityTxt, new { @class = "form_input", autocomplete = "off", @style = "text-align:right", placeholder = "Qty", @readonly = "readonly" })
                                     }
                                 </td>
                                 <td>@Html.TextBoxFor(m => Model.SaleInvoiceItems[i].Unit, new { @class = "form_input", autocomplete = "off", @style = "text-align:left", placeholder = "Unit", @readonly = "readonly" })</td>

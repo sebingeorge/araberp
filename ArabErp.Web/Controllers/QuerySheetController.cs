@@ -39,6 +39,8 @@ namespace ArabErp.Web.Controllers
             QuerySheet qs = new QuerySheet();
             qs.QuerySheetDate = DateTime.Now;
             var repo = new QuerySheetRepository();
+            qs.QuerySheetItems = new List<QuerySheetItem>();
+            qs.QuerySheetItems.Add(new QuerySheetItem());
             var PCList = repo.GetProjectCostingParameter();
             qs.Items = new List<ProjectCost>();
             qs.QuerySheetRefNo = internalId;
@@ -123,8 +125,9 @@ namespace ArabErp.Web.Controllers
                 {
                     QuerySheet QuerySheet = new QuerySheet();
                     QuerySheet = new QuerySheetRepository().GetQuerySheet(id);
-                    QuerySheet.Items = new ProjectCostRepository().GetProjectCost(id);
-
+                    var repo = new ProjectCostRepository();
+                    QuerySheet.Items = repo.GetProjectCost(id);
+                    QuerySheet.QuerySheetItems = repo.GetQuerySheetItem(id);
                     return View(QuerySheet);
                 }
                 else

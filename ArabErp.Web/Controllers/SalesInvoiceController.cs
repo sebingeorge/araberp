@@ -247,40 +247,44 @@ namespace ArabErp.Web.Controllers
             }
         }
         public ActionResult Delete(int Id,string type)
-        {
-            ViewBag.Title = "Delete";
-
-            var result1 = 0;
-            if (result1 > 0)
+             {
+            try
             {
-                TempData["error"] = "Sorry!!..Already Used!!";
-                TempData["SalesInvoiceRefNo"] = null;
+                if (Id == 0) return RedirectToAction("PendingSalesInvoice", new { invType = type });
+                string ref_no = new SalesInvoiceRepository().DeleteInvoice(Id);
+                TempData["success"] = "Deleted Successfully (" + ref_no + ")";
+                return RedirectToAction("PendingSalesInvoice", new { invType = type });
+            }
+            catch (Exception)
+            {
+                TempData["error"] = "Some error occured while deleting. Please try again.";
                 return RedirectToAction("Edit", new { id = Id });
             }
-
-            else
-            {
-                var result2 = new SalesInvoiceRepository().DeleteInvoiceDt(Id);
-                var result3 = new SalesInvoiceRepository().DeleteInvoiceHd(Id);
-
-                if (Id > 0)
-                {
-
-                    TempData["Success"] = "Deleted Successfully!";
-
-                    return RedirectToAction("PendingSalesInvoice", new { invType = type });
-                }
-
-                else
-                {
-
-                    TempData["error"] = "Oops!!..Something Went Wrong!!";
-                    TempData["SalesInvoiceRefNo"] = null;
-                    return RedirectToAction("Edit", new { id = Id });
-                }
-
-            }
-
         }
+        //{
+            
+
+           
+        //        var result2 = new SalesInvoiceRepository().DeleteInvoiceDt();
+        //        var result3 = new SalesInvoiceRepository().DeleteInvoiceHd(Id);
+
+        //        if (Id > 0)
+        //        {
+
+        //            TempData["Success"] = "Deleted Successfully!";
+        //            return RedirectToAction("PendingSalesInvoice", new { invType = type });
+        //        }
+
+        //        else
+        //        {
+
+        //            TempData["error"] = "Oops!!..Something Went Wrong!!";
+        //            TempData["SalesInvoiceRefNo"] = null;
+        //            return RedirectToAction("Edit", new { id = Id });
+        //        }
+
+           
+
+        //}
     }
 }

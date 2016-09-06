@@ -21,11 +21,11 @@
         });
     })
 
-    @*function OnItemSelected(id) {
+    function OnItemSelected(id) {
         var url = '@Url.Action("Edit")';
-        url += "?id=" + id;
+        url += "?type=@(ViewBag.type)&id=" + id;
         window.location = url;
-    }*@
+    }
     function Exit() {
         var url = '@Url.Action("PendingProforma", new { ProjectBased = ViewBag.type })';
         window.location = url;

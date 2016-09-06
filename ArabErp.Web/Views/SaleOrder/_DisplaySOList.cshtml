@@ -206,8 +206,8 @@
                 {
                     <th width="15%" class="text-left"><h1>Vehicle Model</h1></th>
                 }                
-                @*<th width="5%" class="text-right"><h1>Qty.</h1></th>
-                <th width="5%"><h1>UoM</h1></th>*@
+                <th width="5%" class="text-right"><h1>Qty.</h1></th>
+                @*<th width="5%"><h1>UoM</h1></th>*@
                 <th width="8%" class="text-right"><h1>Rate</h1></th>
                 <th width="8%" class="text-right"><h1>Discount</h1></th>
                 <th width="8%" class="text-right"><h1>Amount</h1></th>
@@ -223,8 +223,8 @@
                     <td align="center">
                         <span id="slno@(i+1)">@(i + 1)</span>
                         @Html.HiddenFor(m => m.Items[i].SlNo)
-                        @Html.HiddenFor(m => m.Items[i].Quantity)
-                        @Html.HiddenFor(m => m.Items[i].UnitId)
+                        @*@Html.HiddenFor(m => m.Items[i].Quantity)
+                        @Html.HiddenFor(m => m.Items[i].UnitId)*@
                     </td>
 
                     <td>
@@ -281,6 +281,9 @@
 
                         @*}*@
                    @* </td>*@
+    <td>
+        @Html.TextBoxFor(m => m.Items[i].Quantity, new { @class = "form_input clQuantity  ", @style = "text-align:right", autocomplete = "off", placeholder = "Qty", @readonly = "true" })
+    </td>
                     <td>
                         @*@if (actionName == "Create" || actionName == "CreateProject" || actionName == "RefreshDisplaySOList")
                         {
@@ -321,7 +324,7 @@
                 {
                     <th class="text-center"></th>
                 }                
-                @*<th width="5%" class="text-right"><span id="QtyTotal"></span></th>*@
+                <th width="5%" class="text-right"><span id="QtyTotal"></span></th>
              
                 <th class="text-right">
                 <h1>
