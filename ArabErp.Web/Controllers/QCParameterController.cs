@@ -19,7 +19,7 @@ namespace ArabErp.Web.Controllers
         {
             ViewBag.Title = "Create";
             QCParameters QC = new QCParameters();
-            QC.QCRefNo = new QCParametersRepository().GetRefNo(QC);
+            QC.QCRefNo = "QC/" + DatabaseCommonRepository.GetNextReferenceNo(typeof(QCParameters).Name);//new QCParametersRepository().GetRefNo(QC);
             dropdown();
             return View(QC);
         }

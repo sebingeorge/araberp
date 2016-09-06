@@ -31,7 +31,7 @@ namespace ArabErp.DAL
                  try
                  {
                      int internalid = DatabaseCommonRepository.GetInternalIDFromDatabase(connection, trn, typeof(QCParameters).Name, "0", 1);
-                     objQCParameters.QCRefNo = "B/" + internalid;
+                     objQCParameters.QCRefNo = "QC/" + internalid;
 
                      int id = connection.Query<int>(sql, objQCParameters, trn).Single();
                      objQCParameters.QCParaId = id;
@@ -50,29 +50,29 @@ namespace ArabErp.DAL
              }
          }
 
-         public string GetRefNo(QCParameters objQCParameters)
-         {
+         //public string GetRefNo(QCParameters objQCParameters)
+         //{
 
-             using (IDbConnection connection = OpenConnection(dataConnection))
-             {
-                 string RefNo = "";
-                 var result = new CostingParameters();
+         //    using (IDbConnection connection = OpenConnection(dataConnection))
+         //    {
+         //        string RefNo = "";
+         //        var result = new CostingParameters();
 
-                 IDbTransaction trn = connection.BeginTransaction();
+         //        IDbTransaction trn = connection.BeginTransaction();
 
-                 try
-                 {
-                     int internalid = DatabaseCommonRepository.GetInternalIDFromDatabase(connection, trn, typeof(QCParameters).Name, "0", 0);
-                     RefNo = "B/" + internalid;
-                     trn.Commit();
-                 }
-                 catch (Exception ex)
-                 {
-                     trn.Rollback();
-                 }
-                 return RefNo;
-             }
-         }
+         //        try
+         //        {
+         //            int internalid = DatabaseCommonRepository.GetInternalIDFromDatabase(connection, trn, typeof(QCParameters).Name, "0", 0);
+         //            RefNo = "B/" + internalid;
+         //            trn.Commit();
+         //        }
+         //        catch (Exception ex)
+         //        {
+         //            trn.Rollback();
+         //        }
+         //        return RefNo;
+         //    }
+         //}
 
          public IEnumerable<Dropdown> FillParaType()
          {

@@ -279,6 +279,7 @@
     <Compile Include="Controllers\SalesInvoiceController.cs" />
     <Compile Include="Controllers\SalesQuotationController.cs" />
     <Compile Include="Controllers\SalesRegisterController.cs" />
+    <Compile Include="Controllers\SalesTargetController.cs" />
     <Compile Include="Controllers\StockCreationController.cs" />
     <Compile Include="Controllers\StockJournalController.cs" />
     <Compile Include="Controllers\StockMovementRegisterController.cs" />
@@ -851,6 +852,8 @@
     <Content Include="Views\CostingParameters\CostingParametersListView.cshtml" />
     <Content Include="Views\QCParameter\Create.cshtml" />
     <Content Include="Views\QCParameter\QCParameterListView.cshtml" />
+    <Content Include="Views\SalesTarget\Create.cshtml" />
+    <Content Include="Views\SalesTarget\SalesTargetListView.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
