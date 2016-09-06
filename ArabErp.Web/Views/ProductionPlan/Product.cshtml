@@ -1,0 +1,274 @@
+﻿
+@{
+    ViewBag.Title = "Product";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+
+<div class="row">
+    <div class="form-head1">
+        <h4>Product</h4>
+    </div>
+
+    <div class="main-part pad1">
+        <div class="row">
+       
+            <div class="col-md-4">
+                <div class="form-group">
+                    <div class="row">
+                        <div class="col-md-4">
+                            <label>Product Code</label>
+                            <input type="text" class="form_input" />
+                        </div>
+                        </div>
+                    </div>
+                        <div class="form-group">
+                            <label>Name</label>
+                            <input type="text" class="form_input" />
+                        </div>
+                        <div class="form-group">
+                            <label>Short Name</label>
+                            <input type="text" class="form_input" />
+                        </div>
+                        <div class="form-group">
+                            <label>Print Name</label>
+                            <input type="text" class="form_input" />
+                        </div>
+                    </div>
+
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <label>Product Line</label>
+                            <select class="form_input">
+                                <option value="">Product Line 1</option>
+                                <option value="">Product Line 2</option>
+                                <option value="">Product Line 3</option>
+                                <option value="">Product Line 4</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label>Product Group</label>
+                            <select class="form_input">
+                                <option value="">Product Group 1</option>
+                                <option value="">Product Group 2</option>
+                                <option value="">Product Group 3</option>
+                                <option value="">Product Group 4</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label>Product Sub Group</label>
+                            <select class="form_input">
+                                <option value="">Product Sub Group 1</option>
+                                <option value="">Product Sub Group 2</option>
+                                <option value="">Product Sub Group 3</option>
+                                <option value="">Product Sub Group 4</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <div class="row">
+                                <div class="col-md-4">
+                                    <label>Unit</label>
+                                    <select class="form_input">
+                                        <option value="">Select Unit</option>
+                                        <option value="">Kg</option>
+                                        <option value="">Ltr</option>
+                                        <option value="">Nos</option>
+                                        <option value="">Mtr</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+            <div class="col-md-4">
+
+
+
+                        <div class="form-group">
+                            <div class="row">
+                                <div class="col-md-3">
+                                    <label>Min. Order <br />Qty</label>
+                                    <input type="text" class="form_input" />
+                                </div>
+                                <div class="col-md-3">
+                                    <label>Min.Stock<br /> Level</label>
+                                    <input type="text" class="form_input" />
+                                </div>
+                                <div class="col-md-3">
+                                    <label>Max.Stock<br /> Level</label>
+                                    <input type="text" class="form_input" />
+                                </div>
+                                <div class="col-md-3">
+                                    <label>ReOrder <br />Level</label>
+                                    <input type="text" class="form_input" />
+                                </div>
+                            </div>
+                        </div>
+
+                <div class="form-group">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <br />
+                            <label>Sourcing Type</label>
+                            <input type="checkbox" name="" value=""> Own Production
+                            <input type="checkbox" name="" value="" checked> Out Sourcing
+                        </div>
+                    </div>
+                </div>
+
+
+                <div class="form-group">
+                    <div class="row">
+                        <div class="col-md-4">
+                            <label>Batch Required</label>
+                            <select class="form_input">
+                                <option value="">Yes</option>
+                                <option value="">No</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+
+
+                    </div>
+
+
+
+
+
+
+                </div>
+
+        <div class="row">
+            <div class="col-md-12 hrpart">
+                <button type="button" class="form-button right">Save</button>
+                <button type="button" class="form-button right" onclick="Exit()">Exit</button>
+            </div>
+
+        </div>
+
+    </div>
+
+
+
+
+
+
+
+            </div>
+
+    
+
+<div class="row">
+    <div class="res">
+        <div class="table-responsive">
+
+            <table class="table table-bordered" id="tab_logic">
+                <thead>
+                    <tr class="grid_heading">
+                        <th width="7%"><h1>Ref No</h1></th>
+                        <th width="42%"><h1>Name</h1></th>
+                        <th width="41%"><h1>Product Line</h1></th>
+                        <th width="5%"><center><h1>Edit</h1></center></th>
+                        <th width="5%"><center><h1>Delete</h1></center></th>
+
+                    </tr>
+                </thead>
+                <tbody>
+
+                    <tr>
+                        <td>10001</td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+
+
+                    </tr>
+
+                    <tr>
+
+                        <td>10002</td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+
+
+                    </tr>
+
+
+
+                    <tr>
+
+                        <td>10003</td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+
+
+                    </tr>
+                    <tr>
+                        <td>10004</td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+
+
+                    </tr>
+                    <tr>
+
+                        <td>10005</td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+
+
+                    </tr>
+
+                    <tr>
+
+                        <td>10006</td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+
+
+                    </tr>
+
+
+
+                </tbody>
+                <tfoot>
+                    <tr class="grid_heading">
+
+                        <th></th>
+                        <th></th>
+                        <th></th>
+                        <th></th>
+                        <th></th>
+
+
+
+
+
+
+                    </tr>
+                </tfoot>
+            </table>
+
+
+        </div>
+        </div>
+    </div>
+<script>
+    function Exit() {
+        var url = '@Url.Action("Index","ProductionPlan")'
+        window.location = url;
+    }
+</script>

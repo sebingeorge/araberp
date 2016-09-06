@@ -1,0 +1,176 @@
+﻿
+@{
+    ViewBag.Title = "GRN";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+
+<div class="row">
+    <div class="form-head1">
+        <h4>Goods Receipt Note</h4>
+    </div>
+
+    <div class="main-part pad1">
+
+
+        <div class="row form-group">
+            <div class="col-md-2">
+                <label>GRN No</label>
+                <input type="text" class="form_input" />
+            </div>
+            <div class="col-md-2">
+                <label>GRN Date</label>
+                <input type="text" class="form_input" />
+            </div>
+            </div>
+        <div class="row form-group">
+            <div class="col-md-4">
+                <label>Supplier</label>
+                <input type="text" class="form_input" />
+            </div>
+            <div class="col-md-4">
+                <label>P.O. Reference</label>
+                <input type="text" class="form_input" />
+            </div>
+        </div>
+
+        <div class="table-responsive">
+            <table class="table table-bordered" id="tab_logic">
+                <thead>
+                    <tr class="grid_heading">
+                        <th width="7%"><h1>P.O. No</h1></th>
+                        <th width="7%"><h1>Item Code</h1></th>
+                        <th width="30%"><h1>Item Name</h1></th>
+                        <th width="7%" class="text-right"><h1>P.O. Qty</h1></th>
+                        <th width="7%" class="text-right"><h1>GRN Qty</h1></th>
+                        <th width="7%" class="text-left"><h1>Unit</h1></th>
+                        <th width="7%" class="text-right"><h1>Rate</h1></th>
+                        <th width="7%" class="text-right"><h1>Amount</h1></th>
+                        <th width="7%"><h1>QC Applicable</h1></th>
+                        <th width="7%"><h1>Batch Name</h1></th>
+                        <th width="7%"><h1>Expiry Date</h1></th>
+                    </tr>
+                </thead>
+                <tbody>
+
+                    <tr>
+
+                        <td>10001</td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+
+                    </tr>
+                    <tr>
+
+                        <td>10002</td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+
+                    </tr>
+
+
+                </tbody>
+                <tfoot>
+                    <tr class="grid_heading">
+
+                        <th></th>
+                        <th></th>
+                        <th></th>
+                        <th></th>
+                        <th></th>
+                        <th></th>
+                        <th></th>
+                        <th></th>
+                        <th></th>
+                        <th></th>
+                        <th></th>
+
+
+
+
+                    </tr>
+                </tfoot>
+            </table>
+        </div>
+
+
+        <div class="row form-group">
+            <div class="col-md-2">
+                <label>Stock Point</label>
+                <select class="form_input">
+                    <option value="">Stock Point1</option>
+                    <option value="">Stock Point2</option>
+                </select>
+            </div>
+            <div class="col-md-2">
+                <label>Received by</label>
+                <select class="form_input">
+                    <option value="">Received1</option>
+                    <option value="">Received2</option>
+                </select>
+            </div>
+            </div>
+        <div class="row form-group">
+            <div class="col-md-2">
+                <label>Landing Date and Time</label>
+                <input type="text" class="form_input" />
+            </div>
+            <div class="col-md-2">
+                <label>Supplier DC No. and Date</label>
+                <input type="text" class="form_input" />
+            </div>
+            <div class="col-md-2">
+                <label>Delivery Mode</label>
+                <input type="text" class="form_input" />
+            </div>
+        </div>
+        <div class="row form-group">
+            <div class="col-md-12">
+                <label>Special Remarks</label>
+                <input type="text" class="form_input form_input-h" />
+            </div>
+        </div>
+
+
+
+        <div class="row">
+            <div class="col-md-12 hrpart">
+                <button type="button" class="form-button form-w" onclick="Previous()">Previous List</button>
+                <button type="button" class="form-button right">Save</button>
+                <button type="button" class="form-button right" onclick="Exit()">Exit</button>
+            </div>
+
+        </div>
+
+
+    </div>
+
+</div>
+<script>
+    function Previous() {
+        var url = '@Url.Action("PreviousGRN", "ProductionPlan")'
+        window.location = url;
+    }
+    function Exit() {
+        var url = '@Url.Action("Index","ProductionPlan")'
+        window.location = url;
+    }
+</script>
+
