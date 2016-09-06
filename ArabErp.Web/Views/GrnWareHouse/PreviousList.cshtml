@@ -12,6 +12,38 @@
         url += "/" + id;
         window.location = url;
     }
+
+    $(document).ready(function () {
+        toastr.options = {
+            "closeButton": true,
+            "positionClass": "toast-bottom-full-width",
+            "preventDuplicates": false,
+            "onclick": null,
+            "showDuration": "300",
+            "hideDuration": "1000",
+            "timeOut": "5000",
+            "extendedTimeOut": "1000",
+            "showEasing": "swing",
+            "hideEasing": "linear",
+            "showMethod": "fadeIn",
+            "hideMethod": "fadeOut"
+        }
+        if ('@TempData["success"]' != '') {
+            toastr.success('@TempData["success"]');
+
+        }
+        else if ('@TempData["error"]' != '') {
+            toastr.error('@TempData["error"]'.split('|')[0]);
+            console.log('@TempData["error"]'.split('|')[1]);
+        }
+      @{TempData["success"] = TempData["error"] = "";}
+    });
+
+    function Exit()
+    {
+        var url = '@Url.Action("Index", "Home")';
+        location.href = url;
+    }
 </script>
 
 <div class="row">
@@ -34,7 +66,7 @@
                                 <th width="12%" nowrap><h1>Warehouse/Stockpoint</h1></th>
                                 <th width="5%" class="text-right" nowrap><h1>Grand Total</h1></th>
                                 <th width="10%" nowrap><h1>Type</h1></th>
-                                <th width="8%"><center>Edit</center></th>
+                                <th width="8%"><center>Select</center></th>
                             </tr>
                         </thead>
                         <tbody class="grid_row">
@@ -70,7 +102,7 @@
                                                 @*<input type="text" class="form_input"*@ @(Model[i].isDirectPurchaseGRN ? "DIRECT-GRN" : "GRN") @*disabled />*@
                                             </td>
                                             <td>
-                                                <center><input type="button" class="form-button5" value="Edit" title="Click here to edit this entry" onclick="Edit(@Model[i].GRNId)" /></center>
+                                                <center><input type="button" class="form-button5" value="Select" title="Click here to edit this entry" onclick="Edit(@Model[i].GRNId)" /></center>
                                             </td>
                                         </tr>
                                     }
@@ -91,11 +123,12 @@
         <div class="row-count1">
             <h5>Row Count:- @Model.Count</h5>
         </div>
-        @*<div class="row">
+
+        <div class="row">
                 <div class="col-md-12 hrpart">
-                    <input type="button" class="form-button right" value="Pending" id="btnProceed" />
+                    <button type="button" class="form-button right" onclick="Exit()">Exit</button>
                 </div>
-            </div>*@
+            </div>
     </div>
 </div>
 

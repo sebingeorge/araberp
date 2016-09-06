@@ -1,0 +1,263 @@
+﻿
+@{
+    ViewBag.Title = "Supplier";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+
+<div class="row">
+    <div class="form-head1">
+        <h4>Supplier</h4>
+    </div>
+
+    <div class="main-part pad1">
+
+        <div class="row">
+
+            <div class="col-md-4">
+                <div class="row form-group">
+                    <div class="col-md-4">
+                        <label>Code</label>
+                        <input type="text" class="form_input" />
+                    </div>
+                </div>
+
+                <div class="row form-group">
+                    <div class="col-md-12">
+                        <label>Name</label>
+                        <input type="text" class="form_input" />
+                    </div>
+                </div>
+
+                <div class="row form-group">
+                    <div class="col-md-12">
+                        <label>Short Name</label>
+                        <input type="text" class="form_input" />
+                    </div>
+                </div>
+
+                <div class="row form-group">
+
+                    <div class="col-md-6">
+                        <label>Supplier Category</label>
+                        <select class="form_input">
+                            <option value="">Finished Goods</option>
+                            <option value="">Semi Finished</option>
+                            <option value="">Raw Material</option>
+                            <option value="">consumables</option>
+                            <option value="">Packing Materials</option>
+                            <option value="">Engineers</option>
+                            <option value="">Others</option>
+                        </select>
+                    </div>
+                </div>
+
+            </div>
+
+            <div class="col-md-4">
+                <div class="row form-group">
+                    <div class="col-md-12">
+                        <label>Door No.& Building</label>
+                        <input type="text" class="form_input" />
+                    </div>
+                </div>
+
+                <div class="row form-group">
+                    <div class="col-md-12">
+                        <label>Post Box No.</label>
+                        <input type="text" class="form_input" />
+                    </div>
+                </div>
+
+                <div class="row form-group">
+                    <div class="col-md-12">
+                        <label>Street & City</label>
+                        <input type="text" class="form_input" />
+                    </div>
+                </div>
+
+                <div class="row form-group">
+                    <div class="col-md-12">
+                        <label>Phone No.</label>
+                        <input type="text" class="form_input" />
+                    </div>
+                </div>
+
+
+
+            </div>
+
+
+            <div class="col-md-4">
+                <div class="row form-group">
+                    <div class="col-md-12">
+                        <label>State</label>
+                        <input type="text" class="form_input" />
+                    </div>
+                </div>
+
+                <div class="row form-group">
+                    <div class="col-md-12">
+                        <label>Fax</label>
+                        <input type="text" class="form_input" />
+                    </div>
+                </div>
+
+                <div class="row form-group">
+                    <div class="col-md-12">
+                        <label>Country</label>
+                        <select class="form_input">
+                            <option value="">Select Country</option>
+                            <option value="">India</option>
+
+                        </select>
+                    </div>
+                </div>
+
+                <div class="row form-group">
+                    <div class="col-md-12">
+                        <label>E-mail</label>
+                        <input type="text" class="form_input" />
+                    </div>
+                </div>
+
+
+
+            </div>
+
+        </div>
+
+        <div class="row">
+            <div class="col-md-12 hrpart">
+                <button type="button" class="form-button right">Save</button>
+                <button type="button" class="form-button right" onclick="Exit()">Exit</button>
+            </div>
+
+        </div>
+
+
+    </div>
+
+</div>
+
+<div class="row">
+    <div class="res">
+        <div class="table-responsive">
+
+            <table class="table table-bordered" id="tab_logic">
+                <thead>
+                    <tr class="grid_heading">
+                        <th width="7%"><h1>Ref No</h1></th>
+                        <th width="42%"><h1>Supplier Name</h1></th>
+                        <th width="41%"><h1>Supplier Category</h1></th>
+                        <th width="5%"><center><h1>Edit</h1></center></th>
+                        <th width="5%"><center><h1>Delete</h1></center></th>
+
+                    </tr>
+                </thead>
+                <tbody>
+
+                    <tr>
+                        <td>10001</td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+
+
+
+                    </tr>
+
+
+
+                    <tr>
+                        <td>10002</td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+
+
+
+                    </tr>
+
+                    <tr>
+
+                        <td>10003</td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+
+
+
+                    </tr>
+                    <tr>
+                        <td>10004</td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+
+
+
+                    </tr>
+                    <tr>
+
+                        <td>10005</td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+
+
+
+                    </tr>
+                    <tr>
+
+                        <td>10006</td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+
+
+
+                    </tr>
+
+
+
+
+                </tbody>
+                <tfoot>
+                    <tr class="grid_heading">
+
+                        <th></th>
+                        <th></th>
+                        <th></th>
+                        <th></th>
+                        <th></th>
+
+
+
+
+
+
+
+                    </tr>
+                </tfoot>
+            </table>
+
+
+        </div>
+    </div>
+</div>
+
+
+<script>
+    function Exit() {
+        var url = '@Url.Action("Index","ProductionPlan")'
+        window.location = url;
+    }
+</script>

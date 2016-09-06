@@ -18,13 +18,16 @@ namespace ArabErp.DAL
             try
             {
 
-                string sql = @"insert  into SaleOrderItem(SaleOrderId,SlNo,WorkDescriptionId,VehicleModelId,Remarks,PartNo,Quantity,Rate,Discount,Amount) 
-                                                    Values (@SaleOrderId,@SlNo,@WorkDescriptionId,@VehicleModelId,@Remarks,@PartNo,@Quantity,@Rate,@Discount,@Amount);
+                string sql = @"insert  into SaleOrderItem(SaleOrderId,SlNo,WorkDescriptionId,VehicleModelId,Remarks,PartNo,Quantity,UnitId,Rate,Discount,Amount) 
+                                                    Values (@SaleOrderId,@SlNo,@WorkDescriptionId,@VehicleModelId,@Remarks,@PartNo,1,@UnitId,@Rate,@Discount,@Amount);
                        
                 SELECT CAST(SCOPE_IDENTITY() as int)";
 
-
-                var id = connection.Query<int>(sql, objSaleOrderItem, trn).Single();
+                var id = 0;
+                for (int i = 0; i < objSaleOrderItem.Quantity; i++)
+                {
+                    id = connection.Query<int>(sql, objSaleOrderItem, trn).Single();
+                }
                 return id;
             }
             catch (Exception)

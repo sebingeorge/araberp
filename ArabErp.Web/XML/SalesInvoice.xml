@@ -12,9 +12,11 @@
                 <xs:element name="VehicleOutPassNo" type="xs:string" minOccurs="0" />
                 <xs:element name="CustomerName" type="xs:string" minOccurs="0" />
                 <xs:element name="Address" type="xs:string" minOccurs="0" />
+                <xs:element name="CustomerOrderRef" type="xs:string" minOccurs="0" />
                 <xs:element name="PaymentTerms" type="xs:string" minOccurs="0" />
                 <xs:element name="RegistrationNo" type="xs:string" minOccurs="0" />
                 <xs:element name="JobCardNo" type="xs:string" minOccurs="0" />
+                <xs:element name="TotalAmount" type="xs:string" minOccurs="0" />
               </xs:sequence>
             </xs:complexType>
           </xs:element>
@@ -35,19 +37,29 @@
     </xs:element>
   </xs:schema>
   <Head>
-    <SalesInvoiceRefNo>INV/19</SalesInvoiceRefNo>
-    <SalesInvoiceDate>22-Aug-2016</SalesInvoiceDate>
-    <CustomerName>M/S Al Rashid Ice Factory</CustomerName>
-    <Address>1fg,fg,54</Address>
-    <PaymentTerms>dgdfg</PaymentTerms>
-    <RegistrationNo>KL 59 B 6374</RegistrationNo>
+    <SalesInvoiceRefNo>SLI-16/10</SalesInvoiceRefNo>
+    <SalesInvoiceDate>31-Aug-2016</SalesInvoiceDate>
+    <CustomerName>M/S Garden Fresh Vegetables (Manba)</CustomerName>
+    <Address>door121,Street,9746341798</Address>
+    <CustomerOrderRef>cvvb</CustomerOrderRef>
+    <PaymentTerms>kk</PaymentTerms>
+    <JobCardNo>JC/16</JobCardNo>
+    <TotalAmount>300.00</TotalAmount>
   </Head>
   <Items>
     <Quantity>1</Quantity>
     <WorkDescription>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum</WorkDescription>
-    <WorkDescriptionRefNo>WD/0/18</WorkDescriptionRefNo>
+    <WorkDescriptionRefNo>WD/0/17</WorkDescriptionRefNo>
     <Rate>100.00</Rate>
-    <Amount>99.00</Amount>
+    <Amount>100.00</Amount>
+    <Unit>Nos</Unit>
+  </Items>
+  <Items>
+    <Quantity>1</Quantity>
+    <WorkDescription>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum</WorkDescription>
+    <WorkDescriptionRefNo>WD/0/24</WorkDescriptionRefNo>
+    <Rate>200.00</Rate>
+    <Amount>200.00</Amount>
     <Unit>Nos</Unit>
   </Items>
 </NewDataSet>

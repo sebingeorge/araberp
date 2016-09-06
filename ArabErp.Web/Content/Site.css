@@ -10,7 +10,7 @@
 .body-content {
    /* padding-left: 15px;
     padding-right: 15px;*/
-    margin-top:20px;
+    margin-top:0px;
     margin-left:25px;
     margin-right:25px;
 }
@@ -111,6 +111,10 @@ textarea {
     width: 92px;
     margin-left:5px;
     margin-right:5px;
+}
+.form-w 
+{
+    width:auto;
 }
 .form-button a 
 {
@@ -407,6 +411,10 @@ margin-top:0px;
 .white 
 {
     background-color:#fff;
+}
+.whitec 
+{
+    color:#fff;
 }
 .grid_row_pr
  {

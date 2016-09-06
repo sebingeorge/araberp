@@ -56,7 +56,6 @@ namespace ArabErp.DAL
 
 
                     var workstaskepo = new WorkVsTaskRepository();
-
                     foreach (var item in objWorkDescription.WorkVsTasks)
                     {
                         if (item.JobCardTaskMasterId == 0) continue;
@@ -65,6 +64,7 @@ namespace ArabErp.DAL
                         item.CreatedDate = objWorkDescription.CreatedDate;
                         workstaskepo.InsertWorkVsTask(item, connection, trn);
                     }
+
                     objWorkDescription.WorkDescriptionId = id;
                     InsertLoginHistory(dataConnection, objWorkDescription.CreatedBy, "Create", "Work Description", id.ToString(), "0");
                     trn.Commit();

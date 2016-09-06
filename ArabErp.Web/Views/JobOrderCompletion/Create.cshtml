@@ -196,7 +196,14 @@
                                         {
                                             @Html.HiddenFor(m => m.JobCardTask[row].StartDate)
                                             @Html.HiddenFor(m => m.JobCardTask[row].EndDate)
-                                            @Model.JobCardTask[row].StartDate.ToString("dd/MMMM/yyyy") <br />@:to<br /> @Model.JobCardTask[row].EndDate.ToString("dd/MMMM/yyyy")
+                                            if (Model.JobCardTask[row].StartDate.ToString("dd/MMMM/yyyy") == Model.JobCardTask[row].EndDate.ToString("dd/MMMM/yyyy"))
+                                            {
+                                                @Model.JobCardTask[row].StartDate.ToString("dd/MMMM/yyyy")
+                                            }
+                                            else
+                                            {
+                                                @Model.JobCardTask[row].StartDate.ToString("dd/MMMM/yyyy") <br />@:to<br /> @Model.JobCardTask[row].EndDate.ToString("dd/MMMM/yyyy")
+                                            }
                                         }
                                     </td>
                                 }

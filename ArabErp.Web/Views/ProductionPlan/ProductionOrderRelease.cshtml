@@ -1,0 +1,207 @@
+﻿
+@{
+    ViewBag.Title = "ProductionOrderRelease";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+
+
+<div class="row">
+    <div class="form-head1">
+        <h4>Production Order Release</h4>
+    </div>
+
+    <div class="main-part pad1">
+
+        <div class="table-responsive">
+            <table class="table table-bordered" id="tab_logic">
+                <thead>
+                    <tr class="grid_heading">
+                        <th width="7%"><h1>Prd Order No.</h1></th>
+                        <th width="65%"><h1>Product</h1></th>
+                        <th width="7%" class="text-right"><h1>Qty</h1></th>
+                        <th width="7%" class="text-left"><h1>Unit</h1></th>
+                        <th width="7%" class="text-left"><center><h1>Release</h1></center></th>
+                    </tr>
+                </thead>
+                <tbody>
+
+                    <tr>
+
+                        <td>10001</td>
+                        <td>Orginal Potato Chips</td>
+                        <td class="text-right">1000</td>
+                        <td>Kg</td>
+                        <td><a href="" class="form-button5"><center>Release</center></a></td>
+
+                    </tr>
+                    <tr>
+
+                        <td>10002</td>
+                        <td>Sea Salt &Aacute; Vinegar</td>
+                        <td class="text-right">500</td>
+                        <td>Kg</td>
+                        <td><a href="" class="form-button5"><center>Release</center></a></td>
+
+
+                    </tr>
+
+                    <tr>
+
+                        <td>10003</td>
+                        <td>Sweet &Aacute; Spicy Jalpano</td>
+                        <td class="text-right">1000</td>
+                        <td>Kg</td>
+                        <td><a href="" class="form-button5"><center>Release</center></a></td>
+
+
+                    </tr>
+                    <tr>
+
+                        <td>10004</td>
+                        <td>Sweet Mwsquite Barbeque</td>
+                        <td class="text-right">2000</td>
+                        <td>Kg</td>
+                        <td><a href="" class="form-button5"><center>Release</center></a></td>
+
+
+                    </tr>
+                    <tr>
+
+                        <td>10005</td>
+                        <td>Orginal Potato Chips</td>
+                        <td class="text-right">500</td>
+                        <td>Kg</td>
+                        <td><a href="" class="form-button5"><center>Release</center></a></td>
+
+
+                    </tr>
+                    <tr>
+
+                        <td>10006</td>
+                        <td>Sweet &Aacute; Spicy Jalpano</td>
+                        <td class="text-right">250</td>
+                        <td>Kg</td>
+                        <td><a href="" class="form-button5"><center>Release</center></a></td>
+
+
+                    </tr>
+                    <tr>
+
+                        <td>10007</td>
+                        <td>Sea Salt &Aacute; Vinegar</td>
+                        <td class="text-right">800</td>
+                        <td>Kg</td>
+                        <td><a href="" class="form-button5"><center>Release</center></a></td>
+
+
+                    </tr>
+                    <tr>
+
+                        <td>10008</td>
+                        <td>Sweet Mwsquite Barbeque</td>
+                        <td class="text-right">150</td>
+                        <td>Kg</td>
+                        <td><a href="" class="form-button5"><center>Release</center></a></td>
+
+
+                    </tr>
+                    <tr>
+
+                        <td>10009</td>
+                        <td>Sea Salt &Aacute; Vinegar</td>
+                        <td class="text-right">800</td>
+                        <td>Kg</td>
+                        <td><a href="" class="form-button5"><center>Release</center></a></td>
+
+
+                    </tr>
+                    <tr>
+
+                        <td>100010</td>
+                        <td>Orginal Potato Chips</td>
+                        <td class="text-right">500</td>
+                        <td>Kg</td>
+                        <td><a href="" class="form-button5"><center>Release</center></a></td>
+
+
+                    </tr>
+                    <tr>
+
+                        <td>100011</td>
+                        <td>Sweet Mwsquite Barbeque</td>
+                        <td class="text-right">150</td>
+                        <td>Kg</td>
+                        <td><a href="" class="form-button5"><center>Release</center></a></td>
+
+
+                    </tr>
+                    <tr>
+
+                        <td>100012</td>
+                        <td>Sweet Mwsquite Barbeque</td>
+                        <td class="text-right">150</td>
+                        <td>Kg</td>
+                        <td><a href="" class="form-button5"><center>Release</center></a></td>
+
+
+                    </tr>
+                    <tr>
+
+                        <td>100013</td>
+                        <td>Sea Salt &Aacute; Vinegar</td>
+                        <td class="text-right">800</td>
+                        <td>Kg</td>
+                        <td><a href="" class="form-button5"><center>Release</center></a></td>
+
+
+                    </tr>
+
+
+
+
+
+
+
+                </tbody>
+                <tfoot>
+                    <tr class="grid_heading">
+
+                        <th></th>
+                        <th></th>
+                        <th></th>
+                        <th></th>
+                        <th></th>
+
+
+
+
+                    </tr>
+                </tfoot>
+            </table>
+        </div>
+
+
+
+
+        <div class="row">
+            <div class="col-md-12 hrpart">
+                <button type="button" class="form-button right" onclick="Exit()">Exit</button>
+            </div>
+
+        </div>
+
+
+
+    </div>
+
+</div>
+
+
+<script>
+    function Exit() {
+        var url = '@Url.Action("Index","ProductionPlan")'
+        window.location = url;
+    }
+</script>

@@ -16,8 +16,43 @@ namespace ArabErp.DAL
         {
             try
             {
-                string sql = @"INSERT INTO GRNItem(GRNId,SupplyOrderItemId,SlNo,ItemId,Remarks,Quantity,Rate,Discount,Amount,isActive,DirectPurchaseRequestItemId) 
-                            VALUES (@GRNId,@SupplyOrderItemId,@SlNo,@ItemId,@Remarks,@AcceptedQuantity,@Rate,@Discount,@Amount, 1, @DirectPurchaseRequestItemId);
+                string sql = @"INSERT INTO GRNItem(GRNId,SupplyOrderItemId,SlNo,ItemId,Remarks,ReceivedQty,Quantity,Rate,Discount,Amount,isActive,DirectPurchaseRequestItemId) 
+                            VALUES (@GRNId,@SupplyOrderItemId,@SlNo,@ItemId,@Remarks,@ReceivedQuantity,@AcceptedQuantity,@Rate,@Discount,@Amount, 1, @DirectPurchaseRequestItemId);
+                            SELECT CAST(SCOPE_IDENTITY() AS INT)";
+
+                var id = connection.Query<int>(sql, model, trn).Single();
+                return id;
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
+
+        public int InsertGRNAddition(GRNAddition model, IDbConnection connection, IDbTransaction trn)
+        {
+            try
+            {
+                string sql = @"INSERT INTO GRNAddDed(GRNId,AddDedId,AddDedAmt) 
+                            VALUES (@GRNId,@AdditionId,@Addition);
+                            SELECT CAST(SCOPE_IDENTITY() AS INT)";
+
+                var id = connection.Query<int>(sql, model, trn).Single();
+                return id;
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
+
+
+        public int InsertGRNDeduction(GRNDeduction model, IDbConnection connection, IDbTransaction trn)
+        {
+            try
+            {
+                string sql = @"INSERT INTO GRNAddDed(GRNId,AddDedId,AddDedAmt) 
+                            VALUES (@GRNId,@DeductionId,@Deduction);
                             SELECT CAST(SCOPE_IDENTITY() AS INT)";
 
                 var id = connection.Query<int>(sql, model, trn).Single();
@@ -73,16 +108,29 @@ namespace ArabErp.DAL
             }
         }
 
-        public int DeleteGRNItem(Unit objGRNItem)
+        public int DeleteGRNItem(int Id)
         {
 
             using (IDbConnection connection = OpenConnection(dataConnection))
             {
-                string sql = @"Delete GRNItem  OUTPUT DELETED.GRNItemId WHERE GRNItemId=@GRNItemId";
-
-
-                var id = connection.Execute(sql, objGRNItem);
+                string sql = @"Delete FROM GRNItem  WHERE GRNId=@Id";
+                { 
+                var id = connection.Execute(sql, new { Id = Id });
                 return id;
+                }
+            }
+        }
+
+        public int DeleteGRNADDDED(int Id)
+        {
+
+            using (IDbConnection connection = OpenConnection(dataConnection))
+            {
+                string sql = @"Delete FROM GRNAddDed  WHERE GRNId=@Id";
+                {
+                    var id = connection.Execute(sql, new { Id = Id });
+                    return id;
+                }
             }
         }
 

@@ -1,0 +1,216 @@
+﻿
+@{
+    ViewBag.Title = "ComponentOverView";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+
+<div class="row">
+    <div class="form-head1">
+        <h4>Production Order Required Component OverView</h4>
+    </div>
+
+    <div class="main-part pad1">
+        <div class="row form-group">
+            <div class="col-md-2">
+                <label>Prd Order No.</label>
+                <input type="text" class="form_input" />
+            </div>
+
+        </div>
+
+        <div class="row form-group">
+            <div class="col-md-3">
+                <label>Product</label>
+                <select class="form_input">
+                    <option value="">Product 1</option>
+                    <option value="">Product 2</option>
+                    <option value="">Product 3</option>
+                    <option value="">Product 4</option>
+                </select>
+            </div>
+        </div>
+        <div class="row form-group">
+            <div class="col-md-1">
+                <label>Start Date</label>
+                <input type="text" class="form_input" />
+            </div>
+
+            <div class="col-md-1">
+                <label>End Date</label>
+                <input type="text" class="form_input" />
+            </div>
+            <div class="col-md-1">
+                <label>Qty</label>
+                <input type="text" class="form_input" />
+            </div>
+            <div class="col-md-2">
+                <label>Unit</label>
+                <select class="form_input">
+                    <option value="">Select Unit</option>
+                    <option value="">Kg</option>
+                    <option value="">Liter</option>
+                    <option value="">Nos</option>
+                    <option value="">Mtrs</option>
+                </select>
+            </div>
+            <div class="col-md-2">
+                <label>Plant</label>
+                <select class="form_input">
+                    <option value="">Plant 1</option>
+                    <option value="">Plant 2</option>
+                    <option value="">Plant 3</option>
+                    <option value="">Plant 4</option>
+                </select>
+            </div>
+        </div>
+
+
+        <div class="table-responsive">
+            <table class="table table-bordered" id="tab_logic">
+                <thead>
+                    <tr class="grid_heading">
+                        <th width="7%"><h1>Prd Order No.</h1></th>
+                        <th width="79%"><h1>RawMaterials</h1></th>
+                        <th width="7%" class="text-right"><h1>Qty</h1></th>
+                        <th width="7%" class="text-left"><h1>Unit</h1></th>
+                    </tr>
+                </thead>
+                <tbody>
+
+                    <tr>
+
+                        <td>10001</td>
+                        <td>Potato</td>
+                        <td class="text-right">500</td>
+                        <td>Kg</td>
+
+
+                    </tr>
+                    <tr>
+
+                        <td>10002</td>
+                        <td>Extra Virgin Olive Oil</td>
+                        <td class="text-right">100</td>
+                        <td>Ltr</td>
+
+
+
+                    </tr>
+
+                    <tr>
+
+                        <td>10003</td>
+                        <td>Salt</td>
+                        <td class="text-right">50</td>
+                        <td>Kg</td>
+
+
+
+                    </tr>
+                    <tr>
+
+                        <td>10004</td>
+                        <td>Sun Flower Oil</td>
+                        <td class="text-right">100</td>
+                        <td>Ltr</td>
+
+
+
+                    </tr>
+                    <tr>
+
+                        <td>10005</td>
+                        <td>Marconda Almonds</td>
+                        <td class="text-right">50</td>
+                        <td>Kg</td>
+
+
+
+                    </tr>
+                    <tr>
+
+                        <td>10006</td>
+                        <td>Pistachios</td>
+                        <td class="text-right">50</td>
+                        <td>Kg</td>
+
+
+
+                    </tr>
+                    <tr>
+
+                        <td>10007</td>
+                        <td>Walnuts</td>
+                        <td class="text-right">100</td>
+                        <td>Kg</td>
+
+
+
+                    </tr>
+                    <tr>
+
+                        <td>10008</td>
+                        <td>Peanuts</td>
+                        <td class="text-right">70</td>
+                        <td>Kg</td>
+
+
+
+                    </tr>
+
+
+
+
+
+                </tbody>
+                <tfoot>
+                    <tr class="grid_heading">
+
+                        <th></th>
+                        <th></th>
+                        <th></th>
+                        <th></th>
+
+
+
+
+
+                    </tr>
+                </tfoot>
+            </table>
+        </div>
+
+
+
+        <div class="row">
+            <div class="col-md-12 hrpart">
+                <button type="button" class="form-button form-w" onclick="Previous()">Previous List</button>
+                <button type="button" class="form-button right">Confirm</button>
+                <button type="button" class="form-button right" onclick="Exit()">Exit</button>
+            </div>
+
+        </div>
+
+
+    </div>
+
+</div>
+
+<script>
+    function Previous() {
+        var url = '@Url.Action("PreviousProductionOrder", "ProductionPlan")'
+        window.location = url;
+    }
+    function Exit() {
+        var url = '@Url.Action("Index","ProductionPlan")'
+        window.location = url;
+    }
+
+</script>
+
+
+
+
+

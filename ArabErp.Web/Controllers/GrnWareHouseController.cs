@@ -52,9 +52,17 @@ namespace ArabErp.Web.Controllers
                               select p.DirectPurchaseRequestId).ToList();
                         if (id.Count > 0)
                         {
+                            List<GRNAddition> Additions = new List<GRNAddition>();
+                            Additions.Add(new GRNAddition());
+
+                            List<GRNDeduction> Deductions = new List<GRNDeduction>();
+                            Deductions.Add(new GRNDeduction());
+
                             model.isDirectPurchaseGRN = true;
                             model.Items = new GRNRepository().GetDirectGRNItems(id);
                             model.GRNDate = DateTime.Today;
+                            model.Additions = Additions;
+                            model.Deductions = Deductions;
                             SupplierDropdown();
                         }
                         else
@@ -69,9 +77,17 @@ namespace ArabErp.Web.Controllers
                               select p.SupplyOrderId).ToList();
                         if (id.Count > 0)
                         {
+                            List<GRNAddition> Additions = new List<GRNAddition>();
+                            Additions.Add(new GRNAddition());
+
+                            List<GRNDeduction> Deductions = new List<GRNDeduction>();
+                            Deductions.Add(new GRNDeduction());
+
                             model = new GRNRepository().GetGRNDetails(list[0].SupplierId);
                             model.GRNDate = DateTime.Today;
                             model.Items = new GRNRepository().GetGRNItem(id);
+                            model.Additions = Additions;
+                            model.Deductions = Deductions;
                         }
                         else
                         {
@@ -171,19 +187,20 @@ namespace ArabErp.Web.Controllers
             FillCurrency();
             SupplierDropdown();
             FillAdditionDeduction();
+            FillEmployee();
 
             PendingForGRN pending = new PendingForGRN();
-            if(model.isDirectPurchaseGRN)
-               foreach(var item in model.Items)
-                   pending.DirectPurchaseRequestId = item.DirectPurchaseRequestId;
-            else 
-                foreach(var item in model.Items)
+            if (model.isDirectPurchaseGRN)
+                foreach (var item in model.Items)
+                    pending.DirectPurchaseRequestId = item.DirectPurchaseRequestId;
+            else
+                foreach (var item in model.Items)
                     pending.SupplyOrderId = item.SupplyOrderId;
 
             return View("Create", model);
         }
 
-        public ActionResult Edit(int id=0)
+        public ActionResult Edit(int id = 0)
         {
             if (id == 0)
             {
@@ -193,13 +210,113 @@ namespace ArabErp.Web.Controllers
             GRNRepository repo = new GRNRepository();
             FillWarehouse();
             FillCurrency();
+            FillEmployee();
+            FillAdditionDeduction();
 
             GRN model = repo.GetGRNDetails(id);
             model.Items = repo.GetGRNItems(id);
-
+            model.Additions = repo.GetGRNAdditions(id);
+            model.Deductions = repo.GetGRNDeductions(id);
             return View(model);
         }
+        [HttpPost]
+        public ActionResult Edit(GRN model)
+        {
+            ViewBag.Title = "Edit";
+            model.OrganizationId = OrganizationId;
+            model.CreatedDate = System.DateTime.Now;
+            model.CreatedBy = UserID.ToString();
 
+            FillWarehouse();
+            FillCurrency();
+            SupplierDropdown();
+            FillAdditionDeduction();
+            FillEmployee();
+
+            var repo = new GRNRepository();
+            var result1 = new GRNRepository().CHECK(model.GRNId);
+            if (result1 > 0)
+            {
+                TempData["error"] = "Sorry!!..Already Used!!";
+                TempData["GRNNo"] = null;
+                return View("Edit", model);
+            }
+
+            else
+            {
+                try
+                {
+                    var result = new GRNRepository().UpdateGRN(model);
+                    var result3 = new GRNItemRepository().DeleteGRNADDDED(model.GRNId);
+                    var result2 = new GRNItemRepository().DeleteGRNItem(model.GRNId);
+                    var result4 = new StockUpdateRepository().DeleteGRNStockUpdate(model.GRNId);
+                    var result5 = new GRNRepository().InsertGRNDT(model);
+                    if (result5.GRNId > 0)
+                    {
+                        TempData["success"] = "Updated successfully. The GRN Reference No. is " + result.GRNNo;
+                        TempData["GRNNo"] = result.GRNNo;
+                        return RedirectToAction("PreviousList");
+                        //return View("Edit", model);
+                    }
+                    else
+                    {
+                        throw new Exception();
+                    }
+                }
+                catch (SqlException sx)
+                {
+                    TempData["error"] = "Some error occured while connecting to database. Please check your network connection and try again.|" + sx.Message;
+                }
+                catch (NullReferenceException nx)
+                {
+                    TempData["error"] = "Some required data was missing. Please try again.|" + nx.Message;
+                }
+                catch (Exception ex)
+                {
+                    TempData["error"] = "Some error occured. Please try again.|" + ex.Message;
+                }
+                return RedirectToAction("PreviousList");
+            }
+
+        }
+
+        public ActionResult Delete(int Id)
+        {
+            ViewBag.Title = "Delete";
+
+            var result1 = new GRNRepository().CHECK(Id);
+            if (result1 > 0)
+            {
+                TempData["error"] = "Sorry!!..Already Used!!";
+                TempData["GRNNo"] = null;
+                return RedirectToAction("Edit", new { id = Id });
+            }
+
+            else
+            {
+                var result5 = new GRNItemRepository().DeleteGRNADDDED(Id);
+                var result2 = new GRNItemRepository().DeleteGRNItem(Id);
+                var result4 = new StockUpdateRepository().DeleteGRNStockUpdate(Id);
+                var result3 = new GRNRepository().DeleteGRNHD(Id);
+
+                if (Id > 0)
+                {
+                    TempData["success"] = "Deleted succesfully";
+                    return RedirectToAction("PreviousList");
+
+                }
+
+                else
+                {
+
+                    TempData["error"] = "Oops!!..Something Went Wrong!!";
+                    TempData["GRNNo"] = null;
+                    return RedirectToAction("Edit", new { id = Id });
+                }
+
+            }
+
+        }
         public ActionResult PendingDirectPurchase()
         {
             return View();

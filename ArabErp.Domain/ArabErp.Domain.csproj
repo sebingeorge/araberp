@@ -68,11 +68,14 @@
     <Compile Include="FGTracking.cs" />
     <Compile Include="FinancialYear.cs" />
     <Compile Include="GINRegister.cs" />
+    <Compile Include="GRNAddition.cs" />
+    <Compile Include="GRNDeduction.cs" />
     <Compile Include="OpeningStockReport.cs" />
     <Compile Include="PrefixSettingsVsOrganization.cs" />
     <Compile Include="ProjectCompletion.cs" />
     <Compile Include="PurchaseRequestRegister.cs" />
     <Compile Include="QCParameters.cs" />
+    <Compile Include="QuerySheetItem.cs" />
     <Compile Include="RptFilter.cs" />
     <Compile Include="FreezerUnit.cs" />
     <Compile Include="GRN.cs" />

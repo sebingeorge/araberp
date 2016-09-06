@@ -1,0 +1,243 @@
+﻿
+@{
+    ViewBag.Title = "StockRequirementReport";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+
+<div class="row">
+    <div class="form-head1">
+        <h4>Stock Requirement Report</h4>
+    </div>
+
+    <div class="main-part pad1">
+        <div class="row form-group">
+            <div class="col-md-2">
+                <label>SR No.</label>
+                <input type="text" class="form_input" />
+            </div>
+
+
+        </div>
+
+        <div class="row form-group">
+            <div class="col-md-4">
+                <label>Material</label>
+                <select class="form_input">
+                    <option value="">Material 1</option>
+                    <option value="">Material 2</option>
+                </select>
+            </div>
+            <div class="col-md-2">
+                <label>Plant</label>
+                <select class="form_input">
+                    <option value="">Plant 1</option>
+                    <option value="">Plant 2</option>
+                </select>
+            </div>
+        </div>
+
+
+        <div class="table-responsive">
+            <table class="table table-bordered" id="tab_logic">
+                <thead>
+                    <tr class="grid_heading">
+                        <th width="5%"><h1>SR No.</h1></th>
+                        <th width="7%"><h1>Date</h1></th>
+                        <th width="42%"><h1>MRP Element Data</h1></th>
+                        <th width="32%"><h1>Received / Required</h1></th>
+                        <th width="7%" class="text-right"><h1>Avai. Qty</h1></th>
+                        <th width="7%" class="text-left"><h1>Unit</h1></th>
+                    </tr>
+                </thead>
+                <tbody>
+
+                    <tr>
+
+                        <td>10001</td>
+                        <td>01-08-2016</td>
+                        <td>Stock 5255</td>
+                        <td></td>
+                        <td class="text-right">400</td>
+                        <td>Kg</td>
+
+                    </tr>
+                    <tr>
+
+                        <td>10002</td>
+                        <td>02-08-2016</td>
+                        <td>Safty Stock 2589</td>
+                        <td>-50</td>
+                        <td class="text-right">250</td>
+                        <td>Kg</td>
+
+
+                    </tr>
+                    <tr>
+
+                        <td>10003</td>
+                        <td>02-08-2016</td>
+                        <td>Production Order 2323</td>
+                        <td>-100</td>
+                        <td class="text-right">150</td>
+                        <td>Kg</td>
+
+
+                    </tr>
+                    <tr>
+
+                        <td>10004</td>
+                        <td>03-08-2016</td>
+                        <td>Purchase Order 76656</td>
+                        <td>200</td>
+                        <td class="text-right">350</td>
+                        <td>Kg</td>
+
+
+                    </tr>
+                    <tr>
+
+                        <td>10005</td>
+                        <td>04-08-2016</td>
+                        <td>Purchase Request 2145</td>
+                        <td>100</td>
+                        <td class="text-right">450</td>
+                        <td>Kg</td>
+                        
+
+
+                    </tr>
+                    <tr>
+
+                        <td>10006</td>
+                        <td>04-08-2016</td>
+                        <td>Planned Order 2323</td>
+                        <td>-50</td>
+                        <td class="text-right">400</td>
+                        <td>Kg</td>
+                        
+
+
+                    </tr>
+                    <tr>
+
+                        <td>10007</td>
+                        <td>05-08-2016</td>
+                        <td>Production Order 5845</td>
+                        <td>-50</td>
+                        <td class="text-right">350</td>
+                        <td>Kg</td>
+                        
+
+
+                    </tr>
+                    <tr>
+
+                        <td>10008</td>
+                        <td>06-08-2016</td>
+                        <td>Purchase Order 2525</td>
+                        <td>100</td>
+                        <td class="text-right">450</td>
+                        <td>Kg</td>
+                        
+
+
+                    </tr>
+                    <tr>
+
+                        <td>10009</td>
+                        <td>07-08-2016</td>
+                        <td>Purchase Request 4333</td>
+                        <td>50</td>
+                        <td class="text-right">500</td>
+                        <td>Kg</td>
+
+
+                    </tr>
+                    <tr>
+
+                        <td>100010</td>
+                        <td>07-09-2016</td>
+                        <td>Planned Order 5050</td>
+                        <td>-50</td>
+                        <td class="text-right">450</td>
+                        <td>Kg</td>
+
+
+                    </tr>
+                    <tr>
+
+                        <td>100011</td>
+                        <td>08-09-2016</td>
+                        <td>Purchase Order 7892</td>
+                        <td>100</td>
+                        <td class="text-right">550</td>
+                        <td>Kg</td>
+
+
+                    </tr>
+                    <tr>
+
+                        <td>100012</td>
+                        <td>09-10-2016</td>
+                        <td>Planned Order 2525</td>
+                        <td>-50</td>
+                        <td class="text-right">500</td>
+                        <td>Kg</td>
+
+
+                    </tr>
+
+
+
+
+
+
+
+
+
+
+                </tbody>
+                <tfoot>
+                    <tr class="grid_heading">
+
+                        <th></th>
+                        <th></th>
+                        <th></th>
+                        <th></th>
+                        <th></th>
+                        <th></th>
+
+
+
+
+                    </tr>
+                </tfoot>
+            </table>
+        </div>
+
+
+
+
+
+        <div class="row">
+            <div class="col-md-12 hrpart">
+                <button type="button" class="form-button right">Save</button>
+                <button type="button" class="form-button right" onclick="Exit()">Exit</button>
+            </div>
+
+        </div>
+
+
+    </div>
+
+</div>
+
+
+<script>
+    function Exit() {
+        var url = '@Url.Action("Index","ProductionPlan")'
+        window.location = url;
+    }
+</script>

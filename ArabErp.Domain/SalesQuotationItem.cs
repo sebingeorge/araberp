@@ -22,13 +22,14 @@ namespace ArabErp.Domain
         public int Quantity { get; set; }
         [Required]
         public int UnitId { get; set; }
+        public string UnitName { get; set; }
         [Required]
         public decimal Rate { get; set; }
         public decimal Discount { get; set; }
         public decimal Amount { get; set; }
         public int OrganizationId { get; set; }
         public bool isActive { get; set; }
-
+        public int ItemId { get; set; }
         public int RateType { get; set; }
     }
 }

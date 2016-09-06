@@ -21,8 +21,8 @@ namespace ArabErp.DAL
                     var internalId = DatabaseCommonRepository.GetNewDocNo(connection, objQuerySheet.OrganizationId, 5, true,txn);
                     objQuerySheet.QuerySheetRefNo= internalId;
 
-                    string sql = @"insert  into QuerySheet(QuerySheetRefNo,QuerySheetDate,ProjectName,ContactPerson,ContactNumber,Email,RoomDetails,ExternalRoomDimension,ColdRoomArea,ColdRoomLocation,TemperatureRequired,PanelThicknessANDSpec,DoorSizeTypeAndNumberOfDoor,FloorDetails,ProductDetails,ProductIncomingTemperature,PipeLength,Refrigerant,EletricalPowerAvailability,Kilowatt,CreatedBy,CreatedDate,OrganizationId)
-                                 Values (@QuerySheetRefNo,@QuerySheetDate,@ProjectName,@ContactPerson,@ContactNumber,@Email,@RoomDetails,@ExternalRoomDimension,@ColdRoomArea,@ColdRoomLocation,@TemperatureRequired,@PanelThicknessANDSpec,@DoorSizeTypeAndNumberOfDoor,@FloorDetails,@ProductDetails,@ProductIncomingTemperature,@PipeLength,@Refrigerant,@EletricalPowerAvailability,@Kilowatt,@CreatedBy,@CreatedDate,@OrganizationId);
+                    string sql = @"insert  into QuerySheet(QuerySheetRefNo,QuerySheetDate,ProjectName,ContactPerson,ContactNumber,Email,CreatedBy,CreatedDate,OrganizationId)
+                                 Values (@QuerySheetRefNo,@QuerySheetDate,@ProjectName,@ContactPerson,@ContactNumber,@Email,@CreatedBy,@CreatedDate,@OrganizationId);
                              SELECT CAST(SCOPE_IDENTITY() as int)";
 
                     var id = connection.Query<int>(sql, objQuerySheet, txn).Single();
@@ -32,6 +32,13 @@ namespace ArabErp.DAL
                         item.QuerySheetId= id;
                         new ProjectCostRepository().InsertProjectCosting(item, connection, txn);
                     }
+
+                    foreach (QuerySheetItem item in objQuerySheet.QuerySheetItems)
+                    {
+                        item.QuerySheetId = id;
+                        new ProjectCostRepository().InsertQuerySheetItem(item, connection, txn);
+                    }
+
                     InsertLoginHistory(dataConnection, objQuerySheet.CreatedBy, "Create", "Query Sheet", id.ToString(), "0");
                     txn.Commit();
 

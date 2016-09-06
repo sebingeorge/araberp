@@ -1,0 +1,233 @@
+﻿
+@{
+    ViewBag.Title = "GoodsIssue";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+
+<div class="row">
+    <div class="form-head1">
+        <h4>Issue Material to Production Order</h4>
+    </div>
+
+    <div class="main-part pad1">
+        <div class="row form-group">
+            <div class="col-md-2">
+                <label>Prd Order No.</label>
+                <input type="text" class="form_input" />
+            </div>
+
+        </div>
+
+        <div class="row form-group">
+            <div class="col-md-3">
+                <label>Stock Point</label>
+                <select class="form_input">
+                    <option value="">Stock Point 1</option>
+                    <option value="">Stock Point 2</option>
+                </select>
+            </div>
+        </div>
+
+
+        <div class="table-responsive">
+            <table class="table table-bordered" id="tab_logic">
+                <thead>
+                    <tr class="grid_heading">
+                        <th width="7%"><h1>GIN</h1></th>
+                        <th width="58%"><h1>Item</h1></th>
+                        <th width="7%" class="text-right"><h1>Required Qty</h1></th>
+                        <th width="7%" class="text-right"><h1>Current Issued Qty</h1></th>
+                        <th width="7%" class="text-right"><h1>Balanced Qty</h1></th>
+                        <th width="7%" class="text-left"><h1>Unit</h1></th>
+                        <th width="7%"><h1>Batch</h1></th>
+                    </tr>
+                </thead>
+                <tbody>
+
+                    <tr>
+
+                        <td>10001</td>
+                        <td>Orginal Potato Chips</td>
+                        <td class="text-right">1000</td>
+                        <td class="text-right">1000</td>
+                        <td class="text-right">1000</td>
+                        <td>Kg</td>
+                        <td></td>
+
+                    </tr>
+                    <tr>
+
+                        <td>10002</td>
+                        <td>Sea Salt &Aacute; Vinegar</td>
+                        <td class="text-right">500</td>
+                        <td class="text-right">500</td>
+                        <td class="text-right">500</td>
+                        <td>Kg</td>
+                        <td></td>
+
+
+                    </tr>
+                    <tr>
+
+                        <td>10003</td>
+                        <td>Sweet &Aacute; Spicy Jalpano</td>
+                        <td class="text-right">1000</td>
+                        <td class="text-right">500</td>
+                        <td class="text-right">500</td>
+                        <td>Kg</td>
+                        <td></td>
+
+
+                    </tr>
+                    <tr>
+
+                        <td>10004</td>
+                        <td>Sweet Mwsquite Barbeque</td>
+                        <td class="text-right">2000</td>
+                        <td class="text-right">500</td>
+                        <td class="text-right">500</td>
+                        <td>Kg</td>
+                        <td></td>
+
+
+                    </tr>
+
+                    <tr>
+
+                        <td>10005</td>
+                        <td>Sea Salt &Aacute; Vinegar</td>
+                        <td class="text-right">3000</td>
+                        <td class="text-right">500</td>
+                        <td class="text-right">500</td>
+                        <td>Kg</td>
+                        <td></td>
+
+
+                    </tr>
+                    <tr>
+
+                        <td>10006</td>
+                        <td>Orginal Potato Chips</td>
+                        <td class="text-right">500</td>
+                        <td class="text-right">500</td>
+                        <td class="text-right">500</td>
+                        <td>Kg</td>
+                        <td></td>
+
+
+                    </tr>
+                    <tr>
+
+                        <td>10007</td>
+                        <td>Sweet &Aacute; Spicy Jalpano</td>
+                        <td class="text-right">250</td>
+                        <td class="text-right">500</td>
+                        <td class="text-right">500</td>
+                        <td>Kg</td>
+                        <td></td>
+
+
+                    </tr>
+                    <tr>
+
+                        <td>10008</td>
+                        <td>Sea Salt &Aacute; Vinegar</td>
+                        <td class="text-right">800</td>
+                        <td class="text-right">500</td>
+                        <td class="text-right">500</td>
+                        <td>Kg</td>
+                        <td></td>
+
+
+                    </tr>
+                    <tr>
+
+                        <td>10009</td>
+                        <td>Sweet Mwsquite Barbeque</td>
+                        <td class="text-right">150</td>
+                        <td class="text-right">500</td>
+                        <td class="text-right">500</td>
+                        <td>Kg</td>
+                        <td></td>
+
+
+                    </tr>
+                    <tr>
+
+                        <td>100010</td>
+                        <td>Sea Salt &Aacute; Vinegar</td>
+                        <td class="text-right">800</td>
+                        <td class="text-right">500</td>
+                        <td class="text-right">500</td>
+                        <td>Kg</td>
+                        <td></td>
+
+
+                    </tr>
+                    <tr>
+
+                        <td>100011</td>
+                        <td>Orginal Potato Chips</td>
+                        <td class="text-right">500</td>
+                        <td class="text-right">500</td>
+                        <td class="text-right">500</td>
+                        <td>Kg</td>
+                        <td></td>
+
+
+                    </tr>
+
+
+
+
+
+                </tbody>
+                <tfoot>
+                    <tr class="grid_heading">
+
+                        <th></th>
+                        <th></th>
+                        <th></th>
+                        <th></th>
+                        <th></th>
+                        <th></th>
+                        <th></th>
+
+
+
+
+                    </tr>
+                </tfoot>
+            </table>
+        </div>
+
+
+
+
+
+        <div class="row">
+            <div class="col-md-12 hrpart">
+                <button type="button" class="form-button form-w" onclick="Previous()">Previous List</button>
+                <button type="button" class="form-button right">Save</button>
+                <button type="button" class="form-button right" onclick="Exit()">Exit</button>
+            </div>
+
+        </div>
+
+
+    </div>
+
+</div>
+
+<script>
+    function Previous() {
+        var url = '@Url.Action("PreviousIssueMaterialProductionOrder", "ProductionPlan")'
+        window.location = url;
+    }
+    function Exit() {
+        var url = '@Url.Action("Index","ProductionPlan")'
+        window.location = url;
+    }
+</script>
