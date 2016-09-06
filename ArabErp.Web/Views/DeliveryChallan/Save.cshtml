@@ -36,6 +36,7 @@
                 $("#txtWork").val(data.WorkDescr);
                 $("#txtCustomer").val(data.CustomerName);
                 $("#txtRegNo").val(data.RegistrationNo);
+                $("#txtPaymentTerms").val(data.PaymentTerms);
             });
 
         $("#DeliveryChallanRefNo").tooltip();
@@ -171,15 +172,20 @@
                 </table>
             </div>
 
-
+            <div class="row form-group">
+                <div class="col-md-12">
+                    <label>Special Remarks</label>
+                    <input id="txtPaymentTerms" class="form_input" readonly="readonly" />
+                </div>
+            </div>
+            
             <div class="row form-group">
                 <div class="col-md-12">
                     <label>Special Remarks</label>
                     @Html.TextAreaFor(m => m.Remarks, new { @class = "form_input form_input-h" })
                 </div>
             </div>
-
-
+            
             <div class="row">
                 <div class="col-md-12 col-md hrpart">
                     <input class="form-button right" type="button" value="Exit" onclick="Back()" />
