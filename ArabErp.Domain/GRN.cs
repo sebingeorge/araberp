@@ -22,10 +22,6 @@ namespace ArabErp.Domain
         public string VehicleNo { get; set; }
         public string GatePassNo { get; set; }
         public string SpecialRemarks { get; set; }
-        public decimal Addition { get; set; }
-        public decimal Deduction { get; set; }
-        public int? AdditionId { get; set; }
-        public int? DeductionId { get; set; }
         public decimal? GrandTotal { get; set; }
         public int CurrencyId { get; set; }
         public string CreatedBy { get; set; }
@@ -35,6 +31,8 @@ namespace ArabErp.Domain
         public string ReceivedByName { get; set; }
         public bool isDirectPurchaseGRN { get; set; }
         public List<GRNItem> Items { get; set; }
+        public List<GRNAddition> Additions { get; set; }
+        public List<GRNDeduction> Deductions { get; set; }
         public string CurrencyName { get; set; }
     }
 }

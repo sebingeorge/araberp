@@ -1,0 +1,240 @@
+﻿
+@{
+    ViewBag.Title = "PurchaseOrder";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+
+<div class="row">
+    <div class="form-head1">
+        <h4>Purchase Order</h4>
+    </div>
+
+    <div class="main-part pad1">
+
+
+        <div class="row form-group">
+            <div class="col-md-2">
+                <label>P.O. No</label>
+                <input type="text" class="form_input" />
+            </div>
+            <div class="col-md-2">
+                <label>P.O. Date</label>
+                <input type="text" class="form_input" />
+            </div>
+            </div>
+        <div class="row form-group">
+            <div class="col-md-4">
+                <label>Supplier</label>
+                <input type="text" class="form_input" />
+            </div>
+            <div class="col-md-4">
+                <label>Quotation Reference</label>
+                <input type="text" class="form_input" />
+            </div>
+        </div>
+
+        <div class="table-responsive">
+            <table class="table table-bordered" id="tab_logic">
+                <thead>
+                    <tr class="grid_heading">
+                        <th width="7%"><h1>P.I. No</h1></th>
+                        <th width="7%"><h1>Item Code</h1></th>
+                        <th width="20%"><h1>Item Name</h1></th>
+                        <th width="43%"><h1>Item Special Description</h1></th>
+                        <th width="7%" class="text-right"><h1>P.O. Qty</h1></th>
+                        <th width="7%" class="text-left"><h1>Unit</h1></th>
+                        <th width="7%" class="text-right"><h1>Rate</h1></th>
+                        <th width="7%" class="text-right"><h1>Amount</h1></th>
+                    </tr>
+                </thead>
+                <tbody>
+
+                    <tr>
+
+                        <td>10001</td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+
+
+                    </tr>
+
+                    <tr>
+
+                        <td>10002</td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+
+
+                    </tr>
+
+                    <tr>
+
+                        <td>10003</td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+
+
+                    </tr>
+
+
+                    <tr>
+
+                        <td>10004</td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+
+
+                    </tr>
+
+                    <tr>
+
+                        <td>10005</td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+
+
+                    </tr>
+                    <tr>
+
+                        <td>10006</td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+
+
+                    </tr>
+                    <tr>
+
+                        <td>10007</td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+
+
+                    </tr>
+                    <tr>
+
+                        <td>10008</td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+
+
+                    </tr>
+                    <tr>
+
+                        <td>10009</td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+
+
+                    </tr>
+
+
+                </tbody>
+                <tfoot>
+                    <tr class="grid_heading">
+
+                        <th></th>
+                        <th></th>
+                        <th></th>
+                        <th></th>
+                        <th></th>
+                        <th></th>
+                        <th></th>
+                        <th></th>
+
+
+
+
+
+                    </tr>
+                </tfoot>
+            </table>
+        </div>
+
+
+        <div class="row form-group">
+            <div class="col-md-2">
+                <label>Due Date For Delivery</label>
+                <input type="text" class="form_input" />
+            </div>
+            <div class="col-md-2">
+                <br />
+                <button type="button" class="form-button form-w">Terms and Conditions</button>
+            </div>
+        </div>
+
+
+
+
+
+        <div class="row">
+            <div class="col-md-12 hrpart">
+                <button type="button" class="form-button form-w" onclick="Previous()">Previous List</button>
+                <button type="button" class="form-button right">Save</button>
+                <button type="button" class="form-button right" onclick="Exit()">Exit</button>
+            </div>
+
+        </div>
+
+
+    </div>
+
+</div>
+
+<script>
+    function Previous() {
+        var url = '@Url.Action("PreviousPurchaseOrder", "ProductionPlan")'
+        window.location = url;
+    }
+    function Exit() {
+        var url = '@Url.Action("Index","ProductionPlan")'
+        window.location = url;
+    }
+
+</script>

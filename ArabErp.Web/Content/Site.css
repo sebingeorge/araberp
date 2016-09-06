@@ -112,6 +112,10 @@ textarea {
     margin-left:5px;
     margin-right:5px;
 }
+.form-w 
+{
+    width:auto;
+}
 .form-button a 
 {
     color:#ffffff;
@@ -407,6 +411,10 @@ margin-top:0px;
 .white 
 {
     background-color:#fff;
+}
+.whitec 
+{
+    color:#fff;
 }
 .grid_row_pr
  {

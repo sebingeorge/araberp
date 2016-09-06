@@ -654,8 +654,8 @@
                                 {
                                     <th width="10%"><h1>Rate Settings</h1></th>
                                 }
-                                @*<th width="5%" class="text-right"><h1>Qty</h1></th>
-                                    <th width="5%"><h1>UoM</h1></th>*@
+                                <th width="5%" class="text-right"><h1>Qty</h1></th>
+                                @*<th width="5%"><h1>UoM</h1></th>*@
                                 <th width="10%" class="text-right"><h1>Rate</h1></th>
                                 <th width="10%" class="text-right"><h1>Discount</h1></th>
                                 <th width="10%" class="text-right"><h1>Amount</h1></th>
@@ -670,7 +670,7 @@
                                     <td align="center">
                                         <span id="slno@(i + 1)">@(i + 1)</span>
                                         @Html.HiddenFor(m => m.SalesQuotationItems[i].SlNo)
-                                        @Html.HiddenFor(m => m.SalesQuotationItems[i].Quantity)
+                                        @*@Html.HiddenFor(m => m.SalesQuotationItems[i].Quantity)*@
                                         @Html.HiddenFor(m => m.SalesQuotationItems[i].UnitId)
                                     </td>
 
@@ -719,6 +719,10 @@
                                             }
                                         </td>*@
                                     <td>
+                                        @Html.TextBoxFor(m => m.SalesQuotationItems[i].Quantity, new { @class = "form_input clQuantity  ", 
+                                       @style = "text-align:right", autocomplete = "off", placeholder = "Qty", value="1", @required = "true" })
+                                    </td>
+                                    <td>
                                             @Html.TextBoxFor(m => m.SalesQuotationItems[i].Rate, new { @class = "form_input numbers-only clrate validateqty",
                                              autocomplete = "off", @style = "text-align:right", placeholder = "Rate", 
                                             @onchange = "QuantityChanged(" + i + ");", @onkeyup = "QuantityChanged(" + i + ")" })
@@ -745,8 +749,8 @@
                                 {
                                     <th></th>
                                 }
-                                @*<th width="5%" class="text-center"><h1></h1></th>
-                                    <th width="5%" class="text-right"><span id="QtyTotal"></span></th>*@
+                                <th width="5%" class="text-center"><h1></h1></th>
+                                    @*<th width="5%" class="text-right"><span id="QtyTotal"></span></th>*@
                                 <th width="10%"></th>
                                 <th width="10%" class="text-right">
                                     <h1 >

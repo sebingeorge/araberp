@@ -52,9 +52,17 @@ namespace ArabErp.Web.Controllers
                               select p.DirectPurchaseRequestId).ToList();
                         if (id.Count > 0)
                         {
+                            List<GRNAddition> Additions = new List<GRNAddition>();
+                            Additions.Add(new GRNAddition());
+
+                            List<GRNDeduction> Deductions = new List<GRNDeduction>();
+                            Deductions.Add(new GRNDeduction());
+
                             model.isDirectPurchaseGRN = true;
                             model.Items = new GRNRepository().GetDirectGRNItems(id);
                             model.GRNDate = DateTime.Today;
+                            model.Additions = Additions;
+                            model.Deductions = Deductions;
                             SupplierDropdown();
                         }
                         else
@@ -69,9 +77,17 @@ namespace ArabErp.Web.Controllers
                               select p.SupplyOrderId).ToList();
                         if (id.Count > 0)
                         {
+                            List<GRNAddition> Additions = new List<GRNAddition>();
+                            Additions.Add(new GRNAddition());
+
+                            List<GRNDeduction> Deductions = new List<GRNDeduction>();
+                            Deductions.Add(new GRNDeduction());
+
                             model = new GRNRepository().GetGRNDetails(list[0].SupplierId);
                             model.GRNDate = DateTime.Today;
                             model.Items = new GRNRepository().GetGRNItem(id);
+                            model.Additions = Additions;
+                            model.Deductions = Deductions;
                         }
                         else
                         {
@@ -171,6 +187,7 @@ namespace ArabErp.Web.Controllers
             FillCurrency();
             SupplierDropdown();
             FillAdditionDeduction();
+            FillEmployee();
 
             PendingForGRN pending = new PendingForGRN();
             if (model.isDirectPurchaseGRN)
@@ -198,7 +215,8 @@ namespace ArabErp.Web.Controllers
 
             GRN model = repo.GetGRNDetails(id);
             model.Items = repo.GetGRNItems(id);
-
+            model.Additions = repo.GetGRNAdditions(id);
+            model.Deductions = repo.GetGRNDeductions(id);
             return View(model);
         }
         [HttpPost]
@@ -213,6 +231,7 @@ namespace ArabErp.Web.Controllers
             FillCurrency();
             SupplierDropdown();
             FillAdditionDeduction();
+            FillEmployee();
 
             var repo = new GRNRepository();
             var result1 = new GRNRepository().CHECK(model.GRNId);
@@ -228,6 +247,7 @@ namespace ArabErp.Web.Controllers
                 try
                 {
                     var result = new GRNRepository().UpdateGRN(model);
+                    var result3 = new GRNItemRepository().DeleteGRNADDDED(model.GRNId);
                     var result2 = new GRNItemRepository().DeleteGRNItem(model.GRNId);
                     var result4 = new StockUpdateRepository().DeleteGRNStockUpdate(model.GRNId);
                     var result5 = new GRNRepository().InsertGRNDT(model);
@@ -274,6 +294,7 @@ namespace ArabErp.Web.Controllers
 
             else
             {
+                var result5 = new GRNItemRepository().DeleteGRNADDDED(Id);
                 var result2 = new GRNItemRepository().DeleteGRNItem(Id);
                 var result4 = new StockUpdateRepository().DeleteGRNStockUpdate(Id);
                 var result3 = new GRNRepository().DeleteGRNHD(Id);

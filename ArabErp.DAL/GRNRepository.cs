@@ -34,15 +34,15 @@ namespace ArabErp.DAL
                     {
                         var internalId = DatabaseCommonRepository.GetNewDocNo(connection, model.OrganizationId, 11, true,trn);
                         model.GRNNo = internalId;
-                        model.GrandTotal = model.Items.Sum(m => ((m.AcceptedQuantity * m.Rate) - m.Discount)) + model.Addition - model.Deduction;
-
+                        //model.GrandTotal = model.Items.Sum(m => ((m.AcceptedQuantity * m.Rate) - m.Discount)) + model.Addition - model.Deduction;
+                        model.GrandTotal = model.Items.Sum(m => ((m.AcceptedQuantity * m.Rate) - m.Discount));
                         int id = 0;
 
                         string sql = @"INSERT INTO GRN(GRNNo,GRNDate,SupplierId,CurrencyId,WareHouseId,SupplierDCNoAndDate,SpecialRemarks,
-                                                       Addition,AdditionId,Deduction,DeductionId,CreatedBy,CreatedDate,OrganizationId,isDirectPurchaseGRN,
+                                                       CreatedBy,CreatedDate,OrganizationId,isDirectPurchaseGRN,
                                                        GrandTotal, VehicleNo, GatePassNo, ReceivedBy) 
                                                VALUES (@GRNNo,@GRNDate,@SupplierId,@CurrencyId,@StockPointId,@SupplierDCNoAndDate,@SpecialRemarks,
-                                                       @Addition,@AdditionId,@Deduction,@DeductionId,@CreatedBy,@CreatedDate,@OrganizationId,@isDirectPurchaseGRN, 
+                                                       @CreatedBy,@CreatedDate,@OrganizationId,@isDirectPurchaseGRN, 
                                                        @GrandTotal, @VehicleNo, @GatePassNo, @ReceivedBy);
                                               SELECT CAST(SCOPE_IDENTITY() AS INT)";
 
@@ -52,6 +52,7 @@ namespace ArabErp.DAL
                             item.GRNId = id;
                             item.Amount = item.AcceptedQuantity * item.Rate;
                             new GRNItemRepository().InsertGRNItem(item, connection, trn);
+                          
                             new StockUpdateRepository().InsertStockUpdate(
                                 new StockUpdate
                                 {
@@ -68,6 +69,29 @@ namespace ArabErp.DAL
                                     stocktrnDate = model.GRNDate
                                 }, connection, trn);
                         }
+
+                        foreach (var Addition in model.Additions)
+                        {
+                            new GRNItemRepository().InsertGRNAddition(new GRNAddition
+                            {
+                                GRNId = id,
+                                AdditionId = Addition.AdditionId,
+                                Addition = Addition.Addition
+                            }, connection, trn);
+                     
+                        }
+
+                        foreach (var Deduction in model.Deductions)
+                        {
+                            new GRNItemRepository().InsertGRNDeduction(new GRNDeduction
+                            {
+                                GRNId = id,
+                                DeductionId = Deduction.DeductionId,
+                                Deduction = Deduction.Deduction
+                            }, connection, trn);
+                          
+                        }
+
                         InsertLoginHistory(dataConnection, model.CreatedBy, "Create", "GRN", id.ToString(), "0");
                         trn.Commit();
                         return model.GRNNo;
@@ -116,7 +140,31 @@ namespace ArabErp.DAL
                                     stocktrnDate = model.GRNDate
                                 }, connection, trn);
                         }
-                       
+
+
+                        foreach (var Addition in model.Additions)
+                        {
+                            new GRNItemRepository().InsertGRNAddition(new GRNAddition
+                            {
+                                GRNId = model.GRNId,
+                                AdditionId = Addition.AdditionId,
+                                Addition = Addition.Addition
+                            }, connection, trn);
+
+                        }
+
+                        foreach (var Deduction in model.Deductions)
+                        {
+                            new GRNItemRepository().InsertGRNDeduction(new GRNDeduction
+                            {
+                                GRNId = model.GRNId,
+                                DeductionId = Deduction.DeductionId,
+                                Deduction = Deduction.Deduction
+                            }, connection, trn);
+
+                        }
+
+
                         trn.Commit();
                         return model;
                     }
@@ -242,9 +290,9 @@ namespace ArabErp.DAL
             using (IDbConnection connection = OpenConnection(dataConnection))
             {
                string sql = @"UPDATE GRN SET GRNNo = @GRNNo,GRNDate =@GRNDate ,SupplierId = @SupplierId,
-                            WareHouseId = @StockPointId,SupplierDCNoAndDate = @SupplierDCNoAndDate,CurrencyId=@CurrencyId,SpecialRemarks=@SpecialRemarks,
-                            Addition=@Addition,AdditionId=@AdditionId,Deduction=@Deduction,DeductionId=@DeductionId,CreatedBy=@CreatedBy, 
-                            CreatedDate=@CreatedDate, GrandTotal=@GrandTotal, VehicleNo=@VehicleNo, GatePassNo=@GatePassNo, ReceivedBy=@ReceivedBy WHERE GRNId = @GRNId";
+                              WareHouseId = @StockPointId,SupplierDCNoAndDate = @SupplierDCNoAndDate,CurrencyId=@CurrencyId,SpecialRemarks=@SpecialRemarks,
+                              CreatedBy=@CreatedBy,CreatedDate=@CreatedDate, GrandTotal=@GrandTotal, VehicleNo=@VehicleNo, GatePassNo=@GatePassNo, 
+                              ReceivedBy=@ReceivedBy WHERE GRNId = @GRNId";
 
 
                 var id = connection.Execute(sql, model);
@@ -417,15 +465,13 @@ namespace ArabErp.DAL
             {
 
                 string qry = " SELECT GRNId,GRNNo,GRNDate,S.SupplierName Supplier,''SONODATE,VehicleNo,GatePassNo,";
-                qry += " G.AdditionId,G.DeductionId,G.Addition Addition,G.Deduction Deduction,GrandTotal,ReceivedBy,";
+                qry += " GrandTotal,ReceivedBy,";
                 qry += " SpecialRemarks,WareHouseId StockPointId,StockPointName,SupplierDCNoAndDate,";
                 qry += " S.SupplierId SupplierId,G.CurrencyId CurrencyId,C.CurrencyName";
                 qry += " FROM GRN G";
                 qry += " INNER JOIN Supplier S ON S.SupplierId=G.SupplierId";
                 qry += " INNER JOIN Stockpoint SP On SP.StockPointId=G.WareHouseId";
                 qry += " INNER JOIN Currency C On C.CurrencyId=G.CurrencyId";
-                qry += " LEFT JOIN AdditionDeduction A ON A.AddDedId=G.AdditionId";
-                qry += " LEFT JOIN AdditionDeduction D ON D.AddDedId=G.DeductionId";
                 qry += " WHERE G.GRNId = " + GRNId.ToString();
 
                 GRN workshoprequest = connection.Query<GRN>(qry).FirstOrDefault();
@@ -458,6 +504,27 @@ namespace ArabErp.DAL
             }
         }
 
+        public List<GRNAddition> GetGRNAdditions(int GRNId)
+        {
+            using (IDbConnection connection = OpenConnection(dataConnection))
+            {
+                string query = " SELECT GRNId,A.AddDedId AdditionId,AddDedAmt Addition FROM GRNAddDed G";
+                query += " INNER JOIN AdditionDeduction A ON A.AddDedId=G.AddDedId";
+                query += " WHERE AddDedType=1 AND GRNId= " + GRNId.ToString();
+                return connection.Query<GRNAddition>(query).ToList();
+            }
+        }
+
+        public List<GRNDeduction> GetGRNDeductions(int GRNId)
+        {
+            using (IDbConnection connection = OpenConnection(dataConnection))
+            {
+                string query = " SELECT GRNId,D.AddDedId DeductionId,AddDedAmt Deduction FROM GRNAddDed G";
+                query += " INNER JOIN AdditionDeduction D ON D.AddDedId=G.AddDedId";
+                query += " WHERE AddDedType=2 AND GRNId= " + GRNId.ToString();
+                return connection.Query<GRNDeduction>(query).ToList();
+            }
+        }
         /// <summary>
         /// Return all pending direct purchase requests (requests that are not in GRN)
         /// </summary>
