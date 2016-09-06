@@ -19,7 +19,7 @@ namespace ArabErp.Web.Controllers
         {
             ViewBag.Title = "Create";
             QCParameters QC = new QCParameters();
-            QC.QCRefNo = "QC/" + DatabaseCommonRepository.GetNextReferenceNo(typeof(QCParameters).Name);//new QCParametersRepository().GetRefNo(QC);
+            QC.QCRefNo = "QC/" + DatabaseCommonRepository.GetNextReferenceNo(typeof(QCParameters).Name);
             dropdown();
             return View(QC);
         }
@@ -42,7 +42,7 @@ namespace ArabErp.Web.Controllers
             bool isexists = repo.IsFieldExists(repo.ConnectionString(), "QCParam", "QCParamName", model.QCParamName, null, null);
             if (!isexists)
             {
-                var result = new QCParametersRepository().InsertBox(model);
+                var result = new QCParametersRepository().InsertQCPara(model);
                 if (result.OrganizationId > 0)
                 {
 
@@ -64,7 +64,7 @@ namespace ArabErp.Web.Controllers
             {
 
                 dropdown();
-                TempData["error"] = "This Organization Name Alredy Exists!!";
+                TempData["error"] = "This QCParameter Name Alredy Exists!!";
                 TempData["QCRefNo"] = null;
                 return View("Create", model);
             }
@@ -117,7 +117,7 @@ namespace ArabErp.Web.Controllers
             else
             {
                 dropdown();
-                TempData["error"] = "This Organization Name Alredy Exists!!";
+                TempData["error"] = "This QCParameter Name Alredy Exists!!";
                 TempData["QCRefNo"] = null;
                 return View("Create", model);
             }
@@ -149,7 +149,7 @@ namespace ArabErp.Web.Controllers
             {
                 if (result == 1)
                 {
-                    TempData["error"] = "Sorry!! You Cannot Delete This Organization It Is Already In Use";
+                    TempData["error"] = "Sorry!! You Cannot Delete this QCParameter It Is Already In Use";
                     TempData["QCRefNo"] = null;
                 }
                 else

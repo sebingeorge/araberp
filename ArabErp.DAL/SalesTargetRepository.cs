@@ -109,22 +109,7 @@ namespace ArabErp.DAL
         }
 
 
-//        public SalesTarget GetSalesTarget(int SalesTargetId)
-//        {
 
-//            using (IDbConnection connection = OpenConnection(dataConnection))
-//            {
-//                string sql = @"SELECT * FROM SalesTarget
-//                        WHERE SalesTargetId=@SalesTargetId";
-
-//                var objSalesTarget = connection.Query<SalesTarget>(sql, new
-//                {
-//                    SalesTargetId = SalesTargetId
-//                }).First<SalesTarget>();
-
-//                return objSalesTarget;
-//            }
-//        }
         public int DeleteSalesTarget(SalesTarget objSalesTarget)
         {
             int result = 0;

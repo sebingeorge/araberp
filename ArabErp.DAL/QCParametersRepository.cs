@@ -16,7 +16,7 @@ namespace ArabErp.DAL
          {
              return dataConnection;
          }
-         public QCParameters InsertBox(QCParameters objQCParameters)
+         public QCParameters InsertQCPara(QCParameters objQCParameters)
          {
              using (IDbConnection connection = OpenConnection(dataConnection))
              {
@@ -50,30 +50,7 @@ namespace ArabErp.DAL
              }
          }
 
-         //public string GetRefNo(QCParameters objQCParameters)
-         //{
-
-         //    using (IDbConnection connection = OpenConnection(dataConnection))
-         //    {
-         //        string RefNo = "";
-         //        var result = new CostingParameters();
-
-         //        IDbTransaction trn = connection.BeginTransaction();
-
-         //        try
-         //        {
-         //            int internalid = DatabaseCommonRepository.GetInternalIDFromDatabase(connection, trn, typeof(QCParameters).Name, "0", 0);
-         //            RefNo = "B/" + internalid;
-         //            trn.Commit();
-         //        }
-         //        catch (Exception ex)
-         //        {
-         //            trn.Rollback();
-         //        }
-         //        return RefNo;
-         //    }
-         //}
-
+         
          public IEnumerable<Dropdown> FillParaType()
          {
 
