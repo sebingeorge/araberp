@@ -73,6 +73,7 @@
     <Compile Include="ProjectCompletion.cs" />
     <Compile Include="PurchaseRequestRegister.cs" />
     <Compile Include="QCParameters.cs" />
+    <Compile Include="QuerySheetItem.cs" />
     <Compile Include="RptFilter.cs" />
     <Compile Include="FreezerUnit.cs" />
     <Compile Include="GRN.cs" />

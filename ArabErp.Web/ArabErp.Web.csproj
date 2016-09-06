@@ -848,12 +848,12 @@
     <Content Include="Views\ProjectCompletion\Details.cshtml" />
     <Content Include="Views\WorkShopRequest\_AdditionalMaterialList.cshtml" />
     <Content Include="Views\SalesInvoice\Edit.cshtml" />
-   
     <Content Include="Views\CostingParameters\Create.cshtml" />
     <Content Include="Views\CostingParameters\CostingParametersListView.cshtml" />
     <Content Include="Views\QCParameter\Create.cshtml" />
     <Content Include="Views\QCParameter\QCParameterListView.cshtml" />
     <Content Include="Views\JobCard\Edit.cshtml" />
+    <Content Include="Views\ProformaInvoice\Edit.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

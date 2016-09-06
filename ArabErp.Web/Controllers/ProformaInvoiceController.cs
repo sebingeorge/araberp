@@ -114,5 +114,13 @@ namespace ArabErp.Web.Controllers
         {
             ViewBag.customerList = new SelectList(new DropdownRepository().CustomerForProformaInvoice(OrganizationId: OrganizationId, type: type), "Id", "Name");
         }
+        public ActionResult Edit( int type,int id = 0)
+        {
+            if (id == 0) return RedirectToAction("Index", "Home", new {type = type});
+            ProformaInvoice model = new ProformaInvoiceRepository().GetProformaInvoiceHdDetails(id);
+            model.Items = new ProformaInvoiceRepository().GetProformaInvoiceItemDetails(id);
+            return View(model);
+        }
+
     }
 }

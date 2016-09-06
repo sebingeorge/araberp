@@ -128,5 +128,45 @@ namespace ArabErp.DAL
             }
         }
 
+        public ProformaInvoice GetProformaInvoiceHdDetails(int Id)
+        {
+
+            using (IDbConnection connection = OpenConnection(dataConnection))
+            {
+
+                string sql = @"select C.CustomerName,S.CustomerOrderRef,Concat(C.DoorNo,',',C.Street,',',C.State,',',C.Country,',',C.Zip)CustomerAddress,ProformaInvoiceId,ProformaInvoiceRefNo,
+                               ProformaInvoiceDate,P.SaleOrderId,P.SpecialRemarks,P.PaymentTerms,P.isProjectBased from  ProformaInvoice P
+                               inner join SaleOrder S on S.SaleOrderId=P.SaleOrderId
+                               inner join Customer C ON C.CustomerId=S.CustomerId where ProformaInvoiceId =@Id";
+
+                var objProformaInvoice = connection.Query<ProformaInvoice>(sql, new
+                {
+                    Id = Id
+
+                }).First<ProformaInvoice>();
+
+                return objProformaInvoice;
+            }
+        }
+
+        public List<ProformaInvoiceItem> GetProformaInvoiceItemDetails(int Id)
+        {
+            using (IDbConnection connection = OpenConnection(dataConnection))
+            {
+
+                string sql = @" SELECT V.VehicleModelName,W.WorkDescr WorkDescription,ProformaInvoiceItemId,ProformaInvoiceId,P.SaleOrderItemId,S.Quantity,P.Rate,P.Discount,P.Amount,u.UnitName
+                                FROM ProformaInvoiceItem P
+                                inner join SaleOrderItem S ON P.SaleOrderItemId=S.SaleOrderItemId
+                                left join WorkDescription W on S.WorkDescriptionId=W.WorkDescriptionId
+                                left join VehicleModel V on V.VehicleModelId=S.VehicleModelId
+                                left join Unit u on u.UnitId=s.UnitId where ProformaInvoiceId =@Id";
+
+
+
+                var objProInvoiceItem = connection.Query<ProformaInvoiceItem>(sql, new { Id = Id }).ToList<ProformaInvoiceItem>();
+
+                return objProInvoiceItem;
+            }
+        }
     }
 }
