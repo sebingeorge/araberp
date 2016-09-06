@@ -1,0 +1,230 @@
+﻿
+@{
+    ViewBag.Title = "ProductSubGroup";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="row">
+    <div class="form-head1">
+        <h4>Product Sub Group</h4>
+    </div>
+
+    <div class="main-part pad1">
+
+
+        <div class="row form-group">
+            <div class="col-md-4">
+                <label>Name</label>
+                <input type="text" class="form_input" />
+            </div>
+        </div>
+
+        <div class="row form-group">
+            <div class="col-md-4">
+                <label>Short Name</label>
+                <input type="text" class="form_input" />
+            </div>
+        </div>
+
+        <div class="row form-group">
+
+            <div class="col-md-2">
+                <label>Product Group</label>
+                <select class="form_input">
+                    <option value="">Product Group1</option>
+                    <option value="">Product Group2</option>
+                </select>
+            </div>
+            <div class="col-md-2">
+                <label>Category</label>
+                <select class="form_input">
+                    <option value="">Finished Goods</option>
+                    <option value="">Semi Finished</option>
+                    <option value="">Raw Material</option>
+                    <option value="">consumables</option>
+                    <option value="">Packing Materials</option>
+                    <option value="">Engineers</option>
+                    <option value="">Others</option>
+                </select>
+            </div>
+        </div>
+
+
+
+
+
+
+
+        <div class="row">
+            <div class="col-md-12 hrpart">
+                <button type="button" class="form-button right">Save</button>
+                <button type="button" class="form-button right" onclick="Exit()">Exit</button>
+            </div>
+
+        </div>
+
+
+    </div>
+
+</div>
+
+<div class="row">
+    <div class="res">
+        <div class="table-responsive">
+
+            <table class="table table-bordered" id="tab_logic">
+                <thead>
+                    <tr class="grid_heading">
+                        <th width="7%"><h1>Ref No</h1></th>
+                        <th width="33%"><h1>Name</h1></th>
+                        <th width="25%"><h1>Product Group</h1></th>
+                        <th width="25%"><h1>Category</h1></th>
+                        <th width="5%"><center><h1>Edit</h1></center></th>
+                        <th width="5%"><center><h1>Delete</h1></center></th>
+
+                    </tr>
+                </thead>
+                <tbody>
+
+                    <tr>
+                        <td>10001</td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+
+
+                    </tr>
+
+                    <tr>
+
+                        <td>10002</td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+
+
+                    </tr>
+
+
+
+                    <tr>
+
+                        <td>10003</td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+
+
+                    </tr>
+                    <tr>
+                        <td>10004</td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+
+
+                    </tr>
+                    <tr>
+
+                        <td>10005</td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+
+
+                    </tr>
+                    <tr>
+
+                        <td>10006</td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+
+
+                    </tr>
+                    <tr>
+
+                        <td>10007</td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+
+
+                    </tr>
+                    <tr>
+
+                        <td>10008</td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+
+
+                    </tr>
+                    <tr>
+
+                        <td>10009</td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+
+
+                    </tr>
+
+
+
+
+
+
+
+
+
+                </tbody>
+                <tfoot>
+                    <tr class="grid_heading">
+
+                        <th></th>
+                        <th></th>
+                        <th></th>
+                        <th></th>
+                        <th></th>
+                        <th></th>
+
+
+
+
+
+
+                    </tr>
+                </tfoot>
+            </table>
+
+
+        </div>
+        </div>
+    </div>
+
+
+<script>
+    function Exit() {
+        var url = '@Url.Action("Index","ProductionPlan")'
+        window.location = url;
+    }
+</script>

@@ -1,0 +1,243 @@
+﻿
+@{
+    ViewBag.Title = "RawMaterial";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+
+<div class="row">
+    <div class="form-head1">
+        <h4>RawMaterial</h4>
+    </div>
+
+    <div class="main-part pad1">
+
+        <div class="row">
+
+            <div class="col-md-4">
+                <div class="form-group">
+                    <div class="row">
+                        <div class="col-md-4">
+                            <label>Item Code</label>
+                            <input type="text" class="form_input" />
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+
+                    <label>Name</label>
+                    <input type="text" class="form_input" />
+
+                </div>
+
+                <div class="form-group">
+
+                    <label>Short Name</label>
+                    <input type="text" class="form_input" />
+
+                </div>
+
+                <div class="form-group">
+
+                    <label>Print Name</label>
+                    <input type="text" class="form_input" />
+
+                </div>
+
+            </div>
+
+            <div class="col-md-4">
+
+
+                <div class="form-group">
+
+                    <label>RawMaterial Group</label>
+                    <select class="form_input">
+                        <option value="">RawMaterial Group 1</option>
+                        <option value="">RawMaterial Group 2</option>
+                        <option value="">RawMaterial Group 3</option>
+                        <option value="">RawMaterial Group 4</option>
+                    </select>
+
+                </div>
+
+                <div class="form-group">
+
+                    <label>RawMaterial SubGroup</label>
+                    <select class="form_input">
+                        <option value="">RawMaterial SubGroup 1</option>
+                        <option value="">RawMaterial SubGroup 2</option>
+                        <option value="">RawMaterial SubGroup 3</option>
+                        <option value="">RawMaterial SubGroup 4</option>
+                    </select>
+
+                </div>
+
+
+                <div class="form-group">
+                    <div class="row">
+                        <div class="col-md-3">
+                            <label>Min.Stock</label>
+                            <input type="text" class="form_input" />
+                        </div>
+                        <div class="col-md-3">
+                            <label>Max.Stock</label>
+                            <input type="text" class="form_input" />
+                        </div>
+                        <div class="col-md-3">
+                            <label>Critical Item</label>
+                            <select class="form_input">
+                                <option value="">Yes</option>
+                                <option value="">No</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+            <div class="row">
+                <div class="col-md-12 hrpart">
+                    <button type="button" class="form-button right">Save</button>
+                    <button type="button" class="form-button right" onclick="Exit()">Exit</button>
+                </div>
+
+            </div>
+
+      
+
+
+
+
+</div>
+
+    </div>
+
+
+
+<div class="row">
+    <div class="res">
+        <div class="table-responsive">
+
+            <table class="table table-bordered" id="tab_logic">
+                <thead>
+                    <tr class="grid_heading">
+                        <th width="7%"><h1>Ref No</h1></th>
+                        <th width="33%"><h1>Name</h1></th>
+                        <th width="25%"><h1>RawMaterial Group</h1></th>
+                        <th width="25%"><h1>RawMaterial SubGroup</h1></th>
+                        <th width="5%"><center><h1>Edit</h1></center></th>
+                        <th width="5%"><center><h1>Delete</h1></center></th>
+
+                    </tr>
+                </thead>
+                <tbody>
+
+                    <tr>
+                        <td>10001</td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+
+
+                    </tr>
+
+                    <tr>
+
+                        <td>10002</td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+
+
+                    </tr>
+
+                    <tr>
+                        <td>10003</td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+
+
+                    </tr>
+
+                    <tr>
+
+                        <td>10004</td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+
+
+                    </tr>
+                    <tr>
+                        <td>10005</td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+
+
+                    </tr>
+                    <tr>
+
+                        <td>10006</td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+
+
+                    </tr>
+
+
+
+
+
+
+
+
+
+                </tbody>
+                <tfoot>
+                    <tr class="grid_heading">
+
+                        <th></th>
+                        <th></th>
+                        <th></th>
+                        <th></th>
+                        <th></th>
+                        <th></th>
+
+
+
+
+
+
+                    </tr>
+                </tfoot>
+            </table>
+
+
+        </div>
+        </div>
+    </div>
+<script>
+    function Exit() {
+        var url = '@Url.Action("Index","ProductionPlan")'
+        window.location = url;
+    }
+</script>

@@ -41,6 +41,7 @@
         var url = '@Url.Action("Index")';
         location.href = url;
     }
+
     function GotoProjectIndex() {
         var url = '@Url.Action("ProjectIndex")';
         location.href = url;
@@ -49,34 +50,47 @@
         var url = '@Url.Action("AfterSalesIndex")';
         location.href = url;
     }
-     
+    @*function AdditionalMaterial() {
+
+        var url = '@Url.Action("MaterialList")';
+        location.href = url;
+    }*@
+  
+    function AdditionalMaterial() {
+       
+        var url = '@Url.Action("MaterialList")';
+        $("#div-details").text('Loading...');
+        $("#div-details").load(url);
+        $('#details-modal').modal('show');
+       
+    }
     function PreviousList() {
 
         var url = '@Url.Action("PreviousList", "SalesQuotation")';
         @if (actionName == "Create")
         {
            @: url += "?type=0";
-        }
+                                        }
         else if (actionName == "CreateProject")
         {
             @: url += "?type=1";
-         }
+                                         }
         else if (actionName == "CreateAfterSales")
         {
             @: url += "?type=2";
-        }
+                                        }
         window.location = url;
     }
 
     $(function() {
-       
+
         if ('@ViewBag.actionName.ToString()' == "Approve") {
             $("input").prop("readonly", "true");
             $("select").prop("disabled", "true");
             $(".glyphicon-minus, .glyphicon-plus").hide();
         }
         else {
-            
+
             $("#QuotationDate").datepicker({ dateFormat: "dd/MM/yy" });
             $("#ExpectedDeliveryDate").datepicker({ dateFormat: "dd/MM/yy" });
             $("#PredictedClosingDate").datepicker({ dateFormat: "dd/MM/yy" });
@@ -267,7 +281,7 @@
 
     function SetRate(index, type) {
 
-       
+
         //alert(type);
 
 
@@ -669,7 +683,7 @@
                                      else
                                      {
                                             @Html.DropDownListFor(x => Model.SalesQuotationItems[i].WorkDescriptionId, new SelectList(ViewBag.workdesclist, "Value", "Text",
-                                            Model.SalesQuotationItems[i].WorkDescriptionId), "select work description", new { @class = "form_input", autocomplete = "off",
+                                            Model.SalesQuotationItems[i].WorkDescriptionId), "Select Work Description", new { @class = "form_input", autocomplete = "off",
                                             @onchange = "OnWorkDescChanged(" + i + ")" })
                                      }
                                     </td>
@@ -752,7 +766,11 @@
                         </tfoot>
                     </table>
                 </div>
-
+   
+    @*<strong>Additional Material/Spares</strong>
+    <div class=" table-responsive">
+        @Html.Action("MaterialList")
+    </div>*@
                 <div class="row">
 
                     <div class="col-md-12">
@@ -831,9 +849,13 @@
                         }
                         else if (actionName == "CreateAfterSales")
                         {
+                            
                             <button type="button" class="form-button right" onclick="GotoAfterSalesIndex()">Exit</button>
                             <button type="submit" class="form-button right">Save</button>
                             <input type="button" class="form-button" onclick="PreviousList()" value="Previous">
+                            <input type="button" style="width:200px" class="form-button" onclick="AdditionalMaterial()" value="Additional Material">
+                            
+                            
                         }
                         else if (ViewBag.actionName.ToString() == "Approve")
                         {
@@ -842,6 +864,20 @@
                     </div>
                 </div>
             }
+
         </div>
     </div>
+<!-- modal to show details -->
+<div id="details-modal" class="modal fade bs-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+
+            <div class="modal-body" id="div-details">
+                Loading...
+            </div>
+
+        </div>
+    </div>
+</div>
+
 
