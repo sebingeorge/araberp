@@ -36,6 +36,28 @@ namespace ArabErp.DAL
               }
 
           }
+          public int InsertQuerySheetItem(QuerySheetItem objQuerySheetItem, IDbConnection connection, IDbTransaction trn)
+          {
+              try
+              {
+
+
+                  string sql = @"insert  into QuerySheetItem(QuerySheetId,RoomDetails,ExternalRoomDimension,ColdRoomArea,ColdRoomLocation,TemperatureRequired,PanelThicknessANDSpec,DoorSizeTypeAndNumberOfDoor,FloorDetails,ProductDetails,ProductIncomingTemperature,PipeLength,Refrigerant,EletricalPowerAvailability,Kilowatt,isActive) 
+                                                    Values (@QuerySheetId,@RoomDetails,@ExternalRoomDimension,@ColdRoomArea,@ColdRoomLocation,@TemperatureRequired,@PanelThicknessANDSpec,@DoorSizeTypeAndNumberOfDoor,@FloorDetails,@ProductDetails,@ProductIncomingTemperature,@PipeLength,@Refrigerant,@EletricalPowerAvailability,@Kilowatt,1);
+                       
+                SELECT CAST(SCOPE_IDENTITY() as int)";
+
+
+                  var id = connection.Query<int>(sql, objQuerySheetItem, trn).First();
+
+                  return id;
+              }
+              catch (Exception)
+              {
+                  throw;
+              }
+
+          }
 
           public List<ProjectCost> GetProjectCost(int QuerySheetId)
           {
@@ -49,6 +71,16 @@ namespace ArabErp.DAL
                   var objQuerySheetItems = connection.Query<ProjectCost>(sql, new { QuerySheetId = QuerySheetId }).ToList<ProjectCost>();
 
                   return objQuerySheetItems;
+              }
+          }
+
+          public List<QuerySheetItem> GetQuerySheetItem(int QuerySheetId)
+          {
+              using (IDbConnection connection = OpenConnection(dataConnection))
+              {
+                  string sql = @" SELECT * from QuerySheetItem
+                                  WHERE QuerySheetId = @QuerySheetId";
+                  return connection.Query<QuerySheetItem>(sql, new { QuerySheetId = QuerySheetId }).ToList();
               }
           }
       
