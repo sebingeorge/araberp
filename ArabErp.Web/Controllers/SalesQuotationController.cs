@@ -703,5 +703,26 @@ namespace ArabErp.Web.Controllers
             }
 
         }
+
+        public PartialViewResult MaterialList()
+        {
+            ItemDropdown();
+            SalesQuotation salesquotation = new SalesQuotation { Materials = new List<SalesQuotationItem>() };
+            salesquotation.Materials.Add(new SalesQuotationItem());
+            return PartialView("_MaterialList", salesquotation);
+        }
+        private void ItemDropdown()
+        {
+            ViewBag.itemList = new SelectList(new DropdownRepository().ItemDropdown(), "Id", "Name");
+        }
+        public JsonResult GetItemUnit(int itemId)
+        {
+            return Json(new StockReturnItemRepository().GetItemUnit(itemId), JsonRequestBehavior.AllowGet);
+        }
+        public JsonResult GetItemPartNo(int itemId)
+        {
+            return Json(new WorkShopRequestRepository().GetItemPartNo(itemId), JsonRequestBehavior.AllowGet);
+        }
+      
     }
 }

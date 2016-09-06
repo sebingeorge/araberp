@@ -443,6 +443,7 @@
     <Content Include="Images\white-pattern.jpg" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
+    <Content Include="XML\JobCard.xml" />
     <Content Include="XML\SalesInvoice.xml" />
     <None Include="Properties\PublishProfiles\Server.pubxml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
@@ -855,6 +856,7 @@
     <Content Include="Views\QCParameter\QCParameterListView.cshtml" />
     <Content Include="Views\JobCard\Edit.cshtml" />
     <Content Include="Views\ProformaInvoice\Edit.cshtml" />
+    <Content Include="Views\SalesQuotation\_MaterialList.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
