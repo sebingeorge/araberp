@@ -29,6 +29,41 @@ namespace ArabErp.DAL
             }
         }
 
+        public int InsertGRNAddition(GRNAddition model, IDbConnection connection, IDbTransaction trn)
+        {
+            try
+            {
+                string sql = @"INSERT INTO GRNAddDed(GRNId,AddDedId,AddDedAmt) 
+                            VALUES (@GRNId,@AdditionId,@Addition);
+                            SELECT CAST(SCOPE_IDENTITY() AS INT)";
+
+                var id = connection.Query<int>(sql, model, trn).Single();
+                return id;
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
+
+
+        public int InsertGRNDeduction(GRNDeduction model, IDbConnection connection, IDbTransaction trn)
+        {
+            try
+            {
+                string sql = @"INSERT INTO GRNAddDed(GRNId,AddDedId,AddDedAmt) 
+                            VALUES (@GRNId,@DeductionId,@Deduction);
+                            SELECT CAST(SCOPE_IDENTITY() AS INT)";
+
+                var id = connection.Query<int>(sql, model, trn).Single();
+                return id;
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
+
         public GRNItem GetGRNItem(int GRNItemId)
         {
 
@@ -82,6 +117,19 @@ namespace ArabErp.DAL
                 { 
                 var id = connection.Execute(sql, new { Id = Id });
                 return id;
+                }
+            }
+        }
+
+        public int DeleteGRNADDDED(int Id)
+        {
+
+            using (IDbConnection connection = OpenConnection(dataConnection))
+            {
+                string sql = @"Delete FROM GRNAddDed  WHERE GRNId=@Id";
+                {
+                    var id = connection.Execute(sql, new { Id = Id });
+                    return id;
                 }
             }
         }
