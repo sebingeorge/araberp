@@ -284,6 +284,7 @@
     <Compile Include="Controllers\SalesInvoiceController.cs" />
     <Compile Include="Controllers\SalesQuotationController.cs" />
     <Compile Include="Controllers\SalesRegisterController.cs" />
+    <Compile Include="Controllers\SalesTargetController.cs" />
     <Compile Include="Controllers\StockCreationController.cs" />
     <Compile Include="Controllers\StockJournalController.cs" />
     <Compile Include="Controllers\StockMovementRegisterController.cs" />
@@ -920,6 +921,8 @@
     <Content Include="Views\ProductionPlan\SupplierCategory.cshtml" />
     <Content Include="Views\ProductionPlan\Unit.cshtml" />
     <Content Include="Views\SalesQuotation\_MaterialList.cshtml" />
+    <Content Include="Views\SalesTarget\Create.cshtml" />
+    <Content Include="Views\SalesTarget\SalesTargetListView.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

@@ -72,6 +72,7 @@ namespace ArabErp.DAL
 
                         foreach (var Addition in model.Additions)
                         {
+                            if (Addition.AdditionId == null || Addition.AdditionId == 0) continue;
                             new GRNItemRepository().InsertGRNAddition(new GRNAddition
                             {
                                 GRNId = id,
@@ -83,6 +84,7 @@ namespace ArabErp.DAL
 
                         foreach (var Deduction in model.Deductions)
                         {
+                            if (Deduction.DeductionId == null || Deduction.DeductionId == 0) continue;
                             new GRNItemRepository().InsertGRNDeduction(new GRNDeduction
                             {
                                 GRNId = id,
@@ -484,19 +486,47 @@ namespace ArabErp.DAL
         {
             using (IDbConnection connection = OpenConnection(dataConnection))
             {
+                                string query = "CREATE TABLE #TEMP(GRNId INT,SupplyOrderItemId INT,ItemId INT,";
+                                query += " ItemName VARCHAR(500),PartNo  VARCHAR(500),";
+                                query += " BALANCEQTY INT,AcceptedQuantity  INT,RejectedQuantity INT,";
+                                query += " Unit VARCHAR(500),Rate DECIMAL(18,3),Discount DECIMAL(18,3),";
+                                query += " Amount DECIMAL(18,3),Remarks VARCHAR(5000),GRNQTY INT,PendingQuantity INT,ReceivedQuantity INT)";
 
-                string query = " SELECT GRNId,G.SupplyOrderItemId,I.ItemId,I.ItemName,I.PartNo,";
-                      query += " (sum(S.OrderedQty-G.Quantity )+G.Quantity)PendingQuantity,";
-                      query += " sum(G.ReceivedQty) ReceivedQuantity,sum(Quantity) AcceptedQuantity,";
-                      query += " (isnull(G.ReceivedQty,0)-isnull(Quantity,0)) RejectedQuantity,";
-                      query += " U.UnitName Unit,G.Rate,G.Discount,G.Amount,Remarks";
-                      query += " FROM GRNItem G";
-                      query += " INNER JOIN SupplyOrderItem S ON S.SupplyOrderItemId=G.SupplyOrderItemId";
-                      query += " INNER JOIN Item I ON I.ItemId=G.ItemId";
-                      query += " INNER JOIN Unit U ON U.UnitId=I.ItemUnitId";
-                      query += " WHERE G.GRNId = " + GRNId.ToString();
-                      query += " GROUP BY GRNId,G.SupplyOrderItemId,I.ItemId,I.ItemName,I.PartNo,";
-                      query += " G.ReceivedQty,G.Quantity,U.UnitName,G.Rate,G.Discount,G.Amount,Remarks";
+                                query += " INSERT INTO #TEMP (GRNId,SupplyOrderItemId, ItemId,ItemName ,PartNo,";
+                                query += " BALANCEQTY,AcceptedQuantity,RejectedQuantity,";
+                                query += " Unit,Rate,Discount,Amount,Remarks,GRNQTY,PendingQuantity,ReceivedQuantity)";
+
+                                query += " SELECT GRNId,G.SupplyOrderItemId,I.ItemId,I.ItemName,I.PartNo,";
+                                query += " sum(isnull(S.OrderedQty,0))-isnull((select sum(ISNULL(A.Quantity,0)) ";
+                                query += " FROM GRNItem A where S.SupplyOrderItemId=A.SupplyOrderItemId),0) BALANCEQTY,";
+                                query += " sum(Quantity) AcceptedQuantity,(isnull(G.ReceivedQty,0)-isnull(Quantity,0)) RejectedQuantity,";
+                                query += " U.UnitName Unit,G.Rate,G.Discount,G.Amount,Remarks,0 GRNQTY,0 PendingQuantity,sum(G.ReceivedQty)";
+                                query += " FROM GRNItem G";
+                                query += " INNER JOIN SupplyOrderItem S ON S.SupplyOrderItemId=G.SupplyOrderItemId";
+                                query += " INNER JOIN Item I ON I.ItemId=G.ItemId";
+                                query += " INNER JOIN Unit U ON U.UnitId=I.ItemUnitId";
+                                query += " WHERE G.GRNId = " + GRNId.ToString();
+                                query += " GROUP BY GRNId,G.SupplyOrderItemId,I.ItemId,I.ItemName,I.PartNo,";
+                                query += " G.ReceivedQty,G.Quantity,U.UnitName,G.Rate,G.Discount,G.Amount,Remarks,S.SupplyOrderItemId";
+                                query += " UPDATE #TEMP SET GRNQTY=(SELECT (SUM(G1.Quantity)) ";
+                                query += " FROM GRNItem G1 where #TEMP.SupplyOrderItemId=G1.SupplyOrderItemId and G1.GRNId=" + GRNId.ToString(); 
+                                query += " GROUP BY G1.SupplyOrderItemId)";
+
+                                query += " UPDATE #TEMP SET PendingQuantity=BALANCEQTY+GRNQTY";
+
+                                query += " SELECT * FROM #TEMP";
+                       //string query = " SELECT GRNId,G.SupplyOrderItemId,I.ItemId,I.ItemName,I.PartNo,";
+                //      query += " (sum(S.OrderedQty-G.Quantity )+G.Quantity)PendingQuantity,";
+                //      query += " sum(G.ReceivedQty) ReceivedQuantity,sum(Quantity) AcceptedQuantity,";
+                //      query += " (isnull(G.ReceivedQty,0)-isnull(Quantity,0)) RejectedQuantity,";
+                //      query += " U.UnitName Unit,G.Rate,G.Discount,G.Amount,Remarks";
+                //      query += " FROM GRNItem G";
+                //      query += " INNER JOIN SupplyOrderItem S ON S.SupplyOrderItemId=G.SupplyOrderItemId";
+                //      query += " INNER JOIN Item I ON I.ItemId=G.ItemId";
+                //      query += " INNER JOIN Unit U ON U.UnitId=I.ItemUnitId";
+                //      query += " WHERE G.GRNId = " + GRNId.ToString();
+                //      query += " GROUP BY GRNId,G.SupplyOrderItemId,I.ItemId,I.ItemName,I.PartNo,";
+                //      query += " G.ReceivedQty,G.Quantity,U.UnitName,G.Rate,G.Discount,G.Amount,Remarks";
 
                 return connection.Query<GRNItem>(query).ToList();
 

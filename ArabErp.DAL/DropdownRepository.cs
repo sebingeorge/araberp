@@ -903,5 +903,13 @@ namespace ArabErp.DAL
                 return connection.Query<Dropdown>("SELECT Distinct  W.WorkDescriptionId Id, WorkDescrShortName Name FROM WorkDescription W INNER JOIN SaleOrderItem SI ON SI.WorkDescriptionId=W.WorkDescriptionId INNER JOIN SalesInvoiceItem SOI ON SOI.SaleOrderItemId =SI.SaleOrderItemId WHERE ISNULL(W.isActive, 1) = 1 AND  W.OrganizationId=ISNULL(NULLIF(@Id, 0), W.OrganizationId )", new { Id = Id }).ToList();
             }
         }
+
+        public List<Dropdown> OrganizationDropdown()
+        {
+            using (IDbConnection connection = OpenConnection(dataConnection))
+            {
+                return connection.Query<Dropdown>("SELECT   OrganizationId Id, OrganizationName Name FROM Organization").ToList();
+            }
+        }
     }
 }

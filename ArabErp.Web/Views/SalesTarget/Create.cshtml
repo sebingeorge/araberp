@@ -1,4 +1,4 @@
-﻿@model ArabErp.Domain.QCParameters
+﻿@model ArabErp.Domain.SalesTarget
 @{Layout = "~/Views/Shared/_Layout.cshtml";}
 
 @{string actionName = HttpContext.Current.Request.RequestContext.RouteData.Values["action"].ToString(); }
@@ -34,8 +34,8 @@
             "showMethod": "fadeIn",
             "hideMethod": "fadeOut"
         }
-        if ('@TempData["success"]' != "" && '@TempData["QCRefNo"]' != "") {
-            toastr.success('@TempData["success"]' + ' QC Ref No. is : ' + '@TempData["QCRefNo"]');
+        if ('@TempData["success"]' != "" && '@TempData["SalesTargetRefNo"]' != "") {
+            toastr.success('@TempData["success"]' + ' SalesTarget Ref No. is : ' + '@TempData["SalesTargetRefNo"]');
         }
         else if ('@TempData["error"]' != "") {
             toastr.error('@TempData["error"]');
@@ -49,7 +49,7 @@
 <div class=" row ">
 
     <div class="form-head1">
-        <h4>QC Parameters</h4>
+        <h4>Sales Target</h4>
     </div>
 
     <div class="main-part pad1">
@@ -60,24 +60,32 @@
 
                 <div class="col-md-4">
 
-                    @Html.HiddenFor(m => m.QCParamId)
-                    @Html.HiddenFor(m => m.QCRefNo)
+                    @Html.HiddenFor(m => m.SalesTargetId)
+                    @Html.HiddenFor(m => m.SalesTargetRefNo)
 
                     <div class="part4">
-                        <label for="Code">Code</label>
-                        @Html.TextBoxFor(m => m.QCRefNo, new { @class = "form_input form_input-half", autocomplete = "off", @readonly = "readonly" })
+                        <label for="OrganizationRefNo">Code</label>
+                        @Html.TextBoxFor(m => m.SalesTargetRefNo, new { @class = "form_input form_input-half", autocomplete = "off", @readonly = "readonly" })
                     </div>
 
                     <div class="part4">
-                        <label for="Code">Name</label>
-                        @Html.TextBoxFor(m => m.QCParamName, new { @class = "form_input", autocomplete = "off" })
+                        <label for="Month">Month</label>
+                        @Html.DropDownListFor(m => Model.MonthId, (SelectList)ViewBag.Month, "Select Month", new { @class = "form_input", autocomplete = "off" })
                     </div>
 
                     <div class="part4">
-                        <label for="Code">Type</label>
-                        @Html.DropDownListFor(m => Model.QCParaId, (SelectList)ViewBag.QCParaType, "Select Item Type", new { @class = "form_input", autocomplete = "off" })
+                        <label for="WorkDescription">Work Description</label>
+                        @Html.DropDownListFor(m => Model.WorkDescriptionId, (SelectList)ViewBag.workDes, "Select Description", new { @class = "form_input", autocomplete = "off" })
                     </div>
-                    
+                    <div class="part4">
+                        <label for="Organization">Organization</label>
+                        @Html.DropDownListFor(m => Model.OrganizationId, (SelectList)ViewBag.OrganizationName, "Select Organization", new { @class = "form_input", autocomplete = "off" })
+                    </div>
+                    <div class="part4">
+                        <label for="Target">Target</label>
+                        @Html.TextBoxFor(m => m.Target, new { @class = "form_input form_input-half", autocomplete = "off" })
+                    </div>
+                   
                 </div>
 
 
@@ -107,9 +115,11 @@
     </div>
 
     <div class="main-list">
-        @Html.Action("FillQCParameterList")
+        @Html.Action("FillSalesTargetList")
     </div>
 
 </div>
+
+
 
 
