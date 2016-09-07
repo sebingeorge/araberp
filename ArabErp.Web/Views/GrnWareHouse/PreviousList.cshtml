@@ -39,6 +39,11 @@
       @{TempData["success"] = TempData["error"] = "";}
     });
 
+    function Exit()
+    {
+        var url = '@Url.Action("Index", "Home")';
+        location.href = url;
+    }
 </script>
 
 <div class="row">
@@ -118,11 +123,12 @@
         <div class="row-count1">
             <h5>Row Count:- @Model.Count</h5>
         </div>
-        @*<div class="row">
+
+        <div class="row">
                 <div class="col-md-12 hrpart">
-                    <input type="button" class="form-button right" value="Pending" id="btnProceed" />
+                    <button type="button" class="form-button right" onclick="Exit()">Exit</button>
                 </div>
-            </div>*@
+            </div>
     </div>
 </div>
 

@@ -1,5 +1,9 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">13.0</VisualStudioVersion>
+    <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>
+  </PropertyGroup>
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
@@ -256,6 +260,7 @@
     <Compile Include="Controllers\OpeningStockReportController.cs" />
     <Compile Include="Controllers\OrganizationController.cs" />
     <Compile Include="Controllers\PaymentTermsController.cs" />
+    <Compile Include="Controllers\ProductionPlanController.cs" />
     <Compile Include="Controllers\PendingPARregisterController.cs" />
     <Compile Include="Controllers\PendingSaleOrderRegisterController.cs" />
     <Compile Include="Controllers\PrefixSettingsController.cs" />
@@ -279,6 +284,7 @@
     <Compile Include="Controllers\SalesInvoiceController.cs" />
     <Compile Include="Controllers\SalesQuotationController.cs" />
     <Compile Include="Controllers\SalesRegisterController.cs" />
+    <Compile Include="Controllers\SalesTargetController.cs" />
     <Compile Include="Controllers\StockCreationController.cs" />
     <Compile Include="Controllers\StockJournalController.cs" />
     <Compile Include="Controllers\StockMovementRegisterController.cs" />
@@ -443,6 +449,7 @@
     <Content Include="Images\white-pattern.jpg" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
+    <Content Include="XML\JobCard.xml" />
     <Content Include="XML\SalesInvoice.xml" />
     <None Include="Properties\PublishProfiles\Server.pubxml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
@@ -855,6 +862,67 @@
     <Content Include="Views\QCParameter\QCParameterListView.cshtml" />
     <Content Include="Views\JobCard\Edit.cshtml" />
     <Content Include="Views\ProformaInvoice\Edit.cshtml" />
+    <Content Include="Views\ProductionPlan\ComponentOverView.cshtml" />
+    <Content Include="Views\ProductionPlan\ConfirmProduction.cshtml" />
+    <Content Include="Views\ProductionPlan\ConvertCustomerOrderProductionSchedule.cshtml" />
+    <Content Include="Views\ProductionPlan\ConvertCustomerOrderPurIndent.cshtml" />
+    <Content Include="Views\ProductionPlan\ConvertPlannedOrdertoProductionOrder.cshtml" />
+    <Content Include="Views\ProductionPlan\ConvertPlannedOrdertoPurReq.cshtml" />
+    <Content Include="Views\ProductionPlan\ConvertProductionPlanPurIndent.cshtml" />
+    <Content Include="Views\ProductionPlan\ConvertProductionPlanttoplannedorder.cshtml" />
+    <Content Include="Views\ProductionPlan\CreateProductionPlan.cshtml" />
+    <Content Include="Views\ProductionPlan\CreateProductionPlanAdd.cshtml" />
+    <Content Include="Views\ProductionPlan\CreateProductLine.cshtml" />
+    <Content Include="Views\ProductionPlan\CustomerOrderMPR.cshtml" />
+    <Content Include="Views\ProductionPlan\DeliveryChallan.cshtml" />
+    <Content Include="Views\ProductionPlan\FinancialYear.cshtml" />
+    <Content Include="Views\ProductionPlan\GoodsIssue.cshtml" />
+    <Content Include="Views\ProductionPlan\GRN.cshtml" />
+    <Content Include="Views\ProductionPlan\Index.cshtml" />
+    <Content Include="Views\ProductionPlan\Item.cshtml" />
+    <Content Include="Views\ProductionPlan\MaterialPlanningReport.cshtml" />
+    <Content Include="Views\ProductionPlan\Month.cshtml" />
+    <Content Include="Views\ProductionPlan\PendingDeliveryChallan.cshtml" />
+    <Content Include="Views\ProductionPlan\PendingGoodsIssue.cshtml" />
+    <Content Include="Views\ProductionPlan\PendingProduction.cshtml" />
+    <Content Include="Views\ProductionPlan\PendingPurchaseIndent.cshtml" />
+    <Content Include="Views\ProductionPlan\PendingPurchaseOrder.cshtml" />
+    <Content Include="Views\ProductionPlan\PendingReceiveProductInventory.cshtml" />
+    <Content Include="Views\ProductionPlan\PendingSalesInvoice.cshtml" />
+    <Content Include="Views\ProductionPlan\PlanedOrder.cshtml" />
+    <Content Include="Views\ProductionPlan\Plant.cshtml" />
+    <Content Include="Views\ProductionPlan\PreviousCustomerOrder.cshtml" />
+    <Content Include="Views\ProductionPlan\PreviousGRN.cshtml" />
+    <Content Include="Views\ProductionPlan\PreviousIssueMaterialProductionOrder.cshtml" />
+    <Content Include="Views\ProductionPlan\PreviousProductionOrder.cshtml" />
+    <Content Include="Views\ProductionPlan\PreviousPurchaseIndent.cshtml" />
+    <Content Include="Views\ProductionPlan\PreviousPurchaseOrder.cshtml" />
+    <Content Include="Views\ProductionPlan\PreviousReceiveProductInventory.cshtml" />
+    <Content Include="Views\ProductionPlan\Product.cshtml" />
+    <Content Include="Views\ProductionPlan\ProductGroup.cshtml" />
+    <Content Include="Views\ProductionPlan\ProductionOrder.cshtml" />
+    <Content Include="Views\ProductionPlan\ProductionOrderRelease.cshtml" />
+    <Content Include="Views\ProductionPlan\ProductionOrderReport.cshtml" />
+    <Content Include="Views\ProductionPlan\ProductionPlanEdit.cshtml" />
+    <Content Include="Views\ProductionPlan\ProductionPlanMPR.cshtml" />
+    <Content Include="Views\ProductionPlan\ProductionPlantoProductionSchedule.cshtml" />
+    <Content Include="Views\ProductionPlan\ProductionScheduleMPR.cshtml" />
+    <Content Include="Views\ProductionPlan\ProductSubGroup.cshtml" />
+    <Content Include="Views\ProductionPlan\PurchaseIndent.cshtml" />
+    <Content Include="Views\ProductionPlan\PurchaseIndentApproval.cshtml" />
+    <Content Include="Views\ProductionPlan\PurchaseOrder.cshtml" />
+    <Content Include="Views\ProductionPlan\PurchaseOrderApproval.cshtml" />
+    <Content Include="Views\ProductionPlan\RawMaterial.cshtml" />
+    <Content Include="Views\ProductionPlan\ReceiveFinishedGoods.cshtml" />
+    <Content Include="Views\ProductionPlan\SalesInvoice.cshtml" />
+    <Content Include="Views\ProductionPlan\StockOrderMPR.cshtml" />
+    <Content Include="Views\ProductionPlan\StockRequirementReport.cshtml" />
+    <Content Include="Views\ProductionPlan\Supplier.cshtml" />
+    <Content Include="Views\ProductionPlan\SupplierCategory.cshtml" />
+    <Content Include="Views\ProductionPlan\Unit.cshtml" />
+    <Content Include="Views\SalesQuotation\_MaterialList.cshtml" />
+    <Content Include="Views\SalesTarget\Create.cshtml" />
+    <Content Include="Views\SalesTarget\SalesTargetListView.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

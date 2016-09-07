@@ -43,6 +43,23 @@
         calculateGrandTotal();
     });
 
+    function AdditionAmount (row)
+    {
+        var addamt = $("#Additions_" + row + "__Addition").val();
+        if (addamt == NaN) addamt = 0;
+        $("#Additions_" + row + "__Addition").val(addamt);
+        calculateSummary();
+        calculateGrandTotal();
+    }
+
+    function DeductionAmount(row) {
+        var dedamt = $("#Deductions_" + row + "__Deduction").val();
+        if (dedamt == NaN) dedamt = 0;
+        $("#Deductions_" + row + "__Deduction").val(dedamt);
+        calculateSummary();
+        calculateGrandTotal();
+    }
+
     function ValueChanged(row) {
         var quantity = $("#Items_" + row + "__AcceptedQuantity").val();
         var rate = $("#Items_" + row + "__Rate").val();
@@ -85,6 +102,26 @@
     function calculateSummary() {
         var amount = parseFloat("0.00");
         var grand = parseFloat("0.00");
+        var aamt = parseFloat("0.00");
+        var damt = parseFloat("0.00");
+
+        $('.claddamt').each(function (i, obj) {
+            var b = parseFloat($(obj).val());
+            if (isNaN(b)) {
+                b = Number("0.00");
+            }
+            aamt = (aamt + b);
+            $("#AdditionalAmt").val(aamt.toFixed(2));
+        });
+
+        $('.cldedamt').each(function (i, obj) {
+            var c = parseFloat($(obj).val());
+            if (isNaN(c)) {
+                c = Number("0.00");
+            }
+            damt = (damt + c);
+            $("#DeductionAmt").val(damt.toFixed(2));
+        });
 
         $('.clAmount').each(function (i, obj) {
             var a = parseFloat($(obj).val());
@@ -99,9 +136,14 @@
 
     function calculateGrandTotal() {
         var total = Number($("#QtyAmount").text());
-        var addition = isNaN(Number($("#Addition").val())) ? 0 : Number($("#Addition").val());
-        var deduction = isNaN(Number($("#Deduction").val())) ? 0 : Number($("#Deduction").val());
+        var addition = Number($("#AdditionalAmt").val());
+        var deduction = Number($("#DeductionAmt").val());
+        //var addition = isNaN(Number($("#Addition").val())) ? 0 : Number($("#Addition").val());
+        //var deduction = isNaN(Number($("#Deduction").val())) ? 0 : Number($("#Deduction").val());
         var grandTotal = (total + addition) - deduction;
+        //var additionalamt = Number($("#AdditionalAmt").text());
+       
+        $("#TotalAmt").val(total.toFixed(2));
         $("#grandTotal").val(grandTotal.toFixed(2));
     }
 
@@ -137,6 +179,97 @@
             $("#CurrencyId").val(data.currencyId);
             $("#CurrencyName").val(data.currencyName);
         });
+    }
+
+    function AdditionAdd() {
+
+        var i = 0;
+        var no = 1;
+        $('input[id^="Row_Item_Id_"]').each(function () {
+            var id = this.id;
+            no++;
+            var row = Number(id.replace("Row_Item_Id_", ""));
+            if (row > i) {
+                i = row;
+            }
+        });
+        i++;
+
+        var index = (new Date()).getTime(); // unique indexer
+        var clone = $('#Row_Item_Id_0').clone(); // clone the BatchProducts item
+        //Update the index of the clone
+        clone.html($(clone).html().replace(/Additions_0__/g, 'Additions_' + i + '__'));
+        clone.html($(clone).html().replace(/\Additions[0]./g, 'Additions[' + i + '].'));
+        clone.html($(clone).html().replace(/\[0\]/g, '[' + i + ']'));
+        clone.html($(clone).html().replace(/\(0\)/g, '(' + i + ')'));
+        clone.html($(clone).html().replace(/Additions_0_/, 'Row_Item_' + i + ''));
+        //clone.html($(clone).html().replace(/Itemslno1/, 'Itemslno' + (i + 1) + ''));
+        //clone.html($(clone).html().replace("OnMaterialChange(this," + i, "OnMaterialChange(this," + (i + 1)));
+        clone.html($(clone).html().replace(/this,0/, 'this,' + i + ''));
+        $("#tab_Add").append('<tr id="'+'Row_Item_Id_' + i + '">' + clone.html() + '  </tr>');
+    }
+
+    function AdditionDelete(index) {
+    
+        var i = 0;
+        var no = 1;
+        $('input[id^="Row_Item_"]').each(function () {
+            var id = this.id;
+            no++;
+            var row = Number(id.replace("Row_Item_", ""));
+            if (row > i) {
+                i = row;
+            }
+        });
+        i++;
+        alert(i);
+        //$("#" + index).html('');
+        if (i > 1) {
+            $("#Row_Item_Id_" + index).remove();
+            for (var j = index + 1; j < i; j++) {
+                var ItemId = $("#Additions_" + j + "__AdditionId").val();
+                var Quantity = $("#Additions_" + j + "__Addition").val();
+                var clone = $("#Row_Item_Id_" + j).clone(true, true);
+                clone.html($(clone).html().replace(new RegExp("Additions_" + j + "__", "g"), 'Additions_' + (j - 1) + '__'));
+                clone.html($(clone).html().replace(new RegExp("\\[" + j + "].", "g"), "[" + (j - 1) + "]."));
+                clone.html($(clone).html().replace("AdditionDelete(" + j, "AdditionDelete(" + (j - 1)));
+                //clone.html($(clone).html().replace("OnMaterialChange(this," + j, "OnMaterialChange(this," + (j - 1)));
+                clone.html($(clone).html().replace("Row_Item_Id_" + j, "Row_Item_Id_" + (j - 1)));
+                clone.html($(clone).html().replace("Row_Item_" + j, "Row_Item_" + (j - 1)));
+                clone.html($(clone).html().replace("this," + j, "this," + (j - 1)));
+                $("#Row_Item_Id_" + j).html(clone.html());
+                $("#Additions_" + (j - 1) + "__AdditionId").val(ItemId);
+                $("#Additions_" + (j - 1) + "__Addition").val(Quantity);
+           }
+        }
+    }
+
+    function DeductionAdd() {
+
+        var i = 0;
+        var no = 1;
+        $('input[id^="Row_Ded_Id_"]').each(function () {
+            var id = this.id;
+            no++;
+            var row = Number(id.replace("Row_Ded_Id_", ""));
+            if (row > i) {
+                i = row;
+            }
+        });
+        i++;
+
+        var index = (new Date()).getTime(); // unique indexer
+        var clone = $('#Row_Ded_Id_0').clone(); // clone the BatchProducts item
+        //Update the index of the clone
+        clone.html($(clone).html().replace(/Deductions_0__/g, 'Deductions_' + i + '__'));
+        clone.html($(clone).html().replace(/\Deductions[0]./g, 'Deductions[' + i + '].'));
+        clone.html($(clone).html().replace(/\[0\]/g, '[' + i + ']'));
+        clone.html($(clone).html().replace(/\(0\)/g, '(' + i + ')'));
+        clone.html($(clone).html().replace(/Deductions_0_/, 'Row_Item_' + i + ''));
+        //clone.html($(clone).html().replace(/Itemslno1/, 'Itemslno' + (i + 1) + ''));
+        //clone.html($(clone).html().replace("OnMaterialChange(this," + i, "OnMaterialChange(this," + (i + 1)));
+        clone.html($(clone).html().replace(/this,0/, 'this,' + i + ''));
+        $("#tab_Ded").append('<tr id="' + 'Row_Ded_Id_' + i + '">' + clone.html() + '  </tr>');
     }
 
 </script>
@@ -263,76 +396,171 @@
             </table>
         </div>
     </div>
-                <div class="row form-group">
-                                <div class="col-md-12">
-                                    <div class="part1">
-                                        <label for="SpecialRemarks">Special Remarks</label>
-                                        @Html.TextAreaFor(m => m.SpecialRemarks, new { @class = "form_input form_input-h", autocomplete = "off" })
-                                    </div>
-                            </div>
-
-                </div>
-
-                <div class="row form-group">
-                    <div class="col-md-3">
-                        <label for="StockPointId">WareHouse/Location</label>
-                        @Html.DropDownListFor(m => Model.StockPointId, (SelectList)ViewBag.WarehouseList, "Select WareHouse", new { @class = "form_input", autocomplete = "off", @required = "true" })
-                    </div>
-                    <div class="col-md-3">
-                        <label for="SupplierDCNoAndDate">Supplier DC No. & Date</label>
-                        @Html.TextBoxFor(m => m.SupplierDCNoAndDate, new { @class = "form_input", autocomplete = "off" })
-                    </div>
-                    <div class="col-md-2">
-                        <label for="ReceivedBy">Received By</label>
-                        @Html.DropDownListFor(m => m.ReceivedBy, (SelectList)ViewBag.employeeList, "Select Employee", new { @class = "form_input", autocomplete = "off", @required = "true" })
-                    </div>
-                    <div class="col-md-2">
-                        <label for="VehicleNo">Vehicle No.</label>
-                        @Html.TextBoxFor(m => m.VehicleNo, new { @class = "form_input", autocomplete = "off" })
-                    </div>
-                    <div class="col-md-2">
-                        <label for="GatePassNo">Gate Pass No.</label>
-                        @Html.TextBoxFor(m => m.GatePassNo, new { @class = "form_input", autocomplete = "off" })
-                    </div>
-
-                </div>
-
-                <div class="row form-group">
-                    <div class="col-md-5 col-sm-10 col-xs-8">
-                        <label for="AdditionId">Addition</label>
-                        @Html.DropDownListFor(m => m.AdditionId, (SelectList)ViewBag.additionList, "Select addition", new { @class = "form_input" })
-                    </div>
-                    <div class="col-md-1 col-xs-4 col-sm-2">
-                        <label for="Addition">Add.Amt.</label>
-                        @Html.TextBoxFor(m => m.Addition, new { @class = "form_input numbers-only", @style = "text-align:right", autocomplete = "off", @Value = "0.00", @onkeyup = "calculateGrandTotal()" })
-                    </div>
-                    <div class="col-md-5 col-sm-10 col-xs-8">
-                        <label for="DeductionId">Deduction</label>
-                        @Html.DropDownListFor(m => m.DeductionId, (SelectList)ViewBag.deductionList, "Select deduction", new { @class = "form_input" })
-                    </div>
-                    <div class="col-md-1 col-xs-4 col-sm-2">
-                        <label for="Deduction">Ded.Amt.</label>
-                        @Html.TextBoxFor(m => m.Deduction, new { @class = "form_input numbers-only", @style = "text-align:right", autocomplete = "off", @Value = "0.00", @onkeyup = "calculateGrandTotal()" })
-                    </div>
-                </div>
-
-
-                <div class="row form-group">
-                    <div class="col-md-11"></div>
-                    <div class="col-sm-offset-10 col-sm-2 col-md-push-1 col-md-1">
-                        <label>Net Amt.</label>
-                        <input type="text" id="grandTotal" class="form_input text-right bold" style="font-size:16px;padding:10px" disabled />
-                    </div>
-                </div>
 
                 <div class="row">
+                    <div class="main-grid main-grid-top ">
+                        <ul style="visibility: visible;" class="nav nav-tabs test2">
+                            <li class="active"><a data-toggle="tab" href="#home" aria-expanded="false">Summary</a></li>
+                            <li class=""><a data-toggle="tab" href="#menu1" aria-expanded="false">Addition</a></li>
+                            <li class=""><a data-toggle="tab" href="#menu2" aria-expanded="false">Deduction</a></li>
+                        </ul>
+                        <div class="tab-content">
+                            <div id="home" class="tab-pane fade active in">
+                                <h5>Summary</h5>
+                                <div class="table-responsive">
+                                    <div class="tab_logic">
+                                      
 
+                                            <div class="row form-group">
+                                                <div class="col-md-12">
+                                                    @*<div class="part1">*@
+                                                        <label for="SpecialRemarks">Special Remarks</label>
+                                                        @Html.TextAreaFor(m => m.SpecialRemarks, new { @class = "form_input form_input-h form_input bluebox", autocomplete = "off" })
+                                                    @*</div>*@
+                                                </div>
+                                            </div>
+
+                                            <div class="row form-group">
+                                                <div class="col-md-3">
+                                                    <label for="StockPointId">WareHouse/Location</label>
+                                                    @Html.DropDownListFor(m => Model.StockPointId, (SelectList)ViewBag.WarehouseList, "Select WareHouse", new { @class = "form_input form_input bluebox", autocomplete = "off", @required = "true" })
+                                                </div>
+                                                <div class="col-md-3">
+                                                    <label for="SupplierDCNoAndDate">Supplier DC No. & Date</label>
+                                                    @Html.TextBoxFor(m => m.SupplierDCNoAndDate, new { @class = "form_input form_input bluebox", autocomplete = "off" })
+                                                </div>
+                                                <div class="col-md-2">
+                                                    <label for="ReceivedBy">Received By</label>
+                                                    @Html.DropDownListFor(m => m.ReceivedBy, (SelectList)ViewBag.employeeList, "Select Employee", new { @class = "form_input form_input bluebox", autocomplete = "off", @required = "true" })
+                                                </div>
+                                                <div class="col-md-2">
+                                                    <label for="VehicleNo">Vehicle No.</label>
+                                                    @Html.TextBoxFor(m => m.VehicleNo, new { @class = "form_input form_input bluebox", autocomplete = "off" })
+                                                </div>
+                                                <div class="col-md-2">
+                                                    <label for="GatePassNo">Gate Pass No.</label>
+                                                    @Html.TextBoxFor(m => m.GatePassNo, new { @class = "form_input form_input bluebox", autocomplete = "off" })
+                                                </div>
+
+                                            </div>
+                                          
+                                        <div class="row form-group">
+                                            <div class="col-md-3">
+                                                <label>Total Additonal Amt.</label>
+                                                <input type="text" id="AdditionalAmt" class="form_input text-right bold " style="font-size:16px;padding:10px" disabled />
+                                            </div>
+
+                                            <div class="col-md-3">
+                                                <label>Total Deduction Amt.</label>
+                                                <input type="text" id="DeductionAmt" class="form_input text-right bold " style="font-size:16px;padding:10px" disabled />
+                                            </div>
+
+                                            <div class="col-md-3">
+                                                <label>Total Amt.</label>
+                                                <input type="text" id="TotalAmt" class="form_input text-right bold " style="font-size:16px;padding:10px" disabled />
+                                            </div>
+
+                                                @*<div class="col-md-11"></div>*@
+                                                @*<div class="col-sm-offset-10 col-sm-2 col-md-push-1 col-md-1">*@
+                                            <div class="col-md-1">
+                                                <label>Net Amt.</label>
+                                                <input type="text" id="grandTotal" class="form_input text-right bold " style="font-size:16px;padding:10px" disabled />
+                                            </div>
+                                            </div>
+
+                                        
+                                    </div>
+                                </div>
+                            </div>
+                            <div id="menu1" class="tab-pane fade">
+                                <h5>Addition</h5>
+                                <div class="table-responsive">
+                                    <div class="tab_logic">
+                                        <table class="table table-bordered" id="tab_Add">
+                                            <thead>
+                                                <tr class="grid_heading">
+                                                    <th width="2%"></th>
+                                                    <th style="width:90%;">Addition</th>
+                                                    <th style="width:15%;">Amount</th>
+                                                    <th width="2%">&nbsp;</th>
+                                                    @*<th></th>*@
+                                                </tr>
+                                            </thead>
+
+                                            <tbody>
+                                                @for (int i = 0; i < Model.Additions.Count; i++)
+                                                     {
+                                                     <tr id="Row_Item_Id_@i">
+                                                        <td 
+                                                           style="vertical-align:middle"><a class="glyphicon glyphicon-minus" style="top:0px" onclick="AdditionDelete(@i)"></a>
+                                                        </td>
+                                                        <td>
+                                                            @Html.HiddenFor(m => m.Additions[i].GRNId)
+                                                            <input type="hidden" id="Row_@i" />
+                                                            @Html.DropDownListFor(m => @Model.Additions[i].AdditionId, new SelectList(ViewBag.additionList, "Value", "Text", @Model.Additions[i].AdditionId), "Select addition", new { @class = "form_input"})
+                                                        </td>
+                                                        <td>
+                                                           @Html.TextBoxFor(m => @Model.Additions[i].Addition, new { @class = "form_input numbers-only claddamt", @style = "text-align:right", autocomplete = "off", @Value = "0.00", @onkeyup = "AdditionAmount(" + i + ");" })
+                                                        </td>
+                                                         <td style="vertical-align:middle"><a class="glyphicon glyphicon-plus" style="top:0px" onclick="AdditionAdd(@i)"></a></td>
+                                                    </tr>
+                                                     }
+                                            </tbody>
+
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                            <div id="menu2" class="tab-pane fade">
+                                <h5>Deduction</h5>
+                                <div class="table-responsive">
+                                    <div class="tab_logic">
+                                        <table class="table table-bordered" id="tab_Ded">
+                                            <thead>
+                                                <tr class="grid_heading">
+                                                    <th width="2%"></th>
+                                                    <th style="width:90%;">Deduction</th>
+                                                    <th style="width:15%;">Amount</th>
+                                                    <th width="2%">&nbsp;</th>
+                                                    @*<th></th>*@
+                                                </tr>
+                                            </thead>
+
+                                            <tbody>
+                                                @for (int i = 0; i < Model.Deductions.Count; i++)
+                                                {
+                                                    <tr id="Row_Ded_Id_@i">
+                                                        <td style="vertical-align:middle">
+                                                            <a class="glyphicon glyphicon-minus" style="top:0px" onclick="DeductionDelete(@i)"></a>
+                                                        </td>
+                                                        <td>
+                                                            @Html.HiddenFor(m => m.Deductions[i].GRNId)
+                                                            <input type="hidden" id="Row_@i" />
+                                                            @Html.DropDownListFor(m => @Model.Deductions[i].DeductionId, new SelectList(ViewBag.deductionList, "Value", "Text", @Model.Deductions[i].DeductionId), "Select Deduction", new { @class = "form_input" })
+                                                        </td>
+                                                        <td>
+                                                            @Html.TextBoxFor(m => @Model.Deductions[i].Deduction, new { @class = "form_input numbers-only cldedamt", @style = "text-align:right", autocomplete = "off", @Value = "0.00", @onkeyup = "DeductionAmount(" + i + ");" })
+                                                        </td>
+                                                        <td style="vertical-align:middle"><a class="glyphicon glyphicon-plus" style="top:0px" onclick="DeductionAdd(@i)"></a></td>
+                                                    </tr>
+                                                }
+                                            </tbody>
+
+                                        </table>
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                
+                <div class="row">
                     <div class="col-md-12 hrpart">
                         <button type="button" class="form-button right" onclick="Exit()">Exit</button>
                         <button type="submit" class="form-button right">Save</button>
-
                     </div>
-
                 </div>
 
 

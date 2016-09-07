@@ -34,8 +34,8 @@
             "showMethod": "fadeIn",
             "hideMethod": "fadeOut"
         }
-        if ('@TempData["success"]' != "" && '@TempData["RefNo"]' != "") {
-            toastr.success('@TempData["success"]' + '  Item SubGroup Ref No. is : ' + '@TempData["RefNo"]');
+        if ('@TempData["success"]' != "" && '@TempData["ItemSubGroupRefNo"]' != "") {
+            toastr.success('@TempData["success"]' + '  Item SubGroup Ref No. is : ' + '@TempData["ItemSubGroupRefNo"]');
         }
         else if ('@TempData["error"]' != "") {
             toastr.error('@TempData["error"]');

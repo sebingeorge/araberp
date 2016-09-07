@@ -68,6 +68,8 @@
     <Compile Include="FGTracking.cs" />
     <Compile Include="FinancialYear.cs" />
     <Compile Include="GINRegister.cs" />
+    <Compile Include="GRNAddition.cs" />
+    <Compile Include="GRNDeduction.cs" />
     <Compile Include="OpeningStockReport.cs" />
     <Compile Include="PrefixSettingsVsOrganization.cs" />
     <Compile Include="ProjectCompletion.cs" />
@@ -140,6 +142,7 @@
     <Compile Include="SalesQuotationItem.cs" />
     <Compile Include="SalesQuotationList.cs" />
     <Compile Include="SalesRegister.cs" />
+    <Compile Include="SalesTarget.cs" />
     <Compile Include="StockCreation.cs" />
     <Compile Include="StockCreationConsumedItem.cs" />
     <Compile Include="StockCreationFinishedGood.cs" />

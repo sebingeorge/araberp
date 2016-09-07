@@ -1,0 +1,156 @@
+﻿
+@{
+    ViewBag.Title = "Index";
+    //Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+
+<style>
+    .menu-w 
+    {
+        width:300px;
+        line-height:25px;
+        height:25px;
+        padding-left:10px;
+    }
+    .fs
+    {
+      font-size:12px;
+    }
+
+</style>
+
+
+
+<div class="form-button menu-w">@Html.ActionLink("Production Plan", "CreateProductionPlan")</div>
+<div class="form-button menu-w">
+    @Html.ActionLink("Stock Order", "PlanedOrder")
+</div>
+<div class="form-button menu-w">
+    @Html.ActionLink("Customer Order", "CustomerOrder")
+</div>
+<div class="form-button menu-w">
+    @Html.ActionLink("Production Schedule", "ProductionSchedule")
+</div>
+<div class="form-button menu-w fs">
+    @Html.ActionLink("Convert Production Plan to Production Schedule", "ProductionPlantoProductionSchedule")
+</div>
+<div class="form-button menu-w fs">
+    @Html.ActionLink("Convert Stock Order to Production Schedule", "ConvertProductionPlanttoplannedorder")
+</div>
+<div class="form-button menu-w fs">
+    @Html.ActionLink("Convert Customer Order to Production Schedule", "ConvertCustomerOrderProductionSchedule")
+</div>
+<div class="form-button menu-w fs">
+    @Html.ActionLink("Convert Production Plan to Purchase Indent", "ConvertProductionPlanPurIndent")
+</div>
+<div class="form-button menu-w fs">
+    @Html.ActionLink("Convert Stock Order to Purchase Indent", "ConvertPlannedOrdertoPurReq")
+</div>
+<div class="form-button menu-w fs">
+    @Html.ActionLink("Convert Customer Order to Purchase Indent", "ConvertCustomerOrderPurIndent")
+</div>
+<div class="form-button menu-w">
+    @Html.ActionLink("Purchase Indent", "PurchaseIndent")
+</div>
+    <div class="form-button menu-w">
+    @Html.ActionLink("Purchase Indent Approval", "PurchaseIndentApproval")
+</div>
+        <div class="form-button menu-w">
+    @Html.ActionLink("Purchase Order", "PendingPurchaseIndent")
+</div>
+            <div class="form-button menu-w">
+    @Html.ActionLink("Purchase Order Approvel", "PurchaseOrderApproval")
+</div>
+                <div class="form-button menu-w">
+    @Html.ActionLink("GRN", "PendingPurchaseOrder")
+</div>
+
+<div class="form-button menu-w fs">
+    @Html.ActionLink("Convert Production Schedule to Production Order", "ConvertPlannedOrdertoProductionOrder")
+</div>
+
+<div class="form-button menu-w">
+    @Html.ActionLink("Production Order", "PendingProduction")
+</div>
+<div class="form-button menu-w">
+    @Html.ActionLink("Production Order Release", "ProductionOrderRelease")
+</div>
+<div class="form-button menu-w">
+    @Html.ActionLink("Issue Material to Production order", "PendingGoodsIssue")
+</div>
+<div class="form-button menu-w">
+    @Html.ActionLink("Daily Production Report", "ConfirmProduction")
+</div>
+
+<div class="form-button menu-w">
+    @Html.ActionLink("Product QC Released Note", "PendingReceiveProductInventory")
+</div>
+<div class="form-button menu-w">
+    @Html.ActionLink("Sales Invoice", "PendingSalesInvoice")
+</div>
+
+<div class="form-button menu-w">
+    @Html.ActionLink("Delivery Challan", "PendingDeliveryChallan")
+</div>
+
+<h4>Report</h4>
+
+<div class="form-button menu-w">
+    @Html.ActionLink("Production Order Report", "ProductionOrderReport")
+</div>
+<div class="form-button menu-w">
+    @Html.ActionLink("Stock Requirement Report", "StockRequirementReport")
+</div>
+<div class="form-button menu-w">
+    @Html.ActionLink("Material Planning Report", "MaterialPlanningReport")
+</div>
+<div class="form-button menu-w fs">
+    @Html.ActionLink("Production Plan to Material Planning Report", "ProductionPlanMPR")
+</div>
+<div class="form-button menu-w fs">
+    @Html.ActionLink("Stock Order to Material Planning Report", "StockOrderMPR")
+</div>
+<div class="form-button menu-w fs">
+    @Html.ActionLink("Customer Order to Material Planning Report", "CustomerOrderMPR")
+</div>
+<div class="form-button menu-w fs">
+    @Html.ActionLink("Production Schedule to Material Planning Report", "ProductionScheduleMPR")
+</div>
+
+                        <h4>Admin</h4>
+
+                        <div class="form-button menu-w">@Html.ActionLink("Month", "Month")</div>
+                       <div class="form-button menu-w"> @Html.ActionLink("Financial Year", "FinancialYear")</div>
+<div class="form-button menu-w"> @Html.ActionLink("Unit", "Unit")</div>
+                       <div class="form-button menu-w"> @Html.ActionLink("Product", "Product")</div>
+<div class="form-button menu-w">
+    @Html.ActionLink("Product LIne", "CreateProductLine")
+</div>
+<div class="form-button menu-w">
+    @Html.ActionLink("Product Group", "ProductGroup")
+</div>
+<div class="form-button menu-w">
+    @Html.ActionLink("Product Sub Group", "ProductSubGroup")
+</div>
+<div class="form-button menu-w">
+    @Html.ActionLink("Supplier Category", "SupplierCategory")
+</div>
+<div class="form-button menu-w">
+    @Html.ActionLink("RawMaterial", "RawMaterial")
+</div>
+<div class="form-button menu-w">
+    @Html.ActionLink("Item", "Item")
+</div>
+<div class="form-button menu-w">
+    @Html.ActionLink("Supplier", "Supplier")
+</div>
+<div class="form-button menu-w">
+    @Html.ActionLink("Plant", "Plant")
+</div>
+
+
+
+
+   
