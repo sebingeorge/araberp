@@ -138,6 +138,7 @@
     <Compile Include="SalesQuotationItemRepository.cs" />
     <Compile Include="SalesQuotationRepository.cs" />
     <Compile Include="SalesRegisterRepository.cs" />
+    <Compile Include="SalesTargetRepository.cs" />
     <Compile Include="StockCreationConsumedItemsRepository.cs" />
     <Compile Include="StockCreationFinishedGoodsRepository.cs" />
     <Compile Include="StockCreationRepository.cs" />

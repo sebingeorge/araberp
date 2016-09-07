@@ -9,7 +9,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ArabErp.Web", "ArabErp.Web\
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ArabErp.Domain", "ArabErp.Domain\ArabErp.Domain.csproj", "{2605B8A4-0865-464B-8627-30B9DDBE9DC6}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".nuget", ".nuget", "{9011855A-83F7-433A-B6B4-888366A140B8}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".nuget", ".nuget", "{24CF2E4E-7104-4555-AFBF-7EF5223DAA75}"
 	ProjectSection(SolutionItems) = preProject
 		.nuget\packages.config = .nuget\packages.config
 	EndProjectSection

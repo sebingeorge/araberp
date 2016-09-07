@@ -237,6 +237,7 @@ namespace ArabErp.DAL
                                 AND I.BatchRequired = 1
                                 AND SO.SaleOrderRefNo LIKE '%'+@saleOrder+'%'
                                 AND I.ItemName LIKE '%'+@itemName+'%'
+								AND ISNULL(SO.SaleOrderClosed, '') <> 'CLOSED'
                                 ORDER BY SO.SaleOrderDate DESC, SO.CreatedDate DESC;
 
 								DROP TABLE #RESERVED;";

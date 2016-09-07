@@ -14,6 +14,7 @@ namespace ArabErp.Domain
         public string QCParamName { get; set; }
         public string QCParamValue { get; set; }
         public int OrganizationId { get; set; }
+        public string ParaName { get; set; }
         public bool isActive { get; set; }
     }
 }

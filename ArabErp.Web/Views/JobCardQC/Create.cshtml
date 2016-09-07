@@ -72,15 +72,19 @@
                             <table class="table table-bordered ">
                                 <tr class="grid_heading">
                                     <th><h1>#</h1></th>
+                                    <th><h1>Type</h1></th>
                                     <th><h1>QC Parameters</h1></th>
                                     <th><h1>Value</h1></th>
+                                  
                                 </tr>
                                 @for (int i = 0; i < Model.JobCardQCParams.Count(); i++)
                             {
                             <tr>
                                 <td width="5%">@Html.TextBoxFor(model => Model.JobCardQCParams[i].QCParamId, new { @class = "form_input" , autocomplete = "off", @readonly = "readonly"})</td>
+                                <td width="%">@Html.TextBoxFor(model => Model.JobCardQCParams[i].ParaName, new { @class = "form_input", autocomplete = "off", @readonly = "readonly" })</td>
                                 <td width="80%">@Html.TextBoxFor(model => model.JobCardQCParams[i].QCParamName, new { @class = "form_input", autocomplete = "off", @readonly = "readonly" })</td>
                                 <td>@Html.TextBoxFor(model => model.JobCardQCParams[i].QCParamValue, new { @class = "form_input", autocomplete = "off" })</td>
+                               
                             </tr>
                             }
                             </table>

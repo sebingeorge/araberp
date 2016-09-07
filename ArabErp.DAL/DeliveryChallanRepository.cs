@@ -131,7 +131,9 @@ namespace ArabErp.DAL
                 try
                 {
                     return connection.Query<PendingJC>(@"SELECT ISNULL(SO.SaleOrderRefNo, '')+' - '+CONVERT(VARCHAR, SO.SaleOrderDate, 106) SaleOrderNoDate, 
-                    VM.VehicleModelName+' - '+VM.VehicleModelDescription VehicleModel, WD.WorkDescr, CUS.CustomerName, SOI.SaleOrderItemId,SO.CustomerOrderRef INTO #TEMP 
+                    VM.VehicleModelName+' - '+VM.VehicleModelDescription VehicleModel, WD.WorkDescr, CUS.CustomerName, SOI.SaleOrderItemId,SO.CustomerOrderRef,
+					SO.PaymentTerms
+					INTO #TEMP 
                     FROM SaleOrderItem SOI
                     INNER JOIN SaleOrder SO ON SO.SaleOrderId = SOI.SaleOrderId
                     INNER JOIN VehicleModel VM ON SOI.VehicleModelId = VM.VehicleModelId
@@ -140,7 +142,7 @@ namespace ArabErp.DAL
                     WHERE ISNULL(SOI.isActive, 1) = 1 AND ISNULL(VM.isActive, 1) = 1;
 
                     SELECT ISNULL(J.JobCardNo, '')+' - '+CONVERT(VARCHAR, J.JobCardDate, 106) JobCardNoDate, T.SaleOrderNoDate,T.CustomerOrderRef,
-                    T.VehicleModel, T.WorkDescr, T.CustomerName, ISNULL(VI.RegistrationNo, '-') RegistrationNo 
+                    T.VehicleModel, T.WorkDescr, T.CustomerName, ISNULL(VI.RegistrationNo, '-') RegistrationNo, T.PaymentTerms
                     FROM JobCard J 
                     LEFT JOIN DeliveryChallan VO ON J.JobCardId = VO.JobCardId
                     INNER JOIN #TEMP T ON J.SaleOrderItemId = T.SaleOrderItemId

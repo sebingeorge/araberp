@@ -91,7 +91,8 @@ namespace ArabErp.Web.Controllers
                 VehicleModel = data.VehicleModel,
                 WorkDescr = data.WorkDescr,
                 CustomerName = data.CustomerName,
-                RegistrationNo = data.RegistrationNo
+                RegistrationNo = data.RegistrationNo,
+                PaymentTerms = data.PaymentTerms
             }, JsonRequestBehavior.AllowGet);
         }
         public ActionResult DeliveryChallanList()

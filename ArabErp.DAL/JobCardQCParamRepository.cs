@@ -78,7 +78,7 @@ namespace ArabErp.DAL
         {
             using (IDbConnection connection = OpenConnection(dataConnection))
             {
-                string sql = @"select QCParamId,QCParamName from QCParam";
+                string sql = @"select QCParamId,QCParamName,QCParaName ParaName from QCParam inner join QCParaType on QCParam.QCParaId=QCParaType.QCParaId";
 
                 var objSalesInvoices = connection.Query<JobCardQCParam>(sql).ToList<JobCardQCParam>();
 

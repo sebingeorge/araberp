@@ -207,42 +207,40 @@
         //clone.html($(clone).html().replace("OnMaterialChange(this," + i, "OnMaterialChange(this," + (i + 1)));
         clone.html($(clone).html().replace(/this,0/, 'this,' + i + ''));
         $("#tab_Add").append('<tr id="'+'Row_Item_Id_' + i + '">' + clone.html() + '  </tr>');
-     }
-    function AdditionDelete(index) {
+    }
 
+    function AdditionDelete(index) {
+    
         var i = 0;
         var no = 1;
-        $('input[id^="Row_Item_Id_"]').each(function () {
+        $('input[id^="Row_Item_"]').each(function () {
             var id = this.id;
             no++;
-            var row = Number(id.replace("Row_Item_Id_", ""));
+            var row = Number(id.replace("Row_Item_", ""));
             if (row > i) {
                 i = row;
             }
         });
         i++;
-    
+        alert(i);
         //$("#" + index).html('');
         if (i > 1) {
             $("#Row_Item_Id_" + index).remove();
             for (var j = index + 1; j < i; j++) {
                 var ItemId = $("#Additions_" + j + "__AdditionId").val();
                 var Quantity = $("#Additions_" + j + "__Addition").val();
-                alert(Quantity);
                 var clone = $("#Row_Item_Id_" + j).clone(true, true);
                 clone.html($(clone).html().replace(new RegExp("Additions_" + j + "__", "g"), 'Additions_' + (j - 1) + '__'));
                 clone.html($(clone).html().replace(new RegExp("\\[" + j + "].", "g"), "[" + (j - 1) + "]."));
-                //clone.html($(clone).html().replace(new RegExp('Itemslno' + (j + 1) + '">' + (j + 1), "g"), 'Itemslno' + (j) + '">' + (j)));
-                //clone.html($(clone).html().replace("ItemRowDelete(" + j, "ItemRowDelete(" + (j - 1)));
+                clone.html($(clone).html().replace("AdditionDelete(" + j, "AdditionDelete(" + (j - 1)));
                 //clone.html($(clone).html().replace("OnMaterialChange(this," + j, "OnMaterialChange(this," + (j - 1)));
                 clone.html($(clone).html().replace("Row_Item_Id_" + j, "Row_Item_Id_" + (j - 1)));
                 clone.html($(clone).html().replace("Row_Item_" + j, "Row_Item_" + (j - 1)));
-                //clone.html($(clone).html().replace("this," + j, "this," + (j - 1)));
-
+                clone.html($(clone).html().replace("this," + j, "this," + (j - 1)));
                 $("#Row_Item_Id_" + j).html(clone.html());
-                $("#WorkVsItems_" + (j - 1) + "__AdditionId").val(ItemId);
-                $("#WorkVsItems_" + (j - 1) + "__Addition").val(Quantity);
-            }
+                $("#Additions_" + (j - 1) + "__AdditionId").val(ItemId);
+                $("#Additions_" + (j - 1) + "__Addition").val(Quantity);
+           }
         }
     }
 
