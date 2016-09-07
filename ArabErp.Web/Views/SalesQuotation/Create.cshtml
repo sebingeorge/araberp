@@ -29,13 +29,9 @@
         ViewBag.Title = "Pending Sales Quotation";
     }
 }
-@*<script src="~/Scripts/selectric/jquery.selectric.js"></script>
-@Styles.Render("~/bundles/selectric")*@
-@*<link rel="stylesheet" href="~/Content/selectric.scss" />*@
+
 <script>
-    //$(function () {
-    //    $('select').selectric();
-    //});
+
     function GotoIndex() {
 
         var url = '@Url.Action("Index")';
@@ -50,11 +46,7 @@
         var url = '@Url.Action("AfterSalesIndex")';
         location.href = url;
     }
-    @*function AdditionalMaterial() {
 
-        var url = '@Url.Action("MaterialList")';
-        location.href = url;
-    }*@
   
     function AdditionalMaterial() {
        
@@ -459,29 +451,7 @@
                     </div>
                 </div>
 
-                @*<div class="row form-group ">*@
-
-                    @*<div class="col-md-6">
-                      
-
-                        @if (ViewBag.actionName.ToString() == "Approve")
-                        {
-                            <label for="ApprovedBy">Approved By</label>
-                            @Html.DropDownListFor(m => Model.ApprovedBy, (SelectList)ViewBag.employeelist, "Select Approver", new { @class = "form_input", autocomplete = "off" })
-                        }
-                        
-                        @if (ViewBag.actionName.ToString() == "View")
-                        {                             <label for="ApprovedBy">Approved By</label>
-
-                            @Html.TextBoxFor(m => m.ApprovedBy, new { @class = "form_input", autocomplete = "off", @readonly = "readonly" })
-                        }*@
-                        @*else
-                            {
-                                @Html.DropDownListFor(m => Model.ApprovedBy, (SelectList)ViewBag.employeelist, "Select Approver", new { @class = "form_input", autocomplete = "off", @disabled = "true" })
-
-                            }*@
-                    @*</div>
-                </div>*@
+              
 
                 <script>
                     $(document).ready(function () {
@@ -592,21 +562,7 @@
 
                     }
 
-                    @*function OnWorkChange(sender, index) {
-
-                        var id = $(sender).val();
-                        if (id != '') {
-                            var url = '@Url.Action("GetVehicleModel")';
-                            $.getJSON(url, { WorkDescriptionId: id },
-                                function (data) {
-                                    $("#SalesQuotationItems_" + index + "__VehicleModelId").val(data.VehicleId);
-                                    $("#SalesQuotationItems_" + index + "__VehicleModelName").val(data.VehicleName);
-                                });
-                        }
-                        else {
-
-                        }
-                    }*@
+                 
 
                     function AddAdditionRow() {
 
@@ -649,7 +605,7 @@
                             <tr class="grid_heading">
                                 <th width="2%" class="text-center"></th>
                                 <th width="6%" class="text-center"><h1>#</h1></th>
-                                <th width="50%" class="text-left"><h1>Work Description</h1></th>
+                                <th width="40%" class="text-left"><h1>Work Description</h1></th>
                                 @if (new[] { "Create", "CreateAferSales", "Approve" }.Contains(ViewContext.RouteData.GetRequiredString("action")))
                                 {
                                     <th width="10%"><h1>Rate Settings</h1></th>
@@ -657,6 +613,7 @@
                                 <th width="5%" class="text-right"><h1>Qty</h1></th>
                                 @*<th width="5%"><h1>UoM</h1></th>*@
                                 <th width="10%" class="text-right"><h1>Rate</h1></th>
+                                <th width="10%" class="text-right"><h1>Material Rate</h1></th>
                                 <th width="10%" class="text-right"><h1>Discount</h1></th>
                                 <th width="10%" class="text-right"><h1>Amount</h1></th>
                                 <th width="2%">&nbsp;</th>
@@ -696,28 +653,7 @@
                                         </td>
                                     }
 
-                                    @*<td>
-                                            @if (ViewBag.actionName.ToString() == "Create")
-                                            {
-                                                @Html.TextBoxFor(m => m.SalesQuotationItems[i].Quantity, new { @class = "form_input clQuantity validateqty", @style = "text-align:right", autocomplete = "off", placeholder = "Qty", @onchange = "QuantityChanged(" + i + ");" })
-
-                                            }
-                                            else
-                                            {
-                                                @Html.TextBoxFor(m => m.SalesQuotationItems[i].Quantity, new { @class = "form_input clQuantity  ", @style = "text-align:right", autocomplete = "off", placeholder = "Qty", @onchange = "QuantityChanged(" + i + ");", @disabled = "true" })
-                                            }
-                                        </td>
-                                        <td>
-                                            @if (ViewBag.actionName.ToString() == "Create")
-                                            {
-                                                @Html.DropDownListFor(x => Model.SalesQuotationItems[i].UnitId, new SelectList(ViewBag.unitlist, "Value", "Text", Model.SalesQuotationItems[i].UnitId), "Select Unit", new { @class = "form_input", autocomplete = "off" })
-                                            }
-                                            else
-                                            {
-                                                @Html.DropDownListFor(x => Model.SalesQuotationItems[i].UnitId, new SelectList(ViewBag.unitlist, "Value", "Text", Model.SalesQuotationItems[i].UnitId), "Select Unit", new { @class = "form_input", autocomplete = "off", @disabled = "true" })
-
-                                            }
-                                        </td>*@
+                                  
                                     <td>
                                         @Html.TextBoxFor(m => m.SalesQuotationItems[i].Quantity, new { @class = "form_input clQuantity  ", 
                                        @style = "text-align:right", autocomplete = "off", placeholder = "Qty", value="1", @required = "true" })
@@ -727,7 +663,17 @@
                                              autocomplete = "off", @style = "text-align:right", placeholder = "Rate", 
                                             @onchange = "QuantityChanged(" + i + ");", @onkeyup = "QuantityChanged(" + i + ")" })
                                     </td>
-
+                                    <td>
+                                        @Html.TextBoxFor(m => m.SalesQuotationItems[i].MaterialRate, new
+                                       {
+                                           @class = "form_input numbers-only clrate validateqty",
+                                           autocomplete = "off",
+                                           @style = "text-align:right",
+                                           placeholder = "MaterialRate",
+                                           @onchange = "QuantityChanged(" + i + ");",
+                                           @onkeyup = "QuantityChanged(" + i + ")"
+                                       })
+                                    </td>
                                     <td>
                                          @Html.TextBoxFor(m => m.SalesQuotationItems[i].Discount, new { @class = "form_input numbers-only",
                                         autocomplete = "off", @style = "text-align:right", placeholder = "Discount", 
@@ -744,7 +690,7 @@
                             <tr class="grid_heading">
                                 <th width="2%" class="text-center"></th>
                                 <th width="6%" class="text-center"><h1>Total</h1></th>
-                                <th width="50%" class="text-center "><h1></h1></th>
+                                <th width="40%" class="text-center "><h1></h1></th>
                                 @if (new[] { "Create", "Approve" }.Contains(ViewContext.RouteData.GetRequiredString("action")))
                                 {
                                     <th></th>
@@ -752,12 +698,14 @@
                                 <th width="5%" class="text-center"><h1></h1></th>
                                     @*<th width="5%" class="text-right"><span id="QtyTotal"></span></th>*@
                                 <th width="10%"></th>
+                                <th width="5%" class="text-center "><h1></h1></th>
                                 <th width="10%" class="text-right">
                                     <h1 >
                                        
                                         @Html.DropDownListFor(m => m.CurrencyId, (SelectList)ViewBag.currlist, "Select Currency", new { @class = "form_input", autocomplete = "off" })
                                   </h1>
                                 </th>
+
                                 <th width="10%" class="text-right">
                                     <span id="QtyAmount"></span>
                                 </th>
@@ -767,10 +715,7 @@
                     </table>
                 </div>
    
-    @*<strong>Additional Material/Spares</strong>
-    <div class=" table-responsive">
-        @Html.Action("MaterialList")
-    </div>*@
+
                 <div class="row">
 
                     <div class="col-md-12">
@@ -868,7 +813,7 @@
         </div>
     </div>
 <!-- modal to show details -->
-<div id="details-modal" class="modal fade bs-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel">
+<div id="details-modal" class="modal fade btn-group-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel">
     <div class="modal-dialog modal-lg" role="document">
         <div class="modal-content">
 
