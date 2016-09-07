@@ -16,7 +16,7 @@
 <script>
 
     $(document).ready(function () {
-
+        $("#Items_0__SlNo").val('1');
         //---------------------toastr---------------------------//
         toastr.options = {
             "positionClass": "toast-bottom-full-width",
@@ -34,6 +34,84 @@
         //------------------------------------------------------//
 
     })
+    function AddRow() {
+
+        var i = 0;
+        var no = 1;
+        $('input[id^="Row_"]').each(function () {
+            var id = this.id;
+            no++;
+            var row = Number(id.replace("Row_", ""));
+            if (row > i) {
+                i = row;
+            }
+        });
+        i++;
+
+        var index = (new Date()).getTime(); // unique indexer
+        var clone = $('#0').clone(); // clone the BatchProducts item
+        //Update the index of the clone
+       
+        clone.html($(clone).html().replace(/\QuerySheetItems_0__/g, 'QuerySheetItems_' + i + '__'));
+        clone.html($(clone).html().replace(/\QuerySheetItems[0]./g, 'QuerySheetItems[' + i + '].'));
+        clone.html($(clone).html().replace(/\[0\]/g, '[' + i + ']'));
+        clone.html($(clone).html().replace(/\(0\)/g, '(' + i + ')'));
+        clone.html($(clone).html().replace(/Row_0/, 'Row_' + i));
+        clone.html($(clone).html().replace(/slno1/, 'slno' + (i + 1) + ''));
+        clone.html($(clone).html().replace(/this,0/, 'this,' + i + ''));
+        $("#tab_logic").append('<tr id="' + i + '">' + clone.html() + '  </tr>');
+        $("#slno" + (i + 1)).html((i + 1));
+  
+        //bind keypress event for new row inputs.
+        $(".numbers-only").keypress(function (e) {
+            if (e.which == 8 || (e.which == 45 && $(this).val().indexOf('-') == -1) || (e.which == 46 && $(this).val().indexOf('.') == -1) || (e.which > 47 && e.which < 58)) {
+            }
+            else {
+                return false;
+            }
+        });
+    }
+     function Delete(index) {
+
+        var i = 0;
+        var no = 1;
+        $('input[id^="Row_"]').each(function () {
+            var id = this.id;
+            no++;
+            var row = Number(id.replace("Row_", ""));
+            if (row > i) {
+                i = row;
+            }
+        });
+        i++;
+   
+        if (i > 1) {
+            $("#" + index).remove();
+            for (var j = index + 1; j < i; j++) {
+               
+                var clone = $("#" + j).clone(true, true);
+                clone.html($(clone).html().replace(new RegExp("QuerySheetItems_" + j + "__", "g"), 'QuerySheetItems_' + (j - 1) + '__'));
+                clone.html($(clone).html().replace(new RegExp("\\[" + j + "].", "g"), "[" + (j - 1) + "]."));
+                clone.html($(clone).html().replace(new RegExp('slno' + (j + 1) + '">' + (j + 1), "g"), 'slno' + (j) + '">' + (j)));
+                clone.html($(clone).html().replace("Delete(" + j, "Delete(" + (j - 1)));
+                clone.html($(clone).html().replace("Row_" + j, "Row_" + (j - 1)));
+
+
+
+
+                clone.html($(clone).html().replace("this," + j, "this," + (j - 1)));
+                $("#" + j).html(clone.html());
+                $("#QuerySheetItems_" + (j - 1) + "__SlNo").val(j);
+                $("#" + (j)).attr('id', (j - 1));
+                
+              
+              
+
+            }
+        }
+    }
+
+
 
     function Exit() {
 
@@ -141,6 +219,7 @@
         <table class="table table-bordered" id="tab_logic">
             <thead>
                 <tr class="grid_heading">
+                    <th width="2%" class="text-center"></th>
                     <th width="2%" class="text-center"><h1>#</h1></th>
                     <th width="18%"><h1>Room Details</h1></th>
                     <th width="5%"><h1>External Room Dimension</h1></th>
@@ -156,17 +235,20 @@
                     <th width="5%"><h1>Eletrical Power</h1></th>
                     <th width="5%"><h1>Door Size</h1></th>
                     <th width="5%"><h1>Kilowatt</h1></th>
+                    <th width="2%" class="text-center"></th>
                    
                 </tr>
             </thead>
             <tbody>
                 @for (int i = 0; i < Model.QuerySheetItems.Count; i++)
                 {
-                    <tr id="Row_@i">
-                        <td align="center">@(i + 1) </td>
-                        @Html.HiddenFor(m => Model.QuerySheetItems[i].QuerySheetItemId)
-
-
+                    <tr id="@i">
+                        <td style="vertical-align:middle"><a class="glyphicon glyphicon-minus" style="top:0px" onclick="Delete(@i)"></a></td>
+                        <td align="center">
+                            <input type="hidden" id="Row_@i" />
+                            <span id="slno@(i + 1)">@(i + 1)</span>
+                            @Html.HiddenFor(m => Model.QuerySheetItems[i].QuerySheetItemId)
+                        </td>
                         <td>@Html.TextAreaFor(m => Model.QuerySheetItems[i].RoomDetails, new { @class = "form_input form_input-h", autocomplete = "off" })</td>
                         <td>@Html.TextAreaFor(m => Model.QuerySheetItems[i].ExternalRoomDimension, new { @class = "form_input form_input-h", autocomplete = "off" })</td>
                         <td>@Html.TextAreaFor(m => Model.QuerySheetItems[i].ColdRoomArea, new { @class = "form_input form_input-h", autocomplete = "off" })</td>
@@ -181,6 +263,7 @@
                         <td>@Html.TextAreaFor(m => Model.QuerySheetItems[i].EletricalPowerAvailability, new { @class = "form_input form_input-h", autocomplete = "off" })</td>
                         <td>@Html.TextAreaFor(m => Model.QuerySheetItems[i].DoorSizeTypeAndNumberOfDoor, new { @class = "form_input form_input-h", autocomplete = "off" })</td>
                         <td>@Html.TextAreaFor(m => Model.QuerySheetItems[i].Kilowatt, new { @class = "form_input form_input-h", autocomplete = "off" })</td>
+                        <td style="vertical-align:middle"><a id="add_row" class="glyphicon glyphicon-plus" style="top:0px" onclick="AddRow()"></a></td>
                     </tr>
                 }
 
