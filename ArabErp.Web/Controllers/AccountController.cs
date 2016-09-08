@@ -166,8 +166,9 @@ namespace ArabErp.Web.Controllers
         private void SignIn(User user, int OrganizationId, bool isPersistent, HttpCookieCollection cookiecollection)
         {
             var Organization = new OrganizationRepository().GetOrganization(OrganizationId);
-            var userData = String.Format("{0}|{1}|{2}|{3}|{4}|{5}|{6}",
-                user.UserId, user.UserName, user.UserPassword, user.UserEmail, user.UserRole, OrganizationId, Organization.OrganizationName);
+            Session.Add("OrganizationName", Organization.OrganizationName);
+            var userData = String.Format("{0}|{1}|{2}|{3}|{4}|{5}",
+                user.UserId, user.UserName, user.UserPassword, user.UserEmail, "0", OrganizationId);
             var ticket = new FormsAuthenticationTicket(1, userData, DateTime.UtcNow, DateTime.UtcNow.AddMinutes(30), isPersistent, userData, FormsAuthentication.FormsCookiePath);
             var encryptedTicket = FormsAuthentication.Encrypt(ticket);
             var authCookie = new HttpCookie(FormsAuthentication.FormsCookieName, encryptedTicket) { HttpOnly = true };
@@ -178,9 +179,8 @@ namespace ArabErp.Web.Controllers
             userCookie.Values.Add("UserName", user.UserName.ToString());
             userCookie.Values.Add("publicKey", ConvertPasswordToPublicKey(user.UserPassword));
             userCookie.Values.Add("UserEmail", user.UserEmail.ToString());
-            userCookie.Values.Add("UserRole", user.UserRole.ToString());
+            userCookie.Values.Add("UserRole", "0");
             userCookie.Values.Add("Organization", OrganizationId.ToString());
-            userCookie.Values.Add("OrganizationName", Organization.OrganizationName);
             cookiecollection.Add(userCookie);
             Session.Add("user", userCookie);
 

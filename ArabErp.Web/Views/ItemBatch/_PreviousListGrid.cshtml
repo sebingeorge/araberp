@@ -22,7 +22,14 @@
                         @(++i)
                     </td>
                     <td>
-                        @item.GRNNo - @item.GRNDate.ToString("dd MMMM yyyy")
+                        @if (item.GRNId == 1)
+                        {
+                            @: @item.GRNNo - @item.GRNDate.ToString("dd MMMM yyyy")
+                        }
+                        else
+                        {
+                            @: Opening Stock
+                        }
                     </td>
                     <td>
                         @item.ItemName
