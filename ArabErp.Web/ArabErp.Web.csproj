@@ -923,6 +923,7 @@
     <Content Include="Views\SalesQuotation\_MaterialList.cshtml" />
     <Content Include="Views\SalesTarget\Create.cshtml" />
     <Content Include="Views\SalesTarget\SalesTargetListView.cshtml" />
+    <Content Include="Views\ItemBatch\PendingOpeningStock.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

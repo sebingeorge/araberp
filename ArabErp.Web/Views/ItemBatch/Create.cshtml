@@ -28,7 +28,7 @@
     })
 
     function Back() {
-        var url = '@Url.Action("Pending")';
+        var url = '@Url.Action("Pending", new { type = Model[0].isOpeningStock })';
         window.location = url;
     }
 
@@ -38,13 +38,16 @@
 
     <div class="form-head1">
         <h4>Assign Serial Number - @Model[0].ItemName</h4>
-        @Html.HiddenFor(m => m[0].ItemName)
-        </div>
+    </div>
 
-        <div class="main-part pad1">
-            @using (Html.BeginForm(null, null, FormMethod.Post, new { @class = "createFrom", @id = "batching-form" }))
-            {
-                <div class="row">
+    <div class="main-part pad1">
+        @using (Html.BeginForm(null, null, FormMethod.Post, new { @class = "createFrom", @id = "batching-form" }))
+        {
+            @Html.HiddenFor(m => m[0].ItemName)
+            <div class="row">
+                @if (Model[0].isOpeningStock == 0)
+                {
+                    @Html.HiddenFor(m => m[0].GRNItemId)
                     <div class="col-md-2">
                         <label for="GRNNo">GRN Ref. No.</label>
                         @Html.TextBoxFor(m => m[0].GRNNo, new { @class = "form_input", @readonly = "true" })
@@ -61,44 +64,69 @@
                         <label for="isDirect">GRN Type</label>
                         @Html.TextBoxFor(m => m[0].isDirect, new { @class = "form_input", @readonly = "true" })
                     </div>
-                </div>
-                <br />
-                <div class="row">
-                    <div class="main-grid main-grid-top scroll1">
-                        <div class="table-responsive">
-                            <table class="table table-bordered">
-                                <thead>
-                                    <tr class="grid_heading">
-                                        <th width="5%" class="text-center">#</th>
-                                        <th width="95%"><h1>Serial Number</h1></th>
-                                    </tr>
-                                </thead>
-                                <tbody class="grid_row">
-                                    @for (int i = 0; i < Model.Count; i++)
-                                    {
-                                        <tr>
-                                            <td>
+                    <div class="col-md-2">
+                        <label for="isDirect">Stockpoint</label>
+                        @Html.TextBoxFor(m => m[0].StockPointName, new { @class = "form_input", @readonly = "true" })
+                    </div>
+                }
+                else
+                {
+                    @Html.HiddenFor(m => m[0].OpeningStockId)
+                    @Html.HiddenFor(m => m[0].isOpeningStock)
+                    <div class="col-md-2">
+                        <label for="StockPointName">Stockpoint</label>
+                        @Html.TextBoxFor(m => m[0].StockPointName, new { @class = "form_input", @readonly = "true" })
+                    </div>
+                    <div class="col-md-1">
+                        <label for="Quantity">Quantity</label>
+                        @Html.TextBoxFor(m => m[0].Quantity, new { @class = "form_input", @readonly = "true" })
+                    </div>
+                }
+            </div>
+            <br />
+            <div class="row">
+                <div class="main-grid main-grid-top scroll1">
+                    <div class="table-responsive">
+                        <table class="table table-bordered">
+                            <thead>
+                                <tr class="grid_heading">
+                                    <th width="5%" class="text-center">#</th>
+                                    <th width="95%"><h1>Serial Number</h1></th>
+                                </tr>
+                            </thead>
+                            <tbody class="grid_row">
+                                @for (int i = 0; i < Model.Count; i++)
+                                {
+                                    <tr>
+                                        <td>
+                                            @if (Model[0].isOpeningStock == 1)
+                                            {
+                                                @Html.HiddenFor(m => m[i].OpeningStockId)
+                                            }
+                                            else
+                                            {
                                                 @Html.HiddenFor(m => m[i].GRNItemId)
-                                                @Html.HiddenFor(m => m[i].Quantity)
-                                                <input type="text" value="@(i + 1)" style="width:100%" class="form_input text-center" disabled />
-                                            </td>
-                                            <td>
-                                                @Html.TextBoxFor(m => m[i].SerialNo, new { @class = "form_input", @placeholder = "Serial Number", @required = "true" })
-                                            </td>
-                                        </tr>
-                                    }
-                                </tbody>
-                            </table>
-                        </div>
+                                            }
+                                            @Html.HiddenFor(m => m[i].Quantity)
+                                            <input type="text" value="@(i + 1)" style="width:100%" class="form_input text-center" disabled />
+                                        </td>
+                                        <td>
+                                            @Html.TextBoxFor(m => m[i].SerialNo, new { @class = "form_input", @placeholder = "Serial Number", @required = "true" })
+                                        </td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
                     </div>
                 </div>
-                <div class="row">
-                    <div class="col-md-12 hrpart">
-                        <input type="button" class="form-button right" onclick="Back()" value="Back">
-                        <button type="submit" class="form-button right">Save</button>
-                    </div>
+            </div>
+            <div class="row">
+                <div class="col-md-12 hrpart">
+                    <input type="button" class="form-button right" onclick="Back()" value="Back">
+                    <button type="submit" class="form-button right">Save</button>
                 </div>
-            }
-        </div>
+            </div>
+        }
     </div>
+</div>
 

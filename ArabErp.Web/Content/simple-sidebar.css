@@ -74,6 +74,7 @@
     display: block;
     text-decoration: none;
     color: #999999;
+    border-left: 1px solid #2cb3e2;
 }
 
 .sidebar-nav li a:hover {
