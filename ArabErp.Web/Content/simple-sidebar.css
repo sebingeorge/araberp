@@ -89,7 +89,8 @@
 }
 
 .sidebar-nav > .sidebar-brand {
-    height: 65px;
+    /*height: 65px;*/
+    height: auto;
     font-size: 18px;
     line-height: 33px;
 }
