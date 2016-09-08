@@ -12,19 +12,14 @@ namespace ArabErp.Web.Controllers
     public class ItemBatchController : BaseController
     {
         // GET: ItemBatch
-        public ActionResult Index(int type = 0)
+        public ActionResult Index()
         {
-            FillGRNNo();
-            return
-                type == 0 ? View() :
-                View("Index_OpeningStock");
+            return View();
         }
 
-        public ActionResult PreviousList(DateTime? from, DateTime? to, int id = 0, string serialno = "", int type = 0)
+        public ActionResult PreviousList(string serialno = "", string grnno = "")
         {
-            from = from ?? DateTime.Today.AddMonths(-1);
-            to = to ?? DateTime.Today;
-            return PartialView("_PreviousListGrid", new ItemBatchRepository().PreviousList(from: from, to: to, OrganizationId: OrganizationId, id: id, serialno: serialno));
+            return PartialView("_PreviousListGrid", new ItemBatchRepository().PreviousList(OrganizationId: OrganizationId, serialno: serialno, grnno: grnno));
         }
 
         public ActionResult Pending(int type = 0)//type 0 means GRN, 1 means Opening Stock

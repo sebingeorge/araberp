@@ -22,7 +22,7 @@
                         @(++i)
                     </td>
                     <td>
-                        @if (item.GRNId == 1)
+                        @if (item.GRNId != 0)
                         {
                             @: @item.GRNNo - @item.GRNDate.ToString("dd MMMM yyyy")
                         }

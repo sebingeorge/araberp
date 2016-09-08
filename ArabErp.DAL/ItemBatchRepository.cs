@@ -697,7 +697,7 @@ namespace ArabErp.DAL
             }
         }
 
-        public IList<ItemBatch> PreviousList(DateTime? from, DateTime? to, int OrganizationId, int id = 0, string serialno = "")
+        public IList<ItemBatch> PreviousList(int OrganizationId, string serialno = "", string grnno = "")
         {
             using (IDbConnection connection = OpenConnection(dataConnection))
             {
@@ -737,7 +737,8 @@ namespace ArabErp.DAL
 	
 	                    STUFF((SELECT ', ' + CAST(T1.SerialNo AS VARCHAR(MAX)) [text()]
 									                    FROM ItemBatch T1
-									                    WHERE T1.GRNItemId = IB.GRNItemId OR T1.OpeningStockId = IB.OpeningStockId
+									                    WHERE (T1.GRNItemId = IB.GRNItemId OR T1.OpeningStockId = IB.OpeningStockId)
+														AND T1.SerialNo LIKE '%'+@serialno+'%'
 									                    FOR XML PATH('')),1,1,'') SerialNo,
 
 	                    CONVERT(VARCHAR, IB.CreatedDate, 106) CreatedDate
@@ -746,14 +747,15 @@ namespace ArabErp.DAL
 					LEFT JOIN OpeningStock OS ON IB.OpeningStockId = OS.OpeningStockId
                     LEFT JOIN GRN G ON GI.GRNId = G.GRNId
 					LEFT JOIN Item I ON (GI.ItemId = I.ItemId OR OS.ItemId = I.ItemId)
-                    WHERE IB.OrganizationId = 1
-                    AND IB.isActive = 1";
+                    WHERE IB.OrganizationId = @OrganizationId
+                    AND IB.isActive = 1
+					AND IB.SerialNo LIKE '%'+@serialno+'%'
+					AND ISNULL(G.GRNNo, '') LIKE '%'+@grnno+'%'";
                 var list = connection.Query<ItemBatch>(query, new
                 {
                     OrganizationId = OrganizationId,
-                    id = id,
-                    from = from,
-                    to = to
+                    serialno = serialno,
+                    grnno = grnno
                 }).ToList();
                 return list;
             }
