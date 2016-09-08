@@ -25,6 +25,7 @@ namespace ArabErp.Domain
         public string UnitName { get; set; }
         [Required]
         public decimal Rate { get; set; }
+        public decimal MaterialRate { get; set; }
         public decimal Discount { get; set; }
         public decimal Amount { get; set; }
         public int OrganizationId { get; set; }
