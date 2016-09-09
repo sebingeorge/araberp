@@ -1,13 +1,18 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 2013
-VisualStudioVersion = 12.0.31101.0
+VisualStudioVersion = 12.0.30501.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ArabErp.DAL", "ArabErp.DAL\ArabErp.DAL.csproj", "{065F1942-C10D-4A89-A657-9033D7F33DEA}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ArabErp.Web", "ArabErp.Web\ArabErp.Web.csproj", "{5DBDD763-E9A2-42FD-A7C5-51C0C56843C6}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ArabErp.Domain", "ArabErp.Domain\ArabErp.Domain.csproj", "{2605B8A4-0865-464B-8627-30B9DDBE9DC6}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".nuget", ".nuget", "{9BA11530-DAB8-4EF4-93E6-80BAA7DF8F8A}"
+	ProjectSection(SolutionItems) = preProject
+		.nuget\packages.config = .nuget\packages.config
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
