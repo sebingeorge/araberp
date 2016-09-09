@@ -112,7 +112,7 @@
     try
     {
         username = ((HttpCookie)HttpContext.Current.Session["user"])["UserName"];
-        organizationName = ((HttpCookie)HttpContext.Current.Session["user"])["OrganizationName"];
+        organizationName = Session["OrganizationName"].ToString();
     }
     catch { }   
 }
@@ -129,7 +129,6 @@
                 </li>
             @if (permissions.Admin)
             {
-
                     <li>
                         <a href="#" data-toggle="collapse" data-target="#admin-level-menu">Admin<span class="caret arrow"></span></a>
                         <div id="admin-level-menu" class="collapse">
@@ -201,7 +200,10 @@
                                             <ul>
                                                 <li><a href="@Url.Action("Register", "Account")">User Settings</a></li>
                                                 <li><a href="@Url.Action("Create", "QuotationApproval")">Quotation Approval V/s User</a></li>
-                        <li><a href="@Url.Action("Create", "Organization")"><span class="badge pull-right"></span>Organization</a></li>
+                                        </ul>
+                                    </div>
+                                </li>
+                                @*<li><a href="@Url.Action("Create", "Organization")"><span class="badge pull-right"></span>Organization</a></li>
                         <li><a href="@Url.Action("Create","Currency")"><span class="badge pull-right"></span>Currency</a></li>
                         <li><a href="@Url.Action("Create", "CostingParameters")"><span class="badge pull-right"></span>Costing Parameters</a></li>
                         <li><a href="@Url.Action("Create", "SalesTarget")"><span class="badge pull-right"></span>Sales Target</a></li>
@@ -223,13 +225,12 @@
                         <li><a href="@Url.Action("Index", "PrefixSettings")"><span class="badge pull-right"></span>Prefix Settings</a></li>
                         <li><a class="projectn lh" href="@Url.Action("Create", "CustomerVsWorkRate")"><span class="badge pull-right"></span>Customer Wise Work Rate Settings</a></li>
                         <li class="dropdown-submenu">
-                            <a href="#"><span class="badge pull-right"></span>User Settings</a>
+                                    <a href="#" data-toggle="collapse" data-target="#admin-user-settings">User Settings</a>
                             <ul class="dropdown-menu user-setting">
                                 <li><a href="@Url.Action("Register", "Account")"><span class="badge pull-right"></span>User Settings</a></li>
                                 <li><a href="@Url.Action("Create", "QuotationApproval")"><span class="badge pull-right"></span>Quotation Approval V/s User</a></li>
                             </ul>
-                                        </div>
-                        </li>
+                                </li>*@
                     </ul>
                         </div>
                 </li>
@@ -251,6 +252,7 @@
                                     <a href="#" data-toggle="collapse" data-target="#purchase-serialno">Serial No.<span class="caret arrow"></span></a>
                                     <div id="purchase-serialno" class="collapse">
                                         <ul>
+                                            <li><a href="@Url.Action("Pending", "ItemBatch", new { type = 1 })">Assign Serial No (Opening Stock)</a></li>
                                             <li><a href="@Url.Action("Pending","ItemBatch")">Assign Serial No</a></li>
                                             <li><a href="@Url.Action("PendingReservation","ItemBatch")">Reserve Serial No</a></li>
                                             <li><a href="@Url.Action("ReservedList","ItemBatch")">Unreserve Serial No</a></li>
@@ -514,6 +516,7 @@
                     <div class="row">
                         <div class="col-md-12 col-md-offset-9 col-md-push-1 collapse navbar-collapse" id="navbar">
                             <div id="QuickLink" class="QuickLink">
+                                @Html.Action("LoadQuickView", "Home")
                             </div>
                             <ul class="nav navbar-nav">
                                 <li><a href="#"><i class="glyphicon glyphicon-home" onclick="GoToHome()"></i></a></li>

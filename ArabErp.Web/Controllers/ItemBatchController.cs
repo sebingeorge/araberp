@@ -14,29 +14,38 @@ namespace ArabErp.Web.Controllers
         // GET: ItemBatch
         public ActionResult Index()
         {
-            FillGRNNo();
             return View();
         }
 
-        public ActionResult PreviousList(DateTime? from, DateTime? to, int id = 0)
+        public ActionResult PreviousList(string serialno = "", string grnno = "")
         {
-            from = from ?? DateTime.Today.AddMonths(-1);
-            to = to ?? DateTime.Today;
-            return PartialView("_PreviousListGrid", new ItemBatchRepository().PreviousList(id, from, to, OrganizationId));
+            return PartialView("_PreviousListGrid", new ItemBatchRepository().PreviousList(OrganizationId: OrganizationId, serialno: serialno, grnno: grnno));
         }
 
-        public ActionResult Pending()
+        public ActionResult Pending(int type = 0)//type 0 means GRN, 1 means Opening Stock
         {
-            return View(new ItemBatchRepository().PendingGRNItems());
+            return
+                type == 0 ?
+                View(new ItemBatchRepository().PendingGRNItems()) :
+                View("PendingOpeningStock", new ItemBatchRepository().PendingGRNItems(type));
         }
 
-        public ActionResult Create(int id = 0)
+        public ActionResult Create(int id = 0, int type = 0)
         {
             try
             {
                 if (id != 0)
                 {
-                    ItemBatch model = new ItemBatchRepository().GetGRNItem(grnItemId: id);
+                    ItemBatch model = new ItemBatch();
+                    if (type == 0)
+                    {
+                        model = new ItemBatchRepository().GetGRNItem(grnItemId: id);
+                    }
+                    else if (type == 1)
+                    {
+                        model = new ItemBatchRepository().GetOpeningStockItem(OpeningStockItemId: id);
+                    }
+                    model.isOpeningStock = type;
                     List<ItemBatch> list = new List<ItemBatch>();
                     for (int i = 0; i < model.Quantity; i++)
                         list.Add(model);
@@ -71,7 +80,7 @@ namespace ArabErp.Web.Controllers
             }
             if (temp.Count != model.Count)
             {
-                TempData["error"] = "Serial numbers cannot be same. Please enter differenct serial numbers.";
+                TempData["error"] = "Serial numbers cannot be same. Please enter different serial numbers.";
                 return View(model);
             }
             foreach (ItemBatch item in model)
@@ -85,10 +94,10 @@ namespace ArabErp.Web.Controllers
                 string existingSerialNos = new ItemBatchRepository().IsSerialNoExists(model.Select(m => m.SerialNo).ToList());
                 if (existingSerialNos == null)
                 {
-                    new ItemBatchRepository().InsertItemBatch(model, UserID.ToString());
+                    new ItemBatchRepository().InsertItemBatch(model);
                     TempData["success"] = "Saved successfully";
                     TempData["error"] = "";
-                    return RedirectToAction("Pending");
+                    return RedirectToAction("Pending", new { type = model[0].isOpeningStock });
                 }
                 TempData["error"] = existingSerialNos + " already exists.";
             }

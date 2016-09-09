@@ -1,7 +1,6 @@
 ﻿
 @model ArabErp.Domain.SalesQuotation
 
-
 <script type="text/javascript">
 
     $(document).ready(function () {
@@ -9,9 +8,8 @@
     });
 
 
-  
-    function AddAdditionRow() {
-
+    function AddRow() {
+       
         var i = 0;
         var no = 1;
         $('input[id^="Row_"]').each(function () {
@@ -25,7 +23,7 @@
         i++;
 
         var index = (new Date()).getTime(); // unique indexer
-        var clone = $('#0').clone(); // clone the BatchProducts item
+        var clone = $('#tr_0').clone(); // clone the BatchProducts item
         //Update the index of the clone
         //clone.html($(clone).html().replace("Items_0__", 'Items_' + i + '__'));
         clone.html($(clone).html().replace(/\Items_0__/g, 'Items_' + i + '__'));
@@ -39,7 +37,7 @@
         //clone.html($(clone).html().replace(/UoM_0/, 'UoM_' + i + ''));
         clone.html($(clone).html().replace(/unit0/, 'unit' + i + ''));
         clone.html($(clone).html().replace(/this,0/, 'this,' + i + ''));
-        $("#table-additional-items-list").append('<tr id="' + i + '">' + clone.html() + '  </tr>');
+        $("#table-additional-items-list").append('<tr id="tr_' + i + '">' + clone.html() + '  </tr>');
         $("#slno" + (i + 1)).html((i + 1));
         $("#Items_" + i + "__SlNo").val((i + 1));
         $("#unit" + i).html('');
@@ -53,6 +51,7 @@
             }
         });
     }
+
 
     function Delete(index) {
 
@@ -69,13 +68,16 @@
         i++;
         //$("#" + index).html('');
         if (i > 1) {
-            $("#" + index).remove();
+            $("#tr_" + index).remove();
             for (var j = index + 1; j < i; j++) {
                 var ItemId = $("#Items_" + j + "__ItemId").val();
                 var Remarks = $("#Items_" + j + "__Remarks").val();
                 var Quantity = $("#Items_" + j + "__Quantity").val();
-               
-                var clone = $("#" + j).clone(true, true);
+                //var FixedRate = $("#Items_" + j + "__Remarks").val();
+
+                //alert(WorkDescriptionId + ',' + VehicleModelId + ',' + Quantity + ',' + UnitId + ',' + Rate + ',' + Discount + ',' + Amount);
+
+                var clone = $("#tr_" + j).clone(true, true);
                 clone.html($(clone).html().replace(new RegExp("Items_" + j + "__", "g"), 'Items_' + (j - 1) + '__'));
                 clone.html($(clone).html().replace(new RegExp("\\[" + j + "].", "g"), "[" + (j - 1) + "]."));
                 clone.html($(clone).html().replace(new RegExp('slno' + (j + 1) + '">' + (j + 1), "g"), 'slno' + (j) + '">' + (j)));
@@ -88,20 +90,19 @@
                 clone.html($(clone).html().replace("this," + j, "this," + (j - 1)));
                 $("#" + j).html(clone.html());
                 $("#Items_" + (j - 1) + "__SlNo").val(j);
-                $("#" + (j)).attr('id', (j - 1));
-               
+                $("#tr_" + (j)).attr('id', (j - 1));
+                //alert(j);
                 $("#Items_" + (j - 1) + "__ItemId").val(ItemId);
                 $("#Items_" + (j - 1) + "__Remarks").val(Remarks);
                 $("#Items_" + (j - 1) + "__Quantity").val(Quantity);
-           
+                //$("#Items_" + (j - 1) + "__Remarks").val(Remarks);
 
             }
         }
     }
 
 
-    function OnItemChange(sender, index)
-    {
+    function OnItemChange(sender, index) {
         var id = $(sender).val();
         if (id != '') {
             var url = '@Url.Action("GetItemUnit")';//get unit of selected item
@@ -121,15 +122,24 @@
             $("#partno" + index).html('');
         }
     }
+    function RateChanged() {
+        var rate = parseFloat("0");
+      
+        $('.clRate').each(function (i, obj) {
+            var a = parseFloat($("#Materials_" + i + "__Rate").val());
 
+            if (isNaN(a)) {
+                a = parseFloat("0");
+            }
+
+            rate = rate + a;
+        });
+       
+    }
 
 </script>
 
-<div class="row">
-    <div class="form-head1">
-        <h4>Additional Material Request</h4>
-    </div>
-    <div class="main-part pad1 ">
+
 
      <table class="table table-bordered" id="table-additional-items-list">
     <thead>
@@ -149,7 +159,7 @@
         @for (int i = 0; i < Model.Materials.Count; i++)
         {
 
-            <tr id="@i">
+            <tr id="tr_@i">
                 <td style="vertical-align:middle"><a class="glyphicon glyphicon-minus" style="top:0px" onclick="Delete(@i)"></a></td>
                 <td align="center">
                     <span id="slno@(i+1)">@(i + 1)</span>
@@ -164,14 +174,13 @@
                 <td id="partno0" class="qreturn" style="vertical-align:middle">@Html.TextBoxFor(m => m.Materials[i].PartNo, new { @class = "form_input text-left", @readonly = "true" })</td>
                 <td>@Html.TextBoxFor(m => m.Materials[i].Remarks, new { @class = "form_input", autocomplete = "off", placeholder = "Remarks" })</td>
                 <td>@Html.TextBoxFor(m => m.Materials[i].Quantity, new { @class = "form_input numbers-only text-right", autocomplete = "off", placeholder = "Qty" })</td>
-                <td>@Html.TextBoxFor(m => m.Materials[i].Rate, new { @class = "form_input numbers-only text-right", autocomplete = "off", placeholder = "Rate" })</td>
+                <td>@Html.TextBoxFor(m => m.Materials[i].Rate, new { @class = "form_input numbers-only text-right clRate", autocomplete = "off", placeholder = "Rate",@onchange=  "RateChanged(" + i + ");", @onkeyup = "RateChanged(" + i + ")" })</td>
                 <td id="unit0" class="qreturn" style="vertical-align:middle">@Html.TextBoxFor(m => m.Materials[i].UnitName, new { @class = "form_input text-left", @readonly = "true" })</td>
-                <td style="vertical-align:middle"><a id="add_row" class="glyphicon glyphicon-plus" style="top:0px" onclick="AddAdditionRow()"></a></td>
+                <td style="vertical-align:middle"><a id="add_row" class="glyphicon glyphicon-plus" style="top:0px" onclick="AddRow()"></a></td>
             </tr>
         }
     </tbody>
 </table>
-    </div>
-</div>
+   
 
 

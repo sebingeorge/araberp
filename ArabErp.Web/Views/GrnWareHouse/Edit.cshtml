@@ -434,27 +434,27 @@
                                             </div>
                                           
                                         <div class="row form-group">
-                                            <div class="col-md-3">
+                                            <div class="col-md-2">
                                                 <label>Total Additonal Amt.</label>
-                                                <input type="text" id="AdditionalAmt" class="form_input text-right bold " style="font-size:16px;padding:10px" disabled />
+                                                <input type="text" id="AdditionalAmt" class="form_input form_input-half text-right bold  bluebox" style="font-size:16px;padding:10px" disabled />
                                             </div>
 
-                                            <div class="col-md-3">
+                                            <div class="col-md-2">
                                                 <label>Total Deduction Amt.</label>
-                                                <input type="text" id="DeductionAmt" class="form_input text-right bold " style="font-size:16px;padding:10px" disabled />
+                                                <input type="text" id="DeductionAmt" class="form_input form_input-half text-right bold  bluebox" style="font-size:16px;padding:10px" disabled />
                                             </div>
 
-                                            <div class="col-md-3">
+                                            <div class="col-md-2">
                                                 <label>Total Amt.</label>
-                                                <input type="text" id="TotalAmt" class="form_input text-right bold " style="font-size:16px;padding:10px" disabled />
+                                                <input type="text" id="TotalAmt" class="form_input form_input-half text-right bold  bluebox" style="font-size:16px;padding:10px" disabled />
                                             </div>
 
                                                 @*<div class="col-md-11"></div>*@
                                                 @*<div class="col-sm-offset-10 col-sm-2 col-md-push-1 col-md-1">*@
-                                            <div class="col-md-1">
+                                            <div class="col-md-2">
                                                 <label>Net Amt.</label>
                                                 @Html.HiddenFor(m => m.GrandTotal)
-                                                <input type="text" id="grandTotal" class="form_input text-right bold " style="font-size:16px;padding:10px" disabled />
+                                                <input type="text" id="grandTotal" class="form_input form_input-half text-right bold  bluebox" style="font-size:16px;padding:10px" disabled />
                                             </div>
                                             </div>
 
@@ -551,7 +551,7 @@
                     <div class="col-md-12 hrpart">
                         <button type="button" class="form-button right" onclick="Exit()">Exit</button>
                         <button type="submit" class="form-button right">Edit</button>
-                        <button type="button" class="form-button left" onclick="Delete('@Model.GRNId')">Delete</button>
+                        <button type="button" class="form-button" onclick="Delete('@Model.GRNId')">Delete</button>
                     </div>
 
                 </div>

@@ -1,0 +1,204 @@
+﻿
+@{
+    ViewBag.Title = "CustomerOrder";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+
+
+<div class="row">
+    <div class="form-head1">
+        <h4>Customer Order</h4>
+    </div>
+
+    <div class="main-part pad1">
+
+
+        <div class="row form-group">
+            <div class="col-md-2">
+                <label>C.O. No</label>
+                <input type="text" class="form_input" />
+            </div>
+            <div class="col-md-2">
+                <label>Date</label>
+                <input type="text" class="form_input" />
+            </div>
+        </div>
+        <div class="row form-group">
+            <div class="col-md-4">
+                <label>Customer</label>
+                <input type="text" class="form_input" />
+            </div>
+            <div class="col-md-6">
+                <label>Customer Address</label>
+                <input type="text" class="form_input" />
+            </div>
+            <div class="col-md-2">
+                <label>Customer Order Ref</label>
+                <input type="text" class="form_input" />
+            </div>
+        </div>
+
+        <div class="table-responsive">
+            <table class="table table-bordered" id="tab_logic">
+                <thead>
+                    <tr class="grid_heading">
+                        <th width="7%"><h1>Order No</h1></th>
+                        <th width="58%"><h1>Item Name</h1></th>
+                        <th width="7%" class="text-right"><h1>Qty</h1></th>
+                        <th width="7%" class="text-left"><h1>Unit</h1></th>
+                        <th width="7%" class="text-right"><h1>Rate</h1></th>
+                        <th width="7%" class="text-right"><h1>Discount</h1></th>
+                        <th width="7%" class="text-right"><h1>Amount</h1></th>
+                    </tr>
+                </thead>
+                <tbody>
+
+
+
+
+
+                    <tr>
+
+                        <td>10005</td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+
+
+
+
+                    </tr>
+                    <tr>
+
+                        <td>10005</td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+
+
+
+
+                    </tr>
+                    <tr>
+
+                        <td>10006</td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+
+
+
+
+                    </tr>
+
+
+
+
+                </tbody>
+                <tfoot>
+                    <tr class="grid_heading">
+
+                        <th></th>
+                        <th></th>
+                        <th></th>
+                        <th></th>
+                        <th></th>
+                        <th></th>
+                        <th></th>
+
+
+
+
+
+
+
+                    </tr>
+                </tfoot>
+            </table>
+        </div>
+
+
+        <div class="row form-group">
+            <div class="col-md-12">
+                <label>Special remarks</label>
+                <input type="text" class="form_input form_input-h" />
+            </div>
+        </div>
+        <div class="row form-group">
+            <div class="col-md-12">
+                <label>Payment Terms</label>
+                <input type="text" class="form_input" />
+            </div>
+        </div>
+
+        <div class="row form-group">
+            <div class="col-md-2">
+                <label>Sales Executive</label>
+                <select class="form_input">
+                    <option value="">Sales Executive 1</option>
+                    <option value="">Sales Executive 2</option>
+                    <option value="">Sales Executive 3</option>
+                    <option value="">Sales Executive 4</option>
+                </select>
+            </div>
+            <div class="col-md-2">
+                <label>Incentive Amt.</label>
+                <input type="text" class="form_input" />
+            </div>
+            <div class="col-md-2">
+                <label>Order Taken By</label>
+                <select class="form_input">
+                    <option value="">Order Taken By 1</option>
+                    <option value="">Order Taken By 2</option>
+                    <option value="">Order Taken By 3</option>
+                    <option value="">Order Taken By 4</option>
+                </select>
+            </div>
+            <div class="col-md-2">
+                <label>Expected Date of Delivery</label>
+                <input type="text" class="form_input" />
+            </div>
+
+        </div>
+
+
+
+
+
+        <div class="row">
+            <div class="col-md-12 hrpart">
+                <button type="button" class="form-button" onclick="Previous()">Previous</button>
+                <button type="button" class="form-button right">Save</button>
+                <button type="button" class="form-button right" onclick="Exit()">Exit</button>
+            </div>
+
+        </div>
+
+
+    </div>
+
+</div>
+
+<script>
+    function Previous() {
+        var url = '@Url.Action("PreviousCustomerOrder", "ProductionPlan")'
+        window.location = url;
+    }
+
+    function Exit() {
+        var url = '@Url.Action("Index","ProductionPlan")'
+        window.location = url;
+    }
+
+</script>

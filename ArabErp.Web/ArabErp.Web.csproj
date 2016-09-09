@@ -1,9 +1,9 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
-  <PropertyGroup>
-    <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">13.0</VisualStudioVersion>
-    <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>
-  </PropertyGroup>
+<PropertyGroup> 
+ <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">13.0</VisualStudioVersion>
+ <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>
+</PropertyGroup>
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
@@ -874,7 +874,6 @@
     <Content Include="Views\ProductionPlan\CreateProductionPlan.cshtml" />
     <Content Include="Views\ProductionPlan\CreateProductionPlanAdd.cshtml" />
     <Content Include="Views\ProductionPlan\CreateProductLine.cshtml" />
-    <Content Include="Views\ProductionPlan\CustomerOrder.cshtml" />
     <Content Include="Views\ProductionPlan\CustomerOrderMPR.cshtml" />
     <Content Include="Views\ProductionPlan\DeliveryChallan.cshtml" />
     <Content Include="Views\ProductionPlan\FinancialYear.cshtml" />
@@ -908,7 +907,6 @@
     <Content Include="Views\ProductionPlan\ProductionPlanEdit.cshtml" />
     <Content Include="Views\ProductionPlan\ProductionPlanMPR.cshtml" />
     <Content Include="Views\ProductionPlan\ProductionPlantoProductionSchedule.cshtml" />
-    <Content Include="Views\ProductionPlan\ProductionSchedule.cshtml" />
     <Content Include="Views\ProductionPlan\ProductionScheduleMPR.cshtml" />
     <Content Include="Views\ProductionPlan\ProductSubGroup.cshtml" />
     <Content Include="Views\ProductionPlan\PurchaseIndent.cshtml" />
@@ -927,6 +925,9 @@
     <Content Include="Views\SalesTarget\Create.cshtml" />
     <Content Include="Views\SalesTarget\SalesTargetListView.cshtml" />
     <Content Include="Views\CustomerVsSalesExecutive\Create.cshtml" />
+    <Content Include="Views\ProductionPlan\CustomerOrder.cshtml" />
+    <Content Include="Views\ProductionPlan\ProductionSchedule.cshtml" />
+    <Content Include="Views\ItemBatch\PendingOpeningStock.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

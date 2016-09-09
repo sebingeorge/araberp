@@ -42,5 +42,7 @@ namespace ArabErp.Domain
         /// Warranty left in months
         /// </summary>
         public int WarrantyLeft { get; set; }
+        public int OpeningStockId { get; set; }
+        public int isOpeningStock { get; set; }
     }
 }
