@@ -58,7 +58,7 @@ namespace ArabErp.Domain
          public string WorkDescription { get; set; }
          public int? CancelStatus { get; set; }
         public List<SalesQuotationItem> SalesQuotationItems { get; set; }
-        public List<SalesQuotationItem>Materials { get; set; }
+        public List<SalesQuotationMaterial> Materials { get; set; }
         public int Ageing { get; set; }
         public int DaysLeft { get; set; }
         public bool isWarranty { get; set; }
