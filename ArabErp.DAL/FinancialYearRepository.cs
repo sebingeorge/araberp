@@ -46,5 +46,17 @@ namespace ArabErp.DAL
                 return connection.Query<DateTime>(qry, new { OrganizationId = OrganizationId }).First();
             }
         }
+        public int getfinyear(int OrganizationId)
+        {
+            using (IDbConnection connection = OpenConnection(dataConnection))
+            {
+                 string qry = @"	
+                 
+
+                    SELECT FyId from Organization where OrganizationId=@OrganizationId";
+
+                 return connection.Query<int>(qry, new { OrganizationId = OrganizationId }).FirstOrDefault(); 
+            }
+        }
     }
 }

@@ -135,7 +135,15 @@
                                             @Html.TextBoxFor(m => m[i].SerialNo, new { @class = "form_input", autocomplete = "off", @readonly = "readonly" })
                                         </td>
                                         <td>
-                                            @Html.TextBoxFor(m => m[i].GRNNo, Model[i].GRNNo + " - " + Model[i].GRNDate.ToString("dd-MMMM-yyyy"), new { @class = "form_input", autocomplete = "off", @readonly = "readonly" })
+                                            @if (Model[i].GRNNo == null)
+                                            {
+                                                <input value="Opening Stock" class="form_input" readonly="readonly" />
+                                            }
+                                            else
+                                            {
+                                                @Html.TextBoxFor(m => m[i].GRNNo, Model[i].GRNNo + " - " + Model[i].GRNDate.ToString("dd-MMMM-yyyy"), new { @class = "form_input", autocomplete = "off", @readonly = "readonly" })
+                                                @Html.HiddenFor(m => m[i].GRNDate)
+                                            }
                                         </td>
                                         <td>
                                             <center>@Html.CheckBoxFor(m => m[i].isSelected, new { @class = "form_input", autocomplete = "off", @readonly = "readonly", @title = "Check to reserve" })</center>

@@ -141,7 +141,9 @@
     <Compile Include="SalesQuotation.cs" />
     <Compile Include="SalesQuotationItem.cs" />
     <Compile Include="SalesQuotationList.cs" />
+    <Compile Include="SalesQuotationMaterial.cs" />
     <Compile Include="SalesRegister.cs" />
+    <Compile Include="SalesTarget.cs" />
     <Compile Include="StockCreation.cs" />
     <Compile Include="StockCreationConsumedItem.cs" />
     <Compile Include="StockCreationFinishedGood.cs" />

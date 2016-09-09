@@ -37,7 +37,7 @@ namespace ArabErp.Web.Controllers
                 {
 
                     TempData["Success"] = "Added Successfully!";
-                    TempData["ItemSubGroupName"] = result.ItemSubGroupName;
+                    TempData["ItemSubGroupRefNo"] = result.ItemSubGroupRefNo;
                     return RedirectToAction("Create");
                 }
 
@@ -45,7 +45,7 @@ namespace ArabErp.Web.Controllers
                 {
                     FillItemGroup();
                     TempData["error"] = "Oops!!..Something Went Wrong!!";
-                    TempData["ItemSubGroupName"] = null;
+                    TempData["ItemSubGroupRefNo"] = null;
                     return View("Create", model);
                 }
 
@@ -55,7 +55,7 @@ namespace ArabErp.Web.Controllers
 
                 FillItemGroup();
                 TempData["error"] = "This Item SubGroup Name Alredy Exists!!";
-                TempData["ItemSubGroupName"] = null;
+                TempData["ItemSubGroupRefNo"] = null;
                 return View("Create", model);
             }
 
@@ -86,14 +86,14 @@ namespace ArabErp.Web.Controllers
                 if (result.ItemSubGroupId > 0)
                 {
                     TempData["Success"] = "Updated Successfully!";
-                    TempData["RefNo"] = result.ItemSubGroupRefNo;
+                    TempData["ItemSubGroupRefNo"] = result.ItemSubGroupRefNo;
                     return RedirectToAction("Create");
                 }
                 else
                 {
                     FillItemGroup();
                     TempData["error"] = "Oops!!..Something Went Wrong!!";
-                    TempData["RefNo"] = null;
+                    TempData["ItemSubGroupRefNo"] = null;
                     return View("Edit", model);
                 }
             }
@@ -101,7 +101,7 @@ namespace ArabErp.Web.Controllers
             {
                 FillItemGroup();
                 TempData["error"] = "This Item Name Alredy Exists!!";
-                TempData["RefNo"] = null;
+                TempData["ItemSubGroupRefNo"] = null;
                 return View("Create", model);
             }
 
@@ -124,13 +124,13 @@ namespace ArabErp.Web.Controllers
             if (result.ItemSubGroupId > 0)
             {
                 TempData["Success"] = "Deleted Successfully!";
-                TempData["RefNo"] = model.ItemSubGroupRefNo;
+                TempData["ItemSubGroupRefNo"] = model.ItemSubGroupRefNo;
                 return RedirectToAction("Create");
             }
             else
             {
                 TempData["error"] = "Oops!!..Something Went Wrong!!";
-                TempData["RefNo"] = null;
+                TempData["ItemSubGroupRefNo"] = null;
                 return View("Create", model);
             }
 
