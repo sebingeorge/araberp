@@ -178,6 +178,7 @@ namespace ArabErp.Web.Controllers
             FillVehicle();
             FillUnit();
             FillEmployee();
+            ItemDropdown();
             FillSalesQuotationRejectReason();
             FillRateSettings();
             SalesQuotation salesquotation = new SalesQuotation();
@@ -191,6 +192,10 @@ namespace ArabErp.Web.Controllers
 
             salesquotation.SalesQuotationItems = new List<SalesQuotationItem>();
             salesquotation.SalesQuotationItems.Add(new SalesQuotationItem());
+
+            salesquotation.Materials = new List<SalesQuotationMaterial>();
+            salesquotation.Materials.Add(new SalesQuotationMaterial());
+          
             salesquotation.SalesQuotationItems[0].Quantity = 1;
             //salesquotation.SalesQuotationItems[0].UnitId = 25;
             ViewBag.SubmitAction = "Save";
@@ -223,7 +228,7 @@ namespace ArabErp.Web.Controllers
             {
                 TempData["Success"] = "Added Successfully!";
                 TempData["QuotationRefNo"] = result.QuotationRefNo;
-                return RedirectToAction("Create");
+                return RedirectToAction("CreateAfterSales");
             }
             else
             {
@@ -237,7 +242,7 @@ namespace ArabErp.Web.Controllers
                 FillUnit();
                 FillEmployee();
                 FillSalesQuotationRejectReason();
-                return View("Create", model);
+                return View("CreateAfterSales", model);
             }
         }
         [HttpGet]
@@ -704,13 +709,13 @@ namespace ArabErp.Web.Controllers
 
         }
 
-        public PartialViewResult MaterialList()
-        {
-            ItemDropdown();
-            SalesQuotation salesquotation = new SalesQuotation { Materials = new List<SalesQuotationItem>() };
-            salesquotation.Materials.Add(new SalesQuotationItem());
-            return PartialView("_MaterialList", salesquotation);
-        }
+        //public PartialViewResult MaterialList()
+        //{
+        //    ItemDropdown();
+        //    SalesQuotation salesquotation = new SalesQuotation { Materials = new List<SalesQuotationMaterial>() };
+        //    salesquotation.Materials.Add(new SalesQuotationMaterial());
+        //    return PartialView("_MaterialList", salesquotation);
+        //}
         private void ItemDropdown()
         {
             ViewBag.itemList = new SelectList(new DropdownRepository().ItemDropdown(), "Id", "Name");

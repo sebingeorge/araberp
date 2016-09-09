@@ -122,16 +122,24 @@
             $("#partno" + index).html('');
         }
     }
+    function RateChanged() {
+        var rate = parseFloat("0");
+      
+        $('.clRate').each(function (i, obj) {
+            var a = parseFloat($("#Materials_" + i + "__Rate").val());
 
+            if (isNaN(a)) {
+                a = parseFloat("0");
+            }
+
+            rate = rate + a;
+        });
+       
+    }
 
 </script>
 
 
-<div class="row">
-    <div class="form-head1">
-        <h4>Additional Material Request</h4>
-    </div>
-    <div class="main-part pad1 ">
 
      <table class="table table-bordered" id="table-additional-items-list">
     <thead>
@@ -166,14 +174,13 @@
                 <td id="partno0" class="qreturn" style="vertical-align:middle">@Html.TextBoxFor(m => m.Materials[i].PartNo, new { @class = "form_input text-left", @readonly = "true" })</td>
                 <td>@Html.TextBoxFor(m => m.Materials[i].Remarks, new { @class = "form_input", autocomplete = "off", placeholder = "Remarks" })</td>
                 <td>@Html.TextBoxFor(m => m.Materials[i].Quantity, new { @class = "form_input numbers-only text-right", autocomplete = "off", placeholder = "Qty" })</td>
-                <td>@Html.TextBoxFor(m => m.Materials[i].Rate, new { @class = "form_input numbers-only text-right", autocomplete = "off", placeholder = "Rate" })</td>
+                <td>@Html.TextBoxFor(m => m.Materials[i].Rate, new { @class = "form_input numbers-only text-right clRate", autocomplete = "off", placeholder = "Rate",@onchange=  "RateChanged(" + i + ");", @onkeyup = "RateChanged(" + i + ")" })</td>
                 <td id="unit0" class="qreturn" style="vertical-align:middle">@Html.TextBoxFor(m => m.Materials[i].UnitName, new { @class = "form_input text-left", @readonly = "true" })</td>
                 <td style="vertical-align:middle"><a id="add_row" class="glyphicon glyphicon-plus" style="top:0px" onclick="AddRow()"></a></td>
             </tr>
         }
     </tbody>
 </table>
-    </div>
-</div>
+   
 
 

@@ -24,12 +24,12 @@ namespace ArabErp.Web.Controllers
             return View(costing);
         }
 
-        public ActionResult FillBoxList(int? page)
+        public ActionResult FillCostingParameterList(int? page)
         {
             int itemsPerPage = 10;
             int pageNumber = page ?? 1;
             var rep = new CostingParametersRepository();
-            var List = rep.FillBox();
+            var List = rep.FillCostingParameterList();
             return PartialView("CostingParametersListView", List);
         }
         [HttpPost]
@@ -43,7 +43,7 @@ namespace ArabErp.Web.Controllers
             bool isexists = repo.IsFieldExists(repo.ConnectionString(), "CostingParameters", "Description", model.Description, null, null);
             if (!isexists)
             {
-                var result = new CostingParametersRepository().InsertBox(model);
+                var result = new CostingParametersRepository().InsertCosting(model);
                 if (result.CostingId > 0)
                 {
 
@@ -86,7 +86,7 @@ namespace ArabErp.Web.Controllers
             bool isexists = repo.IsFieldExists(repo.ConnectionString(),  "CostingParameters", "Description", model.Description, "CostingId", model.CostingId);
             if (!isexists)
             {
-                var result = new CostingParametersRepository().UpdateBox(model);
+                var result = new CostingParametersRepository().UpdateCostingParameters(model);
                 if (result.CostingId > 0)
                 {
 
@@ -123,7 +123,7 @@ namespace ArabErp.Web.Controllers
         [HttpPost]
         public ActionResult Delete(CostingParameters model)
         {
-            int result = new CostingParametersRepository().DeleteBox(model);
+            int result = new CostingParametersRepository().DeleteCostingParameters(model);
 
             if (result == 0)
             {
@@ -135,7 +135,7 @@ namespace ArabErp.Web.Controllers
             {
                 if (result == 1)
                 {
-                    TempData["error"] = "Sorry!! You Cannot Delete This Box It Is Already In Use";
+                    TempData["error"] = "Sorry!! You Cannot Delete Costing parameter It Is Already In Use";
                     TempData["CostingRefNo"] = null;
                 }
                 else

@@ -24,6 +24,18 @@ namespace ArabErp.DAL
             
         }
 
+        public int InsertSalesQuotationMaterial(SalesQuotationMaterial objSalesQuotationMaterial, IDbConnection connection, IDbTransaction trn)
+        {
+
+
+            string sql = @"insert  into SalesQuotationMaterial(SalesQuotationId,ItemId,Quantity,Rate,isActive) Values (@SalesQuotationId,@ItemId,@Quantity,@Rate,1);
+            SELECT CAST(SCOPE_IDENTITY() as int)";
+
+
+            var id = connection.Query<int>(sql, objSalesQuotationMaterial, trn).Single();
+            return id;
+
+        }
 
         public SalesQuotationItem GetSalesQuotationItem(int SalesQuotationItemId)
         {

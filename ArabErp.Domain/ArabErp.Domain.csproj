@@ -55,6 +55,8 @@
     <Compile Include="Customer.cs" />
     <Compile Include="CustomerCategory.cs" />
     <Compile Include="CustomerReceipt.cs" />
+    <Compile Include="CustomerVsSalesExecutive.cs" />
+    <Compile Include="CustomerVsSalesExecutiveList.cs" />
     <Compile Include="CustomerVsWorkDescriptionRate.cs" />
     <Compile Include="Dashboard.cs" />
     <Compile Include="DashboardMonthlySalesOrders.cs" />
@@ -141,6 +143,7 @@
     <Compile Include="SalesQuotation.cs" />
     <Compile Include="SalesQuotationItem.cs" />
     <Compile Include="SalesQuotationList.cs" />
+    <Compile Include="SalesQuotationMaterial.cs" />
     <Compile Include="SalesRegister.cs" />
     <Compile Include="SalesTarget.cs" />
     <Compile Include="StockCreation.cs" />

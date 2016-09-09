@@ -46,18 +46,7 @@
         var url = '@Url.Action("AfterSalesIndex")';
         location.href = url;
     }
-
-  
-    function AdditionalMaterial() {
-       
-        var url = '@Url.Action("MaterialList")';
-        $("#div-details").text('Loading...');
-        $("#div-details").load(url);
-        $('#details-modal').modal('show');
-       
-    }
-    function PreviousList() {
-
+       function PreviousList() {
         var url = '@Url.Action("PreviousList", "SalesQuotation")';
         @if (actionName == "Create")
         {
@@ -344,15 +333,24 @@
         }
     }
 
+    
+
 </script>
 
     <div class="row">
         <div class="form-head1">
             @{
-                if (ViewBag.actionName.ToString() == "Create")
+                if (actionName.ToString() == "Create")
                 {
-
-                    <h4>Sales Quotation Request</h4>
+                    <h4>Sales Quotation Request : Transportation </h4>
+                }
+                else if (actionName == "CreateProject")
+                {
+                    <h4>Sales Quotation Request : Project</h4>
+                }
+                else if (actionName == "CreateAfterSales")
+                {
+                    <h4>Sales Quotation Request : AfterSales</h4>
                 }
                 else
                 {
@@ -597,9 +595,15 @@
 
 
                 </script>
+                if (actionName == "CreateAfterSales")
+                {
 
 
-                <div class="table-responsive">
+                    @Html.Partial("_MaterialList")
+
+
+                }
+
                     <table class="table table-bordered" id="tab_logic">
                         <thead>
                             <tr class="grid_heading">
@@ -669,9 +673,7 @@
                                            @class = "form_input numbers-only clrate validateqty",
                                            autocomplete = "off",
                                            @style = "text-align:right",
-                                           placeholder = "MaterialRate",
-                                           @onchange = "QuantityChanged(" + i + ");",
-                                           @onkeyup = "QuantityChanged(" + i + ")"
+                                           placeholder = "MaterialRate",@readonly="true" 
                                        })
                                     </td>
                                     <td>
@@ -713,8 +715,7 @@
                             </tr>
                         </tfoot>
                     </table>
-                </div>
-   
+            
 
                 <div class="row">
 
@@ -798,7 +799,7 @@
                             <button type="button" class="form-button right" onclick="GotoAfterSalesIndex()">Exit</button>
                             <button type="submit" class="form-button right">Save</button>
                             <input type="button" class="form-button" onclick="PreviousList()" value="Previous">
-                            <input type="button" style="width:200px" class="form-button" onclick="AdditionalMaterial()" value="Additional Material">
+                            @*<input type="button" style="width:200px" class="form-button" onclick="AdditionalMaterial()" value="Add Material">*@
                             
                             
                         }
