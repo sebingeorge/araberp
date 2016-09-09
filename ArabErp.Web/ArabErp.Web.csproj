@@ -687,7 +687,7 @@
     <Content Include="Views\ProformaInvoice\PendingProforma.cshtml" />
     <Content Include="Views\ProformaInvoice\Create.cshtml" />
     <Content Include="Views\ItemBatch\Pending.cshtml" />
-    <Content Include="Views\ItemBatch\Create.cshtml" />
+    <Content Include="Views\ItemBatch\Edit.cshtml" />
     <Content Include="Views\SaleOrder\PendingSaleOrderApprovalTransaction.cshtml" />
     <Content Include="Views\ItemBatch\PendingReservation.cshtml" />
     <Content Include="Views\ItemBatch\Reserve.cshtml" />
@@ -926,6 +926,7 @@
     <Content Include="Views\ProductionPlan\CustomerOrder.cshtml" />
     <Content Include="Views\ProductionPlan\ProductionSchedule.cshtml" />
     <Content Include="Views\ItemBatch\PendingOpeningStock.cshtml" />
+    <Content Include="Views\ItemBatch\Create - Copy.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

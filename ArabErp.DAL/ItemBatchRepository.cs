@@ -44,18 +44,41 @@ namespace ArabErp.DAL
             }
         }
 
-        public ItemBatch GetItemBatch(int ItemBatchId)
+        public IEnumerable<ItemBatch> GetItemBatch(int id, int OrganizationId, int type = 0)//type=0 means GRNItemId, type=1 means OpeningStockId
         {
 
             using (IDbConnection connection = OpenConnection(dataConnection))
             {
-                string sql = @"select * from ItemBatch
-                        where ItemBatchId=@ItemBatchId";
+                string query = @"SELECT 
+	                                IB.*,
+	                                1 AS isOpeningStock,
+	                                SO.SaleOrderRefNo,
+	                                CONVERT(VARCHAR, SO.SaleOrderDate, 106) SaleOrderDate,
+	                                DC.DeliveryChallanRefNo,
+	                                CONVERT(VARCHAR, DC.DeliveryChallanDate, 106) DeliveryChallanDate,
+	                                PC.ProjectCompletionRefNo,
+	                                CONVERT(VARCHAR, PC.ProjectCompletionDate, 106) ProjectCompletionDate,
+									ISNULL(GI.Quantity, OS.Quantity) Quantity,
+									S.StockPointName,
+									I.ItemName
+                                FROM ItemBatch IB
+	                                LEFT JOIN SaleOrderItem SOI ON IB.SaleOrderItemId = SOI.SaleOrderItemId
+	                                LEFT JOIN SaleOrder SO ON SOI.SaleOrderId = SO.SaleOrderId
+	                                LEFT JOIN DeliveryChallan DC ON IB.DeliveryChallanId = DC.DeliveryChallanId
+	                                LEFT JOIN ProjectCompletion PC ON IB.ProjectCompletionId = PC.ProjectCompletionId 
+									LEFT JOIN GRNItem GI ON IB.GRNItemId = GI.GRNItemId
+									LEFT JOIN GRN G ON GI.GRNId = G.GRNId
+									LEFT JOIN OpeningStock OS ON IB.OpeningStockId = OS.OpeningStockId
+									LEFT JOIN Stockpoint S ON (G.WareHouseId = S.StockPointId OR OS.StockPointId = S.StockPointId)
+									LEFT JOIN Item I ON (GI.ItemId = I.ItemId OR OS.ItemId = I.ItemId)
+                                WHERE " + (type == 0 ? "IB.GRNItemId" : "IB.OpeningStockId") + "=@id AND IB.OrganizationId = @OrganizationId";
 
-                var objItemBatch = connection.Query<ItemBatch>(sql, new
+                var objItemBatch = connection.Query<ItemBatch>(query, new
                 {
-                    ItemBatchId = ItemBatchId
-                }).First<ItemBatch>();
+                    id = id,
+                    type = type,
+                    OrganizationId = OrganizationId
+                }).ToList<ItemBatch>();
 
                 return objItemBatch;
             }
@@ -731,6 +754,9 @@ namespace ArabErp.DAL
                 string query =
                     @"SELECT DISTINCT
 	                    ISNULL(G.GRNId, 0) GRNId,
+						ISNULL(IB.GRNItemId, 0) GRNItemId,
+						ISNULL(IB.OpeningStockId, 0) OpeningStockId,
+						CASE WHEN IB.OpeningStockId IS NULL THEN 0 ELSE 1 END isOpeningStock,
 	                    G.GRNNo,
 	                    CONVERT(VARCHAR, G.GRNDate, 106) GRNDate,
 						I.ItemName,
@@ -750,7 +776,7 @@ namespace ArabErp.DAL
                     WHERE IB.OrganizationId = @OrganizationId
                     AND IB.isActive = 1
 					AND IB.SerialNo LIKE '%'+@serialno+'%'
-					AND ISNULL(G.GRNNo, '') LIKE '%'+@grnno+'%'";
+					AND ISNULL(G.GRNNo, 'Opening Stock') LIKE '%'+@grnno+'%'";
                 var list = connection.Query<ItemBatch>(query, new
                 {
                     OrganizationId = OrganizationId,

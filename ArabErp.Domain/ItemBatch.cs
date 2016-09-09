@@ -38,11 +38,15 @@ namespace ArabErp.Domain
         public bool isSelected { get; set; }
         public string CustomerName { get; set; }
         public string DeliveryChallanRefNo { get; set; }
+        public string DeliveryChallanDate { get; set; }
         /// <summary>
         /// Warranty left in months
         /// </summary>
         public int WarrantyLeft { get; set; }
         public int OpeningStockId { get; set; }
         public int isOpeningStock { get; set; }
+        public string ProjectCompletionRefNo { get; set; }
+        public string ProjectCompletionDate { get; set; }
+        public int ProjectCompletionId { get; set; }
     }
 }
