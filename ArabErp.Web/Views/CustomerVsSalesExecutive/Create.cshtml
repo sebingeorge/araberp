@@ -1,0 +1,94 @@
+﻿@model ArabErp.Domain.CustomerVsSalesExecutiveList
+
+@{
+    ViewBag.Title = "Create";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<script type="text/javascript">
+
+    $(document).ready(function () {
+
+
+        assignTaskDate();
+
+
+    });
+
+
+    function assignTaskDate() {
+
+        $('.effectivedate').each(function (i, obj) {
+            //alert(obj.id);
+            $("#" + obj.id).removeClass("hasDatepicker");
+            $("#" + obj.id).datepicker({ dateFormat: "dd-MM-yy" });
+        });
+        function Exit() {
+            var url = '@Url.Action("CustomerVsSalesExecutive")';
+            window.location = url;
+        }
+
+    }
+
+</script>
+
+<div class="main-part pad1">
+    @using (Html.BeginForm("Save", null, FormMethod.Post, new { @class = "createFrom", @id = "CustomerVsSalesExecutive_form" }))
+    {
+        @Html.HiddenFor(m => m.dummy)
+        <div class=" table-responsive">
+            <table class="table table-bordered" id="tab_logic">
+                <thead>
+                    <tr class="grid_heading">
+                        <td width="2%"><h1>#</h1></td>
+                        <th width="40%"><h1>Customer</h1></th>
+                        <th width="40%"><h1>Sales Executives</h1></th>
+                        <th width="10%"><h1>Effective Date</h1></th>
+
+                    </tr>
+                </thead>
+                <tbody class="grid_row">
+                    @{ int row = 0;}
+                    @foreach (var item in Model.CustomerVsSalesExecutives)
+                    {
+
+                        <tr id="@row">
+                            <td style="vertical-align:middle">
+                                <span id="slno@(row+1)">@(row + 1)</span>
+                                @*@Html.HiddenFor(m => m.CustomerVsSalesExecutives[row].CustomerVsSalesExecutiveId)*@
+                                @Html.HiddenFor(m => m.CustomerVsSalesExecutives[row].CustomerId)
+                            </td>
+
+                            <td align="center">
+                                @item.CustomerName
+                            </td>
+                            <td>
+
+                                @Html.DropDownListFor(m => m.CustomerVsSalesExecutives[row].EmployeeId, new SelectList(ViewBag.EmployeeList, "Value", "Text", item.EmployeeId), "Select Employee", new { @class = "form_input", autocomplete = "off" })
+
+                            </td>
+
+                            <td>
+                                @Html.TextBoxFor(m => m.CustomerVsSalesExecutives[row].EffectiveDate, item.EffectiveDate.ToString("dd/MMMM/yyyy"), new { @class = "effectivedate form_input", autocomplete = "off", @readonly = "readonly" })
+
+
+                            </td>
+
+
+                        </tr>
+                        row++;
+                    }
+
+                </tbody>
+            </table>
+        </div>
+
+        <div class="row">
+
+            <div class="col-md-12 hrpart">
+                <button type="button" class="form-button right" onclick="Exit()">Exit</button>
+                <button type="submit" class="form-button right">Save</button>
+            </div>
+        </div>
+    }
+</div>

@@ -15,7 +15,7 @@ namespace ArabErp.DAL
         {
             return dataConnection;
         }
-        public CostingParameters InsertBox(CostingParameters objCosting)
+        public CostingParameters InsertCosting(CostingParameters objCosting)
         {
             using (IDbConnection connection = OpenConnection(dataConnection))
             {
@@ -34,7 +34,7 @@ namespace ArabErp.DAL
 
                     int id = connection.Query<int>(sql, objCosting, trn).Single();
                     objCosting.CostingId = id;
-                    InsertLoginHistory(dataConnection, objCosting.CreatedBy, "Create", "Box", internalid.ToString(), "0");
+                    InsertLoginHistory(dataConnection, objCosting.CreatedBy, "Create", "CostingParameters", internalid.ToString(), "0");
                     //connection.Dispose();
                     trn.Commit();
                 }
@@ -73,7 +73,7 @@ namespace ArabErp.DAL
             }
         }
 
-        public IEnumerable<CostingParameters> FillBox()
+        public IEnumerable<CostingParameters> FillCostingParameterList()
         {
             using (IDbConnection connection = OpenConnection(dataConnection))
             {
@@ -81,7 +81,7 @@ namespace ArabErp.DAL
             }
         }
 
-        public CostingParameters UpdateBox(CostingParameters objCosting)
+        public CostingParameters UpdateCostingParameters(CostingParameters objCosting)
         {
             using (IDbConnection connection = OpenConnection(dataConnection))
             {
@@ -107,7 +107,7 @@ namespace ArabErp.DAL
                 return objBox;
             }
         }
-        public int DeleteBox(CostingParameters objCosting)
+        public int DeleteCostingParameters(CostingParameters objCosting)
         {
             int result = 0;
             using (IDbConnection connection = OpenConnection(dataConnection))
