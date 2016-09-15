@@ -80,8 +80,6 @@ namespace ArabErp.DAL
             }
         }
 
-
-
         public int DeleteDeliveryChallan(Unit objDeliveryChallan)
         {
             using (IDbConnection connection = OpenConnection(dataConnection))
@@ -203,10 +201,10 @@ namespace ArabErp.DAL
                                 INNER JOIN SaleOrder SO ON SO.SaleOrderId=JC.SaleOrderId
                                 INNER JOIN SaleOrderItem SOI ON SOI.SaleOrderId=SOI.SaleOrderId AND JC.SaleOrderItemId=SOI.SaleOrderItemId
                                 INNER JOIN Customer C ON C.CustomerId=SO.CustomerId 
-                                INNER JOIN VehicleInPass VI ON VI.SaleOrderItemId = SOI.SaleOrderItemId
                                 INNER JOIN WorkDescription WI ON WI.WorkDescriptionId = SOI.WorkDescriptionId
                                 INNER JOIN VehicleModel VM ON VM.VehicleModelId=SOI.VehicleModelId
-                                INNER JOIN Employee E ON E.EmployeeId=DC.[EmployeeId]
+                                INNER JOIN Employee E ON E.EmployeeId=DC.EmployeeId
+                                LEFT JOIN VehicleInPass VI ON VI.SaleOrderItemId = SOI.SaleOrderItemId
                                 WHERE  DeliveryChallanId=@DeliveryChallanId";
 
                 var objDeliveryChallan = connection.Query<DeliveryChallan>(sql, new
@@ -217,6 +215,18 @@ namespace ArabErp.DAL
                 return objDeliveryChallan;
             }
         }
+
+        public List<ItemBatch> GetDeliveryChallanDT(int DeliveryChallanId)
+        {
+            using (IDbConnection connection = OpenConnection(dataConnection))
+            {
+                string sql = @" SELECT SerialNo, WarrantyStartDate,WarrantyExpireDate 
+                                FROM ItemBatch WHERE DeliveryChallanId =@DeliveryChallanId";
+
+                return connection.Query<ItemBatch>(sql, new { DeliveryChallanId = DeliveryChallanId }).ToList();
+            }
+        }
+
 
     }
 }
