@@ -137,6 +137,7 @@ namespace ArabErp.Web.Controllers
             ds.Tables["Head"].Columns.Add("SpecialRemarks");
             //-------DT
             ds.Tables["Items"].Columns.Add("SerialNo");
+            ds.Tables["Items"].Columns.Add("ItemName");
             ds.Tables["Items"].Columns.Add("WarrantyStartDate");
             ds.Tables["Items"].Columns.Add("WarrantyExpireDate");
 
@@ -150,11 +151,11 @@ namespace ArabErp.Web.Controllers
             dr["SONoDate"] = Head.SONODATE;
             dr["JCNoDate"] = Head.JobCardNo;
             dr["RegistrationNo"] = Head.RegistrationNo;
-            dr["WorkDesc"] = Head.WorkDesc;
+            dr["WorkDesc"] = Head.WorkDescr;
             dr["VehicleModel"] = Head.VehicleModel;
             dr["Employee"] = Head.EmployeeName;
             dr["PaymentTerms"] = Head.PaymentTerms;
-            dr["SpecialRemarks"] = Head.SpecialRemarks;
+            dr["SpecialRemarks"] = Head.Remarks;
             ds.Tables["Head"].Rows.Add(dr);
 
 
@@ -165,12 +166,14 @@ namespace ArabErp.Web.Controllers
                 var DCItem = new ItemBatch
                 {
                     SerialNo = item.SerialNo,
+                    ItemName = item.ItemName,
                     WarrantyStartDate = item.WarrantyStartDate,
                     WarrantyExpireDate = item.WarrantyExpireDate
                 };
 
                 DataRow dri = ds.Tables["Items"].NewRow();
                 dri["SerialNo"] = DCItem.SerialNo;
+                dri["ItemName"] = DCItem.ItemName;
                 dri["WarrantyStartDate"] = DCItem.WarrantyStartDate.ToString("dd-MMM-yyyy");
                 dri["WarrantyExpireDate"] = DCItem.WarrantyExpireDate.ToString("dd-MMM-yyyy");
                 ds.Tables["Items"].Rows.Add(dri);

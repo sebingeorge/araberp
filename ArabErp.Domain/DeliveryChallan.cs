@@ -24,10 +24,9 @@ namespace ArabErp.Domain
         public DateTime JobCardDate { get; set; }
         public string Customer { get; set; }
         public string SONODATE { get; set; }
-        public string WorkDesc { get; set; }
+        public string WorkDescr { get; set; }
         public string VehicleModel { get; set; }
         public string PaymentTerms { get; set; }
-        public string SpecialRemarks { get; set; }
         public List<ItemBatch> ItemBatches { get; set; }
     }
 }

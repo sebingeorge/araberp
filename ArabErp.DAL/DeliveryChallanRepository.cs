@@ -192,10 +192,10 @@ namespace ArabErp.DAL
             using (IDbConnection connection = OpenConnection(dataConnection))
             {
 
-                string sql = @" SELECT DISTINCT DeliveryChallanId,DeliveryChallanRefNo,DeliveryChallanDate,C.CustomerName,
-                                ISNULL(SO.SaleOrderRefNo,'')+ ' - '  +CONVERT(varchar,SO.SaleOrderDate,106) SaleOrderNoDate,
-                                ISNULL(JC.JobCardNo,'') + ' - ' +CONVERT(varchar,JC.JobCardDate,106)JobCardNoDate,VI. RegistrationNo,
-                                WI.WorkDescr,VM.VehicleModelName,E.EmployeeName,SO.PaymentTerms,DC.Remarks
+                string sql = @" SELECT DISTINCT DeliveryChallanId,DeliveryChallanRefNo,DeliveryChallanDate,C.CustomerName Customer,
+                                ISNULL(SO.SaleOrderRefNo,'')+ ' - '  +CONVERT(varchar,SO.SaleOrderDate,106) SONODATE,
+                                ISNULL(JC.JobCardNo,'') + ' - ' +CONVERT(varchar,JC.JobCardDate,106)JobCardNo,VI. RegistrationNo,
+                                WI.WorkDescr,VM.VehicleModelName VehicleModel,E.EmployeeName,SO.PaymentTerms,DC.Remarks
                                 FROM DeliveryChallan DC
                                 INNER JOIN JobCard JC ON JC.JobCardId=DC.JobCardId
                                 INNER JOIN SaleOrder SO ON SO.SaleOrderId=JC.SaleOrderId
@@ -220,8 +220,11 @@ namespace ArabErp.DAL
         {
             using (IDbConnection connection = OpenConnection(dataConnection))
             {
-                string sql = @" SELECT SerialNo, WarrantyStartDate,WarrantyExpireDate 
-                                FROM ItemBatch WHERE DeliveryChallanId =@DeliveryChallanId";
+                string sql = @" SELECT DISTINCT SerialNo,ItemName, WarrantyStartDate,WarrantyExpireDate 
+                                FROM ItemBatch IB 
+                                INNER JOIN GRNItem GI ON GI.GRNItemId=IB.GRNItemId
+                                INNER JOIN Item I ON I.ItemId=GI.ItemId
+                                WHERE DeliveryChallanId =@DeliveryChallanId";
 
                 return connection.Query<ItemBatch>(sql, new { DeliveryChallanId = DeliveryChallanId }).ToList();
             }
