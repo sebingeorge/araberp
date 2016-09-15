@@ -124,7 +124,7 @@ namespace ArabErp.Web.Controllers
             else
             {
                 dropdown();
-                TempData["error"] = "This Organization Name Alredy Exists!!";
+                TempData["error"] = "This Sales Target Ref No. Alredy Exists!!";
                 TempData["SalesTargetRefNo"] = null;
                 return View("Create", model);
             }

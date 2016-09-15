@@ -1,6 +1,6 @@
 ﻿@model IList<ArabErp.Domain.ItemBatch>
 
-<table class="table table-bordered">
+<table class="table table-bordered table-hover">
     <thead>
         <tr class="grid_heading">
             <th width="2%" class="text-center"><h1>#</h1></th>
@@ -41,7 +41,12 @@
                         @item.CreatedDate.Value.ToString("dd MMMM yyyy")
                     </td>
                     <td>
-                        <center><input type="button" value="Select" onclick="OnItemSelected(@item.GRNItemId)" checked class="form-button4" /></center>
+                        <center>
+                            <input type="button" value="Select"
+                                   @if (item.GRNId != 0) { @: onclick="OnItemSelected(@item.GRNItemId, @item.isOpeningStock)"
+                                   } else {   @: onclick="OnItemSelected(@item.OpeningStockId, @item.isOpeningStock)"
+                                   } checked class="form-button4" />
+                        </center>
                     </td>
                 </tr>
             }

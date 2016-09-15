@@ -81,6 +81,7 @@
     <Compile Include="CustomerCategoryRepository.cs" />
     <Compile Include="CustomerReceiptRepository  .cs" />
     <Compile Include="CustomerRepository.cs" />
+    <Compile Include="CustomerVsSalesExecutivesRepository.cs" />
     <Compile Include="CustomerVsWorkRateRepository.cs" />
     <Compile Include="DashboardRepository.cs" />
     <Compile Include="DatabaseCommonRepository.cs" />
