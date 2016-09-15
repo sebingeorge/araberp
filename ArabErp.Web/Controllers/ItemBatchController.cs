@@ -245,6 +245,18 @@ namespace ArabErp.Web.Controllers
             return View();
         }
 
+        public ActionResult Edit(int id = 0, int type = 0)
+        {
+            if (id == 0) return RedirectToAction("Index", "Home");
+            return View(new ItemBatchRepository().GetItemBatch(id, OrganizationId, type));
+        }
+
+        [HttpPost]
+        public ActionResult Edit(IList<ItemBatch> model)
+        {
+            return View(model);
+        }
+
         #region Dropdowns
         public void FillMaterial()
         {

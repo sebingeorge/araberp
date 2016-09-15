@@ -188,5 +188,35 @@ namespace ArabErp.DAL
 
             }
         }
+
+        public DeliveryChallan GetDeliveryChallanHD(int DeliveryChallanId)
+        {
+            using (IDbConnection connection = OpenConnection(dataConnection))
+            {
+
+                string sql = @" SELECT DISTINCT DeliveryChallanId,DeliveryChallanRefNo,DeliveryChallanDate,C.CustomerName,
+                                ISNULL(SO.SaleOrderRefNo,'')+ ' - '  +CONVERT(varchar,SO.SaleOrderDate,106) SaleOrderNoDate,
+                                ISNULL(JC.JobCardNo,'') + ' - ' +CONVERT(varchar,JC.JobCardDate,106)JobCardNoDate,VI. RegistrationNo,
+                                WI.WorkDescr,VM.VehicleModelName,E.EmployeeName,SO.PaymentTerms,DC.Remarks
+                                FROM DeliveryChallan DC
+                                INNER JOIN JobCard JC ON JC.JobCardId=DC.JobCardId
+                                INNER JOIN SaleOrder SO ON SO.SaleOrderId=JC.SaleOrderId
+                                INNER JOIN SaleOrderItem SOI ON SOI.SaleOrderId=SOI.SaleOrderId AND JC.SaleOrderItemId=SOI.SaleOrderItemId
+                                INNER JOIN Customer C ON C.CustomerId=SO.CustomerId 
+                                INNER JOIN VehicleInPass VI ON VI.SaleOrderItemId = SOI.SaleOrderItemId
+                                INNER JOIN WorkDescription WI ON WI.WorkDescriptionId = SOI.WorkDescriptionId
+                                INNER JOIN VehicleModel VM ON VM.VehicleModelId=SOI.VehicleModelId
+                                INNER JOIN Employee E ON E.EmployeeId=DC.[EmployeeId]
+                                WHERE  DeliveryChallanId=@DeliveryChallanId";
+
+                var objDeliveryChallan = connection.Query<DeliveryChallan>(sql, new
+                {
+                    DeliveryChallanId = DeliveryChallanId
+                }).First<DeliveryChallan>();
+
+                return objDeliveryChallan;
+            }
+        }
+
     }
 }
