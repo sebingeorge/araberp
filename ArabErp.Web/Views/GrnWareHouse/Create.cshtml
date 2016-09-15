@@ -222,9 +222,9 @@
             }
         });
         i++;
-        alert(i);
+        //alert(i);
         //$("#" + index).html('');
-        if (i > 1) {
+        if (i = 1) {
             $("#Row_Item_Id_" + index).remove();
             for (var j = index + 1; j < i; j++) {
                 var ItemId = $("#Additions_" + j + "__AdditionId").val();
@@ -270,6 +270,41 @@
         //clone.html($(clone).html().replace("OnMaterialChange(this," + i, "OnMaterialChange(this," + (i + 1)));
         clone.html($(clone).html().replace(/this,0/, 'this,' + i + ''));
         $("#tab_Ded").append('<tr id="' + 'Row_Ded_Id_' + i + '">' + clone.html() + '  </tr>');
+    }
+
+    function DeductionDelete(index) {
+
+        var i = 0;
+        var no = 1;
+        $('input[id^="Row_Ded_"]').each(function () {
+            var id = this.id;
+            no++;
+            var row = Number(id.replace("Row_Ded_", ""));
+            if (row > i) {
+                i = row;
+            }
+        });
+        i++;
+        //alert(i);
+        //$("#" + index).html('');
+        if (i = 1) {
+            $("#Row_Ded_Id_" + index).remove();
+            for (var j = index + 1; j < i; j++) {
+                var ItemId = $("#Deductions_" + j + "__DeductionId").val();
+                var Quantity = $("#Deductions_" + j + "__Deduction").val();
+                var clone = $("#Row_Ded_Id_" + j).clone(true, true);
+                clone.html($(clone).html().replace(new RegExp("Deductions_" + j + "__", "g"), 'Deductions_' + (j - 1) + '__'));
+                clone.html($(clone).html().replace(new RegExp("\\[" + j + "].", "g"), "[" + (j - 1) + "]."));
+                clone.html($(clone).html().replace("DeductionDelete(" + j, "DeductionDelete(" + (j - 1)));
+                //clone.html($(clone).html().replace("OnMaterialChange(this," + j, "OnMaterialChange(this," + (j - 1)));
+                clone.html($(clone).html().replace("Row_Ded_Id_" + j, "Row_Ded_Id_" + (j - 1)));
+                clone.html($(clone).html().replace("Row_Ded_" + j, "Row_Ded_" + (j - 1)));
+                clone.html($(clone).html().replace("this," + j, "this," + (j - 1)));
+                $("#Row_Ded_Id_" + j).html(clone.html());
+                $("#Deductions_" + (j - 1) + "__DeductionId").val(ItemId);
+                $("#Deductions_" + (j - 1) + "__Deduction").val(Quantity);
+            }
+        }
     }
 
 </script>
@@ -530,8 +565,8 @@
                                                 @for (int i = 0; i < Model.Deductions.Count; i++)
                                                 {
                                                     <tr id="Row_Ded_Id_@i">
-                                                        <td style="vertical-align:middle">
-                                                            <a class="glyphicon glyphicon-minus" style="top:0px" onclick="DeductionDelete(@i)"></a>
+                                                        <td 
+                                                            style="vertical-align:middle"><a class="glyphicon glyphicon-minus" style="top:0px" onclick="DeductionDelete(@i)"></a>
                                                         </td>
                                                         <td>
                                                             @Html.HiddenFor(m => m.Deductions[i].GRNId)
