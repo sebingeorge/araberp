@@ -594,7 +594,8 @@ namespace ArabErp.Web.Controllers
             FillCustomer();
             FillCurrency();
             FillCommissionAgent();
-            FillWrkDesc();
+          
+          
             FillVehicle();
             FillQuerySheetInQuot();
             FillUnit();
@@ -607,10 +608,18 @@ namespace ArabErp.Web.Controllers
 
 
             SalesQuotation salesquotation = repo.GetSalesQuotation(id);
+            if (salesquotation.isProjectBased==2)
+            {
+                FillWrkDescAfterSales();
+                ItemDropdown();
+            }
+            else
+            {
+                FillWrkDesc();
+            }
             salesquotation.CustomerAddress= sorepo.GetCusomerAddressByKey(salesquotation.CustomerId);
-
-
             salesquotation.SalesQuotationItems = repo.GetSalesQuotationItems(id);
+            salesquotation.Materials = repo.GetSalesQuotationMaterials(id);
             //ViewBag.SubmitAction = "Approve";
             return View("Edit",salesquotation);
     }
