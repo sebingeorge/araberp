@@ -77,7 +77,7 @@ namespace ArabErp.DAL
                             item.SalesQuotationId = model.SalesQuotationId;
                             saleorderitemrepo.InsertSalesQuotationItem(item, connection, trn);
                         }
-                        if (model.isProjectBased == 2)
+                        if (model.isProjectBased == 2 || model.isProjectBased == 1)
                         {
                             foreach (var item in model.Materials)
                             {
