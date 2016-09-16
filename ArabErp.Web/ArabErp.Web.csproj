@@ -935,6 +935,7 @@
     <Content Include="Views\ProductionPlan\ProductionSchedule.cshtml" />
     <Content Include="Views\ItemBatch\PendingOpeningStock.cshtml" />
     <Content Include="Views\ItemBatch\Create - Copy.cshtml" />
+    <Content Include="Views\WorkDescription\ProjectWorkDescriptionList.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

@@ -46,6 +46,15 @@ namespace ArabErp.Web.Controllers
             return View(workdescription);
         }
 
+        public ActionResult FillProjectWorkDescriptionList(int? page)
+        {
+            //int itemsPerPage = 2;
+            int pageNumber = page ?? 1;
+            var repo = new WorkDescriptionRepository();
+            var List = repo.FillProjectWorkDescriptionList();
+            return View("ProjectWorkDescriptionList", List);
+        }
+
         public ActionResult CreateProjectWorkDescription()
         {
         
