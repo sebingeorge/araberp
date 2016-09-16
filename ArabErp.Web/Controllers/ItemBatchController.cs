@@ -254,7 +254,18 @@ namespace ArabErp.Web.Controllers
         [HttpPost]
         public ActionResult Edit(IList<ItemBatch> model)
         {
-            return View(model);
+            try
+            {
+                model = (from ItemBatch item in model where item.ItemBatchId != 0 select item).ToList();
+                new ItemBatchRepository().Update(model, CreatedBy: UserID);
+                TempData["success"] = "Updated Successfully";
+                return RedirectToAction("Index");
+            }
+            catch (Exception)
+            {
+                TempData["error"] = "Some error occured while updating. Please try again.";
+                return View(model);
+            }
         }
 
         #region Dropdowns
