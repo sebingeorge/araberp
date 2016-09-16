@@ -1,6 +1,9 @@
 ﻿
 @model ArabErp.Domain.SalesQuotation
 
+@{ 
+    string actionName = ViewContext.RouteData.GetRequiredString("action");
+ }
 <script type="text/javascript">
 
     $(document).ready(function () {
@@ -132,11 +135,53 @@
             }
            
             rate = rate + a;
-           
+            
             $("#SalesQuotationItems_" + 0 + "__MaterialRate").val(rate);
-           
+            $("#SalesQuotationItems_" + 0 + "__Amount").val(rate);
         });
        
+
+    }
+    function QtyChanged(row) {
+        var quantity = parseFloat($("#Materials_" + row + "__Quantity").val());
+        var rate = parseFloat($("#Materials_" + row + "__Rate").val());
+     
+     
+        if (quantity == NaN) {
+            quantity = 0;
+        }
+        if (rate == NaN) {
+            rate = 0;
+        }
+                        
+      
+                      
+        var amount = (quantity * rate);
+                       
+        amount = parseFloat(amount);
+        $("#Materials_" + row + "__Amount").val(amount);
+        calculateSummary();
+    }
+
+    function calculateSummary() {
+      
+        var amount = parseFloat("0");
+       
+        $('.clAmount').each(function (i, obj) {
+            var a = parseFloat($("#Materials_" + i + "__Amount").val());
+            if (isNaN(a)) {
+
+                a = parseFloat("0");
+
+            }
+
+            amount = amount + a;
+        });
+
+     
+        $("#TotalAmount").text(parseFloat(amount));
+        $("#Amount").val(parseFloat(amount));
+
 
     }
 
@@ -147,15 +192,22 @@
      <table class="table table-bordered" id="table-additional-items-list">
     <thead>
         <tr class="grid_heading">
+           @if (actionName != "Approve" )
+            {
             <th width="2%" class="text-center"></th>
+            }
             <th width="5%" class="text-center "><h1>#</h1></th>
-            <th width="35%"><h1>Material/Spares</h1></th>
-            <th width="10%"><h1>Part No.</h1></th>
-            <th width="35%"><h1>Remarks</h1></th>
-            <th width="5%" class="text-right "><h1>Qty.</h1></th>
-            <th width="5%" class="text-right "><h1>Rate</h1></th>
-            <th width="6%"><h1>UoM</h1></th>
+            <th width="40%"><h1>Material/Spares</h1></th>
+            <th width="20%"><h1>Part No.</h1></th>
+          
+            <th width="6%" class="text-right "><h1>Qty.</h1></th>
+            <th width="8%"><h1>UoM</h1></th>
+            <th width="10%" class="text-right "><h1>Rate</h1></th>
+            <th width="10%" class="text-right "><h1>Amount</h1></th>
+            @if (actionName != "Approve" )
+            {
             <th width="2%" class="text-center"></th>
+            }
         </tr>
     </thead>
     <tbody class="grid_row">
@@ -163,7 +215,10 @@
         {
 
             <tr id="tr_@i">
+             @if (actionName != "Approve" )
+                  {
                 <td style="vertical-align:middle"><a class="glyphicon glyphicon-minus" style="top:0px" onclick="Delete(@i)"></a></td>
+                  }
                 <td align="center">
                     <span id="serialno@(i+1)">@(i + 1)</span>
                     @Html.HiddenFor(m => m.Materials[i].SlNo)
@@ -173,14 +228,39 @@
                 @Html.DropDownListFor(m => m.Materials[i].ItemId, new SelectList(ViewBag.itemList, "Value", "Text", Model.Materials[i].ItemId), "Select Material/Spares", new { @class = "form_input", autocomplete = "off", @onchange = "OnItemChange(this," + i + ")" })
                 </td>
                 <td id="partno0" class="qreturn" style="vertical-align:middle">@Html.TextBoxFor(m => m.Materials[i].PartNo, new { @class = "form_input text-left", @readonly = "true" })</td>
-                <td>@Html.TextBoxFor(m => m.Materials[i].Remarks, new { @class = "form_input", autocomplete = "off", placeholder = "Remarks" })</td>
-                <td>@Html.TextBoxFor(m => m.Materials[i].Quantity, new { @class = "form_input numbers-only text-right", autocomplete = "off", placeholder = "Qty" })</td>
-                <td>@Html.TextBoxFor(m => m.Materials[i].Rate, new { @class = "form_input numbers-only text-right clRate", autocomplete = "off", placeholder = "Rate", @onchange = "RateChanged(" + i + ");" })</td>
+             
+                <td>@Html.TextBoxFor(m => m.Materials[i].Quantity, new { @class = "form_input numbers-only text-right", autocomplete = "off", placeholder = "Qty", @onkeyup = "QtyChanged(" + i + ")" })</td>
                 <td id="unit0" class="qreturn" style="vertical-align:middle">@Html.TextBoxFor(m => m.Materials[i].UnitName, new { @class = "form_input text-left", @readonly = "true" })</td>
+                <td>@Html.TextBoxFor(m => m.Materials[i].Rate, new { @class = "form_input numbers-only text-right ", autocomplete = "off", placeholder = "Rate", @onchange = "RateChanged(" + i + ");", @onkeyup = "QtyChanged(" + i + ")" })</td>
+                <td>@Html.TextBoxFor(m => m.Materials[i].Amount, new { @class = "form_input numbers-only text-right clAmount", autocomplete = "off", placeholder = "Amount", @readonly = "true" })</td>
+                @if (actionName != "Approve" )
+                  {
                 <td style="vertical-align:middle"><a id="add_row" class="glyphicon glyphicon-plus" style="top:0px" onclick="AddRow()"></a></td>
-            </tr>
+                  }
+                    </tr>
         }
     </tbody>
+         <tfoot>
+             <tr class="grid_heading">
+                 @if (actionName != "Approve")
+                 {
+                     <th width="2%" class="text-center"></th>
+                 }
+                 <th width="5%" class="text-center "><h1>Total</h1></th>
+                 <th width="40%"><h1></h1></th>
+                 <th width="20%"><h1></h1></th>
+
+                 <th width="6%" class="text-right "><h1></h1></th>
+                 <th width="8%"><h1></h1></th>
+                 <th width="10%" class="text-right "><h1></h1></th>
+                 <th width="10%" class="text-right "><span id="TotalAmount"></span></th>
+                 @if (actionName != "Approve")
+                 {
+                     <th width="2%" class="text-center"></th>
+                 }
+             </tr>
+         </tfoot>
+
 </table>
    
 

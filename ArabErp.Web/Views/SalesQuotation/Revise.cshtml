@@ -168,13 +168,7 @@
                 count = 1;
             }
 
-            //  if (!$(this).val()) {
-            //      //$(this).addClass('');
-            //    $(this).addClass('warning');
-            //    alert("Please enter Quantity");
-            //    $(this).focus();
-            //    return rtn;
-            //}
+         
 
 
         });
@@ -336,46 +330,16 @@
 
                             @Html.TextBoxFor(m => m.ApprovedBy, new { @class = "form_input", autocomplete = "off", @readonly = "readonly" })
                         }
-                        @*else
-                            {
-                                @Html.DropDownListFor(m => Model.ApprovedBy, (SelectList)ViewBag.employeelist, "Select Approver", new { @class = "form_input", autocomplete = "off", @disabled = "true" })
-
-                            }*@
+                       
                     </div>
                 </div>
 
                 <script>
+                   
                     $(document).ready(function () {
                         $("#SalesQuotationItems_0__SlNo").val('1');
-                        $("#add_row").click(function () {
-                            var i = 0;
-                            var no = 1;
-                            $('input[id^="Row_"]').each(function () {
-                                var id = this.id;
-                                no++;
-                                var row = Number(id.replace("Row_", ""));
-                                if (row > i) {
-                                    i = row;
-                                }
-                            });
-                            i++;
+                        //$('td:nth-child(2)').hide();
 
-                            var index = (new Date()).getTime(); // unique indexer
-                            var clone = $('#0').clone(); // clone the BatchProducts item
-                            //Update the index of the clone
-                            //clone.html($(clone).html().replace("SalesQuotationItems_0__", 'SalesQuotationItems_' + i + '__'));
-                            clone.html($(clone).html().replace(/SalesQuotationItems_0__/g, 'SalesQuotationItems_' + i + '__'));
-                            clone.html($(clone).html().replace(/SalesQuotationItems_0__/g, 'SalesQuotationItems_' + i + '__'));
-                            clone.html($(clone).html().replace(/\SalesQuotationItems[0]./g, 'SalesQuotationItems[' + i + '].'));
-                            clone.html($(clone).html().replace(/\[0\]/g, '[' + i + ']'));
-                            clone.html($(clone).html().replace(/\(0\)/g, '(' + i + ')'));
-                            clone.html($(clone).html().replace(/Row_0/, 'Row_' + i + ''));
-                            clone.html($(clone).html().replace(/slno1/, 'slno' + (i + 1) + ''));
-                            clone.html($(clone).html().replace(/this,0/, 'this,' + i + ''));
-                            $("#tab_logic").append('<tr id="' + i + '">' + clone.html() + '  </tr>');
-                            $("#slno" + (i + 1)).html((i + 1));
-                            $("#SalesQuotationItems_" + i + "__SlNo").val((i + 1));
-                        });
                     });
                     function Delete(index) {
 
@@ -405,6 +369,7 @@
                                 var clone = $("#" + j).clone(true, true);
                                 clone.html($(clone).html().replace(new RegExp("SalesQuotationItems_" + j + "__", "g"), 'SalesQuotationItems_' + (j - 1) + '__'));
                                 clone.html($(clone).html().replace(new RegExp("\\[" + j + "].", "g"), "[" + (j - 1) + "]."));
+                                clone.html($(clone).html().replace("OnRateTypeChanged(" + j, "OnRateTypeChanged(" + (j - 1)));
                                 clone.html($(clone).html().replace(new RegExp('slno' + (j + 1) + '">' + (j + 1), "g"), 'slno' + (j) + '">' + (j)));
                                 clone.html($(clone).html().replace("Delete(" + j, "Delete(" + (j - 1)));
                                 clone.html($(clone).html().replace("Row_" + j, "Row_" + (j - 1)));
@@ -416,7 +381,6 @@
                                 $("#" + j).html(clone.html());
                                 $("#SalesQuotationItems_" + (j - 1) + "__SlNo").val(j);
                                 $("#" + (j)).attr('id', (j - 1));
-                                alert(j);
                                 $("#SalesQuotationItems_" + (j - 1) + "__WorkDescriptionId").val(WorkDescriptionId);
                                 $("#SalesQuotationItems_" + (j - 1) + "__VehicleModelId").val(VehicleModelId);
                                 $("#SalesQuotationItems_" + (j - 1) + "__Quantity").val(Quantity);
@@ -427,7 +391,35 @@
                             }
                         }
                     }
+                    function AddAdditionRow() {
 
+                        var i = 0;
+                        var no = 1;
+                        $('input[id^="Row_"]').each(function () {
+                            var id = this.id;
+                            no++;
+                            var row = Number(id.replace("Row_", ""));
+                            if (row > i) {
+                                i = row;
+                            }
+                        });
+                        i++;
+                        var index = (new Date()).getTime(); // unique indexer
+                        var clone = $('#0').clone(); // clone the BatchProducts item
+                        //Update the index of the clone
+                        //clone.html($(clone).html().replace("SalesQuotationItems_0__", 'SalesQuotationItems_' + i + '__'));
+                        clone.html($(clone).html().replace(/SalesQuotationItems_0__/g, 'SalesQuotationItems_' + i + '__'));
+                        clone.html($(clone).html().replace(/SalesQuotationItems_0__/g, 'SalesQuotationItems_' + i + '__'));
+                        clone.html($(clone).html().replace(/\SalesQuotationItems[0]./g, 'SalesQuotationItems[' + i + '].'));
+                        clone.html($(clone).html().replace(/\[0\]/g, '[' + i + ']'));
+                        clone.html($(clone).html().replace(/\(0\)/g, '(' + i + ')'));
+                        clone.html($(clone).html().replace(/Row_0/, 'Row_' + i + ''));
+                        clone.html($(clone).html().replace(/slno1/, 'slno' + (i + 1) + ''));
+                        clone.html($(clone).html().replace(/this,0/, 'this,' + i + ''));
+                        $("#tab_logic").append('<tr id="' + i + '">' + clone.html() + '  </tr>');
+                        $("#slno" + (i + 1)).html((i + 1));
+                        $("#SalesQuotationItems_" + i + "__SlNo").val((i + 1));
+                    }
                     function QuantityChanged(row) {
                         var quantity = $("#SalesQuotationItems_" + row + "__Quantity").val();
                         var rate = $("#SalesQuotationItems_" + row + "__Rate").val();
@@ -472,55 +464,39 @@
                             amount = amount + a;
                         });
 
-                        //$("#QtyTotal").text(quantity);
+                   
                         $("#QtyAmount").text(parseFloat(amount));
                         $("#Amount").val(parseFloat(amount));
 
 
                     }
 
-                    @*function OnWorkChange(sender, index) {
-
-                        var id = $(sender).val();
-                        if (id != '') {
-                            var url = '@Url.Action("GetVehicleModel")';
-                            $.getJSON(url, { WorkDescriptionId: id },
-                                function (data) {
-                                    $("#SalesQuotationItems_" + index + "__VehicleModelId").val(data.VehicleId);
-                                    $("#SalesQuotationItems_" + index + "__VehicleModelName").val(data.VehicleName);
-                                });
-                        }
-                        else {
-
-                        }
-                    }*@
-
-
-
-
-
-
                 </script>
-
+                if (Model.isProjectBased == 2)
+                {
+                    @Html.Partial("_MaterialList")
+                }
 
                 <div class="table-responsive">
                     <table class="table table-bordered table-hover" id="tab_logic">
                         <thead>
                             <tr class="grid_heading">
+                                <th width="2%" class="text-center"></th>
                                 <th width="2%" class="text-center"><h1>#</h1></th>
                                 <th width="25%" class="text-left"><h1>Work Description</h1></th>
                                 <th width="5%" class="text-right"><h1>Qty</h1></th>
                                 <th width="10%"><h1>UoM</h1></th>
-                                <th width="10%" class="text-right"><h1>Rate</h1></th>
-                                <th width="10%" class="text-right"><h1>Discount</h1></th>
+                                <th width="8%" class="text-right"><h1>Rate</h1></th>
+                                <th width="8%" class="text-right"><h1>Discount</h1></th>
                                 <th width="8%" class="text-right"><h1>Amount</h1></th>
-                                <th>&nbsp;</th>
+                                <th width="2%">&nbsp;</th>
                             </tr>
                         </thead>
                         <tbody id="table_validation">
                             @for (int i = 0; i < Model.SalesQuotationItems.Count; i++)
                             {
                                 <tr id="@i">
+                                    <td style="vertical-align:middle"><a class="glyphicon glyphicon-minus" style="top:0px" onclick="Delete(@i)"></a></td>
                                     <td align="center">
                                         <span id="slno@(i+1)">@(i + 1)</span>
                                         @Html.HiddenFor(m => m.SalesQuotationItems[i].SlNo)
@@ -586,20 +562,19 @@
                                         }
                                     </td>
                                     <td>@Html.TextBoxFor(m => m.SalesQuotationItems[i].Amount, new { @class = "form_input clAmount", autocomplete = "off", @style = "text-align:right", placeholder = "Amount", @readonly = "true" })</td>
-                                    <td style="vertical-align:middle"><a class="glyphicon glyphicon-minus" style="top:0px" onclick="Delete(@i)"></a></td>
+                                    <td style="vertical-align:middle"><a id="add_row" class="glyphicon glyphicon-plus" style="top:0px" onclick="AddAdditionRow()"></a></td>
                                 </tr>
                             }
-                            @*<tr id='addr1'></tr>*@
+                         
                         </tbody>
                         <tfoot>
                             <tr class="grid_heading">
+                                <th width="2%" class="text-center"></th>
                                 <th width="5%" class="text-center"><h1></h1></th>
                                 <th width="25%" class="text-center"><h1></h1></th>
                                 <th width="5%" class="text-center"><h1></h1></th>
                                 <th width="5%" class="text-right"><span id="QtyTotal"></span></th>
-                                <th width="10%"></th>
-                                <th width="10%" class="text-right"><h1>Total</h1></th>
-                                <th width="7%" class="text-right">
+                                <th width="10%">
                                     <h1>
                                         @if (ViewBag.actionName.ToString() == "Revise")
                                         {
@@ -612,19 +587,14 @@
                                         }
                                     </h1>
                                 </th>
+                                <th width="10%" class="text-right"><h1>Total</h1></th>
                                 <th width="8%" class="text-right"><span id="QtyAmount"></span></th>
+                                <th width="2%" class="text-center"></th>
                             </tr>
                         </tfoot>
                     </table>
                 </div>
-                <a id="add_row" class="glyphicon glyphicon-plus"></a>
-
-
-
-
-
-
-
+      
                 <div class="row">
                     <div class="col-md-12">
 
@@ -644,27 +614,7 @@
 
                     </div>
 
-                    @*<div class="part1">
-                        <div class="col-md-1">
-
-
-                            <label for="Remarks">Spl.Remarks</label>
-
-                        </div>
-                        <div class="col-md-11">
-
-                            @if (ViewBag.actionName.ToString() == "Revise")
-                            {
-                                @Html.TextAreaFor(m => m.Remarks, new { @class = "form_input form_input-h", autocomplete = "off" })
-                            }
-                            else
-                            {
-                                @Html.TextAreaFor(m => m.Remarks, new { @class = "form_input form_input-h", autocomplete = "off", @readonly = "readonly" })
-                            }
-
-                        </div>
-
-                    </div>*@
+                  
                     <div class="col-md-11 col-sm-10" style="display:inline-block;position:relative;">
 
                         <div class="part4">
@@ -676,25 +626,15 @@
                         </div>
 
                     </div>
-                    @*<div class="part">
-                        <div class="col-md-1">
-                            <label for="PaymentTerms">Pay.Terms</label>
-
-                        </div>
-                        <div class="col-md-11" style="display:inline-block;position:relative;">
-                            @Html.TextBoxFor(m => m.PaymentTerms, new { @class = "form_input", autocomplete = "off" })
-                            <button type="button" id="pymtTerms" onclick="showPaymentTerms()">...</button>
-                        </div>
-                    </div>*@
+                  
                     <div class ="col-md-12 col-sm-10" style="display:inline-block;position:relative;">
                         <div class="part4">
-                            @*<div class="col-md-1">*@
+                         
                             <label for="PaymentTerms">Revision Reason</label>
-                            @*</div>
-                <div class="col-md-11" style="display:inline-block;position:relative;">*@
+                        
                             @Html.TextBoxFor(m => m.RevisionReason, new { @class = "form_input", autocomplete = "off" })
                         </div>
-</div>
+                    </div>
                     </div>
 
 

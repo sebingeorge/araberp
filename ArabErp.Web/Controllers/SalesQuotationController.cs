@@ -108,6 +108,7 @@ namespace ArabErp.Web.Controllers
             FillWrkDescForProject();
             FillVehicle();
             FillUnit();
+            ItemDropdown();
             FillEmployee();
             FillQuerySheet();
             FillSalesQuotationRejectReason();
@@ -122,7 +123,9 @@ namespace ArabErp.Web.Controllers
 
             salesquotation.SalesQuotationItems = new List<SalesQuotationItem>();
             salesquotation.SalesQuotationItems.Add(new SalesQuotationItem());
-            //salesquotation.SalesQuotationItems[0].Quantity = 1;
+            salesquotation.Materials = new List<SalesQuotationMaterial>();
+            salesquotation.Materials.Add(new SalesQuotationMaterial());
+            salesquotation.SalesQuotationItems[0].Quantity = 1;
             //salesquotation.SalesQuotationItems[0].UnitId = 25;
             ViewBag.SubmitAction = "Save";
             return View("Create",salesquotation);
@@ -251,7 +254,7 @@ namespace ArabErp.Web.Controllers
             FillCustomer();
             FillCurrency();
             FillCommissionAgent();
-            FillWrkDesc();
+          
             FillVehicle();
             FillQuerySheetInQuot();
             FillUnit();
@@ -264,10 +267,23 @@ namespace ArabErp.Web.Controllers
 
 
             SalesQuotation salesquotation = repo.GetSalesQuotation(SalesQuotationId);
+            if (salesquotation.isProjectBased == 2)
+            {
+                FillWrkDescAfterSales();
+                ItemDropdown();
+            }
+            else if (salesquotation.isProjectBased == 1)
+            {
+                FillWrkDescAfterSales();
+                ItemDropdown();
+            }
+            else
+            {
+                FillWrkDesc();
+            }
             salesquotation.CustomerAddress= sorepo.GetCusomerAddressByKey(salesquotation.CustomerId);
-
-
             salesquotation.SalesQuotationItems = repo.GetSalesQuotationItems(SalesQuotationId);
+            salesquotation.Materials = repo.GetSalesQuotationMaterials(SalesQuotationId);
             ViewBag.SubmitAction = "Approve";
             return View("Create",salesquotation);
         }
@@ -309,7 +325,6 @@ namespace ArabErp.Web.Controllers
             FillCustomer();
             FillCurrency();
             FillCommissionAgent();
-            FillWrkDesc();
             FillVehicle();
             FillQuerySheet();
             FillUnit();
@@ -321,6 +336,15 @@ namespace ArabErp.Web.Controllers
 
 
             SalesQuotation salesquotation = repo.GetSalesQuotation(Id);
+            if (salesquotation.isProjectBased == 2)
+            {
+                FillWrkDescAfterSales();
+                ItemDropdown();
+            }
+            else
+            {
+                FillWrkDesc();
+            }
             salesquotation.CustomerAddress = sorepo.GetCusomerAddressByKey(salesquotation.CustomerId);
             salesquotation.ParentId = salesquotation.SalesQuotationId;
             salesquotation.IsQuotationApproved = false;
@@ -330,6 +354,7 @@ namespace ArabErp.Web.Controllers
             }
 
             salesquotation.SalesQuotationItems = repo.GetSalesQuotationItems(Id);
+            salesquotation.Materials = repo.GetSalesQuotationMaterials(Id);
             ViewBag.SubmitAction = "Revise";
             return View(salesquotation);
         }
@@ -594,8 +619,7 @@ namespace ArabErp.Web.Controllers
             FillCustomer();
             FillCurrency();
             FillCommissionAgent();
-          
-          
+            ItemDropdown();
             FillVehicle();
             FillQuerySheetInQuot();
             FillUnit();
@@ -611,12 +635,17 @@ namespace ArabErp.Web.Controllers
             if (salesquotation.isProjectBased==2)
             {
                 FillWrkDescAfterSales();
-                ItemDropdown();
+             
             }
-            else
+            else if (salesquotation.isProjectBased==1)
+            {
+                FillWrkDescForProject();
+            }
+            else if (salesquotation.isProjectBased == 0)
             {
                 FillWrkDesc();
             }
+           
             salesquotation.CustomerAddress= sorepo.GetCusomerAddressByKey(salesquotation.CustomerId);
             salesquotation.SalesQuotationItems = repo.GetSalesQuotationItems(id);
             salesquotation.Materials = repo.GetSalesQuotationMaterials(id);
