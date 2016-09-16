@@ -51,7 +51,8 @@ namespace ArabErp.DAL
             {
                 string query = @"SELECT 
 	                                IB.*,
-	                                1 AS isOpeningStock,
+									CASE WHEN IB.GRNItemId IS NULL THEN 1 ELSE 0 END AS isOpeningStock,
+	                                --ISNULL(IB.ItemBatchId, 1) AS isOpeningStock,
 	                                SO.SaleOrderRefNo,
 	                                CONVERT(VARCHAR, SO.SaleOrderDate, 106) SaleOrderDate,
 	                                DC.DeliveryChallanRefNo,
@@ -60,7 +61,10 @@ namespace ArabErp.DAL
 	                                CONVERT(VARCHAR, PC.ProjectCompletionDate, 106) ProjectCompletionDate,
 									ISNULL(GI.Quantity, OS.Quantity) Quantity,
 									S.StockPointName,
-									I.ItemName
+									I.ItemName,
+									G.GRNNo,
+									CONVERT(VARCHAR, G.GRNDate, 106) GRNDate,
+									CASE WHEN G.isDirectPurchaseGRN = 1 THEN 'DIRECT GRN' ELSE 'GRN' END AS isDirect
                                 FROM ItemBatch IB
 	                                LEFT JOIN SaleOrderItem SOI ON IB.SaleOrderItemId = SOI.SaleOrderItemId
 	                                LEFT JOIN SaleOrder SO ON SOI.SaleOrderId = SO.SaleOrderId
@@ -832,6 +836,30 @@ namespace ArabErp.DAL
             catch (Exception ex)
             {
                 throw ex;
+            }
+        }
+
+        public int Update(IList<ItemBatch> model, int CreatedBy)
+        {
+            using (IDbConnection connection = OpenConnection(dataConnection))
+            {
+                IDbTransaction txn = connection.BeginTransaction();
+                try
+                {
+                    string query = @"UPDATE ItemBatch SET SerialNo = @SerialNo WHERE ItemBatchId = @id";
+                    foreach (var item in model)
+                    {
+                        int i = connection.Execute(query, new { id = item.ItemBatchId, SerialNo = item.SerialNo }, txn);
+                        InsertLoginHistory(dataConnection, CreatedBy.ToString(), "Edit", "Assign Serial No", i.ToString(), "0");
+                    }
+                    txn.Commit();
+                    return 1;
+                }
+                catch (Exception ex)
+                {
+                    txn.Rollback();
+                    throw ex;
+                }
             }
         }
     }
