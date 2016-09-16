@@ -510,10 +510,10 @@
                     }
 
                     function QuantityChanged(row) {
-                        var quantity = $("#SalesQuotationItems_" + row + "__Quantity").val();
-                        var rate = $("#SalesQuotationItems_" + row + "__Rate").val();
-                        var discount = $("#SalesQuotationItems_" + row + "__Discount").val();
-
+                        var quantity = parseFloat($("#SalesQuotationItems_" + row + "__Quantity").val());
+                        var rate = parseFloat($("#SalesQuotationItems_" + row + "__Rate").val());
+                        var discount = parseFloat($("#SalesQuotationItems_" + row + "__Discount").val());
+                        var materialrate = parseFloat($("#SalesQuotationItems_" + row + "__MaterialRate").val());
                         if (quantity == NaN) {
                             quantity = 0;
                         }
@@ -523,7 +523,12 @@
                         if (discount == NaN) {
                             discount = 0;
                         }
-                        var amount = (quantity * rate) - discount;
+                        if (materialrate == NaN) {
+                            materialrate = 0;
+                        }
+                      
+                        var amount = (quantity * rate) - discount + materialrate;
+                       
                         amount = parseFloat(amount);
                         $("#SalesQuotationItems_" + row + "__Amount").val(amount);
                         calculateSummary();
@@ -591,43 +596,44 @@
                         $("#slno" + (i + 1)).html((i + 1));
                         $("#SalesQuotationItems_" + i + "__SlNo").val((i + 1));
                     }
-
-
-
                 </script>
                 if (actionName == "CreateAfterSales")
                 {
-
-
                     @Html.Partial("_MaterialList")
-
-
                 }
-
                     <table class="table table-bordered" id="tab_logic">
                         <thead>
                             <tr class="grid_heading">
+                                @if (actionName != "CreateAfterSales")
+                                {
                                 <th width="2%" class="text-center"></th>
+                                }
                                 <th width="6%" class="text-center"><h1>#</h1></th>
                                 <th width="40%" class="text-left"><h1>Work Description</h1></th>
                                 @if (new[] { "Create", "CreateAferSales", "Approve" }.Contains(ViewContext.RouteData.GetRequiredString("action")))
                                 {
                                     <th width="10%"><h1>Rate Settings</h1></th>
                                 }
-                                <th width="5%" class="text-right"><h1>Qty</h1></th>
+                                <th width="5%" class="text-right"><h1>Qty.</h1></th>
                                 @*<th width="5%"><h1>UoM</h1></th>*@
                                 <th width="10%" class="text-right"><h1>Rate</h1></th>
                                 <th width="10%" class="text-right"><h1>Material Rate</h1></th>
                                 <th width="10%" class="text-right"><h1>Discount</h1></th>
                                 <th width="10%" class="text-right"><h1>Amount</h1></th>
+                                @if (actionName != "CreateAfterSales")
+                                    {
                                 <th width="2%">&nbsp;</th>
+                                    }
                             </tr>
                         </thead>
                         <tbody id="table_validation">
                             @for (int i = 0; i < Model.SalesQuotationItems.Count; i++)
                             {
                                 <tr id="@i">
+                                    @if (actionName != "CreateAfterSales")
+                                    {
                                     <td style="vertical-align:middle"><a class="glyphicon glyphicon-minus" style="top:0px" onclick="Delete(@i)"></a></td>
+                                    }
                                     <td align="center">
                                         <span id="slno@(i + 1)">@(i + 1)</span>
                                         @Html.HiddenFor(m => m.SalesQuotationItems[i].SlNo)
@@ -660,7 +666,7 @@
                                   
                                     <td>
                                         @Html.TextBoxFor(m => m.SalesQuotationItems[i].Quantity, new { @class = "form_input clQuantity  ", 
-                                       @style = "text-align:right", autocomplete = "off", placeholder = "Qty", value="1", @required = "true" })
+                                       @style = "text-align:right", autocomplete = "off", placeholder = "Qty", value="1", @required = "true" , @onchange = "QuantityChanged(" + i + ")" })
                                     </td>
                                     <td>
                                             @Html.TextBoxFor(m => m.SalesQuotationItems[i].Rate, new { @class = "form_input numbers-only clrate validateqty",
@@ -683,14 +689,20 @@
                                     </td>
 
                                     <td>@Html.TextBoxFor(m => m.SalesQuotationItems[i].Amount, new { @class = "form_input clAmount", autocomplete = "off", @style = "text-align:right", placeholder = "Amount", @readonly = "true" })</td>
+                                   @if (actionName != "CreateAfterSales")
+                                    {
                                     <td style="vertical-align:middle"><a id="add_row" class="glyphicon glyphicon-plus" style="top:0px" onclick="AddAdditionRow()"></a></td>
-                                </tr>
+                                    }
+    </tr>
                             }
 
                         </tbody>
                         <tfoot>
                             <tr class="grid_heading">
+                                @if (actionName != "CreateAfterSales")
+                                {
                                 <th width="2%" class="text-center"></th>
+                                }
                                 <th width="6%" class="text-center"><h1>Total</h1></th>
                                 <th width="40%" class="text-center "><h1></h1></th>
                                 @if (new[] { "Create", "Approve" }.Contains(ViewContext.RouteData.GetRequiredString("action")))
@@ -711,7 +723,10 @@
                                 <th width="10%" class="text-right">
                                     <span id="QtyAmount"></span>
                                 </th>
+                                @if (actionName != "CreateAfterSales")
+                                {
                                 <th width="2%" class="text-right"></th>
+                                 }
                             </tr>
                         </tfoot>
                     </table>
@@ -813,17 +828,6 @@
 
         </div>
     </div>
-<!-- modal to show details -->
-<div id="details-modal" class="modal fade btn-group-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel">
-    <div class="modal-dialog modal-lg" role="document">
-        <div class="modal-content">
 
-            <div class="modal-body" id="div-details">
-                Loading...
-            </div>
-
-        </div>
-    </div>
-</div>
 
 

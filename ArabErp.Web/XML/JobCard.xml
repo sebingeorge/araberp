@@ -34,26 +34,19 @@
     </xs:element>
   </xs:schema>
   <Head>
-    <JobCardNo>JC-16/8</JobCardNo>
-    <JobCardDate>01-Sep-2016</JobCardDate>
-    <SaleOrderRefNo>SO/P-16/35</SaleOrderRefNo>
+    <JobCardNo>JC-16/18</JobCardNo>
+    <JobCardDate>09-Sep-2016</JobCardDate>
+    <SaleOrderRefNo>SAL/32</SaleOrderRefNo>
     <CustomerName>M/S Al Rashid Ice Factory,1fg,fg</CustomerName>
     <Phone>54</Phone>
     <ContactPerson>54</ContactPerson>
     <Customer>M/S Al Rashid Ice Factory</Customer>
-    <Technician>Hamdan</Technician>
+    <Technician>Test Employee</Technician>
   </Head>
   <Items>
-    <TaskDate>29-Aug-2016</TaskDate>
-    <Employee>Sreekanth</Employee>
-    <Description>Main Unit Fixing</Description>
-    <StartTime>0.00</StartTime>
-    <EndTime>0.00</EndTime>
-  </Items>
-  <Items>
-    <TaskDate>29-Aug-2016</TaskDate>
+    <TaskDate>09-Sep-2016</TaskDate>
     <Employee>Shanid</Employee>
-    <Description>Task2</Description>
+    <Description>Main Unit Fixing</Description>
     <StartTime>0.00</StartTime>
     <EndTime>0.00</EndTime>
   </Items>

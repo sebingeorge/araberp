@@ -37,17 +37,13 @@
     </xs:element>
   </xs:schema>
   <Head>
-    <SalesInvoiceRefNo>INV/16</SalesInvoiceRefNo>
-    <SalesInvoiceDate>18-Aug-2016</SalesInvoiceDate>
-    <CustomerName>Ihits</CustomerName>
-    <Address>457,PJ Antony,048426536987</Address>
-    <CustomerOrderRef>etertw</CustomerOrderRef>
-    <JobCardNo>JC/14</JobCardNo>
-    <TotalAmount>0</TotalAmount>
+    <SalesInvoiceRefNo>SLI-16/12</SalesInvoiceRefNo>
+    <SalesInvoiceDate>09-Sep-2016</SalesInvoiceDate>
+    <CustomerName>arab</CustomerName>
+    <Address>45&amp;PALADIUM,MAROTTICHODU&amp;EDAPPALLY,8998989889</Address>
+    <CustomerOrderRef>gsdfgdg</CustomerOrderRef>
+    <PaymentTerms>h</PaymentTerms>
+    <JobCardNo>JC-16/6</JobCardNo>
+    <TotalAmount>68000.00</TotalAmount>
   </Head>
-  <Items>
-    <WorkDescription>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum</WorkDescription>
-    <WorkDescriptionRefNo>WD/2</WorkDescriptionRefNo>
-    <Unit>Nos</Unit>
-  </Items>
 </NewDataSet>
