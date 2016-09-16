@@ -1,0 +1,104 @@
+﻿@model IList<ArabErp.Domain.WorkDescription>
+@using GridMvc.Html
+
+<script type="text/javascript">
+
+    function Create() {
+            location.href = '@Url.Action("CreateProjectWorkDescription")';
+    }
+
+    function Exit() {
+        location.href = '@Url.Action("Index","Home")';
+    }
+
+    $(document).ready(function () {
+
+        toastr.options = {
+            "closeButton": true,
+            "positionClass": "toast-bottom-full-width",
+            "preventDuplicates": false,
+            "onclick": null,
+
+            "timeOut": "0",
+            "extendedTimeOut": "1000",
+            "showEasing": "swing",
+            "hideEasing": "linear",
+            "showMethod": "fadeIn",
+            "hideMethod": "fadeOut"
+        }
+        if ('@TempData["success"]' != "" && '@TempData["WorkDescriptionRefNo"]' != "") {
+            toastr.success('@TempData["success"]' + '  Work Description No. is : ' + '@TempData["WorkDescriptionRefNo"]');
+        }
+        else if ('@TempData["error"]' != "") {
+            toastr.error('@TempData["error"]');
+        }
+    });
+
+</script>
+
+<style type="text/css">
+    .tableData {
+        font-size: 12px;
+        padding-left: 4px;
+    }
+
+    .list {
+        display: block;
+        height: 320px;
+        overflow-y: scroll;
+    }
+
+        .list tr:hover {
+            background-color: #DFEDF7;
+        }
+</style>
+
+
+<div class="row">
+
+    <div class="form-head1">
+        <h4>Project Work Description List</h4>
+    </div>
+
+    <div class="main-part pad1">
+
+     
+
+        <div class="row">
+            <div class="main-grid main-grid-top ">
+                <div class="table-responsive" id="grid">
+
+                    <div class="main-grid main-grid-top">
+                        <div class="table-responsive">
+                            @Html.Grid(Model).Columns(columns =>
+                        {
+                            columns.Add(m => m.WorkDescriptionRefNo).Titled("Ref. No.").SetWidth("10%");
+                            columns.Add(m => m.WorkDescrShortName).Titled("Short Name").SetWidth("15%");
+                            columns.Add(m => m.WorkDescr).Titled("Name").SetWidth("75%");
+                            @*columns.Add().Encoded(false).Sanitized(false).SetWidth(10).Css("cent").RenderValueAs(o => @<a href="@Url.Action("EditWorkDescription", new { Id = o.WorkDescriptionId })">View</a>);*@
+                          }).WithPaging(4)
+                        </div>
+
+                    </div>
+
+                    <div class="row-count1">
+                        <h5>Row Count:- @Model.Count()</h5>
+                    </div>   
+
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-12 hrpart">
+                <button type="button" onclick="Create();" class="form-button">Create</button>
+                <button type="button" onclick="Exit();" class="form-button right">Exit</button>
+            </div>
+        </div>
+
+    </div>
+
+</div>
+
+
+

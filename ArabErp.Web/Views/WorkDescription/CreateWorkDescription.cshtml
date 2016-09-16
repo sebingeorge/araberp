@@ -7,217 +7,267 @@
 
 <script>
     function Exit() {
+
         location.href = '@Url.Action("Index")';
     }
-    
-    function ItemRowAdd() {
 
-        var i = 0;
-        var no = 1;
-        $('input[id^="Row_Item_"]').each(function () {
-            var id = this.id;
-            no++;
-            var row = Number(id.replace("Row_Item_", ""));
-            if (row > i) {
-                i = row;
+    function ProjectExit() {
+
+        location.href = '@Url.Action("FillProjectWorkDescriptionList")';
+    }
+
+
+        function ItemRowAdd() {
+
+            var i = 0;
+            var no = 1;
+            $('input[id^="Row_Item_"]').each(function () {
+                var id = this.id;
+                no++;
+                var row = Number(id.replace("Row_Item_", ""));
+                if (row > i) {
+                    i = row;
+                }
+            });
+            i++;
+
+            var index = (new Date()).getTime(); // unique indexer
+            var clone = $('#Row_Item_Id_0').clone(); // clone the BatchProducts item
+            //Update the index of the clone
+
+            clone.html($(clone).html().replace(/WorkVsItems_0__/g, 'WorkVsItems_' + i + '__'));
+            clone.html($(clone).html().replace(/\WorkVsItems[0]./g, 'WorkVsItems[' + i + '].'));
+            clone.html($(clone).html().replace(/\[0\]/g, '[' + i + ']'));
+            clone.html($(clone).html().replace(/\(0\)/g, '(' + i + ')'));
+            clone.html($(clone).html().replace(/Row_Item_0/, 'Row_Item_' + i + ''));
+            clone.html($(clone).html().replace(/Itemslno1/, 'Itemslno' + (i + 1) + ''));
+            clone.html($(clone).html().replace("OnMaterialChange(this," + i, "OnMaterialChange(this," + (i + 1)));
+            clone.html($(clone).html().replace(/this,0/, 'this,' + i + ''));
+            $("#Tab_Item").append('<tr id="'+'Row_Item_Id_' + i + '">' + clone.html() + '  </tr>');
+            $("#Itemslno" + (i + 1)).html((i + 1));
+            $("#WorkVsItems_" + i + "__SlNo").val((i + 1));
+
+            $("#Row_Item_Id_" + i).find('span[class="custom-combobox"]').remove();
+            $("#WorkVsItems_" + i + "__ItemId").combobox();
+        }
+        function ItemRowDelete(index) {
+
+            var i = 0;
+            var no = 1;
+            $('input[id^="Row_Item_"]').each(function () {
+                var id = this.id;
+                no++;
+                var row = Number(id.replace("Row_Item_", ""));
+                if (row > i) {
+                    i = row;
+                }
+            });
+            i++;
+            //alert(i);
+            //$("#" + index).html('');
+            if (i > 1) {
+                $("#Row_Item_Id_" + index).remove();
+                for (var j = index + 1; j < i; j++) {
+                    var ItemId = $("#WorkVsItems_" + j + "__ItemId").val();
+                    var uom = $("#WorkVsItems_" + j + "__UoM").val();
+                    var Quantity = $("#WorkVsItems_" + j + "__Quantity").val();
+
+                    var clone = $("#Row_Item_Id_" + j).clone(true, true);
+                    clone.html($(clone).html().replace(new RegExp("WorkVsItems_" + j + "__", "g"), 'WorkVsItems_' + (j - 1) + '__'));
+                    clone.html($(clone).html().replace(new RegExp("\\[" + j + "].", "g"), "[" + (j - 1) + "]."));
+                    clone.html($(clone).html().replace(new RegExp('Itemslno' + (j + 1) + '">' + (j + 1), "g"), 'Itemslno' + (j) + '">' + (j)));
+                    clone.html($(clone).html().replace("ItemRowDelete(" + j, "ItemRowDelete(" + (j - 1)));
+                    clone.html($(clone).html().replace("OnMaterialChange(this," + j, "OnMaterialChange(this," + (j - 1)));
+                    clone.html($(clone).html().replace("Row_Item_Id_" + j, "Row_Item_Id_" + (j - 1)));
+                    clone.html($(clone).html().replace("Row_Item_" + j, "Row_Item_" + (j - 1)));
+                    clone.html($(clone).html().replace("this," + j, "this," + (j - 1)));
+                    $("#Row_Item_Id_" + j).html(clone.html());
+                    $("#WorkVsItems_" + (j - 1) + "__SlNo").val(j);
+                    $("#Row_Item_Id_" + (j)).attr('id', "Row_Item_Id_"+(j - 1));
+                    $("#WorkVsItems_" + (j - 1) + "__ItemId").val(ItemId);
+                    $("#WorkVsItems_" + (j - 1) + "__UoM").val(uom);
+                    $("#WorkVsItems_" + (j - 1) + "__Quantity").val(Quantity);
+                }
+            }
+        }
+        function TaskRowAdd() {
+
+            var i = 0;
+            var no = 1;
+            $('input[id^="Row_Task_"]').each(function () {
+                var id = this.id;
+                no++;
+                var row = Number(id.replace("Row_Task_", ""));
+                if (row > i) {
+                    i = row;
+                }
+            });
+            i++;
+
+            var index = (new Date()).getTime(); // unique indexer
+            var clone = $('#Row_Task_Id_0').clone(); // clone the BatchProducts item
+            //Update the index of the clone
+            //clone.html($(clone).html().replace("Items_0__", 'Items_' + i + '__'));
+            clone.html($(clone).html().replace(/WorkVsTasks_0__/g, 'WorkVsTasks_' + i + '__'));
+            clone.html($(clone).html().replace(/WorkVsTasks_0__/g, 'WorkVsTasks_' + i + '__'));
+            clone.html($(clone).html().replace(/\WorkVsTasks[0]./g, 'WorkVsTasks[' + i + '].'));
+            clone.html($(clone).html().replace(/\[0\]/g, '[' + i + ']'));
+            clone.html($(clone).html().replace(/\(0\)/g, '(' + i + ')'));
+            clone.html($(clone).html().replace(/Row_Task_0/, 'Row_Task_' + i + ''));
+            clone.html($(clone).html().replace(/Taskslno1/, 'Taskslno' + (i + 1) + ''));
+            clone.html($(clone).html().replace(/this,0/, 'this,' + i + ''));
+            $("#Tab_Task").append('<tr id="'+'Row_Task_Id_' + i + '">' + clone.html() + '  </tr>');
+            $("#Taskslno" + (i + 1)).html((i + 1));
+            $("#WorkVsTask_" + i + "__SlNo").val((i + 1));
+
+            $("#Row_Task_Id_" + i).find('span[class="custom-combobox"]').remove();
+            $("#WorkVsTasks_" + i + "__JobCardTaskMasterId").combobox();
+        }
+        function TaskRowDelete(index) {
+
+            var i = 0;
+            var no = 1;
+            $('input[id^="Row_Task_"]').each(function () {
+                var id = this.id;
+                no++;
+                var row = Number(id.replace("Row_Task_", ""));
+                if (row > i) {
+                    i = row;
+                }
+            });
+            i++;
+            //$("#" + index).html('');
+            if (i > 1) {
+                $("#Row_Task_Id_" + index).remove();
+                for (var j = index + 1; j < i; j++) {
+                    var JobCardTaskMasterId = $("#WorkVsTasks_" + j + "__JobCardTaskMasterId").val();
+                    var Hours = $("#WorkVsTasks_" + j + "__Hours").val();
+
+                    var clone = $("#Row_Task_Id_" + j).clone(true, true);
+                    clone.html($(clone).html().replace(new RegExp("WorkVsTasks_" + j + "__", "g"), 'WorkVsTasks_' + (j - 1) + '__'));
+                    clone.html($(clone).html().replace(new RegExp("\\[" + j + "].", "g"), "[" + (j - 1) + "]."));
+                    clone.html($(clone).html().replace(new RegExp('Taskslno' + (j + 1) + '">' + (j + 1), "g"), 'Taskslno' + (j) + '">' + (j)));
+                    clone.html($(clone).html().replace("TaskRowDelete(" + j, "TaskRowDelete(" + (j - 1)));
+                    clone.html($(clone).html().replace("Row_Task_Id_" + j, "Row_Task_Id_" + (j - 1)));
+                    clone.html($(clone).html().replace("Row_Task_" + j, "Row_Task_" + (j - 1)));
+                    clone.html($(clone).html().replace("this," + j, "this," + (j - 1)));
+                    $("#Row_Task_Id_" + j).html(clone.html());
+                    $("#WorkVsTasks_" + (j - 1) + "__SlNo").val(j);
+                    $("#Row_Task_Id_" + (j)).attr('id', "Row_Task_Id_"+(j - 1));
+                    $("#WorkVsTasks_" + (j - 1) + "__JobCardTaskMasterId").val(JobCardTaskMasterId);
+                    $("#WorkVsTasks_" + (j - 1) + "__Hours").val(Hours);
+                }
+            }
+        }
+        $(document).ready(function () {
+
+            $("select[id$='__ItemId']").combobox();
+            $("select[id$='__JobCardTaskMasterId']").combobox();
+
+            $("#WorkVsItems_0__SlNo").val('1');
+            var Action = '@actionName';
+            if (Action == 'EditWorkDescription') {
+
+                $("input[type='text'], select, textarea").attr('disabled', 'disabled');
+                $("input[type=radio]").attr('disabled', true);
+            }
+            if (Action == 'Create') {
+                $("#GenderId").prop("checked", true)
+            }
+
+            //$("#radio_1").prop("checked", true)
+            toastr.options = {
+                "closeButton": true,
+                "positionClass": "toast-bottom-full-width",
+                "preventDuplicates": false,
+                "onclick": null,
+
+                "timeOut": "0",
+                "extendedTimeOut": "1000",
+
+                "showEasing": "swing",
+                "hideEasing": "linear",
+                "showMethod": "fadeIn",
+                "hideMethod": "fadeOut"
+            }
+            if ('@TempData["success"]' != "" && '@TempData["WorkDescriptionRefNo"]' != "") {
+                toastr.success('@TempData["success"]' + '  Work Description No. is : ' + '@TempData["WorkDescriptionRefNo"]');
+            }
+            else if ('@TempData["error"]' != "") {
+                toastr.error('@TempData["error"]');
             }
         });
-        i++;
 
-        var index = (new Date()).getTime(); // unique indexer
-        var clone = $('#Row_Item_Id_0').clone(); // clone the BatchProducts item
-        //Update the index of the clone
+        function OnMaterialChange(sender, index) {
+            var id = $(sender).val();
+
+            if (id != '') {
+                var url = '@Url.Action("GetUnit")';
+                $.getJSON(url, { itemId: id },
+                    function (data) {
+                        var arr = data.split('|');
+                        //alert(arr);
+                        $("#WorkVsItems_" + index + "__UoM").val(arr[1]);
+                    });
+            }
+            else {
+                $("#WorkVsItems_" + index + "__UoM").val('');
+            }
+           
+        }
+
+        function REPAIR() {
+
+            var repair = $("#isRepair").is(":checked");
+            if (repair) {
+                $(".custom-combobox-input").removeProp("required");
+            }
+            else {
+                $(".custom-combobox-input").prop("required", "true");
+            }
+            //alert(repair);
+        }
+
+        //function ValidateRow(index) {
+        //    WorkVsItems_0__ItemId
+        //    var itemcode = Number($("#WorkVsItems_" + index + "__ItemId").val());
+        //    alert(itemcode);
+        //    var qty = Number($("#WorkVsItems_" + index + "__Quantity").val());
+        //    if (itemcode > 0 || qty< 0) {
+        //        toastr.info("Ordered quantity cannot be more than pending quantity");
+        //        $("#SupplyOrderItems_" + index + "__OrderedQty").val(pending);
+                
+        //    }
+    //}
+    
+        function formValidation() {
+     
+        $(".validateqty").each(function (i, obj) {
+
+            var itemcode = $("#WorkVsItems_" + i + "__ItemId").val();
+            var qty = $("#WorkVsItems_" + i + "__Quantity").val();
+
+            alert(itemcode);
+            alert(qty);
+
+            //if (itemcode != null || itemcode != 0 && qty < 0) {
+
+                if (itemcode != null  && qty < 0) {
+
+                alert("Quantity Should Be Greater than 0");
+                $("#WorkVsItems_" + i + "__Quantity").focus();
+                count = 1;
+            }
        
-        clone.html($(clone).html().replace(/WorkVsItems_0__/g, 'WorkVsItems_' + i + '__'));
-        clone.html($(clone).html().replace(/\WorkVsItems[0]./g, 'WorkVsItems[' + i + '].'));
-        clone.html($(clone).html().replace(/\[0\]/g, '[' + i + ']'));
-        clone.html($(clone).html().replace(/\(0\)/g, '(' + i + ')'));
-        clone.html($(clone).html().replace(/Row_Item_0/, 'Row_Item_' + i + ''));
-        clone.html($(clone).html().replace(/Itemslno1/, 'Itemslno' + (i + 1) + ''));
-        clone.html($(clone).html().replace("OnMaterialChange(this," + i, "OnMaterialChange(this," + (i + 1)));
-        clone.html($(clone).html().replace(/this,0/, 'this,' + i + ''));
-        $("#Tab_Item").append('<tr id="'+'Row_Item_Id_' + i + '">' + clone.html() + '  </tr>');
-        $("#Itemslno" + (i + 1)).html((i + 1));
-        $("#WorkVsItems_" + i + "__SlNo").val((i + 1));
-
-        $("#Row_Item_Id_" + i).find('span[class="custom-combobox"]').remove();
-        $("#WorkVsItems_" + i + "__ItemId").combobox();
-    }
-    function ItemRowDelete(index) {
-
-        var i = 0;
-        var no = 1;
-        $('input[id^="Row_Item_"]').each(function () {
-            var id = this.id;
-            no++;
-            var row = Number(id.replace("Row_Item_", ""));
-            if (row > i) {
-                i = row;
-            }
         });
-        i++;
-        alert(i);
-        //$("#" + index).html('');
-        if (i > 1) {
-            $("#Row_Item_Id_" + index).remove();
-            for (var j = index + 1; j < i; j++) {
-                var ItemId = $("#WorkVsItems_" + j + "__ItemId").val();
-                var uom = $("#WorkVsItems_" + j + "__UoM").val();
-                var Quantity = $("#WorkVsItems_" + j + "__Quantity").val();
-  
-                var clone = $("#Row_Item_Id_" + j).clone(true, true);
-                clone.html($(clone).html().replace(new RegExp("WorkVsItems_" + j + "__", "g"), 'WorkVsItems_' + (j - 1) + '__'));
-                clone.html($(clone).html().replace(new RegExp("\\[" + j + "].", "g"), "[" + (j - 1) + "]."));
-                clone.html($(clone).html().replace(new RegExp('Itemslno' + (j + 1) + '">' + (j + 1), "g"), 'Itemslno' + (j) + '">' + (j)));
-                clone.html($(clone).html().replace("ItemRowDelete(" + j, "ItemRowDelete(" + (j - 1)));
-                clone.html($(clone).html().replace("OnMaterialChange(this," + j, "OnMaterialChange(this," + (j - 1)));
-                clone.html($(clone).html().replace("Row_Item_Id_" + j, "Row_Item_Id_" + (j - 1)));
-                clone.html($(clone).html().replace("Row_Item_" + j, "Row_Item_" + (j - 1)));
-                clone.html($(clone).html().replace("this," + j, "this," + (j - 1)));
-                $("#Row_Item_Id_" + j).html(clone.html());
-                $("#WorkVsItems_" + (j - 1) + "__SlNo").val(j);
-                $("#Row_Item_Id_" + (j)).attr('id', "Row_Item_Id_"+(j - 1));     
-                $("#WorkVsItems_" + (j - 1) + "__ItemId").val(ItemId);
-                $("#WorkVsItems_" + (j - 1) + "__UoM").val(uom);
-                $("#WorkVsItems_" + (j - 1) + "__Quantity").val(Quantity);
-            }
-        }
-    }
-    function TaskRowAdd() {
 
-        var i = 0;
-        var no = 1;
-        $('input[id^="Row_Task_"]').each(function () {
-            var id = this.id;
-            no++;
-            var row = Number(id.replace("Row_Task_", ""));
-            if (row > i) {
-                i = row;
-            }
-        });
-        i++;
 
-        var index = (new Date()).getTime(); // unique indexer
-        var clone = $('#Row_Task_Id_0').clone(); // clone the BatchProducts item
-        //Update the index of the clone
-        //clone.html($(clone).html().replace("Items_0__", 'Items_' + i + '__'));
-        clone.html($(clone).html().replace(/WorkVsTasks_0__/g, 'WorkVsTasks_' + i + '__'));
-        clone.html($(clone).html().replace(/WorkVsTasks_0__/g, 'WorkVsTasks_' + i + '__'));
-        clone.html($(clone).html().replace(/\WorkVsTasks[0]./g, 'WorkVsTasks[' + i + '].'));
-        clone.html($(clone).html().replace(/\[0\]/g, '[' + i + ']'));
-        clone.html($(clone).html().replace(/\(0\)/g, '(' + i + ')'));
-        clone.html($(clone).html().replace(/Row_Task_0/, 'Row_Task_' + i + ''));
-        clone.html($(clone).html().replace(/Taskslno1/, 'Taskslno' + (i + 1) + ''));
-        clone.html($(clone).html().replace(/this,0/, 'this,' + i + ''));
-        $("#Tab_Task").append('<tr id="'+'Row_Task_Id_' + i + '">' + clone.html() + '  </tr>');
-        $("#Taskslno" + (i + 1)).html((i + 1));
-        $("#WorkVsTask_" + i + "__SlNo").val((i + 1));
-
-        $("#Row_Task_Id_" + i).find('span[class="custom-combobox"]').remove();
-        $("#WorkVsTasks_" + i + "__JobCardTaskMasterId").combobox();
-    }
-    function TaskRowDelete(index) {
-
-        var i = 0;
-        var no = 1;
-        $('input[id^="Row_Task_"]').each(function () {
-            var id = this.id;
-            no++;
-            var row = Number(id.replace("Row_Task_", ""));
-            if (row > i) {
-                i = row;
-            }
-        });
-        i++;
-        //$("#" + index).html('');
-        if (i > 1) {
-            $("#Row_Task_Id_" + index).remove();
-            for (var j = index + 1; j < i; j++) {
-                var JobCardTaskMasterId = $("#WorkVsTasks_" + j + "__JobCardTaskMasterId").val();
-                var Hours = $("#WorkVsTasks_" + j + "__Hours").val();
-  
-                var clone = $("#Row_Task_Id_" + j).clone(true, true);
-                clone.html($(clone).html().replace(new RegExp("WorkVsTasks_" + j + "__", "g"), 'WorkVsTasks_' + (j - 1) + '__'));
-                clone.html($(clone).html().replace(new RegExp("\\[" + j + "].", "g"), "[" + (j - 1) + "]."));
-                clone.html($(clone).html().replace(new RegExp('Taskslno' + (j + 1) + '">' + (j + 1), "g"), 'Taskslno' + (j) + '">' + (j)));
-                clone.html($(clone).html().replace("TaskRowDelete(" + j, "TaskRowDelete(" + (j - 1)));
-                clone.html($(clone).html().replace("Row_Task_Id_" + j, "Row_Task_Id_" + (j - 1)));
-                clone.html($(clone).html().replace("Row_Task_" + j, "Row_Task_" + (j - 1)));
-                clone.html($(clone).html().replace("this," + j, "this," + (j - 1)));
-                $("#Row_Task_Id_" + j).html(clone.html());
-                $("#WorkVsTasks_" + (j - 1) + "__SlNo").val(j);
-                $("#Row_Task_Id_" + (j)).attr('id', "Row_Task_Id_"+(j - 1));     
-                $("#WorkVsTasks_" + (j - 1) + "__JobCardTaskMasterId").val(JobCardTaskMasterId);
-                $("#WorkVsTasks_" + (j - 1) + "__Hours").val(Hours);
-            }
-        }
-    }
-    $(document).ready(function () {
-    
-        $("select[id$='__ItemId']").combobox();
-        $("select[id$='__JobCardTaskMasterId']").combobox();
-
-        $("#WorkVsItems_0__SlNo").val('1');
-        var Action = '@actionName';
-        if (Action == 'EditWorkDescription') {
-
-            $("input[type='text'], select, textarea").attr('disabled', 'disabled');
-            $("input[type=radio]").attr('disabled', true);
-        }
-        if (Action == 'Create') {
-            $("#GenderId").prop("checked", true)
+        if (count == 1)
+        {
+            return false;
         }
 
-        //$("#radio_1").prop("checked", true)
-        toastr.options = {
-            "closeButton": true,
-            "positionClass": "toast-bottom-full-width",
-            "preventDuplicates": false,
-            "onclick": null,
-
-            "timeOut": "0",
-            "extendedTimeOut": "1000",
-
-            "showEasing": "swing",
-            "hideEasing": "linear",
-            "showMethod": "fadeIn",
-            "hideMethod": "fadeOut"
-        }
-        if ('@TempData["success"]' != "" && '@TempData["WorkDescriptionRefNo"]' != "") {
-            toastr.success('@TempData["success"]' + '  Work Description No. is : ' + '@TempData["WorkDescriptionRefNo"]');
-        }
-        else if ('@TempData["error"]' != "") {
-            toastr.error('@TempData["error"]');
-        }
-    });
-
-    function OnMaterialChange(sender, index) {
-        var id = $(sender).val();
-
-        if (id != '') {
-            var url = '@Url.Action("GetUnit")';
-            $.getJSON(url, { itemId: id },
-                function (data) {
-                    var arr = data.split('|');
-                    //alert(arr);
-                    $("#WorkVsItems_" + index + "__UoM").val(arr[1]);
-                });
-        }
-        else {
-            $("#WorkVsItems_" + index + "__UoM").val('');
-        }
-    }
-
-    function REPAIR() {
-      
-        var repair = $("#isRepair").is(":checked");
-        if (repair) {
-            $(".custom-combobox-input").removeProp("required");
-        }
-        else {
-            $(".custom-combobox-input").prop("required", "true");
-        }
-        //alert(repair);
+        return (confirm("Are you sure to save?")) ? true : false;
     }
 </script>
 
@@ -228,7 +278,7 @@
         </div>
 
         <div class="main-part pad1">
-           @using (Html.BeginForm(null, null, FormMethod.Post, new { @class = "createFrom", @id = "VehicleModel_form" }))
+           @using (Html.BeginForm(null, null, FormMethod.Post, new { @class = "createFrom", @id = "VehicleModel_form"}))
            {
                @Html.HiddenFor(m => m.WorkDescriptionId)
                 @Html.HiddenFor(m => m.isProjectBased)
@@ -236,7 +286,7 @@
                  <div class="row">
                      <div class="col-md-3">
                          <label for="name">Ref. No.</label>
-                         @Html.TextBoxFor(m => m.WorkDescriptionRefNo, new { @class = "form_input", autocomplete = "off" })
+                         @Html.TextBoxFor(m => m.WorkDescriptionRefNo, new { @class = "form_input", autocomplete = "off",@readonly="readonly"})
                          </div>
                          <div class="col-md-6">
                             
@@ -334,7 +384,7 @@
                                         <td>
                                             @Html.HiddenFor(m => m.WorkVsItems[i].SlNo)
                                             <input type="hidden" id="Row_Item_@i" />
-                                             @Html.DropDownListFor(m => m.WorkVsItems[i].ItemId, new SelectList(ViewBag.ItemList, "Value", "Text", Model.WorkVsItems[i].ItemId), "select Item", new { @class = "form_input", @onchange = "OnMaterialChange(this," + i + ")" })
+                                             @Html.DropDownListFor(m => m.WorkVsItems[i].ItemId, new SelectList(ViewBag.ItemList, "Value", "Text", Model.WorkVsItems[i].ItemId), "select Item", new { @class = "form_input validateqty", @onchange = "OnMaterialChange(this," + i + ")" })
                                          </td>
 
                                         <td>
@@ -342,7 +392,7 @@
                                         </td>
 
                                         <td>
-                                            @Html.TextBoxFor(m => m.WorkVsItems[i].Quantity, new { @class = "form_input text-right", autocomplete = "off" })
+                                            @Html.TextBoxFor(m => m.WorkVsItems[i].Quantity, new { @class = "form_input text-right validateqty", autocomplete = "off" })
                                         </td>
                                         <td style="vertical-align:middle"><a class="glyphicon glyphicon-plus" style="top:0px" onclick="ItemRowAdd(@i)"></a></td>
                                     </tr>
@@ -410,16 +460,14 @@
                 <div class="row">
 
                     <div class="col-md-12 hrpart">
-                        <button type="button" class="form-button right" onclick="Exit();">Exit</button>
-                        @*@if (actionName == "EditWorkDescription")
-                                {*@ 
-                            @*<button type="submit" class="form-button right">Update</button>*@ 
-                                @*}
-                                else
-                                    if (actionName == "Delete")
-                                    {  <button type="submit" class="form-button right">Delete</button>}
-                                    else
-                                    {*@ 
+                            @if (Model.isProjectBased == false)
+                            {
+                              <button type="button" class="form-button right" onclick="Exit();">Exit</button>
+                            }
+                            @if (Model.isProjectBased == true)
+                            {
+                              <button type="button" class="form-button right" onclick="ProjectExit();">Exit</button>
+                            }
                         <button type="submit" class="form-button right">Save</button>
 
                     </div>
