@@ -77,7 +77,7 @@ namespace ArabErp.DAL
                             item.SalesQuotationId = model.SalesQuotationId;
                             saleorderitemrepo.InsertSalesQuotationItem(item, connection, trn);
                         }
-                        if (model.isProjectBased == 2)
+                        if (model.isProjectBased == 2 || model.isProjectBased == 1)
                         {
                             foreach (var item in model.Materials)
                             {
@@ -216,9 +216,8 @@ namespace ArabErp.DAL
 
             using (IDbConnection connection = OpenConnection(dataConnection))
             {
-                string sql = @"select *,VehicleModelName from SalesQuotationItem S inner join WorkDescription W ON S.WorkDescriptionId=W.WorkDescriptionId
+                string sql = @"select * from SalesQuotationItem S inner join WorkDescription W ON S.WorkDescriptionId=W.WorkDescriptionId
                                LEFT JOIN VehicleModel V ON  V.VehicleModelId=W.VehicleModelId
-                            
                                where SalesQuotationId=@SalesQuotationId";
 
                 var SalesQuotationItems = connection.Query<SalesQuotationItem>(sql, new
@@ -229,7 +228,24 @@ namespace ArabErp.DAL
                 return SalesQuotationItems;
             }
         }
+        public List<SalesQuotationMaterial> GetSalesQuotationMaterials(int SalesQuotationId)
+        {
 
+            using (IDbConnection connection = OpenConnection(dataConnection))
+            {
+                string sql = @"select * from SalesQuotationMaterial S inner join Item I ON I.ItemId=S.ItemId
+                               left join Unit U on  U.UnitId=I.ItemUnitId
+                               where SalesQuotationId=@SalesQuotationId";
+
+                var SalesQuotationMaterials = connection.Query<SalesQuotationMaterial>(sql, new
+                {
+                    SalesQuotationId = SalesQuotationId
+                }).ToList<SalesQuotationMaterial>();
+
+                return SalesQuotationMaterials;
+            }
+        }
+        
         public List<SalesQuotation> GetSalesQuotations()
         {
             using (IDbConnection connection = OpenConnection(dataConnection))
@@ -391,7 +407,9 @@ namespace ArabErp.DAL
             int result3 = 0;
             using (IDbConnection connection = OpenConnection(dataConnection))
             {
-                string sql = @" DELETE FROM SalesQuotationItem WHERE SalesQuotationId=@Id";
+                string sql = @" DELETE FROM SalesQuotationItem WHERE SalesQuotationId=@Id
+                                DELETE FROM SalesQuotationMaterial WHERE SalesQuotationId=@Id";
+                                                                                         
 
                 {
 

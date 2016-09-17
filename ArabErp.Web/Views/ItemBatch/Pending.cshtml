@@ -1,7 +1,7 @@
 ﻿@model IList<ArabErp.Domain.ItemBatch>
 
 @{
-    ViewBag.Title = "Pending GRN For Serial Number";
+    ViewBag.Title = "Pending GRN For Assigning Serial Number";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
@@ -38,12 +38,17 @@
         window.location = url;
     }
 
+    function Exit() {
+        var url = '@Url.Action("Index", "Home")';
+        window.location = url;
+    }
+
 </script>
 
     <div class="row">
 
         <div class="form-head1">
-            <h4>Pending GRN For Serial Number</h4>
+            <h4>Pending GRN For Assigning Serial Number</h4>
         </div>
 
         <div class="main-part pad1">
@@ -115,6 +120,7 @@
 
                         <div class="col-md-12 hrpart">
                             <input type="button" class="form-button" onclick="PreviousList()" value="Previous">
+                            <input type="button" class="form-button right" onclick="Exit()" value="Exit">
                             @*<button type="submit" class="form-button right">Proceed</button>*@
                         </div>
 

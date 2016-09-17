@@ -26,6 +26,18 @@ namespace ArabErp.DAL
                                                             AND f.FreezerUnitName LIKE '%'+@freezerunit+'%' AND b.BoxName LIKE '%'+@box+'%'", new { vehiclemodel = vehiclemodel, freezerunit = freezerunit, box = box }).ToList();
             }
         }
+
+        public IEnumerable<WorkDescription> FillProjectWorkDescriptionList()
+        {
+            using (IDbConnection connection = OpenConnection(dataConnection))
+            {
+                return connection.Query<WorkDescription>(@" SELECT wd.WorkDescriptionId WorkDescriptionId,
+                                                            wd.WorkDescriptionRefNo WorkDescriptionRefNo,wd.WorkDescrShortName,
+                                                            wd.WorkDescr WorkDescr
+                                                            FROM WorkDescription wd 
+                                                            WHERE wd.isActive=1 AND wd.isProjectBased=1").ToList();
+            }
+        }
         public WorkDescription InsertWorkDescription(WorkDescription objWorkDescription)
         {
             using (IDbConnection connection = OpenConnection(dataConnection))

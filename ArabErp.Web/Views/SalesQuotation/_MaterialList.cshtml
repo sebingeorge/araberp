@@ -1,12 +1,15 @@
 ﻿
 @model ArabErp.Domain.SalesQuotation
 
+@{ 
+    string actionName = ViewContext.RouteData.GetRequiredString("action");
+ }
 <script type="text/javascript">
 
     $(document).ready(function () {
-        $("#Items_0__SlNo").val('1');
+        $("#Materials_0__SlNo").val('1');
     });
-
+   
 
     function AddRow() {
        
@@ -23,23 +26,22 @@
         i++;
 
         var index = (new Date()).getTime(); // unique indexer
-        var clone = $('#tr_0').clone(); // clone the BatchProducts item
+        var clone =$('#tr_0').clone(); // clone the BatchProducts item
         //Update the index of the clone
-        //clone.html($(clone).html().replace("Items_0__", 'Items_' + i + '__'));
-        clone.html($(clone).html().replace(/\Items_0__/g, 'Items_' + i + '__'));
-        clone.html($(clone).html().replace(/\Items[0]./g, 'Items[' + i + '].'));
+     
+        clone.html($(clone).html().replace(/\Materials_0__/g, 'Materials_' + i + '__'));
+        clone.html($(clone).html().replace(/\Materials[0]./g, 'Materials[' + i + '].'));
+        clone.html($(clone).html().replace(/partno0/, 'partno' + i + ''));
         clone.html($(clone).html().replace(/\[0\]/g, '[' + i + ']'));
         clone.html($(clone).html().replace(/\(0\)/g, '(' + i + ')'));
         clone.html($(clone).html().replace(/Row_0/, 'Row_' + i));
-        clone.html($(clone).html().replace(/slno1/, 'slno' + (i + 1) + ''));
-        clone.html($(clone).html().replace(/partno0/, 'partno' + i + ''));
-        clone.html($(clone).html().replace(/Stock_0/, 'Stock_' + i + ''));
-        //clone.html($(clone).html().replace(/UoM_0/, 'UoM_' + i + ''));
+        clone.html($(clone).html().replace(/serialno1/, 'serialno' + (i + 1) + ''));
         clone.html($(clone).html().replace(/unit0/, 'unit' + i + ''));
         clone.html($(clone).html().replace(/this,0/, 'this,' + i + ''));
         $("#table-additional-items-list").append('<tr id="tr_' + i + '">' + clone.html() + '  </tr>');
-        $("#slno" + (i + 1)).html((i + 1));
-        $("#Items_" + i + "__SlNo").val((i + 1));
+        $("#serialno" + (i + 1)).html((i + 1));
+        $("#Materials_" + i + "__SlNo").val((i + 1));
+      
         $("#unit" + i).html('');
         $("#partno" + i).html('');
         //bind keypress event for new row inputs.
@@ -51,7 +53,6 @@
             }
         });
     }
-
 
     function Delete(index) {
 
@@ -66,41 +67,41 @@
             }
         });
         i++;
-        //$("#" + index).html('');
+       
         if (i > 1) {
             $("#tr_" + index).remove();
             for (var j = index + 1; j < i; j++) {
-                var ItemId = $("#Items_" + j + "__ItemId").val();
-                var Remarks = $("#Items_" + j + "__Remarks").val();
-                var Quantity = $("#Items_" + j + "__Quantity").val();
-                //var FixedRate = $("#Items_" + j + "__Remarks").val();
-
-                //alert(WorkDescriptionId + ',' + VehicleModelId + ',' + Quantity + ',' + UnitId + ',' + Rate + ',' + Discount + ',' + Amount);
-
+                var ItemId = $("#Materials_" + j + "__ItemId").val();
+                var PartNo = $("#Materials_" + j + "__PartNo").val();
+                var Quantity = $("#Materials_" + j + "__Quantity").val();
+                var Unit = $("#Materials_" + j + "__UnitName").val();
+                var Rate = $("#Materials_" + j + "__Rate").val();
+                var Amount = $("#Materials_" + j + "__Amount").val();
+                var Remarks = $("#Materials_" + j + "__Remarks").val();
                 var clone = $("#tr_" + j).clone(true, true);
-                clone.html($(clone).html().replace(new RegExp("Items_" + j + "__", "g"), 'Items_' + (j - 1) + '__'));
+                clone.html($(clone).html().replace(new RegExp("Materials_" + j + "__", "g"), 'Materials_' + (j - 1) + '__'));
                 clone.html($(clone).html().replace(new RegExp("\\[" + j + "].", "g"), "[" + (j - 1) + "]."));
-                clone.html($(clone).html().replace(new RegExp('slno' + (j + 1) + '">' + (j + 1), "g"), 'slno' + (j) + '">' + (j)));
+                clone.html($(clone).html().replace("OnRateTypeChanged(" + j, "OnRateTypeChanged(" + (j - 1)));
+                clone.html($(clone).html().replace("OnItemChange(" + j, "OnItemChange(" + (j - 1)));
+                clone.html($(clone).html().replace(new RegExp('serialno' + (j + 1) + '">' + (j + 1), "g"), 'serialno' + (j) + '">' + (j)));
                 clone.html($(clone).html().replace("Delete(" + j, "Delete(" + (j - 1)));
                 clone.html($(clone).html().replace("Row_" + j, "Row_" + (j - 1)));
-
-
-
-
                 clone.html($(clone).html().replace("this," + j, "this," + (j - 1)));
-                $("#" + j).html(clone.html());
-                $("#Items_" + (j - 1) + "__SlNo").val(j);
-                $("#tr_" + (j)).attr('id', (j - 1));
-                //alert(j);
-                $("#Items_" + (j - 1) + "__ItemId").val(ItemId);
-                $("#Items_" + (j - 1) + "__Remarks").val(Remarks);
-                $("#Items_" + (j - 1) + "__Quantity").val(Quantity);
-                //$("#Items_" + (j - 1) + "__Remarks").val(Remarks);
-
+                $("#tr_" + j).html(clone.html());
+           
+                $("#Materials_" + (j - 1) + "__SlNo").val(j);
+                $("#tr_" + (j)).attr('id', 'tr_' + (j - 1));
+              
+                $("#Materials_" + (j - 1) + "__ItemId").val(ItemId);
+                $("#Materials_" + (j - 1) + "__PartNo").val(PartNo);
+                $("#Materials_" + (j - 1) + "__Quantity").val(Quantity);
+                $("#Materials_" + (j - 1) + "__UnitName").val(Unit);
+                $("#Materials_" + (j - 1) + "__Rate").val(Rate);
+                $("#Materials_" + (j - 1) + "__Amount").val(Amount);
+                $("#Materials_" + (j - 1) + "__Remarks").val(Remarks);
             }
         }
     }
-
 
     function OnItemChange(sender, index) {
         var id = $(sender).val();
@@ -126,15 +127,62 @@
         var rate = parseFloat("0");
       
         $('.clRate').each(function (i, obj) {
+           
             var a = parseFloat($("#Materials_" + i + "__Rate").val());
 
             if (isNaN(a)) {
                 a = parseFloat("0");
             }
-
+           
             rate = rate + a;
+            
+            $("#SalesQuotationItems_" + 0 + "__MaterialRate").val(rate);
+            $("#SalesQuotationItems_" + 0 + "__Amount").val(rate);
         });
        
+
+    }
+    function QtyChanged(row) {
+        var quantity = parseFloat($("#Materials_" + row + "__Quantity").val());
+        var rate = parseFloat($("#Materials_" + row + "__Rate").val());
+     
+     
+        if (quantity == NaN) {
+            quantity = 0;
+        }
+        if (rate == NaN) {
+            rate = 0;
+        }
+                        
+      
+                      
+        var amount = (quantity * rate);
+                       
+        amount = parseFloat(amount);
+        $("#Materials_" + row + "__Amount").val(amount);
+        calculateSummary();
+    }
+
+    function calculateSummary() {
+      
+        var amount = parseFloat("0");
+       
+        $('.clAmount').each(function (i, obj) {
+            var a = parseFloat($("#Materials_" + i + "__Amount").val());
+            if (isNaN(a)) {
+
+                a = parseFloat("0");
+
+            }
+
+            amount = amount + a;
+        });
+
+     
+        $("#TotalAmount").text(parseFloat(amount));
+        $("#Amount").val(parseFloat(amount));
+
+
     }
 
 </script>
@@ -144,15 +192,22 @@
      <table class="table table-bordered" id="table-additional-items-list">
     <thead>
         <tr class="grid_heading">
+           @if (actionName != "Approve" )
+            {
             <th width="2%" class="text-center"></th>
+            }
             <th width="5%" class="text-center "><h1>#</h1></th>
-            <th width="35%"><h1>Material/Spares</h1></th>
-            <th width="10%"><h1>Part No.</h1></th>
-            <th width="35%"><h1>Remarks</h1></th>
-            <th width="5%" class="text-right "><h1>Qty.</h1></th>
-            <th width="5%" class="text-right "><h1>Rate</h1></th>
-            <th width="6%"><h1>UoM</h1></th>
+            <th width="40%"><h1>Material/Spares</h1></th>
+            <th width="20%"><h1>Part No.</h1></th>
+          
+            <th width="6%" class="text-right "><h1>Qty.</h1></th>
+            <th width="8%"><h1>UoM</h1></th>
+            <th width="10%" class="text-right "><h1>Rate</h1></th>
+            <th width="10%" class="text-right "><h1>Amount</h1></th>
+            @if (actionName != "Approve" )
+            {
             <th width="2%" class="text-center"></th>
+            }
         </tr>
     </thead>
     <tbody class="grid_row">
@@ -160,26 +215,52 @@
         {
 
             <tr id="tr_@i">
+             @if (actionName != "Approve" )
+                  {
                 <td style="vertical-align:middle"><a class="glyphicon glyphicon-minus" style="top:0px" onclick="Delete(@i)"></a></td>
+                  }
                 <td align="center">
-                    <span id="slno@(i+1)">@(i + 1)</span>
+                    <span id="serialno@(i+1)">@(i + 1)</span>
                     @Html.HiddenFor(m => m.Materials[i].SlNo)
                 </td>
-
                 <td>
-                    <input type="hidden" id="Row_@i" />
-
-                    @Html.DropDownListFor(m => m.Materials[i].ItemId, new SelectList(ViewBag.itemList, "Value", "Text", Model.Materials[i].ItemId), "Select Material/Spares", new { @class = "form_input", autocomplete = "off", @onchange = "OnItemChange(this," + i + ")" })
+                <input type="hidden" id="Row_@i" />
+                @Html.DropDownListFor(m => m.Materials[i].ItemId, new SelectList(ViewBag.itemList, "Value", "Text", Model.Materials[i].ItemId), "Select Material/Spares", new { @class = "form_input", autocomplete = "off", @onchange = "OnItemChange(this," + i + ")" })
                 </td>
                 <td id="partno0" class="qreturn" style="vertical-align:middle">@Html.TextBoxFor(m => m.Materials[i].PartNo, new { @class = "form_input text-left", @readonly = "true" })</td>
-                <td>@Html.TextBoxFor(m => m.Materials[i].Remarks, new { @class = "form_input", autocomplete = "off", placeholder = "Remarks" })</td>
-                <td>@Html.TextBoxFor(m => m.Materials[i].Quantity, new { @class = "form_input numbers-only text-right", autocomplete = "off", placeholder = "Qty" })</td>
-                <td>@Html.TextBoxFor(m => m.Materials[i].Rate, new { @class = "form_input numbers-only text-right clRate", autocomplete = "off", placeholder = "Rate",@onchange=  "RateChanged(" + i + ");", @onkeyup = "RateChanged(" + i + ")" })</td>
+             
+                <td>@Html.TextBoxFor(m => m.Materials[i].Quantity, new { @class = "form_input numbers-only text-right", autocomplete = "off", placeholder = "Qty", @onkeyup = "QtyChanged(" + i + ")" })</td>
                 <td id="unit0" class="qreturn" style="vertical-align:middle">@Html.TextBoxFor(m => m.Materials[i].UnitName, new { @class = "form_input text-left", @readonly = "true" })</td>
+                <td>@Html.TextBoxFor(m => m.Materials[i].Rate, new { @class = "form_input numbers-only text-right ", autocomplete = "off", placeholder = "Rate", @onchange = "RateChanged(" + i + ");", @onkeyup = "QtyChanged(" + i + ")" })</td>
+                <td>@Html.TextBoxFor(m => m.Materials[i].Amount, new { @class = "form_input numbers-only text-right clAmount", autocomplete = "off", placeholder = "Amount", @readonly = "true" })</td>
+                @if (actionName != "Approve" )
+                  {
                 <td style="vertical-align:middle"><a id="add_row" class="glyphicon glyphicon-plus" style="top:0px" onclick="AddRow()"></a></td>
-            </tr>
+                  }
+                    </tr>
         }
     </tbody>
+         <tfoot>
+             <tr class="grid_heading">
+                 @if (actionName != "Approve")
+                 {
+                     <th width="2%" class="text-center"></th>
+                 }
+                 <th width="5%" class="text-center "><h1>Total</h1></th>
+                 <th width="40%"><h1></h1></th>
+                 <th width="20%"><h1></h1></th>
+
+                 <th width="6%" class="text-right "><h1></h1></th>
+                 <th width="8%"><h1></h1></th>
+                 <th width="10%" class="text-right "><h1></h1></th>
+                 <th width="10%" class="text-right "><span id="TotalAmount"></span></th>
+                 @if (actionName != "Approve")
+                 {
+                     <th width="2%" class="text-center"></th>
+                 }
+             </tr>
+         </tfoot>
+
 </table>
    
 

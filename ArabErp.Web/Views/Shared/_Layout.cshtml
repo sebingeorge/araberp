@@ -121,6 +121,7 @@
 
     @*<nav class="pushmenu pushmenu-left">
         <h3>Logo</h3>*@
+    
     <div id="wrapper" class="toggled">
         <div id="sidebar-wrapper">
             <ul class="sidebar-nav">
@@ -133,7 +134,7 @@
                         <a href="#" data-toggle="collapse" data-target="#admin-level-menu">Admin<span class="caret arrow"></span></a>
                         <div id="admin-level-menu" class="collapse">
                             <ul>
-                                <li>
+                                     <li>
                                         <a href="#" data-toggle="collapse" data-target="#admin-item">Item<span class="caret arrow"></span></a>
                                         <div id="admin-item" class="collapse">
                                             <ul>
@@ -142,9 +143,10 @@
                                                 <li><a href="@Url.Action("Create","ItemSubGroup")">Item SubGroup</a></li>
                                                 <li><a href="@Url.Action("Index","Item")">Item</a></li>
                                                 <li><a href="@Url.Action("Create", "Unit")">UOM</a></li>
-                            </ul>
+                                           </ul>
                                         </div>
-                        </li>
+                                    </li>
+
                                     <li>
                                         <a href="#" data-toggle="collapse" data-target="#admin-employee">Employee<span class="caret arrow"></span></a>
                                         <div id="admin-employee" class="collapse">
@@ -152,35 +154,37 @@
                                                 <li><a href="@Url.Action("Create","Designation")">Designation</a></li>
                                                 <li><a href="@Url.Action("Create","EmployeeCategory")">Employee Category</a></li>
                                                 <li><a href="@Url.Action("Create", "Employee")">Employee</a></li>
-                            </ul>
+                                            </ul>
                                         </div>
-                        </li>
+                                   </li>
+
                                     <li>
                                         <a href="#" data-toggle="collapse" data-target="#admin-supplier">Supplier<span class="caret arrow"></span></a>
                                         <div id="admin-supplier" class="collapse">
                                             <ul>
                                                 <li><a href="@Url.Action("Create","SupplierCategory")">Supplier Category</a></li>
                                                 <li><a href="@Url.Action("Index", "Supplier")">Supplier</a></li>
-                            </ul>
+                                            </ul>
                                         </div>
-                        </li>
+                                    </li>
+
                                     <li>
                                         <a href="#" data-toggle="collapse" data-target="#admin-customer">Customer<span class="caret arrow"></span></a>
                                         <div id="admin-customer" class="collapse">
                                             <ul>
                                                 <li><a href="@Url.Action("Create","CustomerCategory")">Customer Category</a></li>
                                                 <li><a href="@Url.Action("Index", "Customer")">Customer</a></li>
-                            </ul>
+                                            </ul>
                                         </div>
-                        </li>
+                                   </li>
+
                                     <li><a href="@Url.Action("Create", "Organization")">Organization</a></li>
                                     <li><a href="@Url.Action("Create","Currency")">Currency</a></li>
                                     <li><a href="@Url.Action("Create", "CostingParameters")">CostingParameters</a></li>
                                     <li><a href="@Url.Action("Create", "QCParameter")">QCParameters</a></li>
-                                <li><a href="@Url.Action("Create", "CustomerVsSalesExecutive")">CustomerVsSalesExecutive</a></li>
+                                    <li><a href="@Url.Action("Create", "CustomerVsSalesExecutive")">CustomerVsSalesExecutive</a></li>
                                     <li><a href="@Url.Action("Index","WorkDescription")">Transport Work Description</a></li>
-                                    <li><a href="@Url.Action("Index","RateSettings")">Rate Settings</a></li>
-                                    <li><a href="@Url.Action("CreateProjectWorkDescription","WorkDescription")">Project Work Description</a></li>
+                                    <li><a href="@Url.Action("FillProjectWorkDescriptionList", "WorkDescription")">Project Work Description</a></li>
                                     <li><a href="@Url.Action("Create","VehicleModel")">Vehicle Model</a></li>
                                     <li><a href="@Url.Action("Create","Task")">Task</a></li>
                                     <li><a href="@Url.Action("Create", "CommissionAgent")">Success Fee</a></li>
@@ -191,18 +195,28 @@
                                     <li><a href="@Url.Action("Create", "Bay")">Bay</a></li>
                                     <li><a href="@Url.Action("Create", "FreezerUnit")">Refrigeration Unit</a></li>
                                     <li><a href="@Url.Action("Create", "PaymentTerms")">Payment Terms</a></li>
-                                    <li><a href="@Url.Action("Create", "SupplierItemRate")">Supplier Wise Item Rate Settings</a></li>
                                     <li><a href="@Url.Action("Index", "PrefixSettings")">Prefix Settings</a></li>
-                                    <li><a class="projectn" href="@Url.Action("Create", "CustomerVsWorkRate")">Customer Wise Work Rate Settings</a></li>@*class = lh*@
+                                
+                                <li>
+                                    <a href="#" data-toggle="collapse" data-target="#admin-user-settings">Rate Settings<span class="caret arrow"></span></a>
+                                    <div id="admin-user-settings" class="collapse">
+                                        <ul>
+                                            <li><a href="@Url.Action("Index","RateSettings")">Work Description Rate Settings</a></li>
+                                            <li><a class="projectn" href="@Url.Action("Create", "CustomerVsWorkRate")">Customer Wise Work Rate Settings</a></li>@*class = lh*@
+                                            <li><a href="@Url.Action("Create", "SupplierItemRate")">Supplier Wise Item Rate Settings</a></li>
+                                        </ul>
+                                    </div>
+                                </li>
+
                                     <li>
                                         <a href="#" data-toggle="collapse" data-target="#admin-user-settings">User Settings<span class="caret arrow"></span></a>
                                         <div id="admin-user-settings" class="collapse">
                                             <ul>
                                                 <li><a href="@Url.Action("Register", "Account")">User Settings</a></li>
                                                 <li><a href="@Url.Action("Create", "QuotationApproval")">Quotation Approval V/s User</a></li>
-                                        </ul>
-                                    </div>
-                                </li>
+                                           </ul>
+                                        </div>
+                                   </li>
                                 @*<li><a href="@Url.Action("Create", "Organization")"><span class="badge pull-right"></span>Organization</a></li>
                         <li><a href="@Url.Action("Create","Currency")"><span class="badge pull-right"></span>Currency</a></li>
                         <li><a href="@Url.Action("Create", "CostingParameters")"><span class="badge pull-right"></span>Costing Parameters</a></li>

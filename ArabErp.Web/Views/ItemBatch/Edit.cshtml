@@ -101,6 +101,7 @@
                                         <td>
                                             @if (Model[i].SaleOrderItemId == null)
                                             {
+                                                @Html.HiddenFor(m => m[i].ItemBatchId)
                                                 if (Model[0].isOpeningStock == 1)
                                                 {
                                                     @Html.HiddenFor(m => m[i].OpeningStockId)

@@ -137,8 +137,9 @@ namespace ArabErp.Web.Controllers
             ds.Tables["Head"].Columns.Add("SpecialRemarks");
             //-------DT
             ds.Tables["Items"].Columns.Add("SerialNo");
-            ds.Tables["Items"].Columns.Add("Item");
-            ds.Tables["Items"].Columns.Add("WarrantyPeriod");
+            ds.Tables["Items"].Columns.Add("ItemName");
+            ds.Tables["Items"].Columns.Add("WarrantyStartDate");
+            ds.Tables["Items"].Columns.Add("WarrantyExpireDate");
 
             DeliveryChallanRepository repo = new DeliveryChallanRepository();
             var Head = repo.GetDeliveryChallanHD(Id);
@@ -148,35 +149,33 @@ namespace ArabErp.Web.Controllers
             dr["DeliveryChallanDate"] = Head.DeliveryChallanDate.ToString("dd-MMM-yyyy");
             dr["Customer"] = Head.Customer;
             dr["SONoDate"] = Head.SONODATE;
-            dr["JCNoDate"] = Head.JobCardDate;
+            dr["JCNoDate"] = Head.JobCardNo;
             dr["RegistrationNo"] = Head.RegistrationNo;
-            dr["WorkDesc"] = Head.WorkDesc;
+            dr["WorkDesc"] = Head.WorkDescr;
             dr["VehicleModel"] = Head.VehicleModel;
             dr["Employee"] = Head.EmployeeName;
             dr["PaymentTerms"] = Head.PaymentTerms;
-            dr["SpecialRemarks"] = Head.SpecialRemarks;
+            dr["SpecialRemarks"] = Head.Remarks;
             ds.Tables["Head"].Rows.Add(dr);
 
 
-            JobCardTaskRepository repo1 = new JobCardTaskRepository();
-            var Items = repo1.GetJobCardDT(Id);
+            DeliveryChallanRepository repo1 = new DeliveryChallanRepository();
+            var Items = repo1.GetDeliveryChallanDT(Id); 
             foreach (var item in Items)
             {
-                var JCItem = new JobCardTask
+                var DCItem = new ItemBatch
                 {
-                    TaskDate = item.TaskDate,
-                    Employee = item.Employee,
-                    Description = item.Description,
-                    StartTime = item.StartTime,
-                    EndTime = item.EndTime
+                    SerialNo = item.SerialNo,
+                    ItemName = item.ItemName,
+                    WarrantyStartDate = item.WarrantyStartDate,
+                    WarrantyExpireDate = item.WarrantyExpireDate
                 };
 
                 DataRow dri = ds.Tables["Items"].NewRow();
-                dri["TaskDate"] = JCItem.TaskDate.ToString("dd-MMM-yyyy");
-                dri["Employee"] = JCItem.Employee;
-                dri["Description"] = JCItem.Description;
-                dri["StartTime"] = JCItem.StartTime;
-                dri["EndTime"] = JCItem.EndTime;
+                dri["SerialNo"] = DCItem.SerialNo;
+                dri["ItemName"] = DCItem.ItemName;
+                dri["WarrantyStartDate"] = DCItem.WarrantyStartDate.ToString("dd-MMM-yyyy");
+                dri["WarrantyExpireDate"] = DCItem.WarrantyExpireDate.ToString("dd-MMM-yyyy");
                 ds.Tables["Items"].Rows.Add(dri);
             }
 
