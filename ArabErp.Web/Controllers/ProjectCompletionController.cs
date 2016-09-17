@@ -79,11 +79,12 @@ namespace ArabErp.Web.Controllers
             try
             {
                 model.CreatedBy = UserID.ToString(); model.CreatedDate = DateTime.Today; model.OrganizationId = OrganizationId;
-                foreach (ItemBatch item in model.ItemBatches)
-                {
-                    item.WarrantyStartDate = model.ProjectCompletionDate;
-                    item.WarrantyExpireDate = model.ProjectCompletionDate.AddMonths(item.WarrantyPeriodInMonths ?? 0).AddDays(-1);
-                }
+                if (model.ItemBatches != null && model.ItemBatches.Count > 0)
+                    foreach (ItemBatch item in model.ItemBatches)
+                    {
+                        item.WarrantyStartDate = model.ProjectCompletionDate;
+                        item.WarrantyExpireDate = model.ProjectCompletionDate.AddMonths(item.WarrantyPeriodInMonths ?? 0).AddDays(-1);
+                    }
                 string ref_no = new ProjectCompletionRepository().InsertProjectCompletion(model);
                 TempData["success"] = "Saved Successfully. Reference No. is " + ref_no;
                 return RedirectToAction("Pending");
