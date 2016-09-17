@@ -241,34 +241,26 @@
     //}
     
         function formValidation() {
-     
-        $(".validateqty").each(function (i, obj) {
 
+         var status = true;
+
+         $(".validateqty").each(function (i, obj) {
             var itemcode = $("#WorkVsItems_" + i + "__ItemId").val();
             var qty = $("#WorkVsItems_" + i + "__Quantity").val();
 
-            alert(itemcode);
-            alert(qty);
-
-            //if (itemcode != null || itemcode != 0 && qty < 0) {
-
-                if (itemcode != null  && qty < 0) {
-
-                alert("Quantity Should Be Greater than 0");
-                $("#WorkVsItems_" + i + "__Quantity").focus();
-                count = 1;
+            if (itemcode != '' && qty == 0) {
+                 $("#WorkVsItems_" + i + "__Quantity").focus();
+                status = false;
             }
        
         });
 
+        if (!status)
+            alert("Quantity Should Be Greater than Zero");
 
-        if (count == 1)
-        {
-            return false;
-        }
-
-        return (confirm("Are you sure to save?")) ? true : false;
+        return status;
     }
+
 </script>
 
 
@@ -278,7 +270,7 @@
         </div>
 
         <div class="main-part pad1">
-           @using (Html.BeginForm(null, null, FormMethod.Post, new { @class = "createFrom", @id = "VehicleModel_form"}))
+           @using (Html.BeginForm(null, null, FormMethod.Post, new { @class = "createFrom", @id = "VehicleModel_form", @onsubmit = "return formValidation()" }))
            {
                @Html.HiddenFor(m => m.WorkDescriptionId)
                 @Html.HiddenFor(m => m.isProjectBased)
