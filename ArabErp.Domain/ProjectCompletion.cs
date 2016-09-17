@@ -8,6 +8,12 @@ namespace ArabErp.Domain
 {
     public class ProjectCompletion
     {
+      
+        public ProjectCompletion()
+        {
+            ItemBatches = new List<ItemBatch>();
+        }
+
         public int ProjectCompletionId { get; set; }
         public string ProjectCompletionRefNo { get; set; }
         public DateTime ProjectCompletionDate { get; set; }
