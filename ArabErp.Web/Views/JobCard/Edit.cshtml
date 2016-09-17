@@ -124,7 +124,23 @@
             toastr.info("Required date cannot be less than Job Card date");
             return false;
         }
-        return true;
+
+        var status = true;
+        $(".validateqty").each(function (i, obj) {
+            var Task = $("#JobCardTasks_" + i + "__JobCardTaskId").val();
+            var Employee = $("#JobCardTasks_" + i + "__EmployeeId").val();
+            var Hrs = $("#JobCardTasks_" + i + "__Hours").val();
+            //alert(Task);
+            //alert(Hrs);
+            if (Task != '' && Employee != '' && Hrs == 0) {
+                $("#JobCardTasks_" + i + "__Hours").focus();
+                status = false;
+            }
+        });
+        if (!status)
+            alert("Hrs Should Be Greater than Zero");
+
+        return status;
     }
 
     function GoToPrint(id) {
@@ -268,7 +284,7 @@
                                         }
                                     </td>
                                     <td>
-                                        @Html.TextBoxFor(m => m.JobCardTasks[row].Hours, new { @class = "form_input", autocomplete = "off", @disabled = Model.IsTaskUsed })
+                                        @Html.TextBoxFor(m => m.JobCardTasks[row].Hours, new { @class = "form_input validateqty", autocomplete = "off", @disabled = Model.IsTaskUsed })
                                         @if (Model.IsTaskUsed)
                                         {
                                             @Html.HiddenFor(m => Model.JobCardTasks[row].Hours)
