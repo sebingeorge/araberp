@@ -64,6 +64,7 @@
     <Compile Include="Dropdown.cs" />
     <Compile Include="Employee.cs" />
     <Compile Include="EmployeeCategory.cs" />
+    <Compile Include="EmployeeResourceAvailability.cs" />
     <Compile Include="ERPAlerts.cs" />
     <Compile Include="ERPGraphs.cs" />
     <Compile Include="ExpenseBill.cs" />
