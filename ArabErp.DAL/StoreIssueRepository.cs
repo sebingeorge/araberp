@@ -141,7 +141,7 @@ namespace ArabErp.DAL
         {
             using (IDbConnection connection = OpenConnection(dataConnection))
             {
-                return connection.Query<StoreIssueItem>(@"SELECT WorkShopRequestId, WorkShopRequestItemId, ItemId, Quantity RequiredQuantity INTO #WORK FROM WorkShopRequestItem;
+                string query = @"SELECT WorkShopRequestId, WorkShopRequestItemId, ItemId, Quantity RequiredQuantity INTO #WORK FROM WorkShopRequestItem;
 
                 SELECT SI.WorkShopRequestId, SII.WorkShopRequestItemId, WRI.ItemId, SUM(IssuedQuantity) IssuedQuantity INTO #ISSUE FROM StoreIssueItem SII INNER JOIN StoreIssue SI ON  SII.StoreIssueId = SI.StoreIssueId INNER JOIN WorkShopRequestItem WRI ON SII.WorkShopRequestItemId = WRI.WorkShopRequestItemId GROUP BY WRI.ItemId, SI.WorkShopRequestId, SII.WorkShopRequestItemId;
                 
@@ -149,20 +149,21 @@ namespace ArabErp.DAL
 
 				SELECT UnitId, UnitName INTO #UNIT FROM Unit;
 
-				SELECT ItemId, SUM(ISNULL(Quantity, 0)) StockQuantity INTO #STOCK FROM StockUpdate GROUP BY ItemId;
-                SELECT /*W.WorkShopRequestId,*/ W.WorkShopRequestItemId, ITEM.ItemId, ITEM.ItemName, UNIT.UnitName, W.RequiredQuantity, ISNULL(I.IssuedQuantity, 0) IssuedQuantity, ISNULL((W.RequiredQuantity-ISNULL(I.IssuedQuantity, 0)), 0) PendingQuantity, CAST(ROUND(ISNULL(STOCK.StockQuantity, 0), 0) AS INT) StockQuantity 
+				--SELECT ItemId, SUM(ISNULL(Quantity, 0)) StockQuantity INTO #STOCK FROM StockUpdate GROUP BY ItemId;
+                SELECT /*W.WorkShopRequestId,*/ W.WorkShopRequestItemId, ITEM.ItemId, ITEM.ItemName, UNIT.UnitName, W.RequiredQuantity, ISNULL(I.IssuedQuantity, 0) IssuedQuantity, ISNULL((W.RequiredQuantity-ISNULL(I.IssuedQuantity, 0)), 0) PendingQuantity, /*CAST(ROUND(ISNULL(STOCK.StockQuantity, 0), 0) AS INT)*/0 StockQuantity 
 				FROM #WORK W 
 					LEFT JOIN #ISSUE I ON W.WorkShopRequestId = I.WorkShopRequestId AND W.WorkShopRequestItemId = I.WorkShopRequestItemId 
 					LEFT JOIN #ITEM ITEM ON W.ItemId = ITEM.ItemId 
 					LEFT JOIN #UNIT UNIT ON ITEM.ItemUnitId = UNIT.UnitId 
-					LEFT JOIN #STOCK STOCK ON ITEM.ItemId = STOCK.ItemId 
+					--LEFT JOIN #STOCK STOCK ON ITEM.ItemId = STOCK.ItemId 
 				WHERE W.WorkShopRequestId = @WorkShopRequestId 
 					AND W.RequiredQuantity > ISNULL(I.IssuedQuantity, 0);
                 DROP TABLE #ISSUE;
                 DROP TABLE #WORK;
                 DROP TABLE #ITEM;
                 DROP TABLE #UNIT;
-                DROP TABLE #STOCK;", new { WorkShopRequestId = workshopRequestId }).ToList();
+                --DROP TABLE #STOCK;";
+                return connection.Query<StoreIssueItem>(query, new { WorkShopRequestId = workshopRequestId }).ToList();
             }
         }
         /// <summary>
