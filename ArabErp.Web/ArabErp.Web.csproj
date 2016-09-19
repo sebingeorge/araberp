@@ -277,6 +277,7 @@
     <Compile Include="Controllers\QuerySheetController.cs" />
     <Compile Include="Controllers\QuotationApprovalController.cs" />
     <Compile Include="Controllers\RateSettingsController.cs" />
+    <Compile Include="Controllers\ResourceAvailabilityController.cs" />
     <Compile Include="Controllers\SaleOrderController.cs" />
     <Compile Include="Controllers\SaleOrderStatusController.cs" />
     <Compile Include="Controllers\SaleOrderSummaryController.cs" />
@@ -946,6 +947,8 @@
     <Content Include="Views\WorkDescription\ProjectWorkDescriptionList.cshtml" />
     <Content Include="Views\ProductionPlan\Test.cshtml" />
     <Content Include="Views\ProductionPlan\Sale.cshtml" />
+    <Content Include="Views\ResourceAvailability\Employee.cshtml" />
+    <Content Include="Views\ResourceAvailability\_EmployeeGrid.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

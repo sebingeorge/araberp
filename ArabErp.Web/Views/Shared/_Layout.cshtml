@@ -68,6 +68,19 @@
                 $("#wrapper").toggleClass("toggled");
             });
 
+            $(".sidebar-nav > li > a").click(function () {
+                var $this = $(this);
+                $(".sidebar-nav").find("li").find("a:not([data-target='" + $this.data("target") + "'])").each(function () {
+                    $($(this).data("target")).removeClass("in").addClass('collapse');
+                });
+            });
+            $(".sidebar-nav > li > div > ul > li > a").click(function () {
+                var $this = $(this);
+                $(".sidebar-nav").find("li").find("div").find("ul").find("li").find("a:not([data-target='" + $this.data("target") + "'])").each(function () {
+                    $($(this).data("target")).removeClass("in").addClass('collapse');
+                });
+            });
+
             $("input[type='text'], textarea").prop("maxlength", "500");
 
             //---------------------toastr---------------------------//
@@ -198,8 +211,8 @@
                                     <li><a href="@Url.Action("Index", "PrefixSettings")">Prefix Settings</a></li>
                                 
                                 <li>
-                                    <a href="#" data-toggle="collapse" data-target="#admin-user-settings">Rate Settings<span class="caret arrow"></span></a>
-                                    <div id="admin-user-settings" class="collapse">
+                                    <a href="#" data-toggle="collapse" data-target="#admin-rate-settings">Rate Settings<span class="caret arrow"></span></a>
+                                    <div id="admin-rate-settings" class="collapse">
                                         <ul>
                                             <li><a href="@Url.Action("Index","RateSettings")">Work Description Rate Settings</a></li>
                                             <li><a class="projectn" href="@Url.Action("Create", "CustomerVsWorkRate")">Customer Wise Work Rate Settings</a></li>@*class = lh*@
@@ -267,7 +280,7 @@
                                     <div id="purchase-serialno" class="collapse">
                                         <ul>
                                             <li><a href="@Url.Action("Pending", "ItemBatch", new { type = 1 })">Assign Serial No (Opening Stock)</a></li>
-                                            <li><a href="@Url.Action("Pending","ItemBatch")">Assign Serial No</a></li>
+                                            <li><a href="@Url.Action("Pending","ItemBatch")">Assign Serial No (GRN)</a></li>
                                             <li><a href="@Url.Action("PendingReservation","ItemBatch")">Reserve Serial No</a></li>
                                             <li><a href="@Url.Action("ReservedList","ItemBatch")">Unreserve Serial No</a></li>
                                             <li><a href="@Url.Action("MaterialList","ItemBatch")">Serial No List</a></li>

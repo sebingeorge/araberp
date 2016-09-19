@@ -172,7 +172,7 @@ namespace ArabErp.DAL
                                     SELECT CAST(SCOPE_IDENTITY() AS INT)";
                     model.ProjectCompletionRefNo = DatabaseCommonRepository.GetNewDocNo(connection, model.OrganizationId, 30, true, txn);
                     model.ProjectCompletionId = connection.Query<int>(query, model, txn).First();
-                    InsertItemBatch(model, connection, txn);
+                    if (model.ItemBatches != null && model.ItemBatches.Count > 0) InsertItemBatch(model, connection, txn);
                     InsertLoginHistory(dataConnection, model.CreatedBy, "Create", typeof(ProjectCompletion).Name, model.ProjectCompletionId.ToString(), model.OrganizationId.ToString());
                     txn.Commit();
                     return model.ProjectCompletionRefNo;
