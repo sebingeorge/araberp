@@ -552,23 +552,25 @@ h5
 }
 .left-s-head 
 {
-    height:28px;
+    height:40px;
     padding:10px;
     background-color:#ffffff;
-    float:right;
-    line-height:15px;
     border-bottom:1px solid #dddddd;
     color:#666666;
+    text-align:right;
+    font-size:16px;
 }
     .left-s-head img 
     {
-        padding-left:5px;
+    margin-top: -4px;
+    padding-left: 5px;
+    padding-right: 3px;
 
     }
     .main-search-s
 {
-    height:30px;
-    padding:10px;
+    height:40px;
+    padding:6px;
     background-color:#f2f2f2;
     line-height:15px;
     border-bottom:1px solid #dddddd;
@@ -576,4 +578,129 @@ h5
     .main-search-s-in 
     {
         color:#c1c1c1;
+        background-color:#fff;
     }
+    .main-search-s-in input 
+        {
+          background-color:#fff;
+          border:0;
+          margin-right:140px;
+
+        }
+        .main-search-s-in img 
+        {
+          /*float:right;*/
+          padding-left:5px;
+          padding-right:5px;
+        }
+
+     .left-box 
+     {
+         /*width:95%;*/
+         height:130px;
+         color:#898989;
+         background-color:#fff;
+         margin-bottom:2px;
+     }
+     .left-box.active
+     {
+      background-color:#e6f2f9;
+     }
+       .left-box-left 
+     {
+         padding-left:15px;
+     }
+     .left-box-right 
+     {
+         padding-right:15px;
+         text-align:right;
+     }
+    .left-box h2
+    {
+        font-size:16px;
+        font-weight:bold;
+    }
+    .left-box h1 
+    {
+        font-size:20px;
+        font-weight:bold;
+        margin-bottom:-4px;
+    }
+    .green
+    {
+     color:#3e9864;
+    }
+    .brown
+    {
+     color:#d65e1e;
+    }
+    .right-s 
+{
+    background-color:#dddddd;
+    border-right:1px solid #dddddd;
+}
+    .right-s-head 
+{
+    height:40px;
+    padding:10px;
+    background-color:#ffffff;
+    border-bottom:1px solid #dddddd;
+    color:#666666;
+    text-align:center;
+    font-size:16px;
+}
+
+         .right-box 
+     {
+         /*width:98%;*/
+         height:300px;
+         color:#898989;
+         background-color:#fff;
+         margin-bottom:2px;
+         line-height:24px;
+     }
+     .right-box.active
+     {
+      background-color:#e6f2f9;
+     }
+       .right-box-left 
+     {
+         padding-left:15px;
+         height:230px;
+     }
+     .right-box-right 
+     {
+         padding-right:15px;
+         text-align:right;
+         height:230px;
+     }
+    .right-box h2
+    {
+        font-size:16px;
+        font-weight:bold;
+    }
+    .right-box h1 
+    {
+        font-size:20px;
+        font-weight:bold;
+        margin-bottom:-4px;
+    }
+        .right-box h3 
+    {
+        font-size:20px;
+        font-weight:bold;
+    }
+.ftw
+{
+    font-size:12px;
+    font-weight:normal;
+    float:right;
+}
+.rborder 
+{
+    border-right:1px solid #bfbfbf;
+}
+.fsize 
+{
+    font-size:10px;
+}

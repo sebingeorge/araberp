@@ -1,9 +1,9 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
-<PropertyGroup> 
- <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">13.0</VisualStudioVersion>
- <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>
-</PropertyGroup>
+  <PropertyGroup>
+    <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">13.0</VisualStudioVersion>
+    <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>
+  </PropertyGroup>
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
@@ -371,7 +371,15 @@
     <Content Include="Content\simple-sidebar.css" />
     <Content Include="Content\slider_css.css" />
     <Content Include="Content\toastr.min.css" />
+    <Content Include="Images\arrow.png" />
+    <Content Include="Images\load.png" />
     <Content Include="Images\logo.gif" />
+    <Content Include="Images\next.png" />
+    <Content Include="Images\open.png" />
+    <Content Include="Images\process.png" />
+    <Content Include="Images\s-home.png" />
+    <Content Include="Images\search.png" />
+    <Content Include="Images\shipped.png" />
     <Content Include="Scripts\accordion-menu.js" />
     <Content Include="Scripts\autocomplete.js" />
     <Content Include="Scripts\Highcharts\exporting.js" />
