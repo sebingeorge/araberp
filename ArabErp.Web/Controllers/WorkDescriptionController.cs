@@ -239,7 +239,7 @@ namespace ArabErp.Web.Controllers
             if (result.WorkDescriptionId > 0)
             {
                 TempData["Success"] = "Added Successfully!";
-                TempData["RefNo"] = result.WorkDescriptionRefNo;
+                TempData["WorkDescriptionRefNo"] = result.WorkDescriptionRefNo;
                 return RedirectToAction("CreateWorkDescription");
             }
             else
@@ -275,7 +275,7 @@ namespace ArabErp.Web.Controllers
             if (result.WorkDescriptionId > 0)
             {
                 TempData["Success"] = "Added Successfully!";
-                TempData["RefNo"] = result.WorkDescriptionRefNo;
+                TempData["WorkDescriptionRefNo"] = result.WorkDescriptionRefNo;
                 return RedirectToAction("CreateProjectWorkDescription");
             }
             else
