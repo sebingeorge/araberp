@@ -1,8 +1,190 @@
-﻿
-@{
+﻿@{
     ViewBag.Title = "Sale";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h2>Sale</h2>
 
+<div class="container-fluid">
+    <div class="row form-group">
+        <div class="col-md-4 left-s">
+            <div class="row">
+                <div class="left-s-head">
+                    Customer Sales Orders
+                    <img src="~/Images/s-home.png" />
+                </div>
+                <div class="main-search-s">
+                    <div class="main-search-s-in">
+                        <input type="text" name="Search">
+                        <img src="~/Images/search.png" />
+                        <img src="~/Images/load.png" />
+                    </div>
+                </div>
+                <div class="left-box active">
+                    <div class="col-md-6 left-box-left">
+                        <h2>SO 38504</h2><br />
+
+                        PO 451902<br />
+                        October 14, 2016
+                    </div>
+                    <div class="col-md-6 left-box-right">
+                        <h1>16K</h1>
+                        SAR<br /><br />
+                        <span class="green">Partially Comp..</span>
+                    </div>
+                </div>
+                <div class="left-box">
+                    <div class="col-md-6 left-box-left">
+                        <h2>SO 38503</h2><br />
+
+                        PO 451902<br />
+                        October 14, 2016
+                    </div>
+                    <div class="col-md-6 left-box-right">
+                        <h1>16K</h1>
+                        SAR<br /><br />
+                        <span class="brown">Not Completed</span>
+                    </div>
+                </div>
+                <div class="left-box">
+                    <div class="col-md-6 left-box-left">
+                        <h2>SO 38502</h2><br />
+
+                        PO 451902<br />
+                        October 14, 2016
+                    </div>
+                    <div class="col-md-6 left-box-right">
+                        <h1>16K</h1>
+                        SAR<br /><br />
+                        <span class="brown">Not Completed</span>
+                    </div>
+                </div>
+                <div class="left-box">
+                    <div class="col-md-6 left-box-left">
+                        <h2>SO 38502</h2><br />
+
+                        PO 451902<br />
+                        October 14, 2016
+                    </div>
+                    <div class="col-md-6 left-box-right">
+                        <h1>16K</h1>
+                        SAR<br /><br />
+                        <span class="brown">Not Completed</span>
+                    </div>
+                </div>
+                <div class="left-box">
+                    <div class="col-md-6 left-box-left">
+                        <h2>SO 38502</h2><br />
+
+                        PO 451902<br />
+                        October 14, 2016
+                    </div>
+                    <div class="col-md-6 left-box-right">
+                        <h1>16K</h1>
+                        SAR<br /><br />
+                        <span class="brown">Not Completed</span>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+        <div class="col-md-8 right-s">
+            <div class="row">
+                <div class="right-s-head">
+                    Sales Order
+                </div>
+
+                <div class="right-box active">
+                    <div class="col-md-6 right-box-left">
+                        <h3>Sales Order 38537</h3><br />
+
+                        PO: 33459<br />
+                        Ordered: October 28, 2016<br />
+                        Requested : August 26, 2016<br />
+                        Ship To : Demo Customer
+                    </div>
+                    <div class="col-md-6 right-box-right">
+                        <h1>4 865,92</h1>
+                        SAR<br /><br />
+                        Order Total: 5 644,60 SAR<br />
+                        Overall Status: Partially Rejected<br />
+                        Delivery Status; <span class="green">Partially Completed</span>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="col-md-1 rborder"><h3>6<span class="ftw">Items</span></h3></div>
+                            <div class="col-md-1 fsize">
+                                <img src="~/Images/open.png" /><br />
+                                Open
+                            </div>
+                            <div class="col-md-1 fsize">
+                                <img src="~/Images/process.png" /><br />
+                                In Process
+                            </div>
+                            <div class="col-md-1 fsize">
+                                <img src="~/Images/shipped.png" /><br />
+                                    Completed
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+              <div class="right-table">
+                <table>
+                    <thead>
+                        <tr>
+                            <td>Work Description</td>
+                            <td>Ordered</td>
+                            <td>Price</td>
+                            <td>Net Amount</td>
+                            <td>Status Summry</td>
+                            <td>Completed</td>
+                        </tr>
+                    </thead>
+
+                        <tr>
+                        <td>Lorem ipsum dolor sit amet, consectetur adipiscing elitLorem ipsum dolor sit amet, consectetur adipiscing elitLorem ipsum dolor sit amet, consectetur adipiscing elit</td>
+                        <td>1PC</td>
+                        <td>0,80 SAR</td>
+                        <td>0,80 SAR</td>
+                        <td>Rejected</td>
+                        <td>0PC <img src="~/Images/arrow.png" /></td>
+                         </tr>
+
+                    <tr>
+                    <td>Lorem ipsum dolor sit amet, consectetur adipiscing elit</td>
+                    <td>2EA</td>
+                    <td>1 064,00 SAR</td>
+                    <td> 2 128,00 SAR</td>
+                    <td>Completed</td>
+                    <td>2EA <img src="~/Images/arrow.png" /></td>
+                    </tr>
+                    <tr>
+                        <td>Lorem ipsum dolor sit amet, consectetur adipiscing elit</td>
+                        <td>5EA</td>
+                        <td>266,00 SAR</td>
+                        <td>1 330,00 SAR</td>
+                        <td>Partially Completed</td>
+                        <td>3 EA <img src="~/Images/arrow.png" /></td>
+                    </tr>
+                    <tr>
+                        <td>Lorem ipsum dolor sit amet, consectetur adipiscing elit</td>
+                        <td>5EA</td>
+                        <td>266,00 SAR</td>
+                        <td>1 330,00 SAR</td>
+                        <td>Partially Completed</td>
+                        <td>3 EA <img src="~/Images/arrow.png" /></td>
+                    </tr>
+                </table>
+              </div>
+
+                </div>
+            </div>
+    </div>
+    <div class="row">
+        <div class="s-footer col-md-12">
+            <div class="s-right">
+                <a href="#"><img src="~/Images/next.png" /></a>
+            </div>
+        </div>
+    </div>
+</div>

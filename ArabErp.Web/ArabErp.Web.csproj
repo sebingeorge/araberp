@@ -372,7 +372,15 @@
     <Content Include="Content\simple-sidebar.css" />
     <Content Include="Content\slider_css.css" />
     <Content Include="Content\toastr.min.css" />
+    <Content Include="Images\arrow.png" />
+    <Content Include="Images\load.png" />
     <Content Include="Images\logo.gif" />
+    <Content Include="Images\next.png" />
+    <Content Include="Images\open.png" />
+    <Content Include="Images\process.png" />
+    <Content Include="Images\s-home.png" />
+    <Content Include="Images\search.png" />
+    <Content Include="Images\shipped.png" />
     <Content Include="Scripts\accordion-menu.js" />
     <Content Include="Scripts\autocomplete.js" />
     <Content Include="Scripts\Highcharts\exporting.js" />
