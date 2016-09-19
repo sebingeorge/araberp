@@ -68,16 +68,18 @@
                 $("#wrapper").toggleClass("toggled");
             });
 
-            //$(".sidebar-nav").find("li").find("a").click(function () {
-            //    var $this = $(this);
-            //    $(".sidebar-nav").find("li").find("a:not([data-target='" + $this.data("target") + "'])").each(function () {
-            //        $($(this).data("target")).removeClass("in").addClass('collapse');
-            //        //$($(this).data("target")).removeAttr("height").attr('height', 'auto');
-            //    });
-            //});
-            //$(".sidebar-nav").find("li").find("div").find("ul").find("li").find("a").click(function () {
-                
-            //});
+            $(".sidebar-nav > li > a").click(function () {
+                var $this = $(this);
+                $(".sidebar-nav").find("li").find("a:not([data-target='" + $this.data("target") + "'])").each(function () {
+                    $($(this).data("target")).removeClass("in").addClass('collapse');
+                });
+            });
+            $(".sidebar-nav > li > div > ul > li > a").click(function () {
+                var $this = $(this);
+                $(".sidebar-nav").find("li").find("div").find("ul").find("li").find("a:not([data-target='" + $this.data("target") + "'])").each(function () {
+                    $($(this).data("target")).removeClass("in").addClass('collapse');
+                });
+            });
 
             $("input[type='text'], textarea").prop("maxlength", "500");
 
