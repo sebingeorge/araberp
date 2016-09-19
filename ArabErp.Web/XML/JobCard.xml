@@ -34,26 +34,19 @@
     </xs:element>
   </xs:schema>
   <Head>
-    <JobCardNo>JC/4</JobCardNo>
-    <JobCardDate>15-Sep-2016</JobCardDate>
-    <SaleOrderRefNo>SO/P/2</SaleOrderRefNo>
-    <CustomerName> MRA Bakery, Restaurant &amp; Sweets,Doha, Qatar.,</CustomerName>
-    <Phone>0</Phone>
-    <ContactPerson>0</ContactPerson>
-    <Customer> MRA Bakery, Restaurant &amp; Sweets</Customer>
-    <Technician>Shafi</Technician>
+    <JobCardNo>JC-16/20</JobCardNo>
+    <JobCardDate>09-Sep-2016</JobCardDate>
+    <SaleOrderRefNo>SO/P-16/38</SaleOrderRefNo>
+    <CustomerName>M/S Al Rashid Ice Factory,1fg,fg</CustomerName>
+    <Phone>54</Phone>
+    <ContactPerson>54</ContactPerson>
+    <Customer>M/S Al Rashid Ice Factory</Customer>
+    <Technician>Anjali</Technician>
   </Head>
   <Items>
-    <TaskDate>15-Sep-2016</TaskDate>
-    <Employee>Shafi</Employee>
-    <Description>Unit Fixing</Description>
-    <StartTime>0.00</StartTime>
-    <EndTime>0.00</EndTime>
-  </Items>
-  <Items>
-    <TaskDate>15-Sep-2016</TaskDate>
-    <Employee>Shafi</Employee>
-    <Description>Unit Fixing</Description>
+    <TaskDate>12-Sep-2016</TaskDate>
+    <Employee>Arathi</Employee>
+    <Description>Main Unit Fixing</Description>
     <StartTime>0.00</StartTime>
     <EndTime>0.00</EndTime>
   </Items>

@@ -74,17 +74,7 @@
             i = j;
         });
         i++;
-        //$('input[id^="Row_"]').each(function () {
-        //    var id = this.id;
-        //    console.log(id);
-        //    //no++;
-        //    //var row = Number(id.replace("Row_", ""));
-        //    //if(row>i)
-        //    //{
-        //    //    i = row;
-        //    //}
-        //});
-        //i++;
+       
         console.log(i);
 
         var clone = $('#Row_0').clone();
@@ -100,6 +90,49 @@
         $("#tab_logic").append('<tr id="Row_' + i + '" class="TaskRow">' + clone.html() + '  </tr>');
         $('#Row_' + i).find('.taskdate').datepicker({ dateFormat: "dd-MM-yy" });
         assignTaskDate();
+    }
+
+    function DeleteRowBelow(index) {
+
+        var i = 0;
+        var no = 0;
+        $('.TaskRow').each(function () {
+            var id = this.id;
+            no++;
+            var row = Number(id.replace("Row_", ""));
+            if (row > i) {
+                i = row;
+            }
+        });
+        i++;
+        //alert(i);
+        //$("#" + index).html('');
+        if (i > 1) {
+            $("#Row_" + index).remove();
+            for (var j = index + 1; j < i; j++) {
+          
+                var TaskId = $("#JobCardTasks_" + j + "__JobCardTaskId").val();
+                var Employee = $("#JobCardTasks_" + j + "__EmployeeId").val();
+                var Date = $("#JobCardTasks_" + j + "__TaskDate").val();
+                var Hours = $("#JobCardTasks_" + j + "__Hours").val();
+
+                var clone = $("#Row_" + j).clone(true, true);
+                clone.html($(clone).html().replace(new RegExp("JobCardTasks_" + j + "__", "g"), 'JobCardTasks_' + (j - 1) + '__'));
+                clone.html($(clone).html().replace(new RegExp("\\[" + j + "].", "g"), "[" + (j - 1) + "]."));
+                //clone.html($(clone).html().replace(new RegExp('Taskslno' + (j + 1) + '">' + (j + 1), "g"), 'Taskslno' + (j) + '">' + (j)));
+                clone.html($(clone).html().replace("DeleteRowBelow(" + j, "DeleteRowBelow(" + (j - 1)));
+                clone.html($(clone).html().replace("Row_" + j, "Row_" + (j - 1)));
+                //clone.html($(clone).html().replace("Row_Task_" + j, "Row_Task_" + (j - 1)));
+                clone.html($(clone).html().replace("this," + j, "this," + (j - 1)));
+                $("#Row_" + j).html(clone.html());
+                //$("#WorkVsTasks_" + (j - 1) + "__SlNo").val(j);
+                $("#Row_" + (j)).attr('id', "Row_"+(j - 1));
+                $("#JobCardTasks_" + (j - 1) + "__JobCardTaskId").val(TaskId);
+                $("#JobCardTasks_" + (j - 1) + "__EmployeeId").val(Employee);
+                $("#JobCardTasks_" + (j - 1) + "__TaskDate").val(Date);
+                $("#JobCardTasks_" + (j - 1) + "__Hours").val(Hours);
+            }
+        }
     }
 
     function Exit() {
@@ -140,7 +173,7 @@
         @using (Html.BeginForm(null, null, FormMethod.Post, new { @class = "createFrom", @id = "jobcard_form", @onsubmit = "return formValidation()" }))
         {
             <div class="form-head1">
-                <h4>Create Job Card</h4>
+                <h4>Job Card</h4>
             </div>
             <div class="main-part pad1">
                 <form role="form">
@@ -229,6 +262,7 @@
                                     <th width="40%"><h1>Employee</h1></th>
                                     <th width="10%"><h1>Date</h1></th>
                                     <th width="5%"><h1>Hrs.</h1></th>
+                                    <td width="2%"><h1>#</h1></td>
                                 </tr>
                             </thead>
                             <tbody class="grid_row">
@@ -237,8 +271,9 @@
                                 {
                                     <tr id="Row_@row" class="TaskRow">
                                         <td>
-                                            <a id="add_@row" class="glyphicon glyphicon-plus" @*type="button" value="Add"*@ onclick="AddRowBelow(@row);" style="top:0;"></a>
+                                            <a id="del_@row" class="glyphicon glyphicon-minus"  onclick="DeleteRowBelow(@row);" style="top:0;"></a>
                                         </td>
+
                                         <td>
                                             @Html.DropDownListFor(m => Model.JobCardTasks[row].JobCardTaskId, (SelectList)ViewBag.TaskList, "Select Task", new { @class = "form_input", autocomplete = "off" })
                                         </td>
@@ -250,6 +285,9 @@
                                         </td>
                                         <td>
                                             @Html.TextBoxFor(m => m.JobCardTasks[row].Hours, new { @class = "form_input validateqty", autocomplete = "off" })
+                                        </td>
+                                        <td>
+                                            <a id="add_@row" class="glyphicon glyphicon-plus" @*type="button" value="Add"*@ onclick="AddRowBelow(@row);" style="top:0;"></a>
                                         </td>
                                     </tr>
                                     row++;

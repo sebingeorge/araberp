@@ -316,36 +316,21 @@ namespace ArabErp.Web.Controllers
             return View(model);
         }
 
-        public ActionResult Delete(JobCard model)
+        public ActionResult Delete(int JobCardId = 0, int isProjectBased = 0)
         {
             try
             {
-                if (model.JobCardId == 0) return RedirectToAction("Index", "Home");
-                string ref_no = new JobCardRepository().DeleteJobCard(model.JobCardId);
+                if (JobCardId == 0) return RedirectToAction("Index", "Home");
+                JobCard model = new JobCardRepository().GetJobCardDetails2(JobCardId, OrganizationId);
+                string ref_no = new JobCardRepository().DeleteJobCard(JobCardId);
                 TempData["success"] = "Deleted Successfully (" + ref_no + ")";
                 return RedirectToAction("Index", new { isProjectBased = model.isProjectBased });
             }
             catch (Exception)
             {
                 TempData["error"] = "Some error occured while deleting. Please try again.";
-                return RedirectToAction("Edit", new { id = model.JobCardId });
+                return RedirectToAction("Edit", new { id = JobCardId });
             }
         }
-
-        //public ActionResult Delete(int JobCardId = 0, int isProjectBased = 0)
-        //{
-        //    try
-        //    {
-        //        if (JobCardId == 0) return RedirectToAction("Index", "Home");
-        //        string ref_no = new JobCardRepository().DeleteJobCard(JobCardId);
-        //        TempData["success"] = "Deleted Successfully (" + ref_no + ")";
-        //        return RedirectToAction("Index", new { isProjectBased = isProjectBased });
-        //    }
-        //    catch (Exception)
-        //    {
-        //        TempData["error"] = "Some error occured while deleting. Please try again.";
-        //        return RedirectToAction("Edit", new { id = JobCardId });
-        //    }
-        //}
     }
 }
