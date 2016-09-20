@@ -15,12 +15,12 @@ namespace ArabErp.DAL
         {
             using (IDbConnection connection = OpenConnection(dataConnection))
             {
-                string sql = @"select Q.SalesQuotationId, Q.QuotationRefNo, Q.QuotationDate, C.CustomerName, E.EmployeeName, Q.Amount,RR.ReasonDescription
+                string sql = @"select Q.SalesQuotationId, Q.QuotationRefNo, Q.QuotationDate, C.CustomerName, E.EmployeeName, Q.GrandTotal,RR.ReasonDescription
                                from SalesQuotation Q 
                                inner join Customer C on C.CustomerId = Q.CustomerId
                                inner join Employee E on E.EmployeeId = Q.SalesExecutiveId
                                inner join SalesQuotationRejectReason RR on RR.SalesQuotationRejectReasonId=q.SalesQuotationRejectReasonId
-                               where Q.isActive = 1 and isProjectBased ="+ isProjectBased;
+                               where Q.isActive = 1 and isProjectBased =" + isProjectBased;
 
                 return connection.Query<SalesQuotationList>(sql);
             }
@@ -35,8 +35,15 @@ namespace ArabErp.DAL
                     IDbTransaction trn = connection.BeginTransaction();
                     try
                     {
-                        //int internalid = DatabaseCommonRepository.GetInternalIDFromDatabase(connection, trn, typeof(SalesQuotation).Name, "0",1);
-                        //model.QuotationRefNo = "SQ/" + internalid;
+                        model.TotalWorkAmount = model.SalesQuotationItems.Sum(m => (m.Amount));
+                      
+                        if (model.isProjectBased == 2 || model.isProjectBased == 1)
+                        {
+
+                            model.TotalMaterialAmount = model.Materials.Sum(m => (m.Amount));
+                           
+                        }
+                        model.GrandTotal = (model.TotalWorkAmount + model.TotalMaterialAmount);
                         if (model.isProjectBased == 0)
                         {
                             model.QuotationRefNo = DatabaseCommonRepository.GetNewDocNo(connection, model.OrganizationId, 1, true,trn);
@@ -62,10 +69,10 @@ namespace ArabErp.DAL
                         #endregion
 
                         string sql = @" insert  into SalesQuotation(QuotationRefNo,QuotationDate,CustomerId,ContactPerson,SalesExecutiveId,PredictedClosingDate,
-                                        QuotationValidToDate,ExpectedDeliveryDate,IsQuotationApproved,ApprovedBy,Amount,CurrencyId,QuotationStatus,Remarks,SalesQuotationRejectReasonId,
+                                        QuotationValidToDate,ExpectedDeliveryDate,IsQuotationApproved,ApprovedBy,TotalWorkAmount,TotalMaterialAmount,GrandTotal,CurrencyId,QuotationStatus,Remarks,SalesQuotationRejectReasonId,
                                         QuotationRejectReason,Competitors,PaymentTerms,DiscountRemarks,CreatedBy,CreatedDate,OrganizationId,isProjectBased,QuerySheetId,isWarranty)
                                         Values (@QuotationRefNo,@QuotationDate,@CustomerId,@ContactPerson,@SalesExecutiveId,@PredictedClosingDate,@QuotationValidToDate,
-                                        @ExpectedDeliveryDate,@IsQuotationApproved,@ApprovedBy,@Amount,@CurrencyId,@QuotationStatus,@Remarks,@SalesQuotationRejectReasonId,
+                                        @ExpectedDeliveryDate,@IsQuotationApproved,@ApprovedBy,@TotalWorkAmount,@TotalMaterialAmount,@GrandTotal,@CurrencyId,@QuotationStatus,@Remarks,@SalesQuotationRejectReasonId,
                                         @QuotationRejectReason,@Competitors,@PaymentTerms,@DiscountRemarks,@CreatedBy,@CreatedDate,@OrganizationId,@isProjectBased,@QuerySheetId,@isWarranty);
                                         SELECT CAST(SCOPE_IDENTITY() as int) SalesQuotationId";
 
@@ -79,6 +86,7 @@ namespace ArabErp.DAL
                         }
                         if (model.isProjectBased == 2 || model.isProjectBased == 1)
                         {
+                            
                             foreach (var item in model.Materials)
                             {
                                 item.SalesQuotationId = model.SalesQuotationId;
@@ -169,11 +177,10 @@ namespace ArabErp.DAL
                 string sql = @"select * from SalesQuotation
                         where SalesQuotationId=@SalesQuotationId";
 
-                var objSalesQuotation = connection.Query<SalesQuotation>(sql, new
-                {
-                    SalesQuotationId = SalesQuotationId
-                }).First<SalesQuotation>();
+                var objSalesQuotation = connection.Query<SalesQuotation>(sql, new{SalesQuotationId = SalesQuotationId}).First<SalesQuotation>();
 
+                sql = @"SELECT ISNULL(IsQuotationApproved, 0) FROM SalesQuotation WHERE SalesQuotationId=@SalesQuotationId";
+                objSalesQuotation.IsUsed = Convert.ToBoolean(connection.Query<int>(sql, new { SalesQuotationId = SalesQuotationId }).First());
                 return objSalesQuotation;
             }
         }
@@ -276,25 +283,51 @@ namespace ArabErp.DAL
         }
 
 
-        public int DeleteSalesQuotation(int Id,int CancelStatus)
+        public int Cancel(int Id, int CancelStatus)
         {
             using (IDbConnection connection = OpenConnection(dataConnection))
             {
+                IDbTransaction txn = connection.BeginTransaction();
                 string sql = string.Empty;
-            
-                if(CancelStatus ==1)
+
+                if (CancelStatus == 1)
                 {
                     sql = @"Update SalesQuotation  set  isActive=0 WHERE SalesQuotationId=@Id";
                     var id = connection.Execute(sql, new { Id = Id });
                     return id;
-                 }
-                
+                }
+             
                 return 0;
                 
             }
         }
+        public string DeleteSalesQuotation(int SalesQuotationId, int isProjectBased)
+        {
+            using (IDbConnection connection = OpenConnection(dataConnection))
+            {
+                IDbTransaction txn = connection.BeginTransaction();
+                string query = string.Empty;
+                try
+                {
+                    
+                    if (isProjectBased == 2 || isProjectBased == 1)
+                    {
+                         query ="DELETE FROM SalesQuotationMaterial  WHERE SalesQuotationId = @SalesQuotationId;";
+                    }
+                    query += @"DELETE FROM SalesQuotationItem WHERE SalesQuotationId = @SalesQuotationId;
+                               DELETE FROM SalesQuotation OUTPUT deleted.QuotationRefNo WHERE SalesQuotationId = @SalesQuotationId;";
+                    string output = connection.Query<string>(query, new { SalesQuotationId = SalesQuotationId }, txn).First();
+                    txn.Commit();
+                    return output;
+                }
+                catch (Exception ex)
+                {
+                    txn.Rollback();
+                    throw ex;
+                }
+            }
+        }
 
-    
         public List<Dropdown> FillSalesQuotationRejectReason()
         {
             using (IDbConnection connection = OpenConnection(dataConnection))
@@ -330,10 +363,71 @@ namespace ArabErp.DAL
                              ORDER BY SQ.ExpectedDeliveryDate DESC, SQ.QuotationDate DESC");
 
                 var objSalesQuotations = connection.Query<SalesQuotation>(sql, new { IsProjectBased = IsProjectBased}).ToList<SalesQuotation>();
-                //AND SQ.IsProjectBased in(case when isnumeric(@IsProjectBased)=0 then (0,2) else @IsProjectBased end)
+              
                 return objSalesQuotations;
             }
         }
+
+        public int UpdateSalesQuotation(SalesQuotation objSalesQtn)
+        {
+            using (IDbConnection connection = OpenConnection(dataConnection))
+            {
+                  string sql = string.Empty;
+                IDbTransaction txn = connection.BeginTransaction();
+
+                objSalesQtn.TotalWorkAmount = objSalesQtn.SalesQuotationItems.Sum(m => (m.Amount));
+
+                if (objSalesQtn.isProjectBased == 2 || objSalesQtn.isProjectBased == 1)
+                {
+                    objSalesQtn.TotalMaterialAmount = objSalesQtn.Materials.Sum(m => (m.Amount));
+                    sql = "DELETE FROM SalesQuotationMaterial WHERE SalesQuotationId = @SalesQuotationId;";
+                }
+
+                objSalesQtn.GrandTotal = (objSalesQtn.TotalWorkAmount + objSalesQtn.TotalMaterialAmount);
+
+                
+
+                 sql += @"UPDATE   SalesQuotation SET   QuotationDate = @QuotationDate,CustomerId=@CustomerId,ContactPerson=@ContactPerson,SalesExecutiveId=@SalesExecutiveId,PredictedClosingDate=@PredictedClosingDate,
+                                        QuotationValidToDate = @QuotationValidToDate,ExpectedDeliveryDate = @ExpectedDeliveryDate,IsQuotationApproved=@IsQuotationApproved,ApprovedBy=@ApprovedBy,TotalWorkAmount=@TotalWorkAmount,TotalMaterialAmount=@TotalMaterialAmount,GrandTotal=@GrandTotal,CurrencyId=@CurrencyId,QuotationStatus=@QuotationStatus,Remarks=@Remarks,SalesQuotationRejectReasonId=@SalesQuotationRejectReasonId,
+                                        QuotationRejectReason = @QuotationRejectReason,Competitors = @Competitors,PaymentTerms = @PaymentTerms,DiscountRemarks=@DiscountRemarks,CreatedBy=@CreatedBy,CreatedDate=@CreatedDate,OrganizationId=@OrganizationId,isProjectBased=@isProjectBased,QuerySheetId=@QuerySheetId,isWarranty=@isWarranty
+	                                    where SalesQuotationId = @SalesQuotationId;
+	                               
+                         DELETE FROM SalesQuotationItem WHERE SalesQuotationId = @SalesQuotationId;";
+                
+               
+              
+                             
+                try
+                {
+                    var id = connection.Execute(sql, objSalesQtn, txn);
+                    var saleorderitemrepo = new SalesQuotationItemRepository();
+                    int i = 0;
+                    foreach (var item in objSalesQtn.SalesQuotationItems)
+                    {
+                        item.SalesQuotationId = objSalesQtn.SalesQuotationId;
+                        saleorderitemrepo.InsertSalesQuotationItem(item, connection, txn);
+                    }
+                    if (objSalesQtn.isProjectBased == 2 || objSalesQtn.isProjectBased == 1)
+                    {
+                        foreach (var item in objSalesQtn.Materials)
+                        {
+                            item.SalesQuotationId = objSalesQtn.SalesQuotationId;
+                            saleorderitemrepo.InsertSalesQuotationMaterial(item, connection, txn);
+                        }
+                    }
+
+                    InsertLoginHistory(dataConnection, objSalesQtn.CreatedBy, "Update", "Sales Quotation", id.ToString(), objSalesQtn.OrganizationId.ToString());
+                    txn.Commit();
+                    return id;
+                }
+                catch (Exception ex)
+                {
+                    txn.Rollback();
+                    throw ex;
+                }
+            }
+        }
+       
         public int GetUserApprovalCancelStatus(int UserId)
         {
             using (IDbConnection connection = OpenConnection(dataConnection))
@@ -349,7 +443,7 @@ namespace ArabErp.DAL
         {
             using (IDbConnection connection = OpenConnection(dataConnection))
             {
-                string sql = @"select Q.SalesQuotationId, Q.QuotationRefNo, Q.QuotationDate, C.CustomerName, E.EmployeeName, Q.Amount,RR.ReasonDescription
+                string sql = @"select Q.SalesQuotationId, Q.QuotationRefNo, Q.QuotationDate, C.CustomerName, E.EmployeeName, Q.GrandTotal,RR.ReasonDescription
                                from SalesQuotation Q 
                                inner join Customer C on C.CustomerId = Q.CustomerId
                                inner join Employee E on E.EmployeeId = Q.SalesExecutiveId
@@ -376,51 +470,6 @@ namespace ArabErp.DAL
             }
 
         }
-
-
-        /// <summary>
-        /// Delete SQ HD Details
-        /// </summary>
-        /// <returns></returns>
-        public int DeleteSQHD(int Id)
-        {
-            int result = 0;
-            using (IDbConnection connection = OpenConnection(dataConnection))
-            {
-                string sql = @" DELETE FROM SalesQuotation WHERE SalesQuotationId=@Id";
-
-                {
-
-                    var id = connection.Execute(sql, new { Id = Id });
-                    return id;
-
-                }
-
-            }
-        }
-        /// <summary>
-        /// Delete SQ DT Details
-        /// </summary>
-        /// <returns></returns>
-        public int DeleteSQDT(int Id)
-        {
-            int result3 = 0;
-            using (IDbConnection connection = OpenConnection(dataConnection))
-            {
-                string sql = @" DELETE FROM SalesQuotationItem WHERE SalesQuotationId=@Id
-                                DELETE FROM SalesQuotationMaterial WHERE SalesQuotationId=@Id";
-                                                                                         
-
-                {
-
-                    var id = connection.Execute(sql, new { Id = Id });
-                    return id;
-
-                }
-
-            }
-        }
-
 
 
     }

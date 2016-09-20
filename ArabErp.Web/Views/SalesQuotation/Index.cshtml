@@ -126,7 +126,7 @@
                                     <td class="grid-cell">@item.QuotationDate.ToString("dd-MMMM-yyyy")</td>
                                     <td class="grid-cell">@item.CustomerName</td>
                                     <td class="grid-cell">@item.EmployeeName</td>
-                                    <td class="grid-cell" style="text-align:right">@item.Amount</td>
+                                    <td class="grid-cell" style="text-align:right">@item.GrandTotal</td>
                                     <td class="grid-cell">@item.ReasonDescription</td>
                                     @*<td><center><button class="form-button4" onclick="Revise(@item.SalesQuotationId)">Revise</button></center></td>
                                     <td><center><button class="form-button4" onclick="Delete(@item.SalesQuotationId)">Cancel</button></center></td>*@
@@ -146,7 +146,7 @@
                 <div class="col-md-12 hrpart">
                     <button class="form-button right" onclick="StatusUpdate()">Status Update</button>
                     <button class="form-button right" onclick="Revise()">Revise</button>
-                    <button class="form-button right " onclick="Delete()">Cancel</button>
+                    <button class="form-button right " onclick="Cancel()">Cancel</button>
                     <button type="button" class="form-button right" onclick="Create()">Create</button>
                 </div>
             </div>

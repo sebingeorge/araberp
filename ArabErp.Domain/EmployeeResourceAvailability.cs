@@ -14,5 +14,8 @@ namespace ArabErp.Domain
         public string JobCardNo { get; set; }
         public string JobCardTaskName { get; set; }
         public bool isProjectBased { get; set; }
+        public decimal Hours { get; set; }
+        public int Month { get; set; }
+        public int Year { get; set; }
     }
 }

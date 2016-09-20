@@ -15,7 +15,7 @@ namespace ArabErp.DAL
         {
 
 
-            string sql = @"insert  into SalesQuotationItem(SalesQuotationId,SlNo,WorkDescriptionId,Remarks,PartNo,Quantity,Rate,MaterialRate,Discount,Amount,OrganizationId,RateType) Values (@SalesQuotationId,@SlNo,@WorkDescriptionId,@Remarks,@PartNo,@Quantity,@Rate,@MaterialRate,@Discount,@Amount,@OrganizationId,@RateType);
+            string sql = @"insert  into SalesQuotationItem(SalesQuotationId,SlNo,WorkDescriptionId,Remarks,PartNo,Quantity,Rate,Discount,Amount,OrganizationId,RateType) Values (@SalesQuotationId,@SlNo,@WorkDescriptionId,@Remarks,@PartNo,@Quantity,@Rate,@Discount,@Amount,@OrganizationId,@RateType);
             SELECT CAST(SCOPE_IDENTITY() as int)";
 
 
@@ -28,7 +28,7 @@ namespace ArabErp.DAL
         {
 
 
-            string sql = @"insert  into SalesQuotationMaterial(SalesQuotationId,ItemId,Quantity,Rate,isActive) Values (@SalesQuotationId,@ItemId,@Quantity,@Rate,1);
+            string sql = @"insert  into SalesQuotationMaterial(SalesQuotationId,ItemId,Quantity,Rate,Amount,isActive) Values (@SalesQuotationId,@ItemId,@Quantity,@Rate,@Amount,1);
             SELECT CAST(SCOPE_IDENTITY() as int)";
 
 
