@@ -16,6 +16,35 @@
         location.href = '@Url.Action("FillProjectWorkDescriptionList")';
     }
 
+    //function Tick() 
+    //{
+    //    alert(1);
+    //    $(".subject-list").on('click', function ()
+    //    {
+    //        var $box = $(this);
+
+    //        if ($box.is(":checked")) {
+         
+    //     $box.prop("checked", true);
+    //        } else {
+    //            $('.subject-list').prop("checked", false);
+    //        }
+    //    })
+        
+
+       
+    //};
+
+
+    function Tick()
+        
+    {
+        //alert(2);
+        $('.subject-list').on('change', function () {
+        $('.subject-list').not(this).prop('checked', false);
+        });
+    }
+  
 
         function ItemRowAdd() {
 
@@ -226,6 +255,7 @@
                 $(".custom-combobox-input").prop("required", "true");
             }
             //alert(repair);
+            Tick();
         }
 
         //function ValidateRow(index) {
@@ -261,6 +291,7 @@
         return status;
     }
 
+
 </script>
 
 
@@ -280,22 +311,20 @@
                          <label for="name">Ref. No.</label>
                          @Html.TextBoxFor(m => m.WorkDescriptionRefNo, new { @class = "form_input", autocomplete = "off",@readonly="readonly"})
                          </div>
+
                          <div class="col-md-6">
 
-                            @Html.RadioButtonFor(model => model.isNewInstallation, 0)New Installation
-                            @Html.RadioButtonFor(model => model.isNewInstallation, 1)Repair / Service
-                            @Html.RadioButtonFor(model => model.isNewInstallation, 2)Sub Assembly
+                             @Html.CheckBoxFor(m => m.isNewInstallation, new { autocomplete = "off", @class = "subject-list", @onclick = "Tick()" })
+                             <span class="text">New Installation</span>
 
-                                 @*@Html.CheckBoxFor(m => m.isNewInstallation, new { autocomplete = "off" })
-                                 <span class="text">New Installation</span>
+                             @Html.CheckBoxFor(m => m.isRepair, new { autocomplete = "off", @class = "subject-list", @onclick = "REPAIR()" })
+                             <span class="text">Repair / Service</span>
 
-                                 @Html.CheckBoxFor(m => m.isRepair, new { autocomplete = "off", @onchange = "REPAIR()" })
-                                 <span class="text">Repair / Service</span>
-
-                                 @Html.CheckBoxFor(m => m.isSubAssembly, new { autocomplete = "off" })
-                                 <span class="text">Sub Assembly</span>*@
-                         </div>
-                     </div>
+                             @Html.CheckBoxFor(m => m.isSubAssembly, new { autocomplete = "off", @class = "subject-list", @onclick = "Tick()" })
+                             <span class="text">Sub Assembly</span>
+                         
+                            </div>
+                    </div>
 
 
                     <div class="row">

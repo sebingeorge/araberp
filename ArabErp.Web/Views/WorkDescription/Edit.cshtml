@@ -9,6 +9,12 @@
         location.href = '@Url.Action("Index", "WorkDescription")';
     }
 
+    function Tick() {
+        $('.subject-list').on('change', function () {
+            $('.subject-list').not(this).prop('checked', false);
+        });
+    }
+
     function Delete(id) {
         //alert(id);
         var url = '@Url.Action("Delete")';
@@ -216,6 +222,7 @@
         else {
             $("#WorkVsItems_" + index + "__UoM").val('');
         }
+        Tick();
     }
 </script>
 
@@ -237,22 +244,14 @@
                     @Html.TextBoxFor(m => m.WorkDescriptionRefNo, new { @class = "form_input", autocomplete = "off" })
                 </div>
                 <div class="col-md-6">
-
-                    @Html.CheckBoxFor(m => m.isNewInstallation, new { autocomplete = "off" })
-
-
+                    @Html.CheckBoxFor(m => m.isNewInstallation, new { autocomplete = "off", @class = "subject-list", @onclick = "Tick()" })
                     <span class="text">New Installation</span>
 
-
-
-                    @Html.CheckBoxFor(m => m.isRepair, new { autocomplete = "off" })
+                    @Html.CheckBoxFor(m => m.isRepair, new { autocomplete = "off", @class = "subject-list", @onclick = "REPAIR()" })
                     <span class="text">Repair / Service</span>
 
-
-
-                    @Html.CheckBoxFor(m => m.isSubAssembly, new { autocomplete = "off" })
+                    @Html.CheckBoxFor(m => m.isSubAssembly, new { autocomplete = "off", @class = "subject-list", @onclick = "Tick()" })
                     <span class="text">Sub Assembly</span>
-
 
                 </div>
 
