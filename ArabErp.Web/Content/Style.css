@@ -695,7 +695,7 @@ h5
     font-size:12px;
     font-weight:normal;
     float:right;
-    margin-top: -22px
+    /*margin-top: -22px*/
 }
 .rborder 
 {
@@ -739,4 +739,9 @@ h5
 .s-right 
 {
     float:right;
+}
+.s-top
+{   position:absolute;
+    right:5px;
+    top:0;
 }

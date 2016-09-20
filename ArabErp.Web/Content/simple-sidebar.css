@@ -139,7 +139,7 @@ body {
     #page-content-wrapper {
         padding-bottom: 20px;
         padding-left: 0px;
-        padding-right: 20px;
+        padding-right: /*20*/4px;
         padding-top: 19px;
         position: relative;
     }
