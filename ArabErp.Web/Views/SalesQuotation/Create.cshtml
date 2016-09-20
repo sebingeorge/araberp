@@ -1,5 +1,5 @@
 ﻿@model ArabErp.Domain.SalesQuotation
-
+ @*// this create view is used for Sales Quotation Request : Transportation,Project,AfterSales,Approval*@
 @{
     ViewBag.Title = "Sales Quotation";
     Layout = "~/Views/Shared/_Layout.cshtml";
@@ -16,19 +16,7 @@
 
 
 }
-@{
-    object displayMode = null;
-    if (ViewBag.actionName.ToString() == "Create")
-    {
-        displayMode = new { @class = "form_input", autocomplete = "off" };
-        ViewBag.Title = "Sales Quotation";
-    }
-    else
-    {
-        displayMode = new { @class = "form_input", autocomplete = "off", @readonly = "readonly" };
-        ViewBag.Title = "Pending Sales Quotation";
-    }
-}
+
 
 <script>
 
@@ -68,6 +56,9 @@
         if ('@ViewBag.actionName.ToString()' == "Approve") {
             $("input").prop("readonly", "true");
             $("select").prop("disabled", "true");
+            $("textarea").prop("readonly", "true");
+           
+            
             $(".glyphicon-minus, .glyphicon-plus").hide();
         }
         else {
@@ -128,6 +119,7 @@
         $(".numbers-only").keypress(function (e) {
             if (e.which == 8 || (e.which == 46 && $(this).val().indexOf('.') == -1) || (e.which > 47 && e.which < 58)) { } else { return false; }
         });
+        cal_Summary();
     });
 
     function Validation() {
@@ -334,7 +326,7 @@
         }
     }
 
-    
+  
 
 </script>
 
@@ -367,8 +359,8 @@
             {
 
                 @Html.HiddenFor(m => m.SalesQuotationId)
-                @Html.HiddenFor(m => m.Amount)
                 @Html.HiddenFor(m => m.isProjectBased)
+  
                 <div class="row form-group ">
                     <div class="col-md-2">
                         <label for="QuotationRefNo">Quotation No.</label>
@@ -402,8 +394,14 @@
                 {
 
                     <div class="col-md-2">
-
-                        @Html.CheckBoxFor(m => m.isWarranty, new { autocomplete = "off" })
+                     @if (actionName == "Approve")
+                                {
+                        @Html.CheckBoxFor(m => m.isWarranty, new { autocomplete = "off", @disabled="true" })
+                                }
+                     else
+                     {
+                        @Html.CheckBoxFor(m => m.isWarranty, new { autocomplete = "off"})
+                     }
                         <span class="text">Warranty</span>
 
                     </div>
@@ -455,6 +453,8 @@
                 <script>
                     $(document).ready(function () {
                         $("#SalesQuotationItems_0__SlNo").val('1');
+                        $("#lblTotalAmount").text('0');
+                      
                         //$('td:nth-child(2)').hide();
 
                     });
@@ -511,6 +511,7 @@
                     }
 
                     function QuantityChanged(row) {
+                      
                         var quantity = parseFloat($("#SalesQuotationItems_" + row + "__Quantity").val());
                         var rate = parseFloat($("#SalesQuotationItems_" + row + "__Rate").val());
                         var discount = parseFloat($("#SalesQuotationItems_" + row + "__Discount").val());
@@ -563,8 +564,26 @@
 
                       
                         $("#QtyAmount").text(parseFloat(amount));
-                        grandtotal= $("#QtyAmount").val() + $("#TotalAmount").val();
-                        alert(grandtotal);
+                        var WorkAmt=parseFloat($("#QtyAmount").text());
+                        var MaterialAmt=parseFloat($("#TotalAmount").text());
+                    
+                        if (isNaN(WorkAmt)) {
+
+                            WorkAmt = parseFloat("0");
+
+                        }
+                        if (isNaN(MaterialAmt)) {
+
+                            MaterialAmt = parseFloat("0");
+
+                        }
+                        grandtotal= WorkAmt + MaterialAmt;
+                    
+                        if (isNaN(grandtotal)) {
+
+                            grandtotal= parseFloat("0");
+
+                        }
                         $("#lblTotalAmount").text(parseFloat(grandtotal));
 
                     }
@@ -601,7 +620,8 @@
                         $("#SalesQuotationItems_" + i + "__SlNo").val((i + 1));
                     }
                 </script>
-                if (actionName == "CreateAfterSales" || actionName == "CreateProject" || (actionName == "Approve" && (@Model.isProjectBased!=0)))
+                if (@Model.isProjectBased != 0 )
+                             
                 {
                     @Html.Partial("_MaterialList")
                 }
@@ -726,7 +746,7 @@
                         </tfoot>
                     </table>
 
-    if (actionName != "Create")
+                if (@Model.isProjectBased != 0)
     {
     <div class="row form-group">
         <div class="col-md-12">
@@ -759,7 +779,10 @@
                             <label for="PaymentTerms">Payment Terms</label>
 
                                 @Html.TextBoxFor(m => m.PaymentTerms, new { @class = "form_input", autocomplete = "off" })
+                               @if (actionName != "Approve")
+                               { 
                                 <button class="terms" type="button" id="pymtTerms" onclick="showPaymentTerms()">...</button>
+                               }
                 </div>
 
                     </div>

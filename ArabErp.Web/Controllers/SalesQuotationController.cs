@@ -569,12 +569,12 @@ namespace ArabErp.Web.Controllers
         {
             ViewBag.rateSettings = new SelectList(new RateSettingsController().RateSettingsDropdown(), "Value", "Text");
         }
-   
-        public ActionResult Delete(int Id)
+
+        public ActionResult Cancel(int Id)
         {
             SalesQuotationRepository repo = new SalesQuotationRepository();
             int CancelStatus = repo.GetUserApprovalCancelStatus(UserID);
-            int result = new SalesQuotationRepository().DeleteSalesQuotation(Id, CancelStatus);
+            int result = new SalesQuotationRepository().Cancel(Id, CancelStatus);
 
             if (result == 1)
             {
@@ -616,6 +616,8 @@ namespace ArabErp.Web.Controllers
 
         public ActionResult Edit(int id = 0)
         {
+            if (id == 0) return RedirectToAction("Index", "Home");
+
             FillCustomer();
             FillCurrency();
             FillCommissionAgent();
@@ -632,12 +634,12 @@ namespace ArabErp.Web.Controllers
 
 
             SalesQuotation salesquotation = repo.GetSalesQuotation(id);
-            if (salesquotation.isProjectBased==2)
+            if (salesquotation.isProjectBased == 2)
             {
                 FillWrkDescAfterSales();
-             
+
             }
-            else if (salesquotation.isProjectBased==1)
+            else if (salesquotation.isProjectBased == 1)
             {
                 FillWrkDescForProject();
             }
@@ -645,14 +647,12 @@ namespace ArabErp.Web.Controllers
             {
                 FillWrkDesc();
             }
-           
-            salesquotation.CustomerAddress= sorepo.GetCusomerAddressByKey(salesquotation.CustomerId);
+
+            salesquotation.CustomerAddress = sorepo.GetCusomerAddressByKey(salesquotation.CustomerId);
             salesquotation.SalesQuotationItems = repo.GetSalesQuotationItems(id);
             salesquotation.Materials = repo.GetSalesQuotationMaterials(id);
-            //ViewBag.SubmitAction = "Approve";
-            return View("Edit",salesquotation);
-    }
-
+            return View("Edit", salesquotation);
+        }
         [HttpPost]
         public ActionResult Edit(SalesQuotation model)
         {
@@ -672,88 +672,58 @@ namespace ArabErp.Web.Controllers
             FillSalesQuotationRejectReason();
 
             var repo = new SalesQuotationRepository();
-
-            var result1 = new SalesQuotationRepository().CHECK(model.SalesQuotationId);
-            if (result1 > 0)
+            try
             {
-                TempData["error"] = "Sorry!!..Already Approved!";
-                TempData["ExpenseNo"] = null;
-                return View("Edit", model);
+                new SalesQuotationRepository().UpdateSalesQuotation(model);
+                TempData["success"] = "Updated Successfully (" + model.QuotationRefNo + ")";
+                return RedirectToAction("PreviousList", new { type = model.isProjectBased });
+            }
+            catch (Exception)
+            {
+                TempData["error"] = "Some error occurred. Please try again.";
             }
 
-            else
-            {
-                try
-                {
-                    var result2 = new SalesQuotationRepository().DeleteSQDT(model.SalesQuotationId);
-                    var result3 = new SalesQuotationRepository().DeleteSQHD(model.SalesQuotationId);
-                    SalesQuotation id = new SalesQuotationRepository().InsertSalesQuotation(model);
-
-                    TempData["success"] = "Updated successfully !";
-                    TempData["QuotationRefNo"] = id.QuotationRefNo;
-                    return RedirectToAction("Create");
-                }
-                catch (SqlException sx)
-                {
-                    TempData["error"] = "Some error occured while connecting to database. Please check your network connection and try again.|" + sx.Message;
-                }
-                catch (NullReferenceException nx)
-                {
-                    TempData["error"] = "Some required data was missing. Please try again.|" + nx.Message;
-                }
-                catch (Exception ex)
-                {
-                    TempData["error"] = "Some error occured. Please try again.|" + ex.Message;
-                }
-                return View("Create", model);
-            }
-
+            return View("PreviousList", new { type = model.isProjectBased });
         }
 
-        public ActionResult DeleteSQ(int Id)
-        {
-            ViewBag.Title = "Delete";
-
-            var result1 = new SalesQuotationRepository().CHECK(Id);
-            if (result1 > 0)
-            {
-                TempData["error"] = "Sorry!!..Already Approved!";
-                TempData["ExpenseNo"] = null;
-                return RedirectToAction("Edit", new { id = Id });
-            }
-
-            else
-            {
-                var result2 = new SalesQuotationRepository().DeleteSQDT(Id);
-                var result3 = new SalesQuotationRepository().DeleteSQHD(Id);
-
-                if (Id > 0)
-                {
-
-                    TempData["Success"] = "Deleted Successfully!";
-                    return RedirectToAction("Index");
-                    //return View("Create", model);
-                }
-
-                else
-                {
-
-                    TempData["error"] = "Oops!!..Something Went Wrong!!";
-                    TempData["ExpenseNo"] = null;
-                    return RedirectToAction("Edit", new { id = Id });
-                }
-
-            }
-
-        }
-
-        //public PartialViewResult MaterialList()
+        //public ActionResult DeleteSQ(int Id)
         //{
-        //    ItemDropdown();
-        //    SalesQuotation salesquotation = new SalesQuotation { Materials = new List<SalesQuotationMaterial>() };
-        //    salesquotation.Materials.Add(new SalesQuotationMaterial());
-        //    return PartialView("_MaterialList", salesquotation);
+        //    ViewBag.Title = "Delete";
+
+        //    var result1 = new SalesQuotationRepository().CHECK(Id);
+        //    if (result1 > 0)
+        //    {
+        //        TempData["error"] = "Sorry!!..Already Approved!";
+        //        TempData["ExpenseNo"] = null;
+        //        return RedirectToAction("Edit", new { id = Id });
+        //    }
+
+        //    else
+        //    {
+        //        var result2 = new SalesQuotationRepository().DeleteSQDT(Id);
+        //        var result3 = new SalesQuotationRepository().DeleteSQHD(Id);
+
+        //        if (Id > 0)
+        //        {
+
+        //            TempData["Success"] = "Deleted Successfully!";
+        //            return RedirectToAction("Index");
+        //            return View("Create", model);
+        //        }
+
+        //        else
+        //        {
+
+        //            TempData["error"] = "Oops!!..Something Went Wrong!!";
+        //            TempData["ExpenseNo"] = null;
+        //            return RedirectToAction("Edit", new { id = Id });
+        //        }
+
+        //    }
+
         //}
+
+       
         private void ItemDropdown()
         {
             ViewBag.itemList = new SelectList(new DropdownRepository().ItemDropdown(), "Id", "Name");
@@ -765,6 +735,21 @@ namespace ArabErp.Web.Controllers
         public JsonResult GetItemPartNo(int itemId)
         {
             return Json(new WorkShopRequestRepository().GetItemPartNo(itemId), JsonRequestBehavior.AllowGet);
+        }
+        public ActionResult DeleteSQ( int id = 0,int isProjectBased=0)
+        {
+            try
+            {
+                if (id == 0) return RedirectToAction("Index", "Home");
+                string ref_no = new SalesQuotationRepository().DeleteSalesQuotation(id,isProjectBased);
+                TempData["success"] = "Deleted Successfully (" + ref_no + ")";
+                return RedirectToAction("PreviousList", new { type = isProjectBased });
+            }
+            catch (Exception)
+            {
+                TempData["error"] = "Some error occured while deleting. Please try again.";
+            return RedirectToAction("Edit", new { id = id });
+            }
         }
       
     }

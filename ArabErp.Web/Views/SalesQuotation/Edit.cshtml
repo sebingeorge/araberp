@@ -32,12 +32,13 @@
         window.location = url;
     }
 
-    function DeleteSQ(id) {
-        //alert(id);
+    function DeleteSQ(id, isProjectBased) {
+       
+     
         var url = '@Url.Action("DeleteSQ")';
-        url += "/" + id;
-
+        url += "?id=" + id + "&isProjectBased=" + isProjectBased;
         window.location = url;
+       
     }
 
 
@@ -87,6 +88,7 @@
         $(".numbers-only").keypress(function (e) {
             if (e.which == 8 || (e.which == 46 && $(this).val().indexOf('.') == -1) || (e.which > 47 && e.which < 58)) { } else { return false; }
         });
+        cal_Summary();
     });
 
     function Validation() {
@@ -275,7 +277,7 @@
         {
 
             @Html.HiddenFor(m => m.SalesQuotationId)
-            @Html.HiddenFor(m => m.Amount)
+            @*@Html.HiddenFor(m => m.Amount)*@
             @Html.HiddenFor(m => m.isProjectBased)
             <div class="row form-group ">
                 <div class="col-md-2">
@@ -376,7 +378,7 @@
             <script>
                     $(document).ready(function () {
                         $("#SalesQuotationItems_0__SlNo").val('1');
-                        //$('td:nth-child(2)').hide();
+                        $("#lblTotalAmount").text('0');
 
                     });
                     function Delete(index) {
@@ -448,12 +450,15 @@
                         var amount = (quantity * rate) - discount;
                         amount = parseFloat(amount);
                         $("#SalesQuotationItems_" + row + "__Amount").val(amount);
-                        calculateSummary();
+                        cal_Summary();
                     }
 
-                    function calculateSummary() {
+                    function cal_Summary() {
+                       
+
                         var quantity = parseFloat("0");
                         var amount = parseFloat("0");
+                        var grandtotal = parseFloat("0");
                         $('.clQuantity').each(function (i, obj) {
                             var a = parseFloat($("#SalesQuotationItems_" + i + "__Quantity").val());
 
@@ -465,6 +470,7 @@
                         });
 
                         $('.clAmount').each(function (i, obj) {
+
                             var a = parseFloat($("#SalesQuotationItems_" + i + "__Amount").val());
                             if (isNaN(a)) {
 
@@ -475,28 +481,36 @@
                             amount = amount + a;
                         });
 
-                        //$("#QtyTotal").text(quantity);
-                        $("#QtyAmount").text(parseFloat(amount));
-                        $("#Amount").val(parseFloat(amount));
 
+                        $("#QtyAmount").text(parseFloat(amount));
+                        var WorkAmt = parseFloat($("#QtyAmount").text());
+                        var MaterialAmt = parseFloat($("#TotalAmount").text());
+
+                        if (isNaN(WorkAmt)) {
+
+                            WorkAmt = parseFloat("0");
+
+                        }
+                        if (isNaN(MaterialAmt)) {
+
+                            MaterialAmt = parseFloat("0");
+
+                        }
+                        grandtotal = WorkAmt + MaterialAmt;
+
+                        if (isNaN(grandtotal)) {
+
+                            grandtotal = parseFloat("0");
+
+                        }
+                        $("#lblTotalAmount").text(parseFloat(grandtotal));
 
                     }
 
-                    @*function OnWorkChange(sender, index) {
 
-                        var id = $(sender).val();
-                        if (id != '') {
-                            var url = '@Url.Action("GetVehicleModel")';
-                            $.getJSON(url, { WorkDescriptionId: id },
-                                function (data) {
-                                    $("#SalesQuotationItems_" + index + "__VehicleModelId").val(data.VehicleId);
-                                    $("#SalesQuotationItems_" + index + "__VehicleModelName").val(data.VehicleName);
-                                });
-                        }
-                        else {
+                   
 
-                        }
-                    }*@
+                  
 
                     function AddAdditionRow() {
 
@@ -551,9 +565,9 @@
                             {
                                 <th width="10%"><h1>Rate Settings</h1></th>
                             }
-                           
+                            <th width="5%" class="text-right"><h1>Qty.</h1></th>
                             <th width="10%" class="text-right"><h1>Rate</h1></th>
-                            <th width="10%" class="text-right"><h1>Material Rate</h1></th>
+                         
                             <th width="10%" class="text-right"><h1>Discount</h1></th>
                             <th width="10%" class="text-right"><h1>Amount</h1></th>
                         @if (Model.isProjectBased != 2 && Model.isProjectBased != 1)
@@ -590,25 +604,27 @@
                                     </td>
                                 }
 
-                              
+                                <td>
+                                    @Html.TextBoxFor(m => m.SalesQuotationItems[i].Quantity, new
+                                   {
+                                       @class = "form_input clQuantity  ",
+                                       @style = "text-align:right",
+                                       autocomplete = "off",
+                                       placeholder = "Qty",
+                                       value = "1",
+                                       @required = "true",
+                                       @onkeyup = "QuantityChanged(" + i + ")"
+                                   })
+                                </td>
                                 <td>
                                     @Html.TextBoxFor(m => m.SalesQuotationItems[i].Rate, new { @class = "form_input numbers-only clrate validateqty", autocomplete = "off", @style = "text-align:right", placeholder = "Rate", @onchange = "QuantityChanged(" + i + ");", @onkeyup = "QuantityChanged(" + i + ")" })
                                 </td>
-                                <td>
-                                    @Html.TextBoxFor(m => m.SalesQuotationItems[i].MaterialRate, new
-                               {
-                                           @class = "form_input numbers-only clrate validateqty",
-                                           autocomplete = "off",
-                                           @style = "text-align:right",
-                                           placeholder = "MaterialRate",
-                                           @readonly = "true"
-                                       })
-                                </td>
+                          
                                 <td>
                                     @Html.TextBoxFor(m => m.SalesQuotationItems[i].Discount, new { @class = "form_input numbers-only", autocomplete = "off", @style = "text-align:right", placeholder = "Discount", @onchange = "QuantityChanged(" + i + ");", @onkeyup = "QuantityChanged(" + i + ")" })
 
                                 </td>
-                                <td>@Html.TextBoxFor(m => m.SalesQuotationItems[i].Amount, new { @class = "form_input clAmount", autocomplete = "off", @style = "text-align:right", placeholder = "Amount", @readonly = "true" })</td>
+                                <td>@Html.TextBoxFor(m => m.SalesQuotationItems[i].Amount, new { @class = "form_input clAmount", autocomplete = "off", @style = "text-align:right", placeholder = "Amount", @readonly = "true", @onchange = "QuantityChanged(" + i + ");" })</td>
                              @if (Model.isProjectBased != 2 && Model.isProjectBased != 1)
                              {
                                 <td style="vertical-align:middle"><a id="add_row" class="glyphicon glyphicon-plus" style="top:0px" onclick="AddAdditionRow()"></a></td>
@@ -652,7 +668,16 @@
                 </table>
             </div>
 
+            if (Model.isProjectBased != 0)
+            {
+                <div class="row form-group">
+                    <div class="col-md-12">
 
+                        <label class="tamount">Grand Total:<span id="lblTotalAmount"></span></label>
+
+                    </div>
+                </div>
+            }
 
 
 
@@ -727,10 +752,21 @@
             </div>
             <div class="row">
                 <div class="col-md-12 hrpart">
-                    <button type="button" class="form-button" onclick="DeleteSQ('@Model.SalesQuotationId')">Delete</button>
-                    <input type="button" class="form-button right" value="Exit" onclick="Back()" />
-                    <button type="submit" class="form-button right">Edit</button>
                     
+                    <input type="button" class="form-button right" value="Exit" onclick="Back()" />
+               
+                    @if (Model.IsUsed)
+                    {
+                        <span class="perm">
+                            <em>**Cannot edit/delete this Sales Quotation, because it is already approved.</em>
+                        </span>
+                    }
+                    else
+                    {
+                        <button type="button" class="form-button" onclick="DeleteSQ(@Model.SalesQuotationId,@Model.isProjectBased)">Delete</button>
+                        <button type="submit" class="form-button right">Edit</button>
+                        
+                    }
                 </div>
             </div>
         }

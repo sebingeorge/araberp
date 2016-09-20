@@ -8,6 +8,7 @@
 
     $(document).ready(function () {
         $("#Materials_0__SlNo").val('1');
+        calculateSummary();
     });
    
 
@@ -166,7 +167,7 @@
     function calculateSummary() {
       
         var amount = parseFloat("0");
-       
+        var grandtotal = parseFloat("0");
         $('.clAmount').each(function (i, obj) {
             var a = parseFloat($("#Materials_" + i + "__Amount").val());
             if (isNaN(a)) {
@@ -181,8 +182,16 @@
      
         $("#TotalAmount").text(parseFloat(amount));
         $("#Amount").val(parseFloat(amount));
+        var abc=parseFloat($("#QtyAmount").text());
+        if (isNaN(abc)) {
 
+            abc = parseFloat("0");
 
+        }
+
+        grandtotal= parseFloat($("#TotalAmount").text()) + abc;
+                    
+        $("#lblTotalAmount").text(parseFloat(grandtotal));
     }
 
 </script>
@@ -229,7 +238,7 @@
                 </td>
                 <td id="partno0" class="qreturn" style="vertical-align:middle">@Html.TextBoxFor(m => m.Materials[i].PartNo, new { @class = "form_input text-left", @readonly = "true" })</td>
              
-                <td>@Html.TextBoxFor(m => m.Materials[i].Quantity, new { @class = "form_input numbers-only text-right", autocomplete = "off", placeholder = "Qty", @onkeyup = "QtyChanged(" + i + ")" })</td>
+                <td>@Html.TextBoxFor(m => m.Materials[i].Quantity, new { @class = "form_input numbers-only text-right", autocomplete = "off", placeholder = "Qty", @onkeyup = "QtyChanged(" + i + ")", @onchange = "QtyChanged(" + i + ")" })</td>
                 <td id="unit0" class="qreturn" style="vertical-align:middle">@Html.TextBoxFor(m => m.Materials[i].UnitName, new { @class = "form_input text-left", @readonly = "true" })</td>
                 <td>@Html.TextBoxFor(m => m.Materials[i].Rate, new { @class = "form_input numbers-only text-right ", autocomplete = "off", placeholder = "Rate", @onchange = "RateChanged(" + i + ");", @onkeyup = "QtyChanged(" + i + ")" })</td>
                 <td>@Html.TextBoxFor(m => m.Materials[i].Amount, new { @class = "form_input numbers-only text-right clAmount", autocomplete = "off", placeholder = "Amount", @readonly = "true" })</td>
