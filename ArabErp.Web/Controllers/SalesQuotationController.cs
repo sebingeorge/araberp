@@ -266,7 +266,7 @@ namespace ArabErp.Web.Controllers
             }
             else if (salesquotation.isProjectBased == 1)
             {
-                FillWrkDescAfterSales();
+                FillWrkDescForProject();
                 ItemDropdown();
             }
             else
@@ -335,7 +335,7 @@ namespace ArabErp.Web.Controllers
             }
             else if (salesquotation.isProjectBased == 1)
             {
-                FillWrkDescAfterSales();
+                FillWrkDescForProject();
                 ItemDropdown();
             }
             else

@@ -118,6 +118,15 @@ namespace ArabErp.DAL
             {
                 string sql = string.Empty;
                 IDbTransaction trn = connection.BeginTransaction();
+                model.TotalWorkAmount = model.SalesQuotationItems.Sum(m => (m.Amount));
+
+                if (model.isProjectBased == 2 || model.isProjectBased == 1)
+                {
+
+                    model.TotalMaterialAmount = model.Materials.Sum(m => (m.Amount));
+
+                }
+                model.GrandTotal = (model.TotalWorkAmount + model.TotalMaterialAmount);
                 try
                 {
                     sql = "update SalesQuotation set isActive = 0 where SalesQuotationId = " + model.ParentId.ToString() + ";";
@@ -137,8 +146,8 @@ namespace ArabErp.DAL
                     //int internalid = DatabaseCommonRepository.GetInternalIDFromDatabase(connection, trn, typeof(SalesQuotation).Name, "0", 1);
                     model.QuotationRefNo = refno + "/REV"+RevisionId.ToString();
                     sql = @"
-                            insert  into SalesQuotation(QuotationRefNo,QuotationDate,CustomerId,ContactPerson,SalesExecutiveId,PredictedClosingDate,QuotationValidToDate,ExpectedDeliveryDate,IsQuotationApproved,ApprovedBy,Amount,QuotationStatus,Remarks,SalesQuotationRejectReasonId,QuotationRejectReason,Competitors,PaymentTerms,DiscountRemarks,CreatedBy,CreatedDate,OrganizationId,ParentId,GrantParentId,RevisionNo,isProjectBased,isWarranty)
-                            Values (@QuotationRefNo,@QuotationDate,@CustomerId,@ContactPerson,@SalesExecutiveId,@PredictedClosingDate,@QuotationValidToDate,@ExpectedDeliveryDate,@IsQuotationApproved,@ApprovedBy,@Amount,@QuotationStatus,@Remarks,@SalesQuotationRejectReasonId,@QuotationRejectReason,@Competitors,@PaymentTerms,@DiscountRemarks,@CreatedBy,@CreatedDate,@OrganizationId,@ParentId,@GrantParentId,@RevisionNo,@isProjectBased,@isWarranty);
+                            insert  into SalesQuotation(QuotationRefNo,QuotationDate,CustomerId,ContactPerson,SalesExecutiveId,PredictedClosingDate,QuotationValidToDate,ExpectedDeliveryDate,IsQuotationApproved,ApprovedBy,GrandTotal,TotalWorkAmount,TotalMaterialAmount,QuotationStatus,Remarks,SalesQuotationRejectReasonId,QuotationRejectReason,Competitors,PaymentTerms,DiscountRemarks,CreatedBy,CreatedDate,OrganizationId,ParentId,GrantParentId,RevisionNo,isProjectBased,isWarranty)
+                            Values (@QuotationRefNo,@QuotationDate,@CustomerId,@ContactPerson,@SalesExecutiveId,@PredictedClosingDate,@QuotationValidToDate,@ExpectedDeliveryDate,@IsQuotationApproved,@ApprovedBy,@GrandTotal,@TotalWorkAmount,@TotalMaterialAmount,@QuotationStatus,@Remarks,@SalesQuotationRejectReasonId,@QuotationRejectReason,@Competitors,@PaymentTerms,@DiscountRemarks,@CreatedBy,@CreatedDate,@OrganizationId,@ParentId,@GrantParentId,@RevisionNo,@isProjectBased,@isWarranty);
                             SELECT CAST(SCOPE_IDENTITY() as int) SalesQuotationId";
 
                     model.SalesQuotationId = connection.Query<int>(sql, model, trn).First<int>();
@@ -148,6 +157,15 @@ namespace ArabErp.DAL
                     {
                         item.SalesQuotationId = model.SalesQuotationId;
                         saleorderitemrepo.InsertSalesQuotationItem(item, connection, trn);
+                    }
+                    if (model.isProjectBased == 2 || model.isProjectBased == 1)
+                    {
+
+                        foreach (var item in model.Materials)
+                        {
+                            item.SalesQuotationId = model.SalesQuotationId;
+                            saleorderitemrepo.InsertSalesQuotationMaterial(item, connection, trn);
+                        }
                     }
                     InsertLoginHistory(dataConnection, model.CreatedBy, "Revision", "Sales Quotation", model.SalesQuotationId.ToString(), "0");
                     trn.Commit();
