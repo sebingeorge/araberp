@@ -15,14 +15,19 @@
         var pending = Number($("#Items_" + i + "__PendingQuantity").val());
         if (!isNaN(current)) {
             if (current > pending) {
-                toastr.info('Only ' + pending + ' ' + $("#Items_" + i + "__UnitName").val() + ' of ' + $("#Items_" + i + "__ItemName").val() + ' is required. Please enter a lesser quantity.');
+                toastr.info('Only ' + pending + ' ' + $("#Items_" + i + "__UnitName").val() + ' of ' + $("#Items_" + i + "__ItemName").val() + ' is required.');
                 $(s).val(stock < pending ? stock : pending);
             }
             else if (current > stock) {
                 if (stock == 0)
-                    toastr.info('Not enough stock available for the item. Please add stock before issuing.');
+                    if (Number($("#StockpointId").val()) == ''){
+                        toastr.info("Please select a stockpoint");
+                    }
+                    else {
+                        toastr.info('Not enough stock available for the material. Please add stock before issuing.');
+                    }
                 else
-                    toastr.info('Not enough stock available for the material. Please enter a lesser quantity.');
+                    toastr.info('Not enough stock available for the material.');
                 $(s).val(stock < pending ? stock : pending);
             }
         }
