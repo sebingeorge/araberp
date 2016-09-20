@@ -1,47 +1,63 @@
 ﻿@using ArabErp.Domain;
 @model IList<EmployeeResourceAvailability>
 
-<table class="table table-bordered table-hover">
+<script>
+    $(document).ready(function(){
+        $('[data-toggle="tooltip"]').tooltip();
+    });
+</script>
+
+<table class="table table-bordered table-hover" style="overflow-x:scroll">
 
     <thead>
         <tr class="grid_heading">
             <th><h1>Employee</h1></th>
             @{
                 var columns = Model.Select(m => m.TaskDate).Distinct().ToList();
-                foreach (var item in columns)
+                //foreach (var item in columns)
+                for (int j = 1; j <= DateTime.DaysInMonth(Model[0].Year, Model[0].Month); j++)
                 {
-                    if (item.ToString().Contains("01-Jan-0001")) { continue; }
-                    <th><h1>@item.ToString("dd/MMMM/yyyy")</h1></th>
+                    //if (item.ToString().Contains("01-Jan-0001")) { continue; }
+                    <th><h1>@j</h1></th>
                 }
             }
         </tr>
     </thead>
     <tbody class="grid_row">
         @{
-            var employee = Model.Select(m => m.EmployeeId).ToList().Distinct();
-            foreach (var id in employee)
+            if (Model != null && Model.Count > 0)
             {
-                <tr>
-                    <td>
+                var employee = Model.Select(m => m.EmployeeId).ToList().Distinct();
+                foreach (var id in employee)
+                {
+                    <tr>
+                        <td>
+                            @{
+                                string name = (from EmployeeResourceAvailability p in Model
+                                                where p.EmployeeId == id
+                                                select p.EmployeeName).First();
+                                            @name
+                            }
+                        </td>
                         @{
-                            string name = (from EmployeeResourceAvailability p in Model
-                                           where p.EmployeeId == id
-                                           select p.EmployeeName).First();
-                            @name
-                        }
-                    </td>
-                    @{
-                        foreach (var date in columns)
-                        {
-                            if (date.ToString().Contains("01-Jan-0001")) { continue; }
-                            <td>
+                            //foreach (var date in columns)
+                            for (int i = 1; i <= DateTime.DaysInMonth(Model[0].Year, Model[0].Month); i++)
+                            {
+                                <td>
                                 @{
-                                    var jobcards = Model.Where(m => m.TaskDate == date && m.EmployeeId == id).Select(m => m);
+                                    var jobcards = Model.Where(m => m.TaskDate.Day == i && m.EmployeeId == id).Select(m => m);
                                     if (jobcards != null && jobcards.Count() > 0)
                                     {
                                         if (jobcards.Count() == 1)
                                         {
-                                            @:@jobcards.ToList()[0].JobCardNo - @jobcards.ToList()[0].JobCardTaskName
+                                            if (jobcards.ToList()[0].TaskDate.ToString().Contains("01-Jan-0001")) { continue; }
+                                            @*@:@jobcards.ToList()[0].JobCardNo - @jobcards.ToList()[0].JobCardTaskName*@
+                                            <a data-toggle="tooltip" 
+                                               data-placement="right"
+                                               style="text-decoration: none;"
+                                               title="@jobcards.ToList()[0].JobCardNo - @jobcards.ToList()[0].JobCardTaskName">
+                                                @jobcards.ToList()[0].Hours hrs
+                                            </a>
                                             if (jobcards.ToList()[0].isProjectBased)
                                             {
                                                 <div style="background-color:red;height:5px;width:5px;float:left;margin-top:5px;margin-right:2px"></div>
@@ -54,31 +70,49 @@
                                         else
                                         {
                                             <table style="width:100%">
-                                                @foreach (var j in jobcards)
-                                                {
-                                                    <tr>
-                                                        <td style="border:none;">
-                                                            @*<font color="red">*@
-                                                            @j.JobCardNo - @j.JobCardTaskName
-                                                            @*</font>*@
-                                                            @if (j.isProjectBased)
-                                                            {
-                                                                <div style="background-color:red;height:5px;width:5px;float:left;margin-top:5px;margin-right:2px"></div>
-                                                            }
-                                                            else
-                                                            {
-                                                                <div style="background-color:green;height:5px;width:5px;float:left;margin-top:5px;margin-right:2px"></div>
-                                                            }
-                                                        </td>
-                                                    </tr>
-                                                }
-                                            </table>
+                                            @foreach (var j in jobcards)
+                                            {
+                                                if (j.TaskDate.ToString().Contains("01-Jan-0001")) { continue; }
+                                                <tr>
+                                                    <td style="border:none;">
+                                                        @*<font color="red">*@
+                                                        @*@j.JobCardNo - @j.JobCardTaskName*@
+                                                        <a data-toggle="tooltip"
+                                                           data-placement="right"
+                                                           style="text-decoration: none;"
+                                                           title="@j.JobCardNo - @j.JobCardTaskName">
+                                                            @j.Hours hrs
+                                                        </a>
+                                                        @*</font>*@
+                                                        @if (j.isProjectBased)
+                                                        {
+                                                            <div style="background-color:red;height:5px;width:5px;float:left;margin-top:5px;margin-right:2px"></div>
+                                                        }
+                                                        else
+                                                        {
+                                                            <div style="background-color:green;height:5px;width:5px;float:left;margin-top:5px;margin-right:2px"></div>
+                                                        }
+                                                    </td>
+                                                </tr>
+                                            }
+                                        </table>
                                         }
-                                    }
-                                }
+                            }
+                        }
                             </td>
                         }
                     }
+                    </tr>
+                }
+            }
+            else
+            {
+                <tr>
+                    <td colspan="@DateTime.DaysInMonth(Model[0].Year, Model[0].Month)">
+                        <center>
+                            <em>No items to show!</em>
+                        </center>
+                    </td>
                 </tr>
             }
         }

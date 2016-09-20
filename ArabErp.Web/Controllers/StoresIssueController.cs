@@ -104,5 +104,19 @@ namespace ArabErp.Web.Controllers
         {
             return View(new StoreIssueRepository().PreviousList());
         }
+
+        public ActionResult GetStockQuantity(string date, int item = 0, int stockpoint = 0)
+        {
+            try
+            {
+                if (item == 0 || stockpoint == 0 || date == null) throw new InvalidOperationException();
+                ClosingStock stock = new ClosingStockRepository().GetClosingStockData(Convert.ToDateTime(date), stockpoint, 0, item, OrganizationId).First();
+                return Json(stock.Quantity, JsonRequestBehavior.AllowGet);
+            }
+            catch (InvalidOperationException)
+            {
+                return Json(0, JsonRequestBehavior.AllowGet);
+            }
+        }
     }
 }
