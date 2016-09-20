@@ -19,24 +19,32 @@
                 <tr>
                     <td width="40%">
                         @Html.HiddenFor(m => m.Items[i].CostingId)
-                        @Html.TextBoxFor(m => m.Items[i].Description , new { @class = "form_input ", autocomplete = "off", @readonly = "true" })
+                        @Html.TextBoxFor(m => m.Items[i].Description , new { @class = "form_input", autocomplete = "off", @readonly = "true" })
                       
                     </td>
                     <td>
                        
-                        @Html.TextBoxFor(m => m.Items[i].Remarks, new { @class = "form_input ", autocomplete = "off" })
+                        @Html.TextBoxFor(m => m.Items[i].Remarks, new { @class = "form_input", autocomplete = "off" })
 
                     </td>
                     <td>
                        
-                        @Html.TextBoxFor(m => m.Items[i].Amount, new { @class = "form_input ", autocomplete = "off", @style = "text-align:right" })
+                        @Html.TextBoxFor(m => m.Items[i].Amount, new { @class = "form_input numbers-only", autocomplete = "off", @style = "text-align:right", @onkeyup = "OnCostingAmountChanged()" })
                     </td>
 
                 </tr>
 
                 }
             </tbody>
-      
+            <tfoot class="grid_heading">
+                <tr>
+                    <th></th>
+                    <th style="text-align:right"><h1>Total</h1></th>
+                    <th style="text-align:right">
+                        <span id="costingTotal">0.00</span>
+                    </th>
+                </tr>
+            </tfoot>
     </table>
 
 
