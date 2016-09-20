@@ -472,50 +472,5 @@ namespace ArabErp.DAL
         }
 
 
-        /// <summary>
-        /// Delete SQ HD Details
-        /// </summary>
-        /// <returns></returns>
-        public int DeleteSQHD(int Id)
-        {
-            int result = 0;
-            using (IDbConnection connection = OpenConnection(dataConnection))
-            {
-                string sql = @" DELETE FROM SalesQuotation WHERE SalesQuotationId=@Id";
-
-                {
-
-                    var id = connection.Execute(sql, new { Id = Id });
-                    return id;
-
-                }
-
-            }
-        }
-        /// <summary>
-        /// Delete SQ DT Details
-        /// </summary>
-        /// <returns></returns>
-        public int DeleteSQDT(int Id)
-        {
-            int result3 = 0;
-            using (IDbConnection connection = OpenConnection(dataConnection))
-            {
-                string sql = @" DELETE FROM SalesQuotationItem WHERE SalesQuotationId=@Id
-                                DELETE FROM SalesQuotationMaterial WHERE SalesQuotationId=@Id";
-                                                                                         
-
-                {
-
-                    var id = connection.Execute(sql, new { Id = Id });
-                    return id;
-
-                }
-
-            }
-        }
-
-
-
     }
 }

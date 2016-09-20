@@ -157,15 +157,7 @@ namespace ArabErp.Web.Controllers
                 FillUnit();
                 FillEmployee();
                 FillSalesQuotationRejectReason();
-                //SalesQuotation salesquotation = new SalesQuotation();
-                //salesquotation.QuotationDate = System.DateTime.Today;
-                //salesquotation.PredictedClosingDate = System.DateTime.Today;
-                //salesquotation.QuotationValidToDate = System.DateTime.Today;
-                //salesquotation.ExpectedDeliveryDate = System.DateTime.Today;
-                //SaleOrder saleOrder = new SaleOrder();
-                //saleOrder.SaleOrderDate = System.DateTime.Today;
-                //saleOrder.Items = new List<SaleOrderItem>();
-                //saleOrder.Items.Add(new SaleOrderItem());
+              
                 return View("Create", model);
             }
 
@@ -686,44 +678,7 @@ namespace ArabErp.Web.Controllers
             return View("PreviousList", new { type = model.isProjectBased });
         }
 
-        //public ActionResult DeleteSQ(int Id)
-        //{
-        //    ViewBag.Title = "Delete";
-
-        //    var result1 = new SalesQuotationRepository().CHECK(Id);
-        //    if (result1 > 0)
-        //    {
-        //        TempData["error"] = "Sorry!!..Already Approved!";
-        //        TempData["ExpenseNo"] = null;
-        //        return RedirectToAction("Edit", new { id = Id });
-        //    }
-
-        //    else
-        //    {
-        //        var result2 = new SalesQuotationRepository().DeleteSQDT(Id);
-        //        var result3 = new SalesQuotationRepository().DeleteSQHD(Id);
-
-        //        if (Id > 0)
-        //        {
-
-        //            TempData["Success"] = "Deleted Successfully!";
-        //            return RedirectToAction("Index");
-        //            return View("Create", model);
-        //        }
-
-        //        else
-        //        {
-
-        //            TempData["error"] = "Oops!!..Something Went Wrong!!";
-        //            TempData["ExpenseNo"] = null;
-        //            return RedirectToAction("Edit", new { id = Id });
-        //        }
-
-        //    }
-
-        //}
-
-       
+    
         private void ItemDropdown()
         {
             ViewBag.itemList = new SelectList(new DropdownRepository().ItemDropdown(), "Id", "Name");
