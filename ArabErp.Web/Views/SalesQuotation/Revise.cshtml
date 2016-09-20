@@ -500,7 +500,7 @@
                                 <th width="2%" class="text-center"><h1>#</h1></th>
                                 <th width="25%" class="text-left"><h1>Work Description</h1></th>
                                 <th width="5%" class="text-right"><h1>Qty</h1></th>
-                                <th width="10%"><h1>UoM</h1></th>
+                                @*<th width="10%"><h1>UoM</h1></th>*@
                                 <th width="8%" class="text-right"><h1>Rate</h1></th>
                                 <th width="8%" class="text-right"><h1>Discount</h1></th>
                                 <th width="8%" class="text-right"><h1>Amount</h1></th>
@@ -543,7 +543,7 @@
                                             @Html.TextBoxFor(m => m.SalesQuotationItems[i].Quantity, new { @class = "form_input clQuantity  ", @style = "text-align:right", autocomplete = "off", placeholder = "Qty", @onchange = "QuantityChanged(" + i + ");", @disabled = "true" })
                                         }
                                     </td>
-                                    <td>
+                                    @*<td>
                                         @if (ViewBag.actionName.ToString() == "Revise")
                                         {
                                             @Html.DropDownListFor(x => Model.SalesQuotationItems[i].UnitId, new SelectList(ViewBag.unitlist, "Value", "Text", Model.SalesQuotationItems[i].UnitId), "Select Unit", new { @class = "form_input", autocomplete = "off" })
@@ -553,7 +553,7 @@
                                             @Html.DropDownListFor(x => Model.SalesQuotationItems[i].UnitId, new SelectList(ViewBag.unitlist, "Value", "Text", Model.SalesQuotationItems[i].UnitId), "Select Unit", new { @class = "form_input", autocomplete = "off", @disabled = "true" })
 
                                         }
-                                    </td>
+                                    </td>*@
                                     <td>
                                         @if (ViewBag.actionName.ToString() == "Revise")
                                         {
@@ -585,10 +585,10 @@
                         <tfoot>
                             <tr class="grid_heading">
                                 <th width="2%" class="text-center"></th>
-                                <th width="5%" class="text-center"><h1></h1></th>
+                                <th width="5%" class="text-center"><h1>Total</h1></th>
                                 <th width="25%" class="text-center"><h1></h1></th>
                                 <th width="5%" class="text-center"><h1></h1></th>
-                                <th width="5%" class="text-right"><span id="QtyTotal"></span></th>
+                                @*<th width="5%" class="text-right"></span></th>*@
                                 <th width="10%">
                                     <h1>
                                         @if (ViewBag.actionName.ToString() == "Revise")
@@ -602,7 +602,7 @@
                                         }
                                     </h1>
                                 </th>
-                                <th width="10%" class="text-right"><h1>Total</h1></th>
+                                <th width="10%" class="text-right"><h1></h1></th>
                                 <th width="8%" class="text-right"><span id="QtyAmount"></span></th>
                                 <th width="2%" class="text-center"></th>
                             </tr>

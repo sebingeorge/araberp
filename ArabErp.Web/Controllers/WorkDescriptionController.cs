@@ -76,6 +76,12 @@ namespace ArabErp.Web.Controllers
             FillItem();
             FillJobCardTaskMaster();
             WorkDescription model = new WorkDescriptionRepository().GetWorkDescription(Id);
+
+            if (model.WorkVsItems.Count == 0)
+                model.WorkVsItems.Add(new WorkVsItem());
+            if(model.WorkVsTasks.Count==0)
+                model.WorkVsTasks.Add(new WorkVsTask());
+
             return View("Edit", model);
         }
 

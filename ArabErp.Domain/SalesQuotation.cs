@@ -42,6 +42,7 @@ namespace ArabErp.Domain
         public string Remarks { get; set; }
         [Required]
         public int SalesQuotationRejectReasonId { get; set; }
+       [Required]
         public string QuotationRejectReason { get; set; }
         public string Competitors { get; set; }
         public string PaymentTerms { get; set; }
