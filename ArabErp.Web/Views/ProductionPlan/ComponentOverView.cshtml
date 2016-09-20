@@ -4,7 +4,14 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-
+<script>
+    $(function () {
+        $("#from").val("20-09-2016")
+        $("#to").val("23-09-2016")
+        $("#from").datepicker({ dateFormat: "dd-MM-yy" });
+        $("#to").datepicker({ dateFormat: "dd-MM-yy" });
+    });
+</script>
 
 <div class="row">
     <div class="form-head1">
@@ -14,14 +21,14 @@
     <div class="main-part pad1">
         <div class="row form-group">
             <div class="col-md-2">
-                <label>Prd Order No.</label>
+                <label>Production Order No.</label>
                 <input type="text" class="form_input" />
             </div>
 
         </div>
 
         <div class="row form-group">
-            <div class="col-md-3">
+            <div class="col-md-4">
                 <label>Product</label>
                 <select class="form_input">
                     <option value="">Product 1</option>
@@ -34,28 +41,28 @@
         <div class="row form-group">
             <div class="col-md-1">
                 <label>Start Date</label>
-                <input type="text" class="form_input" />
+                <input type="text" id="from" class="form_input" />
             </div>
 
             <div class="col-md-1">
                 <label>End Date</label>
-                <input type="text" class="form_input" />
+                <input type="text" id="to" class="form_input" />
             </div>
             <div class="col-md-1">
                 <label>Qty</label>
                 <input type="text" class="form_input" />
             </div>
-            <div class="col-md-2">
+            <div class="col-md-1">
                 <label>Unit</label>
                 <select class="form_input">
-                    <option value="">Select Unit</option>
+                    <option value="">Select</option>
                     <option value="">Kg</option>
                     <option value="">Liter</option>
                     <option value="">Nos</option>
                     <option value="">Mtrs</option>
                 </select>
             </div>
-            <div class="col-md-2">
+            <div class="col-md-4">
                 <label>Plant</label>
                 <select class="form_input">
                     <option value="">Plant 1</option>
