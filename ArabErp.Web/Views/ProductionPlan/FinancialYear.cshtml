@@ -4,7 +4,12 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-
+<script>
+    $(function () {
+        $("#from").datepicker({ dateFormat: "dd-MM-yy" });
+        $("#to").datepicker({ dateFormat: "dd-MM-yy" });
+    });
+</script>
 
 <div class="row">
     <div class="form-head1">
@@ -31,11 +36,11 @@
                 <div class="row">
                     <div class="col-md-3">
                         <label>start Date</label>
-                        <input type="text" class="form_input" />
+                        <input type="text" id="from" class="form_input" />
                     </div>
                     <div class="col-md-3">
                         <label>End Date</label>
-                        <input type="text" class="form_input" />
+                        <input type="text" id="to" class="form_input" />
                     </div>
                 </div>
             </div>
