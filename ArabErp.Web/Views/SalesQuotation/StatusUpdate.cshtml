@@ -211,7 +211,7 @@
                 
                 @Html.HiddenFor(m => m.ParentId)
                 @Html.HiddenFor(m => m.GrantParentId)
-                @Html.HiddenFor(m => m.Amount)
+                @Html.HiddenFor(m => m.GrandTotal)
                 @Html.HiddenFor(m => m.IsQuotationApproved)
                 @Html.HiddenFor(m => m.isProjectBased)
                 <div class="row form-group ">
@@ -338,11 +338,7 @@
 
                             @Html.TextBoxFor(m => m.ApprovedBy, new { @class = "form_input", autocomplete = "off", @disabled = "true" })
                         }
-                        @*else
-                            {
-                                @Html.DropDownListFor(m => Model.ApprovedBy, (SelectList)ViewBag.employeelist, "Select Approver", new { @class = "form_input", autocomplete = "off", @disabled = "true" })
-
-                            }*@
+                       
                     </div>
                 </div>
 

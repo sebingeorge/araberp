@@ -311,7 +311,7 @@ namespace ArabErp.Web.Controllers
             }
 
         }
-        [HttpGet]
+      
         public ActionResult Revise(int Id)
         {
             FillCustomer();
@@ -329,6 +329,11 @@ namespace ArabErp.Web.Controllers
 
             SalesQuotation salesquotation = repo.GetSalesQuotation(Id);
             if (salesquotation.isProjectBased == 2)
+            {
+                FillWrkDescAfterSales();
+                ItemDropdown();
+            }
+            else if (salesquotation.isProjectBased == 1)
             {
                 FillWrkDescAfterSales();
                 ItemDropdown();

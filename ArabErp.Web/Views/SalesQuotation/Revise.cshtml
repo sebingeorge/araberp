@@ -8,19 +8,6 @@
  ViewBag.actionName = actionName;
 
 }
-@{
-    object displayMode = null;
-    if (ViewBag.actionName.ToString() == "Create")
-    {
-        displayMode = new { @class = "form_input", autocomplete = "off" };
-        ViewBag.Title = "Sales Quotation";
-    }
-    else
-    {
-        displayMode = new { @class = "form_input", autocomplete = "off", @readonly = "readonly" };
-        ViewBag.Title = "Pending Sales Quotation";
-    }
-} 
 
 <script>
     function GotoIndex()
@@ -38,8 +25,11 @@
         }
         
     }
-
+  
     $(function () {
+       
+           
+        $("#tab_logic .glyphicon-minus,#tab_logic .glyphicon-plus").hide();
         $("#QuotationDate").datepicker({ dateFormat: "dd/MM/yy" });
         $("#ExpectedDeliveryDate").datepicker({ dateFormat: "dd/MM/yy" });
         $("#PredictedClosingDate").datepicker({ dateFormat: "dd/MM/yy" });
@@ -204,7 +194,7 @@
                 @Html.HiddenFor(m => m.SalesQuotationId)
                 @Html.HiddenFor(m => m.ParentId)
                 @Html.HiddenFor(m => m.GrantParentId)
-                @Html.HiddenFor(m => m.Amount)
+                @Html.HiddenFor(m => m.GrandTotal)
                 @Html.HiddenFor(m => m.IsQuotationApproved)
                 @Html.HiddenFor(m => m.isProjectBased)
                 <div class="row form-group ">
@@ -419,6 +409,8 @@
                         $("#tab_logic").append('<tr id="' + i + '">' + clone.html() + '  </tr>');
                         $("#slno" + (i + 1)).html((i + 1));
                         $("#SalesQuotationItems_" + i + "__SlNo").val((i + 1));
+                      
+
                     }
                     function QuantityChanged(row) {
                         var quantity = $("#SalesQuotationItems_" + row + "__Quantity").val();
@@ -437,12 +429,15 @@
                         var amount = (quantity * rate) - discount;
                         amount = parseFloat(amount);
                         $("#SalesQuotationItems_" + row + "__Amount").val(amount);
-                        calculateSummary();
+
+                        cal_Summary();
                     }
 
-                    function calculateSummary() {
+                    function cal_Summary() {
+                       
                         var quantity = parseFloat("0");
                         var amount = parseFloat("0");
+                        var grandtotal = parseFloat("0");
                         $('.clQuantity').each(function (i, obj) {
                             var a = parseFloat($("#SalesQuotationItems_" + i + "__Quantity").val());
 
@@ -454,6 +449,7 @@
                         });
 
                         $('.clAmount').each(function (i, obj) {
+                          
                             var a = parseFloat($("#SalesQuotationItems_" + i + "__Amount").val());
                             if (isNaN(a)) {
 
@@ -464,19 +460,38 @@
                             amount = amount + a;
                         });
 
-                   
+                      
                         $("#QtyAmount").text(parseFloat(amount));
-                        $("#Amount").val(parseFloat(amount));
+                        var WorkAmt=parseFloat($("#QtyAmount").text());
+                        var MaterialAmt=parseFloat($("#TotalAmount").text());
+                    
+                        if (isNaN(WorkAmt)) {
 
+                            WorkAmt = parseFloat("0");
+
+                        }
+                        if (isNaN(MaterialAmt)) {
+
+                            MaterialAmt = parseFloat("0");
+
+                        }
+                        grandtotal= WorkAmt + MaterialAmt;
+                    
+                        if (isNaN(grandtotal)) {
+
+                            grandtotal= parseFloat("0");
+
+                        }
+                        $("#lblTotalAmount").text(parseFloat(grandtotal));
 
                     }
 
                 </script>
-                if (Model.isProjectBased == 2)
+                if (@Model.isProjectBased != 0)
                 {
                     @Html.Partial("_MaterialList")
                 }
-
+               
                 <div class="table-responsive">
                     <table class="table table-bordered table-hover" id="tab_logic">
                         <thead>
@@ -594,7 +609,16 @@
                         </tfoot>
                     </table>
                 </div>
-      
+                if (@Model.isProjectBased != 0)
+                {
+                    <div class="row form-group">
+                        <div class="col-md-12">
+
+                            <label class="tamount">Grand Total:<span id="lblTotalAmount"></span></label>
+
+                        </div>
+                    </div>
+                }
                 <div class="row">
                     <div class="col-md-12">
 
