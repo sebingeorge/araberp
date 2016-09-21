@@ -949,6 +949,7 @@
     <Content Include="Views\ProductionPlan\Sale.cshtml" />
     <Content Include="Views\ResourceAvailability\Employee.cshtml" />
     <Content Include="Views\ResourceAvailability\_EmployeeGrid.cshtml" />
+    <Content Include="Views\SaleOrder\_MaterialList.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

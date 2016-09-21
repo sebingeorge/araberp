@@ -41,6 +41,7 @@ namespace ArabErp.Domain
         public bool isActive { get; set; }
         public List<QuerySheetItem> QuerySheetItems { get; set; }
         public List<ProjectCost> Items { get; set; }
+        public bool isUsed { get; set; }
     }
     public class ProjectCost
     {
