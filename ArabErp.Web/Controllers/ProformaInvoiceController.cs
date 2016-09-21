@@ -7,6 +7,10 @@ using System.Web.Mvc;
 using ArabErp.Domain;
 using ArabErp.DAL;
 using ArabErp.Web.Models;
+using System.Collections;
+using CrystalDecisions.CrystalReports.Engine;
+using System.IO;
+using System.Data;
 
 namespace ArabErp.Web.Controllers
 {
@@ -157,6 +161,88 @@ namespace ArabErp.Web.Controllers
 
         }
 
+        public ActionResult Print(int Id)
+        {
 
+            ReportDocument rd = new ReportDocument();
+            rd.Load(Path.Combine(Server.MapPath("~/Reports"), "ProformaInvoice.rpt"));
+
+            DataSet ds = new DataSet();
+            ds.Tables.Add("Head");
+            ds.Tables.Add("Items");
+
+            //-------HEAD
+            ds.Tables["Head"].Columns.Add("ProformaInvoiceRefNo");
+            ds.Tables["Head"].Columns.Add("ProformaInvoiceDate");
+            ds.Tables["Head"].Columns.Add("CustomerName");
+            ds.Tables["Head"].Columns.Add("CustomerAddress");
+            ds.Tables["Head"].Columns.Add("SaleOrderRefNo");
+            ds.Tables["Head"].Columns.Add("PaymentTerms");
+          
+            //-------DT
+            ds.Tables["Items"].Columns.Add("Quantity");
+            ds.Tables["Items"].Columns.Add("WorkDescriptionRefNo");
+            ds.Tables["Items"].Columns.Add("WorkDescription");
+            ds.Tables["Items"].Columns.Add("UnitName");
+            ds.Tables["Items"].Columns.Add("Rate");
+            ds.Tables["Items"].Columns.Add("Amount");
+
+            ProformaInvoiceRepository repo = new ProformaInvoiceRepository();
+            var Head = repo.GetProformaInvoiceHD(Id);
+
+            DataRow dr = ds.Tables["Head"].NewRow();
+            dr["ProformaInvoiceRefNo"] = Head.ProformaInvoiceRefNo;
+            dr["ProformaInvoiceDate"] = Head.ProformaInvoiceDate.ToString("dd-MMM-yyyy");
+            dr["CustomerName"] = Head.CustomerName;
+            dr["CustomerAddress"] = Head.CustomerAddress;
+            dr["SaleOrderRefNo"] = Head.SaleOrderRefNo;
+            dr["PaymentTerms"] = Head.PaymentTerms;
+            ds.Tables["Head"].Rows.Add(dr);
+
+
+            ProformaInvoiceItemRepository repo1 = new ProformaInvoiceItemRepository();
+            var Items = repo1.GetProformaInvoiceItemDT(Id);
+            foreach (var item in Items)
+            {
+                var PIItem = new ProformaInvoiceItem
+                {
+                    Quantity = item.Quantity,
+                    WorkDescriptionRefNo = item.WorkDescriptionRefNo,
+                    WorkDescription = item.WorkDescription,
+                    UnitName = item.UnitName,
+                    Rate = item.Rate,
+                    Amount = item.Amount
+                };
+
+                DataRow dri = ds.Tables["Items"].NewRow();
+                dri["Quantity"] = PIItem.Quantity;
+                dri["WorkDescriptionRefNo"] = PIItem.WorkDescriptionRefNo;
+                dri["WorkDescription"] = PIItem.WorkDescription;
+                dri["UnitName"] = PIItem.UnitName;
+                dri["Rate"] = PIItem.Rate;
+                dri["Amount"] = PIItem.Amount;
+                ds.Tables["Items"].Rows.Add(dri);
+            }
+
+            ds.WriteXml(Path.Combine(Server.MapPath("~/XML"), "ProformaInvoice.xml"), XmlWriteMode.WriteSchema);
+
+            rd.SetDataSource(ds);
+
+            Response.Buffer = false;
+            Response.ClearContent();
+            Response.ClearHeaders();
+
+
+            try
+            {
+                Stream stream = rd.ExportToStream(CrystalDecisions.Shared.ExportFormatType.PortableDocFormat);
+                stream.Seek(0, SeekOrigin.Begin);
+                return File(stream, "application/pdf", String.Format("ProformaInvoice{0}.pdf", Id.ToString()));
+            }
+            catch (Exception ex)
+            {
+                throw;
+            }
+        }
     }
 }

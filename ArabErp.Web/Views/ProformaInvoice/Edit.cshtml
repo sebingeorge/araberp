@@ -77,6 +77,12 @@
             location.href = url;
 
         }
+        function GoToPrint(Id)
+        {
+            var url = '@Url.Action("Print")';
+            url += "?Id=" + Id;
+            window.location = url;
+        }
     </script>
 }
 

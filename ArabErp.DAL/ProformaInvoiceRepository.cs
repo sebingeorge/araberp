@@ -230,5 +230,25 @@ namespace ArabErp.DAL
             }
         }
 
+        public ProformaInvoice GetProformaInvoiceHD(int ProformaInvoiceId)
+        {
+            using (IDbConnection connection = OpenConnection(dataConnection))
+            {
+
+                string sql = @"SELECT C.CustomerName,S.CustomerOrderRef,Concat(C.DoorNo,',',C.Street,',',C.State,',',C.Country,',',C.Zip)CustomerAddress,ProformaInvoiceId,ProformaInvoiceRefNo,
+                               ProformaInvoiceDate,P.SaleOrderId,P.SpecialRemarks,P.PaymentTerms,P.isProjectBased,S.SaleOrderRefNo 
+                               FROM  ProformaInvoice P
+                               INNER JOIN SaleOrder S ON S.SaleOrderId=P.SaleOrderId
+                               INNER JOIN Customer C ON C.CustomerId=S.CustomerId where ProformaInvoiceId =@ProformaInvoiceId";
+
+                var objProInvoice = connection.Query<ProformaInvoice>(sql, new
+                {
+                    ProformaInvoiceId = ProformaInvoiceId
+                }).First<ProformaInvoice>();
+
+                return objProInvoice;
+            }
+        }
+
     }
 }
