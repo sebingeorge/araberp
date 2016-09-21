@@ -11,15 +11,16 @@ namespace ArabErp.DAL
     public class QuerySheetRepository : BaseRepository
     {
         static string dataConnection = GetConnectionString("arab");
+
         public string InsertQuerySheet(QuerySheet objQuerySheet)
         {
             using (IDbConnection connection = OpenConnection(dataConnection))
             {
-             IDbTransaction txn = connection.BeginTransaction();
+                IDbTransaction txn = connection.BeginTransaction();
                 try
                 {
-                    var internalId = DatabaseCommonRepository.GetNewDocNo(connection, objQuerySheet.OrganizationId, 5, true,txn);
-                    objQuerySheet.QuerySheetRefNo= internalId;
+                    var internalId = DatabaseCommonRepository.GetNewDocNo(connection, objQuerySheet.OrganizationId, 5, true, txn);
+                    objQuerySheet.QuerySheetRefNo = internalId;
 
                     string sql = @"insert  into QuerySheet(QuerySheetRefNo,QuerySheetDate,ProjectName,ContactPerson,ContactNumber,Email,CreatedBy,CreatedDate,OrganizationId)
                                  Values (@QuerySheetRefNo,@QuerySheetDate,@ProjectName,@ContactPerson,@ContactNumber,@Email,@CreatedBy,@CreatedDate,@OrganizationId);
@@ -29,7 +30,7 @@ namespace ArabErp.DAL
 
                     foreach (ProjectCost item in objQuerySheet.Items)
                     {
-                        item.QuerySheetId= id;
+                        item.QuerySheetId = id;
                         new ProjectCostRepository().InsertProjectCosting(item, connection, txn);
                     }
 
@@ -51,36 +52,53 @@ namespace ArabErp.DAL
                 }
             }
         }
-                
-                   
+
         public QuerySheet GetQuerySheet(int QuerySheetId)
         {
 
             using (IDbConnection connection = OpenConnection(dataConnection))
             {
-                string sql = @"select * from QuerySheet
+                string query;
+                IDbTransaction txn = connection.BeginTransaction();
+
+                query = @"select * from QuerySheet
                         where QuerySheetId=@QuerySheetId";
 
-                var objQuerySheet = connection.Query<QuerySheet>(sql, new
+                var model = connection.Query<QuerySheet>(query, new
                 {
                     QuerySheetId = QuerySheetId
-                }).First<QuerySheet>();
+                }, txn).First<QuerySheet>();
 
-                return objQuerySheet;
+                try
+                {
+                    query = @"DELETE FROM QuerySheetItem WHERE QuerySheetId = @QuerySheetId
+                            DELETE FROM ProjectCosting WHERE QuerySheetId = @QuerySheetId
+                            DELETE FROM QuerySheet WHERE QuerySheetId = @QuerySheetId";
+                    connection.Execute(query, new { QuerySheetId = QuerySheetId }, txn);
+                    txn.Rollback();
+
+                    model.isUsed = false;
+                    return model;
+                }
+                catch
+                {
+                    txn.Rollback();
+                    model.isUsed = true;
+                }
+                return model;
             }
         }
 
-
-
-        public IList<QuerySheet> GetQuerySheets(int id, int OrganizationId, DateTime? from, DateTime? to)
+        public IList<QuerySheet> GetQuerySheets(string querysheet, int OrganizationId, DateTime? from, DateTime? to)
         {
             using (IDbConnection connection = OpenConnection(dataConnection))
             {
-                string sql = " select * from QuerySheet";
-                sql += " where isActive=1 and OrganizationId = @OrganizationId ";
-                sql += " and QuerySheetDate BETWEEN ISNULL(@from, DATEADD(MONTH, -1, GETDATE())) AND ISNULL(@to, GETDATE()) ";
-                sql += " and QuerySheetId = ISNULL(NULLIF(@id, 0),QuerySheetId)";
-                return connection.Query<QuerySheet>(sql, new { OrganizationId = OrganizationId, id = id, to = to, from = from }).ToList();
+                string sql = @"select * from QuerySheet
+                                where isActive=1 and OrganizationId = @OrganizationId
+	                                and QuerySheetDate BETWEEN ISNULL(@from, DATEADD(MONTH, -1, GETDATE())) AND ISNULL(@to, GETDATE())
+	                                AND QuerySheetRefNo LIKE '%'+@querysheet+'%'
+                                    ORDER BY QuerySheetDate DESC, CreatedDate DESC";
+                return connection.Query<QuerySheet>(sql, new { OrganizationId = OrganizationId, querysheet = querysheet, to = to, from = from }).ToList();
 
             }
         }
@@ -110,27 +128,35 @@ namespace ArabErp.DAL
             }
 
         }
+
         /// <summary>
         /// Delete QuerySheet Details
         /// </summary>
         /// <returns></returns>
-        public int DeleteQuerySheet(int Id, string CreatedBy)
+        public string DeleteQuerySheet(int Id, string CreatedBy, int OrganizationId)
         {
-            int result = 0;
             using (IDbConnection connection = OpenConnection(dataConnection))
             {
-                string sql = @" DELETE FROM QuerySheet WHERE QuerySheetId=@Id";
-
+                IDbTransaction txn = connection.BeginTransaction();
+                try
                 {
+                    string query = @"DELETE FROM QuerySheetItem WHERE QuerySheetId = @QuerySheetId;
+                                DELETE FROM ProjectCosting WHERE QuerySheetId = @QuerySheetId;
+                                DELETE FROM QuerySheet OUTPUT deleted.QuerySheetRefNo WHERE QuerySheetId = @QuerySheetId;";
 
-                    var id = connection.Execute(sql, new { Id = Id });
-                    InsertLoginHistory(dataConnection, CreatedBy, "Delete", "Query Sheet", id.ToString(), "0");
-                    return id;
-
+                    string ref_no = connection.Query<string>(query, new { QuerySheetId = Id }, txn).First();
+                    InsertLoginHistory(dataConnection, CreatedBy, "Delete", typeof(QuerySheet).Name, Id.ToString(), OrganizationId.ToString());
+                    txn.Commit();
+                    return ref_no;
                 }
-
+                catch (Exception ex)
+                {
+                    txn.Rollback();
+                    throw ex;
+                }
             }
         }
+
         /// <summary>
         /// Delete ProjectCosting DT Details
         /// </summary>
@@ -152,5 +178,52 @@ namespace ArabErp.DAL
             }
         }
 
+        public string UpdateQuerySheet(QuerySheet model)
+        {
+            using (IDbConnection connection = OpenConnection(dataConnection))
+            {
+                IDbTransaction txn = connection.BeginTransaction();
+                try
+                {
+                    string query = @"DELETE FROM QuerySheetItem WHERE QuerySheetId = @QuerySheetId
+                                DELETE FROM ProjectCosting WHERE QuerySheetId = @QuerySheetId";
+
+                    connection.Execute(query, new { QuerySheetId = model.QuerySheetId }, txn);
+
+                    foreach (ProjectCost item in model.Items)
+                    {
+                        item.QuerySheetId = model.QuerySheetId;
+                        new ProjectCostRepository().InsertProjectCosting(item, connection, txn);
+                    }
+
+                    foreach (QuerySheetItem item in model.QuerySheetItems)
+                    {
+                        item.QuerySheetId = model.QuerySheetId;
+                        new ProjectCostRepository().InsertQuerySheetItem(item, connection, txn);
+                    }
+
+                    query = @"UPDATE QuerySheet SET
+	                            QuerySheetRefNo = @QuerySheetRefNo,
+	                            QuerySheetDate = @QuerySheetDate,
+	                            ProjectName = @ProjectName,
+	                            ContactPerson = @ContactPerson,
+	                            ContactNumber = @ContactNumber,
+	                            Email = @Email
+	                        OUTPUT inserted.QuerySheetRefNo
+                            WHERE QuerySheetId = @QuerySheetId";
+                    string ref_no = connection.Query<string>(query, model, txn).First();
+
+                    InsertLoginHistory(dataConnection, model.CreatedBy, "Update", typeof(QuerySheet).Name, model.QuerySheetId.ToString(), model.OrganizationId.ToString());
+
+                    txn.Commit();
+                    return ref_no;
+                }
+                catch (Exception ex)
+                {
+                    txn.Rollback();
+                    throw ex;
+                }
+            }
+        }
     }
 }

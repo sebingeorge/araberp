@@ -33,6 +33,14 @@
         @{ TempData["success"] = TempData["error"] = ""; }
         //------------------------------------------------------//
 
+        $(".numbers-only").keypress(function (e) {
+            if (e.which == 8 || (e.which == 45 && $(this).val().indexOf('-') == -1) || (e.which == 46 && $(this).val().indexOf('.') == -1) || (e.which > 47 && e.which < 58)) {
+            }
+            else {
+                return false;
+            }
+        });
+
     })
     function AddRow() {
 
@@ -126,6 +134,15 @@
     {
         $("#QuerySheetDate").datepicker({ dateFormat: "dd-MM-yy" });
     });
+
+    function OnCostingAmountChanged(){
+        var amount = 0;
+        $("input[id$='__Amount']").each(function(index, object){
+            if(!isNaN($(object).val()))
+            amount += Number($(object).val());
+        })
+        $("#costingTotal").text(amount.toFixed(2));
+    }
 </script>
 
 
