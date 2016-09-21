@@ -4,27 +4,12 @@
  {
      actionName = "Create";
  }
+ 
 }
+
+
 <script>
-    //$(document).ready(function () {
-    //    $("#CommissionPerc").keyup(function () {
-      
-    //    var CommPercentage = parseFloat("0");
-    //    var CommAmt = parseFloat("0");
-
-    //    var TotalAmt = $("#TotalAmount").val();
-      
-    //    CommPercentage = parseFloat($("#CommissionPerc").val());
-
-    //    if (isNaN(CommPercentage)) {
-    //        CommPercentage = parseFloat("0");
-    //    }
-     
-    //    CommAmt = TotalAmt * (CommPercentage / 100);
-        
-    //    //$("#CommissionAmount").val(CommAmt);
-    //});
-    //});
+  
     function showPaymentTerms() {
         var x = screen.width / 2 - 600 / 2;
         var y = screen.height / 2 - 250 / 2;
@@ -34,6 +19,16 @@
         return false;
     }
 </script>
+   @if (Model.isProjectBased != 0)
+    {
+<div class="row form-group">
+    <div class="col-md-12">
+
+        <label class="tamount">Grand Total:<span id="lblTotalAmount"></span></label>
+
+    </div>
+</div>
+    }
 <div class="row">
     <div class="part1">
                 <div class="col-md-12">

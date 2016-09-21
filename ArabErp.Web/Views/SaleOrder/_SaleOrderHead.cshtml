@@ -50,7 +50,7 @@
     </div>
     <div class="col-md-2">
         <label for="SaleOrderDate">Date</label>
-        @*@Html.TextBoxFor(m => m.SaleOrderDate, new { @class = "form_input ", autocomplete = "off", @readonly = "readonly" })*@
+      
         @Html.TextBoxFor(m => m.SaleOrderDate, Model.SaleOrderDate.ToString("dd/MMMM/yyyy"), new { @class = "form_input ", autocomplete = "off", @readonly = "readonly"})
     </div>
     <div class="col-md-2">
@@ -59,32 +59,15 @@
         @Html.HiddenFor(m => m.QuotationNoDate, new { @class = "form_input", autocomplete = "off" })
         @Html.HiddenFor(m => m.SalesQuotationId, new { @class = "form_input", autocomplete = "off" })
     </div>
-    @*<div class="col-md-2">
-        <label for="selectCustomer">Quotation No.</label>
-        @if (actionName == "Create")
-        {
-            @Html.DropDownListFor(m => Model.SalesQuotationId, (SelectList)ViewBag.QuotationNolist, "Select Quotation", new { @class = "form_input", autocomplete = "off", @onchange = "QuotationChanged(this);" })
-
-        }
-        else
-        {
-            @Html.DropDownListFor(m => Model.SalesQuotationId, (SelectList)ViewBag.QuotationNolist, "Select Quotation", new { @class = "form_input", autocomplete = "off", @disabled = "true" })
-        }
-    </div>*@
+   
 </div>
 <div class="row form-group">
     <div class="col-md-4">
         <label for="selectCustomer">Customer</label>
-        @*@if (actionName == "Create")
-        {
-            @Html.DropDownListFor(m => Model.CustomerId, (SelectList)ViewBag.customerlist, "Select Customer", new { @class = "form_input", autocomplete = "off", @onchange = "CustomerChanged(this);" })
-
-        }
-        else*@
-        @*{*@
+      
             @Html.HiddenFor(m => m.CustomerId, new { @class = "form_input", autocomplete = "off" })
             @Html.DropDownListFor(m => Model.CustomerId, (SelectList)ViewBag.customerlist, "Select Customer", new { @class = "form_input", autocomplete = "off", @disabled = "true" })
-          @*}*@
+         
      </div>
     <div class="col-md-6">
         <label for="CustomerOrderRef">Customer Address</label>

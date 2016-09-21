@@ -1,0 +1,120 @@
+﻿
+@model ArabErp.Domain.SaleOrder
+@{
+    string actionName = ViewContext.RouteData.GetRequiredString("action");
+}
+
+<script type="text/javascript">
+
+    $(document).ready(function () {
+
+        $("#Materials_0__SlNo").val('1');
+        cal_Summary();
+    });
+
+
+    function cal_Summary() {
+       
+        var amount = parseFloat("0");
+        var grandtotal = parseFloat("0");
+        $('.clAmount').each(function (i, obj) {
+            var a = parseFloat($("#Materials_" + i + "__Amount").val());
+            if (isNaN(a)) {
+
+                a = parseFloat("0");
+
+            }
+
+            amount = amount + a;
+        });
+
+     
+      
+        $("#MatAmount").text(amount.toFixed(2));
+        var WorkAmt = parseFloat($("#TotalAmount").text());
+        var MaterialAmt = parseFloat($("#MatAmount").text());
+                    
+        if (isNaN(WorkAmt)) {
+
+            WorkAmt = parseFloat("0");
+
+        }
+        if (isNaN(MaterialAmt)) {
+
+            MaterialAmt = parseFloat("0");
+
+        }
+        grandtotal= WorkAmt + MaterialAmt;
+                    
+        if (isNaN(grandtotal)) {
+
+            grandtotal= parseFloat("0");
+
+        }
+        $("#lblTotalAmount").text(grandtotal.toFixed(2));
+
+    }
+  
+
+</script>
+
+
+
+<table class="table table-bordered" id="table-additional-items-list">
+    <thead>
+        <tr class="grid_heading">
+          
+            <th width="5%" class="text-center "><h1>#</h1></th>
+            <th width="40%"><h1>Material/Spares</h1></th>
+            <th width="20%"><h1>Part No.</h1></th>
+
+            <th width="6%" class="text-right "><h1>Qty.</h1></th>
+            <th width="8%"><h1>UoM</h1></th>
+            <th width="10%" class="text-right "><h1>Rate</h1></th>
+            <th width="10%" class="text-right "><h1>Amount</h1></th>
+          
+        </tr>
+    </thead>
+    <tbody class="grid_row">
+        @for (int i = 0; i < Model.Materials.Count; i++)
+        {
+
+            <tr id="tr_@i">
+               
+                <td align="center">
+                    <span id="serialno@(i+1)">@(i + 1)</span>
+                    @Html.HiddenFor(m => m.Materials[i].SlNo)
+                </td>
+                <td>
+                    <input type="hidden" id="Row_@i" />
+                    @Html.TextBoxFor(m => m.Materials[i].ItemName, new { @class = "form_input text-left", @readonly = "true" })
+                </td>
+               
+                <td id="partno0" class="qreturn" style="vertical-align:middle">@Html.TextBoxFor(m => m.Materials[i].PartNo, new { @class = "form_input text-left", @readonly = "true" })</td>
+
+                <td>@Html.TextBoxFor(m => m.Materials[i].Quantity, new { @class = "form_input numbers-only text-right", autocomplete = "off", placeholder = "Qty", @readonly = "true"})</td>
+                <td id="unit0" class="qreturn" style="vertical-align:middle">@Html.TextBoxFor(m => m.Materials[i].UnitName, new { @class = "form_input text-left", @readonly = "true" })</td>
+                <td>@Html.TextBoxFor(m => m.Materials[i].Rate, new { @class = "form_input numbers-only text-right ", autocomplete = "off", placeholder = "Rate", @readonly = "true"})</td>
+                <td>@Html.TextBoxFor(m => m.Materials[i].Amount, new { @class = "form_input numbers-only text-right clAmount", autocomplete = "off", placeholder = "Amount", @readonly = "true" })</td>
+               
+            </tr>
+        }
+    </tbody>
+    <tfoot>
+        <tr class="grid_heading">
+           
+            <th width="5%" class="text-center "><h1>Total</h1></th>
+            <th width="40%"><h1></h1></th>
+            <th width="20%"><h1></h1></th>
+            <th width="6%"><h1></h1></th>
+            <th width="8%"><h1></h1></th>
+            <th width="10%"><h1></h1></th>
+            <th width="10%" class="text-right "><span id="MatAmount"></span></th>
+           
+           
+           
+        </tr>
+    </tfoot>
+
+</table>
+
