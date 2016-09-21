@@ -131,26 +131,29 @@ namespace ArabErp.DAL
                     string query = string.Empty;
                     if (type == 0)
                     {
+
+
+
                         query = @"SELECT GI.GRNItemId,
-	                            I.ItemId, 
-	                            I.ItemName, 
-	                            GI.Quantity, 
-	                            ISNULL(GI.Remarks, '-') Remarks, 
-	                            CASE G.isDirectPurchaseGRN WHEN 1 THEN 'DIRECT GRN' ELSE 'GRN' END isDirect, 
-	                            G.GRNNo,
-	                            CONVERT(VARCHAR, G.GRNDate, 106) GRNDate,
-	                            S.SupplierName,
-	                            DATEDIFF(dd,G.GRNDate,GETDATE ()) Ageing,
-	                            ST.StockPointName 
-                            FROM GRN G 
-                            INNER JOIN GRNItem GI ON G.GRNId=GI.GRNId
-                            INNER JOIN Supplier S ON G.SupplierId=S.SupplierId
-                            INNER JOIN Stockpoint ST ON G.WareHouseId = ST.StockPointId
-							INNER JOIN Item I ON GI.ItemId = I.ItemId
-                            LEFT JOIN ItemBatch P ON P.GRNItemId=GI.GRNItemId 
-                            WHERE P.GRNItemId IS NULL
-							AND I.BatchRequired = 1
-							ORDER BY G.GRNDate DESC, G.CreatedDate DESC;";
+                        	                            I.ItemId, 
+                        	                            I.ItemName, 
+                        	                            GI.Quantity, 
+                        	                            ISNULL(GI.Remarks, '-') Remarks, 
+                        	                            CASE G.isDirectPurchaseGRN WHEN 1 THEN 'DIRECT GRN' ELSE 'GRN' END isDirect, 
+                        	                            G.GRNNo,
+                        	                            CONVERT(VARCHAR, G.GRNDate, 106) GRNDate,
+                        	                            S.SupplierName,
+                        	                            DATEDIFF(dd,G.GRNDate,GETDATE ()) Ageing,
+                        	                            ST.StockPointName 
+                                                    FROM GRN G 
+                                                    INNER JOIN GRNItem GI ON G.GRNId=GI.GRNId
+                                                    INNER JOIN Supplier S ON G.SupplierId=S.SupplierId
+                                                    INNER JOIN Stockpoint ST ON G.WareHouseId = ST.StockPointId
+                        							INNER JOIN Item I ON GI.ItemId = I.ItemId
+                                                    LEFT JOIN ItemBatch P ON P.GRNItemId=GI.GRNItemId 
+                                                    WHERE P.GRNItemId IS NULL
+                        							AND I.BatchRequired = 1
+                        							ORDER BY G.GRNDate DESC, G.CreatedDate DESC;";
                     }
                     else if (type == 1)
                     {
@@ -166,6 +169,8 @@ namespace ArabErp.DAL
                             WHERE P.OpeningStockId IS NULL
 							AND I.BatchRequired = 1
 							ORDER BY OS.CreatedDate DESC";
+
+
                     }
                     return connection.Query<ItemBatch>(query).ToList();
                 }

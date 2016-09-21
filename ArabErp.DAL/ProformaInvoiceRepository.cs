@@ -11,6 +11,7 @@ namespace ArabErp.DAL
     public class ProformaInvoiceRepository : BaseRepository
     {
         static string dataConnection = GetConnectionString("arab");
+        readonly log4net.ILog logger = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
 
         public IEnumerable<PendingSO> GetSaleOrdersForPerforma(int isProjectBased)
         {
@@ -168,5 +169,86 @@ namespace ArabErp.DAL
                 return objProInvoiceItem;
             }
         }
+
+        public int DeleteProformaInvoiceDT(int Id)
+        {
+            int result2 = 0;
+            using (IDbConnection connection = OpenConnection(dataConnection))
+            {
+                string sql = @" DELETE FROM ProformaInvoiceItem WHERE ProformaInvoiceId=@Id";
+
+                {
+
+                    var id = connection.Execute(sql, new { Id = Id });
+                    return id;
+
+                }
+
+            }
+        }
+
+        public string UpdateProformaInvoiceHD(ProformaInvoice objProInvoice)
+        {
+            using (IDbConnection connection = OpenConnection(dataConnection))
+           
+            {
+                string sql = @" UPDATE ProformaInvoice SET ProformaInvoiceRefNo=@ProformaInvoiceRefNo,ProformaInvoiceDate = @ProformaInvoiceDate ,
+                                SaleOrderId =@SaleOrderId ,SpecialRemarks = @SpecialRemarks ,PaymentTerms=@PaymentTerms,CreatedBy = @CreatedBy,
+                                CreatedDate = @CreatedDate,OrganizationId=@OrganizationId,isProjectBased=@isProjectBased
+                                WHERE ProformaInvoiceId = @ProformaInvoiceId";
+                var id = connection.Execute(sql, objProInvoice);
+                //InsertLoginHistory(dataConnection, objSupplyOrder.CreatedBy, "Update", "LPO", id.ToString(), "0");
+                return objProInvoice.ProformaInvoiceRefNo;
+            }
+        }
+
+        public string InsertProformaInvoiceDT(ProformaInvoice objProInvoice)
+        {
+            int id = 0;
+            using (IDbConnection connection = OpenConnection(dataConnection))
+            {
+                IDbTransaction trn = connection.BeginTransaction();
+                try
+                {
+                    var ProformaInvoiceItemrepo = new ProformaInvoiceItemRepository();
+                    foreach (var item in objProInvoice.Items)
+                    //foreach (ProformaInvoiceItem item in objProInvoice.Items)
+                    {
+                        item.ProformaInvoiceId = objProInvoice.ProformaInvoiceId;
+                        ProformaInvoiceItemrepo.InsertProformaInvoiceItem(item, connection, trn);
+                    }
+                    InsertLoginHistory(dataConnection, objProInvoice.CreatedBy, "Update", "Proforma Invoice", id.ToString(), "0");
+                    trn.Commit();
+                }
+                catch (Exception ex)
+                {
+                    logger.Error(ex.Message);
+                    trn.Rollback();
+                    throw;
+                }
+                return objProInvoice.ProformaInvoiceRefNo;
+            }
+        }
+
+        public ProformaInvoice GetProformaInvoiceHD(int ProformaInvoiceId)
+        {
+            using (IDbConnection connection = OpenConnection(dataConnection))
+            {
+
+                string sql = @"SELECT C.CustomerName,S.CustomerOrderRef,Concat(C.DoorNo,',',C.Street,',',C.State,',',C.Country,',',C.Zip)CustomerAddress,ProformaInvoiceId,ProformaInvoiceRefNo,
+                               ProformaInvoiceDate,P.SaleOrderId,P.SpecialRemarks,P.PaymentTerms,P.isProjectBased,S.SaleOrderRefNo 
+                               FROM  ProformaInvoice P
+                               INNER JOIN SaleOrder S ON S.SaleOrderId=P.SaleOrderId
+                               INNER JOIN Customer C ON C.CustomerId=S.CustomerId where ProformaInvoiceId =@ProformaInvoiceId";
+
+                var objProInvoice = connection.Query<ProformaInvoice>(sql, new
+                {
+                    ProformaInvoiceId = ProformaInvoiceId
+                }).First<ProformaInvoice>();
+
+                return objProInvoice;
+            }
+        }
+
     }
 }
