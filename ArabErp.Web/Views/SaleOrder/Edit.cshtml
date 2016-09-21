@@ -86,52 +86,7 @@
         }
         return true;
 
-        //if ($('#CustomerId').val() == '') {
-        //    alert("select one customer...");
-        //    $('#CustomerId').focus();
-        //    return false;
-        //}
-        //else if ($('#CustomerOrderRef').val() == '') {
-        //    alert("please enter customer order ref.");
-        //    $('#CustomerOrderRef').focus();
-        //    return false;
-        //}
-        //else if ($('#PaymentTermsId').val() == '') {
-        //    alert("select payment terms");
-        //    $('#PaymentTermsId').focus();
-        //    return false;
-        //}
-        //else if ($('#CommissionAgentId').val() == '') {
-        //    alert("Select Sales Executive 1");
-        //    $('#CommissionAgentId').focus();
-        //    return false;
-        //}
-        //else if ($('#CommissionPerc').val() == '') {
-        //    alert("please enter commission percentage.");
-        //    $('#CommissionPerc').focus();
-        //    return false;
-        //}
-        //else if ($('#SalesExecutiveId').val() == '') {
-        //    alert("select order taken by");
-        //    $('#SalesExecutiveId').focus();
-        //    return false;
-        //}
-        //else if ($('#EDateArrival').val() == '') {
-        //    alert("select EDA");
-        //    $('#EDateArrival').focus();
-        //    return false;
-        //}
-        //else if ($('#EDateDelivery').val() == '') {
-        //    alert("select EDD");
-        //    $('#EDateDelivery').focus();
-        //    return false;
-        //}
-        //else if ($('#EDateDelivery').val() < $('#EDateArrival').val()) {
-        //    alert("please select a valid Delivery Date, Delivery Date should be greater than Arrival Date");
-        //    $('#EDateDelivery').focus();
-        //    return false;
-        //}
-
+    
 
         $(".validateqty").each(function (i, obj) {
 
@@ -232,6 +187,7 @@
     function Exit() {
 
         location.href = '@Url.Action("Index", new { type = Model.isProjectBased })';
+        alert(location.href);
     }
 
     function DeleteItem(id) {
@@ -249,12 +205,17 @@
     <div class="main-part pad1">
         @using (Html.BeginForm(null, null, FormMethod.Post, new { @class = "createFrom", @id = "saleorder_form", onsubmit = "return Validation()" }))
         {
+            @Html.HiddenFor(m => m.SalesQuotationId)
             @Html.HiddenFor(m => m.SaleOrderId)
             @Html.HiddenFor(m => m.isProjectBased)
             @Html.Partial("_SaleOrderHead", Model)
             <div id="wordescriptions">
                 @Html.Partial("_DisplaySOList", Model)
             </div>
+            if (@Model.isProjectBased != 0)
+            {
+                @Html.Partial("_MaterialList", Model)
+            }
             @Html.Partial("_SaleOrderFooter", Model)
             <div class="row">
                 <div class="col-md-12 hrpart">
