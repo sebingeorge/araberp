@@ -30,7 +30,7 @@ namespace ArabErp.DAL
                 try
                 {
                     int internalid = DatabaseCommonRepository.GetInternalIDFromDatabase(connection, trn, typeof(CostingParameters).Name, "0", 1);
-                    objCosting.CostingRefNo = "B/" + internalid;
+                    objCosting.CostingRefNo = "cost/" + internalid;
 
                     int id = connection.Query<int>(sql, objCosting, trn).Single();
                     objCosting.CostingId = id;
@@ -62,7 +62,7 @@ namespace ArabErp.DAL
                 try
                 {
                     int internalid = DatabaseCommonRepository.GetInternalIDFromDatabase(connection, trn, typeof(CostingParameters).Name, "0", 0);
-                    RefNo = "B/" + internalid;
+                    RefNo = "cost/" + internalid;
                     trn.Commit();
                 }
                 catch (Exception ex)

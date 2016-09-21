@@ -14,7 +14,7 @@ namespace ArabErp.Web.Controllers
         // GET: QuerySheet
         public ActionResult Index()
         {
-            FillRefNo();
+            //FillRefNo();
             return View();
         }
 
@@ -104,19 +104,19 @@ namespace ArabErp.Web.Controllers
             return View("CreateQuerySheet",qs);
         }
 
-        public ActionResult QuerySheetList(DateTime? from, DateTime? to, int id = 0)
+        public ActionResult QuerySheetList(DateTime? from, DateTime? to, string querysheet = "")
         {
 
-            return PartialView("QuerySheetList", new QuerySheetRepository().GetQuerySheets(OrganizationId: OrganizationId, id: id, from: from, to: to));
+            return PartialView("QuerySheetList", new QuerySheetRepository().GetQuerySheets(OrganizationId: OrganizationId, querysheet: querysheet, from: from, to: to));
             
             //var qs = new QuerySheetRepository().GetQuerySheets(id, OrganizationId,from, to);
             //return View( qs);
         }
 
-        public void FillRefNo()
-        {
-            ViewBag.QSnoList = new SelectList(new DropdownRepository().QuerySheetRefNoDropdown(), "Id", "Name");
-        }
+        //public void FillRefNo()
+        //{
+        //    ViewBag.QSnoList = new SelectList(new DropdownRepository().QuerySheetRefNoDropdown(), "Id", "Name");
+        //}
         public ActionResult Edit(int id = 0)
         {
             try
@@ -133,7 +133,7 @@ namespace ArabErp.Web.Controllers
                 else
                 {
                     TempData["error"] = "That was an invalid/unknown request. Please try again.";
-                    TempData["success"] = "";
+                    return RedirectToAction("Index", "Home");
                 }
             }
             catch (InvalidOperationException iox)
@@ -165,14 +165,12 @@ namespace ArabErp.Web.Controllers
             model.CreatedDate = System.DateTime.Now;
             model.CreatedBy = UserID.ToString();
 
-
-
             var repo = new QuerySheetRepository();
 
             var result1 = new QuerySheetRepository().CHECK(model.QuerySheetId);
             if (result1 > 0)
             {
-                TempData["error"] = "Sorry!!..Already Used!!";
+                TempData["error"] = "Sorry! Already Used!";
                 TempData["QuerySheetRefNo"] = null;
                 return View("Edit", model);
             }
@@ -181,25 +179,25 @@ namespace ArabErp.Web.Controllers
             {
                 try
                 {
-                    var result2 = new QuerySheetRepository().DeleteProjectCosting(model.QuerySheetId);
-                    var result3 = new QuerySheetRepository().DeleteQuerySheet(model.QuerySheetId, UserID.ToString());
-                    string id = new QuerySheetRepository().InsertQuerySheet(model);
+                    //var result2 = new QuerySheetRepository().DeleteProjectCosting(model.QuerySheetId);
+                    //var result3 = new QuerySheetRepository().DeleteQuerySheet(model.QuerySheetId, UserID.ToString());
+                    string ref_no = new QuerySheetRepository().UpdateQuerySheet(model);
 
-                    TempData["success"] = "Updated successfully. Purchase Request Reference No. is " + id;
+                    TempData["success"] = "Updated successfully. Query Sheet Reference No. is " + ref_no;
                     TempData["error"] = "";
                     return RedirectToAction("Index");
                 }
-                catch (SqlException sx)
+                catch (SqlException)
                 {
-                    TempData["error"] = "Some error occured while connecting to database. Please check your network connection and try again.|" + sx.Message;
+                    TempData["error"] = "Some error occured while connecting to database. Please check your network connection and try again.";
                 }
-                catch (NullReferenceException nx)
+                catch (NullReferenceException)
                 {
-                    TempData["error"] = "Some required data was missing. Please try again.|" + nx.Message;
+                    TempData["error"] = "Some required data was missing. Please try again.";
                 }
-                catch (Exception ex)
+                catch (Exception)
                 {
-                    TempData["error"] = "Some error occured. Please try again.|" + ex.Message;
+                    TempData["error"] = "Some error occured. Please try again.";
                 }
                 return RedirectToAction("CreateQuerySheet");
             }
@@ -213,35 +211,30 @@ namespace ArabErp.Web.Controllers
             var result1 = new QuerySheetRepository().CHECK(Id);
             if (result1 > 0)
             {
-                TempData["error"] = "Sorry!!..Already Used!!";
+                TempData["error"] = "Sorry! Already Used!";
                 TempData["QuerySheetRefNo"] = null;
                 return RedirectToAction("Edit", new { id = Id });
             }
-
             else
             {
-                var result2 = new QuerySheetRepository().DeleteProjectCosting(Id);
-                var result3 = new QuerySheetRepository().DeleteQuerySheet(Id, UserID.ToString());
-
-                if (Id > 0)
+                //var result2 = new QuerySheetRepository().DeleteProjectCosting(Id);
+                try
                 {
+                    var ref_no = new QuerySheetRepository().DeleteQuerySheet(Id, UserID.ToString(), OrganizationId);
 
-                    TempData["Success"] = "Deleted Successfully!";
+                    TempData["success"] = "Deleted Successfully (" + ref_no + ")";
                     //return RedirectToAction("PreviousList");
                     return RedirectToAction("Index");
                 }
-
-                else
+                catch (Exception)
                 {
-
-                    TempData["error"] = "Oops!!..Something Went Wrong!!";
+                    TempData["error"] = "Oops! Something went wrong!";
                     TempData["QuerySheetRefNo"] = null;
                     return RedirectToAction("Edit", new { id = Id });
                 }
-
             }
-
         }
+
       //public ActionResult ProjectCosting()
       //  {
       //      var repo = new QuerySheetRepository();

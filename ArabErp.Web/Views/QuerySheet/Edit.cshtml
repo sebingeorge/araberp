@@ -28,7 +28,7 @@
 
 
     function Back() {
-        location.href = '@Url.Action("Index", "Home")';
+        location.href = '@Url.Action("Index")';
     }
 
     function Delete(id) {
@@ -159,8 +159,15 @@
             <div class="row">
                 <div class="col-md-12 hrpart">
                     <input type="button" class="form-button right" value="Exit" onclick="Back()" />
-                    <button type="submit" class="form-button right">Edit</button>
-                    <button type="button" class="form-button left" onclick="Delete('@Model.QuerySheetId')">Delete</button>
+                    @if (Model.isUsed)
+                    {
+                        <em class="perm">**Cannot delete/update because the query sheet is already used somewhere.</em>
+                    }
+                    else
+                    {
+                        <button type="submit" class="form-button right">Update</button>
+                        <button type="button" class="form-button left" onclick="Delete('@Model.QuerySheetId')">Delete</button> 
+                    }
                 </div>
             </div>
         }

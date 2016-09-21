@@ -11,64 +11,95 @@ namespace ArabErp.DAL
     public class SupplyOrderFollowupRepository : BaseRepository
     {
         static string dataConnection = GetConnectionString("arab");
-        public int InsertSupplyOrderFollowup(SupplyOrderFollowup objSupplyOrderFollowup)
+        public int InsertSupplyOrderFollowup(IList<SupplyOrderFollowup> model)
         {
 
             using (IDbConnection connection = OpenConnection(dataConnection))
             {
-                string sql = @"insert  into SupplyOrderFollowup(SupplyOrderItemId,SupplyOrderFollowupDate,ExpectedDate,Remarks,CreatedBy,CreatedDate,OrganizationId) Values (@SupplyOrderItemId,@SupplyOrderFollowupDate,@ExpectedDate,@Remarks,@CreatedBy,@CreatedDate,@OrganizationId);
-            SELECT CAST(SCOPE_IDENTITY() as int)";
-
-
-                var id = connection.Query<int>(sql, objSupplyOrderFollowup).Single();
-                return id;
-            }
-        }
-
-
-        public SupplyOrderFollowup GetSupplyOrderFollowup(int SupplyOrderFollowupId)
-        {
-
-            using (IDbConnection connection = OpenConnection(dataConnection))
-            {
-                string sql = @"select * from SupplyOrderFollowup
-                        where SupplyOrderFollowupId=@SupplyOrderFollowupId";
-
-                var objSupplyOrderFollowup = connection.Query<SupplyOrderFollowup>(sql, new
+                
+                foreach (SupplyOrderFollowup item in model)
                 {
-                    SupplyOrderFollowupId = SupplyOrderFollowupId
-                }).First<SupplyOrderFollowup>();
+                    if (item.ExpectedDate == DateTime.MinValue) continue;
+                    string checksql = @"DELETE from SupplyOrderFollowup where SupplyOrderItemId=@SupplyOrderItemId ";
 
-                return objSupplyOrderFollowup;
+                    connection.Query<int>(checksql, item);
+            
+                string sql = @"insert  into SupplyOrderFollowup(SupplyOrderItemId,SupplyOrderFollowupDate,ExpectedDate,Remarks,CreatedBy,CreatedDate,OrganizationId) Values (@SupplyOrderItemId,@SupplyOrderFollowupDate,@ExpectedDate,@Remarks,@CreatedBy,@CreatedDate,@OrganizationId);
+                              SELECT CAST(SCOPE_IDENTITY() as int)";
+
+                int objCustomerVsSalesExecutive = connection.Query<int>(sql, item).First();         
+                
+                }
+
+                return 1;
             }
         }
-
-        public List<SupplyOrderFollowup> GetSupplyOrderFollowups()
+        public SupplyOrderFollowUpList GetSupplyOrderFollowup()
         {
+
             using (IDbConnection connection = OpenConnection(dataConnection))
             {
-                string sql = @"select * from SupplyOrderFollowup
-                        where isActive=1";
+                SupplyOrderFollowUpList model = new SupplyOrderFollowUpList();
 
-                var objSupplyOrderFollowups = connection.Query<SupplyOrderFollowup>(sql).ToList<SupplyOrderFollowup>();
+                string query = @"
+                                SELECT  distinct SI.SupplyOrderItemId,I.ItemName,SI.OrderedQty,Su.SupplierName,convert(varchar,SF.ExpectedDate,106) ExpectedDate,SF.Remarks,
+                                CONCAT(S.SupplyOrderNo, ' / ' , convert(varchar,S.SupplyOrderDate,106) ) SupplyOrderDate
+                                from SupplyOrder S inner join Supplier Su on  Su.SupplierId=S.SupplierId
+                                inner join  SupplyOrderItem SI on S.SupplyOrderId=SI.SupplyOrderId
+                                inner join PurchaseRequestItem PI on PI.PurchaseRequestItemId=SI.PurchaseRequestItemId 
+                                inner join Item I on PI.ItemId=I.ItemId
+								left join SupplyOrderFollowup SF on SF.SupplyOrderItemId=SI.SupplyOrderItemId";
 
-                return objSupplyOrderFollowups;
+               model.SupplyOrderFollowups = connection.Query<SupplyOrderFollowup>(query).ToList<SupplyOrderFollowup>();
+                return model;
             }
         }
+                   
+          
+
+//        public SupplyOrderFollowup GetSupplyOrderFollowup(int SupplyOrderFollowupId)
+//        {
+
+//            using (IDbConnection connection = OpenConnection(dataConnection))
+//            {
+//                string sql = @"select * from SupplyOrderFollowup
+//                        where SupplyOrderFollowupId=@SupplyOrderFollowupId";
+
+//                var objSupplyOrderFollowup = connection.Query<SupplyOrderFollowup>(sql, new
+//                {
+//                    SupplyOrderFollowupId = SupplyOrderFollowupId
+//                }).First<SupplyOrderFollowup>();
+
+//                return objSupplyOrderFollowup;
+//            }
+//        }
+
+//        public List<SupplyOrderFollowup> GetSupplyOrderFollowups()
+//        {
+//            using (IDbConnection connection = OpenConnection(dataConnection))
+//            {
+//                string sql = @"select * from SupplyOrderFollowup
+//                        where isActive=1";
+
+//                var objSupplyOrderFollowups = connection.Query<SupplyOrderFollowup>(sql).ToList<SupplyOrderFollowup>();
+
+//                return objSupplyOrderFollowups;
+//            }
+//        }
 
 
 
-        public int DeleteSupplyOrderFollowup(Unit objSupplyOrderFollowup)
-        {
-            using (IDbConnection connection = OpenConnection(dataConnection))
-            {
-                string sql = @"Delete SupplyOrderFollowup  OUTPUT DELETED.SupplyOrderFollowupId WHERE SupplyOrderFollowupId=@SupplyOrderFollowupId";
+        //public int DeleteSupplyOrderFollowup(Unit objSupplyOrderFollowup)
+        //{
+        //    using (IDbConnection connection = OpenConnection(dataConnection))
+        //    {
+        //        string sql = @"Delete SupplyOrderFollowup  OUTPUT DELETED.SupplyOrderFollowupId WHERE SupplyOrderFollowupId=@SupplyOrderFollowupId";
 
 
-                var id = connection.Execute(sql, objSupplyOrderFollowup);
-                return id;
-            }
-        }
+        //        var id = connection.Execute(sql, objSupplyOrderFollowup);
+        //        return id;
+        //    }
+        //}
 
 
     }
