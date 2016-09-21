@@ -5,6 +5,7 @@ using System.Data.SqlClient;
 using Dapper;
 using ArabErp.Domain;
 using System.Data;
+using System.Collections;
 
 namespace ArabErp.DAL
 {
@@ -101,15 +102,23 @@ namespace ArabErp.DAL
             }
         }
 
-        public int DeleteItemBatch(Unit objItemBatch)
+        public IEnumerable<ItemBatch> DeleteItemBatch(int id, int type, int UserId, int OrganizationId)
         {
             using (IDbConnection connection = OpenConnection(dataConnection))
             {
-                string sql = @"Delete ItemBatch  OUTPUT DELETED.ItemBatchId WHERE ItemBatchId=@ItemBatchId";
-
-
-                var id = connection.Execute(sql, objItemBatch);
-                return id;
+                IDbTransaction txn = connection.BeginTransaction();
+                try
+                {
+                    string query = @"DELETE FROM ItemBatch OUTPUT deleted.SerialNo WHERE " + (type == 0 ? "GRNItemId" : "OpeningStockId") + " = @id";
+                    var list = connection.Query<ItemBatch>(query, new { id = id }, txn).ToList();
+                    txn.Commit();
+                    return list;
+                }
+                catch (Exception ex)
+                {
+                    txn.Rollback();
+                    throw ex;
+                }
             }
         }
 
@@ -296,46 +305,46 @@ namespace ArabErp.DAL
                 #endregion
 
                 #region old query (16.9.2016 3.18p)
-//                string query = @"SELECT
-//									ISNULL(GI.ItemId, OS.ItemId) ItemId,
-//									BT.SaleOrderItemId,
-//									COUNT(BT.SaleOrderItemId) ReservedQuantity
-//								INTO #RESERVED
-//								FROM ItemBatch BT
-//								LEFT JOIN GRNItem GI ON BT.GRNItemId = GI.GRNItemId
-//								LEFT JOIN OpeningStock OS ON BT.OpeningStockId = OS.OpeningStockId
-//								WHERE BT.SaleOrderItemId IS NOT NULL
-//								GROUP BY GI.ItemId, OS.ItemId, BT.SaleOrderItemId;
-//
-//								SELECT
-//	                                SOI.SaleOrderItemId,
-//	                                SO.SaleOrderRefNo,
-//	                                CONVERT(VARCHAR, SO.SaleOrderDate, 106) SaleOrderDate,
-//	                                ISNULL(SOI.Quantity, 0) Quantity,
-//	                                WD.WorkDescriptionRefNo,
-//                                    I.ItemId,
-//									R.ReservedQuantity,
-//	                                I.ItemName,
-//									WD.WorkDescrShortName
-//                                FROM SaleOrderItem SOI
-//                                INNER JOIN SaleOrder SO ON SOI.SaleOrderId = SO.SaleOrderId
-//                                INNER JOIN WorkDescription WD ON SOI.WorkDescriptionId = WD.WorkDescriptionId
-//                                INNER JOIN WorkVsItem WI ON WD.WorkDescriptionId = WI.WorkDescriptionId
-//                                INNER JOIN Item I ON WI.ItemId = I.ItemId
-//								LEFT JOIN #RESERVED R ON SOI.SaleOrderItemId = R.SaleOrderItemId AND I.ItemId = R.ItemId
-//								LEFT JOIN SalesInvoiceItem SII ON SOI.SaleOrderItemId = SII.SaleOrderItemId
-//                                WHERE ISNULL(SOI.isActive, 1) = 1
-//                                AND SO.isActive = 1 AND SOI.isActive = 1 AND SO.SaleOrderApproveStatus = 1
-//								--AND IB.SaleOrderItemId IS NULL
-//								AND ISNULL(ReservedQuantity, 0) < ISNULL(SOI.Quantity, 0)
-//								AND SII.SaleOrderItemId IS NULL
-//                                AND I.BatchRequired = 1
-//                                AND SO.SaleOrderRefNo LIKE '%'+@saleOrder+'%'
-//                                AND I.ItemName LIKE '%'+@itemName+'%'
-//								AND ISNULL(SO.SaleOrderClosed, '') <> 'CLOSED'
-//                                ORDER BY SO.SaleOrderDate DESC, SO.CreatedDate DESC;
-//
-//								DROP TABLE #RESERVED;"; 
+                //                string query = @"SELECT
+                //									ISNULL(GI.ItemId, OS.ItemId) ItemId,
+                //									BT.SaleOrderItemId,
+                //									COUNT(BT.SaleOrderItemId) ReservedQuantity
+                //								INTO #RESERVED
+                //								FROM ItemBatch BT
+                //								LEFT JOIN GRNItem GI ON BT.GRNItemId = GI.GRNItemId
+                //								LEFT JOIN OpeningStock OS ON BT.OpeningStockId = OS.OpeningStockId
+                //								WHERE BT.SaleOrderItemId IS NOT NULL
+                //								GROUP BY GI.ItemId, OS.ItemId, BT.SaleOrderItemId;
+                //
+                //								SELECT
+                //	                                SOI.SaleOrderItemId,
+                //	                                SO.SaleOrderRefNo,
+                //	                                CONVERT(VARCHAR, SO.SaleOrderDate, 106) SaleOrderDate,
+                //	                                ISNULL(SOI.Quantity, 0) Quantity,
+                //	                                WD.WorkDescriptionRefNo,
+                //                                    I.ItemId,
+                //									R.ReservedQuantity,
+                //	                                I.ItemName,
+                //									WD.WorkDescrShortName
+                //                                FROM SaleOrderItem SOI
+                //                                INNER JOIN SaleOrder SO ON SOI.SaleOrderId = SO.SaleOrderId
+                //                                INNER JOIN WorkDescription WD ON SOI.WorkDescriptionId = WD.WorkDescriptionId
+                //                                INNER JOIN WorkVsItem WI ON WD.WorkDescriptionId = WI.WorkDescriptionId
+                //                                INNER JOIN Item I ON WI.ItemId = I.ItemId
+                //								LEFT JOIN #RESERVED R ON SOI.SaleOrderItemId = R.SaleOrderItemId AND I.ItemId = R.ItemId
+                //								LEFT JOIN SalesInvoiceItem SII ON SOI.SaleOrderItemId = SII.SaleOrderItemId
+                //                                WHERE ISNULL(SOI.isActive, 1) = 1
+                //                                AND SO.isActive = 1 AND SOI.isActive = 1 AND SO.SaleOrderApproveStatus = 1
+                //								--AND IB.SaleOrderItemId IS NULL
+                //								AND ISNULL(ReservedQuantity, 0) < ISNULL(SOI.Quantity, 0)
+                //								AND SII.SaleOrderItemId IS NULL
+                //                                AND I.BatchRequired = 1
+                //                                AND SO.SaleOrderRefNo LIKE '%'+@saleOrder+'%'
+                //                                AND I.ItemName LIKE '%'+@itemName+'%'
+                //								AND ISNULL(SO.SaleOrderClosed, '') <> 'CLOSED'
+                //                                ORDER BY SO.SaleOrderDate DESC, SO.CreatedDate DESC;
+                //
+                //								DROP TABLE #RESERVED;"; 
                 #endregion
 
                 string query = @"SELECT

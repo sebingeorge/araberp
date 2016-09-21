@@ -245,7 +245,7 @@ namespace ArabErp.Web.Controllers
             return View();
         }
 
-        public ActionResult Edit(int id = 0, int type = 0)
+        public ActionResult Edit(int id = 0, int type = 0)//type=0 means GRNItemId, type=1 means OpeningStockId
         {
             if (id == 0) return RedirectToAction("Index", "Home");
             return View(new ItemBatchRepository().GetItemBatch(id, OrganizationId, type));
@@ -265,6 +265,26 @@ namespace ArabErp.Web.Controllers
             {
                 TempData["error"] = "Some error occured while updating. Please try again.";
                 return View(model);
+            }
+        }
+
+        public ActionResult Delete(int id = 0, int type = 0)//type=0 means GRNItemId, type=1 means OpeningStockId
+        {
+            try
+            {
+                var model = new ItemBatchRepository().DeleteItemBatch(id, type, UserID, OrganizationId);
+                string ref_no = string.Empty;
+                foreach (var item in model)
+                {
+                    ref_no += ", " + item.SerialNo;
+                }
+                TempData["success"] = "Deleted Successfully (" + ref_no.Substring(2) + ")";
+                return RedirectToAction("Index");
+            }
+            catch (Exception)
+            {
+                TempData["error"] = "Some error occurred while deleting. Please try again.";
+                return RedirectToAction("Edit", new { id = id, type = type });
             }
         }
 
