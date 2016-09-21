@@ -54,11 +54,11 @@
 
     function Filter() {
         $("#querysheetlist").addClass("fade");
-        var id = $("#cboQSNo").val();
+        var querysheet = $("#querysheet-filter").val();
         var from = $("#txtFrom").val();
         var to = $("#txtTo").val();
         var url = '@Url.Action("QuerySheetList")';
-        url += "?from=" + from + "&to=" + to + "&id=" + id;
+        url += "?from=" + from + "&to=" + to + "&querysheet=" + encodeURIComponent(querysheet);
 
         $("#querysheetlist").load(url, function () {
             $("#querysheetlist").removeClass("fade");
@@ -81,7 +81,8 @@
 
             <div class="col-md-2">
                 <label for="cboQSNo">Query Sheet Ref No.</label>
-                @Html.DropDownList("cboQSNo", (SelectList)ViewBag.QSnoList, "Any", new { @class = "form_input", @onchange = "Filter()" })
+                <input placeholder="Search for Query Sheet" id="querysheet-filter" class="form_input" onkeyup="Filter()" />
+                @*@Html.DropDownList("cboQSNo", (SelectList)ViewBag.QSnoList, "Any", new { @class = "form_input", @onchange = "Filter()" })*@
             </div>
 
             <div class="col-md-2">
