@@ -26,7 +26,7 @@ namespace ArabErp.Domain
         public string SpecialRemarks { get; set; }
         public string PaymentTerms { get; set; }
         public string DeliveryTerms { get; set; }
-        [Required]
+     
         public decimal? TotalAmount { get; set; }
         public decimal? TotalDiscount { get; set; }
         public int? CommissionAgentId { get; set; }
@@ -52,6 +52,7 @@ namespace ArabErp.Domain
         public DateTime SaleOrderReleaseDate { get; set; }
         [Required]
         public List<SaleOrderItem> Items { get; set; }
+        public List<SalesQuotationMaterial> Materials { get; set; }
         public bool Select { get; set; }
         public int? Ageing { get; set; }
         public int isProjectBased { get; set; }

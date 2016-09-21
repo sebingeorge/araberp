@@ -5,6 +5,7 @@ using System.Data.SqlClient;
 using Dapper;
 using ArabErp.Domain;
 using System.Data;
+using System.Collections;
 
 namespace ArabErp.DAL
 {
@@ -44,18 +45,45 @@ namespace ArabErp.DAL
             }
         }
 
-        public ItemBatch GetItemBatch(int ItemBatchId)
+        public IEnumerable<ItemBatch> GetItemBatch(int id, int OrganizationId, int type = 0)//type=0 means GRNItemId, type=1 means OpeningStockId
         {
 
             using (IDbConnection connection = OpenConnection(dataConnection))
             {
-                string sql = @"select * from ItemBatch
-                        where ItemBatchId=@ItemBatchId";
+                string query = @"SELECT 
+	                                IB.*,
+									CASE WHEN IB.GRNItemId IS NULL THEN 1 ELSE 0 END AS isOpeningStock,
+	                                --ISNULL(IB.ItemBatchId, 1) AS isOpeningStock,
+	                                SO.SaleOrderRefNo,
+	                                CONVERT(VARCHAR, SO.SaleOrderDate, 106) SaleOrderDate,
+	                                DC.DeliveryChallanRefNo,
+	                                CONVERT(VARCHAR, DC.DeliveryChallanDate, 106) DeliveryChallanDate,
+	                                PC.ProjectCompletionRefNo,
+	                                CONVERT(VARCHAR, PC.ProjectCompletionDate, 106) ProjectCompletionDate,
+									ISNULL(GI.Quantity, OS.Quantity) Quantity,
+									S.StockPointName,
+									I.ItemName,
+									G.GRNNo,
+									CONVERT(VARCHAR, G.GRNDate, 106) GRNDate,
+									CASE WHEN G.isDirectPurchaseGRN = 1 THEN 'DIRECT GRN' ELSE 'GRN' END AS isDirect
+                                FROM ItemBatch IB
+	                                LEFT JOIN SaleOrderItem SOI ON IB.SaleOrderItemId = SOI.SaleOrderItemId
+	                                LEFT JOIN SaleOrder SO ON SOI.SaleOrderId = SO.SaleOrderId
+	                                LEFT JOIN DeliveryChallan DC ON IB.DeliveryChallanId = DC.DeliveryChallanId
+	                                LEFT JOIN ProjectCompletion PC ON IB.ProjectCompletionId = PC.ProjectCompletionId 
+									LEFT JOIN GRNItem GI ON IB.GRNItemId = GI.GRNItemId
+									LEFT JOIN GRN G ON GI.GRNId = G.GRNId
+									LEFT JOIN OpeningStock OS ON IB.OpeningStockId = OS.OpeningStockId
+									LEFT JOIN Stockpoint S ON (G.WareHouseId = S.StockPointId OR OS.StockPointId = S.StockPointId)
+									LEFT JOIN Item I ON (GI.ItemId = I.ItemId OR OS.ItemId = I.ItemId)
+                                WHERE " + (type == 0 ? "IB.GRNItemId" : "IB.OpeningStockId") + "=@id AND IB.OrganizationId = @OrganizationId";
 
-                var objItemBatch = connection.Query<ItemBatch>(sql, new
+                var objItemBatch = connection.Query<ItemBatch>(query, new
                 {
-                    ItemBatchId = ItemBatchId
-                }).First<ItemBatch>();
+                    id = id,
+                    type = type,
+                    OrganizationId = OrganizationId
+                }).ToList<ItemBatch>();
 
                 return objItemBatch;
             }
@@ -74,15 +102,23 @@ namespace ArabErp.DAL
             }
         }
 
-        public int DeleteItemBatch(Unit objItemBatch)
+        public IEnumerable<ItemBatch> DeleteItemBatch(int id, int type, int UserId, int OrganizationId)
         {
             using (IDbConnection connection = OpenConnection(dataConnection))
             {
-                string sql = @"Delete ItemBatch  OUTPUT DELETED.ItemBatchId WHERE ItemBatchId=@ItemBatchId";
-
-
-                var id = connection.Execute(sql, objItemBatch);
-                return id;
+                IDbTransaction txn = connection.BeginTransaction();
+                try
+                {
+                    string query = @"DELETE FROM ItemBatch OUTPUT deleted.SerialNo WHERE " + (type == 0 ? "GRNItemId" : "OpeningStockId") + " = @id";
+                    var list = connection.Query<ItemBatch>(query, new { id = id }, txn).ToList();
+                    txn.Commit();
+                    return list;
+                }
+                catch (Exception ex)
+                {
+                    txn.Rollback();
+                    throw ex;
+                }
             }
         }
 
@@ -273,22 +309,75 @@ namespace ArabErp.DAL
                 //								DROP TABLE #RESERVED;"; 
                 #endregion
 
+                #region old query (16.9.2016 3.18p)
+                //                string query = @"SELECT
+                //									ISNULL(GI.ItemId, OS.ItemId) ItemId,
+                //									BT.SaleOrderItemId,
+                //									COUNT(BT.SaleOrderItemId) ReservedQuantity
+                //								INTO #RESERVED
+                //								FROM ItemBatch BT
+                //								LEFT JOIN GRNItem GI ON BT.GRNItemId = GI.GRNItemId
+                //								LEFT JOIN OpeningStock OS ON BT.OpeningStockId = OS.OpeningStockId
+                //								WHERE BT.SaleOrderItemId IS NOT NULL
+                //								GROUP BY GI.ItemId, OS.ItemId, BT.SaleOrderItemId;
+                //
+                //								SELECT
+                //	                                SOI.SaleOrderItemId,
+                //	                                SO.SaleOrderRefNo,
+                //	                                CONVERT(VARCHAR, SO.SaleOrderDate, 106) SaleOrderDate,
+                //	                                ISNULL(SOI.Quantity, 0) Quantity,
+                //	                                WD.WorkDescriptionRefNo,
+                //                                    I.ItemId,
+                //									R.ReservedQuantity,
+                //	                                I.ItemName,
+                //									WD.WorkDescrShortName
+                //                                FROM SaleOrderItem SOI
+                //                                INNER JOIN SaleOrder SO ON SOI.SaleOrderId = SO.SaleOrderId
+                //                                INNER JOIN WorkDescription WD ON SOI.WorkDescriptionId = WD.WorkDescriptionId
+                //                                INNER JOIN WorkVsItem WI ON WD.WorkDescriptionId = WI.WorkDescriptionId
+                //                                INNER JOIN Item I ON WI.ItemId = I.ItemId
+                //								LEFT JOIN #RESERVED R ON SOI.SaleOrderItemId = R.SaleOrderItemId AND I.ItemId = R.ItemId
+                //								LEFT JOIN SalesInvoiceItem SII ON SOI.SaleOrderItemId = SII.SaleOrderItemId
+                //                                WHERE ISNULL(SOI.isActive, 1) = 1
+                //                                AND SO.isActive = 1 AND SOI.isActive = 1 AND SO.SaleOrderApproveStatus = 1
+                //								--AND IB.SaleOrderItemId IS NULL
+                //								AND ISNULL(ReservedQuantity, 0) < ISNULL(SOI.Quantity, 0)
+                //								AND SII.SaleOrderItemId IS NULL
+                //                                AND I.BatchRequired = 1
+                //                                AND SO.SaleOrderRefNo LIKE '%'+@saleOrder+'%'
+                //                                AND I.ItemName LIKE '%'+@itemName+'%'
+                //								AND ISNULL(SO.SaleOrderClosed, '') <> 'CLOSED'
+                //                                ORDER BY SO.SaleOrderDate DESC, SO.CreatedDate DESC;
+                //
+                //								DROP TABLE #RESERVED;"; 
+                #endregion
+
                 string query = @"SELECT
 									ISNULL(GI.ItemId, OS.ItemId) ItemId,
 									BT.SaleOrderItemId,
 									COUNT(BT.SaleOrderItemId) ReservedQuantity
-								INTO #RESERVED
+								INTO #RESERVED1
 								FROM ItemBatch BT
 								LEFT JOIN GRNItem GI ON BT.GRNItemId = GI.GRNItemId
 								LEFT JOIN OpeningStock OS ON BT.OpeningStockId = OS.OpeningStockId
 								WHERE BT.SaleOrderItemId IS NOT NULL
 								GROUP BY GI.ItemId, OS.ItemId, BT.SaleOrderItemId;
 
+                                SELECT 
+                                    ItemId, 
+                                    SaleOrderItemId, 
+                                    SUM(ReservedQuantity) ReservedQuantity
+								INTO #RESERVED
+								FROM #RESERVED1 R1
+								GROUP BY R1.ItemId, R1.SaleOrderItemId;
+
+								DROP TABLE #RESERVED1;
+
 								SELECT
 	                                SOI.SaleOrderItemId,
 	                                SO.SaleOrderRefNo,
 	                                CONVERT(VARCHAR, SO.SaleOrderDate, 106) SaleOrderDate,
-	                                ISNULL(SOI.Quantity, 0) Quantity,
+	                                ISNULL(WI.Quantity, 0) Quantity,
 	                                WD.WorkDescriptionRefNo,
                                     I.ItemId,
 									R.ReservedQuantity,
@@ -304,7 +393,7 @@ namespace ArabErp.DAL
                                 WHERE ISNULL(SOI.isActive, 1) = 1
                                 AND SO.isActive = 1 AND SOI.isActive = 1 AND SO.SaleOrderApproveStatus = 1
 								--AND IB.SaleOrderItemId IS NULL
-								AND ISNULL(ReservedQuantity, 0) < ISNULL(SOI.Quantity, 0)
+								AND ISNULL(ReservedQuantity, 0) < ISNULL(WI.Quantity, 0)
 								AND SII.SaleOrderItemId IS NULL
                                 AND I.BatchRequired = 1
                                 AND SO.SaleOrderRefNo LIKE '%'+@saleOrder+'%'
@@ -394,7 +483,7 @@ namespace ArabErp.DAL
 
                                 SELECT
 	                                SOI.SaleOrderItemId,
-	                                SOI.Quantity - ISNULL(R.ReservedQuantity, 0) Quantity,
+	                                WI.Quantity - ISNULL(R.ReservedQuantity, 0) Quantity,
 	                                B.SerialNo,
 	                                B.ItemBatchId,
 	                                I.ItemName,
@@ -468,13 +557,15 @@ namespace ArabErp.DAL
 	                                IB.SerialNo,
                                     SO.SaleOrderId,
 									G.GRNNo,
-									CONVERT(VARCHAR, G.GRNDate, 106) GRNDate
+									CONVERT(VARCHAR, G.GRNDate, 106) GRNDate,
+									CASE WHEN IB.GRNItemId IS NULL THEN 1 ELSE 0 END isOpeningStock
                                 FROM ItemBatch IB
                                 INNER JOIN SaleOrderItem SOI ON IB.SaleOrderItemId = SOI.SaleOrderItemId
                                 INNER JOIN SaleOrder SO ON SOI.SaleOrderId = SO.SaleOrderId
-                                INNER JOIN GRNItem GI ON IB.GRNItemId = GI.GRNItemId
-								INNER JOIN GRN G ON GI.GRNId = G.GRNId
-                                INNER JOIN Item I ON GI.ItemId = I.ItemId
+                                LEFT JOIN GRNItem GI ON IB.GRNItemId = GI.GRNItemId
+								LEFT JOIN GRN G ON GI.GRNId = G.GRNId
+								LEFT JOIN OpeningStock OS ON IB.OpeningStockId = OS.OpeningStockId
+                                LEFT JOIN Item I ON GI.ItemId = I.ItemId OR OS.ItemId = I.ItemId
                                 WHERE SO.SaleOrderId = @id
                                 AND IB.isActive = 1
                                 AND IB.DeliveryChallanId IS NULL";
@@ -736,6 +827,9 @@ namespace ArabErp.DAL
                 string query =
                     @"SELECT DISTINCT
 	                    ISNULL(G.GRNId, 0) GRNId,
+						ISNULL(IB.GRNItemId, 0) GRNItemId,
+						ISNULL(IB.OpeningStockId, 0) OpeningStockId,
+						CASE WHEN IB.OpeningStockId IS NULL THEN 0 ELSE 1 END isOpeningStock,
 	                    G.GRNNo,
 	                    CONVERT(VARCHAR, G.GRNDate, 106) GRNDate,
 						I.ItemName,
@@ -755,7 +849,7 @@ namespace ArabErp.DAL
                     WHERE IB.OrganizationId = @OrganizationId
                     AND IB.isActive = 1
 					AND IB.SerialNo LIKE '%'+@serialno+'%'
-					AND ISNULL(G.GRNNo, '') LIKE '%'+@grnno+'%'";
+					AND ISNULL(G.GRNNo, 'Opening Stock') LIKE '%'+@grnno+'%'";
                 var list = connection.Query<ItemBatch>(query, new
                 {
                     OrganizationId = OrganizationId,
@@ -811,6 +905,30 @@ namespace ArabErp.DAL
             catch (Exception ex)
             {
                 throw ex;
+            }
+        }
+
+        public int Update(IList<ItemBatch> model, int CreatedBy)
+        {
+            using (IDbConnection connection = OpenConnection(dataConnection))
+            {
+                IDbTransaction txn = connection.BeginTransaction();
+                try
+                {
+                    string query = @"UPDATE ItemBatch SET SerialNo = @SerialNo WHERE ItemBatchId = @id";
+                    foreach (var item in model)
+                    {
+                        int i = connection.Execute(query, new { id = item.ItemBatchId, SerialNo = item.SerialNo }, txn);
+                        InsertLoginHistory(dataConnection, CreatedBy.ToString(), "Edit", "Assign Serial No", i.ToString(), "0");
+                    }
+                    txn.Commit();
+                    return 1;
+                }
+                catch (Exception ex)
+                {
+                    txn.Rollback();
+                    throw ex;
+                }
             }
         }
     }

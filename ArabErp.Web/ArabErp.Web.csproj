@@ -1,9 +1,9 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
-  <PropertyGroup>
-    <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">13.0</VisualStudioVersion>
-    <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>
-  </PropertyGroup>
+<PropertyGroup> 
+ <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">13.0</VisualStudioVersion>
+ <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>
+</PropertyGroup>
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
@@ -277,6 +277,7 @@
     <Compile Include="Controllers\QuerySheetController.cs" />
     <Compile Include="Controllers\QuotationApprovalController.cs" />
     <Compile Include="Controllers\RateSettingsController.cs" />
+    <Compile Include="Controllers\ResourceAvailabilityController.cs" />
     <Compile Include="Controllers\SaleOrderController.cs" />
     <Compile Include="Controllers\SaleOrderStatusController.cs" />
     <Compile Include="Controllers\SaleOrderSummaryController.cs" />
@@ -328,6 +329,12 @@
     <Compile Include="Models\PagedSupplyOrderViewModel.cs" />
     <Compile Include="Pager.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Reports\DeliveryChallan.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>DeliveryChallan.rpt</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="Reports\JobCard.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -365,7 +372,15 @@
     <Content Include="Content\simple-sidebar.css" />
     <Content Include="Content\slider_css.css" />
     <Content Include="Content\toastr.min.css" />
+    <Content Include="Images\arrow.png" />
+    <Content Include="Images\load.png" />
     <Content Include="Images\logo.gif" />
+    <Content Include="Images\next.png" />
+    <Content Include="Images\open.png" />
+    <Content Include="Images\process.png" />
+    <Content Include="Images\s-home.png" />
+    <Content Include="Images\search.png" />
+    <Content Include="Images\shipped.png" />
     <Content Include="Scripts\accordion-menu.js" />
     <Content Include="Scripts\autocomplete.js" />
     <Content Include="Scripts\Highcharts\exporting.js" />
@@ -688,7 +703,7 @@
     <Content Include="Views\ProformaInvoice\PendingProforma.cshtml" />
     <Content Include="Views\ProformaInvoice\Create.cshtml" />
     <Content Include="Views\ItemBatch\Pending.cshtml" />
-    <Content Include="Views\ItemBatch\Create.cshtml" />
+    <Content Include="Views\ItemBatch\Edit.cshtml" />
     <Content Include="Views\SaleOrder\PendingSaleOrderApprovalTransaction.cshtml" />
     <Content Include="Views\ItemBatch\PendingReservation.cshtml" />
     <Content Include="Views\ItemBatch\Reserve.cshtml" />
@@ -928,6 +943,13 @@
     <Content Include="Views\ProductionPlan\CustomerOrder.cshtml" />
     <Content Include="Views\ProductionPlan\ProductionSchedule.cshtml" />
     <Content Include="Views\ItemBatch\PendingOpeningStock.cshtml" />
+    <Content Include="Views\ItemBatch\Create - Copy.cshtml" />
+    <Content Include="Views\WorkDescription\ProjectWorkDescriptionList.cshtml" />
+    <Content Include="Views\ProductionPlan\Test.cshtml" />
+    <Content Include="Views\ProductionPlan\Sale.cshtml" />
+    <Content Include="Views\ResourceAvailability\Employee.cshtml" />
+    <Content Include="Views\ResourceAvailability\_EmployeeGrid.cshtml" />
+    <Content Include="Views\SaleOrder\_MaterialList.cshtml" />
     <Content Include="Views\SupplyOrderFollowup\Create.cshtml" />
   </ItemGroup>
   <ItemGroup>
@@ -964,6 +986,10 @@
     <Service Include="{C0C07587-41A7-46C8-8FBD-3F9C8EBE2DDC}" />
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="Reports\DeliveryChallan.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>DeliveryChallan.cs</LastGenOutput>
+    </EmbeddedResource>
     <EmbeddedResource Include="Reports\JobCard.rpt">
       <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
       <LastGenOutput>JobCard.cs</LastGenOutput>

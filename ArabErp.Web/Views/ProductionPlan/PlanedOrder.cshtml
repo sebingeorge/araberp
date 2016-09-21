@@ -4,6 +4,15 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
+<script>
+    $(function () {
+        $("#date").val("20-september-2016")
+        $("#finishdate").val("23-september-2016")
+        $("#date").datepicker({ dateFormat: "dd-MM-yy" });
+        $("#finishdate").datepicker({ dateFormat: "dd-MM-yy" });
+    });
+</script>
+
 
 
 <div class="row">
@@ -20,7 +29,7 @@
 
             <div class="col-md-2">
                 <label>Date</label>
-                <input type="text" class="form_input" />
+                <input type="text" id="date" class="form_input" />
             </div>
 
         </div>
@@ -36,7 +45,7 @@
                 </select>
             </div>
 
-            <div class="col-md-2">
+            <div class="col-md-4">
                 <label>Plant</label>
                 <select class="form_input">
                     <option value="">Plant 1</option>
@@ -55,7 +64,7 @@
             </div>
             <div class="col-md-2">
                 <label>Order Finish Date</label>
-                <input type="text" class="form_input" />
+                <input type="text" id="finishdate" class="form_input" />
             </div>
 
         </div>

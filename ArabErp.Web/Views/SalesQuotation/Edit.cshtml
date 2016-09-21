@@ -5,9 +5,9 @@
 }
 
 @{ string actionName = ViewContext.RouteData.GetRequiredString("action");
- if (actionName == "Create" || actionName == "CreateProject")
+   if (actionName == "Edit")
  {
-     ViewBag.actionName = "Create";
+     ViewBag.actionName = "Edit";
  }
  else
  {
@@ -30,14 +30,16 @@
             @: url += "?type=0";
                 }
         window.location = url;
+        alert(url);
     }
 
-    function DeleteSQ(id) {
-        //alert(id);
+    function DeleteSQ(id, isProjectBased) {
+       
+     
         var url = '@Url.Action("DeleteSQ")';
-        url += "/" + id;
-
+        url += "?id=" + id + "&isProjectBased=" + isProjectBased;
         window.location = url;
+       
     }
 
 
@@ -87,6 +89,7 @@
         $(".numbers-only").keypress(function (e) {
             if (e.which == 8 || (e.which == 46 && $(this).val().indexOf('.') == -1) || (e.which > 47 && e.which < 58)) { } else { return false; }
         });
+        cal_Summary();
     });
 
     function Validation() {
@@ -252,27 +255,30 @@
 
 <div class="row">
     <div class="form-head1">
-        @{
-            if (ViewBag.actionName.ToString() == "Create")
-            {
-
-                <h4>Sales Quotation Request</h4>
-            }
-            else
-            {
-
-                <h4>Quotation Request Approval</h4>
-            }
+        @if (Model.isProjectBased == 0)
+        {
+            <h4>Sales Quotation Request : Transportation</h4>
         }
-
+        @if (Model.isProjectBased == 1)
+        {
+            <h4>Sales Quotation Request : Project</h4>
+        }
+        @if (Model.isProjectBased == 2)
+        {
+            <h4>Sales Quotation Request : After Sales</h4>
+        }
     </div>
+
+                
+           
+   
 
     <div class="main-part pad1">
         @using (Html.BeginForm(null, null, FormMethod.Post, new { @class = "createFrom", @id = "work_form" }))
         {
 
             @Html.HiddenFor(m => m.SalesQuotationId)
-            @Html.HiddenFor(m => m.Amount)
+            @*@Html.HiddenFor(m => m.Amount)*@
             @Html.HiddenFor(m => m.isProjectBased)
             <div class="row form-group ">
                 <div class="col-md-2">
@@ -373,7 +379,7 @@
             <script>
                     $(document).ready(function () {
                         $("#SalesQuotationItems_0__SlNo").val('1');
-                        //$('td:nth-child(2)').hide();
+                        $("#lblTotalAmount").text('0');
 
                     });
                     function Delete(index) {
@@ -445,12 +451,15 @@
                         var amount = (quantity * rate) - discount;
                         amount = parseFloat(amount);
                         $("#SalesQuotationItems_" + row + "__Amount").val(amount);
-                        calculateSummary();
+                        cal_Summary();
                     }
 
-                    function calculateSummary() {
+                    function cal_Summary() {
+                       
+
                         var quantity = parseFloat("0");
                         var amount = parseFloat("0");
+                        var grandtotal = parseFloat("0");
                         $('.clQuantity').each(function (i, obj) {
                             var a = parseFloat($("#SalesQuotationItems_" + i + "__Quantity").val());
 
@@ -462,6 +471,7 @@
                         });
 
                         $('.clAmount').each(function (i, obj) {
+
                             var a = parseFloat($("#SalesQuotationItems_" + i + "__Amount").val());
                             if (isNaN(a)) {
 
@@ -472,28 +482,36 @@
                             amount = amount + a;
                         });
 
-                        //$("#QtyTotal").text(quantity);
-                        $("#QtyAmount").text(parseFloat(amount));
-                        $("#Amount").val(parseFloat(amount));
 
+                        $("#QtyAmount").text(parseFloat(amount));
+                        var WorkAmt = parseFloat($("#QtyAmount").text());
+                        var MaterialAmt = parseFloat($("#TotalAmount").text());
+
+                        if (isNaN(WorkAmt)) {
+
+                            WorkAmt = parseFloat("0");
+
+                        }
+                        if (isNaN(MaterialAmt)) {
+
+                            MaterialAmt = parseFloat("0");
+
+                        }
+                        grandtotal = WorkAmt + MaterialAmt;
+
+                        if (isNaN(grandtotal)) {
+
+                            grandtotal = parseFloat("0");
+
+                        }
+                        $("#lblTotalAmount").text(parseFloat(grandtotal));
 
                     }
 
-                    @*function OnWorkChange(sender, index) {
 
-                        var id = $(sender).val();
-                        if (id != '') {
-                            var url = '@Url.Action("GetVehicleModel")';
-                            $.getJSON(url, { WorkDescriptionId: id },
-                                function (data) {
-                                    $("#SalesQuotationItems_" + index + "__VehicleModelId").val(data.VehicleId);
-                                    $("#SalesQuotationItems_" + index + "__VehicleModelName").val(data.VehicleName);
-                                });
-                        }
-                        else {
+                   
 
-                        }
-                    }*@
+                  
 
                     function AddAdditionRow() {
 
@@ -528,32 +546,45 @@
 
 
             </script>
-
+            
+                if (Model.isProjectBased == 2 || Model.isProjectBased == 1 )
+            {
+                @Html.Partial("_MaterialList")
+            }
 
             <div class="table-responsive">
                 <table class="table table-bordered" id="tab_logic">
                     <thead>
                         <tr class="grid_heading">
+                           @if (Model.isProjectBased != 2 && Model.isProjectBased != 1)
+                                {
                             <th width="2%" class="text-center"></th>
+                                }
                             <th width="6%" class="text-center"><h1>#</h1></th>
                             <th width="50%" class="text-left"><h1>Work Description</h1></th>
                             @if (new[] { "Create", "Approve" }.Contains(ViewContext.RouteData.GetRequiredString("action")))
                             {
                                 <th width="10%"><h1>Rate Settings</h1></th>
                             }
-                            @*<th width="5%" class="text-right"><h1>Qty</h1></th>
-                                <th width="5%"><h1>UoM</h1></th>*@
+                            <th width="5%" class="text-right"><h1>Qty.</h1></th>
                             <th width="10%" class="text-right"><h1>Rate</h1></th>
+                         
                             <th width="10%" class="text-right"><h1>Discount</h1></th>
                             <th width="10%" class="text-right"><h1>Amount</h1></th>
+                        @if (Model.isProjectBased != 2 && Model.isProjectBased != 1)
+                        {
                             <th width="2%">&nbsp;</th>
+                           }
                         </tr>
                     </thead>
                     <tbody id="table_validation">
                         @for (int i = 0; i < Model.SalesQuotationItems.Count; i++)
                         {
                             <tr id="@i">
+                              @if (Model.isProjectBased != 2 && Model.isProjectBased != 1)
+                              {
                                 <td style="vertical-align:middle"><a class="glyphicon glyphicon-minus" style="top:0px" onclick="Delete(@i)"></a></td>
+                                }
                                 <td align="center">
                                     <span id="slno@(i + 1)">@(i + 1)</span>
                                     @Html.HiddenFor(m => m.SalesQuotationItems[i].SlNo)
@@ -574,44 +605,41 @@
                                     </td>
                                 }
 
-                                @*<td>
-                                        @if (ViewBag.actionName.ToString() == "Create")
-                                        {
-                                            @Html.TextBoxFor(m => m.SalesQuotationItems[i].Quantity, new { @class = "form_input clQuantity validateqty", @style = "text-align:right", autocomplete = "off", placeholder = "Qty", @onchange = "QuantityChanged(" + i + ");" })
-
-                                        }
-                                        else
-                                        {
-                                            @Html.TextBoxFor(m => m.SalesQuotationItems[i].Quantity, new { @class = "form_input clQuantity  ", @style = "text-align:right", autocomplete = "off", placeholder = "Qty", @onchange = "QuantityChanged(" + i + ");", @disabled = "true" })
-                                        }
-                                    </td>
-                                    <td>
-                                        @if (ViewBag.actionName.ToString() == "Create")
-                                        {
-                                            @Html.DropDownListFor(x => Model.SalesQuotationItems[i].UnitId, new SelectList(ViewBag.unitlist, "Value", "Text", Model.SalesQuotationItems[i].UnitId), "Select Unit", new { @class = "form_input", autocomplete = "off" })
-                                        }
-                                        else
-                                        {
-                                            @Html.DropDownListFor(x => Model.SalesQuotationItems[i].UnitId, new SelectList(ViewBag.unitlist, "Value", "Text", Model.SalesQuotationItems[i].UnitId), "Select Unit", new { @class = "form_input", autocomplete = "off", @disabled = "true" })
-
-                                        }
-                                    </td>*@
+                                <td>
+                                    @Html.TextBoxFor(m => m.SalesQuotationItems[i].Quantity, new
+                                   {
+                                       @class = "form_input clQuantity  ",
+                                       @style = "text-align:right",
+                                       autocomplete = "off",
+                                       placeholder = "Qty",
+                                       value = "1",
+                                       @required = "true",
+                                       @onkeyup = "QuantityChanged(" + i + ")"
+                                   })
+                                </td>
                                 <td>
                                     @Html.TextBoxFor(m => m.SalesQuotationItems[i].Rate, new { @class = "form_input numbers-only clrate validateqty", autocomplete = "off", @style = "text-align:right", placeholder = "Rate", @onchange = "QuantityChanged(" + i + ");", @onkeyup = "QuantityChanged(" + i + ")" })
                                 </td>
+                          
                                 <td>
                                     @Html.TextBoxFor(m => m.SalesQuotationItems[i].Discount, new { @class = "form_input numbers-only", autocomplete = "off", @style = "text-align:right", placeholder = "Discount", @onchange = "QuantityChanged(" + i + ");", @onkeyup = "QuantityChanged(" + i + ")" })
 
                                 </td>
-                                <td>@Html.TextBoxFor(m => m.SalesQuotationItems[i].Amount, new { @class = "form_input clAmount", autocomplete = "off", @style = "text-align:right", placeholder = "Amount", @readonly = "true" })</td>
+                                <td>@Html.TextBoxFor(m => m.SalesQuotationItems[i].Amount, new { @class = "form_input clAmount", autocomplete = "off", @style = "text-align:right", placeholder = "Amount", @readonly = "true", @onchange = "QuantityChanged(" + i + ");" })</td>
+                             @if (Model.isProjectBased != 2 && Model.isProjectBased != 1)
+                             {
                                 <td style="vertical-align:middle"><a id="add_row" class="glyphicon glyphicon-plus" style="top:0px" onclick="AddAdditionRow()"></a></td>
-                            </tr>
+                                }
+                                </tr>
                         }
 
                     </tbody>
                     <tfoot>
                         <tr class="grid_heading">
+                           @if (Model.isProjectBased != 2 && Model.isProjectBased != 1)
+                           {
                             <th width="2%" class="text-center"></th>
+                                }
                             <th width="6%" class="text-center"><h1>Total</h1></th>
                             <th width="50%" class="text-center "><h1></h1></th>
                             @if (new[] { "Create", "Approve" }.Contains(ViewContext.RouteData.GetRequiredString("action")))
@@ -627,16 +655,30 @@
                                     @Html.DropDownListFor(m => Model.CurrencyId, (SelectList)ViewBag.currlist, "Select Currency", new { @class = "form_input", autocomplete = "off" })
                                 </h1>
                             </th>
+                            <th width="10%" class="text-right"></th>
+                                                         
                             <th width="10%" class="text-right">
                                 <span id="QtyAmount"></span>
                             </th>
+                           @if (Model.isProjectBased != 2 && Model.isProjectBased != 1)
+                           {
                             <th width="2%" class="text-right"></th>
+                             }
                         </tr>
                     </tfoot>
                 </table>
             </div>
 
+            if (Model.isProjectBased != 0)
+            {
+                <div class="row form-group">
+                    <div class="col-md-12">
 
+                        <label class="tamount">Grand Total:<span id="lblTotalAmount"></span></label>
+
+                    </div>
+                </div>
+            }
 
 
 
@@ -711,10 +753,21 @@
             </div>
             <div class="row">
                 <div class="col-md-12 hrpart">
-                    <button type="button" class="form-button" onclick="DeleteSQ('@Model.SalesQuotationId')">Delete</button>
-                    <input type="button" class="form-button right" value="Exit" onclick="Back()" />
-                    <button type="submit" class="form-button right">Edit</button>
                     
+                    <input type="button" class="form-button right" value="Exit" onclick="Back()" />
+               
+                    @if (Model.IsUsed)
+                    {
+                        <span class="perm">
+                            <em>**Cannot edit/delete this Sales Quotation, because it is already approved.</em>
+                        </span>
+                    }
+                    else
+                    {
+                        <button type="button" class="form-button" onclick="DeleteSQ(@Model.SalesQuotationId,@Model.isProjectBased)">Delete</button>
+                        <button type="submit" class="form-button right">Edit</button>
+                        
+                    }
                 </div>
             </div>
         }

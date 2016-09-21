@@ -65,10 +65,10 @@
         @using (Html.BeginForm(null, null, FormMethod.Post, new { @class = "createFrom", @id = "unreserving-form", @onsubmit = "return formValidation()" }))
         {
             <div class="row form-group">
-                <div class="col-md-3">
+                @*<div class="col-md-3">
                     <label for="txtGRNRefNo">GRN Ref. No. &amp; Date</label>
                     <input type="text" class="form_input" id="txtGRNRefNo" disabled />
-                </div>
+                </div>*@
                 <div class="col-md-3">
                     <label for="txtSORefNo" title="Sale Order Reference No & Date">SO Ref. No. &amp; Date</label>
                     <input type="text" class="form_input" id="txtSORefNo" disabled />
@@ -108,7 +108,14 @@
                                                 @Html.TextBoxFor(m => m[i].SerialNo, new { @class = "form_input", autocomplete = "off", @readonly = "readonly" })
                                             </td>
                                             <td>
-                                                @Html.TextBoxFor(m => m[i].GRNNo, Model[i].GRNNo + " - " + Model[i].GRNDate.ToString("dd-MMMM-yyyy"), new { @class = "form_input", autocomplete = "off", @readonly = "readonly" })
+                                                @if (Model[i].GRNNo == null)
+                                                {
+                                                    @: Opening Stock
+                                                }
+                                                else
+                                                {
+                                                    @Html.TextBoxFor(m => m[i].GRNNo, Model[i].GRNNo + " - " + Model[i].GRNDate.ToString("dd-MMMM-yyyy"), new { @class = "form_input", autocomplete = "off", @readonly = "readonly" })
+                                                }
                                             </td>
                                             <td>
                                                 @Html.CheckBoxFor(m => m[i].isSelected, new { @class = "form_input", autocomplete = "off", @readonly = "readonly", @title = "Check to unreserve this item" })
@@ -123,7 +130,7 @@
                                         <td colspan="4">
                                             <center>
                                                 <em>
-                                                    Sorry, we couldn't find any item with a serial number. Please assign serial numbers and it will show up here.
+                                                    No items found!
                                                 </em>
                                             </center>
                                         </td>

@@ -68,6 +68,19 @@
                 $("#wrapper").toggleClass("toggled");
             });
 
+            $(".sidebar-nav > li > a").click(function () {
+                var $this = $(this);
+                $(".sidebar-nav").find("li").find("a:not([data-target='" + $this.data("target") + "'])").each(function () {
+                    $($(this).data("target")).removeClass("in").addClass('collapse');
+                });
+            });
+            $(".sidebar-nav > li > div > ul > li > a").click(function () {
+                var $this = $(this);
+                $(".sidebar-nav").find("li").find("div").find("ul").find("li").find("a:not([data-target='" + $this.data("target") + "'])").each(function () {
+                    $($(this).data("target")).removeClass("in").addClass('collapse');
+                });
+            });
+
             $("input[type='text'], textarea").prop("maxlength", "500");
 
             //---------------------toastr---------------------------//
@@ -121,6 +134,7 @@
 
     @*<nav class="pushmenu pushmenu-left">
         <h3>Logo</h3>*@
+    
     <div id="wrapper" class="toggled">
         <div id="sidebar-wrapper">
             <ul class="sidebar-nav">
@@ -145,6 +159,7 @@
                             </ul>
                                         </div>
                         </li>
+
                                     <li>
                                         <a href="#" data-toggle="collapse" data-target="#admin-employee">Employee<span class="caret arrow"></span></a>
                                         <div id="admin-employee" class="collapse">
@@ -155,6 +170,7 @@
                             </ul>
                                         </div>
                         </li>
+
                                     <li>
                                         <a href="#" data-toggle="collapse" data-target="#admin-supplier">Supplier<span class="caret arrow"></span></a>
                                         <div id="admin-supplier" class="collapse">
@@ -164,6 +180,7 @@
                             </ul>
                                         </div>
                         </li>
+
                                     <li>
                                         <a href="#" data-toggle="collapse" data-target="#admin-customer">Customer<span class="caret arrow"></span></a>
                                         <div id="admin-customer" class="collapse">
@@ -173,15 +190,15 @@
                             </ul>
                                         </div>
                         </li>
+
                                     <li><a href="@Url.Action("Create", "Organization")">Organization</a></li>
                                     <li><a href="@Url.Action("Create","Currency")">Currency</a></li>
                                     <li><a href="@Url.Action("Create", "CostingParameters")">CostingParameters</a></li>
                                     <li><a href="@Url.Action("Create", "QCParameter")">QCParameters</a></li>
                                  
-                                    <li><a href="@Url.Action("Create", "CustomerVsSalesExecutive")">CustomerVsSalesExecutive</a></li>
+                                <li><a href="@Url.Action("Create", "CustomerVsSalesExecutive")">CustomerVsSalesExecutive</a></li>
                                     <li><a href="@Url.Action("Index","WorkDescription")">Transport Work Description</a></li>
-                                    <li><a href="@Url.Action("Index","RateSettings")">Rate Settings</a></li>
-                                    <li><a href="@Url.Action("CreateProjectWorkDescription","WorkDescription")">Project Work Description</a></li>
+                                    <li><a href="@Url.Action("FillProjectWorkDescriptionList", "WorkDescription")">Project Work Description</a></li>
                                     <li><a href="@Url.Action("Create","VehicleModel")">Vehicle Model</a></li>
                                     <li><a href="@Url.Action("Create","Task")">Task</a></li>
                                     <li><a href="@Url.Action("Create", "CommissionAgent")">Success Fee</a></li>
@@ -192,9 +209,19 @@
                                     <li><a href="@Url.Action("Create", "Bay")">Bay</a></li>
                                     <li><a href="@Url.Action("Create", "FreezerUnit")">Refrigeration Unit</a></li>
                                     <li><a href="@Url.Action("Create", "PaymentTerms")">Payment Terms</a></li>
-                                    <li><a href="@Url.Action("Create", "SupplierItemRate")">Supplier Wise Item Rate Settings</a></li>
                                     <li><a href="@Url.Action("Index", "PrefixSettings")">Prefix Settings</a></li>
+                                
+                                <li>
+                                    <a href="#" data-toggle="collapse" data-target="#admin-rate-settings">Rate Settings<span class="caret arrow"></span></a>
+                                    <div id="admin-rate-settings" class="collapse">
+                                        <ul>
+                                            <li><a href="@Url.Action("Index","RateSettings")">Work Description Rate Settings</a></li>
                                     <li><a class="projectn" href="@Url.Action("Create", "CustomerVsWorkRate")">Customer Wise Work Rate Settings</a></li>@*class = lh*@
+                                            <li><a href="@Url.Action("Create", "SupplierItemRate")">Supplier Wise Item Rate Settings</a></li>
+                                        </ul>
+                                    </div>
+                                </li>
+
                                     <li>
                                         <a href="#" data-toggle="collapse" data-target="#admin-user-settings">User Settings<span class="caret arrow"></span></a>
                                         <div id="admin-user-settings" class="collapse">
@@ -255,7 +282,7 @@
                                     <div id="purchase-serialno" class="collapse">
                                         <ul>
                                             <li><a href="@Url.Action("Pending", "ItemBatch", new { type = 1 })">Assign Serial No (Opening Stock)</a></li>
-                                            <li><a href="@Url.Action("Pending","ItemBatch")">Assign Serial No</a></li>
+                                            <li><a href="@Url.Action("Pending","ItemBatch")">Assign Serial No (GRN)</a></li>
                                             <li><a href="@Url.Action("PendingReservation","ItemBatch")">Reserve Serial No</a></li>
                                             <li><a href="@Url.Action("ReservedList","ItemBatch")">Unreserve Serial No</a></li>
                                             <li><a href="@Url.Action("MaterialList","ItemBatch")">Serial No List</a></li>
@@ -435,9 +462,10 @@
                                     </div>
                         </li>
                                 <li><a href="@Url.Action("Index", "MaterialPlanning")">Material Planning Report</a></li>
+                                <li><a href="@Url.Action("Employee", "ResourceAvailability")">Employee Availability</a></li>
                                 <li><a href="@Url.Action("Index","BayStatus")">Bay Allocation Report</a></li>
-                                <li><a href="@Url.Action("Index","LoginHistory")">Login History</a></li>
                                 <li><a href="@Url.Action("Index","WorkshopRequestRegister")">Workshop Request Register</a></li>
+                                <li><a href="@Url.Action("Index","LoginHistory")">Login History</a></li>
                                 <li><a href="@Url.Action("Index", "TransactionHistory")">Transaction History</a></li>
                     </ul>
                         </div>
@@ -456,6 +484,84 @@
                         </div>
                 </li>
             }
+            
+                @*<li>
+                    <a href="#" data-toggle="collapse" data-target="#Production-level-menu">Production<span class="caret arrow"></span></a>
+                    <div id="Production-level-menu" class="collapse">
+                        <ul>
+                            <li>
+                                <a href="#" data-toggle="collapse" data-target="#Admin-projects">Admin<span class="caret arrow"></span></a>
+                                <div id="Admin-projects" class="collapse">
+                                    <ul>
+                                        <li><a href="@Url.Action("Month", "ProductionPlan")">Month</a></li>
+                                        <li><a href="@Url.Action("FinancialYear", "ProductionPlan")">Financial Year</a></li>
+                                        <li><a class="projectn" href="@Url.Action("Unit", "ProductionPlan")">Unit</a></li>
+                                        <li><a href="@Url.Action("Product", "ProductionPlan")">Product</a></li>
+                                        <li><a href="@Url.Action("CreateProductLine", "ProductionPlan")">Product LIne</a></li>
+                                        <li><a href="@Url.Action("ProductGroup", "ProductionPlan")">Product Group</a></li>
+                                        <li><a href="@Url.Action("ProductSubGroup", "ProductionPlan")">Product Sub Group</a></li>
+                                        <li><a href="@Url.Action("SupplierCategory", "ProductionPlan")">Supplier Category</a></li>
+                                        <li><a href="@Url.Action("RawMaterial", "ProductionPlan")">RawMaterial</a></li>
+                                        <li><a href="@Url.Action("Item", "ProductionPlan")">Item</a></li>
+                                        <li><a href="@Url.Action("Supplier", "ProductionPlan")">Supplier</a></li>
+                                        <li><a href="@Url.Action("Plant", "ProductionPlan")">Plant</a></li>
+                                    </ul>
+                                </div>
+                            </li>
+
+                            <li>
+                                <a href="#" data-toggle="collapse" data-target="#Production-projects">Production<span class="caret arrow"></span></a>
+                                <div id="Production-projects" class="collapse">
+                                    <ul>
+                                        <li><a href="@Url.Action("CreateProductionPlan", "ProductionPlan")">Production Plan</a></li>
+                                        <li><a href="@Url.Action("PlanedOrder", "ProductionPlan")">Stock Order</a></li>
+                                        <li class="projectn"><a href="@Url.Action("CustomerOrder", "ProductionPlan")">Customer Order</a></li>
+                                        <li><a href="@Url.Action("ProductionSchedule", "ProductionPlan")">Production Schedule</a></li>
+                                        <li><a href="@Url.Action("ProductionPlantoProductionSchedule", "ProductionPlan")">Convert Production Plan to Production Schedule</a></li>
+                                        <li><a href="@Url.Action("ConvertProductionPlanttoplannedorder", "ProductionPlan")">Convert Stock Order to Production Schedule</a></li>
+                                        <li><a href="@Url.Action("ConvertCustomerOrderProductionSchedule", "ProductionPlan")">Convert Customer Order to Production Schedule</a></li>
+                                        <li><a href="@Url.Action("ConvertProductionPlanPurIndent", "ProductionPlan")">Convert Production Plan to Purchase Indent</a></li>
+                                        <li><a href="@Url.Action("ConvertPlannedOrdertoPurReq", "ProductionPlan")">Convert Stock Order to Purchase Indent</a></li>
+                                        <li><a href="@Url.Action("ConvertCustomerOrderPurIndent", "ProductionPlan")">Convert Customer Order to Purchase Indent</a></li>
+                                        <li><a href="@Url.Action("PurchaseIndent", "ProductionPlan")">Purchase Indent</a></li>
+                                        <li><a href="@Url.Action("PurchaseIndentApproval", "ProductionPlan")">Purchase Indent Approval</a></li>
+                                        <li><a href="@Url.Action("PendingPurchaseIndent", "ProductionPlan")">Purchase Order</a></li>
+                                        <li><a href="@Url.Action("PurchaseOrderApproval", "ProductionPlan")">Purchase Order Approval</a></li>
+                                        <li><a href="@Url.Action("PendingPurchaseOrder", "ProductionPlan")">GRN</a></li>
+                                        <li><a href="@Url.Action("ConvertPlannedOrdertoProductionOrder", "ProductionPlan")">Convert Production Schedule to Production Order</a></li>
+                                        <li><a href="@Url.Action("PendingProduction", "ProductionPlan")">Production Order</a></li>
+                                        <li><a href="@Url.Action("ProductionOrderRelease", "ProductionPlan")">Production Order Release</a></li>
+                                        <li><a href="@Url.Action("PendingGoodsIssue", "ProductionPlan")">Issue Material to Production order</a></li>
+                                        <li><a href="@Url.Action("ConfirmProduction", "ProductionPlan")">Daily Production Report</a></li>
+                                        <li><a href="@Url.Action("PendingReceiveProductInventory", "ProductionPlan")">Product QC Released Note</a></li>
+                                        <li><a href="@Url.Action("PendingSalesInvoice", "ProductionPlan")">Sales Invoice</a></li>
+                                        <li><a href="@Url.Action("PendingDeliveryChallan", "ProductionPlan")">Delivery Challan</a></li>
+                                    </ul>
+                                </div>
+                            </li>
+
+
+                            <li>
+                                <a href="#" data-toggle="collapse" data-target="#Report-projects">Report<span class="caret arrow"></span></a>
+                                <div id="Report-projects" class="collapse">
+                                    <ul>
+                                        <li><a href="@Url.Action("ProductionOrderReport", "ProductionPlan")">Production Order Report</a></li>
+                                        <li><a href="@Url.Action("StockRequirementReport", "ProductionPlan")">Stock Requirement Report</a></li>
+                                        <li><a class="projectn" href="@Url.Action("MaterialPlanningReport", "ProductionPlan")">Material Planning Report</a></li>
+                                        <li><a href="@Url.Action("ProductionPlanMPR", "ProductionPlan")">Production Plan to Material Planning Report</a></li>
+                                        <li><a href="@Url.Action("StockOrderMPR", "ProductionPlan")">Stock Order to Material Planning Report</a></li>
+                                        <li><a href="@Url.Action("CustomerOrderMPR", "ProductionPlan")">Customer Order to Material Planning Report</a></li>
+                                        <li><a href="@Url.Action("ProductionScheduleMPR", "ProductionPlan")">Production Schedule to Material Planning Report</a></li>
+                                    </ul>
+                                </div>
+                            </li>
+
+
+                           
+                        </ul>
+                    </div>
+                </li>*@
+
             </ul>
         </div>
             

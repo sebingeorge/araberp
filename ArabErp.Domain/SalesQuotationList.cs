@@ -13,7 +13,7 @@ namespace ArabErp.Domain
         public DateTime QuotationDate { get; set; }
         public string CustomerName { get; set; }
         public string EmployeeName { get; set; }
-        public decimal Amount { get; set; }
+        public decimal GrandTotal { get; set; }
         public string ReasonDescription { get; set; }
     }
 }

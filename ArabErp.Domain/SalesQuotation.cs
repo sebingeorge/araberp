@@ -35,11 +35,14 @@ namespace ArabErp.Domain
        
         public bool? IsQuotationApproved { get; set; }
         public int? ApprovedBy { get; set; }
-        public decimal Amount { get; set; }
+        public decimal TotalMaterialAmount { get; set; }
+        public decimal TotalWorkAmount { get; set; }
+        public decimal GrandTotal { get; set; }
         public int? QuotationStatus { get; set; }
         public string Remarks { get; set; }
         [Required]
         public int SalesQuotationRejectReasonId { get; set; }
+       [Required]
         public string QuotationRejectReason { get; set; }
         public string Competitors { get; set; }
         public string PaymentTerms { get; set; }
@@ -62,5 +65,6 @@ namespace ArabErp.Domain
         public int Ageing { get; set; }
         public int DaysLeft { get; set; }
         public bool isWarranty { get; set; }
+        public bool IsUsed { get; set; }
     }
 }

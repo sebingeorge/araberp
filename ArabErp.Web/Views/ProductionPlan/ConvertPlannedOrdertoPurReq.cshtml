@@ -4,7 +4,14 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-
+<script>
+    $(function () {
+        $("#from").val("20-09-2016")
+        $("#to").val("23-09-2016")
+        $("#from").datepicker({ dateFormat: "dd-MM-yy" });
+        $("#to").datepicker({ dateFormat: "dd-MM-yy" });
+    });
+</script>
 
 
 <div class="row">
@@ -16,11 +23,11 @@
         <div class="row form-group">
             <div class="col-md-1">
                 <label>From</label>
-                <input type="text" class="form_input" />
+                <input type="text" id="from" class="form_input" />
             </div>
             <div class="col-md-1">
                 <label>To</label>
-                <input type="text" class="form_input" />
+                <input type="text" id="to" class="form_input" />
             </div>
             <div class="col-md-4">
                 <label>Product</label>

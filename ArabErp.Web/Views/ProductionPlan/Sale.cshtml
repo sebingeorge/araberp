@@ -1,0 +1,190 @@
+﻿@{
+    ViewBag.Title = "Sale";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+<div class="container-fluid">
+    <div class="row form-group">
+        <div class="col-md-4 left-s">
+            <div class="row">
+                <div class="left-s-head">
+                    Customer Sales Orders
+                    <img src="~/Images/s-home.png" />
+                </div>
+                <div class="main-search-s">
+                    <div class="main-search-s-in">
+                        <input type="text" name="Search">
+                        <img src="~/Images/search.png" />
+                        <img src="~/Images/load.png" />
+                    </div>
+                </div>
+                <div class="left-box active">
+                    <div class="col-md-6 left-box-left">
+                        <h2>SO 38504</h2><br />
+
+                        PO 451902<br />
+                        October 14, 2016
+                    </div>
+                    <div class="col-md-6 left-box-right">
+                        <h1>16K</h1>
+                        QAR<br /><br />
+                        <span class="green">Partially Comp..</span>
+                    </div>
+                </div>
+                <div class="left-box">
+                    <div class="col-md-6 left-box-left">
+                        <h2>SO 38503</h2><br />
+
+                        PO 451902<br />
+                        October 14, 2016
+                    </div>
+                    <div class="col-md-6 left-box-right">
+                        <h1>16K</h1>
+                        QAR<br /><br />
+                        <span class="brown">Not Completed</span>
+                    </div>
+                </div>
+                <div class="left-box">
+                    <div class="col-md-6 left-box-left">
+                        <h2>SO 38502</h2><br />
+
+                        PO 451902<br />
+                        October 14, 2016
+                    </div>
+                    <div class="col-md-6 left-box-right">
+                        <h1>16K</h1>
+                        QAR<br /><br />
+                        <span class="brown">Not Completed</span>
+                    </div>
+                </div>
+                <div class="left-box">
+                    <div class="col-md-6 left-box-left">
+                        <h2>SO 38502</h2><br />
+
+                        PO 451902<br />
+                        October 14, 2016
+                    </div>
+                    <div class="col-md-6 left-box-right">
+                        <h1>16K</h1>
+                        QAR<br /><br />
+                        <span class="brown">Not Completed</span>
+                    </div>
+                </div>
+                <div class="left-box">
+                    <div class="col-md-6 left-box-left">
+                        <h2>SO 38502</h2><br />
+
+                        PO 451902<br />
+                        October 14, 2016
+                    </div>
+                    <div class="col-md-6 left-box-right">
+                        <h1>16K</h1>
+                        QAR<br /><br />
+                        <span class="brown">Not Completed</span>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+        <div class="col-md-8 right-s">
+            <div class="row">
+                <div class="right-s-head">
+                    Sales Order
+                </div>
+
+                <div class="right-box active">
+                    <div class="col-md-6 right-box-left">
+                        <h3>Sales Order 38537</h3><br />
+
+                        PO: 33459<br />
+                        Ordered: October 28, 2016<br />
+                        Requested : August 26, 2016<br />
+                        Ship To : Demo Customer
+                    </div>
+                    <div class="col-md-6 right-box-right">
+                        <h1>4 865,92</h1>
+                        QAR<br /><br />
+                        Order Total: 5 644,60 QAR<br />
+                        Overall Status: Partially Rejected<br />
+                        Delivery Status; <span class="green">Partially Completed</span>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="col-md-1 rborder"><h3>6<span class="ftw">Items</span></h3></div>
+                            <div class="col-md-1 fsize">
+                                <img src="~/Images/open.png" /> <span class="s-top">2</span>
+                                Open
+                            </div>
+                            <div class="col-md-1 fsize">
+                                <img src="~/Images/process.png" /><span class="s-top">2</span><br />
+                                In Process
+</div>
+                            <div class="col-md-1 fsize">
+                                <img src="~/Images/shipped.png" /><span class="s-top">1</span><br />
+                                Completed
+</div>
+                        </div>
+                    </div>
+                </div>
+
+              <div class="right-table">
+                <table>
+                    <thead>
+                        <tr>
+                            <td>Work Description</td>
+                            <td>Ordered</td>
+                            <td>Price</td>
+                            <td>Net Amount</td>
+                            <td>Status Summry</td>
+                            <td class="green">Completed</td>
+                        </tr>
+                    </thead>
+
+                        <tr>
+                        <td>Supply Insttalation & Commisioning of 4.4x2.1x2.4</td>
+                        <td>1SIC</td>
+                        <td>0,80 QAR</td>
+                        <td>0,80 QAR</td>
+                        <td class="brown">Rejected</td>
+                        <td>0SIC <img src="~/Images/arrow.png" /></td>
+                         </tr>
+
+                    <tr>
+                    <td>Room Furnishing</td>
+                    <td>2EA</td>
+                    <td>1 064,00 QAR</td>
+                    <td> 2 128,00 QAR</td>
+                    <td class="green">Completed</td>
+                    <td>2EA <img src="~/Images/arrow.png" /></td>
+                    </tr>
+                    <tr>
+                        <td>Warranty Service</td>
+                        <td>5EA</td>
+                        <td>266,00 QAR</td>
+                        <td>1 330,00 QAR</td>
+                        <td class="green">Partially Completed</td>
+                        <td>3 EA <img src="~/Images/arrow.png" /></td>
+                    </tr>
+                    <tr>
+                        <td>Repair / Service </td>
+                        <td>5EA</td>
+                        <td>266,00 QAR</td>
+                        <td>1 330,00 QAR</td>
+                        <td class="green">Partially Completed</td>
+                        <td>3 EA <img src="~/Images/arrow.png" /></td>
+                    </tr>
+                </table>
+              </div>
+
+                </div>
+            </div>
+    </div>
+    <div class="row">
+        <div class="s-footer col-md-12">
+            <div class="s-right">
+                <a href="#"><img src="~/Images/next.png" /></a>
+            </div>
+        </div>
+    </div>
+</div>

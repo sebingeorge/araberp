@@ -4,7 +4,12 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-
+<script>
+    $(function () {
+        $("#date").val("20-September-2016")
+        $("#date").datepicker({ dateFormat: "dd-MM-yy" });
+    });
+</script>
 
 
 <div class="row">
@@ -20,7 +25,7 @@
             </div>
             <div class="col-md-2">
                 <label>Challan Date</label>
-                <input type="text" class="form_input" />
+                <input type="text" id="date" class="form_input" />
             </div>
 
         </div>
@@ -31,7 +36,7 @@
                 <input type="text" class="form_input" />
             </div>
             <div class="col-md-2">
-                <label>C.O. No. & Date</label>
+                <label>Customer Order No. & Date</label>
                 <input type="text" class="form_input" />
             </div>
         </div>

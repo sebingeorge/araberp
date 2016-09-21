@@ -4,7 +4,16 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-
+<script>
+    $(function () {
+        $("#ddate").val("20-September-2016")
+        $("#pdate").val("23-September-2016")
+        $("#edate").val("23-September-2016")
+        $("#ddate").datepicker({ dateFormat: "dd-MM-yy" });
+        $("#pdate").datepicker({ dateFormat: "dd-MM-yy" });
+        $("#edate").datepicker({ dateFormat: "dd-MM-yy" });
+    });
+</script>
 
 <div class="row">
     <div class="form-head1">
@@ -14,18 +23,18 @@
     <div class="main-part pad1">
         <div class="row form-group">
             <div class="col-md-2">
-                <label>Prd QC No</label>
+                <label>Product QC No</label>
                 <input type="text" class="form_input" />
             </div>
             <div class="col-md-2">
                 <label>Document Date</label>
-                <input type="text" class="form_input" />
+                <input type="text" id="ddate" class="form_input" />
             </div>
 
         </div>
 
         <div class="row form-group">
-            <div class="col-md-2">
+            <div class="col-md-4">
                 <label>Plant</label>
                 <select class="form_input">
                     <option value="">Plant 1</option>
@@ -174,11 +183,11 @@
         <div class="row form-group">
             <div class="col-md-2">
                 <label>Production Date</label>
-                <input type="text" class="form_input" />
+                <input type="text" id="pdate" class="form_input" />
             </div>
             <div class="col-md-2">
                 <label>Expiration Date</label>
-                <input type="text" class="form_input" />
+                <input type="text" id="edate" class="form_input" />
             </div>
 
         </div>

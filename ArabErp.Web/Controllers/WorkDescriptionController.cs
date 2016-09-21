@@ -46,6 +46,15 @@ namespace ArabErp.Web.Controllers
             return View(workdescription);
         }
 
+        public ActionResult FillProjectWorkDescriptionList(int? page)
+        {
+            //int itemsPerPage = 2;
+            int pageNumber = page ?? 1;
+            var repo = new WorkDescriptionRepository();
+            var List = repo.FillProjectWorkDescriptionList();
+            return View("ProjectWorkDescriptionList", List);
+        }
+
         public ActionResult CreateProjectWorkDescription()
         {
         
@@ -67,6 +76,12 @@ namespace ArabErp.Web.Controllers
             FillItem();
             FillJobCardTaskMaster();
             WorkDescription model = new WorkDescriptionRepository().GetWorkDescription(Id);
+
+            if (model.WorkVsItems.Count == 0)
+                model.WorkVsItems.Add(new WorkVsItem());
+            if(model.WorkVsTasks.Count==0)
+                model.WorkVsTasks.Add(new WorkVsTask());
+
             return View("Edit", model);
         }
 
@@ -230,7 +245,7 @@ namespace ArabErp.Web.Controllers
             if (result.WorkDescriptionId > 0)
             {
                 TempData["Success"] = "Added Successfully!";
-                TempData["RefNo"] = result.WorkDescriptionRefNo;
+                TempData["WorkDescriptionRefNo"] = result.WorkDescriptionRefNo;
                 return RedirectToAction("CreateWorkDescription");
             }
             else
@@ -266,7 +281,7 @@ namespace ArabErp.Web.Controllers
             if (result.WorkDescriptionId > 0)
             {
                 TempData["Success"] = "Added Successfully!";
-                TempData["RefNo"] = result.WorkDescriptionRefNo;
+                TempData["WorkDescriptionRefNo"] = result.WorkDescriptionRefNo;
                 return RedirectToAction("CreateProjectWorkDescription");
             }
             else

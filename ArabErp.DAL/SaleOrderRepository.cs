@@ -24,19 +24,26 @@ namespace ArabErp.DAL
                 try
                 {
                     var internalId = "";
-
+                    decimal MaterialAmt = 0;
                     if(objSaleOrder.isProjectBased == 0)
                     {
                         internalId = DatabaseCommonRepository.GetNewDocNo(connection, objSaleOrder.OrganizationId ?? 0, 3, true,txn);
                     }
                     else
                     {
+
                         internalId = DatabaseCommonRepository.GetNewDocNo(connection, objSaleOrder.OrganizationId ?? 0, 4, true,txn);
+                        MaterialAmt = objSaleOrder.Materials.Sum(m => m.Amount);
                     }
 
                     objSaleOrder.SaleOrderRefNo = internalId;
-                    objSaleOrder.TotalAmount = objSaleOrder.Items.Sum(m => m.Amount);
+
+                 
+
+                    objSaleOrder.TotalAmount = objSaleOrder.Items.Sum(m => m.Amount) + MaterialAmt;
                     objSaleOrder.TotalDiscount = objSaleOrder.Items.Sum(m => m.Discount);
+
+               
                     string sql = @"
                     insert  into SaleOrder(SaleOrderRefNo,SaleOrderDate,CustomerId,CustomerOrderRef,CurrencyId,SpecialRemarks,PaymentTerms,DeliveryTerms,CommissionAgentId,CommissionAmount,CommissionPerc,TotalAmount,TotalDiscount,SalesExecutiveId,EDateArrival,EDateDelivery,CreatedBy,CreatedDate,OrganizationId,SaleOrderApproveStatus,isProjectBased,SalesQuotationId)
                                    Values (@SaleOrderRefNo,@SaleOrderDate,@CustomerId,@CustomerOrderRef,@CurrencyId,@SpecialRemarks,@PaymentTerms,@DeliveryTerms,@CommissionAgentId,@CommissionAmount,@CommissionPerc,@TotalAmount,@TotalDiscount,@SalesExecutiveId,@EDateArrival,@EDateDelivery,@CreatedBy,@CreatedDate,@OrganizationId,1,@isProjectBased,@SalesQuotationId);
@@ -71,7 +78,7 @@ namespace ArabErp.DAL
             using (IDbConnection connection = OpenConnection(dataConnection))
             {
                 string sql = @"select *,DoorNo +','+ Street+','+State CustomerAddress,CONCAT(QuotationRefNo,'/',CONVERT (VARCHAR(15),QuotationDate,104))
-                               QuotationNoDate from SalesQuotation S inner join Customer C on S.CustomerId=C.CustomerId  where SalesQuotationId=@Id";
+                               QuotationNoDate,GrandTotal TotalAmount from SalesQuotation S inner join Customer C on S.CustomerId=C.CustomerId  where SalesQuotationId=@Id";
 
                 var objSaleOrder = connection.Query<SaleOrder>(sql, new
                 {
@@ -85,27 +92,32 @@ namespace ArabErp.DAL
         {
             using (IDbConnection connection = OpenConnection(dataConnection))
             {
-                string sql = @"select *,VehicleModelName from SalesQuotationItem S inner join WorkDescription W ON S.WorkDescriptionId=W.WorkDescriptionId
+                string sql = @"select * from SalesQuotationItem S inner join WorkDescription W ON S.WorkDescriptionId=W.WorkDescriptionId
                                LEFT JOIN VehicleModel V ON  V.VehicleModelId=W.VehicleModelId
                                where SalesQuotationId=@Id";
                 return connection.Query<SaleOrderItem>(sql, new { Id = Id }).ToList();
             }
         }
-
+        public List<SalesQuotationMaterial> GetSaleOrderMaterialFrmQuotation(int Id)
+        {
+            using (IDbConnection connection = OpenConnection(dataConnection))
+            {
+                string sql = @"select * from SalesQuotationMaterial S inner join Item I ON S.ItemId=I.ItemId LEFT JOIN UNIT U ON I.ItemUnitId=U.UnitId where SalesQuotationId=@Id";
+                 
+                return connection.Query<SalesQuotationMaterial>(sql, new { Id = Id }).ToList();
+            }
+        }
+        
         public SaleOrder GetSaleOrder(int SaleOrderId)
         {
             using (IDbConnection connection = OpenConnection(dataConnection))
             {
-//                string sql = @"select *,DoorNo +','+ Street+','+State CustomerAddress,CONCAT(QuotationRefNo,'/',CONVERT (VARCHAR(15),QuotationDate,104))QuotationNoDate  
-//                               from SaleOrder S 
-//                               inner join Customer C on S.CustomerId=C.CustomerId  
-//                               inner join SalesQuotation SQ ON SQ.SalesQuotationId=S.SalesQuotationId
-//                               where SaleOrderId=@SaleOrderId";
+
 
                 string sql = @"SELECT SaleOrderId,SaleOrderRefNo,SaleOrderDate,CONCAT(QuotationRefNo,'/',CONVERT (VARCHAR(15),QuotationDate,104))QuotationNoDate,  
                                C.CustomerId,CustomerName,DoorNo +','+ Street+','+State CustomerAddress,CustomerOrderRef,S.CurrencyId,SpecialRemarks,S.PaymentTerms,
                                DeliveryTerms,CommissionAgentId,CommissionAmount,TotalAmount,TotalDiscount,S.SalesExecutiveId,EDateArrival,EDateDelivery,SaleOrderApproveStatus,
-                               SaleOrderHoldStatus,SaleOrderHoldReason,SaleOrderHoldDate,SaleOrderReleaseDate,S.SalesQuotationId,SaleOrderClosed,S.isProjectBased,CUR.CurrencyName
+                               SaleOrderHoldStatus,SaleOrderHoldReason,SaleOrderHoldDate,SaleOrderReleaseDate,S.SalesQuotationId,SaleOrderClosed,SQ.isProjectBased,CUR.CurrencyName
                                FROM SaleOrder S 
                                INNER JOIN Customer C ON S.CustomerId=C.CustomerId  
 							   LEFT JOIN Currency CUR ON S.CurrencyId = CUR.CurrencyId
@@ -242,35 +254,30 @@ namespace ArabErp.DAL
                 return id;
             }
         }
-        public int DeleteSaleOrder(int id)
+   
+        public string DeleteSaleOrder(int id)
         {
             using (IDbConnection connection = OpenConnection(dataConnection))
             {
-                //string sql = @"Delete SaleOrder  OUTPUT DELETED.SaleOrderId WHERE SaleOrderId=@SaleOrderId";
-                //var id = connection.Execute(sql, objSaleOrder);
-                //InsertLoginHistory(dataConnection, objSaleOrder.CreatedBy, "Delete", "Sale Order", id.ToString(), "0");
-                //return id;
-                //string sql = @"Delete SaleOrder  OUTPUT DELETED.SaleOrderId WHERE SaleOrderId=@SaleOrderId";
-                string query = @"DELETE FROM SaleOrderItem WHERE SaleOrderId = @id;
-                                DELETE FROM SaleOrder WHERE SaleOrderId = @id;";
                 IDbTransaction txn = connection.BeginTransaction();
+              
                 try
                 {
-                    var output = connection.Execute(query, new { id = id }, txn);
-                    txn.Rollback();
-                    txn.Dispose();
-                    
-                    query = "UPDATE SaleOrder SET isActive = 0 WHERE SaleOrderId = @id";
-                    output = connection.Execute(query, new { id = id });
+
+                    string query = @"DELETE FROM SaleOrderItem WHERE SaleOrderId = @id;
+                                     DELETE FROM SaleOrder OUTPUT deleted.SaleOrderRefNo WHERE SaleOrderId = @id;";
+                    string output = connection.Query<string>(query, new { id = id }, txn).First();
+                    txn.Commit();
                     return output;
                 }
-                catch (Exception)
+                catch (Exception ex)
                 {
                     txn.Rollback();
-                    return 0;
+                    throw ex;
                 }
             }
         }
+
         public List<Dropdown> FillCustomer()
         {
             using (IDbConnection connection = OpenConnection(dataConnection))
@@ -582,7 +589,7 @@ namespace ArabErp.DAL
         {
             using (IDbConnection connection = OpenConnection(dataConnection))
             {
-                string query = "Select S.SaleOrderId,SaleOrderRefNo, SaleOrderDate,CONCAT(QuotationRefNo,'/',CONVERT (VARCHAR(15),QuotationDate,104))QuotationNoDate, C.CustomerName, S.CustomerOrderRef";//--, DATEDIFF(DAY, GETDATE(), S.EDateDelivery) DaysLeft, DATEDIFF(DAY, S.SaleOrderDate, GETDATE()) Ageing
+                string query = "Select S.SaleOrderId,SaleOrderRefNo,SQ.SalesQuotationId,SaleOrderDate,CONCAT(QuotationRefNo,'/',CONVERT (VARCHAR(15),QuotationDate,104))QuotationNoDate, C.CustomerName, S.CustomerOrderRef";//--, DATEDIFF(DAY, GETDATE(), S.EDateDelivery) DaysLeft, DATEDIFF(DAY, S.SaleOrderDate, GETDATE()) Ageing
                 query += " from SaleOrder S";
                 query += " inner join Customer C on S.CustomerId = C.CustomerId";
                 query += " left join SalesQuotation SQ ON SQ.SalesQuotationId=S.SalesQuotationId";
