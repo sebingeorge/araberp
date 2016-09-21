@@ -121,6 +121,42 @@ namespace ArabErp.Web.Controllers
             model.Items = new ProformaInvoiceRepository().GetProformaInvoiceItemDetails(id);
             return View(model);
         }
+        [HttpPost]
+        public ActionResult Edit(ProformaInvoice model)
+        {
+            ViewBag.Title = "Edit";
+            model.OrganizationId = OrganizationId;
+            model.CreatedDate = System.DateTime.Now;
+            model.CreatedBy = UserID.ToString();
+          
+              {
+                try
+                {
+                    var result2 = new ProformaInvoiceRepository().DeleteProformaInvoiceDT(model.ProformaInvoiceId);
+                    string id =   new ProformaInvoiceRepository().UpdateProformaInvoiceHD(model);
+                    string id1 =  new ProformaInvoiceRepository().InsertProformaInvoiceDT(model);
+
+                    TempData["success"] = "Updated successfully. Proforma Invoice Reference No. is " + id;
+                    TempData["error"] = "";
+                    return RedirectToAction("Index", new { type =model.isProjectBased});
+                }
+                catch (SqlException sx)
+                {
+                    TempData["error"] = "Some error occured while connecting to database. Please check your network connection and try again.|" + sx.Message;
+                }
+                catch (NullReferenceException nx)
+                {
+                    TempData["error"] = "Some required data was missing. Please try again.|" + nx.Message;
+                }
+                catch (Exception ex)
+                {
+                    TempData["error"] = "Some error occured. Please try again.|" + ex.Message;
+                }
+                return View("Edit", model);
+            }
+
+        }
+
 
     }
 }

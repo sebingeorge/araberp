@@ -86,13 +86,14 @@
         <h4>Proforma Invoice</h4>
     </div>
     <div class="main-part pad1">
-        @using (Html.BeginForm("Create", null, FormMethod.Post, new { @class = "createFrom", @id = "proformainvoice_form" }))
+        @using (Html.BeginForm(null, null, FormMethod.Post, new { @class = "createFrom", @id = "proformainvoice_form" }))
         {
             <div class="row form-group ">
                 <div class="col-md-2">
                     <label for="PorformaInvoiceNo">Proforma No.</label>
                     @Html.HiddenFor(m => Model.SaleOrderId)
                     @Html.HiddenFor(m => Model.isProjectBased)
+                    @Html.HiddenFor(m => Model.ProformaInvoiceId)
                     @Html.TextBoxFor(m => m.ProformaInvoiceRefNo, new { @class = "form_input", autocomplete = "off", @readonly = "readonly" })
                 </div>
                 <div class="col-md-2">
@@ -125,13 +126,13 @@
                     <thead>
                         <tr class="grid_heading">
                             <th width="2%" class="text-center"><h1>#</h1></th>
-                            <th width="25%"><h1>Work Description</h1></th>
+                            <th width="30%"><h1>Work Description</h1></th>
                             @if (Model.isProjectBased == 0)
                             {
                                 <th width="25%"><h1>Vehicle Model</h1></th>
                             }
                             <th width="5%" class="text-right"><h1>Qty</h1></th>
-                            <th width="5%"><h1>UoM</h1></th>
+                            @*<th width="5%"><h1>UoM</h1></th>*@
                             <th width="10%" class="text-right"><h1>Rate</h1></th>
                             <th width="10%" class="text-right"><h1>Discount</h1></th>
                             <th width="10%" class="text-right"><h1>Amount</h1></th>
@@ -144,14 +145,19 @@
                                 <td align="center">@(i + 1) </td>
                                 @Html.HiddenFor(m => Model.Items[i].SaleOrderItemId)
 
+                                <td>
+                                    @*@Html.TextBoxFor(m => Model.Items[i].WorkDescription, new { @class = "form_input", autocomplete = "off", @style = "text-align:left",@readonly = "readonly" })*@
+                                    @Model.Items[i].WorkDescription
+                                    @Html.HiddenFor(m => m.Items[i].WorkDescription)
+                                </td>
 
-                                <td>@Html.TextBoxFor(m => Model.Items[i].WorkDescription, new { @class = "form_input", autocomplete = "off", @style = "text-align:left", @readonly = "readonly" })</td>
                                 @if (Model.isProjectBased == 0)
                                 {
                                     <td>@Html.TextBoxFor(m => Model.Items[i].VehicleModelName, new { @class = "form_input", autocomplete = "off", @style = "text-align:left", @readonly = "readonly" })</td>
                                 }
+                                
                                 <td>@Html.TextBoxFor(m => Model.Items[i].Quantity, new { @class = "form_input", autocomplete = "off", @style = "text-align:right", @readonly = "readonly" })</td>
-                                <td>@Html.TextBoxFor(m => Model.Items[i].UnitName, new { @class = "form_input", autocomplete = "off", @style = "text-align:left", @readonly = "readonly" })</td>
+                                @*<td>@Html.TextBoxFor(m => Model.Items[i].UnitName, new { @class = "form_input", autocomplete = "off", @style = "text-align:left",@readonly = "readonly" })</td>*@
                                 <td>@Html.TextBoxFor(m => Model.Items[i].Rate, new { @class = "form_input numbers-only", autocomplete = "off", @style = "text-align:right", @onkeyup = "ValueChanged(" + i + ");", })</td>
                                 <td>@Html.TextBoxFor(m => Model.Items[i].Discount, new { @class = "form_input cldiscount numbers-only", autocomplete = "off", @style = "text-align:right", @onkeyup = "ValueChanged(" + i + ");", })</td>
                                 <td>@Html.TextBoxFor(m => Model.Items[i].Amount, new { @class = "form_input clAmount", autocomplete = "off", @style = "text-align:right", @readonly = "readonly" })</td>
@@ -161,21 +167,22 @@
                     </tbody>
                     <tfoot>
                         <tr class="grid_heading">
-                            <th width="5%" class="text-center"><h1>Total</h1></th>
+                            <th width="5%" class="text-center"></th>
                             <th width="25%" class="text-center"><h1></h1></th>
                             @if (Model.isProjectBased == 0)
                             {
                                 <th width="25%" class="text-center"><h1></h1></th>
                             }
                             <th width="5%" class="text-right"></th>
-                            <th width="5%"></th>
-                            <th width="10%" class="text-right"></th>
+                            @*<th width="5%"></th>*@
+                            <th width="10%" class="text-right"><h1>Total</h1></th>
 
                             <th width="10%" class="text-right"><span id="TotalDiscount">@totalDiscount</span></th>
                             <th width="10%" class="text-right"><span id="gridTotal">@totalAmount</span></th>
 
                         </tr>
                     </tfoot>
+
                 </table>
             </div>
             <div class="row form-group">
@@ -204,9 +211,9 @@
             <div class="row">
                 <div class="col-md-12 hrpart">
                     <button type="button" class="form-button right" onclick="Exit()">Exit</button>
-               
+                    <button type="submit" class="form-button right">Edit</button>
+                    <input type="button" value="Print" onclick="GoToPrint(@Model.ProformaInvoiceId)" class="form-button right" />
                 </div>
-
             </div>
 
         }
