@@ -216,7 +216,15 @@ namespace ArabErp.Web.Controllers
             GRN model = repo.GetGRNDetails(id);
             model.Items = repo.GetGRNItems(id);
             model.Additions = repo.GetGRNAdditions(id);
+
+            if (model.Additions.Count==0)
+            model.Additions.Add(new GRNAddition());
+
             model.Deductions = repo.GetGRNDeductions(id);
+
+            if (model.Deductions.Count==0)
+            model.Deductions.Add(new GRNDeduction());
+
             return View(model);
         }
         [HttpPost]
