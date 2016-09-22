@@ -414,11 +414,12 @@ namespace ArabErp
             {
 
                 string sql = @" SELECT JobCardId,JobCardNo,JobCardDate,SaleOrderRefNo RegistrationNo,Concat(CustomerName,',',DoorNo,',',Street)CustomerName,
-                                C.Phone,C.ContactPerson,E.EmployeeName Technician,C.CustomerName Customer
+                                C.Phone,C.ContactPerson,E.EmployeeName Technician,C.CustomerName Customer,U.FreezerUnitName
                                 FROM JobCard J
                                 INNER JOIN SaleOrder S ON S.SaleOrderId=J.SaleOrderId
                                 INNER JOIN Customer C ON C.CustomerId=S.CustomerId
                                 INNER JOIN Employee E ON E.EmployeeId=J.EmployeeId
+                                LEFT JOIN FreezerUnit U ON U.FreezerUnitId=J.FreezerUnitId
                                 WHERE JobCardId=@JobCardId";
 
                 var objJobCardId = connection.Query<JobCard>(sql, new
