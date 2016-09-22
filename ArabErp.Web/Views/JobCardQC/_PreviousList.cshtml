@@ -21,7 +21,7 @@
                 <td class="grid-cell">@item.JobCardNo &amp; @item.JobCardDate.ToString("dd/MMM/yyyy")</td>
                 <td class="grid-cell">@item.QCStatus</td>
                 <td>
-                    <center><input type="button" class="form-button4" value="Select" title="Select to view details" /></center>
+                    <center><input type="button" class="form-button4" value="Select" title="Select to view details" onclick="Open(@item.JobCardQCId)" /></center>
                 </td>
             </tr>
         </tbody>
