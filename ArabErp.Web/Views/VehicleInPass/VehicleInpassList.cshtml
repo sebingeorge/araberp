@@ -30,6 +30,11 @@
         var url = '@Url.Action("Index")';
         window.location = url;
     }
+    function Open(id) {
+        var url = '@Url.Action("Edit")';
+        url += "?id=" + id;
+        window.location = url;
+    }
 </script>
 
 @*<div class="row">

@@ -1,0 +1,120 @@
+﻿@model ArabErp.Domain.VehicleInPass
+
+@{
+    ViewBag.Title = "Vehicle In Pass";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<script type="text/javascript">
+    @*$(document).ready(function () {
+        @*$("#RegistrationNo").focus();
+        $.getJSON('@Url.Action("GetSaleOrderItemDetails")', { id: '@Model.SaleOrderItemId' },
+            function (data) {
+                $("#txtSONoDate").val(data.SaleOrderRefNo);
+                $("#txtWork").val(data.WorkDescr);
+                $("#txtVehicleModel").val(data.VehicleModelName);
+                $("#txtCustomer").val(data.CustomerName);
+            });
+    });*@
+
+        function formValidation() {
+            return confirm("Are you sure to Save?");
+        }
+
+        function Back() {
+            var url = '@Url.Action("VehicleInpassList")';
+            window.location = url;
+        }
+        $(function ()
+        {
+            $("#VehicleInPassDate").datepicker({ dateFormat: "dd-MM-yy" });
+        });
+ 
+</script>
+
+
+<div class="row">
+    <div class="form-head1">
+        <h4>Vehicle In-Pass</h4>
+    </div>
+    <div class="main-part pad1">
+        <div class="col-md-12">
+            <div class="row">
+                @using (Html.BeginForm("Save", null, FormMethod.Post, new { @class = "createFrom", onsubmit = "return formValidation()", @id = "vehicle-inpass-form" }))
+                {
+                    <div class="row form-group">
+                        <div class="col-md-2">
+                            <label>Vehicle In-Pass No.</label>
+                            @Html.TextBoxFor(m => m.VehicleInPassNo, new { @class = "form_input", @readonly = "readonly" })
+                        </div>
+                        <div class="col-md-2">
+                            <label>In-Pass Date</label>
+                            @Html.TextBoxFor(m => m.VehicleInPassDate, Model.VehicleInPassDate.ToString("dd/MMMM/yyyy"), new { @class = "form_input ", autocomplete = "off", @readonly = "readonly" })
+                        </div>
+                    </div>
+                    <div class="row form-group">
+                        <div class="col-md-4">
+                            <label>Customer</label>
+                            @Html.TextBoxFor(m => m.CustomerName, new { @class = "form_input", @readonly = "readonly" })
+                        </div>
+                        <div class="col-md-2">
+                            <label>SO.No. &amp; Date</label>
+                            @Html.TextBoxFor(m => m.SONODATE, new { @class = "form_input", @readonly = "readonly" })
+                        </div>
+                        <div class="row form-group">
+                            <div class="col-md-4">
+                                <label>Vehicle Model</label>
+                                @Html.TextBoxFor(m => m.VehicleInPassNo, new { @class = "form_input", @readonly = "readonly" })
+                            </div>
+                        </div>
+                        <div class="col-md-12">
+                            <div class="part1">
+                                <label>Work Description</label>
+                                @Html.TextAreaFor(m => m.WorkDescr, new { @class = "form_input form_input-h1", @readonly = "readonly" })
+                            </div>
+                            </div>
+                    </div>
+
+                    <div class="row form-group">
+
+                        <div class="col-md-2">
+                            <label>Chassis No./Reg No.</label>
+                            @Html.HiddenFor(m => m.SaleOrderItemId)
+                            @Html.TextBoxFor(m => m.RegistrationNo, new { @class = "form_input", autocomplete = "off" })
+                        </div>
+
+                        <div class="col-md-4">
+                            <label>Employee</label>
+                            @Html.DropDownListFor(m => m.EmployeeId, (SelectList)ViewBag.employeeList, "Select Employee", new { @class = "form_input" })
+                        </div>
+                    </div>
+
+                    <div class="row form-group">
+                        <div class="col-md-12">
+
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="part1">
+                                        <label>Special Remarks</label>
+                                        @Html.TextAreaFor(m => m.Remarks, new { @class = "form_input form_input-h" })
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-12 hrpart">
+                            <input class="form-button right" type="button" value="Exit" onclick="Back()" />
+                            @*<input class="form-button right" type="submit" value="Save" />*@
+
+                        </div>
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
