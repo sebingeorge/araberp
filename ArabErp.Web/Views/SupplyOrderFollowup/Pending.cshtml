@@ -51,18 +51,19 @@
             //$("#" + obj.id).removeClass("hasDatepicker");
             $(obj).datepicker({ dateFormat: "dd-MM-yy" });
         });
-
     }
-    function Exit() {
-        var url = '@Url.Action("SupplyOrderFollowup")';
-        window.location = url;
-    }
+    
+        function Exit() {
+            var url = '@Url.Action("Index","Home")';
+            window.location = url;
+        }
+    
 
 </script>
 
 
 
-@using (Html.BeginForm("Save", null, FormMethod.Post, new { @class = "createFrom", @id = "CustomerVsSalesExecutive_form" }))
+@using (Html.BeginForm("Save", null, FormMethod.Post, new { @class = "createFrom", @id = "SupplyOrderFollowup_form" }))
     {
   //  <div class="row">
 
