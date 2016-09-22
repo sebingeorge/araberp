@@ -68,8 +68,9 @@ namespace ArabErp.Web.Controllers
         }
         public ActionResult PendingSalesInvoice(string invType)
         {
-            var List = Repo.GetSalesInvoiceCustomerList(invType);
-            return View("PendingSalesInvoice", List);
+            ViewBag.saleOrderList = new SelectList(Repo.GetSalesInvoiceCustomerList(invType), "SaleOrderId", "SaleOrderRefNoWithDate");
+            //var List = Repo.GetSalesInvoiceCustomerList(invType);
+            return View("PendingSalesInvoice");
 
         }
         public ActionResult PendingSalesInvoiceDt(int SalesOrderId, string Customer, string SaleOrderRefNoWithDate, string invType)
@@ -261,6 +262,8 @@ namespace ArabErp.Web.Controllers
                 return RedirectToAction("Edit", new { id = Id });
             }
         }
+
+
         //{
             
 
