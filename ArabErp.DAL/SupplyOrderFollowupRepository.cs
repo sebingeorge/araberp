@@ -16,19 +16,20 @@ namespace ArabErp.DAL
 
             using (IDbConnection connection = OpenConnection(dataConnection))
             {
-                
+
                 foreach (SupplyOrderFollowup item in model)
                 {
-                    if (item.ExpectedDate == DateTime.MinValue) continue;
-                    string checksql = @"DELETE from SupplyOrderFollowup where SupplyOrderItemId=@SupplyOrderItemId ";
+                    if (item.ExpectedDate != null)
+                    {
+                        string checksql = @"DELETE from SupplyOrderFollowup where SupplyOrderItemId=@SupplyOrderItemId ";
 
-                    connection.Query<int>(checksql, item);
-            
-                string sql = @"insert  into SupplyOrderFollowup(SupplyOrderItemId,SupplyOrderFollowupDate,ExpectedDate,Remarks,CreatedBy,CreatedDate,OrganizationId) Values (@SupplyOrderItemId,@SupplyOrderFollowupDate,@ExpectedDate,@Remarks,@CreatedBy,@CreatedDate,@OrganizationId);
+                        connection.Query<int>(checksql, item);
+
+                        string sql = @"insert  into SupplyOrderFollowup(SupplyOrderItemId,SupplyOrderFollowupDate,ExpectedDate,Remarks,CreatedBy,CreatedDate,OrganizationId) Values (@SupplyOrderItemId,@SupplyOrderFollowupDate,@ExpectedDate,@Remarks,@CreatedBy,@CreatedDate,@OrganizationId);
                               SELECT CAST(SCOPE_IDENTITY() as int)";
 
-                int objCustomerVsSalesExecutive = connection.Query<int>(sql, item).First();         
-                
+                        int objCustomerVsSalesExecutive = connection.Query<int>(sql, item).First();
+                    }
                 }
 
                 return 1;
@@ -50,42 +51,42 @@ namespace ArabErp.DAL
                                 inner join Item I on PI.ItemId=I.ItemId
 								left join SupplyOrderFollowup SF on SF.SupplyOrderItemId=SI.SupplyOrderItemId";
 
-               model.SupplyOrderFollowups = connection.Query<SupplyOrderFollowup>(query).ToList<SupplyOrderFollowup>();
+                model.SupplyOrderFollowups = connection.Query<SupplyOrderFollowup>(query).ToList<SupplyOrderFollowup>();
                 return model;
             }
         }
-                   
-          
 
-//        public SupplyOrderFollowup GetSupplyOrderFollowup(int SupplyOrderFollowupId)
-//        {
 
-//            using (IDbConnection connection = OpenConnection(dataConnection))
-//            {
-//                string sql = @"select * from SupplyOrderFollowup
-//                        where SupplyOrderFollowupId=@SupplyOrderFollowupId";
 
-//                var objSupplyOrderFollowup = connection.Query<SupplyOrderFollowup>(sql, new
-//                {
-//                    SupplyOrderFollowupId = SupplyOrderFollowupId
-//                }).First<SupplyOrderFollowup>();
+        //        public SupplyOrderFollowup GetSupplyOrderFollowup(int SupplyOrderFollowupId)
+        //        {
 
-//                return objSupplyOrderFollowup;
-//            }
-//        }
+        //            using (IDbConnection connection = OpenConnection(dataConnection))
+        //            {
+        //                string sql = @"select * from SupplyOrderFollowup
+        //                        where SupplyOrderFollowupId=@SupplyOrderFollowupId";
 
-//        public List<SupplyOrderFollowup> GetSupplyOrderFollowups()
-//        {
-//            using (IDbConnection connection = OpenConnection(dataConnection))
-//            {
-//                string sql = @"select * from SupplyOrderFollowup
-//                        where isActive=1";
+        //                var objSupplyOrderFollowup = connection.Query<SupplyOrderFollowup>(sql, new
+        //                {
+        //                    SupplyOrderFollowupId = SupplyOrderFollowupId
+        //                }).First<SupplyOrderFollowup>();
 
-//                var objSupplyOrderFollowups = connection.Query<SupplyOrderFollowup>(sql).ToList<SupplyOrderFollowup>();
+        //                return objSupplyOrderFollowup;
+        //            }
+        //        }
 
-//                return objSupplyOrderFollowups;
-//            }
-//        }
+        //        public List<SupplyOrderFollowup> GetSupplyOrderFollowups()
+        //        {
+        //            using (IDbConnection connection = OpenConnection(dataConnection))
+        //            {
+        //                string sql = @"select * from SupplyOrderFollowup
+        //                        where isActive=1";
+
+        //                var objSupplyOrderFollowups = connection.Query<SupplyOrderFollowup>(sql).ToList<SupplyOrderFollowup>();
+
+        //                return objSupplyOrderFollowups;
+        //            }
+        //        }
 
 
 
