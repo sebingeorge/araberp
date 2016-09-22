@@ -186,7 +186,7 @@
 
     function Exit() {
 
-        location.href = '@Url.Action("Index", new { type = Model.isProjectBased })';
+        location.href = '@Url.Action("Index", new { type = Request.QueryString["type"] })';
       
     }
 

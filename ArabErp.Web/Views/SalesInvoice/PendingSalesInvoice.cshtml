@@ -85,7 +85,8 @@
         <h4>Pending Sales Invoice</h4>
     </div>
     <div class="main-part pad1">
-        <div class="main-list wid" style="margin-bottom:10px" id="PendingCustomerInvoiceDiv">
+
+        @*<div class="main-list wid" style="margin-bottom:10px" id="PendingCustomerInvoiceDiv">
             <div class="main-grid">
                 <div>
                     <div class="table-responsive">
@@ -112,11 +113,7 @@
                     </div>
                 </div>
             </div>
-        </div>
-
-
-
-
+        </div>*@
 
         <div id="SalesInvoiceListDiv">
             @Html.Action("PendingSalesInvoiceDt", new { SalesOrderId = 0, Customer = "Select Any Invoice", SaleOrderRefNoWithDate = "Select Any Invoice" })
