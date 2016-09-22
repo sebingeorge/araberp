@@ -50,6 +50,7 @@
             //alert(obj.id);
             //$("#" + obj.id).removeClass("hasDatepicker");
             $(obj).datepicker({ dateFormat: "dd-MM-yy" });
+     
         });
 
     }
@@ -117,8 +118,12 @@
                 </td>
 
                 <td>
-                    @Html.TextBoxFor(m => m.SupplyOrderFollowups[row].ExpectedDate, item.ExpectedDate.ToString("dd/MMMM/yyyy"), new { @class = "ExpectedDate form_input", autocomplete = "off", @readonly = "readonly" })  
-                  
+                   @* @Html.TextBoxFor(m => m.SupplyOrderFollowups[row].ExpectedDate, item.ExpectedDate.ToString("dd/MMMM/yyyy"), new { @class = "ExpectedDate form_input", autocomplete = "off", @readonly = "readonly" })*@  
+                    @Html.TextBoxFor(m => m.SupplyOrderFollowups[row].ExpectedDate, @String.Format("{0:dd/MMMM/yyyy}", item.ExpectedDate), new { @class = "ExpectedDate form_input", autocomplete = "off", @readonly = "readonly" })
+
+
+
+
                 </td>
                 <td>
                     @Html.TextBoxFor(m => m.SupplyOrderFollowups[row].Remarks, new { @class = "Remarks form_input", autocomplete = "off" })
