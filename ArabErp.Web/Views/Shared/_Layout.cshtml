@@ -147,7 +147,7 @@
                         <a href="#" data-toggle="collapse" data-target="#admin-level-menu">Admin<span class="caret arrow"></span></a>
                         <div id="admin-level-menu" class="collapse">
                             <ul>
-                                     <li>
+                                <li>
                                         <a href="#" data-toggle="collapse" data-target="#admin-item">Item<span class="caret arrow"></span></a>
                                         <div id="admin-item" class="collapse">
                                             <ul>
@@ -156,9 +156,9 @@
                                                 <li><a href="@Url.Action("Create","ItemSubGroup")">Item SubGroup</a></li>
                                                 <li><a href="@Url.Action("Index","Item")">Item</a></li>
                                                 <li><a href="@Url.Action("Create", "Unit")">UOM</a></li>
-                                           </ul>
+                            </ul>
                                         </div>
-                                    </li>
+                        </li>
 
                                     <li>
                                         <a href="#" data-toggle="collapse" data-target="#admin-employee">Employee<span class="caret arrow"></span></a>
@@ -167,9 +167,9 @@
                                                 <li><a href="@Url.Action("Create","Designation")">Designation</a></li>
                                                 <li><a href="@Url.Action("Create","EmployeeCategory")">Employee Category</a></li>
                                                 <li><a href="@Url.Action("Create", "Employee")">Employee</a></li>
-                                            </ul>
+                            </ul>
                                         </div>
-                                   </li>
+                        </li>
 
                                     <li>
                                         <a href="#" data-toggle="collapse" data-target="#admin-supplier">Supplier<span class="caret arrow"></span></a>
@@ -177,9 +177,9 @@
                                             <ul>
                                                 <li><a href="@Url.Action("Create","SupplierCategory")">Supplier Category</a></li>
                                                 <li><a href="@Url.Action("Index", "Supplier")">Supplier</a></li>
-                                            </ul>
+                            </ul>
                                         </div>
-                                    </li>
+                        </li>
 
                                     <li>
                                         <a href="#" data-toggle="collapse" data-target="#admin-customer">Customer<span class="caret arrow"></span></a>
@@ -187,15 +187,16 @@
                                             <ul>
                                                 <li><a href="@Url.Action("Create","CustomerCategory")">Customer Category</a></li>
                                                 <li><a href="@Url.Action("Index", "Customer")">Customer</a></li>
-                                            </ul>
+                            </ul>
                                         </div>
-                                   </li>
+                        </li>
 
                                     <li><a href="@Url.Action("Create", "Organization")">Organization</a></li>
                                     <li><a href="@Url.Action("Create","Currency")">Currency</a></li>
                                     <li><a href="@Url.Action("Create", "CostingParameters")">CostingParameters</a></li>
                                     <li><a href="@Url.Action("Create", "QCParameter")">QCParameters</a></li>
-                                    <li><a href="@Url.Action("Create", "CustomerVsSalesExecutive")">CustomerVsSalesExecutive</a></li>
+                                 
+                                <li><a href="@Url.Action("Create", "CustomerVsSalesExecutive")">CustomerVsSalesExecutive</a></li>
                                     <li><a href="@Url.Action("Index","WorkDescription")">Transport Work Description</a></li>
                                     <li><a href="@Url.Action("FillProjectWorkDescriptionList", "WorkDescription")">Project Work Description</a></li>
                                     <li><a href="@Url.Action("Create","VehicleModel")">Vehicle Model</a></li>
@@ -215,7 +216,7 @@
                                     <div id="admin-rate-settings" class="collapse">
                                         <ul>
                                             <li><a href="@Url.Action("Index","RateSettings")">Work Description Rate Settings</a></li>
-                                            <li><a class="projectn" href="@Url.Action("Create", "CustomerVsWorkRate")">Customer Wise Work Rate Settings</a></li>@*class = lh*@
+                                    <li><a class="projectn" href="@Url.Action("Create", "CustomerVsWorkRate")">Customer Wise Work Rate Settings</a></li>@*class = lh*@
                                             <li><a href="@Url.Action("Create", "SupplierItemRate")">Supplier Wise Item Rate Settings</a></li>
                                         </ul>
                                     </div>
@@ -227,9 +228,9 @@
                                             <ul>
                                                 <li><a href="@Url.Action("Register", "Account")">User Settings</a></li>
                                                 <li><a href="@Url.Action("Create", "QuotationApproval")">Quotation Approval V/s User</a></li>
-                                           </ul>
-                                        </div>
-                                   </li>
+                                        </ul>
+                                    </div>
+                                </li>
                                 @*<li><a href="@Url.Action("Create", "Organization")"><span class="badge pull-right"></span>Organization</a></li>
                         <li><a href="@Url.Action("Create","Currency")"><span class="badge pull-right"></span>Currency</a></li>
                         <li><a href="@Url.Action("Create", "CostingParameters")"><span class="badge pull-right"></span>Costing Parameters</a></li>
@@ -271,6 +272,7 @@
                                 <li><a href="@Url.Action("PendingPurchaseRequest","PurchaseRequest")">Purchase Request</a></li>
                                 <li><a href="@Url.Action("PendingSupplyOrder","SupplyOrder")">Supply Order / LPO</a></li>
                                 <li><a href="@Url.Action("PendingApproval", "SupplyOrder")">Supply Order / LPO Approval</a></li>
+                                <li><a href="@Url.Action("Pending", "SupplyOrderFollowup")">SupplyOrder Followup</a></li>
                                 <li><a href="@Url.Action("CreateRequest","DirectPurchase")">Direct Purchase Request</a></li>
                                 <li><a href="@Url.Action("Approval","DirectPurchase")">Direct Purchase Approval</a></li>
                                 <li><a href="@Url.Action("PendingGrnWareHouse","GrnWareHouse")">GRN</a></li>

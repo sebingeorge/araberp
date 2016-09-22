@@ -33,6 +33,23 @@ namespace ArabErp.DAL
             }
 
         }
+
+        public List<ProformaInvoiceItem> GetProformaInvoiceItemDT(int ProformaInvoiceId)
+        {
+            using (IDbConnection connection = OpenConnection(dataConnection))
+            {
+                string sql = @" SELECT V.VehicleModelName,W.WorkDescr WorkDescription,W.WorkDescriptionRefNo,ProformaInvoiceItemId,ProformaInvoiceId,P.SaleOrderItemId,S.Quantity,P.Rate,P.Discount,P.Amount,'job'UnitName
+                                FROM ProformaInvoiceItem P
+                                inner join SaleOrderItem S ON P.SaleOrderItemId=S.SaleOrderItemId
+                                left join WorkDescription W on S.WorkDescriptionId=W.WorkDescriptionId
+                                left join VehicleModel V on V.VehicleModelId=S.VehicleModelId
+                                left join Unit u on u.UnitId=s.UnitId where ProformaInvoiceId =@ProformaInvoiceId";
+
+                return connection.Query<ProformaInvoiceItem>(sql, new { ProformaInvoiceId = ProformaInvoiceId }).ToList();
+
+
+            }
+        }
     }
 }
 

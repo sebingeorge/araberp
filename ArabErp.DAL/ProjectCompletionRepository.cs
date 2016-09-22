@@ -206,7 +206,7 @@ namespace ArabErp.DAL
                 {
                     string query = @"SELECT 
 	                                    ProjectName,
-	                                    ColdRoomLocation Location,
+	                                    --ColdRoomLocation Location,
 	                                    C.CustomerName
                                     FROM QuerySheet QS
 	                                    INNER JOIN SalesQuotation SQ ON QS.QuerySheetId = SQ.QuerySheetId

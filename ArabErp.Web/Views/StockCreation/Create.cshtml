@@ -113,19 +113,19 @@
                 </div>
             </div>
             
-            <strong>Consumed Items (OUT):</strong>
+            <strong>Consumed Items (Stock OUT):</strong>
             <div class="table-responsive scroll4" id="consumed-table">
                 @Html.Partial("_ConsumedItem")
             </div>
 
-            <strong>Finished Goods (IN):</strong>
+            <strong>Finished Goods (Stock IN):</strong>
             <div class="table-responsive scroll4" id="finished-table">
                 @Html.Partial("_FinishedGood")
             </div>
 
             <div class="row">
                 <div class="col-md-12 hrpart">
-                    <input type="button" class="form-button" value="Previous" onclick="Previous()" title="Previously created stocks" />
+                    <input type="button" class="form-button" value="Previous" onclick="Previous()" title="Previously converted stocks" />
                     <input type="button" class="form-button right" value="Exit" onclick="Exit()" title="Go to home page" />
                     <input type="submit" class="form-button right" value="Save" />
                 </div>

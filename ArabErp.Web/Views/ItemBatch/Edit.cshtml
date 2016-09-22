@@ -1,4 +1,5 @@
-﻿@model IList<ArabErp.Domain.ItemBatch>
+﻿@using ArabErp.Domain
+@model IList<ItemBatch>
 
 @{
     ViewBag.Title = "Edit Serial Numbers";
@@ -29,6 +30,19 @@
 
     function Back() {
         var url = '@Url.Action("Index")';
+        window.location = url;
+    }
+
+    function Delete() {
+        var url = '@Url.Action("Delete")';
+        url += "?id=" +@if (Model[0].isOpeningStock == 0) 
+                    { 
+                        @:"@Model[0].GRNItemId&type=@Model[0].isOpeningStock";
+                    }
+                    else
+                    {
+                        @:"@Model[0].OpeningStockId&type=@Model[0].isOpeningStock";
+                    }
         window.location = url;
     }
 
@@ -145,8 +159,30 @@
             </div>
             <div class="row">
                 <div class="col-md-12 hrpart">
-                    <input type="button" class="form-button right" onclick="Back()" value="Back">
-                    <button type="submit" class="form-button right">Save</button>
+                    @{
+                        var reservedCount = (from ItemBatch i in Model
+                                             where i.SaleOrderItemId > 0
+                                             select i).ToList().Count;
+
+                        <input type="button" class="form-button right" onclick="Back()" value="Exit">
+                        if (reservedCount == Model.Count)
+                        {
+                            <em class="perm">**Cannot delete/edit because all materials are reserved.</em>
+                        }
+                        else
+                        {
+                            if (reservedCount > 0)
+                            {
+                                <em class="perm">**Cannot delete because some materials are reserved</em>
+                            }
+                            else
+                            {
+                                <input type="button" class="form-button left" onclick="Delete()" value="Delete">
+                            }
+                            <button type="submit" class="form-button right">Edit</button>
+                        }
+                    }
+                    
                 </div>
             </div>
         }
