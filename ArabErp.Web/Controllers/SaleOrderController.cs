@@ -660,7 +660,7 @@ namespace ArabErp.Web.Controllers
             return PartialView("IncentiveAmountGrid", new SaleOrderRepository().GetSaleOrderIncentiveAmountList(FromDate, ToDate, CommissionAgentId));
         }
 
-        public ActionResult Edit(int id = 0, int Qutnid = 0)
+        public ActionResult Edit(int type, int id = 0, int Qutnid = 0)
         {
             if (id != 0)
             {
