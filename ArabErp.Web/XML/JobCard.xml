@@ -13,6 +13,7 @@
                 <xs:element name="CustomerName" type="xs:string" minOccurs="0" />
                 <xs:element name="Phone" type="xs:string" minOccurs="0" />
                 <xs:element name="ContactPerson" type="xs:string" minOccurs="0" />
+                <xs:element name="Unit" type="xs:string" minOccurs="0" />
                 <xs:element name="Customer" type="xs:string" minOccurs="0" />
                 <xs:element name="Technician" type="xs:string" minOccurs="0" />
               </xs:sequence>
@@ -34,18 +35,19 @@
     </xs:element>
   </xs:schema>
   <Head>
-    <JobCardNo>JC-16/20</JobCardNo>
-    <JobCardDate>09-Sep-2016</JobCardDate>
-    <SaleOrderRefNo>SO/P-16/38</SaleOrderRefNo>
+    <JobCardNo>JC-16/35</JobCardNo>
+    <JobCardDate>21-Sep-2016</JobCardDate>
+    <SaleOrderRefNo>SAL/30</SaleOrderRefNo>
     <CustomerName>M/S Al Rashid Ice Factory,1fg,fg</CustomerName>
     <Phone>54</Phone>
     <ContactPerson>54</ContactPerson>
+    <Unit>3 ton</Unit>
     <Customer>M/S Al Rashid Ice Factory</Customer>
-    <Technician>Anjali</Technician>
+    <Technician>Rajeev</Technician>
   </Head>
   <Items>
-    <TaskDate>12-Sep-2016</TaskDate>
-    <Employee>Arathi</Employee>
+    <TaskDate>23-Sep-2016</TaskDate>
+    <Employee>Shanid</Employee>
     <Description>Main Unit Fixing</Description>
     <StartTime>0.00</StartTime>
     <EndTime>0.00</EndTime>

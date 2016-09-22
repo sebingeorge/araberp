@@ -258,7 +258,7 @@ namespace ArabErp.Web.Controllers
                     model.OrganizationId = OrganizationId;
                     model.CreatedDate = System.DateTime.Now;
                     model.CreatedBy = UserID.ToString();
-                    model.isProjectBased = 0;
+                  
                     string id = new SaleOrderRepository().InsertSaleOrder(model);
                     if (id.Split('|')[0] != "0")
                     {
@@ -491,13 +491,7 @@ namespace ArabErp.Web.Controllers
             var repo = new SaleOrderRepository();
             SaleOrder model = repo.GetSaleOrder(SaleOrderId ?? 0);
             model.Items = repo.GetSaleOrderItem(SaleOrderId ?? 0);
-            //model.Items = new List<SaleOrderItem>();
-            //foreach (var item in SOList)
-            //{
-            //    var soitem = new SaleOrderItem { WorkDescriptionId = item.WorkDescriptionId, VehicleModelId = item.VehicleModelId, Quantity = item.Quantity, UnitId = item.UnitId, Rate = item.Rate,Amount=item.Amount,Discount=item.Discount };
-            //    model.Items.Add(soitem);
-
-            //}
+           
             FillWrkDesc();
             return View("Approval", model);
         }
@@ -651,6 +645,7 @@ namespace ArabErp.Web.Controllers
 
             List<SalesQuotation> salesquotations = repo.GetSalesQuotationForSO(ProjectBased);
             ViewBag.ProjectBased = ProjectBased;
+                //salesquotations[0].isProjectBased;
             return View(salesquotations);
         }
 
@@ -665,7 +660,7 @@ namespace ArabErp.Web.Controllers
             return PartialView("IncentiveAmountGrid", new SaleOrderRepository().GetSaleOrderIncentiveAmountList(FromDate, ToDate, CommissionAgentId));
         }
 
-        public ActionResult Edit(int id = 0, int Qutnid = 0)
+        public ActionResult Edit(int type, int id = 0, int Qutnid = 0)
         {
             if (id != 0)
             {

@@ -25,7 +25,7 @@ namespace ArabErp.DAL
                 {
                     var internalId = "";
                     decimal MaterialAmt = 0;
-                    if(objSaleOrder.isProjectBased == 0)
+                    if (objSaleOrder.isProjectBased == 0 || objSaleOrder.isProjectBased == 2)
                     {
                         internalId = DatabaseCommonRepository.GetNewDocNo(connection, objSaleOrder.OrganizationId ?? 0, 3, true,txn);
                     }
@@ -33,13 +33,13 @@ namespace ArabErp.DAL
                     {
 
                         internalId = DatabaseCommonRepository.GetNewDocNo(connection, objSaleOrder.OrganizationId ?? 0, 4, true,txn);
-                        MaterialAmt = objSaleOrder.Materials.Sum(m => m.Amount);
+                      
                     }
 
                     objSaleOrder.SaleOrderRefNo = internalId;
 
-                 
 
+                    MaterialAmt = objSaleOrder.Materials.Sum(m => m.Amount);
                     objSaleOrder.TotalAmount = objSaleOrder.Items.Sum(m => m.Amount) + MaterialAmt;
                     objSaleOrder.TotalDiscount = objSaleOrder.Items.Sum(m => m.Discount);
 
@@ -117,7 +117,7 @@ namespace ArabErp.DAL
                 string sql = @"SELECT SaleOrderId,SaleOrderRefNo,SaleOrderDate,CONCAT(QuotationRefNo,'/',CONVERT (VARCHAR(15),QuotationDate,104))QuotationNoDate,  
                                C.CustomerId,CustomerName,DoorNo +','+ Street+','+State CustomerAddress,CustomerOrderRef,S.CurrencyId,SpecialRemarks,S.PaymentTerms,
                                DeliveryTerms,CommissionAgentId,CommissionAmount,TotalAmount,TotalDiscount,S.SalesExecutiveId,EDateArrival,EDateDelivery,SaleOrderApproveStatus,
-                               SaleOrderHoldStatus,SaleOrderHoldReason,SaleOrderHoldDate,SaleOrderReleaseDate,S.SalesQuotationId,SaleOrderClosed,SQ.isProjectBased,CUR.CurrencyName
+                               SaleOrderHoldStatus,SaleOrderHoldReason,SaleOrderHoldDate,SaleOrderReleaseDate,S.SalesQuotationId,SaleOrderClosed,S.isProjectBased,CUR.CurrencyName
                                FROM SaleOrder S 
                                INNER JOIN Customer C ON S.CustomerId=C.CustomerId  
 							   LEFT JOIN Currency CUR ON S.CurrencyId = CUR.CurrencyId
@@ -594,9 +594,11 @@ namespace ArabErp.DAL
                 query += " inner join Customer C on S.CustomerId = C.CustomerId";
                 query += " left join SalesQuotation SQ ON SQ.SalesQuotationId=S.SalesQuotationId";
                 query += " where S.SaleOrderId= ISNULL(NULLIF(@id, 0), S.SaleOrderId) AND C.CustomerId = ISNULL(NULLIF(@cusid, 0), C.CustomerId)";
-                query += " AND S.isActive = 1 and S.OrganizationId = @OrganizationId and S.SaleOrderDate BETWEEN ISNULL(@from, DATEADD(MONTH, -1, GETDATE())) AND ISNULL(@to, GETDATE()) and S.isProjectBased =" + isProjectBased;
+                query += " AND S.isActive = 1 and S.OrganizationId = @OrganizationId and S.SaleOrderDate BETWEEN ISNULL(@from, DATEADD(MONTH, -1, GETDATE())) AND ISNULL(@to, GETDATE())";
+                query += " AND ((@isProjectBased=0 and SQ.IsProjectBased in (0,2)) or ( @isProjectBased=1  and SQ.IsProjectBased in (1)))";
 
-                return connection.Query<PendingSO>(query, new { OrganizationId = OrganizationId, id = id, cusid = cusid, to = to, from = from }).ToList();
+
+                return connection.Query<PendingSO>(query, new { isProjectBased = isProjectBased, OrganizationId = OrganizationId, id = id, cusid = cusid, to = to, from = from }).ToList();
             }
         }
 
