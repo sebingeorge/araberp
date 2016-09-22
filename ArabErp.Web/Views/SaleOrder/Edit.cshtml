@@ -186,8 +186,8 @@
 
     function Exit() {
 
-        location.href = '@Url.Action("Index", new { type = Model.isProjectBased })';
-        alert(location.href);
+        location.href = '@Url.Action("Index", new { type = ViewBag.isProjectBased })';
+      
     }
 
     function DeleteItem(id) {
