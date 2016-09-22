@@ -226,6 +226,7 @@ namespace ArabErp.Web.Controllers
             ds.Tables["Head"].Columns.Add("CustomerName");
             ds.Tables["Head"].Columns.Add("Phone");
             ds.Tables["Head"].Columns.Add("ContactPerson");
+            ds.Tables["Head"].Columns.Add("Unit");
             ds.Tables["Head"].Columns.Add("Customer");
             ds.Tables["Head"].Columns.Add("Technician");
             //-------DT
@@ -246,6 +247,7 @@ namespace ArabErp.Web.Controllers
             dr["Phone"] = Head.Phone;
             dr["ContactPerson"] = Head.ContactPerson;
             dr["Customer"] = Head.Customer;
+            dr["Unit"] = Head.FreezerUnitName;
             dr["Technician"] = Head.Technician;
             ds.Tables["Head"].Rows.Add(dr);
 

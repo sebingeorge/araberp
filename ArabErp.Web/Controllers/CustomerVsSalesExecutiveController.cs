@@ -43,19 +43,14 @@ namespace ArabErp.Web.Controllers
             foreach (CustomerVsSalesExecutive item in model.CustomerVsSalesExecutives)
             {
                 item.CreatedDate=System.DateTime.Now;
-                item.CreatedBy=UserID.ToString();
-                
+                item.CreatedBy=UserID.ToString();          
             }
 
             var rtn = new CustomerVsSalesExecutivesRepository().InsertCustomerSalesExecutive(model.CustomerVsSalesExecutives);
 
             FillEmployee();
-
-
             TempData["Success"] = "Added Successfully!";
-            CustomerVsSalesExecutive CustomerVsSales = new CustomerVsSalesExecutive();
-            //    OpeningStock.OpeningStockItem = new List<OpeningStockItem>();
-            //OpeningStock.OpeningStockItem.Add(new OpeningStockItem());
+           // CustomerVsSalesExecutive CustomerVsSales = new CustomerVsSalesExecutive();  
             return RedirectToAction("Create");
         }
 
