@@ -160,7 +160,7 @@
                     @if (actionName == "Create")
                     {
                         <div class="col-md-2">
-                            <label for="ProjectName">Query Sheet Ref No.</label>
+                            <label for="QuerySheetRefNo">Query Sheet Ref No.</label>
                             @Html.TextBoxFor(m => m.QuerySheetRefNo, new { @class = "form_input", autocomplete = "off", @readonly = "readonly" })
                         </div>
                  <div class="col-md-2">
@@ -178,7 +178,7 @@
                         <label for="ProjectName">Project Name</label>
                         @if (actionName == "Create")
                         {
-                            @Html.TextBoxFor(m => m.ProjectName, new { @class = "form_input", autocomplete = "off" })
+                            @Html.TextBoxFor(m => m.ProjectName, new { @class = "form_input", autocomplete = "off", @required = "true" })
                         }
                         else
                         {
@@ -232,28 +232,30 @@
 
     </div>
 
-    <div class="table-responsive">
-        <table class="table table-bordered" id="tab_logic">
+    <div class="table-responsive scroll2" style="overflow-x:scroll">
+        <table class="table table-bordered" id="tab_logic" style="overflow-x:scroll;margin-bottom:0px">
             <thead>
                 <tr class="grid_heading">
-                    <th width="2%" class="text-center"></th>
+                    <th width="1%" class="text-center"></th>
                     <th width="2%" class="text-center"><h1>#</h1></th>
-                    <th width="18%"><h1>Room Details</h1></th>
-                    <th width="5%"><h1>External Room Dimension</h1></th>
-                    <th width="5%"><h1>Cold Room Area</h1></th>
-                    <th width="5%"><h1>Cold Room Location</h1></th>
+                    <th width="10%" nowrap><h1>Room Details</h1></th>
+                    <th width="5%" nowrap><h1>External Room Dimension</h1></th>
+                    <th width="5%" nowrap><h1>Cold Room Area</h1></th>
+                    <th width="5%" nowrap><h1>Cold Room Location</h1></th>
                     <th width="5%"><h1>Temperature</h1></th>
-                    <th width="5%"><h1>Panel Thickness</h1></th>
-                    <th width="10%"><h1>Floor Details</h1></th>
-                    <th width="15%"><h1>Product Details</h1></th>
-                    <th width="5%"><h1>Product Incoming Temperature</h1></th>
-                    <th width="5%"><h1>Pipe Length</h1></th>
+                    <th width="5%" nowrap><h1>Panel Thickness</h1></th>
+                    <th width="10%" nowrap><h1>Floor Details</h1></th>
+                    <th width="10%" nowrap><h1>Product Details</h1></th>
+                    <th width="5%" nowrap><h1>Product Incoming Temperature</h1></th>
+                    <th width="5%" nowrap><h1>Pipe Length</h1></th>
                     <th width="5%"><h1>Refrigerant</h1></th>
-                    <th width="5%"><h1>Eletrical Power</h1></th>
-                    <th width="5%"><h1>Door Size</h1></th>
+                    <th width="5%" nowrap><h1>Electrical Power</h1></th>
+                    <th width="5%" nowrap><h1>Door Size</h1></th>
                     <th width="5%"><h1>Kilowatt</h1></th>
-                    <th width="2%" class="text-center"></th>
-                   
+                    <th width="5%"><h1>Unit</h1></th>
+                    <th width="5%"><h1>Cost</h1></th>
+                    <th width="1%" class="text-center"></th>
+
                 </tr>
             </thead>
             <tbody>
@@ -280,14 +282,17 @@
                         <td>@Html.TextAreaFor(m => Model.QuerySheetItems[i].EletricalPowerAvailability, new { @class = "form_input form_input-h", autocomplete = "off" })</td>
                         <td>@Html.TextAreaFor(m => Model.QuerySheetItems[i].DoorSizeTypeAndNumberOfDoor, new { @class = "form_input form_input-h", autocomplete = "off" })</td>
                         <td>@Html.TextAreaFor(m => Model.QuerySheetItems[i].Kilowatt, new { @class = "form_input form_input-h", autocomplete = "off" })</td>
+                        <td>@Html.TextAreaFor(m => Model.QuerySheetItems[i].Unit, new { @class = "form_input form_input-h", autocomplete = "off" })</td>
+                        <td>@Html.TextBoxFor(m => Model.QuerySheetItems[i].Cost, new { @class = "form_input numbers-only", autocomplete = "off" })</td>
                         <td style="vertical-align:middle"><a id="add_row" class="glyphicon glyphicon-plus" style="top:0px" onclick="AddRow()"></a></td>
                     </tr>
                 }
 
             </tbody>
-            
+
         </table>
     </div>
+                <br />
     @Html.Partial("_ProjectCosting", Model)
 
                 <div class="row">
