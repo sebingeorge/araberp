@@ -374,6 +374,7 @@
     <Content Include="Content\images\yes.png" />
     <Content Include="Content\jquery-1.12.4.min.js" />
     <Content Include="Content\jquery-2.1.4.min.js" />
+    <Content Include="Content\jquery.freezeheader.js" />
     <Content Include="Content\jquery.timepicker.css" />
     <Content Include="Content\PagedList.css" />
     <Content Include="Content\simple-sidebar.css" />
