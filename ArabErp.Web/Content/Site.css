@@ -1172,9 +1172,9 @@ section.content {
     font-size:10px;
 
 }
-#ui-id-1
+.ui-menu
 {
-    max-height:200px;
+    max-height:150px;
     overflow:scroll;
     overflow-x:hidden;
 }
