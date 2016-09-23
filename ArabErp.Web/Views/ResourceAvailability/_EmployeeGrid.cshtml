@@ -4,10 +4,11 @@
 <script>
     $(document).ready(function(){
         $('[data-toggle="tooltip"]').tooltip();
+        $("#resourcegrid").freezeHeader({ 'height': '300px' });
     });
 </script>
 
-<table class="table table-bordered table-hover" style="overflow-x:scroll">
+<table id="resourcegrid" class="table table-bordered table-hover" style="overflow-x:scroll">
 
     <thead>
         <tr class="grid_heading">
