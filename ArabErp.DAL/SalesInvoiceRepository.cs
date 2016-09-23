@@ -119,11 +119,12 @@ namespace ArabErp.DAL
                 if (invType == "Inter")
                 {
                     sql = @"SELECT DISTINCT C.CustomerName Customer, SO.SaleOrderId SaleOrderId,CONCAT(SO.SaleOrderRefNo,' - ',Convert(varchar(15),SO.SaleOrderDate,106 )) as SaleOrderRefNoWithDate
-                        FROM SaleOrder SO LEFT JOIN SaleOrderItem SOI ON SO.SaleOrderId=SOI.SaleOrderId
-						LEFT JOIN SalesInvoiceItem SII ON SOI.SaleOrderItemId=SII.SaleOrderItemId
-						LEFT JOIN JobCard JC ON JC.SaleOrderItemId=SOI.SaleOrderItemId
-						LEFT JOIN Customer C ON C.CustomerId=SO.CustomerId
-						WHERE SII.SalesInvoiceId IS NULL  AND SO.isProjectBased = 1 AND SO.isActive=1
+                        FROM SaleOrder SO 
+                        INNER JOIN SaleOrderItem SOI ON SO.SaleOrderId=SOI.SaleOrderId
+						INNER JOIN SalesInvoiceItem SII ON SOI.SaleOrderItemId=SII.SaleOrderItemId
+						INNER JOIN JobCard JC ON JC.SaleOrderItemId=SOI.SaleOrderItemId
+						INNER JOIN Customer C ON C.CustomerId=SO.CustomerId
+						WHERE SII.SalesInvoiceId IS NULL  AND SO.isProjectBased = 1 AND JC.JodCardCompleteStatus=1 
 						AND SO.isActive=1
 						AND JC.isActive=1
 						AND C.isActive=1
@@ -132,11 +133,12 @@ namespace ArabErp.DAL
                 else if (invType == "Final")
                 {
                     sql = @"SELECT DISTINCT C.CustomerName Customer, SO.SaleOrderId SaleOrderId,CONCAT(SO.SaleOrderRefNo,' - ',Convert(varchar(15),SO.SaleOrderDate,106 )) as SaleOrderRefNoWithDate
-                        FROM SaleOrder SO LEFT JOIN SaleOrderItem SOI ON SO.SaleOrderId=SOI.SaleOrderId
-						LEFT JOIN SalesInvoiceItem SII ON SOI.SaleOrderItemId=SII.SaleOrderItemId
-						LEFT JOIN JobCard JC ON JC.SaleOrderItemId=SOI.SaleOrderItemId
-						LEFT JOIN Customer C ON C.CustomerId=SO.CustomerId
-						WHERE SII.SalesInvoiceId IS NULL AND JC.JodCardCompleteStatus=1 AND SO.isActive=1
+                        FROM SaleOrder SO 
+                        INNER JOIN SaleOrderItem SOI ON SO.SaleOrderId=SOI.SaleOrderId
+						INNER JOIN SalesInvoiceItem SII ON SOI.SaleOrderItemId=SII.SaleOrderItemId
+						INNER JOIN JobCard JC ON JC.SaleOrderItemId=SOI.SaleOrderItemId
+						INNER JOIN Customer C ON C.CustomerId=SO.CustomerId
+						WHERE SII.SalesInvoiceId IS NULL AND SO.isProjectBased = 0 AND JC.JodCardCompleteStatus=1 
 						AND SO.isActive=1
 						AND JC.isActive=1
 						AND C.isActive=1
@@ -145,11 +147,12 @@ namespace ArabErp.DAL
                 else if (invType == "Transportation")
                 {
                     sql = @"SELECT DISTINCT C.CustomerName Customer, SO.SaleOrderId SaleOrderId,CONCAT(SO.SaleOrderRefNo,'/',Convert(varchar(15),SO.SaleOrderDate,106 )) as SaleOrderRefNoWithDate
-                        FROM SaleOrder SO LEFT JOIN SaleOrderItem SOI ON SO.SaleOrderId=SOI.SaleOrderId
-						LEFT JOIN SalesInvoiceItem SII ON SOI.SaleOrderItemId=SII.SaleOrderItemId
-						LEFT JOIN JobCard JC ON JC.SaleOrderItemId=SOI.SaleOrderItemId
-						LEFT JOIN Customer C ON C.CustomerId=SO.CustomerId
-						WHERE SII.SalesInvoiceId IS NULL AND JC.JodCardCompleteStatus=1 AND SO.isActive=1
+                        FROM SaleOrder SO 
+                        INNER JOIN SaleOrderItem SOI ON SO.SaleOrderId=SOI.SaleOrderId
+						INNER JOIN SalesInvoiceItem SII ON SOI.SaleOrderItemId=SII.SaleOrderItemId
+						INNER JOIN JobCard JC ON JC.SaleOrderItemId=SOI.SaleOrderItemId
+						INNER JOIN Customer C ON C.CustomerId=SO.CustomerId
+						WHERE SII.SalesInvoiceId IS NULL AND JC.JodCardCompleteStatus=1
 						AND SO.isActive=1
 						AND JC.isActive=1
 						AND C.isActive=1
