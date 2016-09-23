@@ -17,14 +17,14 @@ namespace ArabErp.Web.Controllers
             return View();
         }
 
-        public ActionResult Pending()
-        {
-            SupplyOrderFollowupRepository repo = new SupplyOrderFollowupRepository();
-            var model = repo.GetSupplyOrderFollowup();
-            return View(model);
+        //public ActionResult Pending()
+        //{
+        //    SupplyOrderFollowupRepository repo = new SupplyOrderFollowupRepository();
+        //    var model = repo.GetSupplyOrderFollowup(OrganizationId);
+        //    return View(model);
             
-        }
-        [HttpPost]
+        //}
+      //  [HttpPost]
         public ActionResult Save(SupplyOrderFollowUpList model)
         {
 
@@ -41,8 +41,17 @@ namespace ArabErp.Web.Controllers
             var rtn = new SupplyOrderFollowupRepository().InsertSupplyOrderFollowup(model.SupplyOrderFollowups);
       
             TempData["Success"] = "Added Successfully!";
-            
-            return RedirectToAction("Pending");
+
+            return RedirectToAction("Index");
+        }
+        public ActionResult ItemList(int? page, string name = "", string suppliername="")
+       {
+            int itemsPerPage = 10;
+            int pageNumber = page ?? 1;
+            return PartialView("_Pending", new SupplyOrderFollowupRepository().GetSupplyOrderFollowup(OrganizationId, name,suppliername));
+            //var repo = new ItemRepository();
+            //var List = repo.GetItems();
+            //return PartialView("_ItemListView",List);
         }
         //public ActionResult Create(int id = 0)
         //{

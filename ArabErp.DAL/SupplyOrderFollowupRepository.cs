@@ -28,6 +28,7 @@ namespace ArabErp.DAL
                         string sql = @"insert  into SupplyOrderFollowup(SupplyOrderItemId,SupplyOrderFollowupDate,ExpectedDate,Remarks,CreatedBy,CreatedDate,OrganizationId) Values (@SupplyOrderItemId,@SupplyOrderFollowupDate,@ExpectedDate,@Remarks,@CreatedBy,@CreatedDate,@OrganizationId);
                               SELECT CAST(SCOPE_IDENTITY() as int)";
 
+                       // InsertLoginHistory(dataConnection, item.CreatedBy, "Create", "SupplyOrderFollowup", "0", "0");
                         int objCustomerVsSalesExecutive = connection.Query<int>(sql, item).First();
                     }
                 }
@@ -35,7 +36,7 @@ namespace ArabErp.DAL
                 return 1;
             }
         }
-        public SupplyOrderFollowUpList GetSupplyOrderFollowup()
+        public SupplyOrderFollowUpList GetSupplyOrderFollowup(int OrganizationId,string name,string SupplierName)
         {
 
             using (IDbConnection connection = OpenConnection(dataConnection))
@@ -43,15 +44,23 @@ namespace ArabErp.DAL
                 SupplyOrderFollowUpList model = new SupplyOrderFollowUpList();
 
                 string query = @"
-                                SELECT  distinct SI.SupplyOrderItemId,I.ItemName,SI.OrderedQty,Su.SupplierName,convert(varchar,SF.ExpectedDate,106) ExpectedDate,SF.Remarks,
+                            SELECT  distinct SI.SupplyOrderItemId,I.ItemName,case when I.CriticalItem = 1 then 'Critical' else '-' end CriticalItem,
+                                SI.OrderedQty,Su.SupplierName,convert(varchar,SF.ExpectedDate,106) ExpectedDate,S.RequiredDate,SF.Remarks,
                                 CONCAT(S.SupplyOrderNo, ' / ' , convert(varchar,S.SupplyOrderDate,106) ) SupplyOrderDate
                                 from SupplyOrder S inner join Supplier Su on  Su.SupplierId=S.SupplierId
                                 inner join  SupplyOrderItem SI on S.SupplyOrderId=SI.SupplyOrderId
                                 inner join PurchaseRequestItem PI on PI.PurchaseRequestItemId=SI.PurchaseRequestItemId 
                                 inner join Item I on PI.ItemId=I.ItemId
-								left join SupplyOrderFollowup SF on SF.SupplyOrderItemId=SI.SupplyOrderItemId";
+								left join SupplyOrderFollowup SF on SF.SupplyOrderItemId=SI.SupplyOrderItemId where SF.OrganizationId=1 and ItemName LIKE '%'+@name+'%' 
+                                and  SupplierName Like '%'+@SupplierName+'%'";
 
-                model.SupplyOrderFollowups = connection.Query<SupplyOrderFollowup>(query).ToList<SupplyOrderFollowup>();
+               // model.SupplyOrderFollowups = connection.Query<SupplyOrderFollowup>(query).ToList<SupplyOrderFollowup>();
+                model.SupplyOrderFollowups = connection.Query<SupplyOrderFollowup>(query, new
+                {
+                    OrganizationId = OrganizationId,
+                    name=name,
+                    SupplierName=SupplierName
+                }).ToList<SupplyOrderFollowup>();
                 return model;
             }
         }
