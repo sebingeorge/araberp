@@ -53,7 +53,7 @@ $(function () {
               .attr("tabIndex", -1)
               .attr("title", "Show All Items")
               .tooltip()
-              .text("All")
+              //.text("All")
               .appendTo(this.wrapper)
               .button({
                   icons: {
