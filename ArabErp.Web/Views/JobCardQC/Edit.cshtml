@@ -3,14 +3,13 @@
     ViewBag.Title = "Create";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
-<style>
 
-
-</style>
 <script>
-    function Back() {
-        location.href = '@Url.Action("PendingJobCardQC")';
-    }
+
+    function Exit() {
+        var url = '@Url.Action("JobCardQC", "Index")'
+        window.location = url;
+        }
 
     $(function () {
         $("#CurrentDate").datepicker({ dateFormat: "dd-MM-yy" });
@@ -24,7 +23,7 @@
     <div class="form-head1">
         <h4>Quality Control </h4>
     </div>
-    @using (Html.BeginForm("Save", null, FormMethod.Post, new { @class = "createFrom", @id = "saleorder_form" }))
+    @using (Html.BeginForm(null, null, FormMethod.Post, new { @class = "createFrom", @id = "saleorder_form" }))
     {
         <div class="main-part pad1">
             <div class="row form-group">
@@ -107,7 +106,7 @@
             <div class="row">
 
                 <div class="col-md-12 hrpart">
-                    <button class="form-button right" onclick="Back()">Exit</button>
+                    <button class="form-button right" onclick="Exit()">Exit</button>
                     @*<button type="submit" class="form-button right">Save</button>*@
 
                 </div>
