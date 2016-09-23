@@ -1,0 +1,50 @@
+<?xml version="1.0" standalone="yes"?>
+<NewDataSet>
+  <xs:schema id="NewDataSet" xmlns="" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xs:element name="NewDataSet" msdata:IsDataSet="true" msdata:UseCurrentLocale="true">
+      <xs:complexType>
+        <xs:choice minOccurs="0" maxOccurs="unbounded">
+          <xs:element name="Head">
+            <xs:complexType>
+              <xs:sequence>
+                <xs:element name="ProformaInvoiceRefNo" type="xs:string" minOccurs="0" />
+                <xs:element name="ProformaInvoiceDate" type="xs:string" minOccurs="0" />
+                <xs:element name="CustomerName" type="xs:string" minOccurs="0" />
+                <xs:element name="CustomerAddress" type="xs:string" minOccurs="0" />
+                <xs:element name="SaleOrderRefNo" type="xs:string" minOccurs="0" />
+                <xs:element name="PaymentTerms" type="xs:string" minOccurs="0" />
+              </xs:sequence>
+            </xs:complexType>
+          </xs:element>
+          <xs:element name="Items">
+            <xs:complexType>
+              <xs:sequence>
+                <xs:element name="Quantity" type="xs:string" minOccurs="0" />
+                <xs:element name="WorkDescriptionRefNo" type="xs:string" minOccurs="0" />
+                <xs:element name="WorkDescription" type="xs:string" minOccurs="0" />
+                <xs:element name="UnitName" type="xs:string" minOccurs="0" />
+                <xs:element name="Rate" type="xs:string" minOccurs="0" />
+                <xs:element name="Amount" type="xs:string" minOccurs="0" />
+              </xs:sequence>
+            </xs:complexType>
+          </xs:element>
+        </xs:choice>
+      </xs:complexType>
+    </xs:element>
+  </xs:schema>
+  <Head>
+    <ProformaInvoiceRefNo>PRO-16/43</ProformaInvoiceRefNo>
+    <ProformaInvoiceDate>25-Aug-2016</ProformaInvoiceDate>
+    <CustomerName>M/S Opera</CustomerName>
+    <CustomerAddress>doorc121,kaloor,kerala,1,98778</CustomerAddress>
+    <SaleOrderRefNo>SAL/76</SaleOrderRefNo>
+  </Head>
+  <Items>
+    <Quantity>1</Quantity>
+    <WorkDescriptionRefNo>WD/0/31</WorkDescriptionRefNo>
+    <WorkDescription>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum</WorkDescription>
+    <UnitName>job</UnitName>
+    <Rate>12220.00</Rate>
+    <Amount>12000.00</Amount>
+  </Items>
+</NewDataSet>

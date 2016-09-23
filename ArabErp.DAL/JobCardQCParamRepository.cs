@@ -78,7 +78,10 @@ namespace ArabErp.DAL
         {
             using (IDbConnection connection = OpenConnection(dataConnection))
             {
-                string sql = @"select QCParamId,QCParamName,QCParaName ParaName from QCParam inner join QCParaType on QCParam.QCParaId=QCParaType.QCParaId";
+                string sql = @"SELECT QCParamId,QCParamName,QCParaName ParaName 
+                               FROM QCParam 
+                               INNER JOIN QCParaType on QCParam.QCParaId=QCParaType.QCParaId
+                               ORDER BY QCParamId ";
 
                 var objSalesInvoices = connection.Query<JobCardQCParam>(sql).ToList<JobCardQCParam>();
 
@@ -86,6 +89,21 @@ namespace ArabErp.DAL
             }
         }
 
+        public List<JobCardQCParam> GetJobCardQCParamDt(int JobCardQCId)
+        {
+            using (IDbConnection connection = OpenConnection(dataConnection))
+            {
+                string sql = @" SELECT QP.QCParamId,QT.QCParaName ParaName,QP.QCParamName,QCParamValue FROM JobCardQCParam JQC
+                                INNER JOIN QCParam QP ON QP.QCParamId=JQC.QCParamId
+                                INNER JOIN QCParaType QT ON QT.QCParaId=QP.QCParaId
+                                WHERE JQC.JobCardQCId=@JobCardQCId
+                                ORDER BY QP.QCParamId";
+
+                var objSalesInvoices = connection.Query<JobCardQCParam>(sql, new { JobCardQCId = JobCardQCId }).ToList<JobCardQCParam>();
+
+                return objSalesInvoices;
+            }
+        }
 
     }
 }

@@ -25,7 +25,7 @@ namespace ArabErp.DAL
 
 
 
-        public CustomerVsSalesExecutiveList GetCustomerVsSalesExecutives()
+        public CustomerVsSalesExecutiveList GetCustomerVsSalesExecutives(int OrganizationId)
         {
             using (IDbConnection connection = OpenConnection(dataConnection))
             {
@@ -37,9 +37,9 @@ namespace ArabErp.DAL
     ) 
 
 select C.CustomerId , C.CustomerName, CV.EffectiveDate, CV.EmployeeId from Customer C left join merged CV on C.CustomerId=CV.CustomerId 
-";
+Where OrganizationId=@OrganizationId";
 
-                model.CustomerVsSalesExecutives = connection.Query<CustomerVsSalesExecutive>(sql).ToList<CustomerVsSalesExecutive>();
+                model.CustomerVsSalesExecutives = connection.Query<CustomerVsSalesExecutive>(sql, new { OrganizationId = OrganizationId }).ToList<CustomerVsSalesExecutive>();
                 return model;
 
                

@@ -25,6 +25,7 @@
             <xs:complexType>
               <xs:sequence>
                 <xs:element name="SerialNo" type="xs:string" minOccurs="0" />
+                <xs:element name="ItemName" type="xs:string" minOccurs="0" />
                 <xs:element name="WarrantyStartDate" type="xs:string" minOccurs="0" />
                 <xs:element name="WarrantyExpireDate" type="xs:string" minOccurs="0" />
               </xs:sequence>
@@ -35,10 +36,16 @@
     </xs:element>
   </xs:schema>
   <Head>
-    <DeliveryChallanRefNo>DEL/4</DeliveryChallanRefNo>
-    <DeliveryChallanDate>22-Aug-2016</DeliveryChallanDate>
-    <RegistrationNo>KL 59 B 8055</RegistrationNo>
-    <Employee>Irshad</Employee>
-    <PaymentTerms>there are no payment terms</PaymentTerms>
+    <DeliveryChallanRefNo>DC-16/8</DeliveryChallanRefNo>
+    <DeliveryChallanDate>16-Sep-2016</DeliveryChallanDate>
+    <Customer>M/S Opera</Customer>
+    <SONoDate>SO/19 - 17 Jun 2016</SONoDate>
+    <JCNoDate>2 - 18 Jun 2016</JCNoDate>
+    <RegistrationNo>6</RegistrationNo>
+    <WorkDesc>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum</WorkDesc>
+    <VehicleModel>Nissan Urvan</VehicleModel>
+    <Employee>Akhila</Employee>
+    <PaymentTerms>434</PaymentTerms>
+    <SpecialRemarks>hdfhd</SpecialRemarks>
   </Head>
 </NewDataSet>

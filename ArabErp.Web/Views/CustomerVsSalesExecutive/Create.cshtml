@@ -43,7 +43,9 @@
         $('.effectivedate').each(function (i, obj) {
             //alert(obj.id);
             $("#" + obj.id).removeClass("hasDatepicker");
-            $("#" + obj.id).datepicker({ dateFormat: "dd-MM-yy" });
+            $("#" + obj.id).datepicker({ dateFormat: "dd-MM-yy", maxDate: '0' , minDate: '0'});
+            //$("#" + obj.id).datepicker({ });
+            //$("#" + obj.id).datepicker({ minDate: '0' });
         });
     }
         function Exit() {

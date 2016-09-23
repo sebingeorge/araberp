@@ -111,43 +111,43 @@
 
 </script>
 
-@using ( Html.BeginForm("Create", null, FormMethod.Post, new { @class = "createFrom", @id = "Item_form" }) )
+@using (Html.BeginForm("Create", null, FormMethod.Post, new { @class = "createFrom", @id = "Item_form" }))
 {
-    <div class="container-fluid pad4" style="margin-bottom:2px;">
+    <div class="main-grid-top pad4" style="margin-bottom:2px;">
         <div class="row">
-            <div class="main-list white col-md-12 wid left">
+            @*<div class="main-list white col-md-12 wid left">
                 <div id="PendingCustomerInvoiceDiv">
-                    <div class="col-md-1" style="padding-top:5px;padding-left:40px">
+                    <div class="col-md-1" style="padding-top:5px;padding-left:40px">*@
 
-                        @*@Html.Label("Customer", new { @class = "form_input", autocomplete = "off", @readonly = "readonly" })*@
-                        <label>Customer</label>
+            @*@Html.Label("Customer", new { @class = "form_input", autocomplete = "off", @readonly = "readonly" })*@
+            @*<label>Customer</label>
 
-                    </div>
-                    <div class="col-md-2">
-                        @Html.TextBox("txtTitle", (string)ViewBag.CustomerName, new { @class = "form_input", Style = "background:#D6D5D5", autocomplete = "off", @readonly = "readonly" })
-                    </div>
-                    <div class="col-md-2" style="padding-top:5px;padding-left:62px">
+                        </div>
+                        <div class="col-md-2">
+                            @Html.TextBox("txtTitle", (string)ViewBag.CustomerName, new { @class = "form_input", Style = "background:#D6D5D5", autocomplete = "off", @readonly = "readonly" })
+                        </div>
+                        <div class="col-md-2" style="padding-top:5px;padding-left:62px">
 
-                        <label>Sale Order Ref No</label>
-                    </div>
-                    <div class="col-md-2">
+                            <label>Sale Order Ref No</label>
+                        </div>
+                        <div class="col-md-2">
 
-                        @Html.TextBox("txtTitle", (string)ViewBag.SaleOrderRefNoWithDate, new { @class = "form_input backgroundcolortransparent", Style = "background:#D6D5D5", autocomplete = "off", @readonly = "readonly" })
-                    </div>
-                    <div class="col-md-3">
+                            @Html.TextBox("txtTitle", (string)ViewBag.SaleOrderRefNoWithDate, new { @class = "form_input backgroundcolortransparent", Style = "background:#D6D5D5", autocomplete = "off", @readonly = "readonly" })
+                        </div>
+                        <div class="col-md-3">
 
+                        </div>
                     </div>
-                </div>
-            </div>
+                </div>*@
         </div>
     </div>
-    <div class="container-fluid pad4">
+    @*<div class="container-fluid pad4">
         <div class="row">
             <div class="main-list col-md-12 wid">
                 <div class="main-grid scroll3" style="overflow-y:scroll">
-                    <div>
+                    <div>*@
                         <div class="table-responsive">
-                            <h5>Sales Invoice Details</h5>
+                            @*<h5>Sales Invoice Details</h5>*@
                             <table id="PendingCustomerInvoiceTable" class="table table-bordered">
 
                                 @if ( Model.Count > 0 )
@@ -173,13 +173,17 @@
                                         @for ( int i = 0; i < Model.Count(); i++ )
                                         {
                                             <tr style="width:80%">
-                                                <td width="20%">@Html.TextBoxFor(m => Model[i].WorkDescription, new { @class = "form_input", autocomplete = "off", @readonly = "readonly" })</td>
+                                                <td width="20%">
+                                                    @*@Html.TextBoxFor(m => Model[i].WorkDescription, new { @class = "form_input", autocomplete = "off", @readonly = "readonly" })*@
+                                                    @Model[i].WorkDescription
+                                                    @Html.HiddenFor(m => m[i].WorkDescription)
+                                                </td>
                                                 <td width="20%">@Html.TextBoxFor(m => Model[i].JobCardNo, new { @class = "form_input", autocomplete = "off", @readonly = "readonly" })</td>
                                                 <td width="15%">@Html.TextBoxFor(m => Model[i].VehicleModelName, new { @class = "form_input", autocomplete = "off", @readonly = "readonly" })</td>
                                                 <td width="5%">@Html.TextBoxFor(m => Model[i].Quantity, new { @class = "form_input clAmount", @style = "text-align:right", autocomplete = "off", @readonly = "readonly" })</td>
                                                 <td width="5%">@Html.TextBoxFor(m => Model[i].Rate, new { @class = "form_input clAmount", @style = "text-align:right", autocomplete = "off", @readonly = "readonly" })</td>
                                                 <td width="5%">@Html.TextBoxFor(m => Model[i].Amount, new { @class = "form_input clAmount", @style = "text-align:right", autocomplete = "off", @readonly = "readonly" })</td>
-                                                <td width="10%"><center>@Html.CheckBoxFor(model => Model[i].SelectStatus, new { @class = "check_box", @onclick = "Checked(this)" })</center></td>
+                                                <td width="10%"><center>@Html.CheckBoxFor(model => Model[i].SelectStatus, new { @class = "check_box CheckBoxClass", @onclick = "Checked(this)" })</center></td>
                                                 @Html.HiddenFor(model => Model[i].SaleOrderId)
                                                 @Html.HiddenFor(model => Model[i].SaleOrderItemId)
                                                 @Html.HiddenFor(model => Model[i].invType)
@@ -201,11 +205,11 @@
                                         <th><label for="checkAll">Select All</label></th>
                                     </tr>
                                     <tr>
-                                        <td>&nbsp;</td>
-                                        <td>&nbsp;</td>
-                                        <td>&nbsp;</td>
-                                        <td>&nbsp;</td>
-                                        <td>&nbsp;</td>
+                                        <td colspan="7">
+                                            <center>
+                                                <em>Select a sale order to see job cards</em>
+                                            </center>
+                                        </td>
                                     </tr>
                                 }
                             </table>
@@ -213,11 +217,11 @@
                                 <button type="submit" class="form-button" id="BtnSubmit" disabled>Proceed</button>
                             </div>
                         </div>
-                    </div>
+                    @*</div>
                 </div>
             </div>
 
         </div>
-    </div>
+    </div>*@
 }
 

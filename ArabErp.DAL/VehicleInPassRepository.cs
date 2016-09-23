@@ -181,6 +181,33 @@ namespace ArabErp.DAL
             }
         }
 
+        public VehicleInPass GetVehicleInPassHD(int VehicleInPassId)
+        {
+
+            using (IDbConnection connection = OpenConnection(dataConnection))
+            {
+                string sql = @" SELECT VehicleInPassId,VehicleInPassNo,VehicleInPassDate,C.CustomerName,
+                                CONCAT(S.SaleOrderRefNo,' - ',convert(varchar(15),S.SaleOrderDate,106))SONODATE,
+                                VM.VehicleModelName,W.WorkDescr,
+                                RegistrationNo,EmployeeName,V.Remarks,E.EmployeeId
+                                FROM VehicleInPass V
+                                INNER JOIN SaleOrder S ON S.SaleOrderId=V.SaleOrderId
+                                INNER JOIN SaleOrderItem SI ON SI.SaleOrderId=S.SaleOrderId
+                                INNER JOIN Customer C ON C.CustomerId=S.CustomerId
+                                INNER JOIN VehicleModel VM ON VM.VehicleModelId=SI.VehicleModelId
+                                INNER JOIN WorkDescription W ON W.WorkDescriptionId=SI.WorkDescriptionId
+                                INNER JOIN Employee E ON E.EmployeeId=V.EmployeeId
+                                WHERE VehicleInPassId=@VehicleInPassId";
+
+                var objVehicleInPass = connection.Query<VehicleInPass>(sql, new
+                {
+                    VehicleInPassId = VehicleInPassId
+                }).First<VehicleInPass>();
+
+                return objVehicleInPass;
+            }
+        }
+
         public int id1 { get; set; }
     }
 }

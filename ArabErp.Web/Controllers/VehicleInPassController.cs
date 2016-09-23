@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using System.Data.SqlClient;
 
 namespace ArabErp.Web.Controllers
 {
@@ -110,6 +111,46 @@ namespace ArabErp.Web.Controllers
             to = to ?? DateTime.Today;
             return PartialView("_PreviousList", new VehicleInPassRepository().GetPreviousList(id, cusid, OrganizationId, from, to));
         }
-       
+
+        public ActionResult Edit(int id = 0)
+        {
+            try
+            {
+                if (id != 0)
+                {
+                    EmployeeDropdown();
+                    VehicleInPass VehicleInPass = new VehicleInPass();
+                    VehicleInPass = new VehicleInPassRepository().GetVehicleInPassHD(id);
+                    
+                  
+                    return View(VehicleInPass);
+                }
+                else
+                {
+                    TempData["error"] = "That was an invalid/unknown request. Please try again.";
+                    TempData["success"] = "";
+                }
+            }
+            catch (InvalidOperationException iox)
+            {
+                TempData["error"] = "Sorry, we could not find the requested item. Please try again.|" + iox.Message;
+            }
+            catch (SqlException sx)
+            {
+                TempData["error"] = "Some error occured while connecting to database. Please try again after sometime.|" + sx.Message;
+            }
+            catch (NullReferenceException nx)
+            {
+                TempData["error"] = "Some required data was missing. Please try again.|" + nx.Message;
+            }
+            catch (Exception ex)
+            {
+                TempData["error"] = "Some error occured. Please try again.|" + ex.Message;
+            }
+
+            TempData["success"] = "";
+            return RedirectToAction("Index");
+        }
+
     }
 }
