@@ -173,7 +173,7 @@ namespace ArabErp.Web.Controllers
                     FillEmployee();
                     JobCardQC JobCardQC = new JobCardQC();
                     JobCardQC = new JobCardQCRepository().GetJobCardQC(id);
-                    JobCardQC.JobCardQCParams = JobCardQCParamRepo.GetJobCardQCParamList();
+                    JobCardQC.JobCardQCParams = JobCardQCParamRepo.GetJobCardQCParamDt(id);
 
                     return View(JobCardQC);
                 }

@@ -84,7 +84,7 @@ namespace ArabErp.DAL
                                 INNER JOIN SaleOrder S ON S.SaleOrderId=J.SaleOrderId
                                 INNER JOIN SaleOrderItem SI ON SI.SaleOrderId=S.SaleOrderId
                                 INNER JOIN Customer C ON C.CustomerId=S.CustomerId
-                                INNER JOIN VehicleModel V ON V.VehicleModelId=SI.VehicleModelId
+                                LEFT JOIN VehicleModel V ON V.VehicleModelId=SI.VehicleModelId
                                 WHERE JobCardQCId=@JobCardQCId";
 
                 var objJobCardQC = connection.Query<JobCardQC>(sql, new
