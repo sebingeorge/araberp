@@ -4,22 +4,37 @@
 <script>
     $(document).ready(function(){
         $('[data-toggle="tooltip"]').tooltip();
-        $("#resourcegrid").freezeHeader({ 'height': '300px' });
     });
 </script>
 
-<table id="resourcegrid" class="table table-bordered table-hover" style="overflow-x:scroll">
+<style type="text/css">
+    .Sun {
+        background: rgb(221, 221, 221);
+    }
+</style>
+
+<table class="table table-bordered table-hover" style="overflow-x:scroll">
 
     <thead>
         <tr class="grid_heading">
             <th><h1>Employee</h1></th>
             @{
+                List<int> sundays = new List<int>();
                 var columns = Model.Select(m => m.TaskDate).Distinct().ToList();
                 //foreach (var item in columns)
                 for (int j = 1; j <= DateTime.DaysInMonth(Model[0].Year, Model[0].Month); j++)
                 {
                     //if (item.ToString().Contains("01-Jan-0001")) { continue; }
-                    <th><h1>@j</h1></th>
+                    
+                        string day = new DateTime(Model[0].Year, Model[0].Month, j).DayOfWeek.ToString().Substring(0, 3);
+                        if (day.StartsWith("Sun"))
+                        {
+                            sundays.Add(j);
+                        }
+                    
+                    <th style="text-align:center;">
+                        <h1>@j @day</h1>
+                    </th>
                 }
             }
         </tr>
@@ -44,7 +59,11 @@
                             //foreach (var date in columns)
                             for (int i = 1; i <= DateTime.DaysInMonth(Model[0].Year, Model[0].Month); i++)
                             {
-                                <td>
+                                <td @if (sundays.Contains(i))
+                                    {
+                                        @:class="Sun"
+                                    }
+                                nowrap>
                                 @{
                                     var jobcards = Model.Where(m => m.TaskDate.Day == i && m.EmployeeId == id).Select(m => m);
                                     if (jobcards != null && jobcards.Count() > 0)
@@ -53,12 +72,6 @@
                                         {
                                             if (jobcards.ToList()[0].TaskDate.ToString().Contains("01-Jan-0001")) { continue; }
                                             @*@:@jobcards.ToList()[0].JobCardNo - @jobcards.ToList()[0].JobCardTaskName*@
-                                            <a data-toggle="tooltip" 
-                                               data-placement="right"
-                                               style="text-decoration: none;"
-                                               title="@jobcards.ToList()[0].JobCardNo - @jobcards.ToList()[0].JobCardTaskName">
-                                                @jobcards.ToList()[0].Hours hrs
-                                            </a>
                                             if (jobcards.ToList()[0].isProjectBased)
                                             {
                                                 <div style="background-color:red;height:5px;width:5px;float:left;margin-top:5px;margin-right:2px"></div>
@@ -67,6 +80,12 @@
                                             {
                                                 <div style="background-color:green;height:5px;width:5px;float:left;margin-top:5px;margin-right:2px"></div>
                                             }
+                                            <a data-toggle="tooltip" 
+                                               data-placement="right"
+                                               style="text-decoration: none;"
+                                               title="@jobcards.ToList()[0].JobCardNo - @jobcards.ToList()[0].JobCardTaskName">
+                                                @jobcards.ToList()[0].Hours hrs
+                                            </a>
                                         }
                                         else
                                         {
@@ -78,12 +97,6 @@
                                                     <td style="border:none;">
                                                         @*<font color="red">*@
                                                         @*@j.JobCardNo - @j.JobCardTaskName*@
-                                                        <a data-toggle="tooltip"
-                                                           data-placement="right"
-                                                           style="text-decoration: none;"
-                                                           title="@j.JobCardNo - @j.JobCardTaskName">
-                                                            @j.Hours hrs
-                                                        </a>
                                                         @*</font>*@
                                                         @if (j.isProjectBased)
                                                         {
@@ -93,6 +106,12 @@
                                                         {
                                                             <div style="background-color:green;height:5px;width:5px;float:left;margin-top:5px;margin-right:2px"></div>
                                                         }
+                                                        <a data-toggle="tooltip"
+                                                           data-placement="right"
+                                                           style="text-decoration: none;"
+                                                           title="@j.JobCardNo - @j.JobCardTaskName">
+                                                            @j.Hours hrs
+                                                        </a>
                                                     </td>
                                                 </tr>
                                             }
