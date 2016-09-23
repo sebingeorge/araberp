@@ -403,6 +403,12 @@ margin-top:0px;
     overflow-y:auto;
     overflow-x:hidden;
 }
+.scroll6 
+{
+
+    max-height:430px;
+    overflow:auto;
+}
 .maintd
 {
     float:left;
@@ -1177,4 +1183,26 @@ section.content {
     max-height:150px;
     overflow:scroll;
     overflow-x:hidden;
+}
+.pmtop 
+{
+    padding-top:25px;
+}
+.reddot 
+{
+    background-color:red;
+    height:7px;
+    width:7px;
+    margin-top:7px;
+    float:left;
+    margin-right:2px
+}
+.greendot 
+{
+    background-color:green;
+    height:7px;
+    width:7px;
+    margin-top:7px;
+    float:left;
+    margin-right:2px
 }
