@@ -1,0 +1,207 @@
+﻿@model ArabErp.Domain.DeliveryChallan
+
+@{
+    ViewBag.Title = "Create Delivery Challan";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<script type="text/javascript">
+    $(function () {
+
+        //---------------------toastr---------------------------//
+        toastr.options = {
+            "positionClass": "toast-bottom-full-width",
+            "timeOut": "5000",
+            "extendedTimeOut": "2000"
+        }
+        if ('@TempData["success"]' != '') {
+            toastr.success('@TempData["success"]');
+        }
+        else if ('@TempData["error"]' != '') {
+            toastr.error('@TempData["error"]'.split('|')[0]);
+            console.log('@TempData["error"]'.split('|')[1]);
+        }
+        @{ TempData["success"] = TempData["error"] = ""; }
+        //------------------------------------------------------//
+
+        //$("#DeliveryChallanDate").datepicker({ dateFormat: "dd-MM-yy" });
+    });
+    $(document).ready(function () {
+        $.getJSON('@Url.Action("GetJobCardDetails")', { id: '@Model.JobCardId' },
+            function (data) {
+                $("#txtJCNoDate").val(data.JobCardNoDate);
+                $("#txtSONoDate").val(data.SaleOrderNoDate);
+                $("#txtCustomerOrderRef").val(data.CustomerOrderRef);
+                $("#txtVehicleModel").val(data.VehicleModel);
+                $("#txtWork").val(data.WorkDescr);
+                $("#txtCustomer").val(data.CustomerName);
+                $("#txtRegNo").val(data.RegistrationNo);
+                $("#txtPaymentTerms").val(data.PaymentTerms);
+            });
+
+        $("#DeliveryChallanRefNo").tooltip();
+    });
+
+    function formValidation() {
+        return true;//confirm("Are you sure to Save?");
+    }
+
+    function Back() {
+        var url = '@Url.Action("Index")';
+        window.location = url;
+    }
+
+    function Exit() {
+        var url = '@Url.Action("Index", "Home")';
+        window.location = url;
+    }
+</script>
+
+
+<div class="row">
+    <div class="form-head1">
+        <h4>Delivery Challan</h4>
+    </div>
+    <div class="main-part pad1">
+
+        @using (Html.BeginForm("Save", null, FormMethod.Post, new { @class = "createFrom", onsubmit = "return formValidation()", @id = "vehicle-inpass-form" }))
+        {
+            <div class="row form-group">
+                <div class="col-md-2">
+                    <label>Delivery Challan Ref. No.</label>
+                    @Html.HiddenFor(m => m.JobCardId)
+                    @Html.TextBoxFor(m => m.DeliveryChallanRefNo, new { @class = "form_input", autocomplete = "off", @readonly = "true", @title = "This number may change after saving" })
+                </div>
+                <div class="col-md-2">
+                    <label>Challan Date</label>
+                    @Html.TextBoxFor(m => m.DeliveryChallanDate, Model.DeliveryChallanDate.ToString("dd-MMMM-yyyy"), new { @class = "form_input ", autocomplete = "off", @required = "true", @readonly = "true" })
+                    @*@Html.TextBoxFor(m => m.DeliveryChallanDate, new { @class = "form_input", @type = "date" })*@
+                </div>
+            </div>
+            <div class="row form-group">
+                <div class="col-md-4">
+                    <label>Customer</label>
+                    @Html.TextBoxFor(m => Model.Customer, new { @class = "form_input", autocomplete = "off", @readonly = "readonly" })
+                    @*<input type="text" class="form_input" id="txtCustomer" readonly />*@
+                </div>
+                <div class="col-md-2" title="Sale Order Ref. No. and Date">
+                    <label>SO. No. &amp; Date</label>
+                    @Html.TextBoxFor(m => Model.SONODATE, new { @class = "form_input", autocomplete = "off", @readonly = "readonly" })
+                    @*<input type="text" class="form_input" id="txtSONoDate" readonly />*@
+                </div>
+                <div class="col-md-2">
+                    <label>Customer Order Ref No.</label>
+                    @Html.TextBoxFor(m => Model.CustomerOrderRef, new { @class = "form_input", autocomplete = "off", @readonly = "readonly" })
+                    @*<input type="text" class="form_input" id="txtCustomerOrderRef" readonly />*@
+                </div>
+                <div class="col-md-2" title="Job Card Ref. No. and Date">
+                    <label>JC. No. &amp; Date</label>
+                    @Html.TextBoxFor(m => Model.JobCardNo, new { @class = "form_input", autocomplete = "off", @readonly = "readonly" })
+                    @*<input type="text" class="form_input" id="txtJCNoDate" readonly />*@
+                </div>
+                <div class="col-md-2">
+                    <label>Chasis No./Reg No.</label>
+                    @Html.TextBoxFor(m => Model.RegistrationNo, new { @class = "form_input", autocomplete = "off", @readonly = "readonly" })
+                    @*<input type="text" class="form_input" id="txtRegNo" readonly />*@
+                </div>
+
+            </div>
+
+            <div class="row form-group">
+
+                <div class="col-md-12">
+                    <label>Work Description</label>
+                    @Html.TextAreaFor(m => Model.WorkDescr, new { @class = "form_input form_input-h1", autocomplete = "off", @readonly = "readonly" })
+                    @*<textarea class="form_input form_input-h1" id="txtWork" readonly></textarea>*@
+                </div>
+            </div>
+            <div class="row form-group">
+
+                <div class="col-md-4">
+                    <label>Vehicle Model</label>
+                    @Html.TextBoxFor(m => Model.VehicleModel, new { @class = "form_input", autocomplete = "off", @readonly = "readonly" })
+                    @*<input type="text" class="form_input" id="txtVehicleModel" readonly />*@
+                </div>
+                <div class="col-md-3">
+                    <label>Employee</label>
+                    @Html.DropDownListFor(m => m.EmployeeId, (SelectList)ViewBag.employeeList, "Select Employee", new { @class = "form_input", @required = "true" })
+                </div>
+            </div>
+
+
+            <div class="table-responsive scroll4">
+                <table class="table table-bordered">
+                    <thead>
+                        <tr class="grid_heading">
+                            <th width="2%" class="text-center">#</th>
+                            <th width="30%"><h1>Serial Number</h1></th>
+                            <th width="30%"><h1>Item</h1></th>
+                            <th width="10%" nowrap><h1>Warranty Period (in months)</h1></th>
+                        </tr>
+                    </thead>
+                    <tbody class="grid_row">
+                        @if (Model.ItemBatches.Count > 0)
+                        {
+                            int i = 0;
+                            foreach (var item in Model.ItemBatches)
+                            {
+                                <tr>
+                                    <td align="center">
+                                        @Html.HiddenFor(m => m.ItemBatches[i].ItemBatchId)
+                                        @*<input class="form_input" value="*@@(i + 1)@*" disabled />*@
+                                    </td>
+                                    <td>
+                                        @Html.TextBoxFor(m => m.ItemBatches[i].SerialNo, new { @class = "form_input", @readonly = "true" })
+                                    </td>
+                                    <td>
+                                        @Html.TextBoxFor(m => m.ItemBatches[i].ItemName, new { @class = "form_input", @readonly = "true" })
+                                    </td>
+                                    <td>
+                                        @Html.TextBoxFor(m => m.ItemBatches[i].WarrantyPeriodInMonths, new { @class = "form_input", @required = "true" })
+                                    </td>
+                                </tr>
+                                i++;
+                            }
+                        }
+                        else
+                        {
+                            <tr>
+                                <td colspan="4">
+                                    <center>
+                                        <em>
+                                            There are no reserved items found for this Job Card!
+                                        </em>
+                                    </center>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="row form-group">
+                <div class="col-md-12">
+                    <label>Payment Terms</label>
+                    @Html.TextAreaFor(m => m.PaymentTerms, new { @class = "form_input form_input-h" })
+                    @*<input id="txtPaymentTerms" class="form_input" readonly="readonly" />*@
+                </div>
+            </div>
+
+            <div class="row form-group">
+                <div class="col-md-12">
+                    <label>Special Remarks</label>
+                    @Html.TextAreaFor(m => m.Remarks, new { @class = "form_input form_input-h" })
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-12 col-md hrpart">
+                    <input class="form-button right" type="button" value="Exit" onclick="Back()" />
+                    @*<input class="form-button right" type="submit" value="Edit" />*@
+                    @*<input class="form-button left" type="button" value="Back" onclick="Back()" />*@
+                </div>
+            </div>
+        }
+
+    </div>
+</div>
