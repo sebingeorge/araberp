@@ -7,8 +7,8 @@ p {
     color:#fff;
     background-color:#676464;
     grid-row-sizing:5px;
-    height:20px;
-
+    /*height:20px;*/
+    height:auto;
 }
   .grid_row
 {
