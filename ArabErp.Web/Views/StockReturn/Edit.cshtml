@@ -1,0 +1,150 @@
+﻿@model ArabErp.Domain.StockReturn
+
+@{
+    ViewBag.Title = "Create";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<script type="text/javascript">
+
+    function Exit() {
+        location.href = '@Url.Action("Index","Home")';
+   }
+
+    $(document).ready(function () {
+
+        toastr.options = {
+            "closeButton": true,
+            "positionClass": "toast-bottom-full-width",
+            "preventDuplicates": false,
+            "onclick": null,
+            "showDuration": "300",
+            "hideDuration": "1000",
+            "timeOut": "0",
+            "extendedTimeOut": "1000",
+            "showEasing": "swing",
+            "hideEasing": "linear",
+            "showMethod": "fadeIn",
+            "hideMethod": "fadeOut"
+        }
+        if ('@TempData["success"]' != '') {
+            toastr.success('@TempData["success"]');
+
+        }
+        else if ('@TempData["error"]' != '') {
+            toastr.error('@TempData["error"]'.split('|')[0]);
+            console.log('@TempData["error"]'.split('|')[1]);
+        }
+        @{TempData["success"] = TempData["error"] = "";}
+
+        $("#StockReturnDate").datepicker({
+            dateFormat: "dd-MM-yy"
+        });
+     
+
+        $("#JobCardId").change(function () {
+            var id = $(this).val();
+            if (id != '') {
+                var url = '@Url.Action("GetJobCardDetails")';
+                $.getJSON(url, { id: id },
+                    function (data) {
+                        $("#customer").val(data.split('|')[0]);
+                        $("#work").val(data.split('|')[1]);
+                    });
+            }
+            else {
+                $("#customer").val('');
+                $("#work").val('');
+                id = 0;
+            }
+            var url = '@Url.Action("StockReturnList")';
+            url += "?jobCardID=" + id;
+            $("#stock-return-list").load(url);
+        });
+    });
+
+    function formValidation() {
+        return true;
+    }
+
+    function PreviousList() {
+        var url = '@Url.Action("Index")';
+        window.location = url;
+    }
+</script>
+
+<div class="row">
+    <div class="form-head1">
+        <h4>Stock Return</h4>
+    </div>
+    <div class="main-part pad1">
+        @using (Html.BeginForm("Create", null, FormMethod.Post, new { @class = "createFrom", onsubmit = "return formValidation()", @id = "stock_return_form" }))
+        {
+            <div class="row form-group">
+                <div class="col-md-2">
+                    <label for="StockReturnId">Stock Return No.</label>
+                    @Html.TextBoxFor(m => m.StockReturnRefNo, new { @class = "form_input", autocomplete = "off", @required = "true", @readonly = "true" })
+                </div>
+                <div class="col-md-2">
+                    <label for="StockReturnDate">Date</label>
+                    @Html.TextBoxFor(m => m.StockReturnDate, Model.StockReturnDate.ToString("dd/MMMM/yyyy"), new { @class = "form_input", autocomplete = "off", @required = "true" })
+                </div>
+                <div class="col-md-2">
+                    <label>Stock Point</label>
+                    @* this dropdown is not bound. this should be bound to stock point *@
+                    @Html.DropDownList("cboStockPoint", (SelectList)ViewBag.stockPointList, "Select Stock Point", new { @class = "form_input", autocomplete = "off", @required = "true" })
+                </div>
+            </div>
+            <div class="row form-group">
+                <div class="col-md-3">
+                    <label for="JobCardId">Job Card</label>
+                    @Html.DropDownListFor(m => m.JobCardId, (SelectList)ViewBag.jobcardList, "Select Job Card", new { @class = "form_input", autocomplete = "off", @required = "true" })
+                </div>
+                <div class="col-md-4">
+                    <label for="customer">Customer</label>
+                    @Html.TextBoxFor(m => m.CustomerName, new { @class = "form_input", autocomplete = "off" })
+                    @*<input type="text" id="customer" class="form_input" autocomplete="off" disabled />*@
+                </div>
+                <div class="col-md-5">
+                    <label for="work">Work Description</label>
+                    @Html.TextBoxFor(m => m.WorkDescr, new { @class = "form_input", autocomplete = "off" })
+                    @*<input type="text" id="work" class="form_input" autocomplete="off" disabled />*@
+                </div>
+            </div>
+            <div id="stock-return-list" class="table-responsive">
+
+                @Html.Partial("_StockReturnList", Model)
+
+            </div>
+            <div class="row form-group">
+                <div class="col-md-12">
+                    <div class="row">
+
+                        <div class="col-md-12">
+                            <div class="part1">
+                                <label for="SplRemarks1">Special Remarks</label>
+                                @Html.TextAreaFor(m => m.SpecialRemarks, new { @class = "form_input form_input-h", autocomplete = "off" })
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+
+                <div class="col-md-12 hrpart">
+                    <button type="button" class="form-button right" onclick="Exit();">Exit</button>
+                    @*<button type="submit" class="form-button right">Save</button>
+                    <input type="button" class="form-button left" onclick="PreviousList()" value="Previous" />*@
+                </div>
+
+            </div>
+
+        }
+    </div>
+</div>
+
+
+
+
+
