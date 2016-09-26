@@ -89,8 +89,8 @@ tbody.scrollContent td, tbody.scrollContent tr.normalRow td {
 	border-top: 1px solid #DDD;
 	padding: 2px 3px 3px 4px;
 }
-tbody.scrollContent tr {
-        width:100%;
+tbody.scrollContent tr.grid-row {
+        width:100% !important;
     }
 
 tbody.scrollContent tr.alternateRow td {
@@ -102,18 +102,29 @@ tbody.scrollContent tr.alternateRow td {
 	padding: 2px 3px 3px 4px;
 
 }
+.fix-1 
+{
+    width:1%;
+}
 .fix-w 
 {
-    width:7.51% !important;
+    min-width:7.51%;
 }
 .fix-w1
 {
-    width:14% !important;
+    min-width:14%;
 }
 .fix-w2
 {
-    width:7% !important;
+    min-width:7%;
 }
+.scrollTable
+{
+ width:100%;
+}
+
+
+
 /* define width of TH elements: 1st, 2nd, and 3rd respectively.          */
 /* Add 16px to last TH for scrollbar padding. All other non-IE browsers. */
 /* http://www.w3.org/TR/REC-CSS2/selector.html#adjacent-selectors        */

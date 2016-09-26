@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using System.Data.SqlClient;
 
 namespace ArabErp.Web.Controllers
 {
@@ -62,6 +63,47 @@ namespace ArabErp.Web.Controllers
             JobCardDropdown();
             return View("Create", model);
         }
+        public ActionResult Edit(int id = 0)
+        {
+            try
+            {
+                if (id != 0)
+                {
+                    JobCardDropdown();
+                    ItemDropdown();
+                    WorkShopRequest WorkShopRequest = new WorkShopRequest();
+                    WorkShopRequest = new WorkShopRequestRepository().WorkShopRequestHD(id);
+                    WorkShopRequest.Items = new WorkShopRequestItemRepository().WorkShopRequestDT(id);
+                    //WorkShopRequest.AdditionalMaterials = new WorkShopRequestItemRepository().WorkShopRequestDT(id);
+                    return View("Edit", WorkShopRequest);
+                }
+                else
+                {
+                    TempData["error"] = "That was an invalid/unknown request. Please try again.";
+                    TempData["success"] = "";
+                }
+            }
+            catch (InvalidOperationException iox)
+            {
+                TempData["error"] = "Sorry, we could not find the requested item. Please try again.|" + iox.Message;
+            }
+            catch (SqlException sx)
+            {
+                TempData["error"] = "Some error occured while connecting to database. Please try again after sometime.|" + sx.Message;
+            }
+            catch (NullReferenceException nx)
+            {
+                TempData["error"] = "Some required data was missing. Please try again.|" + nx.Message;
+            }
+            catch (Exception ex)
+            {
+                TempData["error"] = "Some error occured. Please try again.|" + ex.Message;
+            }
+
+            TempData["success"] = "";
+            return RedirectToAction("Index");
+        }
+
         public void JobCardDropdown()
         {
             ViewBag.JobCardList = new SelectList(new DropdownRepository().JobCardDropdown(), "Id", "Name");

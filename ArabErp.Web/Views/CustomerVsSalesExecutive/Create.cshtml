@@ -43,7 +43,8 @@
         $('.effectivedate').each(function (i, obj) {
             //alert(obj.id);
             $("#" + obj.id).removeClass("hasDatepicker");
-            $("#" + obj.id).datepicker({ dateFormat: "dd-MM-yy", maxDate: '0' , minDate: '0'});
+          //  $("#" + obj.id).datepicker({ dateFormat: "dd-MM-yy", maxDate: '0', minDate: '0' });
+            $("#" + obj.id).datepicker({ dateFormat: "dd-MM-yy" });
             //$("#" + obj.id).datepicker({ });
             //$("#" + obj.id).datepicker({ minDate: '0' });
         });
@@ -57,69 +58,81 @@
 
 </script>
 
-<div class="main-part pad1">
-    @using (Html.BeginForm("Save", null, FormMethod.Post, new { @class = "createFrom", @id = "CustomerVsSalesExecutive_form" }))
-    {
-        <div class="form-head1">
-            <h4>Customer Vs SalesExecutive</h4>
-        </div>
+<div class="row">
+    <div class="form-head1">
+        <h4>Customer Vs Sales Executive</h4>
+    </div>
     <div class="main-part pad1">
-        @Html.HiddenFor(m => m.dummy)
-        <div class=" table-responsive">
-            <table class="table table-bordered" id="tab_logic">
-                <thead>
-                    <tr class="grid_heading">
-                        <td width="2%"><h1>#</h1></td>
-                        <th width="30%"><h1>Customer</h1></th>
-                        <th width="20%"><h1>Sales Executives</h1></th>
-                        <th width="15%"><h1>Effective Date</h1></th>
+        @using (Html.BeginForm("Save", null, FormMethod.Post, new { @class = "createFrom", @id = "CustomerVsSalesExecutive_form" }))
+        {
 
-                    </tr>
-                </thead>
-                <tbody class="grid_row">
-                    @{ int row = 0;}
-                    @foreach (var item in Model.CustomerVsSalesExecutives)
-                    {
-
-                        <tr id="@row">
-                            <td style="vertical-align:middle">
-                                <span id="slno@(row+1)">@(row + 1)</span>
-                                @*@Html.HiddenFor(m => m.CustomerVsSalesExecutives[row].CustomerVsSalesExecutiveId)*@
-                                @Html.HiddenFor(m => m.CustomerVsSalesExecutives[row].CustomerId)
-                            </td>
-
-                            <td>
-                                @*@item.CustomerName*@
-                                @Html.TextBoxFor(m => m.CustomerVsSalesExecutives[row].CustomerName, new { @class = "OrderedQty form_input", autocomplete = "off", @readonly = "readonly" })
-                            </td>
-                            <td>
-
-                                @Html.DropDownListFor(m => m.CustomerVsSalesExecutives[row].EmployeeId, new SelectList(ViewBag.EmployeeList, "Value", "Text", item.EmployeeId), "Select Employee", new { @class = "form_input", autocomplete = "off" })
-
-                            </td>
-
-                            <td>
-                                @Html.TextBoxFor(m => m.CustomerVsSalesExecutives[row].EffectiveDate, item.EffectiveDate.ToString("dd/MMMM/yyyy"), new { @class = "effectivedate form_input", autocomplete = "off", @readonly = "readonly" })
-
-
-                            </td>
-
+            @Html.HiddenFor(m => m.dummy)
+            <div class=" table-responsive">
+                <table class="table table-bordered" id="tab_logic">
+                    <thead>
+                        <tr class="grid_heading">
+                            <td width="2%"><h1>#</h1></td>
+                            <th width="20%"><h1>Customer</h1></th>
+                            <th width="30%"><h1>Customer Address</h1></th>
+                            <th width="20%"><h1>Customer Category</h1></th>
+                            <th width="15%"><h1>Sales Executives</h1></th>
+                            <th width="18%"><h1>Effective Date</h1></th>
 
                         </tr>
-                        row++;
-                    }
+                    </thead>
+                    <tbody class="grid_row">
+                        @{ int row = 0;}
+                        @foreach (var item in Model.CustomerVsSalesExecutives)
+                        {
 
-                </tbody>
-            </table>
-        </div>
-        </div>
+                            <tr id="@row">
+                                <td style="vertical-align:middle">
+                                    <span id="slno@(row+1)">@(row + 1)</span>
+                                    @*@Html.HiddenFor(m => m.CustomerVsSalesExecutives[row].CustomerVsSalesExecutiveId)*@
+                                    @Html.HiddenFor(m => m.CustomerVsSalesExecutives[row].CustomerId)
+                                </td>
 
-        <div class="row">
+                                <td>
+                                    @*@item.CustomerName*@
+                                    @Html.TextBoxFor(m => m.CustomerVsSalesExecutives[row].CustomerName, new { @class = "OrderedQty form_input", autocomplete = "off", @readonly = "readonly" })
+                                </td>
+                                <td>
+                                    @Html.TextBoxFor(m => m.CustomerVsSalesExecutives[row].CustomerAddress, new { @class = "OrderedQty form_input", autocomplete = "off", @readonly = "readonly" })
 
-            <div class="col-md-12 hrpart">
-                <button type="button" class="form-button right" onclick="Exit()">Exit</button>
-                <button type="submit" class="form-button right">Save</button>
+                                </td>
+                                <td>
+                                    @Html.TextBoxFor(m => m.CustomerVsSalesExecutives[row].CusCategoryName, new { @class = "OrderedQty form_input", autocomplete = "off", @readonly = "readonly" })
+                                </td>
+                                <td>
+
+                                    @Html.DropDownListFor(m => m.CustomerVsSalesExecutives[row].EmployeeId, new SelectList(ViewBag.EmployeeList, "Value", "Text", item.EmployeeId), "Select Employee", new { @class = "form_input", autocomplete = "off" })
+
+                                </td>
+
+                                <td>
+                                    @Html.TextBoxFor(m => m.CustomerVsSalesExecutives[row].EffectiveDate, item.EffectiveDate.ToString("dd/MMMM/yyyy"), new { @class = "effectivedate form_input", autocomplete = "off", @readonly = "readonly" })
+
+
+                                </td>
+
+
+                            </tr>
+                            row++;
+                        }
+
+                    </tbody>
+                </table>
             </div>
-        </div>
+
+
+            <div class="row">
+
+                <div class="col-md-12 hrpart">
+                    <button type="button" class="form-button right" onclick="Exit()">Exit</button>
+                    <button type="submit" class="form-button right">Save</button>
+                </div>
+            </div>
         }
+
     </div>
+</div>

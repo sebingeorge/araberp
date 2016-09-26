@@ -14,6 +14,7 @@ namespace ArabErp.Web.Controllers
         // GET: SupplyOrderFollowup
         public ActionResult Index()
         {
+            FillBatch();
             return View();
         }
 
@@ -44,14 +45,19 @@ namespace ArabErp.Web.Controllers
 
             return RedirectToAction("Index");
         }
-        public ActionResult ItemList(int? page, string name = "", string suppliername="")
+        public ActionResult ItemList(int? page, string name = "", string suppliername = "", int? batch=null)
        {
             int itemsPerPage = 10;
             int pageNumber = page ?? 1;
-            return PartialView("_Pending", new SupplyOrderFollowupRepository().GetSupplyOrderFollowup(OrganizationId, name,suppliername));
-            //var repo = new ItemRepository();
-            //var List = repo.GetItems();
-            //return PartialView("_ItemListView",List);
+            return PartialView("_Pending", new SupplyOrderFollowupRepository().GetSupplyOrderFollowup(OrganizationId, name,suppliername,batch));
+        }
+
+        public void FillBatch()
+        {
+            List<Dropdown> types = new List<Dropdown>();
+            types.Add(new Dropdown { Id = 0, Name = "Non-Batch" });
+            types.Add(new Dropdown { Id = 1, Name = "Batch" });
+            ViewBag.BatchList = new SelectList(types, "Id", "Name");
         }
         //public ActionResult Create(int id = 0)
         //{

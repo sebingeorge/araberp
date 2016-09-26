@@ -61,10 +61,11 @@
         var url = '@Url.Action("ItemList")';
         var name = $("#txtName").val();
         var Suppliername = $("#txtSupplier").val();
+        var batch = $("#cboBatch").val();
         name = name.replace(/ /g, "+");
         //url += "?name=" + name;
         //url += "?name=" + Suppliername;
-        url += "?name=" + name + "&Suppliername=" + Suppliername;
+        url += "?name=" + name + "&Suppliername=" + Suppliername + "&batch=" + batch;
 
         $("#grid").load(url, function () {
             $(grid).removeClass("fade");
@@ -92,6 +93,12 @@
                 <label for="txtSupplier">Supplier</label>
                 <input type="text" class="form_input bluebox" id="txtSupplier" onkeyup="Filter()" />
             </div>
+
+            <div class="col-md-3">
+                <label for="cboBatch">Batch</label>
+                @Html.DropDownList("cboBatch", (SelectList)ViewBag.BatchList, "Any", new { @class = "form_input bluebox", @onchange = "Filter()" })
+            </div>
+
         </div>
 
         <br />
