@@ -19,6 +19,7 @@
     <thead>
         <tr class="grid_heading">
             <th><h1>Employee</h1></th>
+            <th><h1>Category</h1></th>
             @{
                 List<int> sundays = new List<int>();
                 var columns = Model.Select(m => m.TaskDate).Distinct().ToList();
@@ -50,11 +51,14 @@
                     <tr>
                         <td>
                             @{
-                                string name = (from EmployeeResourceAvailability p in Model
+                                var emp = (from EmployeeResourceAvailability p in Model
                                                 where p.EmployeeId == id
-                                                select p.EmployeeName).First();
-                                            @name
+                                                select p).First();
+                                            @emp.EmployeeName
                             }
+                        </td>
+                        <td>
+                            @emp.EmpCategoryName
                         </td>
                         @{
                             //foreach (var date in columns)
