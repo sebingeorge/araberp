@@ -37,7 +37,6 @@ namespace ArabErp.DAL
             }
         }
 
-
         public int DeleteOpeningStock(OpeningStock objOpeningStock)
         {
             using (IDbConnection connection = OpenConnection(dataConnection))
@@ -61,7 +60,7 @@ namespace ArabErp.DAL
                            Values (@stockpointId,@ItemId,@Quantity,@CreatedBy,@CreatedDate,@OrganizationId);
                            SELECT CAST(SCOPE_IDENTITY() as int)";
 
-                     //id = connection.Query<int>(sql, objOpeningStock).Single();
+                    //id = connection.Query<int>(sql, objOpeningStock).Single();
 
                     id = connection.Query<int>(sql, new
                     {
@@ -74,10 +73,10 @@ namespace ArabErp.DAL
                     }).Single();
                     InsertLoginHistory(dataConnection, objOpeningStock.CreatedBy, "Create", "Opening Stock", id.ToString(), "0");
                 }
-       
+
 
                 return id;
-              
+
             }
         }
 
@@ -91,53 +90,59 @@ namespace ArabErp.DAL
             }
         }
 
-        public int InsertStockUpdate(OpeningStock objOpeningStock)
+        public int InsertStockUpdate(OpeningStock objOpeningStock, IDbConnection connection, IDbTransaction txn)
         {
-            using (IDbConnection connection = OpenConnection(dataConnection))
+            //using (IDbConnection connection = OpenConnection(dataConnection))
+            //{
+            int id = 0;
+            foreach (var item in objOpeningStock.OpeningStockItem)
             {
-                int id = 0;
-                foreach (var item in objOpeningStock.OpeningStockItem)
-                {
-                    if (item.ItemId == null || item.ItemId == 0) continue;
-                    string sql = @"insert  into StockUpdate(StockPointId,stocktrnDate,ItemId,Quantity,
+                if (item.ItemId == null || item.ItemId == 0) continue;
+                string sql = @"insert  into StockUpdate(StockPointId,stocktrnDate,ItemId,Quantity,
                                  StockType,StockInOut,CreatedBy,CreatedDate,OrganizationId) 
                                  Values (@stockpointId,@CreatedDate,@ItemId,@Quantity,'OpeningStock','IN',
                                  @CreatedBy,@CreatedDate,@OrganizationId);
                                  SELECT CAST(SCOPE_IDENTITY() as int)";
 
-                    //id = connection.Query<int>(sql, objOpeningStock).Single();
+                //id = connection.Query<int>(sql, objOpeningStock).Single();
 
-                    id = connection.Query<int>(sql, new
-                    {
-                        stockpointId = objOpeningStock.stockpointId,
-                        ItemId = item.ItemId,
-                        Quantity = item.Quantity,
-                        CreatedBy = objOpeningStock.CreatedBy,
-                        CreatedDate = objOpeningStock.CreatedDate,
-                        OrganizationId = objOpeningStock.OrganizationId
-                    }).Single();
-
-                }
-
-
-                return id;
+                id = connection.Query<int>(sql, new
+                {
+                    stockpointId = objOpeningStock.stockpointId,
+                    ItemId = item.ItemId,
+                    Quantity = item.Quantity,
+                    CreatedBy = objOpeningStock.CreatedBy,
+                    CreatedDate = objOpeningStock.CreatedDate,
+                    OrganizationId = objOpeningStock.OrganizationId
+                }, txn).Single();
 
             }
+
+
+            return id;
+
+            //}
         }
 
-
-        public IEnumerable< OpeningStockItem> GetItem(int? StockPointId)
+        public IEnumerable<OpeningStockItem> GetItem(int? StockPointId)
         {
             using (IDbConnection connection = OpenConnection(dataConnection))
             {
-                string sql = @"SELECT ItemId,Quantity  FROM OpeningStock WHERE StockPointId=@StockPointId";
+                #region old query
+                //string sql = @"SELECT ItemId,Quantity  FROM OpeningStock WHERE StockPointId=@StockPointId"; 
+                #endregion
+
+                string query = @"SELECT DISTINCT OS.OpeningStockId, ItemId, Quantity, CASE WHEN IB.ItemBatchId IS NOT NULL THEN 1 ELSE 0 END AS isUsed
+                                FROM OpeningStock OS
+	                                LEFT JOIN ItemBatch IB ON OS.OpeningStockId = IB.OpeningStockId
+                                WHERE StockPointId=@StockPointId";
 
                 //var objItem = connection.Query<OpeningStock>(sql, new
                 //{
                 //    StockPointId = StockPointId
                 //}).OpeningStockItem();
 
-                return connection.Query<OpeningStockItem>(sql, new
+                return connection.Query<OpeningStockItem>(query, new
                 {
                     StockPointId = StockPointId
                 }).ToList();
@@ -157,11 +162,55 @@ namespace ArabErp.DAL
                                 S.StockPointId = ISNULL(NULLIF(@stkid, 0), S.StockPointId) 
                                 GROUP BY  I.ItemName,I.PartNo,U.UnitName
                                 ORDER BY I.ItemName";
-                return connection.Query<OpeningStockReport>(qry, new { stkid = stockPointId, itmcatid = itemCategoryId, itmid = itemId, OrganizationId = OrganizationId}).ToList();
+                return connection.Query<OpeningStockReport>(qry, new { stkid = stockPointId, itmcatid = itemCategoryId, itmid = itemId, OrganizationId = OrganizationId }).ToList();
             }
         }
 
+        public int UpdateOpeningStock(OpeningStock model)
+        {
+            using (IDbConnection connection = OpenConnection(dataConnection))
+            {
+                IDbTransaction txn = connection.BeginTransaction();
+                try
+                {
+                    var list = (from OpeningStockItem p in model.OpeningStockItem
+                                where !p.isUsed
+                                select p).ToList();
 
+                    string qry = @"UPDATE OpeningStock SET
+	                            [ItemId]=@ItemId,
+	                            [Quantity]=@Quantity
+                            WHERE OpeningStockId = @OpeningStockId";
+                    var id = 0;
+                    foreach (var item in list)
+                    {
+                        id = connection.Execute(qry, new
+                                {
+                                    ItemId = item.ItemId,
+                                    Quantity = item.Quantity,
+                                    OpeningStockId = item.OpeningStockId
+                                }, txn);
+                    }
 
+                    qry = @"DELETE FROM StockUpdate OUTPUT DELETED.StockUpdateId WHERE StockpointId = @StockpointId AND StockType='OpeningStock'";
+
+                    connection.Query<int>(qry, new { StockpointId = model.stockpointId }, txn).First();
+
+                    InsertStockUpdate(model, connection, txn);
+
+                    InsertLoginHistory(dataConnection, model.CreatedBy, "Create", typeof(OpeningStock).Name, id.ToString(), model.OrganizationId.ToString());
+
+                    txn.Commit();
+
+                    return id;
+                }
+                catch (Exception ex)
+                {
+                    txn.Rollback();
+                    throw ex;
+                }
+
+            }
+        }
     }
 }
