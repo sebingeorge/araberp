@@ -68,16 +68,29 @@ namespace ArabErp.DAL
             }
         }
 
-        public List<WorkShopRequestItem> GetWorkShopRequestItems()
+//        public List<WorkShopRequestItem> GetWorkShopRequestItems()
+//        {
+//            using (IDbConnection connection = OpenConnection(dataConnection))
+//            {
+//                string sql = @"select * from WorkShopRequestItem
+//                        where isActive=1";
+
+//                var objWorkShopRequestItems = connection.Query<WorkShopRequestItem>(sql).ToList<WorkShopRequestItem>();
+
+//                return objWorkShopRequestItems;
+//            }
+//        }
+
+        public List<WorkShopRequestItem> WorkShopRequestDT(int WorkShopRequestId)
         {
             using (IDbConnection connection = OpenConnection(dataConnection))
             {
-                string sql = @"select * from WorkShopRequestItem
-                        where isActive=1";
+                string sql = @"SELECT Slno,I.ItemId,I.ItemName,I.PartNo,WRI.Remarks,Quantity,U.UnitName FROM WorkShopRequestItem WRI
+                               INNER JOIN Item I ON I.ItemId=WRI.ItemId
+                               INNER JOIN Unit U ON U.UnitId=I.ItemUnitId
+                               WHERE WRI.WorkShopRequestId=@WorkShopRequestId";
 
-                var objWorkShopRequestItems = connection.Query<WorkShopRequestItem>(sql).ToList<WorkShopRequestItem>();
-
-                return objWorkShopRequestItems;
+                return connection.Query<WorkShopRequestItem>(sql, new { WorkShopRequestId = WorkShopRequestId }).ToList();
             }
         }
 
