@@ -203,5 +203,27 @@ namespace ArabErp.DAL
                                                             }).ToList();
             }
         }
+
+        public StockReturn GetStockReturnHD(int StockReturnId)
+        {
+            using (IDbConnection connection = OpenConnection(dataConnection))
+            {
+
+                string sql = @" SELECT StockReturnRefNo,StockReturnDate,S.JobCardId,C.CustomerName,W.WorkDescr,S.SpecialRemarks 
+                                FROM StockReturn S
+                                INNER JOIN JobCard J ON J.JobCardId=S.JobCardId
+                                INNER JOIN SaleOrder SO ON SO.SaleOrderId=J.SaleOrderId
+                                INNER JOIN Customer C ON C.CustomerId=SO.CustomerId
+                                INNER JOIN WorkDescription W ON W.WorkDescriptionId=J.WorkDescriptionId
+                                WHERE  StockReturnId=@StockReturnId";
+
+                var objStockReturn = connection.Query<StockReturn>(sql, new
+                {
+                    StockReturnId = StockReturnId
+                }).First<StockReturn>();
+
+                return objStockReturn;
+            }
+        }
     }
 }
