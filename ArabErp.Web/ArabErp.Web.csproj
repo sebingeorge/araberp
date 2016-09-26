@@ -962,6 +962,7 @@
     <Content Include="Views\VehicleInPass\Edit.cshtml" />
     <Content Include="Views\JobCardQC\Edit.cshtml" />
     <Content Include="Views\SupplyOrderFollowup\Index.cshtml" />
+    <Content Include="Views\DeliveryChallan\Edit.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
