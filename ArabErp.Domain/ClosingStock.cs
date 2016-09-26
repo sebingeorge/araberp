@@ -20,6 +20,6 @@ namespace ArabErp.Domain
       public decimal OPENINGSTOCK { get; set; }
       public int itmCatId { get; set; }
       public int ItemId { get; set; }
-     
+      public string ItemRefNo { get; set; }
     }
 }

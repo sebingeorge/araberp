@@ -91,6 +91,7 @@ Where OrganizationId=@OrganizationId";
                            Values (@CustomerId,@EmployeeId,@EffectiveDate,@CreatedBy,@CreatedDate,@OrganizationId,1);
                            SELECT CAST(SCOPE_IDENTITY() as int)";
 
+                      //  InsertLoginHistory(dataConnection, item.CreatedBy, "Create", "CustomerVsSalesExecutive", "0", "0");
                     int objCustomerVsSalesExecutive = connection.Query<int>(sql,item).First();
 
                     }

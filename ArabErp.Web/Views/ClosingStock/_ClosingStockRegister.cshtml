@@ -3,7 +3,8 @@
 <table class="table table-bordered">
     <thead>
         <tr class="grid_heading">
-            <th width="85%"><h1>Material/Spares</h1></th>
+            <th width="10%"><h1>Ref No</h1></th>
+            <th width="75%"><h1>Material/Spares</h1></th>
             <th class="text-right" width="10%"><h1>Closing Stock</h1></th>
             <th width="5%"><h1>Unit</h1></th>
 
@@ -14,6 +15,7 @@
     {
         <tbody class="grid_row">
             <tr>
+                <td class="grid-cell">@item.ItemRefNo</td>
                 <td class="grid-cell">@item.ItemName</td>
                 <td class="grid-cell text-right">@item.Quantity</td>
                 <td class="grid-cell">@item.UnitName</td>
