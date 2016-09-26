@@ -36,7 +36,7 @@ namespace ArabErp.DAL
                 return 1;
             }
         }
-        public SupplyOrderFollowUpList GetSupplyOrderFollowup(int OrganizationId,string name,string SupplierName)
+        public SupplyOrderFollowUpList GetSupplyOrderFollowup(int OrganizationId, string name, string SupplierName, int? batch)
         {
 
             using (IDbConnection connection = OpenConnection(dataConnection))
@@ -45,21 +45,22 @@ namespace ArabErp.DAL
 
                 string query = @"
                             SELECT  distinct SI.SupplyOrderItemId,I.ItemName,case when I.CriticalItem = 1 then 'Critical' else '-' end CriticalItem,
-                                SI.OrderedQty,Su.SupplierName,convert(varchar,SF.ExpectedDate,106) ExpectedDate,S.RequiredDate,SF.Remarks,
+                                SI.OrderedQty,Su.SupplierName,convert(varchar,SF.ExpectedDate,106) ExpectedDate,S.RequiredDate,SF.Remarks,I.BatchRequired,
                                 CONCAT(S.SupplyOrderNo, ' / ' , convert(varchar,S.SupplyOrderDate,106) ) SupplyOrderDate
                                 from SupplyOrder S inner join Supplier Su on  Su.SupplierId=S.SupplierId
                                 inner join  SupplyOrderItem SI on S.SupplyOrderId=SI.SupplyOrderId
                                 inner join PurchaseRequestItem PI on PI.PurchaseRequestItemId=SI.PurchaseRequestItemId 
                                 inner join Item I on PI.ItemId=I.ItemId
 								left join SupplyOrderFollowup SF on SF.SupplyOrderItemId=SI.SupplyOrderItemId where SF.OrganizationId=1 and ItemName LIKE '%'+@name+'%' 
-                                and  SupplierName Like '%'+@SupplierName+'%'";
+                                and  SupplierName Like '%'+@SupplierName+'%' and BatchRequired = ISNULL(@batch,BatchRequired)";
 
                // model.SupplyOrderFollowups = connection.Query<SupplyOrderFollowup>(query).ToList<SupplyOrderFollowup>();
                 model.SupplyOrderFollowups = connection.Query<SupplyOrderFollowup>(query, new
                 {
                     OrganizationId = OrganizationId,
                     name=name,
-                    SupplierName=SupplierName
+                    SupplierName=SupplierName,
+                    batch = batch
                 }).ToList<SupplyOrderFollowup>();
                 return model;
             }
