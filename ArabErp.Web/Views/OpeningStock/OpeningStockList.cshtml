@@ -117,20 +117,45 @@
             @for (int i = 0; i < Model.OpeningStockItem.Count; i++)
             {
                 <tr id="@i">
-                    <td style="vertical-align:middle"><a class="glyphicon glyphicon-minus" style="top:0px" onclick="Delete(@i)"></a></td>
+                    <td style="vertical-align:middle"><a class="glyphicon glyphicon-minus" style="top:0px;@if(Model.OpeningStockItem[i].isUsed)
+                                                                                                          {
+                                                                                                              @:visibility: hidden;
+                                                                                                          }" onclick=" delete(@i)"></a></td>
                     <td align="center">
                         <span id="slno@(i+1)">@(i + 1)</span>
+                        @Html.HiddenFor(m => m.OpeningStockItem[i].OpeningStockId)
                         @Html.HiddenFor(m => m.OpeningStockItem[i].SlNo)
+                        @Html.HiddenFor(m => m.OpeningStockItem[i].isUsed)
                     </td>
                     <td>
                         <input type="hidden" id="Row_@i" />
                         @*@Html.HiddenFor(m => m.OpeningStockItem[i].ItemId, new { @id = "hidden" + i })*@
-                        @Html.DropDownListFor(m => m.OpeningStockItem[i].ItemId, new SelectList(ViewBag.Itemlist, "Value", "Text", Model.OpeningStockItem[i].ItemId), "Select Material/Spare", new { @class = "form_input", autocomplete = "off"})
-                      
+                        @if (Model.OpeningStockItem[i].isUsed)
+                        {
+                            @:@Model.OpeningStockItem[i].ItemId
+                            @*@{
+                            SelectList list = new SelectList(ViewBag.Itemlist);
+                            //list.Select()
+                        }
+                        @Html.DropDownListFor(m => m.OpeningStockItem[i].ItemId, new SelectList(ViewBag.Itemlist, "Value", "Text", Model.OpeningStockItem[i].ItemId), "Select Material/Spare", new { @class = "form_input", autocomplete = "off", @disabled="true" })*@
+                        }
+                        else
+                        {
+                            @Html.DropDownListFor(m => m.OpeningStockItem[i].ItemId, new SelectList(ViewBag.Itemlist, "Value", "Text", Model.OpeningStockItem[i].ItemId), "Select Material/Spare", new { @class = "form_input", autocomplete = "off" })
+                        }
+                        
                      </td>
 
                     <td>
-                        @Html.TextBoxFor(m => m.OpeningStockItem[i].Quantity, new { @class = "form_input", autocomplete = "off", @style = "text-align:right" })
+                        @if (Model.OpeningStockItem[i].isUsed)
+                        {
+                            @Html.TextBoxFor(m => m.OpeningStockItem[i].Quantity, new { @class = "form_input", autocomplete = "off", @style = "text-align:right", @disabled = "true" })
+                        }
+                        else
+                        {
+                            @Html.TextBoxFor(m => m.OpeningStockItem[i].Quantity, new { @class = "form_input", autocomplete = "off", @style = "text-align:right" })
+                        }
+                        
                     </td>
 
                     <td style="vertical-align:middle"><a id="add_row" class="glyphicon glyphicon-plus" style="top:0px" onclick="AddAdditionRow()"></a></td>
