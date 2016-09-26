@@ -21,8 +21,8 @@ namespace ArabErp.Domain
         public string CreatedBy { get; set; }
         public DateTime? CreatedDate { get; set; }
         public int OrganizationId { get; set; }
-
-     
+        public string CusCategoryName { get; set; }
+        public string CustomerAddress { get; set; }
     }
  
 }

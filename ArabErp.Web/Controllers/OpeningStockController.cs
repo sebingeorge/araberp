@@ -49,13 +49,13 @@ namespace ArabErp.Web.Controllers
             return PartialView("OpeningStockList", OpeningStock);
         }
 
-
         public void FillStockpoint()
         {
             var repo = new OpeningStockRepository();
             var list = repo.FillStockpoint();
             ViewBag.Stockpointlist = new SelectList(list, "Id", "Name");
         }
+
         public void FillItem()
         {
             var repo = new OpeningStockRepository();
@@ -63,29 +63,27 @@ namespace ArabErp.Web.Controllers
             ViewBag.Itemlist = new SelectList(list, "Id", "Name");
         }
 
-        
+        public ActionResult Save(OpeningStock model)
+        {
+            model.OrganizationId = OrganizationId;
+            model.CreatedDate = System.DateTime.Now;
+            model.CreatedBy = UserID.ToString();
+            //new OpeningStockRepository().DeleteOpeningStock(model);
+            //new OpeningStockRepository().InsertOpeningStock(model);
+            //new OpeningStockRepository().DeleteStockUpdate(model);
+            //new OpeningStockRepository().InsertStockUpdate(model);
 
-              public ActionResult Save(OpeningStock model)
-              {
+            new OpeningStockRepository().UpdateOpeningStock(model);
 
-                  model.OrganizationId = OrganizationId;
-                model.CreatedDate = System.DateTime.Now;
-                model.CreatedBy = UserID.ToString();
-                new OpeningStockRepository().DeleteOpeningStock(model);
-                new OpeningStockRepository().InsertOpeningStock(model);
-                new OpeningStockRepository().DeleteStockUpdate(model);
-                new OpeningStockRepository().InsertStockUpdate(model);
-                  
-            
-                FillStockpoint();
-                FillItem();
+            FillStockpoint();
+            FillItem();
 
-                TempData["Success"] = "Added Successfully!";
-                OpeningStock OpeningStock = new OpeningStock();
-                OpeningStock.OpeningStockItem = new List<OpeningStockItem>();
-                OpeningStock.OpeningStockItem.Add(new OpeningStockItem());
-                return RedirectToAction("Create");
-             }
-
+            TempData["Success"] = "Added Successfully!";
+            OpeningStock OpeningStock = new OpeningStock();
+            OpeningStock.OpeningStockItem = new List<OpeningStockItem>();
+            OpeningStock.OpeningStockItem.Add(new OpeningStockItem());
+            return RedirectToAction("Create");
         }
+
     }
+}

@@ -371,5 +371,28 @@ namespace ArabErp.DAL
             }
         }
 
+        public WorkShopRequest WorkShopRequestHD(int WorkShopRequestId)
+        {
+            using (IDbConnection connection = OpenConnection(dataConnection))
+            {
+
+                string sql = @" SELECT WorkShopRequestId,WorkShopRequestRefNo,WorkShopRequestDate,
+                                JobCardId,SO.SaleOrderRefNo,C.CustomerName,WR.CustomerOrderRef,WR.SpecialRemarks,WR.RequiredDate
+                                FROM WorkShopRequest WR
+                                INNER JOIN SaleOrder SO ON SO.SaleOrderId=WR.SaleOrderId
+                                INNER JOIN Customer C ON C.CustomerId=WR.CustomerId
+                                WHERE WR.WorkShopRequestId=@WorkShopRequestId";
+
+                var objWorkShopRequest = connection.Query<WorkShopRequest>(sql, new
+                {
+                    WorkShopRequestId = WorkShopRequestId
+                }).First<WorkShopRequest>();
+
+                return objWorkShopRequest;
+            }
+        }
+
+      
+
     }
 }

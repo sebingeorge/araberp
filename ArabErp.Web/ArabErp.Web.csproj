@@ -963,6 +963,7 @@
     <Content Include="Views\JobCardQC\Edit.cshtml" />
     <Content Include="Views\SupplyOrderFollowup\Index.cshtml" />
     <Content Include="Views\DeliveryChallan\Edit.cshtml" />
+    <Content Include="Views\AdditionalWorkShopRequest\Edit.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
