@@ -50,21 +50,19 @@
             //alert(obj.id);
             //$("#" + obj.id).removeClass("hasDatepicker");
             $(obj).datepicker({ dateFormat: "dd-MM-yy" });
-     
         });
+
     }
-    
-        function Exit() {
-            var url = '@Url.Action("Index","Home")';
-            window.location = url;
-        }
-    
+    function Exit() {
+        var url = '@Url.Action("SupplyOrderFollowup")';
+        window.location = url;
+    }
 
 </script>
 
 
 
-@using (Html.BeginForm("Save", null, FormMethod.Post, new { @class = "createFrom", @id = "SupplyOrderFollowup_form" }))
+@using (Html.BeginForm("Save", null, FormMethod.Post, new { @class = "createFrom", @id = "CustomerVsSalesExecutive_form" }))
     {
   //  <div class="row">
 
@@ -119,12 +117,8 @@
                 </td>
 
                 <td>
-                   @* @Html.TextBoxFor(m => m.SupplyOrderFollowups[row].ExpectedDate, item.ExpectedDate.ToString("dd/MMMM/yyyy"), new { @class = "ExpectedDate form_input", autocomplete = "off", @readonly = "readonly" })*@  
-                    @Html.TextBoxFor(m => m.SupplyOrderFollowups[row].ExpectedDate, @String.Format("{0:dd/MMMM/yyyy}", item.ExpectedDate), new { @class = "ExpectedDate form_input", autocomplete = "off", @readonly = "readonly" })
-
-
-
-
+                    @Html.TextBoxFor(m => m.SupplyOrderFollowups[row].ExpectedDate, item.ExpectedDate.ToString("dd/MMMM/yyyy"), new { @class = "ExpectedDate form_input", autocomplete = "off", @readonly = "readonly" })  
+                  
                 </td>
                 <td>
                     @Html.TextBoxFor(m => m.SupplyOrderFollowups[row].Remarks, new { @class = "Remarks form_input", autocomplete = "off" })

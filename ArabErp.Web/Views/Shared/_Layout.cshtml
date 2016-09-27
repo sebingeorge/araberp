@@ -193,10 +193,10 @@
 
                                     <li><a href="@Url.Action("Create", "Organization")">Organization</a></li>
                                     <li><a href="@Url.Action("Create","Currency")">Currency</a></li>
-                                    <li><a href="@Url.Action("Create", "CostingParameters")">Costing Parameters</a></li>
-                                    <li><a href="@Url.Action("Create", "QCParameter")">QC Parameters</a></li>
+                                    <li><a href="@Url.Action("Create", "CostingParameters")">CostingParameters</a></li>
+                                    <li><a href="@Url.Action("Create", "QCParameter")">QCParameters</a></li>
                                  
-                                <li><a href="@Url.Action("Create", "CustomerVsSalesExecutive")">Customer Vs SalesExecutive</a></li>
+                                <li><a href="@Url.Action("Create", "CustomerVsSalesExecutive")">CustomerVsSalesExecutive</a></li>
                                     <li><a href="@Url.Action("Index","WorkDescription")">Transport Work Description</a></li>
                                     <li><a href="@Url.Action("FillProjectWorkDescriptionList", "WorkDescription")">Project Work Description</a></li>
                                     <li><a href="@Url.Action("Create","VehicleModel")">Vehicle Model</a></li>
@@ -308,9 +308,9 @@
                                         <ul>
                                             <li><a href="@Url.Action("CreateQuerySheet", "QuerySheet")">Project - Query Sheet</a></li>
                                             <li><a href="@Url.Action("CreateProject", "SalesQuotation")">Project - Quotation Request</a></li>
-                                            <li><a class="projectn" href="@Url.Action("ListSalesQuotations", "SalesQuotation", new { ProjectBased = 1 })">Project - Quotation Request Approval</a></li>
-                                            <li><a href="@Url.Action("PendingSalesQutoforSaleOrder", "SaleOrder", new { ProjectBased = 1 })">Project - Sale Order</a></li>
-                                            <li><a href="@Url.Action("PendingSaleOrderApproval", "SaleOrder", new { ProjectBased = 1 })">Project - Sale Order Approval</a></li>
+                                            <li><a class="projectn" href="@Url.Action("ListSalesQuotations", "SalesQuotation", new { ProjectBased = 1 ,AfterSales=0})">Project - Quotation Request Approval</a></li>
+                                            <li><a href="@Url.Action("PendingSalesQutoforSaleOrder", "SaleOrder", new { ProjectBased = 1})">Project - Sale Order</a></li>
+                                            <li><a href="@Url.Action("PendingSaleOrderApproval", "SaleOrder", new { ProjectBased = 1})">Project - Sale Order Approval</a></li>
                                             <li><a href="@Url.Action("PendingSaleOrderHold", "SaleOrder", new { isProjectBased = 1})">Project - Pending Sale Orders</a></li>
                                             <li><a href="@Url.Action("PendingProforma", "ProformaInvoice", new { ProjectBased =1 })">Project - Proforma Invoice</a></li>
                                             <li><a href="@Url.Action("PendingSalesInvoice", "SalesInvoice", new { invType = "Inter" })">Inter Invoice</a></li>
@@ -323,9 +323,7 @@
                                     <div id="sales-transport" class="collapse">
                                         <ul>
                                             <li><a href="@Url.Action("Create","SalesQuotation")">Quotation Request</a></li>
-                                            <li><a href="@Url.Action("ListSalesQuotations", "SalesQuotation", new { ProjectBased = 0 })">Quotation Request Approval</a></li>
-                                            <li><a href="@Url.Action("CreateAfterSales", "SalesQuotation")">AfterSales-Quotation Request</a></li>
-                                            <li><a href="@Url.Action("ListSalesQuotations", "SalesQuotation", new { ProjectBased = 2 })">AfterSales-Quotation Request Approval</a></li>
+                                            <li><a href="@Url.Action("ListSalesQuotations", "SalesQuotation", new { ProjectBased = 0, AfterSales = 0 })">Quotation Request Approval</a></li>
                                             <li><a href="@Url.Action("PendingSalesQutoforSaleOrder", "SaleOrder", new { ProjectBased = 0 })">Sale Order</a></li>
                                             <li><a href="@Url.Action("PendingSaleOrderApproval", "SaleOrder", new { ProjectBased = 0 })">Sale Order Approval</a></li>
                                             <li><a href="@Url.Action("PendingSaleOrderHold", "SaleOrder")">Pending Sale Orders</a></li>
@@ -335,6 +333,19 @@
                             </ul>
                                     </div>
                         </li>
+                                <li>
+                                    <a href="#" data-toggle="collapse" data-target="#sales-aftersales">AfterSales<span class="caret arrow"></span></a>
+                                    <div id="sales-aftersales" class="collapse">
+                                        <ul>
+                                            <li><a href="@Url.Action("CreateAfterSalesTrans", "SalesQuotation")">Transportation-Quotation</a></li>
+                                            <li><a href="@Url.Action("ListSalesQuotations", "SalesQuotation", new { ProjectBased = 0,AfterSales =1 })">Transportation-Quotation Approval</a></li>
+                                            <li><a href="@Url.Action("CreateAfterSalesProject", "SalesQuotation")">Project-Quotation</a></li>
+                                            <li><a href="@Url.Action("ListSalesQuotations", "SalesQuotation", new { ProjectBased = 1,AfterSales = 1 })">Project-Quotation Approval</a></li>
+       
+
+                                        </ul>
+                                    </div>
+                                </li>
                     </ul>
                         </div>
                 </li>

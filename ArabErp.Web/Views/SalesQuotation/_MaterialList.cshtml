@@ -37,13 +37,13 @@
         clone.html($(clone).html().replace(/\(0\)/g, '(' + i + ')'));
         clone.html($(clone).html().replace(/Row_0/, 'Row_' + i));
         clone.html($(clone).html().replace(/serialno1/, 'serialno' + (i + 1) + ''));
-        clone.html($(clone).html().replace(/unit0/, 'unit' + i + ''));
+        clone.html($(clone).html().replace(/unitname0/, 'unitname' + i + ''));
         clone.html($(clone).html().replace(/this,0/, 'this,' + i + ''));
         $("#table-additional-items-list").append('<tr id="tr_' + i + '">' + clone.html() + '  </tr>');
         $("#serialno" + (i + 1)).html((i + 1));
         $("#Materials_" + i + "__SlNo").val((i + 1));
       
-        $("#unit" + i).html('');
+        $("#unitname" + i).html('');
         $("#partno" + i).html('');
         //bind keypress event for new row inputs.
         $(".numbers-only").keypress(function (e) {
@@ -105,12 +105,14 @@
     }
 
     function OnItemChange(sender, index) {
+       
         var id = $(sender).val();
         if (id != '') {
             var url = '@Url.Action("GetItemUnit")';//get unit of selected item
             $.getJSON(url, { itemId: id },
                 function (data) {
-                    $("#unit" + index).html(data);
+                    
+                    $("#unitname" + index).html(data);
                 });
 
             url = '@Url.Action("GetItemPartNo")';//get part number of selected item
@@ -120,7 +122,7 @@
                 });
         }
         else {
-            $("#unit" + index).html('');
+            $("#unitname" + index).html('');
             $("#partno" + index).html('');
         }
     }
@@ -146,7 +148,7 @@
     function QtyChanged(row) {
         var quantity = parseFloat($("#Materials_" + row + "__Quantity").val());
         var rate = parseFloat($("#Materials_" + row + "__Rate").val());
-     
+        var discount = parseFloat($("#Materials_" + row + "__Discount").val());
      
         if (quantity == NaN) {
             quantity = 0;
@@ -154,10 +156,12 @@
         if (rate == NaN) {
             rate = 0;
         }
-                        
+        if (discount == NaN) {
+            discount = 0;
+        }               
       
                       
-        var amount = (quantity * rate);
+        var amount = (quantity * rate) - discount;
                        
         amount = parseFloat(amount);
         $("#Materials_" + row + "__Amount").val(amount);
@@ -212,6 +216,7 @@
             <th width="6%" class="text-right "><h1>Qty.</h1></th>
             <th width="8%"><h1>UoM</h1></th>
             <th width="10%" class="text-right "><h1>Rate</h1></th>
+            <th width="10%" class="text-right "><h1>Discount</h1></th>
             <th width="10%" class="text-right "><h1>Amount</h1></th>
             @if (actionName != "Approve" )
             {
@@ -239,8 +244,9 @@
                 <td id="partno0" class="qreturn" style="vertical-align:middle">@Html.TextBoxFor(m => m.Materials[i].PartNo, new { @class = "form_input text-left", @readonly = "true" })</td>
              
                 <td>@Html.TextBoxFor(m => m.Materials[i].Quantity, new { @class = "form_input numbers-only text-right", autocomplete = "off", placeholder = "Qty", @onkeyup = "QtyChanged(" + i + ")", @onchange = "QtyChanged(" + i + ")" })</td>
-                <td id="unit0" class="qreturn" style="vertical-align:middle">@Html.TextBoxFor(m => m.Materials[i].UnitName, new { @class = "form_input text-left", @readonly = "true" })</td>
+                <td id="unitname0" class="qreturn" style="vertical-align:middle">@Html.TextBoxFor(m => m.Materials[i].UnitName, new { @class = "form_input text-left", @readonly = "true" })</td>
                 <td>@Html.TextBoxFor(m => m.Materials[i].Rate, new { @class = "form_input numbers-only text-right ", autocomplete = "off", placeholder = "Rate", @onchange = "RateChanged(" + i + ");", @onkeyup = "QtyChanged(" + i + ")" })</td>
+                <td>@Html.TextBoxFor(m => m.Materials[i].Discount, new { @class = "form_input numbers-only text-right ", autocomplete = "off", placeholder = "Discount", @onkeyup = "QtyChanged(" + i + ")" })</td>
                 <td>@Html.TextBoxFor(m => m.Materials[i].Amount, new { @class = "form_input numbers-only text-right clAmount", autocomplete = "off", placeholder = "Amount", @readonly = "true" })</td>
                 @if (actionName != "Approve" )
                   {
@@ -261,6 +267,7 @@
 
                  <th width="6%" class="text-right "><h1></h1></th>
                  <th width="8%"><h1></h1></th>
+                 <th width="10%" class="text-right "><h1></h1></th>
                  <th width="10%" class="text-right "><h1></h1></th>
                  <th width="10%" class="text-right "><span id="TotalAmount"></span></th>
                  @if (actionName != "Approve")

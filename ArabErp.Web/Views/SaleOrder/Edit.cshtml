@@ -189,11 +189,15 @@
         location.href = '@Url.Action("Index", new { type = Request.QueryString["type"] })';
       
     }
+    function DeleteItem(id, isProjectBased,isAfterSales) {
 
-    function DeleteItem(id) {
-        var url = '@Url.Action("Delete", new { id = Model.SaleOrderId, type = Model.isProjectBased })';
-        window.location=url;
+
+        var url = '@Url.Action("Delete")';
+        url += "?id=" + id + "&isProjectBased=" + isProjectBased + "&isAfterSales=" +isAfterSales ;
+        window.location = url;
+
     }
+  
 </script>
 @Html.HiddenFor(m => m.SaleOrderId)
 
@@ -208,11 +212,12 @@
             @Html.HiddenFor(m => m.SalesQuotationId)
             @Html.HiddenFor(m => m.SaleOrderId)
             @Html.HiddenFor(m => m.isProjectBased)
+            @Html.HiddenFor(m => m.isAfterSales)
             @Html.Partial("_SaleOrderHead", Model)
             <div id="wordescriptions">
                 @Html.Partial("_DisplaySOList", Model)
             </div>
-            if (@Model.isProjectBased != 0)
+            if (@Model.isAfterSales==1)
             {
                 @Html.Partial("_MaterialList", Model)
             }
@@ -221,7 +226,7 @@
                 <div class="col-md-12 hrpart">
                     <button type="button" class="form-button right" onclick="Exit()">Exit</button>
                     <button type="submit" class="form-button right">Edit</button>
-                    <input type="button" value="Delete" onclick="DeleteItem(@Model.SaleOrderId)" class="form-button left" />
+                    <input type="button" value="Delete" onclick="DeleteItem(@Model.SaleOrderId,@Model.isProjectBased,@Model.isAfterSales)" class="form-button left" />
                 </div>
             </div>
         }

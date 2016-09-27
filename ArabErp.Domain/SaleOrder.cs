@@ -56,6 +56,7 @@ namespace ArabErp.Domain
         public bool Select { get; set; }
         public int? Ageing { get; set; }
         public int isProjectBased { get; set; }
+        public int isAfterSales { get; set; }
         public string WorkDescription { get; set; }
         public int? Remaindays { get; set; }
         public string WorkRequestPaymentApproved { get; set; }

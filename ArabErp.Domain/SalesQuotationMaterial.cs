@@ -10,6 +10,7 @@ namespace ArabErp.Domain
     {
        public int SalesQuotationMaterialId  { get; set; }
         public int SalesQuotationId{ get; set; }
+        public int SaleOrderId { get; set; }
         public int  ItemId{ get; set; }
         public string ItemName { get; set; }
         public int Quantity{ get; set; }
@@ -19,6 +20,9 @@ namespace ArabErp.Domain
         public string PartNo { get; set; }
         public string UnitName { get; set; }
         public decimal Amount { get; set; }
+        public decimal Discount { get; set; }
+      
+
 
     }
 }
