@@ -37,6 +37,10 @@ namespace ArabErp.DAL
 	                                    AND SO.isActive = 1
 	                                    AND SO.SaleOrderRefNo LIKE '%'+@saleorder+'%'
 										AND PC.SaleOrderId IS NULL
+										AND SO.SaleOrderId IN 
+													(SELECT DISTINCT SaleOrderId 
+													FROM JobCard
+													WHERE ISNULL(JodCardCompleteStatus, 0) = 1)
                                     ORDER BY SO.EDateDelivery DESC, SO.CreatedDate DESC";
                     return connection.Query<SaleOrder>(query, new { OrganizationId = OrganizationId, saleorder = saleorder }).ToList();
                 }

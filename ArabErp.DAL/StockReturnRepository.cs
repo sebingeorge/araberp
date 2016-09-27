@@ -24,22 +24,12 @@ namespace ArabErp.DAL
                 try
                 {
                     model.StockReturnRefNo = DatabaseCommonRepository.GetNewDocNo(connection, model.OrganizationId, 21, true,txn);
-                    string sql = @"insert  into StockReturn(
-                            StockReturnRefNo,
-                            StockReturnDate,
-                            JobCardId,
-                            SpecialRemarks,
-                            CreatedBy,
-                            CreatedDate,
-                            OrganizationId) Values
+                    string sql = @"insert into StockReturn(
+                            StockReturnRefNo, StockReturnDate,StockPointId,JobCardId,
+                            SpecialRemarks,CreatedBy,CreatedDate,OrganizationId) Values
 
-                            (@StockReturnRefNo,
-                            @StockReturnDate,
-                            @JobCardId,
-                            @SpecialRemarks,
-                            @CreatedBy,
-                            @CreatedDate,
-                            @OrganizationId);
+                            (@StockReturnRefNo, @StockReturnDate,@StockPointId,@JobCardId,
+                            @SpecialRemarks,@CreatedBy,@CreatedDate,@OrganizationId);
 
                             SELECT CAST(SCOPE_IDENTITY() as int)";
 
@@ -48,6 +38,22 @@ namespace ArabErp.DAL
                     {
                         item.StockReturnId = id;
                         new StockReturnItemRepository().InsertStockReturnItem(item, connection, txn);
+
+                        new StockUpdateRepository().InsertStockUpdate(new StockUpdate
+                        {
+                            OrganizationId = model.OrganizationId,
+                            CreatedBy = model.CreatedBy,
+                            CreatedDate = model.CreatedDate,
+                            StockPointId = model.StockPointId,
+                            StockType = "StockReturn",
+                            StockInOut = "IN",
+                            stocktrnDate = System.DateTime.Today,
+                            ItemId = item.ItemId,
+                            Quantity = item.Quantity * (1),
+                            StocktrnId = id,
+                            StockUserId = model.StockReturnRefNo
+                        }, connection, txn);
+
                     }
                     InsertLoginHistory(dataConnection, model.CreatedBy, "Create", "Stock Return", id.ToString(), "0");
                     txn.Commit();
@@ -209,7 +215,7 @@ namespace ArabErp.DAL
             using (IDbConnection connection = OpenConnection(dataConnection))
             {
 
-                string sql = @" SELECT StockReturnRefNo,StockReturnDate,S.JobCardId,C.CustomerName,W.WorkDescr,S.SpecialRemarks 
+                string sql = @" SELECT StockReturnRefNo,StockReturnDate,S.JobCardId,S.StockPointId,C.CustomerName,W.WorkDescr,S.SpecialRemarks 
                                 FROM StockReturn S
                                 INNER JOIN JobCard J ON J.JobCardId=S.JobCardId
                                 INNER JOIN SaleOrder SO ON SO.SaleOrderId=J.SaleOrderId
