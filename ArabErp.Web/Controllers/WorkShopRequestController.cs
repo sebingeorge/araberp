@@ -22,11 +22,13 @@ namespace ArabErp.Web.Controllers
         [HttpGet]
         public ActionResult Create(int? SaleOrderId)
         {
+            ItemDropdown();
             WorkShopRequestRepository repo = new WorkShopRequestRepository();
             WorkShopRequest model = repo.GetSaleOrderForWorkshopRequest(SaleOrderId ?? 0);
             model.WorkDescription = repo.GetCombinedWorkDescriptionSaleOrderForWorkshopRequest(SaleOrderId ?? 0).WorkDescription;
             var WSList = repo.GetWorkShopRequestData(SaleOrderId ?? 0);
             model.Items = new List<WorkShopRequestItem>();
+            model.Isused = true;
             foreach (var item in WSList)
             {
                 model.Items.Add(new WorkShopRequestItem { PartNo = item.PartNo, ItemName = item.ItemName, Quantity = item.Quantity, UnitName = item.UnitName, ItemId = item.ItemId, ActualQuantity = item.Quantity });
@@ -53,17 +55,18 @@ namespace ArabErp.Web.Controllers
             model.RequiredDate = System.DateTime.Today;
             return View(model);
         }
-        public ActionResult Pending()
+        public ActionResult Pending(int isProjectBased)
         {
+            ViewBag.ProjectBased = isProjectBased;
             return View();
         }
-        public ActionResult WorkShopRequestPending(string saleOrder="")
+        public ActionResult WorkShopRequestPending(int isProjectBased, string saleOrder = "")
         {
 
             var rep = new SaleOrderRepository();
 
 
-            var slist = rep.GetSaleOrdersPendingWorkshopRequest(OrganizationId, saleOrder.Trim());
+            var slist = rep.GetSaleOrdersPendingWorkshopRequest(OrganizationId,isProjectBased,saleOrder.Trim());
 
             //var pager = new Pager(slist.Count(), page);
 
@@ -158,6 +161,6 @@ namespace ArabErp.Web.Controllers
         {
             return Json(new WorkShopRequestRepository().GetItemPartNo(itemId), JsonRequestBehavior.AllowGet);
         }
-
+       
     }
 }
