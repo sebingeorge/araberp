@@ -92,7 +92,7 @@
                 <div class="col-md-2">
                     <label>Stock Point</label>
                     @* this dropdown is not bound. this should be bound to stock point *@
-                    @Html.DropDownList("cboStockPoint", (SelectList)ViewBag.stockPointList, "Select Stock Point", new { @class = "form_input", autocomplete = "off", @required = "true" })
+                    @Html.DropDownListFor(m => m.StockPointId, (SelectList)ViewBag.stockPointList, "Select Stock Point", new { @class = "form_input", autocomplete = "off", @required = "true" })
                 </div>
             </div>
             <div class="row form-group">

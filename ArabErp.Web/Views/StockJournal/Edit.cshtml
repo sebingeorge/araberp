@@ -1,0 +1,117 @@
+﻿@model ArabErp.Domain.StockJournal
+@{
+    ViewBag.Title = "CreateStockJournel";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<script type="text/javascript">
+
+    function Exit() {
+        location.href = '@Url.Action("Index", "StockJournal")';
+    }
+
+    $(document).ready(function () {
+        toastr.options = {
+            "closeButton": true,
+            "positionClass": "toast-bottom-full-width",
+            "preventDuplicates": false,
+            "onclick": null,
+            "showDuration": "300",
+            "hideDuration": "1000",
+            "timeOut": "0",
+            "extendedTimeOut": "1000",
+            "showEasing": "swing",
+            "hideEasing": "linear",
+            "showMethod": "fadeIn",
+            "hideMethod": "fadeOut"
+        }
+        if ('@TempData["success"]' != "") {
+            toastr.success('@TempData["success"]');
+        }
+        else if ('@TempData["error"]' != "") {
+            toastr.error('@TempData["error"]');
+        }
+    });
+    function onStockChanged() {
+        var Code = $('#StockPointId').val();
+        var Url = '@Url.Action("StockJournelList")';
+        @*var UrlSubGroup = '@Url.Action("ItemSubGroup")';*@
+        if (Code == '') {
+            $("#StockJournalList").load(Url, { StockPointId: 0 });
+            //$("#DivItemSubGroup").load(UrlSubGroup, { Code: 0 });
+        }
+
+        else {
+            $("#StockJournalList").load(Url, { StockPointId: Code });
+            //$("#DivItemSubGroup").load(UrlSubGroup, { Code: 0 });
+        }
+    }
+    function PreviousList() {
+        var url = '@Url.Action("Index")';
+        window.location = url;
+    }
+</script>
+
+<div class="row">
+    <div class="form-head1">
+        <h4>Stock Journal</h4>
+    </div>
+    <div class="main-part pad1">
+        @using (Html.BeginForm("Create", null, FormMethod.Post, new { @class = "createFrom", onsubmit = "return validateGrid()", @id = "stock_return_form" }))
+        {
+            <div class="row form-group">
+                <div class="col-md-2">
+                    <label for="StockJournalRefno">SJ.No.</label>
+                    @Html.TextBoxFor(m => m.StockJournalRefno, new { @class = "form_input", autocomplete = "off", @readonly = "true" })
+                </div>
+
+                <div class="col-md-2">
+                    <label for="WorkShopRequestRefNo">Stock Point</label>
+                    @Html.DropDownListFor(m => m.StockPointId, (SelectList)ViewBag.StockPointList, "Select Stock Point", new { @class = "form_input", autocomplete = "off", @onchange = "onStockChanged()" })
+                </div>
+
+                <div class="col-md-2">
+                    <label for="WorkShopRequestDate">Date</label>
+                    @Html.TextBoxFor(m => m.StockJournalDate, Model.StockJournalDate.ToString("dd/MMMM/yyyy"), new { @class = "form_input ", autocomplete = "off", @readonly = "readonly", @onchange = "DateChanged(this)" })
+                </div>
+            </div>
+
+
+            <div class=" table-responsive" id="StockJournalList">
+                @Html.Partial("_StockJournalList")
+            </div>
+
+            <div class="row form-group">
+                <div class="col-md-12">
+                    <div class="part1">
+                        <label for="SpecialRemarks">Special Remarks</label>
+                        @Html.TextBoxFor(m => m.Remarks, new { @class = "form_input form_input-h", autocomplete = "off" })
+                    </div>
+                </div>
+            </div>
+            
+            <div class="row form-group">
+                <div class="col-md-2">
+                    <div class="part1">
+                        <label for="RequiredDate">Issued By</label>
+                        @Html.DropDownListFor(m => m.IssuedBy, (SelectList)ViewBag.EmployeeList, "Select Employee", new { @class = "form_input", autocomplete = "off" })
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+
+                <div class="col-md-12 hrpart">
+                    <button type="button" class="form-button right" onclick="Exit();">Exit</button>
+                    @*<input type="submit" class="form-button right" value="Edit">
+                      <input type="button" class="form-button left" onclick="Delete()" value="Delete" />*@
+                </div>
+
+            </div>
+
+        }
+    </div>
+</div>
+
+
+
+

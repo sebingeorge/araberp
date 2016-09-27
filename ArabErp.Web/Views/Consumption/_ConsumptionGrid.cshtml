@@ -131,7 +131,7 @@
                 <td>
                     <input type="hidden" id="Row_@i" />
                     @Html.HiddenFor(m => m.ConsumptionItems[i].ConsumptionItemId)
-                    @Html.DropDownListFor(m => m.ConsumptionItems[i].ItemId, (SelectList)ViewBag.itemList, "Select Material/Spare", new { @class = "form_input", @required = "true", @onchange = "OnMaterialChanged(this," + i + ")" })
+                    @Html.DropDownListFor(m => m.ConsumptionItems[i].ItemId, new SelectList (ViewBag.itemList,"Value","Text",Model.ConsumptionItems[i].ItemId), "Select Material/Spare", new { @class = "form_input", @required = "true", @onchange = "OnMaterialChanged(this," + i + ")" })
                 </td>
                 <td>
                     @Html.TextBoxFor(m => m.ConsumptionItems[i].PartNo, new { @class = "form_input", @readonly = "true" })

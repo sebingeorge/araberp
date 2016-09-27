@@ -235,7 +235,7 @@
                   
                 <td>
                     <input type="hidden" id="Row_@i" />
-                    @Html.DropDownListFor(m => m.StockJournelItems[i].ItemId, (SelectList)ViewBag.StockJournalItems, "Select Material", new { @class = "form_input", autocomplete = "off", @onchange = "OnItemChange(this," + i + ")" })
+                    @Html.DropDownListFor(m => m.StockJournelItems[i].ItemId, new SelectList(ViewBag.StockJournalItems,"Value","Text",Model.StockJournelItems[i].ItemId), "Select Material", new { @class = "form_input", autocomplete = "off", @onchange = "OnItemChange(this," + i + ")" })
                 </td>
                 <td>@Html.TextBoxFor(m => m.StockJournelItems[i].PartNo, new { @class = "form_input numbers-only text-left", autocomplete = "off", @readonly = "readonly" })</td>
                 <td>@Html.TextBoxFor(m => m.StockJournelItems[i].Stock, new { @class = "form_input numbers-only text-right", autocomplete = "off", @readonly = "readonly" })</td>

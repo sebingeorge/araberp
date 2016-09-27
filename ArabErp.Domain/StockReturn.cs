@@ -11,6 +11,7 @@ namespace ArabErp.Domain
         public int StockReturnId { get; set; }
         public string StockReturnRefNo { get; set; }
         public DateTime StockReturnDate { get; set; }
+        public int StockPointId { get; set; }
         public int JobCardId { get; set; }
         public String CustomerName { get; set; }
         public String WorkDescr { get; set; }

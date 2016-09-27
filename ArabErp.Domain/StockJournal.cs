@@ -14,7 +14,7 @@ namespace ArabErp.Domain
          public string  StockJournalRefno {get;set;}
           [Required]
          public int? StockPointId  {get;set;}
-         public DateTime?  StockJournalDate {get;set;}
+         public DateTime  StockJournalDate {get;set;}
           [Required]
          public int? IssuedBy { get; set; }
          public string Remarks { get; set; }
