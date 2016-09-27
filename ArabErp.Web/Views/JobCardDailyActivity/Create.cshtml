@@ -77,7 +77,7 @@
     //}
 
     function Back() {
-        var url = '@Url.Action("PendingJobcardTasks")';
+        var url = '@Url.Action("PendingJobcardTasks", new { type = Model.isProjectBased })';
         window.location = url;
     }
 
@@ -94,6 +94,7 @@
             @Html.HiddenFor(m => m.JobCardDailyActivityId)
             @Html.HiddenFor(m => m.JobCardId)
             @Html.HiddenFor(m => m.EmployeeId)
+            @Html.HiddenFor(m => m.isProjectBased)
             <div class="row form-group">
                 <div class="col-md-2">
                     <label>Ref. No</label>

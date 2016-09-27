@@ -23,6 +23,7 @@ namespace ArabErp.Domain
         public DateTime? CreatedDate { get; set; }
         public int OrganizationId { get; set; }
         public bool isActive { get; set; }
+        public int isProjectBased { get; set; }
         public List<JobCardDailyActivityTask> JobCardDailyActivityTask { get; set; }
 
         public string Image1 { get; set; }
