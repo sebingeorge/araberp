@@ -5,7 +5,7 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 @{ string actionName = ViewContext.RouteData.GetRequiredString("action");
-   if (actionName == "Create" || actionName == "CreateProject" || actionName == "CreateAfterSales")
+   if (actionName == "Create" || actionName == "CreateProject" || actionName == "CreateAfterSalesTrans")
  {
      ViewBag.actionName = "Create";
  }
@@ -38,17 +38,22 @@
         var url = '@Url.Action("PreviousList", "SalesQuotation")';
         @if (actionName == "Create")
         {
-           @: url += "?type=0";
-                                        }
+           @: url += "?ProjectBased=0" + "&AfterSales=0";
+        }
         else if (actionName == "CreateProject")
         {
-            @: url += "?type=1";
-                                         }
-        else if (actionName == "CreateAfterSales")
+            @: url += "?ProjectBased=1" + "&AfterSales=0";;
+        }
+        else if (actionName == "CreateAfterSalesTrans")
         {
-            @: url += "?type=2";
-                                        }
-        window.location = url;
+            @: url += "?ProjectBased=0" + "&AfterSales=1";;
+        }
+        else if (actionName == "CreateAfterSalesProject")
+           {
+               @: url += "?ProjectBased=1" + "&AfterSales=1";;
+           }
+           window.location = url;
+        
     }
 
     $(function() {
@@ -341,9 +346,13 @@
                 {
                     <h4>Sales Quotation Request : Project</h4>
                 }
-                else if (actionName == "CreateAfterSales")
+                else if (actionName == "CreateAfterSalesTrans")
                 {
-                    <h4>Sales Quotation Request : AfterSales</h4>
+                    <h4>Sales Quotation Request : Transportation : After Sales</h4>
+                }
+                else if (actionName == "CreateAfterSalesProject")
+                {
+                    <h4>Sales Quotation Request : Project : After Sales</h4>
                 }
                 else
                 {
@@ -360,7 +369,8 @@
 
                 @Html.HiddenFor(m => m.SalesQuotationId)
                 @Html.HiddenFor(m => m.isProjectBased)
-  
+                @Html.HiddenFor(m => m.isAfterSales)
+
                 <div class="row form-group ">
                     <div class="col-md-2">
                         <label for="QuotationRefNo">Quotation No.</label>
@@ -390,7 +400,7 @@
                             @Html.TextBoxFor(m => m.ExpectedDeliveryDate, Model.ExpectedDeliveryDate.ToString("dd/MMMM/yyyy"), new { @class = "form_input", autocomplete = "off" })
                             @Html.ValidationMessageFor(m => m.ExpectedDeliveryDate)
                     </div>
-                @if (Model.isProjectBased == 2)
+                @if (!Model.isProjectBased && Model.isAfterSales)
                 {
 
                     <div class="col-md-2">
@@ -406,7 +416,7 @@
 
                     </div>
                   }
-                        @if (Model.isProjectBased == 1)
+                        @if (Model.isProjectBased)
                 {
                             <div class="col-md-2">
 
@@ -620,31 +630,27 @@
                         $("#SalesQuotationItems_" + i + "__SlNo").val((i + 1));
                     }
                 </script>
-                if (@Model.isProjectBased != 0 )
-                             
-                {
-                    @Html.Partial("_MaterialList")
-                }
+               
                     <table class="table table-bordered" id="tab_logic">
                         <thead>
                             <tr class="grid_heading">
-                                @if (actionName == "Create")
+                                @if (actionName == "Create" || actionName == "CreateProject")
                                 {
                                 <th width="2%" class="text-center"></th>
                                 }
                                 <th width="6%" class="text-center"><h1>#</h1></th>
-                                <th width="40%" class="text-left"><h1>Work Description</h1></th>
+                                <th width="45%" class="text-left"><h1>Work Description</h1></th>
                                 @if (new[] { "Create", "CreateAferSales", "Approve" }.Contains(ViewContext.RouteData.GetRequiredString("action")))
                                 {
                                     <th width="10%"><h1>Rate Settings</h1></th>
                                 }
                                 <th width="5%" class="text-right"><h1>Qty.</h1></th>
-                                @*<th width="5%"><h1>UoM</h1></th>*@
-                                <th width="10%" class="text-right"><h1>Rate</h1></th>
+                                <th width="5%"><h1>UoM</h1></th>
+                                <th width="7%" class="text-right"><h1>Rate</h1></th>
                               
-                                <th width="10%" class="text-right"><h1>Discount</h1></th>
-                                <th width="10%" class="text-right"><h1>Amount</h1></th>
-                             @if (actionName == "Create")
+                                <th width="7%" class="text-right"><h1>Discount</h1></th>
+                                <th width="7%" class="text-right"><h1>Amount</h1></th>
+                             @if (actionName == "Create" || actionName == "CreateProject")
                              {
                                 <th width="2%">&nbsp;</th>
                                     }
@@ -654,7 +660,7 @@
                             @for (int i = 0; i < Model.SalesQuotationItems.Count; i++)
                             {
                                 <tr id="@i">
-                                @if (actionName == "Create")
+                                @if (actionName == "Create" || actionName == "CreateProject")
                                 {
                                     <td style="vertical-align:middle"><a class="glyphicon glyphicon-minus" style="top:0px" onclick="Delete(@i)"></a></td>
                                     }
@@ -692,7 +698,8 @@
                                         @Html.TextBoxFor(m => m.SalesQuotationItems[i].Quantity, new { @class = "form_input clQuantity  ", 
                                        @style = "text-align:right", autocomplete = "off", placeholder = "Qty", value="1", @required = "true" ,@onkeyup = "QuantityChanged(" + i + ")" })
                                     </td>
-                                    <td>
+                                    <td>@Html.TextBoxFor(m => m.SalesQuotationItems[i].UnitName, new { @class = "form_input text-left", @readonly = "true" })</td>
+                                     <td>
                                             @Html.TextBoxFor(m => m.SalesQuotationItems[i].Rate, new { @class = "form_input numbers-only clrate validateqty",
                                              autocomplete = "off", @style = "text-align:right", placeholder = "Rate", 
                                             @onchange = "QuantityChanged(" + i + ");", @onkeyup = "QuantityChanged(" + i + ")" })
@@ -705,7 +712,7 @@
                                     </td>
 
                                     <td>@Html.TextBoxFor(m => m.SalesQuotationItems[i].Amount, new { @class = "form_input clAmount", autocomplete = "off", @style = "text-align:right", placeholder = "Amount", @readonly = "true", @onchange = "QuantityChanged(" + i + ");" })</td>
-                               @if (actionName == "Create")
+                               @if (actionName == "Create" || actionName == "CreateProject")
                                {
                                     <td style="vertical-align:middle"><a id="add_row" class="glyphicon glyphicon-plus" style="top:0px" onclick="AddAdditionRow()"></a></td>
                                     }
@@ -715,12 +722,12 @@
                         </tbody>
                         <tfoot>
                             <tr class="grid_heading">
-                            @if (actionName == "Create")
+                            @if (actionName == "Create" || actionName == "CreateProject")
                             {
                                 <th width="2%" class="text-center"></th>
                                 }
-                                <th width="6%" class="text-center"><h1>Total</h1></th>
-                                <th width="40%" class="text-center "><h1></h1></th>
+                                <th width="5%" class="text-center"><h1>Total</h1></th>
+                                <th width="45%" class="text-center "><h1></h1></th>
                                 @if (new[] { "Create", "Approve" }.Contains(ViewContext.RouteData.GetRequiredString("action")))
                                 {
                                     <th></th>
@@ -728,26 +735,30 @@
                                 <th width="5%" class="text-center"><h1></h1></th>
                                
                                 <th width="5%" class="text-center "><h1></h1></th>
-                                <th width="10%" class="text-right">
+                                <th width="7%" class="text-center "><h1></h1></th>
+                                <th width="7%" class="text-right">
                                     <h1 >
                                        
                                         @Html.DropDownListFor(m => m.CurrencyId, (SelectList)ViewBag.currlist, "Select Currency", new { @class = "form_input", autocomplete = "off" })
                                   </h1>
                                 </th>
 
-                                <th width="10%" class="text-right">
+                                <th width="7%" class="text-right">
                                     <span id="QtyAmount"></span>
                                 </th>
-                             @if (actionName == "Create")
+                             @if (actionName == "Create" || actionName == "CreateProject")
                              {
                                 <th width="2%" class="text-right"></th>
                                  }
                             </tr>
                         </tfoot>
                     </table>
-
-                if (@Model.isProjectBased != 0)
-    {
+                if ( @Model.isAfterSales)
+                {
+                    @Html.Partial("_MaterialList")
+                }
+                if (@Model.isAfterSales)
+                {
     <div class="row form-group">
         <div class="col-md-12">
 
@@ -835,13 +846,21 @@
                             <button type="submit" class="form-button right">Save</button>
                              <input type="button" class="form-button" onclick="PreviousList()" value="Previous">
                         }
-                        else if (actionName == "CreateAfterSales")
+                        else if (actionName == "CreateAfterSalesTrans")
                         {
                             
                             <button type="button" class="form-button right" onclick="GotoAfterSalesIndex()">Exit</button>
                             <button type="submit" class="form-button right">Save</button>
                             <input type="button" class="form-button" onclick="PreviousList()" value="Previous">
-                                                    
+
+                        }
+                        else if (actionName == "CreateAfterSalesProject")
+                        {
+
+                            <button type="button" class="form-button right" onclick="GotoAfterSalesIndex()">Exit</button>
+                            <button type="submit" class="form-button right">Save</button>
+                            <input type="button" class="form-button" onclick="PreviousList()" value="Previous">
+
                         }
                         else if (ViewBag.actionName.ToString() == "Approve")
                         {

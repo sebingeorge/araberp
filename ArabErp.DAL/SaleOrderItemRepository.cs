@@ -90,7 +90,18 @@ namespace ArabErp.DAL
                 return id;
             }
         }
+        public int InsertSaleOrderMaterial(SalesQuotationMaterial objSalesQuotationMaterial, IDbConnection connection, IDbTransaction trn)
+        {
 
+
+            string sql = @"insert  into SaleOrderMaterial(SaleOrderId,ItemId,Quantity,Rate,Amount,Discount,isActive) Values (@SaleOrderId,@ItemId,@Quantity,@Rate,@Amount,@Discount,1);
+            SELECT CAST(SCOPE_IDENTITY() as int)";
+
+
+            var id = connection.Query<int>(sql, objSalesQuotationMaterial, trn).Single();
+            return id;
+
+        }
       
     }
 }
