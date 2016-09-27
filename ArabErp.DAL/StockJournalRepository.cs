@@ -110,5 +110,24 @@ namespace ArabErp.DAL
                 }).ToList();
             }
         }
+        public StockJournal GetStockJournalHD(int StockJournalId)
+        {
+            using (IDbConnection connection = OpenConnection(dataConnection))
+            {
+
+                string sql = @" SELECT StockJournalId,StockJournalRefno,StockPointId,StockJournalDate,Remarks,E.EmployeeId IssuedBy
+                                FROM StockJournal S
+                                INNER JOIN Employee E ON E.EmployeeId=S.IssuedBy
+                                WHERE StockJournalId=@StockJournalId";
+
+                var objStockJournal = connection.Query<StockJournal>(sql, new
+                {
+                    StockJournalId = StockJournalId
+                }).First<StockJournal>();
+
+                return objStockJournal;
+            }
+        }
+
     }
 }
