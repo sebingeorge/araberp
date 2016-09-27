@@ -18,6 +18,7 @@ namespace ArabErp.Web.Controllers
             FillSORefNo(type);
             FillSOCustomer(type);
             ViewBag.isProjectBased = type;
+
             return View();
 
         }
@@ -63,10 +64,9 @@ namespace ArabErp.Web.Controllers
             var repo = new SaleOrderRepository();
             SaleOrder model = repo.GetSaleOrderFrmQuotation(SalesQuotationId ?? 0);
             model.Items = repo.GetSaleOrderItemFrmQuotation(SalesQuotationId ?? 0);
-            if (model.isProjectBased == 2)
-            {
-                model.Materials = repo.GetSaleOrderMaterialFrmQuotation(SalesQuotationId ?? 0);
-            }
+           
+            model.Materials = repo.GetSaleOrderMaterialFrmQuotation(SalesQuotationId ?? 0);
+         
             model.SaleOrderRefNo = internalId;
             model.SaleOrderDate = DateTime.Now;
             model.EDateArrival = DateTime.Now;
@@ -106,7 +106,7 @@ namespace ArabErp.Web.Controllers
 
             model.Items = repo.GetSaleOrderItemFrmQuotation(SalesQuotationId ?? 0);
             model.Materials = repo.GetSaleOrderMaterialFrmQuotation(SalesQuotationId ?? 0);
-            model.isProjectBased = 1;
+           
           
             model.SaleOrderRefNo = internalId;
             model.SaleOrderDate = DateTime.Now;
@@ -645,7 +645,8 @@ namespace ArabErp.Web.Controllers
 
             List<SalesQuotation> salesquotations = repo.GetSalesQuotationForSO(ProjectBased);
             ViewBag.ProjectBased = ProjectBased;
-                //salesquotations[0].isProjectBased;
+            //ViewBag.AfterSales = isAfterSales;
+             
             return View(salesquotations);
         }
 
@@ -660,7 +661,7 @@ namespace ArabErp.Web.Controllers
             return PartialView("IncentiveAmountGrid", new SaleOrderRepository().GetSaleOrderIncentiveAmountList(FromDate, ToDate, CommissionAgentId));
         }
 
-        public ActionResult Edit(int type, int id = 0, int Qutnid = 0)
+        public ActionResult Edit(int type, int id = 0)
         {
             if (id != 0)
             {
@@ -674,7 +675,7 @@ namespace ArabErp.Web.Controllers
                 var repo = new SaleOrderRepository();
                 SaleOrder model = repo.GetSaleOrder(id);
                 model.Items = repo.GetSaleOrderItem(id);
-                model.Materials = repo.GetSaleOrderMaterialFrmQuotation(Qutnid);
+                model.Materials = repo.GetSaleOrderMaterial(id);
                 FillWrkDesc();
                 return View("Edit", model);
             }
@@ -704,14 +705,14 @@ namespace ArabErp.Web.Controllers
             }
         }
 
-        public ActionResult Delete(int id, int type)
+        public ActionResult Delete(int id, string isProjectBased, string isAfterSales)
         {
          
             try
             {
-                string ref_no = new SaleOrderRepository().DeleteSaleOrder(id);
+                string ref_no = new SaleOrderRepository().DeleteSaleOrder(id, Convert.ToInt32(isAfterSales));
             TempData["success"] = "Deleted Successfully (" + ref_no + ")";
-            return RedirectToAction("Index", new { type = type });
+            return RedirectToAction("Index", new { type = Convert.ToInt32(isProjectBased) });
             }
             catch (Exception)
             {

@@ -88,13 +88,13 @@ namespace ArabErp.Web.Controllers
             if (view.PendingProjectQuotations)
             {
                 SalesQuotationRepository repo = new SalesQuotationRepository();
-                var res = repo.GetSalesQuotationApproveList(1);
+                var res = repo.GetSalesQuotationApproveList(1,0);
                 view.NoOfProjectQuotations = res.Count;
             }
             if (view.PendingTransQuotations)
             {
                 SalesQuotationRepository repo = new SalesQuotationRepository();
-                var res = repo.GetSalesQuotationApproveList(0);
+                var res = repo.GetSalesQuotationApproveList(0,0);
                 view.NoOfTransQuotations = res.Count;
             }
             if (view.PendingSupplyOrders)

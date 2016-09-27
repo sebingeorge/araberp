@@ -192,11 +192,12 @@
                     @using (Html.BeginForm(null, null, FormMethod.Post, new { @class = "createFrom", @id = "saleorder_form", onsubmit = "return Validation()" }))
                     {
                         @Html.HiddenFor(m=>m.isProjectBased)
+                        @Html.HiddenFor(m => m.isAfterSales)
                         @Html.Partial("_SaleOrderHead",Model)
                         <div id="wordescriptions">
                         @Html.Partial("_DisplaySOList", Model)
                         </div>
-                        if (@Model.isProjectBased != 0)
+                        if (@Model.isAfterSales==1)
                         {
                             @Html.Partial("_MaterialList", Model)
                         }

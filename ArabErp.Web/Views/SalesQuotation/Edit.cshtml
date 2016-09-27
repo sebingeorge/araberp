@@ -21,25 +21,37 @@
     function Back() {
 
         var url = '@Url.Action("PreviousList", "SalesQuotation")';
-        @if (actionName == "Create")
+        @if (!Model.isProjectBased && !Model.isAfterSales)
+
         {
-           @: url += "?type=1";
+            @: url += "?ProjectBased=0" + "&AfterSales=0";
         }
-        else
+    else if (Model.isProjectBased && !Model.isAfterSales)
         {
-            @: url += "?type=0";
+            @: url += "?ProjectBased=1" + "&AfterSales=0";
                 }
+    else if (!Model.isProjectBased && Model.isAfterSales)
+          
+        {
+            @: url += "?ProjectBased=0" + "&AfterSales=1";
+        }
+    else if (Model.isProjectBased && Model.isAfterSales)
+          
+        {
+            @: url += "?ProjectBased=1" + "&AfterSales=1";
+        }
+     
         window.location = url;
-        alert(url);
+    
     }
 
-    function DeleteSQ(id, isProjectBased) {
+    function DeleteSQ(id, isProjectBased, isAfterSales) {
+
        
-     
         var url = '@Url.Action("DeleteSQ")';
-        url += "?id=" + id + "&isProjectBased=" + isProjectBased;
+        url += "?id=" + id + "&isProjectBased=" + isProjectBased + "&isAfterSales=" +isAfterSales;
         window.location = url;
-       
+      
     }
 
 
@@ -255,17 +267,21 @@
 
 <div class="row">
     <div class="form-head1">
-        @if (Model.isProjectBased == 0)
+        @if (!Model.isProjectBased && !Model.isAfterSales)
         {
             <h4>Sales Quotation Request : Transportation</h4>
         }
-        @if (Model.isProjectBased == 1)
+        @if (Model.isProjectBased && !Model.isAfterSales)
         {
             <h4>Sales Quotation Request : Project</h4>
         }
-        @if (Model.isProjectBased == 2)
+        @if (!Model.isProjectBased && Model.isAfterSales)
         {
-            <h4>Sales Quotation Request : After Sales</h4>
+            <h4>Sales Quotation Request : Transportation : After Sales</h4>
+        }
+        @if (Model.isProjectBased && Model.isAfterSales)
+        {
+            <h4>Sales Quotation Request : Project : After Sales</h4>
         }
     </div>
 
@@ -278,8 +294,8 @@
         {
 
             @Html.HiddenFor(m => m.SalesQuotationId)
-            @*@Html.HiddenFor(m => m.Amount)*@
             @Html.HiddenFor(m => m.isProjectBased)
+            @Html.HiddenFor(m => m.isAfterSales)
             <div class="row form-group ">
                 <div class="col-md-2">
                     <label for="QuotationRefNo">Quotation No.</label>
@@ -309,7 +325,7 @@
                     @Html.TextBoxFor(m => m.ExpectedDeliveryDate, Model.ExpectedDeliveryDate.ToString("dd/MMMM/yyyy"), new { @class = "form_input", autocomplete = "off" })
 
                 </div>
-                @if (Model.isProjectBased == 1)
+                @if (Model.isProjectBased || Model.isProjectBased && Model.isAfterSales)
                 {
                     <div class="col-md-2">
 
@@ -546,18 +562,15 @@
 
 
             </script>
-            
-                if (Model.isProjectBased == 2 || Model.isProjectBased == 1 )
-            {
-                @Html.Partial("_MaterialList")
-            }
+  
+      
 
             <div class="table-responsive">
                 <table class="table table-bordered" id="tab_logic">
                     <thead>
                         <tr class="grid_heading">
-                           @if (Model.isProjectBased != 2 && Model.isProjectBased != 1)
-                                {
+                       @if (!Model.isAfterSales)
+                       {
                             <th width="2%" class="text-center"></th>
                                 }
                             <th width="6%" class="text-center"><h1>#</h1></th>
@@ -567,12 +580,13 @@
                                 <th width="10%"><h1>Rate Settings</h1></th>
                             }
                             <th width="5%" class="text-right"><h1>Qty.</h1></th>
+                            <th width="5%" class="text-right"><h1>UoM</h1></th>
                             <th width="10%" class="text-right"><h1>Rate</h1></th>
                          
                             <th width="10%" class="text-right"><h1>Discount</h1></th>
                             <th width="10%" class="text-right"><h1>Amount</h1></th>
-                        @if (Model.isProjectBased != 2 && Model.isProjectBased != 1)
-                        {
+                       @if (!Model.isAfterSales)
+                       {
                             <th width="2%">&nbsp;</th>
                            }
                         </tr>
@@ -581,8 +595,8 @@
                         @for (int i = 0; i < Model.SalesQuotationItems.Count; i++)
                         {
                             <tr id="@i">
-                              @if (Model.isProjectBased != 2 && Model.isProjectBased != 1)
-                              {
+                            @if (!Model.isAfterSales)
+                            {
                                 <td style="vertical-align:middle"><a class="glyphicon glyphicon-minus" style="top:0px" onclick="Delete(@i)"></a></td>
                                 }
                                 <td align="center">
@@ -617,6 +631,7 @@
                                        @onkeyup = "QuantityChanged(" + i + ")"
                                    })
                                 </td>
+                                <td>@Html.TextBoxFor(m => m.SalesQuotationItems[i].UnitName, new { @class = "form_input text-left", @readonly = "true" })</td>
                                 <td>
                                     @Html.TextBoxFor(m => m.SalesQuotationItems[i].Rate, new { @class = "form_input numbers-only clrate validateqty", autocomplete = "off", @style = "text-align:right", placeholder = "Rate", @onchange = "QuantityChanged(" + i + ");", @onkeyup = "QuantityChanged(" + i + ")" })
                                 </td>
@@ -626,8 +641,8 @@
 
                                 </td>
                                 <td>@Html.TextBoxFor(m => m.SalesQuotationItems[i].Amount, new { @class = "form_input clAmount", autocomplete = "off", @style = "text-align:right", placeholder = "Amount", @readonly = "true", @onchange = "QuantityChanged(" + i + ");" })</td>
-                             @if (Model.isProjectBased != 2 && Model.isProjectBased != 1)
-                             {
+                           @if (!Model.isAfterSales)
+                           {
                                 <td style="vertical-align:middle"><a id="add_row" class="glyphicon glyphicon-plus" style="top:0px" onclick="AddAdditionRow()"></a></td>
                                 }
                                 </tr>
@@ -636,8 +651,8 @@
                     </tbody>
                     <tfoot>
                         <tr class="grid_heading">
-                           @if (Model.isProjectBased != 2 && Model.isProjectBased != 1)
-                           {
+                          @if (!Model.isAfterSales)
+                          {
                             <th width="2%" class="text-center"></th>
                                 }
                             <th width="6%" class="text-center"><h1>Total</h1></th>
@@ -649,6 +664,7 @@
                             @*<th width="5%" class="text-center"><h1></h1></th>
                                 <th width="5%" class="text-right"><span id="QtyTotal"></span></th>*@
                             <th width="10%"></th>
+                            <th width="5%"></th>
                             <th width="10%" class="text-right">
                                 <h1>
 
@@ -660,7 +676,7 @@
                             <th width="10%" class="text-right">
                                 <span id="QtyAmount"></span>
                             </th>
-                           @if (Model.isProjectBased != 2 && Model.isProjectBased != 1)
+                           @if (!Model.isAfterSales)
                            {
                             <th width="2%" class="text-right"></th>
                              }
@@ -668,8 +684,11 @@
                     </tfoot>
                 </table>
             </div>
-
-            if (Model.isProjectBased != 0)
+            if (Model.isAfterSales)
+            {
+                @Html.Partial("_MaterialList")
+            }
+            if (Model.isAfterSales)
             {
                 <div class="row form-group">
                     <div class="col-md-12">
@@ -764,7 +783,7 @@
                     }
                     else
                     {
-                        <button type="button" class="form-button" onclick="DeleteSQ(@Model.SalesQuotationId,@Model.isProjectBased)">Delete</button>
+                        <button type="button" class="form-button" onclick="DeleteSQ('@Model.SalesQuotationId',@Model.isProjectBased.ToString().ToLower(),@Model.isAfterSales.ToString().ToLower())">Delete</button>
                         <button type="submit" class="form-button right">Edit</button>
                         
                     }

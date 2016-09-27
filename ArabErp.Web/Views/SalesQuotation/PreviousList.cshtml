@@ -41,7 +41,7 @@
             toastr.error('@TempData["error"]'.split('|')[0]);
             console.log('@TempData["error"]'.split('|')[1]);
         }
-      @{TempData["success"] = TempData["error"] = "";}
+        @{TempData["success"] = TempData["error"] = "";}
     })
 
     function OnItemSelected(id) {
@@ -50,9 +50,30 @@
         url += "?id=" + id;
         window.location = url;
     }
-    function Exit() {
-        location.href = '@Url.Action("Create", "SalesQuotation")';
-        window.location = url;
+    function Exit() 
+    {
+       if(!@ViewBag.isProjectBased && !@ViewBag.isAfterSales)
+        {
+           var url  = '@Url.Action("Create", "SalesQuotation")';
+            
+        }
+        else if(@ViewBag.isProjectBased && !@ViewBag.isAfterSales)
+        {
+            var url  = '@Url.Action("CreateProject", "SalesQuotation")';
+          
+        }
+       else if(@ViewBag.isProjectBased && @ViewBag.isAfterSales)
+        {
+            var url  = '@Url.Action("CreateAfterSalesProject", "SalesQuotation")';
+              
+        }
+        else if(!@ViewBag.isProjectBased && @ViewBag.isAfterSales)
+        {
+           var url = '@Url.Action("CreateAfterSalesTrans", "SalesQuotation")';
+           
+        }
+            window.location = url;
+       
     }
 
 
@@ -105,7 +126,7 @@
 
         <br />
         <div id="Quotationlist">
-            @Html.Action("SalesQuotationsList", new { ProjectBased = ViewBag.isProjectBased })
+            @Html.Action("SalesQuotationsList", new { ProjectBased = ViewBag.isProjectBased, AfterSales = ViewBag.isAfterSales })
         </div>
 
         <div class="row">
