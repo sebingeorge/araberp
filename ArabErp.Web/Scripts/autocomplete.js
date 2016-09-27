@@ -20,6 +20,7 @@ $(function () {
               .val(value)
               .attr("title", "")
               .attr("required", "true")
+              .attr("placeholder", $(this.element).attr("placeholder"))
               .addClass("form_input custom-combobox-input ui-widget ui-widget-content ui-state-default ui-corner-left")
               .autocomplete({
                   delay: 0,
@@ -52,6 +53,7 @@ $(function () {
               .attr("tabIndex", -1)
               .attr("title", "Show All Items")
               .tooltip()
+              //.text("All")
               .appendTo(this.wrapper)
               .button({
                   icons: {

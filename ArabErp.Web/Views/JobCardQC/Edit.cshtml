@@ -1,0 +1,124 @@
+﻿@model  ArabErp.Domain.JobCardQC
+@{
+    ViewBag.Title = "Create";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<script>
+
+    function Exit() {
+        var url = '@Url.Action("Index")'
+        window.location = url;
+        }
+
+    $(function () {
+        $("#CurrentDate").datepicker({ dateFormat: "dd-MM-yy" });
+        //$("#JcDate").datepicker({ dateFormat: "dd-MM-yy" });
+    });
+</script>
+
+
+<div class="row">
+
+    <div class="form-head1">
+        <h4>Quality Control </h4>
+    </div>
+    @using (Html.BeginForm(null, null, FormMethod.Post, new { @class = "createFrom", @id = "saleorder_form" }))
+    {
+        <div class="main-part pad1">
+            <div class="row form-group">
+                <div class="col-md-2">
+                    <label for="jcno">JobCard QC.No.</label>
+                    @Html.TextBoxFor(m => m.JobCardQCRefNo, new { @class = "form_input", autocomplete = "off", @readonly = "readonly" })
+
+                </div>
+                <div class="col-md-2">
+                    <label for="name" class="label1">QC Date</label>
+                    @Html.TextBoxFor(m => m.JobCardQCDate, Model.JobCardQCDate.ToString("dd/MMMM/yyyy"), new { @class = "form_input ", autocomplete = "off", @readonly = "readonly" })
+                    @*@Html.ValidationMessageFor(m=>m.CurrentDate)*@
+                </div>
+                @*@Html.TextBoxFor(m => Model.CurrentDate, new { @Value = @DateTime.Now.ToShortDateString(), @class = "form_input", autocomplete = "off", @readonly = "readonly" })*@
+            </div>
+
+            <div class="row form-group ">
+                <div class="col-md-2">
+                    <label for="name" class="label1">Job Card No.</label>
+                    @Html.TextBoxFor(m => Model.JobCardNo, new { @class = "form_input", autocomplete = "off", @readonly = "readonly" })
+                    @Html.HiddenFor(m => Model.JobCardId)
+                </div>
+                <div class="col-md-2">
+                    <label for="name" class="label1">Job Card Date</label>
+                    @Html.TextBoxFor(m => m.JcDate, Model.JcDate.ToString("dd/MMMM/yyyy"), new { @class = "form_input", autocomplete = "off", @readonly = "readonly" })
+                </div>
+                <div class="col-md-2">
+                    <label for="name" class="label1">Customer</label>
+                    @Html.TextBoxFor(m => Model.Customer, new { @class = "form_input", autocomplete = "off", @readonly = "readonly" })
+                </div>
+                <div class="col-md-2">
+                    <label for="name" class="label1">Vehicle Model</label>
+                    @Html.TextBoxFor(m => Model.VehicleModel, new { @class = "form_input", autocomplete = "off", @readonly = "readonly" })
+                </div>
+                <div class="col-md-2">
+                    <label for="name" class="label1">Employee</label>
+                    @Html.DropDownListFor(m => Model.EmployeeId, (SelectList)ViewBag.EmployeeList, "Select Employee", new { @class = "form_input" })
+                </div>
+
+            </div>
+            <div class="wrap">
+                <div class="table-responsive">
+
+                    <div class="wrap">
+                        <table class="table table-bordered ">
+                            <tr class="grid_heading">
+                                <th><h1>#</h1></th>
+                                <th><h1>Type</h1></th>
+                                <th><h1>QC Parameters</h1></th>
+                                <th><h1>Value</h1></th>
+
+                            </tr>
+                            @for (int i = 0; i < Model.JobCardQCParams.Count(); i++)
+                            {
+                                <tr>
+                                    <td width="5%">@Html.TextBoxFor(model => Model.JobCardQCParams[i].QCParamId, new { @class = "form_input", autocomplete = "off", @readonly = "readonly" })</td>
+                                    <td width="%">@Html.TextBoxFor(model => Model.JobCardQCParams[i].ParaName, new { @class = "form_input", autocomplete = "off", @readonly = "readonly" })</td>
+                                    <td width="80%">@Html.TextBoxFor(model => model.JobCardQCParams[i].QCParamName, new { @class = "form_input", autocomplete = "off", @readonly = "readonly" })</td>
+                                    <td>@Html.TextBoxFor(model => model.JobCardQCParams[i].QCParamValue, new { @class = "form_input", autocomplete = "off" })</td>
+
+                                </tr>
+                            }
+                        </table>
+
+
+                    </div>
+
+                </div>
+            </div>
+            <div class="row form-group">
+                <div class="col-md-10"></div>
+                <div class="col-md-2" style="vertical-align:middle">
+
+                    @Html.CheckBoxFor(model => Model.IsQCPassed, new { @class = "check_box", @onclick = "Checked(this)" })
+                    <label for="@Html.NameFor(x => x.IsQCPassed)">QC Passed</label>
+                </div>
+            </div>
+
+
+            <div class="row">
+
+                <div class="col-md-12 hrpart">
+                    <button class="form-button right" onclick="Exit()">Exit</button>
+                    @*<button type="submit" class="form-button right">Save</button>*@
+
+                </div>
+
+            </div>
+
+
+        </div>
+    }
+    @*</form>*@
+</div>
+
+
+
+

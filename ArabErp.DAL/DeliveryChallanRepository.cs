@@ -187,6 +187,35 @@ namespace ArabErp.DAL
             }
         }
 
+        public DeliveryChallan ViewDeliveryChallanHD(int DeliveryChallanId)
+        {
+            using (IDbConnection connection = OpenConnection(dataConnection))
+            {
+
+                string sql = @" SELECT DISTINCT DeliveryChallanId,DeliveryChallanRefNo,DeliveryChallanDate,C.CustomerName Customer,SO.CustomerOrderRef,
+                                ISNULL(SO.SaleOrderRefNo,'')+ ' - '  +CONVERT(varchar,SO.SaleOrderDate,106) SONODATE,
+                                ISNULL(JC.JobCardNo,'') + ' - ' +CONVERT(varchar,JC.JobCardDate,106)JobCardNo,VI. RegistrationNo,
+                                WI.WorkDescr,VM.VehicleModelName VehicleModel,E.EmployeeId,SO.PaymentTerms,DC.Remarks
+                                FROM DeliveryChallan DC
+                                INNER JOIN JobCard JC ON JC.JobCardId=DC.JobCardId
+                                INNER JOIN SaleOrder SO ON SO.SaleOrderId=JC.SaleOrderId
+                                INNER JOIN SaleOrderItem SOI ON SOI.SaleOrderId=SOI.SaleOrderId AND JC.SaleOrderItemId=SOI.SaleOrderItemId
+                                INNER JOIN Customer C ON C.CustomerId=SO.CustomerId 
+                                INNER JOIN WorkDescription WI ON WI.WorkDescriptionId = SOI.WorkDescriptionId
+                                INNER JOIN VehicleModel VM ON VM.VehicleModelId=SOI.VehicleModelId
+                                INNER JOIN Employee E ON E.EmployeeId=DC.EmployeeId
+                                LEFT JOIN VehicleInPass VI ON VI.SaleOrderItemId = SOI.SaleOrderItemId
+                                WHERE  DeliveryChallanId=@DeliveryChallanId";
+
+                var objDeliveryChallan = connection.Query<DeliveryChallan>(sql, new
+                {
+                    DeliveryChallanId = DeliveryChallanId
+                }).First<DeliveryChallan>();
+
+                return objDeliveryChallan;
+            }
+        }
+
         public DeliveryChallan GetDeliveryChallanHD(int DeliveryChallanId)
         {
             using (IDbConnection connection = OpenConnection(dataConnection))
@@ -220,7 +249,7 @@ namespace ArabErp.DAL
         {
             using (IDbConnection connection = OpenConnection(dataConnection))
             {
-                string sql = @" SELECT DISTINCT SerialNo,ItemName, WarrantyStartDate,WarrantyExpireDate 
+                string sql = @" SELECT DISTINCT SerialNo,ItemName, DATEDIFF(MONTH,WarrantyStartDate,WarrantyExpireDate) AS WarrantyPeriodInMonths
                                 FROM ItemBatch IB 
                                 INNER JOIN GRNItem GI ON GI.GRNItemId=IB.GRNItemId
                                 INNER JOIN Item I ON I.ItemId=GI.ItemId

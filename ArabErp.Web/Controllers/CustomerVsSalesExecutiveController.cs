@@ -19,7 +19,7 @@ namespace ArabErp.Web.Controllers
         {
             CustomerVsSalesExecutivesRepository repo = new CustomerVsSalesExecutivesRepository();
            
-             var model= repo.GetCustomerVsSalesExecutives();
+             var model= repo.GetCustomerVsSalesExecutives(OrganizationId);
             
             foreach (var i in model.CustomerVsSalesExecutives)
             {

@@ -25,21 +25,32 @@ namespace ArabErp.DAL
 
 
 
-        public CustomerVsSalesExecutiveList GetCustomerVsSalesExecutives()
+        public CustomerVsSalesExecutiveList GetCustomerVsSalesExecutives(int OrganizationId)
         {
             using (IDbConnection connection = OpenConnection(dataConnection))
             {
                 CustomerVsSalesExecutiveList model = new CustomerVsSalesExecutiveList();
-                string sql= @"with merged (CustomerId, EffectiveDate, EmployeeId) AS 
-(
-    select CV.CustomerId , CV.EffectiveDate, CV.EmployeeId from Customer C  join CustomerVsSalesExecutive CV on C.CustomerId=CV.CustomerId 
-	where CV.EffectiveDate=(select Max(EffectiveDate) from   CustomerVsSalesExecutive CVN where  CVN.CustomerId=C.CustomerId)
-    ) 
+                //string sql= @"with merged (CustomerId, EffectiveDate, EmployeeId) AS 
+                //(
+               // select CV.CustomerId , CV.EffectiveDate, CV.EmployeeId from Customer C  join CustomerVsSalesExecutive CV on C.CustomerId=CV.CustomerId 
+              //	where CV.EffectiveDate=(select Max(EffectiveDate) from   CustomerVsSalesExecutive CVN where  CVN.CustomerId=C.CustomerId)
+             //    ) 
+            //
+           //select C.CustomerId , C.CustomerName, CV.EffectiveDate, CV.EmployeeId from Customer C left join merged CV on C.CustomerId=CV.CustomerId 
+           //Where OrganizationId=@OrganizationId";
 
-select C.CustomerId , C.CustomerName, CV.EffectiveDate, CV.EmployeeId from Customer C left join merged CV on C.CustomerId=CV.CustomerId 
-";
+                string sql = @"with merged (CustomerId, EffectiveDate, EmployeeId,CustomerCategory) AS 
+                             (
+                              select CV.CustomerId , CV.EffectiveDate, CV.EmployeeId,CuC.CusCategoryName from Customer C  join CustomerVsSalesExecutive CV on C.CustomerId=CV.CustomerId 
+	                          inner join CustomerCategory CuC on CuC.CusCategoryId=C.CategoryId  where CV.EffectiveDate=(select Max(EffectiveDate) from   CustomerVsSalesExecutive CVN where  CVN.CustomerId=C.CustomerId)
+                              ) 
 
-                model.CustomerVsSalesExecutives = connection.Query<CustomerVsSalesExecutive>(sql).ToList<CustomerVsSalesExecutive>();
+                              select C.CustomerId , C.CustomerName, CV.EffectiveDate, CV.EmployeeId ,CuC.CusCategoryName,CONCAT([DoorNo],'/',[Street],'/',[State],'/',[CountryName])as CustomerAddress from Customer C 
+                              left join merged CV on C.CustomerId=CV.CustomerId
+                              inner join Country co on co.CountryId=c.Country
+                              inner join CustomerCategory CuC on CuC.CusCategoryId=C.CategoryId";
+
+                model.CustomerVsSalesExecutives = connection.Query<CustomerVsSalesExecutive>(sql, new { OrganizationId = OrganizationId }).ToList<CustomerVsSalesExecutive>();
                 return model;
 
                
@@ -91,6 +102,7 @@ select C.CustomerId , C.CustomerName, CV.EffectiveDate, CV.EmployeeId from Custo
                            Values (@CustomerId,@EmployeeId,@EffectiveDate,@CreatedBy,@CreatedDate,@OrganizationId,1);
                            SELECT CAST(SCOPE_IDENTITY() as int)";
 
+                      //  InsertLoginHistory(dataConnection, item.CreatedBy, "Create", "CustomerVsSalesExecutive", "0", "0");
                     int objCustomerVsSalesExecutive = connection.Query<int>(sql,item).First();
 
                     }

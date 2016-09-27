@@ -15,9 +15,11 @@ namespace ArabErp.Domain
 
         public string SupplierName { get; set; }
         public string ItemName { get; set; }
+        public string CriticalItem { get; set; }
         public int SupplyOrderItemId { get; set; }
         [DataType(DataType.Date)]
         public DateTime SupplyOrderFollowupDate { get; set; }
+        public DateTime RequiredDate { get; set; }
         public decimal OrderedQty { get; set; }
         public int Supplier { get; set; }
         [DataType(DataType.Date)]

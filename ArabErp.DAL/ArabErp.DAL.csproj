@@ -91,6 +91,7 @@
     <Compile Include="DropdownRepository.cs" />
     <Compile Include="EmployeeCategoryRepository.cs" />
     <Compile Include="EmployeeRepository.cs" />
+    <Compile Include="EmployeeVsTaskRepository.cs" />
     <Compile Include="ExpenseRepository.cs" />
     <Compile Include="FinancialYearRepository.cs" />
     <Compile Include="FreezerUnitRepository.cs" />

@@ -26,6 +26,8 @@ namespace ArabErp.Domain
         public string PipeLength { get; set; }
         public string Refrigerant { get; set; }
         public string EletricalPowerAvailability { get; set; }
+        public string Unit { get; set; }
+        public decimal Cost { get; set; }
 
     }
 }

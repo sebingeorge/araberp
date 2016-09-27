@@ -102,5 +102,18 @@ namespace ArabErp.DAL
                     new { ItemId = itemId }).First<string>();
             }
         }
+
+        public List<StockReturnItem> GetStockReturnDT(int StockReturnId)
+        {
+            using (IDbConnection connection = OpenConnection(dataConnection))
+            {
+                string sql = @" SELECT I.ItemId,U.UnitName Unit,S.Quantity,Remarks FROM StockReturnItem S
+                                INNER JOIN Item I ON I.ItemId=S.ItemId
+                                INNER JOIN Unit U ON U.UnitId=I.ItemUnitId
+                                WHERE StockReturnId =@StockReturnId";
+
+                return connection.Query<StockReturnItem>(sql, new { StockReturnId = StockReturnId }).ToList();
+            }
+        }
     }
 }

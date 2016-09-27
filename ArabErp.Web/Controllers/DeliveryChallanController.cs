@@ -9,6 +9,7 @@ using CrystalDecisions.CrystalReports.Engine;
 using System.IO;
 using ArabErp.Web.Models;
 using System.Data;
+using System.Data.SqlClient;
 
 namespace ArabErp.Web.Controllers
 {
@@ -111,6 +112,46 @@ namespace ArabErp.Web.Controllers
         public ActionResult PreviousList(DateTime? from, DateTime? to, int id = 0, int cusid = 0)
         {
             return PartialView("_PreviousList", new DeliveryChallanRepository().GetAllDeliveryChallan(id, cusid, OrganizationId, from, to));
+        }
+
+        public ActionResult Edit(int id = 0)
+        {
+            try
+            {
+                if (id != 0)
+                {
+                    EmployeeDropdown();
+                    DeliveryChallan DeliveryChallan = new DeliveryChallan();
+                    DeliveryChallan = new DeliveryChallanRepository().ViewDeliveryChallanHD(id);
+                    DeliveryChallan.ItemBatches =new DeliveryChallanRepository().GetDeliveryChallanDT(id);
+
+                    return View(DeliveryChallan);
+                }
+                else
+                {
+                    TempData["error"] = "That was an invalid/unknown request. Please try again.";
+                    TempData["success"] = "";
+                }
+            }
+            catch (InvalidOperationException iox)
+            {
+                TempData["error"] = "Sorry, we could not find the requested item. Please try again.|" + iox.Message;
+            }
+            catch (SqlException sx)
+            {
+                TempData["error"] = "Some error occured while connecting to database. Please try again after sometime.|" + sx.Message;
+            }
+            catch (NullReferenceException nx)
+            {
+                TempData["error"] = "Some required data was missing. Please try again.|" + nx.Message;
+            }
+            catch (Exception ex)
+            {
+                TempData["error"] = "Some error occured. Please try again.|" + ex.Message;
+            }
+
+            TempData["success"] = "";
+            return RedirectToAction("Index");
         }
 
         public ActionResult Print(int Id)

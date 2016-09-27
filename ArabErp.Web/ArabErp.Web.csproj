@@ -366,6 +366,7 @@
     <Content Include="Content\datepicker.min.css" />
     <Content Include="Content\datepicker3.min.css" />
     <Content Include="Content\dll\GridMvc.dll" />
+    <Content Include="Content\FixedHeader.css" />
     <Content Include="Content\Gridmvc.css" />
     <Content Include="Content\images\a17.png" />
     <Content Include="Content\images\loading.gif" />
@@ -373,6 +374,7 @@
     <Content Include="Content\images\yes.png" />
     <Content Include="Content\jquery-1.12.4.min.js" />
     <Content Include="Content\jquery-2.1.4.min.js" />
+    <Content Include="Content\jquery.freezeheader.js" />
     <Content Include="Content\jquery.timepicker.css" />
     <Content Include="Content\PagedList.css" />
     <Content Include="Content\simple-sidebar.css" />
@@ -725,7 +727,7 @@
     <Content Include="Views\JobCardDailyActivity\PreviousList.cshtml" />
     <Content Include="Views\CustomerVsWorkRate\Create.cshtml" />
     <Content Include="Views\CustomerVsWorkRate\CustomerItemRateList.cshtml" />
-    <Content Include="Views\SupplyOrderFollowup\Pending.cshtml" />
+    <Content Include="Views\SupplyOrderFollowup\_Pending.cshtml" />
     <Content Include="Views\StockCreation\Create.cshtml" />
     <Content Include="Views\StockCreation\_FinishedGood.cshtml" />
     <Content Include="Views\StockCreation\_ConsumedItem.cshtml" />
@@ -957,6 +959,12 @@
     <Content Include="Views\ResourceAvailability\_EmployeeGrid.cshtml" />
     <Content Include="Views\SaleOrder\_MaterialList.cshtml" />
     <Content Include="Views\SupplyOrderFollowup\Create.cshtml" />
+    <Content Include="Views\VehicleInPass\Edit.cshtml" />
+    <Content Include="Views\JobCardQC\Edit.cshtml" />
+    <Content Include="Views\SupplyOrderFollowup\Index.cshtml" />
+    <Content Include="Views\DeliveryChallan\Edit.cshtml" />
+    <Content Include="Views\AdditionalWorkShopRequest\Edit.cshtml" />
+    <Content Include="Views\StockReturn\Edit.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

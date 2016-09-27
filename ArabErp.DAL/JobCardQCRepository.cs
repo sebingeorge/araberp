@@ -72,16 +72,20 @@ namespace ArabErp.DAL
                 return connection.Query<PendingJobCardQC>(sql);
             }
         }
-        
-
-
         public JobCardQC GetJobCardQC(int JobCardQCId)
         {
 
             using (IDbConnection connection = OpenConnection(dataConnection))
             {
-                string sql = @"select * from JobCardQC
-                        where JobCardQCId=@JobCardQCId";
+                string sql = @" SELECT JobCardQCId,JobCardQCRefNo,J.JobCardNo,J.JobCardDate JcDate,JQ.JobCardId,
+                                C.CustomerName Customer,V.VehicleModelName VehicleModel,
+                                JQ.EmployeeId,JobCardQCDate,IsQCPassed FROM JobCardQC JQ
+                                INNER JOIN JobCard J ON J.JobCardId=JQ.JobCardId
+                                INNER JOIN SaleOrder S ON S.SaleOrderId=J.SaleOrderId
+                                INNER JOIN SaleOrderItem SI ON SI.SaleOrderId=S.SaleOrderId
+                                INNER JOIN Customer C ON C.CustomerId=S.CustomerId
+                                LEFT JOIN VehicleModel V ON V.VehicleModelId=SI.VehicleModelId
+                                WHERE JobCardQCId=@JobCardQCId";
 
                 var objJobCardQC = connection.Query<JobCardQC>(sql, new
                 {

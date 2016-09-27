@@ -48,6 +48,7 @@
     <script src="~/Scripts/script.js"></script>
 
     <script src="~/MVCGridHandler.axd/script.js"></script>
+    <script src="~/Content/jquery.freezeheader.js"></script>
 
     @*<script src="~/scripts/mdb.js"></script>
         <script src="~/scripts/mdb.min.js"></script>*@
@@ -272,7 +273,7 @@
                                 <li><a href="@Url.Action("PendingPurchaseRequest","PurchaseRequest")">Purchase Request</a></li>
                                 <li><a href="@Url.Action("PendingSupplyOrder","SupplyOrder")">Supply Order / LPO</a></li>
                                 <li><a href="@Url.Action("PendingApproval", "SupplyOrder")">Supply Order / LPO Approval</a></li>
-                                <li><a href="@Url.Action("Pending", "SupplyOrderFollowup")">SupplyOrder Followup</a></li>
+                                <li><a href="@Url.Action("Index", "SupplyOrderFollowup")">SupplyOrder Followup</a></li>
                                 <li><a href="@Url.Action("CreateRequest","DirectPurchase")">Direct Purchase Request</a></li>
                                 <li><a href="@Url.Action("Approval","DirectPurchase")">Direct Purchase Approval</a></li>
                                 <li><a href="@Url.Action("PendingGrnWareHouse","GrnWareHouse")">GRN</a></li>

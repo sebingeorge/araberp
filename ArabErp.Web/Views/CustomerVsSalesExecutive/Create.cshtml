@@ -21,7 +21,10 @@
         $('.effectivedate').each(function (i, obj) {
             //alert(obj.id);
             $("#" + obj.id).removeClass("hasDatepicker");
+          //  $("#" + obj.id).datepicker({ dateFormat: "dd-MM-yy", maxDate: '0', minDate: '0' });
             $("#" + obj.id).datepicker({ dateFormat: "dd-MM-yy" });
+            //$("#" + obj.id).datepicker({ });
+            //$("#" + obj.id).datepicker({ minDate: '0' });
         });
         function Exit() {
             var url = '@Url.Action("CustomerVsSalesExecutive")';
@@ -32,22 +35,25 @@
 
 </script>
 
-<div class="main-part pad1">
-    @using (Html.BeginForm("Save", null, FormMethod.Post, new { @class = "createFrom", @id = "CustomerVsSalesExecutive_form" }))
-    {
+<div class="row">
         <div class="form-head1">
-            <h4>CustomerVs SalesExecutive</h4>
+        <h4>Customer Vs Sales Executive</h4>
         </div>
     <div class="main-part pad1">
+        @using (Html.BeginForm("Save", null, FormMethod.Post, new { @class = "createFrom", @id = "CustomerVsSalesExecutive_form" }))
+        {
+
         @Html.HiddenFor(m => m.dummy)
         <div class=" table-responsive">
             <table class="table table-bordered" id="tab_logic">
                 <thead>
                     <tr class="grid_heading">
                         <td width="2%"><h1>#</h1></td>
-                        <th width="30%"><h1>Customer</h1></th>
-                        <th width="20%"><h1>Sales Executives</h1></th>
-                        <th width="15%"><h1>Effective Date</h1></th>
+                            <th width="20%"><h1>Customer</h1></th>
+                            <th width="30%"><h1>Customer Address</h1></th>
+                            <th width="20%"><h1>Customer Category</h1></th>
+                            <th width="15%"><h1>Sales Executives</h1></th>
+                            <th width="18%"><h1>Effective Date</h1></th>
 
                     </tr>
                 </thead>
@@ -68,6 +74,13 @@
                                 @Html.TextBoxFor(m => m.CustomerVsSalesExecutives[row].CustomerName, new { @class = "OrderedQty form_input", autocomplete = "off", @readonly = "readonly" })
                             </td>
                             <td>
+                                    @Html.TextBoxFor(m => m.CustomerVsSalesExecutives[row].CustomerAddress, new { @class = "OrderedQty form_input", autocomplete = "off", @readonly = "readonly" })
+
+                                </td>
+                                <td>
+                                    @Html.TextBoxFor(m => m.CustomerVsSalesExecutives[row].CusCategoryName, new { @class = "OrderedQty form_input", autocomplete = "off", @readonly = "readonly" })
+                                </td>
+                                <td>
 
                                 @Html.DropDownListFor(m => m.CustomerVsSalesExecutives[row].EmployeeId, new SelectList(ViewBag.EmployeeList, "Value", "Text", item.EmployeeId), "Select Employee", new { @class = "form_input", autocomplete = "off" })
 
@@ -87,7 +100,7 @@
                 </tbody>
             </table>
         </div>
-        </div>
+
 
         <div class="row">
 
@@ -97,4 +110,6 @@
             </div>
         </div>
         }
+
+    </div>
     </div>

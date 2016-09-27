@@ -1,4 +1,4 @@
-﻿@model IList<ArabErp.Domain.SalesInvoice>
+﻿@*@model IList<ArabErp.Domain.SalesInvoice>*@
 @using GridMvc.Html
 @{
     ViewBag.Title = "PendingSalesInvoice";
@@ -11,6 +11,8 @@
 
 <script>
     $(document).ready(function () {
+
+        $("#cboSaleOrder").combobox();
 
         toastr.options = {
             "closeButton": true,
@@ -44,12 +46,9 @@
         $(this).toggleClass("highlight");
     });
     function OpenCustomerInvoice(key, Customer, SaleOrderRefNoWithDate) {
-
         var invType = $("#invType").val();
         var Url = '@Url.Action("PendingSalesInvoiceDt")';
-        $("#SalesInvoiceListDiv").load(Url, { SalesOrderId: key, Customer: Customer, SaleOrderRefNoWithDate: SaleOrderRefNoWithDate, invType: invType });
-
-
+        $("#SalesInvoiceListDiv").load(Url, { SalesOrderId: $(key).val() == '' ? 0 : $(key).val(), Customer: Customer, SaleOrderRefNoWithDate: SaleOrderRefNoWithDate, invType: invType });
     }
 
     function PreviousList() {
@@ -85,6 +84,12 @@
         <h4>Pending Sales Invoice</h4>
     </div>
     <div class="main-part pad1">
+        <div class="row form-group">
+            <div class="col-md-3">
+                <label for="cboSaleOrder">Sale Order</label>
+                @Html.DropDownList("cboSaleOrder", (SelectList)ViewBag.saleOrderList, "Select Sale Order", new { @class = "form_input", @onchange = "OpenCustomerInvoice(this, '', '')", @placeholder = "Search for Sale Order" })
+            </div>
+        </div>
         @*<div class="main-list wid" style="margin-bottom:10px" id="PendingCustomerInvoiceDiv">
             <div class="main-grid">
                 <div>
@@ -114,7 +119,7 @@
             </div>
         </div>*@
 
-        <div id="SalesInvoiceListDiv">
+        <div class="" id="SalesInvoiceListDiv">
             @Html.Action("PendingSalesInvoiceDt", new { SalesOrderId = 0, Customer = "Select Any Invoice", SaleOrderRefNoWithDate = "Select Any Invoice" })
         </div>
         <div class="row">

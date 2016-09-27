@@ -33,6 +33,12 @@
         window.location = url;
     }
 
+    function Open(id) {
+        var url = '@Url.Action("Edit")';
+        url += "?id=" + id;
+        window.location = url;
+
+    }
     $(document).ready(function () {
 
         toastr.options = {

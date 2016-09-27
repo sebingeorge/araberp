@@ -14,17 +14,18 @@ namespace ArabErp.Web.Controllers
         // GET: SupplyOrderFollowup
         public ActionResult Index()
         {
+            FillBatch();
             return View();
         }
 
-        public ActionResult Pending()
-        {
-            SupplyOrderFollowupRepository repo = new SupplyOrderFollowupRepository();
-            var model = repo.GetSupplyOrderFollowup();
-            return View(model);
+        //public ActionResult Pending()
+        //{
+        //    SupplyOrderFollowupRepository repo = new SupplyOrderFollowupRepository();
+        //    var model = repo.GetSupplyOrderFollowup(OrganizationId);
+        //    return View(model);
             
-        }
-        [HttpPost]
+        //}
+      //  [HttpPost]
         public ActionResult Save(SupplyOrderFollowUpList model)
         {
 
@@ -41,8 +42,22 @@ namespace ArabErp.Web.Controllers
             var rtn = new SupplyOrderFollowupRepository().InsertSupplyOrderFollowup(model.SupplyOrderFollowups);
       
             TempData["Success"] = "Added Successfully!";
-            
-            return RedirectToAction("Pending");
+
+            return RedirectToAction("Index");
+        }
+        public ActionResult ItemList(int? page, string name = "", string suppliername = "", int? batch=null)
+       {
+            int itemsPerPage = 10;
+            int pageNumber = page ?? 1;
+            return PartialView("_Pending", new SupplyOrderFollowupRepository().GetSupplyOrderFollowup(OrganizationId, name,suppliername,batch));
+        }
+
+        public void FillBatch()
+        {
+            List<Dropdown> types = new List<Dropdown>();
+            types.Add(new Dropdown { Id = 0, Name = "Non-Batch" });
+            types.Add(new Dropdown { Id = 1, Name = "Batch" });
+            ViewBag.BatchList = new SelectList(types, "Id", "Name");
         }
         //public ActionResult Create(int id = 0)
         //{

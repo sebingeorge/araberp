@@ -22,7 +22,7 @@
                                     <td class="grid-cell">@item.SaleOrderRefNo &amp; @item.SaleOrderDate.ToString("dd/MMM/yyyy")</td>
                                     <td class="grid-cell">@item.RegistrationNo</td>
                                     <td>
-                                        <center><input type="button" class="form-button4" value="Select" title="Select to view details" /></center>
+                                        <center><input type="button" class="form-button4" value="Select" title="Select to view details" onclick="Open(@item.VehicleInPassId)" /></center>
                                     </td>
                                 </tr>
                             </tbody>
