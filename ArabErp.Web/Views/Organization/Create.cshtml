@@ -4,9 +4,31 @@
 @{string actionName = HttpContext.Current.Request.RequestContext.RouteData.Values["action"].ToString(); }
 
 <script type="text/javascript">
+
+    function ImageUpload() {
+      
+            var xhr = new XMLHttpRequest();
+            var fd = new FormData();
+            var id = $("#OrganizationId").val();
+            fd.append("file", document.getElementById('File1').files[0]);
+                var url = '@Url.Action("SaveUploadFiles")';
+            
+       
+            xhr.open("POST", url , true);
+            xhr.send(fd);
+            xhr.addEventListener("load", function (event) {
+                var temppath = event.target.response;
+                temppath = temppath.replace(/["']/g, "");
+                $("#image_preview1").attr("src", "\\App_Images\\" + temppath);
+                $("#Image1").val(temppath);
+            }, false);
+        }
+    
+
+
     function Exit() {
         location.href = '@Url.Action("Index","Home")';
-        @*location.href = '@Url.Action("Create")';*@
+       
     }
     $(document).ready(function () {
         var Action = '@actionName';
@@ -44,75 +66,140 @@
     });
 </script>
 
+<style type="text/css">
+    .image-upload {
+        width: 150px;
+        height: 100px;
+    }
+</style>
 
 
     <div class=" row ">
 
-        <div class="form-head1">
-            <h4>Organization</h4>
-        </div>
-
-        <div class="main-part pad1">
-
-            @using (Html.BeginForm(null, null, FormMethod.Post, new { @class = "createFrom", @id = "Organization_form", @readonly = "readonly" }))
-            {
-                <div class="row">
-
-                    <div class="col-md-4">
-
-                        @Html.HiddenFor(m => m.OrganizationId)
-                        @Html.HiddenFor(m => m.OrganizationRefNo)
-
-                        <div class="part4">
-                            <label for="OrganizationRefNo">Code</label>
-                            @Html.TextBoxFor(m => m.OrganizationRefNo, new { @class = "form_input form_input-half", autocomplete = "off", @readonly = "readonly" })
-                        </div>
-
-                        <div class="part4">
-                            <label for="OrganizationName">Name</label>
-                            @Html.TextBoxFor(m => m.OrganizationName, new { @class = "form_input", autocomplete = "off" })
-                        </div>
-
-                        <div class="part4">
-                            <label for="CurrencyId">Currency</label>
-                            @Html.DropDownListFor(m => Model.CurrencyId, (SelectList)ViewBag.Currency, "Select Item Currency", new { @class = "form_input", autocomplete = "off" })
-                        </div>
-                        <div class="part4">
-                            <label for="FinancialYear">Financial Year</label>
-                            @Html.DropDownListFor(m => Model.FyId, (SelectList)ViewBag.FinancialYear, "Select Financial Year", new { @class = "form_input", autocomplete = "off" })
-                        </div>
-                    </div>
-
-
-                    <div class="col-md-4">
-                    </div>
-
-                    <div class="col-md-4">
-                    </div>
-
-
-                    <div class="col-md-12 hrpart">
-                        <button type="button" class="form-button right" onclick="Exit();">Exit</button>
-                        @if (actionName == "Edit")
-                        { <button type="submit" class="form-button right">Update</button> }
-                        else
-                            if (actionName == "Delete")
-                            {  <button type="submit" class="form-button right">Delete</button>}
-                            else
-                            { <button type="submit" class="form-button right">Save</button>}
-
-                    </div>
-
-
-                </div>
-            }
-
-        </div>
-
-        <div class="main-list">
-            @Html.Action("FillOrganizationList")
-        </div>
-
+    <div class="form-head1">
+        <h4>Organization</h4>
     </div>
 
+   
 
+        @using (Html.BeginForm(null, null, FormMethod.Post, new { @class = "createFrom", @id = "Organization_form", @readonly = "readonly" }))
+        {
+            <div class="main-part pad1">
+                <div class="col-md-4">
+                   
+                        <div class="row rowr">
+                            <span>&nbsp;</span><br />
+                            <div class="part4">
+
+                                @Html.HiddenFor(m => m.OrganizationId)
+                                @Html.HiddenFor(m => m.OrganizationRefNo)
+                                @Html.HiddenFor(m => m.Image1)
+
+
+                                <label for="OrganizationRefNo">Code</label>
+                                @Html.TextBoxFor(m => m.OrganizationRefNo, new { @class = "form_input form_input-half", autocomplete = "off", @readonly = "readonly" })
+                            </div>
+
+                            <div class="part4">
+                                <label for="OrganizationName">Name</label>
+                                @Html.TextBoxFor(m => m.OrganizationName, new { @class = "form_input", autocomplete = "off" })
+                            </div>
+                            <span><h5>Address & Communication</h5></span><br />
+                            <div class="part4">
+                                <label for="doorno">Door No.& Building </label>
+                                @Html.TextBoxFor(m => m.DoorNo, new { @class = "form_input", autocomplete = "off" })
+                            </div>
+                            <div class="part4">
+                                <label for="street">Street & City</label>
+                                @Html.TextBoxFor(m => m.Street, new { @class = "form_input ", autocomplete = "off" })
+                            </div>
+                            <div class="part4">
+                                <label for="state">State</label>
+                                @Html.TextBoxFor(m => m.State, new { @class = "form_input ", autocomplete = "off" })
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="row rowl rowr">
+                            <span>&nbsp;</span><br />
+                            
+
+                            <div class="part4">
+                                <label for="Country">Country</label>
+                                @Html.DropDownListFor(m => m.Country, (SelectList)ViewBag.CustomerCountry, "Select Country", new { @class = "form_input", autocomplete = "off" })
+                            </div>
+                            <div class="part4">
+                                <label for="CurrencyId">Currency</label>
+                                @Html.DropDownListFor(m => Model.CurrencyId, (SelectList)ViewBag.Currency, "Select Item Currency", new { @class = "form_input", autocomplete = "off" })
+                            </div>
+                            <div class="part4">
+                                <label for="zip">Post Box No</label>
+                                @Html.TextBoxFor(m => m.Zip, new { @class = "form_input ", autocomplete = "off" })
+                            </div>
+                            <div class="part4">
+                                <label for="phno">Phone No.</label>
+                                @Html.TextBoxFor(m => m.Phone, new { @class = "form_input ", autocomplete = "off" })
+                            </div>
+                            <div class="part4">
+                                <label for="fax">Fax</label>
+                                @Html.TextBoxFor(m => m.Fax, new { @class = "form_input ", autocomplete = "off" })
+                            </div>
+
+                        </div>
+                    </div>
+
+                    <div class="col-md-4">
+                        <div class="row rowl">
+                            <span>&nbsp;</span><br />
+                           
+
+                            <div class="part4">
+                                <label for="email">E-mail</label>
+                                @Html.TextBoxFor(m => m.Email, new { @class = "form_input ", autocomplete = "off" })
+                            </div>
+
+                            <div class="part4">
+                                <label for="cntperson">Contact Person</label>
+                                @Html.TextBoxFor(m => m.ContactPerson, new { @class = "form_input", autocomplete = "off" })
+                            </div>
+
+                            <div class="part4">
+                                <label for="FinancialYear">Financial Year</label>
+                                @Html.DropDownListFor(m => Model.FyId, (SelectList)ViewBag.FinancialYear, "Select Financial Year", new { @class = "form_input", autocomplete = "off" })
+                            </div>
+
+                        </div>
+                    </div>
+                <div class="row form-group">
+                    <div class="col-md-3">
+                        <div id="img_preview1" title="Photo Preview">
+                            <p><img src="\App_Images\@Model.Image1" alt="Please upload image" id="image_preview1" class="image-upload" /></p>
+                        </div>
+                        
+                            <input type="file" id="File1" class="button" />
+                            <input type="button" class="form-button" id="Fileupload1" value="Upload" onclick="Javascript: ImageUpload();" title="Upload to database" />
+                        
+                    </div>
+                </div>
+
+
+                    <div class="row">
+                        <div class="col-md-12 hrpart">
+                            <button type="button" class="form-button right" onclick="Exit();">Exit</button>
+                            @if (actionName == "Edit")
+                                { <button type="submit" class="form-button right">Update</button> }
+                                else
+                                    if (actionName == "Delete")
+                                    {  <button type="submit" class="form-button right">Delete</button>}
+                                    else
+                                    { <button type="submit" class="form-button right">Save</button>}
+
+                        </div>
+                    </div>
+                </div>
+        }
+
+                <div class="main-list">
+                    @Html.Action("FillOrganizationList")
+                </div>
+            </div>
