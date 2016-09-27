@@ -67,6 +67,8 @@ namespace ArabErp.DAL
                 string query = "SELECT I.ItemName,I.ItemId,I.PartNo,SUM(WI.Quantity)Quantity,UnitName from WorkDescription W INNER JOIN  WorkVsItem WI on W.WorkDescriptionId=WI.WorkDescriptionId";
                 query += " INNER JOIN Item I ON WI.ItemId=I.ItemId INNER JOIN Unit U on U.UnitId =I.ItemUnitId  INNER JOIN SaleOrderItem SI ON SI.WorkDescriptionId = W.WorkDescriptionId";
                 query += " WHERE SI.SaleOrderId=@SaleOrderId GROUP BY I.ItemName,I.ItemId,I.PartNo,UnitName ";
+                query += " UNION ALL SELECT I.ItemName,I.ItemId,I.PartNo,SUM(S.Quantity)Quantity,UnitName FROM SaleOrderMaterial S INNER JOIN Item I ON I.ItemId=S.ItemId";
+                query += " INNER JOIN Unit U on U.UnitId =I.ItemUnitId  WHERE S.SaleOrderId=@SaleOrderId GROUP BY I.ItemName,I.ItemId,I.PartNo,UnitName ";
 
                 return connection.Query<WorkShopRequestItem>(query,
                 new { SaleOrderId = SaleOrderId }).ToList();
@@ -85,7 +87,7 @@ namespace ArabErp.DAL
             {
 
                 string sql = @"SELECT  SO.SaleOrderId,SO.CustomerOrderRef,SO.SaleOrderRefNo,SO.EDateArrival,SO.EDateDelivery,SO.CustomerId,C.CustomerName,SO.SaleOrderDate SaleOrderDate,
-                                SO.SaleOrderRefNo +','+ Replace(Convert(varchar,SaleOrderDate,106),' ','/') SaleOrderRefNo
+                                SO.SaleOrderRefNo +','+ Replace(Convert(varchar,SaleOrderDate,106),' ','/') SaleOrderRefNo,SO.isProjectBased
                                 FROM  SaleOrder SO  INNER JOIN Customer C  ON SO.CustomerId =C.CustomerId
                                 WHERE SO.SaleOrderId =@SaleOrderId";
                 var objSaleOrders = connection.Query<WorkShopRequest>(sql, new { SaleOrderId = SaleOrderId }).Single<WorkShopRequest>();

@@ -109,6 +109,47 @@ namespace ArabErp.Web.Controllers
             return Json(new ItemRepository().GetPartNoUnit(itemId), JsonRequestBehavior.AllowGet);
         }
 
+        public ActionResult Edit(int id = 0)
+        {
+            try
+            {
+                if (id != 0)
+                {
+                    JobCardDropdown();
+                    ItemDropdown();
+                    Consumption Consumption = new Consumption();
+                    Consumption = new ConsumptionRepository().GetConsumptionHD(id);
+                    Consumption.ConsumptionItems = new ConsumptionItemRepository().GetConsumptionDT(id);
+
+                    return View(Consumption);
+                }
+                else
+                {
+                    TempData["error"] = "That was an invalid/unknown request. Please try again.";
+                    TempData["success"] = "";
+                }
+            }
+            catch (InvalidOperationException iox)
+            {
+                TempData["error"] = "Sorry, we could not find the requested item. Please try again.|" + iox.Message;
+            }
+            catch (SqlException sx)
+            {
+                TempData["error"] = "Some error occured while connecting to database. Please try again after sometime.|" + sx.Message;
+            }
+            catch (NullReferenceException nx)
+            {
+                TempData["error"] = "Some required data was missing. Please try again.|" + nx.Message;
+            }
+            catch (Exception ex)
+            {
+                TempData["error"] = "Some error occured. Please try again.|" + ex.Message;
+            }
+
+            TempData["success"] = "";
+            return RedirectToAction("Index");
+        }
+
         #region Dropdown
         public void ItemDropdown()
         {

@@ -966,6 +966,7 @@
     <Content Include="Views\AdditionalWorkShopRequest\Edit.cshtml" />
     <Content Include="Views\StockReturn\Edit.cshtml" />
     <Content Include="Views\StockJournal\Edit.cshtml" />
+    <Content Include="Views\Consumption\Edit.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
