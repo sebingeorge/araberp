@@ -29,6 +29,11 @@
         window.location = url;
     }
 
+    function Exit()
+    {
+        var url = '@Url.Action("Index","Home")';
+        window.location = url;
+    }
 </script>
 
 
@@ -41,16 +46,14 @@
 
         <div class="main-part pad1">
  
-
-                @Html.Action("PendingWorkshopRequests")
-
+            @Html.Action("PendingWorkshopRequests")
 
             <div class="row">
                 <div class="col-md-12 hrpart">
-                    <button class="form-button" onclick="PreviousList()">Previous</button>
+                    <button class="form-button left" onclick="PreviousList()">Previous</button>
+                    <button class="form-button right" onclick="Exit()">Exit</button>
                 </div>
             </div>
-
 
         </div>
     </div>
