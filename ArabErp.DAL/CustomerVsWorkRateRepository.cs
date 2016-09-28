@@ -108,9 +108,12 @@ namespace ArabErp.DAL
         {
             using (IDbConnection connection = OpenConnection(dataConnection))
             {
-                string sql = @"SELECT W.WorkDescriptionId,WorkDescr WorkDescription,FixedRate FROM WorkDescription W 
-                               LEFT JOIN CustomerVsWorkRate C ON C.WorkDescriptionId=W.WorkDescriptionId
-                               WHERE CustomerId=@CustomerId";
+                string sql = @"SELECT 
+                                    WD.WorkDescriptionId,
+	                                WorkDescr WorkDescription,
+	                                ISNULL(FixedRate, 0.00) FixedRate
+                                FROM WorkDescription WD
+	                                LEFT JOIN (SELECT WorkDescriptionId, FixedRate FROM CustomerVsWorkRate WHERE CustomerId = @CustomerId) CR ON WD.WorkDescriptionId = CR.WorkDescriptionId";
 
                 return connection.Query<CustomerVsWorkRateItem>(sql, new
                 {

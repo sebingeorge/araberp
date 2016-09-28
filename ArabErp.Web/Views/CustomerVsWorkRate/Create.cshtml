@@ -18,35 +18,28 @@
             //$("#[0].ItemId").val('@*@Model.OpeningStockItem[0].ItemId*@');
         });
 
-    
+        //---------------------toastr---------------------------//
+        toastr.options = {
+            "positionClass": "toast-bottom-full-width",
+            "timeOut": "5000",
+            "extendedTimeOut": "2000"
+        }
+        if ('@TempData["success"]' != '') {
+            toastr.success('@TempData["success"]');
+        }
+        else if ('@TempData["error"]' != '') {
+            toastr.error('@TempData["error"]'.split('|')[0]);
+            console.log('@TempData["error"]'.split('|')[1]);
+        }
+        @{ TempData["success"] = TempData["error"] = ""; }
+        //------------------------------------------------------//
     });
-
-
-    toastr.options = {
-        "closeButton": true,
-        "positionClass": "toast-bottom-full-width",
-        "preventDuplicates": false,
-        "onclick": null,
-
-        "timeOut": "0",
-        "extendedTimeOut": "1000",
-        "showEasing": "swing",
-        "hideEasing": "linear",
-        "showMethod": "fadeIn",
-        "hideMethod": "fadeOut"
-    }
-    if ('@TempData["success"]' != "" && '@TempData["CustomerId"]' != "") {
-        toastr.success('@TempData["success"]' + '  Rate Setting - Customer Wise is Updated : ');
-    }
-    else if ('@TempData["error"]' != "") {
-        toastr.error('@TempData["error"]');
-    }
 
     function Exit() {
         location.href = '@Url.Action("Index","Home")';
     }
 
-   
+
 
 </script>
 
