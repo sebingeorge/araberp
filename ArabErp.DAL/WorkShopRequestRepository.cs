@@ -304,7 +304,7 @@ namespace ArabErp.DAL
                 string sql = @"SELECT *,S.SaleOrderRefNo,S.EDateArrival,S.EDateDelivery,STUFF((SELECT ', ' + CAST(W.WorkDescr AS VARCHAR(MAX)) [text()]
                              FROM SaleOrderItem SI inner join WorkDescription W on W.WorkDescriptionId=SI.WorkDescriptionId
                              WHERE SI.SaleOrderId = S.SaleOrderId
-                             FOR XML PATH(''), TYPE).value('.','NVARCHAR(MAX)'),1,2,' ') WorkDescription from WorkShopRequest WR 
+                             FOR XML PATH(''), TYPE).value('.','NVARCHAR(MAX)'),1,2,' ') WorkDescription,S.isProjectBased from WorkShopRequest WR 
                              INNER JOIN SaleOrder S on S.SaleOrderId=WR.SaleOrderId
                              INNER JOIN  Customer C  ON S.CustomerId =C.CustomerId
                              WHERE WorkShopRequestId = @WorkShopRequestId";
@@ -318,8 +318,8 @@ namespace ArabErp.DAL
             using (IDbConnection connection = OpenConnection(dataConnection))
             {
 
-                string query = "select I.ItemName,I.PartNo,WI.Remarks,WI.Quantity,UnitName from WorkShopRequestItem WI INNER JOIN Item I ON WI.ItemId=I.ItemId";
-                query += " INNER JOIN Unit U on U.UnitId =I.ItemUnitId  where isAddtionalMaterialRequest is null and   WorkShopRequestId = @WorkShopRequestId";
+                string query = "select I.ItemId,I.ItemName,I.PartNo,WI.Remarks,WI.Quantity,UnitName,WI.isAddtionalMaterialRequest from WorkShopRequestItem WI INNER JOIN Item I ON WI.ItemId=I.ItemId";
+                query += " INNER JOIN Unit U on U.UnitId =I.ItemUnitId  where  WorkShopRequestId = @WorkShopRequestId";
 
                 return connection.Query<WorkShopRequestItem>(query,
                 new { WorkShopRequestId = WorkShopRequestId }).ToList();

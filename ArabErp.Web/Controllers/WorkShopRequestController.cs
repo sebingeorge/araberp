@@ -29,7 +29,7 @@ namespace ArabErp.Web.Controllers
             model.WorkDescription = repo.GetCombinedWorkDescriptionSaleOrderForWorkshopRequest(SaleOrderId ?? 0).WorkDescription;
             var WSList = repo.GetWorkShopRequestData(SaleOrderId ?? 0);
             model.Items = new List<WorkShopRequestItem>();
-            model.Isused = true;
+            //model.Isused = true;
             foreach (var item in WSList)
             {
                 model.Items.Add(new WorkShopRequestItem { PartNo = item.PartNo, ItemName = item.ItemName, Quantity = item.Quantity, UnitName = item.UnitName, ItemId = item.ItemId, ActualQuantity = item.Quantity });
