@@ -57,7 +57,14 @@
 
 <div class="row">
     <div class="form-head1">
-        <h4>Pending Sale Order for Workshop Request</h4>
+        @if (ViewBag.ProjectBased == 0)
+        {
+            <h4>Pending Sale Order for Workshop Request</h4>
+        }
+        else
+        {
+            <h4>Pending Sale Order for Material Request</h4>
+        }
     </div>
 
     <div class="main-part pad1">
@@ -70,7 +77,7 @@
         <br />
         <div class="row" id="wr-pending">
             
-                @Html.Action("WorkShopRequestPending")
+                @Html.Action("WorkShopRequestPending", new { isProjectBased = ViewBag.ProjectBased })
 
         </div>
 

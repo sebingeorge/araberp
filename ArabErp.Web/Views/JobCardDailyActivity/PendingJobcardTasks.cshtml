@@ -12,7 +12,7 @@
     }
 
     function PreviousList() {
-        var url = '@Url.Action("PreviousList")';
+        var url = '@Url.Action("PreviousList", new { type = Request.QueryString["type"] })';
         window.location = url;
     }
 </script>

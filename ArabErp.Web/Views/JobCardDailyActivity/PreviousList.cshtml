@@ -9,7 +9,7 @@
 
     function OnItemSelected(id) {
         var url = '@Url.Action("Details")';
-        url += "/" + id;
+        url += "?id=" + id + "&type=" + '@Request.QueryString["type"]';
         window.location = url;
     }
 
@@ -18,7 +18,7 @@
      
     })
     function Exit() {
-        var url = '@Url.Action("PendingJobcardTasks")';
+        var url = '@Url.Action("PendingJobcardTasks", new { type = Request.QueryString["type"] })';
         window.location = url;
     }
 

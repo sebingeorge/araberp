@@ -65,7 +65,8 @@ namespace ArabErp.DAL
 	                                EMP.EmployeeName,
 	                                JC.JobCardNo,
 	                                SpecialRemarks Remarks,
-	                                Image1,Image2,Image3,Image4
+	                                Image1,Image2,Image3,Image4,
+                                    JC.isProjectBased
                                 FROM JobCardDailyActivity DA
                                 INNER JOIN JobCard JC ON DA.JobCardId = JC.JobCardId
                                 INNER JOIN Employee EMP ON JC.EmployeeId = EMP.EmployeeId
