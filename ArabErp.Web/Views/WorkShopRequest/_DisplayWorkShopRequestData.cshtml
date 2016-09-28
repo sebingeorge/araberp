@@ -9,14 +9,16 @@
             });
 
     function ValueChanged(row) {
+      
+        if ($("#Items_" + row + "__isAddtionalMaterialRequest").val() == 0) {
+            var Actualqty = $("#Items_" + row + "__ActualQuantity").val();
+            var qty = $("#Items_" + row + "__Quantity").val();
 
-        var Actualqty = $("#Items_" + row + "__ActualQuantity").val();
-        var qty = $("#Items_" + row + "__Quantity").val();
+            if (eval(qty) > eval(Actualqty)) {
+                alert("Quantity should n't be greater than BOM Quantity");
+                $("#Items_" + row + "__Quantity").val(Actualqty);
 
-        if (eval(qty) > eval(Actualqty)) {
-            alert("Quatity should n't be greater than BOM Quantity");
-            $("#Items_" + row + "__Quantity").val(Actualqty);
-
+            }
         }
     }
 
@@ -66,7 +68,8 @@
         clone.html($(clone).html().replace(/\Row_0/g, 'Row_' + i + ''));
         clone.html($(clone).html().replace(/del_0/, 'del_' + i + ''));
         clone.html($(clone).html().replace(/this,0/, 'this,' + i + ''));
-
+        
+        
         $("#tab_logic").append('<tr id="Row_' + i + '" class="WorkRow">' + clone.html() + '  </tr>');
         resetValues(i);
 
@@ -83,7 +86,7 @@
         $("#Items_" + index + "__UnitName").val('');
         $("#Items_" + index + "__UnitName").removeAttr("disabled");
         $("#del_" + index).removeClass('hide');
-
+        $("#Items_" + index + "__isAddtionalMaterialRequest").val(1);
     }
     function DeleteRowBelow(index) {
 
@@ -164,32 +167,35 @@
 
                     <td>
                       @if (Model.Isused)
-                         {
-                        @Html.DropDownListFor(m => m.Items[row].ItemId, new SelectList(ViewBag.itemList, "Value", "Text", Model.Items[row].ItemId), "Select Material/Spares", new { @class = "form_input", @autocomplete = "off",@disabled=Model.Isused, @onchange = "OnItemChanged(this," + row + ")" })
-                         }
+                      {
+                        @Html.DropDownListFor(m => m.Items[row].ItemId, new SelectList(ViewBag.itemList, "Value", "Text", Model.Items[row].ItemId), "Select Material/Spares", new { @class = "form_input", @autocomplete = "off", @disabled = "disabled", @onchange = "OnItemChanged(this," + row + ")" })
+                      }
                       else
                       {
                         @Html.DropDownListFor(m => m.Items[row].ItemId, new SelectList(ViewBag.itemList, "Value", "Text", Model.Items[row].ItemId), "Select Material/Spares", new { @class = "form_input", @autocomplete = "off", @onchange = "OnItemChanged(this," + row + ")" })
                       }            
-                                             
+                        @Html.HiddenFor(m => m.Items[row].ItemId)                      
                     </td>
                     <td id="partno0">@Html.TextBoxFor(m => m.Items[row].PartNo, new { @class = "form_input", autocomplete = "off", placeholder = "Part No.", @readonly = "readonly" })</td>
                     <td>@Html.TextBoxFor(m => m.Items[row].Remarks, new { @class = "form_input", autocomplete = "off", placeholder = "Remarks" })</td>
                   
                      <td>
-                        @Html.HiddenFor(m => m.Items[row].ActualQuantity)
+                       
                       @if (Model.Isused)
-                        {
-                        @Html.TextBoxFor(m => m.Items[row].Quantity, new { @class = "form_input clQuantity numbers-only", @style = "text-align:right", autocomplete = "off", @onkeyup = "ValueChanged(" + row + ");", @readonly = "true", @disabled = Model.Isused })
-
-                        }
+                      {
+                       
+                        @Html.TextBoxFor(m => m.Items[row].Quantity, new { @class = "form_input clQuantity numbers-only", @style = "text-align:right", autocomplete = "off", @onkeyup = "ValueChanged(" + row + ");" })
+                        @Html.HiddenFor(m => m.Items[row].ActualQuantity)
+                      }
                       else
                       {
-                        @Html.TextBoxFor(m => m.Items[row].Quantity, new { @class = "form_input clQuantity numbers-only", @style = "text-align:right", autocomplete = "off", @onkeyup = "ValueChanged(" + row + ");" })
+                        @Html.TextBoxFor(m => m.Items[row].Quantity, new { @class = "form_input clQuantity numbers-only", @style = "text-align:right", autocomplete = "off", @onkeyup = "ValueChanged(" + row + ");"})
                       }
                     </td>
                   
                     <td id="unitname0">@Html.TextBoxFor(m => m.Items[row].UnitName, new { @class = "form_input", autocomplete = "off", @readonly = "readonly" })</td>
+                    @Html.HiddenFor(m => m.Items[row].isAddtionalMaterialRequest)
+                    
                     <td>
                         <a id="add_@row" class="glyphicon glyphicon-plus" onclick="AddRowBelow(@row);" style="top:0;"></a>
                     </td>

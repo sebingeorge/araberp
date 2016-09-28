@@ -576,7 +576,8 @@ namespace ArabErp.Web.Controllers
             ViewBag.SubmitAction = "StatusUpdate";
             return View("StatusUpdate", salesquotation);
         }
-        [HttpPost]
+
+        //[HttpPost]
         //public ActionResult StatusUpdate(SalesQuotation model)
         //  {
         //      int SalesQUotationId = model.SalesQuotationId;
