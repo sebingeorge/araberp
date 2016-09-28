@@ -101,6 +101,7 @@
     <Compile Include="ItemCategoryRepository.cs" />
     <Compile Include="ItemRepository.cs" />
     <Compile Include="ItemGroupRepository.cs" />
+    <Compile Include="ItemSellingPriceRepository.cs" />
     <Compile Include="ItemSubGroupRepository.cs" />
     <Compile Include="JobCardDailyActivityRepository.cs" />
     <Compile Include="JobCardDailyActivityTaskRepository.cs" />
