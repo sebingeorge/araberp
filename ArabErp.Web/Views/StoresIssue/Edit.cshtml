@@ -1,0 +1,191 @@
+﻿@model ArabErp.Domain.StoreIssue
+@{
+    ViewBag.Title = "Create Stores Issue";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<script type="text/javascript">
+
+
+
+    $(document).ready(function () {
+        @*var url = '@Url.Action("WorkshopRequestHeadDetails")';
+        $.getJSON(url, { workshopRequestId: '@Model.WorkShopRequestId' },
+            function (data) {
+                var arr = data.split('|');
+                $("#workshopno").val(arr[0]);
+                $("#customer").val(arr[1]);
+                $("#saleorderno").val(arr[2]);
+                $("#reqdate").val(arr[3]);
+            });*@
+        //$("#StoreIssueDate").datepicker({
+        //    dateFormat: "dd-MM-yy"
+        //});
+
+        //---------------------toastr---------------------------//
+        toastr.options = {
+            "positionClass": "toast-bottom-full-width",
+            "timeOut": "5000",
+            "extendedTimeOut": "2000"
+        }
+        if ('@TempData["success"]' != '') {
+            toastr.success('@TempData["success"]');
+        }
+        else if ('@TempData["error"]' != '') {
+            toastr.error('@TempData["error"]'.split('|')[0]);
+            console.log('@TempData["error"]'.split('|')[1]);
+        }
+        @{ TempData["success"] = TempData["error"] = ""; }
+        //------------------------------------------------------//
+
+        $("#StoreIssueRefNo").tooltip();
+    });
+
+
+    function Back() {
+        location.href = '@Url.Action("PreviousList")';
+    }
+
+    function OnStockPointChanged(sender) {
+        var stockpoint = $(sender).val();
+        var date = $("#StoreIssueDate").val();
+        var url = '@Url.Action("GetStockQuantity")';
+        $("input[id$='__ItemId']").each(function (index, object) {
+            var current = $("#Items_" + index + "__CurrentIssuedQuantity");
+            if (stockpoint != '') {
+                $.getJSON(url, {
+                    date: date,
+                    stockpoint: stockpoint,
+                    item: $(object).val()
+                },
+                function (data) {
+                    $("#Items_" + index + "__StockQuantity").val(data);
+                    current.val(Number(current.val()) > Number(data) ? data : current.val());
+                })
+            }
+            else {
+                $("#Items_" + index + "__StockQuantity").val(0);
+                current.val(0);
+            }
+        })
+    }
+
+    function formValidation() {
+        ///////////////////////
+        //var count = 0;
+        //$(".validateqty").each(function (i, obj) {
+
+        //    var qty = $("#Items_" + i + "__Quantity".val());
+        //    var rate = $("#Items_" + i + "__Rate".val());
+        //    if (qty == "") {
+        //        alert("Please enter quantity");
+        //        $("#Items_" + i + "__Quantity".focus());
+        //        count = 1;
+        //    }
+        //});
+        ///////////////////////
+        return true;
+    }
+</script>
+
+
+<div class="row">
+    <div class="form-head1">
+        <h4>Store Issue</h4>
+    </div>
+    <div class="main-part pad1">
+        <form role="form" method="post" onsubmit="return formValidation()">
+            <div class="row form-group">
+                <div class="col-md-2">
+                    <label for="StoreIssueRefNo">SI.No.</label>
+                    @Html.HiddenFor(m => m.WorkShopRequestId)
+                    @Html.TextBoxFor(m => m.StoreIssueRefNo, new { @class = "form_input", autocomplete = "off", @readonly = "true", @title = "This number may change after saving" })
+                </div>
+                <div class="col-md-2">
+                    <label for="StoreIssueDate">Date</label>
+                    @Html.TextBoxFor(m => m.StoreIssueDate, Model.StoreIssueDate.ToString("dd/MMMM/yyyy"), new { @class = "form_input", @required = "true", @readonly = "true" })
+                </div>
+                <div class="col-md-2">
+                    <label for="StockpointId">Stockpoint</label>
+                    @Html.DropDownListFor(m => m.StockpointId, (SelectList)ViewBag.stockpointList, "Select Stockpoint", new { @class = "form_input", autocomplete = "off", @required = "true", @onchange = "OnStockPointChanged(this)" })
+                </div>
+            </div>
+            <div class="row form-group">
+                <div class="col-md-4">
+                    <label for="wrkdes">Customer</label>
+                    @Html.TextBoxFor(m => m.CustomerName, Model.CustomerName, new { @class = "form_input", autocomplete = "off", @readonly = "true" })
+                    @*<input type="text" id="customer" class="form_input" autocomplete="off" disabled />*@
+                </div>
+                <div class="col-md-2">
+                    <label for="wrkreqref">WR No. &amp; Date</label>
+                    @Html.TextBoxFor(m => m.WONODATE, Model.WONODATE, new { @class = "form_input", autocomplete = "off", @readonly = "true" })
+                    @*<input type="text" id="workshopno" class="form_input" autocomplete="off" disabled />*@
+                </div>
+                <div class="col-md-2">
+                    <label for="jcdate">SO No. &amp; Date</label>
+                    @Html.TextBoxFor(m => m.SONODATE, Model.SONODATE, new { @class = "form_input", autocomplete = "off", @readonly = "true" })
+                    @*<input type="text" id="saleorderno" class="form_input" autocomplete="off" disabled />*@
+                </div>
+                <div class="col-md-2">
+                    <label for="reqdate">Required Date</label>
+                    @Html.TextBoxFor(m => m.RequiredDate, Model.RequiredDate.ToString("dd/MMMM/yyyy"), new { @class = "form_input", @readonly = "true" })
+                    @*<input type="text" id="reqdate" style="min-width: 100%" class="form_input" disabled />*@
+                </div>
+            </div>
+            <div class="table-responsive">
+                <table class="table table-bordered">
+                    <thead>
+                        <tr class="grid_heading">
+                            <th width="2%" align="center"><h1>#</h1></th>
+                            <th width="53%" nowrap><h1>Material/Spares</h1></th>
+                            <th width="8%" class="text-right" nowrap><h1>Req Qty</h1></th>
+                            <th width="8%" class="text-right" nowrap><h1>Prev. Issued Qty</h1></th>
+                            <th width="8%" class="text-right" nowrap><h1>Pending Qty</h1></th>
+                            <th width="8%" class="text-right" nowrap><h1>Stock Qty</h1></th>
+                            <th width="8%" class="text-right" nowrap><h1>Curr. Issued Qty</h1></th>
+                            <th width="5%"><h1>UoM</h1></th>
+                        </tr>
+                    </thead>
+
+                    @Html.Partial("_IssuanceItems")
+
+                </table>
+            </div>
+            <div class="row form-group">
+                <div class="col-md-12">
+                    <div class="part1">
+                        <label for="Remarks">Special Remarks</label>
+                        @Html.TextAreaFor(m => m.Remarks, new { @class = "form_input form_input-h" })
+                    </div>
+                    @*<textarea id="SplRemarks1" autocomplete="off" class="form_input form_input-h"></textarea>*@
+                </div>
+
+
+
+            </div>
+            <div class="row form-group">
+                <div class="col-md-2">
+                    <label for="EmployeeId">Employee/Supervisor</label>
+                    @Html.DropDownListFor(m => m.EmployeeId, (SelectList)ViewBag.employeeList, "Select Employee", new { @class = "form_input", autocomplete = "off", @required = "true" })
+                </div>
+            </div>
+
+
+            <div class="row">
+
+                <div class="col-md-12 hrpart">
+                    <input type="button" class="form-button right" value="Exit" onclick="Back()">
+                    @*<input type="submit" class="form-button right" value="Save">*@
+                    @*@if (TempData["Success"] != null)
+                        {
+                         <p class="alert alert-success" id="successMessage">@TempData["Success"]</p>
+                        }*@
+                </div>
+
+            </div>
+
+        </form>
+    </div>
+</div>
+
+

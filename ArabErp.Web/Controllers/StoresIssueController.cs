@@ -69,6 +69,46 @@ namespace ArabErp.Web.Controllers
             return View(model); //if insert fails
         }
 
+        public ActionResult Edit(int id = 0)
+        {
+            try
+            {
+                if (id != 0)
+                {
+                    FillDropdowns();
+                    StoreIssue StoreIssue = new StoreIssue();
+                    StoreIssue = new StoreIssueRepository().GetStoreIssueHD(id);
+                    StoreIssue.Items = new StoreIssueItemRepository().GetStoreIssueDT(id);
+
+                    return View(StoreIssue);
+                }
+                else
+                {
+                    TempData["error"] = "That was an invalid/unknown request. Please try again.";
+                    TempData["success"] = "";
+                }
+            }
+            catch (InvalidOperationException iox)
+            {
+                TempData["error"] = "Sorry, we could not find the requested item. Please try again.|" + iox.Message;
+            }
+            catch (SqlException sx)
+            {
+                TempData["error"] = "Some error occured while connecting to database. Please try again after sometime.|" + sx.Message;
+            }
+            catch (NullReferenceException nx)
+            {
+                TempData["error"] = "Some required data was missing. Please try again.|" + nx.Message;
+            }
+            catch (Exception ex)
+            {
+                TempData["error"] = "Some error occured. Please try again.|" + ex.Message;
+            }
+
+            TempData["success"] = "";
+            return RedirectToAction("Index");
+        }
+
         private void FillDropdowns()
         {
             EmployeeDropdown();

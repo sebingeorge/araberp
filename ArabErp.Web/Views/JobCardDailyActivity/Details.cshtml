@@ -11,7 +11,7 @@
 
         $("input[type='text'], textarea, select").attr("disabled", "true");
 
-        @if (TempData["previousAction"] == "Create")
+        @if ((new String[]{ "Create" }).Contains(TempData["previousAction"]))
         {
             //---------------------toastr---------------------------//
             @:toastr.options = {
@@ -49,7 +49,15 @@
     }
 
     function Exit() {
-        var url = '@Url.Action("Index", "Home")';
+
+        var url = '@if ((new String[] { "Create" }).Contains(TempData["previousAction"]))
+                   {
+                       @Url.Action("PendingJobcardTasks", new { type = Model.isProjectBased })
+                   }
+                   else
+                   {
+                       @Url.Action("PreviousList", new { type = Request.QueryString["type"] })
+                   }';
         window.location = url;
     }
 
@@ -134,7 +142,7 @@
                     </div>
                 </div>
 
-                if (TempData["previousAction"] == "Create")
+                if ((new String[] { "Create" }).Contains(TempData["previousAction"]))
                 {
                     <div class="row form-group">
                         <div class="col-md-10 blink_me">
