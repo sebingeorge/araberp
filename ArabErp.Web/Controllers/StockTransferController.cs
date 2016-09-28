@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using System.Data.SqlClient;
 
 namespace ArabErp.Web.Controllers
 {
@@ -72,11 +73,45 @@ namespace ArabErp.Web.Controllers
             return TransferItems;
         }
 
-        //public ActionResult Edit(int id = 0)
-        //{
-        //    if (id == 0) return RedirectToAction("Index", "Home");
-        //    return View("")
-        //}
+        public ActionResult Edit(int id = 0)
+        {
+            try
+            {
+                if (id != 0)
+                {
+                    FillDropdowns();
+                    StockTransfer StockTransfer = new StockTransfer();
+                    StockTransfer = new StockTransferRepository().GetStockTransferHD(id);
+                    StockTransfer.Items = new StockTransferRepository().GetStockTransferDT(id);
+
+                    return View(StockTransfer);
+                }
+                else
+                {
+                    TempData["error"] = "That was an invalid/unknown request. Please try again.";
+                    TempData["success"] = "";
+                }
+            }
+            catch (InvalidOperationException iox)
+            {
+                TempData["error"] = "Sorry, we could not find the requested item. Please try again.|" + iox.Message;
+            }
+            catch (SqlException sx)
+            {
+                TempData["error"] = "Some error occured while connecting to database. Please try again after sometime.|" + sx.Message;
+            }
+            catch (NullReferenceException nx)
+            {
+                TempData["error"] = "Some required data was missing. Please try again.|" + nx.Message;
+            }
+            catch (Exception ex)
+            {
+                TempData["error"] = "Some error occured. Please try again.|" + ex.Message;
+            }
+
+            TempData["success"] = "";
+            return RedirectToAction("Index");
+        }
 
         #region Dropdowns
         public void FillDropdowns()

@@ -968,6 +968,7 @@
     <Content Include="Views\StockJournal\Edit.cshtml" />
     <Content Include="Views\Consumption\Edit.cshtml" />
     <Content Include="Views\StoresIssue\Edit.cshtml" />
+    <Content Include="Views\StockTransfer\Edit.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
