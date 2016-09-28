@@ -27,7 +27,15 @@ namespace ArabErp.DAL
                 IDbTransaction trn = connection.BeginTransaction();
                 try
                 {
-                    var internalId = DatabaseCommonRepository.GetNewDocNo(connection, objWorkShopRequest.OrganizationId, 19, true,trn);
+                   var  internalId = "";
+                    if(objWorkShopRequest.isProjectBased==0)
+                    {
+                       internalId = DatabaseCommonRepository.GetNewDocNo(connection, objWorkShopRequest.OrganizationId, 19, true, trn);
+                    }
+                    else
+                    {
+                         internalId = DatabaseCommonRepository.GetNewDocNo(connection, objWorkShopRequest.OrganizationId, 31, true, trn);
+                    }
 
                     objWorkShopRequest.WorkShopRequestRefNo = internalId;
 
@@ -42,11 +50,7 @@ namespace ArabErp.DAL
                         item.WorkShopRequestId = id;
                         new WorkShopRequestItemRepository().InsertWorkShopRequestItem(item, connection, trn);
                     }
-                    foreach (WorkShopRequestItem item in objWorkShopRequest.AdditionalMaterials)
-                    {
-                        item.WorkShopRequestId = id;
-                        new WorkShopRequestItemRepository().InsertWorkShopRequestAdditionalMaterial(item, connection, trn);
-                    }
+                  
                     InsertLoginHistory(dataConnection, objWorkShopRequest.CreatedBy, "Create", "Workshop Request", id.ToString(), "0");
                     trn.Commit();
 
@@ -281,14 +285,15 @@ namespace ArabErp.DAL
 				DROP TABLE #SALE;").ToList();
             }
         }
-        public IEnumerable<WorkShopRequest> GetPrevious(DateTime? from, DateTime? to, int id, int cusid, int OrganizationId)
+        public IEnumerable<WorkShopRequest> GetPrevious(int isProjectBased,DateTime? from, DateTime? to, int id, int cusid, int OrganizationId)
         {
             using (IDbConnection connection = OpenConnection(dataConnection))
             {
                 string qry = @"Select * from WorkShopRequest WR INNER JOIN Customer C on C.CustomerId=WR.CustomerId 
+                               INNER JOIN SaleOrder S on S.SaleOrderId=WR.SaleOrderId
                                where  WR.WorkShopRequestId = ISNULL(NULLIF(@id, 0), WR.WorkShopRequestId)
-                               and WR.CustomerId = ISNULL(NULLIF(@cusid, 0), WR.CustomerId) and   WR.isActive=1 and WR.OrganizationId=@OrganizationId AND WR.WorkShopRequestDate BETWEEN ISNULL(@from, DATEADD(MONTH, -1, GETDATE())) AND ISNULL(@to, GETDATE())";
-                return connection.Query<WorkShopRequest>(qry, new { id = id, cusid = cusid, OrganizationId = OrganizationId, from = from, to = to }).ToList();
+                               and WR.CustomerId = ISNULL(NULLIF(@cusid, 0), WR.CustomerId) and   WR.isActive=1 and WR.OrganizationId=@OrganizationId AND S.isProjectBased=@isProjectBased AND WR.WorkShopRequestDate BETWEEN ISNULL(@from, DATEADD(MONTH, -1, GETDATE())) AND ISNULL(@to, GETDATE())";
+                return connection.Query<WorkShopRequest>(qry, new { isProjectBased = isProjectBased,id = id,cusid = cusid,OrganizationId = OrganizationId, from = from, to = to }).ToList();
             }
         }
         public WorkShopRequest GetWorkshopRequestHdData(int WorkShopRequestId)
@@ -320,18 +325,7 @@ namespace ArabErp.DAL
                 new { WorkShopRequestId = WorkShopRequestId }).ToList();
             }
         }
-        public List<WorkShopRequestItem> GetWorkShopRequestDtDataAddMat(int WorkShopRequestId)
-        {
-            using (IDbConnection connection = OpenConnection(dataConnection))
-            {
-
-                string query = "select I.ItemId,I.PartNo,WI.Remarks,WI.Quantity,UnitName from WorkShopRequestItem WI INNER JOIN Item I ON WI.ItemId=I.ItemId";
-                query += " INNER JOIN Unit U on U.UnitId =I.ItemUnitId  where isAddtionalMaterialRequest =1 and   WorkShopRequestId = @WorkShopRequestId";
-
-                return connection.Query<WorkShopRequestItem>(query,
-                new { WorkShopRequestId = WorkShopRequestId }).ToList();
-            }
-        }
+      
 
 
         public IEnumerable<WorkShopRequest> PreviousList(int OrganizationId, DateTime? from, DateTime? to, int id = 0, int customer = 0, int jobcard = 0)

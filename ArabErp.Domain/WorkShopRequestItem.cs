@@ -23,6 +23,7 @@ namespace ArabErp.Domain
         //public string WorkDescr { get; set; }
         public string ItemName { get; set; }
         public int? ActualQuantity { get; set; }
+        public int isAddtionalMaterialRequest { get; set; }
       
     }
 }

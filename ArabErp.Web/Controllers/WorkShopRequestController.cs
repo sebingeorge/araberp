@@ -13,10 +13,11 @@ namespace ArabErp.Web.Controllers
     public class WorkShopRequestController : BaseController
     {
         // GET: WorkShopRequest
-        public ActionResult Index()
+        public ActionResult Index(int isProjectBased)
         {
             FillWRNo();
             FillCustomerinWR();
+            ViewBag.ProjectBased = isProjectBased;
             return View();
         }
         [HttpGet]
@@ -37,8 +38,14 @@ namespace ArabErp.Web.Controllers
             string internalId = "";
             try
             {
-                internalId = DatabaseCommonRepository.GetNextDocNo(19, OrganizationId);
-
+                if (model.isProjectBased == 0)
+                {
+                    internalId = DatabaseCommonRepository.GetNextDocNo(19, OrganizationId);
+                }
+                else
+                {
+                    internalId = DatabaseCommonRepository.GetNextDocNo(31, OrganizationId);
+                }
             }
             catch (NullReferenceException nx)
             {
@@ -68,13 +75,7 @@ namespace ArabErp.Web.Controllers
 
             var slist = rep.GetSaleOrdersPendingWorkshopRequest(OrganizationId,isProjectBased,saleOrder.Trim());
 
-            //var pager = new Pager(slist.Count(), page);
-
-            //var viewModel = new PagedSaleOrderViewModel
-            //{
-            //    SaleOrders = slist.Skip((pager.CurrentPage - 1) * pager.PageSize).Take(pager.PageSize),
-            //    Pager = pager
-            //};
+           
 
             return PartialView("_PendingGrid", slist);
         }
@@ -92,7 +93,7 @@ namespace ArabErp.Web.Controllers
                 {
                     TempData["success"] = "Saved successfully. WorkShop Request Reference No. is " + id.Split('|')[1];
                     TempData["error"] = "";
-                    return RedirectToAction("Pending");
+                    return RedirectToAction("Pending", new {model.isProjectBased});
                 }
                 else
                 {
@@ -113,11 +114,11 @@ namespace ArabErp.Web.Controllers
             }
             return View("Pending", model);
         }
-        public ActionResult PreviousList(DateTime? from, DateTime? to, int id = 0, int cusid = 0)
+        public ActionResult PreviousList( int isProjectBased,DateTime? from, DateTime? to, int id = 0, int cusid = 0)
         {
             from = from ?? DateTime.Today.AddMonths(-1);
             to = to ?? DateTime.Today;
-            return PartialView("_PreviousList", new WorkShopRequestRepository().GetPrevious(from, to, id, cusid, OrganizationId));
+            return PartialView("_PreviousList", new WorkShopRequestRepository().GetPrevious(isProjectBased, from, to, id, cusid, OrganizationId));
         }
         public ActionResult Edit(int? id)
         {
@@ -125,13 +126,7 @@ namespace ArabErp.Web.Controllers
             var repo = new WorkShopRequestRepository();
             WorkShopRequest model = repo.GetWorkshopRequestHdData(id ?? 0);
             model.Items = repo.GetWorkShopRequestDtData(id ?? 0);
-            model.AdditionalMaterials = repo.GetWorkShopRequestDtDataAddMat(id ?? 0);
-            //model.Items = new List<WorkShopRequestItem>();
-            //foreach (var item in WSList)
-            //{
-            //    model.Items.Add(new WorkShopRequestItem { PartNo = item.PartNo, ItemName = item.ItemName, Quantity = item.Quantity, UnitName = item.UnitName, ItemId = item.ItemId });
-
-            //}
+          
             return View("Edit", model);
         }
         public void FillWRNo()
@@ -142,13 +137,7 @@ namespace ArabErp.Web.Controllers
         {
             ViewBag.CusList = new SelectList(new DropdownRepository().WRCustomerDropdown(OrganizationId), "Id", "Name");
         }
-        public PartialViewResult AdditionalMaterialList()
-        {
-            ItemDropdown();
-            WorkShopRequest workShopRequest = new WorkShopRequest { AdditionalMaterials = new List<WorkShopRequestItem>() };
-            workShopRequest.AdditionalMaterials.Add(new WorkShopRequestItem());
-            return PartialView("_AdditionalMaterialList", workShopRequest);
-        }
+        
         private void ItemDropdown()
         {
             ViewBag.itemList = new SelectList(new DropdownRepository().ItemDropdown(), "Id", "Name");
