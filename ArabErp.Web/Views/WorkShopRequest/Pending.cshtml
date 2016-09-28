@@ -33,8 +33,10 @@
         }
         @{ TempData["success"] = TempData["error"] = ""; }
     })
-    function PreviousList() {
+    function PreviousList(isProjectBased) {
+      
         var url = '@Url.Action("Index")';
+        url += "?isProjectBased=" + isProjectBased;
         window.location = url;
     }
 
@@ -84,7 +86,7 @@
 
         <div class="row">
             <div class="col-md-12 hrpart">
-                <input class="form-button" type="button" value="Previous" onclick="PreviousList()" />
+                <input class="form-button" type="button" value="Previous" onclick="PreviousList(isProjectBased = @ViewBag.ProjectBased)" />
                 <input type="button" class="form-button right" value="Exit" onclick="Exit()" />
             </div>
         </div>
