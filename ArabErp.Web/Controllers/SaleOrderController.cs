@@ -297,34 +297,43 @@ namespace ArabErp.Web.Controllers
             FillCommissionAgent();
             FillEmployee();
 
-            return View(model);
+            return View("Create",model);
         }
         [HttpPost]
         public ActionResult CreateProject(SaleOrder model)
         {
             try
             {
-                model.OrganizationId = OrganizationId;
-                model.CreatedDate = System.DateTime.Now;
-                model.CreatedBy = UserID.ToString();
-                string id = new SaleOrderRepository().InsertSaleOrder(model);
-                if (id.Split('|')[0] != "0")
+                if (ModelState.IsValid)
                 {
-                    TempData["success"] = "Saved successfully. Sale Order Reference No. is " + id.Split('|')[1];
-                    TempData["error"] = "";
-                    //if (model.isProjectBased == 0)
-                    //{
-                    //    return RedirectToAction("PendingSalesQutoforSaleOrder", new { ProjectBased = 0 });
-                    //}
-                    //else
-                    //{
-                    return RedirectToAction("PendingSalesQutoforSaleOrder", new { ProjectBased = 1 });
-                    //}
 
+                    model.OrganizationId = OrganizationId;
+                    model.CreatedDate = System.DateTime.Now;
+                    model.CreatedBy = UserID.ToString();
+                    string id = new SaleOrderRepository().InsertSaleOrder(model);
+                    if (id.Split('|')[0] != "0")
+                    {
+                        TempData["success"] = "Saved successfully. Sale Order Reference No. is " + id.Split('|')[1];
+                        TempData["error"] = "";
+                        //if (model.isProjectBased == 0)
+                        //{
+                        //    return RedirectToAction("PendingSalesQutoforSaleOrder", new { ProjectBased = 0 });
+                        //}
+                        //else
+                        //{
+                        return RedirectToAction("PendingSalesQutoforSaleOrder", new { ProjectBased = 1 });
+                        //}
+
+                    }
+                    else
+                    {
+                        throw new Exception();
+                    }
                 }
+
                 else
                 {
-                    throw new Exception();
+                    var allErrors = ModelState.Values.SelectMany(v => v.Errors);
                 }
             }
             catch (SqlException sx)
@@ -347,7 +356,7 @@ namespace ArabErp.Web.Controllers
             FillCurrency();
             FillCommissionAgent();
             FillEmployee();
-            return View(model);
+            return View("Create", model);
 
         }
         [HttpGet]
@@ -692,17 +701,30 @@ namespace ArabErp.Web.Controllers
                 TempData["error"] = "Cannot edit. Sale Order already used.";
                 return RedirectToAction("Edit", new { id = model.SaleOrderId });
             }
+              if (ModelState.IsValid)
+                {
 
             if (new SaleOrderRepository().UpdateSaleOrder(model) > 0)
             {
                 TempData["success"] = "Updated Successfully";
                 return RedirectToAction("Index", new { type = model.isProjectBased });
             }
+
+
             else
             {
                 TempData["error"] = "Could not update due to some error. Please try again.";
                 return RedirectToAction("Edit", new { id = model.SaleOrderId });
             }
+
+                }
+              else
+              {
+                  var allErrors = ModelState.Values.SelectMany(v => v.Errors);
+                 
+              }
+              TempData["success"] = "";
+              return RedirectToAction("Edit", new { id = model.SaleOrderId, type = model.isProjectBased });
         }
 
         public ActionResult Delete(int id, string isProjectBased, string isAfterSales)

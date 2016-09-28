@@ -182,6 +182,7 @@
             console.log('@TempData["error"]'.split('|')[1]);
         }
         @{ TempData["success"] = TempData["error"] = ""; }
+        alert();
     });
 
     function Exit() {
@@ -190,8 +191,7 @@
       
     }
     function DeleteItem(id, isProjectBased,isAfterSales) {
-
-
+        alert(id);
         var url = '@Url.Action("Delete")';
         url += "?id=" + id + "&isProjectBased=" + isProjectBased + "&isAfterSales=" +isAfterSales ;
         window.location = url;

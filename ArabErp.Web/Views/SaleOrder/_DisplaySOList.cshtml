@@ -227,10 +227,8 @@
                     @if (Model.isProjectBased == 0)
                     {
                         <td>
-                          
                                 @Html.TextBoxFor(m => m.Items[i].VehicleModelName, new { @class = "form_input ", @style = "text-align:left", autocomplete = "off", @readonly = "readonly" })
                                 @Html.HiddenFor(m => m.Items[i].VehicleModelId)
-                          
                         </td>
                     }                    
 
