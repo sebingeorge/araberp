@@ -23,8 +23,9 @@
     }
 
     function OnItemChanged(sender, index) {
-    
+       
         var id = $(sender).val();
+       
         if (id != '') {
             var url = '@Url.Action("GetItemUnit")';//get unit of selected item
             $.getJSON(url, { itemId: id },
@@ -80,9 +81,9 @@
         $("#Items_" + index + "__PartNo").val('');
         $("#Items_" + index + "__PartNo").removeAttr("disabled");
         $("#Items_" + index + "__Remarks").val('');
-        $("#Items_" + index + "__Remarks").removeAttr("disabled");
+        //$("#Items_" + index + "__Remarks").removeAttr("disabled");
         $("#Items_" + index + "__Quantity").val(0);
-        $("#Items_" + index + "__Quantity").removeAttr("disabled");
+        //$("#Items_" + index + "__Quantity").removeAttr("disabled");
         $("#Items_" + index + "__UnitName").val('');
         $("#Items_" + index + "__UnitName").removeAttr("disabled");
         $("#del_" + index).removeClass('hide');
@@ -155,8 +156,8 @@
             {
                 <tr id="Row_@row" class="WorkRow">
                     <td>
-                        @if (Model.Isused)
-                        {
+                     @if (Model.Items[row].isAddtionalMaterialRequest == 0)
+                     {
                             <a id="del_@row" class="glyphicon glyphicon-minus hide" onclick="DeleteRowBelow(@row)" style="top:0;"></a>
                         }
                         else
@@ -166,7 +167,7 @@
                     </td>
 
                     <td>
-                      @if (Model.Isused)
+                      @if (Model.Items[row].isAddtionalMaterialRequest == 0)
                       {
                         @Html.DropDownListFor(m => m.Items[row].ItemId, new SelectList(ViewBag.itemList, "Value", "Text", Model.Items[row].ItemId), "Select Material/Spares", new { @class = "form_input", @autocomplete = "off", @disabled = "disabled", @onchange = "OnItemChanged(this," + row + ")" })
                       }
@@ -181,7 +182,7 @@
                   
                      <td>
                        
-                      @if (Model.Isused)
+                      @if (Model.Items[row].isAddtionalMaterialRequest == 0)
                       {
                        
                         @Html.TextBoxFor(m => m.Items[row].Quantity, new { @class = "form_input clQuantity numbers-only", @style = "text-align:right", autocomplete = "off", @onkeyup = "ValueChanged(" + row + ");" })
@@ -208,7 +209,6 @@
             <tr class="grid_heading">
                 <th width="2%"></th>
                 <th width="40%"></th>
-              
                 <th width="10%"></th>
                 <th width="36%"></th>
                 <th width="5%" class="text-right "></th>
