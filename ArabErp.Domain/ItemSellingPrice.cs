@@ -15,6 +15,11 @@ namespace ArabErp.Domain
         public string ItemName { get; set; }
 
         public string PartNo { get; set; }
+
+        public string CategoryName { get; set; }
+        public string ItemGroupName { get; set; }
+        public string ItemSubGroupName { get; set; }
+        public string UnitName { get; set; }
         public decimal SellingPrice { get; set; }
     }
 }
