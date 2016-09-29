@@ -18,7 +18,7 @@ namespace ArabErp.DAL
         {
             using (IDbConnection connection = OpenConnection(dataConnection))
             {
-                return connection.Query<Employee>("select * from Employee");
+                return connection.Query<Employee>("select * from Employee where IsActive=1 ");
             }
         }
 

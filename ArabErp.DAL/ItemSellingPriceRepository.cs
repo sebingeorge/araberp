@@ -22,12 +22,18 @@ namespace ArabErp.DAL
                                     I.ItemId,
 	                                I.ItemName,
 	                                ISNULL(I.PartNo, '-') PartNo,
+                                    CategoryName,ItemGroupName,ItemSubGroupName,UnitName,
 	                             ISP.SellingPrice
                                 FROM 
                                 Item I 
+                                INNER JOIN ItemCategory ON itmCatId=ItemCategoryId
+                               INNER JOIN ItemGroup G ON I.ItemGroupId=G.ItemGroupId
+                               INNER JOIN ItemSubGroup S ON I.ItemSubGroupId=S.ItemSubGroupId
+                               INNER JOIN Unit U ON U.UnitId=I.ItemUnitId
                                 LEFT JOIN ItemSellingPrice ISP ON I.ItemId = ISP.ItemId
                                 WHERE 
-                                AND I.OrganizationId = @OrganizationId;";
+                                 I.isActive=1 AND I.OrganizationId = @OrganizationId
+                                  order by ItemName;";
 
                 var objItemSellingPrices = connection.Query<ItemSellingPrice>(sql, new { OrganizationId = OrganizationId }).ToList<ItemSellingPrice>();
 
