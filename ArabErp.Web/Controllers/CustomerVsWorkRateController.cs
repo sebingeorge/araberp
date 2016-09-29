@@ -35,15 +35,15 @@ namespace ArabErp.Web.Controllers
             CustomerVsWorkDescriptionRate.CustomerVsWorkRateItem = new List<CustomerVsWorkRateItem>();
             var repo = new CustomerVsWorkRateRepository();
 
-            if (CustomerId == null || CustomerId == 0)
-            {
+            //if (CustomerId == null || CustomerId == 0)
+            //{
               
-                CustomerVsWorkDescriptionRate.CustomerVsWorkRateItem = repo.GetWorkList().ToList();
-            }
-            else
-            {
-                CustomerVsWorkDescriptionRate.CustomerVsWorkRateItem = repo.GetItem(CustomerId).ToList();
-            }
+            //    CustomerVsWorkDescriptionRate.CustomerVsWorkRateItem = repo.GetWorkList().ToList();
+            //}
+            //else
+            //{
+                CustomerVsWorkDescriptionRate.CustomerVsWorkRateItem = repo.GetItem(CustomerId??0).ToList();
+            //}
 
             if (CustomerVsWorkDescriptionRate.CustomerVsWorkRateItem.Count == 0)
                 CustomerVsWorkDescriptionRate.CustomerVsWorkRateItem = repo.GetWorkList().ToList();
