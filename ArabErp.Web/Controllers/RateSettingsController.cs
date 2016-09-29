@@ -31,9 +31,12 @@ namespace ArabErp.Web.Controllers
         {
             try
             {
-                new RateSettingsRepository().InsertRateSettings(model, UserID.ToString());
+                if (new RateSettingsRepository().InsertRateSettings(model, UserID.ToString()) == 0)
+                {
+                    TempData["error"] = "Date period conflicts with previous date periods. Please change the dates and try again.";
+                    return View(model);
+                }
                 TempData["success"] = "Saved successfully";
-                TempData["error"] = "";
                 return RedirectToAction("Index");
             }
             catch (Exception ex)
