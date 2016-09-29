@@ -23,15 +23,18 @@
     }
 
     function OnItemChanged(sender, index) {
-       
+        //alert("hai");
         var id = $(sender).val();
-       
+        //var abc= $(index).val();
+        //alert(abc);
         if (id != '') {
             var url = '@Url.Action("GetItemUnit")';//get unit of selected item
             $.getJSON(url, { itemId: id },
                 function (data) {
 
                     $("#unitname" + index).html(data);
+                    var unit=$("#unitname");
+                    alert(data);
                 });
 
             url = '@Url.Action("GetItemPartNo")';//get part number of selected item
@@ -60,7 +63,6 @@
 
         var clone = $('#Row_0').clone();
         clone.html($(clone).html().replace(/\Items_0__/g, 'Items_' + i + '__'));
-        //clone.html($(clone).html().replace(/\JobCardTasks_0__/g, 'JobCardTasks_' + i + '__'));
         clone.html($(clone).html().replace(/\Items[0]./g, 'Items[' + i + '].'));
         clone.html($(clone).html().replace(/partno0/, 'partno' + i + ''));
         clone.html($(clone).html().replace(/unitname0/, 'unitname' + i + ''));
@@ -81,9 +83,7 @@
         $("#Items_" + index + "__PartNo").val('');
         $("#Items_" + index + "__PartNo").removeAttr("disabled");
         $("#Items_" + index + "__Remarks").val('');
-        //$("#Items_" + index + "__Remarks").removeAttr("disabled");
         $("#Items_" + index + "__Quantity").val(0);
-        //$("#Items_" + index + "__Quantity").removeAttr("disabled");
         $("#Items_" + index + "__UnitName").val('');
         $("#Items_" + index + "__UnitName").removeAttr("disabled");
         $("#del_" + index).removeClass('hide');
@@ -118,7 +118,7 @@
                 clone.html($(clone).html().replace(new RegExp("Items_" + j + "__", "g"), 'Items_' + (j - 1) + '__'));
                 clone.html($(clone).html().replace(new RegExp("\\[" + j + "].", "g"), "[" + (j - 1) + "]."));
                 clone.html($(clone).html().replace("DeleteRowBelow(" + j, "DeleteRowBelow(" + (j - 1)));
-                clone.html($(clone).html().replace("OnItemChange(" + j, "OnItemChange(" + (j - 1)));
+                clone.html($(clone).html().replace("OnItemChanged(" + j, "OnItemChanged(" + (j - 1)));
                 clone.html($(clone).html().replace("Row_" + j, "Row_" + (j - 1)));
                 clone.html($(clone).html().replace("this," + j, "this," + (j - 1)));
                 $("#Row_" + j).html(clone.html());
