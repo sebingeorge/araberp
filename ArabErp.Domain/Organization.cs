@@ -27,13 +27,14 @@ namespace ArabErp.Domain
         public string State { get; set; }
         [Required]
         public int Country { get; set; }
-        [Required]
+        public string CountryName { get; set; }
         public string Zip { get; set; }
         public string Phone { get; set; }
         public string Fax { get; set; }
-        public string Email { get; set; }
-        [Required]
+        public string Email { get; set; }    
         public string ContactPerson { get; set; }
+        public int cmpCode { get; set; }
+        public string CompanyName { get; set; }
         public string Image1 { get; set; }
         public string CreatedBy { get; set; }
         [Required]

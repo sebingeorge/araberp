@@ -24,6 +24,7 @@ namespace ArabErp.Web.Controllers
             Organization.OrganizationRefNo = "ORG/" + DatabaseCommonRepository.GetNextRefNoWithNoUpdate(typeof(Organization).Name);
             dropdown();
             FillCountryDropdown();
+            FillCompanyDropdown();
             return View(Organization);
         }
 
@@ -70,6 +71,7 @@ namespace ArabErp.Web.Controllers
         {
             dropdown();
             FillCountryDropdown();
+            FillCompanyDropdown();
             ViewBag.Title = "Edit";
             Organization objOrganization = new OrganizationRepository().GetOrganization(Id);
             return View("Create", objOrganization);
@@ -97,6 +99,7 @@ namespace ArabErp.Web.Controllers
                 {
                     dropdown();
                     FillCountryDropdown();
+                    FillCompanyDropdown();
                     TempData["error"] = "Oops!!..Something Went Wrong!!";
                     TempData["OrganizationRefNo"] = null;
                     return View("Edit", model);
@@ -106,6 +109,7 @@ namespace ArabErp.Web.Controllers
             {
                 dropdown();
                 FillCountryDropdown();
+                FillCompanyDropdown();
                 TempData["error"] = "This Organization Name Alredy Exists!!";
                 TempData["OrganizationRefNo"] = null;
                 return View("Create", model);
@@ -117,6 +121,7 @@ namespace ArabErp.Web.Controllers
         {
             dropdown();
             FillCountryDropdown();
+            FillCompanyDropdown();
             ViewBag.Title = "Delete";
             Organization objOrganization = new OrganizationRepository().GetOrganization(Id);
             return View("Create", objOrganization);
@@ -177,7 +182,12 @@ namespace ArabErp.Web.Controllers
             var cus = rep.FillCountryDropdown();
             ViewBag.CustomerCountry = new SelectList(cus, "Id", "Name");
         }
-        
+        public void FillCompanyDropdown()
+        {
+            OrganizationRepository rep = new OrganizationRepository();
+            var cum = rep.FillCompanyDropdown();
+            ViewBag.CustomerCompany = new SelectList(cum, "Id", "Name");
+        }
         public ActionResult SaveUploadFiles(HttpPostedFileBase file)
         {
             string fileName = SaveUploadImage(file);
