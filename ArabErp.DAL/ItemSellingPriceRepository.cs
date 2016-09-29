@@ -17,8 +17,7 @@ namespace ArabErp.DAL
         {
             using (IDbConnection connection = OpenConnection(dataConnection))
             {
-                string sql = @"SELECT
-	                                
+                string sql = @"SELECT    
                                     I.ItemId,
 	                                I.ItemName,
 	                                ISNULL(I.PartNo, '-') PartNo,
