@@ -971,6 +971,7 @@
     <Content Include="Views\StoresIssue\Edit.cshtml" />
     <Content Include="Views\StockTransfer\Edit.cshtml" />
     <Content Include="Views\Organization\Index.cshtml" />
+    <Content Include="Views\ItemSellingPrice\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -979,7 +980,6 @@
     <Folder Include="Images\App_LocalResources\" />
     <Folder Include="Views\Base\" />
     <Folder Include="Views\CustomerVsWorkDescription\" />
-    <Folder Include="Views\ItemSellingPrice\" />
     <Folder Include="Views\LocalPurchase\" />
     <Folder Include="Views\MisReport\" />
     <Folder Include="Views\PendingSupplyOrderRegister\" />
