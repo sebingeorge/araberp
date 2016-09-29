@@ -13,10 +13,12 @@ namespace ArabErp.DAL
     {
         static string dataConnection = GetConnectionString("arab");
 
-        public List<ItemSellingPrice> GetItemSellingPrices(int OrganizationId)
+        public ItemSellingPriceList GetItemSellingPrices(int OrganizationId)
         {
             using (IDbConnection connection = OpenConnection(dataConnection))
             {
+                ItemSellingPriceList model = new ItemSellingPriceList();
+
                 string sql = @"SELECT    
                                     I.ItemId,
 	                                I.ItemName,
@@ -34,9 +36,15 @@ namespace ArabErp.DAL
                                  I.isActive=1 
                                   order by ItemName;";
 
-                var objItemSellingPrices = connection.Query<ItemSellingPrice>(sql, new { OrganizationId = OrganizationId }).ToList<ItemSellingPrice>();
+              //  var objItemSellingPrices = connection.Query<ItemSellingPrice>(sql, new { OrganizationId = OrganizationId }).ToList<ItemSellingPrice>();
+                model.ItemSellingPriceLists = connection.Query<ItemSellingPrice>(sql, new
+                {
+                    OrganizationId = OrganizationId,
+                   
+                }).ToList<ItemSellingPrice>();
 
-                return objItemSellingPrices;
+
+                return model;
             }
         }
 
