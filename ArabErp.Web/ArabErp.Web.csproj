@@ -972,6 +972,7 @@
     <Content Include="Views\StockTransfer\Edit.cshtml" />
     <Content Include="Views\Organization\Index.cshtml" />
     <Content Include="Views\ItemSellingPrice\Index.cshtml" />
+    <Content Include="Views\ItemSellingPrice\_ItemSellingPriceGrid.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
