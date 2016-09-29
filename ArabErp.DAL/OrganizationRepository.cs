@@ -41,8 +41,8 @@ namespace ArabErp.DAL
 
                 IDbTransaction trn = connection.BeginTransaction();
 
-                string sql = @"INSERT INTO Organization (OrganizationRefNo,OrganizationName,CurrencyId,isActive, FyId) 
-                               VALUES(@OrganizationRefNo,@OrganizationName,@CurrencyId,1,@FyId);
+                string sql = @"INSERT INTO Organization (OrganizationRefNo,OrganizationName,DoorNo,Street,State,Country,CurrencyId,Zip,Phone,Fax,Email,ContactPerson,Image1,isActive,cmpCode, FyId) 
+                               VALUES(@OrganizationRefNo,@OrganizationName,@DoorNo,@Street,@State,@Country,@CurrencyId,@Zip,@Phone,@Fax,@Email,@ContactPerson,@Image1,1,@cmpCode,@FyId);
                                SELECT CAST(SCOPE_IDENTITY() as int)";
 
 
@@ -77,12 +77,29 @@ namespace ArabErp.DAL
                 return connection.Query<Dropdown>("SELECT CurrencyId Id,CurrencyName Name FROM Currency").ToList();
             }
         }
+        public IEnumerable<Dropdown> FillCompanyDropdown()
+        {
+            using (IDbConnection connection = OpenConnection(dataConnection))
+            {
+                return connection.Query<Dropdown>("select cmpCode Id,cmpName Name from mstAccCompany").ToList();
+            }
+        }
+        public IEnumerable<Dropdown> FillCountryDropdown()
+        {
+            using (IDbConnection connection = OpenConnection(dataConnection))
+            {
+                return connection.Query<Dropdown>("SELECT CountryId Id,CountryName Name FROM Country").ToList();
+            }
+        }
         public IEnumerable<Organization> FillOrganizationList()
         {
 
             using (IDbConnection connection = OpenConnection(dataConnection))
             {
-                return connection.Query<Organization>("SELECT O.OrganizationId,OrganizationRefNo,OrganizationName,CurrencyName From Organization O INNER JOIN Currency C ON C.CurrencyId=O.CurrencyId  WHERE O.isActive=1").ToList();
+                return connection.Query<Organization>(" SELECT O.OrganizationId,OrganizationRefNo,OrganizationName,CurrencyName,CountryName,COM.cmpName CompanyName From Organization O INNER JOIN Currency C ON C.CurrencyId=O.CurrencyId " +
+                                                      " left join Country  CO on CO.CountryId=O.Country "+
+                                                      " inner join mstAccCompany COM on COM.cmpCode=O.cmpCode "+
+                                                      " WHERE O.isActive=1 ").ToList();
             }
         }
 
@@ -107,8 +124,7 @@ namespace ArabErp.DAL
         {
             using (IDbConnection connection = OpenConnection(dataConnection))
             {
-                string sql = @"Update Organization Set OrganizationRefNo=@OrganizationRefNo,OrganizationName=@OrganizationName,CurrencyId=@CurrencyId, FyId=@FyId OUTPUT INSERTED.OrganizationId WHERE OrganizationId=@OrganizationId";
-
+                string sql = @"Update Organization Set OrganizationRefNo=@OrganizationRefNo,OrganizationName=@OrganizationName,DoorNo=@DoorNo,Street=@Street,State=@State,CurrencyId=@CurrencyId,Zip=@Zip,Phone=@Phone,Fax=@Fax,Email=@Email,ContactPerson=@ContactPerson,Image1=@Image1,FyId=@FyId,Country=@Country,cmpCode=@cmpCode OUTPUT INSERTED.OrganizationId WHERE OrganizationId=@OrganizationId";
 
                 var id = connection.Execute(sql, objOrganization);
                 InsertLoginHistory(dataConnection, objOrganization.CreatedBy, "Update", "Organization", id.ToString(), "0");
@@ -153,7 +169,15 @@ namespace ArabErp.DAL
             }
         }
 
+        public void UpdateImageName(string fileName, int? id, int? index)
+        {
+            using (IDbConnection connection = OpenConnection(dataConnection))
+            {
+                string query = @"UPDATE Organization SET Image" + index + " = @fileName WHERE OrganizationId = @id";
+                connection.Execute(query, new { fileName = fileName, id = id });
+            }
+        }
 
-
+       
     }
 }

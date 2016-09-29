@@ -76,6 +76,7 @@ namespace ArabErp.Web.Controllers
 
             return View();
         }
+        [AllowAnonymous]
         public ActionResult LoadQuickView()
         {
             QuickView view = new QuickView();
