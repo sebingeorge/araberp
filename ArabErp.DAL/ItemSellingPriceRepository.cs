@@ -31,7 +31,7 @@ namespace ArabErp.DAL
                                INNER JOIN Unit U ON U.UnitId=I.ItemUnitId
                                 LEFT JOIN ItemSellingPrice ISP ON I.ItemId = ISP.ItemId
                                 WHERE 
-                                 I.isActive=1 AND I.OrganizationId = @OrganizationId
+                                 I.isActive=1 
                                   order by ItemName;";
 
                 var objItemSellingPrices = connection.Query<ItemSellingPrice>(sql, new { OrganizationId = OrganizationId }).ToList<ItemSellingPrice>();
