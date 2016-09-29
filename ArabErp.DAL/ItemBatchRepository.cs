@@ -602,35 +602,31 @@ namespace ArabErp.DAL
         {
             using (IDbConnection connection = OpenConnection(dataConnection))
             {
-                string query = @"SELECT
-                                    SO.SaleOrderId,
-	                                IB.ItemBatchId,
-	                                G.GRNNo,
-	                                CONVERT(VARCHAR, G.GRNDate, 106) GRNDate,
-	                                SO.SaleOrderRefNo,
-	                                CONVERT(VARCHAR, SO.SaleOrderDate, 106) SaleOrderDate,
-	                                I.ItemName,
-	                                IB.SerialNo,
-	                                U.EmployeeName AS CreatedBy,
+                string query = @"SELECT SO.SaleOrderId,IB.ItemBatchId,
+                                    CONCAT('Opening Stock',' - ',ISNULL(CONVERT(VARCHAR,OS.CreatedDate,106),'-')) OSDATE,
+	                                G.GRNNo,CONVERT(VARCHAR, G.GRNDate, 106) GRNDate,
+	                                SO.SaleOrderRefNo, CONVERT(VARCHAR, SO.SaleOrderDate, 106) SaleOrderDate,
+	                                I.ItemName,IB.SerialNo,U.EmployeeName AS CreatedBy,
                                     ISNULL(IB.DeliveryChallanId, 0) DeliveryChallanId,
 									ISNULL(DC.DeliveryChallanRefNo, '-') DeliveryChallanRefNo,
 									CONVERT(VARCHAR, IB.WarrantyExpireDate, 106) WarrantyExpireDate,
 									DATEDIFF(MONTH, GETDATE(), IB.WarrantyExpireDate) WarrantyLeft,
 									C.CustomerName
-                                FROM ItemBatch IB
+                                    FROM ItemBatch IB
                                     LEFT JOIN SaleOrderItem SOI ON IB.SaleOrderItemId = SOI.SaleOrderItemId
                                     LEFT JOIN SaleOrder SO ON SOI.SaleOrderId = SO.SaleOrderId
-                                    INNER JOIN GRNItem GI ON IB.GRNItemId = GI.GRNItemId
-                                    INNER JOIN GRN G ON GI.GRNId = G.GRNId
-                                    INNER JOIN Item I ON GI.ItemId = I.ItemId
+                                    LEFT JOIN GRNItem GI ON IB.GRNItemId = GI.GRNItemId
+                                    LEFT JOIN GRN G ON GI.GRNId = G.GRNId
+                                    LEFT JOIN Item I ON GI.ItemId = I.ItemId
                                     LEFT JOIN Employee U ON IB.CreatedBy = U.EmployeeId
-                                    INNER JOIN Customer C ON SO.CustomerId = C.CustomerId
-									LEFT JOIN DeliveryChallan DC ON IB.DeliveryChallanId = DC.DeliveryChallanId
-                                WHERE ISNULL(IB.isActive, 1) = 1
+                                    LEFT JOIN Customer C ON SO.CustomerId = C.CustomerId
+                                    LEFT JOIN DeliveryChallan DC ON IB.DeliveryChallanId = DC.DeliveryChallanId
+                                    LEFT JOIN OpeningStock OS ON OS.ItemId=I.ItemId
+                                    WHERE ISNULL(IB.isActive, 1) = 1
 								    AND IB.SerialNo LIKE '%'+@serialno+'%'
 								    AND I.ItemId = ISNULL(NULLIF(@item, 0), I.ItemId)
 								    AND ISNULL(SO.SaleOrderId, 0) = ISNULL(NULLIF(ISNULL(@saleorder, 0), 0), ISNULL(SO.SaleOrderId, 0))
-                                ORDER BY G.GRNDate DESC, IB.CreatedDate DESC;";
+                                    ORDER BY G.GRNDate DESC, IB.CreatedDate DESC;";
                 if (type == 1)
                 {
                     query = query.Insert(query.IndexOf("ORDER BY"), "AND SO.SaleOrderId IS NOT NULL AND IB.DeliveryChallanId IS NULL ");
