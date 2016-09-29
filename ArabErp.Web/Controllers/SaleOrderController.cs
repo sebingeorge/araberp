@@ -723,8 +723,17 @@ namespace ArabErp.Web.Controllers
                   var allErrors = ModelState.Values.SelectMany(v => v.Errors);
                  
               }
+
+              FillCustomer();
+              FillCurrency();
+              FillCommissionAgent();
+              FillUnit();
+              FillEmployee();
+              FillVehicle();
+
               TempData["success"] = "";
-              return RedirectToAction("Edit", new { id = model.SaleOrderId, type = model.isProjectBased });
+              return View(model);
+  
         }
 
         public ActionResult Delete(int id, string isProjectBased, string isAfterSales)
