@@ -75,6 +75,7 @@
     <Compile Include="GINRegister.cs" />
     <Compile Include="GRNAddition.cs" />
     <Compile Include="GRNDeduction.cs" />
+    <Compile Include="ItemSellingPrice.cs" />
     <Compile Include="OpeningStockReport.cs" />
     <Compile Include="PrefixSettingsVsOrganization.cs" />
     <Compile Include="ProjectCompletion.cs" />
