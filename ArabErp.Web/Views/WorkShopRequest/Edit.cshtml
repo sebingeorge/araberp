@@ -33,20 +33,10 @@
             console.log('@TempData["error"]'.split('|')[1]);
         }
         @{ TempData["success"] = TempData["error"] = ""; }
-        //------------------------------------------------------//
+      
 
-        //$("#WorkShopRequestDate").datepicker({
-        //    changeMonth: true,
-        //    changeYear: true,
-        //    dateFormat: "dd-MM-yy"
-        //});
-        //$("#RequiredDate").datepicker({
-        //    changeMonth: true,
-        //    changeYear: true,
-        //    dateFormat: "dd-MM-yy"
-        //});
-
-        $("input, textarea").prop("readonly", "true");
+       
+       
     });
 
     function formValidation() {

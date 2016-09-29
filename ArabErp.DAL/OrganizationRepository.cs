@@ -42,7 +42,7 @@ namespace ArabErp.DAL
                 IDbTransaction trn = connection.BeginTransaction();
 
                 string sql = @"INSERT INTO Organization (OrganizationRefNo,OrganizationName,DoorNo,Street,State,Country,CurrencyId,Zip,Phone,Fax,Email,ContactPerson,Image1,isActive,cmpCode, FyId) 
-                               VALUES(@OrganizationRefNo,@OrganizationName,@DoorNo,@Street,@State,@Country,@CurrencyId,@Zip,@Phone,@Fax,@Email,@ContactPerson,@Image1,1,cmpCode,@FyId);
+                               VALUES(@OrganizationRefNo,@OrganizationName,@DoorNo,@Street,@State,@Country,@CurrencyId,@Zip,@Phone,@Fax,@Email,@ContactPerson,@Image1,1,@cmpCode,@FyId);
                                SELECT CAST(SCOPE_IDENTITY() as int)";
 
 

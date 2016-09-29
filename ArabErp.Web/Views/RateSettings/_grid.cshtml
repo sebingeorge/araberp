@@ -26,6 +26,15 @@
         }
 
         if (status) {
+            var from = new Date($("#FromDate").val());
+            var to = new Date($("#ToDate").val());
+            if (from > to) {
+                status = false;
+                toastr.info("'From' date should not be greater than 'To' date");
+            }
+        }
+
+        if (status) {
             var j = 0;
             for (; Number($("#Items_" + j + "__MinRate").val()) == 0; j++) { }
             if (j == count) {
