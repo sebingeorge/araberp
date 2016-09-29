@@ -16,7 +16,7 @@ namespace ArabErp.Web.Controllers
         {
             return View();
         }
-        public ActionResult PendingJobcardTasks(int type=0)
+        public ActionResult PendingJobcardTasks(int type = 0)
         {
             return View((new JobCardDailyActivityRepository()).PendingJobcardTasks(type, OrganizationId));
         }
@@ -30,6 +30,7 @@ namespace ArabErp.Web.Controllers
             model.JobCardDailyActivityRefNo = DatabaseCommonRepository.GetNextDocNo(27, OrganizationId);
             model.CreatedDate = DateTime.Now;
             model.JobCardDailyActivityDate = DateTime.Now;
+            model.isProjectBased = jc.isProjectBased;
             model.JobCardDailyActivityTask = new JobCardDailyActivityRepository().GetJobCardTasksForDailyActivity(Id, OrganizationId);
             if (model.JobCardDailyActivityTask.Count > 0)
             {
@@ -68,7 +69,7 @@ namespace ArabErp.Web.Controllers
                     }
                     TempData["success"] = "Saved Successfully.";
                     TempData["previousAction"] = "Create";
-                    return RedirectToAction("Details", new { id = id });
+                    return RedirectToAction("Details", new { id = id, type = model.isProjectBased });
                 }
                 else
                 {
@@ -104,13 +105,13 @@ namespace ArabErp.Web.Controllers
             return uniqueName;
         }
 
-        public ActionResult Details(int id)//JobCardDailyActivityId
+        public ActionResult Details(int id, int type = 0)//JobCardDailyActivityId
         {
             var model = new JobCardDailyActivityRepository().GetJobCardDailyActivity(id);
             return View(model);
         }
 
-        public ActionResult PreviousList()
+        public ActionResult PreviousList(int type = 0)
         {
             return View(new JobCardDailyActivityRepository().GetJobCardDailyActivitys());
         }

@@ -36,6 +36,8 @@ namespace ArabErp.Domain
         public DateTime EDateDelivery { get; set; }
         public int Ageing { get; set; }
         public int DaysLeft { get; set; }
+        public bool Isused { get; set; }
+        public int isProjectBased { get; set; }
         public List<WorkShopRequestItem> Items { get; set; }
         public List<WorkShopRequestItem> AdditionalMaterials { get; set; }
     }

@@ -68,10 +68,11 @@
             <th width="40%"><h1>Material/Spares</h1></th>
             <th width="20%"><h1>Part No.</h1></th>
 
-            <th width="6%" class="text-right "><h1>Qty.</h1></th>
-            <th width="8%"><h1>UoM</h1></th>
-            <th width="10%" class="text-right "><h1>Rate</h1></th>
-            <th width="10%" class="text-right "><h1>Amount</h1></th>
+            <th width="5%" class="text-right "><h1>Qty.</h1></th>
+            <th width="5%"><h1>UoM</h1></th>
+            <th width="7%" class="text-right "><h1>Rate</h1></th>
+            <th width="7%" class="text-right "><h1>Discount</h1></th>
+            <th width="7%" class="text-right "><h1>Amount</h1></th>
           
         </tr>
     </thead>
@@ -87,6 +88,7 @@
                 </td>
                 <td>
                     <input type="hidden" id="Row_@i" />
+                    @Html.HiddenFor(m=>m.Materials[i].ItemId)
                     @Html.TextBoxFor(m => m.Materials[i].ItemName, new { @class = "form_input text-left", @readonly = "true" })
                 </td>
                
@@ -95,6 +97,7 @@
                 <td>@Html.TextBoxFor(m => m.Materials[i].Quantity, new { @class = "form_input numbers-only text-right", autocomplete = "off", placeholder = "Qty", @readonly = "true"})</td>
                 <td id="unit0" class="qreturn" style="vertical-align:middle">@Html.TextBoxFor(m => m.Materials[i].UnitName, new { @class = "form_input text-left", @readonly = "true" })</td>
                 <td>@Html.TextBoxFor(m => m.Materials[i].Rate, new { @class = "form_input numbers-only text-right ", autocomplete = "off", placeholder = "Rate", @readonly = "true"})</td>
+                <td>@Html.TextBoxFor(m => m.Materials[i].Discount, new { @class = "form_input numbers-only text-right ", autocomplete = "off", placeholder = "Discount", @readonly = "true" })</td>
                 <td>@Html.TextBoxFor(m => m.Materials[i].Amount, new { @class = "form_input numbers-only text-right clAmount", autocomplete = "off", placeholder = "Amount", @readonly = "true" })</td>
                
             </tr>
@@ -106,10 +109,11 @@
             <th width="5%" class="text-center "><h1>Total</h1></th>
             <th width="40%"><h1></h1></th>
             <th width="20%"><h1></h1></th>
-            <th width="6%"><h1></h1></th>
-            <th width="8%"><h1></h1></th>
-            <th width="10%"><h1></h1></th>
-            <th width="10%" class="text-right "><span id="MatAmount"></span></th>
+            <th width="5%"><h1></h1></th>
+            <th width="5%"><h1></h1></th>
+            <th width="7%"><h1></h1></th>
+            <th width="7%"><h1></h1></th>
+            <th width="7%" class="text-right "><span id="MatAmount"></span></th>
            
            
            

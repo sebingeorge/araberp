@@ -18,7 +18,7 @@ namespace ArabErp.Web.Controllers
         {
             //List<RateSettingsItems> items = new RateSettingsRepository().GetWorkDescriptions(1); //load project work description by default
             string date = new RateSettingsRepository().GetExpiryDate();
-            DateTime expiryDate = Convert.ToDateTime(date.Length == 1 ? DateTime.Today.ToString() : date).AddDays(1);
+            DateTime expiryDate = Convert.ToDateTime(date.Length == 1 ? DateTime.Today.AddDays(-1).ToString() : date).AddDays(1);
             return View(new RateSettings
             {
                 FromDate = expiryDate,

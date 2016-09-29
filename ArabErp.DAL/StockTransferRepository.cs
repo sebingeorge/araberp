@@ -144,5 +144,39 @@ namespace ArabErp.DAL
                 return connection.Query<StockTransfer>(query, new { OrganizationId = OrganizationId }).ToList();
             }
         }
+
+        public StockTransfer GetStockTransferHD(int StockTransferId)
+        {
+            using (IDbConnection connection = OpenConnection(dataConnection))
+            {
+
+                string sql = @" SELECT * 
+                                FROM StockTransfer S
+                                WHERE  StockTransferId=@StockTransferId";
+
+                var objStockTransfer = connection.Query<StockTransfer>(sql, new
+                {
+                    StockTransferId = StockTransferId
+                }).First<StockTransfer>();
+
+                return objStockTransfer;
+            }
+        }
+
+        public List<StockTransferItem> GetStockTransferDT(int StockTransferId)
+        {
+            using (IDbConnection connection = OpenConnection(dataConnection))
+            {
+                string sql = @" SELECT S.StockTransferId,S.FromStockpointId,SI.ItemId,(SUM(ISNULL(SU.Quantity,0))+SI.Quantity)StockQuantity,SI.Quantity  FROM StockTransfer S
+                                INNER JOIN StockTransferItem SI ON S.StockTransferId=SI.StockTransferId
+                                LEFT JOIN StockUpdate SU ON SU.ItemId=SI.ItemId AND SU.StockPointId=S.FromStockpointId
+                                WHERE S.StockTransferId=@StockTransferId
+                                GROUP BY S.StockTransferId,S.FromStockpointId,SI.ItemId,SI.Quantity,StockTransferItemId
+                                ORDER BY StockTransferItemId";
+
+                return connection.Query<StockTransferItem>(sql, new { StockTransferId = StockTransferId }).ToList();
+            }
+        }
+
     }
 }

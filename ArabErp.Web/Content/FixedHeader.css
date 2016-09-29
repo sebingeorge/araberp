@@ -10,6 +10,7 @@ div.tableContainer {
 
 /* Reset overflow value to hidden for all non-IE browsers. */
 html>body div.tableContainer {
+    table-layout: fixed !important;
 	overflow: hidden;
 	width: 100%
 }
@@ -17,7 +18,8 @@ html>body div.tableContainer {
 /* define width of table. IE browsers only                 */
 div.tableContainer table {
 	float: left;
-	width: 100%
+	width: 100%;
+    table-layout: fixed;
 }
 
 /* define width of table. Add 16px to width for scrollbar.           */
@@ -102,21 +104,86 @@ tbody.scrollContent tr.alternateRow td {
 	padding: 2px 3px 3px 4px;
 
 }
-.fix-1 
+    /*tbody.scrollContent td 
+    {
+        width:3.4%;
+    }
+    thead.fixedHeader th
+   {
+        width:6.8%;
+    }
+        thead.fixedHeader th.last
+   {
+        width:1%;
+    }*/
+thead.fixedHeader th.fix-1
 {
-    width:1%;
+    width:10px !important;
 }
-.fix-w 
+thead.fixedHeader th.fix-w 
 {
-    min-width:7.51%;
+    width:101px !important;
 }
-.fix-w1
+thead.fixedHeader th.fix-w1
 {
-    min-width:14%;
+    width:275px !important;
 }
-.fix-w2
+thead.fixedHeader th.fix-w2
 {
-    min-width:7%;
+    width:106px !important;
+}
+tbody.scrollContent td.fix-1
+{
+    width:10px !important;
+}
+tbody.scrollContent td.fix-w
+{
+    width:101px !important;
+}
+tbody.scrollContent td.fix-w1
+{
+     width:275px !important;
+}
+tbody.scrollContent td.fix-w2
+{
+    width:106px !important;
+}
+/*thead.fixedHeader th.fix-1
+{
+    width:1% !important;
+}
+thead.fixedHeader th.fix-w 
+{
+    width:7.51% !important;
+}
+thead.fixedHeader th.fix-w1
+{
+    width:14% !important;
+}
+thead.fixedHeader th.fix-w2
+{
+    width:7% !important;
+}
+tbody.scrollContent td.fix-1
+{
+    width:1% !important;
+}
+tbody.scrollContent td.fix-w
+{
+    width:7.51% !important;
+}
+tbody.scrollContent td.fix-w1
+{
+    width:14% !important;
+}
+tbody.scrollContent td.fix-w2
+{
+    width:7% !important;
+}*/
+#tableContainer table.fixed { table-layout:fixed !important; }
+#tableContainer table.fixed td { overflow: hidden !important; }
+.scrollContent .grid-row
+ {
 }
 .scrollTable
 {

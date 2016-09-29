@@ -24,6 +24,7 @@ namespace ArabErp.DAL
                 string query = @"SELECT 
 	                                EMP.EmployeeId,
 	                                EMP.EmployeeName,
+									EC.EmpCategoryName,
 	                                CONVERT(VARCHAR, JT.TaskDate, 106) TaskDate,
 	                                JC.JobCardNo,
 	                                --CONVERT(VARCHAR, JC.JobCardDate, 106) JobCardDate,
@@ -34,6 +35,7 @@ namespace ArabErp.DAL
 	                                INNER JOIN JobCardTask JT ON JC.JobCardId = JT.JobCardId
 	                                INNER JOIN JobCardTaskMaster JTM ON JT.JobCardTaskMasterId = JTM.JobCardTaskMasterId
 	                                RIGHT JOIN Employee EMP ON JT.EmployeeId = EMP.EmployeeId
+									LEFT JOIN EmployeeCategory EC ON EMP.CategoryId = EC.EmpCategoryId
                                 WHERE ISNULL(JC.JodCardCompleteStatus, 0) = 0
                                 AND ISNULL(MONTH(JT.TaskDate), @month) = @month
                                 AND ISNULL(YEAR(JT.TaskDate), @year) = @year

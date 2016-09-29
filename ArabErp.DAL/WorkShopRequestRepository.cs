@@ -27,7 +27,15 @@ namespace ArabErp.DAL
                 IDbTransaction trn = connection.BeginTransaction();
                 try
                 {
-                    var internalId = DatabaseCommonRepository.GetNewDocNo(connection, objWorkShopRequest.OrganizationId, 19, true,trn);
+                   var  internalId = "";
+                    if(objWorkShopRequest.isProjectBased==0)
+                    {
+                       internalId = DatabaseCommonRepository.GetNewDocNo(connection, objWorkShopRequest.OrganizationId, 19, true, trn);
+                    }
+                    else
+                    {
+                         internalId = DatabaseCommonRepository.GetNewDocNo(connection, objWorkShopRequest.OrganizationId, 31, true, trn);
+                    }
 
                     objWorkShopRequest.WorkShopRequestRefNo = internalId;
 
@@ -42,11 +50,7 @@ namespace ArabErp.DAL
                         item.WorkShopRequestId = id;
                         new WorkShopRequestItemRepository().InsertWorkShopRequestItem(item, connection, trn);
                     }
-                    foreach (WorkShopRequestItem item in objWorkShopRequest.AdditionalMaterials)
-                    {
-                        item.WorkShopRequestId = id;
-                        new WorkShopRequestItemRepository().InsertWorkShopRequestAdditionalMaterial(item, connection, trn);
-                    }
+                  
                     InsertLoginHistory(dataConnection, objWorkShopRequest.CreatedBy, "Create", "Workshop Request", id.ToString(), "0");
                     trn.Commit();
 
@@ -67,6 +71,8 @@ namespace ArabErp.DAL
                 string query = "SELECT I.ItemName,I.ItemId,I.PartNo,SUM(WI.Quantity)Quantity,UnitName from WorkDescription W INNER JOIN  WorkVsItem WI on W.WorkDescriptionId=WI.WorkDescriptionId";
                 query += " INNER JOIN Item I ON WI.ItemId=I.ItemId INNER JOIN Unit U on U.UnitId =I.ItemUnitId  INNER JOIN SaleOrderItem SI ON SI.WorkDescriptionId = W.WorkDescriptionId";
                 query += " WHERE SI.SaleOrderId=@SaleOrderId GROUP BY I.ItemName,I.ItemId,I.PartNo,UnitName ";
+                query += " UNION ALL SELECT I.ItemName,I.ItemId,I.PartNo,SUM(S.Quantity)Quantity,UnitName FROM SaleOrderMaterial S INNER JOIN Item I ON I.ItemId=S.ItemId";
+                query += " INNER JOIN Unit U on U.UnitId =I.ItemUnitId  WHERE S.SaleOrderId=@SaleOrderId GROUP BY I.ItemName,I.ItemId,I.PartNo,UnitName ";
 
                 return connection.Query<WorkShopRequestItem>(query,
                 new { SaleOrderId = SaleOrderId }).ToList();
@@ -85,7 +91,7 @@ namespace ArabErp.DAL
             {
 
                 string sql = @"SELECT  SO.SaleOrderId,SO.CustomerOrderRef,SO.SaleOrderRefNo,SO.EDateArrival,SO.EDateDelivery,SO.CustomerId,C.CustomerName,SO.SaleOrderDate SaleOrderDate,
-                                SO.SaleOrderRefNo +','+ Replace(Convert(varchar,SaleOrderDate,106),' ','/') SaleOrderRefNo
+                                SO.SaleOrderRefNo +','+ Replace(Convert(varchar,SaleOrderDate,106),' ','/') SaleOrderRefNo,SO.isProjectBased
                                 FROM  SaleOrder SO  INNER JOIN Customer C  ON SO.CustomerId =C.CustomerId
                                 WHERE SO.SaleOrderId =@SaleOrderId";
                 var objSaleOrders = connection.Query<WorkShopRequest>(sql, new { SaleOrderId = SaleOrderId }).Single<WorkShopRequest>();
@@ -279,14 +285,15 @@ namespace ArabErp.DAL
 				DROP TABLE #SALE;").ToList();
             }
         }
-        public IEnumerable<WorkShopRequest> GetPrevious(DateTime? from, DateTime? to, int id, int cusid, int OrganizationId)
+        public IEnumerable<WorkShopRequest> GetPrevious(int isProjectBased,DateTime? from, DateTime? to, int id, int cusid, int OrganizationId)
         {
             using (IDbConnection connection = OpenConnection(dataConnection))
             {
                 string qry = @"Select * from WorkShopRequest WR INNER JOIN Customer C on C.CustomerId=WR.CustomerId 
+                               INNER JOIN SaleOrder S on S.SaleOrderId=WR.SaleOrderId
                                where  WR.WorkShopRequestId = ISNULL(NULLIF(@id, 0), WR.WorkShopRequestId)
-                               and WR.CustomerId = ISNULL(NULLIF(@cusid, 0), WR.CustomerId) and   WR.isActive=1 and WR.OrganizationId=@OrganizationId AND WR.WorkShopRequestDate BETWEEN ISNULL(@from, DATEADD(MONTH, -1, GETDATE())) AND ISNULL(@to, GETDATE())";
-                return connection.Query<WorkShopRequest>(qry, new { id = id, cusid = cusid, OrganizationId = OrganizationId, from = from, to = to }).ToList();
+                               and WR.CustomerId = ISNULL(NULLIF(@cusid, 0), WR.CustomerId) and   WR.isActive=1 and WR.OrganizationId=@OrganizationId AND S.isProjectBased=@isProjectBased AND WR.WorkShopRequestDate BETWEEN ISNULL(@from, DATEADD(MONTH, -1, GETDATE())) AND ISNULL(@to, GETDATE())";
+                return connection.Query<WorkShopRequest>(qry, new { isProjectBased = isProjectBased,id = id,cusid = cusid,OrganizationId = OrganizationId, from = from, to = to }).ToList();
             }
         }
         public WorkShopRequest GetWorkshopRequestHdData(int WorkShopRequestId)
@@ -297,7 +304,7 @@ namespace ArabErp.DAL
                 string sql = @"SELECT *,S.SaleOrderRefNo,S.EDateArrival,S.EDateDelivery,STUFF((SELECT ', ' + CAST(W.WorkDescr AS VARCHAR(MAX)) [text()]
                              FROM SaleOrderItem SI inner join WorkDescription W on W.WorkDescriptionId=SI.WorkDescriptionId
                              WHERE SI.SaleOrderId = S.SaleOrderId
-                             FOR XML PATH(''), TYPE).value('.','NVARCHAR(MAX)'),1,2,' ') WorkDescription from WorkShopRequest WR 
+                             FOR XML PATH(''), TYPE).value('.','NVARCHAR(MAX)'),1,2,' ') WorkDescription,S.isProjectBased from WorkShopRequest WR 
                              INNER JOIN SaleOrder S on S.SaleOrderId=WR.SaleOrderId
                              INNER JOIN  Customer C  ON S.CustomerId =C.CustomerId
                              WHERE WorkShopRequestId = @WorkShopRequestId";
@@ -311,25 +318,14 @@ namespace ArabErp.DAL
             using (IDbConnection connection = OpenConnection(dataConnection))
             {
 
-                string query = "select I.ItemName,I.PartNo,WI.Remarks,WI.Quantity,UnitName from WorkShopRequestItem WI INNER JOIN Item I ON WI.ItemId=I.ItemId";
-                query += " INNER JOIN Unit U on U.UnitId =I.ItemUnitId  where isAddtionalMaterialRequest is null and   WorkShopRequestId = @WorkShopRequestId";
+                string query = "select I.ItemId,I.ItemName,I.PartNo,WI.Remarks,WI.Quantity,UnitName,WI.isAddtionalMaterialRequest from WorkShopRequestItem WI INNER JOIN Item I ON WI.ItemId=I.ItemId";
+                query += " INNER JOIN Unit U on U.UnitId =I.ItemUnitId  where  WorkShopRequestId = @WorkShopRequestId";
 
                 return connection.Query<WorkShopRequestItem>(query,
                 new { WorkShopRequestId = WorkShopRequestId }).ToList();
             }
         }
-        public List<WorkShopRequestItem> GetWorkShopRequestDtDataAddMat(int WorkShopRequestId)
-        {
-            using (IDbConnection connection = OpenConnection(dataConnection))
-            {
-
-                string query = "select I.ItemId,I.PartNo,WI.Remarks,WI.Quantity,UnitName from WorkShopRequestItem WI INNER JOIN Item I ON WI.ItemId=I.ItemId";
-                query += " INNER JOIN Unit U on U.UnitId =I.ItemUnitId  where isAddtionalMaterialRequest =1 and   WorkShopRequestId = @WorkShopRequestId";
-
-                return connection.Query<WorkShopRequestItem>(query,
-                new { WorkShopRequestId = WorkShopRequestId }).ToList();
-            }
-        }
+      
 
 
         public IEnumerable<WorkShopRequest> PreviousList(int OrganizationId, DateTime? from, DateTime? to, int id = 0, int customer = 0, int jobcard = 0)

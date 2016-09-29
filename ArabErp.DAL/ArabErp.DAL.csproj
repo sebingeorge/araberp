@@ -91,6 +91,7 @@
     <Compile Include="DropdownRepository.cs" />
     <Compile Include="EmployeeCategoryRepository.cs" />
     <Compile Include="EmployeeRepository.cs" />
+    <Compile Include="EmployeeVsTaskRepository.cs" />
     <Compile Include="ExpenseRepository.cs" />
     <Compile Include="FinancialYearRepository.cs" />
     <Compile Include="FreezerUnitRepository.cs" />
@@ -100,6 +101,7 @@
     <Compile Include="ItemCategoryRepository.cs" />
     <Compile Include="ItemRepository.cs" />
     <Compile Include="ItemGroupRepository.cs" />
+    <Compile Include="ItemSellingPriceRepository.cs" />
     <Compile Include="ItemSubGroupRepository.cs" />
     <Compile Include="JobCardDailyActivityRepository.cs" />
     <Compile Include="JobCardDailyActivityTaskRepository.cs" />

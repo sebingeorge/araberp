@@ -27,8 +27,8 @@
     })
 
     function PreviousList() {
-
-        var url = '@Url.Action("Index", "SaleOrder", new { type = ViewBag.ProjectBased })';
+      
+        var url = '@Url.Action("Index", "SaleOrder", new { type = ViewBag.ProjectBased})';
 
         window.location = url;
     }
@@ -80,13 +80,14 @@
                                         <td class="grid-cell" nowrap>@item.ExpectedDeliveryDate.ToString("dd-MMMM-yyyy")</td>
                                         <td class="grid-cell">@item.Ageing</td>
                                         <td class="grid-cell">@item.DaysLeft</td>
-                                        @if (@item.isProjectBased == 0 || @item.isProjectBased == 2)
+                                        @if (@item.isProjectBased)
                                         {
-                                            <td><center>@Html.ActionLink("Select", "Create", "SaleOrder", new { SalesQuotationId = @item.SalesQuotationId }, new { @class = "form-button5" })</center></td>
+                                            <td><center>@Html.ActionLink("Select", "CreateProject", "SaleOrder", new { SalesQuotationId = @item.SalesQuotationId }, new { @class = "form-button5" })</center></td>
                                         }
                                         else
                                         {
-                                            <td><center>@Html.ActionLink("Select", "CreateProject", "SaleOrder", new { SalesQuotationId = @item.SalesQuotationId }, new { @class = "form-button5" })</center></td>
+                                            <td><center>@Html.ActionLink("Select", "Create", "SaleOrder", new { SalesQuotationId = @item.SalesQuotationId }, new { @class = "form-button5" })</center></td>
+                                    
                                         }
                                     </tr>
                                 }

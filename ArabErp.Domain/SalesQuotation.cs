@@ -56,7 +56,8 @@ namespace ArabErp.Domain
         public int ParentId { get; set; }
         public int RevisionNo { get; set; }
         public int GrantParentId { get; set; }
-        public int isProjectBased { get; set; }
+        public bool isProjectBased { get; set; }
+        public bool isAfterSales { get; set; }
          public string ReasonDescription { get; set; }
          public string WorkDescription { get; set; }
          public int? CancelStatus { get; set; }

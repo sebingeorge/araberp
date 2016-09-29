@@ -1,0 +1,20 @@
+﻿using System;
+using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace ArabErp.Domain
+{
+   public class ItemSellingPrice
+    {
+        public int ItemSellingPriceId { get; set; }
+       public int ItemId { get; set; }
+        [Required]
+        public string ItemName { get; set; }
+
+        public string PartNo { get; set; }
+        public decimal SellingPrice { get; set; }
+    }
+}

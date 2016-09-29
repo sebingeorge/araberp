@@ -33,8 +33,10 @@
         }
         @{ TempData["success"] = TempData["error"] = ""; }
     })
-    function PreviousList() {
+    function PreviousList(isProjectBased) {
+      
         var url = '@Url.Action("Index")';
+        url += "?isProjectBased=" + isProjectBased;
         window.location = url;
     }
 
@@ -57,7 +59,14 @@
 
 <div class="row">
     <div class="form-head1">
-        <h4>Pending Sale Order for Workshop Request</h4>
+        @if (ViewBag.ProjectBased == 0)
+        {
+            <h4>Pending Sale Order for Workshop Request</h4>
+        }
+        else
+        {
+            <h4>Pending Sale Order for Material Request</h4>
+        }
     </div>
 
     <div class="main-part pad1">
@@ -70,14 +79,14 @@
         <br />
         <div class="row" id="wr-pending">
             
-                @Html.Action("WorkShopRequestPending")
+                @Html.Action("WorkShopRequestPending", new { isProjectBased = ViewBag.ProjectBased })
 
         </div>
 
 
         <div class="row">
             <div class="col-md-12 hrpart">
-                <input class="form-button" type="button" value="Previous" onclick="PreviousList()" />
+                <input class="form-button" type="button" value="Previous" onclick="PreviousList(isProjectBased = @ViewBag.ProjectBased)" />
                 <input type="button" class="form-button right" value="Exit" onclick="Exit()" />
             </div>
         </div>

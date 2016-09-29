@@ -34,11 +34,15 @@ namespace ArabErp.Domain
         public float? CommissionPerc { get; set; }
         [Required]
         public int SalesExecutiveId { get; set; }
+
         [Required]
         [ValidateDateGreaterThan("SaleOrderDate")]
+        [Display(Name = "Expected Date of Arrival")]
         public DateTime EDateArrival { get; set; }
+
         [Required]
         [ValidateDateGreaterThan("SaleOrderDate")]
+        [Display(Name = "Expected Date of Delivery")]
         public DateTime EDateDelivery { get; set; }
         
         public string CreatedBy { get; set; }
@@ -56,6 +60,7 @@ namespace ArabErp.Domain
         public bool Select { get; set; }
         public int? Ageing { get; set; }
         public int isProjectBased { get; set; }
+        public int isAfterSales { get; set; }
         public string WorkDescription { get; set; }
         public int? Remaindays { get; set; }
         public string WorkRequestPaymentApproved { get; set; }

@@ -6,20 +6,24 @@
 }
 
 <script type="text/javascript">
-    @*function Pending() {
-        var url = '@Url.Action("PendingSupplyOrder")';
+ 
+    function Open(id) {
+        var url = '@Url.Action("Edit")';
+        url += "?id=" + id;
         window.location = url;
-    }*@
-
-    function OpenEditForm() {
-        
+    }
+   
+    function Exit()
+    {
+        var url = '@Url.Action("Pending")';
+        window.location = url;
     }
 </script>
 
 
     <div class="row">
         <div class="form-head1">
-            <h4>Previous Stores Issue</h4>
+            <h4>Stores Issue List</h4>
         </div>
         <div class="main-part pad1">
             <div class="row">
@@ -37,36 +41,44 @@
                                 </tr>
                             </thead>
                             <tbody class="grid_row">
-                                @{
-                                    for (int i = 0; i < Model.Count; i++)
+
+                                @if (Model.Count > 0)
+                                {
+                                    foreach (var item in Model)
                                     {
                                         <tr>
+                                            <td class="grid-cell">@item.StoreIssueRefNo</td>
+                                            <td class="grid-cell">@item.StoreIssueDate.ToString("dd/MMM/yyyy")</td>
+                                            <td class="grid-cell">@item.WorkShopRequestRefNo &amp; @item.WorkShopRequestDate.ToString("dd/MMM/yyyy")</td>
+                                            <td class="grid-cell">@item.EmployeeName</td>
+                                            <td class="grid-cell">@item.Remarks</td>
                                             <td>
-                                                <input type="text" value="@Model[i].StoreIssueRefNo" class="form_input" disabled />
-                                            </td>
-                                            <td>
-                                                <input type="text" value="@Model[i].StoreIssueDate.ToString("dd MMM yyyy")" class="form_input" disabled />
-                                            </td>
-                                            <td>
-                                                <input type="text" value="@Model[i].WorkShopRequestRefNo - @Model[i].WorkShopRequestDate.ToString("dd MMM yyyy")" class="form_input" disabled />
-                                            </td>
-                                            <td>
-                                                <input type="text" value="@Model[i].EmployeeName" class="form_input" disabled />
-                                            </td>
-                                            <td>
-                                                <input type="text" value="@Model[i].Remarks" class="form_input" disabled />
-                                            </td>
-                                            <td align="center">
-                                                <input type="button" value="Select" class="form-button4" onclick="OpenEditForm(@Model[i].StoreIssueId)" />
+                                                <center><input type="button" class="form-button4" value="Select" title="Select to view details" onclick="Open(@item.StoreIssueId)" /></center>
                                             </td>
                                         </tr>
                                     }
                                 }
+                                else
+                                {
+                                    <tr>
+                                        <td colspan="5">
+                                            <center><em>No items found!</em></center>
+                                        </td>
+                                    </tr>
+                                }
+
                             </tbody>
                         </table>
                     </div>
                     </div>
                 </div>
+
+                <div class="row">
+                    <div class="col-md-12 hrpart">
+                        <button class="form-button right" onclick="Exit()">Exit</button>
+                    </div>
+                </div>
+
                 </div>
             </div>
 

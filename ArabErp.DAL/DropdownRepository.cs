@@ -255,6 +255,19 @@ namespace ArabErp.DAL
                 return connection.Query<Dropdown>(@"select ItemId Id,ItemName Name from item where ItemId in(select DISTINCT ItemId from StockUpdate where StockPointId=@StockPointId)", new { StockPointId = StockPointId }).ToList();
             }
         }
+
+        /// <summary>
+        /// Return all Active Items 
+        /// </summary>
+        /// <returns></returns>
+        public List<Dropdown> ItemsDropdown()
+        {
+            using (IDbConnection connection = OpenConnection(dataConnection))
+            {
+                return connection.Query<Dropdown>("SELECT ItemId Id, ItemName Name FROM item WHERE ISNULL(isActive, 1) = 1").ToList();
+            }
+        }
+
         /// <summary>
         /// Returns all suppliers who have pending/incomplete supply order(s)
         /// </summary>
@@ -656,18 +669,18 @@ namespace ArabErp.DAL
             }
         }
 
-        public List<Dropdown> FillQuotationNo(int OrganizationId, int type)
+        public List<Dropdown> FillQuotationNo(int OrganizationId,int ProjectBased, int AfterSales)
         {
             using (IDbConnection connection = OpenConnection(dataConnection))
             {
 
                 return connection.Query<Dropdown>(@"SELECT SalesQuotationId Id,QuotationRefNo Name
                                                     FROM SalesQuotation 
-                                                    WHERE OrganizationId = @OrganizationId AND isProjectBased = " + type,
-                                                    new { OrganizationId = OrganizationId, type = type }).ToList();
+                                                    WHERE OrganizationId = @OrganizationId AND isProjectBased = " + ProjectBased + " and isAfterSales=" + AfterSales,
+                                                    new { OrganizationId = OrganizationId, ProjectBased = ProjectBased, AfterSales = AfterSales }).ToList();
             }
         }
-        public List<Dropdown> FillSQCustomer(int OrganizationId, int type)
+        public List<Dropdown> FillSQCustomer(int OrganizationId,int ProjectBased, int AfterSales)
         {
             using (IDbConnection connection = OpenConnection(dataConnection))
             {
@@ -675,8 +688,8 @@ namespace ArabErp.DAL
                 return connection.Query<Dropdown>(@"SELECT  Distinct C.CustomerId Id,C.CustomerName Name
                                                     FROM SalesQuotation S
                                                     INNER JOIN Customer C on S.CustomerId = C.CustomerId
-                                                    WHERE S.OrganizationId = @OrganizationId AND isProjectBased = " + type,
-                                                    new { OrganizationId = OrganizationId, type = type }).ToList();
+                                                    WHERE S.OrganizationId = @OrganizationId AND S.isProjectBased = " + ProjectBased + " and S.isAfterSales=" + AfterSales,
+                                                    new { OrganizationId = OrganizationId, ProjectBased = ProjectBased, AfterSales = AfterSales }).ToList();
             }
         }
 

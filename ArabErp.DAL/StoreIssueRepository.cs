@@ -23,27 +23,14 @@ namespace ArabErp.DAL
                         string referenceNo = DatabaseCommonRepository.GetNewDocNo(connection, objStoreIssue.OrganizationId, 24, true,txn);
                         objStoreIssue.StoreIssueRefNo = referenceNo;
 
-                        string sql = @"INSERT INTO StoreIssue(
-                                StoreIssueRefNo, 
-                                StoreIssueDate, 
-                                WorkShopRequestId, 
-                                EmployeeId,
-                                Remarks, 
-                                CreatedBy, 
-                                CreatedDate, 
-                                OrganizationId, 
-                                isActive) 
-                            VALUES (
-                                @StoreIssueRefNo, 
-                                @StoreIssueDate,
-                                @WorkShopRequestId,
-                                @EmployeeId,
-                                @Remarks,
-                                @CreatedBy,
-                                @CreatedDate,
-                                @OrganizationId, 
-                                1);
-                            SELECT CAST(SCOPE_IDENTITY() AS INT)";
+                        string sql = @" INSERT INTO StoreIssue(
+                                        StoreIssueRefNo,StoreIssueDate,StockPointId,WorkShopRequestId,EmployeeId,
+                                        Remarks,CreatedBy,CreatedDate,OrganizationId,isActive) 
+
+                                        VALUES (
+                                        @StoreIssueRefNo,@StoreIssueDate,@StockPointId,@WorkShopRequestId,@EmployeeId,
+                                        @Remarks,@CreatedBy,@CreatedDate,@OrganizationId,1);
+                                        SELECT CAST(SCOPE_IDENTITY() AS INT)";
 
                         var id = connection.Query<int>(sql, objStoreIssue, txn).Single();
                         foreach (var item in objStoreIssue.Items)
@@ -89,22 +76,46 @@ namespace ArabErp.DAL
             }
         }
 
-        public StoreIssue GetStoreIssue(int StoreIssueId)
+        public StoreIssue GetStoreIssueHD(int StoreIssueId)
         {
-
             using (IDbConnection connection = OpenConnection(dataConnection))
             {
-                string sql = @"select * from StoreIssue
-                        where StoreIssueId=@StoreIssueId";
 
-                var objStoreIssue = connection.Query<StoreIssue>(sql, new
+                string sql = @" SELECT StoreIssueRefNo,StoreIssueDate,S.StockpointId,C.CustomerName,
+                                CONCAT(W.WorkShopRequestRefNo,' , ' ,CONVERT(Varchar(15),W.WorkShopRequestDate,106))WONODATE,
+                                CONCAT(SO.SaleOrderRefNo,' , ',CONVERT(Varchar(15),SO.SaleOrderDate,106))SONODATE,
+                                W.RequiredDate,S.Remarks,S.EmployeeId
+                                FROM StoreIssue S
+                                INNER JOIN WorkShopRequest W ON W.WorkShopRequestId=S.WorkShopRequestId
+                                INNER JOIN SaleOrder SO ON SO.SaleOrderId=W.SaleOrderId
+                                INNER JOIN Customer C ON C.CustomerId=W.CustomerId 
+                                WHERE StoreIssueId=@StoreIssueId";
+
+                var objConsumption = connection.Query<StoreIssue>(sql, new
                 {
                     StoreIssueId = StoreIssueId
                 }).First<StoreIssue>();
 
-                return objStoreIssue;
+                return objConsumption;
             }
         }
+
+//        public StoreIssue GetStoreIssue(int StoreIssueId)
+//        {
+
+//            using (IDbConnection connection = OpenConnection(dataConnection))
+//            {
+//                string sql = @"select * from StoreIssue
+//                        where StoreIssueId=@StoreIssueId";
+
+//                var objStoreIssue = connection.Query<StoreIssue>(sql, new
+//                {
+//                    StoreIssueId = StoreIssueId
+//                }).First<StoreIssue>();
+
+//                return objStoreIssue;
+//            }
+//        }
 
         public List<StoreIssue> GetStoreIssues()
         {

@@ -25,7 +25,7 @@ namespace ArabErp.DAL
                 {
                     var internalId = "";
                     decimal MaterialAmt = 0;
-                    if (objSaleOrder.isProjectBased == 0 || objSaleOrder.isProjectBased == 2)
+                    if (objSaleOrder.isProjectBased == 0 )
                     {
                         internalId = DatabaseCommonRepository.GetNewDocNo(connection, objSaleOrder.OrganizationId ?? 0, 3, true,txn);
                     }
@@ -38,15 +38,18 @@ namespace ArabErp.DAL
 
                     objSaleOrder.SaleOrderRefNo = internalId;
 
+                    if (objSaleOrder.isAfterSales == 1)
+                    {
 
-                    MaterialAmt = objSaleOrder.Materials.Sum(m => m.Amount);
+                        MaterialAmt = objSaleOrder.Materials.Sum(m => m.Amount);
+                    }
                     objSaleOrder.TotalAmount = objSaleOrder.Items.Sum(m => m.Amount) + MaterialAmt;
                     objSaleOrder.TotalDiscount = objSaleOrder.Items.Sum(m => m.Discount);
 
                
                     string sql = @"
-                    insert  into SaleOrder(SaleOrderRefNo,SaleOrderDate,CustomerId,CustomerOrderRef,CurrencyId,SpecialRemarks,PaymentTerms,DeliveryTerms,CommissionAgentId,CommissionAmount,CommissionPerc,TotalAmount,TotalDiscount,SalesExecutiveId,EDateArrival,EDateDelivery,CreatedBy,CreatedDate,OrganizationId,SaleOrderApproveStatus,isProjectBased,SalesQuotationId)
-                                   Values (@SaleOrderRefNo,@SaleOrderDate,@CustomerId,@CustomerOrderRef,@CurrencyId,@SpecialRemarks,@PaymentTerms,@DeliveryTerms,@CommissionAgentId,@CommissionAmount,@CommissionPerc,@TotalAmount,@TotalDiscount,@SalesExecutiveId,@EDateArrival,@EDateDelivery,@CreatedBy,@CreatedDate,@OrganizationId,1,@isProjectBased,@SalesQuotationId);
+                    insert  into SaleOrder(SaleOrderRefNo,SaleOrderDate,CustomerId,CustomerOrderRef,CurrencyId,SpecialRemarks,PaymentTerms,DeliveryTerms,CommissionAgentId,CommissionAmount,CommissionPerc,TotalAmount,TotalDiscount,SalesExecutiveId,EDateArrival,EDateDelivery,CreatedBy,CreatedDate,OrganizationId,SaleOrderApproveStatus,isProjectBased,isAfterSales,SalesQuotationId)
+                                   Values (@SaleOrderRefNo,@SaleOrderDate,@CustomerId,@CustomerOrderRef,@CurrencyId,@SpecialRemarks,@PaymentTerms,@DeliveryTerms,@CommissionAgentId,@CommissionAmount,@CommissionPerc,@TotalAmount,@TotalDiscount,@SalesExecutiveId,@EDateArrival,@EDateDelivery,@CreatedBy,@CreatedDate,@OrganizationId,1,@isProjectBased,@isAfterSales,@SalesQuotationId);
                     SELECT CAST(SCOPE_IDENTITY() as int) SaleOrderId";
 
 
@@ -57,6 +60,15 @@ namespace ArabErp.DAL
                     {
                         item.SaleOrderId = id;
                         new SaleOrderItemRepository().InsertSaleOrderItem(item, connection, txn);
+                    }
+                    if (objSaleOrder.isAfterSales==1)
+                    {
+
+                        foreach (SalesQuotationMaterial item in objSaleOrder.Materials)
+                        {
+                            item.SaleOrderId = id;
+                            new SaleOrderItemRepository().InsertSaleOrderMaterial(item, connection, txn);
+                        }
                     }
                     InsertLoginHistory(dataConnection, objSaleOrder.CreatedBy, "Create", "Sale Order", id.ToString(), "0");
                     txn.Commit();
@@ -88,6 +100,9 @@ namespace ArabErp.DAL
                 return objSaleOrder;
             }
         }
+
+      
+        
         public List<SaleOrderItem> GetSaleOrderItemFrmQuotation(int Id)
         {
             using (IDbConnection connection = OpenConnection(dataConnection))
@@ -107,6 +122,15 @@ namespace ArabErp.DAL
                 return connection.Query<SalesQuotationMaterial>(sql, new { Id = Id }).ToList();
             }
         }
+        public List<SalesQuotationMaterial> GetSaleOrderMaterial(int Id)
+        {
+            using (IDbConnection connection = OpenConnection(dataConnection))
+            {
+                string sql = @"select * from SaleOrderMaterial S inner join Item I ON S.ItemId=I.ItemId LEFT JOIN UNIT U ON I.ItemUnitId=U.UnitId where SaleOrderId=@Id";
+
+                return connection.Query<SalesQuotationMaterial>(sql, new { Id = Id }).ToList();
+            }
+        }
         
         public SaleOrder GetSaleOrder(int SaleOrderId)
         {
@@ -117,7 +141,7 @@ namespace ArabErp.DAL
                 string sql = @"SELECT SaleOrderId,SaleOrderRefNo,SaleOrderDate,CONCAT(QuotationRefNo,'/',CONVERT (VARCHAR(15),QuotationDate,104))QuotationNoDate,  
                                C.CustomerId,CustomerName,DoorNo +','+ Street+','+State CustomerAddress,CustomerOrderRef,S.CurrencyId,SpecialRemarks,S.PaymentTerms,
                                DeliveryTerms,CommissionAgentId,CommissionAmount,TotalAmount,TotalDiscount,S.SalesExecutiveId,EDateArrival,EDateDelivery,SaleOrderApproveStatus,
-                               SaleOrderHoldStatus,SaleOrderHoldReason,SaleOrderHoldDate,SaleOrderReleaseDate,S.SalesQuotationId,SaleOrderClosed,S.isProjectBased,CUR.CurrencyName
+                               SaleOrderHoldStatus,SaleOrderHoldReason,SaleOrderHoldDate,SaleOrderReleaseDate,S.SalesQuotationId,SaleOrderClosed,S.isProjectBased,CUR.CurrencyName,S.isAfterSales
                                FROM SaleOrder S 
                                INNER JOIN Customer C ON S.CustomerId=C.CustomerId  
 							   LEFT JOIN Currency CUR ON S.CurrencyId = CUR.CurrencyId
@@ -150,20 +174,20 @@ namespace ArabErp.DAL
         /// </summary>
         /// <param name="model">Object of class SaleOrder</param>
         /// <returns>SaleOrders not in WorkshopRequest table</returns>
-        public List<SaleOrder> GetSaleOrdersPendingWorkshopRequest(int OrganizationId, string saleOrder="")
+        public List<SaleOrder> GetSaleOrdersPendingWorkshopRequest(int OrganizationId, int isProjectBased, string saleOrder = "")
         {
             using (IDbConnection connection = OpenConnection(dataConnection))
             {
-                //string sql = @"select so.*,c.CustomerName from SaleOrder so left join WorkShopRequest wr on so.SaleOrderId=wr.SaleOrderId , Customer c   where so.CustomerId=c.CustomerId  and wr.SaleOrderId is null and so.isActive=1";
+         
                 string sql = @"SELECT  distinct t.SaleOrderId,SO.CustomerOrderRef,SO.SaleOrderDate,SO.SaleOrderRefNo +','+ Replace(Convert(varchar,SaleOrderDate,106),' ','/') SaleOrderRefNo,SO.EDateArrival,SO.EDateDelivery,SO.CustomerId,C.CustomerName,STUFF((SELECT ', ' + CAST(W.WorkDescr AS VARCHAR(MAX)) [text()]
                              FROM SaleOrderItem SI inner join WorkDescription W on W.WorkDescriptionId=SI.WorkDescriptionId
                              WHERE SI.SaleOrderId = t.SaleOrderId
                              FOR XML PATH(''), TYPE).value('.','NVARCHAR(MAX)'),1,2,' ') WorkDescription,DATEDIFF(dd,SO.SaleOrderDate,GETDATE ()) Ageing,DATEDIFF(dd,GETDATE (),SO.EDateDelivery)Remaindays 
                              FROM SaleOrderItem t INNER JOIN SaleOrder SO on t.SaleOrderId=SO.SaleOrderId INNER JOIN Customer C ON SO.CustomerId =C.CustomerId
-                             left join WorkShopRequest WR on SO.SaleOrderId=WR.SaleOrderId WHERE WR.SaleOrderId is null and SO.isActive=1 and SO.SaleOrderApproveStatus=1 and SO.SaleOrderHoldStatus IS NULL and SO.OrganizationId = @OrganizationId
+                             left join WorkShopRequest WR on SO.SaleOrderId=WR.SaleOrderId WHERE WR.SaleOrderId is null and SO.isActive=1 and SO.SaleOrderApproveStatus=1 and SO.SaleOrderHoldStatus IS NULL and SO.OrganizationId = @OrganizationId and SO.isProjectBased=isnull(@isProjectBased,SO.isProjectBased)
 							 AND SO.SaleOrderRefNo LIKE '%'+@saleOrder+'%'
                              order by SO.EDateDelivery DESC, SO.SaleOrderDate DESC";
-                var objSaleOrders = connection.Query<SaleOrder>(sql, new { OrganizationId = OrganizationId, saleOrder = saleOrder }).ToList<SaleOrder>();
+                var objSaleOrders = connection.Query<SaleOrder>(sql, new { OrganizationId = OrganizationId, isProjectBased = isProjectBased, saleOrder = saleOrder }).ToList<SaleOrder>();
 
                 return objSaleOrders;
             }
@@ -255,16 +279,20 @@ namespace ArabErp.DAL
             }
         }
    
-        public string DeleteSaleOrder(int id)
+        public string DeleteSaleOrder(int id,int isAfterSales)
         {
             using (IDbConnection connection = OpenConnection(dataConnection))
             {
                 IDbTransaction txn = connection.BeginTransaction();
-              
+                string query = string.Empty;
                 try
                 {
 
-                    string query = @"DELETE FROM SaleOrderItem WHERE SaleOrderId = @id;
+                    if (isAfterSales == 1)
+                    {
+                        query = "DELETE FROM SaleOrderMaterial  WHERE SaleOrderId = @id;";
+                    }
+                    query += @"DELETE FROM SaleOrderItem WHERE SaleOrderId = @id;
                                      DELETE FROM SaleOrder OUTPUT deleted.SaleOrderRefNo WHERE SaleOrderId = @id;";
                     string output = connection.Query<string>(query, new { id = id }, txn).First();
                     txn.Commit();
@@ -595,7 +623,7 @@ namespace ArabErp.DAL
                 query += " left join SalesQuotation SQ ON SQ.SalesQuotationId=S.SalesQuotationId";
                 query += " where S.SaleOrderId= ISNULL(NULLIF(@id, 0), S.SaleOrderId) AND C.CustomerId = ISNULL(NULLIF(@cusid, 0), C.CustomerId)";
                 query += " AND S.isActive = 1 and S.OrganizationId = @OrganizationId and S.SaleOrderDate BETWEEN ISNULL(@from, DATEADD(MONTH, -1, GETDATE())) AND ISNULL(@to, GETDATE())";
-                query += " AND ((@isProjectBased=0 and SQ.IsProjectBased in (0,2)) or ( @isProjectBased=1  and SQ.IsProjectBased in (1)))";
+                query += " AND S.isProjectBased=@isProjectBased ";
 
 
                 return connection.Query<PendingSO>(query, new { isProjectBased = isProjectBased, OrganizationId = OrganizationId, id = id, cusid = cusid, to = to, from = from }).ToList();

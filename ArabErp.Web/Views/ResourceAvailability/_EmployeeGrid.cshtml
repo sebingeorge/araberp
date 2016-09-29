@@ -9,15 +9,17 @@
 
 <style type="text/css">
     .Sun {
-        background: rgb(221, 221, 221);
+        background: #f5f5f5;
+        /*background: rgb(221, 221, 221);*/
     }
 </style>
 
-<table class="table table-bordered table-hover" style="overflow-x:scroll">
+<table class="table table-bordered table-hover" style="overflow-x:scroll;margin-bottom: 0px;">
 
     <thead>
         <tr class="grid_heading">
             <th><h1>Employee</h1></th>
+            <th><h1>Category</h1></th>
             @{
                 List<int> sundays = new List<int>();
                 var columns = Model.Select(m => m.TaskDate).Distinct().ToList();
@@ -49,11 +51,14 @@
                     <tr>
                         <td>
                             @{
-                                string name = (from EmployeeResourceAvailability p in Model
+                                var emp = (from EmployeeResourceAvailability p in Model
                                                 where p.EmployeeId == id
-                                                select p.EmployeeName).First();
-                                            @name
+                                                select p).First();
+                                            @emp.EmployeeName
                             }
+                        </td>
+                        <td>
+                            @emp.EmpCategoryName
                         </td>
                         @{
                             //foreach (var date in columns)
@@ -89,7 +94,7 @@
                                         }
                                         else
                                         {
-                                            <table style="width:100%">
+                                            <table style="width:100%;background-color:transparent">
                                             @foreach (var j in jobcards)
                                             {
                                                 if (j.TaskDate.ToString().Contains("01-Jan-0001")) { continue; }
