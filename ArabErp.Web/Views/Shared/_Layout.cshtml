@@ -35,6 +35,8 @@
     <link href="~/Content/jquery.timepicker.css" rel="stylesheet" />
     <link href="~/Content/simple-sidebar.css" rel="stylesheet" />
 
+
+
     <script src="~/Scripts/modernizr-2.6.2.js"></script>
 
     <script src="~/Scripts/jquery.validate.js"></script>
@@ -46,6 +48,9 @@
     <script src="~/Scripts/autocomplete.js"></script>
 
     <script src="~/Scripts/script.js"></script>
+
+
+
 
     <script src="~/MVCGridHandler.axd/script.js"></script>
     <script src="~/Content/jquery.freezeheader.js"></script>
@@ -193,6 +198,7 @@
                         </li>
 
                                     <li><a href="@Url.Action("Index", "Organization")">Organization</a></li>
+                                    <li><a href="@Url.Action("Create", "Company")">Company</a></li>
                                     <li><a href="@Url.Action("Create","Currency")">Currency</a></li>
                                     <li><a href="@Url.Action("Create", "CostingParameters")">Costing Parameters</a></li>
                                     <li><a href="@Url.Action("Create", "QCParameter")">QC Parameters</a></li>
@@ -219,7 +225,7 @@
                                             <li><a href="@Url.Action("Index","RateSettings")">Work Description Rate Settings</a></li>
                                     <li><a class="projectn" href="@Url.Action("Create", "CustomerVsWorkRate")">Customer Wise Work Rate Settings</a></li>@*class = lh*@
                                             <li><a href="@Url.Action("Create", "SupplierItemRate")">Supplier Wise Item Rate Settings</a></li>
-                                            <li><a href="@Url.Action("Index", "ItemSellingPrice")">Item Selling Price Settings</a></li>
+                                            <li><a href="@Url.Action("Index","ItemSellingPrice")">Item Selling Price Settings</a></li>
                                         </ul>
                                     </div>
                                 </li>
@@ -670,3 +676,6 @@
 </script>
 <script type="text/javascript" src="~/Scripts/jssor.slider-21.1.5.mini.js"></script>
 <script src="~/Scripts/jquery.timepicker.min.js"></script>
+
+    <script src="~/Scripts/jquery.ba-throttle-debounce.min.js"></script>
+<script src="~/Scripts/jquery.stickyheader.js"></script>

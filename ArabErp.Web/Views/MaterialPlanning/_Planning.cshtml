@@ -1,45 +1,49 @@
 ﻿@model IEnumerable<ArabErp.Domain.MaterialPlanning>
 
 
-<div id="tableContainer" class="tableContainer table-responsive">
+<div id="availability1" class="table-responsive">
     <table border="0" cellpadding="0" cellspacing="0" class="scrollTable table table-bordered">
-        <thead class="fixedHeader  table-responsive">
+        <thead>
             <tr class="grid_heading">
-                <th class="fix-w1"><h1>Material/Spares</h1></th>
-                <th class="fix-w"><h1>Part No.</h1></th>
-                <th class="text-right fix-w"><h1>WR.Qty.</h1></th>
-                <th class="text-right fix-w"><h1>Pnd.Iss.Qty.</h1></th>
-                <th class="text-right fix-w"><h1>Min.Stock</h1></th>
-                <th class="text-right fix-w"><h1>Tot.Req.Qty.</h1></th>
-                <th class="text-right fix-w"><h1>Curr.Stock</h1></th>
-                <th class="text-right fix-w"><h1>InTransit.Qty.</h1></th>
-                <th class="text-right fix-w"><h1>Pnd.PR.Qty.</h1></th>
-                <th class="text-right fix-w"><h1>Short/Excess</h1></th>
-                <th class="text-left fix-w2"><h1>UoM</h1></th>
+                <th width="30%"><h1>Material/Spares</h1></th>
+                <th width="7%"><h1>Part No.</h1></th>
+                <th width="7%" class="text-right"><h1>WR.Qty.</h1></th>
+                <th width="7%" class="text-right"><h1>Pnd.Iss.Qty.</h1></th>
+                <th width="7%" class="text-right"><h1>Min.Stock</h1></th>
+                <th width="7%" class="text-right"><h1>Tot.Req.Qty.</h1></th>
+                <th width="7%" class="text-right"><h1>Curr.Stock</h1></th>
+                <th width="7%" class="text-right"><h1>InTransit.Qty.</h1></th>
+                <th width="7%" class="text-right"><h1>Pnd.PR.Qty.</h1></th>
+                <th width="7%" class="text-right"><h1>Short/Excess</h1></th>
+                <th width="7%" class="text-left"><h1>UoM</h1></th>
                 @*<th class="text-left fix-1 last"></th>*@
             </tr>
         </thead>
-        <tbody class="scrollContent" style="width:100%">
-            @foreach (var item in Model)
-            {
-                <tr class="grid-row">
-                    <td class="grid-cell fix-w1">@item.ItemName</td>
-                    <td class="grid-cell fix-w">@item.PartNo</td>
-                    <td class="grid-cell fix-w text-right">@item.WRQTY</td>
-                    <td class="grid-cell fix-w text-right">@item.WRPndIssQty</td>
-                    <td class="grid-cell fix-w text-right">@item.MinLevel</td>
-                    <td class="grid-cell fix-w text-right">@item.TotalQty</td>
-                    <td class="grid-cell fix-w text-right">@item.CurrentStock</td>
-                    <td class="grid-cell fix-w text-right">@item.InTransitQty</td>
-                    <td class="grid-cell fix-w text-right">@item.PendingPRQty</td>
-                    <td class="grid-cell fix-w text-right">@item.ShortorExcess</td>
-                    <td class="grid-cell fix-w2">@item.UnitName</td>
-                    @*<th class="text-left fix-1 last"></th>*@
+
+        @foreach (var item in Model)
+    {
+            <tbody class="grid_row">
+                <tr @if(item.ShortorExcess < 0) {  @: class="report-highlight"
+                                }>
+                    <td class="grid-cell">@item.ItemName</td>
+                    <td class="grid-cell">@item.PartNo</td>
+                    <td class="grid-cell text-right">@item.WRQTY</td>
+                    <td class="grid-cell text-right">@item.WRPndIssQty</td>
+                    <td class="grid-cell text-right">@item.MinLevel</td>
+                    <td class="grid-cell text-right">@item.TotalQty</td>
+                    <td class="grid-cell text-right">@item.CurrentStock</td>
+                    <td class="grid-cell text-right">@item.InTransitQty</td>
+                    <td class="grid-cell text-right">@item.PendingPRQty</td>
+                    <td class="grid-cell text-right">@item.ShortorExcess</td>
+                    <td class="grid-cell">@item.UnitName</td>
                 </tr>
-            }
-        </tbody>
+
+            </tbody>
+    }
     </table>
-</div>
+
+
+
 
 
 

@@ -26,6 +26,7 @@ namespace ArabErp.Domain
         public int Quantity { get; set; }
         public string Remarks { get; set; }
         public string isDirect { get; set; }
+        public string OSDATE { get; set; }
         public string GRNNo { get; set; }
         public DateTime GRNDate { get; set; }
         public string SupplierName { get; set; }

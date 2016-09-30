@@ -54,7 +54,7 @@ namespace ArabErp.DAL
                     InsertLoginHistory(dataConnection, objWorkShopRequest.CreatedBy, "Create", "Workshop Request", id.ToString(), "0");
                     trn.Commit();
 
-                    return id + "|WOR/" + internalId;
+                    return id + "|" + internalId;
                 }
                 catch (Exception)
                 {
@@ -149,31 +149,91 @@ namespace ArabErp.DAL
                 return objWorkShopRequests;
             }
         }
+
         public int UpdateWorkShopRequest(WorkShopRequest objWorkShopRequest)
         {
             using (IDbConnection connection = OpenConnection(dataConnection))
             {
-                string sql = @"UPDATE WorkShopRequest SET WorkShopRequestRefNo = @WorkShopRequestRefNo ,WorkShopRequestDate = @WorkShopRequestDate ,SaleOrderId = @SaleOrderId ,CustomerId = @CustomerId,CustomerOrderRef = @CustomerOrderRef,SpecialRemarks = @SpecialRemarks,RequiredDate = @RequiredDate,CreatedBy = @CreatedBy,CreatedDate = @CreatedDate  OUTPUT INSERTED.WorkShopRequestId  WHERE WorkShopRequestId = @WorkShopRequestId";
-                
-                var id = connection.Execute(sql, objWorkShopRequest);
-                InsertLoginHistory(dataConnection, objWorkShopRequest.CreatedBy, "Updatte", "Workshop Request", id.ToString(), "0");
-                return id;
+                string sql = string.Empty;
+                IDbTransaction txn = connection.BeginTransaction();
+
+
+                sql = @"UPDATE WorkShopRequest SET WorkShopRequestRefNo = @WorkShopRequestRefNo ,WorkShopRequestDate = @WorkShopRequestDate ,SaleOrderId = @SaleOrderId ,CustomerId = @CustomerId,CustomerOrderRef = @CustomerOrderRef,SpecialRemarks = @SpecialRemarks,RequiredDate = @RequiredDate,CreatedBy = @CreatedBy,CreatedDate = @CreatedDate,isAdditionalRequest=@isAdditionalRequest  WHERE WorkShopRequestId = @WorkShopRequestId;
+	                               
+                        DELETE FROM WorkShopRequestItem WHERE WorkShopRequestId = @WorkShopRequestId;";
+
+                try
+                {
+                    var id = connection.Execute(sql, objWorkShopRequest, txn);
+                    var saleorderitemrepo = new SalesQuotationItemRepository();
+
+                    foreach (var item in objWorkShopRequest.Items)
+                    {
+                        item.WorkShopRequestId = objWorkShopRequest.WorkShopRequestId;
+                        new WorkShopRequestItemRepository().InsertWorkShopRequestItem(item, connection, txn);
+                    }
+
+
+                    InsertLoginHistory(dataConnection, objWorkShopRequest.CreatedBy, "Update", "Workshop Request", id.ToString(), objWorkShopRequest.OrganizationId.ToString());
+                    txn.Commit();
+                    return id;
+                }
+                catch (Exception ex)
+                {
+                    txn.Rollback();
+                    throw ex;
+                }
             }
         }
+//        public int UpdateWorkShopRequest(WorkShopRequest objWorkShopRequest)
+//        {
+//            using (IDbConnection connection = OpenConnection(dataConnection))
+//            {
+//                IDbTransaction txn = connection.BeginTransaction();
+//                string sql = @"UPDATE WorkShopRequest SET WorkShopRequestRefNo = @WorkShopRequestRefNo ,WorkShopRequestDate = @WorkShopRequestDate ,SaleOrderId = @SaleOrderId ,CustomerId = @CustomerId,CustomerOrderRef = @CustomerOrderRef,SpecialRemarks = @SpecialRemarks,RequiredDate = @RequiredDate,CreatedBy = @CreatedBy,CreatedDate = @CreatedDate  OUTPUT INSERTED.WorkShopRequestId  WHERE WorkShopRequestId = @WorkShopRequestId;
+//
+//                  DELETE FROM WorkShopRequestItem WHERE WorkShopRequestId = @WorkShopRequestId;";
 
-        public int DeleteWorkShopRequest(Unit objWorkShopRequest)
+//                var id = connection.Query<int>(sql, objWorkShopRequest, txn).Single();
+
+//                foreach (WorkShopRequestItem item in objWorkShopRequest.Items)
+//                {
+//                    item.WorkShopRequestId = id;
+//                    new WorkShopRequestItemRepository().InsertWorkShopRequestItem(item, connection, txn);
+//                }
+                  
+             
+//                InsertLoginHistory(dataConnection, objWorkShopRequest.CreatedBy, "Update", "Workshop Request", id.ToString(), "0");
+//                return id;
+//            }
+//        }
+
+   
+        public string DeleteWorkShopRequest(int WorkShopRequestId)
         {
-
             using (IDbConnection connection = OpenConnection(dataConnection))
             {
-                string sql = @"Delete WorkShopRequest  OUTPUT DELETED.WorkShopRequestId WHERE WorkShopRequestId=@WorkShopRequestId";
+                IDbTransaction txn = connection.BeginTransaction();
+                string query = string.Empty;
+                try
+                {
 
 
-                var id = connection.Execute(sql, objWorkShopRequest);
-                InsertLoginHistory(dataConnection, objWorkShopRequest.CreatedBy, "Delete", "Workshop Request", id.ToString(), "0");
-                return id;
+                    query = @"DELETE FROM WorkShopRequestItem WHERE WorkShopRequestId = @WorkShopRequestId;
+                               DELETE FROM WorkShopRequest OUTPUT deleted.WorkShopRequestRefNo WHERE WorkShopRequestId = @WorkShopRequestId;";
+                    string output = connection.Query<string>(query, new { WorkShopRequestId = WorkShopRequestId }, txn).First();
+                    txn.Commit();
+                    return output;
+                }
+                catch (Exception ex)
+                {
+                    txn.Rollback();
+                    throw ex;
+                }
             }
         }
+
+
         /// <summary>
         /// Return details of a job card such as Sale Order No., Customer Name, Customer Order Ref. No.
         /// </summary>
@@ -301,16 +361,37 @@ namespace ArabErp.DAL
             using (IDbConnection connection = OpenConnection(dataConnection))
             {
 
-                string sql = @"SELECT *,S.SaleOrderRefNo,S.EDateArrival,S.EDateDelivery,STUFF((SELECT ', ' + CAST(W.WorkDescr AS VARCHAR(MAX)) [text()]
+                string sql = @"SELECT WR.*,S.SaleOrderRefNo,S.EDateArrival,S.EDateDelivery,STUFF((SELECT ', ' + CAST(W.WorkDescr AS VARCHAR(MAX)) [text()]
                              FROM SaleOrderItem SI inner join WorkDescription W on W.WorkDescriptionId=SI.WorkDescriptionId
                              WHERE SI.SaleOrderId = S.SaleOrderId
                              FOR XML PATH(''), TYPE).value('.','NVARCHAR(MAX)'),1,2,' ') WorkDescription,S.isProjectBased from WorkShopRequest WR 
                              INNER JOIN SaleOrder S on S.SaleOrderId=WR.SaleOrderId
                              INNER JOIN  Customer C  ON S.CustomerId =C.CustomerId
                              WHERE WorkShopRequestId = @WorkShopRequestId";
-                var objSaleOrders = connection.Query<WorkShopRequest>(sql, new { WorkShopRequestId = WorkShopRequestId }).Single<WorkShopRequest>();
+                var objWrkshopRequests = connection.Query<WorkShopRequest>(sql, new { WorkShopRequestId = WorkShopRequestId }).Single<WorkShopRequest>();
+                try
+                {
+                    sql = @"SELECT WorkShopRequestId FROM PurchaseRequest WHERE WorkShopRequestId=@WorkShopRequestId";
+                    objWrkshopRequests.Isused = Convert.ToBoolean(connection.Query<int>(sql, new { WorkShopRequestId = WorkShopRequestId }).First());
+                }
+                catch
+                {
+                    objWrkshopRequests.Isused = false;
+                  
+                }
+                try
+                {
+                    sql = @"SELECT WorkShopRequestId FROM StoreIssue WHERE WorkShopRequestId=@WorkShopRequestId";
+                    objWrkshopRequests.IsStoreused = Convert.ToBoolean(connection.Query<int>(sql, new { WorkShopRequestId = WorkShopRequestId }).First());
 
-                return objSaleOrders;
+                }
+                catch
+                {
+                   
+                    objWrkshopRequests.IsStoreused = false;
+                }
+
+                return objWrkshopRequests;
             }
         }
         public List<WorkShopRequestItem> GetWorkShopRequestDtData(int WorkShopRequestId)

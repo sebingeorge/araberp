@@ -48,6 +48,7 @@
     <Compile Include="Box.cs" />
     <Compile Include="ClosingStock.cs" />
     <Compile Include="CommissionAgent.cs" />
+    <Compile Include="Company.cs" />
     <Compile Include="Consumption.cs" />
     <Compile Include="ConsumptionItem.cs" />
     <Compile Include="CostingParameters.cs" />
@@ -76,6 +77,7 @@
     <Compile Include="GRNAddition.cs" />
     <Compile Include="GRNDeduction.cs" />
     <Compile Include="ItemSellingPrice.cs" />
+    <Compile Include="ItemSellingPriceList.cs" />
     <Compile Include="OpeningStockReport.cs" />
     <Compile Include="PrefixSettingsVsOrganization.cs" />
     <Compile Include="ProjectCompletion.cs" />

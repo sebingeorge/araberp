@@ -31,11 +31,11 @@
         <ul class="dropdown-menu">            
             @if (Model.PendingProjectQuotations && alertPermissions.ProjectQuotApproval == true)
             {
-                <li><a href="@Url.Action("ListSalesQuotations", "SalesQuotation", new { ProjectBased = 1 })" class="form_input"><span class="badge pull-right" style="margin-right:5px;">@Model.NoOfProjectQuotations</span>Prj. Quot. For Approval</a></li>
+                <li><a href="@Url.Action("ListSalesQuotations", "SalesQuotation", new { ProjectBased = 1, AfterSales = 0 })" class="form_input"><span class="badge pull-right" style="margin-right:5px;">@Model.NoOfProjectQuotations</span>Prj. Quot. For Approval</a></li>
             }
             @if (Model.PendingTransQuotations && alertPermissions.TransportQuotApproval == true)
             {
-                <li><a href="@Url.Action("ListSalesQuotations", "SalesQuotation", new { ProjectBased = 0 })" class="form_input"><span class="badge pull-right">@Model.NoOfTransQuotations</span>Trn. Quot. For Approval</a></li>
+                <li><a href="@Url.Action("ListSalesQuotations", "SalesQuotation", new { ProjectBased = 0, AfterSales = 0 })" class="form_input"><span class="badge pull-right">@Model.NoOfTransQuotations</span>Trn. Quot. For Approval</a></li>
             }
             @if (Model.PendingSupplyOrders && alertPermissions.PendingSupplyOrdForGrn == true)
             {
@@ -47,7 +47,7 @@
             }
             @if (Model.PendingWorkshopRequests && alertPermissions.PendingSOForWorkshopReq == true)
             {
-                <li><a href="@Url.Action("WorkShopRequestPending", "WorkShopRequest")" class="form_input"><span class="badge pull-right">@Model.NoOfWorkShopRequests</span>S.O for Work. Requ.</a></li>
+                <li><a href="@Url.Action("Pending", "WorkShopRequest" ,new { isprojectbased=0 })" class="form_input"><span class="badge pull-right">@Model.NoOfWorkShopRequests</span>S.O for Work. Requ.</a></li>
             }
         </ul>
     </li>
