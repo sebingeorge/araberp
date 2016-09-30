@@ -35,7 +35,7 @@ namespace ArabErp.DAL
                     IDbTransaction trn = connection.BeginTransaction();
                     try
                     {
-                        model.TotalWorkAmount = model.SalesQuotationItems.Sum(m => (m.Amount));
+                        model.TotalWorkAmount = model.SalesQuotationItems.Sum(m => (m.TotalAmount));
                       
                         if ( model.isAfterSales  )
                         {
