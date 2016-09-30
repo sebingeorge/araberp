@@ -7226,7 +7226,7 @@ td.visible-print {
 
         .incentive
      {
-        margin-top:3px !important;
+        margin-top:-12px !important;
         padding-right:0 !important;
     }
      .incentive h5 
@@ -7437,7 +7437,7 @@ td.visible-print {
 
     .incentive
      {
-        margin-top:3px !important;
+        margin-top:-17px !important;
     }
     .QuickLink .dropdown-menu 
 
@@ -7595,3 +7595,228 @@ td.visible-print {
 }
 
 
+/*.table-fixed thead {
+  width: 94.4%;
+  position:absolute;
+  color:#fff;
+  background-color:#676464;
+
+}
+.table-fixed tbody {
+
+  overflow-y: auto;
+  width: 100%;
+  border:0 !important;
+}
+.table-fixed thead, .table-fixed tbody, .table-fixed tr, .table-fixed td, .table-fixed th {
+  display:  inline-block;
+}
+.table-fixed tr
+{
+     display:flex;
+}
+.table-fixed tbody td, .table-fixed thead > tr> th {
+  float: left;
+  border-bottom-width: 0;
+  margin-left:0px;
+}
+    .table-fixed tbody td.pr, .table-fixed thead > tr > th.pr {
+        width:10%;
+    }
+        .table-fixed tbody td.pr1, .table-fixed thead > tr > th.pr1 {
+        width:31%;
+    }
+   .table-fixed tbody td.pr2, .table-fixed thead > tr > th.pr2 {
+        width:9%;
+    }
+    .table-fixed thead > tr > th 
+    {
+        border-right:0 !important;
+    }
+    .table-fixed tbody td
+    {
+
+        border-bottom:0 !important;
+        border-right:0 !important;
+        word-wrap: break-word
+    }
+.table-fixed .grid_row tr {
+    height:auto;
+
+}
+
+
+.table-fixed  thead tr.grid_heading h1 {
+    color: hsl(0, 0%, 100%);
+    font-size: 13px;
+    font-weight: bold;
+    margin: 0;
+    padding-bottom: 0;
+    padding-top: 0;
+}
+
+
+@media only screen and (min-width:320px) and (max-width: 640px) {
+    .table-fixed tbody tr td 
+    {
+        font-size:11px !important;
+        line-height:12px !important;
+    }
+
+}*/
+
+
+
+
+.component {
+	line-height: 1.5em;
+	margin: 0 auto;
+	padding: 2em 0 3em;
+	width: 90%;
+	max-width: 1000px;
+	overflow: hidden;
+}
+
+
+/* For appearance */
+.grid-mvc .sticky-wrap 
+{
+   overflow-x: hidden;
+	overflow-y:hidden;
+    max-height: none;
+    margin-bottom:0;
+}
+#availability .sticky-wrap {
+	overflow-x: scroll;
+	overflow-y:scroll;
+	position: relative;
+	/*margin: 3em 0;*/
+    max-height: 350px;
+    width:119%;
+}
+#availability1 .sticky-wrap {
+	overflow-x: scroll;
+	overflow-y:scroll;
+	position: relative;
+	/*margin: 3em 0;*/
+    max-height: 350px;
+}
+
+.scroll1 .sticky-wrap {
+	overflow-x: auto;
+	overflow-y:auto;
+	position: relative;
+	/*margin: 3em 0;*/
+	width: 100%;
+    max-height: 350px;
+    /*margin-bottom:10px;*/
+}
+
+.sticky-wrap {
+	overflow-x: auto;
+	overflow-y:auto;
+	position: relative;
+	/*margin: 3em 0;*/
+	width: 100%;
+    max-height: 350px;
+    margin-bottom:10px;
+}
+.sticky-wrap .sticky-thead,
+.sticky-wrap .sticky-col,
+.sticky-wrap .sticky-intersect {
+	opacity: 0;
+	position: absolute;
+	top: 0;
+	left: 0;
+	transition: all .125s ease-in-out;
+	z-index: 50;
+	width:100% !important; /* Prevent table from stretching to full size */
+}
+	.sticky-wrap .sticky-thead {
+		box-shadow: 0 0.25em 0.1em -0.1em rgba(0,0,0,.125);
+		z-index: 100;
+		width: 100% !important; /* Force stretch */
+	}
+	.sticky-wrap .sticky-intersect {
+		opacity: 1;
+		z-index: 150;
+
+	}
+		.sticky-wrap .sticky-intersect th {
+			background-color: #666;
+			color: #eee;
+		}
+.sticky-wrap td,
+.sticky-wrap th {
+	box-sizing: border-box;
+
+}
+    .sticky-wrap th 
+    {
+           border-right:1px solid #dddddd;
+                font-size: 12px;
+    padding-left: 7px;
+    padding-right: 7px;
+    }
+
+/* Not needed for sticky header/column functionality */
+td.user-name {
+	text-transform: capitalize;
+}
+.sticky-wrap.overflow-y {
+	overflow-y: auto;
+	max-height: 50vh;
+}
+
+@media only screen and (min-width:320px) and (max-width: 640px) {
+
+.scroll1 .sticky-wrap {
+    
+        width:635% !important;
+
+}
+
+.sticky-wrap {
+    
+        width:239% !important;
+
+}
+
+    #availability .sticky-wrap
+     {
+                width:635% !important;
+    }
+
+            
+        #availability1 .sticky-wrap
+     {
+                width:635% !important;
+    }
+
+}
+
+@media only screen and (min-width:768px) and (max-width: 1024px) {
+
+        #availability .sticky-wrap
+     {
+                width:215% !important;
+    }
+        
+        #availability1 .sticky-wrap
+     {
+                width:215% !important;
+    }
+        .sticky-wrap {
+    
+        width:239% !important;
+
+}
+
+        .scroll1 .sticky-wrap {
+    
+        width:239% !important;
+
+}
+
+
+}

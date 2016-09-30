@@ -1,51 +1,55 @@
-﻿@model IEnumerable<ArabErp.Domain.TransactionHistory>
-<table class="table table-bordered">
-    <thead>
-        <tr class="grid_heading">
-            <th width="4%" class="text-center"><h1>#</h1></th>
-            <th width="20%" nowrap><h1>User Name</h1></th>
-            <th width="20%" nowrap><h1>Form</h1></th>
-            <th width="20%" nowrap><h1>Mode</h1></th>
-            <th width="20%" nowrap><h1>Trans Time</h1></th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody class="grid_row">
-        @if (Model.Count() > 0)
-        {
-            int i = 0;
-            foreach (var item in Model)
-            {
-                <tr>
-                    <td align="center">
-                        @(++i)
-                    </td>
-                    <td>
-                        @item.UserName
-                    </td>
-                    <td>
-                        @item.Form
-                    </td>
-                    <td>
-                        @item.Mode
-                    </td>
-                    <td>
-                        @item.TransTime.ToString("dd-MMM-yyyy hh:mm")
-                    </td>
-                    <td></td>
-                </tr>
-            }
-        }
-        else
-        {
-            <tr>
-                <td colspan="6">
-                    <center>
-                        <em>No items found!</em>
-                    </center>
-                </td>
+﻿@model List<ArabErp.Domain.TransactionHistory>
+<div class="main-grid main-grid-top scroll1">
+    <table class="table table-bordered">
+        <thead>
+            <tr class="grid_heading">
+                <th width="4%" class="text-center"><h1>#</h1></th>
+                <th width="20%" nowrap><h1>User Name</h1></th>
+                <th width="20%" nowrap><h1>Form</h1></th>
+                <th width="20%" nowrap><h1>Mode</h1></th>
+                <th width="20%" nowrap><h1>Date & Time</h1></th>
+                @*<th></th>*@
             </tr>
-        }
-    </tbody>
-</table>
+        </thead>
+        <tbody class="grid_row">
+            @{
+                if (Model.Count > 0)
+                {
+                    for (int i = 0; i < Model.Count; i++)
+                    {
+                        <tr>
+                            <td> @(i+1) </td>
+                            
+                            <td> @Model[i].UserName </td>
+
+                            <td> @Model[i].Form </td>
+
+                            <td> @Model[i].Mode </td>
+
+                            <td> @Model[i].TransTime.ToString("dd-MMM-yyyy hh:mm")</td>
+                            @*<td></td>*@
+                        </tr>
+                    }
+
+                }
+
+
+
+                else
+                {
+                    <tr>
+                        <td colspan="6">
+                            <center>
+                                <em>No items found!</em>
+                            </center>
+                        </td>
+                    </tr>
+                }
+            }
+        </tbody>
+    </table>
+</div>
+    <div class="row-count1">
+        <h5>Row Count:- @Model.Count()</h5>
+    </div>
 
