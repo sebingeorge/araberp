@@ -48,6 +48,7 @@
     <Compile Include="Box.cs" />
     <Compile Include="ClosingStock.cs" />
     <Compile Include="CommissionAgent.cs" />
+    <Compile Include="Company.cs" />
     <Compile Include="Consumption.cs" />
     <Compile Include="ConsumptionItem.cs" />
     <Compile Include="CostingParameters.cs" />

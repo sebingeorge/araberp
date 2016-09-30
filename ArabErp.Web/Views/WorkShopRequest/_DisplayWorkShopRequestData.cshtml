@@ -23,10 +23,9 @@
     }
 
     function OnItemChanged(sender, index) {
-        //alert("hai");
+       
         var id = $(sender).val();
-        //var abc= $(index).val();
-        //alert(abc);
+      
         if (id != '') {
             var url = '@Url.Action("GetItemUnit")';//get unit of selected item
             $.getJSON(url, { itemId: id },
@@ -34,7 +33,7 @@
 
                     $("#unitname" + index).html(data);
                     var unit=$("#unitname");
-                    alert(data);
+                   
                 });
 
             url = '@Url.Action("GetItemPartNo")';//get part number of selected item
@@ -177,7 +176,7 @@
                       }            
                         @Html.HiddenFor(m => m.Items[row].ItemId)                      
                     </td>
-                    <td id="partno0">@Html.TextBoxFor(m => m.Items[row].PartNo, new { @class = "form_input", autocomplete = "off", placeholder = "Part No.", @readonly = "readonly" })</td>
+                    <td id="partno@(row)">@Html.TextBoxFor(m => m.Items[row].PartNo, new { @class = "form_input", autocomplete = "off", placeholder = "Part No.", @readonly = "readonly" })</td>
                     <td>@Html.TextBoxFor(m => m.Items[row].Remarks, new { @class = "form_input", autocomplete = "off", placeholder = "Remarks" })</td>
                   
                      <td>
@@ -194,7 +193,7 @@
                       }
                     </td>
                   
-                    <td id="unitname0">@Html.TextBoxFor(m => m.Items[row].UnitName, new { @class = "form_input", autocomplete = "off", @readonly = "readonly" })</td>
+                    <td id="unitname@(row)">@Html.TextBoxFor(m => m.Items[row].UnitName, new { @class = "form_input", autocomplete = "off", @readonly = "readonly" })</td>
                     @Html.HiddenFor(m => m.Items[row].isAddtionalMaterialRequest)
                     
                     <td>
