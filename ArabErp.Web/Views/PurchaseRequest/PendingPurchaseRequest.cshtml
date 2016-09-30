@@ -41,68 +41,68 @@
         }
         @{ TempData["success"] = TempData["error"] = ""; }
 
-        
+
     })
 </script>
 
 
-    <div class="row">
+<div class="row">
 
-        <div class="form-head1">
-            <h4>Pending Workshop Requests for Purchase Request</h4>
-        </div>
-             
-        <div class="main-part pad1">
-            <div class="row">
-                <div class="main-grid main-grid-top scroll1">
-                    <div class="table-responsive">
-                        <table class="table table-bordered">
-                            <thead>
-                                <tr class="grid_heading">
-                                    <th width="13%"><h1>WR. No. & Date</h1></th>
-                                    <th width="27%"><h1>Customer</h1></th>
-                                    <th width="13%"><h1>Customer Order Ref.</h1></th>
-                                    <th width="13%"><h1>SO. No. & Date</h1></th>
-                                    <th width="10%"><h1>Required Date</h1></th>
-                                    <th width="7%"><h1>Ageing</h1></th>
-                                    <th width="7%"><h1>Days Left</h1></th>
-                                    <th width="10%"><center><h1></h1></center></th>
+    <div class="form-head1">
+        <h4>Pending Workshop Requests for Purchase Request</h4>
+    </div>
 
+    <div class="main-part pad1">
+        <div class="row">
+            <div class="main-grid main-grid-top">
+                <div class="table-responsive scroll1">
+                    <table class="table table-bordered">
+                        <thead>
+                            <tr class="grid_heading">
+                                <th width="13%"><h1>WR. No. & Date</h1></th>
+                                <th width="27%"><h1>Customer</h1></th>
+                                <th width="13%"><h1>Customer Order Ref.</h1></th>
+                                <th width="13%"><h1>SO. No. & Date</h1></th>
+                                <th width="10%"><h1>Required Date</h1></th>
+                                <th width="7%"><h1>Ageing</h1></th>
+                                <th width="7%"><h1>Days Left</h1></th>
+                                <th width="10%"><center><h1></h1></center></th>
+
+                            </tr>
+                        </thead>
+                        @foreach (var item in Model)
+                        {
+                            <tbody class="grid_row">
+                                <tr>
+                                    <td class="grid-cell">@item.WorkShopRequestRefNo &amp; @item.WorkShopRequestDate.ToString("dd/MMM/yyyy")</td>
+                                    <td class="grid-cell">@item.CustomerName</td>
+                                    <td class="grid-cell">@item.CustomerOrderRef</td>
+                                    <td class="grid-cell">@item.SaleOrderRefNo &amp; @item.SaleOrderDate.ToString("dd/MMM/yyyy")</td>
+                                    <td class="grid-cell">@item.RequiredDate.ToString("dd/MMM/yyyy")</td>
+                                    <td class="grid-cell">@item.Ageing</td>
+                                    <td class="grid-cell">@item.DaysLeft</td>
+                                    <td><center>@Html.ActionLink("Select", "Create", "PurchaseRequest", new { WorkShopRequestId = @item.WorkShopRequestId }, new { @class = "form-button5" })</center></td>
                                 </tr>
-                            </thead>
-                            @foreach (var item in Model)
-                            {
-                                <tbody class="grid_row">
-                                    <tr>
-                                        <td class="grid-cell">@item.WorkShopRequestRefNo &amp; @item.WorkShopRequestDate.ToString("dd/MMM/yyyy")</td>
-                                        <td class="grid-cell">@item.CustomerName</td>
-                                        <td class="grid-cell">@item.CustomerOrderRef</td>
-                                        <td class="grid-cell">@item.SaleOrderRefNo &amp; @item.SaleOrderDate.ToString("dd/MMM/yyyy")</td>
-                                        <td class="grid-cell">@item.RequiredDate.ToString("dd/MMM/yyyy")</td>
-                                        <td class="grid-cell">@item.Ageing</td>
-                                        <td class="grid-cell">@item.DaysLeft</td>
-                                        <td><center>@Html.ActionLink("Select", "Create", "PurchaseRequest", new { WorkShopRequestId = @item.WorkShopRequestId }, new { @class = "form-button5" })</center></td>
-                                    </tr>
-                                </tbody>
-                            }
-                        </table>
-                    </div>
-                </div>
-                <div class="row-count1">
-                    <h5>Row Count:- @Model.Count()</h5>
+                            </tbody>
+                        }
+                    </table>
                 </div>
             </div>
-
-           
-
-
-            <div class="row">
-                <div class="col-md-12 hrpart">
-                    <input class="form-button" type="button" value="Previous" onclick="PreviousList()" />
-                    <input class="form-button right" type="button" value="Exit" onclick="Exit()" />
-                </div>
+            <div class="row-count1">
+                <h5>Row Count:- @Model.Count()</h5>
             </div>
-
         </div>
-     </div>
+
+
+
+
+        <div class="row">
+            <div class="col-md-12 hrpart">
+                <input class="form-button" type="button" value="Previous" onclick="PreviousList()" />
+                <input class="form-button right" type="button" value="Exit" onclick="Exit()" />
+            </div>
+        </div>
+
+    </div>
+</div>
 
