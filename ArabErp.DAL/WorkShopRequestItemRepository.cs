@@ -106,17 +106,7 @@ namespace ArabErp.DAL
             }
         }
 
-        public int DeleteWorkShopRequestItem(Unit objWorkShopRequestItem)
-        {
-            using (IDbConnection connection = OpenConnection(dataConnection))
-            {
-                string sql = @"Delete WorkShopRequestItem  OUTPUT DELETED.WorkShopRequestItemId WHERE WorkShopRequestItemId=@WorkShopRequestItemId";
-
-
-                var id = connection.Execute(sql, objWorkShopRequestItem);
-                return id;
-            }
-        }
+      
         /// <summary>
         /// Insert additional items in workshop request item details table (WorkShopRequestItem table)
         /// </summary>

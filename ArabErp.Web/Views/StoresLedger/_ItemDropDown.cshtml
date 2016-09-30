@@ -2,6 +2,6 @@
 
 
 
-@Html.DropDownListFor(m => Model.ItemId, (SelectList)ViewBag.ItemList, "Any", new { @class = "form_input" })
+@Html.DropDownListFor(m => Model.ItemId, (SelectList)ViewBag.ItemList, "Select Material/Spares", new { @class = "form_input", @onchange = "Filter()" })
 @Html.HiddenFor(m => Model.ItemId)
 

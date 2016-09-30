@@ -16,8 +16,11 @@ namespace ArabErp.DAL
             using (IDbConnection connection = OpenConnection(dataConnection))
             {
                 //              
-                string qry = @"select stocktrnDate,StockUpdateId,StockUserId,StockType,StockInOut,0 INQTY, 0 OUTQTY  INTO #TEMP  from StockUpdate S  inner join Item I on I.ItemId=S.ItemId
-                               where S.ItemId=@itmid AND  stocktrnDate >= @from AND stocktrnDate <= @to AND S.OrganizationId=@OrganizationId AND I.ItemCategoryId=@itmcatid;
+                string qry = @"SELECT StockPointId,stocktrnDate,StockUpdateId,StockUserId,StockType,StockInOut,0 INQTY, 0 OUTQTY  INTO #TEMP  
+                               FROM StockUpdate S  inner join Item I on I.ItemId=S.ItemId
+                               WHERE stocktrnDate >= @from AND stocktrnDate <= @to AND S.StockPointId=ISNULL(NULLIF(@stkid,0),S.StockPointId)
+                               AND I.ItemCategoryId=ISNULL(NULLIF(@itmcatid, 0), I.ItemCategoryId) AND S.ItemId=ISNULL(NULLIF(@itmid, 0), S.ItemId) 
+                               AND S.OrganizationId=@OrganizationId ;
                  
                 with A as (
                 select StockUpdateId, Quantity from StockUpdate WHERE StockInOut='IN'
