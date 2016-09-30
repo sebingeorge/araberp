@@ -1206,3 +1206,7 @@ section.content {
     float:left;
     margin-right:2px
 }
+
+.report-highlight{
+    color: red;
+}
