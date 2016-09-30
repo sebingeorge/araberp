@@ -13,36 +13,36 @@
         /*background: rgb(221, 221, 221);*/
     }
 </style>
+<div id="availability">
+    <table class="table table-bordered table-hover" style="overflow-x:scroll;margin-bottom: 0px;">
 
-<table class="table table-bordered table-hover" style="overflow-x:scroll;margin-bottom: 0px;">
-
-    <thead>
-        <tr class="grid_heading">
-            <th><h1>Employee</h1></th>
-            <th><h1>Category</h1></th>
-            @{
+        <thead style="width:100%">
+            <tr class="grid_heading">
+                <th><h1>Employee</h1></th>
+                <th><h1>Category</h1></th>
+                @{
                 List<int> sundays = new List<int>();
                 var columns = Model.Select(m => m.TaskDate).Distinct().ToList();
                 //foreach (var item in columns)
                 for (int j = 1; j <= DateTime.DaysInMonth(Model[0].Year, Model[0].Month); j++)
                 {
                     //if (item.ToString().Contains("01-Jan-0001")) { continue; }
-                    
+
                         string day = new DateTime(Model[0].Year, Model[0].Month, j).DayOfWeek.ToString().Substring(0, 3);
                         if (day.StartsWith("Sun"))
                         {
                             sundays.Add(j);
                         }
-                    
+
                     <th style="text-align:center;">
                         <h1>@j @day</h1>
                     </th>
                 }
-            }
-        </tr>
-    </thead>
-    <tbody class="grid_row">
-        @{
+                }
+            </tr>
+        </thead>
+        <tbody class="grid_row">
+            @{
             if (Model != null && Model.Count > 0)
             {
                 var employee = Model.Select(m => m.EmployeeId).ToList().Distinct();
@@ -54,7 +54,7 @@
                                 var emp = (from EmployeeResourceAvailability p in Model
                                                 where p.EmployeeId == id
                                                 select p).First();
-                                            @emp.EmployeeName
+                                                @emp.EmployeeName
                             }
                         </td>
                         <td>
@@ -64,12 +64,10 @@
                             //foreach (var date in columns)
                             for (int i = 1; i <= DateTime.DaysInMonth(Model[0].Year, Model[0].Month); i++)
                             {
-                                <td @if (sundays.Contains(i))
-                                    {
-                                        @:class="Sun"
-                                    }
-                                nowrap>
-                                @{
+                                <td @if (sundays.Contains(i)) { @: class="Sun"
+                                                                        }
+                                    nowrap>
+                                    @{
                                     var jobcards = Model.Where(m => m.TaskDate.Day == i && m.EmployeeId == id).Select(m => m);
                                     if (jobcards != null && jobcards.Count() > 0)
                                     {
@@ -85,7 +83,7 @@
                                             {
                                                 <div style="background-color:green;height:5px;width:5px;float:left;margin-top:5px;margin-right:2px"></div>
                                             }
-                                            <a data-toggle="tooltip" 
+                                            <a data-toggle="tooltip"
                                                data-placement="right"
                                                style="text-decoration: none;"
                                                title="@jobcards.ToList()[0].JobCardNo - @jobcards.ToList()[0].JobCardTaskName">
@@ -95,38 +93,38 @@
                                         else
                                         {
                                             <table style="width:100%;background-color:transparent">
-                                            @foreach (var j in jobcards)
+                                                @foreach (var j in jobcards)
                                             {
                                                 if (j.TaskDate.ToString().Contains("01-Jan-0001")) { continue; }
-                                                <tr>
-                                                    <td style="border:none;">
-                                                        @*<font color="red">*@
-                                                        @*@j.JobCardNo - @j.JobCardTaskName*@
-                                                        @*</font>*@
-                                                        @if (j.isProjectBased)
+                                                    <tr>
+                                                        <td style="border:none;">
+                                                            @*<font color="red">*@
+                                                            @*@j.JobCardNo - @j.JobCardTaskName*@
+                                                            @*</font>*@
+                                                            @if (j.isProjectBased)
                                                         {
-                                                            <div style="background-color:red;height:5px;width:5px;float:left;margin-top:5px;margin-right:2px"></div>
+                                                                <div style="background-color:red;height:5px;width:5px;float:left;margin-top:5px;margin-right:2px"></div>
                                                         }
                                                         else
                                                         {
-                                                            <div style="background-color:green;height:5px;width:5px;float:left;margin-top:5px;margin-right:2px"></div>
+                                                                <div style="background-color:green;height:5px;width:5px;float:left;margin-top:5px;margin-right:2px"></div>
                                                         }
-                                                        <a data-toggle="tooltip"
-                                                           data-placement="right"
-                                                           style="text-decoration: none;"
-                                                           title="@j.JobCardNo - @j.JobCardTaskName">
-                                                            @j.Hours hrs
-                                                        </a>
-                                                    </td>
-                                                </tr>
+                                                            <a data-toggle="tooltip"
+                                                               data-placement="right"
+                                                               style="text-decoration: none;"
+                                                               title="@j.JobCardNo - @j.JobCardTaskName">
+                                                                @j.Hours hrs
+                                                            </a>
+                                                        </td>
+                                                    </tr>
                                             }
-                                        </table>
+                                            </table>
                                         }
                             }
+                                    }
+                                </td>
                         }
-                            </td>
                         }
-                    }
                     </tr>
                 }
             }
@@ -140,7 +138,8 @@
                     </td>
                 </tr>
             }
-        }
-    </tbody>
+            }
+        </tbody>
 
-</table>
+    </table>
+</div>
