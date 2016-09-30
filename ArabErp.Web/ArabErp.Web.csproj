@@ -225,6 +225,7 @@
     <Compile Include="Controllers\BoxController.cs" />
     <Compile Include="Controllers\ClosingStockController.cs" />
     <Compile Include="Controllers\CommissionAgentController.cs" />
+    <Compile Include="Controllers\CompanyController.cs" />
     <Compile Include="Controllers\ConsumptionController.cs" />
     <Compile Include="Controllers\CostingParametersController.cs" />
     <Compile Include="Controllers\CurrencyController.cs" />
@@ -973,6 +974,8 @@
     <Content Include="Views\Organization\Index.cshtml" />
     <Content Include="Views\ItemSellingPrice\Index.cshtml" />
     <Content Include="Views\ItemSellingPrice\_ItemSellingPriceGrid.cshtml" />
+    <Content Include="Views\Company\Index.cshtml" />
+    <Content Include="Views\Company\Create.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

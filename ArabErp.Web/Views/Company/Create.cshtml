@@ -1,0 +1,183 @@
+﻿@model ArabErp.Domain.Company
+@{ Layout = "~/Views/Shared/_Layout.cshtml";}
+
+@{string actionName = HttpContext.Current.Request.RequestContext.RouteData.Values["action"].ToString(); }
+
+
+<script type="text/javascript">
+    function Exit() {
+        location.href = '@Url.Action("Index","Home")';
+    }
+
+        $(document).ready(function () {
+            var Action = '@actionName';
+            if (Action == 'Delete') {
+
+                $("input[type='text'], select, textarea").attr('disabled', 'disabled');
+                $("input[type=radio]").attr('disabled', true);
+            }
+            if (Action == 'Create') {
+                $("#GenderId").prop("checked", true)
+            }
+
+
+
+            toastr.options = {
+                "closeButton": true,
+                "positionClass": "toast-bottom-full-width",
+                "preventDuplicates": false,
+                "onclick": null,
+
+                "timeOut": "0",
+                "extendedTimeOut": "1000",
+                "showEasing": "swing",
+                "hideEasing": "linear",
+                "showMethod": "fadeIn",
+                "hideMethod": "fadeOut"
+            }
+            if ('@TempData["success"]' != "" && '@TempData["BoxRefNo"]' != "") {
+                toastr.success('@TempData["success"]' + '  Box Ref No. is : ' + '@TempData["BoxRefNo"]');
+            }
+            else if ('@TempData["error"]' != "") {
+                toastr.error('@TempData["error"]');
+            }
+        });
+
+    
+        </script>
+
+
+    <div class="row">
+    <div class="form-head1">
+        <h4>Company</h4>
+    </div>
+    <div class="main-part pad1">
+        @using (Html.BeginForm(null, null, FormMethod.Post, new { @class = "createFrom", @id = "company_form" }))
+        {
+
+            <div class="row">
+
+                <div class="col-md-4">
+                    <div class="row rowr">
+                        <span>&nbsp;</span><br />
+                        @Html.HiddenFor(m => m.cmpCode)
+
+
+                        <div class="part4">
+                            <label for="CmpUserCode">User Code</label>
+                            @Html.TextBoxFor(m => m.cmpUsercode, new { @class = "form_input form_input-half", autocomplete = "off" })
+                        </div>
+
+                        <div class="part4">
+                            <label for="CmpName">Company Name</label>
+                            @Html.TextBoxFor(m => m.cmpName, new { @class = "form_input", autocomplete = "off" })
+                        </div>
+
+                        <div class="part4">
+                            <label for="CmpShrtName">Company ShortName</label>
+                            @Html.TextBoxFor(m => m.cmpShrtName, new { @class = "form_input", autocomplete = "off" })
+                        </div>
+
+                        <div class="part4">
+                            <label for="CmpRemarks">Company Remarks</label>
+                            @Html.TextBoxFor(m => m.cmpRemarks, new { @class = "form_input", autocomplete = "off" })
+                        </div>
+                        <div class="part4">
+                            <label for="CmpDoorNo">Company DoorNo</label>
+                            @Html.TextBoxFor(m => m.cmpDoorNo, new { @class = "form_input", autocomplete = "off" })
+                        </div>
+                        <div class="part4">
+                            <label for="CmpStreet">Company Street</label>
+                            @Html.TextBoxFor(m => m.cmpStreet, new { @class = "form_input", autocomplete = "off" })
+                        </div>
+                        <div class="part4">
+                            <label for="CmpArea">Company Area</label>
+                            @Html.TextBoxFor(m => m.cmpArea, new { @class = "form_input", autocomplete = "off" })
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-4">
+                    <div class="row rowl">
+                        <span>&nbsp;</span><br />
+                        <div class="part4">
+                            <label for="CmpState">Company State</label>
+                            @Html.TextBoxFor(m => m.cmpState, new { @class = "form_input", autocomplete = "off" })
+                        </div>
+                        <div class="part4">
+                            <label for="CmpPhNo">Ph No.</label>
+                            @Html.TextBoxFor(m => m.cmpPhNo, new { @class = "form_input", autocomplete = "off" })
+                        </div>
+                        <div class="part4">
+                            <label for="CmpFax">Company Fax</label>
+                            @Html.TextBoxFor(m => m.cmpFax, new { @class = "form_input", autocomplete = "off" })
+                        </div>
+                        <div class="part4">
+                            <label for="CmpEmail">Company Email</label>
+                            @Html.TextBoxFor(m => m.cmpEmail, new { @class = "form_input", autocomplete = "off" })
+                        </div>
+                        <div class="part4">
+                            <label for="CmpWeb">Company Web</label>
+                            @Html.TextBoxFor(m => m.cmpWeb, new { @class = "form_input", autocomplete = "off" })
+                        </div>
+                        <div class="part4">
+                            <label for="CmpPan">Company PAN</label>
+                            @Html.TextBoxFor(m => m.cmpPAN, new { @class = "form_input", autocomplete = "off" })
+                        </div>
+                        <div class="part4">
+                            <label for="CmpSSN">Company SSN</label>
+                            @Html.TextBoxFor(m => m.cmpSSN, new { @class = "form_input", autocomplete = "off" })
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-4">
+                    <div class="row rowl">
+
+                        <span>&nbsp;</span><br />
+                        <div class="part4">
+                            <label for="CmpVat">Company VAT No</label>
+                            @Html.TextBoxFor(m => m.cmpVATNo, new { @class = "form_input", autocomplete = "off" })
+                        </div>
+                        <div class="part4">
+                            <label for="CmpCst">Company CST</label>
+                            @Html.TextBoxFor(m => m.cmpCSTNo, new { @class = "form_input", autocomplete = "off" })
+                            <div class="part4">
+                                <label for="CmpIECode">Company IE Code</label>
+                                @Html.TextBoxFor(m => m.cmpIECode, new { @class = "form_input", autocomplete = "off" })
+                            </div>
+                            <div class="part4">
+                                <label for="CmpWorkSheetNo">Company WorkSheet No</label>
+                                @Html.TextBoxFor(m => m.cmpWorkSheetNo, new { @class = "form_input", autocomplete = "off" })
+                                <div class="part4">
+                                    <label for="cmpFormPrefix">Company Form Prefix</label>
+                                    @Html.TextBoxFor(m => m.cmpFormPrefix, new { @class = "form_input", autocomplete = "off" })
+                                </div>
+                            </div>
+                        </div>
+                  
+                      </div>
+                </div>
+                 
+                    <div class="col-md-4">
+                    </div>
+
+                    <div class="col-md-4">
+                    </div>
+
+                    <div class="col-md-12 hrpart">
+                        <button type="button" class="form-button right" onclick="Exit();">Exit</button>
+                        @if (actionName == "Edit")
+                    { <button type="submit" class="form-button right">Update</button> }
+                    else
+                        if (actionName == "Delete")
+                        {  <button type="submit" class="form-button right">Delete</button>}
+                        else
+                        { <button type="submit" class="form-button right">Save</button>}
+
+                    </div>
+
+                </div>
+                }
+            </div>
+     </div>
