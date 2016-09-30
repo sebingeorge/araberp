@@ -352,8 +352,8 @@ namespace ArabErp
 	                                ISNULL(B.BoxName, '') BoxName
                                 FROM JobCard J
                                 INNER JOIN SaleOrder SO ON J.SaleOrderId = SO.SaleOrderId
-                                INNER JOIN FreezerUnit F ON J.FreezerUnitId = F.FreezerUnitId
-                                INNER JOIN Box B ON J.BoxId = B.BoxId
+                                LEFT JOIN FreezerUnit F ON J.FreezerUnitId = F.FreezerUnitId
+                                LEFT JOIN Box B ON J.BoxId = B.BoxId
                                 WHERE JobCardId = @jobCardId";
                 return connection.Query<Consumption>(query, new { jobCardId = jobCardId }).Single();
             }

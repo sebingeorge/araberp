@@ -176,9 +176,12 @@
         @{ TempData["success"] = TempData["error"] = ""; }
     });
 
-    function Exit() {
+    function Exit(projectbased) {
+        var url = '@Url.Action("PendingSalesQutoforSaleOrder")';
+        url += "?ProjectBased=" + projectbased;
+        window.location = url;
+       
 
-        location.href = '@Url.Action("PendingSalesQutoforSaleOrder", "SaleOrder", new { ProjectBased = 0 })';
     }
 </script>
 @Html.HiddenFor(m => m.SaleOrderId)
@@ -205,7 +208,7 @@
                         @Html.Partial("_SaleOrderFooter", Model)
                         <div class="row">
                             <div class="col-md-12 hrpart">
-                                <button type="button" class="form-button right" onclick="Exit()">Exit</button>
+                                <button type="button" class="form-button right" onclick="Exit(@Model.isProjectBased)">Exit</button>
                                 <button type="submit" class="form-button right">Save</button>
                             </div>
                         </div>      

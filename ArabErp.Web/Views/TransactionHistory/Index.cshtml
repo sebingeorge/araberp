@@ -1,4 +1,4 @@
-﻿@model IEnumerable<ArabErp.Domain.TransactionHistory>
+﻿@model IList<ArabErp.Domain.TransactionHistory>
 @{
     ViewBag.Title = "Transaction History";
     Layout = "~/Views/Shared/_Layout.cshtml";
@@ -12,7 +12,24 @@
             dateFormat: "dd-MM-yy"
         });
     })
-    function Filter()
+
+    function Filter() {
+      
+        $(grid).addClass("fade");
+        var url = '@Url.Action("Grid")';
+        var user = $("#txtUser").val();
+        var form = $("#txtForm").val();
+        var mode = $("#txtMode").val();
+        var from = $("#txtFrom").val();
+        var to = $("#txtTo").val();
+        url += "?from=" + from + "&to=" + to + "&user=" + encodeURIComponent(user) + "&form=" + encodeURIComponent(form) + "&mode=" + encodeURIComponent(mode);
+        //url += "?user=" + encodeURIComponent(user) + "&form=" + encodeURIComponent(form) + "&mode=" + encodeURIComponent(mode) + "&from=" + from + "&to=" + to;
+        $("#grid").load(url, function () {
+            $(grid).removeClass("fade");
+        });
+    }
+
+    @*function Filter()
     {
         var url = '@Url.Action("Grid")';
         var from = $("#txtFrom").val();
@@ -20,7 +37,7 @@
 
         url = url + "?FromDate=" + from + "&ToDate=" + to;
         $("#previous-list").load(url);
-    }
+    }*@
 </script>
 <div class="row">
 
@@ -29,11 +46,27 @@
     </div>
 
     <div class="main-part pad1">
-        <div class="row">            
+        <div class="row">   
+            <div class="col-md-2">
+                <label for="txtUser">User</label>
+                <input type="text" class="form_input" id="txtUser" onkeyup="Filter()" />
+            </div>
+
+            <div class="col-md-2">
+                <label for="txtForm">Form</label>
+                <input type="text" class="form_input" id="txtForm" onkeyup="Filter()" />
+            </div>
+
+            <div class="col-md-2">
+                <label for="txtMode">Mode</label>
+                <input type="text" class="form_input" id="txtMode" onkeyup="Filter()" />
+            </div>
+
             <div class="col-md-2">
                 <label>From</label>
                 <input id="txtFrom" value="@System.DateTime.Today.AddMonths(-1).ToString("dd-MMMM-yyyy")" onchange="Filter()" class="form_input" />
             </div>
+
             <div class="col-md-2">
                 <label>To</label>
                 <input id="txtTo" value="@System.DateTime.Today.ToString("dd-MMMM-yyyy")" onchange="Filter()" class="form_input" />
@@ -41,11 +74,11 @@
         </div>
         <br />
         <div class="row">
-            <div class="main-grid main-grid-top scroll1">
-                <div class="table-responsive" id="previous-list">
-                    @Html.Partial("_Grid",Model)
+            
+                <div class="table-responsive" id="grid">
+                    @Html.Action("Grid")
                 </div>
-            </div>
+            
         </div>
     </div>
 </div>

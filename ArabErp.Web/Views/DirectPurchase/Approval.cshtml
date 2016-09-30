@@ -85,12 +85,14 @@
                                     <td>
                                         <input type="text" class="form_input" value="@Model[i].TotalAmount" disabled />
                                     </td>
+
                                     <td>
                                         <center>
-                                            <button class="btn btn-xs btn-primary" onclick="Approve('@Model[i].DirectPurchaseRequestId')">
-                                                <span class="glyphicon glyphicon-edit" style="top:2px">
-                                                </span>
-                                            </button>
+                                            <button type="button" class="form-button5" onclick="Approve(@Model[i].DirectPurchaseRequestId)">Approve </button>
+                                            @*<button class="btn btn-xs btn-primary" onclick="Approve('@Model[i].DirectPurchaseRequestId')">*@
+                                                @*<span class="glyphicon glyphicon-edit" style="top:2px">
+                                                </span>*@
+                                           
                                         </center>
                                     </td>
                                 </tr>

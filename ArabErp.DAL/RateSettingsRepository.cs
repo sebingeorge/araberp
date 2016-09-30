@@ -20,6 +20,20 @@ namespace ArabErp.DAL
                 IDbTransaction txn = connection.BeginTransaction();
                 try
                 {
+                    string validationQuery = @"IF EXISTS(SELECT * FROM RateSettings WHERE FromDate BETWEEN CONVERT(DATETIME, @FromDate, 106) AND CONVERT(DATETIME, @ToDate, 106)
+			                                                            OR ToDate BETWEEN CONVERT(DATETIME, @FromDate, 106) AND CONVERT(DATETIME, @ToDate, 106))
+	                                SELECT 0 --failed
+                                ELSE
+                                BEGIN
+	                                IF EXISTS(SELECT * FROM RateSettings WHERE CONVERT(DATETIME, @FromDate, 106) BETWEEN FromDate AND ToDate
+										                                OR CONVERT(DATETIME, @ToDate, 106) BETWEEN FromDate AND ToDate)
+		                                SELECT 0--failed
+	                                ELSE
+		                                SELECT 1
+                                END";
+                    int fail = connection.Query<int>(validationQuery, model, transaction: txn).First();
+                    if (fail == 0) return 0;
+
                     string query1 = @"IF EXISTS(SELECT TOP 1 RateSettingsId FROM RateSettings WHERE FromDate = @FromDate AND ToDate = @ToDate)
 	                                    DELETE FROM RateSettings WHERE FromDate = @FromDate AND ToDate = @ToDate;";
                     connection.Execute(query1, new { FromDate = model.FromDate, ToDate = model.ToDate }, transaction: txn);

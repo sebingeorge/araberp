@@ -197,12 +197,12 @@
                                         </div>
                         </li>
 
-                                    <li><a href="@Url.Action("Create", "Organization")">Organization</a></li>
+                                    <li><a href="@Url.Action("Index", "Organization")">Organization</a></li>
                                     <li><a href="@Url.Action("Create","Currency")">Currency</a></li>
-                                    <li><a href="@Url.Action("Create", "CostingParameters")">CostingParameters</a></li>
-                                    <li><a href="@Url.Action("Create", "QCParameter")">QCParameters</a></li>
+                                    <li><a href="@Url.Action("Create", "CostingParameters")">Costing Parameters</a></li>
+                                    <li><a href="@Url.Action("Create", "QCParameter")">QC Parameters</a></li>
                                  
-                                <li><a href="@Url.Action("Create", "CustomerVsSalesExecutive")">CustomerVsSalesExecutive</a></li>
+                                <li><a href="@Url.Action("Create", "CustomerVsSalesExecutive")">Customer Vs Sales Executive</a></li>
                                     <li><a href="@Url.Action("Index","WorkDescription")">Transport Work Description</a></li>
                                     <li><a href="@Url.Action("FillProjectWorkDescriptionList", "WorkDescription")">Project Work Description</a></li>
                                     <li><a href="@Url.Action("Create","VehicleModel")">Vehicle Model</a></li>
@@ -224,6 +224,7 @@
                                             <li><a href="@Url.Action("Index","RateSettings")">Work Description Rate Settings</a></li>
                                     <li><a class="projectn" href="@Url.Action("Create", "CustomerVsWorkRate")">Customer Wise Work Rate Settings</a></li>@*class = lh*@
                                             <li><a href="@Url.Action("Create", "SupplierItemRate")">Supplier Wise Item Rate Settings</a></li>
+                                            <li><a href="@Url.Action("Index","ItemSellingPrice")">Item Selling Price Settings</a></li>
                                         </ul>
                                     </div>
                                 </li>
@@ -362,6 +363,7 @@
                         <a href="#" data-toggle="collapse" data-target="#project-level-menu">Projects<span class="caret arrow"></span></a>
                         <div id="project-level-menu" class="collapse">
                             <ul>
+                                <li><a href="@Url.Action("Pending", "WorkShopRequest", new { isProjectBased = 1 })">Material Request</a></li>
                                 <li>
                                     <a href="#" data-toggle="collapse" data-target="#project-jobcard">Job Card<span class="caret arrow"></span></a>
                                     <div id="project-jobcard" class="collapse">
@@ -400,7 +402,7 @@
                                     <a href="#" data-toggle="collapse" data-target="#transportation-workshop">Workshop<span class="caret arrow"></span></a>
                                     <div id="transportation-workshop" class="collapse">
                                         <ul>
-                                            <li><a href="@Url.Action("Pending","WorkShopRequest")">Workshop Request</a></li>
+                                            <li><a href="@Url.Action("Pending", "WorkShopRequest", new { isProjectBased = 0 })">Workshop Request</a></li>
                                             <li><a href="@Url.Action("Create","AdditionalWorkShopRequest")">Additional Workshop Request</a></li>
                                             <li><a href="@Url.Action("Create","StockReturn")">Stock Return</a></li>
                                             <li><a href="@Url.Action("Create", "StockJournal")">Stock Journal</a></li>

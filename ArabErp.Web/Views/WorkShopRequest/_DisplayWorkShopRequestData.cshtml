@@ -9,60 +9,211 @@
             });
 
     function ValueChanged(row) {
-       
-        var Actualqty = $("#Items_" + row + "__ActualQuantity").val();
-        var qty = $("#Items_" + row + "__Quantity").val();
+      
+        if ($("#Items_" + row + "__isAddtionalMaterialRequest").val() == 0) {
+            var Actualqty = $("#Items_" + row + "__ActualQuantity").val();
+            var qty = $("#Items_" + row + "__Quantity").val();
 
-        if (eval(qty) > eval(Actualqty)) {
-            alert("Quatity should n't be greater than BOM Quantity");
-            $("#Items_" + row + "__Quantity").val(Actualqty);
+            if (eval(qty) > eval(Actualqty)) {
+                alert("Quantity should n't be greater than BOM Quantity");
+                $("#Items_" + row + "__Quantity").val(Actualqty);
 
+            }
         }
     }
+
+    function OnItemChanged(sender, index) {
+        //alert("hai");
+        var id = $(sender).val();
+        //var abc= $(index).val();
+        //alert(abc);
+        if (id != '') {
+            var url = '@Url.Action("GetItemUnit")';//get unit of selected item
+            $.getJSON(url, { itemId: id },
+                function (data) {
+
+                    $("#unitname" + index).html(data);
+                    var unit=$("#unitname");
+                    alert(data);
+                });
+
+            url = '@Url.Action("GetItemPartNo")';//get part number of selected item
+            $.getJSON(url, { itemId: id },
+                function (data) {
+                    $("#partno" + index).html(data);
+                });
+        }
+        else {
+            $("#unitname" + index).html('');
+            $("#partno" + index).html('');
+        }
+    }
+
+    function AddRowBelow(rNo) {
+        var i = 0;
+        var no = 0;
+        $('.WorkRow').each(function (j, obj) {
+            var row = Number(obj.id.replace("Row_", ""));
+            console.log(j);
+            i = j;
+        });
+        i++;
+
+        console.log(i);
+
+        var clone = $('#Row_0').clone();
+        clone.html($(clone).html().replace(/\Items_0__/g, 'Items_' + i + '__'));
+        clone.html($(clone).html().replace(/\Items[0]./g, 'Items[' + i + '].'));
+        clone.html($(clone).html().replace(/partno0/, 'partno' + i + ''));
+        clone.html($(clone).html().replace(/unitname0/, 'unitname' + i + ''));
+        clone.html($(clone).html().replace(/\[0\]/g, '[' + i + ']'));
+        clone.html($(clone).html().replace(/\(0\)/g, '(' + i + ')'));
+        clone.html($(clone).html().replace(/\Row_0/g, 'Row_' + i + ''));
+        clone.html($(clone).html().replace(/del_0/, 'del_' + i + ''));
+        clone.html($(clone).html().replace(/this,0/, 'this,' + i + ''));
+        
+        
+        $("#tab_logic").append('<tr id="Row_' + i + '" class="WorkRow">' + clone.html() + '  </tr>');
+        resetValues(i);
+
+    }
+    function resetValues(index) {
+        $("#Items_" + index + "__ItemId").val('');
+        $("#Items_" + index + "__ItemId").removeAttr("disabled");
+        $("#Items_" + index + "__PartNo").val('');
+        $("#Items_" + index + "__PartNo").removeAttr("disabled");
+        $("#Items_" + index + "__Remarks").val('');
+        $("#Items_" + index + "__Quantity").val(0);
+        $("#Items_" + index + "__UnitName").val('');
+        $("#Items_" + index + "__UnitName").removeAttr("disabled");
+        $("#del_" + index).removeClass('hide');
+        $("#Items_" + index + "__isAddtionalMaterialRequest").val(1);
+    }
+    function DeleteRowBelow(index) {
+
+        var i = 0;
+        var no = 0;
+        $('.WorkRow').each(function () {
+            var id = this.id;
+            no++;
+            var row = Number(id.replace("Row_", ""));
+            if (row > i) {
+                i = row;
+            }
+        });
+        i++;
+
+        if (i > 1) {
+            $("#Row_" + index).remove();
+            for (var j = index + 1; j < i; j++) {
+
+                var ItemId = $("#Items_" + j + "__ItemId").val();
+                var PartNo = $("#Items_" + j + "__PartNo").val();
+                var Remarks = $("#Items_" + j + "__Remarks").val();
+                var Quantity = $("#Items_" + j + "__Quantity").val();
+                var Unit = $("#Items_" + j + "__UnitName").val();
+
+
+                var clone = $("#Row_" + j).clone(true, true);
+                clone.html($(clone).html().replace(new RegExp("Items_" + j + "__", "g"), 'Items_' + (j - 1) + '__'));
+                clone.html($(clone).html().replace(new RegExp("\\[" + j + "].", "g"), "[" + (j - 1) + "]."));
+                clone.html($(clone).html().replace("DeleteRowBelow(" + j, "DeleteRowBelow(" + (j - 1)));
+                clone.html($(clone).html().replace("OnItemChanged(" + j, "OnItemChanged(" + (j - 1)));
+                clone.html($(clone).html().replace("Row_" + j, "Row_" + (j - 1)));
+                clone.html($(clone).html().replace("this," + j, "this," + (j - 1)));
+                $("#Row_" + j).html(clone.html());
+                $("#Row_" + (j)).attr('id', "Row_" + (j - 1));
+                $("#Items_" + (j - 1) + "__ItemId").val(ItemId);
+                $("#Items_" + (j - 1) + "__PartNo").val(PartNo);
+                $("#Items_" + (j - 1) + "__Remarks").val(Remarks);
+                $("#Items_" + (j - 1) + "__Quantity").val(Quantity);
+                $("#Items_" + (j - 1) + "__UnitName").val(Unit);
+            }
+        }
+    }
+
+
+
 </script>
 <div class="table-responsive scroll">
     <table class="table table-bordered" id="tab_logic">
         <thead>
             <tr class="grid_heading">
+                <td width="2%"><h1></h1></td>
                 <th width="40%"><h1>Material/Spares</h1></th>
 
                 <th width="10%"><h1>Part No.</h1></th>
              
-                <th width="40%"><h1>Remarks</h1></th>
+                <th width="36%"><h1>Remarks</h1></th>
                 <th width="5%" class="text-right "><h1>Qty.</h1></th>
                 <th width="5%"><h1>UoM</h1></th>
+                <td width="2%"><h1></h1></td>
             </tr>
         </thead>
-        <tbody>
-        @for (int i = 0; i < Model.Items.Count; i++)
-        {
-                <tr>
-                   
+        <tbody class="grid_row">
+            @{ int row = 0;}
+            @foreach (var item in Model.Items)
+            {
+                <tr id="Row_@row" class="WorkRow">
                     <td>
-                    @Html.HiddenFor(m => m.Items[i].ItemId)
-                    @Html.TextBoxFor(m => m.Items[i].ItemName, new { @class = "form_input", autocomplete = "off", placeholder = "Material/Spares", @readonly = "readonly" })
+                     @if (Model.Items[row].isAddtionalMaterialRequest == 0)
+                     {
+                            <a id="del_@row" class="glyphicon glyphicon-minus hide" onclick="DeleteRowBelow(@row)" style="top:0;"></a>
+                        }
+                        else
+                        {
+                            <a id="del_@row" class="glyphicon glyphicon-minus" onclick="DeleteRowBelow(@row);" style="top:0;"></a>
+                        }
                     </td>
-                    <td>@Html.TextBoxFor(m => m.Items[i].PartNo, new { @class = "form_input", autocomplete = "off", placeholder = "Part No.", @readonly = "readonly" })</td>
-                    <td>@Html.TextBoxFor(m => m.Items[i].Remarks, new { @class = "form_input", autocomplete = "off", placeholder = "Remarks" })</td>
+
                     <td>
-                    @Html.HiddenFor(m => m.Items[i].ActualQuantity)
-                    @Html.TextBoxFor(m => m.Items[i].Quantity, new { @class = "form_input clQuantity numbers-only", @style = "text-align:right", autocomplete = "off", @onkeyup = "ValueChanged(" + i + ");", @readonly = "true" })
+                      @if (Model.Items[row].isAddtionalMaterialRequest == 0)
+                      {
+                        @Html.DropDownListFor(m => m.Items[row].ItemId, new SelectList(ViewBag.itemList, "Value", "Text", Model.Items[row].ItemId), "Select Material/Spares", new { @class = "form_input", @autocomplete = "off", @disabled = "disabled", @onchange = "OnItemChanged(this," + row + ")" })
+                      }
+                      else
+                      {
+                        @Html.DropDownListFor(m => m.Items[row].ItemId, new SelectList(ViewBag.itemList, "Value", "Text", Model.Items[row].ItemId), "Select Material/Spares", new { @class = "form_input", @autocomplete = "off", @onchange = "OnItemChanged(this," + row + ")" })
+                      }            
+                        @Html.HiddenFor(m => m.Items[row].ItemId)                      
                     </td>
-                    <td>@Html.TextBoxFor(m => m.Items[i].UnitName, new { @class = "form_input", autocomplete = "off", @readonly = "readonly" })</td>
+                    <td id="partno0">@Html.TextBoxFor(m => m.Items[row].PartNo, new { @class = "form_input", autocomplete = "off", placeholder = "Part No.", @readonly = "readonly" })</td>
+                    <td>@Html.TextBoxFor(m => m.Items[row].Remarks, new { @class = "form_input", autocomplete = "off", placeholder = "Remarks" })</td>
+                  
+                     <td>
+                       
+                      @if (Model.Items[row].isAddtionalMaterialRequest == 0)
+                      {
+                       
+                        @Html.TextBoxFor(m => m.Items[row].Quantity, new { @class = "form_input clQuantity numbers-only", @style = "text-align:right", autocomplete = "off", @onkeyup = "ValueChanged(" + row + ");" })
+                        @Html.HiddenFor(m => m.Items[row].ActualQuantity)
+                      }
+                      else
+                      {
+                        @Html.TextBoxFor(m => m.Items[row].Quantity, new { @class = "form_input clQuantity numbers-only", @style = "text-align:right", autocomplete = "off", @onkeyup = "ValueChanged(" + row + ");"})
+                      }
+                    </td>
+                  
+                    <td id="unitname0">@Html.TextBoxFor(m => m.Items[row].UnitName, new { @class = "form_input", autocomplete = "off", @readonly = "readonly" })</td>
+                    @Html.HiddenFor(m => m.Items[row].isAddtionalMaterialRequest)
+                    
+                    <td>
+                        <a id="add_@row" class="glyphicon glyphicon-plus" onclick="AddRowBelow(@row);" style="top:0;"></a>
+                    </td>
                 </tr>
+                row++;
             }
-        
+
         </tbody>
         <tfoot>
             <tr class="grid_heading">
-             
-                <th width="20%"></th>
-              
+                <th width="2%"></th>
+                <th width="40%"></th>
                 <th width="10%"></th>
-                <th width="25%"></th>
+                <th width="36%"></th>
                 <th width="5%" class="text-right "></th>
-                <th width="10%"></th>
-
+                <th width="5%"></th>
+                <th width="2%"></th>
             </tr>
         </tfoot>
     </table>

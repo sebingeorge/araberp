@@ -18,7 +18,7 @@ namespace ArabErp.Web.Controllers
         {
             //List<RateSettingsItems> items = new RateSettingsRepository().GetWorkDescriptions(1); //load project work description by default
             string date = new RateSettingsRepository().GetExpiryDate();
-            DateTime expiryDate = Convert.ToDateTime(date.Length == 1 ? DateTime.Today.ToString() : date).AddDays(1);
+            DateTime expiryDate = Convert.ToDateTime(date.Length == 1 ? DateTime.Today.AddDays(-1).ToString() : date).AddDays(1);
             return View(new RateSettings
             {
                 FromDate = expiryDate,
@@ -31,9 +31,12 @@ namespace ArabErp.Web.Controllers
         {
             try
             {
-                new RateSettingsRepository().InsertRateSettings(model, UserID.ToString());
+                if (new RateSettingsRepository().InsertRateSettings(model, UserID.ToString()) == 0)
+                {
+                    TempData["error"] = "Date period conflicts with previous date periods. Please change the dates and try again.";
+                    return View(model);
+                }
                 TempData["success"] = "Saved successfully";
-                TempData["error"] = "";
                 return RedirectToAction("Index");
             }
             catch (Exception ex)

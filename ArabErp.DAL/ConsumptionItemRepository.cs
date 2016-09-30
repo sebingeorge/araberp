@@ -27,7 +27,18 @@ namespace ArabErp.DAL
                 throw;
             }
         }
+        public List<ConsumptionItem> GetConsumptionDT(int ConsumptionId)
+        {
+            using (IDbConnection connection = OpenConnection(dataConnection))
+            {
+                string sql = @" SELECT ROW_NUMBER () OVER (ORDER BY C.ConsumptionItemId)SlNo,C.ItemId,I.PartNo,C.Remarks,C.Amount
+                                FROM ConsumptionItem C
+                                INNER JOIN Item I ON I.ItemId=C.ItemId
+                                WHERE C.ConsumptionId=@ConsumptionId";
 
+                return connection.Query<ConsumptionItem>(sql, new { ConsumptionId = ConsumptionId }).ToList();
+            }
+        }
 
         public ConsumptionItem GetConsumptionItem(int ConsumptionItemId)
         {

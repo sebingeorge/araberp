@@ -36,21 +36,48 @@ namespace ArabErp.DAL
             }
         }
 
-
-        public StoreIssueItem GetStoreIssueItem(int StoreIssueItemId)
+        public List<StoreIssueItem> GetStoreIssueDT(int StoreIssueId)
         {
 
             using (IDbConnection connection = OpenConnection(dataConnection))
             {
-                string sql = @"select * from StoreIssueItem
-                        where StoreIssueItemId=@StoreIssueItemId";
+                string sql = @" SELECT SH.StockPointId,SD.WorkShopRequestItemId,SD.StoreIssueId,IssuedQuantity CurrentIssuedQuantity INTO #STOREISSUE 
+                                FROM StoreIssueItem SD
+                                INNER JOIN StoreIssue SH ON SH.StoreIssueId=SD.StoreIssueId;
 
-                var objStoreIssueItem = connection.Query<StoreIssueItem>(sql, new
-                {
-                    StoreIssueItemId = StoreIssueItemId
-                }).First<StoreIssueItem>();
+                                SELECT WorkShopRequestId, WorkShopRequestItemId, ItemId, Quantity RequiredQuantity INTO #WORK FROM WorkShopRequestItem;
 
-                return objStoreIssueItem;
+                                SELECT SI.WorkShopRequestId, SII.WorkShopRequestItemId, WRI.ItemId, SUM(IssuedQuantity) IssuedQuantity INTO #ISSUE 
+                                FROM StoreIssueItem SII 
+                                INNER JOIN StoreIssue SI ON  SII.StoreIssueId = SI.StoreIssueId 
+                                INNER JOIN WorkShopRequestItem WRI ON SII.WorkShopRequestItemId = WRI.WorkShopRequestItemId 
+                                GROUP BY WRI.ItemId, SI.WorkShopRequestId, SII.WorkShopRequestItemId;
+                
+                                SELECT ItemId, ItemName, ItemUnitId INTO #ITEM FROM Item;
+
+                                SELECT UnitId, UnitName INTO #UNIT FROM Unit;
+
+                                SELECT ItemId,StockPointId,Sum(Quantity)StockQuantity INTO #STOCK FROM StockUpdate GROUP BY ItemId,StockPointId
+
+                                SELECT W.WorkShopRequestItemId, ITEM.ItemId, ITEM.ItemName, W.RequiredQuantity, 
+                                ISNULL(I.IssuedQuantity, 0) IssuedQuantity, ISNULL((W.RequiredQuantity-ISNULL(I.IssuedQuantity, 0)), 0) PendingQuantity,
+                                (ST.StockQuantity+S.CurrentIssuedQuantity)StockQuantity ,S.CurrentIssuedQuantity,UNIT.UnitName
+                                FROM #STOREISSUE S
+                                INNER JOIN #WORK W ON W.WorkShopRequestItemId=S.WorkShopRequestItemId
+                                LEFT JOIN #ISSUE I ON W.WorkShopRequestId = I.WorkShopRequestId AND W.WorkShopRequestItemId = I.WorkShopRequestItemId 
+                                LEFT JOIN #ITEM ITEM ON W.ItemId = ITEM.ItemId 
+                                LEFT JOIN #UNIT UNIT ON ITEM.ItemUnitId = UNIT.UnitId 
+                                LEFT JOIN #STOCK ST ON ST.ItemId= W.ItemId AND ST.StockPointId=S.StockPointId
+                                WHERE S.StoreIssueId =@StoreIssueId 
+
+                                DROP TABLE #STOREISSUE;
+                                DROP TABLE #ISSUE;
+                                DROP TABLE #WORK;
+                                DROP TABLE #ITEM;
+                                DROP TABLE #UNIT;
+                                DROP TABLE #STOCK;";
+
+                return connection.Query<StoreIssueItem>(sql, new { StoreIssueId = StoreIssueId }).ToList();
             }
         }
 
@@ -66,9 +93,6 @@ namespace ArabErp.DAL
                 return objStoreIssueItems;
             }
         }
-
-
-
         public int DeleteStoreIssueItem(Unit objStoreIssueItem)
         {
             using (IDbConnection connection = OpenConnection(dataConnection))

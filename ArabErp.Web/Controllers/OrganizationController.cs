@@ -5,6 +5,7 @@ using System.Web;
 using System.Web.Mvc;
 using ArabErp.Domain;
 using ArabErp.DAL;
+using System.IO;
 
 namespace ArabErp.Web.Controllers
 {
@@ -22,6 +23,8 @@ namespace ArabErp.Web.Controllers
             Organization Organization = new Organization();
             Organization.OrganizationRefNo = "ORG/" + DatabaseCommonRepository.GetNextRefNoWithNoUpdate(typeof(Organization).Name);
             dropdown();
+            FillCountryDropdown();
+            FillCompanyDropdown();
             return View(Organization);
         }
 
@@ -29,7 +32,7 @@ namespace ArabErp.Web.Controllers
         [HttpPost]
         public ActionResult Create(Organization model)
         {
-            model.CreatedBy = UserID.ToString();
+            model.CreatedBy = UserID.ToString();      
             var repo = new OrganizationRepository();
             bool isexists = repo.IsFieldExists(repo.ConnectionString(), "Organization", "OrganizationName", model.OrganizationName, null, null);
             if (!isexists)
@@ -67,6 +70,8 @@ namespace ArabErp.Web.Controllers
         public ActionResult Edit(int Id)
         {
             dropdown();
+            FillCountryDropdown();
+            FillCompanyDropdown();
             ViewBag.Title = "Edit";
             Organization objOrganization = new OrganizationRepository().GetOrganization(Id);
             return View("Create", objOrganization);
@@ -76,7 +81,7 @@ namespace ArabErp.Web.Controllers
         public ActionResult Edit(Organization model)
         {
 
-            var repo = new OrganizationRepository();
+             var repo = new OrganizationRepository();
             model.CreatedBy = UserID.ToString();
 
             bool isexists = repo.IsFieldExists(repo.ConnectionString(), "Organization", "OrganizationName", model.OrganizationName, "OrganizationId", model.OrganizationId);
@@ -93,6 +98,8 @@ namespace ArabErp.Web.Controllers
                 else
                 {
                     dropdown();
+                    FillCountryDropdown();
+                    FillCompanyDropdown();
                     TempData["error"] = "Oops!!..Something Went Wrong!!";
                     TempData["OrganizationRefNo"] = null;
                     return View("Edit", model);
@@ -101,6 +108,8 @@ namespace ArabErp.Web.Controllers
             else
             {
                 dropdown();
+                FillCountryDropdown();
+                FillCompanyDropdown();
                 TempData["error"] = "This Organization Name Alredy Exists!!";
                 TempData["OrganizationRefNo"] = null;
                 return View("Create", model);
@@ -111,6 +120,8 @@ namespace ArabErp.Web.Controllers
         public ActionResult Delete(int Id)
         {
             dropdown();
+            FillCountryDropdown();
+            FillCompanyDropdown();
             ViewBag.Title = "Delete";
             Organization objOrganization = new OrganizationRepository().GetOrganization(Id);
             return View("Create", objOrganization);
@@ -164,6 +175,36 @@ namespace ArabErp.Web.Controllers
             var List = repo.FillOrganizationList();
             return PartialView("OrganizationListView", List);
         }
+
+        public void FillCountryDropdown()
+        {
+            OrganizationRepository rep = new OrganizationRepository();
+            var cus = rep.FillCountryDropdown();
+            ViewBag.CustomerCountry = new SelectList(cus, "Id", "Name");
+        }
+        public void FillCompanyDropdown()
+        {
+            OrganizationRepository rep = new OrganizationRepository();
+            var cum = rep.FillCompanyDropdown();
+            ViewBag.CustomerCompany = new SelectList(cum, "Id", "Name");
+        }
+        public ActionResult SaveUploadFiles(HttpPostedFileBase file)
+        {
+            string fileName = SaveUploadImage(file);
+            return Json(fileName, JsonRequestBehavior.AllowGet);
+        }
+
+        private string SaveUploadImage(HttpPostedFileBase file)
+        {
+            string uniqueName = Guid.NewGuid().ToString() + Path.GetExtension(file.FileName);
+            string qualifiedName = Server.MapPath("~/App_Images/") + uniqueName;
+            file.SaveAs(qualifiedName);
+            return uniqueName;
+        }
+
+
+
+
 
     }
 }

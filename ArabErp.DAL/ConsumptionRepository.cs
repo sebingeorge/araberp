@@ -48,14 +48,20 @@ namespace ArabErp.DAL
             }
         }
 
-
-        public Consumption GetConsumption(int ConsumptionId)
+        public Consumption GetConsumptionHD(int ConsumptionId)
         {
-
             using (IDbConnection connection = OpenConnection(dataConnection))
             {
-                string sql = @"select * from Consumption
-                        where ConsumptionId=@ConsumptionId";
+
+                string sql = @" SELECT ConsumptionNo,ConsumptionDate,C.JobCardId,CONVERT(Varchar(15),J.JobCardDate,106)JobCardDate,
+                                CONCAT(S.SaleOrderRefNo,' - ',CONVERT(Varchar(15),S.SaleOrderDate,106))SONODATE,
+                                F.FreezerUnitName,B.BoxName,C.TotalAmount,C.SpecialRemarks 
+                                FROM Consumption C
+                                INNER JOIN JobCard J ON J.JobCardId=C.JobCardId
+                                INNER JOIN SaleOrder S ON S.SaleOrderId=J.SaleOrderId
+                                LEFT JOIN FreezerUnit F ON F.FreezerUnitId=J.FreezerUnitId
+                                LEFT JOIN Box B ON B.BoxId=J.BoxId
+                                WHERE ConsumptionId=@ConsumptionId";
 
                 var objConsumption = connection.Query<Consumption>(sql, new
                 {
@@ -66,7 +72,7 @@ namespace ArabErp.DAL
             }
         }
 
-        public List<Consumption> GetConsumptions()
+         public List<Consumption> GetConsumptions()
         {
             using (IDbConnection connection = OpenConnection(dataConnection))
             {

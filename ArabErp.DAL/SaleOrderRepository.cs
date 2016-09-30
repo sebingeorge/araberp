@@ -174,20 +174,20 @@ namespace ArabErp.DAL
         /// </summary>
         /// <param name="model">Object of class SaleOrder</param>
         /// <returns>SaleOrders not in WorkshopRequest table</returns>
-        public List<SaleOrder> GetSaleOrdersPendingWorkshopRequest(int OrganizationId, string saleOrder="")
+        public List<SaleOrder> GetSaleOrdersPendingWorkshopRequest(int OrganizationId, int isProjectBased, string saleOrder = "")
         {
             using (IDbConnection connection = OpenConnection(dataConnection))
             {
-                //string sql = @"select so.*,c.CustomerName from SaleOrder so left join WorkShopRequest wr on so.SaleOrderId=wr.SaleOrderId , Customer c   where so.CustomerId=c.CustomerId  and wr.SaleOrderId is null and so.isActive=1";
+         
                 string sql = @"SELECT  distinct t.SaleOrderId,SO.CustomerOrderRef,SO.SaleOrderDate,SO.SaleOrderRefNo +','+ Replace(Convert(varchar,SaleOrderDate,106),' ','/') SaleOrderRefNo,SO.EDateArrival,SO.EDateDelivery,SO.CustomerId,C.CustomerName,STUFF((SELECT ', ' + CAST(W.WorkDescr AS VARCHAR(MAX)) [text()]
                              FROM SaleOrderItem SI inner join WorkDescription W on W.WorkDescriptionId=SI.WorkDescriptionId
                              WHERE SI.SaleOrderId = t.SaleOrderId
                              FOR XML PATH(''), TYPE).value('.','NVARCHAR(MAX)'),1,2,' ') WorkDescription,DATEDIFF(dd,SO.SaleOrderDate,GETDATE ()) Ageing,DATEDIFF(dd,GETDATE (),SO.EDateDelivery)Remaindays 
                              FROM SaleOrderItem t INNER JOIN SaleOrder SO on t.SaleOrderId=SO.SaleOrderId INNER JOIN Customer C ON SO.CustomerId =C.CustomerId
-                             left join WorkShopRequest WR on SO.SaleOrderId=WR.SaleOrderId WHERE WR.SaleOrderId is null and SO.isActive=1 and SO.SaleOrderApproveStatus=1 and SO.SaleOrderHoldStatus IS NULL and SO.OrganizationId = @OrganizationId
+                             left join WorkShopRequest WR on SO.SaleOrderId=WR.SaleOrderId WHERE WR.SaleOrderId is null and SO.isActive=1 and SO.SaleOrderApproveStatus=1 and SO.SaleOrderHoldStatus IS NULL and SO.OrganizationId = @OrganizationId and SO.isProjectBased=isnull(@isProjectBased,SO.isProjectBased)
 							 AND SO.SaleOrderRefNo LIKE '%'+@saleOrder+'%'
                              order by SO.EDateDelivery DESC, SO.SaleOrderDate DESC";
-                var objSaleOrders = connection.Query<SaleOrder>(sql, new { OrganizationId = OrganizationId, saleOrder = saleOrder }).ToList<SaleOrder>();
+                var objSaleOrders = connection.Query<SaleOrder>(sql, new { OrganizationId = OrganizationId, isProjectBased = isProjectBased, saleOrder = saleOrder }).ToList<SaleOrder>();
 
                 return objSaleOrders;
             }

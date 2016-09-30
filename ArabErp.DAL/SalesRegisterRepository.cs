@@ -320,7 +320,7 @@ namespace ArabErp.DAL
 		                                    INSERT INTO #SALES_CUS_DETAILS(Cus_Id ,Cus_Name)
 		                                    SELECT DISTINCT C.CustomerId ,C.CustomerName  FROM SalesInvoice S,Customer C,SaleOrder SO
 		                                    WHERE SO.SaleOrderId =S.SaleOrderId AND C.CustomerId=SO.CustomerId AND SalesInvoiceDate>=@FYStartdate  
-		                                    AND SalesInvoiceDate <=@FYEnddate AND S.OrganizationId=1
+		                                    AND SalesInvoiceDate <=@FYEnddate AND S.OrganizationId=@OrganizationId
 		
 		
 		                                    INSERT INTO #SALES_MONTH_DETAILS(

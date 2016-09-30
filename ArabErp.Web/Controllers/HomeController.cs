@@ -76,6 +76,7 @@ namespace ArabErp.Web.Controllers
 
             return View();
         }
+        [AllowAnonymous]
         public ActionResult LoadQuickView()
         {
             QuickView view = new QuickView();
@@ -108,10 +109,10 @@ namespace ArabErp.Web.Controllers
                 var res = new DirectPurchaseRepository().GetUnApprovedRequests();
                 view.NoOfPurchaseRequests = res.Count;
             }
-            if(view.PendingWorkshopRequests)
+            if (view.PendingWorkshopRequests)
             {
                 var rep = new SaleOrderRepository();
-                var slist = rep.GetSaleOrdersPendingWorkshopRequest(OrganizationId);
+                var slist = rep.GetSaleOrdersPendingWorkshopRequest(OrganizationId,0);
                 view.NoOfWorkShopRequests = slist.Count;
             }
 

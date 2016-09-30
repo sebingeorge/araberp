@@ -65,6 +65,10 @@
         window.location = url;
     }
 
+    function Exit() {
+        var url = '@Url.Action("Index","Home")';
+        window.location = url;
+    }
 </script>
 
 
@@ -127,6 +131,7 @@
 
                 <div class="row">
                     <div class="col-md-12 hrpart">
+                        <input type="button" class="form-button right" onclick="Exit()" value="Exit" />
                         <input type="submit" class="form-button right" value="Save" />
                         <input type="button" class="form-button left" onclick="PreviousList()" value="Previous" />
                     </div>
