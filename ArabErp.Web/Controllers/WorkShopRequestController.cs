@@ -129,6 +129,48 @@ namespace ArabErp.Web.Controllers
           
             return View("Edit", model);
         }
+
+        [HttpPost]
+        public ActionResult Edit(WorkShopRequest model)
+        {
+
+            model.OrganizationId = OrganizationId;
+            model.CreatedDate = System.DateTime.Now;
+            model.CreatedBy = UserID.ToString();
+
+
+
+            var repo = new WorkShopRequestRepository();
+            try
+            {
+                new WorkShopRequestRepository().UpdateWorkShopRequest(model);
+                TempData["success"] = "Updated Successfully (" + model.WorkShopRequestRefNo + ")";
+                return RedirectToAction("Index", new { isProjectBased = model.isProjectBased });
+            }
+            catch (Exception)
+            {
+                TempData["error"] = "Some error occurred. Please try again.";
+            }
+
+            return RedirectToAction("Index", new { isProjectBased = model.isProjectBased });
+        }
+
+        public ActionResult Delete(int id = 0, int isProjectBased = 0)
+        {
+            try
+            {
+                if (id == 0) return RedirectToAction("Index", "Home");
+                string ref_no = new WorkShopRequestRepository().DeleteWorkShopRequest(id);
+                TempData["success"] = "Deleted Successfully (" + ref_no + ")";
+                return RedirectToAction("Index", new { isProjectBased = isProjectBased });
+            }
+            catch (Exception)
+            {
+                TempData["error"] = "Some error occured while deleting. Please try again.";
+                return RedirectToAction("Edit", new { id = id });
+            }
+        }
+  
         public void FillWRNo()
         {
             ViewBag.WRNoList = new SelectList(new DropdownRepository().WRNODropdown(OrganizationId), "Id", "Name");
