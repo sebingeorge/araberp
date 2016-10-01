@@ -1,8 +1,66 @@
-﻿
-@{
-    ViewBag.Title = "Index";
-    Layout = "~/Views/Shared/_Layout.cshtml";
-}
+﻿@{ViewBag.Title = "Index"; Layout = "~/Views/Shared/_Layout.cshtml";}
 
-<h2>Index</h2>
+<script type="text/javascript">
 
+    function openPop() {
+        var url = '@Url.Action("Create")';
+        window.location = url;
+    }
+
+    function Exit() {
+        location.href = '@Url.Action("Index","Home")';
+    }
+
+    $(document).ready(function () {
+
+
+        toastr.options = {
+            "closeButton": true,
+            "positionClass": "toast-bottom-full-width",
+            "preventDuplicates": false,
+            "onclick": null,
+
+            "timeOut": "0",
+            "extendedTimeOut": "1000",
+            "showEasing": "swing",
+            "hideEasing": "linear",
+            "showMethod": "fadeIn",
+            "hideMethod": "fadeOut"
+        }
+        if ('@TempData["success"]' != "" && '@TempData["CustomerRefNo"]' != "") {
+            toastr.success('@TempData["success"]' + '  Customer Ref No. is : ' + '@TempData["CustomerRefNo"]');
+        }
+        else if ('@TempData["error"]' != "") {
+            toastr.error('@TempData["error"]');
+        }
+    });
+
+</script>
+
+
+
+
+<div class="row">
+
+    <div class="form-head  form-head3">
+        <h4>Company List</h4>
+    </div>
+
+    <div class="main-part pad1 white">
+
+        <div class="row">
+            @Html.Action("CompanyList")
+        </div>
+
+        <div class="row">
+            <div class="col-md-12 hrpart1">
+                <button type="submit" class="form-button" onclick="openPop();">Create</button>
+                <button type="button" class="form-button right" onclick="Exit();">Exit</button>
+
+                @*<button type="button" onclick="openPop();" class="form-button top5">Create</button>*@
+            </div>
+        </div>
+
+
+    </div>
+</div>
