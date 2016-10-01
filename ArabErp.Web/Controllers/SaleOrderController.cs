@@ -64,13 +64,22 @@ namespace ArabErp.Web.Controllers
             var repo = new SaleOrderRepository();
             SaleOrder model = repo.GetSaleOrderFrmQuotation(SalesQuotationId ?? 0);
             model.Items = repo.GetSaleOrderItemFrmQuotation(SalesQuotationId ?? 0);
+
+            for(int i=0; i<model.Items.Count; i++)
+            {
+                while (model.Items[i].Quantity > 1)
+                {
+                    model.Items.Insert(i + 1, model.Items[i]);
+                    model.Items[i].Quantity -= model.Items[i + 1].Quantity = 1;
+                }
+            }
            
             model.Materials = repo.GetSaleOrderMaterialFrmQuotation(SalesQuotationId ?? 0);
          
             model.SaleOrderRefNo = internalId;
             model.SaleOrderDate = DateTime.Now;
             model.EDateArrival = DateTime.Now;
-            model.EDateDelivery = DateTime.Now;
+            //model.EDateDelivery = DateTime.Now;
             return View(model);
         }
         public ActionResult CreateProject(int? SalesQuotationId)

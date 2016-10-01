@@ -78,12 +78,7 @@ namespace ArabErp.Web.Controllers
             get
             {
                 HttpCookie usr = (HttpCookie)Session["user"];
-                int Id = 0;
-                if (usr!=null)
-                {
-                    Id = Convert.ToInt32(usr["UserId"]);
-                }
-               
+                int Id = usr == null ? 0 : Convert.ToInt32(usr["UserId"]);
                 return Id;
             }
             set
@@ -106,12 +101,7 @@ namespace ArabErp.Web.Controllers
             get
             {
                 HttpCookie usr = (HttpCookie)Session["user"];
-                int Id = 0;
-                if (usr != null)
-                {
-                    Id = Convert.ToInt32(usr["Organization"]);
-                }
-                 
+                int Id = usr == null ? 0 : Convert.ToInt32(usr["Organization"]);
                 return Id;
             }
             set

@@ -28,6 +28,7 @@ namespace ArabErp.Domain
         public decimal MaterialRate { get; set; }
         public decimal Discount { get; set; }
         public decimal Amount { get; set; }
+        public decimal TotalAmount { get; set; }
         public int OrganizationId { get; set; }
         public bool isActive { get; set; }
         public int ItemId { get; set; }
