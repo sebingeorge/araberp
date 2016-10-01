@@ -259,7 +259,7 @@
                                 <tr class="grid_heading">
                                     <td width="2%"><h1>#</h1></td>
                                     <th width="35%"><h1>Task</h1></th>
-                                    <th width="35%"><h1>Employee</h1></th>
+                                    <th width="35%"><h1>Technician</h1></th>
                                     <th width="12%"><h1>Date</h1></th>
                                     <th width="5%"><h1>Hrs.</h1></th>
                                     <td width="2%"><h1>#</h1></td>
@@ -314,7 +314,7 @@
                             @Html.TextBoxFor(m => m.RequiredDate, Model.RequiredDate.ToString("dd/MMMM/yyyy"), new { @class = "form_input ", autocomplete = "off", @readonly = "readonly", @required = "true" })
                         </div>
                         <div class="col-md-3">
-                            <label for="emp">Employee/Supervisor</label>
+                            <label for="emp">Engineer/Supervisor</label>
                             @Html.DropDownListFor(m => Model.EmployeeId, (SelectList)ViewBag.EmployeeList, "Select Employee", new { @class = "form_input", autocomplete = "off", @required = "true" })
                         </div>
                     </div>
