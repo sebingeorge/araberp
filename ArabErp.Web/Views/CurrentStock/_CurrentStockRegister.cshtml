@@ -2,18 +2,25 @@
 <table class="table table-bordered">
     <thead>
         <tr class="grid_heading">
-            <th width="85%"><h1>Material/Spares</h1></th>
+            <th width="70%"><h1>Material/Spares</h1></th>
+            <th width="15%"><h1>Part No</h1></th>
             <th class="text-right" width="10%"><h1>Current Stock</h1></th>
             <th width="5%"><h1>Unit</h1></th>
 
 
         </tr>
     </thead>
+
     @foreach (var item in Model)
     {
         <tbody class="grid_row">
-            <tr>
+            <tr @if(item.Quantity<0)
+                {
+                    @:class="report-highlight"
+                }
+                >
                 <td class="grid-cell">@item.ItemName</td>
+                <td class="grid-cell">@item.PartNo</td>
                 <td class="grid-cell text-right">@item.Quantity</td>
                 <td class="grid-cell">@item.UnitName</td>
 

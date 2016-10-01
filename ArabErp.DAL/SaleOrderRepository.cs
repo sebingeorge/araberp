@@ -89,8 +89,7 @@ namespace ArabErp.DAL
         {
             using (IDbConnection connection = OpenConnection(dataConnection))
             {
-                string sql = @"select *,DoorNo +','+ Street+','+State CustomerAddress,CONCAT(QuotationRefNo,'/',CONVERT (VARCHAR(15),QuotationDate,104))
-                               QuotationNoDate,GrandTotal TotalAmount from SalesQuotation S inner join Customer C on S.CustomerId=C.CustomerId  where SalesQuotationId=@Id";
+                string sql = @"select *,DoorNo +','+ Street+','+State CustomerAddress,CONCAT(QuotationRefNo,' - ',CONVERT(VARCHAR(15),QuotationDate,104))QuotationNoDate,GrandTotal TotalAmount, ExpectedDeliveryDate AS EDateDelivery from SalesQuotation S inner join Customer C on S.CustomerId=C.CustomerId  where SalesQuotationId=@Id";
 
                 var objSaleOrder = connection.Query<SaleOrder>(sql, new
                 {
@@ -107,9 +106,25 @@ namespace ArabErp.DAL
         {
             using (IDbConnection connection = OpenConnection(dataConnection))
             {
-                string sql = @"select * from SalesQuotationItem S inner join WorkDescription W ON S.WorkDescriptionId=W.WorkDescriptionId
-                               LEFT JOIN VehicleModel V ON  V.VehicleModelId=W.VehicleModelId
-                               where SalesQuotationId=@Id";
+                string sql = @"select 
+	                                S.[SalesQuotationItemId],
+	                                S.[SalesQuotationId],
+	                                S.[SlNo],
+	                                S.[WorkDescriptionId],
+	                                S.[Remarks],
+	                                S.[PartNo],
+	                                S.[Quantity],
+	                                S.[UnitId],
+	                                S.[Rate],
+	                                S.[Discount],
+	                                (S.Rate - S.Discount) Amount,
+	                                S.[RateType],
+	                                S.[OrganizationId],
+	                                S.[isActive],
+	                                W.*, V.*
+                                from SalesQuotationItem S inner join WorkDescription W ON S.WorkDescriptionId=W.WorkDescriptionId
+                                   LEFT JOIN VehicleModel V ON  V.VehicleModelId=W.VehicleModelId
+                                   where SalesQuotationId=@Id";
                 return connection.Query<SaleOrderItem>(sql, new { Id = Id }).ToList();
             }
         }
@@ -138,7 +153,7 @@ namespace ArabErp.DAL
             {
 
 
-                string sql = @"SELECT SaleOrderId,SaleOrderRefNo,SaleOrderDate,CONCAT(QuotationRefNo,'/',CONVERT (VARCHAR(15),QuotationDate,104))QuotationNoDate,  
+                string sql = @"SELECT SaleOrderId,SaleOrderRefNo,SaleOrderDate,CONCAT(QuotationRefNo,' - ',CONVERT (VARCHAR(15),QuotationDate,104))QuotationNoDate,  
                                C.CustomerId,CustomerName,DoorNo +','+ Street+','+State CustomerAddress,CustomerOrderRef,S.CurrencyId,SpecialRemarks,S.PaymentTerms,
                                DeliveryTerms,CommissionAgentId,CommissionAmount,TotalAmount,TotalDiscount,S.SalesExecutiveId,EDateArrival,EDateDelivery,SaleOrderApproveStatus,
                                SaleOrderHoldStatus,SaleOrderHoldReason,SaleOrderHoldDate,SaleOrderReleaseDate,S.SalesQuotationId,SaleOrderClosed,S.isProjectBased,CUR.CurrencyName,S.isAfterSales

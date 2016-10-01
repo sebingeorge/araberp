@@ -1180,9 +1180,10 @@ section.content {
 }
 .ui-menu
 {
-    max-height:150px;
+    max-height:200px;
     overflow:scroll;
     overflow-x:hidden;
+    max-width: 1130px !important
 }
 .pmtop 
 {
@@ -1205,4 +1206,8 @@ section.content {
     margin-top:7px;
     float:left;
     margin-right:2px
+}
+
+.report-highlight{
+    color: red;
 }

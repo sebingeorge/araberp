@@ -16,24 +16,32 @@
                 <div class="main-grid main-grid-top scroll1">
                     <div class="table-responsive">
                         <table class="table table-bordered">
-                            <tr class="grid_heading">
-                                <td><h1>Item</h1></td>
-                                <td style="width:10%;"><h1>IN</td>
-                                <td style="width:10%;"><h1>OUT</td>
-                                <td style="width:10%;"><h1>Balance</h1></td>
-                            </tr>
-                            @foreach (var item in Model)
-                    {
-                    <tr class="grid-row">
-                        <td class="grid-cell">
-                            <a style="cursor:pointer;" onclick="OpenDetail(@item.ItemId)">@item.ItemName</a>
-                        </td>
-                        <td class="grid-cell">@item.InQuantity</td>
-                        <td class="grid-cell">@item.OutQuantity</td>
-                        <td class="grid-cell">@item.Balance</td>
-                    </tr>
-                    }
-                        </table>
+    <tr class="grid_heading">
+        <td><h1>Item</h1></td>
+        <td style="width:10%;"><h1>IN</td>
+        <td style="width:10%;"><h1>OUT</td>
+        <td style="width:10%;"><h1>Balance</h1></td>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+
+        <tbody class="grid_row">
+            <tr @if (item.Balance < 0) 
+                { @: class="report-highlight"
+                 
+                }>
+                <td class="grid-cell">
+                    <a style="cursor:pointer;" onclick="OpenDetail(@item.ItemId)">@item.ItemName</a>
+                </td>
+                <td class="grid-cell">@item.InQuantity</td>
+                <td class="grid-cell">@item.OutQuantity</td>
+                <td class="grid-cell">@item.Balance</td>
+            </tr>
+        </tbody>
+    }
+
+    </table>
                     </div>
                     </div>
 

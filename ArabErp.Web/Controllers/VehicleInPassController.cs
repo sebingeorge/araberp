@@ -70,8 +70,9 @@ namespace ArabErp.Web.Controllers
                 }
                 else
                 {
-                    TempData["error"] = "Oops!!..Something Went Wrong!!";
+                    TempData["error"] = "Some error occurred. Please try again.";
                     TempData["VehicleInPassNo"] = null;
+                    EmployeeDropdown();
                     return View(new VehicleInPass { SaleOrderItemId = model.SaleOrderItemId });
                 }
                    

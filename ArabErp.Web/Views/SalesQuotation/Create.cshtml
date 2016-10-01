@@ -68,10 +68,10 @@
         }
         else {
 
-            $("#QuotationDate").datepicker({ dateFormat: "dd/MM/yy" });
-            $("#ExpectedDeliveryDate").datepicker({ dateFormat: "dd/MM/yy" });
-            $("#PredictedClosingDate").datepicker({ dateFormat: "dd/MM/yy" });
-            $("#QuotationValidToDate").datepicker({ dateFormat: "dd/MM/yy" });
+            $("#QuotationDate").datepicker({ dateFormat: "dd-MM-yy" });
+            $("#ExpectedDeliveryDate").datepicker({ dateFormat: "dd-MM-yy" });
+            $("#PredictedClosingDate").datepicker({ dateFormat: "dd-MM-yy" });
+            $("#QuotationValidToDate").datepicker({ dateFormat: "dd-MM-yy" });
         }
     });
     function CustomerChanged(cust) {
@@ -105,7 +105,7 @@
             "preventDuplicates": false,
             "onclick": null,
 
-            "timeOut": "0",
+            "timeOut": "5000",
             "extendedTimeOut": "1000",
             "showEasing": "swing",
             "hideEasing": "linear",
@@ -345,24 +345,24 @@
         @{
             if (actionName.ToString() == "Create")
             {
-                <h4>Sales Quotation Request : Transportation </h4>
+                <h4>Sales Quotation : Transportation </h4>
             }
             else if (actionName == "CreateProject")
             {
-                <h4>Sales Quotation Request : Project</h4>
+                <h4>Sales Quotation : Project</h4>
             }
             else if (actionName == "CreateAfterSalesTrans")
             {
-                <h4>Sales Quotation Request : Transportation : After Sales</h4>
+                <h4>Sales Quotation : Transportation : Service</h4>
             }
             else if (actionName == "CreateAfterSalesProject")
             {
-                <h4>Sales Quotation Request : Project : After Sales</h4>
+                <h4>Sales Quotation : Project : Service</h4>
             }
             else
             {
 
-                <h4>Quotation Request Approval</h4>
+                <h4>Quotation Approval</h4>
             }
         }
 
@@ -469,7 +469,7 @@
                 $(document).ready(function () {
                     $("#SalesQuotationItems_0__SlNo").val('1');
                     $("#lblTotalAmount").text('0');
-
+                    $("select[id$='__WorkDescriptionId']").combobox();
                     //$('td:nth-child(2)').hide();
 
                 });
@@ -541,10 +541,11 @@
                         discount = 0;
                     }
 
-                    var amount = (quantity * rate) - (quantity * discount);
+                    var amount = (rate - discount);
 
                     amount = parseFloat(amount);
-                    $("#SalesQuotationItems_" + row + "__Amount").val(amount);
+                    $("#SalesQuotationItems_" + row + "__Amount").val(amount.toFixed(2));
+                    $("#SalesQuotationItems_" + row + "__TotalAmount").val((amount*quantity).toFixed(2));
                     cal_Summary();
                 }
 
@@ -553,6 +554,8 @@
                     var quantity = parseFloat("0");
                     var amount = parseFloat("0");
                     var grandtotal = parseFloat("0");
+                    var rowtotal = parseFloat("0");
+
                     $('.clQuantity').each(function (i, obj) {
                         var a = parseFloat($("#SalesQuotationItems_" + i + "__Quantity").val());
 
@@ -574,10 +577,19 @@
 
                         amount = amount + a;
                     });
+                    
+                    $("input[id$='__TotalAmount']").each(function (i, obj) {
+                        var a = parseFloat($(obj).val());
+                        if (isNaN(a)) {
+                            a = parseFloat("0");
+                        }
+                        rowtotal = rowtotal + a;
+                    })
 
+                    $("#QtyAmount").text(parseFloat(amount).toFixed(2));
+                    $("#NetTotalAmount").text(parseFloat(rowtotal).toFixed(2));
 
-                    $("#QtyAmount").text(parseFloat(amount));
-                    var WorkAmt=parseFloat($("#QtyAmount").text());
+                    var WorkAmt=parseFloat($("#NetTotalAmount").text());
                     var MaterialAmt=parseFloat($("#TotalAmount").text());
 
                     if (isNaN(WorkAmt)) {
@@ -597,8 +609,7 @@
                         grandtotal= parseFloat("0");
 
                     }
-                    $("#lblTotalAmount").text(parseFloat(grandtotal));
-
+                    $("#lblTotalAmount").text(parseFloat(grandtotal).toFixed(2));
                 }
 
 
@@ -631,7 +642,9 @@
                     $("#tab_logic").append('<tr id="' + i + '">' + clone.html() + '  </tr>');
                     $("#slno" + (i + 1)).html((i + 1));
                     $("#SalesQuotationItems_" + i + "__SlNo").val((i + 1));
-                    
+                    $("#" + i).find('span[class="custom-combobox"]').remove();
+                    $("#SalesQuotationItems_" + i + "__WorkDescriptionId").combobox();
+
                     @if (new[] { "CreateAfterSalesTrans", "CreateAfterSalesProject" }.Contains(ViewContext.RouteData.GetRequiredString("action")))
                     {
                         @:removeOnChange();
@@ -646,7 +659,7 @@
                         {
                             <th width="2%" class="text-center"></th>
                         }
-                        <th width="6%" class="text-center"><h1>#</h1></th>
+                        <th width="1%" class="text-center"><h1>#</h1></th>
                         <th width="45%" class="text-left"><h1>Work Description</h1></th>
                         @if (new[] { "Create", "CreateAferSales", "Approve" }.Contains(ViewContext.RouteData.GetRequiredString("action")))
                         {
@@ -658,6 +671,7 @@
 
                         <th width="7%" class="text-right"><h1>Discount</h1></th>
                         <th width="7%" class="text-right"><h1>Amount</h1></th>
+                        <th width="7%" class="text-right"><h1>Total</h1></th>
                         @if (actionName == "Create" || actionName == "CreateProject")
                         {
                             <th width="2%">&nbsp;</th>
@@ -692,7 +706,8 @@
                                             {
                                                 @class = "form_input",
                                                 autocomplete = "off",
-                                                @onchange = "OnWorkDescChanged(" + i + ")"
+                                                @onchange = "OnWorkDescChanged(" + i + ")",
+                                                @placeholder = "Search for Work Description"
                                             })
                                 }
                             </td>
@@ -744,6 +759,9 @@
                             </td>
 
                             <td>@Html.TextBoxFor(m => m.SalesQuotationItems[i].Amount, new { @class = "form_input clAmount", autocomplete = "off", @style = "text-align:right", placeholder = "Amount", @readonly = "true", @onchange = "QuantityChanged(" + i + ");" })</td>
+                            <td>
+                                @Html.TextBoxFor(m => m.SalesQuotationItems[i].TotalAmount, new { @class = "form_input", autocomplete = "off", @style = "text-align:right", @readonly = "readonly" })
+                            </td>
                             @if (actionName == "Create" || actionName == "CreateProject")
                             {
                                 <td style="vertical-align:middle"><a id="add_row" class="glyphicon glyphicon-plus" style="top:0px" onclick="AddAdditionRow()"></a></td>
@@ -778,6 +796,7 @@
                         <th width="7%" class="text-right">
                             <span id="QtyAmount"></span>
                         </th>
+                        <th width="8%" class="text-right"><span id="NetTotalAmount"></span></th>
                         @if (actionName == "Create" || actionName == "CreateProject")
                         {
                             <th width="2%" class="text-right"></th>
@@ -794,7 +813,7 @@
                 <div class="row form-group">
                     <div class="col-md-12">
 
-                        <label class="tamount">Grand Total:<span id="lblTotalAmount"></span></label>
+                        <label class="tamount">Grand Total: <span id="lblTotalAmount"></span></label>
 
                     </div>
                 </div>

@@ -24,10 +24,10 @@ namespace ArabErp.DAL
                 SELECT CAST(SCOPE_IDENTITY() as int)";
 
                 var id = 0;
-                for (int i = 0; i < objSaleOrderItem.Quantity; i++)
-                {
+                //for (int i = 0; i < objSaleOrderItem.Quantity; i++)
+                //{
                     id = connection.Query<int>(sql, objSaleOrderItem, trn).Single();
-                }
+                //}
                 return id;
             }
             catch (Exception)

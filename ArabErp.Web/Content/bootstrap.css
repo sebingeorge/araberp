@@ -7686,6 +7686,11 @@ td.visible-print {
     max-height: none;
     margin-bottom:0;
 }
+/*#inpassdetails .scroll1 
+{
+    max-height: 350px;
+    overflow:auto;
+}*/
 #availability .sticky-wrap {
 	overflow-x: scroll;
 	overflow-y:scroll;
@@ -7766,6 +7771,11 @@ td.user-name {
 .sticky-wrap.overflow-y {
 	overflow-y: auto;
 	max-height: 50vh;
+}
+
+.sticky-thead 
+{
+    position:fixed;
 }
 
 @media only screen and (min-width:320px) and (max-width: 640px) {

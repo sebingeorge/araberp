@@ -8,9 +8,10 @@
 <table class="table table-bordered">
     <thead>
         <tr class="grid_heading">
+            <th width="20%"><h1>Customer</h1></th>
             <th width="10%"><h1>SO.NO.</h1></th>
             <th width="10%"><h1>Date</h1></th>
-            <th width="20%"><h1>Customer</h1></th>
+          
             <th width="30%"><h1>Work Description</h1></th>
             <th width="10%" class="text-right"><h1>Qty. As Per SO.</h1></th>
             <th width="5%" class="text-right"><h1>Qty. Sold</h1></th>
@@ -25,9 +26,10 @@
     {
         <tbody class="grid_row">
             <tr>
+                <td class="grid-cell">@item.CustomerName</td>
                 <td class="grid-cell">@item.SaleOrderRefNo</td>
                 <td class="grid-cell">@item.SaleOrderDate.ToString("dd/MMM/yyyy")</td>
-                <td class="grid-cell">@item.CustomerName</td>
+                
                 <td class="grid-cell">@item.WorkDescr</td>
                 <td class="grid-cell text-right">@item.Quantity</td>
                 <td class="grid-cell text-right">@item.INVQTY</td>

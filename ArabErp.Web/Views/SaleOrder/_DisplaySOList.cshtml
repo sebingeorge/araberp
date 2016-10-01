@@ -1,19 +1,21 @@
 ﻿@model ArabErp.Domain.SaleOrder
-@{ 
+@{
     string actionName = ViewContext.RouteData.GetRequiredString("action");
 
 }
 <script>
+
     $(document).ready(function () {
-       
+
         calculateSummary();
         $("#Items_0__SlNo").val('1');
-        
 
-   
 
-       
+
+
+
     });
+
     function AddAdditionRow() {
         var i = 0;
         var no = 1;
@@ -43,6 +45,7 @@
         $("#slno" + (i + 1)).html((i + 1));
         $("#Items_" + i + "__SlNo").val((i + 1));
     }
+
     function Delete(index) {
 
         var i = 0;
@@ -76,7 +79,7 @@
                 clone.html($(clone).html().replace("Delete(" + j, "Delete(" + (j - 1)));
                 clone.html($(clone).html().replace("Row_" + j, "Row_" + (j - 1)));
 
-            
+
 
 
                 clone.html($(clone).html().replace("this," + j, "this," + (j - 1)));
@@ -115,56 +118,42 @@
     }
 
     function calculateSummary() {
-       
+
         var quantity = parseFloat("0");
         var amount = parseFloat("0");
         var discount = parseFloat("0");
 
         $('.clQuantity').each(function (i, obj) {
             var a = parseFloat($("#Items_" + i + "__Quantity").val());
-
             if (isNaN(a)) {
                 a = parseFloat("0");
             }
-
             quantity = quantity + a;
         });
+
         $('.cldiscount').each(function (i, obj) {
             var a = parseFloat($("#Items_" + i + "__Discount").val());
-
             if (isNaN(a)) {
                 a = parseFloat("0");
             }
-
             discount = discount + a;
         });
 
         $('.clAmount').each(function (i, obj) {
             var a = parseFloat($("#Items_" + i + "__Amount").val());
             if (isNaN(a)) {
-
                 a = parseFloat("0");
-
             }
-
             amount = amount + a;
-            
         });
 
-      
         $("#TotalAmount").text(amount.toFixed(2));
-
         $("#TotalDiscount").text(discount.toFixed(2));
-
-     
-       
-
     }
 
     function OnWorkChange(sender, index) {
         var isProjectBased = $("#isProjectBased").val();
-        if (isProjectBased == 0)
-        {
+        if (isProjectBased == 0) {
             var id = $(sender).val();
             if (id != '') {
                 var url = '@Url.Action("GetVehicleModel")';
@@ -178,10 +167,8 @@
 
             }
         }
-        
     }
 
-  
 </script>
 
 
@@ -189,68 +176,59 @@
     <table class="table table-bordered" id="tab_logic">
         <thead>
             <tr class="grid_heading">
-            
+
                 <th width="1%" class="text-center"><h1>#</h1></th>
-                <th width="60%" class="text-left"><h1>Work Description</h1></th>
+                <th width="45%" class="text-left"><h1>Work Description</h1></th>
                 @if (Model.isProjectBased == 0)
                 {
                     <th width="15%" class="text-left"><h1>Vehicle Model</h1></th>
-                }                
-                <th width="5%" class="text-right"><h1>Qty.</h1></th>
+                }
+                <th width="5%" class="text-right"><h1>Qty</h1></th>
                 @*<th width="5%"><h1>UoM</h1></th>*@
                 <th width="8%" class="text-right"><h1>Rate</h1></th>
                 <th width="8%" class="text-right"><h1>Discount</h1></th>
                 <th width="8%" class="text-right"><h1>Amount</h1></th>
-               
+
             </tr>
         </thead>
         <tbody class="grid_row" id="table_validation">
             @for (int i = 0; i < Model.Items.Count; i++)
             {
                 <tr id="@i">
-                   
+
                     <td align="center">
                         <span id="slno@(i+1)">@(i + 1)</span>
                         @Html.HiddenFor(m => m.Items[i].SlNo)
-                       
-                    </td>
 
+                    </td>
                     <td>
                         <input type="hidden" id="Row_@i" />
-                  
+
                         @Html.HiddenFor(m => m.Items[i].WorkDescriptionId)
                         @Html.HiddenFor(m => m.Items[i].WorkDescr)
                         @Model.Items[i].WorkDescr
-      
-
                     </td>
                     @if (Model.isProjectBased == 0)
                     {
                         <td>
-                                @Html.TextBoxFor(m => m.Items[i].VehicleModelName, new { @class = "form_input ", @style = "text-align:left", autocomplete = "off", @readonly = "readonly" })
-                                @Html.HiddenFor(m => m.Items[i].VehicleModelId)
+                            @Html.TextBoxFor(m => m.Items[i].VehicleModelName, new { @class = "form_input ", @style = "text-align:left", autocomplete = "off", @readonly = "readonly" })
+                            @Html.HiddenFor(m => m.Items[i].VehicleModelId)
                         </td>
-                    }                    
-
-                  
-    <td>
-        @Html.TextBoxFor(m => m.Items[i].Quantity, new { @class = "form_input clQuantity  ", @style = "text-align:right", autocomplete = "off", placeholder = "Qty", @readonly = "true" })
-    </td>
+                    }
                     <td>
-                        
-                            @Html.TextBoxFor(m => m.Items[i].Rate, new { @class = "form_input", autocomplete = "off", @style = "text-align:right", placeholder = "Rate", @onkeyup = "ValueChanged(" + i + ");", @readonly = "readonly" })
-                      
+                        @Html.TextBoxFor(m => m.Items[i].Quantity, new { @class = "form_input clQuantity  ", @style = "text-align:right", autocomplete = "off", placeholder = "Qty", @readonly = "true" })
                     </td>
                     <td>
-                      
-                            @Html.TextBoxFor(m => m.Items[i].Discount, new { @class = "form_input cldiscount", autocomplete = "off", @style = "text-align:right", placeholder = "Discount", @readonly = "readonly" })
-                      
+                        @Html.TextBoxFor(m => m.Items[i].Rate, new { @class = "form_input", autocomplete = "off", @style = "text-align:right", placeholder = "Rate", @onkeyup = "ValueChanged(" + i + ");", @readonly = "readonly" })
                     </td>
-                    <td>@Html.TextBoxFor(m => m.Items[i].Amount, new { @class = "form_input clAmount", autocomplete = "off", @style = "text-align:right", placeholder = "Amount", @readonly = "readonly" })</td>
-                  
+                    <td>
+                        @Html.TextBoxFor(m => m.Items[i].Discount, new { @class = "form_input cldiscount", autocomplete = "off", @style = "text-align:right", placeholder = "Discount", @readonly = "readonly" })
+                    </td>
+                    <td>
+                        @Html.TextBoxFor(m => m.Items[i].Amount, new { @class = "form_input clAmount", autocomplete = "off", @style = "text-align:right", placeholder = "Amount", @readonly = "readonly" })
+                    </td>
                 </tr>
             }
-           
         </tbody>
         <tfoot>
             <tr class="grid_heading">
@@ -260,30 +238,27 @@
                 @if (Model.isProjectBased == 0)
                 {
                     <th class="text-center"></th>
-                }                
+                }
                 <th width="5%" class="text-right"><span id="QtyTotal"></span></th>
-             
+
                 <th class="text-right">
-                <h1>
-                    @Html.HiddenFor(m => m.CurrencyId)
-                    @Model.CurrencyName
-                  
-
-
-                </h1>
+                    <h1>
+                        @Html.HiddenFor(m => m.CurrencyId)
+                        @Model.CurrencyName
+                    </h1>
                 </th>
                 <th width="10%" class="text-right"><span id="TotalDiscount"></span> </th>
                 <th width="10%" class="text-right"><span id="TotalAmount"></span> </th>
-               
-       @*<th class="text-right">
 
-                    @Html.TextBoxFor(m => m.TotalDiscount, new { @class = "form_input lgrey", @style = "text-align:right", autocomplete = "off", @readonly = "readonly" })
-                  
-                </th>
-               
-              <th class="text-right">@Html.TextBoxFor(m => m.TotalAmount, new { @class = "form_input lgrey", @style = "text-align:right", autocomplete = "off", @readonly = "readonly" })</th>*@
-               
-               
+                @*<th class="text-right">
+
+                          @Html.TextBoxFor(m => m.TotalDiscount, new { @class = "form_input lgrey", @style = "text-align:right", autocomplete = "off", @readonly = "readonly" })
+
+                      </th>
+
+                    <th class="text-right">@Html.TextBoxFor(m => m.TotalAmount, new { @class = "form_input lgrey", @style = "text-align:right", autocomplete = "off", @readonly = "readonly" })</th>*@
+
+
 
             </tr>
         </tfoot>

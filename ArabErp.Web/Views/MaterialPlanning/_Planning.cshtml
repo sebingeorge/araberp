@@ -19,10 +19,12 @@
                 @*<th class="text-left fix-1 last"></th>*@
             </tr>
         </thead>
-        <tbody>
-            @foreach (var item in Model)
-            {
-                <tr class="grid-row">
+
+        @foreach (var item in Model)
+    {
+            <tbody class="grid_row">
+                <tr @if(item.ShortorExcess < 0) {  @: class="report-highlight"
+                                }>
                     <td class="grid-cell">@item.ItemName</td>
                     <td class="grid-cell">@item.PartNo</td>
                     <td class="grid-cell text-right">@item.WRQTY</td>
@@ -34,12 +36,14 @@
                     <td class="grid-cell text-right">@item.PendingPRQty</td>
                     <td class="grid-cell text-right">@item.ShortorExcess</td>
                     <td class="grid-cell">@item.UnitName</td>
-                    @*<th class="text-left fix-1 last"></th>*@
                 </tr>
-            }
-        </tbody>
+
+            </tbody>
+    }
     </table>
-</div>
+
+
+
 
 
 
