@@ -11,6 +11,15 @@
         window.location = url;
           
     }
+    function Delete(id, isProjectBased) {
+
+
+        var url = '@Url.Action("Delete")';
+        url += "?id=" + id + "&isProjectBased=" + isProjectBased ;
+        window.location = url;
+
+    }
+
 
     $(function () {
         $("#WorkShopRequestDate").datepicker({
@@ -64,9 +73,10 @@
 
     <div class="main-part pad1">
 
-        @using (Html.BeginForm("Save", null, FormMethod.Post, new { @class = "createFrom", @id = "work_form", @onsubmit = "return formValidation()" }))
+        @using (Html.BeginForm(null, null, FormMethod.Post, new { @class = "createFrom", @id = "work_form", @onsubmit = "return formValidation()" }))
         {
             @Html.HiddenFor(m=>m.isProjectBased)
+            @Html.HiddenFor(m => m.SaleOrderId)
             @Html.HiddenFor(m => m.WorkShopRequestId, new { @class = "form_input", autocomplete = "off" })
             @Html.HiddenFor(m => m.CustomerId, new { @class = "form_input", autocomplete = "off" })
             <div class="row form-group">
@@ -134,8 +144,17 @@
     <div class="row">
         <div class="col-md-12 hrpart">
             <button type="button" class="form-button right" onclick="Exit(@Model.isProjectBased)">Exit</button>
+            @if (Model.Isused || Model.IsStoreused)
+            {
+    <span class="perm">
+        <em>**Cannot edit/delete this Sales Quotation, because it is already in Use.</em>
+    </span>
+            }
+            else
+            {
             <button type="submit" class="form-button right">Edit</button>
-                <button type="button" class="form-button left" onclick="Delete()">Delete</button>
+            <button type="button" class="form-button left" onclick="Delete(@Model.WorkShopRequestId,@Model.isProjectBased)">Delete</button>
+            }
         </div>
 
     </div>

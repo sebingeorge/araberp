@@ -21,5 +21,6 @@ namespace ArabErp.Domain
       public int itmCatId { get; set; }
       public int ItemId { get; set; }
       public string ItemRefNo { get; set; }
+      public string PartNo { get; set; }
     }
 }

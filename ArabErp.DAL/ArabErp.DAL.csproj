@@ -73,6 +73,7 @@
     <Compile Include="BoxRepository.cs" />
     <Compile Include="ClosingStockRepository.cs" />
     <Compile Include="CommissionAgentRepository.cs" />
+    <Compile Include="CompanyRepository.cs" />
     <Compile Include="ConnectionManager.cs" />
     <Compile Include="ConsumptionItemRepository.cs" />
     <Compile Include="ConsumptionRepository.cs" />
