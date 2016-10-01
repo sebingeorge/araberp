@@ -31,14 +31,12 @@ namespace ArabErp.Web.Controllers
                 var result = new CompanyRepository().InsertCompany(model);
                 if (result.cmpCode > 0)
                 {
-
                     TempData["Success"] = "Added Successfully!";
                     return RedirectToAction("Index");
                 }
 
                 else
                 {
-                  
                     TempData["error"] = "Oops!!..Something Went Wrong!!";
                     return View("Create", model);
                 }
@@ -81,21 +79,18 @@ namespace ArabErp.Web.Controllers
                 {
 
                     TempData["Success"] = "Updated Successfully!";
-                   // TempData["CustomerRefNo"] = result.CustomerRefNo;
                     return RedirectToAction("Index");
                 }
                 else
                 {
                    
                     TempData["error"] = "Oops!!..Something Went Wrong!!";
-                    //TempData["CustomerRefNo"] = null;
                     return View("Create", model);
                 }
             }
             else
             {
                 TempData["error"] = "This Name Alredy Exists!!";
-               // TempData["CustomerRefNo"] = null;
                 return View("Create", model);
             } 
         }
@@ -104,8 +99,6 @@ namespace ArabErp.Web.Controllers
              ViewBag.Title = "Delete";
              Company objCompany = new CompanyRepository().GetCompany(Id);
              return View("Create", objCompany);
-
-
         }
 
         [HttpPost]
@@ -117,7 +110,7 @@ namespace ArabErp.Web.Controllers
             if (result == 0)
             {
                 TempData["Success"] = "Deleted Successfully!";
-              //  TempData["CustomerRefNo"] = model.CustomerRefNo;
+             
                 return RedirectToAction("Index");
             }
             else
@@ -125,12 +118,10 @@ namespace ArabErp.Web.Controllers
                 if (result == 1)
                 {
                     TempData["error"] = "Sorry!! You Cannot Delete This Customer. It Is Already In Use";
-              //      TempData["CustomerRefNo"] = null;
                 }
                 else
                 {
-                    TempData["error"] = "Oops!!..Something Went Wrong!!";
-               //     TempData["CustomerRefNo"] = null;
+                    TempData["error"] = "Oops!!..Something Went Wrong!!";          
                 }
                 return RedirectToAction("Index");
             }

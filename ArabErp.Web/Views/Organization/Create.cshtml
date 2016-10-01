@@ -37,9 +37,9 @@
             $("input[type='text'], select, textarea").attr('disabled', 'disabled');
             $("input[type=radio]").attr('disabled', true);
         }
-        if (Action == 'Create') {
-            $("#GenderId").prop("checked", true)
-        }
+        //if (Action == 'Create') {
+        //    $("#GenderId").prop("checked", true)
+        //}
 
         //$("#radio_1").prop("checked", true)
         toastr.options = {
@@ -127,16 +127,15 @@
 
                     <div class="tab-content">
                         <div id="home" class="tab-pane fade active in">
-                            @*<h5>Address & Communication</h5>*@
+                         
                             <div class="table-responsive">
                                 <div class="tab_logic">
-                                    @*<table class="table table-bordered" id="tab_logic">*@
+                                   
                                     <div class="row form-group">
                                         <div class="col-md-3">
                                             <label for="doorno">Door No.& Building </label>
                                             @Html.TextBoxFor(m => m.DoorNo, new { @class = "form_input bluebox", autocomplete = "off" })
                                         </div>
-
 
                                         <div class="col-md-3">
                                             <label for="street">Street & City</label>
@@ -219,7 +218,6 @@
                     </div>
                 </div>
             </div>
-     
     }
 
   
