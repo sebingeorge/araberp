@@ -978,6 +978,7 @@
     <Content Include="Views\ItemSellingPrice\_ItemSellingPriceGrid.cshtml" />
     <Content Include="Views\Company\Index.cshtml" />
     <Content Include="Views\Company\Create.cshtml" />
+    <Content Include="Views\Company\CompanyListView.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
