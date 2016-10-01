@@ -198,7 +198,7 @@
                         </li>
 
                                     <li><a href="@Url.Action("Index", "Organization")">Organization</a></li>
-                                    <li><a href="@Url.Action("Create", "Company")">Company</a></li>
+                                    <li><a href="@Url.Action("Index", "Company")">Company</a></li>
                                     <li><a href="@Url.Action("Create","Currency")">Currency</a></li>
                                     <li><a href="@Url.Action("Create", "CostingParameters")">Costing Parameters</a></li>
                                     <li><a href="@Url.Action("Create", "QCParameter")">QC Parameters</a></li>
@@ -315,8 +315,8 @@
                                     <div id="sales-projects" class="collapse">
                                         <ul>
                                             <li><a href="@Url.Action("CreateQuerySheet", "QuerySheet")">Project - Query Sheet</a></li>
-                                            <li><a href="@Url.Action("CreateProject", "SalesQuotation")">Project - Quotation Request</a></li>
-                                            <li><a class="projectn" href="@Url.Action("ListSalesQuotations", "SalesQuotation", new { ProjectBased = 1 ,AfterSales=0})">Project - Quotation Request Approval</a></li>
+                                            <li><a href="@Url.Action("CreateProject", "SalesQuotation")">Project - Quotation</a></li>
+                                            <li><a class="projectn" href="@Url.Action("ListSalesQuotations", "SalesQuotation", new { ProjectBased = 1 ,AfterSales=0})">Project - Quotation Approval</a></li>
                                             <li><a href="@Url.Action("PendingSalesQutoforSaleOrder", "SaleOrder", new { ProjectBased = 1})">Project - Sale Order</a></li>
                                             <li><a href="@Url.Action("PendingSaleOrderApproval", "SaleOrder", new { ProjectBased = 1})">Project - Sale Order Approval</a></li>
                                             <li><a href="@Url.Action("PendingSaleOrderHold", "SaleOrder", new { isProjectBased = 1})">Project - Pending Sale Orders</a></li>
@@ -330,8 +330,8 @@
                                     <a href="#" data-toggle="collapse" data-target="#sales-transport">Transportation Refrigeration<span class="caret arrow"></span></a>
                                     <div id="sales-transport" class="collapse">
                                         <ul>
-                                            <li><a href="@Url.Action("Create","SalesQuotation")">Quotation Request</a></li>
-                                            <li><a href="@Url.Action("ListSalesQuotations", "SalesQuotation", new { ProjectBased = 0, AfterSales = 0 })">Quotation Request Approval</a></li>
+                                            <li><a href="@Url.Action("Create","SalesQuotation")">Quotation</a></li>
+                                            <li><a href="@Url.Action("ListSalesQuotations", "SalesQuotation", new { ProjectBased = 0, AfterSales = 0 })">Quotation Approval</a></li>
                                             <li><a href="@Url.Action("PendingSalesQutoforSaleOrder", "SaleOrder", new { ProjectBased = 0 })">Sale Order</a></li>
                                             <li><a href="@Url.Action("PendingSaleOrderApproval", "SaleOrder", new { ProjectBased = 0 })">Sale Order Approval</a></li>
                                             <li><a href="@Url.Action("PendingSaleOrderHold", "SaleOrder")">Pending Sale Orders</a></li>
@@ -342,7 +342,7 @@
                                     </div>
                         </li>
                                 <li>
-                                    <a href="#" data-toggle="collapse" data-target="#sales-aftersales">AfterSales<span class="caret arrow"></span></a>
+                                    <a href="#" data-toggle="collapse" data-target="#sales-aftersales">Service<span class="caret arrow"></span></a>
                                     <div id="sales-aftersales" class="collapse">
                                         <ul>
                                             <li><a href="@Url.Action("CreateAfterSalesTrans", "SalesQuotation")">Transportation-Quotation</a></li>
