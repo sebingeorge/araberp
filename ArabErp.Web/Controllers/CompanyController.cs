@@ -33,7 +33,6 @@ namespace ArabErp.Web.Controllers
                 {
 
                     TempData["Success"] = "Added Successfully!";
-                   // TempData["CustomerRefNo"] = result.CustomerRefNo;
                     return RedirectToAction("Index");
                 }
 
@@ -41,7 +40,6 @@ namespace ArabErp.Web.Controllers
                 {
                   
                     TempData["error"] = "Oops!!..Something Went Wrong!!";
-                    //TempData["CustomerRefNo"] = null;
                     return View("Create", model);
                 }
 
@@ -49,8 +47,7 @@ namespace ArabErp.Web.Controllers
             else
             {
 
-                TempData["error"] = "This Name Alredy Exists!!";
-             //   TempData["CustomerRefNo"] = null;
+                TempData["error"] = "This Name Alredy Exists!!"; 
                 return View("Create", model);
             }
         }
@@ -115,7 +112,7 @@ namespace ArabErp.Web.Controllers
 
         public ActionResult Delete(Company model)
         {
-            int result = new CompanyRepository().DeleteCustomer(model);
+            int result = new CompanyRepository().DeleteCompany(model);
 
             if (result == 0)
             {
