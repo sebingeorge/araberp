@@ -269,19 +269,19 @@
     <div class="form-head1">
         @if (!Model.isProjectBased && !Model.isAfterSales)
         {
-            <h4>Sales Quotation Request : Transportation</h4>
+            <h4>Sales Quotation : Transportation</h4>
         }
         @if (Model.isProjectBased && !Model.isAfterSales)
         {
-            <h4>Sales Quotation Request : Project</h4>
+            <h4>Sales Quotation : Project</h4>
         }
         @if (!Model.isProjectBased && Model.isAfterSales)
         {
-            <h4>Sales Quotation Request : Transportation : After Sales</h4>
+            <h4>Sales Quotation : Transportation : Service</h4>
         }
         @if (Model.isProjectBased && Model.isAfterSales)
         {
-            <h4>Sales Quotation Request : Project : After Sales</h4>
+            <h4>Sales Quotation : Project : Service</h4>
         }
     </div>
 
@@ -320,9 +320,16 @@
 
                 </div>
                 <div class="col-md-2">
+                @if (Model.isProjectBased)
+                {
+                    <label for="ExpectedDeliveryDate">Expected Commission Date</label>
+                }
+                else
+                {
                     <label for="ExpectedDeliveryDate">Expected Delivery Date</label>
-
-                    @Html.TextBoxFor(m => m.ExpectedDeliveryDate, Model.ExpectedDeliveryDate.ToString("dd/MMMM/yyyy"), new { @class = "form_input", autocomplete = "off" })
+                }
+                 
+                @Html.TextBoxFor(m => m.ExpectedDeliveryDate, Model.ExpectedDeliveryDate.ToString("dd/MMMM/yyyy"), new { @class = "form_input", autocomplete = "off" })
 
                 </div>
                 @if (Model.isProjectBased || Model.isProjectBased && Model.isAfterSales)
@@ -741,17 +748,17 @@
             <div class="row">
 
                 <div class="col-md-3">
-                    <label for="SalesQuotationRejectReasonId">Sales Quotation Status</label>
+                    <label for="SalesQuotationStatusId">Sales Quotation Status</label>
 
 
-                    @Html.DropDownListFor(m => Model.SalesQuotationRejectReasonId, (SelectList)ViewBag.SalesQuotationRejectReasonlist, "Select Status", new { @class = "form_input", autocomplete = "off" })
+                    @Html.DropDownListFor(m => Model.SalesQuotationStatusId, (SelectList)ViewBag.SalesQuotationStatuslist, "Select Status", new { @class = "form_input", autocomplete = "off" })
                 </div>
 
 
                 <div class="col-md-3">
-                    <label for="QuotationRejectReason">Quotation Stage</label>
+                    <label for="QuotationStage">Quotation Stage</label>
 
-                    @Html.TextBoxFor(m => m.QuotationRejectReason, new { @class = "form_input", autocomplete = "off" })
+                    @Html.TextBoxFor(m => m.QuotationStage, new { @class = "form_input", autocomplete = "off" })
 
                 </div>
 

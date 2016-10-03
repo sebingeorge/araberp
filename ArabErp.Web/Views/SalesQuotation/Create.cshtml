@@ -400,7 +400,14 @@
 
                 </div>
                 <div class="col-md-2">
-                    <label for="ExpectedDeliveryDate">Expected Delivery Date</label>
+                @if (Model.isProjectBased)
+                  {
+                   <label for="ExpectedDeliveryDate">Expected Commission Date</label>
+                  }
+                else
+                {
+                   <label for="ExpectedDeliveryDate">Expected Delivery Date</label>
+                }
 
                     @Html.TextBoxFor(m => m.ExpectedDeliveryDate, Model.ExpectedDeliveryDate.ToString("dd/MMMM/yyyy"), new { @class = "form_input", autocomplete = "off" })
                     @Html.ValidationMessageFor(m => m.ExpectedDeliveryDate)
@@ -854,17 +861,17 @@
             <div class="row">
 
                 <div class="col-md-3">
-                    <label for="SalesQuotationRejectReasonId">Sales Quotation Status</label>
+                    <label for="SalesQuotationStatusId">Sales Quotation Status</label>
 
 
-                    @Html.DropDownListFor(m => Model.SalesQuotationRejectReasonId, (SelectList)ViewBag.SalesQuotationRejectReasonlist, "Select Status", new { @class = "form_input", autocomplete = "off" })
+                    @Html.DropDownListFor(m => Model.SalesQuotationStatusId, (SelectList)ViewBag.SalesQuotationStatuslist, "Select Status", new { @class = "form_input", autocomplete = "off" })
                 </div>
 
 
                 <div class="col-md-3">
-                    <label for="QuotationRejectReason">Quotation Stage</label>
+                    <label for="SalesQuotationStatus">Quotation Stage</label>
 
-                    @Html.TextBoxFor(m => m.QuotationRejectReason, new { @class = "form_input", autocomplete = "off" })
+                    @Html.TextBoxFor(m => m.QuotationStage, new { @class = "form_input", autocomplete = "off" })
 
                 </div>
 

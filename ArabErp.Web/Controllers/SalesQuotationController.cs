@@ -62,7 +62,7 @@ namespace ArabErp.Web.Controllers
                 FillWrkDesc();
                 FillVehicle();
                 FillUnit();
-                FillSalesQuotationRejectReason();
+                FillSalesQuotationStatus();
                 FillRateSettings();
 
                 return View(model);
@@ -464,7 +464,7 @@ namespace ArabErp.Web.Controllers
         //    FillQuerySheet();
         //    FillUnit();
         //    FillEmployee();
-        //    FillSalesQuotationRejectReason();
+        //    FillSalesQuotationStatus();
         //    var repo = new SalesQuotationRepository();
 
         //    var sorepo = new SaleOrderRepository();
@@ -519,7 +519,7 @@ namespace ArabErp.Web.Controllers
         //        FillVehicle();
         //        FillUnit();
         //        FillEmployee();
-        //        FillSalesQuotationRejectReason();
+        //        FillSalesQuotationStatus();
         //        return View(model);
         //    }
         //    else
@@ -563,7 +563,7 @@ namespace ArabErp.Web.Controllers
             FillUnit();
             FillQuerySheet();
             FillEmployee();
-            FillSalesQuotationRejectReason();
+            FillSalesQuotationStatus();
             var repo = new SalesQuotationRepository();
 
             var sorepo = new SaleOrderRepository();
@@ -736,11 +736,11 @@ namespace ArabErp.Web.Controllers
             ViewBag.currlist = new SelectList(list, "Id", "Name");
         }
 
-        public void FillSalesQuotationRejectReason()
+        public void FillSalesQuotationStatus()
         {
             var repo = new SalesQuotationRepository();
-            var list = repo.FillSalesQuotationRejectReason();
-            ViewBag.SalesQuotationRejectReasonlist = new SelectList(list, "Id", "Name");
+            var list = repo.FillSalesQuotationStatus();
+            ViewBag.SalesQuotationStatuslist = new SelectList(list, "Id", "Name");
         }
         public void FillQuerySheet()
         {
@@ -778,7 +778,7 @@ namespace ArabErp.Web.Controllers
             FillCurrency();
             FillEmployee();
             FillCommissionAgent();
-            FillSalesQuotationRejectReason();
+            FillSalesQuotationStatus();
         }
        
     }

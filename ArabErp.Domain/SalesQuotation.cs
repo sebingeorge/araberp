@@ -41,9 +41,9 @@ namespace ArabErp.Domain
         public int? QuotationStatus { get; set; }
         public string Remarks { get; set; }
         [Required]
-        public int SalesQuotationRejectReasonId { get; set; }
+        public int SalesQuotationStatusId { get; set; }
        [Required]
-        public string QuotationRejectReason { get; set; }
+        public string QuotationStage { get; set; }
         public string Competitors { get; set; }
         public string PaymentTerms { get; set; }
         public string DiscountRemarks { get; set; }
@@ -58,7 +58,7 @@ namespace ArabErp.Domain
         public int GrantParentId { get; set; }
         public bool isProjectBased { get; set; }
         public bool isAfterSales { get; set; }
-         public string ReasonDescription { get; set; }
+        public string Description { get; set; }
          public string WorkDescription { get; set; }
          public int? CancelStatus { get; set; }
         public List<SalesQuotationItem> SalesQuotationItems { get; set; }
