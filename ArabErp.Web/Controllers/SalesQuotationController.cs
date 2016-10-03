@@ -340,7 +340,6 @@ namespace ArabErp.Web.Controllers
             salesquotation.CustomerAddress = sorepo.GetCusomerAddressByKey(salesquotation.CustomerId);
             salesquotation.SalesQuotationItems = repo.GetSalesQuotationItems(id);
             salesquotation.Materials = repo.GetSalesQuotationMaterials(id);
-            //salesquotation.SalesQuotationItems[0].UnitName = "Nos";
             return View("Edit", salesquotation);
         }
         [HttpPost]
@@ -658,14 +657,14 @@ namespace ArabErp.Web.Controllers
 
     
 
-        public ActionResult DeleteSQ(int id = 0,int isProjectBased=0,int isAfterSales=0)
+        public ActionResult DeleteSQ(string isProjectBased,string isAfterSales,int id = 0)
         {
             try
             {
                 if (id == 0) return RedirectToAction("Index", "Home");
                 string ref_no = new SalesQuotationRepository().DeleteSalesQuotation(id, isAfterSales);
                 TempData["success"] = "Deleted Successfully (" + ref_no + ")";
-                return RedirectToAction("PreviousList", new { ProjectBased = Convert.ToInt32(isProjectBased), AfterSales = Convert.ToInt32(isAfterSales) });
+                return RedirectToAction("PreviousList", new { ProjectBased = Convert.ToInt32(bool.Parse(isProjectBased)), AfterSales = Convert.ToInt32(bool.Parse(isAfterSales) )});
             }
             catch (Exception)
             {

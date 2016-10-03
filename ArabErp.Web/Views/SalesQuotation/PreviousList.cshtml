@@ -50,45 +50,48 @@
         url += "?id=" + id;
         window.location = url;
     }
-    function Exit() 
+    function Exit()
     {
-       if(!@ViewBag.isProjectBased && !@ViewBag.isAfterSales)
+        if(!@ViewBag.isProjectBased && !@ViewBag.isAfterSales)
         {
-           var url  = '@Url.Action("Create", "SalesQuotation")';
-            
-        }
-        else if(@ViewBag.isProjectBased && !@ViewBag.isAfterSales)
-        {
-            var url  = '@Url.Action("CreateProject", "SalesQuotation")';
-          
-        }
-       else if(@ViewBag.isProjectBased && @ViewBag.isAfterSales)
-        {
-            var url  = '@Url.Action("CreateAfterSalesProject", "SalesQuotation")';
-              
-        }
-        else if(!@ViewBag.isProjectBased && @ViewBag.isAfterSales)
-        {
-           var url = '@Url.Action("CreateAfterSalesTrans", "SalesQuotation")';
-           
-        }
-            window.location = url;
-       
+            var url  = '@Url.Action("Create", "SalesQuotation")';
+
+    }
+    else if(@ViewBag.isProjectBased && !@ViewBag.isAfterSales)
+    {
+        var url  = '@Url.Action("CreateProject", "SalesQuotation")';
+
+    }
+    else if(@ViewBag.isProjectBased && @ViewBag.isAfterSales)
+    {
+        var url  = '@Url.Action("CreateAfterSalesProject", "SalesQuotation")';
+
+    }
+    else if(!@ViewBag.isProjectBased && @ViewBag.isAfterSales)
+    {
+        var url = '@Url.Action("CreateAfterSalesTrans", "SalesQuotation")';
+
+    }
+    window.location = url;
+
     }
 
 
     function Filter() {
+
         $("#Quotationlist").addClass("fade");
         var id = $("#sqNo").val();
         var cusid = $("#cboCustomer").val();
         var from = $("#txtFrom").val();
         var to = $("#txtTo").val();
         var url = '@Url.Action("SalesQuotationsList")';
-        url += "?from=" + from + "&to=" + to + "&id=" + id + "&cusid=" + cusid + "&ProjectBased=" + @ViewBag.isProjectBased;
-
+      
+        url += "?from=" + from + "&to=" + to + "&id=" + id + "&cusid=" + cusid + "&ProjectBased=" + @ViewBag.isProjectBased + "&AfterSales=" + @ViewBag.isAfterSales ;
         $("#Quotationlist").load(url, function () {
             $("#Quotationlist").removeClass("fade");
+
         });
+       
     }
 
 </script>

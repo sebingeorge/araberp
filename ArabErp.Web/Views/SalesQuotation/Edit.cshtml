@@ -45,12 +45,13 @@
     
     }
 
-    function DeleteSQ(id, isProjectBased, isAfterSales) {
+    function DeleteSQ(id,isProjectBased, isAfterSales) {
 
        
         var url = '@Url.Action("DeleteSQ")';
-        url += "?id=" + id + "&isProjectBased=" + isProjectBased + "&isAfterSales=" +isAfterSales;
+        url += "?id=" + id + "&isProjectBased=" + isProjectBased + "&isAfterSales=" + isAfterSales;
         window.location = url;
+        alert(url);
       
     }
 
