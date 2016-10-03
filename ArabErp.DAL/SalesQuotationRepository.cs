@@ -194,7 +194,7 @@ namespace ArabErp.DAL
 
             using (IDbConnection connection = OpenConnection(dataConnection))
             {
-                string sql = @"select * from SalesQuotation
+                string sql = @"select *,'Nos' UnitName from SalesQuotation
                         where SalesQuotationId=@SalesQuotationId";
 
                 var objSalesQuotation = connection.Query<SalesQuotation>(sql, new{SalesQuotationId = SalesQuotationId}).First<SalesQuotation>();

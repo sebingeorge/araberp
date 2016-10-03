@@ -339,7 +339,7 @@ namespace ArabErp.Web.Controllers
             salesquotation.CustomerAddress = sorepo.GetCusomerAddressByKey(salesquotation.CustomerId);
             salesquotation.SalesQuotationItems = repo.GetSalesQuotationItems(id);
             salesquotation.Materials = repo.GetSalesQuotationMaterials(id);
-            salesquotation.SalesQuotationItems[0].UnitName = "Nos";
+            //salesquotation.SalesQuotationItems[0].UnitName = "Nos";
             return View("Edit", salesquotation);
         }
         [HttpPost]
