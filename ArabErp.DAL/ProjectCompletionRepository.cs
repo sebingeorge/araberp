@@ -130,49 +130,19 @@ namespace ArabErp.DAL
                 try
                 {
                     string query = @"INSERT INTO ProjectCompletion
-                                    (
-                                        ProjectCompletionRefNo,
-	                                    ProjectCompletionDate,
-	                                    ChillerTemperature,
-	                                    ChillerDimension,
-	                                    ChillerCondensingUnit,
-	                                    ChillerEvaporator,
-	                                    ChillerRefrigerant,
-	                                    ChillerQuantity,
-	                                    FreezerTemperature,
-	                                    FreezerDimension,
-	                                    FreezerCondensingUnit,
-	                                    FreezerEvaporator,
-	                                    FreezerRefrigerant,
-	                                    FreezerQuantity,
-	                                    SaleOrderId,
-	                                    OrganizationId,
-	                                    CreatedDate,
-	                                    CreatedBy,
-                                        isActive
-                                    )
-                                    VALUES
-                                    (
-                                        @ProjectCompletionRefNo,
-	                                    @ProjectCompletionDate,
-	                                    @ChillerTemperature,
-	                                    @ChillerDimension,
-	                                    @ChillerCondensingUnit,
-	                                    @ChillerEvaporator,
-	                                    @ChillerRefrigerant,
-	                                    @ChillerQuantity,
-	                                    @FreezerTemperature,
-	                                    @FreezerDimension,
-	                                    @FreezerCondensingUnit,
-	                                    @FreezerEvaporator,
-	                                    @FreezerRefrigerant,
-	                                    @FreezerQuantity,
-	                                    @SaleOrderId,
-	                                    @OrganizationId,
-	                                    @CreatedDate,
-	                                    @CreatedBy,
-                                        1
-                                    );
+                                    (ProjectCompletionRefNo,ProjectCompletionDate,ChillerTemperature,
+	                                 ChillerDimension,ChillerCondensingUnit,ChillerEvaporator,
+	                                 ChillerRefrigerant,ChillerQuantity,FreezerTemperature,FreezerDimension,
+	                                 FreezerCondensingUnit,FreezerEvaporator,FreezerRefrigerant,FreezerQuantity,
+	                                 SaleOrderId,OrganizationId,CreatedDate,CreatedBy,isActive)
+
+                                     VALUES
+
+                                     (@ProjectCompletionRefNo,@ProjectCompletionDate,@ChillerTemperature,
+	                                 @ChillerDimension,@ChillerCondensingUnit,@ChillerEvaporator,
+	                                 @ChillerRefrigerant,@ChillerQuantity,@FreezerTemperature,@FreezerDimension,
+	                                 @FreezerCondensingUnit,@FreezerEvaporator,@FreezerRefrigerant,@FreezerQuantity,
+	                                 @SaleOrderId,@OrganizationId,@CreatedDate,@CreatedBy,1);
                                     SELECT CAST(SCOPE_IDENTITY() AS INT)";
                     model.ProjectCompletionRefNo = DatabaseCommonRepository.GetNewDocNo(connection, model.OrganizationId, 30, true, txn);
                     model.ProjectCompletionId = connection.Query<int>(query, model, txn).First();
@@ -255,28 +225,28 @@ namespace ArabErp.DAL
             }
         }
 
-        public ProjectCompletion GetProjectCompletion(int ProjectCompletionId, int OrganizationId)
-        {
+        public ProjectCompletion GetProjectCompletion(int ProjectCompletionId)
+      {
             using (IDbConnection connection = OpenConnection(dataConnection))
             {
                 try
                 {
-                    string query = @"SELECT
-	                                    PC.*,
-                                        SO.SaleOrderId,
-	                                    SO.SaleOrderRefNo,
-	                                    SO.SaleOrderDate,
-	                                    C.CustomerName,
-	                                    QS.ProjectName,
-	                                    QS.ColdRoomLocation Location
-                                    FROM ProjectCompletion PC
-	                                    INNER JOIN SaleOrder SO ON PC.SaleOrderId = SO.SaleOrderId
-	                                    INNER JOIN Customer C ON SO.CustomerId = C.CustomerId
-	                                    INNER JOIN SalesQuotation SQ ON SO.SalesQuotationId = SQ.SalesQuotationId
-	                                    INNER JOIN QuerySheet QS ON SQ.QuerySheetId = QS.QuerySheetId 
-                                        WHERE ProjectCompletionId = @ProjectCompletionId AND PC.OrganizationId = @OrganizationId";
-                    return connection.Query<ProjectCompletion>(query, new { OrganizationId = OrganizationId, ProjectCompletionId = ProjectCompletionId }).First();
+                    string query = string.Empty;
+
+                     query = @" SELECT PC.*,SO.SaleOrderId, SO.SaleOrderRefNo,SO.SaleOrderDate,
+                                C.CustomerName,QS.ProjectName,'' Location,ISNULL(SQ.ProjectCompletionId,0)IsUsed
+                                FROM ProjectCompletion PC
+	                            INNER JOIN SaleOrder SO ON PC.SaleOrderId = SO.SaleOrderId
+	                            INNER JOIN Customer C ON SO.CustomerId = C.CustomerId
+	                            INNER JOIN SalesQuotation SQ ON SO.SalesQuotationId = SQ.SalesQuotationId
+	                            INNER JOIN QuerySheet QS ON SQ.QuerySheetId = QS.QuerySheetId 
+                                WHERE PC.ProjectCompletionId = @ProjectCompletionId ";
+
+                    ProjectCompletion ProjectCompletion = connection.Query<ProjectCompletion>(query, new { ProjectCompletionId = ProjectCompletionId }).FirstOrDefault();
+
+                    return ProjectCompletion;
                 }
+
                 catch (Exception ex)
                 {
                     throw ex;
@@ -304,6 +274,70 @@ namespace ArabErp.DAL
                 catch
                 {
                     return new List<ItemBatch>();
+                }
+            }
+        }
+
+        public int UpdateProjectCompletion(ProjectCompletion objProjectCompletion)
+        {
+            using (IDbConnection connection = OpenConnection(dataConnection))
+            {
+                IDbTransaction txn = connection.BeginTransaction();
+                string sql = @"UPDATE
+                                ProjectCompletion SET ProjectCompletionRefNo=@ProjectCompletionRefNo,ProjectCompletionDate=@ProjectCompletionDate,
+                                ChillerTemperature=@ChillerTemperature,ChillerDimension=@ChillerDimension,ChillerCondensingUnit=@ChillerCondensingUnit,
+                                ChillerEvaporator=@ChillerEvaporator,ChillerRefrigerant=@ChillerRefrigerant,ChillerQuantity=@ChillerQuantity,
+                                FreezerTemperature=@FreezerTemperature,FreezerDimension=@FreezerDimension,FreezerCondensingUnit=@FreezerCondensingUnit,
+                                FreezerEvaporator=@FreezerEvaporator,FreezerRefrigerant=@FreezerRefrigerant,FreezerQuantity=@FreezerQuantity,
+	                            SaleOrderId=@SaleOrderId,OrganizationId=@OrganizationId,CreatedDate=@CreatedDate,CreatedBy=@CreatedBy,isActive =1
+                                WHERE ProjectCompletionId = @ProjectCompletionId;";
+                               
+                try
+                {
+                    var id = connection.Execute(sql, objProjectCompletion, txn);
+
+                    int i = 0;
+
+                    if (objProjectCompletion.ItemBatches != null && objProjectCompletion.ItemBatches.Count > 0) InsertItemBatch(objProjectCompletion, connection, txn);
+
+                    //foreach (var model in objProjectCompletion.ItemBatches)
+                    //{
+                    //    model.ProjectCompletionId = objProjectCompletion.ProjectCompletionId;
+
+                    //    //ProjectCompletionRepository repo = new ProjectCompletionRepository();
+                    //    if (InsertItemBatch(model, connection, txn) == 0) throw new Exception("Some error occured while saving jobcard task");
+                    //    i++;
+                    //}
+
+                    InsertLoginHistory(dataConnection, objProjectCompletion.CreatedBy, "Update", "Project Completion", id.ToString(), objProjectCompletion.OrganizationId.ToString());
+                    txn.Commit();
+                    return id;
+                }
+                catch (Exception ex)
+                {
+                    txn.Rollback();
+                    throw ex;
+                }
+            }
+        }
+
+        public string DeleteProjectCompletion(int ProjectCompletionId)
+        {
+            using (IDbConnection connection = OpenConnection(dataConnection))
+            {
+                IDbTransaction txn = connection.BeginTransaction();
+                try
+                {
+                    string query = @"DELETE FROM ItemBatch WHERE ProjectCompletionId = @ProjectCompletionId;
+                                     DELETE FROM ProjectCompletion OUTPUT deleted.ProjectCompletionRefNo WHERE ProjectCompletionId = @ProjectCompletionId;";
+                    string output = connection.Query<string>(query, new { ProjectCompletionId = ProjectCompletionId }, txn).First();
+                    txn.Commit();
+                    return output;
+                }
+                catch (Exception ex)
+                {
+                    txn.Rollback();
+                    throw ex;
                 }
             }
         }
