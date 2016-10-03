@@ -307,5 +307,31 @@ namespace ArabErp.DAL
                 }
             }
         }
+
+        public IEnumerable GetCommissionedProjects(int OrganizationId, string project = "", string saleorder = "", string customer = "")
+        {
+            using (IDbConnection connection = OpenConnection(dataConnection))
+            {
+                try
+                {
+                    string query = @"SELECT
+	                                    ProjectCompletionId,
+	                                    ProjectCompletionRefNo,
+	                                    CONVERT(VARCHAR, ProjectCompletionDate, 106) ProjectCompletionDate,
+	                                    SO.SaleOrderRefNo,
+	                                    CONVERT(VARCHAR, SO.SaleOrderDate, 106) SaleOrderDate,
+	                                    C.CustomerName
+                                    FROM ProjectCompletion PC
+	                                    INNER JOIN SaleOrder SO ON PC.SaleOrderId = SO.SaleOrderId
+	                                    INNER JOIN Customer C ON SO.CustomerId = C.CustomerId
+                                    WHERE PC.OrganizationId = @OrganizationId";
+                    return connection.Query<ProjectCompletion>(query, new { OrganizationId = OrganizationId }).ToList();
+                }
+                catch
+                {
+                    return new List<ProjectCompletion>();
+                }
+            }
+        }
     }
 }
