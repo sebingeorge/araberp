@@ -437,6 +437,10 @@ namespace ArabErp.DAL
                             saleorderitemrepo.InsertSalesQuotationMaterial(item, connection, txn);
                         }
                     }
+                    sql = @" insert  into SalesQuotationHistory(SalesQuotationId,QuotationRefNo,QuotationDate,SalesExecutiveId,GrandTotal,OrganizationId,CreatedBy,CreatedDate)
+                                        Values (@SalesQuotationId,@QuotationRefNo,@QuotationDate,@SalesExecutiveId,@GrandTotal,@OrganizationId,@CreatedBy,@CreatedDate)";
+
+                    connection.Execute(sql, objSalesQtn, txn);                  
 
                     InsertLoginHistory(dataConnection, objSalesQtn.CreatedBy, "Update", "Sales Quotation", id.ToString(), objSalesQtn.OrganizationId.ToString());
                     txn.Commit();

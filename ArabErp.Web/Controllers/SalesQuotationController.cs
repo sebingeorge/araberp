@@ -149,9 +149,10 @@ namespace ArabErp.Web.Controllers
             }
 
         }
-        public ActionResult CreateAfterSalesTrans(int id = 0)//DeliveryChallanId is received here
+        public ActionResult CreateAfterSalesTrans()
+        //public ActionResult CreateAfterSalesTrans(int id = 0)//DeliveryChallanId is received here
         {
-            if (id == 0) return RedirectToAction("Index", "Home");
+            //if (id == 0) return RedirectToAction("Index", "Home");
 
             var internalid = DatabaseCommonRepository.GetNextDocNo(28, OrganizationId);
             DropDowns();
@@ -161,7 +162,7 @@ namespace ArabErp.Web.Controllers
             ItemDropdown();
             FillRateSettings();
             SalesQuotation salesquotation = new SalesQuotation();
-            salesquotation.DeliveryChallanId = id;
+            //salesquotation.DeliveryChallanId = id;
             salesquotation.isProjectBased = false;
             salesquotation.isAfterSales = true;
             salesquotation.QuotationDate = System.DateTime.Today;
