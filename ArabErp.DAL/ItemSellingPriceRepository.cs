@@ -36,25 +36,23 @@ namespace ArabErp.DAL
 //                                 I.isActive=1 
 //                                  order by ItemName;";
                 string sql = @"SELECT 
-
                                     I.ItemId,
 	                                I.ItemName,
 	                                ISNULL(I.PartNo, '-') PartNo,
                                     CategoryName,ItemGroupName,ItemSubGroupName,UnitName,
-	                             ISP.SellingPrice,Round(sum(Amount)/sum(Rate),2)as Average
-                                FROM 
-                                Item I 
-								INNER JOIN GRNItem GR ON I.ItemId=GR.ItemId
-                                INNER JOIN ItemCategory ON itmCatId=ItemCategoryId
-                               INNER JOIN ItemGroup G ON I.ItemGroupId=G.ItemGroupId
-                               INNER JOIN ItemSubGroup S ON I.ItemSubGroupId=S.ItemSubGroupId
-                               INNER JOIN Unit U ON U.UnitId=I.ItemUnitId
-                                LEFT JOIN ItemSellingPrice ISP ON I.ItemId = ISP.ItemId
-                                WHERE 
-                                 I.isActive=1 
-								 group by I.itemid, I.ItemName,I.PartNo, CategoryName,ItemGroupName,ItemSubGroupName,UnitName,
-	                             ISP.SellingPrice 
-                                  order by ItemName; ";
+	                                ISP.SellingPrice,Round(sum(Amount)/sum(Rate),2)as Average
+                                    FROM 
+                                    Item I 
+								    INNER JOIN GRNItem GR ON I.ItemId=GR.ItemId
+                                    INNER JOIN ItemCategory ON itmCatId=ItemCategoryId
+                                    INNER JOIN ItemGroup G ON I.ItemGroupId=G.ItemGroupId
+                                    INNER JOIN ItemSubGroup S ON I.ItemSubGroupId=S.ItemSubGroupId
+                                    INNER JOIN Unit U ON U.UnitId=I.ItemUnitId
+                                    LEFT JOIN ItemSellingPrice ISP ON I.ItemId = ISP.ItemId
+                                    WHERE I.isActive=1 
+								    group by I.itemid, I.ItemName,I.PartNo, CategoryName,ItemGroupName,ItemSubGroupName,UnitName,
+	                                ISP.SellingPrice 
+                                    order by ItemName; ";
 
 
               //  var objItemSellingPrices = connection.Query<ItemSellingPrice>(sql, new { OrganizationId = OrganizationId }).ToList<ItemSellingPrice>();
