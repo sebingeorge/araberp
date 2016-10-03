@@ -91,7 +91,7 @@ namespace ArabErp.DAL
             {
 
                 string sql = @"SELECT  SO.SaleOrderId,SO.CustomerOrderRef,SO.SaleOrderRefNo,SO.EDateArrival,SO.EDateDelivery,SO.CustomerId,C.CustomerName,SO.SaleOrderDate SaleOrderDate,
-                                SO.SaleOrderRefNo +','+ Replace(Convert(varchar,SaleOrderDate,106),' ','/') SaleOrderRefNo,SO.isProjectBased
+                                SO.SaleOrderRefNo +' - '+ Replace(Convert(varchar,SaleOrderDate,106),' ','-') SaleOrderRefNo,SO.isProjectBased
                                 FROM  SaleOrder SO  INNER JOIN Customer C  ON SO.CustomerId =C.CustomerId
                                 WHERE SO.SaleOrderId =@SaleOrderId";
                 var objSaleOrders = connection.Query<WorkShopRequest>(sql, new { SaleOrderId = SaleOrderId }).Single<WorkShopRequest>();

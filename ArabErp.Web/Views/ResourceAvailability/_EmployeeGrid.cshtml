@@ -4,6 +4,14 @@
 <script>
     $(document).ready(function(){
         $('[data-toggle="tooltip"]').tooltip();
+
+        $("tr").click(function () {
+            $("tr").each(function (index, object) {
+                $(this).removeClass("selected-row");
+            })
+            $(this).toggleClass("selected-row");
+        })
+
     });
 </script>
 
@@ -11,6 +19,9 @@
     .Sun {
         background: #f5f5f5;
         /*background: rgb(221, 221, 221);*/
+    }
+    .selected-row{
+        background: #f5f5f5;
     }
 </style>
 <div id="availability">

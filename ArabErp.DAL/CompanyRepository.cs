@@ -103,12 +103,12 @@ namespace ArabErp.DAL
             }
         }
 
-        public int DeleteCustomer(Company objCompany)
+        public int DeleteCompany(Company objCompany)
         {
             int result = 0;
             using (IDbConnection connection = OpenConnection(dataConnection))
             {
-                string sql = @" UPDATE mstAccCompany SET isActive=0  WHERE cmpcode=@cmpcode";
+                string sql = @"UPDATE mstAccCompany SET isActive=0  WHERE cmpcode=@cmpcode";
                 try
                 {
 
