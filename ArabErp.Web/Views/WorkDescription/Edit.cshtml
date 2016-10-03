@@ -1,12 +1,22 @@
 ﻿@model  ArabErp.Domain.WorkDescription
 @{
-    ViewBag.Title = "Edit";
-    Layout = "~/Views/Shared/_Layout.cshtml";
+    string actionName = ViewContext.RouteData.GetRequiredString("action");
+    ViewData["action"] = actionName;
 }
 
+ 
+
 <script>
-    function Exit() {
-        location.href = '@Url.Action("Index", "WorkDescription")';
+    function Exit(isProjectBased) {
+      
+        if (!isProjectBased)
+        {
+            location.href = '@Url.Action("Index", "WorkDescription")';
+        }
+        else
+        {
+            location.href = '@Url.Action("FillProjectWorkDescriptionList", "WorkDescription")';
+        }
     }
 
     function Tick() {
@@ -229,7 +239,14 @@
 
 <div class="row">
     <div class="form-head1">
-        <h4>Work Description</h4>
+        @if (Model.isProjectBased == false)
+        {
+            <h4>Transportation:Work Description</h4>
+        }
+        else
+        {
+            <h4>Project:Work Description</h4>
+        }
     </div>
 
     <div class="main-part pad1">
@@ -423,7 +440,7 @@
                         <div class="row">
 
                             <div class="col-md-12 hrpart">
-                                <button type="button" class="form-button right" onclick="Exit()">Exit</button>
+                                <button type="button" class="form-button right" onclick="Exit('@Model.isProjectBased')">Exit</button>
                                 <button type="submit" class="form-button right">Edit</button>
                                 <button type="button" class="form-button left" onclick="Delete('@Model.WorkDescriptionId')">Delete</button>
                             </div>

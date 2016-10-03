@@ -149,6 +149,86 @@ namespace ArabErp.Web.Controllers
 
         }
 
+        public ActionResult EditProjectWorkDescription(int Id)
+        {
+           
+            FillItem();
+            FillJobCardTaskMaster();
+        
+            WorkDescription model = new WorkDescriptionRepository().GetWorkDescription(Id);
+
+            model.isNewInstallation = true;
+            model.isProjectBased = true;
+
+            if (model.WorkVsItems.Count == 0)
+                model.WorkVsItems.Add(new WorkVsItem());
+            if (model.WorkVsTasks.Count == 0)
+                model.WorkVsTasks.Add(new WorkVsTask());
+
+            return View("Edit", model);
+        }
+
+
+        [HttpPost]
+        public ActionResult EditProjectWorkDescription(WorkDescription model)
+        {
+
+            FillItem();
+            FillJobCardTaskMaster();
+
+            ViewBag.Title = "Edit";
+            model.OrganizationId = OrganizationId;
+            model.CreatedDate = System.DateTime.Now;
+            model.CreatedBy = UserID.ToString();
+
+            var repo = new WorkDescriptionRepository();
+
+            var result1 = new WorkDescriptionRepository().CHECK(model.WorkDescriptionId);
+            if (result1 > 0)
+            {
+                TempData["error"] = "Sorry!!..Already Used!!";
+                TempData["WorkDescriptionRefNo"] = null;
+                return View("Edit", model);
+            }
+
+            else
+            {
+                try
+                {
+                    var result3 = new WorkDescriptionRepository().DeleteWorkDescriptionTask(model.WorkDescriptionId);
+                    var result2 = new WorkDescriptionRepository().DeleteWorkDescriptionItem(model.WorkDescriptionId);
+                    var result4 = new WorkDescriptionRepository().DeleteWorkDescriptionHD(model.WorkDescriptionId, UserID.ToString());
+                    //string id = new WorkDescriptionRepository().InsertWorkDescription(model);
+                    var result = new WorkDescriptionRepository().InsertWorkDescription(model);
+                    if (result.WorkDescriptionId > 0)
+                    {
+                        TempData["success"] = "Updated successfully!";
+                        TempData["WorkDescriptionRefNo"] = result.WorkDescriptionRefNo;
+                        return RedirectToAction("FillProjectWorkDescriptionList");
+                        //return View("Edit", model);
+                    }
+                    else
+                    {
+                        throw new Exception();
+                    }
+                }
+                catch (SqlException sx)
+                {
+                    TempData["error"] = "Some error occured while connecting to database. Please check your network connection and try again.|" + sx.Message;
+                }
+                catch (NullReferenceException nx)
+                {
+                    TempData["error"] = "Some required data was missing. Please try again.|" + nx.Message;
+                }
+                catch (Exception ex)
+                {
+                    TempData["error"] = "Some error occured. Please try again.|" + ex.Message;
+                }
+                return RedirectToAction("FillProjectWorkDescriptionList");
+            }
+
+        }
+
         public ActionResult Delete(int Id)
         {
             ViewBag.Title = "Delete";
@@ -158,6 +238,7 @@ namespace ArabErp.Web.Controllers
             {
                 TempData["error"] = "Sorry!!..Already Used!!";
                 TempData["WorkDescriptionRefNo"] = null;
+              
                 return RedirectToAction("EditWorkDescription", new { id = Id });
                 //return RedirectToAction("Edit", new { id = Id });
             }
