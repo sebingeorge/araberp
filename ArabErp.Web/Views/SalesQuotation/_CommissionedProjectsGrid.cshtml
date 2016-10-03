@@ -1,0 +1,47 @@
+﻿@model IList<ArabErp.Domain.ProjectCompletion>
+
+<table class="table table-bordered">
+    <thead>
+        <tr class="grid_heading">
+
+            <th width="15%"><h1>Quotation Ref. No</h1></th>
+            <th width="10%"><h1>Quotation Date</h1></th>
+            <th width="30%"><h1>Customer</h1></th>
+            <th width="20%"><h1>Sales Executive</h1></th>
+            <th class="text-right" width="10%"><h1>Amount</h1></th>
+            <th width="10%"><h1>Status</h1></th>
+            <th width="10%" class="text-center"><h1></h1></th>
+            @*<th><h1>Revise</h1></th>
+                <th><h1>Cancel</h1></th>*@
+        </tr>
+    </thead>
+
+    <tbody class="grid_row">
+        @if (Model.Count > 0)
+        {
+            int i = 0;
+            foreach (var item in Model)
+            {
+                <tr>
+                    <td>@item.QuotationRefNo</td>
+                    <td>@item.QuotationDate.ToString("dd-MMMM-yyyy")</td>
+                    <td>@item.CustomerName</td>
+                    <td>@item.EmployeeName</td>
+                    <td style="text-align:right">@item.GrandTotal</td>
+                    <td>@item.ReasonDescription</td>
+                    <td align="center"><input type="button" value="Select" onclick="OnItemSelected(@item.SalesQuotationId)" checked class="form-button4" /></td>
+                </tr>
+            }
+        }
+        else
+        {
+            <tr>
+                <td colspan="6">
+                    <center>
+                        <em>No items found!</em>
+                    </center>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
