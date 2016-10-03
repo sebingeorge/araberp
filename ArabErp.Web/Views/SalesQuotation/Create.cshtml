@@ -375,16 +375,14 @@
             @Html.HiddenFor(m => m.SalesQuotationId)
             @Html.HiddenFor(m => m.isProjectBased)
             @Html.HiddenFor(m => m.isAfterSales)
-            @*@{
-                if (Model.ProjectCompletionId != null && Model.ProjectCompletionId = 0)
-                {
-                    @Html.HiddenFor(m => m.ProjectCompletionId)
-                }
-                else if (Model.DeliveryChallanId != null && Model.DeliveryChallanId = 0)
-                {
-                    @Html.HiddenFor(m => m.ProjectCompletionId)
-                }
-            }*@
+            if (Model.ProjectCompletionId != null && Model.ProjectCompletionId != 0)
+            {
+                @Html.HiddenFor(m => m.ProjectCompletionId)
+            }
+            else if (Model.DeliveryChallanId != null && Model.DeliveryChallanId != 0)
+            {
+                @Html.HiddenFor(m => m.DeliveryChallanId)
+            }
 
             <div class="row form-group ">
                 <div class="col-md-2">

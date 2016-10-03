@@ -149,10 +149,10 @@ namespace ArabErp.Web.Controllers
             }
 
         }
-        public ActionResult CreateAfterSalesTrans()
-        //public ActionResult CreateAfterSalesTrans(int id = 0)//DeliveryChallanId is received here
+
+        public ActionResult CreateAfterSalesTrans(int id = 0)//DeliveryChallanId is received here
         {
-            //if (id == 0) return RedirectToAction("Index", "Home");
+            if (id == 0) return RedirectToAction("Index", "Home");
 
             var internalid = DatabaseCommonRepository.GetNextDocNo(28, OrganizationId);
             DropDowns();
@@ -162,7 +162,7 @@ namespace ArabErp.Web.Controllers
             ItemDropdown();
             FillRateSettings();
             SalesQuotation salesquotation = new SalesQuotation();
-            //salesquotation.DeliveryChallanId = id;
+            salesquotation.DeliveryChallanId = id;
             salesquotation.isProjectBased = false;
             salesquotation.isAfterSales = true;
             salesquotation.QuotationDate = System.DateTime.Today;
@@ -791,6 +791,20 @@ namespace ArabErp.Web.Controllers
             return PartialView("_CommissionedProjectsGrid", new ProjectCompletionRepository().GetCommissionedProjects(
                 OrganizationId: OrganizationId,
                 project: project,
+                customer: customer,
+                saleorder: saleorder));
+        }
+
+        public ActionResult DeliveryChallans()
+        {
+            return View(new DeliveryChallanRepository().GetDeliveryChallans(OrganizationId));
+        }
+
+        public ActionResult DeliveryChallansGrid(string challan = "", string saleorder = "", string customer = "")
+        {
+            return PartialView("_DeliveryChallansGrid", new DeliveryChallanRepository().GetDeliveryChallans(
+                OrganizationId: OrganizationId,
+                challan: challan,
                 customer: customer,
                 saleorder: saleorder));
         }
