@@ -136,7 +136,7 @@ namespace ArabErp.DAL
 	                                 FreezerCondensingUnit,FreezerEvaporator,FreezerRefrigerant,FreezerQuantity,
 	                                 SaleOrderId,OrganizationId,CreatedDate,CreatedBy,isActive)
 
-                                     VALUES
+                                    VALUES
 
                                      (@ProjectCompletionRefNo,@ProjectCompletionDate,@ChillerTemperature,
 	                                 @ChillerDimension,@ChillerCondensingUnit,@ChillerEvaporator,
@@ -226,7 +226,7 @@ namespace ArabErp.DAL
         }
 
         public ProjectCompletion GetProjectCompletion(int ProjectCompletionId)
-      {
+        {
             using (IDbConnection connection = OpenConnection(dataConnection))
             {
                 try
@@ -235,11 +235,11 @@ namespace ArabErp.DAL
 
                      query = @" SELECT PC.*,SO.SaleOrderId, SO.SaleOrderRefNo,SO.SaleOrderDate,
                                 C.CustomerName,QS.ProjectName,'' Location,ISNULL(SQ.ProjectCompletionId,0)IsUsed
-                                FROM ProjectCompletion PC
-	                            INNER JOIN SaleOrder SO ON PC.SaleOrderId = SO.SaleOrderId
-	                            INNER JOIN Customer C ON SO.CustomerId = C.CustomerId
-	                            INNER JOIN SalesQuotation SQ ON SO.SalesQuotationId = SQ.SalesQuotationId
-	                            INNER JOIN QuerySheet QS ON SQ.QuerySheetId = QS.QuerySheetId 
+                                    FROM ProjectCompletion PC
+	                                    INNER JOIN SaleOrder SO ON PC.SaleOrderId = SO.SaleOrderId
+	                                    INNER JOIN Customer C ON SO.CustomerId = C.CustomerId
+	                                    INNER JOIN SalesQuotation SQ ON SO.SalesQuotationId = SQ.SalesQuotationId
+	                                    INNER JOIN QuerySheet QS ON SQ.QuerySheetId = QS.QuerySheetId 
                                 WHERE PC.ProjectCompletionId = @ProjectCompletionId ";
 
                     ProjectCompletion ProjectCompletion = connection.Query<ProjectCompletion>(query, new { ProjectCompletionId = ProjectCompletionId }).FirstOrDefault();
@@ -338,6 +338,32 @@ namespace ArabErp.DAL
                 {
                     txn.Rollback();
                     throw ex;
+                }
+            }
+        }
+
+        public IEnumerable GetCommissionedProjects(int OrganizationId, string project = "", string saleorder = "", string customer = "")
+        {
+            using (IDbConnection connection = OpenConnection(dataConnection))
+            {
+                try
+                {
+                    string query = @"SELECT
+	                                    ProjectCompletionId,
+	                                    ProjectCompletionRefNo,
+	                                    CONVERT(VARCHAR, ProjectCompletionDate, 106) ProjectCompletionDate,
+	                                    SO.SaleOrderRefNo,
+	                                    CONVERT(VARCHAR, SO.SaleOrderDate, 106) SaleOrderDate,
+	                                    C.CustomerName
+                                    FROM ProjectCompletion PC
+	                                    INNER JOIN SaleOrder SO ON PC.SaleOrderId = SO.SaleOrderId
+	                                    INNER JOIN Customer C ON SO.CustomerId = C.CustomerId
+                                    WHERE PC.OrganizationId = @OrganizationId";
+                    return connection.Query<ProjectCompletion>(query, new { OrganizationId = OrganizationId }).ToList();
+                }
+                catch
+                {
+                    return new List<ProjectCompletion>();
                 }
             }
         }

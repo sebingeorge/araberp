@@ -979,6 +979,8 @@
     <Content Include="Views\Company\Index.cshtml" />
     <Content Include="Views\Company\Create.cshtml" />
     <Content Include="Views\Company\CompanyListView.cshtml" />
+    <Content Include="Views\SalesQuotation\CommissionedProjects.cshtml" />
+    <Content Include="Views\SalesQuotation\_CommissionedProjectsGrid.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

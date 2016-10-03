@@ -67,5 +67,8 @@ namespace ArabErp.Domain
         public int DaysLeft { get; set; }
         public bool isWarranty { get; set; }
         public bool IsUsed { get; set; }
+        public int DeliveryChallanId { get; set; }
+
+        public int ProjectCompletionId { get; set; }
     }
 }
