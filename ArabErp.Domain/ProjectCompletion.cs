@@ -44,5 +44,6 @@ namespace ArabErp.Domain
         public int OrganizationId { get; set; }
         public DateTime CreatedDate { get; set; }
         public string CreatedBy { get; set; }
+        public bool IsUsed { get; set; }
     }
 }

@@ -9,14 +9,14 @@
 
     $(document).ready(function () {
 
-        $('input').attr("readonly", true);
+        //$('input').attr("readonly", true);
 
-        //$("#ProjectCompletionDate").datepicker({
-        //    dateFormat: "dd MM yy"
-        //});
+        $("#ProjectCompletionDate").datepicker({
+            dateFormat: "dd MM yy"
+        });
 
         //---------------------toastr---------------------------//
-        @*toastr.options = {
+        toastr.options = {
             "positionClass": "toast-bottom-full-width",
             "timeOut": "5000",
             "extendedTimeOut": "2000"
@@ -28,12 +28,17 @@
             toastr.error('@TempData["error"]'.split('|')[0]);
             console.log('@TempData["error"]'.split('|')[1]);
         }
-        @{ TempData["success"] = TempData["error"] = ""; }*@
+        @{ TempData["success"] = TempData["error"] = ""; }
         //------------------------------------------------------//
 
     })
 
-    function Back() {
+    function Delete() {
+        var url = '@Url.Action("Delete", new { ProjectCompletionId = Model.ProjectCompletionId })';
+        window.location = url;
+    }
+
+    function Exit() {
         var url = '@Url.Action("Index")';
         window.location = url;
     }
@@ -41,6 +46,8 @@
 </script>
 
 <div class="row">
+    @using (Html.BeginForm(null, null, FormMethod.Post, new { @class = "createFrom", @id = "ProjectCompletion_form"}))
+        {
     <div class="form-head1">
         <h4>Project Completion Commissioning/Handover Details</h4>
     </div>
@@ -69,10 +76,10 @@
                     <label for="aaa">Client</label>
                     @Html.TextBoxFor(m => m.CustomerName, new { @class = "form_input", @readonly = "true" })
                 </div>
-                <div class="col-md-4">
+                @*<div class="col-md-4">
                     <label for="aaa">Location</label>
                     @Html.TextBoxFor(m => m.Location, new { @class = "form_input", @readonly = "true" })
-                </div>
+                </div>*@
             </div>
 
             <h5>Chiller:</h5>
@@ -193,12 +200,25 @@
             </div>
             <div class="row">
                 <div class="col-md-12 col-md hrpart">
-                    <input class="form-button right" type="button" value="Exit" onclick="Back()" />
-                    @*<input class="form-button right" type="submit" value="Save" />*@
-                    @*<input class="form-button left" type="button" value="Back" onclick="Back()" />*@
+                    <button type="button" class="form-button right" onclick="Exit()">Exit</button>
+                    @if(Model.IsUsed)
+                    {
+                        <span class="perm">
+                            <em>**Cannot edit/delete this Project Completion, because it is either used in another process or completed.</em>
+                        </span>
+                    }
+                    else
+                    {
+                        <button type="submit" class="form-button right">Edit</button>
+                        <input type="button" value="Delete" onclick="Delete()" class="form-button left" />
+                    }
+                    
+                    
                 </div>
             </div>
         </form>
     </div>
+        }
 </div>
+
 

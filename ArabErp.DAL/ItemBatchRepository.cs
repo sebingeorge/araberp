@@ -621,7 +621,7 @@ namespace ArabErp.DAL
                                     LEFT JOIN Employee U ON IB.CreatedBy = U.EmployeeId
                                     LEFT JOIN Customer C ON SO.CustomerId = C.CustomerId
                                     LEFT JOIN DeliveryChallan DC ON IB.DeliveryChallanId = DC.DeliveryChallanId
-                                    LEFT JOIN OpeningStock OS ON OS.ItemId=I.ItemId
+                                    LEFT JOIN OpeningStock OS ON OS.OpeningStockId=IB.OpeningStockId AND OS.ItemId=I.ItemId
                                     WHERE ISNULL(IB.isActive, 1) = 1
 								    AND IB.SerialNo LIKE '%'+@serialno+'%'
 								    AND I.ItemId = ISNULL(NULLIF(@item, 0), I.ItemId)
