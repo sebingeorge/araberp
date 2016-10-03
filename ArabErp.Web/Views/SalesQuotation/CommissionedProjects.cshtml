@@ -1,7 +1,24 @@
-﻿@{
+﻿@model IList<ArabErp.Domain.ProjectCompletion>
+
+@{
     ViewBag.Title = "Commissioned Projects";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
+
+<script type="text/javascript">
+
+    function Filter() {
+        var url = '@Url.Action("CommissionedProjectsGrid")';
+        //$.getJSON()
+    }
+
+    function OnItemSelected(id) {
+        var url = '@Url.Action("CreateAfterSalesProject")';
+        url += "/" + id;
+        window.location = url;
+    }
+
+</script>
 
 <div class="row">
 
@@ -11,7 +28,7 @@
 
     <div class="main-part pad1">
         <div id="commissioned-projects-table">
-
+            @Html.Partial("_CommissionedProjectsGrid", Model)
         </div>
     </div>
 </div>
