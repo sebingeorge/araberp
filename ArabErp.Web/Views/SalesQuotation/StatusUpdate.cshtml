@@ -662,29 +662,29 @@
                 <div class="row form-group ">
 
                     <div class="col-md-3">
-                        <label for="SalesQuotationRejectReasonId">Sales Quotation Status</label>
+                        <label for="SalesQuotationStatusId">Sales Quotation Status</label>
 
                         @if (ViewBag.actionName.ToString() == "StatusUpdate")
                         {
-                            @Html.DropDownListFor(m => Model.SalesQuotationRejectReasonId, (SelectList)ViewBag.SalesQuotationRejectReasonlist, "Select Status", new { @class = "form_input", autocomplete = "off"})
+                            @Html.DropDownListFor(m => Model.SalesQuotationStatusId, (SelectList)ViewBag.SalesQuotationStatuslist, "Select Status", new { @class = "form_input", autocomplete = "off"})
                         }
                         else
                         {
-                            @Html.DropDownListFor(m => Model.SalesQuotationRejectReasonId, (SelectList)ViewBag.SalesQuotationRejectReasonlist, "Select Status", new { @class = "form_input", autocomplete = "off", @disabled = "true" })
+                            @Html.DropDownListFor(m => Model.SalesQuotationStatusId, (SelectList)ViewBag.SalesQuotationStatuslist, "Select Status", new { @class = "form_input", autocomplete = "off", @disabled = "true" })
 
                         }
                     </div>
 
 
                     <div class="col-md-3">
-                        <label for="QuotationRejectReason">Quotation Stage</label>
+                        <label for="QuotationStage">Quotation Stage</label>
                         @if (ViewBag.actionName.ToString() == "StatusUpdate")
                         {
-                            @Html.TextBoxFor(m => m.QuotationRejectReason, new { @class = "form_input", autocomplete = "off", @readonly = "readonly" })
+                            @Html.TextBoxFor(m => m.QuotationStage, new { @class = "form_input", autocomplete = "off", @readonly = "readonly" })
                         }
                         else
                         {
-                            @Html.TextBoxFor(m => m.QuotationRejectReason, new { @class = "form_input", autocomplete = "off", @readonly = "readonly" })
+                            @Html.TextBoxFor(m => m.QuotationStage, new { @class = "form_input", autocomplete = "off", @readonly = "readonly" })
                         }
                     </div>
 
