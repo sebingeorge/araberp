@@ -254,10 +254,11 @@ namespace ArabErp.Web.Controllers
                 model.Module = new System.Collections.Generic.List<ModuleVsUser>();
                 model.ERPAlerts = new System.Collections.Generic.List<ERPAlerts>();
                 model.ERPGraphs = new System.Collections.Generic.List<ERPGraphs>();
-
+                model.Companies = new System.Collections.Generic.List<CompanyVsUser>();
                 var modules = (new UserRepository()).GetModules(null);
                 var alerts = (new UserRepository()).GetAlerts(Id ?? 0);
                 var graphs = (new UserRepository()).GetGraphs(Id ?? 0);
+                var Company = (new UserRepository()).GetCompanyPermissions(Id??0);
                 foreach (var item in modules)
                 {
                     model.Module.Add(item);
@@ -269,6 +270,10 @@ namespace ArabErp.Web.Controllers
                 foreach (var item in graphs)
                 {
                     model.ERPGraphs.Add(item);
+                }
+                foreach (var item in Company)
+                {
+                    model.Companies.Add(item);
                 }
                 return View(model);
             }
@@ -279,10 +284,13 @@ namespace ArabErp.Web.Controllers
                 model.Module = new System.Collections.Generic.List<ModuleVsUser>();
                 model.ERPAlerts = new System.Collections.Generic.List<ERPAlerts>();
                 model.ERPGraphs = new System.Collections.Generic.List<ERPGraphs>();
+                model.Companies = new System.Collections.Generic.List<CompanyVsUser>();
 
                 var modules = (new UserRepository()).GetModules(Id);
                 var alerts = (new UserRepository()).GetAlerts(Id ?? 0);
                 var graphs = (new UserRepository()).GetGraphs(Id ?? 0);
+                var Company = (new UserRepository()).GetCompanyPermissions(Id??0);
+
                 foreach (var item in modules)
                 {
                     model.Module.Add(item);
@@ -294,6 +302,10 @@ namespace ArabErp.Web.Controllers
                 foreach (var item in graphs)
                 {
                     model.ERPGraphs.Add(item);
+                }
+                foreach (var item in Company)
+                {
+                    model.Companies.Add(item);
                 }
                 return View(model);
             }           
@@ -320,6 +332,7 @@ namespace ArabErp.Web.Controllers
                     model.UserSalt = salt;
                     
                     res = (new UserRepository()).InsertUser(model);
+                    TempData["Success"] = "Registered Successfully!";
                 }
                 else
                 {

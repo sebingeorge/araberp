@@ -545,7 +545,7 @@ namespace ArabErp.Web.Controllers
 
             foreach (var item in SOList)
             {
-                var soitem = new SaleOrderItem { WorkDescriptionId = item.WorkDescriptionId, VehicleModelId = item.VehicleModelId, Quantity = item.Quantity, UnitId = item.UnitId, Rate = item.Rate, Amount = item.Amount, Discount = item.Discount };
+                var soitem = new SaleOrderItem { WorkDescriptionId = item.WorkDescriptionId,WorkDescr=item.WorkDescr, VehicleModelId = item.VehicleModelId, Quantity = item.Quantity, UnitId = item.UnitId, Rate = item.Rate, Amount = item.Amount, Discount = item.Discount };
                 model.Items.Add(soitem);
 
             }

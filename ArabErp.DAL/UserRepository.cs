@@ -50,6 +50,15 @@ namespace ArabErp.DAL
                             connection.Query(sql, item);
                         }
                     }
+                    foreach (var item in user.Companies)
+                    {
+                        if (item.isPermission == 1)
+                        {
+                            item.UserId = id;
+                            sql = "insert into CompanyVsUser(cmpCode, UserId) values(@cmpCode, @UserId)";
+                            connection.Query(sql, item);
+                        }
+                    }
                     InsertLoginHistory(dataConnection, user.CreatedBy, "Create", "Unit", id.ToString(), "0");
                     return id;
                 }
@@ -103,6 +112,17 @@ namespace ArabErp.DAL
                         {
                             item.UserId = user.UserId ?? 0;
                             sql = "insert into ERPGraphsVsUser(GraphId, UserId) values(@GraphId, @UserId)";
+                            connection.Query(sql, item);
+                        }
+                    }
+                    sql = "delete from CompanyVsUser where UserId = " + user.UserId.ToString();
+                    connection.Query(sql);
+                    foreach (var item in user.Companies)
+                    {
+                        if (item.isPermission == 1)
+                        {
+                            item.UserId = user.UserId ?? 0;
+                            sql = "insert into CompanyVsUser(cmpCode, UserId) values(@cmpCode, @UserId)";
                             connection.Query(sql, item);
                         }
                     }
@@ -223,6 +243,18 @@ namespace ArabErp.DAL
                 left join ERPGraphsVsUser EU on A.GraphId = EU.GraphId and EU.UserId = " + UserId.ToString();
 
                 return connection.Query<ERPGraphs>(sql);
+            }
+        }
+
+        public IEnumerable<CompanyVsUser> GetCompanyPermissions(int UserId)
+        {
+            using (IDbConnection connection = OpenConnection(dataConnection))
+            {
+                string sql = @"select mstAccCompany.cmpCode,mstAccCompany.cmpName,isPermission  = case when CU.CompanyVsUserId is null then 0 else 1 end, 
+                             " + UserId.ToString() + @" UserId
+                                from mstAccCompany
+                                left join CompanyVsUser CU on mstAccCompany.cmpCode=CU.cmpCode and CU.UserId = " + UserId.ToString();
+                return connection.Query<CompanyVsUser>(sql);
             }
         }
     }
