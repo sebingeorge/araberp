@@ -64,12 +64,12 @@
     }
     else if(@ViewBag.isProjectBased && @ViewBag.isAfterSales)
     {
-        var url  = '@Url.Action("CreateAfterSalesProject", "SalesQuotation")';
+        var url  = '@Url.Action("CommissionedProjects", "SalesQuotation")';
 
     }
     else if(!@ViewBag.isProjectBased && @ViewBag.isAfterSales)
     {
-        var url = '@Url.Action("CreateAfterSalesTrans", "SalesQuotation")';
+        var url = '@Url.Action("DeliveryChallans", "SalesQuotation")';
 
     }
     window.location = url;

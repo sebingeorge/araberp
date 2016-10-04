@@ -18,6 +18,12 @@
         window.location = url;
     }
 
+    function PreviousList() {
+        var url = '@Url.Action("PreviousList")';
+        url += "?ProjectBased=0&AfterSales=1";
+        window.location = url;
+    }
+
 </script>
 
 <div class="row">
@@ -29,6 +35,11 @@
     <div class="main-part pad1">
         <div id="commissioned-projects-table">
             @Html.Partial("_DeliveryChallansGrid", Model)
+        </div>
+        <div class="row">
+            <div class="col-md-12 hrpart">
+                <input class="form-button" type="button" value="Previous" onclick="PreviousList()" />
+            </div>
         </div>
     </div>
 </div>

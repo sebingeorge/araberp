@@ -76,7 +76,6 @@
     });
     function CustomerChanged(cust) {
         var cusId = cust.value;
-
         $.ajax({
             url: "@Url.Action("GetCustomerDetailsByKey", "SaleOrder")",
             data: { cusKey: cusId },
@@ -420,7 +419,17 @@
                     @Html.TextBoxFor(m => m.ExpectedDeliveryDate, Model.ExpectedDeliveryDate.ToString("dd/MMMM/yyyy"), new { @class = "form_input", autocomplete = "off" })
                     @Html.ValidationMessageFor(m => m.ExpectedDeliveryDate)
                 </div>
-                @if (!Model.isProjectBased && Model.isAfterSales)
+                @if (Model.isProjectBased)
+                {
+                    <div class="col-md-2">
+
+                        <label for="QuerySheetId">Query Sheet No.</label>
+
+                        @Html.DropDownListFor(m => Model.QuerySheetId, (SelectList)ViewBag.QuerySheetNolist, "Select Query Sheet", new { @class = "form_input", autocomplete = "off" })
+
+                    </div>
+                }
+                @if (Model.isAfterSales)
                 {
 
                     <div class="col-md-2">
@@ -433,16 +442,6 @@
                             @Html.CheckBoxFor(m => m.isWarranty, new { autocomplete = "off" })
                         }
                         <span class="text">Warranty</span>
-
-                    </div>
-                }
-                @if (Model.isProjectBased)
-                {
-                    <div class="col-md-2">
-
-                        <label for="selectCustomer">Query Sheet No.</label>
-
-                        @Html.DropDownListFor(m => Model.QuerySheetId, (SelectList)ViewBag.QuerySheetNolist, "Select Query Sheet", new { @class = "form_input", autocomplete = "off" })
 
                     </div>
                 }
@@ -485,6 +484,8 @@
                     $("#SalesQuotationItems_0__SlNo").val('1');
                     $("#lblTotalAmount").text('0');
                     $("select[id$='__WorkDescriptionId']").combobox();
+                    $("select[id$='__ItemId']").combobox();
+                    $("#Discount").val() = $("#Discount").val() == 0 ? "0.00" : $("#Discount").val();
                     //$('td:nth-child(2)').hide();
 
                 });
@@ -880,7 +881,7 @@
                 </div>
 
 
-                <div class="col-md-3">
+                <div class="col-md-2">
                     <label for="SalesQuotationStatus">Quotation Stage</label>
 
                     @Html.TextBoxFor(m => m.QuotationStage, new { @class = "form_input", autocomplete = "off" })
@@ -894,7 +895,10 @@
                     @Html.TextBoxFor(m => m.Competitors, new { @class = "form_input", autocomplete = "off" })
 
                 </div>
-
+                <div class="col-md-1">
+                    <label for="Competitors">Discount</label>
+                    @Html.TextBoxFor(m => m.Discount, new { @class = "form_input numbers-only", autocomplete = "off" })
+                </div>
                 <div class="col-md-3">
                     <label for="DiscountRemarks">Discount Remarks</label>
 
