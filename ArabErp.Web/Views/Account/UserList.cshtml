@@ -5,11 +5,18 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 <script>
-    function Edit(id)
-    {
+    function Edit(id) {
         var url = '@Url.Action("Register")';
         url = url + "?Id=" + id;
         window.location.href = url;
+    }
+    function Create() {
+        var url = '@Url.Action("Register")';
+        window.location = url;
+    }
+        function Exit() {
+            var url = '@Url.Action("Index","Home")';
+            window.location = url;
     }
 </script>
 <div class="container">
@@ -17,7 +24,7 @@
         <div class="form-head1">
             <h4>Users</h4>
         </div>
-        <div class="main-part pad1 white">
+        <div class="main-part pad1 ">
             <div class="main-grid main-grid-top scroll1">
                 <div class=" table-responsive">
                     <table class="table table-bordered">
@@ -25,7 +32,7 @@
                             <tr class="grid_heading">
                                 <th style="width:15%;"><h1>User Name</h1></th>
                                 <th style="width:15%;"><h1>Email</h1></th>
-                                <th style="width:10%;"><h1>Select</h1></th>
+                                <th style="width:10%;"><h1></h1></th>
                                 <th><h1></h1></th>
                             </tr>
                         </thead>
@@ -34,8 +41,8 @@
                             <tbody class="grid_row">
                                 <tr>
                                     <td class="grid-cell">@item.UserName</td>
-                                    <td class="grid-cell">@item.UserEmail</td>                                    
-                                    <td><center><button class="form-button4" onclick="Edit(@item.UserId)">Select</button></center></td>
+                                    <td class="grid-cell">@item.UserEmail</td>
+                                    <td><center><button class="form-button4" onclick="Edit(@item.UserId)">View</button></center></td>
                                     <td class="grid-cell"></td>
                                 </tr>
                             </tbody>
@@ -43,10 +50,22 @@
                     </table>
                 </div>
             </div>
+               
+                <div class="row-count1">
+                    <h5>Row Count:- @Model.Count()</h5>
+                </div>
+          
             <div class="row">
                 <div class="col-md-12 hrpart">
-                    <button type="button" class="form-button right" onclick="Create()">Create</button>
+
+                    <button type="submit" class="form-button" onclick="Create();">Create</button>
+                    <button type="button" class="form-button right" onclick="Exit();">Exit</button>
+
+                    @*<input type="button" class="form-button right" onclick="Exit()" value="Exit" />
+                    <input type="button" class="form-button left" onclick="PreviousList()" value="Previous" />*@
+                   
                 </div>
+                
             </div>
         </div>
     </div>
