@@ -8,7 +8,7 @@ using System.Data;
 
 namespace ArabErp.DAL
 {
-    public class UserRepository:BaseRepository
+    public class UserRepository : BaseRepository
     {
         static string dataConnection = GetConnectionString("arab");
         public int InsertUser(User user)
@@ -23,18 +23,18 @@ namespace ArabErp.DAL
 
                     var id = connection.Query<int>(sql, user).Single();
 
-                    foreach(var item in user.Module)
+                    foreach (var item in user.Module)
                     {
-                        if(item.isPermission == 1)
+                        if (item.isPermission == 1)
                         {
                             item.UserId = id;
                             sql = "insert into ModuleVsUser(ModuleId, UserId) values(@ModuleId, @UserId);";
                             connection.Query(sql, item);
-                        }                        
+                        }
                     }
-                    foreach(var item in user.ERPAlerts)
+                    foreach (var item in user.ERPAlerts)
                     {
-                        if(item.HasPermission == 1)
+                        if (item.HasPermission == 1)
                         {
                             item.UserId = id;
                             sql = "insert into ERPAlertsVsUser(AlertId, UserId) values(@AlertId, @UserId)";
@@ -62,10 +62,10 @@ namespace ArabErp.DAL
                     InsertLoginHistory(dataConnection, user.CreatedBy, "Create", "Unit", id.ToString(), "0");
                     return id;
                 }
-                catch(Exception ex)
+                catch (Exception ex)
                 {
                     return 0;
-                }                
+                }
             }
         }
         public int UpdateUser(User user)
@@ -86,12 +86,12 @@ namespace ArabErp.DAL
                     connection.Query(sql);
                     foreach (var item in user.Module)
                     {
-                        if(item.isPermission == 1)
+                        if (item.isPermission == 1)
                         {
                             item.UserId = user.UserId ?? 0;
                             sql = "insert into ModuleVsUser(ModuleId, UserId) values(@ModuleId, @UserId);";
                             connection.Query(sql, item);
-                        }                        
+                        }
                     }
                     sql = "delete from ERPAlertsVsUser where UserId = " + user.UserId.ToString();
                     connection.Query(sql);
@@ -156,12 +156,12 @@ namespace ArabErp.DAL
         {
             using (IDbConnection connection = OpenConnection(dataConnection))
             {
-                if(ActionName != "LoadQuickView" && ControllName != "Home")
+                if (ActionName != "LoadQuickView" && ControllName != "Home")
                 {
                     string sql = @"insert into TransactionHistory(UserId, TransTime, Mode, Form, OrganizationId, SessionID)
                                values('" + UserId.ToString() + "', GetDate(), '" + ActionName + "', '" + ControllName + "', '" + OrganizationId.ToString() + "','" + SessionID + "')";
                     connection.Query(sql);
-                }               
+                }
             }
             return true;
         }
@@ -204,6 +204,47 @@ namespace ArabErp.DAL
             using (IDbConnection connection = OpenConnection(dataConnection))
             {
                 string sql = "select * from [User]";
+                return connection.Query<User>(sql);
+            }
+        }
+
+
+
+        public User GetUserInfo(int? Id)
+        {
+            using (IDbConnection connection = OpenConnection(dataConnection))
+            {
+                string sql = @"SELECT [UserId]
+                ,[UserName]
+                ,[UserEmail]
+                ,[UserPassword]
+                ,[UserSalt]
+                ,[UserRole]
+                
+                FROM[dbo].[User] U Where U.UserId=" + Id;
+                return connection.Query<User>(sql).FirstOrDefault();
+            }
+        }
+
+        public IEnumerable<User>  GetUserAndModuleInfoList()
+        {
+            using (IDbConnection connection = OpenConnection(dataConnection))
+            {
+                string sql = @"SELECT [UserId]
+                ,[UserName]
+                ,[UserEmail]
+                ,[UserPassword]
+                ,[UserSalt]
+                ,[UserRole]
+                , ModuleNames = STUFF((SELECT ',' + M.ModuleName AS[text()]
+                FROM Module M join ModuleVsUser MU
+
+                on M.ModuleId = MU.ModuleId
+                WHERE
+                MU.UserId = U.UserId
+                FOR XML PATH('')
+                ), 1, 1,'')
+                FROM[dbo].[User] U ";
                 return connection.Query<User>(sql);
             }
         }

@@ -279,8 +279,11 @@ namespace ArabErp.Web.Controllers
             }
             else
             {
-                var users = (new UserRepository().GetUsers());
-                User model = (from a in users where a.UserId == Id select a).Single();
+                //var users = (new UserRepository().GetUsers());
+                //User model = (from a in users where a.UserId == Id select a).Single();
+
+                User model = new UserRepository().GetUserInfo(Id);
+
                 model.Module = new System.Collections.Generic.List<ModuleVsUser>();
                 model.ERPAlerts = new System.Collections.Generic.List<ERPAlerts>();
                 model.ERPGraphs = new System.Collections.Generic.List<ERPGraphs>();
@@ -358,7 +361,7 @@ namespace ArabErp.Web.Controllers
         [AllowAnonymous]
         public ActionResult UserList()
         {
-            return View(new UserRepository().GetUsers());
+            return View(new UserRepository().GetUserAndModuleInfoList());
         }
         //
         // GET: /Account/ConfirmEmail
