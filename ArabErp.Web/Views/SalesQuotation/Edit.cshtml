@@ -409,7 +409,7 @@
                     $(document).ready(function () {
                         $("#SalesQuotationItems_0__SlNo").val('1');
                         $("#lblTotalAmount").text('0');
-
+                        $("select[id$='__WorkDescriptionId']").combobox();
                     });
                     function Delete(index) {
 
@@ -480,15 +480,17 @@
                         var amount = (quantity * rate) - discount;
                         amount = parseFloat(amount);
                         $("#SalesQuotationItems_" + row + "__Amount").val(amount);
+                        $("#SalesQuotationItems_" + row + "__TotalAmount").val((amount * quantity).toFixed(2));
                         cal_Summary();
                     }
 
                     function cal_Summary() {
                        
-
                         var quantity = parseFloat("0");
                         var amount = parseFloat("0");
                         var grandtotal = parseFloat("0");
+                        var rowtotal = parseFloat("0");
+
                         $('.clQuantity').each(function (i, obj) {
                             var a = parseFloat($("#SalesQuotationItems_" + i + "__Quantity").val());
 
@@ -511,9 +513,18 @@
                             amount = amount + a;
                         });
 
+                        $("input[id$='__TotalAmount']").each(function (i, obj) {
+                            var a = parseFloat($(obj).val());
+                            if (isNaN(a)) {
+                                a = parseFloat("0");
+                            }
+                            rowtotal = rowtotal + a;
+                        })
 
-                        $("#QtyAmount").text(parseFloat(amount));
-                        var WorkAmt = parseFloat($("#QtyAmount").text());
+                        $("#QtyAmount").text(parseFloat(amount).toFixed(2));
+                        $("#NetTotalAmount").text(parseFloat(rowtotal).toFixed(2));
+
+                        var WorkAmt = parseFloat($("#NetTotalAmount").text());
                         var MaterialAmt = parseFloat($("#TotalAmount").text());
 
                         if (isNaN(WorkAmt)) {
@@ -533,7 +544,7 @@
                             grandtotal = parseFloat("0");
 
                         }
-                        $("#lblTotalAmount").text(parseFloat(grandtotal));
+                        $("#lblTotalAmount").text(parseFloat(grandtotal).toFixed(2));
 
                     }
 
@@ -570,6 +581,8 @@
                         $("#tab_logic").append('<tr id="' + i + '">' + clone.html() + '  </tr>');
                         $("#slno" + (i + 1)).html((i + 1));
                         $("#SalesQuotationItems_" + i + "__SlNo").val((i + 1));
+                        $("#" + i).find('span[class="custom-combobox"]').remove();
+                        $("#SalesQuotationItems_" + i + "__WorkDescriptionId").combobox();
                     }
 
 
@@ -586,18 +599,19 @@
                        {
                             <th width="2%" class="text-center"></th>
                                 }
-                            <th width="6%" class="text-center"><h1>#</h1></th>
-                            <th width="50%" class="text-left"><h1>Work Description</h1></th>
+                            <th width="1%" class="text-center"><h1>#</h1></th>
+                            <th width="35%" class="text-left"><h1>Work Description</h1></th>
                             @if (new[] { "Create", "Approve" }.Contains(ViewContext.RouteData.GetRequiredString("action")))
                             {
                                 <th width="10%"><h1>Rate Settings</h1></th>
                             }
                             <th width="5%" class="text-right"><h1>Qty.</h1></th>
                             <th width="5%" class="text-right"><h1>UoM</h1></th>
-                            <th width="10%" class="text-right"><h1>Rate</h1></th>
+                            <th width="7%" class="text-right"><h1>Rate</h1></th>
                          
-                            <th width="10%" class="text-right"><h1>Discount</h1></th>
-                            <th width="10%" class="text-right"><h1>Amount</h1></th>
+                            <th width="7%" class="text-right"><h1>Discount</h1></th>
+                            <th width="7%" class="text-right"><h1>Amount</h1></th>
+                            <th width="8%" class="text-right"><h1>Total</h1></th>
                        @if (!Model.isAfterSales)
                        {
                             <th width="2%">&nbsp;</th>
@@ -621,7 +635,7 @@
 
                                 <td>
                                     <input type="hidden" id="Row_@i" />
-                                    @Html.DropDownListFor(x => Model.SalesQuotationItems[i].WorkDescriptionId, new SelectList(ViewBag.workdesclist, "Value", "Text", Model.SalesQuotationItems[i].WorkDescriptionId), "select work description", new { @class = "form_input", autocomplete = "off", @onchange = "OnWorkDescChanged(" + i + ")" })
+                                    @Html.DropDownListFor(x => Model.SalesQuotationItems[i].WorkDescriptionId, new SelectList(ViewBag.workdesclist, "Value", "Text", Model.SalesQuotationItems[i].WorkDescriptionId), "select work description", new { @class = "form_input", autocomplete = "off", @onchange = "OnWorkDescChanged(" + i + ")", @placeholder = "Search for Work Description" })
                                 </td>
 
                                 @if (new[] { "Create", "Approve" }.Contains(ViewContext.RouteData.GetRequiredString("action")))
@@ -654,6 +668,9 @@
 
                                 </td>
                                 <td>@Html.TextBoxFor(m => m.SalesQuotationItems[i].Amount, new { @class = "form_input clAmount", autocomplete = "off", @style = "text-align:right", placeholder = "Amount", @readonly = "true", @onchange = "QuantityChanged(" + i + ");" })</td>
+                                <td>
+                                    @Html.TextBoxFor(m => m.SalesQuotationItems[i].TotalAmount, new { @class = "form_input", autocomplete = "off", @style = "text-align:right", @readonly = "readonly" })
+                                </td>
                            @if (!Model.isAfterSales)
                            {
                                 <td style="vertical-align:middle"><a id="add_row" class="glyphicon glyphicon-plus" style="top:0px" onclick="AddAdditionRow()"></a></td>
@@ -666,32 +683,33 @@
                         <tr class="grid_heading">
                           @if (!Model.isAfterSales)
                           {
-                            <th width="2%" class="text-center"></th>
+                            <th class="text-center"></th>
                                 }
-                            <th width="6%" class="text-center"><h1>Total</h1></th>
-                            <th width="50%" class="text-center "><h1></h1></th>
+                            <th class="text-center"></th>
+                            <th class="text-center "><h1></h1></th>
                             @if (new[] { "Create", "Approve" }.Contains(ViewContext.RouteData.GetRequiredString("action")))
                             {
                                 <th></th>
                             }
                             @*<th width="5%" class="text-center"><h1></h1></th>
                                 <th width="5%" class="text-right"><span id="QtyTotal"></span></th>*@
-                            <th width="10%"></th>
-                            <th width="5%"></th>
-                            <th width="10%" class="text-right">
+                            <th></th>
+                            <th><h1>Total</h1></th>
+                            <th class="text-right">
                                 <h1>
 
                                     @Html.DropDownListFor(m => Model.CurrencyId, (SelectList)ViewBag.currlist, "Select Currency", new { @class = "form_input", autocomplete = "off" })
                                 </h1>
                             </th>
-                            <th width="10%" class="text-right"></th>
+                            <th class="text-right"></th>
                                                          
-                            <th width="10%" class="text-right">
+                            <th class="text-right">
                                 <span id="QtyAmount"></span>
                             </th>
+                            <th class="text-right"><span id="NetTotalAmount"></span></th>
                            @if (!Model.isAfterSales)
                            {
-                            <th width="2%" class="text-right"></th>
+                            <th class="text-right"></th>
                              }
                         </tr>
                     </tfoot>
