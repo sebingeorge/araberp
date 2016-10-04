@@ -1,11 +1,11 @@
-﻿@model IList<ArabErp.Domain.ProjectCompletion>
+﻿@model IList<ArabErp.Domain.DeliveryChallan>
 
 <table class="table table-bordered">
     <thead>
         <tr class="grid_heading">
             <th width="1%" style="text-align:center"><h1>#</h1></th>
             <th width="20%"><h1>Customer</h1></th>
-            <th width="15%" title="Project Commission Ref. No. & Date"><h1>Project Comm. Ref. No &amp; Date</h1></th>
+            <th width="15%" title="Delivery Challan Ref. No. & Date"><h1>Delivery Challan Ref. No &amp; Date</h1></th>
             <th width="20%" title="Sale Order "><h1>SO Ref. No. &amp; Date</h1></th>
             <th width="1%" class="text-center"><h1></h1></th>
             @*<th><h1>Revise</h1></th>
@@ -21,10 +21,10 @@
             {
                 <tr>
                     <td align="center">@(++i)</td>
-                    <td>@item.CustomerName</td>
-                    <td>@item.ProjectCompletionRefNo - @item.ProjectCompletionDate.ToString("dd-MMMM-yyyy")</td>
+                    <td>@item.Customer</td>
+                    <td>@item.DeliveryChallanRefNo - @item.DeliveryChallanDate.ToString("dd-MMMM-yyyy")</td>
                     <td>@item.SaleOrderRefNo - @item.SaleOrderDate.ToString("dd-MMMM-yyyy")</td>
-                    <td align="center"><input type="button" value="Select" onclick="OnItemSelected(@item.ProjectCompletionId)" checked class="form-button4" /></td>
+                    <td align="center"><input type="button" value="Select" onclick="OnItemSelected(@item.DeliveryChallanId)" checked class="form-button4" /></td>
                 </tr>
             }
         }

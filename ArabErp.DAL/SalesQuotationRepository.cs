@@ -72,10 +72,10 @@ namespace ArabErp.DAL
 
                         string sql = @" insert  into SalesQuotation(QuotationRefNo,QuotationDate,CustomerId,ContactPerson,SalesExecutiveId,PredictedClosingDate,
                                         QuotationValidToDate,ExpectedDeliveryDate,IsQuotationApproved,ApprovedBy,TotalWorkAmount,TotalMaterialAmount,GrandTotal,CurrencyId,QuotationStatus,Remarks,SalesQuotationStatusId,
-                                        QuotationStage,Competitors,PaymentTerms,DiscountRemarks,CreatedBy,CreatedDate,OrganizationId,isProjectBased,isAfterSales,QuerySheetId,isWarranty)
+                                        QuotationStage,Competitors,PaymentTerms,DiscountRemarks,CreatedBy,CreatedDate,OrganizationId,isProjectBased,isAfterSales,QuerySheetId,isWarranty, ProjectCompletionId, DeliveryChallanId)
                                         Values (@QuotationRefNo,@QuotationDate,@CustomerId,@ContactPerson,@SalesExecutiveId,@PredictedClosingDate,@QuotationValidToDate,
                                         @ExpectedDeliveryDate,@IsQuotationApproved,@ApprovedBy,@TotalWorkAmount,@TotalMaterialAmount,@GrandTotal,@CurrencyId,@QuotationStatus,@Remarks,@SalesQuotationStatusId,
-                                        @QuotationStage,@Competitors,@PaymentTerms,@DiscountRemarks,@CreatedBy,@CreatedDate,@OrganizationId,@isProjectBased,@isAfterSales,NULLIF(@QuerySheetId, 0),@isWarranty);
+                                        @QuotationStage,@Competitors,@PaymentTerms,@DiscountRemarks,@CreatedBy,@CreatedDate,@OrganizationId,@isProjectBased,@isAfterSales,NULLIF(@QuerySheetId, 0),@isWarranty, NULLIF(@ProjectCompletionId, 0), NULLIF(@DeliveryChallanId, 0));
                                         SELECT CAST(SCOPE_IDENTITY() as int) SalesQuotationId";
 
                         model.SalesQuotationId = connection.Query<int>(sql, model, trn).First<int>();
@@ -194,7 +194,7 @@ namespace ArabErp.DAL
 
             using (IDbConnection connection = OpenConnection(dataConnection))
             {
-                string sql = @"select *,'Nos' UnitName from SalesQuotation
+                string sql = @"select * from SalesQuotation
                         where SalesQuotationId=@SalesQuotationId";
 
                 var objSalesQuotation = connection.Query<SalesQuotation>(sql, new{SalesQuotationId = SalesQuotationId}).First<SalesQuotation>();
@@ -243,7 +243,7 @@ namespace ArabErp.DAL
 
             using (IDbConnection connection = OpenConnection(dataConnection))
             {
-                string sql = @"select * from SalesQuotationItem S inner join WorkDescription W ON S.WorkDescriptionId=W.WorkDescriptionId
+                string sql = @"select *,'Nos' UnitName from SalesQuotationItem S inner join WorkDescription W ON S.WorkDescriptionId=W.WorkDescriptionId
                                LEFT JOIN VehicleModel V ON  V.VehicleModelId=W.VehicleModelId
                                where SalesQuotationId=@SalesQuotationId";
 
@@ -321,7 +321,7 @@ namespace ArabErp.DAL
                 
             }
         }
-        public string DeleteSalesQuotation(int SalesQuotationId,int isAfterSales)
+        public string DeleteSalesQuotation(int SalesQuotationId,string isAfterSales)
         {
             using (IDbConnection connection = OpenConnection(dataConnection))
             {
@@ -330,7 +330,7 @@ namespace ArabErp.DAL
                 try
                 {
 
-                    if (isAfterSales == 1)
+                    if (isAfterSales=="true")
                     {
                          query ="DELETE FROM SalesQuotationMaterial  WHERE SalesQuotationId = @SalesQuotationId;";
                     }
@@ -437,6 +437,10 @@ namespace ArabErp.DAL
                             saleorderitemrepo.InsertSalesQuotationMaterial(item, connection, txn);
                         }
                     }
+                    sql = @" insert  into SalesQuotationHistory(SalesQuotationId,QuotationRefNo,QuotationDate,SalesExecutiveId,GrandTotal,OrganizationId,CreatedBy,CreatedDate)
+                                        Values (@SalesQuotationId,@QuotationRefNo,@QuotationDate,@SalesExecutiveId,@GrandTotal,@OrganizationId,@CreatedBy,@CreatedDate)";
+
+                    connection.Execute(sql, objSalesQtn, txn);                  
 
                     InsertLoginHistory(dataConnection, objSalesQtn.CreatedBy, "Update", "Sales Quotation", id.ToString(), objSalesQtn.OrganizationId.ToString());
                     txn.Commit();

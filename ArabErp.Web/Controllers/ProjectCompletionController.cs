@@ -99,9 +99,50 @@ namespace ArabErp.Web.Controllers
         public ActionResult Details(int id = 0)
         {
             if (id == 0) return RedirectToAction("Index", "Home");
-            ProjectCompletion model = new ProjectCompletionRepository().GetProjectCompletion(id, OrganizationId);
+            ProjectCompletion model = new ProjectCompletionRepository().GetProjectCompletion(id);
             model.ItemBatches = new ProjectCompletionRepository().GetSerialNosByProjectCompletioId(model.ProjectCompletionId);
             return View(model);
+        }
+
+        [HttpPost]
+        public ActionResult Details(ProjectCompletion model)
+        {
+            try
+            {
+                model.CreatedBy = UserID.ToString(); model.CreatedDate = DateTime.Today; model.OrganizationId = OrganizationId;
+                if (model.ItemBatches != null && model.ItemBatches.Count > 0)
+                    foreach (ItemBatch item in model.ItemBatches)
+                    {
+                        item.WarrantyStartDate = model.ProjectCompletionDate;
+                        item.WarrantyExpireDate = model.ProjectCompletionDate.AddMonths(item.WarrantyPeriodInMonths ?? 0).AddDays(-1);
+                    }
+
+                new ProjectCompletionRepository().UpdateProjectCompletion(model);
+                TempData["success"] = "Updated Successfully (" + model.ProjectCompletionRefNo + ")";
+                return RedirectToAction("Index");
+            }
+            catch (Exception)
+            {
+                TempData["error"] = "Some error occurred. Please try again.";
+            }
+           return View(model);
+        }
+
+        public ActionResult Delete(int ProjectCompletionId = 0)
+        {
+            try
+            {
+                if (ProjectCompletionId == 0) return RedirectToAction("Index", "Home");
+                //JobCard model = new JobCardRepository().GetJobCardDetails2(JobCardId, OrganizationId);
+                string ref_no = new ProjectCompletionRepository().DeleteProjectCompletion(ProjectCompletionId);
+                TempData["success"] = "Deleted Successfully (" + ref_no + ")";
+                return RedirectToAction("Index");
+            }
+            catch (Exception)
+            {
+                TempData["error"] = "Some error occured while deleting. Please try again.";
+                return RedirectToAction("Details", new { id = ProjectCompletionId });
+            }
         }
     }
 }
