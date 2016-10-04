@@ -76,7 +76,6 @@
     });
     function CustomerChanged(cust) {
         var cusId = cust.value;
-
         $.ajax({
             url: "@Url.Action("GetCustomerDetailsByKey", "SaleOrder")",
             data: { cusKey: cusId },
@@ -420,7 +419,17 @@
                     @Html.TextBoxFor(m => m.ExpectedDeliveryDate, Model.ExpectedDeliveryDate.ToString("dd/MMMM/yyyy"), new { @class = "form_input", autocomplete = "off" })
                     @Html.ValidationMessageFor(m => m.ExpectedDeliveryDate)
                 </div>
-                @if (!Model.isProjectBased && Model.isAfterSales)
+                @if (Model.isProjectBased)
+                {
+                    <div class="col-md-2">
+
+                        <label for="QuerySheetId">Query Sheet No.</label>
+
+                        @Html.DropDownListFor(m => Model.QuerySheetId, (SelectList)ViewBag.QuerySheetNolist, "Select Query Sheet", new { @class = "form_input", autocomplete = "off" })
+
+                    </div>
+                }
+                @if (Model.isAfterSales)
                 {
 
                     <div class="col-md-2">
@@ -433,16 +442,6 @@
                             @Html.CheckBoxFor(m => m.isWarranty, new { autocomplete = "off" })
                         }
                         <span class="text">Warranty</span>
-
-                    </div>
-                }
-                @if (Model.isProjectBased)
-                {
-                    <div class="col-md-2">
-
-                        <label for="selectCustomer">Query Sheet No.</label>
-
-                        @Html.DropDownListFor(m => Model.QuerySheetId, (SelectList)ViewBag.QuerySheetNolist, "Select Query Sheet", new { @class = "form_input", autocomplete = "off" })
 
                     </div>
                 }
@@ -485,6 +484,8 @@
                     $("#SalesQuotationItems_0__SlNo").val('1');
                     $("#lblTotalAmount").text('0');
                     $("select[id$='__WorkDescriptionId']").combobox();
+                    $("select[id$='__ItemId']").combobox();
+                    $("#Discount").val() = $("#Discount").val() == 0 ? "0.00" : $("#Discount").val();
                     //$('td:nth-child(2)').hide();
 
                 });
@@ -545,7 +546,7 @@
                     var rate = parseFloat($("#SalesQuotationItems_" + row + "__Rate").val());
                     var discount = parseFloat($("#SalesQuotationItems_" + row + "__Discount").val());
 
-                    if (quantity == NaN) {
+                    if (isNaN(quantity)) {
                         quantity = 0;
                     }
                     if (rate == NaN) {
@@ -560,7 +561,11 @@
 
                     amount = parseFloat(amount);
                     $("#SalesQuotationItems_" + row + "__Amount").val(amount.toFixed(2));
-                    $("#SalesQuotationItems_" + row + "__TotalAmount").val((amount*quantity).toFixed(2));
+                    var total = amount*quantity;
+                    if(isNaN(total)){
+                        total=0;
+                    }
+                    $("#SalesQuotationItems_" + row + "__TotalAmount").val((total).toFixed(2));
                     cal_Summary();
                 }
 
@@ -789,32 +794,32 @@
                     <tr class="grid_heading">
                         @if (actionName == "Create" || actionName == "CreateProject")
                         {
-                            <th width="2%" class="text-center"></th>
+                            <th class="text-center"></th>
                         }
-                        <th width="5%" class="text-center"><h1>Total</h1></th>
-                        <th width="45%" class="text-center "><h1></h1></th>
+                        <th class="text-center"></th>
+                        <th class="text-center "><h1></h1></th>
                         @if (new[] { "Create", "Approve" }.Contains(ViewContext.RouteData.GetRequiredString("action")))
                         {
                             <th></th>
                         }
-                        <th width="5%" class="text-center"><h1></h1></th>
+                        <th class="text-center"><h1></h1></th>
 
-                        <th width="5%" class="text-center "><h1></h1></th>
-                        <th width="7%" class="text-center "><h1></h1></th>
-                        <th width="7%" class="text-right">
+                        <th class="text-center "><h1></h1></th>
+                        <th class="text-center "><h1>Total</h1></th>
+                        <th class="text-right">
                             <h1>
 
                                 @Html.DropDownListFor(m => m.CurrencyId, (SelectList)ViewBag.currlist, "Select Currency", new { @class = "form_input", autocomplete = "off" })
                             </h1>
                         </th>
 
-                        <th width="7%" class="text-right">
+                        <th class="text-right">
                             <span id="QtyAmount"></span>
                         </th>
-                        <th width="8%" class="text-right"><span id="NetTotalAmount"></span></th>
+                        <th class="text-right"><span id="NetTotalAmount"></span></th>
                         @if (actionName == "Create" || actionName == "CreateProject")
                         {
-                            <th width="2%" class="text-right"></th>
+                            <th class="text-right"></th>
                         }
                     </tr>
                 </tfoot>
@@ -876,7 +881,7 @@
                 </div>
 
 
-                <div class="col-md-3">
+                <div class="col-md-2">
                     <label for="SalesQuotationStatus">Quotation Stage</label>
 
                     @Html.TextBoxFor(m => m.QuotationStage, new { @class = "form_input", autocomplete = "off" })
@@ -890,7 +895,10 @@
                     @Html.TextBoxFor(m => m.Competitors, new { @class = "form_input", autocomplete = "off" })
 
                 </div>
-
+                <div class="col-md-1">
+                    <label for="Competitors">Discount</label>
+                    @Html.TextBoxFor(m => m.Discount, new { @class = "form_input numbers-only", autocomplete = "off" })
+                </div>
                 <div class="col-md-3">
                     <label for="DiscountRemarks">Discount Remarks</label>
 

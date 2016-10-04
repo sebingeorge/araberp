@@ -9,7 +9,7 @@ using Dapper;
 
 namespace ArabErp.DAL
 {
-  public  class ItemSellingPriceRepository : BaseRepository
+    public class ItemSellingPriceRepository : BaseRepository
     {
         static string dataConnection = GetConnectionString("arab");
 
@@ -19,23 +19,23 @@ namespace ArabErp.DAL
             {
                 ItemSellingPriceList model = new ItemSellingPriceList();
 
-//                string sql = @"SELECT    
-//                                    I.ItemId,
-//	                                I.ItemName,
-//	                                ISNULL(I.PartNo, '-') PartNo,
-//                                    CategoryName,ItemGroupName,ItemSubGroupName,UnitName,
-//	                             ISP.SellingPrice
-//                                FROM 
-//                                Item I 
-//                                INNER JOIN ItemCategory ON itmCatId=ItemCategoryId
-//                               INNER JOIN ItemGroup G ON I.ItemGroupId=G.ItemGroupId
-//                               INNER JOIN ItemSubGroup S ON I.ItemSubGroupId=S.ItemSubGroupId
-//                               INNER JOIN Unit U ON U.UnitId=I.ItemUnitId
-//                                LEFT JOIN ItemSellingPrice ISP ON I.ItemId = ISP.ItemId
-//                                WHERE 
-//                                 I.isActive=1 
+                //                string sql = @"SELECT    
+                //                                    I.ItemId,
+                //	                                I.ItemName,
+                //	                                ISNULL(I.PartNo, '-') PartNo,
+                //                                    CategoryName,ItemGroupName,ItemSubGroupName,UnitName,
+                //	                             ISP.SellingPrice
+                //                                FROM 
+                //                                Item I 
+                //                                INNER JOIN ItemCategory ON itmCatId=ItemCategoryId
+                //                               INNER JOIN ItemGroup G ON I.ItemGroupId=G.ItemGroupId
+                //                               INNER JOIN ItemSubGroup S ON I.ItemSubGroupId=S.ItemSubGroupId
+                //                               INNER JOIN Unit U ON U.UnitId=I.ItemUnitId
+                //                                LEFT JOIN ItemSellingPrice ISP ON I.ItemId = ISP.ItemId
+                //                                WHERE 
+                //                                 I.isActive=1 
 
-//                                  order by ItemName;";
+                //                                  order by ItemName;";
                 string sql = @"SELECT 
                                     I.ItemId,
 	                                I.ItemName,
@@ -56,11 +56,11 @@ namespace ArabErp.DAL
                                     order by ItemName; ";
 
 
-              //  var objItemSellingPrices = connection.Query<ItemSellingPrice>(sql, new { OrganizationId = OrganizationId }).ToList<ItemSellingPrice>();
+                //  var objItemSellingPrices = connection.Query<ItemSellingPrice>(sql, new { OrganizationId = OrganizationId }).ToList<ItemSellingPrice>();
                 model.ItemSellingPriceLists = connection.Query<ItemSellingPrice>(sql, new
                 {
                     OrganizationId = OrganizationId,
-                   
+
                 }).ToList<ItemSellingPrice>();
 
 
@@ -107,5 +107,18 @@ namespace ArabErp.DAL
             }
         }
 
+
+        public decimal GetItemSellingPrice(int id, int OrganizationId)
+        {
+            using (IDbConnection connection = OpenConnection(dataConnection))
+            {
+                string query = @"SELECT
+	                                ISNULL(MAX(SellingPrice), 0) SellingPrice
+                                FROM ItemSellingPrice
+                                WHERE ItemId = @id
+								AND OrganizationId = @OrganizationId";
+                return connection.Query<decimal>(query, new { id = id, OrganizationId = OrganizationId }).First();
+            }
+        }
     }
 }

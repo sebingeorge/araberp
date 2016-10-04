@@ -21,7 +21,8 @@ namespace ArabErp.DAL
                 {
                     objDeliveryChallan.DeliveryChallanRefNo = DatabaseCommonRepository.GetNewDocNo(connection, objDeliveryChallan.OrganizationId, 18, true, txn);
 
-                    string sql = @"insert into DeliveryChallan(JobCardId,DeliveryChallanRefNo,DeliveryChallanDate,EmployeeId,Remarks,CreatedBy,CreatedDate,OrganizationId,isActive) Values (@JobCardId,@DeliveryChallanRefNo,@DeliveryChallanDate,@EmployeeId,@Remarks,@CreatedBy,@CreatedDate,@OrganizationId,1);
+                    string sql = @"insert into DeliveryChallan(JobCardId,DeliveryChallanRefNo,DeliveryChallanDate,EmployeeId,Remarks,CreatedBy,CreatedDate,OrganizationId,isActive) 
+                                   Values (@JobCardId,@DeliveryChallanRefNo,@DeliveryChallanDate,@EmployeeId,@Remarks,@CreatedBy,@CreatedDate,@OrganizationId,1);
                                 SELECT CAST(SCOPE_IDENTITY() as int);";
 
                     var id = connection.Query<int>(sql, objDeliveryChallan, txn).Single();
@@ -90,18 +91,28 @@ namespace ArabErp.DAL
             }
         }
 
-        public int DeleteDeliveryChallan(Unit objDeliveryChallan)
+        public string DeleteDeliveryChallanItemBatch(int DeliveryChallanId)
         {
             using (IDbConnection connection = OpenConnection(dataConnection))
             {
-                string sql = @"Delete DeliveryChallan  OUTPUT DELETED.DeliveryChallanId WHERE DeliveryChallanId=@DeliveryChallanId";
+                IDbTransaction txn = connection.BeginTransaction();
+                try
+                {
 
+                string query = @"Delete ItemBatch  OUTPUT DELETED.DeliveryChallanId WHERE DeliveryChallanId=@DeliveryChallanId";
 
-                var id = connection.Execute(sql, objDeliveryChallan);
-                InsertLoginHistory(dataConnection, objDeliveryChallan.CreatedBy, "Delete", "Delivery Challan", id.ToString(), "0");
-                return id;
+                string output = connection.Query<string>(query, new { DeliveryChallanId = DeliveryChallanId }, txn).First();
+                    txn.Commit();
+                    return output;
+                }
+                catch (Exception ex)
+                {
+                    txn.Rollback();
+                    throw ex;
+                }
             }
         }
+
         /// <summary>
         /// Return all completed jobcards that are not in vehicle out pass
         /// </summary>
@@ -184,6 +195,7 @@ namespace ArabErp.DAL
                 return connection.Query<ItemBatch>(query, new { id = id }).ToList();
             }
         }
+
         public IEnumerable<DeliveryChallan> GetAllDeliveryChallan(int id, int cusid, int OrganizationId, DateTime? from, DateTime? to)
         {
             using (IDbConnection connection = OpenConnection(dataConnection))
@@ -202,10 +214,10 @@ namespace ArabErp.DAL
             using (IDbConnection connection = OpenConnection(dataConnection))
             {
 
-                string sql = @" SELECT DISTINCT DeliveryChallanId,DeliveryChallanRefNo,DeliveryChallanDate,C.CustomerName Customer,SO.CustomerOrderRef,
+                string sql = @" SELECT DISTINCT DC.DeliveryChallanId,DeliveryChallanRefNo,DeliveryChallanDate,C.CustomerName Customer,SO.CustomerOrderRef,
                                 ISNULL(SO.SaleOrderRefNo,'')+ ' - '  +CONVERT(varchar,SO.SaleOrderDate,106) SONODATE,
                                 ISNULL(JC.JobCardNo,'') + ' - ' +CONVERT(varchar,JC.JobCardDate,106)JobCardNo,VI. RegistrationNo,
-                                WI.WorkDescr,VM.VehicleModelName VehicleModel,E.EmployeeId,SO.PaymentTerms,DC.Remarks
+                                WI.WorkDescr,VM.VehicleModelName VehicleModel,E.EmployeeId,SO.PaymentTerms,DC.Remarks,ISNULL(SQ.DeliveryChallanId,0)IsUsed
                                 FROM DeliveryChallan DC
                                 INNER JOIN JobCard JC ON JC.JobCardId=DC.JobCardId
                                 INNER JOIN SaleOrder SO ON SO.SaleOrderId=JC.SaleOrderId
@@ -215,7 +227,8 @@ namespace ArabErp.DAL
                                 INNER JOIN VehicleModel VM ON VM.VehicleModelId=SOI.VehicleModelId
                                 INNER JOIN Employee E ON E.EmployeeId=DC.EmployeeId
                                 LEFT JOIN VehicleInPass VI ON VI.SaleOrderItemId = SOI.SaleOrderItemId
-                                WHERE  DeliveryChallanId=@DeliveryChallanId";
+                                LEFT JOIN SalesQuotation SQ ON SQ.DeliveryChallanId=DC.DeliveryChallanId
+                                WHERE  DC.DeliveryChallanId=@DeliveryChallanId";
 
                 var objDeliveryChallan = connection.Query<DeliveryChallan>(sql, new
                 {
@@ -266,6 +279,79 @@ namespace ArabErp.DAL
                                 WHERE DeliveryChallanId =@DeliveryChallanId";
 
                 return connection.Query<ItemBatch>(sql, new { DeliveryChallanId = DeliveryChallanId }).ToList();
+            }
+        }
+
+        public int UpdateDeliveryChallan(DeliveryChallan objDeliveryChallan)
+        {
+            using (IDbConnection connection = OpenConnection(dataConnection))
+            {
+                IDbTransaction txn = connection.BeginTransaction();
+
+
+                string sql = @"UPDATE
+                                DeliveryChallan SET DeliveryChallanRefNo=@DeliveryChallanRefNo,
+                                DeliveryChallanDate=@DeliveryChallanDate,EmployeeId=@EmployeeId,Remarks=@Remarks,
+                                CreatedBy=@CreatedBy,CreatedDate=@CreatedDate,OrganizationId=@OrganizationId
+                                WHERE DeliveryChallanId = @DeliveryChallanId;";
+                try
+                {
+                    var id = connection.Execute(sql, objDeliveryChallan, txn);
+
+                    int i = 0;
+
+                    try
+                    {
+
+                        if (objDeliveryChallan.ItemBatches != null && objDeliveryChallan.ItemBatches.Count > 0)
+                        {
+                            foreach (var item in objDeliveryChallan.ItemBatches)
+                            {
+                                item.DeliveryChallanId = objDeliveryChallan.DeliveryChallanId;
+                                item.WarrantyStartDate = objDeliveryChallan.DeliveryChallanDate;
+                                item.WarrantyExpireDate = objDeliveryChallan.DeliveryChallanDate.AddMonths(item.WarrantyPeriodInMonths ?? 0).AddDays(-1);
+
+                                sql = @"UPDATE ItemBatch SET ItemBatchId = @ItemBatchId, WarrantyStartDate = @WarrantyStartDate, WarrantyExpireDate = @WarrantyExpireDate
+                                    WHERE DeliveryChallanId = @DeliveryChallanId";
+                                connection.Execute(sql, item, txn);
+                            }
+                        }
+
+                      
+                    }
+                    catch (NullReferenceException) { }
+            
+
+                    InsertLoginHistory(dataConnection, objDeliveryChallan.CreatedBy, "Update", "Delivery Challan", id.ToString(), objDeliveryChallan.OrganizationId.ToString());
+                    txn.Commit();
+                    return id;
+                }
+                catch (Exception ex)
+                {
+                    txn.Rollback();
+                    throw ex;
+                }
+            }
+        }
+
+        public string DeleteDeliveryChallan(int DeliveryChallanId)
+        {
+            using (IDbConnection connection = OpenConnection(dataConnection))
+            {
+                IDbTransaction txn = connection.BeginTransaction();
+                try
+                {
+                    string query = @"DELETE FROM ItemBatch WHERE DeliveryChallanId = @DeliveryChallanId;
+                                     DELETE FROM DeliveryChallan OUTPUT deleted.DeliveryChallanRefNo WHERE DeliveryChallanId = @DeliveryChallanId;";
+                    string output = connection.Query<string>(query, new { DeliveryChallanId = DeliveryChallanId }, txn).First();
+                    txn.Commit();
+                    return output;
+                }
+                catch (Exception ex)
+                {
+                    txn.Rollback();
+                    throw ex;
+                }
             }
         }
 
