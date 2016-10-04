@@ -9,6 +9,8 @@
 
     $(document).ready(function () {
 
+        //$("#cboItem").combobox();
+
         //---------------------toastr---------------------------//
         toastr.options = {
             "positionClass": "toast-bottom-full-width",
@@ -76,7 +78,7 @@
                 </div>
                 <div class="col-md-3">
                     <label for="cboItem">Material/Spare</label>
-                    @Html.DropDownList("cboItem", (SelectList)ViewBag.materialList, "Any", new { @class = "form_input", @onchange = "Filter()" })
+                    @Html.DropDownList("cboItem", (SelectList)ViewBag.materialList, "Any", new { @class = "form_input", @onchange = "Filter()", @placeholder = "Search for Material/Spare" })
                 </div>
                 <div class="col-md-2">
                     <label for="cboType">Type</label>
