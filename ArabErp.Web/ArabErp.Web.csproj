@@ -995,6 +995,7 @@
     <Content Include="Views\SalesQuotation\_CommissionedProjectsGrid.cshtml" />
     <Content Include="Views\SalesQuotation\DeliveryChallans.cshtml" />
     <Content Include="Views\SalesQuotation\_DeliveryChallansGrid.cshtml" />
+    <Content Include="Views\QuerySheet\PendingQuerySheet.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

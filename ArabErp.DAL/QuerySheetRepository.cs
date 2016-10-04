@@ -22,17 +22,20 @@ namespace ArabErp.DAL
                     var internalId = DatabaseCommonRepository.GetNewDocNo(connection, objQuerySheet.OrganizationId, 5, true, txn);
                     objQuerySheet.QuerySheetRefNo = internalId;
 
-                    string sql = @"insert  into QuerySheet(QuerySheetRefNo,QuerySheetDate,ProjectName,ContactPerson,ContactNumber,Email,CreatedBy,CreatedDate,OrganizationId)
-                                 Values (@QuerySheetRefNo,@QuerySheetDate,@ProjectName,@ContactPerson,@ContactNumber,@Email,@CreatedBy,@CreatedDate,@OrganizationId);
+                    string sql = @"insert  into QuerySheet(QuerySheetRefNo,QuerySheetDate,ProjectName,ContactPerson,ContactNumber,Email,Type,CreatedBy,CreatedDate,OrganizationId)
+                                 Values (@QuerySheetRefNo,@QuerySheetDate,@ProjectName,@ContactPerson,@ContactNumber,@Email,@Type,@CreatedBy,@CreatedDate,@OrganizationId);
                              SELECT CAST(SCOPE_IDENTITY() as int)";
 
                     var id = connection.Query<int>(sql, objQuerySheet, txn).Single();
-
-                    foreach (ProjectCost item in objQuerySheet.Items)
+                    if(@objQuerySheet.Type=="Costing")
                     {
-                        item.QuerySheetId = id;
-                        new ProjectCostRepository().InsertProjectCosting(item, connection, txn);
+                        foreach (ProjectCost item in objQuerySheet.Items)
+                        {
+                            item.QuerySheetId = id;
+                            new ProjectCostRepository().InsertProjectCosting(item, connection, txn);
+                        }
                     }
+                   
 
                     foreach (QuerySheetItem item in objQuerySheet.QuerySheetItems)
                     {
@@ -223,6 +226,19 @@ namespace ArabErp.DAL
                     txn.Rollback();
                     throw ex;
                 }
+            }
+        }
+
+        public List<QuerySheet> GetPendingQuerySheet()
+        {
+            using (IDbConnection connection = OpenConnection(dataConnection))
+            {
+                string sql = String.Format(@"select * from QuerySheet where Type='RoomDetails'");
+                            
+                            
+                var objQuerySheet = connection.Query<QuerySheet>(sql).ToList<QuerySheet>();
+
+                return objQuerySheet;
             }
         }
     }
