@@ -808,5 +808,10 @@ namespace ArabErp.Web.Controllers
                 customer: customer,
                 saleorder: saleorder));
         }
+
+        public JsonResult GetItemSellingRate(int id)
+        {
+            return Json(new ItemSellingPriceRepository().GetItemSellingPrice(id, OrganizationId), JsonRequestBehavior.AllowGet);
+        }
     }
 }

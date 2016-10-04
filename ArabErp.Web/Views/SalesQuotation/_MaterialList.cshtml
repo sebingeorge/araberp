@@ -8,6 +8,7 @@
 
     $(document).ready(function () {
         $("#Materials_0__SlNo").val('1');
+        $("select[id$='__ItemId']").combobox();
         calculateSummary();
     });
    
@@ -42,6 +43,9 @@
         $("#table-additional-items-list").append('<tr id="tr_' + i + '">' + clone.html() + '  </tr>');
         $("#serialno" + (i + 1)).html((i + 1));
         $("#Materials_" + i + "__SlNo").val((i + 1));
+
+        $("#tr_" + i).find('span[class="custom-combobox"]').remove();
+        $("#Materials_" + i + "__ItemId").combobox();
       
         $("#unitname" + i).html('');
         $("#partno" + i).html('');
@@ -111,7 +115,6 @@
             var url = '@Url.Action("GetItemUnit")';//get unit of selected item
             $.getJSON(url, { itemId: id },
                 function (data) {
-                    
                     $("#unitname" + index).html(data);
                 });
 
@@ -119,6 +122,12 @@
             $.getJSON(url, { itemId: id },
                 function (data) {
                     $("#partno" + index).html(data);
+                });
+
+            url = '@Url.Action("GetItemSellingRate")';
+            $.getJSON(url, { id: id },
+                function (data) {
+                    $("#sellingRate" + index).html(data);
                 });
         }
         else {
@@ -209,15 +218,16 @@
             {
             <th width="2%" class="text-center"></th>
             }
-            <th width="5%" class="text-center "><h1>#</h1></th>
+            <th width="1%" class="text-center "><h1>#</h1></th>
             <th width="40%"><h1>Material/Spares</h1></th>
-            <th width="20%"><h1>Part No.</h1></th>
+            <th width="10%"><h1>Part No.</h1></th>
           
             <th width="6%" class="text-right "><h1>Qty.</h1></th>
-            <th width="8%"><h1>UoM</h1></th>
-            <th width="10%" class="text-right "><h1>Rate</h1></th>
+            <th width="5%"><h1>UoM</h1></th>
+            <th width="7%" class="text-right"><h1>Fixed Rate</h1></th>
+            <th width="7%" class="text-right"><h1>Rate</h1></th>
             @*<th width="10%" class="text-right "><h1>Discount</h1></th>*@
-            <th width="10%" class="text-right "><h1>Amount</h1></th>
+            <th width="8%" class="text-right "><h1>Amount</h1></th>
             @if (actionName != "Approve" )
             {
             <th width="2%" class="text-center"></th>
@@ -239,12 +249,15 @@
                 </td>
                 <td>
                 <input type="hidden" id="Row_@i" />
-                @Html.DropDownListFor(m => m.Materials[i].ItemId, new SelectList(ViewBag.itemList, "Value", "Text", Model.Materials[i].ItemId), "Select Material/Spares", new { @class = "form_input", autocomplete = "off", @onchange = "OnItemChange(this," + i + ")" })
+                @Html.DropDownListFor(m => m.Materials[i].ItemId, new SelectList(ViewBag.itemList, "Value", "Text", Model.Materials[i].ItemId), "Select Material/Spares", new { @class = "form_input", autocomplete = "off", @onchange = "OnItemChange(this," + i + ")", @placeholder = "Search for material/spare" })
                 </td>
-                <td id="partno0" class="qreturn" style="vertical-align:middle">@Html.TextBoxFor(m => m.Materials[i].PartNo, new { @class = "form_input text-left", @readonly = "true" })</td>
+                <td id="partno@(i)" class="qreturn" style="vertical-align:middle">@Html.TextBoxFor(m => m.Materials[i].PartNo, new { @class = "form_input text-left", @readonly = "true" })</td>
              
                 <td>@Html.TextBoxFor(m => m.Materials[i].Quantity, new { @class = "form_input numbers-only text-right", autocomplete = "off", placeholder = "Qty", @onkeyup = "QtyChanged(" + i + ")", @onchange = "QtyChanged(" + i + ")" })</td>
-                <td id="unitname0" class="qreturn" style="vertical-align:middle">@Html.TextBoxFor(m => m.Materials[i].UnitName, new { @class = "form_input text-left", @readonly = "true" })</td>
+                <td id="unitname@(i)" class="qreturn" style="vertical-align:middle">@Html.TextBoxFor(m => m.Materials[i].UnitName, new { @class = "form_input text-left", @readonly = "true" })</td>
+                <td align="right" id="sellingRate@(i)">
+
+                </td>
                 <td>@Html.TextBoxFor(m => m.Materials[i].Rate, new { @class = "form_input numbers-only text-right ", autocomplete = "off", placeholder = "Rate", @onchange = "RateChanged(" + i + ");", @onkeyup = "QtyChanged(" + i + ")" })</td>
                 @*<td>@Html.TextBoxFor(m => m.Materials[i].Discount, new { @class = "form_input numbers-only text-right ", autocomplete = "off", placeholder = "Discount", @onkeyup = "QtyChanged(" + i + ")" })</td>*@
                 <td>@Html.TextBoxFor(m => m.Materials[i].Amount, new { @class = "form_input numbers-only text-right clAmount", autocomplete = "off", placeholder = "Amount", @readonly = "true" })</td>
@@ -259,20 +272,21 @@
              <tr class="grid_heading">
                  @if (actionName != "Approve")
                  {
-                     <th width="2%" class="text-center"></th>
+                     <th class="text-center"></th>
                  }
-                 <th width="5%" class="text-center "><h1>Total</h1></th>
-                 <th width="40%"><h1></h1></th>
-                 <th width="20%"><h1></h1></th>
+                 <th class="text-center "></th>
+                 <th><h1></h1></th>
+                 <th><h1></h1></th>
 
-                 <th width="6%" class="text-right "><h1></h1></th>
-                 <th width="8%"><h1></h1></th>
-                 <th width="10%" class="text-right "><h1></h1></th>
-                 @*<th width="10%" class="text-right "><h1></h1></th>*@
-                 <th width="10%" class="text-right "><span id="TotalAmount"></span></th>
+                 <th class="text-right "><h1></h1></th>
+                 <th></th>
+                 <th class="text-right "><h1></h1></th>
+                 <th class="text-right "><h1>Total</h1></th>
+                 @*<th class="text-right "><h1></h1></th>*@
+                 <th class="text-right "><span id="TotalAmount"></span></th>
                  @if (actionName != "Approve")
                  {
-                     <th width="2%" class="text-center"></th>
+                     <th class="text-center"></th>
                  }
              </tr>
          </tfoot>

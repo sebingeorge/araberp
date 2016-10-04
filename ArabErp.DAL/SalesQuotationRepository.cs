@@ -243,9 +243,26 @@ namespace ArabErp.DAL
 
             using (IDbConnection connection = OpenConnection(dataConnection))
             {
-                string sql = @"select *,'Nos' UnitName from SalesQuotationItem S inner join WorkDescription W ON S.WorkDescriptionId=W.WorkDescriptionId
-                               LEFT JOIN VehicleModel V ON  V.VehicleModelId=W.VehicleModelId
-                               where SalesQuotationId=@SalesQuotationId";
+                string sql = @"select 
+	                                [SalesQuotationItemId],
+	                                [SalesQuotationId],
+	                                [SlNo],
+	                                S.[WorkDescriptionId],
+	                                [Remarks],
+	                                [PartNo],
+	                                [Quantity],
+	                                [UnitId],
+	                                [Rate],
+	                                [Discount],
+	                                (S.Rate - S.Discount) Amount,
+	                                ((S.Rate - S.Discount)*(S.Quantity)) TotalAmount,
+	                                [RateType],
+	                                'Nos' UnitName,
+	                                W.*,
+	                                V.* 
+                                from SalesQuotationItem S inner join WorkDescription W ON S.WorkDescriptionId=W.WorkDescriptionId
+                                    LEFT JOIN VehicleModel V ON  V.VehicleModelId=W.VehicleModelId
+                                where SalesQuotationId=@SalesQuotationId";
 
                 var SalesQuotationItems = connection.Query<SalesQuotationItem>(sql, new
                 {

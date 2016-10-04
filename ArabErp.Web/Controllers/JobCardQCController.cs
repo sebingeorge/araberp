@@ -93,26 +93,7 @@ namespace ArabErp.Web.Controllers
                 }
 
             }
-        //}
-        //    //new JobCardQCRepository().InsertJobCardQC(jc);
-
-            //return RedirectToAction("PendingJobCardQC");
-            //}
-
-            // catch (Exception ex)
-            // {
-            //     string ErrorMessage = ex.Message.ToString();
-            //     if (ex.InnerException != null)
-            //     {
-            //         if (ex.InnerException.Message != null)
-            //         {
-            //             ErrorMessage = ErrorMessage + ex.InnerException.Message.ToString();
-            //         }
-            //     }
-            //     ViewData["Error"] = ErrorMessage;
-            //     return View("ShowError");
-            // }
-        //}
+   
         public ActionResult PendingJobCardQC()
         {
             try
@@ -203,5 +184,53 @@ namespace ArabErp.Web.Controllers
             TempData["success"] = "";
             return RedirectToAction("Index");
         }
+
+        [HttpPost]
+        public ActionResult Edit(JobCardQC model)
+        {
+            FillEmployee();
+
+            try
+            {
+              
+                model.CreatedBy = UserID.ToString(); model.CreatedDate = DateTime.Today; model.OrganizationId = OrganizationId;
+
+                if (model.JobCardQCParams != null && model.JobCardQCParams.Count > 0)
+                {
+                    new JobCardQCParamRepository().DeleteJobCardQCParam(model.JobCardQCId);
+                }
+
+                new JobCardQCRepository().UpdateJobCardQC(model);
+
+                TempData["success"] = "Updated Successfully ";
+                TempData["JobCardQCRefNo"] = model.JobCardQCRefNo;
+                return RedirectToAction("Index");
+            }
+            catch (Exception)
+            {
+                TempData["error"] = "Some error occurred. Please try again.";
+            }
+            return View(model);
+        }
+
+        public ActionResult Delete(int JobCardQCId = 0)
+        {
+            try
+            {
+                if (JobCardQCId == 0) return RedirectToAction("Index", "Home");
+                string ref_no = new JobCardQCRepository().DeleteJobCardQC(JobCardQCId);
+
+                TempData["Success"] = "Deleted Successfully!";
+                TempData["JobCardQCRefNo"] = ref_no;
+                return RedirectToAction("Index");
+            }
+            catch (Exception)
+            {
+                TempData["error"] = "Some error occured while deleting. Please try again.";
+                return RedirectToAction("Edit", new { id = JobCardQCId });
+            }
+        }
+
+
     }
 }
