@@ -34,6 +34,7 @@ namespace ArabErp.DAL
 //                                LEFT JOIN ItemSellingPrice ISP ON I.ItemId = ISP.ItemId
 //                                WHERE 
 //                                 I.isActive=1 
+
 //                                  order by ItemName;";
                 string sql = @"SELECT 
                                     I.ItemId,

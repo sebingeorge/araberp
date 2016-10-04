@@ -19,7 +19,7 @@ namespace ArabErp.DAL
                 IDbTransaction txn = connection.BeginTransaction();
                 try
                 {
-                    objDeliveryChallan.DeliveryChallanRefNo = DatabaseCommonRepository.GetNewDocNo(connection, objDeliveryChallan.OrganizationId, 18, true,txn);
+                    objDeliveryChallan.DeliveryChallanRefNo = DatabaseCommonRepository.GetNewDocNo(connection, objDeliveryChallan.OrganizationId, 18, true, txn);
 
                     string sql = @"insert into DeliveryChallan(JobCardId,DeliveryChallanRefNo,DeliveryChallanDate,EmployeeId,Remarks,CreatedBy,CreatedDate,OrganizationId,isActive) Values (@JobCardId,@DeliveryChallanRefNo,@DeliveryChallanDate,@EmployeeId,@Remarks,@CreatedBy,@CreatedDate,@OrganizationId,1);
                                 SELECT CAST(SCOPE_IDENTITY() as int);";
@@ -67,14 +67,24 @@ namespace ArabErp.DAL
             }
         }
 
-        public List<DeliveryChallan> GetDeliveryChallans()
+        public List<DeliveryChallan> GetDeliveryChallans(int OrganizationId, string challan = "", string saleorder = "", string customer = "")
         {
             using (IDbConnection connection = OpenConnection(dataConnection))
             {
-                string sql = @"select * from DeliveryChallan
-                        where isActive=1";
+                string sql = @"SELECT        
+	                                DeliveryChallan.DeliveryChallanId, 
+	                                DeliveryChallan.DeliveryChallanRefNo, 
+	                                SaleOrder.SaleOrderRefNo, 
+	                                SaleOrder.SaleOrderDate, 
+	                                Customer.CustomerName Customer, 
+	                                DeliveryChallan.DeliveryChallanDate
+                                FROM DeliveryChallan INNER JOIN
+                                    JobCard ON DeliveryChallan.JobCardId = JobCard.JobCardId INNER JOIN
+                                    SaleOrder ON JobCard.SaleOrderId = SaleOrder.SaleOrderId INNER JOIN
+                                    Customer ON SaleOrder.CustomerId = Customer.CustomerId
+                                WHERE DeliveryChallan.OrganizationId = @OrganizationId";
 
-                var objDeliveryChallans = connection.Query<DeliveryChallan>(sql).ToList<DeliveryChallan>();
+                var objDeliveryChallans = connection.Query<DeliveryChallan>(sql, new { OrganizationId = OrganizationId }).ToList<DeliveryChallan>();
 
                 return objDeliveryChallans;
             }

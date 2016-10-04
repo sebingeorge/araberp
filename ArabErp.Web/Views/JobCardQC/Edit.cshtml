@@ -11,6 +11,11 @@
         window.location = url;
         }
 
+    function Delete() {
+        var url = '@Url.Action("Delete", new { JobCardQCId = Model.JobCardQCId })'
+        window.location = url;
+    }
+
     $(function () {
         $("#CurrentDate").datepicker({ dateFormat: "dd-MM-yy" });
         //$("#JcDate").datepicker({ dateFormat: "dd-MM-yy" });
@@ -27,11 +32,14 @@
     {
         <div class="main-part pad1">
             <div class="row form-group">
+
+                @Html.HiddenFor(m => Model.JobCardQCId)
+
                 <div class="col-md-2">
                     <label for="jcno">JobCard QC.No.</label>
                     @Html.TextBoxFor(m => m.JobCardQCRefNo, new { @class = "form_input", autocomplete = "off", @readonly = "readonly" })
-
                 </div>
+
                 <div class="col-md-2">
                     <label for="name" class="label1">QC Date</label>
                     @Html.TextBoxFor(m => m.JobCardQCDate, Model.JobCardQCDate.ToString("dd/MMMM/yyyy"), new { @class = "form_input ", autocomplete = "off", @readonly = "readonly" })
@@ -62,8 +70,8 @@
                     <label for="name" class="label1">Employee</label>
                     @Html.DropDownListFor(m => Model.EmployeeId, (SelectList)ViewBag.EmployeeList, "Select Employee", new { @class = "form_input" })
                 </div>
-
             </div>
+
             <div class="wrap">
                 <div class="table-responsive">
 
@@ -107,6 +115,17 @@
 
                 <div class="col-md-12 hrpart">
                     <button class="form-button right" onclick="Exit()">Exit</button>
+                    @if (Model.IsUsed)
+                    {
+                        <span class="perm">
+                            <em>**Cannot edit/delete this Quality Control, because it is either used in another process or completed.</em>
+                        </span>
+                    }
+                    else
+                    {
+                        <button type="submit" class="form-button right">Edit</button>
+                        <input type="button" value="Delete" onclick="Delete()" class="form-button left" />
+                    }
                     @*<button type="submit" class="form-button right">Save</button>*@
 
                 </div>

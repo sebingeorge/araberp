@@ -29,5 +29,8 @@ namespace ArabErp.Domain
         public string VehicleModel { get; set; }
         public string PaymentTerms { get; set; }
         public List<ItemBatch> ItemBatches { get; set; }
+
+        public string SaleOrderRefNo { get; set; }
+        public DateTime SaleOrderDate { get; set; }
     }
 }

@@ -234,7 +234,7 @@
                                         <a href="#" data-toggle="collapse" data-target="#admin-user-settings">User Settings<span class="caret arrow"></span></a>
                                         <div id="admin-user-settings" class="collapse">
                                             <ul>
-                                                <li><a href="@Url.Action("Register", "Account")">User Settings</a></li>
+                                                <li><a href="@Url.Action("UserList", "Account")">User Settings</a></li>
                                                 <li><a href="@Url.Action("Create", "QuotationApproval")">Quotation Approval V/s User</a></li>
                                         </ul>
                                     </div>
@@ -345,7 +345,7 @@
                                     <a href="#" data-toggle="collapse" data-target="#sales-aftersales">Service<span class="caret arrow"></span></a>
                                     <div id="sales-aftersales" class="collapse">
                                         <ul>
-                                            <li><a href="@Url.Action("CreateAfterSalesTrans", "SalesQuotation")">Transportation-Quotation</a></li>
+                                            <li><a href="@Url.Action("DeliveryChallans", "SalesQuotation")">Transportation-Quotation</a></li>
                                             <li><a href="@Url.Action("ListSalesQuotations", "SalesQuotation", new { ProjectBased = 0,AfterSales =1 })">Transportation-Quotation Approval</a></li>
                                             <li><a href="@Url.Action("CommissionedProjects", "SalesQuotation")">Project-Quotation</a></li>
                                             <li><a href="@Url.Action("ListSalesQuotations", "SalesQuotation", new { ProjectBased = 1,AfterSales = 1 })">Project-Quotation Approval</a></li>

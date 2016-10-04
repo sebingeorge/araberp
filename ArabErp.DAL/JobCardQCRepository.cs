@@ -79,12 +79,14 @@ namespace ArabErp.DAL
             {
                 string sql = @" SELECT JobCardQCId,JobCardQCRefNo,J.JobCardNo,J.JobCardDate JcDate,JQ.JobCardId,
                                 C.CustomerName Customer,V.VehicleModelName VehicleModel,
-                                JQ.EmployeeId,JobCardQCDate,IsQCPassed FROM JobCardQC JQ
+                                JQ.EmployeeId,JobCardQCDate,IsQCPassed,ISNULL(DC.JobCardId,0)IsUsed 
+                                FROM JobCardQC JQ
                                 INNER JOIN JobCard J ON J.JobCardId=JQ.JobCardId
                                 INNER JOIN SaleOrder S ON S.SaleOrderId=J.SaleOrderId
                                 INNER JOIN SaleOrderItem SI ON SI.SaleOrderId=S.SaleOrderId
                                 INNER JOIN Customer C ON C.CustomerId=S.CustomerId
                                 LEFT JOIN VehicleModel V ON V.VehicleModelId=SI.VehicleModelId
+                                LEFT JOIN DeliveryChallan DC ON DC.JobCardId=JQ.JobCardId
                                 WHERE JobCardQCId=@JobCardQCId";
 
                 var objJobCardQC = connection.Query<JobCardQC>(sql, new
@@ -109,20 +111,63 @@ namespace ArabErp.DAL
             }
         }
 
-
-
-        public int DeleteJobCardQC(Unit objJobCardQC)
+        public int UpdateJobCardQC(JobCardQC objJobCardQC)
         {
             using (IDbConnection connection = OpenConnection(dataConnection))
             {
-                string sql = @"Delete JobCardQC  OUTPUT DELETED.JobCardQCId WHERE JobCardQCId=@JobCardQCId";
+                IDbTransaction txn = connection.BeginTransaction();
+                string sql = @"UPDATE
+                                JobCardQC SET JobCardQCRefNo=@JobCardQCRefNo,EmployeeId=@EmployeeId,
+                                JobCardQCDate=@JobCardQCDate,IsQCPassed=@IsQCPassed,CreatedBy=@CreatedBy,
+                                CreatedDate=@CreatedDate,OrganizationId=@OrganizationId
+                                WHERE JobCardId = @JobCardId;";
+                try
+                {
+                    var id = connection.Execute(sql, objJobCardQC, txn);
 
+                    int i = 0;
 
-                var id = connection.Execute(sql, objJobCardQC);
-                InsertLoginHistory(dataConnection, objJobCardQC.CreatedBy, "Create", "Job Card QC", id.ToString(), "0");
-                return id;
+                    var JobCardQCParamRepo = new JobCardQCParamRepository();
+
+                    foreach (var item in objJobCardQC.JobCardQCParams)
+                    {
+                        item.JobCardQCId = objJobCardQC.JobCardQCId;
+                        JobCardQCParamRepo.InsertSaleOrderItem(item, connection, txn);
+                    }
+
+                    InsertLoginHistory(dataConnection, objJobCardQC.CreatedBy, "Update", "Project Completion", id.ToString(), objJobCardQC.OrganizationId.ToString());
+                    txn.Commit();
+                    return id;
+                }
+                catch (Exception ex)
+                {
+                    txn.Rollback();
+                    throw ex;
+                }
             }
         }
+
+        public string DeleteJobCardQC(int JobCardQCId)
+        {
+            using (IDbConnection connection = OpenConnection(dataConnection))
+            {
+                IDbTransaction txn = connection.BeginTransaction();
+                try
+                {
+                    string query = @"DELETE FROM JobCardQCParam WHERE JobCardQCId = @JobCardQCId;
+                                     DELETE FROM JobCardQC OUTPUT deleted.JobCardQCRefNo WHERE JobCardQCId = @JobCardQCId;";
+                    string output = connection.Query<string>(query, new { JobCardQCId = JobCardQCId }, txn).First();
+                    txn.Commit();
+                    return output;
+                }
+                catch (Exception ex)
+                {
+                    txn.Rollback();
+                    throw ex;
+                }
+            }
+        }
+
         public List<Dropdown> FillJobCard()
         {
             using (IDbConnection connection = OpenConnection(dataConnection))
