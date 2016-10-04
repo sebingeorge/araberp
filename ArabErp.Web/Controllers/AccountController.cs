@@ -332,6 +332,7 @@ namespace ArabErp.Web.Controllers
                     model.UserSalt = salt;
                     
                     res = (new UserRepository()).InsertUser(model);
+                    TempData["Success"] = "Registered Successfully!";
                 }
                 else
                 {
