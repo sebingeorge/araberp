@@ -154,6 +154,51 @@ namespace ArabErp.Web.Controllers
             return RedirectToAction("Index");
         }
 
+        [HttpPost]
+        public ActionResult Edit(DeliveryChallan model)
+        {
+            EmployeeDropdown();
+
+            try
+            {
+
+                model.CreatedBy = UserID.ToString(); model.CreatedDate = DateTime.Today; model.OrganizationId = OrganizationId;
+
+                if (model.ItemBatches != null && model.ItemBatches.Count > 0)
+                {
+                    new DeliveryChallanRepository().DeleteDeliveryChallanItemBatch(model.DeliveryChallanId);
+                }
+
+                new DeliveryChallanRepository().UpdateDeliveryChallan(model);
+
+                TempData["success"] = "Updated Successfully ";
+                TempData["JobCardQCRefNo"] = model.DeliveryChallanRefNo;
+                return RedirectToAction("Index");
+            }
+            catch (Exception)
+            {
+                TempData["error"] = "Some error occurred. Please try again.";
+            }
+            return View(model);
+        }
+        public ActionResult Delete(int DeliveryChallanId = 0)
+        {
+            try
+            {
+                if (DeliveryChallanId == 0) return RedirectToAction("Index", "Home");
+                string ref_no = new DeliveryChallanRepository().DeleteDeliveryChallan(DeliveryChallanId);
+
+                TempData["Success"] = "Deleted Successfully!";
+                TempData["DeliveryChallanRefNo"] = ref_no;
+                return RedirectToAction("Index");
+            }
+            catch (Exception)
+            {
+                TempData["error"] = "Some error occured while deleting. Please try again.";
+                return RedirectToAction("Edit", new { id = DeliveryChallanId });
+            }
+        }
+
         public ActionResult Print(int Id)
         {
 
