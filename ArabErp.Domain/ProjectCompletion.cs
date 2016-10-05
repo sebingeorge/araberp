@@ -17,6 +17,7 @@ namespace ArabErp.Domain
         public int ProjectCompletionId { get; set; }
         public string ProjectCompletionRefNo { get; set; }
         public DateTime ProjectCompletionDate { get; set; }
+        public DateTime ProjectWarrantyExpiryDate { get; set; }
         public string ProjectName { get; set; }
         public string Location { get; set; }
         public string CustomerName { get; set; }
