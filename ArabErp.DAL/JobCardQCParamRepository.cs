@@ -61,19 +61,27 @@ namespace ArabErp.DAL
             }
         }
 
-
-
-        public int DeleteJobCardQCParam(Unit objJobCardQCParam)
+        public string DeleteJobCardQCParam(int JobCardQCId)
         {
             using (IDbConnection connection = OpenConnection(dataConnection))
             {
-                string sql = @"Delete JobCardQCParam  OUTPUT DELETED.JobCardQCParamId WHERE JobCardQCParamId=@JobCardQCParamId";
-
-
-                var id = connection.Execute(sql, objJobCardQCParam);
-                return id;
+                IDbTransaction txn = connection.BeginTransaction();
+                try
+                {
+                    string query = @"Delete JobCardQCParam  OUTPUT DELETED.JobCardQCId WHERE JobCardQCId=@JobCardQCId;";
+                    string output = connection.Query<string>(query, new { JobCardQCId = JobCardQCId }, txn).First();
+                    txn.Commit();
+                    return output;
+                }
+                catch (Exception ex)
+                {
+                    txn.Rollback();
+                    throw ex;
+                }
             }
         }
+
+       
         public List<JobCardQCParam> GetJobCardQCParamList()
         {
             using (IDbConnection connection = OpenConnection(dataConnection))

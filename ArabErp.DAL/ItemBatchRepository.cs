@@ -495,9 +495,9 @@ namespace ArabErp.DAL
                                 FROM SaleOrderItem SOI
                                 INNER JOIN WorkDescription WD ON SOI.WorkDescriptionId = WD.WorkDescriptionId
                                 INNER JOIN WorkVsItem WI ON WD.WorkDescriptionId = WI.WorkDescriptionId
-                                INNER JOIN #BATCH B ON WI.ItemId = B.ItemId
-                                INNER JOIN Item I ON B.ItemId = I.ItemId
-								INNER JOIN #RESERVED R ON B.ItemId = R.ItemId
+                                LEFT JOIN #BATCH B ON WI.ItemId = B.ItemId
+                                LEFT JOIN Item I ON B.ItemId = I.ItemId
+								LEFT JOIN #RESERVED R ON B.ItemId = R.ItemId
 								INNER JOIN SaleOrder SO ON SOI.SaleOrderId = SO.SaleOrderId
                                 WHERE SOI.SaleOrderItemId = @id AND WI.ItemId = @item;
 

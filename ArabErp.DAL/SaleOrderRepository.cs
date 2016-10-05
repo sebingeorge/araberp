@@ -201,7 +201,7 @@ namespace ArabErp.DAL
                              FROM SaleOrderItem t INNER JOIN SaleOrder SO on t.SaleOrderId=SO.SaleOrderId INNER JOIN Customer C ON SO.CustomerId =C.CustomerId
                              left join WorkShopRequest WR on SO.SaleOrderId=WR.SaleOrderId WHERE WR.SaleOrderId is null and SO.isActive=1 and SO.SaleOrderApproveStatus=1 and SO.SaleOrderHoldStatus IS NULL and SO.OrganizationId = @OrganizationId and SO.isProjectBased=isnull(@isProjectBased,SO.isProjectBased)
 							 AND SO.SaleOrderRefNo LIKE '%'+@saleOrder+'%'
-                             order by SO.EDateDelivery DESC, SO.SaleOrderDate DESC";
+                             order by SO.EDateDelivery, SO.SaleOrderDate";
                 var objSaleOrders = connection.Query<SaleOrder>(sql, new { OrganizationId = OrganizationId, isProjectBased = isProjectBased, saleOrder = saleOrder }).ToList<SaleOrder>();
 
                 return objSaleOrders;
@@ -460,7 +460,7 @@ namespace ArabErp.DAL
                                  from SaleOrder S inner join Customer C on S.CustomerId = C.CustomerId LEFT JOIN Employee E ON S.CreatedBy = E.EmployeeId
                                  where CommissionAmount>0 And isnull(CommissionAmountApproveStatus,0)=0 AND S.isActive = 1
                                  and  S.IsProjectBased = @IsProjectBased
-                                 ORDER BY S.EDateDelivery DESC, S.CreatedDate DESC";
+                                 ORDER BY S.EDateDelivery , S.CreatedDate ";
                 return connection.Query<PendingSO>(query, new { IsProjectBased = IsProjectBased });
             }
         }
@@ -483,7 +483,7 @@ namespace ArabErp.DAL
         {
             using (IDbConnection connection = OpenConnection(dataConnection))
             {
-                string sql = @"select *, WD.WorkDescr, VM.VehicleModelName from SaleOrderItem SOI
+                string sql = @"select SOI.*, WD.WorkDescr, VM.VehicleModelName from SaleOrderItem SOI
                                 INNER JOIN WorkDescription WD ON SOI.WorkDescriptionId = WD.WorkDescriptionId 
 								LEFT JOIN VehicleModel VM ON SOI.VehicleModelId = VM.VehicleModelId
                                 where SaleOrderId=@SaleOrderId";

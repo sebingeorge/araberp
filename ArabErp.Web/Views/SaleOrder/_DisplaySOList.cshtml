@@ -183,7 +183,7 @@
                 {
                     <th width="15%" class="text-left"><h1>Vehicle Model</h1></th>
                 }
-                <th width="5%" class="text-right"><h1>Qty</h1></th>
+                <th width="5%" class="text-right"><h1>Qty.</h1></th>
                 @*<th width="5%"><h1>UoM</h1></th>*@
                 <th width="8%" class="text-right"><h1>Rate</h1></th>
                 <th width="8%" class="text-right"><h1>Discount</h1></th>
@@ -216,7 +216,7 @@
                         </td>
                     }
                     <td>
-                        @Html.TextBoxFor(m => m.Items[i].Quantity, new { @class = "form_input clQuantity  ", @style = "text-align:right", autocomplete = "off", placeholder = "Qty", @readonly = "true" })
+                        @Html.TextBoxFor(m => m.Items[i].Quantity, new { @class = "form_input clQuantity  ", @style = "text-align:right", autocomplete = "off", placeholder = "Qty.", @readonly = "true" })
                     </td>
                     <td>
                         @Html.TextBoxFor(m => m.Items[i].Rate, new { @class = "form_input", autocomplete = "off", @style = "text-align:right", placeholder = "Rate", @onkeyup = "ValueChanged(" + i + ");", @readonly = "readonly" })

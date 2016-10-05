@@ -156,7 +156,15 @@
     </div>
     <div class="col-md-2">
         <div class="part4">
-            <label for="EDateDelivery">Expected Commission Date</label>
+            @if (Model.isProjectBased == 0)
+            {
+                <label for="EDateDelivery">Expected Delivery Date</label>
+            }
+            else
+            {
+                <label for="EDateDelivery">Expected Commission Date</label>
+            }
+         
             @Html.TextBoxFor(m => Model.EDateDelivery, Model.EDateDelivery.ToString("dd/MMMM/yyyy"), new { @class = "form_input ", autocomplete = "off", @readonly = "readonly" })
         </div>
     </div>

@@ -18,7 +18,7 @@ namespace ArabErp.Web.Controllers
             return View();
         }
 
-        public ActionResult CreateQuerySheet()
+        public ActionResult CreateQuerySheet(string type)
         {
             string internalId = "";
             try
@@ -37,6 +37,72 @@ namespace ArabErp.Web.Controllers
                 TempData["error"] = "Some error occurred. Please try again.|" + ex.Message;
             }
             QuerySheet qs = new QuerySheet();
+            qs.Type = type;
+            qs.QuerySheetDate = DateTime.Now;
+            var repo = new QuerySheetRepository();
+            qs.QuerySheetItems = new List<QuerySheetItem>();
+            qs.QuerySheetItems.Add(new QuerySheetItem());
+            //var PCList = repo.GetProjectCostingParameter();
+            //qs.Items = new List<ProjectCost>();
+            qs.QuerySheetRefNo = internalId;
+            //foreach (var item in PCList)
+            //{
+            //    var pcitem = new ProjectCost {CostingId=item.CostingId ,Description = item.Description, Remarks = item.Remarks, Amount = item.Amount };
+            //    qs.Items.Add(pcitem);
+
+            //}
+            return View(qs);
+        }
+
+        public ActionResult CreateQuerySheetUnit(string type, int QuerySheetId)
+        {
+            //string internalId = "";
+            //try
+            //{
+            //    internalId = DatabaseCommonRepository.GetNextDocNo(5, OrganizationId);
+
+            //}
+            //catch (NullReferenceException nx)
+            //{
+            //    TempData["success"] = "";
+            //    TempData["error"] = "Some required data was missing. Please try again.|" + nx.Message;
+            //}
+            //catch (Exception ex)
+            //{
+            //    TempData["success"] = "";
+            //    TempData["error"] = "Some error occurred. Please try again.|" + ex.Message;
+            //}
+            //QuerySheet qs = new QuerySheet();
+           
+            //qs.QuerySheetDate = DateTime.Now;
+          
+            var qs = new QuerySheetRepository().GetQuerySheet(QuerySheetId);
+            qs.Type = type;
+            //qs.QuerySheetRefNo = internalId;
+            qs.QuerySheetItems = new ProjectCostRepository().GetQuerySheetItem(QuerySheetId);
+            return View("CreateQuerySheet", qs);
+        }
+
+        public ActionResult CreateQuerySheetCosting(string type)
+        {
+            string internalId = "";
+            try
+            {
+                internalId = DatabaseCommonRepository.GetNextDocNo(5, OrganizationId);
+
+            }
+            catch (NullReferenceException nx)
+            {
+                TempData["success"] = "";
+                TempData["error"] = "Some required data was missing. Please try again.|" + nx.Message;
+            }
+            catch (Exception ex)
+            {
+                TempData["success"] = "";
+                TempData["error"] = "Some error occurred. Please try again.|" + ex.Message;
+            }
+            QuerySheet qs = new QuerySheet();
+            qs.Type = type;
             qs.QuerySheetDate = DateTime.Now;
             var repo = new QuerySheetRepository();
             qs.QuerySheetItems = new List<QuerySheetItem>();
@@ -46,11 +112,11 @@ namespace ArabErp.Web.Controllers
             qs.QuerySheetRefNo = internalId;
             foreach (var item in PCList)
             {
-                var pcitem = new ProjectCost {CostingId=item.CostingId ,Description = item.Description, Remarks = item.Remarks, Amount = item.Amount };
+                var pcitem = new ProjectCost { CostingId = item.CostingId, Description = item.Description, Remarks = item.Remarks, Amount = item.Amount };
                 qs.Items.Add(pcitem);
 
             }
-            return View(qs);
+            return View("CreateQuerySheet", qs);
         }
 
         [HttpPost]
@@ -235,21 +301,15 @@ namespace ArabErp.Web.Controllers
             }
         }
 
-      //public ActionResult ProjectCosting()
-      //  {
-      //      var repo = new QuerySheetRepository();
-      //      QuerySheet model=new QuerySheet ();
-      //      var PCList = repo.GetProjectCostingParameter();
-      //      model.Items  = new List<ProjectCost>();
+        public ActionResult PendingQuerySheet()
+        {
+            var repo = new QuerySheetRepository();
+            List<QuerySheet> Pending = repo.GetPendingQuerySheet();
+            return View(Pending);
+        }
 
-      //      foreach (var item in PCList)
-      //      {
-      //          var pcitem = new ProjectCost { Description = item.Description, Remarks = item.Remarks, Amount = item.Amount };
-      //          model.Items.Add(pcitem);
 
-      //      }
-      //      return PartialView("_ProjectCosting", model);
-      //  }
+      
 
     }
 }

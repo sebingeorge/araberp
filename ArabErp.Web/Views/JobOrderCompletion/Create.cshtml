@@ -249,6 +249,18 @@
                 <div class="col-md-12 hrpart">
                     <button type="button" class="form-button right" onclick="Exit()">Exit</button>
                     <button type="submit" class="form-button right">Save</button>
+
+                    @if(Model.StoreIssued)
+                    {
+                        
+                    }
+                    else
+                    {
+                         <span class="perm">
+                            <em>**Store Issue Not Done For This Job Order</em>
+                        </span>
+                    }
+
                 </div>
 
             </div>
