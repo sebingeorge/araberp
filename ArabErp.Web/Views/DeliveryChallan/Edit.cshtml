@@ -51,10 +51,16 @@
         window.location = url;
     }
 
-    function Exit() {
-        var url = '@Url.Action("Index", "Home")';
+    function GoToPrint() {
+        var url = '@Url.Action("Print", new { Id = Model.DeliveryChallanId })';
         window.location = url;
     }
+
+    function Delete() {
+        var url = '@Url.Action("Delete", new { DeliveryChallanId = Model.DeliveryChallanId })';
+        window.location = url;
+    }
+
 </script>
 
 
@@ -64,12 +70,13 @@
     </div>
     <div class="main-part pad1">
 
-        @using (Html.BeginForm("Save", null, FormMethod.Post, new { @class = "createFrom", onsubmit = "return formValidation()", @id = "vehicle-inpass-form" }))
+        @using (Html.BeginForm(null, null, FormMethod.Post, new { @class = "createFrom", onsubmit = "return formValidation()", @id = "vehicle-inpass-form" }))
         {
             <div class="row form-group">
                 <div class="col-md-2">
                     <label>Delivery Challan Ref. No.</label>
                     @Html.HiddenFor(m => m.JobCardId)
+                    @Html.HiddenFor(m => m.DeliveryChallanId)
                     @Html.TextBoxFor(m => m.DeliveryChallanRefNo, new { @class = "form_input", autocomplete = "off", @readonly = "true", @title = "This number may change after saving" })
                 </div>
                 <div class="col-md-2">
@@ -197,8 +204,18 @@
             <div class="row">
                 <div class="col-md-12 col-md hrpart">
                     <input class="form-button right" type="button" value="Exit" onclick="Back()" />
-                    @*<input class="form-button right" type="submit" value="Edit" />*@
-                    @*<input class="form-button left" type="button" value="Back" onclick="Back()" />*@
+                    @if(Model.IsUsed)
+                    {
+                     <span class="perm">
+                            <em>**Cannot edit/delete this Delivery Challan, because it is either used in another process or completed.</em>
+                     </span>
+                    }
+                    else
+                    {
+                   <button type="submit" class="form-button right">Edit</button>
+                   <input type="button" class="form-button left" value="Delete"  onclick="Delete()" />
+                    }
+                    <input type="button" class="form-button right" value="Print" onclick="GoToPrint()" />
                 </div>
             </div>
         }

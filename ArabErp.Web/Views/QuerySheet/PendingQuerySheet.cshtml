@@ -1,0 +1,51 @@
+﻿@model IList<ArabErp.Domain.QuerySheet>
+@{
+    ViewBag.Title = "PendingQuerySheet";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<div class="row">
+
+    <div class="form-head1">
+        <h4>Pending Query Sheet</h4>
+    </div>
+    <div class="main-part pad1">
+        <div class="main-grid main-grid-top scroll1">
+            <div class=" table-responsive">
+                <table class="table table-bordered">
+                    <thead>
+                        <tr class="grid_heading">
+                            <th width="30%"><h1>Query Sheet No.</h1></th>
+                            <th width="15%"><h1>Date</h1></th>
+                            <th width="15%"><h1>Project Name</h1></th>
+                            <th width="10%"><h1>Contact Person</h1></th>
+                            <th width="10%"><center><h1></h1></center></th>
+                        </tr>
+                    </thead>
+                    @foreach (var item in Model)
+                    {
+                        <tbody class="grid_row">
+                            <tr>
+                                <td class="grid-cell">@item.QuerySheetRefNo</td>
+                                <td class="grid-cell">@item.QuerySheetDate.ToString("dd/MMM/yyyy")</td>
+                                <td class="grid-cell">@item.ProjectName</td>
+                                <td class="grid-cell">@item.ContactPerson</td>
+                                <td><center>@Html.ActionLink("Select", "CreateQuerySheetUnit", "QuerySheet", new { QuerySheetid = @item.QuerySheetId, type="Unit" }, new { @class = "form-button5", @style = "text-align:center" })</center></td>
+                            </tr>
+                        </tbody>
+                    }
+                </table>
+            </div>
+
+
+        </div>
+
+
+    </div>
+
+
+</div>
+
+
+
+
+

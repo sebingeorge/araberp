@@ -25,6 +25,12 @@
             var url = '@Url.Action("VehicleInpassList")';
             window.location = url;
         }
+
+        function Delete() {
+            var url = '@Url.Action("Delete", new { VehicleInPassId = Model.VehicleInPassId })';
+            window.location = url;
+        }
+
         $(function ()
         {
             $("#VehicleInPassDate").datepicker({ dateFormat: "dd-MM-yy" });
@@ -40,9 +46,12 @@
     <div class="main-part pad1">
         <div class="col-md-12">
             <div class="row">
-                @using (Html.BeginForm("Save", null, FormMethod.Post, new { @class = "createFrom", onsubmit = "return formValidation()", @id = "vehicle-inpass-form" }))
+                @using (Html.BeginForm(null, null, FormMethod.Post, new { @class = "createFrom", onsubmit = "return formValidation()", @id = "vehicle-inpass-form" }))
                 {
                     <div class="row form-group">
+                        @Html.HiddenFor(m => Model.VehicleInPassId)
+                        @Html.HiddenFor(m => Model.SaleOrderId)
+                        @Html.HiddenFor(m => Model.SaleOrderItemId)
                         <div class="col-md-2">
                             <label>Vehicle In-Pass No.</label>
                             @Html.TextBoxFor(m => m.VehicleInPassNo, new { @class = "form_input", @readonly = "readonly" })
@@ -105,7 +114,18 @@
                     <div class="row">
                         <div class="col-md-12 hrpart">
                             <input class="form-button right" type="button" value="Exit" onclick="Back()" />
-                            @*<input class="form-button right" type="submit" value="Save" />*@
+                            @if(Model.InPassId)
+                            {
+                                 <span class="perm">
+                                    <em>**Cannot edit/delete this Vehicle Inpass, because it is already approved.</em>
+                                 </span>
+                            }
+                            else
+                            {
+                            <button type="submit" class="form-button right">Edit</button>
+                            <input type="button" value="Delete" onclick="Delete()" class="form-button left" />
+                            }
+                          
 
                         </div>
                     </div>

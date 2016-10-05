@@ -148,13 +148,26 @@
 
     <div class="row">
         <div class="form-head1">
+            @{
+                if (actionName.ToString() == "CreateQuerySheet")
+            {
             <h4> Query Sheet</h4>
+            }
+            else if (actionName == "CreateQuerySheetUnit")
+            {
+            <h4> Query Sheet : Unit Selection</h4>
+            }
+            else if (actionName == "CreateQuerySheetCosting")
+            {
+            <h4> Query Sheet : Costing</h4>
+            }
+            }
         </div>
         <div class="main-part pad1">
             @using (Html.BeginForm(null, null, FormMethod.Post))
             {
                 @Html.HiddenFor(m => m.QuerySheetId)
-
+                @Html.HiddenFor(m=>m.Type)
                 <div class="row form-group">
 
                     @if (actionName == "Create")
@@ -248,12 +261,16 @@
                     <th width="10%" nowrap><h1>Product Details</h1></th>
                     <th width="5%" nowrap><h1>Product Incoming Temperature</h1></th>
                     <th width="5%" nowrap><h1>Pipe Length</h1></th>
+                    <th width="5%" nowrap><h1>Door Size</h1></th>
+                    @if (Model.Type != "RoomDetails")
+                        {
+                   
                     <th width="5%"><h1>Refrigerant</h1></th>
                     <th width="5%" nowrap><h1>Electrical Power</h1></th>
-                    <th width="5%" nowrap><h1>Door Size</h1></th>
                     <th width="5%"><h1>Kilowatt</h1></th>
                     <th width="5%"><h1>Unit</h1></th>
                     <th width="5%"><h1>Cost</h1></th>
+                        }
                     <th width="1%" class="text-center"></th>
 
                 </tr>
@@ -278,12 +295,16 @@
                         <td>@Html.TextAreaFor(m => Model.QuerySheetItems[i].ProductDetails, new { @class = "form_input form_input-h", autocomplete = "off" })</td>
                         <td>@Html.TextAreaFor(m => Model.QuerySheetItems[i].ProductIncomingTemperature, new { @class = "form_input form_input-h", autocomplete = "off" })</td>
                         <td>@Html.TextAreaFor(m => Model.QuerySheetItems[i].PipeLength, new { @class = "form_input form_input-h", autocomplete = "off" })</td>
+                        <td>@Html.TextAreaFor(m => Model.QuerySheetItems[i].DoorSizeTypeAndNumberOfDoor, new { @class = "form_input form_input-h", autocomplete = "off" })</td>
+                        @if (Model.Type != "RoomDetails")
+                        {
                         <td>@Html.TextAreaFor(m => Model.QuerySheetItems[i].Refrigerant, new { @class = "form_input form_input-h", autocomplete = "off" })</td>
                         <td>@Html.TextAreaFor(m => Model.QuerySheetItems[i].EletricalPowerAvailability, new { @class = "form_input form_input-h", autocomplete = "off" })</td>
-                        <td>@Html.TextAreaFor(m => Model.QuerySheetItems[i].DoorSizeTypeAndNumberOfDoor, new { @class = "form_input form_input-h", autocomplete = "off" })</td>
                         <td>@Html.TextAreaFor(m => Model.QuerySheetItems[i].Kilowatt, new { @class = "form_input form_input-h", autocomplete = "off" })</td>
                         <td>@Html.TextAreaFor(m => Model.QuerySheetItems[i].Unit, new { @class = "form_input form_input-h", autocomplete = "off" })</td>
                         <td>@Html.TextBoxFor(m => Model.QuerySheetItems[i].Cost, new { @class = "form_input numbers-only", autocomplete = "off" })</td>
+                        }
+                        
                         <td style="vertical-align:middle"><a id="add_row" class="glyphicon glyphicon-plus" style="top:0px" onclick="AddRow()"></a></td>
                     </tr>
                 }
@@ -293,7 +314,10 @@
         </table>
     </div>
                 <br />
-    @Html.Partial("_ProjectCosting", Model)
+                if(@Model.Type == "Costing")
+                {
+                 @Html.Partial("_ProjectCosting", Model)
+                }
 
                 <div class="row">
                     <div class="col-md-12 hrpart">
