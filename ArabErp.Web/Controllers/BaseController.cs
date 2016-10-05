@@ -28,7 +28,8 @@ namespace ArabErp.Web.Controllers
                 }
                 else
                 {
-                    modules = (IEnumerable<ModuleVsUser>)Session["menupermissions"];
+                    UserRepository repo = new UserRepository();
+                    modules = repo.GetModulePermissions(Id); 
                     Session["menupermissions"] = modules;
                 }
                 
