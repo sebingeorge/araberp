@@ -53,23 +53,27 @@ namespace ArabErp.DAL
                 string query = string.Empty;
                 if (isProjectBased == 0)
                 {
-                    query = "select distinct J.JobCardId, J.JobCardNo, J.JobCardDate, C.CustomerId, C.CustomerName,";
-                    query += " V.VehicleModelId, V.VehicleModelName, W.WorkDescr, W.WorkDescriptionId, J.SpecialRemarks";
-                    query += " from JobCard J inner join SaleOrder S on S.SaleOrderId = J.SaleOrderId";
-                    query += " inner join SaleOrderItem SI on SI.SaleOrderId = S.SaleOrderId";
-                    query += " inner join Customer C on S.CustomerId = C.CustomerId";
-                    query += " inner join WorkDescription W on W.WorkDescriptionId = SI.WorkDescriptionId";
-                    query += " inner join VehicleModel V on V.VehicleModelId = W.VehicleModelId";
+                    query = "SELECT distinct J.JobCardId, J.JobCardNo, J.JobCardDate, C.CustomerId, C.CustomerName,V.VehicleModelId, V.VehicleModelName,";
+                    query += " W.WorkDescr, W.WorkDescriptionId, J.SpecialRemarks,(ISNULL(SS.WorkShopRequestId,0))StoreIssued";
+                    query += " FROM JobCard J INNER JOIN SaleOrder S on S.SaleOrderId = J.SaleOrderId";
+                    query += " INNER JOIN SaleOrderItem SI on SI.SaleOrderId = S.SaleOrderId";
+                    query += " INNER JOIN Customer C on S.CustomerId = C.CustomerId";
+                    query += " INNER JOIN WorkDescription W on W.WorkDescriptionId = SI.WorkDescriptionId";
+                    query += " INNER JOIN VehicleModel V on V.VehicleModelId = W.VehicleModelId";
+                    query += " LEFT JOIN WorkShopRequest WR ON WR.SaleOrderId=J.SaleOrderId";
+                    query += " LEFT JOIN StoreIssue SS ON SS.WorkShopRequestId=WR.WorkShopRequestId";
                     query += " where J.JobCardId = " + JobCardId.ToString() + "  and J.isProjectBased = 0";
                 }
                 else
                 {
-                    query = "select distinct J.JobCardId, J.JobCardNo, J.JobCardDate, C.CustomerId, C.CustomerName,";
-                    query += " 0 VehicleModelId, '' VehicleModelName, W.WorkDescr, W.WorkDescriptionId, J.SpecialRemarks";
-                    query += " from JobCard J inner join SaleOrder S on S.SaleOrderId = J.SaleOrderId";
-                    query += " inner join SaleOrderItem SI on SI.SaleOrderId = S.SaleOrderId";
-                    query += " inner join Customer C on S.CustomerId = C.CustomerId";
-                    query += " inner join WorkDescription W on W.WorkDescriptionId = SI.WorkDescriptionId";
+                    query = "SELECT distinct J.JobCardId, J.JobCardNo, J.JobCardDate, C.CustomerId, C.CustomerName,0 VehicleModelId, '' VehicleModelName,";
+                    query += " W.WorkDescr, W.WorkDescriptionId, J.SpecialRemarks, (ISNULL(SS.WorkShopRequestId,0))StoreIssued,(ISNULL(SS.WorkShopRequestId,0))StoreIssued";
+                    query += " FROM JobCard J INNER JOIN SaleOrder S on S.SaleOrderId = J.SaleOrderId";
+                    query += " INNER JOIN SaleOrderItem SI on SI.SaleOrderId = S.SaleOrderId";
+                    query += " INNER JOIN Customer C on S.CustomerId = C.CustomerId";
+                    query += " INNER JOIN WorkDescription W on W.WorkDescriptionId = SI.WorkDescriptionId";
+                    query += " LEFT JOIN WorkShopRequest WR ON WR.SaleOrderId=J.SaleOrderId";
+                    query += " LEFT JOIN StoreIssue SS ON SS.WorkShopRequestId=WR.WorkShopRequestId";
                     query += " where J.JobCardId = " + JobCardId.ToString() + " and J.isProjectBased = 1";
                 }
                 
@@ -85,11 +89,11 @@ namespace ArabErp.DAL
 	                        T1.EmployeeId,
 							T1.JobCardTaskId,
 	                        SUM(T1.ActualHours) TotalHours
-                        INTO #TOTAL
-                        FROM JobCardDailyActivityTask T1
+                            INTO #TOTAL
+                            FROM JobCardDailyActivityTask T1
 	                        INNER JOIN JobCardDailyActivity T2 ON T1.JobCardDailyActivityId = T2.JobCardDailyActivityId
-                        WHERE T2.JobCardId = @JobCardId
-                        GROUP BY T1.EmployeeId, T1.JobCardTaskId
+                            WHERE T2.JobCardId = @JobCardId
+                            GROUP BY T1.EmployeeId, T1.JobCardTaskId
 
                         SELECT DISTINCT
 	                        M.JobCardTaskName,
@@ -98,17 +102,19 @@ namespace ArabErp.DAL
 	                        DAT.JobCardTaskId,
 	                        ISNULL(T.TotalHours, 0) ActualHours,
 							JT.Hours,
-	                        (SELECT TOP 1 CONVERT(VARCHAR, JobCardDailyActivityDate, 106) FROM JobCardDailyActivity WHERE JobCardId = @JobCardId ORDER BY JobCardDailyActivityDate) StartDate,
-	                        (SELECT TOP 1 CONVERT(VARCHAR, JobCardDailyActivityDate, 106) FROM JobCardDailyActivity WHERE JobCardId = @JobCardId ORDER BY JobCardDailyActivityDate DESC) EndDate
-                        FROM JobCardTask JT
+	                        (SELECT TOP 1 CONVERT(VARCHAR, JobCardDailyActivityDate, 106) FROM JobCardDailyActivity WHERE JobCardId = @JobCardId 
+                            ORDER BY JobCardDailyActivityDate) StartDate,
+	                        (SELECT TOP 1 CONVERT(VARCHAR, JobCardDailyActivityDate, 106) FROM JobCardDailyActivity WHERE JobCardId = @JobCardId 
+                            ORDER BY JobCardDailyActivityDate DESC) EndDate
+                            FROM JobCardTask JT
 	                        INNER JOIN JobCardTaskMaster M ON JT.JobCardTaskMasterId = M.JobCardTaskMasterId
 	                        LEFT JOIN JobCardDailyActivity DA ON JT.JobCardId = DA.JobCardId
 	                        LEFT JOIN JobCardDailyActivityTask DAT ON DA.JobCardDailyActivityId = DAT.JobCardDailyActivityId AND M.JobCardTaskMasterId = DAT.JobCardTaskId
 	                        LEFT JOIN Employee EMP ON JT.EmployeeId = EMP.EmployeeId
 	                        LEFT JOIN #TOTAL T ON EMP.EmployeeId = T.EmployeeId AND DAT.JobCardTaskId = T.JobCardTaskId
-                        WHERE JT.JobCardId = @JobCardId;
+                            WHERE JT.JobCardId = @JobCardId;
 
-                        DROP TABLE #TOTAL;";
+                            DROP TABLE #TOTAL;";
 
                 jobcard.JobCardTask = connection.Query<JobCardCompletionTask>(query, new { JobCardId = JobCardId }).ToList();
 
