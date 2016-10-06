@@ -315,8 +315,8 @@
                                     <div id="sales-projects" class="collapse">
                                         <ul>
                                             <li><a href="@Url.Action("CreateQuerySheet", "QuerySheet", new { type = "RoomDetails"})">Query Sheet</a></li>
-                                            <li><a href="@Url.Action("PendingQuerySheet", "QuerySheet")">Query Sheet-Unit</a></li>
-                                            <li><a href="@Url.Action("CreateQuerySheetCosting", "QuerySheet", new { type = "Costing" })">Query Sheet-Project Costing </a></li>
+                                            <li><a href="@Url.Action("PendingQuerySheetforUnit", "QuerySheet")">Query Sheet-Unit</a></li>
+                                            <li><a href="@Url.Action("PendingQuerySheetforCosting", "QuerySheet", new { type = "Costing" })">Query Sheet-Project Costing </a></li>
                                             <li><a href="@Url.Action("CreateProject", "SalesQuotation")">Project - Quotation</a></li>
                                             <li><a class="projectn" href="@Url.Action("ListSalesQuotations", "SalesQuotation", new { ProjectBased = 1 ,AfterSales=0})">Project - Quotation Approval</a></li>
                                             <li><a href="@Url.Action("PendingSalesQutoforSaleOrder", "SaleOrder", new { ProjectBased = 1})">Project - Sale Order</a></li>
