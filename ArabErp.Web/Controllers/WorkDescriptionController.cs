@@ -300,15 +300,15 @@ namespace ArabErp.Web.Controllers
         }
         public void FillBox()
         {
-            var repo = new BoxRepository();
+            var repo = new DropdownRepository();
             var list = repo.FillBox();
             ViewBag.boxlist = new SelectList(list, "BoxId", "BoxName");
         }
         public void FillFreezerUnit()
         {
-            var repo = new FreezerUnitRepository();
+            var repo = new DropdownRepository();
             var list = repo.FillFreezerUnit();
-            ViewBag.FreezerUnitlist = new SelectList(list, "FreezerUnitId", "FreezerUnitName");
+            ViewBag.FreezerUnitlist = new SelectList(list, "Id", "Name");
         }
         [HttpPost]
         public ActionResult CreateWorkDescription(WorkDescription model)

@@ -49,6 +49,9 @@ namespace ArabErp.Web.Controllers
         {
             try
             {
+                FillBay();
+                FillEmployee();
+
                 JobCardRepository repo = new JobCardRepository();
                 SaleOrderRepository soRepo = new SaleOrderRepository();
                 isProjectBased = soRepo.IsProjectOrVehicle(Id ?? 0);
@@ -59,8 +62,7 @@ namespace ArabErp.Web.Controllers
                 model.JobCardTasks.Add(new JobCardTask() { TaskDate = DateTime.Now });
                 model.JobCardDate = DateTime.Now;
                 model.RequiredDate = DateTime.Now;
-                FillBay();
-                FillEmployee();
+               
                 FillTaks(model.WorkDescriptionId);
                 //FillFreezerUnit();
                 //FillBox();
@@ -217,6 +219,7 @@ namespace ArabErp.Web.Controllers
 
             DataSet ds = new DataSet();
             ds.Tables.Add("Head");
+            ds.Tables.Add("Org");
             ds.Tables.Add("Items");
 
             //-------HEAD
@@ -229,6 +232,20 @@ namespace ArabErp.Web.Controllers
             ds.Tables["Head"].Columns.Add("Unit");
             ds.Tables["Head"].Columns.Add("Customer");
             ds.Tables["Head"].Columns.Add("Technician");
+
+            //-----------Organization Details
+            ds.Tables["Org"].Columns.Add("OrganizationName");
+            ds.Tables["Org"].Columns.Add("OrganizationRefNo");
+            ds.Tables["Org"].Columns.Add("DoorNo");
+            ds.Tables["Org"].Columns.Add("Street");
+            ds.Tables["Org"].Columns.Add("State");
+            ds.Tables["Org"].Columns.Add("Phone");
+            ds.Tables["Org"].Columns.Add("Fax");
+            ds.Tables["Org"].Columns.Add("Email");
+            ds.Tables["Org"].Columns.Add("ContactPerson");
+            ds.Tables["Org"].Columns.Add("Zip");
+            ds.Tables["Org"].Columns.Add("Image1");
+
             //-------DT
             ds.Tables["Items"].Columns.Add("TaskDate");
             ds.Tables["Items"].Columns.Add("Employee");
@@ -238,7 +255,7 @@ namespace ArabErp.Web.Controllers
 
             JobCardRepository repo = new JobCardRepository();
             var Head = repo.GetJobCardHD(Id);
-
+          
             DataRow dr = ds.Tables["Head"].NewRow();
             dr["JobCardNo"] = Head.JobCardNo;
             dr["JobCardDate"] = Head.JobCardDate.ToString("dd-MMM-yyyy");
@@ -251,6 +268,22 @@ namespace ArabErp.Web.Controllers
             dr["Technician"] = Head.Technician;
             ds.Tables["Head"].Rows.Add(dr);
 
+            OrganizationRepository repohead1 = new OrganizationRepository();
+            var Org = repohead1.GetOrganization(OrganizationId);
+
+            DataRow dr1 = ds.Tables["Org"].NewRow();
+            dr1["OrganizationName"] = Org.OrganizationName;
+            dr1["OrganizationRefNo"] = Org.OrganizationRefNo;
+            dr1["DoorNo"] = Org.DoorNo;
+            dr1["Street"] = Org.Street;
+            dr1["State"] = Org.State;
+            dr1["Phone"] = Org.Phone;
+            dr1["Fax"] = Org.Fax;
+            dr1["Email"] = Org.Email;
+            dr1["ContactPerson"] = Org.ContactPerson;
+            dr1["Zip"] = Org.Zip;
+            dr1["Image1"] = Org.Image1;
+            ds.Tables["Org"].Rows.Add(dr1);
 
             JobCardTaskRepository repo1 = new JobCardTaskRepository();
             var Items = repo1.GetJobCardDT(Id);

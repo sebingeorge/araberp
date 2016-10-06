@@ -273,7 +273,7 @@ namespace ArabErp.DAL
         {
             using (IDbConnection connection = OpenConnection(dataConnection))
             {
-                string sql = @" SELECT DISTINCT SerialNo,ItemName, DATEDIFF(MONTH,WarrantyStartDate,WarrantyExpireDate) AS WarrantyPeriodInMonths
+                string sql = @" SELECT DISTINCT ItemBatchId,SerialNo,ItemName, DATEDIFF(MONTH,WarrantyStartDate,WarrantyExpireDate) AS WarrantyPeriodInMonths
                                 FROM ItemBatch IB 
                                 INNER JOIN GRNItem GI ON GI.GRNItemId=IB.GRNItemId
                                 INNER JOIN Item I ON I.ItemId=GI.ItemId
@@ -312,8 +312,9 @@ namespace ArabErp.DAL
                                 item.WarrantyStartDate = objDeliveryChallan.DeliveryChallanDate;
                                 item.WarrantyExpireDate = objDeliveryChallan.DeliveryChallanDate.AddMonths(item.WarrantyPeriodInMonths ?? 0).AddDays(-1);
 
-                                sql = @"UPDATE ItemBatch SET ItemBatchId = @ItemBatchId, WarrantyStartDate = @WarrantyStartDate, WarrantyExpireDate = @WarrantyExpireDate
-                                    WHERE DeliveryChallanId = @DeliveryChallanId";
+
+                                sql = @"UPDATE ItemBatch SET WarrantyStartDate = @WarrantyStartDate, WarrantyExpireDate = @WarrantyExpireDate
+                                        WHERE DeliveryChallanId = @DeliveryChallanId";
                                 connection.Execute(sql, item, txn);
                             }
                         }

@@ -40,6 +40,13 @@
                 return false;
             }
         });
+        var act=actionName;
+        alert(act);
+        if (@actionName == "CreateQuerySheetUnit")
+        {
+            alert("hi");
+           $("#QuerySheetItems_0__Refrigerant").focus(); 
+        }
 
     })
     function AddRow() {
@@ -149,29 +156,29 @@
     <div class="row">
         <div class="form-head1">
             @{
-                if (actionName.ToString() == "CreateQuerySheet")
+            if (actionName.ToString() == "Create")
             {
-            <h4> Query Sheet</h4>
+            <h4>Query Sheet</h4>
             }
             else if (actionName == "CreateQuerySheetUnit")
             {
-            <h4> Query Sheet : Unit Selection</h4>
+            <h4>Query Sheet : Unit Selection</h4>
             }
             else if (actionName == "CreateQuerySheetCosting")
             {
-            <h4> Query Sheet : Costing</h4>
+            <h4>Query Sheet : Costing</h4>
             }
             }
         </div>
         <div class="main-part pad1">
-            @using (Html.BeginForm(null, null, FormMethod.Post))
+            @using (Html.BeginForm("CreateQuerySheet", null, FormMethod.Post))
             {
                 @Html.HiddenFor(m => m.QuerySheetId)
                 @Html.HiddenFor(m=>m.Type)
                 <div class="row form-group">
 
-                    @if (actionName == "Create")
-                    {
+                    @*@if (actionName == "Create")
+                    {*@
                         <div class="col-md-2">
                             <label for="QuerySheetRefNo">Query Sheet Ref No.</label>
                             @Html.TextBoxFor(m => m.QuerySheetRefNo, new { @class = "form_input", autocomplete = "off", @readonly = "readonly" })
@@ -180,7 +187,7 @@
                      <label for="QuerySheetDate">Date</label>
                    @Html.TextBoxFor(m => m.QuerySheetDate, Model.QuerySheetDate.ToString("dd/MMMM/yyyy"), new { @class = "form_input ", autocomplete = "off", @readonly = "readonly" })
                  </div>
-                    }
+                    @*}*@
                 </div>
            
                 <hr />
@@ -268,7 +275,7 @@
                     <th width="5%"><h1>Refrigerant</h1></th>
                     <th width="5%" nowrap><h1>Electrical Power</h1></th>
                     <th width="5%"><h1>Kilowatt</h1></th>
-                    <th width="5%"><h1>Unit</h1></th>
+                    <th width="15%"><h1>Unit</h1></th>
                     <th width="5%"><h1>Cost</h1></th>
                         }
                     <th width="1%" class="text-center"></th>
@@ -301,7 +308,7 @@
                         <td>@Html.TextAreaFor(m => Model.QuerySheetItems[i].Refrigerant, new { @class = "form_input form_input-h", autocomplete = "off" })</td>
                         <td>@Html.TextAreaFor(m => Model.QuerySheetItems[i].EletricalPowerAvailability, new { @class = "form_input form_input-h", autocomplete = "off" })</td>
                         <td>@Html.TextAreaFor(m => Model.QuerySheetItems[i].Kilowatt, new { @class = "form_input form_input-h", autocomplete = "off" })</td>
-                        <td>@Html.TextAreaFor(m => Model.QuerySheetItems[i].Unit, new { @class = "form_input form_input-h", autocomplete = "off" })</td>
+                        <td>@Html.DropDownListFor(m => m.QuerySheetItems[i].Unit, new SelectList(ViewBag.UnitList, "Value", "Text", Model.QuerySheetItems[i].Unit), new { @class = "form_input" })</td>
                         <td>@Html.TextBoxFor(m => Model.QuerySheetItems[i].Cost, new { @class = "form_input numbers-only", autocomplete = "off" })</td>
                         }
                         
@@ -324,7 +331,7 @@
 
                         <input type="button" class=" form-button right" onclick="Exit()" value="Exit">
                         <input type="button" class="form-button" onclick="PreviousList()" value="Previous">
-                        @if (actionName == "Create")
+                        @if (actionName == "Create" || actionName == "CreateQuerySheetUnit")
                         {
                             <button type="submit" class="form-button right">Save</button>
                         }

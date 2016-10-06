@@ -103,17 +103,53 @@ namespace ArabErp.DAL
             }
         }
 
-
-
-        public int DeleteVehicleInPass(Unit objVehicleInPass)
+        public int UpdateVehicleInPass(VehicleInPass objVehicleInPass)
         {
             using (IDbConnection connection = OpenConnection(dataConnection))
             {
-                string sql = @"Delete VehicleInPass  OUTPUT DELETED.VehicleInPassId WHERE VehicleInPassId=@VehicleInPassId";
+                IDbTransaction txn = connection.BeginTransaction();
 
-                var id = connection.Execute(sql, objVehicleInPass);
-                InsertLoginHistory(dataConnection, objVehicleInPass.CreatedBy, "Delete", "Vehicle Inpass", id.ToString(), "0");
-                return id;
+                string sql = @" UPDATE
+                                VehicleInPass SET VehicleInPassNo=VehicleInPassNo,SaleOrderItemId=@SaleOrderItemId,
+                                RegistrationNo=@RegistrationNo,VehicleInPassDate=@VehicleInPassDate,EmployeeId=@EmployeeId,
+                                Remarks=@Remarks,CreatedBy=@CreatedBy,CreatedDate=@CreatedDate,OrganizationId=@OrganizationId
+                                WHERE VehicleInPassId = @VehicleInPassId;";
+                try
+                {
+                    var id = connection.Execute(sql, objVehicleInPass, txn);
+
+                    int i = 0;
+
+                    InsertLoginHistory(dataConnection, objVehicleInPass.CreatedBy, "Update", "Vehicle InPass", id.ToString(), objVehicleInPass.OrganizationId.ToString());
+                    txn.Commit();
+                    return id;
+                }
+                catch (Exception ex)
+                {
+                    txn.Rollback();
+                    throw ex;
+                }
+            }
+        }
+
+
+        public String DeleteVehicleInPass(int VehicleInPassId)
+        {
+            using (IDbConnection connection = OpenConnection(dataConnection))
+            {
+                IDbTransaction txn = connection.BeginTransaction();
+                try
+                {
+                    string sql = @"Delete VehicleInPass  OUTPUT DELETED.VehicleInPassNo WHERE VehicleInPassId=@VehicleInPassId";
+
+                    string output = connection.Query<string>(sql, new { VehicleInPassId = VehicleInPassId }, txn).First();
+                    return output;
+                }
+                catch (Exception ex)
+                {
+                    txn.Rollback();
+                    throw ex;
+                }
             }
         }
         /// <summary>
@@ -188,8 +224,8 @@ namespace ArabErp.DAL
             {
                 string sql = @" SELECT VehicleInPassId,VehicleInPassNo,VehicleInPassDate,C.CustomerName,
                                 CONCAT(S.SaleOrderRefNo,' - ',convert(varchar(15),S.SaleOrderDate,106))SONODATE,
-                                VM.VehicleModelName,W.WorkDescr,
-                                RegistrationNo,EmployeeName,V.Remarks,E.EmployeeId
+                                VM.VehicleModelName,W.WorkDescr,RegistrationNo,EmployeeName,V.Remarks,E.EmployeeId,
+                                S.SaleOrderId,SI.SaleOrderItemId,ISNULL(J.InPassId,0)InPassId
                                 FROM VehicleInPass V
                                 INNER JOIN SaleOrder S ON S.SaleOrderId=V.SaleOrderId
                                 INNER JOIN SaleOrderItem SI ON SI.SaleOrderId=S.SaleOrderId
@@ -197,6 +233,7 @@ namespace ArabErp.DAL
                                 INNER JOIN VehicleModel VM ON VM.VehicleModelId=SI.VehicleModelId
                                 INNER JOIN WorkDescription W ON W.WorkDescriptionId=SI.WorkDescriptionId
                                 INNER JOIN Employee E ON E.EmployeeId=V.EmployeeId
+                                LEFT JOIN JobCard J ON J.InPassId=V.VehicleInPassId
                                 WHERE VehicleInPassId=@VehicleInPassId";
 
                 var objVehicleInPass = connection.Query<VehicleInPass>(sql, new
@@ -207,7 +244,6 @@ namespace ArabErp.DAL
                 return objVehicleInPass;
             }
         }
-
         public int id1 { get; set; }
     }
 }

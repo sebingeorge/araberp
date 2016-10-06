@@ -120,5 +120,47 @@ namespace ArabErp.DAL
                 return connection.Query<decimal>(query, new { id = id, OrganizationId = OrganizationId }).First();
             }
         }
+        public List<ItemSellingPrice> GetItemSellingPricesReport(int OrganizationId)
+        {
+            using (IDbConnection connection = OpenConnection(dataConnection))
+            {
+                ItemSellingPriceList model = new ItemSellingPriceList();
+
+                string sql = @"	    SELECT 
+                                    ItemSellingPriceId,
+                                    I.ItemId,
+	                                I.ItemName,
+	                                ISNULL(I.PartNo, '-') PartNo,
+                                    CategoryName,ItemGroupName,ItemSubGroupName,UnitName,
+									ISP.SellingPrice,CONVERT(DECIMAL(18,2),sum(Amount)/sum(Rate))as Average
+                                    FROM 
+                                    Item I 
+								    INNER JOIN GRNItem GR ON I.ItemId=GR.ItemId
+                                    INNER JOIN ItemCategory ON itmCatId=ItemCategoryId
+                                    INNER JOIN ItemGroup G ON I.ItemGroupId=G.ItemGroupId
+                                    INNER JOIN ItemSubGroup S ON I.ItemSubGroupId=S.ItemSubGroupId
+                                    INNER JOIN Unit U ON U.UnitId=I.ItemUnitId
+                                    LEFT JOIN ItemSellingPrice ISP ON I.ItemId = ISP.ItemId
+                                    WHERE I.isActive=1 
+								    group by I.itemid, I.ItemName,I.PartNo, CategoryName,ItemGroupName,ItemSubGroupName,UnitName,
+	                                ISP.SellingPrice,ItemSellingPriceId
+                                    order by ItemName; ";
+
+
+                return connection.Query<ItemSellingPrice>(sql, new { OrganizationId = OrganizationId }).ToList();
+            }
+        }
+
+
+        public List<ItemSellingPrice> GetOrganization(int OrganizationId)
+        {
+            using (IDbConnection connection = OpenConnection(dataConnection))
+            {
+                ItemSellingPriceList model = new ItemSellingPriceList();
+
+                string sql = @"select * from organization where OrganizationId=@OrganizationId";
+                return connection.Query<ItemSellingPrice>(sql, new { OrganizationId = OrganizationId }).ToList();
+            }
+        }
     }
 }
