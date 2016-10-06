@@ -68,11 +68,34 @@ namespace ArabErp.DAL
             using (IDbConnection connection = OpenConnection(dataConnection))
             {
 
-                string query = "SELECT I.ItemName,I.ItemId,I.PartNo,SUM(WI.Quantity)Quantity,UnitName from WorkDescription W INNER JOIN  WorkVsItem WI on W.WorkDescriptionId=WI.WorkDescriptionId";
-                query += " INNER JOIN Item I ON WI.ItemId=I.ItemId INNER JOIN Unit U on U.UnitId =I.ItemUnitId  INNER JOIN SaleOrderItem SI ON SI.WorkDescriptionId = W.WorkDescriptionId";
-                query += " WHERE SI.SaleOrderId=@SaleOrderId GROUP BY I.ItemName,I.ItemId,I.PartNo,UnitName ";
-                query += " UNION ALL SELECT I.ItemName,I.ItemId,I.PartNo,SUM(S.Quantity)Quantity,UnitName FROM SaleOrderMaterial S INNER JOIN Item I ON I.ItemId=S.ItemId";
-                query += " INNER JOIN Unit U on U.UnitId =I.ItemUnitId  WHERE S.SaleOrderId=@SaleOrderId GROUP BY I.ItemName,I.ItemId,I.PartNo,UnitName ";
+                string query = "SELECT I.ItemName,I.ItemId,I.PartNo,SUM(WI.Quantity)Quantity,UnitName"; 
+                       query += " FROM WorkDescription W ";
+                       query += " INNER JOIN  WorkVsItem WI on W.WorkDescriptionId=WI.WorkDescriptionId";
+                       query += " INNER JOIN Item I ON WI.ItemId=I.ItemId ";
+                       query += " INNER JOIN Unit U on U.UnitId =I.ItemUnitId "; 
+                       query += " INNER JOIN SaleOrderItem SI ON SI.WorkDescriptionId = W.WorkDescriptionId";
+                       query += " WHERE SI.SaleOrderId=@SaleOrderId GROUP BY I.ItemName,I.ItemId,I.PartNo,UnitName ";
+                       query += " UNION ALL SELECT I.ItemName,I.ItemId,I.PartNo,SUM(S.Quantity)Quantity,UnitName ";
+                       query += " FROM SaleOrderMaterial S INNER JOIN Item I ON I.ItemId=S.ItemId";
+                       query += " INNER JOIN Unit U on U.UnitId =I.ItemUnitId";  
+                       query += " WHERE S.SaleOrderId=@SaleOrderId"; 
+                       query += " GROUP BY I.ItemName,I.ItemId,I.PartNo,UnitName ";
+                       //-----------Freezer Unit Set
+                       query += " UNION ALL ";
+                       query += " SELECT FU.ItemName,FU.ItemId,FU.PartNo,1 Quantity,UnitName ";
+                       query += " from WorkDescription W ";
+                       query += " INNER JOIN SaleOrderItem SI ON SI.WorkDescriptionId = W.WorkDescriptionId";
+                       query += " LEFT JOIN Item FU ON FU.ItemId=W.FreezerUnitId";
+                       query += " LEFT JOIN Unit U on U.UnitId =FU.ItemUnitId ";
+                       query += " WHERE SI.SaleOrderId=@SaleOrderId ";
+                       //-----------Box Set
+                       query += " UNION ALL ";
+                       query += " SELECT B.ItemName,B.ItemId,B.PartNo,1 Quantity,UnitName ";
+                       query += " from WorkDescription W ";
+                       query += " INNER JOIN SaleOrderItem SI ON SI.WorkDescriptionId = W.WorkDescriptionId";
+                       query += " LEFT JOIN Item B ON B.ItemId=W.BoxId";
+                       query += " LEFT JOIN Unit U on U.UnitId =B.ItemUnitId";
+                       query += " WHERE SI.SaleOrderId=@SaleOrderId ";
 
                 return connection.Query<WorkShopRequestItem>(query,
                 new { SaleOrderId = SaleOrderId }).ToList();

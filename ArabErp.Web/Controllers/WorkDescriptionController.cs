@@ -281,7 +281,7 @@ namespace ArabErp.Web.Controllers
         //}
         public void FillItem()
         {
-            ItemRepository Repo = new ItemRepository();
+            DropdownRepository Repo = new DropdownRepository();
             var List = Repo.FillItem();
             ViewBag.ItemList = new SelectList(List, "Id", "Name");
         }

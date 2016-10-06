@@ -950,5 +950,13 @@ namespace ArabErp.DAL
         //    }
         //}
 
+        public List<Dropdown> FillItem()
+        {
+            using (IDbConnection connection = OpenConnection(dataConnection))
+            {
+                return connection.Query<Dropdown>("select ItemId Id,ItemName Name from Item WHERE isActive=1 AND FreezerUnit=0 AND Box=0").ToList();
+            }
+        }
+
     }
 }
