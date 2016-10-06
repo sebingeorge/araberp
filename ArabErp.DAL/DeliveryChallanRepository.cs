@@ -78,7 +78,8 @@ namespace ArabErp.DAL
 	                                SaleOrder.SaleOrderRefNo, 
 	                                SaleOrder.SaleOrderDate, 
 	                                Customer.CustomerName Customer, 
-	                                DeliveryChallan.DeliveryChallanDate
+	                                DeliveryChallan.DeliveryChallanDate,
+									TransportWarrantyExpiryDate
                                 FROM DeliveryChallan INNER JOIN
                                     JobCard ON DeliveryChallan.JobCardId = JobCard.JobCardId INNER JOIN
                                     SaleOrder ON JobCard.SaleOrderId = SaleOrder.SaleOrderId INNER JOIN

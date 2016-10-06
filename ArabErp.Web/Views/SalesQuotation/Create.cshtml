@@ -58,6 +58,8 @@
 
     $(function() {
 
+        $('[data-toggle="popover"]').popover();
+
         if ('@ViewBag.actionName.ToString()' == "Approve") {
             $("input").prop("readonly", "true");
             $("select").prop("disabled", "true");
@@ -419,7 +421,7 @@
                     @Html.TextBoxFor(m => m.ExpectedDeliveryDate, Model.ExpectedDeliveryDate.ToString("dd/MMMM/yyyy"), new { @class = "form_input", autocomplete = "off" })
                     @Html.ValidationMessageFor(m => m.ExpectedDeliveryDate)
                 </div>
-                @if (Model.isProjectBased)
+                @if (Model.isProjectBased && !Model.isAfterSales)
                 {
                     <div class="col-md-2">
 
@@ -435,14 +437,29 @@
                     <div class="col-md-2">
                         @if (actionName == "Approve")
                         {
-                            @Html.CheckBoxFor(m => m.isWarranty, new { autocomplete = "off", @disabled = "true" })
+                            @Html.CheckBoxFor(m => m.isWarranty, new { @class = "chk CheckBoxClass", autocomplete = "off", @disabled = "true" })
                         }
                         else
                         {
-                            @Html.CheckBoxFor(m => m.isWarranty, new { autocomplete = "off" })
+                            @Html.CheckBoxFor(m => m.isWarranty, new { @class = "chk CheckBoxClass", autocomplete = "off" })
                         }
-                        <span class="text">Warranty</span>
-
+                        <span class="text">
+                            <b>Warranty</b>
+                            <a id="warranty-link"
+                               data-toggle="popover"
+                               data-html="true"
+                               data-placement="left"
+                               title="Warranty details"
+                               data-content="Delivery Challan No.: <b>@Model.DeliveryChallanDetails.DeliveryChallanRefNo</b> 
+                                            <br />
+                                            Delivery Challan Date: <b>@Model.DeliveryChallanDetails.DeliveryChallanDate.ToString("dd/MMMM/yyyy")</b>
+                                            <br />
+                                            Warranty Expiry Date: <b>@Model.DeliveryChallanDetails.TransportWarrantyExpiryDate.ToString("dd/MMMM/yyyy")</b>"
+                                style="text-decoration:none;cursor:pointer"
+                                onclick="OnWarrantyClick()">
+                                (Show details)
+                            </a>
+                        </span>
                     </div>
                 }
 

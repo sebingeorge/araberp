@@ -355,7 +355,8 @@ namespace ArabErp.DAL
 	                                    CONVERT(VARCHAR, ProjectCompletionDate, 106) ProjectCompletionDate,
 	                                    SO.SaleOrderRefNo,
 	                                    CONVERT(VARCHAR, SO.SaleOrderDate, 106) SaleOrderDate,
-	                                    C.CustomerName
+	                                    C.CustomerName,
+										ProjectWarrantyExpiryDate
                                     FROM ProjectCompletion PC
 	                                    INNER JOIN SaleOrder SO ON PC.SaleOrderId = SO.SaleOrderId
 	                                    INNER JOIN Customer C ON SO.CustomerId = C.CustomerId
