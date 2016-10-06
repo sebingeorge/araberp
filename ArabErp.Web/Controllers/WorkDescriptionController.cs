@@ -308,7 +308,7 @@ namespace ArabErp.Web.Controllers
         {
             var repo = new DropdownRepository();
             var list = repo.FillFreezerUnit();
-            ViewBag.FreezerUnitlist = new SelectList(list, "FreezerUnitId", "FreezerUnitName");
+            ViewBag.FreezerUnitlist = new SelectList(list, "Id", "Name");
         }
         [HttpPost]
         public ActionResult CreateWorkDescription(WorkDescription model)
