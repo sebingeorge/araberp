@@ -87,7 +87,7 @@ namespace ArabErp.DAL
                        query += " INNER JOIN SaleOrderItem SI ON SI.WorkDescriptionId = W.WorkDescriptionId";
                        query += " LEFT JOIN Item FU ON FU.ItemId=W.FreezerUnitId";
                        query += " LEFT JOIN Unit U on U.UnitId =FU.ItemUnitId ";
-                       query += " WHERE SI.SaleOrderId=@SaleOrderId ";
+                       query += " WHERE SI.SaleOrderId=@SaleOrderId AND FU.FreezerUnit=1";
                        //-----------Box Set
                        query += " UNION ALL ";
                        query += " SELECT B.ItemName,B.ItemId,B.PartNo,1 Quantity,UnitName ";
@@ -95,7 +95,7 @@ namespace ArabErp.DAL
                        query += " INNER JOIN SaleOrderItem SI ON SI.WorkDescriptionId = W.WorkDescriptionId";
                        query += " LEFT JOIN Item B ON B.ItemId=W.BoxId";
                        query += " LEFT JOIN Unit U on U.UnitId =B.ItemUnitId";
-                       query += " WHERE SI.SaleOrderId=@SaleOrderId ";
+                       query += " WHERE SI.SaleOrderId=@SaleOrderId AND B.Box=1";
 
                 return connection.Query<WorkShopRequestItem>(query,
                 new { SaleOrderId = SaleOrderId }).ToList();
