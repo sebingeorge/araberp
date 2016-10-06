@@ -49,6 +49,9 @@ namespace ArabErp.Web.Controllers
         {
             try
             {
+                FillBay();
+                FillEmployee();
+
                 JobCardRepository repo = new JobCardRepository();
                 SaleOrderRepository soRepo = new SaleOrderRepository();
                 isProjectBased = soRepo.IsProjectOrVehicle(Id ?? 0);
@@ -59,8 +62,7 @@ namespace ArabErp.Web.Controllers
                 model.JobCardTasks.Add(new JobCardTask() { TaskDate = DateTime.Now });
                 model.JobCardDate = DateTime.Now;
                 model.RequiredDate = DateTime.Now;
-                FillBay();
-                FillEmployee();
+               
                 FillTaks(model.WorkDescriptionId);
                 //FillFreezerUnit();
                 //FillBox();
