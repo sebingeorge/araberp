@@ -20,6 +20,7 @@ namespace ArabErp.Web.Controllers
 
         public ActionResult CreateQuerySheet(string type)
         {
+            //UnitSelection();
             string internalId = "";
             try
             {
@@ -56,29 +57,10 @@ namespace ArabErp.Web.Controllers
 
         public ActionResult CreateQuerySheetUnit(string type, int QuerySheetId)
         {
-            //string internalId = "";
-            //try
-            //{
-            //    internalId = DatabaseCommonRepository.GetNextDocNo(5, OrganizationId);
-
-            //}
-            //catch (NullReferenceException nx)
-            //{
-            //    TempData["success"] = "";
-            //    TempData["error"] = "Some required data was missing. Please try again.|" + nx.Message;
-            //}
-            //catch (Exception ex)
-            //{
-            //    TempData["success"] = "";
-            //    TempData["error"] = "Some error occurred. Please try again.|" + ex.Message;
-            //}
-            //QuerySheet qs = new QuerySheet();
-           
-            //qs.QuerySheetDate = DateTime.Now;
-          
+            
+            UnitSelection();
             var qs = new QuerySheetRepository().GetQuerySheet(QuerySheetId);
             qs.Type = type;
-            //qs.QuerySheetRefNo = internalId;
             qs.QuerySheetItems = new ProjectCostRepository().GetQuerySheetItem(QuerySheetId);
             return View("CreateQuerySheet", qs);
         }
@@ -122,27 +104,44 @@ namespace ArabErp.Web.Controllers
         [HttpPost]
         public ActionResult CreateQuerySheet(QuerySheet qs)
         {
-
-            if (qs.QuerySheetId==0)
-            {
+           
+            //if (qs.QuerySheetId==0)
+            //{
                 try
                 {
                     qs.OrganizationId = OrganizationId;
                     qs.CreatedDate = System.DateTime.Now;
                     qs.CreatedBy = UserID.ToString();
-                    var id = new QuerySheetRepository().InsertQuerySheet(qs);
-                    if (id.Split('|')[0] != "0")
+                    var id = "";
+                    int row;
+                    if (qs.Type == "Unit")
                     {
-                        qs.QuerySheetId = Convert.ToInt16( id.Split('|')[0]);
-                        qs.QuerySheetRefNo = id.Split('|')[1];
-                        TempData["success"] = "Saved successfully.  Reference No. is " + id.Split('|')[1];
-                        TempData["error"] = "";
-                        return RedirectToAction("CreateQuerySheet");
+                        UnitSelection();
+                        row = new QuerySheetRepository().UpdateQuerySheetUnit(qs);
+                        TempData["success"] = "Updated Successfully (" + qs.QuerySheetRefNo + ")";
+                        return RedirectToAction("CreateQuerySheet", new { type = qs.Type });
                     }
                     else
                     {
-                        throw new Exception();
+                        id = new QuerySheetRepository().InsertQuerySheet(qs);
+
+
+                        if (id.Split('|')[0] != "0")
+                        {
+                            qs.QuerySheetId = Convert.ToInt16(id.Split('|')[0]);
+                            qs.QuerySheetRefNo = id.Split('|')[1];
+                            TempData["success"] = "Saved successfully.  Reference No. is " + id.Split('|')[1];
+                            TempData["error"] = "";
+                            return RedirectToAction("CreateQuerySheet", new { type = qs.Type });
+                        }
+                        else
+                        {
+                            throw new Exception();
+                        }
                     }
+                 
+
+                    
                 }
                 catch (SqlException sx)
                 {
@@ -157,8 +156,8 @@ namespace ArabErp.Web.Controllers
                     TempData["error"] = "Some error occured. Please try again.|" + ex.Message;
                 }
                 TempData["success"] = "";
-            }
-            return View(qs);
+            //}
+                return RedirectToAction("CreateQuerySheet", new { type = qs.Type });
 
         }
 
@@ -308,7 +307,10 @@ namespace ArabErp.Web.Controllers
             return View(Pending);
         }
 
-
+        public void UnitSelection()
+        {
+            ViewBag.UnitList = new SelectList(new DropdownRepository().FillFreezerUnit(), "Id", "Name");
+        }
       
 
     }

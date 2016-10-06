@@ -83,6 +83,8 @@ namespace ArabErp.DAL
                   return connection.Query<QuerySheetItem>(sql, new { QuerySheetId = QuerySheetId }).ToList();
               }
           }
+
+
       
     }
 }

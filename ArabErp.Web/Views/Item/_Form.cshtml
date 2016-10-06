@@ -33,6 +33,12 @@
         }
     }
 
+    function Tick() {
+        //alert(2);
+        $('.subject-list').on('change', function () {
+            $('.subject-list').not(this).prop('checked', false);
+        });
+    }
 
 
 </script>
@@ -140,10 +146,11 @@
                             </div>
                         </div>
 
+                        <br />
                         <div class="row">
                             <div class="part4 col-md-4">
                                 @Html.CheckBoxFor(model => model.BatchRequired)
-                                <label for="name" class="lefto">Batch Required</label>
+                                <label for="name">Batch Required</label>
                             </div>
                             <div class="part4 col-md-4">
                                 @Html.CheckBoxFor(model => model.StockRequired)
@@ -153,14 +160,21 @@
                                 @Html.CheckBoxFor(model => model.CriticalItem)
                                 <label for="name">Critical</label>
                             </div>
+                         </div>
+
+                        <div class="row">
+                            <div class="part4 col-md-4">
+                                @Html.CheckBoxFor(model => model.FreezerUnit ,new { autocomplete = "off", @class = "subject-list", @onclick = "Tick()" })
+                                <label for="name">Freezer Unit</label>
+                            </div>
+                            <div class="part4 col-md-4">
+                                @Html.CheckBoxFor(model => model.Box, new { autocomplete = "off", @class = "subject-list", @onclick = "Tick()" })
+                                <label for="name">Box</label>
                             </div>
                         </div>
 
-                       
-
+                    </div>
                 </div>
-
-
 
                 <div class="row">
 
@@ -174,8 +188,7 @@
                         else if (actionName == "Delete")
                         { <button type="submit" class="form-button right">Delete</button> }
                      
-                       
-                    </div>
+                   </div>
 
                 </div>
 

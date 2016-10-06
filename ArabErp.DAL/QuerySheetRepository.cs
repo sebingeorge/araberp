@@ -98,9 +98,9 @@ namespace ArabErp.DAL
             {
                 string sql = @"select * from QuerySheet
                                 where isActive=1 and OrganizationId = @OrganizationId
-	                                and QuerySheetDate BETWEEN ISNULL(@from, DATEADD(MONTH, -1, GETDATE())) AND ISNULL(@to, GETDATE())
-	                                AND QuerySheetRefNo LIKE '%'+@querysheet+'%'
-                                    ORDER BY QuerySheetDate DESC, CreatedDate DESC";
+	                            and QuerySheetDate BETWEEN ISNULL(@from, DATEADD(MONTH, -1, GETDATE())) AND ISNULL(@to, GETDATE())
+	                            AND QuerySheetRefNo LIKE '%'+@querysheet+'%'
+                                ORDER BY QuerySheetDate DESC, CreatedDate DESC";
                 return connection.Query<QuerySheet>(sql, new { OrganizationId = OrganizationId, querysheet = querysheet, to = to, from = from }).ToList();
 
             }
@@ -205,15 +205,10 @@ namespace ArabErp.DAL
                         new ProjectCostRepository().InsertQuerySheetItem(item, connection, txn);
                     }
 
-                    query = @"UPDATE QuerySheet SET
-	                            QuerySheetRefNo = @QuerySheetRefNo,
-	                            QuerySheetDate = @QuerySheetDate,
-	                            ProjectName = @ProjectName,
-	                            ContactPerson = @ContactPerson,
-	                            ContactNumber = @ContactNumber,
-	                            Email = @Email
-	                        OUTPUT inserted.QuerySheetRefNo
-                            WHERE QuerySheetId = @QuerySheetId";
+                    query = @"UPDATE QuerySheetItem SET  QuerySheetRefNo = @QuerySheetRefNo,QuerySheetDate = @QuerySheetDate,ProjectName = @ProjectName,ContactPerson = @ContactPerson,ContactNumber = @ContactNumber,
+	   	                      Email = @Email
+	                          OUTPUT inserted.QuerySheetRefNo
+                              WHERE QuerySheetId = @QuerySheetId";
                     string ref_no = connection.Query<string>(query, model, txn).First();
 
                     InsertLoginHistory(dataConnection, model.CreatedBy, "Update", typeof(QuerySheet).Name, model.QuerySheetId.ToString(), model.OrganizationId.ToString());
@@ -229,6 +224,39 @@ namespace ArabErp.DAL
             }
         }
 
+
+        public int UpdateQuerySheetUnit(QuerySheet model)
+        {
+            using (IDbConnection connection = OpenConnection(dataConnection))
+            {
+                IDbTransaction txn = connection.BeginTransaction();
+                try
+                {
+                   
+//                  
+                    var row = 0;
+                    foreach (QuerySheetItem item in model.QuerySheetItems)
+                    {
+                        item.QuerySheetId = model.QuerySheetId;
+
+                        string sql = @"UPDATE QuerySheetItem SET Refrigerant = @Refrigerant,EletricalPowerAvailability = @EletricalPowerAvailability ,Kilowatt = @Kilowatt,Unit = @Unit,Cost = @Cost,PipeLength = @PipeLength WHERE QuerySheetId = @QuerySheetId";
+                        row = connection.Execute(sql, item, txn);
+                         
+                     }
+
+                    InsertLoginHistory(dataConnection,model.CreatedBy, "Update", typeof(QuerySheet).Name, model.QuerySheetId.ToString(), model.OrganizationId.ToString());
+                    txn.Commit();
+                    return row;
+                   
+                    
+                }
+                catch (Exception ex)
+                {
+                    txn.Rollback();
+                    throw ex;
+                }
+            }
+        }
         public List<QuerySheet> GetPendingQuerySheet()
         {
             using (IDbConnection connection = OpenConnection(dataConnection))

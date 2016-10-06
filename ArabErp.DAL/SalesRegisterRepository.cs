@@ -51,7 +51,7 @@ namespace ArabErp.DAL
             using (IDbConnection connection = OpenConnection(dataConnection))
             {
 
-                string qry = @"	select SaleOrderRefNo,SaleOrderDate,CustomerName,CONCAT(W.WorkDescrShortName,'/',FU.FreezerUnitName,'/',B.BoxName)WorkDescr,
+                string qry = @"	select SaleOrderRefNo,SaleOrderDate,CustomerName,CONCAT(W.WorkDescrShortName,'/',FU.ItemName,'/',B.ItemName)WorkDescr,
                                 SI.Quantity Quantity,isnull(SN.Quantity,0) INVQTY,(SI.Quantity-isnull(SN.Quantity,0))BALQTY, 
                                 case when (SI.Quantity-isnull(SN.Quantity,0)) < 0 then 'Excess'
                                 when (isnull(SN.Quantity,0)-SI.Quantity) > 0 then 'Shortage'
@@ -60,11 +60,11 @@ namespace ArabErp.DAL
 				                inner join SaleOrderItem SI ON S.SaleOrderId=SI.SaleOrderId
 				                inner join Customer C ON C.CustomerId=S.CustomerId
 				                inner join WorkDescription W ON W.WorkDescriptionId=SI.WorkDescriptionId
-                                left join FreezerUnit FU ON FU.FreezerUnitId=W.FreezerUnitId
-                                left join Box B ON B.BoxId =W.BoxId
+                                left join Item FU ON FU.ItemId=W.FreezerUnitId
+                                left join Item B ON B.ItemId =W.BoxId
 				                left join SalesInvoiceItem SN on SN.SaleOrderItemId=SI.SaleOrderItemId
                                 WHERE SaleOrderDate >= @from AND SaleOrderDate <= @to and S.OrganizationId=@OrganizationId and S.CustomerId=ISNULL(NULLIF(@id, 0),S.CustomerId)
-				                GROUP BY SaleOrderRefNo,SaleOrderDate,CustomerName,W.WorkDescrShortName,FU.FreezerUnitName,B.BoxName,SI.Quantity ,SN.Quantity,SI.SaleOrderItemId
+				                GROUP BY SaleOrderRefNo,SaleOrderDate,CustomerName,W.WorkDescrShortName,FU.ItemName,B.ItemName,SI.Quantity ,SN.Quantity,SI.SaleOrderItemId
 				                having (SI.Quantity-isnull(SN.Quantity,0)) > 0";
                                  
                             
