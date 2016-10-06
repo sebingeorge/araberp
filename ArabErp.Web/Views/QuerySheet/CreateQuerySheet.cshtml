@@ -156,15 +156,15 @@
     <div class="row">
         <div class="form-head1">
             @{
-            if (actionName.ToString() == "Create")
+                if (Model.Type == "RoomDetails")
             {
             <h4>Query Sheet</h4>
             }
-            else if (actionName == "CreateQuerySheetUnit")
+            else if (Model.Type  == "Unit")
             {
             <h4>Query Sheet : Unit Selection</h4>
             }
-            else if (actionName == "CreateQuerySheetCosting")
+            else if (Model.Type  == "Costing")
             {
             <h4>Query Sheet : Costing</h4>
             }
@@ -321,7 +321,7 @@
         </table>
     </div>
                 <br />
-                if(@Model.Type == "Costing")
+                if (@Model.Type == "Costing")
                 {
                  @Html.Partial("_ProjectCosting", Model)
                 }
