@@ -924,5 +924,23 @@ namespace ArabErp.DAL
                 return connection.Query<Dropdown>("SELECT   OrganizationId Id, OrganizationName Name FROM Organization").ToList();
             }
         }
+
+        public IEnumerable<Box> FillBox()
+        {
+            using (IDbConnection connection = OpenConnection(dataConnection))
+            {
+                return connection.Query<Box>("SELECT ItemId BoxId,ItemName BoxName FROM Item WHERE Box=1").ToList();
+            }
+        }
+
+        public IEnumerable<FreezerUnit> FillFreezerUnit()
+        {
+            using (IDbConnection connection = OpenConnection(dataConnection))
+            {
+
+                return connection.Query<FreezerUnit>("SELECT ItemId FreezerUnitId,ItemName FreezerUnitName FROM Item WHERE FreezerUnit=1").ToList();
+            }
+        }
+
     }
 }

@@ -16,14 +16,14 @@ namespace ArabErp.DAL
         {
             using (IDbConnection connection = OpenConnection(dataConnection))
             {
-                return connection.Query<WorkDescription>(@" select wd.WorkDescriptionId WorkDescriptionId,wd.WorkDescriptionRefNo WorkDescriptionRefNo,wd.WorkDescr WorkDescr,
-                                                            v.VehicleModelName VehicleModelName,f.FreezerUnitName FreezerUnitName,b.BoxName BoxName 
-                                                            from WorkDescription wd 
-                                                            Left join VehicleModel v on wd.VehicleModelId=v.VehicleModelId
-								                            left join  FreezerUnit F on wd.FreezerUnitId=f.FreezerUnitId
-								                            left join Box b on b.BoxId=wd.BoxId
-								                            where wd.isActive=1 and wd.isProjectBased=0  AND v.VehicleModelName LIKE '%'+@vehiclemodel+'%'
-                                                            AND f.FreezerUnitName LIKE '%'+@freezerunit+'%' AND b.BoxName LIKE '%'+@box+'%'", new { vehiclemodel = vehiclemodel, freezerunit = freezerunit, box = box }).ToList();
+                return connection.Query<WorkDescription>(@" SELECT wd.WorkDescriptionId WorkDescriptionId,wd.WorkDescriptionRefNo WorkDescriptionRefNo,wd.WorkDescr WorkDescr,
+                                                            v.VehicleModelName VehicleModelName,FU.ItemName FreezerUnitName,B.ItemName BoxName  
+                                                            FROM WorkDescription wd
+                                                            LEFT JOIN VehicleModel v ON wd.VehicleModelId=v.VehicleModelId
+                                                            LEFT JOIN  Item FU ON FU.ItemId=wd.FreezerUnitId
+                                                            LEFT JOIN Item B ON B.ItemId=wd.BoxId
+								                            WHERE wd.isActive=1 AND wd.isProjectBased=0  AND v.VehicleModelName LIKE '%'+@vehiclemodel+'%'
+                                                            AND FU.ItemName LIKE '%'+@freezerunit+'%' AND B.ItemName  LIKE '%'+@box+'%'", new { vehiclemodel = vehiclemodel, freezerunit = freezerunit, box = box }).ToList();
             }
         }
 
