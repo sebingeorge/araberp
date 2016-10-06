@@ -31,7 +31,7 @@ namespace ArabErp.Web.Controllers
         }
         public ActionResult PendingDeliveryChallan(int customerId)
         {
-            if ( customerId == 0 )
+            if (customerId == 0)
             {
                 return PartialView("_PendingDeliveryChallan", new List<PendingJC>());
             }
@@ -39,7 +39,7 @@ namespace ArabErp.Web.Controllers
         }
         public ActionResult Save(int id = 0)
         {
-            if ( id != 0 )
+            if (id != 0)
             {
                 EmployeeDropdown();
                 return View(new DeliveryChallan
@@ -47,6 +47,7 @@ namespace ArabErp.Web.Controllers
                     JobCardId = id,
                     DeliveryChallanRefNo = DatabaseCommonRepository.GetNextDocNo(18, OrganizationId),
                     DeliveryChallanDate = DateTime.Now,
+                    TransportWarrantyExpiryDate = DateTime.Today.AddYears(1).AddDays(-1),
                     ItemBatches = new DeliveryChallanRepository().GetSerialNos(id).ToList()
                 });
             }
@@ -61,15 +62,15 @@ namespace ArabErp.Web.Controllers
 
             try
             {
-                foreach ( ItemBatch item in model.ItemBatches )
+                foreach (ItemBatch item in model.ItemBatches)
                 {
                     item.WarrantyStartDate = model.DeliveryChallanDate;
                     item.WarrantyExpireDate = model.DeliveryChallanDate.AddMonths(item.WarrantyPeriodInMonths ?? 0).AddDays(-1);
                 }
             }
-            catch ( NullReferenceException ) { }
+            catch (NullReferenceException) { }
             string ref_no = new DeliveryChallanRepository().InsertDeliveryChallan(model);
-            if ( ref_no.Length > 0 )
+            if (ref_no.Length > 0)
             {
                 TempData["success"] = "Saved Successfully. The Reference No. is " + ref_no;
                 return RedirectToAction("Index");
@@ -123,7 +124,7 @@ namespace ArabErp.Web.Controllers
                     EmployeeDropdown();
                     DeliveryChallan DeliveryChallan = new DeliveryChallan();
                     DeliveryChallan = new DeliveryChallanRepository().ViewDeliveryChallanHD(id);
-                    DeliveryChallan.ItemBatches =new DeliveryChallanRepository().GetDeliveryChallanDT(id);
+                    DeliveryChallan.ItemBatches = new DeliveryChallanRepository().GetDeliveryChallanDT(id);
 
                     return View(DeliveryChallan);
                 }
@@ -171,7 +172,7 @@ namespace ArabErp.Web.Controllers
 
                 new DeliveryChallanRepository().UpdateDeliveryChallan(model);
 
-                TempData["success"] = "Updated Successfully ";
+                TempData["success"] = "Updated Successfully (" + model.DeliveryChallanRefNo + ")";
                 TempData["JobCardQCRefNo"] = model.DeliveryChallanRefNo;
                 return RedirectToAction("Index");
             }
@@ -246,7 +247,7 @@ namespace ArabErp.Web.Controllers
 
 
             DeliveryChallanRepository repo1 = new DeliveryChallanRepository();
-            var Items = repo1.GetDeliveryChallanDT(Id); 
+            var Items = repo1.GetDeliveryChallanDT(Id);
             foreach (var item in Items)
             {
                 var DCItem = new ItemBatch

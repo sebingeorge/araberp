@@ -21,8 +21,8 @@ namespace ArabErp.DAL
                 {
                     objDeliveryChallan.DeliveryChallanRefNo = DatabaseCommonRepository.GetNewDocNo(connection, objDeliveryChallan.OrganizationId, 18, true, txn);
 
-                    string sql = @"insert into DeliveryChallan(JobCardId,DeliveryChallanRefNo,DeliveryChallanDate,EmployeeId,Remarks,CreatedBy,CreatedDate,OrganizationId,isActive) 
-                                   Values (@JobCardId,@DeliveryChallanRefNo,@DeliveryChallanDate,@EmployeeId,@Remarks,@CreatedBy,@CreatedDate,@OrganizationId,1);
+                    string sql = @"insert into DeliveryChallan(JobCardId,DeliveryChallanRefNo,DeliveryChallanDate,EmployeeId,Remarks,CreatedBy,CreatedDate,OrganizationId,isActive, TransportWarrantyExpiryDate) 
+                                   Values (@JobCardId,@DeliveryChallanRefNo,@DeliveryChallanDate,@EmployeeId,@Remarks,@CreatedBy,@CreatedDate,@OrganizationId,1, @TransportWarrantyExpiryDate);
                                 SELECT CAST(SCOPE_IDENTITY() as int);";
 
                     var id = connection.Query<int>(sql, objDeliveryChallan, txn).Single();
@@ -78,7 +78,8 @@ namespace ArabErp.DAL
 	                                SaleOrder.SaleOrderRefNo, 
 	                                SaleOrder.SaleOrderDate, 
 	                                Customer.CustomerName Customer, 
-	                                DeliveryChallan.DeliveryChallanDate
+	                                DeliveryChallan.DeliveryChallanDate,
+									TransportWarrantyExpiryDate
                                 FROM DeliveryChallan INNER JOIN
                                     JobCard ON DeliveryChallan.JobCardId = JobCard.JobCardId INNER JOIN
                                     SaleOrder ON JobCard.SaleOrderId = SaleOrder.SaleOrderId INNER JOIN
@@ -217,7 +218,7 @@ namespace ArabErp.DAL
                 string sql = @" SELECT DISTINCT DC.DeliveryChallanId,DeliveryChallanRefNo,DeliveryChallanDate,C.CustomerName Customer,SO.CustomerOrderRef,
                                 ISNULL(SO.SaleOrderRefNo,'')+ ' - '  +CONVERT(varchar,SO.SaleOrderDate,106) SONODATE,
                                 ISNULL(JC.JobCardNo,'') + ' - ' +CONVERT(varchar,JC.JobCardDate,106)JobCardNo,VI. RegistrationNo,
-                                WI.WorkDescr,VM.VehicleModelName VehicleModel,E.EmployeeId,SO.PaymentTerms,DC.Remarks,ISNULL(SQ.DeliveryChallanId,0)IsUsed
+                                WI.WorkDescr,VM.VehicleModelName VehicleModel,E.EmployeeId,SO.PaymentTerms,DC.Remarks,ISNULL(SQ.DeliveryChallanId,0)IsUsed, TransportWarrantyExpiryDate
                                 FROM DeliveryChallan DC
                                 INNER JOIN JobCard JC ON JC.JobCardId=DC.JobCardId
                                 INNER JOIN SaleOrder SO ON SO.SaleOrderId=JC.SaleOrderId
@@ -292,7 +293,7 @@ namespace ArabErp.DAL
                 string sql = @"UPDATE
                                 DeliveryChallan SET DeliveryChallanRefNo=@DeliveryChallanRefNo,
                                 DeliveryChallanDate=@DeliveryChallanDate,EmployeeId=@EmployeeId,Remarks=@Remarks,
-                                CreatedBy=@CreatedBy,CreatedDate=@CreatedDate,OrganizationId=@OrganizationId
+                                CreatedBy=@CreatedBy,CreatedDate=@CreatedDate,OrganizationId=@OrganizationId, TransportWarrantyExpiryDate = @TransportWarrantyExpiryDate
                                 WHERE DeliveryChallanId = @DeliveryChallanId;";
                 try
                 {

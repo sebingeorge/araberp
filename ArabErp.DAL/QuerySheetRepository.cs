@@ -238,8 +238,10 @@ namespace ArabErp.DAL
                     foreach (QuerySheetItem item in model.QuerySheetItems)
                     {
                         item.QuerySheetId = model.QuerySheetId;
+                        item.Type = model.Type;
+                        string sql = @"UPDATE QuerySheetItem SET Refrigerant = @Refrigerant,EletricalPowerAvailability = @EletricalPowerAvailability ,Kilowatt = @Kilowatt,Unit = @Unit,Cost = @Cost,PipeLength = @PipeLength WHERE QuerySheetId = @QuerySheetId
+                                       UPDATE QuerySheet  SET Type=@Type WHERE QuerySheetId = @QuerySheetId";
 
-                        string sql = @"UPDATE QuerySheetItem SET Refrigerant = @Refrigerant,EletricalPowerAvailability = @EletricalPowerAvailability ,Kilowatt = @Kilowatt,Unit = @Unit,Cost = @Cost,PipeLength = @PipeLength WHERE QuerySheetId = @QuerySheetId";
                         row = connection.Execute(sql, item, txn);
                          
                      }
@@ -257,7 +259,7 @@ namespace ArabErp.DAL
                 }
             }
         }
-        public List<QuerySheet> GetPendingQuerySheet()
+        public List<QuerySheet> GetPendingQuerySheetforUnit()
         {
             using (IDbConnection connection = OpenConnection(dataConnection))
             {
@@ -269,5 +271,18 @@ namespace ArabErp.DAL
                 return objQuerySheet;
             }
         }
+        public List<QuerySheet> GetPendingQuerySheetforCosting()
+        {
+            using (IDbConnection connection = OpenConnection(dataConnection))
+            {
+                string sql = String.Format(@"select * from QuerySheet where Type='Unit'");
+                            
+                            
+                var objQuerySheet = connection.Query<QuerySheet>(sql).ToList<QuerySheet>();
+
+                return objQuerySheet;
+            }
+        }
+        
     }
 }

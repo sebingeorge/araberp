@@ -526,5 +526,21 @@ namespace ArabErp
                 }
             }
         }
+
+        //public JobCard GetOrganization(int OrganizationId)
+        //{
+        //    using (IDbConnection connection = OpenConnection(dataConnection))
+        //    {
+        //        string sql = @"select * from organization where OrganizationId=@OrganizationId";
+        //        var objJobCardId = connection.Query<JobCard>(sql, new
+        //        {
+        //            OrganizationId = OrganizationId
+        //        }).First<JobCard>();
+
+        //        return objJobCardId;
+        //    }
+        //}
+
+
     }
 }
