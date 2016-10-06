@@ -19,13 +19,13 @@ namespace ArabErp.Domain
         [Required]
         public int CurrencyId { get; set; }
         public string CurrencyName { get; set; }
-        [Required]
+     
         public string DoorNo { get; set; }
-        [Required]
+      
         public string Street { get; set; }
-        [Required]
+
         public string State { get; set; }
-        [Required]
+     
         public int Country { get; set; }
         public string CountryName { get; set; }
         public string Zip { get; set; }
