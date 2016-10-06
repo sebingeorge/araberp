@@ -941,14 +941,14 @@ namespace ArabErp.DAL
             }
         }
 
-        public IEnumerable<FreezerUnit> FillFreezerUnit()
-        {
-            using (IDbConnection connection = OpenConnection(dataConnection))
-            {
+        //public IEnumerable<FreezerUnit> FillFreezerUnit()
+        //{
+        //    using (IDbConnection connection = OpenConnection(dataConnection))
+        //    {
 
-                return connection.Query<FreezerUnit>("SELECT ItemId FreezerUnitId,ItemName FreezerUnitName FROM Item WHERE FreezerUnit=1").ToList();
-            }
-        }
+        //        return connection.Query<FreezerUnit>("SELECT ItemId FreezerUnitId,ItemName FreezerUnitName FROM Item WHERE FreezerUnit=1").ToList();
+        //    }
+        //}
 
     }
 }
