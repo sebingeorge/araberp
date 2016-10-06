@@ -123,6 +123,14 @@ namespace ArabErp.DAL
                 return connection.Query<Dropdown>("select UnitId Id,UnitName Name from Unit").ToList();
             }
         }
+        public List<Dropdown> FillFreezerUnit()
+        {
+            using (IDbConnection connection = OpenConnection(dataConnection))
+            {
+                var param = new DynamicParameters();
+                return connection.Query<Dropdown>("select ItemId Id,ItemName Name from item where FreezerUnit=1 and isActive=1").ToList();
+            }
+        }
         public List<Dropdown> FillVehicle()
         {
             using (IDbConnection connection = OpenConnection(dataConnection))
