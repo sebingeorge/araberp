@@ -11,6 +11,13 @@
         $("#ProjectCompletionDate").datepicker({
             dateFormat: "dd MM yy"
         });
+        var year = new Date().getFullYear();
+        $("#ProjectWarrantyExpiryDate").datepicker({
+            dateFormat: "dd MM yy",
+            changeYear: true,
+            changeMonth: true,
+            yearRange: year + ":" + (year + 3)
+        });
 
         //---------------------toastr---------------------------//
         toastr.options = {
@@ -53,6 +60,10 @@
                     <label for="ProjectCompletionDate">Date of Commissioning</label>
                     @Html.TextBoxFor(m => m.ProjectCompletionDate, Model.ProjectCompletionDate.ToString("dd/MMMM/yyyy"), new { @class = "form_input", @readonly = "true", @required = "true" })
                 </div>
+                <div class="col-md-2">
+                    <label for="ProjectWarrantyExpiryDate">Warranty Expiry Date</label>
+                    @Html.TextBoxFor(m => m.ProjectWarrantyExpiryDate, Model.ProjectWarrantyExpiryDate.ToString("dd/MMMM/yyyy"), new { @class = "form_input", @readonly = "true", @required = "true" })
+                </div>
             </div>
             @Html.Action("SaleOrderDetails", Model.SaleOrderId)
 
@@ -66,9 +77,9 @@
                     @Html.TextBoxFor(m => m.CustomerName, new { @class = "form_input", @readonly = "true" })
                 </div>
                 @*<div class="col-md-4">
-                    <label for="aaa">Location</label>
-                    @Html.TextBoxFor(m => m.Location, new { @class = "form_input" })
-                </div>*@
+                        <label for="aaa">Location</label>
+                        @Html.TextBoxFor(m => m.Location, new { @class = "form_input" })
+                    </div>*@
             </div>
 
             <h5>Chiller:</h5>

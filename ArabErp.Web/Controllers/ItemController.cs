@@ -111,19 +111,13 @@ namespace ArabErp.Web.Controllers
 
         public ActionResult Edit(int Id)
         {
-            
             Item objItem = new ItemRepository().GetItem(Id);
-          
             FillUnit();
-          
-            
-             return View(objItem);
-                
+            return View(objItem);
             
         }
        [HttpPost]
-      
-
+  
         public ActionResult Edit(Item model)
         {
             model.OrganizationId = OrganizationId;

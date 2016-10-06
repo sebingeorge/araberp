@@ -35,6 +35,8 @@ namespace ArabErp.Domain
         public Boolean BatchRequired { get; set; }
         public Boolean StockRequired { get; set; }
         public Boolean CriticalItem { get; set; }
+        public Boolean FreezerUnit { get; set; }
+        public Boolean Box { get; set; }
         public string CreatedBy { get; set; }
         public DateTime? CreatedDate { get; set; }
         public int? OrganizationId { get; set; }

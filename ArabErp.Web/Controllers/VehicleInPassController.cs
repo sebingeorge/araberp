@@ -153,5 +153,49 @@ namespace ArabErp.Web.Controllers
             return RedirectToAction("Index");
         }
 
+        [HttpPost]
+        public ActionResult Edit(VehicleInPass model)
+        {
+            EmployeeDropdown();
+
+            try
+            {
+                model.OrganizationId = OrganizationId;
+                model.CreatedDate = System.DateTime.Now;
+                model.CreatedBy = UserID.ToString();
+
+                new VehicleInPassRepository().UpdateVehicleInPass(model);
+
+                TempData["success"] = "Updated Successfully ";
+                TempData["VehicleInPassNo"] = model.VehicleInPassNo;
+                return RedirectToAction("Index");
+            }
+            catch (Exception)
+            {
+                TempData["error"] = "Some error occurred. Please try again.";
+            }
+            return View(model);
+        }
+
+        public ActionResult Delete(int VehicleInPassId = 0)
+        {
+            try
+            {
+                if (VehicleInPassId == 0) return RedirectToAction("Index", "Home");
+                string ref_no = new VehicleInPassRepository().DeleteVehicleInPass(VehicleInPassId);
+
+                TempData["Success"] = "Deleted Successfully!";
+                TempData["VehicleInPassNo"] = ref_no;
+                return RedirectToAction("Index");
+            }
+            catch (Exception)
+            {
+                TempData["error"] = "Some error occured while deleting. Please try again.";
+                return RedirectToAction("Edit", new { id = VehicleInPassId });
+            }
+        }
+
+
+
     }
 }

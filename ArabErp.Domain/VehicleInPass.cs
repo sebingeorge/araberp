@@ -25,6 +25,7 @@ namespace ArabErp.Domain
         public DateTime SaleOrderDate { get; set; }
         public string SONODATE { get; set; }
         public string WorkDescr { get; set; }
+        public bool InPassId { get; set; }
 
     }
 }

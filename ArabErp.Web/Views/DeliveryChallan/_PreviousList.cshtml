@@ -8,7 +8,6 @@
                                 <th width="20%" title="Job Card No. & Date"><h1>JC. No. & Date</h1></th>
                                 <th width="20%"><h1>Employee</h1></th>
                                 <th width="1%"></th>
-                                <th width="1%"></th>
                             </tr>
                         </thead>
                         <tbody class="grid_row">
@@ -23,9 +22,6 @@
                                         <td class="grid-cell">@item.EmployeeName</td>
                                         <td>
                                             <center><input type="button" class="form-button4" value="Select" title="Select to view details" onclick="Open(@item.DeliveryChallanId)" /></center>
-                                        </td>
-                                        <td>
-                                            <center><input type="button" value="Print" onclick="GoToPrint(@item.DeliveryChallanId)" checked class="form-button4" /></center>
                                         </td>
                                     </tr>
                                 }

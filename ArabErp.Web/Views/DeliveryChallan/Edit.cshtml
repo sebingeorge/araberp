@@ -51,15 +51,16 @@
         window.location = url;
     }
 
+    function GoToPrint() {
+        var url = '@Url.Action("Print", new { Id = Model.DeliveryChallanId })';
+        window.location = url;
+    }
+
     function Delete() {
         var url = '@Url.Action("Delete", new { DeliveryChallanId = Model.DeliveryChallanId })';
         window.location = url;
     }
 
-    function Exit() {
-        var url = '@Url.Action("Index", "Home")';
-        window.location = url;
-    }
 </script>
 
 
@@ -214,7 +215,7 @@
                    <button type="submit" class="form-button right">Edit</button>
                    <input type="button" class="form-button left" value="Delete"  onclick="Delete()" />
                     }
-                   
+                    <input type="button" class="form-button right" value="Print" onclick="GoToPrint()" />
                 </div>
             </div>
         }

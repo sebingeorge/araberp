@@ -134,7 +134,7 @@ namespace ArabErp.DAL
 	                                 ChillerDimension,ChillerCondensingUnit,ChillerEvaporator,
 	                                 ChillerRefrigerant,ChillerQuantity,FreezerTemperature,FreezerDimension,
 	                                 FreezerCondensingUnit,FreezerEvaporator,FreezerRefrigerant,FreezerQuantity,
-	                                 SaleOrderId,OrganizationId,CreatedDate,CreatedBy,isActive)
+	                                 SaleOrderId,OrganizationId,CreatedDate,CreatedBy,isActive, ProjectWarrantyExpiryDate)
 
                                     VALUES
 
@@ -142,7 +142,7 @@ namespace ArabErp.DAL
 	                                 @ChillerDimension,@ChillerCondensingUnit,@ChillerEvaporator,
 	                                 @ChillerRefrigerant,@ChillerQuantity,@FreezerTemperature,@FreezerDimension,
 	                                 @FreezerCondensingUnit,@FreezerEvaporator,@FreezerRefrigerant,@FreezerQuantity,
-	                                 @SaleOrderId,@OrganizationId,@CreatedDate,@CreatedBy,1);
+	                                 @SaleOrderId,@OrganizationId,@CreatedDate,@CreatedBy,1, @ProjectWarrantyExpiryDate);
                                     SELECT CAST(SCOPE_IDENTITY() AS INT)";
                     model.ProjectCompletionRefNo = DatabaseCommonRepository.GetNewDocNo(connection, model.OrganizationId, 30, true, txn);
                     model.ProjectCompletionId = connection.Query<int>(query, model, txn).First();
@@ -289,7 +289,8 @@ namespace ArabErp.DAL
                                 ChillerEvaporator=@ChillerEvaporator,ChillerRefrigerant=@ChillerRefrigerant,ChillerQuantity=@ChillerQuantity,
                                 FreezerTemperature=@FreezerTemperature,FreezerDimension=@FreezerDimension,FreezerCondensingUnit=@FreezerCondensingUnit,
                                 FreezerEvaporator=@FreezerEvaporator,FreezerRefrigerant=@FreezerRefrigerant,FreezerQuantity=@FreezerQuantity,
-	                            SaleOrderId=@SaleOrderId,OrganizationId=@OrganizationId,CreatedDate=@CreatedDate,CreatedBy=@CreatedBy,isActive =1
+	                            SaleOrderId=@SaleOrderId,OrganizationId=@OrganizationId,CreatedDate=@CreatedDate,CreatedBy=@CreatedBy,isActive =1,
+                                ProjectWarrantyExpiryDate = @ProjectWarrantyExpiryDate
                                 WHERE ProjectCompletionId = @ProjectCompletionId;";
                                
                 try

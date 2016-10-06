@@ -9,7 +9,7 @@
 
     function GoToPrint(id) {
         var url = '@Url.Action("Print")';
-        url += "?Id=" + id;
+        //url += "?Id=" + id;
         window.location = url;
     }
 
@@ -78,7 +78,7 @@
                                                     @Html.TextBoxFor(m => m.ItemSellingPriceLists[row].UnitName, new { @class = " form_input ", autocomplete = "off", @readonly = "readonly" })
                                                 </td>
                                                 <td>
-                                                    @Html.TextBoxFor(m => m.ItemSellingPriceLists[row].SellingPrice, new { @class = "form_input text-right", autocomplete = "off", @type = "number" } )
+                                                    @Html.TextBoxFor(m => m.ItemSellingPriceLists[row].SellingPrice, new { @class = "form_input text-right", autocomplete = "off" })
                                                 </td>
                                                 <td>
                                                     @Html.TextBoxFor(m => m.ItemSellingPriceLists[row].Average,@String.Format("{0:0.00}",item.Average), new { @class = "form_input text-right", autocomplete = "off" ,@readonly = "readonly"})
@@ -95,7 +95,7 @@
                             <div class="col-md-12 hrpart">
                                 <button type="button" class="form-button right" onclick="Exit()">Exit</button>
                                 <button type="submit" class="form-button right">Save</button>
-                                <input type="button" value="Print" onclick="GoToPrint(@Model.ItemSellingPriceLists[row].ItemSellingPriceId)" class="form-button right" />
+                                <input type="button" value="Print" onclick="GoToPrint()" class="form-button right" />
                             </div>
                         </div>
                     </div>

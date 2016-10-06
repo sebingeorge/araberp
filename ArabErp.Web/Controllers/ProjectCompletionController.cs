@@ -48,6 +48,7 @@ namespace ArabErp.Web.Controllers
             {
                 SaleOrderId = id,
                 ProjectCompletionDate = DateTime.Today,
+                ProjectWarrantyExpiryDate = DateTime.Today.AddYears(1).AddDays(-1),
                 ProjectCompletionRefNo = DatabaseCommonRepository.GetNextDocNo(30, OrganizationId),
                 ProjectName = model.ProjectName,
                 Location = model.Location,

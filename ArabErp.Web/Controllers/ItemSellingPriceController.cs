@@ -41,75 +41,77 @@ namespace ArabErp.Web.Controllers
         }
 
 
-        public ActionResult Print(int Id)
+        public ActionResult Print()
         {
 
             ReportDocument rd = new ReportDocument();
             rd.Load(Path.Combine(Server.MapPath("~/Reports"), "ItemSellingPrice.rpt"));
 
             DataSet ds = new DataSet();
-          //  ds.Tables.Add("Head");
+            ds.Tables.Add("Head");
             ds.Tables.Add("Items");
 
             //-------HEAD
-            //ds.Tables["Head"].Columns.Add("JobCardNo");
-            //ds.Tables["Head"].Columns.Add("JobCardDate");
-            //ds.Tables["Head"].Columns.Add("SaleOrderRefNo");
-            //ds.Tables["Head"].Columns.Add("CustomerName");
-            //ds.Tables["Head"].Columns.Add("Phone");
-            //ds.Tables["Head"].Columns.Add("ContactPerson");
-            //ds.Tables["Head"].Columns.Add("Unit");
-            //ds.Tables["Head"].Columns.Add("Customer");
-            //ds.Tables["Head"].Columns.Add("Technician");
+            ds.Tables["Head"].Columns.Add("OrganizationName");
+            ds.Tables["Head"].Columns.Add("OrganizationRefNo");
+            ds.Tables["Head"].Columns.Add("DoorNo");
+            ds.Tables["Head"].Columns.Add("Street");
+            ds.Tables["Head"].Columns.Add("State");
+            ds.Tables["Head"].Columns.Add("Phone");
+            ds.Tables["Head"].Columns.Add("Fax");
+            ds.Tables["Head"].Columns.Add("Email");
+            ds.Tables["Head"].Columns.Add("ContactPerson");
+            ds.Tables["Head"].Columns.Add("Zip");
+            ds.Tables["Head"].Columns.Add("Image1");
             //-------DT
             ds.Tables["Items"].Columns.Add("ItemName");
             ds.Tables["Items"].Columns.Add("PartNo");
             ds.Tables["Items"].Columns.Add("CategoryName");
             ds.Tables["Items"].Columns.Add("ItemGroupName");
             ds.Tables["Items"].Columns.Add("ItemSubGroupName");
-             ds.Tables["Items"].Columns.Add("UnitName");
-             ds.Tables["Items"].Columns.Add("SellingPrice");
-             ds.Tables["Items"].Columns.Add("Average");
-
-            //ItemSellingPriceRepository() repo = new ItemSellingPriceRepository()();
-            //var Head = repo.GetJobCardHD(Id);
-
-            //DataRow dr = ds.Tables["Head"].NewRow();
-            //dr["JobCardNo"] = Head.JobCardNo;
-            //dr["JobCardDate"] = Head.JobCardDate.ToString("dd-MMM-yyyy");
-            //dr["SaleOrderRefNo"] = Head.RegistrationNo;
-            //dr["CustomerName"] = Head.CustomerName;
-            //dr["Phone"] = Head.Phone;
-            //dr["ContactPerson"] = Head.ContactPerson;
-            //dr["Customer"] = Head.Customer;
-            //dr["Unit"] = Head.FreezerUnitName;
-            //dr["Technician"] = Head.Technician;
-            //ds.Tables["Head"].Rows.Add(dr);
+            ds.Tables["Items"].Columns.Add("UnitName");
+            ds.Tables["Items"].Columns.Add("SellingPrice");
+            ds.Tables["Items"].Columns.Add("Average");
 
 
-            JobCardTaskRepository repo = new JobCardTaskRepository();
-            var Items = repo.GetJobCardDT(Id);
-            foreach (var item in Items)
-            {
-                var JCItem = new JobCardTask
-                {
-                    TaskDate = item.TaskDate,
-                    Employee = item.Employee,
-                    Description = item.Description,
-                    StartTime = item.StartTime,
-                    EndTime = item.EndTime
-                };
+            OrganizationRepository repo = new OrganizationRepository();
+            var Head = repo.GetOrganization(OrganizationId);
 
-                DataRow dri = ds.Tables["Items"].NewRow();
-                dri["TaskDate"] = JCItem.TaskDate.ToString("dd-MMM-yyyy");
-                dri["Employee"] = JCItem.Employee;
-                dri["Description"] = JCItem.Description;
-                dri["StartTime"] = JCItem.StartTime;
-                dri["EndTime"] = JCItem.EndTime;
-                ds.Tables["Items"].Rows.Add(dri);
-            }
+            DataRow dr = ds.Tables["Head"].NewRow();
+            dr["OrganizationName"] = Head.OrganizationName;
+            dr["OrganizationRefNo"] = Head.OrganizationRefNo;
+            dr["DoorNo"] = Head.DoorNo;
+            dr["Street"] = Head.Street;
+            dr["State"] = Head.State;
+            dr["Phone"] = Head.Phone;
+            dr["Fax"] = Head.Fax;
+            dr["Email"] = Head.Email;
+            dr["ContactPerson"] = Head.ContactPerson;
+            dr["Zip"] = Head.Zip;
+            dr["Image1"] = Head.Image1;
+           
+            ds.Tables["Head"].Rows.Add(dr);
 
-            ds.WriteXml(Path.Combine(Server.MapPath("~/XML"), "JobCard.xml"), XmlWriteMode.WriteSchema);
+
+             ItemSellingPriceRepository repo1 = new ItemSellingPriceRepository();
+             var Items = repo1.GetItemSellingPricesReport(OrganizationId);
+            
+             foreach (var item in Items)
+             {
+                 
+                 DataRow dri = ds.Tables["Items"].NewRow();
+                 dri["ItemName"] = item.ItemName;
+                 dri["PartNo"] = item.PartNo;
+                 dri["CategoryName"] = item.CategoryName;
+                 dri["ItemGroupName"] = item.ItemGroupName;
+                 dri["ItemSubGroupName"] = item.ItemSubGroupName;
+                 dri["UnitName"] = item.UnitName;
+                 dri["SellingPrice"] = item.SellingPrice;
+                 dri["Average"] = item.Average;
+                 ds.Tables["Items"].Rows.Add(dri);
+             }
+
+            ds.WriteXml(Path.Combine(Server.MapPath("~/XML"), "ItemSellingPrice.xml"), XmlWriteMode.WriteSchema);
 
             rd.SetDataSource(ds);
 
@@ -122,7 +124,7 @@ namespace ArabErp.Web.Controllers
             {
                 Stream stream = rd.ExportToStream(CrystalDecisions.Shared.ExportFormatType.PortableDocFormat);
                 stream.Seek(0, SeekOrigin.Begin);
-                return File(stream, "application/pdf", String.Format("JobCard{0}.pdf", Id.ToString()));
+                return File(stream, "application/pdf", String.Format("ItemSellingPrice.pdf"));
             }
             catch (Exception ex)
             {
