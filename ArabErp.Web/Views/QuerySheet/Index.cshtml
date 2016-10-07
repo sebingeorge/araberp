@@ -48,7 +48,14 @@
         window.location = url;
     }
     function Exit() {
-        location.href = '@Url.Action("CreateQuerySheet", "QuerySheet")';
+        if('@ViewBag.Type'=='Unit')
+        {
+        var url = '@Url.Action("PendingQuerySheetforUnit")';
+        }
+        else
+        {
+        var url = '@Url.Action("PendingQuerySheetforCosting")';
+        }
         window.location = url;
     }
 
