@@ -75,7 +75,7 @@ namespace ArabErp.DAL
                                         QuotationStage,Competitors,PaymentTerms,DiscountRemarks,CreatedBy,CreatedDate,OrganizationId,isProjectBased,isAfterSales,QuerySheetId,isWarranty, ProjectCompletionId, DeliveryChallanId, Discount)
                                         Values (@QuotationRefNo,@QuotationDate,@CustomerId,@ContactPerson,@SalesExecutiveId,@PredictedClosingDate,@QuotationValidToDate,
                                         @ExpectedDeliveryDate,@IsQuotationApproved,@ApprovedBy,@TotalWorkAmount,@TotalMaterialAmount,@GrandTotal,@CurrencyId,@QuotationStatus,@Remarks,@SalesQuotationStatusId,
-                                        @QuotationStage,@Competitors,@PaymentTerms,@DiscountRemarks,@CreatedBy,@CreatedDate,@OrganizationId,@isProjectBased,@isAfterSales,NULLIF(@QuerySheetId, 0),@isWarranty, NULLIF(@ProjectCompletionId, 0), NULLIF(@DeliveryChallanId, 0), Discount);
+                                        @QuotationStage,@Competitors,@PaymentTerms,@DiscountRemarks,@CreatedBy,@CreatedDate,@OrganizationId,@isProjectBased,@isAfterSales,NULLIF(@QuerySheetId, 0),@isWarranty, NULLIF(@ProjectCompletionId, 0), NULLIF(@DeliveryChallanId, 0), @Discount);
                                         SELECT CAST(SCOPE_IDENTITY() as int) SalesQuotationId";
 
                     model.SalesQuotationId = connection.Query<int>(sql, model, trn).First<int>();
@@ -523,16 +523,16 @@ namespace ArabErp.DAL
         {
             using (IDbConnection connection = OpenConnection(dataConnection))
             {
+                string table = type.StartsWith("Project") ? "ProjectCompletion" : "DeliveryChallan";
                 string sql = @"IF(
 	                                (SELECT CONVERT(DATE, " + type + @"WarrantyExpiryDate, 106) 
-	                                FROM DeliveryChallan WHERE DeliveryChallanId = @id) 
+	                                FROM " + table + @" WHERE " + table + @"Id = @id) 
 	                                < CONVERT(DATE, GETDATE(), 106)
                                   )
                                   SELECT 'false'
                                   ELSE SELECT 'true'";
                 var isWarranty = connection.Query<bool>(sql, new { id = id }).First();
                 return isWarranty;
-
             }
         }
     }

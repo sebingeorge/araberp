@@ -443,24 +443,47 @@
                         {
                             @Html.CheckBoxFor(m => m.isWarranty, new { @class = "chk CheckBoxClass warranty", autocomplete = "off" })
                         }
-                        <span class="text">
-                            <b>Warranty</b>
-                            <a id="warranty-link"
-                               data-toggle="popover"
-                               data-html="true"
-                               data-placement="left"
-                               title="Warranty details"
-                               data-content="Delivery Challan No.:
-                                <b>@Model.DeliveryChallanDetails.DeliveryChallanRefNo</b>
+                        @if (Model.isProjectBased)
+                        {
+                            <span class="text">
+                                <b>Warranty</b>
+                                    <a id="warranty-link"
+                                       data-toggle="popover"
+                                       data-html="true"
+                                       data-placement="left"
+                                       title="Warranty details"
+                                       data-content="Project Completion No.:
+                                        <b>@Model.ProjectCompleionDetails.ProjectCompletionRefNo</b>
+                                        <br />
+                                        Project Completion Date: <b>@Model.ProjectCompleionDetails.ProjectCompletionDate.ToString("dd/MMMM/yyyy")</b>
+                                    <br />
+                                    Warranty Expiry Date: <b>@Model.ProjectCompleionDetails.ProjectWarrantyExpiryDate.ToString("dd/MMMM/yyyy")</b>"
+                                    style="text-decoration:none;cursor:pointer">
+                                    (Show details)
+                                </a>
+                            </span>
+                        }
+                        else
+                        {
+                            <span class="text">
+                                <b>Warranty</b>
+                                <a id="warranty-link"
+                                   data-toggle="popover"
+                                   data-html="true"
+                                   data-placement="left"
+                                   title="Warranty details"
+                                   data-content="Delivery Challan No.:
+                                    <b>@Model.DeliveryChallanDetails.DeliveryChallanRefNo</b>
+                                    <br />
+                                    Delivery Challan Date: <b>@Model.DeliveryChallanDetails.DeliveryChallanDate.ToString("dd/MMMM/yyyy")</b>
                                 <br />
-                                Delivery Challan Date: <b>@Model.DeliveryChallanDetails.DeliveryChallanDate.ToString("dd/MMMM/yyyy")</b>
-                            <br />
-                            Warranty Expiry Date: <b>@Model.DeliveryChallanDetails.TransportWarrantyExpiryDate.ToString("dd/MMMM/yyyy")</b>"
-                            style="text-decoration:none;cursor:pointer"
-                            onclick="OnWarrantyClick()">
-                            (Show details)
-                        </a>
-                    </span>
+                                Warranty Expiry Date: <b>@Model.DeliveryChallanDetails.TransportWarrantyExpiryDate.ToString("dd/MMMM/yyyy")</b>"
+                                style="text-decoration:none;cursor:pointer"
+                                onclick="OnWarrantyClick()">
+                                (Show details)
+                                </a>
+                            </span>
+                        }
                 </div>
                 }
 

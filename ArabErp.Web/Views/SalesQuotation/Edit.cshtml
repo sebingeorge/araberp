@@ -79,6 +79,9 @@
     }
 
     $(document).ready(function () {
+
+        $('[data-toggle="popover"]').popover();
+
         toastr.options = {
             "closeButton": true,
             "positionClass": "toast-bottom-full-width",
@@ -338,17 +341,71 @@
                 @Html.TextBoxFor(m => m.ExpectedDeliveryDate, Model.ExpectedDeliveryDate.ToString("dd/MMMM/yyyy"), new { @class = "form_input", autocomplete = "off" })
 
                 </div>
-                @if (Model.isProjectBased || Model.isProjectBased && Model.isAfterSales)
+                @if (Model.isProjectBased && !Model.isAfterSales)
                 {
                     <div class="col-md-2">
 
-                        <label for="selectCustomer">Query Sheet No.</label>
+                        <label for="QuerySheetId">Query Sheet No.</label>
 
                         @Html.DropDownListFor(m => Model.QuerySheetId, (SelectList)ViewBag.QuerySheetNolist, "Select Query Sheet", new { @class = "form_input", autocomplete = "off" })
 
                     </div>
                 }
+                @if (Model.isAfterSales)
+                {
 
+                    <div class="col-md-2" style="padding-top: 25px;padding-left: 32px;">
+                        @if (actionName == "Approve")
+                        {
+                            @Html.CheckBoxFor(m => m.isWarranty, new { @class = "chk CheckBoxClass warranty", autocomplete = "off", @disabled = "true" })
+                        }
+                        else
+                        {
+                            @Html.CheckBoxFor(m => m.isWarranty, new { @class = "chk CheckBoxClass warranty", autocomplete = "off" })
+                        }
+                        @if (Model.isProjectBased)
+                        {
+                            <span class="text">
+                                <b>Warranty</b>
+                                <a id="warranty-link"
+                                   data-toggle="popover"
+                                   data-html="true"
+                                   data-placement="left"
+                                   title="Warranty details"
+                                   data-content="Project Completion No.:
+                                    <b>@Model.ProjectCompleionDetails.ProjectCompletionRefNo</b>
+                                    <br />
+                                    Project Completion Date: <b>@Model.ProjectCompleionDetails.ProjectCompletionDate.ToString("dd/MMMM/yyyy")</b>
+                                    <br />
+                                    Warranty Expiry Date: <b>@Model.ProjectCompleionDetails.ProjectWarrantyExpiryDate.ToString("dd/MMMM/yyyy")</b>"
+                                    style="text-decoration:none;cursor:pointer">
+                                    (Show details)
+                                </a>
+                            </span>
+                        }
+                        else
+                        {
+                            <span class="text">
+                                <b>Warranty</b>
+                                <a id="warranty-link"
+                                   data-toggle="popover"
+                                   data-html="true"
+                                   data-placement="left"
+                                   title="Warranty details"
+                                   data-content="Delivery Challan No.:
+                                    <b>@Model.DeliveryChallanDetails.DeliveryChallanRefNo</b>
+                                    <br />
+                                    Delivery Challan Date: <b>@Model.DeliveryChallanDetails.DeliveryChallanDate.ToString("dd/MMMM/yyyy")</b>
+                                    <br />
+                                    Warranty Expiry Date: <b>@Model.DeliveryChallanDetails.TransportWarrantyExpiryDate.ToString("dd/MMMM/yyyy")</b>"
+                                    style="text-decoration:none;cursor:pointer"
+                                    onclick="OnWarrantyClick()">
+                                    (Show details)
+                                </a>
+                            </span>
+                        }
+                    </div>
+                }
 
             </div>
             <div class="row form-group ">

@@ -182,10 +182,7 @@ namespace ArabErp.Web.Controllers
             salesquotation.SalesQuotationItems[0].UnitName = "Nos";
             ViewBag.SubmitAction = "Save";
             salesquotation.isWarranty = new SalesQuotationRepository().isUnderWarranty(id, "Transport");
-            if (salesquotation.isWarranty)
-            {
-                salesquotation.DeliveryChallanDetails = new DeliveryChallanRepository().GetDeliveryChallan(id);
-            }
+            salesquotation.DeliveryChallanDetails = new DeliveryChallanRepository().GetDeliveryChallan(id);
 
             return View("Create", salesquotation);
         }
@@ -260,10 +257,8 @@ namespace ArabErp.Web.Controllers
             salesquotation.SalesQuotationItems[0].UnitName = "Nos";
             ViewBag.SubmitAction = "Save";
             salesquotation.isWarranty = new SalesQuotationRepository().isUnderWarranty(id, "Project");
-            if (salesquotation.isWarranty)
-            {
+            salesquotation.ProjectCompleionDetails = new ProjectCompletionRepository().GetProjectCompletion(id);
 
-            }
             return View("Create", salesquotation);
         }
 
@@ -345,9 +340,11 @@ namespace ArabErp.Web.Controllers
             else if (salesquotation.isAfterSales)
             {
                 FillWrkDescAfterSales();
-
+                if (salesquotation.isProjectBased)
+                    salesquotation.ProjectCompleionDetails = new ProjectCompletionRepository().GetProjectCompletion(salesquotation.ProjectCompletionId);
+                else
+                    salesquotation.DeliveryChallanDetails = new DeliveryChallanRepository().GetDeliveryChallan(salesquotation.DeliveryChallanId);
             }
-
 
             salesquotation.CustomerAddress = sorepo.GetCusomerAddressByKey(salesquotation.CustomerId);
             salesquotation.SalesQuotationItems = repo.GetSalesQuotationItems(id);
