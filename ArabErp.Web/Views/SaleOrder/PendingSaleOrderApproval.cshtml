@@ -2,7 +2,7 @@
 @using ArabErp.Domain
 @model IEnumerable<PendingSO>
 @{
-    ViewBag.Title = "Pending SaleOrder Approval";
+    ViewBag.Title = "Pending Sale Order Approval";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 @{
@@ -15,19 +15,19 @@
         <div class="form-head1">
             @if (actionName == "PendingSaleOrderApproval")
             {
-                <h4>Pending SaleOrder Approval</h4>
+                <h4>Pending Sale Order Approval</h4>
             }
             else if (actionName == "PendingSaleOrderApprovalWR")
             {
-                <h4>Pending SaleOrder Approval - Workshop Request</h4>
+                <h4>Pending Sale Order Approval - Workshop Request</h4>
             }
             else if (actionName == "PendingSaleOrderApprovalJC")
             {
-                <h4>Pending SaleOrder Approval - Job Card</h4>
+                <h4>Pending Sale Order Approval - Job Card</h4>
             }
             else if (actionName == "PendingSaleOrderApprovalDEL")
             {
-                <h4>Pending SaleOrder Approval - Delivery Challan</h4>
+                <h4>Pending Sale Order Approval - Delivery Challan</h4>
             }            
         </div>
 
@@ -39,14 +39,14 @@
                         <table class="table table-bordered">
                             <thead>
                                 <tr class="grid_heading">
-                                    <th width="12%"><h1>SO.No. & Date</h1></th>
+                                    <th width="12%"><h1>SO No. & Date</h1></th>
                                     <th width="21%"><h1>Customer</h1></th>
                                     <th width="12%"><h1>Customer Order Ref.</h1></th>
                                     <th width="15%"><h1>Employee</h1></th>
-                                    <th width="10%"><h1>Total Amount</h1></th>
-                                    <th width="10%"><h1>Ageing</h1></th>
-                                    <th width="10%"><h1>Days Left</h1></th>
-                                    <th width="10%"><center><h1></h1></center></th>
+                                    <th width="1%" nowrap><h1>Total Amount</h1></th>
+                                    <th width="1%"><h1>Ageing</h1></th>
+                                    <th width="1%" nowrap><h1>Days Left</h1></th>
+                                    <th width="1%"><center><h1></h1></center></th>
                                 </tr>
                             </thead>
                             <tbody class="grid_row">
@@ -59,7 +59,7 @@
                                             <td class="grid-cell">@item.CustomerName</td>
                                             <td class="grid-cell">@item.CustomerOrderRef</td>
                                             <td class="grid-cell">@item.EmployeeName</td>
-                                            <td class="grid-cell">@item.TotalAmount</td>
+                                            <td class="grid-cell text-right">@item.TotalAmount</td>
                                             <td class="grid-cell">@item.Ageing</td>
                                             <td class="grid-cell">@item.Remaindays</td>
                                             <td><center><button class="form-button4">@Html.ActionLink("Select", "Approval", "SaleOrder", new { SaleOrderId = @item.SaleOrderId }, null)</button></center></td>

@@ -95,11 +95,11 @@
                     @Html.DropDownListFor(m => m.JobCardId, (SelectList)ViewBag.jobcardList, "Select Job Card", new { @class = "form_input", @required = "true", @onchange = "OnJobCardChanged(this)" })
                 </div>
                 <div class="col-md-2">
-                    <label for="JobCardDate">JobCard Date</label>
+                    <label for="JobCardDate">Job Card Date</label>
                     @Html.TextBoxFor(m => m.JobCardDate, new { @class = "form_input", @readonly = "true" })
                 </div>
                 <div class="col-md-2">
-                    <label for="SONoDate">SO.No. &amp; Date</label>
+                    <label for="SONoDate">SO No. &amp; Date</label>
                     @Html.TextBoxFor(m => m.SONoDate, new { @class = "form_input", @readonly = "true" })
                 </div>
                 <div class="col-md-2">
