@@ -3,6 +3,40 @@
     ViewBag.Title = "PendingQuerySheet";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
+<script>
+    $(document).ready(function () {
+
+        //---------------------toastr---------------------------//
+        toastr.options = {
+            "positionClass": "toast-bottom-full-width",
+            "timeOut": "5000",
+            "extendedTimeOut": "2000"
+        }
+        if ('@TempData["success"]' != '') {
+            toastr.success('@TempData["success"]');
+        }
+        else if ('@TempData["error"]' != '') {
+            toastr.error('@TempData["error"]'.split('|')[0]);
+            console.log('@TempData["error"]'.split('|')[1]);
+        }
+        @{ TempData["success"] = TempData["error"] = ""; }
+        //------------------------------------------------------//
+    })
+
+    function PreviousList(type) {
+       
+        var url = '@Url.Action("Index")';
+        url += "?Type=" + type;
+        window.location = url;
+       
+        
+    }
+    function Exit() {
+
+        location.href = '@Url.Action("Index", "Home")';
+    }
+
+</script>
 <div class="row">
 
     <div class="form-head1">
@@ -16,7 +50,7 @@
                 <table class="table table-bordered">
                     <thead>
                         <tr class="grid_heading">
-                            <th width="30%"><h1>Query Sheet No.</h1></th>
+                            <th width="30%"><h1>Query Sheet Ref.No.</h1></th>
                             <th width="15%"><h1>Date</h1></th>
                             <th width="15%"><h1>Project Name</h1></th>
                             <th width="10%"><h1>Contact Person</h1></th>
@@ -38,9 +72,16 @@
                 </table>
             </div>
 
-
+            <div class="row-count1">
+                <h5>Row Count:- @Model.Count()</h5>
+            </div>
         </div>
-
+        <div class="row">
+            <div class="col-md-12 hrpart">
+                <input class="form-button" type="button" value="Previous" onclick="PreviousList('@ViewBag.Type')" />
+                <input class="form-button right" type="button" value="Exit" onclick="Exit()" />
+            </div>
+        </div>
 
     </div>
 

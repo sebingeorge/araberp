@@ -134,13 +134,11 @@
         location.href = '@Url.Action("Index", "Home")';
         }
 
-    function PreviousList(type) {
-       
+    function PreviousList(type)
+        {
         var url = '@Url.Action("Index")';
         url += "?Type=" + type;
         window.location = url;
-       
-            @*window.location = '@Url.Action("Index", "QuerySheet", new { type })'*@
         }
 
         $(function ()
@@ -282,7 +280,7 @@
                     <th width="5%" nowrap><h1>Electrical Power</h1></th>
                     <th width="5%"><h1>Kilowatt</h1></th>
                     <th width="10%"><h1>Unit&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</h1></th>
-                    <th width="5%"><h1>Cost</h1></th>
+                    <th width="5%"><h1>Cost&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</h1></th>
                         }
                     <th width="1%" class="text-center"></th>
 
