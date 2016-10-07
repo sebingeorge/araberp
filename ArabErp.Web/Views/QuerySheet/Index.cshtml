@@ -65,7 +65,7 @@
         var from = $("#txtFrom").val();
         var to = $("#txtTo").val();
         var url = '@Url.Action("QuerySheetList")';
-        url += "?from=" + from + "&to=" + to + "&querysheet=" + encodeURIComponent(querysheet);
+        url += "?from=" + from + "&to=" + to + "&querysheet=" + encodeURIComponent(querysheet) + "&Type=" + '@ViewBag.Type';
 
         $("#querysheetlist").load(url, function () {
             $("#querysheetlist").removeClass("fade");

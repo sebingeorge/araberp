@@ -51,7 +51,7 @@ namespace ArabErp.DAL
                                 inner join  SupplyOrderItem SI on S.SupplyOrderId=SI.SupplyOrderId
                                 inner join PurchaseRequestItem PI on PI.PurchaseRequestItemId=SI.PurchaseRequestItemId 
                                 inner join Item I on PI.ItemId=I.ItemId
-								left join SupplyOrderFollowup SF on SF.SupplyOrderItemId=SI.SupplyOrderItemId where SF.OrganizationId=@OrganizationId and ItemName LIKE '%'+@name+'%' 
+								left join SupplyOrderFollowup SF on SF.SupplyOrderItemId=SI.SupplyOrderItemId where S.OrganizationId=@OrganizationId and ItemName LIKE '%'+@name+'%' 
                                 and  SupplierName Like '%'+@SupplierName+'%' and BatchRequired = ISNULL(@batch,BatchRequired)";
 
                // model.SupplyOrderFollowups = connection.Query<SupplyOrderFollowup>(query).ToList<SupplyOrderFollowup>();
