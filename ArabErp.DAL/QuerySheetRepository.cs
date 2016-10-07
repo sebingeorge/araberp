@@ -27,14 +27,6 @@ namespace ArabErp.DAL
                              SELECT CAST(SCOPE_IDENTITY() as int)";
 
                     var id = connection.Query<int>(sql, objQuerySheet, txn).Single();
-                    if(@objQuerySheet.Type=="Costing")
-                    {
-                        foreach (ProjectCost item in objQuerySheet.Items)
-                        {
-                            item.QuerySheetId = id;
-                            new ProjectCostRepository().InsertProjectCosting(item, connection, txn);
-                        }
-                    }
                    
 
                     foreach (QuerySheetItem item in objQuerySheet.QuerySheetItems)
@@ -92,16 +84,16 @@ namespace ArabErp.DAL
             }
         }
 
-        public IList<QuerySheet> GetQuerySheets(string querysheet, int OrganizationId, DateTime? from, DateTime? to)
+        public IList<QuerySheet> GetQuerySheets(string Type,string querysheet, int OrganizationId, DateTime? from, DateTime? to)
         {
             using (IDbConnection connection = OpenConnection(dataConnection))
             {
                 string sql = @"select * from QuerySheet
                                 where isActive=1 and OrganizationId = @OrganizationId
 	                            and QuerySheetDate BETWEEN ISNULL(@from, DATEADD(MONTH, -1, GETDATE())) AND ISNULL(@to, GETDATE())
-	                            AND QuerySheetRefNo LIKE '%'+@querysheet+'%'
+	                            AND QuerySheetRefNo LIKE '%'+@querysheet+'%' and Type=@Type
                                 ORDER BY QuerySheetDate DESC, CreatedDate DESC";
-                return connection.Query<QuerySheet>(sql, new { OrganizationId = OrganizationId, querysheet = querysheet, to = to, from = from }).ToList();
+                return connection.Query<QuerySheet>(sql, new { Type = Type, OrganizationId = OrganizationId, querysheet = querysheet, to = to, from = from }).ToList();
 
             }
         }
@@ -193,11 +185,11 @@ namespace ArabErp.DAL
 
                     connection.Execute(query, new { QuerySheetId = model.QuerySheetId }, txn);
 
-                    foreach (ProjectCost item in model.Items)
-                    {
-                        item.QuerySheetId = model.QuerySheetId;
-                        new ProjectCostRepository().InsertProjectCosting(item, connection, txn);
-                    }
+                    //foreach (ProjectCost item in model.Items)
+                    //{
+                    //    item.QuerySheetId = model.QuerySheetId;
+                    //    new ProjectCostRepository().InsertProjectCosting(item, connection, txn);
+                    //}
 
                     foreach (QuerySheetItem item in model.QuerySheetItems)
                     {
@@ -259,6 +251,8 @@ namespace ArabErp.DAL
                 }
             }
         }
+
+      
         public List<QuerySheet> GetPendingQuerySheetforUnit()
         {
             using (IDbConnection connection = OpenConnection(dataConnection))

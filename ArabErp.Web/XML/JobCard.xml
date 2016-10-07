@@ -52,14 +52,15 @@
     </xs:element>
   </xs:schema>
   <Head>
-    <JobCardNo>JC-16/33</JobCardNo>
-    <JobCardDate>21-Sep-2016</JobCardDate>
+    <JobCardNo>JC-16/40</JobCardNo>
+    <JobCardDate>28-Sep-2016</JobCardDate>
     <SaleOrderRefNo>SO/P-16/40</SaleOrderRefNo>
     <CustomerName>M/S Al Rashid Ice Factory,1fg,fg</CustomerName>
     <Phone>54</Phone>
     <ContactPerson>54</ContactPerson>
+    <Unit>Thermal Master T2500</Unit>
     <Customer>M/S Al Rashid Ice Factory</Customer>
-    <Technician>Deepak</Technician>
+    <Technician>Albert</Technician>
   </Head>
   <Org>
     <OrganizationName>Arab</OrganizationName>
@@ -75,15 +76,8 @@
     <Image1>d78b1f4b-a670-480f-97df-c1e6fe215170.png</Image1>
   </Org>
   <Items>
-    <TaskDate>21-Sep-2016</TaskDate>
-    <Employee>Deepak</Employee>
-    <Description>Job work</Description>
-    <StartTime>0.00</StartTime>
-    <EndTime>0.00</EndTime>
-  </Items>
-  <Items>
-    <TaskDate>21-Sep-2016</TaskDate>
-    <Employee>Sreekanth</Employee>
+    <TaskDate>28-Sep-2016</TaskDate>
+    <Employee>Albert</Employee>
     <Description>Job work</Description>
     <StartTime>0.00</StartTime>
     <EndTime>0.00</EndTime>
