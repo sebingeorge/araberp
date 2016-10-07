@@ -44,7 +44,7 @@ namespace ArabErp.Domain
         [Required]
         public int? AddDedId { get; set; }
         public decimal ExpenseItemRate { get;set;}
-        public decimal ExpenseItemQty { get; set; }
+        public int ExpenseItemQty { get; set; }
         public decimal ExpenseItemAmount { get; set; }
         public int ExpenseItemAddDed { get; set; }
     }

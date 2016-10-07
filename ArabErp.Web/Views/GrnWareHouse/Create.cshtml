@@ -360,7 +360,7 @@
                         <th width="5%" class="text-right" style="vertical-align:middle"><h1>Received Qty.</h1></th>
                         <th width="5%" class="text-right" style="vertical-align:middle"><h1>Accepted Qty.</h1></th>
                         <th width="5%" class="text-right" style="vertical-align:middle"><h1>Rejected Qty.</h1></th>
-                        <th width="5%" class="text-right" style="vertical-align:middle"><h1>UoM</h1></th>
+                        <th width="5%" style="vertical-align:middle"><h1>UoM</h1></th>
                         <th width="7%" class="text-right" style="vertical-align:middle"><h1>Rate</h1></th>
                         <th width="6%" class="text-right" style="vertical-align:middle"><h1>Discount</h1></th>
                         <th width="7%" class="text-right" style="vertical-align:middle"><h1>Amount</h1></th>
@@ -394,7 +394,7 @@
                                 <td>@Html.TextBoxFor(m => m.Items[i].ReceivedQuantity, new { @class = "form_input clQuantity numbers-only", @style = "text-align:right", autocomplete = "off", placeholder = "Qty", @onkeyup = "ValueChanged(" + i + ");", @onchange = "ValidateRow(" + i + ")", @required = "true" })</td>
                                 <td>@Html.TextBoxFor(m => m.Items[i].AcceptedQuantity, new { @class = "form_input clQuantity numbers-only", @style = "text-align:right", autocomplete = "off", placeholder = "Qty", @onkeyup = "ValueChanged(" + i + ");", @onchange = "ValidateRow(" + i + ")", @required = "true" })</td>
                                 <td>@Html.TextBoxFor(m => m.Items[i].RejectedQuantity, new { @class = "form_input", @style = "text-align:right", autocomplete = "off", @disabled = "true" })</td>
-                                <td>@Html.TextBoxFor(m => m.Items[i].Unit, new { @class = "form_input ", @style = "text-align:right", autocomplete = "off", @disabled = "true" })</td>
+                                <td>@Html.TextBoxFor(m => m.Items[i].Unit, new { @class = "form_input", autocomplete = "off", @disabled = "true", @style = "text-align:left" })</td>
                                 <td>@Html.TextBoxFor(m => m.Items[i].Rate, new { @class = "form_input numbers-only", @style = "text-align:right", autocomplete = "off", @onkeyup = "ValueChanged(" + i + ");", @required = "true" })</td>
                                 <td>@Html.TextBoxFor(m => m.Items[i].Discount, new { @class = "form_input numbers-only", @style = "text-align:right", autocomplete = "off", @onkeyup = "ValueChanged(" + i + ");", @required = "true" })</td>
                                 <td>@Html.TextBoxFor(m => m.Items[i].Amount, new { @class = "form_input clAmount", @style = "text-align:right", autocomplete = "off", @disabled = "true" })</td>
@@ -517,7 +517,7 @@
                                                 <tr class="grid_heading">
                                                     <th width="2%"></th>
                                                     <th style="width:90%;">Addition</th>
-                                                    <th style="width:15%;">Amount</th>
+                                                    <th style="width:15%; text-align:right ">Amount</th>
                                                     <th width="2%">&nbsp;</th>
                                                     @*<th></th>*@
                                                 </tr>
@@ -533,7 +533,7 @@
                                                         <td>
                                                             @Html.HiddenFor(m => m.Additions[i].GRNId)
                                                             <input type="hidden" id="Row_@i" />
-                                                            @Html.DropDownListFor(m => @Model.Additions[i].AdditionId, new SelectList(ViewBag.additionList, "Value", "Text", @Model.Additions[i].AdditionId), "Select addition", new { @class = "form_input"})
+                                                            @Html.DropDownListFor(m => @Model.Additions[i].AdditionId, new SelectList(ViewBag.additionList, "Value", "Text", @Model.Additions[i].AdditionId), "select addition", new { @class = "form_input"})
                                                         </td>
                                                         <td>
                                                            @Html.TextBoxFor(m => @Model.Additions[i].Addition, new { @class = "form_input numbers-only claddamt", @style = "text-align:right", autocomplete = "off", @Value = "0.00", @onkeyup = "AdditionAmount(" + i + ");" })
@@ -556,7 +556,7 @@
                                                 <tr class="grid_heading">
                                                     <th width="2%"></th>
                                                     <th style="width:90%;">Deduction</th>
-                                                    <th style="width:15%;">Amount</th>
+                                                    <th style="width:15%;text-align:right">Amount</th>
                                                     <th width="2%">&nbsp;</th>
                                                     @*<th></th>*@
                                                 </tr>
@@ -572,7 +572,7 @@
                                                         <td>
                                                             @Html.HiddenFor(m => m.Deductions[i].GRNId)
                                                             <input type="hidden" id="Row_@i" />
-                                                            @Html.DropDownListFor(m => @Model.Deductions[i].DeductionId, new SelectList(ViewBag.deductionList, "Value", "Text", @Model.Deductions[i].DeductionId), "Select Deduction", new { @class = "form_input" })
+                                                            @Html.DropDownListFor(m => @Model.Deductions[i].DeductionId, new SelectList(ViewBag.deductionList, "Value", "Text", @Model.Deductions[i].DeductionId), "select deduction", new { @class = "form_input" })
                                                         </td>
                                                         <td>
                                                             @Html.TextBoxFor(m => @Model.Deductions[i].Deduction, new { @class = "form_input numbers-only cldedamt", @style = "text-align:right", autocomplete = "off", @Value = "0.00", @onkeyup = "DeductionAmount(" + i + ");" })

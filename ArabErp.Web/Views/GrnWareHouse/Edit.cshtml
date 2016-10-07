@@ -314,7 +314,7 @@
                         <th width="5%" class="text-right" style="vertical-align:middle"><h1>Received Qty.</h1></th>
                         <th width="5%" class="text-right" style="vertical-align:middle"><h1>Accepted Qty.</h1></th>
                         <th width="5%" class="text-right" style="vertical-align:middle"><h1>Rejected Qty.</h1></th>
-                        <th width="5%" class="text-right" style="vertical-align:middle"><h1>UoM</h1></th>
+                        <th width="5%" style="vertical-align:middle"><h1>UoM</h1></th>
                         <th width="7%" class="text-right" style="vertical-align:middle"><h1>Rate</h1></th>
                         <th width="6%" class="text-right" style="vertical-align:middle"><h1>Discount</h1></th>
                         <th width="7%" class="text-right" style="vertical-align:middle"><h1>Amount</h1></th>
@@ -348,7 +348,7 @@
                                 <td>@Html.TextBoxFor(m => m.Items[i].ReceivedQuantity, new { @class = "form_input clQuantity numbers-only", @style = "text-align:right", autocomplete = "off", placeholder = "Qty", @onkeyup = "ValueChanged(" + i + ");", @onchange = "ValidateRow(" + i + ")", @required = "true" })</td>
                                 <td>@Html.TextBoxFor(m => m.Items[i].AcceptedQuantity, new { @class = "form_input clQuantity numbers-only", @style = "text-align:right", autocomplete = "off", placeholder = "Qty", @onkeyup = "ValueChanged(" + i + ");", @onchange = "ValidateRow(" + i + ")", @required = "true" })</td>
                                 <td>@Html.TextBoxFor(m => m.Items[i].RejectedQuantity, new { @class = "form_input", @style = "text-align:right", autocomplete = "off", @disabled = "true" })</td>
-                                <td>@Html.TextBoxFor(m => m.Items[i].Unit, new { @class = "form_input ", @style = "text-align:right", autocomplete = "off", @disabled = "true" })</td>
+                                <td>@Html.TextBoxFor(m => m.Items[i].Unit, new { @class = "form_input ", @style = "text-align:left", autocomplete = "off", @disabled = "true" })</td>
                                 <td>@Html.TextBoxFor(m => m.Items[i].Rate, new { @class = "form_input numbers-only", @style = "text-align:right", autocomplete = "off", @onkeyup = "ValueChanged(" + i + ");", @required = "true" })</td>
                                 <td>@Html.TextBoxFor(m => m.Items[i].Discount, new { @class = "form_input numbers-only", @style = "text-align:right", autocomplete = "off", @onkeyup = "ValueChanged(" + i + ");", @required = "true" })</td>
                                 <td>@Html.TextBoxFor(m => m.Items[i].Amount, new { @class = "form_input clAmount", @style = "text-align:right", autocomplete = "off", @disabled = "true" })</td>
@@ -471,7 +471,7 @@
                                                 <tr class="grid_heading">
                                                     <th width="2%"></th>
                                                     <th style="width:90%;">Addition</th>
-                                                    <th style="width:15%;">Amount</th>
+                                                    <th style="width:15%; text-align:right ">Amount</th>
                                                     <th width="2%">&nbsp;</th>
                                                     @*<th></th>*@
                                                 </tr>
@@ -512,7 +512,7 @@
                                                 <tr class="grid_heading">
                                                     <th width="2%"></th>
                                                     <th style="width:90%;">Deduction</th>
-                                                    <th style="width:15%;">Amount</th>
+                                                    <th style="width:15%;text-align:right ">Amount</th>
                                                     <th width="2%">&nbsp;</th>
                                                     @*<th></th>*@
                                                 </tr>
