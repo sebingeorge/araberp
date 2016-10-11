@@ -23,6 +23,8 @@ namespace ArabErp.Domain
         public bool PendingSupplyOrdForGrn { get; set; }
         public bool DirectPurchaseReqDorApproval { get; set; }
         public bool PendingSOForWorkshopReq { get; set; }
+        public bool PendingProjectSaleOrdersForJobCard { get; set; }
+        public bool PendingTransSaleOrdersForJobCard { get; set; }
     }
     public class GraphPermission
     {

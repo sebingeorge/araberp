@@ -117,18 +117,26 @@ namespace ArabErp.DAL
             }
         }
 
-        public int DeleteSalesInvoiceItem(Unit objSalesInvoiceItem)
+
+        public string DeleteSalesInvoiceItem(int SalesInvoiceId)
         {
             using (IDbConnection connection = OpenConnection(dataConnection))
             {
-                string sql = @"Delete SalesInvoiceItem  OUTPUT DELETED.SalesInvoiceItemId WHERE SalesInvoiceItemId=@SalesInvoiceItemId";
-
-
-                var id = connection.Execute(sql, objSalesInvoiceItem);
-                return id;
+                IDbTransaction txn = connection.BeginTransaction();
+                try
+                {
+                    string query = @"Delete SalesInvoiceItem  OUTPUT DELETED.SalesInvoiceId WHERE SalesInvoiceId=@SalesInvoiceId;";
+                    string output = connection.Query<string>(query, new { SalesInvoiceId = SalesInvoiceId }, txn).First();
+                    txn.Commit();
+                    return output;
+                }
+                catch (Exception ex)
+                {
+                    txn.Rollback();
+                    throw ex;
+                }
             }
         }
-
 
     }
 }

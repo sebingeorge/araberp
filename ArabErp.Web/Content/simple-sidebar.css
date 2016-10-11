@@ -112,6 +112,7 @@ body {
 
         .sidebar-nav > .sidebar-brand a {
             color: #999999;
+                text-indent: 0px;
         }
 
 /*.sidebar-nav > .sidebar-brand a:hover {

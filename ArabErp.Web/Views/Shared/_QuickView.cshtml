@@ -24,6 +24,14 @@
                {
                    total += Model.NoOfWorkShopRequests;
                }
+               if (Model.PendingProjectSaleOrdersForJobCard && alertPermissions.PendingProjectSaleOrdersForJobCard)
+               {
+                   total += Model.NoOfProjectSaleOrdersForJobCard;
+               }
+               if (Model.PendingTransSaleOrdersForJobCard && alertPermissions.PendingTransSaleOrdersForJobCard)
+               {
+                   total += Model.NoOfTransSaleOrdersForJobCard;
+               }
            }
 <ul class="nav navbar-nav">
     <li class="top6"> 
@@ -48,6 +56,28 @@
             @if (Model.PendingWorkshopRequests && alertPermissions.PendingSOForWorkshopReq == true)
             {
                 <li><a href="@Url.Action("Pending", "WorkShopRequest" ,new { isprojectbased=0 })" class="form_input"><span class="badge pull-right">@Model.NoOfWorkShopRequests</span>S.O for Work. Requ.</a></li>
+            }
+            @if (Model.PendingProjectSaleOrdersForJobCard && alertPermissions.PendingProjectSaleOrdersForJobCard)
+            {
+                <li>
+                    <a href="@Url.Action("PendingJobCard", "JobCard", new { isProjectBased = 1 })" class="form_input">
+                        <span class="badge pull-right">
+                            @Model.NoOfProjectSaleOrdersForJobCard
+                        </span>
+                        Prj. SO For Job Card
+                    </a>
+                </li>
+            }
+            @if (Model.PendingTransSaleOrdersForJobCard && alertPermissions.PendingTransSaleOrdersForJobCard)
+            {
+                <li>
+                    <a href="@Url.Action("PendingJobCard", "JobCard", new { isProjectBased = 0 })" class="form_input">
+                        <span class="badge pull-right">
+                            @Model.NoOfTransSaleOrdersForJobCard
+                        </span>
+                        Trn. SO For Job Card
+                    </a>
+                </li>
             }
         </ul>
     </li>
