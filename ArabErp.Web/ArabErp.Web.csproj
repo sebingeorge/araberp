@@ -967,7 +967,7 @@
     <Content Include="Views\ProductionPlan\CustomerOrder.cshtml" />
     <Content Include="Views\ProductionPlan\ProductionSchedule.cshtml" />
     <Content Include="Views\ItemBatch\PendingOpeningStock.cshtml" />
-    <Content Include="Views\ItemBatch\Create - Copy.cshtml" />
+    <Content Include="Views\ItemBatch\Create.cshtml" />
     <Content Include="Views\WorkDescription\ProjectWorkDescriptionList.cshtml" />
     <Content Include="Views\ProductionPlan\Test.cshtml" />
     <Content Include="Views\ProductionPlan\Sale.cshtml" />
