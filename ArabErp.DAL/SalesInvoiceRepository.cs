@@ -65,17 +65,41 @@ namespace ArabErp.DAL
         {
             using (IDbConnection connection = OpenConnection(dataConnection))
             {
-                string sql = @"UPDATE SalesInvoice SET SalesInvoiceDate = @SalesInvoiceDate ,SalesInvoiceDueDate=@SalesInvoiceDueDate,
-                               JobCardId = @JobCardId ,SpecialRemarks = @SpecialRemarks ,PaymentTerms = @PaymentTerms,
-                               CreatedBy = @CreatedBy,CreatedDate = @CreatedDate,OrganizationId = @OrganizationId  
-                               OUTPUT INSERTED.SalesInvoiceId  WHERE SalesInvoiceId = @SalesInvoiceId";
+                IDbTransaction txn = connection.BeginTransaction();
+                string sql = @"UPDATE SalesInvoice SET SalesInvoiceRefNo=@SalesInvoiceRefNo,SalesInvoiceDate = @SalesInvoiceDate ,
+                               SalesInvoiceDueDate=@SalesInvoiceDueDate,SaleOrderId=@SaleOrderId,SpecialRemarks=@SpecialRemarks,
+                               PaymentTerms = @PaymentTerms,Addition=@Addition,Deduction=@Deduction,AdditionRemarks=@AdditionRemarks,
+                               DeductionRemarks=@DeductionRemarks,InvoiceType=@InvoiceType,isProjectBased=@isProjectBased,
+                               CreatedBy = @CreatedBy,CreatedDate = @CreatedDate,OrganizationId = @OrganizationId,TotalAmount=@TotalAmount  
+                               OUTPUT INSERTED.SalesInvoiceRefNo  WHERE SalesInvoiceId = @SalesInvoiceId";
 
+                try
+                {
+                    var id = connection.Execute(sql, objSalesInvoice, txn);
 
-                var id = connection.Execute(sql, objSalesInvoice);
-                InsertLoginHistory(dataConnection, objSalesInvoice.CreatedBy, "Update", "Sales Invoice", id.ToString(), "0");
-                return id;
+                    int i = 0;
+
+                    var SalesInvoiceItemRepo = new SalesInvoiceItemRepository();
+                    foreach (var item in objSalesInvoice.SaleInvoiceItems)
+                    {
+                        item.SalesInvoiceId = objSalesInvoice.SalesInvoiceId;
+
+                        item.OrganizationId = objSalesInvoice.OrganizationId;
+                        SalesInvoiceItemRepo.InsertSalesInvoiceItem(item, connection, txn);
+                    }
+
+                    InsertLoginHistory(dataConnection, objSalesInvoice.CreatedBy, "Update", "Sales Invoice", id.ToString(), objSalesInvoice.OrganizationId.ToString());
+                    txn.Commit();
+                    return id;
+                }
+                catch (Exception ex)
+                {
+                    txn.Rollback();
+                    throw ex;
+                }
             }
         }
+
 
         public int DeleteSalesInvoice(Unit objSalesInvoice)
         {
@@ -431,7 +455,8 @@ namespace ArabErp.DAL
             using (IDbConnection connection = OpenConnection(dataConnection))
             {
 
-                string sql = @" select SI.SaleOrderId,SI.SalesInvoiceRefNo,SI.isProjectBased,SI.SalesInvoiceId,SI.SalesInvoiceDate,SI.SalesInvoiceDueDate,C.CustomerName Customer,
+                string sql = @" select SI.SaleOrderId,SI.SalesInvoiceRefNo,SI.isProjectBased,SI.SalesInvoiceId,
+                                SI.SalesInvoiceDate,SI.SalesInvoiceDueDate,C.CustomerName Customer,
                                 Concat(C.DoorNo,',',C.Street,',',C.State,',',C.Country,',',C.Zip)CustomerAddress,
                                 S.CustomerOrderRef CustomerOrderRef,SI.SpecialRemarks,SI.PaymentTerms,SI.Addition,
                                 SI.Deduction,SI.AdditionRemarks,SI.DeductionRemarks,SI.TotalAmount,SI.InvoiceType
@@ -453,7 +478,8 @@ namespace ArabErp.DAL
             using (IDbConnection connection = OpenConnection(dataConnection))
             {
 
-                string sql = @" select SI.SalesInvoiceId,SI.SaleOrderItemId,SI.JobCardId,W.WorkDescr WorkDescription,SI.Quantity QuantityTxt,SI.Rate,SI.Discount,SI.Amount,U.UnitName Unit,V.VehicleModelName from SalesInvoiceItem SI 
+                string sql = @" select SI.SalesInvoiceId,SI.SaleOrderItemId,SI.JobCardId,W.WorkDescr WorkDescription,SI.Quantity QuantityTxt,
+                                SI.Rate,SI.Discount,SI.Amount,U.UnitName Unit,V.VehicleModelName from SalesInvoiceItem SI 
                                 inner join SaleOrderItem S ON S.SaleOrderItemId=SI.SaleOrderItemId
                                 inner join WorkDescription W ON W.WorkDescriptionId=S.WorkDescriptionId
                                 left join Unit U ON U.UnitId=S.UnitId
