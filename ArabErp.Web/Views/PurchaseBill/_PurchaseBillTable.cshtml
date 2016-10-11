@@ -98,7 +98,7 @@
         <thead>
             <tr class="grid_heading">
 
-                <th width="11%"><h1>GRN No. & Date</h1></th>
+                <th width="12%"><h1>GRN.No. & Date</h1></th>
                 <th width="24%"><h1>Material/Spares</h1></th>
                 <th width="5%" class="text-right "><h1>Qty.</h1></th>
                 <th width="5%" class="text-left"><h1>UoM</h1></th>
@@ -107,7 +107,7 @@
                 <th width="10%" class="text-right "><h1>Assessable value</h1></th>
                 <th width="5%" class="text-right "><h1>Tax%</h1></th>
                 <th width="10%" class="text-right "><h1>Tax Amt.</h1></th>
-                <th width="10%" class="text-right "><h1>Tot.Amt.</h1></th>
+                <th width="9%" class="text-right "><h1>Tot.Amt.</h1></th>
             </tr>
         </thead>
         <tbody>
@@ -137,13 +137,13 @@
     <tfoot>
             <tr class="grid_heading">
 
-                <th width="11%" class="text-center"><h1></h1></th>
+                <th width="11%" class="text-right"><h1>Total</h1></th>
                 <th width="24%" class="text-center"><h1></h1></th>
                 <th width="5%" class="text-center"><h1></h1></th>
                 <th width="5%" class="text-center"><h1></h1></th>
                 <th width="10%" class="text-center"><h1>@Html.DropDownListFor(m => Model.CurrencyId, (SelectList)ViewBag.currlist, "Select Currency", new { @class = "form_input", autocomplete = "off" })
                                                    </h1></th>
-                <th width="10%" class="text-right"><h1>Total</h1></th>
+                <th width="10%" class="text-right"><h1></h1></th>
                 <th width="10%" class="text-right"><h1><span id="TotalAssAmount"></span></h1></th>
                 <th width="5%" class="text-right"><h1></h1></th>
                 <th width="10%" class="text-center"><h1></h1></th>

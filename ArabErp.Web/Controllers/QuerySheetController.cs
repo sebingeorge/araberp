@@ -14,14 +14,14 @@ namespace ArabErp.Web.Controllers
         // GET: QuerySheet
         public ActionResult Index(string type)
         {
-            //FillRefNo();
+            
             ViewBag.Type = type;
             return View();
         }
 
         public ActionResult CreateQuerySheet(string type)
         {
-            //UnitSelection();
+           
             string internalId = "";
             try
             {
@@ -44,15 +44,8 @@ namespace ArabErp.Web.Controllers
             var repo = new QuerySheetRepository();
             qs.QuerySheetItems = new List<QuerySheetItem>();
             qs.QuerySheetItems.Add(new QuerySheetItem());
-            //var PCList = repo.GetProjectCostingParameter();
-            //qs.Items = new List<ProjectCost>();
             qs.QuerySheetRefNo = internalId;
-            //foreach (var item in PCList)
-            //{
-            //    var pcitem = new ProjectCost {CostingId=item.CostingId ,Description = item.Description, Remarks = item.Remarks, Amount = item.Amount };
-            //    qs.Items.Add(pcitem);
-
-            //}
+           
             return View(qs);
         }
 
