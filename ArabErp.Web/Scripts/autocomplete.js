@@ -51,9 +51,11 @@ $(function () {
 
             $("<a>")
               .attr("tabIndex", -1)
-              .attr("title", "Show All Items")
+              .attr("title", "Show all items")
+              .attr("data-container", "body")
               .tooltip()
               //.text("All")
+              .html("<span class='caret arrow'></span>")
               .appendTo(this.wrapper)
               .button({
                   icons: {

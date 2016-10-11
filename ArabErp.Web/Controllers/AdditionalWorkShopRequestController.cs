@@ -74,7 +74,6 @@ namespace ArabErp.Web.Controllers
                     WorkShopRequest WorkShopRequest = new WorkShopRequest();
                     WorkShopRequest = new WorkShopRequestRepository().WorkShopRequestHD(id);
                     WorkShopRequest.Items = new WorkShopRequestItemRepository().WorkShopRequestDT(id);
-                    //WorkShopRequest.AdditionalMaterials = new WorkShopRequestItemRepository().WorkShopRequestDT(id);
                     return View("Edit", WorkShopRequest);
                 }
                 else
@@ -103,7 +102,48 @@ namespace ArabErp.Web.Controllers
             TempData["success"] = "";
             return RedirectToAction("Index");
         }
+        
+        [HttpPost]
+        public ActionResult Edit(WorkShopRequest model)
+        {
 
+            model.OrganizationId = OrganizationId;
+            model.CreatedDate = System.DateTime.Now;
+            model.CreatedBy = UserID.ToString();
+
+
+
+            var repo = new WorkShopRequestRepository();
+            try
+            {
+                new WorkShopRequestRepository().UpdateWorkShopRequest(model);
+                TempData["success"] = "Updated Successfully (" + model.WorkShopRequestRefNo + ")";
+                return RedirectToAction("Index", new { isProjectBased = model.isProjectBased });
+            }
+            catch (Exception)
+            {
+                TempData["error"] = "Some error occurred. Please try again.";
+            }
+
+            return RedirectToAction("Index", new { isProjectBased = model.isProjectBased });
+        }
+        
+        public ActionResult Delete(int id)
+        {
+
+            try
+            {
+                if (id == 0) return RedirectToAction("Index", "Home");
+                string ref_no = new WorkShopRequestRepository().DeleteWorkShopRequest(id);
+                TempData["success"] = "Deleted Successfully (" + ref_no + ")";
+                return RedirectToAction("Index");
+            }
+            catch (Exception)
+            {
+                TempData["error"] = "Some error occured while deleting. Please try again.";
+                return RedirectToAction("Edit", new { id = id });
+            }
+        }
         public void JobCardDropdown()
         {
             ViewBag.JobCardList = new SelectList(new DropdownRepository().JobCardDropdown(), "Id", "Name");

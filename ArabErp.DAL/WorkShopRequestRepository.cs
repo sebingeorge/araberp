@@ -297,6 +297,8 @@ namespace ArabErp.DAL
                 IDbTransaction txn = connection.BeginTransaction();
                 try
                 {
+                    var internalId = DatabaseCommonRepository.GetNewDocNo(connection, model.OrganizationId, 20, true, txn);
+                    model.WorkShopRequestRefNo = internalId.ToString();
                     string query = @"INSERT INTO WorkShopRequest(
                                     WorkShopRequestRefNo, 
                                     WorkShopRequestDate, 
@@ -341,6 +343,7 @@ namespace ArabErp.DAL
                 }
                 catch (Exception)
                 {
+
                     txn.Rollback();
                     return 0;
                 }
@@ -476,8 +479,7 @@ namespace ArabErp.DAL
             using (IDbConnection connection = OpenConnection(dataConnection))
             {
 
-                string sql = @" SELECT WorkShopRequestId,WorkShopRequestRefNo,WorkShopRequestDate,
-                                JobCardId,SO.SaleOrderRefNo,C.CustomerName,WR.CustomerOrderRef,WR.SpecialRemarks,WR.RequiredDate
+                string sql = @" SELECT  WR.*,JobCardId,SO.SaleOrderRefNo,C.CustomerName
                                 FROM WorkShopRequest WR
                                 INNER JOIN SaleOrder SO ON SO.SaleOrderId=WR.SaleOrderId
                                 INNER JOIN Customer C ON C.CustomerId=WR.CustomerId
@@ -487,7 +489,27 @@ namespace ArabErp.DAL
                 {
                     WorkShopRequestId = WorkShopRequestId
                 }).First<WorkShopRequest>();
+                try
+                {
+                    sql = @"SELECT WorkShopRequestId FROM PurchaseRequest WHERE WorkShopRequestId=@WorkShopRequestId";
+                    objWorkShopRequest.Isused = Convert.ToBoolean(connection.Query<int>(sql, new { WorkShopRequestId = WorkShopRequestId }).First());
+                }
+                catch
+                {
+                    objWorkShopRequest.Isused = false;
 
+                }
+                try
+                {
+                    sql = @"SELECT WorkShopRequestId FROM StoreIssue WHERE WorkShopRequestId=@WorkShopRequestId";
+                    objWorkShopRequest.IsStoreused = Convert.ToBoolean(connection.Query<int>(sql, new { WorkShopRequestId = WorkShopRequestId }).First());
+
+                }
+                catch
+                {
+
+                    objWorkShopRequest.IsStoreused = false;
+                }
                 return objWorkShopRequest;
             }
         }
