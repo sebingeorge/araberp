@@ -85,6 +85,8 @@ namespace ArabErp.Web.Controllers
             view.PendingProjectQuotations = true;
             view.PendingSupplyOrders = true;
             view.PendingWorkshopRequests = true;
+            view.PendingProjectSaleOrdersForJobCard = true;
+            view.PendingTransSaleOrdersForJobCard = true;
 
             if (view.PendingProjectQuotations)
             {
@@ -114,6 +116,16 @@ namespace ArabErp.Web.Controllers
                 var rep = new SaleOrderRepository();
                 var slist = rep.GetSaleOrdersPendingWorkshopRequest(OrganizationId,0);
                 view.NoOfWorkShopRequests = slist.Count;
+            }
+            if (view.PendingProjectSaleOrdersForJobCard)
+            {
+                var list = new JobCardRepository().GetPendingSO(1, OrganizationId);
+                view.NoOfProjectSaleOrdersForJobCard = list.Count();
+            }
+            if (view.PendingTransSaleOrdersForJobCard)
+            {
+                var list = new JobCardRepository().GetPendingSO(0, OrganizationId);
+                view.NoOfTransSaleOrdersForJobCard = list.Count();
             }
 
             IEnumerable<ERPAlerts> Alerts;
@@ -150,6 +162,12 @@ namespace ArabErp.Web.Controllers
                             break;
                         case 5:
                             alertpermission.PendingSOForWorkshopReq = true;
+                            break;
+                        case 6:
+                            alertpermission.PendingProjectSaleOrdersForJobCard = true;
+                            break;
+                        case 7:
+                            alertpermission.PendingTransSaleOrdersForJobCard = true;
                             break;
                         default:
                             break;
