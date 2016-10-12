@@ -88,7 +88,7 @@ namespace ArabErp.Web.Controllers
             dr["Email"] = Head.Email;
             dr["ContactPerson"] = Head.ContactPerson;
             dr["Zip"] = Head.Zip;
-            dr["Image1"] = Head.Image1;
+            dr["Image1"] = Server.MapPath("~/App_images/") + Head.Image1; 
            
             ds.Tables["Head"].Rows.Add(dr);
 

@@ -187,14 +187,27 @@ namespace ArabErp.Web.Controllers
             ds.Tables["Head"].Columns.Add("RegistrationNo");
             ds.Tables["Head"].Columns.Add("JobCardNo");
             ds.Tables["Head"].Columns.Add("TotalAmount");
+            ds.Tables["Head"].Columns.Add("Image1");
+            ds.Tables["Head"].Columns.Add("OrganizationName");
+            ds.Tables["Head"].Columns.Add("OrganizationRefNo");
+            ds.Tables["Head"].Columns.Add("DoorNo");
+            ds.Tables["Head"].Columns.Add("Street");
+            ds.Tables["Head"].Columns.Add("State");
+            ds.Tables["Head"].Columns.Add("Country");
+            ds.Tables["Head"].Columns.Add("Phone");
+            ds.Tables["Head"].Columns.Add("Fax");
+            ds.Tables["Head"].Columns.Add("Email");
+            ds.Tables["Head"].Columns.Add("ContactPerson");
+            ds.Tables["Head"].Columns.Add("Zip");
             ds.Tables["Items"].Columns.Add("Quantity");
             ds.Tables["Items"].Columns.Add("WorkDescription");
             ds.Tables["Items"].Columns.Add("WorkDescriptionRefNo");
             ds.Tables["Items"].Columns.Add("Rate");
             ds.Tables["Items"].Columns.Add("Amount");
             ds.Tables["Items"].Columns.Add("Unit");
+
             SalesInvoiceRepository repo = new SalesInvoiceRepository();
-            var Head = repo.GetSalesInvoiceHdforPrint(Id);
+            var Head = repo.GetSalesInvoiceHdforPrint(Id,OrganizationId);
 
             DataRow dr = ds.Tables["Head"].NewRow();
             dr["SalesInvoiceRefNo"] = Head.SalesInvoiceRefNo;
@@ -207,6 +220,19 @@ namespace ArabErp.Web.Controllers
             dr["RegistrationNo"] = Head.RegistrationNo;
             dr["JobCardNo"] = Head.JobCardNo;
             dr["TotalAmount"] = Head.TotalAmount;
+            dr["OrganizationName"] = Head.OrganizationName;
+            dr["Image1"] = Server.MapPath("~/App_images/") + Head.Image1;
+            dr["OrganizationRefNo"] = Head.OrganizationRefNo;
+            dr["DoorNo"] = Head.DoorNo;
+            dr["Street"] = Head.Street;
+            dr["State"] = Head.State;
+            dr["Country"] = Head.Country;
+            dr["Phone"] = Head.Phone;
+            dr["Fax"] = Head.Fax;
+            dr["Email"] = Head.Email;
+            dr["ContactPerson"] = Head.ContactPerson;
+            dr["Zip"] = Head.Zip;
+      
             ds.Tables["Head"].Rows.Add(dr);
 
         

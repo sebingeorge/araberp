@@ -16,22 +16,7 @@
                 <xs:element name="Unit" type="xs:string" minOccurs="0" />
                 <xs:element name="Customer" type="xs:string" minOccurs="0" />
                 <xs:element name="Technician" type="xs:string" minOccurs="0" />
-              </xs:sequence>
-            </xs:complexType>
-          </xs:element>
-          <xs:element name="Org">
-            <xs:complexType>
-              <xs:sequence>
                 <xs:element name="OrganizationName" type="xs:string" minOccurs="0" />
-                <xs:element name="OrganizationRefNo" type="xs:string" minOccurs="0" />
-                <xs:element name="DoorNo" type="xs:string" minOccurs="0" />
-                <xs:element name="Street" type="xs:string" minOccurs="0" />
-                <xs:element name="State" type="xs:string" minOccurs="0" />
-                <xs:element name="Phone" type="xs:string" minOccurs="0" />
-                <xs:element name="Fax" type="xs:string" minOccurs="0" />
-                <xs:element name="Email" type="xs:string" minOccurs="0" />
-                <xs:element name="ContactPerson" type="xs:string" minOccurs="0" />
-                <xs:element name="Zip" type="xs:string" minOccurs="0" />
                 <xs:element name="Image1" type="xs:string" minOccurs="0" />
               </xs:sequence>
             </xs:complexType>
@@ -52,38 +37,27 @@
     </xs:element>
   </xs:schema>
   <Head>
-    <JobCardNo>JC-16/33</JobCardNo>
-    <JobCardDate>21-Sep-2016</JobCardDate>
-    <SaleOrderRefNo>SO/P-16/40</SaleOrderRefNo>
+    <JobCardNo>JC-16/44</JobCardNo>
+    <JobCardDate>12-Oct-2016</JobCardDate>
+    <SaleOrderRefNo>SO/P-16/62</SaleOrderRefNo>
     <CustomerName>M/S Al Rashid Ice Factory,1fg,fg</CustomerName>
     <Phone>54</Phone>
     <ContactPerson>54</ContactPerson>
     <Customer>M/S Al Rashid Ice Factory</Customer>
-    <Technician>Deepak</Technician>
+    <Technician>Shanid</Technician>
+    <OrganizationName>Arab Air Conditioning &amp; Refrigeration Co. W.L.L.</OrganizationName>
+    <Image1>E:\ARAB\New folder\ArabErp\ArabErp.Web\App_images\d78b1f4b-a670-480f-97df-c1e6fe215170.png</Image1>
   </Head>
-  <Org>
-    <OrganizationName>Arab</OrganizationName>
-    <OrganizationRefNo>ORG/1</OrganizationRefNo>
-    <DoorNo>1213dfdf</DoorNo>
-    <Street>dfdsf</Street>
-    <State>fdgd</State>
-    <Phone>8766566343</Phone>
-    <Fax>454</Fax>
-    <Email>sdsfdsf@gmail.com</Email>
-    <ContactPerson>riyasdddf</ContactPerson>
-    <Zip>6565775</Zip>
-    <Image1>d78b1f4b-a670-480f-97df-c1e6fe215170.png</Image1>
-  </Org>
   <Items>
-    <TaskDate>21-Sep-2016</TaskDate>
-    <Employee>Deepak</Employee>
+    <TaskDate>12-Oct-2016</TaskDate>
+    <Employee>Rajeev</Employee>
     <Description>Job work</Description>
     <StartTime>0.00</StartTime>
     <EndTime>0.00</EndTime>
   </Items>
   <Items>
-    <TaskDate>21-Sep-2016</TaskDate>
-    <Employee>Sreekanth</Employee>
+    <TaskDate>12-Oct-2016</TaskDate>
+    <Employee>Deepak</Employee>
     <Description>Job work</Description>
     <StartTime>0.00</StartTime>
     <EndTime>0.00</EndTime>
