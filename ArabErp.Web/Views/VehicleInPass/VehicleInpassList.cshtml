@@ -37,43 +37,16 @@
     }
 </script>
 
-@*<div class="row">
-    <div class="form-head1">
-        <h4>Vehicle Inpass List</h4>
-    </div>
-    <div class="main-part pad1">
-        <div class="row form-group">
-            <div class="col-md-2">
-                <label for="cboWRNo">Vehicle Inpass No.</label>
-                @Html.DropDownList("cboVINo", (SelectList)ViewBag.VINoList, "Any", new { @class = "form_input", @onchange = "Filter()" })
-            </div>
-            <div class="col-md-4">
-                <label for="cboWRNo">Customer</label>
-                @Html.DropDownList("cboCustomer", (SelectList)ViewBag.CusList, "Any", new { @class = "form_input", @onchange = "Filter()" })
-            </div>
-            <div class="col-md-2">
-                <label>From</label>
-                <input id="txtFrom" value="@System.DateTime.Today.AddMonths(-1).ToString("dd-MMMM-yyyy")" onchange="Filter()" class="form_input" />
-            </div>
-            <div class="col-md-2">
-                <label>To</label>
-                <input id="txtTo" value="@System.DateTime.Today.ToString("dd-MMMM-yyyy")" onchange="Filter()" class="form_input" />
-            </div>
-        </div>
-        <div id="vehicleInpasslist">
-            @Html.Action("PreviousList")
-        </div>
-    </div>
-</div>*@
+
 <div class="row">
     <div class="form-head1">
-        <h4>Vehicle Inpass List</h4>
+        <h4>Vehicle In-Pass List</h4>
     </div>
 
     <div class="main-part pad1">
         <div class="row">
             <div class="col-md-2">
-                <label for="cboWRNo">Vehicle Inpass No.</label>
+                <label for="cboWRNo">Vehicle In-Pass No.</label>
                 @Html.DropDownList("cboVINo", (SelectList)ViewBag.VINoList, "Any", new { @class = "form_input", @onchange = "Filter()" })
             </div>
             <div class="col-md-4">

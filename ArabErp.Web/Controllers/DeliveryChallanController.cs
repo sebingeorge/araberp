@@ -222,6 +222,9 @@ namespace ArabErp.Web.Controllers
             ds.Tables["Head"].Columns.Add("Employee");
             ds.Tables["Head"].Columns.Add("PaymentTerms");
             ds.Tables["Head"].Columns.Add("SpecialRemarks");
+            ds.Tables["Head"].Columns.Add("Image1");
+            ds.Tables["Head"].Columns.Add("OrganizationName");
+            //ds.Tables["Head"].Columns.Add("TransportWarrantyExpiryDate");
             //-------DT
             ds.Tables["Items"].Columns.Add("SerialNo");
             ds.Tables["Items"].Columns.Add("ItemName");
@@ -229,7 +232,7 @@ namespace ArabErp.Web.Controllers
             ds.Tables["Items"].Columns.Add("WarrantyExpireDate");
 
             DeliveryChallanRepository repo = new DeliveryChallanRepository();
-            var Head = repo.GetDeliveryChallanHD(Id);
+            var Head = repo.GetDeliveryChallanHD(Id, OrganizationId);
 
             DataRow dr = ds.Tables["Head"].NewRow();
             dr["DeliveryChallanRefNo"] = Head.DeliveryChallanRefNo;
@@ -243,6 +246,9 @@ namespace ArabErp.Web.Controllers
             dr["Employee"] = Head.EmployeeName;
             dr["PaymentTerms"] = Head.PaymentTerms;
             dr["SpecialRemarks"] = Head.Remarks;
+            dr["OrganizationName"] = Head.OrganizationName;
+            //dr["TransportWarrantyExpiryDate"] = Head.tra;
+            dr["Image1"] = Server.MapPath("~/App_images/") + Head.Image1;
             ds.Tables["Head"].Rows.Add(dr);
 
 

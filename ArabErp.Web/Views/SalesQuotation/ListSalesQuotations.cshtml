@@ -66,37 +66,50 @@
                                 <tr class="grid_heading">
                                     <th width="35%"><h1>Customer</h1></th>
                                     <th width="25%"><h1>Sales Executive</h1></th>
-                                    <th width="15%"><h1>Quotation Ref.No. & Date</h1></th>
+                                    <th width="15%"><h1>Quotation No. & Date</h1></th>
                                     <th width="10%" class="text-right"><h1>Amount</h1></th>
                                     <th width="5%"><h1>Status</h1></th>
                                     <th width="10%"><center><h1></h1></center></th>
 
                                 </tr>
                             </thead>
-                            @foreach (var item in Model)
-                            {
-                                <tbody class="grid_row">
+                            <tbody class="grid_row">
+                                @if (Model.Count() > 0)
+                                {
+                                    foreach (var item in Model)
+                                    {
+
+                                        <tr>
+                                            <td class="grid-cell">@item.CustomerName</td>
+                                            <td class="grid-cell">@item.SalesExecutiveName</td>
+                                            <td class="grid-cell">@item.QuotationRefNo &amp; @item.QuotationDate.ToString("dd/MMM/yyyy")</td>
+                                            <td class="grid-cell" align="right">@item.GrandTotal</td>
+                                            <td class="grid-cell">@item.Description</td>
+                                            <td>
+                                                <center>
+                                                    @if (item.GrandTotal <= amountTo)
+                                                    {
+                                                        @Html.ActionLink("Select", "Approve", "SalesQuotation", new { SalesQuotationId = @item.SalesQuotationId }, new { @class = "form-button5", @style = "text-align:center" })
+                                                    }
+                                                    else
+                                                    {
+                                                        <span class="form_input perm">No Permission</span>
+                                                    }
+                                                </center>
+                                            </td>
+                                        </tr>
+
+                                    }
+                                }
+                                else
+                                {
                                     <tr>
-                                        <td class="grid-cell">@item.CustomerName</td>
-                                        <td class="grid-cell">@item.SalesExecutiveName</td>
-                                        <td class="grid-cell">@item.QuotationRefNo &amp; @item.QuotationDate.ToString("dd/MMM/yyyy")</td>
-                                        <td class="grid-cell" align="right">@item.GrandTotal</td>
-                                        <td class="grid-cell">@item.Description</td>
-                                        <td>
-                                            <center>
-                                                @if (item.GrandTotal <= amountTo)
-                                                {
-                                                    @Html.ActionLink("Select", "Approve", "SalesQuotation", new { SalesQuotationId = @item.SalesQuotationId }, new { @class = "form-button5", @style = "text-align:center" })
-                                                }
-                                                else
-                                                {
-                                                    <span class="form_input perm">No Permission</span>
-                                                }
-                                            </center>
+                                        <td colspan="8">
+                                            <center><em>No items found!</em></center>
                                         </td>
                                     </tr>
-                                </tbody>
-                            }
+                                }
+                            </tbody>
                         </table>
                     </div>
                 </div>

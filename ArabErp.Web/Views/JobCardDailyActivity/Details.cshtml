@@ -9,7 +9,7 @@
 
     $(document).ready(function () {
 
-        $("input[type='text'], textarea, select").attr("disabled", "true");
+        //$("input[type='text'], textarea, select").attr("disabled", "true");
 
         @if ((new String[]{ "Create" }).Contains(TempData["previousAction"]))
         {
@@ -61,7 +61,14 @@
         window.location = url;
     }
 
-</script>
+    function Delete(id) {
+        //alert(id);
+        var url = '@Url.Action("Delete")';
+        url += "?id=" + id;
+        window.location = url;
+    }
+
+ </script>
 
 <style type="text/css">
     .image-upload {
@@ -78,7 +85,9 @@
         <div class="main-part pad1">
             @using (Html.BeginForm(null, null, FormMethod.Post, new { @class = "createFrom", @id = "dailyactivity_form" }))
             {
+                @Html.HiddenFor(m => m.JobCardId)
                 @Html.HiddenFor(m => m.JobCardDailyActivityId)
+                @Html.HiddenFor(m => m.EmployeeId)
                 <div class="row form-group">
                     <div class="col-md-2">
                         <label>Ref. No</label>
@@ -103,12 +112,12 @@
                     <table class="table table-bordered" id="tab_logic">
                         <thead>
                             <tr class="grid_heading">
-
                                 <th width="2%" class="text-center"><h1>#</h1></th>
-                                <th width="68%" class="text-left"><h1>Task</h1></th>
-                                <th width="10%" class="text-right"><h1>Start Date</h1></th>
-                                <th width="10%" class="text-right"><h1>End Date</h1></th>
-                                <th width="10%" class="text-right"><h1>Actual Hours</h1></th>
+                                <th width="20%" class="text-left"><h1>Technician</h1></th>
+                                <th width="20%" class="text-left"><h1>Task</h1></th>
+                                <th width="10%"><h1>Start Time</h1></th>
+                                <th width="10%"><h1>End Time</h1></th>
+                                <th width="10%"><h1>Actual Hours</h1></th>
                                 @*<th width="1%" class="text-center"></th>*@
                             </tr>
                         </thead>
@@ -119,7 +128,14 @@
                                 <tr id="Row_@i" class="TaskRow">
 
                                     <td width="1%">@(i + 1)</td>
-                                    <td width="26%">@Html.TextBoxFor(m => m.JobCardDailyActivityTask[i].JobCardTaskName, new { @class = "form_input", autocomplete = "off" })</td>
+                                    <td width="5%">
+                                        @Html.HiddenFor(m => m.JobCardDailyActivityTask[i].EmployeeId)
+                                        @Html.TextBoxFor(m => m.JobCardDailyActivityTask[i].EmployeeName, new { @class = "form_input", autocomplete = "off", @readonly = "true" })
+                                    </td>
+                                    <td width="5%">
+                                        @Html.HiddenFor(m => m.JobCardDailyActivityTask[i].JobCardTaskMasterId)
+                                        @Html.TextBoxFor(m => m.JobCardDailyActivityTask[i].JobCardTaskName, new { @class = "form_input", autocomplete = "off", @readonly = "true" })
+                                    </td>
                                     <td width="5%">@Html.TextBoxFor(m => m.JobCardDailyActivityTask[i].TaskStartDate, Model.JobCardDailyActivityTask[i].TaskStartDate.ToString("dd/MMMM/yyyy"), new { @class = "taskdate form_input", autocomplete = "off" })</td>
                                     <td width="5%">@Html.TextBoxFor(m => m.JobCardDailyActivityTask[i].TaskEndDate, Model.JobCardDailyActivityTask[i].TaskEndDate.ToString("dd/MMMM/yyyy"), new { @class = "taskdate form_input", autocomplete = "off" })</td>
                                     <td width="10%">@Html.TextBoxFor(m => m.JobCardDailyActivityTask[i].ActualHours, new { @class = "form_input", autocomplete = "off" })</td>
@@ -176,44 +192,43 @@
                         <div id="img_preview1" title="Photo Preview">
                             <p><img src="\App_Images\@Model.Image1" alt="Please upload image" id="image_preview1" class="image-upload" /></p>
                         </div>
-                        @if (TempData["previousAction"] == "Create")
-                        {
+                   
                             <input type="file" id="File1" class="button" />
                             <input type="button" class="form-button" id="Fileupload1" value="Upload" onclick="Javascript: ImageUpload(1);" title="Upload to database" />
-                        }
+                
                     </div>
 
                     <div class="col-md-3">
                         <div id="img_preview2" title="Photo Preview">
                             <p><img src="\App_Images\@Model.Image2" alt="Please upload image" id="image_preview2" class="image-upload" /></p>
                         </div>
-                        @if (TempData["previousAction"] == "Create")
-                        {
+                        @*@if (TempData["previousAction"] == "Create")
+                        {*@
                             <input type="file" id="File2" class="button" />
                             <input type="button" class="form-button" id="Fileupload2" value="Upload" onclick="Javascript: ImageUpload(2);" title="Upload to database" />
-                        }
+                        @*}*@
                     </div>
 
                     <div class="col-md-3">
                         <div id="img_preview3" title="Photo Preview">
                             <p><img src="\App_Images\@Model.Image3" alt="Please upload image" id="image_preview3" class="image-upload" /></p>
                         </div>
-                        @if (TempData["previousAction"] == "Create")
-                        {
+                        @*@if (TempData["previousAction"] == "Create")
+                        {*@
                             <input type="file" id="File3" class="button" />
                             <input type="button" class="form-button" id="Fileupload3" value="Upload" onclick="Javascript: ImageUpload(3);" title="Upload to database" />
-                        }
+                        @*}*@
                     </div>
 
                     <div class="col-md-3">
                         <div id="img_preview4" title="Photo Preview">
                             <p><img src="\App_Images\@Model.Image4" alt="Please upload image" id="image_preview4" class="image-upload" /></p>
                         </div>
-                        @if (TempData["previousAction"] == "Create")
-                        {
+                        @*@if (TempData["previousAction"] == "Create")
+                        {*@
                             <input type="file" id="File4" class="button" />
                             <input type="button" class="form-button" id="Fileupload4" value="Upload" onclick="Javascript: ImageUpload(4);" title="Upload to database" />
-                        }
+                        @*}*@
                     </div>
                 </div>
 
@@ -221,9 +236,22 @@
                     <div class="col-md-12 hrpart">
                         <input class="form-button right" type="button" value="Exit" onclick="Exit()" />
                         @*<button type="submit" class="form-button right">Save</button>*@
+
+                        @if (Model.IsUsed)
+                        {
+                            <span class="perm">
+                                <em>**Cannot edit/delete this Daily Activity Details, because it is either used in another process or completed.</em>
+                            </span>
+                        }
+                        else
+                        { 
+                            <button type="submit" class="form-button right">Edit</button>
+                            <input type="button" value="Delete" onclick="Delete(@Model.JobCardDailyActivityId)" class="form-button left" />
+                        }
                     </div>
                 </div>
             }
         </div>
     </div>
+
 

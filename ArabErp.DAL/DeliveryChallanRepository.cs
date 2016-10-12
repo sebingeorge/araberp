@@ -240,7 +240,7 @@ namespace ArabErp.DAL
             }
         }
 
-        public DeliveryChallan GetDeliveryChallanHD(int DeliveryChallanId)
+        public DeliveryChallan GetDeliveryChallanHD(int DeliveryChallanId, int OrganizationId)
         {
             using (IDbConnection connection = OpenConnection(dataConnection))
             {
@@ -248,7 +248,7 @@ namespace ArabErp.DAL
                 string sql = @" SELECT DISTINCT DeliveryChallanId,DeliveryChallanRefNo,DeliveryChallanDate,C.CustomerName Customer,
                                 ISNULL(SO.SaleOrderRefNo,'')+ ' - '  +CONVERT(varchar,SO.SaleOrderDate,106) SONODATE,
                                 ISNULL(JC.JobCardNo,'') + ' - ' +CONVERT(varchar,JC.JobCardDate,106)JobCardNo,VI. RegistrationNo,
-                                WI.WorkDescr,VM.VehicleModelName VehicleModel,E.EmployeeName,SO.PaymentTerms,DC.Remarks
+                                WI.WorkDescr,VM.VehicleModelName VehicleModel,E.EmployeeName,SO.PaymentTerms,DC.Remarks,org.OrganizationName,org.Image1
                                 FROM DeliveryChallan DC
                                 INNER JOIN JobCard JC ON JC.JobCardId=DC.JobCardId
                                 INNER JOIN SaleOrder SO ON SO.SaleOrderId=JC.SaleOrderId
@@ -258,11 +258,13 @@ namespace ArabErp.DAL
                                 INNER JOIN VehicleModel VM ON VM.VehicleModelId=SOI.VehicleModelId
                                 INNER JOIN Employee E ON E.EmployeeId=DC.EmployeeId
                                 LEFT JOIN VehicleInPass VI ON VI.SaleOrderItemId = SOI.SaleOrderItemId
+								inner join Organization org ON  DC.OrganizationId=org.OrganizationId
                                 WHERE  DeliveryChallanId=@DeliveryChallanId";
 
                 var objDeliveryChallan = connection.Query<DeliveryChallan>(sql, new
                 {
-                    DeliveryChallanId = DeliveryChallanId
+                    DeliveryChallanId = DeliveryChallanId,
+                    OrganizationId = OrganizationId
                 }).First<DeliveryChallan>();
 
                 return objDeliveryChallan;

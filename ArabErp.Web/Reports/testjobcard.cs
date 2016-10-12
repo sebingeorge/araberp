@@ -16,14 +16,14 @@ namespace ArabErp.Web.Reports {
     using CrystalDecisions.CrystalReports.Engine;
     
     
-    public class SalesInvoice : ReportClass {
+    public class testjobcard : ReportClass {
         
-        public SalesInvoice() {
+        public testjobcard() {
         }
         
         public override string ResourceName {
             get {
-                return "SalesInvoice.rpt";
+                return "testjobcard.rpt";
             }
             set {
                 // Do nothing
@@ -41,7 +41,7 @@ namespace ArabErp.Web.Reports {
         
         public override string FullResourceName {
             get {
-                return "ArabErp.Web.Reports.SalesInvoice.rpt";
+                return "ArabErp.Web.Reports.testjobcard.rpt";
             }
             set {
                 // Do nothing
@@ -66,7 +66,7 @@ namespace ArabErp.Web.Reports {
         
         [Browsable(false)]
         [DesignerSerializationVisibilityAttribute(System.ComponentModel.DesignerSerializationVisibility.Hidden)]
-        public CrystalDecisions.CrystalReports.Engine.Section DetailSection2 {
+        public CrystalDecisions.CrystalReports.Engine.Section Section3 {
             get {
                 return this.ReportDefinition.Sections[2];
             }
@@ -90,9 +90,9 @@ namespace ArabErp.Web.Reports {
     }
     
     [System.Drawing.ToolboxBitmapAttribute(typeof(CrystalDecisions.Shared.ExportOptions), "report.bmp")]
-    public class CachedSalesInvoice : Component, ICachedReport {
+    public class Cachedtestjobcard : Component, ICachedReport {
         
-        public CachedSalesInvoice() {
+        public Cachedtestjobcard() {
         }
         
         [Browsable(false)]
@@ -129,7 +129,7 @@ namespace ArabErp.Web.Reports {
         }
         
         public virtual CrystalDecisions.CrystalReports.Engine.ReportDocument CreateReport() {
-            SalesInvoice rpt = new SalesInvoice();
+            testjobcard rpt = new testjobcard();
             rpt.Site = this.Site;
             return rpt;
         }

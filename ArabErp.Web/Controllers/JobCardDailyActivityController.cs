@@ -111,6 +111,50 @@ namespace ArabErp.Web.Controllers
             return View(model);
         }
 
+        [HttpPost]
+        public ActionResult Details(JobCardDailyActivity model)
+        {
+            model.OrganizationId = OrganizationId;
+            model.CreatedDate = System.DateTime.Now;
+            model.CreatedBy = UserID.ToString();
+
+            try
+            {
+
+                if (model.JobCardDailyActivityTask != null && model.JobCardDailyActivityTask.Count > 0)
+                {
+                    new JobCardDailyActivityTaskRepository().DeleteJobCardDailyActivityTask(model.JobCardDailyActivityId);
+                }
+
+                new JobCardDailyActivityRepository().UpdateJobCardDailyActivity(model);
+
+                TempData["success"] = "Updated Successfully ";
+                TempData["JobCardDailyActivityRefNo"] = model.JobCardDailyActivityRefNo;
+                return RedirectToAction("PreviousList");
+            }
+            catch (Exception)
+            {
+                TempData["error"] = "Some error occurred. Please try again.";
+            }
+            return View(model);
+        }
+
+        public ActionResult Delete(int Id)
+        {
+            try
+            {
+                if (Id == 0) return RedirectToAction("PreviousList");
+                string ref_no = new JobCardDailyActivityRepository().DeleteJobCardDailyActivity(Id);
+                TempData["success"] = "Deleted Successfully (" + ref_no + ")";
+                return RedirectToAction("PreviousList");
+            }
+            catch (Exception)
+            {
+                TempData["error"] = "Some error occured while deleting. Please try again.";
+                return RedirectToAction("Details", new { id = Id });
+            }
+        }
+
         public ActionResult PreviousList(int type = 0)
         {
             return View(new JobCardDailyActivityRepository().GetJobCardDailyActivitys());

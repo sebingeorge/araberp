@@ -1,4 +1,4 @@
-﻿@*@model IList<ArabErp.Domain.SalesInvoice>*@
+﻿@model  ArabErp.Domain.SalesInvoice
 @using GridMvc.Html
 @{
     ViewBag.Title = "PendingSalesInvoice";
@@ -87,6 +87,7 @@
         <div class="row form-group">
             <div class="col-md-3">
                 <label for="cboSaleOrder">Sale Order</label>
+                @Html.HiddenFor(m => Model.SaleOrderId)
                 @Html.DropDownList("cboSaleOrder", (SelectList)ViewBag.saleOrderList, "Select Sale Order", new { @class = "form_input", @onchange = "OpenCustomerInvoice(this, '', '')", @placeholder = "Search for Sale Order" })
             </div>
         </div>
