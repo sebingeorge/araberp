@@ -24,23 +24,36 @@
 
                             </tr>
                         </thead>
-                        @foreach (var item in Model)
-                        {
-                            <tbody class="grid_row">
+                        <tbody class="grid_row">
+                            @if (Model.Count() > 0)
+                            {
+                                foreach (var item in Model)
+                                {
+
+                                    <tr>
+                                        <td class="grid-cell">@item.WorkShopRequestRefNo</td>
+                                        <td class="grid-cell">@item.WorkShopRequestDate.ToString("dd/MMM/yyyy")</td>
+                                        <td class="grid-cell">@item.CustomerName</td>
+                                        <td class="grid-cell">@item.CustomerOrderRef</td>
+                                        <td class="grid-cell">@item.RequiredDate.ToString("dd/MMM/yyyy")</td>
+                                        <td>
+                                            <center><input type="button" class="form-button4" onclick="OnSelected(@item.WorkShopRequestId)" value="Select" title="Select to view details" /></center>
+                                        </td>
+
+                                    </tr>
+
+
+                                }
+                            }
+                            else
+                            {
                                 <tr>
-                                    <td class="grid-cell">@item.WorkShopRequestRefNo</td>
-                                    <td class="grid-cell">@item.WorkShopRequestDate.ToString("dd/MMM/yyyy")</td>
-                                    <td class="grid-cell">@item.CustomerName</td>
-                                    <td class="grid-cell">@item.CustomerOrderRef</td>
-                                    <td class="grid-cell">@item.RequiredDate.ToString("dd/MMM/yyyy")</td>
-                                    <td>
-                                        <center><input type="button" class="form-button4" onclick="OnSelected(@item.WorkShopRequestId)" value="Select" title="Select to view details" /></center>
+                                    <td colspan="8">
+                                        <center><em>No items found!</em></center>
                                     </td>
-
                                 </tr>
-
-                            </tbody>
-                        }
+                            }
+                        </tbody>
                     </table>
 
       

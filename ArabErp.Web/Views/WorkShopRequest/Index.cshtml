@@ -38,8 +38,9 @@
         var cusid = $("#cboCustomer").val();
         var from = $("#txtFrom").val();
         var to = $("#txtTo").val();
+        var projectbased=@ViewBag.ProjectBased;
         var url = '@Url.Action("PreviousList")';
-        url += "?from=" + from + "&to=" + to + "&id=" + id + "&cusid=" + cusid;
+        url += "?isProjectBased=" +projectbased + "&from=" + from + "&to=" + to + "&id=" + id + "&cusid=" + cusid;
         $("#workshopreqlist").load(url, function () {
             $("#workshopreqlist").removeClass("fade");
         });
