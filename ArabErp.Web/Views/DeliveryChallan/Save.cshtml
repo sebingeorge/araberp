@@ -23,7 +23,16 @@
         }
         @{ TempData["success"] = TempData["error"] = ""; }
         //------------------------------------------------------//
-
+        $("#DeliveryChallanDate").datepicker({
+            dateFormat: "dd-MM-yy"
+        });
+        var year = new Date().getFullYear();
+        $("#TransportWarrantyExpiryDate").datepicker({
+            dateFormat: "dd-MM-yy",
+            changeYear: true,
+            changeMonth: true,
+            yearRange: year + ":" + (year + 3)
+        });
         //$("#DeliveryChallanDate").datepicker({ dateFormat: "dd-MM-yy" });
     });
     $(document).ready(function () {
@@ -68,7 +77,7 @@
         {
             <div class="row form-group">
                 <div class="col-md-2">
-                    <label>Delivery Challan Ref. No.</label>
+                    <label>Delivery Challan Ref.No.</label>
                     @Html.HiddenFor(m => m.JobCardId)
                     @Html.TextBoxFor(m => m.DeliveryChallanRefNo, new { @class = "form_input", autocomplete = "off", @readonly = "true", @title = "This number may change after saving" })
                 </div>
@@ -76,6 +85,10 @@
                     <label>Challan Date</label>
                     @Html.TextBoxFor(m => m.DeliveryChallanDate, Model.DeliveryChallanDate.ToString("dd-MMMM-yyyy"), new { @class = "form_input ", autocomplete = "off", @required = "true", @readonly = "true" })
                     @*@Html.TextBoxFor(m => m.DeliveryChallanDate, new { @class = "form_input", @type = "date" })*@
+                </div>
+                <div class="col-md-2">
+                    <label for="TransportWarrantyExpiryDate">Warranty Expiry Date</label>
+                    @Html.TextBoxFor(m => m.TransportWarrantyExpiryDate, Model.TransportWarrantyExpiryDate.ToString("dd/MMMM/yyyy"), new { @class = "form_input", @readonly = "true", @required = "true" })
                 </div>
             </div>
             <div class="row form-group">

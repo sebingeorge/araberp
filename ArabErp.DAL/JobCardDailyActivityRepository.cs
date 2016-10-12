@@ -58,20 +58,14 @@ namespace ArabErp.DAL
 
             using (IDbConnection connection = OpenConnection(dataConnection))
             {
-                string sql = @"SELECT
-	                                JobCardDailyActivityId,
-	                                JobCardDailyActivityRefNo,
-	                                CONVERT(VARCHAR, JobCardDailyActivityDate, 106) JobCardDailyActivityDate,
-	                                EMP.EmployeeName,
-	                                JC.JobCardNo,
-	                                SpecialRemarks Remarks,
-	                                Image1,Image2,Image3,Image4,
-                                    JC.isProjectBased
-                                FROM JobCardDailyActivity DA
-                                INNER JOIN JobCard JC ON DA.JobCardId = JC.JobCardId
-                                INNER JOIN Employee EMP ON JC.EmployeeId = EMP.EmployeeId
-                                WHERE DA.JobCardDailyActivityId = @JobCardDailyActivityId
-                                AND DA.isActive = 1";
+                string sql = @"SELECT JobCardDailyActivityId,JobCardDailyActivityRefNo,CONVERT(VARCHAR, JobCardDailyActivityDate, 106) JobCardDailyActivityDate,
+	                           EMP.EmployeeName,JC.JobCardId,JC.JobCardNo,JC.EmployeeId,DA.Remarks,Image1,Image2,Image3,Image4,
+                               JC.isProjectBased,ISNULL(JC.JodCardCompleteStatus,0)IsUsed
+                               FROM JobCardDailyActivity DA
+                               INNER JOIN JobCard JC ON DA.JobCardId = JC.JobCardId
+                               INNER JOIN Employee EMP ON JC.EmployeeId = EMP.EmployeeId
+                               WHERE DA.JobCardDailyActivityId = @JobCardDailyActivityId
+                               AND DA.isActive = 1";
 
                 var objJobCardDailyActivity = connection.Query<JobCardDailyActivity>(sql, new
                 {
@@ -128,18 +122,25 @@ namespace ArabErp.DAL
                 return objJobCardDailyActivitys;
             }
         }
-
-
-
-        public int DeleteJobCardDailyActivity(Unit objJobCardDailyActivity)
+     
+        public string DeleteJobCardDailyActivity(int Id)
         {
             using (IDbConnection connection = OpenConnection(dataConnection))
             {
-                string sql = @"Delete JobCardDailyActivity  OUTPUT DELETED.JobCardDailyActivityId WHERE JobCardDailyActivityId=@JobCardDailyActivityId";
-
-
-                var id = connection.Execute(sql, objJobCardDailyActivity);
-                return id;
+                IDbTransaction txn = connection.BeginTransaction();
+                try
+                {
+                    string query = @"DELETE FROM JobCardDailyActivityTask WHERE JobCardDailyActivityId=@Id;
+                                     DELETE FROM JobCardDailyActivity OUTPUT deleted.JobCardDailyActivityRefNo WHERE JobCardDailyActivityId=@Id;";
+                    string output = connection.Query<string>(query, new { Id = Id }, txn).First();
+                    txn.Commit();
+                    return output;
+                }
+                catch (Exception ex)
+                {
+                    txn.Rollback();
+                    throw ex;
+                }
             }
         }
 
@@ -191,6 +192,47 @@ namespace ArabErp.DAL
 	                                INNER JOIN JobCardTaskMaster M ON T.JobCardTaskMasterId = M.JobCardTaskMasterId
                                 WHERE T.isActive = 1 AND T.JobCardId = @id AND J.OrganizationId = @OrganizationId";
                 return connection.Query<JobCardDailyActivityTask>(query, new { id = Id, OrganizationId = OrganizationId }).ToList();
+            }
+        }
+
+        public int UpdateJobCardDailyActivity(JobCardDailyActivity objJobCardDailyActivity)
+        {
+            using (IDbConnection connection = OpenConnection(dataConnection))
+            {
+                IDbTransaction txn = connection.BeginTransaction();
+                string sql = @"UPDATE JobCardDailyActivity SET JobCardDailyActivityDate=@JobCardDailyActivityDate,JobCardId = @JobCardId ,
+                               JobCardDailyActivityRefNo=@JobCardDailyActivityRefNo,Remarks=@Remarks,EmployeeId=@EmployeeId,
+                               CreatedBy = @CreatedBy,CreatedDate=@CreatedDate,OrganizationId=@OrganizationId  
+                               OUTPUT INSERTED.JobCardDailyActivityRefNo  WHERE JobCardDailyActivityId = @JobCardDailyActivityId";
+                try
+                {
+                    var id = connection.Execute(sql, objJobCardDailyActivity, txn);
+
+                    int i = 0;
+
+                    //var SalesInvoiceItemRepo = new SalesInvoiceItemRepository();
+
+                    foreach (var item in objJobCardDailyActivity.JobCardDailyActivityTask)
+                    {
+                        item.JobCardDailyActivityId = objJobCardDailyActivity.JobCardDailyActivityId;
+                        item.CreatedDate = DateTime.Now;
+                        sql = @"insert  into JobCardDailyActivityTask (JobCardDailyActivityId,JobCardTaskId,TaskStartDate,TaskEndDate,ActualHours,CreatedBy,CreatedDate,OrganizationId, EmployeeId, StartTime, EndTime) Values 
+                                                                      (@JobCardDailyActivityId,@JobCardTaskMasterId,@TaskStartDate,@TaskEndDate,@ActualHours,@CreatedBy,@CreatedDate,@OrganizationId, @EmployeeId, @StartTime, @EndTime);
+                        SELECT CAST(SCOPE_IDENTITY() as int)";
+
+
+                        var taskid = connection.Query<int>(sql, item, txn).Single();
+                    }
+
+                    InsertLoginHistory(dataConnection, objJobCardDailyActivity.CreatedBy, "Update", "Job Card", id.ToString(), objJobCardDailyActivity.OrganizationId.ToString());
+                    txn.Commit();
+                    return id;
+                }
+                catch (Exception ex)
+                {
+                    txn.Rollback();
+                    throw ex;
+                }
             }
         }
     }

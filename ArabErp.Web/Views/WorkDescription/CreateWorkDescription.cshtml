@@ -225,6 +225,10 @@
             else if ('@TempData["error"]' != "") {
                 toastr.error('@TempData["error"]');
             }
+
+            $(".numbers-only").keypress(function (e) {
+                if (e.which == 8 || (e.which == 46 && $(this).val().indexOf('.') == -1) || (e.which > 47 && e.which < 58)) { } else { return false; }
+            });
         });
 
         function OnMaterialChange(sender, index) {
@@ -299,7 +303,7 @@
         <div class="form-head1">
             @if (Model.isProjectBased == false)
             {
-               <h4>Transportation:Work Description</h4>
+               <h4>Transport:Work Description</h4>
             }
             else
             {
@@ -421,11 +425,11 @@
                                          </td>
 
                                         <td>
-                                            @Html.TextBoxFor(m => m.WorkVsItems[i].UoM, new { @class = "form_input", @style = "text-align:left", autocomplete = "off" })
+                                            @Html.TextBoxFor(m => m.WorkVsItems[i].UoM, new { @class = "form_input", @style = "text-align:left", autocomplete = "off",@readOnly="true" })
                                         </td>
 
                                         <td>
-                                            @Html.TextBoxFor(m => m.WorkVsItems[i].Quantity, new { @class = "form_input text-right validateqty", autocomplete = "off" })
+                                            @Html.TextBoxFor(m => m.WorkVsItems[i].Quantity, new { @class = "form_input text-right validateqty numbers-only", autocomplete = "off" })
                                         </td>
                                         <td style="vertical-align:middle"><a class="glyphicon glyphicon-plus" style="top:0px" onclick="ItemRowAdd(@i)"></a></td>
                                     </tr>
@@ -473,7 +477,7 @@
                                             </td>*@
                                         <td>
 
-                                            @Html.TextBoxFor(m => m.WorkVsTasks[i].Hours, new { @class = "form_input text-right", autocomplete = "off" })
+                                            @Html.TextBoxFor(m => m.WorkVsTasks[i].Hours, new { @class = "form_input text-right numbers-only", autocomplete = "off" })
                                         </td>
                                         <td style="vertical-align:middle"><a id="add_row" class="glyphicon glyphicon-plus" style="top:0px" onclick="TaskRowAdd(@i)"></a></td>
                                     </tr>

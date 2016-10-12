@@ -23,7 +23,16 @@
         }
         @{ TempData["success"] = TempData["error"] = ""; }
         //------------------------------------------------------//
-
+        $("#DeliveryChallanDate").datepicker({
+            dateFormat: "dd-MM-yy"
+        });
+        var year = new Date().getFullYear();
+        $("#TransportWarrantyExpiryDate").datepicker({
+            dateFormat: "dd-MM-yy",
+            changeYear: true,
+            changeMonth: true,
+            yearRange: year + ":" + (year + 3)
+        });
         //$("#DeliveryChallanDate").datepicker({ dateFormat: "dd-MM-yy" });
     });
     $(document).ready(function () {
@@ -84,6 +93,10 @@
                     @Html.TextBoxFor(m => m.DeliveryChallanDate, Model.DeliveryChallanDate.ToString("dd-MMMM-yyyy"), new { @class = "form_input ", autocomplete = "off", @required = "true", @readonly = "true" })
                     @*@Html.TextBoxFor(m => m.DeliveryChallanDate, new { @class = "form_input", @type = "date" })*@
                 </div>
+                <div class="col-md-2">
+                    <label for="TransportWarrantyExpiryDate">Warranty Expiry Date</label>
+                    @Html.TextBoxFor(m => m.TransportWarrantyExpiryDate, Model.TransportWarrantyExpiryDate.ToString("dd/MMMM/yyyy"), new { @class = "form_input", @readonly = "true", @required = "true" })
+                </div>
             </div>
             <div class="row form-group">
                 <div class="col-md-4">
@@ -107,7 +120,7 @@
                     @*<input type="text" class="form_input" id="txtJCNoDate" readonly />*@
                 </div>
                 <div class="col-md-2">
-                    <label>Chasis No./Reg No.</label>
+                    <label>Chassis No./Reg No.</label>
                     @Html.TextBoxFor(m => Model.RegistrationNo, new { @class = "form_input", autocomplete = "off", @readonly = "readonly" })
                     @*<input type="text" class="form_input" id="txtRegNo" readonly />*@
                 </div>

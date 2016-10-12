@@ -13,6 +13,7 @@ namespace ArabErp.Domain
         public int JobCardId { get; set; }
         public string RegistrationNo { get; set; }
         public DateTime DeliveryChallanDate { get; set; }
+        public DateTime TransportWarrantyExpiryDate { get; set; }
         public int EmployeeId { get; set; }
         public string Remarks { get; set; }
         public string CreatedBy { get; set; }

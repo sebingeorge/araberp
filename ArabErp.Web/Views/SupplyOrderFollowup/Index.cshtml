@@ -1,5 +1,5 @@
 ﻿@{
-    ViewBag.Title = "Index";
+    ViewBag.Title = "Supply Order Follow-up";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
@@ -78,7 +78,7 @@
 <div class="row">
 
     <div class="form-head1">
-        <h4>Supply Order Follow Up</h4>
+        <h4>Supply Order Follow-up</h4>
     </div>
 
     <div class="main-part pad1">
@@ -87,7 +87,6 @@
                 <label for="txtName">Item Name</label>
                 <input type="text" class="form_input bluebox" id="txtName" onkeyup="Filter()" />
             </div>
-
 
             <div class="col-md-3">
                 <label for="txtSupplier">Supplier</label>
@@ -98,7 +97,6 @@
                 <label for="cboBatch">Batch</label>
                 @Html.DropDownList("cboBatch", (SelectList)ViewBag.BatchList, "Any", new { @class = "form_input bluebox", @onchange = "Filter()" })
             </div>
-
         </div>
 
         <br />
@@ -108,11 +106,9 @@
                 @Html.Action("ItemList")
             </div>
             <div class="row">
-
                 <div class="col-md-12 hrpart">
                     <button type="button" class="form-button right" onclick="Exit()">Exit</button>
                     <button type="submit" class="form-button right">Save</button>
-                  
                 </div>
             </div>
 

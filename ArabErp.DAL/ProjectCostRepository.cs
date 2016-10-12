@@ -14,27 +14,41 @@ namespace ArabErp.DAL
 
           static string dataConnection = GetConnectionString("arab");
 
-          public int InsertProjectCosting(ProjectCost objProjectCostItem, IDbConnection connection, IDbTransaction trn)
+      
+          public int InsertProjectCosting(QuerySheet model)
           {
-              try
+              using (IDbConnection connection = OpenConnection(dataConnection))
               {
+                  IDbTransaction txn = connection.BeginTransaction();
+                  try
+                  {
 
-                
-                  string sql = @"insert  into ProjectCosting(QuerySheetId,CostingId,Remarks,Amount) 
-                                                    Values (@QuerySheetId,@CostingId,@Remarks,@Amount);
-                       
-                SELECT CAST(SCOPE_IDENTITY() as int)";
+                      //                  
+                      var row = 0;
+                      foreach (ProjectCost item in model.Items)
+                      {
+                          item.QuerySheetId = model.QuerySheetId;
+                          item.Type = model.Type;
+                          string sql = @"insert  into ProjectCosting(QuerySheetId,CostingId,Remarks,Amount) Values (@QuerySheetId,@CostingId,@Remarks,@Amount)
+                                                    
+                                       UPDATE QuerySheet  SET Type=@Type WHERE QuerySheetId = @QuerySheetId";
+
+                          row = connection.Execute(sql, item, txn);
+
+                      }
+
+                      InsertLoginHistory(dataConnection, model.CreatedBy, "Update", typeof(QuerySheet).Name, model.QuerySheetId.ToString(), model.OrganizationId.ToString());
+                      txn.Commit();
+                      return row;
 
 
-                var id = connection.Query<int>(sql, objProjectCostItem, trn).First();
-                
-                return id;
+                  }
+                  catch (Exception ex)
+                  {
+                      txn.Rollback();
+                      throw ex;
+                  }
               }
-              catch (Exception)
-              {
-                  throw;
-              }
-
           }
           public int InsertQuerySheetItem(QuerySheetItem objQuerySheetItem, IDbConnection connection, IDbTransaction trn)
           {

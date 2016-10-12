@@ -53,12 +53,12 @@ namespace ArabErp.DAL
             using (IDbConnection connection = OpenConnection(dataConnection))
             {
                 string sql = @"SELECT
-	                                CONVERT(VARCHAR, T.TaskStartDate, 106) TaskStartDate,
-	                                CONVERT(VARCHAR, T.TaskEndDate, 106) TaskEndDate,
-	                                T.ActualHours,
-	                                JCT.JobCardTaskName
+	                            JobCardDailyActivityId,T.EmployeeId,E.EmployeeName,
+                                JCT.JobCardTaskMasterId,JCT.JobCardTaskName, CONVERT(VARCHAR, T.TaskStartDate, 106) TaskStartDate,
+                                CONVERT(VARCHAR, T.TaskEndDate, 106) TaskEndDate,T.ActualHours
                                 FROM JobCardDailyActivityTask T
                                 INNER JOIN JobCardTaskMaster JCT ON T.JobCardTaskId = JCT.JobCardTaskMasterId
+                                INNER JOIN Employee E ON E.EmployeeId=T.EmployeeId
                                 WHERE JobCardDailyActivityId = @JobCardDailyActivityId
                                 AND T.isActive = 1";
 
@@ -68,20 +68,25 @@ namespace ArabErp.DAL
             }
         }
 
-
-
-        public int DeleteJobCardDailyActivityTask(Unit objJobCardDailyActivityTask)
+        public string DeleteJobCardDailyActivityTask(int JobCardDailyActivityId)
         {
             using (IDbConnection connection = OpenConnection(dataConnection))
             {
-                string sql = @"Delete JobCardDailyActivityTask  OUTPUT DELETED.JobCardDailyActivityTaskId WHERE JobCardDailyActivityTaskId=@JobCardDailyActivityTaskId";
-
-
-                var id = connection.Execute(sql, objJobCardDailyActivityTask);
-                return id;
+                IDbTransaction txn = connection.BeginTransaction();
+                try
+                {
+                    string query = @"Delete JobCardDailyActivityTask  OUTPUT DELETED.JobCardDailyActivityId WHERE JobCardDailyActivityId=@JobCardDailyActivityId;";
+                    string output = connection.Query<string>(query, new { JobCardDailyActivityId = JobCardDailyActivityId }, txn).First();
+                    txn.Commit();
+                    return output;
+                }
+                catch (Exception ex)
+                {
+                    txn.Rollback();
+                    throw ex;
+                }
             }
         }
-
-
+        
     }
 }

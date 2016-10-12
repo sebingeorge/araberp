@@ -69,7 +69,7 @@
     }
     function Exit() {
        
-        location.href = '@Url.Action("PendingSaleOrderApproval", "SaleOrder", new { ProjectBased = 0 })';
+        location.href = '@Url.Action("PendingSaleOrderApproval", "SaleOrder", new { ProjectBased = @Model.isProjectBased })';
       
     }
     $(document).ready(function () {

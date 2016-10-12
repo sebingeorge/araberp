@@ -29,5 +29,6 @@ namespace ArabErp.Domain
         public string Unit { get; set; }
         public decimal Cost { get; set; }
 
+        public string Type { get; set; }
     }
 }

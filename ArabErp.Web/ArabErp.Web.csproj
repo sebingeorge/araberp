@@ -338,10 +338,10 @@
       <SubType>Component</SubType>
     </Compile>
     <Compile Include="Reports\DeliveryChallan.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
       <DependentUpon>DeliveryChallan.rpt</DependentUpon>
       <SubType>Component</SubType>
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
     </Compile>
     <Compile Include="Reports\ItemSellingPrice.cs">
       <AutoGen>True</AutoGen>
@@ -350,9 +350,6 @@
       <SubType>Component</SubType>
     </Compile>
     <Compile Include="Reports\JobCard.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>JobCard.rpt</DependentUpon>
       <SubType>Component</SubType>
     </Compile>
     <Compile Include="Reports\ProformaInvoice.cs">
@@ -1049,7 +1046,7 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Reports\JobCard.rpt">
       <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
-      <LastGenOutput>JobCard.cs</LastGenOutput>
+      <LastGenOutput>JobCard1.cs</LastGenOutput>
     </EmbeddedResource>
     <EmbeddedResource Include="Reports\ProformaInvoice.rpt">
       <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>

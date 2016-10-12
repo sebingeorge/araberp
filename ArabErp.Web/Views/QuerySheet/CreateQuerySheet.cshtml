@@ -40,14 +40,15 @@
                 return false;
             }
         });
-        var act=actionName;
-        alert(act);
-        if (@actionName == "CreateQuerySheetUnit")
+     
+      
+        if ('@ViewContext.RouteData.GetRequiredString("action")' == "CreateQuerySheetUnit")
         {
-            alert("hi");
-           $("#QuerySheetItems_0__Refrigerant").focus(); 
+           
+            $("#QuerySheetItems_0__Refrigerant").focus();
+            $(".del").hide();
         }
-
+        
     })
     function AddRow() {
 
@@ -66,7 +67,7 @@
         var index = (new Date()).getTime(); // unique indexer
         var clone = $('#0').clone(); // clone the BatchProducts item
         //Update the index of the clone
-       
+
         clone.html($(clone).html().replace(/\QuerySheetItems_0__/g, 'QuerySheetItems_' + i + '__'));
         clone.html($(clone).html().replace(/\QuerySheetItems[0]./g, 'QuerySheetItems[' + i + '].'));
         clone.html($(clone).html().replace(/\[0\]/g, '[' + i + ']'));
@@ -76,7 +77,7 @@
         clone.html($(clone).html().replace(/this,0/, 'this,' + i + ''));
         $("#tab_logic").append('<tr id="' + i + '">' + clone.html() + '  </tr>');
         $("#slno" + (i + 1)).html((i + 1));
-  
+
         //bind keypress event for new row inputs.
         $(".numbers-only").keypress(function (e) {
             if (e.which == 8 || (e.which == 45 && $(this).val().indexOf('-') == -1) || (e.which == 46 && $(this).val().indexOf('.') == -1) || (e.which > 47 && e.which < 58)) {
@@ -99,11 +100,11 @@
             }
         });
         i++;
-   
+
         if (i > 1) {
             $("#" + index).remove();
             for (var j = index + 1; j < i; j++) {
-               
+
                 var clone = $("#" + j).clone(true, true);
                 clone.html($(clone).html().replace(new RegExp("QuerySheetItems_" + j + "__", "g"), 'QuerySheetItems_' + (j - 1) + '__'));
                 clone.html($(clone).html().replace(new RegExp("\\[" + j + "].", "g"), "[" + (j - 1) + "]."));
@@ -118,9 +119,9 @@
                 $("#" + j).html(clone.html());
                 $("#QuerySheetItems_" + (j - 1) + "__SlNo").val(j);
                 $("#" + (j)).attr('id', (j - 1));
-                
-              
-              
+
+
+
 
             }
         }
@@ -128,43 +129,57 @@
 
 
 
-    function Exit() {
+     function Exit(type) {
+         if(type=='Unit')
+         {
+             location.href = '@Url.Action("PendingQuerySheetforUnit")';
+         }
+        else if (type == 'Costing') {
+             location.href = '@Url.Action("PendingQuerySheetforCosting")';
+         }
 
-        location.href = '@Url.Action("Index", "Home")';
-    }
+        else if (type == 'RoomDetails')
+         {
+             location.href = '@Url.Action("Index", "Home")';
+         }
+      
+        }
 
-    function PreviousList() {
-        window.location = '@Url.Action("Index", "QuerySheet")'
-    }
+    function PreviousList(type)
+        {
+        var url = '@Url.Action("Index")';
+        url += "?Type=" + type;
+        window.location = url;
+        }
 
-    $(function ()
-    {
-        $("#QuerySheetDate").datepicker({ dateFormat: "dd-MM-yy" });
-    });
+        $(function ()
+        {
+            $("#QuerySheetDate").datepicker({ dateFormat: "dd-MM-yy" });
+        });
 
-    function OnCostingAmountChanged(){
-        var amount = 0;
-        $("input[id$='__Amount']").each(function(index, object){
-            if(!isNaN($(object).val()))
-            amount += Number($(object).val());
-        })
-        $("#costingTotal").text(amount.toFixed(2));
-    }
+        function OnCostingAmountChanged(){
+            var amount = 0;
+            $("input[id$='__Amount']").each(function(index, object){
+                if(!isNaN($(object).val()))
+                    amount += Number($(object).val());
+            })
+            $("#costingTotal").text(amount.toFixed(2));
+        }
 </script>
 
 
     <div class="row">
         <div class="form-head1">
             @{
-            if (actionName.ToString() == "Create")
+                if (Model.Type == "RoomDetails")
             {
             <h4>Query Sheet</h4>
             }
-            else if (actionName == "CreateQuerySheetUnit")
+            else if (Model.Type  == "Unit")
             {
             <h4>Query Sheet : Unit Selection</h4>
             }
-            else if (actionName == "CreateQuerySheetCosting")
+            else if (Model.Type  == "Costing")
             {
             <h4>Query Sheet : Costing</h4>
             }
@@ -180,7 +195,7 @@
                     @*@if (actionName == "Create")
                     {*@
                         <div class="col-md-2">
-                            <label for="QuerySheetRefNo">Query Sheet Ref No.</label>
+                            <label for="QuerySheetRefNo">Query Sheet No.</label>
                             @Html.TextBoxFor(m => m.QuerySheetRefNo, new { @class = "form_input", autocomplete = "off", @readonly = "readonly" })
                         </div>
                  <div class="col-md-2">
@@ -252,7 +267,7 @@
 
     </div>
 
-    <div class="table-responsive scroll2" @*style="overflow-x:scroll"*@>
+    <div class="table-responsive scroll2 ">
         <table class="table table-bordered" id="tab_logic" @*style="overflow-x:scroll;margin-bottom:0px"*@>
             <thead>
                 <tr class="grid_heading">
@@ -264,7 +279,7 @@
                     <th width="5%" nowrap><h1>Cold Room Location</h1></th>
                     <th width="5%"><h1>Temperature</h1></th>
                     <th width="5%" nowrap><h1>Panel Thickness</h1></th>
-                    <th width="10%" nowrap><h1>Floor Details</h1></th>
+                    <th width="6%" nowrap><h1>Floor Details</h1></th>
                     <th width="10%" nowrap><h1>Product Details</h1></th>
                     <th width="5%" nowrap><h1>Product Incoming Temperature</h1></th>
                     <th width="5%" nowrap><h1>Pipe Length</h1></th>
@@ -275,8 +290,8 @@
                     <th width="5%"><h1>Refrigerant</h1></th>
                     <th width="5%" nowrap><h1>Electrical Power</h1></th>
                     <th width="5%"><h1>Kilowatt</h1></th>
-                    <th width="15%"><h1>Unit</h1></th>
-                    <th width="5%"><h1>Cost</h1></th>
+                    <th width="10%"><h1>Unit&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</h1></th>
+                    <th width="5%"><h1>Cost&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</h1></th>
                         }
                     <th width="1%" class="text-center"></th>
 
@@ -286,7 +301,7 @@
                 @for (int i = 0; i < Model.QuerySheetItems.Count; i++)
                 {
                     <tr id="@i">
-                        <td style="vertical-align:middle"><a class="glyphicon glyphicon-minus" style="top:0px" onclick="Delete(@i)"></a></td>
+                        <td style="vertical-align:middle"><a class="glyphicon glyphicon-minus del" style="top:0px" onclick="Delete(@i)"></a></td>
                         <td align="center">
                             <input type="hidden" id="Row_@i" />
                             <span id="slno@(i + 1)">@(i + 1)</span>
@@ -312,7 +327,7 @@
                         <td>@Html.TextBoxFor(m => Model.QuerySheetItems[i].Cost, new { @class = "form_input numbers-only", autocomplete = "off" })</td>
                         }
                         
-                        <td style="vertical-align:middle"><a id="add_row" class="glyphicon glyphicon-plus" style="top:0px" onclick="AddRow()"></a></td>
+                        <td style="vertical-align:middle"><a id="add_row" class="glyphicon glyphicon-plus del" style="top:0px" onclick="AddRow()"></a></td>
                     </tr>
                 }
 
@@ -321,7 +336,7 @@
         </table>
     </div>
                 <br />
-                if(@Model.Type == "Costing")
+                if (@Model.Type == "Costing")
                 {
                  @Html.Partial("_ProjectCosting", Model)
                 }
@@ -329,12 +344,16 @@
                 <div class="row">
                     <div class="col-md-12 hrpart">
 
-                        <input type="button" class=" form-button right" onclick="Exit()" value="Exit">
-                        <input type="button" class="form-button" onclick="PreviousList()" value="Previous">
-                        @if (actionName == "Create" || actionName == "CreateQuerySheetUnit")
+                        <input type="button" class=" form-button right" onclick="Exit('@Model.Type')" value="Exit">
+                        @if (actionName == "Create")
                         {
-                            <button type="submit" class="form-button right">Save</button>
+                            <input type="button" class="form-button" onclick="PreviousList('@Model.Type')" value="Previous">
                         }
+                       
+                        @*@if (actionName == "Create" || actionName == "CreateQuerySheetUnit")
+                        {*@
+                            <button type="submit" class="form-button right">Save</button>
+                        @*}*@
                     </div>
                 </div>
             }

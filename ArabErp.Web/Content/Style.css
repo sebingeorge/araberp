@@ -425,6 +425,14 @@ h5
     padding-left:3px;
     font-size:12px;
 }
+input[type="checkbox"].warranty 
+{
+
+    margin-top:1px !important;
+    margin-left:-19px;
+    position:absolute;
+
+}
 
 .hrpart 
 {

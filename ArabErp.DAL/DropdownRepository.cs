@@ -369,12 +369,13 @@ namespace ArabErp.DAL
                 return connection.Query<Dropdown>(@"SELECT WorkDescriptionId Id, WorkDescr Name FROM WorkDescription WHERE ISNULL(isActive, 1) = 1;").ToList();
             }
         }
-        public List<Dropdown> QuerySheetNoDropdown()
+        public List<Dropdown> QuerySheetNoDropdown(int OrganizationId)
         {
             using (IDbConnection connection = OpenConnection(dataConnection))
             {
                 return connection.Query<Dropdown>(@"SELECT QuerySheetId Id, QuerySheetRefNo Name FROM QuerySheet WHERE ISNULL(isActive, 1) = 1 
-                 and QuerySheetId not in (select QuerySheetId from SalesQuotation where QuerySheetId is not null)").ToList();
+                 and QuerySheetId not in (select QuerySheetId from SalesQuotation where QuerySheetId is not null) 
+				 and [Type] = 'Costing' and OrganizationId= " + OrganizationId.ToString() + "").ToList();
             }
         }
 
@@ -949,6 +950,14 @@ namespace ArabErp.DAL
         //        return connection.Query<FreezerUnit>("SELECT ItemId FreezerUnitId,ItemName FreezerUnitName FROM Item WHERE FreezerUnit=1").ToList();
         //    }
         //}
+
+        public List<Dropdown> FillItem()
+        {
+            using (IDbConnection connection = OpenConnection(dataConnection))
+            {
+                return connection.Query<Dropdown>("select ItemId Id,ItemName Name from Item WHERE isActive=1 AND FreezerUnit=0 AND Box=0").ToList();
+            }
+        }
 
     }
 }

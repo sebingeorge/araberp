@@ -7,7 +7,8 @@
     var totalQuantity = Model.SaleInvoiceItems.Sum(a => a.QuantityTxt);
     var totalDiscount = Model.SaleInvoiceItems.Sum(a => a.Discount);
     var totalAmount = Model.SaleInvoiceItems.Sum(a => a.Amount);
-    Model.TotalAmount = totalAmount ?? 0;
+    //var totalAmount = Model.TotalAmount;
+    //Model.TotalAmount = totalAmount??0;
 }
 <script>
 
@@ -70,7 +71,7 @@
             if (isNaN(DeductionAmt)) {
                 DeductionAmt = parseFloat("0");
             }
-            Tot = Total + AdditonAmt - DeductionAmt;
+            var Tot = Total + AdditonAmt - DeductionAmt;
             $("#TotalAmount").val(Tot.toFixed(2));
             $("#lblTotalAmount").text(Tot.toFixed(2));
         });
@@ -98,7 +99,7 @@
             if (isNaN(DeductionAmt)) {
                 DeductionAmt = parseFloat("0");
             }
-            Tot = Total + AdditonAmt - DeductionAmt;
+            var Tot = Total + AdditonAmt - DeductionAmt;
             $("#TotalAmount").val(Tot.toFixed(2));
             $("#lblTotalAmount").text(Tot.toFixed(2));
         });
@@ -115,24 +116,27 @@
         var total = 0;
         var addition = 0;
         var deduction = 0;
-        var net = 0;
+        var TotalQty = 0;
+
         $('.Amount').each(function (i, obj) {
             console.log(obj);
             qty = qty + eval($("#SaleInvoiceItems_" + i + "__QuantityTxt").val());
             rate = rate + eval($("#SaleInvoiceItems_" + i + "__Rate").val());
             discount = discount + eval($("#SaleInvoiceItems_" + i + "__Discount").val());
-
+            //alert(qty);
+            TotalQty += qty;
             amount = (qty * rate) - discount;
             total = total + amount;
-            $("#SaleInvoiceItems_0__Amount").val(amount);
+            $("#SaleInvoiceItems_" + i + "__Amount").val(amount);
         });
         $("#gridTotal").text(total);
         addition = eval($("#Addition").val());
         deduction = eval($("#Deduction").val());
 
-        net = total + addition - deduction;
+        var net = total + addition - deduction;
         $("#TotalAmount").val(total.toFixed(2));
-        $("#lblTotalAmount").text(Tot.toFixed(2));
+        $("#lblTotalAmount").text(total.toFixed(2));
+        $('#TotalQty').text(TotalQty);
     }
 
     function DateChanged(Date) {
@@ -184,11 +188,12 @@
         <h4>Sales Invoice</h4>
     </div>
     <div class="main-part pad1">
-        @using (Html.BeginForm("null", null, FormMethod.Post, new { @class = "createFrom", @id = "saleorder_form", @onsubmit = "return formValidation()" }))
+        @using (Html.BeginForm(null, null, FormMethod.Post, new { @class = "createFrom", @id = "saleorder_form", @onsubmit = "return formValidation()" }))
         {
             <div class="row form-group ">
                 <div class="col-md-2">
                     <label for="SaleOrderRefNo">Invoice Ref. No.</label>
+                    @Html.HiddenFor(m => Model.SalesInvoiceId)
                     @Html.HiddenFor(m => Model.SaleOrderId)
                     @Html.HiddenFor(m => Model.InvoiceType)
                     @Html.HiddenFor(m => Model.isProjectBased)
@@ -262,7 +267,7 @@
                                     }
                                     else
                                     {
-                                        @Html.TextBoxFor(m => Model.SaleInvoiceItems[i].QuantityTxt, new { @class = "form_input", autocomplete = "off", @style = "text-align:right", placeholder = "Qty", @readonly = "readonly" })
+                                        @Html.TextBoxFor(m => Model.SaleInvoiceItems[i].QuantityTxt, new { @class = "form_input", autocomplete = "off", @style = "text-align:right", placeholder = "Qty", @readonly = "readonly"})
                                     }
                                 </td>
                                 <td>@Html.TextBoxFor(m => Model.SaleInvoiceItems[i].Unit, new { @class = "form_input", autocomplete = "off", @style = "text-align:left", placeholder = "Unit", @readonly = "readonly" })</td>
@@ -290,7 +295,7 @@
                              {
                             <th width="15%" class="text-center"><h1></h1></th>
                               }
-                            <th width="5%" class="text-right">@totalQuantity</th>
+                            <th width="5%" class="text-right" id="TotalQty">@totalQuantity</th>
                             <th width="5%"></th>
                             <th width="10%" class="text-right"><h1></h1></th>
                             <th width="10%" class="text-right">@totalDiscount</th>
@@ -334,7 +339,7 @@
 
                 <div class="col-md-2">
                     <label for="PaymentTerms">Additional Amount</label>
-                    @Html.TextBoxFor(m => m.Addition, new { @class = "form_input numbers-only", @style = "text-align:right", autocomplete = "off", @Value = "0.00" })
+                    @Html.TextBoxFor(m => m.Addition, new { @class = "form_input numbers-only", @style = "text-align:right", autocomplete = "off" })
                 </div>
                 <div class="col-md-10">
                     <label for="PaymentTerms">Remarks</label>
@@ -346,7 +351,7 @@
 
                 <div class="col-md-2">
                     <label for="PaymentTerms">Deduction Amount</label>
-                    @Html.TextBoxFor(m => m.Deduction, new { @class = "form_input numbers-only clAmount", @style = "text-align:right", autocomplete = "off", @Value = "0.00" })
+                    @Html.TextBoxFor(m => m.Deduction, new { @class = "form_input numbers-only clAmount", @style = "text-align:right", autocomplete = "off" })
                 </div>
                 <div class="col-md-10">
                     <label for="PaymentTerms">Remarks</label>
@@ -358,8 +363,8 @@
             <div class="row">
                 <div class="col-md-12 hrpart">
                     <button type="button" class="form-button right" onclick="Exit()">Exit</button>
+                    <button type="submit" class="form-button right">Edit</button>
                     <button type="button" class="form-button right" onclick="GoToPrint(@Model.SalesInvoiceId)">Print</button>
-                    @*<button type="submit" class="form-button right">Edit</button>*@
                     <button type="button" class="form-button left" onclick="Delete('@Model.SalesInvoiceId','@Model.InvoiceType')">Delete</button>
                 </div>
 

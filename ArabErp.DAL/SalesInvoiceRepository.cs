@@ -70,17 +70,41 @@ namespace ArabErp.DAL
         {
             using (IDbConnection connection = OpenConnection(dataConnection))
             {
-                string sql = @"UPDATE SalesInvoice SET SalesInvoiceDate = @SalesInvoiceDate ,SalesInvoiceDueDate=@SalesInvoiceDueDate,
-                               JobCardId = @JobCardId ,SpecialRemarks = @SpecialRemarks ,PaymentTerms = @PaymentTerms,
-                               CreatedBy = @CreatedBy,CreatedDate = @CreatedDate,OrganizationId = @OrganizationId  
-                               OUTPUT INSERTED.SalesInvoiceId  WHERE SalesInvoiceId = @SalesInvoiceId";
+                IDbTransaction txn = connection.BeginTransaction();
+                string sql = @"UPDATE SalesInvoice SET SalesInvoiceRefNo=@SalesInvoiceRefNo,SalesInvoiceDate = @SalesInvoiceDate ,
+                               SalesInvoiceDueDate=@SalesInvoiceDueDate,SaleOrderId=@SaleOrderId,SpecialRemarks=@SpecialRemarks,
+                               PaymentTerms = @PaymentTerms,Addition=@Addition,Deduction=@Deduction,AdditionRemarks=@AdditionRemarks,
+                               DeductionRemarks=@DeductionRemarks,InvoiceType=@InvoiceType,isProjectBased=@isProjectBased,
+                               CreatedBy = @CreatedBy,CreatedDate = @CreatedDate,OrganizationId = @OrganizationId,TotalAmount=@TotalAmount  
+                               OUTPUT INSERTED.SalesInvoiceRefNo  WHERE SalesInvoiceId = @SalesInvoiceId";
 
+                try
+                {
+                    var id = connection.Execute(sql, objSalesInvoice, txn);
 
-                var id = connection.Execute(sql, objSalesInvoice);
-                InsertLoginHistory(dataConnection, objSalesInvoice.CreatedBy, "Update", "Sales Invoice", id.ToString(), "0");
-                return id;
+                    int i = 0;
+
+                    var SalesInvoiceItemRepo = new SalesInvoiceItemRepository();
+                    foreach (var item in objSalesInvoice.SaleInvoiceItems)
+                    {
+                        item.SalesInvoiceId = objSalesInvoice.SalesInvoiceId;
+
+                        item.OrganizationId = objSalesInvoice.OrganizationId;
+                        SalesInvoiceItemRepo.InsertSalesInvoiceItem(item, connection, txn);
+                    }
+
+                    InsertLoginHistory(dataConnection, objSalesInvoice.CreatedBy, "Update", "Sales Invoice", id.ToString(), objSalesInvoice.OrganizationId.ToString());
+                    txn.Commit();
+                    return id;
+                }
+                catch (Exception ex)
+                {
+                    txn.Rollback();
+                    throw ex;
+                }
             }
         }
+
 
         public int DeleteSalesInvoice(Unit objSalesInvoice)
         {
@@ -126,9 +150,9 @@ namespace ArabErp.DAL
                     sql = @"SELECT DISTINCT C.CustomerName Customer, SO.SaleOrderId SaleOrderId,CONCAT(SO.SaleOrderRefNo,' - ',Convert(varchar(15),SO.SaleOrderDate,106 )) as SaleOrderRefNoWithDate
                         FROM SaleOrder SO 
                         INNER JOIN SaleOrderItem SOI ON SO.SaleOrderId=SOI.SaleOrderId
-						INNER JOIN SalesInvoiceItem SII ON SOI.SaleOrderItemId=SII.SaleOrderItemId
 						INNER JOIN JobCard JC ON JC.SaleOrderItemId=SOI.SaleOrderItemId
 						INNER JOIN Customer C ON C.CustomerId=SO.CustomerId
+                        LEFT JOIN SalesInvoiceItem SII ON SOI.SaleOrderItemId=SII.SaleOrderItemId
 						WHERE SII.SalesInvoiceId IS NULL  AND SO.isProjectBased = 1 AND JC.JodCardCompleteStatus=1 
 						AND SO.isActive=1
 						AND JC.isActive=1
@@ -140,9 +164,9 @@ namespace ArabErp.DAL
                     sql = @"SELECT DISTINCT C.CustomerName Customer, SO.SaleOrderId SaleOrderId,CONCAT(SO.SaleOrderRefNo,' - ',Convert(varchar(15),SO.SaleOrderDate,106 )) as SaleOrderRefNoWithDate
                         FROM SaleOrder SO 
                         INNER JOIN SaleOrderItem SOI ON SO.SaleOrderId=SOI.SaleOrderId
-						INNER JOIN SalesInvoiceItem SII ON SOI.SaleOrderItemId=SII.SaleOrderItemId
 						INNER JOIN JobCard JC ON JC.SaleOrderItemId=SOI.SaleOrderItemId
 						INNER JOIN Customer C ON C.CustomerId=SO.CustomerId
+                        LEFT JOIN SalesInvoiceItem SII ON SOI.SaleOrderItemId=SII.SaleOrderItemId
 						WHERE SII.SalesInvoiceId IS NULL AND SO.isProjectBased = 0 AND JC.JodCardCompleteStatus=1 
 						AND SO.isActive=1
 						AND JC.isActive=1
@@ -154,9 +178,9 @@ namespace ArabErp.DAL
                     sql = @"SELECT DISTINCT C.CustomerName Customer, SO.SaleOrderId SaleOrderId,CONCAT(SO.SaleOrderRefNo,'/',Convert(varchar(15),SO.SaleOrderDate,106 )) as SaleOrderRefNoWithDate
                         FROM SaleOrder SO 
                         INNER JOIN SaleOrderItem SOI ON SO.SaleOrderId=SOI.SaleOrderId
-						INNER JOIN SalesInvoiceItem SII ON SOI.SaleOrderItemId=SII.SaleOrderItemId
 						INNER JOIN JobCard JC ON JC.SaleOrderItemId=SOI.SaleOrderItemId
 						INNER JOIN Customer C ON C.CustomerId=SO.CustomerId
+                        LEFT JOIN SalesInvoiceItem SII ON SOI.SaleOrderItemId=SII.SaleOrderItemId
 						WHERE SII.SalesInvoiceId IS NULL AND JC.JodCardCompleteStatus=1
 						AND SO.isActive=1
 						AND JC.isActive=1
@@ -177,11 +201,11 @@ namespace ArabErp.DAL
                 string sql = string.Empty;
                 if (invType == "Inter")
                 {
-                    sql = @"SELECT * INTO #SaleOrder FROM SaleOrder WHERE SaleOrderId=@SaleOrderId AND isActive=1;
+                    sql = @"SELECT * INTO #SaleOrder FROM SaleOrder WHERE SaleOrderId=ISNULL(NULLIF(@SaleOrderId, 0),@SaleOrderId) AND isActive=1;
                             SELECT SO.SaleOrderId SaleOrderId,SOI.WorkDescriptionId WorkDescriptionId,SOI.SaleOrderItemId SaleOrderItemId,SOI.Quantity Quantity,SOI.Rate Rate,SOI.Amount Amount,SOI.VehicleModelId,JC.JobCardNo JobCardNo INTO #TEMP_ORDER 
                             FROM #SaleOrder SO LEFT JOIN SaleOrderItem SOI ON SO.SaleOrderId=SOI.SaleOrderId
 	        				LEFT JOIN JobCard JC ON JC.SaleOrderItemId=SOI.SaleOrderItemId;		        			
-                            SELECT * INTO #SalesInvoice FROM SalesInvoice WHERE SaleOrderId=@SaleOrderId AND isActive=1;
+                            SELECT * INTO #SalesInvoice FROM SalesInvoice WHERE SaleOrderId=ISNULL(NULLIF(@SaleOrderId, 0),@SaleOrderId) AND isActive=1;
                             SELECT SI.SaleOrderId,SII.SaleOrderItemId INTO #TEMP_INVOICE FROM #SalesInvoice SI LEFT JOIN SalesInvoiceItem SII ON SI.SalesInvoiceId=SII.SalesInvoiceId;
                             SELECT O.SaleOrderId,O.SaleOrderItemId,O.Quantity,O.Rate,O.Amount,O.VehicleModelId,O.WorkDescriptionId WorkDescriptionId,W.WorkDescr WorkDescr,O.JobCardNo JobCardNo INTO #RESULT FROM #TEMP_ORDER O 
                             LEFT JOIN #TEMP_INVOICE I ON O.SaleOrderId=I.SaleOrderId AND O.SaleOrderItemId=I.SaleOrderItemId 
@@ -436,7 +460,8 @@ namespace ArabErp.DAL
             using (IDbConnection connection = OpenConnection(dataConnection))
             {
 
-                string sql = @" select SI.SaleOrderId,SI.SalesInvoiceRefNo,SI.isProjectBased,SI.SalesInvoiceId,SI.SalesInvoiceDate,SI.SalesInvoiceDueDate,C.CustomerName Customer,
+                string sql = @" select SI.SaleOrderId,SI.SalesInvoiceRefNo,SI.isProjectBased,SI.SalesInvoiceId,
+                                SI.SalesInvoiceDate,SI.SalesInvoiceDueDate,C.CustomerName Customer,
                                 Concat(C.DoorNo,',',C.Street,',',C.State,',',C.Country,',',C.Zip)CustomerAddress,
                                 S.CustomerOrderRef CustomerOrderRef,SI.SpecialRemarks,SI.PaymentTerms,SI.Addition,
                                 SI.Deduction,SI.AdditionRemarks,SI.DeductionRemarks,SI.TotalAmount,SI.InvoiceType
@@ -458,7 +483,8 @@ namespace ArabErp.DAL
             using (IDbConnection connection = OpenConnection(dataConnection))
             {
 
-                string sql = @" select SI.SalesInvoiceId,SI.SaleOrderItemId,SI.JobCardId,W.WorkDescr WorkDescription,SI.Quantity QuantityTxt,SI.Rate,SI.Discount,SI.Amount,U.UnitName Unit,V.VehicleModelName from SalesInvoiceItem SI 
+                string sql = @" select SI.SalesInvoiceId,SI.SaleOrderItemId,SI.JobCardId,W.WorkDescr WorkDescription,SI.Quantity QuantityTxt,
+                                SI.Rate,SI.Discount,SI.Amount,U.UnitName Unit,V.VehicleModelName from SalesInvoiceItem SI 
                                 inner join SaleOrderItem S ON S.SaleOrderItemId=SI.SaleOrderItemId
                                 inner join WorkDescription W ON W.WorkDescriptionId=S.WorkDescriptionId
                                 left join Unit U ON U.UnitId=S.UnitId

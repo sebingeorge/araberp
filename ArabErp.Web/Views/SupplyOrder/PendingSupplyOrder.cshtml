@@ -54,28 +54,11 @@
 
     <div class="row">
         <div class="form-head1">
-            <h4>Pending Purchase Requests</h4>
+            <h4>Pending Purchase Requests for Supply Order</h4>
         </div>
         <div class="main-part pad1">
             <form method="post" action="@Url.Action("Create", "SupplyOrder")" onsubmit="return formValidation()">
-                @*<div class=" table-responsive">
-                        <table class="table table-bordered">
-                            <thead>
-                                <tr class="grid_heading">
-                                    <th><h1>PRS No.</h1></th>
-                                    <th><h1>PRS Date</h1></th>
-                                    <th><h1>Material Description</h1></th>
-                                    <th class="text-right "><h1>PR Qty.</h1></th>
-                                    <th class="text-right "><h1>Pending Qty.</h1></th>
-                                    <th class="text-right "><h1>Unit</h1></th>
-                                    <th><h1>Required Date</h1></th>
-                                    <th><h1>Select</h1></th>
-                                </tr>
-                            </thead>
-                            <tbody class="grid_row">
-
-                        </table>
-                    </div>*@
+              
                 <div class="row">
 
                     <div class="main-grid main-grid-top scroll1">
@@ -83,9 +66,9 @@
                             <table class="table table-bordered">
                                 <thead>
                                     <tr class="grid_heading">
-                                        <th width="15%"><h1>PRS No. &amp; Date</h1></th>
+                                        <th width="15%"><h1>PRQ.No. &amp; Date</h1></th>
                                         <th width="10%"><h1>Required Date</h1></th>
-                                        <th width="15%"><h1>WR No. &amp; Date</h1></th>
+                                        <th width="15%"><h1>WR.No. &amp; Date</h1></th>
                                         <th width="40%"><h1>Special Remarks</h1></th>
                                         <th width="5%" nowrap><h1>Ageing</h1></th>
                                         <th width="5%" nowrap><h1>Days Left</h1></th>
@@ -99,27 +82,7 @@
                                         {
                                             @Html.HiddenFor(m => m[i].PurchaseRequestId)
                                             <tr>
-                                                @*<td>
-                                                    <input type="text" value="@Model[i].PurchaseRequestNo  -  @Model[i].RequiredDate.ToString("dd MMM yyyy")" class="form_input" disabled />
-                                                </td>
-                                                <td>
-                                                    <input type="text" value="@Model[i].RequiredDate.ToString("dd MMM yyyy")" class="form_input" disabled />
-                                                </td>
-                                                <td>
-                                                    <input type="text" value="@Model[i].WRNoAndDate" class="form_input" disabled />
-                                                </td>
-                                                <td>
-                                                    <input type="text" value="@Model[i].SpecialRemarks" class="form_input" disabled />
-                                                </td>
-                                                <td>
-                                                    <input type="text" style=" text-align:right;" value="@Model[i].Ageing" class="form_input" disabled />
-                                                </td>
-                                                <td>
-                                                    <input type="text" style=" text-align:right;" value="@Model[i].DaysLeft" class="form_input" disabled />
-                                                </td>
-                                                <td>
-                                                    <center>@Html.CheckBoxFor(m => m[i].Select)</center>
-                                                </td>*@
+                                               
 
                                                 <td>
                                                     @Model[i].PurchaseRequestNo  -  @Model[i].RequiredDate.ToString("dd MMM yyyy")
@@ -173,45 +136,6 @@
                         <button type="submit" class="form-button right">Proceed</button>
                     </div>
                   </div>
-
-
-
-                    @*<div class="main-part wid pad1">
-            <div class="table-responsive">
-
-
-                <div class="row">
-
-                    <div class="col-md-12">
-
-
-                        <div class="col-md-4 col-sm-4 grid-left">PRS No. and Date</div>
-                        <div class="col-md-4 col-sm-4 grid-left">Required Date</div>
-                        <div class="col-md-4 col-sm-4 grid-left"></div>
-
-
-                        @for (int i = 0; i < Model.Count(); i++)
-                        {
-                            @Html.HiddenFor(m => m[i].PurchaseRequestId)
-                            <div class="col-md-4 col-sm-4"><div> @Model[i].PurchaseRequestNo  -  @Model[i].RequiredDate.ToString("dd/MMM/yyyy")  </div></div>
-                            <div class="col-md-4 col-sm-4"><div>@Model[i].RequiredDate.ToString("dd/MMM/yyyy") </div></div>
-                            <div class="col-md-4 col-sm-4"><div><center>@Html.CheckBoxFor(m => m[i].Select)</center></div></div>
-                        }
-                    </div>
-                </div>
-
-                </div>
-
-
-            </div>*@
-
-
-
-
-
-
-
-
 
 
 </form>
