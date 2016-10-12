@@ -185,7 +185,7 @@
 
     function Delete() {
         var url = '@Url.Action("Delete", new { JobCardId = Model.JobCardId, isProjectBased = Model.isProjectBased })';
-        alert(@Model.isProjectBased);
+        @*alert(@Model.isProjectBased);*@
         window.location = url;
     }
 
