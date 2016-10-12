@@ -129,9 +129,20 @@
 
 
 
-    function Exit() {
+     function Exit(type) {
+         if(type=='Unit')
+         {
+             location.href = '@Url.Action("PendingQuerySheetforUnit")';
+         }
+        else if (type == 'Costing') {
+             location.href = '@Url.Action("PendingQuerySheetforCosting")';
+         }
 
-        location.href = '@Url.Action("Index", "Home")';
+        else if (type == 'RoomDetails')
+         {
+             location.href = '@Url.Action("Index", "Home")';
+         }
+      
         }
 
     function PreviousList(type)
@@ -184,7 +195,7 @@
                     @*@if (actionName == "Create")
                     {*@
                         <div class="col-md-2">
-                            <label for="QuerySheetRefNo">Query Sheet Ref.No.</label>
+                            <label for="QuerySheetRefNo">Query Sheet No.</label>
                             @Html.TextBoxFor(m => m.QuerySheetRefNo, new { @class = "form_input", autocomplete = "off", @readonly = "readonly" })
                         </div>
                  <div class="col-md-2">
@@ -333,7 +344,7 @@
                 <div class="row">
                     <div class="col-md-12 hrpart">
 
-                        <input type="button" class=" form-button right" onclick="Exit()" value="Exit">
+                        <input type="button" class=" form-button right" onclick="Exit('@Model.Type')" value="Exit">
                         @if (actionName == "Create")
                         {
                             <input type="button" class="form-button" onclick="PreviousList('@Model.Type')" value="Previous">

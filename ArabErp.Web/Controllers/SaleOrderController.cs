@@ -114,6 +114,15 @@ namespace ArabErp.Web.Controllers
             SaleOrder model = repo.GetSaleOrderFrmQuotation(SalesQuotationId ?? 0);
 
             model.Items = repo.GetSaleOrderItemFrmQuotation(SalesQuotationId ?? 0);
+
+            for (int i = 0; i < model.Items.Count; i++)
+            {
+                while (model.Items[i].Quantity > 1)
+                {
+                    model.Items.Insert(i + 1, model.Items[i]);
+                    model.Items[i].Quantity -= model.Items[i + 1].Quantity = 1;
+                }
+            }
             model.Materials = repo.GetSaleOrderMaterialFrmQuotation(SalesQuotationId ?? 0);
            
           
@@ -393,7 +402,7 @@ namespace ArabErp.Web.Controllers
         public ActionResult PendingSaleOrderApproval(int ProjectBased)
         {
             var repo = new SaleOrderRepository();
-            IEnumerable<PendingSO> pendingSO = repo.GetSaleOrderPending(ProjectBased);
+            IEnumerable<PendingSO> pendingSO = repo.GetSaleOrderPending(ProjectBased,OrganizationId);
             return View(pendingSO);
         }
         public ActionResult PendingSaleOrderApprovalWR()
@@ -523,7 +532,7 @@ namespace ArabErp.Web.Controllers
         public ActionResult PendingSaleOrderHold(int? page, int? isProjectBased)
         {
             var repo = new SaleOrderRepository();
-            IEnumerable<PendingSO> pendingSO = repo.GetSaleOrdersForHold(isProjectBased ?? 0);
+            IEnumerable<PendingSO> pendingSO = repo.GetSaleOrdersForHold(isProjectBased ?? 0,OrganizationId);
             return View(pendingSO);
         }
 
@@ -661,7 +670,7 @@ namespace ArabErp.Web.Controllers
         {
             var repo = new SalesQuotationRepository();
 
-            List<SalesQuotation> salesquotations = repo.GetSalesQuotationForSO(ProjectBased);
+            List<SalesQuotation> salesquotations = repo.GetSalesQuotationForSO(ProjectBased, OrganizationId);
             ViewBag.ProjectBased = ProjectBased;
             //ViewBag.AfterSales = isAfterSales;
              

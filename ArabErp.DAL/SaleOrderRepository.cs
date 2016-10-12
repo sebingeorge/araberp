@@ -89,7 +89,7 @@ namespace ArabErp.DAL
         {
             using (IDbConnection connection = OpenConnection(dataConnection))
             {
-                string sql = @"select *,DoorNo +','+ Street+','+State CustomerAddress,CONCAT(QuotationRefNo,' - ',CONVERT(VARCHAR(15),QuotationDate,104))QuotationNoDate,GrandTotal TotalAmount, ExpectedDeliveryDate AS EDateDelivery from SalesQuotation S inner join Customer C on S.CustomerId=C.CustomerId  where SalesQuotationId=@Id";
+                string sql = @"select *,isnull(DoorNo,'') +','+ isnull(Street,'')+','+isnull(State,'') CustomerAddress,CONCAT(QuotationRefNo,' - ',CONVERT(VARCHAR(15),QuotationDate,104))QuotationNoDate,GrandTotal TotalAmount, ExpectedDeliveryDate AS EDateDelivery from SalesQuotation S inner join Customer C on S.CustomerId=C.CustomerId  where SalesQuotationId=@Id";
 
                 var objSaleOrder = connection.Query<SaleOrder>(sql, new
                 {
@@ -154,7 +154,7 @@ namespace ArabErp.DAL
 
 
                 string sql = @"SELECT SaleOrderId,SaleOrderRefNo,SaleOrderDate,CONCAT(QuotationRefNo,' - ',CONVERT (VARCHAR(15),QuotationDate,104))QuotationNoDate,  
-                               C.CustomerId,CustomerName,DoorNo +','+ Street+','+State CustomerAddress,CustomerOrderRef,S.CurrencyId,SpecialRemarks,S.PaymentTerms,
+                               C.CustomerId,CustomerName,isnull(DoorNo,'') +','+ isnull(Street,'')+','+isnull(State,'') CustomerAddress,CustomerOrderRef,S.CurrencyId,SpecialRemarks,S.PaymentTerms,
                                DeliveryTerms,CommissionAgentId,CommissionAmount,TotalAmount,TotalDiscount,S.SalesExecutiveId,EDateArrival,EDateDelivery,SaleOrderApproveStatus,
                                SaleOrderHoldStatus,SaleOrderHoldReason,SaleOrderHoldDate,SaleOrderReleaseDate,S.SalesQuotationId,SaleOrderClosed,S.isProjectBased,CUR.CurrencyName,S.isAfterSales
                                FROM SaleOrder S 
@@ -211,7 +211,7 @@ namespace ArabErp.DAL
         ///  Saleorder Pending List for  hold stock
         /// </summary>
         /// <returns></returns>
-        public IEnumerable<PendingSO> GetSaleOrdersForHold(int isProjectBased)
+        public IEnumerable<PendingSO> GetSaleOrdersForHold(int isProjectBased, int OrganizationId)
         {
             using (IDbConnection connection = OpenConnection(dataConnection))
             {
@@ -226,7 +226,7 @@ namespace ArabErp.DAL
                              FROM SaleOrderItem t INNER JOIN SaleOrder SO on t.SaleOrderId=SO.SaleOrderId INNER JOIN Customer C ON SO.CustomerId =C.CustomerId
                              left join SalesInvoice SI on SO.SaleOrderId=SI.SaleOrderId 
                              left join JobCard J on J.SaleOrderItemId = t.SaleOrderItemId
-                             WHERE SI.SaleOrderId is null and SO.isActive=1 and SO.SaleOrderApproveStatus=1  AND SO.isProjectBased = " + isProjectBased.ToString() + @" order by SO.SaleOrderDate ASC";
+                             WHERE SI.SaleOrderId is null and SO.isActive=1 and SO.SaleOrderApproveStatus=1 AND SO.OrganizationId=" + OrganizationId + @" AND SO.isProjectBased = " + isProjectBased.ToString() + @" order by SO.SaleOrderDate ASC";
                             
                 return connection.Query<PendingSO>(query);
             }
@@ -452,16 +452,16 @@ namespace ArabErp.DAL
         /// Data from sale order table which is not Approved
         /// </summary>
         /// <returns></returns>
-        public IEnumerable<PendingSO> GetSaleOrderPending(int IsProjectBased)
+        public IEnumerable<PendingSO> GetSaleOrderPending(int IsProjectBased, int OrganizationId)
         {
             using (IDbConnection connection = OpenConnection(dataConnection))
             {
                 string query = @"Select S.SaleOrderId,SaleOrderRefNo, SaleOrderDate, C.CustomerName, S.CustomerOrderRef,E.EmployeeName,DATEDIFF(DAY,S.SaleOrderDate, GETDATE()) Ageing,DATEDIFF(DAY,GETDATE(), S.EDateDelivery) Remaindays,S.TotalAmount
                                  from SaleOrder S inner join Customer C on S.CustomerId = C.CustomerId LEFT JOIN Employee E ON S.CreatedBy = E.EmployeeId
-                                 where CommissionAmount>0 And isnull(CommissionAmountApproveStatus,0)=0 AND S.isActive = 1
+                                 where CommissionAmount>0 And isnull(CommissionAmountApproveStatus,0)=0 AND S.isActive = 1 and S.OrganizationId=@OrganizationId
                                  and  S.IsProjectBased = @IsProjectBased
                                  ORDER BY S.EDateDelivery , S.CreatedDate ";
-                return connection.Query<PendingSO>(query, new { IsProjectBased = IsProjectBased });
+                return connection.Query<PendingSO>(query, new { IsProjectBased = IsProjectBased, OrganizationId = OrganizationId });
             }
         }
         public IEnumerable<PendingSaleOrderForTransactionApproval> GetSaleOrderPendingForTrnApproval()

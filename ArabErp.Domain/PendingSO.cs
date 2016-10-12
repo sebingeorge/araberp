@@ -30,6 +30,7 @@ namespace ArabErp.Domain
         public string EmployeeName { get; set; }
         public string RegistrationNo { get; set; }
         public int DaysLeft { get; set; }
+        public int? isProjectBased { get; set; }
 
     
         
