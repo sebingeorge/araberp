@@ -1141,11 +1141,20 @@ section.content {
 }
 
 .custom-combobox-toggle {
-    position: absolute;
+    /*position: absolute;*/
     top: 0;
     bottom: 0;
     margin-left: -1px;
     padding: 0;
+    /*margin-top: -20px;
+    z-index: 9999999;
+    position: absolute;
+    left: 286px;*/
+    margin-right: 6px;
+    margin-top: -20px;
+    z-index: 9999999;
+    position: inherit;
+    float: right;
 }
 
 .custom-combobox-input {
