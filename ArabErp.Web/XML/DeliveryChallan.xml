@@ -1,0 +1,54 @@
+<?xml version="1.0" standalone="yes"?>
+<NewDataSet>
+  <xs:schema id="NewDataSet" xmlns="" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xs:element name="NewDataSet" msdata:IsDataSet="true" msdata:UseCurrentLocale="true">
+      <xs:complexType>
+        <xs:choice minOccurs="0" maxOccurs="unbounded">
+          <xs:element name="Head">
+            <xs:complexType>
+              <xs:sequence>
+                <xs:element name="DeliveryChallanRefNo" type="xs:string" minOccurs="0" />
+                <xs:element name="DeliveryChallanDate" type="xs:string" minOccurs="0" />
+                <xs:element name="Customer" type="xs:string" minOccurs="0" />
+                <xs:element name="SONoDate" type="xs:string" minOccurs="0" />
+                <xs:element name="JCNoDate" type="xs:string" minOccurs="0" />
+                <xs:element name="RegistrationNo" type="xs:string" minOccurs="0" />
+                <xs:element name="WorkDesc" type="xs:string" minOccurs="0" />
+                <xs:element name="VehicleModel" type="xs:string" minOccurs="0" />
+                <xs:element name="Employee" type="xs:string" minOccurs="0" />
+                <xs:element name="PaymentTerms" type="xs:string" minOccurs="0" />
+                <xs:element name="SpecialRemarks" type="xs:string" minOccurs="0" />
+                <xs:element name="Image1" type="xs:string" minOccurs="0" />
+                <xs:element name="OrganizationName" type="xs:string" minOccurs="0" />
+              </xs:sequence>
+            </xs:complexType>
+          </xs:element>
+          <xs:element name="Items">
+            <xs:complexType>
+              <xs:sequence>
+                <xs:element name="SerialNo" type="xs:string" minOccurs="0" />
+                <xs:element name="ItemName" type="xs:string" minOccurs="0" />
+                <xs:element name="WarrantyStartDate" type="xs:string" minOccurs="0" />
+                <xs:element name="WarrantyExpireDate" type="xs:string" minOccurs="0" />
+              </xs:sequence>
+            </xs:complexType>
+          </xs:element>
+        </xs:choice>
+      </xs:complexType>
+    </xs:element>
+  </xs:schema>
+  <Head>
+    <DeliveryChallanRefNo>DC-16/9</DeliveryChallanRefNo>
+    <DeliveryChallanDate>05-Oct-2016</DeliveryChallanDate>
+    <Customer>M/S Al Rashid Ice Factory</Customer>
+    <SONoDate>SO/24 - 20 Jun 2016</SONoDate>
+    <JCNoDate>JC/8 - 09 Aug 2016</JCNoDate>
+    <RegistrationNo>KL 59 B 7614</RegistrationNo>
+    <WorkDesc>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum</WorkDesc>
+    <VehicleModel>Isuzu NPR</VehicleModel>
+    <Employee>Shanid</Employee>
+    <SpecialRemarks>rwyhfthf</SpecialRemarks>
+    <Image1>E:\ARAB\New folder\ArabErp\ArabErp.Web\App_images\e8251ae5-2716-4b20-841c-c57ba2109c7b.png</Image1>
+    <OrganizationName>Arab Air Conditioning &amp; Refrigeration Co. W.L.L.</OrganizationName>
+  </Head>
+</NewDataSet>

@@ -263,6 +263,7 @@
     <Compile Include="Controllers\OpeningStockReportController.cs" />
     <Compile Include="Controllers\OrganizationController.cs" />
     <Compile Include="Controllers\PaymentTermsController.cs" />
+    <Compile Include="Controllers\PendingTasksForCompletionController.cs" />
     <Compile Include="Controllers\ProductionPlanController.cs" />
     <Compile Include="Controllers\PendingPARregisterController.cs" />
     <Compile Include="Controllers\PendingSaleOrderRegisterController.cs" />
@@ -338,10 +339,10 @@
       <SubType>Component</SubType>
     </Compile>
     <Compile Include="Reports\DeliveryChallan.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
       <DependentUpon>DeliveryChallan.rpt</DependentUpon>
       <SubType>Component</SubType>
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
     </Compile>
     <Compile Include="Reports\ItemSellingPrice.cs">
       <AutoGen>True</AutoGen>
@@ -350,9 +351,6 @@
       <SubType>Component</SubType>
     </Compile>
     <Compile Include="Reports\JobCard.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>JobCard.rpt</DependentUpon>
       <SubType>Component</SubType>
     </Compile>
     <Compile Include="Reports\ProformaInvoice.cs">
@@ -366,6 +364,12 @@
       <SubType>Component</SubType>
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>
+    </Compile>
+    <Compile Include="Reports\testjobcard.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>testjobcard.rpt</DependentUpon>
+      <SubType>Component</SubType>
     </Compile>
     <Compile Include="Startup.cs" />
   </ItemGroup>
@@ -489,7 +493,6 @@
     <Content Include="Images\white-pattern.jpg" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
-    <Content Include="XML\JobCard.xml" />
     <Content Include="XML\SalesInvoice.xml" />
     <None Include="Properties\PublishProfiles\Server.pubxml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
@@ -996,6 +999,8 @@
     <Content Include="Views\SalesQuotation\DeliveryChallans.cshtml" />
     <Content Include="Views\SalesQuotation\_DeliveryChallansGrid.cshtml" />
     <Content Include="Views\QuerySheet\PendingQuerySheet.cshtml" />
+    <Content Include="Views\PendingTasksForCompletion\_PendingTasksGrid.cshtml" />
+    <Content Include="Views\PendingTasksForCompletion\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -1044,7 +1049,7 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Reports\JobCard.rpt">
       <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
-      <LastGenOutput>JobCard.cs</LastGenOutput>
+      <LastGenOutput>JobCard1.cs</LastGenOutput>
     </EmbeddedResource>
     <EmbeddedResource Include="Reports\ProformaInvoice.rpt">
       <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
@@ -1053,6 +1058,10 @@
     <EmbeddedResource Include="Reports\SalesInvoice.rpt">
       <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
       <LastGenOutput>SalesInvoice.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Reports\testjobcard.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>testjobcard.cs</LastGenOutput>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />

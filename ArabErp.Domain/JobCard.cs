@@ -44,21 +44,9 @@ namespace ArabErp.Domain
 
         public int CurrencyId { get; set; }
         public string CurrencyName { get; set; }
-        //public string OrganizationRefNo { get; set; }
-        //public string OrganizationName { get; set; }
-        //public string DoorNo { get; set; }
-        //public string Street { get; set; }
-        //public string State { get; set; }
-        //public int Country { get; set; }
-        //public string CountryName { get; set; }
-        //public string Zip { get; set; }
-        //public string OrgPhone { get; set; }
-        //public string Fax { get; set; }
-        //public string Email { get; set; }
-        //public string OrgContactPerson { get; set; }
-        //public int cmpCode { get; set; }
-        //public string CompanyName { get; set; }
-        //public string Image1 { get; set; }
+       // public string OrganizationRefNo { get; set; }
+        public string OrganizationName { get; set; }
+        public string Image1 { get; set; }
         public List<JobCardTask> JobCardTasks { get; set; }
 
         public string BoxName { get; set; }

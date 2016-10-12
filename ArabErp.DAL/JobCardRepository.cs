@@ -412,23 +412,34 @@ namespace ArabErp
             }
         }
 
-        public JobCard GetJobCardHD(int JobCardId)
+        public JobCard GetJobCardHD(int JobCardId, int OrganizationId)
         {
             using (IDbConnection connection = OpenConnection(dataConnection))
             {
 
-                string sql = @" SELECT JobCardId,JobCardNo,JobCardDate,SaleOrderRefNo RegistrationNo,Concat(CustomerName,',',DoorNo,',',Street)CustomerName,
-                                C.Phone,C.ContactPerson,E.EmployeeName Technician,C.CustomerName Customer,U.ItemName FreezerUnitName
-                                FROM JobCard J
+//                string sql = @" SELECT JobCardId,JobCardNo,JobCardDate,SaleOrderRefNo RegistrationNo,Concat(CustomerName,',',DoorNo,',',Street)CustomerName,
+//                                C.Phone,C.ContactPerson,E.EmployeeName Technician,C.CustomerName Customer,U.ItemName FreezerUnitName
+//                                FROM JobCard J
+//                                INNER JOIN SaleOrder S ON S.SaleOrderId=J.SaleOrderId
+//                                INNER JOIN Customer C ON C.CustomerId=S.CustomerId
+//                                INNER JOIN Employee E ON E.EmployeeId=J.EmployeeId
+//                                LEFT JOIN Item U ON U.ItemId=J.FreezerUnitId
+//                                WHERE JobCardId=@JobCardId";
+
+                string sql = @"  SELECT JobCardId,JobCardNo,JobCardDate,SaleOrderRefNo RegistrationNo,Concat(CustomerName,',',C.DoorNo,',',C.Street)CustomerName,
+                                C.Phone,C.ContactPerson,E.EmployeeName Technician,C.CustomerName Customer,U.ItemName FreezerUnitName,O.OrganizationName,o.Image1,
+                                o.OrganizationId FROM JobCard J
                                 INNER JOIN SaleOrder S ON S.SaleOrderId=J.SaleOrderId
                                 INNER JOIN Customer C ON C.CustomerId=S.CustomerId
                                 INNER JOIN Employee E ON E.EmployeeId=J.EmployeeId
                                 LEFT JOIN Item U ON U.ItemId=J.FreezerUnitId
+								inner join Organization O ON O.OrganizationId=J.OrganizationId
                                 WHERE JobCardId=@JobCardId";
 
                 var objJobCardId = connection.Query<JobCard>(sql, new
                 {
-                    JobCardId = JobCardId
+                    JobCardId = JobCardId,
+                    OrganizationId=OrganizationId
                 }).First<JobCard>();
 
                 return objJobCardId;
@@ -527,19 +538,19 @@ namespace ArabErp
             }
         }
 
-        //public JobCard GetOrganization(int OrganizationId)
-        //{
-        //    using (IDbConnection connection = OpenConnection(dataConnection))
-        //    {
-        //        string sql = @"select * from organization where OrganizationId=@OrganizationId";
-        //        var objJobCardId = connection.Query<JobCard>(sql, new
-        //        {
-        //            OrganizationId = OrganizationId
-        //        }).First<JobCard>();
+        public JobCard GetOrganization(int OrganizationId)
+        {
+            using (IDbConnection connection = OpenConnection(dataConnection))
+            {
+                string sql = @"select * from organization where OrganizationId=@OrganizationId";
+                var objJobCardId = connection.Query<JobCard>(sql, new
+                {
+                    OrganizationId = OrganizationId
+                }).First<JobCard>();
 
-        //        return objJobCardId;
-        //    }
-        //}
+                return objJobCardId;
+            }
+        }
 
 
     }

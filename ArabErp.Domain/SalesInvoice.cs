@@ -41,8 +41,21 @@ namespace ArabErp.Domain
         public string RegistrationNo { get; set; }
         public string JobCardNo { get; set; }
         public string VehicleOutPassNo { get; set; }
-       
-       
+
+        public string OrganizationName { get; set; }
+        public string Image1 { get; set; }
+         public string OrganizationRefNo { get; set; }
+         public string DoorNo { get; set; }
+         public string Street { get; set; }
+         public string State { get; set; }
+         public string Country { get; set; }
+         public string Phone { get; set; }
+         public string Fax { get; set; }
+        public string Email { get; set; }
+        public string ContactPerson { get; set; }
+        public string Zip { get; set; }
+
+     
         public List<SalesInvoiceItem> SaleInvoiceItems { get; set; }
     }
 }
