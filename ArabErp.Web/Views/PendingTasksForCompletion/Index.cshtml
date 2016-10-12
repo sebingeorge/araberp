@@ -7,6 +7,12 @@
 
 <script type="text/javascript">
 
+    $(function () {
+        $("#filter-jobcarddate").datepicker({
+            dateFormat: "dd-MM-yy"
+        })
+    })
+
     function Filter() {
         var saleorder = $("#filter-saleorder").val();
         var jobcard = $("#filter-jobcard").val();
@@ -15,7 +21,7 @@
         var task = $("#filter-task").val();
         var technician = $("#filter-technician").val();
         var url = '@Url.Action("PendingTasks")';
-        url += "saleorder=" + encodeURIComponent(saleorder)
+        url += "?saleorder=" + encodeURIComponent(saleorder)
             + "&jobcard=" + encodeURIComponent(jobcard)
             + "&jobcarddate=" + encodeURIComponent(jobcarddate)
             + "&engineer=" + encodeURIComponent(engineer)
