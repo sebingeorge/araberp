@@ -28,21 +28,21 @@
                         <table class="table table-bordered">
                             <thead>
                                 <tr class="grid_heading">
-                                    <th width="40%"><h1>Work Description</h1></th>
-                                    <th width="10%"><h1>Job Card No</h1></th>
+                                    <th width="10%"><h1>Job Card No.</h1></th>
                                     <th width="10%"><h1>Job Card Date</h1></th>
+                                    <th width="40%"><h1>Work Description</h1></th>
                                     <th width="20%"><h1>Employee</h1></th>
                                     <th width="10%"><h1>Required Date</h1></th>
-                                    <th width="10%"><center><h1>Select</h1></center></th>
+                                    <th width="10%"><center><h1></h1></center></th>
                                 </tr>
                             </thead>
                             @foreach (var item in Model)
                             {
                                 <tbody class="grid_row">
                                     <tr>
-                                        <td class="grid-cell">@item.WorkDescr</td>
                                         <td class="grid-cell">@item.JobCardNo</td>
                                         <td class="grid-cell">@item.JobCardDate.ToString("dd/MMM/yyyy")</td>
+                                        <td class="grid-cell">@item.WorkDescr</td>
                                         <td class="grid-cell">@item.EmployeeName</td>
                                         <td class="grid-cell">@item.RequiredDate.ToString("dd/MMM/yyyy")</td>
                                         <td><center><button class="form-button5" onclick="GoToDailyActivity(@item.JobCardId)">Select</button></center></td>

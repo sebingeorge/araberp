@@ -753,7 +753,7 @@ namespace ArabErp.Web.Controllers
         public void FillQuerySheet()
         {
             var repo = new DropdownRepository();
-            var list = repo.QuerySheetNoDropdown();
+            var list = repo.QuerySheetNoDropdown(OrganizationId);
             ViewBag.QuerySheetNolist = new SelectList(list, "Id", "Name");
         }
         public void FillQuerySheetInQuot()
