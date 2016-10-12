@@ -1,0 +1,84 @@
+﻿@model IList<ArabErp.Domain.PendingTasksForCompletion>
+
+<table class="table table-bordered table-hover">
+    <thead>
+        <tr class="grid_heading">
+            <th width="1%" class="text-center">#</th>
+            <th width="15%"><h1>Sale Order Ref. No. &amp; Date</h1></th>
+            <th width="15%" nowrap><h1>Job Card Ref No. &amp; Date</h1></th>
+            <th width="8%"><h1>Engineer</h1></th>
+            <th width="15%"><h1>Task</h1></th>
+            <th width="5%" title="Estimated hours" nowrap><h1>Est. Hours</h1></th>
+            <th width="8%"><h1>Technician</h1></th>
+            <th width="10%"><h1>Required Date</h1></th>
+        </tr>
+    </thead>
+    <tbody class="grid_row">
+        @if (Model.Count > 0)
+        {
+            int slno = 0, count1 = 0, count2 = 0;
+            foreach (var item in Model)
+            {
+                <tr>
+                    @if (count2 == 0)
+                    {
+                        count2 = Model.Where(x => x.SaleOrderRefNo == item.SaleOrderRefNo).Count();
+                        <td align="center" rowspan="@count2">
+                            @(++slno)
+                        </td>
+                        <td rowspan="@count2">
+                            @if (item.isProjectBased)
+                            {
+                                <div style="background-color:red;height:5px;width:5px;float:left;margin-top:5px;margin-right:2px"></div>
+                            }
+                            else
+                            {
+                                <div style="background-color:green;height:5px;width:5px;float:left;margin-top:5px;margin-right:2px"></div>
+                            }
+                            <b>@item.SaleOrderRefNo</b> - @item.SaleOrderDate.ToString("dd/MMMM/yyyy")
+                        </td>
+                    }
+                    @if (count1 == 0)
+                    {
+                        count1 = Model.Where(x => x.JobCardId == item.JobCardId).Count();
+                        <td rowspan="@count1">
+                            <b>@item.JobCardNo</b> - @item.JobCardDate.ToString("dd/MMMM/yyyy")
+                            @if(!item.isProjectBased)
+                            {
+                                @:(@item.BayName)
+                            }
+                        </td>
+                        <td rowspan="@count1">
+                            @item.Engineer
+                        </td>
+                    }
+                    <td>
+                        @item.JobCardTaskName
+                    </td>
+                    <td>
+                        @item.EstimatedHours
+                    </td>
+                    <td>
+                        @item.EmployeeName
+                    </td>
+                    <td>
+                        @item.RequiredDate.ToString("dd/MMMM/yyyy")
+                    </td>
+                </tr>
+                    count1--; count2--;
+            }
+        }
+        else
+        {
+            <tr>
+                <td colspan="8">
+                    <center>
+                        <em>
+                            No items to show!
+                        </em>
+                    </center>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

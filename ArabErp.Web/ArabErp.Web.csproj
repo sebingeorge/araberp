@@ -263,6 +263,7 @@
     <Compile Include="Controllers\OpeningStockReportController.cs" />
     <Compile Include="Controllers\OrganizationController.cs" />
     <Compile Include="Controllers\PaymentTermsController.cs" />
+    <Compile Include="Controllers\PendingTasksForCompletionController.cs" />
     <Compile Include="Controllers\ProductionPlanController.cs" />
     <Compile Include="Controllers\PendingPARregisterController.cs" />
     <Compile Include="Controllers\PendingSaleOrderRegisterController.cs" />
@@ -996,6 +997,8 @@
     <Content Include="Views\SalesQuotation\DeliveryChallans.cshtml" />
     <Content Include="Views\SalesQuotation\_DeliveryChallansGrid.cshtml" />
     <Content Include="Views\QuerySheet\PendingQuerySheet.cshtml" />
+    <Content Include="Views\PendingTasksForCompletion\_PendingTasksGrid.cshtml" />
+    <Content Include="Views\PendingTasksForCompletion\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
