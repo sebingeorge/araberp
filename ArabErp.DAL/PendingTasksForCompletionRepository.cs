@@ -19,6 +19,15 @@ namespace ArabErp.DAL
         {
             using (IDbConnection connection = OpenConnection(dataConnection))
             {
+                DateTime d;
+                try
+                {
+                    d = Convert.ToDateTime(jobcarddate);
+                }
+                catch (Exception)
+                {
+                    d = DateTime.MinValue;
+                }
                 string query = @"
                 SELECT
 	                JC.JobCardId,
@@ -56,18 +65,19 @@ namespace ArabErp.DAL
                 WHERE ISNULL(JC.JodCardCompleteStatus, 0) = 0
 	                AND	JC.OrganizationId = @OrganizationId
 					AND SO.SaleOrderRefNo LIKE '%'+@saleorder+'%'
-					--AND JC.JobCardNo LIKE '%'+@jobcard+'%'
-					--AND JC.JobCardDate = ISNULL(@jobcarddate, JC.JobCardDate)
-					--AND EMP1.EmployeeName LIKE '%'+@engineer+'%'
-					--AND JTM.JobCardTaskName LIKE '%'+@task+'%'
-					--AND EMP.EmployeeName LIKE '%'+@technician+'%'
+					AND JC.JobCardNo LIKE '%'+@jobcard+'%' " + 
+                    (d != DateTime.MinValue ? "AND JC.JobCardDate = ISNULL(@jobcarddate, JC.JobCardDate) " : "") + 
+                    @"AND EMP1.EmployeeName LIKE '%'+@engineer+'%'
+					AND JTM.JobCardTaskName LIKE '%'+@task+'%'
+					AND EMP.EmployeeName LIKE '%'+@technician+'%'
 	            ORDER BY SO.SaleOrderRefNo, JC.RequiredDate DESC";
+
                 return connection.Query<PendingTasksForCompletion>(query, new
                 {
                     OrganizationId = OrganizationId,
                     saleorder = saleorder,
                     jobcard = jobcard,
-                    jobcarddate = jobcarddate,
+                    jobcarddate = d,
                     engineer = engineer,
                     task = task,
                     technician = technician
