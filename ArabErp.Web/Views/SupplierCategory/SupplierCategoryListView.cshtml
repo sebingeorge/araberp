@@ -51,7 +51,7 @@
 
         @Html.Grid(Model).Columns(columns =>
                         {
-                            columns.Add(m => m.SupCategoryRefNo).Titled("Ref No.").SetWidth(30);
+                            columns.Add(m => m.SupCategoryRefNo).Titled("Code").SetWidth(30);
                             columns.Add(m => m.SupCategoryName).Titled("Name").SetWidth(110);
                             columns.Add(m => m.SupCategoryShortName).Titled("Short Name").SetWidth(110);
                             columns.Add().Encoded(false).Sanitized(false).SetWidth(30).Css("cent").RenderValueAs(m => @<a href="@Url.Action("Edit", new { Id = m.SupCategoryId })">Edit</a>);
