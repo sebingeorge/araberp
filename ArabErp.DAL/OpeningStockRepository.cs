@@ -192,9 +192,9 @@ namespace ArabErp.DAL
                                 }, txn);
                     }
 
-                    qry = @"DELETE FROM StockUpdate OUTPUT DELETED.StockUpdateId WHERE StockpointId = @StockpointId AND StockType='OpeningStock'";
+                    qry = @"DELETE FROM StockUpdate  WHERE StockpointId = @StockpointId AND StockType='OpeningStock'";
 
-                    connection.Query<int>(qry, new { StockpointId = model.stockpointId }, txn).First();
+                    connection.Execute(qry, new { StockpointId = model.stockpointId }, txn);
 
                     InsertStockUpdate(model, connection, txn);
 

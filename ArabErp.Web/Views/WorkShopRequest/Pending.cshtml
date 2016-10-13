@@ -34,7 +34,7 @@
         @{ TempData["success"] = TempData["error"] = ""; }
     })
     function PreviousList(isProjectBased) {
-      
+
         var url = '@Url.Action("Index")';
         url += "?isProjectBased=" + isProjectBased;
         window.location = url;
@@ -46,15 +46,21 @@
     }
 
     function Filter() {
+    
         $("#wr-pending").addClass("fade");
         var saleOrder = $("#txtSaleOrder").val();
-        //saleOrder = saleOrder.replace(/ /g, '+');
+        var isProjectBased=@ViewBag.ProjectBased;
+     
         var url = '@Url.Action("WorkShopRequestPending")';
-        url += "?saleOrder=" + encodeURIComponent(saleOrder);
+      
+        url += "?isProjectBased=" + isProjectBased + "&saleOrder=" + encodeURIComponent(saleOrder) ;
+      
         $("#wr-pending").load(url, function () {
             $("#wr-pending").removeClass("fade");
+
         });
-    }
+       
+        }
 </script>
 
 <div class="row">

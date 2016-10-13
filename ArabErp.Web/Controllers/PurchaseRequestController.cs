@@ -30,7 +30,7 @@ namespace ArabErp.Web.Controllers
         public ActionResult PendingPurchaseRequest()
         {
             var repo = new PurchaseRequestRepository();
-            IEnumerable<PendingWorkShopRequest> pendingWR = repo.GetWorkShopRequestPending();
+            IEnumerable<PendingWorkShopRequest> pendingWR = repo.GetWorkShopRequestPending(OrganizationId);
             return View(pendingWR);
         }
         public ActionResult Create(int? WorkShopRequestId)
