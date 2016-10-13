@@ -51,9 +51,9 @@
 
         @Html.Grid(Model).Columns(columns =>
                         {
-                            columns.Add(m => m.cmpUsercode).Titled("User Code").SetWidth(30);
+                            columns.Add(m => m.cmpUsercode).Titled("Code").SetWidth(30);
                             columns.Add(m => m.cmpName).Titled("Name").SetWidth(120);
-                            columns.Add(m => m.cmpDoorNo).Titled("Door No").SetWidth(90);
+                            columns.Add(m => m.cmpDoorNo).Titled("Door No.").SetWidth(90);
                             columns.Add(m => m.cmpStreet).Titled("Street").SetWidth(90);
                             columns.Add(m => m.cmpArea).Titled("Area").SetWidth(110);
                             columns.Add().Encoded(false).Sanitized(false).SetWidth(30).Css("cent").RenderValueAs(m => @<a href="@Url.Action("Edit", new { Id = m.cmpCode })">Edit</a>);
