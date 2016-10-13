@@ -34,7 +34,7 @@
             "hideMethod": "fadeOut"
         }
         if ('@TempData["success"]' != "" && '@TempData["AddDedRefNo"]' != "") {
-            toastr.success('@TempData["success"]' + ' Addition/Deduction Ref No. is : ' + '@TempData["AddDedRefNo"]');
+            toastr.success('@TempData["success"]' + ' Addition/Deduction Code is : ' + '@TempData["AddDedRefNo"]');
         }
         else if ('@TempData["error"]' != "") {
             toastr.error('@TempData["error"]');

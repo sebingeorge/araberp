@@ -36,7 +36,7 @@
             "hideMethod": "fadeOut"
         }
         if ('@TempData["success"]' != "" && '@TempData["BayRefNo"]' != "") {
-            toastr.success('@TempData["success"]' + '  Bay Ref No. is : ' + '@TempData["BayRefNo"]');
+            toastr.success('@TempData["success"]' + '  Bay Code is : ' + '@TempData["BayRefNo"]');
         }
         else if ('@TempData["error"]' != "") {
             toastr.error('@TempData["error"]');
