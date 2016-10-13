@@ -28,7 +28,7 @@
             "hideMethod": "fadeOut"
         }
         if ('@TempData["success"]' != "" && '@TempData["CustomerRefNo"]' != "") {
-            toastr.success('@TempData["success"]' + '  Customer Ref No. is : ' + '@TempData["CustomerRefNo"]');
+            toastr.success('@TempData["success"]' + '  Customer Code is : ' + '@TempData["CustomerRefNo"]');
         }
         else if ('@TempData["error"]' != "") {
             toastr.error('@TempData["error"]');

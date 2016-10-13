@@ -26,7 +26,7 @@
         @Html.Grid(Model).Columns(columns =>
                         {
                             columns.Add(m => m.CurrencyId).Titled("ID").SetWidth(30);
-                            columns.Add(m => m.CurrencyRefNo).Titled("Ref No.").SetWidth(30);
+                            columns.Add(m => m.CurrencyRefNo).Titled("Code").SetWidth(30);
                             columns.Add(m => m.CurrencyName).Titled("Currency").SetWidth(110);
                             columns.Add(m => m.Elementary).Titled("Elementary").SetWidth(110);
                             columns.Add(m => m.CurrencyExRate).Titled("Exchange Rate").SetWidth(30);

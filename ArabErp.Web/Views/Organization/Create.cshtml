@@ -57,7 +57,7 @@
             "hideMethod": "fadeOut"
         }
         if ('@TempData["success"]' != "" && '@TempData["OrganizationRefNo"]' != "") {
-            toastr.success('@TempData["success"]' + ' Organization Ref No. is : ' + '@TempData["OrganizationRefNo"]');
+            toastr.success('@TempData["success"]' + ' Organization Code is : ' + '@TempData["OrganizationRefNo"]');
         }
         else if ('@TempData["error"]' != "") {
             toastr.error('@TempData["error"]');
