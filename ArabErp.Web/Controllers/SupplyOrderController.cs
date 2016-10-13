@@ -28,6 +28,8 @@ namespace ArabErp.Web.Controllers
 
         public ActionResult Create(IList<PendingPurchaseRequest> PendingPurchaseRequestItemsSelected)
         {
+            FillDropdowns();
+
             SupplyOrder supplyorder = new SupplyOrder();
 
             supplyorder.SupplyOrderNo = DatabaseCommonRepository.GetNextDocNo(9, OrganizationId);
@@ -46,8 +48,6 @@ namespace ArabErp.Web.Controllers
             supplyorder.SupplyOrderDate = System.DateTime.Today;
             supplyorder.RequiredDate = System.DateTime.Today;
             supplyorder.CurrencyId = new CurrencyRepository().GetCurrencyFrmOrganization(OrganizationId).CurrencyId;
-            FillDropdowns();
-
             return View(supplyorder);
         }
         //public PartialViewResult grid(IList<PendingPurchaseRequest> PendingPurchaseRequestItemsSelected, int Id = 0)

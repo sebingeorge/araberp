@@ -30,7 +30,7 @@
             "hideMethod": "fadeOut"
         }
         if ('@TempData["success"]' != "" && '@TempData["ItemRefNo"]' != "") {
-            toastr.success('@TempData["success"]' + '  Item Ref No. is : ' + '@TempData["ItemRefNo"]');
+            toastr.success('@TempData["success"]' + '  Item Code is : ' + '@TempData["ItemRefNo"]');
         }
         else if ('@TempData["error"]' != "") {
             toastr.error('@TempData["error"]');

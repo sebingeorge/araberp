@@ -19,7 +19,9 @@ namespace ArabErp.Web.Controllers
         public ActionResult Create()
         {
             ViewBag.Title = "Create";
+          
             ItemCategory ItemCategory = new ItemCategory();
+            ItemCategory.CreatedBy = UserID.ToString();
             ItemCategory.itmCatRefNo= new ItemCategoryRepository().GetRefNo(ItemCategory);
             return View(ItemCategory);
         }

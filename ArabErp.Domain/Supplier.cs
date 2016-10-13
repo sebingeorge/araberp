@@ -19,6 +19,7 @@ namespace ArabErp.Domain
         public int? SupCategoryId { get; set; }
         [Required]
         public DateTime ContractDate { get; set; }
+        [Required]
         public int? PurchaseTypeId { get; set; }
         [Required]
         public int? Active { get; set; }

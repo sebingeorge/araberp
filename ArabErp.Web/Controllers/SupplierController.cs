@@ -108,7 +108,7 @@ namespace ArabErp.Web.Controllers
                     FillPurchaseType();
                     TempData["error"] = "This Name Alredy Exists!!";
                     TempData["SupplierRefNo"] = null;
-                    return View("Edit", model);
+                    return View("Create", model);
                 }
 
         }
