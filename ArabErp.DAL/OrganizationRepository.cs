@@ -47,6 +47,7 @@ namespace ArabErp.DAL
 
 
                 try
+
                 {
                     int internalid = DatabaseCommonRepository.GetInternalIDFromDatabase(connection, trn, typeof(Organization).Name, "0", 1);
                     objOrganization.OrganizationRefNo = "ORG/" + internalid;
@@ -74,7 +75,7 @@ namespace ArabErp.DAL
             using (IDbConnection connection = OpenConnection(dataConnection))
             {
 
-                return connection.Query<Dropdown>("SELECT CurrencyId Id,CurrencyName Name FROM Currency").ToList();
+                return connection.Query<Dropdown>("SELECT CurrencyId Id,CurrencyName Name FROM Currency WHERE isActive=1").ToList();
             }
         }
         public IEnumerable<Dropdown> FillCompanyDropdown()

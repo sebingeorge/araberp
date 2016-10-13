@@ -35,8 +35,8 @@
                 "showMethod": "fadeIn",
                 "hideMethod": "fadeOut"
             }
-            if ('@TempData["success"]' != "" && '@TempData["BoxRefNo"]' != "") {
-                toastr.success('@TempData["success"]' + '  Company Code is : ' + '@TempData["BoxRefNo"]');
+            if ('@TempData["success"]' != "" && '@TempData["cmpUsercode"]' != "") {
+                toastr.success('@TempData["success"]' + '  Company Code is : ' + '@TempData["cmpUsercode"]');
             }
             else if ('@TempData["error"]' != "") {
                 toastr.error('@TempData["error"]');
@@ -63,7 +63,7 @@
                     <div class="part4">
                         @Html.HiddenFor(m => m.cmpCode)
                         <label for="CmpUserCode">Code</label>
-                        @Html.TextBoxFor(m => m.cmpUsercode, new { @class = "form_input form_input-half", autocomplete = "off" })
+                        @Html.TextBoxFor(m => Model.cmpUsercode, new { @class = "form_input form_input-half", autocomplete = "off" })
                     </div>
 
                     <div class="part4">

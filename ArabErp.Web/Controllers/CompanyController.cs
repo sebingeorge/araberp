@@ -17,7 +17,10 @@ namespace ArabErp.Web.Controllers
         }
         public ActionResult Create()
         {
-            return View();
+            ViewBag.Title = "Create";
+            Company Company = new Company();
+            Company.cmpUsercode = "C/" + DatabaseCommonRepository.GetNextRefNoWithNoUpdate(typeof(Company).Name);
+            return View(Company);
         }
         [HttpPost]
         public ActionResult Create(Company model)
@@ -32,12 +35,14 @@ namespace ArabErp.Web.Controllers
                 if (result.cmpCode > 0)
                 {
                     TempData["Success"] = "Added Successfully!";
+                    TempData["cmpUsercode"] = result.cmpUsercode;
                     return RedirectToAction("Index");
                 }
 
                 else
                 {
                     TempData["error"] = "Oops!!..Something Went Wrong!!";
+                    TempData["cmpUsercode"] = null;
                     return View("Create", model);
                 }
 
@@ -45,7 +50,8 @@ namespace ArabErp.Web.Controllers
             else
             {
 
-                TempData["error"] = "This Name Alredy Exists!!"; 
+                TempData["error"] = "This Name Alredy Exists!!";
+                TempData["cmpUsercode"] = null;
                 return View("Create", model);
             }
         }
@@ -79,18 +85,21 @@ namespace ArabErp.Web.Controllers
                 {
 
                     TempData["Success"] = "Updated Successfully!";
+                    TempData["cmpUsercode"] = result.cmpUsercode;
                     return RedirectToAction("Index");
                 }
                 else
                 {
                    
                     TempData["error"] = "Oops!!..Something Went Wrong!!";
+                    TempData["cmpUsercode"] = null;
                     return View("Create", model);
                 }
             }
             else
             {
                 TempData["error"] = "This Name Alredy Exists!!";
+                TempData["cmpUsercode"] = null;
                 return View("Create", model);
             } 
         }
@@ -110,7 +119,7 @@ namespace ArabErp.Web.Controllers
             if (result == 0)
             {
                 TempData["Success"] = "Deleted Successfully!";
-             
+                TempData["cmpUsercode"] = model.cmpUsercode;
                 return RedirectToAction("Index");
             }
             else

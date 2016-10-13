@@ -43,27 +43,66 @@ namespace ArabErp.DAL
                                                      @cmpSSN,@cmpVATNo,@cmpCSTNo,@cmpIECode,@cmpWorkSheetNo,@cmpFormPrefix,@CreatedBy,@CreatedDate,1);
                                                      SELECT CAST(SCOPE_IDENTITY() as int)";
 
+
                 try
                 {
                     int internalid = DatabaseCommonRepository.GetInternalIDFromDatabase(connection, trn, typeof(Company).Name, "0", 1);
-                  //  objCompany.CustomerRefNo = "CUS/" + internalid;
+                    objCompany.cmpUsercode = "C/" + internalid;
 
                     int id = connection.Query<int>(sql, objCompany, trn).Single();
                     objCompany.cmpCode = id;
-                    InsertLoginHistory(dataConnection, objCompany.CreatedBy, "Create", "mstAccCompany", id.ToString(), "0");
                     //connection.Dispose();
+                    InsertLoginHistory(dataConnection, objCompany.CreatedBy, "Create", "mstAccCompany", id.ToString(), "0");
                     trn.Commit();
                 }
                 catch (Exception ex)
                 {
                     trn.Rollback();
                     objCompany.cmpCode = 0;
-                    //objCustomer.CustomerRefNo = null;
+                    objCompany.cmpUsercode = null;
 
                 }
                 return objCompany;
             }
         }
+
+//        public Company InsertCompany(Company objCompany)
+//        {
+//            using (IDbConnection connection = OpenConnection(dataConnection))
+//            {
+//                var result = new Company();
+
+//                IDbTransaction trn = connection.BeginTransaction();
+
+//                string sql = @"insert  into mstAccCompany(cmpUsercode,cmpName,cmpShrtName,cmpRemarks,cmpDoorNo,cmpStreet,
+//                                                     cmpArea,cmpState,cmpPhNo,cmpFax,cmpEmail,cmpWeb,cmpPAN,cmpSSN,
+//                                                     cmpVATNo,cmpCSTNo,cmpIECode,cmpWorkSheetNo,cmpFormPrefix,CreatedBy,CreatedDate,IsActive) 
+//                                                     Values (@cmpUsercode,@cmpName,@cmpShrtName,@cmpRemarks,@cmpDoorNo,
+//                                                     @cmpStreet,@cmpArea,@cmpState,@cmpPhNo,@cmpFax,@cmpEmail,@cmpWeb,@cmpPAN,
+//                                                     @cmpSSN,@cmpVATNo,@cmpCSTNo,@cmpIECode,@cmpWorkSheetNo,@cmpFormPrefix,@CreatedBy,@CreatedDate,1);
+//                                                     SELECT CAST(SCOPE_IDENTITY() as int)";
+
+//                try
+//                {
+//                    int internalid = DatabaseCommonRepository.GetInternalIDFromDatabase(connection, trn, typeof(Company).Name, "0", 1);
+//                    objCompany.cmpUsercode = "C/" + internalid;
+
+//                    int id = connection.Query<int>(sql, objCompany, trn).Single();
+//                    objCompany.cmpCode = id;
+//                    InsertLoginHistory(dataConnection, objCompany.CreatedBy, "Create", "mstAccCompany", id.ToString(), "0");
+               
+//                    trn.Commit();
+//                }
+//                catch (Exception ex)
+//                {
+//                    trn.Rollback();
+//                    objCompany.cmpCode = 0;
+//                    //objCustomer.CustomerRefNo = null;
+
+//                }
+//                return objCompany;
+//            }
+//        }
         public IEnumerable<Company> CompanyList()
         {
 
