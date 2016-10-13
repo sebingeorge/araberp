@@ -434,7 +434,7 @@ namespace ArabErp.Web.Controllers
             try
             {
                 new SalesQuotationRepository().ApproveSalesQuotation(model);
-                TempData["Success"] = "Approved Successfully(" + model.QuotationRefNo + ")";
+                TempData["Success"] = "Approved Successfully (" + model.QuotationRefNo + ")";
                 return RedirectToAction("ListSalesQuotations", new { ProjectBased = Convert.ToInt32(model.isProjectBased), AfterSales = Convert.ToInt32(model.isAfterSales) });
             }
             catch (Exception)
