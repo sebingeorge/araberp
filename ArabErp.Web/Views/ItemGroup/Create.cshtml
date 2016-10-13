@@ -35,7 +35,7 @@
             "hideMethod": "fadeOut"
         }
         if ('@TempData["success"]' != "" && '@TempData["ItemGroupRefNo"]' != "") {
-            toastr.success('@TempData["success"]' + '  Item Group Ref No. is : ' + '@TempData["ItemGroupRefNo"]');
+            toastr.success('@TempData["success"]' + '  Item Group Code is : ' + '@TempData["ItemGroupRefNo"]');
         }
         else if ('@TempData["error"]' != "") {
             toastr.error('@TempData["error"]');

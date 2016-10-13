@@ -53,7 +53,7 @@
         @Html.Grid(Model).Columns(columns =>
                         {
                             //columns.Add(m => m.SupplierId).Titled("Code").SetWidth(30);
-                            columns.Add(m => m.SupplierRefNo).Titled("Ref No.").SetWidth(30);
+                            columns.Add(m => m.SupplierRefNo).Titled("Code").SetWidth(30);
                             columns.Add(m => m.SupplierName).Titled("Supplier Name").SetWidth(110);
                             columns.Add(m => m.SupCategoryName).Titled("Supplier Category").SetWidth(110);
                             columns.Add(m => m.PurchaseTypeName).Titled("Purchase Type").SetWidth(110);

@@ -33,11 +33,12 @@
             "hideMethod": "fadeOut"
         }
         if ('@TempData["success"]' != "" && '@TempData["DesignationRefNo"]' != "") {
-            toastr.success('@TempData["success"]' + '  Designation Ref No. is : ' + '@TempData["DesignationRefNo"]');
+            toastr.success('@TempData["success"]' + '  Designation Code is : ' + '@TempData["DesignationRefNo"]');
         }
         else if ('@TempData["error"]' != "") {
             toastr.error('@TempData["error"]');
         }
+        $("#DesignationName").focus();
     });
 
 </script>

@@ -36,12 +36,12 @@
             "hideMethod": "fadeOut"
         }
         if ('@TempData["success"]' != "" && '@TempData["UnitRefNo"]' != "") {
-            toastr.success('@TempData["success"]' + '  UOM Ref No. is : ' + '@TempData["UnitRefNo"]');
+            toastr.success('@TempData["success"]' + '  UoM Code is : ' + '@TempData["UnitRefNo"]');
         }
         else if ('@TempData["error"]' != "") {
             toastr.error('@TempData["error"]');
         }
-
+        $("#UnitName").focus();
     });
 </script>
 
@@ -51,7 +51,7 @@
     <div class="row">
 
         <div class="form-head1">
-            <h4>UOM</h4>
+            <h4>UoM</h4>
         </div>
 
         <div class="main-part pad1">

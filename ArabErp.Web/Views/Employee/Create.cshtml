@@ -34,7 +34,7 @@
             "hideMethod": "fadeOut"
         }
         if ('@TempData["success"]' != "" && '@TempData["RefNo"]' != "") {
-            toastr.success('@TempData["success"]' + '  Empoyee Ref No. is : ' + '@TempData["RefNo"]');
+            toastr.success('@TempData["success"]' + '  Employee Code is : ' + '@TempData["RefNo"]');
         }
         else if ('@TempData["error"]' != "") {
             toastr.error('@TempData["error"]');
