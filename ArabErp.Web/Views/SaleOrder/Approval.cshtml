@@ -32,7 +32,7 @@
 }
 <script>
     $(function () {
-       
+
         $("#SaleOrderHoldDate").datepicker({ dateFormat: "dd-MM-yy" });
         $("#SaleOrderReleaseDate").datepicker({ dateFormat: "dd-MM-yy" });
     });
@@ -47,7 +47,7 @@
         var hreason = $("#SaleOrderHoldReason").val();
         var HoldDate = $("#SaleOrderHoldDate").val();
         var url = '@Url.Action("UpdateHoldStatus")';
-        url = url + "?Id=" + id + "&hreason=" + hreason+ "&HoldDate=" + HoldDate;
+        url = url + "?Id=" + id + "&hreason=" + hreason + "&HoldDate=" + HoldDate;
         console.log(url);
         window.location.href = url;
     }
@@ -61,16 +61,21 @@
     }
     function SaleOrderCancel() {
         var id = $("#SaleOrderId").val();
-       
+
         var url = '@Url.Action("UpdateCancelStatus")';
         url = url + "?Id=" + id;
         console.log(url);
         window.location.href = url;
     }
     function Exit() {
-       
-        location.href = '@Url.Action("PendingSaleOrderApproval", "SaleOrder", new { ProjectBased = @Model.isProjectBased })';
-      
+        if ('@ViewData["action"].ToString()' == "Hold" || '@ViewData["action"].ToString()' == "Release" || '@ViewData["action"].ToString()' == "Cancel") {
+            location.href = '@Url.Action("PendingSaleOrderHold", "SaleOrder", new { isProjectBased = @Model.isProjectBased })';
+        }
+        else if ('@ViewData["action"].ToString()' == "ApprovalForTrn" || '@ViewData["action"].ToString()' == "Approval") {
+            location.href = '@Url.Action("PendingSaleOrderApproval", "SaleOrder", new { ProjectBased = @Model.isProjectBased })';
+        }
+
+
     }
     $(document).ready(function () {
         if ('@ViewData["action"].ToString()' == "Hold") {
@@ -80,8 +85,7 @@
             $("#SaleOrderReleaseDate").select();
         }
     })
-    function ApproveDeliveryChallan()
-    {
+    function ApproveDeliveryChallan() {
 
     }
     function ApproveJobCard() {
