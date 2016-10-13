@@ -40,7 +40,7 @@
         <div class="row">
             @Html.Grid(Model).Columns(columns =>
                         {
-                            columns.Add(m => m.WorkDescriptionRefNo).Titled("Ref. No.").SetWidth(10);
+                            columns.Add(m => m.WorkDescriptionRefNo).Titled("Code").SetWidth(10);
                             columns.Add(m => m.WorkDescr).Titled("Name").SetWidth(400);
                             columns.Add(m => m.VehicleModelName).Titled("Vehicle Model").SetWidth(30);
                             columns.Add(m => m.FreezerUnitName).Titled("Freezer Unit").SetWidth(30);

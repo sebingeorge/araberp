@@ -23,7 +23,7 @@
     <div class="main-grid scroll1">
         @Html.Grid(Model).Columns(columns =>
                         {
-                            columns.Add(m => m.VehicleModelRefNo).Titled("Ref No.").SetWidth(20);
+                            columns.Add(m => m.VehicleModelRefNo).Titled("Code").SetWidth(20);
                             columns.Add(m => m.VehicleModelName).Titled("Name").SetWidth(110);
                             columns.Add(m => m.VehicleModelDescription).Titled("Description").SetWidth(110);
 

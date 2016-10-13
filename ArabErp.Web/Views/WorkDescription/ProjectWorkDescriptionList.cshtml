@@ -27,7 +27,7 @@
             "hideMethod": "fadeOut"
         }
         if ('@TempData["success"]' != "" && '@TempData["WorkDescriptionRefNo"]' != "") {
-            toastr.success('@TempData["success"]' + '  Work Description No. is : ' + '@TempData["WorkDescriptionRefNo"]');
+            toastr.success('@TempData["success"]' + '  Work Description Code is : ' + '@TempData["WorkDescriptionRefNo"]');
         }
         else if ('@TempData["error"]' != "") {
             toastr.error('@TempData["error"]');
@@ -57,7 +57,7 @@
 <div class="row">
 
     <div class="form-head1">
-        <h4>Project:Work Description List</h4>
+        <h4>Project : Work Description List</h4>
     </div>
 
     <div class="main-part pad1">
@@ -72,7 +72,7 @@
                         <div class="table-responsive">
                             @Html.Grid(Model).Columns(columns =>
                         {
-                            columns.Add(m => m.WorkDescriptionRefNo).Titled("Ref. No.").SetWidth("10%");
+                            columns.Add(m => m.WorkDescriptionRefNo).Titled("Code").SetWidth("10%");
                             columns.Add(m => m.WorkDescrShortName).Titled("Short Name").SetWidth("15%");
                             columns.Add(m => m.WorkDescr).Titled("Name").SetWidth("70%");
                             columns.Add().Encoded(false).Sanitized(false).SetWidth("5%").Css("cent").RenderValueAs(o => @<a href="@Url.Action("EditProjectWorkDescription", new { Id = o.WorkDescriptionId })">View</a>);

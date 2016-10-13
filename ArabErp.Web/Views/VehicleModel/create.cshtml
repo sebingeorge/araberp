@@ -32,7 +32,7 @@
             "hideMethod": "fadeOut"
         }
         if ('@TempData["success"]' != "" && '@TempData["RefNo"]' != "") {
-            toastr.success('@TempData["success"]' + '  Vehicle Model Ref No. is : ' + '@TempData["RefNo"]');
+            toastr.success('@TempData["success"]' + '  Vehicle Model Code is : ' + '@TempData["RefNo"]');
         }
         else if ('@TempData["error"]' != "") {
             toastr.error('@TempData["error"]');
