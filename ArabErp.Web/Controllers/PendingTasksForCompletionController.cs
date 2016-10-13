@@ -21,14 +21,15 @@ namespace ArabErp.Web.Controllers
         public ActionResult PendingTasks(string saleorder = "", string jobcard = "", string jobcarddate = "",
                                          string engineer = "", string task = "", string technician = "")
         {
-            return PartialView(new PendingTasksForCompletionRepository().GetPendingTasks(
+            var list = new PendingTasksForCompletionRepository().GetPendingTasks(
                 OrganizationId: OrganizationId,
                 saleorder: saleorder,
                 jobcard: jobcard,
                 jobcarddate: jobcarddate,
                 technician: technician,
                 task: task,
-                engineer: engineer));
+                engineer: engineer);
+            return PartialView("_PendingTasksGrid", list);
         }
     }
 }
