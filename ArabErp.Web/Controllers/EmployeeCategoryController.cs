@@ -24,6 +24,9 @@ namespace ArabErp.Web.Controllers
         [HttpPost]
         public ActionResult Create(EmployeeCategory model)
         {
+            
+            model.CreatedBy = UserID.ToString();
+
             var repo = new EmployeeCategoryRepository();
 
             bool isexists = repo.IsFieldExists(repo.ConnectionString(), "EmployeeCategory", "EmpCategoryName", model.EmpCategoryName, null, null);

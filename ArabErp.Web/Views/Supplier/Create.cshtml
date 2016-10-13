@@ -19,6 +19,11 @@
             $("#Active").prop("checked", true)
         }
 
+        $(".numbers-only").keypress(function (e) {
+            //alert("hi");
+            if (e.which == 8 || (e.which == 46 && $(this).val().indexOf('.') == -1) || (e.which > 47 && e.which < 58)) { } else { return false; }
+        });
+
         //$("#radio_1").prop("checked", true)
         toastr.options = {
             "closeButton": true,
@@ -43,6 +48,7 @@
 
     });
 
+    //$("#SupplyOrderDate").datepicker({ dateFormat: "dd-MM-yy" });
     $(function () {
         $("#ContractDate").datepicker({ dateFormat: "dd/MM/yy" });
     });
@@ -85,7 +91,8 @@
                         </div>
                         <div class="part4">
                             <label for="ContractDate">Contract Upto</label>
-                            @Html.TextBoxFor(m => m.ContractDate, String.Format("{0:dd/MM/yyyy}", Model.ContractDate), new { @class = "form_input ", autocomplete = "off", @readonly = "readonly" })
+                            @Html.TextBoxFor(m => m.ContractDate, Model.ContractDate.ToString("dd/MMMM/yyyy"), new { @class = "form_input ", autocomplete = "off", @required = "true" })
+                            @*@Html.TextBoxFor(m => m.ContractDate, String.Format("{0:dd/MM/yyyy}", Model.ContractDate), new { @class = "form_input ", autocomplete = "off", @readonly = "readonly" })*@
                         </div>
                     </div>
 
@@ -149,7 +156,7 @@
                         </div>
                         <div class="part4">
                             <label for="phno">Phone No.</label>
-                            @Html.TextBoxFor(m => m.Phone, new { @class = "form_input", autocomplete = "off" })
+                            @Html.TextBoxFor(m => m.Phone, new { @class = "form_input numbers-only", autocomplete = "off" })
                         </div>
                     </div>
 
@@ -208,7 +215,7 @@
 
                         <div class="part4">
                             <label for="accno">Account No.</label>
-                            @Html.TextBoxFor(m => m.AccountNo, new { @class = "form_input", autocomplete = "off" })
+                            @Html.TextBoxFor(m => m.AccountNo, new { @class = "form_input numbers-only", autocomplete = "off" })
                         </div>
 
                         <div class="part4">
@@ -224,7 +231,7 @@
                         </div>
                         <div class="part4">
                             <label for="disterms">Discount Terms</label>
-                            @Html.TextBoxFor(m => m.DiscountTermsId, new { @class = "form_input", autocomplete = "off" })
+                            @Html.TextBoxFor(m => m.DiscountTermsId, new { @class = "form_input numbers-only", autocomplete = "off" })
                             @*@Html.DropDownListFor(m => Model.DiscountTermsId, (SelectList)ViewBag.test, "Select Symbol", new { @class = "form_input" })*@
                         </div>
                         <div class="part4">
@@ -244,7 +251,7 @@
                         </div>
                         <div class="part4">
                             <label for="tinno">TIN No.</label>
-                            @Html.TextBoxFor(m => m.TinNo, new { @class = "form_input", autocomplete = "off" })
+                            @Html.TextBoxFor(m => m.TinNo, new { @class = "form_input numbers-only", autocomplete = "off" })
                         </div>
                     </div>
 
@@ -258,14 +265,14 @@
                             <div class="col-md-6">
                                 <div class="part4">
                                     <label for="CreditPeriod">Credit Period</label>
-                                    @Html.TextBoxFor(m => m.CreditPeriod, new { @class = "form_input", autocomplete = "off" })
+                                    @Html.TextBoxFor(m => m.CreditPeriod, new { @class = "form_input numbers-only", autocomplete = "off" })
                                 </div>
                             </div>
 
                             <div class="col-md-6">
                                 <div class="part4">
                                     <label for="CreditLimit">Credit Limit</label>
-                                    @Html.TextBoxFor(m => m.CreditLimit, new { @class = "form_input", autocomplete = "off" })
+                                    @Html.TextBoxFor(m => m.CreditLimit, new { @class = "form_input numbers-only", autocomplete = "off" })
                                 </div>
                             </div>
 
