@@ -30,7 +30,7 @@ namespace ArabErp.DAL
         {
              using (IDbConnection connection = OpenConnection(dataConnection))
              {
-                 return connection.Query<Dropdown>("SELECT CusCategoryId Id ,CusCategoryName Name FROM CustomerCategory").ToList();
+                 return connection.Query<Dropdown>("SELECT CusCategoryId Id ,CusCategoryName Name FROM CustomerCategory WHERE isActive=1").ToList();
              }
         }
 
@@ -38,7 +38,7 @@ namespace ArabErp.DAL
         {
             using (IDbConnection connection=OpenConnection(dataConnection))
             {
-                return connection.Query<Dropdown>("SELECT CountryId Id,CountryName Name FROM Country").ToList();
+                return connection.Query<Dropdown>("SELECT CountryId Id,CountryName Name FROM Country WHERE isActive=1").ToList();
             }
         }
 
@@ -46,7 +46,7 @@ namespace ArabErp.DAL
         {
             using (IDbConnection connection=OpenConnection(dataConnection))
             {
-                return connection.Query<Dropdown>("SELECT CurrencyId Id,CurrencyName Name FROM Currency").ToList();
+                return connection.Query<Dropdown>("SELECT CurrencyId Id,CurrencyName Name FROM Currency WHERE isActive=1").ToList();
             }
         }
 
