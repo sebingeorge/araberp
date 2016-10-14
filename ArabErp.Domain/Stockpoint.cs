@@ -29,7 +29,6 @@ namespace ArabErp.Domain
        public string StockPointCity { get; set; }
        [Required]
        public string StockPointFax { get; set; }
-       [Required]
        public string CreatedBy { get; set; }
        public DateTime? CreatedDate { get; set; }
        public int OrganizationId { get; set; }
