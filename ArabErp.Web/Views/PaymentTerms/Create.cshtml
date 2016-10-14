@@ -35,11 +35,12 @@
             "hideMethod": "fadeOut"
         }
         if ('@TempData["success"]' != "" && '@TempData["PaymentTermsRefNo"]' != "") {
-            toastr.success('@TempData["success"]' + '  Payment Terms Ref No. is : ' + '@TempData["PaymentTermsRefNo"]');
+            toastr.success('@TempData["success"]' + '  Payment Terms Code is : ' + '@TempData["PaymentTermsRefNo"]');
         }
         else if ('@TempData["error"]' != "") {
             toastr.error('@TempData["error"]');
         }
+        $("#PaymentTermsName").focus();
     });
 
 
