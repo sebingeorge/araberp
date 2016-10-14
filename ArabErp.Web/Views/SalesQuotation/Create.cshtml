@@ -722,7 +722,7 @@
                         }
                         <th width="1%" class="text-center"><h1>#</h1></th>
                         <th width="45%" class="text-left"><h1>Work Description</h1></th>
-                        @if (new[] { "Create", "CreateAferSales", "Approve" }.Contains(ViewContext.RouteData.GetRequiredString("action")))
+                        @if (new[] { "Create", "CreateAferSales", "Approve" }.Contains(ViewContext.RouteData.GetRequiredString("action")) && !Model.isProjectBased)
                         {
                             <th width="10%"><h1>Rate Settings</h1></th>
                         }
@@ -773,7 +773,7 @@
                                 }
                             </td>
 
-                            @if (new[] { "Create", "Approve" }.Contains(ViewContext.RouteData.GetRequiredString("action")))
+                            @if (new[] { "Create", "Approve" }.Contains(ViewContext.RouteData.GetRequiredString("action")) && !Model.isProjectBased)
                             {
                                 <td>
                                     <!--column to show rate settings (required only for transportation)-->
@@ -839,7 +839,7 @@
                         }
                         <th class="text-center"></th>
                         <th class="text-center "><h1></h1></th>
-                        @if (new[] { "Create", "Approve" }.Contains(ViewContext.RouteData.GetRequiredString("action")))
+                        @if (new[] { "Create", "Approve" }.Contains(ViewContext.RouteData.GetRequiredString("action")) && !Model.isProjectBased)
                         {
                             <th></th>
                         }
