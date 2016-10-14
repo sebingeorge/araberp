@@ -37,7 +37,7 @@
         else if ('@TempData["error"]' != "") {
             toastr.error('@TempData["error"]');
         }
-
+        $("#VehicleModelDescription").focus();
     });
 </script>
 
@@ -62,15 +62,16 @@
                             @Html.HiddenFor(m => m.VehicleModelRefNo)
                             @Html.TextBoxFor(m => m.VehicleModelRefNo, new { @class = "form_input form_input-half", autocomplete = "off", @readonly = "readonly" })
                         </div>
-                        <div class="part4">
-                            <label for="VehicleModelDescription">Description</label>
-                            @Html.TextBoxFor(m => m.VehicleModelDescription, new { @class = "form_input", autocomplete = "off" })
-                        </div>
-                        <div class="part4">
+
+                         <div class="part4">
                             <label for="VehicleModelName">Name</label>
                             @Html.TextBoxFor(m => m.VehicleModelName, new { @class = "form_input", autocomplete = "off" })
                         </div>
 
+                        <div class="part4">
+                            <label for="VehicleModelDescription">Description</label>
+                            @Html.TextBoxFor(m => m.VehicleModelDescription, new { @class = "form_input", autocomplete = "off" })
+                        </div>
 
 
 

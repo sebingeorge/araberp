@@ -41,6 +41,7 @@
             else if ('@TempData["error"]' != "") {
                 toastr.error('@TempData["error"]');
             }
+            $("#cmpName").focus();
         });
 
     
@@ -105,7 +106,7 @@
                         @Html.TextBoxFor(m => m.cmpState, new { @class = "form_input", autocomplete = "off" })
                     </div>
                     <div class="part4">
-                        <label for="CmpPhNo">Ph.No.</label>
+                        <label for="CmpPhNo">Phone No.</label>
                         @Html.TextBoxFor(m => m.cmpPhNo, new { @class = "form_input", autocomplete = "off" })
                     </div>
                     <div class="part4">
