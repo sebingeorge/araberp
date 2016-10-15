@@ -219,5 +219,21 @@ namespace ArabErp.DAL
                 return RefNo;
             }
         }
+
+        public int GetCustomerFromWarranty(int id, bool isProjectBased)
+        {
+            using (IDbConnection connection = OpenConnection(dataConnection))
+            {
+                try
+                {
+                    return connection.Query<int>(@"SELECT CustomerId FROM SalesQuotation WHERE " + (isProjectBased ? "ProjectCompletionId" : "DeliveryChallanId") + " = @id",
+                                new { id = id }).FirstOrDefault();
+                }
+                catch (InvalidOperationException)
+                {
+                    return 0;
+                }
+            }
+        }
     }
 }
