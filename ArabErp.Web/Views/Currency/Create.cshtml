@@ -20,6 +20,12 @@
             //$("#GenderId").prop("checked", true)
         }
 
+
+        $(".numbers-only").keypress(function (e) {
+            //alert("hi");
+            if (e.which == 8 || (e.which == 46 && $(this).val().indexOf('.') == -1) || (e.which > 47 && e.which < 58)) { } else { return false; }
+        });
+
         //$("#radio_1").prop("checked", true)
         toastr.options = {
             "closeButton": true,
@@ -84,7 +90,7 @@
                         <div class="row">
                             <div class="part4 col-md-6">
                                 <label for="CurrencyExRate">Exchange Rate</label>
-                                @Html.TextBoxFor(m => m.CurrencyExRate, new { @class = "form_input", autocomplete = "off" })
+                                @Html.TextBoxFor(m => m.CurrencyExRate, new { @class = "form_input numbers-only", @style = "text-align:right", autocomplete = "off" })
                                 @Html.ValidationMessageFor(model => model.CurrencyExRate, "", new { @class = "text-danger" })
                             </div>
 

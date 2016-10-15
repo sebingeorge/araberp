@@ -136,7 +136,7 @@ namespace ArabErp.DAL
             using (IDbConnection connection = OpenConnection(dataConnection))
             {
                 var param = new DynamicParameters();
-                return connection.Query<Dropdown>("select VehicleModelId Id,VehicleModelName Name from VehicleModel").ToList();
+                return connection.Query<Dropdown>("select VehicleModelId Id,VehicleModelName Name from VehicleModel WHERE isActive=1").ToList();
             }
         }
         /// <summary>
@@ -938,7 +938,7 @@ namespace ArabErp.DAL
         {
             using (IDbConnection connection = OpenConnection(dataConnection))
             {
-                return connection.Query<Box>("SELECT ItemId BoxId,ItemName BoxName FROM Item WHERE Box=1").ToList();
+                return connection.Query<Box>("SELECT ItemId BoxId,ItemName BoxName FROM Item WHERE Box=1 AND isActive=1").ToList();
             }
         }
 
