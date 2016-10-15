@@ -22,7 +22,7 @@
     <div class="main-grid scroll1">
         @Html.Grid(Model).Columns(columns =>
                         {
-                            columns.Add(m => m.StockPointRefNo).Titled("Ref No.").SetWidth(20);
+                            columns.Add(m => m.StockPointRefNo).Titled("Code").SetWidth(20);
                             columns.Add(m => m.StockPointName).Titled("Name").SetWidth(110);
                             columns.Add(m => m.StockPointShrtName).Titled("Short Name").SetWidth(110);
 

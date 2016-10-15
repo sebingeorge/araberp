@@ -51,7 +51,7 @@
 
         @Html.Grid(Model).Columns(columns =>
                         {
-                            columns.Add(m => m.OrganizationRefNo).Titled("Ref No").SetWidth(30);
+                            columns.Add(m => m.OrganizationRefNo).Titled("Code").SetWidth(30);
                             columns.Add(m => m.OrganizationName).Titled("Name").SetWidth(120);
                             columns.Add(m => m.CurrencyName).Titled("Currency").SetWidth(90);
                             columns.Add(m => m.CountryName).Titled("Country").SetWidth(90);

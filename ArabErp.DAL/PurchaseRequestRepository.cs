@@ -155,14 +155,14 @@ namespace ArabErp.DAL
         /// Pending Workshop Request For Purchase Request
         /// </summary>
         /// <returns></returns>
-        public IEnumerable<PendingWorkShopRequest> GetWorkShopRequestPending()
+        public IEnumerable<PendingWorkShopRequest> GetWorkShopRequestPending(int OrganizationId)
         {
             using (IDbConnection connection = OpenConnection(dataConnection))
             {
                 string qry = @"Select WR.WorkShopRequestId,WR.WorkShopRequestRefNo,WR.WorkShopRequestDate,WR.RequiredDate,C.CustomerName,WR.CustomerOrderRef,SO.SaleOrderRefNo,SO.SaleOrderDate,DATEDIFF(dd,WR.WorkShopRequestDate,GETDATE ()) Ageing, DATEDIFF(DAY, GETDATE(), WR.RequiredDate) DaysLeft from WorkShopRequest WR INNER JOIN Customer C on C.CustomerId=WR.CustomerId ";
-                qry += " INNER JOIN SaleOrder SO on WR.SaleOrderId=SO.SaleOrderId  LEFT JOIN PurchaseRequest PR ON PR.WorkShopRequestId=WR.WorkShopRequestId WHERE PR.PurchaseRequestId is null ORDER BY WR.RequiredDate DESC, WR.WorkShopRequestDate DESC";
+                qry += " INNER JOIN SaleOrder SO on WR.SaleOrderId=SO.SaleOrderId  LEFT JOIN PurchaseRequest PR ON PR.WorkShopRequestId=WR.WorkShopRequestId WHERE PR.PurchaseRequestId is null and WR.OrganizationId=@OrganizationId ORDER BY WR.RequiredDate DESC, WR.WorkShopRequestDate DESC";
 
-                return connection.Query<PendingWorkShopRequest>(qry);
+                return connection.Query<PendingWorkShopRequest>(qry, new { OrganizationId = OrganizationId });
             }
         }
         /// <summary>

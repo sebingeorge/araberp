@@ -632,7 +632,7 @@ namespace ArabErp.DAL
         {
             using (IDbConnection connection = OpenConnection(dataConnection))
             {
-                string query = "Select S.SaleOrderId,SaleOrderRefNo,SQ.SalesQuotationId,SaleOrderDate,CONCAT(QuotationRefNo,'/',CONVERT (VARCHAR(15),QuotationDate,104))QuotationNoDate, C.CustomerName, S.CustomerOrderRef";//--, DATEDIFF(DAY, GETDATE(), S.EDateDelivery) DaysLeft, DATEDIFF(DAY, S.SaleOrderDate, GETDATE()) Ageing
+                string query = "Select S.SaleOrderId,SaleOrderRefNo,SQ.SalesQuotationId,SaleOrderDate,CONCAT(QuotationRefNo,' - ',CONVERT (VARCHAR(15),QuotationDate,106))QuotationNoDate, C.CustomerName, S.CustomerOrderRef";//--, DATEDIFF(DAY, GETDATE(), S.EDateDelivery) DaysLeft, DATEDIFF(DAY, S.SaleOrderDate, GETDATE()) Ageing
                 query += " from SaleOrder S";
                 query += " inner join Customer C on S.CustomerId = C.CustomerId";
                 query += " left join SalesQuotation SQ ON SQ.SalesQuotationId=S.SalesQuotationId";

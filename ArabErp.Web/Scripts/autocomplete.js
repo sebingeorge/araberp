@@ -8,7 +8,9 @@ $(function () {
 
             this.element.hide();
             this._createAutocomplete();
-            this._createShowAllButton();
+            if ($(this.element).attr("disabled") != "disabled") {
+                this._createShowAllButton();
+            }
         },
 
         _createAutocomplete: function () {
@@ -21,6 +23,7 @@ $(function () {
               .attr("title", "")
               .attr("required", "true")
               .attr("placeholder", $(this.element).attr("placeholder"))
+              .attr("disabled", $(this.element).attr("disabled"))
               .addClass("form_input custom-combobox-input ui-widget ui-widget-content ui-state-default ui-corner-left")
               .autocomplete({
                   delay: 0,
@@ -32,6 +35,10 @@ $(function () {
                       "ui-tooltip": "ui-state-highlight"
                   }
               });
+
+            if ($(this.element).attr("disabled") == "disabled") {
+                $(this.input).attr("style", "color:red");
+            }
 
             this._on(this.input, {
                 autocompleteselect: function (event, ui) {

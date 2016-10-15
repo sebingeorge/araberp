@@ -177,24 +177,59 @@ namespace ArabErp.DAL
                                 where !p.isUsed
                                 select p).ToList();
 
-                    string qry = @"UPDATE OpeningStock SET
-	                            [ItemId]=@ItemId,
-	                            [Quantity]=@Quantity
-                            WHERE OpeningStockId = @OpeningStockId";
+                    var openingStockId = (from OpeningStockItem p in list
+                                          where p.OpeningStockId > 0
+                                          select p.OpeningStockId).ToList();
+
+                    IEnumerable<OpeningStockItem> original_list = GetItem(model.stockpointId);
+                    var original_id = (from OpeningStockItem p in original_list
+                                       select p.OpeningStockId).ToList();
+
+                    var excluded_id = (from int p in original_id
+                                       where !model.OpeningStockItem.Select(x => x.OpeningStockId).Contains(p)
+                                       select p).ToList();
+
+                    string query = @"DELETE FROM OpeningStock WHERE OpeningStockId IN @openingStockId";
+                    connection.Execute(query, new { openingStockId = openingStockId }, txn);
+                    query = @"DELETE FROM OpeningStock WHERE OpeningStockId IN @excluded_id";
+                    connection.Execute(query, new { excluded_id = excluded_id }, txn);
+
+                    query = @"INSERT INTO OpeningStock
+                                (
+	                                ItemId,
+	                                Quantity,
+	                                CreatedBy,
+	                                CreatedDate,
+	                                OrganizationId,
+	                                StockPointId
+                                )
+                                VALUES
+                                (
+                                    @ItemId,
+	                                @Quantity,
+	                                @CreatedBy,
+	                                @CreatedDate,
+	                                @OrganizationId,
+	                                @StockPointId
+                                )";
+
                     var id = 0;
                     foreach (var item in list)
                     {
-                        id = connection.Execute(qry, new
+                        id = connection.Execute(query, new
                                 {
                                     ItemId = item.ItemId,
                                     Quantity = item.Quantity,
-                                    OpeningStockId = item.OpeningStockId
+                                    CreatedBy = model.CreatedBy,
+                                    CreatedDate = model.CreatedDate,
+                                    OrganizationId = model.OrganizationId,
+                                    StockpointId = model.stockpointId
                                 }, txn);
                     }
 
-                    qry = @"DELETE FROM StockUpdate OUTPUT DELETED.StockUpdateId WHERE StockpointId = @StockpointId AND StockType='OpeningStock'";
+                    query = @"DELETE FROM StockUpdate WHERE StockpointId = @StockpointId AND StockType='OpeningStock'";
 
-                    connection.Query<int>(qry, new { StockpointId = model.stockpointId }, txn).First();
+                    connection.Execute(query, new { StockpointId = model.stockpointId }, txn);
 
                     InsertStockUpdate(model, connection, txn);
 

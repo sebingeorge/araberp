@@ -11,6 +11,7 @@ namespace ArabErp.Domain
     {
       public int cmpCode { get; set; }
       public string cmpUsercode { get; set; }
+      [Required]
       public string cmpName { get; set; }
       public string cmpShrtName { get; set; }
       public string cmpRemarks { get; set; }

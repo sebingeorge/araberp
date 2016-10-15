@@ -24,7 +24,7 @@
 
         @Html.Grid(Model).Columns(columns =>
                         {
-                            columns.Add(m => m.ItemSubGroupRefNo).Titled("Part No.").SetWidth(30);
+                            columns.Add(m => m.ItemSubGroupRefNo).Titled("Code").SetWidth(30);
                             columns.Add(m => m.ItemSubGroupName).Titled("Name").SetWidth(110);
                             columns.Add(m => m.ItemGroupName).Titled("Group").SetWidth(110);
 

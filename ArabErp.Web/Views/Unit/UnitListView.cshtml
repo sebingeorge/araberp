@@ -53,7 +53,7 @@
         @Html.Grid(Model).Columns(columns =>
                         {
                             //columns.Add(m => m.UnitRefNo).Titled("ID").SetWidth(110);
-                            columns.Add(m => m.UnitRefNo).Titled("Ref No.").SetWidth(20);
+                            columns.Add(m => m.UnitRefNo).Titled("Code").SetWidth(20);
                             columns.Add(m => m.UnitName).Titled("Name").SetWidth(200);
                             columns.Add().Encoded(false).Sanitized(false).SetWidth(30).Css("cent").RenderValueAs(m => @<a href="@Url.Action("Edit", new { Id = m.UnitId })">Edit</a>);
                             columns.Add().Encoded(false).Sanitized(false).SetWidth(30).Css("cent").RenderValueAs(m => @<a href="@Url.Action("Delete", new { Id = m.UnitId })">Delete</a>);

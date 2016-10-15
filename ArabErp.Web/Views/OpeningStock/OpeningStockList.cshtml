@@ -6,11 +6,8 @@
 
 <script>
     $(document).ready(function () {
-        //$('#CurrencyId').val(result.CurrencyId);
         $("select[id$='__ItemId']").combobox();
         $("#OpeningStockItem_0__SlNo").val('1');
-        
-       
     });
 
     function AddAdditionRow() {
@@ -44,11 +41,18 @@
 
         $("#OpeningStockItem_" + i + "__ItemId").val('');
         $("#OpeningStockItem_" + i + "__Quantity").val(0);
+        $("#OpeningStockItem_" + i + "__Quantity").removeAttr("readonly");
+        $("#OpeningStockItem_" + i + "__Quantity").removeAttr("style");
 
         $("#" + i).find('span[class="custom-combobox"]').remove();
-        $("#OpeningStockItem_"+i+"__ItemId").combobox();
+        $("#OpeningStockItem_" + i + "__ItemId").removeAttr("disabled");
+        $("#OpeningStockItem_" + i + "__ItemId").combobox();
+        $("#OpeningStockItem_" + i + "__isUsed").val("false");
+        $("#OpeningStockItem_" + i + "__OpeningStockId").val(0);
+        $("#" + i).find('.glyphicon-minus').removeClass("hidden");
 
     }
+
     function Delete(index) {
 
         var i = 0;
@@ -84,13 +88,18 @@
                 $("#OpeningStockItem_" + (j - 1) + "__SlNo").val(j);
                 $("#" + (j)).attr('id', (j - 1));
                 //alert(j);
+
+                $("#" + (j - 1)).find('span[class="custom-combobox"]').remove();
                 $("#OpeningStockItem_" + (j - 1) + "__ItemId").val(ItemId);
+                var object = $("#OpeningStockItem_" + (j - 1) + "__ItemId");
+                if (object.is('select')) {
+                    $("#OpeningStockItem_" + (j - 1) + "__ItemId").combobox();
+                }
                 $("#OpeningStockItem_" + (j - 1) + "__Quantity").val(Quantity);
 
             }
         }
     }
-
 
     function OnMaterialChange(s, index) {
          $("#hidden"+index).val($(s).val());
@@ -99,16 +108,54 @@
 
 </script>
 
+<!-------dummy table for cloning------->
+@*<table id="dummy-table" style="display:none">
+    <thead>
+        <tr class="grid_heading">
+            <th width="1%" class="text-center"></th>
+            <th width="5%" class="text-center"><h1>#</h1></th>
+            <th width="81%" class="text-left"><h1>Product</h1></th>
+            <th width="10%" class="text-right"><h1>Qty</h1></th>
+            <th width="2%" class="text-center"></th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr id="dummy_table_row_0">
+            <td style="vertical-align:middle">
+                <a class="glyphicon glyphicon-minus" onclick="delete(0)"></a>
+            </td>
+            <td align="center">
+                <span id="slno@(0+1)">@(0 + 1)</span>
+                @Html.Hidden("OpeningStockItem_0__OpeningStockId")
+                @Html.Hidden("OpeningStockItem_0__SlNo")
+                @Html.Hidden("OpeningStockItem_0__isUsed")
+            </td>
+            <td>
+                <input type="hidden" id="DummyRow_0" />
+                @Html.DropDownList("OpeningStockItem_9__ItemId", new SelectList(ViewBag.Itemlist, "Value", "Text", ""), "Select Material/Spare", new { @class = "form_input", autocomplete = "off" })
 
+
+            </td>
+
+            <td>
+                @Html.TextBox("OpeningStockItem_0__Quantity", new { @class = "form_input", autocomplete = "off", @style = "text-align:right" })
+            </td>
+
+            <td style="vertical-align:middle"><a id="add_row" class="glyphicon glyphicon-plus" style="top:0px" onclick="AddAdditionRow()"></a></td>
+        </tr>
+    </tbody>
+
+</table>*@
+<!------------------------------------->
 
 <div class="table-responsive">
     <table class="table table-bordered table-hover" id="tab_logic">
         <thead>
             <tr class="grid_heading">
-                <th width="2%" class="text-center"></th>
+                <th width="1%" class="text-center"></th>
                 <th width="5%" class="text-center"><h1>#</h1></th>
                 <th width="81%" class="text-left"><h1>Product</h1></th>
-                <th width="10%" class="text-center"><h1>Qty</h1></th>
+                <th width="10%" class="text-right"><h1>Qty</h1></th>
                 <th width="2%" class="text-center"></th>
             </tr>
         </thead>
@@ -117,10 +164,15 @@
             @for (int i = 0; i < Model.OpeningStockItem.Count; i++)
             {
                 <tr id="@i">
-                    <td style="vertical-align:middle"><a class="glyphicon glyphicon-minus" style="top:0px;@if(Model.OpeningStockItem[i].isUsed)
-                                                                                                          {
-                                                                                                              @:visibility: hidden;
-                                                                                                          }" onclick=" delete(@i)"></a></td>
+                    <td style="vertical-align:middle">
+                        <a class="glyphicon glyphicon-minus @if(Model.OpeningStockItem[i].isUsed)
+                                                            {
+                                                                @: hidden
+                                                            }"
+                           style=" top:0px;"
+                           onclick="Delete(@i)">
+                        </a>
+                    </td>
                     <td align="center">
                         <span id="slno@(i+1)">@(i + 1)</span>
                         @Html.HiddenFor(m => m.OpeningStockItem[i].OpeningStockId)
@@ -132,12 +184,11 @@
                         @*@Html.HiddenFor(m => m.OpeningStockItem[i].ItemId, new { @id = "hidden" + i })*@
                         @if (Model.OpeningStockItem[i].isUsed)
                         {
-                            @:@Model.OpeningStockItem[i].ItemId
-                            @*@{
-                            SelectList list = new SelectList(ViewBag.Itemlist);
-                            //list.Select()
-                        }
-                        @Html.DropDownListFor(m => m.OpeningStockItem[i].ItemId, new SelectList(ViewBag.Itemlist, "Value", "Text", Model.OpeningStockItem[i].ItemId), "Select Material/Spare", new { @class = "form_input", autocomplete = "off", @disabled="true" })*@
+                            @*@Html.HiddenFor(m => m.OpeningStockItem[i].ItemId)*@
+                            @*<input 
+                                   value="@(((SelectList)ViewBag.ItemList).Where(x => x.Value == Model.OpeningStockItem[i].ItemId.ToString()).First().Text)" 
+                                   class="form_input dummy" style="color:red" disabled />*@
+                            @Html.DropDownListFor(m => m.OpeningStockItem[i].ItemId, new SelectList(ViewBag.Itemlist, "Value", "Text", Model.OpeningStockItem[i].ItemId), "Select Material/Spare", new { @class = "form_input", autocomplete = "off", @disabled = "true" })
                         }
                         else
                         {
@@ -149,11 +200,13 @@
                     <td>
                         @if (Model.OpeningStockItem[i].isUsed)
                         {
-                            @Html.TextBoxFor(m => m.OpeningStockItem[i].Quantity, new { @class = "form_input", autocomplete = "off", @style = "text-align:right", @disabled = "true" })
+                            @*@Html.HiddenFor(m => m.OpeningStockItem[i].Quantity)*@
+                            @*<input value="@Model.OpeningStockItem[i].Quantity" class="form_input text-right" style="color:red" disabled />*@
+                            @Html.TextBoxFor(m => m.OpeningStockItem[i].Quantity, new { @class = "form_input text-right", autocomplete = "off", @style = "color:red", @readonly = "true" })
                         }
                         else
                         {
-                            @Html.TextBoxFor(m => m.OpeningStockItem[i].Quantity, new { @class = "form_input", autocomplete = "off", @style = "text-align:right" })
+                            @Html.TextBoxFor(m => m.OpeningStockItem[i].Quantity, new { @class = "form_input text-right", autocomplete = "off", @style = "text-align:right" })
                         }
                         
                     </td>

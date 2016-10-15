@@ -1,0 +1,97 @@
+﻿@model IList<ArabErp.Domain.PendingTasksForCompletion>
+
+@{
+    ViewBag.Title = "Pending Tasks For Completion";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<script type="text/javascript">
+
+    $(function () {
+        $("#filter-jobcarddate").datepicker({
+            dateFormat: "dd-MM-yy"
+        })
+    })
+
+    function Filter() {
+        $("#pending-tasks-grid").addClass("fade");
+        var saleorder = $("#filter-saleorder").val().trim();
+        var jobcard = $("#filter-jobcard").val().trim();
+        var jobcarddate = $("#filter-jobcarddate").val().trim();
+        var engineer = $("#filter-engineer").val().trim();
+        var task = $("#filter-task").val().trim();
+        var technician = $("#filter-technician").val().trim();
+        var url = '@Url.Action("PendingTasks")';
+        url += "?saleorder=" + encodeURIComponent(saleorder)
+            + "&jobcard=" + encodeURIComponent(jobcard)
+            + "&jobcarddate=" + encodeURIComponent(jobcarddate)
+            + "&engineer=" + encodeURIComponent(engineer)
+            + "&task=" + encodeURIComponent(task)
+            + "&technician=" + encodeURIComponent(technician);
+        $("#pending-tasks-grid").load(url, function () {
+            $("#pending-tasks-grid").removeClass("fade");
+        });
+    }
+
+    function Exit() {
+        var url = '@Url.Action("Index", "Home")';
+        window.location = url;
+    }
+
+</script>
+
+<div class="row">
+    <div class="form-head1">
+        <h4>Pending Tasks For Completion</h4>
+    </div>
+
+    <div class="main-part pad1">
+        <div class="row">
+            <div class="col-md-2">
+                <label for="filter-saleorder">Sale Order</label>
+                <input id="filter-saleorder" class="form_input" placeholder="Search for Sale Order" onkeyup="Filter()" onchange="Filter1()" />
+            </div>
+            <div class="col-md-2">
+                <label for="filter-jobcard">Job Card</label>
+                <input id="filter-jobcard" class="form_input" placeholder="Search for Job Card" onkeyup="Filter()" onchange="Filter()" />
+            </div>
+            <div class="col-md-2">
+                <label for="filter-jobcarddate">Job Card Date</label>
+                <input id="filter-jobcarddate" class="form_input" placeholder="d-mmm-yyyy" onkeyup="Filter()" onchange="Filter()" />
+            </div>
+            <div class="col-md-2">
+                <label for="filter-engineer">Engineer</label>
+                <input id="filter-engineer" class="form_input" placeholder="Search for Engineer" onkeyup="Filter()" onchange="Filter()" />
+            </div>
+            <div class="col-md-2">
+                <label for="filter-task">Task</label>
+                <input id="filter-task" class="form_input" placeholder="Search for Task" onkeyup="Filter()" onchange="Filter()" />
+            </div>
+            <div class="col-md-2">
+                <label for="filter-technician">Technician</label>
+                <input id="filter-technician" class="form_input" placeholder="Search for Technician" onkeyup="Filter()" onchange="Filter()" />
+            </div>
+        </div>
+        <br />
+        <div class="row">
+            <div class="main-grid main-grid-top scroll1">
+                <div class="table-responsive" id="pending-tasks-grid">
+                    @Html.Partial("_PendingTasksGrid", Model)
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-12 hrpart">
+                <div class="col-md-1" style="font-size:12px">
+                    <div style="background-color:red;height:5px;width:5px;float:left;margin-top:5px;margin-right:2px"></div>Project
+                </div>
+                <div class="col-md-2" style="font-size:12px">
+                    <div style="background-color:green;height:5px;width:5px;float:left;margin-top:5px;margin-right:2px"></div>Transportation
+                </div>
+                <input type="button" class="form-button right" value="Exit" onclick="Exit()" />
+            </div>
+        </div>
+    </div>
+</div>
+

@@ -35,7 +35,7 @@
                 "hideMethod": "fadeOut"
             }
             if ('@TempData["success"]' != "" && '@TempData["JobCardTaskRefNo"]' != "") {
-                toastr.success('@TempData["success"]' + '  Task Ref No. is : ' + '@TempData["JobCardTaskRefNo"]');
+                toastr.success('@TempData["success"]' + '  Task Code is : ' + '@TempData["JobCardTaskRefNo"]');
             }
             else if ('@TempData["error"]' != "") {
                 toastr.error('@TempData["error"]');
@@ -45,7 +45,7 @@
             //alert("hi");
             if (e.which == 8 || (e.which == 46 && $(this).val().indexOf('.') == -1) || (e.which > 47 && e.which < 58)) { } else { return false; }
          });
-
+          $("#JobCardTaskName").focus();
         });
 
 </script>

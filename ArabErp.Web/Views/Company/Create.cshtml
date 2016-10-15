@@ -35,12 +35,13 @@
                 "showMethod": "fadeIn",
                 "hideMethod": "fadeOut"
             }
-            if ('@TempData["success"]' != "" && '@TempData["BoxRefNo"]' != "") {
-                toastr.success('@TempData["success"]' + '  Company Ref No. is : ' + '@TempData["BoxRefNo"]');
+            if ('@TempData["success"]' != "" && '@TempData["cmpUsercode"]' != "") {
+                toastr.success('@TempData["success"]' + '  Company Code is : ' + '@TempData["cmpUsercode"]');
             }
             else if ('@TempData["error"]' != "") {
                 toastr.error('@TempData["error"]');
             }
+            $("#cmpName").focus();
         });
 
     
@@ -62,8 +63,8 @@
 
                     <div class="part4">
                         @Html.HiddenFor(m => m.cmpCode)
-                        <label for="CmpUserCode">User Code</label>
-                        @Html.TextBoxFor(m => m.cmpUsercode, new { @class = "form_input form_input-half", autocomplete = "off" })
+                        <label for="CmpUserCode">Code</label>
+                        @Html.TextBoxFor(m => Model.cmpUsercode, new { @class = "form_input form_input-half", autocomplete = "off", @readonly = "readonly" })
                     </div>
 
                     <div class="part4">
@@ -72,7 +73,7 @@
                     </div>
 
                     <div class="part4">
-                        <label for="CmpShrtName"> ShortName</label>
+                        <label for="CmpShrtName">ShortName</label>
                         @Html.TextBoxFor(m => m.cmpShrtName, new { @class = "form_input", autocomplete = "off" })
                     </div>
 
@@ -81,7 +82,7 @@
                         @Html.TextBoxFor(m => m.cmpRemarks, new { @class = "form_input", autocomplete = "off" })
                     </div>
                     <div class="part4">
-                        <label for="CmpDoorNo">DoorNo</label>
+                        <label for="CmpDoorNo">Door No.</label>
                         @Html.TextBoxFor(m => m.cmpDoorNo, new { @class = "form_input", autocomplete = "off" })
                     </div>
 
@@ -105,7 +106,7 @@
                         @Html.TextBoxFor(m => m.cmpState, new { @class = "form_input", autocomplete = "off" })
                     </div>
                     <div class="part4">
-                        <label for="CmpPhNo">Ph No.</label>
+                        <label for="CmpPhNo">Phone No.</label>
                         @Html.TextBoxFor(m => m.cmpPhNo, new { @class = "form_input", autocomplete = "off" })
                     </div>
                     <div class="part4">
@@ -136,7 +137,7 @@
                     </div>
 
                     <div class="part4">
-                        <label for="CmpVat">VAT No</label>
+                        <label for="CmpVat">VAT No.</label>
                         @Html.TextBoxFor(m => m.cmpVATNo, new { @class = "form_input", autocomplete = "off" })
                     </div>
 
@@ -154,7 +155,7 @@
                             @Html.TextBoxFor(m => m.cmpIECode, new { @class = "form_input", autocomplete = "off" })
                         </div>
                         <div class="part4">
-                            <label for="CmpWorkSheetNo">WorkSheet No</label>
+                            <label for="CmpWorkSheetNo">WorkSheet No.</label>
                             @Html.TextBoxFor(m => m.cmpWorkSheetNo, new { @class = "form_input", autocomplete = "off" })
                             </div>
                             <div class="part4">

@@ -33,12 +33,12 @@
             "hideMethod": "fadeOut"
         }
         if ('@TempData["success"]' != "" && '@TempData["RefNo"]' != "") {
-            toastr.success('@TempData["success"]' + '  Stockpoint Ref No. is : ' + '@TempData["RefNo"]');
+            toastr.success('@TempData["success"]' + '  Stock Point Code is : ' + '@TempData["RefNo"]');
         }
         else if ('@TempData["error"]' != "") {
             toastr.error('@TempData["error"]');
         }
-
+        $("#StockPointName").focus();
     });
 </script>
 
@@ -70,7 +70,7 @@
                             @Html.TextBoxFor(m => m.StockPointShrtName, new { @class = "form_input", autocomplete = "off" })
                         </div>
                         <div class="part4">
-                            <label for="StockPointDoorNo">Door No & Building</label>
+                            <label for="StockPointDoorNo">Door No. & Building</label>
                             @Html.TextBoxFor(m => m.StockPointDoorNo, new { @class = "form_input", autocomplete = "off" })
                         </div>
 
@@ -105,7 +105,7 @@
                         @Html.TextBoxFor(m => m.StockPointZip, new { @class = "form_input", autocomplete = "off" })
                     </div>
                     <div class="part4">
-                        <label for="StockPointPhone">Phone No</label>
+                        <label for="StockPointPhone">Phone No.</label>
                         @Html.TextBoxFor(m => m.StockPointPhone, new { @class = "form_input", autocomplete = "off" })
                     </div>
                     <div class="part4">

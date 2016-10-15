@@ -36,11 +36,12 @@
             "hideMethod": "fadeOut"
         }
         if ('@TempData["success"]' != "" && '@TempData["CostingRefNo"]' != "") {
-            toastr.success('@TempData["success"]' + ' Costing Ref No. is : ' + '@TempData["CostingRefNo"]');
+            toastr.success('@TempData["success"]' + ' Costing Code is : ' + '@TempData["CostingRefNo"]');
         }
         else if ('@TempData["error"]' != "") {
             toastr.error('@TempData["error"]');
         }
+        $("#Description").focus();
     });
 
 
@@ -70,7 +71,7 @@
                     </div>
 
                     <div class="part4">
-                        <label for="Description">Description</label>
+                        <label for="Description">Name</label>
                         @Html.TextBoxFor(m => m.Description, new { @class = "form_input", autocomplete = "off" })
                     </div>
 

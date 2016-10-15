@@ -33,11 +33,12 @@
             "hideMethod": "fadeOut"
         }
         if ('@TempData["success"]' != "" && '@TempData["RefNo"]' != "") {
-            toastr.success('@TempData["success"]' + '  Empoyee Category Ref No. is : ' + '@TempData["RefNo"]');
+            toastr.success('@TempData["success"]' + '  Empoyee Category Code is : ' + '@TempData["RefNo"]');
         }
         else if ('@TempData["error"]' != "") {
             toastr.error('@TempData["error"]');
         }
+        $("#EmpCategoryName").focus();
 
     });
 </script>

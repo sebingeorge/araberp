@@ -99,7 +99,12 @@
                                                 <input type="text" value="@Model[i].isDirect" class="form_input" disabled />
                                             </td>*@
                                             <td>
-                                                <center><input type="button" class="form-button4" value="Select" title="Select this item to assign serial number" onclick="OnItemSelected('@Model[i].OpeningStockId')" /></center>
+                                                <center><input type="button" class="form-button4" value="Select" title="Select this item to assign serial number" onclick="OnItemSelected('@Model[i].OpeningStockId')"
+                                                               @if(Model[i].Quantity==0)
+                                                               {
+                                                                   @:style="display:none"
+                                                               }
+                                                                   /></center>
                                             </td>
                                         </tr>
                                     }

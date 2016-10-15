@@ -34,11 +34,12 @@
             "hideMethod": "fadeOut"
         }
         if ('@TempData["success"]' != "" && '@TempData["SupCategoryRefNo"]' != "") {
-            toastr.success('@TempData["success"]' + '  Supplier Category Ref No. is : ' + '@TempData["SupCategoryRefNo"]');
+            toastr.success('@TempData["success"]' + '  Supplier Category Code is : ' + '@TempData["SupCategoryRefNo"]');
         }
         else if ('@TempData["error"]' != "") {
             toastr.error('@TempData["error"]');
         }
+        $("#SupCategoryName").focus();
     });
 
 </script>

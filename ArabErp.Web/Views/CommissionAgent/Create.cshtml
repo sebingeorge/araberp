@@ -34,12 +34,12 @@
             "hideMethod": "fadeOut"
         }
         if ('@TempData["success"]' != "" && '@TempData["RefNo"]' != "") {
-            toastr.success('@TempData["success"]' + '  Commission Agent Ref No. is : ' + '@TempData["RefNo"]');
+            toastr.success('@TempData["success"]' + '  Success Fee Code is : ' + '@TempData["RefNo"]');
         }
         else if ('@TempData["error"]' != "") {
             toastr.error('@TempData["error"]');
         }
-
+        $("#CommissionAgentName").focus();
     });
 </script>
 
@@ -71,7 +71,7 @@
                             @Html.TextBoxFor(m => m.CommissionAgentRefNo, new { @class = "form_input form_input-half", autocomplete = "off" , @readonly = "readonly"})
                         </div>
                         <div class="part4">
-                            <label for="Address1">Door No</label>
+                            <label for="Address1">Door No.</label>
                             @Html.TextBoxFor(m => m.Address1, new { @class = "form_input", autocomplete = "off" })
                         </div>
 
@@ -95,7 +95,7 @@
                             @Html.TextBoxFor(m => m.Address3, new { @class = "form_input", autocomplete = "off" })
                         </div>
                         <div class="part4">
-                            <label for="Phone">Phone</label>
+                            <label for="Phone">Phone No.</label>
                             @Html.TextBoxFor(m => m.Phone, new { @class = "form_input", autocomplete = "off" })
                         </div>
                     </div>

@@ -55,7 +55,7 @@
                 <th width="10%" class="text-center"><h1></h1></th>
                 <th width="5%" class="text-center"><h1></h1></th>
                 <th width="5%" class="text-center"><h1></h1></th>
-                <th width="5%" class="text-right">@Html.DropDownListFor(m => m.CurrencyId, (SelectList)ViewBag.currencyList, "Select Currency", new { @class = "form_input", @required = "true" })</th>
+                <th width="5%" class="text-right">@Html.DropDownListFor(m => Model.CurrencyId, new SelectList(ViewBag.currencyList, "Value", "Text", Model.CurrencyId), "Select Currency", new { @class = "form_input" })
                 <th width="5%" class="text-right" style="vertical-align:middle"><h1>Total</h1></th>
                 <th width="5%" class="text-right"><span id="QtyAmount"></span></th>
             </tr>

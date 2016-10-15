@@ -39,19 +39,19 @@
         @if (actionName == "Create")
         {
            @: url += "?ProjectBased=0" + "&AfterSales=0";
-                }
+                        }
         else if (actionName == "CreateProject")
         {
             @: url += "?ProjectBased=1" + "&AfterSales=0";;
-                }
+                        }
         else if (actionName == "CreateAfterSalesTrans")
         {
             @: url += "?ProjectBased=0" + "&AfterSales=1";;
-                }
+                        }
         else if (actionName == "CreateAfterSalesProject")
            {
                @: url += "?ProjectBased=1" + "&AfterSales=1";;
-                   }
+                           }
         window.location = url;
 
     }
@@ -74,6 +74,12 @@
             $("#ExpectedDeliveryDate").datepicker({ dateFormat: "dd-MM-yy" });
             $("#PredictedClosingDate").datepicker({ dateFormat: "dd-MM-yy" });
             $("#QuotationValidToDate").datepicker({ dateFormat: "dd-MM-yy" });
+        }
+
+        @if (Model.isAfterSales)
+        {
+            @: $("#CustomerId").val(@Model.CustomerId);
+            @: $("#CustomerId").trigger("onchange");
         }
     });
     function CustomerChanged(cust) {
@@ -130,7 +136,7 @@
         @if (new[] { "CreateAfterSalesTrans", "CreateAfterSalesProject" }.Contains(ViewContext.RouteData.GetRequiredString("action")))
         {
             @:removeOnChange();
-        }
+                }
     });
 
     function removeOnChange(){
@@ -258,8 +264,19 @@
     }
 
     function OnWorkDescChanged(index) {
-        var rateType = $("#SalesQuotationItems_" + index + "__RateType");
         var work = $("#SalesQuotationItems_" + index + "__WorkDescriptionId");
+        var current_id = $("#SalesQuotationItems_"+index+"__WorkDescriptionId").val();
+        $("select[id$='__WorkDescriptionId'").each(function(i, object){
+            if($(object).val() == current_id && index != i){
+                $(work).val('');
+                toastr.info("This work description has already been selected");
+                $(work).autocomplete("search", ""); //this code need reworking.
+                //$("#" + (index)).find('span[class="custom-combobox"] > input');
+                //$(work).show();
+            }
+        })
+
+        var rateType = $("#SalesQuotationItems_" + index + "__RateType");
 
         if ($(work).val() != '') {
             //$(rateType).val(3);
@@ -409,14 +426,14 @@
 
                 </div>
                 <div class="col-md-2">
-                @if (Model.isProjectBased)
-                  {
-                   <label for="ExpectedDeliveryDate">Expected Commission Date</label>
-                  }
-                else
-                {
-                   <label for="ExpectedDeliveryDate">Expected Delivery Date</label>
-                }
+                    @if (Model.isProjectBased)
+                    {
+                        <label for="ExpectedDeliveryDate">Expected Commission Date</label>
+                    }
+                    else
+                    {
+                        <label for="ExpectedDeliveryDate">Expected Delivery Date</label>
+                    }
 
                     @Html.TextBoxFor(m => m.ExpectedDeliveryDate, Model.ExpectedDeliveryDate.ToString("dd/MMMM/yyyy"), new { @class = "form_input", autocomplete = "off" })
                     @Html.ValidationMessageFor(m => m.ExpectedDeliveryDate)
@@ -447,15 +464,15 @@
                         {
                             <span class="text">
                                 <b>Warranty</b>
-                                    <a id="warranty-link"
-                                       data-toggle="popover"
-                                       data-html="true"
-                                       data-placement="left"
-                                       title="Warranty details"
-                                       data-content="Project Completion No.:
-                                        <b>@Model.ProjectCompleionDetails.ProjectCompletionRefNo</b>
-                                        <br />
-                                        Project Completion Date: <b>@Model.ProjectCompleionDetails.ProjectCompletionDate.ToString("dd/MMMM/yyyy")</b>
+                                <a id="warranty-link"
+                                   data-toggle="popover"
+                                   data-html="true"
+                                   data-placement="left"
+                                   title="Warranty details"
+                                   data-content="Project Completion No.:
+                                    <b>@Model.ProjectCompleionDetails.ProjectCompletionRefNo</b>
+                                    <br />
+                                    Project Completion Date: <b>@Model.ProjectCompleionDetails.ProjectCompletionDate.ToString("dd/MMMM/yyyy")</b>
                                     <br />
                                     Warranty Expiry Date: <b>@Model.ProjectCompleionDetails.ProjectWarrantyExpiryDate.ToString("dd/MMMM/yyyy")</b>"
                                     style="text-decoration:none;cursor:pointer">
@@ -476,15 +493,15 @@
                                     <b>@Model.DeliveryChallanDetails.DeliveryChallanRefNo</b>
                                     <br />
                                     Delivery Challan Date: <b>@Model.DeliveryChallanDetails.DeliveryChallanDate.ToString("dd/MMMM/yyyy")</b>
-                                <br />
-                                Warranty Expiry Date: <b>@Model.DeliveryChallanDetails.TransportWarrantyExpiryDate.ToString("dd/MMMM/yyyy")</b>"
-                                style="text-decoration:none;cursor:pointer"
-                                onclick="OnWarrantyClick()">
-                                (Show details)
+                                    <br />
+                                    Warranty Expiry Date: <b>@Model.DeliveryChallanDetails.TransportWarrantyExpiryDate.ToString("dd/MMMM/yyyy")</b>"
+                                    style="text-decoration:none;cursor:pointer"
+                                    onclick="OnWarrantyClick()">
+                                    (Show details)
                                 </a>
                             </span>
                         }
-                </div>
+                    </div>
                 }
 
             </div>
@@ -552,6 +569,7 @@
                             var Quantity = $("#SalesQuotationItems_" + j + "__Quantity").val();
                             var UnitId = $("#SalesQuotationItems_" + j + "__UnitId").val();
                             var Rate = $("#SalesQuotationItems_" + j + "__Rate").val();
+                            var RateType = $("#SalesQuotationItems_" + j + "__RateType").val();
                             var Discount = $("#SalesQuotationItems_" + j + "__Discount").val();
                             var Amount = $("#SalesQuotationItems_" + j + "__Amount").val();
 
@@ -562,6 +580,7 @@
                             clone.html($(clone).html().replace(new RegExp('slno' + (j + 1) + '">' + (j + 1), "g"), 'slno' + (j) + '">' + (j)));
                             clone.html($(clone).html().replace("Delete(" + j, "Delete(" + (j - 1)));
                             clone.html($(clone).html().replace("Row_" + j, "Row_" + (j - 1)));
+                            clone.html($(clone).html().replace("OnWorkDescChanged(" + j, "OnWorkDescChanged(" + (j - 1)));
 
 
 
@@ -572,10 +591,13 @@
                             $("#" + (j)).attr('id', (j - 1));
                             //alert(j);
                             $("#SalesQuotationItems_" + (j - 1) + "__WorkDescriptionId").val(WorkDescriptionId);
+                            $("#" + (j - 1)).find('span[class="custom-combobox"]').remove();
+                            $("#SalesQuotationItems_"+(j - 1)+"__WorkDescriptionId").combobox();
                             $("#SalesQuotationItems_" + (j - 1) + "__VehicleModelId").val(VehicleModelId);
                             $("#SalesQuotationItems_" + (j - 1) + "__Quantity").val(Quantity);
                             $("#SalesQuotationItems_" + (j - 1) + "__UnitId").val(UnitId);
                             $("#SalesQuotationItems_" + (j - 1) + "__Rate").val(Rate);
+                            $("#SalesQuotationItems_" + (j - 1) + "__RateType").val(RateType);
                             $("#SalesQuotationItems_" + (j - 1) + "__Discount").val(Discount);
                             $("#SalesQuotationItems_" + (j - 1) + "__Amount").val(Amount);
                         }
@@ -638,7 +660,7 @@
 
                         amount = amount + a;
                     });
-                    
+
                     $("input[id$='__TotalAmount']").each(function (i, obj) {
                         var a = parseFloat($(obj).val());
                         if (isNaN(a)) {
@@ -709,7 +731,7 @@
                     @if (new[] { "CreateAfterSalesTrans", "CreateAfterSalesProject" }.Contains(ViewContext.RouteData.GetRequiredString("action")))
                     {
                         @:removeOnChange();
-                    }
+                                        }
                 }
             </script>
 
@@ -722,7 +744,7 @@
                         }
                         <th width="1%" class="text-center"><h1>#</h1></th>
                         <th width="45%" class="text-left"><h1>Work Description</h1></th>
-                        @if (new[] { "Create", "CreateAferSales", "Approve" }.Contains(ViewContext.RouteData.GetRequiredString("action")))
+                        @if (new[] { "Create", "CreateAferSales", "Approve" }.Contains(ViewContext.RouteData.GetRequiredString("action")) && !Model.isProjectBased)
                         {
                             <th width="10%"><h1>Rate Settings</h1></th>
                         }
@@ -773,7 +795,7 @@
                                 }
                             </td>
 
-                            @if (new[] { "Create", "Approve" }.Contains(ViewContext.RouteData.GetRequiredString("action")))
+                            @if (new[] { "Create", "Approve" }.Contains(ViewContext.RouteData.GetRequiredString("action")) && !Model.isProjectBased)
                             {
                                 <td>
                                     <!--column to show rate settings (required only for transportation)-->
@@ -839,7 +861,7 @@
                         }
                         <th class="text-center"></th>
                         <th class="text-center "><h1></h1></th>
-                        @if (new[] { "Create", "Approve" }.Contains(ViewContext.RouteData.GetRequiredString("action")))
+                        @if (new[] { "Create", "Approve" }.Contains(ViewContext.RouteData.GetRequiredString("action")) && !Model.isProjectBased)
                         {
                             <th></th>
                         }

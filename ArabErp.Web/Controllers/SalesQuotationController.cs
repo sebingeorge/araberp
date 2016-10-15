@@ -183,6 +183,7 @@ namespace ArabErp.Web.Controllers
             ViewBag.SubmitAction = "Save";
             salesquotation.isWarranty = new SalesQuotationRepository().isUnderWarranty(id, "Transport");
             salesquotation.DeliveryChallanDetails = new DeliveryChallanRepository().GetDeliveryChallan(id);
+            salesquotation.CustomerId = new CustomerRepository().GetCustomerFromWarranty(id, salesquotation.isProjectBased);
 
             return View("Create", salesquotation);
         }
@@ -258,6 +259,7 @@ namespace ArabErp.Web.Controllers
             ViewBag.SubmitAction = "Save";
             salesquotation.isWarranty = new SalesQuotationRepository().isUnderWarranty(id, "Project");
             salesquotation.ProjectCompleionDetails = new ProjectCompletionRepository().GetProjectCompletion(id);
+            salesquotation.CustomerId = new CustomerRepository().GetCustomerFromWarranty(id, salesquotation.isProjectBased);
 
             return View("Create", salesquotation);
         }
@@ -434,7 +436,7 @@ namespace ArabErp.Web.Controllers
             try
             {
                 new SalesQuotationRepository().ApproveSalesQuotation(model);
-                TempData["Success"] = "Approved Successfully(" + model.QuotationRefNo + ")";
+                TempData["Success"] = "Approved Successfully (" + model.QuotationRefNo + ")";
                 return RedirectToAction("ListSalesQuotations", new { ProjectBased = Convert.ToInt32(model.isProjectBased), AfterSales = Convert.ToInt32(model.isAfterSales) });
             }
             catch (Exception)

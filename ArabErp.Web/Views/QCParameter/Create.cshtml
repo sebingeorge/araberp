@@ -35,12 +35,12 @@
             "hideMethod": "fadeOut"
         }
         if ('@TempData["success"]' != "" && '@TempData["QCRefNo"]' != "") {
-            toastr.success('@TempData["success"]' + ' QC Ref No. is : ' + '@TempData["QCRefNo"]');
+            toastr.success('@TempData["success"]' + ' QC Code is : ' + '@TempData["QCRefNo"]');
         }
         else if ('@TempData["error"]' != "") {
             toastr.error('@TempData["error"]');
         }
-
+        $("#QCParamName").focus();
     });
 </script>
 

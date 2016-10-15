@@ -37,11 +37,12 @@
             "hideMethod": "fadeOut"
         }
         if ('@TempData["success"]' != "" && '@TempData["CustomerRefNo"]' != "") {
-            toastr.success('@TempData["success"]' + '  Customer Ref No. is : ' + '@TempData["CustomerRefNo"]');
+            toastr.success('@TempData["success"]' + '  Customer Code is : ' + '@TempData["CustomerRefNo"]');
         }
         else if ('@TempData["error"]' != "") {
             toastr.error('@TempData["error"]');
         }
+        $("#CustomerName").focus();
 
     });
 </script>
@@ -116,7 +117,7 @@
                                 </div>
 
                                 <div class="part4">
-                                    <label for="zip">Post Box No</label>
+                                    <label for="zip">Post Box No.</label>
                                     @Html.TextBoxFor(m => m.Zip, new { @class = "form_input ", autocomplete = "off" })
                                 </div>
                              </div>

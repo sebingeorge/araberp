@@ -27,8 +27,8 @@
             "showMethod": "fadeIn",
             "hideMethod": "fadeOut"
         }
-        if ('@TempData["success"]' != "" && '@TempData["CustomerRefNo"]' != "") {
-            toastr.success('@TempData["success"]' + '  Customer Ref No. is : ' + '@TempData["CustomerRefNo"]');
+        if ('@TempData["success"]' != "" && '@TempData["cmpUsercode"]' != "") {
+            toastr.success('@TempData["success"]' + '  Company Code is : ' + '@TempData["cmpUsercode"]');
         }
         else if ('@TempData["error"]' != "") {
             toastr.error('@TempData["error"]');
