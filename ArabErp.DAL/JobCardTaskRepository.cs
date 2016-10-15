@@ -92,7 +92,7 @@ namespace ArabErp.DAL
             using (IDbConnection connection = OpenConnection(dataConnection))
             {
                 string sql = @" SELECT JT.TaskDate,E.EmployeeName Employee,JM.JobCardTaskName Description,
-                                ISNULL(JT.StartTime,'0.00')StartTime,ISNULL(JT.EndTime,'0.00')EndTime
+                                ISNULL(JT.StartTime,'0.00')StartTime,ISNULL(JT.EndTime,'0.00')EndTime,ISNULL(JT.ActualHours,'0.00')ActualHours
                                 FROM JobCard J
                                 INNER JOIN JobCardTask JT ON J.JobCardId=JT.JobCardId
                                 INNER JOIN Employee E ON E.EmployeeId=JT.EmployeeId

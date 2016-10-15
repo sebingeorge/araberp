@@ -29,6 +29,7 @@
                 <xs:element name="Description" type="xs:string" minOccurs="0" />
                 <xs:element name="StartTime" type="xs:string" minOccurs="0" />
                 <xs:element name="EndTime" type="xs:string" minOccurs="0" />
+                <xs:element name="ActualHours" type="xs:string" minOccurs="0" />
               </xs:sequence>
             </xs:complexType>
           </xs:element>
@@ -37,30 +38,32 @@
     </xs:element>
   </xs:schema>
   <Head>
-    <JobCardNo>JC-16/44</JobCardNo>
-    <JobCardDate>12-Oct-2016</JobCardDate>
-    <SaleOrderRefNo>SO/P-16/62</SaleOrderRefNo>
-    <CustomerName>M/S Al Rashid Ice Factory,1fg,fg</CustomerName>
-    <Phone>54</Phone>
-    <ContactPerson>54</ContactPerson>
+    <JobCardNo>JC-16/38</JobCardNo>
+    <JobCardDate>27-Sep-2016</JobCardDate>
+    <SaleOrderRefNo>SO/P-16/53</SaleOrderRefNo>
+    <CustomerName>M/S Opera,doorc121,kaloor</CustomerName>
+    <Phone>9746341798</Phone>
+    <ContactPerson>pk</ContactPerson>
     <Unit>Thermal Master T2500</Unit>
-    <Customer>M/S Al Rashid Ice Factory</Customer>
-    <Technician>Shanid</Technician>
+    <Customer>M/S Opera</Customer>
+    <Technician>Deepak</Technician>
     <OrganizationName>Arab Air Conditioning &amp; Refrigeration Co. W.L.L.</OrganizationName>
-    <Image1>E:\ARAB\New folder\ArabErp\ArabErp.Web\App_images\d78b1f4b-a670-480f-97df-c1e6fe215170.png</Image1>
+    <Image1>E:\ARAB\New folder\ArabErp\ArabErp.Web\App_images\e8251ae5-2716-4b20-841c-c57ba2109c7b.png</Image1>
   </Head>
   <Items>
-    <TaskDate>12-Oct-2016</TaskDate>
+    <TaskDate>27-Sep-2016</TaskDate>
     <Employee>Rajeev</Employee>
-    <Description>Job work</Description>
+    <Description>Main Unit Fixing</Description>
     <StartTime>0.00</StartTime>
     <EndTime>0.00</EndTime>
+    <ActualHours>13.00</ActualHours>
   </Items>
   <Items>
-    <TaskDate>12-Oct-2016</TaskDate>
-    <Employee>Deepak</Employee>
-    <Description>Job work</Description>
+    <TaskDate>28-Sep-2016</TaskDate>
+    <Employee>Rajeev</Employee>
+    <Description>Task2</Description>
     <StartTime>0.00</StartTime>
     <EndTime>0.00</EndTime>
+    <ActualHours>13.00</ActualHours>
   </Items>
 </NewDataSet>
