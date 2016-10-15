@@ -44,7 +44,7 @@
         $("#OpeningStockItem_" + i + "__Quantity").removeAttr("readonly");
         $("#OpeningStockItem_" + i + "__Quantity").removeAttr("style");
 
-        //$("#" + i).find('span[class="custom-combobox"]').remove();
+        $("#" + i).find('span[class="custom-combobox"]').remove();
         $("#OpeningStockItem_" + i + "__ItemId").removeAttr("disabled");
         $("#OpeningStockItem_" + i + "__ItemId").combobox();
         $("#OpeningStockItem_" + i + "__isUsed").val("false");
