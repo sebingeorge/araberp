@@ -229,8 +229,20 @@
     }
 
     function OnWorkDescChanged(index) {
-        var rateType = $("#SalesQuotationItems_" + index + "__RateType");
         var work = $("#SalesQuotationItems_" + index + "__WorkDescriptionId");
+        var current_id = $("#SalesQuotationItems_" + index + "__WorkDescriptionId").val();
+        $("select[id$='__WorkDescriptionId'").each(function (i, object) {
+            if ($(object).val() == current_id && index != i) {
+                $(work).val('');
+                toastr.info("This work description has already been selected");
+                $(work).autocomplete("search", ""); //this code need reworking.
+                //$("#" + (index)).find('span[class="custom-combobox"] > input');
+                //$(work).show();
+            }
+        })
+
+        var rateType = $("#SalesQuotationItems_" + index + "__RateType");
+
         if ($(work).val() != '') {
             //$(rateType).val(3);
             SetRate(index, 3); //3 = max (by default max)
@@ -239,6 +251,7 @@
             $(rateType).val(0);
             OnRateTypeChanged(index);
         }
+        QuantityChanged(index);
     }
 
     function SetRate(index, type) {
