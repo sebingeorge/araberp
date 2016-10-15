@@ -30,14 +30,14 @@ namespace ArabErp.DAL
         {
             using (IDbConnection connection = OpenConnection(dataConnection))
             {
-                return connection.Query<Dropdown>("select DesignationId Id,DesignationName Name from Designation").ToList();
+                return connection.Query<Dropdown>("select DesignationId Id,DesignationName Name from Designation WHERE isActive=1").ToList();
             }
         }
         public IEnumerable<Dropdown> FillCategoryDropdown()
         {
             using (IDbConnection connection = OpenConnection(dataConnection))
             {
-                return connection.Query<Dropdown>("select EmpCategoryId Id ,EmpCategoryName Name from EmployeeCategory").ToList();
+                return connection.Query<Dropdown>("select EmpCategoryId Id ,EmpCategoryName Name from EmployeeCategory WHERE isActive=1").ToList();
             }
         }
         public IEnumerable<Dropdown> FillLocationDropdown()

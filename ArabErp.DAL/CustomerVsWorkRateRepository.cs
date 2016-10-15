@@ -17,7 +17,7 @@ namespace ArabErp.DAL
         {
             using (IDbConnection connection = OpenConnection(dataConnection))
             {
-                return connection.Query<Dropdown>("SELECT CustomerId Id,CustomerName Name FROM Customer").ToList();
+                return connection.Query<Dropdown>("SELECT CustomerId Id,CustomerName Name FROM Customer WHERE isActive=1").ToList();
             }
         }
 
