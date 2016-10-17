@@ -59,7 +59,7 @@ namespace ArabErp.DAL
                         model.QuotationRefNo = DatabaseCommonRepository.GetNewDocNo(connection, model.OrganizationId, 28, true, trn);
                     }
                     #region automatically approve if no custom rates are set
-                    if (model.isProjectBased)
+                    if (!model.isProjectBased)
                     {
                         List<int> rateType = (from SalesQuotationItem s in model.SalesQuotationItems
                                               where s.RateType == 0
@@ -303,7 +303,7 @@ namespace ArabErp.DAL
                 return objSalesQuotations;
             }
         }
-        public List<SalesQuotation> GetSalesQuotationApproveList(int IsProjectBased, int IsAfterSales)
+        public List<SalesQuotation> GetSalesQuotationApproveList(int IsProjectBased, int IsAfterSales, int OrganizationId)
         {
             using (IDbConnection connection = OpenConnection(dataConnection))
             {
@@ -312,7 +312,7 @@ namespace ArabErp.DAL
 							inner join Employee E on  E.EmployeeId =SQ.SalesExecutiveId
 							inner join SalesQuotationStatus RR on  RR.SalesQuotationStatusId =SQ.SalesQuotationStatusId
                             where SQ.ApprovedBy is null and  SQ.isActive=1 and isnull(SQ.IsQuotationApproved,0)=0
-                            and SQ.IsProjectBased = " + IsProjectBased.ToString() + " and SQ.isAfterSales= " + IsAfterSales.ToString();
+                            and SQ.OrganizationId = " + OrganizationId.ToString() + " and SQ.IsProjectBased = " + IsProjectBased.ToString() + " and SQ.isAfterSales= " + IsAfterSales.ToString();
 
                 var objSalesQuotations = connection.Query<SalesQuotation>(sql).ToList<SalesQuotation>();
 

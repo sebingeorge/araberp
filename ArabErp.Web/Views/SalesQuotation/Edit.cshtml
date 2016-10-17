@@ -536,9 +536,14 @@
                     }
 
                     function QuantityChanged(row) {
-                        var quantity = $("#SalesQuotationItems_" + row + "__Quantity").val();
-                        var rate = $("#SalesQuotationItems_" + row + "__Rate").val();
-                        var discount = $("#SalesQuotationItems_" + row + "__Discount").val();
+                        var quantity = parseFloat($("#SalesQuotationItems_" + row + "__Quantity").val());
+                        var rate = parseFloat($("#SalesQuotationItems_" + row + "__Rate").val());
+                        var discount = parseFloat($("#SalesQuotationItems_" + row + "__Discount").val());
+
+                        if (discount > rate) {
+                            toastr.info("Discount cannot be greater than rate");
+                            $("#SalesQuotationItems_" + row + "__Discount").val($("#SalesQuotationItems_" + row + "__Rate").val());
+                        }
 
                         if (isNaN(quantity)) {
                             quantity = 0;

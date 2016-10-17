@@ -55,7 +55,7 @@
             <div class="row">
                 <div class="main-grid main-grid-top scroll1">
                     <div class="table-responsive">
-                        <span class="form_input perm">You have permission to Approve Quotations between @amountFrom and @amountTo</span>
+                        @*<span class="form_input perm">You have permission to Approve Quotations between @amountFrom and @amountTo</span>*@
                         <table class="table table-bordered">
                             <thead>
                                 <tr class="grid_heading">
@@ -82,14 +82,14 @@
                                             <td class="grid-cell">@item.Description</td>
                                             <td>
                                                 <center>
-                                                    @if (item.GrandTotal <= amountTo)
-                                                    {
+                                                    @*@if (item.GrandTotal <= amountTo)
+                                                    {*@
                                                         @Html.ActionLink("Select", "Approve", "SalesQuotation", new { SalesQuotationId = @item.SalesQuotationId }, new { @class = "form-button5", @style = "text-align:center" })
-                                                    }
+                                                    @*}
                                                     else
                                                     {
                                                         <span class="form_input perm">No Permission</span>
-                                                    }
+                                                    }*@
                                                 </center>
                                             </td>
                                         </tr>

@@ -39,19 +39,19 @@
         @if (actionName == "Create")
         {
            @: url += "?ProjectBased=0" + "&AfterSales=0";
-                        }
+                                }
         else if (actionName == "CreateProject")
         {
             @: url += "?ProjectBased=1" + "&AfterSales=0";;
-                        }
+                                }
         else if (actionName == "CreateAfterSalesTrans")
         {
             @: url += "?ProjectBased=0" + "&AfterSales=1";;
-                        }
+                                }
         else if (actionName == "CreateAfterSalesProject")
            {
                @: url += "?ProjectBased=1" + "&AfterSales=1";;
-                           }
+                                   }
         window.location = url;
 
     }
@@ -79,8 +79,8 @@
         @if (Model.isAfterSales)
         {
             @: $("#CustomerId").val(@Model.CustomerId);
-            @: $("#CustomerId").trigger("onchange");
-        }
+                    @: $("#CustomerId").trigger("onchange");
+                }
     });
     function CustomerChanged(cust) {
         var cusId = cust.value;
@@ -136,7 +136,7 @@
         @if (new[] { "CreateAfterSalesTrans", "CreateAfterSalesProject" }.Contains(ViewContext.RouteData.GetRequiredString("action")))
         {
             @:removeOnChange();
-                }
+                        }
     });
 
     function removeOnChange(){
@@ -354,7 +354,11 @@
         }
     }
 
-
+    function ExitToPendingApproval(){
+        var url = '@Url.Action("ListSalesQuotations")';
+        url+="?ProjectBased="+'@Convert.ToInt16(Model.isProjectBased)'+"&AfterSales="+'@Convert.ToInt16(Model.isAfterSales)';
+        window.location=url;
+    }
 
 </script>
 
@@ -609,6 +613,11 @@
                     var rate = parseFloat($("#SalesQuotationItems_" + row + "__Rate").val());
                     var discount = parseFloat($("#SalesQuotationItems_" + row + "__Discount").val());
 
+                    if(discount > rate){
+                        toastr.info("Discount cannot be greater than rate");
+                        $("#SalesQuotationItems_" + row + "__Discount").val($("#SalesQuotationItems_" + row + "__Rate").val());
+                    }
+
                     if (isNaN(quantity)) {
                         quantity = 0;
                     }
@@ -745,7 +754,7 @@
                     @if (new[] { "CreateAfterSalesTrans", "CreateAfterSalesProject" }.Contains(ViewContext.RouteData.GetRequiredString("action")))
                     {
                         @:removeOnChange();
-                                        }
+                                                            }
                 }
             </script>
 
@@ -799,13 +808,14 @@
                                 else
                                 {
                                     @Html.DropDownListFor(x => Model.SalesQuotationItems[i].WorkDescriptionId, new SelectList(ViewBag.workdesclist, "Value", "Text",
-                                            Model.SalesQuotationItems[i].WorkDescriptionId), "Select Work Description", new
-                                            {
-                                                @class = "form_input",
-                                                autocomplete = "off",
-                                                @onchange = "OnWorkDescChanged(" + i + ")",
-                                                @placeholder = "Search for Work Description"
-                                            })
+                                    Model.SalesQuotationItems[i].WorkDescriptionId), "Select Work Description", new
+                                    {
+                                        @class = "form_input",
+                                        autocomplete = "off",
+                                        @onchange = "OnWorkDescChanged(" + i + ")",
+                                        @placeholder = "Search for Work Description",
+                                        @required = "true"
+                                    })
                                 }
                             </td>
 
@@ -839,7 +849,8 @@
                                            @style = "text-align:right",
                                            placeholder = "Rate",
                                            @onchange = "QuantityChanged(" + i + ");",
-                                           @onkeyup = "QuantityChanged(" + i + ")"
+                                           @onkeyup = "QuantityChanged(" + i + ")",
+                                           @required = "true"
                                        })
                             </td>
 
@@ -1017,6 +1028,7 @@
                     }
                     else if (ViewBag.actionName.ToString() == "Approve")
                     {
+                        <button type="button" class="form-button right" onclick="ExitToPendingApproval()">Exit</button>
                         <button type="submit" class="form-button right">Approve</button>
                     }
                 </div>
