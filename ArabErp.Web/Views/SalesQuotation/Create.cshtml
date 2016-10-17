@@ -616,20 +616,24 @@
                         rate = 0;
                     }
 
-                    if (discount == NaN) {
+                    if (isNaN(discount)) {
                         discount = 0;
                     }
-
-                    var amount = (rate - discount);
-
+                    var amount = (rate) - discount;
                     amount = parseFloat(amount);
                     $("#SalesQuotationItems_" + row + "__Amount").val(amount.toFixed(2));
-                    var total = amount*quantity;
-                    if(isNaN(total)){
-                        total=0;
-                    }
-                    $("#SalesQuotationItems_" + row + "__TotalAmount").val((total).toFixed(2));
+                    $("#SalesQuotationItems_" + row + "__TotalAmount").val((amount * quantity).toFixed(2));
                     cal_Summary();
+                    //var amount = (rate - discount);
+
+                    //amount = parseFloat(amount);
+                    //$("#SalesQuotationItems_" + row + "__Amount").val(amount.toFixed(2));
+                    //var total = amount*quantity;
+                    //if(isNaN(total)){
+                    //    total=0;
+                    //}
+                    //$("#SalesQuotationItems_" + row + "__TotalAmount").val((total).toFixed(2));
+                    //cal_Summary();
                 }
 
                 function cal_Summary() {
@@ -638,6 +642,7 @@
                     var amount = parseFloat("0");
                     var grandtotal = parseFloat("0");
                     var rowtotal = parseFloat("0");
+                    var total_discount = parseFloat("0");
 
                     $('.clQuantity').each(function (i, obj) {
                         var a = parseFloat($("#SalesQuotationItems_" + i + "__Quantity").val());
@@ -669,8 +674,17 @@
                         rowtotal = rowtotal + a;
                     })
 
+                    $("input[id$='__Discount']").each(function (i, obj) {
+                        var a = parseFloat($(obj).val());
+                        if (isNaN(a)) {
+                            a = parseFloat("0");
+                        }
+                        total_discount += a;
+                    })
+
                     $("#QtyAmount").text(parseFloat(amount).toFixed(2));
                     $("#NetTotalAmount").text(parseFloat(rowtotal).toFixed(2));
+                    $("#span-DiscountTotal").text(parseFloat(total_discount).toFixed(2));
 
                     var WorkAmt=parseFloat($("#NetTotalAmount").text());
                     var MaterialAmt=parseFloat($("#TotalAmount").text());
@@ -867,13 +881,15 @@
                         }
                         <th class="text-center"><h1></h1></th>
 
-                        <th class="text-center "><h1></h1></th>
-                        <th class="text-center "><h1>Total</h1></th>
+                        <th class="text-center"><h1>Total</h1></th>
                         <th class="text-right">
                             <h1>
 
                                 @Html.DropDownListFor(m => m.CurrencyId, (SelectList)ViewBag.currlist, "Select Currency", new { @class = "form_input", autocomplete = "off" })
                             </h1>
+                        </th>
+                        <th class="text-right">
+                            <span id="span-DiscountTotal"></span>
                         </th>
 
                         <th class="text-right">
