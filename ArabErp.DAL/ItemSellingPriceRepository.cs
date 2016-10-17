@@ -36,24 +36,24 @@ namespace ArabErp.DAL
                 //                                 I.isActive=1 
 
                 //                                  order by ItemName;";
-                string sql = @"SELECT 
-                                    I.ItemId,
-	                                I.ItemName,
-	                                ISNULL(I.PartNo, '-') PartNo,
-                                    CategoryName,ItemGroupName,ItemSubGroupName,UnitName,
-	                                ISP.SellingPrice,Round(sum(Amount)/sum(Rate),2)as Average
-                                    FROM 
-                                    Item I 
-								    INNER JOIN GRNItem GR ON I.ItemId=GR.ItemId
-                                    INNER JOIN ItemCategory ON itmCatId=ItemCategoryId
-                                    INNER JOIN ItemGroup G ON I.ItemGroupId=G.ItemGroupId
-                                    INNER JOIN ItemSubGroup S ON I.ItemSubGroupId=S.ItemSubGroupId
-                                    INNER JOIN Unit U ON U.UnitId=I.ItemUnitId
-                                    LEFT JOIN ItemSellingPrice ISP ON I.ItemId = ISP.ItemId
-                                    WHERE I.isActive=1 
-								    group by I.itemid, I.ItemName,I.PartNo, CategoryName,ItemGroupName,ItemSubGroupName,UnitName,
-	                                ISP.SellingPrice 
-                                    order by ItemName; ";
+                string sql = @" SELECT 
+                                I.ItemId,
+                                I.ItemName,
+                                ISNULL(I.PartNo, '-') PartNo,
+                                CategoryName,ItemGroupName,ItemSubGroupName,UnitName,
+                                ISP.SellingPrice,Round(sum(Amount)/sum(Rate),2)as Average
+                                FROM 
+                                Item I 
+                                INNER JOIN ItemCategory IC ON IC.itmCatId=I.ItemCategoryId
+                                INNER JOIN ItemGroup IG ON IG.ItemGroupId=I.ItemGroupId
+                                INNER JOIN ItemSubGroup ISG ON ISG.ItemSubGroupId=I.ItemSubGroupId
+                                INNER JOIN Unit U ON U.UnitId=I.ItemUnitId
+                                LEFT JOIN GRNItem GR ON I.ItemId=GR.ItemId
+                                LEFT JOIN ItemSellingPrice ISP ON I.ItemId = ISP.ItemId
+                                WHERE I.isActive=1 
+                                GROUP BY I.itemid, I.ItemName,I.PartNo, CategoryName,ItemGroupName,ItemSubGroupName,UnitName,
+                                ISP.SellingPrice 
+                                ORDER BY ItemName; ";
 
 
                 //  var objItemSellingPrices = connection.Query<ItemSellingPrice>(sql, new { OrganizationId = OrganizationId }).ToList<ItemSellingPrice>();
