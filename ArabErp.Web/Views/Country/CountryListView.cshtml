@@ -1,0 +1,70 @@
+﻿@model IList<ArabErp.Domain.Country>
+@using GridMvc.Html
+
+<script>
+    function OpenEdit(id) {
+       alert("open");
+        @*var url = '@Url.Action("Edit")';
+        url += "?Id=" + id;
+        location.href = '@Url.Action("Edit", "Item")';*@
+
+        var url = '@Url.Action("Edit")';
+        //url += "?Id=" + id;
+        Location.href = url;
+        return false;
+
+    }
+
+    function OpenDelete(id) {
+        //alert("open");
+        @*var url = '@Url.Action("Edit")';
+        url += "?Id=" + id;
+        location.href = '@Url.Action("Edit", "Item")';*@
+
+        var url = '@Url.Action("Delete")';
+        //url += "?Id=" + id;
+        Location.href = url;
+        return false;
+    }
+
+</script>
+
+<style type="text/css">
+    .tableData {
+        font-size: 12px;
+        padding-left: 4px;
+    }
+
+    .list {
+        display: block;
+        height: 320px;
+        overflow-y: scroll;
+    }
+
+        .list tr:hover {
+            background-color: #DFEDF7;
+        }
+</style>
+
+<div class="table-responsive">
+
+    <div class="main-grid scroll1">
+
+        @Html.Grid(Model).Columns(columns =>
+                        {
+                            columns.Add(m => m.CountryRefNo).Titled("Code").SetWidth(20);
+                            columns.Add(m => m.CountryName).Titled("Name").SetWidth(105);
+                            columns.Add(m => m.CountryRemarks).Titled("Name").SetWidth(105);
+                            columns.Add().Encoded(false).Sanitized(false).Css("cent").SetWidth(30).RenderValueAs(m => @<a href="@Url.Action("Edit", new { Id=m.CountryId })">Edit</a>);
+                            columns.Add().Encoded(false).Sanitized(false).Css("cent").SetWidth(30).RenderValueAs(m => @<a href="@Url.Action("Delete", new { Id=m.CountryId })">Delete</a>);
+
+                        }).WithPaging(10)
+    </div>
+
+
+    <div class="row-count1">
+        <h5>Row Count:- @Model.Count()</h5>
+    </div>
+
+
+</div>

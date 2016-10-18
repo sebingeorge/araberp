@@ -53,6 +53,9 @@
     <Compile Include="Consumption.cs" />
     <Compile Include="ConsumptionItem.cs" />
     <Compile Include="CostingParameters.cs" />
+    <Compile Include="Country.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="Currency.cs" />
     <Compile Include="Customer.cs" />
     <Compile Include="CustomerCategory.cs" />
@@ -66,6 +69,7 @@
     <Compile Include="Dropdown.cs" />
     <Compile Include="Employee.cs" />
     <Compile Include="EmployeeCategory.cs" />
+    <Compile Include="EmployeeLocation.cs" />
     <Compile Include="EmployeeResourceAvailability.cs" />
     <Compile Include="EmployeeVsTask.cs" />
     <Compile Include="EmployeeVsTasks.cs" />

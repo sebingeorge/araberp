@@ -38,16 +38,15 @@
     </xs:element>
   </xs:schema>
   <Head>
-    <DeliveryChallanRefNo>DC-16/9</DeliveryChallanRefNo>
-    <DeliveryChallanDate>05-Oct-2016</DeliveryChallanDate>
+    <DeliveryChallanRefNo>DC-16/10</DeliveryChallanRefNo>
+    <DeliveryChallanDate>12-Oct-2016</DeliveryChallanDate>
     <Customer>M/S Al Rashid Ice Factory</Customer>
-    <SONoDate>SO/24 - 20 Jun 2016</SONoDate>
-    <JCNoDate>JC/8 - 09 Aug 2016</JCNoDate>
-    <RegistrationNo>KL 59 B 7614</RegistrationNo>
+    <SONoDate>SO/25 - 20 Jun 2016</SONoDate>
+    <JCNoDate>JC/9 - 09 Aug 2016</JCNoDate>
+    <RegistrationNo>5454545</RegistrationNo>
     <WorkDesc>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum</WorkDesc>
     <VehicleModel>Isuzu NPR</VehicleModel>
-    <Employee>Shanid</Employee>
-    <SpecialRemarks>rwyhfthf</SpecialRemarks>
+    <Employee>Abhilash</Employee>
     <Image1>E:\ARAB\New folder\ArabErp\ArabErp.Web\App_images\e8251ae5-2716-4b20-841c-c57ba2109c7b.png</Image1>
     <OrganizationName>Arab Air Conditioning &amp; Refrigeration Co. W.L.L.</OrganizationName>
   </Head>
