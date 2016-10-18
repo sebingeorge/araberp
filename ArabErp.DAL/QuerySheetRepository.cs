@@ -102,7 +102,7 @@ namespace ArabErp.DAL
         {
             using (IDbConnection connection = OpenConnection(dataConnection))
             {
-                string query = @"select CostingId,Description,''Remarks,0.00 Amount from CostingParameters";
+                string query = @"select CostingId,Description,''Remarks,0.00 Amount from CostingParameters WHERE ISNULL(isActive, 1) = 1";
 
                 return connection.Query<ProjectCost>(query);
             }
