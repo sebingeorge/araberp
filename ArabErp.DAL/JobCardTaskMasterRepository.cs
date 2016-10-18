@@ -50,7 +50,7 @@ namespace ArabErp.DAL
             using (IDbConnection connection = OpenConnection(dataConnection))
             {
                 var param = new DynamicParameters();
-                return connection.Query<Dropdown>("select JobCardTaskMasterId Id,JobCardTaskName Name from JobCardTaskMaster").ToList();
+                return connection.Query<Dropdown>("select JobCardTaskMasterId Id,JobCardTaskName Name from JobCardTaskMaster WHERE isActive=1").ToList();
             }
         }
 

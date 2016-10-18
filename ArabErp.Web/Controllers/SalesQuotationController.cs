@@ -183,6 +183,7 @@ namespace ArabErp.Web.Controllers
             ViewBag.SubmitAction = "Save";
             salesquotation.isWarranty = new SalesQuotationRepository().isUnderWarranty(id, "Transport");
             salesquotation.DeliveryChallanDetails = new DeliveryChallanRepository().GetDeliveryChallan(id);
+            salesquotation.CustomerId = new CustomerRepository().GetCustomerFromWarranty(id, salesquotation.isProjectBased);
 
             return View("Create", salesquotation);
         }
@@ -258,6 +259,7 @@ namespace ArabErp.Web.Controllers
             ViewBag.SubmitAction = "Save";
             salesquotation.isWarranty = new SalesQuotationRepository().isUnderWarranty(id, "Project");
             salesquotation.ProjectCompleionDetails = new ProjectCompletionRepository().GetProjectCompletion(id);
+            salesquotation.CustomerId = new CustomerRepository().GetCustomerFromWarranty(id, salesquotation.isProjectBased);
 
             return View("Create", salesquotation);
         }
@@ -548,15 +550,15 @@ namespace ArabErp.Web.Controllers
 
         public ActionResult ListSalesQuotations(int ProjectBased, int AfterSales)
         {
-            QuotationApprovalRepository appRepo = new QuotationApprovalRepository();
-            QuotationApprovalAmountSettings amt = appRepo.GetUserApprovalAmountSettings(UserID);
+            //QuotationApprovalRepository appRepo = new QuotationApprovalRepository();
+            //QuotationApprovalAmountSettings amt = appRepo.GetUserApprovalAmountSettings(UserID);
 
-            ViewBag.AmountFrom = amt.AmountFrom;
-            ViewBag.AmountTo = amt.AmountTo;
+            //ViewBag.AmountFrom = amt.AmountFrom;
+            //ViewBag.AmountTo = amt.AmountTo;
 
             var repo = new SalesQuotationRepository();
 
-            List<SalesQuotation> salesquotations = repo.GetSalesQuotationApproveList(ProjectBased, AfterSales);
+            List<SalesQuotation> salesquotations = repo.GetSalesQuotationApproveList(ProjectBased, AfterSales, OrganizationId);
 
             return View(salesquotations);
         }

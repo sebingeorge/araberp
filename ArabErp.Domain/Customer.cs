@@ -52,6 +52,6 @@ namespace ArabErp.Domain
    public enum CurrencyId
    { Currency1, Currency2 }
 
-   public enum Country
-   { Country1, Country2 }
+   //public enum Country
+   //{ Country1, Country2 }
 }

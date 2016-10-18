@@ -314,7 +314,7 @@ namespace ArabErp
         {
             using (IDbConnection connection = OpenConnection(dataConnection))
             {
-                return connection.Query<Employee>("select * from Employee");
+                return connection.Query<Employee>("select * from Employee WHERE isActive=1 ");
             }
         }
         public IEnumerable<JobCardTaskMaster> GetWorkVsTask(int workId)
@@ -417,15 +417,7 @@ namespace ArabErp
             using (IDbConnection connection = OpenConnection(dataConnection))
             {
 
-//                string sql = @" SELECT JobCardId,JobCardNo,JobCardDate,SaleOrderRefNo RegistrationNo,Concat(CustomerName,',',DoorNo,',',Street)CustomerName,
-//                                C.Phone,C.ContactPerson,E.EmployeeName Technician,C.CustomerName Customer,U.ItemName FreezerUnitName
-//                                FROM JobCard J
-//                                INNER JOIN SaleOrder S ON S.SaleOrderId=J.SaleOrderId
-//                                INNER JOIN Customer C ON C.CustomerId=S.CustomerId
-//                                INNER JOIN Employee E ON E.EmployeeId=J.EmployeeId
-//                                LEFT JOIN Item U ON U.ItemId=J.FreezerUnitId
-//                                WHERE JobCardId=@JobCardId";
-
+//              
                 string sql = @"  SELECT JobCardId,JobCardNo,JobCardDate,SaleOrderRefNo RegistrationNo,Concat(CustomerName,',',C.DoorNo,',',C.Street)CustomerName,
                                 C.Phone,C.ContactPerson,E.EmployeeName Technician,C.CustomerName Customer,U.ItemName FreezerUnitName,O.OrganizationName,o.Image1,
                                 o.OrganizationId FROM JobCard J

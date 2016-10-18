@@ -228,6 +228,7 @@
     <Compile Include="Controllers\CompanyController.cs" />
     <Compile Include="Controllers\ConsumptionController.cs" />
     <Compile Include="Controllers\CostingParametersController.cs" />
+    <Compile Include="Controllers\CountryController.cs" />
     <Compile Include="Controllers\CurrencyController.cs" />
     <Compile Include="Controllers\CurrentStockController.cs" />
     <Compile Include="Controllers\CustomerCategoryController.cs" />
@@ -240,6 +241,7 @@
     <Compile Include="Controllers\DirectPurchaseController.cs" />
     <Compile Include="Controllers\EmployeeCategoryController.cs" />
     <Compile Include="Controllers\EmployeeController.cs" />
+    <Compile Include="Controllers\EmployeeLocationController.cs" />
     <Compile Include="Controllers\ExpenseController.cs" />
     <Compile Include="Controllers\FreezerUnitController.cs" />
     <Compile Include="Controllers\GINRegisterController.cs" />
@@ -364,6 +366,12 @@
       <SubType>Component</SubType>
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>
+    </Compile>
+    <Compile Include="Reports\SupplyOrderRegister.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>SupplyOrderRegister.rpt</DependentUpon>
+      <SubType>Component</SubType>
     </Compile>
     <Compile Include="Reports\testjobcard.cs">
       <AutoGen>True</AutoGen>
@@ -1001,6 +1009,12 @@
     <Content Include="Views\QuerySheet\PendingQuerySheet.cshtml" />
     <Content Include="Views\PendingTasksForCompletion\_PendingTasksGrid.cshtml" />
     <Content Include="Views\PendingTasksForCompletion\Index.cshtml" />
+    <Content Include="Views\EmployeeLocation.cshtml" />
+    <Content Include="Views\EmployeeLocation\Create.cshtml" />
+    <Content Include="Views\EmployeeLocation\EmployeeLocationListView.cshtml" />
+    <Content Include="Views\Country.cshtml" />
+    <Content Include="Views\Country\Create.cshtml" />
+    <Content Include="Views\Country\CountryListView.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -1058,6 +1072,10 @@
     <EmbeddedResource Include="Reports\SalesInvoice.rpt">
       <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
       <LastGenOutput>SalesInvoice.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Reports\SupplyOrderRegister.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>SupplyOrderRegister.cs</LastGenOutput>
     </EmbeddedResource>
     <EmbeddedResource Include="Reports\testjobcard.rpt">
       <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>

@@ -22,6 +22,12 @@ namespace ArabErp.Domain
         public int ReceviedQty { get; set; }
         public int BalanceQty { get; set; }
         public string STATUS { get; set; }
+        public DateTime from { get; set; }
+        public DateTime to { get; set; }
+        public string id { get; set; }
+        public string itmid { get; set; }
+        public string OrganizationName { get; set; }
+        public string Image1 { get; set; }
         
 
     }
