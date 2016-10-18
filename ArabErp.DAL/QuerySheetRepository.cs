@@ -277,6 +277,22 @@ namespace ArabErp.DAL
                 return objQuerySheet;
             }
         }
-        
+
+
+        public decimal GetCostingAmount(int id)
+        {
+            using (IDbConnection connection = OpenConnection(dataConnection))
+            {
+                try
+                {
+                    string sql = @"SELECT CostingAmount FROM QuerySheet WHERE QuerySheetId = @id";
+                    return connection.Query<decimal>(sql, new { id = id }).ToList<decimal>().First();
+                }
+                catch (InvalidOperationException)
+                {
+                    return 0;
+                }
+            }
+        }
     }
 }

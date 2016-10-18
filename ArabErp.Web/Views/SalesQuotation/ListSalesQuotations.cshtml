@@ -1,7 +1,7 @@
 ﻿@using ArabErp.Domain
 @model IEnumerable<SalesQuotation>
 @{
-    ViewBag.Title = "ListSalesQuotations";
+    ViewBag.Title = "Pending Quotation Request Approval";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 @{
@@ -41,6 +41,12 @@
         //------------------------------------------------------//
 
     });
+
+    function Exit() {
+        var url = '@Url.Action("Index", "Home")';
+        window.location = url;
+    }
+
 </script>
 
 
@@ -114,6 +120,12 @@
                     <h5>Row Count:- @Model.Count()</h5>
                 </div>
 
+            </div>
+
+            <div class="row">
+                <div class="col-md-12 hrpart">
+                    <input type="button" class="form-button right" value="Exit" onclick="Exit()" />
+                </div>
             </div>
         </div>
     </div>

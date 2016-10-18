@@ -823,5 +823,10 @@ namespace ArabErp.Web.Controllers
         {
             return Json(new ItemSellingPriceRepository().GetItemSellingPrice(id, OrganizationId), JsonRequestBehavior.AllowGet);
         }
+
+        public JsonResult GetQuerySheetCostingAmount(int id)
+        {
+            return Json(new QuerySheetRepository().GetCostingAmount(id), JsonRequestBehavior.AllowGet);
+        }
     }
 }

@@ -360,6 +360,19 @@
         window.location=url;
     }
 
+    function OnQuerySheetChanged(sender) {
+        var id = $(sender).val();
+        if (id != '' || id != 0) {
+            var url = '@Url.Action("GetQuerySheetCostingAmount")';
+            $.getJSON(url, { id: id }, function (data) {
+                $("#costing-amount-notifier").html("<em>Project cost for Query Sheet <strong>" + $("#QuerySheetId option:selected").text() + "</strong> is <strong>" + $("#CurrencyId option:selected").text() + " " + data + "/-</strong></em>");
+            })
+        }
+        else{
+            $("#costing-amount-notifier").text("");
+        }
+    }
+
 </script>
 
 <div class="row">
@@ -448,7 +461,7 @@
 
                         <label for="QuerySheetId">Query Sheet No.</label>
 
-                        @Html.DropDownListFor(m => Model.QuerySheetId, (SelectList)ViewBag.QuerySheetNolist, "Select Query Sheet", new { @class = "form_input", autocomplete = "off" })
+                        @Html.DropDownListFor(m => Model.QuerySheetId, (SelectList)ViewBag.QuerySheetNolist, "Select Query Sheet", new { @class = "form_input", autocomplete = "off", @onchange = "OnQuerySheetChanged(this)" })
 
                     </div>
                 }
@@ -1003,12 +1016,20 @@
                         <button type="button" class="form-button right" onclick="GotoIndex()">Exit</button>
                         <button type="submit" class="form-button right">Save</button>
                         <input type="button" class="form-button" onclick="PreviousList()" value="Previous">
+                        if (Model.isProjectBased)
+                        {
+                            <span id="costing-amount-notifier"></span>
+                        }
                     }
                     else if (actionName == "CreateProject")
                     {
                         <button type="button" class="form-button right" onclick="GotoProjectIndex()">Exit</button>
                         <button type="submit" class="form-button right">Save</button>
                         <input type="button" class="form-button" onclick="PreviousList()" value="Previous">
+                        if (Model.isProjectBased)
+                        {
+                            <span id="costing-amount-notifier"></span>
+                        }
                     }
                     else if (actionName == "CreateAfterSalesTrans")
                     {
@@ -1016,6 +1037,10 @@
                         <button type="button" class="form-button right" onclick="GotoAfterSalesIndex()">Exit</button>
                         <button type="submit" class="form-button right">Save</button>
                         <input type="button" class="form-button" onclick="PreviousList()" value="Previous">
+                        if (Model.isProjectBased)
+                        {
+                            <span id="costing-amount-notifier"></span>
+                        }
 
                     }
                     else if (actionName == "CreateAfterSalesProject")
@@ -1024,11 +1049,19 @@
                         <button type="button" class="form-button right" onclick="GotoAfterSalesIndex()">Exit</button>
                         <button type="submit" class="form-button right">Save</button>
                         <input type="button" class="form-button" onclick="PreviousList()" value="Previous">
+                        if (Model.isProjectBased)
+                        {
+                            <span id="costing-amount-notifier"></span>
+                        }
 
                     }
                     else if (ViewBag.actionName.ToString() == "Approve")
                     {
                         <button type="button" class="form-button right" onclick="ExitToPendingApproval()">Exit</button>
+                        if (Model.isProjectBased)
+                        {
+                            <span id="costing-amount-notifier"></span>
+                        }
                         <button type="submit" class="form-button right">Approve</button>
                     }
                 </div>

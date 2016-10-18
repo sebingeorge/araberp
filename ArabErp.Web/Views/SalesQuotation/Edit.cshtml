@@ -111,6 +111,8 @@
         $("#ExpectedDeliveryDate").datepicker({ dateFormat: "dd-MM-yy" });
         $("#PredictedClosingDate").datepicker({ dateFormat: "dd-MM-yy" });
         $("#QuotationValidToDate").datepicker({ dateFormat: "dd-MM-yy" });
+
+        OnQuerySheetChanged();
     });
 
     function Validation() {
@@ -285,6 +287,19 @@
         });
     }
 
+    function OnQuerySheetChanged() {
+        var id = $("#QuerySheetId").val();
+        if (id != '' || id != 0) {
+            var url = '@Url.Action("GetQuerySheetCostingAmount")';
+            $.getJSON(url, { id: id }, function (data) {
+                $("#costing-amount-notifier").html("<em>Project cost for Query Sheet <strong>" + $("#QuerySheetId option:selected").text() + "</strong> is <strong>" + $("#CurrencyId option:selected").text() + " " + data + "/-</strong></em>");
+            })
+        }
+        else {
+            $("#costing-amount-notifier").text("");
+        }
+    }
+
 </script>
 
 <div class="row">
@@ -360,7 +375,7 @@
 
                         <label for="QuerySheetId">Query Sheet No.</label>
 
-                        @Html.DropDownListFor(m => Model.QuerySheetId, (SelectList)ViewBag.QuerySheetNolist, "Select Query Sheet", new { @class = "form_input", autocomplete = "off" })
+                        @Html.DropDownListFor(m => Model.QuerySheetId, (SelectList)ViewBag.QuerySheetNolist, "Select Query Sheet", new { @class = "form_input", autocomplete = "off", @onchange = "OnQuerySheetChanged(this)" })
 
                     </div>
                 }
@@ -896,18 +911,18 @@
                 <div class="col-md-12 hrpart">
                     
                     <input type="button" class="form-button right" value="Exit" onclick="Back()" />
-               
                     @if (Model.IsUsed)
                     {
                         <span class="perm">
                             <em>**Cannot edit/delete this Sales Quotation, because it is already approved.</em>
                         </span>
+                        <span id="costing-amount-notifier"></span>
                     }
                     else
                     {
                         <button type="button" class="form-button" onclick="DeleteSQ('@Model.SalesQuotationId',@Model.isProjectBased.ToString().ToLower(),@Model.isAfterSales.ToString().ToLower())">Delete</button>
                         <button type="submit" class="form-button right">Edit</button>
-                        
+                        <span id="costing-amount-notifier"></span>
                     }
                 </div>
             </div>
