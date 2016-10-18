@@ -17,7 +17,7 @@ namespace ArabErp.Web.Controllers
             GraphPermission graphpermission = new GraphPermission();
             foreach (var item in graphs)
             {
-                if(item.HasPermission == 1)
+                if (item.HasPermission == 1)
                 {
                     switch (item.GraphId)
                     {
@@ -91,13 +91,13 @@ namespace ArabErp.Web.Controllers
             if (view.PendingProjectQuotations)
             {
                 SalesQuotationRepository repo = new SalesQuotationRepository();
-                var res = repo.GetSalesQuotationApproveList(1,0);
+                var res = repo.GetSalesQuotationApproveList(1, 0, OrganizationId);
                 view.NoOfProjectQuotations = res.Count;
             }
             if (view.PendingTransQuotations)
             {
                 SalesQuotationRepository repo = new SalesQuotationRepository();
-                var res = repo.GetSalesQuotationApproveList(0,0);
+                var res = repo.GetSalesQuotationApproveList(0, 0, OrganizationId);
                 view.NoOfTransQuotations = res.Count;
             }
             if (view.PendingSupplyOrders)
@@ -106,7 +106,7 @@ namespace ArabErp.Web.Controllers
                 var res = repo.GetGRNPendingList(0);
                 view.NoOfSupplyOrders = res.Count();
             }
-            if(view.PendingDirectPurchaseRequests)
+            if (view.PendingDirectPurchaseRequests)
             {
                 var res = new DirectPurchaseRepository().GetUnApprovedRequests();
                 view.NoOfPurchaseRequests = res.Count;
@@ -114,7 +114,7 @@ namespace ArabErp.Web.Controllers
             if (view.PendingWorkshopRequests)
             {
                 var rep = new SaleOrderRepository();
-                var slist = rep.GetSaleOrdersPendingWorkshopRequest(OrganizationId,0);
+                var slist = rep.GetSaleOrdersPendingWorkshopRequest(OrganizationId, 0);
                 view.NoOfWorkShopRequests = slist.Count;
             }
             if (view.PendingProjectSaleOrdersForJobCard)

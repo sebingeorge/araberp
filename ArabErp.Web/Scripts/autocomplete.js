@@ -7,10 +7,15 @@ $(function () {
               .insertAfter(this.element);
 
             this.element.hide();
+            this._destroyOld();
             this._createAutocomplete();
             if ($(this.element).attr("disabled") != "disabled") {
                 this._createShowAllButton();
             }
+        },
+
+        _destroyOld: function () {
+            //$(this.element).next("span[class='custom-combobox']").remove();
         },
 
         _createAutocomplete: function () {

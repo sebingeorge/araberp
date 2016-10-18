@@ -314,7 +314,7 @@ namespace ArabErp
         {
             using (IDbConnection connection = OpenConnection(dataConnection))
             {
-                return connection.Query<Employee>("select * from Employee");
+                return connection.Query<Employee>("select * from Employee WHERE isActive=1 ");
             }
         }
         public IEnumerable<JobCardTaskMaster> GetWorkVsTask(int workId)

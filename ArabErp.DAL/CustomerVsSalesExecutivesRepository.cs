@@ -48,7 +48,7 @@ namespace ArabErp.DAL
                               select C.CustomerId , C.CustomerName, CV.EffectiveDate, CV.EmployeeId ,CuC.CusCategoryName,CONCAT([DoorNo],'/',[Street],'/',[State],'/',[CountryName])as CustomerAddress from Customer C 
                               left join merged CV on C.CustomerId=CV.CustomerId
                               inner join Country co on co.CountryId=c.Country
-                              inner join CustomerCategory CuC on CuC.CusCategoryId=C.CategoryId";
+                              inner join CustomerCategory CuC on CuC.CusCategoryId=C.CategoryId WHERE C.isActive=1";
 
                 model.CustomerVsSalesExecutives = connection.Query<CustomerVsSalesExecutive>(sql, new { OrganizationId = OrganizationId }).ToList<CustomerVsSalesExecutive>();
                 return model;

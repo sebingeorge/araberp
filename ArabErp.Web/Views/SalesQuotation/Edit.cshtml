@@ -482,6 +482,7 @@
                         $("select[id$='__WorkDescriptionId']").combobox();
                         $("select[id$='__ItemId']").combobox();
                     });
+
                     function Delete(index) {
 
                         var i = 0;
@@ -535,22 +536,27 @@
                     }
 
                     function QuantityChanged(row) {
-                        var quantity = $("#SalesQuotationItems_" + row + "__Quantity").val();
-                        var rate = $("#SalesQuotationItems_" + row + "__Rate").val();
-                        var discount = $("#SalesQuotationItems_" + row + "__Discount").val();
+                        var quantity = parseFloat($("#SalesQuotationItems_" + row + "__Quantity").val());
+                        var rate = parseFloat($("#SalesQuotationItems_" + row + "__Rate").val());
+                        var discount = parseFloat($("#SalesQuotationItems_" + row + "__Discount").val());
 
-                        if (quantity == NaN) {
+                        if (discount > rate) {
+                            toastr.info("Discount cannot be greater than rate");
+                            $("#SalesQuotationItems_" + row + "__Discount").val($("#SalesQuotationItems_" + row + "__Rate").val());
+                        }
+
+                        if (isNaN(quantity)) {
                             quantity = 0;
                         }
                         if (rate == NaN) {
                             rate = 0;
                         }
-                        if (discount == NaN) {
+                        if (isNaN(discount)) {
                             discount = 0;
                         }
-                        var amount = (quantity * rate) - discount;
+                        var amount = (rate) - discount;
                         amount = parseFloat(amount);
-                        $("#SalesQuotationItems_" + row + "__Amount").val(amount);
+                        $("#SalesQuotationItems_" + row + "__Amount").val(amount.toFixed(2));
                         $("#SalesQuotationItems_" + row + "__TotalAmount").val((amount * quantity).toFixed(2));
                         cal_Summary();
                     }
@@ -561,6 +567,7 @@
                         var amount = parseFloat("0");
                         var grandtotal = parseFloat("0");
                         var rowtotal = parseFloat("0");
+                        var total_discount = parseFloat("0");
 
                         $('.clQuantity').each(function (i, obj) {
                             var a = parseFloat($("#SalesQuotationItems_" + i + "__Quantity").val());
@@ -592,8 +599,17 @@
                             rowtotal = rowtotal + a;
                         })
 
+                        $("input[id$='__Discount']").each(function (i, obj) {
+                            var a = parseFloat($(obj).val());
+                            if (isNaN(a)) {
+                                a = parseFloat("0");
+                            }
+                            total_discount += a;
+                        })
+
                         $("#QtyAmount").text(parseFloat(amount).toFixed(2));
                         $("#NetTotalAmount").text(parseFloat(rowtotal).toFixed(2));
+                        $("#span-DiscountTotal").text(parseFloat(total_discount).toFixed(2));
 
                         var WorkAmt = parseFloat($("#NetTotalAmount").text());
                         var MaterialAmt = parseFloat($("#TotalAmount").text());
@@ -618,11 +634,6 @@
                         $("#lblTotalAmount").text(parseFloat(grandtotal).toFixed(2));
 
                     }
-
-
-                   
-
-                  
 
                     function AddAdditionRow() {
 
@@ -653,7 +664,12 @@
                         $("#slno" + (i + 1)).html((i + 1));
                         $("#SalesQuotationItems_" + i + "__SlNo").val((i + 1));
                         $("#" + i).find('span[class="custom-combobox"]').remove();
+                        $("#SalesQuotationItems_" + i + "__WorkDescriptionId").val(0);
                         $("#SalesQuotationItems_" + i + "__WorkDescriptionId").combobox();
+                        $("#SalesQuotationItems_" + i + "__Rate").val((0).toFixed(2));
+                        $("#SalesQuotationItems_" + i + "__Discount").val((0).toFixed(2));
+                        $("#SalesQuotationItems_" + i + "__Amount").val((0).toFixed(2));
+                        $("#SalesQuotationItems_" + i + "__TotalAmount").val((0).toFixed(2));
                     }
 
 
@@ -672,7 +688,7 @@
                                 }
                             <th width="1%" class="text-center"><h1>#</h1></th>
                             <th width="35%" class="text-left"><h1>Work Description</h1></th>
-                            @if (new[] { "Create", "Approve" }.Contains(ViewContext.RouteData.GetRequiredString("action")))
+                            @if (new[] { "Create", "Approve", "Edit" }.Contains(ViewContext.RouteData.GetRequiredString("action")) && !Model.isProjectBased)
                             {
                                 <th width="10%"><h1>Rate Settings</h1></th>
                             }
@@ -700,7 +716,7 @@
                                 <td align="center">
                                     <span id="slno@(i + 1)">@(i + 1)</span>
                                     @Html.HiddenFor(m => m.SalesQuotationItems[i].SlNo)
-                                    @Html.HiddenFor(m => m.SalesQuotationItems[i].Quantity)
+                                    @*@Html.HiddenFor(m => m.SalesQuotationItems[i].Quantity)*@
                                     @Html.HiddenFor(m => m.SalesQuotationItems[i].UnitId)
                                 </td>
 
@@ -709,7 +725,7 @@
                                     @Html.DropDownListFor(x => Model.SalesQuotationItems[i].WorkDescriptionId, new SelectList(ViewBag.workdesclist, "Value", "Text", Model.SalesQuotationItems[i].WorkDescriptionId), "select work description", new { @class = "form_input", autocomplete = "off", @onchange = "OnWorkDescChanged(" + i + ")", @placeholder = "Search for Work Description" })
                                 </td>
 
-                                @if (new[] { "Create", "Approve" }.Contains(ViewContext.RouteData.GetRequiredString("action")))
+                                @if (new[] { "Create", "Approve", "Edit" }.Contains(ViewContext.RouteData.GetRequiredString("action")) && !Model.isProjectBased)
                                 {
                                     <td>
                                         <!--column to show rate settings (required only for transportation)-->
@@ -758,7 +774,7 @@
                                 }
                             <th class="text-center"></th>
                             <th class="text-center "><h1></h1></th>
-                            @if (new[] { "Create", "Approve" }.Contains(ViewContext.RouteData.GetRequiredString("action")))
+                            @if (new[] { "Create", "Approve", "Edit" }.Contains(ViewContext.RouteData.GetRequiredString("action")) && !Model.isProjectBased)
                             {
                                 <th></th>
                             }
@@ -772,7 +788,11 @@
                                     @Html.DropDownListFor(m => Model.CurrencyId, (SelectList)ViewBag.currlist, "Select Currency", new { @class = "form_input", autocomplete = "off" })
                                 </h1>
                             </th>
-                            <th class="text-right"></th>
+                            <th class="text-right">
+                                <h1>
+                                    <span id="span-DiscountTotal"></span>
+                                </h1>
+                            </th>
                                                          
                             <th class="text-right">
                                 <span id="QtyAmount"></span>
