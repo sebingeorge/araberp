@@ -78,6 +78,7 @@
     <Compile Include="ConsumptionItemRepository.cs" />
     <Compile Include="ConsumptionRepository.cs" />
     <Compile Include="CostingParametersRepository.cs" />
+    <Compile Include="CountryRepository.cs" />
     <Compile Include="CurrencyRepository.cs" />
     <Compile Include="CustomerCategoryRepository.cs" />
     <Compile Include="CustomerReceiptRepository  .cs" />
@@ -91,6 +92,7 @@
     <Compile Include="DirectPurchaseRepository.cs" />
     <Compile Include="DropdownRepository.cs" />
     <Compile Include="EmployeeCategoryRepository.cs" />
+    <Compile Include="EmployeeLocationRepository.cs" />
     <Compile Include="EmployeeRepository.cs" />
     <Compile Include="EmployeeVsTaskRepository.cs" />
     <Compile Include="ExpenseRepository.cs" />
