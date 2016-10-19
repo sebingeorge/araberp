@@ -153,15 +153,49 @@ namespace ArabErp.DAL
             {
 
 
-                string sql = @"SELECT SaleOrderId,SaleOrderRefNo,SaleOrderDate,CONCAT(QuotationRefNo,' - ',CONVERT (VARCHAR(15),QuotationDate,106))QuotationNoDate,  
-                               C.CustomerId,CustomerName,isnull(DoorNo,'') +','+ isnull(Street,'')+','+isnull(State,'') CustomerAddress,CustomerOrderRef,S.CurrencyId,SpecialRemarks,S.PaymentTerms,
-                               DeliveryTerms,CommissionAgentId,CommissionAmount,TotalAmount,TotalDiscount,S.SalesExecutiveId,EDateArrival,EDateDelivery,SaleOrderApproveStatus,
-                               SaleOrderHoldStatus,SaleOrderHoldReason,SaleOrderHoldDate,SaleOrderReleaseDate,S.SalesQuotationId,SaleOrderClosed,S.isProjectBased,CUR.CurrencyName,S.isAfterSales
-                               FROM SaleOrder S 
-                               INNER JOIN Customer C ON S.CustomerId=C.CustomerId  
-							   LEFT JOIN Currency CUR ON S.CurrencyId = CUR.CurrencyId
-                               LEFT JOIN SalesQuotation SQ ON SQ.SalesQuotationId=S.SalesQuotationId
-                               WHERE SaleOrderId=@SaleOrderId";
+                string sql = @"SELECT 
+	                                SaleOrderId,
+	                                SaleOrderRefNo,
+	                                SaleOrderDate,
+	                                CONCAT(QuotationRefNo,' - ',CONVERT (VARCHAR(15),QuotationDate,106))QuotationNoDate,  
+                                    C.CustomerId,
+	                                CustomerName,
+	                                isnull(DoorNo,'') +','+ isnull(Street,'')+','+isnull(State,'') CustomerAddress,
+	                                CustomerOrderRef,
+	                                S.CurrencyId,
+	                                SpecialRemarks,
+	                                S.PaymentTerms,
+	                                DeliveryTerms,
+	                                CommissionAgentId,
+	                                CommissionAmount,
+	                                TotalAmount,
+	                                TotalDiscount,
+	                                S.SalesExecutiveId,
+	                                EDateArrival,
+	                                EDateDelivery,
+	                                SaleOrderApproveStatus,
+	                                SaleOrderHoldStatus,
+	                                SaleOrderHoldReason,
+	                                SaleOrderHoldDate,
+	                                SaleOrderReleaseDate,
+	                                S.SalesQuotationId,
+	                                SaleOrderClosed,
+	                                S.isProjectBased,
+	                                CUR.CurrencyName,
+	                                S.isAfterSales,
+	                                CASE WHEN (SELECT COUNT(JobCardId) FROM JobCard WHERE SaleOrderId = @SaleOrderId) > 0
+		                                THEN 1 
+	                                WHEN (SELECT COUNT(SaleOrderId) FROM SaleOrder WHERE SaleOrderId = @SaleOrderId AND SaleOrderApproveStatus = 1) > 0
+		                                THEN 1
+	                                WHEN (SELECT COUNT(SaleOrderId) FROM WorkshopRequest WHERE SaleOrderId = @SaleOrderId) > 0
+		                                THEN 1
+	                                ELSE 0
+	                                END isUsed
+                                FROM SaleOrder S 
+	                                INNER JOIN Customer C ON S.CustomerId=C.CustomerId  
+	                                LEFT JOIN Currency CUR ON S.CurrencyId = CUR.CurrencyId
+	                                LEFT JOIN SalesQuotation SQ ON SQ.SalesQuotationId=S.SalesQuotationId
+                                WHERE SaleOrderId=@SaleOrderId";
 
                 var objSaleOrder = connection.Query<SaleOrder>(sql, new
                 {

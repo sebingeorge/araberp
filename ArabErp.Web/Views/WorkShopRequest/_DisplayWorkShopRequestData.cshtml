@@ -15,7 +15,7 @@
             var qty = $("#Items_" + row + "__Quantity").val();
 
             if (eval(qty) > eval(Actualqty)) {
-                alert("Quantity should n't be greater than BOM Quantity");
+                toastr.info("Quantity shouldn't be greater than BOM Quantity");
                 $("#Items_" + row + "__Quantity").val(Actualqty);
 
             }
