@@ -37,6 +37,12 @@ namespace ArabErp.DAL
 
                       }
 
+                      #region updating costing amount in [QuerySheet] table
+                      model.CostingAmount = model.Items.Sum(x => x.Amount);
+                      string query = @"UPDATE QuerySheet SET CostingAmount = @CostingAmount WHERE QuerySheetId = @QuerySheetId";
+                      connection.Execute(query, new { QuerySheetId = model.QuerySheetId, CostingAmount = model.CostingAmount }, txn);
+                      #endregion
+
                       InsertLoginHistory(dataConnection, model.CreatedBy, "Update", typeof(QuerySheet).Name, model.QuerySheetId.ToString(), model.OrganizationId.ToString());
                       txn.Commit();
                       return row;

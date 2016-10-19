@@ -56,23 +56,23 @@
         {
             var url  = '@Url.Action("Create", "SalesQuotation")';
 
-    }
-    else if(@ViewBag.isProjectBased && !@ViewBag.isAfterSales)
-    {
-        var url  = '@Url.Action("CreateProject", "SalesQuotation")';
+        }
+        else if(@ViewBag.isProjectBased && !@ViewBag.isAfterSales)
+        {
+            var url  = '@Url.Action("CreateProject", "SalesQuotation")';
 
-    }
-    else if(@ViewBag.isProjectBased && @ViewBag.isAfterSales)
-    {
-        var url  = '@Url.Action("CommissionedProjects", "SalesQuotation")';
+        }
+        else if(@ViewBag.isProjectBased && @ViewBag.isAfterSales)
+        {
+            var url  = '@Url.Action("CommissionedProjects", "SalesQuotation")';
 
-    }
-    else if(!@ViewBag.isProjectBased && @ViewBag.isAfterSales)
-    {
-        var url = '@Url.Action("DeliveryChallans", "SalesQuotation")';
+        }
+        else if(!@ViewBag.isProjectBased && @ViewBag.isAfterSales)
+        {
+            var url = '@Url.Action("DeliveryChallans", "SalesQuotation")';
 
-    }
-    window.location = url;
+        }
+        window.location = url;
 
     }
 

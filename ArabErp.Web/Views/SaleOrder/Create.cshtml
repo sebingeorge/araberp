@@ -85,7 +85,7 @@
     function Validation() {
         var count = 0;
         if ($("#CommissionAgentId").val() != '' && (Number($("#CommissionAmount").val()) == '' || Number($("#CommissionAmount").val()) <= 0)) {
-            toastr.info("Sales Executive incentive amount is required");
+            toastr.info("Success fee incentive amount is required");
             return false;
         }
         return true;

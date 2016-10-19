@@ -27,6 +27,7 @@ namespace ArabErp.Domain
         public List<QuerySheetItem> QuerySheetItems { get; set; }
         public List<ProjectCost> Items { get; set; }
         public bool isUsed { get; set; }
+        public decimal CostingAmount { get; set; }
     }
     public class ProjectCost
     {
