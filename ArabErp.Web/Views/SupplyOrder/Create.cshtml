@@ -1,7 +1,7 @@
 ﻿@using ArabErp.Domain
 @model SupplyOrder
 @{
-    ViewBag.Title = "Create";
+    ViewBag.Title = "Supply Order / LPO";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
@@ -60,36 +60,33 @@
             discount = 0;
         }
         var amount = (quantity * rate) - discount;
-        $("#SupplyOrderItems_" + row + "__Amount").val(amount.toFixed(2));
+        if (isNaN(amount)) {
+            $("#SupplyOrderItems_" + row + "__Amount").val((0).toFixed(2));
+        }
+        else {
+            $("#SupplyOrderItems_" + row + "__Amount").val(amount.toFixed(2));
+        }
         calculateSummary();
     }
 
     function calculateSummary() {
-        //var quantity = parseFloat("0.00");
         var amount = parseFloat("0.00");
-        //$('.clQuantity').each(function (i, obj) {
-        //    var a = parseFloat($("#SupplyOrderItems_" + i + "__OrderedQty").val());
-
-        //    if (isNaN(a)) {
-        //        a = parseFloat("0.00");
-        //    }
-
-        //    quantity = quantity + a;
-        //});
+        var discount = parseFloat("0.00");
 
         $('.clAmount').each(function (i, obj) {
             var a = parseFloat($("#SupplyOrderItems_" + i + "__Amount").val());
             if (isNaN(a)) {
-
                 a = parseFloat("0.00");
-
             }
-
             amount = amount + a;
         });
 
-        //$("#QtyTotal").text(quantity);
+        $("input[id$='__Discount']").each(function (index, object) {
+            if (!isNaN($(object).val())) discount += Number($(object).val());
+        })
+
         $("#QtyAmount").text(amount.toFixed(2));
+        $("#discount-total").text(discount.toFixed(2));
     }
 
     $(function () {
