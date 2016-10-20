@@ -41,7 +41,7 @@ namespace ArabErp.DAL
                     InsertLoginHistory(dataConnection, objPurchaseRequest.CreatedBy, "Create", "Purchase Request", id.ToString(), "0");
                     trn.Commit();
 
-                    return id + "|PUR/" + internalId;
+                    return id + "|" + internalId;
                 }
                 catch (Exception)
                 {
@@ -160,7 +160,7 @@ namespace ArabErp.DAL
             using (IDbConnection connection = OpenConnection(dataConnection))
             {
                 string qry = @"Select WR.WorkShopRequestId,WR.WorkShopRequestRefNo,WR.WorkShopRequestDate,WR.RequiredDate,C.CustomerName,WR.CustomerOrderRef,SO.SaleOrderRefNo,SO.SaleOrderDate,DATEDIFF(dd,WR.WorkShopRequestDate,GETDATE ()) Ageing, DATEDIFF(DAY, GETDATE(), WR.RequiredDate) DaysLeft from WorkShopRequest WR INNER JOIN Customer C on C.CustomerId=WR.CustomerId ";
-                qry += " INNER JOIN SaleOrder SO on WR.SaleOrderId=SO.SaleOrderId  LEFT JOIN PurchaseRequest PR ON PR.WorkShopRequestId=WR.WorkShopRequestId WHERE PR.PurchaseRequestId is null and WR.OrganizationId=@OrganizationId ORDER BY WR.RequiredDate DESC, WR.WorkShopRequestDate DESC";
+                qry += " INNER JOIN SaleOrder SO on WR.SaleOrderId=SO.SaleOrderId  LEFT JOIN PurchaseRequest PR ON PR.WorkShopRequestId=WR.WorkShopRequestId WHERE PR.PurchaseRequestId is null and WR.OrganizationId=@OrganizationId ORDER BY WR.RequiredDate, WR.WorkShopRequestDate";
 
                 return connection.Query<PendingWorkShopRequest>(qry, new { OrganizationId = OrganizationId });
             }
@@ -175,7 +175,7 @@ namespace ArabErp.DAL
             using (IDbConnection connection = OpenConnection(dataConnection))
             {
                 string qry = "Select WR.WorkShopRequestId ,WR.CustomerOrderRef, C.CustomerName,";
-                qry += " GETDATE() PurchaseRequestDate,WR.WorkShopRequestRefNo +','+ Replace(Convert(varchar,WorkShopRequestDate,106),' ','/') WorkShopRequestRefNo";
+                qry += " GETDATE() PurchaseRequestDate,WR.WorkShopRequestRefNo +' - '+ Convert(varchar,WorkShopRequestDate,106) WorkShopRequestRefNo";
                 qry += " from WorkShopRequest WR inner join Customer C on WR.CustomerId = C.CustomerId";
                 qry += " where WR.WorkShopRequestId = " + WorkShopRequestId.ToString();
 
