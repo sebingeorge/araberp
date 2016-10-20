@@ -4,11 +4,11 @@
         <thead>
             <tr class="grid_heading">
                 <th width="1%" class="text-center"><h1>#</h1></th>
-                <th width="20%"><h1>PRQ.No. & Date</h1></th>
+                <th width="20%"><h1>PRQ No. & Date</h1></th>
                 <th width="25%"><h1>Material/Spares</h1></th>
                 <th width="10%"><h1>Part No.</h1></th>
-                <th width="5%" class="text-right"><h1>Pending Qty.</h1></th>
-                <th width="5%" class="text-right"><h1>Ordered Qty.</h1></th>
+                <th width="5%" class="text-right"><h1>Pending Qty</h1></th>
+                <th width="5%" class="text-right"><h1>Ordered Qty</h1></th>
                 <th width="10%" class="text-right"><h1>Rate</h1></th>
                 <th width="10%" class="text-right"><h1>Discount</h1></th>
                 <th width="10%" class="text-right"><h1>Amount</h1></th>
@@ -30,8 +30,8 @@
                         <td>@Html.TextBoxFor(m => m.SupplyOrderItems[i].PartNo, new { @class = "form_input", @readonly = "true" })</td>
                         <td>@Html.TextBoxFor(m => m.SupplyOrderItems[i].BalQty, new { @class = "form_input", @style = "text-align:right", @readonly = "true" })</td>
                         <td>@Html.TextBoxFor(m => m.SupplyOrderItems[i].OrderedQty, new { @class = "form_input clQuantity", @style = "text-align:right", @onkeyup = "QuantityChanged(" + i + ");", @required = "true", @onchange = "ValidateRow(" + i + ")" })</td>
-                        <td>@Html.TextBoxFor(m => m.SupplyOrderItems[i].Rate, new { @class = "form_input clRate", @style = "text-align:right", @onkeyup = "QuantityChanged(" + i + ");", @required = "true" })</td>
-                        <td>@Html.TextBoxFor(m => m.SupplyOrderItems[i].Discount, new { @class = "form_input", @style = "text-align:right", @onkeyup = "QuantityChanged(" + i + ");", @required = "true" })</td>
+                        <td>@Html.TextBoxFor(m => m.SupplyOrderItems[i].Rate, new { @class = "form_input clRate numbers-only", @style = "text-align:right", @onkeyup = "QuantityChanged(" + i + ");", @required = "true" })</td>
+                        <td>@Html.TextBoxFor(m => m.SupplyOrderItems[i].Discount, new { @class = "form_input numbers-only", @style = "text-align:right", @onkeyup = "QuantityChanged(" + i + ");", @required = "true" })</td>
                         <td>@Html.TextBoxFor(m => m.SupplyOrderItems[i].Amount, new { @class = "form_input clAmount", @style = "text-align:right", @readonly = "true" })</td>
 
                     </tr>
@@ -40,8 +40,8 @@
             else
             {
                 <tr>
-                    <td colspan="11">
-                        <center><em>No items pending!</em></center>
+                    <td colspan="9">
+                        <center><em>No items found!</em></center>
                     </td>
                 </tr>
             }
@@ -54,9 +54,13 @@
                 <th width="25%" class="text-center"><h1></h1></th>
                 <th width="10%" class="text-center"><h1></h1></th>
                 <th width="5%" class="text-center"><h1></h1></th>
-                <th width="5%" class="text-center"><h1></h1></th>
-                <th width="5%" class="text-right">@Html.DropDownListFor(m => Model.CurrencyId, new SelectList(ViewBag.currencyList, "Value", "Text", Model.CurrencyId), "Select Currency", new { @class = "form_input" })
                 <th width="5%" class="text-right" style="vertical-align:middle"><h1>Total</h1></th>
+                <th width="5%" class="text-right">
+                    @Html.DropDownListFor(m => Model.CurrencyId, new SelectList(ViewBag.currencyList, "Value", "Text", Model.CurrencyId), "Select Currency", new { @class = "form_input" })
+                </th>
+                <th width="5%" class="text-right">
+                    <span id="discount-total"></span>
+                </th>
                 <th width="5%" class="text-right"><span id="QtyAmount"></span></th>
             </tr>
         </tfoot>

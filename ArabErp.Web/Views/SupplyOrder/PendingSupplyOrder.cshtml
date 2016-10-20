@@ -1,7 +1,7 @@
 ﻿@using ArabErp.Domain
 @model IList<PendingPurchaseRequest>
 @{
-    ViewBag.Title = "PendingSupplyOrder";
+    ViewBag.Title = "Pending Purchase Requests for Supply Order";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
@@ -66,8 +66,8 @@
                             <table class="table table-bordered">
                                 <thead>
                                     <tr class="grid_heading">
-                                        <th width="15%"><h1>PRQ.No. &amp; Date</h1></th>
-                                        <th width="15%"><h1>WR.No. &amp; Date</h1></th>
+                                        <th width="15%"><h1>PRQ No. &amp; Date</h1></th>
+                                        <th width="15%"><h1>WR No. &amp; Date</h1></th>
                                         <th width="10%"><h1>Required Date</h1></th>
                                         <th width="40%"><h1>Special Remarks</h1></th>
                                         <th width="5%" nowrap><h1>Ageing</h1></th>
@@ -85,14 +85,14 @@
                                                
 
                                                 <td>
-                                                    @Model[i].PurchaseRequestNo  -  @Model[i].RequiredDate.ToString("dd MMM yyyy")
+                                                    @Model[i].PurchaseRequestNo  -  @Model[i].PurchaseRequestDate.ToString("dd-MMMM-yyyy")
                                                 </td>
                                               
                                                 <td>
                                                     @Model[i].WRNoAndDate
                                                 </td>
                                                 <td>
-                                                    @Model[i].RequiredDate.ToString("dd MMM yyyy")
+                                                    @Model[i].RequiredDate.ToString("dd-MMMM-yyyy")
                                                 </td>
                                                 <td>
                                                     @Model[i].SpecialRemarks

@@ -358,7 +358,7 @@ namespace ArabErp.DAL
         {
             using (IDbConnection connection = OpenConnection(dataConnection))
             {
-                return connection.Query<Dropdown>(@"SELECT CurrencyId Id, CurrencyName+' ('+S.SymbolName+')' Name FROM Currency C INNER JOIN Symbol S ON C.CurrencySymbolId = S.SymbolId WHERE ISNULL(C.isActive, 1) = 1").ToList();
+                return connection.Query<Dropdown>(@"SELECT CurrencyId Id, CurrencyName/*+' ('+S.SymbolName+')'*/ Name FROM Currency C INNER JOIN Symbol S ON C.CurrencySymbolId = S.SymbolId WHERE ISNULL(C.isActive, 1) = 1").ToList();
             }
         }
 
