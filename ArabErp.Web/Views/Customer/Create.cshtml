@@ -71,34 +71,34 @@
                                         <label for="code">Code</label>
                                         @Html.TextBoxFor(m => m.CustomerRefNo, new { @class = "form_input  form_input-half ", autocomplete = "off", @readonly = "readonly" })
                                     </div>
-
-                                    <div class="part4">
-                                        <label for="name">Name</label>
-                                        @Html.TextBoxFor(m => m.CustomerName, new { @class = "form_input ", autocomplete = "off" })
-                                    </div>
-
-                                </div>
-
-                            <div class="col-md-3">
-
-                                <div class="part4">
-                                    <label for="prntname">Print Name</label>
-                                    @Html.TextBoxFor(m => m.CustomerPrintName, new { @class = "form_input ", autocomplete = "off" })
-                                </div>
-
                                 <div class="part4">
                                     <label for="CategoryId">Category</label>
                                     @Html.DropDownListFor(m => m.CategoryId, (SelectList)ViewBag.CustomerCategory, "Select Category", new { @class = "form_input", autocomplete = "off" })
                                 </div>
+                                  
 
                                 </div>
 
                             <div class="col-md-3">
-
+                                <div class="part4">
+                                    <label for="name">Name</label>
+                                    @Html.TextBoxFor(m => m.CustomerName, new { @class = "form_input ", autocomplete = "off" })
+                                </div>
                                 <div class="part4">
                                     <label for="CurrencyId">Currency</label>
                                     @Html.DropDownListFor(m => m.CurrencyId, (SelectList)ViewBag.CustomerCurrency, "Select Currency", new { @class = "form_input", autocomplete = "off" })
                                 </div>
+
+                               
+
+                                </div>
+
+                            <div class="col-md-3">
+                                <div class="part4">
+                                    <label for="prntname">Print Name</label>
+                                    @Html.TextBoxFor(m => m.CustomerPrintName, new { @class = "form_input ", autocomplete = "off" })
+                                </div>
+                              
 
                                 </div>
 
