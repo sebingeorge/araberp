@@ -31,16 +31,16 @@
         @{ TempData["success"] = TempData["error"] = ""; }
         //------------------------------------------------------//
 
+        $(document).ready(function () {
+            assignTaskDate();
+        });
+
     })
 
 </script>
 
 
 <script type="text/javascript">
-
-    $(document).ready(function () {
-        assignTaskDate();
-    });
 
 
     function assignTaskDate() {
