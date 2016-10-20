@@ -1,7 +1,7 @@
 ﻿@using ArabErp.Domain
 @model IEnumerable<PendingWorkShopRequest>
 @{
-    ViewBag.Title = "Pending WorkShopRequest";
+    ViewBag.Title = "Pending Workshop/Material Requests for Purchase Request";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 <script>
@@ -49,7 +49,7 @@
 <div class="row">
 
     <div class="form-head1">
-        <h4>Pending Workshop Requests for Purchase Request</h4>
+        <h4>Pending Workshop/Material Requests for Purchase Request</h4>
     </div>
 
     <div class="main-part pad1">
@@ -59,29 +59,46 @@
                     <table class="table table-bordered">
                         <thead>
                             <tr class="grid_heading">
-                                <th width="13%"><h1>WR.No. & Date</h1></th>
+                                <th width="13%"><h1>WR No. & Date</h1></th>
                                 <th width="27%"><h1>Customer</h1></th>
                                 <th width="13%"><h1>Customer Order Ref.</h1></th>
-                                <th width="13%"><h1>SO.No. & Date</h1></th>
+                                <th width="13%"><h1>SO No. & Date</h1></th>
                                 <th width="10%"><h1>Required Date</h1></th>
                                 <th width="7%"><h1>Ageing</h1></th>
                                 <th width="7%"><h1>Days Left</h1></th>
-                                <th width="10%"><center><h1></h1></center></th>
+                                <th width="1%"><center><h1></h1></center></th>
 
                             </tr>
                         </thead>
-                        @foreach (var item in Model)
+                        @if (Model.Count() > 0)
+                        {
+                            foreach (var item in Model)
+                            {
+                                <tbody class="grid_row">
+                                    <tr>
+                                        <td class="grid-cell">@item.WorkShopRequestRefNo &amp; @item.WorkShopRequestDate.ToString("dd/MMM/yyyy")</td>
+                                        <td class="grid-cell">@item.CustomerName</td>
+                                        <td class="grid-cell">@item.CustomerOrderRef</td>
+                                        <td class="grid-cell">@item.SaleOrderRefNo &amp; @item.SaleOrderDate.ToString("dd/MMM/yyyy")</td>
+                                        <td class="grid-cell">@item.RequiredDate.ToString("dd/MMM/yyyy")</td>
+                                        <td class="grid-cell">@item.Ageing</td>
+                                        <td class="grid-cell">@item.DaysLeft</td>
+                                        <td><center>@Html.ActionLink("Select", "Create", "PurchaseRequest", new { WorkShopRequestId = @item.WorkShopRequestId }, new { @class = "form-button5" })</center></td>
+                                    </tr>
+                                </tbody>
+                            }
+                        }
+                        else
                         {
                             <tbody class="grid_row">
                                 <tr>
-                                    <td class="grid-cell">@item.WorkShopRequestRefNo &amp; @item.WorkShopRequestDate.ToString("dd/MMM/yyyy")</td>
-                                    <td class="grid-cell">@item.CustomerName</td>
-                                    <td class="grid-cell">@item.CustomerOrderRef</td>
-                                    <td class="grid-cell">@item.SaleOrderRefNo &amp; @item.SaleOrderDate.ToString("dd/MMM/yyyy")</td>
-                                    <td class="grid-cell">@item.RequiredDate.ToString("dd/MMM/yyyy")</td>
-                                    <td class="grid-cell">@item.Ageing</td>
-                                    <td class="grid-cell">@item.DaysLeft</td>
-                                    <td><center>@Html.ActionLink("Select", "Create", "PurchaseRequest", new { WorkShopRequestId = @item.WorkShopRequestId }, new { @class = "form-button5" })</center></td>
+                                    <td colspan="8">
+                                        <center>
+                                            <em>
+                                                There are no pending workshop/material requests found!
+                                            </em>
+                                        </center>
+                                    </td>
                                 </tr>
                             </tbody>
                         }
