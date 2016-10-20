@@ -310,5 +310,40 @@ namespace ArabErp.DAL
             }
         }
 
+        public IEnumerable<PurchaseRequestRegister> GetPendingPARregisterDT(int OrganizationId)
+        {
+            using (IDbConnection connection = OpenConnection(dataConnection))
+            {
+                //              
+                string qry = @"SELECT distinct PurchaseRequestNo,PurchaseRequestDate,I.ItemName,isnull(PI.Remarks,'-')Remarks,
+                                PI.Quantity ReqQty,Sum(isnull (GI.Quantity,0))GRNQTY,'0' SettledQty,(PI.Quantity)-Sum(isnull (GI.Quantity,0))BALQTY
+                                FROM PurchaseRequest P
+                                INNER JOIN PurchaseRequestItem PI ON PI.PurchaseRequestId=P.PurchaseRequestId
+                                INNER JOIN Item I ON I.ItemId=PI.ItemId
+                                LEFT JOIN SupplyOrderItem SI ON SI.PurchaseRequestItemId=PI.PurchaseRequestItemId
+                                LEFT JOIN GRNItem GI ON GI.SupplyOrderItemId=SI.SupplyOrderItemId
+                                WHERE P.OrganizationId=@OrganizationId
+                                GROUP BY PurchaseRequestNo,PurchaseRequestDate,I.ItemName,PI.Remarks,PI.Quantity";
+                return connection.Query<PurchaseRequestRegister>(qry, new { OrganizationId = OrganizationId }).ToList();
+            }
+        }
+
+        public PurchaseRequestRegister PurchaseRequestRegisterHD(int OrganizationId)
+        {
+            using (IDbConnection connection = OpenConnection(dataConnection))
+            {
+                string qry = @"	select O.Image1,O.OrganizationName from Organization O where OrganizationId=@OrganizationId";
+
+                var objPurchaseRequestRegisterId = connection.Query<PurchaseRequestRegister>(qry, new
+                {
+
+                    OrganizationId = OrganizationId,
+                    
+                }).First<PurchaseRequestRegister>();
+
+                return objPurchaseRequestRegisterId;
+            }
+        }
+
     }
 }

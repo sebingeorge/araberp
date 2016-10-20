@@ -12,6 +12,7 @@ namespace ArabErp.Domain
         public string SupplyOrderNo { get; set; }
         public DateTime SupplyOrderDate { get; set; }
         public string SupplierName { get; set; }
+        public int Id { get; set; }
         public string ItemName { get; set; }
         public int OrderedQty { get; set; }
         public string UnitName { get; set; }
