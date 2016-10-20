@@ -16,5 +16,7 @@ namespace ArabErp.Domain
         public decimal GRNQTY { get; set; }
         public int SettledQty { get; set; }
         public decimal BALQTY { get; set; }
+        public string OrganizationName { get; set; }
+        public string Image1 { get; set; }
     }
 }
