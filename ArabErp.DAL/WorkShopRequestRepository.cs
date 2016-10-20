@@ -373,15 +373,15 @@ namespace ArabErp.DAL
 				DROP TABLE #SALE;").ToList();
             }
         }
-        public IEnumerable<WorkShopRequest> GetPrevious(int isProjectBased,DateTime? from, DateTime? to, int id, int cusid, int OrganizationId)
+        public IEnumerable<WorkShopRequest> GetPrevious(int isProjectBased, DateTime? from, DateTime? to, string workshop, string customer, int OrganizationId)
         {
             using (IDbConnection connection = OpenConnection(dataConnection))
             {
                 string qry = @"Select * from WorkShopRequest WR INNER JOIN Customer C on C.CustomerId=WR.CustomerId 
                                INNER JOIN SaleOrder S on S.SaleOrderId=WR.SaleOrderId
-                               where  WR.WorkShopRequestId = ISNULL(NULLIF(@id, 0), WR.WorkShopRequestId)
-                               and WR.CustomerId = ISNULL(NULLIF(@cusid, 0), WR.CustomerId) and   WR.isActive=1 and WR.OrganizationId=@OrganizationId AND S.isProjectBased=@isProjectBased AND WR.WorkShopRequestDate BETWEEN ISNULL(@from, DATEADD(MONTH, -1, GETDATE())) AND ISNULL(@to, GETDATE())";
-                return connection.Query<WorkShopRequest>(qry, new { isProjectBased = isProjectBased,id = id,cusid = cusid,OrganizationId = OrganizationId, from = from, to = to }).ToList();
+                               where  WR.WorkShopRequestRefNo LIKE '%'+@workshop+'%'
+                               and C.CustomerName LIKE '%'+@customer+'%' and   WR.isActive=1 and WR.OrganizationId=@OrganizationId AND S.isProjectBased=@isProjectBased AND WR.WorkShopRequestDate BETWEEN ISNULL(@from, DATEADD(MONTH, -1, GETDATE())) AND ISNULL(@to, GETDATE())";
+                return connection.Query<WorkShopRequest>(qry, new { isProjectBased = isProjectBased, workshop = workshop, customer = customer, OrganizationId = OrganizationId, from = from, to = to }).ToList();
             }
         }
         public WorkShopRequest GetWorkshopRequestHdData(int WorkShopRequestId)

@@ -114,11 +114,11 @@ namespace ArabErp.Web.Controllers
             }
             return View("Pending", model);
         }
-        public ActionResult PreviousList( int isProjectBased,DateTime? from, DateTime? to, int id = 0, int cusid = 0)
+        public ActionResult PreviousList(int isProjectBased, DateTime? from, DateTime? to, string workshop = "", string customer = "")
         {
             from = from ?? DateTime.Today.AddMonths(-1);
             to = to ?? DateTime.Today;
-            return PartialView("_PreviousList", new WorkShopRequestRepository().GetPrevious(isProjectBased, from, to, id, cusid, OrganizationId));
+            return PartialView("_PreviousList", new WorkShopRequestRepository().GetPrevious(isProjectBased, from, to, workshop, customer, OrganizationId));
         }
         public ActionResult Edit(int? id)
         {
