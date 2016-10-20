@@ -92,12 +92,11 @@ namespace ArabErp.DAL
 
                 foreach (CustomerVsSalesExecutive item in model)
                 {
-                    string checksql = @"select count(*) from CustomerVsSalesExecutive where CustomerId=@CustomerId and EmployeeId=@EmployeeId and EffectiveDate=@EffectiveDate";
 
-                    int CheckCustomerVsSalesExecutive = connection.Query<int>(checksql, item).First();
+                    string deletesql = @"DELETE from CustomerVsSalesExecutive where CustomerId=@CustomerId and EmployeeId=@EmployeeId and EffectiveDate=@EffectiveDate ";
 
-                    if (CheckCustomerVsSalesExecutive == 0)
-                    {
+                    connection.Query<int>(deletesql, item);
+
                         string sql = @"insert  into CustomerVsSalesExecutive(CustomerId,EmployeeId,EffectiveDate,CreatedBy,CreatedDate,OrganizationId,IsActive) 
                            Values (@CustomerId,@EmployeeId,@EffectiveDate,@CreatedBy,@CreatedDate,@OrganizationId,1);
                            SELECT CAST(SCOPE_IDENTITY() as int)";
@@ -105,7 +104,7 @@ namespace ArabErp.DAL
                       //  InsertLoginHistory(dataConnection, item.CreatedBy, "Create", "CustomerVsSalesExecutive", "0", "0");
                     int objCustomerVsSalesExecutive = connection.Query<int>(sql,item).First();
 
-                    }
+                    
                     
                   
                 }
