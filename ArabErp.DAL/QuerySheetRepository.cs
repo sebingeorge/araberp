@@ -91,7 +91,7 @@ namespace ArabErp.DAL
                 string sql = @"select * from QuerySheet
                                 where isActive=1 and OrganizationId = @OrganizationId
 	                            and QuerySheetDate BETWEEN ISNULL(@from, DATEADD(MONTH, -1, GETDATE())) AND ISNULL(@to, GETDATE())
-	                            AND QuerySheetRefNo LIKE '%'+@querysheet+'%' and Type=@Type
+	                            AND QuerySheetRefNo LIKE '%'+@querysheet+'%' --and Type=@Type
                                 ORDER BY QuerySheetDate DESC, CreatedDate DESC";
                 return connection.Query<QuerySheet>(sql, new { Type = Type, OrganizationId = OrganizationId, querysheet = querysheet, to = to, from = from }).ToList();
 
@@ -102,7 +102,7 @@ namespace ArabErp.DAL
         {
             using (IDbConnection connection = OpenConnection(dataConnection))
             {
-                string query = @"select CostingId,Description,''Remarks,0.00 Amount from CostingParameters";
+                string query = @"select CostingId,Description,''Remarks,0.00 Amount from CostingParameters WHERE ISNULL(isActive, 1) = 1";
 
                 return connection.Query<ProjectCost>(query);
             }
@@ -277,6 +277,22 @@ namespace ArabErp.DAL
                 return objQuerySheet;
             }
         }
-        
+
+
+        public decimal GetCostingAmount(int id)
+        {
+            using (IDbConnection connection = OpenConnection(dataConnection))
+            {
+                try
+                {
+                    string sql = @"SELECT CostingAmount FROM QuerySheet WHERE QuerySheetId = @id";
+                    return connection.Query<decimal>(sql, new { id = id }).ToList<decimal>().First();
+                }
+                catch (InvalidOperationException)
+                {
+                    return 0;
+                }
+            }
+        }
     }
 }

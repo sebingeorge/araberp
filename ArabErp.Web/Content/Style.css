@@ -288,8 +288,9 @@ p {
 }
 .bluebox 
 {
-   border-color: #0e5cab;
-    box-shadow: 0 1px 1px rgba(0, 0, 0, 0.075) inset, 0 0 8px rgba(102, 175, 233, 0.6);
+   border-color: #4d4e4e;
+    /*box-shadow: 0 1px 1px rgba(0, 0, 0, 0.075) inset, 0 0 8px rgba(102, 175, 233, 0.6);*/
+    box-shadow:1px 1px 2px 0px  #888888;
     outline: 0 none;
 }
 .grid_heading h1 

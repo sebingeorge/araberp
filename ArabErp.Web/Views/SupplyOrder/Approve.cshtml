@@ -9,8 +9,8 @@
 
     $(document).ready(function () {
 
-        $('#disabled-div').find('input[type="text"], textarea, select').attr('disabled', 'disabled');
-
+        $('#disabled-div').find('input[type="text"], textarea').attr('readonly', 'readonly');
+        $('#disabled-div').find('input[type="combo"], select').attr('disabled', 'disabled');
         calculateSummary();
 
         //---------------------toastr---------------------------//

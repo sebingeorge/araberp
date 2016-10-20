@@ -60,12 +60,12 @@ namespace ArabErp.Web.Controllers
                 TempData["success"] = "";
                 TempData["error"] = "Some error occurred. Please try again.|" + ex.Message;
             }
-         
+
             var repo = new SaleOrderRepository();
             SaleOrder model = repo.GetSaleOrderFrmQuotation(SalesQuotationId ?? 0);
             model.Items = repo.GetSaleOrderItemFrmQuotation(SalesQuotationId ?? 0);
 
-            for(int i=0; i<model.Items.Count; i++)
+            for (int i = 0; i < model.Items.Count; i++)
             {
                 while (model.Items[i].Quantity > 1)
                 {
@@ -73,9 +73,9 @@ namespace ArabErp.Web.Controllers
                     model.Items[i].Quantity -= model.Items[i + 1].Quantity = 1;
                 }
             }
-           
+
             model.Materials = repo.GetSaleOrderMaterialFrmQuotation(SalesQuotationId ?? 0);
-         
+
             model.SaleOrderRefNo = internalId;
             model.SaleOrderDate = DateTime.Now;
             model.EDateArrival = DateTime.Now;
@@ -97,7 +97,7 @@ namespace ArabErp.Web.Controllers
                 FillUnit();
                 FillEmployee();
                 FillQuotationNo(1);
-          
+
 
             }
             catch (NullReferenceException nx)
@@ -124,8 +124,8 @@ namespace ArabErp.Web.Controllers
                 }
             }
             model.Materials = repo.GetSaleOrderMaterialFrmQuotation(SalesQuotationId ?? 0);
-           
-          
+
+
             model.SaleOrderRefNo = internalId;
             model.SaleOrderDate = DateTime.Now;
             model.EDateArrival = DateTime.Now;
@@ -146,7 +146,7 @@ namespace ArabErp.Web.Controllers
             saleOrder.Items.Add(item);
             return PartialView("_DisplaySOList", saleOrder);
         }
-       
+
         public ActionResult RefreshDisplaySOList(int? quoId, int isProjectBased, int currid)
         {
             FillCurrency();
@@ -216,8 +216,8 @@ namespace ArabErp.Web.Controllers
             var list = repo.FillWorkDescForProject();
             ViewBag.workdesclist = new SelectList(list, "Id", "Name");
         }
-        
-      
+
+
         public void FillSOCustomer(int type)
         {
             ViewBag.customerlist = new SelectList(new DropdownRepository().FillSOCustomer(OrganizationId, type), "Id", "Name");
@@ -265,7 +265,7 @@ namespace ArabErp.Web.Controllers
             var list = repo.QuotationInSaleOrderDropdown(isProjectBased);
             ViewBag.QuotationNolist = new SelectList(list, "Id", "Name");
         }
-       
+
         [HttpPost]
         public ActionResult Create(SaleOrder model)
         {
@@ -276,7 +276,7 @@ namespace ArabErp.Web.Controllers
                     model.OrganizationId = OrganizationId;
                     model.CreatedDate = System.DateTime.Now;
                     model.CreatedBy = UserID.ToString();
-                  
+
                     string id = new SaleOrderRepository().InsertSaleOrder(model);
                     if (id.Split('|')[0] != "0")
                     {
@@ -287,7 +287,7 @@ namespace ArabErp.Web.Controllers
                     else
                     {
                         throw new Exception();
-                    } 
+                    }
                 }
                 else
                 {
@@ -315,7 +315,7 @@ namespace ArabErp.Web.Controllers
             FillCommissionAgent();
             FillEmployee();
 
-            return View("Create",model);
+            return View("Create", model);
         }
         [HttpPost]
         public ActionResult CreateProject(SaleOrder model)
@@ -402,7 +402,7 @@ namespace ArabErp.Web.Controllers
         public ActionResult PendingSaleOrderApproval(int ProjectBased)
         {
             var repo = new SaleOrderRepository();
-            IEnumerable<PendingSO> pendingSO = repo.GetSaleOrderPending(ProjectBased,OrganizationId);
+            IEnumerable<PendingSO> pendingSO = repo.GetSaleOrderPending(ProjectBased, OrganizationId);
             return View(pendingSO);
         }
         public ActionResult PendingSaleOrderApprovalWR()
@@ -518,7 +518,7 @@ namespace ArabErp.Web.Controllers
             var repo = new SaleOrderRepository();
             SaleOrder model = repo.GetSaleOrder(SaleOrderId ?? 0);
             model.Items = repo.GetSaleOrderItem(SaleOrderId ?? 0);
-           
+
             FillWrkDesc();
             return View("Approval", model);
         }
@@ -532,7 +532,7 @@ namespace ArabErp.Web.Controllers
         public ActionResult PendingSaleOrderHold(int? page, int? isProjectBased)
         {
             var repo = new SaleOrderRepository();
-            IEnumerable<PendingSO> pendingSO = repo.GetSaleOrdersForHold(isProjectBased ?? 0,OrganizationId);
+            IEnumerable<PendingSO> pendingSO = repo.GetSaleOrdersForHold(isProjectBased ?? 0, OrganizationId);
             return View(pendingSO);
         }
 
@@ -554,7 +554,18 @@ namespace ArabErp.Web.Controllers
 
             foreach (var item in SOList)
             {
-                var soitem = new SaleOrderItem { WorkDescriptionId = item.WorkDescriptionId,WorkDescr=item.WorkDescr, VehicleModelId = item.VehicleModelId, Quantity = item.Quantity, UnitId = item.UnitId, Rate = item.Rate, Amount = item.Amount, Discount = item.Discount };
+                var soitem = new SaleOrderItem
+                {
+                    VehicleModelName = item.VehicleModelName,
+                    WorkDescriptionId = item.WorkDescriptionId,
+                    WorkDescr = item.WorkDescr,
+                    VehicleModelId = item.VehicleModelId,
+                    Quantity = item.Quantity,
+                    UnitId = item.UnitId,
+                    Rate = item.Rate,
+                    Amount = item.Amount,
+                    Discount = item.Discount
+                };
                 model.Items.Add(soitem);
 
             }
@@ -589,7 +600,18 @@ namespace ArabErp.Web.Controllers
             model.Items = new List<SaleOrderItem>();
             foreach (var item in SOList)
             {
-                var soitem = new SaleOrderItem { WorkDescriptionId = item.WorkDescriptionId, VehicleModelId = item.VehicleModelId, Quantity = item.Quantity, UnitId = item.UnitId, Rate = item.Rate, Amount = item.Amount, Discount = item.Discount };
+                var soitem = new SaleOrderItem
+                {
+                    WorkDescr = item.WorkDescr,
+                    VehicleModelName = item.VehicleModelName,
+                    WorkDescriptionId = item.WorkDescriptionId,
+                    VehicleModelId = item.VehicleModelId,
+                    Quantity = item.Quantity,
+                    UnitId = item.UnitId,
+                    Rate = item.Rate,
+                    Amount = item.Amount,
+                    Discount = item.Discount
+                };
                 model.Items.Add(soitem);
 
             }
@@ -673,7 +695,7 @@ namespace ArabErp.Web.Controllers
             List<SalesQuotation> salesquotations = repo.GetSalesQuotationForSO(ProjectBased, OrganizationId);
             ViewBag.ProjectBased = ProjectBased;
             //ViewBag.AfterSales = isAfterSales;
-             
+
             return View(salesquotations);
         }
 
@@ -719,49 +741,49 @@ namespace ArabErp.Web.Controllers
                 TempData["error"] = "Cannot edit. Sale Order already used.";
                 return RedirectToAction("Edit", new { id = model.SaleOrderId });
             }
-              if (ModelState.IsValid)
-                {
-
-            if (new SaleOrderRepository().UpdateSaleOrder(model) > 0)
+            if (ModelState.IsValid)
             {
-                TempData["success"] = "Updated Successfully";
-                return RedirectToAction("Index", new { type = model.isProjectBased });
+
+                if (new SaleOrderRepository().UpdateSaleOrder(model) > 0)
+                {
+                    TempData["success"] = "Updated Successfully";
+                    return RedirectToAction("Index", new { type = model.isProjectBased });
+                }
+
+
+                else
+                {
+                    TempData["error"] = "Could not update due to some error. Please try again.";
+                    return RedirectToAction("Edit", new { id = model.SaleOrderId });
+                }
+
             }
-
-
             else
             {
-                TempData["error"] = "Could not update due to some error. Please try again.";
-                return RedirectToAction("Edit", new { id = model.SaleOrderId });
+                var allErrors = ModelState.Values.SelectMany(v => v.Errors);
+
             }
 
-                }
-              else
-              {
-                  var allErrors = ModelState.Values.SelectMany(v => v.Errors);
-                 
-              }
+            FillCustomer();
+            FillCurrency();
+            FillCommissionAgent();
+            FillUnit();
+            FillEmployee();
+            FillVehicle();
 
-              FillCustomer();
-              FillCurrency();
-              FillCommissionAgent();
-              FillUnit();
-              FillEmployee();
-              FillVehicle();
+            TempData["success"] = "";
+            return View(model);
 
-              TempData["success"] = "";
-              return View(model);
-  
         }
 
         public ActionResult Delete(int id, string isProjectBased, string isAfterSales)
         {
-         
+
             try
             {
                 string ref_no = new SaleOrderRepository().DeleteSaleOrder(id, Convert.ToInt32(isAfterSales));
-            TempData["success"] = "Deleted Successfully (" + ref_no + ")";
-            return RedirectToAction("Index", new { type = Convert.ToInt32(isProjectBased) });
+                TempData["success"] = "Deleted Successfully (" + ref_no + ")";
+                return RedirectToAction("Index", new { type = Convert.ToInt32(isProjectBased) });
             }
             catch (Exception)
             {

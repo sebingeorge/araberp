@@ -1,5 +1,5 @@
 ﻿@model  ArabErp.Domain.SaleOrder
-@{ ViewBag.Title = "Edit SaleOrder"; Layout = "~/Views/Shared/_Layout.cshtml"; }
+@{ ViewBag.Title = "Edit Sale Order"; Layout = "~/Views/Shared/_Layout.cshtml"; }
 @{ string actionName = ViewContext.RouteData.GetRequiredString("action");
  if (actionName == "CreateProject")
  {
@@ -224,8 +224,15 @@
             <div class="row">
                 <div class="col-md-12 hrpart">
                     <button type="button" class="form-button right" onclick="Exit()">Exit</button>
-                    <button type="submit" class="form-button right">Edit</button>
-                    <input type="button" value="Delete" onclick="DeleteItem(@Model.SaleOrderId,@Model.isProjectBased,@Model.isAfterSales)" class="form-button left" />
+                    @if (Model.isUsed)
+                    {
+                        <span class="perm">**Cannot edit/delete, because it is already approved or used somewhere else.</span>
+                    }
+                    else
+                    {
+                        <button type="submit" class="form-button right">Edit</button>
+                        <input type="button" value="Delete" onclick="DeleteItem(@Model.SaleOrderId,@Model.isProjectBased,@Model.isAfterSales)" class="form-button left" />
+                    }
                 </div>
             </div>
         }
