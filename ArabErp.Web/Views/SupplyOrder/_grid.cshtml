@@ -33,7 +33,6 @@
                         <td>@Html.TextBoxFor(m => m.SupplyOrderItems[i].Rate, new { @class = "form_input clRate numbers-only", @style = "text-align:right", @onkeyup = "QuantityChanged(" + i + ");", @required = "true" })</td>
                         <td>@Html.TextBoxFor(m => m.SupplyOrderItems[i].Discount, new { @class = "form_input numbers-only", @style = "text-align:right", @onkeyup = "QuantityChanged(" + i + ");", @required = "true" })</td>
                         <td>@Html.TextBoxFor(m => m.SupplyOrderItems[i].Amount, new { @class = "form_input clAmount", @style = "text-align:right", @readonly = "true" })</td>
-
                     </tr>
                 }
             }
