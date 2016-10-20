@@ -91,7 +91,7 @@ namespace ArabErp.DAL
                 string sql = @"select * from QuerySheet
                                 where isActive=1 and OrganizationId = @OrganizationId
 	                            and QuerySheetDate BETWEEN ISNULL(@from, DATEADD(MONTH, -1, GETDATE())) AND ISNULL(@to, GETDATE())
-	                            AND QuerySheetRefNo LIKE '%'+@querysheet+'%' and Type=@Type
+	                            AND QuerySheetRefNo LIKE '%'+@querysheet+'%' --and Type=@Type
                                 ORDER BY QuerySheetDate DESC, CreatedDate DESC";
                 return connection.Query<QuerySheet>(sql, new { Type = Type, OrganizationId = OrganizationId, querysheet = querysheet, to = to, from = from }).ToList();
 
