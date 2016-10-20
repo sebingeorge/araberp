@@ -2,7 +2,7 @@
 
 @{
     Layout = "~/Views/Shared/_Layout.cshtml";
-    ViewBag.Title = "Unapproved Supply Orders / LPO";
+    ViewBag.Title = "Pending Supply Orders/LPO Approval";
 }
 
 <script type="text/javascript">
@@ -41,7 +41,7 @@
 
     <div class="row">
         <div class="form-head1">
-            <h4>Unapproved Supply Order / LPO</h4>
+            <h4>Pending Supply Orders/LPO Approval</h4>
         </div>
         <div class="main-part pad1">
             <div class="row">
@@ -54,8 +54,8 @@
                                     <th width="10%" nowrap><h1>Date</h1></th>
                                     <th width="35%" nowrap><h1>Supplier</h1></th>
                                     <th width="10%" nowrap><h1>Quotation No. &amp; Date</h1></th>
-                                    <th width="5%" nowrap><h1>Requested Qty.</h1></th>
-                                    <th width="5%" nowrap><h1>Supplied Qty.</h1></th>
+                                    <th width="5%" nowrap><h1>PRQ Qty.</h1></th>
+                                    <th width="5%" nowrap><h1>Ordered Qty.</h1></th>
                                     <th width="5%" nowrap><h1>Balance Qty.</h1></th>
                                     <th width="10%" class="text-right" nowrap><h1>Total</h1></th>
                                     <th width="1%"></th>
@@ -103,7 +103,7 @@
                                         <tr>
                                             <td colspan="9">
                                                 <center>
-                                                    <em>No items to show!</em>
+                                                    <em>There are no supply orders for approval!</em>
                                                 </center>
                                             </td>
                                         </tr>

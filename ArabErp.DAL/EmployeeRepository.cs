@@ -44,7 +44,7 @@ namespace ArabErp.DAL
         {
             using (IDbConnection connection = OpenConnection(dataConnection))
             {
-                return connection.Query<Dropdown>("select StockPointId Id, StockPointName Name From Stockpoint").ToList();
+                return connection.Query<Dropdown>("select LocationId Id,Locationname Name from EmployeeLocation where isActive=1").ToList();
             }
         }
 

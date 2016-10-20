@@ -50,6 +50,7 @@
                         <th width="36%"><h1>Special Remarks</h1></th>
                         <th width="5%" nowrap><h1>Ageing</h1></th>
                         <th width="10%" nowrap><h1>Required Date</h1></th>
+                        <th width="5%" class="text-right" nowrap><h1>Days Left</h1></th>
                         <th width="5%" style="vertical-align:middle" title="Check this to select all checkboxes below" nowrap>
                             <h1>
                                 <input id="checkAll" type="checkbox"> Select all
@@ -84,6 +85,9 @@
                                     <td>
                                         <input type="text" class="form_input" value="@Model[i].RequiredDate" disabled />
                                     </td>
+                                    <td>
+                                        <input type="text" class="form_input text-right" value="@Model[i].DaysLeft" disabled />
+                                    </td>
                                     <td align="center">
                                         @Html.CheckBoxFor(m => m[i].isChecked, new { @class = "chk CheckBoxClass", @onchange = "OnCheckboxChanged(this)" })
                                     </td>
@@ -93,7 +97,7 @@
                         else
                         {
                             <tr>
-                                <td colspan="6" align="center"><em>There are no pending/incomplete supply orders to show</em></td>
+                                <td colspan="7" align="center"><em>There are no pending/incomplete supply orders to show</em></td>
                             </tr>
                         }
                     }

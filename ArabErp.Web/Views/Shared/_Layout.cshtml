@@ -87,7 +87,12 @@
                 });
             });
 
-            $("input[type='text'], textarea").prop("maxlength", "500");
+            $("input[type='text'], textarea").attr("maxlength", "500");
+            $("input[type='text'], textarea").attr("autocomplete", "off");
+            //binding keypress to inputs
+            $(".numbers-only").keypress(function (e) {
+                if (e.which == 8 || (e.which == 46 && $(this).val().indexOf('.') == -1) || (e.which > 47 && e.which < 58)) { } else { return false; }
+            });
 
             //---------------------toastr---------------------------//
           @*toastr.options = {
@@ -283,7 +288,7 @@
                                 <li><a href="@Url.Action("PendingPurchaseRequest","PurchaseRequest")">Purchase Request</a></li>
                                 <li><a href="@Url.Action("PendingSupplyOrder","SupplyOrder")">Supply Order / LPO</a></li>
                                 <li><a href="@Url.Action("PendingApproval", "SupplyOrder")">Supply Order / LPO Approval</a></li>
-                                <li><a href="@Url.Action("Index", "SupplyOrderFollowup")">Supply Order Follow-up</a></li>
+                                <li><a href="@Url.Action("Index", "SupplyOrderFollowup")">Supply Order / LPO Follow-up</a></li>
                                 <li><a href="@Url.Action("CreateRequest","DirectPurchase")">Direct Purchase Request</a></li>
                                 <li><a href="@Url.Action("Approval","DirectPurchase")">Direct Purchase Approval</a></li>
                                 <li><a href="@Url.Action("PendingGrnWareHouse","GrnWareHouse")">GRN</a></li>
