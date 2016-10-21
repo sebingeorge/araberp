@@ -38,32 +38,24 @@
     </xs:element>
   </xs:schema>
   <Head>
-    <JobCardNo>JC-16/38</JobCardNo>
-    <JobCardDate>27-Sep-2016</JobCardDate>
-    <SaleOrderRefNo>SO/P-16/53</SaleOrderRefNo>
-    <CustomerName>M/S Opera,doorc121,kaloor</CustomerName>
-    <Phone>9746341798</Phone>
-    <ContactPerson>pk</ContactPerson>
-    <Unit>Thermal Master T2500</Unit>
-    <Customer>M/S Opera</Customer>
-    <Technician>Deepak</Technician>
+    <JobCardNo>JC/3</JobCardNo>
+    <JobCardDate>21-Oct-2016</JobCardDate>
+    <SaleOrderRefNo>SO/8</SaleOrderRefNo>
+    <CustomerName>Al OSRA Restaurant,Doha, Qatar,</CustomerName>
+    <Phone>0</Phone>
+    <ContactPerson>0</ContactPerson>
+    <Unit>item2</Unit>
+    <Customer>Al OSRA Restaurant</Customer>
+    <Technician>emptest</Technician>
     <OrganizationName>Arab Air Conditioning &amp; Refrigeration Co. W.L.L.</OrganizationName>
-    <Image1>E:\ARAB\New folder\ArabErp\ArabErp.Web\App_images\e8251ae5-2716-4b20-841c-c57ba2109c7b.png</Image1>
+    <Image1>E:\MIDHU\ARAB\ArabErp\ArabErp.Web\App_images\</Image1>
   </Head>
   <Items>
-    <TaskDate>27-Sep-2016</TaskDate>
-    <Employee>Rajeev</Employee>
-    <Description>Main Unit Fixing</Description>
+    <TaskDate>21-Oct-2016</TaskDate>
+    <Employee>Deepak</Employee>
+    <Description>tasktest</Description>
     <StartTime>0.00</StartTime>
     <EndTime>0.00</EndTime>
-    <ActualHours>13.00</ActualHours>
-  </Items>
-  <Items>
-    <TaskDate>28-Sep-2016</TaskDate>
-    <Employee>Rajeev</Employee>
-    <Description>Task2</Description>
-    <StartTime>0.00</StartTime>
-    <EndTime>0.00</EndTime>
-    <ActualHours>13.00</ActualHours>
+    <ActualHours>4.00</ActualHours>
   </Items>
 </NewDataSet>

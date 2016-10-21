@@ -77,7 +77,7 @@
                     <input type="text" class="form_input" id="txtSerialNo" onkeyup="Filter()" />
                 </div>
                 <div class="col-md-3">
-                    <label for="cboItem">Material/Spare</label>
+                    <label for="cboItem">Material/Spares</label>
                     @Html.DropDownList("cboItem", (SelectList)ViewBag.materialList, "Any", new { @class = "form_input", @onchange = "Filter()", @placeholder = "Search for Material/Spare" })
                 </div>
                 <div class="col-md-2">

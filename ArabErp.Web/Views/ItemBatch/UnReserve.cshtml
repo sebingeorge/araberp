@@ -70,12 +70,12 @@
                     <input type="text" class="form_input" id="txtGRNRefNo" disabled />
                 </div>*@
                 <div class="col-md-3">
-                    <label for="txtSORefNo" title="Sale Order Reference No & Date">SO Ref. No. &amp; Date</label>
-                    <input type="text" class="form_input" id="txtSORefNo" disabled />
+                    <label for="txtSORefNo" title="Sale Order No. & Date">SO.No. &amp; Date</label>
+                    <input type="text" class="form_input" id="txtSORefNo" readonly="readonly"  />
                 </div>
                 <div class="col-md-5">
-                    <label for="txtWDRefNo" title="Work Descr. Reference No & Short Name">WD Ref. No. &amp; Short Name</label>
-                    <input type="text" class="form_input" id="txtWDRefNo" disabled />
+                    <label for="txtWDRefNo" title="Work Descr. Reference No & Short Name">WD.No. &amp; Short Name</label>
+                    <input type="text" class="form_input" id="txtWDRefNo" readonly="readonly" />
                 </div>
             </div>
             <div class="row">
@@ -85,7 +85,7 @@
                             <thead>
                                 <tr class="grid_heading">
                                     <th width="2%" class="text-center">#</th>
-                                    <th width="50%"><h1>Item Name</h1></th>
+                                    <th width="50%"><h1>Material/Spares</h1></th>
                                     <th width="20%"><h1>Serial Number</h1></th>
                                     <th width="20%"><h1>GRN No. &amp; Date</h1></th>
                                     <th width="5%" title="Checked items will be unreserved"><h1>Select</h1></th>
@@ -114,7 +114,7 @@
                                                 }
                                                 else
                                                 {
-                                                    @Html.TextBoxFor(m => m[i].GRNNo, Model[i].GRNNo + " - " + Model[i].GRNDate.ToString("dd-MMMM-yyyy"), new { @class = "form_input", autocomplete = "off", @readonly = "readonly" })
+                                                    @Html.TextBoxFor(m => m[i].GRNNo, Model[i].GRNNo + " & " + Model[i].GRNDate.ToString("dd-MMMM-yyyy"), new { @class = "form_input", autocomplete = "off", @readonly = "readonly" })
                                                 }
                                             </td>
                                             <td>
