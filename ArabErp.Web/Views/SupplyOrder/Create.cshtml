@@ -1,7 +1,7 @@
 ﻿@using ArabErp.Domain
 @model SupplyOrder
 @{
-    ViewBag.Title = "Create";
+    ViewBag.Title = "Supply Order / LPO";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
@@ -9,30 +9,24 @@
     $(document).ready(function () {
 
         calculateSummary();
-        $("#SupplyOrderNo").tooltip();
+        //$("#SupplyOrderNo").tooltip();
 
         $(document).ready(function () {
+            //---------------------toastr---------------------------//
             toastr.options = {
-                "closeButton": true,
                 "positionClass": "toast-bottom-full-width",
-                "showDuration": "300",
-                "hideDuration": "1000",
                 "timeOut": "5000",
-                "extendedTimeOut": "1000"
+                "extendedTimeOut": "2000"
             }
             if ('@TempData["success"]' != '') {
                 toastr.success('@TempData["success"]');
-
             }
             else if ('@TempData["error"]' != '') {
                 toastr.error('@TempData["error"]'.split('|')[0]);
                 console.log('@TempData["error"]'.split('|')[1]);
             }
-            @{TempData["success"] = TempData["error"] = "";}
-        });
-
-
-
+            @{ TempData["success"] = TempData["error"] = ""; }
+            //------------------------------------------------------//
     });
 
     function ValidateRow(index) {
@@ -45,7 +39,7 @@
         }
     }
 
-    function QuantityChanged(row) {
+    function QuantityChanged(row) {alert(row);
         var quantity = $("#SupplyOrderItems_" + row + "__OrderedQty").val();
         var rate = $("#SupplyOrderItems_" + row + "__Rate").val();
         var discount = $("#SupplyOrderItems_" + row + "__Discount").val();
@@ -60,36 +54,33 @@
             discount = 0;
         }
         var amount = (quantity * rate) - discount;
-        $("#SupplyOrderItems_" + row + "__Amount").val(amount.toFixed(2));
+        if (isNaN(amount)) {
+            $("#SupplyOrderItems_" + row + "__Amount").val((0).toFixed(2));
+        }
+        else {
+            $("#SupplyOrderItems_" + row + "__Amount").val(amount.toFixed(2));
+        }
         calculateSummary();
     }
 
     function calculateSummary() {
-        //var quantity = parseFloat("0.00");
         var amount = parseFloat("0.00");
-        //$('.clQuantity').each(function (i, obj) {
-        //    var a = parseFloat($("#SupplyOrderItems_" + i + "__OrderedQty").val());
-
-        //    if (isNaN(a)) {
-        //        a = parseFloat("0.00");
-        //    }
-
-        //    quantity = quantity + a;
-        //});
+        var discount = parseFloat("0.00");
 
         $('.clAmount').each(function (i, obj) {
             var a = parseFloat($("#SupplyOrderItems_" + i + "__Amount").val());
             if (isNaN(a)) {
-
                 a = parseFloat("0.00");
-
             }
-
             amount = amount + a;
         });
 
-        //$("#QtyTotal").text(quantity);
+        $("input[id$='__Discount']").each(function (index, object) {
+            if (!isNaN($(object).val())) discount += Number($(object).val());
+        })
+
         $("#QtyAmount").text(amount.toFixed(2));
+        $("#discount-total").text(discount.toFixed(2));
     }
 
     $(function () {

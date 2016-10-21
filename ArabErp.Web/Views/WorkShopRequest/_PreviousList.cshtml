@@ -15,7 +15,14 @@
                     <table class="table table-bordered">
                         <thead>
                             <tr class="grid_heading">
-                                <th width="12%"><h1>Workshop Req. No.</h1></th>
+                                <th width="12%"><h1>@if (Request.QueryString["isProjectBased"] == "1")
+                                {
+                                    @:Material Request No.
+                                }
+                                else
+                                {
+                                    @:Workshop Request No.
+                                }</h1></th>
                                 <th width="12%"><h1>Date</h1></th>
                                 <th width="42%"><h1>Customer</h1></th>
                                 <th width="12%"><h1>Customer Order Ref.</h1></th>
@@ -49,7 +56,7 @@
                             {
                                 <tr>
                                     <td colspan="8">
-                                        <center><em>No items found!</em></center>
+                                        <center><em>No workshop requests found!</em></center>
                                     </td>
                                 </tr>
                             }

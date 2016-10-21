@@ -185,12 +185,8 @@ namespace ArabErp.Web.Controllers
 
         public ActionResult QuerySheetList(string Type,DateTime? from, DateTime? to, string querysheet = "")
         {
-
             return PartialView("QuerySheetList", new QuerySheetRepository().GetQuerySheets(Type, OrganizationId: OrganizationId, querysheet: querysheet, from: from, to: to));
-            
-         
         }
-
     
         public ActionResult Edit(int id = 0)
         {
@@ -330,6 +326,5 @@ namespace ArabErp.Web.Controllers
             ViewBag.Type = "Costing";
             return View("PendingQuerySheet", Pending);
         }
-
     }
 }

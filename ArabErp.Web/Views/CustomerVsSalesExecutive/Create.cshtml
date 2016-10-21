@@ -4,7 +4,12 @@
     ViewBag.Title = "Create";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
+<style>
+   
+    empcombo {
 
+    }
+</style>
 
 <script type="text/javascript">
 
@@ -26,16 +31,16 @@
         @{ TempData["success"] = TempData["error"] = ""; }
         //------------------------------------------------------//
 
+        $(document).ready(function () {
+            assignTaskDate();
+        });
+
     })
 
 </script>
 
 
 <script type="text/javascript">
-
-    $(document).ready(function () {
-        assignTaskDate();
-    });
 
 
     function assignTaskDate() {
@@ -54,6 +59,27 @@
             window.location = url;
         }
 
+    function Validation() {
+        var count = 0;
+        $(".empcombo").each(function (i, obj) {
+
+            var cmb = $("#CustomerVsSalesExecutives_" + i + "__EmployeeId").val();
+            if (cmb == "") {
+                alert("Please select all SalesExecutives");
+                count = 1;
+                return false;
+            }
+
+
+
+
+        });
+
+      
+        return true;
+    
+    }
+
     
 
 </script>
@@ -63,7 +89,7 @@
         <h4>Customer Vs Sales Executive</h4>
     </div>
     <div class="main-part pad1">
-        @using (Html.BeginForm("Save", null, FormMethod.Post, new { @class = "createFrom", @id = "CustomerVsSalesExecutive_form" }))
+        @using (Html.BeginForm("Save", null, FormMethod.Post, new { @class = "createFrom", @id = "CustomerVsSalesExecutive_form", onsubmit = "return Validation()" }))
         {
 
             @Html.HiddenFor(m => m.dummy)
@@ -105,7 +131,7 @@
                                 </td>
                                 <td>
 
-                                    @Html.DropDownListFor(m => m.CustomerVsSalesExecutives[row].EmployeeId, new SelectList(ViewBag.EmployeeList, "Value", "Text", item.EmployeeId), "Select Employee", new { @class = "form_input", autocomplete = "off" })
+                                    @Html.DropDownListFor(m => m.CustomerVsSalesExecutives[row].EmployeeId, new SelectList(ViewBag.EmployeeList, "Value", "Text", item.EmployeeId), "Select Employee", new { @class = "empcombo form_input", autocomplete = "off" })
 
                                 </td>
 
@@ -137,7 +163,7 @@
 
                 <div class="col-md-12 hrpart">
                     <button type="button" class="form-button right" onclick="Exit()">Exit</button>
-                    <button type="submit" class="form-button right">Save</button>
+                    <button type="submit" class="form-button right" >Save</button>
                 </div>
             </div>
         }

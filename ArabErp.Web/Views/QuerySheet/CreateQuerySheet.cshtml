@@ -44,7 +44,6 @@
       
         if ('@ViewContext.RouteData.GetRequiredString("action")' == "CreateQuerySheetUnit")
         {
-           
             $("#QuerySheetItems_0__Refrigerant").focus();
             $(".del").hide();
         }
@@ -268,7 +267,7 @@
     </div>
 
     <div class="table-responsive scroll2 ">
-        <table class="table table-bordered" id="tab_logic" @*style="overflow-x:scroll;margin-bottom:0px"*@>
+        <table style="width:200%" class="table table-bordered" id="tab_logic" @*style="overflow-x:scroll;margin-bottom:0px"*@>
             <thead>
                 <tr class="grid_heading">
                     <th width="1%" class="text-center"></th>
@@ -285,14 +284,16 @@
                     <th width="5%" nowrap><h1>Pipe Length</h1></th>
                     <th width="5%" nowrap><h1>Door Size</h1></th>
                     @if (Model.Type != "RoomDetails")
-                        {
+                    {
                    
-                    <th width="5%"><h1>Refrigerant</h1></th>
-                    <th width="5%" nowrap><h1>Electrical Power</h1></th>
-                    <th width="5%"><h1>Kilowatt</h1></th>
-                    <th width="10%"><h1>Unit&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</h1></th>
-                    <th width="5%"><h1>Cost&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</h1></th>
-                        }
+                        <th width="5%"><h1>Refrigerant</h1></th>
+                        <th width="5%" nowrap><h1>Electrical Power</h1></th>
+                        <th width="5%"><h1>Kilowatt</h1></th>
+                        <th width="20%"><h1>
+                            Unit&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                            </h1></th>
+                        <th width="5%" class="text-right"><h1>Cost&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</h1></th>
+                    }
                     <th width="1%" class="text-center"></th>
 
                 </tr>
@@ -324,7 +325,7 @@
                         <td>@Html.TextAreaFor(m => Model.QuerySheetItems[i].EletricalPowerAvailability, new { @class = "form_input form_input-h", autocomplete = "off" })</td>
                         <td>@Html.TextAreaFor(m => Model.QuerySheetItems[i].Kilowatt, new { @class = "form_input form_input-h", autocomplete = "off" })</td>
                         <td>@Html.DropDownListFor(m => m.QuerySheetItems[i].Unit, new SelectList(ViewBag.UnitList, "Value", "Text", Model.QuerySheetItems[i].Unit), new { @class = "form_input" })</td>
-                        <td>@Html.TextBoxFor(m => Model.QuerySheetItems[i].Cost, new { @class = "form_input numbers-only", autocomplete = "off" })</td>
+                        <td>@Html.TextBoxFor(m => Model.QuerySheetItems[i].Cost, new { @class = "form_input numbers-only text-right", autocomplete = "off" })</td>
                         }
                         
                         <td style="vertical-align:middle"><a id="add_row" class="glyphicon glyphicon-plus del" style="top:0px" onclick="AddRow()"></a></td>

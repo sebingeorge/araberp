@@ -98,9 +98,8 @@
 
                     <div class="col-md-3">
                         <div class="part4">
-                            <label for="purtype">Purchase Type</label>
-                            @Html.DropDownListFor(m => Model.PurchaseTypeId, (SelectList)ViewBag.SupplierPurchaseType, "Select Purchase Type", new { @class = "form_input", autocomplete = "off" })
-                            @*@Html.TextBoxFor(m => m.PurchaseTypeId, new { @class = "form_input", autocomplete = "off" })*@
+                            <label for="prntname">Print Name</label>
+                            @Html.TextBoxFor(m => m.SupplierPrintName, new { @class = "form_input", autocomplete = "off" })
                         </div>
 
                         <div class="part4">
@@ -112,9 +111,11 @@
 
                     <div class="col-md-3">
                         <div class="part4">
-                            <label for="prntname">Print Name</label>
-                            @Html.TextBoxFor(m => m.SupplierPrintName, new { @class = "form_input", autocomplete = "off" })
+                            <label for="purtype">Purchase Type</label>
+                            @Html.DropDownListFor(m => Model.PurchaseTypeId, (SelectList)ViewBag.SupplierPurchaseType, "Select Purchase Type", new { @class = "form_input", autocomplete = "off" })
+                            @*@Html.TextBoxFor(m => m.PurchaseTypeId, new { @class = "form_input", autocomplete = "off" })*@
                         </div>
+                      
 
                         <div class="col-md-6">
                             <div class="row">

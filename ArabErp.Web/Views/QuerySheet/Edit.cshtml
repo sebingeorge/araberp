@@ -32,6 +32,11 @@
             }
         });
         OnCostingAmountChanged();
+
+        if ('@Model.Type' == 'Unit' || '@Model.Type' == 'Costing') {
+            $('.glyphicon-minus').hide();
+            $('.glyphicon-plus').hide();
+        }
     })
 
     function AddRow() {
@@ -212,8 +217,8 @@
                         <th width="5%"><h1>Refrigerant</h1></th>
                         <th width="5%" nowrap><h1>Electrical Power</h1></th>
                         <th width="5%"><h1>Kilowatt</h1></th>
-                        <th width="10%"><h1>Unit&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</h1></th>
-                        <th width="5%"><h1>Cost</h1></th>
+                        <th width="10%"><h1>Unit&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</h1></th>
+                        <th width="5%"><h1>Cost&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</h1></th>
                     }
                     <th width="1%" class="text-center"></th>
 

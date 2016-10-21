@@ -70,7 +70,7 @@
     <div class="row">
 
         <div class="form-head1">
-            <h4>Reserve Item</h4>
+            <h4>Reserve Material/Spares</h4>
         </div>
 
         <div class="main-part pad1">
@@ -82,12 +82,12 @@
                         <input type="text" class="form_input" id="txtGRNRefNo" disabled />
                     </div>*@
                     <div class="col-md-3">
-                        <label for="txtSORefNo" title="Sale Order Reference No">SO Ref. No.</label>
+                        <label for="txtSORefNo" title="Sale Order Reference No">SO.No.</label>
                         @Html.TextBoxFor(m => m[0].SaleOrderRefNo, new { @class = "form_input", @readonly = "true" })
                         @*<input type="text" class="form_input" id="txtSORefNo"  disabled />*@
                     </div>
                     <div class="col-md-3">
-                        <label for="txtWDRefNo" title="Work Descr. Reference No">WD Ref. No.</label>
+                        <label for="txtWDRefNo" title="Work Description No.">WD.No.</label>
                         @Html.TextBoxFor(m => m[0].WorkDescrRefNo, new { @class = "form_input", @readonly = "true" })
                         @*<input type="text" class="form_input" id="txtWDRefNo" disabled />*@
                     </div>
@@ -110,7 +110,7 @@
                         <thead>
                             <tr class="grid_heading">
                                 <th width="2%" class="text-center">#</th>
-                                <th width="50%"><h1>Item Name</h1></th>
+                                <th width="50%"><h1>Material/Spares</h1></th>
                                 <th width="25%"><h1>Serial Number</h1></th>
                                 <th width="20%"><h1>GRN No. &amp; Date</h1></th>
                                 <th width="1%" title="Checked items will be reserved"><center><h1>Select</h1></center></th>

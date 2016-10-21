@@ -7,18 +7,18 @@
                 <thead>
                     <tr class="grid_heading">
 
-                        <th><h1>Query Sheet No.</h1></th>
-                        <th><h1>Project Name</h1></th>
-                        <th><h1>Contact Person</h1></th>
-                        <th><h1>Contact Number</h1></th>
-                        <th width="10%"><center><h1></h1></center></th>
+                        <th width="12%"><h1>Query Sheet No. &amp; Date</h1></th>
+                        <th width="20%"><h1>Project Name</h1></th>
+                        <th width="12%"><h1>Contact Person</h1></th>
+                        <th width="8%"><h1>Contact Number</h1></th>
+                        <th width="10%"><h1>Stage</h1></th>
+                        <th width="1%"><center><h1></h1></center></th>
                     </tr>
                 </thead>
 
                 <tbody class="grid_row">
                     @if (Model.Count > 0)
                     {
-                        int i = 0;
                         foreach (var item in Model)
                         {
                             <tr>
@@ -26,6 +26,20 @@
                                 <td>@item.ProjectName</td>
                                 <td>@item.ContactPerson</td>
                                 <td>@item.ContactNumber</td>
+                                <td>
+                                    @if (item.Type == "RoomDetails")
+                                    {
+                                        @: Room details given
+                                    }
+                                    else if (item.Type == "Unit")
+                                    {
+                                        @: Unit selected
+                                    }
+                                    else if (item.Type == "Costing")
+                                    {
+                                        @: Costing done
+                                    }
+                                </td>
                                <td align="center"><input type="button" value="Select" onclick="OnItemSelected(@item.QuerySheetId)" checked class="form-button4" /></td>
                             </tr>
                         }
@@ -35,7 +49,7 @@
                         <tr>
                             <td colspan="6">
                                 <center>
-                                    <em>No items found!</em>
+                                    <em>No query sheets found!</em>
                                 </center>
                             </td>
                         </tr>

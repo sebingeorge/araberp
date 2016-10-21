@@ -32,6 +32,8 @@
 
     function calculateSummary() {
         var amount = parseFloat("0.00");
+        var discount = parseFloat("0.00");
+
         $('.clAmount').each(function (i, obj) {
             var a = parseFloat($("#SupplyOrderItems_" + i + "__Amount").val());
             if (isNaN(a)) {
@@ -39,7 +41,13 @@
             }
             amount = amount + a;
         });
+
+        $("input[id$='__Discount']").each(function (index, object) {
+            if (!isNaN($(object).val())) discount += Number($(object).val());
+        })
+
         $("#QtyAmount").text(amount.toFixed(2));
+        $("#discount-total").text(discount.toFixed(2));
     }
 
     function Back() {

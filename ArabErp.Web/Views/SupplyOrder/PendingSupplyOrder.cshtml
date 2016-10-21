@@ -1,7 +1,7 @@
 ﻿@using ArabErp.Domain
 @model IList<PendingPurchaseRequest>
 @{
-    ViewBag.Title = "PendingSupplyOrder";
+    ViewBag.Title = "Pending Purchase Requests for Supply Order";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
@@ -52,94 +52,98 @@
 </script>
 
 
-    <div class="row">
-        <div class="form-head1">
-            <h4>Pending Purchase Requests for Supply Order</h4>
-        </div>
-        <div class="main-part pad1">
-            <form method="post" action="@Url.Action("Create", "SupplyOrder")" onsubmit="return formValidation()">
-              
-                <div class="row">
-
-                    <div class="main-grid main-grid-top scroll1">
-                        <div class=" table-responsive">
-                            <table class="table table-bordered">
-                                <thead>
-                                    <tr class="grid_heading">
-                                        <th width="15%"><h1>PRQ.No. &amp; Date</h1></th>
-                                        <th width="15%"><h1>WR.No. &amp; Date</h1></th>
-                                        <th width="10%"><h1>Required Date</h1></th>
-                                        <th width="40%"><h1>Special Remarks</h1></th>
-                                        <th width="5%" nowrap><h1>Ageing</h1></th>
-                                        <th width="5%" nowrap><h1>Days Left</h1></th>
-                                        <th width="5%" nowrap><center><h1>Select</h1></center></th>
-                                    </tr>
-                                </thead>
-                                <tbody class="grid_row">
-                                    @if (Model.Count != 0)
-                                    {
-                                        for (int i = 0; i < Model.Count(); i++)
-                                        {
-                                            @Html.HiddenFor(m => m[i].PurchaseRequestId)
-                                            <tr>
-                                               
-
-                                                <td>
-                                                    @Model[i].PurchaseRequestNo  -  @Model[i].RequiredDate.ToString("dd MMM yyyy")
-                                                </td>
-                                              
-                                                <td>
-                                                    @Model[i].WRNoAndDate
-                                                </td>
-                                                <td>
-                                                    @Model[i].RequiredDate.ToString("dd MMM yyyy")
-                                                </td>
-                                                <td>
-                                                    @Model[i].SpecialRemarks
-                                                </td>
-                                                <td>
-                                                    @Model[i].Ageing
-                                                </td>
-                                                <td>
-                                                    @Model[i].DaysLeft
-                                                </td>
-                                                <td>
-                                                    <center>@Html.CheckBoxFor(m => m[i].Select)</center>
-                                                </td>
-
-                                            </tr>
-
-                                        }
-                                    }
-                                    else
-                                    {
-                                        <tr>
-                                            <td align="center" colspan="5"><em>There are no pending purchase requests</em></td>
-                                        </tr>
-                                    }
-                                </tbody>
-
-                            </table>
-
-                        </div>
-
-                    </div>
-
-                    <div class="row-count1">
-                        <h5>Row Count:- @Model.Count()</h5>
-                    </div>
-                </div>
-    
-                <div class="row">
-                    <div class="col-md-12 hrpart">
-                        <input type="button" class="form-button" onclick="PreviousList()" value="Previous" title="Previous supply orders">
-                        <input type="button" class=" form-button right" onclick="Exit()" value="Exit" />
-                        <button type="submit" class="form-button right">Proceed</button>
-                    </div>
-                  </div>
-
-
-</form>
-        </div>
+<div class="row">
+    <div class="form-head1">
+        <h4>Pending Purchase Requests for Supply Order</h4>
     </div>
+    <div class="main-part pad1">
+        <form method="post" action="@Url.Action("Create", "SupplyOrder")" onsubmit="return formValidation()">
+
+            <div class="row">
+
+                <div class="main-grid main-grid-top scroll1">
+                    <div class=" table-responsive">
+                        <table class="table table-bordered">
+                            <thead>
+                                <tr class="grid_heading">
+                                    <th width="15%"><h1>PRQ No. &amp; Date</h1></th>
+                                    <th width="15%"><h1>WR No. &amp; Date</h1></th>
+                                    <th width="10%"><h1>Required Date</h1></th>
+                                    <th width="40%"><h1>Special Remarks</h1></th>
+                                    <th width="5%" nowrap><h1>Ageing</h1></th>
+                                    <th width="5%" nowrap><h1>Days Left</h1></th>
+                                    <th width="5%" nowrap>
+                                        @*<center>
+                                            <input type="checkbox" id="check-all" onclick="OnCheckAllClicked()" />Select All
+                                        </center>*@
+                                    </th>
+                                </tr>
+                            </thead>
+                            <tbody class="grid_row">
+                                @if (Model.Count != 0)
+                                {
+                                    for (int i = 0; i < Model.Count(); i++)
+                                    {
+                                        @Html.HiddenFor(m => m[i].PurchaseRequestId)
+                                        <tr>
+
+
+                                            <td>
+                                                @Model[i].PurchaseRequestNo  -  @Model[i].PurchaseRequestDate.ToString("dd-MMMM-yyyy")
+                                            </td>
+
+                                            <td>
+                                                @Model[i].WRNoAndDate
+                                            </td>
+                                            <td>
+                                                @Model[i].RequiredDate.ToString("dd-MMMM-yyyy")
+                                            </td>
+                                            <td>
+                                                @Model[i].SpecialRemarks
+                                            </td>
+                                            <td>
+                                                @Model[i].Ageing
+                                            </td>
+                                            <td>
+                                                @Model[i].DaysLeft
+                                            </td>
+                                            <td>
+                                                <center>@Html.CheckBoxFor(m => m[i].Select)</center>
+                                            </td>
+
+                                        </tr>
+
+                                    }
+                                }
+                                else
+                                {
+                                    <tr>
+                                        <td align="center" colspan="5"><em>There are no pending purchase requests</em></td>
+                                    </tr>
+                                }
+                            </tbody>
+
+                        </table>
+
+                    </div>
+
+                </div>
+
+                <div class="row-count1">
+                    <h5>Row Count:- @Model.Count()</h5>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-12 hrpart">
+                    <input type="button" class="form-button" onclick="PreviousList()" value="Previous" title="Previous supply orders">
+                    <input type="button" class=" form-button right" onclick="Exit()" value="Exit" />
+                    <button type="submit" class="form-button right">Proceed</button>
+                </div>
+            </div>
+
+
+        </form>
+    </div>
+</div>
 

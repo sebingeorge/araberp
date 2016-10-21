@@ -139,7 +139,7 @@ namespace ArabErp.DAL
                                 LEFT JOIN #SUPPLY SUP ON PRI.PurchaseRequestItemId = SUP.PurchaseRequestItemId
                                 WHERE P.isActive=1 and  ISNULL(PRI.Quantity, 0) > 0 AND 
                                 (SUP.PurchaseRequestItemId IS NULL OR ISNULL(SUP.SuppliedQuantity, 0) < ISNULL(PRI.Quantity, 0))
-                                ORDER BY P.RequiredDate DESC, P.PurchaseRequestDate DESC;
+                                ORDER BY P.RequiredDate, P.PurchaseRequestDate;
                                 DROP TABLE #SUPPLY;";
 
                 var objPendingPurchaseRequests = connection.Query<PendingPurchaseRequest>(sql).ToList<PendingPurchaseRequest>();
