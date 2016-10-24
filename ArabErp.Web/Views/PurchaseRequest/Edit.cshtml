@@ -3,8 +3,7 @@
 
 <script>
 
-    function Exit()
-    {
+    function Exit() {
         location.href = '@Url.Action("PreviousList")';
     }
 
@@ -12,9 +11,17 @@
         //alert(id);
         var url = '@Url.Action("Delete")';
         url += "/" + id;
-      
+
         window.location = url;
     }
+    function GoToPrint(id) {
+        var url = '@Url.Action("Print")';
+        url += "?Id=" + id;
+        window.location = url;
+    }
+
+
+
 
     $(function () {
         $("#PurchaseRequestDate").datepicker({ dateFormat: "dd-MM-yy" });
@@ -174,6 +181,7 @@
                         <div class="col-md-12 hrpart">
                             <button type="button" class="form-button right" onclick="Exit()">Exit</button>
                             <button type="submit" class="form-button right">Edit</button>
+                            <input type="button" value="Print" onclick="GoToPrint(@Model.PurchaseRequestId)" class="form-button right" />
                             <button type="button" class="form-button left" onclick="Delete('@Model.PurchaseRequestId')">Delete</button>
                         </div>
 
