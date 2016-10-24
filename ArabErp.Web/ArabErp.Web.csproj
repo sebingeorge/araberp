@@ -355,11 +355,6 @@
     <Compile Include="Reports\JobCard.cs">
       <SubType>Component</SubType>
     </Compile>
-    <Compile Include="Reports\JobCard1.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>JobCard.rpt</DependentUpon>
-    </Compile>
     <Compile Include="Reports\PendingPARregister.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
