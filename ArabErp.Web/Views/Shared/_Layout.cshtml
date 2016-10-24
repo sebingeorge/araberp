@@ -288,7 +288,7 @@
                                 <li><a href="@Url.Action("PendingPurchaseRequest","PurchaseRequest")">Purchase Request</a></li>
                                 <li><a href="@Url.Action("PendingSupplyOrder","SupplyOrder")">Supply Order / LPO</a></li>
                                 <li><a href="@Url.Action("PendingApproval", "SupplyOrder")">Supply Order / LPO Approval</a></li>
-                                <li><a href="@Url.Action("Index", "SupplyOrderFollowup")">Supply Order Follow-up</a></li>
+                                <li><a href="@Url.Action("Index", "SupplyOrderFollowup")">Supply Order / LPO Follow-up</a></li>
                                 <li><a href="@Url.Action("CreateRequest","DirectPurchase")">Direct Purchase Request</a></li>
                                 <li><a href="@Url.Action("Approval","DirectPurchase")">Direct Purchase Approval</a></li>
                                 <li><a href="@Url.Action("PendingGrnWareHouse","GrnWareHouse")">GRN</a></li>
@@ -297,11 +297,11 @@
                                     <a href="#" data-toggle="collapse" data-target="#purchase-serialno">Serial No.<span class="caret arrow"></span></a>
                                     <div id="purchase-serialno" class="collapse">
                                         <ul>
-                                            <li><a href="@Url.Action("Pending", "ItemBatch", new { type = 1 })">Assign Serial No (Opening Stock)</a></li>
-                                            <li><a href="@Url.Action("Pending","ItemBatch")">Assign Serial No (GRN)</a></li>
-                                            <li><a href="@Url.Action("PendingReservation","ItemBatch")">Reserve Serial No</a></li>
-                                            <li><a href="@Url.Action("ReservedList","ItemBatch")">Unreserve Serial No</a></li>
-                                            <li><a href="@Url.Action("MaterialList","ItemBatch")">Serial No List</a></li>
+                                            <li><a href="@Url.Action("Pending", "ItemBatch", new { type = 1 })">Assign Serial No.(Opening Stock)</a></li>
+                                            <li><a href="@Url.Action("Pending","ItemBatch")">Assign Serial No.(GRN)</a></li>
+                                            <li><a href="@Url.Action("PendingReservation","ItemBatch")">Reserve Serial No.</a></li>
+                                            <li><a href="@Url.Action("ReservedList","ItemBatch")">Unreserve Serial No.</a></li>
+                                            <li><a href="@Url.Action("MaterialList","ItemBatch")">Serial No. List</a></li>
                             </ul>
                                     </div>
                         </li>

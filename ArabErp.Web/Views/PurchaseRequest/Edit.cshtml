@@ -1,5 +1,5 @@
 ﻿@model ArabErp.Domain.PurchaseRequest
-@{ViewBag.Title = "Edit";Layout = "~/Views/Shared/_Layout.cshtml";}
+@{ViewBag.Title = "Edit Purchase Request"; Layout = "~/Views/Shared/_Layout.cshtml";}
 
 <script>
 
@@ -11,7 +11,7 @@
         //alert(id);
         var url = '@Url.Action("Delete")';
         url += "/" + id;
-
+      
         window.location = url;
     }
     function GoToPrint(id) {

@@ -348,17 +348,19 @@ namespace ArabErp.DAL
 	                                    CONCAT(SO.SupplyOrderNo,' - ',ISNULL(CONVERT(VARCHAR(15),SupplyOrderDate,106), ''))SoNoWithDate,
 	                                    ISNULL(QuotaionNoAndDate, '-')QuotaionNoAndDate,
 	                                    DATEDIFF(day, SupplyOrderDate, GETDATE()) Age,
+	                                    DATEDIFF(day, GETDATE(), RequiredDate) DaysLeft,
 	                                    ISNULL(SpecialRemarks, '-') SpecialRemarks,
 	                                    ISNULL(CONVERT(VARCHAR(15),RequiredDate,106), '-') RequiredDate,
 										S.SupplierId,
-										S.SupplierName
+										S.SupplierName,
+										SO.RequiredDate
                                     FROM SupplyOrder SO 
 	                                    INNER JOIN SupplyOrderItem SOI ON SO.SupplyOrderId = SOI.SupplyOrderId
 	                                    INNER JOIN Supplier S ON S.SupplierId=SO.SupplierId AND SO.SupplierId = ISNULL(NULLIF(@supplierId, 0), SO.SupplierId)
 	                                    LEFT JOIN GRNItem GI ON SOI.SupplyOrderItemId = GI.SupplyOrderItemId
                                     WHERE SO.isActive=1 and 
                                     (GI.SupplyOrderItemId IS NULL OR ISNULL(GI.Quantity, 0) < ISNULL(SOI.OrderedQty, 0))
-                                    ORDER BY SO.SupplyOrderDate DESC, CreatedDate DESC";
+                                    ORDER BY SO.RequiredDate, SO.SupplyOrderDate DESC";
 
                     return connection.Query<PendingForGRN>(qry, new { supplierId = supplierId });
                 }

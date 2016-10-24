@@ -106,26 +106,26 @@
                     @Html.TextBoxFor(m => m.StoreIssueDate, Model.StoreIssueDate.ToString("dd/MMMM/yyyy"), new { @class = "form_input", @required = "true", @readonly = "true" })
                 </div>
                 <div class="col-md-2">
-                    <label for="StockpointId">Stockpoint</label>
-                    @Html.DropDownListFor(m => m.StockpointId, (SelectList)ViewBag.stockpointList, "Select Stockpoint", new { @class = "form_input", autocomplete = "off", @required = "true", @onchange = "OnStockPointChanged(this)" })
+                    <label for="StockpointId">Stock Point</label>
+                    @Html.DropDownListFor(m => m.StockpointId, (SelectList)ViewBag.stockpointList, "Select Stock Point", new { @class = "form_input", autocomplete = "off", @required = "true", @onchange = "OnStockPointChanged(this)" })
                 </div>
             </div>
             <div class="row form-group">
                 <div class="col-md-4">
                     <label for="wrkdes">Customer</label>
-                    <input type="text" id="customer" class="form_input" autocomplete="off" disabled />
+                    <input type="text" id="customer" class="form_input" autocomplete="off" readonly="readonly" />
                 </div>
                 <div class="col-md-2">
                     <label for="wrkreqref">WR.No. &amp; Date</label>
-                    <input type="text" id="workshopno" class="form_input" autocomplete="off" disabled />
+                    <input type="text" id="workshopno" class="form_input" autocomplete="off" readonly="readonly" />
                 </div>
                 <div class="col-md-2">
                     <label for="jcdate">SO.No. &amp; Date</label>
-                    <input type="text" id="saleorderno" class="form_input" autocomplete="off" disabled />
+                    <input type="text" id="saleorderno" class="form_input" autocomplete="off" readonly="readonly" />
                 </div>
                 <div class="col-md-2">
                     <label for="reqdate">Required Date</label>
-                    <input type="text" id="reqdate" style="min-width: 100%" class="form_input" disabled />
+                    <input type="text" id="reqdate" style="min-width: 100%" class="form_input" readonly="readonly" />
                 </div>
             </div>
             <div class="table-responsive">
@@ -134,11 +134,11 @@
                         <tr class="grid_heading">
                             <th width="2%" align="center"><h1>#</h1></th>
                             <th width="53%" nowrap><h1>Material/Spares</h1></th>
-                            <th width="8%" class="text-right" nowrap><h1>Req Qty.</h1></th>
-                            <th width="8%" class="text-right" nowrap><h1>Prev. Issued Qty.</h1></th>
+                            <th width="8%" class="text-right" nowrap><h1>Req.Qty.</h1></th>
+                            <th width="8%" class="text-right" nowrap><h1>Prev.Issued Qty.</h1></th>
                             <th width="8%" class="text-right" nowrap><h1>Pending Qty.</h1></th>
                             <th width="8%" class="text-right" nowrap><h1>Stock Qty.</h1></th>
-                            <th width="8%" class="text-right" nowrap><h1>Curr. Issued Qty.</h1></th>
+                            <th width="8%" class="text-right" nowrap><h1>Curr.Issued Qty.</h1></th>
                             <th width="5%"><h1>UoM</h1></th>
                         </tr>
                     </thead>

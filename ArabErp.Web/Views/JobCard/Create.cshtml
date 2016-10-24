@@ -278,7 +278,7 @@
                                             @Html.DropDownListFor(m => Model.JobCardTasks[row].JobCardTaskId, (SelectList)ViewBag.TaskList, "Select Task", new { @class = "form_input", autocomplete = "off" })
                                         </td>
                                         <td>
-                                            @Html.DropDownListFor(m => Model.JobCardTasks[row].EmployeeId, (SelectList)ViewBag.EmployeeList, "Select Employee", new { @class = "form_input", autocomplete = "off" })
+                                            @Html.DropDownListFor(m => Model.JobCardTasks[row].EmployeeId, (SelectList)ViewBag.EmployeeList, "Select Technician", new { @class = "form_input", autocomplete = "off" })
                                         </td>
                                         <td>
                                             @Html.TextBoxFor(m => m.JobCardTasks[row].TaskDate, Model.JobCardTasks[row].TaskDate.ToString("dd/MMMM/yyyy"), new { @class = "taskdate form_input", autocomplete = "off", @readonly = "readonly" })
@@ -315,7 +315,7 @@
                         </div>
                         <div class="col-md-3">
                             <label for="emp">Engineer/Supervisor</label>
-                            @Html.DropDownListFor(m => Model.EmployeeId, (SelectList)ViewBag.EmployeeList, "Select Employee", new { @class = "form_input", autocomplete = "off", @required = "true" })
+                            @Html.DropDownListFor(m => Model.EmployeeId, (SelectList)ViewBag.EmployeeList, "Select Engineer/Supervisor", new { @class = "form_input", autocomplete = "off", @required = "true" })
                         </div>
                     </div>
 

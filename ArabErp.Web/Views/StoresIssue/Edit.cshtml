@@ -106,7 +106,7 @@
                     @Html.TextBoxFor(m => m.StoreIssueDate, Model.StoreIssueDate.ToString("dd/MMMM/yyyy"), new { @class = "form_input", @required = "true", @readonly = "true" })
                 </div>
                 <div class="col-md-2">
-                    <label for="StockpointId">Stockpoint</label>
+                    <label for="StockpointId">Stock Point</label>
                     @Html.DropDownListFor(m => m.StockpointId, (SelectList)ViewBag.stockpointList, "Select Stockpoint", new { @class = "form_input", autocomplete = "off", @required = "true", @onchange = "OnStockPointChanged(this)" })
                 </div>
             </div>

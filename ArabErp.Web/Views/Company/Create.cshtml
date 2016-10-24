@@ -59,112 +59,120 @@
             <div class="row form-group pad3">
 
                 <div class="col-md-3">
-
                     <div class="part4">
                         @Html.HiddenFor(m => m.cmpCode)
                         <label for="CmpUserCode">Code</label>
                         @Html.TextBoxFor(m => Model.cmpUsercode, new { @class = "form_input form_input-half", autocomplete = "off", @readonly = "readonly" })
                     </div>
-
-                    <div class="part4">
-                        <label for="CmpName">Company Name</label>
-                        @Html.TextBoxFor(m => m.cmpName, new { @class = "form_input", autocomplete = "off" })
-                    </div>
-
-                    <div class="part4">
-                        <label for="CmpShrtName">ShortName</label>
-                        @Html.TextBoxFor(m => m.cmpShrtName, new { @class = "form_input", autocomplete = "off" })
-                    </div>
-
                     <div class="part4">
                         <label for="CmpDoorNo">Door No.</label>
                         @Html.TextBoxFor(m => m.cmpDoorNo, new { @class = "form_input", autocomplete = "off" })
                     </div>
-
-                    <div class="part4">
-                        <label for="CmpStreet">Street</label>
-                        @Html.TextBoxFor(m => m.cmpStreet, new { @class = "form_input", autocomplete = "off" })
-                    </div>
-
-                    <div class="part4">
-                        <label for="CmpRemarks">Remarks</label>
-                        @Html.TextAreaFor(m => m.cmpRemarks, new { @class = "form_input", autocomplete = "off" })
-                    </div>
-
-                </div>
-
-                <div class="col-md-3">
-                    <div class="part4">
-                        <label for="CmpArea">Area/Region</label>
-                        @Html.TextBoxFor(m => m.cmpArea, new { @class = "form_input", autocomplete = "off" })
-                    </div>
-
-                    @*<div class="part4">
-                        <label for="CmpState">State</label>
-                        @Html.TextBoxFor(m => m.cmpState, new { @class = "form_input", autocomplete = "off" })
-                    </div>*@
                     <div class="part4">
                         <label for="CmpPhNo">Phone No.</label>
                         @Html.TextBoxFor(m => m.cmpPhNo, new { @class = "form_input", autocomplete = "off" })
+                    </div>
+                                            <div class="part4">
+                            <label for="CmpWeb">Web</label>
+                            @Html.TextBoxFor(m => m.cmpWeb, new { @class = "form_input", autocomplete = "off" })
+                        </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="part4">
+                        <label for="CmpName">Company Name</label>
+                        @Html.TextBoxFor(m => m.cmpName, new { @class = "form_input", autocomplete = "off" })
+                    </div>
+                    <div class="part4">
+                        <label for="CmpStreet">Street</label>
+                        @Html.TextBoxFor(m => m.cmpStreet, new { @class = "form_input", autocomplete = "off" })
                     </div>
                     <div class="part4">
                         <label for="CmpFax">Fax</label>
                         @Html.TextBoxFor(m => m.cmpFax, new { @class = "form_input", autocomplete = "off" })
                     </div>
                     <div class="part4">
+                        <label for="CmpRemarks">Remarks</label>
+                        @Html.TextAreaFor(m => m.cmpRemarks, new { @class = "form_input", autocomplete = "off" })
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="part4">
+                        <label for="CmpShrtName">ShortName</label>
+                        @Html.TextBoxFor(m => m.cmpShrtName, new { @class = "form_input", autocomplete = "off" })
+                    </div>
+                    <div class="part4">
+                        <label for="CmpArea">Area/Region</label>
+                        @Html.TextBoxFor(m => m.cmpArea, new { @class = "form_input", autocomplete = "off" })
+                    </div>
+
+                    <div class="part4">
                         <label for="CmpEmail">Email</label>
                         @Html.TextBoxFor(m => m.cmpEmail, new { @class = "form_input", autocomplete = "off" })
                     </div>
-                    <div class="part4">
-                        <label for="CmpWeb">Web</label>
-                        @Html.TextBoxFor(m => m.cmpWeb, new { @class = "form_input", autocomplete = "off" })
-                    </div>
-
                 </div>
 
-             
 
-                @*<div class="col-md-3">
+ 
 
-                    <div class="part4">
-                        <label for="CmpPan">PAN</label>
-                        @Html.TextBoxFor(m => m.cmpPAN, new { @class = "form_input", autocomplete = "off" })
-                    </div>
-                    <div class="part4">
-                        <label for="CmpSSN">SSN</label>
-                        @Html.TextBoxFor(m => m.cmpSSN, new { @class = "form_input", autocomplete = "off" })
-                    </div>
-                    <div class="part4">
-                        <label for="CmpVat">VAT No.</label>
-                        @Html.TextBoxFor(m => m.cmpVATNo, new { @class = "form_input", autocomplete = "off" })
-                    </div>
 
+ 
+
+   
+
+                    <div class="col-md-3">
+
+
+                        @*<div class="part4">
+                    <label for="CmpState">State</label>
+                    @Html.TextBoxFor(m => m.cmpState, new { @class = "form_input", autocomplete = "off" })
                 </div>*@
 
 
-                @*<div class="col-md-3">
-
-                     <div class="part4">
-                        <label for="CmpCst">CST</label>
-                        @Html.TextBoxFor(m => m.cmpCSTNo, new { @class = "form_input", autocomplete = "off" })
-                      </div>
-                      <div class="part4">
-                        <label for="CmpIECode">IE Code</label>
-                        @Html.TextBoxFor(m => m.cmpIECode, new { @class = "form_input", autocomplete = "off" })
-                      </div>
-                      <div class="part4">
-                        <label for="CmpWorkSheetNo">WorkSheet No.</label>
-                        @Html.TextBoxFor(m => m.cmpWorkSheetNo, new { @class = "form_input", autocomplete = "off" })
-                      </div>
-                      <div class="part4">
-                        <label for="cmpFormPrefix">Form Prefix</label>
-                        @Html.TextBoxFor(m => m.cmpFormPrefix, new { @class = "form_input", autocomplete = "off" })
-                      </div>
-
-               </div>*@
-
-
                     </div>
+
+
+
+                    @*<div class="col-md-3">
+
+                <div class="part4">
+                    <label for="CmpPan">PAN</label>
+                    @Html.TextBoxFor(m => m.cmpPAN, new { @class = "form_input", autocomplete = "off" })
+                </div>
+                <div class="part4">
+                    <label for="CmpSSN">SSN</label>
+                    @Html.TextBoxFor(m => m.cmpSSN, new { @class = "form_input", autocomplete = "off" })
+                </div>
+                <div class="part4">
+                    <label for="CmpVat">VAT No.</label>
+                    @Html.TextBoxFor(m => m.cmpVATNo, new { @class = "form_input", autocomplete = "off" })
+                </div>
+
+            </div>*@
+
+
+                    @*<div class="col-md-3">
+
+                  <div class="part4">
+                     <label for="CmpCst">CST</label>
+                     @Html.TextBoxFor(m => m.cmpCSTNo, new { @class = "form_input", autocomplete = "off" })
+                   </div>
+                   <div class="part4">
+                     <label for="CmpIECode">IE Code</label>
+                     @Html.TextBoxFor(m => m.cmpIECode, new { @class = "form_input", autocomplete = "off" })
+                   </div>
+                   <div class="part4">
+                     <label for="CmpWorkSheetNo">WorkSheet No.</label>
+                     @Html.TextBoxFor(m => m.cmpWorkSheetNo, new { @class = "form_input", autocomplete = "off" })
+                   </div>
+                   <div class="part4">
+                     <label for="cmpFormPrefix">Form Prefix</label>
+                     @Html.TextBoxFor(m => m.cmpFormPrefix, new { @class = "form_input", autocomplete = "off" })
+                   </div>
+
+            </div>*@
+
+
+                </div>
 
 
 
