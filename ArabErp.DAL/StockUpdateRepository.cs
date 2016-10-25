@@ -53,17 +53,12 @@ namespace ArabErp.DAL
             }
         }
 
-        public int DeleteGRNStockUpdate(int Id)
+        public int DeleteGRNStockUpdate(int Id, IDbConnection connection, IDbTransaction txn)
         {
-
-            using (IDbConnection connection = OpenConnection(dataConnection))
+            string sql = @"Delete FROM StockUpdate  WHERE StocktrnId=@Id";
             {
-                string sql = @"Delete FROM StockUpdate  WHERE StocktrnId=@Id";
-                {
-                    var id = connection.Execute(sql, new { Id = Id });
-                    return id;
-                }
-
+                var id = connection.Execute(sql, new { Id = Id }, txn);
+                return id;
             }
         }
     }

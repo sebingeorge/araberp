@@ -10,6 +10,6 @@ namespace ArabErp.Domain
     {
         public int GRNId { get; set; }
         public int? AdditionId { get; set; }
-        public int Addition { get; set; }
+        public decimal Addition { get; set; }
     }
 }
