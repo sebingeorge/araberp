@@ -14,33 +14,24 @@
     }
 
     $(document).ready(function () {
+        //---------------------toastr---------------------------//
         toastr.options = {
-            "closeButton": true,
             "positionClass": "toast-bottom-full-width",
-            "preventDuplicates": false,
-            "onclick": null,
-            "showDuration": "300",
-            "hideDuration": "1000",
             "timeOut": "5000",
-            "extendedTimeOut": "1000",
-            "showEasing": "swing",
-            "hideEasing": "linear",
-            "showMethod": "fadeIn",
-            "hideMethod": "fadeOut"
+            "extendedTimeOut": "2000"
         }
         if ('@TempData["success"]' != '') {
             toastr.success('@TempData["success"]');
-
         }
         else if ('@TempData["error"]' != '') {
             toastr.error('@TempData["error"]'.split('|')[0]);
             console.log('@TempData["error"]'.split('|')[1]);
         }
-      @{TempData["success"] = TempData["error"] = "";}
+        @{ TempData["success"] = TempData["error"] = ""; }
+        //------------------------------------------------------//
     });
 
-    function Exit()
-    {
+    function Exit() {
         var url = '@Url.Action("PendingGrnWareHouse")';
         location.href = url;
     }

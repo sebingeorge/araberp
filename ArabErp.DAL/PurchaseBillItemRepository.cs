@@ -49,10 +49,10 @@ namespace ArabErp.DAL
         {
             using (IDbConnection connection = OpenConnection(dataConnection))
             {
-                string sql = @" SELECT CONCAT(GRNNo,'/',CONVERT (VARCHAR(15),GRNDate,104))GRNNoDate,
+                string sql = @" SELECT CONCAT(GRNNo,' - ',CONVERT (VARCHAR(15),GRNDate,106))GRNNoDate,
                                 P.PurchaseBillItemId,P.PurchaseBillId,P.GRNItemId,
                                 ItemName,GI.Quantity,U.UnitName,P.Discount,P.Rate,
-                                P.TaxPercentage,P.TaxAmount,P.Amount,P.Amount TotAmount,P.isActive
+                                P.TaxPercentage,P.TaxAmount,P.Amount,P.Amount+P.TaxAmount TotAmount,P.isActive
                                 FROM PurchaseBillItem P
                                 INNER JOIN GRNItem GI ON GI.GRNItemId=P.GRNItemId
                                 INNER JOIN GRN G ON G.GRNId=GI.GRNId

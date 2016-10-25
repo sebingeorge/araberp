@@ -16,7 +16,7 @@ namespace ArabErp.Web.Controllers
         public ActionResult Index()
         {
             GrnSupplierDropdown();
-            FillCurrency();
+            //FillCurrency();
             return View();
 
         }
@@ -54,11 +54,10 @@ namespace ArabErp.Web.Controllers
                     List<int> selectedgrn = (from PendingGRN p in PendingGRNSelected
                                              where p.Select
                                              select p.GRNId).ToList<int>();
+                    purchasebill = rep.GetGRNHeadData(selectedgrn);
                     purchasebill.Items = rep.GetGRNItems(selectedgrn);
                     purchasebill.SupplyOrderNo = rep.GetSupplyOrderNos(selectedgrn).SupplyOrderNo;
                 }
-
-
             }
             string internalId = "";
             try
@@ -77,15 +76,23 @@ namespace ArabErp.Web.Controllers
                 TempData["error"] = "Some error occurred. Please try again.|" + ex.Message;
             }
 
-            purchasebill.PurchaseBillRefNo = internalId;
+            try
+            {
+                purchasebill.PurchaseBillRefNo = internalId;
 
-            purchasebill.Supplier = PendingGRNSelected[0].SupplierName;
-            purchasebill.SupplierId = PendingGRNSelected[0].SupplierId;
-          
-            purchasebill.PurchaseBillDate = System.DateTime.Today;
-            purchasebill.PurchaseBillDueDate = rep.GetBillDueDate(PendingGRNSelected[0].SupplierId).PurchaseBillDueDate;
-            purchasebill.CurrencyId = new CurrencyRepository().GetCurrencyFrmOrganization(OrganizationId).CurrencyId;
-            return View(purchasebill);
+                purchasebill.Supplier = PendingGRNSelected[0].SupplierName;
+                purchasebill.SupplierId = PendingGRNSelected[0].SupplierId;
+
+                purchasebill.PurchaseBillDate = System.DateTime.Today;
+                purchasebill.PurchaseBillDueDate = rep.GetBillDueDate(PendingGRNSelected[0].SupplierId).PurchaseBillDueDate;
+                purchasebill.CurrencyId = new CurrencyRepository().GetCurrencyFrmOrganization(OrganizationId).CurrencyId;
+                return View(purchasebill);
+            }
+            catch (Exception)
+            {
+                TempData["error"] = "Some required data was missing. Please try again.";
+                return RedirectToAction("Index");
+            }
 
         }
         [HttpPost]

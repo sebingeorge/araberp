@@ -36,14 +36,20 @@ namespace ArabErp.DAL
                         model.GRNNo = internalId;
                         //model.GrandTotal = model.Items.Sum(m => ((m.AcceptedQuantity * m.Rate) - m.Discount)) + model.Addition - model.Deduction;
                         model.GrandTotal = model.Items.Sum(m => ((m.AcceptedQuantity * m.Rate) - m.Discount));
+                        model.Addition = model.Additions
+                            .Where(x => (x.AdditionId != null || x.AdditionId != 0) && x.Addition > 0)
+                            .Sum(x => x.Addition);
+                        model.Deduction = model.Deductions
+                            .Where(x => (x.DeductionId != null || x.DeductionId != 0) && x.Deduction > 0)
+                            .Sum(x => x.Deduction);
                         int id = 0;
 
                         string sql = @"INSERT INTO GRN(GRNNo,GRNDate,SupplierId,CurrencyId,WareHouseId,SupplierDCNoAndDate,SpecialRemarks,
                                                        CreatedBy,CreatedDate,OrganizationId,isDirectPurchaseGRN,
-                                                       GrandTotal, VehicleNo, GatePassNo, ReceivedBy) 
+                                                       GrandTotal, VehicleNo, GatePassNo, ReceivedBy, Addition, Deduction) 
                                                VALUES (@GRNNo,@GRNDate,@SupplierId,@CurrencyId,@StockPointId,@SupplierDCNoAndDate,@SpecialRemarks,
                                                        @CreatedBy,@CreatedDate,@OrganizationId,@isDirectPurchaseGRN, 
-                                                       @GrandTotal, @VehicleNo, @GatePassNo, @ReceivedBy);
+                                                       @GrandTotal, @VehicleNo, @GatePassNo, @ReceivedBy, @Addition, @Deduction);
                                               SELECT CAST(SCOPE_IDENTITY() AS INT)";
 
                         id = connection.Query<int>(sql, model, trn).Single();
@@ -72,7 +78,7 @@ namespace ArabErp.DAL
 
                         foreach (var Addition in model.Additions)
                         {
-                            if (Addition.AdditionId == null || Addition.AdditionId == 0) continue;
+                            if ((Addition.AdditionId == null || Addition.AdditionId == 0) && Addition.Addition <= 0) continue;
                             new GRNItemRepository().InsertGRNAddition(new GRNAddition
                             {
                                 GRNId = id,
@@ -84,7 +90,7 @@ namespace ArabErp.DAL
 
                         foreach (var Deduction in model.Deductions)
                         {
-                            if (Deduction.DeductionId == null || Deduction.DeductionId == 0) continue;
+                            if ((Deduction.DeductionId == null || Deduction.DeductionId == 0) && Deduction.Deduction <= 0) continue;
                             new GRNItemRepository().InsertGRNDeduction(new GRNDeduction
                             {
                                 GRNId = id,
@@ -285,10 +291,18 @@ namespace ArabErp.DAL
                 IDbTransaction txn = connection.BeginTransaction();
                 try
                 {
+                    model.GrandTotal = model.Items.Sum(m => ((m.AcceptedQuantity * m.Rate) - m.Discount));
+                    model.Addition = model.Additions
+                        .Where(x => (x.AdditionId != null || x.AdditionId != 0) && x.Addition > 0)
+                        .Sum(x => x.Addition);
+                    model.Deduction = model.Deductions
+                        .Where(x => (x.DeductionId != null || x.DeductionId != 0) && x.Deduction > 0)
+                        .Sum(x => x.Deduction);
+
                     string sql = @"UPDATE GRN SET /*GRNNo = @GRNNo,*/GRNDate =@GRNDate ,SupplierId = @SupplierId,
                               WareHouseId = @StockPointId,SupplierDCNoAndDate = @SupplierDCNoAndDate,CurrencyId=@CurrencyId,SpecialRemarks=@SpecialRemarks,
                               CreatedBy=@CreatedBy,CreatedDate=@CreatedDate, GrandTotal=@GrandTotal, VehicleNo=@VehicleNo, GatePassNo=@GatePassNo, 
-                              ReceivedBy=@ReceivedBy WHERE GRNId = @GRNId";
+                              ReceivedBy=@ReceivedBy, Addition=@Addition, Deduction=@Deduction WHERE GRNId = @GRNId";
                     var id = connection.Execute(sql, model, txn);
 
                     int output = new GRNItemRepository().DeleteGRNADDDED(model.GRNId, connection, txn);

@@ -1,6 +1,40 @@
 ﻿@using ArabErp.Domain
 @model IList<PendingGRN>
 
+<script type="text/javascript">
+    
+    $(function () {
+        //-----------------check all functions-----------------------------//
+        $("#checkAll").change(function () {
+            $("input:checkbox").prop('checked', $(this).prop("checked"));
+
+            if ($(this).is(":checked"))
+                $("#hidden-check").val('@Model.Count');
+            else $("#hidden-check").val(0);
+        });
+
+        $(".chk").change(function () {
+            var count = '@Model.Count';
+            if ($(this).is(":checked")) {
+                $("#hidden-check").val(Number($("#hidden-check").val()) + 1);
+                if (Number($("#hidden-check").val()) == count) {
+                    $("#checkAll").prop({
+                        checked: true
+                    });
+                }
+            }
+            else {
+                $("#hidden-check").val(Number($("#hidden-check").val()) - 1);
+                $("#checkAll").prop({
+                    checked: false
+                });
+            }
+        });
+        //-------------------------------------------------------------------//
+    })
+
+</script>
+
 <div class="row">
     <div class="main-grid main-grid-top scroll1">
 
@@ -9,12 +43,16 @@
                 <thead>
                     <tr class="grid_heading">
                         <th width="35% "><h1>Supplier</h1></th>
-                        <th width="20% "><h1>GRN.No. & Date</h1></th>
-                        <th width="25% "><h1>LPO.No.</h1></th>
-                        <th width="20%" nowrap><h1>Warehouse/Stock Point</h1></th>
+                        <th width="20% "><h1>GRN No. & Date</h1></th>
+                        <th width="25% "><h1>LPO No.</h1></th>
+                        <th width="20%" nowrap><h1>Warehouse/Stockpoint</h1></th>
                         <th width="10%" class="text-right" nowrap><h1>Grand Total</h1></th>
                         <th width="5% "><h1>Ageing</h1></th>
-                        <th width="5%" class="text-center "><h1>Select</h1></th>
+                        <th width="5%" style="vertical-align:middle" title="Check this to select all checkboxes below" nowrap>
+                            <h1>
+                                <input id="checkAll" type="checkbox"> Select all
+                            </h1>
+                        </th>
                     </tr>
                 </thead>
                 <tbody class="grid_row">
@@ -53,7 +91,8 @@
                                     </td>
 
                                     <td align="center">
-                                        @Html.CheckBoxFor(m => m[i].Select, new { @class = "CheckBoxClass clcheck" })
+                                        @Html.CheckBoxFor(m => m[i].Select, new { @class = "CheckBoxClass clcheck chk", @onclick = "OnCheckboxChanged(this)" })
+                                        <input type="hidden" id="hidden-check" value="0" />
                                     </td>
                                 </tr>
                             }
@@ -61,7 +100,7 @@
                         else
                         {
                             <tr>
-                                <td colspan="6" align="center"><em>There are no pending/incomplete grn to show</em></td>
+                                <td colspan="7" align="center"><em>There are no pending/incomplete grn to show</em></td>
                             </tr>
                         }
                     }

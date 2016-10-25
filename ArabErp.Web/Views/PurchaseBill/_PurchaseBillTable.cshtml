@@ -6,29 +6,32 @@
         var TotAssAmt = parseFloat("0");
         var TotAmt = parseFloat("0");
 
-        $('.clAmount').each(function (i, obj) {
+        //$('.clAmount').each(function (i, obj) {
 
-            var AssAmt = parseFloat($("#Items_" + i + "__Amount").val());
-            var Amt = parseFloat($("#Items_" + i + "__TotAmount").val());
-            if (isNaN(AssAmt)) {
-                AssAmt = parseFloat("0");
-            }
-            if (isNaN(Amt)) {
-                Amt = parseFloat("0");
-            }
-           
-            TotAssAmt = TotAssAmt + AssAmt;
-            TotAmt = TotAmt + Amt;
+        //    var AssAmt = parseFloat($("#Items_" + i + "__Amount").val());
+        //    var Amt = parseFloat($("#Items_" + i + "__TotAmount").val());
+        //    if (isNaN(AssAmt)) {
+        //        AssAmt = parseFloat("0");
+        //    }
+        //    if (isNaN(Amt)) {
+        //        Amt = parseFloat("0");
+        //    }
 
-            $("#TotalAmount").text(TotAmt.toFixed(2));
-            $("#TotalAssAmount").text(TotAssAmt.toFixed(2));
-         
-        });
-      
-        $("#PurchaseBillAmount").val(TotAmt.toFixed(2))
-              
+        //    TotAssAmt = TotAssAmt + AssAmt;
+        //    TotAmt = TotAmt + Amt;
+
+        //    $("#TotalAmount").text(TotAmt.toFixed(2));
+        //    $("#TotalAssAmount").text(TotAssAmt.toFixed(2));
+
+        //});
+
+        calculateSummary();
+
+        //$("#PurchaseBillAmount").val(TotAmt.toFixed(2))
+
 
     });
+
     function TextChanged(row) {
         var quantity = $("#Items_0__Quantity").val();
         var rate = $("#Items_" + row + "__Rate").val();
@@ -36,29 +39,29 @@
         var TaxPerc = $("#Items_" + row + "__TaxPercentage").val();
         var AssAmount = parseInt($("#Items_" + row + "__Amount").val());
 
-        if (quantity == NaN) {
+        if (isNaN(quantity)) {
             quantity = 0;
         }
-        if (rate == NaN) {
+        if (isNaN(rate)) {
             rate = 0;
         }
-        if (discount == NaN) {
+        if (isNaN(discount)) {
             discount = 0;
         }
-        if (TaxPerc == NaN) {
+        if (isNaN(TaxPerc)) {
             TaxPerc = 0;
         }
-        if (AssAmount == NaN) {
+        if (isNaN(AssAmount)) {
             AssAmount = 0;
         }
-    
+
         var amount = (quantity * rate) - discount;
-       
-        var TaxAmount = parseInt((AssAmount) * (TaxPerc / 100));
+
+        var TaxAmount = parseFloat((AssAmount) * (TaxPerc / 100));
 
         var totalamount = amount + TaxAmount;
-     
-        $("#Items_" + row + "__Amount").val(amount.toFixed(2));
+
+        //$("#Items_" + row + "__Amount").val(amount.toFixed(2));
         $("#Items_" + row + "__TaxAmount").val(TaxAmount.toFixed(2));
         $("#Items_" + row + "__TotAmount").val(totalamount.toFixed(2));
 
@@ -68,28 +71,48 @@
 
 
     function calculateSummary() {
-
-    
-
         var TotAssAmt = parseFloat("0");
         var TotAmt = parseFloat("0");
+
+        var tax_total = calculateTaxTotal();
+        $("#tax-total").text(tax_total.toFixed(2));
 
         $('.clAmount').each(function (i, obj) {
 
             var AssAmt = parseFloat($("#Items_" + i + "__Amount").val());
             var Amt = parseFloat($("#Items_" + i + "__TotAmount").val());
+            var tax_amount = parseFloat($("#Items_" + i + "__TaxAmount").val());
+            tax_amount = isNaN(tax_amount) ? 0 : tax_amount;
+
             if (isNaN(AssAmt)) {
                 AssAmt = parseFloat("0");
             }
             if (isNaN(Amt)) {
                 Amt = parseFloat("0");
             }
+            
             TotAssAmt = TotAssAmt + AssAmt;
-            TotAmt = TotAmt + Amt;
+            TotAmt = TotAmt + Amt;// + tax_amount;
 
             $("#TotalAmount").text(TotAmt.toFixed(2));
             $("#TotalAssAmount").text(TotAssAmt.toFixed(2));
         });
+
+        $("#PurchaseBillAmount").val((Number($("#TotalAmount").text()) + Number($("#Addition").val()) - Number($("#Deduction").val())).toFixed(2));
+    }
+
+    function calculateTaxTotal() {
+        var amount = 0;
+        $("input[id$='__TaxAmount']").each(function (index, object) {
+            if (isNaN(amount)) {
+                amount = 0;
+                return 0;
+            }
+            else {
+                amount += Number($(object).val());
+            }
+        })
+        return amount;
     }
 </script>
 <div class="tab_logic">
@@ -97,58 +120,64 @@
     <table class="table table-bordered" id="tab_logic">
         <thead>
             <tr class="grid_heading">
-
-                <th width="12%"><h1>GRN.No. & Date</h1></th>
-                <th width="24%"><h1>Material/Spares</h1></th>
-                <th width="5%" class="text-right "><h1>Qty.</h1></th>
-                <th width="5%" class="text-left"><h1>UoM</h1></th>
-                <th width="10%" class="text-right "><h1>Rate</h1></th>
-                <th width="10%" class="text-right "><h1>Discount</h1></th>
-                <th width="10%" class="text-right "><h1>Assessable Value</h1></th>
-                <th width="5%" class="text-right "><h1>Tax%</h1></th>
-                <th width="10%" class="text-right "><h1>Tax Amt.</h1></th>
-                <th width="9%" class="text-right "><h1>Total Amt.</h1></th>
+                <th nowrap width="15%"><h1>GRN No. & Date</h1></th>
+                <th nowrap width="25%"><h1>Material/Spares</h1></th>
+                <th nowrap width="5%" class="text-right "><h1>Qty</h1></th>
+                <th nowrap width="5%" class="text-left"><h1>UoM</h1></th>
+                <th nowrap width="8%" class="text-right "><h1>Rate</h1></th>
+                <th nowrap width="8%" class="text-right "><h1>Discount</h1></th>
+                <th nowrap width="8%" class="text-right " title="Assessable Value"><h1>Assess. Value</h1></th>
+                <th nowrap width="8%" class="text-right "><h1>Tax %</h1></th>
+                <th nowrap width="8%" class="text-right "><h1>Tax Amount</h1></th>
+                <th nowrap width="10%" class="text-right "><h1>Total Amount</h1></th>
             </tr>
         </thead>
         <tbody>
-                @for (int i = 0; i < Model.Items.Count; i++)
-                {
-                    <tr>
-                        <td>
+            @for (int i = 0; i < Model.Items.Count; i++)
+            {
+                <tr>
+                    <td>
                         @Html.TextBoxFor(m => m.Items[i].GRNNoDate, new { @class = "form_input", autocomplete = "off", @readonly = "readonly" })
-                        </td>
-                        <td>
-                            @Html.HiddenFor(m => m.Items[i].GRNItemId)
-                            @Html.TextBoxFor(m => m.Items[i].ItemName, new { @class = "form_input", autocomplete = "off", @readonly = "readonly" })
-                        </td>
-                        <td>@Html.TextBoxFor(m => m.Items[i].Quantity, new { @class = "form_input", autocomplete = "off", @style ="text-align:right",@readonly = "readonly" })</td>
-                        <td>@Html.TextBoxFor(m => m.Items[i].UnitName, new { @class = "form_input", @style = "text-align:left", autocomplete = "off", @readonly = "readonly" })</td>
-                        <td>@Html.TextBoxFor(m => m.Items[i].Rate, new { @class = "form_input numbers-only", @style = "text-align:right", autocomplete = "off", @readonly = "readonly", @onchange = "TextChanged(" + i + ");" })</td>
-                        <td>@Html.TextBoxFor(m => m.Items[i].Discount, new { @class = "form_input numbers-only", @style = "text-align:right", autocomplete = "off", @readonly = "readonly", @onchange = "TextChanged(" + i + ");" })</td>
-                        <td>@Html.TextBoxFor(m => m.Items[i].Amount, new { @class = "form_input clAmount", @style = "text-align:right", autocomplete = "off", @readonly = "readonly" })</td>
-                        <td>@Html.TextBoxFor(m => m.Items[i].TaxPercentage, new { @class = "form_input numbers-only", @style = "text-align:right", autocomplete = "off", @onchange = "TextChanged(" + i + ");" })</td>
-                        <td>@Html.TextBoxFor(m => m.Items[i].TaxAmount, new { @class = "form_input", @style = "text-align:right", autocomplete = "off", @readonly = "readonly" })</td>
-                        <td>@Html.TextBoxFor(m => m.Items[i].TotAmount, new { @class = "form_input clAmount", @style = "text-align:right", autocomplete = "off", @readonly = "readonly" })</td>
+                    </td>
+                    <td>
+                        @Html.HiddenFor(m => m.Items[i].GRNItemId)
+                        @Html.TextBoxFor(m => m.Items[i].ItemName, new { @class = "form_input", autocomplete = "off", @readonly = "readonly" })
+                    </td>
+                    <td>@Html.TextBoxFor(m => m.Items[i].Quantity, new { @class = "form_input", autocomplete = "off", @style = "text-align:right", @readonly = "readonly" })</td>
+                    <td>@Html.TextBoxFor(m => m.Items[i].UnitName, new { @class = "form_input", @style = "text-align:left", autocomplete = "off", @readonly = "readonly" })</td>
+                    <td>@Html.TextBoxFor(m => m.Items[i].Rate, new { @class = "form_input numbers-only", @style = "text-align:right", autocomplete = "off", @readonly = "readonly", @onchange = "TextChanged(" + i + ");" })</td>
+                    <td>@Html.TextBoxFor(m => m.Items[i].Discount, new { @class = "form_input numbers-only", @style = "text-align:right", autocomplete = "off", @readonly = "readonly", @onchange = "TextChanged(" + i + ");" })</td>
+                    <td>@Html.TextBoxFor(m => m.Items[i].Amount, new { @class = "form_input clAmount", @style = "text-align:right", autocomplete = "off", @readonly = "readonly" })</td>
+                    <td>@Html.TextBoxFor(m => m.Items[i].TaxPercentage, new { @class = "form_input numbers-only", @style = "text-align:right", autocomplete = "off", @onkeyup = "TextChanged(" + i + ");", @onchange = "TextChanged(" + i + ");" })</td>
+                    <td>@Html.TextBoxFor(m => m.Items[i].TaxAmount, new { @class = "form_input", @style = "text-align:right", autocomplete = "off", @readonly = "readonly" })</td>
+                    <td>@Html.TextBoxFor(m => m.Items[i].TotAmount, new { @class = "form_input clAmount", @style = "text-align:right", autocomplete = "off", @readonly = "readonly" })</td>
 
-                    </tr>
-                }
+                </tr>
+            }
 
-            </tbody>
-    <tfoot>
+        </tbody>
+        <tfoot>
             <tr class="grid_heading">
 
-                <th width="11%" class="text-right"><h1>Total</h1></th>
-                <th width="24%" class="text-center"><h1></h1></th>
-                <th width="5%" class="text-center"><h1></h1></th>
-                <th width="5%" class="text-center"><h1></h1></th>
-                <th width="10%" class="text-center"><h1>@Html.DropDownListFor(m => Model.CurrencyId, (SelectList)ViewBag.currlist, "Select Currency", new { @class = "form_input", autocomplete = "off" })
-                                                   </h1></th>
-                <th width="10%" class="text-right"><h1></h1></th>
-                <th width="10%" class="text-right"><h1><span id="TotalAssAmount"></span></h1></th>
-                <th width="5%" class="text-right"><h1></h1></th>
-                <th width="10%" class="text-center"><h1></h1></th>
-                <th width="10%" class="text-right"><h1><span id="TotalAmount"></span></h1></th>
-               
+                <th class="text-right"></th>
+                <th class="text-center"><h1></h1></th>
+                <th class="text-center"><h1></h1></th>
+                <th class="text-center"><h1>Total</h1></th>
+                <th class="text-center">
+                    <h1>
+                        @Html.DropDownListFor(m => Model.CurrencyId, (SelectList)ViewBag.currlist, "Select Currency", new { @class = "form_input", autocomplete = "off" })
+                    </h1>
+                </th>
+                <th class="text-right"><h1></h1></th>
+                <th class="text-right"><h1><span id="TotalAssAmount"></span></h1></th>
+                <th class="text-right"></th>
+                <th class="text-right">
+                    <h1>
+                        <span id="tax-total">0.00</span>
+                    </h1>
+                </th>
+                <th class="text-right"><h1><span id="TotalAmount"></span></h1></th>
+
             </tr>
         </tfoot>
     </table>

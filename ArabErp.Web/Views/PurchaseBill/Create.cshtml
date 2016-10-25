@@ -1,6 +1,6 @@
 ﻿@model  ArabErp.Domain.PurchaseBill 
 @{
-    ViewBag.Title = "Create";
+    ViewBag.Title = "Purchase Bill";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 <script>
@@ -72,22 +72,13 @@
                 @Html.Partial("_PurchaseBillTable",Model)
                 @Html.Partial("_PurchaseBillFooter",Model)
 
-
-
-
-
-
                 <div class="row">
 
                     <div class="col-md-12 hrpart">
                         <button type="button" class="form-button right" onclick="Exit()">Exit</button>
                         <button type="submit" class="form-button right">Save</button>
-
                     </div>
-
                 </div>
-
-
             }
         </div>
     </div>
