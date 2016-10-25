@@ -1,12 +1,16 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Data.SqlClient;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
-using ArabErp.Domain;
 using ArabErp.DAL;
+using ArabErp.Domain;
+using System.Data.SqlClient;
+using CrystalDecisions.CrystalReports.Engine;
+using System.IO;
 using ArabErp.Web.Models;
+using System.Data;
+
 
 namespace ArabErp.Web.Controllers
 {
@@ -789,6 +793,113 @@ namespace ArabErp.Web.Controllers
             {
                 TempData["error"] = "Some error occured while deleting. Please try again.";
                 return RedirectToAction("Edit", new { id = id });
+            }
+        }
+
+
+        public ActionResult Print(int Id)
+        {
+
+            ReportDocument rd = new ReportDocument();
+            rd.Load(Path.Combine(Server.MapPath("~/Reports"), "SaleOrder.rpt"));
+
+            DataSet ds = new DataSet();
+            ds.Tables.Add("Head");
+
+            ds.Tables.Add("Items");
+
+            //-------HEAD
+            ds.Tables["Head"].Columns.Add("SaleOrderRefNo");
+            ds.Tables["Head"].Columns.Add("SaleOrderDate");
+            ds.Tables["Head"].Columns.Add("QuotationNoDate");
+            ds.Tables["Head"].Columns.Add("CustomerName");
+            ds.Tables["Head"].Columns.Add("CustomerAddress");
+            ds.Tables["Head"].Columns.Add("CustomerOrderRef");
+            ds.Tables["Head"].Columns.Add("SpecialRemarks");
+
+            ds.Tables["Head"].Columns.Add("PaymentTerms");
+            ds.Tables["Head"].Columns.Add("DeliveryTerms");
+            ds.Tables["Head"].Columns.Add("CommissionAgentName");
+            ds.Tables["Head"].Columns.Add("CommissionAmount");
+            ds.Tables["Head"].Columns.Add("SalesExecutiveId");
+            ds.Tables["Head"].Columns.Add("EDateArrival");
+            ds.Tables["Head"].Columns.Add("EDateDelivery");
+            ds.Tables["Head"].Columns.Add("OrganizationName");
+            ds.Tables["Head"].Columns.Add("Image1");
+
+            //-------DT
+            ds.Tables["Items"].Columns.Add("WorkDescr");
+            ds.Tables["Items"].Columns.Add("Quantity");
+            ds.Tables["Items"].Columns.Add("Rate");
+            ds.Tables["Items"].Columns.Add("Discount");
+            ds.Tables["Items"].Columns.Add("Amount");
+
+
+            SaleOrderRepository repo = new SaleOrderRepository();
+            var Head = repo.GetSaleOrderHD(Id, OrganizationId);
+
+            DataRow dr = ds.Tables["Head"].NewRow();
+            dr["SaleOrderRefNo"] = Head.SaleOrderRefNo;
+            dr["SaleOrderDate"] = Head.SaleOrderDate.ToString("dd-MMM-yyyy");
+            dr["QuotationNoDate"] = Head.QuotationNoDate;
+            dr["CustomerName"] = Head.CustomerName;
+            dr["CustomerAddress"] = Head.CustomerAddress;
+            dr["CustomerOrderRef"] = Head.CustomerOrderRef;
+            dr["SpecialRemarks"] = Head.SpecialRemarks;
+            dr["PaymentTerms"] = Head.PaymentTerms;
+            dr["DeliveryTerms"] = Head.DeliveryTerms;
+            dr["CommissionAgentName"] = Head.CommissionAgentName;
+            dr["CommissionAmount"] = Head.CommissionAmount;
+            dr["SalesExecutiveId"] = Head.SalesExecutiveId;
+            dr["EDateArrival"] = Head.EDateArrival;
+            dr["EDateDelivery"] = Head.EDateDelivery;
+            dr["OrganizationName"] = Head.OrganizationName;
+            dr["Image1"] = Server.MapPath("~/App_images/") + Head.Image1;
+            ds.Tables["Head"].Rows.Add(dr);
+
+            SaleOrderRepository repo1 = new SaleOrderRepository();
+            var Items = repo1.GetSaleOrderItemDT(Id, OrganizationId);
+            foreach (var item in Items)
+            {
+                var pritem = new SaleOrderItem
+                {
+                    WorkDescr = item.WorkDescr,
+                    Quantity = item.Quantity,
+                    Rate = item.Rate,
+                    Discount = item.Discount,
+                    Amount = item.Amount,
+                 
+                };
+
+
+                DataRow dri = ds.Tables["Items"].NewRow();
+                dri["WorkDescr"] = pritem.WorkDescr;
+                dri["Quantity"] = pritem.Quantity;
+                dri["Rate"] = pritem.Rate;
+                dri["Discount"] = pritem.Discount;
+                dri["Amount"] = pritem.Amount;
+            
+                ds.Tables["Items"].Rows.Add(dri);
+            }
+
+            ds.WriteXml(Path.Combine(Server.MapPath("~/XML"), "SaleOrder.xml"), XmlWriteMode.WriteSchema);
+
+            rd.SetDataSource(ds);
+
+            Response.Buffer = false;
+            Response.ClearContent();
+            Response.ClearHeaders();
+
+
+            try
+            {
+                Stream stream = rd.ExportToStream(CrystalDecisions.Shared.ExportFormatType.PortableDocFormat);
+                stream.Seek(0, SeekOrigin.Begin);
+                return File(stream, "application/pdf", String.Format("SaleOrder{0}.pdf", Id.ToString()));
+            }
+            catch (Exception ex)
+            {
+                throw;
             }
         }
     }

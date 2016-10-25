@@ -6,6 +6,10 @@ using System.Web.Mvc;
 using ArabErp.DAL;
 using ArabErp.Domain;
 using System.Data.SqlClient;
+using CrystalDecisions.CrystalReports.Engine;
+using System.IO;
+using ArabErp.Web.Models;
+using System.Data;
 
 namespace ArabErp.Web.Controllers
 {
@@ -233,6 +237,123 @@ namespace ArabErp.Web.Controllers
         public void FillPRCustomer()
         {
             ViewBag.CustomerList = new SelectList(new DropdownRepository().PurchaseReqCustomerDropdown(), "Id", "Name");
+        }
+        public ActionResult Print(int Id)
+        {
+
+            ReportDocument rd = new ReportDocument();
+            rd.Load(Path.Combine(Server.MapPath("~/Reports"), "PurchaseRequest.rpt"));
+
+            DataSet ds = new DataSet();
+            ds.Tables.Add("Head");
+
+            ds.Tables.Add("Items");
+
+            //-------HEAD
+            ds.Tables["Head"].Columns.Add("PurchaseRequestNo");
+            ds.Tables["Head"].Columns.Add("PurchaseRequestDate");
+            ds.Tables["Head"].Columns.Add("WorkShopRequestId");
+            ds.Tables["Head"].Columns.Add("CustomerName");
+            ds.Tables["Head"].Columns.Add("SpecialRemarks");
+            ds.Tables["Head"].Columns.Add("RequiredDate");
+            ds.Tables["Head"].Columns.Add("CustomerOrderRef");
+            ds.Tables["Head"].Columns.Add("WorkShopRequestRefNo");
+            ds.Tables["Head"].Columns.Add("OrganizationName");
+            ds.Tables["Head"].Columns.Add("Image1");
+
+            //-------DT
+            ds.Tables["Items"].Columns.Add("PartNo");
+            ds.Tables["Items"].Columns.Add("ItemName");
+            ds.Tables["Items"].Columns.Add("Quantity");
+            ds.Tables["Items"].Columns.Add("UnitName");
+            ds.Tables["Items"].Columns.Add("ItemId");
+            ds.Tables["Items"].Columns.Add("MinLevel");
+            ds.Tables["Items"].Columns.Add("WRRequestQty");
+            ds.Tables["Items"].Columns.Add("CurrentStock");
+            ds.Tables["Items"].Columns.Add("WRIssueQty");
+            ds.Tables["Items"].Columns.Add("TotalQty");
+            ds.Tables["Items"].Columns.Add("InTransitQty");
+            ds.Tables["Items"].Columns.Add("PendingPRQty");
+            ds.Tables["Items"].Columns.Add("ShortorExcess");
+            ds.Tables["Items"].Columns.Add("Remarks");
+          
+
+            PurchaseRequestRepository repo = new PurchaseRequestRepository();
+            var Head = repo.GetPurchaseRequestHDDetailsPrint(Id, OrganizationId);
+
+            DataRow dr = ds.Tables["Head"].NewRow();
+            dr["PurchaseRequestNo"] = Head.PurchaseRequestNo;
+            dr["PurchaseRequestDate"] = Head.PurchaseRequestDate.ToString("dd-MMM-yyyy");
+            dr["WorkShopRequestId"] = Head.WorkShopRequestId;
+            dr["CustomerName"] = Head.CustomerName;
+            dr["SpecialRemarks"] = Head.SpecialRemarks;
+            dr["RequiredDate"] = Head.RequiredDate;
+            dr["CustomerOrderRef"] = Head.CustomerOrderRef;
+            dr["WorkShopRequestRefNo"] = Head.WorkShopRequestRefNo;
+            dr["OrganizationName"] = Head.OrganizationName;
+            dr["Image1"] = Server.MapPath("~/App_images/") + Head.Image1;
+            ds.Tables["Head"].Rows.Add(dr);
+
+            PurchaseRequestRepository repo1 = new PurchaseRequestRepository();
+            var Items = repo1.PurchaseRequestItemDetailsPrint(Id);
+            foreach (var item in Items)
+            {
+                var pritem = new PurchaseRequestItem
+                {
+                    PartNo = item.PartNo,
+                    ItemName = item.ItemName,
+                    Quantity = item.Quantity,
+                    UnitName = item.UnitName,
+                    ItemId = item.ItemId,
+                    MinLevel = item.MinLevel,
+                    WRRequestQty = item.WRRequestQty,
+                    CurrentStock = item.CurrentStock,
+                    WRIssueQty = item.WRIssueQty,
+                    TotalQty = item.TotalQty,
+                    InTransitQty = item.InTransitQty,
+                    PendingPRQty = item.PendingPRQty,
+                    ShortorExcess = item.ShortorExcess,
+                    Remarks = item.Remarks
+                };
+                
+
+                DataRow dri = ds.Tables["Items"].NewRow();
+                dri["PartNo"] = pritem.PartNo;
+                dri["ItemName"] = pritem.ItemName;
+                dri["Quantity"] = pritem.Quantity;
+                dri["UnitName"] = pritem.UnitName;
+                dri["ItemId"] = pritem.ItemId;
+                dri["MinLevel"] = pritem.MinLevel;
+                dri["WRRequestQty"] = pritem.WRRequestQty;
+                dri["CurrentStock"] = pritem.CurrentStock;
+                dri["WRIssueQty"] = pritem.WRIssueQty;
+                dri["TotalQty"] = pritem.TotalQty;
+                dri["InTransitQty"] = pritem.InTransitQty;
+                dri["PendingPRQty"] = pritem.PendingPRQty;
+                dri["ShortorExcess"] = pritem.ShortorExcess;
+                dri["Remarks"] = pritem.Remarks;
+                ds.Tables["Items"].Rows.Add(dri);
+            }
+
+            ds.WriteXml(Path.Combine(Server.MapPath("~/XML"), "PurchaseRequest.xml"), XmlWriteMode.WriteSchema);
+
+            rd.SetDataSource(ds);
+
+            Response.Buffer = false;
+            Response.ClearContent();
+            Response.ClearHeaders();
+
+
+            try
+            {
+                Stream stream = rd.ExportToStream(CrystalDecisions.Shared.ExportFormatType.PortableDocFormat);
+                stream.Seek(0, SeekOrigin.Begin);
+                return File(stream, "application/pdf", String.Format("PurchaseRequest{0}.pdf", Id.ToString()));
+            }
+            catch (Exception ex)
+            {
+                throw;
+            }
         }
     }
 }

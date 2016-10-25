@@ -16,6 +16,16 @@
         $("#EDateDelivery").datepicker({ dateFormat: "dd-MM-yy" });
 
     });
+
+
+    function GoToPrint(id) {
+        var url = '@Url.Action("Print")';
+        url += "?Id=" + id;
+        window.location = url;
+    }
+
+
+
     function CustomerChanged(cust) {
         var cusId = cust.value;
 
@@ -86,7 +96,7 @@
         }
         return true;
 
-    
+
 
         $(".validateqty").each(function (i, obj) {
 
@@ -141,7 +151,7 @@
         var arrivalDate = new Date($("#EDateArrival").val());
         var deliveryDate = new Date($("#EDateDelivery").val());
 
-        if (orderDate >= arrivalDate){
+        if (orderDate >= arrivalDate) {
             toastr.info("Sale Order date should be less than the date of arrival.")
             return false;
         }
@@ -187,16 +197,16 @@
     function Exit() {
 
         location.href = '@Url.Action("Index", new { type = Request.QueryString["type"] })';
-      
+
     }
-    function DeleteItem(id, isProjectBased,isAfterSales) {
-       
+    function DeleteItem(id, isProjectBased, isAfterSales) {
+
         var url = '@Url.Action("Delete")';
-        url += "?id=" + id + "&isProjectBased=" + isProjectBased + "&isAfterSales=" +isAfterSales ;
+        url += "?id=" + id + "&isProjectBased=" + isProjectBased + "&isAfterSales=" + isAfterSales;
         window.location = url;
 
     }
-  
+
 </script>
 @Html.HiddenFor(m => m.SaleOrderId)
 
@@ -233,6 +243,7 @@
                         <button type="submit" class="form-button right">Edit</button>
                         <input type="button" value="Delete" onclick="DeleteItem(@Model.SaleOrderId,@Model.isProjectBased,@Model.isAfterSales)" class="form-button left" />
                     }
+                    <input type="button" value="Print" onclick="GoToPrint(@Model.SaleOrderId)" class="form-button right" />
                 </div>
             </div>
         }
