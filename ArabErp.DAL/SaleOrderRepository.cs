@@ -692,5 +692,79 @@ namespace ArabErp.DAL
                 return connection.Query<int>(query, new { id = id }).First();
             }
         }
+
+        public SaleOrder GetSaleOrderHD(int SaleOrderId,int organizationId)
+        {
+            using (IDbConnection connection = OpenConnection(dataConnection))
+            {
+
+
+                string sql = @" SELECT 
+									 OrganizationName,O.DoorNo,O.Street,O.State,O.Phone,O.Fax,O.Email,O.Zip,O.Image1,O.ContactPerson,
+	                                SaleOrderId,
+	                                SaleOrderRefNo,
+	                                SaleOrderDate,
+	                                CONCAT(QuotationRefNo,' - ',CONVERT (VARCHAR(15),QuotationDate,106))QuotationNoDate,  
+                                    C.CustomerId,
+	                                CustomerName,
+	                                isnull(O.DoorNo,'') +','+ isnull(O.Street,'')+','+isnull(O.State,'') CustomerAddress,
+	                                CustomerOrderRef,
+	                                S.CurrencyId,
+	                                SpecialRemarks,
+	                                S.PaymentTerms,
+	                                DeliveryTerms,
+									CA.CommissionAgentName,
+	                                CommissionAmount,
+	                                TotalAmount,
+	                                TotalDiscount,
+	                                S.SalesExecutiveId,
+	                                EDateArrival,
+	                                EDateDelivery,
+	                                SaleOrderApproveStatus,
+	                                SaleOrderHoldStatus,
+	                                SaleOrderHoldReason,
+	                                SaleOrderHoldDate,
+	                                SaleOrderReleaseDate,
+	                                S.SalesQuotationId,
+	                                SaleOrderClosed,
+	                                S.isProjectBased,
+	                                CUR.CurrencyName,
+	                                S.isAfterSales
+
+                                FROM SaleOrder S 
+									LEFT JOIN CommissionAgent CA ON S.CommissionAgentId=CA.CommissionAgentId
+									INNER JOIN Organization O ON O.OrganizationId=S.OrganizationId
+	                                INNER JOIN Customer C ON S.CustomerId=C.CustomerId  
+	                                LEFT JOIN Currency CUR ON S.CurrencyId = CUR.CurrencyId
+	                                LEFT JOIN SalesQuotation SQ ON SQ.SalesQuotationId=S.SalesQuotationId
+                                WHERE SaleOrderId=@SaleOrderId";
+
+                var objSaleOrder = connection.Query<SaleOrder>(sql, new
+                {
+                    SaleOrderId = SaleOrderId,
+                    organizationId=organizationId
+                }).First<SaleOrder>();
+
+                return objSaleOrder;
+            }
+        }
+
+
+
+        public List<SaleOrderItem> GetSaleOrderItemDT(int SaleOrderId, int organizationId)
+        {
+            using (IDbConnection connection = OpenConnection(dataConnection))
+            {
+                string sql = @"select SOI.*, WD.WorkDescr, VM.VehicleModelName from SaleOrderItem SOI
+                                INNER JOIN WorkDescription WD ON SOI.WorkDescriptionId = WD.WorkDescriptionId 
+								LEFT JOIN VehicleModel VM ON SOI.VehicleModelId = VM.VehicleModelId
+                                where SaleOrderId=@SaleOrderId";
+                return connection.Query<SaleOrderItem>(sql, new
+                { SaleOrderId = SaleOrderId,
+                  organizationId = organizationId
+                }).ToList();
+            }
+        }
+        /// 
     }
 }
