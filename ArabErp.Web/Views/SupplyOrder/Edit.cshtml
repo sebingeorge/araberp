@@ -183,8 +183,17 @@
             <div class="row">
                 <div class="col-md-12 hrpart">
                     <input type="button" class="form-button right" value="Exit" onclick="Back()" />
-                    <button type="submit" class="form-button right">Edit</button>
-                    <button type="button" class="form-button left" onclick="Delete('@Model.SupplyOrderId')">Delete</button>
+                    @if (Model.isUsed)
+                    {
+                        <span class="perm">
+                            **Cannot edit/delete, because it is approved or already used.
+                        </span>
+                    }
+                    else
+                    {
+                        <button type="submit" class="form-button right">Edit</button>
+                        <button type="button" class="form-button left" onclick="Delete('@Model.SupplyOrderId')">Delete</button>
+                    }
                 </div>
             </div>
         }

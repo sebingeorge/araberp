@@ -36,6 +36,7 @@ namespace ArabErp.Domain
         public string SupplierName { get; set; }
         public string SoNoWithDate { get; set; }
         public List<SupplyOrderItem> SupplyOrderItems { get; set; }
+        public bool isUsed { get; set; }
         // public string SoNoWithDate
         // {
         //     get

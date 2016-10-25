@@ -336,7 +336,7 @@ namespace ArabErp.Web.Controllers
             var result1 = new SupplyOrderRepository().CHECK(Id);
             if (result1 > 0)
             {
-                TempData["error"] = "Sorry!!..Already Used!!";
+                TempData["error"] = "Sorry! Already Used.";
                 TempData["ExpenseNo"] = null;
                 return RedirectToAction("Edit", new { id = Id });
             }
@@ -357,7 +357,7 @@ namespace ArabErp.Web.Controllers
                 else
                 {
 
-                    TempData["error"] = "Oops!!..Something Went Wrong!!";
+                    TempData["error"] = "Some error occurred. Please tr again.";
                     TempData["ExpenseNo"] = null;
                     return RedirectToAction("Edit", new { id = Id });
                 }
