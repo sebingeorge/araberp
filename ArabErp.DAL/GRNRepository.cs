@@ -230,7 +230,7 @@ namespace ArabErp.DAL
             }
         }
 
-        public IEnumerable<GRN> GetGRNPreviousList()
+        public IEnumerable<GRN> GetGRNPreviousList(int OrganizationId)
         {
             using (IDbConnection connection = OpenConnection(dataConnection))
             {
@@ -256,12 +256,12 @@ namespace ArabErp.DAL
                                 INNER JOIN Employee EMP ON G.ReceivedBy = EMP.EmployeeId
                                 INNER JOIN Stockpoint ST ON G.WareHouseId = ST.StockPointId
 
-                                WHERE ISNULL(G.isActive, 1) = 1
+                                WHERE ISNULL(G.isActive, 1) = 1 AND G.OrganizationId = @OrganizationId
                                 GROUP BY G.GRNId,G.GRNNo,G.GRNDate,S.SupplierName,G.SupplierDCNoAndDate,
                                 EMP.EmployeeName ,ST.StockPointName,G.GrandTotal,G.CreatedDate,
                                 G.isDirectPurchaseGRN,GT.SupplyOrderItemId,GT.GRNId
 								ORDER BY G.GRNDate DESC, G.CreatedDate DESC;";
-                return connection.Query<GRN>(query);
+                return connection.Query<GRN>(query, new { OrganizationId = OrganizationId });
             }
         }
 

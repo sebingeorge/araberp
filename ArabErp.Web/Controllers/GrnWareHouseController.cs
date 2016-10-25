@@ -32,7 +32,7 @@ namespace ArabErp.Web.Controllers
         public ActionResult PreviousList()
         {
             var repo = new GRNRepository();
-            IEnumerable<GRN> GRNList = repo.GetGRNPreviousList();
+            IEnumerable<GRN> GRNList = repo.GetGRNPreviousList(OrganizationId);
             return View("PreviousList", GRNList);
         }
 
