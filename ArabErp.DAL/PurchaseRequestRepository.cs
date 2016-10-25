@@ -272,6 +272,7 @@ namespace ArabErp.DAL
 	                                PurchaseRequestDate,
 	                                C.CustomerName,
                                     P.RequiredDate,
+									P.CreatedDate,
                                     ISNULL(P.SpecialRemarks, '-') SpecialRemarks, 
                                     ISNULL(WRK.WorkShopRequestRefNo, '')+' - '+CONVERT(VARCHAR, WRK.WorkShopRequestDate, 106) WorkShopRequestRefNo
                                     from PurchaseRequest P
@@ -283,7 +284,7 @@ namespace ArabErp.DAL
                                     and P.PurchaseRequestId = ISNULL(NULLIF(@id, 0), P.PurchaseRequestId )
                                     and C.CustomerId = ISNULL(NULLIF(@cusid, 0), C.CustomerId)
                                     and P.PurchaseRequestDate BETWEEN ISNULL(@from, DATEADD(MONTH, -1, GETDATE())) AND ISNULL(@to, GETDATE())  
-                                    ORDER BY P.RequiredDate DESC, P.PurchaseRequestDate DESC;
+                                    ORDER BY P.PurchaseRequestDate DESC, P.CreatedDate DESC;
                                     DROP TABLE #SUPPLY;";
 
                 return connection.Query<PurchaseRequest>(sql, new { OrganizationId = OrganizationId, id = id, cusid = cusid, to = to, from = from }).ToList<PurchaseRequest>();
