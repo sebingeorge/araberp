@@ -73,24 +73,12 @@ namespace ArabErp.DAL
                 IDbTransaction trn = connection.BeginTransaction();
                 try
                 {
-                    var internalId = DatabaseCommonRepository.GetNewDocNo(connection, objPurchaseBill.OrganizationId, 13, true, trn);
+                    var internalId = DatabaseCommonRepository.GetNewDocNo(connection, objPurchaseBill.OrganizationId, 32, true, trn);
 
                     objPurchaseBill.PurchaseBillRefNo = internalId;
 
-                    string sql = @"insert into PurchaseBill(PurchaseBillRefNo,SupplierId,PurchaseBillDate,PurchaseBillNoDate,PurchaseBillDueDate,
-                                   CurrencyId,Remarks,PurchaseBillAmount,CreatedBy,CreatedDate,OrganizationId, Addition, Deduction)
-                                   Values (@PurchaseBillRefNo,@SupplierId,@PurchaseBillDate,@PurchaseBillNoDate,@PurchaseBillDueDate,@CurrencyId,@Remarks,
-                                   @PurchaseBillAmount,@CreatedBy,@CreatedDate,@OrganizationId, @Addition, @Deduction);
-                                   SELECT CAST(SCOPE_IDENTITY() as int)";
-
-
-                    var id = connection.Query<int>(sql, objPurchaseBill, trn).Single();
-
-                    foreach (PurchaseBillItem item in objPurchaseBill.Items)
-                    {
-                        item.PurchaseBillId = id;
-                        new PurchaseBillItemRepository().InsertPurchaseBillItem(item, connection, trn);
-                    }
+                    var id = _InsertPurchaseBill(objPurchaseBill, connection, trn);
+                    
                     InsertLoginHistory(dataConnection, objPurchaseBill.CreatedBy, "Create", "Purchase Bill", id.ToString(), "0");
                     trn.Commit();
 
@@ -103,6 +91,46 @@ namespace ArabErp.DAL
                 }
             }
         }
+
+        private int _InsertPurchaseBill(PurchaseBill objPurchaseBill, IDbConnection connection, IDbTransaction trn)
+        {
+            try
+            {
+                decimal addition = objPurchaseBill.Addition ?? 0,
+                                deduction = objPurchaseBill.Deduction ?? 0;
+
+                objPurchaseBill.AssessableAmount = objPurchaseBill.Items.Sum(x => (x.Quantity * x.Rate) - x.Discount);
+                objPurchaseBill.TaxAmount = objPurchaseBill.Items.Sum(x => x.TaxAmount);
+                objPurchaseBill.PurchaseBillAmount = objPurchaseBill.AssessableAmount
+                                                        + objPurchaseBill.TaxAmount
+                                                        + addition
+                                                        - deduction;
+
+                string sql = @"insert into PurchaseBill(PurchaseBillRefNo,SupplierId,PurchaseBillDate,PurchaseBillNoDate,PurchaseBillDueDate,
+                                   CurrencyId,Remarks,PurchaseBillAmount,CreatedBy,CreatedDate,OrganizationId, Addition, Deduction, AssessableAmount, TaxAmount)
+                                   Values (@PurchaseBillRefNo,@SupplierId,@PurchaseBillDate,@PurchaseBillNoDate,@PurchaseBillDueDate,@CurrencyId,@Remarks,
+                                   @PurchaseBillAmount,@CreatedBy,@CreatedDate,@OrganizationId, @Addition, @Deduction, @AssessableAmount, @TaxAmount);
+                                   SELECT CAST(SCOPE_IDENTITY() as int)";
+
+
+                var id = connection.Query<int>(sql, objPurchaseBill, trn).Single();
+
+                foreach (PurchaseBillItem item in objPurchaseBill.Items)
+                {
+                    item.PurchaseBillId = id;
+                    item.Amount = item.Quantity * item.Rate;
+                    item.TotAmount = item.Amount - item.Discount + item.TaxAmount;
+                    new PurchaseBillItemRepository().InsertPurchaseBillItem(item, connection, trn);
+                }
+
+                return id;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
         public PurchaseBill GetPurchaseBill(int PurchaseBillId)
         {
 
@@ -281,6 +309,31 @@ namespace ArabErp.DAL
                         WHERE GRNId IN @selectedgrn",
                             new { selectedgrn = selectedgrn })
                             .FirstOrDefault();
+            }
+        }
+
+        public int UpdatePurchaseBill(PurchaseBill model)
+        {
+            using (IDbConnection connection = OpenConnection(dataConnection))
+            {
+                IDbTransaction txn = connection.BeginTransaction();
+                try
+                {
+                    string query = @"DELETE FROM PurchaseBillItem WHERE PurchaseBillId=@id";
+                    connection.Execute(query, new { id = model.PurchaseBillId }, txn);
+
+                    query = @"DELETE FROM PurchaseBill WHERE PurchaseBillId=@id";
+                    connection.Execute(query, new { id = model.PurchaseBillId }, txn);
+
+                    var id = _InsertPurchaseBill(model, connection, txn);
+                    txn.Commit();
+                    return id;
+                }
+                catch(Exception ex)
+                {
+                    txn.Rollback();
+                    throw ex;
+                }
             }
         }
     }

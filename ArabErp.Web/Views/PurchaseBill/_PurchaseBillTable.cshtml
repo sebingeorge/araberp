@@ -33,11 +33,15 @@
     });
 
     function TextChanged(row) {
-        var quantity = $("#Items_0__Quantity").val();
+        var quantity = $("#Items_" + row + "__Quantity").val();
         var rate = $("#Items_" + row + "__Rate").val();
         var discount = $("#Items_" + row + "__Discount").val();
         var TaxPerc = $("#Items_" + row + "__TaxPercentage").val();
-        var AssAmount = parseInt($("#Items_" + row + "__Amount").val());
+
+        if (Number(discount) > (Number(quantity) * Number(rate))) {
+            toastr.info("Discount cannot be greater than amount");
+            $("#Items_" + row + "__Discount").val((Number(quantity) * Number(rate)).toFixed(2));
+        }
 
         if (isNaN(quantity)) {
             quantity = 0;
@@ -51,17 +55,19 @@
         if (isNaN(TaxPerc)) {
             TaxPerc = 0;
         }
+
+        var amount = (quantity * rate) - discount;
+
+        $("#Items_" + row + "__Amount").val(amount.toFixed(2));
+        var AssAmount = parseFloat($("#Items_" + row + "__Amount").val());
         if (isNaN(AssAmount)) {
             AssAmount = 0;
         }
-
-        var amount = (quantity * rate) - discount;
 
         var TaxAmount = parseFloat((AssAmount) * (TaxPerc / 100));
 
         var totalamount = amount + TaxAmount;
 
-        //$("#Items_" + row + "__Amount").val(amount.toFixed(2));
         $("#Items_" + row + "__TaxAmount").val(TaxAmount.toFixed(2));
         $("#Items_" + row + "__TotAmount").val(totalamount.toFixed(2));
 
@@ -73,29 +79,42 @@
     function calculateSummary() {
         var TotAssAmt = parseFloat("0");
         var TotAmt = parseFloat("0");
+        var qty_rate = 0;
 
         var tax_total = calculateTaxTotal();
         $("#tax-total").text(tax_total.toFixed(2));
 
         $('.clAmount').each(function (i, obj) {
-
+            var quantity = $("#Items_" + i + "__Quantity").val();
+            var rate = $("#Items_" + i + "__Rate").val();
             var AssAmt = parseFloat($("#Items_" + i + "__Amount").val());
             var Amt = parseFloat($("#Items_" + i + "__TotAmount").val());
             var tax_amount = parseFloat($("#Items_" + i + "__TaxAmount").val());
             tax_amount = isNaN(tax_amount) ? 0 : tax_amount;
 
+            if (isNaN(quantity)) {
+                quantity = parseFloat("0");
+            }
+            if (isNaN(rate)) {
+                rate = parseFloat("0");
+            }
             if (isNaN(AssAmt)) {
                 AssAmt = parseFloat("0");
             }
             if (isNaN(Amt)) {
                 Amt = parseFloat("0");
             }
+
+            qty_rate += (quantity * rate);
             
             TotAssAmt = TotAssAmt + AssAmt;
             TotAmt = TotAmt + Amt;// + tax_amount;
 
+            $("#qty_rate").val(qty_rate.toFixed(2));
             $("#TotalAmount").text(TotAmt.toFixed(2));
+            $("#gross_amount").val(TotAmt.toFixed(2));
             $("#TotalAssAmount").text(TotAssAmt.toFixed(2));
+            $("#AssessableAmount").val(TotAssAmt.toFixed(2));
         });
 
         $("#PurchaseBillAmount").val((Number($("#TotalAmount").text()) + Number($("#Addition").val()) - Number($("#Deduction").val())).toFixed(2));
@@ -145,8 +164,8 @@
                     </td>
                     <td>@Html.TextBoxFor(m => m.Items[i].Quantity, new { @class = "form_input", autocomplete = "off", @style = "text-align:right", @readonly = "readonly" })</td>
                     <td>@Html.TextBoxFor(m => m.Items[i].UnitName, new { @class = "form_input", @style = "text-align:left", autocomplete = "off", @readonly = "readonly" })</td>
-                    <td>@Html.TextBoxFor(m => m.Items[i].Rate, new { @class = "form_input numbers-only", @style = "text-align:right", autocomplete = "off", @readonly = "readonly", @onchange = "TextChanged(" + i + ");" })</td>
-                    <td>@Html.TextBoxFor(m => m.Items[i].Discount, new { @class = "form_input numbers-only", @style = "text-align:right", autocomplete = "off", @readonly = "readonly", @onchange = "TextChanged(" + i + ");" })</td>
+                    <td>@Html.TextBoxFor(m => m.Items[i].Rate, new { @class = "form_input numbers-only", @style = "text-align:right", autocomplete = "off", @onchange = "TextChanged(" + i + ");", @onkeyup = "TextChanged(" + i + ");" })</td>
+                    <td>@Html.TextBoxFor(m => m.Items[i].Discount, new { @class = "form_input numbers-only", @style = "text-align:right", autocomplete = "off", @onchange = "TextChanged(" + i + ");", @onkeyup = "TextChanged(" + i + ");" })</td>
                     <td>@Html.TextBoxFor(m => m.Items[i].Amount, new { @class = "form_input clAmount", @style = "text-align:right", autocomplete = "off", @readonly = "readonly" })</td>
                     <td>@Html.TextBoxFor(m => m.Items[i].TaxPercentage, new { @class = "form_input numbers-only", @style = "text-align:right", autocomplete = "off", @onkeyup = "TextChanged(" + i + ");", @onchange = "TextChanged(" + i + ");" })</td>
                     <td>@Html.TextBoxFor(m => m.Items[i].TaxAmount, new { @class = "form_input", @style = "text-align:right", autocomplete = "off", @readonly = "readonly" })</td>

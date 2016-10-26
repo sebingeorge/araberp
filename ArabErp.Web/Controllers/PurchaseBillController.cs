@@ -62,7 +62,7 @@ namespace ArabErp.Web.Controllers
             string internalId = "";
             try
             {
-                internalId = DatabaseCommonRepository.GetNextDocNo(13, OrganizationId);
+                internalId = DatabaseCommonRepository.GetNextDocNo(32, OrganizationId);
 
             }
             catch (NullReferenceException nx)
@@ -116,7 +116,7 @@ namespace ArabErp.Web.Controllers
                     else
                     {
                         throw new Exception();
-                    } 
+                    }
                 }
                 else
                 {
@@ -134,7 +134,7 @@ namespace ArabErp.Web.Controllers
             catch (Exception ex)
             {
                 TempData["error"] = "Some error occured. Please try again.|" + ex.Message;
-            } 
+            }
             FillAdditionDeduction();
             FillCurrency();
             return View("Create", model);
@@ -252,11 +252,13 @@ namespace ArabErp.Web.Controllers
             {
                 try
                 {
-                    var result2 = new PurchaseBillRepository().DeletePuchaseBillDT(model.PurchaseBillId);
-                    var result3 = new PurchaseBillRepository().DeletePuchaseBillHD(model.PurchaseBillId, UserID.ToString());
-                    string id = new PurchaseBillRepository().InsertPurchaseBill(model);
+                    //var result2 = new PurchaseBillRepository().DeletePuchaseBillDT(model.PurchaseBillId);
+                    //var result3 = new PurchaseBillRepository().DeletePuchaseBillHD(model.PurchaseBillId, UserID.ToString());
+                    //string id = new PurchaseBillRepository().InsertPurchaseBill(model);
 
-                    TempData["success"] = "Updated successfully. Purchase Request Reference No. is " + model.PurchaseBillRefNo;
+                    int output = new PurchaseBillRepository().UpdatePurchaseBill(model);
+
+                    TempData["success"] = "Updated successfully. (" + model.PurchaseBillRefNo + ")";
                     TempData["error"] = "";
                     return RedirectToAction("PurchaseBillList");
                 }
@@ -272,7 +274,7 @@ namespace ArabErp.Web.Controllers
                 {
                     TempData["error"] = "Some error occured. Please try again.|" + ex.Message;
                 }
-                return RedirectToAction("PurchaseBillList");
+                return View(model);
             }
 
         }

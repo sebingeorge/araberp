@@ -70,28 +70,42 @@
 
 </script>
 
-<br />
+<div class="row form-group" style="padding-top:7px">
+    <div class="col-md-2 col-xs-4 col-sm-2 col-md-offset-6">
+        <label for="qty_rate">Total (Qty*Rate)</label>
+        @*@Html.TextBoxFor(m => m., new { @class = "form_input numbers-only", @style = "text-align:right", autocomplete = "off", @readonly = "true" })*@
+        <input id="qty_rate" class="form_input text-right" readonly />
+    </div>
+    <div class="col-md-2 col-xs-4 col-sm-2">
+        <label for="AssessableAmount">Assessable Amount</label>
+        @Html.TextBoxFor(m => m.AssessableAmount, new { @class = "form_input numbers-only", @style = "text-align:right", autocomplete = "off", @readonly = "true" })
+    </div>
+    <div class="col-md-2 col-xs-4 col-sm-2">
+        <label for="gross_amount">Gross Amount</label>
+        @*@Html.TextBoxFor(m => m.AssessableAmount, new { @class = "form_input numbers-only", @style = "text-align:right", autocomplete = "off", @readonly = "true" })*@
+        <input id="gross_amount" class="form_input text-right" readonly />
+    </div>
+</div>
+<div class="row form-group" style="padding-top:7px">
+    <div class="col-md-2 col-xs-4 col-sm-2 col-md-offset-6">
+        <label for="Addition">Addition</label>
+        @Html.TextBoxFor(m => m.Addition, new { @class = "form_input numbers-only", @style = "text-align:right", autocomplete = "off", @readonly = "true" })
+    </div>
+    <div class="col-md-2 col-xs-4 col-sm-2">
+        <label for="Deduction">Deduction</label>
+        @Html.TextBoxFor(m => m.Deduction, new { @class = "form_input numbers-only", @style = "text-align:right", autocomplete = "off", @readonly = "true" })
+    </div>
+    <div class="col-sm-2 col-md-2">
+        <label for="PurchaseBillAmount">Net Amount</label>
+        @Html.TextBoxFor(m => m.PurchaseBillAmount, new { @class = "form_input ", @style = "text-align:right;font-size: 20px;font-weight: bold;", autocomplete = "off", @readonly = "readyonly" })
+    </div>
+</div>
+
 <div class="row form-group">
     <div class="col-md-12">
         <div class="part1">
             <label for="Remarks">Special Remarks</label>
             @Html.TextAreaFor(m => m.Remarks, new { @class = "form_input form_input-h", autocomplete = "off" })
         </div>
-    </div>
-</div>
-
-
-<div class="row form-group" style="padding-top:7px">
-    <div class="col-md-2 col-xs-4 col-sm-2">
-        <label for="Addition">Addition Amount</label>
-        @Html.TextBoxFor(m => m.Addition, new { @class = "form_input numbers-only", @style = "text-align:right", autocomplete = "off", @readonly = "true" })
-    </div>
-    <div class="col-md-2 col-xs-4 col-sm-2">
-        <label for="Deduction">Deduction Amount</label>
-        @Html.TextBoxFor(m => m.Deduction, new { @class = "form_input numbers-only", @style = "text-align:right", autocomplete = "off", @readonly = "true" })
-    </div>
-    <div class="col-sm-2 col-md-2 col-md-offset-6">
-        <label for="PurchaseBillAmount">Total Amount</label>
-        @Html.TextBoxFor(m => m.PurchaseBillAmount, new { @class = "form_input ", @style = "text-align:right;font-size: 20px;font-weight: bold;", autocomplete = "off", @readonly = "readyonly" })
     </div>
 </div>
