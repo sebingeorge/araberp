@@ -1,5 +1,8 @@
 ﻿@model ArabErp.Domain.Bay
-@{ Layout = "~/Views/Shared/_Layout.cshtml"; }
+@{ 
+    ViewBag.Title = "Bay";
+    Layout = "~/Views/Shared/_Layout.cshtml"; 
+}
 
 @{string actionName = HttpContext.Current.Request.RequestContext.RouteData.Values["action"].ToString(); }
 
@@ -21,26 +24,6 @@
         }
         else
             $("#BayType").val(@Model.BayType);
-
-        toastr.options = {
-            "closeButton": true,
-            "positionClass": "toast-bottom-full-width",
-            "preventDuplicates": false,
-            "onclick": null,
-
-            "timeOut": "0",
-            "extendedTimeOut": "1000",
-            "showEasing": "swing",
-            "hideEasing": "linear",
-            "showMethod": "fadeIn",
-            "hideMethod": "fadeOut"
-        }
-        if ('@TempData["success"]' != "" && '@TempData["BayRefNo"]' != "") {
-            toastr.success('@TempData["success"]' + '  Bay Code is : ' + '@TempData["BayRefNo"]');
-        }
-        else if ('@TempData["error"]' != "") {
-            toastr.error('@TempData["error"]');
-        }
         $("#BayName").focus();
     });
 

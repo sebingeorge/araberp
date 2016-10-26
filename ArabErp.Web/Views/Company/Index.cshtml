@@ -1,4 +1,4 @@
-﻿@{ViewBag.Title = "Index"; Layout = "~/Views/Shared/_Layout.cshtml";}
+﻿@{ViewBag.Title = "Company List"; Layout = "~/Views/Shared/_Layout.cshtml";}
 
 <script type="text/javascript">
 
@@ -10,30 +10,6 @@
     function Exit() {
         location.href = '@Url.Action("Index","Home")';
     }
-
-    $(document).ready(function () {
-
-
-        toastr.options = {
-            "closeButton": true,
-            "positionClass": "toast-bottom-full-width",
-            "preventDuplicates": false,
-            "onclick": null,
-
-            "timeOut": "0",
-            "extendedTimeOut": "1000",
-            "showEasing": "swing",
-            "hideEasing": "linear",
-            "showMethod": "fadeIn",
-            "hideMethod": "fadeOut"
-        }
-        if ('@TempData["success"]' != "" && '@TempData["cmpUsercode"]' != "") {
-            toastr.success('@TempData["success"]' + '  Company Code is : ' + '@TempData["cmpUsercode"]');
-        }
-        else if ('@TempData["error"]' != "") {
-            toastr.error('@TempData["error"]');
-        }
-    });
 
 </script>
 

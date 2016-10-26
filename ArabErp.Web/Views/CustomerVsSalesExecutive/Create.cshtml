@@ -1,41 +1,19 @@
 ﻿@model ArabErp.Domain.CustomerVsSalesExecutiveList
 
 @{
-    ViewBag.Title = "Create";
+    ViewBag.Title = "Customer Vs Sales Executive";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 <style>
-   
     empcombo {
-
     }
 </style>
 
 <script type="text/javascript">
 
     $(document).ready(function () {
-
-        //---------------------toastr---------------------------//
-        toastr.options = {
-            "positionClass": "toast-bottom-full-width",
-            "timeOut": "5000",
-            "extendedTimeOut": "2000"
-        }
-        if ('@TempData["success"]' != '') {
-            toastr.success('@TempData["success"]');
-        }
-        else if ('@TempData["error"]' != '') {
-            toastr.error('@TempData["error"]'.split('|')[0]);
-            console.log('@TempData["error"]'.split('|')[1]);
-        }
-        @{ TempData["success"] = TempData["error"] = ""; }
-        //------------------------------------------------------//
-
-        $(document).ready(function () {
-            assignTaskDate();
-        });
-
-    })
+        assignTaskDate();
+    });
 
 </script>
 
@@ -54,10 +32,10 @@
             //$("#" + obj.id).datepicker({ minDate: '0' });
         });
     }
-        function Exit() {
-            var url = '@Url.Action("Index","Home")';
-            window.location = url;
-        }
+    function Exit() {
+        var url = '@Url.Action("Index","Home")';
+        window.location = url;
+    }
 
     function Validation() {
         var count = 0;
@@ -75,12 +53,12 @@
 
         });
 
-      
+
         return true;
-    
+
     }
 
-    
+
 
 </script>
 
@@ -150,20 +128,20 @@
                 </table>
             </div>
 
-    <div class="row-count1">
+            <div class="row-count1">
 
-        <h5>Row Count:- @Model.CustomerVsSalesExecutives.Count()</h5>
+                <h5>Row Count:- @Model.CustomerVsSalesExecutives.Count()</h5>
 
 
-</div> 
+            </div>
 
-   
+
 
             <div class="row">
 
                 <div class="col-md-12 hrpart">
                     <button type="button" class="form-button right" onclick="Exit()">Exit</button>
-                    <button type="submit" class="form-button right" >Save</button>
+                    <button type="submit" class="form-button right">Save</button>
                 </div>
             </div>
         }

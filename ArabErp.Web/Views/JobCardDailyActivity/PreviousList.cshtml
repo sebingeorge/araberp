@@ -16,27 +16,6 @@
     $(document).ready(function () {
 
         $("#cboSaleOrder").combobox();
-
-        toastr.options = {
-            "closeButton": true,
-            "positionClass": "toast-bottom-full-width",
-            "preventDuplicates": false,
-            "onclick": null,
-
-            "timeOut": "0",
-            "extendedTimeOut": "1000",
-            "showEasing": "swing",
-            "hideEasing": "linear",
-            "showMethod": "fadeIn",
-            "hideMethod": "fadeOut"
-        }
-        if ('@TempData["success"]' != "") {
-            toastr.success('@TempData["success"]');
-        }
-        else if ('@TempData["error"]' != "") {
-
-            toastr.error('@TempData["error"]');
-        }
         $("input[type='text']").attr("disabled", "true");
      
     })

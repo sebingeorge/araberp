@@ -14,30 +14,6 @@
 
     $(document).ready(function () {
 
-        toastr.options = {
-            "closeButton": true,
-            "positionClass": "toast-bottom-full-width",
-            "preventDuplicates": false,
-            "onclick": null,
-            "showDuration": "300",
-            "hideDuration": "1000",
-            "timeOut": "0",
-            "extendedTimeOut": "1000",
-            "showEasing": "swing",
-            "hideEasing": "linear",
-            "showMethod": "fadeIn",
-            "hideMethod": "fadeOut"
-        }
-        if ('@TempData["success"]' != '') {
-            toastr.success('@TempData["success"]');
-
-        }
-        else if ('@TempData["error"]' != '') {
-            toastr.error('@TempData["error"]'.split('|')[0]);
-            console.log('@TempData["error"]'.split('|')[1]);
-        }
-        @{TempData["success"] = TempData["error"] = "";}
-
         $("#WorkShopRequestDate").datepicker({
             dateFormat: "dd-MM-yy"
         });
@@ -90,7 +66,7 @@
             <div class="row form-group">
                 <div class="col-md-2">
                     <label for="WorkShopRequestRefNo">Request No.</label>
-                    @Html.TextBoxFor(m => m.WorkShopRequestRefNo, new { @class = "form_input", autocomplete = "off", @required = "true" , @readonly="true"})
+                    @Html.TextBoxFor(m => m.WorkShopRequestRefNo, new { @class = "form_input", autocomplete = "off", @required = "true", @readonly = "true" })
                 </div>
                 <div class="col-md-2">
                     <label for="WorkShopRequestDate">Date</label>
@@ -157,4 +133,3 @@
         }
     </div>
 </div>
-
