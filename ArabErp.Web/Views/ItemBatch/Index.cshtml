@@ -39,7 +39,7 @@
         window.location = url;
     }
     function Exit() {
-        var url = '@Url.Action("Pending")';
+        var url = '@Url.Action("Pending", new { type = Request.QueryString["type"] })';
         window.location = url;
     }
 
