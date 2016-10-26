@@ -4,7 +4,7 @@
     <thead>
         <tr class="grid_heading">
             <th width="2%" class="text-center">#</th>
-            <th width="15%" title="Sale Order Reference No. & Date"><h1>SO.No. &amp; Date</h1></th>
+            <th width="15%" title="Sale Order Reference No. & Date"><h1>SO No. &amp; Date</h1></th>
             <th width="45%" title="Work Description Short Name"><h1>WD Short Name</h1></th>
             <th width="28%"><h1>Serial No.</h1></th>
             @*<th width="5%" class="text-right"><h1>Quantity</h1></th>
@@ -52,6 +52,14 @@
                         </td>
                     </tr>
                 }
+            }
+            else
+            {
+                <tr>
+                    <td align="center" colspan="5">
+                        <em>No items found!</em>
+                    </td>
+                </tr>
             }
         }
     </tbody>

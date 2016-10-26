@@ -352,6 +352,59 @@ namespace ArabErp.DAL
                 //								DROP TABLE #RESERVED;"; 
                 #endregion
 
+                #region old query (26.10.2016 5.01p)
+                //                string query = @"SELECT
+                //									ISNULL(GI.ItemId, OS.ItemId) ItemId,
+                //									BT.SaleOrderItemId,
+                //									COUNT(BT.SaleOrderItemId) ReservedQuantity
+                //								INTO #RESERVED1
+                //								FROM ItemBatch BT
+                //								LEFT JOIN GRNItem GI ON BT.GRNItemId = GI.GRNItemId
+                //								LEFT JOIN OpeningStock OS ON BT.OpeningStockId = OS.OpeningStockId
+                //								WHERE BT.SaleOrderItemId IS NOT NULL
+                //								GROUP BY GI.ItemId, OS.ItemId, BT.SaleOrderItemId;
+                //
+                //                                SELECT 
+                //                                    ItemId, 
+                //                                    SaleOrderItemId, 
+                //                                    SUM(ReservedQuantity) ReservedQuantity
+                //								INTO #RESERVED
+                //								FROM #RESERVED1 R1
+                //								GROUP BY R1.ItemId, R1.SaleOrderItemId;
+                //
+                //								DROP TABLE #RESERVED1;
+                //
+                //								SELECT
+                //	                                SOI.SaleOrderItemId,
+                //	                                SO.SaleOrderRefNo,
+                //	                                CONVERT(VARCHAR, SO.SaleOrderDate, 106) SaleOrderDate,
+                //	                                ISNULL(WI.Quantity, 0) Quantity,
+                //	                                WD.WorkDescriptionRefNo,
+                //                                    I.ItemId,
+                //									R.ReservedQuantity,
+                //	                                I.ItemName,
+                //									WD.WorkDescrShortName
+                //                                FROM SaleOrderItem SOI
+                //                                INNER JOIN SaleOrder SO ON SOI.SaleOrderId = SO.SaleOrderId
+                //                                INNER JOIN WorkDescription WD ON SOI.WorkDescriptionId = WD.WorkDescriptionId
+                //                                INNER JOIN WorkVsItem WI ON WD.WorkDescriptionId = WI.WorkDescriptionId
+                //                                INNER JOIN Item I ON WI.ItemId = I.ItemId
+                //								LEFT JOIN #RESERVED R ON SOI.SaleOrderItemId = R.SaleOrderItemId AND I.ItemId = R.ItemId
+                //								LEFT JOIN SalesInvoiceItem SII ON SOI.SaleOrderItemId = SII.SaleOrderItemId
+                //                                WHERE ISNULL(SOI.isActive, 1) = 1
+                //                                AND SO.isActive = 1 AND SOI.isActive = 1 AND SO.SaleOrderApproveStatus = 1
+                //								--AND IB.SaleOrderItemId IS NULL
+                //								AND ISNULL(ReservedQuantity, 0) < ISNULL(WI.Quantity, 0)
+                //								AND SII.SaleOrderItemId IS NULL
+                //                                AND I.BatchRequired = 1
+                //                                AND SO.SaleOrderRefNo LIKE '%'+@saleOrder+'%'
+                //                                AND I.ItemName LIKE '%'+@itemName+'%'
+                //								AND ISNULL(SO.SaleOrderClosed, '') <> 'CLOSED'
+                //                                ORDER BY SO.SaleOrderDate DESC, SO.CreatedDate DESC;
+                //
+                //								DROP TABLE #RESERVED;"; 
+                #endregion
+
                 string query = @"SELECT
 									ISNULL(GI.ItemId, OS.ItemId) ItemId,
 									BT.SaleOrderItemId,
@@ -382,7 +435,8 @@ namespace ArabErp.DAL
                                     I.ItemId,
 									R.ReservedQuantity,
 	                                I.ItemName,
-									WD.WorkDescrShortName
+									WD.WorkDescrShortName,
+									SO.SaleOrderDate
                                 FROM SaleOrderItem SOI
                                 INNER JOIN SaleOrder SO ON SOI.SaleOrderId = SO.SaleOrderId
                                 INNER JOIN WorkDescription WD ON SOI.WorkDescriptionId = WD.WorkDescriptionId
@@ -399,7 +453,66 @@ namespace ArabErp.DAL
                                 AND SO.SaleOrderRefNo LIKE '%'+@saleOrder+'%'
                                 AND I.ItemName LIKE '%'+@itemName+'%'
 								AND ISNULL(SO.SaleOrderClosed, '') <> 'CLOSED'
-                                ORDER BY SO.SaleOrderDate DESC, SO.CreatedDate DESC;
+
+								UNION ALL
+                                ------------------------------------including freezer unit
+								SELECT
+									SOI.SaleOrderItemId,
+									SO.SaleOrderRefNo,
+									CONVERT(VARCHAR, SO.SaleOrderDate, 106) SaleOrderDate,
+									SOI.Quantity,
+									WD.WorkDescriptionRefNo,
+									I.ItemId,
+									R.ReservedQuantity,
+									I.ItemName,
+									WD.WorkDescrShortName,
+									SO.SaleOrderDate
+								FROM SaleOrder SO
+								INNER JOIN SaleOrderItem SOI ON SO.SaleOrderId = SOI.SaleOrderId
+								INNER JOIN WorkDescription WD ON SOI.WorkDescriptionId = WD.WorkDescriptionId
+								INNER JOIN Item I ON WD.FreezerUnitId = I.ItemId
+								LEFT JOIN #RESERVED R ON SOI.SaleOrderItemId = R.SaleOrderItemId AND I.ItemId = R.ItemId
+								LEFT JOIN SalesInvoiceItem SII ON SOI.SaleOrderItemId = SII.SaleOrderItemId
+								WHERE ISNULL(SOI.isActive, 1) = 1
+                                AND SO.isActive = 1 AND SO.SaleOrderApproveStatus = 1
+								--AND IB.SaleOrderItemId IS NULL
+								AND ISNULL(ReservedQuantity, 0) < ISNULL(SOI.Quantity, 0)
+								AND SII.SaleOrderItemId IS NULL
+                                AND I.BatchRequired = 1
+                                AND SO.SaleOrderRefNo LIKE '%'+@saleOrder+'%'
+                                AND I.ItemName LIKE '%'+@itemName+'%'
+								AND ISNULL(SO.SaleOrderClosed, '') <> 'CLOSED'
+
+								UNION ALL
+                                ------------------------------------including box
+								SELECT
+									SOI.SaleOrderItemId,
+									SO.SaleOrderRefNo,
+									CONVERT(VARCHAR, SO.SaleOrderDate, 106) SaleOrderDate,
+									SOI.Quantity,
+									WD.WorkDescriptionRefNo,
+									I.ItemId,
+									R.ReservedQuantity,
+									I.ItemName,
+									WD.WorkDescrShortName,
+									SO.SaleOrderDate
+								FROM SaleOrder SO
+								INNER JOIN SaleOrderItem SOI ON SO.SaleOrderId = SOI.SaleOrderId
+								INNER JOIN WorkDescription WD ON SOI.WorkDescriptionId = WD.WorkDescriptionId
+								INNER JOIN Item I ON WD.BoxId = I.ItemId
+								LEFT JOIN #RESERVED R ON SOI.SaleOrderItemId = R.SaleOrderItemId AND I.ItemId = R.ItemId
+								LEFT JOIN SalesInvoiceItem SII ON SOI.SaleOrderItemId = SII.SaleOrderItemId
+								WHERE ISNULL(SOI.isActive, 1) = 1
+                                AND SO.isActive = 1 AND SO.SaleOrderApproveStatus = 1
+								--AND IB.SaleOrderItemId IS NULL
+								AND ISNULL(ReservedQuantity, 0) < ISNULL(SOI.Quantity, 0)
+								AND SII.SaleOrderItemId IS NULL
+                                AND I.BatchRequired = 1
+                                AND SO.SaleOrderRefNo LIKE '%'+@saleOrder+'%'
+                                AND I.ItemName LIKE '%'+@itemName+'%'
+								AND ISNULL(SO.SaleOrderClosed, '') <> 'CLOSED'
+
+                                ORDER BY SO.SaleOrderDate DESC, SO.SaleOrderRefNo DESC;
 
 								DROP TABLE #RESERVED;";
 
@@ -457,6 +570,55 @@ namespace ArabErp.DAL
                 //								DROP TABLE #RESERVED;"; 
                 #endregion
 
+                #region old query (26.10.2016 5.27p)
+                //                string query = @"SELECT
+                //	                                IB.ItemBatchId,
+                //	                                IB.SerialNo,
+                //	                                ISNULL(GI.ItemId, OS.ItemId) ItemId,
+                //									G.GRNNo,
+                //									CONVERT(VARCHAR, G.GRNDate, 106) GRNDate
+                //                                INTO #BATCH
+                //                                FROM ItemBatch IB
+                //                                LEFT JOIN GRNItem GI ON IB.GRNItemId = GI.GRNItemId
+                //								LEFT JOIN OpeningStock OS ON IB.OpeningStockId = OS.OpeningStockId
+                //								LEFT JOIN GRN G ON GI.GRNId = G.GRNId
+                //                                WHERE (OS.ItemId = @item OR GI.ItemId = @item)-- AND G.isActive = 1 AND GI.isActive = 1
+                //								AND IB.SaleOrderItemId IS NULL;
+                //
+                //                                SELECT
+                //	                                @item ItemId,
+                //	                                COUNT(ISNULL(GI.ItemId, OS.ItemId)) ReservedQuantity
+                //                                INTO #RESERVED
+                //                                FROM ItemBatch IB
+                //                                LEFT JOIN GRNItem GI ON IB.GRNItemId = GI.GRNItemId
+                //								LEFT JOIN OpeningStock OS ON IB.OpeningStockId = OS.OpeningStockId
+                //								where ISNULL(IB.SaleOrderItemId, 0) = @id
+                //										and (GI.ItemId = @item OR OS.ItemId = @item)
+                //
+                //                                SELECT
+                //	                                SOI.SaleOrderItemId,
+                //	                                WI.Quantity - ISNULL(R.ReservedQuantity, 0) Quantity,
+                //	                                B.SerialNo,
+                //	                                B.ItemBatchId,
+                //	                                I.ItemName,
+                //									B.GRNDate,
+                //									B.GRNNo,
+                //									SO.SaleOrderRefNo,
+                //									WD.WorkDescriptionRefNo WorkDescrRefNo
+                //									--ISNULL(R.ReservedQuantity, 0) ReservedQuantity
+                //                                FROM SaleOrderItem SOI
+                //                                INNER JOIN WorkDescription WD ON SOI.WorkDescriptionId = WD.WorkDescriptionId
+                //                                INNER JOIN WorkVsItem WI ON WD.WorkDescriptionId = WI.WorkDescriptionId
+                //                                LEFT JOIN #BATCH B ON WI.ItemId = B.ItemId
+                //                                LEFT JOIN Item I ON B.ItemId = I.ItemId
+                //								LEFT JOIN #RESERVED R ON B.ItemId = R.ItemId
+                //								INNER JOIN SaleOrder SO ON SOI.SaleOrderId = SO.SaleOrderId
+                //                                WHERE SOI.SaleOrderItemId = @id AND WI.ItemId = @item;
+                //
+                //                                DROP TABLE #BATCH;
+                //								DROP TABLE #RESERVED;"; 
+                #endregion
+
                 string query = @"SELECT
 	                                IB.ItemBatchId,
 	                                IB.SerialNo,
@@ -499,7 +661,49 @@ namespace ArabErp.DAL
                                 LEFT JOIN Item I ON B.ItemId = I.ItemId
 								LEFT JOIN #RESERVED R ON B.ItemId = R.ItemId
 								INNER JOIN SaleOrder SO ON SOI.SaleOrderId = SO.SaleOrderId
-                                WHERE SOI.SaleOrderItemId = @id AND WI.ItemId = @item;
+                                WHERE SOI.SaleOrderItemId = @id AND WI.ItemId = @item
+
+								UNION ALL
+								---------------------including freezer unit
+								SELECT
+	                                SOI.SaleOrderItemId,
+	                                SOI.Quantity Quantity,
+	                                B.SerialNo,
+	                                B.ItemBatchId,
+	                                I.ItemName,
+									B.GRNDate,
+									B.GRNNo,
+									SO.SaleOrderRefNo,
+									WD.WorkDescriptionRefNo WorkDescrRefNo
+									--ISNULL(R.ReservedQuantity, 0) ReservedQuantity
+                                FROM SaleOrderItem SOI
+                                INNER JOIN WorkDescription WD ON SOI.WorkDescriptionId = WD.WorkDescriptionId
+                                LEFT JOIN #BATCH B ON WD.FreezerUnitId = B.ItemId
+                                LEFT JOIN Item I ON WD.FreezerUnitId = I.ItemId
+								LEFT JOIN #RESERVED R ON WD.FreezerUnitId = R.ItemId
+								INNER JOIN SaleOrder SO ON SOI.SaleOrderId = SO.SaleOrderId
+                                WHERE SOI.SaleOrderItemId = @id AND WD.FreezerUnitId = @item
+
+								UNION ALL
+								---------------------including box
+								SELECT
+	                                SOI.SaleOrderItemId,
+	                                SOI.Quantity Quantity,
+	                                B.SerialNo,
+	                                B.ItemBatchId,
+	                                I.ItemName,
+									B.GRNDate,
+									B.GRNNo,
+									SO.SaleOrderRefNo,
+									WD.WorkDescriptionRefNo WorkDescrRefNo
+									--ISNULL(R.ReservedQuantity, 0) ReservedQuantity
+                                FROM SaleOrderItem SOI
+                                INNER JOIN WorkDescription WD ON SOI.WorkDescriptionId = WD.WorkDescriptionId
+                                LEFT JOIN #BATCH B ON WD.BoxId = B.ItemId
+                                LEFT JOIN Item I ON WD.BoxId = I.ItemId
+								LEFT JOIN #RESERVED R ON WD.BoxId = R.ItemId
+								INNER JOIN SaleOrder SO ON SOI.SaleOrderId = SO.SaleOrderId
+                                WHERE SOI.SaleOrderItemId = @id AND WD.BoxId = @item
 
                                 DROP TABLE #BATCH;
 								DROP TABLE #RESERVED;";
@@ -655,21 +859,6 @@ namespace ArabErp.DAL
         {
             using (IDbConnection connection = OpenConnection(dataConnection))
             {
-                //                string query = @"SELECT
-                //	                                G.GRNNo,
-                //	                                CONVERT(VARCHAR, G.GRNDate, 106) GRNDate,
-                //	                                WD.WorkDescriptionRefNo,
-                //	                                WD.WorkDescrShortName,
-                //	                                SO.SaleOrderRefNo,
-                //	                                CONVERT(VARCHAR, SO.SaleOrderDate, 106) SaleOrderDate
-                //                                FROM ItemBatch IB
-                //                                INNER JOIN GRNItem GI ON IB.GRNItemId = GI.GRNItemId
-                //                                INNER JOIN GRN G ON GI.GRNId = G.GRNId
-                //                                INNER JOIN SaleOrderItem SOI ON IB.SaleOrderItemId = SOI.SaleOrderItemId
-                //                                INNER JOIN SaleOrder SO ON SOI.SaleOrderId = SO.SaleOrderId
-                //                                INNER JOIN WorkDescription WD ON SOI.WorkDescriptionId = WD.WorkDescriptionId
-                //                                WHERE SOI.SaleOrderItemId = @id AND IB.isActive = 1";
-
                 string query = @"--SELECT
 	                                --IB.ItemBatchId,
 	                                --IB.SerialNo,
@@ -685,7 +874,7 @@ namespace ArabErp.DAL
                                 SELECT DISTINCT
 									--B.GRNNo,
 									--B.GRNDate,
-									WD.WorkDescriptionRefNo,
+									WD.WorkDescriptionRefNo WorkDescrRefNo,
 									WD.WorkDescrShortName,
 									SO.SaleOrderRefNo,
 									CONVERT(VARCHAR, SO.SaleOrderDate, 106) SaleOrderDate

@@ -1,38 +1,11 @@
 ﻿@model IList<ArabErp.Domain.ItemBatch>
 
 @{
-    ViewBag.Title = "Reserve Item";
+    ViewBag.Title = "Reserve Material/Spare";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
 <script type="text/javascript">
-
-    $(document).ready(function () {
-
-        //---------------------toastr---------------------------//
-        toastr.options = {
-            "positionClass": "toast-bottom-full-width",
-            "timeOut": "5000",
-            "extendedTimeOut": "2000"
-        }
-        if ('@TempData["success"]' != '') {
-            toastr.success('@TempData["success"]');
-        }
-        else if ('@TempData["error"]' != '') {
-            toastr.error('@TempData["error"]'.split('|')[0]);
-            console.log('@TempData["error"]'.split('|')[1]);
-        }
-        @{ TempData["success"] = TempData["error"] = ""; }
-        //------------------------------------------------------//
-
-        @*var url = '@Url.Action("GetItemBatchDetails")';
-        $.getJSON(url, { id: '@Model[0].SaleOrderItemId', type: 1 }, function (data) {
-            //$("#txtGRNRefNo").val(data.GRNRefNo);
-            $("#txtSORefNo").val(data.SaleOrderRefNo);
-            $("#txtWDRefNo").val(data.WorkDescRefNo);
-        });*@
-
-    })
 
     function Back() {
         var url = '@Url.Action("PendingReservation")';
@@ -187,7 +160,7 @@
                    </div>
                 <div class="row">
                     <div class="col-md-12 hrpart">
-                        <input type="button" class="form-button right" onclick="Back()" value="Back">
+                        <input type="button" class="form-button right" onclick="Back()" value="Exit">
                         <button type="submit" class="form-button right">Save</button>
                     </div>
                 </div>
