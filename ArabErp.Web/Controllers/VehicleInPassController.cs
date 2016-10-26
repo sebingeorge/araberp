@@ -64,14 +64,14 @@ namespace ArabErp.Web.Controllers
             if(new VehicleInPassRepository().InsertVehicleInPass(model) > 0)
                
                 {
-                    TempData["Success"] = "Added Successfully!";
-                    TempData["VehicleInPassNo"] = model.VehicleInPassNo;
+                    TempData["Success"] = "Saved Successfully! Vehicle In-Pass No. is " + model.VehicleInPassNo;
+                    //TempData["VehicleInPassNo"] = model.VehicleInPassNo;
                     return RedirectToAction("Index");
                 }
                 else
                 {
                     TempData["error"] = "Some error occurred. Please try again.";
-                    TempData["VehicleInPassNo"] = null;
+                    //TempData["VehicleInPassNo"] = null;
                     EmployeeDropdown();
                     return View(new VehicleInPass { SaleOrderItemId = model.SaleOrderItemId });
                 }
@@ -166,9 +166,9 @@ namespace ArabErp.Web.Controllers
 
                 new VehicleInPassRepository().UpdateVehicleInPass(model);
 
-                TempData["success"] = "Updated Successfully ";
-                TempData["VehicleInPassNo"] = model.VehicleInPassNo;
-                return RedirectToAction("Index");
+                TempData["success"] = "Updated Successfully (" + model.VehicleInPassNo + ")";
+                //TempData["VehicleInPassNo"] = model.VehicleInPassNo;
+                return RedirectToAction("VehicleInpassList");
             }
             catch (Exception)
             {

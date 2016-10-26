@@ -5,52 +5,54 @@
             <table class="table table-bordered">
                 <thead>
                     <tr class="grid_heading">
-                        <th width="15%"><h1>SO.No. &amp; Date</h1></th>
-                        <th width="55%"><h1>Work Description</h1></th>
-                        <th width="20%"><h1>Vehicle Model</h1></th>
-                        <th width="10%"><center><h1></h1></center></th>
+                        <th width="15%" title="Sale Order Ref. No & Date"><h1>SO No. &amp; Date</h1></th>
+                        <th width="50%"><h1>Work Description</h1></th>
+                        <th width="25%"><h1>Vehicle Model</h1></th>
+                        <th width="1%"><center><h1></h1></center></th>
                     </tr>
                 </thead>
                 <tbody id="table-body" class="grid_row">
 
                     @if (Model.Count != 0)
-                {
-                    for (int i = 0; i < Model.Count; i++)
                     {
-                <tr>
-                    <td>
-                        @* Customer Name + Ref. No. *@
-                        <input class="form_input" type="text" value="@Model[i].SaleOrderRefNo" disabled />
-                    </td>
-                    <td>
-                        <input class="form_input" type="text" value="@Model[i].WorkDescription" disabled />
-                    </td>
-                    <td>
-                        @* Vehicle Model Name + Model Description *@
-                        <input class="form_input" type="text" value="@Model[i].VehicleModelName" disabled />
-                    </td>
-                    <td align="center">
-                       <center> @Html.ActionLink("Select", "Save", "VehicleInpass", new { Id = @Model[i].SaleOrderItemId }, new { @class = "form-button5" })</center>
+                        for (int i = 0; i < Model.Count; i++)
+                        {
+                            <tr>
+                                <td>
+                                    @* Customer Name + Ref. No. *@
+                                    <input class="form_input" type="text" value="@Model[i].SaleOrderRefNo" disabled />
+                                </td>
+                                <td>
+                                    <input class="form_input" type="text" value="@Model[i].WorkDescription" disabled />
+                                </td>
+                                <td>
+                                    @* Vehicle Model Name + Model Description *@
+                                    <input class="form_input" type="text" value="@Model[i].VehicleModelName" disabled />
+                                </td>
+                                <td align="center">
+                                    @*<center>
+                                        @Html.ActionLink("Select", "Save", "VehicleInpass", new { Id = @Model[i].SaleOrderItemId }, new { @class = "form-button5", style = "vertical-align: middle;" })
+                                    </center>*@
 
-                        @*<button class="btn btn-xs btn-primary" onclick="Open('@Model[i].SaleOrderItemId')"><span class="glyphicon glyphicon-pencil" style="top:2px"></span></button>*@
-                    </td>
-                </tr>
+                                    <button class="form-button5" onclick="Open('@Model[i].SaleOrderItemId')">Select</button>
+                                </td>
+                            </tr>
 
 
+                        }
                     }
-                }
-                else
-                {
-                <tr>
-                    <td colspan="4" align="center" valign="middle">
-                        <em>Please select a customer to continue</em>
-                    </td>
-                </tr>
-                }
+                    else
+                    {
+                        <tr>
+                            <td colspan="4" align="center" valign="middle">
+                                <em>Please select a customer to continue</em>
+                            </td>
+                        </tr>
+                    }
                 </tbody>
             </table>
         </div>
-        </div>
+    </div>
 
 
     <div class="row-count1" id="rowcount">

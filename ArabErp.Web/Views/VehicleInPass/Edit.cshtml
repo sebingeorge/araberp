@@ -1,7 +1,7 @@
 ﻿@model ArabErp.Domain.VehicleInPass
 
 @{
-    ViewBag.Title = "Vehicle In Pass";
+    ViewBag.Title = "Edit Vehicle In-Pass";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
@@ -18,7 +18,7 @@
     });*@
 
         function formValidation() {
-            return confirm("Are you sure to Save?");
+            return true;//confirm("Are you sure to Save?");
         }
 
         function Back() {
@@ -117,7 +117,7 @@
                             @if(Model.InPassId)
                             {
                                  <span class="perm">
-                                    <em>**Cannot edit/delete this Vehicle Inpass, because it is already approved.</em>
+                                    <em>**Cannot edit/delete this vehicle in-pass, because it is already used.</em>
                                  </span>
                             }
                             else

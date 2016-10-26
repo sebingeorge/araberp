@@ -1,37 +1,47 @@
 ﻿@model IList<ArabErp.Domain.VehicleInPass>
 
-                    <table class="table table-bordered">
-                        <thead>
-                            <tr class="grid_heading">
-                                <th width="12%"><h1>Vehicle In-Pass No.</h1></th>
-                                <th width="12%"><h1>Date</h1></th>
-                                <th width="42%"><h1>Customer</h1></th>
-                                <th width="12%"><h1>SO.No. & Date</h1></th>
-                                <th width="12%"><h1>Chassis No./Reg.No.</h1></th>
-                                <th width="10%" class="text-center"><h1></h1></th>
+<table class="table table-bordered">
+    <thead>
+        <tr class="grid_heading">
+            <th width="12%"><h1>Vehicle In-Pass No.</h1></th>
+            <th width="12%"><h1>Date</h1></th>
+            <th width="42%"><h1>Customer</h1></th>
+            <th width="12%"><h1>SO.No. & Date</h1></th>
+            <th width="12%"><h1>Chassis No./Reg.No.</h1></th>
+            <th width="10%" class="text-center"><h1></h1></th>
 
-                            </tr>
-                        </thead>
-                        @foreach (var item in Model)
-                        {
-                            <tbody class="grid_row">
-                                <tr>
-                                    <td class="grid-cell">@item.VehicleInPassNo</td>
-                                    <td class="grid-cell">@item.VehicleInPassDate.ToString("dd/MMM/yyyy")</td>
-                                    <td class="grid-cell">@item.CustomerName</td>
-                                    <td class="grid-cell">@item.SaleOrderRefNo &amp; @item.SaleOrderDate.ToString("dd/MMM/yyyy")</td>
-                                    <td class="grid-cell">@item.RegistrationNo</td>
-                                    <td>
-                                        <center><input type="button" class="form-button4" value="Select" title="Select to view details" onclick="Open(@item.VehicleInPassId)" /></center>
-                                    </td>
-                                </tr>
-                            </tbody>
-                        }
-                    </table>
-             
+        </tr>
+    </thead>
+    @if (Model.Count < 0)
+    {
+        foreach (var item in Model)
+        {
+            <tbody class="grid_row">
+                <tr>
+                    <td class="grid-cell">@item.VehicleInPassNo</td>
+                    <td class="grid-cell">@item.VehicleInPassDate.ToString("dd/MMM/yyyy")</td>
+                    <td class="grid-cell">@item.CustomerName</td>
+                    <td class="grid-cell">@item.SaleOrderRefNo &amp; @item.SaleOrderDate.ToString("dd/MMM/yyyy")</td>
+                    <td class="grid-cell">@item.RegistrationNo</td>
+                    <td>
+                        <center><input type="button" class="form-button4" value="Select" title="Select to view details" onclick="Open(@item.VehicleInPassId)" /></center>
+                    </td>
+                </tr>
+            </tbody>
+        }
+    }
+    else
+    {
+        <tr>
+            <td colspan="6" align="center" valign="middle">
+                <em>There are no vehicle in-passes. Create a vehicle in-pass and it will show up here.</em>
+            </td>
+        </tr>
+    }
+</table>
 
 
-       
 
 
-  
+
+
