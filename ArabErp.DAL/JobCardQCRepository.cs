@@ -206,5 +206,35 @@ namespace ArabErp.DAL
             }
         }
 
+
+        public JobCardQC GetJobCardQCHDPrint(int JobCardQCId,int organizationId)
+        {
+
+            using (IDbConnection connection = OpenConnection(dataConnection))
+            {
+                string sql = @" SELECT O.*, JobCardQCId,JobCardQCRefNo,J.JobCardNo,J.JobCardDate JcDate,JQ.JobCardId,
+                                C.CustomerName Customer,V.VehicleModelName VehicleModel,Employeename,
+                                JobCardQCDate,IsQCPassed,ISNULL(DC.JobCardId,0)IsUsed 
+                                FROM JobCardQC JQ
+						        Left JOIN Employee E ON E.EmployeeId=JQ.EmployeeId
+                                INNER JOIN JobCard J ON J.JobCardId=JQ.JobCardId
+                                INNER JOIN SaleOrder S ON S.SaleOrderId=J.SaleOrderId
+                                INNER JOIN SaleOrderItem SI ON SI.SaleOrderId=S.SaleOrderId
+                                INNER JOIN Customer C ON C.CustomerId=S.CustomerId
+								INNER JOIN Organization O ON O.OrganizationId=JQ.OrganizationId
+                                LEFT JOIN VehicleModel V ON V.VehicleModelId=SI.VehicleModelId
+                                LEFT JOIN DeliveryChallan DC ON DC.JobCardId=JQ.JobCardId
+                                WHERE JobCardQCId=@JobCardQCId";
+
+                var objJobCardQC = connection.Query<JobCardQC>(sql, new
+                {
+                    JobCardQCId = JobCardQCId,
+                    organizationId = organizationId
+                }).First<JobCardQC>();
+
+                return objJobCardQC;
+            }
+        }
+
     }
 }

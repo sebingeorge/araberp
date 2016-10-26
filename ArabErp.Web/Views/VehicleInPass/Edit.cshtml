@@ -17,25 +17,31 @@
             });
     });*@
 
+
+    function GoToPrint(id) {
+        var url = '@Url.Action("Print")';
+        url += "?Id=" + id;
+        window.location = url;
+    }
+
         function formValidation() {
             return confirm("Are you sure to Save?");
         }
 
         function Back() {
             var url = '@Url.Action("VehicleInpassList")';
-            window.location = url;
-        }
+        window.location = url;
+    }
 
-        function Delete() {
-            var url = '@Url.Action("Delete", new { VehicleInPassId = Model.VehicleInPassId })';
-            window.location = url;
-        }
+    function Delete() {
+        var url = '@Url.Action("Delete", new { VehicleInPassId = Model.VehicleInPassId })';
+        window.location = url;
+    }
 
-        $(function ()
-        {
-            $("#VehicleInPassDate").datepicker({ dateFormat: "dd-MM-yy" });
-        });
- 
+    $(function () {
+        $("#VehicleInPassDate").datepicker({ dateFormat: "dd-MM-yy" });
+    });
+
 </script>
 
 
@@ -123,6 +129,7 @@
                             else
                             {
                             <button type="submit" class="form-button right">Edit</button>
+                            <input type="button" value="Print" onclick="GoToPrint(@Model.VehicleInPassId)" class="form-button right" />
                             <input type="button" value="Delete" onclick="Delete()" class="form-button left" />
                             }
                           

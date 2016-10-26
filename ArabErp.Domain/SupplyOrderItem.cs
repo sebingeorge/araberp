@@ -13,7 +13,7 @@ namespace ArabErp.Domain
         public int PurchaseRequestItemId { get; set; }
         public int ItemId { get; set; }
         public int? SlNo { get; set; }
-        public string PRNODATE { get; set; }
+        
         public decimal BalQty { get; set; }
         public decimal OrderedQty { get; set; }
         public decimal Rate { get; set; }
@@ -29,7 +29,10 @@ namespace ArabErp.Domain
         public decimal PendingQuantity { get; set; }
         public decimal ReceivedQuantity { get; set; }
         public string Unit { get; set; }
-     
+        public string PRNODATE { get; set; }
+        public string ItemRefNo { get; set; }
+        public string UnitName { get; set; }
+
        
 
     }

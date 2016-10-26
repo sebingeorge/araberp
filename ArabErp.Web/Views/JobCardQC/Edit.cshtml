@@ -6,10 +6,17 @@
 
 <script>
 
+    function GoToPrint(id) {
+        //var id = $("#EmployeeId").val();
+      //  var name = $("#EmployeeId option:selected").text();
+        var url = '@Url.Action("Print")';
+        url += "?Id=" + id;
+        window.location = url;
+    }
     function Exit() {
         var url = '@Url.Action("Index")'
         window.location = url;
-        }
+    }
 
     function Delete() {
         var url = '@Url.Action("Delete", new { JobCardQCId = Model.JobCardQCId })'
@@ -126,6 +133,8 @@
                         <button type="submit" class="form-button right">Edit</button>
                         <input type="button" value="Delete" onclick="Delete()" class="form-button left" />
                     }
+                    <input type="button" value="Print" onclick="GoToPrint(@Model.JobCardQCId)" class="form-button right" />
+
                     @*<button type="submit" class="form-button right">Save</button>*@
 
                 </div>

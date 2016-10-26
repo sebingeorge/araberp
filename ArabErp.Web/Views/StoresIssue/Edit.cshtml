@@ -41,6 +41,12 @@
         $("#StoreIssueRefNo").tooltip();
     });
 
+    function GoToPrint(id) {
+        var url = '@Url.Action("Print")';
+        url += "?Id=" + id;
+       
+        window.location = url;
+    }
 
     function Back() {
         location.href = '@Url.Action("PreviousList")';
@@ -180,6 +186,8 @@
                         {
                          <p class="alert alert-success" id="successMessage">@TempData["Success"]</p>
                         }*@
+
+                    <input type="button" value="Print" onclick="GoToPrint(@Model.StoreIssueId)" class="form-button right" />
                 </div>
 
             </div>

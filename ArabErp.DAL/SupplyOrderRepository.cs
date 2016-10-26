@@ -460,5 +460,64 @@ namespace ArabErp.DAL
                 return PaymentTerms;
             }
         }
+
+
+
+        public SupplyOrder GetSupplyOrderHDprint(int SupplyOrderId, int organizationId)
+        {
+            try
+            {
+                using (IDbConnection connection = OpenConnection(dataConnection))
+                {
+                    string query = @"SELECT O.*,SU.DoorNo SupDoorNo,Su.State SupState,SU.Phone SupPhone,SU.Fax SupFax,Su.Email SupEmail,SU.PostBoxNo SupPostBoxNo, CU.CountryName SupCountryName,
+                                    SupplyOrderId,
+	                                SupplyOrderNo,
+                                    SU.SupplierName,
+	                                CONVERT(DATETIME, SupplyOrderDate, 106) SupplyOrderDate,
+	                                QuotaionNoAndDate,
+	                                SpecialRemarks,
+	                                S.PaymentTerms,
+	                                DeliveryTerms,
+	                                RequiredDate,
+	                               CurrencyName,
+								   E.EmployeeName,
+								   ORR.CountryName
+                                   FROM SupplyOrder S
+								   INNER JOIN Supplier SU ON SU.SupplierId=S.SupplierId
+							       INNER JOIN Organization O ON O.OrganizationId=S.OrganizationId
+								   INNER JOIN Currency C ON C.CurrencyId=S.CurrencyId
+								   INNER JOIN Country CU ON CU.CountryId=SU.CountryId
+								   inner  JOIN Country ORR ON ORR.CountryId=O.Country
+								   left Join Employee E ON e.EmployeeId=S.CreatedBy
+                                   WHERE SupplyOrderId = @SupplyOrderId
+	                               AND ISNULL(S.isActive, 1) = 1;";
+
+                    var objSupplyOrder = connection.Query<SupplyOrder>(query, new
+                    {
+                        SupplyOrderId = SupplyOrderId,
+                        organizationId = organizationId
+
+                    }).First<SupplyOrder>();
+
+                    return objSupplyOrder;
+                }
+            }
+            catch (InvalidOperationException iox)
+            {
+                throw iox;
+            }
+            catch (SqlException sx)
+            {
+                throw sx;
+            }
+            catch (NullReferenceException nx)
+            {
+                throw nx;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
     }
 }

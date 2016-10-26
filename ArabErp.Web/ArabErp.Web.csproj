@@ -355,6 +355,12 @@
     <Compile Include="Reports\JobCard.cs">
       <SubType>Component</SubType>
     </Compile>
+    <Compile Include="Reports\JobCardQC.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>JobCardQC.rpt</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="Reports\PendingPARregister.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -385,6 +391,18 @@
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>
     </Compile>
+    <Compile Include="Reports\StoreIssue.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>StoreIssue.rpt</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Reports\SupplyOrder.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>SupplyOrder.rpt</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="Reports\SupplyOrderRegister.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -401,6 +419,12 @@
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>testjobcard.rpt</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Reports\WorkShopRequest.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>WorkShopRequest.rpt</DependentUpon>
       <SubType>Component</SubType>
     </Compile>
     <Compile Include="Startup.cs" />
@@ -1089,6 +1113,10 @@
       <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
       <LastGenOutput>JobCard1.cs</LastGenOutput>
     </EmbeddedResource>
+    <EmbeddedResource Include="Reports\JobCardQC.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>JobCardQC.cs</LastGenOutput>
+    </EmbeddedResource>
     <EmbeddedResource Include="Reports\PendingPARregister.rpt">
       <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
       <LastGenOutput>PendingPARregister.cs</LastGenOutput>
@@ -1109,6 +1137,14 @@
       <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
       <LastGenOutput>SalesInvoice.cs</LastGenOutput>
     </EmbeddedResource>
+    <EmbeddedResource Include="Reports\StoreIssue.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>StoreIssue.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Reports\SupplyOrder.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>SupplyOrder.cs</LastGenOutput>
+    </EmbeddedResource>
     <EmbeddedResource Include="Reports\SupplyOrderRegister.rpt">
       <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
       <LastGenOutput>SupplyOrderRegister.cs</LastGenOutput>
@@ -1120,6 +1156,10 @@
     <EmbeddedResource Include="Reports\testjobcard.rpt">
       <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
       <LastGenOutput>testjobcard.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Reports\WorkShopRequest.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>WorkShopRequest.cs</LastGenOutput>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
