@@ -34,14 +34,14 @@
                 <table class="table table-bordered">
                     <thead>
                         <tr class="grid_heading">
-                            <th width="15%"><h1>JC No.</h1></th>
-                            <th width="15%"><h1>JC Date</h1></th>
-                            <th width="60%"><h1>Customer</h1></th>
+                            <th width="15%"><h1>Job Card No.</h1></th>
+                            <th width="15%"><h1>Job Card Date</h1></th>
+                            <th width="40%"><h1>Customer</h1></th>
                             @if (isProjectBased == 0)
                             {
-                            <th width="15%"><h1>Vehicle Model</h1></th>
+                            <th width="25%"><h1>Vehicle Model</h1></th>
                             }                            
-                            <th width="10%"><center><h1></h1></center></th>
+                            <th width="1%"><center><h1></h1></center></th>
                         </tr>
                     </thead>
 
@@ -52,7 +52,7 @@
                             {
                                 <tr>
                                     <td>@item.JobCardNo</td>
-                                    <td>@item.JobCardDate.ToString("dd/MMM/yyyy")</td>
+                                    <td>@item.JobCardDate.ToString("dd/MMMM/yyyy")</td>
                                     <td>@item.CustomerName</td>
                                     @if (isProjectBased == 0)
                                     {
