@@ -143,6 +143,7 @@ namespace ArabErp.DAL
                     string sql = @"Delete VehicleInPass  OUTPUT DELETED.VehicleInPassNo WHERE VehicleInPassId=@VehicleInPassId";
 
                     string output = connection.Query<string>(sql, new { VehicleInPassId = VehicleInPassId }, txn).First();
+                    txn.Commit();
                     return output;
                 }
                 catch (Exception ex)
