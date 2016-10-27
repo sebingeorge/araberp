@@ -228,7 +228,7 @@ namespace ArabErp.DAL
             {
 
                 string sql = @"SELECT O.*,
-                                StoreIssueId,StoreIssueRefNo,StoreIssueDate,StockPointName,C.CustomerName,
+                                StoreIssueId,StoreIssueRefNo,StoreIssueDate,StockPointName,C.CustomerName, ORR.CountryName,
                                 CONCAT(W.WorkShopRequestRefNo,' , ' ,CONVERT(Varchar(15),W.WorkShopRequestDate,106))WONODATE,
                                 CONCAT(SO.SaleOrderRefNo,' , ',CONVERT(Varchar(15),SO.SaleOrderDate,106))SONODATE,
                                 W.RequiredDate,S.Remarks,S.EmployeeId,EmployeeName
@@ -239,6 +239,7 @@ namespace ArabErp.DAL
                                 INNER JOIN Customer C ON C.CustomerId=W.CustomerId 
 								 INNER JOIN Employee E ON E.EmployeeId=S.EmployeeId 
 							    INNER JOIN Organization O ON O.OrganizationId=S.OrganizationId
+                                inner  JOIN Country ORR ON ORR.CountryId=O.Country
                                 WHERE StoreIssueId=@StoreIssueId";
 
                 var objConsumption = connection.Query<StoreIssue>(sql, new

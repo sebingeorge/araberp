@@ -1,13 +1,15 @@
-﻿using ArabErp.DAL;
-using ArabErp.Domain;
-using ArabErp.Web.Models;
-using System;
+﻿using System;
 using System.Collections.Generic;
-using System.Data.SqlClient;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
-
+using ArabErp.DAL;
+using ArabErp.Domain;
+using System.Data.SqlClient;
+using CrystalDecisions.CrystalReports.Engine;
+using System.IO;
+using ArabErp.Web.Models;
+using System.Data;
 namespace ArabErp.Web.Controllers
 {
     public class GrnWareHouseController : BaseController
@@ -393,5 +395,159 @@ namespace ArabErp.Web.Controllers
         {
             ViewBag.employeeList = new SelectList(new DropdownRepository().EmployeeDropdown(), "Id", "Name");
         }
+
+        //public ActionResult Print(int Id)
+        //{
+
+        //    ReportDocument rd = new ReportDocument();
+        //    rd.Load(Path.Combine(Server.MapPath("~/Reports"), "SupplyOrder.rpt"));
+
+        //    DataSet ds = new DataSet();
+        //    ds.Tables.Add("Head");
+
+        //    ds.Tables.Add("Items");
+
+        //    //-------HEAD
+        //    ds.Tables["Head"].Columns.Add("SupplyOrderNo");
+        //    ds.Tables["Head"].Columns.Add("SupplyOrderDate");
+        //    ds.Tables["Head"].Columns.Add("QuotaionNoAndDate");
+        //    ds.Tables["Head"].Columns.Add("SpecialRemarks");
+        //    ds.Tables["Head"].Columns.Add("PaymentTerms");
+        //    ds.Tables["Head"].Columns.Add("DeliveryTerms");
+        //    ds.Tables["Head"].Columns.Add("RequiredDate");
+        //    ds.Tables["Head"].Columns.Add("CurrencyName");
+        //    ds.Tables["Head"].Columns.Add("EmployeeName");
+        //    ds.Tables["Head"].Columns.Add("CountryName");
+        //    //Organization
+        //    ds.Tables["Head"].Columns.Add("DoorNo");
+        //    ds.Tables["Head"].Columns.Add("Street");
+        //    ds.Tables["Head"].Columns.Add("State");
+        //    ds.Tables["Head"].Columns.Add("Country");
+        //    ds.Tables["Head"].Columns.Add("Phone");
+        //    ds.Tables["Head"].Columns.Add("Fax");
+        //    ds.Tables["Head"].Columns.Add("Email");
+        //    ds.Tables["Head"].Columns.Add("ContactPerson");
+        //    ds.Tables["Head"].Columns.Add("Zip");
+        //    ds.Tables["Head"].Columns.Add("OrganizationName");
+        //    ds.Tables["Head"].Columns.Add("Image1");
+        //    ds.Tables["Head"].Columns.Add("SupplierName");
+
+        //    ds.Tables["Head"].Columns.Add("SupDoorNo");
+        //    ds.Tables["Head"].Columns.Add("SupState");
+        //    ds.Tables["Head"].Columns.Add("SupCountryName");
+        //    ds.Tables["Head"].Columns.Add("SupPhone");
+        //    ds.Tables["Head"].Columns.Add("SupFax");
+        //    ds.Tables["Head"].Columns.Add("SupEmail");
+        //    ds.Tables["Head"].Columns.Add("SupPostBoxNo");
+
+
+
+        //    //-------DT
+        //    ds.Tables["Items"].Columns.Add("PRNODATE");
+        //    ds.Tables["Items"].Columns.Add("ItemName");
+        //    ds.Tables["Items"].Columns.Add("BalQty");
+        //    ds.Tables["Items"].Columns.Add("OrderedQty");
+        //    ds.Tables["Items"].Columns.Add("Rate");
+        //    ds.Tables["Items"].Columns.Add("Discount");
+        //    ds.Tables["Items"].Columns.Add("Amount");
+        //    ds.Tables["Items"].Columns.Add("ItemRefNo");
+        //    ds.Tables["Items"].Columns.Add("UnitName");
+
+
+
+        //    GRNRepository repo = new GRNRepository();
+        //    var Head = repo.GetGRNDetailsHDPrint(Id, OrganizationId);
+
+        //    DataRow dr = ds.Tables["Head"].NewRow();
+        //    dr["SupplyOrderNo"] = Head.SupplyOrderNo;
+        //    dr["SupplyOrderDate"] = Head.SupplyOrderDate.ToString("dd-MMM-yyyy");
+        //    dr["SupplierName"] = Head.SupplierName;
+        //    dr["QuotaionNoAndDate"] = Head.QuotaionNoAndDate;
+        //    dr["SpecialRemarks"] = Head.SpecialRemarks;
+        //    dr["PaymentTerms"] = Head.PaymentTerms;
+        //    dr["DeliveryTerms"] = Head.DeliveryTerms;
+        //    dr["RequiredDate"] = Head.RequiredDate;
+        //    dr["CurrencyName"] = Head.CurrencyName;
+        //    dr["EmployeeName"] = Head.EmployeeName;
+        //    dr["CountryName"] = Head.CountryName;
+        //    // dr["CurrencyName"] = Head.CurrencyName;
+
+        //    dr["DoorNo"] = Head.DoorNo;
+        //    dr["Street"] = Head.Street;
+        //    dr["State"] = Head.State;
+        //    dr["Country"] = Head.CountryName;
+        //    dr["Phone"] = Head.Phone;
+        //    dr["Fax"] = Head.Fax;
+        //    dr["Email"] = Head.Email;
+        //    dr["ContactPerson"] = Head.ContactPerson;
+        //    dr["Zip"] = Head.Zip;
+        //    dr["CurrencyName"] = Head.CurrencyName;
+
+        //    dr["SupDoorNo"] = Head.SupDoorNo;
+        //    dr["SupState"] = Head.SupState;
+        //    dr["SupCountryName"] = Head.SupCountryName;
+        //    dr["SupPhone"] = Head.SupPhone;
+        //    dr["SupFax"] = Head.SupFax;
+        //    dr["SupEmail"] = Head.SupEmail;
+        //    dr["SupPostBoxNo"] = Head.SupPostBoxNo;
+
+        //    dr["OrganizationName"] = Head.OrganizationName;
+        //    dr["Image1"] = Server.MapPath("~/App_images/") + Head.Image1;
+        //    ds.Tables["Head"].Rows.Add(dr);
+
+        //    SupplyOrderItemRepository repo1 = new SupplyOrderItemRepository();
+        //    var Items = repo1.GetSupplyOrderItemsDTPrint(Id);
+        //    foreach (var item in Items)
+        //    {
+        //        var pritem = new SupplyOrderItem
+        //        {
+        //            PRNODATE = item.PRNODATE,
+        //            ItemName = item.ItemName,
+        //            BalQty = item.BalQty,
+        //            OrderedQty = item.OrderedQty,
+        //            Rate = item.Rate,
+        //            Discount = item.Discount,
+        //            Amount = item.Amount,
+        //            ItemRefNo = item.ItemRefNo,
+        //            UnitName = item.UnitName
+
+
+        //        };
+
+
+        //        DataRow dri = ds.Tables["Items"].NewRow();
+        //        dri["PRNODATE"] = pritem.PRNODATE;
+        //        dri["ItemName"] = pritem.ItemName;
+        //        dri["BalQty"] = pritem.BalQty;
+        //        dri["OrderedQty"] = pritem.OrderedQty;
+        //        dri["Rate"] = pritem.Rate;
+        //        dri["Discount"] = pritem.Discount;
+        //        dri["Amount"] = pritem.Amount;
+        //        dri["ItemRefNo"] = pritem.ItemRefNo;
+        //        dri["UnitName"] = pritem.UnitName;
+
+        //        ds.Tables["Items"].Rows.Add(dri);
+        //    }
+
+        //    ds.WriteXml(Path.Combine(Server.MapPath("~/XML"), "SupplyOrder.xml"), XmlWriteMode.WriteSchema);
+
+        //    rd.SetDataSource(ds);
+
+        //    Response.Buffer = false;
+        //    Response.ClearContent();
+        //    Response.ClearHeaders();
+
+
+        //    try
+        //    {
+        //        Stream stream = rd.ExportToStream(CrystalDecisions.Shared.ExportFormatType.PortableDocFormat);
+        //        stream.Seek(0, SeekOrigin.Begin);
+        //        return File(stream, "application/pdf", String.Format("SupplyOrder{0}.pdf", Id.ToString()));
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        throw;
+        //    }
+        //}
     }
 }

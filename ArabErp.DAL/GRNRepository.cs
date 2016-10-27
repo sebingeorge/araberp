@@ -713,6 +713,24 @@ namespace ArabErp.DAL
         }
 
 
+        public GRN GetGRNDetailsHDPrint(int GRNId,int OrganizationId)
+        {
+            using (IDbConnection connection = OpenConnection(dataConnection))
+            {
+
+                string qry = @" SELECT O.*, GRNId,GRNNo,GRNDate,S.SupplierName Supplier,''SONODATE,VehicleNo,GatePassNo,
+                               GrandTotal,ReceivedBy,S.SupplierId SupplierId,G.CurrencyId CurrencyId,C.CurrencyName, ORR.CountryName
+                               FROM GRN G INNER JOIN Supplier S ON S.SupplierId=G.SupplierId
+                               INNER JOIN Stockpoint SP On SP.StockPointId=G.WareHouseId
+                               INNER JOIN Currency C On C.CurrencyId=G.CurrencyId
+                               INNER JOIN Organization O ON O.OrganizationId=S.OrganizationId
+                               inner  JOIN Country ORR ON ORR.CountryId=O.Country
+                               WHERE G.GRNId=" + GRNId.ToString();
+
+                GRN workshoprequest = connection.Query<GRN>(qry, new { OrganizationId = OrganizationId }).FirstOrDefault();
+                return workshoprequest;
+            }
+        }
 
     }
 }
