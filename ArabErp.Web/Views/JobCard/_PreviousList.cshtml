@@ -3,12 +3,11 @@
 <table class="table table-bordered table-hover">
     <thead>
         <tr class="grid_heading">
-            <th width="15%"><h1>Job Card No.</h1></th>
-            <th width="15%"><h1>Date</h1></th>
-            <th width="60%"><h1>Customer</h1></th>
-            @*<th><h1>Inpass No. & Date</h1></th>
-                <th><h1>Chasis No./Reg No.</h1></th>
-                <th><h1>Freezer Unit</h1></th>*@
+            <th width="14%"><h1>Job Card No. &amp; Date</h1></th>
+            <th width="30%"><h1>Customer</h1></th>
+            <th width="20%"><h1>Freezer Unit</h1></th>
+            <th width="20%"><h1>Box</h1></th>
+            <th width="15%"><h1>Engineer/Supervisor</h1></th>
             <th width="1%" class="text-center"><h1></h1></th>
         </tr>
     </thead>
@@ -19,30 +18,29 @@
             foreach (var item in Model)
             {
                 <tr>
-                    <td class="grid-cell">@item.JobCardNo</td>
-                    <td class="grid-cell">@item.JobCardDate.ToString("dd/MMM/yyyy")</td>
-                    <td class="grid-cell">@item.CustomerName</td>
-                    @*<td class="grid-cell">@item.VehicleInPassNo &amp; @item.VehicleInPassDate.ToString("dd/MMM/yyyy")</td>
-                        <td class="grid-cell">@item.RegistrationNo</td>
-                        <td class="grid-cell">@item.FreezerUnitName</td>*@
+                    <td>@item.JobCardNo - @item.JobCardDate.ToString("dd/MMMM/yyyy")</td>
+                    <td>@item.CustomerName</td>
+                    <td>@item.FreezerUnitName</td>
+                    <td>@item.BoxName</td>
+                    <td>@item.EmployeeName</td>
                     <td>
                         <center><input type="button" class="form-button4" value="Select" title="Select to view details" onclick="Open(@item.JobCardId)" /></center>
                     </td>
                     @*<td>
-                        <center><input type="button" value="Print" onclick="GoToPrint(@item.JobCardId)" checked class="form-button4" /></center>
-                    </td>*@
+                            <center><input type="button" value="Print" onclick="GoToPrint(@item.JobCardId)" checked class="form-button4" /></center>
+                        </td>*@
                 </tr>
             }
         }
         else
         {
             <tr>
-                <td colspan="4">
+                <td colspan="6">
                     <center><em>No items found!</em></center>
                 </td>
             </tr>
         }
-</tbody>
+    </tbody>
 </table>
 
 

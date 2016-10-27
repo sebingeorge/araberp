@@ -82,8 +82,8 @@ namespace ArabErp.DAL
             {
 
                 string sql = @" SELECT StoreIssueId,StoreIssueRefNo,StoreIssueDate,S.StockpointId,C.CustomerName,
-                                CONCAT(W.WorkShopRequestRefNo,' , ' ,CONVERT(Varchar(15),W.WorkShopRequestDate,106))WONODATE,
-                                CONCAT(SO.SaleOrderRefNo,' , ',CONVERT(Varchar(15),SO.SaleOrderDate,106))SONODATE,
+                                CONCAT(W.WorkShopRequestRefNo,' - ' ,CONVERT(Varchar(15),W.WorkShopRequestDate,106))WONODATE,
+                                CONCAT(SO.SaleOrderRefNo,' - ',CONVERT(Varchar(15),SO.SaleOrderDate,106))SONODATE,
                                 W.RequiredDate,S.Remarks,S.EmployeeId
                                 FROM StoreIssue S
                                 INNER JOIN WorkShopRequest W ON W.WorkShopRequestId=S.WorkShopRequestId
@@ -186,8 +186,8 @@ namespace ArabErp.DAL
         {
             using (IDbConnection connection = OpenConnection(dataConnection))
             {
-                return connection.Query<string>(@"SELECT WorkShopRequestRefNo+', '+CONVERT(VARCHAR, WorkShopRequestDate, 106) WorkShopRequestRefNo, SaleOrderId, CustomerId, CONVERT(VARCHAR, RequiredDate, 106) RequiredDate INTO #WORK FROM WorkShopRequest WHERE WorkShopRequestId = @WorkShopRequestId;
-                    SELECT SaleOrderId, SaleOrderRefNo+', '+CONVERT(VARCHAR, SaleOrderDate, 106) SaleOrderRefNo INTO #SALE FROM SaleOrder;
+                return connection.Query<string>(@"SELECT WorkShopRequestRefNo+' - '+CONVERT(VARCHAR, WorkShopRequestDate, 106) WorkShopRequestRefNo, SaleOrderId, CustomerId, CONVERT(VARCHAR, RequiredDate, 106) RequiredDate INTO #WORK FROM WorkShopRequest WHERE WorkShopRequestId = @WorkShopRequestId;
+                    SELECT SaleOrderId, SaleOrderRefNo+' - '+CONVERT(VARCHAR, SaleOrderDate, 106) SaleOrderRefNo INTO #SALE FROM SaleOrder;
                     SELECT CustomerId, CustomerName INTO #CUS FROM Customer;
                     SELECT ISNULL(W.WorkShopRequestRefNo, ' ')+'|'+ISNULL(C.CustomerName, ' ')+'|'+ISNULL(S.SaleOrderRefNo, ' ')+'|'+ISNULL(W.RequiredDate, ' ') FROM #WORK W INNER JOIN #CUS C ON W.CustomerId = C.CustomerId INNER JOIN #SALE S ON W.SaleOrderId = S.SaleOrderId
                     DROP TABLE #CUS;
@@ -200,7 +200,7 @@ namespace ArabErp.DAL
         /// Return all active store issues
         /// </summary>
         /// <returns></returns>
-        public IEnumerable<StoresIssuePreviousList> PreviousList()
+        public IEnumerable<StoresIssuePreviousList> PreviousList(int OrganizationId)
         {
             using (IDbConnection connection = OpenConnection(dataConnection))
             {
@@ -217,8 +217,9 @@ namespace ArabErp.DAL
 	                                INNER JOIN WorkShopRequest WR ON SI.WorkShopRequestId = WR.WorkShopRequestId
 	                                INNER JOIN Employee E ON SI.EmployeeId = E.EmployeeId
                                 WHERE ISNULL(SI.isActive, 1) = 1
+                                AND SI.OrganizationId = @OrganizationId
                                 ORDER BY StoreIssueDate DESC, SI.CreatedDate DESC;";
-                return connection.Query<StoresIssuePreviousList>(query).ToList();
+                return connection.Query<StoresIssuePreviousList>(query, new { OrganizationId = OrganizationId }).ToList();
             }
         }
 

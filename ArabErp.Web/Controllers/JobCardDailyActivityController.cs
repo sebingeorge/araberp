@@ -157,7 +157,7 @@ namespace ArabErp.Web.Controllers
 
         public ActionResult PreviousList(int type = 0)
         {
-            return View(new JobCardDailyActivityRepository().GetJobCardDailyActivitys());
+            return View(new JobCardDailyActivityRepository().GetJobCardDailyActivitys(OrganizationId));
         }
     }
 }

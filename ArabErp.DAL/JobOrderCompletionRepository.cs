@@ -14,7 +14,7 @@ namespace ArabErp.DAL
     public class JobOrderCompletionRepository:BaseRepository
     {
         static string dataConnection = GetConnectionString("arab");
-        public IEnumerable<JobOrderPending> GetPendingJobOrder(int? isProjectBased)
+        public IEnumerable<JobOrderPending> GetPendingJobOrder(int? isProjectBased, int OrganizationId)
         {
             using (IDbConnection connection = OpenConnection(dataConnection))
             {
@@ -28,7 +28,7 @@ namespace ArabErp.DAL
                     query += " inner join Customer C on S.CustomerId = C.CustomerId ";
                     query += " inner join WorkDescription W on W.WorkDescriptionId = SI.WorkDescriptionId";
                     query += " inner join VehicleModel V on V.VehicleModelId = W.VehicleModelId ";
-                    query += " where ISNULL(J.JodCardCompleteStatus,0) <> 1 and J.isProjectBased = 0";
+                    query += " where ISNULL(J.JodCardCompleteStatus,0) <> 1 and J.isProjectBased = 0 AND J.OrganizationId = @OrganizationId";
                 }
                 else
                 {
@@ -38,11 +38,11 @@ namespace ArabErp.DAL
                     query += " inner join SaleOrder S on S.SaleOrderId = SI.SaleOrderId";
                     query += " inner join Customer C on S.CustomerId = C.CustomerId ";
                     query += " inner join WorkDescription W on W.WorkDescriptionId = SI.WorkDescriptionId";
-                    query += " where ISNULL(J.JodCardCompleteStatus,0) <> 1 and J.isProjectBased = 1";
+                    query += " where ISNULL(J.JodCardCompleteStatus,0) <> 1 and J.isProjectBased = 1 AND J.OrganizationId = @OrganizationId";
                 }
-                
-                
-                return connection.Query<JobOrderPending>(query);
+
+
+                return connection.Query<JobOrderPending>(query, new { OrganizationId = OrganizationId });
             }
         }
 

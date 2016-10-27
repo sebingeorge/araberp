@@ -38,23 +38,24 @@
     </xs:element>
   </xs:schema>
   <Head>
-    <JobCardNo>JC-16/45</JobCardNo>
-    <JobCardDate>12-Oct-2016</JobCardDate>
-    <SaleOrderRefNo>SO/P-16/62</SaleOrderRefNo>
-    <CustomerName>M/S Al Rashid Ice Factory,1fg,fg</CustomerName>
-    <Phone>54</Phone>
-    <ContactPerson>54</ContactPerson>
-    <Customer>M/S Al Rashid Ice Factory</Customer>
-    <Technician>Hemanth</Technician>
+    <JobCardNo>JC/4</JobCardNo>
+    <JobCardDate>21-Oct-2016</JobCardDate>
+    <SaleOrderRefNo>SO/2</SaleOrderRefNo>
+    <CustomerName>Delta Group,Doha, Qatar,</CustomerName>
+    <Phone>0</Phone>
+    <ContactPerson>0</ContactPerson>
+    <Unit>COMPRESSOR CLUTCH COIL  TM16 12V</Unit>
+    <Customer>Delta Group</Customer>
+    <Technician>emptest</Technician>
     <OrganizationName>Arab Air Conditioning &amp; Refrigeration Co. W.L.L.</OrganizationName>
-    <Image1>E:\MIDHU\ARAB\ArabErp\ArabErp.Web\App_images\</Image1>
+    <Image1>E:\SHANID\ARAB ERP\ArabErp\ArabErp.Web\App_images\</Image1>
   </Head>
   <Items>
     <TaskDate>21-Oct-2016</TaskDate>
-    <Employee>Arathi</Employee>
-    <Description>Main Unit Fixing</Description>
+    <Employee>Deepak</Employee>
+    <Description>Unit Fixing</Description>
     <StartTime>0.00</StartTime>
     <EndTime>0.00</EndTime>
-    <ActualHours>0.00</ActualHours>
+    <ActualHours>4.00</ActualHours>
   </Items>
 </NewDataSet>

@@ -112,7 +112,7 @@
                 </div>
                 @if (isProjectBased == 0)
                 {
-                    <div class="col-md-2">
+                    <div class="col-md-3">
                         <label for="vehmodel">Vehicle Model</label>
                         @Html.TextBoxFor(m => m.VehicleModelName, new { @class = "form_input", @readonly = "true" })
                     </div>
@@ -136,12 +136,12 @@
                     <thead>
                         <tr class="grid_heading">
                             <th width="2%"><h1>#</h1></th>
-                            <th width="30%"><h1>Employee</h1></th>
                             <th width="35%"><h1>Task</h1></th>
+                            <th width="30%"><h1>Technician</h1></th>
                             <th width="10%"><h1>Date</h1></th>
                             @*<th width="10%"><h1>Start Time</h1></th>
                             <th width="10%"><h1>End Time</h1></th>*@
-                            <th width="10%"><h1>Est. Hrs.</h1></th>
+                            <th width="10%"><h1>Estimated Hrs.</h1></th>
                             <th width="10%"><h1>Actual Hrs.</h1></th>
                             @*<th width="2%"><h1></h1></th>*@
                         </tr>
@@ -157,14 +157,14 @@
                                     @(row + 1)
                                 </td>
                                 <td>
-                                    @*@Html.DropDownListFor(m => Model.JobCardTask[row].JobCardTaskMasterId, new  (SelectList)ViewBag.TaskList, "Value", "Text", Model.JobCardTask[row].JobCardTaskMasterId, new { @class = "form_input", autocomplete = "off" })*@
-                                    @*@Html.DropDownListFor(x => Model.JobCardTask[row].JobCardTaskMasterId, new SelectList(ViewBag.TaskList, "Value", "Text", Model.JobCardTask[row].JobCardTaskMasterId), "select work description", new { @class = "form_input", autocomplete = "off" })*@
-                                    @Html.TextBoxFor(m => m.JobCardTask[row].EmployeeName, new { @class = "form_input", @readonly = "true" })
-                                </td>
-                                <td>
                                     @*@Html.DropDownListFor(m => Model.JobCardTask[row].EmployeeId, new  (SelectList)ViewBag.EmployeeList, "Value", "Text", Model.JobCardTask[row].EmployeeId, new { @class = "form_input", autocomplete = "off" })*@
                                     @*@Html.DropDownListFor(x => Model.JobCardTask[row].EmployeeId, new SelectList(ViewBag.EmployeeList, "Value", "Text", Model.JobCardTask[row].EmployeeId), "select work description", new { @class = "form_input", autocomplete = "off" })*@
                                     @Html.TextBoxFor(m => m.JobCardTask[row].JobCardTaskName, new { @class = "form_input", @readonly = "true" })
+                                </td>
+                                <td>
+                                    @*@Html.DropDownListFor(m => Model.JobCardTask[row].JobCardTaskMasterId, new  (SelectList)ViewBag.TaskList, "Value", "Text", Model.JobCardTask[row].JobCardTaskMasterId, new { @class = "form_input", autocomplete = "off" })*@
+                                    @*@Html.DropDownListFor(x => Model.JobCardTask[row].JobCardTaskMasterId, new SelectList(ViewBag.TaskList, "Value", "Text", Model.JobCardTask[row].JobCardTaskMasterId), "select work description", new { @class = "form_input", autocomplete = "off" })*@
+                                    @Html.TextBoxFor(m => m.JobCardTask[row].EmployeeName, new { @class = "form_input", @readonly = "true" })
                                 </td>
                                 @if (row == 0)
                                 {
@@ -239,7 +239,7 @@
                     else
                     {
                          <span class="perm">
-                            <em>**Store Issue Not Done For This Job Order</em>
+                            <em>**Store Issue is not done for this Job Card</em>
                         </span>
                     }
 

@@ -56,7 +56,7 @@
             i = j;
         });
         i++;
-      
+
         console.log(i);
 
         var clone = $('#Row_0').clone();
@@ -66,6 +66,7 @@
         clone.html($(clone).html().replace(/\[0\]/g, '[' + i + ']'));
         clone.html($(clone).html().replace(/\(0\)/g, '(' + i + ')'));
         clone.html($(clone).html().replace(/\Row_0/g, 'Row_' + i + ''));
+        clone.html($(clone).html().replace(/this,0/g, "this," + i));
         clone.html($(clone).html().replace(/del_0/, 'del_' + i + ''));
 
 
@@ -92,7 +93,7 @@
         if (i > 1) {
             $("#Row_" + index).remove();
             for (var j = index + 1; j < i; j++) {
-          
+
                 var TaskId = $("#JobCardTasks_" + j + "__JobCardTaskId").val();
                 var Employee = $("#JobCardTasks_" + j + "__EmployeeId").val();
                 var Date = $("#JobCardTasks_" + j + "__TaskDate").val();
@@ -105,10 +106,10 @@
                 clone.html($(clone).html().replace("DeleteRowBelow(" + j, "DeleteRowBelow(" + (j - 1)));
                 clone.html($(clone).html().replace("Row_" + j, "Row_" + (j - 1)));
                 //clone.html($(clone).html().replace("Row_Task_" + j, "Row_Task_" + (j - 1)));
-                clone.html($(clone).html().replace("this," + j, "this," + (j - 1)));
+                clone.html($(clone).html().replace(new RegExp("this," + j, "g"), "this," + (j - 1)));
                 $("#Row_" + j).html(clone.html());
                 //$("#WorkVsTasks_" + (j - 1) + "__SlNo").val(j);
-                $("#Row_" + (j)).attr('id', "Row_"+(j - 1));
+                $("#Row_" + (j)).attr('id', "Row_" + (j - 1));
                 $("#JobCardTasks_" + (j - 1) + "__JobCardTaskId").val(TaskId);
                 $("#JobCardTasks_" + (j - 1) + "__EmployeeId").val(Employee);
                 $("#JobCardTasks_" + (j - 1) + "__TaskDate").val(Date);
@@ -153,7 +154,7 @@
             if (Task != '' && Employee != '' && Hrs == 0) {
                 $("#JobCardTasks_" + i + "__Hours").focus();
                 status = false;
-            }   
+            }
         });
         if (!status)
             alert("Hrs Should Be Greater than Zero");
@@ -171,6 +172,25 @@
         var url = '@Url.Action("Delete", new { JobCardId = Model.JobCardId, isProjectBased = Model.isProjectBased })';
         @*alert(@Model.isProjectBased);*@
         window.location = url;
+    }
+
+    function CheckDuplication(sender, row) {
+        var jobcard = $("#JobCardTasks_" + row + "__JobCardTaskId");
+        var employee = $("#JobCardTasks_" + row + "__EmployeeId");
+        var date = $("#JobCardTasks_" + row + "__TaskDate").val();
+        var count = 0;
+
+        $("select[id$='__JobCardTaskId']").each(function (index, object) {
+            if ($("#JobCardTasks_" + index + "__JobCardTaskId").val() == $(jobcard).val()
+                && $("#JobCardTasks_" + index + "__EmployeeId").val() == $(employee).val()
+                && $("#JobCardTasks_" + index + "__TaskDate").val() == date)
+                ++count;
+        })
+
+        if (count > 1) {
+            toastr.info("This task has already been selected for this employee on this date");
+            $(sender).val('');
+        }
     }
 
 </script>
@@ -217,7 +237,7 @@
                             @Html.TextBoxFor(m => m.VehicleModelName, new { @class = "form_input", autocomplete = "off", @readonly = "true" })
                         </div>
                         <div class="col-md-2">
-                            <label for="chasisno">Chassis No/Reg No.</label>
+                            <label for="chasisno">Chassis No./Reg No.</label>
                             @Html.HiddenFor(m => m.InPassId)
                             @Html.TextBoxFor(m => m.RegistrationNo, new { @class = "form_input", autocomplete = "off", @readonly = "true" })
                             @*@Html.DropDownListFor(m => m.InPassId, (SelectList)ViewBag.inpassList, "Select Chassis/Reg No.", new { @class = "form_input", autocomplete = "off" })*@
@@ -266,12 +286,12 @@
                     <table class="table table-bordered" id="tab_logic">
                         <thead>
                             <tr class="grid_heading">
-                                <td width="2%"><h1></h1></td>
+                                <td width="2%"></td>
                                 <th width="35%"><h1>Task</h1></th>
-                                <th width="35%"><h1>Employee</h1></th>
+                                <th width="35%"><h1>Technician</h1></th>
                                 <th width="12%"><h1>Date</h1></th>
                                 <th width="5%"><h1>Hrs.</h1></th>
-                                <td width="2%"><h1></h1></td>
+                                <td width="2%"></td>
                             </tr>
                         </thead>
                         <tbody class="grid_row">
@@ -280,64 +300,64 @@
                             {
                                 <tr id="Row_@row" class="TaskRow">
 
-                                     <td>
-                                      @if (Model.IsTaskUsed)
-                                      {
-                                        <a id="del_@row" class="glyphicon glyphicon-minus hide" onclick="DeleteRowBelow(@row)" style="top:0;"></a>
-                                      }
-                                      else
-                                      {
-                                         <a id="del_@row" class="glyphicon glyphicon-minus" onclick="DeleteRowBelow(@row);" style="top:0;"></a> 
-                                      }
-                                     </td>
-
-                                     <td>
+                                    <td>
                                         @if (Model.IsTaskUsed)
                                         {
-                                        @Html.DropDownListFor(m => Model.JobCardTasks[row].JobCardTaskId, new SelectList(ViewBag.TaskList, "Value", "Text", Model.JobCardTasks[row].JobCardTaskId), "Select Task",
-                                        new { @class = "form_input", @autocomplete = "off", @disabled = Model.IsTaskUsed })
+                                            <a id="del_@row" class="glyphicon glyphicon-minus hide" onclick="DeleteRowBelow(@row)" style="top:0;"></a>
                                         }
                                         else
                                         {
-                                        @Html.DropDownListFor(m => Model.JobCardTasks[row].JobCardTaskId, new SelectList(ViewBag.TaskList, "Value", "Text", Model.JobCardTasks[row].JobCardTaskId), "Select Task",
-                                        new { @class = "form_input", @autocomplete = "off"})
+                                            <a id="del_@row" class="glyphicon glyphicon-minus" onclick="DeleteRowBelow(@row);" style="top:0;"></a>
                                         }
                                     </td>
 
                                     <td>
                                         @if (Model.IsTaskUsed)
                                         {
-                                        @Html.DropDownListFor(m => Model.JobCardTasks[row].EmployeeId, new SelectList(ViewBag.EmployeeList, "Value", "Text", Model.JobCardTasks[row].EmployeeId), "Select Employee", 
+                                            @Html.DropDownListFor(m => Model.JobCardTasks[row].JobCardTaskId, new SelectList(ViewBag.TaskList, "Value", "Text", Model.JobCardTasks[row].JobCardTaskId), "Select Task",
                                         new { @class = "form_input", @autocomplete = "off", @disabled = Model.IsTaskUsed })
                                         }
                                         else
                                         {
-                                        @Html.DropDownListFor(m => Model.JobCardTasks[row].EmployeeId, new SelectList(ViewBag.EmployeeList, "Value", "Text", Model.JobCardTasks[row].EmployeeId), "Select Employee", 
-                                        new { @class = "form_input", @autocomplete = "off"})
+                                            @Html.DropDownListFor(m => Model.JobCardTasks[row].JobCardTaskId, new SelectList(ViewBag.TaskList, "Value", "Text", Model.JobCardTasks[row].JobCardTaskId), "Select Task",
+                                             new { @class = "form_input", @autocomplete = "off", @onchange = "CheckDuplication(this," + row + ")" })
                                         }
                                     </td>
 
                                     <td>
                                         @if (Model.IsTaskUsed)
                                         {
-                                        @Html.TextBoxFor(m => m.JobCardTasks[row].TaskDate, Model.JobCardTasks[row].TaskDate.ToString("dd/MMMM/yyyy"), 
+                                            @Html.DropDownListFor(m => Model.JobCardTasks[row].EmployeeId, new SelectList(ViewBag.EmployeeList, "Value", "Text", Model.JobCardTasks[row].EmployeeId), "Select Technician",
+                                        new { @class = "form_input", @autocomplete = "off", @disabled = Model.IsTaskUsed })
+                                        }
+                                        else
+                                        {
+                                            @Html.DropDownListFor(m => Model.JobCardTasks[row].EmployeeId, new SelectList(ViewBag.EmployeeList, "Value", "Text", Model.JobCardTasks[row].EmployeeId), "Select Technician",
+                                             new { @class = "form_input", @autocomplete = "off", @onchange = "CheckDuplication(this," + row + ")" })
+                                        }
+                                    </td>
+
+                                    <td>
+                                        @if (Model.IsTaskUsed)
+                                        {
+                                            @Html.TextBoxFor(m => m.JobCardTasks[row].TaskDate, Model.JobCardTasks[row].TaskDate.ToString("dd/MMMM/yyyy"),
                                         new { @class = "taskdate form_input", autocomplete = "off", @readonly = "readonly", @disabled = Model.IsTaskUsed })
                                         }
                                         else
                                         {
-                                        @Html.TextBoxFor(m => m.JobCardTasks[row].TaskDate, Model.JobCardTasks[row].TaskDate.ToString("dd/MMMM/yyyy"), 
-                                        new { @class = "taskdate form_input", autocomplete = "off", @readonly = "readonly"})
+                                            @Html.TextBoxFor(m => m.JobCardTasks[row].TaskDate, Model.JobCardTasks[row].TaskDate.ToString("dd/MMMM/yyyy"),
+                                             new { @class = "taskdate form_input", autocomplete = "off", @readonly = "readonly", @onchange = "CheckDuplication(this," + row + ")" })
                                         }
                                     </td>
 
                                     <td>
                                         @if (Model.IsTaskUsed)
                                         {
-                                        @Html.TextBoxFor(m => m.JobCardTasks[row].Hours, new { @class = "form_input validateqty", autocomplete = "off", @disabled = Model.IsTaskUsed })
+                                            @Html.TextBoxFor(m => m.JobCardTasks[row].Hours, new { @class = "form_input validateqty", autocomplete = "off", @disabled = Model.IsTaskUsed })
                                         }
-                                         else
+                                        else
                                         {
-                                        @Html.TextBoxFor(m => m.JobCardTasks[row].Hours, new { @class = "form_input validateqty", autocomplete = "off" })    
+                                            @Html.TextBoxFor(m => m.JobCardTasks[row].Hours, new { @class = "form_input validateqty", autocomplete = "off" })
                                         }
                                     </td>
 
@@ -346,7 +366,7 @@
                                     </td>
 
                                 </tr>
-                                row++;
+                                        row++;
                             }
                         </tbody>
                     </table>
@@ -370,8 +390,8 @@
                         @Html.TextBoxFor(m => m.RequiredDate, Model.RequiredDate.ToString("dd/MMMM/yyyy"), new { @class = "form_input ", autocomplete = "off", @readonly = "readonly", @required = "true" })
                     </div>
                     <div class="col-md-3">
-                        <label for="emp">Employee/Supervisor</label>
-                        @Html.DropDownListFor(m => Model.EmployeeId, new SelectList(ViewBag.EmployeeList, "Value", "text", Model.EmployeeId), "Select Employee", new { @class = "form_input", autocomplete = "off", @required = "true" })
+                        <label for="emp">Engineer/Supervisor</label>
+                        @Html.DropDownListFor(m => Model.EmployeeId, new SelectList(ViewBag.EmployeeList, "Value", "text", Model.EmployeeId), "Select Engineer/Supervisor", new { @class = "form_input", autocomplete = "off", @required = "true" })
                     </div>
                 </div>
 

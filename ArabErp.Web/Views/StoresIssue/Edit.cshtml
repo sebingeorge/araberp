@@ -21,24 +21,8 @@
         //$("#StoreIssueDate").datepicker({
         //    dateFormat: "dd-MM-yy"
         //});
-
-        //---------------------toastr---------------------------//
-        toastr.options = {
-            "positionClass": "toast-bottom-full-width",
-            "timeOut": "5000",
-            "extendedTimeOut": "2000"
-        }
-        if ('@TempData["success"]' != '') {
-            toastr.success('@TempData["success"]');
-        }
-        else if ('@TempData["error"]' != '') {
-            toastr.error('@TempData["error"]'.split('|')[0]);
-            console.log('@TempData["error"]'.split('|')[1]);
-        }
-        @{ TempData["success"] = TempData["error"] = ""; }
-        //------------------------------------------------------//
-
-        $("#StoreIssueRefNo").tooltip();
+        $("select").attr("disabled", "disabled");
+        $("input[placeholder='Qty'], textarea").attr("readonly", "true");
     });
 
     function GoToPrint(id) {
@@ -52,7 +36,7 @@
         location.href = '@Url.Action("PreviousList")';
     }
 
-    function OnStockPointChanged(sender) {
+    @*function OnStockPointChanged(sender) {
         var stockpoint = $(sender).val();
         var date = $("#StoreIssueDate").val();
         var url = '@Url.Action("GetStockQuantity")';
@@ -74,7 +58,7 @@
                 current.val(0);
             }
         })
-    }
+    }*@
 
     function formValidation() {
         ///////////////////////

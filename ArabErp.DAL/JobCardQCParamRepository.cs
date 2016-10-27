@@ -89,6 +89,7 @@ namespace ArabErp.DAL
                 string sql = @"SELECT QCParamId,QCParamName,QCParaName ParaName 
                                FROM QCParam 
                                INNER JOIN QCParaType on QCParam.QCParaId=QCParaType.QCParaId
+							   WHERE ISNULL(QCParam.isActive, 1) = 1
                                ORDER BY QCParamId ";
 
                 var objSalesInvoices = connection.Query<JobCardQCParam>(sql).ToList<JobCardQCParam>();
