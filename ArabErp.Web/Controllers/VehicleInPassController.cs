@@ -35,7 +35,7 @@ namespace ArabErp.Web.Controllers
             }
             return PartialView("_PendingVehicleInPass", new VehicleInPassRepository().PendingVehicleInpass(customerId));
         }
-        public ActionResult Save(int id=0)
+        public ActionResult Save(int id = 0)
         {
             if (id != 0)
             {
@@ -56,7 +56,7 @@ namespace ArabErp.Web.Controllers
                     TempData["success"] = "";
                     TempData["error"] = "Some error occurred. Please try again.|" + ex.Message;
                 }
-                return View(new VehicleInPass { SaleOrderItemId = id ,VehicleInPassDate = DateTime.Now,VehicleInPassNo = internalId});
+                return View(new VehicleInPass { SaleOrderItemId = id, VehicleInPassDate = DateTime.Now, VehicleInPassNo = internalId });
             }
             return RedirectToAction("Index");
         }
@@ -66,21 +66,20 @@ namespace ArabErp.Web.Controllers
             model.OrganizationId = OrganizationId;
             model.CreatedDate = System.DateTime.Now;
             model.CreatedBy = UserID.ToString();
-            if(new VehicleInPassRepository().InsertVehicleInPass(model) > 0)
-               
-                {
-                    TempData["Success"] = "Added Successfully!";
-                    TempData["VehicleInPassNo"] = model.VehicleInPassNo;
-                    return RedirectToAction("Index");
-                }
-                else
-                {
-                    TempData["error"] = "Some error occurred. Please try again.";
-                    TempData["VehicleInPassNo"] = null;
-                    EmployeeDropdown();
-                    return View(new VehicleInPass { SaleOrderItemId = model.SaleOrderItemId });
-                }
-                   
+            if (new VehicleInPassRepository().InsertVehicleInPass(model) > 0)
+            {
+                TempData["Success"] = "Saved Successfully! Vehicle In-Pass No. is " + model.VehicleInPassNo;
+                //TempData["VehicleInPassNo"] = model.VehicleInPassNo;
+                return RedirectToAction("Index");
+            }
+            else
+            {
+                TempData["error"] = "Some error occurred. Please try again.";
+                //TempData["VehicleInPassNo"] = null;
+                EmployeeDropdown();
+                return View(new VehicleInPass { SaleOrderItemId = model.SaleOrderItemId });
+            }
+
         }
         public void EmployeeDropdown()
         {
@@ -92,7 +91,7 @@ namespace ArabErp.Web.Controllers
             return Json(new
             {
                 SaleOrderRefNo = data.SaleOrderRefNo,
-                WorkDescr = data.WorkDescription ,
+                WorkDescr = data.WorkDescription,
                 VehicleModelName = data.VehicleModelName,
                 CustomerName = data.CustomerName
             }, JsonRequestBehavior.AllowGet);
@@ -111,9 +110,9 @@ namespace ArabErp.Web.Controllers
         {
             ViewBag.CusList = new SelectList(new DropdownRepository().VICustomerDropdown(OrganizationId), "Id", "Name");
         }
-        public ActionResult PreviousList(DateTime? from , DateTime? to,int id = 0, int cusid = 0)
+        public ActionResult PreviousList(DateTime? from, DateTime? to, int id = 0, int cusid = 0)
         {
-             from = from ?? DateTime.Today.AddMonths(-1);
+            from = from ?? DateTime.Today.AddMonths(-1);
             to = to ?? DateTime.Today;
             return PartialView("_PreviousList", new VehicleInPassRepository().GetPreviousList(id, cusid, OrganizationId, from, to));
         }
@@ -127,8 +126,8 @@ namespace ArabErp.Web.Controllers
                     EmployeeDropdown();
                     VehicleInPass VehicleInPass = new VehicleInPass();
                     VehicleInPass = new VehicleInPassRepository().GetVehicleInPassHD(id);
-                    
-                  
+
+
                     return View(VehicleInPass);
                 }
                 else
@@ -155,7 +154,7 @@ namespace ArabErp.Web.Controllers
             }
 
             TempData["success"] = "";
-            return RedirectToAction("Index");
+            return RedirectToAction("VehicleInpassList");
         }
 
         [HttpPost]
@@ -171,9 +170,9 @@ namespace ArabErp.Web.Controllers
 
                 new VehicleInPassRepository().UpdateVehicleInPass(model);
 
-                TempData["success"] = "Updated Successfully ";
-                TempData["VehicleInPassNo"] = model.VehicleInPassNo;
-                return RedirectToAction("Index");
+                TempData["success"] = "Updated Successfully (" + model.VehicleInPassNo + ")";
+                //TempData["VehicleInPassNo"] = model.VehicleInPassNo;
+                return RedirectToAction("VehicleInpassList");
             }
             catch (Exception)
             {
@@ -189,9 +188,8 @@ namespace ArabErp.Web.Controllers
                 if (VehicleInPassId == 0) return RedirectToAction("Index", "Home");
                 string ref_no = new VehicleInPassRepository().DeleteVehicleInPass(VehicleInPassId);
 
-                TempData["Success"] = "Deleted Successfully!";
-                TempData["VehicleInPassNo"] = ref_no;
-                return RedirectToAction("Index");
+                TempData["Success"] = "Deleted Successfully! (" + ref_no + ")";
+                return RedirectToAction("VehicleInpassList");
             }
             catch (Exception)
             {

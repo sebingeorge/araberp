@@ -12,7 +12,7 @@ namespace ArabErp.Web.Controllers
     public class ItemBatchController : BaseController
     {
         // GET: ItemBatch
-        public ActionResult Index()
+        public ActionResult Index(int type = 0)
         {
             return View();
         }

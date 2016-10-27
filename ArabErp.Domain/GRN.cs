@@ -34,5 +34,8 @@ namespace ArabErp.Domain
         public List<GRNAddition> Additions { get; set; }
         public List<GRNDeduction> Deductions { get; set; }
         public string CurrencyName { get; set; }
+        public bool isUsed { get; set; }
+        public decimal Addition { get; set; }
+        public decimal Deduction { get; set; }
     }
 }

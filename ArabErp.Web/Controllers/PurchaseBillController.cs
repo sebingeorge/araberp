@@ -16,7 +16,7 @@ namespace ArabErp.Web.Controllers
         public ActionResult Index()
         {
             GrnSupplierDropdown();
-            FillCurrency();
+            //FillCurrency();
             return View();
 
         }
@@ -54,16 +54,15 @@ namespace ArabErp.Web.Controllers
                     List<int> selectedgrn = (from PendingGRN p in PendingGRNSelected
                                              where p.Select
                                              select p.GRNId).ToList<int>();
+                    purchasebill = rep.GetGRNHeadData(selectedgrn);
                     purchasebill.Items = rep.GetGRNItems(selectedgrn);
                     purchasebill.SupplyOrderNo = rep.GetSupplyOrderNos(selectedgrn).SupplyOrderNo;
                 }
-
-
             }
             string internalId = "";
             try
             {
-                internalId = DatabaseCommonRepository.GetNextDocNo(13, OrganizationId);
+                internalId = DatabaseCommonRepository.GetNextDocNo(32, OrganizationId);
 
             }
             catch (NullReferenceException nx)
@@ -77,15 +76,23 @@ namespace ArabErp.Web.Controllers
                 TempData["error"] = "Some error occurred. Please try again.|" + ex.Message;
             }
 
-            purchasebill.PurchaseBillRefNo = internalId;
+            try
+            {
+                purchasebill.PurchaseBillRefNo = internalId;
 
-            purchasebill.Supplier = PendingGRNSelected[0].SupplierName;
-            purchasebill.SupplierId = PendingGRNSelected[0].SupplierId;
-          
-            purchasebill.PurchaseBillDate = System.DateTime.Today;
-            purchasebill.PurchaseBillDueDate = rep.GetBillDueDate(PendingGRNSelected[0].SupplierId).PurchaseBillDueDate;
-            purchasebill.CurrencyId = new CurrencyRepository().GetCurrencyFrmOrganization(OrganizationId).CurrencyId;
-            return View(purchasebill);
+                purchasebill.Supplier = PendingGRNSelected[0].SupplierName;
+                purchasebill.SupplierId = PendingGRNSelected[0].SupplierId;
+
+                purchasebill.PurchaseBillDate = System.DateTime.Today;
+                purchasebill.PurchaseBillDueDate = rep.GetBillDueDate(PendingGRNSelected[0].SupplierId).PurchaseBillDueDate;
+                purchasebill.CurrencyId = new CurrencyRepository().GetCurrencyFrmOrganization(OrganizationId).CurrencyId;
+                return View(purchasebill);
+            }
+            catch (Exception)
+            {
+                TempData["error"] = "Some required data was missing. Please try again.";
+                return RedirectToAction("Index");
+            }
 
         }
         [HttpPost]
@@ -109,7 +116,7 @@ namespace ArabErp.Web.Controllers
                     else
                     {
                         throw new Exception();
-                    } 
+                    }
                 }
                 else
                 {
@@ -127,7 +134,7 @@ namespace ArabErp.Web.Controllers
             catch (Exception ex)
             {
                 TempData["error"] = "Some error occured. Please try again.|" + ex.Message;
-            } 
+            }
             FillAdditionDeduction();
             FillCurrency();
             return View("Create", model);
@@ -245,11 +252,13 @@ namespace ArabErp.Web.Controllers
             {
                 try
                 {
-                    var result2 = new PurchaseBillRepository().DeletePuchaseBillDT(model.PurchaseBillId);
-                    var result3 = new PurchaseBillRepository().DeletePuchaseBillHD(model.PurchaseBillId, UserID.ToString());
-                    string id = new PurchaseBillRepository().InsertPurchaseBill(model);
+                    //var result2 = new PurchaseBillRepository().DeletePuchaseBillDT(model.PurchaseBillId);
+                    //var result3 = new PurchaseBillRepository().DeletePuchaseBillHD(model.PurchaseBillId, UserID.ToString());
+                    //string id = new PurchaseBillRepository().InsertPurchaseBill(model);
 
-                    TempData["success"] = "Updated successfully. Purchase Request Reference No. is " + model.PurchaseBillRefNo;
+                    int output = new PurchaseBillRepository().UpdatePurchaseBill(model);
+
+                    TempData["success"] = "Updated successfully. (" + model.PurchaseBillRefNo + ")";
                     TempData["error"] = "";
                     return RedirectToAction("PurchaseBillList");
                 }
@@ -265,7 +274,7 @@ namespace ArabErp.Web.Controllers
                 {
                     TempData["error"] = "Some error occured. Please try again.|" + ex.Message;
                 }
-                return RedirectToAction("PurchaseBillList");
+                return View(model);
             }
 
         }

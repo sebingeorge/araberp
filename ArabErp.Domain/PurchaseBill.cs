@@ -41,5 +41,8 @@ namespace ArabErp.Domain
         public int? AdditionId { get; set; }
         public int? DeductionId { get; set; }
         public List<PurchaseBillItem> Items { get; set; }
+
+        public decimal TaxAmount { get; set; }
+        public decimal AssessableAmount { get; set; }
     }
 }

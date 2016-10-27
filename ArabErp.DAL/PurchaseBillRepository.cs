@@ -17,8 +17,8 @@ namespace ArabErp.DAL
         {
             using (IDbConnection connection = OpenConnection(dataConnection))
             {
-                string sql = @"SELECT  CONCAT(GRNNo,'/',CONVERT (VARCHAR(15),GRNDate,104))
-                               GRNNoDate,GI.GRNItemId,ItemName,GI.Quantity,U.UnitName,GI.Discount,GI.Rate,0 taxperc,0 tax,GI.Amount,GI.Amount TotAmount FROM GRN G 
+                string sql = @"SELECT  CONCAT(GRNNo,' - ',CONVERT (VARCHAR(15),GRNDate,106))
+                               GRNNoDate,GI.GRNItemId,ItemName,GI.Quantity,U.UnitName,GI.Discount,GI.Rate,0 taxperc,0.00 tax,GI.Amount-GI.Discount Amount,GI.Amount-GI.Discount TotAmount FROM GRN G 
                                INNER JOIN GRNItem GI ON G.GRNId=GI.GRNId
                                INNER JOIN Item I ON I.ItemId=GI.ItemId
                                INNER JOIN Unit U ON  U.UnitId=I.ItemUnitId
@@ -73,24 +73,12 @@ namespace ArabErp.DAL
                 IDbTransaction trn = connection.BeginTransaction();
                 try
                 {
-                    var internalId = DatabaseCommonRepository.GetNewDocNo(connection, objPurchaseBill.OrganizationId, 13, true, trn);
+                    var internalId = DatabaseCommonRepository.GetNewDocNo(connection, objPurchaseBill.OrganizationId, 32, true, trn);
 
                     objPurchaseBill.PurchaseBillRefNo = internalId;
 
-                    string sql = @"insert  into PurchaseBill(PurchaseBillRefNo,SupplierId,PurchaseBillDate,PurchaseBillNoDate,PurchaseBillDueDate,
-                                   CurrencyId,Remarks,PurchaseBillAmount,AdditionId,DeductionId,Deduction,Addition,CreatedBy,CreatedDate,OrganizationId)
-                                   Values (@PurchaseBillRefNo,@SupplierId,@PurchaseBillDate,@PurchaseBillNoDate,@PurchaseBillDueDate,@CurrencyId,@Remarks,
-                                   @PurchaseBillAmount,@AdditionId,@DeductionId,@Deduction,@Addition,@CreatedBy,@CreatedDate,@OrganizationId);
-                                   SELECT CAST(SCOPE_IDENTITY() as int)";
-
-
-                    var id = connection.Query<int>(sql, objPurchaseBill, trn).Single();
-
-                    foreach (PurchaseBillItem item in objPurchaseBill.Items)
-                    {
-                        item.PurchaseBillId = id;
-                        new PurchaseBillItemRepository().InsertPurchaseBillItem(item, connection, trn);
-                    }
+                    var id = _InsertPurchaseBill(objPurchaseBill, connection, trn);
+                    
                     InsertLoginHistory(dataConnection, objPurchaseBill.CreatedBy, "Create", "Purchase Bill", id.ToString(), "0");
                     trn.Commit();
 
@@ -103,6 +91,46 @@ namespace ArabErp.DAL
                 }
             }
         }
+
+        private int _InsertPurchaseBill(PurchaseBill objPurchaseBill, IDbConnection connection, IDbTransaction trn)
+        {
+            try
+            {
+                decimal addition = objPurchaseBill.Addition ?? 0,
+                                deduction = objPurchaseBill.Deduction ?? 0;
+
+                objPurchaseBill.AssessableAmount = objPurchaseBill.Items.Sum(x => (x.Quantity * x.Rate) - x.Discount);
+                objPurchaseBill.TaxAmount = objPurchaseBill.Items.Sum(x => x.TaxAmount);
+                objPurchaseBill.PurchaseBillAmount = objPurchaseBill.AssessableAmount
+                                                        + objPurchaseBill.TaxAmount
+                                                        + addition
+                                                        - deduction;
+
+                string sql = @"insert into PurchaseBill(PurchaseBillRefNo,SupplierId,PurchaseBillDate,PurchaseBillNoDate,PurchaseBillDueDate,
+                                   CurrencyId,Remarks,PurchaseBillAmount,CreatedBy,CreatedDate,OrganizationId, Addition, Deduction, AssessableAmount, TaxAmount)
+                                   Values (@PurchaseBillRefNo,@SupplierId,@PurchaseBillDate,@PurchaseBillNoDate,@PurchaseBillDueDate,@CurrencyId,@Remarks,
+                                   @PurchaseBillAmount,@CreatedBy,@CreatedDate,@OrganizationId, @Addition, @Deduction, @AssessableAmount, @TaxAmount);
+                                   SELECT CAST(SCOPE_IDENTITY() as int)";
+
+
+                var id = connection.Query<int>(sql, objPurchaseBill, trn).Single();
+
+                foreach (PurchaseBillItem item in objPurchaseBill.Items)
+                {
+                    item.PurchaseBillId = id;
+                    item.Amount = item.Quantity * item.Rate;
+                    item.TotAmount = item.Amount - item.Discount + item.TaxAmount;
+                    new PurchaseBillItemRepository().InsertPurchaseBillItem(item, connection, trn);
+                }
+
+                return id;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
         public PurchaseBill GetPurchaseBill(int PurchaseBillId)
         {
 
@@ -195,13 +223,12 @@ namespace ArabErp.DAL
             }
         }
 
-       
+
         /// <summary>
         /// Pending GRN For Purchase Bill
         /// </summary>
         /// <returns></returns>
         public IEnumerable<PendingGRN> GetGRNPending(int supplierId)
-
         {
             using (IDbConnection connection = OpenConnection(dataConnection))
             {
@@ -218,13 +245,14 @@ namespace ArabErp.DAL
                                 INNER JOIN Supplier S ON G.SupplierId=S.SupplierId
                                 INNER JOIN Stockpoint ST ON G.WareHouseId = ST.StockPointId
                                 LEFT JOIN PurchaseBillItem P ON P.GRNItemId=GI.GRNItemId 
-                                WHERE P.PurchaseBillId is null AND S.SupplierId=ISNULL(NULLIF(@supplierId, 0), S.SupplierId)";
-                              
+                                WHERE P.PurchaseBillId is null AND S.SupplierId=ISNULL(NULLIF(@supplierId, 0), S.SupplierId)
+                                ORDER BY G.GRNDate DESC, G.GRNNo DESC";
+
                 return connection.Query<PendingGRN>(qry, new { SupplierId = supplierId }).ToList();
             }
         }
 
-        public IList<PurchaseBill> GetPurchaseBillPreviousList(int id, int supid, DateTime? from, DateTime? to,int OrganizationId)
+        public IList<PurchaseBill> GetPurchaseBillPreviousList(int id, int supid, DateTime? from, DateTime? to, int OrganizationId)
         {
             using (IDbConnection connection = OpenConnection(dataConnection))
             {
@@ -241,7 +269,7 @@ namespace ArabErp.DAL
             }
         }
 
-        public DateTime GetDueDate(DateTime d,int sup)
+        public DateTime GetDueDate(DateTime d, int sup)
         {
             using (IDbConnection connection = OpenConnection(dataConnection))
             {
@@ -250,7 +278,7 @@ namespace ArabErp.DAL
                 PurchaseBill PurchaseBill = connection.Query<PurchaseBill>(
                     "select DATEADD(day,CreditPeriod,@date) PurchaseBillDueDate FROM Supplier WHERE SupplierId= " + sup,
                     new { date = d }).Single<PurchaseBill>();
-                DateTime duedate = System.DateTime.Today; 
+                DateTime duedate = System.DateTime.Today;
                 if (PurchaseBill != null)
                 {
                     duedate = PurchaseBill.PurchaseBillDueDate;
@@ -264,8 +292,49 @@ namespace ArabErp.DAL
             using (IDbConnection connection = OpenConnection(dataConnection))
             {
                 var param = new DynamicParameters();
-                return connection.Query<Dropdown>("select CurrencyId Id,CurrencyName Name from Currency").ToList();
+                return connection.Query<Dropdown>("select CurrencyId Id,CurrencyName Name from Currency WHERE ISNULL(isActive, 1) = 1").ToList();
+            }
+        }
+
+        public PurchaseBill GetGRNHeadData(List<int> selectedgrn)
+        {
+            using (IDbConnection connection = OpenConnection(dataConnection))
+            {
+                return connection.Query<PurchaseBill>
+                    (@"SELECT
+	                        SUM(Addition) Addition,
+	                        SUM(Deduction) Deduction,
+	                        SUM(GrandTotal) + SUM(Addition) - SUM(Deduction) PurchaseBillAmount
+                        FROM GRN
+                        WHERE GRNId IN @selectedgrn",
+                            new { selectedgrn = selectedgrn })
+                            .FirstOrDefault();
+            }
+        }
+
+        public int UpdatePurchaseBill(PurchaseBill model)
+        {
+            using (IDbConnection connection = OpenConnection(dataConnection))
+            {
+                IDbTransaction txn = connection.BeginTransaction();
+                try
+                {
+                    string query = @"DELETE FROM PurchaseBillItem WHERE PurchaseBillId=@id";
+                    connection.Execute(query, new { id = model.PurchaseBillId }, txn);
+
+                    query = @"DELETE FROM PurchaseBill WHERE PurchaseBillId=@id";
+                    connection.Execute(query, new { id = model.PurchaseBillId }, txn);
+
+                    var id = _InsertPurchaseBill(model, connection, txn);
+                    txn.Commit();
+                    return id;
+                }
+                catch(Exception ex)
+                {
+                    txn.Rollback();
+                    throw ex;
+                }
             }
         }
     }
-} 
+}

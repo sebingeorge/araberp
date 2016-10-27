@@ -154,7 +154,13 @@ namespace ArabErp.DAL
             {
                 using (IDbConnection connection = OpenConnection(dataConnection))
                 {
-                    string query = @"SELECT 
+                    string query = @"DECLARE @isUsed BIT = 0;
+								IF EXISTS(SELECT SupplyOrderId FROM SupplyOrder WHERE SupplyOrderId = @SupplyOrderId AND ISNULL(isApproved, 0) = 1)
+									SET @isUsed = 1;
+								ELSE IF EXISTS(SELECT SupplyOrderItemId FROM SupplyOrderItem WHERE SupplyOrderId = @SupplyOrderId AND SupplyOrderItemId IN (SELECT SupplyOrderItemId FROM GRNItem))
+									SET @isUsed = 1;
+	
+								SELECT 
                                     SupplyOrderId,
 	                                SupplyOrderNo,
 	                                CONVERT(DATETIME, SupplyOrderDate, 106) SupplyOrderDate,
@@ -164,7 +170,8 @@ namespace ArabErp.DAL
 	                                PaymentTerms,
 	                                DeliveryTerms,
 	                                RequiredDate,
-	                                CurrencyId
+	                                CurrencyId,
+									@isUsed isUsed
                                 FROM SupplyOrder
                                 WHERE SupplyOrderId = @SupplyOrderId
 	                                AND ISNULL(isActive, 1) = 1";

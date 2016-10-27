@@ -1,34 +1,36 @@
 ﻿@using ArabErp.Domain
 @model IList<PendingGRN>
 @{
-    ViewBag.Title = "Pending Purchase Bill";
+    ViewBag.Title = "Pending GRN for Purchase Bill";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 <script>
 
-
     function Validation() {
         var count = 0;
-
         $(".clcheck").each(function (i, obj) {
-
-
             if ($(obj).is(':checked')) {
-
                 count = count + 1;
-
             }
-
         });
 
         if ($("#cboSupplier").val() == '') {
-            alert("Select Supplier.");
+            toastr.info("Please select a supplier to continue");
             $('#cboSupplier').focus();
             return false;
         }
+
         if (count == 0) {
-            alert("Select Atleast One Record...");
+            toastr.info("Please select atleast one GRN to continue");
             return false;
+        }
+    }
+
+    function OnCheckboxChanged(sender) {
+        if ($("#cboSupplier").val() == '') {
+            $(sender).prop("checked", false);
+            toastr.info("Please select a supplier before selecting GRN");
+            $("#cboSupplier").focus();
         }
     }
 
@@ -55,15 +57,17 @@
             console.log('@TempData["error"]'.split('|')[1]);
         }
         @{ TempData["success"] = TempData["error"] = ""; }
-
-
-
     })
+
     function OnSupplierChanged(sender) {
+        $("#pending-grn").addClass("fade");
         var id = $(sender).val();
         var url = '@Url.Action("pendingGRN")';
-        $("#pending-grn").load(url, { supplierId: id });
+        $("#pending-grn").load(url, { supplierId: id }, function () {
+            $("#pending-grn").removeClass("fade");
+        });
     }
+
     function PreviousList() {
         window.location = '@Url.Action("PurchaseBillList", "PurchaseBill")'
     }
@@ -73,45 +77,45 @@
         window.location = url;
     }
 
-    </script>
+</script>
 
 
-    <div class="row">
-        <div class="form-head1">
-            <h4>Pending Purchase Bill</h4>
-        </div>
-        <div class="main-part pad1">
-            <form method="post" onsubmit="return Validation()" action="@Url.Action("Create", "PurchaseBill")">
-                <div class="row form-group">
-                    <div class="col-md-4">
-                        <label>Supplier</label>
-
-                        @Html.DropDownListFor(m => Model[0].SupplierId, (SelectList)ViewBag.supplierList, "All", new { @id = "cboSupplier", @class = "form_input", @onchange = "OnSupplierChanged(this)" })
-                   
-                    </div>
-                </div>
-         
-                <div id="pending-grn">
-
-                    @Html.Action("pendingGRN")
-
-                </div>
-                <div class="row">
-
-                    <div class="col-md-12 hrpart">
-                        <input type="button" class="form-button" onclick="PreviousList()" value="Previous">
-                      
-                        <input type="button" class=" form-button right" onclick="Exit()" value="Exit">
-
-                        <button type="submit" class="form-button right">Proceed</button>
-
-                    </div>
-
-                </div>
-
-
-            </form>
-</div>
+<div class="row">
+    <div class="form-head1">
+        <h4>Pending GRN for Purchase Bill</h4>
     </div>
+    <div class="main-part pad1">
+        <form method="post" onsubmit="return Validation()" action="@Url.Action("Create", "PurchaseBill")">
+            <div class="row form-group">
+                <div class="col-md-4">
+                    <label>Supplier</label>
+
+                    @Html.DropDownListFor(m => Model[0].SupplierId, (SelectList)ViewBag.supplierList, "All", new { @id = "cboSupplier", @class = "form_input", @onchange = "OnSupplierChanged(this)" })
+
+                </div>
+            </div>
+
+            <div id="pending-grn">
+
+                @Html.Action("pendingGRN")
+
+            </div>
+            <div class="row">
+
+                <div class="col-md-12 hrpart">
+                    <input type="button" class="form-button" onclick="PreviousList()" value="Previous">
+
+                    <input type="button" class=" form-button right" onclick="Exit()" value="Exit">
+
+                    <button type="submit" class="form-button right">Proceed</button>
+
+                </div>
+
+            </div>
+
+
+        </form>
+    </div>
+</div>
 
 

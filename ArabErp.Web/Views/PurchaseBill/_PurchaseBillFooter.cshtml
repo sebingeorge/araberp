@@ -1,9 +1,9 @@
 ﻿@model ArabErp.Domain.PurchaseBill
 <script>
     $(document).ready(function () {
-    
+
         $("#Addition").keyup(function () {
-          
+
             var Total = parseFloat("0");
             var AdditonAmt = parseFloat("0");
             var DeductionAmt = parseFloat("0");
@@ -16,20 +16,20 @@
                 TotNetAmt = parseFloat("0");
 
             }
-          
-        AdditonAmt = parseFloat($("#Addition").val());
-    
-       if (isNaN(AdditonAmt)) {
-           AdditonAmt = parseFloat("0");
-       }
-        var DeductionAmt = parseFloat($("#Deduction").val());
-        if (isNaN(DeductionAmt)) {
-            DeductionAmt = parseFloat("0");
-        }
 
-        Total = TotNetAmt + AdditonAmt - DeductionAmt;
-      
-        $("#PurchaseBillAmount").val(Total.toFixed(2))
+            AdditonAmt = parseFloat($("#Addition").val());
+
+            if (isNaN(AdditonAmt)) {
+                AdditonAmt = parseFloat("0");
+            }
+            var DeductionAmt = parseFloat($("#Deduction").val());
+            if (isNaN(DeductionAmt)) {
+                DeductionAmt = parseFloat("0");
+            }
+
+            Total = TotNetAmt + AdditonAmt - DeductionAmt;
+
+            $("#PurchaseBillAmount").val(Total.toFixed(2))
         });
 
         $("#Deduction").keyup(function () {
@@ -46,9 +46,9 @@
                 TotNetAmt = parseFloat("0");
 
             }
-          
+
             AdditonAmt = parseFloat($("#Addition").val());
-    
+
             if (isNaN(AdditonAmt)) {
                 AdditonAmt = parseFloat("0");
             }
@@ -58,17 +58,49 @@
             }
 
             Total = TotNetAmt + AdditonAmt - DeductionAmt;
-         
+
             $("#PurchaseBillAmount").val(Total.toFixed(2))
         });
-           
-
-        });
 
 
-        
- 
+    });
+
+
+
+
 </script>
+
+<div class="row form-group" style="padding-top:7px">
+    <div class="col-md-2 col-xs-4 col-sm-2 col-md-offset-6">
+        <label for="qty_rate">Total (Qty*Rate)</label>
+        @*@Html.TextBoxFor(m => m., new { @class = "form_input numbers-only", @style = "text-align:right", autocomplete = "off", @readonly = "true" })*@
+        <input id="qty_rate" class="form_input text-right" readonly />
+    </div>
+    <div class="col-md-2 col-xs-4 col-sm-2">
+        <label for="AssessableAmount">Assessable Amount</label>
+        @Html.TextBoxFor(m => m.AssessableAmount, new { @class = "form_input numbers-only", @style = "text-align:right", autocomplete = "off", @readonly = "true" })
+    </div>
+    <div class="col-md-2 col-xs-4 col-sm-2">
+        <label for="gross_amount">Gross Amount</label>
+        @*@Html.TextBoxFor(m => m.AssessableAmount, new { @class = "form_input numbers-only", @style = "text-align:right", autocomplete = "off", @readonly = "true" })*@
+        <input id="gross_amount" class="form_input text-right" readonly />
+    </div>
+</div>
+<div class="row form-group" style="padding-top:7px">
+    <div class="col-md-2 col-xs-4 col-sm-2 col-md-offset-6">
+        <label for="Addition">Addition</label>
+        @Html.TextBoxFor(m => m.Addition, new { @class = "form_input numbers-only", @style = "text-align:right", autocomplete = "off", @readonly = "true" })
+    </div>
+    <div class="col-md-2 col-xs-4 col-sm-2">
+        <label for="Deduction">Deduction</label>
+        @Html.TextBoxFor(m => m.Deduction, new { @class = "form_input numbers-only", @style = "text-align:right", autocomplete = "off", @readonly = "true" })
+    </div>
+    <div class="col-sm-2 col-md-2">
+        <label for="PurchaseBillAmount">Net Amount</label>
+        @Html.TextBoxFor(m => m.PurchaseBillAmount, new { @class = "form_input ", @style = "text-align:right;font-size: 20px;font-weight: bold;", autocomplete = "off", @readonly = "readyonly" })
+    </div>
+</div>
+
 <div class="row form-group">
     <div class="col-md-12">
         <div class="part1">
@@ -77,41 +109,3 @@
         </div>
     </div>
 </div>
-
-
-<div class="row form-group">
-    <div class="col-md-5 col-sm-10 col-xs-8">
-        <div class="part4">
-            <label for="AdditionRemarks">Addition</label>
-            @Html.DropDownListFor(m => m.AdditionId, (SelectList)ViewBag.additionList, "Select Addition", new { @class = "form_input" })
-        </div>
-        </div>
-    <div class="col-md-1 col-xs-4 col-sm-2">
-        <div class="part4">
-            <label for="Addition">Add.Amt.</label>
-            @Html.TextBoxFor(m => m.Addition, new { @class = "form_input numbers-only", @style = "text-align:right", autocomplete = "off" })
-        </div>
-        </div>
-
-    <div class="col-md-5 col-sm-10 col-xs-8">
-        <div class="part4">
-            <label for="DeductionRemarks">Deduction</label>
-            @Html.DropDownListFor(m => m.DeductionId, (SelectList)ViewBag.deductionList, "Select Deduction", new { @class = "form_input" })
-        </div>
-        </div>
-    <div class="col-md-1 col-xs-4 col-sm-2">
-        <div class="part4">
-            <label for="Deduction">Ded.Amt.</label>
-            @Html.TextBoxFor(m => m.Deduction, new { @class = "form_input numbers-only", @style = "text-align:right", autocomplete = "off"})
-        </div>
-        </div>
-</div>
-
-<div class="row form-group">
-   
-        <div class="col-md-11"></div>
-    <div class="col-sm-offset-10 col-sm-2 col-md-push-1 col-md-1">
-        <label for="PurchaseBillAmount">Net Amt.</label>
-        @Html.TextBoxFor(m => m.PurchaseBillAmount, new { @class = "form_input ", @style = "text-align:right", autocomplete = "off", @readonly = "readyonly" })
-    </div>
-    </div>

@@ -1,31 +1,11 @@
 ﻿@model IList<ArabErp.Domain.ExpenseBillListViewModel>
 
 @{
-    ViewBag.Title = "Pending Approval";
+    ViewBag.Title = "Pending Approvals For Expense Bill";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
 <script type="text/javascript">
-
-    $(document).ready(function () {
-
-        //---------------------toastr---------------------------//
-        toastr.options = {
-            "positionClass": "toast-bottom-full-width",
-            "timeOut": "5000",
-            "extendedTimeOut": "2000"
-        }
-        if ('@TempData["success"]' != '') {
-            toastr.success('@TempData["success"]');
-        }
-        else if ('@TempData["error"]' != '') {
-            toastr.error('@TempData["error"]'.split('|')[0]);
-            console.log('@TempData["error"]'.split('|')[1]);
-        }
-        @{ TempData["success"] = TempData["error"] = ""; }
-        //------------------------------------------------------//
-
-    });
 
     function Create() {
         var url = '@Url.Action("Create")';
@@ -42,7 +22,7 @@
     <div class="row">
 
         <div class="form-head1">
-            <h4>Pending Approvals For Expense Bill </h4>
+            <h4>Pending Approvals For Expense Bill</h4>
         </div>
 
         <div class="main-part pad1">

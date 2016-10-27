@@ -1,30 +1,12 @@
 ﻿@model IEnumerable<ArabErp.Domain.JobOrderPending>
 @{
-    ViewBag.Title = "PendingJobOrderCompletion";
+    ViewBag.Title = "Pending Job Card Completion";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 @{
     int isProjectBased = Convert.ToInt32(Request.QueryString["isProjectBased"].ToString());
 }
 <script>
-
-    $(document).ready(function () {
-        //---------------------toastr---------------------------//
-        toastr.options = {
-            "positionClass": "toast-bottom-full-width",
-            "timeOut": "5000",
-            "extendedTimeOut": "2000"
-        }
-        if ('@TempData["success"]' != '') {
-            toastr.success('@TempData["success"]');
-        }
-        else if ('@TempData["error"]' != '') {
-            toastr.error('@TempData["error"]');
-            console.log('@TempData["error"]');
-        }
-        @{ TempData["success"] = TempData["error"] = ""; }
-        //------------------------------------------------------//
-    });
     function GotoJobcardCompletion(id)
     {
         var url = '@Url.Action("Create")';
@@ -43,7 +25,7 @@
     <div class="row">
 
         <div class="form-head1">
-            <h4>Pending Job Order Completion</h4>
+            <h4>Pending Job Card Completion</h4>
         </div>
         <div class="main-part pad1">
             <div class="row">
@@ -52,7 +34,7 @@
                 <table class="table table-bordered">
                     <thead>
                         <tr class="grid_heading">
-                            <th width="15%"><h1>JC.No.</h1></th>
+                            <th width="15%"><h1>JC No.</h1></th>
                             <th width="15%"><h1>JC Date</h1></th>
                             <th width="60%"><h1>Customer</h1></th>
                             @if (isProjectBased == 0)

@@ -1,7 +1,7 @@
 ﻿@model ArabErp.Domain.VehicleInPass
 
 @{
-    ViewBag.Title = "Vehicle In Pass";
+    ViewBag.Title = "Vehicle In-Pass";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
@@ -57,7 +57,7 @@
                                 <input type="text" class="form_input" id="txtCustomer" readonly />
                             </div>
                             <div class="col-md-2">
-                                <label>SO.No. &amp; Date</label>
+                                <label>SO No. &amp; Date</label>
                                 <input type="text" class="form_input" id="txtSONoDate" readonly />
                             </div>
                             <div class="row form-group">
@@ -77,14 +77,14 @@
                         <div class="row form-group">
                            
                             <div class="col-md-2">
-                                <label>Chassis No./Reg.No.</label>
+                                <label>Chassis No./Reg. No.</label>
                                 @Html.HiddenFor(m => m.SaleOrderItemId)
-                                @Html.TextBoxFor(m => m.RegistrationNo, new { @class = "form_input", autocomplete = "off" })
+                                @Html.TextBoxFor(m => m.RegistrationNo, new { @class = "form_input", autocomplete = "off", @required = "true" })
                             </div>
                           
                             <div class="col-md-4">
                                 <label>Employee</label>
-                                @Html.DropDownListFor(m => m.EmployeeId, (SelectList)ViewBag.employeeList, "Select Employee", new { @class = "form_input" })
+                                @Html.DropDownListFor(m => m.EmployeeId, (SelectList)ViewBag.employeeList, "Select Employee", new { @class = "form_input", @required = "true" })
                             </div>
                         </div>
 

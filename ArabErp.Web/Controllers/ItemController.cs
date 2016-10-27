@@ -13,7 +13,7 @@ namespace ArabErp.Web.Controllers
         public ActionResult Index()
         {
             return View();
-         }
+        }
 
         // GET: Item
         public ActionResult Create()
@@ -21,7 +21,7 @@ namespace ArabErp.Web.Controllers
             FillItemCategory();
             FillUnit();
             InitDropdown();
-            Item oItem=new Item();
+            Item oItem = new Item();
             oItem.PartNo = null;
             oItem.ItemName = null;
             oItem.ItemPrintName = null;
@@ -36,9 +36,9 @@ namespace ArabErp.Web.Controllers
             oItem.ReorderLevel = null;
             oItem.MaxLevel = null;
             oItem.StockRequired = false;
-            oItem.BatchRequired=false;
-            oItem.ItemRefNo = "ITM/"+DatabaseCommonRepository.GetNextRefNoWithNoUpdate(typeof(Item).Name);
-           
+            oItem.BatchRequired = false;
+            oItem.ItemRefNo = "ITM/" + DatabaseCommonRepository.GetNextRefNoWithNoUpdate(typeof(Item).Name);
+
             return View("Create", oItem);
         }
         [HttpPost]
@@ -53,16 +53,15 @@ namespace ArabErp.Web.Controllers
 
             var repo = new ItemRepository();
 
-            bool isexists = repo.IsFieldExists(repo.ConnectionString(), "Item","ItemName",oitem.ItemName, null, null);
+            bool isexists = repo.IsFieldExists(repo.ConnectionString(), "Item", "ItemName", oitem.ItemName, null, null);
             if (!isexists)
             {
 
-                if(oitem.PartNo!=null)
+                if (oitem.PartNo != null)
 
-                isexists = repo.IsFieldExists(repo.ConnectionString(), "Item", "PartNo", oitem.PartNo, null, null);
+                    isexists = repo.IsFieldExists(repo.ConnectionString(), "Item", "PartNo", oitem.PartNo, null, null);
 
                 if (!isexists)
-
                 {
 
 
@@ -70,16 +69,14 @@ namespace ArabErp.Web.Controllers
                     if (result.ItemId > 0)
                     {
 
-                        TempData["Success"] = "Added Successfully!";
-                        TempData["ItemRefNo"] = result.ItemRefNo;
+                        TempData["Success"] = "Saved Successfully! Reference No. is " + result.ItemRefNo;
                         return RedirectToAction("Index");
                     }
 
                     else
                     {
                         FillUnit();
-                        TempData["error"] = "Oops!!..Something Went Wrong!!";
-                        TempData["ItemRefNo"] = null;
+                        TempData["error"] = "Some error occurred. Please try again.";
                         return View("Create", oitem);
                     }
 
@@ -88,16 +85,14 @@ namespace ArabErp.Web.Controllers
                 {
 
                     FillUnit();
-                    TempData["error"] = "This Part No. Alredy Exists!!";
-                    TempData["ItemRefNo"] = null;
+                    TempData["error"] = "This part no. already exists!";
                     return View("Create", oitem);
                 }
             }
             else
             {
                 FillUnit();
-                TempData["error"] = "This Item Name Alredy Exists!!";
-                TempData["ItemRefNo"] = null;
+                TempData["error"] = "This material/spare name alredy exists!";
                 return View("Create", oitem);
             }
         }
@@ -105,7 +100,7 @@ namespace ArabErp.Web.Controllers
         public ActionResult View(int Id)
         {
 
-            Item objItem =new JobCardRepository().GetItem(Id);
+            Item objItem = new JobCardRepository().GetItem(Id);
             return View("Create", objItem);
         }
 
@@ -114,10 +109,9 @@ namespace ArabErp.Web.Controllers
             Item objItem = new ItemRepository().GetItem(Id);
             FillUnit();
             return View(objItem);
-            
+
         }
-       [HttpPost]
-  
+        [HttpPost]
         public ActionResult Edit(Item model)
         {
             model.OrganizationId = OrganizationId;
@@ -128,21 +122,18 @@ namespace ArabErp.Web.Controllers
 
             bool isexists = repo.IsFieldExists(repo.ConnectionString(), "Item", "ItemName", model.ItemName, "ItemId", model.ItemId);
             if (!isexists)
-
             {
                 var result = new ItemRepository().UpdateItem(model);
 
                 if (result.ItemId > 0)
                 {
-                    TempData["Success"] = "Updated Successfully!";
-                    TempData["ItemRefNo"] = result.ItemRefNo;
+                    TempData["Success"] = "Updated Successfully! (" + result.ItemRefNo + ")";
                     return RedirectToAction("Index");
                 }
                 else
                 {
                     FillUnit();
-                    TempData["error"] = "Oops!!..Something Went Wrong!!";
-                    TempData["ItemRefNo"] = null;
+                    TempData["error"] = "Some error occurred. Please try again.";
                     return View("Edit", model);
                 }
             }
@@ -150,54 +141,53 @@ namespace ArabErp.Web.Controllers
             {
 
                 FillUnit();
-                TempData["error"] = "This Item Name Alredy Exists!!";
-                TempData["ItemRefNo"] = null;
-               
+                TempData["error"] = "This material/spare name already exists!";
+
                 return View("Edit", model);
             }
 
         }
 
 
-       public ActionResult Delete(int Id)
-       {
+        public ActionResult Delete(int Id)
+        {
 
             Item objItem = new ItemRepository().GetItem(Id);
 
-           FillUnit();
+            FillUnit();
 
 
-           return View(objItem);
-                
-            
+            return View(objItem);
+
+
         }
-       [HttpPost]
-       public ActionResult Delete(Item model)
-       {
-           
-           int result = new ItemRepository().DeleteItem(model);
-
-
-           if (result == 0)
-           {
-               TempData["Success"] = "Deleted Successfully!";
-               TempData["ItemRefNo"] = model.ItemRefNo;
-               return RedirectToAction("Index");
-           }
-           else
-           {
-               if (result == 1)
-               {
-                   TempData["error"] = "Sorry!! You Cannot Delete This Item. It Is Already In Use";
-                   TempData["ItemRefNo"] = null;
-               }
-               else
+        [HttpPost]
+        public ActionResult Delete(Item model)
         {
-                   TempData["error"] = "Oops!!..Something Went Wrong!!";
-                   TempData["ItemRefNo"] = null;
-               }
-               return RedirectToAction("Index");
-           }
+
+            int result = new ItemRepository().DeleteItem(model);
+
+
+            if (result == 0)
+            {
+                TempData["Success"] = "Deleted Successfully!";
+                TempData["ItemRefNo"] = model.ItemRefNo;
+                return RedirectToAction("Index");
+            }
+            else
+            {
+                if (result == 1)
+                {
+                    TempData["error"] = "Sorry!! You Cannot Delete This Item. It Is Already In Use";
+                    TempData["ItemRefNo"] = null;
+                }
+                else
+                {
+                    TempData["error"] = "Oops!!..Something Went Wrong!!";
+                    TempData["ItemRefNo"] = null;
+                }
+                return RedirectToAction("Index");
+            }
 
         }
 
@@ -248,7 +238,7 @@ namespace ArabErp.Web.Controllers
             return PartialView("_ItemCategoryDropdown");
         }
         public ActionResult ItemList(int? page, string name = "")
-        { 
+        {
             int itemsPerPage = 10;
             int pageNumber = page ?? 1;
             return PartialView("_ItemListView", new ItemRepository().GetItems(name.Trim()));
@@ -257,6 +247,6 @@ namespace ArabErp.Web.Controllers
             //return PartialView("_ItemListView",List);
         }
 
-       
+
     }
 }

@@ -7,26 +7,6 @@
 
 <script type="text/javascript">
 
-    $(document).ready(function () {
-
-        //---------------------toastr---------------------------//
-        toastr.options = {
-            "positionClass": "toast-bottom-full-width",
-            "timeOut": "5000",
-            "extendedTimeOut": "2000"
-        }
-        if ('@TempData["success"]' != '') {
-            toastr.success('@TempData["success"]');
-        }
-        else if ('@TempData["error"]' != '') {
-            toastr.error('@TempData["error"]'.split('|')[0]);
-            console.log('@TempData["error"]'.split('|')[1]);
-        }
-        @{ TempData["success"] = TempData["error"] = ""; }
-        //------------------------------------------------------//
-
-    })
-
     function OnItemSelected(id) {
         var url = '@Url.Action("Create")';
         url += "?id=" + id;
@@ -60,13 +40,13 @@
                                 <tr class="grid_heading">
                                     <th class="text-center" width="2%">#</th>
                                     <th width="15%"><h1>GRN No. & Date</h1></th>
-                                    <th width="28%"><h1>Item</h1></th>
-                                    <th width="5%" nowrap><h1>Quantity</h1></th>
+                                    <th width="28%"><h1>Material/Spare</h1></th>
+                                    <th width="5%" class="text-right" nowrap><h1>Quantity</h1></th>
                                     <th width="20%"><h1>Supplier</h1></th>
                                     <th nowrap width="10%"><h1>Warehouse/Stock Point</h1></th>
                                     <th width="5%" nowrap><h1>Ageing</h1></th>
                                     <th width="7%" nowrap><h1>Type</h1></th>
-                                    <th width="10%"><center><h1></h1></center></th>
+                                    <th width="1%"><center><h1></h1></center></th>
                                 </tr>
                             </thead>
                             <tbody class="grid_row">
@@ -85,7 +65,7 @@
                                                 <td>
                                                     @*<input type="text" value="*@@Model[i].ItemName@*" class="form_input" disabled />*@
                                                 </td>
-                                                <td>
+                                                <td align="right">
                                                     @*<input type="text" value="*@@Model[i].Quantity@*" class="form_input text-right" disabled />*@
                                                 </td>
                                                 @*<td>
@@ -108,6 +88,14 @@
                                                 </td>
                                             </tr>
                                         }
+                                    }
+                                    else
+                                    {
+                                        <tr>
+                                        <td colspan="5">
+                                            <center><em>There are no pending materials/spares in GRN for assigning serial number!</em></center>
+                                        </td>
+                                    </tr>
                                     }
                                 }
                             </tbody>

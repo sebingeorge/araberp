@@ -34,7 +34,7 @@ namespace ArabErp.Web.Controllers
         public ActionResult PreviousList()
         {
             var repo = new GRNRepository();
-            IEnumerable<GRN> GRNList = repo.GetGRNPreviousList();
+            IEnumerable<GRN> GRNList = repo.GetGRNPreviousList(OrganizationId);
             return View("PreviousList", GRNList);
         }
 
@@ -216,6 +216,11 @@ namespace ArabErp.Web.Controllers
             FillAdditionDeduction();
 
             GRN model = repo.GetGRNDetails(id);
+            if (model == null)
+            {
+                TempData["error"] = "Could not find the requested GRN. Please try again.";
+                return RedirectToAction("PreviousList");
+            }
             model.Items = repo.GetGRNItems(id);
             model.Additions = repo.GetGRNAdditions(id);
 
@@ -247,7 +252,7 @@ namespace ArabErp.Web.Controllers
             var result1 = new GRNRepository().CHECK(model.GRNId);
             if (result1 > 0)
             {
-                TempData["error"] = "Sorry!!..Already Used!!";
+                TempData["error"] = "Sorry! Already Used.";
                 TempData["GRNNo"] = null;
                 return View("Edit", model);
             }
@@ -257,13 +262,13 @@ namespace ArabErp.Web.Controllers
                 try
                 {
                     var result = new GRNRepository().UpdateGRN(model);
-                    var result3 = new GRNItemRepository().DeleteGRNADDDED(model.GRNId);
-                    var result2 = new GRNItemRepository().DeleteGRNItem(model.GRNId);
-                    var result4 = new StockUpdateRepository().DeleteGRNStockUpdate(model.GRNId);
-                    var result5 = new GRNRepository().InsertGRNDT(model);
-                    if (result5.GRNId > 0)
+                    //var result3 = new GRNItemRepository().DeleteGRNADDDED(model.GRNId);
+                    //var result2 = new GRNItemRepository().DeleteGRNItem(model.GRNId);
+                    //var result4 = new StockUpdateRepository().DeleteGRNStockUpdate(model.GRNId);
+                    //var result5 = new GRNRepository().InsertGRNDT(model);
+                    if (result.GRNId > 0)
                     {
-                        TempData["success"] = "Updated successfully. The GRN Reference No. is " + result.GRNNo;
+                        TempData["success"] = "Updated successfully. (" + result.GRNNo + ")";
                         TempData["GRNNo"] = result.GRNNo;
                         return RedirectToAction("PreviousList");
                         //return View("Edit", model);
@@ -297,35 +302,29 @@ namespace ArabErp.Web.Controllers
             var result1 = new GRNRepository().CHECK(Id);
             if (result1 > 0)
             {
-                TempData["error"] = "Sorry!!..Already Used!!";
+                TempData["error"] = "Sorry! Already Used.";
                 TempData["GRNNo"] = null;
                 return RedirectToAction("Edit", new { id = Id });
             }
-
             else
             {
-                var result5 = new GRNItemRepository().DeleteGRNADDDED(Id);
-                var result2 = new GRNItemRepository().DeleteGRNItem(Id);
-                var result4 = new StockUpdateRepository().DeleteGRNStockUpdate(Id);
+                //var result5 = new GRNItemRepository().DeleteGRNADDDED(Id);
+                //var result2 = new GRNItemRepository().DeleteGRNItem(Id);
+                //var result4 = new StockUpdateRepository().DeleteGRNStockUpdate(Id);
                 var result3 = new GRNRepository().DeleteGRNHD(Id);
 
                 if (Id > 0)
                 {
                     TempData["success"] = "Deleted succesfully";
                     return RedirectToAction("PreviousList");
-
                 }
-
                 else
                 {
-
-                    TempData["error"] = "Oops!!..Something Went Wrong!!";
+                    TempData["error"] = "Some error occured. Please try again.";
                     TempData["GRNNo"] = null;
                     return RedirectToAction("Edit", new { id = Id });
                 }
-
             }
-
         }
         public ActionResult PendingDirectPurchase()
         {

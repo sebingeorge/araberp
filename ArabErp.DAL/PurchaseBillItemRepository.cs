@@ -17,8 +17,7 @@ namespace ArabErp.DAL
         {
             try
             {
-
-                string sql = @"insert  into PurchaseBillItem(PurchaseBillId,GRNItemId,Rate,TaxPercentage,TaxAmount,Discount,Amount) Values (@PurchaseBillId,@GRNItemId,@Rate,@TaxPercentage,@TaxAmount,@Discount,@Amount);
+                string sql = @"insert into PurchaseBillItem(PurchaseBillId,GRNItemId,Rate,TaxPercentage,TaxAmount,Discount,Amount, Quantity, TotalAmount) Values (@PurchaseBillId,@GRNItemId,@Rate,@TaxPercentage,@TaxAmount,@Discount,@Amount, @Quantity, @TotAmount);
                 SELECT CAST(SCOPE_IDENTITY() as int)";
 
                 var id = connection.Query<int>(sql, model, trn).Single();
@@ -49,10 +48,14 @@ namespace ArabErp.DAL
         {
             using (IDbConnection connection = OpenConnection(dataConnection))
             {
-                string sql = @" SELECT CONCAT(GRNNo,'/',CONVERT (VARCHAR(15),GRNDate,104))GRNNoDate,
+                string sql = @" SELECT CONCAT(GRNNo,' - ',CONVERT (VARCHAR(15),GRNDate,106))GRNNoDate,
                                 P.PurchaseBillItemId,P.PurchaseBillId,P.GRNItemId,
-                                ItemName,GI.Quantity,U.UnitName,P.Discount,P.Rate,
-                                P.TaxPercentage,P.TaxAmount,P.Amount,P.Amount TotAmount,P.isActive
+                                ItemName,P.Quantity,U.UnitName,P.Discount,P.Rate,
+                                P.TaxPercentage,
+								P.TaxAmount,
+								P.Amount-P.Discount Amount,--this is assessable amount
+								P.Amount-P.Discount+P.TaxAmount TotAmount,
+								P.isActive
                                 FROM PurchaseBillItem P
                                 INNER JOIN GRNItem GI ON GI.GRNItemId=P.GRNItemId
                                 INNER JOIN GRN G ON G.GRNId=GI.GRNId

@@ -19,10 +19,10 @@ namespace ArabErp.Web.Controllers
         public ActionResult Create()
         {
             ViewBag.Title = "Create";
-          
+
             ItemCategory ItemCategory = new ItemCategory();
             ItemCategory.CreatedBy = UserID.ToString();
-            ItemCategory.itmCatRefNo= new ItemCategoryRepository().GetRefNo(ItemCategory);
+            ItemCategory.itmCatRefNo = new ItemCategoryRepository().GetRefNo(ItemCategory);
             return View(ItemCategory);
         }
 
@@ -32,7 +32,7 @@ namespace ArabErp.Web.Controllers
             model.OrganizationId = OrganizationId;
             model.CreatedDate = System.DateTime.Now;
             model.CreatedBy = UserID.ToString();
-            
+
             var repo = new ItemCategoryRepository();
             bool isexists = repo.IsFieldExists(repo.ConnectionString(), "ItemCategory", "CategoryName", model.CategoryName, null, null);
             if (!isexists)
@@ -41,16 +41,14 @@ namespace ArabErp.Web.Controllers
                 if (result.itmCatId > 0)
                 {
 
-                    TempData["Success"] = "Added Successfully!";
-                    TempData["itmCatRefNo"] = result.itmCatRefNo;
+                    TempData["Success"] = "Saved Successfully! Reference No. is " + result.itmCatRefNo;
                     return RedirectToAction("Create");
                 }
 
                 else
                 {
-                
-                    TempData["error"] = "Oops!!..Something Went Wrong!!";
-                    TempData["itmCatRefNo"] = null;
+
+                    TempData["error"] = "Some error occurred. Please try again.";
                     return View("Create", model);
                 }
 
@@ -58,14 +56,13 @@ namespace ArabErp.Web.Controllers
             else
             {
 
-                TempData["error"] = "This Item Category Name Alredy Exists!!";
-                TempData["itmCatRefNo"] = null;
+                TempData["error"] = "This material/spare category name already exists!";
                 return View("Create", model);
             }
 
         }
 
-     
+
         public ActionResult Edit(int Id)
         {
             ViewBag.Title = "Edit";
@@ -89,7 +86,7 @@ namespace ArabErp.Web.Controllers
                 if (result.itmCatId > 0)
                 {
 
-                    TempData["Success"] = "Updated Successfully!";
+                    TempData["Success"] = "Updated Successfully! (" + result.itmCatRefNo + ")";
                     TempData["itmCatRefNo"] = result.itmCatRefNo;
                     return RedirectToAction("Create");
                 }
@@ -97,8 +94,7 @@ namespace ArabErp.Web.Controllers
                 else
                 {
 
-                    TempData["error"] = "Oops!!..Something Went Wrong!!";
-                    TempData["itmCatRefNo"] = null;
+                    TempData["error"] = "Some error occurred. Please try again.";
                     return View("Create", model);
                 }
 
@@ -106,14 +102,14 @@ namespace ArabErp.Web.Controllers
             else
             {
 
-                TempData["error"] = "This Item Category Name Alredy Exists!!";
+                TempData["error"] = "This material/spare category name already exists!";
                 TempData["itmCatRefNo"] = null;
                 return View("Create", model);
             }
 
         }
 
-       
+
         public ActionResult Delete(int Id)
         {
             ViewBag.Title = "Delete";
@@ -129,31 +125,29 @@ namespace ArabErp.Web.Controllers
 
             if (result.itmCatId > 0)
             {
-                TempData["Success"] = "Deleted Successfully!";
-                TempData["itmCatRefNo"] = model.itmCatRefNo;
+                TempData["Success"] = "Deleted Successfully! (" + result.itmCatRefNo + ")";
                 return RedirectToAction("Create");
             }
             else
             {
-                TempData["error"] = "Oops!!..Something Went Wrong!!";
-                TempData["itmCatRefNo"] = null;
+                TempData["error"] = "Some error occurred. Please try again.";
                 return View("Create", model);
             }
 
         }
 
-     
+
         public ActionResult FillItemCategoryList(int? page, string name = "")
-          {
-          int itemsPerPage = 10;
-          int pageNumber = page ?? 1;
-          return PartialView("ItemCategoryListView", new ItemCategoryRepository().FillItemCategoryList(name));
-          //var repo = new ItemCategoryRepository();
-          //var List = repo.FillItemCategoryList();
-          //return PartialView("ItemCategoryListView", List);
-          }
-        
-        
+        {
+            int itemsPerPage = 10;
+            int pageNumber = page ?? 1;
+            return PartialView("ItemCategoryListView", new ItemCategoryRepository().FillItemCategoryList(name));
+            //var repo = new ItemCategoryRepository();
+            //var List = repo.FillItemCategoryList();
+            //return PartialView("ItemCategoryListView", List);
+        }
+
+
 
     }
 }

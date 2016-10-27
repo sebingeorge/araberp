@@ -11,39 +11,14 @@
         location.href = '@Url.Action("Index", "AdditionalWorkShopRequest")';
 
     }
-    function DeleteAddWr(id)
-    {
-        
+    function DeleteAddWr(id) {
+
         var url = '@Url.Action("Delete")';
         url += "?id=" + id;
         window.location = url;
     }
 
     $(document).ready(function () {
-
-        toastr.options = {
-            "closeButton": true,
-            "positionClass": "toast-bottom-full-width",
-            "preventDuplicates": false,
-            "onclick": null,
-            "showDuration": "300",
-            "hideDuration": "1000",
-            "timeOut": "0",
-            "extendedTimeOut": "1000",
-            "showEasing": "swing",
-            "hideEasing": "linear",
-            "showMethod": "fadeIn",
-            "hideMethod": "fadeOut"
-        }
-        if ('@TempData["success"]' != '') {
-            toastr.success('@TempData["success"]');
-
-        }
-        else if ('@TempData["error"]' != '') {
-            toastr.error('@TempData["error"]'.split('|')[0]);
-            console.log('@TempData["error"]'.split('|')[1]);
-        }
-        @{TempData["success"] = TempData["error"] = "";}
 
         $("#WorkShopRequestDate").datepicker({
             dateFormat: "dd-MM-yy"
@@ -85,7 +60,7 @@
         var url = '@Url.Action("Index")';
         window.location = url;
     }
-    
+
 </script>
 
 <div class="row">
@@ -126,7 +101,7 @@
                 <div class="col-md-3">
                     <label for="CustomerOrderRef">Customer Order Ref.</label>
                     @Html.TextBoxFor(m => m.CustomerOrderRef, new { @class = "form_input", autocomplete = "off", @disabled = true })
-                  
+
                 </div>
             </div>
 
@@ -158,20 +133,20 @@
 
             <div class="row">
 
-            <div class="col-md-12 hrpart">
-                 <button type="button" class="form-button right" onclick="Exit()">Exit</button>
-           @if (Model.Isused || Model.IsStoreused)
-            {
-            <span class="perm">
-                <em>**Cannot edit/delete this Additional Workshop Request, because it is already in use.</em>
-            </span>
-            }
-            else
-            {
-                <input type="submit" class="form-button right" value="Edit">
-                <input type="button" value="Delete" onclick="DeleteAddWr(@Model.WorkShopRequestId)" class="form-button left" />
-               
-            }
+                <div class="col-md-12 hrpart">
+                    <button type="button" class="form-button right" onclick="Exit()">Exit</button>
+                    @if (Model.Isused || Model.IsStoreused)
+                    {
+                        <span class="perm">
+                            <em>**Cannot edit/delete this Additional Workshop Request, because it is already in use.</em>
+                        </span>
+                    }
+                    else
+                    {
+                        <input type="submit" class="form-button right" value="Edit">
+                        <input type="button" value="Delete" onclick="DeleteAddWr(@Model.WorkShopRequestId)" class="form-button left" />
+
+                    }
                 </div>
 
             </div>

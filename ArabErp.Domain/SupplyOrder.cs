@@ -69,6 +69,7 @@ namespace ArabErp.Domain
         public string SupEmail { get; set; }
       
         public List<SupplyOrderItem> SupplyOrderItems { get; set; }
+        public bool isUsed { get; set; }
         // public string SoNoWithDate
         // {
         //     get

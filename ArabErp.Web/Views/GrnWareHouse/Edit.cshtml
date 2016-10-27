@@ -1,35 +1,11 @@
 ﻿@model  ArabErp.Domain.GRN
 @{
-    ViewBag.Title = "Create";
+    ViewBag.Title = "Edit GRN";
    Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
 <script type="text/javascript">
     $(document).ready(function () {
-        toastr.options = {
-            "closeButton": true,
-            "positionClass": "toast-bottom-full-width",
-            "preventDuplicates": false,
-            "onclick": null,
-            "showDuration": "300",
-            "hideDuration": "1000",
-            "timeOut": "5000",
-            "extendedTimeOut": "0",
-            "showEasing": "swing",
-            "hideEasing": "linear",
-            "showMethod": "fadeIn",
-            "hideMethod": "fadeOut"
-        }
-
-        if ('@TempData["success"]' != '') {
-            toastr.success('@TempData["success"]');
-
-        }
-        else if ('@TempData["error"]' != '') {
-            toastr.error('@TempData["error"]'.split('|')[0]);
-            console.log('@TempData["error"]'.split('|')[1]);
-        }
-        @{TempData["success"] = TempData["error"] = "";}
 
         $(".numbers-only").keypress(function (e) {
             if (e.which == 8 || (e.which == 46 && $(this).val().indexOf('.') == -1) || (e.which > 47 && e.which < 58)) { } else { return false; }
@@ -91,16 +67,20 @@
 
     function AdditionAmount(row) {
         var addamt = $("#Additions_" + row + "__Addition").val();
-        if (addamt == NaN) addamt = 0;
+        if (isNaN(addamt)) {
+            addamt = 0;
         $("#Additions_" + row + "__Addition").val(addamt);
+        }
         calculateSummary();
         calculateGrandTotal();
     }
 
     function DeductionAmount(row) {
         var dedamt = $("#Deductions_" + row + "__Deduction").val();
-        if (dedamt == NaN) dedamt = 0;
+        if (isNaN(dedamt)) {
+            dedamt = 0;
         $("#Deductions_" + row + "__Deduction").val(dedamt);
+        }
         calculateSummary();
         calculateGrandTotal();
     }
@@ -152,7 +132,7 @@
     function Exit() {
         var isDirectPurchase = '@Model.isDirectPurchaseGRN';
         if (isDirectPurchase != 'True')
-            var url = '@Url.Action("PendingGrnWareHouse")';
+            var url = '@Url.Action("PreviousList")';
         else url = '@Url.Action("PendingDirectPurchase")';
         location.href = url;
     }
@@ -179,63 +159,70 @@
 
         var i = 0;
         var no = 1;
-        $('input[id^="Row_Item_Id_"]').each(function () {
+        $('input[id^="Row_Addition_"]').each(function () {
             var id = this.id;
             no++;
-            var row = Number(id.replace("Row_Item_Id_", ""));
+            var row = Number(id.replace("Row_Addition_", ""));
             if (row > i) {
                 i = row;
             }
         });
         i++;
-
         var index = (new Date()).getTime(); // unique indexer
-        var clone = $('#Row_Item_Id_0').clone(); // clone the BatchProducts item
+        var clone = $('#Row_Add_Id_0').clone(); // clone the BatchProducts item
         //Update the index of the clone
         clone.html($(clone).html().replace(/Additions_0__/g, 'Additions_' + i + '__'));
         clone.html($(clone).html().replace(/\Additions[0]./g, 'Additions[' + i + '].'));
         clone.html($(clone).html().replace(/\[0\]/g, '[' + i + ']'));
         clone.html($(clone).html().replace(/\(0\)/g, '(' + i + ')'));
-        clone.html($(clone).html().replace(/Additions_0_/, 'Row_Item_' + i + ''));
+        clone.html($(clone).html().replace(/Row_Addition_0/g, 'Row_Addition_' + i + ''));
         //clone.html($(clone).html().replace(/Itemslno1/, 'Itemslno' + (i + 1) + ''));
-        //clone.html($(clone).html().replace("OnMaterialChange(this," + i, "OnMaterialChange(this," + (i + 1)));
+        clone.html($(clone).html().replace("OnAdditionChanged(this,0", "OnAdditionChanged(this," + i));
+        //clone.html($(clone).html().replace("OnDeductionChanged(this,0", "OnDeductionChanged(this," + i));
         clone.html($(clone).html().replace(/this,0/, 'this,' + i + ''));
-        $("#tab_Add").append('<tr id="' + 'Row_Item_Id_' + i + '">' + clone.html() + '  </tr>');
+        $("#tab_Add").append('<tr id="' + 'Row_Add_Id_' + i + '">' + clone.html() + '  </tr>');
+        $("#Additions_" + i + "__AdditionId").val('');
+        $("#Additions_" + i + "__Addition").val((0).toFixed(2));
+
+        //bind keyup for numbers only
+        $(".numbers-only").keypress(function (e) {
+            if (e.which == 8 || (e.which == 46 && $(this).val().indexOf('.') == -1) || (e.which > 47 && e.which < 58)) { } else { return false; }
+        });
     }
+
     function AdditionDelete(index) {
 
         var i = 0;
         var no = 1;
-        $('input[id^="Row_Item_Id_"]').each(function () {
+        $('input[id^="Row_Addition_"]').each(function () {
             var id = this.id;
             no++;
-            var row = Number(id.replace("Row_Item_Id_", ""));
+            var row = Number(id.replace("Row_Addition_", ""));
             if (row > i) {
                 i = row;
             }
         });
         i++;
-
+        //alert(i);
         //$("#" + index).html('');
         if (i > 1) {
-            $("#Row_Item_Id_" + index).remove();
+            $("#Row_Add_Id_" + index).remove();
             for (var j = index + 1; j < i; j++) {
                 var ItemId = $("#Additions_" + j + "__AdditionId").val();
                 var Quantity = $("#Additions_" + j + "__Addition").val();
-                alert(Quantity);
-                var clone = $("#Row_Item_Id_" + j).clone(true, true);
+                var clone = $("#Row_Add_Id_" + j).clone(true, true);
                 clone.html($(clone).html().replace(new RegExp("Additions_" + j + "__", "g"), 'Additions_' + (j - 1) + '__'));
                 clone.html($(clone).html().replace(new RegExp("\\[" + j + "].", "g"), "[" + (j - 1) + "]."));
-                //clone.html($(clone).html().replace(new RegExp('Itemslno' + (j + 1) + '">' + (j + 1), "g"), 'Itemslno' + (j) + '">' + (j)));
-                //clone.html($(clone).html().replace("ItemRowDelete(" + j, "ItemRowDelete(" + (j - 1)));
+                clone.html($(clone).html().replace("AdditionDelete(" + j, "AdditionDelete(" + (j - 1)));
+                clone.html($(clone).html().replace("AdditionAmount(" + j, "AdditionAmount(" + (j - 1)));
                 //clone.html($(clone).html().replace("OnMaterialChange(this," + j, "OnMaterialChange(this," + (j - 1)));
-                clone.html($(clone).html().replace("Row_Item_Id_" + j, "Row_Item_Id_" + (j - 1)));
-                clone.html($(clone).html().replace("Row_Item_" + j, "Row_Item_" + (j - 1)));
-                //clone.html($(clone).html().replace("this," + j, "this," + (j - 1)));
-
-                $("#Row_Item_Id_" + j).html(clone.html());
-                $("#WorkVsItems_" + (j - 1) + "__AdditionId").val(ItemId);
-                $("#WorkVsItems_" + (j - 1) + "__Addition").val(Quantity);
+                //clone.html($(clone).html().replace("Row_Add_Id_" + j, "Row_Add_Id_" + (j - 1)));
+                clone.html($(clone).html().replace("Row_Addition_" + j, "Row_Addition_" + (j - 1)));
+                clone.html($(clone).html().replace("this," + j, "this," + (j - 1)));
+                $("#Row_Add_Id_" + j).html(clone.html());
+                $("#Row_Add_Id_" + j).attr("id", "Row_Add_Id_" + (j - 1));
+                $("#Additions_" + (j - 1) + "__AdditionId").val(ItemId);
+                $("#Additions_" + (j - 1) + "__Addition").val(Quantity);
             }
         }
     }
@@ -244,10 +231,10 @@
 
         var i = 0;
         var no = 1;
-        $('input[id^="Row_Ded_Id_"]').each(function () {
+        $('input[id^="Row_Deduction_"]').each(function () {
             var id = this.id;
             no++;
-            var row = Number(id.replace("Row_Ded_Id_", ""));
+            var row = Number(id.replace("Row_Deduction_", ""));
             if (row > i) {
                 i = row;
             }
@@ -261,11 +248,86 @@
         clone.html($(clone).html().replace(/\Deductions[0]./g, 'Deductions[' + i + '].'));
         clone.html($(clone).html().replace(/\[0\]/g, '[' + i + ']'));
         clone.html($(clone).html().replace(/\(0\)/g, '(' + i + ')'));
-        clone.html($(clone).html().replace(/Deductions_0_/, 'Row_Item_' + i + ''));
+        clone.html($(clone).html().replace(/Row_Deduction_0/g, 'Row_Deduction_' + i + ''));
         //clone.html($(clone).html().replace(/Itemslno1/, 'Itemslno' + (i + 1) + ''));
         //clone.html($(clone).html().replace("OnMaterialChange(this," + i, "OnMaterialChange(this," + (i + 1)));
+        //clone.html($(clone).html().replace("OnAdditionChanged(this," + i, "OnAdditionChanged(this," + (i + 1)));
+        clone.html($(clone).html().replace("OnDeductionChanged(this,0", "OnDeductionChanged(this," + i));
+        clone.html($(clone).html().replace("DeductionDelete(0", "DeductionDelete(" + i));
+        clone.html($(clone).html().replace("DeductionAmount(0", "DeductionAmount(" + i));
         clone.html($(clone).html().replace(/this,0/, 'this,' + i + ''));
         $("#tab_Ded").append('<tr id="' + 'Row_Ded_Id_' + i + '">' + clone.html() + '  </tr>');
+        $("#Deductions_" + i + "__DeductionId").val('');
+        $("#Deductions_" + i + "__Deduction").val((0).toFixed(2));
+
+        //bind keyup for numbers only
+        $(".numbers-only").keypress(function (e) {
+            if (e.which == 8 || (e.which == 46 && $(this).val().indexOf('.') == -1) || (e.which > 47 && e.which < 58)) { } else { return false; }
+        });
+    }
+
+    function DeductionDelete(index) {
+
+        var i = 0;
+        var no = 1;
+        $('input[id^="Row_Deduction_"]').each(function () {
+            var id = this.id;
+            no++;
+            var row = Number(id.replace("Row_Deduction_", ""));
+            if (row > i) {
+                i = row;
+            }
+        });
+        i++;
+        //alert(i);
+        //$("#" + index).html('');
+        if (i > 1) {
+            $("#Row_Ded_Id_" + index).remove();
+            for (var j = index + 1; j < i; j++) {
+                var ItemId = $("#Deductions_" + j + "__DeductionId").val();
+                var Quantity = $("#Deductions_" + j + "__Deduction").val();
+                var clone = $("#Row_Ded_Id_" + j).clone(true, true);
+                clone.html($(clone).html().replace(new RegExp("Deductions_" + j + "__", "g"), 'Deductions_' + (j - 1) + '__'));
+                clone.html($(clone).html().replace(new RegExp("\\[" + j + "].", "g"), "[" + (j - 1) + "]."));
+                clone.html($(clone).html().replace("OnDeductionChanged(this," + j, "OnDeductionChanged(this," + (j - 1)));
+                clone.html($(clone).html().replace("DeductionDelete(" + j, "DeductionDelete(" + (j - 1)));
+                clone.html($(clone).html().replace("DeductionAmount(" + j, "DeductionAmount(" + (j - 1)));
+                //clone.html($(clone).html().replace("OnMaterialChange(this," + j, "OnMaterialChange(this," + (j - 1)));
+                clone.html($(clone).html().replace("Row_Ded_Id_" + j, "Row_Ded_Id_" + (j - 1)));
+                clone.html($(clone).html().replace("Row_Deduction_" + j, "Row_Deduction_" + (j - 1)));
+                clone.html($(clone).html().replace("this," + j, "this," + (j - 1)));
+                $("#Row_Ded_Id_" + j).html(clone.html());
+                $("#Row_Ded_Id_" + j).attr("id", "Row_Ded_Id_" + (j - 1));
+                $("#Deductions_" + (j - 1) + "__DeductionId").val(ItemId);
+                $("#Deductions_" + (j - 1) + "__Deduction").val(Quantity);
+            }
+        }
+    }
+
+    function OnAdditionChanged(sender, row) {
+        var id = $(sender).val();
+        if (id != '' || id != 0) {
+            $("select[id$='__AdditionId']").each(function (index, object) {
+                if (Number($(object).val()) == Number(id) && index != row) {
+                    $(sender).val(0);
+                    toastr.info('This addition has already been already selected');
+                    return;
+                }
+            })
+        }
+    }
+
+    function OnDeductionChanged(sender, row) {
+        var id = $(sender).val();
+        if (id != '' || id != 0) {
+            $("select[id$='__DeductionId']").each(function (index, object) {
+                if (Number($(object).val()) == Number(id) && index != row) {
+                    $(sender).val(0);
+                    toastr.info('This deduction has already been already selected');
+                    return;
+                }
+            })
+        }
     }
 </script>
 
@@ -344,21 +406,21 @@
                                     }
 
                                     @Html.HiddenFor(m => m.Items[i].SlNo)
-                                    @Html.TextBoxFor(m => m.Items[i].ItemName, new { @class = "form_input", autocomplete = "off", placeholder = "Material/Spares", @disabled = "true" })
+                                    @Html.TextBoxFor(m => m.Items[i].ItemName, new { @class = "form_input", autocomplete = "off", placeholder = "Material/Spares", @readonly = "true" })
                                 </td>
                                 <td>
                                     @Html.HiddenFor(m => m.Items[i].ItemId)
-                                    @Html.TextBoxFor(m => m.Items[i].PartNo, new { @class = "form_input", autocomplete = "off", placeholder = "Part No.", @disabled = "true" })
+                                    @Html.TextBoxFor(m => m.Items[i].PartNo, new { @class = "form_input", autocomplete = "off", placeholder = "Part No.", @readonly = "true" })
                                 </td>
                                 <td>@Html.TextBoxFor(m => m.Items[i].Remarks, new { @class = "form_input", autocomplete = "off", placeholder = "Remarks" })</td>
-                                <td>@Html.TextBoxFor(m => m.Items[i].PendingQuantity, new { @class = "form_input", @style = "text-align:right", autocomplete = "off", @disabled = "true" })</td>
+                                <td>@Html.TextBoxFor(m => m.Items[i].PendingQuantity, new { @class = "form_input", @style = "text-align:right", autocomplete = "off", @readonly = "true" })</td>
                                 <td>@Html.TextBoxFor(m => m.Items[i].ReceivedQuantity, new { @class = "form_input clQuantity numbers-only", @style = "text-align:right", autocomplete = "off", placeholder = "Qty", @onkeyup = "ValueChanged(" + i + ");", @onchange = "ValidateRow(" + i + ")", @required = "true" })</td>
                                 <td>@Html.TextBoxFor(m => m.Items[i].AcceptedQuantity, new { @class = "form_input clQuantity numbers-only", @style = "text-align:right", autocomplete = "off", placeholder = "Qty", @onkeyup = "ValueChanged(" + i + ");", @onchange = "ValidateRow(" + i + ")", @required = "true" })</td>
-                                <td>@Html.TextBoxFor(m => m.Items[i].RejectedQuantity, new { @class = "form_input", @style = "text-align:right", autocomplete = "off", @disabled = "true" })</td>
-                                <td>@Html.TextBoxFor(m => m.Items[i].Unit, new { @class = "form_input ", @style = "text-align:left", autocomplete = "off", @disabled = "true" })</td>
+                                <td>@Html.TextBoxFor(m => m.Items[i].RejectedQuantity, new { @class = "form_input", @style = "text-align:right", autocomplete = "off", @readonly = "true" })</td>
+                                <td>@Html.TextBoxFor(m => m.Items[i].Unit, new { @class = "form_input ", @style = "text-align:left", autocomplete = "off", @readonly = "true" })</td>
                                 <td>@Html.TextBoxFor(m => m.Items[i].Rate, new { @class = "form_input numbers-only", @style = "text-align:right", autocomplete = "off", @onkeyup = "ValueChanged(" + i + ");", @required = "true" })</td>
                                 <td>@Html.TextBoxFor(m => m.Items[i].Discount, new { @class = "form_input numbers-only", @style = "text-align:right", autocomplete = "off", @onkeyup = "ValueChanged(" + i + ");", @required = "true" })</td>
-                                <td>@Html.TextBoxFor(m => m.Items[i].Amount, new { @class = "form_input clAmount", @style = "text-align:right", autocomplete = "off", @disabled = "true" })</td>
+                                <td>@Html.TextBoxFor(m => m.Items[i].Amount, new { @class = "form_input clAmount", @style = "text-align:right", autocomplete = "off", @readonly = "true" })</td>
                             </tr>
                             }
 
@@ -411,31 +473,31 @@
                                                 <div class="col-md-12">
                                                     @*<div class="part1">*@
                                                         <label for="SpecialRemarks">Special Remarks</label>
-                                                        @Html.TextAreaFor(m => m.SpecialRemarks, new { @class = "form_input form_input-h form_input bluebox", autocomplete = "off" })
+                                                        @Html.TextAreaFor(m => m.SpecialRemarks, new { @class = "form_input form_input-h form_input", autocomplete = "off" })
                                                     @*</div>*@
                                                 </div>
                                             </div>
 
                                             <div class="row form-group">
                                                 <div class="col-md-3">
-                                                    <label for="StockPointId">WareHouse/Location</label>
-                                                    @Html.DropDownListFor(m => Model.StockPointId, (SelectList)ViewBag.WarehouseList, "Select WareHouse", new { @class = "form_input form_input bluebox", autocomplete = "off", @required = "true" })
+                                                    <label for="StockPointId">Warehouse/Stockpoint</label>
+                                                    @Html.DropDownListFor(m => Model.StockPointId, (SelectList)ViewBag.WarehouseList, "Select WareHouse", new { @class = "form_input form_input", autocomplete = "off", @required = "true" })
                                                 </div>
                                                 <div class="col-md-3">
                                                     <label for="SupplierDCNoAndDate">Supplier DC No. & Date</label>
-                                                    @Html.TextBoxFor(m => m.SupplierDCNoAndDate, new { @class = "form_input form_input bluebox", autocomplete = "off" })
+                                                    @Html.TextBoxFor(m => m.SupplierDCNoAndDate, new { @class = "form_input form_input", autocomplete = "off" })
                                                 </div>
                                                 <div class="col-md-2">
                                                     <label for="ReceivedBy">Received By</label>
-                                                    @Html.DropDownListFor(m => m.ReceivedBy, (SelectList)ViewBag.employeeList, "Select Employee", new { @class = "form_input form_input bluebox", autocomplete = "off", @required = "true" })
+                                                    @Html.DropDownListFor(m => m.ReceivedBy, (SelectList)ViewBag.employeeList, "Select Employee", new { @class = "form_input form_input", autocomplete = "off", @required = "true" })
                                                 </div>
                                                 <div class="col-md-2">
                                                     <label for="VehicleNo">Vehicle No.</label>
-                                                    @Html.TextBoxFor(m => m.VehicleNo, new { @class = "form_input form_input bluebox", autocomplete = "off" })
+                                                    @Html.TextBoxFor(m => m.VehicleNo, new { @class = "form_input form_input", autocomplete = "off" })
                                                 </div>
                                                 <div class="col-md-2">
                                                     <label for="GatePassNo">Gate Pass No.</label>
-                                                    @Html.TextBoxFor(m => m.GatePassNo, new { @class = "form_input form_input bluebox", autocomplete = "off" })
+                                                    @Html.TextBoxFor(m => m.GatePassNo, new { @class = "form_input form_inputs", autocomplete = "off" })
                                                 </div>
 
                                             </div>
@@ -443,17 +505,17 @@
                                         <div class="row form-group">
                                             <div class="col-md-2">
                                                 <label>Total Additonal Amt.</label>
-                                                <input type="text" id="AdditionalAmt" class="form_input form_input-half text-right bold  bluebox" style="font-size:16px;padding:10px" disabled />
+                                                <input type="text" id="AdditionalAmt" class="form_input form_input-half text-right bold  " style="font-size:16px;padding:10px" disabled />
                                             </div>
 
                                             <div class="col-md-2">
                                                 <label>Total Deduction Amt.</label>
-                                                <input type="text" id="DeductionAmt" class="form_input form_input-half text-right bold  bluebox" style="font-size:16px;padding:10px" disabled />
+                                                <input type="text" id="DeductionAmt" class="form_input form_input-half text-right bold  " style="font-size:16px;padding:10px" disabled />
                                             </div>
 
                                             <div class="col-md-2">
                                                 <label>Total Amt.</label>
-                                                <input type="text" id="TotalAmt" class="form_input form_input-half text-right bold  bluebox" style="font-size:16px;padding:10px" disabled />
+                                                <input type="text" id="TotalAmt" class="form_input form_input-half text-right bold  " style="font-size:16px;padding:10px" disabled />
                                             </div>
 
                                                 @*<div class="col-md-11"></div>*@
@@ -461,7 +523,7 @@
                                             <div class="col-md-2">
                                                 <label>Net Amt.</label>
                                                 @Html.HiddenFor(m => m.GrandTotal)
-                                                <input type="text" id="grandTotal" class="form_input form_input-half text-right bold  bluebox" style="font-size:16px;padding:10px" disabled />
+                                                <input type="text" id="grandTotal" class="form_input form_input-half text-right bold  " style="font-size:16px;padding:10px" disabled />
                                             </div>
                                          </div>
 
@@ -487,19 +549,19 @@
                                             <tbody>
                                                 @for (int i = 0; i < Model.Additions.Count; i++)
                                                 {
-                                                    <tr id="Row_Item_Id_@i">
+                                                    <tr id="Row_Add_Id_@i">
                                                         <td style="vertical-align:middle">
                                                             <a class="glyphicon glyphicon-minus" style="top:0px" onclick="AdditionDelete(@i)"></a>
                                                         </td>
                                                         <td>
                                                             @Html.HiddenFor(m => m.Additions[i].GRNId)
-                                                            <input type="hidden" id="Row_@i" />
-                                                            @Html.DropDownListFor(m => @Model.Additions[i].AdditionId, new SelectList(ViewBag.additionList, "Value", "Text", @Model.Additions[i].AdditionId), "Select addition", new { @class = "form_input" })
+                                                            <input type="hidden" id="Row_Addition_@i" />
+                                                            @Html.DropDownListFor(m => @Model.Additions[i].AdditionId, new SelectList(ViewBag.additionList, "Value", "Text", @Model.Additions[i].AdditionId), "Select addition", new { @class = "form_input", @onchange = "OnAdditionChanged(this," + i + ")", @required = "true" })
                                                         </td>
                                                         <td>
                                                             @Html.TextBoxFor(m => @Model.Additions[i].Addition, new { @class = "form_input numbers-only claddamt", @style = "text-align:right", autocomplete = "off", @onkeyup = "AdditionAmount(" + i + ");" })
                                                         </td>
-                                                        <td style="vertical-align:middle"><a class="glyphicon glyphicon-plus" style="top:0px" onclick="AdditionAdd(@i)"></a></td>
+                                                        <td style="vertical-align:middle"><a class="glyphicon glyphicon-plus" style="top:0px" onclick="AdditionAdd()"></a></td>
                                                     </tr>
                                                 }
                                             </tbody>
@@ -534,13 +596,13 @@
                                                         </td>
                                                         <td>
                                                             @Html.HiddenFor(m => m.Deductions[i].GRNId)
-                                                            <input type="hidden" id="Row_@i" />
-                                                            @Html.DropDownListFor(m => @Model.Deductions[i].DeductionId, new SelectList(ViewBag.deductionList, "Value", "Text", @Model.Deductions[i].DeductionId), "Select Deduction", new { @class = "form_input" })
+                                                            <input type="hidden" id="Row_Deduction_@i" />
+                                                            @Html.DropDownListFor(m => @Model.Deductions[i].DeductionId, new SelectList(ViewBag.deductionList, "Value", "Text", @Model.Deductions[i].DeductionId), "Select Deduction", new { @class = "form_input", @onchange = "OnDeductionChanged(this," + i + ")", @required = "true" })
                                                         </td>
                                                         <td>
                                                             @Html.TextBoxFor(m => @Model.Deductions[i].Deduction, new { @class = "form_input numbers-only cldedamt", @style = "text-align:right", autocomplete = "off", @onkeyup = "DeductionAmount(" + i + ");" })
                                                         </td>
-                                                        <td style="vertical-align:middle"><a class="glyphicon glyphicon-plus" style="top:0px" onclick="DeductionAdd(@i)"></a></td>
+                                                        <td style="vertical-align:middle"><a class="glyphicon glyphicon-plus" style="top:0px" onclick="DeductionAdd()"></a></td>
                                                     </tr>
                                                 }
                                             </tbody>
@@ -557,9 +619,18 @@
 
                     <div class="col-md-12 hrpart">
                         <button type="button" class="form-button right" onclick="Exit()">Exit</button>
+                        @if (Model.isUsed)
+                        {
+                            <span class="perm">
+                                **Cannot edit/delete, because it is already used.
+                            </span>
+                        }
+                        else
+                        {
                         <button type="submit" class="form-button right">Edit</button>
                         <input type="button" value="Print" onclick="GoToPrint(@Model.SupplyOrderId)" class="form-button right" />
                         <button type="button" class="form-button" onclick="Delete('@Model.GRNId')">Delete</button>
+                        }
                     </div>
 
                 </div>

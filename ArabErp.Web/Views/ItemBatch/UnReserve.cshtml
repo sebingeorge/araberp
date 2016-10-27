@@ -1,7 +1,7 @@
 ﻿@model IList<ArabErp.Domain.ItemBatch>
 
 @{
-    ViewBag.Title = "Unreserve Item";
+    ViewBag.Title = "Unreserve Material/Spare";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
@@ -9,25 +9,9 @@
 
     $(document).ready(function () {
 
-        //---------------------toastr---------------------------//
-        toastr.options = {
-            "positionClass": "toast-bottom-full-width",
-            "timeOut": "5000",
-            "extendedTimeOut": "2000"
-        }
-        if ('@TempData["success"]' != '') {
-            toastr.success('@TempData["success"]');
-        }
-        else if ('@TempData["error"]' != '') {
-            toastr.error('@TempData["error"]'.split('|')[0]);
-            console.log('@TempData["error"]'.split('|')[1]);
-        }
-        @{ TempData["success"] = TempData["error"] = ""; }
-        //------------------------------------------------------//
-
         var url = '@Url.Action("GetItemBatchDetails")';
         $.getJSON(url, { id: '@Request.QueryString["id"]', type: 0 }, function (data) {
-            $("#txtGRNRefNo").val(data.GRNRefNo);
+            //$("#txtGRNRefNo").val(data.GRNRefNo);
             $("#txtSORefNo").val(data.SaleOrderRefNo);
             $("#txtWDRefNo").val(data.WorkDescRefNo);
         });
@@ -58,7 +42,7 @@
 <div class="row">
 
     <div class="form-head1">
-        <h4>Unreserve Item</h4>
+        <h4>Unreserve Material/Spare</h4>
     </div>
 
     <div class="main-part pad1">
@@ -70,11 +54,11 @@
                     <input type="text" class="form_input" id="txtGRNRefNo" disabled />
                 </div>*@
                 <div class="col-md-3">
-                    <label for="txtSORefNo" title="Sale Order No. & Date">SO.No. &amp; Date</label>
+                    <label for="txtSORefNo" title="Sale Order No. & Date">Sale Order No. &amp; Date</label>
                     <input type="text" class="form_input" id="txtSORefNo" readonly="readonly"  />
                 </div>
                 <div class="col-md-5">
-                    <label for="txtWDRefNo" title="Work Descr. Reference No & Short Name">WD.No. &amp; Short Name</label>
+                    <label for="txtWDRefNo" title="Work Descr. Reference No & Short Name">Work Description No. &amp; Short Name</label>
                     <input type="text" class="form_input" id="txtWDRefNo" readonly="readonly" />
                 </div>
             </div>
@@ -88,7 +72,7 @@
                                     <th width="50%"><h1>Material/Spares</h1></th>
                                     <th width="20%"><h1>Serial Number</h1></th>
                                     <th width="20%"><h1>GRN No. &amp; Date</h1></th>
-                                    <th width="5%" title="Checked items will be unreserved"><h1>Select</h1></th>
+                                    <th width="5%" title="Checked items will be unreserved"></th>
                                 </tr>
                             </thead>
                             <tbody class="grid_row">
@@ -144,7 +128,7 @@
             </div>
             <div class="row">
                 <div class="col-md-12 hrpart">
-                    <input type="button" class="form-button right" onclick="Back()" value="Back">
+                    <input type="button" class="form-button right" onclick="Back()" value="Exit">
                     <button type="submit" class="form-button right">Save</button>
                 </div>
             </div>

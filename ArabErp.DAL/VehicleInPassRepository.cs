@@ -143,6 +143,7 @@ namespace ArabErp.DAL
                     string sql = @"Delete VehicleInPass  OUTPUT DELETED.VehicleInPassNo WHERE VehicleInPassId=@VehicleInPassId";
 
                     string output = connection.Query<string>(sql, new { VehicleInPassId = VehicleInPassId }, txn).First();
+                    txn.Commit();
                     return output;
                 }
                 catch (Exception ex)
@@ -211,7 +212,8 @@ namespace ArabErp.DAL
                 string qry = @"select VehicleInPassId,VehicleInPassNo,VehicleInPassDate,SaleOrderRefNo,SaleOrderDate,RegistrationNo,CustomerName from VehicleInPass V
                                inner join SaleOrder S ON S.SaleOrderId=V.SaleOrderId
                                inner join Customer C ON C.CustomerId=S.CustomerId where V.isActive=1 and V.OrganizationId = @OrganizationId and  V.VehicleInPassId = ISNULL(NULLIF(@id, 0), V.VehicleInPassId)
-                               and S.CustomerId = ISNULL(NULLIF(@cusid, 0), S.CustomerId) AND V.VehicleInPassDate BETWEEN ISNULL(@from, DATEADD(MONTH, -1, GETDATE())) AND ISNULL(@to, GETDATE())";
+                               and S.CustomerId = ISNULL(NULLIF(@cusid, 0), S.CustomerId) AND V.VehicleInPassDate BETWEEN ISNULL(@from, DATEADD(MONTH, -1, GETDATE())) AND ISNULL(@to, GETDATE())
+                                ORDER BY V.VehicleInPassDate DESC, V.VehicleInPassNo DESC";
                 return connection.Query<VehicleInPass>(qry, new { OrganizationId = OrganizationId, id = id, cusid = cusid, to = to, from = from }).ToList();
 
             }

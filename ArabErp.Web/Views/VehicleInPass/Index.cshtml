@@ -14,11 +14,14 @@
         if ($(s).val() != null && $(s).val() != '') id = $(s).val();
         else id = 0;
 
+        $("#inpassdetails").addClass("fade");
         var url = '@Url.Action("PendingVehicleInPass")';
         url += "?customerId=" + id;
-        $("#inpassdetails").load(url);
+        $("#inpassdetails").load(url, function () {
+            $("#inpassdetails").removeClass("fade");
+        });
 
-        if (id != 0) {
+        if (id != 0 || id != '') {
             var url = '@Url.Action("GetCustomerAddress", "DeliveryChallan")';
             $.getJSON(url, { id: id }, function (data) {
                 $("#txtAddress").val(data);
@@ -26,7 +29,7 @@
         }
         else $("#txtAddress").val('');
     }
-   
+
     function PreviousList() {
         var url = '@Url.Action("VehicleInpassList")';
         window.location = url;
@@ -36,30 +39,11 @@
         window.location = url;
     }
 
-    $(document).ready(function () {
-  
-        toastr.options = {
-            "closeButton": true,
-            "positionClass": "toast-bottom-full-width",
-            "preventDuplicates": false,
-            "onclick": null,
-
-            "timeOut": "0",
-            "extendedTimeOut": "1000",
-
-            "showEasing": "swing",
-            "hideEasing": "linear",
-            "showMethod": "fadeIn",
-            "hideMethod": "fadeOut"
-        }
-        if ('@TempData["success"]' != "" && '@TempData["VehicleInPassNo"]' != "") {
-            toastr.success('@TempData["success"]' + '  Vehicle InPass Ref No. is : ' + '@TempData["VehicleInPassNo"]');
-        }
-        else if ('@TempData["error"]' != "") {
-            toastr.error('@TempData["error"]');
-        }
-
-    });
+    function Open(id) {
+        var url = '@Url.Action("Save")';
+        url += "/" + id;
+        window.location = url;
+    }
 
 </script>
 
