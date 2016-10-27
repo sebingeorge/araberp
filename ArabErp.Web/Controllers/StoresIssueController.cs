@@ -146,7 +146,7 @@ namespace ArabErp.Web.Controllers
         }
         public ActionResult PreviousList()
         {
-            return View(new StoreIssueRepository().PreviousList());
+            return View(new StoreIssueRepository().PreviousList(OrganizationId));
         }
 
         public ActionResult GetStockQuantity(string date, int item = 0, int stockpoint = 0)

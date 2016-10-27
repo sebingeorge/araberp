@@ -82,7 +82,7 @@ namespace ArabErp.DAL
         /// Get all items in Daily Activity
         /// </summary>
         /// <returns></returns>
-        public List<JobCardDailyActivity> GetJobCardDailyActivitys()
+        public List<JobCardDailyActivity> GetJobCardDailyActivitys(int OrganizationId)
         {
             using (IDbConnection connection = OpenConnection(dataConnection))
             {
@@ -113,11 +113,12 @@ namespace ArabErp.DAL
                                 INNER JOIN Employee EMP ON DA.EmployeeId = EMP.EmployeeId
                                 INNER JOIN #TASKS T ON DA.JobCardDailyActivityId = T.JobCardDailyActivityId
                                 WHERE DA.isActive = 1
+                                    AND DA.OrganizationId = @OrganizationId
                                 ORDER BY DA.JobCardDailyActivityDate DESC, DA.CreatedDate DESC;
 
                                 DROP TABLE #TASKS;";
 
-                var objJobCardDailyActivitys = connection.Query<JobCardDailyActivity>(sql).ToList<JobCardDailyActivity>();
+                var objJobCardDailyActivitys = connection.Query<JobCardDailyActivity>(sql, new { OrganizationId = OrganizationId }).ToList<JobCardDailyActivity>();
 
                 return objJobCardDailyActivitys;
             }

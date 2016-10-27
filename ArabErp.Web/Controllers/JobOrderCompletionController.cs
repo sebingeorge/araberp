@@ -32,7 +32,7 @@ namespace ArabErp.Web.Controllers
         public ActionResult PendingJobOrderCompletion(int? isProjectBased)
         {
             JobOrderCompletionRepository repo = new JobOrderCompletionRepository();
-            var result = repo.GetPendingJobOrder(isProjectBased);
+            var result = repo.GetPendingJobOrder(isProjectBased, OrganizationId);
             return View(result);
         }
         public void FillEmployee()
