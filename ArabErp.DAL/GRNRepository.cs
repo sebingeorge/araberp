@@ -757,6 +757,10 @@ namespace ArabErp.DAL
 
                 string sql = @"Delete FROM GRN  WHERE GRNId=@GRNId";
                 output = connection.Execute(sql, new { GRNId = GRNId });
+                return output;
+            }
+                
+            }
 
         public GRN GetGRNDetailsHDPrint(int GRNId,int OrganizationId)
         {
