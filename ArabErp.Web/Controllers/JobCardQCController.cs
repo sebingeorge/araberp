@@ -11,8 +11,6 @@ using System.IO;
 using ArabErp.Web.Models;
 using System.Data;
 
-using System.Data.SqlClient;
-
 namespace ArabErp.Web.Controllers
 {
     public class JobCardQCController : BaseController
@@ -73,7 +71,6 @@ namespace ArabErp.Web.Controllers
         }
         public ActionResult Save(JobCardQC model)
         {
-
             if (!ModelState.IsValid)
             {
                 FillEmployee();
@@ -87,15 +84,14 @@ namespace ArabErp.Web.Controllers
 
             if (new JobCardQCRepository().InsertJobCardQC(model) > 0)
             {
-                TempData["Success"] = "Added Successfully! Reference No. is " + model.JobCardQCRefNo;
-                return RedirectToAction("Index");
+                TempData["Success"] = "Saved Successfully! Reference No. is " + model.JobCardQCRefNo;
+                return RedirectToAction("PendingJobCardQC");
             }
             else
             {
-                TempData["error"] = "Oops!!..Something Went Wrong!!";
-                return View(new JobCardQC { JobCardQCId = model.JobCardQCId });
+                TempData["error"] = "Some error occurred while saving. Please try again.";
+                return View("Create", model);
             }
-
         }
 
         public ActionResult PendingJobCardQC()
@@ -259,7 +255,7 @@ namespace ArabErp.Web.Controllers
             ds.Tables["Items"].Columns.Add("ParaName");
             ds.Tables["Items"].Columns.Add("QCParamName");
             ds.Tables["Items"].Columns.Add("QCParamValue");
-            
+
 
             JobCardQCRepository repo = new JobCardQCRepository();
             var Head = repo.GetJobCardQCHDPrint(Id, OrganizationId);
@@ -274,7 +270,7 @@ namespace ArabErp.Web.Controllers
             dr["EmployeeName"] = Head.EmployeeName;
             dr["OrganizationName"] = Head.OrganizationName;
             dr["Image1"] = Head.Image1;
-        
+
             ds.Tables["Head"].Rows.Add(dr);
 
             JobCardQCParamRepository repo1 = new JobCardQCParamRepository();

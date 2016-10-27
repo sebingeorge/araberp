@@ -12,18 +12,29 @@
 
         </tr>
     </thead>
-    @foreach (var item in Model)
-    {
-        <tbody class="grid_row">
+    <tbody class="grid_row">
+        @if (Model.Count > 0)
+        {
+            foreach (var item in Model)
+            {
+                <tr>
+                    <td>@item.JobCardQCRefNo</td>
+                    <td>@item.JobCardQCDate.ToString("dd/MMM/yyyy")</td>
+                    <td>@item.JobCardNo &amp; @item.JobCardDate.ToString("dd/MMM/yyyy")</td>
+                    <td>@item.QCStatus</td>
+                    <td>
+                        <center><input type="button" class="form-button4" value="Select" title="Select to view details" onclick="Open(@item.JobCardQCId)" /></center>
+                    </td>
+                </tr>
+            }
+        }
+        else
+        {
             <tr>
-                <td class="grid-cell">@item.JobCardQCRefNo</td>
-                <td class="grid-cell">@item.JobCardQCDate.ToString("dd/MMM/yyyy")</td>
-                <td class="grid-cell">@item.JobCardNo &amp; @item.JobCardDate.ToString("dd/MMM/yyyy")</td>
-                <td class="grid-cell">@item.QCStatus</td>
-                <td>
-                    <center><input type="button" class="form-button4" value="Select" title="Select to view details" onclick="Open(@item.JobCardQCId)" /></center>
+                <td align="center" colspan="5">
+                    <em>There are no Job Card QCs found!</em>
                 </td>
             </tr>
-        </tbody>
-    }
+        }
+    </tbody>
 </table>
