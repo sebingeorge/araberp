@@ -351,12 +351,13 @@ namespace ArabErp.DAL
         {
             using (IDbConnection connection = OpenConnection(dataConnection))
             {
-                string qry = "SELECT OrganizationName,O.DoorNo,O.Street,O.State,O.Phone,O.Fax,O.Email,O.Zip,O.Image1,O.ContactPerson,PurchaseRequestId,PurchaseRequestNo,PurchaseRequestDate,C.CustomerName,WR.CustomerOrderRef,PR.WorkShopRequestId,";
+                string qry = "SELECT O.*,PurchaseRequestId,PurchaseRequestNo,PurchaseRequestDate,C.CustomerName,WR.CustomerOrderRef,PR.WorkShopRequestId, ORR.CountryName,";
                 qry += "  WR.WorkShopRequestRefNo +','+ Replace(Convert(varchar,WorkShopRequestDate,106),' ','/') WorkShopRequestRefNo,";
-                qry += "     PR.SpecialRemarks,PR.RequiredDate FROM PurchaseRequest PR";
+                qry += "  PR.SpecialRemarks,PR.RequiredDate FROM PurchaseRequest PR";
                 qry += "  INNER JOIN WorkShopRequest WR ON WR.WorkShopRequestId=PR.WorkShopRequestId";
                 qry += "   INNER JOIN Customer C ON WR.CustomerId = C.CustomerId";
                 qry += "  INNER JOIN Organization O ON O.OrganizationId=PR.OrganizationId";
+                qry += "  inner  JOIN Country ORR ON ORR.CountryId=O.Country";
                 qry += "  WHERE PR.PurchaseRequestId=" + PurchaseRequestId.ToString();
 
                 PurchaseRequest PurchaseRequest = connection.Query<PurchaseRequest>(qry, new { OrganizationId = OrganizationId }).First();

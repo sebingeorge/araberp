@@ -258,6 +258,15 @@ namespace ArabErp.Web.Controllers
             ds.Tables["Head"].Columns.Add("RequiredDate");
             ds.Tables["Head"].Columns.Add("CustomerOrderRef");
             ds.Tables["Head"].Columns.Add("WorkShopRequestRefNo");
+            ds.Tables["Head"].Columns.Add("DoorNo");
+            ds.Tables["Head"].Columns.Add("Street");
+            ds.Tables["Head"].Columns.Add("State");
+            ds.Tables["Head"].Columns.Add("Country");
+            ds.Tables["Head"].Columns.Add("Phone");
+            ds.Tables["Head"].Columns.Add("Fax");
+            ds.Tables["Head"].Columns.Add("Email");
+            ds.Tables["Head"].Columns.Add("ContactPerson");
+            ds.Tables["Head"].Columns.Add("Zip");
             ds.Tables["Head"].Columns.Add("OrganizationName");
             ds.Tables["Head"].Columns.Add("Image1");
 
@@ -290,6 +299,15 @@ namespace ArabErp.Web.Controllers
             dr["RequiredDate"] = Head.RequiredDate;
             dr["CustomerOrderRef"] = Head.CustomerOrderRef;
             dr["WorkShopRequestRefNo"] = Head.WorkShopRequestRefNo;
+            dr["DoorNo"] = Head.DoorNo;
+            dr["Street"] = Head.Street;
+            dr["State"] = Head.State;
+            dr["Country"] = Head.CountryName;
+            dr["Phone"] = Head.Phone;
+            dr["Fax"] = Head.Fax;
+            dr["Email"] = Head.Email;
+            dr["ContactPerson"] = Head.ContactPerson;
+            dr["Zip"] = Head.Zip;
             dr["OrganizationName"] = Head.OrganizationName;
             dr["Image1"] = Server.MapPath("~/App_images/") + Head.Image1;
             ds.Tables["Head"].Rows.Add(dr);

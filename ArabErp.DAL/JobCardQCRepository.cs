@@ -213,7 +213,7 @@ namespace ArabErp.DAL
             using (IDbConnection connection = OpenConnection(dataConnection))
             {
                 string sql = @" SELECT O.*, JobCardQCId,JobCardQCRefNo,J.JobCardNo,J.JobCardDate JcDate,JQ.JobCardId,
-                                C.CustomerName Customer,V.VehicleModelName VehicleModel,Employeename,
+                                C.CustomerName Customer,V.VehicleModelName VehicleModel,Employeename, ORR.CountryName,
                                 JobCardQCDate,IsQCPassed,ISNULL(DC.JobCardId,0)IsUsed 
                                 FROM JobCardQC JQ
 						        Left JOIN Employee E ON E.EmployeeId=JQ.EmployeeId
@@ -222,6 +222,7 @@ namespace ArabErp.DAL
                                 INNER JOIN SaleOrderItem SI ON SI.SaleOrderId=S.SaleOrderId
                                 INNER JOIN Customer C ON C.CustomerId=S.CustomerId
 								INNER JOIN Organization O ON O.OrganizationId=JQ.OrganizationId
+                                inner  JOIN Country ORR ON ORR.CountryId=O.Country
                                 LEFT JOIN VehicleModel V ON V.VehicleModelId=SI.VehicleModelId
                                 LEFT JOIN DeliveryChallan DC ON DC.JobCardId=JQ.JobCardId
                                 WHERE JobCardQCId=@JobCardQCId";

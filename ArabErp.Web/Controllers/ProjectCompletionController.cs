@@ -1,11 +1,15 @@
-﻿using ArabErp.DAL;
-using ArabErp.Domain;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
-
+using ArabErp.DAL;
+using ArabErp.Domain;
+using System.Data.SqlClient;
+using CrystalDecisions.CrystalReports.Engine;
+using System.IO;
+using ArabErp.Web.Models;
+using System.Data;
 namespace ArabErp.Web.Controllers
 {
     public class ProjectCompletionController : BaseController
@@ -144,6 +148,109 @@ namespace ArabErp.Web.Controllers
                 TempData["error"] = "Some error occured while deleting. Please try again.";
                 return RedirectToAction("Details", new { id = ProjectCompletionId });
             }
+        
         }
+
+        public ActionResult Print(int Id)
+        {
+
+            ReportDocument rd = new ReportDocument();
+            rd.Load(Path.Combine(Server.MapPath("~/Reports"), "ProjectCompletion.rpt"));
+
+            DataSet ds = new DataSet();
+            ds.Tables.Add("Head");
+
+            //-------HEAD
+            ds.Tables["Head"].Columns.Add("ProjectCompletionRefNo");
+            ds.Tables["Head"].Columns.Add("ProjectCompletionDate");
+            ds.Tables["Head"].Columns.Add("ChillerTemperature");
+            ds.Tables["Head"].Columns.Add("ChillerDimension");
+            ds.Tables["Head"].Columns.Add("ChillerCondensingUnit");
+            ds.Tables["Head"].Columns.Add("ChillerEvaporator");
+            ds.Tables["Head"].Columns.Add("ChillerRefrigerant");
+            ds.Tables["Head"].Columns.Add("ChillerQuantity");
+            ds.Tables["Head"].Columns.Add("FreezerTemperature");
+            ds.Tables["Head"].Columns.Add("FreezerDimension");
+
+            ds.Tables["Head"].Columns.Add("FreezerCondensingUnit");
+            ds.Tables["Head"].Columns.Add("FreezerEvaporator");
+            ds.Tables["Head"].Columns.Add("FreezerRefrigerant");
+            ds.Tables["Head"].Columns.Add("FreezerQuantity");
+            ds.Tables["Head"].Columns.Add("SaleOrderRefNo");
+            ds.Tables["Head"].Columns.Add("SaleOrderDate");
+            ds.Tables["Head"].Columns.Add("CustomerName");
+            ds.Tables["Head"].Columns.Add("ProjectName");
+           // ds.Tables["Head"].Columns.Add("[Location]");
+        
+            //Organization
+            ds.Tables["Head"].Columns.Add("DoorNo");
+            ds.Tables["Head"].Columns.Add("Street");
+            ds.Tables["Head"].Columns.Add("State");
+            ds.Tables["Head"].Columns.Add("Country");
+            ds.Tables["Head"].Columns.Add("Phone");
+            ds.Tables["Head"].Columns.Add("Fax");
+            ds.Tables["Head"].Columns.Add("Email");
+            ds.Tables["Head"].Columns.Add("ContactPerson");
+            ds.Tables["Head"].Columns.Add("Zip");
+            ds.Tables["Head"].Columns.Add("OrganizationName");
+            ds.Tables["Head"].Columns.Add("Image1");
+            ProjectCompletionRepository repo = new ProjectCompletionRepository();
+            var Head = repo.GetProjectCompletionHD(Id, OrganizationId);
+
+            DataRow dr = ds.Tables["Head"].NewRow();
+            dr["ProjectCompletionRefNo"] = Head.ProjectCompletionRefNo;
+            dr["ProjectCompletionDate"] = Head.ProjectCompletionDate.ToString("dd-MMM-yyyy");
+            dr["ChillerTemperature"] = Head.ChillerTemperature;
+            dr["ChillerDimension"] = Head.ChillerDimension;
+            dr["ChillerCondensingUnit"] = Head.ChillerDimension;
+            dr["ChillerEvaporator"] = Head.ChillerEvaporator;
+            dr["ChillerRefrigerant"] = Head.ChillerRefrigerant;
+            dr["ChillerQuantity"] = Head.ChillerQuantity;
+            dr["FreezerTemperature"] = Head.FreezerTemperature;
+            dr["FreezerDimension"] = Head.FreezerEvaporator;
+            dr["FreezerCondensingUnit"] = Head.FreezerCondensingUnit;
+            dr["FreezerEvaporator"] = Head.FreezerEvaporator;
+            dr["FreezerRefrigerant"] = Head.FreezerRefrigerant;
+            dr["FreezerQuantity"] = Head.FreezerQuantity;
+            dr["SaleOrderRefNo"] = Head.SaleOrderRefNo;
+            dr["SaleOrderDate"] = Head.SaleOrderDate;
+            dr["CustomerName"] = Head.CustomerName;
+            dr["ProjectName"] = Head.ProjectName;
+
+            dr["DoorNo"] = Head.DoorNo;
+            dr["Street"] = Head.Street;
+            dr["State"] = Head.State;
+            dr["Country"] = Head.CountryName;
+            dr["Phone"] = Head.Phone;
+            dr["Fax"] = Head.Fax;
+            dr["Email"] = Head.Email;
+            dr["ContactPerson"] = Head.ContactPerson;
+            dr["Zip"] = Head.Zip;
+            dr["OrganizationName"] = Head.OrganizationName;
+            dr["Image1"] = Server.MapPath("~/App_images/") + Head.Image1;
+            ds.Tables["Head"].Rows.Add(dr);
+
+
+            ds.WriteXml(Path.Combine(Server.MapPath("~/XML"), "ProjectCompletion.xml"), XmlWriteMode.WriteSchema);
+
+            rd.SetDataSource(ds);
+
+            Response.Buffer = false;
+            Response.ClearContent();
+            Response.ClearHeaders();
+
+
+            try
+            {
+                Stream stream = rd.ExportToStream(CrystalDecisions.Shared.ExportFormatType.PortableDocFormat);
+                stream.Seek(0, SeekOrigin.Begin);
+                return File(stream, "application/pdf", String.Format("ProjectCompletion{0}.pdf", Id.ToString()));
+            }
+            catch (Exception ex)
+            {
+                throw;
+            }
+        }
+
     }
 }
