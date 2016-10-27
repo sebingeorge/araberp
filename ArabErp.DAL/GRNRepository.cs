@@ -58,7 +58,7 @@ namespace ArabErp.DAL
                             item.GRNId = id;
                             item.Amount = item.AcceptedQuantity * item.Rate;
                             new GRNItemRepository().InsertGRNItem(item, connection, trn);
-                          
+
                             new StockUpdateRepository().InsertStockUpdate(
                                 new StockUpdate
                                 {
@@ -85,7 +85,7 @@ namespace ArabErp.DAL
                                 AdditionId = Addition.AdditionId,
                                 Addition = Addition.Addition
                             }, connection, trn);
-                     
+
                         }
 
                         foreach (var Deduction in model.Deductions)
@@ -97,7 +97,7 @@ namespace ArabErp.DAL
                                 DeductionId = Deduction.DeductionId,
                                 Deduction = Deduction.Deduction
                             }, connection, trn);
-                          
+
                         }
 
                         InsertLoginHistory(dataConnection, model.CreatedBy, "Create", "GRN", id.ToString(), "0");
@@ -121,59 +121,59 @@ namespace ArabErp.DAL
             model.Items = model.Items.Where(m => m.AcceptedQuantity > 0).ToList<GRNItem>();
             if (model.Items != null && model.Items.Count > 0)
             {
-                    try
+                try
+                {
+                    foreach (var item in model.Items)
                     {
-                        foreach (var item in model.Items)
-                        {
-                            item.GRNId = model.GRNId;
-                            item.Amount = item.AcceptedQuantity * item.Rate;
+                        item.GRNId = model.GRNId;
+                        item.Amount = item.AcceptedQuantity * item.Rate;
                         new GRNItemRepository().InsertGRNItem(item, connection, txn);
-                            new StockUpdateRepository().InsertStockUpdate(
-                                new StockUpdate
-                                {
-                                    CreatedBy = model.CreatedBy,
-                                    CreatedDate = model.CreatedDate,
-                                    OrganizationId = model.OrganizationId,
-                                    ItemId = item.ItemId,
-                                    Quantity = item.AcceptedQuantity,
-                                    StockInOut = "IN",
-                                    StockPointId = model.StockPointId,
-                                    StockType = model.isDirectPurchaseGRN ? "DirectGRN" : "GRN",
-                                    StocktrnId = model.GRNId,
-                                    StockUserId = model.GRNNo,
-                                    stocktrnDate = model.GRNDate
+                        new StockUpdateRepository().InsertStockUpdate(
+                            new StockUpdate
+                            {
+                                CreatedBy = model.CreatedBy,
+                                CreatedDate = model.CreatedDate,
+                                OrganizationId = model.OrganizationId,
+                                ItemId = item.ItemId,
+                                Quantity = item.AcceptedQuantity,
+                                StockInOut = "IN",
+                                StockPointId = model.StockPointId,
+                                StockType = model.isDirectPurchaseGRN ? "DirectGRN" : "GRN",
+                                StocktrnId = model.GRNId,
+                                StockUserId = model.GRNNo,
+                                stocktrnDate = model.GRNDate
                             }, connection, txn);
-                        }
-
-
-                        foreach (var Addition in model.Additions)
-                        {
-                            new GRNItemRepository().InsertGRNAddition(new GRNAddition
-                            {
-                                GRNId = model.GRNId,
-                                AdditionId = Addition.AdditionId,
-                                Addition = Addition.Addition
-                        }, connection, txn);
-
-                        }
-
-                        foreach (var Deduction in model.Deductions)
-                        {
-                            new GRNItemRepository().InsertGRNDeduction(new GRNDeduction
-                            {
-                                GRNId = model.GRNId,
-                                DeductionId = Deduction.DeductionId,
-                                Deduction = Deduction.Deduction
-                        }, connection, txn);
-
-                        }
-                    return 1;
                     }
-                    catch (Exception ex)
+
+
+                    foreach (var Addition in model.Additions)
                     {
-                        throw ex;
+                        new GRNItemRepository().InsertGRNAddition(new GRNAddition
+                        {
+                            GRNId = model.GRNId,
+                            AdditionId = Addition.AdditionId,
+                            Addition = Addition.Addition
+                        }, connection, txn);
+
                     }
+
+                    foreach (var Deduction in model.Deductions)
+                    {
+                        new GRNItemRepository().InsertGRNDeduction(new GRNDeduction
+                        {
+                            GRNId = model.GRNId,
+                            DeductionId = Deduction.DeductionId,
+                            Deduction = Deduction.Deduction
+                        }, connection, txn);
+
+                    }
+                    return 1;
                 }
+                catch (Exception ex)
+                {
+                    throw ex;
+                }
+            }
             else
                 throw new NullReferenceException("1You have to fill the quantity of atleast one material");
         }
@@ -270,7 +270,7 @@ namespace ArabErp.DAL
                 return connection.Query<GRN>(query, new { OrganizationId = OrganizationId });
             }
         }
-            
+
         public List<GRN> GetGRNs()
         {
             using (IDbConnection connection = OpenConnection(dataConnection))
@@ -313,11 +313,11 @@ namespace ArabErp.DAL
 
                     output = InsertGRNDT(model, connection, txn);
 
-                InsertLoginHistory(dataConnection, model.CreatedBy, "Update", "GRN", id.ToString(), "0");
+                    InsertLoginHistory(dataConnection, model.CreatedBy, "Update", "GRN", id.ToString(), "0");
 
                     txn.Commit();
-                return model;
-            }
+                    return model;
+                }
                 catch (Exception)
                 {
                     txn.Rollback();
@@ -326,7 +326,7 @@ namespace ArabErp.DAL
             }
         }
 
-  
+
         public IEnumerable<Stockpoint> GetWarehouseList()
         {
             using (IDbConnection connection = OpenConnection(dataConnection))
@@ -519,36 +519,36 @@ namespace ArabErp.DAL
         {
             using (IDbConnection connection = OpenConnection(dataConnection))
             {
-                                string query = "CREATE TABLE #TEMP(GRNId INT,SupplyOrderItemId INT,ItemId INT,";
-                                query += " ItemName VARCHAR(500),PartNo  VARCHAR(500),";
-                                query += " BALANCEQTY INT,AcceptedQuantity  INT,RejectedQuantity INT,";
-                                query += " Unit VARCHAR(500),Rate DECIMAL(18,3),Discount DECIMAL(18,3),";
-                                query += " Amount DECIMAL(18,3),Remarks VARCHAR(5000),GRNQTY INT,PendingQuantity INT,ReceivedQuantity INT)";
+                string query = "CREATE TABLE #TEMP(GRNId INT,SupplyOrderItemId INT,ItemId INT,";
+                query += " ItemName VARCHAR(500),PartNo  VARCHAR(500),";
+                query += " BALANCEQTY INT,AcceptedQuantity  INT,RejectedQuantity INT,";
+                query += " Unit VARCHAR(500),Rate DECIMAL(18,3),Discount DECIMAL(18,3),";
+                query += " Amount DECIMAL(18,3),Remarks VARCHAR(5000),GRNQTY INT,PendingQuantity INT,ReceivedQuantity INT)";
 
-                                query += " INSERT INTO #TEMP (GRNId,SupplyOrderItemId, ItemId,ItemName ,PartNo,";
-                                query += " BALANCEQTY,AcceptedQuantity,RejectedQuantity,";
-                                query += " Unit,Rate,Discount,Amount,Remarks,GRNQTY,PendingQuantity,ReceivedQuantity)";
+                query += " INSERT INTO #TEMP (GRNId,SupplyOrderItemId, ItemId,ItemName ,PartNo,";
+                query += " BALANCEQTY,AcceptedQuantity,RejectedQuantity,";
+                query += " Unit,Rate,Discount,Amount,Remarks,GRNQTY,PendingQuantity,ReceivedQuantity)";
 
-                                query += " SELECT GRNId,G.SupplyOrderItemId,I.ItemId,I.ItemName,I.PartNo,";
-                                query += " sum(isnull(S.OrderedQty,0))-isnull((select sum(ISNULL(A.Quantity,0)) ";
-                                query += " FROM GRNItem A where S.SupplyOrderItemId=A.SupplyOrderItemId),0) BALANCEQTY,";
-                                query += " sum(Quantity) AcceptedQuantity,(isnull(G.ReceivedQty,0)-isnull(Quantity,0)) RejectedQuantity,";
-                                query += " U.UnitName Unit,G.Rate,G.Discount,G.Amount,Remarks,0 GRNQTY,0 PendingQuantity,sum(G.ReceivedQty)";
-                                query += " FROM GRNItem G";
-                                query += " INNER JOIN SupplyOrderItem S ON S.SupplyOrderItemId=G.SupplyOrderItemId";
-                                query += " INNER JOIN Item I ON I.ItemId=G.ItemId";
-                                query += " INNER JOIN Unit U ON U.UnitId=I.ItemUnitId";
-                                query += " WHERE G.GRNId = " + GRNId.ToString();
-                                query += " GROUP BY GRNId,G.SupplyOrderItemId,I.ItemId,I.ItemName,I.PartNo,";
-                                query += " G.ReceivedQty,G.Quantity,U.UnitName,G.Rate,G.Discount,G.Amount,Remarks,S.SupplyOrderItemId";
-                                query += " UPDATE #TEMP SET GRNQTY=(SELECT (SUM(G1.Quantity)) ";
-                                query += " FROM GRNItem G1 where #TEMP.SupplyOrderItemId=G1.SupplyOrderItemId and G1.GRNId=" + GRNId.ToString(); 
-                                query += " GROUP BY G1.SupplyOrderItemId)";
+                query += " SELECT GRNId,G.SupplyOrderItemId,I.ItemId,I.ItemName,I.PartNo,";
+                query += " sum(isnull(S.OrderedQty,0))-isnull((select sum(ISNULL(A.Quantity,0)) ";
+                query += " FROM GRNItem A where S.SupplyOrderItemId=A.SupplyOrderItemId),0) BALANCEQTY,";
+                query += " sum(Quantity) AcceptedQuantity,(isnull(G.ReceivedQty,0)-isnull(Quantity,0)) RejectedQuantity,";
+                query += " U.UnitName Unit,G.Rate,G.Discount,G.Amount,Remarks,0 GRNQTY,0 PendingQuantity,sum(G.ReceivedQty)";
+                query += " FROM GRNItem G";
+                query += " INNER JOIN SupplyOrderItem S ON S.SupplyOrderItemId=G.SupplyOrderItemId";
+                query += " INNER JOIN Item I ON I.ItemId=G.ItemId";
+                query += " INNER JOIN Unit U ON U.UnitId=I.ItemUnitId";
+                query += " WHERE G.GRNId = " + GRNId.ToString();
+                query += " GROUP BY GRNId,G.SupplyOrderItemId,I.ItemId,I.ItemName,I.PartNo,";
+                query += " G.ReceivedQty,G.Quantity,U.UnitName,G.Rate,G.Discount,G.Amount,Remarks,S.SupplyOrderItemId";
+                query += " UPDATE #TEMP SET GRNQTY=(SELECT (SUM(G1.Quantity)) ";
+                query += " FROM GRNItem G1 where #TEMP.SupplyOrderItemId=G1.SupplyOrderItemId and G1.GRNId=" + GRNId.ToString();
+                query += " GROUP BY G1.SupplyOrderItemId)";
 
-                                query += " UPDATE #TEMP SET PendingQuantity=BALANCEQTY+GRNQTY";
+                query += " UPDATE #TEMP SET PendingQuantity=BALANCEQTY+GRNQTY";
 
-                                query += " SELECT * FROM #TEMP";
-                       //string query = " SELECT GRNId,G.SupplyOrderItemId,I.ItemId,I.ItemName,I.PartNo,";
+                query += " SELECT * FROM #TEMP";
+                //string query = " SELECT GRNId,G.SupplyOrderItemId,I.ItemId,I.ItemName,I.PartNo,";
                 //      query += " (sum(S.OrderedQty-G.Quantity )+G.Quantity)PendingQuantity,";
                 //      query += " sum(G.ReceivedQty) ReceivedQuantity,sum(Quantity) AcceptedQuantity,";
                 //      query += " (isnull(G.ReceivedQty,0)-isnull(Quantity,0)) RejectedQuantity,";
@@ -596,22 +596,22 @@ namespace ArabErp.DAL
         {
             using (IDbConnection connection = OpenConnection(dataConnection))
             {
-//                string query = @"SELECT
-//	                                DISTINCT DP.DirectPurchaseRequestId,
-//	                                ISNULL(DP.PurchaseRequestNo, '') +' - '+ CONVERT(VARCHAR, ISNULL(DP.PurchaseRequestDate, ''), 106) RequestNoAndDate,
-//									DP.CreatedDate,
-//                                    DP.PurchaseRequestDate,
-//                                    ISNULL(DP.SpecialRemarks, '-') SpecialRemarks,
-//	                                ISNULL(DP.TotalAmount, 0.00) TotalAmount,
-//                                    DATEDIFF(day, DP.PurchaseRequestDate, GETDATE()) Age,
-//									ISNULL(CONVERT(VARCHAR, RequiredDate, 106), '-')RequiredDate,
-//                                    1 AS isDirectPurchase
-//                                FROM DirectPurchaseRequestItem DPI
-//                                INNER JOIN DirectPurchaseRequest DP ON DPI.DirectPurchaseRequestId = DP.DirectPurchaseRequestId
-//                                LEFT JOIN GRNItem GRN ON DPI.DirectPurchaseRequestItemId = GRN.DirectPurchaseRequestItemId
-//                                WHERE GRN.DirectPurchaseRequestItemId IS NULL AND ISNULL(DP.isApproved, 0) = 1
-//                                AND ISNULL(DP.isActive, 1) = 1 AND ISNULL(DPI.isActive, 1) = 1 AND ISNULL(GRN.isActive, 1) = 1
-//                                ORDER BY DP.PurchaseRequestDate DESC, DP.CreatedDate DESC";
+                //                string query = @"SELECT
+                //	                                DISTINCT DP.DirectPurchaseRequestId,
+                //	                                ISNULL(DP.PurchaseRequestNo, '') +' - '+ CONVERT(VARCHAR, ISNULL(DP.PurchaseRequestDate, ''), 106) RequestNoAndDate,
+                //									DP.CreatedDate,
+                //                                    DP.PurchaseRequestDate,
+                //                                    ISNULL(DP.SpecialRemarks, '-') SpecialRemarks,
+                //	                                ISNULL(DP.TotalAmount, 0.00) TotalAmount,
+                //                                    DATEDIFF(day, DP.PurchaseRequestDate, GETDATE()) Age,
+                //									ISNULL(CONVERT(VARCHAR, RequiredDate, 106), '-')RequiredDate,
+                //                                    1 AS isDirectPurchase
+                //                                FROM DirectPurchaseRequestItem DPI
+                //                                INNER JOIN DirectPurchaseRequest DP ON DPI.DirectPurchaseRequestId = DP.DirectPurchaseRequestId
+                //                                LEFT JOIN GRNItem GRN ON DPI.DirectPurchaseRequestItemId = GRN.DirectPurchaseRequestItemId
+                //                                WHERE GRN.DirectPurchaseRequestItemId IS NULL AND ISNULL(DP.isApproved, 0) = 1
+                //                                AND ISNULL(DP.isActive, 1) = 1 AND ISNULL(DPI.isActive, 1) = 1 AND ISNULL(GRN.isActive, 1) = 1
+                //                                ORDER BY DP.PurchaseRequestDate DESC, DP.CreatedDate DESC";
 
                 string query = @"SELECT
 	                                DirectPurchaseRequestItemId,
@@ -651,27 +651,27 @@ namespace ArabErp.DAL
         {
             using (IDbConnection connection = OpenConnection(dataConnection))
             {
-//                string query = @"SELECT
-//                                    DPI.DirectPurchaseRequestId,
-//	                                DPI.DirectPurchaseRequestItemId,
-//	                                DPI.ItemId,
-//	                                I.ItemName,
-//	                                I.PartNo,
-//	                                U.UnitName Unit,
-//	                                ROW_NUMBER() OVER(ORDER BY DPI.DirectPurchaseRequestItemId) AS SlNo,
-//	                                ISNULL(DPI.Remarks, '') Remarks,
-//	                                ISNULL(DPI.Quantity, 0) PendingQuantity,
-//	                                ISNULL(DPI.Quantity, 0) ReceivedQuantity,
-//	                                ISNULL(DPI.Quantity, 0) AcceptedQuantity,
-//	                                0 RejectedQuantity,
-//	                                0.00 AS Discount,
-//	                                ISNULL(DPI.Rate, 0.00) Rate,
-//	                                CAST(ISNULL(DPI.Quantity, 0.00)*ISNULL(DPI.Rate, 0.00) AS DECIMAL(18, 2)) Amount
-//                                FROM DirectPurchaseRequestItem DPI
-//                                INNER JOIN Item I ON DPI.ItemId = I.ItemId
-//                                INNER JOIN Unit U ON I.ItemUnitId = U.UnitId
-//                                WHERE DPI.DirectPurchaseRequestId IN @id
-//                                AND ISNULL(DPI.isActive, 1) = 1";
+                //                string query = @"SELECT
+                //                                    DPI.DirectPurchaseRequestId,
+                //	                                DPI.DirectPurchaseRequestItemId,
+                //	                                DPI.ItemId,
+                //	                                I.ItemName,
+                //	                                I.PartNo,
+                //	                                U.UnitName Unit,
+                //	                                ROW_NUMBER() OVER(ORDER BY DPI.DirectPurchaseRequestItemId) AS SlNo,
+                //	                                ISNULL(DPI.Remarks, '') Remarks,
+                //	                                ISNULL(DPI.Quantity, 0) PendingQuantity,
+                //	                                ISNULL(DPI.Quantity, 0) ReceivedQuantity,
+                //	                                ISNULL(DPI.Quantity, 0) AcceptedQuantity,
+                //	                                0 RejectedQuantity,
+                //	                                0.00 AS Discount,
+                //	                                ISNULL(DPI.Rate, 0.00) Rate,
+                //	                                CAST(ISNULL(DPI.Quantity, 0.00)*ISNULL(DPI.Rate, 0.00) AS DECIMAL(18, 2)) Amount
+                //                                FROM DirectPurchaseRequestItem DPI
+                //                                INNER JOIN Item I ON DPI.ItemId = I.ItemId
+                //                                INNER JOIN Unit U ON I.ItemUnitId = U.UnitId
+                //                                WHERE DPI.DirectPurchaseRequestId IN @id
+                //                                AND ISNULL(DPI.isActive, 1) = 1";
                 string query = @"SELECT
 	                                G.DirectPurchaseRequestItemId,
 	                                SUM(G.Quantity) Quantity
@@ -739,7 +739,7 @@ namespace ArabErp.DAL
                     var id = connection.Execute(sql, new { Id = Id });
                     return id;
                 }
-              
+
             }
         }
 
@@ -759,10 +759,10 @@ namespace ArabErp.DAL
                 output = connection.Execute(sql, new { GRNId = GRNId });
                 return output;
             }
-                
-            }
 
-        public GRN GetGRNDetailsHDPrint(int GRNId,int OrganizationId)
+        }
+
+        public GRN GetGRNDetailsHDPrint(int GRNId, int OrganizationId)
         {
             using (IDbConnection connection = OpenConnection(dataConnection))
             {

@@ -369,5 +369,39 @@ namespace ArabErp.DAL
                 }
             }
         }
+
+        public ProjectCompletion GetProjectCompletionHD(int ProjectCompletionId,int OrganizationId)
+        {
+            using (IDbConnection connection = OpenConnection(dataConnection))
+            {
+                try
+                {
+                    string query = string.Empty;
+
+                    query = @"  SELECT O.*,PC.*,SO.SaleOrderId, SO.SaleOrderRefNo,SO.SaleOrderDate,
+                                C.CustomerName,QS.ProjectName,'' Location,ISNULL(SQ.ProjectCompletionId,0)IsUsed
+                                    FROM ProjectCompletion PC
+	                                    INNER JOIN SaleOrder SO ON PC.SaleOrderId = SO.SaleOrderId
+	                                    INNER JOIN Customer C ON SO.CustomerId = C.CustomerId
+	                                    INNER JOIN SalesQuotation SQ ON SO.SalesQuotationId = SQ.SalesQuotationId
+	                                    INNER JOIN QuerySheet QS ON SQ.QuerySheetId = QS.QuerySheetId 
+										 INNER JOIN Organization O ON O.OrganizationId=PC.OrganizationId
+										 inner  JOIN Country ORR ON ORR.CountryId=O.Country
+                                WHERE PC.ProjectCompletionId =@ProjectCompletionId";
+
+                    ProjectCompletion ProjectCompletion = connection.Query<ProjectCompletion>(query, new { ProjectCompletionId = ProjectCompletionId, OrganizationId = OrganizationId }).FirstOrDefault();
+
+                    return ProjectCompletion;
+                }
+
+                catch (Exception ex)
+                {
+                    throw ex;
+                }
+            }
+        }
+
+
+
     }
 }

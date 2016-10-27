@@ -245,10 +245,10 @@ namespace ArabErp.DAL
             using (IDbConnection connection = OpenConnection(dataConnection))
             {
 
-                string sql = @" SELECT DISTINCT DeliveryChallanId,DeliveryChallanRefNo,DeliveryChallanDate,C.CustomerName Customer,
+                string sql = @"  SELECT DISTINCT O.*,ORR.CountryName,DeliveryChallanId,DeliveryChallanRefNo,DeliveryChallanDate,C.CustomerName Customer,
                                 ISNULL(SO.SaleOrderRefNo,'')+ ' - '  +CONVERT(varchar,SO.SaleOrderDate,106) SONODATE,
                                 ISNULL(JC.JobCardNo,'') + ' - ' +CONVERT(varchar,JC.JobCardDate,106)JobCardNo,VI. RegistrationNo,
-                                WI.WorkDescr,VM.VehicleModelName VehicleModel,E.EmployeeName,SO.PaymentTerms,DC.Remarks,org.OrganizationName,org.Image1
+                                WI.WorkDescr,VM.VehicleModelName VehicleModel,E.EmployeeName,SO.PaymentTerms,DC.Remarks
                                 FROM DeliveryChallan DC
                                 INNER JOIN JobCard JC ON JC.JobCardId=DC.JobCardId
                                 INNER JOIN SaleOrder SO ON SO.SaleOrderId=JC.SaleOrderId
@@ -257,8 +257,9 @@ namespace ArabErp.DAL
                                 INNER JOIN WorkDescription WI ON WI.WorkDescriptionId = SOI.WorkDescriptionId
                                 INNER JOIN VehicleModel VM ON VM.VehicleModelId=SOI.VehicleModelId
                                 INNER JOIN Employee E ON E.EmployeeId=DC.EmployeeId
+                                inner join Organization O ON  DC.OrganizationId=O.OrganizationId
+								 inner  JOIN Country ORR ON ORR.CountryId=O.Country
                                 LEFT JOIN VehicleInPass VI ON VI.SaleOrderItemId = SOI.SaleOrderItemId
-								inner join Organization org ON  DC.OrganizationId=org.OrganizationId
                                 WHERE  DeliveryChallanId=@DeliveryChallanId";
 
                 var objDeliveryChallan = connection.Query<DeliveryChallan>(sql, new
