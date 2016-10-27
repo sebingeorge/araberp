@@ -41,6 +41,7 @@ namespace ArabErp.Domain
         public string ContactPerson { get; set; }
         public string Customer { get; set; }
         public string Technician { get; set; }
+        public string EmployeeName { get; set; }
 
         public int CurrencyId { get; set; }
         public string CurrencyName { get; set; }

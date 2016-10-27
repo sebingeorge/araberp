@@ -39,8 +39,7 @@
         assignTaskDate();
     });
 
-    function assignTaskDate()
-    {
+    function assignTaskDate() {
         $('.taskdate').each(function (i, obj) {
             //console.log(obj.id);
             $("#" + obj.id).removeClass("hasDatepicker");
@@ -48,8 +47,7 @@
         });
     }
 
-    function AddRowBelow(rNo)
-    {
+    function AddRowBelow(rNo) {
         var i = 0;
         var no = 0;
         $('.TaskRow').each(function (j, obj) {
@@ -58,7 +56,7 @@
             i = j;
         });
         i++;
-       
+
         console.log(i);
 
         var clone = $('#Row_0').clone();
@@ -68,6 +66,7 @@
         clone.html($(clone).html().replace(/\[0\]/g, '[' + i + ']'));
         clone.html($(clone).html().replace(/\(0\)/g, '(' + i + ')'));
         clone.html($(clone).html().replace(/\Row_0/g, 'Row_' + i + ''));
+        clone.html($(clone).html().replace(/this,0/g, "this," + i));
         //clone.html($(clone).html().replace(/Row_/, 'Row_' + i + ''));
 
 
@@ -94,7 +93,7 @@
         if (i > 1) {
             $("#Row_" + index).remove();
             for (var j = index + 1; j < i; j++) {
-          
+
                 var TaskId = $("#JobCardTasks_" + j + "__JobCardTaskId").val();
                 var Employee = $("#JobCardTasks_" + j + "__EmployeeId").val();
                 var Date = $("#JobCardTasks_" + j + "__TaskDate").val();
@@ -107,10 +106,10 @@
                 clone.html($(clone).html().replace("DeleteRowBelow(" + j, "DeleteRowBelow(" + (j - 1)));
                 clone.html($(clone).html().replace("Row_" + j, "Row_" + (j - 1)));
                 //clone.html($(clone).html().replace("Row_Task_" + j, "Row_Task_" + (j - 1)));
-                clone.html($(clone).html().replace("this," + j, "this," + (j - 1)));
+                clone.html($(clone).html().replace(new RegExp("this," + j, "g"), "this," + (j - 1)));
                 $("#Row_" + j).html(clone.html());
                 //$("#WorkVsTasks_" + (j - 1) + "__SlNo").val(j);
-                $("#Row_" + (j)).attr('id', "Row_"+(j - 1));
+                $("#Row_" + (j)).attr('id', "Row_" + (j - 1));
                 $("#JobCardTasks_" + (j - 1) + "__JobCardTaskId").val(TaskId);
                 $("#JobCardTasks_" + (j - 1) + "__EmployeeId").val(Employee);
                 $("#JobCardTasks_" + (j - 1) + "__TaskDate").val(Date);
@@ -140,181 +139,198 @@
             var Hrs = $("#JobCardTasks_" + i + "__Hours").val();
             //alert(Task);
             //alert(Hrs);
-            if (Task !='' && Employee != '' && Hrs == 0) {
+            if (Task != '' && Employee != '' && Hrs == 0) {
                 $("#JobCardTasks_" + i + "__Hours").focus();
-                status= false;
+                status = false;
             }
         });
         if (!status)
-        alert("Hrs Should Be Greater than Zero");
+            alert("Hrs Should Be Greater than Zero");
 
         return status;
     }
 
-    </script> 
+    function CheckDuplication(sender, row) {
+        var jobcard = $("#JobCardTasks_" + row + "__JobCardTaskId");
+        var employee = $("#JobCardTasks_" + row + "__EmployeeId");
+        var count = 0;
 
-    <div class="row">
-        @using (Html.BeginForm(null, null, FormMethod.Post, new { @class = "createFrom", @id = "jobcard_form", @onsubmit = "return formValidation()" }))
-        {
-            <div class="form-head1">
-                <h4>Job Card</h4>
-            </div>
-            <div class="main-part pad1">
-                <form role="form">
-                    <div class="row form-group">
-                        <div class="col-md-2">
-                            <label for="jcno">Job Card No.</label>
-                            @Html.TextBoxFor(m => m.JobCardNo, new { @class = "form_input", autocomplete = "off", @readonly="readonly" })
-                            @Html.HiddenFor(m => m.SaleOrderId)
-                            @Html.HiddenFor(m => m.SaleOrderItemId)
-                            @Html.HiddenFor(m => m.isProjectBased)
-                        </div>
-                        <div class="col-md-2">
-                            <label for="inputDate">Date</label>
-                         
-                            @Html.TextBoxFor(m => m.JobCardDate, Model.JobCardDate.ToString("dd/MMMM/yyyy"), new { @class = "form_input ", autocomplete = "off", @readonly = "readonly", @required = "true" })
-                        </div>
-                    </div>
-                    <div class="row form-group">
-                        <div class="col-md-4">
-                            <label for="cus">Customer</label>
-                            @Html.TextBoxFor(m => m.CustomerName, new { @class = "form_input", autocomplete = "off", @readonly = "true" })
-                            @Html.HiddenFor(m => m.CustomerId, new { @class = "form_input", autocomplete = "off" })
-                        </div>
-                        <div class="col-md-2">
-                            <label for="cusref">Customer Order Ref.</label>
-                            @Html.TextBoxFor(m => m.CustomerOrderRef, new { @class = "form_input", autocomplete = "off", @readonly = "true" })
-                        </div>
-                        @if (Model.isProjectBased == 0)
-                        {
-                            <div class="col-md-2">
-                                <label for="vechmodel">Vehicle Model</label>
-                                @Html.TextBoxFor(m => m.VehicleModelName, new { @class = "form_input", autocomplete = "off", @readonly = "true" })
-                            </div>
-                            <div class="col-md-2">
-                                <label for="chasisno">Chassis No./Reg No.</label>
-                                @Html.HiddenFor(m => m.InPassId)
-                                @Html.TextBoxFor(m => m.RegistrationNo, new { @class = "form_input", autocomplete = "off", @readonly = "true" })
-                                @*@Html.DropDownListFor(m => m.InPassId, (SelectList)ViewBag.inpassList, "Select Chassis/Reg No.", new { @class = "form_input", autocomplete = "off" })*@
-                            </div>
-                            <div class="col-md-2">
-                                <label for="freezer">Freezer Unit</label>
-                                @Html.HiddenFor(m => m.FreezerUnitId)
-                                @Html.TextBoxFor(m => m.FreezerUnitName, new { @class = "form_input", @readonly = "true" })
-                                @*@Html.DropDownListFor(m => Model.FreezerUnitId, (SelectList)ViewBag.FreezerUnits, "Select Freezer Unit", new { @class = "form_input", autocomplete = "off", @required = "true" })*@
-                            </div>
-                        }                        
-                    </div>
-                    <div class="row form-group">
-                        <div class="col-md-12">
-                            <label for="wrkdes">Work Description</label>
-                            @Html.TextAreaFor(m => m.WorkDescription, new { @class = "form_input form_input-h1", autocomplete = "off", @readonly = "true" })
-                            @Html.HiddenFor(m => m.WorkDescriptionId, new { @class = "form_input", autocomplete = "off" })
-                        </div>
-                        </div>
-                    <div class="row form-group">
-                        <div class="col-md-2">
-                            <label for="wrkreqref">Workshop Request Ref.</label>
-                            @Html.TextBoxFor(m => m.WorkShopRequestRef, new { @class = "form_input", autocomplete = "off", @readonly = "true" })
-                        </div>
-                        <div class="col-md-2">
-                            <label for="goodsland">Goods Landed</label>
-                            @Html.TextBoxFor(m => m.GoodsLanded, new { @class = "form_input", autocomplete = "off", @readonly = "true" })
-                        </div>
-                        <div class="col-md-2">
-                            <label for="box">Box</label>
-                            @Html.HiddenFor(m => m.BoxId)
-                            @Html.TextBoxFor(m => m.BoxName, new { @class = "form_input", @readonly = "true" })
-                            @*@Html.DropDownListFor(m => Model.BoxId, (SelectList)ViewBag.Boxes, "Select Box", new { @class = "form_input", autocomplete = "off", @required = "true" })*@
-                        </div>
+        $("select[id$='__JobCardTaskId']").each(function (index, object) {
+            if ($("#JobCardTasks_" + index + "__JobCardTaskId").val() == $(jobcard).val()
+                && $("#JobCardTasks_" + index + "__EmployeeId").val() == $(employee).val())
+                ++count;
+        })
 
-                        @if (Model.isProjectBased == 0)
-                        {
-                            <div class="col-md-2">
-                                <label for="bay">Bay</label>
-                                @Html.DropDownListFor(m => Model.BayId, (SelectList)ViewBag.BayList, "Select Bay", new { @class = "form_input", autocomplete = "off", @required = "true" })
-                            </div>
-                        }
+        if (count > 1) {
+            toastr.info("This task has already been selected for this employee");
+            $(sender).val('');
+        }
+    }
+
+</script>
+
+<div class="row">
+    @using (Html.BeginForm(null, null, FormMethod.Post, new { @class = "createFrom", @id = "jobcard_form", @onsubmit = "return formValidation()" }))
+    {
+        <div class="form-head1">
+            <h4>Job Card</h4>
+        </div>
+        <div class="main-part pad1">
+            <form role="form">
+                <div class="row form-group">
+                    <div class="col-md-2">
+                        <label for="jcno">Job Card No.</label>
+                        @Html.TextBoxFor(m => m.JobCardNo, new { @class = "form_input", autocomplete = "off", @readonly = "readonly" })
+                        @Html.HiddenFor(m => m.SaleOrderId)
+                        @Html.HiddenFor(m => m.SaleOrderItemId)
+                        @Html.HiddenFor(m => m.isProjectBased)
+                    </div>
+                    <div class="col-md-2">
+                        <label for="inputDate">Date</label>
+
+                        @Html.TextBoxFor(m => m.JobCardDate, Model.JobCardDate.ToString("dd/MMMM/yyyy"), new { @class = "form_input ", autocomplete = "off", @readonly = "readonly", @required = "true" })
+                    </div>
+                </div>
+                <div class="row form-group">
+                    <div class="col-md-4">
+                        <label for="cus">Customer</label>
+                        @Html.TextBoxFor(m => m.CustomerName, new { @class = "form_input", autocomplete = "off", @readonly = "true" })
+                        @Html.HiddenFor(m => m.CustomerId, new { @class = "form_input", autocomplete = "off" })
+                    </div>
+                    <div class="col-md-2">
+                        <label for="cusref">Customer Order Ref.</label>
+                        @Html.TextBoxFor(m => m.CustomerOrderRef, new { @class = "form_input", autocomplete = "off", @readonly = "true" })
+                    </div>
+                    @if (Model.isProjectBased == 0)
+                    {
+                        <div class="col-md-2">
+                            <label for="vechmodel">Vehicle Model</label>
+                            @Html.TextBoxFor(m => m.VehicleModelName, new { @class = "form_input", autocomplete = "off", @readonly = "true" })
+                        </div>
+                        <div class="col-md-2">
+                            <label for="chasisno">Chassis No./Reg No.</label>
+                            @Html.HiddenFor(m => m.InPassId)
+                            @Html.TextBoxFor(m => m.RegistrationNo, new { @class = "form_input", autocomplete = "off", @readonly = "true" })
+                            @*@Html.DropDownListFor(m => m.InPassId, (SelectList)ViewBag.inpassList, "Select Chassis/Reg No.", new { @class = "form_input", autocomplete = "off" })*@
+                        </div>
+                        <div class="col-md-2">
+                            <label for="freezer">Freezer Unit</label>
+                            @Html.HiddenFor(m => m.FreezerUnitId)
+                            @Html.TextBoxFor(m => m.FreezerUnitName, new { @class = "form_input", @readonly = "true" })
+                            @*@Html.DropDownListFor(m => Model.FreezerUnitId, (SelectList)ViewBag.FreezerUnits, "Select Freezer Unit", new { @class = "form_input", autocomplete = "off", @required = "true" })*@
+                        </div>
+                    }
+                </div>
+                <div class="row form-group">
+                    <div class="col-md-12">
+                        <label for="wrkdes">Work Description</label>
+                        @Html.TextAreaFor(m => m.WorkDescription, new { @class = "form_input form_input-h1", autocomplete = "off", @readonly = "true" })
+                        @Html.HiddenFor(m => m.WorkDescriptionId, new { @class = "form_input", autocomplete = "off" })
+                    </div>
+                </div>
+                <div class="row form-group">
+                    <div class="col-md-2">
+                        <label for="wrkreqref">Workshop Request Ref.</label>
+                        @Html.TextBoxFor(m => m.WorkShopRequestRef, new { @class = "form_input", autocomplete = "off", @readonly = "true" })
+                    </div>
+                    <div class="col-md-2">
+                        <label for="goodsland">Goods Landed</label>
+                        @Html.TextBoxFor(m => m.GoodsLanded, new { @class = "form_input", autocomplete = "off", @readonly = "true" })
+                    </div>
+                    <div class="col-md-2">
+                        <label for="box">Box</label>
+                        @Html.HiddenFor(m => m.BoxId)
+                        @Html.TextBoxFor(m => m.BoxName, new { @class = "form_input", @readonly = "true" })
+                        @*@Html.DropDownListFor(m => Model.BoxId, (SelectList)ViewBag.Boxes, "Select Box", new { @class = "form_input", autocomplete = "off", @required = "true" })*@
                     </div>
 
-                    <div class=" table-responsive">
-                        <table class="table table-bordered" id="tab_logic">
-                            <thead>
-                                <tr class="grid_heading">
-                                    <td width="2%"><h1>#</h1></td>
-                                    <th width="35%"><h1>Task</h1></th>
-                                    <th width="35%"><h1>Technician</h1></th>
-                                    <th width="12%"><h1>Date</h1></th>
-                                    <th width="5%"><h1>Hrs.</h1></th>
-                                    <td width="2%"><h1>#</h1></td>
+                    @if (Model.isProjectBased == 0)
+                    {
+                        <div class="col-md-2">
+                            <label for="bay">Bay</label>
+                            @Html.DropDownListFor(m => Model.BayId, (SelectList)ViewBag.BayList, "Select Bay", new { @class = "form_input", autocomplete = "off", @required = "true" })
+                        </div>
+                    }
+                </div>
+
+                <div class=" table-responsive">
+                    <table class="table table-bordered" id="tab_logic">
+                        <thead>
+                            <tr class="grid_heading">
+                                <td width="2%"></td>
+                                <th width="35%"><h1>Task</h1></th>
+                                <th width="35%"><h1>Technician</h1></th>
+                                <th width="12%"><h1>Date</h1></th>
+                                <th width="5%"><h1>Hrs.</h1></th>
+                                <td width="2%"></td>
+                            </tr>
+                        </thead>
+                        <tbody class="grid_row">
+                            @{ int row = 0;}
+                            @foreach (var item in Model.JobCardTasks)
+                            {
+                                <tr id="Row_@row" class="TaskRow">
+                                    <td>
+                                        <a id="del_@row" class="glyphicon glyphicon-minus" onclick="DeleteRowBelow(@row);" style="top:0;"></a>
+                                    </td>
+
+                                    <td>
+                                        @Html.DropDownListFor(m => Model.JobCardTasks[row].JobCardTaskId, (SelectList)ViewBag.TaskList, "Select Task", new { @class = "form_input", autocomplete = "off", @onchange = "CheckDuplication(this," + row + ")" })
+                                    </td>
+                                    <td>
+                                        @Html.DropDownListFor(m => Model.JobCardTasks[row].EmployeeId, (SelectList)ViewBag.EmployeeList, "Select Technician", new { @class = "form_input", autocomplete = "off", @onchange = "CheckDuplication(this," + row + ")" })
+                                    </td>
+                                    <td>
+                                        @Html.TextBoxFor(m => m.JobCardTasks[row].TaskDate, Model.JobCardTasks[row].TaskDate.ToString("dd/MMMM/yyyy"), new { @class = "taskdate form_input", autocomplete = "off", @readonly = "readonly" })
+                                    </td>
+                                    <td>
+                                        @Html.TextBoxFor(m => m.JobCardTasks[row].Hours, new { @class = "form_input validateqty", autocomplete = "off" })
+                                    </td>
+                                    <td>
+                                        <a id="add_@row" class="glyphicon glyphicon-plus" @*type="button" value="Add"*@ onclick="AddRowBelow(@row);" style="top:0;"></a>
+                                    </td>
                                 </tr>
-                            </thead>
-                            <tbody class="grid_row">
-                                @{ int row = 0;}
-                                @foreach (var item in Model.JobCardTasks)
-                                {
-                                    <tr id="Row_@row" class="TaskRow">
-                                        <td>
-                                            <a id="del_@row" class="glyphicon glyphicon-minus"  onclick="DeleteRowBelow(@row);" style="top:0;"></a>
-                                        </td>
+                                row++;
+                            }
+                        </tbody>
+                    </table>
+                </div>
+                <div class="row form-group">
+                    <div class="col-md-12">
+                        <div class="row">
 
-                                        <td>
-                                            @Html.DropDownListFor(m => Model.JobCardTasks[row].JobCardTaskId, (SelectList)ViewBag.TaskList, "Select Task", new { @class = "form_input", autocomplete = "off" })
-                                        </td>
-                                        <td>
-                                            @Html.DropDownListFor(m => Model.JobCardTasks[row].EmployeeId, (SelectList)ViewBag.EmployeeList, "Select Technician", new { @class = "form_input", autocomplete = "off" })
-                                        </td>
-                                        <td>
-                                            @Html.TextBoxFor(m => m.JobCardTasks[row].TaskDate, Model.JobCardTasks[row].TaskDate.ToString("dd/MMMM/yyyy"), new { @class = "taskdate form_input", autocomplete = "off", @readonly = "readonly" })
-                                        </td>
-                                        <td>
-                                            @Html.TextBoxFor(m => m.JobCardTasks[row].Hours, new { @class = "form_input validateqty", autocomplete = "off" })
-                                        </td>
-                                        <td>
-                                            <a id="add_@row" class="glyphicon glyphicon-plus" @*type="button" value="Add"*@ onclick="AddRowBelow(@row);" style="top:0;"></a>
-                                        </td>
-                                    </tr>
-                                    row++;
-                                }
-                            </tbody>
-                        </table>
-                    </div>
-                    <div class="row form-group">
-                        <div class="col-md-12">
-                            <div class="row">
-                                
-                                <div class="col-md-12">
-                                    <div class="part1">
-                                        <label for="SplRemarks1">Special Remarks</label>
-                                        @Html.TextAreaFor(m => m.SpecialRemarks, new { @class = "form_input form_input-h", autocomplete = "off" })
-                                    </div>
+                            <div class="col-md-12">
+                                <div class="part1">
+                                    <label for="SplRemarks1">Special Remarks</label>
+                                    @Html.TextAreaFor(m => m.SpecialRemarks, new { @class = "form_input form_input-h", autocomplete = "off" })
                                 </div>
                             </div>
                         </div>
                     </div>
-                    <div class="row">
-                        <div class="col-md-2">
-                            <label for="reqdate">Required Date</label>
-                            @Html.TextBoxFor(m => m.RequiredDate, Model.RequiredDate.ToString("dd/MMMM/yyyy"), new { @class = "form_input ", autocomplete = "off", @readonly = "readonly", @required = "true" })
-                        </div>
-                        <div class="col-md-3">
-                            <label for="emp">Engineer/Supervisor</label>
-                            @Html.DropDownListFor(m => Model.EmployeeId, (SelectList)ViewBag.EmployeeList, "Select Engineer/Supervisor", new { @class = "form_input", autocomplete = "off", @required = "true" })
-                        </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-2">
+                        <label for="reqdate">Required Date</label>
+                        @Html.TextBoxFor(m => m.RequiredDate, Model.RequiredDate.ToString("dd/MMMM/yyyy"), new { @class = "form_input ", autocomplete = "off", @readonly = "readonly", @required = "true" })
+                    </div>
+                    <div class="col-md-3">
+                        <label for="emp">Engineer/Supervisor</label>
+                        @Html.DropDownListFor(m => Model.EmployeeId, (SelectList)ViewBag.EmployeeList, "Select Engineer/Supervisor", new { @class = "form_input", autocomplete = "off", @required = "true" })
+                    </div>
+                </div>
+
+
+                <div class="row">
+
+                    <div class="col-md-12 hrpart">
+                        <button type="button" class="form-button right" onclick="Exit()">Exit</button>
+                        <button type="submit" class="form-button right">Save</button>
                     </div>
 
+                </div>
 
-                    <div class="row">
+            </form>
+        </div>
+    }
 
-                        <div class="col-md-12 hrpart">
-                            <button type="button" class="form-button right" onclick="Exit()">Exit</button>
-                            <button type="submit" class="form-button right">Save</button>
-                        </div>
-
-                    </div>
-
-                </form>
-            </div>
-        }
-
-    </div>
+</div>
