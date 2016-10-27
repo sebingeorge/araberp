@@ -27,7 +27,7 @@ namespace ArabErp.Web.Controllers
         }
         public void CustomerDropdown()
         {
-            ViewBag.customerList = new SelectList(new DropdownRepository().CustomerDropdown1(), "Id", "Name");
+            ViewBag.customerList = new SelectList(new DropdownRepository().CustomerDropdown1(OrganizationId), "Id", "Name");
         }
         public ActionResult PendingDeliveryChallan(int customerId)
         {

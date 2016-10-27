@@ -217,12 +217,12 @@ namespace ArabErp.DAL
         /// Return all customers with jobcard id not in deliverychallan
         /// </summary>
         /// <returns></returns>
-        public List<Dropdown> CustomerDropdown1()
+        public List<Dropdown> CustomerDropdown1(int OrganizationId)
         {
             using ( IDbConnection connection = OpenConnection(dataConnection) )
             {
                 string query = @"SELECT DISTINCT
-	                                CUS.CustomerId Id, 
+	                                CUS.CustomerId Id,
 	                                CUS.CustomerName Name
                                 FROM JobCard JC
 	                                INNER JOIN SaleOrderItem SOI ON JC.SaleOrderItemId = SOI.SaleOrderItemId
@@ -231,8 +231,10 @@ namespace ArabErp.DAL
 	                                INNER JOIN Customer CUS ON SO.CustomerId = CUS.CustomerId
                                 WHERE DC.JobCardId IS NULL
 	                                AND ISNULL(DC.isActive, 1) = 1
-	                                AND ISNULL(SO.isActive, 1) = 1";
-                return connection.Query<Dropdown>(query).ToList();
+	                                AND ISNULL(SO.isActive, 1) = 1
+									AND ISNULL(JC.JodCardCompleteStatus, 0) = 1
+									AND JC.OrganizationId = @OrganizationId";
+                return connection.Query<Dropdown>(query, new { OrganizationId = OrganizationId }).ToList();
             }
         }
 
