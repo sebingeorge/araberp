@@ -113,5 +113,22 @@ namespace ArabErp.DAL
             }
         }
 
+
+        public List<JobCardQCParam> GetJobCardQCParamDtPrint(int JobCardQCId)
+        {
+            using (IDbConnection connection = OpenConnection(dataConnection))
+            {
+                string sql = @" SELECT QP.QCParamId,QT.QCParaName ParaName,QP.QCParamName,QCParamValue FROM JobCardQCParam JQC
+                                INNER JOIN QCParam QP ON QP.QCParamId=JQC.QCParamId
+                                INNER JOIN QCParaType QT ON QT.QCParaId=QP.QCParaId
+                                WHERE JQC.JobCardQCId=@JobCardQCId
+                                ORDER BY QP.QCParamId";
+
+                var objSalesInvoices = connection.Query<JobCardQCParam>(sql, new { JobCardQCId = JobCardQCId }).ToList<JobCardQCParam>();
+
+                return objSalesInvoices;
+            }
+        }
+
     }
 }

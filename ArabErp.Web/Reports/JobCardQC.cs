@@ -16,14 +16,14 @@ namespace ArabErp.Web.Reports {
     using CrystalDecisions.CrystalReports.Engine;
     
     
-    public class PurchaseRequest : ReportClass {
+    public class JobCardQC : ReportClass {
         
-        public PurchaseRequest() {
+        public JobCardQC() {
         }
         
         public override string ResourceName {
             get {
-                return "PurchaseRequest.rpt";
+                return "JobCardQC.rpt";
             }
             set {
                 // Do nothing
@@ -41,7 +41,7 @@ namespace ArabErp.Web.Reports {
         
         public override string FullResourceName {
             get {
-                return "ArabErp.Web.Reports.PurchaseRequest.rpt";
+                return "ArabErp.Web.Reports.JobCardQC.rpt";
             }
             set {
                 // Do nothing
@@ -74,7 +74,7 @@ namespace ArabErp.Web.Reports {
         
         [Browsable(false)]
         [DesignerSerializationVisibilityAttribute(System.ComponentModel.DesignerSerializationVisibility.Hidden)]
-        public CrystalDecisions.CrystalReports.Engine.Section DetailSection2 {
+        public CrystalDecisions.CrystalReports.Engine.Section Section4 {
             get {
                 return this.ReportDefinition.Sections[3];
             }
@@ -82,25 +82,17 @@ namespace ArabErp.Web.Reports {
         
         [Browsable(false)]
         [DesignerSerializationVisibilityAttribute(System.ComponentModel.DesignerSerializationVisibility.Hidden)]
-        public CrystalDecisions.CrystalReports.Engine.Section Section4 {
-            get {
-                return this.ReportDefinition.Sections[4];
-            }
-        }
-        
-        [Browsable(false)]
-        [DesignerSerializationVisibilityAttribute(System.ComponentModel.DesignerSerializationVisibility.Hidden)]
         public CrystalDecisions.CrystalReports.Engine.Section Section5 {
             get {
-                return this.ReportDefinition.Sections[5];
+                return this.ReportDefinition.Sections[4];
             }
         }
     }
     
     [System.Drawing.ToolboxBitmapAttribute(typeof(CrystalDecisions.Shared.ExportOptions), "report.bmp")]
-    public class CachedPurchaseRequest : Component, ICachedReport {
+    public class CachedJobCardQC : Component, ICachedReport {
         
-        public CachedPurchaseRequest() {
+        public CachedJobCardQC() {
         }
         
         [Browsable(false)]
@@ -137,7 +129,7 @@ namespace ArabErp.Web.Reports {
         }
         
         public virtual CrystalDecisions.CrystalReports.Engine.ReportDocument CreateReport() {
-            PurchaseRequest rpt = new PurchaseRequest();
+            JobCardQC rpt = new JobCardQC();
             rpt.Site = this.Site;
             return rpt;
         }

@@ -1,10 +1,16 @@
-﻿using ArabErp.DAL;
-using ArabErp.Domain;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using ArabErp.DAL;
+using ArabErp.Domain;
+using System.Data.SqlClient;
+using CrystalDecisions.CrystalReports.Engine;
+using System.IO;
+using ArabErp.Web.Models;
+using System.Data;
+
 using System.Data.SqlClient;
 
 namespace ArabErp.Web.Controllers
@@ -227,6 +233,90 @@ namespace ArabErp.Web.Controllers
             }
         }
 
+        public ActionResult Print(int Id)
+        {
+
+            ReportDocument rd = new ReportDocument();
+            rd.Load(Path.Combine(Server.MapPath("~/Reports"), "JobCardQC.rpt"));
+
+            DataSet ds = new DataSet();
+            ds.Tables.Add("Head");
+
+            ds.Tables.Add("Items");
+
+            //-------HEAD
+            ds.Tables["Head"].Columns.Add("JobCardQCRefNo");
+            ds.Tables["Head"].Columns.Add("JobCardNo");
+            ds.Tables["Head"].Columns.Add("JcDate");
+            ds.Tables["Head"].Columns.Add("JobCardQCDate");
+            ds.Tables["Head"].Columns.Add("Customer");
+            ds.Tables["Head"].Columns.Add("VehicleModel");
+            ds.Tables["Head"].Columns.Add("EmployeeName");
+            ds.Tables["Head"].Columns.Add("OrganizationName");
+            ds.Tables["Head"].Columns.Add("Image1");
+
+            //-------DT
+            ds.Tables["Items"].Columns.Add("ParaName");
+            ds.Tables["Items"].Columns.Add("QCParamName");
+            ds.Tables["Items"].Columns.Add("QCParamValue");
+            
+
+            JobCardQCRepository repo = new JobCardQCRepository();
+            var Head = repo.GetJobCardQCHDPrint(Id, OrganizationId);
+
+            DataRow dr = ds.Tables["Head"].NewRow();
+            dr["JobCardQCRefNo"] = Head.JobCardQCRefNo;
+            dr["JobCardNo"] = Head.JobCardNo;
+            dr["JcDate"] = Head.JcDate;
+            dr["JobCardQCDate"] = Head.JobCardQCDate;
+            dr["Customer"] = Head.Customer;
+            dr["VehicleModel"] = Head.VehicleModel;
+            dr["EmployeeName"] = Head.EmployeeName;
+            dr["OrganizationName"] = Head.OrganizationName;
+            dr["Image1"] = Head.Image1;
+        
+            ds.Tables["Head"].Rows.Add(dr);
+
+            JobCardQCParamRepository repo1 = new JobCardQCParamRepository();
+            var Items = repo1.GetJobCardQCParamDtPrint(Id);
+            foreach (var item in Items)
+            {
+                var pritem = new JobCardQCParam
+                {
+                    ParaName = item.ParaName,
+                    QCParamName = item.QCParamName,
+                    QCParamValue = item.QCParamValue,
+
+                };
+
+
+                DataRow dri = ds.Tables["Items"].NewRow();
+                dri["ParaName"] = pritem.ParaName;
+                dri["QCParamName"] = pritem.QCParamName;
+                dri["QCParamValue"] = pritem.QCParamValue;
+                ds.Tables["Items"].Rows.Add(dri);
+            }
+
+            ds.WriteXml(Path.Combine(Server.MapPath("~/XML"), "JobCardQC.xml"), XmlWriteMode.WriteSchema);
+
+            rd.SetDataSource(ds);
+
+            Response.Buffer = false;
+            Response.ClearContent();
+            Response.ClearHeaders();
+
+
+            try
+            {
+                Stream stream = rd.ExportToStream(CrystalDecisions.Shared.ExportFormatType.PortableDocFormat);
+                stream.Seek(0, SeekOrigin.Begin);
+                return File(stream, "application/pdf", String.Format("JobCardQC{0}.pdf", Id.ToString()));
+            }
+            catch (Exception ex)
+            {
+                throw;
+            }
+        }
 
     }
 }

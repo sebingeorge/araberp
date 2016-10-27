@@ -19,6 +19,13 @@
         calculateGrandTotal();
     });
 
+
+    function GoToPrint(id) {
+        var url = '@Url.Action("Print")';
+        url += "?Id=" + id;
+        window.location = url;
+    }
+
     function ValueChanged(row) {
         var quantity = $("#Items_" + row + "__AcceptedQuantity").val();
         var rate = $("#Items_" + row + "__Rate").val();
@@ -62,7 +69,7 @@
         var addamt = $("#Additions_" + row + "__Addition").val();
         if (isNaN(addamt)) {
             addamt = 0;
-            $("#Additions_" + row + "__Addition").val(addamt);
+        $("#Additions_" + row + "__Addition").val(addamt);
         }
         calculateSummary();
         calculateGrandTotal();
@@ -72,7 +79,7 @@
         var dedamt = $("#Deductions_" + row + "__Deduction").val();
         if (isNaN(dedamt)) {
             dedamt = 0;
-            $("#Deductions_" + row + "__Deduction").val(dedamt);
+        $("#Deductions_" + row + "__Deduction").val(dedamt);
         }
         calculateSummary();
         calculateGrandTotal();
@@ -620,8 +627,9 @@
                         }
                         else
                         {
-                            <button type="submit" class="form-button right">Edit</button>
-                            <button type="button" class="form-button" onclick="Delete('@Model.GRNId')">Delete</button>
+                        <button type="submit" class="form-button right">Edit</button>
+                        <input type="button" value="Print" onclick="GoToPrint(@Model.SupplyOrderId)" class="form-button right" />
+                        <button type="button" class="form-button" onclick="Delete('@Model.GRNId')">Delete</button>
                         }
                     </div>
 

@@ -39,6 +39,23 @@ namespace ArabErp.Domain
         public bool Isused { get; set; }
         public bool IsStoreused { get; set; }
         public int isProjectBased { get; set; }
+
+
+        public string DoorNo { get; set; }
+
+        public string Street { get; set; }
+
+        public string State { get; set; }
+
+        public int Country { get; set; }
+        public string CountryName { get; set; }
+        public string Zip { get; set; }
+        public string Phone { get; set; }
+        public string Fax { get; set; }
+        public string Email { get; set; }
+        public string ContactPerson { get; set; }
+        public string OrganizationName { get; set; }
+        public string Image1 { get; set; }
         public List<WorkShopRequestItem> Items { get; set; }
         public List<WorkShopRequestItem> AdditionalMaterials { get; set; }
     }

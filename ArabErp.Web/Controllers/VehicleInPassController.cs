@@ -1,10 +1,15 @@
-﻿using ArabErp.DAL;
-using ArabErp.Domain;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using ArabErp.DAL;
+using ArabErp.Domain;
+using System.Data.SqlClient;
+using CrystalDecisions.CrystalReports.Engine;
+using System.IO;
+using ArabErp.Web.Models;
+using System.Data;
 using System.Data.SqlClient;
 
 namespace ArabErp.Web.Controllers
@@ -193,7 +198,108 @@ namespace ArabErp.Web.Controllers
             }
         }
 
+        public ActionResult Print(int Id)
+        {
 
+            ReportDocument rd = new ReportDocument();
+            rd.Load(Path.Combine(Server.MapPath("~/Reports"), "VehicleInPass.rpt"));
+
+            DataSet ds = new DataSet();
+            ds.Tables.Add("Head");
+            ds.Tables.Add("Items");
+
+            //-------HEAD
+            ds.Tables["Head"].Columns.Add("VehicleInPassNo");
+            ds.Tables["Head"].Columns.Add("VehicleInPassDate");
+            ds.Tables["Head"].Columns.Add("CustomerName");
+            ds.Tables["Head"].Columns.Add("CustomerName");
+            ds.Tables["Head"].Columns.Add("WONODATE");
+            ds.Tables["Head"].Columns.Add("SONODATE");
+            ds.Tables["Head"].Columns.Add("RequiredDate");
+            ds.Tables["Head"].Columns.Add("Remarks");
+            ds.Tables["Head"].Columns.Add("EmployeeName");
+            ds.Tables["Head"].Columns.Add("OrganizationName");
+            ds.Tables["Head"].Columns.Add("Image1");
+
+
+            //-------DT
+            ds.Tables["Items"].Columns.Add("ItemName");
+            ds.Tables["Items"].Columns.Add("RequiredQuantity");
+            ds.Tables["Items"].Columns.Add("IssuedQuantity");
+            ds.Tables["Items"].Columns.Add("PendingQuantity");
+            ds.Tables["Items"].Columns.Add("StockQuantity");
+            ds.Tables["Items"].Columns.Add("CurrentIssuedQuantity");
+            ds.Tables["Items"].Columns.Add("UnitName");
+
+
+
+            StoreIssueRepository repo = new StoreIssueRepository();
+            var Head = repo.GetStoreIssueHDPrint(Id, OrganizationId);
+
+            DataRow dr = ds.Tables["Head"].NewRow();
+            dr["StoreIssueRefNo"] = Head.StoreIssueRefNo;
+            dr["StoreIssueDate"] = Head.StoreIssueDate;
+            dr["StockpointName"] = Head.StockpointName;
+            dr["CustomerName"] = Head.CustomerName;
+            dr["WONODATE"] = Head.WONODATE;
+            dr["SONODATE"] = Head.SONODATE;
+            dr["RequiredDate"] = Head.RequiredDate;
+            dr["Remarks"] = Head.Remarks;
+            dr["EmployeeName"] = Head.EmployeeName;
+            dr["OrganizationName"] = Head.OrganizationName;
+            dr["Image1"] = Head.Image1;
+
+            ds.Tables["Head"].Rows.Add(dr);
+
+            StoreIssueItemRepository repo1 = new StoreIssueItemRepository();
+            var Items = repo1.GetStoreIssueDTPrint(Id, OrganizationId);
+            foreach (var item in Items)
+            {
+                var pritem = new StoreIssueItem
+                {
+                    ItemName = item.ItemName,
+                    RequiredQuantity = item.RequiredQuantity,
+                    IssuedQuantity = item.IssuedQuantity,
+                    PendingQuantity = item.PendingQuantity,
+                    StockQuantity = item.StockQuantity,
+                    CurrentIssuedQuantity = item.CurrentIssuedQuantity,
+                    UnitName = item.UnitName,
+
+                };
+
+
+                DataRow dri = ds.Tables["Items"].NewRow();
+                dri["ItemName"] = pritem.ItemName;
+                dri["RequiredQuantity"] = pritem.RequiredQuantity;
+                dri["IssuedQuantity"] = pritem.IssuedQuantity;
+                dri["PendingQuantity"] = pritem.PendingQuantity;
+                dri["StockQuantity"] = pritem.StockQuantity;
+                dri["CurrentIssuedQuantity"] = pritem.CurrentIssuedQuantity;
+                dri["UnitName"] = pritem.UnitName;
+
+                ds.Tables["Items"].Rows.Add(dri);
+            }
+
+            ds.WriteXml(Path.Combine(Server.MapPath("~/XML"), "VehicleInPass.xml"), XmlWriteMode.WriteSchema);
+
+            rd.SetDataSource(ds);
+
+            Response.Buffer = false;
+            Response.ClearContent();
+            Response.ClearHeaders();
+
+
+            try
+            {
+                Stream stream = rd.ExportToStream(CrystalDecisions.Shared.ExportFormatType.PortableDocFormat);
+                stream.Seek(0, SeekOrigin.Begin);
+                return File(stream, "application/pdf", String.Format("VehicleInPass{0}.pdf", Id.ToString()));
+            }
+            catch (Exception ex)
+            {
+                throw;
+            }
+        }
 
     }
 }

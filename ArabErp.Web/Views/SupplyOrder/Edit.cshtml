@@ -9,6 +9,9 @@
 
     $(document).ready(function () {
 
+        
+
+
         //$('#disabled-div').find('input[type="text"], textarea, select').attr('disabled', 'disabled');
 
         calculateSummary();
@@ -30,6 +33,12 @@
         //------------------------------------------------------//
     })
 
+
+    function GoToPrint(id) {
+        var url = '@Url.Action("Print")';
+        url += "?Id=" + id;
+        window.location = url;
+    }
     function calculateSummary() {
         var amount = parseFloat("0.00");
         $('.clAmount').each(function (i, obj) {
@@ -191,8 +200,9 @@
                     }
                     else
                     {
-                        <button type="submit" class="form-button right">Edit</button>
-                        <button type="button" class="form-button left" onclick="Delete('@Model.SupplyOrderId')">Delete</button>
+                    <button type="submit" class="form-button right">Edit</button>
+                    <input type="button" value="Print" onclick="GoToPrint(@Model.SupplyOrderId)" class="form-button right" />
+                    <button type="button" class="form-button left" onclick="Delete('@Model.SupplyOrderId')">Delete</button>
                     }
                 </div>
             </div>

@@ -17,7 +17,7 @@ namespace ArabErp.Domain
         public string Customer { get; set; }
         public string VehicleModel { get; set; }
         public int EmployeeId { get; set; }
-        
+        public string EmployeeName { get; set; }
         public DateTime JobCardQCDate { get; set; }
         public bool IsQCPassed { get; set; }
         public bool IsUsed { get; set; }
@@ -30,6 +30,23 @@ namespace ArabErp.Domain
         public int OrganizationId { get; set; }
         public bool isActive { get; set; }
         public string QCStatus { get; set; }
+
+
+        public string DoorNo { get; set; }
+
+        public string Street { get; set; }
+
+        public string State { get; set; }
+
+        public int Country { get; set; }
+        public string CountryName { get; set; }
+        public string Zip { get; set; }
+        public string Phone { get; set; }
+        public string Fax { get; set; }
+        public string Email { get; set; }
+        public string ContactPerson { get; set; }
+        public string OrganizationName { get; set; }
+        public string Image1 { get; set; }
         public List<JobCardQCParam> JobCardQCParams { get; set; }
     }
 }

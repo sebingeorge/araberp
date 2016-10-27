@@ -90,6 +90,38 @@ namespace ArabErp.DAL
             }
         }
 
+        public List<SupplyOrderItem> GetSupplyOrderItemsDTPrint(int supplyOrderId)
+        {
+            using (IDbConnection connection = OpenConnection(dataConnection))
+            {
+                string sql = @"SELECT
+	                                SOI.SupplyOrderItemId,
+	                                SOI.BalQty,
+	                                SOI.OrderedQty,
+	                                SOI.Rate,SOI.Rate FixedRate,
+	                                SOI.Discount,
+	                                SOI.Amount,
+                                    I.ItemId,
+									I.ItemRefNo,
+									UnitName,
+									SOI.Discount,
+	                                I.ItemName,SOI.PurchaseRequestItemId,
+	                                ISNULL(I.PartNo, '-') PartNo,
+	                                ISNULL(PR.PurchaseRequestNo, '') + ' - ' + CONVERT(VARCHAR, PR.PurchaseRequestDate, 106) PRNODATE
+                                FROM SupplyOrderItem SOI
+                                INNER JOIN PurchaseRequestItem PRI ON SOI.PurchaseRequestItemId = PRI.PurchaseRequestItemId
+                                INNER JOIN PurchaseRequest PR ON PRI.PurchaseRequestId = PR.PurchaseRequestId
+                                INNER JOIN Item I ON PRI.ItemId = I.ItemId
+								 INNER JOIN Unit U ON U.UnitId = I.ItemUnitId
 
+                                WHERE SOI.SupplyOrderId = @SupplyOrderId
+                                AND ISNULL(SOI.isActive, 1) = 1
+";
+
+                var objSupplyOrderItems = connection.Query<SupplyOrderItem>(sql, new { supplyOrderId = supplyOrderId }).ToList<SupplyOrderItem>();
+
+                return objSupplyOrderItems;
+            }
+        }
     }
 }

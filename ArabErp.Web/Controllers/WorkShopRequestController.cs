@@ -1,11 +1,15 @@
-﻿using ArabErp.DAL;
-using ArabErp.Domain;
-using ArabErp.Web.Models;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using ArabErp.DAL;
+using ArabErp.Domain;
+using System.Data.SqlClient;
+using CrystalDecisions.CrystalReports.Engine;
+using System.IO;
+using ArabErp.Web.Models;
+using System.Data;
 using System.Data.SqlClient;
 
 namespace ArabErp.Web.Controllers
@@ -192,6 +196,102 @@ namespace ArabErp.Web.Controllers
         {
             return Json(new WorkShopRequestRepository().GetItemPartNo(itemId), JsonRequestBehavior.AllowGet);
         }
-       
+        public ActionResult Print(int Id)
+        {
+
+            ReportDocument rd = new ReportDocument();
+            rd.Load(Path.Combine(Server.MapPath("~/Reports"), "WorkShopRequest.rpt"));
+
+            DataSet ds = new DataSet();
+            ds.Tables.Add("Head");
+
+            ds.Tables.Add("Items");
+
+            //-------HEAD
+            ds.Tables["Head"].Columns.Add("WorkShopRequestRefNo");
+            ds.Tables["Head"].Columns.Add("WorkShopRequestDate");
+            ds.Tables["Head"].Columns.Add("CustomerName");
+            ds.Tables["Head"].Columns.Add("CustomerOrderRef");
+            ds.Tables["Head"].Columns.Add("SaleOrderRefNo");
+            ds.Tables["Head"].Columns.Add("EDateArrival");
+            ds.Tables["Head"].Columns.Add("EDateDelivery");
+            ds.Tables["Head"].Columns.Add("WorkDescription");
+            ds.Tables["Head"].Columns.Add("SpecialRemarks");
+            ds.Tables["Head"].Columns.Add("RequiredDate");
+            ds.Tables["Head"].Columns.Add("OrganizationName");
+            ds.Tables["Head"].Columns.Add("Image1");
+
+            //-------DT
+            ds.Tables["Items"].Columns.Add("ItemName");
+            ds.Tables["Items"].Columns.Add("PartNo");
+            ds.Tables["Items"].Columns.Add("Remarks");
+            ds.Tables["Items"].Columns.Add("Quantity");
+            ds.Tables["Items"].Columns.Add("UnitName");
+
+            WorkShopRequestRepository repo = new WorkShopRequestRepository();
+            var Head = repo.GetWorkshopRequestHdDataPrint(Id, OrganizationId);
+
+            DataRow dr = ds.Tables["Head"].NewRow();
+            dr["WorkShopRequestRefNo"] = Head.WorkShopRequestRefNo;
+            dr["WorkShopRequestDate"] = Head.WorkShopRequestDate.ToString("dd-MMM-yyyy");
+            dr["CustomerName"] = Head.CustomerName;
+            dr["CustomerOrderRef"] = Head.CustomerOrderRef;
+            dr["SaleOrderRefNo"] = Head.SaleOrderRefNo;
+            dr["EDateArrival"] = Head.EDateArrival;
+            dr["EDateDelivery"] = Head.EDateDelivery;
+            dr["WorkDescription"] = Head.WorkDescription;
+            dr["SpecialRemarks"] = Head.SpecialRemarks;
+            dr["RequiredDate"] = Head.RequiredDate;
+            dr["OrganizationName"] = Head.OrganizationName;
+            dr["Image1"] = Server.MapPath("~/App_images/") + Head.Image1;
+            ds.Tables["Head"].Rows.Add(dr);
+
+            WorkShopRequestRepository repo1 = new WorkShopRequestRepository();
+            var Items = repo1.GetWorkShopRequestDtDataPrint(Id);
+            foreach (var item in Items)
+            {
+                var pritem = new WorkShopRequestItem
+                {
+                    ItemName = item.ItemName,
+                    PartNo = item.PartNo,
+                    Remarks = item.Remarks,
+                    Quantity = item.Quantity,
+                    UnitName = item.UnitName,
+                   
+
+                };
+
+
+                DataRow dri = ds.Tables["Items"].NewRow();
+                dri["ItemName"] = pritem.ItemName;
+                dri["PartNo"] = pritem.PartNo;
+                dri["Remarks"] = pritem.Remarks;
+                dri["Quantity"] = pritem.Quantity;
+                dri["UnitName"] = pritem.UnitName;
+                
+
+                ds.Tables["Items"].Rows.Add(dri);
+            }
+
+            ds.WriteXml(Path.Combine(Server.MapPath("~/XML"), "WorkShopRequest.xml"), XmlWriteMode.WriteSchema);
+
+            rd.SetDataSource(ds);
+
+            Response.Buffer = false;
+            Response.ClearContent();
+            Response.ClearHeaders();
+
+
+            try
+            {
+                Stream stream = rd.ExportToStream(CrystalDecisions.Shared.ExportFormatType.PortableDocFormat);
+                stream.Seek(0, SeekOrigin.Begin);
+                return File(stream, "application/pdf", String.Format("WorkShopRequest{0}.pdf", Id.ToString()));
+            }
+            catch (Exception ex)
+            {
+                throw;
+            }
+        }
     }
 }
