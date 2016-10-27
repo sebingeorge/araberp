@@ -153,16 +153,18 @@
     function CheckDuplication(sender, row) {
         var jobcard = $("#JobCardTasks_" + row + "__JobCardTaskId");
         var employee = $("#JobCardTasks_" + row + "__EmployeeId");
+        var date = $("#JobCardTasks_" + row + "__TaskDate").val();
         var count = 0;
 
         $("select[id$='__JobCardTaskId']").each(function (index, object) {
             if ($("#JobCardTasks_" + index + "__JobCardTaskId").val() == $(jobcard).val()
-                && $("#JobCardTasks_" + index + "__EmployeeId").val() == $(employee).val())
+                && $("#JobCardTasks_" + index + "__EmployeeId").val() == $(employee).val()
+                && $("#JobCardTasks_" + index + "__TaskDate").val() == date)
                 ++count;
         })
 
         if (count > 1) {
-            toastr.info("This task has already been selected for this employee");
+            toastr.info("This task has already been selected for this employee for on this date.");
             $(sender).val('');
         }
     }
@@ -281,7 +283,7 @@
                                         @Html.DropDownListFor(m => Model.JobCardTasks[row].EmployeeId, (SelectList)ViewBag.EmployeeList, "Select Technician", new { @class = "form_input", autocomplete = "off", @onchange = "CheckDuplication(this," + row + ")" })
                                     </td>
                                     <td>
-                                        @Html.TextBoxFor(m => m.JobCardTasks[row].TaskDate, Model.JobCardTasks[row].TaskDate.ToString("dd/MMMM/yyyy"), new { @class = "taskdate form_input", autocomplete = "off", @readonly = "readonly" })
+                                        @Html.TextBoxFor(m => m.JobCardTasks[row].TaskDate, Model.JobCardTasks[row].TaskDate.ToString("dd/MMMM/yyyy"), new { @class = "taskdate form_input", autocomplete = "off", @readonly = "readonly", @onchange = "CheckDuplication(this," + row + ")" })
                                     </td>
                                     <td>
                                         @Html.TextBoxFor(m => m.JobCardTasks[row].Hours, new { @class = "form_input validateqty", autocomplete = "off" })
