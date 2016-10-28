@@ -8,7 +8,10 @@
 <script type="text/javascript">
 
     $(document).ready(function () {
-
+        $(".timepicker").timepicker({
+            //minTime: '9',
+            //maxTime: '8:30am',
+        });
         //$("input[type='text'], textarea, select").attr("disabled", "true");
 
         @if ((new String[]{ "Create" }).Contains(TempData["previousAction"]))
@@ -127,7 +130,11 @@
                             {
                                 <tr id="Row_@i" class="TaskRow">
 
-                                    <td width="1%">@(i + 1)</td>
+                                    <td width="1%">
+                                        @(i + 1)
+                                        @Html.HiddenFor(m => m.JobCardDailyActivityTask[i].TaskStartDate)
+                                        @Html.HiddenFor(m => m.JobCardDailyActivityTask[i].TaskEndDate)
+                                    </td>
                                     <td width="5%">
                                         @Html.HiddenFor(m => m.JobCardDailyActivityTask[i].EmployeeId)
                                         @Html.TextBoxFor(m => m.JobCardDailyActivityTask[i].EmployeeName, new { @class = "form_input", autocomplete = "off", @readonly = "true" })
@@ -136,8 +143,8 @@
                                         @Html.HiddenFor(m => m.JobCardDailyActivityTask[i].JobCardTaskMasterId)
                                         @Html.TextBoxFor(m => m.JobCardDailyActivityTask[i].JobCardTaskName, new { @class = "form_input", autocomplete = "off", @readonly = "true" })
                                     </td>
-                                    <td width="5%">@Html.TextBoxFor(m => m.JobCardDailyActivityTask[i].TaskStartDate, Model.JobCardDailyActivityTask[i].TaskStartDate.ToString("dd/MMMM/yyyy"), new { @class = "taskdate form_input", autocomplete = "off" })</td>
-                                    <td width="5%">@Html.TextBoxFor(m => m.JobCardDailyActivityTask[i].TaskEndDate, Model.JobCardDailyActivityTask[i].TaskEndDate.ToString("dd/MMMM/yyyy"), new { @class = "taskdate form_input", autocomplete = "off" })</td>
+                                    <td width="5%">@Html.TextBoxFor(m => m.JobCardDailyActivityTask[i].StartTime, new { @class = "taskdate form_input timepicker", autocomplete = "off" })</td>
+                                    <td width="5%">@Html.TextBoxFor(m => m.JobCardDailyActivityTask[i].EndTime, new { @class = "taskdate form_input timepicker", autocomplete = "off" })</td>
                                     <td width="10%">@Html.TextBoxFor(m => m.JobCardDailyActivityTask[i].ActualHours, new { @class = "form_input", autocomplete = "off" })</td>
                                     @*<td style="vertical-align:middle"><a id="add_@i" class="glyphicon glyphicon-plus" style="top:0px" onclick="AddAdditionRow()"></a></td>*@
                                 </tr>
@@ -190,44 +197,90 @@
 
                     <div class="col-md-3">
                         <div id="img_preview1" title="Photo Preview">
-                            <p><img src="\App_Images\@Model.Image1" alt="Please upload image" id="image_preview1" class="image-upload" /></p>
+                            <p>
+                                @if (Model.Image1 == null || Model.Image1.Length == 0)
+                                {
+                                    <img src="\Images\default-thumbnail.png" alt="Please upload image" id="image_preview1" class="image-upload img-rounded" />
+                                }
+                                else
+                                {
+                                    <img src="\App_Images\@Model.Image1" alt="Please upload image" id="image_preview1" class="image-upload img-rounded" />
+                                }
+                            </p>
                         </div>
-                   
+                        @if (!Model.IsUsed)
+                        {
                             <input type="file" id="File1" class="button" />
                             <input type="button" class="form-button" id="Fileupload1" value="Upload" onclick="Javascript: ImageUpload(1);" title="Upload to database" />
-                
+                        }
                     </div>
 
                     <div class="col-md-3">
                         <div id="img_preview2" title="Photo Preview">
-                            <p><img src="\App_Images\@Model.Image2" alt="Please upload image" id="image_preview2" class="image-upload" /></p>
+                            <p>
+                                @if (Model.Image2 == null || Model.Image2.Length == 0)
+                                {
+                                    <img src="\Images\default-thumbnail.png" alt="Please upload image" id="image_preview2" class="image-upload img-rounded" />
+                                }
+                                else
+                                {
+                                    <img src="\App_Images\@Model.Image2" alt="Please upload image" id="image_preview2" class="image-upload img-rounded" />
+                                }
+                            </p>
                         </div>
                         @*@if (TempData["previousAction"] == "Create")
                         {*@
-                            <input type="file" id="File2" class="button" />
-                            <input type="button" class="form-button" id="Fileupload2" value="Upload" onclick="Javascript: ImageUpload(2);" title="Upload to database" />
+                            @if (!Model.IsUsed)
+                            {
+                                <input type="file" id="File2" class="button" />
+                                <input type="button" class="form-button" id="Fileupload2" value="Upload" onclick="Javascript: ImageUpload(2);" title="Upload to database" />
+                            }
                         @*}*@
                     </div>
 
                     <div class="col-md-3">
                         <div id="img_preview3" title="Photo Preview">
-                            <p><img src="\App_Images\@Model.Image3" alt="Please upload image" id="image_preview3" class="image-upload" /></p>
+                            <p>
+                                @if (Model.Image3 == null || Model.Image3.Length == 0)
+                                {
+                                    <img src="\Images\default-thumbnail.png" alt="Please upload image" id="image_preview3" class="image-upload img-rounded" />
+                                }
+                                else
+                                {
+                                    <img src="\App_Images\@Model.Image3" alt="Please upload image" id="image_preview3" class="image-upload img-rounded" />
+                                }
+                            </p>
                         </div>
                         @*@if (TempData["previousAction"] == "Create")
                         {*@
+                        @if (!Model.IsUsed)
+                        {
                             <input type="file" id="File3" class="button" />
                             <input type="button" class="form-button" id="Fileupload3" value="Upload" onclick="Javascript: ImageUpload(3);" title="Upload to database" />
+                        }
                         @*}*@
                     </div>
 
                     <div class="col-md-3">
                         <div id="img_preview4" title="Photo Preview">
-                            <p><img src="\App_Images\@Model.Image4" alt="Please upload image" id="image_preview4" class="image-upload" /></p>
+                            <p>
+                                @if (Model.Image4 == null || Model.Image4.Length == 0)
+                                {
+                                    <img src="\Images\default-thumbnail.png" alt="Please upload image" id="image_preview4" class="image-upload img-rounded" />
+                                }
+                                else
+                                {
+                                    <img src="\App_Images\@Model.Image4" alt="Please upload image" id="image_preview4" class="image-upload img-rounded" />
+                                }
+                            </p>
                         </div>
                         @*@if (TempData["previousAction"] == "Create")
                         {*@
+                        @if (!Model.IsUsed)
+                        {
                             <input type="file" id="File4" class="button" />
                             <input type="button" class="form-button" id="Fileupload4" value="Upload" onclick="Javascript: ImageUpload(4);" title="Upload to database" />
+                        }
                         @*}*@
                     </div>
                 </div>
@@ -245,8 +298,11 @@
                         }
                         else
                         { 
-                            <button type="submit" class="form-button right">Edit</button>
-                            <input type="button" value="Delete" onclick="Delete(@Model.JobCardDailyActivityId)" class="form-button left" />
+                            if (TempData["previousAction"] != "Create")
+                            {
+                                <button type="submit" class="form-button right">Edit</button>
+                                <input type="button" value="Delete" onclick="Delete(@Model.JobCardDailyActivityId)" class="form-button left" />
+                            }
                         }
                     </div>
                 </div>
