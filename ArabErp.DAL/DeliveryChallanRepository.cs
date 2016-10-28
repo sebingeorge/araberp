@@ -259,7 +259,7 @@ namespace ArabErp.DAL
                                 INNER JOIN VehicleModel VM ON VM.VehicleModelId=SOI.VehicleModelId
                                 INNER JOIN Employee E ON E.EmployeeId=DC.EmployeeId
                                 inner join Organization O ON  DC.OrganizationId=O.OrganizationId
-								 inner  JOIN Country ORR ON ORR.CountryId=O.Country
+								 LEFT  JOIN Country ORR ON ORR.CountryId=O.Country
                                 LEFT JOIN VehicleInPass VI ON VI.SaleOrderItemId = SOI.SaleOrderItemId
                                 WHERE  DeliveryChallanId=@DeliveryChallanId";
 
