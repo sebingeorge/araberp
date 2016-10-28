@@ -1,6 +1,6 @@
 ﻿@model  ArabErp.Domain.SalesInvoice
 @{
-    ViewBag.Title = "CreateSalesInvoice";
+    ViewBag.Title = "Sales Invoice";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
@@ -11,7 +11,6 @@
     var totalAmount = Model.SaleInvoiceItems.Sum(a => a.Amount);
     Model.TotalAmount = totalAmount ?? 0;
 }
-
 
 <script>
 
@@ -29,27 +28,6 @@
         location.href = '@Url.Action("PendingSalesInvoice")';
     }*@
     $(document).ready(function () {
-
-        toastr.options = {
-            "closeButton": true,
-            "positionClass": "toast-bottom-full-width",
-            "preventDuplicates": false,
-            "onclick": null,
-
-            "timeOut": "0",
-            "extendedTimeOut": "1000",
-            "showEasing": "swing",
-            "hideEasing": "linear",
-            "showMethod": "fadeIn",
-            "hideMethod": "fadeOut"
-        }
-        if ('@TempData["success"]' != "" && '@TempData["SalesInvoiceRefNo"]' != "") {
-            toastr.success('@TempData["success"]' + '   Sales Order No. is : ' + '@TempData["SalesInvoiceRefNo"]');
-        }
-        else if ('@TempData["error"]' != "") {
-            toastr.error('@TempData["error"]');
-        }
-        @{ TempData["success"] = TempData["error"] = ""; }
 
         $("#Addition").keyup(function () {
 
@@ -170,7 +148,6 @@
 
 </script>
 
-
 <div class="row">
 
     <div class="form-head1">
@@ -226,18 +203,18 @@
                             <th width="2%" class="text-center"><h1>#</h1></th>
                             <th width="35%"><h1>Work Description</h1></th>
                             @if (Model.InvoiceType == "Final")
-                             {
-                            <th width="15%"><h1>Vehicle Model</h1></th>
+                            {
+                                <th width="15%"><h1>Vehicle Model</h1></th>
                             }
                             <th width="5%" class="text-right"><h1>Qty</h1></th>
                             <th width="5%"><h1>UoM</h1></th>
-                            <th width="10%" class="text-right"><h1>Rate</h1></th>
-                            <th width="10%" class="text-right"><h1>Discount</h1></th>
+                            <th width="8%" class="text-right"><h1>Rate</h1></th>
+                            <th width="8%" class="text-right"><h1>Discount</h1></th>
                             <th width="10%" class="text-right"><h1>Amount</h1></th>
                         </tr>
                     </thead>
                     <tbody>
-                        @for ( int i = 0; i < Model.SaleInvoiceItems.Count; i++ )
+                        @for (int i = 0; i < Model.SaleInvoiceItems.Count; i++)
                         {
                             <tr id="Row_@i">
                                 <td align="center">@(i + 1) </td>
@@ -246,13 +223,13 @@
                                 @Html.HiddenFor(m => Model.SaleInvoiceItems[i].JobCardId)
                                 <td>@Html.TextBoxFor(m => Model.SaleInvoiceItems[i].WorkDescription, new { @class = "form_input", autocomplete = "off", @style = "text-align:left", @readonly = "readonly" })</td>
                                 @if (Model.InvoiceType == "Final")
-                                    {
-                                <td>
-                                 @Html.TextBoxFor(m => Model.SaleInvoiceItems[i].VehicleModelName, new { @class = "form_input", autocomplete = "off", @style = "text-align:left", @readonly = "readonly" })
-                                </td>
-                                    }
+                                {
                                     <td>
-                                    @if ( Model.InvoiceType == "Inter" || Model.InvoiceType == "Final" )
+                                        @Html.TextBoxFor(m => Model.SaleInvoiceItems[i].VehicleModelName, new { @class = "form_input", autocomplete = "off", @style = "text-align:left", @readonly = "readonly" })
+                                    </td>
+                                }
+                                <td>
+                                    @if (Model.InvoiceType == "Inter" || Model.InvoiceType == "Final")
                                     {
                                         @Html.TextBoxFor(m => Model.SaleInvoiceItems[i].QuantityTxt, new { @class = "form_input Amount", autocomplete = "off", @style = "text-align:right", @onchange = "Amountchanged()" })
                                     }
@@ -266,9 +243,9 @@
                                     @*@Html.TextBoxFor(m => Model.SaleInvoiceItems[i].Unit, new { @class = "form_input", autocomplete = "off", @style = "text-align:left", @readonly = "readonly" })*@
                                 </td>
                                 <td>
-                                    @if ( Model.InvoiceType == "Inter" || Model.InvoiceType == "Final" )
+                                    @if (Model.InvoiceType == "Inter" || Model.InvoiceType == "Final")
                                     {
-                                        @Html.TextBoxFor(m => Model.SaleInvoiceItems[i].Rate, new { @class = "form_input", autocomplete = "off", @style = "text-align:right", @readonly="readonly", @onchange = "Amountchanged()" })
+                                        @Html.TextBoxFor(m => Model.SaleInvoiceItems[i].Rate, new { @class = "form_input", autocomplete = "off", @style = "text-align:right", @readonly = "readonly", @onchange = "Amountchanged()" })
                                     }
                                     else
                                     {
@@ -283,17 +260,17 @@
                     </tbody>
                     <tfoot>
                         <tr class="grid_heading">
-                            <th width="5%" class="text-center"><h1></h1></th>
-                            <th width="25%" class="text-center"><h1>Total</h1></th>
+                            <th class="text-center"><h1></h1></th>
+                            <th class="text-center"></th>
                             @if (Model.InvoiceType == "Final")
-                                    {
-                            <th width="15%" class="text-center"><h1></h1></th>
-                                    }
-                            <th width="5%" class="text-right">@totalQuantity</th>
-                            <th width="5%"></th>
-                            <th width="10%" class="text-right"><h1></h1></th>
-                            <th width="10%" class="text-right">@totalDiscount</th>
-                            <th width="10%" class="text-right"><span id="gridTotal">@totalAmount</span></th>
+                            {
+                                <th class="text-center"><h1></h1></th>
+                            }
+                            <th class="text-right"></th>
+                            <th></th>
+                            <th class="text-right"><h1>Total</h1></th>
+                            <th class="text-right">@totalDiscount</th>
+                            <th class="text-right"><span id="gridTotal">@totalAmount</span></th>
                         </tr>
                     </tfoot>
                 </table>
@@ -303,7 +280,7 @@
                 <div class="col-md-12">
 
                     @*@Html.TextBoxFor(m=>m.CurrencySymbol)*@
-                    <label class="tamount"><b>@(Model.CurrencySymbol)<span id="lblTotalAmount">@Model.TotalAmount</span></b></label>
+                    <label class="tamount"><b>@(Model.CurrencySymbol)&nbsp;<span id="lblTotalAmount">@Model.TotalAmount</span></b></label>
                     @Html.HiddenFor(m => m.TotalAmount)
                 </div>
             </div>
@@ -321,13 +298,10 @@
 
             <div class="row form-group">
                 <div class="col-md-12">
-                    <div class="part1">
-                        <label for="PaymentTerms">Payment Terms</label>
-                        @Html.TextBoxFor(m => m.PaymentTerms, new { @class = "form_input", autocomplete = "off" })
-                    </div>
+                    <label for="PaymentTerms">Payment Terms</label>
+                    @Html.TextBoxFor(m => m.PaymentTerms, new { @class = "form_input", autocomplete = "off" })
                 </div>
             </div>
-
 
             <div class="row form-group">
 

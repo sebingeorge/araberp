@@ -34,10 +34,21 @@ namespace ArabErp.DAL
         {
             using (IDbConnection connection = OpenConnection(dataConnection))
             {
-                string sql = @"SELECT  SO.SaleOrderId,SO.CustomerOrderRef,SO.SaleOrderRefNo,SO.EDateArrival,SO.EDateDelivery,SO.CustomerId,C.CustomerName,DoorNo +','+ Street+','+State CustomerAddress,SO.SaleOrderDate SaleOrderDate,
-                                SO.SaleOrderRefNo +','+ Replace(Convert(varchar,SaleOrderDate,106),' ','/') SaleOrderRefNo,SO.isProjectBased,SO.PaymentTerms
+                string sql = @"SELECT 
+	                                SO.SaleOrderId,
+	                                SO.CustomerOrderRef,
+	                                SO.SaleOrderRefNo,
+	                                SO.EDateArrival,
+	                                SO.EDateDelivery,
+	                                SO.CustomerId,
+	                                C.CustomerName,
+	                                ISNULL(DoorNo,'') +', '+ ISNULL(Street,'')+', '+ISNULL([State],'') CustomerAddress,
+	                                Convert(varchar,SaleOrderDate,106) SaleOrderDate,
+	                                SO.SaleOrderRefNo,
+	                                SO.isProjectBased,
+	                                SO.PaymentTerms
                                 FROM  SaleOrder SO  INNER JOIN Customer C  ON SO.CustomerId =C.CustomerId
-                                WHERE SO.SaleOrderId =@SaleOrderId";
+                                WHERE SO.SaleOrderId = @SaleOrderId";
                 var objSaleOrders = connection.Query<ProformaInvoice>(sql, new { SaleOrderId = SaleOrderId }).Single<ProformaInvoice>();
                 return objSaleOrders;
             }
