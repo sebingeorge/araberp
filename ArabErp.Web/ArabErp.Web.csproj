@@ -352,8 +352,11 @@
       <DependentUpon>ItemSellingPrice.rpt</DependentUpon>
       <SubType>Component</SubType>
     </Compile>
-    <Compile Include="Reports\JobCard.cs">
+    <Compile Include="Reports\JobCard1.cs">
       <SubType>Component</SubType>
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>JobCard.rpt</DependentUpon>
     </Compile>
     <Compile Include="Reports\JobCardQC.cs">
       <AutoGen>True</AutoGen>

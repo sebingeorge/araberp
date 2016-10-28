@@ -226,6 +226,7 @@ namespace ArabErp.Web.Controllers
             ds.Tables["Head"].Columns.Add("Street");
             ds.Tables["Head"].Columns.Add("State");
             ds.Tables["Head"].Columns.Add("Country");
+            ds.Tables["Head"].Columns.Add("Currency");
             ds.Tables["Head"].Columns.Add("Phone");
             ds.Tables["Head"].Columns.Add("Fax");
             ds.Tables["Head"].Columns.Add("Email");
@@ -258,7 +259,8 @@ namespace ArabErp.Web.Controllers
             dr["DoorNo"] = Head.DoorNo;
             dr["Street"] = Head.Street;
             dr["State"] = Head.State;
-            dr["Country"] = Head.Country;
+            dr["Country"] = Head.CountryName;
+            dr["Currency"] = Head.CurrencyName;
             dr["Phone"] = Head.Phone;
             dr["Fax"] = Head.Fax;
             dr["Email"] = Head.Email;
