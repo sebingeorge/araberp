@@ -17,6 +17,7 @@
             changeMonth: true,
             yearRange: year + ":" + (year + 3)
         });
+        $("#EmployeeId").focus();
         //$("#DeliveryChallanDate").datepicker({ dateFormat: "dd-MM-yy" });
     });
     $(document).ready(function () {
@@ -31,8 +32,6 @@
                 $("#txtRegNo").val(data.RegistrationNo);
                 $("#txtPaymentTerms").val(data.PaymentTerms);
             });
-
-        $("#DeliveryChallanRefNo").tooltip();
     });
 
     function formValidation() {
@@ -81,7 +80,7 @@
                     <input type="text" class="form_input" id="txtCustomer" readonly />
                 </div>
                 <div class="col-md-2" title="Sale Order Ref. No. and Date">
-                    <label>SO. No. &amp; Date</label>
+                    <label>Sale Order Ref. No. &amp; Date</label>
                     <input type="text" class="form_input" id="txtSONoDate" readonly />
                 </div>
                 <div class="col-md-2">
@@ -89,7 +88,7 @@
                     <input type="text" class="form_input" id="txtCustomerOrderRef" readonly />
                 </div>
                 <div class="col-md-2" title="Job Card Ref. No. and Date">
-                    <label>JC. No. &amp; Date</label>
+                    <label>Job Card Ref. No. &amp; Date</label>
                     <input type="text" class="form_input" id="txtJCNoDate" readonly />
                 </div>
                 <div class="col-md-2">
