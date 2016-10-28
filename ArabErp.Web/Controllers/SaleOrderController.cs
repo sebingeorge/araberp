@@ -831,6 +831,7 @@ namespace ArabErp.Web.Controllers
             ds.Tables["Head"].Columns.Add("Zip");
             ds.Tables["Head"].Columns.Add("Fax");
             ds.Tables["Head"].Columns.Add("Email");
+            ds.Tables["Head"].Columns.Add("Phone");
             ds.Tables["Head"].Columns.Add("ContactPerson");
             ds.Tables["Head"].Columns.Add("OrganizationName");
             ds.Tables["Head"].Columns.Add("Image1");
@@ -868,6 +869,7 @@ namespace ArabErp.Web.Controllers
             dr["Zip"] = Head.Zip;
             dr["Fax"] = Head.Fax;
             dr["Email"] = Head.Email;
+            dr["Phone"] = Head.Phone;
             dr["ContactPerson"] = Head.ContactPerson;
             dr["OrganizationName"] = Head.OrganizationName;
             dr["Image1"] = Server.MapPath("~/App_images/") + Head.Image1;

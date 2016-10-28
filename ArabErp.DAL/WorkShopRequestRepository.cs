@@ -596,6 +596,7 @@ namespace ArabErp.DAL
 	                                S.SaleOrderRefNo,
 	                                S.EDateArrival,
 	                                S.EDateDelivery,
+		                           ORR.CountryName,
 	                                STUFF((SELECT DISTINCT ', ' + CAST(W.WorkDescr AS VARCHAR(MAX)) [text()] FROM SaleOrderItem SI 
 	                                inner join WorkDescription W on W.WorkDescriptionId=SI.WorkDescriptionId
 	                                WHERE SI.SaleOrderId = S.SaleOrderId
@@ -606,6 +607,7 @@ namespace ArabErp.DAL
 								    INNER JOIN Organization O ON O.OrganizationId=WR.OrganizationId
 	                                INNER JOIN SaleOrder S on S.SaleOrderId=WR.SaleOrderId
 	                                INNER JOIN  Customer C  ON S.CustomerId =C.CustomerId
+									inner  JOIN Country ORR ON ORR.CountryId=O.Country
                                     WHERE WorkShopRequestId = @WorkShopRequestId";
                 var objWrkshopRequests = connection.Query<WorkShopRequest>(sql, new { WorkShopRequestId = WorkShopRequestId, organizationId = organizationId }).First<WorkShopRequest>();
                 return objWrkshopRequests;

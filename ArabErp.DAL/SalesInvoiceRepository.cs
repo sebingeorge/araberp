@@ -31,14 +31,15 @@ namespace ArabErp.DAL
             using (IDbConnection connection = OpenConnection(dataConnection))
             {
 
-                string sql = @" select SalesInvoiceRefNo,SalesInvoiceDate,CustomerName Customer,Concat(C.DoorNo,',',C.Street,',',C.Phone)CustomerAddress,S.CustomerOrderRef,
-                                SI.PaymentTerms,V.RegistrationNo,J.JobCardNo,VO.VehicleOutPassNo,SI.TotalAmount,O.OrganizationName,o.Image1,
-								OrganizationRefNo 
-								DoorNo,O.Street,O.State,O.Country,O.Phone,O.Fax,O.Email,O.ContactPerson,O.Zip from SalesInvoice SI
+                string sql = @"select O.*,SalesInvoiceRefNo,SalesInvoiceDate,CustomerName Customer,Concat(C.DoorNo,',',C.Street,',',C.Phone)CustomerAddress,S.CustomerOrderRef,
+                                SI.PaymentTerms,V.RegistrationNo,J.JobCardNo,VO.VehicleOutPassNo,SI.TotalAmount,ORR.CountryName,CU.CurrencyName 
+								 from SalesInvoice SI
                                 inner join SaleOrder S on S.SaleOrderId=SI.SaleOrderId
                                 inner join Customer C ON C.CustomerId=S.CustomerId
                                 inner join JobCard J ON J.SaleOrderId=S.SaleOrderId
 								inner join Organization O ON si.OrganizationId=o.OrganizationId
+								inner  JOIN Country ORR ON ORR.CountryId=O.Country
+								INNER JOIN Currency CU ON CU.CurrencyId=O.CurrencyId
                                 left join VehicleInPass V ON V.VehicleInPassId=J.InPassId
 	                            left join VehicleOutPass VO ON VO.JobCardId=J.JobCardId 
                                 where SalesInvoiceId=@SalesInvoiceId";

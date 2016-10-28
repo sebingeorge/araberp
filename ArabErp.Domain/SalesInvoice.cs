@@ -48,7 +48,8 @@ namespace ArabErp.Domain
          public string DoorNo { get; set; }
          public string Street { get; set; }
          public string State { get; set; }
-         public string Country { get; set; }
+         public string CountryName { get; set; }
+         public string CurrencyName { get; set; }
          public string Phone { get; set; }
          public string Fax { get; set; }
         public string Email { get; set; }
