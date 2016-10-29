@@ -258,7 +258,7 @@ namespace ArabErp.DAL
 	                                (S.Rate - S.Discount) Amount,
 	                                ((S.Rate - S.Discount)*(S.Quantity)) TotalAmount,
 	                                [RateType],
-	                                'Nos' UnitName,
+	                                'No(s)' UnitName,
 	                                W.*,
 	                                V.* 
                                 from SalesQuotationItem S inner join WorkDescription W ON S.WorkDescriptionId=W.WorkDescriptionId

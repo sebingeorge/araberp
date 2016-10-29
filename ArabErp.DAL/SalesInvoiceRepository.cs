@@ -38,7 +38,7 @@ namespace ArabErp.DAL
                                 inner join Customer C ON C.CustomerId=S.CustomerId
                                 inner join JobCard J ON J.SaleOrderId=S.SaleOrderId
 								inner join Organization O ON si.OrganizationId=o.OrganizationId
-								inner  JOIN Country ORR ON ORR.CountryId=O.Country
+								left  JOIN Country ORR ON ORR.CountryId=O.Country
 								INNER JOIN Currency CU ON CU.CurrencyId=O.CurrencyId
                                 left join VehicleInPass V ON V.VehicleInPassId=J.InPassId
 	                            left join VehicleOutPass VO ON VO.JobCardId=J.JobCardId 
@@ -141,7 +141,7 @@ namespace ArabErp.DAL
             }
         }
 
-        public List<SalesInvoice> GetSalesInvoiceCustomerList(string invType)
+        public List<SalesInvoice> GetSalesInvoiceCustomerList(string invType, int OrganizationId)
         {
             using (IDbConnection connection = OpenConnection(dataConnection))
             {
@@ -154,11 +154,12 @@ namespace ArabErp.DAL
 						INNER JOIN JobCard JC ON JC.SaleOrderItemId=SOI.SaleOrderItemId
 						INNER JOIN Customer C ON C.CustomerId=SO.CustomerId
                         LEFT JOIN SalesInvoiceItem SII ON SOI.SaleOrderItemId=SII.SaleOrderItemId
-						WHERE SII.SalesInvoiceId IS NULL  AND SO.isProjectBased = 1 AND JC.JodCardCompleteStatus=1 
+						WHERE SII.SalesInvoiceId IS NULL  AND SO.isProjectBased = 1 /*AND JC.JodCardCompleteStatus=1*/
 						AND SO.isActive=1
 						AND JC.isActive=1
 						AND C.isActive=1
-						AND SOI.isActive=1";
+						AND SOI.isActive=1
+                        AND SO.OrganizationId = @OrganizationId";
                 }
                 else if (invType == "Final")
                 {
@@ -172,7 +173,8 @@ namespace ArabErp.DAL
 						AND SO.isActive=1
 						AND JC.isActive=1
 						AND C.isActive=1
-						AND SOI.isActive=1";
+						AND SOI.isActive=1
+                        AND SO.OrganizationId = @OrganizationId";
                 }
                 else if (invType == "Transportation")
                 {
@@ -186,10 +188,11 @@ namespace ArabErp.DAL
 						AND SO.isActive=1
 						AND JC.isActive=1
 						AND C.isActive=1
-						AND SOI.isActive=1";
+						AND SOI.isActive=1
+                        AND SO.OrganizationId = @OrganizationId";
                 }
 
-                var objSalesInvoices = connection.Query<SalesInvoice>(sql).ToList<SalesInvoice>();
+                var objSalesInvoices = connection.Query<SalesInvoice>(sql, new { OrganizationId = OrganizationId }).ToList<SalesInvoice>();
 
                 return objSalesInvoices;
             }
@@ -284,7 +287,7 @@ namespace ArabErp.DAL
                                 Convert(varchar(15),Getdate(),106) CurrentDate,
                                 isnull((getdate()+CreditPeriod),getdate())SalesInvoiceDueDate,
                                 SO.SaleOrderRefNo SaleOrderRefNo ,
-                                Concat(C.DoorNo,',',C.Street,',',C.State,',',C.Country,',',C.Zip)
+                                Concat(ISNULL(C.DoorNo,''),',',ISNULL(C.Street,''),',',ISNULL(C.State,''),',',ISNULL(C.Country,''),',',ISNULL(C.Zip,''))
                                 CustomerAddress,
                                 SO.CustomerOrderRef CustomerOrderRef,
                                 SO.SpecialRemarks SpecialRemarks,
@@ -308,7 +311,7 @@ namespace ArabErp.DAL
                             Convert(varchar(15),Getdate(),106) CurrentDate,
                             isnull((getdate()+CreditPeriod),getdate())SalesInvoiceDueDate,
                             SO.SaleOrderRefNo SaleOrderRefNo ,
-                            Concat(C.DoorNo,',',C.Street,',',C.State,',',C.Country,',',C.Zip)
+                            Concat(ISNULL(C.DoorNo,''),',',ISNULL(C.Street,''),',',ISNULL(C.State,''),',',ISNULL(C.Country,''),',',ISNULL(C.Zip,''))
                             CustomerAddress,
                             SO.CustomerOrderRef CustomerOrderRef,
                             SO.SpecialRemarks SpecialRemarks,
@@ -332,7 +335,7 @@ namespace ArabErp.DAL
                             Convert(varchar(15),Getdate(),106) CurrentDate,
                             isnull((getdate()+CreditPeriod),getdate())SalesInvoiceDueDate,
                             SO.SaleOrderRefNo SaleOrderRefNo ,
-                            Concat(C.DoorNo,',',C.Street,',',C.State,',',C.Country,',',C.Zip)
+                            Concat(ISNULL(C.DoorNo,''),',',ISNULL(C.Street,''),',',ISNULL(C.State,''),',',ISNULL(C.Country,''),',',ISNULL(C.Zip,''))
                             CustomerAddress,
                             SO.CustomerOrderRef CustomerOrderRef,
                             SO.SpecialRemarks SpecialRemarks,
@@ -465,10 +468,13 @@ namespace ArabErp.DAL
                                 SI.SalesInvoiceDate,SI.SalesInvoiceDueDate,C.CustomerName Customer,
                                 Concat(C.DoorNo,',',C.Street,',',C.State,',',C.Country,',',C.Zip)CustomerAddress,
                                 S.CustomerOrderRef CustomerOrderRef,SI.SpecialRemarks,SI.PaymentTerms,SI.Addition,
-                                SI.Deduction,SI.AdditionRemarks,SI.DeductionRemarks,SI.TotalAmount,SI.InvoiceType
+                                SI.Deduction,SI.AdditionRemarks,SI.DeductionRemarks,SI.TotalAmount,SI.InvoiceType,
+								SYM.SymbolName CurrencySymbol
                                 from SalesInvoice SI 
                                 inner join SaleOrder S on S.SaleOrderId=SI.SaleOrderId
                                 inner join Customer C on S.CustomerId=C.CustomerId
+								INNER JOIN Currency CUR ON C.CurrencyId = CUR.CurrencyId
+								INNER JOIN Symbol SYM ON CUR.CurrencySymbolId = SYM.SymbolId
                                 WHERE SalesInvoiceId=@Id";
               
                 var objSalesInvoice = connection.Query<SalesInvoice>(sql, new
@@ -485,7 +491,7 @@ namespace ArabErp.DAL
             {
 
                 string sql = @" select SI.SalesInvoiceId,SI.SaleOrderItemId,SI.JobCardId,W.WorkDescr WorkDescription,SI.Quantity QuantityTxt,
-                                SI.Rate,SI.Discount,SI.Amount,U.UnitName Unit,V.VehicleModelName from SalesInvoiceItem SI 
+                                SI.Rate,SI.Discount,SI.Amount,/*U.UnitName*/'No(s)' Unit,V.VehicleModelName from SalesInvoiceItem SI 
                                 inner join SaleOrderItem S ON S.SaleOrderItemId=SI.SaleOrderItemId
                                 inner join WorkDescription W ON W.WorkDescriptionId=S.WorkDescriptionId
                                 left join Unit U ON U.UnitId=S.UnitId

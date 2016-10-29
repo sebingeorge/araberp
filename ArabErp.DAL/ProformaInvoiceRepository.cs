@@ -46,8 +46,12 @@ namespace ArabErp.DAL
 	                                Convert(varchar,SaleOrderDate,106) SaleOrderDate,
 	                                SO.SaleOrderRefNo,
 	                                SO.isProjectBased,
-	                                SO.PaymentTerms
-                                FROM  SaleOrder SO  INNER JOIN Customer C  ON SO.CustomerId =C.CustomerId
+	                                SO.PaymentTerms,
+									SYM.SymbolName
+                                FROM  SaleOrder SO 
+									INNER JOIN Customer C  ON SO.CustomerId = C.CustomerId
+									INNER JOIN Currency CUR ON C.CurrencyId = CUR.CurrencyId
+									INNER JOIN Symbol SYM ON CUR.CurrencySymbolId = SYM.SymbolId
                                 WHERE SO.SaleOrderId = @SaleOrderId";
                 var objSaleOrders = connection.Query<ProformaInvoice>(sql, new { SaleOrderId = SaleOrderId }).Single<ProformaInvoice>();
                 return objSaleOrders;
@@ -148,9 +152,11 @@ namespace ArabErp.DAL
 
                 string sql = @"select C.CustomerName,S.CustomerOrderRef,Concat(C.DoorNo,',',C.Street,',',C.State,',',C.Country,',',C.Zip)CustomerAddress,ProformaInvoiceId,ProformaInvoiceRefNo,
                                ProformaInvoiceDate,P.SaleOrderId,P.SpecialRemarks,P.PaymentTerms,P.isProjectBased,
-							   S.SaleOrderRefNo, CONVERT(VARCHAR, S.SaleOrderDate, 106)SaleOrderDate from  ProformaInvoice P
+							   S.SaleOrderRefNo, CONVERT(VARCHAR, S.SaleOrderDate, 106)SaleOrderDate, SYM.SymbolName from  ProformaInvoice P
                                inner join SaleOrder S on S.SaleOrderId=P.SaleOrderId
-                               inner join Customer C ON C.CustomerId=S.CustomerId where ProformaInvoiceId =@Id";
+                               inner join Customer C ON C.CustomerId=S.CustomerId
+								INNER JOIN Currency CUR ON C.CurrencyId = CUR.CurrencyId
+								INNER JOIN Symbol SYM ON CUR.CurrencySymbolId = SYM.SymbolId where ProformaInvoiceId = @Id";
 
                 var objProformaInvoice = connection.Query<ProformaInvoice>(sql, new
                 {

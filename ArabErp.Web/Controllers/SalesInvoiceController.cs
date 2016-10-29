@@ -32,7 +32,7 @@ namespace ArabErp.Web.Controllers
      
         public ActionResult PendingSalesInvoice(string invType)
         {
-            ViewBag.saleOrderList = new SelectList(Repo.GetSalesInvoiceCustomerList(invType), "SaleOrderId", "SaleOrderRefNoWithDate");
+            ViewBag.saleOrderList = new SelectList(Repo.GetSalesInvoiceCustomerList(invType, OrganizationId), "SaleOrderId", "SaleOrderRefNoWithDate");
             //var List = Repo.GetSalesInvoiceCustomerList(invType);
             return View("PendingSalesInvoice");
 

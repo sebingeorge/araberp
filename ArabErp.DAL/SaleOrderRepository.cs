@@ -594,7 +594,7 @@ namespace ArabErp.DAL
             using (IDbConnection connection = OpenConnection(dataConnection))
             {
                 string sql = string.Empty;
-                sql += " select SO.SaleOrderId, SaleOrderRefNo, SaleOrderDate, CustomerName, SO.SpecialRemarks, SO.EDateArrival, SO.EDateDelivery";
+                sql += " select SO.SaleOrderId, SaleOrderRefNo, CONVERT(VARCHAR, SaleOrderDate, 106)SaleOrderDate, CustomerName, SO.SpecialRemarks, CONVERT(VARCHAR, SO.EDateArrival, 106)EDateArrival, CONVERT(VARCHAR, SO.EDateDelivery, 106)EDateDelivery";
                 sql += " from SaleOrder SO";
                 sql += " inner join SalesInvoice SI on SO.SaleOrderId = SI.SaleOrderId";
                 sql += " inner join Customer C on C.CustomerId = SO.CustomerId";
