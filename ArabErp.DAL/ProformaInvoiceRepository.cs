@@ -95,7 +95,7 @@ namespace ArabErp.DAL
                     InsertLoginHistory(dataConnection, objProInvoice.CreatedBy, "Create", "Proforma Invoice", id.ToString(), "0");
                     txn.Commit();
 
-                    return id + "|PINV/" + internalId;
+                    return id + "|" + internalId;
                 }
                 catch (Exception)
                 {
@@ -147,7 +147,8 @@ namespace ArabErp.DAL
             {
 
                 string sql = @"select C.CustomerName,S.CustomerOrderRef,Concat(C.DoorNo,',',C.Street,',',C.State,',',C.Country,',',C.Zip)CustomerAddress,ProformaInvoiceId,ProformaInvoiceRefNo,
-                               ProformaInvoiceDate,P.SaleOrderId,P.SpecialRemarks,P.PaymentTerms,P.isProjectBased from  ProformaInvoice P
+                               ProformaInvoiceDate,P.SaleOrderId,P.SpecialRemarks,P.PaymentTerms,P.isProjectBased,
+							   S.SaleOrderRefNo, CONVERT(VARCHAR, S.SaleOrderDate, 106)SaleOrderDate from  ProformaInvoice P
                                inner join SaleOrder S on S.SaleOrderId=P.SaleOrderId
                                inner join Customer C ON C.CustomerId=S.CustomerId where ProformaInvoiceId =@Id";
 

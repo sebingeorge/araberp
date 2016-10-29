@@ -122,6 +122,7 @@ namespace ArabErp.Web.Controllers
         {
             if (id == 0) return RedirectToAction("Index", "Home", new {type = type});
             ProformaInvoice model = new ProformaInvoiceRepository().GetProformaInvoiceHdDetails(id);
+            model.SymbolName = new CurrencyRepository().GetCurrencyFrmOrganization(OrganizationId).SymbolName;
             model.Items = new ProformaInvoiceRepository().GetProformaInvoiceItemDetails(id);
             return View(model);
         }
