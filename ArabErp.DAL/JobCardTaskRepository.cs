@@ -91,12 +91,14 @@ namespace ArabErp.DAL
         {
             using (IDbConnection connection = OpenConnection(dataConnection))
             {
-                string sql = @" SELECT JT.TaskDate,E.EmployeeName Employee,JM.JobCardTaskName Description,
+                string sql = @"SELECT distinct JDT.TaskStartDate TaskDate,E.EmployeeName Employee,JM.JobCardTaskName Description,JDT.StartTime,JDT.EndTime,
                                 ISNULL(JT.StartTime,'0.00')StartTime,ISNULL(JT.EndTime,'0.00')EndTime,ISNULL(JT.ActualHours,'0.00')ActualHours
                                 FROM JobCard J
                                 INNER JOIN JobCardTask JT ON J.JobCardId=JT.JobCardId
                                 INNER JOIN Employee E ON E.EmployeeId=JT.EmployeeId
-                                INNER JOIN JobCardTaskMaster JM ON JM.JobCardTaskMasterId=JT.JobCardTaskMasterId
+                                 INNER JOIN JobCardTaskMaster JM ON JM.JobCardTaskMasterId=JT.JobCardTaskMasterId
+								 LEFT JOIN JobCardDailyActivity DA ON J.JobCardId = DA.JobCardId
+								LEFT JOIN JobCardDailyActivityTask JDT ON (JDT.JobCardDailyActivityId=DA.JobCardDailyActivityId AND JDT.JobCardTaskId = JT.JobCardTaskMasterId)
                                 WHERE J.JobCardId=@JobCardId";
 
                 return connection.Query<JobCardTask>(sql, new { JobCardId = JobCardId }).ToList();

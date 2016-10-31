@@ -254,6 +254,7 @@ namespace ArabErp.Web.Controllers
             ds.Tables["Head"].Columns.Add("PurchaseRequestDate");
             ds.Tables["Head"].Columns.Add("WorkShopRequestId");
             ds.Tables["Head"].Columns.Add("CustomerName");
+            ds.Tables["Head"].Columns.Add("CustomerName");
             ds.Tables["Head"].Columns.Add("SpecialRemarks");
             ds.Tables["Head"].Columns.Add("RequiredDate");
             ds.Tables["Head"].Columns.Add("CustomerOrderRef");
@@ -296,7 +297,7 @@ namespace ArabErp.Web.Controllers
             dr["WorkShopRequestId"] = Head.WorkShopRequestId;
             dr["CustomerName"] = Head.CustomerName;
             dr["SpecialRemarks"] = Head.SpecialRemarks;
-            dr["RequiredDate"] = Head.RequiredDate;
+            dr["RequiredDate"] = Head.RequiredDate.ToString("dd-MMM-yyyy"); ;
             dr["CustomerOrderRef"] = Head.CustomerOrderRef;
             dr["WorkShopRequestRefNo"] = Head.WorkShopRequestRefNo;
             dr["DoorNo"] = Head.DoorNo;

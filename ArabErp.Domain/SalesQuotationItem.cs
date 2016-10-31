@@ -11,6 +11,7 @@ namespace ArabErp.Domain
     {
         public int SalesQuotationItemId { get; set; }
         public int SalesQuotationId { get; set; }
+       
         public int? SlNo { get; set; }
         [Required]
         public int WorkDescriptionId { get; set; }
@@ -32,6 +33,7 @@ namespace ArabErp.Domain
         public int OrganizationId { get; set; }
         public bool isActive { get; set; }
         public int ItemId { get; set; }
+        public string WorkDescription { get; set; }
         public int RateType { get; set; }
     }
 }
