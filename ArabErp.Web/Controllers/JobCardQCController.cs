@@ -90,6 +90,7 @@ namespace ArabErp.Web.Controllers
             else
             {
                 TempData["error"] = "Some error occurred while saving. Please try again.";
+                FillEmployee();
                 return View("Create", model);
             }
         }
