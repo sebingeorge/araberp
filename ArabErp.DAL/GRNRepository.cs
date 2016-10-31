@@ -253,7 +253,7 @@ namespace ArabErp.DAL
                                 ISNULL(SupplierDCNoAndDate, '-') SupplierDCNoAndDate,
                                 EMP.EmployeeName ReceivedByName,
                                 ST.StockPointName,
-                                ISNULL(G.GrandTotal, 0.00) GrandTotal,
+                                ISNULL(G.GrandTotal, 0.00) + MAX(ISNULL(G.Addition, 0)) - MAX(ISNULL(G.Deduction, 0)) GrandTotal,
                                 G.isDirectPurchaseGRN,
 								G.GRNDate, G.CreatedDate
                                 FROM GRN G 
