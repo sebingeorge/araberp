@@ -1,7 +1,7 @@
 ﻿@model IEnumerable<ArabErp.Domain.SaleOrder>
 @using GridMvc.Html
 @{
-    ViewBag.Title = "Index";
+    ViewBag.Title = "Sale Orders for Closing";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 <script>
@@ -9,10 +9,14 @@
         var url = '@Url.Action("Create")';
         location.href = url;
     }
-    function OpenEdit(Id)
-    {
+    function OpenEdit(Id) {
         var url = '@Url.Action("Close")';
         url = url + "?SaleOrderId=" + Id;
+        location.href = url;
+    }
+
+    function Exit() {
+        var url = '@Url.Action("Index", "Home")';
         location.href = url;
     }
 </script>
@@ -22,29 +26,80 @@
     <div class="form-head1">
         <h4>Sale Orders for Closing</h4>
     </div>
-    <div class="main-part pad1 white">
-            <div class="row">
-                
-                <div class="main-grid main-grid-top scroll1">
-                    <div class="table-responsive">
-                        @Html.Grid(Model).Columns(columns =>
+    <div class="main-part pad1">
+        <div class="row">
+
+            <div class="main-grid main-grid-top scroll1">
+                <div class="table-responsive">
+                    @*@Html.Grid(Model).Columns(columns =>
                         {
-                            columns.Add(m => m.SaleOrderRefNo).Titled("SO.No.");
+                            columns.Add(m => m.SaleOrderRefNo).Titled("SO No.");
                             columns.Add(m => m.SaleOrderDate).Titled("SO Date");
                             columns.Add(m => m.CustomerName).Titled("Customer");
                             columns.Add(m => m.SpecialRemarks).Titled("Remarks");
                             columns.Add(m => m.EDateArrival).Titled("EDA");
                             columns.Add(m => m.EDateDelivery).Titled("EDD");
                             columns.Add().Encoded(false).Sanitized(false).SetWidth(8).Css("cent").RenderValueAs(o => @<button class="form-button4" onclick="OpenEdit(@o.SaleOrderId);">Select</button>);
-                        }).WithPaging(10)
-                    </div>
-                </div>
+                        }).WithPaging(10)*@
 
-                <div class="row-count1">
-                    <h5>Row Count:- @Model.Count()</h5>
-                </div>
+                    <table class="table table-bordered">
+                        <thead>
+                            <tr class="grid_heading">
+                                <th width="12%" title="Sale Order No. & Date"><h1>SO No. &amp; Date</h1></th>
+                                <th width="35%"><h1>Customer</h1></th>
+                                <th width="15%"><h1>Remarks</h1></th>
+                                <th width="15%" title="Expected Date of Arrival"><h1>EDA</h1></th>
+                                <th width="15%" title="Expected Date of Delivery"><h1>EDD</h1></th>
+                                <th width="1%"><center><h1></h1></center></th>
+                            </tr>
+                        </thead>
 
+                        <tbody class="grid_row">
+                            @if (Model.Count() > 0)
+                            {
+                                foreach (var item in Model)
+                                {
+                                    <tr>
+                                        <td>@item.SaleOrderRefNo - @item.SaleOrderDate.ToString("dd/MMMM/yyyy")</td>
+                                        <td>@item.CustomerName</td>
+                                        <td>@item.SpecialRemarks</td>
+                                        <td>@item.EDateArrival.ToString("dd/MMMM/yyyy")</td>
+                                        <td>@item.EDateDelivery.ToString("dd/MMMM/yyyy")</td>
+                                        <td>
+                                            @*<center>
+                                                <button class="form-button4">@Html.ActionLink("Select", "Edit", "SaleOrder", new { type = Request.QueryString["type"], id = @item.SaleOrderId }, null)</button>
+                                            </center>*@
+                                            <input type="button" class="form-button4" onclick="OpenEdit(@item.SaleOrderId)" value="Select" />
+                                        </td>
+                                    </tr>
+                                }
+                            }
+                            else
+                            {
+                                <tr>
+                                    <td colspan="6">
+                                        <center>
+                                            <em>There are no Sale Orders found for closing! Create a Sale Order and it will show up here.</em>
+                                        </center>
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+
+                </div>
             </div>
+
+            <div class="row-count1">
+                <h5>Row Count:- @Model.Count()</h5>
+            </div>
+
+        </div>
+        <div class="row">
+            <div class="col-md-12 hrpart">
+                <input type="button" class="form-button right" value="Exit" onclick="Exit()" />
+            </div>
+        </div>
     </div>
 
 </div>

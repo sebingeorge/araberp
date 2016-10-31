@@ -105,10 +105,27 @@ namespace ArabErp.Web.Controllers
             return uniqueName;
         }
 
-        public ActionResult Details(int id, int type = 0)//JobCardDailyActivityId
+        public ActionResult Details(int id=0, int type = 0)//JobCardDailyActivityId
         {
-            var model = new JobCardDailyActivityRepository().GetJobCardDailyActivity(id);
-            return View(model);
+            if (id == 0)
+            {
+                TempData["error"] = "That was an invalid/unknown request";
+                return RedirectToAction("Index", "Home");
+            }
+            try
+            {
+                var model = new JobCardDailyActivityRepository().GetJobCardDailyActivity(id);
+                if (model == null)
+                {
+                    TempData["error"] = "Could not find the requested data. Please try again.";
+                }
+                return View(model);
+            }
+            catch (Exception)
+            {
+                TempData["error"] = "Some error occurred. Please try again.";
+            }
+            return RedirectToAction("PreviousList");
         }
 
         [HttpPost]
@@ -120,16 +137,8 @@ namespace ArabErp.Web.Controllers
 
             try
             {
-
-                if (model.JobCardDailyActivityTask != null && model.JobCardDailyActivityTask.Count > 0)
-                {
-                    new JobCardDailyActivityTaskRepository().DeleteJobCardDailyActivityTask(model.JobCardDailyActivityId);
-                }
-
                 new JobCardDailyActivityRepository().UpdateJobCardDailyActivity(model);
-
-                TempData["success"] = "Updated Successfully ";
-                TempData["JobCardDailyActivityRefNo"] = model.JobCardDailyActivityRefNo;
+                TempData["success"] = "Updated Successfully (" + model.JobCardDailyActivityRefNo + ")";
                 return RedirectToAction("PreviousList");
             }
             catch (Exception)
@@ -144,9 +153,42 @@ namespace ArabErp.Web.Controllers
             try
             {
                 if (Id == 0) return RedirectToAction("PreviousList");
-                string ref_no = new JobCardDailyActivityRepository().DeleteJobCardDailyActivity(Id);
-                TempData["success"] = "Deleted Successfully (" + ref_no + ")";
-                return RedirectToAction("PreviousList");
+                JobCardDailyActivity model = new JobCardDailyActivityRepository().DeleteJobCardDailyActivity(Id);
+                if (model != null)
+                {
+                    string filepath;
+                    try
+                    {
+                        filepath = Server.MapPath("~/App_Images/" + model.Image1);
+                        if (System.IO.File.Exists(filepath)) System.IO.File.Delete(filepath);
+                    }
+                    catch { }
+
+                    try
+                    {
+                        filepath = Server.MapPath("~/App_Images/" + model.Image2);
+                        if (System.IO.File.Exists(filepath)) System.IO.File.Delete(filepath);
+                    }
+                    catch { }
+
+                    try
+                    {
+                        filepath = Server.MapPath("~/App_Images/" + model.Image3);
+                        if (System.IO.File.Exists(filepath)) System.IO.File.Delete(filepath);
+                    }
+                    catch { }
+
+                    try
+                    {
+                        filepath = Server.MapPath("~/App_Images/" + model.Image4);
+                        if (System.IO.File.Exists(filepath)) System.IO.File.Delete(filepath);
+                    }
+                    catch { }
+
+                    TempData["success"] = "Deleted Successfully (" + model.JobCardDailyActivityRefNo + ")";
+                    return RedirectToAction("PreviousList");
+                }
+                else throw new Exception();
             }
             catch (Exception)
             {
@@ -157,7 +199,7 @@ namespace ArabErp.Web.Controllers
 
         public ActionResult PreviousList(int type = 0)
         {
-            return View(new JobCardDailyActivityRepository().GetJobCardDailyActivitys(OrganizationId));
+            return View(new JobCardDailyActivityRepository().GetJobCardDailyActivitys(OrganizationId, type));
         }
     }
 }

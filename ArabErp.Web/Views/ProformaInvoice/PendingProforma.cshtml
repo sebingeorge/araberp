@@ -1,121 +1,91 @@
 ﻿@using ArabErp.Domain
 @model IEnumerable<PendingSO>
 @{
-    ViewBag.Title = "PendingProforma";
+    ViewBag.Title = "Sale Orders for Proforma Invoice";
     Layout = "~/Views/Shared/_Layout.cshtml";
     string type = Request.QueryString["isProjectBased"];
 }
 
 <script>
-    //---------------------toastr---------------------------//
-    toastr.options = {
-        "positionClass": "toast-bottom-full-width",
-        "timeOut": "5000",
-        "extendedTimeOut": "2000"
-    }
-    if ('@TempData["success"]' != '') {
-        toastr.success('@TempData["success"]');
-    }
-    else if ('@TempData["error"]' != '') {
-        toastr.error('@TempData["error"]'.split('|')[0]);
-        console.log('@TempData["error"]'.split('|')[1]);
-    }
-        @{ TempData["success"] = TempData["error"] = ""; }
-    //------------------------------------------------------//
-  
+
     function PreviousList() {
         //alert(type);
         var url = '@Url.Action("Index", new { type = ViewBag.ProjectBased })';
         window.location = url;
     }
-    function Exit()
-    {
-      
+    function Exit() {
         var url = '@Url.Action("Index","Home")';
         window.location = url;
     }
-  
+
 </script>
 
 
-    <div class="row">
-        <div class="form-head1">
-            <h4>Sale Orders for Proforma Invoice</h4>
-        </div>
-        <div class="main-part pad1">
-            <div class="row">
-                <div class="main-grid main-grid-top scroll1">
-                    <div class="table-responsive">
-                        <input type="hidden" id="HiddenFieldSaleOrderId" />
-                        <input type="hidden" id="HiddenStatus" />
-                        <table class="table table-bordered" id="SaleOrderTable">
-                            <thead>
-                                <tr class="grid_heading">
-                                    <th width="12%"><h1>SO.No. & Date</h1></th>
-                                    <th width="20%"><h1>Customer</h1></th>
-                                    @*<th width="15%"><h1>Customer Order Ref.</h1></th>*@
-
-                                    <th width="30%"><h1>Work Description</h1></th>
-                                    <th width="9%" class="text-right"><h1>Amount</h1></th>
-                                    <th width="5%"><h1>Ageing</h1></th>
-                                    <th width="7%"><h1>EDA</h1></th>
-                                    <th width="7%"><h1>EDD</h1></th>
-                                    <th width="10%"><center><h1></h1></center></th>
-
-                                </tr>
-                            </thead>
-                            @foreach (var item in Model)
-                        {
-                        <tbody class="grid_row">
-
-                            <tr id="@item.SaleOrderId">
-                               
-                                <td class="grid-cell">@item.SaleOrderRefNo &amp; @item.SaleOrderDate.ToString("dd/MMM/yyyy")</td>
-                                <td class="grid-cell">@item.CustomerName</td>
-                                @*<td class="grid-cell">@item.CustomerOrderRef</td>*@
-
-                                <td class="grid-cell">@item.WorkDescription </td>
-                                <td class="grid-cell text-right">@item.TotalAmount</td>
-                                <td class="grid-cell">@item.Ageing</td>
-                                <td class="grid-cell">@item.EDateArrival.ToString("dd/MMM/yyyy")</td>
-                                <td class="grid-cell">@item.EDateDelivery.ToString("dd/MMM/yyyy")</td>
-                                <td><center>@Html.ActionLink("Select", "Create", "ProformaInvoice", new { SaleOrderId = @item.SaleOrderId }, new { @class = "form-button5" })</center></td>
-
-
-
+<div class="row">
+    <div class="form-head1">
+        <h4>Sale Orders for Proforma Invoice</h4>
+    </div>
+    <div class="main-part pad1">
+        <div class="row">
+            <div class="main-grid main-grid-top scroll1">
+                <div class="table-responsive">
+                    <input type="hidden" id="HiddenFieldSaleOrderId" />
+                    <input type="hidden" id="HiddenStatus" />
+                    <table class="table table-bordered" id="SaleOrderTable">
+                        <thead>
+                            <tr class="grid_heading">
+                                <th width="12%" title="Sale Order No. & Date"><h1>SO No. & Date</h1></th>
+                                <th width="20%"><h1>Customer</h1></th>
+                                @*<th width="15%"><h1>Customer Order Ref.</h1></th>*@
+                                <th width="30%"><h1>Work Description</h1></th>
+                                <th width="9%" class="text-right"><h1>Amount</h1></th>
+                                <th width="5%"><h1>Ageing</h1></th>
+                                <th width="7%"><h1>EDA</h1></th>
+                                <th width="7%"><h1>EDD</h1></th>
+                                <th width="1%"><center><h1></h1></center></th>
 
                             </tr>
+                        </thead>
+                        <tbody class="grid_row">
+                            @foreach (var item in Model)
+                            {
+                                <tr id="@item.SaleOrderId">
+                                    <td nowrap>@item.SaleOrderRefNo &amp; @item.SaleOrderDate.ToString("dd/MMMM/yyyy")</td>
+                                    <td>@item.CustomerName</td>
+                                    @*<td>@item.CustomerOrderRef</td>*@
+                                    <td>@item.WorkDescription </td>
+                                    <td class="grid-cell text-right">@item.TotalAmount</td>
+                                    <td>@item.Ageing</td>
+                                    <td nowrap>@item.EDateArrival.ToString("dd/MMMM/yyyy")</td>
+                                    <td nowrap>@item.EDateDelivery.ToString("dd/MMMM/yyyy")</td>
+                                    <td><center>@Html.ActionLink("Select", "Create", "ProformaInvoice", new { SaleOrderId = @item.SaleOrderId }, new { @class = "form-button5" })</center></td>
+                                </tr>
+                            }
                         </tbody>
-                        }
-                        </table>
-
-                    </div>
+                    </table>
                 </div>
-
-
-                <div class="row-count1">
-                    <h5>Row Count:- @Model.Count()</h5>
-                </div>
-                </div>
-
-                <div class="row">
-
-                    <div class="col-md-12 hrpart">
-                        <input type="button" class="form-button" value="Previous" onclick="PreviousList()" />
-                        <input type="button" class="form-button right" value="Exit" onclick="Exit()" />
-                    </div>
-
-                </div>
-
             </div>
 
-
-
-
-
-
-
+            <div class="row-count1">
+                <h5>Row Count:- @Model.Count()</h5>
+            </div>
         </div>
+
+        <div class="row">
+            <div class="col-md-12 hrpart">
+                <input type="button" class="form-button" value="Previous" onclick="PreviousList()" />
+                <input type="button" class="form-button right" value="Exit" onclick="Exit()" />
+            </div>
+        </div>
+    </div>
+
+
+
+
+
+
+
+</div>
 
 
 

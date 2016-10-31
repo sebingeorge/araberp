@@ -45,9 +45,7 @@ namespace ArabErp.DAL
                 catch (Exception)
                 {
                     trn.Rollback();
-                    throw;
                     return 0;
-
                 }
 
 
@@ -222,7 +220,7 @@ namespace ArabErp.DAL
                                 INNER JOIN SaleOrderItem SI ON SI.SaleOrderId=S.SaleOrderId
                                 INNER JOIN Customer C ON C.CustomerId=S.CustomerId
 								INNER JOIN Organization O ON O.OrganizationId=JQ.OrganizationId
-                                inner  JOIN Country ORR ON ORR.CountryId=O.Country
+                                LEFT  JOIN Country ORR ON ORR.CountryId=O.Country
                                 LEFT JOIN VehicleModel V ON V.VehicleModelId=SI.VehicleModelId
                                 LEFT JOIN DeliveryChallan DC ON DC.JobCardId=JQ.JobCardId
                                 WHERE JobCardQCId=@JobCardQCId";

@@ -6,18 +6,17 @@
 
 <script>
 
-    function GotoJobcardQC(id,No,JcDate,Customer,VehicleModel)
-    {
+    function GotoJobcardQC(id, No, JcDate, Customer, VehicleModel) {
         var url = '@Url.Action("Create")';
         url = url + "?Id=" + id;
-        
+
         url = url + "&No=" + No;
         url = url + "&JcDate=" + JcDate;
         url = url + "&Customer=" + Customer;
         url = url + "&VehicleModel=" + VehicleModel;
         console.log(url);
         window.location.href = url;
-       
+
     }
 
     function PreviousList() {
@@ -25,8 +24,7 @@
         window.location = url;
     }
 
-    function Exit()
-    {
+    function Exit() {
         var url = '@Url.Action("Index","Home")'
         window.location = url;
     }
@@ -35,7 +33,7 @@
 <div class="row">
     <div class="form-head1">
         <h4>Pending Job Cards for QC</h4>
-          </div>
+    </div>
     <div class="main-part pad1">
         <div class="row">
             <div class="main-grid main-grid-top scroll1">
@@ -43,6 +41,7 @@
                     <table class="table table-bordered">
                         <thead>
                             <tr class="grid_heading">
+                                <th width="1%" class="text-center"><h1>#</h1></th>
                                 <th width="20%"><h1>Job Card No. &amp; Date</h1></th>
                                 <th width="55%"><h1>Customer</h1></th>
                                 <th width="15%"><h1>Vehicle Model</h1></th>
@@ -53,9 +52,11 @@
                         <tbody class="grid_row">
                             @if (Model.Count() > 0)
                             {
+                                int i = 0;
                                 foreach (var item in Model)
                                 {
                                     <tr>
+                                        <td>@(i + 1)</td>
                                         <td>@item.JobCardNo - @item.JobCardDate.ToString("dd/MMMM/yyyy")</td>
                                         <td>@item.CustomerName</td>
                                         <td>@item.VehicleModelName</td>
@@ -65,12 +66,13 @@
                                             </center>
                                         </td>
                                     </tr>
+                                    ++i;
                                 }
                             }
                             else
                             {
                                 <tr>
-                                    <td align="center" colspan="4">
+                                    <td align="center" colspan="5">
                                         <em>There are no Job Cards pending for Quality Control!</em>
                                     </td>
                                 </tr>
@@ -84,15 +86,13 @@
                 <h5>Row Count:- @Model.Count()</h5>
             </div>
         </div>
-            <div class="row">
-                <div class="col-md-12 hrpart">
-                    <input class="form-button left" type="button" value="Previous" onclick="PreviousList()" />
-                    <input class="form-button right" type="button" value="Exit" onclick="Exit()" />
-                </div>
+        <div class="row">
+            <div class="col-md-12 hrpart">
+                <input class="form-button left" type="button" value="Previous" onclick="PreviousList()" />
+                <input class="form-button right" type="button" value="Exit" onclick="Exit()" />
             </div>
         </div>
+    </div>
 </div>
-
-
 
 

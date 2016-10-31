@@ -1,7 +1,8 @@
 ﻿@model IList<ArabErp.Domain.SalesInvoice>
 
 @{
-    ViewBag.Title = "Previous List";
+    string invoice_type = Request.QueryString["type"] == "Final" ? "Sales" : Request.QueryString["type"];
+    ViewBag.Title = invoice_type + " Invoice List";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
@@ -22,12 +23,12 @@
     })
 
     function OnItemSelected(id) {
-       
+
         var url = '@Url.Action("Edit")';
         url += "?type=@(ViewBag.type)&id=" + id;
-     
+
         window.location = url;
-       
+
     }
 
     function Exit() {
@@ -51,7 +52,7 @@
 <div class="row">
 
     <div class="form-head1">
-        <h4>Previous List - Sales Invoice</h4>
+        <h4>@invoice_type Invoice List</h4>
     </div>
 
     <div class="main-part pad1">
@@ -75,14 +76,14 @@
                 <div class="table-responsive" id="previous-list">
                     @Html.Action("PreviousList", new { type = ViewBag.type })
                 </div>
-                </div>
-            </div>
-
-                <div class="row">
-                    <div class="col-md-12 hrpart">
-                        <input type="button" class="form-button right" value="Exit" onclick="Exit()" />
-                    </div>
-                </div>
             </div>
         </div>
+
+        <div class="row">
+            <div class="col-md-12 hrpart">
+                <input type="button" class="form-button right" value="Exit" onclick="Exit()" />
+            </div>
+        </div>
+    </div>
+</div>
 

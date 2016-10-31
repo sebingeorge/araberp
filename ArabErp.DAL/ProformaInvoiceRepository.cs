@@ -34,10 +34,25 @@ namespace ArabErp.DAL
         {
             using (IDbConnection connection = OpenConnection(dataConnection))
             {
-                string sql = @"SELECT  SO.SaleOrderId,SO.CustomerOrderRef,SO.SaleOrderRefNo,SO.EDateArrival,SO.EDateDelivery,SO.CustomerId,C.CustomerName,DoorNo +','+ Street+','+State CustomerAddress,SO.SaleOrderDate SaleOrderDate,
-                                SO.SaleOrderRefNo +','+ Replace(Convert(varchar,SaleOrderDate,106),' ','/') SaleOrderRefNo,SO.isProjectBased,SO.PaymentTerms
-                                FROM  SaleOrder SO  INNER JOIN Customer C  ON SO.CustomerId =C.CustomerId
-                                WHERE SO.SaleOrderId =@SaleOrderId";
+                string sql = @"SELECT 
+	                                SO.SaleOrderId,
+	                                SO.CustomerOrderRef,
+	                                SO.SaleOrderRefNo,
+	                                SO.EDateArrival,
+	                                SO.EDateDelivery,
+	                                SO.CustomerId,
+	                                C.CustomerName,
+	                                ISNULL(DoorNo,'') +', '+ ISNULL(Street,'')+', '+ISNULL([State],'') CustomerAddress,
+	                                Convert(varchar,SaleOrderDate,106) SaleOrderDate,
+	                                SO.SaleOrderRefNo,
+	                                SO.isProjectBased,
+	                                SO.PaymentTerms,
+									SYM.SymbolName
+                                FROM  SaleOrder SO 
+									INNER JOIN Customer C  ON SO.CustomerId = C.CustomerId
+									INNER JOIN Currency CUR ON C.CurrencyId = CUR.CurrencyId
+									INNER JOIN Symbol SYM ON CUR.CurrencySymbolId = SYM.SymbolId
+                                WHERE SO.SaleOrderId = @SaleOrderId";
                 var objSaleOrders = connection.Query<ProformaInvoice>(sql, new { SaleOrderId = SaleOrderId }).Single<ProformaInvoice>();
                 return objSaleOrders;
             }
@@ -84,7 +99,7 @@ namespace ArabErp.DAL
                     InsertLoginHistory(dataConnection, objProInvoice.CreatedBy, "Create", "Proforma Invoice", id.ToString(), "0");
                     txn.Commit();
 
-                    return id + "|PINV/" + internalId;
+                    return id + "|" + internalId;
                 }
                 catch (Exception)
                 {
@@ -136,9 +151,12 @@ namespace ArabErp.DAL
             {
 
                 string sql = @"select C.CustomerName,S.CustomerOrderRef,Concat(C.DoorNo,',',C.Street,',',C.State,',',C.Country,',',C.Zip)CustomerAddress,ProformaInvoiceId,ProformaInvoiceRefNo,
-                               ProformaInvoiceDate,P.SaleOrderId,P.SpecialRemarks,P.PaymentTerms,P.isProjectBased from  ProformaInvoice P
+                               ProformaInvoiceDate,P.SaleOrderId,P.SpecialRemarks,P.PaymentTerms,P.isProjectBased,
+							   S.SaleOrderRefNo, CONVERT(VARCHAR, S.SaleOrderDate, 106)SaleOrderDate, SYM.SymbolName from  ProformaInvoice P
                                inner join SaleOrder S on S.SaleOrderId=P.SaleOrderId
-                               inner join Customer C ON C.CustomerId=S.CustomerId where ProformaInvoiceId =@Id";
+                               inner join Customer C ON C.CustomerId=S.CustomerId
+								INNER JOIN Currency CUR ON C.CurrencyId = CUR.CurrencyId
+								INNER JOIN Symbol SYM ON CUR.CurrencySymbolId = SYM.SymbolId where ProformaInvoiceId = @Id";
 
                 var objProformaInvoice = connection.Query<ProformaInvoice>(sql, new
                 {

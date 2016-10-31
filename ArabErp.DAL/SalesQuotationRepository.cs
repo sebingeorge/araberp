@@ -258,7 +258,7 @@ namespace ArabErp.DAL
 	                                (S.Rate - S.Discount) Amount,
 	                                ((S.Rate - S.Discount)*(S.Quantity)) TotalAmount,
 	                                [RateType],
-	                                'Nos' UnitName,
+	                                'No(s)' UnitName,
 	                                W.*,
 	                                V.* 
                                 from SalesQuotationItem S inner join WorkDescription W ON S.WorkDescriptionId=W.WorkDescriptionId
@@ -312,7 +312,7 @@ namespace ArabErp.DAL
 							inner join Employee E on  E.EmployeeId =SQ.SalesExecutiveId
 							inner join SalesQuotationStatus RR on  RR.SalesQuotationStatusId =SQ.SalesQuotationStatusId
                             where SQ.ApprovedBy is null and  SQ.isActive=1 and isnull(SQ.IsQuotationApproved,0)=0
-                            and SQ.OrganizationId = " + OrganizationId.ToString() + " and SQ.IsProjectBased = " + IsProjectBased.ToString() + " and SQ.isAfterSales= " + IsAfterSales.ToString();
+                            and SQ.OrganizationId = " + OrganizationId.ToString() + " and SQ.IsProjectBased = " + IsProjectBased.ToString() + " and SQ.isAfterSales= " + IsAfterSales.ToString() + "ORDER BY SQ.QuotationDate DESC, SQ.QuotationRefNo";
 
                 var objSalesQuotations = connection.Query<SalesQuotation>(sql).ToList<SalesQuotation>();
 

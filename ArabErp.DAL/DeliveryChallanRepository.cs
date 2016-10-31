@@ -188,8 +188,9 @@ namespace ArabErp.DAL
 	                                SerialNo
                                 FROM JobCard JC
                                 INNER JOIN ItemBatch IB ON JC.SaleOrderItemId = IB.SaleOrderItemId
-                                INNER JOIN GRNItem GI ON IB.GRNItemId = GI.GRNItemId
-                                INNER JOIN Item I ON GI.ItemId = I.ItemId
+                                LEFT JOIN GRNItem GI ON IB.GRNItemId = GI.GRNItemId
+								LEFT JOIN OpeningStock OS ON IB.OpeningStockId = OS.OpeningStockId
+                                INNER JOIN Item I ON (GI.ItemId = I.ItemId OR OS.ItemId = I.ItemId)
                                 WHERE JC.JobCardId = @id";
 
 
@@ -258,7 +259,7 @@ namespace ArabErp.DAL
                                 INNER JOIN VehicleModel VM ON VM.VehicleModelId=SOI.VehicleModelId
                                 INNER JOIN Employee E ON E.EmployeeId=DC.EmployeeId
                                 inner join Organization O ON  DC.OrganizationId=O.OrganizationId
-								 inner  JOIN Country ORR ON ORR.CountryId=O.Country
+								 LEFT  JOIN Country ORR ON ORR.CountryId=O.Country
                                 LEFT JOIN VehicleInPass VI ON VI.SaleOrderItemId = SOI.SaleOrderItemId
                                 WHERE  DeliveryChallanId=@DeliveryChallanId";
 
@@ -276,11 +277,12 @@ namespace ArabErp.DAL
         {
             using (IDbConnection connection = OpenConnection(dataConnection))
             {
-                string sql = @" SELECT DISTINCT ItemBatchId,SerialNo,ItemName, DATEDIFF(MONTH,WarrantyStartDate,WarrantyExpireDate) AS WarrantyPeriodInMonths
-                                FROM ItemBatch IB 
-                                INNER JOIN GRNItem GI ON GI.GRNItemId=IB.GRNItemId
-                                INNER JOIN Item I ON I.ItemId=GI.ItemId
-                                WHERE DeliveryChallanId =@DeliveryChallanId";
+                string sql = @"SELECT DISTINCT ItemBatchId,SerialNo,ItemName, DATEDIFF(MONTH,WarrantyStartDate,WarrantyExpireDate) AS WarrantyPeriodInMonths
+                               FROM ItemBatch IB 
+                               LEFT JOIN GRNItem GI ON GI.GRNItemId=IB.GRNItemId
+							   LEFT JOIN OpeningStock OS ON IB.OpeningStockId = OS.OpeningStockId
+                               INNER JOIN Item I ON (I.ItemId=GI.ItemId OR OS.ItemId = I.ItemId)
+                               WHERE DeliveryChallanId = @DeliveryChallanId";
 
                 return connection.Query<ItemBatch>(sql, new { DeliveryChallanId = DeliveryChallanId }).ToList();
             }
@@ -291,22 +293,20 @@ namespace ArabErp.DAL
             using (IDbConnection connection = OpenConnection(dataConnection))
             {
                 IDbTransaction txn = connection.BeginTransaction();
-
-
+                try
+                {
                 string sql = @"UPDATE
                                 DeliveryChallan SET DeliveryChallanRefNo=@DeliveryChallanRefNo,
                                 DeliveryChallanDate=@DeliveryChallanDate,EmployeeId=@EmployeeId,Remarks=@Remarks,
                                 CreatedBy=@CreatedBy,CreatedDate=@CreatedDate,OrganizationId=@OrganizationId, TransportWarrantyExpiryDate = @TransportWarrantyExpiryDate
                                 WHERE DeliveryChallanId = @DeliveryChallanId;";
-                try
-                {
                     var id = connection.Execute(sql, objDeliveryChallan, txn);
 
-                    int i = 0;
+                    sql = @"UPDATE ItemBatch SET DeliveryChallanId = NULL WHERE DeliveryChallanId = @DeliveryChallanId";
+                    id = connection.Execute(sql, objDeliveryChallan, txn);
 
                     try
                     {
-
                         if (objDeliveryChallan.ItemBatches != null && objDeliveryChallan.ItemBatches.Count > 0)
                         {
                             foreach (var item in objDeliveryChallan.ItemBatches)
@@ -315,19 +315,15 @@ namespace ArabErp.DAL
                                 item.WarrantyStartDate = objDeliveryChallan.DeliveryChallanDate;
                                 item.WarrantyExpireDate = objDeliveryChallan.DeliveryChallanDate.AddMonths(item.WarrantyPeriodInMonths ?? 0).AddDays(-1);
 
-
-                                sql = @"UPDATE ItemBatch SET WarrantyStartDate = @WarrantyStartDate, WarrantyExpireDate = @WarrantyExpireDate
-                                        WHERE DeliveryChallanId = @DeliveryChallanId";
+                                sql = @"UPDATE ItemBatch SET DeliveryChallanId = @DeliveryChallanId, WarrantyStartDate = @WarrantyStartDate, WarrantyExpireDate = @WarrantyExpireDate
+                                WHERE ItemBatchId = @ItemBatchId";
                                 connection.Execute(sql, item, txn);
                             }
                         }
-
-                      
                     }
                     catch (NullReferenceException) { }
-            
 
-                    InsertLoginHistory(dataConnection, objDeliveryChallan.CreatedBy, "Update", "Delivery Challan", id.ToString(), objDeliveryChallan.OrganizationId.ToString());
+                    InsertLoginHistory(dataConnection, objDeliveryChallan.CreatedBy, "Update", "Delivery Challan", objDeliveryChallan.DeliveryChallanId.ToString(), objDeliveryChallan.OrganizationId.ToString());
                     txn.Commit();
                     return id;
                 }

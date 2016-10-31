@@ -73,6 +73,7 @@
                                 <tr>
                                     <td>
                                         @*@Html.TextBoxFor(model => Model.JobCardQCParams[i].QCParamId, new { @class = "form_input" , autocomplete = "off", @readonly = "readonly"})*@
+                                        @Html.HiddenFor(m => m.JobCardQCParams[i].QCParamId)
                                         @(i+1)
                                     </td>
                                     <td>@Html.TextBoxFor(model => Model.JobCardQCParams[i].ParaName, new { @class = "form_input", autocomplete = "off", @readonly = "readonly" })</td>
