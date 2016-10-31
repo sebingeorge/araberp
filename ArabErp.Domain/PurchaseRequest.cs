@@ -49,6 +49,6 @@ namespace ArabErp.Domain
         public string CompanyName { get; set; }
         public string Image1 { get; set; }
         public List<PurchaseRequestItem>items { get; set; }
-
+        public bool isUsed { get; set; }
     }
 }
