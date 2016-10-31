@@ -860,8 +860,8 @@ namespace ArabErp.Web.Controllers
             dr["CommissionAgentName"] = Head.CommissionAgentName;
             dr["CommissionAmount"] = Head.CommissionAmount;
             dr["SalesExecutiveId"] = Head.SalesExecutiveId;
-            dr["EDateArrival"] = Head.EDateArrival;
-            dr["EDateDelivery"] = Head.EDateDelivery;
+            dr["EDateArrival"] = Head.EDateArrival.ToString("dd-MMM-yyyy");
+            dr["EDateDelivery"] = Head.EDateDelivery.ToString("dd-MMM-yyyy");
             dr["DoorNo"] = Head.DoorNo;
              dr["Street"] = Head.Street;
             dr["State"] = Head.State;

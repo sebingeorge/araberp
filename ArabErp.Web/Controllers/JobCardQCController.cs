@@ -273,8 +273,8 @@ namespace ArabErp.Web.Controllers
             DataRow dr = ds.Tables["Head"].NewRow();
             dr["JobCardQCRefNo"] = Head.JobCardQCRefNo;
             dr["JobCardNo"] = Head.JobCardNo;
-            dr["JcDate"] = Head.JcDate;
-            dr["JobCardQCDate"] = Head.JobCardQCDate;
+            dr["JcDate"] = Head.JcDate.ToString("dd-MMM-yyyy"); ;
+            dr["JobCardQCDate"] = Head.JobCardQCDate.ToString("dd-MMM-yyyy"); ;
             dr["Customer"] = Head.Customer;
             dr["VehicleModel"] = Head.VehicleModel;
             dr["EmployeeName"] = Head.EmployeeName;

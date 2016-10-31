@@ -74,6 +74,7 @@ namespace ArabErp.Domain
         public int ProjectCompletionId { get; set; }
         public decimal Discount { get; set; }
         public DateTime WarrantyExpiryDate { get; set; }
+        public string WorkDescription { get; set; }
 
         public string DoorNo { get; set; }
 

@@ -254,7 +254,7 @@ namespace ArabErp.Web.Controllers
             ds.Tables["Head"].Columns.Add("PurchaseRequestDate");
             ds.Tables["Head"].Columns.Add("WorkShopRequestId");
             ds.Tables["Head"].Columns.Add("CustomerName");
-            ds.Tables["Head"].Columns.Add("CustomerName");
+            //ds.Tables["Head"].Columns.Add("CustomerName");
             ds.Tables["Head"].Columns.Add("SpecialRemarks");
             ds.Tables["Head"].Columns.Add("RequiredDate");
             ds.Tables["Head"].Columns.Add("CustomerOrderRef");
