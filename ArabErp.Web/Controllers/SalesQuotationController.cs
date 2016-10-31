@@ -1,10 +1,15 @@
 ﻿using ArabErp.DAL;
-using ArabErp.Domain;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using ArabErp.Domain;
+using System.Collections;
+using CrystalDecisions.CrystalReports.Engine;
+using System.IO;
+using ArabErp.Web.Models;
+using System.Data;
 using System.Data.SqlClient;
 
 namespace ArabErp.Web.Controllers
@@ -827,6 +832,146 @@ namespace ArabErp.Web.Controllers
         public JsonResult GetQuerySheetCostingAmount(int id)
         {
             return Json(new QuerySheetRepository().GetCostingAmount(id), JsonRequestBehavior.AllowGet);
+        }
+
+        public ActionResult Print(int Id)
+        {
+
+            ReportDocument rd = new ReportDocument();
+            rd.Load(Path.Combine(Server.MapPath("~/Reports"), "SalesQuotation.rpt"));
+
+            DataSet ds = new DataSet();
+            ds.Tables.Add("Head");
+
+            ds.Tables.Add("Items");
+
+            //-------HEAD
+            ds.Tables["Head"].Columns.Add("QuotationRefNo");
+            ds.Tables["Head"].Columns.Add("QuotationDate");
+            ds.Tables["Head"].Columns.Add("CustomerName");
+            ds.Tables["Head"].Columns.Add("CustomerAddress");
+            ds.Tables["Head"].Columns.Add("ContactPerson");
+            ds.Tables["Head"].Columns.Add("SalesExecutive");
+            ds.Tables["Head"].Columns.Add("PredictedClosingDate");
+            ds.Tables["Head"].Columns.Add("QuotationValidToDate");
+            ds.Tables["Head"].Columns.Add("ExpectedDeliveryDate");
+            ds.Tables["Head"].Columns.Add("Remarks");
+            ds.Tables["Head"].Columns.Add("PaymentTerms");
+            ds.Tables["Head"].Columns.Add("SalesQuotationStatusName");
+            ds.Tables["Head"].Columns.Add("QuotationStage");
+            ds.Tables["Head"].Columns.Add("Competitors");
+            ds.Tables["Head"].Columns.Add("DiscountRemarks");
+            ds.Tables["Head"].Columns.Add("Discount");
+            ds.Tables["Head"].Columns.Add("DoorNo");
+            ds.Tables["Head"].Columns.Add("Street");
+            ds.Tables["Head"].Columns.Add("State");
+            ds.Tables["Head"].Columns.Add("CountryName");
+            ds.Tables["Head"].Columns.Add("Zip");
+            ds.Tables["Head"].Columns.Add("Fax");
+            ds.Tables["Head"].Columns.Add("Email");
+            ds.Tables["Head"].Columns.Add("Phone");
+            ds.Tables["Head"].Columns.Add("CurrencyName");
+            ds.Tables["Head"].Columns.Add("OrganizationName");
+            ds.Tables["Head"].Columns.Add("Image1");
+            ds.Tables["Head"].Columns.Add("EmpNmae");
+            ds.Tables["Head"].Columns.Add("EmpDesignation");
+
+            //-------DT
+            ds.Tables["Items"].Columns.Add("WorkDescr");
+            ds.Tables["Items"].Columns.Add("Quantity");
+            ds.Tables["Items"].Columns.Add("Rate");
+            ds.Tables["Items"].Columns.Add("UOM");
+            ds.Tables["Items"].Columns.Add("Discount");
+            ds.Tables["Items"].Columns.Add("Amount");
+            ds.Tables["Items"].Columns.Add("TotalAmount");
+            ds.Tables["Items"].Columns.Add("WorkDescription");
+
+
+            SalesQuotationRepository repo = new SalesQuotationRepository();
+            var Head = repo.GetSalesQuotationHD(Id, OrganizationId);
+
+            DataRow dr = ds.Tables["Head"].NewRow();
+            dr["QuotationRefNo"] = Head.QuotationRefNo;
+            dr["QuotationDate"] = Head.QuotationDate.ToString("dd-MMM-yyyy");
+            dr["CustomerName"] = Head.CustomerName;
+            dr["CustomerAddress"] = Head.CustomerAddress;
+            dr["ContactPerson"] = Head.ContactPerson;
+            dr["SalesExecutive"] = Head.SalesExecutiveName;
+            dr["PredictedClosingDate"] = Head.PredictedClosingDate;
+            dr["QuotationValidToDate"] = Head.QuotationValidToDate;
+            dr["ExpectedDeliveryDate"] = Head.ExpectedDeliveryDate;
+            dr["Remarks"] = Head.Remarks;
+            dr["PaymentTerms"] = Head.PaymentTerms;
+            dr["SalesQuotationStatusName"] = Head.SalesQuotationStatusName;
+            dr["QuotationStage"] = Head.QuotationStage;
+            dr["Competitors"] = Head.Competitors;
+            dr["DiscountRemarks"] = Head.DiscountRemarks;
+            dr["Discount"] = Head.Discount;
+            dr["DoorNo"] = Head.DoorNo;
+            dr["Street"] = Head.Street;
+            dr["State"] = Head.State;
+            dr["CountryName"] = Head.CountryName;
+            dr["Zip"] = Head.Zip;
+            dr["Fax"] = Head.Fax;
+            dr["Email"] = Head.Email;
+            dr["Phone"] = Head.Phone;
+            dr["CurrencyName"] = Head.CurrencyName;
+            dr["OrganizationName"] = Head.OrganizationName;
+            dr["Image1"] = Server.MapPath("~/App_images/") + Head.Image1;
+            dr["EmpNmae"] = Head.EmpNmae;
+            dr["EmpDesignation"] = Head.EmpDesignation;
+            ds.Tables["Head"].Rows.Add(dr);
+
+            SalesQuotationRepository repo1 = new SalesQuotationRepository();
+            var Items = repo1.GetSalesQuotationItemsPrint(Id);
+            foreach (var item in Items)
+            {
+                var pritem = new SalesQuotationItem
+                {
+                    WorkDescr = item.WorkDescr,
+                    Quantity = item.Quantity,
+                    Rate = item.Rate,
+                    UnitName = item.UnitName,
+                    Discount = item.Discount,
+                    Amount = item.Amount,
+                    WorkDescription=item.WorkDescription,
+                    TotalAmount = item.TotalAmount
+                    
+                };
+
+
+                DataRow dri = ds.Tables["Items"].NewRow();
+                dri["WorkDescr"] = pritem.WorkDescr;
+                dri["Quantity"] = pritem.Quantity;
+                dri["Rate"] = pritem.Rate;
+                dri["Discount"] = pritem.Discount;
+                dri["Amount"] = pritem.Amount;
+                dri["UOM"] = pritem.UnitName;
+                dri["WorkDescription"] = pritem.WorkDescription;
+                dri["TotalAmount"] = pritem.TotalAmount;
+
+                ds.Tables["Items"].Rows.Add(dri);
+            }
+
+            ds.WriteXml(Path.Combine(Server.MapPath("~/XML"), "SalesQuotation.xml"), XmlWriteMode.WriteSchema);
+
+            rd.SetDataSource(ds);
+
+            Response.Buffer = false;
+            Response.ClearContent();
+            Response.ClearHeaders();
+
+
+            try
+            {
+                Stream stream = rd.ExportToStream(CrystalDecisions.Shared.ExportFormatType.PortableDocFormat);
+                stream.Seek(0, SeekOrigin.Begin);
+                return File(stream, "application/pdf", String.Format("SalesQuotation{0}.pdf", Id.ToString()));
+            }
+            catch (Exception ex)
+            {
+                throw;
+            }
         }
     }
 }

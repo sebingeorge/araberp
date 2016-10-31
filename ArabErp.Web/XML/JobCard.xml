@@ -47,15 +47,15 @@
     </xs:element>
   </xs:schema>
   <Head>
-    <JobCardNo>JC-16/40</JobCardNo>
-    <JobCardDate>28-Sep-2016</JobCardDate>
-    <SaleOrderRefNo>SO/P-16/40</SaleOrderRefNo>
+    <JobCardNo>JC-16/48</JobCardNo>
+    <JobCardDate>30-Oct-2016</JobCardDate>
+    <SaleOrderRefNo>SAL/38</SaleOrderRefNo>
     <CustomerName>M/S Al Rashid Ice Factory,1fg,fg</CustomerName>
     <CustomerPhone>54</CustomerPhone>
     <CustomerContactPerson>54</CustomerContactPerson>
-    <Unit>Thermal Master T2500</Unit>
+    <Unit>a+b</Unit>
     <Customer>M/S Al Rashid Ice Factory</Customer>
-    <Technician>Albert</Technician>
+    <Technician>Hamdan</Technician>
     <DoorNo>1213dfdf</DoorNo>
     <Street>Doha-Qatar</Street>
     <State>fdgd</State>
@@ -69,9 +69,25 @@
     <Image1>E:\ARAB\New folder\ArabErp\ArabErp.Web\App_images\e8251ae5-2716-4b20-841c-c57ba2109c7b.png</Image1>
   </Head>
   <Items>
-    <TaskDate>28-Sep-2016</TaskDate>
-    <Employee>Albert</Employee>
-    <Description>Job work</Description>
+    <TaskDate>31-Oct-2016</TaskDate>
+    <Employee>Rajeev</Employee>
+    <Description>Main Unit Fixing</Description>
+    <StartTime>0.00</StartTime>
+    <EndTime>0.00</EndTime>
+    <ActualHours>0.00</ActualHours>
+  </Items>
+  <Items>
+    <TaskDate>31-Oct-2016</TaskDate>
+    <Employee>Rouf</Employee>
+    <Description>Main Unit Fixing</Description>
+    <StartTime>0.00</StartTime>
+    <EndTime>0.00</EndTime>
+    <ActualHours>0.00</ActualHours>
+  </Items>
+  <Items>
+    <TaskDate>31-Oct-2016</TaskDate>
+    <Employee>Sreekanth</Employee>
+    <Description>Main Unit Fixing</Description>
     <StartTime>0.00</StartTime>
     <EndTime>0.00</EndTime>
     <ActualHours>0.00</ActualHours>
