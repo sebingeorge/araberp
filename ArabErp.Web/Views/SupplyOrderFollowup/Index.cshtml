@@ -3,31 +3,8 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-
 <script type="text/javascript">
 
-
-    $(document).ready(function () {
-
-        //---------------------toastr---------------------------//
-        toastr.options = {
-            "positionClass": "toast-bottom-full-width",
-            "timeOut": "5000",
-            "extendedTimeOut": "2000"
-        }
-        if ('@TempData["success"]' != '') {
-            toastr.success('@TempData["success"]');
-        }
-        else if ('@TempData["error"]' != '') {
-            toastr.error('@TempData["error"]'.split('|')[0]);
-            console.log('@TempData["error"]'.split('|')[1]);
-        }
-        @{ TempData["success"] = TempData["error"] = ""; }
-        //------------------------------------------------------//
-
-    })
-
-  
     function Exit() {
 
         location.href = '@Url.Action("Index","Home")';
@@ -51,7 +28,6 @@
 
 </script>
 
-
 <div class="row">
 
     <div class="form-head1">
@@ -61,18 +37,18 @@
     <div class="main-part pad1">
         <div class="row form-group">
             <div class="col-md-3">
-                <label for="txtName">Item Name</label>
-                <input type="text" class="form_input bluebox" id="txtName" onkeyup="Filter()" />
+                <label for="txtName">Material/Spare</label>
+                <input type="text" class="form_input" id="txtName" onkeyup="Filter()" />
             </div>
 
             <div class="col-md-3">
                 <label for="txtSupplier">Supplier</label>
-                <input type="text" class="form_input bluebox" id="txtSupplier" onkeyup="Filter()" />
+                <input type="text" class="form_input" id="txtSupplier" onkeyup="Filter()" />
             </div>
 
             <div class="col-md-3">
                 <label for="cboBatch">Batch</label>
-                @Html.DropDownList("cboBatch", (SelectList)ViewBag.BatchList, "Any", new { @class = "form_input bluebox", @onchange = "Filter()" })
+                @Html.DropDownList("cboBatch", (SelectList)ViewBag.BatchList, "Any", new { @class = "form_input", @onchange = "Filter()" })
             </div>
         </div>
 
@@ -80,19 +56,20 @@
         @using (Html.BeginForm("Save", null, FormMethod.Post, new { @class = "createFrom", @id = "SupplyOrderFollowup_form" }))
         {
             <div class="row" id="grid">
-                @Html.Action("ItemList")
-            </div>
-            <div class="row">
-                <div class="col-md-12 hrpart">
-                    <button type="button" class="form-button right" onclick="Exit()">Exit</button>
-                    <button type="submit" class="form-button right">Save</button>
+                <div class="main-grid main-grid-top scroll1">
+                    <div class="table-responsive" id="work-description-table">
+                        @Html.Action("ItemList")
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12 hrpart">
+                            <button type="button" class="form-button right" onclick="Exit()">Exit</button>
+                            <button type="submit" class="form-button right">Save</button>
+                        </div>
+                    </div>
                 </div>
             </div>
-
         }
-
     </div>
-   
 </div>
 
 
