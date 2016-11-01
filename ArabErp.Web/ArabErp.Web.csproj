@@ -364,6 +364,12 @@
       <DependentUpon>JobCardQC.rpt</DependentUpon>
       <SubType>Component</SubType>
     </Compile>
+    <Compile Include="Reports\Material.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Material.rpt</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="Reports\PendingPARregister.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -1131,6 +1137,10 @@
     <EmbeddedResource Include="Reports\JobCardQC.rpt">
       <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
       <LastGenOutput>JobCardQC.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Reports\Material.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>Material.cs</LastGenOutput>
     </EmbeddedResource>
     <EmbeddedResource Include="Reports\PendingPARregister.rpt">
       <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>

@@ -1,10 +1,16 @@
-﻿using ArabErp.DAL;
-using ArabErp.Domain;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using ArabErp.DAL;
+using ArabErp.Domain;
+using System.Data.SqlClient;
+using CrystalDecisions.CrystalReports.Engine;
+using System.IO;
+using ArabErp.Web.Models;
+using System.Data;
+
 
 namespace ArabErp.Web.Controllers
 {
@@ -248,5 +254,105 @@ namespace ArabErp.Web.Controllers
         }
 
 
+        public ActionResult Print(string name)
+        {
+
+            ReportDocument rd = new ReportDocument();
+            rd.Load(Path.Combine(Server.MapPath("~/Reports"), "Material.rpt"));
+
+            DataSet ds = new DataSet();
+            ds.Tables.Add("Head");
+
+            ds.Tables.Add("Items");
+
+            //-------HEAD
+            
+            ds.Tables["Head"].Columns.Add("DoorNo");
+            ds.Tables["Head"].Columns.Add("Street");
+            ds.Tables["Head"].Columns.Add("State");
+            ds.Tables["Head"].Columns.Add("CountryName");
+            ds.Tables["Head"].Columns.Add("Zip");
+            ds.Tables["Head"].Columns.Add("Fax");
+            ds.Tables["Head"].Columns.Add("Email");
+            ds.Tables["Head"].Columns.Add("Phone");
+            ds.Tables["Head"].Columns.Add("ContactPerson");
+            ds.Tables["Head"].Columns.Add("CurrencyName");
+            ds.Tables["Head"].Columns.Add("OrganizationName");
+            ds.Tables["Head"].Columns.Add("Image1");
+
+            //-------DT
+            ds.Tables["Items"].Columns.Add("PartNo");
+            ds.Tables["Items"].Columns.Add("ItemName");
+            ds.Tables["Items"].Columns.Add("ItemCategoryName");
+            ds.Tables["Items"].Columns.Add("ItemGrpName");
+            ds.Tables["Items"].Columns.Add("ItemSubGrpName");
+            ds.Tables["Items"].Columns.Add("UOM");
+
+
+            OrganizationRepository repo = new OrganizationRepository();
+            var Head = repo.GetOrganization(OrganizationId);
+
+            DataRow dr = ds.Tables["Head"].NewRow();
+            
+            dr["DoorNo"] = Head.DoorNo;
+            dr["Street"] = Head.Street;
+            dr["State"] = Head.State;
+            dr["CountryName"] = Head.CountryName;
+            dr["Zip"] = Head.Zip;
+            dr["Fax"] = Head.Fax;
+            dr["Email"] = Head.Email;
+            dr["Phone"] = Head.Phone;
+            dr["ContactPerson"] = Head.ContactPerson;
+            //dr["CurrencyName"] = Head.CurrencyName;
+            dr["OrganizationName"] = Head.OrganizationName;
+            dr["Image1"] = Server.MapPath("~/App_images/") + Head.Image1;
+            ds.Tables["Head"].Rows.Add(dr);
+
+            ItemRepository repo1 = new ItemRepository();
+            var Items = repo1.GetItemsDTPrint(name);
+            foreach (var item in Items)
+            {
+                var pritem = new Item
+                {
+                    PartNo = item.PartNo,
+                    ItemName = item.ItemName,
+                    CategoryName = item.CategoryName,
+                    ItemGroupName = item.ItemGroupName,
+                    ItemSubGroupName = item.ItemSubGroupName,
+                    UnitName = item.UnitName,
+
+                };
+
+
+                DataRow dri = ds.Tables["Items"].NewRow();
+                dri["PartNo"] = pritem.PartNo;
+                dri["ItemName"] = pritem.ItemName;
+                dri["ItemCategoryName"] = pritem.CategoryName;
+                dri["ItemGrpName"] = pritem.ItemGroupName;
+                dri["ItemSubGrpName"] = pritem.ItemSubGroupName;
+                dri["UOM"] = pritem.UnitName;
+                ds.Tables["Items"].Rows.Add(dri);
+            }
+
+            ds.WriteXml(Path.Combine(Server.MapPath("~/XML"), "Material.xml"), XmlWriteMode.WriteSchema);
+
+            rd.SetDataSource(ds);
+
+            Response.Buffer = false;
+            Response.ClearContent();
+            Response.ClearHeaders();
+
+
+            try
+            {
+                Stream stream = rd.ExportToStream(CrystalDecisions.Shared.ExportFormatType.PortableDocFormat);
+                stream.Seek(0, SeekOrigin.Begin);
+                return File(stream, "application/pdf", String.Format("Material.pdf"));
+            }
+            catch (Exception ex)
+            {
+                throw;
+            }
+        }
     }
 }
