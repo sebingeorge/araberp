@@ -137,8 +137,8 @@
     }
 
     function formValidation() {
-        var date = $("#JobCardDate").val();
-        var required = $("#RequiredDate").val();
+        var date = new Date($("#JobCardDate").val());
+        var required = new Date($("#RequiredDate").val());
         if (date > required) {
             toastr.info("Required date cannot be less than Job Card date");
             return false;

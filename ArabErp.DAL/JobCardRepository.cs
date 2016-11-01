@@ -454,7 +454,7 @@ namespace ArabErp
                 //if (isProjectBased == 0)
                 //{
                 query = @"select S.SaleOrderId, SI.SaleOrderItemId,
-                    GETDATE() JobCardDate, C.CustomerId, C.CustomerName, S.CustomerOrderRef, V.VehicleModelName,
+                    JC.JobCardDate, C.CustomerId, C.CustomerName, S.CustomerOrderRef, V.VehicleModelName,
                     ''ChasisNoRegNo, W.WorkDescriptionId, W.WorkDescr as WorkDescription, '' WorkShopRequestRef, 
                     0 GoodsLanded, 0 BayId, W.FreezerUnitId FreezerUnitId, FU.ItemName FreezerUnitName, W.BoxId BoxId, B.ItemName BoxName, 
                     ISNULL(VI.RegistrationNo, '-') RegistrationNo, VI.VehicleInPassId InPassId, S.isProjectBased,

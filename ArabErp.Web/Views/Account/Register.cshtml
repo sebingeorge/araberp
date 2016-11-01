@@ -1,5 +1,5 @@
 ﻿@model ArabErp.Domain.User
-@{ Layout = "~/Views/Shared/_Layout.cshtml"; }
+@{ ViewBag.Title = "Register User"; Layout = "~/Views/Shared/_Layout.cshtml"; }
 @{
     int Id = 0;
     try
@@ -11,6 +11,37 @@
         
     }
 }
+
+<script type="text/javascript">
+
+    function ImageUpload(index) {
+        var xhr = new XMLHttpRequest();
+        var fd = new FormData();
+        var id = $("#UserId").val();
+        if (id != null && id != '' && id != 0 && id != undefined) {
+            fd.append("file", document.getElementById('File' + index).files[0]);
+            var url = '@Url.Action("UploadSignature", "Account")';
+            xhr.open("POST", url + "?id=" + id, true);
+            xhr.send(fd);
+            xhr.addEventListener("load", function (event) {
+                var temppath = event.target.response;
+                if (temppath != '0') {
+                    temppath = temppath.replace(/["']/g, "");
+                    //$("#childImagepath").val(event.target.response);
+                    $("#image_preview" + index).attr("src", "\\App_Images\\" + temppath);
+                }
+                else {
+                    toastr.error('Could not update to database. Please try again.');
+                }
+            }, false);
+        }
+        else {
+            toastr.info('Please save the employee before uploading signature')
+        }
+    }
+
+</script>
+
 @using (Html.BeginForm("Register", "Account", FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
 {
     @Html.AntiForgeryToken()
@@ -53,6 +84,7 @@
                             <li class=""><a data-toggle="tab" href="#menu1" aria-expanded="false">Alert Permissions</a></li>
                             <li class=""><a data-toggle="tab" href="#menu2" aria-expanded="false">Graph Permissions</a></li>
                             <li class=""><a data-toggle="tab" href="#menu3" aria-expanded="false">Company Wise Permissions</a></li>
+                            <li class=""><a data-toggle="tab" href="#menu4" aria-expanded="false">Signature</a></li>
                         </ul>
                         <div class="tab-content">
                             <div id="home" class="tab-pane fade active in">
@@ -180,6 +212,30 @@
                                                 }
                                             </tbody>
                                         </table>
+                                    </div>
+                                </div>
+                            </div>
+                            <div id="menu4" class="tab-pane fade ">
+                                @*<h5>Signature</h5>*@
+                                <br />
+                                <div class="row form-group">
+                                    <div class="col-md-2">
+                                        <div id="img_preview1" title="Photo Preview" style="padding-left:30px">
+                                            <p>
+                                                @if (Model.Signature == null || Model.Signature.Length == 0)
+                                                {
+                                                    <img src="\Images\default-signature.png" alt="Please upload image" id="image_preview1" class="image-upload img-rounded" />
+                                                }
+                                                else
+                                                {
+                                                    <img src="\App_Images\@Model.Signature" alt="Please upload image" id="image_preview1" class="image-upload img-rounded" />
+                                                }
+                                            </p>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3" style="padding-top:23px">
+                                        <input type="file" id="File1" class="button" />
+                                        <input type="button" class="form-button" id="Fileupload1" value="Upload" onclick="Javascript: ImageUpload(1);" title="Upload to database" />
                                     </div>
                                 </div>
                             </div>
