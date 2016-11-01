@@ -15,6 +15,7 @@ using System.Configuration;
 using System.Security.Cryptography;
 using System.Web.Security;
 using System.Text;
+using System.IO;
 
 namespace ArabErp.Web.Controllers
 {
@@ -79,7 +80,7 @@ namespace ArabErp.Web.Controllers
         {
         }
 
-        public AccountController(ApplicationUserManager userManager, ApplicationSignInManager signInManager )
+        public AccountController(ApplicationUserManager userManager, ApplicationSignInManager signInManager)
         {
             UserManager = userManager;
             SignInManager = signInManager;
@@ -91,9 +92,9 @@ namespace ArabErp.Web.Controllers
             {
                 return _signInManager ?? HttpContext.GetOwinContext().Get<ApplicationSignInManager>();
             }
-            private set 
-            { 
-                _signInManager = value; 
+            private set
+            {
+                _signInManager = value;
             }
         }
 
@@ -145,7 +146,7 @@ namespace ArabErp.Web.Controllers
 
             var user = (new UserRepository()).GetUserByUserNameAndPassword(model.Username, hashedPassword);
 
-            if(user == null || user.UserName == null)
+            if (user == null || user.UserName == null)
             {
                 FillOrganization();
                 ModelState.AddModelError("", "Invalid User name or Password. Please try again.");
@@ -229,7 +230,7 @@ namespace ArabErp.Web.Controllers
             // If a user enters incorrect codes for a specified amount of time then the user account 
             // will be locked out for a specified amount of time. 
             // You can configure the account lockout settings in IdentityConfig
-            var result = await SignInManager.TwoFactorSignInAsync(model.Provider, model.Code, isPersistent:  model.RememberMe, rememberBrowser: model.RememberBrowser);
+            var result = await SignInManager.TwoFactorSignInAsync(model.Provider, model.Code, isPersistent: model.RememberMe, rememberBrowser: model.RememberBrowser);
             switch (result)
             {
                 case SignInStatus.Success:
@@ -248,7 +249,7 @@ namespace ArabErp.Web.Controllers
         [AllowAnonymous]
         public ActionResult Register(int? Id)
         {
-            if((Id?? 0) == 0)
+            if ((Id ?? 0) == 0)
             {
                 User model = new User();
                 model.Module = new System.Collections.Generic.List<ModuleVsUser>();
@@ -258,7 +259,7 @@ namespace ArabErp.Web.Controllers
                 var modules = (new UserRepository()).GetModules(null);
                 var alerts = (new UserRepository()).GetAlerts(Id ?? 0);
                 var graphs = (new UserRepository()).GetGraphs(Id ?? 0);
-                var Company = (new UserRepository()).GetCompanyPermissions(Id??0);
+                var Company = (new UserRepository()).GetCompanyPermissions(Id ?? 0);
                 foreach (var item in modules)
                 {
                     model.Module.Add(item);
@@ -292,7 +293,7 @@ namespace ArabErp.Web.Controllers
                 var modules = (new UserRepository()).GetModules(Id);
                 var alerts = (new UserRepository()).GetAlerts(Id ?? 0);
                 var graphs = (new UserRepository()).GetGraphs(Id ?? 0);
-                var Company = (new UserRepository()).GetCompanyPermissions(Id??0);
+                var Company = (new UserRepository()).GetCompanyPermissions(Id ?? 0);
 
                 foreach (var item in modules)
                 {
@@ -311,8 +312,8 @@ namespace ArabErp.Web.Controllers
                     model.Companies.Add(item);
                 }
                 return View(model);
-            }           
-            
+            }
+
         }
 
         //
@@ -323,9 +324,9 @@ namespace ArabErp.Web.Controllers
         public async Task<ActionResult> Register(User model)
         {
             if (ModelState.IsValid)
-            {                
+            {
                 int res = 0;
-                if((model.UserId ?? 0) == 0)
+                if ((model.UserId ?? 0) == 0)
                 {
                     string salt = ConfigurationManager.AppSettings["salt"].ToString();
                     string saltpassword = String.Concat(salt, model.UserPassword);
@@ -333,13 +334,13 @@ namespace ArabErp.Web.Controllers
 
                     model.UserPassword = model.ConfirmPassword = hashedPassword;
                     model.UserSalt = salt;
-                    
+
                     res = (new UserRepository()).InsertUser(model);
                     TempData["Success"] = "Registered Successfully!";
                 }
                 else
                 {
-                    if(model.UserPassword != null && model.UserPassword != "")
+                    if (model.UserPassword != null && model.UserPassword != "")
                     {
                         string salt = ConfigurationManager.AppSettings["salt"].ToString();
                         string saltpassword = String.Concat(salt, model.UserPassword);
@@ -350,7 +351,7 @@ namespace ArabErp.Web.Controllers
                     }
                     res = (new UserRepository()).UpdateUser(model);
                 }
-                if(res > 0)
+                if (res > 0)
                 {
                     return RedirectToAction("UserList");
                 }
@@ -585,34 +586,34 @@ namespace ArabErp.Web.Controllers
             return RedirectToAction("Login", "Account");
         }
 
-       private void SignOff()
+        private void SignOff()
         {
             UserRepository repo = new UserRepository();
             string sessionid = Session.SessionID;
             repo.UpdateLoginHistory(sessionid);
-         
+
             Session.Abandon();
             UnsetAuthorizationCookie(HttpContext.Response, HttpContext.Request.Cookies);
         }
-       private void UnsetAuthorizationCookie(HttpResponseBase httpresponsebase, HttpCookieCollection cookiecollection)
-       {
-           HttpCookie authCookie = cookiecollection[FormsAuthentication.FormsCookieName];
-           if (authCookie != null)
-           {
-               cookiecollection.Remove(FormsAuthentication.FormsCookieName);
-               authCookie.Expires = DateTime.Now.AddDays(-10);
-               authCookie.Value = null;
-               httpresponsebase.SetCookie(authCookie);
-           }
-           HttpCookie userCookie = cookiecollection["userCookie"];
-           if (userCookie != null)
-           {
-               cookiecollection.Remove("userCookie");
-               userCookie.Expires = DateTime.Now.AddDays(-10);
-               userCookie.Value = null;
-               httpresponsebase.SetCookie(userCookie);
-           }
-       }
+        private void UnsetAuthorizationCookie(HttpResponseBase httpresponsebase, HttpCookieCollection cookiecollection)
+        {
+            HttpCookie authCookie = cookiecollection[FormsAuthentication.FormsCookieName];
+            if (authCookie != null)
+            {
+                cookiecollection.Remove(FormsAuthentication.FormsCookieName);
+                authCookie.Expires = DateTime.Now.AddDays(-10);
+                authCookie.Value = null;
+                httpresponsebase.SetCookie(authCookie);
+            }
+            HttpCookie userCookie = cookiecollection["userCookie"];
+            if (userCookie != null)
+            {
+                cookiecollection.Remove("userCookie");
+                userCookie.Expires = DateTime.Now.AddDays(-10);
+                userCookie.Value = null;
+                httpresponsebase.SetCookie(userCookie);
+            }
+        }
         //
         // GET: /Account/ExternalLoginFailure
         [AllowAnonymous]
@@ -639,6 +640,19 @@ namespace ArabErp.Web.Controllers
             }
 
             base.Dispose(disposing);
+        }
+
+        [HttpPost]
+        [AllowAnonymous]
+        public ActionResult UploadSignature(HttpPostedFileBase file, int? id)
+        {
+            string fileName = Guid.NewGuid().ToString() + Path.GetExtension(file.FileName);
+            string qualifiedName = Server.MapPath("~/App_Images/") + fileName;
+            file.SaveAs(qualifiedName);
+            if (new UserRepository().UpdateSignature(fileName, id??0) > 0)
+                return Json(fileName, JsonRequestBehavior.AllowGet);
+            else
+                return Json("0", JsonRequestBehavior.AllowGet);
         }
 
         #region Helpers

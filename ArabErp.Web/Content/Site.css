@@ -1175,3 +1175,8 @@ section.content {
 .report-highlight {
     color: red;
 }
+
+.image-upload {
+    width: 150px;
+    height: 100px;
+}

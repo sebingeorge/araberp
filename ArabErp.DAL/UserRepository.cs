@@ -220,7 +220,7 @@ namespace ArabErp.DAL
                 ,[UserPassword]
                 ,[UserSalt]
                 ,[UserRole]
-                
+                ,[Signature]
                 FROM[dbo].[User] U Where U.UserId=" + Id;
                 return connection.Query<User>(sql).FirstOrDefault();
             }
@@ -296,6 +296,15 @@ namespace ArabErp.DAL
                                 from mstAccCompany
                                 left join CompanyVsUser CU on mstAccCompany.cmpCode=CU.cmpCode and CU.UserId = " + UserId.ToString();
                 return connection.Query<CompanyVsUser>(sql);
+            }
+        }
+
+        public int UpdateSignature(string fileName, int id)
+        {
+            using (IDbConnection connection = OpenConnection(dataConnection))
+            {
+                string query = @"UPDATE [User] SET [Signature] = @fileName WHERE UserId = @id";
+                return connection.Execute(query, new { fileName = fileName, id = id });
             }
         }
     }
