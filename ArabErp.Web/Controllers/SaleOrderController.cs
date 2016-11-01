@@ -833,6 +833,7 @@ namespace ArabErp.Web.Controllers
             ds.Tables["Head"].Columns.Add("Email");
             ds.Tables["Head"].Columns.Add("Phone");
             ds.Tables["Head"].Columns.Add("ContactPerson");
+            ds.Tables["Head"].Columns.Add("CurrencyName");
             ds.Tables["Head"].Columns.Add("OrganizationName");
             ds.Tables["Head"].Columns.Add("Image1");
 
@@ -871,6 +872,7 @@ namespace ArabErp.Web.Controllers
             dr["Email"] = Head.Email;
             dr["Phone"] = Head.Phone;
             dr["ContactPerson"] = Head.ContactPerson;
+            dr["CurrencyName"] = Head.CurrencyName;
             dr["OrganizationName"] = Head.OrganizationName;
             dr["Image1"] = Server.MapPath("~/App_images/") + Head.Image1;
             ds.Tables["Head"].Rows.Add(dr);
