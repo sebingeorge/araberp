@@ -255,7 +255,8 @@ namespace ArabErp.Web.Controllers
 
 
         public ActionResult Print(string name)
-        {
+        
+      {
 
             ReportDocument rd = new ReportDocument();
             rd.Load(Path.Combine(Server.MapPath("~/Reports"), "Material.rpt"));
