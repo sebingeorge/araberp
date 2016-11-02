@@ -809,8 +809,8 @@ namespace ArabErp.Web.Controllers
             ds.Tables.Add("Items");
 
             //-------HEAD
-            ds.Tables["Head"].Columns.Add("SaleOrderRefNo");
-            ds.Tables["Head"].Columns.Add("SaleOrderDate");
+         
+            ds.Tables["Head"].Columns.Add("SaleOrderNoDate");
             ds.Tables["Head"].Columns.Add("QuotationNoDate");
             ds.Tables["Head"].Columns.Add("CustomerName");
             ds.Tables["Head"].Columns.Add("CustomerAddress");
@@ -849,8 +849,8 @@ namespace ArabErp.Web.Controllers
             var Head = repo.GetSaleOrderHD(Id, OrganizationId);
 
             DataRow dr = ds.Tables["Head"].NewRow();
-            dr["SaleOrderRefNo"] = Head.SaleOrderRefNo;
-            dr["SaleOrderDate"] = Head.SaleOrderDate.ToString("dd-MMM-yyyy");
+      
+            dr["SaleOrderNoDate"] = Head.SaleOrderNoDate;
             dr["QuotationNoDate"] = Head.QuotationNoDate;
             dr["CustomerName"] = Head.CustomerName;
             dr["CustomerAddress"] = Head.CustomerAddress;
@@ -860,11 +860,11 @@ namespace ArabErp.Web.Controllers
             dr["DeliveryTerms"] = Head.DeliveryTerms;
             dr["CommissionAgentName"] = Head.CommissionAgentName;
             dr["CommissionAmount"] = Head.CommissionAmount;
-            dr["SalesExecutiveId"] = Head.SalesExecutiveId;
+            dr["SalesExecutiveId"] = Head.SalesExecutiveName;
             dr["EDateArrival"] = Head.EDateArrival.ToString("dd-MMM-yyyy");
             dr["EDateDelivery"] = Head.EDateDelivery.ToString("dd-MMM-yyyy");
             dr["DoorNo"] = Head.DoorNo;
-             dr["Street"] = Head.Street;
+            dr["Street"] = Head.Street;
             dr["State"] = Head.State;
             dr["CountryName"] = Head.CountryName;
             dr["Zip"] = Head.Zip;

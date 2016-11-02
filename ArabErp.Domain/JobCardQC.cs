@@ -20,6 +20,8 @@ namespace ArabErp.Domain
         public string EmployeeName { get; set; }
         public DateTime JobCardQCDate { get; set; }
         public bool IsQCPassed { get; set; }
+
+        public string QCPassed { get; set; }
         public bool IsUsed { get; set; }
         public string CreatedBy { get; set; }
         public DateTime? CreatedDate { get; set; }
