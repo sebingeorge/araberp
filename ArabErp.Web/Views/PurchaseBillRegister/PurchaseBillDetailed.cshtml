@@ -1,6 +1,6 @@
 ﻿
 @{
-    ViewBag.Title = "PurchaseBillDetailed";
+    ViewBag.Title = "Purchase Bill Detailed";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
@@ -30,6 +30,15 @@
         var url = '@Url.Action("Index", "Home")';
         window.location = url;
     }
+
+    function PrintAsHtml() {
+        var divToPrint = document.getElementById("purchase-bill-detailed");
+        newWin = window.open("");
+        newWin.document.write('<link href="/Content/bootstrap.css" rel="stylesheet">' + divToPrint.outerHTML);
+        //newWin.print();
+        //newWin.close();
+    }
+
 </script>
 <div class="row">
 
@@ -71,6 +80,7 @@
         <div class="row">
             <div class="col-md-12 hrpart">
                 <input type="button" class="form-button right" value="Exit" onclick="Exit()" />
+                <input type="button" class="form-button right" value="Print" onclick="PrintAsHtml()" />
             </div>
         </div>
     </div>
