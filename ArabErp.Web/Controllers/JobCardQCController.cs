@@ -242,10 +242,12 @@ namespace ArabErp.Web.Controllers
             ds.Tables.Add("Items");
 
             //-------HEAD
-            ds.Tables["Head"].Columns.Add("JobCardQCRefNo");
-            ds.Tables["Head"].Columns.Add("JobCardNo");
-            ds.Tables["Head"].Columns.Add("JcDate");
-            ds.Tables["Head"].Columns.Add("JobCardQCDate");
+            ds.Tables["Head"].Columns.Add("JobCardQCNoDate");
+            ds.Tables["Head"].Columns.Add("JobCardNoDate");
+            //ds.Tables["Head"].Columns.Add("JobCardQCRefNo");
+            //ds.Tables["Head"].Columns.Add("JobCardNo");
+            //ds.Tables["Head"].Columns.Add("JcDate");
+            //ds.Tables["Head"].Columns.Add("JobCardQCDate");
             ds.Tables["Head"].Columns.Add("Customer");
             ds.Tables["Head"].Columns.Add("VehicleModel");
             ds.Tables["Head"].Columns.Add("EmployeeName");
@@ -272,10 +274,10 @@ namespace ArabErp.Web.Controllers
             var Head = repo.GetJobCardQCHDPrint(Id, OrganizationId);
 
             DataRow dr = ds.Tables["Head"].NewRow();
-            dr["JobCardQCRefNo"] = Head.JobCardQCRefNo;
-            dr["JobCardNo"] = Head.JobCardNo;
-            dr["JcDate"] = Head.JcDate.ToString("dd-MMM-yyyy"); ;
-            dr["JobCardQCDate"] = Head.JobCardQCDate.ToString("dd-MMM-yyyy"); ;
+            dr["JobCardQCNoDate"] = Head.JobCardQCNoDate;
+            dr["JobCardNoDate"] = Head.JobCardNoDate;
+           // dr["JcDate"] = Head.JcDate.ToString("dd-MMM-yyyy"); ;
+           // dr["JobCardQCDate"] = Head.JobCardQCDate.ToString("dd-MMM-yyyy"); ;
             dr["Customer"] = Head.Customer;
             dr["VehicleModel"] = Head.VehicleModel;
             dr["EmployeeName"] = Head.EmployeeName;

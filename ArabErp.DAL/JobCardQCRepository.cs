@@ -210,9 +210,11 @@ namespace ArabErp.DAL
 
             using (IDbConnection connection = OpenConnection(dataConnection))
             {
-                string sql = @"SELECT O.*, JobCardQCId,JobCardQCRefNo,J.JobCardNo,J.JobCardDate JcDate,JQ.JobCardId,
+                string sql = @"SELECT O.*, JobCardQCId,J.JobCardNo,JQ.JobCardId,
                                 C.CustomerName Customer,V.VehicleModelName VehicleModel,Employeename, ORR.CountryName,
-                                JobCardQCDate,IsQCPassed,ISNULL(DC.JobCardId,0)IsUsed ,IsQCPassed QCPassed
+                                IsQCPassed,ISNULL(DC.JobCardId,0)IsUsed ,IsQCPassed QCPassed,
+								CONCAT(JobCardQCRefNo,' - ',CONVERT (VARCHAR(15),JobCardQCDate,106))JobCardQCNoDate,  
+	                            CONCAT(JobCardNo,' - ',CONVERT (VARCHAR(15), JobCardDate,106))JobCardNoDate
                                 FROM JobCardQC JQ
 						        Left JOIN Employee E ON E.EmployeeId=JQ.EmployeeId
                                 INNER JOIN JobCard J ON J.JobCardId=JQ.JobCardId
