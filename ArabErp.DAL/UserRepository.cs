@@ -5,6 +5,7 @@ using System.Data.SqlClient;
 using Dapper;
 using ArabErp.Domain;
 using System.Data;
+using System.Collections;
 
 namespace ArabErp.DAL
 {
@@ -59,11 +60,38 @@ namespace ArabErp.DAL
                             connection.Query(sql, item);
                         }
                     }
+                    InsertFormPermission(user.Forms, id);
                     InsertLoginHistory(dataConnection, user.CreatedBy, "Create", "Unit", id.ToString(), "0");
                     return id;
                 }
                 catch (Exception ex)
                 {
+                    return 0;
+                }
+            }
+        }
+
+        private int InsertFormPermission(List<FormsVsUser> Forms, int UserId)
+        {
+            using (IDbConnection connection = OpenConnection(dataConnection))
+            {
+                IDbTransaction txn = connection.BeginTransaction();
+                try
+                {
+                    string query = @"DELETE FROM UserVsForms WHERE UserId = @UserId";
+                    connection.Execute(query, new { UserId = UserId }, txn);
+                    query = @"INSERT INTO UserVsForms (UserId, FormId)
+                              VALUES (@UserId, @FormId)";
+                    foreach (var item in Forms)
+                    {
+                        connection.Execute(query, new { UserId = UserId, FormId = item.FormId }, txn);
+                    }
+                    txn.Commit();
+                    return 1;
+                }
+                catch
+                {
+                    txn.Rollback();
                     return 0;
                 }
             }
@@ -126,6 +154,7 @@ namespace ArabErp.DAL
                             connection.Query(sql, item);
                         }
                     }
+                    InsertFormPermission(user.Forms, user.UserId ?? 0);
                 }
                 catch
                 {
@@ -226,7 +255,7 @@ namespace ArabErp.DAL
             }
         }
 
-        public IEnumerable<User>  GetUserAndModuleInfoList()
+        public IEnumerable<User> GetUserAndModuleInfoList()
         {
             using (IDbConnection connection = OpenConnection(dataConnection))
             {
@@ -305,6 +334,34 @@ namespace ArabErp.DAL
             {
                 string query = @"UPDATE [User] SET [Signature] = @fileName WHERE UserId = @id";
                 return connection.Execute(query, new { fileName = fileName, id = id });
+            }
+        }
+
+        public IEnumerable<FormPermission> GetFormPermissions(int UserId)
+        {
+            using (IDbConnection connection = OpenConnection(dataConnection))
+            {
+                string query = @"SELECT F.FormId FROM Forms F
+                                INNER JOIN UserVsForms UF ON F.FormId = UF.FormId 
+                                WHERE UserId = @UserId";
+                return connection.Query<FormPermission>(query, new { UserId = UserId });
+            }
+        }
+
+        public IEnumerable<FormsVsUser> GetFormsVsUser(int UserId)
+        {
+            using (IDbConnection connection = OpenConnection(dataConnection))
+            {
+                string query = @"SELECT
+	                                F.FormId,
+	                                F.FormName,
+	                                F.ModuleId,
+	                                M.ModuleName,
+	                                CASE WHEN UserId IS NULL THEN 0 ELSE 1 END AS hasPermission
+                                FROM Forms F
+	                                LEFT JOIN UserVsForms UF ON F.FormId = UF.FormId AND UserId = @UserId
+	                                INNER JOIN Module M ON F.ModuleId = M.ModuleId";
+                return connection.Query<FormsVsUser>(query, new { UserId = UserId });
             }
         }
     }

@@ -78,6 +78,7 @@
     <Compile Include="ExpenseBill.cs" />
     <Compile Include="FGTracking.cs" />
     <Compile Include="FinancialYear.cs" />
+    <Compile Include="FormsVsUser.cs" />
     <Compile Include="GINRegister.cs" />
     <Compile Include="GRNAddition.cs" />
     <Compile Include="GRNDeduction.cs" />

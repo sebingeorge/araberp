@@ -16,6 +16,7 @@ using System.Security.Cryptography;
 using System.Web.Security;
 using System.Text;
 using System.IO;
+using System.Collections.Generic;
 
 namespace ArabErp.Web.Controllers
 {
@@ -68,6 +69,12 @@ namespace ArabErp.Web.Controllers
                     }
                 }
                 ViewBag.ModulePermissions = permission;
+
+                if (Session["formPermission"] == null)
+                {
+                    IEnumerable<FormPermission> formPermission = repo.GetFormPermissions(Id);
+                    Session["formPermission"] = formPermission;
+                }
             }
             catch
             {
@@ -260,6 +267,7 @@ namespace ArabErp.Web.Controllers
                 var alerts = (new UserRepository()).GetAlerts(Id ?? 0);
                 var graphs = (new UserRepository()).GetGraphs(Id ?? 0);
                 var Company = (new UserRepository()).GetCompanyPermissions(Id ?? 0);
+                model.Forms = new UserRepository().GetFormsVsUser(Id ?? 0).ToList();
                 foreach (var item in modules)
                 {
                     model.Module.Add(item);
@@ -294,6 +302,7 @@ namespace ArabErp.Web.Controllers
                 var alerts = (new UserRepository()).GetAlerts(Id ?? 0);
                 var graphs = (new UserRepository()).GetGraphs(Id ?? 0);
                 var Company = (new UserRepository()).GetCompanyPermissions(Id ?? 0);
+                model.Forms = new UserRepository().GetFormsVsUser(Id ?? 0).ToList();
 
                 foreach (var item in modules)
                 {
@@ -335,6 +344,8 @@ namespace ArabErp.Web.Controllers
                     model.UserPassword = model.ConfirmPassword = hashedPassword;
                     model.UserSalt = salt;
 
+                    model.Forms = model.Forms.Where(x => x.hasPermission).ToList();
+
                     res = (new UserRepository()).InsertUser(model);
                     TempData["Success"] = "Registered Successfully!";
                 }
@@ -349,6 +360,7 @@ namespace ArabErp.Web.Controllers
                         model.UserPassword = model.ConfirmPassword = hashedPassword;
                         model.UserSalt = salt;
                     }
+                    model.Forms = model.Forms.Where(x => x.hasPermission).ToList();
                     res = (new UserRepository()).UpdateUser(model);
                 }
                 if (res > 0)
