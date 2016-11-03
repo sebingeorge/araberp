@@ -108,7 +108,9 @@
     <Reference Include="System.Web.Entity" />
     <Reference Include="System.Web.ApplicationServices" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
-    <Reference Include="System.Core" />
+    <Reference Include="System.Core">
+      <Private>True</Private>
+    </Reference>
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="System.Web.Helpers, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
@@ -345,6 +347,12 @@
       <SubType>Component</SubType>
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>
+    </Compile>
+    <Compile Include="Reports\Grn.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Grn.rpt</DependentUpon>
+      <SubType>Component</SubType>
     </Compile>
     <Compile Include="Reports\ItemSellingPrice.cs">
       <AutoGen>True</AutoGen>
@@ -1125,6 +1133,10 @@
     <EmbeddedResource Include="Reports\DeliveryChallan.rpt">
       <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
       <LastGenOutput>DeliveryChallan.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Reports\Grn.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>Grn.cs</LastGenOutput>
     </EmbeddedResource>
     <EmbeddedResource Include="Reports\ItemSellingPrice.rpt">
       <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>

@@ -767,19 +767,83 @@ namespace ArabErp.DAL
             using (IDbConnection connection = OpenConnection(dataConnection))
             {
 
-                string qry = @" SELECT O.*, GRNId,GRNNo,GRNDate,S.SupplierName Supplier,''SONODATE,VehicleNo,GatePassNo,
-                               GrandTotal,ReceivedBy,S.SupplierId SupplierId,G.CurrencyId CurrencyId,C.CurrencyName, ORR.CountryName
-                               FROM GRN G INNER JOIN Supplier S ON S.SupplierId=G.SupplierId
-                               INNER JOIN Stockpoint SP On SP.StockPointId=G.WareHouseId
-                               INNER JOIN Currency C On C.CurrencyId=G.CurrencyId
-                               INNER JOIN Organization O ON O.OrganizationId=S.OrganizationId
-                               inner  JOIN Country ORR ON ORR.CountryId=O.Country
-                               WHERE G.GRNId=" + GRNId.ToString();
+                string qry = @" DECLARE @isUsed BIT = 0;
+                                IF EXISTS(SELECT GRNItemId FROM GRNItem WHERE GRNId = 8120 AND GRNItemId IN (SELECT GRNItemId FROM PurchaseBillItem))
+	                                SET @isUsed = 1;
+                                ELSE IF EXISTS(SELECT GRNItemId FROM GRNItem WHERE GRNId = 8120 AND GRNItemId IN (SELECT GRNItemId FROM ItemBatch))
+	                                SET @isUsed = 1;
+
+                                SELECT O.*,Cu.CurrencyName OrgCurrency,ORR.CountryName OrgCountryName,GRNNo,GRNDate,S.SupplierName Supplier,''SONODATE,VehicleNo,GatePassNo,
+                                     GrandTotal,EmployeeName EmpReceivedBy,
+                                     SpecialRemarks,WareHouseId StockPointId,StockPointName,SupplierDCNoAndDate,
+                                     S.SupplierId SupplierId,G.CurrencyId CurrencyId,C.CurrencyName,
+				                     @isUsed isUsed
+                                     FROM GRN G
+                                     INNER JOIN Supplier S ON S.SupplierId=G.SupplierId
+                                     INNER JOIN Stockpoint SP On SP.StockPointId=G.WareHouseId
+                                     INNER JOIN Currency C On C.CurrencyId=G.CurrencyId
+                                    INNER JOIN Organization O ON O.OrganizationId=S.OrganizationId
+		                            inner join employee on employeeid=ReceivedBy
+                                    left  JOIN Country ORR ON ORR.CountryId=O.Country
+							        Left Join Currency CU on CU.CurrencyId=O.CurrencyId
+                                WHERE G.GRNId=" + GRNId.ToString();
 
                 GRN workshoprequest = connection.Query<GRN>(qry, new { OrganizationId = OrganizationId }).FirstOrDefault();
                 return workshoprequest;
             }
         }
 
+
+        public List<GRNItem> GetGRNItemsPrintDT(int GRNId)
+        {
+            using (IDbConnection connection = OpenConnection(dataConnection))
+            {
+                string query = "CREATE TABLE #TEMP(GRNId INT,SupplyOrderItemId INT,ItemId INT,";
+                query += " ItemName VARCHAR(500),PartNo  VARCHAR(500),";
+                query += " BALANCEQTY INT,AcceptedQuantity  INT,RejectedQuantity INT,";
+                query += " Unit VARCHAR(500),Rate DECIMAL(18,3),Discount DECIMAL(18,3),";
+                query += " Amount DECIMAL(18,3),Remarks VARCHAR(5000),GRNQTY INT,PendingQuantity INT,ReceivedQuantity INT)";
+
+                query += " INSERT INTO #TEMP (GRNId,SupplyOrderItemId, ItemId,ItemName ,PartNo,";
+                query += " BALANCEQTY,AcceptedQuantity,RejectedQuantity,";
+                query += " Unit,Rate,Discount,Amount,Remarks,GRNQTY,PendingQuantity,ReceivedQuantity)";
+
+                query += " SELECT GRNId,G.SupplyOrderItemId,I.ItemId,I.ItemName,I.PartNo,";
+                query += " sum(isnull(S.OrderedQty,0))-isnull((select sum(ISNULL(A.Quantity,0)) ";
+                query += " FROM GRNItem A where S.SupplyOrderItemId=A.SupplyOrderItemId),0) BALANCEQTY,";
+                query += " sum(Quantity) AcceptedQuantity,(isnull(G.ReceivedQty,0)-isnull(Quantity,0)) RejectedQuantity,";
+                query += " U.UnitName Unit,G.Rate,G.Discount,G.Amount,Remarks,0 GRNQTY,0 PendingQuantity,sum(G.ReceivedQty)";
+                query += " FROM GRNItem G";
+                query += " INNER JOIN SupplyOrderItem S ON S.SupplyOrderItemId=G.SupplyOrderItemId";
+                query += " INNER JOIN Item I ON I.ItemId=G.ItemId";
+                query += " INNER JOIN Unit U ON U.UnitId=I.ItemUnitId";
+                query += " WHERE G.GRNId = " + GRNId.ToString();
+                query += " GROUP BY GRNId,G.SupplyOrderItemId,I.ItemId,I.ItemName,I.PartNo,";
+                query += " G.ReceivedQty,G.Quantity,U.UnitName,G.Rate,G.Discount,G.Amount,Remarks,S.SupplyOrderItemId";
+                query += " UPDATE #TEMP SET GRNQTY=(SELECT (SUM(G1.Quantity)) ";
+                query += " FROM GRNItem G1 where #TEMP.SupplyOrderItemId=G1.SupplyOrderItemId and G1.GRNId=" + GRNId.ToString();
+                query += " GROUP BY G1.SupplyOrderItemId)";
+
+                query += " UPDATE #TEMP SET PendingQuantity=BALANCEQTY+GRNQTY";
+
+                query += " SELECT * FROM #TEMP";
+                //string query = " SELECT GRNId,G.SupplyOrderItemId,I.ItemId,I.ItemName,I.PartNo,";
+                //      query += " (sum(S.OrderedQty-G.Quantity )+G.Quantity)PendingQuantity,";
+                //      query += " sum(G.ReceivedQty) ReceivedQuantity,sum(Quantity) AcceptedQuantity,";
+                //      query += " (isnull(G.ReceivedQty,0)-isnull(Quantity,0)) RejectedQuantity,";
+                //      query += " U.UnitName Unit,G.Rate,G.Discount,G.Amount,Remarks";
+                //      query += " FROM GRNItem G";
+                //      query += " INNER JOIN SupplyOrderItem S ON S.SupplyOrderItemId=G.SupplyOrderItemId";
+                //      query += " INNER JOIN Item I ON I.ItemId=G.ItemId";
+                //      query += " INNER JOIN Unit U ON U.UnitId=I.ItemUnitId";
+                //      query += " WHERE G.GRNId = " + GRNId.ToString();
+                //      query += " GROUP BY GRNId,G.SupplyOrderItemId,I.ItemId,I.ItemName,I.PartNo,";
+                //      query += " G.ReceivedQty,G.Quantity,U.UnitName,G.Rate,G.Discount,G.Amount,Remarks";
+
+                return connection.Query<GRNItem>(query).ToList();
+
+
+            }
+        }
     }
 }
