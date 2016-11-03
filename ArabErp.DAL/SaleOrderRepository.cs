@@ -594,7 +594,7 @@ namespace ArabErp.DAL
             using (IDbConnection connection = OpenConnection(dataConnection))
             {
                 string sql = string.Empty;
-                sql += " select SO.SaleOrderId, SaleOrderRefNo, SaleOrderDate, CustomerName, SO.SpecialRemarks, SO.EDateArrival, SO.EDateDelivery";
+                sql += " select SO.SaleOrderId, SaleOrderRefNo, CONVERT(VARCHAR, SaleOrderDate, 106)SaleOrderDate, CustomerName, SO.SpecialRemarks, CONVERT(VARCHAR, SO.EDateArrival, 106)EDateArrival, CONVERT(VARCHAR, SO.EDateDelivery, 106)EDateDelivery";
                 sql += " from SaleOrder SO";
                 sql += " inner join SalesInvoice SI on SO.SaleOrderId = SI.SaleOrderId";
                 sql += " inner join Customer C on C.CustomerId = SO.CustomerId";
@@ -699,47 +699,27 @@ namespace ArabErp.DAL
             {
 
 
-                string sql = @" SELECT 
+                string sql = @"  SELECT 
 									 OrganizationName,O.DoorNo,O.Street,O.State,O.Phone,O.Fax,O.Email,O.Zip,O.Image1,O.ContactPerson,
 	                                SaleOrderId,
-	                                SaleOrderRefNo,
-	                                SaleOrderDate,
+	                                CONCAT(SaleOrderRefNo,' - ',CONVERT (VARCHAR(15),SaleOrderDate,106))SaleOrderNoDate, 
 	                                CONCAT(QuotationRefNo,' - ',CONVERT (VARCHAR(15),QuotationDate,106))QuotationNoDate,  
                                     C.CustomerId,
 	                                CustomerName,
 	                                isnull(O.DoorNo,'') +','+ isnull(O.Street,'')+','+isnull(O.State,'') CustomerAddress,
-	                                CustomerOrderRef,
-	                                S.CurrencyId,
-	                                SpecialRemarks,
-	                                S.PaymentTerms,
-	                                DeliveryTerms,
-									CA.CommissionAgentName,
-	                                CommissionAmount,
-	                                TotalAmount,
-	                                TotalDiscount,
-	                                S.SalesExecutiveId,
-	                                EDateArrival,
-	                                EDateDelivery,
-	                                SaleOrderApproveStatus,
-	                                SaleOrderHoldStatus,
-	                                SaleOrderHoldReason,
-	                                SaleOrderHoldDate,
-	                                SaleOrderReleaseDate,
-	                                S.SalesQuotationId,
-	                                SaleOrderClosed,
-	                                S.isProjectBased,
-	                                CUR.CurrencyName,
-	                                S.isAfterSales,
-                                    ORR.CountryName
-
-                                FROM SaleOrder S 
+	                                CustomerOrderRef, S.CurrencyId,SpecialRemarks, S.PaymentTerms,DeliveryTerms,CA.CommissionAgentName,
+									CommissionAmount,TotalAmount,TotalDiscount,EDateArrival, EDateDelivery, SaleOrderApproveStatus,
+								    SaleOrderHoldStatus,SaleOrderHoldReason,SaleOrderHoldDate,SaleOrderReleaseDate,S.SalesQuotationId,SaleOrderClosed, 
+									S.isProjectBased, CUR.CurrencyName,S.isAfterSales, ORR.CountryName,E.EmployeeName SalesExecutiveName
+                                    FROM SaleOrder S 
 									LEFT JOIN CommissionAgent CA ON S.CommissionAgentId=CA.CommissionAgentId
 									INNER JOIN Organization O ON O.OrganizationId=S.OrganizationId
 	                                INNER JOIN Customer C ON S.CustomerId=C.CustomerId  
                                     inner  JOIN Country ORR ON ORR.CountryId=O.Country
+									LEFT JOIN Employee E ON e.EmployeeId=S.SalesExecutiveId
 	                                LEFT JOIN Currency CUR ON S.CurrencyId = CUR.CurrencyId
 	                                LEFT JOIN SalesQuotation SQ ON SQ.SalesQuotationId=S.SalesQuotationId
-                                WHERE SaleOrderId=@SaleOrderId";
+                                    WHERE SaleOrderId=@SaleOrderId";
 
                 var objSaleOrder = connection.Query<SaleOrder>(sql, new
                 {

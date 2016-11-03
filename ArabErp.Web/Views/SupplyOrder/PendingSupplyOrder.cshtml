@@ -7,26 +7,6 @@
 
 <script type="text/javascript">
 
-    $(document).ready(function () {
-        toastr.options = {
-            "closeButton": true,
-            "positionClass": "toast-bottom-full-width",
-            "showDuration": "300",
-            "hideDuration": "1000",
-            "timeOut": "0",
-            "extendedTimeOut": "1000"
-        }
-        if ('@TempData["success"]' != '') {
-            toastr.success('@TempData["success"]');
-
-        }
-        else if ('@TempData["error"]' != '') {
-            toastr.error('@TempData["error"]'.split('|')[0]);
-            console.log('@TempData["error"]'.split('|')[1]);
-        }
-        @{TempData["success"] = TempData["error"] = "";}
-    });
-
     function PreviousList() {
         var url = '@Url.Action("Index")';
         window.location = url;

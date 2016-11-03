@@ -264,5 +264,44 @@ namespace ArabErp.DAL
                 new { itemId = itemId }).First<string>();
             }
         }
+
+
+        public List<Item> GetItemsDTPrint(string name)
+        {
+            using (IDbConnection connection = OpenConnection(dataConnection))
+            {
+                string sql = @" SELECT ItemId,PartNo,ItemName,CategoryName,ItemGroupName,ItemSubGroupName,UnitName FROM Item I
+                               INNER JOIN ItemCategory ON itmCatId=ItemCategoryId
+                               INNER JOIN ItemGroup G ON I.ItemGroupId=G.ItemGroupId
+                               INNER JOIN ItemSubGroup S ON I.ItemSubGroupId=S.ItemSubGroupId
+                               INNER JOIN Unit U ON U.UnitId=I.ItemUnitId
+                               WHERE I.isActive=1 AND ItemName LIKE '%'+@name+'%'";
+
+                var objItems = connection.Query<Item>(sql, new { name=name}).ToList<Item>();
+
+                return objItems;
+            }
+        }
+
+
+
+        public List<Item> GetItemsHDPrint(int organizationId)
+        {
+            using (IDbConnection connection = OpenConnection(dataConnection))
+            {
+
+
+                string sql = @" SELECT 
+									OrganizationName,O.DoorNo,O.Street,O.State,O.Phone,O.Fax,O.Email,O.Zip,O.Image1,O.ContactPerson,
+                                    ORR.CountryName FROM Organization O
+								    inner  JOIN Country ORR ON ORR.CountryId=O.Country
+	                                LEFT JOIN Currency CUR ON O.CurrencyId = CUR.CurrencyId
+                                    where O.OrganizationId=OrganizationId ";
+
+                return connection.Query<Item>(sql, new { organizationId = organizationId }).ToList();
+
+               
+            }
+        }
     }
 }

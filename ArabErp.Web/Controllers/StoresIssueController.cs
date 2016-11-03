@@ -213,7 +213,7 @@ namespace ArabErp.Web.Controllers
 
             DataRow dr = ds.Tables["Head"].NewRow();
             dr["StoreIssueRefNo"] = Head.StoreIssueRefNo;
-            dr["StoreIssueDate"] = Head.StoreIssueDate;
+            dr["StoreIssueDate"] = Head.StoreIssueDate.ToString("dd-MMM-yyyy");
             dr["StockpointName"] = Head.StockpointName;
             dr["CustomerName"] = Head.CustomerName;
             dr["WONODATE"] = Head.WONODATE;

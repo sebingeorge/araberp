@@ -4,14 +4,14 @@
 <script>
 
     function Exit() {
-        location.href = '@Url.Action("PreviousList")';
+        location.href = '@Url.Action("Index")';
     }
 
     function Delete(id) {
         //alert(id);
         var url = '@Url.Action("Delete")';
         url += "/" + id;
-      
+
         window.location = url;
     }
     function GoToPrint(id) {
@@ -19,9 +19,6 @@
         url += "?Id=" + id;
         window.location = url;
     }
-
-
-
 
     $(function () {
         $("#PurchaseRequestDate").datepicker({ dateFormat: "dd-MM-yy" });
@@ -39,7 +36,7 @@
             "preventDuplicates": false,
             "onclick": null,
 
-            "timeOut": "0",
+            "timeOut": "5000",
             "extendedTimeOut": "1000",
             "showEasing": "swing",
             "hideEasing": "linear",
@@ -53,142 +50,148 @@
             toastr.error('@TempData["error"]');
         }
     });
+
 </script>
 
-    <div class="row">
+<div class="row">
 
-        <div class="form-head1">
-            <h4>Purchase Request</h4>
-        </div>
+    <div class="form-head1">
+        <h4>Purchase Request</h4>
+    </div>
 
-        <div class="main-part pad1">
-            @using (Html.BeginForm(null, null, FormMethod.Post, new { @class = "createFrom", @id = "purchasereq_form" }))
-            {
-                @Html.HiddenFor(m => m.PurchaseRequestId, new { @class = "form_input", autocomplete = "off" })
-                @Html.HiddenFor(m => m.WorkShopRequestId, new { @class = "form_input", autocomplete = "off" })
-                
-                <form role="form">
-                    <div class="row form-group">
-                        <div class="col-md-2">
-                            <label for="PurchaseRequestNo">PRQ.No.</label>
-                            @Html.TextBoxFor(m => m.PurchaseRequestNo, new { @class = "form_input", autocomplete = "off", @readonly = "readonly" })
-                        </div>
-                        <div class="col-md-2">
-                            <label for="PurchaseRequestDate">Date</label>
-                            @Html.TextBoxFor(m => m.PurchaseRequestDate, Model.PurchaseRequestDate.ToString("dd/MMMM/yyyy"), new { @class = "form_input", autocomplete = "off", @readonly = "readonly" })
-                        </div>
+    <div class="main-part pad1">
+        @using (Html.BeginForm(null, null, FormMethod.Post, new { @class = "createFrom", @id = "purchasereq_form" }))
+        {
+            @Html.HiddenFor(m => m.PurchaseRequestId, new { @class = "form_input", autocomplete = "off" })
+            @Html.HiddenFor(m => m.WorkShopRequestId, new { @class = "form_input", autocomplete = "off" })
+
+            <form role="form">
+                <div class="row form-group">
+                    <div class="col-md-2">
+                        <label for="PurchaseRequestNo">PRQ No.</label>
+                        @Html.TextBoxFor(m => m.PurchaseRequestNo, new { @class = "form_input", autocomplete = "off", @readonly = "readonly" })
                     </div>
-                    <div class="row form-group">
-
-                        <div class="col-md-4">
-                            <label for="CustomerName">Customer</label>
-                            @Html.TextBoxFor(m => m.CustomerName, new { @class = "form_input", autocomplete = "off", @readonly = "readonly" })
-                        </div>
-                        <div class="col-md-2">
-                            <label for="CustomerOrderRef">Customer Order Ref.</label>
-                            @Html.TextBoxFor(m => m.CustomerOrderRef, new { @class = "form_input", autocomplete = "off", @readonly = "readonly" })
-                        </div>
-                        <div class="col-md-3">
-                            <label for="WorkShopRequestRefNo">WorkShop Request No. & Date </label>
-                            @Html.TextBoxFor(m => m.WorkShopRequestRefNo, new { @class = "form_input", autocomplete = "off", @readonly = "readonly" })
-                        </div>
+                    <div class="col-md-2">
+                        <label for="PurchaseRequestDate">Date</label>
+                        @Html.TextBoxFor(m => m.PurchaseRequestDate, Model.PurchaseRequestDate.ToString("dd/MMMM/yyyy"), new { @class = "form_input", autocomplete = "off", @readonly = "readonly" })
                     </div>
-                    <div class="table-responsive">
-                        <table class="table table-bordered table-hover" id="tab_logic">
-                            <thead>
-                                <tr class="grid_heading">
-                                    <th width="20%"><h1>Material/Spares</h1></th>
-                                    <th width="10%"><h1>Part No.</h1></th>
-                                    <th width="20%"><h1>Remarks</h1></th>
-                                    <th width="5%" class="text-right "><h1>WR.Qty.</h1></th>
-                                    <th width="5%" class="text-right "><h1>Pnd.Iss.Qty.</h1></th>
-                                    <th width="5%" class="text-right "><h1>Min.Stock</h1></th>
-                                    <th width="5%" class="text-right "><h1>Tot.Req.Qty.</h1></th>
-                                    <th width="5%" class="text-right "><h1>Curr.Stock</h1></th>
-                                    <th width="5%" class="text-right "><h1>In-Trans.Qty.</h1></th>
-                                    <th width="5%" class="text-right "><h1>Pnd.PR.Qty.</h1></th>
-                                    <th width="5%" class="text-right "><h1>Short/Excess</h1></th>
-                                    <th width="5%" class="text-right "><h1>PRQ.Qty.</h1></th>
-                                    <th width="5%" class="text-left "><h1>UoM</h1></th>
+                </div>
+                <div class="row form-group">
+
+                    <div class="col-md-4">
+                        <label for="CustomerName">Customer</label>
+                        @Html.TextBoxFor(m => m.CustomerName, new { @class = "form_input", autocomplete = "off", @readonly = "readonly" })
+                    </div>
+                    <div class="col-md-2">
+                        <label for="CustomerOrderRef">Customer Order Ref.</label>
+                        @Html.TextBoxFor(m => m.CustomerOrderRef, new { @class = "form_input", autocomplete = "off", @readonly = "readonly" })
+                    </div>
+                    <div class="col-md-3">
+                        <label for="WorkShopRequestRefNo">Workshop Request No. & Date </label>
+                        @Html.TextBoxFor(m => m.WorkShopRequestRefNo, new { @class = "form_input", autocomplete = "off", @readonly = "readonly" })
+                    </div>
+                </div>
+                <div class="table-responsive">
+                    <table class="table table-bordered table-hover" id="tab_logic">
+                        <thead>
+                            <tr class="grid_heading">
+                                <th nowrap width="20%"><h1>Material/Spares</h1></th>
+                                <th nowrap width="10%"><h1>Part No.</h1></th>
+                                <th nowrap width="20%"><h1>Remarks</h1></th>
+                                <th nowrap width="5%" class="text-right " title="Workshop Request Quantity"><h1>WR Qty</h1></th>
+                                <th nowrap width="5%" class="text-right " title="Pending Issue Quantity"><h1>Pnd. Iss. Qty</h1></th>
+                                <th nowrap width="5%" class="text-right " title="Minimum Stock"><h1>Min. Stock</h1></th>
+                                <th nowrap width="5%" class="text-right " title="Total Required Quantity"><h1>Tot. Req. Qty</h1></th>
+                                <th nowrap width="5%" class="text-right " title="Current Stock"><h1>Curr. Stock</h1></th>
+                                <th nowrap width="5%" class="text-right " title="In-transit Quantity"><h1>In-Trans. Qty</h1></th>
+                                <th nowrap width="5%" class="text-right " title="Pending Purchase Request Quantity"><h1>Pnd. PR Qty</h1></th>
+                                <th nowrap width="5%" class="text-right "><h1>Short/Excess</h1></th>
+                                <th nowrap width="5%" class="text-right " title="Purchase Request Quantity"><h1>PRQ Qty</h1></th>
+                                <th nowrap width="5%" class="text-left " title="Unit of Measurement"><h1>UoM</h1></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @for (int i = 0; i < Model.items.Count; i++)
+                            {
+                                <tr>
+                                    <td>@Html.HiddenFor(m => m.items[i].ItemId) @Html.TextBoxFor(m => m.items[i].ItemName, new { @class = "form_input", autocomplete = "off", placeholder = "Material/Spares", @readonly = "readonly" }) </td>
+                                    <td> @Html.HiddenFor(m => m.items[i].PartNo) @Html.TextBoxFor(m => m.items[i].PartNo, new { @class = "form_input", autocomplete = "off", placeholder = "Part No.", @readonly = "readonly" })</td>
+                                    <td>@Html.TextBoxFor(m => m.items[i].Remarks, new { @class = "form_input", autocomplete = "off", placeholder = "Remarks" })</td>
+                                    <td>@Html.TextBoxFor(m => m.items[i].WRRequestQty, new { @class = "form_input", @style = "text-align:right", autocomplete = "off", @readonly = "readonly" })</td>
+                                    <td>@Html.TextBoxFor(m => m.items[i].WRIssueQty, new { @class = "form_input", @style = "text-align:right", autocomplete = "off", @readonly = "readonly" })</td>
+                                    <td>@Html.TextBoxFor(m => m.items[i].MinLevel, new { @class = "form_input", @style = "text-align:right", autocomplete = "off", @readonly = "readonly" })</td>
+                                    <td>@Html.TextBoxFor(m => m.items[i].TotalQty, new { @class = "form_input", @style = "text-align:right", autocomplete = "off", @readonly = "readonly" })</td>
+                                    <td>@Html.TextBoxFor(m => m.items[i].CurrentStock, new { @class = "form_input ", @style = "text-align:right", autocomplete = "off", @readonly = "readonly" })</td>
+                                    <td>@Html.TextBoxFor(m => m.items[i].InTransitQty, new { @class = "form_input", @style = "text-align:right", autocomplete = "off", @readonly = "readonly" })</td>
+                                    <td>@Html.TextBoxFor(m => m.items[i].PendingPRQty, new { @class = "form_input", @style = "text-align:right", autocomplete = "off", @readonly = "readonly" })</td>
+                                    <td>@Html.TextBoxFor(m => m.items[i].ShortorExcess, new { @class = "form_input", @style = "text-align:right", autocomplete = "off", @readonly = "readonly" })</td>
+                                    <td>@Html.TextBoxFor(m => m.items[i].Quantity, new { @class = "form_input numbers-only", @style = "text-align:right", autocomplete = "off" })</td>
+
+                                    <td>@Html.TextBoxFor(m => m.items[i].UnitName, new { @class = "form_input", @style = "text-align:left", autocomplete = "off", @readonly = "readonly" })</td>
                                 </tr>
-                            </thead>
-                            <tbody>
-                                @for (int i = 0; i < Model.items.Count; i++)
-                                {
-                                    <tr>
-
-                                        <td>@Html.HiddenFor(m => m.items[i].ItemId) @Html.TextBoxFor(m => m.items[i].ItemName, new { @class = "form_input", autocomplete = "off", placeholder = "Material/Spares", @readonly = "readonly" }) </td>
-                                        <td> @Html.HiddenFor(m => m.items[i].PartNo) @Html.TextBoxFor(m => m.items[i].PartNo, new { @class = "form_input", autocomplete = "off", placeholder = "Part No.", @readonly = "readonly" })</td>
-                                        <td>@Html.TextBoxFor(m => m.items[i].Remarks, new { @class = "form_input", autocomplete = "off", placeholder = "Remarks" })</td>
-                                        <td>@Html.TextBoxFor(m => m.items[i].WRRequestQty, new { @class = "form_input", @style = "text-align:right", autocomplete = "off", @readonly = "readonly" })</td>
-                                        <td>@Html.TextBoxFor(m => m.items[i].WRIssueQty, new { @class = "form_input", @style = "text-align:right", autocomplete = "off", @readonly = "readonly" })</td>
-                                        <td>@Html.TextBoxFor(m => m.items[i].MinLevel, new { @class = "form_input", @style = "text-align:right", autocomplete = "off", @readonly = "readonly" })</td>
-                                        <td>@Html.TextBoxFor(m => m.items[i].TotalQty, new { @class = "form_input", @style = "text-align:right", autocomplete = "off", @readonly = "readonly" })</td>
-                                        <td>@Html.TextBoxFor(m => m.items[i].CurrentStock, new { @class = "form_input ", @style = "text-align:right", autocomplete = "off", @readonly = "readonly" })</td>
-                                        <td>@Html.TextBoxFor(m => m.items[i].InTransitQty, new { @class = "form_input", @style = "text-align:right", autocomplete = "off", @readonly = "readonly" })</td>
-                                        <td>@Html.TextBoxFor(m => m.items[i].PendingPRQty, new { @class = "form_input", @style = "text-align:right", autocomplete = "off", @readonly = "readonly" })</td>
-                                        <td>@Html.TextBoxFor(m => m.items[i].ShortorExcess, new { @class = "form_input", @style = "text-align:right", autocomplete = "off", @readonly = "readonly" })</td>
-                                        <td>@Html.TextBoxFor(m => m.items[i].Quantity, new { @class = "form_input numbers-only", @style = "text-align:right", autocomplete = "off" })</td>
-
-                                        <td>@Html.TextBoxFor(m => m.items[i].UnitName, new { @class = "form_input", @style = "text-align:left", autocomplete = "off", @readonly = "readonly" })</td>
-                                    </tr>
-                                }
-
-                            </tbody>
-                            <tfoot>
-                                <tr class="grid_heading">
-
-                                    <th width="20%"></th>
-                                    <th width="10%"></th>
-                                    <th width="20%"></th>
-                                    <th width="5%"></th>
-                                    <th width="5%"></th>
-                                    <th width="5%"></th>
-                                    <th width="5%"></th>
-                                    <th width="5%"></th>
-                                    <th width="5%"></th>
-                                    <th width="5%"></th>
-                                    <th width="5%"></th>
-                                    <th width="5%"></th>
-                                    <th width="5%"></th>
-                                </tr>
-                            </tfoot>
-                        </table>
-                    </div>
-                    <div class="row form-group">
-                        <div class="col-md-12">
-                            <div class="row">
-                                <div class="col-md-12">
-                                    <label for="SpecialRemarks">Special Remarks</label>
-                                </div>
-                                <div class="col-md-12">
-                                    @Html.TextAreaFor(m => m.SpecialRemarks, new { @class = "form_input form_input-h", autocomplete = "off" })
-                                </div>
+                            }
+                        </tbody>
+                        <tfoot>
+                            <tr class="grid_heading">
+                                <th width="20%"></th>
+                                <th width="10%"></th>
+                                <th width="20%"></th>
+                                <th width="5%"></th>
+                                <th width="5%"></th>
+                                <th width="5%"></th>
+                                <th width="5%"></th>
+                                <th width="5%"></th>
+                                <th width="5%"></th>
+                                <th width="5%"></th>
+                                <th width="5%"></th>
+                                <th width="5%"></th>
+                                <th width="5%"></th>
+                            </tr>
+                        </tfoot>
+                    </table>
+                </div>
+                <div class="row form-group">
+                    <div class="col-md-12">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <label for="SpecialRemarks">Special Remarks</label>
+                            </div>
+                            <div class="col-md-12">
+                                @Html.TextAreaFor(m => m.SpecialRemarks, new { @class = "form_input form_input-h", autocomplete = "off" })
                             </div>
                         </div>
                     </div>
-                    <div class="row form-group">
-                        <div class="col-md-2">
-                            <label for="RequiredDate">Required Date</label>
-                            @Html.TextBoxFor(m => m.RequiredDate, Model.RequiredDate.ToString("dd/MMMM/yyyy"), new { @class = "form_input", autocomplete = "off", @readonly = "readonly" })
-                        </div>
-
-
-
+                </div>
+                <div class="row form-group">
+                    <div class="col-md-2">
+                        <label for="RequiredDate">Required Date</label>
+                        @Html.TextBoxFor(m => m.RequiredDate, Model.RequiredDate.ToString("dd/MMMM/yyyy"), new { @class = "form_input", autocomplete = "off", @readonly = "readonly" })
                     </div>
+                </div>
 
-                    <div class="row">
-                        <div class="col-md-12 hrpart">
-                            <button type="button" class="form-button right" onclick="Exit()">Exit</button>
+                <div class="row">
+                    <div class="col-md-12 hrpart">
+                        <button type="button" class="form-button right" onclick="Exit()">Exit</button>
+                        @if (!Model.isUsed)
+                        {
                             <button type="submit" class="form-button right">Edit</button>
-                            <input type="button" value="Print" onclick="GoToPrint(@Model.PurchaseRequestId)" class="form-button right" />
+                        }
+                        <input type="button" value="Print" onclick="GoToPrint(@Model.PurchaseRequestId)" class="form-button right" />
+                        @if (!Model.isUsed)
+                        {
                             <button type="button" class="form-button left" onclick="Delete('@Model.PurchaseRequestId')">Delete</button>
-                        </div>
-
+                        }
+                        else
+                        {
+                            <span class="perm">
+                                **Cannot edit/delete, because it is already used.
+                            </span>
+                        }
                     </div>
 
-                </form>
-            }
-        </div>
+                </div>
+            </form>
+        }
     </div>
+</div>
 

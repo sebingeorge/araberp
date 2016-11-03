@@ -109,8 +109,9 @@ namespace ArabErp.DAL
 
             using (IDbConnection connection = OpenConnection(dataConnection))
             {
-                string sql = @"SELECT * FROM Organization
-                        WHERE OrganizationId=@OrganizationId";
+                string sql = @"SELECT O.*,ISNULL(c.CountryName,'') CountryName FROM Organization O
+                               left join Country C ON C.CountryId=O.Country
+                               WHERE O.OrganizationId=@OrganizationId";
 
                 var objOrganization = connection.Query<Organization>(sql, new
                 {

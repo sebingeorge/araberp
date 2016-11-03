@@ -28,6 +28,8 @@ namespace ArabErp.Domain
         public DateTime? CreatedDate { get; set; }
         public int OrganizationId { get; set; }
         public int ReceivedBy { get; set; }
+        public string EmpReceivedBy { get; set; }
+
         public string ReceivedByName { get; set; }
         public bool isDirectPurchaseGRN { get; set; }
         public List<GRNItem> Items { get; set; }
@@ -37,5 +39,23 @@ namespace ArabErp.Domain
         public bool isUsed { get; set; }
         public decimal Addition { get; set; }
         public decimal Deduction { get; set; }
+       //org
+        public string DoorNo { get; set; }
+
+        public string Street { get; set; }
+
+        public string State { get; set; }
+
+        public int Country { get; set; }
+        public string OrgCountryName { get; set; }
+        public string Zip { get; set; }
+        public string Phone { get; set; }
+        public string Fax { get; set; }
+        public string Email { get; set; }
+        public string ContactPerson { get; set; }
+        public string OrganizationName { get; set; }
+        public string OrgCurrency { get; set; }
+        public string CompanyName { get; set; }
+        public string Image1 { get; set; }
     }
 }

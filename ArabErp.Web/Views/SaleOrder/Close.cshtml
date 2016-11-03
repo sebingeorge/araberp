@@ -1,5 +1,5 @@
 ﻿@model  ArabErp.Domain.SaleOrder
-@{ string actionName = ViewContext.RouteData.GetRequiredString("action");
+@{ ViewBag.Title = "Sale Order Closing"; string actionName = ViewContext.RouteData.GetRequiredString("action");
  ViewData["action"] = actionName;
 }
 <script>
@@ -17,6 +17,10 @@
         url = url + "?Id=" + id;
         console.log(url);
         window.location.href = url;
+    }
+    function Exit() {
+        var url = '@Url.Action("Closing")';
+        location.href = url;
     }
 </script>
 
@@ -36,8 +40,8 @@
 
                 <div class="row">
                     <div class="col-md-12 hrpart">
-                        <button type="button" class="form-button right">Exit</button>
-                        <button type="submit" class="form-button right">Close S.O</button>
+                        <button type="button" onclick="Exit()" class="form-button right">Exit</button>
+                        <button type="button" class="form-button right">Close S.O</button>
                     </div>
                 </div>
             }

@@ -32,5 +32,6 @@ namespace ArabErp.Domain
 
         public string ModuleNames { get; set; }
         public string CreatedBy { get; set; }
+        public string Signature { get; set; }
     }
 }

@@ -14,12 +14,16 @@ namespace ArabErp.Domain
         public int JobCardId { get; set; }
         public string JobCardNo { get; set; }
         public DateTime JcDate { get; set; }
+        public string JobCardQCNoDate { get; set; }
+        public string JobCardNoDate { get; set; }
         public string Customer { get; set; }
         public string VehicleModel { get; set; }
         public int EmployeeId { get; set; }
         public string EmployeeName { get; set; }
         public DateTime JobCardQCDate { get; set; }
         public bool IsQCPassed { get; set; }
+
+        public string QCPassed { get; set; }
         public bool IsUsed { get; set; }
         public string CreatedBy { get; set; }
         public DateTime? CreatedDate { get; set; }

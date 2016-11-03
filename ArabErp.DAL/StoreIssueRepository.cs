@@ -240,7 +240,7 @@ namespace ArabErp.DAL
                                 INNER JOIN Customer C ON C.CustomerId=W.CustomerId 
 								 INNER JOIN Employee E ON E.EmployeeId=S.EmployeeId 
 							    INNER JOIN Organization O ON O.OrganizationId=S.OrganizationId
-                                inner  JOIN Country ORR ON ORR.CountryId=O.Country
+                                left  JOIN Country ORR ON ORR.CountryId=O.Country
                                 WHERE StoreIssueId=@StoreIssueId";
 
                 var objConsumption = connection.Query<StoreIssue>(sql, new

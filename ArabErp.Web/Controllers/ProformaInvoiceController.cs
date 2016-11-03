@@ -41,7 +41,7 @@ namespace ArabErp.Web.Controllers
             ProformaInvoiceRepository repo = new ProformaInvoiceRepository();
             CurrencyRepository repo1 = new CurrencyRepository();
             ProformaInvoice model = repo.GetSaleOrderForPorforma(SaleOrderId ?? 0);
-            model.SymbolName = repo1.GetCurrencyFrmOrganization(OrganizationId).SymbolName;
+            //model.SymbolName = repo1.GetCurrencyFrmOrganization(OrganizationId).SymbolName;
             var PIList = repo.GetPorformaInvoiceData(model.SaleOrderId);
             model.Items = new List<ProformaInvoiceItem>();
             foreach (var item in PIList)
@@ -122,6 +122,7 @@ namespace ArabErp.Web.Controllers
         {
             if (id == 0) return RedirectToAction("Index", "Home", new {type = type});
             ProformaInvoice model = new ProformaInvoiceRepository().GetProformaInvoiceHdDetails(id);
+            //model.SymbolName = new CurrencyRepository().GetCurrencyFrmOrganization(OrganizationId).SymbolName;
             model.Items = new ProformaInvoiceRepository().GetProformaInvoiceItemDetails(id);
             return View(model);
         }

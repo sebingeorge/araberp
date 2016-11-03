@@ -619,6 +619,7 @@
 
                     <div class="col-md-12 hrpart">
                         <button type="button" class="form-button right" onclick="Exit()">Exit</button>
+                        <input type="button" value="Print" onclick="GoToPrint(@Model.GRNId)" class="form-button right" />
                         @if (Model.isUsed)
                         {
                             <span class="perm">
@@ -628,7 +629,7 @@
                         else
                         {
                         <button type="submit" class="form-button right">Edit</button>
-                        <input type="button" value="Print" onclick="GoToPrint(@Model.SupplyOrderId)" class="form-button right" />
+                      
                         <button type="button" class="form-button" onclick="Delete('@Model.GRNId')">Delete</button>
                         }
                     </div>

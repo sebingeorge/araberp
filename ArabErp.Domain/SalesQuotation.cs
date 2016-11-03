@@ -23,6 +23,7 @@ namespace ArabErp.Domain
         public int CustomerId { get; set; }
         public string SalesExecutiveName { get; set; }
         public string CustomerAddress { get; set; }
+        
         public string ContactPerson { get; set; }
         public int SalesExecutiveId { get; set; }
         public DateTime PredictedClosingDate { get; set; }
@@ -39,6 +40,7 @@ namespace ArabErp.Domain
         public decimal TotalWorkAmount { get; set; }
         public decimal GrandTotal { get; set; }
         public int? QuotationStatus { get; set; }
+        public string  SalesQuotationStatusName { get; set; }
         public string Remarks { get; set; }
         [Required]
         public int SalesQuotationStatusId { get; set; }
@@ -59,7 +61,7 @@ namespace ArabErp.Domain
         public bool isProjectBased { get; set; }
         public bool isAfterSales { get; set; }
         public string Description { get; set; }
-         public string WorkDescription { get; set; }
+       
          public int? CancelStatus { get; set; }
         public List<SalesQuotationItem> SalesQuotationItems { get; set; }
         public List<SalesQuotationMaterial> Materials { get; set; }
@@ -72,6 +74,27 @@ namespace ArabErp.Domain
         public int ProjectCompletionId { get; set; }
         public decimal Discount { get; set; }
         public DateTime WarrantyExpiryDate { get; set; }
+        public string WorkDescription { get; set; }
+
+        public string DoorNo { get; set; }
+
+        public string Street { get; set; }
+
+        public string State { get; set; }
+
+        public int Country { get; set; }
+        public string CountryName { get; set; }
+        public string Zip { get; set; }
+        public string Phone { get; set; }
+        public string CurrencyName { get; set; }
+        public string Fax { get; set; }
+        public string Email { get; set; }
+        //public string ContactPerson { get; set; }
+        
+        public string OrganizationName { get; set; }
+        public string Image1 { get; set; }
+        public string EmpNmae { get; set; }
+        public string EmpDesignation { get; set; }
 
         public ProjectCompletion ProjectCompleionDetails { get; set; }
         public DeliveryChallan DeliveryChallanDetails { get; set; }

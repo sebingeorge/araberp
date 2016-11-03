@@ -258,7 +258,7 @@ namespace ArabErp.DAL
 	                                (S.Rate - S.Discount) Amount,
 	                                ((S.Rate - S.Discount)*(S.Quantity)) TotalAmount,
 	                                [RateType],
-	                                'Nos' UnitName,
+	                                'No(s)' UnitName,
 	                                W.*,
 	                                V.* 
                                 from SalesQuotationItem S inner join WorkDescription W ON S.WorkDescriptionId=W.WorkDescriptionId
@@ -312,7 +312,7 @@ namespace ArabErp.DAL
 							inner join Employee E on  E.EmployeeId =SQ.SalesExecutiveId
 							inner join SalesQuotationStatus RR on  RR.SalesQuotationStatusId =SQ.SalesQuotationStatusId
                             where SQ.ApprovedBy is null and  SQ.isActive=1 and isnull(SQ.IsQuotationApproved,0)=0
-                            and SQ.OrganizationId = " + OrganizationId.ToString() + " and SQ.IsProjectBased = " + IsProjectBased.ToString() + " and SQ.isAfterSales= " + IsAfterSales.ToString();
+                            and SQ.OrganizationId = " + OrganizationId.ToString() + " and SQ.IsProjectBased = " + IsProjectBased.ToString() + " and SQ.isAfterSales= " + IsAfterSales.ToString() + "ORDER BY SQ.QuotationDate DESC, SQ.QuotationRefNo";
 
                 var objSalesQuotations = connection.Query<SalesQuotation>(sql).ToList<SalesQuotation>();
 
@@ -535,5 +535,74 @@ namespace ArabErp.DAL
                 return isWarranty;
             }
         }
+
+        public SalesQuotation GetSalesQuotationHD(int SalesQuotationId,int organizationId)
+        {
+
+            using (IDbConnection connection = OpenConnection(dataConnection))
+            {
+                string sql = @"select O.*,S.*,
+ EE.EmployeeName,
+ CU.CustomerName,(CU.DoorNo + CU.Street+ CU.State)CustomerAddress,sq.Description SalesQuotationStatusName,d.DesignationName,
+                               E.EmployeeName SalesExecutiveName,CO.CountryName,C.CurrencyName from SalesQuotation S
+                               inner join Customer Cu ON CU.CustomerId=S.CustomerId
+                               inner join Employee E ON  E.EmployeeId=S.SalesExecutiveId
+                               inner join Organization O ON O.OrganizationId=S.OrganizationId
+                               inner join Country CO  on CO.CountryId=O.Country
+                               inner join SalesQuotationStatus SQ ON SQ.SalesQuotationStatusId=S.SalesQuotationStatusId
+                               Left JOIN Currency C ON C.CurrencyId=O.CurrencyId
+							   left join Employee EE ON EE.EmployeeId=S.CreatedBy
+							   left join Designation D ON D.DesignationId=EE.DesignationId
+                               where SalesQuotationId=@SalesQuotationId";
+
+                var objSalesQuotation = connection.Query<SalesQuotation>(sql, new { SalesQuotationId = SalesQuotationId, organizationId = organizationId }).First<SalesQuotation>();
+
+                return objSalesQuotation;
+            }
+        }
+
+
+        public List<SalesQuotationItem> GetSalesQuotationItemsPrint(int SalesQuotationId)
+        {
+
+            using (IDbConnection connection = OpenConnection(dataConnection))
+            {
+                string sql = @" SELECT STUFF((SELECT ', ' + w.WorkDescr
+                                    FROM SalesQuotationItem S
+                                    inner join WorkDescription W ON w.WorkDescriptionId=s.WorkDescriptionId
+                                    WHERE s.SalesQuotationId=@SalesQuotationId
+                                    ORDER BY WorkDescr
+                                    FOR XML PATH('')), 1, 1, '') as WorkDescription,
+	                                [SalesQuotationItemId],
+	                                [SalesQuotationId],
+	                                [SlNo],
+	                                S.[WorkDescriptionId],
+	                                [Remarks],
+	                                [PartNo],
+	                                [Quantity],
+	                                [UnitId],
+	                                [Rate],
+	                                [Discount],
+	                                (S.Rate - S.Discount) Amount,
+	                                ((S.Rate - S.Discount)*(S.Quantity)) TotalAmount,
+	                                [RateType],
+	                                'Nos' UnitName,
+	                                W.*,
+	                                V.* 
+                                from SalesQuotationItem S inner join WorkDescription W ON S.WorkDescriptionId=W.WorkDescriptionId
+                                    LEFT JOIN VehicleModel V ON  V.VehicleModelId=W.VehicleModelId
+                                where SalesQuotationId=@SalesQuotationId";
+
+                var SalesQuotationItems = connection.Query<SalesQuotationItem>(sql, new
+                {
+                    SalesQuotationId = SalesQuotationId
+                }).ToList<SalesQuotationItem>();
+
+                return SalesQuotationItems;
+            }
+        }
+
+
+
     }
 }

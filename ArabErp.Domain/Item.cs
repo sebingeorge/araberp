@@ -44,6 +44,8 @@ namespace ArabErp.Domain
         public string ItemGroupName { get; set; }
         public string ItemSubGroupName { get; set; }
         public string UnitName { get; set; }
+
+
     }
     public enum  ItemSubGroupId
     {

@@ -36,6 +36,7 @@ namespace ArabErp.Domain
         public int cmpCode { get; set; }
         public string CompanyName { get; set; }
         public string Image1 { get; set; }
+        
         public string CreatedBy { get; set; }
         [Required]
         public int? FyId { get; set; }

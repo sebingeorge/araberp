@@ -37,7 +37,7 @@ namespace ArabErp.Domain
         public string VehicleInPassNo { get; set; }
         public string RegistrationNo { get; set; }
         public DateTime VehicleInPassDate { get; set; }
-        public string Phone { get; set; }
+        public string CPhone { get; set; }
         public string ContactPerson { get; set; }
         public string Customer { get; set; }
         public string Technician { get; set; }
@@ -46,6 +46,16 @@ namespace ArabErp.Domain
         public int CurrencyId { get; set; }
         public string CurrencyName { get; set; }
        // public string OrganizationRefNo { get; set; }
+        public string DoorNo { get; set; }
+        public string Street { get; set; }
+        public string State { get; set; }
+        public string CountryName { get; set; }
+        
+        public string Phone { get; set; }
+        public string Fax { get; set; }
+        public string Email { get; set; }
+       // public string ContactPerson { get; set; }
+        public string Zip { get; set; }
         public string OrganizationName { get; set; }
         public string Image1 { get; set; }
         public List<JobCardTask> JobCardTasks { get; set; }

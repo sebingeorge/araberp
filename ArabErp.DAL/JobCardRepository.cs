@@ -421,14 +421,17 @@ namespace ArabErp
             {
 
 //              
-                string sql = @"  SELECT JobCardId,JobCardNo,JobCardDate,SaleOrderRefNo RegistrationNo,Concat(CustomerName,',',C.DoorNo,',',C.Street)CustomerName,
-                                C.Phone,C.ContactPerson,E.EmployeeName Technician,C.CustomerName Customer,U.ItemName FreezerUnitName,O.OrganizationName,o.Image1,
-                                o.OrganizationId FROM JobCard J
+                string sql = @" SELECT O.*,JobCardId,JobCardNo,JobCardDate,SaleOrderRefNo RegistrationNo,Concat(CustomerName,',',C.DoorNo,',',C.Street)CustomerName,
+                                C.Phone CPhone,C.ContactPerson,E.EmployeeName Technician,C.CustomerName Customer,U.ItemName FreezerUnitName,
+								ORR.CountryName,CU.CurrencyName 
+                                FROM JobCard J
                                 INNER JOIN SaleOrder S ON S.SaleOrderId=J.SaleOrderId
                                 INNER JOIN Customer C ON C.CustomerId=S.CustomerId
                                 INNER JOIN Employee E ON E.EmployeeId=J.EmployeeId
+							    inner join Organization O ON O.OrganizationId=J.OrganizationId
+								inner  JOIN Country ORR ON ORR.CountryId=O.Country
+								INNER JOIN Currency CU ON CU.CurrencyId=O.CurrencyId
                                 LEFT JOIN Item U ON U.ItemId=J.FreezerUnitId
-								inner join Organization O ON O.OrganizationId=J.OrganizationId
                                 WHERE JobCardId=@JobCardId";
 
                 var objJobCardId = connection.Query<JobCard>(sql, new
@@ -451,7 +454,7 @@ namespace ArabErp
                 //if (isProjectBased == 0)
                 //{
                 query = @"select S.SaleOrderId, SI.SaleOrderItemId,
-                    GETDATE() JobCardDate, C.CustomerId, C.CustomerName, S.CustomerOrderRef, V.VehicleModelName,
+                    JC.JobCardDate, C.CustomerId, C.CustomerName, S.CustomerOrderRef, V.VehicleModelName,
                     ''ChasisNoRegNo, W.WorkDescriptionId, W.WorkDescr as WorkDescription, '' WorkShopRequestRef, 
                     0 GoodsLanded, 0 BayId, W.FreezerUnitId FreezerUnitId, FU.ItemName FreezerUnitName, W.BoxId BoxId, B.ItemName BoxName, 
                     ISNULL(VI.RegistrationNo, '-') RegistrationNo, VI.VehicleInPassId InPassId, S.isProjectBased,

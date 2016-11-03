@@ -229,15 +229,22 @@ namespace ArabErp.DAL
         {
             using (IDbConnection connection = OpenConnection(dataConnection))
             {
-                string qry = " SELECT PurchaseRequestId,PurchaseRequestNo,PurchaseRequestDate,C.CustomerName,WR.CustomerOrderRef,PR.WorkShopRequestId,";
-                      qry += " WR.WorkShopRequestRefNo +','+ Replace(Convert(varchar,WorkShopRequestDate,106),' ','/') WorkShopRequestRefNo,";
-                      qry += " PR.SpecialRemarks,PR.RequiredDate";
-                      qry += " FROM PurchaseRequest PR";
-                      qry += " INNER JOIN WorkShopRequest WR ON WR.WorkShopRequestId=PR.WorkShopRequestId";
-                      qry += " INNER JOIN Customer C ON WR.CustomerId = C.CustomerId";
-                      qry += " WHERE PR.PurchaseRequestId = " + PurchaseRequestId.ToString();
+                string qry = @"DECLARE @isUsed BIT = 0;
+                                IF EXISTS(SELECT SupplyOrderId FROM SupplyOrderItem SOI
+			                                INNER JOIN PurchaseRequestItem PRI
+				                                ON SOI.PurchaseRequestItemId = PRI.PurchaseRequestItemId
+			                                WHERE PRI.PurchaseRequestId = @PurchaseRequestId)
+	                                SET @isUsed = 1
 
-                PurchaseRequest PurchaseRequest = connection.Query<PurchaseRequest>(qry).FirstOrDefault();
+                                SELECT PurchaseRequestId,PurchaseRequestNo,PurchaseRequestDate,C.CustomerName,WR.CustomerOrderRef,PR.WorkShopRequestId,
+                                WR.WorkShopRequestRefNo +','+ Replace(Convert(varchar,WorkShopRequestDate,106),' ','/') WorkShopRequestRefNo,
+                                PR.SpecialRemarks,PR.RequiredDate, @isUsed AS isUsed
+                                FROM PurchaseRequest PR
+                                INNER JOIN WorkShopRequest WR ON WR.WorkShopRequestId=PR.WorkShopRequestId
+                                INNER JOIN Customer C ON WR.CustomerId = C.CustomerId
+                                WHERE PR.PurchaseRequestId = @PurchaseRequestId";
+
+                PurchaseRequest PurchaseRequest = connection.Query<PurchaseRequest>(qry, new { PurchaseRequestId = PurchaseRequestId }).FirstOrDefault();
                 return PurchaseRequest;
             }
         }

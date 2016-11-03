@@ -54,8 +54,9 @@ namespace ArabErp.DAL
             {
                 string sql = @"SELECT
 	                            JobCardDailyActivityId,T.EmployeeId,E.EmployeeName,
-                                JCT.JobCardTaskMasterId,JCT.JobCardTaskName, CONVERT(VARCHAR, T.TaskStartDate, 106) TaskStartDate,
-                                CONVERT(VARCHAR, T.TaskEndDate, 106) TaskEndDate,T.ActualHours
+                                JCT.JobCardTaskMasterId,JCT.JobCardTaskName, StartTime, EndTime,T.ActualHours,
+									CONVERT(VARCHAR, GETDATE(), 106) TaskStartDate,
+									CONVERT(VARCHAR, GETDATE(), 106) TaskEndDate
                                 FROM JobCardDailyActivityTask T
                                 INNER JOIN JobCardTaskMaster JCT ON T.JobCardTaskId = JCT.JobCardTaskMasterId
                                 INNER JOIN Employee E ON E.EmployeeId=T.EmployeeId

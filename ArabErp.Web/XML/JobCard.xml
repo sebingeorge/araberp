@@ -11,11 +11,20 @@
                 <xs:element name="JobCardDate" type="xs:string" minOccurs="0" />
                 <xs:element name="SaleOrderRefNo" type="xs:string" minOccurs="0" />
                 <xs:element name="CustomerName" type="xs:string" minOccurs="0" />
-                <xs:element name="Phone" type="xs:string" minOccurs="0" />
-                <xs:element name="ContactPerson" type="xs:string" minOccurs="0" />
+                <xs:element name="CustomerPhone" type="xs:string" minOccurs="0" />
+                <xs:element name="CustomerContactPerson" type="xs:string" minOccurs="0" />
                 <xs:element name="Unit" type="xs:string" minOccurs="0" />
                 <xs:element name="Customer" type="xs:string" minOccurs="0" />
                 <xs:element name="Technician" type="xs:string" minOccurs="0" />
+                <xs:element name="DoorNo" type="xs:string" minOccurs="0" />
+                <xs:element name="Street" type="xs:string" minOccurs="0" />
+                <xs:element name="State" type="xs:string" minOccurs="0" />
+                <xs:element name="Country" type="xs:string" minOccurs="0" />
+                <xs:element name="Currency" type="xs:string" minOccurs="0" />
+                <xs:element name="Phone" type="xs:string" minOccurs="0" />
+                <xs:element name="Fax" type="xs:string" minOccurs="0" />
+                <xs:element name="Email" type="xs:string" minOccurs="0" />
+                <xs:element name="Zip" type="xs:string" minOccurs="0" />
                 <xs:element name="OrganizationName" type="xs:string" minOccurs="0" />
                 <xs:element name="Image1" type="xs:string" minOccurs="0" />
               </xs:sequence>
@@ -38,24 +47,49 @@
     </xs:element>
   </xs:schema>
   <Head>
-    <JobCardNo>JC/4</JobCardNo>
-    <JobCardDate>21-Oct-2016</JobCardDate>
-    <SaleOrderRefNo>SO/2</SaleOrderRefNo>
-    <CustomerName>Delta Group,Doha, Qatar,</CustomerName>
-    <Phone>0</Phone>
-    <ContactPerson>0</ContactPerson>
-    <Unit>COMPRESSOR CLUTCH COIL  TM16 12V</Unit>
-    <Customer>Delta Group</Customer>
-    <Technician>emptest</Technician>
+    <JobCardNo>JC-16/48</JobCardNo>
+    <JobCardDate>30-Oct-2016</JobCardDate>
+    <SaleOrderRefNo>SAL/38</SaleOrderRefNo>
+    <CustomerName>M/S Al Rashid Ice Factory,1fg,fg</CustomerName>
+    <CustomerPhone>54</CustomerPhone>
+    <CustomerContactPerson>54</CustomerContactPerson>
+    <Unit>a+b</Unit>
+    <Customer>M/S Al Rashid Ice Factory</Customer>
+    <Technician>Hamdan</Technician>
+    <DoorNo>1213dfdf</DoorNo>
+    <Street>Doha-Qatar</Street>
+    <State>fdgd</State>
+    <Country>India</Country>
+    <Currency>uk</Currency>
+    <Phone>+974 44357216,15</Phone>
+    <Fax>+974 44414762</Fax>
+    <Email>info@arabrefrigeration.com</Email>
+    <Zip>13037</Zip>
     <OrganizationName>Arab Air Conditioning &amp; Refrigeration Co. W.L.L.</OrganizationName>
-    <Image1>E:\SHANID\ARAB ERP\ArabErp\ArabErp.Web\App_images\</Image1>
+    <Image1>E:\ARAB\New folder\ArabErp\ArabErp.Web\App_images\e8251ae5-2716-4b20-841c-c57ba2109c7b.png</Image1>
   </Head>
   <Items>
-    <TaskDate>21-Oct-2016</TaskDate>
-    <Employee>Deepak</Employee>
-    <Description>Unit Fixing</Description>
+    <TaskDate>31-Oct-2016</TaskDate>
+    <Employee>Rajeev</Employee>
+    <Description>Main Unit Fixing</Description>
     <StartTime>0.00</StartTime>
     <EndTime>0.00</EndTime>
-    <ActualHours>4.00</ActualHours>
+    <ActualHours>0.00</ActualHours>
+  </Items>
+  <Items>
+    <TaskDate>31-Oct-2016</TaskDate>
+    <Employee>Rouf</Employee>
+    <Description>Main Unit Fixing</Description>
+    <StartTime>0.00</StartTime>
+    <EndTime>0.00</EndTime>
+    <ActualHours>0.00</ActualHours>
+  </Items>
+  <Items>
+    <TaskDate>31-Oct-2016</TaskDate>
+    <Employee>Sreekanth</Employee>
+    <Description>Main Unit Fixing</Description>
+    <StartTime>0.00</StartTime>
+    <EndTime>0.00</EndTime>
+    <ActualHours>0.00</ActualHours>
   </Items>
 </NewDataSet>

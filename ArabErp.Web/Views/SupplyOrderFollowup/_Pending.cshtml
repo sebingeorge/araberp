@@ -21,69 +21,69 @@
 
 
 
-          
-                 
-           <table class="table table-bordered table-hover">
-        <thead>
-            <tr class="grid_heading">
-                <th class="text-center" width="2%">#</th>
-                <th width="9%"><h1>LPO.No. & Date</h1></th>
-                <th width="15%"><h1>Item</h1></th>
-                <th width="6%"><h1>Critical Item</h1></th>
-                <th width="5%" nowrap><h1>Quantity</h1></th>
-                <th width="13%"><h1>Supplier</h1></th>
-                <th width="8%"><h1>Required Date</h1></th>
-                <th width="9%" nowrap><h1>Expected Arrival Date</h1></th>
-                <th width="18%" nowrap><h1>Remarks</h1></th>
+
+
+<table class="table table-bordered">
+    <thead>
+        <tr class="grid_heading">
+            <th class="text-center" width="2%">#</th>
+            <th width="9%"><h1>LPO No. & Date</h1></th>
+            <th width="15%"><h1>Item</h1></th>
+            <th width="6%"><h1>Critical Item</h1></th>
+            <th width="5%" nowrap><h1>Quantity</h1></th>
+            <th width="13%"><h1>Supplier</h1></th>
+            <th width="8%"><h1>Required Date</h1></th>
+            <th width="9%" nowrap><h1>Expected Arrival Date</h1></th>
+            <th width="18%" nowrap><h1>Remarks</h1></th>
+
+        </tr>
+    </thead>
+    <tbody class="grid_row">
+
+        @{ int row = 0;}
+        @foreach (var item in Model.SupplyOrderFollowups)
+        {
+
+            <tr id="@row">
+
+                <td>
+                    @Html.HiddenFor(m => m.SupplyOrderFollowups[row].SupplyOrderFollowupId)
+                    <input type="text" value="@(row + 1)" style="width:25px" class="form_input text-center" disabled />
+                </td>
+                <td>
+                    <input type="text" value="@Model.SupplyOrderFollowups[row].SupplyOrderNo  @Model.SupplyOrderFollowups[row].SupplyOrderDate" class="form_input" disabled />
+                </td>
+                <td>
+                    @Html.HiddenFor(m => m.SupplyOrderFollowups[row].SupplyOrderItemId)
+                    @Html.TextBoxFor(m => m.SupplyOrderFollowups[row].ItemName, new { @class = "OrderedQty form_input", autocomplete = "off", @readonly = "readonly" })
+                </td>
+                <td>
+                    @Html.TextBoxFor(m => m.SupplyOrderFollowups[row].CriticalItem, new { @class = "CriticalItem form_input", autocomplete = "off", @readonly = "readonly" })
+                </td>
+                <td>
+                    @Html.TextBoxFor(m => m.SupplyOrderFollowups[row].OrderedQty, new { @class = "form_input text-right", autocomplete = "off", @readonly = "readonly" })
+                </td>
+
+                <td>
+                    @Html.TextBoxFor(m => m.SupplyOrderFollowups[row].SupplierName, new { @class = "SupplierName form_input", autocomplete = "off", @readonly = "readonly" })
+                </td>
+                <td>
+                    @Html.TextBoxFor(m => m.SupplyOrderFollowups[row].RequiredDate, item.RequiredDate.ToString("dd/MMMM/yyyy"), new { @class = "RequiredDate form_input", autocomplete = "off", @readonly = "readonly" })
+
+                </td>
+                <td>
+                    @* @Html.TextBoxFor(m => m.SupplyOrderFollowups[row].ExpectedDate, item.ExpectedDate.ToString("dd/MMMM/yyyy"), new { @class = "ExpectedDate form_input", autocomplete = "off", @readonly = "readonly" })*@
+                    @Html.TextBoxFor(m => m.SupplyOrderFollowups[row].ExpectedDate, @String.Format("{0:dd/MMMM/yyyy}", item.ExpectedDate), new { @class = "ExpectedDate form_input", autocomplete = "off", @readonly = "readonly" })
+                </td>
+                <td>
+                    @Html.TextBoxFor(m => m.SupplyOrderFollowups[row].Remarks, new { @class = "Remarks form_input", autocomplete = "off" })
+                </td>
 
             </tr>
-        </thead>
-        <tbody class="grid_row">
+            row++;
 
-            @{ int row = 0;}
-            @foreach (var item in Model.SupplyOrderFollowups)
-            {
-
-                <tr id="@row">
-
-                    <td>
-                        @Html.HiddenFor(m => m.SupplyOrderFollowups[row].SupplyOrderFollowupId)
-                        <input type="text" value="@(row + 1)" style="width:25px" class="form_input text-center" disabled />
-                    </td>
-                    <td>
-                        <input type="text" value="@Model.SupplyOrderFollowups[row].SupplyOrderNo  @Model.SupplyOrderFollowups[row].SupplyOrderDate" class="form_input" disabled />
-                    </td>
-                    <td>
-                        @Html.HiddenFor(m => m.SupplyOrderFollowups[row].SupplyOrderItemId)
-                        @Html.TextBoxFor(m => m.SupplyOrderFollowups[row].ItemName, new { @class = "OrderedQty form_input", autocomplete = "off", @readonly = "readonly" })
-                    </td>
-                    <td>
-                        @Html.TextBoxFor(m => m.SupplyOrderFollowups[row].CriticalItem, new { @class = "CriticalItem form_input", autocomplete = "off", @readonly = "readonly" })
-                    </td>
-                    <td>
-                        @Html.TextBoxFor(m => m.SupplyOrderFollowups[row].OrderedQty, new { @class = "form_input text-right", autocomplete = "off", @readonly = "readonly" })
-                    </td>
-
-                    <td>
-                        @Html.TextBoxFor(m => m.SupplyOrderFollowups[row].SupplierName, new { @class = "SupplierName form_input", autocomplete = "off", @readonly = "readonly" })
-                    </td>
-                    <td>
-                        @Html.TextBoxFor(m => m.SupplyOrderFollowups[row].RequiredDate, item.RequiredDate.ToString("dd/MMMM/yyyy"), new { @class = "RequiredDate form_input", autocomplete = "off", @readonly = "readonly" })
-
-                    </td>
-                    <td>
-                        @* @Html.TextBoxFor(m => m.SupplyOrderFollowups[row].ExpectedDate, item.ExpectedDate.ToString("dd/MMMM/yyyy"), new { @class = "ExpectedDate form_input", autocomplete = "off", @readonly = "readonly" })*@
-                        @Html.TextBoxFor(m => m.SupplyOrderFollowups[row].ExpectedDate, @String.Format("{0:dd/MMMM/yyyy}", item.ExpectedDate), new { @class = "ExpectedDate form_input", autocomplete = "off", @readonly = "readonly" })
-                    </td>
-                    <td>
-                        @Html.TextBoxFor(m => m.SupplyOrderFollowups[row].Remarks, new { @class = "Remarks form_input", autocomplete = "off" })
-                    </td>
-
-                </tr>
-                row++;
-
-            }
-        </tbody>
-    </table>
+        }
+    </tbody>
+</table>
 
 

@@ -16,14 +16,14 @@ namespace ArabErp.Web.Reports {
     using CrystalDecisions.CrystalReports.Engine;
     
     
-    public class SaleOrder : ReportClass {
+    public class Grn : ReportClass {
         
-        public SaleOrder() {
+        public Grn() {
         }
         
         public override string ResourceName {
             get {
-                return "SaleOrder.rpt";
+                return "Grn.rpt";
             }
             set {
                 // Do nothing
@@ -41,7 +41,7 @@ namespace ArabErp.Web.Reports {
         
         public override string FullResourceName {
             get {
-                return "ArabErp.Web.Reports.SaleOrder.rpt";
+                return "ArabErp.Web.Reports.Grn.rpt";
             }
             set {
                 // Do nothing
@@ -106,9 +106,9 @@ namespace ArabErp.Web.Reports {
     }
     
     [System.Drawing.ToolboxBitmapAttribute(typeof(CrystalDecisions.Shared.ExportOptions), "report.bmp")]
-    public class CachedSaleOrder : Component, ICachedReport {
+    public class CachedGrn : Component, ICachedReport {
         
-        public CachedSaleOrder() {
+        public CachedGrn() {
         }
         
         [Browsable(false)]
@@ -145,7 +145,7 @@ namespace ArabErp.Web.Reports {
         }
         
         public virtual CrystalDecisions.CrystalReports.Engine.ReportDocument CreateReport() {
-            SaleOrder rpt = new SaleOrder();
+            Grn rpt = new Grn();
             rpt.Site = this.Site;
             return rpt;
         }

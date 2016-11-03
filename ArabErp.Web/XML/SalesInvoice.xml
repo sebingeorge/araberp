@@ -24,6 +24,7 @@
                 <xs:element name="Street" type="xs:string" minOccurs="0" />
                 <xs:element name="State" type="xs:string" minOccurs="0" />
                 <xs:element name="Country" type="xs:string" minOccurs="0" />
+                <xs:element name="Currency" type="xs:string" minOccurs="0" />
                 <xs:element name="Phone" type="xs:string" minOccurs="0" />
                 <xs:element name="Fax" type="xs:string" minOccurs="0" />
                 <xs:element name="Email" type="xs:string" minOccurs="0" />
@@ -61,10 +62,12 @@
     <TotalAmount>68000.00</TotalAmount>
     <Image1>E:\ARAB\New folder\ArabErp\ArabErp.Web\App_images\e8251ae5-2716-4b20-841c-c57ba2109c7b.png</Image1>
     <OrganizationName>Arab Air Conditioning &amp; Refrigeration Co. W.L.L.</OrganizationName>
-    <DoorNo>ORG/1</DoorNo>
+    <OrganizationRefNo>ORG/1</OrganizationRefNo>
+    <DoorNo>1213dfdf</DoorNo>
     <Street>Doha-Qatar</Street>
     <State>fdgd</State>
-    <Country>1</Country>
+    <Country>India</Country>
+    <Currency>uk</Currency>
     <Phone>+974 44357216,15</Phone>
     <Fax>+974 44414762</Fax>
     <Email>info@arabrefrigeration.com</Email>

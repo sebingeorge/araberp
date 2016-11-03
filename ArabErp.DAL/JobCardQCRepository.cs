@@ -45,9 +45,7 @@ namespace ArabErp.DAL
                 catch (Exception)
                 {
                     trn.Rollback();
-                    throw;
                     return 0;
-
                 }
 
 
@@ -212,9 +210,11 @@ namespace ArabErp.DAL
 
             using (IDbConnection connection = OpenConnection(dataConnection))
             {
-                string sql = @" SELECT O.*, JobCardQCId,JobCardQCRefNo,J.JobCardNo,J.JobCardDate JcDate,JQ.JobCardId,
+                string sql = @"SELECT O.*, JobCardQCId,J.JobCardNo,JQ.JobCardId,
                                 C.CustomerName Customer,V.VehicleModelName VehicleModel,Employeename, ORR.CountryName,
-                                JobCardQCDate,IsQCPassed,ISNULL(DC.JobCardId,0)IsUsed 
+                                IsQCPassed,ISNULL(DC.JobCardId,0)IsUsed ,IsQCPassed QCPassed,
+								CONCAT(JobCardQCRefNo,' - ',CONVERT (VARCHAR(15),JobCardQCDate,106))JobCardQCNoDate,  
+	                            CONCAT(JobCardNo,' - ',CONVERT (VARCHAR(15), JobCardDate,106))JobCardNoDate
                                 FROM JobCardQC JQ
 						        Left JOIN Employee E ON E.EmployeeId=JQ.EmployeeId
                                 INNER JOIN JobCard J ON J.JobCardId=JQ.JobCardId
@@ -222,7 +222,7 @@ namespace ArabErp.DAL
                                 INNER JOIN SaleOrderItem SI ON SI.SaleOrderId=S.SaleOrderId
                                 INNER JOIN Customer C ON C.CustomerId=S.CustomerId
 								INNER JOIN Organization O ON O.OrganizationId=JQ.OrganizationId
-                                inner  JOIN Country ORR ON ORR.CountryId=O.Country
+                                LEFT  JOIN Country ORR ON ORR.CountryId=O.Country
                                 LEFT JOIN VehicleModel V ON V.VehicleModelId=SI.VehicleModelId
                                 LEFT JOIN DeliveryChallan DC ON DC.JobCardId=JQ.JobCardId
                                 WHERE JobCardQCId=@JobCardQCId";

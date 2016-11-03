@@ -17,7 +17,11 @@
 
 }
 <script>
-
+    function GoToPrint(id) {
+        var url = '@Url.Action("Print")';
+        url += "?Id=" + id;
+        window.location = url;
+    }
     function Back() {
 
         var url = '@Url.Action("PreviousList", "SalesQuotation")';
@@ -924,6 +928,8 @@
                         <button type="submit" class="form-button right">Edit</button>
                         <span id="costing-amount-notifier"></span>
                     }
+                    <input type="button" value="Print" onclick="GoToPrint(@Model.SalesQuotationId)" class="form-button right" />
+
                 </div>
             </div>
         }

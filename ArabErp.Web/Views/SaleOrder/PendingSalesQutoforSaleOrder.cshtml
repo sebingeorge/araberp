@@ -8,24 +8,6 @@
 
 <script>
 
-    $(function () {
-        //---------------------toastr---------------------------//
-        toastr.options = {
-            "positionClass": "toast-bottom-full-width",
-            "timeOut": "5000",
-            "extendedTimeOut": "2000"
-        }
-        if ('@TempData["success"]' != '') {
-            toastr.success('@TempData["success"]');
-        }
-        else if ('@TempData["error"]' != '') {
-            toastr.error('@TempData["error"]'.split('|')[0]);
-            console.log('@TempData["error"]'.split('|')[1]);
-        }
-        @{ TempData["success"] = TempData["error"] = ""; }
-        //------------------------------------------------------//
-    })
-
     function PreviousList() {
       
         var url = '@Url.Action("Index", "SaleOrder", new { type = ViewBag.ProjectBased})';
@@ -72,7 +54,7 @@
                                 foreach (var item in Model)
                                 {
                                     <tr>
-                                        <td class="grid-cell">@item.QuotationRefNo &amp; @item.QuotationDate.ToString("dd/MMM/yyyy")</td>
+                                        <td class="grid-cell">@item.QuotationRefNo - @item.QuotationDate.ToString("dd/MMMM/yyyy")</td>
                                         <td class="grid-cell">@item.CustomerName</td>
                                         <td class="grid-cell">@item.WorkDescription</td>
                                         <td class="grid-cell" align="right">@item.GrandTotal</td>

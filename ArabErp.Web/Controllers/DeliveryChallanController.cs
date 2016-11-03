@@ -158,28 +158,19 @@ namespace ArabErp.Web.Controllers
         [HttpPost]
         public ActionResult Edit(DeliveryChallan model)
         {
-            EmployeeDropdown();
-
             try
             {
-
                 model.CreatedBy = UserID.ToString(); model.CreatedDate = DateTime.Today; model.OrganizationId = OrganizationId;
-
-                if (model.ItemBatches != null && model.ItemBatches.Count > 0)
-                {
-                    new DeliveryChallanRepository().DeleteDeliveryChallanItemBatch(model.DeliveryChallanId);
-                }
-
                 new DeliveryChallanRepository().UpdateDeliveryChallan(model);
-
                 TempData["success"] = "Updated Successfully (" + model.DeliveryChallanRefNo + ")";
                 TempData["JobCardQCRefNo"] = model.DeliveryChallanRefNo;
-                return RedirectToAction("Index");
+                return RedirectToAction("DeliveryChallanList");
             }
             catch (Exception)
             {
                 TempData["error"] = "Some error occurred. Please try again.";
             }
+            EmployeeDropdown();
             return View(model);
         }
         public ActionResult Delete(int DeliveryChallanId = 0)

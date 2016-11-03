@@ -16,14 +16,14 @@ namespace ArabErp.Web.Reports {
     using CrystalDecisions.CrystalReports.Engine;
     
     
-    public class SaleOrder : ReportClass {
+    public class Material : ReportClass {
         
-        public SaleOrder() {
+        public Material() {
         }
         
         public override string ResourceName {
             get {
-                return "SaleOrder.rpt";
+                return "Material.rpt";
             }
             set {
                 // Do nothing
@@ -41,7 +41,7 @@ namespace ArabErp.Web.Reports {
         
         public override string FullResourceName {
             get {
-                return "ArabErp.Web.Reports.SaleOrder.rpt";
+                return "ArabErp.Web.Reports.Material.rpt";
             }
             set {
                 // Do nothing
@@ -90,25 +90,17 @@ namespace ArabErp.Web.Reports {
         
         [Browsable(false)]
         [DesignerSerializationVisibilityAttribute(System.ComponentModel.DesignerSerializationVisibility.Hidden)]
-        public CrystalDecisions.CrystalReports.Engine.Section ReportFooterSection2 {
-            get {
-                return this.ReportDefinition.Sections[5];
-            }
-        }
-        
-        [Browsable(false)]
-        [DesignerSerializationVisibilityAttribute(System.ComponentModel.DesignerSerializationVisibility.Hidden)]
         public CrystalDecisions.CrystalReports.Engine.Section Section5 {
             get {
-                return this.ReportDefinition.Sections[6];
+                return this.ReportDefinition.Sections[5];
             }
         }
     }
     
     [System.Drawing.ToolboxBitmapAttribute(typeof(CrystalDecisions.Shared.ExportOptions), "report.bmp")]
-    public class CachedSaleOrder : Component, ICachedReport {
+    public class CachedMaterial : Component, ICachedReport {
         
-        public CachedSaleOrder() {
+        public CachedMaterial() {
         }
         
         [Browsable(false)]
@@ -145,7 +137,7 @@ namespace ArabErp.Web.Reports {
         }
         
         public virtual CrystalDecisions.CrystalReports.Engine.ReportDocument CreateReport() {
-            SaleOrder rpt = new SaleOrder();
+            Material rpt = new Material();
             rpt.Site = this.Site;
             return rpt;
         }

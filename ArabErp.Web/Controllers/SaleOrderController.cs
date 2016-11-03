@@ -678,7 +678,7 @@ namespace ArabErp.Web.Controllers
             model.Items = new List<SaleOrderItem>();
             foreach (var item in SOList)
             {
-                var soitem = new SaleOrderItem { WorkDescriptionId = item.WorkDescriptionId, VehicleModelId = item.VehicleModelId, Quantity = item.Quantity, UnitId = item.UnitId, Rate = item.Rate, Amount = item.Amount, Discount = item.Discount };
+                var soitem = new SaleOrderItem { WorkDescriptionId = item.WorkDescriptionId, WorkDescr = item.WorkDescr, VehicleModelId = item.VehicleModelId, VehicleModelName = item.VehicleModelName, Quantity = item.Quantity, UnitId = item.UnitId, Rate = item.Rate, Amount = item.Amount, Discount = item.Discount };
                 model.Items.Add(soitem);
 
             }
@@ -809,8 +809,8 @@ namespace ArabErp.Web.Controllers
             ds.Tables.Add("Items");
 
             //-------HEAD
-            ds.Tables["Head"].Columns.Add("SaleOrderRefNo");
-            ds.Tables["Head"].Columns.Add("SaleOrderDate");
+         
+            ds.Tables["Head"].Columns.Add("SaleOrderNoDate");
             ds.Tables["Head"].Columns.Add("QuotationNoDate");
             ds.Tables["Head"].Columns.Add("CustomerName");
             ds.Tables["Head"].Columns.Add("CustomerAddress");
@@ -831,7 +831,9 @@ namespace ArabErp.Web.Controllers
             ds.Tables["Head"].Columns.Add("Zip");
             ds.Tables["Head"].Columns.Add("Fax");
             ds.Tables["Head"].Columns.Add("Email");
+            ds.Tables["Head"].Columns.Add("Phone");
             ds.Tables["Head"].Columns.Add("ContactPerson");
+            ds.Tables["Head"].Columns.Add("CurrencyName");
             ds.Tables["Head"].Columns.Add("OrganizationName");
             ds.Tables["Head"].Columns.Add("Image1");
 
@@ -847,8 +849,8 @@ namespace ArabErp.Web.Controllers
             var Head = repo.GetSaleOrderHD(Id, OrganizationId);
 
             DataRow dr = ds.Tables["Head"].NewRow();
-            dr["SaleOrderRefNo"] = Head.SaleOrderRefNo;
-            dr["SaleOrderDate"] = Head.SaleOrderDate.ToString("dd-MMM-yyyy");
+      
+            dr["SaleOrderNoDate"] = Head.SaleOrderNoDate;
             dr["QuotationNoDate"] = Head.QuotationNoDate;
             dr["CustomerName"] = Head.CustomerName;
             dr["CustomerAddress"] = Head.CustomerAddress;
@@ -858,17 +860,19 @@ namespace ArabErp.Web.Controllers
             dr["DeliveryTerms"] = Head.DeliveryTerms;
             dr["CommissionAgentName"] = Head.CommissionAgentName;
             dr["CommissionAmount"] = Head.CommissionAmount;
-            dr["SalesExecutiveId"] = Head.SalesExecutiveId;
-            dr["EDateArrival"] = Head.EDateArrival;
-            dr["EDateDelivery"] = Head.EDateDelivery;
+            dr["SalesExecutiveId"] = Head.SalesExecutiveName;
+            dr["EDateArrival"] = Head.EDateArrival.ToString("dd-MMM-yyyy");
+            dr["EDateDelivery"] = Head.EDateDelivery.ToString("dd-MMM-yyyy");
             dr["DoorNo"] = Head.DoorNo;
-             dr["Street"] = Head.Street;
+            dr["Street"] = Head.Street;
             dr["State"] = Head.State;
             dr["CountryName"] = Head.CountryName;
             dr["Zip"] = Head.Zip;
             dr["Fax"] = Head.Fax;
             dr["Email"] = Head.Email;
+            dr["Phone"] = Head.Phone;
             dr["ContactPerson"] = Head.ContactPerson;
+            dr["CurrencyName"] = Head.CurrencyName;
             dr["OrganizationName"] = Head.OrganizationName;
             dr["Image1"] = Server.MapPath("~/App_images/") + Head.Image1;
             ds.Tables["Head"].Rows.Add(dr);
