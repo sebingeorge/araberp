@@ -20,6 +20,21 @@
         var url = '@Url.Action("Index", "Home")';
         window.location = url;
     }
+    function GoToPrint() {
+        //  $(this).hide();
+        var SupName = $("#cboSupplier option:selected").text();
+        var SupId = $("#cboSupplier").val();
+        console.log(SupId);
+        var itmName = $("#cboItem option:selected").text();
+        var itmid = $("#cboItem").val();
+        var from = $("#txtFrom").val();
+        console.log(from);
+        var to = $("#txtTo").val();
+        var url = '@Url.Action("Print")';
+        url += "?SupId=" + SupId + "&SupName=" + (SupName == '' ? 0 : SupName);
+        window.location = url;
+
+    }
 </script>
 
 
@@ -49,6 +64,7 @@
         <div class="row">
             <div class="col-md-12 hrpart">
                 <input type="button" class="form-button right" value="Exit" onclick="Exit()" />
+                <input type="button" value="Print" onclick="GoToPrint()" class="form-button right" />
             </div>
         </div>
     </div>
