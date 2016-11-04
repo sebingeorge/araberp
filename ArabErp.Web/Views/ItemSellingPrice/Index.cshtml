@@ -20,89 +20,85 @@
     <div class="form-head1">
         <h4>Material/Spare Selling Price</h4>
     </div>
-   
-
-            @*<div class="main-grid main-grid-top scroll1">*@
-                @using (Html.BeginForm("Save", null, FormMethod.Post, new { @class = "createFrom", @id = "CustomerVsSalesExecutive_form" }))
-                {
-                    <div class="main-part pad1">
-                        <div class="row" id="grid">
-                            <div class=" table-responsive">
-                                <table class="table table-bordered table-hover">
-                                    <thead>
-                                        <tr class="grid_heading">
-                                            <th class="text-center" width="1%">#</th>
-                                            <th width="20%"><h1>Item Name</h1></th>
-                                            <th width="6%"><h1>Part No</h1></th>
-                                            <th width="6%"><h1>Item Category</h1></th>
-                                            <th width="8%" nowrap><h1>Item Group</h1></th>
-                                            <th width="8%"><h1>Item Sub Group</h1></th>
-                                            <th width="3%"><h1>UoM </h1></th>
-                                            <th width="3%"><h1>Selling Price</h1></th>
-                                            <th width="3%"><h1>Average</h1></th>
 
 
-                                        </tr>
-                                    </thead>
-                                    <tbody class="grid_row">
+    @*<div class="main-grid main-grid-top scroll1">*@
+    @using (Html.BeginForm("Save", null, FormMethod.Post, new { @class = "createFrom", @id = "CustomerVsSalesExecutive_form" }))
+    {
+        <div class="main-part pad1">
+            <div class="scroll4" id="grid">
+                <table class="table table-bordered table-hover">
+                    <thead>
+                        <tr class="grid_heading">
+                            <th class="text-center" width="1%">#</th>
+                            <th width="20%"><h1>Item Name</h1></th>
+                            <th width="6%"><h1>Part No</h1></th>
+                            <th width="6%"><h1>Item Category</h1></th>
+                            <th width="8%" nowrap><h1>Item Group</h1></th>
+                            <th width="8%"><h1>Item Sub Group</h1></th>
+                            <th width="3%"><h1>UoM </h1></th>
+                            <th width="3%"><h1>Selling Price</h1></th>
+                            <th width="3%"><h1>Average</h1></th>
 
-                                        @{ int row = 0;}
-                                        @foreach (var item in Model.ItemSellingPriceLists)
-                                        {
-                                            <tr id="@row">
 
-                                                <td>
-                                                    @Html.HiddenFor(m => m.ItemSellingPriceLists[row].ItemSellingPriceId)
-                                                    @Html.HiddenFor(m => m.ItemSellingPriceLists[row].ItemId)
-                                                    <input type="text" value="@(row + 1)" style="width:30px" class="form_input textl" disabled />
-                                                </td>
+                        </tr>
+                    </thead>
+                    <tbody class="grid_row">
 
-                                                <td>
+                        @{ int row = 0;}
+                        @foreach (var item in Model.ItemSellingPriceLists)
+                        {
+                            <tr id="@row">
 
-                                                    @Html.TextBoxFor(m => m.ItemSellingPriceLists[row].ItemName, new { @class = "OrderedQty form_input", autocomplete = "off", @readonly = "readonly" })
-                                                </td>
-                                                <td>
-                                                    @Html.TextBoxFor(m => m.ItemSellingPriceLists[row].PartNo, new { @class = "CriticalItem form_input", autocomplete = "off", @readonly = "readonly" })
-                                                </td>
-                                                <td>
-                                                    @Html.TextBoxFor(m => m.ItemSellingPriceLists[row].CategoryName, new { @class = "form_input ", autocomplete = "off", @readonly = "readonly" })
-                                                </td>
+                                <td align="center">
+                                    @Html.HiddenFor(m => m.ItemSellingPriceLists[row].ItemSellingPriceId)
+                                    @Html.HiddenFor(m => m.ItemSellingPriceLists[row].ItemId)
+                                    @*<input type="text" value="@(row + 1)" style="width:30px" class="form_input textl" disabled />*@
+                                    @(row + 1)
+                                </td>
 
-                                                <td>
-                                                    @Html.TextBoxFor(m => m.ItemSellingPriceLists[row].ItemGroupName, new { @class = " form_input", autocomplete = "off", @readonly = "readonly" })
-                                                </td>
-                                                <td>
-                                                    @Html.TextBoxFor(m => m.ItemSellingPriceLists[row].ItemSubGroupName, new { @class = " form_input", autocomplete = "off", @readonly = "readonly" })
-                                                </td>
-                                                <td>
-                                                    @Html.TextBoxFor(m => m.ItemSellingPriceLists[row].UnitName, new { @class = " form_input ", autocomplete = "off", @readonly = "readonly" })
-                                                </td>
-                                                <td>
-                                                    @Html.TextBoxFor(m => m.ItemSellingPriceLists[row].SellingPrice, new { @class = "form_input text-right", autocomplete = "off" })
-                                                </td>
-                                                <td>
-                                                    @Html.TextBoxFor(m => m.ItemSellingPriceLists[row].Average,@String.Format("{0:0.00}",item.Average), new { @class = "form_input text-right", autocomplete = "off" ,@readonly = "readonly"})
-                                                </td>
-                                            </tr>
-                                            row++;
+                                <td>
 
-                                        }
-                                    </tbody>
-                                </table>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-md-12 hrpart">
-                                <button type="button" class="form-button right" onclick="Exit()">Exit</button>
-                                <button type="submit" class="form-button right">Save</button>
-                                <input type="button" value="Print" onclick="GoToPrint()" class="form-button right" />
-                            </div>
-                        </div>
-                    </div>
-                }
-                    @*</div>*@
-            
+                                    @Html.TextBoxFor(m => m.ItemSellingPriceLists[row].ItemName, new { @class = "OrderedQty form_input", autocomplete = "off", @readonly = "readonly" })
+                                </td>
+                                <td>
+                                    @Html.TextBoxFor(m => m.ItemSellingPriceLists[row].PartNo, new { @class = "CriticalItem form_input", autocomplete = "off", @readonly = "readonly" })
+                                </td>
+                                <td>
+                                    @Html.TextBoxFor(m => m.ItemSellingPriceLists[row].CategoryName, new { @class = "form_input ", autocomplete = "off", @readonly = "readonly" })
+                                </td>
+
+                                <td>
+                                    @Html.TextBoxFor(m => m.ItemSellingPriceLists[row].ItemGroupName, new { @class = " form_input", autocomplete = "off", @readonly = "readonly" })
+                                </td>
+                                <td>
+                                    @Html.TextBoxFor(m => m.ItemSellingPriceLists[row].ItemSubGroupName, new { @class = " form_input", autocomplete = "off", @readonly = "readonly" })
+                                </td>
+                                <td>
+                                    @Html.TextBoxFor(m => m.ItemSellingPriceLists[row].UnitName, new { @class = " form_input ", autocomplete = "off", @readonly = "readonly" })
+                                </td>
+                                <td>
+                                    @Html.TextBoxFor(m => m.ItemSellingPriceLists[row].SellingPrice, new { @class = "form_input text-right", autocomplete = "off" })
+                                </td>
+                                <td>
+                                    @Html.TextBoxFor(m => m.ItemSellingPriceLists[row].Average, @String.Format("{0:0.00}", item.Average), new { @class = "form_input text-right", autocomplete = "off", @readonly = "readonly" })
+                                </td>
+                            </tr>
+                            row++;
+
+                        }
+                    </tbody>
+                </table>
+            </div>
+            <div class="row">
+                <div class="col-md-12 hrpart">
+                    <button type="button" class="form-button right" onclick="Exit()">Exit</button>
+                    <button type="submit" class="form-button right">Save</button>
+                    <input type="button" value="Print" onclick="GoToPrint()" class="form-button right" />
+                </div>
+            </div>
         </div>
+    }
+    @*</div>*@
 
-
-
+</div>
