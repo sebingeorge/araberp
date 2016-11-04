@@ -62,7 +62,7 @@
                         <td>
                             @*<input type="text" value="*@<b>@Model[i].GRNNo</b>@if (Model[i].GRNDate.ToString("dd MMMM yyyy") != "01 January 0001")
                                                                                    {
-                                                                                       @:- @Model[i].GRNDate.ToString("dd-MMMM-yyyy")
+                                                                                       @: - @Model[i].GRNDate.ToString("dd-MMMM-yyyy")
                                                                                    }
                             @*" class="form_input" disabled />*@
                         </td>

@@ -20,14 +20,13 @@
         var item = $("#cboItem").val();
         var type = $("#cboType").val();
         var saleorder = $("#cboSaleOrder").val();
-        url += "?serialno=" + encodeURIComponent(serialno) + "&item=" + item + "&type=" + type + "&saleorder=" + saleorder;
+        url += "?serialno=" + encodeURIComponent(serialno) +
+            "&item=" + encodeURIComponent(item) +
+            "&type=" + encodeURIComponent(type) +
+            "&saleorder=" + encodeURIComponent(saleorder);
         $("#grid").load(url, function () {
             $(grid).removeClass("fade");
         });
-    }
-
-    function OnTypeChanged(sender) {
-
     }
 
     @*function OnRowDoubleClicked(id) {
@@ -55,21 +54,23 @@
                     <input type="text" class="form_input" id="txtSerialNo" onkeyup="Filter()" />
                 </div>
                 <div class="col-md-3">
-                    <label for="cboItem">Material/Spares</label>
-                    @Html.DropDownList("cboItem", (SelectList)ViewBag.materialList, "Any", new { @class = "form_input", @onchange = "Filter()", @placeholder = "Search for Material/Spare" })
+                    <label for="cboItem">Material/Spare</label>
+                    <input class="form_input" id="cboItem" onkeyup="Filter()" onchange="Filter()" />
+                    @*@Html.DropDownList("cboItem", (SelectList)ViewBag.materialList, "Any", new { @class = "form_input", @onchange = "Filter()", @placeholder = "Search for Material/Spare" })*@
                 </div>
                 <div class="col-md-2">
                     <label for="cboType">Type</label>
-                    <select id="cboType" class="form_input" onclick="OnTypeChanged(this)" onchange="Filter()">
+                    <select id="cboType" class="form_input" onchange="Filter()">
                         <option value="0">Any</option>
                         <option value="1">Reserved</option>
                         <option value="2">Unreserved</option>
-                        <option value="3">Used</option>
+                        <option value="3">Delivered</option>
                     </select>
                 </div>
                 <div class="col-md-3">
                     <label for="cboSaleOrder">Sale Order</label>
-                    @Html.DropDownList("cboSaleOrder", (SelectList)ViewBag.saleOrderList, "Any", new { @class = "form_input", @onchange = "Filter()" })
+                    <input class="form_input" id="cboSaleOrder" onkeyup="Filter()" onchange="Filter()" />
+                    @*@Html.DropDownList("cboSaleOrder", (SelectList)ViewBag.saleOrderList, "Any", new { @class = "form_input", @onchange = "Filter()" })*@
                 </div>
                 @*<div class="col-md-2">
                     <input type="button" class="form-button filter" value="Filter" onclick="Filter()" />
