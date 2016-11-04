@@ -30,14 +30,14 @@
         <tr class="grid_heading">
             <th width="2%" class="text-center">#</th>
             <th width="15%"><h1>Customer</h1></th>
-            <th width="8%" nowrap><h1>Opening Stock Date</h1></th>
+            @*<th width="8%" nowrap><h1>Opening Stock Date</h1></th>*@
             <th width="15%" nowrap><h1>GRN No. & Date</h1></th>
-            <th width="14%" title="Sale Order No. and Date" nowrap><h1>SO.No. & Date</h1></th>
+            <th width="14%" title="Sale Order No. and Date" nowrap><h1>SO No. & Date</h1></th>
             @*<th width="10%" title="Delivery Challan Ref. No."><h1>DC Ref. No.</h1></th>*@
             <th width="30%"><h1>Material/Spares</h1></th>
             <th width="10%" nowrap><h1>Serial No.</h1></th>
             <th width="10%" nowrap><h1>Employee</h1></th>
-            <th width="10%" nowrap><h1>Warr.Exp.Date</h1></th>
+            <th width="10%" title="Warranty Expire Date" nowrap><h1>Warr. Exp. Date</h1></th>
             @*<th width="10%" title="in months"><h1>Warranty Left</h1></th>*@
             <th width="1%"></th>
             <th width="1%"></th>
@@ -56,14 +56,18 @@
                         <td>
                             @*<input value="*@@Model[i].CustomerName@*" class="form_input" title="@Model[i].CustomerName" disabled />*@
                         </td>
+                        @*<td>
+                            <input type="text" value="@Model[i].OSDATE" class="form_input" disabled />
+                        </td>*@
                         <td>
-                            @*<input type="text" value="*@@Model[i].OSDATE@*" class="form_input" disabled />*@
+                            @*<input type="text" value="*@<b>@Model[i].GRNNo</b>@if (Model[i].GRNDate.ToString("dd MMMM yyyy") != "01 January 0001")
+                                                                                   {
+                                                                                       @:- @Model[i].GRNDate.ToString("dd-MMMM-yyyy")
+                                                                                   }
+                            @*" class="form_input" disabled />*@
                         </td>
                         <td>
-                            @*<input type="text" value="*@@Model[i].GRNNo & @Model[i].GRNDate.ToString("dd-MMMM-yyyy")@*" class="form_input" disabled />*@
-                        </td>
-                        <td>
-                            @*<input type="text" value="*@@Model[i].SaleOrderRefNo - @Model[i].SaleOrderDate@*" class="form_input" disabled />*@
+                            @*<input type="text" value="*@<b>@Model[i].SaleOrderRefNo</b> - @Model[i].SaleOrderDate@*" class="form_input" disabled />*@
                         </td>
                         @*<td>
                             <input type="text" value="@Model[i].DeliveryChallanRefNo" class="form_input" disabled />
@@ -72,7 +76,7 @@
                             @*<input type="text" value="*@@Model[i].ItemName@*" class="form_input" disabled />*@
                         </td>
                         <td>
-                            @*<input type="text" value="*@@Model[i].SerialNo@*" class="form_input bold" disabled />*@
+                            @*<input type="text" value="*@<b>@Model[i].SerialNo</b>@*" class="form_input bold" disabled />*@
                         </td>
                         <td>
                             @*<input type="text" value="*@@Model[i].CreatedBy@*" class="form_input" disabled />*@
@@ -81,7 +85,7 @@
                             @*<input type="text"*@
                                    @if(Model[i].WarrantyExpireDate.ToString("dd MMMM yyyy") != "01 January 0001")
                                    {
-                                       @: @*value="*@@Model[i].WarrantyExpireDate.ToString("dd MMMM yyyy")@*"*@
+                                       @: @*value="*@@Model[i].WarrantyExpireDate.ToString("dd-MMMM-yyyy")@*"*@
                                    }
                                    else
                                    {

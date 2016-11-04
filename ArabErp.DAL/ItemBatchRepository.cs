@@ -807,25 +807,27 @@ namespace ArabErp.DAL
             using (IDbConnection connection = OpenConnection(dataConnection))
             {
                 string query = @"SELECT SO.SaleOrderId,IB.ItemBatchId,
-                                    CONCAT('Opening Stock',' - ',ISNULL(CONVERT(VARCHAR,OS.CreatedDate,106),'-')) OSDATE,
-	                                G.GRNNo,CONVERT(VARCHAR, G.GRNDate, 106) GRNDate,
+                                    --CONCAT('Opening Stock',' - ',ISNULL(CONVERT(VARCHAR,OS.CreatedDate,106),'-')) OSDATE,
+	                                ISNULL(G.GRNNo, 'Opening Stock') GRNNo,
+									CONVERT(VARCHAR, G.GRNDate, 106) GRNDate,
 	                                SO.SaleOrderRefNo, CONVERT(VARCHAR, SO.SaleOrderDate, 106) SaleOrderDate,
 	                                I.ItemName,IB.SerialNo,U.EmployeeName AS CreatedBy,
                                     ISNULL(IB.DeliveryChallanId, 0) DeliveryChallanId,
 									ISNULL(DC.DeliveryChallanRefNo, '-') DeliveryChallanRefNo,
 									CONVERT(VARCHAR, IB.WarrantyExpireDate, 106) WarrantyExpireDate,
 									DATEDIFF(MONTH, GETDATE(), IB.WarrantyExpireDate) WarrantyLeft,
-									C.CustomerName
+									ISNULL(C.CustomerName, '-') CustomerName
                                     FROM ItemBatch IB
                                     LEFT JOIN SaleOrderItem SOI ON IB.SaleOrderItemId = SOI.SaleOrderItemId
                                     LEFT JOIN SaleOrder SO ON SOI.SaleOrderId = SO.SaleOrderId
                                     LEFT JOIN GRNItem GI ON IB.GRNItemId = GI.GRNItemId
                                     LEFT JOIN GRN G ON GI.GRNId = G.GRNId
-                                    LEFT JOIN Item I ON GI.ItemId = I.ItemId
+									LEFT JOIN OpeningStock OS ON IB.OpeningStockId = OS.OpeningStockId
+                                    LEFT JOIN Item I ON (GI.ItemId = I.ItemId OR OS.ItemId = I.ItemId)
                                     LEFT JOIN Employee U ON IB.CreatedBy = U.EmployeeId
                                     LEFT JOIN Customer C ON SO.CustomerId = C.CustomerId
                                     LEFT JOIN DeliveryChallan DC ON IB.DeliveryChallanId = DC.DeliveryChallanId
-                                    LEFT JOIN OpeningStock OS ON OS.OpeningStockId=IB.OpeningStockId AND OS.ItemId=I.ItemId
+                                    --LEFT JOIN OpeningStock OS ON OS.OpeningStockId=IB.OpeningStockId AND OS.ItemId=I.ItemId
                                     WHERE ISNULL(IB.isActive, 1) = 1
 								    AND IB.SerialNo LIKE '%'+@serialno+'%'
 								    AND I.ItemId = ISNULL(NULLIF(@item, 0), I.ItemId)
@@ -923,7 +925,7 @@ namespace ArabErp.DAL
 	                                ISNULL(SII.Amount, 0) SalesInvoiceAmount,
 	                                SI.SpecialRemarks SalesInvoiceRemarks,
 									I.ItemName,
-									G.GRNNo,
+									ISNULL(G.GRNNo, 'Opening Stock')GRNNo,
 									G.GRNDate,
 									S.SupplierName,
 									GI.Amount GRNAmount,
@@ -943,8 +945,9 @@ namespace ArabErp.DAL
                                 LEFT JOIN SalesInvoiceItem SII ON SI.SalesInvoiceId = SII.SalesInvoiceId
                                 RIGHT JOIN ItemBatch IB ON SII.SaleOrderItemId = IB.SaleOrderItemId
 								LEFT JOIN GRNItem GI ON IB.GRNItemId = GI.GRNItemId
-								INNER JOIN GRN G ON GI.GRNId = G.GRNId
-								LEFT JOIN Item I ON GI.ItemId = I.ItemId
+								LEFT JOIN GRN G ON GI.GRNId = G.GRNId
+								LEFT JOIN OpeningStock OS ON IB.OpeningStockId = OS.OpeningStockId
+								LEFT JOIN Item I ON (GI.ItemId = I.ItemId OR OS.ItemId = I.ItemId)
 								LEFT JOIN Supplier S ON G.SupplierId = S.SupplierId
 								LEFT JOIN Stockpoint SP ON G.WareHouseId = SP.StockPointId
 								LEFT JOIN PurchaseBillItem PBI ON GI.GRNItemId = PBI.GRNItemId

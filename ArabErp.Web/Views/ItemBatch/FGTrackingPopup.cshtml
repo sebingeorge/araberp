@@ -25,7 +25,11 @@
                     @if (!Model.DeliveryChallanRefNo.IsEmpty())
                     {
                         <td>
-                            @Model.DeliveryChallanRefNo - @Model.DeliveryChallanDate.ToString("dd MMMM yyyy")
+                            @Model.DeliveryChallanRefNo - @if (Model.DeliveryChallanDate.ToString("dd MMMM yyyy") != "01 January 0001")
+                            {
+                                @:- @Model.DeliveryChallanDate.ToString("dd MMMM yyyy")
+                            }
+                            
                         </td>
                         <td>
                             @Model.WarrantyExpireDate.ToString("dd MMMM yyyy")
