@@ -161,10 +161,10 @@
                         <div id="admin-level-menu" class="collapse">
                             <ul>
                                 @if (formPermission.Find(x => x.FormId == 1) != null
-                                    && formPermission.Find(x => x.FormId == 2) != null
-                                    && formPermission.Find(x => x.FormId == 3) != null
-                                    && formPermission.Find(x => x.FormId == 4) != null
-                                    && formPermission.Find(x => x.FormId == 5) != null)
+                                    || formPermission.Find(x => x.FormId == 2) != null
+                                    || formPermission.Find(x => x.FormId == 3) != null
+                                    || formPermission.Find(x => x.FormId == 4) != null
+                                    || formPermission.Find(x => x.FormId == 5) != null)
                                 {
                                     <li>
                                         <a href="#" data-toggle="collapse" data-target="#admin-item">Item<span class="caret arrow"></span></a>
@@ -196,9 +196,9 @@
                                 }
 
                                 @if (formPermission.Find(x => x.FormId == 6) != null
-                                    && formPermission.Find(x => x.FormId == 7) != null
-                                    && formPermission.Find(x => x.FormId == 8) != null
-                                    && formPermission.Find(x => x.FormId == 9) != null)
+                                    || formPermission.Find(x => x.FormId == 7) != null
+                                    || formPermission.Find(x => x.FormId == 8) != null
+                                    || formPermission.Find(x => x.FormId == 9) != null)
                                 {
                                     <li>
                                         <a href="#" data-toggle="collapse" data-target="#admin-employee">Employee<span class="caret arrow"></span></a>
@@ -226,7 +226,7 @@
                                 }
 
                                 @if (formPermission.Find(x => x.FormId == 10) != null
-                                    && formPermission.Find(x => x.FormId == 11) != null)
+                                    || formPermission.Find(x => x.FormId == 11) != null)
                                 {
                                     <li>
                                         <a href="#" data-toggle="collapse" data-target="#admin-supplier">Supplier<span class="caret arrow"></span></a>
@@ -246,7 +246,7 @@
                                 }
 
                                 @if (formPermission.Find(x => x.FormId == 12) != null
-                                    && formPermission.Find(x => x.FormId == 13) != null)
+                                    || formPermission.Find(x => x.FormId == 13) != null)
                                 {
                                     <li>
                                         <a href="#" data-toggle="collapse" data-target="#admin-customer">Customer<span class="caret arrow"></span></a>
@@ -341,9 +341,9 @@
                                 }
 
                                 @if (formPermission.Find(x => x.FormId == 32) != null
-                                    && formPermission.Find(x => x.FormId == 33) != null
-                                    && formPermission.Find(x => x.FormId == 34) != null
-                                    && formPermission.Find(x => x.FormId == 35) != null)
+                                    || formPermission.Find(x => x.FormId == 33) != null
+                                    || formPermission.Find(x => x.FormId == 34) != null
+                                    || formPermission.Find(x => x.FormId == 35) != null)
                                 {
                                     <li>
                                         <a href="#" data-toggle="collapse" data-target="#admin-rate-settings">Rate Settings<span class="caret arrow"></span></a>
@@ -371,7 +371,7 @@
                                 }
 
                                 @if (formPermission.Find(x => x.FormId == 36) != null
-                                    && formPermission.Find(x => x.FormId == 37) != null)
+                                    || formPermission.Find(x => x.FormId == 37) != null)
                                 {
                                     <li>
                                         <a href="#" data-toggle="collapse" data-target="#admin-user-settings">User Settings<span class="caret arrow"></span></a>
@@ -463,10 +463,10 @@
                                     <li><a href="@Url.Action("PendingDirectPurchase","GrnWareHouse")">Direct Purchase GRN</a></li>
                                 }
                                 @if (formPermission.Find(x => x.FormId == 46) != null
-                                    && formPermission.Find(x => x.FormId == 47) != null
-                                    && formPermission.Find(x => x.FormId == 48) != null
-                                    && formPermission.Find(x => x.FormId == 49) != null
-                                    && formPermission.Find(x => x.FormId == 50) != null)
+                                    || formPermission.Find(x => x.FormId == 47) != null
+                                    || formPermission.Find(x => x.FormId == 48) != null
+                                    || formPermission.Find(x => x.FormId == 49) != null
+                                    || formPermission.Find(x => x.FormId == 50) != null)
                                 {
                                     <li>
                                         <a href="#" data-toggle="collapse" data-target="#purchase-serialno">Serial No.<span class="caret arrow"></span></a>
@@ -522,16 +522,16 @@
                         <div id="sales-level-menu" class="collapse">
                             <ul>
                                 @if (formPermission.Find(x => x.FormId == 54) != null
-                                    && formPermission.Find(x => x.FormId == 55) != null
-                                    && formPermission.Find(x => x.FormId == 56) != null
-                                    && formPermission.Find(x => x.FormId == 57) != null
-                                    && formPermission.Find(x => x.FormId == 58) != null
-                                    && formPermission.Find(x => x.FormId == 59) != null
-                                    && formPermission.Find(x => x.FormId == 60) != null
-                                    && formPermission.Find(x => x.FormId == 61) != null
-                                    && formPermission.Find(x => x.FormId == 62) != null
-                                    && formPermission.Find(x => x.FormId == 63) != null
-                                    && formPermission.Find(x => x.FormId == 64) != null)
+                                    || formPermission.Find(x => x.FormId == 55) != null
+                                    || formPermission.Find(x => x.FormId == 56) != null
+                                    || formPermission.Find(x => x.FormId == 57) != null
+                                    || formPermission.Find(x => x.FormId == 58) != null
+                                    || formPermission.Find(x => x.FormId == 59) != null
+                                    || formPermission.Find(x => x.FormId == 60) != null
+                                    || formPermission.Find(x => x.FormId == 61) != null
+                                    || formPermission.Find(x => x.FormId == 62) != null
+                                    || formPermission.Find(x => x.FormId == 63) != null
+                                    || formPermission.Find(x => x.FormId == 64) != null)
                                 {
                                     <li>
                                         <a href="#" data-toggle="collapse" data-target="#sales-projects">Projects<span class="caret arrow"></span></a>
@@ -586,13 +586,13 @@
                                     </li>
                                 }
                                 @if (formPermission.Find(x => x.FormId == 65) != null
-                                    && formPermission.Find(x => x.FormId == 66) != null
-                                    && formPermission.Find(x => x.FormId == 67) != null
-                                    && formPermission.Find(x => x.FormId == 68) != null
-                                    && formPermission.Find(x => x.FormId == 69) != null
-                                    && formPermission.Find(x => x.FormId == 70) != null
-                                    && formPermission.Find(x => x.FormId == 71) != null
-                                    && formPermission.Find(x => x.FormId == 72) != null)
+                                    || formPermission.Find(x => x.FormId == 66) != null
+                                    || formPermission.Find(x => x.FormId == 67) != null
+                                    || formPermission.Find(x => x.FormId == 68) != null
+                                    || formPermission.Find(x => x.FormId == 69) != null
+                                    || formPermission.Find(x => x.FormId == 70) != null
+                                    || formPermission.Find(x => x.FormId == 71) != null
+                                    || formPermission.Find(x => x.FormId == 72) != null)
                                 {
                                     <li>
                                         <a href="#" data-toggle="collapse" data-target="#sales-transport">Transportation Refrigeration<span class="caret arrow"></span></a>
@@ -635,9 +635,9 @@
                                     </li>
                                 }
                                 @if (formPermission.Find(x => x.FormId == 73) != null
-                                    && formPermission.Find(x => x.FormId == 74) != null
-                                    && formPermission.Find(x => x.FormId == 75) != null
-                                    && formPermission.Find(x => x.FormId == 76) != null)
+                                    || formPermission.Find(x => x.FormId == 74) != null
+                                    || formPermission.Find(x => x.FormId == 75) != null
+                                    || formPermission.Find(x => x.FormId == 76) != null)
                                 {
                                     <li>
                                         <a href="#" data-toggle="collapse" data-target="#sales-aftersales">Service<span class="caret arrow"></span></a>
@@ -681,8 +681,8 @@
                                     <li><a href="@Url.Action("Pending", "WorkShopRequest", new { isProjectBased = 1 })">Material Request</a></li>
                                 }
                                 @if (formPermission.Find(x => x.FormId == 78) != null
-                                    && formPermission.Find(x => x.FormId == 79) != null
-                                    && formPermission.Find(x => x.FormId == 80) != null)
+                                    || formPermission.Find(x => x.FormId == 79) != null
+                                    || formPermission.Find(x => x.FormId == 80) != null)
                                 {
                                     <li>
                                         <a href="#" data-toggle="collapse" data-target="#project-jobcard">Job Card<span class="caret arrow"></span></a>
