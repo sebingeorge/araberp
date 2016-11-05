@@ -228,6 +228,7 @@ namespace ArabErp.Web.Controllers
             ds.Tables["Head"].Columns.Add("Phone");
             ds.Tables["Head"].Columns.Add("OrganizationName");
             ds.Tables["Head"].Columns.Add("Image1");
+            ds.Tables["Head"].Columns.Add("Title");
 
             //-------DT
             ds.Tables["Items"].Columns.Add("ItemName");
@@ -249,6 +250,7 @@ namespace ArabErp.Web.Controllers
             dr["EDateDelivery"] = Head.EDateDelivery.ToString("dd-MMM-yyyy");
             dr["WorkDescription"] = Head.WorkDescription;
             dr["SpecialRemarks"] = Head.SpecialRemarks;
+            dr["Title"] = Head.title;
             dr["RequiredDate"] = Head.RequiredDate.ToString("dd-MMM-yyyy");
             dr["DoorNo"] = Head.DoorNo;
             dr["Street"] = Head.Street;

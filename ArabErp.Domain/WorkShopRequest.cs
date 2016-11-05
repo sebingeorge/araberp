@@ -16,6 +16,7 @@ namespace ArabErp.Domain
         public int CustomerId { get; set; }
         public string CustomerOrderRef { get; set; }
         public string SpecialRemarks { get; set; }
+        public string title { get; set; }
         public DateTime RequiredDate { get; set; }
         public string CreatedBy { get; set; }
         public DateTime? CreatedDate { get; set; }

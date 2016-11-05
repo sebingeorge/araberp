@@ -1,6 +1,14 @@
 ﻿@model  ArabErp.Domain.WorkShopRequest
 @{
-    ViewBag.Title = "Edit Workshop Request";
+    if (Model.isProjectBased == 0)
+    {
+        ViewBag.Title = "Edit Workshop Request";
+    }
+    else
+    {
+        ViewBag.Title = "Edit Material Request";
+    }
+    
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 <script>
@@ -34,24 +42,6 @@
         $("#RequiredDate").datepicker({
             dateFormat: "dd-MM-yy"
         });
-        //---------------------toastr---------------------------//
-        toastr.options = {
-            "positionClass": "toast-bottom-full-width",
-            "timeOut": "5000",
-            "extendedTimeOut": "2000"
-        }
-        if ('@TempData["success"]' != '') {
-            toastr.success('@TempData["success"]');
-        }
-        else if ('@TempData["error"]' != '') {
-            toastr.error('@TempData["error"]'.split('|')[0]);
-            console.log('@TempData["error"]'.split('|')[1]);
-        }
-        @{ TempData["success"] = TempData["error"] = ""; }
-
-
-
-
     });
 
     function formValidation() {
@@ -66,7 +56,7 @@
 </script>
 <div class="row">
     <div class="form-head1">
-        @if (Model.isProjectBased==0)
+        @if (Model.isProjectBased == 0)
         {
             <h4>Workshop Request</h4>
         }
@@ -74,14 +64,14 @@
         {
             <h4>Material Request</h4>
         }
-        
+
     </div>
 
     <div class="main-part pad1">
 
         @using (Html.BeginForm(null, null, FormMethod.Post, new { @class = "createFrom", @id = "work_form", @onsubmit = "return formValidation()" }))
         {
-            @Html.HiddenFor(m=>m.isProjectBased)
+            @Html.HiddenFor(m => m.isProjectBased)
             @Html.HiddenFor(m => m.SaleOrderId)
             @Html.HiddenFor(m => m.WorkShopRequestId, new { @class = "form_input", autocomplete = "off" })
             @Html.HiddenFor(m => m.CustomerId, new { @class = "form_input", autocomplete = "off" })
@@ -120,55 +110,52 @@
             <div class="row form-group">
                 <div class="col-md-12">
                     <label for="WorkDescription">Work Description</label>
-                    @Html.TextAreaFor(m => m.WorkDescription, new { @class = "form_input form_input-h1", autocomplete = "off", @readonly="true" })
+                    @Html.TextAreaFor(m => m.WorkDescription, new { @class = "form_input form_input-h1", autocomplete = "off", @readonly = "true" })
                 </div>
 
             </div>
-    @Html.Partial("_DisplayWorkShopRequestData", Model)
-  
-    <div class="row form-group">
-        <div class="col-md-12">
+            @Html.Partial("_DisplayWorkShopRequestData", Model)
+
+            <div class="row form-group">
+                <div class="col-md-12">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <label for="SpecialRemarks">Special Remarks</label>
+                        </div>
+                        <div class="col-md-12">
+                            @Html.TextAreaFor(m => m.SpecialRemarks, new { @class = "form_input form_input-h", autocomplete = "off" })
+                        </div>
+                    </div>
+                </div>
+            </div>
             <div class="row">
-                <div class="col-md-12">
-                    <label for="SpecialRemarks">Special Remarks</label>
+                <div class="col-md-2">
+                    <label for="RequiredDate">Required Date</label>
+                    @Html.TextBoxFor(m => m.RequiredDate, Model.RequiredDate.ToString("dd/MMMM/yyyy"), new { @class = "form_input", autocomplete = "off", @readonly = "readonly" })
                 </div>
-                <div class="col-md-12">
-                    @Html.TextAreaFor(m => m.SpecialRemarks, new { @class = "form_input form_input-h", autocomplete = "off" })
-                </div>
+
+
+
             </div>
-        </div>
+            <div class="row">
+                <div class="col-md-12 hrpart">
+                    <button type="button" class="form-button right" onclick="Exit(@Model.isProjectBased)">Exit</button>
+                    @if (Model.Isused || Model.IsStoreused)
+                    {
+                        <span class="perm">
+                            <em>**Cannot edit/delete this Workshop Request, because it is already in Use.</em>
+                        </span>
+                    }
+                    else
+                    {
+                        <button type="submit" class="form-button right">Edit</button>
+                        <button type="button" class="form-button left" onclick="Delete(@Model.WorkShopRequestId,@Model.isProjectBased)">Delete</button>
+                    }
+                    <input type="button" value="Print" onclick="GoToPrint(@Model.WorkShopRequestId)" class="form-button right" />
+                </div>
+
+            </div>
+
+        }
     </div>
-    <div class="row">
-        <div class="col-md-2">
-            <label for="RequiredDate">Required Date</label>
-            @Html.TextBoxFor(m => m.RequiredDate, Model.RequiredDate.ToString("dd/MMMM/yyyy"), new { @class = "form_input", autocomplete = "off", @readonly = "readonly" })
-        </div>
-
-
-
-    </div>
-    <div class="row">
-        <div class="col-md-12 hrpart">
-            <button type="button" class="form-button right" onclick="Exit(@Model.isProjectBased)">Exit</button>
-            @if (Model.Isused || Model.IsStoreused)
-            {
-    <span class="perm">
-        <em>**Cannot edit/delete this Workshop Request, because it is already in Use.</em>
-    </span>
-            }
-            else
-            {
-            <button type="submit" class="form-button right">Edit</button>
-            <input type="button" value="Print" onclick="GoToPrint(@Model.WorkShopRequestId)" class="form-button right" />
-            <button type="button" class="form-button left" onclick="Delete(@Model.WorkShopRequestId,@Model.isProjectBased)">Delete</button>
-            }
-        </div>
-
-    </div>
-
-    }
 </div>
-</div>
-
-
-
