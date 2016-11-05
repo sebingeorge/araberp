@@ -39,7 +39,7 @@ namespace ArabErp.DAL
                                 inner join JobCard J ON J.SaleOrderId=S.SaleOrderId
 								inner join Organization O ON si.OrganizationId=o.OrganizationId
 								left  JOIN Country ORR ON ORR.CountryId=O.Country
-								INNER JOIN Currency CU ON CU.CurrencyId=O.CurrencyId
+								left JOIN Currency CU ON CU.CurrencyId=O.CurrencyId
                                 left join VehicleInPass V ON V.VehicleInPassId=J.InPassId
 	                            left join VehicleOutPass VO ON VO.JobCardId=J.JobCardId 
                                 where SalesInvoiceId=@SalesInvoiceId";

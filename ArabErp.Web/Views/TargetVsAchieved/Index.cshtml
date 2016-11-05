@@ -4,12 +4,12 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 <script type="text/javascript">
-  
+
 
     function Filter() {
         $("#Target").addClass("fade");
         var id = $("#cboMonth").val();
-    
+
         var url = '@Url.Action("TargetVsAchievedRegister")';
         url += "?id=" + id;
         $("#Target").load(url, function () {
@@ -18,6 +18,13 @@
     }
     function Exit() {
         var url = '@Url.Action("Index", "Home")';
+        window.location = url;
+    }
+    function GoToPrint() {
+        var name = $("#cboMonth option:selected").text();
+        var id = $("#cboMonth").val();
+        var url = '@Url.Action("Print")';
+        url += "?name=" + name + "&id=" + id;
         window.location = url;
     }
 </script>
@@ -51,6 +58,7 @@
         <div class="row">
             <div class="col-md-12 hrpart">
                 <input type="button" class="form-button right" value="Exit" onclick="Exit()" />
+                <input type="button" value="Print" onclick="GoToPrint()" class="form-button right" />
             </div>
         </div>
     </div>

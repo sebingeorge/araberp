@@ -429,8 +429,8 @@ namespace ArabErp
                                 INNER JOIN Customer C ON C.CustomerId=S.CustomerId
                                 INNER JOIN Employee E ON E.EmployeeId=J.EmployeeId
 							    inner join Organization O ON O.OrganizationId=J.OrganizationId
-								inner  JOIN Country ORR ON ORR.CountryId=O.Country
-								INNER JOIN Currency CU ON CU.CurrencyId=O.CurrencyId
+								left  JOIN Country ORR ON ORR.CountryId=O.Country
+								Left JOIN Currency CU ON CU.CurrencyId=O.CurrencyId
                                 LEFT JOIN Item U ON U.ItemId=J.FreezerUnitId
                                 WHERE JobCardId=@JobCardId";
 

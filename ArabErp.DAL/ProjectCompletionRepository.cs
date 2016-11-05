@@ -386,7 +386,7 @@ namespace ArabErp.DAL
 	                                    INNER JOIN SalesQuotation SQ ON SO.SalesQuotationId = SQ.SalesQuotationId
 	                                    INNER JOIN QuerySheet QS ON SQ.QuerySheetId = QS.QuerySheetId 
 										 INNER JOIN Organization O ON O.OrganizationId=PC.OrganizationId
-										 inner  JOIN Country ORR ON ORR.CountryId=O.Country
+										 left  JOIN Country ORR ON ORR.CountryId=O.Country
                                 WHERE PC.ProjectCompletionId =@ProjectCompletionId";
 
                     ProjectCompletion ProjectCompletion = connection.Query<ProjectCompletion>(query, new { ProjectCompletionId = ProjectCompletionId, OrganizationId = OrganizationId }).FirstOrDefault();

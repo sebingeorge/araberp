@@ -364,7 +364,7 @@ namespace ArabErp.DAL
                 qry += "  INNER JOIN WorkShopRequest WR ON WR.WorkShopRequestId=PR.WorkShopRequestId";
                 qry += "   INNER JOIN Customer C ON WR.CustomerId = C.CustomerId";
                 qry += "  INNER JOIN Organization O ON O.OrganizationId=PR.OrganizationId";
-                qry += "  inner  JOIN Country ORR ON ORR.CountryId=O.Country";
+                qry += "  left  JOIN Country ORR ON ORR.CountryId=O.Country";
                 qry += "  WHERE PR.PurchaseRequestId=" + PurchaseRequestId.ToString();
 
                 PurchaseRequest PurchaseRequest = connection.Query<PurchaseRequest>(qry, new { OrganizationId = OrganizationId }).First();

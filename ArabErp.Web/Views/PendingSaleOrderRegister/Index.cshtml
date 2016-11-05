@@ -14,6 +14,24 @@
         });
     })
 
+
+
+    function GoToPrint() {
+        alert('hai')
+        var name = $("#cboCustomer option:selected").text();
+        var id = $("#cboCustomer").val();
+        console.log(id);
+        alert(id)
+        var from = $("#txtFrom").val();
+        console.log(from);
+        alert(from)
+        var to = $("#txtTo").val();
+        var url = '@Url.Action("Print")';
+        url += "?from=" + from + "&to=" + to + "&name=" + (name == '' ? 0 : name) + "&id=" + id;
+        alert(url);
+        window.location = url;
+    }
+
     function Filter()
     
     {
@@ -93,6 +111,7 @@
         <div class="row">
             <div class="col-md-12 hrpart">
                 <input type="button" class="form-button right" value="Exit" onclick="Exit()" />
+                <input type="button" value="Print" onclick="GoToPrint()" class="form-button right" />
             </div>
         </div>
     </div>

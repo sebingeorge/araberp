@@ -492,9 +492,9 @@ namespace ArabErp.DAL
                                    FROM SupplyOrder S
 								   INNER JOIN Supplier SU ON SU.SupplierId=S.SupplierId
 							       INNER JOIN Organization O ON O.OrganizationId=S.OrganizationId
-								   INNER JOIN Currency C ON C.CurrencyId=S.CurrencyId
-								   INNER JOIN Country CU ON CU.CountryId=SU.CountryId
-								   inner  JOIN Country ORR ON ORR.CountryId=O.Country
+								   left JOIN Currency C ON C.CurrencyId=S.CurrencyId
+								   left JOIN Country CU ON CU.CountryId=SU.CountryId
+								   left  JOIN Country ORR ON ORR.CountryId=O.Country
 								   left Join Employee E ON e.EmployeeId=S.CreatedBy
                                    WHERE SupplyOrderId = @SupplyOrderId
 	                               AND ISNULL(S.isActive, 1) = 1;";

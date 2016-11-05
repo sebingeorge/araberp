@@ -607,7 +607,7 @@ namespace ArabErp.DAL
 								    INNER JOIN Organization O ON O.OrganizationId=WR.OrganizationId
 	                                INNER JOIN SaleOrder S on S.SaleOrderId=WR.SaleOrderId
 	                                INNER JOIN  Customer C  ON S.CustomerId =C.CustomerId
-									inner  JOIN Country ORR ON ORR.CountryId=O.Country
+									left  JOIN Country ORR ON ORR.CountryId=O.Country
                                     WHERE WorkShopRequestId = @WorkShopRequestId";
                 var objWrkshopRequests = connection.Query<WorkShopRequest>(sql, new { WorkShopRequestId = WorkShopRequestId, organizationId = organizationId }).First<WorkShopRequest>();
                 return objWrkshopRequests;

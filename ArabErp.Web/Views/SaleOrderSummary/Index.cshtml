@@ -36,8 +36,8 @@
         var url = '@Url.Action("Print")';
         url += "?from=" + from + "&to=" + to  + "&name=" + (name == '' ? 0 : name) + "&id=" + id;
         window.location = url;
-
     }
+
     function Exit() {
         var url = '@Url.Action("Index", "Home")';
         window.location = url;

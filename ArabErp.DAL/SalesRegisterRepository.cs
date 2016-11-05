@@ -439,5 +439,103 @@ namespace ArabErp.DAL
                 return connection.Query<SalesRegister>(qry, new { OrganizationId = OrganizationId, from = from, to = to, id = id }).ToList();
             }
         }
+
+
+        public IEnumerable<SalesRegister> GetPendingSODTPrint(DateTime? from, DateTime? to, int id, int OrganizationId)
+        {
+            using (IDbConnection connection = OpenConnection(dataConnection))
+            {
+
+                string qry = @"	select SaleOrderRefNo,SaleOrderDate,CustomerName,CONCAT(W.WorkDescrShortName,'/',FU.ItemName,'/',B.ItemName)WorkDescr,
+                                SI.Quantity Quantity,isnull(SN.Quantity,0) INVQTY,(SI.Quantity-isnull(SN.Quantity,0))BALQTY, 
+                                case when (SI.Quantity-isnull(SN.Quantity,0)) < 0 then 'Excess'
+                                when (isnull(SN.Quantity,0)-SI.Quantity) > 0 then 'Shortage'
+                                when isnull(SN.Quantity,0) = 0 then 'Pending'  end as Status
+                                from SaleOrder S
+				                inner join SaleOrderItem SI ON S.SaleOrderId=SI.SaleOrderId
+				                inner join Customer C ON C.CustomerId=S.CustomerId
+				                inner join WorkDescription W ON W.WorkDescriptionId=SI.WorkDescriptionId
+                                left join Item FU ON FU.ItemId=W.FreezerUnitId
+                                left join Item B ON B.ItemId =W.BoxId
+				                left join SalesInvoiceItem SN on SN.SaleOrderItemId=SI.SaleOrderItemId
+                                WHERE SaleOrderDate >= @from AND SaleOrderDate <= @to and S.OrganizationId=@OrganizationId and S.CustomerId=ISNULL(NULLIF(@id, 0),S.CustomerId)
+				                GROUP BY SaleOrderRefNo,SaleOrderDate,CustomerName,W.WorkDescrShortName,FU.ItemName,B.ItemName,SI.Quantity ,SN.Quantity,SI.SaleOrderItemId
+				                having (SI.Quantity-isnull(SN.Quantity,0)) > 0";
+
+
+
+                return connection.Query<SalesRegister>(qry, new { OrganizationId = OrganizationId, from = from, to = to, id = id }).ToList();
+            }
+        }
+        public IEnumerable<SalesRegister> GetSalesAnalysisProductWiseDTPrint(DateTime? from, DateTime? to, int OrganizationId)
+        {
+            using (IDbConnection connection = OpenConnection(dataConnection))
+            {
+
+                string qry = @"	select SaleOrderRefNo,SalesInvoiceDate,WorkDescrShortName,isnull(SN.Quantity,0) Quantity,isnull(SN.Amount,0) Amount,
+                                round((sum(SN.Amount)/(select sum(SN.Amount) From
+                                SaleOrder S,SaleOrderItem SI,WorkDescription W,SalesInvoiceItem SN,SalesInvoice SNI
+                                Where  S.SaleOrderId=SI.SaleOrderId And  W.WorkDescriptionId=SI.WorkDescriptionId And SN.SaleOrderItemId=SI.SaleOrderItemId
+                                And SNI.SalesInvoiceId=SN.SalesInvoiceId and SalesInvoiceDate >= @from AND SalesInvoiceDate <= @to and S.OrganizationId=@OrganizationId)*100),2) as Perc
+                                from SaleOrder S
+	                            inner join SaleOrderItem SI ON S.SaleOrderId=SI.SaleOrderId
+	                            inner join WorkDescription W ON W.WorkDescriptionId=SI.WorkDescriptionId
+	                            inner join SalesInvoiceItem SN on SN.SaleOrderItemId=SI.SaleOrderItemId
+                                inner join SalesInvoice SNI ON  SNI.SalesInvoiceId=SN.SalesInvoiceId
+                                where SalesInvoiceDate >= @from AND SalesInvoiceDate <= @to and S.OrganizationId=@OrganizationId
+                                GROUP BY SaleOrderRefNo,SalesInvoiceDate,WorkDescrShortName,SN.Quantity,SN.Amount";
+
+                return connection.Query<SalesRegister>(qry, new { OrganizationId = OrganizationId, from = from, to = to }).ToList();
+            }
+        }
+
+
+        public IEnumerable<SalesRegister> GetSalesAnalysisCustomerWiseDTPrint(DateTime? from, DateTime? to, int id, int OrganizationId)
+        {
+            using (IDbConnection connection = OpenConnection(dataConnection))
+            {
+
+                string qry = @"	select SalesInvoiceRefNo,CustomerName,SUM(isnull(SN.Amount,0)) Amount from SaleOrder S
+	                            inner join SaleOrderItem SI ON S.SaleOrderId=SI.SaleOrderId
+	                            inner join Customer C ON C.CustomerId=S.CustomerId
+	                            inner join SalesInvoiceItem SN on SN.SaleOrderItemId=SI.SaleOrderItemId
+                                inner join SalesInvoice SNI ON  SNI.SalesInvoiceId=SN.SalesInvoiceId
+                                where SalesInvoiceDate >= @from AND SalesInvoiceDate <= @to and S.OrganizationId=@OrganizationId and S.CustomerId=ISNULL(NULLIF(@id, 0),S.CustomerId)
+                                group by SalesInvoiceRefNo,CustomerName";
+
+                return connection.Query<SalesRegister>(qry, new { OrganizationId = OrganizationId, from = from, to = to, id = id }).ToList();
+            }
+        }
+
+        public IEnumerable<SalesRegister> GetTargetVsAchievedDTPrint(int OrganizationId, int id, DateTime FYStartdate, DateTime FYEnddate)
+        {
+            using (IDbConnection connection = OpenConnection(dataConnection))
+            {
+
+                string qry = @"	
+               
+                        DECLARE @FIN_ID INT;
+                        SELECT @FIN_ID=FyId from Organization where OrganizationId=@OrganizationId;
+
+                        SELECT MonthId,[MonthName],MonthFromDate [YEAR] INTO #MONTH_DETAILS FROM Month;
+                        SELECT  W.WorkDescriptionId,W.WorkDescrShortName WorkDescr,M.MonthId,[MonthName],
+                        MAX(Target)AS [Target],
+                        ISNULL(ROUND(SUM (ROUND((TotalAmount),2)),2),0) AS [Achieved],ROUND(ISNULL(MAX(Target),0) - ISNULL(SUM (ROUND((TotalAmount),2)),0),2) AS Varience,
+                        ROUND((((ISNULL(MAX(Target),0)-ISNULL(SUM (ROUND((TotalAmount),2)),0))/NULLIF(ISNULL(MAX(Target),0),0))*100),2)AS [Varperc]
+                        FROM  WorkDescription W 
+                        LEFT JOIN SaleOrderItem SOI ON SOI.WorkDescriptionId =W.WorkDescriptionId
+                        LEFT JOIN SalesInvoiceItem SI ON SOI.SaleOrderItemId =SI.SaleOrderItemId  
+                        INNER JOIN SalesInvoice S ON SI.SalesInvoiceId =S.SalesInvoiceId
+                        AND SalesInvoiceDate >= @FYStartdate  AND SalesInvoiceDate <=@FYEnddate
+                        LEFT JOIN SalesTarget T ON T.WorkDescriptionId  = W.WorkDescriptionId AND T.FyId=@FIN_ID 
+                        INNER JOIN #MONTH_DETAILS M ON M.MonthId=T.MonthId
+                        where M.MonthId=ISNULL(NULLIF(@id, 0),M.MonthId)
+                        GROUP BY  W.WorkDescriptionId,W.WorkDescrShortName,M.MonthId,[MonthName]
+                        ORDER BY [Varperc] DESC
+                        DROP TABLE #MONTH_DETAILS";
+                return connection.Query<SalesRegister>(qry, new { OrganizationId = OrganizationId, id = id, FYStartdate = FYStartdate, FYEnddate = FYEnddate }).ToList();
+            }
+        }
     }
+
 }
