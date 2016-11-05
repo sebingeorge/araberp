@@ -278,17 +278,17 @@ namespace ArabErp.Web.Controllers
                         throw new Exception();
                     }
                 }
-                catch (SqlException sx)
+                catch (SqlException)
                 {
-                    TempData["error"] = "Some error occured while connecting to database. Please check your network connection and try again.|" + sx.Message;
+                    TempData["error"] = "Some error occured while connecting to database. Please check your network connection and try again.";
                 }
-                catch (NullReferenceException nx)
+                catch (NullReferenceException)
                 {
-                    TempData["error"] = "Some required data was missing. Please try again.|" + nx.Message;
+                    TempData["error"] = "Some required data was missing. Please try again.";
                 }
-                catch (Exception ex)
+                catch (Exception)
                 {
-                    TempData["error"] = "Some error occured. Please try again.|" + ex.Message;
+                    TempData["error"] = "Some error occured. Please try again.";
                 }
                 return RedirectToAction("PreviousList");
             }

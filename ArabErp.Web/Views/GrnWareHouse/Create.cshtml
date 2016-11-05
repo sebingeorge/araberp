@@ -578,7 +578,7 @@
                                                     <td>
                                                         @Html.HiddenFor(m => m.Additions[i].GRNId)
                                                         <input type="hidden" id="Row_Addition_@i" />
-                                                        @Html.DropDownListFor(m => @Model.Additions[i].AdditionId, new SelectList(ViewBag.additionList, "Value", "Text", @Model.Additions[i].AdditionId), "select addition", new { @class = "form_input", @onchange = "OnAdditionChanged(this," + i + ")", @required = "true" })
+                                                        @Html.DropDownListFor(m => @Model.Additions[i].AdditionId, new SelectList(ViewBag.additionList, "Value", "Text", @Model.Additions[i].AdditionId), "select addition", new { @class = "form_input", @onchange = "OnAdditionChanged(this," + i + ")"@*, @required = "true"*@ })
                                                     </td>
                                                     <td>
                                                         @Html.TextBoxFor(m => @Model.Additions[i].Addition, new { @class = "form_input numbers-only claddamt", @style = "text-align:right", autocomplete = "off", @Value = "0.00", @onkeyup = "AdditionAmount(" + i + ");" })
@@ -617,7 +617,7 @@
                                                     <td>
                                                         @Html.HiddenFor(m => m.Deductions[i].GRNId)
                                                         <input type="hidden" id="Row_Deduction_@i" />
-                                                        @Html.DropDownListFor(m => @Model.Deductions[i].DeductionId, new SelectList(ViewBag.deductionList, "Value", "Text", @Model.Deductions[i].DeductionId), "select deduction", new { @class = "form_input", @onchange = "OnDeductionChanged(this," + i + ")", @required = "true" })
+                                                        @Html.DropDownListFor(m => @Model.Deductions[i].DeductionId, new SelectList(ViewBag.deductionList, "Value", "Text", @Model.Deductions[i].DeductionId), "select deduction", new { @class = "form_input", @onchange = "OnDeductionChanged(this," + i + ")"@*, @required = "true"*@ })
                                                     </td>
                                                     <td>
                                                         @Html.TextBoxFor(m => @Model.Deductions[i].Deduction, new { @class = "form_input numbers-only cldedamt", @style = "text-align:right", autocomplete = "off", @Value = "0.00", @onkeyup = "DeductionAmount(" + i + ");" })

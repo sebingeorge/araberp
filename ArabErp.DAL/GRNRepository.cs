@@ -148,6 +148,7 @@ namespace ArabErp.DAL
 
                     foreach (var Addition in model.Additions)
                     {
+                        if ((Addition.AdditionId == null || Addition.AdditionId == 0) && Addition.Addition <= 0) continue;
                         new GRNItemRepository().InsertGRNAddition(new GRNAddition
                         {
                             GRNId = model.GRNId,
@@ -159,6 +160,7 @@ namespace ArabErp.DAL
 
                     foreach (var Deduction in model.Deductions)
                     {
+                        if ((Deduction.DeductionId == null || Deduction.DeductionId == 0) && Deduction.Deduction <= 0) continue;
                         new GRNItemRepository().InsertGRNDeduction(new GRNDeduction
                         {
                             GRNId = model.GRNId,
