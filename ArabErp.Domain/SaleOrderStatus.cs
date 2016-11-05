@@ -25,5 +25,7 @@ namespace ArabErp.Domain
         public string VehicleModelName { get; set; }
         public string VehicleInpass { get; set; }
         public string Allocation { get; set; }
+        public string VehicleMdlNameReg { get; set; }
+        public string SOAgeDays { get; set; }
     }
 }

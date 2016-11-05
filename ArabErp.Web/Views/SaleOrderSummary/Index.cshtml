@@ -24,6 +24,20 @@
             $("#Sales_RegSum").removeClass("fade");
         });
     }
+
+
+    function GoToPrint() {
+        var name = $("#cboCustomer option:selected").text();
+        var id = $("#cboCustomer").val();
+        console.log(SupId);
+        var from = $("#txtFrom").val();
+        console.log(from);
+        var to = $("#txtTo").val();
+        var url = '@Url.Action("Print")';
+        url += "?from=" + from + "&to=" + to  + "&name=" + (name == '' ? 0 : name) + "&id=" + id;
+        window.location = url;
+
+    }
     function Exit() {
         var url = '@Url.Action("Index", "Home")';
         window.location = url;
@@ -59,6 +73,7 @@
         <div class="row">
             <div class="col-md-12 hrpart">
                 <input type="button" class="form-button right" value="Exit" onclick="Exit()" />
+                <input type="button" value="Print" onclick="GoToPrint()" class="form-button right" />
             </div>
         </div>
     </div>

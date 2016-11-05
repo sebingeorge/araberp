@@ -262,7 +262,7 @@ namespace ArabErp.Web.Controllers
 
 
             DeliveryChallanRepository repo1 = new DeliveryChallanRepository();
-            var Items = repo1.GetDeliveryChallanDT(Id);
+            var Items = repo1.GetDeliveryChallanDTPrint(Id);
             foreach (var item in Items)
             {
                 var DCItem = new ItemBatch

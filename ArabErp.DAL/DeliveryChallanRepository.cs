@@ -278,12 +278,12 @@ namespace ArabErp.DAL
             using (IDbConnection connection = OpenConnection(dataConnection))
             {
                 string sql = @"SELECT DISTINCT ItemBatchId,SerialNo,ItemName, DATEDIFF(MONTH,WarrantyStartDate,WarrantyExpireDate) AS WarrantyPeriodInMonths
-                               FROM ItemBatch IB 
-                               LEFT JOIN GRNItem GI ON GI.GRNItemId=IB.GRNItemId
-							   LEFT JOIN OpeningStock OS ON IB.OpeningStockId = OS.OpeningStockId
-                               INNER JOIN Item I ON (I.ItemId=GI.ItemId OR OS.ItemId = I.ItemId)
-                               WHERE DeliveryChallanId = @DeliveryChallanId";
-
+                                     FROM ItemBatch IB 
+                                     LEFT JOIN GRNItem GI ON GI.GRNItemId=IB.GRNItemId
+                LEFT JOIN OpeningStock OS ON IB.OpeningStockId = OS.OpeningStockId
+                                     INNER JOIN Item I ON (I.ItemId=GI.ItemId OR OS.ItemId = I.ItemId)
+                                     WHERE DeliveryChallanId = @DeliveryChallanId";
+               
                 return connection.Query<ItemBatch>(sql, new { DeliveryChallanId = DeliveryChallanId }).ToList();
             }
         }
@@ -355,7 +355,20 @@ namespace ArabErp.DAL
                 }
             }
         }
+        public List<ItemBatch> GetDeliveryChallanDTPrint(int DeliveryChallanId)
+        {
+            using (IDbConnection connection = OpenConnection(dataConnection))
+            {
+                string sql = @"SELECT DISTINCT ItemBatchId,SerialNo,ItemName,WarrantyStartDate,WarrantyExpireDate 
+                                     FROM ItemBatch IB 
+                                     LEFT JOIN GRNItem GI ON GI.GRNItemId=IB.GRNItemId
+                LEFT JOIN OpeningStock OS ON IB.OpeningStockId = OS.OpeningStockId
+                                     INNER JOIN Item I ON (I.ItemId=GI.ItemId OR OS.ItemId = I.ItemId)
+                                     WHERE DeliveryChallanId = @DeliveryChallanId";
 
+                return connection.Query<ItemBatch>(sql, new { DeliveryChallanId = DeliveryChallanId }).ToList();
+            }
+        }
 
     }
 }
