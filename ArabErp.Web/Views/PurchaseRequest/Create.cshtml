@@ -98,7 +98,7 @@
                                     <td>@Html.TextBoxFor(m => m.items[i].InTransitQty, new { @class = "form_input", @style = "text-align:right", autocomplete = "off", @readonly = "readonly" })</td>
                                     <td>@Html.TextBoxFor(m => m.items[i].PendingPRQty, new { @class = "form_input", @style = "text-align:right", autocomplete = "off", @readonly = "readonly", @required = "true" })</td>
                                     <td>@Html.TextBoxFor(m => m.items[i].ShortorExcess, new { @class = "form_input", @style = "text-align:right", autocomplete = "off", @readonly = "readonly" })</td>
-                                    <td>@Html.TextBoxFor(m => m.items[i].Quantity, new { @class = "form_input numbers-only", @style = "text-align:right", autocomplete = "off" })</td>
+                                    <td>@Html.TextBoxFor(m => m.items[i].Quantity, new { @class = "form_input numbers-only", @style = "text-align:right", autocomplete = "off", @required = "true" })</td>
 
                                     <td>@Html.TextBoxFor(m => m.items[i].UnitName, new { @class = "form_input", @style = "text-align:left", autocomplete = "off", @readonly = "readonly" })</td>
                                 </tr>

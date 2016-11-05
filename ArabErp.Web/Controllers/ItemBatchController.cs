@@ -216,7 +216,7 @@ namespace ArabErp.Web.Controllers
             return View();
         }
 
-        public ActionResult MaterialListGrid(string serialno = "", int item = 0, int type = 0, int saleorder = 0)
+        public ActionResult MaterialListGrid(string serialno = "", string item = "", int type = 0, string saleorder = "")
         {
             return PartialView("_MaterialListGrid", new ItemBatchRepository().GetMaterialList(serialno.Trim(), item, type, saleorder));
         }

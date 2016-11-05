@@ -20,14 +20,18 @@
         var item = $("#cboItem").val();
         var type = $("#cboType").val();
         var saleorder = $("#cboSaleOrder").val();
-        url += "?serialno=" + encodeURIComponent(serialno) + "&item=" + item + "&type=" + type + "&saleorder=" + saleorder;
+        url += "?serialno=" + encodeURIComponent(serialno) +
+            "&item=" + encodeURIComponent(item) +
+            "&type=" + encodeURIComponent(type) +
+            "&saleorder=" + encodeURIComponent(saleorder);
         $("#grid").load(url, function () {
             $(grid).removeClass("fade");
         });
     }
 
-    function OnTypeChanged(sender) {
-
+    function Exit() {
+        var url = '@Url.Action("Index", "Home")';
+        window.location = url;
     }
 
     @*function OnRowDoubleClicked(id) {
@@ -41,53 +45,59 @@
 
 </script>
 
-    <div class="row">
+<div class="row">
 
-        <div class="form-head1">
-            <h4>Serial No. List</h4>
-        </div>
+    <div class="form-head1">
+        <h4>Serial No. List</h4>
+    </div>
 
-        <div class="main-part pad1">
+    <div class="main-part pad1">
 
-            <div class="row form-group">
-                <div class="col-md-2">
-                    <label for="txtSerialNo">Serial No.</label>
-                    <input type="text" class="form_input" id="txtSerialNo" onkeyup="Filter()" />
-                </div>
-                <div class="col-md-3">
-                    <label for="cboItem">Material/Spares</label>
-                    @Html.DropDownList("cboItem", (SelectList)ViewBag.materialList, "Any", new { @class = "form_input", @onchange = "Filter()", @placeholder = "Search for Material/Spare" })
-                </div>
-                <div class="col-md-2">
-                    <label for="cboType">Type</label>
-                    <select id="cboType" class="form_input" onclick="OnTypeChanged(this)" onchange="Filter()">
-                        <option value="0">Any</option>
-                        <option value="1">Reserved</option>
-                        <option value="2">Unreserved</option>
-                        <option value="3">Used</option>
-                    </select>
-                </div>
-                <div class="col-md-3">
-                    <label for="cboSaleOrder">Sale Order</label>
-                    @Html.DropDownList("cboSaleOrder", (SelectList)ViewBag.saleOrderList, "Any", new { @class = "form_input", @onchange = "Filter()" })
-                </div>
-                @*<div class="col-md-2">
+        <div class="row form-group">
+            <div class="col-md-2">
+                <label for="txtSerialNo">Serial No.</label>
+                <input type="text" class="form_input" id="txtSerialNo" onkeyup="Filter()" />
+            </div>
+            <div class="col-md-3">
+                <label for="cboItem">Material/Spare</label>
+                <input class="form_input" id="cboItem" onkeyup="Filter()" onchange="Filter()" />
+                @*@Html.DropDownList("cboItem", (SelectList)ViewBag.materialList, "Any", new { @class = "form_input", @onchange = "Filter()", @placeholder = "Search for Material/Spare" })*@
+            </div>
+            <div class="col-md-2">
+                <label for="cboType">Type</label>
+                <select id="cboType" class="form_input" onchange="Filter()">
+                    <option value="0">Any</option>
+                    <option value="1">Reserved</option>
+                    <option value="2">Unreserved</option>
+                    <option value="3">Delivered</option>
+                </select>
+            </div>
+            <div class="col-md-3">
+                <label for="cboSaleOrder">Sale Order</label>
+                <input class="form_input" id="cboSaleOrder" onkeyup="Filter()" onchange="Filter()" />
+                @*@Html.DropDownList("cboSaleOrder", (SelectList)ViewBag.saleOrderList, "Any", new { @class = "form_input", @onchange = "Filter()" })*@
+            </div>
+            @*<div class="col-md-2">
                     <input type="button" class="form-button filter" value="Filter" onclick="Filter()" />
                 </div>*@
-            </div>
-            <div class="row">
-                <div class="main-grid main-grid-top scroll1">
-                    <div class="table-responsive" id="grid">
-                        @Html.Action("MaterialListGrid")
-                    </div>
-                    </div>
-                </div>
-
-                    @*<div class="row">
-                        <div class="col-md-12">
-                            <em>**Double click on row for more details</em>
-                        </div>
-                    </div>*@
+        </div>
+        <div class="row">
+            <div class="main-grid main-grid-top scroll1">
+                <div class="table-responsive" id="grid">
+                    @Html.Action("MaterialListGrid")
                 </div>
             </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12 hrpart">
+                <input type="button" class="form-button right" value="Exit" onclick="Exit()" />
+            </div>
+        </div>
+        @*<div class="row">
+                <div class="col-md-12">
+                    <em>**Double click on row for more details</em>
+                </div>
+            </div>*@
+    </div>
+</div>
 

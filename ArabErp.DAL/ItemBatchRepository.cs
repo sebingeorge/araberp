@@ -802,7 +802,7 @@ namespace ArabErp.DAL
         /// <param name="type">0 for any type, 1 for reserved, 2 for unreserved, 3 for used</param>
         /// <param name="saleorder">0 for any sale order</param>
         /// <returns></returns>
-        public IEnumerable<ItemBatch> GetMaterialList(string serialno, int item, int type, int saleorder)
+        public IEnumerable<ItemBatch> GetMaterialList(string serialno, string item, int type, string saleorder)
         {
             using (IDbConnection connection = OpenConnection(dataConnection))
             {
@@ -830,9 +830,11 @@ namespace ArabErp.DAL
                                     --LEFT JOIN OpeningStock OS ON OS.OpeningStockId=IB.OpeningStockId AND OS.ItemId=I.ItemId
                                     WHERE ISNULL(IB.isActive, 1) = 1
 								    AND IB.SerialNo LIKE '%'+@serialno+'%'
-								    AND I.ItemId = ISNULL(NULLIF(@item, 0), I.ItemId)
-								    AND ISNULL(SO.SaleOrderId, 0) = ISNULL(NULLIF(ISNULL(@saleorder, 0), 0), ISNULL(SO.SaleOrderId, 0))
-                                    ORDER BY G.GRNDate DESC, IB.CreatedDate DESC;";
+                                    AND I.ItemName LIKE '%'+@item+'%'
+								    --AND I.ItemId = ISNULL(NULLIF(@item, 0), I.ItemId)
+                                    AND ISNULL(SO.SaleOrderRefNo,'') LIKE '%'+@saleorder+'%'
+								    --AND ISNULL(SO.SaleOrderId, 0) = ISNULL(NULLIF(ISNULL(@saleorder, 0), 0), ISNULL(SO.SaleOrderId, 0))
+                                    ORDER BY G.GRNDate DESC, G.GRNNo DESC;";
                 if (type == 1)
                 {
                     query = query.Insert(query.IndexOf("ORDER BY"), "AND SO.SaleOrderId IS NOT NULL AND IB.DeliveryChallanId IS NULL ");
@@ -960,7 +962,25 @@ namespace ArabErp.DAL
                                 WHERE IB.ItemBatchId = @itemBatchId";
                 FGTracking model = connection.Query<FGTracking>(query, new { itemBatchId = itemBatchId }).First();
 
-                query = @"SELECT
+                #region old query for getting jobcard tasks and technician
+                //                query = @"SELECT
+                //	                            JC.JobCardNo,
+                //	                            CONVERT(VARCHAR, JC.JobCardDate, 106) JobCardDate,
+                //	                            JCT.ActualHours,
+                //	                            JM.JobCardTaskName,
+                //	                            EMP.EmployeeName AS TaskEmployeeName
+                //                            FROM ItemBatch IB
+                //                            INNER JOIN JobCard JC ON IB.SaleOrderItemId = JC.SaleOrderItemId
+                //                            INNER JOIN JobCardTask JCT ON JC.JobCardId = JCT.JobCardId
+                //                            LEFT JOIN JobCardTaskMaster JM ON JCT.JobCardTaskMasterId = JM.JobCardTaskMasterId
+                //                            LEFT JOIN Employee EMP ON JCT.EmployeeId = EMP.EmployeeId
+                //                            INNER JOIN GRNItem GI ON IB.GRNItemId = GI.GRNItemId
+                //                            INNER JOIN WorkDescription WD ON JC.WorkDescriptionId = WD.WorkDescriptionId
+                //                            INNER JOIN WorkVsItem WI ON WD.WorkDescriptionId = WI.WorkDescriptionId AND WI.ItemId = GI.ItemId
+                //                            WHERE IB.ItemBatchId = @itemBatchId";
+                #endregion
+
+                query = @"SELECT DISTINCT
 	                            JC.JobCardNo,
 	                            CONVERT(VARCHAR, JC.JobCardDate, 106) JobCardDate,
 	                            JCT.ActualHours,
@@ -969,14 +989,17 @@ namespace ArabErp.DAL
                             FROM ItemBatch IB
                             INNER JOIN JobCard JC ON IB.SaleOrderItemId = JC.SaleOrderItemId
                             INNER JOIN JobCardTask JCT ON JC.JobCardId = JCT.JobCardId
-                            LEFT JOIN JobCardTaskMaster JM ON JCT.JobCardTaskMasterId = JM.JobCardTaskMasterId
-                            LEFT JOIN Employee EMP ON JCT.EmployeeId = EMP.EmployeeId
-                            INNER JOIN GRNItem GI ON IB.GRNItemId = GI.GRNItemId
+                            INNER JOIN JobCardTaskMaster JM ON JCT.JobCardTaskMasterId = JM.JobCardTaskMasterId
+                            INNER JOIN Employee EMP ON JCT.EmployeeId = EMP.EmployeeId
+                            LEFT JOIN GRNItem GI ON IB.GRNItemId = GI.GRNItemId
+							LEFT JOIN OpeningStock OS ON IB.OpeningStockId = OS.OpeningStockId
                             INNER JOIN WorkDescription WD ON JC.WorkDescriptionId = WD.WorkDescriptionId
-                            INNER JOIN WorkVsItem WI ON WD.WorkDescriptionId = WI.WorkDescriptionId AND WI.ItemId = GI.ItemId
+                            INNER JOIN WorkVsItem WI ON WD.WorkDescriptionId = WI.WorkDescriptionId 
+								AND (WI.ItemId = GI.ItemId OR WI.ItemId = OS.ItemId 
+									OR WD.FreezerUnitId = GI.ItemId OR WD.FreezerUnitId = OS.ItemId
+									OR WD.BoxId = GI.ItemId OR WD.BoxId = OS.ItemId)
                             WHERE IB.ItemBatchId = @itemBatchId";
-                model.JobCardTasks = connection.Query<FGTracking>(query, new { itemBatchId = itemBatchId }).ToList();
-
+                model.JobCardTasks = connection.Query<FGTracking>(query, new { itemBatchId = itemBatchId }).ToList(); 
                 return model;
             }
         }

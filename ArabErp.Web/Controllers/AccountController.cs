@@ -636,6 +636,7 @@ namespace ArabErp.Web.Controllers
 
         protected override void Dispose(bool disposing)
         {
+            Session.Remove("formPermission");
             if (disposing)
             {
                 if (_userManager != null)
