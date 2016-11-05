@@ -601,7 +601,7 @@ namespace ArabErp.DAL
 	                                inner join WorkDescription W on W.WorkDescriptionId=SI.WorkDescriptionId
 	                                WHERE SI.SaleOrderId = S.SaleOrderId
 	                                FOR XML PATH(''), TYPE).value('.','NVARCHAR(MAX)'),1,2,' ') WorkDescription,
-	                                S.isProjectBased,
+	                                CASE WHEN S.isProjectBased = 1 THEN 'MATERIAL REQUEST' ELSE 'WORKSHOP REQUEST' END AS title,
 	                                C.CustomerName
                                     from WorkShopRequest WR 
 								    INNER JOIN Organization O ON O.OrganizationId=WR.OrganizationId
