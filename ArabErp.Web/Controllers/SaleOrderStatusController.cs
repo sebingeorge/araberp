@@ -90,7 +90,7 @@ namespace ArabErp.Web.Controllers
                 DataRow dri = ds.Tables["Items"].NewRow();
                 dri["CustomerName"] = SupplyOrderRegItem.CustomerName;
                 dri["SaleOrderRefNo"] = SupplyOrderRegItem.SaleOrderRefNo;
-                dri["SaleOrderDate"] = SupplyOrderRegItem.SaleOrderDate;
+                dri["SaleOrderDate"] = SupplyOrderRegItem.SaleOrderDate.ToString("dd-MMM-yyyy");
                 dri["VehicleMdlNameReg"] = SupplyOrderRegItem.VehicleMdlNameReg;
                 dri["SOAgeDays"] = SupplyOrderRegItem.SOAgeDays;
                 dri["WRNodue"] = SupplyOrderRegItem.WorkShopRequest;

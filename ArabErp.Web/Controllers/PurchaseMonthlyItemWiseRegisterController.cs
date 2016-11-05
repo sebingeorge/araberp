@@ -136,7 +136,8 @@ namespace ArabErp.Web.Controllers
                 dri["Sep"] = SupplyOrderRegItem.Sep;
                 dri["Oct"] = SupplyOrderRegItem.Oct;
                 dri["Nov"] = SupplyOrderRegItem.Nov;
-                dri["Dece"] = SupplyOrderRegItem.Dece;
+                dri["Dec"] = SupplyOrderRegItem.Dece;
+                dri["Total"] = SupplyOrderRegItem.Total;
                 ds.Tables["Items"].Rows.Add(dri);
             }
 
@@ -246,6 +247,7 @@ namespace ArabErp.Web.Controllers
                 dri["Oct"] = SupplyOrderRegItem.Oct;
                 dri["Nov"] = SupplyOrderRegItem.Nov;
                 dri["Dec"] = SupplyOrderRegItem.Dece;
+                dri["Total"] = SupplyOrderRegItem.Total;
                 ds.Tables["Items"].Rows.Add(dri);
             }
 

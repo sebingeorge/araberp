@@ -50,44 +50,25 @@
     </xs:element>
   </xs:schema>
   <Head>
-    <SalesInvoiceRefNo>SLI-16/16</SalesInvoiceRefNo>
-    <SalesInvoiceDate>12-Oct-2016</SalesInvoiceDate>
-    <VehicleOutPassNo>vcb</VehicleOutPassNo>
-    <CustomerName>M/S Al Rashid Ice Factory</CustomerName>
-    <Address>1fg,fg,54</Address>
-    <CustomerOrderRef>1000</CustomerOrderRef>
-    <PaymentTerms>there are no payment terms</PaymentTerms>
-    <RegistrationNo>KL 59 B 6374</RegistrationNo>
-    <JobCardNo>122</JobCardNo>
-    <TotalAmount>68000.00</TotalAmount>
-    <Image1>E:\ARAB\New folder\ArabErp\ArabErp.Web\App_images\e8251ae5-2716-4b20-841c-c57ba2109c7b.png</Image1>
+    <SalesInvoiceRefNo>SLI/3</SalesInvoiceRefNo>
+    <SalesInvoiceDate>04-Nov-2016</SalesInvoiceDate>
+    <CustomerName>Al Ajjaj Limited  Company</CustomerName>
+    <Address> Doha, Qatar,,0</Address>
+    <CustomerOrderRef>SQ/9 - AJJAJ</CustomerOrderRef>
+    <PaymentTerms>40% Advance</PaymentTerms>
+    <RegistrationNo>KL 59 B 7614</RegistrationNo>
+    <JobCardNo>JC/5</JobCardNo>
+    <TotalAmount>54080.00</TotalAmount>
+    <Image1>E:\ARAB\New folder\ArabErp\ArabErp.Web\App_images\</Image1>
     <OrganizationName>Arab Air Conditioning &amp; Refrigeration Co. W.L.L.</OrganizationName>
     <OrganizationRefNo>ORG/1</OrganizationRefNo>
-    <DoorNo>1213dfdf</DoorNo>
-    <Street>Doha-Qatar</Street>
-    <State>fdgd</State>
-    <Country>India</Country>
-    <Currency>uk</Currency>
-    <Phone>+974 44357216,15</Phone>
-    <Fax>+974 44414762</Fax>
-    <Email>info@arabrefrigeration.com</Email>
-    <ContactPerson>riyasdddf</ContactPerson>
-    <Zip>13037</Zip>
+    <Currency>QAR</Currency>
   </Head>
   <Items>
     <Quantity>1</Quantity>
-    <WorkDescription>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum</WorkDescription>
-    <WorkDescriptionRefNo>WD/0/18</WorkDescriptionRefNo>
-    <Rate>38000.00</Rate>
-    <Amount>36500.00</Amount>
-    <Unit>Nos</Unit>
-  </Items>
-  <Items>
-    <Quantity>1</Quantity>
-    <WorkDescription>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum</WorkDescription>
-    <WorkDescriptionRefNo>WD/0/25</WorkDescriptionRefNo>
-    <Rate>32000.00</Rate>
-    <Amount>31500.00</Amount>
-    <Unit>Nos</Unit>
+    <WorkDescription>Transportation Work</WorkDescription>
+    <WorkDescriptionRefNo>WD/6</WorkDescriptionRefNo>
+    <Rate>56000.00</Rate>
+    <Amount>54000.00</Amount>
   </Items>
 </NewDataSet>

@@ -78,7 +78,7 @@ namespace ArabErp.Web.Controllers
 
                 DataRow dri = ds.Tables["Items"].NewRow();
                 dri["SaleOrderRefNo"] = SupplyOrderRegItem.SaleOrderRefNo;
-                dri["SaleOrderDate"] = SupplyOrderRegItem.SaleOrderDate;
+                dri["SaleOrderDate"] = SupplyOrderRegItem.SaleOrderDate.ToString("dd-MMM-yyyy");
                 dri["CustomerName"] = SupplyOrderRegItem.CustomerName;
                 dri["OrderAmount"] = SupplyOrderRegItem.OrderAmount;
                 dri["Purchase"] = SupplyOrderRegItem.Purchase;
