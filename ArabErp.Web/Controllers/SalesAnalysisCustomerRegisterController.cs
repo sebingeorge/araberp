@@ -36,7 +36,7 @@ namespace ArabErp.Web.Controllers
             to = to ?? DateTime.Today;
             return PartialView("_SalesAnalysisCustomer", new SalesRegisterRepository().GetSalesAnalysisCustomerWise(from, to, id, OrganizationId));
         }
-        public ActionResult Print(DateTime? from, DateTime? to,int id, string name)
+        public ActionResult Print(DateTime? from, DateTime? to,int id=0, string name="")
         {
 
             ReportDocument rd = new ReportDocument();
@@ -79,9 +79,8 @@ namespace ArabErp.Web.Controllers
             {
                 var SupplyOrderRegItem = new SalesRegister
                 {
-                    SaleOrderRefNo = item.SaleOrderRefNo,
-                    WorkDescrShortName = item.WorkDescrShortName,
-                    Quantity = item.Quantity,
+                    SalesInvoiceRefNo = item.SalesInvoiceRefNo,
+                    CustomerName = item.CustomerName,
                     Amount = item.Amount,
                     Perc = item.Perc,
 
@@ -90,7 +89,8 @@ namespace ArabErp.Web.Controllers
                 DataRow dri = ds.Tables["Items"].NewRow();
                 dri["INV.NO"] = SupplyOrderRegItem.SalesInvoiceRefNo;
                 dri["Customer"] = SupplyOrderRegItem.CustomerName;
-                dri["Amount"] = SupplyOrderRegItem.Amount; 
+                dri["Amount"] = SupplyOrderRegItem.Amount;
+                dri["per"] = SupplyOrderRegItem.Perc;
                 ds.Tables["Items"].Rows.Add(dri);
             }
 

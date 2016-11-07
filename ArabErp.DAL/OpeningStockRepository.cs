@@ -247,5 +247,23 @@ namespace ArabErp.DAL
 
             }
         }
+
+        public IEnumerable<OpeningStockReport> GetClosingStockDataDTPrint(int stockPointId, int itemCategoryId, int itemId, int OrganizationId)
+        {
+            using (IDbConnection connection = OpenConnection(dataConnection))
+            {
+                //              
+                string qry = @" SELECT I.ItemName,ISnull(I.PartNo,'-')PartNo,Sum(Quantity)Quantity,U.UnitName FROM StockUpdate S
+                                INNER JOIN Item I ON I.ItemId=S.ItemId
+                                INNER JOIN Unit U ON U.UnitId=I.ItemUnitId
+                                WHERE StockType='OpeningStock' AND I.ItemId = ISNULL(NULLIF(@itmid, 0), I.ItemId) AND 
+                                I.ItemCategoryId=ISNULL(NULLIF(@itmcatid, 0), I.ItemCategoryId) and S.OrganizationId=@OrganizationId AND 
+                                S.StockPointId = ISNULL(NULLIF(@stkid, 0), S.StockPointId) 
+                                GROUP BY  I.ItemName,I.PartNo,U.UnitName
+                                ORDER BY I.ItemName";
+                return connection.Query<OpeningStockReport>(qry, new { stkid = stockPointId, itmcatid = itemCategoryId, itmid = itemId, OrganizationId = OrganizationId }).ToList();
+            }
+        }
+
     }
 }

@@ -34,7 +34,7 @@ namespace ArabErp.Web.Controllers
             return PartialView("_TargetVsAchievedRegister", new SalesRegisterRepository().GetTargetVsAchieved(OrganizationId, Id,FYStartdate,FYEnddate));
         }
 
-        public ActionResult Print( string name,int id)
+        public ActionResult Print( string name="",int id=0)
         {
 
             ReportDocument rd = new ReportDocument();
@@ -69,7 +69,7 @@ namespace ArabErp.Web.Controllers
 
             SalesRegisterRepository repo1 = new SalesRegisterRepository();
             //var Items = repo1.GetSOVarianceDataDTPrint(from, to, itmid, itmName, SupId, SupName);
-            var Items = repo1.GetTargetVsAchievedDTPrint(id, OrganizationId, FYStartdate, FYEnddate);
+            var Items = repo1.GetTargetVsAchievedDTPrint(id:id, OrganizationId:OrganizationId, FYStartdate:FYStartdate, FYEnddate:FYEnddate);
 
             foreach (var item in Items)
             {
@@ -86,6 +86,7 @@ namespace ArabErp.Web.Controllers
 
                 DataRow dri = ds.Tables["Items"].NewRow();
                 dri["MonthName"] = SupplyOrderRegItem.MonthName;
+                dri["WorkDescr"] = SupplyOrderRegItem.WorkDescr;
                 dri["Target"] = SupplyOrderRegItem.Target;
                 dri["Achieved"] = SupplyOrderRegItem.Achieved;
                 dri["Varience"] = SupplyOrderRegItem.Varience;

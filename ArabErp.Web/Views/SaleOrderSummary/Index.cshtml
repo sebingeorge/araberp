@@ -29,12 +29,11 @@
     function GoToPrint() {
         var name = $("#cboCustomer option:selected").text();
         var id = $("#cboCustomer").val();
-        console.log(SupId);
         var from = $("#txtFrom").val();
         console.log(from);
         var to = $("#txtTo").val();
         var url = '@Url.Action("Print")';
-        url += "?from=" + from + "&to=" + to  + "&name=" + (name == '' ? 0 : name) + "&id=" + id;
+        url += "?from=" + from + "&to=" + to + "&name=" + (name == '' ? 0 : name) + "&id=" + id;
         window.location = url;
     }
 

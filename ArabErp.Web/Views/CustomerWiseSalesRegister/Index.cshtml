@@ -17,6 +17,13 @@
         var url = '@Url.Action("Index", "Home")';
         window.location = url;
     }
+    function GoToPrint() {
+        var name = $("#cboWork option:selected").text();
+        var id = $("#cboWork").val();
+        var url = '@Url.Action("Print")';
+        url += "?name=" + name + "&id=" + id;
+        window.location = url;
+    }
 </script>
 
 <div class="row">
@@ -46,6 +53,7 @@
         <div class="row">
             <div class="col-md-12 hrpart">
                 <input type="button" class="form-button right" value="Exit" onclick="Exit()" />
+                <input type="button" value="Print" onclick="GoToPrint()" class="form-button right" />
             </div>
         </div>
     </div>

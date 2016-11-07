@@ -36,6 +36,17 @@
         var url = '@Url.Action("Index", "Home")';
         window.location = url;
     }
+    function GoToPrint() {
+        var Spname = $("#cboStockpoint option:selected").text();
+        var Spid = $("#cboStockpoint").val();
+        var ItmCatid = $("#itmCatId").val();
+        var ItmCatname = $("#itmCatId option:selected").text();
+        var Itmid = $("#ItemId").val();
+        var Itmname = $("#ItemId option:selected").text();
+        var url = '@Url.Action("Print")';
+        url += "?Spname=" + (Spname == '' ? 0 : Spname) + "&Spid=" + Spid + "&ItmCatid=" + ItmCatid + "&ItmCatname=" + (ItmCatname == '' ? 0 : ItmCatname) + "&Itmname=" + (Itmname =='' ? 0 : Itmname) + "&Itmid=" + Itmid;
+        window.location = url;
+    }
 </script>
 <div class="row">
 
@@ -75,6 +86,7 @@
         <div class="row">
             <div class="col-md-12 hrpart">
                 <input type="button" class="form-button right" value="Exit" onclick="Exit()" />
+                <input type="button" value="Print" onclick="GoToPrint()" class="form-button right" />
             </div>
         </div>
     </div>
