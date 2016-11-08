@@ -13,7 +13,7 @@
     function Exit() {
 
         location.href = '@Url.Action("Index","Home")';
-          
+
     }
 
 
@@ -38,6 +38,8 @@
         else if ('@TempData["error"]' != "") {
             toastr.error('@TempData["error"]');
         }
+
+        @{ TempData["success"] = TempData["error"] = ""; }
     });
 
 
