@@ -402,6 +402,12 @@
       <DependentUpon>Material.rpt</DependentUpon>
       <SubType>Component</SubType>
     </Compile>
+    <Compile Include="Reports\MaterialPlanning.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>MaterialPlanning.rpt</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="Reports\OpeningStockReport.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -1301,6 +1307,10 @@
     <EmbeddedResource Include="Reports\Material.rpt">
       <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
       <LastGenOutput>Material.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Reports\MaterialPlanning.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>MaterialPlanning.cs</LastGenOutput>
     </EmbeddedResource>
     <EmbeddedResource Include="Reports\OpeningStockReport.rpt">
       <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>

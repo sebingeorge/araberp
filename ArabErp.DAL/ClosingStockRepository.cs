@@ -52,7 +52,20 @@ namespace ArabErp.DAL
             }
         }
 
-        public IEnumerable<ClosingStock> GetClosingStockDataDTPrint(DateTime? asOn, int stockPointId, int itemCategoryId, int itemId, int OrganizationId)
+        public IEnumerable<ClosingStock> GetCurrentStockDataDTPrint(int stockPointId, int itemCategoryId, int itemId, int OrganizationId)
+        {
+            using (IDbConnection connection = OpenConnection(dataConnection))
+            {
+
+                string qry = @"SELECT ItemName,PartNo,SUM(Quantity)Quantity,UnitName FROM StockUpdate SU INNER JOIN Item I ON I.ItemId=SU.ItemId
+                               INNER JOIN Unit U ON U.UnitId=I.ItemUnitId
+                               WHERE  SU.ItemId = ISNULL(NULLIF(@itmid, 0), SU.ItemId) AND I.ItemCategoryId=ISNULL(NULLIF(@itmcatid, 0), I.ItemCategoryId) 
+                               AND SU.OrganizationId=@OrganizationId AND SU.StockPointId = ISNULL(NULLIF(@stkid, 0), SU.StockPointId)
+                               GROUP BY ItemName,PartNo,UnitName";
+                return connection.Query<ClosingStock>(qry, new { stkid = stockPointId, itmcatid = itemCategoryId, itmid = itemId, OrganizationId = OrganizationId }).ToList();
+            }
+        }
+        public IEnumerable<ClosingStock> GetClosingStockDataDTPrint( int stockPointId, int itemCategoryId, int itemId, int OrganizationId)
         {
             using (IDbConnection connection = OpenConnection(dataConnection))
             {
@@ -60,13 +73,11 @@ namespace ArabErp.DAL
                 string qry = @"SELECT ItemRefNo,ISNULL(PartNo,'-')PartNo,ItemName,SUM(Quantity)Quantity,UnitName FROM StockUpdate SU INNER JOIN Item I ON I.ItemId=SU.ItemId
                                INNER JOIN Unit U ON U.UnitId=I.ItemUnitId
                                WHERE  SU.ItemId = ISNULL(NULLIF(@itmid, 0), SU.ItemId) AND I.ItemCategoryId=ISNULL(NULLIF(@itmcatid, 0), I.ItemCategoryId) 
-                               AND SU.OrganizationId=@OrganizationId AND SU.StockPointId = ISNULL(NULLIF(@stkid, 0), SU.StockPointId) AND 
-                               CONVERT(DATE, SU.stocktrnDate, 106)<=CONVERT(DATE, @Ason, 106)
+                               AND SU.OrganizationId=@OrganizationId AND SU.StockPointId = ISNULL(NULLIF(@stkid, 0), SU.StockPointId) 
                                GROUP BY ItemRefNo,PartNo,ItemName,UnitName";
-                return connection.Query<ClosingStock>(qry, new { stkid = stockPointId, itmcatid = itemCategoryId, itmid = itemId, OrganizationId = OrganizationId, Ason = asOn }).ToList();
+                return connection.Query<ClosingStock>(qry, new { stkid = stockPointId, itmcatid = itemCategoryId, itmid = itemId, OrganizationId = OrganizationId }).ToList();
             }
         }
-      
-     
+
     }
 }

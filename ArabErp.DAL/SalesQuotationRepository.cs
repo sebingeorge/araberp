@@ -548,7 +548,7 @@ namespace ArabErp.DAL
                                inner join Customer Cu ON CU.CustomerId=S.CustomerId
                                inner join Employee E ON  E.EmployeeId=S.SalesExecutiveId
                                inner join Organization O ON O.OrganizationId=S.OrganizationId
-                               inner join Country CO  on CO.CountryId=O.Country
+                               left join Country CO  on CO.CountryId=O.Country
                                inner join SalesQuotationStatus SQ ON SQ.SalesQuotationStatusId=S.SalesQuotationStatusId
                                Left JOIN Currency C ON C.CurrencyId=O.CurrencyId
 							   left join Employee EE ON EE.EmployeeId=S.CreatedBy
