@@ -119,7 +119,7 @@ namespace ArabErp.Web.Controllers
                 {
                     ItemName = item.ItemName,
                     PartNo = item.PartNo,
-                    OPENINGSTOCK = item.OPENINGSTOCK,
+                    Quantity = item.Quantity,
                     UnitName = item.UnitName,
                    
                 };
@@ -127,7 +127,7 @@ namespace ArabErp.Web.Controllers
                 DataRow dri = ds.Tables["Items"].NewRow();
                 dri["Item"] = SupplyOrderRegItem.ItemName;
                 dri["PartNo"] = SupplyOrderRegItem.PartNo;
-                dri["OpeningStk"] = SupplyOrderRegItem.OPENINGSTOCK;
+                dri["OpeningStk"] = SupplyOrderRegItem.Quantity;
                 dri["Unit"] = SupplyOrderRegItem.UnitName;
                 ds.Tables["Items"].Rows.Add(dri);
             }

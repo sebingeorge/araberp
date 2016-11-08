@@ -99,7 +99,7 @@ namespace ArabErp.Web.Controllers
             ds.Tables["Head"].Rows.Add(dr);
 
 
-            OpeningStockRepository repo1 = new OpeningStockRepository();
+            ClosingStockRepository repo1 = new ClosingStockRepository();
             //var Items = repo1.GetSOVarianceDataDTPrint(from, to, itmid, itmName, SupId, SupName);
             var Items = repo1.GetClosingStockDataDTPrint(stockPointId: Spid, itemCategoryId: ItmCatid, itemId: Itmid, OrganizationId: OrganizationId);
 

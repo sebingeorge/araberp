@@ -97,13 +97,13 @@ namespace ArabErp.Web.Controllers
             ds.Tables["Head"].Rows.Add(dr);
 
 
-            OpeningStockRepository repo1 = new OpeningStockRepository();
+            ClosingStockRepository repo1 = new ClosingStockRepository();
             //var Items = repo1.GetSOVarianceDataDTPrint(from, to, itmid, itmName, SupId, SupName);
-            var Items = repo1.GetClosingStockDataDTPrint(stockPointId: Spid, itemCategoryId: ItmCatid, itemId: Itmid, OrganizationId: OrganizationId);
+            var Items = repo1.GetCurrentStockDataDTPrint(stockPointId: Spid, itemCategoryId: ItmCatid, itemId: Itmid, OrganizationId: OrganizationId);
 
             foreach (var item in Items)
             {
-                var SupplyOrderRegItem = new OpeningStockReport
+                var SupplyOrderRegItem = new ClosingStock
                 {
                     ItemName = item.ItemName,
                     PartNo = item.PartNo,

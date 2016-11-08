@@ -78,7 +78,7 @@ namespace ArabErp.Web.Controllers
 
             SalesRegisterRepository repo1 = new SalesRegisterRepository();
             //var Items = repo1.GetSOVarianceDataDTPrint(from, to, itmid, itmName, SupId, SupName);
-            var Items = repo1.GetProductWiseSalesRegisterDTPrint(id, OrganizationId,FYStartdate,FYEnddate);
+            var Items = repo1.GetProductWiseSalesRegisterDTPrint(id:id, OrganizationId:OrganizationId, FYStartdate:FYStartdate, FYEnddate:FYEnddate);
 
             foreach (var item in Items)
             {
@@ -122,7 +122,7 @@ namespace ArabErp.Web.Controllers
 
             ds.WriteXml(Path.Combine(Server.MapPath("~/XML"), "ProductWiseSalesRegister.xml"), XmlWriteMode.WriteSchema);
 
-            rd.SetDataSource(ds);
+             rd.SetDataSource(ds);
 
             Response.Buffer = false;
             Response.ClearContent();

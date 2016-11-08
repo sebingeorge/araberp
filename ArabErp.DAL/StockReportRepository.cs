@@ -53,5 +53,25 @@ namespace ArabErp.DAL
                 return connection.Query<StockSummaryDrillDown>(sql);
             }
         }
+        public IEnumerable<StockReportSummary> GetStockReportDTPrint()
+        {
+            using (IDbConnection connection = OpenConnection(dataConnection))
+            {
+                string sql = string.Empty;
+                sql += " with StockIn as (";
+                sql += " select ItemId, SUM(Quantity) InQuantity from StockUpdate where StockInOut = 'IN'";
+                sql += " group by ItemId),";
+                sql += " StockOut as (";
+                sql += " select ItemId, 0- SUM(Quantity) OutQuantity from StockUpdate where StockInOut = 'OUT'";
+                sql += " group by ItemId)";
+                sql += " select I.ItemId, I.ItemName, SI.InQuantity, SO.OutQuantity, Balance = ISNULL(SI.InQuantity,0) - ISNULL(SO.OutQuantity,0)";
+                sql += " from Item I";
+                sql += " left join StockIn SI on I.ItemId = SI.ItemId";
+                sql += " left join StockOut SO on I.ItemId = SO.ItemId";
+                sql += " where SI.InQuantity is not null and SO.OutQuantity is not null";
+
+                return connection.Query<StockReportSummary>(sql);
+            }
+        }
     }
 }

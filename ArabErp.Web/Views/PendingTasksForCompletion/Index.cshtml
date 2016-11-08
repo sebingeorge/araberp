@@ -37,6 +37,31 @@
         var url = '@Url.Action("Index", "Home")';
         window.location = url;
     }
+    function GoToPrint() {
+       
+        var saleorder = $("#filter-saleorder").val();
+        var saleordername = $("#filter-saleorder option:selected").text();
+      
+        var jobcard = $("#filter-jobcard").val();
+        var jobcardName = $("#filter-jobcard option:selected").text()
+        var jobcarddate = $("#filter-jobcarddate").val();
+        var engineer = $("#filter-engineer").val().trim();
+        var engineername = $("#filter-engineer option:selected").text();
+        var task = $("#filter-task option:selected").val().trim();
+        var taskname = $("#filter-task").text().trim();
+        var technician = $("#filter-technician").val().trim();
+        var technicianname = $("#filter-technician option:selected").text().trim();
+       
+        var url = '@Url.Action("Print")';
+        url += "&saleordername=" + (saleordername == '' ? 0 : saleordername)
+           + "&jobcardName=" + (jobcardName == '' ? 0 : jobcardName)
+           + "&jobcarddate=" + jobcarddate
+           + "&engineer=" + (engineername == '' ? 0 : engineername) 
+           + "&taskname=+"(taskname == '' ? 0 : taskname)
+           + "&technicianname" + (technicianname == '' ? 0 : technicianname);
+        alert(url)
+        window.location = url;
+    }
 
 </script>
 
@@ -90,6 +115,7 @@
                     <div style="background-color:green;height:5px;width:5px;float:left;margin-top:5px;margin-right:2px"></div>Transportation
                 </div>
                 <input type="button" class="form-button right" value="Exit" onclick="Exit()" />
+                @*<input type="button" value="Print" onclick="GoToPrint()" class="form-button right" />*@
             </div>
         </div>
     </div>

@@ -970,7 +970,7 @@ namespace ArabErp.Web.Controllers
             }
             catch (Exception ex)
             {
-                throw;
+                    throw;
             }
         }
     }
