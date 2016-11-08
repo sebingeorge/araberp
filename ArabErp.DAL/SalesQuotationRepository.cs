@@ -427,7 +427,7 @@ namespace ArabErp.DAL
 
                 sql += @"UPDATE   SalesQuotation SET   QuotationDate = @QuotationDate,CustomerId=@CustomerId,ContactPerson=@ContactPerson,SalesExecutiveId=@SalesExecutiveId,PredictedClosingDate=@PredictedClosingDate,
                                         QuotationValidToDate = @QuotationValidToDate,ExpectedDeliveryDate = @ExpectedDeliveryDate,IsQuotationApproved=@IsQuotationApproved,ApprovedBy=@ApprovedBy,TotalWorkAmount=@TotalWorkAmount,TotalMaterialAmount=@TotalMaterialAmount,GrandTotal=@GrandTotal,CurrencyId=@CurrencyId,QuotationStatus=@QuotationStatus,Remarks=@Remarks,SalesQuotationStatusId=@SalesQuotationStatusId,
-                                        QuotationStage = @QuotationStage,Competitors = @Competitors,PaymentTerms = @PaymentTerms,DiscountRemarks=@DiscountRemarks,CreatedBy=@CreatedBy,CreatedDate=@CreatedDate,OrganizationId=@OrganizationId,isProjectBased=@isProjectBased,isAfterSales=@isAfterSales,QuerySheetId=NULLIF(@QuerySheetId,0),isWarranty=@isWarranty
+                                        QuotationStage = @QuotationStage,Competitors = @Competitors,PaymentTerms = @PaymentTerms,DiscountRemarks=@DiscountRemarks,CreatedBy=@CreatedBy,CreatedDate=@CreatedDate,OrganizationId=@OrganizationId,isProjectBased=@isProjectBased,isAfterSales=@isAfterSales,QuerySheetId=NULLIF(@QuerySheetId,0),isWarranty=@isWarranty, Discount = @Discount
 	                                    where SalesQuotationId = @SalesQuotationId;
 	                               
                          DELETE FROM SalesQuotationItem WHERE SalesQuotationId = @SalesQuotationId;";
@@ -548,7 +548,7 @@ namespace ArabErp.DAL
                                inner join Customer Cu ON CU.CustomerId=S.CustomerId
                                inner join Employee E ON  E.EmployeeId=S.SalesExecutiveId
                                inner join Organization O ON O.OrganizationId=S.OrganizationId
-                               inner join Country CO  on CO.CountryId=O.Country
+                               left join Country CO  on CO.CountryId=O.Country
                                inner join SalesQuotationStatus SQ ON SQ.SalesQuotationStatusId=S.SalesQuotationStatusId
                                Left JOIN Currency C ON C.CurrencyId=O.CurrencyId
 							   left join Employee EE ON EE.EmployeeId=S.CreatedBy

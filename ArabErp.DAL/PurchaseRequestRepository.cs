@@ -36,6 +36,7 @@ namespace ArabErp.DAL
                     foreach (PurchaseRequestItem item in objPurchaseRequest.items)
                     {
                         item.PurchaseRequestId = id;
+                        if (item.Quantity <= 0) continue;
                         new PurchaseRequestItemRepository().InsertPurchaseRequestItem(item, connection, trn);
                     }
                     InsertLoginHistory(dataConnection, objPurchaseRequest.CreatedBy, "Create", "Purchase Request", id.ToString(), "0");
@@ -159,10 +160,41 @@ namespace ArabErp.DAL
         {
             using (IDbConnection connection = OpenConnection(dataConnection))
             {
-                string qry = @"Select WR.WorkShopRequestId,WR.WorkShopRequestRefNo,WR.WorkShopRequestDate,WR.RequiredDate,C.CustomerName,WR.CustomerOrderRef,SO.SaleOrderRefNo,SO.SaleOrderDate,DATEDIFF(dd,WR.WorkShopRequestDate,GETDATE ()) Ageing, DATEDIFF(DAY, GETDATE(), WR.RequiredDate) DaysLeft from WorkShopRequest WR INNER JOIN Customer C on C.CustomerId=WR.CustomerId ";
-                qry += " INNER JOIN SaleOrder SO on WR.SaleOrderId=SO.SaleOrderId  LEFT JOIN PurchaseRequest PR ON PR.WorkShopRequestId=WR.WorkShopRequestId WHERE PR.PurchaseRequestId is null and WR.OrganizationId=@OrganizationId ORDER BY WR.RequiredDate, WR.WorkShopRequestDate";
+                #region old query 8.11.2016 11.13a
+                //string qry = @"Select WR.WorkShopRequestId,WR.WorkShopRequestRefNo,WR.WorkShopRequestDate,WR.RequiredDate,C.CustomerName,WR.CustomerOrderRef,SO.SaleOrderRefNo,SO.SaleOrderDate,DATEDIFF(dd,WR.WorkShopRequestDate,GETDATE ()) Ageing, DATEDIFF(DAY, GETDATE(), WR.RequiredDate) DaysLeft from WorkShopRequest WR INNER JOIN Customer C on C.CustomerId=WR.CustomerId ";
+                //qry += " INNER JOIN SaleOrder SO on WR.SaleOrderId=SO.SaleOrderId  LEFT JOIN PurchaseRequest PR ON PR.WorkShopRequestId=WR.WorkShopRequestId WHERE PR.PurchaseRequestId is null and WR.OrganizationId=@OrganizationId ORDER BY WR.RequiredDate, WR.WorkShopRequestDate"; 
+                #endregion
 
-                return connection.Query<PendingWorkShopRequest>(qry, new { OrganizationId = OrganizationId });
+                string query = @"Select 
+	                                WR.WorkShopRequestId,
+	                                WR.WorkShopRequestRefNo,
+	                                WR.WorkShopRequestDate,
+	                                WR.RequiredDate,
+	                                C.CustomerName,
+	                                WR.CustomerOrderRef,
+	                                SO.SaleOrderRefNo,
+	                                SO.SaleOrderDate,
+	                                DATEDIFF(dd,WR.WorkShopRequestDate,GETDATE ()) Ageing, 
+	                                DATEDIFF(DAY, GETDATE(), WR.RequiredDate) DaysLeft
+                                from WorkShopRequest WR 
+                                    INNER JOIN Customer C on C.CustomerId=WR.CustomerId
+                                    INNER JOIN SaleOrder SO on WR.SaleOrderId=SO.SaleOrderId  
+                                    LEFT JOIN PurchaseRequest PR ON PR.WorkShopRequestId=WR.WorkShopRequestId 
+                                    LEFT JOIN PurchaseRequestItem PRI ON PR.PurchaseRequestId = PRI.PurchaseRequestId
+                                    LEFT JOIN WorkShopRequestItem WRI ON WR.WorkShopRequestId = WRI.WorkShopRequestId
+                                WHERE /*PR.PurchaseRequestId is null and*/ WR.OrganizationId=@OrganizationId
+                                    GROUP BY WR.WorkShopRequestId,
+	                                WR.WorkShopRequestRefNo,
+	                                WR.WorkShopRequestDate,
+	                                WR.RequiredDate,
+	                                C.CustomerName,
+	                                WR.CustomerOrderRef,
+	                                SO.SaleOrderRefNo,
+	                                SO.SaleOrderDate
+                                HAVING SUM(PRI.Quantity) < SUM(WRI.Quantity)
+                                ORDER BY WR.RequiredDate, WR.WorkShopRequestDate";
+
+                return connection.Query<PendingWorkShopRequest>(query, new { OrganizationId = OrganizationId });
             }
         }
         /// <summary>

@@ -105,6 +105,7 @@
         else if ('@TempData["error"]' != "") {
             toastr.error('@TempData["error"]');
         }
+        @{ TempData["success"] = TempData["error"] = "";}
         //bind keypress event for new row inputs.
         $(".numbers-only").keypress(function (e) {
             if (e.which == 8 || (e.which == 46 && $(this).val().indexOf('.') == -1) || (e.which > 47 && e.which < 58)) { } else { return false; }
@@ -889,7 +890,7 @@
                 </div>
 
 
-                <div class="col-md-3">
+                <div class="col-md-2">
                     <label for="QuotationStage">Quotation Stage</label>
 
                     @Html.TextBoxFor(m => m.QuotationStage, new { @class = "form_input", autocomplete = "off" })
@@ -902,6 +903,10 @@
 
                     @Html.TextBoxFor(m => m.Competitors, new { @class = "form_input", autocomplete = "off" })
 
+                </div>
+                <div class="col-md-1">
+                    <label for="Competitors">Discount</label>
+                    @Html.TextBoxFor(m => m.Discount, new { @class = "form_input numbers-only", autocomplete = "off" })
                 </div>
 
                 <div class="col-md-3">
