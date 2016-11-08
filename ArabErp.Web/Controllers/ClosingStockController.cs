@@ -61,7 +61,7 @@ namespace ArabErp.Web.Controllers
              return PartialView("_ItemDropDown");
          }
 
-        public ActionResult Print(DateTime? date,string Spname = "", int Spid = 0, int ItmCatid = 0, string ItmCatname = "", string Itmname = "", int Itmid = 0)
+        public ActionResult Print(DateTime? date, string Spname = "", int Spid = 0, int ItmCatid = 0, string ItmCatname = "", string Itmname = "", int Itmid = 0)
         {
 
             ReportDocument rd = new ReportDocument();
@@ -72,6 +72,7 @@ namespace ArabErp.Web.Controllers
             ds.Tables.Add("Items");
 
             //    //-------HEAD
+            ds.Tables["Head"].Columns.Add("Ason");
             ds.Tables["Head"].Columns.Add("Stkpoint");
             ds.Tables["Head"].Columns.Add("ItemCat");
             ds.Tables["Head"].Columns.Add("Item");
@@ -91,6 +92,7 @@ namespace ArabErp.Web.Controllers
             var Head = repo.GetOrganization(OrganizationId);
 
             DataRow dr = ds.Tables["Head"].NewRow();
+            dr["Ason"] = date;
             dr["Stkpoint"] = Spname;
             dr["ItemCat"] = ItmCatname;
             dr["Item"] = Itmname;
@@ -99,15 +101,16 @@ namespace ArabErp.Web.Controllers
             ds.Tables["Head"].Rows.Add(dr);
 
 
-            OpeningStockRepository repo1 = new OpeningStockRepository();
+            ClosingStockRepository repo1 = new ClosingStockRepository();
             //var Items = repo1.GetSOVarianceDataDTPrint(from, to, itmid, itmName, SupId, SupName);
-            var Items = repo1.GetClosingStockDataDTPrint(stockPointId: Spid, itemCategoryId: ItmCatid, itemId: Itmid, OrganizationId: OrganizationId);
+            var Items = repo1.GetClosingStockDataDTPrint(asOn:date,stockPointId: Spid, itemCategoryId: ItmCatid, itemId: Itmid, OrganizationId: OrganizationId);
 
             foreach (var item in Items)
             {
-                var SupplyOrderRegItem = new OpeningStockReport
+                var SupplyOrderRegItem = new ClosingStock
                 {
                     ItemName = item.ItemName,
+                    ItemRefNo=item.ItemRefNo,
                     PartNo = item.PartNo,
                     Quantity = item.Quantity,
                     UnitName = item.UnitName,
@@ -116,7 +119,7 @@ namespace ArabErp.Web.Controllers
 
                 DataRow dri = ds.Tables["Items"].NewRow();
                 dri["Item"] = SupplyOrderRegItem.ItemName;
-                dri["RefNo"] = SupplyOrderRegItem.ItemName;
+                dri["RefNo"] = SupplyOrderRegItem.ItemRefNo;
                 dri["PartNo"] = SupplyOrderRegItem.PartNo;
                 dri["ClosingStk"] = SupplyOrderRegItem.Quantity;
                 dri["Unit"] = SupplyOrderRegItem.UnitName;
