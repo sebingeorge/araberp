@@ -99,7 +99,7 @@ namespace ArabErp.DAL
             {
                 return connection.Query<Organization>(" SELECT O.OrganizationId,OrganizationRefNo,OrganizationName,CurrencyName,CountryName,COM.cmpName CompanyName From Organization O INNER JOIN Currency C ON C.CurrencyId=O.CurrencyId " +
                                                       " left join Country  CO on CO.CountryId=O.Country "+
-                                                      " inner join mstAccCompany COM on COM.cmpCode=O.cmpCode "+
+                                                      " left join mstAccCompany COM on COM.cmpCode=O.cmpCode "+
                                                       " WHERE O.isActive=1 ").ToList();
             }
         }
