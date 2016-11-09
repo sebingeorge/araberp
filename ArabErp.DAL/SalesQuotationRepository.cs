@@ -597,7 +597,7 @@ namespace ArabErp.DAL
             using (IDbConnection connection = OpenConnection(dataConnection))
             {
                 string sql = @"select Q.SalesQuotationId, Q.QuotationRefNo, Q.QuotationDate, C.CustomerName, E.EmployeeName, Q.GrandTotal,RR.[Description] [Status],
-                               U.UserName,isnull(Q.RevisionNo,0)RevisionNo, I.ItemName [Description]
+                               U.UserName,isnull(Q.RevisionNo,0)RevisionNo, Q.RevisionReason, I.ItemName [Description]
                                from SalesQuotation Q 
                                inner join Customer C on C.CustomerId = Q.CustomerId
                                inner join Employee E on E.EmployeeId = Q.SalesExecutiveId
