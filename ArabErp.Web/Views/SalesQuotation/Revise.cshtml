@@ -13,7 +13,7 @@
     function GotoIndex()
     {
         var project = $("#isProjectBased").val();
-        if (project == 0)
+        if (project == 'False')
         {
             var url = '@Url.Action("Index")';
             location.href = url;
@@ -487,7 +487,7 @@
                     }
 
                 </script>
-                if (@Model.isProjectBased != 0)
+                if (@Model.isProjectBased)
                 {
                     @Html.Partial("_MaterialList")
                 }
@@ -609,7 +609,7 @@
                         </tfoot>
                     </table>
                 </div>
-                if (@Model.isProjectBased != 0)
+                if (@Model.isProjectBased)
                 {
                     <div class="row form-group">
                         <div class="col-md-12">

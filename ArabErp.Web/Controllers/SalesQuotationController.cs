@@ -382,8 +382,6 @@ namespace ArabErp.Web.Controllers
 
             return RedirectToAction("PreviousList", new { ProjectBased = Convert.ToInt32(model.isProjectBased), AfterSales = Convert.ToInt32(model.isAfterSales) });
         }
-
-
         [HttpGet]
         public ActionResult Approve(int SalesQuotationId)
         {
@@ -423,7 +421,6 @@ namespace ArabErp.Web.Controllers
             ViewBag.SubmitAction = "Approve";
             return View("Create", salesquotation);
         }
-
         public ActionResult Approve(SalesQuotation model)
         {
             var repo = new SalesQuotationRepository();
@@ -470,88 +467,88 @@ namespace ArabErp.Web.Controllers
 
         //}
 
-        //public ActionResult Revise(int Id)
-        //{
-        //    FillCustomer();
-        //    FillCurrency();
-        //    FillCommissionAgent();
-        //    FillVehicle();
-        //    FillQuerySheet();
-        //    FillUnit();
-        //    FillEmployee();
-        //    FillSalesQuotationStatus();
-        //    var repo = new SalesQuotationRepository();
+        #region Revise Quotation
+        public ActionResult Revise(int Id)
+        {
+            FillCustomer();
+            FillCurrency();
+            FillCommissionAgent();
+            FillVehicle();
+            FillQuerySheet();
+            FillUnit();
+            FillEmployee();
+            FillSalesQuotationStatus();
+            var repo = new SalesQuotationRepository();
 
-        //    var sorepo = new SaleOrderRepository();
+            var sorepo = new SaleOrderRepository();
 
 
-        //    SalesQuotation salesquotation = repo.GetSalesQuotation(Id);
-        //    if (salesquotation.isProjectBased == 2)
-        //    {
-        //        FillWrkDescAfterSales();
-        //        ItemDropdown();
-        //    }
-        //    else if (salesquotation.isProjectBased == 1)
-        //    {
-        //        FillWrkDescForProject();
-        //        ItemDropdown();
-        //    }
-        //    else
-        //    {
-        //        FillWrkDesc();
-        //    }
-        //    salesquotation.CustomerAddress = sorepo.GetCusomerAddressByKey(salesquotation.CustomerId);
-        //    salesquotation.ParentId = salesquotation.SalesQuotationId;
-        //    salesquotation.IsQuotationApproved = false;
-        //    if (salesquotation.GrantParentId == null || salesquotation.GrantParentId == 0)
-        //    {
-        //        salesquotation.GrantParentId = salesquotation.ParentId;
-        //    }
+            SalesQuotation salesquotation = repo.GetSalesQuotation(Id);
+            if (salesquotation.isAfterSales)
+            {
+                FillWrkDescAfterSales();
+                ItemDropdown();
+            }
+            else if (salesquotation.isProjectBased)
+            {
+                FillWrkDescForProject();
+                ItemDropdown();
+            }
+            else
+            {
+                FillWrkDesc();
+            }
+            salesquotation.CustomerAddress = sorepo.GetCusomerAddressByKey(salesquotation.CustomerId);
+            salesquotation.ParentId = salesquotation.SalesQuotationId;
+            salesquotation.IsQuotationApproved = false;
+            if (salesquotation.GrantParentId == null || salesquotation.GrantParentId == 0)
+            {
+                salesquotation.GrantParentId = salesquotation.ParentId;
+            }
 
-        //    salesquotation.SalesQuotationItems = repo.GetSalesQuotationItems(Id);
-        //    salesquotation.Materials = repo.GetSalesQuotationMaterials(Id);
-        //    ViewBag.SubmitAction = "Revise";
-        //    return View(salesquotation);
-        //}
+            salesquotation.SalesQuotationItems = repo.GetSalesQuotationItems(Id);
+            salesquotation.Materials = repo.GetSalesQuotationMaterials(Id);
+            ViewBag.SubmitAction = "Revise";
+            return View(salesquotation);
+        }
+        [HttpPost]
+        public ActionResult Revise(SalesQuotation model)
+        {
+            bool isProjectBased = model.isProjectBased;
+            if (!ModelState.IsValid)
+            {
+                //To Debug Errors
+                var errors = ModelState
+                    .Where(x => x.Value.Errors.Count > 0)
+                    .Select(x => new { x.Key, x.Value.Errors })
+                    .ToArray();
+                //End
+                FillCustomer();
+                FillCurrency();
+                FillCommissionAgent();
+                FillWrkDesc();
+                FillQuerySheet();
+                FillVehicle();
+                FillUnit();
+                FillEmployee();
+                FillSalesQuotationStatus();
+                return View(model);
+            }
+            else
+            {
+                SalesQuotation result = new SalesQuotationRepository().ReviseSalesQuotation(model);
+                if (!isProjectBased)
+                {
+                    return RedirectToAction("Index");
+                }
+                else
+                {
+                    return RedirectToAction("ProjectIndex");
+                }
 
-        //[HttpPost]
-        //public ActionResult Revise(SalesQuotation model)
-        //{
-        //    int isProjectBased = model.isProjectBased;
-        //    if(!ModelState.IsValid)
-        //    {
-        //        //To Debug Errors
-        //        var errors = ModelState
-        //            .Where(x => x.Value.Errors.Count > 0)
-        //            .Select(x => new { x.Key, x.Value.Errors })
-        //            .ToArray();
-        //        //End
-        //        FillCustomer();
-        //        FillCurrency();
-        //        FillCommissionAgent();
-        //        FillWrkDesc();
-        //        FillQuerySheet();
-        //        FillVehicle();
-        //        FillUnit();
-        //        FillEmployee();
-        //        FillSalesQuotationStatus();
-        //        return View(model);
-        //    }
-        //    else
-        //    {
-        //        SalesQuotation result = new SalesQuotationRepository().ReviseSalesQuotation(model);
-        //        if (isProjectBased == 0)
-        //        {
-        //            return RedirectToAction("Index");
-        //        }
-        //        else
-        //        {
-        //            return RedirectToAction("ProjectIndex");
-        //        }
-
-        //    }
-        //}
-
+            }
+        }
+        #endregion
 
         public ActionResult ListSalesQuotations(int ProjectBased, int AfterSales)
         {
@@ -567,7 +564,6 @@ namespace ArabErp.Web.Controllers
 
             return View(salesquotations);
         }
-
         public ActionResult StatusUpdate(int Id)
         {
             FillCustomer();
@@ -592,7 +588,6 @@ namespace ArabErp.Web.Controllers
             ViewBag.SubmitAction = "StatusUpdate";
             return View("StatusUpdate", salesquotation);
         }
-
         //[HttpPost]
         //public ActionResult StatusUpdate(SalesQuotation model)
         //  {
@@ -626,21 +621,16 @@ namespace ArabErp.Web.Controllers
 
 
         //  }
-
         public JsonResult GetRate(int workDescriptionId, string date, int type)
         {
             decimal data = new RateSettingsRepository().GetRate(workDescriptionId, date, type);
             return Json(data, JsonRequestBehavior.AllowGet);
         }
-
         public JsonResult GetSpecialRate(int workDescriptionId, int customerId)
         {
             decimal data = new RateSettingsRepository().GetSpecialRate(workDescriptionId, customerId);
             return Json(data, JsonRequestBehavior.AllowGet);
         }
-
-
-
         public ActionResult Cancel(int Id)
         {
             SalesQuotationRepository repo = new SalesQuotationRepository();
@@ -668,11 +658,6 @@ namespace ArabErp.Web.Controllers
             }
 
         }
-
-
-
-
-
         public ActionResult DeleteSQ(string isProjectBased, string isAfterSales, int id = 0)
         {
             try
@@ -941,9 +926,9 @@ namespace ArabErp.Web.Controllers
                     UnitName = item.UnitName,
                     Discount = item.Discount,
                     Amount = item.Amount,
-                    WorkDescription=item.WorkDescription,
+                    WorkDescription = item.WorkDescription,
                     TotalAmount = item.TotalAmount
-                    
+
                 };
 
 
@@ -977,7 +962,7 @@ namespace ArabErp.Web.Controllers
             }
             catch (Exception ex)
             {
-                    throw;
+                throw;
             }
         }
 

@@ -14,7 +14,7 @@
             "preventDuplicates": false,
             "onclick": null,
 
-            "timeOut": "0",
+            "timeOut": "5000",
             "extendedTimeOut": "1000",
             "showEasing": "swing",
             "hideEasing": "linear",
@@ -37,6 +37,7 @@
         else if ('@TempData["error"]' != "") {
             toastr.error('@TempData["error"]');
         }
+        @{ TempData["success"] = TempData["error"] = "";}
 
         $('#QuotationTable tr').click(function (event) {
             $("tr").removeClass("active");
