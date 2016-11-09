@@ -1,0 +1,79 @@
+﻿@{
+    ViewBag.Title = "BussinessReport";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+<script type="text/javascript">
+    function Filter() {
+        var month = Number($("#month-filter").val()) + 1;
+        var year = Number($("#year-filter").val());
+        var url = '@Url.Action("EmployeeGrid")';
+        $("#employee-grid").addClass("fade");
+        $("#employee-grid").load(url, { month: month, year: year }, function () {
+            $("#employee-grid").removeClass("fade");
+        });
+    }
+
+    function GoToPrint() {
+        var MonthName = $("#month-filter option:selected").text();
+        var Month = Number($("#month-filter").val())+1;
+        var Year = $("#year-filter").val();
+        var YearName = $("#year-filter option:selected").text();
+        var url = '@Url.Action("PrintBussinessReport")';
+        url += "?MonthName=" + (MonthName == '' ? 0 : MonthName) + "&Month=" + Month + "&Year=" + Year + "&YearName=" + (YearName == '' ? 0 : YearName);
+        window.location = url;
+    }
+</script>
+
+<div class="row">
+    <div class="form-head1">
+        <h2>BussinessReport</h2>
+    </div>
+
+
+
+
+    <div class="main-part pad1">
+
+        <div class="row form-group">
+
+            <div class="col-md-2">
+                <label for="">Month</label>
+                @Html.DropDownList("month-filter", new SelectList(
+                  new List<Object>{
+                       new { value = 0 , text = "January"  },
+                       new { value = 1 , text = "February" },
+                       new { value = 2 , text = "March"},
+                       new { value = 3 , text = "April"},
+                       new { value = 4 , text = "May"},
+                       new { value = 5 , text = "June"},
+                       new { value = 6 , text = "July"},
+                       new { value = 7 , text = "August"},
+                       new { value = 8 , text = "September"},
+                       new { value = 9 , text = "October"},
+                       new { value = 10 , text = "November"},
+                       new { value = 11 , text = "December"}
+                    },
+                  "value",
+                  "text", DateTime.Today.Month - 1), "Select Month", new { @class = "form_input", @onchange = "Filter()" })
+            </div>
+            <div class="col-md-2">
+                <label for="">Year</label>
+                @Html.DropDownList("year-filter", new SelectList(
+                  new List<Object>{
+                       new { value = ViewBag.Year, text = ViewBag.Year },
+                       new { value = ViewBag.Year + 1, text = ViewBag.Year + 1 }
+                    },
+                  "value",
+                  "text", ViewBag.Year), "Select Year", new { @class = "form_input", @onchange = "Filter()" })
+            </div>
+            </div>
+        </div>
+        <div class="col-md-12 hrpart">
+            <input type="button" class="form-button right" value="Exit" onclick="Back()" />
+            <input type="button" value="Print" onclick="GoToPrint()" class="form-button right" />
+        </div>
+    </div>
+   
+    </div>

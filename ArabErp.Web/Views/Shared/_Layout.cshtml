@@ -965,6 +965,10 @@
                                 {
                                     <li><a href="@Url.Action("Employee", "ResourceAvailability")">Employee Availability Report</a></li>
                                 }
+                                @if (formPermission.Find(x => x.FormId == 135) != null)
+                                {
+                                    <li><a href="@Url.Action("BussinessReport", "SalesQuotation")">Bussiness Report</a></li>
+                                }
                                 @if (formPermission.Find(x => x.FormId == 127) != null)
                                 {
                                     <li><a href="@Url.Action("Index", "PendingTasksForCompletion")">Pending Tasks Report</a></li>

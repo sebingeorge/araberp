@@ -592,7 +592,24 @@ namespace ArabErp.DAL
                 return SalesQuotationItems;
             }
         }
+        public IEnumerable<SalesQuotationList> GetSalesQuotaationListPrint(int month, int year)
+        {
+            using (IDbConnection connection = OpenConnection(dataConnection))
+            {
+                string sql = @"select Q.SalesQuotationId, Q.QuotationRefNo, Q.QuotationDate, C.CustomerName, E.EmployeeName, Q.GrandTotal,RR.Description,
+                               U.UserName,isnull(Q.RevisionNo,0)RevisionNo
+                               from SalesQuotation Q 
+                               inner join Customer C on C.CustomerId = Q.CustomerId
+                               inner join Employee E on E.EmployeeId = Q.SalesExecutiveId
+                               inner join SalesQuotationStatus RR on RR.SalesQuotationStatusId=q.SalesQuotationStatusId
+							   left join [User] U  on U.UserId = Q.CreatedBy
+							   where ISNULL(MONTH(Q.QuotationDate), @Month) = @Month
+							   AND ISNULL(YEAR(Q.QuotationDate), @Year) =  @Year
+                               and Q.isActive = 1  ";
 
+                return connection.Query<SalesQuotationList>(sql, new { month = month, year = year}).ToList(); 
+            }
+        }
 
 
     }
