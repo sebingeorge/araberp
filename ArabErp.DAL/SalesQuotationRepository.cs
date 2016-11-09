@@ -596,18 +596,21 @@ namespace ArabErp.DAL
         {
             using (IDbConnection connection = OpenConnection(dataConnection))
             {
-                string sql = @"select Q.SalesQuotationId, Q.QuotationRefNo, Q.QuotationDate, C.CustomerName, E.EmployeeName, Q.GrandTotal,RR.Description,
-                               U.UserName,isnull(Q.RevisionNo,0)RevisionNo
+                string sql = @"select Q.SalesQuotationId, Q.QuotationRefNo, Q.QuotationDate, C.CustomerName, E.EmployeeName, Q.GrandTotal,RR.[Description] [Status],
+                               U.UserName,isnull(Q.RevisionNo,0)RevisionNo, I.ItemName [Description]
                                from SalesQuotation Q 
                                inner join Customer C on C.CustomerId = Q.CustomerId
                                inner join Employee E on E.EmployeeId = Q.SalesExecutiveId
                                inner join SalesQuotationStatus RR on RR.SalesQuotationStatusId=q.SalesQuotationStatusId
+                               INNER JOIN SalesQuotationItem SQI ON Q.SalesQuotationId = SQI.SalesQuotationId
+							   LEFT JOIN WorkDescription WD ON SQI.WorkDescriptionId = WD.WorkDescriptionId
+							   LEFT JOIN Item I ON WD.FreezerUnitId = I.ItemId
 							   left join [User] U  on U.UserId = Q.CreatedBy
 							   where ISNULL(MONTH(Q.QuotationDate), @Month) = @Month
 							   AND ISNULL(YEAR(Q.QuotationDate), @Year) =  @Year
                                and Q.isActive = 1  ";
 
-                return connection.Query<SalesQuotationList>(sql, new { month = month, year = year}).ToList(); 
+                return connection.Query<SalesQuotationList>(sql, new { Month = month, Year = year}).ToList(); 
             }
         }
 

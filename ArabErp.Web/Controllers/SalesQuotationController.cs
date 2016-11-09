@@ -819,7 +819,7 @@ namespace ArabErp.Web.Controllers
             return Json(new QuerySheetRepository().GetCostingAmount(id), JsonRequestBehavior.AllowGet);
         }
 
-        public ActionResult BussinessReport()
+        public ActionResult BusinessReport()
         {
             ViewBag.Year = FYStartdate.Year;
             return View();
@@ -1010,33 +1010,33 @@ namespace ArabErp.Web.Controllers
             var Items = repo1.GetSalesQuotaationListPrint(Month ?? DateTime.Today.Month, Year ?? DateTime.Today.Year);
             foreach (var item in Items)
             {
-                var pritem = new SalesQuotationList
+                //var pritem = new SalesQuotationList
 
-                {
-                    QuotationRefNo=item.QuotationRefNo,
-                    QuotationDate = item.QuotationDate,
-                    CustomerName = item.CustomerName,
-                    EmployeeName=item.EmployeeName,
-                    GrandTotal = item.GrandTotal,
-                    RevisionNo = item.RevisionNo,
-                    RevisionReason = item.RevisionReason,
-                    Status=item.Status,
-                    WorkDescr=item.WorkDescr
+                //{
+                //    QuotationRefNo=item.QuotationRefNo,
+                //    QuotationDate = item.QuotationDate,
+                //    CustomerName = item.CustomerName,
+                //    EmployeeName=item.EmployeeName,
+                //    GrandTotal = item.GrandTotal,
+                //    RevisionNo = item.RevisionNo,
+                //    RevisionReason = item.RevisionReason,
+                //    Status=item.Status,
+                //    Description=item.Description
                    
 
-                };
+                //};
 
 
                 DataRow dri = ds.Tables["Items"].NewRow();
-                dri["QuotRef"] = pritem.QuotationRefNo;
-                dri["Date"] = pritem.QuotationDate.ToString("dd/MMM/yyyy");
-                dri["Customer"] = pritem.CustomerName;
-                dri["Lead"] = pritem.EmployeeName;
-                dri["Descr"] = pritem.WorkDescr;
-                dri["Status"] = pritem.Status;
-                dri["GrandTot"] = pritem.GrandTotal;
-                dri["RevisionNo"] = pritem.RevisionNo;
-                dri["Reason"] = pritem.RevisionReason;
+                dri["QuotRef"] = item.QuotationRefNo;
+                dri["Date"] = item.QuotationDate.ToString("dd/MMM/yyyy");
+                dri["Customer"] = item.CustomerName;
+                dri["Lead"] = item.EmployeeName;
+                dri["Descr"] = item.Description;
+                dri["Status"] = item.Status;
+                dri["GrandTot"] = item.GrandTotal;
+                dri["RevisionNo"] = item.RevisionNo;
+                dri["Reason"] = item.RevisionReason;
                 ds.Tables["Items"].Rows.Add(dri);
             }
 
