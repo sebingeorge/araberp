@@ -161,7 +161,7 @@
                                         </thead>
                                         <tbody>
                                             @for (int j = 0; j < Model.ERPAlerts.Count; j++)
-                                                {
+                                            {
                                                 <tr class="grid_row">
                                                     @Html.HiddenFor(m => m.ERPAlerts[j].UserId)
                                                     @Html.HiddenFor(m => m.ERPAlerts[j].AlertId)
@@ -173,7 +173,7 @@
                                                     </td>
                                                     <td></td>
                                                 </tr>
-                                                }
+                                            }
                                         </tbody>
                                     </table>
                                 </div>
@@ -193,7 +193,7 @@
                                         </thead>
                                         <tbody>
                                             @for (int j = 0; j < Model.ERPGraphs.Count; j++)
-                                                {
+                                            {
                                                 <tr class="grid_row">
                                                     @Html.HiddenFor(m => m.ERPGraphs[j].UserId)
                                                     @Html.HiddenFor(m => m.ERPGraphs[j].GraphId)
@@ -205,7 +205,7 @@
                                                     </td>
                                                     <td></td>
                                                 </tr>
-                                                }
+                                            }
                                         </tbody>
                                     </table>
                                 </div>
@@ -225,7 +225,7 @@
                                         </thead>
                                         <tbody>
                                             @for (int j = 0; j < Model.Companies.Count; j++)
-                                                {
+                                            {
                                                 <tr class="grid_row">
                                                     @Html.HiddenFor(m => m.Companies[j].UserId)
                                                     @Html.HiddenFor(m => m.Companies[j].cmpCode)
@@ -237,7 +237,7 @@
                                                     </td>
                                                     <td></td>
                                                 </tr>
-                                                }
+                                            }
                                         </tbody>
                                     </table>
                                 </div>
@@ -251,13 +251,13 @@
                                     <div id="img_preview1" title="Photo Preview" style="padding-left:30px">
                                         <p>
                                             @if (Model.Signature == null || Model.Signature.Length == 0)
-                                                {
+                                            {
                                                 <img src="\Images\default-signature.png" alt="Please upload image" id="image_preview1" class="image-upload img-rounded" />
-                                                }
-                                                else
-                                                {
+                                            }
+                                            else
+                                            {
                                                 <img src="\App_Images\@Model.Signature" alt="Please upload image" id="image_preview1" class="image-upload img-rounded" />
-                                                }
+                                            }
                                         </p>
                                     </div>
                                 </div>
@@ -284,8 +284,10 @@
                                         <tbody>
                                             @{
                                                 //string[] colorCodes = { "#f9dcdc", "#f7f9dc", "#e0f9dc", "#e0f9dc", "#e0dcf9", "#f9dcf5", "#f9dcf5" };
+                                                //var moduleForms = Model.Forms.Where(x => x.ModuleId == Model.Module[j].ModuleId)
+                                                //                             .Select(x => x).ToList();
                                             }
-                                            @for (int k=0 ;k < Model.Forms.Count; k++)
+                                            @for (int k = 0; k < Model.Forms.Count; k++)
                                             {
                                                 if (Model.Module[j].ModuleId != Model.Forms[k].ModuleId)
                                                 {
@@ -293,18 +295,20 @@
                                                 }
                                                 <tr>
                                                     <td align="center">
-                                                        @(k + 1)
+                                                        @(i + 1)
                                                     </td>
                                                     <td>
                                                         @*style="background:@(colorCodes[Model.Forms[i].ModuleId-1])"*@
-                                                        @Model.Forms[i].ModuleName
+                                                        @Model.Forms[k].ModuleName
+                                                        @*@moduleForms[k].ModuleName*@
                                                     </td>
                                                     <td>
-                                                        @Html.HiddenFor(m => m.Forms[i].FormId)
-                                                        @Model.Forms[i].FormName
+                                                        @Html.HiddenFor(m => m.Forms[k].FormId)
+                                                        @Model.Forms[k].FormName
+                                                        @*@moduleForms[k].FormName*@
                                                     </td>
                                                     <td>
-                                                        @Html.CheckBoxFor(m => m.Forms[i].hasPermission)
+                                                        @Html.CheckBoxFor(m => m.Forms[k].hasPermission)
                                                     </td>
                                                 </tr>
                                                 ++i;
