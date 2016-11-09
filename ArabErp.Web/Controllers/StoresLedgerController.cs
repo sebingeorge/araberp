@@ -98,11 +98,12 @@ namespace ArabErp.Web.Controllers
             var Head = repo.GetOrganization(OrganizationId);
 
             DataRow dr = ds.Tables["Head"].NewRow();
-            dr["From"] = from;
-            dr["To"] = to;
+            dr["From"] = from.Value.ToShortDateString();
+            dr["To"] = to.Value.ToShortDateString();
             dr["Stkpoint"] = Spname;
             dr["ItemCat"] = ItmCatname;
             dr["Item"] = Itmname;
+            
             dr["OrganizationName"] = Head.OrganizationName;
             dr["Image1"] = Server.MapPath("~/App_images/") + Head.Image1;
             ds.Tables["Head"].Rows.Add(dr);
@@ -121,11 +122,12 @@ namespace ArabErp.Web.Controllers
                     StockType = item.StockType,
                     INQTY = item.INQTY,
                     OUTQTY = item.OUTQTY,
+                
 
                 };
 
                 DataRow dri = ds.Tables["Items"].NewRow();
-                dri["Entrydate"] = SupplyOrderRegItem.stocktrnDate;
+                dri["Entrydate"] = SupplyOrderRegItem.stocktrnDate.ToString("dd-MMM-yyyy");
                 dri["Transno"] = SupplyOrderRegItem.StockUserId;
                 dri["TransType"] = SupplyOrderRegItem.StockType;
                 dri["QtyIn"] = SupplyOrderRegItem.INQTY;

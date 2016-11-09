@@ -114,7 +114,7 @@ namespace ArabErp.Web.Controllers
 
             MaterialPlanningRepository repo1 = new MaterialPlanningRepository();
             //var Items = repo1.GetSOVarianceDataDTPrint(from, to, itmid, itmName, SupId, SupName);
-            var Items = repo1.GetMaterialPlanningDTPrint(Itmid, batch, partNo);
+            var Items = repo1.GetMaterialPlanningDTPrint(Itmid,batch);
 
             foreach (var item in Items)
             {

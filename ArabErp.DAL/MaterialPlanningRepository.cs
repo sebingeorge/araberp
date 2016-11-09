@@ -74,7 +74,7 @@ namespace ArabErp.DAL
                 return connection.Query<MaterialPlanning>(sql, new { itmid = itmid, partNo = partNo, batch = batch}).ToList();
             }
         }
-        public IEnumerable<MaterialPlanning> GetMaterialPlanningDTPrint(int itmid, int? batch, string partNo)
+        public IEnumerable<MaterialPlanning> GetMaterialPlanningDTPrint(int itmid, int? batch)
         {
             using (IDbConnection connection = OpenConnection(dataConnection))
             {
@@ -126,7 +126,7 @@ namespace ArabErp.DAL
 
                 update T set T.ShortorExcess = (T.CurrentStock+T.InTransitQty+T.PendingPRQty)-(T.TotalQty) from #TEMP T1 inner join #TEMP T on T.ItemId = T1.ItemId;
 
-                SELECT * FROM #TEMP where ItemId = ISNULL(NULLIF(@itmid, 0),ItemId) and  PartNo = ISNULL(NULLIF(@partNo, ''),PartNo) and BatchRequired = ISNULL(@batch,BatchRequired);
+                SELECT * FROM #TEMP where ItemId = ISNULL(NULLIF(@itmid, 0),ItemId)  and BatchRequired = ISNULL(@batch,BatchRequired);
 
                 drop table #TEMP;
                 DROP TABLE #TEMP1;
@@ -134,7 +134,7 @@ namespace ArabErp.DAL
 
 
                 //where ItemId in (select W.ItemId from SaleOrderItem SI inner join WorkVsItem W on SI.WorkDescriptionId=W.WorkDescriptionId WHERE SaleOrderId=@Id)
-                return connection.Query<MaterialPlanning>(sql, new { itmid = itmid, partNo=partNo,batch = batch }).ToList();
+                return connection.Query<MaterialPlanning>(sql, new { itmid = itmid, batch = batch }).ToList();
             }
         }
     }

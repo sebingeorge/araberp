@@ -834,6 +834,13 @@ namespace ArabErp.Web.Controllers
             return Json(new QuerySheetRepository().GetCostingAmount(id), JsonRequestBehavior.AllowGet);
         }
 
+        public ActionResult BussinessReport()
+        {
+            ViewBag.Year = FYStartdate.Year;
+            return View();
+        }
+
+
         public ActionResult Print(int Id)
         {
 
@@ -971,6 +978,101 @@ namespace ArabErp.Web.Controllers
             catch (Exception ex)
             {
                     throw;
+            }
+        }
+
+        public ActionResult PrintBussinessReport(string MonthName, int? Month, string YearName, int? Year)
+        {
+
+            ReportDocument rd = new ReportDocument();
+            rd.Load(Path.Combine(Server.MapPath("~/Reports"), "BussinessReport.rpt"));
+
+            DataSet ds = new DataSet();
+            ds.Tables.Add("Head");
+
+            ds.Tables.Add("Items");
+
+            //-------HEAD
+            ds.Tables["Head"].Columns.Add("Month");
+            ds.Tables["Head"].Columns.Add("Year");
+            ds.Tables["Head"].Columns.Add("OrganizationName");
+            ds.Tables["Head"].Columns.Add("Image1");
+
+            //-------DT
+           
+            ds.Tables["Items"].Columns.Add("QuotRef");
+            ds.Tables["Items"].Columns.Add("Date");
+            ds.Tables["Items"].Columns.Add("Customer");
+            ds.Tables["Items"].Columns.Add("Lead");
+            ds.Tables["Items"].Columns.Add("Descr");
+            ds.Tables["Items"].Columns.Add("Status");
+            ds.Tables["Items"].Columns.Add("GrandTot");
+            ds.Tables["Items"].Columns.Add("RevisionNo");
+            ds.Tables["Items"].Columns.Add("Reason");
+
+
+            OrganizationRepository repo = new OrganizationRepository();
+            var Head = repo.GetOrganization(OrganizationId);
+
+            DataRow dr = ds.Tables["Head"].NewRow();
+            dr["Month"] = MonthName;
+            dr["Year"] = YearName;
+            dr["OrganizationName"] = Head.OrganizationName;
+            dr["Image1"] = Server.MapPath("~/App_images/") + Head.Image1;
+            ds.Tables["Head"].Rows.Add(dr);
+
+            SalesQuotationRepository repo1 = new SalesQuotationRepository();
+            var Items = repo1.GetSalesQuotaationListPrint(Month ?? DateTime.Today.Month, Year ?? DateTime.Today.Year);
+            foreach (var item in Items)
+            {
+                var pritem = new SalesQuotationList
+
+                {
+                    QuotationRefNo=item.QuotationRefNo,
+                    QuotationDate = item.QuotationDate,
+                    CustomerName = item.CustomerName,
+                    EmployeeName=item.EmployeeName,
+                    GrandTotal = item.GrandTotal,
+                    RevisionNo = item.RevisionNo,
+                    RevisionReason = item.RevisionReason,
+                    Status=item.Status,
+                    WorkDescr=item.WorkDescr
+                   
+
+                };
+
+
+                DataRow dri = ds.Tables["Items"].NewRow();
+                dri["QuotRef"] = pritem.QuotationRefNo;
+                dri["Date"] = pritem.QuotationDate.ToString("dd/MMM/yyyy");
+                dri["Customer"] = pritem.CustomerName;
+                dri["Lead"] = pritem.EmployeeName;
+                dri["Descr"] = pritem.WorkDescr;
+                dri["Status"] = pritem.Status;
+                dri["GrandTot"] = pritem.GrandTotal;
+                dri["RevisionNo"] = pritem.RevisionNo;
+                dri["Reason"] = pritem.RevisionReason;
+                ds.Tables["Items"].Rows.Add(dri);
+            }
+
+            ds.WriteXml(Path.Combine(Server.MapPath("~/XML"), "BussinessReport.xml"), XmlWriteMode.WriteSchema);
+
+            rd.SetDataSource(ds);
+
+            Response.Buffer = false;
+            Response.ClearContent();
+            Response.ClearHeaders();
+
+
+            try
+            {
+                Stream stream = rd.ExportToStream(CrystalDecisions.Shared.ExportFormatType.PortableDocFormat);
+                stream.Seek(0, SeekOrigin.Begin);
+                return File(stream, "application/pdf", String.Format("BussinessReport.pdf"));
+            }
+            catch (Exception ex)
+            {
+                throw;
             }
         }
     }
