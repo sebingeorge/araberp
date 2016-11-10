@@ -14,19 +14,19 @@ namespace ArabErp.Web.Controllers
         // GET: QuerySheet
         public ActionResult Index(string type)
         {
-            
+
             ViewBag.Type = type;
             return View();
         }
 
         public ActionResult CreateQuerySheet(string type)
         {
-           
+
             string internalId = "";
             try
             {
                 internalId = DatabaseCommonRepository.GetNextDocNo(5, OrganizationId);
-               
+
             }
             catch (NullReferenceException nx)
             {
@@ -45,7 +45,7 @@ namespace ArabErp.Web.Controllers
             qs.QuerySheetItems = new List<QuerySheetItem>();
             qs.QuerySheetItems.Add(new QuerySheetItem());
             qs.QuerySheetRefNo = internalId;
-           
+
             return View(qs);
         }
 
@@ -54,10 +54,10 @@ namespace ArabErp.Web.Controllers
             var repo = new QuerySheetRepository();
             UnitSelection();
             var qs = new QuerySheetRepository().GetQuerySheet(QuerySheetId);
-           
+
             qs.Type = type;
             qs.QuerySheetItems = new ProjectCostRepository().GetQuerySheetItem(QuerySheetId);
-            if(type=="Costing")
+            if (type == "Costing")
             {
                 var PCList = repo.GetProjectCostingParameter();
                 qs.Items = new List<ProjectCost>();
@@ -68,7 +68,7 @@ namespace ArabErp.Web.Controllers
 
                 }
             }
-         
+
             return View("CreateQuerySheet", qs);
         }
 
@@ -111,38 +111,43 @@ namespace ArabErp.Web.Controllers
         [HttpPost]
         public ActionResult CreateQuerySheet(QuerySheet qs)
         {
-           
+
             //if (qs.QuerySheetId==0)
             //{
-                try
+            try
+            {
+                qs.OrganizationId = OrganizationId;
+                qs.CreatedDate = System.DateTime.Now;
+                qs.CreatedBy = UserID.ToString();
+                var id = "";
+                int row;
+                if (qs.Type == "Unit")
                 {
-                    qs.OrganizationId = OrganizationId;
-                    qs.CreatedDate = System.DateTime.Now;
-                    qs.CreatedBy = UserID.ToString();
-                    var id = "";
-                    int row;
-                    if (qs.Type == "Unit")
+                    UnitSelection();
+                    row = new QuerySheetRepository().UpdateQuerySheetUnit(qs);
+                    TempData["success"] = "Saved Successfully (" + qs.QuerySheetRefNo + ")";
+                    return RedirectToAction("PendingQuerySheetforUnit");
+                }
+                else if (qs.Type == "Costing")
+                {
+                    UnitSelection();
+                    if (qs.Items == null || qs.Items.Count <= 0)
                     {
-                        UnitSelection();
-                        row = new QuerySheetRepository().UpdateQuerySheetUnit(qs);
-                        TempData["success"] = "Saved Successfully (" + qs.QuerySheetRefNo + ")";
-                        return RedirectToAction("PendingQuerySheetforUnit");
+                        TempData["error"] = "Query Sheet cannot be saved without costing parameters.";
+                        return RedirectToAction("CreateQuerySheetUnit", new { QuerySheetid = qs.QuerySheetId, type = "Costing" });
                     }
-                    else if (qs.Type == "Costing")
-                    {
-                        UnitSelection();
-                        row = new ProjectCostRepository().InsertProjectCosting(qs);
-                        TempData["success"] = "Saved Successfully (" + qs.QuerySheetRefNo + ")";
-                        return RedirectToAction("PendingQuerySheetforCosting");
-                    }
-                    else if (qs.Type == "RoomDetails")
-                    {
-                        id = new QuerySheetRepository().InsertQuerySheet(qs);
+                    row = new ProjectCostRepository().InsertProjectCosting(qs);
+                    TempData["success"] = "Saved Successfully (" + qs.QuerySheetRefNo + ")";
+                    return RedirectToAction("PendingQuerySheetforCosting");
+                }
+                else if (qs.Type == "RoomDetails")
+                {
+                    id = new QuerySheetRepository().InsertQuerySheet(qs);
 
 
-                        if (id.Split('|')[0] != "0")
+                    if (id.Split('|')[0] != "0")
                     {
-                        qs.QuerySheetId = Convert.ToInt16( id.Split('|')[0]);
+                        qs.QuerySheetId = Convert.ToInt16(id.Split('|')[0]);
                         qs.QuerySheetRefNo = id.Split('|')[1];
                         TempData["success"] = "Saved successfully.  Reference No. is " + id.Split('|')[1];
                         TempData["error"] = "";
@@ -152,26 +157,26 @@ namespace ArabErp.Web.Controllers
                     {
                         throw new Exception();
                     }
-                    }
-                 
+                }
 
-                    
-                }
-                catch (SqlException sx)
-                {
-                    TempData["error"] = "Some error occured while connecting to database. Please check your network connection and try again.|" + sx.Message;
-                }
-                catch (NullReferenceException nx)
-                {
-                    TempData["error"] = "Some required data was missing. Please try again.|" + nx.Message;
-                }
-                catch (Exception ex)
-                {
-                    TempData["error"] = "Some error occured. Please try again.|" + ex.Message;
-                }
-                TempData["success"] = "";
+
+
+            }
+            catch (SqlException sx)
+            {
+                TempData["error"] = "Some error occured while connecting to database. Please check your network connection and try again.|" + sx.Message;
+            }
+            catch (NullReferenceException nx)
+            {
+                TempData["error"] = "Some required data was missing. Please try again.|" + nx.Message;
+            }
+            catch (Exception ex)
+            {
+                TempData["error"] = "Some error occured. Please try again.|" + ex.Message;
+            }
+            TempData["success"] = "";
             //}
-                return RedirectToAction("CreateQuerySheet", new { type = qs.Type });
+            return RedirectToAction("CreateQuerySheet", new { type = qs.Type });
 
         }
 
@@ -180,14 +185,14 @@ namespace ArabErp.Web.Controllers
         {
 
             var qs = new QuerySheetRepository().GetQuerySheet(QuerySheetId);
-            return View("CreateQuerySheet",qs);
+            return View("CreateQuerySheet", qs);
         }
 
-        public ActionResult QuerySheetList(string Type,DateTime? from, DateTime? to, string querysheet = "")
+        public ActionResult QuerySheetList(string Type, DateTime? from, DateTime? to, string querysheet = "")
         {
             return PartialView("QuerySheetList", new QuerySheetRepository().GetQuerySheets(Type, OrganizationId: OrganizationId, querysheet: querysheet, from: from, to: to));
         }
-    
+
         public ActionResult Edit(int id = 0)
         {
             try
@@ -251,7 +256,7 @@ namespace ArabErp.Web.Controllers
             {
                 try
                 {
-                   
+
                     string ref_no = new QuerySheetRepository().UpdateQuerySheet(model);
 
                     TempData["success"] = "Updated successfully. Query Sheet Reference No. is " + ref_no;
