@@ -537,6 +537,7 @@ namespace ArabErp.Web.Controllers
             else
             {
                 SalesQuotation result = new SalesQuotationRepository().ReviseSalesQuotation(model);
+                TempData["success"] = "Quotation revised succcessfully. Reference No. is " + model.QuotationRefNo;
                 if (!isProjectBased)
                 {
                     return RedirectToAction("Index");
