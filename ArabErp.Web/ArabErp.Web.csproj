@@ -390,6 +390,11 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>JobCard.rpt</DependentUpon>
     </Compile>
+    <Compile Include="Reports\JobCardCopy.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>JobCardCopy.rpt</DependentUpon>
+    </Compile>
     <Compile Include="Reports\JobCardQC.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -437,6 +442,11 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>BussinessReport.rpt</DependentUpon>
       <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Reports\PendingTasksForCompletion.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>PendingTasksForCompletion.rpt</DependentUpon>
     </Compile>
     <Compile Include="Reports\ProductWiseSalesRegister.cs">
       <AutoGen>True</AutoGen>
@@ -1307,6 +1317,10 @@
       <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
       <LastGenOutput>JobCard1.cs</LastGenOutput>
     </EmbeddedResource>
+    <EmbeddedResource Include="Reports\JobCardCopy.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>JobCardCopy.cs</LastGenOutput>
+    </EmbeddedResource>
     <EmbeddedResource Include="Reports\JobCardQC.rpt">
       <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
       <LastGenOutput>JobCardQC.cs</LastGenOutput>
@@ -1338,6 +1352,10 @@
     <EmbeddedResource Include="Reports\BussinessReport.rpt">
       <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
       <LastGenOutput>BussinessReport.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Reports\PendingTasksForCompletion.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>PendingTasksForCompletion.cs</LastGenOutput>
     </EmbeddedResource>
     <EmbeddedResource Include="Reports\ProductWiseSalesRegister.rpt">
       <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>

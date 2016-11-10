@@ -16,6 +16,9 @@
                 <xs:element name="Unit" type="xs:string" minOccurs="0" />
                 <xs:element name="Customer" type="xs:string" minOccurs="0" />
                 <xs:element name="Technician" type="xs:string" minOccurs="0" />
+                <xs:element name="ChasisNo" type="xs:string" minOccurs="0" />
+                <xs:element name="TaskDate" type="xs:string" minOccurs="0" />
+                <xs:element name="VModel" type="xs:string" minOccurs="0" />
                 <xs:element name="DoorNo" type="xs:string" minOccurs="0" />
                 <xs:element name="Street" type="xs:string" minOccurs="0" />
                 <xs:element name="State" type="xs:string" minOccurs="0" />
@@ -27,6 +30,7 @@
                 <xs:element name="Zip" type="xs:string" minOccurs="0" />
                 <xs:element name="OrganizationName" type="xs:string" minOccurs="0" />
                 <xs:element name="Image1" type="xs:string" minOccurs="0" />
+                <xs:element name="Box" type="xs:string" minOccurs="0" />
               </xs:sequence>
             </xs:complexType>
           </xs:element>
@@ -36,9 +40,7 @@
                 <xs:element name="TaskDate" type="xs:string" minOccurs="0" />
                 <xs:element name="Employee" type="xs:string" minOccurs="0" />
                 <xs:element name="Description" type="xs:string" minOccurs="0" />
-                <xs:element name="StartTime" type="xs:string" minOccurs="0" />
-                <xs:element name="EndTime" type="xs:string" minOccurs="0" />
-                <xs:element name="ActualHours" type="xs:string" minOccurs="0" />
+                <xs:element name="Hours" type="xs:string" minOccurs="0" />
               </xs:sequence>
             </xs:complexType>
           </xs:element>
@@ -47,25 +49,37 @@
     </xs:element>
   </xs:schema>
   <Head>
-    <JobCardNo>JC/8</JobCardNo>
-    <JobCardDate>04-Nov-2016</JobCardDate>
-    <SaleOrderRefNo>SO/5</SaleOrderRefNo>
-    <CustomerName>Al Khair Trading &amp; Aluminium Co. WLL,Street No.11, Industrial Area,Doha-Qatar</CustomerName>
-    <CustomerPhone>Tel:+974 4416 9448</CustomerPhone>
+    <JobCardNo>JC/6</JobCardNo>
+    <JobCardDate>28-Oct-2016</JobCardDate>
+    <SaleOrderRefNo>SO/9</SaleOrderRefNo>
+    <CustomerName>Al Sahba Food Stuff Trading Co W.L.L.,P.O.Box- 5842, Doha-Qatar,Tel: +974 44693281,44693560</CustomerName>
+    <CustomerPhone>Fax: +974 44693284</CustomerPhone>
     <CustomerContactPerson>0</CustomerContactPerson>
     <Unit>COMPRESSOR CLUTCH COIL  TM16 12V</Unit>
-    <Customer>Al Khair Trading &amp; Aluminium Co. WLL</Customer>
-    <Technician>Shafi</Technician>
+    <Customer>Al Sahba Food Stuff Trading Co W.L.L.</Customer>
+    <Technician>Deepak</Technician>
+    <ChasisNo>215487924FBGD654</ChasisNo>
+    <VModel> Hyundai HD 65 Truck</VModel>
     <Currency>QAR</Currency>
     <OrganizationName>Arab Air Conditioning &amp; Refrigeration Co. W.L.L.</OrganizationName>
     <Image1>E:\ARAB\New folder\ArabErp\ArabErp.Web\App_images\</Image1>
   </Head>
   <Items>
-    <TaskDate>01-Jan-0001</TaskDate>
+    <TaskDate>28-Oct-2016</TaskDate>
+    <Employee>Deepak</Employee>
+    <Description>Unit Fixing</Description>
+    <Hours>10.00</Hours>
+  </Items>
+  <Items>
+    <TaskDate>28-Oct-2016</TaskDate>
     <Employee>Shafi</Employee>
-    <Description>tasktest</Description>
-    <StartTime>0.00</StartTime>
-    <EndTime>0.00</EndTime>
-    <ActualHours>0.00</ActualHours>
+    <Description>Unit Fixing</Description>
+    <Hours>9.00</Hours>
+  </Items>
+  <Items>
+    <TaskDate>29-Oct-2016</TaskDate>
+    <Employee>Programmer</Employee>
+    <Description>Unit Fixing</Description>
+    <Hours>8.00</Hours>
   </Items>
 </NewDataSet>

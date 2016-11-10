@@ -58,6 +58,10 @@ namespace ArabErp.Domain
         public string Zip { get; set; }
         public string OrganizationName { get; set; }
         public string Image1 { get; set; }
+        public DateTime TaskDate { get; set; }
+        public string ChasisNo { get; set; }
+        public string VehicleName { get; set; }
+
         public List<JobCardTask> JobCardTasks { get; set; }
 
         public string BoxName { get; set; }
@@ -72,5 +76,6 @@ namespace ArabErp.Domain
         public string EmployeeName { get; set; }
         public string WorkDescr { get; set; }
         public DateTime RequiredDate { get; set; }
+       
     }
 }

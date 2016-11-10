@@ -65,8 +65,8 @@ namespace ArabErp.DAL
                 WHERE ISNULL(JC.JodCardCompleteStatus, 0) = 0
 	                AND	JC.OrganizationId = @OrganizationId
 					AND SO.SaleOrderRefNo LIKE '%'+@saleorder+'%'
-					AND JC.JobCardNo LIKE '%'+@jobcard+'%' " + 
-                    (d != DateTime.MinValue ? "AND JC.JobCardDate = ISNULL(@jobcarddate, JC.JobCardDate) " : "") + 
+					AND JC.JobCardNo LIKE '%'+@jobcard+'%' " +
+                    (d != DateTime.MinValue ? "AND JC.JobCardDate = ISNULL(@jobcarddate, JC.JobCardDate) " : "") +
                     @"AND EMP1.EmployeeName LIKE '%'+@engineer+'%'
 					AND JTM.JobCardTaskName LIKE '%'+@task+'%'
 					AND EMP.EmployeeName LIKE '%'+@technician+'%'
@@ -85,7 +85,7 @@ namespace ArabErp.DAL
             }
         }
 
-        public IEnumerable GetPendingTasksDTPrint(int OrganizationId, string saleorder = "", string jobcard = "", string jobcarddate = "",
+        public IEnumerable<PendingTasksForCompletion> GetPendingTasksDTPrint(int OrganizationId, string saleorder = "", string jobcard = "", string jobcarddate = "",
                                            string engineer = "", string task = "", string technician = "")
         {
             using (IDbConnection connection = OpenConnection(dataConnection))
@@ -100,14 +100,12 @@ namespace ArabErp.DAL
                     d = DateTime.MinValue;
                 }
                 string query = @"
-                 SELECT
+               SELECT
 	                JC.JobCardId,
 	                JobCardNo,
-					CONCAT(JobCardNo,' - ',CONVERT(Varchar(15),JobCardDate,106))JobCardDate,               
-	                CONCAT(SO.SaleOrderRefNo,' - ',CONVERT(Varchar(15),SO.SaleOrderDate,106))SaleOrderDate,
-	                --CONVERT(VARCHAR, JobCardDate, 106) JobCardDate,
+	                CONVERT(VARCHAR, JobCardDate, 106) JobCardDate,
 	                SO.SaleOrderRefNo,
-	                --CONVERT(VARCHAR, SO.SaleOrderDate, 106) SaleOrderDate,
+	                CONVERT(VARCHAR, SO.SaleOrderDate, 106) SaleOrderDate,
 	                --SaleOrderItemId,
 	                VP.RegistrationNo,
 	                WD.WorkDescr,

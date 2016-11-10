@@ -234,6 +234,9 @@ namespace ArabErp.Web.Controllers
             ds.Tables["Head"].Columns.Add("Unit");
             ds.Tables["Head"].Columns.Add("Customer");
             ds.Tables["Head"].Columns.Add("Technician");
+            ds.Tables["Head"].Columns.Add("ChasisNo");
+            ds.Tables["Head"].Columns.Add("TaskDate");
+            ds.Tables["Head"].Columns.Add("VModel");
             ds.Tables["Head"].Columns.Add("DoorNo");
             ds.Tables["Head"].Columns.Add("Street");
             ds.Tables["Head"].Columns.Add("State");
@@ -242,18 +245,18 @@ namespace ArabErp.Web.Controllers
             ds.Tables["Head"].Columns.Add("Phone");
             ds.Tables["Head"].Columns.Add("Fax");
             ds.Tables["Head"].Columns.Add("Email");
-            //ds.Tables["Head"].Columns.Add("ContactPerson");
             ds.Tables["Head"].Columns.Add("Zip");
             ds.Tables["Head"].Columns.Add("OrganizationName");
             ds.Tables["Head"].Columns.Add("Image1");
+            ds.Tables["Head"].Columns.Add("Box");
             
             //-------DT
             ds.Tables["Items"].Columns.Add("TaskDate");
             ds.Tables["Items"].Columns.Add("Employee");
             ds.Tables["Items"].Columns.Add("Description");
-            ds.Tables["Items"].Columns.Add("StartTime");
-            ds.Tables["Items"].Columns.Add("EndTime");
-            ds.Tables["Items"].Columns.Add("ActualHours");
+            //ds.Tables["Items"].Columns.Add("StartTime");
+            //ds.Tables["Items"].Columns.Add("EndTime");
+            ds.Tables["Items"].Columns.Add("Hours");
 
             JobCardRepository repo = new JobCardRepository();
             var Head = repo.GetJobCardHD(Id, OrganizationId);
@@ -267,6 +270,9 @@ namespace ArabErp.Web.Controllers
             dr["CustomerContactPerson"] = Head.ContactPerson;
             dr["Customer"] = Head.Customer;
             dr["Unit"] = Head.FreezerUnitName;
+            dr["ChasisNo"] = Head.ChasisNo;
+            //dr["TaskDate"] = Head.TaskDate;
+            dr["VModel"] = Head.VehicleModelName;
             dr["Technician"] = Head.Technician;
             dr["DoorNo"] = Head.DoorNo;
             dr["Street"] = Head.Street;
@@ -279,7 +285,8 @@ namespace ArabErp.Web.Controllers
            // dr["ContactPerson"] = Head.ContactPerson;
             dr["Zip"] = Head.Zip;
             dr["OrganizationName"] = Head.OrganizationName;
-            dr["Image1"] = Server.MapPath("~/App_images/") + Head.Image1; 
+            dr["Image1"] = Server.MapPath("~/App_images/") + Head.Image1;
+            dr["Box"] =Head.BoxName; 
             ds.Tables["Head"].Rows.Add(dr);
 
             JobCardTaskRepository repo1 = new JobCardTaskRepository();
@@ -290,19 +297,19 @@ namespace ArabErp.Web.Controllers
                 {
                     TaskDate = item.TaskDate,
                     Employee = item.Employee,
-                    Description = item.Description,
-                    StartTime = item.StartTime,
-                    EndTime = item.EndTime,
-                    ActualHours=item.ActualHours
+                    JobCardTaskName = item.JobCardTaskName,
+                    //StartTime = item.StartTime,
+                    //EndTime = item.EndTime,
+                    Hours = item.Hours
                 };
 
                 DataRow dri = ds.Tables["Items"].NewRow();
                 dri["TaskDate"] = JCItem.TaskDate.ToString("dd-MMM-yyyy");
                 dri["Employee"] = JCItem.Employee;
-                dri["Description"] = JCItem.Description;
-                dri["StartTime"] = JCItem.StartTime;
-                dri["EndTime"] = JCItem.EndTime;
-                dri["ActualHours"] = JCItem.ActualHours;
+                dri["Description"] = JCItem.JobCardTaskName;
+                //dri["StartTime"] = JCItem.StartTime;
+                //dri["EndTime"] = JCItem.EndTime;
+                dri["Hours"] = JCItem.Hours;
                 ds.Tables["Items"].Rows.Add(dri);
             }
 

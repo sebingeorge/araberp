@@ -421,9 +421,9 @@ namespace ArabErp
             {
 
 //              
-                string sql = @" SELECT O.*,JobCardId,JobCardNo,JobCardDate,SaleOrderRefNo RegistrationNo,Concat(CustomerName,',',C.DoorNo,',',C.Street)CustomerName,
+                string sql = @" SELECT O.*,J.JobCardId,JobCardNo,JobCardDate,SaleOrderRefNo RegistrationNo,Concat(CustomerName,',',C.DoorNo,',',C.Street)CustomerName,
                                 C.Phone CPhone,C.ContactPerson,E.EmployeeName Technician,C.CustomerName Customer,U.ItemName FreezerUnitName,
-								ORR.CountryName,CU.CurrencyName 
+								ORR.CountryName,CU.CurrencyName ,v.RegistrationNo ChasisNo,JT.TaskDate,VM.VehicleModelName,b.BoxName
                                 FROM JobCard J
                                 INNER JOIN SaleOrder S ON S.SaleOrderId=J.SaleOrderId
                                 INNER JOIN Customer C ON C.CustomerId=S.CustomerId
@@ -432,7 +432,12 @@ namespace ArabErp
 								LEFT  JOIN Country ORR ON ORR.CountryId=O.Country
 								LEFT JOIN Currency CU ON CU.CurrencyId=O.CurrencyId
                                 LEFT JOIN Item U ON U.ItemId=J.FreezerUnitId
-                                WHERE JobCardId=@JobCardId";
+								LEFT JOIN VehicleInPass V ON V.VehicleInPassId=J.InPassId
+								LEFT JOIN JobCardTask JT ON JT.JobCardId=J.JobCardId
+								LEFT JOIN WorkDescription W ON W.WorkDescriptionId=J.WorkDescriptionId
+								LEFT JOIN VehicleModel VM ON VM.VehicleModelId=W.VehicleModelId
+								LEFT JOIN Box B ON B.BoxId=W.BoxId
+                                WHERE J.JobCardId=@JobCardId";
 
                 var objJobCardId = connection.Query<JobCard>(sql, new
                 {
