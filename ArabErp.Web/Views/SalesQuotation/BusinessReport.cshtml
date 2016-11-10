@@ -28,7 +28,7 @@
 
 <div class="row">
     <div class="form-head1">
-        <h2>BussinessReport</h2>
+        <h4>Business Report</h4>
     </div>
 
 
@@ -67,13 +67,16 @@
                     },
                   "value",
                   "text", ViewBag.Year), "Select Year", new { @class = "form_input", @onchange = "Filter()" })
+               
+            </div>
+            <div class="col-md-12 hrpart">
+                <input type="button" class="form-button right" value="Exit" onclick="Back()" />
+                <input type="button" value="Print" onclick="GoToPrint()" class="form-button right" />
             </div>
             </div>
+       
         </div>
-        <div class="col-md-12 hrpart">
-            <input type="button" class="form-button right" value="Exit" onclick="Back()" />
-            <input type="button" value="Print" onclick="GoToPrint()" class="form-button right" />
-        </div>
+       
     </div>
    
     </div>

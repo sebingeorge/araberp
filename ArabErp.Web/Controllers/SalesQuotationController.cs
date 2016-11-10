@@ -1011,21 +1011,21 @@ namespace ArabErp.Web.Controllers
             var Items = repo1.GetSalesQuotaationListPrint(Month ?? DateTime.Today.Month, Year ?? DateTime.Today.Year);
             foreach (var item in Items)
             {
-                //var pritem = new SalesQuotationList
+                var pritem = new SalesQuotationList
 
-                //{
-                //    QuotationRefNo=item.QuotationRefNo,
-                //    QuotationDate = item.QuotationDate,
-                //    CustomerName = item.CustomerName,
-                //    EmployeeName=item.EmployeeName,
-                //    GrandTotal = item.GrandTotal,
-                //    RevisionNo = item.RevisionNo,
-                //    RevisionReason = item.RevisionReason,
-                //    Status=item.Status,
-                //    Description=item.Description
-                   
+                {
+                    QuotationRefNo = item.QuotationRefNo,
+                    QuotationDate = item.QuotationDate,
+                    CustomerName = item.CustomerName,
+                    EmployeeName = item.EmployeeName,
+                    GrandTotal = item.GrandTotal,
+                    RevisionNo = item.RevisionNo,
+                    RevisionReason = item.RevisionReason,
+                    Status = item.Status,
+                    Description = item.Description
 
-                //};
+
+                };
 
 
                 DataRow dri = ds.Tables["Items"].NewRow();
