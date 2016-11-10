@@ -32,6 +32,7 @@
         else if ('@TempData["error"]' != "") {
             toastr.error('@TempData["error"]');
         }
+        @{ TempData["success"] = TempData["error"] = ""; }
     });
 
 </script>
