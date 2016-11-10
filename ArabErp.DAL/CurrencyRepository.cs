@@ -131,8 +131,8 @@ namespace ArabErp.DAL
             using (IDbConnection connection = OpenConnection(dataConnection))
             {
                 string sql = @"select S.SymbolName,C.CurrencyName,C.CurrencyId from Organization O 
-                             inner join Currency C on C.CurrencyId = O.CurrencyId
-                             inner join Symbol S on C.CurrencySymbolId = S.SymbolId
+                             left join Currency C on C.CurrencyId = O.CurrencyId
+                             left join Symbol S on C.CurrencySymbolId = S.SymbolId
                              where O.OrganizationId=@OrganizationId";
                 var objCurrency = connection.Query<Currency>(sql, new
                 {

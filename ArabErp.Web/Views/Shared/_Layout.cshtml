@@ -531,7 +531,8 @@
                                     || formPermission.Find(x => x.FormId == 61) != null
                                     || formPermission.Find(x => x.FormId == 62) != null
                                     || formPermission.Find(x => x.FormId == 63) != null
-                                    || formPermission.Find(x => x.FormId == 64) != null)
+                                    || formPermission.Find(x => x.FormId == 63) != null
+                                    || formPermission.Find(x => x.FormId == 137) != null)
                                 {
                                     <li>
                                         <a href="#" data-toggle="collapse" data-target="#sales-projects">Projects<span class="caret arrow"></span></a>
@@ -556,6 +557,10 @@
                                                 @if (formPermission.Find(x => x.FormId == 58) != null)
                                                 {
                                                     <li><a class="projectn" href="@Url.Action("ListSalesQuotations", "SalesQuotation", new { ProjectBased = 1 ,AfterSales=0})">Project - Quotation Approval</a></li>
+                                                }
+                                                @if (formPermission.Find(x => x.FormId == 137) != null)
+                                                {
+                                                    <li><a class="projectn" href="@Url.Action("ProjectIndex", "SalesQuotation")">Revise Quotation</a></li>
                                                 }
                                                 @if (formPermission.Find(x => x.FormId == 59) != null)
                                                 {
@@ -605,6 +610,10 @@
                                                 @if (formPermission.Find(x => x.FormId == 66) != null)
                                                 {
                                                     <li><a href="@Url.Action("ListSalesQuotations", "SalesQuotation", new { ProjectBased = 0, AfterSales = 0 })">Quotation Approval</a></li>
+                                                }
+                                                @if (formPermission.Find(x => x.FormId == 136) != null)
+                                                {
+                                                    <li><a class="projectn" href="@Url.Action("Index", "SalesQuotation")">Revise Quotation</a></li>
                                                 }
                                                 @if (formPermission.Find(x => x.FormId == 67) != null)
                                                 {
@@ -958,7 +967,7 @@
                                 }
                                 @if (formPermission.Find(x => x.FormId == 135) != null)
                                 {
-                                    <li><a href="@Url.Action("BussinessReport", "SalesQuotation")">Bussiness Report</a></li>
+                                    <li><a href="@Url.Action("BusinessReport", "SalesQuotation")">Business Report</a></li>
                                 }
                                 @if (formPermission.Find(x => x.FormId == 127) != null)
                                 {
