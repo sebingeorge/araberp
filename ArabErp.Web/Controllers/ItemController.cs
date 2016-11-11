@@ -243,11 +243,11 @@ namespace ArabErp.Web.Controllers
             FillItemCategory();
             return PartialView("_ItemCategoryDropdown");
         }
-        public ActionResult ItemList(int? page, string name = "")
+        public ActionResult ItemList(int? page, string name = "", string group = "", string subgroup = "")
         {
-            int itemsPerPage = 10;
+            //int itemsPerPage = 10;
             int pageNumber = page ?? 1;
-            return PartialView("_ItemListView", new ItemRepository().GetItems(name.Trim()));
+            return PartialView("_ItemListView", new ItemRepository().GetItems(name: name.Trim(), group: group.Trim(), subgroup: subgroup.Trim()));
             //var repo = new ItemRepository();
             //var List = repo.GetItems();
             //return PartialView("_ItemListView",List);
@@ -255,8 +255,7 @@ namespace ArabErp.Web.Controllers
 
 
         public ActionResult Print(string name)
-        
-      {
+        {
 
             ReportDocument rd = new ReportDocument();
             rd.Load(Path.Combine(Server.MapPath("~/Reports"), "Material.rpt"));
@@ -267,7 +266,7 @@ namespace ArabErp.Web.Controllers
             ds.Tables.Add("Items");
 
             //-------HEAD
-            
+
             ds.Tables["Head"].Columns.Add("DoorNo");
             ds.Tables["Head"].Columns.Add("Street");
             ds.Tables["Head"].Columns.Add("State");
@@ -294,7 +293,7 @@ namespace ArabErp.Web.Controllers
             var Head = repo.GetOrganization(OrganizationId);
 
             DataRow dr = ds.Tables["Head"].NewRow();
-            
+
             dr["DoorNo"] = Head.DoorNo;
             dr["Street"] = Head.Street;
             dr["State"] = Head.State;
