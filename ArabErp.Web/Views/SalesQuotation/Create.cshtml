@@ -39,19 +39,19 @@
         @if (actionName == "Create")
         {
            @: url += "?ProjectBased=0" + "&AfterSales=0";
-                                }
+                                        }
         else if (actionName == "CreateProject")
         {
             @: url += "?ProjectBased=1" + "&AfterSales=0";;
-                                }
+                                        }
         else if (actionName == "CreateAfterSalesTrans")
         {
             @: url += "?ProjectBased=0" + "&AfterSales=1";;
-                                }
+                                        }
         else if (actionName == "CreateAfterSalesProject")
            {
                @: url += "?ProjectBased=1" + "&AfterSales=1";;
-                                   }
+                                           }
         window.location = url;
 
     }
@@ -79,8 +79,8 @@
         @if (Model.isAfterSales)
         {
             @: $("#CustomerId").val(@Model.CustomerId);
-                    @: $("#CustomerId").trigger("onchange");
-                }
+                            @: $("#CustomerId").trigger("onchange");
+                        }
     });
     function CustomerChanged(cust) {
         var cusId = cust.value;
@@ -136,13 +136,14 @@
         @if (new[] { "CreateAfterSalesTrans", "CreateAfterSalesProject" }.Contains(ViewContext.RouteData.GetRequiredString("action")))
         {
             @:removeOnChange();
-                        }
+        }
     });
 
     function removeOnChange(){
-        $("#CustomerId").removeProp("onchange");
+        //$("#CustomerId").removeProp("onchange");
         $("select[id$='__WorkDescriptionId']").each(function(index, object){
             $(object).removeProp("onchange");
+            $("#SalesQuotationItems_0__Rate").removeAttr("readonly");
         });
     }
 
@@ -349,8 +350,11 @@
     }
 
     function OnCustomerChanged() {
-        for(var i=0; i< @Model.SalesQuotationItems.Count; i++){
-            OnRateTypeChanged(i);
+        @if (!new[] { "CreateAfterSalesTrans", "CreateAfterSalesProject" }.Contains(ViewContext.RouteData.GetRequiredString("action")))
+        {
+            @:for(var i=0; i< @Model.SalesQuotationItems.Count; i++){
+            @:    OnRateTypeChanged(i);
+            @:}
         }
     }
 
@@ -641,10 +645,10 @@
                     if (isNaN(discount)) {
                         discount = 0;
                     }
-                    var amount = (rate) - discount;
+                    var amount = rate * quantity;// - discount;
                     amount = parseFloat(amount);
                     $("#SalesQuotationItems_" + row + "__Amount").val(amount.toFixed(2));
-                    $("#SalesQuotationItems_" + row + "__TotalAmount").val((amount * quantity).toFixed(2));
+                    $("#SalesQuotationItems_" + row + "__TotalAmount").val(((amount)-discount).toFixed(2));
                     cal_Summary();
                     //var amount = (rate - discount);
 
@@ -767,7 +771,7 @@
                     @if (new[] { "CreateAfterSalesTrans", "CreateAfterSalesProject" }.Contains(ViewContext.RouteData.GetRequiredString("action")))
                     {
                         @:removeOnChange();
-                                                            }
+                    }
                 }
             </script>
 
