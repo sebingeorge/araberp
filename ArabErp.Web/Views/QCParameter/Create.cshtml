@@ -20,7 +20,7 @@
         }
 
         //$("#radio_1").prop("checked", true)
-        toastr.options = {
+        @*toastr.options = {
             "closeButton": true,
             "positionClass": "toast-bottom-full-width",
             "preventDuplicates": false,
@@ -39,7 +39,7 @@
         }
         else if ('@TempData["error"]' != "") {
             toastr.error('@TempData["error"]');
-        }
+        }*@
         $("#QCParamName").focus();
     });
 </script>
