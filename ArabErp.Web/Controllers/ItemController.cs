@@ -26,6 +26,8 @@ namespace ArabErp.Web.Controllers
         {
             FillItemCategory();
             FillUnit();
+            FillItem();
+            FillJobCardTaskMaster();
             InitDropdown();
             Item oItem = new Item();
             oItem.PartNo = null;
@@ -44,6 +46,8 @@ namespace ArabErp.Web.Controllers
             oItem.StockRequired = false;
             oItem.BatchRequired = false;
             oItem.ItemRefNo = "ITM/" + DatabaseCommonRepository.GetNextRefNoWithNoUpdate(typeof(Item).Name);
+            oItem.ItemVsBom.Add(new WorkVsItem());
+            oItem.ItemVsTasks.Add(new WorkVsTask());
 
             return View("Create", oItem);
         }
@@ -353,6 +357,19 @@ namespace ArabErp.Web.Controllers
             {
                 throw;
             }
+        }
+        public void FillItem()
+        {
+            DropdownRepository Repo = new DropdownRepository();
+            var List = Repo.FillItem();
+            ViewBag.ItemList = new SelectList(List, "Id", "Name");
+        }
+
+        public void FillJobCardTaskMaster()
+        {
+            JobCardTaskMasterRepository Repo = new JobCardTaskMasterRepository();
+            var List = Repo.FillJobCardTaskMaster();
+            ViewBag.JobCardTaskMasterList = new SelectList(List, "Id", "Name");
         }
     }
 }

@@ -111,8 +111,6 @@ namespace ArabErp.DAL
         }
         public Item InsertItem(Item objItem)
         {
-
-
             using (IDbConnection connection = OpenConnection(dataConnection))
             {
                 var result = new Item();
@@ -134,6 +132,13 @@ namespace ArabErp.DAL
 
                     int id = connection.Query<int>(sql, objItem, trn).Single();
                     objItem.ItemId = id;
+
+                    if (objItem.FreezerUnit || objItem.Box)
+                    {
+                        InsertItemVsBOM(connection, trn, objItem);
+                        InsertItemVsTasks(connection, trn, objItem);
+                    }
+
                     InsertLoginHistory(dataConnection, objItem.CreatedBy, "Create", "Item", id.ToString(), "0");
                     //connection.Dispose();
                     trn.Commit();
@@ -149,6 +154,25 @@ namespace ArabErp.DAL
             }
         }
 
+        private void InsertItemVsTasks(IDbConnection connection, IDbTransaction txn, Item model)
+        {
+            string query = @"INSERT INTO ItemVsTasks(ItemId, JobCardTaskMasterId)
+                            VALUES(@ItemId, @JobCardTaskMasterId)";
+            foreach (var item in model.ItemVsTasks)
+            {
+                connection.Execute(query, new { ItemId = model.ItemId, JobCardTaskMasterId = item.JobCardTaskMasterId }, txn);
+            }
+        }
+
+        private void InsertItemVsBOM(IDbConnection connection, IDbTransaction txn, Item model)
+        {
+            string query = @"INSERT INTO ItemVsBom(ItemId, BomItemId)
+                            VALUES(@ItemId, @BomItemId)";
+            foreach (var item in model.ItemVsBom)
+            {
+                connection.Execute(query, new { ItemId = model.ItemId, BomItemId = item.ItemId }, txn);
+            }
+        }
 
         public Item GetItem(int ItemId)
         {
