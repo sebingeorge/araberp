@@ -146,7 +146,7 @@ namespace ArabErp.DAL
                                 WHERE S.isActive=1";
 
                 var objSuppliers = connection.Query<Supplier>(sql).ToList<Supplier>();
-
+             
                 return objSuppliers;
             }
         }

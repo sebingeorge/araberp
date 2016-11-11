@@ -13,26 +13,20 @@ namespace ArabErp.Domain
         public string CustomerRefNo { get; set; }
         [Required]
         public string CustomerName { get; set; }
-        [Required]
         public string CustomerPrintName { get; set; }
+        [Required]
         public int CategoryId { get; set; }
-        [Required]
         public int LeadSourceId { get; set; }
+        [Required]
         public int CurrencyId { get; set; }
-        [Required]
         public string DoorNo { get; set; }
-        [Required]
         public string Street { get; set; }
-        [Required]
         public string State { get; set; }
-        [Required]
-        public int Country { get; set; }
-        [Required]
+        public int? Country { get; set; }
         public string Zip { get; set; }
         public string Phone { get; set; }
         public string Fax { get; set; }
         public string Email { get; set; }
-        [Required]
         public string ContactPerson { get; set; }
         public string CreatedBy { get; set; }
         public DateTime? CreatedDate { get; set; }
