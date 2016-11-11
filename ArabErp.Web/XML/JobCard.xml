@@ -49,37 +49,32 @@
     </xs:element>
   </xs:schema>
   <Head>
-    <JobCardNo>JC/6</JobCardNo>
-    <JobCardDate>28-Oct-2016</JobCardDate>
-    <SaleOrderRefNo>SO/9</SaleOrderRefNo>
-    <CustomerName>Al Sahba Food Stuff Trading Co W.L.L.,P.O.Box- 5842, Doha-Qatar,Tel: +974 44693281,44693560</CustomerName>
-    <CustomerPhone>Fax: +974 44693284</CustomerPhone>
+    <JobCardNo>JC/2537</JobCardNo>
+    <JobCardDate>09-Nov-2016</JobCardDate>
+    <SaleOrderRefNo>SO/2</SaleOrderRefNo>
+    <CustomerName>Adansa Trading,Doha - Qatar,</CustomerName>
+    <CustomerPhone>0</CustomerPhone>
     <CustomerContactPerson>0</CustomerContactPerson>
-    <Unit>COMPRESSOR CLUTCH COIL  TM16 12V</Unit>
-    <Customer>Al Sahba Food Stuff Trading Co W.L.L.</Customer>
-    <Technician>Deepak</Technician>
-    <ChasisNo>215487924FBGD654</ChasisNo>
-    <VModel> Hyundai HD 65 Truck</VModel>
+    <Unit>Thermoking V200</Unit>
+    <Customer>Adansa Trading</Customer>
+    <Technician>SHABIR ANSARI</Technician>
+    <ChasisNo>3333111</ChasisNo>
+    <VModel>Nissan UD Truck -MKD210K</VModel>
+    <Country>UAE</Country>
     <Currency>QAR</Currency>
     <OrganizationName>Arab Air Conditioning &amp; Refrigeration Co. W.L.L.</OrganizationName>
     <Image1>E:\ARAB\New folder\ArabErp\ArabErp.Web\App_images\</Image1>
   </Head>
   <Items>
-    <TaskDate>28-Oct-2016</TaskDate>
-    <Employee>Deepak</Employee>
-    <Description>Unit Fixing</Description>
-    <Hours>10.00</Hours>
+    <TaskDate>09-Nov-2016</TaskDate>
+    <Employee>RAJESH</Employee>
+    <Description>Box fixing</Description>
+    <Hours>4.00</Hours>
   </Items>
   <Items>
-    <TaskDate>28-Oct-2016</TaskDate>
-    <Employee>Shafi</Employee>
-    <Description>Unit Fixing</Description>
-    <Hours>9.00</Hours>
-  </Items>
-  <Items>
-    <TaskDate>29-Oct-2016</TaskDate>
-    <Employee>Programmer</Employee>
-    <Description>Unit Fixing</Description>
-    <Hours>8.00</Hours>
+    <TaskDate>09-Nov-2016</TaskDate>
+    <Employee>SHABIR ANSARI</Employee>
+    <Description>Box fixing</Description>
+    <Hours>4.00</Hours>
   </Items>
 </NewDataSet>
