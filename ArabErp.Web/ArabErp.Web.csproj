@@ -1247,6 +1247,7 @@
     <Content Include="Views\Country\Create.cshtml" />
     <Content Include="Views\Country\CountryListView.cshtml" />
     <Content Include="Views\SalesQuotation\BusinessReport.cshtml" />
+    <Content Include="Views\SalesQuotation\CreateTransportation.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

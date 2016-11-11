@@ -27,11 +27,8 @@ namespace ArabErp.DAL
         }
         public SalesQuotation InsertSalesQuotation(SalesQuotation model)
         {
-
-
             using (IDbConnection connection = OpenConnection(dataConnection))
             {
-
                 IDbTransaction trn = connection.BeginTransaction();
                 try
                 {
@@ -84,11 +81,11 @@ namespace ArabErp.DAL
                     foreach (var item in model.SalesQuotationItems)
                     {
                         item.SalesQuotationId = model.SalesQuotationId;
+                        item.OrganizationId = model.OrganizationId;
                         saleorderitemrepo.InsertSalesQuotationItem(item, connection, trn);
                     }
                     if (model.isAfterSales)
                     {
-
                         foreach (var item in model.Materials)
                         {
                             item.SalesQuotationId = model.SalesQuotationId;
@@ -97,8 +94,6 @@ namespace ArabErp.DAL
                     }
                     InsertLoginHistory(dataConnection, model.CreatedBy, "Create", "Sales Quotation", model.SalesQuotationId.ToString(), "0");
                     trn.Commit();
-
-
                 }
                 catch (Exception)
                 {
@@ -106,8 +101,6 @@ namespace ArabErp.DAL
                     model.SalesQuotationId = 0;
                     model.QuotationRefNo = null;
                     throw;
-
-
                 }
                 return model;
             }
