@@ -9,7 +9,7 @@ using System.Collections;
 
 namespace ArabErp.DAL
 {
-    public class ItemRepository :BaseRepository
+    public class ItemRepository : BaseRepository
     {
         static string dataConnection = GetConnectionString("arab");
         public string ConnectionString()
@@ -20,11 +20,11 @@ namespace ArabErp.DAL
         {
             using (IDbConnection connection = OpenConnection(dataConnection))
             {
-            var param = new DynamicParameters();
-            
-            //return connection.Query<Dropdown>("x",
-            // return connection.Query<Dropdown>("dbo.usp_MvcGetDayClosingDetails", param, commandType: CommandType.StoredProcedure).ToList();
-            return connection.Query<Dropdown>("select ItemSubGroupId Id,ItemSubGroupName Name from ItemSubGroup WHERE isActive=1 AND ItemGroupId=@ID", new { ID = Id }).ToList();
+                var param = new DynamicParameters();
+
+                //return connection.Query<Dropdown>("x",
+                // return connection.Query<Dropdown>("dbo.usp_MvcGetDayClosingDetails", param, commandType: CommandType.StoredProcedure).ToList();
+                return connection.Query<Dropdown>("select ItemSubGroupId Id,ItemSubGroupName Name from ItemSubGroup WHERE isActive=1 AND ItemGroupId=@ID", new { ID = Id }).ToList();
             }
 
         }
@@ -39,12 +39,12 @@ namespace ArabErp.DAL
 
             }
         }
-       /// <summary>
-       /// 
-       /// </summary>
-       /// <param name="Id"></param>
-       /// <returns></returns>
-        public List<Dropdown> FillItemGroup( int Id)
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="Id"></param>
+        /// <returns></returns>
+        public List<Dropdown> FillItemGroup(int Id)
         {
             using (IDbConnection connection = OpenConnection(dataConnection))
             {
@@ -65,7 +65,7 @@ namespace ArabErp.DAL
             {
                 return connection.Query<Dropdown>("select UnitId Id,UnitName Name from Unit WHERE isActive=1").ToList();
             }
-             }
+        }
         public List<Dropdown> FillItem()
         {
             using (IDbConnection connection = OpenConnection(dataConnection))
@@ -112,7 +112,7 @@ namespace ArabErp.DAL
         public Item InsertItem(Item objItem)
         {
 
-            
+
             using (IDbConnection connection = OpenConnection(dataConnection))
             {
                 var result = new Item();
@@ -125,14 +125,14 @@ namespace ArabErp.DAL
                                                 @ItemCategoryId,@ItemUnitId,@MinLevel,@ReorderLevel,@MaxLevel,@BatchRequired,@StockRequired,
                                                 @CriticalItem,@FreezerUnit,@Box,@OrganizationId,@CreatedBy,@CreatedDate);
                                                 SELECT CAST(SCOPE_IDENTITY() as int)";
-               
-                
+
+
                 try
                 {
                     int internalid = DatabaseCommonRepository.GetInternalIDFromDatabase(connection, trn, typeof(Item).Name, "0", 1);
-                    objItem.ItemRefNo = "ITM/"+internalid;
-                    
-                    int id = connection.Query<int>(sql, objItem,trn).Single();
+                    objItem.ItemRefNo = "ITM/" + internalid;
+
+                    int id = connection.Query<int>(sql, objItem, trn).Single();
                     objItem.ItemId = id;
                     InsertLoginHistory(dataConnection, objItem.CreatedBy, "Create", "Item", id.ToString(), "0");
                     //connection.Dispose();
@@ -143,7 +143,7 @@ namespace ArabErp.DAL
                     trn.Rollback();
                     objItem.ItemId = 0;
                     objItem.ItemRefNo = null;
-                   
+
                 }
                 return objItem;
             }
@@ -166,19 +166,20 @@ namespace ArabErp.DAL
             }
         }
 
-        public List<Item> GetItems(string name)
-
+        public List<Item> GetItems(string name, string group, string subgroup)
         {
             using (IDbConnection connection = OpenConnection(dataConnection))
             {
-                string sql = @" SELECT ItemId,PartNo,ItemName,CategoryName,ItemGroupName,ItemSubGroupName,UnitName FROM Item I
+                string sql = @"SELECT ItemId,PartNo,ItemName,CategoryName,ItemGroupName,ItemSubGroupName,UnitName FROM Item I
                                INNER JOIN ItemCategory ON itmCatId=ItemCategoryId
                                INNER JOIN ItemGroup G ON I.ItemGroupId=G.ItemGroupId
                                INNER JOIN ItemSubGroup S ON I.ItemSubGroupId=S.ItemSubGroupId
                                INNER JOIN Unit U ON U.UnitId=I.ItemUnitId
-                               WHERE I.isActive=1 AND ItemName LIKE '%'+@name+'%'";
+                               WHERE I.isActive=1 AND ItemName LIKE '%'+@name+'%'
+							   AND ItemGroupName LIKE '%'+@group+'%'
+							   AND ItemSubGroupName LIKE '%'+@subgroup+'%'";
 
-                var objItems = connection.Query<Item>(sql, new { name = name }).ToList<Item>();
+                var objItems = connection.Query<Item>(sql, new { name = name, group = group, subgroup = subgroup }).ToList<Item>();
 
                 return objItems;
             }
@@ -202,7 +203,7 @@ namespace ArabErp.DAL
                 }
                 catch (Exception ex)
                 {
-                   
+
                     objItem.ItemId = 0;
                     throw ex;
                 }
@@ -212,7 +213,7 @@ namespace ArabErp.DAL
 
         public int DeleteItem(Item objItem)
         {
-            int result=0;
+            int result = 0;
             using (IDbConnection connection = OpenConnection(dataConnection))
             {
                 string sql = @"UPDATE Item SET isActive = 0  OUTPUT INSERTED.ItemId  WHERE ItemId = @ItemId";
@@ -227,22 +228,22 @@ namespace ArabErp.DAL
                 catch (SqlException ex)
                 {
                     int err = ex.Errors.Count;
-                    if (ex.Errors.Count >0) // Assume the interesting stuff is in the first error
+                    if (ex.Errors.Count > 0) // Assume the interesting stuff is in the first error
                     {
                         switch (ex.Errors[0].Number)
                         {
                             case 547: // Foreign Key violation
                                 result = 1;
                                 break;
-                          
+
                             default:
                                 result = 2;
                                 break;
                         }
                     }
-                    
+
                 }
-                
+
                 return result;
             }
         }
@@ -277,7 +278,7 @@ namespace ArabErp.DAL
                                INNER JOIN Unit U ON U.UnitId=I.ItemUnitId
                                WHERE I.isActive=1 AND ItemName LIKE '%'+@name+'%'";
 
-                var objItems = connection.Query<Item>(sql, new { name=name}).ToList<Item>();
+                var objItems = connection.Query<Item>(sql, new { name = name }).ToList<Item>();
 
                 return objItems;
             }
@@ -300,7 +301,7 @@ namespace ArabErp.DAL
 
                 return connection.Query<Item>(sql, new { organizationId = organizationId }).ToList();
 
-               
+
             }
         }
     }
