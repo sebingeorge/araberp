@@ -156,21 +156,21 @@ namespace ArabErp.DAL
 
         private void InsertItemVsTasks(IDbConnection connection, IDbTransaction txn, Item model)
         {
-            string query = @"INSERT INTO ItemVsTasks(ItemId, JobCardTaskMasterId)
-                            VALUES(@ItemId, @JobCardTaskMasterId)";
+            string query = @"INSERT INTO ItemVsTasks(ItemId, JobCardTaskMasterId, Hours)
+                            VALUES(@ItemId, @JobCardTaskMasterId, @Hours)";
             foreach (var item in model.ItemVsTasks)
             {
-                connection.Execute(query, new { ItemId = model.ItemId, JobCardTaskMasterId = item.JobCardTaskMasterId }, txn);
+                connection.Execute(query, new { ItemId = model.ItemId, JobCardTaskMasterId = item.JobCardTaskMasterId, Hours = item.Hours }, txn);
             }
         }
 
         private void InsertItemVsBOM(IDbConnection connection, IDbTransaction txn, Item model)
         {
-            string query = @"INSERT INTO ItemVsBom(ItemId, BomItemId)
-                            VALUES(@ItemId, @BomItemId)";
+            string query = @"INSERT INTO ItemVsBom(ItemId, BomItemId, Quantity)
+                            VALUES(@ItemId, @BomItemId, @Quantity)";
             foreach (var item in model.ItemVsBom)
             {
-                connection.Execute(query, new { ItemId = model.ItemId, BomItemId = item.ItemId }, txn);
+                connection.Execute(query, new { ItemId = model.ItemId, BomItemId = item.ItemId, Quantity = item.Quantity }, txn);
             }
         }
 
@@ -213,6 +213,7 @@ namespace ArabErp.DAL
         {
             using (IDbConnection connection = OpenConnection(dataConnection))
             {
+                IDbTransaction txn = connection.BeginTransaction();
                 string sql = @"UPDATE Item SET PartNo = @PartNo ,ItemName = @ItemName ,ItemPrintName = @ItemPrintName ,
                                ItemShortName = @ItemShortName,ItemGroupId = @ItemGroupId,ItemSubGroupId = @ItemSubGroupId,
                                ItemCategoryId = @ItemCategoryId,ItemUnitId = @ItemUnitId ,MinLevel = @MinLevel,MaxLevel = @MaxLevel,
@@ -221,17 +222,51 @@ namespace ArabErp.DAL
 
                 try
                 {
-                    var id = connection.Execute(sql, objItem);
-                    objItem.ItemId = id;
+                    var id = connection.Execute(sql, objItem, txn);
+                    //objItem.ItemId = id;
+                    if (objItem.FreezerUnit || objItem.Box)
+                    {
+                        DeleteItemVsBom(connection, txn, objItem.ItemId);
+                        InsertItemVsBOM(connection, txn, objItem);
+                        DeleteItemVsTasks(connection, txn, objItem.ItemId);
+                        InsertItemVsTasks(connection, txn, objItem);
+                    }
                     InsertLoginHistory(dataConnection, objItem.CreatedBy, "Update", "Item", id.ToString(), "0");
+                    txn.Commit();
                 }
                 catch (Exception ex)
                 {
-
+                    txn.Rollback();
                     objItem.ItemId = 0;
                     throw ex;
                 }
                 return objItem;
+            }
+        }
+
+        private void DeleteItemVsTasks(IDbConnection connection, IDbTransaction txn, int id)
+        {
+            try
+            {
+                string query = @"DELETE FROM ItemVsTasks WHERE ItemId = @id";
+                connection.Execute(query, new { id = id }, txn);
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
+
+        private void DeleteItemVsBom(IDbConnection connection, IDbTransaction txn, int id)
+        {
+            try
+            {
+                string query = @"DELETE FROM ItemVsBom WHERE ItemId = @id";
+                connection.Execute(query, new { id = id }, txn);
+            }
+            catch (Exception)
+            {
+                throw;
             }
         }
 
@@ -326,6 +361,28 @@ namespace ArabErp.DAL
                 return connection.Query<Item>(sql, new { organizationId = organizationId }).ToList();
 
 
+            }
+        }
+
+        public List<WorkVsItem> GetItemVsBom(int Id)
+        {
+            using (IDbConnection connection = OpenConnection(dataConnection))
+            {
+                string sql = @"SELECT ItemVsBomId, BomItemId AS ItemId, Quantity, U.UnitName UoM
+                                FROM ItemVsBom B
+                                INNER JOIN Item I ON B.BomItemId = I.ItemId
+                                INNER JOIN Unit U ON I.ItemUnitId  = U.UnitId
+                                WHERE B.ItemId = @id";
+                return connection.Query<WorkVsItem>(sql, new { id = Id }).ToList();
+            }
+        }
+
+        public List<WorkVsTask> GetItemVsTasks(int Id)
+        {
+            using (IDbConnection connection = OpenConnection(dataConnection))
+            {
+                string sql = @"SELECT * FROM ItemVsTasks WHERE ItemId = @id";
+                return connection.Query<WorkVsTask>(sql, new { id = Id }).ToList();
             }
         }
     }

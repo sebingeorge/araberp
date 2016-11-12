@@ -30,8 +30,10 @@
         $("#Tab_Item").append('<tr id="' + 'Row_Item_Id_' + i + '">' + clone.html() + '  </tr>');
         $("#Itemslno" + (i + 1)).html((i + 1));
         $("#ItemVsBom_" + i + "__SlNo").val((i + 1));
-
-        $("#Row_Item_Id_" + i).find('span[class="custom-combobox"]').remove();
+        $("#ItemVsBom_" + i + "__ItemId").val('');
+        $("#ItemVsBom_" + i + "__UoM").val('');
+        $("#ItemVsBom_" + i + "__Quantity").val(0);
+        //$("#Row_Item_Id_" + i).find('span[class="custom-combobox"]').remove();
         //$("#ItemVsBom_" + i + "__ItemId").combobox();
     }
     function ItemRowDelete(index) {
@@ -103,7 +105,8 @@
         $("#Tab_Task").append('<tr id="' + 'Row_Task_Id_' + i + '">' + clone.html() + '  </tr>');
         $("#Taskslno" + (i + 1)).html((i + 1));
         $("#ItemVsTasks_" + i + "__SlNo").val((i + 1));
-
+        $("#ItemVsTasks_" + i + "__JobCardTaskMasterId").val('');
+        $("#ItemVsTasks_" + i + "__Hours").val(0);
         //$("#Row_Task_Id_" + i).find('span[class="custom-combobox"]').remove();
         //$("#WorkVsTasks_" + i + "__JobCardTaskMasterId").combobox();
     }

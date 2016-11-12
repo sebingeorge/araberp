@@ -86,6 +86,8 @@ namespace ArabErp.Web.Controllers
                     else
                     {
                         FillUnit();
+                        FillItem();
+                        FillJobCardTaskMaster();
                         TempData["error"] = "Some error occurred. Please try again.";
                         return View("Create", oitem);
                     }
@@ -95,6 +97,8 @@ namespace ArabErp.Web.Controllers
                 {
 
                     FillUnit();
+                    FillItem();
+                    FillJobCardTaskMaster();
                     TempData["error"] = "This part no. already exists!";
                     return View("Create", oitem);
                 }
@@ -102,6 +106,8 @@ namespace ArabErp.Web.Controllers
             else
             {
                 FillUnit();
+                FillItem();
+                FillJobCardTaskMaster();
                 TempData["error"] = "This material/spare name alredy exists!";
                 return View("Create", oitem);
             }
@@ -118,6 +124,10 @@ namespace ArabErp.Web.Controllers
         {
             Item objItem = new ItemRepository().GetItem(Id);
             FillUnit();
+            FillItem();
+            FillJobCardTaskMaster();
+            objItem.ItemVsBom = new ItemRepository().GetItemVsBom(Id);
+            objItem.ItemVsTasks = new ItemRepository().GetItemVsTasks(Id);
             return View(objItem);
 
         }
