@@ -58,6 +58,7 @@ namespace ArabErp.DAL
         {
             using (IDbConnection connection = OpenConnection(dataConnection))
             {
+                #region old query
                 //                string sql = @"SELECT
                 //	                            CONCAT(PurchaseRequestNo,' - ',
                 //	                            CONVERT (VARCHAR(15),PurchaseRequestDate,106)) PRNODATE,
@@ -72,7 +73,9 @@ namespace ArabErp.DAL
                 //                            FROM PurchaseRequest P 
                 //                            INNER JOIN PurchaseRequestItem PI ON P.PurchaseRequestId=PI.PurchaseRequestId
                 //                            INNER JOIN Item i ON PI.ItemId=i.ItemId
-                //                            WHERE P.PurchaseRequestId in @selectedpurchaserequests";
+                //                            WHERE P.PurchaseRequestId in @selectedpurchaserequests"; 
+                #endregion
+
                 string sql = @"select distinct SI.PurchaseRequestItemId, SUM(SI.OrderedQty) SuppliedQuantity 
                                     INTO #SUPPLY
                                     from [dbo].[SupplyOrderItem] SI
