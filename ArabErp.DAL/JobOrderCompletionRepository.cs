@@ -27,7 +27,7 @@ namespace ArabErp.DAL
                     query += " inner join SaleOrder S on S.SaleOrderId = SI.SaleOrderId";
                     query += " inner join Customer C on S.CustomerId = C.CustomerId ";
                     query += " inner join WorkDescription W on W.WorkDescriptionId = SI.WorkDescriptionId";
-                    query += " inner join VehicleModel V on V.VehicleModelId = W.VehicleModelId ";
+                    query += " left join VehicleModel V on V.VehicleModelId = W.VehicleModelId ";
                     query += " where ISNULL(J.JodCardCompleteStatus,0) <> 1 and J.isProjectBased = 0 AND J.OrganizationId = @OrganizationId";
                 }
                 else
@@ -59,7 +59,7 @@ namespace ArabErp.DAL
                     query += " INNER JOIN SaleOrderItem SI on SI.SaleOrderId = S.SaleOrderId";
                     query += " INNER JOIN Customer C on S.CustomerId = C.CustomerId";
                     query += " INNER JOIN WorkDescription W on W.WorkDescriptionId = SI.WorkDescriptionId";
-                    query += " INNER JOIN VehicleModel V on V.VehicleModelId = W.VehicleModelId";
+                    query += " LEFT JOIN VehicleModel V on V.VehicleModelId = W.VehicleModelId";
                     query += " LEFT JOIN WorkShopRequest WR ON WR.SaleOrderId=J.SaleOrderId";
                     query += " LEFT JOIN StoreIssue SS ON SS.WorkShopRequestId=WR.WorkShopRequestId";
                     query += " where J.JobCardId = " + JobCardId.ToString() + "  and J.isProjectBased = 0";
