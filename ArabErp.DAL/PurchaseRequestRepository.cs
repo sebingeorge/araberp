@@ -191,7 +191,7 @@ namespace ArabErp.DAL
 	                                WR.CustomerOrderRef,
 	                                SO.SaleOrderRefNo,
 	                                SO.SaleOrderDate
-                                HAVING SUM(PRI.Quantity) < SUM(WRI.Quantity)
+                                HAVING SUM(ISNULL(PRI.Quantity, 0)) < SUM(WRI.Quantity)
                                 ORDER BY WR.RequiredDate, WR.WorkShopRequestDate";
 
                 return connection.Query<PendingWorkShopRequest>(query, new { OrganizationId = OrganizationId });
