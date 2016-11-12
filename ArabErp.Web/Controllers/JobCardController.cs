@@ -45,7 +45,7 @@ namespace ArabErp.Web.Controllers
                 return View("ShowError");
             }
         }
-        public ActionResult Create(int? Id, int? isProjectBased)
+        public ActionResult Create(int? Id, int? isProjectBased)//SaleOrderItemId is received here
         {
             try
             {
@@ -63,7 +63,8 @@ namespace ArabErp.Web.Controllers
                 model.JobCardDate = DateTime.Now;
                 model.RequiredDate = DateTime.Now;
                
-                FillTaks(model.WorkDescriptionId);
+                //FillTaks(model.WorkDescriptionId);
+                FillFreezerAndBoxTasks(Id);
                 //FillFreezerUnit();
                 //FillBox();
                 //FillVehicleRegNo();
@@ -84,6 +85,12 @@ namespace ArabErp.Web.Controllers
                 ViewData["Error"] = ErrorMessage;
                 return View("ShowError");
             }
+        }
+
+        private void FillFreezerAndBoxTasks(int? SaleOrderItemId)
+        {
+            var result = new JobCardRepository().GetTasksForFreezerAndBox(SaleOrderItemId);
+            ViewBag.TaskList = new SelectList(result, "JobCardTaskMasterId", "JobCardTaskName");
         }
         public ActionResult PendingJobCard(int? isProjectBased)
         {
