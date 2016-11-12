@@ -228,7 +228,7 @@ namespace ArabErp.DAL
 
             using (IDbConnection connection = OpenConnection(dataConnection))
             {
-                string sql = @"select 
+                string sql = @"SELECT 
 	                                [SalesQuotationItemId],
 	                                [SalesQuotationId],
 	                                [SlNo],
@@ -244,10 +244,13 @@ namespace ArabErp.DAL
 	                                [RateType],
 	                                'No(s)' UnitName,
 	                                W.*,
-	                                V.* 
-                                from SalesQuotationItem S inner join WorkDescription W ON S.WorkDescriptionId=W.WorkDescriptionId
+	                                V.*,
+									WD.FreezerUnitId,
+									WD.BoxId
+                                FROM SalesQuotationItem S inner join WorkDescription W ON S.WorkDescriptionId=W.WorkDescriptionId
+									INNER JOIN WorkDescription WD ON S.WorkDescriptionId = WD.WorkDescriptionId
                                     LEFT JOIN VehicleModel V ON  V.VehicleModelId=W.VehicleModelId
-                                where SalesQuotationId=@SalesQuotationId";
+                                WHERE SalesQuotationId = @SalesQuotationId";
 
                 var SalesQuotationItems = connection.Query<SalesQuotationItem>(sql, new
                 {

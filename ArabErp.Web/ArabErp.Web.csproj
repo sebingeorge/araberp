@@ -1251,6 +1251,7 @@
     <Content Include="Views\SalesQuotation\BusinessReport.cshtml" />
     <Content Include="Views\SalesQuotation\CreateTransportation.cshtml" />
     <Content Include="Views\Item\_BoM.cshtml" />
+    <Content Include="Views\SalesQuotation\EditTransportation.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
