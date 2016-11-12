@@ -8,6 +8,7 @@
         $("#ExpiryDate").datepicker({
             dateFormat: "dd-MM-yy"
         });
+        Tick();
     });
     function FillItemGroup() {
         var Code = $('#ItemCategoryId').val();
@@ -38,6 +39,13 @@
         $('.subject-list').on('change', function () {
             $('.subject-list').not(this).prop('checked', false);
         });
+
+        if ($("#FreezerUnit").is(":checked") || $("#Box").is(":checked")) {
+            $("#table-bom").show();
+        }
+        else {
+            $("#table-bom").hide();
+        }
     }
 
 
