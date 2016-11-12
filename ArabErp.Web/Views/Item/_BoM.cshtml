@@ -102,6 +102,7 @@
         clone.html($(clone).html().replace(/Row_Task_0/, 'Row_Task_' + i + ''));
         clone.html($(clone).html().replace(/Taskslno1/, 'Taskslno' + (i + 1) + ''));
         clone.html($(clone).html().replace(/this,0/, 'this,' + i + ''));
+        clone.html($(clone).html().replace("OnTaskChanged(this," + i, "OnTaskChanged(this," + i));
         $("#Tab_Task").append('<tr id="' + 'Row_Task_Id_' + i + '">' + clone.html() + '  </tr>');
         $("#Taskslno" + (i + 1)).html((i + 1));
         $("#ItemVsTasks_" + i + "__SlNo").val((i + 1));
@@ -137,6 +138,7 @@
                 clone.html($(clone).html().replace("TaskRowDelete(" + j, "TaskRowDelete(" + (j - 1)));
                 clone.html($(clone).html().replace("Row_Task_Id_" + j, "Row_Task_Id_" + (j - 1)));
                 clone.html($(clone).html().replace("Row_Task_" + j, "Row_Task_" + (j - 1)));
+                //clone.html($(clone).html().replace(new RegExp("OnTaskChanged(this," + j), "OnTaskChanged(this," + (j - 1)));
                 clone.html($(clone).html().replace("this," + j, "this," + (j - 1)));
                 $("#Row_Task_Id_" + j).html(clone.html());
                 $("#ItemVsTasks_" + (j - 1) + "__SlNo").val(j);
@@ -151,6 +153,18 @@
         var id = $(sender).val();
 
         if (id != '') {
+            $("#table-bom select[id$='__ItemId']").each(function (i, object) {
+                if ($(object).val() == id && index != i) {
+                    $(sender).val('');
+                    id = '';
+                    toastr.info("This material/spare has already been selected. Please select any other material/spare.");
+                    return;
+                }
+            });
+        }
+
+        if (id != '') {
+
             var url = '@Url.Action("GetUnit", "WorkDescription")';
             $.getJSON(url, { itemId: id },
                 function (data) {
@@ -162,7 +176,19 @@
         else {
             $("#ItemVsBom_" + index + "__UoM").val('');
         }
+    }
 
+    function OnTaskChanged(sender, index){
+        var id = $(sender).val();
+        if (id != '') {
+            $("#table-bom select[id$='__JobCardTaskMasterId']").each(function (i, object) {
+                if ($(object).val() == id && index != i) {
+                    $(sender).val('');
+                    toastr.info("This task has already been selected. Please select any other task.");
+                    return;
+                }
+            });
+        }
     }
 </script>
 
@@ -195,7 +221,7 @@
                                 <td>
                                     @Html.HiddenFor(m => m.ItemVsBom[i].SlNo)
                                     <input type="hidden" id="Row_Item_@i" />
-                                    @Html.DropDownListFor(m => m.ItemVsBom[i].ItemId, new SelectList(ViewBag.ItemList, "Value", "Text", Model.ItemVsBom[i].ItemId), "select Item", new { @class = "form_input validateqty", @onchange = "OnMaterialChange(this," + i + ")" })
+                                    @Html.DropDownListFor(m => m.ItemVsBom[i].ItemId, new SelectList(ViewBag.ItemList, "Value", "Text", Model.ItemVsBom[i].ItemId), "Select Material/Spare", new { @class = "form_input validateqty", @onchange = "OnMaterialChange(this," + i + ")" })
                                 </td>
 
                                 <td>
@@ -243,7 +269,7 @@
                                 </td>
                                 <td>
                                     <input type="hidden" id="Row_Task_@i" />
-                                    @Html.DropDownListFor(m => m.ItemVsTasks[i].JobCardTaskMasterId, new SelectList(ViewBag.JobCardTaskMasterList, "Value", "Text", Model.ItemVsTasks[i].JobCardTaskMasterId), "select Task", new { @class = "form_input", autocomplete = "off" })
+                                    @Html.DropDownListFor(m => m.ItemVsTasks[i].JobCardTaskMasterId, new SelectList(ViewBag.JobCardTaskMasterList, "Value", "Text", Model.ItemVsTasks[i].JobCardTaskMasterId), "Select Task", new { @class = "form_input", autocomplete = "off", @onchange = "OnTaskChanged(this," + i + ")" })
                                 </td>
                                 @*<td>
 

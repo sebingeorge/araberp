@@ -127,7 +127,9 @@ namespace ArabErp.Web.Controllers
             FillItem();
             FillJobCardTaskMaster();
             objItem.ItemVsBom = new ItemRepository().GetItemVsBom(Id);
+            if (objItem.ItemVsBom.Count == 0) objItem.ItemVsBom.Add(new WorkVsItem());
             objItem.ItemVsTasks = new ItemRepository().GetItemVsTasks(Id);
+            if (objItem.ItemVsTasks.Count == 0) objItem.ItemVsTasks.Add(new WorkVsTask());
             return View(objItem);
 
         }
