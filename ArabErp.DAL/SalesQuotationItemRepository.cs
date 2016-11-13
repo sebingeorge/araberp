@@ -38,9 +38,9 @@ namespace ArabErp.DAL
                 string query = @"SELECT
 	                                    WorkDescriptionId
                                     FROM WorkDescription
-                                    WHERE FreezerUnitId = @FreezerUnitId
-	                                    AND BoxId = @BoxId";
-                return connection.Query(query, new { BoxId = model.BoxId, FreezerUnitId = model.FreezerUnitId }, txn).First();
+                                    WHERE FreezerUnitId " + (model.FreezerUnitId == null ? "IS NULL" : "= @FreezerUnitId") + @"
+	                                    AND BoxId " + (model.BoxId == null ? "IS NULL" : "= @BoxId");
+                return connection.Query<int>(query, new { BoxId = model.BoxId, FreezerUnitId = model.FreezerUnitId }, txn).First();
             }
             catch (InvalidOperationException)
             {
@@ -57,8 +57,8 @@ namespace ArabErp.DAL
         {
             try
             {
-                string freezerName = new ItemRepository().GetItem(model.FreezerUnitId).ItemName,
-                    boxName = new ItemRepository().GetItem(model.BoxId).ItemName,
+                string freezerName = model.FreezerUnitId == null ? String.Empty : new ItemRepository().GetItem(model.FreezerUnitId ?? 0).ItemName,
+                    boxName = model.BoxId == null ? String.Empty : new ItemRepository().GetItem(model.BoxId ?? 0).ItemName,
 
                     ref_no = "WD/" + DatabaseCommonRepository.GetInternalIDFromDatabase(connection, txn, typeof(WorkDescription).Name, "0", 1),
 
@@ -79,8 +79,8 @@ namespace ArabErp.DAL
                         WorkDescriptionRefNo = ref_no,
                         FreezerUnitId = model.FreezerUnitId,
                         BoxId = model.BoxId,
-                        WorkDescr = freezerName + " + " + boxName,
-                        WorkDescrShortName = freezerName + " + " + boxName,
+                        WorkDescr = freezerName + (freezerName == String.Empty || boxName == String.Empty ? String.Empty : " + ") + boxName,
+                        WorkDescrShortName = freezerName + (freezerName == String.Empty || boxName == String.Empty ? String.Empty : " + ") + boxName,
                         isNewInstallation = 1,
                         CreatedDate = System.DateTime.Today,
                         OrganizationId = model.OrganizationId,

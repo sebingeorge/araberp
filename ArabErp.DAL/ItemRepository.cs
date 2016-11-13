@@ -224,11 +224,11 @@ namespace ArabErp.DAL
                 {
                     var id = connection.Execute(sql, objItem, txn);
                     //objItem.ItemId = id;
+                    DeleteItemVsBom(connection, txn, objItem.ItemId);
+                    DeleteItemVsTasks(connection, txn, objItem.ItemId);
                     if (objItem.FreezerUnit || objItem.Box)
                     {
-                        DeleteItemVsBom(connection, txn, objItem.ItemId);
                         InsertItemVsBOM(connection, txn, objItem);
-                        DeleteItemVsTasks(connection, txn, objItem.ItemId);
                         InsertItemVsTasks(connection, txn, objItem);
                     }
                     InsertLoginHistory(dataConnection, objItem.CreatedBy, "Update", "Item", id.ToString(), "0");

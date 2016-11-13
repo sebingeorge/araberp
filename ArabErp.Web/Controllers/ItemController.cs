@@ -161,7 +161,8 @@ namespace ArabErp.Web.Controllers
             }
             else
             {
-
+                FillItem();
+                FillJobCardTaskMaster();
                 FillUnit();
                 TempData["error"] = "This material/spare name already exists!";
 

@@ -410,7 +410,21 @@ namespace ArabErp.DAL
 
                 objSalesQtn.GrandTotal = (objSalesQtn.TotalWorkAmount + objSalesQtn.TotalMaterialAmount);
 
-
+                #region automatically approve if no custom rates are set
+                try
+                {
+                    if (!objSalesQtn.isProjectBased)
+                    {
+                        List<int> rateType = (from SalesQuotationItem s in objSalesQtn.SalesQuotationItems
+                                              where s.RateType == 0
+                                              select s.RateType).ToList();
+                        if (rateType.Count > 0)
+                            objSalesQtn.IsQuotationApproved = false;
+                        else objSalesQtn.IsQuotationApproved = true;
+                    }
+                }
+                catch { }
+                #endregion
 
                 sql += @"UPDATE   SalesQuotation SET   QuotationDate = @QuotationDate,CustomerId=@CustomerId,ContactPerson=@ContactPerson,SalesExecutiveId=@SalesExecutiveId,PredictedClosingDate=@PredictedClosingDate,
                                         QuotationValidToDate = @QuotationValidToDate,ExpectedDeliveryDate = @ExpectedDeliveryDate,IsQuotationApproved=@IsQuotationApproved,ApprovedBy=@ApprovedBy,TotalWorkAmount=@TotalWorkAmount,TotalMaterialAmount=@TotalMaterialAmount,GrandTotal=@GrandTotal,CurrencyId=@CurrencyId,QuotationStatus=@QuotationStatus,Remarks=@Remarks,SalesQuotationStatusId=@SalesQuotationStatusId,
@@ -418,9 +432,6 @@ namespace ArabErp.DAL
 	                                    where SalesQuotationId = @SalesQuotationId;
 	                               
                          DELETE FROM SalesQuotationItem WHERE SalesQuotationId = @SalesQuotationId;";
-
-
-
 
                 try
                 {

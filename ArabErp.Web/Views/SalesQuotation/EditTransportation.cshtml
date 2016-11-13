@@ -36,7 +36,8 @@
     }
     function PreviousList() {
         var url = '@Url.Action("PreviousList", "SalesQuotation")';
-        @if (actionName == "Create")
+        url += "?ProjectBased=0" + "&AfterSales=0";
+        @*@if (actionName == "Create")
         {
            @: url += "?ProjectBased=0" + "&AfterSales=0";
                                         }
@@ -51,9 +52,19 @@
         else if (actionName == "CreateAfterSalesProject")
            {
                @: url += "?ProjectBased=1" + "&AfterSales=1";;
-                                           }
+                                           }*@
         window.location = url;
 
+    }
+    function DeleteSQ(id,isProjectBased, isAfterSales) {
+        var url = '@Url.Action("DeleteSQ")';
+        url += "?id=" + id + "&isProjectBased=" + isProjectBased + "&isAfterSales=" + isAfterSales;
+        window.location = url;
+    }
+    function GoToPrint(id) {
+        var url = '@Url.Action("Print")';
+        url += "?Id=" + id;
+        window.location = url;
     }
 
     $(function() {
@@ -79,8 +90,8 @@
         @if (Model.isAfterSales)
         {
             @: $("#CustomerId").val(@Model.CustomerId);
-                            @: $("#CustomerId").trigger("onchange");
-                        }
+                                    @: $("#CustomerId").trigger("onchange");
+                                }
     });
     function CustomerChanged(cust) {
         var cusId = cust.value;
@@ -136,7 +147,7 @@
         @if (new[] { "CreateAfterSalesTrans", "CreateAfterSalesProject" }.Contains(ViewContext.RouteData.GetRequiredString("action")))
         {
             @:removeOnChange();
-        }
+                }
     });
 
     function removeOnChange(){
@@ -353,9 +364,9 @@
         @if (!new[] { "CreateAfterSalesTrans", "CreateAfterSalesProject" }.Contains(ViewContext.RouteData.GetRequiredString("action")))
         {
             @:for(var i=0; i< @Model.SalesQuotationItems.Count; i++){
-            @:    OnRateTypeChanged(i);
-            @:}
-        }
+                        @:    OnRateTypeChanged(i);
+                        @:}
+                }
     }
 
     function ExitToPendingApproval(){
@@ -771,7 +782,7 @@
                     @if (new[] { "CreateAfterSalesTrans", "CreateAfterSalesProject" }.Contains(ViewContext.RouteData.GetRequiredString("action")))
                     {
                         @:removeOnChange();
-                    }
+                                        }
                 }
             </script>
 
@@ -819,28 +830,28 @@
 
                             <td>
                                 <input type="hidden" id="Row_@i" />
-                                @Html.DropDownListFor(m => m.SalesQuotationItems[i].FreezerUnitId, new SelectList(ViewBag.freezerUnitList, "Value", "Text"), "Select Reefer Unit",
+                                @Html.DropDownListFor(m => m.SalesQuotationItems[i].FreezerUnitId, new SelectList(ViewBag.freezerUnitList, "Value", "Text", Model.SalesQuotationItems[i].FreezerUnitId), "Select Reefer Unit",
                                 new { @class = "form_input", @placeholder = "Search for Reefer Unit" })
-                                </td>
+                            </td>
                             <td>
-                                @Html.DropDownListFor(m => m.SalesQuotationItems[i].BoxId, new SelectList(ViewBag.boxList, "Value", "Text"), "Select Box",
+                                @Html.DropDownListFor(m => m.SalesQuotationItems[i].BoxId, new SelectList(ViewBag.boxList, "Value", "Text", Model.SalesQuotationItems[i].BoxId), "Select Box",
                                 new { @class = "form_input", @placeholder = "Search for Box" })
                                 @*@if (ViewBag.actionName.ToString() == "Approve")
-                                {
-                                    @Html.TextBoxFor(m => m.SalesQuotationItems[i].WorkDescr, new { @class = "form_input ", autocomplete = "off", @disabled = "true" })
-                                }
-                                else
-                                {
-                                    @Html.DropDownListFor(x => Model.SalesQuotationItems[i].WorkDescriptionId, new SelectList(ViewBag.workdesclist, "Value", "Text",
-                                    Model.SalesQuotationItems[i].WorkDescriptionId), "Select Work Description", new
                                     {
-                                        @class = "form_input",
-                                        autocomplete = "off",
-                                        @onchange = "OnWorkDescChanged(" + i + ")",
-                                        @placeholder = "Search for Work Description",
-                                        @required = "true"
-                                    })
-                                }*@
+                                        @Html.TextBoxFor(m => m.SalesQuotationItems[i].WorkDescr, new { @class = "form_input ", autocomplete = "off", @disabled = "true" })
+                                    }
+                                    else
+                                    {
+                                        @Html.DropDownListFor(x => Model.SalesQuotationItems[i].WorkDescriptionId, new SelectList(ViewBag.workdesclist, "Value", "Text",
+                                        Model.SalesQuotationItems[i].WorkDescriptionId), "Select Work Description", new
+                                        {
+                                            @class = "form_input",
+                                            autocomplete = "off",
+                                            @onchange = "OnWorkDescChanged(" + i + ")",
+                                            @placeholder = "Search for Work Description",
+                                            @required = "true"
+                                        })
+                                    }*@
                             </td>
 
                             @if (new[] { "Create", "Approve" }.Contains(ViewContext.RouteData.GetRequiredString("action")) && !Model.isProjectBased)
@@ -1023,59 +1034,74 @@
             </div>
             <div class="row">
                 <div class="col-md-12 hrpart">
-                    @if (actionName == "Create")
+                    <input type="button" class="form-button right" value="Exit" onclick="PreviousList()" />
+                    @if (Model.IsUsed)
                     {
-                        <button type="button" class="form-button right" onclick="GotoIndex()">Exit</button>
-                        <button type="submit" class="form-button right">Save</button>
-                        <input type="button" class="form-button" onclick="PreviousList()" value="Previous">
-                        if (Model.isProjectBased)
-                        {
-                            <span id="costing-amount-notifier"></span>
-                        }
+                        <span class="perm">
+                            <em>**Cannot edit/delete this Sales Quotation, because it is already approved.</em>
+                        </span>
+                        <span id="costing-amount-notifier"></span>
                     }
-                    else if (actionName == "CreateProject")
+                    else
                     {
-                        <button type="button" class="form-button right" onclick="GotoProjectIndex()">Exit</button>
-                        <button type="submit" class="form-button right">Save</button>
-                        <input type="button" class="form-button" onclick="PreviousList()" value="Previous">
-                        if (Model.isProjectBased)
-                        {
-                            <span id="costing-amount-notifier"></span>
-                        }
+                        <button type="button" class="form-button" onclick="DeleteSQ('@Model.SalesQuotationId',@Model.isProjectBased.ToString().ToLower(),@Model.isAfterSales.ToString().ToLower())">Delete</button>
+                        <button type="submit" class="form-button right">Edit</button>
+                        <span id="costing-amount-notifier"></span>
                     }
-                    else if (actionName == "CreateAfterSalesTrans")
-                    {
+                    <input type="button" value="Print" onclick="GoToPrint(@Model.SalesQuotationId)" class="form-button right" />
+                    @*@if (actionName == "Create")
+                        {
+                            <button type="button" class="form-button right" onclick="GotoIndex()">Exit</button>
+                            <button type="submit" class="form-button right">Save</button>
+                            <input type="button" class="form-button" onclick="PreviousList()" value="Previous">
+                            if (Model.isProjectBased)
+                            {
+                                <span id="costing-amount-notifier"></span>
+                            }
+                        }
+                        else if (actionName == "CreateProject")
+                        {
+                            <button type="button" class="form-button right" onclick="GotoProjectIndex()">Exit</button>
+                            <button type="submit" class="form-button right">Save</button>
+                            <input type="button" class="form-button" onclick="PreviousList()" value="Previous">
+                            if (Model.isProjectBased)
+                            {
+                                <span id="costing-amount-notifier"></span>
+                            }
+                        }
+                        else if (actionName == "CreateAfterSalesTrans")
+                        {
 
-                        <button type="button" class="form-button right" onclick="GotoAfterSalesIndex()">Exit</button>
-                        <button type="submit" class="form-button right">Save</button>
-                        <input type="button" class="form-button" onclick="PreviousList()" value="Previous">
-                        if (Model.isProjectBased)
-                        {
-                            <span id="costing-amount-notifier"></span>
-                        }
+                            <button type="button" class="form-button right" onclick="GotoAfterSalesIndex()">Exit</button>
+                            <button type="submit" class="form-button right">Save</button>
+                            <input type="button" class="form-button" onclick="PreviousList()" value="Previous">
+                            if (Model.isProjectBased)
+                            {
+                                <span id="costing-amount-notifier"></span>
+                            }
 
-                    }
-                    else if (actionName == "CreateAfterSalesProject")
-                    {
-
-                        <button type="button" class="form-button right" onclick="GotoAfterSalesIndex()">Exit</button>
-                        <button type="submit" class="form-button right">Save</button>
-                        <input type="button" class="form-button" onclick="PreviousList()" value="Previous">
-                        if (Model.isProjectBased)
-                        {
-                            <span id="costing-amount-notifier"></span>
                         }
-
-                    }
-                    else if (ViewBag.actionName.ToString() == "Approve")
-                    {
-                        <button type="button" class="form-button right" onclick="ExitToPendingApproval()">Exit</button>
-                        if (Model.isProjectBased)
+                        else if (actionName == "CreateAfterSalesProject")
                         {
-                            <span id="costing-amount-notifier"></span>
+
+                            <button type="button" class="form-button right" onclick="GotoAfterSalesIndex()">Exit</button>
+                            <button type="submit" class="form-button right">Save</button>
+                            <input type="button" class="form-button" onclick="PreviousList()" value="Previous">
+                            if (Model.isProjectBased)
+                            {
+                                <span id="costing-amount-notifier"></span>
+                            }
+
                         }
-                        <button type="submit" class="form-button right">Approve</button>
-                    }
+                        else if (ViewBag.actionName.ToString() == "Approve")
+                        {
+                            <button type="button" class="form-button right" onclick="ExitToPendingApproval()">Exit</button>
+                            if (Model.isProjectBased)
+                            {
+                                <span id="costing-amount-notifier"></span>
+                            }
+                            <button type="submit" class="form-button right">Approve</button>
+                        }*@
                 </div>
             </div>
         }

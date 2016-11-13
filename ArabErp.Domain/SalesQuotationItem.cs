@@ -36,7 +36,7 @@ namespace ArabErp.Domain
         public string WorkDescription { get; set; }
         public int RateType { get; set; }
 
-        public int FreezerUnitId { get; set; }
-        public int BoxId { get; set; }
+        public int? FreezerUnitId { get; set; }
+        public int? BoxId { get; set; }
     }
 }
