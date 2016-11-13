@@ -1,6 +1,12 @@
 ﻿@model ArabErp.Domain.Item
 
 <script type="text/javascript">
+
+    $(function () {
+        $("#table-bom select[id$='__ItemId'").combobox();
+        $("#table-bom select[id$='__JobCardTaskMasterId'").combobox();
+    })
+
     function ItemRowAdd() {
 
         var i = 0;
@@ -33,9 +39,10 @@
         $("#ItemVsBom_" + i + "__ItemId").val('');
         $("#ItemVsBom_" + i + "__UoM").val('');
         $("#ItemVsBom_" + i + "__Quantity").val(0);
-        //$("#Row_Item_Id_" + i).find('span[class="custom-combobox"]').remove();
-        //$("#ItemVsBom_" + i + "__ItemId").combobox();
+        $("#Row_Item_Id_" + i).find('span[class="custom-combobox"]').remove();
+        $("#ItemVsBom_" + i + "__ItemId").combobox();
     }
+
     function ItemRowDelete(index) {
 
         var i = 0;
@@ -73,9 +80,13 @@
                 $("#ItemVsBom_" + (j - 1) + "__ItemId").val(ItemId);
                 $("#ItemVsBom_" + (j - 1) + "__UoM").val(uom);
                 $("#ItemVsBom_" + (j - 1) + "__Quantity").val(Quantity);
+
+                $("#Row_Item_Id_" + (j - 1)).find('span[class="custom-combobox"]').remove();
+                $("#ItemVsBom_" + (j - 1) + "__ItemId").combobox();
             }
         }
     }
+
     function TaskRowAdd() {
 
         var i = 0;
@@ -108,9 +119,11 @@
         $("#ItemVsTasks_" + i + "__SlNo").val((i + 1));
         $("#ItemVsTasks_" + i + "__JobCardTaskMasterId").val('');
         $("#ItemVsTasks_" + i + "__Hours").val(0);
-        //$("#Row_Task_Id_" + i).find('span[class="custom-combobox"]').remove();
-        //$("#WorkVsTasks_" + i + "__JobCardTaskMasterId").combobox();
+
+        $("#Row_Task_Id_" + i).find('span[class="custom-combobox"]').remove();
+        $("#ItemVsTasks_" + i + "__JobCardTaskMasterId").combobox();
     }
+
     function TaskRowDelete(index) {
 
         var i = 0;
@@ -156,6 +169,8 @@
             $("#table-bom select[id$='__ItemId']").each(function (i, object) {
                 if ($(object).val() == id && index != i) {
                     $(sender).val('');
+                    $(sender).combobox("destroy");
+                    $(sender).combobox();
                     id = '';
                     toastr.info("This material/spare has already been selected. Please select any other material/spare.");
                     return;
@@ -184,6 +199,8 @@
             $("#table-bom select[id$='__JobCardTaskMasterId']").each(function (i, object) {
                 if ($(object).val() == id && index != i) {
                     $(sender).val('');
+                    $(sender).combobox("destroy");
+                    $(sender).combobox();
                     toastr.info("This task has already been selected. Please select any other task.");
                     return;
                 }
