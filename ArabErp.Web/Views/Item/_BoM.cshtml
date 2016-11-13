@@ -158,6 +158,8 @@
                 $("#Row_Task_Id_" + (j)).attr('id', "Row_Task_Id_" + (j - 1));
                 $("#ItemVsTasks_" + (j - 1) + "__JobCardTaskMasterId").val(JobCardTaskMasterId);
                 $("#ItemVsTasks_" + (j - 1) + "__Hours").val(Hours);
+                $("#Row_Task_Id_" + (j - 1)).find('span[class="custom-combobox"]').remove();
+                $("#ItemVsTasks_" + (j - 1) + "__JobCardTaskMasterId").combobox();
             }
         }
     }
