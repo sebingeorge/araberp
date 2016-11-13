@@ -101,7 +101,9 @@ namespace ArabErp.DAL
 //                					   GROUP BY B.ItemName,B.ItemId,B.PartNo, UnitName"; 
                 #endregion
 
-                string query = @"SELECT
+                string query = @"SELECT T1.* 
+                                INTO #TEMP1 FROM 
+                                (SELECT
 	                                    I_FRZR.ItemId, I_FRZR.ItemName, I_FRZR.PartNo, FRZR.Quantity, U.UnitName
                                     FROM SaleOrder SO
                                     INNER JOIN SaleOrderItem SOI ON SO.SaleOrderId = SOI.SaleOrderId
@@ -139,7 +141,14 @@ namespace ArabErp.DAL
                                     INNER JOIN Item I2 ON WD.BoxId = I2.ItemId
                                     INNER JOIN Unit U ON I2.ItemUnitId = U.UnitId
                                     WHERE SO.SaleOrderId=@SaleOrderId
-                                    GROUP BY I2.ItemId, I2.ItemName, I2.PartNo, U.UnitName";
+                                    GROUP BY I2.ItemId, I2.ItemName, I2.PartNo, U.UnitName) T1;
+
+                                    SELECT
+	                                    ItemId, ItemName, PartNo, SUM(Quantity) Quantity, UnitName
+                                    FROM #TEMP1
+                                    GROUP BY ItemId, ItemName, PartNo, UnitName
+
+                                    DROP TABLE #TEMP1;";
 
                 return connection.Query<WorkShopRequestItem>(query,
                 new { SaleOrderId = SaleOrderId }).ToList();
