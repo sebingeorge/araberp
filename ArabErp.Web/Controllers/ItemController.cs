@@ -26,6 +26,8 @@ namespace ArabErp.Web.Controllers
         {
             FillItemCategory();
             FillUnit();
+            FillItem();
+            FillJobCardTaskMaster();
             InitDropdown();
             Item oItem = new Item();
             oItem.PartNo = null;
@@ -44,6 +46,8 @@ namespace ArabErp.Web.Controllers
             oItem.StockRequired = false;
             oItem.BatchRequired = false;
             oItem.ItemRefNo = "ITM/" + DatabaseCommonRepository.GetNextRefNoWithNoUpdate(typeof(Item).Name);
+            oItem.ItemVsBom.Add(new WorkVsItem());
+            oItem.ItemVsTasks.Add(new WorkVsTask());
 
             return View("Create", oItem);
         }
@@ -82,6 +86,8 @@ namespace ArabErp.Web.Controllers
                     else
                     {
                         FillUnit();
+                        FillItem();
+                        FillJobCardTaskMaster();
                         TempData["error"] = "Some error occurred. Please try again.";
                         return View("Create", oitem);
                     }
@@ -91,6 +97,8 @@ namespace ArabErp.Web.Controllers
                 {
 
                     FillUnit();
+                    FillItem();
+                    FillJobCardTaskMaster();
                     TempData["error"] = "This part no. already exists!";
                     return View("Create", oitem);
                 }
@@ -98,6 +106,8 @@ namespace ArabErp.Web.Controllers
             else
             {
                 FillUnit();
+                FillItem();
+                FillJobCardTaskMaster();
                 TempData["error"] = "This material/spare name alredy exists!";
                 return View("Create", oitem);
             }
@@ -114,6 +124,12 @@ namespace ArabErp.Web.Controllers
         {
             Item objItem = new ItemRepository().GetItem(Id);
             FillUnit();
+            FillItem();
+            FillJobCardTaskMaster();
+            objItem.ItemVsBom = new ItemRepository().GetItemVsBom(Id);
+            if (objItem.ItemVsBom.Count == 0) objItem.ItemVsBom.Add(new WorkVsItem());
+            objItem.ItemVsTasks = new ItemRepository().GetItemVsTasks(Id);
+            if (objItem.ItemVsTasks.Count == 0) objItem.ItemVsTasks.Add(new WorkVsTask());
             return View(objItem);
 
         }
@@ -145,7 +161,8 @@ namespace ArabErp.Web.Controllers
             }
             else
             {
-
+                FillItem();
+                FillJobCardTaskMaster();
                 FillUnit();
                 TempData["error"] = "This material/spare name already exists!";
 
@@ -353,6 +370,19 @@ namespace ArabErp.Web.Controllers
             {
                 throw;
             }
+        }
+        public void FillItem()
+        {
+            DropdownRepository Repo = new DropdownRepository();
+            var List = Repo.FillItem();
+            ViewBag.ItemList = new SelectList(List, "Id", "Name");
+        }
+
+        public void FillJobCardTaskMaster()
+        {
+            JobCardTaskMasterRepository Repo = new JobCardTaskMasterRepository();
+            var List = Repo.FillJobCardTaskMaster();
+            ViewBag.JobCardTaskMasterList = new SelectList(List, "Id", "Name");
         }
     }
 }

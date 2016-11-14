@@ -394,6 +394,7 @@
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>JobCardCopy.rpt</DependentUpon>
+      <SubType>Component</SubType>
     </Compile>
     <Compile Include="Reports\JobCardQC.cs">
       <AutoGen>True</AutoGen>
@@ -447,6 +448,7 @@
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>PendingTasksForCompletion.rpt</DependentUpon>
+      <SubType>Component</SubType>
     </Compile>
     <Compile Include="Reports\ProductWiseSalesRegister.cs">
       <AutoGen>True</AutoGen>
@@ -1247,6 +1249,9 @@
     <Content Include="Views\Country\Create.cshtml" />
     <Content Include="Views\Country\CountryListView.cshtml" />
     <Content Include="Views\SalesQuotation\BusinessReport.cshtml" />
+    <Content Include="Views\SalesQuotation\CreateTransportation.cshtml" />
+    <Content Include="Views\Item\_BoM.cshtml" />
+    <Content Include="Views\SalesQuotation\EditTransportation.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

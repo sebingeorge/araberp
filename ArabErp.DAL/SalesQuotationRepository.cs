@@ -27,11 +27,8 @@ namespace ArabErp.DAL
         }
         public SalesQuotation InsertSalesQuotation(SalesQuotation model)
         {
-
-
             using (IDbConnection connection = OpenConnection(dataConnection))
             {
-
                 IDbTransaction trn = connection.BeginTransaction();
                 try
                 {
@@ -84,11 +81,11 @@ namespace ArabErp.DAL
                     foreach (var item in model.SalesQuotationItems)
                     {
                         item.SalesQuotationId = model.SalesQuotationId;
+                        item.OrganizationId = model.OrganizationId;
                         saleorderitemrepo.InsertSalesQuotationItem(item, connection, trn);
                     }
                     if (model.isAfterSales)
                     {
-
                         foreach (var item in model.Materials)
                         {
                             item.SalesQuotationId = model.SalesQuotationId;
@@ -97,8 +94,6 @@ namespace ArabErp.DAL
                     }
                     InsertLoginHistory(dataConnection, model.CreatedBy, "Create", "Sales Quotation", model.SalesQuotationId.ToString(), "0");
                     trn.Commit();
-
-
                 }
                 catch (Exception)
                 {
@@ -106,8 +101,6 @@ namespace ArabErp.DAL
                     model.SalesQuotationId = 0;
                     model.QuotationRefNo = null;
                     throw;
-
-
                 }
                 return model;
             }
@@ -235,7 +228,7 @@ namespace ArabErp.DAL
 
             using (IDbConnection connection = OpenConnection(dataConnection))
             {
-                string sql = @"select 
+                string sql = @"SELECT 
 	                                [SalesQuotationItemId],
 	                                [SalesQuotationId],
 	                                [SlNo],
@@ -251,10 +244,13 @@ namespace ArabErp.DAL
 	                                [RateType],
 	                                'No(s)' UnitName,
 	                                W.*,
-	                                V.* 
-                                from SalesQuotationItem S inner join WorkDescription W ON S.WorkDescriptionId=W.WorkDescriptionId
+	                                V.*,
+									WD.FreezerUnitId,
+									WD.BoxId
+                                FROM SalesQuotationItem S inner join WorkDescription W ON S.WorkDescriptionId=W.WorkDescriptionId
+									INNER JOIN WorkDescription WD ON S.WorkDescriptionId = WD.WorkDescriptionId
                                     LEFT JOIN VehicleModel V ON  V.VehicleModelId=W.VehicleModelId
-                                where SalesQuotationId=@SalesQuotationId";
+                                WHERE SalesQuotationId = @SalesQuotationId";
 
                 var SalesQuotationItems = connection.Query<SalesQuotationItem>(sql, new
                 {
@@ -414,7 +410,21 @@ namespace ArabErp.DAL
 
                 objSalesQtn.GrandTotal = (objSalesQtn.TotalWorkAmount + objSalesQtn.TotalMaterialAmount);
 
-
+                #region automatically approve if no custom rates are set
+                try
+                {
+                    if (!objSalesQtn.isProjectBased)
+                    {
+                        List<int> rateType = (from SalesQuotationItem s in objSalesQtn.SalesQuotationItems
+                                              where s.RateType == 0
+                                              select s.RateType).ToList();
+                        if (rateType.Count > 0)
+                            objSalesQtn.IsQuotationApproved = false;
+                        else objSalesQtn.IsQuotationApproved = true;
+                    }
+                }
+                catch { }
+                #endregion
 
                 sql += @"UPDATE   SalesQuotation SET   QuotationDate = @QuotationDate,CustomerId=@CustomerId,ContactPerson=@ContactPerson,SalesExecutiveId=@SalesExecutiveId,PredictedClosingDate=@PredictedClosingDate,
                                         QuotationValidToDate = @QuotationValidToDate,ExpectedDeliveryDate = @ExpectedDeliveryDate,IsQuotationApproved=@IsQuotationApproved,ApprovedBy=@ApprovedBy,TotalWorkAmount=@TotalWorkAmount,TotalMaterialAmount=@TotalMaterialAmount,GrandTotal=@GrandTotal,CurrencyId=@CurrencyId,QuotationStatus=@QuotationStatus,Remarks=@Remarks,SalesQuotationStatusId=@SalesQuotationStatusId,
@@ -422,9 +432,6 @@ namespace ArabErp.DAL
 	                                    where SalesQuotationId = @SalesQuotationId;
 	                               
                          DELETE FROM SalesQuotationItem WHERE SalesQuotationId = @SalesQuotationId;";
-
-
-
 
                 try
                 {

@@ -6,16 +6,22 @@
 
 <script type="text/javascript">
 
+    $(function () {
+        $("#txtName").val('@Request.QueryString["name"]');
+        $("#txtGroup").val('@Request.QueryString["group"]');
+        $("#txtSubGroup").val('@Request.QueryString["subgroup"]');
+    })
+
     function Create() {
-            location.href = '@Url.Action("Create")';  
+        location.href = '@Url.Action("Create")';
     }
 
-       function Exit() {
-        
-         location.href = '@Url.Action("Index","Home")';
-       }
+    function Exit() {
+
+        location.href = '@Url.Action("Index","Home")';
+    }
     function GoToPrint() {
-           
+
         var url = '@Url.Action("Print")';
         var name = $("#txtName").val();
         url += "?name=" + name;

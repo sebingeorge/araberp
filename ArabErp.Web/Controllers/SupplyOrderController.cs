@@ -55,6 +55,7 @@ namespace ArabErp.Web.Controllers
             supplyorder.CurrencyId = new CurrencyRepository().GetCurrencyFrmOrganization(OrganizationId).CurrencyId;
             return View(supplyorder);
         }
+
         //public PartialViewResult grid(IList<PendingPurchaseRequest> PendingPurchaseRequestItemsSelected, int Id = 0)
         //{
         //    SupplyOrder supplyorder = new SupplyOrder();

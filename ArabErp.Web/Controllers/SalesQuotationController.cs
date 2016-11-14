@@ -35,7 +35,7 @@ namespace ArabErp.Web.Controllers
 
 
             DropDowns();
-            FillWrkDesc();
+            //FillWrkDesc();
             FillVehicle();
             FillRateSettings();
             SalesQuotation salesquotation = new SalesQuotation();
@@ -52,7 +52,7 @@ namespace ArabErp.Web.Controllers
             salesquotation.SalesQuotationItems[0].Quantity = 1;
             salesquotation.SalesQuotationItems[0].UnitName = "Nos";
             ViewBag.SubmitAction = "Save";
-            return View(salesquotation);
+            return View("CreateTransportation", salesquotation);
         }
 
         [HttpPost]
@@ -356,6 +356,10 @@ namespace ArabErp.Web.Controllers
             salesquotation.CustomerAddress = sorepo.GetCusomerAddressByKey(salesquotation.CustomerId);
             salesquotation.SalesQuotationItems = repo.GetSalesQuotationItems(id);
             salesquotation.Materials = repo.GetSalesQuotationMaterials(id);
+            if (!salesquotation.isProjectBased)
+            {
+                return View("EditTransportation", salesquotation);
+            }
             return View("Edit", salesquotation);
         }
         [HttpPost]
@@ -780,6 +784,18 @@ namespace ArabErp.Web.Controllers
             FillEmployee();
             FillCommissionAgent();
             FillSalesQuotationStatus();
+            FillFreezerUnit();
+            FillBox();
+        }
+
+        private void FillFreezerUnit()
+        {
+            ViewBag.freezerUnitList = new SelectList(new DropdownRepository().FillFreezerUnit(), "Id", "Name");
+        }
+
+        private void FillBox()
+        {
+            ViewBag.boxList = new SelectList(new DropdownRepository().FillBox(), "BoxId", "BoxName");
         }
 
         public ActionResult CommissionedProjects()

@@ -555,6 +555,29 @@ namespace ArabErp
             }
         }
 
-
+        public IEnumerable GetTasksForFreezerAndBox(int? SaleOrderItemId)
+        {
+            using (IDbConnection connection = OpenConnection(dataConnection))
+            {
+                string query = @"SELECT 
+	                                FZR_JTM.JobCardTaskMasterId, FZR_JTM.JobCardTaskName
+                                FROM SaleOrder SO
+                                INNER JOIN SaleOrderItem SOI ON SO.SaleOrderId=SOI.SaleOrderId
+                                INNER JOIN WorkDescription WD ON SOI.WorkDescriptionId = WD.WorkDescriptionId
+                                INNER JOIN ItemVsTasks I_FZR ON WD.FreezerUnitId = I_FZR.ItemId
+                                INNER JOIN JobCardTaskMaster FZR_JTM ON I_FZR.JobCardTaskMasterId = FZR_JTM.JobCardTaskMasterId
+                                WHERE SOI.SaleOrderItemId = @id
+                                UNION
+                                SELECT 
+	                                BOX_JTM.JobCardTaskMasterId, BOX_JTM.JobCardTaskName
+                                FROM SaleOrder SO
+                                INNER JOIN SaleOrderItem SOI ON SO.SaleOrderId=SOI.SaleOrderId
+                                INNER JOIN WorkDescription WD ON SOI.WorkDescriptionId = WD.WorkDescriptionId
+                                INNER JOIN ItemVsTasks I_BOX ON WD.BoxId = I_BOX.ItemId
+                                INNER JOIN JobCardTaskMaster BOX_JTM ON I_BOX.JobCardTaskMasterId = BOX_JTM.JobCardTaskMasterId
+                                WHERE SOI.SaleOrderItemId = @id";
+                return connection.Query<JobCardTaskMaster>(query, new { id = SaleOrderItemId }).ToList();
+            }
+        }
     }
 }
