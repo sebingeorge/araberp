@@ -24,7 +24,10 @@
 
         var url = '@Url.Action("Print")';
         var name = $("#txtName").val();
-        url += "?name=" + name;
+        var group = $("#txtGroup").val();
+        var subgroup = $("#txtSubGroup").val();
+        url += "?name=" + name + "&group=" + group + "&subgroup=" + subgroup;
+        alert(url)
         window.location = url;
     }
 

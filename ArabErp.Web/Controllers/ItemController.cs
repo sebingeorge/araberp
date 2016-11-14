@@ -271,8 +271,8 @@ namespace ArabErp.Web.Controllers
         }
 
 
-        public ActionResult Print(string name)
-        {
+        public ActionResult Print(string name,string group,string subgroup)
+         {
 
             ReportDocument rd = new ReportDocument();
             rd.Load(Path.Combine(Server.MapPath("~/Reports"), "Material.rpt"));
@@ -296,6 +296,9 @@ namespace ArabErp.Web.Controllers
             ds.Tables["Head"].Columns.Add("CurrencyName");
             ds.Tables["Head"].Columns.Add("OrganizationName");
             ds.Tables["Head"].Columns.Add("Image1");
+            ds.Tables["Head"].Columns.Add("Name");
+            ds.Tables["Head"].Columns.Add("Group");
+            ds.Tables["Head"].Columns.Add("SubGroup");
 
             //-------DT
             ds.Tables["Items"].Columns.Add("PartNo");
@@ -306,9 +309,8 @@ namespace ArabErp.Web.Controllers
             ds.Tables["Items"].Columns.Add("UOM");
 
 
-            OrganizationRepository repo = new OrganizationRepository();
-            var Head = repo.GetOrganization(OrganizationId);
-
+            ItemRepository repo = new ItemRepository();
+            var Head = repo.GetItemsHDPrint(organizationId: OrganizationId, name: name, group: group, subgroup:subgroup);
             DataRow dr = ds.Tables["Head"].NewRow();
 
             dr["DoorNo"] = Head.DoorNo;
@@ -323,10 +325,13 @@ namespace ArabErp.Web.Controllers
             //dr["CurrencyName"] = Head.CurrencyName;
             dr["OrganizationName"] = Head.OrganizationName;
             dr["Image1"] = Server.MapPath("~/App_images/") + Head.Image1;
+            dr["Name"] = name;
+            dr["Group"] = group;
+            dr["SubGroup"] = subgroup;
             ds.Tables["Head"].Rows.Add(dr);
 
             ItemRepository repo1 = new ItemRepository();
-            var Items = repo1.GetItemsDTPrint(name);
+            var Items = repo1.GetItemsDTPrint(name,subgroup,group,OrganizationId);
             foreach (var item in Items)
             {
                 var pritem = new Item

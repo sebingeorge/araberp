@@ -29,6 +29,7 @@ namespace ArabErp.DAL
                             SaleOrderItemId,
                             SaleOrderId,
                             RegistrationNo,
+                            ChassisNo,
                             VehicleInPassDate,
                             EmployeeId,
                             Remarks,
@@ -41,6 +42,7 @@ namespace ArabErp.DAL
                             @SaleOrderItemId,
                             (SELECT SaleOrderId FROM SaleOrderItem WHERE SaleOrderItemId = @SaleOrderItemId),
                             @RegistrationNo,
+                            @ChassisNo,
                             @VehicleInPassDate,
                             @EmployeeId,
                             @Remarks,
@@ -111,7 +113,7 @@ namespace ArabErp.DAL
 
                 string sql = @" UPDATE
                                 VehicleInPass SET VehicleInPassNo=VehicleInPassNo,SaleOrderItemId=@SaleOrderItemId,
-                                RegistrationNo=@RegistrationNo,VehicleInPassDate=@VehicleInPassDate,EmployeeId=@EmployeeId,
+                                RegistrationNo=@RegistrationNo,ChassisNo=@ChassisNo,VehicleInPassDate=@VehicleInPassDate,EmployeeId=@EmployeeId,
                                 Remarks=@Remarks,CreatedBy=@CreatedBy,CreatedDate=@CreatedDate,OrganizationId=@OrganizationId
                                 WHERE VehicleInPassId = @VehicleInPassId;";
                 try

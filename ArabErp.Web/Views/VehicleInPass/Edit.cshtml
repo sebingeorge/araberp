@@ -18,11 +18,11 @@
     });*@
 
 
-    function GoToPrint(id) {
+    @*function GoToPrint(id) {
         var url = '@Url.Action("Print")';
         url += "?Id=" + id;
         window.location = url;
-    }
+    }*@
 
         function formValidation() {
             return true;//confirm("Are you sure to Save?");
@@ -129,10 +129,10 @@
                             else
                             {
                             <button type="submit" class="form-button right">Edit</button>
-                            <input type="button" value="Print" onclick="GoToPrint(@Model.VehicleInPassId)" class="form-button right" />
+                        
                             <input type="button" value="Delete" onclick="Delete()" class="form-button left" />
                             }
-                          
+                            @*<input type="button" value="Print" onclick="GoToPrint(@Model.VehicleInPassId)" class="form-button right" />*@
 
                         </div>
                     </div>
