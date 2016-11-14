@@ -49,32 +49,31 @@
     </xs:element>
   </xs:schema>
   <Head>
-    <JobCardNo>JC/2537</JobCardNo>
-    <JobCardDate>09-Nov-2016</JobCardDate>
-    <SaleOrderRefNo>SO/2</SaleOrderRefNo>
-    <CustomerName>Adansa Trading,Doha - Qatar,</CustomerName>
-    <CustomerPhone>0</CustomerPhone>
-    <CustomerContactPerson>0</CustomerContactPerson>
+    <JobCardNo>JC/2540</JobCardNo>
+    <JobCardDate>14-Nov-2016</JobCardDate>
+    <SaleOrderRefNo>SO/6</SaleOrderRefNo>
+    <CustomerName>Abdul Asiz Trading Est,Salwa road, Doha -Qatar,Doha</CustomerName>
+    <CustomerPhone>-</CustomerPhone>
+    <CustomerContactPerson>-</CustomerContactPerson>
     <Unit>Thermoking V200</Unit>
-    <Customer>Adansa Trading</Customer>
-    <Technician>SHABIR ANSARI</Technician>
-    <ChasisNo>3333111</ChasisNo>
-    <VModel>Nissan UD Truck -MKD210K</VModel>
+    <Customer>Abdul Asiz Trading Est</Customer>
+    <Technician>RAJESH</Technician>
+    <ChasisNo>SO/6 ---- 1</ChasisNo>
     <Country>UAE</Country>
     <Currency>QAR</Currency>
     <OrganizationName>Arab Air Conditioning &amp; Refrigeration Co. W.L.L.</OrganizationName>
-    <Image1>E:\ARAB\New folder\ArabErp\ArabErp.Web\App_images\</Image1>
+    <Image1>E:\SHANID\ARAB ERP\ArabErp\ArabErp.Web\App_images\</Image1>
   </Head>
   <Items>
-    <TaskDate>09-Nov-2016</TaskDate>
-    <Employee>RAJESH</Employee>
-    <Description>Box fixing</Description>
-    <Hours>4.00</Hours>
-  </Items>
-  <Items>
-    <TaskDate>09-Nov-2016</TaskDate>
+    <TaskDate>14-Nov-2016</TaskDate>
     <Employee>SHABIR ANSARI</Employee>
     <Description>Box fixing</Description>
-    <Hours>4.00</Hours>
+    <Hours>10.00</Hours>
+  </Items>
+  <Items>
+    <TaskDate>14-Nov-2016</TaskDate>
+    <Employee>SHABIR ANSARI</Employee>
+    <Description>Should Complete</Description>
+    <Hours>8.00</Hours>
   </Items>
 </NewDataSet>

@@ -341,13 +341,14 @@ namespace ArabErp.Web.Controllers
             }
         }
 
-        public ActionResult Edit(int id = 0)
+        public ActionResult Edit(int id = 0)//JobCardId is received here
         {
             if (id == 0) return RedirectToAction("Index", "Home");
             JobCard model = new JobCardRepository().GetJobCardDetails2(id, OrganizationId);
             FillBay1(model.JobCardId);
             FillEmployee();
-            FillTaks(model.WorkDescriptionId);
+            //FillTaks(model.WorkDescriptionId);
+            FillFreezerAndBoxTasks(model.SaleOrderItemId);
             return View(model);
         }
 
