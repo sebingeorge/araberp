@@ -125,7 +125,7 @@ namespace ArabErp.DAL
             {
                 return connection.Query<PendingJC>(@"SELECT ISNULL(SO.SaleOrderRefNo, '')+' - '+CONVERT(VARCHAR, SO.SaleOrderDate, 106) SaleOrderNoDate, VM.VehicleModelName+' - '+VM.VehicleModelDescription VehicleModel, WD.WorkDescr, CUS.CustomerName, SOI.SaleOrderItemId,SOI.IsPaymentApprovedForDelivery INTO #TEMP FROM SaleOrderItem SOI
                     INNER JOIN SaleOrder SO ON SO.SaleOrderId = SOI.SaleOrderId
-                    INNER JOIN VehicleModel VM ON SOI.VehicleModelId = VM.VehicleModelId
+                    LEFT JOIN VehicleModel VM ON SOI.VehicleModelId = VM.VehicleModelId
                     INNER JOIN WorkDescription WD ON SOI.WorkDescriptionId = WD.WorkDescriptionId
                     INNER JOIN Customer CUS ON SO.CustomerId = CUS.CustomerId
                     WHERE CUS.CustomerId = @customerId AND ISNULL(SOI.isActive, 1) = 1 AND ISNULL(VM.isActive, 1) = 1 and SO.OrganizationId = @OrganizationId AND SO.isProjectBased = 0;
