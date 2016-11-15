@@ -15,6 +15,18 @@
 
     }
 }
+
+@{
+    int isService = 1;
+    try
+    {
+        isService = Convert.ToInt32(Request.QueryString["isService"].ToString() ?? "1");
+    }
+    catch
+    {
+
+    }
+}
 <script>
     function GotoJobcard(id) {
         var isProjectBased = $("#isProjectBased").val();
@@ -41,7 +53,12 @@
 
 <div class="row">
     <div class="form-head1">
-        <h4>Pending Work for Job Card</h4>
+@if (isService == 1)
+{ <h4>Estimate Work for Job Card</h4> }
+else
+{ <h4>Pending Work for Job Card</h4> }
+       
+
         <input id="isProjectBased" type="hidden" value="@isProjectBased" />
     </div>
     <div class="main-part pad1">
@@ -51,7 +68,11 @@
                     <table class="table table-bordered">
                         <thead>
                             <tr class="grid_heading">
-                                <th width="12%" title="Sale Order No. & Date"><h1>SO No. & Date</h1></th>
+                             @if (isService == 1)
+                              {<th width="12%" title="Sale Estimate No. & Date"><h1>SE No. & Date</h1></th>}
+                               else
+                                {<th width="12%" title="Sale Order No. & Date"><h1>SO No. & Date</h1></th> }
+                               
                                 <th width="41%"><h1>Work Description</h1></th>
                                 @if (isProjectBased == 0)
                                 {

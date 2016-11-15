@@ -95,11 +95,11 @@ namespace ArabErp.Web.Controllers
             var result = new JobCardRepository().GetTasksForFreezerAndBox(SaleOrderItemId);
             ViewBag.TaskList = new SelectList(result, "JobCardTaskMasterId", "JobCardTaskName");
         }
-        public ActionResult PendingJobCard(int? isProjectBased)
+        public ActionResult PendingJobCard(int? isProjectBased, int? service)
         {
             try
             {
-                IEnumerable<PendingSO> pendingSo = repo.GetPendingSO(isProjectBased ?? 0, OrganizationId);
+                IEnumerable<PendingSO> pendingSo = repo.GetPendingSO(isProjectBased ?? 0, OrganizationId,service??0);
                 return View(pendingSo);
             }
 
