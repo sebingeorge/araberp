@@ -70,9 +70,10 @@
         clone.html($(clone).html().replace(/\Row_0/g, 'Row_' + i + ''));
         clone.html($(clone).html().replace(/del_0/, 'del_' + i + ''));
         clone.html($(clone).html().replace(/this,0/, 'this,' + i + ''));
-        
+        clone.html($(clone).html().replace(/slno0/, 'slno' + i + ''));
         
         $("#tab_logic").append('<tr id="Row_' + i + '" class="WorkRow">' + clone.html() + '  </tr>');
+
         resetValues(i);
 
     }
@@ -87,6 +88,7 @@
         $("#Items_" + index + "__UnitName").removeAttr("disabled");
         $("#del_" + index).removeClass('hide');
         $("#Items_" + index + "__isAddtionalMaterialRequest").val(1);
+        $("#slno" + index ).text(index+1);
     }
     function DeleteRowBelow(index) {
 
@@ -139,6 +141,7 @@
         <thead>
             <tr class="grid_heading">
                 <td width="2%"><h1></h1></td>
+                <th width="1%" class="text-left"><h1>#</h1></th>
                 <th width="40%"><h1>Material/Spares</h1></th>
 
                 <th width="10%"><h1>Part No.</h1></th>
@@ -163,6 +166,12 @@
                         {
                             <a id="del_@row" class="glyphicon glyphicon-minus" onclick="DeleteRowBelow(@row);" style="top:0;"></a>
                         }
+                    </td>
+
+                    <td align="left">
+                        @*<input type="hidden" id="Row_@row" />*@
+                        <span id="slno@(row)">@(row + 1)</span>
+                        @*@Html.HiddenFor(m => Model.Items[row].WorkShopRequestId)*@
                     </td>
 
                     <td>
@@ -207,6 +216,7 @@
         <tfoot>
             <tr class="grid_heading">
                 <th width="2%"></th>
+                <th width="1%"></th>
                 <th width="40%"></th>
                 <th width="10%"></th>
                 <th width="36%"></th>

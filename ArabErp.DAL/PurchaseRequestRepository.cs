@@ -36,7 +36,7 @@ namespace ArabErp.DAL
                     foreach (PurchaseRequestItem item in objPurchaseRequest.items)
                     {
                         item.PurchaseRequestId = id;
-                        if (item.Quantity <= 0) continue;
+                        if (item.Quantity == null || item.Quantity==0) continue;
                         new PurchaseRequestItemRepository().InsertPurchaseRequestItem(item, connection, trn);
                     }
                     InsertLoginHistory(dataConnection, objPurchaseRequest.CreatedBy, "Create", "Purchase Request", id.ToString(), "0");

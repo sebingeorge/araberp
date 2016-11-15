@@ -83,6 +83,8 @@ namespace ArabErp.Web.Controllers
         [HttpPost]
         public ActionResult Create(PurchaseRequest model)
         {
+             
+         
             try
             {
                 if(!ModelState.IsValid)
@@ -92,6 +94,7 @@ namespace ArabErp.Web.Controllers
                 model.OrganizationId = OrganizationId;
                 model.CreatedDate = System.DateTime.Now;
                 model.CreatedBy = UserID.ToString();
+               
                 string id = new PurchaseRequestRepository().InsertPurchaseRequest(model);
                    if (id.Split('|')[0] != "0")
                    {

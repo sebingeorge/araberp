@@ -68,6 +68,7 @@ namespace ArabErp.Domain
         public string WorkRequestPaymentApproved { get; set; }
         public string EmployeeName { get; set; }
         public string CommissionAgentName { get; set; }
+   
         public bool isUsed { get; set; }
 
         //Organization

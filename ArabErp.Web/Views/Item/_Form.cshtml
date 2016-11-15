@@ -47,16 +47,27 @@
             $("#table-bom").hide();
         }
     }
-
-
+   
+    function formvalidation() {
+        var status = true;
+            $("#table-bom input[id$='__Quantity']").each(function (i, object) {
+                if ($(object).val() == 0 || $(object).val() == "") {
+                    status = false;
+                     return;
+                }
+            });
+            if (!status)
+                toastr.info("The Quantity must be greater than zero");
+            return status
+    }
 </script>
 <div class="row">
     <div class="form-head1"><h4>Material/Spare</h4></div>
 
     <div class="main-part pad1">
-        @using (Html.BeginForm(null, null, FormMethod.Post, new { @class = "createFrom", @id = "Item_form" }))
+           
+        @using (Html.BeginForm(null, null, FormMethod.Post, new { @class = "createFrom", @id = "Item_form", @onsubmit = "return formvalidation()" }))
         {
-
 
 
             <div class="col-md-4 ">
