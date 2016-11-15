@@ -62,9 +62,12 @@ namespace ArabErp.Web.Controllers
                 model.JobCardTasks.Add(new JobCardTask() { TaskDate = DateTime.Now });
                 model.JobCardDate = DateTime.Now;
                 model.RequiredDate = DateTime.Now;
-               
+
+                if (model.isService == 1)
+                    FillTaks(model.WorkDescriptionId);
+                else
+                    FillFreezerAndBoxTasks(Id);
                 //FillTaks(model.WorkDescriptionId);
-                FillFreezerAndBoxTasks(Id);
                 //FillFreezerUnit();
                 //FillBox();
                 //FillVehicleRegNo();
@@ -348,7 +351,10 @@ namespace ArabErp.Web.Controllers
             FillBay1(model.JobCardId);
             FillEmployee();
             //FillTaks(model.WorkDescriptionId);
-            FillFreezerAndBoxTasks(model.SaleOrderItemId);
+            if (model.isService == 1)
+                FillTaks(model.WorkDescriptionId);
+            else
+                FillFreezerAndBoxTasks(model.SaleOrderItemId);
             return View(model);
         }
 
