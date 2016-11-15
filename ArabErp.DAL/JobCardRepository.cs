@@ -32,7 +32,7 @@ namespace ArabErp
         //    }
 
         //}
-        public IEnumerable<PendingSO> GetPendingSO(int isProjectBased, int OrganizationId)
+        public IEnumerable<PendingSO> GetPendingSO(int isProjectBased, int OrganizationId,int? isService)
         {
             using (IDbConnection connection = OpenConnection(dataConnection))
             {
@@ -54,6 +54,7 @@ namespace ArabErp
                 query += @" where J.SaleOrderItemId is null and S.SaleOrderApproveStatus = 1 ";
                 query += " and S.isActive=1 and S.SaleOrderApproveStatus=1 and S.SaleOrderHoldStatus IS NULL and S.OrganizationId = " + OrganizationId.ToString() + "";
                 query += " and S.isProjectBased = " + isProjectBased.ToString();
+                query += " and S.isService = " + isService.ToString();
                 query += " ORDER BY S.EDateDelivery DESC, S.SaleOrderDate DESC";
                 return connection.Query<PendingSO>(query);
             }

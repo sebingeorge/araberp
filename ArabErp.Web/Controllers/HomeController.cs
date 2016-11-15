@@ -119,12 +119,12 @@ namespace ArabErp.Web.Controllers
             }
             if (view.PendingProjectSaleOrdersForJobCard)
             {
-                var list = new JobCardRepository().GetPendingSO(1, OrganizationId);
+                var list = new JobCardRepository().GetPendingSO(1, OrganizationId,0);
                 view.NoOfProjectSaleOrdersForJobCard = list.Count();
             }
             if (view.PendingTransSaleOrdersForJobCard)
             {
-                var list = new JobCardRepository().GetPendingSO(0, OrganizationId);
+                var list = new JobCardRepository().GetPendingSO(0, OrganizationId,0);
                 view.NoOfTransSaleOrdersForJobCard = list.Count();
             }
 
