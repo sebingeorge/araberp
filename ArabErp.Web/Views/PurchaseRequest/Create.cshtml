@@ -3,6 +3,17 @@
     ViewBag.Title = "Purchase Request";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
+
+<style type="text/css">
+    .highlight{
+            border: 2px solid #2ab1e0 !important;
+    }
+
+    /*#tab_logic tr:hover{
+        border: 2px solid #2ab1e0 !important;
+    }*/
+</style>
+
 <script>
             
     function Exit()
@@ -18,9 +29,18 @@
         $(".numbers-only").keypress(function (e) {
             if (e.which == 8 || (e.which == 46 && $(this).val().indexOf('.') == -1) || (e.which > 47 && e.which < 58)) { } else { return false; }
         });
-
-        
     });
+
+    function HighlightRow(row) {
+        $("#tab_logic").find("tr.highlight").removeClass("highlight");
+        $(row).addClass("highlight");
+    }
+
+    function OnTextboxFocused(sender) {
+        $("#tab_logic").find("tr.highlight").removeClass("highlight");
+        $(sender).closest("tr").addClass("highlight");
+    }
+
 </script>
 
     <div class="row">
@@ -40,7 +60,7 @@
                 <div class="row form-group">
                     <div class="col-md-2">
                         <label for="PurchaseRequestNo">PRQ.No.</label>
-                        @Html.TextBoxFor(m => m.PurchaseRequestNo, new { @class = "form_input", autocomplete = "off", @readonly = "readonly" })
+                        @Html.TextBoxFor(m => m.PurchaseRequestNo, new { @class = "form_input", autocomplete = "off", @readonly = "readonly", @tabindex = "-1" })
                     </div>
                     <div class="col-md-2">
                         <label for="PurchaseRequestDate">Date</label>
@@ -51,19 +71,19 @@
                    
                     <div class="col-md-4">
                         <label for="CustomerName">Customer</label>
-                        @Html.TextBoxFor(m => m.CustomerName, new { @class = "form_input", autocomplete = "off", @readonly = "readonly" })
+                        @Html.TextBoxFor(m => m.CustomerName, new { @class = "form_input", autocomplete = "off", @readonly = "readonly", @tabindex = "-1" })
                     </div>
                     <div class="col-md-2">
                         <label for="CustomerOrderRef">Customer Order Ref.</label>
-                        @Html.TextBoxFor(m => m.CustomerOrderRef, new { @class = "form_input", autocomplete = "off", @readonly = "readonly" })
+                        @Html.TextBoxFor(m => m.CustomerOrderRef, new { @class = "form_input", autocomplete = "off", @readonly = "readonly", @tabindex = "-1" })
                     </div>
                     <div class="col-md-3">
                         <label for="WorkShopRequestRefNo">Workshop Request No. & Date </label>
-                        @Html.TextBoxFor(m => m.WorkShopRequestRefNo, new { @class = "form_input", autocomplete = "off", @readonly = "readonly" })
+                        @Html.TextBoxFor(m => m.WorkShopRequestRefNo, new { @class = "form_input", autocomplete = "off", @readonly = "readonly", @tabindex = "-1" })
                     </div>
                 </div>
                 <div class="table-responsive">
-                    <table class="table table-bordered" id="tab_logic">
+                    <table class="table table-bordered" id="tab_logic" style="border-collapse:collapse">
                         <thead>
                             <tr class="grid_heading">
                                 <th nowrap width="20%"><h1>Material/Spares</h1></th>
@@ -85,22 +105,22 @@
                             @for (int i = 0; i < Model.items.Count; i++)
 
                         {
-                                <tr>
+                                <tr onclick="HighlightRow(this)">
                                   
-                                    <td>@Html.HiddenFor(m => m.items[i].ItemId) @Html.TextBoxFor(m => m.items[i].ItemName, new { @class = "form_input", autocomplete = "off", placeholder = "Material/Spares", @readonly = "readonly" }) </td>
-                                    <td>@Html.HiddenFor(m => m.items[i].PartNo) @Html.TextBoxFor(m => m.items[i].PartNo, new { @class = "form_input", autocomplete = "off", placeholder = "Part No.", @readonly = "readonly" })</td>
-                                    <td>@Html.TextBoxFor(m => m.items[i].Remarks, new { @class = "form_input", autocomplete = "off", placeholder = "Remarks" })</td>
-                                    <td>@Html.TextBoxFor(m => m.items[i].WRRequestQty, new { @class = "form_input", @style = "text-align:right", autocomplete = "off", @readonly = "readonly" })</td>
-                                    <td>@Html.TextBoxFor(m => m.items[i].WRIssueQty, new { @class = "form_input", @style = "text-align:right", autocomplete = "off", @readonly = "readonly" })</td>
-                                    <td>@Html.TextBoxFor(m => m.items[i].MinLevel, new { @class = "form_input", @style = "text-align:right", autocomplete = "off", @readonly = "readonly" })</td>
-                                    <td>@Html.TextBoxFor(m => m.items[i].TotalQty, new { @class = "form_input", @style = "text-align:right", autocomplete = "off", @readonly = "readonly" })</td>
-                                    <td>@Html.TextBoxFor(m => m.items[i].CurrentStock, new { @class = "form_input ", @style = "text-align:right", autocomplete = "off", @readonly = "readonly" })</td>
-                                    <td>@Html.TextBoxFor(m => m.items[i].InTransitQty, new { @class = "form_input", @style = "text-align:right", autocomplete = "off", @readonly = "readonly" })</td>
-                                    <td>@Html.TextBoxFor(m => m.items[i].PendingPRQty, new { @class = "form_input", @style = "text-align:right", autocomplete = "off", @readonly = "readonly", @required = "true" })</td>
-                                    <td>@Html.TextBoxFor(m => m.items[i].ShortorExcess, new { @class = "form_input", @style = "text-align:right", autocomplete = "off", @readonly = "readonly" })</td>
-                                    <td>@Html.TextBoxFor(m => m.items[i].Quantity, new { @class = "form_input numbers-only", @style = "text-align:right", autocomplete = "off" })</td>
+                                    <td>@Html.HiddenFor(m => m.items[i].ItemId) @Html.TextBoxFor(m => m.items[i].ItemName, new { @class = "form_input", autocomplete = "off", placeholder = "Material/Spares", @readonly = "readonly", @tabindex = "-1" }) </td>
+                                    <td>@Html.HiddenFor(m => m.items[i].PartNo) @Html.TextBoxFor(m => m.items[i].PartNo, new { @class = "form_input", autocomplete = "off", placeholder = "Part No.", @readonly = "readonly", @tabindex = "-1" })</td>
+                                    <td>@Html.TextBoxFor(m => m.items[i].Remarks, new { @class = "form_input", autocomplete = "off", placeholder = "Remarks", @onfocus = "OnTextboxFocused(this)" })</td>
+                                    <td>@Html.TextBoxFor(m => m.items[i].WRRequestQty, new { @class = "form_input", @style = "text-align:right", autocomplete = "off", @readonly = "readonly", @tabindex = "-1" })</td>
+                                    <td>@Html.TextBoxFor(m => m.items[i].WRIssueQty, new { @class = "form_input", @style = "text-align:right", autocomplete = "off", @readonly = "readonly", @tabindex = "-1" })</td>
+                                    <td>@Html.TextBoxFor(m => m.items[i].MinLevel, new { @class = "form_input", @style = "text-align:right", autocomplete = "off", @readonly = "readonly", @tabindex = "-1" })</td>
+                                    <td>@Html.TextBoxFor(m => m.items[i].TotalQty, new { @class = "form_input", @style = "text-align:right", autocomplete = "off", @readonly = "readonly", @tabindex = "-1" })</td>
+                                    <td>@Html.TextBoxFor(m => m.items[i].CurrentStock, new { @class = "form_input ", @style = "text-align:right", autocomplete = "off", @readonly = "readonly", @tabindex = "-1" })</td>
+                                    <td>@Html.TextBoxFor(m => m.items[i].InTransitQty, new { @class = "form_input", @style = "text-align:right", autocomplete = "off", @readonly = "readonly", @tabindex = "-1" })</td>
+                                    <td>@Html.TextBoxFor(m => m.items[i].PendingPRQty, new { @class = "form_input", @style = "text-align:right", autocomplete = "off", @readonly = "readonly", @required = "true", @tabindex = "-1" })</td>
+                                    <td>@Html.TextBoxFor(m => m.items[i].ShortorExcess, new { @class = "form_input", @style = "text-align:right", autocomplete = "off", @readonly = "readonly", @tabindex = "-1" })</td>
+                                    <td>@Html.TextBoxFor(m => m.items[i].Quantity, new { @class = "form_input numbers-only", @style = "text-align:right", autocomplete = "off", @onfocus = "OnTextboxFocused(this)" })</td>
 
-                                    <td>@Html.TextBoxFor(m => m.items[i].UnitName, new { @class = "form_input", @style = "text-align:left", autocomplete = "off", @readonly = "readonly" })</td>
+                                    <td>@Html.TextBoxFor(m => m.items[i].UnitName, new { @class = "form_input", @style = "text-align:left", autocomplete = "off", @readonly = "readonly", @tabindex = "-1" })</td>
                                 </tr>
                         }
 
