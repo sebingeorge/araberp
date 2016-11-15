@@ -326,7 +326,7 @@ namespace ArabErp.DAL
         }
 
 
-        public List<Item> GetItemsDTPrint(string name)
+        public List<Item> GetItemsDTPrint(string name,string subgroup,string group,int organizationId)
         {
             using (IDbConnection connection = OpenConnection(dataConnection))
             {
@@ -335,9 +335,15 @@ namespace ArabErp.DAL
                                INNER JOIN ItemGroup G ON I.ItemGroupId=G.ItemGroupId
                                INNER JOIN ItemSubGroup S ON I.ItemSubGroupId=S.ItemSubGroupId
                                INNER JOIN Unit U ON U.UnitId=I.ItemUnitId
-                               WHERE I.isActive=1 AND ItemName LIKE '%'+@name+'%'";
+                               WHERE I.isActive=1 AND ItemName LIKE '%'+@name+'%' AND 
+                                ItemGroupName LIKE '%'+@group+'%'
+							   AND ItemSubGroupName LIKE '%'+@subgroup+'%'";
 
-                var objItems = connection.Query<Item>(sql, new { name = name }).ToList<Item>();
+                var objItems = connection.Query<Item>(sql, new
+                {
+                    name = name,group=group,
+                    subgroup = subgroup,
+                }).ToList<Item>();
 
                 return objItems;
             }
@@ -345,7 +351,7 @@ namespace ArabErp.DAL
 
 
 
-        public List<Item> GetItemsHDPrint(int organizationId)
+        public  Item GetItemsHDPrint(int organizationId,string name,string subgroup,string group )
         {
             using (IDbConnection connection = OpenConnection(dataConnection))
             {
@@ -356,9 +362,9 @@ namespace ArabErp.DAL
                                     ORR.CountryName FROM Organization O
 								    inner  JOIN Country ORR ON ORR.CountryId=O.Country
 	                                LEFT JOIN Currency CUR ON O.CurrencyId = CUR.CurrencyId
-                                    where O.OrganizationId=OrganizationId ";
+                                    where O.OrganizationId=@OrganizationId ";
 
-                return connection.Query<Item>(sql, new { organizationId = organizationId }).ToList();
+                return connection.Query<Item>(sql, new { organizationId = organizationId, name = name, subgroup = subgroup, group = group }).First();
 
 
             }
