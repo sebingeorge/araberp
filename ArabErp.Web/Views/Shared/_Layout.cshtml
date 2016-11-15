@@ -730,6 +730,25 @@
                         <a href="#" data-toggle="collapse" data-target="#transportation-level-menu">Transport<span class="caret arrow"></span></a>
                         <div id="transportation-level-menu" class="collapse">
                             <ul>
+                                @if (formPermission.Find(x => x.FormId == 138) != null
+                                    || formPermission.Find(x => x.FormId == 139) != null)
+                                {
+                                    <li>
+                                        <a href="#" data-toggle="collapse" data-target="#transportation-service">Service<span class="caret arrow"></span></a>
+                                        <div id="transportation-service" class="collapse">
+                                            <ul>
+                                                @if (formPermission.Find(x => x.FormId == 138) != null)
+                                                {
+                                                    <li><a href="@Url.Action("ServiceEstimate", "SaleOrder")">Service Estimate</a></li>
+                                                }
+                                                @if (formPermission.Find(x => x.FormId == 139) != null)
+                                                {
+                                                    <li><a href="@Url.Action("PendingJobCard", "JobCard", new { service = 1 })">Service Job Card</a></li>
+                                                }
+                                            </ul>
+                                        </div>
+                                    </li>
+                                }
                                 <li>
                                     <a href="#" data-toggle="collapse" data-target="#transportation-jobcard">Job Card<span class="caret arrow"></span></a>
                                     <div id="transportation-jobcard" class="collapse">
