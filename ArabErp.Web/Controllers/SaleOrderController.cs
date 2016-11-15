@@ -922,5 +922,48 @@ namespace ArabErp.Web.Controllers
                 throw;
             }
         }
+
+        public ActionResult ServiceEstimate()
+        {
+            FillCustomer();
+            FillCurrency();
+            FillServiceWorkDescription();
+            List<SaleOrderItem> item = new List<SaleOrderItem>();
+            item.Add(new SaleOrderItem { UnitName = "Nos", Quantity = 1 });
+            return View(new SaleOrder { 
+                SaleOrderRefNo = DatabaseCommonRepository.GetNextDocNo(33, OrganizationId),
+                SaleOrderDate = DateTime.Today, 
+                Items = item,
+                isProjectBased = 0,
+                isAfterSales = 1,
+                isService = 1
+            });
+        }
+
+        [HttpPost]
+        public ActionResult ServiceEstimate(SaleOrder model)
+        {
+            try
+            {
+                model.OrganizationId = OrganizationId;
+                model.CreatedBy = UserID.ToString();
+                string ref_no = new SaleOrderRepository().InsertServiceEstimate(model);
+                TempData["success"] = "Saved Successfully. Reference No. is " + ref_no;
+                return RedirectToAction("ServiceEstimate");
+            }
+            catch (Exception)
+            {
+                FillCustomer();
+                FillCurrency();
+                FillServiceWorkDescription();
+                TempData["error"] = "Some error occurred while saving. Please try again.";
+                return View(model);
+            }
+        }
+        private void FillServiceWorkDescription()
+        {
+            ViewBag.workDescList = new SelectList(
+                new DropdownRepository().FillWorkDescForAfterSales(), "Id", "Name");
+        }
     }
 }
