@@ -25,8 +25,8 @@ namespace ArabErp.Web.Controllers
         {
             try
             {
-                FillJCNo(isProjectBased);
-                FillCustomerinJC(isProjectBased);
+                FillJCNo(isProjectBased,service);
+                FillCustomerinJC(isProjectBased,service);
                 ViewBag.ProjectBased = isProjectBased;
                 ViewBag.service = service;
                 return View();
@@ -190,13 +190,13 @@ namespace ArabErp.Web.Controllers
         //    ViewBag.inpassList = new SelectList(new DropdownRepository().VehicleInPassDropdown(), "Id", "Name");
         //}
 
-        public void FillJCNo(int isProjectBased)
+        public void FillJCNo(int isProjectBased,int service)
         {
-            ViewBag.JCNoList = new SelectList(new DropdownRepository().JCNODropdown(OrganizationId, isProjectBased), "Id", "Name");
+            ViewBag.JCNoList = new SelectList(new DropdownRepository().JCNODropdown(OrganizationId, isProjectBased,service), "Id", "Name");
         }
-        public void FillCustomerinJC(int isProjectBased)
+        public void FillCustomerinJC(int isProjectBased, int service)
         {
-            ViewBag.CusList = new SelectList(new DropdownRepository().JCCustomerDropdown(OrganizationId, isProjectBased), "Id", "Name");
+            ViewBag.CusList = new SelectList(new DropdownRepository().JCCustomerDropdown(OrganizationId, isProjectBased,service), "Id", "Name");
         }
         public ActionResult PreviousList(int ProjectBased,int service, DateTime? from, DateTime? to, int id = 0, int cusid = 0)
         {
