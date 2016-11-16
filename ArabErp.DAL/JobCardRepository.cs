@@ -70,7 +70,7 @@ namespace ArabErp
                     GETDATE() JobCardDate, C.CustomerId, C.CustomerName, S.CustomerOrderRef, V.VehicleModelName,
                     ''ChasisNoRegNo, W.WorkDescriptionId, W.WorkDescr as WorkDescription, '' WorkShopRequestRef, 
                     0 GoodsLanded, 0 BayId, W.FreezerUnitId FreezerUnitId, FU.ItemName FreezerUnitName, W.BoxId BoxId, 
-                    B.ItemName BoxName, ISNULL(VI.RegistrationNo, '-') RegistrationNo, VI.VehicleInPassId InPassId, S.isService, S.isProjectBased
+                    B.ItemName BoxName, ISNULL(VI.RegistrationNo, '-') RegistrationNo, VI.VehicleInPassId InPassId, S.isService, S.isProjectBased, S.SaleOrderRefNo
                     FROM SaleOrder S 
                     INNER JOIN Customer C ON S.CustomerId = C.CustomerId
                     INNER JOIN SaleOrderItem SI ON SI.SaleOrderId = S.SaleOrderId

@@ -68,6 +68,7 @@ namespace ArabErp.Domain
         public bool IsUsed { get; set; }
         public bool IsTaskUsed { get; set; }
         public int isService { get; set; }
+        public string SaleOrderRefNo { get; set; }
     }
     public class JobCardForDailyActivity
     {
