@@ -412,7 +412,7 @@ namespace ArabErp.Web.Controllers
         public ActionResult PendingSaleOrderApprovalWR()
         {
             var repo = new SaleOrderRepository();
-            IEnumerable<PendingSaleOrderForTransactionApproval> pendingSO = repo.GetSaleOrderPendingForTrnApproval();
+            IEnumerable<PendingSaleOrderForTransactionApproval> pendingSO = repo.GetSaleOrderPendingForTrnApproval(OrganizationId);
             var result = from a in pendingSO where (a.IsPaymentApprovedForWorkshopRequest == false || a.IsPaymentApprovedForWorkshopRequest == null) select a;
             ViewBag.ApproveType = "WORKSHOP_REQUEST";
             return View("PendingSaleOrderApprovalTransaction", result);
@@ -420,7 +420,7 @@ namespace ArabErp.Web.Controllers
         public ActionResult PendingSaleOrderApprovalJC()
         {
             var repo = new SaleOrderRepository();
-            IEnumerable<PendingSaleOrderForTransactionApproval> pendingSO = repo.GetSaleOrderPendingForTrnApproval();
+            IEnumerable<PendingSaleOrderForTransactionApproval> pendingSO = repo.GetSaleOrderPendingForTrnApproval(OrganizationId);
             var result = from a in pendingSO where (a.IsPaymentApprovedForJobOrder == false || a.IsPaymentApprovedForJobOrder == null) select a;
             ViewBag.ApproveType = "JOB_CARD";
             return View("PendingSaleOrderApprovalTransaction", result);
@@ -428,8 +428,8 @@ namespace ArabErp.Web.Controllers
         public ActionResult PendingSaleOrderApprovalDEL()
         {
             var repo = new SaleOrderRepository();
-            IEnumerable<PendingSaleOrderForTransactionApproval> pendingSO = repo.GetSaleOrderPendingForTrnApproval();
-            var result = from a in pendingSO where (a.IsPaymentApprovedForDelivery == false || a.IsPaymentApprovedForDelivery == null) select a;
+            IEnumerable<PendingSaleOrderForTransactionApproval> pendingSO = repo.GetSaleOrderPendingForTrnApproval(OrganizationId);
+            var result = from a in pendingSO where ((a.IsPaymentApprovedForDelivery == false || a.IsPaymentApprovedForDelivery == null) && a.JodCardCompleteStatus == 1) select a;
             ViewBag.ApproveType = "DELIVERY_CHALLAN";
             return View("PendingSaleOrderApprovalTransaction", result);
         }

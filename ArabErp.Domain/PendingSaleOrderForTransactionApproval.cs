@@ -20,5 +20,8 @@ namespace ArabErp.Domain
         public bool? IsPaymentApprovedForWorkshopRequest { get; set; }
         public bool? IsPaymentApprovedForJobOrder { get; set; }
         public bool? IsPaymentApprovedForDelivery { get; set; }
+        public string JobCardNo { get; set; }
+        public DateTime JobCardDate { get; set; }
+        public int JodCardCompleteStatus { get; set; }
     }
 }

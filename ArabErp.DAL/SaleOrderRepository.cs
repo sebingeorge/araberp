@@ -498,20 +498,36 @@ namespace ArabErp.DAL
                 return connection.Query<PendingSO>(query, new { IsProjectBased = IsProjectBased, OrganizationId = OrganizationId });
             }
         }
-        public IEnumerable<PendingSaleOrderForTransactionApproval> GetSaleOrderPendingForTrnApproval()
+        public IEnumerable<PendingSaleOrderForTransactionApproval> GetSaleOrderPendingForTrnApproval(int OrganizationId)
         {
             using (IDbConnection connection = OpenConnection(dataConnection))
             {
+                #region old query 16.11.2016 4.16p
+                //                string query = @"select SI.SaleOrderId, SI.SaleOrderItemId , SH.SaleOrderRefNo, SH.SaleOrderDate, C.CustomerName,i.ItemName freezerUnit,ii.ItemName Box,
+                //                               SI.Amount, SI.IsPaymentApprovedForWorkshopRequest, SI.IsPaymentApprovedForJobOrder,
+                //                                SI.IsPaymentApprovedForDelivery
+                //                                from SaleOrder SH inner join SaleOrderItem SI on SH.SaleOrderId = SI.SaleOrderId
+                //                                inner join Customer C on C.CustomerId = SH.CustomerId 
+                //                                inner join WorkDescription W on W.WorkDescriptionId = SI.WorkDescriptionId 
+                //								inner join Item I on I.ItemId=W.FreezerUnitId
+                //								inner join Item II on II.ItemId=W.BoxId
+                //                                order by SH.SaleOrderDate, C.CustomerName "; 
+                #endregion
+
                 string query = @"select SI.SaleOrderId, SI.SaleOrderItemId , SH.SaleOrderRefNo, SH.SaleOrderDate, C.CustomerName,i.ItemName freezerUnit,ii.ItemName Box,
                                SI.Amount, SI.IsPaymentApprovedForWorkshopRequest, SI.IsPaymentApprovedForJobOrder,
-                                SI.IsPaymentApprovedForDelivery
+                                SI.IsPaymentApprovedForDelivery, JC.JobCardNo, CONVERT(VARCHAR, JC.JobCardDate, 106) JobCardDate, 
+                                ISNULL(JC.JodCardCompleteStatus, 0) JodCardCompleteStatus
                                 from SaleOrder SH inner join SaleOrderItem SI on SH.SaleOrderId = SI.SaleOrderId
+								LEFT JOIN JobCard JC ON SI.SaleOrderItemId = JC.SaleOrderItemId
                                 inner join Customer C on C.CustomerId = SH.CustomerId 
                                 inner join WorkDescription W on W.WorkDescriptionId = SI.WorkDescriptionId 
 								inner join Item I on I.ItemId=W.FreezerUnitId
 								inner join Item II on II.ItemId=W.BoxId
-                                order by SH.SaleOrderDate, C.CustomerName ";
-                return connection.Query<PendingSaleOrderForTransactionApproval>(query);
+                                WHERE SH.OrganizationId = @OrganizationId
+								order by SH.SaleOrderDate, C.CustomerName";
+
+                return connection.Query<PendingSaleOrderForTransactionApproval>(query, new { OrganizationId = OrganizationId });
             }
         }
 
