@@ -21,13 +21,14 @@ namespace ArabErp.Web.Controllers
             repo = new JobCardRepository();
         }
         // GET: JobCard
-        public ActionResult Index(int isProjectBased = 0)
+        public ActionResult Index(int isProjectBased = 0,int service=0)
         {
             try
             {
                 FillJCNo(isProjectBased);
                 FillCustomerinJC(isProjectBased);
                 ViewBag.ProjectBased = isProjectBased;
+                ViewBag.service = service;
                 return View();
             }
 
@@ -197,13 +198,13 @@ namespace ArabErp.Web.Controllers
         {
             ViewBag.CusList = new SelectList(new DropdownRepository().JCCustomerDropdown(OrganizationId, isProjectBased), "Id", "Name");
         }
-        public ActionResult PreviousList(int ProjectBased, DateTime? from, DateTime? to, int id = 0, int cusid = 0)
+        public ActionResult PreviousList(int ProjectBased,int service, DateTime? from, DateTime? to, int id = 0, int cusid = 0)
         {
             try
             {
                 from = from ?? DateTime.Today.AddMonths(-1);
                 to = to ?? DateTime.Today;
-                return PartialView("_PreviousList", new JobCardRepository().GetAllJobCards(ProjectBased, id, cusid, OrganizationId, from, to));
+                return PartialView("_PreviousList", new JobCardRepository().GetAllJobCards(ProjectBased,service ,id, cusid, OrganizationId, from, to));
             }
 
             catch (Exception ex)

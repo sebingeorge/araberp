@@ -119,7 +119,11 @@
     }
 
     function Exit() {
-        var url = '@Url.Action("PendingJobCard", new { isProjectBased = Model.isProjectBased })';
+     
+        @*var url = '@Url.Action("PendingJobCard", new { isProjectBased = Model.isProjectBased })';*@
+     
+        var url = '@Url.Action("PendingJobCard")';
+        url += "?isProjectBased=" + @Model.isProjectBased + "&service=" + @Model.isService;
         window.location = url;
     }
 

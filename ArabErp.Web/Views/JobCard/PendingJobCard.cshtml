@@ -17,10 +17,10 @@
 }
 
 @{
-    int isService = 1;
+    int isService = 0;
     try
     {
-        isService = Convert.ToInt32(Request.QueryString["isService"].ToString() ?? "1");
+        isService = Convert.ToInt32(Request.QueryString["service"].ToString() ?? "0");
     }
     catch
     {
@@ -31,16 +31,14 @@
     function GotoJobcard(id) {
         var isProjectBased = $("#isProjectBased").val();
         var url = '@Url.Action("Create")';
-        url = url + "?Id=" + id + "&isProjectBased=" + isProjectBased;
+        url = url + "?Id=" + id + "&isProjectBased=" + isProjectBased+"&service="+@isService;
         console.log(url);
         window.location.href = url;
     }
     function PreviousList() {
-
         var isProjectBased = $("#isProjectBased").val();
         var url = '@Url.Action("Index")';
-        url = url + "?isProjectBased=" + isProjectBased;
-
+        url = url + "?isProjectBased=" + isProjectBased + "&service=" + @isService;
         window.location = url;
     }
 
@@ -54,7 +52,7 @@
 <div class="row">
     <div class="form-head1">
 @if (isService == 1)
-{ <h4>Estimate Work for Job Card</h4> }
+{ <h4>Service Estimate for Job Card</h4> }
 else
 { <h4>Pending Work for Job Card</h4> }
        
