@@ -4,12 +4,12 @@
 
 
 <script>
+
     $(document).ready(function () {
         //$('#CurrencyId').val(result.CurrencyId);
-        calculateSummary();
-        $("#Items_0__SlNo").val('1');
-        alert();
-        $("#SupplierItemRateItem_0__ItemId").combobox();
+        //calculateSummary();
+        //$("#Items_0__SlNo").val('1');
+        $("#tab_logic select[id$='__ItemId']").combobox();
     });
 
     function AddAdditionRow() {
@@ -42,8 +42,11 @@
         $("#SupplierItemRateItem_" + i + "__SlNo").val((i + 1));
 
         $("#SupplierItemRateItem_" + i + "__ItemId").val('');
+        $("#SupplierItemRateItem_" + i + "__ItemId").siblings('span[class="custom-combobox"]').remove();
+        $("#SupplierItemRateItem_" + i + "__ItemId").combobox();
         $("#SupplierItemRateItem_" + i + "__FixedRate").val(0);
     }
+
     function Delete(index) {
 
         var i = 0;
@@ -79,11 +82,11 @@
                 //alert(j);
                 $("#SupplierItemRateItem_" + (j - 1) + "__ItemId").val(ItemId);
                 $("#SupplierItemRateItem_" + (j - 1) + "__FixedRate").val(FixedRate);
-
+                $("#SupplierItemRateItem_" + (j - 1) + "__ItemId").siblings('span[class="custom-combobox"]').remove();
+                $("#SupplierItemRateItem_" + (j - 1) + "__ItemId").combobox();
             }
         }
     }
-
 
     function OnMaterialChange(s, index) {
         $("#hidden"+index).val($(s).val());
