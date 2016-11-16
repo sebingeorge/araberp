@@ -205,10 +205,10 @@ namespace ArabErp.DAL
                                 INTO #TEMP1
                                 FROM PurchaseRequestItem PRI
 	                                INNER JOIN PurchaseRequest PR ON PRI.PurchaseRequestId = PRI.PurchaseRequestId
-	                                INNER JOIN WorkShopRequest WR ON PR.WorkShopRequestId = WR.WorkShopRequestId
-	                                INNER JOIN WorkShopRequestItem WRI ON WR.WorkShopRequestId = WRI.WorkShopRequestId AND WRI.ItemId = PRI.ItemId
+	                                RIGHT JOIN WorkShopRequest WR ON PR.WorkShopRequestId = WR.WorkShopRequestId
+	                                RIGHT JOIN WorkShopRequestItem WRI ON WR.WorkShopRequestId = WRI.WorkShopRequestId AND WRI.ItemId = PRI.ItemId
                                 GROUP BY WRI.WorkShopRequestId, PRI.ItemId, WRI.Quantity
-                                HAVING SUM(PRI.Quantity)<WRI.Quantity
+                                HAVING SUM(ISNULL(PRI.Quantity, 0))<WRI.Quantity
                                 ORDER BY WRI.WorkShopRequestId;
 
                                 Select 

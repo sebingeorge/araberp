@@ -156,7 +156,7 @@ namespace ArabErp.DAL
 					INTO #TEMP 
                     FROM SaleOrderItem SOI
                     INNER JOIN SaleOrder SO ON SO.SaleOrderId = SOI.SaleOrderId
-                    INNER JOIN VehicleModel VM ON SOI.VehicleModelId = VM.VehicleModelId
+                    LEFT JOIN VehicleModel VM ON SOI.VehicleModelId = VM.VehicleModelId
                     INNER JOIN WorkDescription WD ON SOI.WorkDescriptionId = WD.WorkDescriptionId
                     INNER JOIN Customer CUS ON SO.CustomerId = CUS.CustomerId
                     WHERE ISNULL(SOI.isActive, 1) = 1 AND ISNULL(VM.isActive, 1) = 1;
