@@ -361,12 +361,12 @@
     }
 
     function OnCustomerChanged() {
-        @if (!new[] { "CreateAfterSalesTrans", "CreateAfterSalesProject" }.Contains(ViewContext.RouteData.GetRequiredString("action")))
+        @*@if (!new[] { "CreateAfterSalesTrans", "CreateAfterSalesProject" }.Contains(ViewContext.RouteData.GetRequiredString("action")))
         {
             @:for(var i=0; i< @Model.SalesQuotationItems.Count; i++){
                         @:    OnRateTypeChanged(i);
                         @:}
-                }
+                }*@
     }
 
     function ExitToPendingApproval(){
