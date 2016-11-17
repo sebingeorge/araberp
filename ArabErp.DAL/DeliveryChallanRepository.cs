@@ -226,7 +226,7 @@ namespace ArabErp.DAL
                                 INNER JOIN SaleOrderItem SOI ON SOI.SaleOrderId=SOI.SaleOrderId AND JC.SaleOrderItemId=SOI.SaleOrderItemId
                                 INNER JOIN Customer C ON C.CustomerId=SO.CustomerId 
                                 INNER JOIN WorkDescription WI ON WI.WorkDescriptionId = SOI.WorkDescriptionId
-                                INNER JOIN VehicleModel VM ON VM.VehicleModelId=SOI.VehicleModelId
+                                LEFT JOIN VehicleModel VM ON VM.VehicleModelId=SOI.VehicleModelId
                                 INNER JOIN Employee E ON E.EmployeeId=DC.EmployeeId
                                 LEFT JOIN VehicleInPass VI ON VI.SaleOrderItemId = SOI.SaleOrderItemId
                                 LEFT JOIN SalesQuotation SQ ON SQ.DeliveryChallanId=DC.DeliveryChallanId

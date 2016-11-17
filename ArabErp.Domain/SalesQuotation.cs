@@ -98,5 +98,7 @@ namespace ArabErp.Domain
 
         public ProjectCompletion ProjectCompleionDetails { get; set; }
         public DeliveryChallan DeliveryChallanDetails { get; set; }
+
+        public int VehicleModelId { get; set; }
     }
 }

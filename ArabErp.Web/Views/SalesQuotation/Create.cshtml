@@ -784,10 +784,10 @@
                         }
                         <th width="1%" class="text-center"><h1>#</h1></th>
                         <th width="45%" class="text-left"><h1>Work Description</h1></th>
-                        @if (new[] { "Create", "CreateAferSales", "Approve" }.Contains(ViewContext.RouteData.GetRequiredString("action")) && !Model.isProjectBased)
+                        @*@if (new[] { "Create", "CreateAferSales", "Approve" }.Contains(ViewContext.RouteData.GetRequiredString("action")) && !Model.isProjectBased)
                         {
                             <th width="10%"><h1>Rate Settings</h1></th>
-                        }
+                        }*@
                         <th width="5%" class="text-right"><h1>Qty.</h1></th>
                         <th width="5%" class="text-right"><h1>UoM</h1></th>
                         <th width="7%" class="text-right"><h1>Rate</h1></th>
@@ -836,13 +836,13 @@
                                 }
                             </td>
 
-                            @if (new[] { "Create", "Approve" }.Contains(ViewContext.RouteData.GetRequiredString("action")) && !Model.isProjectBased)
+                            @*@if (new[] { "Create", "Approve" }.Contains(ViewContext.RouteData.GetRequiredString("action")) && !Model.isProjectBased)
                             {
                                 <td>
                                     <!--column to show rate settings (required only for transportation)-->
                                     @Html.DropDownListFor(m => m.SalesQuotationItems[i].RateType, new SelectList(ViewBag.rateSettings, "Value", "Text", Model.SalesQuotationItems[i].RateType), new { @class = "form_input", @onchange = "OnRateTypeChanged(" + i + ")" })
                                 </td>
-                            }
+                            }*@
 
 
                             <td>
@@ -903,10 +903,10 @@
                         }
                         <th class="text-center"></th>
                         <th class="text-center "><h1></h1></th>
-                        @if (new[] { "Create", "Approve" }.Contains(ViewContext.RouteData.GetRequiredString("action")) && !Model.isProjectBased)
+                        @*@if (new[] { "Create", "Approve" }.Contains(ViewContext.RouteData.GetRequiredString("action")) && !Model.isProjectBased)
                         {
                             <th></th>
-                        }
+                        }*@
                         <th class="text-center"><h1></h1></th>
 
                         <th class="text-center"><h1>Total</h1></th>
