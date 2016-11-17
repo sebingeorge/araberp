@@ -52,7 +52,6 @@ namespace ArabErp.DAL
                 string query = @"SELECT U.UserName, Form, Mode, TransTime, FormTransCode
                                 FROM TransactionHistory T
                                 INNER JOIN [User] U ON T.UserId = U.UserId
-                                WHERE FormTransCode is not null  
                                 AND U.UserName LIKE '%'+@user+'%'
                                 AND Form LIKE '%'+@form+'%'   
                                 AND Mode LIKE '%'+@mode+'%'

@@ -87,6 +87,7 @@
                     <table class="table table-bordered" id="tab_logic" style="border-collapse:collapse">
                         <thead>
                             <tr class="grid_heading">
+                                <th width="1%" class="text-left"><h1>#</h1></th>
                                 <th nowrap width="20%"><h1>Material/Spares</h1></th>
                                 <th nowrap width="10%"><h1>Part No.</h1></th>
                                 <th nowrap width="20%"><h1>Remarks</h1></th>
@@ -103,11 +104,16 @@
                             </tr>
                         </thead>
                         <tbody>
+                            @{ int row = 0;}
                             @for (int i = 0; i < Model.items.Count; i++)
 
                         {
                                 <tr onclick="HighlightRow(this)">
-                                  
+                                    <td align="left">
+                                        @*<input type="hidden" id="Row_@row" />*@
+                                        <span id="slno@(row)">@(row + 1)</span>
+                                        @*@Html.HiddenFor(m => Model.Items[row].WorkShopRequestId)*@
+                                    </td>
                                     <td>@Html.HiddenFor(m => m.items[i].ItemId) @Html.TextBoxFor(m => m.items[i].ItemName, new { @class = "form_input", autocomplete = "off", placeholder = "Material/Spares", @readonly = "readonly", @tabindex = "-1" }) </td>
                                     <td>@Html.HiddenFor(m => m.items[i].PartNo) @Html.TextBoxFor(m => m.items[i].PartNo, new { @class = "form_input", autocomplete = "off", placeholder = "Part No.", @readonly = "readonly", @tabindex = "-1" })</td>
                                     <td>@Html.TextBoxFor(m => m.items[i].Remarks, new { @class = "form_input", autocomplete = "off", placeholder = "Remarks", @onfocus = "OnTextboxFocused(this)" })</td>
@@ -123,25 +129,26 @@
 
                                     <td>@Html.TextBoxFor(m => m.items[i].UnitName, new { @class = "form_input", @style = "text-align:left", autocomplete = "off", @readonly = "readonly", @tabindex = "-1" })</td>
                                 </tr>
+                            row++;
                         }
 
                         </tbody>
                         <tfoot>
                             <tr class="grid_heading">
-
-                                <th width="20%"></th>
+                                <th width="2%"></th>
+                                <th width="45%"></th>
                                 <th width="10%"></th>
                                 <th width="20%"></th>
-                                <th width="5%"></th>
-                                <th width="5%"></th>
-                                <th width="5%"></th>
-                                <th width="5%"></th>
-                                <th width="5%"></th>
-                                <th width="5%"></th>
-                                <th width="5%"></th>
-                                <th width="5%"></th>
-                                <th width="5%"></th>
-                                <th width="5%"></th>
+                                <th width="3%"></th>
+                                <th width="3%"></th>
+                                <th width="3%"></th>
+                                <th width="3%"></th>
+                                <th width="3%"></th>
+                                <th width="3%"></th>
+                                <th width="3%"></th>
+                                <th width="3%"></th>
+                                <th width="3%"></th>
+                                <th width="3%"></th>
                             </tr>
                         </tfoot>
                     </table>
