@@ -462,16 +462,12 @@
                 @if (Model.isProjectBased && !Model.isAfterSales)
                 {
                     <div class="col-md-2">
-
                         <label for="QuerySheetId">Query Sheet No.</label>
-
                         @Html.DropDownListFor(m => Model.QuerySheetId, (SelectList)ViewBag.QuerySheetNolist, "Select Query Sheet", new { @class = "form_input", autocomplete = "off", @onchange = "OnQuerySheetChanged(this)" })
-
                     </div>
                 }
                 @if (Model.isAfterSales)
                 {
-
                     <div class="col-md-2" style="padding-top: 25px;padding-left: 32px;">
                         @if (actionName == "Approve")
                         {
@@ -548,21 +544,24 @@
 
                 </div>
 
-                <div class="col-md-6">
+                <div class="col-md-3">
                     <label for="SalesExecutiveId">Sales Executive </label>
 
                     @Html.DropDownListFor(m => Model.SalesExecutiveId, (SelectList)ViewBag.employeelist, "Select Sales Executive", new { @class = "form_input", autocomplete = "off" })
 
                 </div>
+
+                <div class="col-md-3">
+                    <label for="VehicleModelId">Vehicle Model</label>
+                    @Html.DropDownListFor(m => m.VehicleModelId, new SelectList(ViewBag.vehiclelist, "Value", "Text", Model.VehicleModelId), "Select Vehicle Model", new { @class = "form_input", @required = "true" })
+                </div>
             </div>
-
-
-
+            
             <script>
                 $(document).ready(function () {
                     $("#SalesQuotationItems_0__SlNo").val('1');
                     $("#lblTotalAmount").text('0');
-                    $("select[id$='__WorkDescriptionId']").combobox();
+                    //$("select[id$='__WorkDescriptionId']").combobox();
                     $("select[id$='__ItemId']").combobox();
                     $("#Discount").val() = $("#Discount").val() == 0 ? "0.00" : $("#Discount").val();
                     //$('td:nth-child(2)').hide();
@@ -765,13 +764,20 @@
                     $("#tab_logic").append('<tr id="' + i + '">' + clone.html() + '  </tr>');
                     $("#slno" + (i + 1)).html((i + 1));
                     $("#SalesQuotationItems_" + i + "__SlNo").val((i + 1));
-                    $("#" + i).find('span[class="custom-combobox"]').remove();
-                    $("#SalesQuotationItems_" + i + "__WorkDescriptionId").combobox();
+                    $("#SalesQuotationItems_" + i + "__FreezerUnitId").val('');
+                    $("#SalesQuotationItems_" + i + "__BoxId").val('');
+                    $("#SalesQuotationItems_" + i + "__Quantity").val(1);
+                    $("#SalesQuotationItems_" + i + "__Rate").val(0);
+                    $("#SalesQuotationItems_" + i + "__Amount").val(0);
+                    $("#SalesQuotationItems_" + i + "__Discount").val(0);
+                    $("#SalesQuotationItems_" + i + "__TotalAmount").val(0);
+                    //$("#" + i).find('span[class="custom-combobox"]').remove();
+                    //$("#SalesQuotationItems_" + i + "__WorkDescriptionId").combobox();
 
-                    @if (new[] { "CreateAfterSalesTrans", "CreateAfterSalesProject" }.Contains(ViewContext.RouteData.GetRequiredString("action")))
+                    @*@if (new[] { "CreateAfterSalesTrans", "CreateAfterSalesProject" }.Contains(ViewContext.RouteData.GetRequiredString("action")))
                     {
                         @:removeOnChange();
-                    }
+                    }*@
                 }
             </script>
 
@@ -785,16 +791,16 @@
                         <th width="1%" class="text-center"><h1>#</h1></th>
                         <th width="25%" class="text-left"><h1>Reefer Unit</h1></th>
                         <th width="20%"><h1>Box</h1></th>
-                        @if (new[] { "Create", "CreateAferSales", "Approve" }.Contains(ViewContext.RouteData.GetRequiredString("action")) && !Model.isProjectBased)
+                        @*@if (new[] { "Create", "CreateAferSales", "Approve" }.Contains(ViewContext.RouteData.GetRequiredString("action")) && !Model.isProjectBased)
                         {
                             <th width="10%"><h1>Rate Settings</h1></th>
-                        }
-                        <th width="5%" class="text-right"><h1>Qty.</h1></th>
+                        }*@
+                        <th width="5%" class="text-right"><h1>Qty</h1></th>
                         <th width="5%" class="text-right"><h1>UoM</h1></th>
                         <th width="7%" class="text-right"><h1>Rate</h1></th>
 
-                        <th width="7%" class="text-right"><h1>Discount</h1></th>
                         <th width="7%" class="text-right"><h1>Amount</h1></th>
+                        <th width="7%" class="text-right"><h1>Discount</h1></th>
                         <th width="7%" class="text-right"><h1>Total</h1></th>
                         @if (actionName == "Create" || actionName == "CreateProject")
                         {
@@ -843,13 +849,13 @@
                                 }*@
                             </td>
 
-                            @if (new[] { "Create", "Approve" }.Contains(ViewContext.RouteData.GetRequiredString("action")) && !Model.isProjectBased)
+                            @*@if (new[] { "Create", "Approve" }.Contains(ViewContext.RouteData.GetRequiredString("action")) && !Model.isProjectBased)
                             {
                                 <td>
                                     <!--column to show rate settings (required only for transportation)-->
                                     @Html.DropDownListFor(m => m.SalesQuotationItems[i].RateType, new SelectList(ViewBag.rateSettings, "Value", "Text", Model.SalesQuotationItems[i].RateType), new { @class = "form_input", @onchange = "OnRateTypeChanged(" + i + ")" })
                                 </td>
-                            }
+                            }*@
 
 
                             <td>
@@ -878,6 +884,8 @@
                                        })
                             </td>
 
+                            <td>@Html.TextBoxFor(m => m.SalesQuotationItems[i].Amount, new { @class = "form_input clAmount", autocomplete = "off", @style = "text-align:right", placeholder = "Amount", @readonly = "true", @onchange = "QuantityChanged(" + i + ");" })</td>
+
                             <td>
                                 @Html.TextBoxFor(m => m.SalesQuotationItems[i].Discount, new
                                     {
@@ -890,7 +898,6 @@
                                     })
                             </td>
 
-                            <td>@Html.TextBoxFor(m => m.SalesQuotationItems[i].Amount, new { @class = "form_input clAmount", autocomplete = "off", @style = "text-align:right", placeholder = "Amount", @readonly = "true", @onchange = "QuantityChanged(" + i + ");" })</td>
                             <td>
                                 @Html.TextBoxFor(m => m.SalesQuotationItems[i].TotalAmount, new { @class = "form_input", autocomplete = "off", @style = "text-align:right", @readonly = "readonly" })
                             </td>
@@ -904,17 +911,17 @@
                 </tbody>
                 <tfoot>
                     <tr class="grid_heading">
-                        @if (actionName == "Create" || actionName == "CreateProject")
-                        {
+                        @*@if (actionName == "Create" || actionName == "CreateProject")
+                        {*@
                             <th class="text-center"></th>
-                        }
+                        @*}*@
                         <th class="text-center"></th>
                         <th class="text-center "><h1></h1></th>
                         <th></th>
-                        @if (new[] { "Create", "Approve" }.Contains(ViewContext.RouteData.GetRequiredString("action")) && !Model.isProjectBased)
+                        @*@if (new[] { "Create", "Approve" }.Contains(ViewContext.RouteData.GetRequiredString("action")) && !Model.isProjectBased)
                         {
                             <th></th>
-                        }
+                        }*@
                         <th class="text-center"><h1></h1></th>
 
                         <th class="text-center"><h1>Total</h1></th>
@@ -924,18 +931,18 @@
                                 @Html.DropDownListFor(m => m.CurrencyId, (SelectList)ViewBag.currlist, "Select Currency", new { @class = "form_input", autocomplete = "off" })
                             </h1>
                         </th>
-                        <th class="text-right">
-                            <span id="span-DiscountTotal"></span>
-                        </th>
 
                         <th class="text-right">
                             <span id="QtyAmount"></span>
                         </th>
+                        <th class="text-right">
+                            <span id="span-DiscountTotal"></span>
+                        </th>
                         <th class="text-right"><span id="NetTotalAmount"></span></th>
-                        @if (actionName == "Create" || actionName == "CreateProject")
-                        {
-                            <th class="text-right"></th>
-                        }
+                        @*@if (actionName == "Create" || actionName == "CreateProject")
+                        {*@
+                            <th width="2%">&nbsp;</th>
+                        @*}*@
                     </tr>
                 </tfoot>
             </table>
@@ -959,7 +966,7 @@
 
                     <div class="part1">
 
-                        <label for="Remarks">Special Remarks</label>
+                        <label for="Remarks">Scope of Work</label>
 
                         @Html.TextAreaFor(m => m.Remarks, new { @class = "form_input form_input-h", autocomplete = "off" })
                     </div>

@@ -39,8 +39,14 @@ namespace ArabErp.DAL
 	                                    WorkDescriptionId
                                     FROM WorkDescription
                                     WHERE FreezerUnitId " + (model.FreezerUnitId == null ? "IS NULL" : "= @FreezerUnitId") + @"
-	                                    AND BoxId " + (model.BoxId == null ? "IS NULL" : "= @BoxId");
-                return connection.Query<int>(query, new { BoxId = model.BoxId, FreezerUnitId = model.FreezerUnitId }, txn).First();
+	                                    AND BoxId " + (model.BoxId == null ? "IS NULL" : "= @BoxId") + @"
+                                        AND VehicleModelId = @VehicleModelId";
+                return connection.Query<int>(query, new
+                {
+                    BoxId = model.BoxId,
+                    FreezerUnitId = model.FreezerUnitId,
+                    VehicleModelId = model.VehicleModelId
+                }, txn).First();
             }
             catch (InvalidOperationException)
             {
@@ -64,12 +70,12 @@ namespace ArabErp.DAL
 
                     query = @"INSERT INTO WorkDescription (WorkDescriptionRefNo, FreezerUnitId, BoxId, WorkDescr,
 							        WorkDescrShortName, isNewInstallation, CreatedDate, OrganizationId, isActive,
-							        isProjectBased)
+							        isProjectBased, VehicleModelId)
                                 VALUES
                                 (
 	                                @WorkDescriptionRefNo, @FreezerUnitId, @BoxId, @WorkDescr,
 							        @WorkDescrShortName, @isNewInstallation, @CreatedDate, @OrganizationId, @isActive,
-							        @isProjectBased
+							        @isProjectBased, @VehicleModelId
                                 )
                                 SELECT CAST(SCOPE_IDENTITY() AS INT)";
 
@@ -85,7 +91,8 @@ namespace ArabErp.DAL
                         CreatedDate = System.DateTime.Today,
                         OrganizationId = model.OrganizationId,
                         isActive = 1,
-                        isProjectBased = 0
+                        isProjectBased = 0,
+                        VehicleModelId = model.VehicleModelId
                     }, txn).FirstOrDefault();
 
                 if (id == null) throw new Exception(); else return id ?? 0;

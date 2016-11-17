@@ -82,6 +82,7 @@ namespace ArabErp.DAL
                     {
                         item.SalesQuotationId = model.SalesQuotationId;
                         item.OrganizationId = model.OrganizationId;
+                        item.VehicleModelId = model.VehicleModelId;
                         saleorderitemrepo.InsertSalesQuotationItem(item, connection, trn);
                     }
                     if (model.isAfterSales)
@@ -239,17 +240,16 @@ namespace ArabErp.DAL
 	                                [UnitId],
 	                                [Rate],
 	                                [Discount],
-	                                (S.Rate - S.Discount) Amount,
-	                                ((S.Rate - S.Discount)*(S.Quantity)) TotalAmount,
+	                                (S.Rate * S.Quantity) Amount,
+	                                ((S.Rate * S.Quantity)-(S.Discount)) TotalAmount,
 	                                [RateType],
 	                                'No(s)' UnitName,
-	                                W.*,
-	                                V.*,
 									WD.FreezerUnitId,
-									WD.BoxId
-                                FROM SalesQuotationItem S inner join WorkDescription W ON S.WorkDescriptionId=W.WorkDescriptionId
+									WD.BoxId,
+                                    WD.VehicleModelId,
+									WD.WorkDescr
+                                FROM SalesQuotationItem S
 									INNER JOIN WorkDescription WD ON S.WorkDescriptionId = WD.WorkDescriptionId
-                                    LEFT JOIN VehicleModel V ON  V.VehicleModelId=W.VehicleModelId
                                 WHERE SalesQuotationId = @SalesQuotationId";
 
                 var SalesQuotationItems = connection.Query<SalesQuotationItem>(sql, new
@@ -441,6 +441,7 @@ namespace ArabErp.DAL
                     foreach (var item in objSalesQtn.SalesQuotationItems)
                     {
                         item.SalesQuotationId = objSalesQtn.SalesQuotationId;
+                        item.VehicleModelId = objSalesQtn.VehicleModelId;
                         saleorderitemrepo.InsertSalesQuotationItem(item, connection, txn);
                     }
                     if (objSalesQtn.isAfterSales)

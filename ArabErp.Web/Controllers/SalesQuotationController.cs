@@ -33,7 +33,6 @@ namespace ArabErp.Web.Controllers
         {
             var internalid = DatabaseCommonRepository.GetNextDocNo(1, OrganizationId);
 
-
             DropDowns();
             //FillWrkDesc();
             FillVehicle();
@@ -355,6 +354,12 @@ namespace ArabErp.Web.Controllers
 
             salesquotation.CustomerAddress = sorepo.GetCusomerAddressByKey(salesquotation.CustomerId);
             salesquotation.SalesQuotationItems = repo.GetSalesQuotationItems(id);
+            try
+            {
+                //each workdescription will have the same vehicle model id
+                salesquotation.VehicleModelId = salesquotation.SalesQuotationItems[0].VehicleModelId;
+            }
+            catch { }
             salesquotation.Materials = repo.GetSalesQuotationMaterials(id);
             if (!salesquotation.isProjectBased)
             {
@@ -786,6 +791,7 @@ namespace ArabErp.Web.Controllers
             FillSalesQuotationStatus();
             FillFreezerUnit();
             FillBox();
+            FillVehicle();
         }
 
         private void FillFreezerUnit()
