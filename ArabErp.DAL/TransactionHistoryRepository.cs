@@ -51,11 +51,11 @@ namespace ArabErp.DAL
             {
                 string query = @"SELECT U.UserName, Form, Mode, TransTime, FormTransCode
                                 FROM TransactionHistory T
-                                INNER JOIN [User] U ON T.UserId = U.UserId
+                                left  JOIN [User] U ON T.UserId = U.UserId
                                 AND U.UserName LIKE '%'+@user+'%'
                                 AND Form LIKE '%'+@form+'%'   
                                 AND Mode LIKE '%'+@mode+'%'
-                               AND TransTime BETWEEN @from AND @to ";
+								where convert(date,TransTime,106) BETWEEN CONVERT(date,@from,106) and CONVERT(date,@to,106)";
 
                 return connection.Query<TransactionHistory>(query, new { from = from, to = to,user = user, form = form, mode = mode }).ToList();
             }
