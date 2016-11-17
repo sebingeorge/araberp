@@ -52,6 +52,7 @@
   <Head>
     <SalesInvoiceRefNo>SLI/3</SalesInvoiceRefNo>
     <SalesInvoiceDate>04-Nov-2016</SalesInvoiceDate>
+    <VehicleOutPassNo>DC/3</VehicleOutPassNo>
     <CustomerName>Al Ajjaj Limited  Company</CustomerName>
     <Address> Doha, Qatar,,0</Address>
     <CustomerOrderRef>SQ/9 - AJJAJ</CustomerOrderRef>
