@@ -41,6 +41,11 @@
         $("#QtyAmount").val((rate - discount).toFixed(2));
     }
 
+    function Exit() {
+        var url = '@Url.Action("Index", "Home")';
+        window.location = url;
+    }
+
 </script>
 
 <div class="row">
@@ -79,7 +84,7 @@
                 </div>
                 <div class="col-md-2">
                     <label for="CustomerOrderRef">Customer Order Ref.</label>
-                    @Html.TextBoxFor(m => m.CustomerOrderRef, new { @class = "form_input", autocomplete = "off", @required = "true" })
+                    @Html.TextBoxFor(m => m.CustomerOrderRef, new { @class = "form_input", autocomplete = "off" })
                 </div>
             </div>
 

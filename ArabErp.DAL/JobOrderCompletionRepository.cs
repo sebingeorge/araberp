@@ -138,6 +138,9 @@ namespace ArabErp.DAL
                 {
                     string query = "update JobCard set JodCardCompleteStatus = 1, JodCardCompletedDate='" + jobcard.JobCardCompletedDate.ToString("dd-MMM-yyyy") + "', WarrentyPeriod = '" + jobcard.WarrentyPeriod.ToString("dd/MMM/yyyy") + "' where jobCardId=" + jobcard.JobCardId.ToString();
                     var count = connection.Query(query, transaction: txn);
+                    query = @"UPDATE SaleOrderItem SET IsPaymentApprovedForDelivery = (SELECT isService FROM JobCard WHERE JobCardId = " + jobcard.JobCardId + @")
+                                WHERE SaleOrderItemId = (SELECT SaleOrderItemId FROM JobCard WHERE JobCardId = " + jobcard.JobCardId + ")";
+                    connection.Execute(sql: query, transaction: txn);
                     int i = 0;
                     foreach (var item in jobcard.JobCardTask)
                     {

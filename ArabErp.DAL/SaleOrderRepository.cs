@@ -778,6 +778,7 @@ namespace ArabErp.DAL
                     model.SaleOrderRefNo = DatabaseCommonRepository.GetNewDocNo(connection, model.OrganizationId ?? 0, 33, true, txn);
                     model.TotalAmount = model.Items.Sum(m => m.Amount);
                     model.TotalDiscount = model.Items.Sum(m => m.Discount);
+                    if (model.CustomerOrderRef == null || model.CustomerOrderRef == String.Empty) model.CustomerOrderRef = " ";
                     string query = @"insert  into SaleOrder 
                                     (SaleOrderRefNo, SaleOrderDate, CustomerId, CustomerOrderRef, CurrencyId, SpecialRemarks, PaymentTerms, DeliveryTerms, CommissionAgentId,
                                     CommissionAmount, CommissionPerc, TotalAmount, TotalDiscount, SalesExecutiveId, EDateArrival, EDateDelivery, CreatedBy, CreatedDate,

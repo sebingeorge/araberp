@@ -47,17 +47,16 @@
     </xs:element>
   </xs:schema>
   <Head>
-    <DeliveryChallanRefNo>DC/1</DeliveryChallanRefNo>
-    <DeliveryChallanDate>09-Nov-2016</DeliveryChallanDate>
-    <Customer>Adansa Trading</Customer>
-    <SONoDate>SO/2 - 09 Nov 2016</SONoDate>
-    <JCNoDate>JC/2537 - 09 Nov 2016</JCNoDate>
-    <RegistrationNo>3333111</RegistrationNo>
-    <WorkDesc>New work for Tail lift &amp; Box Fitting</WorkDesc>
-    <VehicleModel>Nissan UD Truck -MKD210K</VehicleModel>
+    <DeliveryChallanRefNo>DC/4</DeliveryChallanRefNo>
+    <DeliveryChallanDate>16-Nov-2016</DeliveryChallanDate>
+    <Customer>Abdul Asiz Trading Est</Customer>
+    <SONoDate>SO/5 - 15 Nov 2016</SONoDate>
+    <JCNoDate>JC/2539 - 15 Nov 2016</JCNoDate>
+    <RegistrationNo>KL-36 B 7199</RegistrationNo>
+    <WorkDesc>Thermoking T600-R + 100mm 3300x2000x2100mm- MITS</WorkDesc>
     <Employee>RAJESH</Employee>
     <Country>UAE</Country>
-    <Image1>E:\ARAB\New folder\ArabErp\ArabErp.Web\App_images\</Image1>
+    <Image1>E:\SHANID\ARAB ERP\ArabErp\ArabErp.Web\App_images\</Image1>
     <OrganizationName>Arab Air Conditioning &amp; Refrigeration Co. W.L.L.</OrganizationName>
   </Head>
 </NewDataSet>

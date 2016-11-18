@@ -979,9 +979,9 @@ namespace ArabErp.Web.Controllers
 
             try
             {
-                Stream stream = rd.ExportToStream(CrystalDecisions.Shared.ExportFormatType.PortableDocFormat);
+                Stream stream = rd.ExportToStream(CrystalDecisions.Shared.ExportFormatType.WordForWindows);
                 stream.Seek(0, SeekOrigin.Begin);
-                return File(stream, "application/pdf", String.Format("SalesQuotation{0}.pdf", Id.ToString()));
+                return File(stream, "application/ms-word", String.Format("SalesQuotation{0}.doc", Id.ToString()));
             }
             catch (Exception ex)
             {

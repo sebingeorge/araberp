@@ -153,7 +153,7 @@ namespace ArabErp.Web.Controllers
         #region Dropdown
         public void ItemDropdown()
         {
-            ViewBag.itemList = new SelectList(new DropdownRepository().ItemDropdown(), "Id", "Name");
+            ViewBag.itemList = new SelectList(new DropdownRepository().FillItem(), "Id", "Name");
         }
         public void JobCardDropdown()
         {
