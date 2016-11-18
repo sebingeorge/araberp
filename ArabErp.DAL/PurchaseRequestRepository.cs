@@ -441,11 +441,11 @@ namespace ArabErp.DAL
             {
                 string qry = "SELECT O.*,PurchaseRequestId,PurchaseRequestNo,PurchaseRequestDate,C.CustomerName,WR.CustomerOrderRef,PR.WorkShopRequestId, ORR.CountryName,";
                 qry += "  WR.WorkShopRequestRefNo +','+ Replace(Convert(varchar,WorkShopRequestDate,106),' ','/') WorkShopRequestRefNo,";
-                qry += "  PR.SpecialRemarks,PR.RequiredDate FROM PurchaseRequest PR";
+                qry += "  PR.SpecialRemarks,PR.RequiredDate,U.UserName CreatedUser,U.Signature CreatedUsersig FROM PurchaseRequest PR";
                 qry += "  INNER JOIN WorkShopRequest WR ON WR.WorkShopRequestId=PR.WorkShopRequestId";
                 qry += "   INNER JOIN Customer C ON WR.CustomerId = C.CustomerId";
                 qry += "  INNER JOIN Organization O ON O.OrganizationId=PR.OrganizationId";
-                qry += "  left  JOIN Country ORR ON ORR.CountryId=O.Country";
+                qry += "  left  JOIN Country ORR ON ORR.CountryId=O.Country left join [User] U ON U.UserId=PR.CreatedBy";
                 qry += "  WHERE PR.PurchaseRequestId=" + PurchaseRequestId.ToString();
 
                 PurchaseRequest PurchaseRequest = connection.Query<PurchaseRequest>(qry, new { OrganizationId = OrganizationId }).First();

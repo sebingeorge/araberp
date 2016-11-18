@@ -48,6 +48,8 @@ namespace ArabErp.Domain
         public int cmpCode { get; set; }
         public string CompanyName { get; set; }
         public string Image1 { get; set; }
+        public string CreatedUser { get; set; }
+        public string CreatedUsersig { get; set; }
         public List<PurchaseRequestItem>items { get; set; }
         public bool isUsed { get; set; }
     }

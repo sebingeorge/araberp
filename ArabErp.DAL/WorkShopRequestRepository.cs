@@ -406,7 +406,7 @@ namespace ArabErp.DAL
         /// Returns all pending workshop requests
         /// </summary>
         /// <returns></returns>
-        public IEnumerable<WorkShopRequest> PendingWorkshopRequests()
+        public IEnumerable<WorkShopRequest> PendingWorkshopRequests(string Request = "", string Jobcard = "", string Customer = "")
         {
             using (IDbConnection connection = OpenConnection(dataConnection))
             {
@@ -417,11 +417,16 @@ namespace ArabErp.DAL
                 SELECT W.WorkShopRequestId, ISNULL(WR.WorkShopRequestRefNo, '')+' - '+CAST(CONVERT(VARCHAR, WR.WorkShopRequestDate, 106) AS VARCHAR) WorkShopRequestRefNo, ISNULL(CONVERT(DATETIME, WR.RequiredDate, 106), '01 Jan 1900') RequiredDate, C.CustomerName, S.SoNoWithDate,
 				DATEDIFF(day, WR.WorkShopRequestDate, GETDATE()) Ageing,
 				DATEDIFF(day, GETDATE(), WR.RequiredDate) DaysLeft
-                FROM #WORK W LEFT JOIN #ISSUE I ON W.WorkShopRequestId = I.WorkShopRequestId INNER JOIN WorkShopRequest WR ON W.WorkShopRequestId = WR.WorkShopRequestId INNER JOIN #CUSTOMER C ON WR.CustomerId = C.CustomerId INNER JOIN #SALE S ON WR.SaleOrderId = S.SaleOrderId WHERE ISNULL(IssuedQuantity,0) < Quantity ORDER BY WR.WorkShopRequestDate DESC, CreatedDate DESC;
+                FROM #WORK W LEFT JOIN #ISSUE I ON W.WorkShopRequestId = I.WorkShopRequestId INNER JOIN WorkShopRequest WR ON W.WorkShopRequestId = WR.WorkShopRequestId INNER JOIN #CUSTOMER C ON WR.CustomerId = C.CustomerId INNER JOIN #SALE S ON WR.SaleOrderId = S.SaleOrderId 
+                WHERE ISNULL(IssuedQuantity,0) < Quantity 
+                AND  WorkShopRequestRefNo LIKE '%'+@Request+'%'
+				AND SoNoWithDate LIKE '%'+@Jobcard+'%'
+				AND CustomerName LIKE '%'+@Customer+'%'
+                ORDER BY WR.WorkShopRequestDate DESC, CreatedDate DESC;
                 DROP TABLE #ISSUE;
                 DROP TABLE #WORK;
                 DROP TABLE #CUSTOMER;
-				DROP TABLE #SALE;").ToList();
+				DROP TABLE #SALE;", new { Request = Request, Jobcard = Jobcard, Customer = Customer }).ToList();
             }
         }
         public IEnumerable<WorkShopRequest> GetPrevious(int isProjectBased, DateTime? from, DateTime? to, string workshop, string customer, int OrganizationId)

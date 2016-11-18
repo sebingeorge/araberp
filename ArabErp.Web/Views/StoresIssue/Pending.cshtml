@@ -17,6 +17,20 @@
         var url = '@Url.Action("Index","Home")';
         window.location = url;
     }
+
+
+    function Filter() {
+        $("#pending_workshop").addClass("fade");
+        var url = '@Url.Action("PendingWorkshopRequests")';
+        var Request = $("#txtRequest").val().trim();
+        var Jobcard = $("#txtJobcard").val().trim();
+        var Customer = $("#txtCustomer").val().trim();
+        //name = name.replace(/ /g, "+");
+        url += "?Request=" + encodeURIComponent(Request) + "&Jobcard=" + encodeURIComponent(Jobcard) + "&Customer=" + encodeURIComponent(Customer);
+        $("#pending_workshop").load(url, function () {
+            $("#pending_workshop").removeClass("fade");
+        });
+    }
 </script>
 
 
@@ -28,8 +42,28 @@
         </div>
 
         <div class="main-part pad1">
+
+            <div class="row">
+                <div class="part">
+                    <div class="col-md-4">
+                        <label for="txtRequest">Request No.</label>
+                        <input type="text" class="form_input" id="txtRequest" onkeyup="Filter()" onchange="Filter()" />
+                    </div>
+                    <div class="col-md-4">
+                        <label for="txtJobcard">Sale Order No.</label>
+                        <input type="text" class="form_input" id="txtJobcard" onkeyup="Filter()" onchange="Filter()" />
+                    </div>
+                    <div class="col-md-4">
+                        <label for="txtCustomer">Customer</label>
+                        <input type="text" class="form_input" id="txtCustomer" onkeyup="Filter()" onchange="Filter()" />
+                    </div>
+                </div>
+            </div>
+            <br />
  
-            @Html.Action("PendingWorkshopRequests")
+            <div id="pending_workshop">
+                @Html.Action("PendingWorkshopRequests")
+            </div>
 
             <div class="row">
                 <div class="col-md-12 hrpart">
