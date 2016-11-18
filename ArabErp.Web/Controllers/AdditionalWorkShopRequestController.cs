@@ -172,7 +172,7 @@ namespace ArabErp.Web.Controllers
 
         private void ItemDropdown()
         {
-            ViewBag.itemList = new SelectList(new DropdownRepository().ItemDropdown(), "Id", "Name");
+            ViewBag.itemList = new SelectList(new DropdownRepository().FillItem(), "Id", "Name");
         }
         public JsonResult GetItemUnit(int itemId)
         {
