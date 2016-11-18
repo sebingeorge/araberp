@@ -31,13 +31,17 @@ namespace ArabErp.Domain
         public int CurrencyId { get; set; }
         public string CurrencyName { get; set; }
         public string CreatedBy { get; set; }
+        public int ApprovedBy { get; set; }
+        public string CreatedUsersig { get; set; }
+        public string ApprovedUser { get; set; }
+        public string ApprovedUsersig { get; set; }
         public DateTime CreatedDate { get; set; }
         [Required]
         public int OrganizationId { get; set; }
         public string SupplierName { get; set; }
         public string SoNoWithDate { get; set; }
 
-        public string EmployeeName { get; set; }
+        public string CreatedUser { get; set; }
         public string DoorNo { get; set; }
 
         public string Street { get; set; }

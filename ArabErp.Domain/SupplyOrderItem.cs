@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.ComponentModel.DataAnnotations;
 
 namespace ArabErp.Domain
 {
@@ -15,7 +16,8 @@ namespace ArabErp.Domain
         public int? SlNo { get; set; }
         
         public decimal BalQty { get; set; }
-        public decimal OrderedQty { get; set; }
+        public decimal? OrderedQty { get; set; }
+       [Required]
         public decimal Rate { get; set; }
         public decimal FixedRate { get; set; }
         public decimal Discount { get; set; }

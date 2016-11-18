@@ -273,6 +273,9 @@ namespace ArabErp.Web.Controllers
             ds.Tables["Head"].Columns.Add("Zip");
             ds.Tables["Head"].Columns.Add("OrganizationName");
             ds.Tables["Head"].Columns.Add("Image1");
+            ds.Tables["Head"].Columns.Add("CreatedUser");
+            ds.Tables["Head"].Columns.Add("CreateSignature");
+
 
             //-------DT
             ds.Tables["Items"].Columns.Add("PartNo");
@@ -314,6 +317,8 @@ namespace ArabErp.Web.Controllers
             dr["Zip"] = Head.Zip;
             dr["OrganizationName"] = Head.OrganizationName;
             dr["Image1"] = Server.MapPath("~/App_images/") + Head.Image1;
+            dr["CreatedUser"] = Head.CreatedUser;
+            dr["CreateSignature"] = Server.MapPath("~/App_Images/") + Head.CreatedUsersig;
             ds.Tables["Head"].Rows.Add(dr);
 
             PurchaseRequestRepository repo1 = new PurchaseRequestRepository();

@@ -361,15 +361,15 @@ namespace ArabErp.DAL
             }
         }
 
-        public int Approve(int supplyOrderId)
+        public int Approve(int supplyOrderId,int approvedBy)
         {
             try
             {
                 using (IDbConnection connection = OpenConnection(dataConnection))
                 {
-                    string query = @"UPDATE SupplyOrder SET isApproved = 1 WHERE SupplyOrderId = @supplyOrderId;";
+                    string query = @"UPDATE SupplyOrder SET isApproved = 1 , ApprovedBy=@approvedBy WHERE SupplyOrderId = @supplyOrderId;";
 
-                    connection.Execute(query, new { supplyOrderId = supplyOrderId });
+                    connection.Execute(query, new { supplyOrderId = supplyOrderId, approvedBy = approvedBy });
 
                     return 1;
                 }
@@ -490,7 +490,10 @@ namespace ArabErp.DAL
 	                                DeliveryTerms,
 	                                RequiredDate,
 	                               CurrencyName,
-								   E.EmployeeName,
+								   U.UserName CreatedUser,
+								   U.Signature CreatedUsersig,
+								   UI.UserName ApprovedUser ,
+								   UI.Signature ApprovedUsersig,
 								   ORR.CountryName
                                    FROM SupplyOrder S
 								   INNER JOIN Supplier SU ON SU.SupplierId=S.SupplierId
@@ -498,7 +501,8 @@ namespace ArabErp.DAL
 								   left JOIN Currency C ON C.CurrencyId=S.CurrencyId
 								   left JOIN Country CU ON CU.CountryId=SU.CountryId
 								   left  JOIN Country ORR ON ORR.CountryId=O.Country
-								   left Join Employee E ON e.EmployeeId=S.CreatedBy
+								   left Join [User] U ON U.UserId=S.CreatedBy
+								   left join [User] UI ON UI.UserId=S.ApprovedBy
                                    WHERE SupplyOrderId = @SupplyOrderId
 	                               AND ISNULL(S.isActive, 1) = 1;";
 

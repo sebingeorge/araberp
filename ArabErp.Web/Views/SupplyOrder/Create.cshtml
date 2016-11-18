@@ -149,13 +149,32 @@
     }
 
     function formValidation() {
+        var status=true;
         var total = Number($("#QtyAmount").text());
         if (total <= 0) {
             toastr.info("Total amount should be greater than 0");
-            return false;
+            status=false;
         }
-        return true;
+        else
+        {
+            $("input[id$='__Rate']").each(function(index,object){
+                if(Number($(object).val())<=0){
+                    toastr.info("Rate should be greater than 0");
+                    status=false;
+                    return false;
+                }
+            })
+        }
+        return status;
     }
+
+
+
+ 
+      
+      
+    
+
 
 </script>
 

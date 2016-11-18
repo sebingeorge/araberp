@@ -68,7 +68,7 @@ namespace ArabErp.DAL
                 sql += " from Item I";
                 sql += " left join StockIn SI on I.ItemId = SI.ItemId";
                 sql += " left join StockOut SO on I.ItemId = SO.ItemId";
-                sql += " where SI.InQuantity is not null and SO.OutQuantity is not null";
+                sql += " where SI.InQuantity is not null or SO.OutQuantity is not null and I.ItemGroupId not in (1) and i.ItemCategoryId not in(6)";
 
                 return connection.Query<StockReportSummary>(sql);
             }
