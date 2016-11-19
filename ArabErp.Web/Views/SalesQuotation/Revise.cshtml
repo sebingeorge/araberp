@@ -81,6 +81,8 @@
         $(".numbers-only").keypress(function (e) {
             if (e.which == 8 || (e.which == 46 && $(this).val().indexOf('.') == -1) || (e.which > 47 && e.which < 58)) { } else { return false; }
         });
+
+        cal_Summary();
     });
 
     function Validation() {
@@ -291,7 +293,7 @@
                         }
                     </div>
 
-                    <div class="col-md-6">
+                    <div class="col-md-3">
                         <label for="SalesExecutiveId">Sales Executive </label>
                         @if (ViewBag.actionName.ToString() == "Revise")
                         {
@@ -302,6 +304,10 @@
                             @Html.DropDownListFor(m => Model.SalesExecutiveId, (SelectList)ViewBag.employeelist, "Select Sales Executive", new { @class = "form_input", autocomplete = "off", @disabled = "true" })
 
                         }
+                    </div>
+                    <div class="col-md-3">
+                        <label for="VehicleModelId">Vehicle Model</label>
+                        @Html.DropDownListFor(m => m.VehicleModelId, new SelectList(ViewBag.vehiclelist, "Value", "Text", Model.VehicleModelId), "Select Vehicle Model", new { @class = "form_input", @required = "true" })
                     </div>
                 </div>
 
@@ -413,23 +419,29 @@
 
                     }
                     function QuantityChanged(row) {
-                        var quantity = $("#SalesQuotationItems_" + row + "__Quantity").val();
-                        var rate = $("#SalesQuotationItems_" + row + "__Rate").val();
-                        var discount = $("#SalesQuotationItems_" + row + "__Discount").val();
+                        var quantity = parseFloat($("#SalesQuotationItems_" + row + "__Quantity").val());
+                        var rate = parseFloat($("#SalesQuotationItems_" + row + "__Rate").val());
+                        var discount = parseFloat($("#SalesQuotationItems_" + row + "__Discount").val());
 
-                        if (quantity == NaN) {
+                        if (discount > rate) {
+                            toastr.info("Discount cannot be greater than rate");
+                            $("#SalesQuotationItems_" + row + "__Discount").val($("#SalesQuotationItems_" + row + "__Rate").val());
+                        }
+
+                        if (isNaN(quantity)) {
                             quantity = 0;
                         }
                         if (rate == NaN) {
                             rate = 0;
                         }
-                        if (discount == NaN) {
+
+                        if (isNaN(discount)) {
                             discount = 0;
                         }
-                        var amount = (quantity * rate) - discount;
+                        var amount = rate * quantity;// - discount;
                         amount = parseFloat(amount);
-                        $("#SalesQuotationItems_" + row + "__Amount").val(amount);
-
+                        $("#SalesQuotationItems_" + row + "__Amount").val(amount.toFixed(2));
+                        $("#SalesQuotationItems_" + row + "__TotalAmount").val(((amount) - discount).toFixed(2));
                         cal_Summary();
                     }
 
@@ -438,6 +450,9 @@
                         var quantity = parseFloat("0");
                         var amount = parseFloat("0");
                         var grandtotal = parseFloat("0");
+                        var rowtotal = parseFloat("0");
+                        var total_discount = parseFloat("0");
+
                         $('.clQuantity').each(function (i, obj) {
                             var a = parseFloat($("#SalesQuotationItems_" + i + "__Quantity").val());
 
@@ -449,7 +464,7 @@
                         });
 
                         $('.clAmount').each(function (i, obj) {
-                          
+
                             var a = parseFloat($("#SalesQuotationItems_" + i + "__Amount").val());
                             if (isNaN(a)) {
 
@@ -460,11 +475,29 @@
                             amount = amount + a;
                         });
 
-                      
-                        $("#QtyAmount").text(parseFloat(amount));
-                        var WorkAmt=parseFloat($("#QtyAmount").text());
-                        var MaterialAmt=parseFloat($("#TotalAmount").text());
-                    
+                        $("input[id$='__TotalAmount']").each(function (i, obj) {
+                            var a = parseFloat($(obj).val());
+                            if (isNaN(a)) {
+                                a = parseFloat("0");
+                            }
+                            rowtotal = rowtotal + a;
+                        })
+
+                        $("input[id$='__Discount']").each(function (i, obj) {
+                            var a = parseFloat($(obj).val());
+                            if (isNaN(a)) {
+                                a = parseFloat("0");
+                            }
+                            total_discount += a;
+                        })
+
+                        $("#QtyAmount").text(parseFloat(amount).toFixed(2));
+                        $("#NetTotalAmount").text(parseFloat(rowtotal).toFixed(2));
+                        $("#span-DiscountTotal").text(parseFloat(total_discount).toFixed(2));
+
+                        var WorkAmt = parseFloat($("#NetTotalAmount").text());
+                        var MaterialAmt = parseFloat($("#TotalAmount").text());
+
                         if (isNaN(WorkAmt)) {
 
                             WorkAmt = parseFloat("0");
@@ -475,14 +508,14 @@
                             MaterialAmt = parseFloat("0");
 
                         }
-                        grandtotal= WorkAmt + MaterialAmt;
-                    
+                        grandtotal = WorkAmt + MaterialAmt;
+
                         if (isNaN(grandtotal)) {
 
-                            grandtotal= parseFloat("0");
+                            grandtotal = parseFloat("0");
 
                         }
-                        $("#lblTotalAmount").text(parseFloat(grandtotal));
+                        $("#lblTotalAmount").text(parseFloat(grandtotal).toFixed(2));
 
                     }
 
@@ -497,13 +530,15 @@
                         <thead>
                             <tr class="grid_heading">
                                 <th width="2%" class="text-center"></th>
-                                <th width="2%" class="text-center"><h1>#</h1></th>
-                                <th width="25%" class="text-left"><h1>Work Description</h1></th>
+                                <th width="1%" class="text-center"><h1>#</h1></th>
+                                <th width="25%" class="text-left"><h1>Reefer Unit</h1></th>
+                                <th width="20%"><h1>Box</h1></th>
                                 <th width="5%" class="text-right"><h1>Qty</h1></th>
-                                @*<th width="10%"><h1>UoM</h1></th>*@
+                                <th width="5%"><h1>UoM</h1></th>
                                 <th width="8%" class="text-right"><h1>Rate</h1></th>
-                                <th width="8%" class="text-right"><h1>Discount</h1></th>
                                 <th width="8%" class="text-right"><h1>Amount</h1></th>
+                                <th width="8%" class="text-right"><h1>Discount</h1></th>
+                                <th width="8%" class="text-right"><h1>Total</h1></th>
                                 <th width="2%">&nbsp;</th>
                             </tr>
                         </thead>
@@ -516,10 +551,16 @@
                                         <span id="slno@(i+1)">@(i + 1)</span>
                                         @Html.HiddenFor(m => m.SalesQuotationItems[i].SlNo)
                                     </td>
-
                                     <td>
                                         <input type="hidden" id="Row_@i" />
-                                        @if (ViewBag.actionName.ToString() == "Revise")
+                                        @Html.DropDownListFor(m => m.SalesQuotationItems[i].FreezerUnitId, new SelectList(ViewBag.freezerUnitList, "Value", "Text", Model.SalesQuotationItems[i].FreezerUnitId), "Select Reefer Unit",
+                                        new { @class = "form_input", @placeholder = "Search for Reefer Unit" })
+                                    </td>
+                                    <td>
+                                        @Html.DropDownListFor(m => m.SalesQuotationItems[i].BoxId, new SelectList(ViewBag.boxList, "Value", "Text", Model.SalesQuotationItems[i].BoxId), "Select Box",
+                                        new { @class = "form_input", @placeholder = "Search for Box" })
+                                        <input type="hidden" id="Row_@i" />
+                                        @*@if (ViewBag.actionName.ToString() == "Revise")
                                         {
                                             @Html.DropDownListFor(x => Model.SalesQuotationItems[i].WorkDescriptionId, new SelectList(ViewBag.workdesclist, "Value", "Text", Model.SalesQuotationItems[i].WorkDescriptionId), "select work description", new { @class = "form_input", autocomplete = "off" })
 
@@ -527,7 +568,7 @@
                                         else
                                         {
                                             @Html.DropDownListFor(x => Model.SalesQuotationItems[i].WorkDescriptionId, new SelectList(ViewBag.workdesclist, "Value", "Text", Model.SalesQuotationItems[i].WorkDescriptionId), "select work description", new { @class = "form_input", autocomplete = "off", @disabled = "true" })
-                                        }
+                                        }*@
 
                                     </td>
 
@@ -543,6 +584,7 @@
                                             @Html.TextBoxFor(m => m.SalesQuotationItems[i].Quantity, new { @class = "form_input clQuantity  ", @style = "text-align:right", autocomplete = "off", placeholder = "Qty", @onchange = "QuantityChanged(" + i + ");", @disabled = "true" })
                                         }
                                     </td>
+                                    <td>@Html.TextBoxFor(m => m.SalesQuotationItems[i].UnitName, new { @class = "form_input text-left", @readonly = "true" })</td>
                                     @*<td>
                                         @if (ViewBag.actionName.ToString() == "Revise")
                                         {
@@ -565,6 +607,7 @@
                                             @Html.TextBoxFor(m => m.SalesQuotationItems[i].Rate, new { @class = "form_input", autocomplete = "off", @style = "text-align:right", placeholder = "Rate", @onchange = "QuantityChanged(" + i + ");", @disabled = "true" })
                                         }
                                     </td>
+                                    <td>@Html.TextBoxFor(m => m.SalesQuotationItems[i].Amount, new { @class = "form_input clAmount", autocomplete = "off", @style = "text-align:right", placeholder = "Amount", @readonly = "true", @onchange = "QuantityChanged(" + i + ");" })</td>
                                     <td>
                                         @if (ViewBag.actionName.ToString() == "Revise")
                                         {
@@ -576,7 +619,7 @@
                                             @Html.TextBoxFor(m => m.SalesQuotationItems[i].Discount, new { @class = "form_input", autocomplete = "off", @style = "text-align:right", placeholder = "Discount", @onchange = "QuantityChanged(" + i + ");", @disabled = "true" })
                                         }
                                     </td>
-                                    <td>@Html.TextBoxFor(m => m.SalesQuotationItems[i].Amount, new { @class = "form_input clAmount", autocomplete = "off", @style = "text-align:right", placeholder = "Amount", @readonly = "true" })</td>
+                                    <td>@Html.TextBoxFor(m => m.SalesQuotationItems[i].TotalAmount, new { @class = "form_input clAmount", autocomplete = "off", @style = "text-align:right", placeholder = "Amount", @readonly = "true" })</td>
                                     <td style="vertical-align:middle"><a id="add_row" class="glyphicon glyphicon-plus" style="top:0px" onclick="AddAdditionRow()"></a></td>
                                 </tr>
                             }
@@ -584,12 +627,13 @@
                         </tbody>
                         <tfoot>
                             <tr class="grid_heading">
-                                <th width="2%" class="text-center"></th>
-                                <th width="5%" class="text-center"><h1>Total</h1></th>
-                                <th width="25%" class="text-center"><h1></h1></th>
-                                <th width="5%" class="text-center"><h1></h1></th>
-                                @*<th width="5%" class="text-right"></span></th>*@
-                                <th width="10%">
+                                <th class="text-center"></th>
+                                <th class="text-center"><h1>Total</h1></th>
+                                <th class="text-center"><h1></h1></th>
+                                <th class="text-center"><h1></h1></th>
+                                <th></th>
+                                <th class="text-right"><h1>Total</h1></th>
+                                <th>
                                     <h1>
                                         @if (ViewBag.actionName.ToString() == "Revise")
                                         {
@@ -602,9 +646,12 @@
                                         }
                                     </h1>
                                 </th>
-                                <th width="10%" class="text-right"><h1></h1></th>
-                                <th width="8%" class="text-right"><span id="QtyAmount"></span></th>
-                                <th width="2%" class="text-center"></th>
+                                <th class="text-right"><span id="QtyAmount"></span></th>
+                                <th class="text-right">
+                                         <span id="span-DiscountTotal"></span>
+                                </th>
+                                <th class="text-right"><span id="NetTotalAmount"></span></th>
+                                <th class="text-center"></th>
                             </tr>
                         </tfoot>
                     </table>

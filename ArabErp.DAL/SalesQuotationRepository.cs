@@ -150,6 +150,7 @@ namespace ArabErp.DAL
                     foreach (var item in model.SalesQuotationItems)
                     {
                         item.SalesQuotationId = model.SalesQuotationId;
+                        item.VehicleModelId = model.VehicleModelId;
                         saleorderitemrepo.InsertSalesQuotationItem(item, connection, trn);
                     }
                     if (model.isAfterSales)
