@@ -888,8 +888,10 @@ namespace ArabErp.Web.Controllers
             ds.Tables["Head"].Columns.Add("CurrencyName");
             ds.Tables["Head"].Columns.Add("OrganizationName");
             ds.Tables["Head"].Columns.Add("Image1");
-            ds.Tables["Head"].Columns.Add("EmpNmae");
-            ds.Tables["Head"].Columns.Add("EmpDesignation");
+            ds.Tables["Head"].Columns.Add("UserName");
+           // ds.Tables["Head"].Columns.Add("EmpDesignation");
+            ds.Tables["Head"].Columns.Add("Sign");
+
 
             //-------DT
             ds.Tables["Items"].Columns.Add("WorkDescr");
@@ -933,8 +935,10 @@ namespace ArabErp.Web.Controllers
             dr["CurrencyName"] = Head.CurrencyName;
             dr["OrganizationName"] = Head.OrganizationName;
             dr["Image1"] = Server.MapPath("~/App_images/") + Head.Image1;
-            dr["EmpNmae"] = Head.EmpNmae;
-            dr["EmpDesignation"] = Head.EmpDesignation;
+            dr["UserName"] = Head.EmpNmae;
+            //dr["EmpDesignation"] = Head.EmpDesignation;
+            dr["Sign"] = Server.MapPath("~/App_images/") + Head.ApprovedUsersig;
+           
             ds.Tables["Head"].Rows.Add(dr);
 
             SalesQuotationRepository repo1 = new SalesQuotationRepository();

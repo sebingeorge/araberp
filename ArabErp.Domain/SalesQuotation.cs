@@ -95,7 +95,7 @@ namespace ArabErp.Domain
         public string Image1 { get; set; }
         public string EmpNmae { get; set; }
         public string EmpDesignation { get; set; }
-
+        public string ApprovedUsersig { get; set; }
         public ProjectCompletion ProjectCompleionDetails { get; set; }
         public DeliveryChallan DeliveryChallanDetails { get; set; }
 
