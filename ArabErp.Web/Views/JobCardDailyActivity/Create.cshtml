@@ -97,9 +97,10 @@
         }
         else if (starttime_m > endtime_m) {
             actual_h = Number(actual_h) - 1;
-            actual_m = Number(starttime_m) - Number(endtime_m);
+            actual_m = Number(starttime_m) + Number(endtime_m);
         }
-        $("#JobCardDailyActivityTask_" + row + "__ActualHours").val(actual_h + "." + actual_m);
+        actual_m = Number(actual_m) * 0.01;
+        $("#JobCardDailyActivityTask_" + row + "__ActualHours").val(Number(actual_h) + Number(actual_m));
     }
 
 </script>
