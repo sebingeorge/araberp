@@ -486,6 +486,8 @@ namespace ArabErp.Web.Controllers
             FillQuerySheet();
             FillUnit();
             FillEmployee();
+            FillFreezerUnit();
+            FillBox();
             FillSalesQuotationStatus();
             var repo = new SalesQuotationRepository();
 
@@ -516,6 +518,12 @@ namespace ArabErp.Web.Controllers
             }
 
             salesquotation.SalesQuotationItems = repo.GetSalesQuotationItems(Id);
+            try
+            {
+                //each workdescription will have the same vehicle model id
+                salesquotation.VehicleModelId = salesquotation.SalesQuotationItems[0].VehicleModelId;
+            }
+            catch { }
             salesquotation.Materials = repo.GetSalesQuotationMaterials(Id);
             ViewBag.SubmitAction = "Revise";
             return View(salesquotation);
