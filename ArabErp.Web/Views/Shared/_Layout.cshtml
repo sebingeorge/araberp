@@ -749,7 +749,14 @@
                                         </div>
                                     </li>
                                 }
-                                <li>
+                                @if (formPermission.Find(x => x.FormId == 82) != null
+                                    || formPermission.Find(x => x.FormId == 83) != null
+                                    || formPermission.Find(x => x.FormId == 84) != null
+                                    || formPermission.Find(x => x.FormId == 85) != null
+                                    || formPermission.Find(x => x.FormId == 86) != null
+                                    || formPermission.Find(x => x.FormId == 87) != null)
+                                {
+                                    <li>
                                     <a href="#" data-toggle="collapse" data-target="#transportation-jobcard">Job Card<span class="caret arrow"></span></a>
                                     <div id="transportation-jobcard" class="collapse">
                                         <ul>
@@ -780,7 +787,14 @@
                                         </ul>
                                     </div>
                                 </li>
-                                <li>
+                                }
+                                @if (formPermission.Find(x => x.FormId == 88) != null
+                                    || formPermission.Find(x => x.FormId == 89) != null
+                                    || formPermission.Find(x => x.FormId == 90) != null
+                                    || formPermission.Find(x => x.FormId == 91) != null
+                                    || formPermission.Find(x => x.FormId == 92) != null)
+                                {
+                                    <li>
                                     <a href="#" data-toggle="collapse" data-target="#transportation-workshop">Workshop<span class="caret arrow"></span></a>
                                     <div id="transportation-workshop" class="collapse">
                                         <ul>
@@ -807,7 +821,13 @@
                                         </ul>
                                     </div>
                                 </li>
-                                <li>
+                                }
+                                @if (formPermission.Find(x => x.FormId == 93) != null
+                                    || formPermission.Find(x => x.FormId == 94) != null
+                                    || formPermission.Find(x => x.FormId == 95) != null
+                                    || formPermission.Find(x => x.FormId == 96) != null)
+                                {
+                                    <li>
                                     <a href="#" data-toggle="collapse" data-target="#transportation-stores">Stores<span class="caret arrow"></span></a>
                                     <div id="transportation-stores" class="collapse">
                                         <ul>
@@ -830,6 +850,7 @@
                                         </ul>
                                     </div>
                                 </li>
+                                }
                             </ul>
                         </div>
                     </li>
@@ -843,54 +864,77 @@
                         <a href="#" data-toggle="collapse" data-target="#misreports-level-menu">MIS Reports<span class="caret arrow"></span></a>
                         <div id="misreports-level-menu" class="collapse">
                             <ul>
-                                <li>
-                                    <a href="#" data-toggle="collapse" data-target="#misreports-purchase">Purchase<span class="caret arrow"></span></a>
-                                    <div id="misreports-purchase" class="collapse">
-                                        <ul>
-                                            @if (formPermission.Find(x => x.FormId == 97) != null)
-                                            {
-                                                <li><a href="@Url.Action("Index", "SupplyOrderRegister")">Supply Order Register</a></li>
-                                            }
-                                            @if (formPermission.Find(x => x.FormId == 98) != null)
-                                            {
-                                                <li><a href="@Url.Action("Index", "SupplyOrderSummary")">Supply Order Summary</a></li>
-                                            }
-                                            @if (formPermission.Find(x => x.FormId == 99) != null)
-                                            {
-                                                <li><a href="@Url.Action("Index", "PendingPARregister")">Pending PAR</a></li>
-                                            }
-                                            @if (formPermission.Find(x => x.FormId == 100) != null)
-                                            {
-                                                <li><a href="@Url.Action("PengingSO", "SupplyOrderRegister")">Pending Supply Order</a></li>
-                                            }
-                                            @if (formPermission.Find(x => x.FormId == 101) != null)
-                                            {
-                                                <li><a href="@Url.Action("SOVariance", "SupplyOrderRegister")">Supply Order Variance Report</a></li>
-                                            }
-                                            @if (formPermission.Find(x => x.FormId == 102) != null)
-                                            {
-                                                <li><a href="@Url.Action("Index","PurchaseBillRegister")">Purchase Bill Register</a></li>
-                                            }
-                                            @if (formPermission.Find(x => x.FormId == 103) != null)
-                                            {
-                                                <li><a href="@Url.Action("PurchaseBillSummary", "PurchaseBillRegister")">Purchase Bill Summmary</a></li>
-                                            }
-                                            @if (formPermission.Find(x => x.FormId == 104) != null)
-                                            {
-                                                <li><a href="@Url.Action("PurchaseBillDetailed", "PurchaseBillRegister")">Purchase Bill Detailed</a></li>
-                                            }
-                                            @if (formPermission.Find(x => x.FormId == 105) != null)
-                                            {
-                                                <li><a href="@Url.Action("Index", "PurchaseMonthlyItemWiseRegister")">Purchase Monthly Item Wise</a></li>
-                                            }
-                                            @if (formPermission.Find(x => x.FormId == 106) != null)
-                                            {
-                                                <li><a href="@Url.Action("PurchaseMonthlySupplierWise", "PurchaseMonthlyItemWiseRegister")">Purchase Monthly Supplier Wise</a></li>
-                                            }
-                                        </ul>
-                                    </div>
-                                </li>
-                                <li>
+                                @if (formPermission.Find(x => x.FormId == 97) != null
+                                    || formPermission.Find(x => x.FormId == 98) != null
+                                    || formPermission.Find(x => x.FormId == 99) != null
+                                    || formPermission.Find(x => x.FormId == 100) != null
+                                    || formPermission.Find(x => x.FormId == 101) != null
+                                    || formPermission.Find(x => x.FormId == 102) != null
+                                    || formPermission.Find(x => x.FormId == 103) != null
+                                    || formPermission.Find(x => x.FormId == 104) != null
+                                    || formPermission.Find(x => x.FormId == 105) != null
+                                    || formPermission.Find(x => x.FormId == 106) != null)
+                                {
+                                    <li>
+                                        <a href="#" data-toggle="collapse" data-target="#misreports-purchase">Purchase<span class="caret arrow"></span></a>
+                                        <div id="misreports-purchase" class="collapse">
+                                            <ul>
+                                                @if (formPermission.Find(x => x.FormId == 97) != null)
+                                                {
+                                                    <li><a href="@Url.Action("Index", "SupplyOrderRegister")">Supply Order Register</a></li>
+                                                }
+                                                @if (formPermission.Find(x => x.FormId == 98) != null)
+                                                {
+                                                    <li><a href="@Url.Action("Index", "SupplyOrderSummary")">Supply Order Summary</a></li>
+                                                }
+                                                @if (formPermission.Find(x => x.FormId == 99) != null)
+                                                {
+                                                    <li><a href="@Url.Action("Index", "PendingPARregister")">Pending PAR</a></li>
+                                                }
+                                                @if (formPermission.Find(x => x.FormId == 100) != null)
+                                                {
+                                                    <li><a href="@Url.Action("PengingSO", "SupplyOrderRegister")">Pending Supply Order</a></li>
+                                                }
+                                                @if (formPermission.Find(x => x.FormId == 101) != null)
+                                                {
+                                                    <li><a href="@Url.Action("SOVariance", "SupplyOrderRegister")">Supply Order Variance Report</a></li>
+                                                }
+                                                @if (formPermission.Find(x => x.FormId == 102) != null)
+                                                {
+                                                    <li><a href="@Url.Action("Index","PurchaseBillRegister")">Purchase Bill Register</a></li>
+                                                }
+                                                @if (formPermission.Find(x => x.FormId == 103) != null)
+                                                {
+                                                    <li><a href="@Url.Action("PurchaseBillSummary", "PurchaseBillRegister")">Purchase Bill Summmary</a></li>
+                                                }
+                                                @if (formPermission.Find(x => x.FormId == 104) != null)
+                                                {
+                                                    <li><a href="@Url.Action("PurchaseBillDetailed", "PurchaseBillRegister")">Purchase Bill Detailed</a></li>
+                                                }
+                                                @if (formPermission.Find(x => x.FormId == 105) != null)
+                                                {
+                                                    <li><a href="@Url.Action("Index", "PurchaseMonthlyItemWiseRegister")">Purchase Monthly Item Wise</a></li>
+                                                }
+                                                @if (formPermission.Find(x => x.FormId == 106) != null)
+                                                {
+                                                    <li><a href="@Url.Action("PurchaseMonthlySupplierWise", "PurchaseMonthlyItemWiseRegister")">Purchase Monthly Supplier Wise</a></li>
+                                                }
+                                            </ul>
+                                        </div>
+                                    </li>
+                                }
+                                @if (formPermission.Find(x => x.FormId == 107) != null
+                                    || formPermission.Find(x => x.FormId == 109) != null
+                                    || formPermission.Find(x => x.FormId == 110) != null
+                                    || formPermission.Find(x => x.FormId == 111) != null
+                                    || formPermission.Find(x => x.FormId == 112) != null
+                                    || formPermission.Find(x => x.FormId == 113) != null
+                                    || formPermission.Find(x => x.FormId == 114) != null
+                                    || formPermission.Find(x => x.FormId == 115) != null
+                                    || formPermission.Find(x => x.FormId == 116) != null
+                                    || formPermission.Find(x => x.FormId == 117) != null)
+                                {
+                                    <li>
                                     <a href="#" data-toggle="collapse" data-target="#misreports-sales">Sales<span class="caret arrow"></span></a>
                                     <div id="misreports-sales" class="collapse">
                                         <ul>
@@ -898,7 +942,6 @@
                                             {
                                                 <li><a href="@Url.Action("Index","SaleOrderStatus")">Sale Order Status</a></li>
                                             }
-                                           
                                             @if (formPermission.Find(x => x.FormId == 109) != null)
                                             {
                                                 <li><a href="@Url.Action("Index", "SalesRegister")">Sales Register</a></li>
@@ -938,7 +981,16 @@
                                         </ul>
                                     </div>
                                 </li>
-                                <li>
+                                }
+                                @if (formPermission.Find(x => x.FormId == 118) != null
+                                    || formPermission.Find(x => x.FormId == 119) != null
+                                    || formPermission.Find(x => x.FormId == 120) != null
+                                    || formPermission.Find(x => x.FormId == 121) != null
+                                    || formPermission.Find(x => x.FormId == 122) != null
+                                    || formPermission.Find(x => x.FormId == 123) != null
+                                    || formPermission.Find(x => x.FormId == 124) != null)
+                                {
+                                    <li>
                                     <a href="#" data-toggle="collapse" data-target="#misreports-stores">Stores<span class="caret arrow"></span></a>
                                     <div id="misreports-stores" class="collapse">
                                         <ul>
@@ -973,6 +1025,7 @@
                                         </ul>
                                     </div>
                                 </li>
+                                }
                                 @if (formPermission.Find(x => x.FormId == 125) != null)
                                 {
                                     <li><a href="@Url.Action("Index", "MaterialPlanning")">Material Planning Report</a></li>
