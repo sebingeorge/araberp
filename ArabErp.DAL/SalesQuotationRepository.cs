@@ -401,7 +401,7 @@ namespace ArabErp.DAL
                 string sql = string.Empty;
                 IDbTransaction txn = connection.BeginTransaction();
 
-                objSalesQtn.TotalWorkAmount = objSalesQtn.SalesQuotationItems.Sum(m => (m.Amount));
+                objSalesQtn.TotalWorkAmount = objSalesQtn.SalesQuotationItems.Sum(m => (m.TotalAmount));
 
                 if (objSalesQtn.isAfterSales)
                 {
