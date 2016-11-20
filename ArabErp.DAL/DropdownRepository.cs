@@ -686,8 +686,8 @@ namespace ArabErp.DAL
             {
 
                 return connection.Query<Dropdown>(@"SELECT SalesQuotationId Id,QuotationRefNo Name
-                                                    FROM SalesQuotation 
-                                                    WHERE OrganizationId = @OrganizationId AND isProjectBased = " + ProjectBased + " and isAfterSales=" + AfterSales,
+                                                    FROM SalesQuotation Q 
+                                                    WHERE OrganizationId = @OrganizationId AND isProjectBased = " + ProjectBased + " and isAfterSales=" + AfterSales +@"AND ISNULL(Q.isActive, 1) = 1",
                                                     new { OrganizationId = OrganizationId, ProjectBased = ProjectBased, AfterSales = AfterSales }).ToList();
             }
         }
