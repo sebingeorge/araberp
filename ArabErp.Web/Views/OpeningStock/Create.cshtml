@@ -25,7 +25,7 @@
     }
 
     function OnItemChanged(sender, row) {
-        alert(id); var id = $(sender).val();
+        var id = $(sender).val();
         if (id != '' && id != 0) {
             var url = '@Url.Action("GetItemPartNo", "AdditionalWorkShopRequest")';
             $.getJSON(url, { itemId: id}, function(data){
