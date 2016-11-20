@@ -553,6 +553,9 @@ namespace ArabErp.Web.Controllers
             }
             else
             {
+                model.CreatedBy = UserID.ToString();
+                model.CreatedDate = DateTime.Today;
+                model.OrganizationId = OrganizationId;
                 SalesQuotation result = new SalesQuotationRepository().ReviseSalesQuotation(model);
                 TempData["success"] = "Quotation revised succcessfully. Reference No. is " + model.QuotationRefNo;
                 if (!isProjectBased)

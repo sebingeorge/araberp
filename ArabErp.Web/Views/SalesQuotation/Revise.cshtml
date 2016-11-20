@@ -637,7 +637,7 @@
                                     <h1>
                                         @if (ViewBag.actionName.ToString() == "Revise")
                                         {
-                                            @Html.DropDownListFor(m => Model.CurrencyId, (SelectList)ViewBag.currlist, "Select Currency", new { @class = "form_input", autocomplete = "off" })
+                                            @Html.DropDownListFor(m => Model.CurrencyId, (SelectList)ViewBag.currlist, "Select Currency", new { @class = "form_input", autocomplete = "off", @required = "true" })
                                         }
                                         else
                                         {

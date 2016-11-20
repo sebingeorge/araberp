@@ -140,8 +140,8 @@ namespace ArabErp.DAL
                     //int internalid = DatabaseCommonRepository.GetInternalIDFromDatabase(connection, trn, typeof(SalesQuotation).Name, "0", 1);
                     model.QuotationRefNo = refno + "/REV" + RevisionId.ToString();
                     sql = @"
-                                    insert  into SalesQuotation(QuotationRefNo,QuotationDate,CustomerId,ContactPerson,SalesExecutiveId,PredictedClosingDate,QuotationValidToDate,ExpectedDeliveryDate,IsQuotationApproved,ApprovedBy,GrandTotal,TotalWorkAmount,TotalMaterialAmount,QuotationStatus,Remarks,SalesQuotationStatusId,QuotationStage,Competitors,PaymentTerms,DiscountRemarks,CreatedBy,CreatedDate,OrganizationId,ParentId,GrantParentId,RevisionNo,isProjectBased,isWarranty,RevisionReason)
-                                    Values (@QuotationRefNo,@QuotationDate,@CustomerId,@ContactPerson,@SalesExecutiveId,@PredictedClosingDate,@QuotationValidToDate,@ExpectedDeliveryDate,@IsQuotationApproved,@ApprovedBy,@GrandTotal,@TotalWorkAmount,@TotalMaterialAmount,@QuotationStatus,@Remarks,@SalesQuotationStatusId,@QuotationStage,@Competitors,@PaymentTerms,@DiscountRemarks,@CreatedBy,@CreatedDate,@OrganizationId,@ParentId,@GrantParentId,@RevisionNo,@isProjectBased,@isWarranty,@RevisionReason);
+                                    insert  into SalesQuotation(QuotationRefNo, QuotationDate, CustomerId, ContactPerson, SalesExecutiveId, PredictedClosingDate, QuotationValidToDate, ExpectedDeliveryDate, IsQuotationApproved, ApprovedBy,GrandTotal, TotalWorkAmount, TotalMaterialAmount, QuotationStatus, Remarks, SalesQuotationStatusId, QuotationStage, Competitors, PaymentTerms, DiscountRemarks, CreatedBy, CreatedDate, OrganizationId, ParentId, GrantParentId, RevisionNo, isProjectBased, isWarranty, RevisionReason, CurrencyId)
+                                    Values (@QuotationRefNo, @QuotationDate, @CustomerId, @ContactPerson, @SalesExecutiveId, @PredictedClosingDate, @QuotationValidToDate, @ExpectedDeliveryDate, @IsQuotationApproved, @ApprovedBy, @GrandTotal, @TotalWorkAmount, @TotalMaterialAmount, @QuotationStatus, @Remarks, @SalesQuotationStatusId, @QuotationStage, @Competitors, @PaymentTerms, @DiscountRemarks, @CreatedBy, @CreatedDate, @OrganizationId, @ParentId, @GrantParentId, @RevisionNo, @isProjectBased, @isWarranty, @RevisionReason, @CurrencyId);
                                     SELECT CAST(SCOPE_IDENTITY() as int) SalesQuotationId";
 
                     model.SalesQuotationId = connection.Query<int>(sql, model, trn).First<int>();
@@ -492,7 +492,7 @@ namespace ArabErp.DAL
                                inner join SalesQuotationStatus RR on RR.SalesQuotationStatusId=q.SalesQuotationStatusId
                                where Q.SalesQuotationId= ISNULL(NULLIF(@id, 0), Q.SalesQuotationId) AND C.CustomerId = ISNULL(NULLIF(@cusid, 0), C.CustomerId) 
                                and Q.QuotationDate BETWEEN ISNULL(@from, DATEADD(MONTH, -1, GETDATE())) AND ISNULL(@to, GETDATE())
-                               and Q.OrganizationId = @OrganizationId  and isProjectBased =" + isProjectBased + " and isAfterSales=" + AfterSales;
+                               and Q.OrganizationId = @OrganizationId  and isProjectBased =" + isProjectBased + " and isAfterSales=" + AfterSales +@" AND ISNULL(Q.isActive, 1) = 1";
 
                 return connection.Query<SalesQuotationList>(sql, new { OrganizationId = OrganizationId, id = id, cusid = cusid, to = to, from = from }).ToList();
             }
