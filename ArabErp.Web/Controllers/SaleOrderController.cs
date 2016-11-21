@@ -17,23 +17,22 @@ namespace ArabErp.Web.Controllers
     public class SaleOrderController : BaseController
     {
         // GET: SaleOrder
-        public ActionResult Index(int type)
+        public ActionResult Index(int type, int service = 0)
         {
             FillSORefNo(type);
             FillSOCustomer(type);
             ViewBag.isProjectBased = type;
-
+            ViewBag.isService = service;
             return View();
-
         }
 
-        public ActionResult PreviousList(DateTime? from, DateTime? to, int ProjectBased, int id = 0, int cusid = 0)
+        public ActionResult PreviousList(DateTime? from, DateTime? to, int ProjectBased, int id = 0, int cusid = 0, int service = 0)
         {
 
             from = from ?? DateTime.Today.AddMonths(-1);
             to = to ?? DateTime.Today;
             ViewBag.ProjectBased = ProjectBased;
-            return PartialView("_PreviousList", new SaleOrderRepository().GetPreviousList(ProjectBased, id, cusid, OrganizationId, from, to));
+            return PartialView("_PreviousList", new SaleOrderRepository().GetPreviousList(ProjectBased, id, cusid, OrganizationId, from, to, service));
         }
 
         public ActionResult Create(int? SalesQuotationId)
