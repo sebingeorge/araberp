@@ -71,37 +71,37 @@
         })
     })
 
-    function OnTimeChanged(row) {
-        var starttime = $("#JobCardDailyActivityTask_" + row + "__StartTime").val().substring(0, $("#JobCardDailyActivityTask_" + row + "__StartTime").val().trim().length - 2);
-        var endtime = $("#JobCardDailyActivityTask_" + row + "__EndTime").val().substring(0, $("#JobCardDailyActivityTask_" + row + "__EndTime").val().trim().length - 2);
-        var startzone = $("#JobCardDailyActivityTask_" + row + "__StartTime").val().trim().substring($("#JobCardDailyActivityTask_" + row + "__StartTime").val().trim().length - 2, $("#JobCardDailyActivityTask_" + row + "__StartTime").val().trim().length);
-        var endzone = $("#JobCardDailyActivityTask_" + row + "__EndTime").val().trim().substring($("#JobCardDailyActivityTask_" + row + "__EndTime").val().trim().length - 2, $("#JobCardDailyActivityTask_" + row + "__EndTime").val().trim().length);
+    //function OnTimeChanged(row) {
+    //    var starttime = $("#JobCardDailyActivityTask_" + row + "__StartTime").val().substring(0, $("#JobCardDailyActivityTask_" + row + "__StartTime").val().trim().length - 2);
+    //    var endtime = $("#JobCardDailyActivityTask_" + row + "__EndTime").val().substring(0, $("#JobCardDailyActivityTask_" + row + "__EndTime").val().trim().length - 2);
+    //    var startzone = $("#JobCardDailyActivityTask_" + row + "__StartTime").val().trim().substring($("#JobCardDailyActivityTask_" + row + "__StartTime").val().trim().length - 2, $("#JobCardDailyActivityTask_" + row + "__StartTime").val().trim().length);
+    //    var endzone = $("#JobCardDailyActivityTask_" + row + "__EndTime").val().trim().substring($("#JobCardDailyActivityTask_" + row + "__EndTime").val().trim().length - 2, $("#JobCardDailyActivityTask_" + row + "__EndTime").val().trim().length);
 
-        starttime_h = starttime.split(':')[0];
-        starttime_m = starttime.split(':')[1];
-        endtime_h = endtime.split(':')[0];
-        endtime_m = endtime.split(':')[1];
+    //    starttime_h = starttime.split(':')[0];
+    //    starttime_m = starttime.split(':')[1];
+    //    endtime_h = endtime.split(':')[0];
+    //    endtime_m = endtime.split(':')[1];
 
-        if (startzone == 'pm') {
-            starttime_h = Number(starttime_h) + 12;
-        }
-        if (endzone == 'pm') {
-            endtime_h = Number(endtime_h) + 12;
-        }
+    //    if (startzone == 'pm') {
+    //        starttime_h = Number(starttime_h) + 12;
+    //    }
+    //    if (endzone == 'pm') {
+    //        endtime_h = Number(endtime_h) + 12;
+    //    }
 
-        var actual_h = Number(endtime_h) - Number(starttime_h);
-        var actual_m = 0;
+    //    var actual_h = Number(endtime_h) - Number(starttime_h);
+    //    var actual_m = 0;
         
-        if (endtime_m > starttime_m) {
-            actual_m = Number(endtime_m) - Number(starttime_m);
-        }
-        else if (starttime_m > endtime_m) {
-            actual_h = Number(actual_h) - 1;
-            actual_m = Number(starttime_m) + Number(endtime_m);
-        }
-        actual_m = Number(actual_m) * 0.01;
-        $("#JobCardDailyActivityTask_" + row + "__ActualHours").val(Number(actual_h) + Number(actual_m));
-    }
+    //    if (endtime_m > starttime_m) {
+    //        actual_m = Number(endtime_m) - Number(starttime_m);
+    //    }
+    //    else if (starttime_m > endtime_m) {
+    //        actual_h = Number(actual_h) - 1;
+    //        actual_m = Number(starttime_m) + Number(endtime_m);
+    //    }
+    //    actual_m = Number(actual_m) * 0.01;
+    //    $("#JobCardDailyActivityTask_" + row + "__ActualHours").val(Number(actual_h) + Number(actual_m));
+    //}
 
 </script>
 
@@ -170,8 +170,8 @@
                                 </td>
                                 @*<td width="5%">*@@Html.HiddenFor(m => m.JobCardDailyActivityTask[i].TaskStartDate)@*</td>*@
                                 @*<td width="5%">*@@Html.HiddenFor(m => m.JobCardDailyActivityTask[i].TaskEndDate)@*</td>*@
-                                <td width="5%">@Html.TextBoxFor(m => m.JobCardDailyActivityTask[i].StartTime, new { @class = "form_input timepicker", autocomplete = "off", @required = "true", @onchange = "OnTimeChanged(" + i + ")" })</td>
-                                <td width="5%">@Html.TextBoxFor(m => m.JobCardDailyActivityTask[i].EndTime, new { @class = "form_input timepicker", autocomplete = "off", @required = "true", @onchange = "OnTimeChanged(" + i + ")" })</td>
+                                <td width="5%">@Html.TextBoxFor(m => m.JobCardDailyActivityTask[i].StartTime, new { @class = "form_input timepicker", autocomplete = "off", @required = "true" })</td>
+                                <td width="5%">@Html.TextBoxFor(m => m.JobCardDailyActivityTask[i].EndTime, new { @class = "form_input timepicker", autocomplete = "off", @required = "true" })</td>
                                 <td width="10%">@Html.TextBoxFor(m => m.JobCardDailyActivityTask[i].ActualHours, new { @class = "form_input numbers-only", autocomplete = "off", @placeholder = "0", @required = "true" })</td>
                                 @*<td style="vertical-align:middle"><a id="add_@i" class="glyphicon glyphicon-plus" style="top:0px" onclick="AddAdditionRow()"></a></td>*@
                             </tr>
