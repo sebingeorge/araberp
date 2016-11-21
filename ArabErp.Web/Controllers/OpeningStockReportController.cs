@@ -11,14 +11,6 @@ using CrystalDecisions.CrystalReports.Engine;
 using System.IO;
 using System.Data;
 using System.Data.SqlClient;
-using ArabErp.DAL;
-using ArabErp.Domain;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-using System.Web.Mvc;
-
 
 
 namespace ArabErp.Web.Controllers
@@ -31,6 +23,8 @@ namespace ArabErp.Web.Controllers
             InitDropdown();
             FillWarehouse();
             FillItemCategory();
+            FillGroup();
+            FillSubGroup();
             OpeningStockReport os = new OpeningStockReport();
             os.itmCatId = 0;
             return View("Index", os);
@@ -60,11 +54,23 @@ namespace ArabErp.Web.Controllers
             var result = repo.ItemCatDropdown(Id);
             ViewBag.ItemList = new SelectList(result, "Id", "Name");
         }
+        public void FillGroup()
+        {
+            DropdownRepository repo = new DropdownRepository();
+            var result = repo.ItemGroupDropdown();
+            ViewBag.ItemGroup = new SelectList(result, "Id", "Name");
+        }
+        public void FillSubGroup()
+        {
+            DropdownRepository repo = new DropdownRepository();
+            var result = repo.ItemSubgroupDropdown();
+            ViewBag.ItemSubgroup = new SelectList(result, "Id", "Name");
+        }
 
-        public ActionResult OpeningStockRegister( int stkid = 0, int itmcatid = 0, int itmid = 0)
+        public ActionResult OpeningStockRegister(int stkid = 0, int itmcatid = 0, string itmid ="", int itmGroup = 0, int itmSubGroup = 0)
         {
          
-            return PartialView("_OpeningStockRegister", new OpeningStockRepository().GetClosingStockData(stkid, itmcatid, itmid, OrganizationId));
+            return PartialView("_OpeningStockRegister", new OpeningStockRepository().GetClosingStockData(stkid, itmcatid, itmid,itmGroup,itmSubGroup,OrganizationId));
         }
     
         public ActionResult Item(int Code)
