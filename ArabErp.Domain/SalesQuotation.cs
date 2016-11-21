@@ -100,5 +100,6 @@ namespace ArabErp.Domain
         public DeliveryChallan DeliveryChallanDetails { get; set; }
 
         public int VehicleModelId { get; set; }
+        public string DeliveryTerms { get; set; }
     }
 }

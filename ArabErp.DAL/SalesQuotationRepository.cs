@@ -39,7 +39,7 @@ namespace ArabErp.DAL
                     if (model.isAfterSales)
                     {
 
-                        model.TotalMaterialAmount = model.Materials.Sum(m => (m.Amount));
+                        model.TotalMaterialAmount = model.Materials.Sum(m => (m.Amount??0));
 
                     }
                     model.GrandTotal = (model.TotalWorkAmount + model.TotalMaterialAmount);
@@ -71,10 +71,10 @@ namespace ArabErp.DAL
 
                     string sql = @" insert  into SalesQuotation(QuotationRefNo,QuotationDate,CustomerId,ContactPerson,SalesExecutiveId,PredictedClosingDate,
                                         QuotationValidToDate,ExpectedDeliveryDate,IsQuotationApproved,ApprovedBy,TotalWorkAmount,TotalMaterialAmount,GrandTotal,CurrencyId,QuotationStatus,Remarks,SalesQuotationStatusId,
-                                        QuotationStage,Competitors,PaymentTerms,DiscountRemarks,CreatedBy,CreatedDate,OrganizationId,isProjectBased,isAfterSales,QuerySheetId,isWarranty, ProjectCompletionId, DeliveryChallanId, Discount)
+                                        QuotationStage,Competitors,PaymentTerms,DiscountRemarks,CreatedBy,CreatedDate,OrganizationId,isProjectBased,isAfterSales,QuerySheetId,isWarranty, ProjectCompletionId, DeliveryChallanId, Discount, DeliveryTerms)
                                         Values (@QuotationRefNo,@QuotationDate,@CustomerId,@ContactPerson,@SalesExecutiveId,@PredictedClosingDate,@QuotationValidToDate,
                                         @ExpectedDeliveryDate,@IsQuotationApproved,@ApprovedBy,@TotalWorkAmount,@TotalMaterialAmount,@GrandTotal,@CurrencyId,@QuotationStatus,@Remarks,@SalesQuotationStatusId,
-                                        @QuotationStage,@Competitors,@PaymentTerms,@DiscountRemarks,@CreatedBy,@CreatedDate,@OrganizationId,@isProjectBased,@isAfterSales,NULLIF(@QuerySheetId, 0),@isWarranty, NULLIF(@ProjectCompletionId, 0), NULLIF(@DeliveryChallanId, 0), @Discount);
+                                        @QuotationStage,@Competitors,@PaymentTerms,@DiscountRemarks,@CreatedBy,@CreatedDate,@OrganizationId,@isProjectBased,@isAfterSales,NULLIF(@QuerySheetId, 0),@isWarranty, NULLIF(@ProjectCompletionId, 0), NULLIF(@DeliveryChallanId, 0), @Discount, @DeliveryTerms);
                                         SELECT CAST(SCOPE_IDENTITY() as int) SalesQuotationId";
 
                     model.SalesQuotationId = connection.Query<int>(sql, model, trn).First<int>();
@@ -87,6 +87,16 @@ namespace ArabErp.DAL
                         item.VehicleModelId = model.VehicleModelId;
                         saleorderitemrepo.InsertSalesQuotationItem(item, connection, trn);
                     }
+                    if (model.Materials != null && model.Materials.Count > 0)
+                    {
+                        foreach (var item in model.Materials)
+                        {
+                            if (item.ItemId == null) continue;
+                            item.SalesQuotationId = model.SalesQuotationId;
+                            saleorderitemrepo.InsertSalesQuotationMaterial(item, connection, trn);
+                        }
+                    }
+
                     if (model.isAfterSales)
                     {
                         foreach (var item in model.Materials)
@@ -120,7 +130,7 @@ namespace ArabErp.DAL
 
                 if (model.isAfterSales)
                 {
-                    model.TotalMaterialAmount = model.Materials.Sum(m => (m.Amount));
+                    model.TotalMaterialAmount = model.Materials.Sum(m => (m.Amount??0));
                 }
                 model.GrandTotal = (model.TotalWorkAmount + model.TotalMaterialAmount);
                 try
@@ -405,11 +415,13 @@ namespace ArabErp.DAL
 
                 objSalesQtn.TotalWorkAmount = objSalesQtn.SalesQuotationItems.Sum(m => (m.TotalAmount));
 
+                #region query to delete from [SalesQuotationMaterial] table if after sales is true
                 if (objSalesQtn.isAfterSales)
                 {
-                    objSalesQtn.TotalMaterialAmount = objSalesQtn.Materials.Sum(m => (m.Amount));
+                    objSalesQtn.TotalMaterialAmount = objSalesQtn.Materials.Sum(m => (m.Amount??0));
                     sql = "DELETE FROM SalesQuotationMaterial WHERE SalesQuotationId = @SalesQuotationId;";
                 }
+                #endregion
 
                 objSalesQtn.GrandTotal = (objSalesQtn.TotalWorkAmount + objSalesQtn.TotalMaterialAmount);
 
@@ -429,24 +441,44 @@ namespace ArabErp.DAL
                 catch { }
                 #endregion
 
+                #region query to update [SalesQuotation] table and delete from [SalesQuotationItem] table
                 sql += @"UPDATE   SalesQuotation SET   QuotationDate = @QuotationDate,CustomerId=@CustomerId,ContactPerson=@ContactPerson,SalesExecutiveId=@SalesExecutiveId,PredictedClosingDate=@PredictedClosingDate,
                                         QuotationValidToDate = @QuotationValidToDate,ExpectedDeliveryDate = @ExpectedDeliveryDate,IsQuotationApproved=@IsQuotationApproved,ApprovedBy=@ApprovedBy,TotalWorkAmount=@TotalWorkAmount,TotalMaterialAmount=@TotalMaterialAmount,GrandTotal=@GrandTotal,CurrencyId=@CurrencyId,QuotationStatus=@QuotationStatus,Remarks=@Remarks,SalesQuotationStatusId=@SalesQuotationStatusId,
-                                        QuotationStage = @QuotationStage,Competitors = @Competitors,PaymentTerms = @PaymentTerms,DiscountRemarks=@DiscountRemarks,CreatedBy=@CreatedBy,CreatedDate=@CreatedDate,OrganizationId=@OrganizationId,isProjectBased=@isProjectBased,isAfterSales=@isAfterSales,QuerySheetId=NULLIF(@QuerySheetId,0),isWarranty=@isWarranty, Discount = @Discount
+                                        QuotationStage = @QuotationStage,Competitors = @Competitors,PaymentTerms = @PaymentTerms,DiscountRemarks=@DiscountRemarks,CreatedBy=@CreatedBy,CreatedDate=@CreatedDate,OrganizationId=@OrganizationId,isProjectBased=@isProjectBased,isAfterSales=@isAfterSales,QuerySheetId=NULLIF(@QuerySheetId,0),isWarranty=@isWarranty, Discount = @Discount, DeliveryTerms = @DeliveryTerms
 	                                    where SalesQuotationId = @SalesQuotationId;
 	                               
                          DELETE FROM SalesQuotationItem WHERE SalesQuotationId = @SalesQuotationId;";
+                #endregion
 
                 try
                 {
                     var id = connection.Execute(sql, objSalesQtn, txn);
+
+                    #region insert into [SalesQuotationItem] table
                     var saleorderitemrepo = new SalesQuotationItemRepository();
-                    int i = 0;
                     foreach (var item in objSalesQtn.SalesQuotationItems)
                     {
                         item.SalesQuotationId = objSalesQtn.SalesQuotationId;
                         item.VehicleModelId = objSalesQtn.VehicleModelId;
                         saleorderitemrepo.InsertSalesQuotationItem(item, connection, txn);
                     }
+                    #endregion
+
+                    #region delete and insert into [SalesQuotationMaterial] table
+                    sql = "DELETE FROM SalesQuotationMaterial WHERE SalesQuotationId = " + objSalesQtn.SalesQuotationId;
+                    connection.Execute(sql, transaction: txn);
+                    if (objSalesQtn.Materials != null && objSalesQtn.Materials.Count > 0)
+                    {
+                        foreach (var item in objSalesQtn.Materials)
+                        {
+                            if (item.ItemId == null) continue;
+                            item.SalesQuotationId = objSalesQtn.SalesQuotationId;
+                            saleorderitemrepo.InsertSalesQuotationMaterial(item, connection, txn);
+                        }
+                    }
+                    #endregion
+
+                    #region insert into [SalesQuotationMaterial] table if aftersales=true
                     if (objSalesQtn.isAfterSales)
                     {
                         foreach (var item in objSalesQtn.Materials)
@@ -455,6 +487,8 @@ namespace ArabErp.DAL
                             saleorderitemrepo.InsertSalesQuotationMaterial(item, connection, txn);
                         }
                     }
+                    #endregion
+
                     sql = @" insert  into SalesQuotationHistory(SalesQuotationId,QuotationRefNo,QuotationDate,SalesExecutiveId,GrandTotal,OrganizationId,CreatedBy,CreatedDate)
                                         Values (@SalesQuotationId,@QuotationRefNo,@QuotationDate,@SalesExecutiveId,@GrandTotal,@OrganizationId,@CreatedBy,@CreatedDate)";
 
@@ -494,7 +528,7 @@ namespace ArabErp.DAL
                                inner join SalesQuotationStatus RR on RR.SalesQuotationStatusId=q.SalesQuotationStatusId
                                where Q.SalesQuotationId= ISNULL(NULLIF(@id, 0), Q.SalesQuotationId) AND C.CustomerId = ISNULL(NULLIF(@cusid, 0), C.CustomerId) 
                                and Q.QuotationDate BETWEEN ISNULL(@from, DATEADD(MONTH, -1, GETDATE())) AND ISNULL(@to, GETDATE())
-                               and Q.OrganizationId = @OrganizationId  and isProjectBased =" + isProjectBased + " and isAfterSales=" + AfterSales +@" AND ISNULL(Q.isActive, 1) = 1";
+                               and Q.OrganizationId = @OrganizationId  and isProjectBased =" + isProjectBased + " and isAfterSales=" + AfterSales + @" AND ISNULL(Q.isActive, 1) = 1";
 
                 return connection.Query<SalesQuotationList>(sql, new { OrganizationId = OrganizationId, id = id, cusid = cusid, to = to, from = from }).ToList();
             }
@@ -622,7 +656,7 @@ namespace ArabErp.DAL
 							   AND ISNULL(YEAR(Q.QuotationDate), @Year) =  @Year
                                and Q.isActive = 1  ";
 
-                return connection.Query<SalesQuotationList>(sql, new { Month = month, Year = year}).ToList(); 
+                return connection.Query<SalesQuotationList>(sql, new { Month = month, Year = year }).ToList();
             }
         }
 

@@ -1,18 +1,17 @@
-﻿
-@model ArabErp.Domain.SalesQuotation
+﻿@model ArabErp.Domain.SalesQuotation
 
-@{ 
+@{
     string actionName = ViewContext.RouteData.GetRequiredString("action");
- }
+}
 <script type="text/javascript">
 
     $(document).ready(function () {
         calculateSummary();
     });
-   
+
 
     function AddRow() {
-       
+
         var i = 0;
         var no = 1;
         $('input[id^="Row_"]').each(function () {
@@ -28,7 +27,7 @@
         var index = (new Date()).getTime(); // unique indexer
         var clone =$('#tr_0').clone(); // clone the BatchProducts item
         //Update the index of the clone
-     
+
         clone.html($(clone).html().replace(/\Materials_0__/g, 'Materials_' + i + '__'));
         clone.html($(clone).html().replace(/\Materials[0]./g, 'Materials[' + i + '].'));
         clone.html($(clone).html().replace(/partno0/, 'partno' + i + ''));
@@ -44,11 +43,17 @@
         $("#sellingRate" + i).html(0);
         $("#Materials_" + i + "__SlNo").val((i + 1));
 
-        $("#tr_" + i).find('span[class="custom-combobox"]').remove();
-        $("#Materials_" + i + "__ItemId").combobox();
-      
         $("#unitname" + i).html('');
         $("#partno" + i).html('');
+        $("#Materials_" + i + "__ItemId").val('');
+        $("#Materials_" + i + "__Quantity").val('');
+        $("#Materials_" + i + "__UnitName").val('');
+        $("#Materials_" + i + "__Rate").val('');
+        $("#Materials_" + i + "__Amount").val('');
+
+        $("#tr_" + i).find('span[class="custom-combobox"]').remove();
+        $("#Materials_" + i + "__ItemId").combobox();
+
         //bind keypress event for new row inputs.
         $(".numbers-only").keypress(function (e) {
             if (e.which == 8 || (e.which == 45 && $(this).val().indexOf('-') == -1) || (e.which == 46 && $(this).val().indexOf('.') == -1) || (e.which > 47 && e.which < 58)) {
@@ -72,7 +77,7 @@
             }
         });
         i++;
-       
+
         if (i > 1) {
             $("#tr_" + index).remove();
             for (var j = index + 1; j < i; j++) {
@@ -93,10 +98,10 @@
                 clone.html($(clone).html().replace("Row_" + j, "Row_" + (j - 1)));
                 clone.html($(clone).html().replace("this," + j, "this," + (j - 1)));
                 $("#tr_" + j).html(clone.html());
-           
+
                 $("#Materials_" + (j - 1) + "__SlNo").val(j);
                 $("#tr_" + (j)).attr('id', 'tr_' + (j - 1));
-              
+
                 $("#Materials_" + (j - 1) + "__ItemId").val(ItemId);
                 $("#Materials_" + (j - 1) + "__PartNo").val(PartNo);
                 $("#Materials_" + (j - 1) + "__Quantity").val(Quantity);
@@ -109,7 +114,7 @@
     }
 
     function OnItemChange(sender, index) {
-       
+
         var id = $(sender).val();
         if (id != '') {
             var url = '@Url.Action("GetItemUnit")';//get unit of selected item
@@ -138,28 +143,28 @@
     }
     function RateChanged() {
         var rate = parseFloat("0");
-      
+
         $('.clRate').each(function (i, obj) {
-           
+
             var a = parseFloat($("#Materials_" + i + "__Rate").val());
 
             if (isNaN(a)) {
                 a = parseFloat("0");
             }
-           
+
             rate = rate + a;
-            
+
             $("#SalesQuotationItems_" + 0 + "__MaterialRate").val(rate);
             $("#SalesQuotationItems_" + 0 + "__Amount").val(rate);
         });
-       
+
 
     }
     function QtyChanged(row) {
         var quantity = parseFloat($("#Materials_" + row + "__Quantity").val());
         var rate = parseFloat($("#Materials_" + row + "__Rate").val());
         //var discount = parseFloat($("#Materials_" + row + "__Discount").val());
-     
+
         if (quantity == NaN) {
             quantity = 0;
         }
@@ -168,18 +173,18 @@
         }
         //if (discount == NaN) {
         //    discount = 0;
-        //}               
-      
-                      
+        //}
+
+
         var amount = (quantity * rate);// - discount;
-                       
+
         amount = parseFloat(amount);
         $("#Materials_" + row + "__Amount").val(amount);
         calculateSummary();
     }
 
     function calculateSummary() {
-      
+
         var amount = parseFloat("0");
         var grandtotal = parseFloat("0");
         $('.clAmount').each(function (i, obj) {
@@ -193,7 +198,7 @@
             amount = amount + a;
         });
 
-     
+
         $("#TotalAmount").text(parseFloat(amount));
         $("#Amount").val(parseFloat(amount));
         var abc = parseFloat($("#NetTotalAmount").text());
@@ -204,7 +209,7 @@
         }
 
         grandtotal= parseFloat($("#TotalAmount").text()) + abc;
-                    
+
         $("#lblTotalAmount").text(parseFloat(grandtotal));
     }
 
@@ -212,26 +217,26 @@
 
 
 
-     <table class="table table-bordered" id="table-additional-items-list">
+<table class="table table-bordered" id="table-additional-items-list">
     <thead>
         <tr class="grid_heading">
-           @if (actionName != "Approve" )
+            @if (actionName != "Approve")
             {
-            <th width="2%" class="text-center"></th>
+                <th width="2%" class="text-center"></th>
             }
             <th width="1%" class="text-center "><h1>#</h1></th>
             <th width="40%"><h1>Material/Spares</h1></th>
             <th width="10%"><h1>Part No.</h1></th>
-          
-            <th width="6%" class="text-right "><h1>Qty.</h1></th>
+
+            <th width="6%" class="text-right "><h1>Qty</h1></th>
             <th width="5%"><h1>UoM</h1></th>
             <th width="7%" class="text-right"><h1>Fixed Rate</h1></th>
             <th width="7%" class="text-right"><h1>Rate</h1></th>
             @*<th width="10%" class="text-right "><h1>Discount</h1></th>*@
             <th width="8%" class="text-right "><h1>Amount</h1></th>
-            @if (actionName != "Approve" )
+            @if (actionName != "Approve")
             {
-            <th width="2%" class="text-center"></th>
+                <th width="2%" class="text-center"></th>
             }
         </tr>
     </thead>
@@ -240,59 +245,69 @@
         {
 
             <tr id="tr_@i">
-             @if (actionName != "Approve" )
-                  {
-                <td style="vertical-align:middle"><a class="glyphicon glyphicon-minus" style="top:0px" onclick="Delete(@i)"></a></td>
-                  }
+                @if (actionName != "Approve")
+                {
+                    <td style="vertical-align:middle"><a class="glyphicon glyphicon-minus" style="top:0px" onclick="Delete(@i)"></a></td>
+                }
                 <td align="center">
                     <span id="serialno@(i+1)">@(i + 1)</span>
                     @Html.HiddenFor(m => m.Materials[i].SlNo)
                 </td>
                 <td>
-                <input type="hidden" id="Row_@i" />
-                @Html.DropDownListFor(m => m.Materials[i].ItemId, new SelectList(ViewBag.itemList, "Value", "Text", Model.Materials[i].ItemId), "Select Material/Spares", new { @class = "form_input", autocomplete = "off", @onchange = "OnItemChange(this," + i + ")", @placeholder = "Search for material/spare" })
+                    <input type="hidden" id="Row_@i" />
+                    @Html.DropDownListFor(m => m.Materials[i].ItemId, new SelectList(ViewBag.itemList, "Value", "Text", Model.Materials[i].ItemId), "Select Material/Spares", new { @class = "form_input", autocomplete = "off", @onchange = "OnItemChange(this," + i + ")", @placeholder = "Search for material/spare" })
                 </td>
-                <td id="partno@(i)" class="qreturn" style="vertical-align:middle">@Html.TextBoxFor(m => m.Materials[i].PartNo, new { @class = "form_input text-left", @readonly = "true", @placeholder = "Part No." })</td>
-             
-                <td>@Html.TextBoxFor(m => m.Materials[i].Quantity, new { @class = "form_input numbers-only text-right", autocomplete = "off", placeholder = "Qty", @onkeyup = "QtyChanged(" + i + ")", @onchange = "QtyChanged(" + i + ")" })</td>
-                <td id="unitname@(i)" class="qreturn" style="vertical-align:middle">@Html.TextBoxFor(m => m.Materials[i].UnitName, new { @class = "form_input text-left", @readonly = "true", @placeholder = "UoM" })</td>
-                <td align="right" id="sellingRate@(i)">
-                    0
+                <td id="partno@(i)" class="qreturn" style="vertical-align:middle">
+                    @Html.TextBoxFor(m => m.Materials[i].PartNo, new { @class = "form_input text-left", @readonly = "true", @placeholder = "Part No." })
                 </td>
-                <td>@Html.TextBoxFor(m => m.Materials[i].Rate, new { @class = "form_input numbers-only text-right ", autocomplete = "off", placeholder = "Rate", @onchange = "RateChanged(" + i + ");", @onkeyup = "QtyChanged(" + i + ")" })</td>
+
+                <td>
+                    @Html.TextBoxFor(m => m.Materials[i].Quantity, new { @class = "form_input numbers-only text-right", autocomplete = "off", placeholder = "Qty", @onkeyup = "QtyChanged(" + i + ")", @onchange = "QtyChanged(" + i + ")" })
+                </td>
+                <td id="unitname@(i)" class="qreturn" style="vertical-align:middle">
+                    @Html.TextBoxFor(m => m.Materials[i].UnitName, new { @class = "form_input text-left", @readonly = "true", @placeholder = "UoM" })
+                </td>
+                <td align="right" id="sellingRate@(i)">0</td>
+                <td>
+                    @Html.TextBoxFor(m => m.Materials[i].Rate, new { @class = "form_input numbers-only text-right ", autocomplete = "off", placeholder = "Rate", @onchange = "RateChanged(" + i + ");", @onkeyup = "QtyChanged(" + i + ")" })
+                </td>
                 @*<td>@Html.TextBoxFor(m => m.Materials[i].Discount, new { @class = "form_input numbers-only text-right ", autocomplete = "off", placeholder = "Discount", @onkeyup = "QtyChanged(" + i + ")" })</td>*@
-                <td>@Html.TextBoxFor(m => m.Materials[i].Amount, new { @class = "form_input numbers-only text-right clAmount", autocomplete = "off", placeholder = "Amount", @readonly = "true" })</td>
-                @if (actionName != "Approve" )
-                  {
-                <td style="vertical-align:middle"><a id="add_row" class="glyphicon glyphicon-plus" style="top:0px" onclick="AddRow()"></a></td>
-                  }
-                    </tr>
+                <td>
+                    @Html.TextBoxFor(m => m.Materials[i].Amount, new { @class = "form_input numbers-only text-right clAmount", autocomplete = "off", placeholder = "Amount", @readonly = "true" })
+                </td>
+                @if (actionName != "Approve")
+                {
+                    <td style="vertical-align:middle">
+                        <a id="add_row" class="glyphicon glyphicon-plus" style="top:0px" onclick="AddRow()"></a>
+                    </td>
+                }
+            </tr>
         }
     </tbody>
-         <tfoot>
-             <tr class="grid_heading">
-                 @if (actionName != "Approve")
-                 {
-                     <th class="text-center"></th>
-                 }
-                 <th class="text-center "></th>
-                 <th><h1></h1></th>
-                 <th><h1></h1></th>
+    <tfoot>
+        <tr class="grid_heading">
+            @if (actionName != "Approve")
+            {
+                <th class="text-center"></th>
+            }
+            <th class="text-center "></th>
+            <th><h1></h1></th>
+            <th><h1></h1></th>
 
-                 <th class="text-right "><h1></h1></th>
-                 <th></th>
-                 <th class="text-right "><h1></h1></th>
-                 <th class="text-right "><h1>Total</h1></th>
-                 @*<th class="text-right "><h1></h1></th>*@
-                 <th class="text-right "><span id="TotalAmount"></span></th>
-                 @if (actionName != "Approve")
-                 {
-                     <th class="text-center"></th>
-                 }
-             </tr>
-         </tfoot>
+            <th class="text-right "><h1></h1></th>
+            <th></th>
+            <th class="text-right "><h1></h1></th>
+            <th class="text-right "><h1>Total</h1></th>
+            @*<th class="text-right "><h1></h1></th>*@
+            <th class="text-right "><span id="TotalAmount"></span></th>
+            @if (actionName != "Approve")
+            {
+                <th class="text-center"></th>
+            }
+        </tr>
+    </tfoot>
 
 </table>
-   
+
 
 

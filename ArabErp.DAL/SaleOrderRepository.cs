@@ -41,7 +41,7 @@ namespace ArabErp.DAL
                     if (objSaleOrder.isAfterSales == 1)
                     {
 
-                        MaterialAmt = objSaleOrder.Materials.Sum(m => m.Amount);
+                        MaterialAmt = objSaleOrder.Materials.Sum(m => m.Amount??0);
                     }
                     objSaleOrder.TotalAmount = objSaleOrder.Items.Sum(m => m.Amount) + MaterialAmt;
                     objSaleOrder.TotalDiscount = objSaleOrder.Items.Sum(m => m.Discount);
