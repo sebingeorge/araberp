@@ -34,6 +34,7 @@
         clone.html($(clone).html().replace(/\(0\)/g, '(' + i + ')'));
         clone.html($(clone).html().replace(/Row_0/, 'Row_' + i + ''));
         clone.html($(clone).html().replace(/slno1/, 'slno' + (i + 1) + ''));
+        clone.html($(clone).html().replace(/part_no_0/, 'part_no_' + i + ''));
         clone.html($(clone).html().replace(/this,0/, 'this,' + i + ''));
         $("#tab_logic").append('<tr id="' + i + '">' + clone.html() + '  </tr>');
         $("#slno" + (i + 1)).html((i + 1));
@@ -50,7 +51,7 @@
         $("#OpeningStockItem_" + i + "__isUsed").val("false");
         $("#OpeningStockItem_" + i + "__OpeningStockId").val(0);
         $("#" + i).find('.glyphicon-minus').removeClass("hidden");
-
+        $("#part_no_" + i).text('');
     }
 
     function Delete(index) {
@@ -79,6 +80,7 @@
                 clone.html($(clone).html().replace(new RegExp("OpeningStockItem_" + j + "__", "g"), 'OpeningStockItem_' + (j - 1) + '__'));
                 clone.html($(clone).html().replace(new RegExp("\\[" + j + "].", "g"), "[" + (j - 1) + "]."));
                 clone.html($(clone).html().replace(new RegExp('slno' + (j + 1) + '">' + (j + 1), "g"), 'slno' + (j) + '">' + (j)));
+                clone.html($(clone).html().replace('part_no_' + j, 'part_no_' + (j - 1)));
                 clone.html($(clone).html().replace("Delete(" + j, "Delete(" + (j - 1)));
                 clone.html($(clone).html().replace("Row_" + j, "Row_" + (j - 1)));
 
@@ -154,7 +156,8 @@
             <tr class="grid_heading">
                 <th width="1%" class="text-center"></th>
                 <th width="5%" class="text-center"><h1>#</h1></th>
-                <th width="81%" class="text-left"><h1>Material/Spares</h1></th>
+                <th width="71%" class="text-left"><h1>Material/Spares</h1></th>
+                <th width="10%">Part No.</th>
                 <th width="10%" class="text-right"><h1>Qty</h1></th>
                 <th width="2%" class="text-center"></th>
             </tr>
@@ -192,10 +195,14 @@
                         }
                         else
                         {
-                            @Html.DropDownListFor(m => m.OpeningStockItem[i].ItemId, new SelectList(ViewBag.Itemlist, "Value", "Text", Model.OpeningStockItem[i].ItemId), "Select Material/Spare", new { @class = "form_input", autocomplete = "off" })
+                            @Html.DropDownListFor(m => m.OpeningStockItem[i].ItemId, new SelectList(ViewBag.Itemlist, "Value", "Text", Model.OpeningStockItem[i].ItemId), "Select Material/Spare", new { @class = "form_input", autocomplete = "off", @onchange = "OnItemChanged(this," + i + ")" })
                         }
                         
                      </td>
+
+                    <td id="part_no_@i">
+                        @Model.OpeningStockItem[i].PartNo
+                    </td>
 
                     <td>
                         @if (Model.OpeningStockItem[i].isUsed)

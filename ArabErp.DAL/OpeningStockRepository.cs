@@ -132,10 +132,11 @@ namespace ArabErp.DAL
                 //string sql = @"SELECT ItemId,Quantity  FROM OpeningStock WHERE StockPointId=@StockPointId"; 
                 #endregion
 
-                string query = @"SELECT DISTINCT OS.OpeningStockId, ItemId, Quantity, CASE WHEN IB.ItemBatchId IS NOT NULL THEN 1 ELSE 0 END AS isUsed
+                string query = @"SELECT DISTINCT OS.OpeningStockId, OS.ItemId, Quantity, I.PartNo, CASE WHEN IB.ItemBatchId IS NOT NULL THEN 1 ELSE 0 END AS isUsed
                                 FROM OpeningStock OS
 	                                LEFT JOIN ItemBatch IB ON OS.OpeningStockId = IB.OpeningStockId
-                                WHERE StockPointId=@StockPointId";
+									LEFT JOIN Item I ON OS.ItemId = I.ItemId
+                                WHERE StockPointId = @StockPointId";
 
                 //var objItem = connection.Query<OpeningStock>(sql, new
                 //{

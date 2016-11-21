@@ -20,7 +20,9 @@ namespace ArabErp.DAL
                                inner join Customer C on C.CustomerId = Q.CustomerId
                                inner join Employee E on E.EmployeeId = Q.SalesExecutiveId
                                inner join SalesQuotationStatus RR on RR.SalesQuotationStatusId=q.SalesQuotationStatusId
-                               where Q.isActive = 1 and isProjectBased =" + isProjectBased;
+							   LEFT JOIN SaleOrder SO ON Q.SalesQuotationId = SO.SalesQuotationId
+							   LEFT JOIN VehicleInPass VIP ON SO.SaleOrderId = VIP.SaleOrderId
+                               where Q.isActive = 1 AND VIP.VehicleInPassId IS NULL and Q.isProjectBased =" + isProjectBased;
 
                 return connection.Query<SalesQuotationList>(sql);
             }

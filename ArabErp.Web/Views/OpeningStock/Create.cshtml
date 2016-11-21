@@ -24,6 +24,16 @@
 
     }
 
+    function OnItemChanged(sender, row) {
+        var id = $(sender).val();
+        if (id != '' && id != 0) {
+            var url = '@Url.Action("GetItemPartNo", "AdditionalWorkShopRequest")';
+            $.getJSON(url, { itemId: id}, function(data){
+                $("#part_no_" + row).text(data);
+            })
+        }
+    }
+
 </script>
 
 
