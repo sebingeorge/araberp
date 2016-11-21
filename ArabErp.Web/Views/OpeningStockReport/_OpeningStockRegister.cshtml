@@ -2,10 +2,10 @@
 <table class="table table-bordered">
     <thead>
         <tr class="grid_heading">
-            <th width="30%"><h1>Material/Spares</h1></th>
-            <th width="15%"><h1>Group</h1></th>
-            <th width="40%"><h1>SubGroup</h1></th>
-            <th width="45%"><h1>Part No</h1></th>
+            <th width="25%"><h1>Material/Spares</h1></th>
+            <th width="20%"><h1>Part No</h1></th>
+            <th width="20%"><h1>Group</h1></th>
+            <th width="20%"><h1>SubGroup</h1></th>
             <th class="text-right" width="10%"><h1>Opening Stock</h1></th>
             <th width="5%"><h1>Unit</h1></th>
         </tr>
@@ -15,10 +15,10 @@
     {
         <tbody class="grid_row">
             <tr>
-                <td class="grid-cell">@item.ItemName</td>
+                <td class="grid-cell"><strong>@item.ItemName</strong></td>
+                <td class="grid-cell"><strong>@item.PartNo</strong></td>
                 <td class="grid-cell ">@item.ItemGroupName</td>
                 <td class="grid-cell ">@item.ItemSubGroupName</td>
-                <td class="grid-cell">@item.PartNo</td>
                 <td class="grid-cell text-right">@item.Quantity</td>
                 <td class="grid-cell">@item.UnitName</td>
             </tr>
