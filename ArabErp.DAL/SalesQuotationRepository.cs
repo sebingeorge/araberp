@@ -545,7 +545,7 @@ namespace ArabErp.DAL
             {
                 string sql = @"select O.*,S.*,
                                EE.EmployeeName,
-                               CU.CustomerName,(CU.DoorNo + CU.Street+ CU.State)CustomerAddress,sq.Description SalesQuotationStatusName,d.DesignationName,U.[Signature],U.UserName EmpNmae,
+                               CU.CustomerName,(CU.DoorNo + CU.Street+ CU.State)CustomerAddress,sq.Description SalesQuotationStatusName,d.DesignationName,U.[Signature] ApprovedUsersig,U.UserName EmpNmae,
                                E.EmployeeName SalesExecutiveName,CO.CountryName,C.CurrencyName from SalesQuotation S
                                inner join Customer Cu ON CU.CustomerId=S.CustomerId
                                inner join Employee E ON  E.EmployeeId=S.SalesExecutiveId
