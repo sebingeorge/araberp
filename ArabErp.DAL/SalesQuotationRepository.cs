@@ -578,8 +578,8 @@ namespace ArabErp.DAL
             using (IDbConnection connection = OpenConnection(dataConnection))
             {
                 string sql = @"select O.*,S.*,
-                               EE.EmployeeName,
-                               CU.CustomerName,(CU.DoorNo + CU.Street+ CU.State)CustomerAddress,sq.Description SalesQuotationStatusName,d.DesignationName,U.[Signature] ApprovedUsersig,U.UserName EmpNmae,
+                             
+                               CU.CustomerName,(CU.DoorNo + CU.Street+ CU.State)CustomerAddress,sq.Description SalesQuotationStatusName,U.[Signature] ApprovedUsersig,U.UserName EmpNmae,
                                E.EmployeeName SalesExecutiveName,CO.CountryName,C.CurrencyName from SalesQuotation S
                                inner join Customer Cu ON CU.CustomerId=S.CustomerId
                                inner join Employee E ON  E.EmployeeId=S.SalesExecutiveId
@@ -587,9 +587,7 @@ namespace ArabErp.DAL
                                left join Country CO  on CO.CountryId=O.Country
                                inner join SalesQuotationStatus SQ ON SQ.SalesQuotationStatusId=S.SalesQuotationStatusId
                                Left JOIN Currency C ON C.CurrencyId=O.CurrencyId
-							   left join Employee EE ON EE.EmployeeId=S.CreatedBy
-							   left join Designation D ON D.DesignationId=EE.DesignationId
-							   left join [user] U ON U.UserId=S.ApprovedBy
+							   left join [user] U ON U.UserId=S.CreatedBy
                                where SalesQuotationId=@SalesQuotationId";
 
                 var objSalesQuotation = connection.Query<SalesQuotation>(sql, new { SalesQuotationId = SalesQuotationId, organizationId = organizationId }).First<SalesQuotation>();

@@ -961,5 +961,19 @@ namespace ArabErp.DAL
             }
         }
 
+        public List<Dropdown> ItemGroupDropdown()
+        {
+            using (IDbConnection connection = OpenConnection(dataConnection))
+            {
+                return connection.Query<Dropdown>("select  ItemGroupId Id,ItemGroupName Name from ItemGroup ").ToList();
+            }
+        }
+        public List<Dropdown> ItemSubgroupDropdown()
+        {
+            using (IDbConnection connection = OpenConnection(dataConnection))
+            {
+                return connection.Query<Dropdown>(" select  ItemSubGroupId Id,ItemSubGroupName Name from ItemSubGroup ").ToList();
+            }
+        }
     }
 }

@@ -933,7 +933,7 @@ namespace ArabErp.Web.Controllers
             dr["ContactPerson"] = Head.ContactPerson;
             dr["SalesExecutive"] = Head.SalesExecutiveName;
             dr["PredictedClosingDate"] = Head.PredictedClosingDate;
-            dr["QuotationValidToDate"] = Head.QuotationValidToDate;
+            dr["QuotationValidToDate"] = Head.QuotationValidToDate.ToString("dd-MMM-yyyy");
             dr["ExpectedDeliveryDate"] = Head.ExpectedDeliveryDate;
             dr["Remarks"] = Head.Remarks;
             dr["PaymentTerms"] = Head.PaymentTerms;
