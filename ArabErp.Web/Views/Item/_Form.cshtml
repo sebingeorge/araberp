@@ -1,9 +1,9 @@
 ﻿@model ArabErp.Domain.Item
 @{string actionName = HttpContext.Current.Request.RequestContext.RouteData.Values["action"].ToString(); }
 <script>
-        function Exit() {
-            location.href = '@Url.Action("Index")';
-        }
+    function Exit() {
+        location.href = '@Url.Action("Index")';
+    }
     $(document).ready(function () {
         $("#ExpiryDate").datepicker({
             dateFormat: "dd-MM-yy"
@@ -47,25 +47,28 @@
             $("#table-bom").hide();
         }
     }
-   
+
     function formvalidation() {
         var status = true;
+
+        if ($("#FreezerUnit").is(":checked") || $("#Box").is(":checked")) {
             $("#table-bom input[id$='__Quantity']").each(function (i, object) {
                 if ($(object).val() == 0 || $(object).val() == "") {
                     status = false;
-                     return;
+                    return;
                 }
             });
             if (!status)
                 toastr.info("The Quantity must be greater than zero");
-            return status
+        }
+        return status
     }
 </script>
 <div class="row">
     <div class="form-head1"><h4>Material/Spare</h4></div>
 
     <div class="main-part pad1">
-           
+
         @using (Html.BeginForm(null, null, FormMethod.Post, new { @class = "createFrom", @id = "Item_form", @onsubmit = "return formvalidation()" }))
         {
 
@@ -183,7 +186,7 @@
 
                     <div class="row">
                         <div class="part4 col-md-4">
-                            @Html.CheckBoxFor(model => model.FreezerUnit ,new { autocomplete = "off", @class = "subject-list", @onclick = "Tick()" })
+                            @Html.CheckBoxFor(model => model.FreezerUnit, new { autocomplete = "off", @class = "subject-list", @onclick = "Tick()" })
                             <label for="name">Reefer Unit</label>
                         </div>
                         <div class="part4 col-md-4">
