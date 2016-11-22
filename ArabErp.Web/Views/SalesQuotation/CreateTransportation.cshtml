@@ -39,24 +39,24 @@
         @if (actionName == "Create")
         {
            @: url += "?ProjectBased=0" + "&AfterSales=0";
-                                        }
+                                                }
         else if (actionName == "CreateProject")
         {
             @: url += "?ProjectBased=1" + "&AfterSales=0";;
-                                        }
+                                                }
         else if (actionName == "CreateAfterSalesTrans")
         {
             @: url += "?ProjectBased=0" + "&AfterSales=1";;
-                                        }
+                                                }
         else if (actionName == "CreateAfterSalesProject")
            {
                @: url += "?ProjectBased=1" + "&AfterSales=1";;
-                                           }
+                                                   }
         window.location = url;
 
     }
 
-    $(function() {
+    $(function () {
 
         $('[data-toggle="popover"]').popover();
 
@@ -79,8 +79,8 @@
         @if (Model.isAfterSales)
         {
             @: $("#CustomerId").val(@Model.CustomerId);
-                            @: $("#CustomerId").trigger("onchange");
-                        }
+                                    @: $("#CustomerId").trigger("onchange");
+                                }
     });
     function CustomerChanged(cust) {
         var cusId = cust.value;
@@ -136,12 +136,12 @@
         @if (new[] { "CreateAfterSalesTrans", "CreateAfterSalesProject" }.Contains(ViewContext.RouteData.GetRequiredString("action")))
         {
             @:removeOnChange();
-        }
+                }
     });
 
-    function removeOnChange(){
+    function removeOnChange() {
         //$("#CustomerId").removeProp("onchange");
-        $("select[id$='__WorkDescriptionId']").each(function(index, object){
+        $("select[id$='__WorkDescriptionId']").each(function (index, object) {
             $(object).removeProp("onchange");
             $("#SalesQuotationItems_0__Rate").removeAttr("readonly");
         });
@@ -266,9 +266,9 @@
 
     function OnWorkDescChanged(index) {
         var work = $("#SalesQuotationItems_" + index + "__WorkDescriptionId");
-        var current_id = $("#SalesQuotationItems_"+index+"__WorkDescriptionId").val();
-        $("select[id$='__WorkDescriptionId'").each(function(i, object){
-            if($(object).val() == current_id && index != i){
+        var current_id = $("#SalesQuotationItems_" + index + "__WorkDescriptionId").val();
+        $("select[id$='__WorkDescriptionId'").each(function (i, object) {
+            if ($(object).val() == current_id && index != i) {
                 $(work).val('');
                 toastr.info("This work description has already been selected");
                 $(work).autocomplete("search", ""); //this code need reworking.
@@ -298,7 +298,7 @@
         var rateType = $("#SalesQuotationItems_" + index + "__RateType");
 
         if (type == 4) {
-            if($(customer).val() != ''){
+            if ($(customer).val() != '') {
                 var url = '@Url.Action("GetSpecialRate")';
                 $.getJSON(url, { workDescriptionId: $(work).val(), customerId: $(customer).val() },
                     function (data) {
@@ -315,7 +315,7 @@
                         }
                     });
             }
-            else{
+            else {
                 $(rateType).val(0);//set to custom if 0
                 $(rate).removeProp("readonly");
                 $(rate).val(0.00);
@@ -358,10 +358,10 @@
         }*@
     }
 
-    function ExitToPendingApproval(){
+    function ExitToPendingApproval() {
         var url = '@Url.Action("ListSalesQuotations")';
-        url+="?ProjectBased="+'@Convert.ToInt16(Model.isProjectBased)'+"&AfterSales="+'@Convert.ToInt16(Model.isAfterSales)';
-        window.location=url;
+        url += "?ProjectBased=" + '@Convert.ToInt16(Model.isProjectBased)' + "&AfterSales=" + '@Convert.ToInt16(Model.isAfterSales)';
+        window.location = url;
     }
 
     function OnQuerySheetChanged(sender) {
@@ -372,7 +372,7 @@
                 $("#costing-amount-notifier").html("<em>Project cost for Query Sheet <strong>" + $("#QuerySheetId option:selected").text() + "</strong> is <strong>" + $("#CurrencyId option:selected").text() + " " + data + "/-</strong></em>");
             })
         }
-        else{
+        else {
             $("#costing-amount-notifier").text("");
         }
     }
@@ -556,7 +556,7 @@
                     @Html.DropDownListFor(m => m.VehicleModelId, new SelectList(ViewBag.vehiclelist, "Value", "Text", Model.VehicleModelId), "Select Vehicle Model", new { @class = "form_input", @required = "true" })
                 </div>
             </div>
-            
+
             <script>
                 $(document).ready(function () {
                     $("#SalesQuotationItems_0__SlNo").val('1');
@@ -612,7 +612,7 @@
                             //alert(j);
                             $("#SalesQuotationItems_" + (j - 1) + "__WorkDescriptionId").val(WorkDescriptionId);
                             $("#" + (j - 1)).find('span[class="custom-combobox"]').remove();
-                            $("#SalesQuotationItems_"+(j - 1)+"__WorkDescriptionId").combobox();
+                            $("#SalesQuotationItems_" + (j - 1) + "__WorkDescriptionId").combobox();
                             $("#SalesQuotationItems_" + (j - 1) + "__VehicleModelId").val(VehicleModelId);
                             $("#SalesQuotationItems_" + (j - 1) + "__Quantity").val(Quantity);
                             $("#SalesQuotationItems_" + (j - 1) + "__UnitId").val(UnitId);
@@ -629,7 +629,7 @@
                     var rate = parseFloat($("#SalesQuotationItems_" + row + "__Rate").val());
                     var discount = parseFloat($("#SalesQuotationItems_" + row + "__Discount").val());
 
-                    if(discount > rate){
+                    if (discount > rate) {
                         toastr.info("Discount cannot be greater than rate");
                         $("#SalesQuotationItems_" + row + "__Discount").val($("#SalesQuotationItems_" + row + "__Rate").val());
                     }
@@ -647,7 +647,7 @@
                     var amount = rate * quantity;// - discount;
                     amount = parseFloat(amount);
                     $("#SalesQuotationItems_" + row + "__Amount").val(amount.toFixed(2));
-                    $("#SalesQuotationItems_" + row + "__TotalAmount").val(((amount)-discount).toFixed(2));
+                    $("#SalesQuotationItems_" + row + "__TotalAmount").val(((amount) - discount).toFixed(2));
                     cal_Summary();
                     //var amount = (rate - discount);
 
@@ -711,8 +711,8 @@
                     $("#NetTotalAmount").text(parseFloat(rowtotal).toFixed(2));
                     $("#span-DiscountTotal").text(parseFloat(total_discount).toFixed(2));
 
-                    var WorkAmt=parseFloat($("#NetTotalAmount").text());
-                    var MaterialAmt=parseFloat($("#TotalAmount").text());
+                    var WorkAmt = parseFloat($("#NetTotalAmount").text());
+                    var MaterialAmt = parseFloat($("#TotalAmount").text());
 
                     if (isNaN(WorkAmt)) {
 
@@ -724,11 +724,11 @@
                         MaterialAmt = parseFloat("0");
 
                     }
-                    grandtotal= WorkAmt + MaterialAmt;
+                    grandtotal = WorkAmt + MaterialAmt;
 
                     if (isNaN(grandtotal)) {
 
-                        grandtotal= parseFloat("0");
+                        grandtotal = parseFloat("0");
 
                     }
                     $("#lblTotalAmount").text(parseFloat(grandtotal).toFixed(2));
@@ -792,9 +792,9 @@
                         <th width="25%" class="text-left"><h1>Reefer Unit</h1></th>
                         <th width="20%"><h1>Box</h1></th>
                         @*@if (new[] { "Create", "CreateAferSales", "Approve" }.Contains(ViewContext.RouteData.GetRequiredString("action")) && !Model.isProjectBased)
-                        {
-                            <th width="10%"><h1>Rate Settings</h1></th>
-                        }*@
+                            {
+                                <th width="10%"><h1>Rate Settings</h1></th>
+                            }*@
                         <th width="5%" class="text-right"><h1>Qty</h1></th>
                         <th width="5%" class="text-right"><h1>UoM</h1></th>
                         <th width="7%" class="text-right"><h1>Rate</h1></th>
@@ -827,35 +827,35 @@
                                 <input type="hidden" id="Row_@i" />
                                 @Html.DropDownListFor(m => m.SalesQuotationItems[i].FreezerUnitId, new SelectList(ViewBag.freezerUnitList, "Value", "Text"), "Select Reefer Unit",
                                 new { @class = "form_input", @placeholder = "Search for Reefer Unit" })
-                                </td>
+                            </td>
                             <td>
                                 @Html.DropDownListFor(m => m.SalesQuotationItems[i].BoxId, new SelectList(ViewBag.boxList, "Value", "Text"), "Select Box",
                                 new { @class = "form_input", @placeholder = "Search for Box" })
                                 @*@if (ViewBag.actionName.ToString() == "Approve")
-                                {
-                                    @Html.TextBoxFor(m => m.SalesQuotationItems[i].WorkDescr, new { @class = "form_input ", autocomplete = "off", @disabled = "true" })
-                                }
-                                else
-                                {
-                                    @Html.DropDownListFor(x => Model.SalesQuotationItems[i].WorkDescriptionId, new SelectList(ViewBag.workdesclist, "Value", "Text",
-                                    Model.SalesQuotationItems[i].WorkDescriptionId), "Select Work Description", new
                                     {
-                                        @class = "form_input",
-                                        autocomplete = "off",
-                                        @onchange = "OnWorkDescChanged(" + i + ")",
-                                        @placeholder = "Search for Work Description",
-                                        @required = "true"
-                                    })
-                                }*@
+                                        @Html.TextBoxFor(m => m.SalesQuotationItems[i].WorkDescr, new { @class = "form_input ", autocomplete = "off", @disabled = "true" })
+                                    }
+                                    else
+                                    {
+                                        @Html.DropDownListFor(x => Model.SalesQuotationItems[i].WorkDescriptionId, new SelectList(ViewBag.workdesclist, "Value", "Text",
+                                        Model.SalesQuotationItems[i].WorkDescriptionId), "Select Work Description", new
+                                        {
+                                            @class = "form_input",
+                                            autocomplete = "off",
+                                            @onchange = "OnWorkDescChanged(" + i + ")",
+                                            @placeholder = "Search for Work Description",
+                                            @required = "true"
+                                        })
+                                    }*@
                             </td>
 
                             @*@if (new[] { "Create", "Approve" }.Contains(ViewContext.RouteData.GetRequiredString("action")) && !Model.isProjectBased)
-                            {
-                                <td>
-                                    <!--column to show rate settings (required only for transportation)-->
-                                    @Html.DropDownListFor(m => m.SalesQuotationItems[i].RateType, new SelectList(ViewBag.rateSettings, "Value", "Text", Model.SalesQuotationItems[i].RateType), new { @class = "form_input", @onchange = "OnRateTypeChanged(" + i + ")" })
-                                </td>
-                            }*@
+                                {
+                                    <td>
+                                        <!--column to show rate settings (required only for transportation)-->
+                                        @Html.DropDownListFor(m => m.SalesQuotationItems[i].RateType, new SelectList(ViewBag.rateSettings, "Value", "Text", Model.SalesQuotationItems[i].RateType), new { @class = "form_input", @onchange = "OnRateTypeChanged(" + i + ")" })
+                                    </td>
+                                }*@
 
 
                             <td>
@@ -912,16 +912,16 @@
                 <tfoot>
                     <tr class="grid_heading">
                         @*@if (actionName == "Create" || actionName == "CreateProject")
-                        {*@
-                            <th class="text-center"></th>
+                            {*@
+                        <th class="text-center"></th>
                         @*}*@
                         <th class="text-center"></th>
                         <th class="text-center "><h1></h1></th>
                         <th></th>
                         @*@if (new[] { "Create", "Approve" }.Contains(ViewContext.RouteData.GetRequiredString("action")) && !Model.isProjectBased)
-                        {
-                            <th></th>
-                        }*@
+                            {
+                                <th></th>
+                            }*@
                         <th class="text-center"><h1></h1></th>
 
                         <th class="text-center"><h1>Total</h1></th>
@@ -940,26 +940,29 @@
                         </th>
                         <th class="text-right"><span id="NetTotalAmount"></span></th>
                         @*@if (actionName == "Create" || actionName == "CreateProject")
-                        {*@
-                            <th width="2%">&nbsp;</th>
+                            {*@
+                        <th width="2%">&nbsp;</th>
                         @*}*@
                     </tr>
                 </tfoot>
             </table>
+            <strong>Select tail lift/accessories below:</strong>
+            @Html.Partial("_MaterialList")
+
             if (@Model.isAfterSales)
             {
                 @Html.Partial("_MaterialList")
             }
+
             if (@Model.isAfterSales)
             {
                 <div class="row form-group">
                     <div class="col-md-12">
-
                         <label class="tamount">Grand Total: <span id="lblTotalAmount"></span></label>
-
                     </div>
                 </div>
             }
+
             <div class="row">
 
                 <div class="col-md-12">
@@ -972,27 +975,23 @@
                     </div>
 
                 </div>
-
-
-
-
                 <div class="col-md-11 col-sm-10" style="display:inline-block;position:relative;">
-
                     <div class="part4">
-
                         <label for="PaymentTerms">Payment Terms</label>
-
                         @Html.TextBoxFor(m => m.PaymentTerms, new { @class = "form_input", autocomplete = "off" })
                         @if (actionName != "Approve")
                         {
                             <button class="terms" type="button" id="pymtTerms" onclick="showPaymentTerms()">...</button>
                         }
                     </div>
-
                 </div>
-
             </div>
-
+            <div class="row">
+                <div class="col-md-12">
+                    <label for="DeliveryTerms">Delivery Terms</label>
+                    @Html.TextBoxFor(m => m.DeliveryTerms, new { @class = "form_input", @autocomplete = "off" })
+                </div>
+            </div>
             <div class="row">
 
                 <div class="col-md-3">
@@ -1018,70 +1017,71 @@
 
                 </div>
                 @*<div class="col-md-1">
-                    <label for="Competitors">Discount</label>
-                    @Html.TextBoxFor(m => m.Discount, new { @class = "form_input numbers-only", autocomplete = "off" })
-                </div>
-                <div class="col-md-3">
-                    <label for="DiscountRemarks">Discount Remarks</label>
+                        <label for="Competitors">Discount</label>
+                        @Html.TextBoxFor(m => m.Discount, new { @class = "form_input numbers-only", autocomplete = "off" })
+                    </div>
+                    <div class="col-md-3">
+                        <label for="DiscountRemarks">Discount Remarks</label>
 
-                    @Html.TextBoxFor(m => m.DiscountRemarks, new { @class = "form_input", autocomplete = "off" })
+                        @Html.TextBoxFor(m => m.DiscountRemarks, new { @class = "form_input", autocomplete = "off" })
 
-                </div>*@
+                    </div>*@
             </div>
+
             <div class="row">
                 <div class="col-md-12 hrpart">
                     @if (actionName == "Create")
                     {
-                        <button type="button" class="form-button right" onclick="GotoIndex()">Exit</button>
-                        <button type="submit" class="form-button right">Save</button>
-                        <input type="button" class="form-button" onclick="PreviousList()" value="Previous">
+                    <button type="button" class="form-button right" onclick="GotoIndex()">Exit</button>
+                    <button type="submit" class="form-button right">Save</button>
+                    <input type="button" class="form-button" onclick="PreviousList()" value="Previous">
                         if (Model.isProjectBased)
                         {
-                            <span id="costing-amount-notifier"></span>
+                    <span id="costing-amount-notifier"></span>
                         }
                     }
                     else if (actionName == "CreateProject")
                     {
-                        <button type="button" class="form-button right" onclick="GotoProjectIndex()">Exit</button>
-                        <button type="submit" class="form-button right">Save</button>
-                        <input type="button" class="form-button" onclick="PreviousList()" value="Previous">
+                    <button type="button" class="form-button right" onclick="GotoProjectIndex()">Exit</button>
+                    <button type="submit" class="form-button right">Save</button>
+                    <input type="button" class="form-button" onclick="PreviousList()" value="Previous">
                         if (Model.isProjectBased)
                         {
-                            <span id="costing-amount-notifier"></span>
+                    <span id="costing-amount-notifier"></span>
                         }
                     }
                     else if (actionName == "CreateAfterSalesTrans")
                     {
 
-                        <button type="button" class="form-button right" onclick="GotoAfterSalesIndex()">Exit</button>
-                        <button type="submit" class="form-button right">Save</button>
-                        <input type="button" class="form-button" onclick="PreviousList()" value="Previous">
+                    <button type="button" class="form-button right" onclick="GotoAfterSalesIndex()">Exit</button>
+                    <button type="submit" class="form-button right">Save</button>
+                    <input type="button" class="form-button" onclick="PreviousList()" value="Previous">
                         if (Model.isProjectBased)
                         {
-                            <span id="costing-amount-notifier"></span>
+                    <span id="costing-amount-notifier"></span>
                         }
 
                     }
                     else if (actionName == "CreateAfterSalesProject")
                     {
 
-                        <button type="button" class="form-button right" onclick="GotoAfterSalesIndex()">Exit</button>
-                        <button type="submit" class="form-button right">Save</button>
-                        <input type="button" class="form-button" onclick="PreviousList()" value="Previous">
+                    <button type="button" class="form-button right" onclick="GotoAfterSalesIndex()">Exit</button>
+                    <button type="submit" class="form-button right">Save</button>
+                    <input type="button" class="form-button" onclick="PreviousList()" value="Previous">
                         if (Model.isProjectBased)
                         {
-                            <span id="costing-amount-notifier"></span>
+                    <span id="costing-amount-notifier"></span>
                         }
 
                     }
                     else if (ViewBag.actionName.ToString() == "Approve")
                     {
-                        <button type="button" class="form-button right" onclick="ExitToPendingApproval()">Exit</button>
+                    <button type="button" class="form-button right" onclick="ExitToPendingApproval()">Exit</button>
                         if (Model.isProjectBased)
                         {
-                            <span id="costing-amount-notifier"></span>
+                    <span id="costing-amount-notifier"></span>
                         }
-                        <button type="submit" class="form-button right">Approve</button>
+                    <button type="submit" class="form-button right">Approve</button>
                     }
                 </div>
             </div>

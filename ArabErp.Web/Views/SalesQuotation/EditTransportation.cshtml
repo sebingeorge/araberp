@@ -963,10 +963,10 @@
                     </tr>
                 </tfoot>
             </table>
-            if (@Model.isAfterSales)
-            {
-                @Html.Partial("_MaterialList")
-            }
+            
+            <strong>Select tail lift/accessories below:</strong>
+            @Html.Partial("_MaterialList")
+            
             if (@Model.isAfterSales)
             {
                 <div class="row form-group">
@@ -1008,8 +1008,14 @@
 
                 </div>
 
+                
             </div>
-
+            <div class="row">
+                <div class="col-md-12">
+                    <label for="DeliveryTerms">Delivery Terms</label>
+                    @Html.TextBoxFor(m => m.DeliveryTerms, new { @class = "form_input", @autocomplete = "off" })
+                </div>
+            </div>
             <div class="row">
 
                 <div class="col-md-3">

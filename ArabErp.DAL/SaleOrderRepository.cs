@@ -41,7 +41,7 @@ namespace ArabErp.DAL
                     if (objSaleOrder.isAfterSales == 1)
                     {
 
-                        MaterialAmt = objSaleOrder.Materials.Sum(m => m.Amount);
+                        MaterialAmt = objSaleOrder.Materials.Sum(m => m.Amount??0);
                     }
                     objSaleOrder.TotalAmount = objSaleOrder.Items.Sum(m => m.Amount) + MaterialAmt;
                     objSaleOrder.TotalDiscount = objSaleOrder.Items.Sum(m => m.Discount);
@@ -61,11 +61,11 @@ namespace ArabErp.DAL
                         item.SaleOrderId = id;
                         new SaleOrderItemRepository().InsertSaleOrderItem(item, connection, txn);
                     }
-                    if (objSaleOrder.isAfterSales == 1)
+                    if (objSaleOrder.Materials!=null && objSaleOrder.Materials.Count > 0)
                     {
-
                         foreach (SalesQuotationMaterial item in objSaleOrder.Materials)
                         {
+                            if (item.ItemId == null) continue;
                             item.SaleOrderId = id;
                             new SaleOrderItemRepository().InsertSaleOrderMaterial(item, connection, txn);
                         }
@@ -681,7 +681,7 @@ namespace ArabErp.DAL
             }
         }
 
-        public IEnumerable<PendingSO> GetPreviousList(int isProjectBased, int id, int cusid, int OrganizationId, DateTime? from, DateTime? to)
+        public IEnumerable<PendingSO> GetPreviousList(int isProjectBased, int id, int cusid, int OrganizationId, DateTime? from, DateTime? to, int service = 0)
         {
             using (IDbConnection connection = OpenConnection(dataConnection))
             {
@@ -691,10 +691,10 @@ namespace ArabErp.DAL
                 query += " left join SalesQuotation SQ ON SQ.SalesQuotationId=S.SalesQuotationId";
                 query += " where S.SaleOrderId= ISNULL(NULLIF(@id, 0), S.SaleOrderId) AND C.CustomerId = ISNULL(NULLIF(@cusid, 0), C.CustomerId)";
                 query += " AND S.isActive = 1 and S.OrganizationId = @OrganizationId and S.SaleOrderDate BETWEEN ISNULL(@from, DATEADD(MONTH, -1, GETDATE())) AND ISNULL(@to, GETDATE())";
-                query += " AND S.isProjectBased=@isProjectBased ";
+                query += @" AND S.isProjectBased=@isProjectBased AND ISNULL(S.isService, 0) = @service";
 
 
-                return connection.Query<PendingSO>(query, new { isProjectBased = isProjectBased, OrganizationId = OrganizationId, id = id, cusid = cusid, to = to, from = from }).ToList();
+                return connection.Query<PendingSO>(query, new { isProjectBased = isProjectBased, OrganizationId = OrganizationId, id = id, cusid = cusid, to = to, from = from, service = service }).ToList();
             }
         }
 

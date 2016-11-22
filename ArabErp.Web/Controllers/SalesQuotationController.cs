@@ -50,6 +50,8 @@ namespace ArabErp.Web.Controllers
             salesquotation.SalesQuotationItems.Add(new SalesQuotationItem());
             salesquotation.SalesQuotationItems[0].Quantity = 1;
             salesquotation.SalesQuotationItems[0].UnitName = "Nos";
+            salesquotation.Materials = new List<SalesQuotationMaterial>();
+            salesquotation.Materials.Add(new SalesQuotationMaterial());
             ViewBag.SubmitAction = "Save";
             return View("CreateTransportation", salesquotation);
         }
@@ -57,9 +59,9 @@ namespace ArabErp.Web.Controllers
         [HttpPost]
         public ActionResult Create(SalesQuotation model)
         {
-            if (!ModelState.IsValid)
-            {
-                var allErrors = ModelState.Values.SelectMany(v => v.Errors);
+            //if (!ModelState.IsValid)
+            //{
+            //    var allErrors = ModelState.Values.SelectMany(v => v.Errors);
 
 
                 DropDowns();
@@ -69,8 +71,8 @@ namespace ArabErp.Web.Controllers
                 FillSalesQuotationStatus();
                 FillRateSettings();
 
-                return View(model);
-            }
+                //return View(model);
+            //}
             model.OrganizationId = OrganizationId;
             model.CreatedDate = System.DateTime.Now;
             model.CreatedBy = UserID.ToString();
@@ -90,7 +92,7 @@ namespace ArabErp.Web.Controllers
                 FillVehicle();
                 FillUnit();
 
-                return View("Create", model);
+                return View("CreateTransportation", model);
             }
         }
         public ActionResult CreateProject()
@@ -361,6 +363,10 @@ namespace ArabErp.Web.Controllers
             }
             catch { }
             salesquotation.Materials = repo.GetSalesQuotationMaterials(id);
+            if (salesquotation.Materials == null || salesquotation.Materials.Count == 0)
+            {
+                salesquotation.Materials.Add(new SalesQuotationMaterial());
+            }
             if (!salesquotation.isProjectBased)
             {
                 return View("EditTransportation", salesquotation);
@@ -803,6 +809,7 @@ namespace ArabErp.Web.Controllers
             FillFreezerUnit();
             FillBox();
             FillVehicle();
+            ItemDropdown();
         }
 
         private void FillFreezerUnit()

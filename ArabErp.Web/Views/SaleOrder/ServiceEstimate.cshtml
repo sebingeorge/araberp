@@ -46,6 +46,12 @@
         window.location = url;
     }
 
+    function PreviousList() {
+        var url = '@Url.Action("Index")';
+        url += "?type=0&service=1";
+        window.location = url;
+    }
+
 </script>
 
 <div class="row">
@@ -235,6 +241,7 @@
             </div>
             <div class="row">
                 <div class="col-md-12 hrpart">
+                    <input type="button" class="form-button" onclick="PreviousList()" value="Previous">
                     <button type="button" class="form-button right" onclick="Exit()">Exit</button>
                     <button type="submit" class="form-button right">Save</button>
                 </div>

@@ -41,6 +41,10 @@ $(function () {
                   }
               });
 
+            if ($(this.element).attr("required") != 'required' && !$(this.element).attr("required")) {
+                $(this.input).removeAttr("required");
+            }
+
             if ($(this.element).attr("disabled") == "disabled") {
                 $(this.input).attr("style", "color:red");
             }

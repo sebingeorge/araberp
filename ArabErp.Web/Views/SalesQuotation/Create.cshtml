@@ -931,7 +931,7 @@
                     </tr>
                 </tfoot>
             </table>
-            if (@Model.isAfterSales)
+            if (Model.Materials != null && Model.Materials.Count > 0)
             {
                 @Html.Partial("_MaterialList")
             }
@@ -977,7 +977,12 @@
                 </div>
 
             </div>
-
+            <div class="row">
+                <div class="col-md-12">
+                    <label for="DeliveryTerms">Delivery Terms</label>
+                    @Html.TextBoxFor(m => m.DeliveryTerms, new { @class = "form_input", @autocomplete = "off" })
+                </div>
+            </div>
             <div class="row">
 
                 <div class="col-md-3">
