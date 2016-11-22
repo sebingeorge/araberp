@@ -23,5 +23,6 @@ namespace ArabErp.Domain
         public string JobCardNo { get; set; }
         public DateTime JobCardDate { get; set; }
         public int JodCardCompleteStatus { get; set; }
+        public int IsQCPassed { get; set; }
     }
 }
