@@ -931,7 +931,7 @@
                     </tr>
                 </tfoot>
             </table>
-            if (@Model.isAfterSales)
+            if (Model.Materials != null && Model.Materials.Count > 0)
             {
                 @Html.Partial("_MaterialList")
             }

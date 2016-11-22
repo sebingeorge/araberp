@@ -141,7 +141,15 @@ namespace ArabErp.DAL
                                     INNER JOIN Item I2 ON WD.BoxId = I2.ItemId
                                     INNER JOIN Unit U ON I2.ItemUnitId = U.UnitId
                                     WHERE SO.SaleOrderId=@SaleOrderId
-                                    GROUP BY I2.ItemId, I2.ItemName, I2.PartNo, U.UnitName) T1;
+                                    GROUP BY I2.ItemId, I2.ItemName, I2.PartNo, U.UnitName
+									UNION ALL
+									SELECT
+										I3.ItemId, I3.ItemName, I3.PartNo, SOM.Quantity, U.UnitName
+									FROM SaleOrderMaterial SOM
+									INNER JOIN SaleOrder SO ON SOM.SaleOrderId = SO.SaleOrderId
+									INNER JOIN Item I3 ON SOM.ItemId = I3.ItemId
+									INNER JOIN Unit U ON I3.ItemUnitId = U.UnitId
+									WHERE SO.SaleOrderId = @SaleOrderId) T1;
 
                                     SELECT
 	                                    ItemId, ItemName, PartNo, SUM(Quantity) Quantity, UnitName
