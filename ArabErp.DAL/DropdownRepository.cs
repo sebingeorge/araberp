@@ -975,6 +975,17 @@ namespace ArabErp.DAL
                 return connection.Query<Dropdown>(" select  ItemSubGroupId Id,ItemSubGroupName Name from ItemSubGroup ").ToList();
             }
         }
+        /// <summary>
+        /// Returns all part no from [Item] table
+        /// </summary>
+        /// <returns></returns>
+        public IEnumerable PartNoDropdown1()
+        {
+            using (IDbConnection connection = OpenConnection(dataConnection))
+            {
+                return connection.Query<Dropdown>("SELECT ItemId Id, PartNo Name FROM Item WHERE ISNULL(LTRIM(RTRIM(PartNo)), '') <> ''").ToList();
+            }
+        }
 
         public List<Dropdown> Designation()
         {
