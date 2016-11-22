@@ -975,5 +975,13 @@ namespace ArabErp.DAL
                 return connection.Query<Dropdown>(" select  ItemSubGroupId Id,ItemSubGroupName Name from ItemSubGroup ").ToList();
             }
         }
+
+        public List<Dropdown> Designation()
+        {
+            using (IDbConnection connection = OpenConnection(dataConnection))
+            {
+                return connection.Query<Dropdown>(" select DesignationId  Id,DesignationName Name from designation ").ToList();
+            }
+        }
     }
 }

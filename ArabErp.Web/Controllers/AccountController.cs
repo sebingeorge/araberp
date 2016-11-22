@@ -258,6 +258,7 @@ namespace ArabErp.Web.Controllers
         {
             if ((Id ?? 0) == 0)
             {
+                FillDesignation();
                 User model = new User();
                 model.Module = new System.Collections.Generic.List<ModuleVsUser>();
                 model.ERPAlerts = new System.Collections.Generic.List<ERPAlerts>();
@@ -290,9 +291,10 @@ namespace ArabErp.Web.Controllers
             {
                 //var users = (new UserRepository().GetUsers());
                 //User model = (from a in users where a.UserId == Id select a).Single();
-
+                FillDesignation();
+                
                 User model = new UserRepository().GetUserInfo(Id);
-
+               // model.DesignationId = System.Collections.Generic.List< DropdownRepository().Designation(), "Id", "Name");
                 model.Module = new System.Collections.Generic.List<ModuleVsUser>();
                 model.ERPAlerts = new System.Collections.Generic.List<ERPAlerts>();
                 model.ERPGraphs = new System.Collections.Generic.List<ERPGraphs>();
@@ -724,6 +726,10 @@ namespace ArabErp.Web.Controllers
                 }
                 context.HttpContext.GetOwinContext().Authentication.Challenge(properties, LoginProvider);
             }
+        }
+        public void FillDesignation()
+        {
+            ViewBag.Designation = new SelectList(new DropdownRepository().Designation(), "Id", "Name");
         }
         #endregion
     }

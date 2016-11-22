@@ -165,7 +165,7 @@ namespace ArabErp.DAL
 	                                S.CurrencyId,
 	                                SpecialRemarks,
 	                                S.PaymentTerms,
-	                                DeliveryTerms,
+	                                S.DeliveryTerms,
 	                                CommissionAgentId,
 	                                CommissionAmount,
 	                                TotalAmount,
