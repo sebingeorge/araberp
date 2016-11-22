@@ -30,6 +30,7 @@ namespace ArabErp.Web.Controllers
         public ActionResult OpeningStockList(int? stockpointId)
         {
             FillItem();
+            FillPartNo();
 
             OpeningStock OpeningStock = new OpeningStock();
             OpeningStock.OpeningStockItem = new List<OpeningStockItem>();
@@ -63,6 +64,11 @@ namespace ArabErp.Web.Controllers
             ViewBag.Itemlist = new SelectList(list, "Id", "Name");
         }
 
+        public void FillPartNo()
+        {
+            ViewBag.partNoList = new SelectList(new DropdownRepository().PartNoDropdown1(), "Id", "Name");
+        }
+
         public ActionResult Save(OpeningStock model)
         {
             model.OrganizationId = OrganizationId;
@@ -77,6 +83,7 @@ namespace ArabErp.Web.Controllers
 
             FillStockpoint();
             FillItem();
+            FillPartNo();
 
             TempData["Success"] = "Added Successfully!";
             OpeningStock OpeningStock = new OpeningStock();

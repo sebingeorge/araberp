@@ -27,10 +27,32 @@
     function OnItemChanged(sender, row) {
         var id = $(sender).val();
         if (id != '' && id != 0) {
-            var url = '@Url.Action("GetItemPartNo", "AdditionalWorkShopRequest")';
+            @*var url = '@Url.Action("GetItemPartNo", "AdditionalWorkShopRequest")';
             $.getJSON(url, { itemId: id}, function(data){
                 $("#part_no_" + row).text(data);
-            })
+            })*@
+            $("#cboPartNo" + row).combobox("destroy");
+            $("#cboPartNo" + row).val(id);
+            $("#cboPartNo" + row).combobox();
+        }
+        else {
+            $("#cboPartNo" + row).combobox("destroy");
+            $("#cboPartNo" + row).val('');
+            $("#cboPartNo" + row).combobox();
+        }
+    }
+
+    function OnPartNoChanged(sender, row) {
+        var id = $(sender).val();
+        if (id != '' && id != 0) {
+            $("#OpeningStockItem_" + row + "__ItemId").combobox("destroy");
+            $("#OpeningStockItem_" + row + "__ItemId").val(id);
+            $("#OpeningStockItem_" + row + "__ItemId").combobox();
+        }
+        else {
+            $("#OpeningStockItem_" + row + "__ItemId").combobox("destroy");
+            $("#OpeningStockItem_" + row + "__ItemId").val('');
+            $("#OpeningStockItem_" + row + "__ItemId").combobox();
         }
     }
 
@@ -38,53 +60,53 @@
 
 
 
-    <div class="row">
-        <div class= "form-head1">
-            <h4>Opening Stock</h4>
-        </div>
-      
-        <div class="main-part pad1">
-             @using (Html.BeginForm("Save", null, FormMethod.Post, new { @class = "createFrom", @id = "openingstock_form" })) 
-             {
-                 <div class="row">
-                     <div class="col-md-12">
-                     </div>
+<div class="row">
+    <div class="form-head1">
+        <h4>Opening Stock</h4>
+    </div>
 
-                     <div class="col-md-4">
-                         <div class="part4">
-                             <label for="stockpoint">Stock Point</label>
-                             @Html.DropDownListFor(m => Model.stockpointId, (SelectList)ViewBag.Stockpointlist, "Select Stock Point", new { @class = "form_input", autocomplete = "off" })
-                         </div>
-                     </div>
-                 </div>
+    <div class="main-part pad1">
+        @using (Html.BeginForm("Save", null, FormMethod.Post, new { @class = "createFrom", @id = "openingstock_form" }))
+        {
+            <div class="row">
+                <div class="col-md-12">
+                </div>
 
-                @*@*<div class="row form-group">
+                <div class="col-md-4">
+                    <div class="part4">
+                        <label for="stockpoint">Stock Point</label>
+                        @Html.DropDownListFor(m => Model.stockpointId, (SelectList)ViewBag.Stockpointlist, "Select Stock Point", new { @class = "form_input", autocomplete = "off" })
+                    </div>
+                </div>
+            </div>
+
+            @*@*<div class="row form-group">
                 </div>*@
 
-                    <div id="opening-stock-list" class="table-responsive">
-                        @Html.Action("OpeningStockList", new { stockpointId = 0 })
-                    </div>
+            <div id="opening-stock-list" class="table-responsive">
+                @Html.Action("OpeningStockList", new { stockpointId = 0 })
+            </div>
 
-                    @*@Html.Action("OpeningStockList")*@
+            @*@Html.Action("OpeningStockList")*@
 
-    <div class="row">
+            <div class="row">
 
-        <div class="col-md-12 hrpart">
-            <em class="perm">**Materials cannot be edited if serial no is assigned.</em>
-            <button type="button" class="form-button right" onclick="Exit();">Exit</button>
-            <button type="submit" class="form-button right">Save</button>
-        </div>
+                <div class="col-md-12 hrpart">
+                    <em class="perm">**Materials cannot be edited if serial no is assigned.</em>
+                    <button type="button" class="form-button right" onclick="Exit();">Exit</button>
+                    <button type="submit" class="form-button right">Save</button>
+                </div>
+
+            </div>
+
+
+
+        }
+
+
 
     </div>
-
-
-                 
-             }
-
-                          
-
-        </div>
-    </div>
+</div>
 
 
 
