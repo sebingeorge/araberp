@@ -905,6 +905,7 @@ namespace ArabErp.Web.Controllers
             ds.Tables["Head"].Columns.Add("Phone");
             ds.Tables["Head"].Columns.Add("CurrencyName");
             ds.Tables["Head"].Columns.Add("OrganizationName");
+            ds.Tables["Head"].Columns.Add("Designation");
             ds.Tables["Head"].Columns.Add("Image1");
             ds.Tables["Head"].Columns.Add("UserName");
            // ds.Tables["Head"].Columns.Add("EmpDesignation");
@@ -952,6 +953,7 @@ namespace ArabErp.Web.Controllers
             dr["Phone"] = Head.Phone;
             dr["CurrencyName"] = Head.CurrencyName;
             dr["OrganizationName"] = Head.OrganizationName;
+            dr["Designation"] = Head.DesignationName;
             dr["Image1"] = Server.MapPath("~/App_images/") + Head.Image1;
             dr["UserName"] = Head.EmpNmae;
             //dr["EmpDesignation"] = Head.EmpDesignation;

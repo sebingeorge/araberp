@@ -18,8 +18,8 @@ namespace ArabErp.DAL
             {
                 try
                 {
-                    string sql = "INSERT INTO [dbo].[User](UserName, UserEmail, UserPassword, UserSalt)";
-                    sql += " VALUES(@UserName, @UserEmail, @UserPassword, @UserSalt);";
+                    string sql = "INSERT INTO [dbo].[User](UserName, UserEmail, UserPassword, UserSalt,DesignationId)";
+                    sql += " VALUES(@UserName, @UserEmail, @UserPassword, @UserSalt,@DesignationId);";
                     sql += " SELECT CAST(SCOPE_IDENTITY() as int);";
 
                     var id = connection.Query<int>(sql, user).Single();
@@ -102,7 +102,7 @@ namespace ArabErp.DAL
             {
                 try
                 {
-                    string sql = "Update [User] set UserEmail = @UserEmail";
+                    string sql = "Update [User] set UserEmail = @UserEmail,DesignationId=@DesignationId";
                     if (user.UserPassword != null && user.UserPassword != "")
                     {
                         sql += ", UserPassword = @UserPassword, @UserSalt = UserSalt";
@@ -250,6 +250,7 @@ namespace ArabErp.DAL
                 ,[UserSalt]
                 ,[UserRole]
                 ,[Signature]
+                ,DesignationId
                 FROM[dbo].[User] U Where U.UserId=" + Id;
                 return connection.Query<User>(sql).FirstOrDefault();
             }

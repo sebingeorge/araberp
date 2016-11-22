@@ -986,5 +986,13 @@ namespace ArabErp.DAL
                 return connection.Query<Dropdown>("SELECT ItemId Id, PartNo Name FROM Item WHERE ISNULL(LTRIM(RTRIM(PartNo)), '') <> ''").ToList();
             }
         }
+
+        public List<Dropdown> Designation()
+        {
+            using (IDbConnection connection = OpenConnection(dataConnection))
+            {
+                return connection.Query<Dropdown>(" select DesignationId  Id,DesignationName Name from designation ").ToList();
+            }
+        }
     }
 }
