@@ -15,6 +15,7 @@ namespace ArabErp.Domain
         public bool Transportation { get; set; }
         public bool Finance { get; set; }
         public bool MISReports { get; set; }
+        public bool Store { get; set; }
     }
     public class AlertPermission
     {
