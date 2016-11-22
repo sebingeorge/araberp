@@ -341,7 +341,7 @@ namespace ArabErp.DAL
         {
             using (IDbConnection connection = OpenConnection(dataConnection))
             {
-                return connection.Query<string>("SELECT PartNo FROM Item WHERE ItemId = @ItemId",
+                return connection.Query<string>("SELECT ISNULL(PartNo, '') FROM Item WHERE ItemId = @ItemId",
                 new { ItemId = itemId }).First<string>();
             }
         }

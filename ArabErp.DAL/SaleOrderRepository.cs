@@ -61,11 +61,11 @@ namespace ArabErp.DAL
                         item.SaleOrderId = id;
                         new SaleOrderItemRepository().InsertSaleOrderItem(item, connection, txn);
                     }
-                    if (objSaleOrder.isAfterSales == 1)
+                    if (objSaleOrder.Materials!=null && objSaleOrder.Materials.Count > 0)
                     {
-
                         foreach (SalesQuotationMaterial item in objSaleOrder.Materials)
                         {
+                            if (item.ItemId == null) continue;
                             item.SaleOrderId = id;
                             new SaleOrderItemRepository().InsertSaleOrderMaterial(item, connection, txn);
                         }
