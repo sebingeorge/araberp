@@ -237,5 +237,32 @@ namespace ArabErp.DAL
             }
         }
 
+        /// <summary>
+        /// Return details of jobcard (JobCardNo, JobCardDate, CustomerName, VehicleModelName, ChassisNo)
+        /// </summary>
+        /// <param name="Id"></param>
+        /// <param name="OrganizationId"></param>
+        /// <returns></returns>
+        public JobCardQC GetJobCardDetails(int Id, int OrganizationId)
+        {
+            using (IDbConnection connection = OpenConnection(dataConnection))
+            {
+                string query = @"SELECT
+	                            JobCardId,
+	                            JobCardNo,
+	                            CONVERT(VARCHAR, JobCardDate, 106) JobCardDate,
+	                            C.CustomerName,
+	                            VM.VehicleModelName,
+	                            VIP.ChassisNo
+                            FROM JobCard JC
+	                            INNER JOIN SaleOrder SO ON JC.SaleOrderId = SO.SaleOrderId
+	                            INNER JOIN SaleOrderItem SOI ON JC.SaleOrderItemId = SOI.SaleOrderItemId
+	                            LEFT JOIN VehicleModel VM ON SOI.VehicleModelId = VM.VehicleModelId
+	                            LEFT JOIN VehicleInPass VIP ON JC.InPassId = VIP.VehicleInPassId
+	                            INNER JOIN Customer C ON SO.CustomerId = C.CustomerId
+                            WHERE JobCardId = @id AND JC.OrganizationId = @org";
+                return connection.Query<JobCardQC>(query, new { id = Id, org = OrganizationId }).FirstOrDefault();
+            }
+        }
     }
 }

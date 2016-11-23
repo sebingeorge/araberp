@@ -28,17 +28,11 @@ namespace ArabErp.Web.Controllers
         {
             try
             {
-                string internalId = "";
-                internalId = DatabaseCommonRepository.GetNextDocNo(17, OrganizationId);
                 FillEmployee();
                 JobCardQC objJCQC = new JobCardQC();
-                objJCQC.JobCardQCRefNo = internalId;
-                objJCQC.JobCardNo = No;
-                objJCQC.JobCardId = Id;
+                objJCQC = JobCardQCRepo.GetJobCardDetails(Id, OrganizationId);
+                objJCQC.JobCardQCRefNo = DatabaseCommonRepository.GetNextDocNo(17, OrganizationId);
                 objJCQC.CurrentDate = System.DateTime.Today;
-                objJCQC.JcDate = JcDate;
-                objJCQC.Customer = Customer;
-                objJCQC.VehicleModel = VehicleModel;
                 objJCQC.JobCardQCParams = JobCardQCParamRepo.GetJobCardQCParamList();
                 return View(objJCQC);
             }

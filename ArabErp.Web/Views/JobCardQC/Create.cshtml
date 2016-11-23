@@ -39,21 +39,25 @@
 
             <div class="row form-group ">
                 <div class="col-md-2">
-                    <label for="name" class="label1">Job Card No.</label>
+                    <label for="JobCardNo" class="label1">Job Card No.</label>
                     @Html.TextBoxFor(m => Model.JobCardNo, new { @class = "form_input", autocomplete = "off", @readonly = "readonly" })
                     @Html.HiddenFor(m => Model.JobCardId)
                 </div>
                 <div class="col-md-2">
-                    <label for="name" class="label1">Job Card Date</label>
+                    <label for="JcDate" class="label1">Job Card Date</label>
                     @Html.TextBoxFor(m => m.JcDate, Model.JcDate.ToString("dd/MMMM/yyyy"), new { @class = "form_input", autocomplete = "off", @readonly = "readonly" })
                 </div>
                 <div class="col-md-3">
-                    <label for="name" class="label1">Customer</label>
+                    <label for="Customer" class="label1">Customer</label>
                     @Html.TextBoxFor(m => Model.Customer, new { @class = "form_input", autocomplete = "off", @readonly = "readonly" })
                 </div>
                 <div class="col-md-3">
-                    <label for="name" class="label1">Vehicle Model</label>
+                    <label for="VehicleModel" class="label1">Vehicle Model</label>
                     @Html.TextBoxFor(m => Model.VehicleModel, new { @class = "form_input", autocomplete = "off", @readonly = "readonly" })
+                </div>
+                <div class="col-md-2">
+                    <label for="ChassisNo">Chassis No.</label>
+                    @Html.TextBoxFor(m => Model.ChassisNo, new { @class = "form_input", autocomplete = "off", @readonly = "readonly" })
                 </div>
             </div>
             <div class="wrap">
