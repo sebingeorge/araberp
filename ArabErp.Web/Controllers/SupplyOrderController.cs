@@ -55,6 +55,7 @@ namespace ArabErp.Web.Controllers
             supplyorder.CurrencyId = new CurrencyRepository().GetCurrencyFrmOrganization(OrganizationId).CurrencyId;
             return View(supplyorder);
         }
+
         //public PartialViewResult grid(IList<PendingPurchaseRequest> PendingPurchaseRequestItemsSelected, int Id = 0)
         //{
         //    SupplyOrder supplyorder = new SupplyOrder();
@@ -215,7 +216,7 @@ namespace ArabErp.Web.Controllers
         [HttpPost]
         public ActionResult Approve(SupplyOrder model)
         {
-            int id = new SupplyOrderRepository().Approve(model.SupplyOrderId);
+            int id = new SupplyOrderRepository().Approve(model.SupplyOrderId, UserID);
             if (id > 0)
             {
                 TempData["success"] = "Approved successfully";
@@ -391,7 +392,10 @@ namespace ArabErp.Web.Controllers
             ds.Tables["Head"].Columns.Add("DeliveryTerms");
             ds.Tables["Head"].Columns.Add("RequiredDate");
             ds.Tables["Head"].Columns.Add("CurrencyName");
-            ds.Tables["Head"].Columns.Add("EmployeeName");
+            ds.Tables["Head"].Columns.Add("CreatedUser");
+            ds.Tables["Head"].Columns.Add("CreateSignature");
+            ds.Tables["Head"].Columns.Add("ApprovedUser");
+            ds.Tables["Head"].Columns.Add("ApproveSignature");
             ds.Tables["Head"].Columns.Add("CountryName");
             //Organization
             ds.Tables["Head"].Columns.Add("DoorNo");
@@ -419,6 +423,7 @@ namespace ArabErp.Web.Controllers
 
             //-------DT
             ds.Tables["Items"].Columns.Add("PRNODATE");
+            ds.Tables["Items"].Columns.Add("PartNo");
             ds.Tables["Items"].Columns.Add("ItemName");
             ds.Tables["Items"].Columns.Add("BalQty");
             ds.Tables["Items"].Columns.Add("OrderedQty");
@@ -443,7 +448,10 @@ namespace ArabErp.Web.Controllers
             dr["DeliveryTerms"] = Head.DeliveryTerms;
             dr["RequiredDate"] = Head.RequiredDate;
             dr["CurrencyName"] = Head.CurrencyName;
-            dr["EmployeeName"] = Head.EmployeeName;
+            dr["CreatedUser"] = Head.CreatedUser;
+            dr["CreateSignature"] = Server.MapPath("~/App_Images/") + Head.CreatedUsersig;
+            dr["ApprovedUser"] = Head.ApprovedUser;
+            dr["ApproveSignature"] = Server.MapPath("~/App_Images/") + Head.ApprovedUsersig;
             dr["CountryName"] = Head.CountryName;
            // dr["CurrencyName"] = Head.CurrencyName;
 
@@ -477,6 +485,7 @@ namespace ArabErp.Web.Controllers
                 var pritem = new SupplyOrderItem
                 {
                     PRNODATE = item.PRNODATE,
+                    PartNo=item.PartNo,
                     ItemName = item.ItemName,
                     BalQty = item.BalQty,
                     OrderedQty = item.OrderedQty,
@@ -492,6 +501,7 @@ namespace ArabErp.Web.Controllers
 
                 DataRow dri = ds.Tables["Items"].NewRow();
                 dri["PRNODATE"] = pritem.PRNODATE;
+                dri["PartNo"] = pritem.PartNo;
                 dri["ItemName"] = pritem.ItemName;
                 dri["BalQty"] = pritem.BalQty;
                 dri["OrderedQty"] = pritem.OrderedQty;

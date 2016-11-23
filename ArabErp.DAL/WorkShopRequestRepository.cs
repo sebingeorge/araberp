@@ -68,36 +68,95 @@ namespace ArabErp.DAL
             using (IDbConnection connection = OpenConnection(dataConnection))
             {
 
-                string query = @"SELECT I.ItemName,I.ItemId,I.PartNo,SUM(WI.Quantity)Quantity,UnitName 
-                       FROM WorkDescription W 
-                       INNER JOIN  WorkVsItem WI on W.WorkDescriptionId=WI.WorkDescriptionId
-                       INNER JOIN Item I ON WI.ItemId=I.ItemId 
-                       INNER JOIN Unit U on U.UnitId =I.ItemUnitId  
-                       INNER JOIN SaleOrderItem SI ON SI.WorkDescriptionId = W.WorkDescriptionId
-                       WHERE SI.SaleOrderId=@SaleOrderId GROUP BY I.ItemName,I.ItemId,I.PartNo,UnitName 
-                       UNION ALL SELECT I.ItemName,I.ItemId,I.PartNo,SUM(S.Quantity)Quantity,UnitName 
-                       FROM SaleOrderMaterial S INNER JOIN Item I ON I.ItemId=S.ItemId
-                       INNER JOIN Unit U on U.UnitId =I.ItemUnitId  
-                       WHERE S.SaleOrderId=@SaleOrderId 
-                       GROUP BY I.ItemName,I.ItemId,I.PartNo,UnitName
-                       ----------------------------Freezer Unit Set-----------------------------------
-                       UNION ALL 
-                       SELECT FU.ItemName,FU.ItemId,FU.PartNo,COUNT(ItemId) Quantity,UnitName 
-                       from WorkDescription W 
-                       INNER JOIN SaleOrderItem SI ON SI.WorkDescriptionId = W.WorkDescriptionId
-                       LEFT JOIN Item FU ON FU.ItemId=W.FreezerUnitId
-                       LEFT JOIN Unit U on U.UnitId =FU.ItemUnitId 
-                       WHERE SI.SaleOrderId=@SaleOrderId AND FU.FreezerUnit=1
-					   GROUP BY FU.ItemName,FU.ItemId,FU.PartNo,UnitName
-                       ------------------------------------Box Set-------------------------------------
-                       UNION ALL 
-                       SELECT B.ItemName,B.ItemId,B.PartNo,COUNT(ItemId) Quantity,UnitName 
-                       from WorkDescription W 
-                       INNER JOIN SaleOrderItem SI ON SI.WorkDescriptionId = W.WorkDescriptionId
-                       LEFT JOIN Item B ON B.ItemId=W.BoxId
-                       LEFT JOIN Unit U on U.UnitId =B.ItemUnitId
-                       WHERE SI.SaleOrderId=@SaleOrderId AND B.Box=1
-					   GROUP BY B.ItemName,B.ItemId,B.PartNo, UnitName";
+                #region old query 12.11.2016
+//                string query = @"SELECT I.ItemName,I.ItemId,I.PartNo,SUM(WI.Quantity)Quantity,UnitName 
+//                                       FROM WorkDescription W 
+//                                       INNER JOIN  WorkVsItem WI on W.WorkDescriptionId=WI.WorkDescriptionId
+//                                       INNER JOIN Item I ON WI.ItemId=I.ItemId 
+//                                       INNER JOIN Unit U on U.UnitId =I.ItemUnitId  
+//                                       INNER JOIN SaleOrderItem SI ON SI.WorkDescriptionId = W.WorkDescriptionId
+//                                       WHERE SI.SaleOrderId=@SaleOrderId GROUP BY I.ItemName,I.ItemId,I.PartNo,UnitName 
+//                                       UNION ALL SELECT I.ItemName,I.ItemId,I.PartNo,SUM(S.Quantity)Quantity,UnitName 
+//                                       FROM SaleOrderMaterial S INNER JOIN Item I ON I.ItemId=S.ItemId
+//                                       INNER JOIN Unit U on U.UnitId =I.ItemUnitId  
+//                                       WHERE S.SaleOrderId=@SaleOrderId 
+//                                       GROUP BY I.ItemName,I.ItemId,I.PartNo,UnitName
+//                                       ----------------------------Freezer Unit Set-----------------------------------
+//                                       UNION ALL 
+//                                       SELECT FU.ItemName,FU.ItemId,FU.PartNo,COUNT(ItemId) Quantity,UnitName 
+//                                       from WorkDescription W 
+//                                       INNER JOIN SaleOrderItem SI ON SI.WorkDescriptionId = W.WorkDescriptionId
+//                                       LEFT JOIN Item FU ON FU.ItemId=W.FreezerUnitId
+//                                       LEFT JOIN Unit U on U.UnitId =FU.ItemUnitId 
+//                                       WHERE SI.SaleOrderId=@SaleOrderId AND FU.FreezerUnit=1
+//                					   GROUP BY FU.ItemName,FU.ItemId,FU.PartNo,UnitName
+//                                       ------------------------------------Box Set-------------------------------------
+//                                       UNION ALL 
+//                                       SELECT B.ItemName,B.ItemId,B.PartNo,COUNT(ItemId) Quantity,UnitName 
+//                                       from WorkDescription W 
+//                                       INNER JOIN SaleOrderItem SI ON SI.WorkDescriptionId = W.WorkDescriptionId
+//                                       LEFT JOIN Item B ON B.ItemId=W.BoxId
+//                                       LEFT JOIN Unit U on U.UnitId =B.ItemUnitId
+//                                       WHERE SI.SaleOrderId=@SaleOrderId AND B.Box=1
+//                					   GROUP BY B.ItemName,B.ItemId,B.PartNo, UnitName"; 
+                #endregion
+
+                string query = @"SELECT T1.* 
+                                INTO #TEMP1 FROM 
+                                (SELECT
+	                                    I_FRZR.ItemId, I_FRZR.ItemName, I_FRZR.PartNo, FRZR.Quantity, U.UnitName
+                                    FROM SaleOrder SO
+                                    INNER JOIN SaleOrderItem SOI ON SO.SaleOrderId = SOI.SaleOrderId
+                                    INNER JOIN WorkDescription WD ON WD.WorkDescriptionId = SOI.WorkDescriptionId
+                                    INNER JOIN ItemVsBom FRZR ON WD.FreezerUnitId = FRZR.ItemId
+                                    INNER JOIN Item I_FRZR ON FRZR.BomItemId = I_FRZR.ItemId
+                                    INNER JOIN Unit U ON I_FRZR.ItemUnitId = U.UnitId
+                                    WHERE SO.SaleOrderId=@SaleOrderId
+                                    UNION ALL
+                                    SELECT
+	                                    I_BOX.ItemId, I_BOX.ItemName, I_BOX.PartNo, BOX.Quantity, U.UnitName
+                                    FROM SaleOrder SO
+                                    INNER JOIN SaleOrderItem SOI ON SO.SaleOrderId = SOI.SaleOrderId
+                                    INNER JOIN WorkDescription WD ON WD.WorkDescriptionId = SOI.WorkDescriptionId
+                                    INNER JOIN ItemVsBom BOX ON WD.BoxId = BOX.ItemId
+                                    INNER JOIN Item I_BOX ON BOX.BomItemId = I_BOX.ItemId
+                                    INNER JOIN Unit U ON I_BOX.ItemUnitId = U.UnitId
+                                    WHERE SO.SaleOrderId=@SaleOrderId
+                                    UNION ALL
+                                    SELECT
+	                                    I1.ItemId, I1.ItemName, I1.PartNo, COUNT(ItemId), U.UnitName
+                                    FROM SaleOrder SO
+                                    INNER JOIN SaleOrderItem SOI ON SO.SaleOrderId = SOI.SaleOrderId
+                                    INNER JOIN WorkDescription WD ON WD.WorkDescriptionId = SOI.WorkDescriptionId
+                                    INNER JOIN Item I1 ON WD.FreezerUnitId = I1.ItemId
+                                    INNER JOIN Unit U ON I1.ItemUnitId = U.UnitId
+                                    WHERE SO.SaleOrderId=@SaleOrderId
+                                    GROUP BY I1.ItemId, I1.ItemName, I1.PartNo, U.UnitName
+                                    UNION ALL
+                                    SELECT
+	                                    I2.ItemId, I2.ItemName, I2.PartNo, COUNT(ItemId), U.UnitName
+                                    FROM SaleOrder SO
+                                    INNER JOIN SaleOrderItem SOI ON SO.SaleOrderId = SOI.SaleOrderId
+                                    INNER JOIN WorkDescription WD ON WD.WorkDescriptionId = SOI.WorkDescriptionId
+                                    INNER JOIN Item I2 ON WD.BoxId = I2.ItemId
+                                    INNER JOIN Unit U ON I2.ItemUnitId = U.UnitId
+                                    WHERE SO.SaleOrderId=@SaleOrderId
+                                    GROUP BY I2.ItemId, I2.ItemName, I2.PartNo, U.UnitName
+									UNION ALL
+									SELECT
+										I3.ItemId, I3.ItemName, I3.PartNo, SOM.Quantity, U.UnitName
+									FROM SaleOrderMaterial SOM
+									INNER JOIN SaleOrder SO ON SOM.SaleOrderId = SO.SaleOrderId
+									INNER JOIN Item I3 ON SOM.ItemId = I3.ItemId
+									INNER JOIN Unit U ON I3.ItemUnitId = U.UnitId
+									WHERE SO.SaleOrderId = @SaleOrderId) T1;
+
+                                    SELECT
+	                                    ItemId, ItemName, PartNo, SUM(Quantity) Quantity, UnitName
+                                    FROM #TEMP1
+                                    GROUP BY ItemId, ItemName, PartNo, UnitName
+
+                                    DROP TABLE #TEMP1;";
 
                 return connection.Query<WorkShopRequestItem>(query,
                 new { SaleOrderId = SaleOrderId }).ToList();
@@ -282,7 +341,7 @@ namespace ArabErp.DAL
         {
             using (IDbConnection connection = OpenConnection(dataConnection))
             {
-                return connection.Query<string>("SELECT PartNo FROM Item WHERE ItemId = @ItemId",
+                return connection.Query<string>("SELECT ISNULL(PartNo, '') FROM Item WHERE ItemId = @ItemId",
                 new { ItemId = itemId }).First<string>();
             }
         }
@@ -355,7 +414,7 @@ namespace ArabErp.DAL
         /// Returns all pending workshop requests
         /// </summary>
         /// <returns></returns>
-        public IEnumerable<WorkShopRequest> PendingWorkshopRequests()
+        public IEnumerable<WorkShopRequest> PendingWorkshopRequests(string Request = "", string Jobcard = "", string Customer = "")
         {
             using (IDbConnection connection = OpenConnection(dataConnection))
             {
@@ -366,11 +425,16 @@ namespace ArabErp.DAL
                 SELECT W.WorkShopRequestId, ISNULL(WR.WorkShopRequestRefNo, '')+' - '+CAST(CONVERT(VARCHAR, WR.WorkShopRequestDate, 106) AS VARCHAR) WorkShopRequestRefNo, ISNULL(CONVERT(DATETIME, WR.RequiredDate, 106), '01 Jan 1900') RequiredDate, C.CustomerName, S.SoNoWithDate,
 				DATEDIFF(day, WR.WorkShopRequestDate, GETDATE()) Ageing,
 				DATEDIFF(day, GETDATE(), WR.RequiredDate) DaysLeft
-                FROM #WORK W LEFT JOIN #ISSUE I ON W.WorkShopRequestId = I.WorkShopRequestId INNER JOIN WorkShopRequest WR ON W.WorkShopRequestId = WR.WorkShopRequestId INNER JOIN #CUSTOMER C ON WR.CustomerId = C.CustomerId INNER JOIN #SALE S ON WR.SaleOrderId = S.SaleOrderId WHERE ISNULL(IssuedQuantity,0) < Quantity ORDER BY WR.WorkShopRequestDate DESC, CreatedDate DESC;
+                FROM #WORK W LEFT JOIN #ISSUE I ON W.WorkShopRequestId = I.WorkShopRequestId INNER JOIN WorkShopRequest WR ON W.WorkShopRequestId = WR.WorkShopRequestId INNER JOIN #CUSTOMER C ON WR.CustomerId = C.CustomerId INNER JOIN #SALE S ON WR.SaleOrderId = S.SaleOrderId 
+                WHERE ISNULL(IssuedQuantity,0) < Quantity 
+                AND  WorkShopRequestRefNo LIKE '%'+@Request+'%'
+				AND SoNoWithDate LIKE '%'+@Jobcard+'%'
+				AND CustomerName LIKE '%'+@Customer+'%'
+                ORDER BY WR.WorkShopRequestDate DESC, CreatedDate DESC;
                 DROP TABLE #ISSUE;
                 DROP TABLE #WORK;
                 DROP TABLE #CUSTOMER;
-				DROP TABLE #SALE;").ToList();
+				DROP TABLE #SALE;", new { Request = Request, Jobcard = Jobcard, Customer = Customer }).ToList();
             }
         }
         public IEnumerable<WorkShopRequest> GetPrevious(int isProjectBased, DateTime? from, DateTime? to, string workshop, string customer, int OrganizationId)
@@ -601,13 +665,13 @@ namespace ArabErp.DAL
 	                                inner join WorkDescription W on W.WorkDescriptionId=SI.WorkDescriptionId
 	                                WHERE SI.SaleOrderId = S.SaleOrderId
 	                                FOR XML PATH(''), TYPE).value('.','NVARCHAR(MAX)'),1,2,' ') WorkDescription,
-	                                S.isProjectBased,
+	                                CASE WHEN S.isProjectBased = 1 THEN 'MATERIAL REQUEST' ELSE 'WORKSHOP REQUEST' END AS title,
 	                                C.CustomerName
                                     from WorkShopRequest WR 
 								    INNER JOIN Organization O ON O.OrganizationId=WR.OrganizationId
 	                                INNER JOIN SaleOrder S on S.SaleOrderId=WR.SaleOrderId
 	                                INNER JOIN  Customer C  ON S.CustomerId =C.CustomerId
-									inner  JOIN Country ORR ON ORR.CountryId=O.Country
+									left  JOIN Country ORR ON ORR.CountryId=O.Country
                                     WHERE WorkShopRequestId = @WorkShopRequestId";
                 var objWrkshopRequests = connection.Query<WorkShopRequest>(sql, new { WorkShopRequestId = WorkShopRequestId, organizationId = organizationId }).First<WorkShopRequest>();
                 return objWrkshopRequests;

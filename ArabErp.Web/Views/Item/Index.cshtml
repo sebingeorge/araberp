@@ -6,29 +6,39 @@
 
 <script type="text/javascript">
 
+    $(function () {
+        $("#txtName").val('@Request.QueryString["name"]');
+        $("#txtGroup").val('@Request.QueryString["group"]');
+        $("#txtSubGroup").val('@Request.QueryString["subgroup"]');
+    })
+
     function Create() {
-            location.href = '@Url.Action("Create")';  
+        location.href = '@Url.Action("Create")';
     }
 
-       function Exit() {
-        
-         location.href = '@Url.Action("Index","Home")';
-       }
+    function Exit() {
+
+        location.href = '@Url.Action("Index","Home")';
+    }
     function GoToPrint() {
-           
+
         var url = '@Url.Action("Print")';
         var name = $("#txtName").val();
-        url += "?name=" + name;
+        var group = $("#txtGroup").val();
+        var subgroup = $("#txtSubGroup").val();
+        url += "?name=" + name + "&group=" + group + "&subgroup=" + subgroup;
+        alert(url)
         window.location = url;
     }
 
     function Filter() {
         $(grid).addClass("fade");
         var url = '@Url.Action("ItemList")';
-        var name = $("#txtName").val();
-        name = name.replace(/ /g, "+");
-        url += "?name=" + name;
-        //alert(url);
+        var name = $("#txtName").val().trim();
+        var group = $("#txtGroup").val().trim();
+        var subgroup = $("#txtSubGroup").val().trim();
+        //name = name.replace(/ /g, "+");
+        url += "?name=" + encodeURIComponent(name) + "&group=" + encodeURIComponent(group) + "&subgroup=" + encodeURIComponent(subgroup);
         $("#grid").load(url, function () {
             $(grid).removeClass("fade");
         });
@@ -47,9 +57,16 @@
             <div class="row">
                 <div class="part">
                     <div class="col-md-4">
-
                         <label for="txtName">Name</label>
                         <input type="text" class="form_input bluebox" id="txtName" onkeyup="Filter()" />
+                    </div>
+                    <div class="col-md-4">
+                        <label for="txtGroup">Group</label>
+                        <input type="text" class="form_input bluebox" id="txtGroup" onkeyup="Filter()" />
+                    </div>
+                    <div class="col-md-4">
+                        <label for="txtSubGroup">Sub Group</label>
+                        <input type="text" class="form_input bluebox" id="txtSubGroup" onkeyup="Filter()" />
                     </div>
                 </div>
             </div>

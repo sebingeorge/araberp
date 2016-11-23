@@ -122,9 +122,9 @@ namespace ArabErp.Web.Controllers
         {
             return View();
         }
-        public PartialViewResult PendingWorkshopRequests()
+        public PartialViewResult PendingWorkshopRequests(string Request = "", string Jobcard = "", string Customer = "")
         {
-            return PartialView("_PendingWorkshopRequests", new WorkShopRequestRepository().PendingWorkshopRequests());
+            return PartialView("_PendingWorkshopRequests", new WorkShopRequestRepository().PendingWorkshopRequests(Request, Jobcard, Customer));
         }
         public PartialViewResult PendingWorkshopRequestDetails()
         {
@@ -162,6 +162,18 @@ namespace ArabErp.Web.Controllers
                 return Json(0, JsonRequestBehavior.AllowGet);
             }
         }
+
+        public ActionResult Pendinglist(int? page, string Request = "", string Jobcard = "", string Customer = "")
+        {
+            //int itemsPerPage = 10;
+            int pageNumber = page ?? 1;
+            return PartialView("PendingWorkshopRequests", new StoreIssueRepository().GetItems(Request: Request.Trim(), Jobcard: Jobcard.Trim(), Customer: Customer.Trim()));
+            //var repo = new ItemRepository();
+            //var List = repo.GetItems();
+            //return PartialView("_ItemListView",List);
+        }
+
+
 
 
         public ActionResult Print(int Id)

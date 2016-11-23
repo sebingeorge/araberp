@@ -119,7 +119,11 @@
     }
 
     function Exit() {
-        var url = '@Url.Action("PendingJobCard", new { isProjectBased = Model.isProjectBased })';
+     
+        @*var url = '@Url.Action("PendingJobCard", new { isProjectBased = Model.isProjectBased })';*@
+     
+        var url = '@Url.Action("PendingJobCard")';
+        url += "?isProjectBased=" + @Model.isProjectBased + "&service=" + @Model.isService;
         window.location = url;
     }
 
@@ -186,6 +190,7 @@
                         @Html.HiddenFor(m => m.SaleOrderId)
                         @Html.HiddenFor(m => m.SaleOrderItemId)
                         @Html.HiddenFor(m => m.isProjectBased)
+                        @Html.HiddenFor(m => m.isService)
                     </div>
                     <div class="col-md-2">
                         <label for="inputDate">Date</label>
@@ -203,6 +208,10 @@
                         <label for="cusref">Customer Order Ref.</label>
                         @Html.TextBoxFor(m => m.CustomerOrderRef, new { @class = "form_input", autocomplete = "off", @readonly = "true" })
                     </div>
+                    <div class="col-md-2">
+                        <label for="wrkreqref">Sale Order Ref. No.</label>
+                        @Html.TextBoxFor(m => m.SaleOrderRefNo, new { @class = "form_input", autocomplete = "off", @readonly = "true" })
+                    </div>
                     @if (Model.isProjectBased == 0)
                     {
                         <div class="col-md-2">
@@ -215,12 +224,7 @@
                             @Html.TextBoxFor(m => m.RegistrationNo, new { @class = "form_input", autocomplete = "off", @readonly = "true" })
                             @*@Html.DropDownListFor(m => m.InPassId, (SelectList)ViewBag.inpassList, "Select Chassis/Reg No.", new { @class = "form_input", autocomplete = "off" })*@
                         </div>
-                        <div class="col-md-2">
-                            <label for="freezer">Freezer Unit</label>
-                            @Html.HiddenFor(m => m.FreezerUnitId)
-                            @Html.TextBoxFor(m => m.FreezerUnitName, new { @class = "form_input", @readonly = "true" })
-                            @*@Html.DropDownListFor(m => Model.FreezerUnitId, (SelectList)ViewBag.FreezerUnits, "Select Freezer Unit", new { @class = "form_input", autocomplete = "off", @required = "true" })*@
-                        </div>
+                       
                     }
                 </div>
                 <div class="row form-group">
@@ -231,15 +235,20 @@
                     </div>
                 </div>
                 <div class="row form-group">
-                    <div class="col-md-2">
-                        <label for="wrkreqref">Workshop Request Ref.</label>
-                        @Html.TextBoxFor(m => m.WorkShopRequestRef, new { @class = "form_input", autocomplete = "off", @readonly = "true" })
+                  @if (Model.isProjectBased == 0)
+                    {
+                    <div class="col-md-3">
+                        <label for="freezer">Freezer Unit</label>
+                        @Html.HiddenFor(m => m.FreezerUnitId)
+                        @Html.TextBoxFor(m => m.FreezerUnitName, new { @class = "form_input", @readonly = "true" })
+                        @*@Html.DropDownListFor(m => Model.FreezerUnitId, (SelectList)ViewBag.FreezerUnits, "Select Freezer Unit", new { @class = "form_input", autocomplete = "off", @required = "true" })*@
                     </div>
-                    <div class="col-md-2">
+                  }
+                    @*<div class="col-md-2">
                         <label for="goodsland">Goods Landed</label>
                         @Html.TextBoxFor(m => m.GoodsLanded, new { @class = "form_input", autocomplete = "off", @readonly = "true" })
-                    </div>
-                    <div class="col-md-2">
+                    </div>*@
+                    <div class="col-md-3">
                         <label for="box">Box</label>
                         @Html.HiddenFor(m => m.BoxId)
                         @Html.TextBoxFor(m => m.BoxName, new { @class = "form_input", @readonly = "true" })

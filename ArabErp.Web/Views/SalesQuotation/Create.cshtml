@@ -22,7 +22,7 @@
 
     function GotoIndex() {
 
-        var url = '@Url.Action("Index")';
+        var url = '@Url.Action("Index", "Home")';
         location.href = url;
     }
 
@@ -39,19 +39,19 @@
         @if (actionName == "Create")
         {
            @: url += "?ProjectBased=0" + "&AfterSales=0";
-                                }
+                                        }
         else if (actionName == "CreateProject")
         {
             @: url += "?ProjectBased=1" + "&AfterSales=0";;
-                                }
+                                        }
         else if (actionName == "CreateAfterSalesTrans")
         {
             @: url += "?ProjectBased=0" + "&AfterSales=1";;
-                                }
+                                        }
         else if (actionName == "CreateAfterSalesProject")
            {
                @: url += "?ProjectBased=1" + "&AfterSales=1";;
-                                   }
+                                           }
         window.location = url;
 
     }
@@ -79,8 +79,8 @@
         @if (Model.isAfterSales)
         {
             @: $("#CustomerId").val(@Model.CustomerId);
-                    @: $("#CustomerId").trigger("onchange");
-                }
+                            @: $("#CustomerId").trigger("onchange");
+                        }
     });
     function CustomerChanged(cust) {
         var cusId = cust.value;
@@ -136,13 +136,14 @@
         @if (new[] { "CreateAfterSalesTrans", "CreateAfterSalesProject" }.Contains(ViewContext.RouteData.GetRequiredString("action")))
         {
             @:removeOnChange();
-                        }
+        }
     });
 
     function removeOnChange(){
-        $("#CustomerId").removeProp("onchange");
+        //$("#CustomerId").removeProp("onchange");
         $("select[id$='__WorkDescriptionId']").each(function(index, object){
             $(object).removeProp("onchange");
+            $("#SalesQuotationItems_0__Rate").removeAttr("readonly");
         });
     }
 
@@ -349,8 +350,11 @@
     }
 
     function OnCustomerChanged() {
-        for(var i=0; i< @Model.SalesQuotationItems.Count; i++){
-            OnRateTypeChanged(i);
+        @if (!new[] { "CreateAfterSalesTrans", "CreateAfterSalesProject" }.Contains(ViewContext.RouteData.GetRequiredString("action")))
+        {
+            @:for(var i=0; i< @Model.SalesQuotationItems.Count; i++){
+            @:    OnRateTypeChanged(i);
+            @:}
         }
     }
 
@@ -380,7 +384,7 @@
         @{
             if (actionName.ToString() == "Create")
             {
-                <h4>Sales Quotation : Transportation </h4>
+                <h4>Sales Quotation : Transport </h4>
             }
             else if (actionName == "CreateProject")
             {
@@ -388,7 +392,7 @@
             }
             else if (actionName == "CreateAfterSalesTrans")
             {
-                <h4>Sales Quotation : Transportation : Service</h4>
+                <h4>Sales Quotation : Transport : Service</h4>
             }
             else if (actionName == "CreateAfterSalesProject")
             {
@@ -445,7 +449,7 @@
                 <div class="col-md-2">
                     @if (Model.isProjectBased)
                     {
-                        <label for="ExpectedDeliveryDate">Expected Commission Date</label>
+                        <label for="ExpectedDeliveryDate">Expected Commissioning Date</label>
                     }
                     else
                     {
@@ -641,10 +645,10 @@
                     if (isNaN(discount)) {
                         discount = 0;
                     }
-                    var amount = (rate) - discount;
+                    var amount = rate * quantity;// - discount;
                     amount = parseFloat(amount);
                     $("#SalesQuotationItems_" + row + "__Amount").val(amount.toFixed(2));
-                    $("#SalesQuotationItems_" + row + "__TotalAmount").val((amount * quantity).toFixed(2));
+                    $("#SalesQuotationItems_" + row + "__TotalAmount").val(((amount)-discount).toFixed(2));
                     cal_Summary();
                     //var amount = (rate - discount);
 
@@ -767,7 +771,7 @@
                     @if (new[] { "CreateAfterSalesTrans", "CreateAfterSalesProject" }.Contains(ViewContext.RouteData.GetRequiredString("action")))
                     {
                         @:removeOnChange();
-                                                            }
+                    }
                 }
             </script>
 
@@ -780,10 +784,10 @@
                         }
                         <th width="1%" class="text-center"><h1>#</h1></th>
                         <th width="45%" class="text-left"><h1>Work Description</h1></th>
-                        @if (new[] { "Create", "CreateAferSales", "Approve" }.Contains(ViewContext.RouteData.GetRequiredString("action")) && !Model.isProjectBased)
+                        @*@if (new[] { "Create", "CreateAferSales", "Approve" }.Contains(ViewContext.RouteData.GetRequiredString("action")) && !Model.isProjectBased)
                         {
                             <th width="10%"><h1>Rate Settings</h1></th>
-                        }
+                        }*@
                         <th width="5%" class="text-right"><h1>Qty.</h1></th>
                         <th width="5%" class="text-right"><h1>UoM</h1></th>
                         <th width="7%" class="text-right"><h1>Rate</h1></th>
@@ -832,13 +836,13 @@
                                 }
                             </td>
 
-                            @if (new[] { "Create", "Approve" }.Contains(ViewContext.RouteData.GetRequiredString("action")) && !Model.isProjectBased)
+                            @*@if (new[] { "Create", "Approve" }.Contains(ViewContext.RouteData.GetRequiredString("action")) && !Model.isProjectBased)
                             {
                                 <td>
                                     <!--column to show rate settings (required only for transportation)-->
                                     @Html.DropDownListFor(m => m.SalesQuotationItems[i].RateType, new SelectList(ViewBag.rateSettings, "Value", "Text", Model.SalesQuotationItems[i].RateType), new { @class = "form_input", @onchange = "OnRateTypeChanged(" + i + ")" })
                                 </td>
-                            }
+                            }*@
 
 
                             <td>
@@ -899,10 +903,10 @@
                         }
                         <th class="text-center"></th>
                         <th class="text-center "><h1></h1></th>
-                        @if (new[] { "Create", "Approve" }.Contains(ViewContext.RouteData.GetRequiredString("action")) && !Model.isProjectBased)
+                        @*@if (new[] { "Create", "Approve" }.Contains(ViewContext.RouteData.GetRequiredString("action")) && !Model.isProjectBased)
                         {
                             <th></th>
-                        }
+                        }*@
                         <th class="text-center"><h1></h1></th>
 
                         <th class="text-center"><h1>Total</h1></th>
@@ -927,7 +931,7 @@
                     </tr>
                 </tfoot>
             </table>
-            if (@Model.isAfterSales)
+            if (Model.Materials != null && Model.Materials.Count > 0)
             {
                 @Html.Partial("_MaterialList")
             }
@@ -973,7 +977,12 @@
                 </div>
 
             </div>
-
+            <div class="row">
+                <div class="col-md-12">
+                    <label for="DeliveryTerms">Delivery Terms</label>
+                    @Html.TextBoxFor(m => m.DeliveryTerms, new { @class = "form_input", @autocomplete = "off" })
+                </div>
+            </div>
             <div class="row">
 
                 <div class="col-md-3">

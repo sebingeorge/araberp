@@ -33,9 +33,8 @@ namespace ArabErp.Web.Controllers
         {
             var internalid = DatabaseCommonRepository.GetNextDocNo(1, OrganizationId);
 
-
             DropDowns();
-            FillWrkDesc();
+            //FillWrkDesc();
             FillVehicle();
             FillRateSettings();
             SalesQuotation salesquotation = new SalesQuotation();
@@ -51,16 +50,18 @@ namespace ArabErp.Web.Controllers
             salesquotation.SalesQuotationItems.Add(new SalesQuotationItem());
             salesquotation.SalesQuotationItems[0].Quantity = 1;
             salesquotation.SalesQuotationItems[0].UnitName = "Nos";
+            salesquotation.Materials = new List<SalesQuotationMaterial>();
+            salesquotation.Materials.Add(new SalesQuotationMaterial());
             ViewBag.SubmitAction = "Save";
-            return View(salesquotation);
+            return View("CreateTransportation", salesquotation);
         }
 
         [HttpPost]
         public ActionResult Create(SalesQuotation model)
         {
-            if (!ModelState.IsValid)
-            {
-                var allErrors = ModelState.Values.SelectMany(v => v.Errors);
+            //if (!ModelState.IsValid)
+            //{
+            //    var allErrors = ModelState.Values.SelectMany(v => v.Errors);
 
 
                 DropDowns();
@@ -70,8 +71,8 @@ namespace ArabErp.Web.Controllers
                 FillSalesQuotationStatus();
                 FillRateSettings();
 
-                return View(model);
-            }
+                //return View(model);
+            //}
             model.OrganizationId = OrganizationId;
             model.CreatedDate = System.DateTime.Now;
             model.CreatedBy = UserID.ToString();
@@ -91,7 +92,7 @@ namespace ArabErp.Web.Controllers
                 FillVehicle();
                 FillUnit();
 
-                return View("Create", model);
+                return View("CreateTransportation", model);
             }
         }
         public ActionResult CreateProject()
@@ -355,7 +356,21 @@ namespace ArabErp.Web.Controllers
 
             salesquotation.CustomerAddress = sorepo.GetCusomerAddressByKey(salesquotation.CustomerId);
             salesquotation.SalesQuotationItems = repo.GetSalesQuotationItems(id);
+            try
+            {
+                //each workdescription will have the same vehicle model id
+                salesquotation.VehicleModelId = salesquotation.SalesQuotationItems[0].VehicleModelId;
+            }
+            catch { }
             salesquotation.Materials = repo.GetSalesQuotationMaterials(id);
+            if (salesquotation.Materials == null || salesquotation.Materials.Count == 0)
+            {
+                salesquotation.Materials.Add(new SalesQuotationMaterial());
+            }
+            if (!salesquotation.isProjectBased)
+            {
+                return View("EditTransportation", salesquotation);
+            }
             return View("Edit", salesquotation);
         }
         [HttpPost]
@@ -382,8 +397,6 @@ namespace ArabErp.Web.Controllers
 
             return RedirectToAction("PreviousList", new { ProjectBased = Convert.ToInt32(model.isProjectBased), AfterSales = Convert.ToInt32(model.isAfterSales) });
         }
-
-
         [HttpGet]
         public ActionResult Approve(int SalesQuotationId)
         {
@@ -423,7 +436,6 @@ namespace ArabErp.Web.Controllers
             ViewBag.SubmitAction = "Approve";
             return View("Create", salesquotation);
         }
-
         public ActionResult Approve(SalesQuotation model)
         {
             var repo = new SalesQuotationRepository();
@@ -470,88 +482,100 @@ namespace ArabErp.Web.Controllers
 
         //}
 
-        //public ActionResult Revise(int Id)
-        //{
-        //    FillCustomer();
-        //    FillCurrency();
-        //    FillCommissionAgent();
-        //    FillVehicle();
-        //    FillQuerySheet();
-        //    FillUnit();
-        //    FillEmployee();
-        //    FillSalesQuotationStatus();
-        //    var repo = new SalesQuotationRepository();
+        #region Revise Quotation
+        public ActionResult Revise(int Id)
+        {
+            FillCustomer();
+            FillCurrency();
+            FillCommissionAgent();
+            FillVehicle();
+            FillQuerySheet();
+            FillUnit();
+            FillEmployee();
+            FillFreezerUnit();
+            FillBox();
+            FillSalesQuotationStatus();
+            var repo = new SalesQuotationRepository();
 
-        //    var sorepo = new SaleOrderRepository();
+            var sorepo = new SaleOrderRepository();
 
 
-        //    SalesQuotation salesquotation = repo.GetSalesQuotation(Id);
-        //    if (salesquotation.isProjectBased == 2)
-        //    {
-        //        FillWrkDescAfterSales();
-        //        ItemDropdown();
-        //    }
-        //    else if (salesquotation.isProjectBased == 1)
-        //    {
-        //        FillWrkDescForProject();
-        //        ItemDropdown();
-        //    }
-        //    else
-        //    {
-        //        FillWrkDesc();
-        //    }
-        //    salesquotation.CustomerAddress = sorepo.GetCusomerAddressByKey(salesquotation.CustomerId);
-        //    salesquotation.ParentId = salesquotation.SalesQuotationId;
-        //    salesquotation.IsQuotationApproved = false;
-        //    if (salesquotation.GrantParentId == null || salesquotation.GrantParentId == 0)
-        //    {
-        //        salesquotation.GrantParentId = salesquotation.ParentId;
-        //    }
+            SalesQuotation salesquotation = repo.GetSalesQuotation(Id);
+            if (salesquotation.isAfterSales)
+            {
+                FillWrkDescAfterSales();
+                ItemDropdown();
+            }
+            else if (salesquotation.isProjectBased)
+            {
+                FillWrkDescForProject();
+                ItemDropdown();
+            }
+            else
+            {
+                FillWrkDesc();
+            }
+            salesquotation.CustomerAddress = sorepo.GetCusomerAddressByKey(salesquotation.CustomerId);
+            salesquotation.ParentId = salesquotation.SalesQuotationId;
+            salesquotation.IsQuotationApproved = false;
+            if (salesquotation.GrantParentId == null || salesquotation.GrantParentId == 0)
+            {
+                salesquotation.GrantParentId = salesquotation.ParentId;
+            }
 
-        //    salesquotation.SalesQuotationItems = repo.GetSalesQuotationItems(Id);
-        //    salesquotation.Materials = repo.GetSalesQuotationMaterials(Id);
-        //    ViewBag.SubmitAction = "Revise";
-        //    return View(salesquotation);
-        //}
+            salesquotation.SalesQuotationItems = repo.GetSalesQuotationItems(Id);
+            try
+            {
+                //each workdescription will have the same vehicle model id
+                salesquotation.VehicleModelId = salesquotation.SalesQuotationItems[0].VehicleModelId;
+            }
+            catch { }
+            salesquotation.Materials = repo.GetSalesQuotationMaterials(Id);
+            ViewBag.SubmitAction = "Revise";
+            return View(salesquotation);
+        }
+        [HttpPost]
+        public ActionResult Revise(SalesQuotation model)
+        {
+            bool isProjectBased = model.isProjectBased;
+            if (!ModelState.IsValid)
+            {
+                //To Debug Errors
+                var errors = ModelState
+                    .Where(x => x.Value.Errors.Count > 0)
+                    .Select(x => new { x.Key, x.Value.Errors })
+                    .ToArray();
+                //End
+                FillCustomer();
+                FillCurrency();
+                FillCommissionAgent();
+                FillWrkDesc();
+                FillQuerySheet();
+                FillVehicle();
+                FillUnit();
+                FillEmployee();
+                FillSalesQuotationStatus();
+                return View(model);
+            }
+            else
+            {
+                model.CreatedBy = UserID.ToString();
+                model.CreatedDate = DateTime.Today;
+                model.OrganizationId = OrganizationId;
+                SalesQuotation result = new SalesQuotationRepository().ReviseSalesQuotation(model);
+                TempData["success"] = "Quotation revised succcessfully. Reference No. is " + model.QuotationRefNo;
+                if (!isProjectBased)
+                {
+                    return RedirectToAction("Index");
+                }
+                else
+                {
+                    return RedirectToAction("ProjectIndex");
+                }
 
-        //[HttpPost]
-        //public ActionResult Revise(SalesQuotation model)
-        //{
-        //    int isProjectBased = model.isProjectBased;
-        //    if(!ModelState.IsValid)
-        //    {
-        //        //To Debug Errors
-        //        var errors = ModelState
-        //            .Where(x => x.Value.Errors.Count > 0)
-        //            .Select(x => new { x.Key, x.Value.Errors })
-        //            .ToArray();
-        //        //End
-        //        FillCustomer();
-        //        FillCurrency();
-        //        FillCommissionAgent();
-        //        FillWrkDesc();
-        //        FillQuerySheet();
-        //        FillVehicle();
-        //        FillUnit();
-        //        FillEmployee();
-        //        FillSalesQuotationStatus();
-        //        return View(model);
-        //    }
-        //    else
-        //    {
-        //        SalesQuotation result = new SalesQuotationRepository().ReviseSalesQuotation(model);
-        //        if (isProjectBased == 0)
-        //        {
-        //            return RedirectToAction("Index");
-        //        }
-        //        else
-        //        {
-        //            return RedirectToAction("ProjectIndex");
-        //        }
-
-        //    }
-        //}
-
+            }
+        }
+        #endregion
 
         public ActionResult ListSalesQuotations(int ProjectBased, int AfterSales)
         {
@@ -567,7 +591,6 @@ namespace ArabErp.Web.Controllers
 
             return View(salesquotations);
         }
-
         public ActionResult StatusUpdate(int Id)
         {
             FillCustomer();
@@ -592,7 +615,6 @@ namespace ArabErp.Web.Controllers
             ViewBag.SubmitAction = "StatusUpdate";
             return View("StatusUpdate", salesquotation);
         }
-
         //[HttpPost]
         //public ActionResult StatusUpdate(SalesQuotation model)
         //  {
@@ -626,21 +648,16 @@ namespace ArabErp.Web.Controllers
 
 
         //  }
-
         public JsonResult GetRate(int workDescriptionId, string date, int type)
         {
             decimal data = new RateSettingsRepository().GetRate(workDescriptionId, date, type);
             return Json(data, JsonRequestBehavior.AllowGet);
         }
-
         public JsonResult GetSpecialRate(int workDescriptionId, int customerId)
         {
             decimal data = new RateSettingsRepository().GetSpecialRate(workDescriptionId, customerId);
             return Json(data, JsonRequestBehavior.AllowGet);
         }
-
-
-
         public ActionResult Cancel(int Id)
         {
             SalesQuotationRepository repo = new SalesQuotationRepository();
@@ -668,11 +685,6 @@ namespace ArabErp.Web.Controllers
             }
 
         }
-
-
-
-
-
         public ActionResult DeleteSQ(string isProjectBased, string isAfterSales, int id = 0)
         {
             try
@@ -794,6 +806,20 @@ namespace ArabErp.Web.Controllers
             FillEmployee();
             FillCommissionAgent();
             FillSalesQuotationStatus();
+            FillFreezerUnit();
+            FillBox();
+            FillVehicle();
+            ItemDropdown();
+        }
+
+        private void FillFreezerUnit()
+        {
+            ViewBag.freezerUnitList = new SelectList(new DropdownRepository().FillFreezerUnit(), "Id", "Name");
+        }
+
+        private void FillBox()
+        {
+            ViewBag.boxList = new SelectList(new DropdownRepository().FillBox(), "BoxId", "BoxName");
         }
 
         public ActionResult CommissionedProjects()
@@ -834,6 +860,13 @@ namespace ArabErp.Web.Controllers
             return Json(new QuerySheetRepository().GetCostingAmount(id), JsonRequestBehavior.AllowGet);
         }
 
+        public ActionResult BusinessReport()
+        {
+            ViewBag.Year = FYStartdate.Year;
+            return View();
+        }
+
+
         public ActionResult Print(int Id)
         {
 
@@ -872,9 +905,12 @@ namespace ArabErp.Web.Controllers
             ds.Tables["Head"].Columns.Add("Phone");
             ds.Tables["Head"].Columns.Add("CurrencyName");
             ds.Tables["Head"].Columns.Add("OrganizationName");
+            ds.Tables["Head"].Columns.Add("Designation");
             ds.Tables["Head"].Columns.Add("Image1");
-            ds.Tables["Head"].Columns.Add("EmpNmae");
-            ds.Tables["Head"].Columns.Add("EmpDesignation");
+            ds.Tables["Head"].Columns.Add("UserName");
+           // ds.Tables["Head"].Columns.Add("EmpDesignation");
+            ds.Tables["Head"].Columns.Add("Sign");
+
 
             //-------DT
             ds.Tables["Items"].Columns.Add("WorkDescr");
@@ -898,7 +934,7 @@ namespace ArabErp.Web.Controllers
             dr["ContactPerson"] = Head.ContactPerson;
             dr["SalesExecutive"] = Head.SalesExecutiveName;
             dr["PredictedClosingDate"] = Head.PredictedClosingDate;
-            dr["QuotationValidToDate"] = Head.QuotationValidToDate;
+            dr["QuotationValidToDate"] = Head.QuotationValidToDate.ToString("dd-MMM-yyyy");
             dr["ExpectedDeliveryDate"] = Head.ExpectedDeliveryDate;
             dr["Remarks"] = Head.Remarks;
             dr["PaymentTerms"] = Head.PaymentTerms;
@@ -917,9 +953,12 @@ namespace ArabErp.Web.Controllers
             dr["Phone"] = Head.Phone;
             dr["CurrencyName"] = Head.CurrencyName;
             dr["OrganizationName"] = Head.OrganizationName;
+            dr["Designation"] = Head.DesignationName;
             dr["Image1"] = Server.MapPath("~/App_images/") + Head.Image1;
-            dr["EmpNmae"] = Head.EmpNmae;
-            dr["EmpDesignation"] = Head.EmpDesignation;
+            dr["UserName"] = Head.EmpNmae;
+            //dr["EmpDesignation"] = Head.EmpDesignation;
+            dr["Sign"] = Server.MapPath("~/App_images/") + Head.ApprovedUsersig;
+           
             ds.Tables["Head"].Rows.Add(dr);
 
             SalesQuotationRepository repo1 = new SalesQuotationRepository();
@@ -934,9 +973,9 @@ namespace ArabErp.Web.Controllers
                     UnitName = item.UnitName,
                     Discount = item.Discount,
                     Amount = item.Amount,
-                    WorkDescription=item.WorkDescription,
+                    WorkDescription = item.WorkDescription,
                     TotalAmount = item.TotalAmount
-                    
+
                 };
 
 
@@ -964,9 +1003,104 @@ namespace ArabErp.Web.Controllers
 
             try
             {
+                Stream stream = rd.ExportToStream(CrystalDecisions.Shared.ExportFormatType.WordForWindows);
+                stream.Seek(0, SeekOrigin.Begin);
+                return File(stream, "application/ms-word", String.Format("SalesQuotation{0}.doc", Id.ToString()));
+            }
+            catch (Exception ex)
+            {
+                throw;
+            }
+        }
+
+        public ActionResult PrintBussinessReport(string MonthName, int? Month, string YearName, int? Year)
+        {
+
+            ReportDocument rd = new ReportDocument();
+            rd.Load(Path.Combine(Server.MapPath("~/Reports"), "BussinessReport.rpt"));
+
+            DataSet ds = new DataSet();
+            ds.Tables.Add("Head");
+
+            ds.Tables.Add("Items");
+
+            //-------HEAD
+            ds.Tables["Head"].Columns.Add("Month");
+            ds.Tables["Head"].Columns.Add("Year");
+            ds.Tables["Head"].Columns.Add("OrganizationName");
+            ds.Tables["Head"].Columns.Add("Image1");
+
+            //-------DT
+           
+            ds.Tables["Items"].Columns.Add("QuotRef");
+            ds.Tables["Items"].Columns.Add("Date");
+            ds.Tables["Items"].Columns.Add("Customer");
+            ds.Tables["Items"].Columns.Add("Lead");
+            ds.Tables["Items"].Columns.Add("Descr");
+            ds.Tables["Items"].Columns.Add("Status");
+            ds.Tables["Items"].Columns.Add("GrandTot");
+            ds.Tables["Items"].Columns.Add("RevisionNo");
+            ds.Tables["Items"].Columns.Add("Reason");
+
+
+            OrganizationRepository repo = new OrganizationRepository();
+            var Head = repo.GetOrganization(OrganizationId);
+
+            DataRow dr = ds.Tables["Head"].NewRow();
+            dr["Month"] = MonthName;
+            dr["Year"] = YearName;
+            dr["OrganizationName"] = Head.OrganizationName;
+            dr["Image1"] = Server.MapPath("~/App_images/") + Head.Image1;
+            ds.Tables["Head"].Rows.Add(dr);
+
+            SalesQuotationRepository repo1 = new SalesQuotationRepository();
+            var Items = repo1.GetSalesQuotaationListPrint(Month ?? DateTime.Today.Month, Year ?? DateTime.Today.Year);
+            foreach (var item in Items)
+            {
+                var pritem = new SalesQuotationList
+
+                {
+                    QuotationRefNo = item.QuotationRefNo,
+                    QuotationDate = item.QuotationDate,
+                    CustomerName = item.CustomerName,
+                    EmployeeName = item.EmployeeName,
+                    GrandTotal = item.GrandTotal,
+                    RevisionNo = item.RevisionNo,
+                    RevisionReason = item.RevisionReason,
+                    Status = item.Status,
+                    Description = item.Description
+
+
+                };
+
+
+                DataRow dri = ds.Tables["Items"].NewRow();
+                dri["QuotRef"] = item.QuotationRefNo;
+                dri["Date"] = item.QuotationDate.ToString("dd/MMM/yyyy");
+                dri["Customer"] = item.CustomerName;
+                dri["Lead"] = item.EmployeeName;
+                dri["Descr"] = item.Description;
+                dri["Status"] = item.Status;
+                dri["GrandTot"] = item.GrandTotal;
+                dri["RevisionNo"] = item.RevisionNo;
+                dri["Reason"] = item.RevisionReason;
+                ds.Tables["Items"].Rows.Add(dri);
+            }
+
+            ds.WriteXml(Path.Combine(Server.MapPath("~/XML"), "BussinessReport.xml"), XmlWriteMode.WriteSchema);
+
+            rd.SetDataSource(ds);
+
+            Response.Buffer = false;
+            Response.ClearContent();
+            Response.ClearHeaders();
+
+
+            try
+            {
                 Stream stream = rd.ExportToStream(CrystalDecisions.Shared.ExportFormatType.PortableDocFormat);
                 stream.Seek(0, SeekOrigin.Begin);
-                return File(stream, "application/pdf", String.Format("SalesQuotation{0}.pdf", Id.ToString()));
+                return File(stream, "application/pdf", String.Format("BussinessReport.pdf"));
             }
             catch (Exception ex)
             {

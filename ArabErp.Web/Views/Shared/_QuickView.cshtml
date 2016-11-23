@@ -32,6 +32,10 @@
                {
                    total += Model.NoOfTransSaleOrdersForJobCard;
                }
+               if (Model.MaterialStockBelowMinLevel && alertPermissions.MaterialStockBelowMinLevel)
+               {
+                   total += Model.NoOfMaterialStockBelowMinLevel;
+               }
            }
 <ul class="nav navbar-nav">
     <li class="top6"> 
@@ -76,6 +80,17 @@
                             @Model.NoOfTransSaleOrdersForJobCard
                         </span>
                         Trn. SO For Job Card
+                    </a>
+                </li>
+            }
+            @if (Model.MaterialStockBelowMinLevel && alertPermissions.MaterialStockBelowMinLevel)
+            {
+                <li>
+                    <a href="#" class="form_input">
+                        <span class="badge pull-right">
+                            @Model.NoOfMaterialStockBelowMinLevel
+                        </span>
+                        Material Stock Below Min. Level
                     </a>
                 </li>
             }

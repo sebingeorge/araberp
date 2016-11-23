@@ -15,6 +15,7 @@ namespace ArabErp.Domain
         public bool Transportation { get; set; }
         public bool Finance { get; set; }
         public bool MISReports { get; set; }
+        public bool Store { get; set; }
     }
     public class AlertPermission
     {
@@ -25,6 +26,7 @@ namespace ArabErp.Domain
         public bool PendingSOForWorkshopReq { get; set; }
         public bool PendingProjectSaleOrdersForJobCard { get; set; }
         public bool PendingTransSaleOrdersForJobCard { get; set; }
+        public bool MaterialStockBelowMinLevel { get; set; }
     }
     public class GraphPermission
     {
@@ -34,5 +36,13 @@ namespace ArabErp.Domain
         public bool FGStockVsAllocation { get; set; }
         public bool FGStockVsSOAllocation { get; set; }
         public bool JobCardCompletion7Days { get; set; }
+    }
+    public class FormPermission
+    {
+        public int FormId { get; set; }
+        public string ControllerName { get; set; }
+        public string Action { get; set; }
+        public string FormName { get; set; }
+        public int ModuleId { get; set; }
     }
 }

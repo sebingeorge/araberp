@@ -32,17 +32,17 @@ namespace ArabErp
         //    }
 
         //}
-        public IEnumerable<PendingSO> GetPendingSO(int isProjectBased, int OrganizationId)
+        public IEnumerable<PendingSO> GetPendingSO(int isProjectBased, int OrganizationId,int? isService)
         {
             using (IDbConnection connection = OpenConnection(dataConnection))
             {
                 string query = string.Empty;
-                query += " select SI.SaleOrderItemId,SaleOrderRefNo, SaleOrderDate, C.CustomerName, S.CustomerOrderRef, V.VehicleModelName, W.WorkDescr WorkDescription,IsPaymentApprovedForJobOrder, ISNULL(VIP.RegistrationNo, '-')RegistrationNo,DATEDIFF(DAY, S.SaleOrderDate, GETDATE()) Ageing, DATEDIFF(DAY, GETDATE(), S.EDateDelivery) Remaindays ";
-                query += " from SaleOrder S inner join Customer C on S.CustomerId = C.CustomerId ";
-                query += " inner join SaleOrderItem SI on SI.SaleOrderId = S.SaleOrderId ";
-                query += " inner join WorkDescription W on W.WorkDescriptionId = SI.WorkDescriptionId";
-                query += " left join VehicleModel V on V.VehicleModelId = W.VehicleModelId ";
-                query += " left join JobCard J on J.SaleOrderItemId = SI.SaleOrderItemId ";
+                query += @" select SI.SaleOrderItemId,SaleOrderRefNo, SaleOrderDate, C.CustomerName, S.CustomerOrderRef, V.VehicleModelName, W.WorkDescr WorkDescription,IsPaymentApprovedForJobOrder, ISNULL(VIP.RegistrationNo, '-')RegistrationNo,DATEDIFF(DAY, S.SaleOrderDate, GETDATE()) Ageing, DATEDIFF(DAY, GETDATE(), S.EDateDelivery) Remaindays,S.isService
+                  from SaleOrder S inner join Customer C on S.CustomerId = C.CustomerId
+                  inner join SaleOrderItem SI on SI.SaleOrderId = S.SaleOrderId
+                  inner join WorkDescription W on W.WorkDescriptionId = SI.WorkDescriptionId
+                  left join VehicleModel V on V.VehicleModelId = W.VehicleModelId
+                  left join JobCard J on J.SaleOrderItemId = SI.SaleOrderItemId ";
                 if (isProjectBased == 1)
                 {
                     query += " LEFT JOIN VehicleInPass VIP ON SI.SaleOrderItemId = VIP.SaleOrderItemId ";
@@ -51,9 +51,10 @@ namespace ArabErp
                 {
                     query += " INNER JOIN VehicleInPass VIP ON SI.SaleOrderItemId = VIP.SaleOrderItemId ";
                 }
-                query += " where J.SaleOrderItemId is null and S.SaleOrderApproveStatus = 1 ";
+                query += @" where J.SaleOrderItemId is null and S.SaleOrderApproveStatus = 1 ";
                 query += " and S.isActive=1 and S.SaleOrderApproveStatus=1 and S.SaleOrderHoldStatus IS NULL and S.OrganizationId = " + OrganizationId.ToString() + "";
                 query += " and S.isProjectBased = " + isProjectBased.ToString();
+                query += " and S.isService = " + isService.ToString();
                 query += " ORDER BY S.EDateDelivery DESC, S.SaleOrderDate DESC";
                 return connection.Query<PendingSO>(query);
             }
@@ -69,7 +70,7 @@ namespace ArabErp
                     GETDATE() JobCardDate, C.CustomerId, C.CustomerName, S.CustomerOrderRef, V.VehicleModelName,
                     ''ChasisNoRegNo, W.WorkDescriptionId, W.WorkDescr as WorkDescription, '' WorkShopRequestRef, 
                     0 GoodsLanded, 0 BayId, W.FreezerUnitId FreezerUnitId, FU.ItemName FreezerUnitName, W.BoxId BoxId, 
-                    B.ItemName BoxName, ISNULL(VI.RegistrationNo, '-') RegistrationNo, VI.VehicleInPassId InPassId
+                    B.ItemName BoxName, ISNULL(VI.RegistrationNo, '-') RegistrationNo, VI.VehicleInPassId InPassId, S.isService, S.isProjectBased, S.SaleOrderRefNo
                     FROM SaleOrder S 
                     INNER JOIN Customer C ON S.CustomerId = C.CustomerId
                     INNER JOIN SaleOrderItem SI ON SI.SaleOrderId = S.SaleOrderId
@@ -85,7 +86,7 @@ namespace ArabErp
                     query = "SELECT S.SaleOrderId, SI.SaleOrderItemId,";
                     query += " GETDATE() JobCardDate, C.CustomerId, C.CustomerName, S.CustomerOrderRef,";
                     query += " ''ChasisNoRegNo, W.WorkDescriptionId, W.WorkDescr as WorkDescription, '' WorkShopRequestRef, ";
-                    query += " 0 GoodsLanded, 0 BayId, 0 FreezerUnitId, W.BoxId BoxId,B.ItemName BoxName";
+                    query += " 0 GoodsLanded, 0 BayId, 0 FreezerUnitId, W.BoxId BoxId,B.ItemName BoxName, S.isService, S.isProjectBased";
                     query += " FROM SaleOrder S ";
                     query += " INNER JOIN Customer C ON S.CustomerId = C.CustomerId";
                     query += " INNER JOIN SaleOrderItem SI ON SI.SaleOrderId = S.SaleOrderId";
@@ -139,8 +140,8 @@ namespace ArabErp
                     var internalId = DatabaseCommonRepository.GetNewDocNo(connection, objJobCard.OrganizationId, 16, true, trn);
                     objJobCard.JobCardNo = internalId.ToString();
                     int id = 0;
-                    string sql = @"insert  into JobCard(JobCardNo,JobCardDate,SaleOrderId,InPassId,WorkDescriptionId,FreezerUnitId,BoxId,BayId,SpecialRemarks,RequiredDate,EmployeeId,CreatedBy,CreatedDate,OrganizationId, SaleOrderItemId,isProjectBased) Values 
-                                                       (@JobCardNo,@JobCardDate,@SaleOrderId,@InPassId,@WorkDescriptionId,@FreezerUnitId,@BoxId,@BayId,@SpecialRemarks,@RequiredDate,@EmployeeId,@CreatedBy,@CreatedDate,@OrganizationId,@SaleOrderItemId,@isProjectBased);
+                    string sql = @"insert  into JobCard(JobCardNo,JobCardDate,SaleOrderId,InPassId,WorkDescriptionId,FreezerUnitId,BoxId,BayId,SpecialRemarks,RequiredDate,EmployeeId,CreatedBy,CreatedDate,OrganizationId, SaleOrderItemId,isProjectBased, isService) Values 
+                                                       (@JobCardNo,@JobCardDate,@SaleOrderId,@InPassId,@WorkDescriptionId,@FreezerUnitId,@BoxId,@BayId,@SpecialRemarks,@RequiredDate,@EmployeeId,@CreatedBy,@CreatedDate,@OrganizationId,@SaleOrderItemId,@isProjectBased, @isService);
                     SELECT CAST(SCOPE_IDENTITY() as int)";
 
                     id = connection.Query<int>(sql, objJobCard, trn).Single();
@@ -399,7 +400,7 @@ namespace ArabErp
                 return jc;
             }
         }
-        public IEnumerable<JobCard> GetAllJobCards( int ProjectBased,int id, int cusid, int OrganizationId, DateTime? from, DateTime? to)
+        public IEnumerable<JobCard> GetAllJobCards( int ProjectBased,int service,int id, int cusid, int OrganizationId, DateTime? from, DateTime? to)
         {
             using (IDbConnection connection = OpenConnection(dataConnection))
             {
@@ -408,9 +409,9 @@ namespace ArabErp
 							   INNER JOIN ITEM I1 ON J.FreezerUnitId = I1.ItemId
 							   INNER JOIN ITEM I2 ON J.BoxId = I2.ItemId
 							   INNER JOIN Employee E ON J.EmployeeId = E.EmployeeId
-                               where J.isActive=1 and J.OrganizationId = @OrganizationId and  J.JobCardId = ISNULL(NULLIF(@id, 0), J.JobCardId) and S.CustomerId = ISNULL(NULLIF(@cusid, 0), S.CustomerId)  AND J.JobCardDate BETWEEN ISNULL(@from, DATEADD(MONTH, -1, GETDATE())) AND ISNULL(@to, GETDATE()) and J.isProjectBased = @ProjectBased 
+                               where J.isActive=1 and J.OrganizationId = @OrganizationId and  J.JobCardId = ISNULL(NULLIF(@id, 0), J.JobCardId) and S.CustomerId = ISNULL(NULLIF(@cusid, 0), S.CustomerId)  AND J.JobCardDate BETWEEN ISNULL(@from, DATEADD(MONTH, -1, GETDATE())) AND ISNULL(@to, GETDATE()) and J.isProjectBased = @ProjectBased and J.isService=@service
                                 ORDER BY J.JobCardDate DESC, J.CreatedDate DESC";
-                return connection.Query<JobCard>(qry, new { id = id, cusid = cusid, from = from, to = to, OrganizationId = OrganizationId, ProjectBased = ProjectBased }).ToList();
+                return connection.Query<JobCard>(qry, new { id = id, cusid = cusid, from = from, to = to, OrganizationId = OrganizationId, ProjectBased = ProjectBased,service=service }).ToList();
 
             }
         }
@@ -421,18 +422,20 @@ namespace ArabErp
             {
 
 //              
-                string sql = @" SELECT O.*,JobCardId,JobCardNo,JobCardDate,SaleOrderRefNo RegistrationNo,Concat(CustomerName,',',C.DoorNo,',',C.Street)CustomerName,
-                                C.Phone CPhone,C.ContactPerson,E.EmployeeName Technician,C.CustomerName Customer,U.ItemName FreezerUnitName,
-								ORR.CountryName,CU.CurrencyName 
+                string sql = @" 
+               SELECT O.*,J.JobCardId,JobCardNo,JobCardDate,
+                              C.CustomerName Customer,U.ItemName FreezerUnitName,
+								v.RegistrationNo ChasisNo,VM.VehicleModelName,UI.ItemName BoxName
                                 FROM JobCard J
                                 INNER JOIN SaleOrder S ON S.SaleOrderId=J.SaleOrderId
                                 INNER JOIN Customer C ON C.CustomerId=S.CustomerId
-                                INNER JOIN Employee E ON E.EmployeeId=J.EmployeeId
 							    inner join Organization O ON O.OrganizationId=J.OrganizationId
-								inner  JOIN Country ORR ON ORR.CountryId=O.Country
-								INNER JOIN Currency CU ON CU.CurrencyId=O.CurrencyId
                                 LEFT JOIN Item U ON U.ItemId=J.FreezerUnitId
-                                WHERE JobCardId=@JobCardId";
+								LEFT JOIN Item UI ON UI.ItemId=J.BoxId
+								LEFT JOIN VehicleInPass V ON V.VehicleInPassId=J.InPassId
+								LEFT JOIN WorkDescription W ON W.WorkDescriptionId=J.WorkDescriptionId
+								LEFT JOIN VehicleModel VM ON VM.VehicleModelId=W.VehicleModelId
+                                WHERE J.JobCardId=@JobCardId";
 
                 var objJobCardId = connection.Query<JobCard>(sql, new
                 {
@@ -458,7 +461,7 @@ namespace ArabErp
                     ''ChasisNoRegNo, W.WorkDescriptionId, W.WorkDescr as WorkDescription, '' WorkShopRequestRef, 
                     0 GoodsLanded, 0 BayId, W.FreezerUnitId FreezerUnitId, FU.ItemName FreezerUnitName, W.BoxId BoxId, B.ItemName BoxName, 
                     ISNULL(VI.RegistrationNo, '-') RegistrationNo, VI.VehicleInPassId InPassId, S.isProjectBased,
-					JC.JobCardId, JC.JobCardNo, JC.BayId, CONVERT(VARCHAR, JC.RequiredDate, 106) RequiredDate, JC.EmployeeId
+					JC.JobCardId, JC.JobCardNo, JC.BayId, CONVERT(VARCHAR, JC.RequiredDate, 106) RequiredDate, JC.EmployeeId,s.isService
                     from SaleOrder S inner join Customer C on S.CustomerId = C.CustomerId
                     inner join SaleOrderItem SI on SI.SaleOrderId = S.SaleOrderId
                     inner join WorkDescription W on W.WorkDescriptionId = SI.WorkDescriptionId
@@ -550,6 +553,29 @@ namespace ArabErp
             }
         }
 
-
+        public IEnumerable GetTasksForFreezerAndBox(int? SaleOrderItemId)
+        {
+            using (IDbConnection connection = OpenConnection(dataConnection))
+            {
+                string query = @"SELECT 
+	                                FZR_JTM.JobCardTaskMasterId, FZR_JTM.JobCardTaskName
+                                FROM SaleOrder SO
+                                INNER JOIN SaleOrderItem SOI ON SO.SaleOrderId=SOI.SaleOrderId
+                                INNER JOIN WorkDescription WD ON SOI.WorkDescriptionId = WD.WorkDescriptionId
+                                INNER JOIN ItemVsTasks I_FZR ON WD.FreezerUnitId = I_FZR.ItemId
+                                INNER JOIN JobCardTaskMaster FZR_JTM ON I_FZR.JobCardTaskMasterId = FZR_JTM.JobCardTaskMasterId
+                                WHERE SOI.SaleOrderItemId = @id
+                                UNION
+                                SELECT 
+	                                BOX_JTM.JobCardTaskMasterId, BOX_JTM.JobCardTaskName
+                                FROM SaleOrder SO
+                                INNER JOIN SaleOrderItem SOI ON SO.SaleOrderId=SOI.SaleOrderId
+                                INNER JOIN WorkDescription WD ON SOI.WorkDescriptionId = WD.WorkDescriptionId
+                                INNER JOIN ItemVsTasks I_BOX ON WD.BoxId = I_BOX.ItemId
+                                INNER JOIN JobCardTaskMaster BOX_JTM ON I_BOX.JobCardTaskMasterId = BOX_JTM.JobCardTaskMasterId
+                                WHERE SOI.SaleOrderItemId = @id";
+                return connection.Query<JobCardTaskMaster>(query, new { id = SaleOrderItemId }).ToList();
+            }
+        }
     }
 }

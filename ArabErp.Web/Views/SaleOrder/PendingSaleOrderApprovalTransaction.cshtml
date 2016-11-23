@@ -1,5 +1,4 @@
-﻿
-@using ArabErp.Domain
+﻿@using ArabErp.Domain
 @model IEnumerable<PendingSaleOrderForTransactionApproval>
 @{
     ViewBag.Title = "Pending SaleOrder Approval";
@@ -11,69 +10,85 @@
 }
 
 
-    <div class="row">
+<div class="row">
 
-        <div class="form-head1">
-            @if (actionName == "PendingSaleOrderApproval")
-            {
-                <h4>Pending SaleOrder Approval</h4>
-            }
-            else if (actionName == "PendingSaleOrderApprovalWR")
-            {
-                <h4>Pending SaleOrder Approval - Workshop Request</h4>
-            }
-            else if (actionName == "PendingSaleOrderApprovalJC")
-            {
-                <h4>Pending SaleOrder Approval - Job Card</h4>
-            }
-            else if (actionName == "PendingSaleOrderApprovalDEL")
-            {
-                <h4>Pending SaleOrder Approval - Delivery Challan</h4>
-            }            
-        </div>
+    <div class="form-head1">
+        @if (actionName == "PendingSaleOrderApproval")
+        {
+            <h4>Pending SaleOrder Approval</h4>
+        }
+        else if (actionName == "PendingSaleOrderApprovalWR")
+        {
+            <h4>Pending SaleOrder Approval - Workshop Request</h4>
+        }
+        else if (actionName == "PendingSaleOrderApprovalJC")
+        {
+            <h4>Pending SaleOrder Approval - Job Card</h4>
+        }
+        else if (actionName == "PendingSaleOrderApprovalDEL")
+        {
+            <h4>Pending SaleOrder Approval - Delivery Challan</h4>
+        }
+    </div>
 
-       
-        <div class="main-part pad1">
-            <div class="row">
-                <div class="main-grid main-grid-top scroll1">
-                    <div class="table-responsive">
-                        <table class="table table-bordered">
-                            <thead>
-                                <tr class="grid_heading">
-                                    <th width="10%"><h1>SO.No.</h1></th>
-                                    <th width="10%"><h1>SO Date</h1></th>
-                                    <th width="20%"><h1>Customer</h1></th>
-                                    <th width="40%"><h1>Work Description</h1></th>
-                                    <th class="text-right" width="10%"><h1>Amount</h1></th>
-                                    <th width="10%"><center><h1></h1></center></th>
-                                </tr>
-                            </thead>
+
+    <div class="main-part pad1">
+        <div class="row">
+            <div class="main-grid main-grid-top scroll1">
+                <div class="table-responsive">
+                    <table class="table table-bordered">
+                        <thead>
+                            <tr class="grid_heading">
+                                @*<th width="10%"><h1>SO.No.</h1></th>
+                                    <th width="10%"><h1>SO Date</h1></th>*@
+                                <th width="12%"><h1>SO No. & Date</h1></th>
+                                <th width="12%"><h1>Job Card No. & Date</h1></th>
+                                <th width="15%"><h1>Customer</h1></th>
+                                <th width="40%"><h1>Work Description</h1></th>
+                                <th class="text-right" width="10%"><h1>Amount</h1></th>
+                                <th width="10%"><center><h1></h1></center></th>
+                            </tr>
+                        </thead>
+                        <tbody class="grid_row">
                             @foreach (var item in Model)
                             {
-                                <tbody class="grid_row">
-                                    <tr>
-                                        <td class="grid-cell">@item.SaleOrderRefNo</td>
-                                        <td class="grid-cell">@item.SaleOrderDate.ToString("dd/MMM/yyyy")</td>
-                                        <td class="grid-cell">@item.CustomerName</td>
-                                        <td class="grid-cell">@item.WorkDescr</td>
-                                        <td class="grid-cell text-right">@item.Amount</td>
-                                        <td><center><button class="form-button4">@Html.ActionLink("Select", "ApprovalForTrn", "SaleOrder", new { SaleOrderId = @item.SaleOrderId, SaleOrderItemId = @item.SaleOrderItemId, AppType = @AppType }, null)</button></center></td>
+                                <tr>
+                                    @*<td class="grid-cell">@item.SaleOrderRefNo</td>
+                                        <td class="grid-cell">@item.SaleOrderDate.ToString("dd/MMM/yyyy")</td>*@
+                                    <td class="grid-cell">@item.SaleOrderRefNo - @item.SaleOrderDate.ToString("dd/MMMM/yyyy")</td>
+                                    <td class="grid-cell">@item.JobCardNo - @item.JobCardDate.ToString("dd/MMMM/yyyy")</td>
+                                    <td class="grid-cell">@item.CustomerName</td>
+                                    <td class="grid-cell">@item.freezerUnit &nbsp;+&nbsp;  @item.Box</td>
+                                    <td class="grid-cell text-right">@item.Amount</td>
+                                    <td>
+                                        <center>@if (item.IsQCPassed == 0)
+                                        {
+                                            <span class="perm">QC Pending</span>
+                                        }
+                                        else
+                                        {
+                                            <button class="form-button4">
+                                                @Html.ActionLink("Select", "ApprovalForTrn", "SaleOrder", new { SaleOrderId = @item.SaleOrderId, SaleOrderItemId = @item.SaleOrderItemId, AppType = @AppType }, null)
+                                        </button>
+                                        }
+                                    </center>
+                                </td>
 
-                                    </tr>
-                                </tbody>
+                            </tr>
                             }
-                        </table>
-                    </div>
-
-
+                        </tbody>
+                    </table>
                 </div>
 
-
-                <div class="row-count1">
-                    <h5>Row Count:- @Model.Count()</h5>
-                </div>
-                </div>
 
             </div>
+
+
+            <div class="row-count1">
+                <h5>Row Count:- @Model.Count()</h5>
+            </div>
+        </div>
+
     </div>
+</div>
 

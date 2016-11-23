@@ -32,16 +32,16 @@ namespace ArabErp.DAL
             {
 
                 string sql = @"select O.*,SalesInvoiceRefNo,SalesInvoiceDate,CustomerName Customer,Concat(C.DoorNo,',',C.Street,',',C.Phone)CustomerAddress,S.CustomerOrderRef,
-                                SI.PaymentTerms,V.RegistrationNo,J.JobCardNo,VO.VehicleOutPassNo,SI.TotalAmount,ORR.CountryName,CU.CurrencyName 
+                                SI.PaymentTerms,V.RegistrationNo,J.JobCardNo,D.DeliveryChallanRefNo,SI.TotalAmount,ORR.CountryName,CU.CurrencyName 
 								 from SalesInvoice SI
                                 inner join SaleOrder S on S.SaleOrderId=SI.SaleOrderId
                                 inner join Customer C ON C.CustomerId=S.CustomerId
                                 inner join JobCard J ON J.SaleOrderId=S.SaleOrderId
 								inner join Organization O ON si.OrganizationId=o.OrganizationId
 								left  JOIN Country ORR ON ORR.CountryId=O.Country
-								INNER JOIN Currency CU ON CU.CurrencyId=O.CurrencyId
+								left JOIN Currency CU ON CU.CurrencyId=O.CurrencyId
                                 left join VehicleInPass V ON V.VehicleInPassId=J.InPassId
-	                            left join VehicleOutPass VO ON VO.JobCardId=J.JobCardId 
+								left join DeliveryChallan D ON D.JobCardId=J.JobCardId 
                                 where SalesInvoiceId=@SalesInvoiceId";
 
                 var objSalesInvoice = connection.Query<SalesInvoice>(sql, new

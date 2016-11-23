@@ -19,7 +19,7 @@ namespace ArabErp.Domain
         public int CustomerId { get; set; }
         public string CustomerName { get; set; }
         public string CustomerAddress { get; set; }
-        [Required]
+        //[Required]
         public string CustomerOrderRef { get; set; }
         [Required]
         public int? CurrencyId { get; set; }
@@ -68,6 +68,7 @@ namespace ArabErp.Domain
         public string WorkRequestPaymentApproved { get; set; }
         public string EmployeeName { get; set; }
         public string CommissionAgentName { get; set; }
+   
         public bool isUsed { get; set; }
 
         //Organization
@@ -87,6 +88,7 @@ namespace ArabErp.Domain
         public string ContactPerson { get; set; }
         public string OrganizationName { get; set; }
         public string Image1 { get; set; }
+        public int isService { get; set; }
     }
 }
 

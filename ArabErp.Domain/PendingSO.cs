@@ -31,8 +31,8 @@ namespace ArabErp.Domain
         public string RegistrationNo { get; set; }
         public int DaysLeft { get; set; }
         public int? isProjectBased { get; set; }
-
-    
+        public string JobCardNo { get; set; }
+        public DateTime JobCardDate { get; set; }
         
     }
 }

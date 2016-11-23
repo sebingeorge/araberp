@@ -1,5 +1,4 @@
-﻿
-@model ArabErp.Domain.OpeningStock
+﻿@model ArabErp.Domain.OpeningStock
 
 @{string actionName = ViewContext.RouteData.GetRequiredString("action");}
 
@@ -7,6 +6,7 @@
 <script>
     $(document).ready(function () {
         $("select[id$='__ItemId']").combobox();
+        $("select[id^='cboPartNo").combobox();
         $("#OpeningStockItem_0__SlNo").val('1');
     });
 
@@ -34,7 +34,9 @@
         clone.html($(clone).html().replace(/\(0\)/g, '(' + i + ')'));
         clone.html($(clone).html().replace(/Row_0/, 'Row_' + i + ''));
         clone.html($(clone).html().replace(/slno1/, 'slno' + (i + 1) + ''));
-        clone.html($(clone).html().replace(/this,0/, 'this,' + i + ''));
+        clone.html($(clone).html().replace(/part_no_0/, 'part_no_' + i + ''));
+        clone.html($(clone).html().replace(/cboPartNo0/g, 'cboPartNo' + i + ''));
+        clone.html($(clone).html().replace(/this,0/g, 'this,' + i + ''));
         $("#tab_logic").append('<tr id="' + i + '">' + clone.html() + '  </tr>');
         $("#slno" + (i + 1)).html((i + 1));
         $("#OpeningStockItem_" + i + "__SlNo").val((i + 1));
@@ -49,8 +51,9 @@
         $("#OpeningStockItem_" + i + "__ItemId").combobox();
         $("#OpeningStockItem_" + i + "__isUsed").val("false");
         $("#OpeningStockItem_" + i + "__OpeningStockId").val(0);
+        $("#cboPartNo" + i).val('');
+        $("#cboPartNo" + i).combobox();
         $("#" + i).find('.glyphicon-minus').removeClass("hidden");
-
     }
 
     function Delete(index) {
@@ -79,11 +82,12 @@
                 clone.html($(clone).html().replace(new RegExp("OpeningStockItem_" + j + "__", "g"), 'OpeningStockItem_' + (j - 1) + '__'));
                 clone.html($(clone).html().replace(new RegExp("\\[" + j + "].", "g"), "[" + (j - 1) + "]."));
                 clone.html($(clone).html().replace(new RegExp('slno' + (j + 1) + '">' + (j + 1), "g"), 'slno' + (j) + '">' + (j)));
+                clone.html($(clone).html().replace('part_no_' + j, 'part_no_' + (j - 1)));
                 clone.html($(clone).html().replace("Delete(" + j, "Delete(" + (j - 1)));
                 clone.html($(clone).html().replace("Row_" + j, "Row_" + (j - 1)));
+                clone.html($(clone).html().replace(new RegExp('cboPartNo' + j, 'g'), 'cboPartNo' + (j - 1)));
 
-
-                clone.html($(clone).html().replace("this," + j, "this," + (j - 1)));
+                clone.html($(clone).html().replace(new RegExp("this," + j, 'g'), "this," + (j - 1)));
                 $("#" + j).html(clone.html());
                 $("#OpeningStockItem_" + (j - 1) + "__SlNo").val(j);
                 $("#" + (j)).attr('id', (j - 1));
@@ -96,56 +100,56 @@
                     $("#OpeningStockItem_" + (j - 1) + "__ItemId").combobox();
                 }
                 $("#OpeningStockItem_" + (j - 1) + "__Quantity").val(Quantity);
-
+                $("#cboPartNo" + (j - 1)).combobox();
             }
         }
     }
 
     function OnMaterialChange(s, index) {
-         $("#hidden"+index).val($(s).val());
-       
+        $("#hidden" + index).val($(s).val());
+
     }
 
 </script>
 
 <!-------dummy table for cloning------->
 @*<table id="dummy-table" style="display:none">
-    <thead>
-        <tr class="grid_heading">
-            <th width="1%" class="text-center"></th>
-            <th width="5%" class="text-center"><h1>#</h1></th>
-            <th width="81%" class="text-left"><h1>Product</h1></th>
-            <th width="10%" class="text-right"><h1>Qty</h1></th>
-            <th width="2%" class="text-center"></th>
-        </tr>
-    </thead>
-    <tbody>
-        <tr id="dummy_table_row_0">
-            <td style="vertical-align:middle">
-                <a class="glyphicon glyphicon-minus" onclick="delete(0)"></a>
-            </td>
-            <td align="center">
-                <span id="slno@(0+1)">@(0 + 1)</span>
-                @Html.Hidden("OpeningStockItem_0__OpeningStockId")
-                @Html.Hidden("OpeningStockItem_0__SlNo")
-                @Html.Hidden("OpeningStockItem_0__isUsed")
-            </td>
-            <td>
-                <input type="hidden" id="DummyRow_0" />
-                @Html.DropDownList("OpeningStockItem_9__ItemId", new SelectList(ViewBag.Itemlist, "Value", "Text", ""), "Select Material/Spare", new { @class = "form_input", autocomplete = "off" })
+        <thead>
+            <tr class="grid_heading">
+                <th width="1%" class="text-center"></th>
+                <th width="5%" class="text-center"><h1>#</h1></th>
+                <th width="81%" class="text-left"><h1>Product</h1></th>
+                <th width="10%" class="text-right"><h1>Qty</h1></th>
+                <th width="2%" class="text-center"></th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr id="dummy_table_row_0">
+                <td style="vertical-align:middle">
+                    <a class="glyphicon glyphicon-minus" onclick="delete(0)"></a>
+                </td>
+                <td align="center">
+                    <span id="slno@(0+1)">@(0 + 1)</span>
+                    @Html.Hidden("OpeningStockItem_0__OpeningStockId")
+                    @Html.Hidden("OpeningStockItem_0__SlNo")
+                    @Html.Hidden("OpeningStockItem_0__isUsed")
+                </td>
+                <td>
+                    <input type="hidden" id="DummyRow_0" />
+                    @Html.DropDownList("OpeningStockItem_9__ItemId", new SelectList(ViewBag.Itemlist, "Value", "Text", ""), "Select Material/Spare", new { @class = "form_input", autocomplete = "off" })
 
 
-            </td>
+                </td>
 
-            <td>
-                @Html.TextBox("OpeningStockItem_0__Quantity", new { @class = "form_input", autocomplete = "off", @style = "text-align:right" })
-            </td>
+                <td>
+                    @Html.TextBox("OpeningStockItem_0__Quantity", new { @class = "form_input", autocomplete = "off", @style = "text-align:right" })
+                </td>
 
-            <td style="vertical-align:middle"><a id="add_row" class="glyphicon glyphicon-plus" style="top:0px" onclick="AddAdditionRow()"></a></td>
-        </tr>
-    </tbody>
+                <td style="vertical-align:middle"><a id="add_row" class="glyphicon glyphicon-plus" style="top:0px" onclick="AddAdditionRow()"></a></td>
+            </tr>
+        </tbody>
 
-</table>*@
+    </table>*@
 <!------------------------------------->
 
 <div class="table-responsive">
@@ -154,7 +158,8 @@
             <tr class="grid_heading">
                 <th width="1%" class="text-center"></th>
                 <th width="5%" class="text-center"><h1>#</h1></th>
-                <th width="81%" class="text-left"><h1>Material/Spares</h1></th>
+                <th width="60%" class="text-left"><h1>Material/Spares</h1></th>
+                <th width="21%">Part No.</th>
                 <th width="10%" class="text-right"><h1>Qty</h1></th>
                 <th width="2%" class="text-center"></th>
             </tr>
@@ -168,7 +173,7 @@
                         <a class="glyphicon glyphicon-minus @if(Model.OpeningStockItem[i].isUsed)
                                                             {
                                                                 @: hidden
-                                                            }"
+                                                                                                                                             } "
                            style=" top:0px;"
                            onclick="Delete(@i)">
                         </a>
@@ -185,17 +190,30 @@
                         @if (Model.OpeningStockItem[i].isUsed)
                         {
                             @*@Html.HiddenFor(m => m.OpeningStockItem[i].ItemId)*@
-                            @*<input 
-                                   value="@(((SelectList)ViewBag.ItemList).Where(x => x.Value == Model.OpeningStockItem[i].ItemId.ToString()).First().Text)" 
-                                   class="form_input dummy" style="color:red" disabled />*@
+                            @*<input
+                                value="@(((SelectList)ViewBag.ItemList).Where(x => x.Value == Model.OpeningStockItem[i].ItemId.ToString()).First().Text)"
+                                class="form_input dummy" style="color:red" disabled />*@
                             @Html.DropDownListFor(m => m.OpeningStockItem[i].ItemId, new SelectList(ViewBag.Itemlist, "Value", "Text", Model.OpeningStockItem[i].ItemId), "Select Material/Spare", new { @class = "form_input", autocomplete = "off", @disabled = "true" })
                         }
                         else
                         {
-                            @Html.DropDownListFor(m => m.OpeningStockItem[i].ItemId, new SelectList(ViewBag.Itemlist, "Value", "Text", Model.OpeningStockItem[i].ItemId), "Select Material/Spare", new { @class = "form_input", autocomplete = "off" })
+                            @Html.DropDownListFor(m => m.OpeningStockItem[i].ItemId, new SelectList(ViewBag.Itemlist, "Value", "Text", Model.OpeningStockItem[i].ItemId), "Select Material/Spare", new { @class = "form_input", autocomplete = "off", @onchange = "OnItemChanged(this," + i + ")" })
                         }
-                        
-                     </td>
+
+                    </td>
+
+                    <td id="part_no_@i">
+                        @*@Model.OpeningStockItem[i].PartNo*@
+                        @if (Model.OpeningStockItem[i].isUsed)
+                        {
+                            @Html.DropDownList("cboPartNo" + i, new SelectList(ViewBag.partNoList, "Value", "Text", Model.OpeningStockItem[i].ItemId), "Select Material/Spare", new { @class = "form_input", autocomplete = "off", @disabled = "true" })
+                        }
+                        else
+                        {
+                            @Html.DropDownList("cboPartNo" + i, new SelectList(ViewBag.partNoList, "Value", "Text", Model.OpeningStockItem[i].ItemId), "Select Part No.", new { @class = "form_input", @onchange = "OnPartNoChanged(this," + i + ")" })
+                            @*@Html.DropDownListFor(m => m.OpeningStockItem[i].ItemId, new SelectList(ViewBag.Itemlist, "Value", "Text", Model.OpeningStockItem[i].ItemId), "Select Material/Spare", new { @class = "form_input", autocomplete = "off", @onchange = "OnItemChanged(this," + i + ")" })*@
+                        }
+                    </td>
 
                     <td>
                         @if (Model.OpeningStockItem[i].isUsed)
@@ -208,7 +226,7 @@
                         {
                             @Html.TextBoxFor(m => m.OpeningStockItem[i].Quantity, new { @class = "form_input text-right", autocomplete = "off", @style = "text-align:right" })
                         }
-                        
+
                     </td>
 
                     <td style="vertical-align:middle"><a id="add_row" class="glyphicon glyphicon-plus" style="top:0px" onclick="AddAdditionRow()"></a></td>
@@ -219,5 +237,3 @@
 
     </table>
 </div>
-
-

@@ -15,9 +15,9 @@
             <caption><strong>DELIVERY CHALLAN</strong></caption>
             <thead class="grid_heading">
                 <tr>
-                    <th><h1>Del. Challan Ref. No. &amp; Date</h1></th>
-                    <th><h1>Warr. Expire Date</h1></th>
-                    <th><h1>Warr. Left (in months)</h1></th>
+                    <th title="Pending Delivery Challan No. & Date"><h1>Del. Challan Ref. No. &amp; Date</h1></th>
+                    <th title="Warranty Expiry Date"><h1>Warr. Expire Date</h1></th>
+                    <th title="Warranty Left"><h1>Warr. Left (in months)</h1></th>
                 </tr>
             </thead>
             <tbody class="grid_row">
@@ -25,10 +25,14 @@
                     @if (!Model.DeliveryChallanRefNo.IsEmpty())
                     {
                         <td>
-                            @Model.DeliveryChallanRefNo - @Model.DeliveryChallanDate.ToString("dd MMMM yyyy")
+                            @Model.DeliveryChallanRefNo - @if (Model.DeliveryChallanDate.ToString("dd MMMM yyyy") != "01 January 0001")
+                            {
+                                @:- @Model.DeliveryChallanDate.ToString("dd-MMMM-yyyy")
+                            }
+                            
                         </td>
                         <td>
-                            @Model.WarrantyExpireDate.ToString("dd MMMM yyyy")
+                            @Model.WarrantyExpireDate.ToString("dd-MMMM-yyyy")
                         </td>
                         <td>
                             @Model.WarrantyLeft
@@ -58,7 +62,7 @@
                     @if (!Model.SalesInvoiceRefNo.IsEmpty())
                     {
                         <td>
-                            @Model.SalesInvoiceRefNo - @Model.SalesInvoiceDate.ToString("dd MMMM yyyy")
+                            @Model.SalesInvoiceRefNo - @Model.SalesInvoiceDate.ToString("dd-MMMM-yyyy")
                         </td>
                         <td>
                             @Model.SalesInvoiceAmount
@@ -94,7 +98,7 @@
                     {
                         <tr>
                             <td>
-                                @item.JobCardNo - @item.JobCardDate.ToString("dd MMMM yyyy")
+                                @item.JobCardNo - @item.JobCardDate.ToString("dd-MMMM-yyyy")
                             </td>
                             <td>
                                 @item.JobCardTaskName
@@ -137,7 +141,7 @@
                     {
                         <tr>
                             <td>
-                                @item.PurchaseBillRefNo - @item.PurchaseBillDate.ToString("dd MMMM yyyy")
+                                @item.PurchaseBillRefNo - @item.PurchaseBillDate.ToString("dd-MMMM-yyyy")
                             </td>
                             <td>
                                 @item.GRNQuantity
@@ -181,7 +185,7 @@
                     @if (!Model.GRNNo.IsEmpty())
                     {
                         <td>
-                            @Model.GRNNo - @Model.GRNDate.ToString("dd MMMM yyyy")
+                            @Model.GRNNo - @Model.GRNDate.ToString("dd-MMMM-yyyy")
                         </td>
                         <td>
                             @Model.SupplierName
@@ -223,7 +227,7 @@
                     @if (!Model.SaleOrderRefNo.IsEmpty())
                     {
                         <td>
-                            @Model.SaleOrderRefNo - @Model.SaleOrderDate.ToString("dd MMMM yyyy")
+                            @Model.SaleOrderRefNo - @Model.SaleOrderDate.ToString("dd-MMMM-yyyy")
                         </td>
                         <td>
                             @Model.CustomerName

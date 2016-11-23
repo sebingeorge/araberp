@@ -65,8 +65,17 @@ namespace ArabErp.Web.Controllers
                     {
                         permission.MISReports = true;
                     }
+                    else if (item.ModuleName == "Store")
+                    {
+                        permission.Store = true;
+                    }
                 }
-                ViewBag.ModulePermissions = permission;                
+                ViewBag.ModulePermissions = permission;
+                if (Session["formPermission"] == null)
+                {
+                    IEnumerable<FormPermission> formPermission = new UserRepository().GetFormPermissions(Id);
+                    Session["formPermission"] = formPermission;
+                }
             }
             catch
             {

@@ -5,12 +5,6 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<style type="text/css">
-    .fade {
-        opacity: 0.6;
-    }
-</style>
-
 <script type="text/javascript">
 
     $(document).ready(function () {
@@ -29,7 +23,12 @@
         window.location = url;
     }
     function Exit() {
-        var url = '@Url.Action("PendingSalesQutoforSaleOrder", "SaleOrder", new { ProjectBased = ViewBag.isProjectBased })';
+        if('@ViewBag.isService' == '1'){
+            var url = '@Url.Action("ServiceEstimate")';
+        }
+        else{
+            var url = '@Url.Action("PendingSalesQutoforSaleOrder", "SaleOrder", new { ProjectBased = ViewBag.isProjectBased })';
+        }
         window.location = url;
     }
 
@@ -84,7 +83,7 @@
         <br />
 
         <div id="saleorderlist">
-            @Html.Action("PreviousList", new { ProjectBased = ViewBag.isProjectBased })
+            @Html.Action("PreviousList", new { ProjectBased = ViewBag.isProjectBased, service = ViewBag.isService })
         </div>
 
         <div class="row">

@@ -21,15 +21,24 @@
         var to = $("#txtTo").val();
         var url = '@Url.Action("PreviousList")';
 
-        url += "?from=" + from + "&to=" + to + "&id=" + id + "&cusid=" + cusid + "&ProjectBased=" + @ViewBag.ProjectBased;
+        url += "?from=" + from + "&to=" + to + "&id=" + id + "&cusid=" + cusid 
+            + "&ProjectBased=" + @ViewBag.ProjectBased
+            + "&service="+@ViewBag.service;
 
         $("#jobcardlist").load(url, function () {
             $("#jobcardlist").removeClass("fade");
         });
     }
-    
+
     function Exit() {
-        var url = '@Url.Action("PendingJobCard", new { isProjectBased = ViewBag.ProjectBased })';
+
+        var url = '@Url.Action("PendingJobCard")';
+        url+="?isProjectBased="+@ViewBag.ProjectBased+"&service="+@ViewBag.service;
+
+        //new { isProjectBased = ViewBag.ProjectBased,
+        //                                               service = Convert.ToInt32(Request.QueryString["service"].ToString() ?? "0")
+        //      })';
+
         window.location = url;
     }
 
@@ -68,7 +77,11 @@
         <div class="row">
             <div class="main-grid main-grid-top scroll1">
                 <div class="table-responsive" id="jobcardlist">
-                    @Html.Action("PreviousList", new { ProjectBased = ViewBag.ProjectBased })
+                    @Html.Action("PreviousList", new
+               {
+                   ProjectBased = ViewBag.ProjectBased,
+                   service = Convert.ToInt32(Request.QueryString["service"].ToString() ?? "0")
+               })
                 </div>
             </div>
         </div>

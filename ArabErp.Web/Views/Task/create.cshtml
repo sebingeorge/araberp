@@ -21,7 +21,7 @@
         }
 
 
-            toastr.options = {
+            @*toastr.options = {
                 "closeButton": true,
                 "positionClass": "toast-bottom-full-width",
                 "preventDuplicates": false,
@@ -39,7 +39,7 @@
             }
             else if ('@TempData["error"]' != "") {
                 toastr.error('@TempData["error"]');
-            }
+            }*@
 
           $(".numbers-only").keypress(function (e) {
             //alert("hi");

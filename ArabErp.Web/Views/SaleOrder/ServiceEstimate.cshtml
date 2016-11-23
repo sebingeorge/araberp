@@ -1,0 +1,251 @@
+﻿@model ArabErp.Domain.SaleOrder
+
+@{
+    ViewBag.Title = "Service Estimate";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<script type="text/javascript">
+
+    $(document).ready(function () {
+        $("#SaleOrderDate").datepicker({ dateFormat: "dd-MM-yy" });
+    })
+
+    function formValidation() {
+        return true;
+    }
+
+    function OnCustomerChanged(cust) {
+        var cusId = cust.value;
+        $.ajax({
+            url: "@Url.Action("GetCustomerDetailsByKey", "SaleOrder")",
+            data: { cusKey: cusId },
+            cache: false,
+            type: "GET",
+            timeout: 10000,
+            dataType: "json",
+            success: function (result) {
+                if (result.Success) {
+                    $('#CurrencyId').val(result.CurrencyId);
+                    //$('#CurrencyName').val(result.CurrencyName);
+                    $("#CustomerAddress").val(result.Address);
+                }
+            }
+        });
+    }
+
+    function QuantityChanged(row) {
+        var rate = Number($("#Items_" + row + "__Rate").val());
+        var discount = Number($("#Items_" + row + "__Discount").val());
+        $("#Items_" + row + "__Amount").val((rate - discount).toFixed(2));
+        $("#QtyAmount").val((rate - discount).toFixed(2));
+    }
+
+    function Exit() {
+        var url = '@Url.Action("Index", "Home")';
+        window.location = url;
+    }
+
+    function PreviousList() {
+        var url = '@Url.Action("Index")';
+        url += "?type=0&service=1";
+        window.location = url;
+    }
+
+</script>
+
+<div class="row">
+    <div class="form-head1">
+        <h4>Service Estimate</h4>
+    </div>
+
+    <div class="main-part pad1">
+        @using (Html.BeginForm(null, null, FormMethod.Post, new { @class = "createFrom", @id = "service_estimate_form", onsubmit = "return formValidation()" }))
+        {
+            @Html.HiddenFor(m => m.SaleOrderId)
+            @Html.HiddenFor(m => m.isProjectBased)
+            @Html.HiddenFor(m => m.isAfterSales)
+            @Html.HiddenFor(m => m.isService)
+
+            <div class="row form-group ">
+                <div class="col-md-2">
+                    <label for="SaleOrderRefNo">Service Estimate Ref. No.</label>
+                    @Html.TextBoxFor(m => m.SaleOrderRefNo, new { @class = "form_input ", autocomplete = "off", @readonly = "readonly" })
+
+                </div>
+                <div class="col-md-2">
+                    <label for="SaleOrderDate">Date</label>
+                    @Html.TextBoxFor(m => m.SaleOrderDate, Model.SaleOrderDate.ToString("dd/MMMM/yyyy"), new { @class = "form_input ", autocomplete = "off", @readonly = "readonly" })
+                </div>
+            </div>
+            <div class="row form-group">
+                <div class="col-md-4">
+                    <label for="CustomerId">Customer</label>
+                    @Html.DropDownListFor(m => Model.CustomerId, (SelectList)ViewBag.customerlist, "Select Customer", new { @class = "form_input", @onchange = "OnCustomerChanged(this)" })
+
+                </div>
+                <div class="col-md-6">
+                    <label for="CustomerAddress">Customer Address</label>
+                    @Html.TextBoxFor(m => m.CustomerAddress, new { @class = "form_input", autocomplete = "off", @readonly = "readonly" })
+                </div>
+                <div class="col-md-2">
+                    <label for="CustomerOrderRef">Customer Order Ref.</label>
+                    @Html.TextBoxFor(m => m.CustomerOrderRef, new { @class = "form_input", autocomplete = "off" })
+                </div>
+            </div>
+
+            <div>
+                <table class="table table-bordered" id="tab_logic">
+                    <thead>
+                        <tr class="grid_heading">
+                            @*<th width="2%" class="text-center"></th>*@
+                            <th width="1%" class="text-center"><h1>#</h1></th>
+                            <th width="45%" class="text-left"><h1>Complaint</h1></th>
+                            @*<th width="10%"><h1>Rate Settings</h1></th>*@
+                            <th width="5%" class="text-right"><h1>Qty</h1></th>
+                            <th width="5%" class="text-right"><h1>UoM</h1></th>
+                            <th width="7%" class="text-right"><h1>Rate</h1></th>
+                            <th width="7%" class="text-right"><h1>Discount</h1></th>
+                            <th width="7%" class="text-right"><h1>Amount</h1></th>
+                            @*<th width="7%" class="text-right"><h1>Total</h1></th>*@
+                            @*<th width="2%">&nbsp;</th>*@
+                        </tr>
+                    </thead>
+                    <tbody id="table_validation">
+                        @for (int i = 0; i < Model.Items.Count; i++)
+                        {
+                            <tr id="@i">
+                                @*<td style="vertical-align:middle"><a class="glyphicon glyphicon-minus" style="top:0px" onclick="Delete(@i)"></a></td>*@
+                                <td align="center">
+                                    <span id="slno@(i + 1)">@(i + 1)</span>
+                                    @Html.HiddenFor(m => m.Items[i].SlNo)
+                                    @*@Html.HiddenFor(m => m.Items[i].Quantity)*@
+                                    @Html.HiddenFor(m => m.Items[i].UnitId)
+                                </td>
+                                <td>
+                                    <input type="hidden" id="Row_@i" />
+                                    @Html.DropDownListFor(x => Model.Items[i].WorkDescriptionId, new SelectList(ViewBag.workdesclist, "Value", "Text",
+                                    Model.Items[i].WorkDescriptionId), "Select Complaint", new
+                                    {
+                                        @class = "form_input",
+                                        autocomplete = "off",
+                                        @onchange = "OnWorkDescChanged(" + i + ")",
+                                        @placeholder = "Search for Complaint",
+                                        @required = "true"
+                                    })
+                                </td>
+                                @*<td>
+                                        <!--column to show rate settings (required only for transportation)-->
+                                        @Html.DropDownListFor(m => m.Items[i].RateType, new SelectList(ViewBag.rateSettings, "Value", "Text", Model.Items[i].RateType), new { @class = "form_input", @onchange = "OnRateTypeChanged(" + i + ")" })
+                                    </td>*@
+                                <td>
+                                    @Html.TextBoxFor(m => m.Items[i].Quantity, new
+                                   {
+                                       @class = "form_input clQuantity  ",
+                                       @style = "text-align:right",
+                                       autocomplete = "off",
+                                       placeholder = "Qty",
+                                       @readonly = "true",
+                                       @onkeyup = "QuantityChanged(" + i + ")",
+                                       @onchange = "QuantityChanged(" + i + ");"
+                                   })
+                                </td>
+                                <td>@Html.TextBoxFor(m => m.Items[i].UnitName, new { @class = "form_input text-left", @readonly = "true" })</td>
+                                <td>
+                                    @Html.TextBoxFor(m => m.Items[i].Rate, new
+                                       {
+                                           @class = "form_input numbers-only clrate validateqty",
+                                           autocomplete = "off",
+                                           @style = "text-align:right",
+                                           placeholder = "Rate",
+                                           @onchange = "QuantityChanged(" + i + ");",
+                                           @onkeyup = "QuantityChanged(" + i + ")",
+                                           @required = "true"
+                                       })
+                                </td>
+                                <td>
+                                    @Html.TextBoxFor(m => m.Items[i].Discount, new
+                                    {
+                                        @class = "form_input numbers-only",
+                                        autocomplete = "off",
+                                        @style = "text-align:right",
+                                        placeholder = "Discount",
+                                        @onchange = "QuantityChanged(" + i + ");",
+                                        @onkeyup = "QuantityChanged(" + i + ")"
+                                    })
+                                </td>
+                                <td>@Html.TextBoxFor(m => m.Items[i].Amount, new { @class = "form_input clAmount", autocomplete = "off", @style = "text-align:right", placeholder = "Amount", @readonly = "true" })</td>
+                                @*<td>
+                                    @Html.TextBoxFor(m => m.Items[i].TotalAmount, new { @class = "form_input", autocomplete = "off", @style = "text-align:right", @readonly = "readonly" })
+                                </td>*@
+                                @*<td style="vertical-align:middle"><a id="add_row" class="glyphicon glyphicon-plus" style="top:0px" onclick="AddAdditionRow()"></a></td>*@
+                            </tr>
+                        }
+                    </tbody>
+                    <tfoot>
+                        <tr class="grid_heading">
+                            @*<th class="text-center"></th>*@
+                            <th class="text-center"></th>
+                            <th class="text-center "><h1></h1></th>
+                            @*<th></th>*@
+                            <th class="text-center"><h1></h1></th>
+                            <th class="text-center"><h1>Total</h1></th>
+                            <th class="text-right">
+                                <h1>
+                                    @Html.DropDownListFor(m => m.CurrencyId, (SelectList)ViewBag.currlist, "Select Currency", new { @class = "form_input", autocomplete = "off" })
+                                </h1>
+                            </th>
+                            <th class="text-right">
+                                <span id="span-DiscountTotal"></span>
+                            </th>
+                            <th class="text-right">
+                                <span id="QtyAmount"></span>
+                            </th>
+                            @*<th class="text-right"><span id="NetTotalAmount"></span></th>*@
+                            @*<th class="text-right"></th>*@
+                        </tr>
+                    </tfoot>
+                </table>
+            </div>
+            <br />
+            <div class="row">
+                <div class="part1">
+                    <div class="col-md-12">
+                        <label for="SpecialRemarks">Special Remarks</label>
+                        @Html.TextAreaFor(m => Model.SpecialRemarks, new { @class = "form_input form_input-h", autocomplete = "off" })
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="part4">
+                    <div class="col-md-12">
+                        <label for="PaymentTerms">Payment Terms</label>
+                        @Html.TextBoxFor(m => Model.PaymentTerms, new { @class = "form_input", autocomplete = "off" })
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="part4">
+                    <div class="col-md-12">
+                        @if (Model.isProjectBased == 0)
+                        {
+                            <label for="DeliveryTerms">Delivery Terms</label>
+                        }
+                        else
+                        {
+                            <label for="DeliveryTerms">Project Completion Terms</label>
+                        }
+                        @Html.TextBoxFor(m => Model.DeliveryTerms, new { @class = "form_input", autocomplete = "off" })
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-12 hrpart">
+                    <input type="button" class="form-button" onclick="PreviousList()" value="Previous">
+                    <button type="button" class="form-button right" onclick="Exit()">Exit</button>
+                    <button type="submit" class="form-button right">Save</button>
+                </div>
+            </div>
+        }
+    </div>
+</div>

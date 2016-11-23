@@ -91,6 +91,20 @@ body {
             color: #fff;
             border-bottom: 1px solid #23282e;
         }
+        .sidebar-nav li li li 
+        {
+            background-color:#fff;
+            color:#181c20;
+        } 
+                .sidebar-nav li li li a 
+        {
+            color:#181c20;
+        }
+      .sidebar-nav li li li a:hover 
+        {
+            background-color:#dedddd !important;
+
+        }
 
             /*.sidebar-nav li a:hover {
                 text-decoration: none;

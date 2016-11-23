@@ -52,6 +52,7 @@ namespace ArabErp.Domain
         public int? CurrencyId { get; set; }
         public string CreatedBy { get; set; }
         public DateTime? CreatedDate { get; set; }
+
         public int OrganizationId { get; set; }
         public bool isActive { get; set; }
         public string RevisionReason { get; set; }
@@ -72,7 +73,7 @@ namespace ArabErp.Domain
         public int DeliveryChallanId { get; set; }
 
         public int ProjectCompletionId { get; set; }
-        public decimal Discount { get; set; }
+        public decimal? Discount { get; set; }
         public DateTime WarrantyExpiryDate { get; set; }
         public string WorkDescription { get; set; }
 
@@ -92,11 +93,15 @@ namespace ArabErp.Domain
         //public string ContactPerson { get; set; }
         
         public string OrganizationName { get; set; }
+        public string DesignationName { get; set; }
         public string Image1 { get; set; }
         public string EmpNmae { get; set; }
         public string EmpDesignation { get; set; }
-
+        public string ApprovedUsersig { get; set; }
         public ProjectCompletion ProjectCompleionDetails { get; set; }
         public DeliveryChallan DeliveryChallanDetails { get; set; }
+
+        public int VehicleModelId { get; set; }
+        public string DeliveryTerms { get; set; }
     }
 }

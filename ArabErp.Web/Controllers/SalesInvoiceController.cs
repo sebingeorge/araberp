@@ -245,7 +245,7 @@ namespace ArabErp.Web.Controllers
             DataRow dr = ds.Tables["Head"].NewRow();
             dr["SalesInvoiceRefNo"] = Head.SalesInvoiceRefNo;
             dr["SalesInvoiceDate"] = Head.SalesInvoiceDate.ToString("dd-MMM-yyyy");
-            dr["VehicleOutPassNo"] = Head.VehicleOutPassNo;
+            dr["VehicleOutPassNo"] = Head.DeliveryChallanRefNo;
             dr["CustomerName"] = Head.Customer;
             dr["Address"] = Head.CustomerAddress;
             dr["CustomerOrderRef"] = Head.CustomerOrderRef;

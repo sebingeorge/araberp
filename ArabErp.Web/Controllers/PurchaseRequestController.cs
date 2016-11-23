@@ -83,6 +83,8 @@ namespace ArabErp.Web.Controllers
         [HttpPost]
         public ActionResult Create(PurchaseRequest model)
         {
+             
+         
             try
             {
                 if(!ModelState.IsValid)
@@ -92,6 +94,7 @@ namespace ArabErp.Web.Controllers
                 model.OrganizationId = OrganizationId;
                 model.CreatedDate = System.DateTime.Now;
                 model.CreatedBy = UserID.ToString();
+               
                 string id = new PurchaseRequestRepository().InsertPurchaseRequest(model);
                    if (id.Split('|')[0] != "0")
                    {
@@ -270,6 +273,9 @@ namespace ArabErp.Web.Controllers
             ds.Tables["Head"].Columns.Add("Zip");
             ds.Tables["Head"].Columns.Add("OrganizationName");
             ds.Tables["Head"].Columns.Add("Image1");
+            ds.Tables["Head"].Columns.Add("CreatedUser");
+            ds.Tables["Head"].Columns.Add("CreateSignature");
+
 
             //-------DT
             ds.Tables["Items"].Columns.Add("PartNo");
@@ -311,6 +317,8 @@ namespace ArabErp.Web.Controllers
             dr["Zip"] = Head.Zip;
             dr["OrganizationName"] = Head.OrganizationName;
             dr["Image1"] = Server.MapPath("~/App_images/") + Head.Image1;
+            dr["CreatedUser"] = Head.CreatedUser;
+            dr["CreateSignature"] = Server.MapPath("~/App_Images/") + Head.CreatedUsersig;
             ds.Tables["Head"].Rows.Add(dr);
 
             PurchaseRequestRepository repo1 = new PurchaseRequestRepository();

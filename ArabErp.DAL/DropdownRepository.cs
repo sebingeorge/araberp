@@ -584,18 +584,18 @@ namespace ArabErp.DAL
         /// Select All Job Card No. from JobCard
         /// </summary>
         /// <returns></returns>
-        public List<Dropdown> JCNODropdown(int OrganizationId, int isProjectBased)
+        public List<Dropdown> JCNODropdown(int OrganizationId, int isProjectBased,int service)
         {
             using (IDbConnection connection = OpenConnection(dataConnection))
             {
-                return connection.Query<Dropdown>("SELECT JobCardId Id, JobCardNo Name FROM JobCard WHERE ISNULL(isActive, 1) = 1 and OrganizationId =" + OrganizationId.ToString() + " and isProjectBased=" + isProjectBased.ToString() + " ").ToList();
+                return connection.Query<Dropdown>("SELECT JobCardId Id, JobCardNo Name FROM JobCard WHERE ISNULL(isActive, 1) = 1 and OrganizationId =" + OrganizationId.ToString() + " and isProjectBased=" + isProjectBased.ToString() + " and isService=" +service.ToString()+ " ").ToList();
             }
         }
-        public List<Dropdown> JCCustomerDropdown(int OrganizationId, int isProjectBased)
+        public List<Dropdown> JCCustomerDropdown(int OrganizationId, int isProjectBased,int service)
         {
             using (IDbConnection connection = OpenConnection(dataConnection))
             {
-                return connection.Query<Dropdown>("SELECT DISTINCT S.CustomerId Id, C.CustomerName Name from JobCard J inner join SaleOrder S ON S.SaleOrderId=J.SaleOrderId  inner join Customer C ON C.CustomerId=S.CustomerId WHERE ISNULL(J.isActive, 1) = 1 and J.OrganizationId =" + OrganizationId.ToString() + " and J.isProjectBased=" + isProjectBased.ToString() + " ").ToList();
+                return connection.Query<Dropdown>("SELECT DISTINCT S.CustomerId Id, C.CustomerName Name from JobCard J inner join SaleOrder S ON S.SaleOrderId=J.SaleOrderId  inner join Customer C ON C.CustomerId=S.CustomerId WHERE ISNULL(J.isActive, 1) = 1 and J.OrganizationId =" + OrganizationId.ToString() + " and J.isProjectBased=" + isProjectBased.ToString() + " and J.isService=" + service.ToString() + " ").ToList();
                               
             }
         }
@@ -686,8 +686,8 @@ namespace ArabErp.DAL
             {
 
                 return connection.Query<Dropdown>(@"SELECT SalesQuotationId Id,QuotationRefNo Name
-                                                    FROM SalesQuotation 
-                                                    WHERE OrganizationId = @OrganizationId AND isProjectBased = " + ProjectBased + " and isAfterSales=" + AfterSales,
+                                                    FROM SalesQuotation Q 
+                                                    WHERE OrganizationId = @OrganizationId AND isProjectBased = " + ProjectBased + " and isAfterSales=" + AfterSales +@"AND ISNULL(Q.isActive, 1) = 1",
                                                     new { OrganizationId = OrganizationId, ProjectBased = ProjectBased, AfterSales = AfterSales }).ToList();
             }
         }
@@ -961,5 +961,38 @@ namespace ArabErp.DAL
             }
         }
 
+        public List<Dropdown> ItemGroupDropdown()
+        {
+            using (IDbConnection connection = OpenConnection(dataConnection))
+            {
+                return connection.Query<Dropdown>("select  ItemGroupId Id,ItemGroupName Name from ItemGroup ").ToList();
+            }
+        }
+        public List<Dropdown> ItemSubgroupDropdown()
+        {
+            using (IDbConnection connection = OpenConnection(dataConnection))
+            {
+                return connection.Query<Dropdown>(" select  ItemSubGroupId Id,ItemSubGroupName Name from ItemSubGroup ").ToList();
+            }
+        }
+        /// <summary>
+        /// Returns all part no from [Item] table
+        /// </summary>
+        /// <returns></returns>
+        public IEnumerable PartNoDropdown1()
+        {
+            using (IDbConnection connection = OpenConnection(dataConnection))
+            {
+                return connection.Query<Dropdown>("SELECT ItemId Id, PartNo Name FROM Item WHERE ISNULL(LTRIM(RTRIM(PartNo)), '') <> ''").ToList();
+            }
+        }
+
+        public List<Dropdown> Designation()
+        {
+            using (IDbConnection connection = OpenConnection(dataConnection))
+            {
+                return connection.Query<Dropdown>(" select DesignationId  Id,DesignationName Name from designation ").ToList();
+            }
+        }
     }
 }

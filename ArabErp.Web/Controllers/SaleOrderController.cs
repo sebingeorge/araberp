@@ -17,23 +17,22 @@ namespace ArabErp.Web.Controllers
     public class SaleOrderController : BaseController
     {
         // GET: SaleOrder
-        public ActionResult Index(int type)
+        public ActionResult Index(int type, int service = 0)
         {
             FillSORefNo(type);
             FillSOCustomer(type);
             ViewBag.isProjectBased = type;
-
+            ViewBag.isService = service;
             return View();
-
         }
 
-        public ActionResult PreviousList(DateTime? from, DateTime? to, int ProjectBased, int id = 0, int cusid = 0)
+        public ActionResult PreviousList(DateTime? from, DateTime? to, int ProjectBased, int id = 0, int cusid = 0, int service = 0)
         {
 
             from = from ?? DateTime.Today.AddMonths(-1);
             to = to ?? DateTime.Today;
             ViewBag.ProjectBased = ProjectBased;
-            return PartialView("_PreviousList", new SaleOrderRepository().GetPreviousList(ProjectBased, id, cusid, OrganizationId, from, to));
+            return PartialView("_PreviousList", new SaleOrderRepository().GetPreviousList(ProjectBased, id, cusid, OrganizationId, from, to, service));
         }
 
         public ActionResult Create(int? SalesQuotationId)
@@ -412,7 +411,7 @@ namespace ArabErp.Web.Controllers
         public ActionResult PendingSaleOrderApprovalWR()
         {
             var repo = new SaleOrderRepository();
-            IEnumerable<PendingSaleOrderForTransactionApproval> pendingSO = repo.GetSaleOrderPendingForTrnApproval();
+            IEnumerable<PendingSaleOrderForTransactionApproval> pendingSO = repo.GetSaleOrderPendingForTrnApproval(OrganizationId);
             var result = from a in pendingSO where (a.IsPaymentApprovedForWorkshopRequest == false || a.IsPaymentApprovedForWorkshopRequest == null) select a;
             ViewBag.ApproveType = "WORKSHOP_REQUEST";
             return View("PendingSaleOrderApprovalTransaction", result);
@@ -420,7 +419,7 @@ namespace ArabErp.Web.Controllers
         public ActionResult PendingSaleOrderApprovalJC()
         {
             var repo = new SaleOrderRepository();
-            IEnumerable<PendingSaleOrderForTransactionApproval> pendingSO = repo.GetSaleOrderPendingForTrnApproval();
+            IEnumerable<PendingSaleOrderForTransactionApproval> pendingSO = repo.GetSaleOrderPendingForTrnApproval(OrganizationId);
             var result = from a in pendingSO where (a.IsPaymentApprovedForJobOrder == false || a.IsPaymentApprovedForJobOrder == null) select a;
             ViewBag.ApproveType = "JOB_CARD";
             return View("PendingSaleOrderApprovalTransaction", result);
@@ -428,8 +427,8 @@ namespace ArabErp.Web.Controllers
         public ActionResult PendingSaleOrderApprovalDEL()
         {
             var repo = new SaleOrderRepository();
-            IEnumerable<PendingSaleOrderForTransactionApproval> pendingSO = repo.GetSaleOrderPendingForTrnApproval();
-            var result = from a in pendingSO where (a.IsPaymentApprovedForDelivery == false || a.IsPaymentApprovedForDelivery == null) select a;
+            IEnumerable<PendingSaleOrderForTransactionApproval> pendingSO = repo.GetSaleOrderPendingForTrnApproval(OrganizationId);
+            var result = from a in pendingSO where ((a.IsPaymentApprovedForDelivery == false || a.IsPaymentApprovedForDelivery == null) && a.JodCardCompleteStatus == 1) select a;
             ViewBag.ApproveType = "DELIVERY_CHALLAN";
             return View("PendingSaleOrderApprovalTransaction", result);
         }
@@ -921,6 +920,49 @@ namespace ArabErp.Web.Controllers
             {
                 throw;
             }
+        }
+
+        public ActionResult ServiceEstimate()
+        {
+            FillCustomer();
+            FillCurrency();
+            FillServiceWorkDescription();
+            List<SaleOrderItem> item = new List<SaleOrderItem>();
+            item.Add(new SaleOrderItem { UnitName = "Nos", Quantity = 1 });
+            return View(new SaleOrder { 
+                SaleOrderRefNo = DatabaseCommonRepository.GetNextDocNo(33, OrganizationId),
+                SaleOrderDate = DateTime.Today, 
+                Items = item,
+                isProjectBased = 0,
+                isAfterSales = 1,
+                isService = 1
+            });
+        }
+
+        [HttpPost]
+        public ActionResult ServiceEstimate(SaleOrder model)
+        {
+            try
+            {
+                model.OrganizationId = OrganizationId;
+                model.CreatedBy = UserID.ToString();
+                string ref_no = new SaleOrderRepository().InsertServiceEstimate(model);
+                TempData["success"] = "Saved Successfully. Reference No. is " + ref_no;
+                return RedirectToAction("ServiceEstimate");
+            }
+            catch (Exception)
+            {
+                FillCustomer();
+                FillCurrency();
+                FillServiceWorkDescription();
+                TempData["error"] = "Some error occurred while saving. Please try again.";
+                return View(model);
+            }
+        }
+        private void FillServiceWorkDescription()
+        {
+            ViewBag.workDescList = new SelectList(
+                new DropdownRepository().FillWorkDescForAfterSales(), "Id", "Name");
         }
     }
 }

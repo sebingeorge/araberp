@@ -13,15 +13,94 @@ namespace ArabErp.DAL
         static string dataConnection = GetConnectionString("arab");
         public int InsertSalesQuotationItem(SalesQuotationItem objSalesQuotationItem, IDbConnection connection, IDbTransaction trn)
         {
+            try
+            {
+                objSalesQuotationItem.WorkDescriptionId = GetMatchingWorkDescription(objSalesQuotationItem, connection, trn);
 
-
-            string sql = @"insert  into SalesQuotationItem(SalesQuotationId,SlNo,WorkDescriptionId,Remarks,PartNo,Quantity,Rate,Discount,Amount,OrganizationId,RateType) Values (@SalesQuotationId,@SlNo,@WorkDescriptionId,@Remarks,@PartNo,@Quantity,@Rate,@Discount,@Amount,@OrganizationId,@RateType);
-            SELECT CAST(SCOPE_IDENTITY() as int)";
+                string sql = @"insert  into SalesQuotationItem(SalesQuotationId,SlNo,WorkDescriptionId,Remarks,PartNo,Quantity,Rate,Discount,Amount,OrganizationId,RateType) Values (@SalesQuotationId,@SlNo,@WorkDescriptionId,@Remarks,@PartNo,@Quantity,@Rate,@Discount,@Amount,@OrganizationId,@RateType);
+                    SELECT CAST(SCOPE_IDENTITY() as int)";
 
 
                 var id = connection.Query<int>(sql, objSalesQuotationItem, trn).Single();
                 return id;
-            
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+
+        }
+
+        private int GetMatchingWorkDescription(SalesQuotationItem model, IDbConnection connection, IDbTransaction txn)
+        {
+            try
+            {
+                string query = @"SELECT
+	                                    WorkDescriptionId
+                                    FROM WorkDescription
+                                    WHERE FreezerUnitId " + (model.FreezerUnitId == null ? "IS NULL" : "= @FreezerUnitId") + @"
+	                                    AND BoxId " + (model.BoxId == null ? "IS NULL" : "= @BoxId") + @"
+                                        AND VehicleModelId = @VehicleModelId";
+                return connection.Query<int>(query, new
+                {
+                    BoxId = model.BoxId,
+                    FreezerUnitId = model.FreezerUnitId,
+                    VehicleModelId = model.VehicleModelId
+                }, txn).First();
+            }
+            catch (InvalidOperationException)
+            {
+                //when there is no matching work description
+                return CreateMatchingWorkDescription(connection, txn, model);
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
+
+        private int CreateMatchingWorkDescription(IDbConnection connection, IDbTransaction txn, SalesQuotationItem model)
+        {
+            try
+            {
+                string freezerName = model.FreezerUnitId == null ? String.Empty : new ItemRepository().GetItem(model.FreezerUnitId ?? 0).ItemName,
+                    boxName = model.BoxId == null ? String.Empty : new ItemRepository().GetItem(model.BoxId ?? 0).ItemName,
+
+                    ref_no = "WD/" + DatabaseCommonRepository.GetInternalIDFromDatabase(connection, txn, typeof(WorkDescription).Name, "0", 1),
+
+                    query = @"INSERT INTO WorkDescription (WorkDescriptionRefNo, FreezerUnitId, BoxId, WorkDescr,
+							        WorkDescrShortName, isNewInstallation, CreatedDate, OrganizationId, isActive,
+							        isProjectBased, VehicleModelId)
+                                VALUES
+                                (
+	                                @WorkDescriptionRefNo, @FreezerUnitId, @BoxId, @WorkDescr,
+							        @WorkDescrShortName, @isNewInstallation, @CreatedDate, @OrganizationId, @isActive,
+							        @isProjectBased, @VehicleModelId
+                                )
+                                SELECT CAST(SCOPE_IDENTITY() AS INT)";
+
+                int? id = connection.Query<int>(query,
+                    new
+                    {
+                        WorkDescriptionRefNo = ref_no,
+                        FreezerUnitId = model.FreezerUnitId,
+                        BoxId = model.BoxId,
+                        WorkDescr = freezerName + (freezerName == String.Empty || boxName == String.Empty ? String.Empty : " + ") + boxName,
+                        WorkDescrShortName = freezerName + (freezerName == String.Empty || boxName == String.Empty ? String.Empty : " + ") + boxName,
+                        isNewInstallation = 1,
+                        CreatedDate = System.DateTime.Today,
+                        OrganizationId = model.OrganizationId,
+                        isActive = 1,
+                        isProjectBased = 0,
+                        VehicleModelId = model.VehicleModelId
+                    }, txn).FirstOrDefault();
+
+                if (id == null) throw new Exception(); else return id ?? 0;
+            }
+            catch (Exception)
+            {
+                throw;
+            }
         }
 
         public int InsertSalesQuotationMaterial(SalesQuotationMaterial objSalesQuotationMaterial, IDbConnection connection, IDbTransaction trn)

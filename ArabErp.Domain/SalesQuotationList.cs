@@ -14,6 +14,9 @@ namespace ArabErp.Domain
         public string CustomerName { get; set; }
         public string EmployeeName { get; set; }
         public decimal GrandTotal { get; set; }
+        public string Status { get; set; }
         public string Description { get; set; }
+        public string RevisionNo { get; set; }
+        public string RevisionReason { get; set; }
     }
 }

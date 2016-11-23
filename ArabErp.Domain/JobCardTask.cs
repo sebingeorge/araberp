@@ -23,5 +23,6 @@ namespace ArabErp.Domain
         public DateTime EndDate { get; set; }
         public decimal StartTime { get; set; }
         public decimal EndTime { get; set; }
+        public string JobCardTaskName { get; set; }
     }
 }

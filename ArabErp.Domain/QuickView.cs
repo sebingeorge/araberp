@@ -22,5 +22,7 @@ namespace ArabErp.Domain
         public int NoOfProjectSaleOrdersForJobCard { get; set; }
         public bool PendingTransSaleOrdersForJobCard { get; set; }
         public int NoOfTransSaleOrdersForJobCard { get; set; }
+        public bool MaterialStockBelowMinLevel { get; set; }
+        public int NoOfMaterialStockBelowMinLevel { get; set; }
     }
 }

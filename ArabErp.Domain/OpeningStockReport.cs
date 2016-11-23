@@ -9,6 +9,8 @@ namespace ArabErp.Domain
     public class OpeningStockReport
     {
       public string ItemName { get; set; }
+      public string ItemGroupName { get; set; }
+      public string ItemSubGroupName { get; set; }
       public string PartNo { get; set; }
       public decimal Quantity { get; set; }
       public string UnitName { get; set; }
@@ -19,6 +21,7 @@ namespace ArabErp.Domain
       public decimal OUTQTY { get; set; }
       public decimal OPENINGSTOCK { get; set; }
       public int itmCatId { get; set; }
-      public int ItemId { get; set; }
+     // public int ItemId { get; set; }
+      public string ItemId { get; set; }
     }
 }

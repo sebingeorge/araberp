@@ -185,6 +185,8 @@ namespace ArabErp.Web.Controllers
             //    //-------HEAD
             ds.Tables["Head"].Columns.Add("From");
             ds.Tables["Head"].Columns.Add("To");
+            ds.Tables["Head"].Columns.Add("SupplierHd");
+            ds.Tables["Head"].Columns.Add("ItemHead");
             ds.Tables["Head"].Columns.Add("OrganizationName");
             ds.Tables["Head"].Columns.Add("Image1");
 
@@ -193,14 +195,12 @@ namespace ArabErp.Web.Controllers
             ds.Tables["Items"].Columns.Add("Date");
             ds.Tables["Items"].Columns.Add("Supplier");
             ds.Tables["Items"].Columns.Add("Material");
-            ds.Tables["Items"].Columns.Add("Quantity");
             ds.Tables["Items"].Columns.Add("Unit");
-            ds.Tables["Items"].Columns.Add("rate");
-            ds.Tables["Items"].Columns.Add("Amount");
-            ds.Tables["Items"].Columns.Add("TotalAmount");
+            ds.Tables["Items"].Columns.Add("QuantitySO");
+            ds.Tables["Items"].Columns.Add("SettledQty");
+            ds.Tables["Items"].Columns.Add("ReceivedQty");
+            ds.Tables["Items"].Columns.Add("BalanceQty");
 
-            //ds.Tables["Head"].Columns.Add("OrganizationName");
-            //ds.Tables["Head"].Columns.Add("Image1");
 
             SupplyOrderRegisterRepository repo = new SupplyOrderRegisterRepository();
             var Head = repo.GetSupplyOrderRegisterHD(from, to, OrganizationId);
@@ -208,15 +208,15 @@ namespace ArabErp.Web.Controllers
             DataRow dr = ds.Tables["Head"].NewRow();
             dr["From"] = from.Value.ToShortDateString();
             dr["To"] = to.Value.ToShortDateString();
-            dr["Supplier"] = SupName;
-            dr["Item"] = itmName;
+            dr["SupplierHd"] = SupName;
+            dr["ItemHead"] = itmName;
             dr["OrganizationName"] = Head.OrganizationName;
             dr["Image1"] = Server.MapPath("~/App_images/") + Head.Image1;
             ds.Tables["Head"].Rows.Add(dr);
 
 
             SupplyOrderRegisterRepository repo1 = new SupplyOrderRegisterRepository();
-            var Items = repo1.PendingSupplyOrderRegisterDT(from, to, itmid, itmName, SupId, SupName);
+            var Items = repo1.PendingSupplyOrderRegisterDT(from, to, itmid, itmName, SupId, SupName,OrganizationId);
 
             foreach (var item in Items)
             {
@@ -228,9 +228,9 @@ namespace ArabErp.Web.Controllers
                     ItemName = item.ItemName,
                     OrderedQty = item.OrderedQty,
                     UnitName = item.UnitName,
-                    Rate = item.Rate,
-                    Amount = item.Amount,
-                    TotalAmount = item.TotalAmount
+                    SettledQty = item.SettledQty,
+                    ReceviedQty = item.ReceviedQty,
+                    BalanceQty = item.BalanceQty
                 };
 
                 DataRow dri = ds.Tables["Items"].NewRow();
@@ -239,10 +239,10 @@ namespace ArabErp.Web.Controllers
                 dri["Supplier"] = SupplyOrderRegItem.SupplierName;
                 dri["Material"] = SupplyOrderRegItem.ItemName; 
                 dri["Unit"] = SupplyOrderRegItem.UnitName;
-                dri["Quantity SO"] = SupplyOrderRegItem.OrderedQty;
-                dri["Settled Qty"] = SupplyOrderRegItem.SettledQty;
-                dri["Received Qty"] = SupplyOrderRegItem.ReceviedQty;
-                dri["Balance Qty"] = SupplyOrderRegItem.BalanceQty;
+                dri["QuantitySO"] = SupplyOrderRegItem.OrderedQty;
+                dri["SettledQty"] = SupplyOrderRegItem.SettledQty;
+                dri["ReceivedQty"] = SupplyOrderRegItem.ReceviedQty;
+                dri["BalanceQty"] = SupplyOrderRegItem.BalanceQty;
                 ds.Tables["Items"].Rows.Add(dri);
             }
 
@@ -260,6 +260,104 @@ namespace ArabErp.Web.Controllers
                 Stream stream = rd.ExportToStream(CrystalDecisions.Shared.ExportFormatType.PortableDocFormat);
                 stream.Seek(0, SeekOrigin.Begin);
                 return File(stream, "application/pdf", String.Format("PendingSupplyOrder.pdf"));
+            }
+            catch (Exception ex)
+            {
+                throw;
+            }
+        }
+
+
+        public ActionResult Print2(DateTime? from, DateTime? to, int itmid = 0, string itmName = "", int SupId = 0, string SupName = "")
+        {
+
+            ReportDocument rd = new ReportDocument();
+            rd.Load(Path.Combine(Server.MapPath("~/Reports"), "SupplyOrderVariance.rpt"));
+
+            DataSet ds = new DataSet();
+            ds.Tables.Add("Head");
+            ds.Tables.Add("Items");
+
+            //    //-------HEAD
+            ds.Tables["Head"].Columns.Add("From");
+            ds.Tables["Head"].Columns.Add("To");
+            ds.Tables["Head"].Columns.Add("SupplierHead");
+            ds.Tables["Head"].Columns.Add("ItemHead");
+            ds.Tables["Head"].Columns.Add("OrganizationName");
+            ds.Tables["Head"].Columns.Add("Image1");
+
+            //-------DT
+            ds.Tables["Items"].Columns.Add("SO.No.");
+            ds.Tables["Items"].Columns.Add("Date");
+            ds.Tables["Items"].Columns.Add("Supplier");
+            ds.Tables["Items"].Columns.Add("Material");
+            ds.Tables["Items"].Columns.Add("Unit");
+            ds.Tables["Items"].Columns.Add("QuantitySO");
+            ds.Tables["Items"].Columns.Add("QuantityReceived");
+            ds.Tables["Items"].Columns.Add("BalanceQty");
+            ds.Tables["Items"].Columns.Add("Status");
+         
+
+            SupplyOrderRegisterRepository repo = new SupplyOrderRegisterRepository();
+            var Head = repo.GetSupplyOrderRegisterHD(from, to,OrganizationId);
+
+            DataRow dr = ds.Tables["Head"].NewRow();
+            dr["From"] = from.Value.ToShortDateString();
+            dr["To"] = to.Value.ToShortDateString();
+            dr["SupplierHead"] = SupName;
+            dr["ItemHead"] = itmName;
+            dr["OrganizationName"] = Head.OrganizationName;
+            dr["Image1"] = Server.MapPath("~/App_images/") + Head.Image1;
+            ds.Tables["Head"].Rows.Add(dr);
+
+
+            SupplyOrderRegisterRepository repo1 = new SupplyOrderRegisterRepository();
+            //var Items = repo1.GetSOVarianceDataDTPrint(from, to, itmid, itmName, SupId, SupName);
+            var Items = repo1.GetSOVarianceDataDTPrint(from, to, SupId, SupName, itmid, itmName, OrganizationId);
+
+            foreach (var item in Items)
+            {
+                var SupplyOrderRegItem = new SupplyOrderRegister
+                {
+                    SupplyOrderNo = item.SupplyOrderNo,
+                    SupplyOrderDate = item.SupplyOrderDate,
+                    SupplierName = item.SupplierName,
+                    ItemName = item.ItemName,
+                    UnitName = item.UnitName,
+                    OrderedQty = item.OrderedQty,
+                    ReceviedQty = item.ReceviedQty,
+                    BalanceQty = item.BalanceQty,
+                    STATUS = item.STATUS,
+
+                };
+
+                DataRow dri = ds.Tables["Items"].NewRow();
+                dri["SO.No."] = SupplyOrderRegItem.SupplyOrderNo;
+                dri["Date"] = SupplyOrderRegItem.SupplyOrderDate.ToString("dd-MMM-yyyy");
+                dri["Supplier"] = SupplyOrderRegItem.SupplierName;
+                dri["Material"] = SupplyOrderRegItem.ItemName;
+                dri["Unit"] = SupplyOrderRegItem.UnitName;
+                dri["QuantitySO"] = SupplyOrderRegItem.OrderedQty;
+                dri["QuantityReceived"] = SupplyOrderRegItem.ReceviedQty;
+                dri["BalanceQty"] = SupplyOrderRegItem.BalanceQty;
+                dri["Status"] = SupplyOrderRegItem.STATUS;
+                ds.Tables["Items"].Rows.Add(dri);
+            }
+
+            ds.WriteXml(Path.Combine(Server.MapPath("~/XML"), "SupplyOrderVariance.xml"), XmlWriteMode.WriteSchema);
+
+            rd.SetDataSource(ds);
+
+            Response.Buffer = false;
+            Response.ClearContent();
+            Response.ClearHeaders();
+
+
+            try
+            {
+                Stream stream = rd.ExportToStream(CrystalDecisions.Shared.ExportFormatType.PortableDocFormat);
+                stream.Seek(0, SeekOrigin.Begin);
+                return File(stream, "application/pdf", String.Format("SupplyOrderVariance.pdf"));
             }
             catch (Exception ex)
             {

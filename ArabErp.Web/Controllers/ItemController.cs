@@ -26,6 +26,8 @@ namespace ArabErp.Web.Controllers
         {
             FillItemCategory();
             FillUnit();
+            FillItem();
+            FillJobCardTaskMaster();
             InitDropdown();
             Item oItem = new Item();
             oItem.PartNo = null;
@@ -44,6 +46,8 @@ namespace ArabErp.Web.Controllers
             oItem.StockRequired = false;
             oItem.BatchRequired = false;
             oItem.ItemRefNo = "ITM/" + DatabaseCommonRepository.GetNextRefNoWithNoUpdate(typeof(Item).Name);
+            oItem.ItemVsBom.Add(new WorkVsItem());
+            oItem.ItemVsTasks.Add(new WorkVsTask());
 
             return View("Create", oItem);
         }
@@ -82,6 +86,8 @@ namespace ArabErp.Web.Controllers
                     else
                     {
                         FillUnit();
+                        FillItem();
+                        FillJobCardTaskMaster();
                         TempData["error"] = "Some error occurred. Please try again.";
                         return View("Create", oitem);
                     }
@@ -91,6 +97,8 @@ namespace ArabErp.Web.Controllers
                 {
 
                     FillUnit();
+                    FillItem();
+                    FillJobCardTaskMaster();
                     TempData["error"] = "This part no. already exists!";
                     return View("Create", oitem);
                 }
@@ -98,6 +106,8 @@ namespace ArabErp.Web.Controllers
             else
             {
                 FillUnit();
+                FillItem();
+                FillJobCardTaskMaster();
                 TempData["error"] = "This material/spare name alredy exists!";
                 return View("Create", oitem);
             }
@@ -114,6 +124,12 @@ namespace ArabErp.Web.Controllers
         {
             Item objItem = new ItemRepository().GetItem(Id);
             FillUnit();
+            FillItem();
+            FillJobCardTaskMaster();
+            objItem.ItemVsBom = new ItemRepository().GetItemVsBom(Id);
+            if (objItem.ItemVsBom.Count == 0) objItem.ItemVsBom.Add(new WorkVsItem());
+            objItem.ItemVsTasks = new ItemRepository().GetItemVsTasks(Id);
+            if (objItem.ItemVsTasks.Count == 0) objItem.ItemVsTasks.Add(new WorkVsTask());
             return View(objItem);
 
         }
@@ -145,7 +161,8 @@ namespace ArabErp.Web.Controllers
             }
             else
             {
-
+                FillItem();
+                FillJobCardTaskMaster();
                 FillUnit();
                 TempData["error"] = "This material/spare name already exists!";
 
@@ -243,20 +260,19 @@ namespace ArabErp.Web.Controllers
             FillItemCategory();
             return PartialView("_ItemCategoryDropdown");
         }
-        public ActionResult ItemList(int? page, string name = "")
+        public ActionResult ItemList(int? page, string name = "", string group = "", string subgroup = "")
         {
-            int itemsPerPage = 10;
+            //int itemsPerPage = 10;
             int pageNumber = page ?? 1;
-            return PartialView("_ItemListView", new ItemRepository().GetItems(name.Trim()));
+            return PartialView("_ItemListView", new ItemRepository().GetItems(name: name.Trim(), group: group.Trim(), subgroup: subgroup.Trim()));
             //var repo = new ItemRepository();
             //var List = repo.GetItems();
             //return PartialView("_ItemListView",List);
         }
 
 
-        public ActionResult Print(string name)
-        
-      {
+        public ActionResult Print(string name,string group,string subgroup)
+         {
 
             ReportDocument rd = new ReportDocument();
             rd.Load(Path.Combine(Server.MapPath("~/Reports"), "Material.rpt"));
@@ -267,7 +283,7 @@ namespace ArabErp.Web.Controllers
             ds.Tables.Add("Items");
 
             //-------HEAD
-            
+
             ds.Tables["Head"].Columns.Add("DoorNo");
             ds.Tables["Head"].Columns.Add("Street");
             ds.Tables["Head"].Columns.Add("State");
@@ -280,6 +296,9 @@ namespace ArabErp.Web.Controllers
             ds.Tables["Head"].Columns.Add("CurrencyName");
             ds.Tables["Head"].Columns.Add("OrganizationName");
             ds.Tables["Head"].Columns.Add("Image1");
+            ds.Tables["Head"].Columns.Add("Name");
+            ds.Tables["Head"].Columns.Add("Group");
+            ds.Tables["Head"].Columns.Add("SubGroup");
 
             //-------DT
             ds.Tables["Items"].Columns.Add("PartNo");
@@ -290,11 +309,10 @@ namespace ArabErp.Web.Controllers
             ds.Tables["Items"].Columns.Add("UOM");
 
 
-            OrganizationRepository repo = new OrganizationRepository();
-            var Head = repo.GetOrganization(OrganizationId);
-
+            ItemRepository repo = new ItemRepository();
+            var Head = repo.GetItemsHDPrint(organizationId: OrganizationId, name: name, group: group, subgroup:subgroup);
             DataRow dr = ds.Tables["Head"].NewRow();
-            
+
             dr["DoorNo"] = Head.DoorNo;
             dr["Street"] = Head.Street;
             dr["State"] = Head.State;
@@ -307,10 +325,13 @@ namespace ArabErp.Web.Controllers
             //dr["CurrencyName"] = Head.CurrencyName;
             dr["OrganizationName"] = Head.OrganizationName;
             dr["Image1"] = Server.MapPath("~/App_images/") + Head.Image1;
+            dr["Name"] = name;
+            dr["Group"] = group;
+            dr["SubGroup"] = subgroup;
             ds.Tables["Head"].Rows.Add(dr);
 
             ItemRepository repo1 = new ItemRepository();
-            var Items = repo1.GetItemsDTPrint(name);
+            var Items = repo1.GetItemsDTPrint(name,subgroup,group,OrganizationId);
             foreach (var item in Items)
             {
                 var pritem = new Item
@@ -354,6 +375,19 @@ namespace ArabErp.Web.Controllers
             {
                 throw;
             }
+        }
+        public void FillItem()
+        {
+            DropdownRepository Repo = new DropdownRepository();
+            var List = Repo.FillItem();
+            ViewBag.ItemList = new SelectList(List, "Id", "Name");
+        }
+
+        public void FillJobCardTaskMaster()
+        {
+            JobCardTaskMasterRepository Repo = new JobCardTaskMasterRepository();
+            var List = Repo.FillJobCardTaskMaster();
+            ViewBag.JobCardTaskMasterList = new SelectList(List, "Id", "Name");
         }
     }
 }

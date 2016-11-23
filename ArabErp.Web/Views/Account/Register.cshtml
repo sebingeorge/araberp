@@ -8,7 +8,7 @@
     }
     catch
     {
-        
+
     }
 }
 
@@ -40,269 +40,353 @@
         }
     }
 
+    $(document).ready(function () {
+
+        $('#formPermissionButton').on('click', function () {
+            $('#tabUserPermissions a[href="#menu5"]').tab('show');
+
+            LoadForms();
+        });
+
+    })
+
+    function LoadForms() {
+        $("#divUserPermissions input[id^='App1_']").each(function (index, object) {
+            var index = object.id.replace('App1_', '');
+            var moduleId = $("#Module_" + index + "__ModuleId").val();
+            if ($(object).is(":checked")) {
+                $("#menu5 #table_module_" + moduleId).show();
+            }
+            else {
+                $("#menu5 #table_module_" + moduleId).hide();
+                $("#menu5 #table_module_" + moduleId + " td > input[type='checkbox']").each(function (index1, object1) {
+                    $(object1).removeAttr("checked");
+                })
+            }
+        });
+    }
+
 </script>
 
 @using (Html.BeginForm("Register", "Account", FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
 {
     @Html.AntiForgeryToken()
-    @Html.HiddenFor(m=> m.UserId)
-   
-        <div class="row">
+    @Html.HiddenFor(m => m.UserId)
 
-            <div class="form-head1">
-                <h4>New User</h4>
+    <div class="row">
+
+        <div class="form-head1">
+            <h4>New User</h4>
+        </div>
+
+        <div class=" main-part pad1">
+            <div class="row">
+                <div class="col-md-4">
+                    <div class="matop">@Html.ValidationSummary("", new { @class = "text-danger" })</div>
+                    <div class="part4">
+
+                        <label for="BayRefNo">Email</label>
+                        @Html.TextBoxFor(m => m.UserEmail, new { @class = "form_input" })
+                    </div>
+                    <div class="part4">
+                        <label for="BayRefNo">User Name</label>
+                        @Html.TextBoxFor(m => m.UserName, new { @class = "form_input" })
+                    </div>
+                    <div class="part4">
+                        <label for="BayRefNo">Password</label>
+                        @Html.PasswordFor(m => m.UserPassword, new { @class = "form_input" })
+                    </div>
+                    <div class="part4">
+                        <label for="BayRefNo">Confirm Password</label>
+                        @Html.PasswordFor(m => m.ConfirmPassword, new { @class = "form_input" })
+                    </div>
+                    <div class="part4">
+                        <label for="BayRefNo">Designation</label>
+                        @*@Html.DropDownList("cboDesignation", (SelectList)ViewBag.Designation, "Any", new { @class = "form_input" })*@
+                        @Html.DropDownListFor(m => Model.DesignationId, (SelectList)ViewBag.Designation, "Any", new { @class = "form_input" })
+                    </div>
+                </div>
             </div>
 
-            <div class=" main-part pad1">
-                <div class="row">
-                    <div class="col-md-4">
-                        <div class="matop">@Html.ValidationSummary("", new { @class = "text-danger" })</div>
-                        <div class="part4">
-
-                            <label for="BayRefNo">Email</label>
-                            @Html.TextBoxFor(m => m.UserEmail, new { @class = "form_input" })
+            <div class="row">
+                <div class="main-grid main-grid-top scroll1" id="divUserPermissions">
+                    <ul style="visibility: visible;" class="nav nav-tabs test2" id="tabUserPermissions">
+                        <li class="active"><a data-toggle="tab" href="#home" aria-expanded="false">Module Wise Permissions</a></li>
+                        <li class=""><a data-toggle="tab" href="#menu1" aria-expanded="false">Alert Permissions</a></li>
+                        <li class=""><a data-toggle="tab" href="#menu2" aria-expanded="false">Graph Permissions</a></li>
+                        <li class=""><a data-toggle="tab" href="#menu3" aria-expanded="false">Company Wise Permissions</a></li>
+                        <li class=""><a data-toggle="tab" href="#menu4" aria-expanded="false">Signature</a></li>
+                        <li class="" style="display:none"><a data-toggle="tab" href="#menu5" aria-expanded="false">Form Permissions</a></li>
+                    </ul>
+                    <div class="tab-content">
+                        <div id="home" class="tab-pane fade active in">
+                            @*<h5>Module Wise Permissions</h5>*@
+                            <div class="table-responsive">
+                                <div class="tab_logic">
+                                    <table class="table table-bordered" id="tab_logic">
+                                        <thead>
+                                            <tr class="grid_heading">
+                                                <th style="width:20%;">Module</th>
+                                                <th class="text-center" style="width:10%;">Access</th>
+                                                <th></th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            @for (int j = 0; j < Model.Module.Count; j++)
+                                            {
+                                                <tr class="grid_row">
+                                                    @Html.HiddenFor(m => m.Module[j].UserId)
+                                                    @Html.HiddenFor(m => m.Module[j].ModuleId)
+                                                    @Html.HiddenFor(m => m.Module[j].isPermission)
+                                                    @Html.HiddenFor(m => m.Module[j].ModuleName)
+                                                    <td style="padding-left:5px;">@Model.Module[j].ModuleName</td>
+                                                    <td align="center">
+                                                        <input type="checkbox" id="App1_@j" onchange="App1Changed(@j)" @(Model.Module[j].isPermission == 1 ? "checked" : "") />
+                                                    </td>
+                                                    <td></td>
+                                                </tr>
+                                            }
+                                        </tbody>
+                                    </table>
+                                </div>
+                                <input type="button" id="formPermissionButton" value="Set Form Permissions" class="btn btn-primary" style="" />
+                            </div>
                         </div>
-                        <div class="part4">
-                            <label for="BayRefNo">User Name</label>
-                            @Html.TextBoxFor(m => m.UserName, new { @class = "form_input" })
+                        <div id="menu1" class="tab-pane fade">
+                            @*<h5>Alert Permissions</h5>*@
+                            <div class="table-responsive">
+                                <div class="tab_logic">
+                                    <table class="table table-bordered" id="tab_logic">
+                                        <thead>
+                                            <tr class="grid_heading">
+                                                <th style="width:20%;">Alerts</th>
+                                                <th class="text-center" style="width:10%;">Access</th>
+                                                <th></th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            @for (int j = 0; j < Model.ERPAlerts.Count; j++)
+                                            {
+                                                <tr class="grid_row">
+                                                    @Html.HiddenFor(m => m.ERPAlerts[j].UserId)
+                                                    @Html.HiddenFor(m => m.ERPAlerts[j].AlertId)
+                                                    @Html.HiddenFor(m => m.ERPAlerts[j].HasPermission)
+                                                    @Html.HiddenFor(m => m.ERPAlerts[j].AlertName)
+                                                    <td style="padding-left:5px;">@Model.ERPAlerts[j].AlertName</td>
+                                                    <td align="center">
+                                                        <input type="checkbox" id="App2_@j" onchange="App2Changed(@j)" @(Model.ERPAlerts[j].HasPermission == 1 ? "checked" : "") />
+                                                    </td>
+                                                    <td></td>
+                                                </tr>
+                                            }
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
                         </div>
-                        <div class="part4">
-                            <label for="BayRefNo">Password</label>
-                            @Html.PasswordFor(m => m.UserPassword, new { @class = "form_input" })
+                        <div id="menu2" class="tab-pane fade">
+                            @*<h5>Graph Permissions</h5>*@
+                            <div class="table-responsive">
+                                <div class="tab_logic">
+                                    <table class="table table-bordered" id="tab_logic">
+                                        <thead>
+                                            <tr class="grid_heading">
+                                                <th style="width:20%;">Graphs</th>
+                                                <th class="text-center" style="width:10%;">Access</th>
+                                                <th></th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            @for (int j = 0; j < Model.ERPGraphs.Count; j++)
+                                            {
+                                                <tr class="grid_row">
+                                                    @Html.HiddenFor(m => m.ERPGraphs[j].UserId)
+                                                    @Html.HiddenFor(m => m.ERPGraphs[j].GraphId)
+                                                    @Html.HiddenFor(m => m.ERPGraphs[j].HasPermission)
+                                                    @Html.HiddenFor(m => m.ERPGraphs[j].GraphName)
+                                                    <td style="padding-left:5px;">@Model.ERPGraphs[j].GraphName</td>
+                                                    <td align="center">
+                                                        <input type="checkbox" id="App3_@j" onchange="App3Changed(@j)" @(Model.ERPGraphs[j].HasPermission == 1 ? "checked" : "") />
+                                                    </td>
+                                                    <td></td>
+                                                </tr>
+                                            }
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
                         </div>
-                        <div class="part4">
-                            <label for="BayRefNo">Confirm Password</label>
-                            @Html.PasswordFor(m => m.ConfirmPassword, new { @class = "form_input" })
+                        <div id="menu3" class="tab-pane fade ">
+                            @*<h5>Company Wise Permissions</h5>*@
+                            <div class="table-responsive">
+                                <div class="tab_logic">
+                                    <table class="table table-bordered" id="tab_logic">
+                                        <thead>
+                                            <tr class="grid_heading">
+                                                <th style="width:20%;">Company</th>
+                                                <th class="text-center" style="width:10%;">Access</th>
+                                                <th></th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            @for (int j = 0; j < Model.Companies.Count; j++)
+                                            {
+                                                <tr class="grid_row">
+                                                    @Html.HiddenFor(m => m.Companies[j].UserId)
+                                                    @Html.HiddenFor(m => m.Companies[j].cmpCode)
+                                                    @Html.HiddenFor(m => m.Companies[j].isPermission)
+                                                    @Html.HiddenFor(m => m.Companies[j].CompanyVsUserId)
+                                                    <td style="padding-left:5px;">@Model.Companies[j].cmpName</td>
+                                                    <td align="center">
+                                                        <input type="checkbox" id="App4_@j" onchange="App4Changed(@j)" @(Model.Companies[j].isPermission == 1 ? "checked" : "") />
+                                                    </td>
+                                                    <td></td>
+                                                </tr>
+                                            }
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                        <div id="menu4" class="tab-pane fade ">
+                            @*<h5>Signature</h5>*@
+                            <br />
+                            <div class="row form-group">
+                                <div class="col-md-2">
+                                    <div id="img_preview1" title="Photo Preview" style="padding-left:30px">
+                                        <p>
+                                            @if (Model.Signature == null || Model.Signature.Length == 0)
+                                            {
+                                                <img src="\Images\default-signature.png" alt="Please upload image" id="image_preview1" class="image-upload img-rounded" />
+                                            }
+                                            else
+                                            {
+                                                <img src="\App_Images\@Model.Signature" alt="Please upload image" id="image_preview1" class="image-upload img-rounded" />
+                                            }
+                                        </p>
+                                    </div>
+                                </div>
+                                <div class="col-md-3" style="padding-top:23px">
+                                    <input type="file" id="File1" class="button" />
+                                    <input type="button" class="form-button" id="Fileupload1" value="Upload" onclick="Javascript: ImageUpload(1);" title="Upload to database" />
+                                </div>
+                            </div>
+                        </div>
+                        <div id="menu5" class="tab-pane fade ">
+                            @*<h5>Signature</h5>*@
+                            <div class="table-responsive">
+                                @for (int j = 0, i = 0; j < Model.Module.Count; j++)
+                                {
+                                    <table class="table table-bordered" id="table_module_@Model.Module[j].ModuleId">
+                                        <thead class="grid_heading">
+                                            <tr>
+                                                <th style="text-align:center">#</th>
+                                                <th>Module</th>
+                                                <th>Form</th>
+                                                <th>Access</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            @{
+                                                //string[] colorCodes = { "#f9dcdc", "#f7f9dc", "#e0f9dc", "#e0f9dc", "#e0dcf9", "#f9dcf5", "#f9dcf5" };
+                                                //var moduleForms = Model.Forms.Where(x => x.ModuleId == Model.Module[j].ModuleId)
+                                                //                             .Select(x => x).ToList();
+                                            }
+                                            @for (int k = 0; k < Model.Forms.Count; k++)
+                                            {
+                                                if (Model.Module[j].ModuleId != Model.Forms[k].ModuleId)
+                                                {
+                                                    continue;
+                                                }
+                                                <tr>
+                                                    <td align="center">
+                                                        @(i + 1)
+                                                    </td>
+                                                    <td>
+                                                        @*style="background:@(colorCodes[Model.Forms[i].ModuleId-1])"*@
+                                                        @Model.Forms[k].ModuleName
+                                                        @*@moduleForms[k].ModuleName*@
+                                                    </td>
+                                                    <td>
+                                                        @Html.HiddenFor(m => m.Forms[k].FormId)
+                                                        @Model.Forms[k].FormName
+                                                        @*@moduleForms[k].FormName*@
+                                                    </td>
+                                                    <td>
+                                                        @Html.CheckBoxFor(m => m.Forms[k].hasPermission)
+                                                    </td>
+                                                </tr>
+                                                ++i;
+                                            }
+                                        </tbody>
+                                    </table>
+                                }
+                            </div>
                         </div>
                     </div>
+
                 </div>
 
-                <div class="row">
-                    <div class="main-grid main-grid-top scroll1">
-                        <ul style="visibility: visible;" class="nav nav-tabs test2">
-                            <li class="active"><a data-toggle="tab" href="#home" aria-expanded="false">Module Wise Permissions</a></li>
-                            <li class=""><a data-toggle="tab" href="#menu1" aria-expanded="false">Alert Permissions</a></li>
-                            <li class=""><a data-toggle="tab" href="#menu2" aria-expanded="false">Graph Permissions</a></li>
-                            <li class=""><a data-toggle="tab" href="#menu3" aria-expanded="false">Company Wise Permissions</a></li>
-                            <li class=""><a data-toggle="tab" href="#menu4" aria-expanded="false">Signature</a></li>
-                        </ul>
-                        <div class="tab-content">
-                            <div id="home" class="tab-pane fade active in">
-                                @*<h5>Module Wise Permissions</h5>*@
-                                <div class="table-responsive">
-                                    <div class="tab_logic">
-                                        <table class="table table-bordered" id="tab_logic">
-                                            <thead>
-                                                <tr class="grid_heading">
-                                                    <th style="width:20%;">Module</th>
-                                                    <th class="text-center" style="width:10%;">Access</th>
-                                                    <th></th>
-                                                </tr>
-                                            </thead>
-                                            <tbody>
-                                                @for (int j = 0; j < Model.Module.Count; j++)
-                                                {
-                                                    <tr class="grid_row">
-                                                        @Html.HiddenFor(m => m.Module[j].UserId)
-                                                        @Html.HiddenFor(m => m.Module[j].ModuleId)
-                                                        @Html.HiddenFor(m => m.Module[j].isPermission)
-                                                        @Html.HiddenFor(m => m.Module[j].ModuleName)
-                                                        <td style="padding-left:5px;">@Model.Module[j].ModuleName</td>
-                                                        <td align="center">
-                                                            <input type="checkbox" id="App1_@j" onchange="App1Changed(@j)" @(Model.Module[j].isPermission == 1 ? "checked" : "") />
-                                                        </td>
-                                                        <td></td>
-                                                    </tr>
-                                                }
-                                            </tbody>
-                                        </table>
-                                    </div>
-                                </div>
-                            </div>
-                            <div id="menu1" class="tab-pane fade">
-                                @*<h5>Alert Permissions</h5>*@
-                                <div class="table-responsive">
-                                    <div class="tab_logic">
-                                        <table class="table table-bordered" id="tab_logic">
-                                            <thead>
-                                                <tr class="grid_heading">
-                                                    <th style="width:20%;">Alerts</th>
-                                                    <th class="text-center" style="width:10%;">Access</th>
-                                                    <th></th>
-                                                </tr>
-                                            </thead>
-                                            <tbody>
-                                                @for (int j = 0; j < Model.ERPAlerts.Count; j++)
-                                                {
-                                                    <tr class="grid_row">
-                                                        @Html.HiddenFor(m => m.ERPAlerts[j].UserId)
-                                                        @Html.HiddenFor(m => m.ERPAlerts[j].AlertId)
-                                                        @Html.HiddenFor(m => m.ERPAlerts[j].HasPermission)
-                                                        @Html.HiddenFor(m => m.ERPAlerts[j].AlertName)
-                                                        <td style="padding-left:5px;">@Model.ERPAlerts[j].AlertName</td>
-                                                        <td align="center">
-                                                            <input type="checkbox" id="App2_@j" onchange="App2Changed(@j)" @(Model.ERPAlerts[j].HasPermission == 1 ? "checked" : "") />
-                                                        </td>
-                                                        <td></td>
-                                                    </tr>
-                                                }
-                                            </tbody>
-                                        </table>
-                                    </div>
-                                </div>
-                            </div>
-                            <div id="menu2" class="tab-pane fade">
-                                @*<h5>Graph Permissions</h5>*@
-                                <div class="table-responsive">
-                                    <div class="tab_logic">
-                                        <table class="table table-bordered" id="tab_logic">
-                                            <thead>
-                                                <tr class="grid_heading">
-                                                    <th style="width:20%;">Graphs</th>
-                                                    <th class="text-center" style="width:10%;">Access</th>
-                                                    <th></th>
-                                                </tr>
-                                            </thead>
-                                            <tbody>
-                                                @for (int j = 0; j < Model.ERPGraphs.Count; j++)
-                                                {
-                                                    <tr class="grid_row">
-                                                        @Html.HiddenFor(m => m.ERPGraphs[j].UserId)
-                                                        @Html.HiddenFor(m => m.ERPGraphs[j].GraphId)
-                                                        @Html.HiddenFor(m => m.ERPGraphs[j].HasPermission)
-                                                        @Html.HiddenFor(m => m.ERPGraphs[j].GraphName)
-                                                        <td style="padding-left:5px;">@Model.ERPGraphs[j].GraphName</td>
-                                                        <td align="center">
-                                                            <input type="checkbox" id="App3_@j" onchange="App3Changed(@j)" @(Model.ERPGraphs[j].HasPermission == 1 ? "checked" : "") />
-                                                        </td>
-                                                        <td></td>
-                                                    </tr>
-                                                }
-                                            </tbody>
-                                        </table>
-                                    </div>
-                                </div>
-                            </div>
-                            <div id="menu3" class="tab-pane fade ">
-                                @*<h5>Company Wise Permissions</h5>*@
-                                <div class="table-responsive">
-                                    <div class="tab_logic">
-                                        <table class="table table-bordered" id="tab_logic">
-                                            <thead>
-                                                <tr class="grid_heading">
-                                                    <th style="width:20%;">Company</th>
-                                                    <th class="text-center" style="width:10%;">Access</th>
-                                                    <th></th>
-                                                </tr>
-                                            </thead>
-                                            <tbody>
-                                                @for (int j = 0; j < Model.Companies.Count; j++)
-                                                {
-                                                    <tr class="grid_row">
-                                                        @Html.HiddenFor(m => m.Companies[j].UserId)
-                                                        @Html.HiddenFor(m => m.Companies[j].cmpCode)
-                                                        @Html.HiddenFor(m => m.Companies[j].isPermission)
-                                                        @Html.HiddenFor(m => m.Companies[j].CompanyVsUserId)
-                                                        <td style="padding-left:5px;">@Model.Companies[j].cmpName</td>
-                                                        <td align="center">
-                                                            <input type="checkbox" id="App4_@j" onchange="App4Changed(@j)" @(Model.Companies[j].isPermission == 1 ? "checked" : "") />
-                                                        </td>
-                                                        <td></td>
-                                                    </tr>
-                                                }
-                                            </tbody>
-                                        </table>
-                                    </div>
-                                </div>
-                            </div>
-                            <div id="menu4" class="tab-pane fade ">
-                                @*<h5>Signature</h5>*@
-                                <br />
-                                <div class="row form-group">
-                                    <div class="col-md-2">
-                                        <div id="img_preview1" title="Photo Preview" style="padding-left:30px">
-                                            <p>
-                                                @if (Model.Signature == null || Model.Signature.Length == 0)
-                                                {
-                                                    <img src="\Images\default-signature.png" alt="Please upload image" id="image_preview1" class="image-upload img-rounded" />
-                                                }
-                                                else
-                                                {
-                                                    <img src="\App_Images\@Model.Signature" alt="Please upload image" id="image_preview1" class="image-upload img-rounded" />
-                                                }
-                                            </p>
-                                        </div>
-                                    </div>
-                                    <div class="col-md-3" style="padding-top:23px">
-                                        <input type="file" id="File1" class="button" />
-                                        <input type="button" class="form-button" id="Fileupload1" value="Upload" onclick="Javascript: ImageUpload(1);" title="Upload to database" />
-                                    </div>
-                                </div>
-                            </div>
-                        </div> 
-                                              
-                        </div>
+            </div>
 
-                    </div>
+            <div class="row">
 
-                        <div class="row">
+                <div class="col-md-12 hrpart">
+                    <input type="button" class=" form-button right" value="Exit" onclick="Exit()" />
+                    @if (Id > 0)
+                    {
+                        <input type="submit" class=" form-button right" value="Update" />
+                    }
+                    else
+                    {
+                        <input type="submit" class=" form-button right" value="Register" />
+                    }
+                    @*<input type="button" class=" form-button right" value="Exit" onclick="GoUserList()" />*@
 
-                            <div class="col-md-12 hrpart">
-                                <input type="button" class=" form-button right" value="Exit" onclick="Exit()" />
-                                @if (Id > 0)
-                                {
-                                    <input type="submit" class=" form-button right" value="Update" />
-                                }
-                                else
-                                {
-                                    <input type="submit" class=" form-button right" value="Register" />
-                                }
-                                @*<input type="button" class=" form-button right" value="Exit" onclick="GoUserList()" />*@
-                             
-                            </div>
-
-                        </div>
-                    </div>
                 </div>
 
+            </div>
+        </div>
+    </div>
 
 
-                }
-                <script>
-                    function App1Changed(row) {
-                        if ($("#App1_" + row).prop("checked") == true) {
-                            $("#Module_" + row + "__isPermission").val(1);
-                        }
-                        else if ($("#App1_" + row).prop("checked") == false) {
-                            $("#Module_" + row + "__isPermission").val(0);
-                        }
-                    }
-                    function App2Changed(row) {
-                        if ($("#App2_" + row).prop("checked") == true) {
-                            $("#ERPAlerts_" + row + "__HasPermission").val(1);
-                        }
-                        else if ($("#App2_" + row).prop("checked") == false) {
-                            $("#ERPAlerts_" + row + "__HasPermission").val(0);
-                        }
-                    }
-                    function App3Changed(row) {
-                        if ($("#App3_" + row).prop("checked") == true) {
-                            $("#ERPGraphs_" + row + "__HasPermission").val(1);
-                        }
-                        else if ($("#App3_" + row).prop("checked") == false) {
-                            $("#ERPGraphs_" + row + "__HasPermission").val(0);
-                        }
-                    }
-                    function App4Changed(row) {
-                        if ($("#App4_" + row).prop("checked") == true) {
-                            $("#Companies_" + row + "__isPermission").val(1);
-                        }
-                        else if ($("#App4_" + row).prop("checked") == false) {
-                            $("#Companies_" + row + "__isPermission").val(0);
-                        }
-                    }
-                    function Exit() {
-                        var url = '@Url.Action("UserList")';
-                        location.href = url;
-                    }
-                </script>
+
+}
+<script>
+    function App1Changed(row) {
+        if ($("#App1_" + row).prop("checked") == true) {
+            $("#Module_" + row + "__isPermission").val(1);
+        }
+        else if ($("#App1_" + row).prop("checked") == false) {
+            $("#Module_" + row + "__isPermission").val(0);
+        }
+    }
+    function App2Changed(row) {
+        if ($("#App2_" + row).prop("checked") == true) {
+            $("#ERPAlerts_" + row + "__HasPermission").val(1);
+        }
+        else if ($("#App2_" + row).prop("checked") == false) {
+            $("#ERPAlerts_" + row + "__HasPermission").val(0);
+        }
+    }
+    function App3Changed(row) {
+        if ($("#App3_" + row).prop("checked") == true) {
+            $("#ERPGraphs_" + row + "__HasPermission").val(1);
+        }
+        else if ($("#App3_" + row).prop("checked") == false) {
+            $("#ERPGraphs_" + row + "__HasPermission").val(0);
+        }
+    }
+    function App4Changed(row) {
+        if ($("#App4_" + row).prop("checked") == true) {
+            $("#Companies_" + row + "__isPermission").val(1);
+        }
+        else if ($("#App4_" + row).prop("checked") == false) {
+            $("#Companies_" + row + "__isPermission").val(0);
+        }
+    }
+    function Exit() {
+        var url = '@Url.Action("UserList")';
+        location.href = url;
+    }
+</script>

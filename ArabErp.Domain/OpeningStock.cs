@@ -24,5 +24,6 @@ namespace ArabErp.Domain
         public decimal? Quantity { get; set; }
         public bool isUsed { get; set; }
         public int OpeningStockId { get; set; }
+        public string PartNo { get; set; }
     }
 }

@@ -58,6 +58,7 @@ namespace ArabErp.DAL
         {
             using (IDbConnection connection = OpenConnection(dataConnection))
             {
+                #region old query
                 //                string sql = @"SELECT
                 //	                            CONCAT(PurchaseRequestNo,' - ',
                 //	                            CONVERT (VARCHAR(15),PurchaseRequestDate,106)) PRNODATE,
@@ -72,7 +73,9 @@ namespace ArabErp.DAL
                 //                            FROM PurchaseRequest P 
                 //                            INNER JOIN PurchaseRequestItem PI ON P.PurchaseRequestId=PI.PurchaseRequestId
                 //                            INNER JOIN Item i ON PI.ItemId=i.ItemId
-                //                            WHERE P.PurchaseRequestId in @selectedpurchaserequests";
+                //                            WHERE P.PurchaseRequestId in @selectedpurchaserequests"; 
+                #endregion
+
                 string sql = @"select distinct SI.PurchaseRequestItemId, SUM(SI.OrderedQty) SuppliedQuantity 
                                     INTO #SUPPLY
                                     from [dbo].[SupplyOrderItem] SI
@@ -358,15 +361,15 @@ namespace ArabErp.DAL
             }
         }
 
-        public int Approve(int supplyOrderId)
+        public int Approve(int supplyOrderId,int approvedBy)
         {
             try
             {
                 using (IDbConnection connection = OpenConnection(dataConnection))
                 {
-                    string query = @"UPDATE SupplyOrder SET isApproved = 1 WHERE SupplyOrderId = @supplyOrderId;";
+                    string query = @"UPDATE SupplyOrder SET isApproved = 1 , ApprovedBy=@approvedBy WHERE SupplyOrderId = @supplyOrderId;";
 
-                    connection.Execute(query, new { supplyOrderId = supplyOrderId });
+                    connection.Execute(query, new { supplyOrderId = supplyOrderId, approvedBy = approvedBy });
 
                     return 1;
                 }
@@ -487,15 +490,19 @@ namespace ArabErp.DAL
 	                                DeliveryTerms,
 	                                RequiredDate,
 	                               CurrencyName,
-								   E.EmployeeName,
+								   U.UserName CreatedUser,
+								   U.Signature CreatedUsersig,
+								   UI.UserName ApprovedUser ,
+								   UI.Signature ApprovedUsersig,
 								   ORR.CountryName
                                    FROM SupplyOrder S
 								   INNER JOIN Supplier SU ON SU.SupplierId=S.SupplierId
 							       INNER JOIN Organization O ON O.OrganizationId=S.OrganizationId
-								   INNER JOIN Currency C ON C.CurrencyId=S.CurrencyId
-								   INNER JOIN Country CU ON CU.CountryId=SU.CountryId
-								   inner  JOIN Country ORR ON ORR.CountryId=O.Country
-								   left Join Employee E ON e.EmployeeId=S.CreatedBy
+								   left JOIN Currency C ON C.CurrencyId=S.CurrencyId
+								   left JOIN Country CU ON CU.CountryId=SU.CountryId
+								   left  JOIN Country ORR ON ORR.CountryId=O.Country
+								   left Join [User] U ON U.UserId=S.CreatedBy
+								   left join [User] UI ON UI.UserId=S.ApprovedBy
                                    WHERE SupplyOrderId = @SupplyOrderId
 	                               AND ISNULL(S.isActive, 1) = 1;";
 

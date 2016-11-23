@@ -1,5 +1,5 @@
 ﻿@model  ArabErp.Domain.SaleOrder
-@{ ViewBag.Title = "Create SaleOrder"; Layout = "~/Views/Shared/_Layout.cshtml"; }
+@{ ViewBag.Title = "Sale Order"; Layout = "~/Views/Shared/_Layout.cshtml"; }
 @{ string actionName = ViewContext.RouteData.GetRequiredString("action");
    if (actionName == "CreateProject")
    {
@@ -200,7 +200,7 @@
                         <div id="wordescriptions">
                         @Html.Partial("_DisplaySOList", Model)
                         </div>
-                        if (@Model.isAfterSales==1)
+                        if (Model.Materials != null && Model.Materials.Count > 0)
                         {
                             @Html.Partial("_MaterialList", Model)
                         }

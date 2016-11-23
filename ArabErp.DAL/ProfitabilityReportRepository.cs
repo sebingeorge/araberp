@@ -18,5 +18,13 @@ namespace ArabErp.DAL
                 return connection.Query<ProfitabilityReport>("exec ProfitabilityReport");
             }
         }
+
+        public IEnumerable<ProfitabilityReport> GetProfitabilityReportDTPrint()
+        {
+            using (IDbConnection connection = OpenConnection(dataConnection))
+            {
+                return connection.Query<ProfitabilityReport>("exec ProfitabilityReport");
+            }
+        }
     }
 }

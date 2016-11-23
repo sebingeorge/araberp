@@ -36,6 +36,7 @@ namespace ArabErp.DAL
                     foreach (PurchaseRequestItem item in objPurchaseRequest.items)
                     {
                         item.PurchaseRequestId = id;
+                        if (item.Quantity == null || item.Quantity==0) continue;
                         new PurchaseRequestItemRepository().InsertPurchaseRequestItem(item, connection, trn);
                     }
                     InsertLoginHistory(dataConnection, objPurchaseRequest.CreatedBy, "Create", "Purchase Request", id.ToString(), "0");
@@ -159,10 +160,90 @@ namespace ArabErp.DAL
         {
             using (IDbConnection connection = OpenConnection(dataConnection))
             {
-                string qry = @"Select WR.WorkShopRequestId,WR.WorkShopRequestRefNo,WR.WorkShopRequestDate,WR.RequiredDate,C.CustomerName,WR.CustomerOrderRef,SO.SaleOrderRefNo,SO.SaleOrderDate,DATEDIFF(dd,WR.WorkShopRequestDate,GETDATE ()) Ageing, DATEDIFF(DAY, GETDATE(), WR.RequiredDate) DaysLeft from WorkShopRequest WR INNER JOIN Customer C on C.CustomerId=WR.CustomerId ";
-                qry += " INNER JOIN SaleOrder SO on WR.SaleOrderId=SO.SaleOrderId  LEFT JOIN PurchaseRequest PR ON PR.WorkShopRequestId=WR.WorkShopRequestId WHERE PR.PurchaseRequestId is null and WR.OrganizationId=@OrganizationId ORDER BY WR.RequiredDate, WR.WorkShopRequestDate";
+                #region old query 8.11.2016 11.13a
+                //string qry = @"Select WR.WorkShopRequestId,WR.WorkShopRequestRefNo,WR.WorkShopRequestDate,WR.RequiredDate,C.CustomerName,WR.CustomerOrderRef,SO.SaleOrderRefNo,SO.SaleOrderDate,DATEDIFF(dd,WR.WorkShopRequestDate,GETDATE ()) Ageing, DATEDIFF(DAY, GETDATE(), WR.RequiredDate) DaysLeft from WorkShopRequest WR INNER JOIN Customer C on C.CustomerId=WR.CustomerId ";
+                //qry += " INNER JOIN SaleOrder SO on WR.SaleOrderId=SO.SaleOrderId  LEFT JOIN PurchaseRequest PR ON PR.WorkShopRequestId=WR.WorkShopRequestId WHERE PR.PurchaseRequestId is null and WR.OrganizationId=@OrganizationId ORDER BY WR.RequiredDate, WR.WorkShopRequestDate"; 
+                #endregion
 
-                return connection.Query<PendingWorkShopRequest>(qry, new { OrganizationId = OrganizationId });
+                #region old query 16.11.2016 12.59p
+                //                string query = @"Select 
+                //	                                WR.WorkShopRequestId,
+                //	                                WR.WorkShopRequestRefNo,
+                //	                                WR.WorkShopRequestDate,
+                //	                                WR.RequiredDate,
+                //	                                C.CustomerName,
+                //	                                WR.CustomerOrderRef,
+                //	                                SO.SaleOrderRefNo,
+                //	                                SO.SaleOrderDate,
+                //	                                DATEDIFF(dd,WR.WorkShopRequestDate,GETDATE ()) Ageing, 
+                //	                                DATEDIFF(DAY, GETDATE(), WR.RequiredDate) DaysLeft
+                //                                from WorkShopRequest WR 
+                //                                    INNER JOIN Customer C on C.CustomerId=WR.CustomerId
+                //                                    INNER JOIN SaleOrder SO on WR.SaleOrderId=SO.SaleOrderId  
+                //                                    LEFT JOIN PurchaseRequest PR ON PR.WorkShopRequestId=WR.WorkShopRequestId 
+                //                                    LEFT JOIN PurchaseRequestItem PRI ON PR.PurchaseRequestId = PRI.PurchaseRequestId
+                //                                    LEFT JOIN WorkShopRequestItem WRI ON WR.WorkShopRequestId = WRI.WorkShopRequestId
+                //                                WHERE /*PR.PurchaseRequestId is null and*/ WR.OrganizationId=@OrganizationId
+                //                                    GROUP BY WR.WorkShopRequestId,
+                //	                                WR.WorkShopRequestRefNo,
+                //	                                WR.WorkShopRequestDate,
+                //	                                WR.RequiredDate,
+                //	                                C.CustomerName,
+                //	                                WR.CustomerOrderRef,
+                //	                                SO.SaleOrderRefNo,
+                //	                                SO.SaleOrderDate
+                //                                HAVING SUM(ISNULL(PRI.Quantity, 0)) < SUM(WRI.Quantity)
+                //                                ORDER BY WR.RequiredDate, WR.WorkShopRequestDate"; 
+                #endregion
+
+                string query = @"SELECT
+	                                --PRI.PurchaseRequestId,
+	                                WRI.WorkShopRequestId,
+	                                PRI.ItemId
+	                                --SUM(PRI.Quantity) PR,
+	                                --WRI.Quantity WR
+                                INTO #TEMP1
+                                FROM PurchaseRequestItem PRI
+	                                INNER JOIN PurchaseRequest PR ON PRI.PurchaseRequestId = PRI.PurchaseRequestId
+	                                RIGHT JOIN WorkShopRequest WR ON PR.WorkShopRequestId = WR.WorkShopRequestId
+	                                RIGHT JOIN WorkShopRequestItem WRI ON WR.WorkShopRequestId = WRI.WorkShopRequestId AND WRI.ItemId = PRI.ItemId
+                                GROUP BY WRI.WorkShopRequestId, PRI.ItemId, WRI.Quantity
+                                HAVING SUM(ISNULL(PRI.Quantity, 0))<WRI.Quantity
+                                ORDER BY WRI.WorkShopRequestId;
+
+                                Select 
+	                                WR.WorkShopRequestId,
+	                                WR.WorkShopRequestRefNo,
+	                                WR.WorkShopRequestDate,
+	                                WR.RequiredDate,
+	                                C.CustomerName,
+	                                WR.CustomerOrderRef,
+	                                SO.SaleOrderRefNo,
+	                                SO.SaleOrderDate,
+	                                DATEDIFF(dd,WR.WorkShopRequestDate,GETDATE ()) Ageing, 
+	                                DATEDIFF(DAY, GETDATE(), WR.RequiredDate) DaysLeft
+                                from #TEMP1 T1 
+									INNER JOIN WorkShopRequest WR ON T1.WorkShopRequestId = WR.WorkShopRequestId
+                                    INNER JOIN Customer C on C.CustomerId=WR.CustomerId
+                                    INNER JOIN SaleOrder SO on WR.SaleOrderId=SO.SaleOrderId  
+                                    LEFT JOIN PurchaseRequest PR ON PR.WorkShopRequestId=WR.WorkShopRequestId 
+                                    LEFT JOIN PurchaseRequestItem PRI ON PR.PurchaseRequestId = PRI.PurchaseRequestId
+                                    LEFT JOIN WorkShopRequestItem WRI ON WR.WorkShopRequestId = WRI.WorkShopRequestId
+                                WHERE /*PR.PurchaseRequestId is null and*/ WR.OrganizationId = @OrganizationId
+                                    GROUP BY WR.WorkShopRequestId,
+	                                WR.WorkShopRequestRefNo,
+	                                WR.WorkShopRequestDate,
+	                                WR.RequiredDate,
+	                                C.CustomerName,
+	                                WR.CustomerOrderRef,
+	                                SO.SaleOrderRefNo,
+	                                SO.SaleOrderDate
+                                --HAVING SUM(ISNULL(PRI.Quantity, 0)) < SUM(WRI.Quantity)
+                                ORDER BY WR.RequiredDate, WR.WorkShopRequestDate;
+
+								DROP TABLE #TEMP1;";
+
+                return connection.Query<PendingWorkShopRequest>(query, new { OrganizationId = OrganizationId });
             }
         }
         /// <summary>
@@ -360,11 +441,11 @@ namespace ArabErp.DAL
             {
                 string qry = "SELECT O.*,PurchaseRequestId,PurchaseRequestNo,PurchaseRequestDate,C.CustomerName,WR.CustomerOrderRef,PR.WorkShopRequestId, ORR.CountryName,";
                 qry += "  WR.WorkShopRequestRefNo +','+ Replace(Convert(varchar,WorkShopRequestDate,106),' ','/') WorkShopRequestRefNo,";
-                qry += "  PR.SpecialRemarks,PR.RequiredDate FROM PurchaseRequest PR";
+                qry += "  PR.SpecialRemarks,PR.RequiredDate,U.UserName CreatedUser,U.Signature CreatedUsersig FROM PurchaseRequest PR";
                 qry += "  INNER JOIN WorkShopRequest WR ON WR.WorkShopRequestId=PR.WorkShopRequestId";
                 qry += "   INNER JOIN Customer C ON WR.CustomerId = C.CustomerId";
                 qry += "  INNER JOIN Organization O ON O.OrganizationId=PR.OrganizationId";
-                qry += "  inner  JOIN Country ORR ON ORR.CountryId=O.Country";
+                qry += "  left  JOIN Country ORR ON ORR.CountryId=O.Country left join [User] U ON U.UserId=PR.CreatedBy";
                 qry += "  WHERE PR.PurchaseRequestId=" + PurchaseRequestId.ToString();
 
                 PurchaseRequest PurchaseRequest = connection.Query<PurchaseRequest>(qry, new { OrganizationId = OrganizationId }).First();

@@ -4,7 +4,24 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
+<style type="text/css">
+    .highlight {
+        border: 2px solid #2ab1e0 !important;
+    }
+</style>
+
 <script type="text/javascript">
+
+    function HighlightRow(row) {
+        $("#tab_logic").find("tr.highlight").removeClass("highlight");
+        $(row).addClass("highlight");
+    }
+
+    function OnTextboxFocused(sender) {
+        $("#tab_logic").find("tr.highlight").removeClass("highlight");
+        $(sender).closest("tr").addClass("highlight");
+    }
+
     $(document).ready(function () {
 
         $(".numbers-only").keypress(function (e) {
@@ -84,6 +101,13 @@
         }
     }
 
+    function OnReceivedQuantityChanged(row) {
+        if ($("#Items_" + row + "__AcceptedQuantity").val() == 0 && Number($("#Items_" + row + "__ReceivedQuantity").val() > 0)) {
+            $("#Items_" + row + "__AcceptedQuantity").val($("#Items_" + row + "__ReceivedQuantity").val());
+        }
+        ValueChanged(row);
+    }
+
     function calculateSummary() {
         var amount = parseFloat("0.00");
         var grand = parseFloat("0.00");
@@ -141,7 +165,7 @@
     }
 
     function formValidation() {
-        if($("#StockPointId").val() == '' || $("#StockPointId").val() == 0){
+        if ($("#StockPointId").val() == '' || $("#StockPointId").val() == 0) {
             toastr.info("Please select a stockpoint to continue");
             $("#StockPointId").focus();
             return false;
@@ -201,7 +225,7 @@
         clone.html($(clone).html().replace(/\Additions[0]./g, 'Additions[' + i + '].'));
         clone.html($(clone).html().replace(/\[0\]/g, '[' + i + ']'));
         clone.html($(clone).html().replace(/\(0\)/g, '(' + i + ')'));
-        clone.html($(clone).html().replace(/Row_Addition_0/g, 'Row_Addition_' + i +''));
+        clone.html($(clone).html().replace(/Row_Addition_0/g, 'Row_Addition_' + i + ''));
         //clone.html($(clone).html().replace(/Itemslno1/, 'Itemslno' + (i + 1) + ''));
         clone.html($(clone).html().replace("OnAdditionChanged(this,0", "OnAdditionChanged(this," + i));
         //clone.html($(clone).html().replace("OnDeductionChanged(this,0", "OnDeductionChanged(this," + i));
@@ -370,7 +394,7 @@
             <div class="row form-group">
                 <div class="col-md-2">
                     <label for="GRNNo">GRN No. </label>
-                    @Html.TextBoxFor(m => m.GRNNo, new { @class = "form_input", autocomplete = "off", @required = "true", @readonly = "true", @title = "This number may change after saving" })
+                    @Html.TextBoxFor(m => m.GRNNo, new { @class = "form_input", autocomplete = "off", @required = "true", @readonly = "true", @tabindex = "-1" })
                 </div>
                 <div class="col-md-2">
                     <label for="GRNDate">Date</label>
@@ -382,14 +406,14 @@
                     <label for="SupplierId">Supplier</label>
                     @{
             if (Model.isDirectPurchaseGRN)
-                        {
-                    @Html.DropDownListFor(m => m.SupplierId, (SelectList)ViewBag.supplierList, "Select Supplier", new { @class = "form_input ", autocomplete = "off", @required = "true", @onchange = "OnSupplierChanged(this)" })
-                        }
-                        else
-                        {
-                    @Html.TextBoxFor(m => m.Supplier, new { @class = "form_input", autocomplete = "off", @readonly = "readonly" })
-                    @Html.HiddenFor(m => m.SupplierId, new { @class = "form_input", autocomplete = "off", @required = "true" })
-                        }
+            {
+                @Html.DropDownListFor(m => m.SupplierId, (SelectList)ViewBag.supplierList, "Select Supplier", new { @class = "form_input ", autocomplete = "off", @required = "true", @onchange = "OnSupplierChanged(this)" })
+            }
+            else
+            {
+                @Html.TextBoxFor(m => m.Supplier, new { @class = "form_input", autocomplete = "off", @readonly = "readonly", @tabindex = "-1" })
+                        @Html.HiddenFor(m => m.SupplierId, new { @class = "form_input", autocomplete = "off", @required = "true" })
+            }
                     }
                 </div>
             </div>
@@ -414,36 +438,36 @@
                         <tbody>
                             @for (int i = 0; i < Model.Items.Count; i++)
                             {
-                            <tr>
-                                <td>
-                                    @{
-                                        if (Model.isDirectPurchaseGRN)
-                                        {
+                                <tr onclick="HighlightRow(this)">
+                                    <td>
+                                        @{
+                                            if (Model.isDirectPurchaseGRN)
+                                            {
                                                 @Html.HiddenFor(m => m.Items[i].DirectPurchaseRequestItemId)
-                                        }
-                                        else
-                                        {
+                                            }
+                                            else
+                                            {
                                                 @Html.HiddenFor(m => m.Items[i].SupplyOrderItemId)
                                         }
-                                    }
+                                        }
 
-                                    @Html.HiddenFor(m => m.Items[i].SlNo)
-                                    @Html.TextBoxFor(m => m.Items[i].ItemName, new { @class = "form_input", autocomplete = "off", placeholder = "Material/Spares", @readonly = "true" })
-                                </td>
-                                <td>
-                                    @Html.HiddenFor(m => m.Items[i].ItemId)
-                                    @Html.TextBoxFor(m => m.Items[i].PartNo, new { @class = "form_input", autocomplete = "off", placeholder = "Part No.", @readonly = "true" })
-                                </td>
-                                <td>@Html.TextBoxFor(m => m.Items[i].Remarks, new { @class = "form_input", autocomplete = "off", placeholder = "Remarks" })</td>
-                                <td>@Html.TextBoxFor(m => m.Items[i].PendingQuantity, new { @class = "form_input", @style = "text-align:right", autocomplete = "off", @readonly = "true" })</td>
-                                <td>@Html.TextBoxFor(m => m.Items[i].ReceivedQuantity, new { @class = "form_input clQuantity numbers-only", @style = "text-align:right", autocomplete = "off", placeholder = "Qty", @onkeyup = "ValueChanged(" + i + ");", @onchange = "ValidateRow(" + i + ")", @required = "true" })</td>
-                                <td>@Html.TextBoxFor(m => m.Items[i].AcceptedQuantity, new { @class = "form_input clQuantity numbers-only", @style = "text-align:right", autocomplete = "off", placeholder = "Qty", @onkeyup = "ValueChanged(" + i + ");", @onchange = "ValidateRow(" + i + ")", @required = "true" })</td>
-                                <td>@Html.TextBoxFor(m => m.Items[i].RejectedQuantity, new { @class = "form_input", @style = "text-align:right", autocomplete = "off", @readonly = "true" })</td>
-                                <td>@Html.TextBoxFor(m => m.Items[i].Unit, new { @class = "form_input", autocomplete = "off", @readonly = "true", @style = "text-align:left" })</td>
-                                <td>@Html.TextBoxFor(m => m.Items[i].Rate, new { @class = "form_input numbers-only", @style = "text-align:right", autocomplete = "off", @onkeyup = "ValueChanged(" + i + ");", @required = "true" })</td>
-                                <td>@Html.TextBoxFor(m => m.Items[i].Discount, new { @class = "form_input numbers-only", @style = "text-align:right", autocomplete = "off", @onkeyup = "ValueChanged(" + i + ");", @required = "true" })</td>
-                                <td>@Html.TextBoxFor(m => m.Items[i].Amount, new { @class = "form_input clAmount", @style = "text-align:right", autocomplete = "off", @readonly = "true" })</td>
-                            </tr>
+                                        @Html.HiddenFor(m => m.Items[i].SlNo)
+                                        @Html.TextBoxFor(m => m.Items[i].ItemName, new { @class = "form_input", autocomplete = "off", placeholder = "Material/Spares", @readonly = "true", @tabindex = "-1" })
+                                    </td>
+                                    <td>
+                                        @Html.HiddenFor(m => m.Items[i].ItemId)
+                                        @Html.TextBoxFor(m => m.Items[i].PartNo, new { @class = "form_input", autocomplete = "off", placeholder = "Part No.", @readonly = "true", @tabindex = "-1" })
+                                    </td>
+                                    <td>@Html.TextBoxFor(m => m.Items[i].Remarks, new { @class = "form_input", autocomplete = "off", placeholder = "Remarks", @onfocus = "OnTextboxFocused(this)" })</td>
+                                    <td>@Html.TextBoxFor(m => m.Items[i].PendingQuantity, new { @class = "form_input", @style = "text-align:right", autocomplete = "off", @readonly = "true", @tabindex = "-1" })</td>
+                                    <td>@Html.TextBoxFor(m => m.Items[i].ReceivedQuantity, new { @class = "form_input clQuantity numbers-only", @style = "text-align:right", autocomplete = "off", placeholder = "Qty", @onkeyup = "OnReceivedQuantityChanged(" + i + ");", @onchange = "ValidateRow(" + i + ")", @required = "true", @onfocus = "OnTextboxFocused(this)" })</td>
+                                    <td>@Html.TextBoxFor(m => m.Items[i].AcceptedQuantity, new { @class = "form_input clQuantity numbers-only", @style = "text-align:right", autocomplete = "off", placeholder = "Qty", @onkeyup = "ValueChanged(" + i + ");", @onchange = "ValidateRow(" + i + ")", @required = "true", @onfocus = "OnTextboxFocused(this)" })</td>
+                                    <td>@Html.TextBoxFor(m => m.Items[i].RejectedQuantity, new { @class = "form_input", @style = "text-align:right", autocomplete = "off", @readonly = "true", @tabindex = "-1" })</td>
+                                    <td>@Html.TextBoxFor(m => m.Items[i].Unit, new { @class = "form_input", autocomplete = "off", @readonly = "true", @style = "text-align:left", @tabindex = "-1" })</td>
+                                    <td>@Html.TextBoxFor(m => m.Items[i].Rate, new { @class = "form_input numbers-only", @style = "text-align:right", autocomplete = "off", @onkeyup = "ValueChanged(" + i + ");", @required = "true", @onfocus = "OnTextboxFocused(this)" })</td>
+                                    <td>@Html.TextBoxFor(m => m.Items[i].Discount, new { @class = "form_input numbers-only", @style = "text-align:right", autocomplete = "off", @onkeyup = "ValueChanged(" + i + ");", @required = "true", @onfocus = "OnTextboxFocused(this)" })</td>
+                                    <td>@Html.TextBoxFor(m => m.Items[i].Amount, new { @class = "form_input clAmount", @style = "text-align:right", autocomplete = "off", @readonly = "true", @tabindex = "-1" })</td>
+                                </tr>
                             }
 
                         </tbody>
@@ -578,7 +602,10 @@
                                                     <td>
                                                         @Html.HiddenFor(m => m.Additions[i].GRNId)
                                                         <input type="hidden" id="Row_Addition_@i" />
-                                                        @Html.DropDownListFor(m => @Model.Additions[i].AdditionId, new SelectList(ViewBag.additionList, "Value", "Text", @Model.Additions[i].AdditionId), "select addition", new { @class = "form_input", @onchange = "OnAdditionChanged(this," + i + ")", @required = "true" })
+                                                        @Html.DropDownListFor(m => @Model.Additions[i].AdditionId, new SelectList(ViewBag.additionList, "Value", "Text", @Model.Additions[i].AdditionId), "select addition", new
+                                                   {
+                                                       @class = "form_input",
+                                                       @onchange = "OnAdditionChanged(this," + i + ")"@*, @required = "true"*@ })
                                                     </td>
                                                     <td>
                                                         @Html.TextBoxFor(m => @Model.Additions[i].Addition, new { @class = "form_input numbers-only claddamt", @style = "text-align:right", autocomplete = "off", @Value = "0.00", @onkeyup = "AdditionAmount(" + i + ");" })
@@ -617,7 +644,10 @@
                                                     <td>
                                                         @Html.HiddenFor(m => m.Deductions[i].GRNId)
                                                         <input type="hidden" id="Row_Deduction_@i" />
-                                                        @Html.DropDownListFor(m => @Model.Deductions[i].DeductionId, new SelectList(ViewBag.deductionList, "Value", "Text", @Model.Deductions[i].DeductionId), "select deduction", new { @class = "form_input", @onchange = "OnDeductionChanged(this," + i + ")", @required = "true" })
+                                                        @Html.DropDownListFor(m => @Model.Deductions[i].DeductionId, new SelectList(ViewBag.deductionList, "Value", "Text", @Model.Deductions[i].DeductionId), "select deduction", new
+                                                   {
+                                                       @class = "form_input",
+                                                       @onchange = "OnDeductionChanged(this," + i + ")"@*, @required = "true"*@ })
                                                     </td>
                                                     <td>
                                                         @Html.TextBoxFor(m => @Model.Deductions[i].Deduction, new { @class = "form_input numbers-only cldedamt", @style = "text-align:right", autocomplete = "off", @Value = "0.00", @onkeyup = "DeductionAmount(" + i + ");" })
@@ -648,4 +678,3 @@
         }
     </div>
 </div>
-

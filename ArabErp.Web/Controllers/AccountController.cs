@@ -16,6 +16,7 @@ using System.Security.Cryptography;
 using System.Web.Security;
 using System.Text;
 using System.IO;
+using System.Collections.Generic;
 
 namespace ArabErp.Web.Controllers
 {
@@ -66,8 +67,18 @@ namespace ArabErp.Web.Controllers
                     {
                         permission.MISReports = true;
                     }
+                    else if (item.ModuleName == "Store")
+                    {
+                        permission.Store = true;
+                    }
                 }
                 ViewBag.ModulePermissions = permission;
+
+                if (Session["formPermission"] == null)
+                {
+                    IEnumerable<FormPermission> formPermission = repo.GetFormPermissions(Id);
+                    Session["formPermission"] = formPermission;
+                }
             }
             catch
             {
@@ -251,6 +262,7 @@ namespace ArabErp.Web.Controllers
         {
             if ((Id ?? 0) == 0)
             {
+                FillDesignation();
                 User model = new User();
                 model.Module = new System.Collections.Generic.List<ModuleVsUser>();
                 model.ERPAlerts = new System.Collections.Generic.List<ERPAlerts>();
@@ -260,6 +272,7 @@ namespace ArabErp.Web.Controllers
                 var alerts = (new UserRepository()).GetAlerts(Id ?? 0);
                 var graphs = (new UserRepository()).GetGraphs(Id ?? 0);
                 var Company = (new UserRepository()).GetCompanyPermissions(Id ?? 0);
+                model.Forms = new UserRepository().GetFormsVsUser(Id ?? 0).ToList();
                 foreach (var item in modules)
                 {
                     model.Module.Add(item);
@@ -282,9 +295,10 @@ namespace ArabErp.Web.Controllers
             {
                 //var users = (new UserRepository().GetUsers());
                 //User model = (from a in users where a.UserId == Id select a).Single();
-
+                FillDesignation();
+                
                 User model = new UserRepository().GetUserInfo(Id);
-
+               // model.DesignationId = System.Collections.Generic.List< DropdownRepository().Designation(), "Id", "Name");
                 model.Module = new System.Collections.Generic.List<ModuleVsUser>();
                 model.ERPAlerts = new System.Collections.Generic.List<ERPAlerts>();
                 model.ERPGraphs = new System.Collections.Generic.List<ERPGraphs>();
@@ -294,6 +308,7 @@ namespace ArabErp.Web.Controllers
                 var alerts = (new UserRepository()).GetAlerts(Id ?? 0);
                 var graphs = (new UserRepository()).GetGraphs(Id ?? 0);
                 var Company = (new UserRepository()).GetCompanyPermissions(Id ?? 0);
+                model.Forms = new UserRepository().GetFormsVsUser(Id ?? 0).ToList();
 
                 foreach (var item in modules)
                 {
@@ -335,6 +350,8 @@ namespace ArabErp.Web.Controllers
                     model.UserPassword = model.ConfirmPassword = hashedPassword;
                     model.UserSalt = salt;
 
+                    model.Forms = model.Forms.Where(x => x.hasPermission).ToList();
+
                     res = (new UserRepository()).InsertUser(model);
                     TempData["Success"] = "Registered Successfully!";
                 }
@@ -349,6 +366,7 @@ namespace ArabErp.Web.Controllers
                         model.UserPassword = model.ConfirmPassword = hashedPassword;
                         model.UserSalt = salt;
                     }
+                    model.Forms = model.Forms.Where(x => x.hasPermission).ToList();
                     res = (new UserRepository()).UpdateUser(model);
                 }
                 if (res > 0)
@@ -624,6 +642,7 @@ namespace ArabErp.Web.Controllers
 
         protected override void Dispose(bool disposing)
         {
+            Session.Remove("formPermission");
             if (disposing)
             {
                 if (_userManager != null)
@@ -711,6 +730,10 @@ namespace ArabErp.Web.Controllers
                 }
                 context.HttpContext.GetOwinContext().Authentication.Challenge(properties, LoginProvider);
             }
+        }
+        public void FillDesignation()
+        {
+            ViewBag.Designation = new SelectList(new DropdownRepository().Designation(), "Id", "Name");
         }
         #endregion
     }

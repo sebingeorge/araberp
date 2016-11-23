@@ -45,7 +45,30 @@ namespace ArabErp.Domain
         public string ItemSubGroupName { get; set; }
         public string UnitName { get; set; }
 
+        public string DoorNo { get; set; }
 
+        public string Street { get; set; }
+
+        public string State { get; set; }
+
+        public int Country { get; set; }
+        public string CountryName { get; set; }
+        public string Zip { get; set; }
+        public string Phone { get; set; }
+        public string Fax { get; set; }
+        public string Email { get; set; }
+        public string ContactPerson { get; set; }
+        public string OrganizationName { get; set; }
+        public string Image1 { get; set; }
+
+        public List<WorkVsItem> ItemVsBom { get; set; }
+        public List<WorkVsTask> ItemVsTasks { get; set; }
+
+        public Item()
+        {
+            ItemVsBom = new List<WorkVsItem>();
+            ItemVsTasks = new List<WorkVsTask>();
+        }
     }
     public enum  ItemSubGroupId
     {

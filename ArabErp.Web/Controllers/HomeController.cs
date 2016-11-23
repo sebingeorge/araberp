@@ -87,6 +87,7 @@ namespace ArabErp.Web.Controllers
             view.PendingWorkshopRequests = true;
             view.PendingProjectSaleOrdersForJobCard = true;
             view.PendingTransSaleOrdersForJobCard = true;
+            view.MaterialStockBelowMinLevel = true;
 
             if (view.PendingProjectQuotations)
             {
@@ -119,13 +120,17 @@ namespace ArabErp.Web.Controllers
             }
             if (view.PendingProjectSaleOrdersForJobCard)
             {
-                var list = new JobCardRepository().GetPendingSO(1, OrganizationId);
+                var list = new JobCardRepository().GetPendingSO(1, OrganizationId,0);
                 view.NoOfProjectSaleOrdersForJobCard = list.Count();
             }
             if (view.PendingTransSaleOrdersForJobCard)
             {
-                var list = new JobCardRepository().GetPendingSO(0, OrganizationId);
+                var list = new JobCardRepository().GetPendingSO(0, OrganizationId,0);
                 view.NoOfTransSaleOrdersForJobCard = list.Count();
+            }
+            if (view.MaterialStockBelowMinLevel)
+            {
+                view.NoOfMaterialStockBelowMinLevel = new ItemRepository().GetCriticalMaterialsBelowMinStock(OrganizationId);
             }
 
             IEnumerable<ERPAlerts> Alerts;
@@ -163,11 +168,14 @@ namespace ArabErp.Web.Controllers
                         case 5:
                             alertpermission.PendingSOForWorkshopReq = true;
                             break;
+                        //case 6:
+                        //    alertpermission.PendingProjectSaleOrdersForJobCard = true;
+                        //    break;
+                        //case 7:
+                        //    alertpermission.PendingTransSaleOrdersForJobCard = true;
+                        //    break;
                         case 6:
-                            alertpermission.PendingProjectSaleOrdersForJobCard = true;
-                            break;
-                        case 7:
-                            alertpermission.PendingTransSaleOrdersForJobCard = true;
+                            alertpermission.MaterialStockBelowMinLevel = true;
                             break;
                         default:
                             break;

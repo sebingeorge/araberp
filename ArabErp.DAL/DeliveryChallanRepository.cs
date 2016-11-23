@@ -125,7 +125,7 @@ namespace ArabErp.DAL
             {
                 return connection.Query<PendingJC>(@"SELECT ISNULL(SO.SaleOrderRefNo, '')+' - '+CONVERT(VARCHAR, SO.SaleOrderDate, 106) SaleOrderNoDate, VM.VehicleModelName+' - '+VM.VehicleModelDescription VehicleModel, WD.WorkDescr, CUS.CustomerName, SOI.SaleOrderItemId,SOI.IsPaymentApprovedForDelivery INTO #TEMP FROM SaleOrderItem SOI
                     INNER JOIN SaleOrder SO ON SO.SaleOrderId = SOI.SaleOrderId
-                    INNER JOIN VehicleModel VM ON SOI.VehicleModelId = VM.VehicleModelId
+                    LEFT JOIN VehicleModel VM ON SOI.VehicleModelId = VM.VehicleModelId
                     INNER JOIN WorkDescription WD ON SOI.WorkDescriptionId = WD.WorkDescriptionId
                     INNER JOIN Customer CUS ON SO.CustomerId = CUS.CustomerId
                     WHERE CUS.CustomerId = @customerId AND ISNULL(SOI.isActive, 1) = 1 AND ISNULL(VM.isActive, 1) = 1 and SO.OrganizationId = @OrganizationId AND SO.isProjectBased = 0;
@@ -156,7 +156,7 @@ namespace ArabErp.DAL
 					INTO #TEMP 
                     FROM SaleOrderItem SOI
                     INNER JOIN SaleOrder SO ON SO.SaleOrderId = SOI.SaleOrderId
-                    INNER JOIN VehicleModel VM ON SOI.VehicleModelId = VM.VehicleModelId
+                    LEFT JOIN VehicleModel VM ON SOI.VehicleModelId = VM.VehicleModelId
                     INNER JOIN WorkDescription WD ON SOI.WorkDescriptionId = WD.WorkDescriptionId
                     INNER JOIN Customer CUS ON SO.CustomerId = CUS.CustomerId
                     WHERE ISNULL(SOI.isActive, 1) = 1 AND ISNULL(VM.isActive, 1) = 1;
@@ -226,7 +226,7 @@ namespace ArabErp.DAL
                                 INNER JOIN SaleOrderItem SOI ON SOI.SaleOrderId=SOI.SaleOrderId AND JC.SaleOrderItemId=SOI.SaleOrderItemId
                                 INNER JOIN Customer C ON C.CustomerId=SO.CustomerId 
                                 INNER JOIN WorkDescription WI ON WI.WorkDescriptionId = SOI.WorkDescriptionId
-                                INNER JOIN VehicleModel VM ON VM.VehicleModelId=SOI.VehicleModelId
+                                LEFT JOIN VehicleModel VM ON VM.VehicleModelId=SOI.VehicleModelId
                                 INNER JOIN Employee E ON E.EmployeeId=DC.EmployeeId
                                 LEFT JOIN VehicleInPass VI ON VI.SaleOrderItemId = SOI.SaleOrderItemId
                                 LEFT JOIN SalesQuotation SQ ON SQ.DeliveryChallanId=DC.DeliveryChallanId
@@ -256,7 +256,7 @@ namespace ArabErp.DAL
                                 INNER JOIN SaleOrderItem SOI ON SOI.SaleOrderId=SOI.SaleOrderId AND JC.SaleOrderItemId=SOI.SaleOrderItemId
                                 INNER JOIN Customer C ON C.CustomerId=SO.CustomerId 
                                 INNER JOIN WorkDescription WI ON WI.WorkDescriptionId = SOI.WorkDescriptionId
-                                INNER JOIN VehicleModel VM ON VM.VehicleModelId=SOI.VehicleModelId
+                                LEFT JOIN VehicleModel VM ON VM.VehicleModelId=SOI.VehicleModelId
                                 INNER JOIN Employee E ON E.EmployeeId=DC.EmployeeId
                                 inner join Organization O ON  DC.OrganizationId=O.OrganizationId
 								 LEFT  JOIN Country ORR ON ORR.CountryId=O.Country
@@ -278,12 +278,12 @@ namespace ArabErp.DAL
             using (IDbConnection connection = OpenConnection(dataConnection))
             {
                 string sql = @"SELECT DISTINCT ItemBatchId,SerialNo,ItemName, DATEDIFF(MONTH,WarrantyStartDate,WarrantyExpireDate) AS WarrantyPeriodInMonths
-                               FROM ItemBatch IB 
-                               LEFT JOIN GRNItem GI ON GI.GRNItemId=IB.GRNItemId
-							   LEFT JOIN OpeningStock OS ON IB.OpeningStockId = OS.OpeningStockId
-                               INNER JOIN Item I ON (I.ItemId=GI.ItemId OR OS.ItemId = I.ItemId)
-                               WHERE DeliveryChallanId = @DeliveryChallanId";
-
+                                     FROM ItemBatch IB 
+                                     LEFT JOIN GRNItem GI ON GI.GRNItemId=IB.GRNItemId
+                LEFT JOIN OpeningStock OS ON IB.OpeningStockId = OS.OpeningStockId
+                                     INNER JOIN Item I ON (I.ItemId=GI.ItemId OR OS.ItemId = I.ItemId)
+                                     WHERE DeliveryChallanId = @DeliveryChallanId";
+               
                 return connection.Query<ItemBatch>(sql, new { DeliveryChallanId = DeliveryChallanId }).ToList();
             }
         }
@@ -355,7 +355,20 @@ namespace ArabErp.DAL
                 }
             }
         }
+        public List<ItemBatch> GetDeliveryChallanDTPrint(int DeliveryChallanId)
+        {
+            using (IDbConnection connection = OpenConnection(dataConnection))
+            {
+                string sql = @"SELECT DISTINCT ItemBatchId,SerialNo,ItemName,WarrantyStartDate,WarrantyExpireDate 
+                                     FROM ItemBatch IB 
+                                     LEFT JOIN GRNItem GI ON GI.GRNItemId=IB.GRNItemId
+                LEFT JOIN OpeningStock OS ON IB.OpeningStockId = OS.OpeningStockId
+                                     INNER JOIN Item I ON (I.ItemId=GI.ItemId OR OS.ItemId = I.ItemId)
+                                     WHERE DeliveryChallanId = @DeliveryChallanId";
 
+                return connection.Query<ItemBatch>(sql, new { DeliveryChallanId = DeliveryChallanId }).ToList();
+            }
+        }
 
     }
 }

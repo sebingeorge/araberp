@@ -895,7 +895,8 @@ section.content {
 }
 
 .rem {
-    margin-left: 10px;
+    margin-left: -12px;
+    margin-right: -10px;
     color: #858586;
     margin-bottom: 14px !important;
 }

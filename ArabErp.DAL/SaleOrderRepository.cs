@@ -25,15 +25,15 @@ namespace ArabErp.DAL
                 {
                     var internalId = "";
                     decimal MaterialAmt = 0;
-                    if (objSaleOrder.isProjectBased == 0 )
+                    if (objSaleOrder.isProjectBased == 0)
                     {
-                        internalId = DatabaseCommonRepository.GetNewDocNo(connection, objSaleOrder.OrganizationId ?? 0, 3, true,txn);
+                        internalId = DatabaseCommonRepository.GetNewDocNo(connection, objSaleOrder.OrganizationId ?? 0, 3, true, txn);
                     }
                     else
                     {
 
-                        internalId = DatabaseCommonRepository.GetNewDocNo(connection, objSaleOrder.OrganizationId ?? 0, 4, true,txn);
-                      
+                        internalId = DatabaseCommonRepository.GetNewDocNo(connection, objSaleOrder.OrganizationId ?? 0, 4, true, txn);
+
                     }
 
                     objSaleOrder.SaleOrderRefNo = internalId;
@@ -41,12 +41,12 @@ namespace ArabErp.DAL
                     if (objSaleOrder.isAfterSales == 1)
                     {
 
-                        MaterialAmt = objSaleOrder.Materials.Sum(m => m.Amount);
+                        MaterialAmt = objSaleOrder.Materials.Sum(m => m.Amount??0);
                     }
                     objSaleOrder.TotalAmount = objSaleOrder.Items.Sum(m => m.Amount) + MaterialAmt;
                     objSaleOrder.TotalDiscount = objSaleOrder.Items.Sum(m => m.Discount);
 
-               
+
                     string sql = @"
                     insert  into SaleOrder(SaleOrderRefNo,SaleOrderDate,CustomerId,CustomerOrderRef,CurrencyId,SpecialRemarks,PaymentTerms,DeliveryTerms,CommissionAgentId,CommissionAmount,CommissionPerc,TotalAmount,TotalDiscount,SalesExecutiveId,EDateArrival,EDateDelivery,CreatedBy,CreatedDate,OrganizationId,SaleOrderApproveStatus,isProjectBased,isAfterSales,SalesQuotationId)
                                    Values (@SaleOrderRefNo,@SaleOrderDate,@CustomerId,@CustomerOrderRef,@CurrencyId,@SpecialRemarks,@PaymentTerms,@DeliveryTerms,@CommissionAgentId,@CommissionAmount,@CommissionPerc,@TotalAmount,@TotalDiscount,@SalesExecutiveId,@EDateArrival,@EDateDelivery,@CreatedBy,@CreatedDate,@OrganizationId,1,@isProjectBased,@isAfterSales,@SalesQuotationId);
@@ -61,11 +61,11 @@ namespace ArabErp.DAL
                         item.SaleOrderId = id;
                         new SaleOrderItemRepository().InsertSaleOrderItem(item, connection, txn);
                     }
-                    if (objSaleOrder.isAfterSales==1)
+                    if (objSaleOrder.Materials!=null && objSaleOrder.Materials.Count > 0)
                     {
-
                         foreach (SalesQuotationMaterial item in objSaleOrder.Materials)
                         {
+                            if (item.ItemId == null) continue;
                             item.SaleOrderId = id;
                             new SaleOrderItemRepository().InsertSaleOrderMaterial(item, connection, txn);
                         }
@@ -100,8 +100,8 @@ namespace ArabErp.DAL
             }
         }
 
-      
-        
+
+
         public List<SaleOrderItem> GetSaleOrderItemFrmQuotation(int Id)
         {
             using (IDbConnection connection = OpenConnection(dataConnection))
@@ -133,7 +133,7 @@ namespace ArabErp.DAL
             using (IDbConnection connection = OpenConnection(dataConnection))
             {
                 string sql = @"select * from SalesQuotationMaterial S inner join Item I ON S.ItemId=I.ItemId LEFT JOIN UNIT U ON I.ItemUnitId=U.UnitId where SalesQuotationId=@Id";
-                 
+
                 return connection.Query<SalesQuotationMaterial>(sql, new { Id = Id }).ToList();
             }
         }
@@ -146,7 +146,7 @@ namespace ArabErp.DAL
                 return connection.Query<SalesQuotationMaterial>(sql, new { Id = Id }).ToList();
             }
         }
-        
+
         public SaleOrder GetSaleOrder(int SaleOrderId)
         {
             using (IDbConnection connection = OpenConnection(dataConnection))
@@ -165,7 +165,7 @@ namespace ArabErp.DAL
 	                                S.CurrencyId,
 	                                SpecialRemarks,
 	                                S.PaymentTerms,
-	                                DeliveryTerms,
+	                                S.DeliveryTerms,
 	                                CommissionAgentId,
 	                                CommissionAmount,
 	                                TotalAmount,
@@ -227,7 +227,7 @@ namespace ArabErp.DAL
         {
             using (IDbConnection connection = OpenConnection(dataConnection))
             {
-         
+
                 string sql = @"SELECT  distinct t.SaleOrderId,SO.CustomerOrderRef,SO.SaleOrderDate,SO.SaleOrderRefNo +' - '+ Convert(varchar,SaleOrderDate,106) SaleOrderRefNo,SO.EDateArrival,SO.EDateDelivery,SO.CustomerId,C.CustomerName,STUFF((SELECT DISTINCT ', ' + CAST(W.WorkDescr AS VARCHAR(MAX)) [text()]
                              FROM SaleOrderItem SI inner join WorkDescription W on W.WorkDescriptionId=SI.WorkDescriptionId
                              WHERE SI.SaleOrderId = t.SaleOrderId
@@ -235,6 +235,7 @@ namespace ArabErp.DAL
                              FROM SaleOrderItem t INNER JOIN SaleOrder SO on t.SaleOrderId=SO.SaleOrderId INNER JOIN Customer C ON SO.CustomerId =C.CustomerId
                              left join WorkShopRequest WR on SO.SaleOrderId=WR.SaleOrderId WHERE WR.SaleOrderId is null and SO.isActive=1 and SO.SaleOrderApproveStatus=1 and SO.SaleOrderHoldStatus IS NULL and SO.OrganizationId = @OrganizationId and SO.isProjectBased=isnull(@isProjectBased,SO.isProjectBased)
 							 AND SO.SaleOrderRefNo LIKE '%'+@saleOrder+'%'
+							 AND ISNULL(SO.isService, 0) = 0
                              order by SO.EDateDelivery, SO.SaleOrderDate";
                 var objSaleOrders = connection.Query<SaleOrder>(sql, new { OrganizationId = OrganizationId, isProjectBased = isProjectBased, saleOrder = saleOrder }).ToList<SaleOrder>();
 
@@ -261,11 +262,11 @@ namespace ArabErp.DAL
                              left join SalesInvoice SI on SO.SaleOrderId=SI.SaleOrderId 
                              left join JobCard J on J.SaleOrderItemId = t.SaleOrderItemId
                              WHERE SI.SaleOrderId is null and SO.isActive=1 and SO.SaleOrderApproveStatus=1 AND SO.OrganizationId=" + OrganizationId + @" AND SO.isProjectBased = " + isProjectBased.ToString() + @" order by SO.SaleOrderDate ASC";
-                            
+
                 return connection.Query<PendingSO>(query);
             }
         }
-     
+
 
         public SaleOrder GetCombinedWorkDescriptionSaleOrderForWorkshopRequest(int SaleOrderId)
         {
@@ -322,13 +323,13 @@ namespace ArabErp.DAL
                         PaymentApprovedForDeliveryCreatedBy = @PaymentApprovedForDeliveryCreatedBy,
                         PaymentApprovedForDeliveryCreatedDate = @PaymentApprovedForDeliveryCreatedDate  WHERE SaleOrderItemId = @SaleOrderItemId";
                 }
-                
+
                 var id = connection.Execute(sql, item);
                 return id;
             }
         }
-   
-        public string DeleteSaleOrder(int id,int isAfterSales)
+
+        public string DeleteSaleOrder(int id, int isAfterSales)
         {
             using (IDbConnection connection = OpenConnection(dataConnection))
             {
@@ -364,9 +365,9 @@ namespace ArabErp.DAL
             }
         }
 
-     
 
-      
+
+
 
         public List<Dropdown> FillQuotationNo()
         {
@@ -377,7 +378,7 @@ namespace ArabErp.DAL
             }
         }
 
-        
+
         public List<Dropdown> FillCommissionAgent()
         {
             using (IDbConnection connection = OpenConnection(dataConnection))
@@ -386,7 +387,7 @@ namespace ArabErp.DAL
                 return connection.Query<Dropdown>("select CommissionAgentId Id,CommissionAgentName Name from CommissionAgent  WHERE ISNULL(isActive, 1) = 1").ToList();
             }
         }
-      
+
         public List<Dropdown> FillCurrency()
         {
             using (IDbConnection connection = OpenConnection(dataConnection))
@@ -404,8 +405,8 @@ namespace ArabErp.DAL
         {
             using (IDbConnection connection = OpenConnection(dataConnection))
             {
-                  string query = "select CurrencyId Id,CurrencyName Name from Currency where CurrencyId=(select CurrencyId from Customer where CustomerId = @cusId)";
-                  return connection.Query<Dropdown>(query, new { cusId = cusId }).First<Dropdown>();
+                string query = "select CurrencyId Id,CurrencyName Name from Currency where CurrencyId=(select CurrencyId from Customer where CustomerId = @cusId)";
+                return connection.Query<Dropdown>(query, new { cusId = cusId }).First<Dropdown>();
             }
         }
 
@@ -457,7 +458,7 @@ namespace ArabErp.DAL
                 return address;
             }
         }
-       
+
 
         public SaleOrder GetSODetailsByQuotKey(int quoId)
         {
@@ -498,18 +499,37 @@ namespace ArabErp.DAL
                 return connection.Query<PendingSO>(query, new { IsProjectBased = IsProjectBased, OrganizationId = OrganizationId });
             }
         }
-        public IEnumerable<PendingSaleOrderForTransactionApproval> GetSaleOrderPendingForTrnApproval()
+        public IEnumerable<PendingSaleOrderForTransactionApproval> GetSaleOrderPendingForTrnApproval(int OrganizationId)
         {
             using (IDbConnection connection = OpenConnection(dataConnection))
             {
-                string query = @"select SI.SaleOrderId, SI.SaleOrderItemId , SH.SaleOrderRefNo, SH.SaleOrderDate, C.CustomerName,
-                                W.WorkDescr, SI.Amount, SI.IsPaymentApprovedForWorkshopRequest, SI.IsPaymentApprovedForJobOrder,
-                                SI.IsPaymentApprovedForDelivery
+                #region old query 16.11.2016 4.16p
+                //                string query = @"select SI.SaleOrderId, SI.SaleOrderItemId , SH.SaleOrderRefNo, SH.SaleOrderDate, C.CustomerName,i.ItemName freezerUnit,ii.ItemName Box,
+                //                               SI.Amount, SI.IsPaymentApprovedForWorkshopRequest, SI.IsPaymentApprovedForJobOrder,
+                //                                SI.IsPaymentApprovedForDelivery
+                //                                from SaleOrder SH inner join SaleOrderItem SI on SH.SaleOrderId = SI.SaleOrderId
+                //                                inner join Customer C on C.CustomerId = SH.CustomerId 
+                //                                inner join WorkDescription W on W.WorkDescriptionId = SI.WorkDescriptionId 
+                //								inner join Item I on I.ItemId=W.FreezerUnitId
+                //								inner join Item II on II.ItemId=W.BoxId
+                //                                order by SH.SaleOrderDate, C.CustomerName "; 
+                #endregion
+
+                string query = @"select SI.SaleOrderId, SI.SaleOrderItemId , SH.SaleOrderRefNo, SH.SaleOrderDate, C.CustomerName,i.ItemName freezerUnit,ii.ItemName Box,
+                               SI.Amount, SI.IsPaymentApprovedForWorkshopRequest, SI.IsPaymentApprovedForJobOrder,
+                                SI.IsPaymentApprovedForDelivery, JC.JobCardNo, CONVERT(VARCHAR, JC.JobCardDate, 106) JobCardDate, 
+                                ISNULL(JC.JodCardCompleteStatus, 0) JodCardCompleteStatus,ISNULL(JQC.IsQCPassed,0)as IsQCPassed
                                 from SaleOrder SH inner join SaleOrderItem SI on SH.SaleOrderId = SI.SaleOrderId
+								LEFT JOIN JobCard JC ON SI.SaleOrderItemId = JC.SaleOrderItemId
                                 inner join Customer C on C.CustomerId = SH.CustomerId 
                                 inner join WorkDescription W on W.WorkDescriptionId = SI.WorkDescriptionId 
-                                order by SH.SaleOrderDate, C.CustomerName ";
-                return connection.Query<PendingSaleOrderForTransactionApproval>(query);
+								inner join Item I on I.ItemId=W.FreezerUnitId
+								inner join Item II on II.ItemId=W.BoxId
+								left join JobCardQC JQC ON JQC.JobCardId=JC.JobCardId
+                                WHERE SH.OrganizationId = @OrganizationId
+								order by SH.SaleOrderDate, C.CustomerName";
+
+                return connection.Query<PendingSaleOrderForTransactionApproval>(query, new { OrganizationId = OrganizationId });
             }
         }
 
@@ -565,7 +585,7 @@ namespace ArabErp.DAL
                 return connection.Query<PendingSO>(query);
             }
         }
-        public int UpdateSORelease(int SaleOrderId,string ReleaseDate)
+        public int UpdateSORelease(int SaleOrderId, string ReleaseDate)
         {
             using (IDbConnection connection = OpenConnection(dataConnection))
             {
@@ -662,7 +682,7 @@ namespace ArabErp.DAL
             }
         }
 
-        public IEnumerable<PendingSO> GetPreviousList(int isProjectBased, int id, int cusid, int OrganizationId, DateTime? from, DateTime? to)
+        public IEnumerable<PendingSO> GetPreviousList(int isProjectBased, int id, int cusid, int OrganizationId, DateTime? from, DateTime? to, int service = 0)
         {
             using (IDbConnection connection = OpenConnection(dataConnection))
             {
@@ -672,16 +692,16 @@ namespace ArabErp.DAL
                 query += " left join SalesQuotation SQ ON SQ.SalesQuotationId=S.SalesQuotationId";
                 query += " where S.SaleOrderId= ISNULL(NULLIF(@id, 0), S.SaleOrderId) AND C.CustomerId = ISNULL(NULLIF(@cusid, 0), C.CustomerId)";
                 query += " AND S.isActive = 1 and S.OrganizationId = @OrganizationId and S.SaleOrderDate BETWEEN ISNULL(@from, DATEADD(MONTH, -1, GETDATE())) AND ISNULL(@to, GETDATE())";
-                query += " AND S.isProjectBased=@isProjectBased ";
+                query += @" AND S.isProjectBased=@isProjectBased AND ISNULL(S.isService, 0) = @service";
 
 
-                return connection.Query<PendingSO>(query, new { isProjectBased = isProjectBased, OrganizationId = OrganizationId, id = id, cusid = cusid, to = to, from = from }).ToList();
+                return connection.Query<PendingSO>(query, new { isProjectBased = isProjectBased, OrganizationId = OrganizationId, id = id, cusid = cusid, to = to, from = from, service = service }).ToList();
             }
         }
 
         public int isUsed(int id)
         {
-             using (IDbConnection connection = OpenConnection(dataConnection))
+            using (IDbConnection connection = OpenConnection(dataConnection))
             {
                 string query = @"SELECT COUNT(JobCardId) FROM JobCard JC
                                 INNER JOIN SaleOrderItem SOI ON JC.SaleOrderItemId = SOI.SaleOrderItemId
@@ -693,7 +713,7 @@ namespace ArabErp.DAL
             }
         }
 
-        public SaleOrder GetSaleOrderHD(int SaleOrderId,int organizationId)
+        public SaleOrder GetSaleOrderHD(int SaleOrderId, int organizationId)
         {
             using (IDbConnection connection = OpenConnection(dataConnection))
             {
@@ -715,7 +735,7 @@ namespace ArabErp.DAL
 									LEFT JOIN CommissionAgent CA ON S.CommissionAgentId=CA.CommissionAgentId
 									INNER JOIN Organization O ON O.OrganizationId=S.OrganizationId
 	                                INNER JOIN Customer C ON S.CustomerId=C.CustomerId  
-                                    inner  JOIN Country ORR ON ORR.CountryId=O.Country
+                                    left  JOIN Country ORR ON ORR.CountryId=O.Country
 									LEFT JOIN Employee E ON e.EmployeeId=S.SalesExecutiveId
 	                                LEFT JOIN Currency CUR ON S.CurrencyId = CUR.CurrencyId
 	                                LEFT JOIN SalesQuotation SQ ON SQ.SalesQuotationId=S.SalesQuotationId
@@ -724,7 +744,7 @@ namespace ArabErp.DAL
                 var objSaleOrder = connection.Query<SaleOrder>(sql, new
                 {
                     SaleOrderId = SaleOrderId,
-                    organizationId=organizationId
+                    organizationId = organizationId
                 }).First<SaleOrder>();
 
                 return objSaleOrder;
@@ -742,11 +762,56 @@ namespace ArabErp.DAL
 								LEFT JOIN VehicleModel VM ON SOI.VehicleModelId = VM.VehicleModelId
                                 where SaleOrderId=@SaleOrderId";
                 return connection.Query<SaleOrderItem>(sql, new
-                { SaleOrderId = SaleOrderId,
-                  organizationId = organizationId
+                {
+                    SaleOrderId = SaleOrderId,
+                    organizationId = organizationId
                 }).ToList();
             }
         }
         /// 
+
+        public string InsertServiceEstimate(SaleOrder model)
+        {
+            using (IDbConnection connection = OpenConnection(dataConnection))
+            {
+                IDbTransaction txn = connection.BeginTransaction();
+                try
+                {
+                    model.SaleOrderRefNo = DatabaseCommonRepository.GetNewDocNo(connection, model.OrganizationId ?? 0, 33, true, txn);
+                    model.TotalAmount = model.Items.Sum(m => m.Amount);
+                    model.TotalDiscount = model.Items.Sum(m => m.Discount);
+                    if (model.CustomerOrderRef == null || model.CustomerOrderRef == String.Empty) model.CustomerOrderRef = " ";
+                    string query = @"insert  into SaleOrder 
+                                    (SaleOrderRefNo, SaleOrderDate, CustomerId, CustomerOrderRef, CurrencyId, SpecialRemarks, PaymentTerms, DeliveryTerms, CommissionAgentId,
+                                    CommissionAmount, CommissionPerc, TotalAmount, TotalDiscount, SalesExecutiveId, EDateArrival, EDateDelivery, CreatedBy, CreatedDate,
+                                    OrganizationId, SaleOrderApproveStatus, isProjectBased, isAfterSales, SalesQuotationId, isActive, isService)
+                                    Values
+                                    (@SaleOrderRefNo, @SaleOrderDate, @CustomerId, @CustomerOrderRef, @CurrencyId, @SpecialRemarks, @PaymentTerms, @DeliveryTerms, NULL,
+                                    0, 0, @TotalAmount, @TotalDiscount, NULL, GETDATE(), GETDATE(), @CreatedBy, GETDATE(),
+                                    @OrganizationId, 1, @isProjectBased, @isAfterSales, NULL, 1, @isService)
+                                    SELECT CAST(SCOPE_IDENTITY() as int) SaleOrderId";
+                    int id = connection.Query<int>(query, model, txn).FirstOrDefault();
+                    if (id > 0)
+                    {
+                        foreach (SaleOrderItem item in model.Items)
+                        {
+                            item.SaleOrderId = id;
+                            new SaleOrderItemRepository().InsertSaleOrderItem(item, connection, txn);
+                        }
+                        txn.Commit();
+                        return model.SaleOrderRefNo;
+                    }
+                    else
+                    {
+                        throw new Exception();
+                    }
+                }
+                catch (Exception)
+                {
+                    txn.Rollback();
+                    throw;
+                }
+            }
+        }
     }
 }

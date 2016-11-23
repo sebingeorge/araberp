@@ -252,5 +252,25 @@ namespace ArabErp.DAL
                 return objConsumption;
             }
         }
+
+
+        public List<StoreIssue> GetItems(string Request, string Jobcard, string Customer)
+        {
+            using (IDbConnection connection = OpenConnection(dataConnection))
+            {
+                string sql = @"SELECT ItemId,PartNo,ItemName,CategoryName,ItemGroupName,ItemSubGroupName,UnitName FROM Item I
+                               INNER JOIN ItemCategory ON itmCatId=ItemCategoryId
+                               INNER JOIN ItemGroup G ON I.ItemGroupId=G.ItemGroupId
+                               INNER JOIN ItemSubGroup S ON I.ItemSubGroupId=S.ItemSubGroupId
+                               INNER JOIN Unit U ON U.UnitId=I.ItemUnitId
+                               WHERE I.isActive=1 AND ItemName LIKE '%'+@name+'%'
+							   AND ItemGroupName LIKE '%'+@group+'%'
+							   AND ItemSubGroupName LIKE '%'+@subgroup+'%'";
+
+                var objItems = connection.Query<StoreIssue>(sql, new { Request = Request, Jobcard = Jobcard, Customer = Customer }).ToList<StoreIssue>();
+
+                return objItems;
+            }
+        }
     }
 }
