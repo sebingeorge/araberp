@@ -927,14 +927,12 @@ namespace ArabErp.Web.Controllers
             FillCustomer();
             FillCurrency();
             FillServiceWorkDescription();
-            List<SaleOrderItem> item = new List<SaleOrderItem>();
-            item.Add(new SaleOrderItem { UnitName = "Nos", Quantity = 1 });
-            return View(new SaleOrder { 
-                SaleOrderRefNo = DatabaseCommonRepository.GetNextDocNo(33, OrganizationId),
-                SaleOrderDate = DateTime.Today, 
-                Items = item,
+            //List<SaleOrderItem> item = new List<SaleOrderItem>();
+            //item.Add(new SaleOrderItem { UnitName = "Nos", Quantity = 1 });
+            return View(new ServiceEnquiry { 
+                ServiceEnquiryRefNo = DatabaseCommonRepository.GetNextDocNo(33, OrganizationId),
+                ServiceEnquiryDate = DateTime.Today, 
                 isProjectBased = 0,
-                isAfterSales = 1,
                 isService = 1
             });
         }
