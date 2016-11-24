@@ -386,7 +386,16 @@ namespace ArabErp.Web.Controllers
             var res = (new SaleOrderRepository()).GetCurrencyIdByCustKey(cusKey);
             string address = (new SaleOrderRepository()).GetCusomerAddressByKey(cusKey);
             string ContactPerson = (new SaleOrderRepository()).GetContactPerson(cusKey);
-            return Json(new { Success = true, CurrencyName = res.Name, CurrencyId = res.Id, Address = address, ContactPerson = ContactPerson }, JsonRequestBehavior.AllowGet);
+            string Telephone = new SaleOrderRepository().GetCustomerTelephone(cusKey);
+            return Json(new
+            {
+                Success = true,
+                CurrencyName = res.Name,
+                CurrencyId = res.Id,
+                Address = address,
+                ContactPerson = ContactPerson,
+                Telephone = Telephone
+            }, JsonRequestBehavior.AllowGet);
         }
         [HttpGet]
         public JsonResult GetQuationDetailsByKey(int quoKey)
@@ -808,7 +817,7 @@ namespace ArabErp.Web.Controllers
             ds.Tables.Add("Items");
 
             //-------HEAD
-         
+
             ds.Tables["Head"].Columns.Add("SaleOrderNoDate");
             ds.Tables["Head"].Columns.Add("QuotationNoDate");
             ds.Tables["Head"].Columns.Add("CustomerName");
@@ -848,7 +857,7 @@ namespace ArabErp.Web.Controllers
             var Head = repo.GetSaleOrderHD(Id, OrganizationId);
 
             DataRow dr = ds.Tables["Head"].NewRow();
-      
+
             dr["SaleOrderNoDate"] = Head.SaleOrderNoDate;
             dr["QuotationNoDate"] = Head.QuotationNoDate;
             dr["CustomerName"] = Head.CustomerName;
@@ -887,7 +896,7 @@ namespace ArabErp.Web.Controllers
                     Rate = item.Rate,
                     Discount = item.Discount,
                     Amount = item.Amount,
-                 
+
                 };
 
 
@@ -897,7 +906,7 @@ namespace ArabErp.Web.Controllers
                 dri["Rate"] = pritem.Rate;
                 dri["Discount"] = pritem.Discount;
                 dri["Amount"] = pritem.Amount;
-            
+
                 ds.Tables["Items"].Rows.Add(dri);
             }
 
@@ -929,9 +938,10 @@ namespace ArabErp.Web.Controllers
             FillServiceWorkDescription();
             //List<SaleOrderItem> item = new List<SaleOrderItem>();
             //item.Add(new SaleOrderItem { UnitName = "Nos", Quantity = 1 });
-            return View(new ServiceEnquiry { 
+            return View(new ServiceEnquiry
+            {
                 ServiceEnquiryRefNo = DatabaseCommonRepository.GetNextDocNo(33, OrganizationId),
-                ServiceEnquiryDate = DateTime.Today, 
+                ServiceEnquiryDate = DateTime.Today,
                 isProjectBased = 0,
                 isService = 1
             });
@@ -962,5 +972,47 @@ namespace ArabErp.Web.Controllers
             ViewBag.workDescList = new SelectList(
                 new DropdownRepository().FillWorkDescForAfterSales(), "Id", "Name");
         }
+
+        public ActionResult ServiceEnquiry()
+        {
+            FillCustomer();
+            FillCurrency();
+            FillServiceWorkDescription();
+            return View(new ServiceEnquiry
+            {
+                ServiceEnquiryRefNo = DatabaseCommonRepository.GetNextDocNo(33, OrganizationId),
+                ServiceEnquiryDate = DateTime.Today,
+                isProjectBased = 0,
+                isService = 1
+            });
+        }
+
+        [HttpPost]
+        public ActionResult ServiceEnquiry(ServiceEnquiry model)
+        {
+            try
+            {
+                model.OrganizationId = OrganizationId;
+                model.CreatedBy = UserID;
+                model.CreatedDate = System.DateTime.Now;
+                model.IsConfirmed = 0;
+                string ref_no = new SaleOrderRepository().InsertServiceEnquiry(model);
+                if (ref_no.Length > 0)
+                {
+                    TempData["success"] = "Saved Successfully. Reference No. is " + ref_no;
+                    return RedirectToAction("ServiceEnquiry");
+                }
+                else throw new Exception();
+            }
+            catch (Exception)
+            {
+                FillCustomer();
+                FillCurrency();
+                FillServiceWorkDescription();
+                TempData["error"] = "Some error occurred while saving. Please try again.";
+                return View(model);
+            }
+        }
+
     }
 }
