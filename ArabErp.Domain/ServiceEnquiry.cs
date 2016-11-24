@@ -6,17 +6,17 @@ using System.Threading.Tasks;
 
 namespace ArabErp.Domain
 {
-    public class ServiceEnquiry
+    public class ServiceEnquiry : SaleOrder
     {
-        public int SaleOrderId { get; set; }
-        public int isService { get; set; }
-        public int isProjectBased { get; set; }
+        //public int SaleOrderId { get; set; }
+        //public int isService { get; set; }
+        //public int isProjectBased { get; set; }
         public int ServiceEnquiryId { get; set; }
         public string ServiceEnquiryRefNo { get; set; }
         public DateTime ServiceEnquiryDate { get; set; }
-        public int CustomerId { get; set; }
-        public string CustomerName { get; set; }
-        public string CustomerAddress { get; set; }
+        //public int CustomerId { get; set; }
+        //public string CustomerName { get; set; }
+        //public string CustomerAddress { get; set; }
         public string ContactPerson { get; set; }
         public string Telephone { get; set; }
         public string VehicleMake { get; set; }
@@ -34,10 +34,10 @@ namespace ArabErp.Domain
         public string TailLiftModel { get; set; }
         public string TailLiftSerialNo { get; set; }
         public string Complaints { get; set; }
-        public int OrganizationId { get; set; }
+        //public int OrganizationId { get; set; }
         public int IsConfirmed { get; set; }
-        public int CreatedBy { get; set; }
-        public DateTime CreatedDate { get; set; }
+        //public int CreatedBy { get; set; }
+        //public DateTime CreatedDate { get; set; }
 
     }
 }

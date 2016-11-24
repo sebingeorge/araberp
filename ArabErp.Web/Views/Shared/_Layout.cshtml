@@ -741,6 +741,10 @@
                                                 {
                                                     <li><a href="@Url.Action("ServiceEnquiry", "SaleOrder")">Service Enquiry</a></li>
                                                 }
+                                                @if (formPermission.Find(x => x.FormId == 140) != null)
+                                                {
+                                                    <li><a href="@Url.Action("PendingEnquiries", "SaleOrder")">Repair Order</a></li>
+                                                }
                                                 @if (formPermission.Find(x => x.FormId == 139) != null)
                                                 {
                                                     <li><a href="@Url.Action("PendingJobCard", "JobCard", new { service = 1 })">Service Job Card</a></li>

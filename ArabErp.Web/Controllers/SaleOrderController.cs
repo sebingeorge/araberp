@@ -931,42 +931,60 @@ namespace ArabErp.Web.Controllers
             }
         }
 
-        public ActionResult ServiceEstimate()
+        public ActionResult ServiceOrder(int id = 0)//ServiceEnquiryId is received here
         {
-            FillCustomer();
-            FillCurrency();
-            FillServiceWorkDescription();
-            //List<SaleOrderItem> item = new List<SaleOrderItem>();
-            //item.Add(new SaleOrderItem { UnitName = "Nos", Quantity = 1 });
-            return View(new ServiceEnquiry
+            try
             {
-                ServiceEnquiryRefNo = DatabaseCommonRepository.GetNextDocNo(33, OrganizationId),
-                ServiceEnquiryDate = DateTime.Today,
-                isProjectBased = 0,
-                isService = 1
-            });
+                if (id == 0)
+                {
+                    TempData["error"] = "That was an invalid request. Please try again.";
+                    RedirectToAction("Index", "Home");
+                }
+                FillVehicle();
+                FillCustomer();
+                FillServiceWorkDescription();
+                ServiceEnquiry model = new SaleOrderRepository().GetServiceEnquiryDetails(id, OrganizationId);
+                model.SaleOrderRefNo = DatabaseCommonRepository.GetNextDocNo(35, OrganizationId);
+                model.SaleOrderDate = DateTime.Today;
+                model.isProjectBased = 0;
+                model.isService = 1;
+                model.IsConfirmed = 1;
+                model.Items = new List<SaleOrderItem>();
+                model.Items.Add(new SaleOrderItem());
+                return View("ServiceEnquiry", model);
+            }
+            catch (InvalidOperationException)
+            {
+                TempData["error"] = "Requested data could not be found. Please try again.";
+            }
+            catch (Exception)
+            {
+                TempData["error"] = "Some error occurred. Please try again.";
+            }
+            return RedirectToAction("PendingEnquiries");
         }
 
         [HttpPost]
-        public ActionResult ServiceEstimate(SaleOrder model)
+        public ActionResult ServiceOrder(ServiceEnquiry model)
         {
             try
             {
                 model.OrganizationId = OrganizationId;
                 model.CreatedBy = UserID.ToString();
-                string ref_no = new SaleOrderRepository().InsertServiceEstimate(model);
+                string ref_no = new SaleOrderRepository().InsertServiceOrder(model);
                 TempData["success"] = "Saved Successfully. Reference No. is " + ref_no;
-                return RedirectToAction("ServiceEstimate");
+                return RedirectToAction("PendingEnquiries");
             }
             catch (Exception)
             {
+                FillVehicle();
                 FillCustomer();
-                FillCurrency();
                 FillServiceWorkDescription();
                 TempData["error"] = "Some error occurred while saving. Please try again.";
-                return View(model);
+                return View("ServiceEnquiry", model);
             }
         }
+
         private void FillServiceWorkDescription()
         {
             ViewBag.workDescList = new SelectList(
@@ -983,7 +1001,8 @@ namespace ArabErp.Web.Controllers
                 ServiceEnquiryRefNo = DatabaseCommonRepository.GetNextDocNo(33, OrganizationId),
                 ServiceEnquiryDate = DateTime.Today,
                 isProjectBased = 0,
-                isService = 1
+                isService = 1,
+                IsConfirmed = 0
             });
         }
 
@@ -993,7 +1012,7 @@ namespace ArabErp.Web.Controllers
             try
             {
                 model.OrganizationId = OrganizationId;
-                model.CreatedBy = UserID;
+                model.CreatedBy = UserID.ToString(); ;
                 model.CreatedDate = System.DateTime.Now;
                 model.IsConfirmed = 0;
                 string ref_no = new SaleOrderRepository().InsertServiceEnquiry(model);
@@ -1014,5 +1033,9 @@ namespace ArabErp.Web.Controllers
             }
         }
 
+        public ActionResult PendingEnquiries()
+        {
+            return View(new SaleOrderRepository().GetPendingServiceEnquiries(OrganizationId));
+        }
     }
 }

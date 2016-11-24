@@ -1,7 +1,14 @@
 ﻿@model ArabErp.Domain.ServiceEnquiry
 
 @{
-    ViewBag.Title = "Service Enquiry";
+    if (Model.IsConfirmed == 0)
+    {
+        ViewBag.Title = "Service Enquiry";
+    }
+    else
+    {
+        ViewBag.Title = "Repair Order";
+    }
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
@@ -21,15 +28,29 @@
 <script type="text/javascript">
 
     $(document).ready(function () {
-        $("#ServiceEnquiryDate").datepicker({ dateFormat: "dd-MM-yy" });
+        if ('@Model.IsConfirmed' == '1') {
+            OnCustomerChanged('0');
+            DisableServiceEnquiryFields();
+            $('#SaleOrderDate').datepicker({ dateFormat: "dd-MM-yy" });
+        }
+        else {
+            $("#ServiceEnquiryDate").datepicker({ dateFormat: "dd-MM-yy" });
+        }
     })
+
+    function DisableServiceEnquiryFields() {
+        $('#service-enquiry input').attr("readonly", "true");
+        $('#service-enquiry select').attr("disabled", "true");
+        $("#ServiceEnquiryDate").attr("readonly", "true");
+    }
 
     function formValidation() {
         return true;
     }
 
     function OnCustomerChanged(cust) {
-        var cusId = cust.value;
+        //var cusId = cust.value;
+        var cusId = $('#CustomerId').val();
         $.ajax({
             url: "@Url.Action("GetCustomerDetailsByKey", "SaleOrder")",
             data: { cusKey: cusId },
@@ -42,6 +63,7 @@
                     $("#CustomerAddress").val(result.Address);
                     $("#Telephone").val(result.Telephone);
                     $("#ContactPerson").val(result.ContactPerson);
+                    $("#CurrencyId").val(result.CurrencyId);
                 }
             }
         });
@@ -69,7 +91,16 @@
 
 <div class="row">
     <div class="form-head1">
-        <h4>Service Estimate</h4>
+        <h4>
+            @if (Model.IsConfirmed == 0)
+            {
+                @:Service Enquiry
+            }
+            else
+            {
+                @:Service Order
+            }
+        </h4>
     </div>
 
     <div class="main-part pad1">
@@ -79,10 +110,16 @@
             @Html.HiddenFor(m => m.isProjectBased)
             @*@Html.HiddenFor(m => m.isAfterSales)*@
             @Html.HiddenFor(m => m.isService)
+            @Html.HiddenFor(m => m.IsConfirmed)
+            @Html.HiddenFor(m => m.ServiceEnquiryId)
+            @Html.HiddenFor(m => m.CurrencyId)
+            
+            <!-- this should be deleted. used only to bypass required error-->
+            @Html.HiddenFor(m => m.Items[0].ItemId)
 
             <div class="row form-group ">
                 <div class="col-md-2">
-                    <label for="SaleOrderRefNo">Service Estimate Ref. No.</label>
+                    <label for="SaleOrderRefNo">Service Enquiry Ref. No.</label>
                     @Html.TextBoxFor(m => m.ServiceEnquiryRefNo, new { @class = "form_input ", autocomplete = "off", @readonly = "readonly", @tabindex = "-1" })
 
                 </div>
@@ -91,23 +128,8 @@
                     @Html.TextBoxFor(m => m.ServiceEnquiryDate, Model.ServiceEnquiryDate.ToString("dd/MMMM/yyyy"), new { @class = "form_input ", autocomplete = "off", @readonly = "readonly" })
                 </div>
             </div>
-            @*<div class="row form-group">*@
-                @*<div class="col-md-4">
-                    <label for="CustomerId">Customer</label>
-                    @Html.DropDownListFor(m => Model.CustomerId, (SelectList)ViewBag.customerlist, "Select Customer", new { @class = "form_input", @onchange = "OnCustomerChanged(this)" })
 
-                </div>*@
-                @*<div class="col-md-8">
-                    <label for="CustomerAddress">Customer Address</label>
-                    
-                </div>*@
-                @*<div class="col-md-2">
-                    <label for="CustomerOrderRef">Customer Order Ref.</label>
-                    @Html.TextBoxFor(m => m.CustomerOrderRef, new { @class = "form_input", autocomplete = "off" })
-                </div>*@
-            @*</div>*@
-
-            <div>
+            <div id="service-enquiry">
                 <table class="table table-responsive table-bordered">
                     <thead>
                         <tr>
@@ -211,26 +233,69 @@
                                 @Html.TextBoxFor(m => m.VehicleKm, new { @class = "form_input", autocomplete = "off" })
                             </td>
                             <td class="td-inner-heading">&nbsp;</td>
-                            <td>
-                            </td>
+                            <td></td>
                             <td class="td-inner-heading"><strong>Hours</strong></td>
                             <td>
                                 @Html.TextBoxFor(m => m.FreezerHours, new { @class = "form_input", autocomplete = "off" })
                             </td>
                             <td class="td-inner-heading">&nbsp;</td>
-                            <td>
-                            </td>
+                            <td></td>
                         </tr>
                     </tbody>
                 </table>
             </div>
-            
-            @*<div class="row">
-                <div class="col-md-12">
-                    <label for="SpecialRemarks">Customer Complaints</label>
-                    @Html.TextAreaFor(m => Model.Complaints, new { @class = "form_input form_input-h", autocomplete = "off" })
+
+            if (Model.IsConfirmed == 1)
+            {
+                @Html.HiddenFor(m => m.CustomerId)
+                <hr />
+                <div class="row form-group">
+                    <div class="col-md-2">
+                        <label for="SaleOrderRefNo">Service Order No.</label>
+                        @Html.TextBoxFor(m => m.SaleOrderRefNo, new { @class = "form_input", @readonly = "readonly" })
+                    </div>
+                    <div class="col-md-2">
+                        <label for="SaleOrderDate">Service Order Date</label>
+                        @Html.TextBoxFor(m => m.SaleOrderDate, Model.SaleOrderDate.ToString("dd/MMMM/yyyy"), new { @class = "form_input", @readonly = "readonly" })
+                    </div>
+                    <div class="col-md-3">
+                        <label for="WorkDescriptionId">Description of Work</label>
+                        @Html.DropDownListFor(x => Model.Items[0].WorkDescriptionId, new SelectList(ViewBag.workdesclist, "Value", "Text",
+                        Model.Items[0].WorkDescriptionId), "Select Complaint", new
+                        {
+                            @class = "form_input",
+                            autocomplete = "off",
+                            //@onchange = "OnWorkDescChanged(" + i + ")",
+                            @placeholder = "Search for Complaint",
+                            @required = "true"
+                        })
+                    </div>
+                    <div class="col-md-3">
+                        <label for="VehicleModelId">Vehicle Model</label>
+                        @Html.DropDownListFor(x => Model.Items[0].VehicleModelId, new SelectList(ViewBag.vehiclelist, "Value", "Text",
+                        Model.Items[0].VehicleModelId), "Select Complaint", new
+                        {
+                            @class = "form_input",
+                            autocomplete = "off",
+                            //@onchange = "OnWorkDescChanged(" + i + ")",
+                            @placeholder = "Search for Complaint",
+                            @required = "true"
+                        })
+                    </div>
+                    <div class="col-md-2">
+                        <label for="WorkDescriptionId">Customer Order Ref.</label>
+                        @Html.TextBoxFor(m => m.CustomerOrderRef, new { @class = "form_input" })
+                    </div>
                 </div>
-            </div>*@
+
+                <div class="row">
+                    <div class="col-md-12">
+                        <label for="Complaints">Customer Complaints</label>
+                        @Html.TextAreaFor(m => Model.Complaints, new { @class = "form_input", @style = "height: 60px", @autocomplete = "off" })
+                    </div>
+                </div>
+            }
+
             <div class="row">
                 <div class="col-md-12 hrpart">
                     <input type="button" class="form-button" onclick="PreviousList()" value="Previous">
