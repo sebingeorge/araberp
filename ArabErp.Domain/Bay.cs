@@ -17,6 +17,7 @@ namespace ArabErp.Domain
         public string BayName { get; set; }
         [Required]
         public string BayType { get; set; }
+        public bool IsService { get; set; }
         public string CreatedBy { get; set; }
         public DateTime? CreatedDate { get; set; }
         public int OrganizationId { get; set; }

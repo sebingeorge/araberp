@@ -55,8 +55,8 @@ namespace ArabErp.DAL
 
                 IDbTransaction trn = connection.BeginTransaction();
 
-                string sql = @"INSERT INTO Bay (BayRefNo,BayName,BayType,CreatedBy,CreatedDate,OrganizationId) 
-                               VALUES(@BayRefNo,@BayName,@BayType,@CreatedBy,@CreatedDate,@OrganizationId);
+                string sql = @"INSERT INTO Bay (BayRefNo,BayName,BayType,CreatedBy,CreatedDate,OrganizationId,IsService) 
+                               VALUES(@BayRefNo,@BayName,@BayType,@CreatedBy,@CreatedDate,@OrganizationId,@IsService);
                                SELECT CAST(SCOPE_IDENTITY() as int)";
 
 
@@ -86,7 +86,7 @@ namespace ArabErp.DAL
         {
             using (IDbConnection connection = OpenConnection(dataConnection))
             {
-                string sql = @"Update Bay Set BayRefNo=@BayRefNo,BayName=@BayName,BayType=@BayType OUTPUT INSERTED.BayId WHERE BayId=@BayId";
+                string sql = @"Update Bay Set BayRefNo=@BayRefNo,BayName=@BayName,BayType=@BayType,IsService=@IsService OUTPUT INSERTED.BayId WHERE BayId=@BayId";
 
                 var id = connection.Execute(sql, objBay);
                 InsertLoginHistory(dataConnection, objBay.CreatedBy, "Update", "Bay", objBay.BayId.ToString(), "0");
