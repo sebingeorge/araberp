@@ -435,7 +435,7 @@ namespace ArabErp.DAL
                 Customer customer = connection.Query<Customer>("select * from Customer where CustomerId = " + cusId).FirstOrDefault();
 
                 string ContactPerson = "";
-                if (ContactPerson != null)
+                if (customer.ContactPerson != null)
                 {
                     ContactPerson = customer.ContactPerson;
                 }
@@ -813,5 +813,90 @@ namespace ArabErp.DAL
                 }
             }
         }
+
+        public string GetCustomerTelephone(int cusKey)
+        {
+            try
+            {
+                using (IDbConnection connection = OpenConnection(dataConnection))
+                {
+                    var param = new DynamicParameters();
+                    return connection.Query<string>("select ISNULL(Phone, '') from Customer where CustomerId = " + cusKey).FirstOrDefault();
+                }
+            }
+            catch (Exception)
+            {
+                return "";
+            }
+        }
+
+
+
+//        public ServiceEnquiry InsertServiceEnquiry(ServiceEnquiry objServiceEnquiry)
+//        {
+//            using (IDbConnection connection = OpenConnection(dataConnection))
+//            {
+//                var result = new ServiceEnquiry();
+
+//                IDbTransaction trn = connection.BeginTransaction();
+
+//                string sql = @"insert into ServiceEnquiry(ServiceEnquiryRefNo,CustomerId,VehicleMake,VehicleRegNo,VehicleChassisNo,VehicleKm,BoxMake,BoxNo,BoxSize
+//			,FreezerMake,FreezerModel,FreezerSerialNo,FreezerHours,TailLiftMake,TailLiftModel,TailLiftSerialNo,OrganizationId,IsConfirmed
+//			,CreatedBy,CreatedDate) values (@ServiceEnquiryRefNo,@CustomerId,@VehicleMake,@VehicleRegNo,@VehicleChassisNo,@VehicleKm,@BoxMake,@BoxNo,@BoxSize
+//			,@FreezerMake,@FreezerModel,@FreezerSerialNo,@FreezerHours,@TailLiftMake,@TailLiftModel,@TailLiftSerialNo,@OrganizationId,@IsConfirmed
+//			,@CreatedBy,@CreatedDate);
+//                               SELECT CAST(SCOPE_IDENTITY() as int)";
+//                try
+//                {
+//                    int internalid = DatabaseCommonRepository.GetInternalIDFromDatabase(connection, trn, typeof(ServiceEnquiry).Name, "0", 1);
+//                  //  objServiceEnquiry.DesignationRefNo = "D/" + internalid;
+
+//                    int id = connection.Query<int>(sql, objServiceEnquiry, trn).Single();
+//                    objServiceEnquiry.ServiceEnquiryId = id;
+//                    //connection.Dispose();
+//                    InsertLoginHistory(dataConnection, objServiceEnquiry.CreatedBy.ToString(), "Create", "ServiceEnquiry", id.ToString(), "0");
+//                    trn.Commit();
+//                }
+//                catch (Exception ex)
+//                {
+//                    trn.Rollback();
+//                    objServiceEnquiry.ServiceEnquiryId = 0;
+//                   // objServiceEnquiry.DesignationRefNo = null;
+
+//                }
+//                return objServiceEnquiry;
+//            }
+//        }
+
+        public string InsertServiceEnquiry(ServiceEnquiry model)
+        {
+            using (IDbConnection connection = OpenConnection(dataConnection))
+            {
+                IDbTransaction txn = connection.BeginTransaction();
+                try
+                {
+                    model.ServiceEnquiryRefNo = DatabaseCommonRepository.GetNewDocNo(connection, model.OrganizationId, 33, true, txn);
+                    #region query
+                    string query = @"insert into ServiceEnquiry(ServiceEnquiryRefNo,CustomerId,VehicleMake,VehicleRegNo,VehicleChassisNo,VehicleKm,BoxMake,BoxNo,BoxSize
+			                        ,FreezerMake,FreezerModel,FreezerSerialNo,FreezerHours,TailLiftMake,TailLiftModel,TailLiftSerialNo,OrganizationId,IsConfirmed
+			                        ,CreatedBy,CreatedDate) 
+                                    OUTPUT inserted.ServiceEnquiryRefNo
+                                    values
+                                    (@ServiceEnquiryRefNo,@CustomerId,@VehicleMake,@VehicleRegNo,@VehicleChassisNo,@VehicleKm,@BoxMake,@BoxNo,@BoxSize
+			                       ,@FreezerMake,@FreezerModel,@FreezerSerialNo,@FreezerHours,@TailLiftMake,@TailLiftModel,@TailLiftSerialNo,@OrganizationId,@IsConfirmed
+			                       ,@CreatedBy,@CreatedDate);"; 
+                    #endregion
+                    string output = connection.Query<string>(query, model, txn).FirstOrDefault();
+                    txn.Commit();
+                    return output;
+                }
+                catch (Exception)
+                {
+                    return "";
+                }
+            }
+        }
+
+
     }
 }

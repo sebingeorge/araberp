@@ -1252,7 +1252,7 @@
     <Content Include="Views\SalesQuotation\CreateTransportation.cshtml" />
     <Content Include="Views\Item\_BoM.cshtml" />
     <Content Include="Views\SalesQuotation\EditTransportation.cshtml" />
-    <Content Include="Views\SaleOrder\ServiceEstimate.cshtml" />
+    <Content Include="Views\SaleOrder\ServiceEnquiry.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

@@ -21,7 +21,7 @@
 <script type="text/javascript">
 
     $(document).ready(function () {
-        $("#SaleOrderDate").datepicker({ dateFormat: "dd-MM-yy" });
+        $("#ServiceEnquiryDate").datepicker({ dateFormat: "dd-MM-yy" });
     })
 
     function formValidation() {
@@ -39,9 +39,9 @@
             dataType: "json",
             success: function (result) {
                 if (result.Success) {
-                    $('#CurrencyId').val(result.CurrencyId);
-                    //$('#CurrencyName').val(result.CurrencyName);
                     $("#CustomerAddress").val(result.Address);
+                    $("#Telephone").val(result.Telephone);
+                    $("#ContactPerson").val(result.ContactPerson);
                 }
             }
         });
@@ -83,7 +83,7 @@
             <div class="row form-group ">
                 <div class="col-md-2">
                     <label for="SaleOrderRefNo">Service Estimate Ref. No.</label>
-                    @Html.TextBoxFor(m => m.ServiceEnquiryRefNo, new { @class = "form_input ", autocomplete = "off", @readonly = "readonly" })
+                    @Html.TextBoxFor(m => m.ServiceEnquiryRefNo, new { @class = "form_input ", autocomplete = "off", @readonly = "readonly", @tabindex = "-1" })
 
                 </div>
                 <div class="col-md-2">
@@ -206,7 +206,7 @@
                             </td>
                         </tr>
                         <tr>
-                            <td class="td-inner-heading"><strong>km</strong></td>
+                            <td class="td-inner-heading"><strong>Km</strong></td>
                             <td>
                                 @Html.TextBoxFor(m => m.VehicleKm, new { @class = "form_input", autocomplete = "off" })
                             </td>
