@@ -24,7 +24,7 @@ namespace ArabErp.DAL
                     string internalId = DatabaseCommonRepository.GetNewDocNo(connection, objJobCardQC.OrganizationId, 17, true,trn);
 
                     objJobCardQC.JobCardQCRefNo = internalId;
-                    string sql = @"INSERT INTO JobCardQC(JobCardId,JobCardQCRefNo,EmployeeId,JobCardQCDate,IsQCPassed,CreatedBy,CreatedDate,OrganizationId) VALUES (@JobCardId,@JobCardQCRefNo,@EmployeeId,GETDATE(),@IsQCPassed,@CreatedBy,GETDATE(),@OrganizationId);
+                    string sql = @"INSERT INTO JobCardQC(JobCardId,JobCardQCRefNo,EmployeeId,JobCardQCDate,IsQCPassed,CreatedBy,CreatedDate,OrganizationId,Remarks) VALUES (@JobCardId,@JobCardQCRefNo,@EmployeeId,GETDATE(),@IsQCPassed,@CreatedBy,GETDATE(),@OrganizationId,@Remarks);
            
 
                         SELECT CAST(SCOPE_IDENTITY() as int)";
@@ -77,7 +77,7 @@ namespace ArabErp.DAL
             {
                 string sql = @" SELECT JobCardQCId,JobCardQCRefNo,J.JobCardNo,J.JobCardDate JcDate,JQ.JobCardId,
                                 C.CustomerName Customer,V.VehicleModelName VehicleModel,
-                                JQ.EmployeeId,JobCardQCDate,IsQCPassed,ISNULL(DC.JobCardId,0)IsUsed 
+                                JQ.EmployeeId,JobCardQCDate,IsQCPassed,ISNULL(DC.JobCardId,0)IsUsed,JQ.Remarks 
                                 FROM JobCardQC JQ
                                 INNER JOIN JobCard J ON J.JobCardId=JQ.JobCardId
                                 INNER JOIN SaleOrder S ON S.SaleOrderId=J.SaleOrderId
@@ -117,7 +117,7 @@ namespace ArabErp.DAL
                 string sql = @"UPDATE
                                 JobCardQC SET JobCardQCRefNo=@JobCardQCRefNo,EmployeeId=@EmployeeId,
                                 JobCardQCDate=@JobCardQCDate,IsQCPassed=@IsQCPassed,CreatedBy=@CreatedBy,
-                                CreatedDate=@CreatedDate,OrganizationId=@OrganizationId
+                                CreatedDate=@CreatedDate,OrganizationId=@OrganizationId,Remarks=@Remarks
                                 WHERE JobCardId = @JobCardId;";
                 try
                 {

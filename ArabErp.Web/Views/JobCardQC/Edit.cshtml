@@ -107,43 +107,49 @@
                 </div>
             </div>
             <div class="row form-group">
-                <div class="col-md-2">
-                    <label for="name" class="label1">Employee</label>
-                    @Html.DropDownListFor(m => Model.EmployeeId, (SelectList)ViewBag.EmployeeList, "Select Employee", new { @class = "form_input" })
-                </div>
-                <div class="col-md-2" style="vertical-align:middle">
-
-                    @Html.CheckBoxFor(model => Model.IsQCPassed, new { @class = "check_box", @onclick = "Checked(this)" })
-                    <label for="@Html.NameFor(x => x.IsQCPassed)">QC Passed</label>
+                <div class="col-md-12">
+                            <label for="Remarks">Remarks</label>
+                            @Html.TextAreaFor(m => Model.Remarks, new { @class = "form_input", autocomplete = "off" })
                 </div>
             </div>
+                <div class="row form-group">
+                    <div class="col-md-2">
+                        <label for="name" class="label1">Employee</label>
+                        @Html.DropDownListFor(m => Model.EmployeeId, (SelectList)ViewBag.EmployeeList, "Select Employee", new { @class = "form_input" })
+                    </div>
+                    <div class="col-md-2" style="vertical-align:middle">
+
+                        @Html.CheckBoxFor(model => Model.IsQCPassed, new { @class = "check_box", @onclick = "Checked(this)" })
+                        <label for="@Html.NameFor(x => x.IsQCPassed)">QC Passed</label>
+                    </div>
+                </div>
 
 
-            <div class="row">
+                <div class="row">
 
-                <div class="col-md-12 hrpart">
-                    <button type="button" class="form-button right" onclick="Exit()">Exit</button>
-                    @if (Model.IsUsed)
+                    <div class="col-md-12 hrpart">
+                        <button type="button" class="form-button right" onclick="Exit()">Exit</button>
+                        @if (Model.IsUsed)
                     {
-                        <span class="perm">
-                            <em>**Cannot edit/delete this Quality Control, because the job card is closed.</em>
-                        </span>
+                            <span class="perm">
+                                <em>**Cannot edit/delete this Quality Control, because the job card is closed.</em>
+                            </span>
                     }
                     else
                     {
-                        <button type="submit" class="form-button right">Edit</button>
-                        <input type="button" value="Delete" onclick="Delete()" class="form-button left" />
+                            <button type="submit" class="form-button right">Edit</button>
+                            <input type="button" value="Delete" onclick="Delete()" class="form-button left" />
                     }
-                    <input type="button" value="Print" onclick="GoToPrint(@Model.JobCardQCId)" class="form-button right" />
+                        <input type="button" value="Print" onclick="GoToPrint(@Model.JobCardQCId)" class="form-button right" />
 
-                    @*<button type="submit" class="form-button right">Save</button>*@
+                        @*<button type="submit" class="form-button right">Save</button>*@
+
+                    </div>
 
                 </div>
 
+
             </div>
-
-
-        </div>
     }
     @*</form>*@
 </div>
