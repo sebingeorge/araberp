@@ -50,7 +50,7 @@ namespace ArabErp.Web.Controllers
         {
             try
             {
-                FillBay();
+               
                 FillEmployee();
 
                 JobCardRepository repo = new JobCardRepository();
@@ -63,6 +63,7 @@ namespace ArabErp.Web.Controllers
                 model.JobCardTasks.Add(new JobCardTask() { TaskDate = DateTime.Now });
                 model.JobCardDate = DateTime.Now;
                 model.RequiredDate = DateTime.Now;
+                FillBay(model.isService);
 
                 if (model.isService == 1)
                     FillTaks(model.WorkDescriptionId);
@@ -149,10 +150,10 @@ namespace ArabErp.Web.Controllers
             }
         }
 
-        public void FillBay()
+        public void FillBay(int isService)
         {
             JobCardRepository repo = new JobCardRepository();
-            var result = repo.GetBayList();
+            var result = repo.GetBayList(isService);
             ViewBag.BayList = new SelectList(result, "BayId", "BayName");
         }
         public void FillBay1(int JobCardId)
