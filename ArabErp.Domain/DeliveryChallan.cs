@@ -30,6 +30,22 @@ namespace ArabErp.Domain
         public string WorkDescr { get; set; }
         public string VehicleModel { get; set; }
         public string PaymentTerms { get; set; }
+        public string CDoorNo { get; set; }
+        public string CStreet { get; set; }
+        public string CCountry { get; set; }
+        public string SaleRefNo { get; set; }
+        public string ChassisNo { get; set; }
+        public string QuotationRefNo { get; set; }
+        public int FreezerId { get; set; }
+        public string FreezerName { get; set; }
+        public string FreezerPartNo { get; set; }
+        public int BoxId { get; set; }
+        public string BoxName { get; set; }
+        public string BoxPartNo { get; set; }
+        public string SupplyOrderNo { get; set; }
+        public DateTime SupplyOrderDate { get; set; }
+
+
         public string DoorNo { get; set; }
 
         public string Street { get; set; }

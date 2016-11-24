@@ -84,6 +84,7 @@
     <Compile Include="GRNDeduction.cs" />
     <Compile Include="ItemSellingPrice.cs" />
     <Compile Include="ItemSellingPriceList.cs" />
+    <Compile Include="ItemVsBom.cs" />
     <Compile Include="OpeningStockReport.cs" />
     <Compile Include="PendingTasksForCompletion.cs" />
     <Compile Include="PrefixSettingsVsOrganization.cs" />

@@ -10,14 +10,29 @@
                 <xs:element name="DeliveryChallanRefNo" type="xs:string" minOccurs="0" />
                 <xs:element name="DeliveryChallanDate" type="xs:string" minOccurs="0" />
                 <xs:element name="Customer" type="xs:string" minOccurs="0" />
+                <xs:element name="CDoorNo" type="xs:string" minOccurs="0" />
+                <xs:element name="CStreet" type="xs:string" minOccurs="0" />
+                <xs:element name="CCountry" type="xs:string" minOccurs="0" />
+                <xs:element name="SaleRefNo" type="xs:string" minOccurs="0" />
                 <xs:element name="SONoDate" type="xs:string" minOccurs="0" />
-                <xs:element name="JCNoDate" type="xs:string" minOccurs="0" />
+                <xs:element name="JobcardNo" type="xs:string" minOccurs="0" />
+                <xs:element name="JCDate" type="xs:string" minOccurs="0" />
                 <xs:element name="RegistrationNo" type="xs:string" minOccurs="0" />
+                <xs:element name="ChassisNo" type="xs:string" minOccurs="0" />
                 <xs:element name="WorkDesc" type="xs:string" minOccurs="0" />
                 <xs:element name="VehicleModel" type="xs:string" minOccurs="0" />
                 <xs:element name="Employee" type="xs:string" minOccurs="0" />
                 <xs:element name="PaymentTerms" type="xs:string" minOccurs="0" />
                 <xs:element name="SpecialRemarks" type="xs:string" minOccurs="0" />
+                <xs:element name="QuotationRefNo" type="xs:string" minOccurs="0" />
+                <xs:element name="FreezerName" type="xs:string" minOccurs="0" />
+                <xs:element name="FreezerPartNo" type="xs:string" minOccurs="0" />
+                <xs:element name="BoxName" type="xs:string" minOccurs="0" />
+                <xs:element name="BoxPartNo" type="xs:string" minOccurs="0" />
+                <xs:element name="FreezerId" type="xs:string" minOccurs="0" />
+                <xs:element name="BoxId" type="xs:string" minOccurs="0" />
+                <xs:element name="SupplyOrderNo" type="xs:string" minOccurs="0" />
+                <xs:element name="SupplyOrderDate" type="xs:string" minOccurs="0" />
                 <xs:element name="DoorNo" type="xs:string" minOccurs="0" />
                 <xs:element name="Street" type="xs:string" minOccurs="0" />
                 <xs:element name="State" type="xs:string" minOccurs="0" />
@@ -35,10 +50,9 @@
           <xs:element name="Items">
             <xs:complexType>
               <xs:sequence>
-                <xs:element name="SerialNo" type="xs:string" minOccurs="0" />
                 <xs:element name="ItemName" type="xs:string" minOccurs="0" />
-                <xs:element name="WarrantyStartDate" type="xs:string" minOccurs="0" />
-                <xs:element name="WarrantyExpireDate" type="xs:string" minOccurs="0" />
+                <xs:element name="Unit" type="xs:string" minOccurs="0" />
+                <xs:element name="Quantity" type="xs:string" minOccurs="0" />
               </xs:sequence>
             </xs:complexType>
           </xs:element>
@@ -47,16 +61,50 @@
     </xs:element>
   </xs:schema>
   <Head>
-    <DeliveryChallanRefNo>DC/4</DeliveryChallanRefNo>
-    <DeliveryChallanDate>16-Nov-2016</DeliveryChallanDate>
-    <Customer>Abdul Asiz Trading Est</Customer>
-    <SONoDate>SO/5 - 15 Nov 2016</SONoDate>
-    <JCNoDate>JC/2539 - 15 Nov 2016</JCNoDate>
-    <RegistrationNo>KL-36 B 7199</RegistrationNo>
-    <WorkDesc>Thermoking T600-R + 100mm 3300x2000x2100mm- MITS</WorkDesc>
-    <Employee>RAJESH</Employee>
-    <Country>UAE</Country>
-    <Image1>E:\SHANID\ARAB ERP\ArabErp\ArabErp.Web\App_images\</Image1>
-    <OrganizationName>Arab Air Conditioning &amp; Refrigeration Co. W.L.L.</OrganizationName>
+    <DeliveryChallanRefNo>DC/3</DeliveryChallanRefNo>
+    <DeliveryChallanDate>20-Nov-2016</DeliveryChallanDate>
+    <Customer>Al Ajjaj Limited  Company</Customer>
+    <CDoorNo> Doha, Qatar</CDoorNo>
+    <CCountry>INDIA</CCountry>
+    <SaleRefNo>SO/2</SaleRefNo>
+    <SONoDate>20 Nov 2016</SONoDate>
+    <JobcardNo>JC/3</JobcardNo>
+    <JCDate>20-Nov-2016 12:00:00 AM</JCDate>
+    <RegistrationNo>aaa</RegistrationNo>
+    <ChassisNo>aaa</ChassisNo>
+    <WorkDesc>Thermoking V300 Max 10 + 100mm 7200x2400x2400mm</WorkDesc>
+    <VehicleModel>Mitsubishi FUSO FAV1PK1L Truck-2016 Model</VehicleModel>
+    <Employee>Danet</Employee>
+    <QuotationRefNo>SQ/3</QuotationRefNo>
+    <FreezerName>Thermoking V300 Max 10</FreezerName>
+    <FreezerPartNo />
+    <BoxName>100mm 7200x2400x2400mm</BoxName>
+    <BoxPartNo>1016</BoxPartNo>
+    <FreezerId>754</FreezerId>
+    <BoxId>665</BoxId>
+    <SupplyOrderNo>LPO/2</SupplyOrderNo>
+    <SupplyOrderDate>20-Nov-2016</SupplyOrderDate>
+    <DoorNo>Al Mumtazah Building, First Floor, Door No.3, </DoorNo>
+    <Street>P.O Box:13037, Doha, Qatar</Street>
+    <Country>QATAR</Country>
+    <Phone>+974 4435 7214 / 15</Phone>
+    <Fax>+974 4441 4762</Fax>
+    <Image1>E:\ARAB\New folder\ArabErp\ArabErp.Web\App_images\</Image1>
+    <OrganizationName>Arab Air-conditioning &amp; Refrigeration Co. WLL</OrganizationName>
   </Head>
+  <Items>
+    <ItemName>100mm 7200x2400x2400mm</ItemName>
+    <Unit>Nos</Unit>
+    <Quantity>1.00</Quantity>
+  </Items>
+  <Items>
+    <ItemName>Thermoking V300 Max 10</ItemName>
+    <Unit>Nos</Unit>
+    <Quantity>1.00</Quantity>
+  </Items>
+  <Items>
+    <ItemName>FUSE HOLDER</ItemName>
+    <Unit>Nos</Unit>
+    <Quantity>5.00</Quantity>
+  </Items>
 </NewDataSet>
