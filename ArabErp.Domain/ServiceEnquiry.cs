@@ -15,7 +15,13 @@ namespace ArabErp.Domain
         public string ServiceEnquiryRefNo { get; set; }
         public DateTime ServiceEnquiryDate { get; set; }
         //public int CustomerId { get; set; }
-        //public string CustomerName { get; set; }
+        public string CustomerName { get; set; }
+        public string CDoorNo { get; set; }
+        public string CStreet { get; set; }
+        public string CPhone { get; set; }
+        public string CZip { get; set; }
+        public string CState { get; set; }
+        public string CContactPerson { get; set; }
         //public string CustomerAddress { get; set; }
         public string ContactPerson { get; set; }
         public string Telephone { get; set; }

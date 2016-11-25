@@ -1,13 +1,13 @@
 ﻿@model IList<ArabErp.Domain.ServiceEnquiry>
 
 @{
-    ViewBag.Title = "PendingEnquiries";
+    ViewBag.Title = "EnquiryList";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
 <script type="text/javascript">
     function OnItemSelected(id) {
-        var url = '@Url.Action("EnquiryList")';
+        var url = '@Url.Action("ServiceOrder")';
         url += "/" + id;
         window.location = url;
     }
@@ -16,7 +16,7 @@
 <div class="row">
 
     <div class="form-head1">
-        <h4>Service EnquiryList</h4>
+        <h4>Enquiry List</h4>
     </div>
 
     <div class="main-part pad1">
@@ -39,7 +39,7 @@
                         <tbody class="grid_row">
                             @if (Model.Count() > 0)
                             {
-                                int i=0;
+                                int i = 0;
                                 foreach (var item in Model)
                                 {
                                     <tr>
@@ -83,4 +83,5 @@
     </div>
 
 </div>
+
 
