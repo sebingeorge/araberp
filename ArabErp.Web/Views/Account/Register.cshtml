@@ -62,8 +62,16 @@
                 $("#menu5 #table_module_" + moduleId + " td > input[type='checkbox']").each(function (index1, object1) {
                     $(object1).removeAttr("checked");
                 })
+                $('#cboModuleNames option[value="' + moduleId + '"]').attr("disabled", "true");
             }
         });
+
+        $('#div_' + $('#cboModuleNames').val()).removeClass('hide');
+    }
+
+    function OnModuleComboChanged(id) {
+        $('div[id^="div_"]').addClass('hide');
+        $('#div_' + id).removeClass('hide');
     }
 
 </script>
@@ -134,17 +142,17 @@
                                         <tbody>
                                             @for (int j = 0; j < Model.Module.Count; j++)
                                             {
-                                                <tr class="grid_row">
-                                                    @Html.HiddenFor(m => m.Module[j].UserId)
-                                                    @Html.HiddenFor(m => m.Module[j].ModuleId)
-                                                    @Html.HiddenFor(m => m.Module[j].isPermission)
-                                                    @Html.HiddenFor(m => m.Module[j].ModuleName)
-                                                    <td style="padding-left:5px;">@Model.Module[j].ModuleName</td>
-                                                    <td align="center">
-                                                        <input type="checkbox" id="App1_@j" onchange="App1Changed(@j)" @(Model.Module[j].isPermission == 1 ? "checked" : "") />
-                                                    </td>
-                                                    <td></td>
-                                                </tr>
+                                            <tr class="grid_row">
+                                                @Html.HiddenFor(m => m.Module[j].UserId)
+                                                @Html.HiddenFor(m => m.Module[j].ModuleId)
+                                                @Html.HiddenFor(m => m.Module[j].isPermission)
+                                                @Html.HiddenFor(m => m.Module[j].ModuleName)
+                                                <td style="padding-left:5px;">@Model.Module[j].ModuleName</td>
+                                                <td align="center">
+                                                    <input type="checkbox" id="App1_@j" onchange="App1Changed(@j)" @(Model.Module[j].isPermission == 1 ? "checked" : "") />
+                                                </td>
+                                                <td></td>
+                                            </tr>
                                             }
                                         </tbody>
                                     </table>
@@ -167,17 +175,17 @@
                                         <tbody>
                                             @for (int j = 0; j < Model.ERPAlerts.Count; j++)
                                             {
-                                                <tr class="grid_row">
-                                                    @Html.HiddenFor(m => m.ERPAlerts[j].UserId)
-                                                    @Html.HiddenFor(m => m.ERPAlerts[j].AlertId)
-                                                    @Html.HiddenFor(m => m.ERPAlerts[j].HasPermission)
-                                                    @Html.HiddenFor(m => m.ERPAlerts[j].AlertName)
-                                                    <td style="padding-left:5px;">@Model.ERPAlerts[j].AlertName</td>
-                                                    <td align="center">
-                                                        <input type="checkbox" id="App2_@j" onchange="App2Changed(@j)" @(Model.ERPAlerts[j].HasPermission == 1 ? "checked" : "") />
-                                                    </td>
-                                                    <td></td>
-                                                </tr>
+                                            <tr class="grid_row">
+                                                @Html.HiddenFor(m => m.ERPAlerts[j].UserId)
+                                                @Html.HiddenFor(m => m.ERPAlerts[j].AlertId)
+                                                @Html.HiddenFor(m => m.ERPAlerts[j].HasPermission)
+                                                @Html.HiddenFor(m => m.ERPAlerts[j].AlertName)
+                                                <td style="padding-left:5px;">@Model.ERPAlerts[j].AlertName</td>
+                                                <td align="center">
+                                                    <input type="checkbox" id="App2_@j" onchange="App2Changed(@j)" @(Model.ERPAlerts[j].HasPermission == 1 ? "checked" : "") />
+                                                </td>
+                                                <td></td>
+                                            </tr>
                                             }
                                         </tbody>
                                     </table>
@@ -199,17 +207,17 @@
                                         <tbody>
                                             @for (int j = 0; j < Model.ERPGraphs.Count; j++)
                                             {
-                                                <tr class="grid_row">
-                                                    @Html.HiddenFor(m => m.ERPGraphs[j].UserId)
-                                                    @Html.HiddenFor(m => m.ERPGraphs[j].GraphId)
-                                                    @Html.HiddenFor(m => m.ERPGraphs[j].HasPermission)
-                                                    @Html.HiddenFor(m => m.ERPGraphs[j].GraphName)
-                                                    <td style="padding-left:5px;">@Model.ERPGraphs[j].GraphName</td>
-                                                    <td align="center">
-                                                        <input type="checkbox" id="App3_@j" onchange="App3Changed(@j)" @(Model.ERPGraphs[j].HasPermission == 1 ? "checked" : "") />
-                                                    </td>
-                                                    <td></td>
-                                                </tr>
+                                            <tr class="grid_row">
+                                                @Html.HiddenFor(m => m.ERPGraphs[j].UserId)
+                                                @Html.HiddenFor(m => m.ERPGraphs[j].GraphId)
+                                                @Html.HiddenFor(m => m.ERPGraphs[j].HasPermission)
+                                                @Html.HiddenFor(m => m.ERPGraphs[j].GraphName)
+                                                <td style="padding-left:5px;">@Model.ERPGraphs[j].GraphName</td>
+                                                <td align="center">
+                                                    <input type="checkbox" id="App3_@j" onchange="App3Changed(@j)" @(Model.ERPGraphs[j].HasPermission == 1 ? "checked" : "") />
+                                                </td>
+                                                <td></td>
+                                            </tr>
                                             }
                                         </tbody>
                                     </table>
@@ -231,17 +239,17 @@
                                         <tbody>
                                             @for (int j = 0; j < Model.Companies.Count; j++)
                                             {
-                                                <tr class="grid_row">
-                                                    @Html.HiddenFor(m => m.Companies[j].UserId)
-                                                    @Html.HiddenFor(m => m.Companies[j].cmpCode)
-                                                    @Html.HiddenFor(m => m.Companies[j].isPermission)
-                                                    @Html.HiddenFor(m => m.Companies[j].CompanyVsUserId)
-                                                    <td style="padding-left:5px;">@Model.Companies[j].cmpName</td>
-                                                    <td align="center">
-                                                        <input type="checkbox" id="App4_@j" onchange="App4Changed(@j)" @(Model.Companies[j].isPermission == 1 ? "checked" : "") />
-                                                    </td>
-                                                    <td></td>
-                                                </tr>
+                                            <tr class="grid_row">
+                                                @Html.HiddenFor(m => m.Companies[j].UserId)
+                                                @Html.HiddenFor(m => m.Companies[j].cmpCode)
+                                                @Html.HiddenFor(m => m.Companies[j].isPermission)
+                                                @Html.HiddenFor(m => m.Companies[j].CompanyVsUserId)
+                                                <td style="padding-left:5px;">@Model.Companies[j].cmpName</td>
+                                                <td align="center">
+                                                    <input type="checkbox" id="App4_@j" onchange="App4Changed(@j)" @(Model.Companies[j].isPermission == 1 ? "checked" : "") />
+                                                </td>
+                                                <td></td>
+                                            </tr>
                                             }
                                         </tbody>
                                     </table>
@@ -257,11 +265,11 @@
                                         <p>
                                             @if (Model.Signature == null || Model.Signature.Length == 0)
                                             {
-                                                <img src="\Images\default-signature.png" alt="Please upload image" id="image_preview1" class="image-upload img-rounded" />
+                                            <img src="\Images\default-signature.png" alt="Please upload image" id="image_preview1" class="image-upload img-rounded" />
                                             }
                                             else
                                             {
-                                                <img src="\App_Images\@Model.Signature" alt="Please upload image" id="image_preview1" class="image-upload img-rounded" />
+                                            <img src="\App_Images\@Model.Signature" alt="Please upload image" id="image_preview1" class="image-upload img-rounded" />
                                             }
                                         </p>
                                     </div>
@@ -274,52 +282,64 @@
                         </div>
                         <div id="menu5" class="tab-pane fade ">
                             @*<h5>Signature</h5>*@
+                            <div class="row form-group">
+                                <div class="col-md-3">
+                                    @Html.DropDownList("cboModuleNames", new SelectList(ViewBag.moduleList, "Value", "Text", 1), "Select Module",
+                                    new
+                                    {
+                                        @class = "form_input",
+                                        @onchange = "OnModuleComboChanged(this.value)"
+                                    })
+                                </div>
+                            </div>
                             <div class="table-responsive">
                                 @for (int j = 0, i = 0; j < Model.Module.Count; j++)
                                 {
-                                    <table class="table table-bordered" id="table_module_@Model.Module[j].ModuleId">
-                                        <thead class="grid_heading">
-                                            <tr>
-                                                <th style="text-align:center">#</th>
-                                                <th>Module</th>
-                                                <th>Form</th>
-                                                <th>Access</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            @{
-                                                //string[] colorCodes = { "#f9dcdc", "#f7f9dc", "#e0f9dc", "#e0f9dc", "#e0dcf9", "#f9dcf5", "#f9dcf5" };
-                                                //var moduleForms = Model.Forms.Where(x => x.ModuleId == Model.Module[j].ModuleId)
-                                                //                             .Select(x => x).ToList();
-                                            }
-                                            @for (int k = 0; k < Model.Forms.Count; k++)
-                                            {
-                                                if (Model.Module[j].ModuleId != Model.Forms[k].ModuleId)
-                                                {
-                                                    continue;
-                                                }
+                                    <div id="div_@Model.Module[j].ModuleId" class="hide">
+                                        <table class="table table-bordered" id="table_module_@Model.Module[j].ModuleId">
+                                            <thead class="grid_heading">
                                                 <tr>
-                                                    <td align="center">
-                                                        @(i + 1)
-                                                    </td>
-                                                    <td>
-                                                        @*style="background:@(colorCodes[Model.Forms[i].ModuleId-1])"*@
-                                                        @Model.Forms[k].ModuleName
-                                                        @*@moduleForms[k].ModuleName*@
-                                                    </td>
-                                                    <td>
-                                                        @Html.HiddenFor(m => m.Forms[k].FormId)
-                                                        @Model.Forms[k].FormName
-                                                        @*@moduleForms[k].FormName*@
-                                                    </td>
-                                                    <td>
-                                                        @Html.CheckBoxFor(m => m.Forms[k].hasPermission)
-                                                    </td>
+                                                    <th style="text-align:center">#</th>
+                                                    <th>Module</th>
+                                                    <th>Form</th>
+                                                    <th>Access</th>
                                                 </tr>
-                                                ++i;
-                                            }
-                                        </tbody>
-                                    </table>
+                                            </thead>
+                                            <tbody>
+                                                @{
+                                    //string[] colorCodes = { "#f9dcdc", "#f7f9dc", "#e0f9dc", "#e0f9dc", "#e0dcf9", "#f9dcf5", "#f9dcf5" };
+                                    //var moduleForms = Model.Forms.Where(x => x.ModuleId == Model.Module[j].ModuleId)
+                                    //                             .Select(x => x).ToList();
+                                                }
+                                                @for (int k = 0; k < Model.Forms.Count; k++)
+                                                {
+                                                    if (Model.Module[j].ModuleId != Model.Forms[k].ModuleId)
+                                                    {
+                                                        continue;
+                                                    }
+                                                    <tr>
+                                                        <td align="center">
+                                                            @(i + 1)
+                                                        </td>
+                                                        <td>
+                                                            @*style="background:@(colorCodes[Model.Forms[i].ModuleId-1])"*@
+                                                            @Model.Forms[k].ModuleName
+                                                            @*@moduleForms[k].ModuleName*@
+                                                        </td>
+                                                        <td>
+                                                            @Html.HiddenFor(m => m.Forms[k].FormId)
+                                                            @Model.Forms[k].FormName
+                                                            @*@moduleForms[k].FormName*@
+                                                        </td>
+                                                        <td>
+                                                            @Html.CheckBoxFor(m => m.Forms[k].hasPermission)
+                                                        </td>
+                                                    </tr>
+                                                    ++i;
+                                                }
+                                            </tbody>
+                                        </table>
+                                    </div>
                                 }
                             </div>
                         </div>

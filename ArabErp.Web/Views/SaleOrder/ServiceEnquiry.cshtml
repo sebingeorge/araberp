@@ -113,7 +113,7 @@
             @Html.HiddenFor(m => m.IsConfirmed)
             @Html.HiddenFor(m => m.ServiceEnquiryId)
             @Html.HiddenFor(m => m.CurrencyId)
-            
+
             <!-- this should be deleted. used only to bypass required error-->
             @Html.HiddenFor(m => m.Items[0].ItemId)
 
@@ -245,6 +245,13 @@
                 </table>
             </div>
 
+            <div class="row">
+                <div class="col-md-12">
+                    <label for="Complaints">Customer Complaints</label>
+                    @Html.TextAreaFor(m => Model.Complaints, new { @class = "form_input", @style = "height: 60px", @autocomplete = "off" })
+                </div>
+            </div>
+
             if (Model.IsConfirmed == 1)
             {
                 @Html.HiddenFor(m => m.CustomerId)
@@ -285,13 +292,6 @@
                     <div class="col-md-2">
                         <label for="WorkDescriptionId">Customer Order Ref.</label>
                         @Html.TextBoxFor(m => m.CustomerOrderRef, new { @class = "form_input" })
-                    </div>
-                </div>
-
-                <div class="row">
-                    <div class="col-md-12">
-                        <label for="Complaints">Customer Complaints</label>
-                        @Html.TextAreaFor(m => Model.Complaints, new { @class = "form_input", @style = "height: 60px", @autocomplete = "off" })
                     </div>
                 </div>
             }
