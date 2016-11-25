@@ -20,11 +20,11 @@ namespace ArabErp.DAL
             int id = 0;
             using (IDbConnection connection = OpenConnection(dataConnection))
             {
-                IDbTransaction txn = connection.BeginTransaction(); 
+                IDbTransaction txn = connection.BeginTransaction();
                 try
                 {
 
-                    var internalId = DatabaseCommonRepository.GetNewDocNo(connection, model.OrganizationId, 10, true,txn);
+                    var internalId = DatabaseCommonRepository.GetNewDocNo(connection, model.OrganizationId, 10, true, txn);
                     model.PurchaseRequestNo = internalId;
 
 
@@ -73,9 +73,9 @@ namespace ArabErp.DAL
                     var supplyorderitemrepo = new DirectPurchaseItemRepository();
                     foreach (var item in model.items)
                     {
-                            item.DirectPurchaseRequestId = id;
-                            new DirectPurchaseItemRepository().InsertDirectPurchaseRequestItem(item, connection, txn);
-                       
+                        item.DirectPurchaseRequestId = id;
+                        new DirectPurchaseItemRepository().InsertDirectPurchaseRequestItem(item, connection, txn);
+
                     }
                     InsertLoginHistory(dataConnection, model.CreatedBy, "Create", "Direct Purchase", id.ToString(), "0");
                     txn.Commit();
@@ -89,7 +89,6 @@ namespace ArabErp.DAL
                 return model.PurchaseRequestNo;
             }
         }
-
 
         //            foreach (var item in model.items)
         //            {
@@ -331,6 +330,34 @@ namespace ArabErp.DAL
             }
         }
 
-
+        public string InsertPurchaseIndent(DirectPurchaseRequest model)
+        {
+            using (IDbConnection connection = OpenConnection(dataConnection))
+            {
+                IDbTransaction txn = connection.BeginTransaction();
+                try
+                {
+                    model.PurchaseRequestNo = DatabaseCommonRepository.GetNewDocNo(connection, model.OrganizationId, 36, true, txn);
+                    string sql = @"insert  into PurchaseRequest
+                                (PurchaseRequestNo,PurchaseRequestDate,SpecialRemarks,RequiredDate,CreatedBy,CreatedDate,OrganizationId) Values (@PurchaseRequestNo,@PurchaseRequestDate,@SpecialRemarks,@RequiredDate,@CreatedBy,@CreatedDate,@OrganizationId);
+                    SELECT CAST(SCOPE_IDENTITY() as int)";
+                    var id = connection.Query<int>(sql, model, txn).FirstOrDefault();
+                    foreach (DirectPurchaseRequestItem item in model.items)
+                    {
+                        item.DirectPurchaseRequestId = id;
+                        if (item.Quantity == null || item.Quantity == 0) continue;
+                        new DirectPurchaseItemRepository().InsertPurchaseIndentItem(item, connection, txn);
+                    }
+                    InsertLoginHistory(dataConnection, model.CreatedBy, "Create", "Purchase Request", id.ToString(), "0");
+                    txn.Commit();
+                    return model.PurchaseRequestNo;
+                }
+                catch (Exception)
+                {
+                    txn.Rollback();
+                    throw;
+                }
+            }
+        }
     }
 }

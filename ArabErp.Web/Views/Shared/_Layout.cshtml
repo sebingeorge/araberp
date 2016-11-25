@@ -434,6 +434,10 @@
                                 {
                                     <li><a href="@Url.Action("PendingPurchaseRequest","PurchaseRequest")">Purchase Request</a></li>
                                 }
+                                @if (formPermission.Find(x => x.FormId == 141) != null)
+                                {
+                                    <li><a href="@Url.Action("PurchaseIndent", "DirectPurchase")">Purchase Indent</a></li>
+                                }
                                 @if (formPermission.Find(x => x.FormId == 39) != null)
                                 {
                                     <li><a href="@Url.Action("PendingSupplyOrder","SupplyOrder")">Supply Order / LPO</a></li>

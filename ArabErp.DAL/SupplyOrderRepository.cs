@@ -138,7 +138,7 @@ namespace ArabErp.DAL
 	                                P.PurchaseRequestDate, P.CreatedDate
                                 from PurchaseRequest P
                                 INNER JOIN PurchaseRequestItem PRI ON P.PurchaseRequestId = PRI.PurchaseRequestId
-                                INNER JOIN WorkShopRequest WRK ON P.WorkShopRequestId = WRK.WorkShopRequestId
+                                LEFT JOIN WorkShopRequest WRK ON P.WorkShopRequestId = WRK.WorkShopRequestId
                                 LEFT JOIN #SUPPLY SUP ON PRI.PurchaseRequestItemId = SUP.PurchaseRequestItemId
                                 WHERE P.isActive=1 and  ISNULL(PRI.Quantity, 0) > 0 AND 
                                 (SUP.PurchaseRequestItemId IS NULL OR ISNULL(SUP.SuppliedQuantity, 0) < ISNULL(PRI.Quantity, 0))

@@ -46,5 +46,20 @@ namespace ArabErp.DAL
                 throw;
             }
         }
+
+        internal int InsertPurchaseIndentItem(DirectPurchaseRequestItem item, IDbConnection connection, IDbTransaction txn)
+        {
+            try
+            {
+                string sql = @"insert  into PurchaseRequestItem(PurchaseRequestId,SlNo,ItemId,Remarks,Quantity,isActive) Values (@DirectPurchaseRequestId,@SlNo,@ItemId,@Remarks,@Quantity,1);
+                SELECT CAST(SCOPE_IDENTITY() as int)";
+                var id = connection.Query<int>(sql, item, txn).FirstOrDefault();
+                return id;
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
     }
 }

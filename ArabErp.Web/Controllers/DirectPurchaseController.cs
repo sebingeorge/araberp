@@ -267,5 +267,41 @@ namespace ArabErp.Web.Controllers
             }
 
         }
+        
+        public ActionResult PurchaseIndent()
+        {
+            GetMaterials(); List<DirectPurchaseRequestItem> list = new List<DirectPurchaseRequestItem>();
+            list.Add(new DirectPurchaseRequestItem());
+            return View(new DirectPurchaseRequest
+            {
+                items = list,
+                PurchaseRequestDate = DateTime.Today,
+                RequiredDate = DateTime.Today,
+                PurchaseRequestNo = DatabaseCommonRepository.GetNextDocNo(36, OrganizationId)
+            });
+        }
+
+        [HttpPost]
+        public ActionResult PurchaseIndent(DirectPurchaseRequest model)
+        {
+            try
+            {
+                model.CreatedBy = UserID.ToString();
+                model.OrganizationId = OrganizationId;
+                model.CreatedDate = DateTime.Today;
+                string ref_no = new DirectPurchaseRepository().InsertPurchaseIndent(model);
+                if (ref_no.Length > 0)
+                {
+                    TempData["success"] = "Saved Successfully. Reference No. is " + model.PurchaseRequestNo;
+                    return RedirectToAction("PurchaseIndent");
+                }
+                else throw new Exception();
+            }
+            catch (Exception)
+            {
+                TempData["error"] = "Some error occurred while saving. Please try again.";
+                return View(model);
+            }
+        }
     }
 }

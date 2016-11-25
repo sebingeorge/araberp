@@ -1254,6 +1254,7 @@
     <Content Include="Views\SalesQuotation\EditTransportation.cshtml" />
     <Content Include="Views\SaleOrder\ServiceEnquiry.cshtml" />
     <Content Include="Views\SaleOrder\PendingEnquiries.cshtml" />
+    <Content Include="Views\DirectPurchase\PurchaseIndent.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
