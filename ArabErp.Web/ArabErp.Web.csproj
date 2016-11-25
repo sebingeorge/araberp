@@ -402,6 +402,12 @@
       <DependentUpon>JobCardQC.rpt</DependentUpon>
       <SubType>Component</SubType>
     </Compile>
+    <Compile Include="Reports\JobRepairOrder.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>JobRepairOrder.rpt</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="Reports\Material.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -1254,6 +1260,7 @@
     <Content Include="Views\SalesQuotation\EditTransportation.cshtml" />
     <Content Include="Views\SaleOrder\ServiceEnquiry.cshtml" />
     <Content Include="Views\SaleOrder\PendingEnquiries.cshtml" />
+    <Content Include="Views\SaleOrder\EnquiryList.cshtml" />
     <Content Include="Views\DirectPurchase\PurchaseIndent.cshtml" />
   </ItemGroup>
   <ItemGroup>
@@ -1332,6 +1339,10 @@
     <EmbeddedResource Include="Reports\JobCardQC.rpt">
       <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
       <LastGenOutput>JobCardQC.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Reports\JobRepairOrder.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>JobRepairOrder.cs</LastGenOutput>
     </EmbeddedResource>
     <EmbeddedResource Include="Reports\Material.rpt">
       <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>

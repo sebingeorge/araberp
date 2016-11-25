@@ -936,5 +936,40 @@ namespace ArabErp.DAL
                 }
             }
         }
+
+        public ServiceEnquiry GetJobPrintHD(int ServiceEnquiryId, int organizationId)
+        {
+            using (IDbConnection connection = OpenConnection(dataConnection))
+            {
+
+
+                string sql = @"   select S.*,O.*,C.CustomerName,C.DoorNo CDoorNo,C.State CState,C.Street CStreet,C.ContactPerson CContactPerson,C.Phone CPhone,C.Zip CZip,
+                                  CU.CountryName from ServiceEnquiry S
+                                  inner join Customer C ON C.CustomerId=S.CustomerId
+                                  inner join Organization O ON O.OrganizationId=S.OrganizationId
+                                  inner join Country CU ON CU.CountryId=O.Country
+                                  where ServiceEnquiryId=@ServiceEnquiryId ";
+
+                var objServiceEnquiry = connection.Query<ServiceEnquiry>(sql, new
+                {
+                    ServiceEnquiryId = ServiceEnquiryId,
+                    organizationId = organizationId
+                }).First<ServiceEnquiry>();
+
+                return objServiceEnquiry;
+            }
+        }
+
+
+        public IList<ServiceEnquiry> GetPendingServiceEnquiryList(int OrganizationId)
+        {
+            using (IDbConnection connection = OpenConnection(dataConnection))
+            {
+                string query = @"SELECT ServiceEnquiryId, ServiceEnquiryRefNo, ServiceEnquiryDate, VehicleMake, BoxMake, FreezerMake, TailLiftMake, C.CustomerName 
+                                FROM ServiceEnquiry SE INNER JOIN Customer C ON SE.CustomerId = C.CustomerId
+                                WHERE SE.OrganizationId = @org";
+                return connection.Query<ServiceEnquiry>(query, new { org = OrganizationId }).ToList();
+            }
+        }
     }
 }

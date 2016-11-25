@@ -1037,5 +1037,152 @@ namespace ArabErp.Web.Controllers
         {
             return View(new SaleOrderRepository().GetPendingServiceEnquiries(OrganizationId));
         }
+
+
+        public ActionResult PrintJob(int Id)
+        {
+
+            ReportDocument rd = new ReportDocument();
+            rd.Load(Path.Combine(Server.MapPath("~/Reports"), "JobRepairOrder.rpt"));
+
+            DataSet ds = new DataSet();
+            ds.Tables.Add("Head");
+
+            ds.Tables.Add("Items");
+
+            //-------HEAD
+            ds.Tables["Head"].Columns.Add("ServiceEnquiryRefNo");
+            ds.Tables["Head"].Columns.Add("ServiceEnquiryDate");
+            ds.Tables["Head"].Columns.Add("CustomerName");
+            ds.Tables["Head"].Columns.Add("CDoorNo");
+            ds.Tables["Head"].Columns.Add("CStreet");
+            ds.Tables["Head"].Columns.Add("CPhone");
+            ds.Tables["Head"].Columns.Add("CZip");
+            ds.Tables["Head"].Columns.Add("CState");
+            ds.Tables["Head"].Columns.Add("CContactPerson");
+            ds.Tables["Head"].Columns.Add("VehicleMake");
+            ds.Tables["Head"].Columns.Add("VehicleRegNo");
+            ds.Tables["Head"].Columns.Add("VehicleChassisNo");
+            ds.Tables["Head"].Columns.Add("VehicleKm");
+            ds.Tables["Head"].Columns.Add("BoxMake");
+            ds.Tables["Head"].Columns.Add("BoxNo");
+            ds.Tables["Head"].Columns.Add("BoxSize");
+            ds.Tables["Head"].Columns.Add("FreezerMake");
+            ds.Tables["Head"].Columns.Add("FreezerModel");
+            ds.Tables["Head"].Columns.Add("FreezerSerialNo");
+            ds.Tables["Head"].Columns.Add("FreezerHours");
+            ds.Tables["Head"].Columns.Add("TailLiftMake");
+            ds.Tables["Head"].Columns.Add("TailLiftModel");
+            ds.Tables["Head"].Columns.Add("TailLiftSerialNo");
+            ds.Tables["Head"].Columns.Add("Complaints");
+            ds.Tables["Head"].Columns.Add("DoorNo");
+            ds.Tables["Head"].Columns.Add("Street");
+            ds.Tables["Head"].Columns.Add("State");
+            ds.Tables["Head"].Columns.Add("CountryName");
+            ds.Tables["Head"].Columns.Add("Zip");
+            ds.Tables["Head"].Columns.Add("Fax");
+            ds.Tables["Head"].Columns.Add("Email");
+            ds.Tables["Head"].Columns.Add("Phone");
+            ds.Tables["Head"].Columns.Add("ContactPerson");
+            ds.Tables["Head"].Columns.Add("OrganizationName");
+            ds.Tables["Head"].Columns.Add("Image1");
+
+            //-------DT
+            ds.Tables["Items"].Columns.Add("Date");
+            ds.Tables["Items"].Columns.Add("Description");
+            ds.Tables["Items"].Columns.Add("TotalHours");
+
+
+            SaleOrderRepository repo = new SaleOrderRepository();
+            ServiceEnquiry se=new ServiceEnquiry();
+            var Head = repo.GetJobPrintHD(Id, OrganizationId);
+
+            DataRow dr = ds.Tables["Head"].NewRow();
+            dr["ServiceEnquiryRefNo"] = Head.ServiceEnquiryRefNo;
+            dr["ServiceEnquiryDate"] = Head.ServiceEnquiryDate.ToString("dd-MMM-yyyy");
+            dr["CustomerName"] = Head.CustomerName;
+            dr["CDoorNo"] = Head.CDoorNo;
+            dr["CStreet"] = Head.CStreet;
+            dr["CPhone"] = Head.CPhone;
+            dr["CZip"] = Head.CZip;
+            dr["CState"] = Head.CState;
+            dr["CContactPerson"] = Head.CContactPerson;
+            dr["VehicleMake"] = Head.VehicleMake;
+            dr["VehicleRegNo"] = Head.CPhone;
+            dr["VehicleChassisNo"] = Head.ContactPerson;
+            dr["VehicleKm"] = Head.VehicleKm;
+            dr["BoxMake"] = Head.BoxMake;
+            dr["BoxNo"] = Head.BoxNo;
+            //dr["TaskDate"] = Head.TaskDate;
+            dr["BoxSize"] = Head.BoxSize;
+            dr["FreezerMake"] = Head.FreezerMake;
+            dr["FreezerModel"] = Head.FreezerModel;
+            dr["FreezerSerialNo"] = Head.FreezerSerialNo;
+            dr["FreezerHours"] = Head.FreezerHours;
+            dr["TailLiftMake"] = Head.TailLiftMake;
+            dr["TailLiftModel"] = Head.TailLiftModel;
+            dr["TailLiftSerialNo"] = Head.TailLiftSerialNo;
+            dr["Complaints"] = Head.Complaints;
+            dr["DoorNo"] = Head.DoorNo;
+            dr["Street"] = Head.Street;
+            dr["State"] = Head.State;
+            dr["CountryName"] = Head.CountryName;
+            dr["Zip"] = Head.Zip;
+            dr["Fax"] = Head.Fax;
+            dr["Email"] = Head.Email;
+            dr["Phone"] = Head.Phone;
+            dr["ContactPerson"] = Head.ContactPerson;
+            dr["OrganizationName"] = Head.OrganizationName;
+            dr["Image1"] = Server.MapPath("~/App_images/") + Head.Image1;
+            ds.Tables["Head"].Rows.Add(dr);
+
+            //JobCardTaskRepository repo1 = new JobCardTaskRepository();
+            //var Items = repo1.GetJobCardDT(Id);
+            //foreach (var item in Items)
+            //{
+            //    var JCItem = new JobCardTask
+            //    {
+            //        TaskDate = item.TaskDate,
+            //        Employee = item.Employee,
+            //        JobCardTaskName = item.JobCardTaskName,
+            //        //StartTime = item.StartTime,
+            //        //EndTime = item.EndTime,
+            //        Hours = item.Hours
+            //    };
+
+            //    DataRow dri = ds.Tables["Items"].NewRow();
+            //    dri["TaskDate"] = JCItem.TaskDate.ToString("dd-MMM-yyyy");
+            //    dri["Employee"] = JCItem.Employee;
+            //    dri["Description"] = JCItem.JobCardTaskName;
+            //    //dri["StartTime"] = JCItem.StartTime;
+            //    //dri["EndTime"] = JCItem.EndTime;
+            //    dri["Hours"] = JCItem.Hours;
+            //    ds.Tables["Items"].Rows.Add(dri);
+            //}
+
+            ds.WriteXml(Path.Combine(Server.MapPath("~/XML"), "JobRepairOrder.xml"), XmlWriteMode.WriteSchema);
+
+            rd.SetDataSource(ds);
+
+            Response.Buffer = false;
+            Response.ClearContent();
+            Response.ClearHeaders();
+
+
+            try
+            {
+                Stream stream = rd.ExportToStream(CrystalDecisions.Shared.ExportFormatType.PortableDocFormat);
+                stream.Seek(0, SeekOrigin.Begin);
+                return File(stream, "application/pdf", String.Format("JobRepairOrder{0}.pdf", Id.ToString()));
+            }
+            catch (Exception ex)
+            {
+                throw;
+            }
+        }
+        public ActionResult EnquiryList()
+        {
+            return View(new SaleOrderRepository().GetPendingServiceEnquiryList(OrganizationId));
+        }
     }
 }
