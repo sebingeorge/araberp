@@ -1039,7 +1039,7 @@ namespace ArabErp.Web.Controllers
         }
 
 
-        public ActionResult PrintJob(int Id)
+        public ActionResult PrintJob(int id)//ServiceEnquiryId is received here
         {
 
             ReportDocument rd = new ReportDocument();
@@ -1095,7 +1095,7 @@ namespace ArabErp.Web.Controllers
 
             SaleOrderRepository repo = new SaleOrderRepository();
             ServiceEnquiry se=new ServiceEnquiry();
-            var Head = repo.GetJobPrintHD(Id, OrganizationId);
+            var Head = repo.GetJobPrintHD(id, OrganizationId);
 
             DataRow dr = ds.Tables["Head"].NewRow();
             dr["ServiceEnquiryRefNo"] = Head.ServiceEnquiryRefNo;
@@ -1173,7 +1173,7 @@ namespace ArabErp.Web.Controllers
             {
                 Stream stream = rd.ExportToStream(CrystalDecisions.Shared.ExportFormatType.PortableDocFormat);
                 stream.Seek(0, SeekOrigin.Begin);
-                return File(stream, "application/pdf", String.Format("JobRepairOrder{0}.pdf", Id.ToString()));
+                return File(stream, "application/pdf", String.Format("JobRepairOrder{0}.pdf", id.ToString()));
             }
             catch (Exception ex)
             {
@@ -1183,6 +1183,16 @@ namespace ArabErp.Web.Controllers
         public ActionResult EnquiryList()
         {
             return View(new SaleOrderRepository().GetPendingServiceEnquiryList(OrganizationId));
+        }
+
+        public ActionResult EditEnquiry(int id)//ServiceEnquiryId is received here
+        {
+            FillCustomer();
+            FillCurrency();
+            FillServiceWorkDescription();
+            ServiceEnquiry model = new SaleOrderRepository().GetServiceEnquiryDetails(id, OrganizationId);
+            model.IsConfirmed = 0;
+            return View("ServiceEnquiry", model);
         }
     }
 }

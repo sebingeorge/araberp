@@ -10,6 +10,7 @@
         ViewBag.Title = "Repair Order";
     }
     Layout = "~/Views/Shared/_Layout.cshtml";
+    string actionName = ViewContext.RouteData.GetRequiredString("action");
 }
 
 <style type="text/css">
@@ -84,6 +85,12 @@
     function PreviousList() {
         var url = '@Url.Action("EnquiryList")';
         //url += "?type=0&service=1";
+        window.location = url;
+    }
+
+    function PrintEnquiry() {
+        var url = '@Url.Action("PrintJob")';
+        url += '/' + '@Model.ServiceEnquiryId';
         window.location = url;
     }
 
@@ -301,6 +308,10 @@
                     <input type="button" class="form-button" onclick="PreviousList()" value="Previous">
                     <button type="button" class="form-button right" onclick="Exit()">Exit</button>
                     <button type="submit" class="form-button right">Save</button>
+                    @if (actionName == "EditEnquiry")
+                    {
+                        <input type="button" class="form-button right" onclick="PrintEnquiry()" value="Print">
+                    }
                 </div>
             </div>
         }
