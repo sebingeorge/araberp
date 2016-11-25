@@ -883,12 +883,12 @@ namespace ArabErp.DAL
                     #region query
                     string query = @"insert into ServiceEnquiry(ServiceEnquiryRefNo,CustomerId,VehicleMake,VehicleRegNo,VehicleChassisNo,VehicleKm,BoxMake,BoxNo,BoxSize
 			                        ,FreezerMake,FreezerModel,FreezerSerialNo,FreezerHours,TailLiftMake,TailLiftModel,TailLiftSerialNo,OrganizationId,IsConfirmed
-			                        ,CreatedBy,CreatedDate, ServiceEnquiryDate) 
+			                        ,CreatedBy,CreatedDate, ServiceEnquiryDate, Complaints) 
                                     OUTPUT inserted.ServiceEnquiryRefNo
                                     values
                                     (@ServiceEnquiryRefNo,@CustomerId,@VehicleMake,@VehicleRegNo,@VehicleChassisNo,@VehicleKm,@BoxMake,@BoxNo,@BoxSize
 			                       ,@FreezerMake,@FreezerModel,@FreezerSerialNo,@FreezerHours,@TailLiftMake,@TailLiftModel,@TailLiftSerialNo,@OrganizationId,@IsConfirmed
-			                       ,@CreatedBy,@CreatedDate, @ServiceEnquiryDate);";
+			                       ,@CreatedBy,@CreatedDate, @ServiceEnquiryDate, @Complaints);";
                     #endregion
                     string output = connection.Query<string>(query, model, txn).FirstOrDefault();
                     txn.Commit();
