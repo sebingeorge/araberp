@@ -1,19 +1,19 @@
 ﻿@model IList<ArabErp.Domain.DCReport>
 
-<table class="table table-bordered">
+<table class="table table-bordered table-hover">
     <thead>
         <tr class="grid_heading">
             <th width="1%" class="text-center">#</th>
             <th width="12%" nowrap><h1>Delivery Challan No. & Date</h1></th>
-            <th width="12%"><h1>Customer</h1></th>
-            <th width="12%"><h1>Vehicle No./Chassis No.</h1></th>
-            <th width="12%"><h1>Unit Sl. No.</h1></th>
-            <th width="12%"><h1>Unit/Box</h1></th>
-            <th width="12%"><h1>New Installation/Service</h1></th>
-            <th width="12%"><h1>Labour Cost</h1></th>
-            <th width="12%"><h1>Job Card No. &amp; Date</h1></th>
-            <th width="12%"><h1>Invoice No. &amp; Date</h1></th>
-            <th width="12%"><h1>Amount</h1></th>
+            <th width="12%" nowrap><h1>Customer</h1></th>
+            <th width="12%" nowrap><h1>Vehicle No./Chassis No.</h1></th>
+            <th width="12%" nowrap><h1>Unit Sl. No.</h1></th>
+            <th width="12%" nowrap><h1>Unit/Box</h1></th>
+            <th width="12%" nowrap><h1>New Installation/Service</h1></th>
+            <th width="12%" class="text-right" nowrap><h1>Labour Cost</h1></th>
+            <th width="12%" nowrap><h1>Job Card No. &amp; Date</h1></th>
+            <th width="12%" nowrap><h1>Invoice No. &amp; Date</h1></th>
+            <th width="12%" class="text-right" nowrap><h1>Amount</h1></th>
         </tr>
     </thead>
     <tbody class="grid_row">
@@ -47,7 +47,7 @@
                         } @item.BoxName
                     </td>
                     <td>@item.InstallationType</td>
-                    <td>@item.LabourCost</td>
+                    <td align="right">@item.LabourCost</td>
                     <td>@item.JobCardNo - 
                     @if (item.JobCardDate != null)
                     {
@@ -60,7 +60,7 @@
                         @item.InvoiceDate.Value.ToString("dd/MMMM/yyyy")
                     }
                     </td>
-                    <td>@item.Amount</td>
+                    <td align="right">@item.Amount</td>
                 </tr>
             }
         }

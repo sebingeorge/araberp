@@ -1034,6 +1034,10 @@
                                     </div>
                                 </li>
                                 }
+                                @if (formPermission.Find(x => x.FormId == 142) != null)
+                                {
+                                    <li><a href="@Url.Action("DCReport", "MISReports")">DC Report</a></li>
+                                }
                                 @if (formPermission.Find(x => x.FormId == 125) != null)
                                 {
                                     <li><a href="@Url.Action("Index", "MaterialPlanning")">Material Planning Report</a></li>

@@ -21,7 +21,7 @@ namespace ArabErp.DAL
                 {
                     string query = @"SELECT 
 	                                    JobCardId,
-	                                    SUM(EMP.HourlyCost * ISNULL(JCT.ActualHours, 0)) LabourCost
+	                                    CAST(SUM(EMP.HourlyCost * ISNULL(JCT.ActualHours, 0)) AS DECIMAL(18,2)) LabourCost
                                     INTO #HourlyCost
                                     FROM JobCardTask JCT
                                     INNER JOIN Employee EMP ON JCT.EmployeeId = EMP.EmployeeId
@@ -35,8 +35,8 @@ namespace ArabErp.DAL
 	                                    VIP.ChassisNo,
 	                                    DC.DeliveryChallanRefNo,
 	                                    CONVERT(VARCHAR, DC.DeliveryChallanDate, 106) DeliveryChallanDate,
-	                                    SI.SalesInvoiceRefNo,
-	                                    CONVERT(VARCHAR, SI.SalesInvoiceDate, 106) SalesInvoiceDate,
+	                                    SI.SalesInvoiceRefNo InvoiceNo,
+	                                    CONVERT(VARCHAR, SI.SalesInvoiceDate, 106) InvoiceDate,
 	                                    SI.TotalAmount Amount,
 	                                    BOX.ItemName BoxName,
 	                                    FREEZER.ItemName FreezerName,
