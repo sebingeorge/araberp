@@ -1,0 +1,76 @@
+﻿@model IList<ArabErp.Domain.DCReport>
+
+<table class="table table-bordered">
+    <thead>
+        <tr class="grid_heading">
+            <th width="1%" class="text-center">#</th>
+            <th width="12%" nowrap><h1>Delivery Challan No. & Date</h1></th>
+            <th width="12%"><h1>Customer</h1></th>
+            <th width="12%"><h1>Vehicle No./Chassis No.</h1></th>
+            <th width="12%"><h1>Unit Sl. No.</h1></th>
+            <th width="12%"><h1>Unit/Box</h1></th>
+            <th width="12%"><h1>New Installation/Service</h1></th>
+            <th width="12%"><h1>Labour Cost</h1></th>
+            <th width="12%"><h1>Job Card No. &amp; Date</h1></th>
+            <th width="12%"><h1>Invoice No. &amp; Date</h1></th>
+            <th width="12%"><h1>Amount</h1></th>
+        </tr>
+    </thead>
+    <tbody class="grid_row">
+        @if (Model.Count > 0)
+        {
+            int i = 0;
+            foreach (var item in Model)
+            {
+                <tr>
+                    <td align="center">@(++i)</td>
+                    <td>@item.DeliveryChallanRefNo - 
+                    @if (@item.DeliveryChallanDate != null)
+                    {
+                        @item.DeliveryChallanDate.Value.ToString("dd/MMMM/yyyy")
+                    }
+                    </td>
+                    <td>@item.CustomerName</td>
+                    <td>
+                        @item.RegistrationNo
+                        @if (item.ChassisNo != null && item.ChassisNo != "" && item.RegistrationNo != null && item.RegistrationNo != "")
+                        {
+                            @:/
+                        } @item.ChassisNo
+                    </td>
+                    <td>@item.UnitSerialNo</td>
+                    <td>
+                        @item.UnitName
+                        @if (item.UnitName != null && item.UnitName != "" && item.BoxName != null && item.BoxName != "")
+                        {
+                            @:/
+                        } @item.BoxName
+                    </td>
+                    <td>@item.InstallationType</td>
+                    <td>@item.LabourCost</td>
+                    <td>@item.JobCardNo - 
+                    @if (item.JobCardDate != null)
+                    {
+                        @item.JobCardDate.Value.ToString("dd/MMMM/yyyy")
+                    }
+                    </td>
+                    <td>@item.InvoiceNo - 
+                    @if (@item.InvoiceDate != null)
+                    {
+                        @item.InvoiceDate.Value.ToString("dd/MMMM/yyyy")
+                    }
+                    </td>
+                    <td>@item.Amount</td>
+                </tr>
+            }
+        }
+        else
+        {
+            <tr>
+                <td colspan="11">
+                    <center><em>There are no pending service enquiries found!</em></center>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

@@ -65,6 +65,7 @@
     <Compile Include="CustomerVsWorkDescriptionRate.cs" />
     <Compile Include="Dashboard.cs" />
     <Compile Include="DashboardMonthlySalesOrders.cs" />
+    <Compile Include="DCReport.cs" />
     <Compile Include="Designation.cs" />
     <Compile Include="Dropdown.cs" />
     <Compile Include="Employee.cs" />

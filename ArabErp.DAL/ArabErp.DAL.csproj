@@ -116,6 +116,7 @@
     <Compile Include="JobOrderCompletionRepository.cs" />
     <Compile Include="LoginHistoryRepository.cs" />
     <Compile Include="MaterialPlanningRepository.cs" />
+    <Compile Include="MISReportsRepository.cs" />
     <Compile Include="OpeningStockRepository.cs" />
     <Compile Include="OrganizationRepository.cs" />
     <Compile Include="PaymentTermsRepository.cs" />

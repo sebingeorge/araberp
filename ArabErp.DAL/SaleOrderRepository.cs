@@ -728,7 +728,7 @@ namespace ArabErp.DAL
                                     C.CustomerId,
 	                                CustomerName,
 	                                isnull(O.DoorNo,'') +','+ isnull(O.Street,'')+','+isnull(O.State,'') CustomerAddress,
-	                                CustomerOrderRef, S.CurrencyId,SpecialRemarks, S.PaymentTerms,DeliveryTerms,CA.CommissionAgentName,
+	                                CustomerOrderRef, S.CurrencyId,SpecialRemarks, S.PaymentTerms,S.DeliveryTerms,CA.CommissionAgentName,
 									CommissionAmount,TotalAmount,TotalDiscount,EDateArrival, EDateDelivery, SaleOrderApproveStatus,
 								    SaleOrderHoldStatus,SaleOrderHoldReason,SaleOrderHoldDate,SaleOrderReleaseDate,S.SalesQuotationId,SaleOrderClosed, 
 									S.isProjectBased, CUR.CurrencyName,S.isAfterSales, ORR.CountryName,E.EmployeeName SalesExecutiveName

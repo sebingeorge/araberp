@@ -263,6 +263,7 @@
     <Compile Include="Controllers\ManageController.cs" />
     <Compile Include="Controllers\MaterialPlanningController.cs" />
     <Compile Include="Controllers\MisReportController.cs" />
+    <Compile Include="Controllers\MISReportsController.cs" />
     <Compile Include="Controllers\OpeningStockController.cs" />
     <Compile Include="Controllers\OpeningStockReportController.cs" />
     <Compile Include="Controllers\OrganizationController.cs" />
@@ -1262,6 +1263,8 @@
     <Content Include="Views\SaleOrder\PendingEnquiries.cshtml" />
     <Content Include="Views\SaleOrder\EnquiryList.cshtml" />
     <Content Include="Views\DirectPurchase\PurchaseIndent.cshtml" />
+    <Content Include="Views\MISReports\DCReport.cshtml" />
+    <Content Include="Views\MISReports\_DCReportGrid.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
