@@ -44,6 +44,10 @@
                 <xs:element name="Zip" type="xs:string" minOccurs="0" />
                 <xs:element name="Image1" type="xs:string" minOccurs="0" />
                 <xs:element name="OrganizationName" type="xs:string" minOccurs="0" />
+                <xs:element name="LPONo" type="xs:string" minOccurs="0" />
+                <xs:element name="LPODate" type="xs:string" minOccurs="0" />
+                <xs:element name="CreatedUser" type="xs:string" minOccurs="0" />
+                <xs:element name="CreateSignature" type="xs:string" minOccurs="0" />
               </xs:sequence>
             </xs:complexType>
           </xs:element>
@@ -87,6 +91,10 @@
     <Country>UAE</Country>
     <Image1>E:\ARAB\New folder\ArabErp\ArabErp.Web\App_images\81a4c1db-3c02-4dbc-a629-10bd046bb6be.png</Image1>
     <OrganizationName>Arab Air Conditioning &amp; Refrigeration Co. W.L.L.</OrganizationName>
+    <LPONo>YTY45</LPONo>
+    <LPODate>28-Nov-2016</LPODate>
+    <CreatedUser>ihits</CreatedUser>
+    <CreateSignature>E:\ARAB\New folder\ArabErp\ArabErp.Web\App_Images\a0e7a4f0-3793-4f73-9574-e33e48be78a9.png</CreateSignature>
   </Head>
   <Items>
     <ItemName>itm4</ItemName>

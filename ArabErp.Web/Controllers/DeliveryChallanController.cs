@@ -295,6 +295,7 @@ namespace ArabErp.Web.Controllers
             dr["Image1"] = Server.MapPath("~/App_images/") + Head.Image1;
             dr["LPONo"] = Head.LPONo;
             dr["LPODate"] = Head.LPODate.ToString("dd/MMM/yyyy");
+            dr["CreatedUser"] = Head.CreatedUser;
             dr["CreateSignature"] = Server.MapPath("~/App_Images/") + Head.CreatedUsersig;
             ds.Tables["Head"].Rows.Add(dr);
 
