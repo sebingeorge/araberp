@@ -14,10 +14,10 @@
 
         var i = 0;
         var no = 1;
-        $('input[id^="Row_"]').each(function () {
+        $('input[id^="MaterialList_Row_"]').each(function () {
             var id = this.id;
             no++;
-            var row = Number(id.replace("Row_", ""));
+            var row = Number(id.replace("MaterialList_Row_", ""));
             if (row > i) {
                 i = row;
             }
@@ -33,7 +33,7 @@
         clone.html($(clone).html().replace(/partno0/, 'partno' + i + ''));
         clone.html($(clone).html().replace(/\[0\]/g, '[' + i + ']'));
         clone.html($(clone).html().replace(/\(0\)/g, '(' + i + ')'));
-        clone.html($(clone).html().replace(/Row_0/, 'Row_' + i));
+        clone.html($(clone).html().replace(/MaterialList_Row_/, 'MaterialList_Row_' + i));
         clone.html($(clone).html().replace(/serialno1/, 'serialno' + (i + 1) + ''));
         clone.html($(clone).html().replace(/unitname0/, 'unitname' + i + ''));
         clone.html($(clone).html().replace(/sellingRate0/, 'sellingRate' + i + ''));
@@ -64,14 +64,14 @@
         });
     }
 
-    function Delete(index) {
+    function DeleteFromMaterialList(index) {
 
         var i = 0;
         var no = 1;
-        $('input[id^="Row_"]').each(function () {
+        $('input[id^="MaterialList_Row_"]').each(function () {
             var id = this.id;
             no++;
-            var row = Number(id.replace("Row_", ""));
+            var row = Number(id.replace("MaterialList_Row_", ""));
             if (row > i) {
                 i = row;
             }
@@ -82,35 +82,44 @@
             $("#tr_" + index).remove();
             for (var j = index + 1; j < i; j++) {
                 var ItemId = $("#Materials_" + j + "__ItemId").val();
-                var PartNo = $("#Materials_" + j + "__PartNo").val();
+                //var PartNo = $("#Materials_" + j + "__PartNo").val();
                 var Quantity = $("#Materials_" + j + "__Quantity").val();
                 var Unit = $("#Materials_" + j + "__UnitName").val();
                 var Rate = $("#Materials_" + j + "__Rate").val();
                 var Amount = $("#Materials_" + j + "__Amount").val();
-                var Remarks = $("#Materials_" + j + "__Remarks").val();
+                //var Remarks = $("#Materials_" + j + "__Remarks").val();
                 var clone = $("#tr_" + j).clone(true, true);
                 clone.html($(clone).html().replace(new RegExp("Materials_" + j + "__", "g"), 'Materials_' + (j - 1) + '__'));
                 clone.html($(clone).html().replace(new RegExp("\\[" + j + "].", "g"), "[" + (j - 1) + "]."));
                 clone.html($(clone).html().replace("OnRateTypeChanged(" + j, "OnRateTypeChanged(" + (j - 1)));
                 clone.html($(clone).html().replace("OnItemChange(" + j, "OnItemChange(" + (j - 1)));
                 clone.html($(clone).html().replace(new RegExp('serialno' + (j + 1) + '">' + (j + 1), "g"), 'serialno' + (j) + '">' + (j)));
-                clone.html($(clone).html().replace("Delete(" + j, "Delete(" + (j - 1)));
-                clone.html($(clone).html().replace("Row_" + j, "Row_" + (j - 1)));
+                clone.html($(clone).html().replace("DeleteFromMaterialList(" + j, "DeleteFromMaterialList(" + (j - 1)));
+                clone.html($(clone).html().replace("MaterialList_Row_" + j, "MaterialList_Row_" + (j - 1)));
                 clone.html($(clone).html().replace("this," + j, "this," + (j - 1)));
+                clone.html($(clone).html().replace("partno" + j, "partno" + (j - 1)));
+                clone.html($(clone).html().replace("unitname" + j, "unitname" + (j - 1)));
+                clone.html($(clone).html().replace("sellingRate" + j, "sellingRate" + (j - 1)));
+                clone.html($(clone).html().replace(new RegExp("\\(" + j + "\\)", "g"), '(' + (j - 1) + ')'));
                 $("#tr_" + j).html(clone.html());
 
                 $("#Materials_" + (j - 1) + "__SlNo").val(j);
                 $("#tr_" + (j)).attr('id', 'tr_' + (j - 1));
 
+                $("#Materials_" + (j - 1) + "__ItemId").siblings('span[class="custom-combobox"]').remove();
                 $("#Materials_" + (j - 1) + "__ItemId").val(ItemId);
-                $("#Materials_" + (j - 1) + "__PartNo").val(PartNo);
+                $("#Materials_" + (j - 1) + "__ItemId").combobox();
+                //$("#Materials_" + (j - 1) + "__PartNo").val(PartNo);
                 $("#Materials_" + (j - 1) + "__Quantity").val(Quantity);
-                $("#Materials_" + (j - 1) + "__UnitName").val(Unit);
+                //$("#Materials_" + (j - 1) + "__UnitName").val(Unit);
                 $("#Materials_" + (j - 1) + "__Rate").val(Rate);
                 $("#Materials_" + (j - 1) + "__Amount").val(Amount);
-                $("#Materials_" + (j - 1) + "__Remarks").val(Remarks);
+                //$("#Materials_" + (j - 1) + "__Remarks").val(Remarks);
+                //alert('0');
             }
         }
+        //alert('1');
+        calculateSummary();
     }
 
     function OnItemChange(sender, index) {
@@ -201,16 +210,16 @@
 
         $("#TotalAmount").text(parseFloat(amount));
         $("#Amount").val(parseFloat(amount));
-        var abc = parseFloat($("#NetTotalAmount").text());
-        if (isNaN(abc)) {
+        //var abc = parseFloat($("#NetTotalAmount").text());
+        //if (isNaN(abc)) {
 
-            abc = parseFloat("0");
+        //    abc = parseFloat("0");
 
-        }
+        //}
 
-        grandtotal= parseFloat($("#TotalAmount").text()) + abc;
-
-        $("#lblTotalAmount").text(parseFloat(grandtotal));
+        //grandtotal= parseFloat($("#TotalAmount").text()) + abc;
+        //alert(grandtotal);
+        //$("#lblTotalAmount").text(parseFloat(grandtotal));
     }
 
 </script>
@@ -247,14 +256,14 @@
             <tr id="tr_@i">
                 @if (actionName != "Approve")
                 {
-                    <td style="vertical-align:middle"><a class="glyphicon glyphicon-minus" style="top:0px" onclick="Delete(@i)"></a></td>
+                    <td style="vertical-align:middle"><a class="glyphicon glyphicon-minus" style="top:0px" onclick="DeleteFromMaterialList(@i)"></a></td>
                 }
                 <td align="center">
                     <span id="serialno@(i+1)">@(i + 1)</span>
                     @Html.HiddenFor(m => m.Materials[i].SlNo)
                 </td>
                 <td>
-                    <input type="hidden" id="Row_@i" />
+                    <input type="hidden" id="MaterialList_Row_@i" />
                     @Html.DropDownListFor(m => m.Materials[i].ItemId, new SelectList(ViewBag.itemList, "Value", "Text", Model.Materials[i].ItemId), "Select Material/Spares", new { @class = "form_input", autocomplete = "off", @onchange = "OnItemChange(this," + i + ")", @placeholder = "Search for material/spare" })
                 </td>
                 <td id="partno@(i)" class="qreturn" style="vertical-align:middle">
