@@ -324,6 +324,23 @@ namespace ArabErp.Web.Controllers
                 dri["Hours"] = JCItem.Hours;
                 ds.Tables["Items"].Rows.Add(dri);
             }
+            if (Items.Count >= 0)
+            {
+                int n =23-Items.Count;
+
+                for (int i = 0; i <= n; i++)
+                {
+
+                    DataRow dri = ds.Tables["Items"].NewRow();
+                    dri["TaskDate"] = "";
+                    dri["Employee"] = "";
+                    dri["Description"] = "";
+                    //dri["StartTime"] = JCItem.StartTime;
+                    //dri["EndTime"] = JCItem.EndTime;
+                    dri["Hours"] = "";
+                    ds.Tables["Items"].Rows.Add(dri);
+                }
+            }
 
             ds.WriteXml(Path.Combine(Server.MapPath("~/XML"), "JobCard.xml"), XmlWriteMode.WriteSchema);
 
