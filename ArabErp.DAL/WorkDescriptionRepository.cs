@@ -22,8 +22,8 @@ namespace ArabErp.DAL
                                                             LEFT JOIN VehicleModel v ON wd.VehicleModelId=v.VehicleModelId
                                                             LEFT JOIN  Item FU ON FU.ItemId=wd.FreezerUnitId
                                                             LEFT JOIN Item B ON B.ItemId=wd.BoxId
-								                            WHERE wd.isActive=1 AND wd.isProjectBased=0  AND v.VehicleModelName LIKE '%'+@vehiclemodel+'%'
-                                                            AND FU.ItemName LIKE '%'+@freezerunit+'%' AND B.ItemName  LIKE '%'+@box+'%'", new { vehiclemodel = vehiclemodel, freezerunit = freezerunit, box = box }).ToList();
+								                            WHERE wd.isActive=1 AND wd.isProjectBased=0  AND ISNULL(v.VehicleModelName, '') LIKE '%'+@vehiclemodel+'%'
+                                                            AND ISNULL(FU.ItemName,'') LIKE '%'+@freezerunit+'%' AND ISNULL(B.ItemName,'')  LIKE '%'+@box+'%'", new { vehiclemodel = vehiclemodel, freezerunit = freezerunit, box = box }).ToList();
             }
         }
 

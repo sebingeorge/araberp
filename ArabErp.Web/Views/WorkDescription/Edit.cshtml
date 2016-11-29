@@ -20,10 +20,31 @@
         }
     }
 
-    function Tick() {
-        $('.subject-list').on('change', function () {
-            $('.subject-list').not(this).prop('checked', false);
-        });
+    function Tick(sender) {
+        //alert(2);
+        //$('.subject-list').on('change', function () {
+        $('.subject-list').not(sender).prop('checked', false);
+        //});
+        REPAIR();
+    }
+
+    function REPAIR() {
+
+        var repair = $("#isRepair").is(":checked");
+        if (repair) {
+            $(".custom-combobox-input").removeProp("required");
+            $('#FreezerUnitId').removeProp("required");
+            $('#BoxId').removeProp("required");
+            $('#VehicleModelId').removeProp("required");
+        }
+        else {
+            $(".custom-combobox-input").prop("required", "true");
+            $('#FreezerUnitId').prop("required", "true");
+            $('#BoxId').prop("required", "true");
+            $('#VehicleModelId').prop("required", "true");
+        }
+        //alert(repair);
+        //Tick();
     }
 
     function Delete(id) {
@@ -234,7 +255,7 @@
         else {
             $("#WorkVsItems_" + index + "__UoM").val('');
         }
-        Tick();
+        //Tick();
     }
 </script>
 
@@ -263,13 +284,13 @@
                     @Html.TextBoxFor(m => m.WorkDescriptionRefNo, new { @class = "form_input", autocomplete = "off" })
                 </div>
                 <div class="col-md-6">
-                    @Html.CheckBoxFor(m => m.isNewInstallation, new { autocomplete = "off", @class = "subject-list", @onclick = "Tick()" })
+                    @Html.CheckBoxFor(m => m.isNewInstallation, new { autocomplete = "off", @class = "subject-list", @onchange = "Tick(this)" })
                     <span class="text">New Installation</span>
 
-                    @Html.CheckBoxFor(m => m.isRepair, new { autocomplete = "off", @class = "subject-list", @onclick = "REPAIR()" })
+                    @Html.CheckBoxFor(m => m.isRepair, new { autocomplete = "off", @class = "subject-list", @onchange = "Tick(this)" })
                     <span class="text">Repair / Service</span>
 
-                    @Html.CheckBoxFor(m => m.isSubAssembly, new { autocomplete = "off", @class = "subject-list", @onclick = "Tick()" })
+                    @Html.CheckBoxFor(m => m.isSubAssembly, new { autocomplete = "off", @class = "subject-list", @onchange = "Tick(this)" })
                     <span class="text">Sub Assembly</span>
 
                 </div>
