@@ -61,50 +61,51 @@
     </xs:element>
   </xs:schema>
   <Head>
-    <DeliveryChallanRefNo>DC/3</DeliveryChallanRefNo>
-    <DeliveryChallanDate>20-Nov-2016</DeliveryChallanDate>
-    <Customer>Al Ajjaj Limited  Company</Customer>
-    <CDoorNo> Doha, Qatar</CDoorNo>
+    <DeliveryChallanRefNo>DC/1</DeliveryChallanRefNo>
+    <DeliveryChallanDate>28-Nov-2016</DeliveryChallanDate>
+    <Customer>Al Nafaihi Ice  Factory, Shamal</Customer>
+    <CDoorNo>Doha, Qatar</CDoorNo>
     <CCountry>INDIA</CCountry>
-    <SaleRefNo>SO/2</SaleRefNo>
-    <SONoDate>20 Nov 2016</SONoDate>
-    <JobcardNo>JC/3</JobcardNo>
-    <JCDate>20-Nov-2016 12:00:00 AM</JCDate>
-    <RegistrationNo>aaa</RegistrationNo>
-    <ChassisNo>aaa</ChassisNo>
-    <WorkDesc>Thermoking V300 Max 10 + 100mm 7200x2400x2400mm</WorkDesc>
-    <VehicleModel>Mitsubishi FUSO FAV1PK1L Truck-2016 Model</VehicleModel>
-    <Employee>Danet</Employee>
-    <QuotationRefNo>SQ/3</QuotationRefNo>
-    <FreezerName>Thermoking V300 Max 10</FreezerName>
-    <FreezerPartNo />
-    <BoxName>100mm 7200x2400x2400mm</BoxName>
-    <BoxPartNo>1016</BoxPartNo>
-    <FreezerId>754</FreezerId>
-    <BoxId>665</BoxId>
-    <SupplyOrderNo>LPO/2</SupplyOrderNo>
-    <SupplyOrderDate>20-Nov-2016</SupplyOrderDate>
-    <DoorNo>Al Mumtazah Building, First Floor, Door No.3, </DoorNo>
-    <Street>P.O Box:13037, Doha, Qatar</Street>
-    <Country>QATAR</Country>
-    <Phone>+974 4435 7214 / 15</Phone>
-    <Fax>+974 4441 4762</Fax>
-    <Image1>E:\ARAB\New folder\ArabErp\ArabErp.Web\App_images\</Image1>
-    <OrganizationName>Arab Air-conditioning &amp; Refrigeration Co. WLL</OrganizationName>
+    <SaleRefNo>SO/1</SaleRefNo>
+    <SONoDate>28 Nov 2016</SONoDate>
+    <JobcardNo>JC/1</JobcardNo>
+    <JCDate>28-Nov-2016 12:00:00 AM</JCDate>
+    <RegistrationNo>101</RegistrationNo>
+    <ChassisNo>102</ChassisNo>
+    <WorkDesc>itmas + itm4</WorkDesc>
+    <VehicleModel>JAC HFC 1251 Truck -6x4 Chassis</VehicleModel>
+    <Employee>Jagath Kumara Kotuwegoda Guruge</Employee>
+    <SpecialRemarks>QQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQ</SpecialRemarks>
+    <QuotationRefNo>SQ/1</QuotationRefNo>
+    <FreezerName>itmas</FreezerName>
+    <FreezerPartNo>sads</FreezerPartNo>
+    <BoxName>itm4</BoxName>
+    <BoxPartNo>rtr</BoxPartNo>
+    <FreezerId>1383</FreezerId>
+    <BoxId>1384</BoxId>
+    <SupplyOrderDate>01-Jan-0001</SupplyOrderDate>
+    <Country>UAE</Country>
+    <Image1>E:\ARAB\New folder\ArabErp\ArabErp.Web\App_images\81a4c1db-3c02-4dbc-a629-10bd046bb6be.png</Image1>
+    <OrganizationName>Arab Air Conditioning &amp; Refrigeration Co. W.L.L.</OrganizationName>
   </Head>
   <Items>
-    <ItemName>100mm 7200x2400x2400mm</ItemName>
+    <ItemName>itm4</ItemName>
     <Unit>Nos</Unit>
     <Quantity>1.00</Quantity>
   </Items>
   <Items>
-    <ItemName>Thermoking V300 Max 10</ItemName>
+    <ItemName>itmas</ItemName>
     <Unit>Nos</Unit>
     <Quantity>1.00</Quantity>
   </Items>
   <Items>
-    <ItemName>FUSE HOLDER</ItemName>
+    <ItemName>100mm 2300x1700x1700mm- ISUZU</ItemName>
     <Unit>Nos</Unit>
-    <Quantity>5.00</Quantity>
+    <Quantity>30.00</Quantity>
+  </Items>
+  <Items>
+    <ItemName>100mm 2300x1700x1700mm- ISUZU</ItemName>
+    <Unit>Nos</Unit>
+    <Quantity>50.00</Quantity>
   </Items>
 </NewDataSet>

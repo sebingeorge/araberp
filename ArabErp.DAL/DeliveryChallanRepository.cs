@@ -247,6 +247,7 @@ namespace ArabErp.DAL
             {
 
                 string sql = @"
+								
 								SELECT DISTINCT O.*,
 								ORR.CountryName,
 								DC.DeliveryChallanId,
@@ -270,7 +271,8 @@ namespace ArabErp.DAL
 								II.ItemName BoxName, II.ItemId BoxId,
 								ISNULL(II.PartNo, '') BoxPartNo,
 								LPO.SupplyOrderNo,
-								LPO.SupplyOrderDate  
+								LPO.SupplyOrderDate,U.UserName CreatedUser,U.Signature CreatedUsersig,
+								SO.CustomerOrderRef LPONo,SO.SaleOrderDate LPODate
 	                            FROM DeliveryChallan DC
                                 INNER JOIN JobCard JC ON JC.JobCardId=DC.JobCardId
                                 INNER JOIN SaleOrder SO ON SO.SaleOrderId=JC.SaleOrderId
@@ -291,6 +293,7 @@ namespace ArabErp.DAL
 								LEFT JOIN SupplyOrder LPO ON LPOI.SupplyOrderId = LPO.SupplyOrderId
 							    inner join Item I ON I.ItemId=JC.[FreezerUnitId]
 								inner join Item II ON II.ItemId=JC.[BoxId]
+								left join [User] U ON U.UserId=DC.CreatedBy
 								WHERE DC.DeliveryChallanId=@DeliveryChallanId";
 
                 var objDeliveryChallan = connection.Query<DeliveryChallan>(sql, new

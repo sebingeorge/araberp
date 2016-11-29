@@ -376,8 +376,8 @@ namespace ArabErp.DAL
             using (IDbConnection connection = OpenConnection(dataConnection))
             {
                 return connection.Query<Dropdown>(@"SELECT QuerySheetId Id, QuerySheetRefNo Name FROM QuerySheet WHERE ISNULL(isActive, 1) = 1 
-                 and QuerySheetId not in (select QuerySheetId from SalesQuotation where QuerySheetId is not null) 
-				 and [Type] = 'Costing' and OrganizationId= " + OrganizationId.ToString() + "").ToList();
+                 and QuerySheetId not in (select QuerySheetId from SalesQuotation where QuerySheetId is not null  and [Type] = 'Costing' ) 
+				and OrganizationId= " + OrganizationId.ToString() + "").ToList();
             }
         }
 
