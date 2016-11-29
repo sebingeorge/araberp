@@ -149,18 +149,17 @@
     }
 
     function formValidation() {
-        var status=true;
+        var status = true;
         var total = Number($("#QtyAmount").text());
         if (total <= 0) {
             toastr.info("Total amount should be greater than 0");
-            status=false;
+            status = false;
         }
-        else
-        {
-            $("input[id$='__Rate']").each(function(index,object){
-                if(Number($(object).val())<=0){
-                    toastr.info("Rate should be greater than 0");
-                    status=false;
+        else {
+            $("input[id$='__Rate']").each(function (index, object) {
+                if (Number($(object).val()) <= 0 && $('#SupplyOrderItems_' + index + '__OrderedQty').val() > 0) {
+                    toastr.info("Rate should be greater than zero");
+                    status = false;
                     return false;
                 }
             })
@@ -170,10 +169,10 @@
 
 
 
- 
-      
-      
-    
+
+
+
+
 
 
 </script>
