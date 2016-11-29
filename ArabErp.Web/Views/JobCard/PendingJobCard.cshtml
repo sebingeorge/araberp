@@ -32,7 +32,6 @@
         var isProjectBased = $("#isProjectBased").val();
         var url = '@Url.Action("Create")';
         url = url + "?Id=" + id + "&isProjectBased=" + isProjectBased+"&service="+@isService;
-        console.log(url);
         window.location.href = url;
     }
     function PreviousList() {

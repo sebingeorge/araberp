@@ -61,6 +61,10 @@ namespace ArabErp.Domain
         public string ContactPerson { get; set; }
         public string OrganizationName { get; set; }
         public string Image1 { get; set; }
+        public string LPONo { get; set; }
+        public DateTime LPODate { get; set; }
+        public string CreatedUser { get; set; }
+        public string CreatedUsersig { get; set; }
         public List<ItemBatch> ItemBatches { get; set; }
 
         public string SaleOrderRefNo { get; set; }

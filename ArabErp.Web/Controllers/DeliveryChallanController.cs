@@ -239,6 +239,10 @@ namespace ArabErp.Web.Controllers
             ds.Tables["Head"].Columns.Add("Zip");
             ds.Tables["Head"].Columns.Add("Image1");
             ds.Tables["Head"].Columns.Add("OrganizationName");
+            ds.Tables["Head"].Columns.Add("LPONo");
+            ds.Tables["Head"].Columns.Add("LPODate");
+            ds.Tables["Head"].Columns.Add("CreatedUser");
+            ds.Tables["Head"].Columns.Add("CreateSignature");
             //ds.Tables["Head"].Columns.Add("TransportWarrantyExpiryDate");
             //-------DT
             ds.Tables["Items"].Columns.Add("ItemName");
@@ -289,6 +293,9 @@ namespace ArabErp.Web.Controllers
             dr["OrganizationName"] = Head.OrganizationName;
             //dr["TransportWarrantyExpiryDate"] = Head.tra;
             dr["Image1"] = Server.MapPath("~/App_images/") + Head.Image1;
+            dr["LPONo"] = Head.LPONo;
+            dr["LPODate"] = Head.LPODate.ToString("dd/MMM/yyyy");
+            dr["CreateSignature"] = Server.MapPath("~/App_Images/") + Head.CreatedUsersig;
             ds.Tables["Head"].Rows.Add(dr);
 
 
