@@ -1,5 +1,5 @@
 ﻿@model ArabErp.Domain.SalesQuotation
-@*// this edit view is used for Sales Quotation Request : Transportation*@
+@* this view is used for Sales Quotation Request : Transportation *@
 @{
     ViewBag.Title = "Sales Quotation";
     Layout = "~/Views/Shared/_Layout.cshtml";
@@ -527,7 +527,8 @@
                 <div class="col-md-6">
                     <label for="CustomerId">Customer</label>
 
-                    @Html.DropDownListFor(m => Model.CustomerId, (SelectList)ViewBag.customerlist, "Select Customer", new { @class = "form_input", autocomplete = "off", @onchange = "CustomerChanged(this)" })
+                    @Html.DropDownListFor(m => Model.CustomerId, (SelectList)ViewBag.customerlist, "Select Customer", new { @class = "form_input", autocomplete = "off", @onchange = "CustomerChanged(this)",
+               @placeholder = "Search for customer" })
 
                 </div>
                 <div class="col-md-6">
@@ -563,6 +564,9 @@
                     $("#lblTotalAmount").text('0');
                     //$("select[id$='__WorkDescriptionId']").combobox();
                     $("select[id$='__ItemId']").combobox();
+                    $('#CustomerId').combobox();
+                    $('#tab_logic select[id$="__FreezerUnitId"]').combobox();
+                    $('#tab_logic select[id$="__BoxId"]').combobox();
                     $("#Discount").val() = $("#Discount").val() == 0 ? "0.00" : $("#Discount").val();
                     //$('td:nth-child(2)').hide();
 
@@ -614,8 +618,12 @@
                             //$("#SalesQuotationItems_" + (j - 1) + "__WorkDescriptionId").val(WorkDescriptionId);
                             //$("#" + (j - 1)).find('span[class="custom-combobox"]').remove();
                             //$("#SalesQuotationItems_" + (j - 1) + "__WorkDescriptionId").combobox();
+                            $("#SalesQuotationItems_" + (j - 1) + "__FreezerUnitId").siblings('span[class="custom-combobox"]').remove();
                             $("#SalesQuotationItems_" + (j - 1) + "__FreezerUnitId").val(FreezerUnitId);
+                            $("#SalesQuotationItems_" + (j - 1) + "__FreezerUnitId").combobox();
+                            $("#SalesQuotationItems_" + (j - 1) + "__BoxId").siblings('span[class="custom-combobox"]').remove();
                             $("#SalesQuotationItems_" + (j - 1) + "__BoxId").val(BoxId);
+                            $("#SalesQuotationItems_" + (j - 1) + "__BoxId").combobox();
                             $("#SalesQuotationItems_" + (j - 1) + "__Quantity").val(Quantity);
                             $("#SalesQuotationItems_" + (j - 1) + "__UnitId").val(UnitId);
                             $("#SalesQuotationItems_" + (j - 1) + "__Rate").val(Rate);
@@ -625,6 +633,7 @@
                             $("#SalesQuotationItems_" + (j - 1) + "__TotalAmount").val(TotalAmount);
                         }
                     }
+                    cal_Summary();
                 }
 
                 function QuantityChanged(row) {
@@ -767,8 +776,12 @@
                     $("#tab_logic").append('<tr id="' + i + '">' + clone.html() + '  </tr>');
                     $("#slno" + (i + 1)).html((i + 1));
                     $("#SalesQuotationItems_" + i + "__SlNo").val((i + 1));
+                    $("#SalesQuotationItems_" + i + "__FreezerUnitId").siblings('span[class="custom-combobox"]').remove();
                     $("#SalesQuotationItems_" + i + "__FreezerUnitId").val('');
+                    $("#SalesQuotationItems_" + i + "__FreezerUnitId").combobox();
+                    $("#SalesQuotationItems_" + i + "__BoxId").siblings('span[class="custom-combobox"]').remove();
                     $("#SalesQuotationItems_" + i + "__BoxId").val('');
+                    $("#SalesQuotationItems_" + i + "__BoxId").combobox();
                     $("#SalesQuotationItems_" + i + "__Quantity").val(1);
                     $("#SalesQuotationItems_" + i + "__Rate").val(0);
                     $("#SalesQuotationItems_" + i + "__Amount").val(0);

@@ -485,16 +485,7 @@ namespace ArabErp.Web.Controllers
         #region Revise Quotation
         public ActionResult Revise(int Id)
         {
-            FillCustomer();
-            FillCurrency();
-            FillCommissionAgent();
-            FillVehicle();
-            FillQuerySheet();
-            FillUnit();
-            FillEmployee();
-            FillFreezerUnit();
-            FillBox();
-            FillSalesQuotationStatus();
+            DropDowns();
             var repo = new SalesQuotationRepository();
 
             var sorepo = new SaleOrderRepository();
@@ -531,6 +522,10 @@ namespace ArabErp.Web.Controllers
             }
             catch { }
             salesquotation.Materials = repo.GetSalesQuotationMaterials(Id);
+            if (salesquotation.Materials == null || salesquotation.Materials.Count == 0)
+            {
+                salesquotation.Materials.Add(new SalesQuotationMaterial());
+            }
             ViewBag.SubmitAction = "Revise";
             return View(salesquotation);
         }

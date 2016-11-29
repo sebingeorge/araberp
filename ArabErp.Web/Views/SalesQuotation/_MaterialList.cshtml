@@ -9,7 +9,6 @@
         calculateSummary();
     });
 
-
     function AddRow() {
 
         var i = 0;
@@ -33,7 +32,7 @@
         clone.html($(clone).html().replace(/partno0/, 'partno' + i + ''));
         clone.html($(clone).html().replace(/\[0\]/g, '[' + i + ']'));
         clone.html($(clone).html().replace(/\(0\)/g, '(' + i + ')'));
-        clone.html($(clone).html().replace(/MaterialList_Row_/, 'MaterialList_Row_' + i));
+        clone.html($(clone).html().replace(/MaterialList_Row_0/, 'MaterialList_Row_' + i));
         clone.html($(clone).html().replace(/serialno1/, 'serialno' + (i + 1) + ''));
         clone.html($(clone).html().replace(/unitname0/, 'unitname' + i + ''));
         clone.html($(clone).html().replace(/sellingRate0/, 'sellingRate' + i + ''));
@@ -41,13 +40,13 @@
         $("#table-additional-items-list").append('<tr id="tr_' + i + '">' + clone.html() + '  </tr>');
         $("#serialno" + (i + 1)).html((i + 1));
         $("#sellingRate" + i).html(0);
-        $("#Materials_" + i + "__SlNo").val((i + 1));
+        //$("#Materials_" + i + "__SlNo").val((i + 1));
 
         $("#unitname" + i).html('');
         $("#partno" + i).html('');
         $("#Materials_" + i + "__ItemId").val('');
         $("#Materials_" + i + "__Quantity").val('');
-        $("#Materials_" + i + "__UnitName").val('');
+        //$("#Materials_" + i + "__UnitName").val('');
         $("#Materials_" + i + "__Rate").val('');
         $("#Materials_" + i + "__Amount").val('');
 
@@ -84,26 +83,27 @@
                 var ItemId = $("#Materials_" + j + "__ItemId").val();
                 //var PartNo = $("#Materials_" + j + "__PartNo").val();
                 var Quantity = $("#Materials_" + j + "__Quantity").val();
-                var Unit = $("#Materials_" + j + "__UnitName").val();
+                //var Unit = $("#Materials_" + j + "__UnitName").val();
                 var Rate = $("#Materials_" + j + "__Rate").val();
                 var Amount = $("#Materials_" + j + "__Amount").val();
                 //var Remarks = $("#Materials_" + j + "__Remarks").val();
                 var clone = $("#tr_" + j).clone(true, true);
                 clone.html($(clone).html().replace(new RegExp("Materials_" + j + "__", "g"), 'Materials_' + (j - 1) + '__'));
                 clone.html($(clone).html().replace(new RegExp("\\[" + j + "].", "g"), "[" + (j - 1) + "]."));
-                clone.html($(clone).html().replace("OnRateTypeChanged(" + j, "OnRateTypeChanged(" + (j - 1)));
-                clone.html($(clone).html().replace("OnItemChange(" + j, "OnItemChange(" + (j - 1)));
-                clone.html($(clone).html().replace(new RegExp('serialno' + (j + 1) + '">' + (j + 1), "g"), 'serialno' + (j) + '">' + (j)));
+                //clone.html($(clone).html().replace("OnRateTypeChanged(" + j, "OnRateTypeChanged(" + (j - 1)));
+                //clone.html($(clone).html().replace("OnItemChange(" + j, "OnItemChange(" + (j - 1)));
+                //clone.html($(clone).html().replace(new RegExp('serialno' + (j + 1) + '">' + (j + 1), "g"), 'serialno' + (j) + '">' + (j)));
                 clone.html($(clone).html().replace("DeleteFromMaterialList(" + j, "DeleteFromMaterialList(" + (j - 1)));
                 clone.html($(clone).html().replace("MaterialList_Row_" + j, "MaterialList_Row_" + (j - 1)));
                 clone.html($(clone).html().replace("this," + j, "this," + (j - 1)));
                 clone.html($(clone).html().replace("partno" + j, "partno" + (j - 1)));
+                clone.html($(clone).html().replace("serialno" + j, "serialno" + (j - 1)));
                 clone.html($(clone).html().replace("unitname" + j, "unitname" + (j - 1)));
                 clone.html($(clone).html().replace("sellingRate" + j, "sellingRate" + (j - 1)));
                 clone.html($(clone).html().replace(new RegExp("\\(" + j + "\\)", "g"), '(' + (j - 1) + ')'));
                 $("#tr_" + j).html(clone.html());
 
-                $("#Materials_" + (j - 1) + "__SlNo").val(j);
+                //$("#Materials_" + (j - 1) + "__SlNo").val(j);
                 $("#tr_" + (j)).attr('id', 'tr_' + (j - 1));
 
                 $("#Materials_" + (j - 1) + "__ItemId").siblings('span[class="custom-combobox"]').remove();
@@ -115,11 +115,10 @@
                 $("#Materials_" + (j - 1) + "__Rate").val(Rate);
                 $("#Materials_" + (j - 1) + "__Amount").val(Amount);
                 //$("#Materials_" + (j - 1) + "__Remarks").val(Remarks);
-                //alert('0');
+                $('#serialno' + (j+1)).html(j);
             }
+            calculateSummary();
         }
-        //alert('1');
-        calculateSummary();
     }
 
     function OnItemChange(sender, index) {

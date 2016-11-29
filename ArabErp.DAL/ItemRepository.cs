@@ -102,9 +102,9 @@ namespace ArabErp.DAL
                 connection.Query("USP_SAVE_ITEM", param, commandType: CommandType.StoredProcedure);
 
                 ArrayList result = new ArrayList()
-                { 
-                    param.Get<string>("@RESULT"), 
-                    param.Get<int>("@RID") 
+                {
+                    param.Get<string>("@RESULT"),
+                    param.Get<int>("@RID")
                 };
                 return result;
             }
@@ -190,7 +190,7 @@ namespace ArabErp.DAL
             }
         }
 
-        public List<Item> GetItems(string name, string group, string subgroup)
+        public List<Item> GetItems(string name, string group, string subgroup, string partno)
         {
             using (IDbConnection connection = OpenConnection(dataConnection))
             {
@@ -201,9 +201,10 @@ namespace ArabErp.DAL
                                INNER JOIN Unit U ON U.UnitId=I.ItemUnitId
                                WHERE I.isActive=1 AND ItemName LIKE '%'+@name+'%'
 							   AND ItemGroupName LIKE '%'+@group+'%'
+							   AND ISNULL(PartNo, '') LIKE '%'+@partno+'%'
 							   AND ItemSubGroupName LIKE '%'+@subgroup+'%'";
 
-                var objItems = connection.Query<Item>(sql, new { name = name, group = group, subgroup = subgroup }).ToList<Item>();
+                var objItems = connection.Query<Item>(sql, new { name = name, group = group, subgroup = subgroup, partno = partno }).ToList<Item>();
 
                 return objItems;
             }
@@ -326,7 +327,7 @@ namespace ArabErp.DAL
         }
 
 
-        public List<Item> GetItemsDTPrint(string name,string subgroup,string group,int organizationId)
+        public List<Item> GetItemsDTPrint(string name, string subgroup, string group, int organizationId)
         {
             using (IDbConnection connection = OpenConnection(dataConnection))
             {
@@ -341,7 +342,8 @@ namespace ArabErp.DAL
 
                 var objItems = connection.Query<Item>(sql, new
                 {
-                    name = name,group=group,
+                    name = name,
+                    group = group,
                     subgroup = subgroup,
                 }).ToList<Item>();
 
@@ -351,7 +353,7 @@ namespace ArabErp.DAL
 
 
 
-        public  Item GetItemsHDPrint(int organizationId,string name,string subgroup,string group )
+        public Item GetItemsHDPrint(int organizationId, string name, string subgroup, string group)
         {
             using (IDbConnection connection = OpenConnection(dataConnection))
             {
@@ -444,7 +446,7 @@ namespace ArabErp.DAL
 
                 drop table #TEMP;
                 DROP TABLE #TEMP1;
-                DROP TABLE #TEMP2;"; 
+                DROP TABLE #TEMP2;";
                 #endregion
                 return connection.Query<int>(sql, new { OrganizationId = OrganizationId }).FirstOrDefault();
             }

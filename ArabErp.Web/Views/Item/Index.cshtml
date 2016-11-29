@@ -37,8 +37,9 @@
         var name = $("#txtName").val().trim();
         var group = $("#txtGroup").val().trim();
         var subgroup = $("#txtSubGroup").val().trim();
+        var partno = $("#txtPartNo").val().trim();
         //name = name.replace(/ /g, "+");
-        url += "?name=" + encodeURIComponent(name) + "&group=" + encodeURIComponent(group) + "&subgroup=" + encodeURIComponent(subgroup);
+        url += "?name=" + encodeURIComponent(name) + "&group=" + encodeURIComponent(group) + "&subgroup=" + encodeURIComponent(subgroup) + "&partno=" + encodeURIComponent(partno);
         $("#grid").load(url, function () {
             $(grid).removeClass("fade");
         });
@@ -47,49 +48,53 @@
 </script>
 
 
-    <div class="row">
+<div class="row">
 
-        <div class="form-head form-head3">
-            <h4>Material/Spare List</h4>
-        </div>
+    <div class="form-head form-head3">
+        <h4>Material/Spare List</h4>
+    </div>
 
-        <div class="main-list pad1">
-            <div class="row">
-                <div class="part">
-                    <div class="col-md-4">
-                        <label for="txtName">Name</label>
-                        <input type="text" class="form_input bluebox" id="txtName" onkeyup="Filter()" />
-                    </div>
-                    <div class="col-md-4">
-                        <label for="txtGroup">Group</label>
-                        <input type="text" class="form_input bluebox" id="txtGroup" onkeyup="Filter()" />
-                    </div>
-                    <div class="col-md-4">
-                        <label for="txtSubGroup">Sub Group</label>
-                        <input type="text" class="form_input bluebox" id="txtSubGroup" onkeyup="Filter()" />
-                    </div>
+    <div class="main-list pad1">
+        <div class="row">
+            <div class="part">
+                <div class="col-md-3">
+                    <label for="txtName">Name</label>
+                    <input type="text" class="form_input bluebox" id="txtName" onkeyup="Filter()" value="@Request.QueryString["name"]" />
+                </div>
+                <div class="col-md-3">
+                    <label for="txtName">Part No</label>
+                    <input type="text" class="form_input bluebox" id="txtPartNo" onkeyup="Filter()" value="@Request.QueryString["partno"]" />
+                </div>
+                <div class="col-md-3">
+                    <label for="txtGroup">Group</label>
+                    <input type="text" class="form_input bluebox" id="txtGroup" onkeyup="Filter()" value="@Request.QueryString["group"]" />
+                </div>
+                <div class="col-md-3">
+                    <label for="txtSubGroup">Sub Group</label>
+                    <input type="text" class="form_input bluebox" id="txtSubGroup" onkeyup="Filter()" value="@Request.QueryString["subgroup"]" />
                 </div>
             </div>
-            <br />
+        </div>
+        <br />
 
-            <div class="row" id="grid">
-                @Html.Action("ItemList")
+        <div class="row" id="grid">
+            @Html.Action("ItemList")
+        </div>
+
+        <div class="row">
+            <div class="col-md-12 hrpart1">
+                <button type="submit" class="form-button" onclick="Create();">Create</button>
+                <button type="button" class="form-button right" onclick="Exit();">Exit</button>
+                <input type="button" value="Print" onclick="GoToPrint()" class="form-button right" />
+
             </div>
-
-            <div class="row">
-                <div class="col-md-12 hrpart1">
-                    <button type="submit" class="form-button" onclick="Create();">Create</button>
-                    <button type="button" class="form-button right" onclick="Exit();">Exit</button>
-                    <input type="button" value="Print" onclick="GoToPrint()" class="form-button right" />
-
-                </div>
-
-            </div>
-
 
         </div>
+
 
     </div>
+
+</div>
 
 
 

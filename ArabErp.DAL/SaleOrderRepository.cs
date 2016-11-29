@@ -39,13 +39,14 @@ namespace ArabErp.DAL
 
                     objSaleOrder.SaleOrderRefNo = internalId;
 
-                    if (objSaleOrder.isAfterSales == 1)
+                    //if (objSaleOrder.isAfterSales == 1)
+                    if (objSaleOrder.Materials != null && objSaleOrder.Materials.Count > 0)
                     {
 
                         MaterialAmt = objSaleOrder.Materials.Sum(m => m.Amount ?? 0);
                     }
                     objSaleOrder.TotalAmount = objSaleOrder.Items.Sum(m => m.Amount) + MaterialAmt;
-                    objSaleOrder.TotalDiscount = objSaleOrder.Items.Sum(m => m.Discount);
+                    //objSaleOrder.TotalDiscount = objSaleOrder.Items.Sum(m => m.Discount);
 
 
                     string sql = @"
