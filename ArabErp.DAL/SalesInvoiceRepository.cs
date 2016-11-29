@@ -504,6 +504,32 @@ namespace ArabErp.DAL
                 return objInvoiceItem;
             }
         }
+
+        public IList<SalesInvoice> ApprovalList( int OrganizationId)
+        {
+            using (IDbConnection connection = OpenConnection(dataConnection))
+            {
+                string query = @"SELECT
+	                                INV.SalesInvoiceId,
+	                                INV.SalesInvoiceRefNo,
+	                                INV.SalesInvoiceDate,
+	                                SO.SaleOrderRefNo,
+	                                SO.SaleOrderDate,
+	                                ISNULL(INV.SpecialRemarks, '-') SpecialRemarks,isnull(INV.TotalAmount,0)TotalAmount
+                                FROM SalesInvoice INV
+                                LEFT JOIN SaleOrder SO ON INV.SaleOrderId = SO.SaleOrderId
+                                WHERE 
+								 INV.OrganizationId=@OrganizationId and INV.IsApproved=0
+                                ORDER BY INV.SalesInvoiceDate DESC, INV.CreatedDate DESC";
+
+                return connection.Query<SalesInvoice>(query, new
+                {
+                    OrganizationId = OrganizationId
+                   
+
+                }).ToList();
+            }
+        }
     }
 
 }

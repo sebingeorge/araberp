@@ -586,6 +586,9 @@
                                                 {
                                                     <li><a href="@Url.Action("PendingSalesInvoice", "SalesInvoice", new { invType = "Inter" })">Inter Invoice</a></li>
                                                 }
+                                                
+                                                
+
                                                 @if (formPermission.Find(x => x.FormId == 64) != null)
                                                 {
                                                     <li><a href="@Url.Action("Closing", "SaleOrder", new { isProjectBased = 1 })">Project - Sale Order Close</a></li>
@@ -638,6 +641,10 @@
                                                 @if (formPermission.Find(x => x.FormId == 71) != null)
                                                 {
                                                     <li><a href="@Url.Action("PendingSalesInvoice", "SalesInvoice", new { invType = "Final" })">Sales Invoice</a></li>
+                                                }
+                                                @if (formPermission.Find(x => x.FormId == 73) != null)
+                                                {
+                                                    <li><a href="@Url.Action("PendingSalesInvoiceApproval", "SalesInvoice", new { invType = "Final" })">Sales Invoice Approval</a></li>
                                                 }
                                                 @if (formPermission.Find(x => x.FormId == 72) != null)
                                                 {
