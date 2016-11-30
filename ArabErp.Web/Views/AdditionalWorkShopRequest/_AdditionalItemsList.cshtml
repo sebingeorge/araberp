@@ -2,57 +2,68 @@
 
 @{string actionName = ViewContext.RouteData.GetRequiredString("action");}
 
-<script type = "text/javascript" >
+<script type="text/javascript">
 
     $(document).ready(function () {
         $("#Items_0__SlNo").val('1');
+        $('#table-additional-items-list select[id$="__ItemId"]').combobox();
+        $('#table-additional-items-list select[id^="cboPartNo"]').combobox();
     });
 
 
     function AddAdditionRow() {
-        
-            var i = 0;
-            var no = 1;
-            $('input[id^="Row_"]').each(function () {
-                var id = this.id;
-                no++;
-                var row = Number(id.replace("Row_", ""));
-                if (row > i) {
-                    i = row;
-                }
-            });
-            i++;
 
-            var index = (new Date()).getTime(); // unique indexer
-            var clone = $('#0').clone(); // clone the BatchProducts item
-            //Update the index of the clone
-            //clone.html($(clone).html().replace("Items_0__", 'Items_' + i + '__'));
-            clone.html($(clone).html().replace(/\Items_0__/g, 'Items_' + i + '__'));
-            clone.html($(clone).html().replace(/\Items[0]./g, 'Items[' + i + '].'));
-            clone.html($(clone).html().replace(/\[0\]/g, '[' + i + ']'));
-            clone.html($(clone).html().replace(/\(0\)/g, '(' + i + ')'));
-            clone.html($(clone).html().replace(/Row_0/, 'Row_' + i));
-            clone.html($(clone).html().replace(/slno1/, 'slno' + (i + 1) + ''));
-            clone.html($(clone).html().replace(/partno0/, 'partno' + i + ''));
-            clone.html($(clone).html().replace(/Stock_0/, 'Stock_' + i + ''));
-            //clone.html($(clone).html().replace(/UoM_0/, 'UoM_' + i + ''));
-            clone.html($(clone).html().replace(/unit0/, 'unit' + i + ''));
-            clone.html($(clone).html().replace(/this,0/, 'this,' + i + ''));
-            $("#table-additional-items-list").append('<tr id="' + i + '">' + clone.html() + '  </tr>');
-            $("#slno" + (i + 1)).html((i + 1));
-            $("#Items_" + i + "__SlNo").val((i + 1));
-            $("#unit" + i).html('');
-            $("#partno" + i).html('');
-            //bind keypress event for new row inputs.
-            $(".numbers-only").keypress(function (e) {
-                if (e.which == 8 || (e.which == 45 && $(this).val().indexOf('-') == -1) || (e.which == 46 && $(this).val().indexOf('.') == -1) || (e.which > 47 && e.which < 58)) {
-                }
-                else {
-                    return false;
-                }
-            });
-        }
-  
+        var i = 0;
+        var no = 1;
+        $('input[id^="Row_"]').each(function () {
+            var id = this.id;
+            no++;
+            var row = Number(id.replace("Row_", ""));
+            if (row > i) {
+                i = row;
+            }
+        });
+        i++;
+
+        var index = (new Date()).getTime(); // unique indexer
+        var clone = $('#0').clone(); // clone the BatchProducts item
+        //Update the index of the clone
+        //clone.html($(clone).html().replace("Items_0__", 'Items_' + i + '__'));
+        clone.html($(clone).html().replace(/\Items_0__/g, 'Items_' + i + '__'));
+        clone.html($(clone).html().replace(/\Items[0]./g, 'Items[' + i + '].'));
+        clone.html($(clone).html().replace(/\[0\]/g, '[' + i + ']'));
+        clone.html($(clone).html().replace(/\(0\)/g, '(' + i + ')'));
+        clone.html($(clone).html().replace(/Row_0/, 'Row_' + i));
+        clone.html($(clone).html().replace(/slno1/, 'slno' + (i + 1) + ''));
+        clone.html($(clone).html().replace(/partno0/, 'partno' + i + ''));
+        clone.html($(clone).html().replace(/Stock_0/, 'Stock_' + i + ''));
+        clone.html($(clone).html().replace(/cboPartNo0/, 'cboPartNo' + i));
+        clone.html($(clone).html().replace(/this,0/, 'this,' + i));
+        //clone.html($(clone).html().replace(/UoM_0/, 'UoM_' + i + ''));
+        clone.html($(clone).html().replace(/unit0/, 'unit' + i + ''));
+        clone.html($(clone).html().replace(/this,0/, 'this,' + i + ''));
+        $("#table-additional-items-list").append('<tr id="' + i + '">' + clone.html() + '  </tr>');
+        $("#slno" + (i + 1)).html((i + 1));
+        $("#Items_" + i + "__SlNo").val((i + 1));
+        $("#unit" + i).html('');
+        //$("#partno" + i).html('');
+        //bind keypress event for new row inputs.
+        $(".numbers-only").keypress(function (e) {
+            if (e.which == 8 || (e.which == 45 && $(this).val().indexOf('-') == -1) || (e.which == 46 && $(this).val().indexOf('.') == -1) || (e.which > 47 && e.which < 58)) {
+            }
+            else {
+                return false;
+            }
+        });
+        $('#table-additional-items-list #' + i).find('span[class="custom-combobox"]').remove();
+        $('#table-additional-items-list select[id="Items_' + i + '__ItemId"]').val('');
+        $('#table-additional-items-list select[id="Items_' + i + '__ItemId"]').combobox();
+        $('#table-additional-items-list select[id="cboPartNo' + i + '"]').val('');
+        $('#table-additional-items-list select[id="cboPartNo' + i + '"]').combobox();
+        $("#Items_" + i + "__Remarks").val('');
+        $("#Items_" + i + "__Quantity").val(0);
+    }
+
 
     function Delete(index) {
 
@@ -84,18 +95,21 @@
                 clone.html($(clone).html().replace(new RegExp('slno' + (j + 1) + '">' + (j + 1), "g"), 'slno' + (j) + '">' + (j)));
                 clone.html($(clone).html().replace("Delete(" + j, "Delete(" + (j - 1)));
                 clone.html($(clone).html().replace("Row_" + j, "Row_" + (j - 1)));
+                clone.html($(clone).html().replace("partno" + j, "partno" + (j - 1)));
+                clone.html($(clone).html().replace(new RegExp("cboPartNo" + j, "g"), "cboPartNo" + (j - 1)));
 
-
-
-
-                clone.html($(clone).html().replace("this," + j, "this," + (j - 1)));
+                clone.html($(clone).html().replace(new RegExp("this," + j, "g"), "this," + (j - 1)));
                 $("#" + j).html(clone.html());
                 $("#Items_" + (j - 1) + "__SlNo").val(j);
                 $("#" + (j)).attr('id', (j - 1));
                 //alert(j);
+                $('#table-additional-items-list #' + (j - 1)).find('span[class="custom-combobox"]').remove();
                 $("#Items_" + (j - 1) + "__ItemId").val(ItemId);
+                $("#Items_" + (j - 1) + "__ItemId").combobox();
                 $("#Items_" + (j - 1) + "__Remarks").val(Remarks);
                 $("#Items_" + (j - 1) + "__Quantity").val(Quantity);
+                $("#cboPartNo" + (j - 1)).val(ItemId);
+                $("#cboPartNo" + (j - 1)).combobox();
                 //$("#Items_" + (j - 1) + "__Remarks").val(Remarks);
 
             }
@@ -103,8 +117,7 @@
     }
 
 
-    function OnItemChange(sender, index)
-    {
+    function OnItemChange(sender, index) {
         var id = $(sender).val();
         if (id != '') {
             var url = '@Url.Action("GetItemUnit")';//get unit of selected item
@@ -113,30 +126,51 @@
                     $("#unit" + index).html(data);
                 });
 
-            url = '@Url.Action("GetItemPartNo")';//get part number of selected item
+            $("#cboPartNo" + index).combobox("destroy");
+            $("#cboPartNo" + index).val(id);
+            $("#cboPartNo" + index).combobox();
+
+            @*url = '@Url.Action("GetItemPartNo")';//get part number of selected item
             $.getJSON(url, { itemId: id },
                 function (data) {
                     $("#partno" + index).html(data);
-                });
+                });*@
         }
         else {
             $("#unit" + index).html('');
-            $("#partno" + index).html('');
+            $("#cboPartNo" + index).combobox("destroy");
+            $("#cboPartNo" + index).val('');
+            $("#cboPartNo" + index).combobox();
+            //$("#partno" + index).html('');
         }
     }
 
+    function OnPartNoChanged(sender, row) {
+        var id = $(sender).val();
+        if (id != '' && id != 0) {
+            $("#Items_" + row + "__ItemId").combobox("destroy");
+            $("#Items_" + row + "__ItemId").val(id);
+            $("#Items_" + row + "__ItemId").combobox();
+            OnItemChange(sender, row);
+        }
+        else {
+            $("#Items_" + row + "__ItemId").combobox("destroy");
+            $("#Items_" + row + "__ItemId").val('');
+            $("#Items_" + row + "__ItemId").combobox();
+        }
+    }
 
 </script>
 
 <table class="table table-bordered" id="table-additional-items-list">
     <thead>
         <tr class="grid_heading">
-            <th width="2%" class="text-center"></th>
-         <th width="5%" class="text-center "><h1>#</h1></th>
-            <th><h1>Material/Spares</h1></th>
-            <th width="10%"><h1>Part No.</h1></th>
-            <th><h1>Remarks</h1></th>
-            <th width="5%" class="text-right "><h1>Qty.</h1></th>
+            <th width="1%" class="text-center"></th>
+            <th width="2%" class="text-center "><h1>#</h1></th>
+            <th width="30%"><h1>Material/Spares</h1></th>
+            <th width="15%"><h1>Part No.</h1></th>
+            <th width="25%"><h1>Remarks</h1></th>
+            <th width="5%" class="text-right "><h1>Qty</h1></th>
             <th width="5%"><h1>UoM</h1></th>
             <th width="2%" class="text-center"></th>
         </tr>
@@ -144,7 +178,7 @@
     <tbody class="grid_row">
         @for (int i = 0; i < Model.Items.Count; i++)
         {
-            
+
             <tr id="@i">
                 <td style="vertical-align:middle"><a class="glyphicon glyphicon-minus" style="top:0px" onclick="Delete(@i)"></a></td>
                 <td align="center">
@@ -157,7 +191,10 @@
                     @Html.DropDownListFor(m => m.Items[i].ItemId, new SelectList(ViewBag.itemList,"value","Text",Model.Items[i].ItemId),"Select Material", new { @class = "form_input", autocomplete = "off", @onchange = "OnItemChange(this," + i + ")" })
                     @*@Html.DropDownListFor(m => m.Items[i].ItemId, (SelectList)ViewBag.itemList, "Select Material", new { @class = "form_input", autocomplete = "off", @onchange = "OnItemChange(this," + i + ")" })*@
                 </td>
-                <td id="partno0" class="qreturn" style="vertical-align:middle">@Html.TextBoxFor(m => m.Items[i].PartNo, new { @class = "form_input text-left", @readonly = "true" })</td>
+                <td id="partno0" class="qreturn" style="vertical-align:middle">
+                    @Html.DropDownList("cboPartNo" + i, new SelectList(ViewBag.partNoList, "Value", "Text", Model.Items[i].ItemId), "Select Part No.", new { @class = "form_input", @onchange = "OnPartNoChanged(this," + i + ")" })
+                    @*@Html.TextBoxFor(m => m.Items[i].PartNo, new { @class = "form_input text-left", @readonly = "true" })*@
+                </td>
                 <td>@Html.TextBoxFor(m => m.Items[i].Remarks, new { @class = "form_input", autocomplete = "off", placeholder = "Remarks" })</td>
                 <td>@Html.TextBoxFor(m => m.Items[i].Quantity, new { @class = "form_input numbers-only text-right", autocomplete = "off", placeholder = "Qty" })</td>
                 <td id="unit0" class="qreturn" style="vertical-align:middle">@Html.TextBoxFor(m => m.Items[i].UnitName, new { @class = "form_input text-left", @readonly = "true" })</td>

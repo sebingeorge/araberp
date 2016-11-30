@@ -292,11 +292,11 @@
                     <div class="col-md-3">
                         <label for="VehicleModelId">Vehicle Model</label>
                         @Html.DropDownListFor(x => Model.Items[0].VehicleModelId, new SelectList(ViewBag.vehiclelist, "Value", "Text",
-                        Model.Items[0].VehicleModelId), "Select Complaint", new
+                        Model.Items[0].VehicleModelId), "Select Vehicle Model", new
                         {
                             @class = "form_input",
                             autocomplete = "off",
-                            @placeholder = "Search for Complaint",
+                            @placeholder = "Search for Vehicle Model",
                             @required = "true"
                         })
                     </div>
