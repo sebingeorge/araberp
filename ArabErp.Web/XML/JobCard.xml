@@ -49,33 +49,21 @@
     </xs:element>
   </xs:schema>
   <Head>
-    <JobCardNo>JC/1</JobCardNo>
-    <JobCardDate>28-Nov-2016</JobCardDate>
+    <JobCardNo>JC/4</JobCardNo>
+    <JobCardDate>30-Nov-2016</JobCardDate>
     <Unit>itmas</Unit>
     <Customer>Al Nafaihi Ice  Factory, Shamal</Customer>
-    <ChasisNo>101</ChasisNo>
+    <ChasisNo>eretrtyt</ChasisNo>
     <VModel>JAC HFC 1251 Truck -6x4 Chassis</VModel>
     <OrganizationName>Arab Air Conditioning &amp; Refrigeration Co. W.L.L.</OrganizationName>
     <Image1>E:\ARAB\New folder\ArabErp\ArabErp.Web\App_images\81a4c1db-3c02-4dbc-a629-10bd046bb6be.png</Image1>
     <Box>itm4</Box>
   </Head>
   <Items>
-    <TaskDate>28-Nov-2016</TaskDate>
-    <Employee>Kalidasan Jayabalan</Employee>
+    <TaskDate>30-Nov-2016</TaskDate>
+    <Employee>Mohamed Madum Mohamed Munsif</Employee>
     <Description>gg</Description>
-    <Hours>4.00</Hours>
-  </Items>
-  <Items>
-    <TaskDate />
-    <Employee />
-    <Description />
-    <Hours />
-  </Items>
-  <Items>
-    <TaskDate />
-    <Employee />
-    <Description />
-    <Hours />
+    <Hours>10.00</Hours>
   </Items>
   <Items>
     <TaskDate />
