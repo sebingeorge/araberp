@@ -71,6 +71,7 @@ namespace ArabErp.Web.Controllers
                 {
                     JobCardDropdown();
                     ItemDropdown();
+                    FillPartNo();
                     WorkShopRequest WorkShopRequest = new WorkShopRequest();
                     WorkShopRequest = new WorkShopRequestRepository().WorkShopRequestHD(id);
                     WorkShopRequest.Items = new WorkShopRequestItemRepository().WorkShopRequestDT(id);
@@ -163,17 +164,13 @@ namespace ArabErp.Web.Controllers
         public PartialViewResult AdditionalItemsList()
         {
             ItemDropdown();
-
+            FillPartNo();
             WorkShopRequest workShopRequest = new WorkShopRequest { Items = new List<WorkShopRequestItem>() };
             workShopRequest.Items.Add(new WorkShopRequestItem());
 
             return PartialView("_AdditionalItemsList", workShopRequest);
         }
 
-        private void ItemDropdown()
-        {
-            ViewBag.itemList = new SelectList(new DropdownRepository().FillItem(), "Id", "Name");
-        }
         public JsonResult GetItemUnit(int itemId)
         {
             return Json(new StockReturnItemRepository().GetItemUnit(itemId), JsonRequestBehavior.AllowGet);
@@ -195,6 +192,14 @@ namespace ArabErp.Web.Controllers
         private void FillJobCard()
         {
             ViewBag.jobcardList = new SelectList(new DropdownRepository().JobCardForAdditionalWorkshopRequest(OrganizationId: OrganizationId), "Id", "Name");
+        }
+        public void FillPartNo()
+        {
+            ViewBag.partNoList = new SelectList(new DropdownRepository().PartNoDropdown2(), "Id", "Name");
+        }
+        private void ItemDropdown()
+        {
+            ViewBag.itemList = new SelectList(new DropdownRepository().FillItem(), "Id", "Name");
         }
         #endregion
     }

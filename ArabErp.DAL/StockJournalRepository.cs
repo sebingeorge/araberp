@@ -40,7 +40,7 @@ namespace ArabErp.DAL
                     string sql = @"INSERT INTO StockJournal (StockJournalRefno,StockPointId,Remarks,IssuedBy,StockJournalDate,CreatedBy,CreatedDate,OrganizationId) VALUES (@StockJournalRefno,@StockPointId,@Remarks,@IssuedBy,GETDATE(),@CreatedBy,GETDATE(),@OrganizationId);
                                  SELECT CAST(SCOPE_IDENTITY() as int)";
 
-
+                    model.StockJournalRefno = DatabaseCommonRepository.GetNewDocNo(connection, model.OrganizationId??0, 22, true, trn);
                     id = connection.Query<int>(sql, model, trn).Single();
                     var StockJournalItemsRepo = new StockJournalItemsRepository();
                     int? StockPointId = model.StockPointId;

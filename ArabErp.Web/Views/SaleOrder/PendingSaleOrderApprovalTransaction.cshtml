@@ -50,31 +50,43 @@
                             </tr>
                         </thead>
                         <tbody class="grid_row">
-                            @foreach (var item in Model)
+                            @if (Model.Count() > 0)
+                            {
+                                foreach (var item in Model)
+                                {
+                                    <tr>
+                                        @*<td class="grid-cell">@item.SaleOrderRefNo</td>
+                                            <td class="grid-cell">@item.SaleOrderDate.ToString("dd/MMM/yyyy")</td>*@
+                                        <td class="grid-cell">@item.SaleOrderRefNo - @item.SaleOrderDate.ToString("dd/MMMM/yyyy")</td>
+                                        <td class="grid-cell">@item.JobCardNo - @item.JobCardDate.ToString("dd/MMMM/yyyy")</td>
+                                        <td class="grid-cell">@item.CustomerName</td>
+                                        <td class="grid-cell">@item.freezerUnit &nbsp;+&nbsp;  @item.Box</td>
+                                        <td class="grid-cell text-right">@item.Amount</td>
+                                        <td>
+                                            <center>
+                                                @if (item.IsQCPassed == 0)
+                                            {
+                                                <span class="perm">QC Pending</span>
+                                            }
+                                            else
+                                            {
+                                                <button class="form-button4">
+                                                    @Html.ActionLink("Select", "ApprovalForTrn", "SaleOrder", new { SaleOrderId = @item.SaleOrderId, SaleOrderItemId = @item.SaleOrderItemId, AppType = @AppType }, null)
+                                                </button>
+                                            }
+                                        </center>
+                                    </td>
+
+                                </tr>
+                                }
+                            }
+                            else
                             {
                                 <tr>
-                                    @*<td class="grid-cell">@item.SaleOrderRefNo</td>
-                                        <td class="grid-cell">@item.SaleOrderDate.ToString("dd/MMM/yyyy")</td>*@
-                                    <td class="grid-cell">@item.SaleOrderRefNo - @item.SaleOrderDate.ToString("dd/MMMM/yyyy")</td>
-                                    <td class="grid-cell">@item.JobCardNo - @item.JobCardDate.ToString("dd/MMMM/yyyy")</td>
-                                    <td class="grid-cell">@item.CustomerName</td>
-                                    <td class="grid-cell">@item.freezerUnit &nbsp;+&nbsp;  @item.Box</td>
-                                    <td class="grid-cell text-right">@item.Amount</td>
-                                    <td>
-                                        <center>@if (item.IsQCPassed == 0)
-                                        {
-                                            <span class="perm">QC Pending</span>
-                                        }
-                                        else
-                                        {
-                                            <button class="form-button4">
-                                                @Html.ActionLink("Select", "ApprovalForTrn", "SaleOrder", new { SaleOrderId = @item.SaleOrderId, SaleOrderItemId = @item.SaleOrderItemId, AppType = @AppType }, null)
-                                        </button>
-                                        }
-                                    </center>
-                                </td>
-
-                            </tr>
+                                    <td colspan="6" align="center">
+                                        <em>No items to show!</em>
+                                    </td>
+                                </tr>
                             }
                         </tbody>
                     </table>

@@ -22,7 +22,7 @@ namespace ArabErp.DAL
                                inner join SalesQuotationStatus RR on RR.SalesQuotationStatusId=q.SalesQuotationStatusId
 							   LEFT JOIN SaleOrder SO ON Q.SalesQuotationId = SO.SalesQuotationId
 							   LEFT JOIN VehicleInPass VIP ON SO.SaleOrderId = VIP.SaleOrderId
-                               where Q.isActive = 1 AND VIP.VehicleInPassId IS NULL and Q.isProjectBased =" + isProjectBased;
+                               where Q.isActive = 1 AND VIP.VehicleInPassId IS NULL and Q.isProjectBased =" + isProjectBased + @" AND SO.SaleOrderId IS NULL AND ISNULL(Q.IsQuotationApproved, 0) = 1";
 
                 return connection.Query<SalesQuotationList>(sql);
             }

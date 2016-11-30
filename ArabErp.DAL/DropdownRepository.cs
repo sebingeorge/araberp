@@ -188,6 +188,18 @@ namespace ArabErp.DAL
             }
         }
         /// <summary>
+        /// Return all part no from item table where not freezer and box
+        /// </summary>
+        /// <returns></returns>
+        public IEnumerable PartNoDropdown2()
+        {
+            using (IDbConnection connection = OpenConnection(dataConnection))
+            {
+                return connection.Query<Dropdown>("SELECT ItemId Id, PartNo Name FROM Item WHERE ISNULL(LTRIM(RTRIM(PartNo)), '') <> '' AND ISNULL(FreezerUnit, 0) = 0 AND ISNULL(Box, 0) = 0").ToList();
+            }
+        }
+
+        /// <summary>
         /// Return all customers who have incomplete sale order
         /// </summary>
         /// <returns></returns>
