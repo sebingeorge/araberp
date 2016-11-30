@@ -37,6 +37,7 @@
         else {
             $("#ServiceEnquiryDate").datepicker({ dateFormat: "dd-MM-yy" });
         }
+        $('#CustomerId').combobox();
     })
 
     function DisableServiceEnquiryFields() {
@@ -151,7 +152,12 @@
                                 <strong>Name</strong>
                             </td>
                             <td colspan="3">
-                                @Html.DropDownListFor(m => Model.CustomerId, (SelectList)ViewBag.customerlist, "Select Customer", new { @class = "form_input", @onchange = "OnCustomerChanged(this)" })
+                                @Html.DropDownListFor(m => Model.CustomerId, (SelectList)ViewBag.customerlist, "Select Customer", new
+                               {
+                                   @class = "form_input",
+                                   @onchange = "OnCustomerChanged(this)",
+                                   @placeholder = "Search for customer"
+                               })
                             </td>
                             <td class="td-inner-heading">
                                 <strong>Telephone</strong>
@@ -279,7 +285,6 @@
                         {
                             @class = "form_input",
                             autocomplete = "off",
-                            //@onchange = "OnWorkDescChanged(" + i + ")",
                             @placeholder = "Search for Complaint",
                             @required = "true"
                         })
@@ -291,7 +296,6 @@
                         {
                             @class = "form_input",
                             autocomplete = "off",
-                            //@onchange = "OnWorkDescChanged(" + i + ")",
                             @placeholder = "Search for Complaint",
                             @required = "true"
                         })

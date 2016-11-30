@@ -260,11 +260,11 @@ namespace ArabErp.Web.Controllers
             FillItemCategory();
             return PartialView("_ItemCategoryDropdown");
         }
-        public ActionResult ItemList(int? page, string name = "", string group = "", string subgroup = "")
+        public ActionResult ItemList(int? page, string name = "", string group = "", string subgroup = "", string partno = "")
         {
             //int itemsPerPage = 10;
             int pageNumber = page ?? 1;
-            return PartialView("_ItemListView", new ItemRepository().GetItems(name: name.Trim(), group: group.Trim(), subgroup: subgroup.Trim()));
+            return PartialView("_ItemListView", new ItemRepository().GetItems(name: name.Trim(), group: group.Trim(), subgroup: subgroup.Trim(), partno: partno));
             //var repo = new ItemRepository();
             //var List = repo.GetItems();
             //return PartialView("_ItemListView",List);
