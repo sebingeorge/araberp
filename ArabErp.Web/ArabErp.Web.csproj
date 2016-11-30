@@ -1265,7 +1265,7 @@
     <Content Include="Views\DirectPurchase\PurchaseIndent.cshtml" />
     <Content Include="Views\MISReports\DCReport.cshtml" />
     <Content Include="Views\MISReports\_DCReportGrid.cshtml" />
-    <Content Include="Views\SalesInvoice\PendingSalesInvoiceApproval.cshtml" />
+    <Content Include="Views\SalesInvoice\PendingApproval.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

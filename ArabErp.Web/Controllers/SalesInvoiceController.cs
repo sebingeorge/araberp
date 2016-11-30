@@ -198,9 +198,9 @@ namespace ArabErp.Web.Controllers
             }
             return View(model);
         }
-        public ActionResult PendingSalesInvoiceApproval()
+        public ActionResult PendingApproval()
         {
-          return PartialView("PendingSalesInvoiceApproval", new SalesInvoiceRepository().ApprovalList( OrganizationId: OrganizationId));
+            return PartialView("PendingApproval", new SalesInvoiceRepository().ApprovalList(OrganizationId: OrganizationId));
         }
         public ActionResult Print(int Id)                                                                                                           
         {

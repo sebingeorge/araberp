@@ -491,7 +491,9 @@ namespace ArabErp.DAL
 	                                RequiredDate,
 	                               CurrencyName,
 								   U.UserName CreatedUser,
-								   U.Signature CreatedUsersig,
+								   U.Signature CreatedUsersig ,
+								   D.DesignationName CreatedDes,
+								   DU.DesignationName ApprovedDes,
 								   UI.UserName ApprovedUser ,
 								   UI.Signature ApprovedUsersig,
 								   ORR.CountryName
@@ -502,7 +504,9 @@ namespace ArabErp.DAL
 								   left JOIN Country CU ON CU.CountryId=SU.CountryId
 								   left  JOIN Country ORR ON ORR.CountryId=O.Country
 								   left Join [User] U ON U.UserId=S.CreatedBy
+								   left join Designation D ON D.DesignationId=U.DesignationId
 								   left join [User] UI ON UI.UserId=S.ApprovedBy
+								   left join Designation DU ON DU.DesignationId=UI.DesignationId
                                    WHERE SupplyOrderId = @SupplyOrderId
 	                               AND ISNULL(S.isActive, 1) = 1;";
 

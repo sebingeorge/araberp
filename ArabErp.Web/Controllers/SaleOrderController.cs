@@ -1108,8 +1108,8 @@ namespace ArabErp.Web.Controllers
             dr["CState"] = Head.CState;
             dr["CContactPerson"] = Head.CContactPerson;
             dr["VehicleMake"] = Head.VehicleMake;
-            dr["VehicleRegNo"] = Head.CPhone;
-            dr["VehicleChassisNo"] = Head.ContactPerson;
+            dr["VehicleRegNo"] = Head.VehicleRegNo;
+            dr["VehicleChassisNo"] = Head.VehicleChassisNo;
             dr["VehicleKm"] = Head.VehicleKm;
             dr["BoxMake"] = Head.BoxMake;
             dr["BoxNo"] = Head.BoxNo;

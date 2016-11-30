@@ -275,6 +275,7 @@ namespace ArabErp.Web.Controllers
             ds.Tables["Head"].Columns.Add("Image1");
             ds.Tables["Head"].Columns.Add("CreatedUser");
             ds.Tables["Head"].Columns.Add("CreateSignature");
+        
 
 
             //-------DT
