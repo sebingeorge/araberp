@@ -1,57 +1,69 @@
 ﻿@model IList<ArabErp.Domain.SalesInvoice>
 
-<table class="table table-bordered">
-    <thead>
-        <tr class="grid_heading">
-            <th width="2%" class="text-center"><h1>#</h1></th>
-            <th width="15%" nowrap><h1>Sales Invoice No. &amp; Date</h1></th>
-            <th width="15%" nowrap><h1>Sale Order No. &amp; Date</h1></th>
-            <th width="48%" nowrap><h1>Remarks</h1></th>
-            <th width="10%" class="text-right" nowrap><h1>Net Amount</h1></th>
-            <th width="10%"><center></center></th>
+<div class="row">
+    <div class="main-part pad1">
+        <div class="row">
+            <div class="main-grid main-grid-top scroll4">
+                <div class="table-responsive">
+                    <table class="table table-bordered">
+                        <thead>
+                            <tr class="grid_heading">
+                                <th width="2%" class="text-center"><h1>#</h1></th>
+                                <th width="15%" nowrap><h1>Sales Invoice No. &amp; Date</h1></th>
+                                <th width="15%" nowrap><h1>Sale Order No. &amp; Date</h1></th>
+                                <th width="48%" nowrap><h1>Remarks</h1></th>
+                                <th width="10%" class="text-right" nowrap><h1>Net Amount</h1></th>
+                                <th width="10%"><center></center></th>
 
-        </tr>
-    </thead>
-    <tbody class="grid_row">
-        @if (Model.Count > 0)
-        {
-            int i = 0;
-            foreach (var item in Model)
-            {
-                <tr>
-                    <td align="center">
-                        @(++i)
-                    </td>
+                            </tr>
+                        </thead>
+                        <tbody class="grid_row">
+                            @if (Model.Count > 0)
+                            {
+                                int i = 0;
+                                foreach (var item in Model)
+                                {
+                                    <tr>
+                                        <td align="center">
+                                            @(++i)
+                                        </td>
 
-                    <td>@item.SalesInvoiceRefNo - @item.SalesInvoiceDate.ToString("dd-MMMM-yyyy")</td>
+                                        <td>@item.SalesInvoiceRefNo - @item.SalesInvoiceDate.ToString("dd-MMMM-yyyy")</td>
 
-                    <td>@item.SaleOrderRefNo - @item.SaleOrderDate.ToString("dd-MMMM-yyyy")</td>
+                                        <td>@item.SaleOrderRefNo - @item.SaleOrderDate.ToString("dd-MMMM-yyyy")</td>
 
-                    <td>@item.SpecialRemarks</td>
+                                        <td>@item.SpecialRemarks</td>
 
-                    <td align="right">@item.TotalAmount</td>
+                                        <td align="right">@item.TotalAmount</td>
 
-                    <td>
-                        <center><input type="button" value="Select" onclick="OnItemSelected(@item.SalesInvoiceId)" checked class="form-button4" /></center>
-                    </td>
-                    @*<td>
-                            <center>
-                                <input type="button" value="Print" onclick="GoToPrint(@item.SalesInvoiceId)" checked class="form-button4" />
-                            </center>
-                        </td>*@
-                </tr>
-            }
-        }
-        else
-        {
-            <tr>
-                <td colspan="5">
-                    <center>
-                        <em>No items found!</em>
-                    </center>
-                </td>
-            </tr>
-        }
-    </tbody>
-</table>
-
+                                        <td>
+                                            <center><input type="button" value="Select" onclick="OnItemSelected(@item.SalesInvoiceId)" checked class="form-button4" /></center>
+                                        </td>
+                                        @*<td>
+                                                <center>
+                                                    <input type="button" value="Print" onclick="GoToPrint(@item.SalesInvoiceId)" checked class="form-button4" />
+                                                </center>
+                                            </td>*@
+                                    </tr>
+                                }
+                            }
+                            else
+                            {
+                                <tr>
+                                    <td colspan="5">
+                                        <center>
+                                            <em>No items found!</em>
+                                        </center>
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <div class="row-count1">
+                <h5>Row Count:- @Model.Count()</h5>
+            </div>
+        </div>
+    </div>
+</div>

@@ -644,7 +644,7 @@
                                                 }
                                                 @if (formPermission.Find(x => x.FormId == 73) != null)
                                                 {
-                                                    <li><a href="@Url.Action("PendingSalesInvoiceApproval", "SalesInvoice", new { invType = "Final" })">Sales Invoice Approval</a></li>
+                                                    <li><a href="@Url.Action("PendingApproval", "SalesInvoice", new { invType = "Final" })">Sales Invoice Approval</a></li>
                                                 }
                                                 @if (formPermission.Find(x => x.FormId == 72) != null)
                                                 {
