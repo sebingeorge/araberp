@@ -221,7 +221,7 @@ namespace ArabErp.Web.Controllers
             //FillWrkDesc();
             return View("Approval", model);
         }
-         [HttpPost]
+
         public ActionResult UpdateApprovalStatus(int? id, string type)
         {
             var repo = new SalesInvoiceRepository();

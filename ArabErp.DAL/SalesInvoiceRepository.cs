@@ -534,7 +534,7 @@ namespace ArabErp.DAL
         {
             using (IDbConnection connection = OpenConnection(dataConnection))
             {
-                string sql = @"Update SalesInvoice set IsApproved=1 WHERE SalesInvoiceId=@SalesInvoiceId";
+                string sql = @"Update SalesInvoice set IsApproved=1 WHERE SalesInvoiceId=@id";
                 return connection.Execute(sql, new { id = id });
 
             }
