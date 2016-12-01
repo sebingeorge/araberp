@@ -184,6 +184,10 @@
         window.location = url;
     }
 
+    function Approve(id) {
+        location.href = '@Url.Action("Approve", "SalesInvoice")';
+    }
+
 </script>
 
 
@@ -193,7 +197,7 @@
         <h4>Sales Invoice</h4>
     </div>
     <div class="main-part pad1">
-        @using (Html.BeginForm(postActionName, null, FormMethod.Post, new { @class = "createFrom", @id = "saleorder_form", @onsubmit = "return formValidation()" }))
+        @using (Html.BeginForm(null, null, FormMethod.Post, new { @class = "createFrom", @id = "saleorder_form", @onsubmit = "return formValidation()" }))
         {
             <div class="row form-group ">
                 <div class="col-md-2">
@@ -368,7 +372,8 @@
             <div class="row">
                 <div class="col-md-12 hrpart">
                     <button type="button" class="form-button right" onclick="Exit()">Exit</button>
-                    <button type="submit" class="form-button right">Approve</button>
+                    @*<button type="submit" class="form-button right">Approve</button>*@
+                    <button type="button" class="form-button right" onclick="Approve('@Model.SalesInvoiceId')">Approve</button>
                     @*<button type="button" class="form-button right" onclick="GoToPrint(@Model.SalesInvoiceId)">Print</button>
                     <button type="button" class="form-button left" onclick="Delete('@Model.SalesInvoiceId','@Model.InvoiceType')">Delete</button>*@
                 </div>

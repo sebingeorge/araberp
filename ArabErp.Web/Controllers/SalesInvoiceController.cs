@@ -222,11 +222,12 @@ namespace ArabErp.Web.Controllers
             return View("Approval", model);
         }
          [HttpPost]
-        public ActionResult UpdateApprovalStatus(int? SaleOrderId)
+        public ActionResult UpdateApprovalStatus(int? id, string type)
         {
-            SaleOrder so = (new SaleOrderRepository()).GetSaleOrder(SaleOrderId ?? 0);
-            new SaleOrderRepository().UpdateSOApproval(SaleOrderId ?? 0);
-            return RedirectToAction("PendingSaleOrderApproval", new { ProjectBased = so.isProjectBased });
+            var repo = new SalesInvoiceRepository();
+            SalesInvoice si = (new SalesInvoiceRepository()).GetInvoiceHd(id ?? 0, type);
+            new SalesInvoiceRepository().UpdateSIApproval(id ?? 0);
+            return RedirectToAction("PendingApproval");
         }
         public ActionResult Print(int Id)                                                                                                           
         {

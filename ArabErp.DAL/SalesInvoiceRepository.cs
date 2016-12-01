@@ -530,6 +530,15 @@ namespace ArabErp.DAL
                 }).ToList();
             }
         }
+        public int UpdateSIApproval(int id)
+        {
+            using (IDbConnection connection = OpenConnection(dataConnection))
+            {
+                string sql = @"Update SalesInvoice set IsApproved=1 WHERE SalesInvoiceId=@SalesInvoiceId";
+                return connection.Execute(sql, new { id = id });
+
+            }
+        }
     }
 
 }
