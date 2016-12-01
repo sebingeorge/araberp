@@ -222,13 +222,25 @@ namespace ArabErp.Web.Controllers
             return View("Approval", model);
         }
 
+        //public ActionResult UpdateApprovalStatus(int? id, string type)
+        //{
+        //    var repo = new SalesInvoiceRepository();
+        //    SalesInvoice si = (new SalesInvoiceRepository()).GetInvoiceHd(id ?? 0, type);
+        //    new SalesInvoiceRepository().UpdateSIApproval(id ?? 0);
+        //    return RedirectToAction("PendingApproval");
+        //}
+
         public ActionResult UpdateApprovalStatus(int? id, string type)
         {
+            SalesInvoice model = new SalesInvoice();
+            model.IsApprovedDate = System.DateTime.Now;
+            model.IsApprovedBy = UserID;
             var repo = new SalesInvoiceRepository();
             SalesInvoice si = (new SalesInvoiceRepository()).GetInvoiceHd(id ?? 0, type);
-            new SalesInvoiceRepository().UpdateSIApproval(id ?? 0);
+            new SalesInvoiceRepository().UpdateSIApproval(id ?? 0, model.IsApprovedDate, model.IsApprovedBy);
             return RedirectToAction("PendingApproval");
         }
+
         public ActionResult Print(int Id)                                                                                                           
         {
             
