@@ -182,10 +182,16 @@
         var url = '@Url.Action("Print")';
         url += "?Id=" + id;
         window.location = url;
+        
     }
 
-    function Approve(id) {
-        location.href = '@Url.Action("Approve", "SalesInvoice")';
+    function Approve(id, type) {
+        @*location.href = '@Url.Action("UpdateApprovalStatus", "SalesInvoice")';*@
+        var url = '@Url.Action("UpdateApprovalStatus")';
+        url += "?id=" + id + "&type=" + type;
+        window.location = url;
+        alert
+        ("*********")
     }
 
 </script>
@@ -373,7 +379,7 @@
                 <div class="col-md-12 hrpart">
                     <button type="button" class="form-button right" onclick="Exit()">Exit</button>
                     @*<button type="submit" class="form-button right">Approve</button>*@
-                    <button type="button" class="form-button right" onclick="Approve('@Model.SalesInvoiceId')">Approve</button>
+                    <button type="button" class="form-button right" onclick="Approve('@Model.SalesInvoiceId','@Model.InvoiceType')">Approve</button>
                     @*<button type="button" class="form-button right" onclick="GoToPrint(@Model.SalesInvoiceId)">Print</button>
                     <button type="button" class="form-button left" onclick="Delete('@Model.SalesInvoiceId','@Model.InvoiceType')">Delete</button>*@
                 </div>
