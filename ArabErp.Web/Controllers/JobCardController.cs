@@ -261,6 +261,12 @@ namespace ArabErp.Web.Controllers
             ds.Tables["Head"].Columns.Add("OrganizationName");
             ds.Tables["Head"].Columns.Add("Image1");
             ds.Tables["Head"].Columns.Add("Box");
+            ds.Tables["Head"].Columns.Add("Complaints");
+            ds.Tables["Head"].Columns.Add("BoxMake");
+            ds.Tables["Head"].Columns.Add("BoxNo");
+            ds.Tables["Head"].Columns.Add("FreezerMake");
+            ds.Tables["Head"].Columns.Add("FreezerModel");
+            ds.Tables["Head"].Columns.Add("VehicleMake");
             
             //-------DT
             ds.Tables["Items"].Columns.Add("TaskDate");
@@ -298,7 +304,13 @@ namespace ArabErp.Web.Controllers
             dr["Zip"] = Head.Zip;
             dr["OrganizationName"] = Head.OrganizationName;
             dr["Image1"] = Server.MapPath("~/App_images/") + Head.Image1;
-            dr["Box"] =Head.BoxName; 
+            dr["Box"] = Head.BoxName;
+            dr["Complaints"] = Head.Complaints;
+            dr["BoxMake"] = Head.BoxMake;
+            dr["BoxNo"] = Head.BoxNo;
+            dr["FreezerMake"] = Head.FreezerMake;
+            dr["FreezerModel"] = Head.FreezerModel;
+            dr["VehicleMake"] = Head.VehicleMake; 
             ds.Tables["Head"].Rows.Add(dr);
 
             JobCardTaskRepository repo1 = new JobCardTaskRepository();

@@ -423,9 +423,12 @@ namespace ArabErp
 
 //              
                 string sql = @" 
+               
                SELECT O.*,J.JobCardId,JobCardNo,JobCardDate,
                               C.CustomerName Customer,U.ItemName FreezerUnitName,
-								v.RegistrationNo ChasisNo,VM.VehicleModelName,UI.ItemName BoxName
+								v.RegistrationNo ChasisNo,VM.VehicleModelName,UI.ItemName BoxName,
+								SE.Complaints,SE.BoxMake,SE.BoxNo,SE.FreezerMake,SE.FreezerModel,
+								SE.VehicleMake,SE.ServiceEnquiryId
                                 FROM JobCard J
                                 INNER JOIN SaleOrder S ON S.SaleOrderId=J.SaleOrderId
                                 INNER JOIN Customer C ON C.CustomerId=S.CustomerId
@@ -435,6 +438,7 @@ namespace ArabErp
 								LEFT JOIN VehicleInPass V ON V.VehicleInPassId=J.InPassId
 								LEFT JOIN WorkDescription W ON W.WorkDescriptionId=J.WorkDescriptionId
 								LEFT JOIN VehicleModel VM ON VM.VehicleModelId=W.VehicleModelId
+								left join ServiceEnquiry SE ON SE.ServiceEnquiryId=S.ServiceEnquiryId
                                 WHERE J.JobCardId=@JobCardId";
 
                 var objJobCardId = connection.Query<JobCard>(sql, new
