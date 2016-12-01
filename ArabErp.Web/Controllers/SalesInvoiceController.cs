@@ -200,7 +200,33 @@ namespace ArabErp.Web.Controllers
         }
         public ActionResult PendingApproval()
         {
-            return PartialView("PendingApproval", new SalesInvoiceRepository().ApprovalList(OrganizationId: OrganizationId));
+            return View("PendingApproval", new SalesInvoiceRepository().ApprovalList(OrganizationId: OrganizationId));
+        }
+        public ActionResult Approval(int? id, string type)
+        {
+        //    FillCustomer();
+        //    FillCurrency();
+        //    FillCommissionAgent();
+        //    FillUnit();
+        //    FillEmployee();
+
+        //    FillVehicle();
+            var repo = new SalesInvoiceRepository();
+            SalesInvoice model = repo.GetInvoiceHd(id ?? 0, type);
+            model.SaleInvoiceItems = repo.GetInvoiceItems(id ?? 0);
+
+             //var saleinvoice = new SalesInvoiceRepository().GetInvoiceHd(id, type);
+            //model.Items = repo.GetSaleOrderItem(SaleOrderId ?? 0);
+
+            //FillWrkDesc();
+            return View("Approval", model);
+        }
+         [HttpPost]
+        public ActionResult UpdateApprovalStatus(int? SaleOrderId)
+        {
+            SaleOrder so = (new SaleOrderRepository()).GetSaleOrder(SaleOrderId ?? 0);
+            new SaleOrderRepository().UpdateSOApproval(SaleOrderId ?? 0);
+            return RedirectToAction("PendingSaleOrderApproval", new { ProjectBased = so.isProjectBased });
         }
         public ActionResult Print(int Id)                                                                                                           
         {
