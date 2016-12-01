@@ -70,6 +70,8 @@ namespace ArabErp.Web.Controllers
 
             for (int i = 0; i < model.Items.Count; i++)
             {
+                model.Items[i].Discount = model.Items[i].Discount / model.Items[i].Quantity;
+                model.Items[i].Amount = model.Items[i].Rate - model.Items[i].Discount ?? 0;
                 while (model.Items[i].Quantity > 1)
                 {
                     model.Items.Insert(i + 1, model.Items[i]);
@@ -1094,7 +1096,7 @@ namespace ArabErp.Web.Controllers
 
 
             SaleOrderRepository repo = new SaleOrderRepository();
-            ServiceEnquiry se=new ServiceEnquiry();
+            ServiceEnquiry se = new ServiceEnquiry();
             var Head = repo.GetJobPrintHD(id, OrganizationId);
 
             DataRow dr = ds.Tables["Head"].NewRow();
