@@ -5,6 +5,7 @@
     $(document).ready(function () {
         $("#StockJournelItems_0__SlNo").val('1');
         $('#table-additional-items-list select[id$="__ItemId"]').combobox();
+        $('#table-additional-items-list select[id^="cboPartNo"]').combobox();
     });
 
     function AddAdditionRow() {
@@ -34,12 +35,14 @@
             clone.html($(clone).html().replace(/PartNo_0/, 'PartNo_' + i + ''));
             clone.html($(clone).html().replace(/Stock_0/, 'Stock_' + i + ''));
             clone.html($(clone).html().replace(/UoM_0/, 'UoM_' + i + ''));
-            clone.html($(clone).html().replace(/this,0/, 'this,' + i + ''));
+            clone.html($(clone).html().replace(/cboPartNo0/g, 'cboPartNo' + i + ''));
+            clone.html($(clone).html().replace(/this,0/g, 'this,' + i + ''));
             $("#table-additional-items-list").append('<tr id="' + i + '">' + clone.html() + '  </tr>');
             $("#slno" + (i + 1)).html((i + 1));
             $("#StockJournelItems_" + i + "__SlNo").val((i + 1));
             $('#' + i).find('span[class="custom-combobox"]').remove();
             $('#table-additional-items-list #StockJournelItems_' + i + '__ItemId').combobox();
+            $('#table-additional-items-list #cboPartNo' + i).combobox();
             //$("#unit" + i).html('');
             //$("#partno" + i).html('');
             //bind keypress event for new row inputs.
@@ -99,7 +102,8 @@
                 clone.html($(clone).html().replace("PartNo_" + j, "PartNo_" + (j - 1)));
                 clone.html($(clone).html().replace("Stock_" + j, "Stock_" + (j - 1)));
                 clone.html($(clone).html().replace("UoM_" + j, "UoM_" + (j - 1)));
-                clone.html($(clone).html().replace("this," + j, "this," + (j - 1)));
+                clone.html($(clone).html().replace(new RegExp("this," + j, "g"), "this," + (j - 1)));
+                clone.html($(clone).html().replace(new RegExp("cboPartNo" + j, "g"), 'cboPartNo' + (j - 1) + ''));
                 $("#" + j).html(clone.html());
 
 
@@ -108,6 +112,9 @@
                 $("#StockJournelItems_" + (j - 1) + "__ItemId").siblings('span[class="custom-combobox"]').remove();
                 $("#StockJournelItems_" + (j - 1) + "__ItemId").val(item);
                 $("#StockJournelItems_" + (j - 1) + "__ItemId").combobox();
+                $("#cboPartNo" + (j - 1)).siblings('span[class="custom-combobox"]').remove();
+                $("#cboPartNo" + (j - 1)).val(item);
+                $("#cboPartNo" + (j - 1)).combobox();
                 //var remarks = $("#StockJournelItems_" + j + "__Remarks").val();
                 $("#StockJournelItems_" + (j - 1) + "__Quantity").val(qty);
                 $("#StockJournelItems_" + (j - 1) + "__Stock").val(stock);
@@ -131,12 +138,17 @@
                         $("#StockJournelItems_" + index + "__PartNo").val(res[1]);
                         $("#StockJournelItems_" + index + "__Stock").val(res[2]);
                         $("#StockJournelItems_" + index + "__UoM").val(res[3]);
-
+                        $("#cboPartNo" + index).combobox("destroy");
+                        $("#cboPartNo" + index).val(id);
+                        $("#cboPartNo" + index).combobox();
                     });
             }
             else {
                 //$("#unit" + index).html('');
                 //$("#partno" + index).html('');
+                $("#cboPartNo" + index).combobox("destroy");
+                $("#cboPartNo" + index).val('');
+                $("#cboPartNo" + index).combobox();
             }
         }
         else {
@@ -210,6 +222,29 @@
         }
         return status;
     }
+
+    function OnPartNoChanged(sender, row) {
+        var id = $(sender).val();
+        if (id != '' && id != 0) {
+            //OnItemChange($("#StockJournelItems_" + row + "__ItemId"), row);
+            $("#StockJournelItems_" + row + "__ItemId").combobox("destroy");
+            $("#StockJournelItems_" + row + "__ItemId").val(id);
+            $("#StockJournelItems_" + row + "__ItemId").combobox();
+            $.getJSON('@Url.Action("GetItemDetails")', { itemId: id },
+                    function (data) {
+                        var res = data.split("|");
+                        $("#StockJournelItems_" + row + "__PartNo").val(res[1]);
+                        $("#StockJournelItems_" + row + "__Stock").val(res[2]);
+                        $("#StockJournelItems_" + row + "__UoM").val(res[3]);
+                    });
+        }
+        else {
+            $("#StockJournelItems_" + row + "__ItemId").combobox("destroy");
+            $("#StockJournelItems_" + row + "__ItemId").val('');
+            $("#StockJournelItems_" + row + "__ItemId").combobox();
+        }
+    }
+
 </script>
 
 <table class="table table-bordered" id="table-additional-items-list">
@@ -237,9 +272,18 @@
 
                 <td>
                     <input type="hidden" id="Row_@i" />
-                    @Html.DropDownListFor(m => m.StockJournelItems[i].ItemId, new SelectList(ViewBag.StockJournalItems,"Value","Text",Model.StockJournelItems[i].ItemId), "Select Material", new { @class = "form_input", autocomplete = "off", @onchange = "OnItemChange(this," + i + ")" })
+                    @Html.DropDownListFor(m => m.StockJournelItems[i].ItemId, new SelectList(ViewBag.StockJournalItems, "Value", "Text", Model.StockJournelItems[i].ItemId), "Select Material", new
+               {
+                   @class = "form_input",
+                   autocomplete = "off",
+                   @onchange = "OnItemChange(this," + i + ")",
+                   @placeholder = "Search for Material/Spare"
+               })
                 </td>
-                <td>@Html.TextBoxFor(m => m.StockJournelItems[i].PartNo, new { @class = "form_input numbers-only text-left", autocomplete = "off", @readonly = "readonly" })</td>
+                <td>
+                    @Html.DropDownList("cboPartNo" + i, new SelectList(ViewBag.partNoList, "Value", "Text", Model.StockJournelItems[i].ItemId), "Select Part No.", new { @class = "form_input", @onchange = "OnPartNoChanged(this," + i + ")" })
+                    @*@Html.TextBoxFor(m => m.StockJournelItems[i].PartNo, new { @class = "form_input numbers-only text-left", autocomplete = "off", @readonly = "readonly" })*@
+                </td>
                 <td>@Html.TextBoxFor(m => m.StockJournelItems[i].Stock, new { @class = "form_input numbers-only text-right", autocomplete = "off", @readonly = "readonly" })</td>
                 <td>@Html.TextBoxFor(m => m.StockJournelItems[i].Quantity, new { @class = "form_input numbers-only text-right", autocomplete = "off", placeholder = "Qty" })</td>
                 <td>@Html.TextBoxFor(m => m.StockJournelItems[i].UoM, new { @class = "form_input numbers-only text-left", autocomplete = "off", @readonly = "readonly" })</td>

@@ -139,6 +139,21 @@ namespace ArabErp.DAL
                 return connection.Query<Dropdown>("select VehicleModelId Id,VehicleModelName Name from VehicleModel WHERE isActive=1").ToList();
             }
         }
+
+        /// <summary>
+        /// Return all part no of items that are in stock (in [StockUpdateTable])
+        /// </summary>
+        /// <param name="stockPointId"></param>
+        /// <param name="organizationId"></param>
+        /// <returns></returns>
+        public IEnumerable PartNoInStockDropdown(int stockPointId, int organizationId)
+        {
+            using (IDbConnection connection = OpenConnection(dataConnection))
+            {
+                return connection.Query<Dropdown>(@"select ItemId Id, PartNo Name from item where ItemId in(select DISTINCT ItemId from StockUpdate where StockPointId=@StockPointId) AND ISNULL(LTRIM(RTRIM(PartNo)), '') <> ''", new { StockPointId = stockPointId }).ToList();
+            }
+        }
+
         /// <summary>
         /// Return all active Customers which in Sales Invoice
         /// </summary>

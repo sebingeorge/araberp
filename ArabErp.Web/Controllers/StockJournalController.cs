@@ -7,7 +7,7 @@ using System.Web;
 using System.Web.Mvc;
 using System.Data.SqlClient;
 
-namespace ArabErp.Web.Controllers 
+namespace ArabErp.Web.Controllers
 {
     public class StockJournalController : BaseController
     {
@@ -27,6 +27,7 @@ namespace ArabErp.Web.Controllers
             FillStockPoint();
             FIllEmployee();
             FIllStockItems(0);
+            FillPartNoInStock(0);
             //StockJournal StockJournal = new StockJournal();
             string internalid = DatabaseCommonRepository.GetNextDocNo(22, OrganizationId);
             StockJournal StockJournalList = new StockJournal { StockJournelItems = new List<StockJournalItem>(), StockJournalRefno = internalid };
@@ -35,9 +36,9 @@ namespace ArabErp.Web.Controllers
             //StockJournal.StockJournalRefno = "SJ/" + internalid;
             return View("Create", StockJournalList);
             //return View(new StockJournal { StockJournalRefno = "SJ/" + internalid });
-         
+
         }
-         [HttpPost]
+        [HttpPost]
         public ActionResult Create(StockJournal model)
         {
             model.OrganizationId = OrganizationId;
@@ -61,60 +62,62 @@ namespace ArabErp.Web.Controllers
             }
         }
 
-         public ActionResult Edit(int id = 0)
-         {
-             try
-             {
-                 if (id != 0)
-                 {
-                     FillStockPoint();
-                     FIllEmployee();
-                     StockJournal StockJournal = new StockJournal();
-                     StockJournal = new StockJournalRepository().GetStockJournalHD(id);
-                     FIllStockItems(StockJournal.StockPointId);
-                     StockJournal.StockJournelItems = new StockJournalItemsRepository().GetStockJournalDT(id);
+        public ActionResult Edit(int id = 0)
+        {
+            try
+            {
+                if (id != 0)
+                {
+                    FillStockPoint();
+                    FIllEmployee();
+                    StockJournal StockJournal = new StockJournal();
+                    StockJournal = new StockJournalRepository().GetStockJournalHD(id);
+                    FIllStockItems(StockJournal.StockPointId);
+                    FillPartNoInStock(StockJournal.StockPointId ?? 0);
+                    StockJournal.StockJournelItems = new StockJournalItemsRepository().GetStockJournalDT(id);
 
-                     return View(StockJournal);
-                 }
-                 else
-                 {
-                     TempData["error"] = "That was an invalid/unknown request. Please try again.";
-                     TempData["success"] = "";
-                 }
-             }
-             catch (InvalidOperationException iox)
-             {
-                 TempData["error"] = "Sorry, we could not find the requested item. Please try again.|" + iox.Message;
-             }
-             catch (SqlException sx)
-             {
-                 TempData["error"] = "Some error occured while connecting to database. Please try again after sometime.|" + sx.Message;
-             }
-             catch (NullReferenceException nx)
-             {
-                 TempData["error"] = "Some required data was missing. Please try again.|" + nx.Message;
-             }
-             catch (Exception ex)
-             {
-                 TempData["error"] = "Some error occured. Please try again.|" + ex.Message;
-             }
+                    return View(StockJournal);
+                }
+                else
+                {
+                    TempData["error"] = "That was an invalid/unknown request. Please try again.";
+                    TempData["success"] = "";
+                }
+            }
+            catch (InvalidOperationException iox)
+            {
+                TempData["error"] = "Sorry, we could not find the requested item. Please try again.|" + iox.Message;
+            }
+            catch (SqlException sx)
+            {
+                TempData["error"] = "Some error occured while connecting to database. Please try again after sometime.|" + sx.Message;
+            }
+            catch (NullReferenceException nx)
+            {
+                TempData["error"] = "Some required data was missing. Please try again.|" + nx.Message;
+            }
+            catch (Exception ex)
+            {
+                TempData["error"] = "Some error occured. Please try again.|" + ex.Message;
+            }
 
-             TempData["success"] = "";
-             return RedirectToAction("Index");
-         }
+            TempData["success"] = "";
+            return RedirectToAction("Index");
+        }
 
         public PartialViewResult StockJournelList(int? StockPointId)
         {
 
             FIllStockItems(StockPointId);
-          
+            FillPartNoInStock(StockPointId ?? 0);
+
             StockJournal StockJournalList = new StockJournal { StockJournelItems = new List<StockJournalItem>() };
             StockJournalList.StockJournelItems.Add(new StockJournalItem());
             //StockJournal List = new StockJournal();
             //List.StockJournelItems = new StockJournalItem();
             return PartialView("_StockJournalList", StockJournalList);
         }
-        
+
         public JsonResult GetItemDetails(int itemId)
         {
             return Json(new StockJournalRepository().GetItemDetails(itemId), JsonRequestBehavior.AllowGet);
@@ -137,9 +140,13 @@ namespace ArabErp.Web.Controllers
         {
             ViewBag.stockJournalList = new SelectList(new DropdownRepository().StockJournalDropdown(OrganizationId), "Id", "Name");
         }
-         public void FillStockPointForPreviousList()
+        public void FillStockPointForPreviousList()
         {
             ViewBag.stockpointList = new SelectList(new DropdownRepository().StockPointForStockJournal(OrganizationId), "Id", "Name");
+        }
+        public void FillPartNoInStock(int StockPointId)
+        {
+            ViewBag.partNoList = new SelectList(new DropdownRepository().PartNoInStockDropdown(StockPointId, OrganizationId), "Id", "Name");
         }
         #endregion
     }
