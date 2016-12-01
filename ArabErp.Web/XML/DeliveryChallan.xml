@@ -65,21 +65,21 @@
     </xs:element>
   </xs:schema>
   <Head>
-    <DeliveryChallanRefNo>DC/1</DeliveryChallanRefNo>
-    <DeliveryChallanDate>28-Nov-2016</DeliveryChallanDate>
+    <DeliveryChallanRefNo>DC/3</DeliveryChallanRefNo>
+    <DeliveryChallanDate>30-Nov-2016</DeliveryChallanDate>
     <Customer>Al Nafaihi Ice  Factory, Shamal</Customer>
     <CDoorNo>Doha, Qatar</CDoorNo>
     <CCountry>INDIA</CCountry>
     <SaleRefNo>SO/1</SaleRefNo>
     <SONoDate>28 Nov 2016</SONoDate>
-    <JobcardNo>JC/1</JobcardNo>
+    <JobcardNo>JC/2</JobcardNo>
     <JCDate>28-Nov-2016 12:00:00 AM</JCDate>
-    <RegistrationNo>101</RegistrationNo>
-    <ChassisNo>102</ChassisNo>
+    <RegistrationNo>134</RegistrationNo>
+    <ChassisNo>45</ChassisNo>
     <WorkDesc>itmas + itm4</WorkDesc>
     <VehicleModel>JAC HFC 1251 Truck -6x4 Chassis</VehicleModel>
-    <Employee>Jagath Kumara Kotuwegoda Guruge</Employee>
-    <SpecialRemarks>QQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQ</SpecialRemarks>
+    <Employee>Giriesh Gopi</Employee>
+    <SpecialRemarks>dgdfg</SpecialRemarks>
     <QuotationRefNo>SQ/1</QuotationRefNo>
     <FreezerName>itmas</FreezerName>
     <FreezerPartNo>sads</FreezerPartNo>

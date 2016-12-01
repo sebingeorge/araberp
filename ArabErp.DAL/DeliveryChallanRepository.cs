@@ -274,16 +274,16 @@ namespace ArabErp.DAL
 								LPO.SupplyOrderDate,U.UserName CreatedUser,U.Signature CreatedUsersig,
 								SO.CustomerOrderRef LPONo,SO.SaleOrderDate LPODate
 	                            FROM DeliveryChallan DC
-                                INNER JOIN JobCard JC ON JC.JobCardId=DC.JobCardId
-                                INNER JOIN SaleOrder SO ON SO.SaleOrderId=JC.SaleOrderId
-								LEFT JOIN SalesQuotation SQ ON SQ.SalesQuotationId=SO.SalesQuotationId
-                                INNER JOIN SaleOrderItem SOI ON JC.SaleOrderItemId=SOI.SaleOrderItemId
-                                INNER JOIN Customer C ON C.CustomerId=SO.CustomerId 
+                                left JOIN JobCard JC ON JC.JobCardId=DC.JobCardId
+                                left JOIN SaleOrder SO ON SO.SaleOrderId=JC.SaleOrderId
+								left JOIN SalesQuotation SQ ON SQ.SalesQuotationId=SO.SalesQuotationId
+                                left JOIN SaleOrderItem SOI ON JC.SaleOrderItemId=SOI.SaleOrderItemId
+                                left JOIN Customer C ON C.CustomerId=SO.CustomerId 
 								left join Country CCC ON CCC.CountryId=c.Country
-                                INNER JOIN WorkDescription WI ON WI.WorkDescriptionId = SOI.WorkDescriptionId
+                                left JOIN WorkDescription WI ON WI.WorkDescriptionId = SOI.WorkDescriptionId
                                 LEFT JOIN VehicleModel VM ON VM.VehicleModelId=SOI.VehicleModelId
-                                INNER JOIN Employee E ON E.EmployeeId=DC.EmployeeId
-                                inner join Organization O ON  DC.OrganizationId=O.OrganizationId
+                                left JOIN Employee E ON E.EmployeeId=DC.EmployeeId
+                                left join Organization O ON  DC.OrganizationId=O.OrganizationId
 								LEFT  JOIN Country ORR ON ORR.CountryId=O.Country
                                 LEFT JOIN VehicleInPass VI ON VI.SaleOrderItemId = SOI.SaleOrderItemId
 								LEFT join WorkShopRequest W ON W.SaleOrderId=SO.SaleOrderId
@@ -291,9 +291,9 @@ namespace ArabErp.DAL
 								LEFT join PurchaseRequestItem PRI ON pRI.PurchaseRequestId=PR.PurchaseRequestId
 								left join SupplyOrderItem LPOI ON PRI.PurchaseRequestItemId = LPOI.PurchaseRequestItemId
 								LEFT JOIN SupplyOrder LPO ON LPOI.SupplyOrderId = LPO.SupplyOrderId
-							    inner join Item I ON I.ItemId=JC.[FreezerUnitId]
-								inner join Item II ON II.ItemId=JC.[BoxId]
 								left join [User] U ON U.UserId=DC.CreatedBy
+							    left join Item I ON I.ItemId=JC.[FreezerUnitId]
+								left join Item II ON II.ItemId=JC.[BoxId]
 								WHERE DC.DeliveryChallanId=@DeliveryChallanId";
 
                 var objDeliveryChallan = connection.Query<DeliveryChallan>(sql, new
