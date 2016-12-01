@@ -506,7 +506,7 @@ namespace ArabErp.DAL
         }
 
         public IList<SalesInvoice> ApprovalList( int OrganizationId)
-        {
+        { 
             using (IDbConnection connection = OpenConnection(dataConnection))
             {
                 string query = @"SELECT

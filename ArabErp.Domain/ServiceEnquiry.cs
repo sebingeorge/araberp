@@ -40,6 +40,7 @@ namespace ArabErp.Domain
         public string TailLiftModel { get; set; }
         public string TailLiftSerialNo { get; set; }
         public string Complaints { get; set; }
+        public string RegNo { get; set; }
         //public int OrganizationId { get; set; }
         public int IsConfirmed { get; set; }
         //public int CreatedBy { get; set; }

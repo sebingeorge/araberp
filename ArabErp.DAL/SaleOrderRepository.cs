@@ -966,10 +966,11 @@ namespace ArabErp.DAL
         {
             using (IDbConnection connection = OpenConnection(dataConnection))
             {
-                string query = @"SELECT ServiceEnquiryId, ServiceEnquiryRefNo, ServiceEnquiryDate, VehicleMake, BoxMake, FreezerMake, TailLiftMake, C.CustomerName 
+                string query = @"SELECT ServiceEnquiryId, ServiceEnquiryRefNo, ServiceEnquiryDate, VehicleMake, BoxMake, FreezerMake, TailLiftMake, C.CustomerName,
+                                VehicleRegNo+'-' + VehicleChassisNo RegNo,FreezerModel
                                 FROM ServiceEnquiry SE INNER JOIN Customer C ON SE.CustomerId = C.CustomerId
-                                WHERE SE.OrganizationId = @org";
-                return connection.Query<ServiceEnquiry>(query, new { org = OrganizationId }).ToList();
+                                WHERE SE.OrganizationId= @OrganizationId";
+                return connection.Query<ServiceEnquiry>(query, new { OrganizationId = OrganizationId }).ToList();
             }
         }
     }

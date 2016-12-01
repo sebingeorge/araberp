@@ -29,9 +29,9 @@
                                 <th width="1%" class="text-center">#</th>
                                 <th width="12%" nowrap><h1>Service Enquiry No. & Date</h1></th>
                                 <th width="12%"><h1>Customer</h1></th>
-                                <th width="12%"><h1>Vehicle Make</h1></th>
+                                <th width="12%"><h1>Reg No. & Chassis No.</h1></th>
                                 <th width="12%"><h1>Box Make</h1></th>
-                                <th width="12%"><h1>Reefer Make</h1></th>
+                                <th width="12%"><h1>Reefer Model No.</h1></th>
                                 <th width="12%"><h1>Tail Lift Make</h1></th>
                                 <th width="1%"><center><h1></h1></center></th>
                             </tr>
@@ -46,9 +46,9 @@
                                         <td align="center">@(++i)</td>
                                         <td>@item.ServiceEnquiryRefNo - @item.ServiceEnquiryDate.ToString("dd/MMMM/yyyy")</td>
                                         <td>@item.CustomerName</td>
-                                        <td>@item.VehicleMake</td>
+                                        <td>@item.RegNo</td>
                                         <td>@item.BoxMake</td>
-                                        <td>@item.FreezerMake</td>
+                                        <td>@item.FreezerModel</td>
                                         <td>@item.TailLiftMake</td>
                                         <td>
                                             <input type="button" class="form-button5" value="Select" onclick="OnItemSelected(@item.ServiceEnquiryId)" />
