@@ -33,7 +33,7 @@ namespace ArabErp.DAL
 
                 string sql = @"select O.*,SalesInvoiceRefNo,SalesInvoiceDate,CustomerName Customer,Concat(C.DoorNo,',',C.Street,',',C.Phone)CustomerAddress,S.CustomerOrderRef,
                                 SI.PaymentTerms,V.RegistrationNo,J.JobCardNo,D.DeliveryChallanRefNo,SI.TotalAmount,ORR.CountryName,CU.CurrencyName,
-								 U.UserName,U.Signature,UI.UserName,UI.Signature
+								 U.UserName CreateUser,U.Signature CreateSig,UI.UserName ApproveUser,UI.Signature ApproveSig
 								 from SalesInvoice SI
                                 inner join SaleOrder S on S.SaleOrderId=SI.SaleOrderId
                                 inner join Customer C ON C.CustomerId=S.CustomerId
@@ -44,7 +44,7 @@ namespace ArabErp.DAL
                                 left join VehicleInPass V ON V.VehicleInPassId=J.InPassId
 								left join DeliveryChallan D ON D.JobCardId=J.JobCardId 
 								left join [User] U ON U.UserId=SI.IsApprovedBy
-									left join [User] UI ON U.UserId=SI.CreatedBy
+								left join [User] UI ON U.UserId=SI.CreatedBy
                                 where SalesInvoiceId=@SalesInvoiceId";
 
                 var objSalesInvoice = connection.Query<SalesInvoice>(sql, new

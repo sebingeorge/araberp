@@ -30,6 +30,10 @@
                 <xs:element name="Email" type="xs:string" minOccurs="0" />
                 <xs:element name="ContactPerson" type="xs:string" minOccurs="0" />
                 <xs:element name="Zip" type="xs:string" minOccurs="0" />
+                <xs:element name="CreateUser" type="xs:string" minOccurs="0" />
+                <xs:element name="CreateSig" type="xs:string" minOccurs="0" />
+                <xs:element name="ApproveUser" type="xs:string" minOccurs="0" />
+                <xs:element name="ApproveSig" type="xs:string" minOccurs="0" />
               </xs:sequence>
             </xs:complexType>
           </xs:element>
@@ -65,6 +69,10 @@
     <OrganizationRefNo>ORG/1</OrganizationRefNo>
     <Country>UAE</Country>
     <Currency>QAR</Currency>
+    <CreateUser>ihits</CreateUser>
+    <CreateSig>E:\ARAB\New folder\ArabErp\ArabErp.Web\App_images\a0e7a4f0-3793-4f73-9574-e33e48be78a9.png</CreateSig>
+    <ApproveUser>Benny</ApproveUser>
+    <ApproveSig>E:\ARAB\New folder\ArabErp\ArabErp.Web\App_images\df96766b-8f72-4eaf-8b19-f91ba19646c5.png</ApproveSig>
   </Head>
   <Items>
     <Quantity>1</Quantity>
