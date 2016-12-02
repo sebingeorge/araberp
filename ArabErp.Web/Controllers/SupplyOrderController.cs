@@ -434,6 +434,7 @@ namespace ArabErp.Web.Controllers
             ds.Tables["Items"].Columns.Add("Amount");
             ds.Tables["Items"].Columns.Add("ItemRefNo");
             ds.Tables["Items"].Columns.Add("UnitName");
+            ds.Tables["Items"].Columns.Add("Description");
 
 
 
@@ -497,7 +498,8 @@ namespace ArabErp.Web.Controllers
                     Discount = item.Discount,
                     Amount = item.Amount,
                     ItemRefNo = item.ItemRefNo,
-                    UnitName = item.UnitName
+                    UnitName = item.UnitName,
+                    Description=item.Description
 
 
                 };
@@ -514,6 +516,7 @@ namespace ArabErp.Web.Controllers
                 dri["Amount"] = pritem.Amount;
                 dri["ItemRefNo"] = pritem.ItemRefNo;
                 dri["UnitName"] = pritem.UnitName;
+                dri["Description"] = pritem.Description;
 
                 ds.Tables["Items"].Rows.Add(dri);
             }

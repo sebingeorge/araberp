@@ -15,7 +15,7 @@ namespace ArabErp.DAL
         public int InsertSupplyOrderItem(SupplyOrderItem objSupplyOrderItem, IDbConnection connection, IDbTransaction trn)
         {
            
-                string sql = @"insert  into SupplyOrderItem(SupplyOrderId,PurchaseRequestItemId,SlNo,BalQty,OrderedQty,Rate,Discount,Amount,OrganizationId) Values (@SupplyOrderId,@PurchaseRequestItemId,@SlNo,@BalQty,@OrderedQty,@Rate,@Discount,@Amount,@OrganizationId);
+                string sql = @"insert  into SupplyOrderItem(SupplyOrderId,PurchaseRequestItemId,SlNo,BalQty,OrderedQty,Rate,Discount,Amount,OrganizationId,Description) Values (@SupplyOrderId,@PurchaseRequestItemId,@SlNo,@BalQty,@OrderedQty,@Rate,@Discount,@Amount,@OrganizationId,@Description);
                 SELECT CAST(SCOPE_IDENTITY() as int)";
 
                 var id = connection.Query<int>(sql, objSupplyOrderItem,trn).Single();
@@ -50,6 +50,7 @@ namespace ArabErp.DAL
 	                                SOI.Rate,SOI.Rate FixedRate,
 	                                SOI.Discount,
 	                                SOI.Amount,
+                                    SOI.[Description],
                                     I.ItemId,
 	                                I.ItemName,SOI.PurchaseRequestItemId,
 	                                ISNULL(I.PartNo, '-') PartNo,
@@ -101,6 +102,7 @@ namespace ArabErp.DAL
 	                                SOI.Rate,SOI.Rate FixedRate,
 	                                SOI.Discount,
 	                                SOI.Amount,
+                                    SOI.[Description],
                                     I.ItemId,
 									I.ItemRefNo,
 									UnitName,
