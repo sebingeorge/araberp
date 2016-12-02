@@ -9,6 +9,7 @@
     $(document).ready(function () {
 
         calculateSummary();
+        $('#SupplierId').focus();
         //$("#SupplyOrderNo").tooltip();
     });
 
@@ -91,42 +92,27 @@
             id = 0;
 
         var ItemId = "";
-        var url = '@Url.Action("GetSupplierItemRateSettings")';
-        $('.itmcodes').each(function (i, obj) {
+        //var url = '@Url.Action("GetSupplierItemRateSettings")';
+        //$('.itmcodes').each(function (i, obj) {
 
-            var abc = $("#SupplyOrderItems_" + i + "__ItemId").val();
-            $.ajax({
-                url: url,
-                data: { Id: id, ItemId: abc },
-                cache: false,
-                async: false,
-                type: "GET",
-                timeout: 10000,
-                dataType: "json",
-                success: function (result) {
+        //    var abc = $("#SupplyOrderItems_" + i + "__ItemId").val();
+        //    $.ajax({
+        //        url: url,
+        //        data: { Id: id, ItemId: abc },
+        //        cache: false,
+        //        async: false,
+        //        type: "GET",
+        //        timeout: 10000,
+        //        dataType: "json",
+        //        success: function (result) {
 
-                    if (result.Success) { // this sets the value from the response
-
-                        //$('.clRate').each(function (i, obj) {
-
-                        //var itmcode = $("#SupplyOrderItems_" + i + "__ItemId").val();
-
-                        //if (itmcode == result.ItemId) {
-                        $("#SupplyOrderItems_" + i + "__Rate").val(result.FixedRate.toFixed(2));
-                        QuantityChanged(i);
-                        //}
-                        //else {
-                        //alert("hi");
-                        //}
-                        //})
-                    }
-                }
-            });
-            //ItemId = ItemId + ',' + abc
-
-        });
-
-
+        //            if (result.Success) {
+        //                $("#SupplyOrderItems_" + i + "__Rate").val(result.FixedRate.toFixed(2));
+        //                QuantityChanged(i);
+        //            }
+        //        }
+        //    });
+        //});
 
         $.ajax({
             url: "@Url.Action("GetPaymentTerm", "SupplyOrder")",

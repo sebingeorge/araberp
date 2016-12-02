@@ -22,7 +22,7 @@ namespace ArabErp.DAL
                 IDbTransaction trn = connection.BeginTransaction();
                 try
                 {
-                    objSupplyOrder.SupplyOrderNo = DatabaseCommonRepository.GetNewDocNo(connection, objSupplyOrder.OrganizationId, 9, true,trn);
+                    objSupplyOrder.SupplyOrderNo = DatabaseCommonRepository.GetNewDocNo(connection, objSupplyOrder.OrganizationId, 9, true, trn);
                     string sql = @"insert into SupplyOrder(SupplyOrderNo,SupplyOrderDate,SupplierId,QuotaionNoAndDate,SpecialRemarks,
                                    PaymentTerms,DeliveryTerms,RequiredDate,CreatedBy,CreatedDate,OrganizationId, CurrencyId) 
                                    Values (@SupplyOrderNo,@SupplyOrderDate,@SupplierId,@QuotaionNoAndDate,@SpecialRemarks,@PaymentTerms,
@@ -54,7 +54,7 @@ namespace ArabErp.DAL
             }
         }
 
-        public List<SupplyOrderItem> GetPurchaseRequestItems(List<int> selectedpurchaserequests)
+        public List<SupplyOrderItem> GetPurchaseRequestItems(List<int> selectedpurchaserequests, int organizationId)
         {
             using (IDbConnection connection = OpenConnection(dataConnection))
             {
@@ -76,31 +76,81 @@ namespace ArabErp.DAL
                 //                            WHERE P.PurchaseRequestId in @selectedpurchaserequests"; 
                 #endregion
 
-                string sql = @"select distinct SI.PurchaseRequestItemId, SUM(SI.OrderedQty) SuppliedQuantity 
-                                    INTO #SUPPLY
-                                    from [dbo].[SupplyOrderItem] SI
-                                    WHERE ISNULL(isActive, 1) = 1
-                                    GROUP BY SI.PurchaseRequestItemId;
-                                    SELECT
-	                                    CONCAT(PurchaseRequestNo,' - ',
-	                                    CONVERT (VARCHAR(15),PurchaseRequestDate,106)) PRNODATE,
-	                                    PI.PurchaseRequestItemId,
-	                                    i.ItemName,i.ItemId,
-	                                    i.PartNo,
-	                                    CAST(ISNULL(PI.Quantity, 0) - ISNULL(SUP.SuppliedQuantity, 0) AS INT) as BalQty,
-	                                    CAST(ISNULL(PI.Quantity, 0) - ISNULL(SUP.SuppliedQuantity, 0) AS INT) AS OrderedQty,
-                                        0.00 AS Rate,
-                                        0.00 AS Discount,
-                                        0.00 AS Amount
-                                    FROM PurchaseRequest P 
-                                    INNER JOIN PurchaseRequestItem PI ON P.PurchaseRequestId=PI.PurchaseRequestId
-                                    INNER JOIN Item i ON PI.ItemId=i.ItemId
-                                    LEFT JOIN #SUPPLY SUP ON PI.PurchaseRequestItemId = SUP.PurchaseRequestItemId
-                                    WHERE P.PurchaseRequestId in @selectedpurchaserequests AND (ISNULL(PI.Quantity, 0) - ISNULL(SUP.SuppliedQuantity, 0)) > 0
-                                    AND (SUP.PurchaseRequestItemId IS NULL OR ISNULL(SUP.SuppliedQuantity, 0) < ISNULL(PI.Quantity, 0));
-                                    DROP TABLE #SUPPLY;";
+                #region old query 2.12.2016 8.11a
+                //string sql = @"select distinct SI.PurchaseRequestItemId, SUM(SI.OrderedQty) SuppliedQuantity 
+                //                    INTO #SUPPLY
+                //                    from [dbo].[SupplyOrderItem] SI
+                //                    WHERE ISNULL(isActive, 1) = 1
+                //                    GROUP BY SI.PurchaseRequestItemId;
+                //                    SELECT
+                //                     CONCAT(PurchaseRequestNo,' - ',
+                //                     CONVERT (VARCHAR(15),PurchaseRequestDate,106)) PRNODATE,
+                //                     PI.PurchaseRequestItemId,
+                //                     i.ItemName,i.ItemId,
+                //                     i.PartNo,
+                //                     CAST(ISNULL(PI.Quantity, 0) - ISNULL(SUP.SuppliedQuantity, 0) AS INT) as BalQty,
+                //                     CAST(ISNULL(PI.Quantity, 0) - ISNULL(SUP.SuppliedQuantity, 0) AS INT) AS OrderedQty,
+                //                        0.00 AS Rate,
+                //                        0.00 AS Discount,
+                //                        0.00 AS Amount
+                //                    FROM PurchaseRequest P 
+                //                    INNER JOIN PurchaseRequestItem PI ON P.PurchaseRequestId=PI.PurchaseRequestId
+                //                    INNER JOIN Item i ON PI.ItemId=i.ItemId
+                //                    LEFT JOIN #SUPPLY SUP ON PI.PurchaseRequestItemId = SUP.PurchaseRequestItemId
+                //                    WHERE P.PurchaseRequestId in @selectedpurchaserequests AND (ISNULL(PI.Quantity, 0) - ISNULL(SUP.SuppliedQuantity, 0)) > 0
+                //                    AND (SUP.PurchaseRequestItemId IS NULL OR ISNULL(SUP.SuppliedQuantity, 0) < ISNULL(PI.Quantity, 0));
+                //                    DROP TABLE #SUPPLY;"; 
+                #endregion
 
-                var objPendingPurchaseRequests = connection.Query<SupplyOrderItem>(sql, new { selectedpurchaserequests = selectedpurchaserequests }).ToList<SupplyOrderItem>();
+                string sql = @"select distinct SI.PurchaseRequestItemId, SUM(SI.OrderedQty) SuppliedQuantity 
+                                INTO #SUPPLY
+                                from [dbo].[SupplyOrderItem] SI
+                                WHERE ISNULL(isActive, 1) = 1
+                                GROUP BY SI.PurchaseRequestItemId;
+
+                                ------------------------------------------------------------getting last supply order rate
+                                SELECT
+	                                T1.SupplyOrderItemId,
+	                                T1.Rate,
+	                                T2.ItemId
+                                INTO #ITEMS
+                                FROM SupplyOrderItem T1
+                                INNER JOIN PurchaseRequestItem T2 ON T1.PurchaseRequestItemId = T2.PurchaseRequestItemId
+                                AND T2.ItemId IN (SELECT ItemId FROM PurchaseRequestItem WHERE PurchaseRequestId IN @selectedpurchaserequests)
+                                WHERE OrganizationId = @org
+
+                                SELECT
+	                                T1.ItemId,
+	                                T1.Rate
+                                INTO #RATE
+                                FROM #ITEMS T1
+                                INNER JOIN (SELECT MAX(SupplyOrderItemId) MaxId, ItemId FROM #ITEMS GROUP BY ItemId) MaxTable 
+	                                ON T1.SupplyOrderItemId = MaxTable.MaxId AND T1.ItemId = MaxTable.ItemId;
+                                -------------------------------------------------------------------------------------------------
+
+                                SELECT
+	                                CONCAT(PurchaseRequestNo,' - ',
+	                                CONVERT (VARCHAR(15),PurchaseRequestDate,106)) PRNODATE,
+	                                PI.PurchaseRequestItemId,
+	                                i.ItemName,i.ItemId,
+	                                i.PartNo,
+	                                CAST(ISNULL(PI.Quantity, 0) - ISNULL(SUP.SuppliedQuantity, 0) AS INT) as BalQty,
+	                                CAST(ISNULL(PI.Quantity, 0) - ISNULL(SUP.SuppliedQuantity, 0) AS INT) AS OrderedQty,
+                                    ISNULL(RATE.Rate, 0.00) AS Rate,
+                                    0.00 AS Discount,
+                                    ISNULL(RATE.Rate, 0.00) * (CAST(ISNULL(PI.Quantity, 0) - ISNULL(SUP.SuppliedQuantity, 0) AS INT)) AS Amount
+                                FROM PurchaseRequest P 
+                                INNER JOIN PurchaseRequestItem PI ON P.PurchaseRequestId=PI.PurchaseRequestId
+                                INNER JOIN Item i ON PI.ItemId=i.ItemId
+                                LEFT JOIN #SUPPLY SUP ON PI.PurchaseRequestItemId = SUP.PurchaseRequestItemId
+                                LEFT JOIN #RATE RATE ON PI.ItemId = RATE.ItemId
+                                WHERE P.PurchaseRequestId in @selectedpurchaserequests AND (ISNULL(PI.Quantity, 0) - ISNULL(SUP.SuppliedQuantity, 0)) > 0
+                                AND (SUP.PurchaseRequestItemId IS NULL OR ISNULL(SUP.SuppliedQuantity, 0) < ISNULL(PI.Quantity, 0));
+                                DROP TABLE #SUPPLY;
+                                DROP TABLE #RATE;
+                                DROP TABLE #ITEMS;";
+
+                var objPendingPurchaseRequests = connection.Query<SupplyOrderItem>(sql, new { selectedpurchaserequests = selectedpurchaserequests, org = organizationId }).ToList<SupplyOrderItem>();
 
                 return objPendingPurchaseRequests;
             }
@@ -227,7 +277,7 @@ namespace ArabErp.DAL
                 IDbTransaction trn = connection.BeginTransaction();
                 try
                 {
-                   
+
                     var supplyorderitemrepo = new SupplyOrderItemRepository();
                     foreach (var item in objSupplyOrder.SupplyOrderItems)
                     {
@@ -281,7 +331,7 @@ namespace ArabErp.DAL
         /// Return all approved supply orders
         /// </summary>
         /// <returns></returns>
-        public IList<SupplyOrderPreviousList> GetPreviousList(int OrganizationId,int id, int supid, DateTime? from, DateTime? to)
+        public IList<SupplyOrderPreviousList> GetPreviousList(int OrganizationId, int id, int supid, DateTime? from, DateTime? to)
         {
             using (IDbConnection connection = OpenConnection(dataConnection))
             {
@@ -316,7 +366,7 @@ namespace ArabErp.DAL
 								ORDER BY SupplyOrderDate DESC, SO.CreatedDate DESC;
                                 DROP TABLE #SUPPLY_ITEM;";
 
-                return connection.Query<SupplyOrderPreviousList>(query, new { OrganizationId = OrganizationId,id = id, supid = supid, to = to, from = from }).ToList<SupplyOrderPreviousList>();
+                return connection.Query<SupplyOrderPreviousList>(query, new { OrganizationId = OrganizationId, id = id, supid = supid, to = to, from = from }).ToList<SupplyOrderPreviousList>();
             }
         }
         /// <summary>
@@ -361,7 +411,7 @@ namespace ArabErp.DAL
             }
         }
 
-        public int Approve(int supplyOrderId,int approvedBy)
+        public int Approve(int supplyOrderId, int approvedBy)
         {
             try
             {
@@ -389,7 +439,7 @@ namespace ArabErp.DAL
 
                     string query = String.Format("select ItemId, ISNULL(FixedRate, 0) FixedRate  from SupplierItemRate where SupplierId = {0} and ItemId = {1};", Id, ItemId);
                     return connection.Query<SupplyOrderItem>(query).First<SupplyOrderItem>();
-                      
+
                 }
             }
             catch (Exception)
@@ -434,6 +484,30 @@ namespace ArabErp.DAL
 
             }
         }
+
+        public object GetLastSupplyOrderRate(int itemId, int organizationId)
+        {
+            using (IDbConnection connection = OpenConnection(dataConnection))
+            {
+                try
+                {
+                    string sql = @"SELECT TOP 1
+	                                Rate
+                                FROM SupplyOrderItem SOI
+                                INNER JOIN PurchaseRequestItem PRI ON SOI.PurchaseRequestItemId = PRI.PurchaseRequestItemId
+                                WHERE PRI.ItemId = @itemId AND SOI.OrganizationId = @org
+                                GROUP BY SupplyOrderItemId, Rate, PRI.ItemId
+                                ORDER BY SupplyOrderItemId DESC";
+                    var id = connection.Execute(sql, new { itemId = itemId, org = organizationId });
+                    return id;
+                }
+                catch (Exception)
+                {
+                    return 0;
+                }
+            }
+        }
+
         /// <summary>
         /// Delete SO DT Details
         /// </summary>
