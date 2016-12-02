@@ -22,11 +22,11 @@
                 {
                     <tr>
                         <td align="center">@(i + 1) @Html.HiddenFor(m => m.SupplyOrderItems[i].PurchaseRequestItemId)</td>
-                        <td>@Html.TextBoxFor(m => m.SupplyOrderItems[i].PRNODATE, new { @class = "form_input", @readonly = "true" }) </td>
+                        <td>@Html.TextBoxFor(m => m.SupplyOrderItems[i].PRNODATE, new { @class = "form_input", @readonly = "true", @tabindex = "-1" }) </td>
                         <td>
                             @Html.HiddenFor(m => m.SupplyOrderItems[i].PurchaseRequestItemId)
                             @Html.HiddenFor(m => m.SupplyOrderItems[i].ItemId, new { @class = "itmcodes" })
-                            @Html.TextBoxFor(m => m.SupplyOrderItems[i].ItemName, new { @class = "form_input", @readonly = "true" })
+                            @Html.TextBoxFor(m => m.SupplyOrderItems[i].ItemName, new { @class = "form_input", @readonly = "true", @tabindex = "-1" })
                         </td>
                         <td>@Html.TextBoxFor(m => m.SupplyOrderItems[i].Description, new { @class = "form_input"})</td>
                         <td>@Html.TextBoxFor(m => m.SupplyOrderItems[i].PartNo, new { @class = "form_input", @readonly = "true" })</td>
@@ -34,7 +34,7 @@
                         <td>@Html.TextBoxFor(m => m.SupplyOrderItems[i].OrderedQty, new { @class = "form_input clQuantity", @style = "text-align:right", @onkeyup = "QuantityChanged(" + i + ");", @onchange = "ValidateRow(" + i + ")" })</td>
                         <td>@Html.TextBoxFor(m => m.SupplyOrderItems[i].Rate, new { @class = "form_input clRate numbers-only", @style = "text-align:right", @onkeyup = "QuantityChanged(" + i + ");", @required = "true" })</td>
                         <td>@Html.TextBoxFor(m => m.SupplyOrderItems[i].Discount, new { @class = "form_input numbers-only", @style = "text-align:right", @onkeyup = "QuantityChanged(" + i + ");", @required = "true" })</td>
-                        <td>@Html.TextBoxFor(m => m.SupplyOrderItems[i].Amount, new { @class = "form_input clAmount", @style = "text-align:right", @readonly = "true" })</td>
+                        <td>@Html.TextBoxFor(m => m.SupplyOrderItems[i].Amount, new { @class = "form_input clAmount", @style = "text-align:right", @readonly = "true", @tabindex = "-1" })</td>
                     </tr>
                 }
             }

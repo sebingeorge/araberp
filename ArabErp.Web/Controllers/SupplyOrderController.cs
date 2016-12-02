@@ -47,7 +47,7 @@ namespace ArabErp.Web.Controllers
                     List<int> selectedpurchaserequests = (from PendingPurchaseRequest p in PendingPurchaseRequestItemsSelected
                                                           where p.Select
                                                           select p.PurchaseRequestId).ToList<int>();
-                    supplyorder.SupplyOrderItems = rep.GetPurchaseRequestItems(selectedpurchaserequests);
+                    supplyorder.SupplyOrderItems = rep.GetPurchaseRequestItems(selectedpurchaserequests, OrganizationId);
                 }
             }
             supplyorder.SupplyOrderDate = System.DateTime.Today;
@@ -540,6 +540,12 @@ namespace ArabErp.Web.Controllers
             {
                 throw;
             }
+        }
+
+        private JsonResult GetLastSupplyOrderRate(int itemId)
+        {
+            var data = new SupplyOrderRepository().GetLastSupplyOrderRate(itemId, OrganizationId);
+            return Json(data, JsonRequestBehavior.AllowGet);
         }
     }
 }
